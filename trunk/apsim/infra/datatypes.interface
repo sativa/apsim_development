@@ -576,6 +576,18 @@
       </field>
       <field name="transmission" kind = "single"/>
    </type>
+
+   <type name="CanopyWaterBalance">
+      <field name="Canopy" array="T">
+         <element>
+         <field name="name" kind="string"/>
+         <field name="CropType" kind="string"/>
+         <field name="PotentialEp" kind="single"/>
+         </element>
+      </field>
+      <field name="eo" kind = "single"/>
+      <field name="interception" kind = "single"/>
+   </type>   
    
    <type name="canopy" array="T">
       <element>
@@ -673,6 +685,7 @@
             <field name="amount"  kind="single" units="kg/ha"/>
             <field name="C"       kind="single" units="kg/ha"/>
             <field name="N"       kind="single" units="kg/ha"/>
+            <field name="P"       kind="single" units="kg/ha"/>
             <field name="AshAlk"  kind="single" units="kg/ha"/>
             </element>
          </field>
