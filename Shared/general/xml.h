@@ -56,8 +56,6 @@ class XMLNode
       XMLNode(const XMLNode& rhs);
       XMLNode& operator= (const XMLNode& rhs);
 
-      void copyFrom(const XMLNode& rhs);
-
       bool isValid(void) const {return (node != NULL);}
 
       std::string getName(void) const;
@@ -68,6 +66,7 @@ class XMLNode
                         const std::string& attributeValue);
       void setValue(const std::string& value, bool asCData = false);
       XMLNode appendChild(const std::string& nodeName, bool alwaysAppend = false);
+      XMLNode appendChild(XMLNode childNode, bool alwaysAppend = false);
       XMLNode::iterator erase(XMLNode::iterator& nodeIterator);
 
       void writeXML(std::string& xml) const;

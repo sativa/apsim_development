@@ -198,7 +198,6 @@ void XMLDocument::write(const std::string& fileName) const
 //---------------------------------------------------------------------------
 void XMLDocument::writeXML(std::string& xml) const
    {
-//   docImpl->xmlDoc->save();
    xml = asString(docImpl->xmlDoc->xml);
    formatXML(xml);
    }
@@ -211,14 +210,6 @@ string XMLDocument::transformUsingStyleSheet(const std::string& stylesheetFileNa
    WideString st = docImpl->xmlDoc->documentElement->transformNode(styleDocImpl->xmlDoc);
    delete styleDocImpl;
    return AnsiString(st).c_str();
-   }
-//---------------------------------------------------------------------------
-// Copy all nodes from the source node to this node.  Deep copy.
-//---------------------------------------------------------------------------
-void XMLNode::copyFrom(const XMLNode& rhs)
-   {
-   Msxml2_tlb::IXMLDOMNode* newNode = rhs.node->cloneNode(-1);
-   node->appendChild(newNode);
    }
 //---------------------------------------------------------------------------
 // return the name of the node.
@@ -320,7 +311,9 @@ void XMLNode::setValue(const std::string& value, bool asCData)
    {
    if (asCData)
       {
-      Msxml2_tlb::IXMLDOMCDATASectionPtr section = node->ownerDocument->createCDATASection(WideString(value.c_str()));
+      Msxml2_tlb::IXMLDOMDocumentPtr owner = node->ownerDocument;
+
+      Msxml2_tlb::IXMLDOMCDATASectionPtr section = owner->createCDATASection(WideString(value.c_str()));
       Msxml2_tlb::IXMLDOMNodePtr newNode = node->appendChild(section);
       }
    else
@@ -345,6 +338,23 @@ XMLNode XMLNode::appendChild(const std::string& nodeName, bool alwaysAppend)
    Msxml2_tlb::IXMLDOMElementPtr childNode = owner->createElement(WideString(nodeName.c_str()));
    parent->setDirty(true);
    return XMLNode(parent, node->appendChild(childNode));
+   }
+// ------------------------------------------------------------------
+// Add a child node to this node.  If alwaysAppend = true then
+// a new node will always be appended.  If alwaysAppend = false then
+// a new node will only be appended if it doesn't already exist.
+// ------------------------------------------------------------------
+XMLNode XMLNode::appendChild(XMLNode childNode, bool alwaysAppend)
+   {
+   if (!alwaysAppend)
+      {
+      iterator i = find_if(begin(), end(),
+                           EqualToName<XMLNode>(childNode.getName()));
+      if (i != end())
+         return *i;
+      }
+   parent->setDirty(true);
+   return XMLNode(parent, node->appendChild(childNode.node));
    }
 // ------------------------------------------------------------------
 // Delete a child node from this node.
@@ -394,6 +404,5 @@ XMLNode::iterator XMLNode::end() const
 void XMLNode::writeXML(std::string& xml) const
    {
    xml = AnsiString(node->xml).c_str();
-   formatXML(xml);
    }
 
