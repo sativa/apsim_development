@@ -188,7 +188,7 @@
 !         call soilwat2_get_other_variables ()
          call soilwat2_init ()
 
-      else if (methodID .eq. Sum_ReportID) then
+      else if (methodID .eq. SumReportID) then
          call soilwat2_sum_report ()
 
 !      else if (methodID .eq. TillageID) then
@@ -646,7 +646,7 @@
 *- Implementation Section ----------------------------------
 
       num_layers = count_of_real_vals (p%dlayer, max_layer)
-      
+
       SoilWaterProfileLayers(1:num_layers)
      :                        %thickness = p%dlayer(1:num_layers)
       SoilWaterProfileLayers(1:num_layers)
@@ -3980,7 +3980,7 @@ c     he should have. Any ideas? Perhaps
          ! not my variable
 
          call error('Unknown output variable ID',IsFatal)
-         
+
       endif
 
       call pop_routine (my_name)

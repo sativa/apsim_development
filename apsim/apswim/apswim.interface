@@ -29,7 +29,7 @@
       <respondToGetSetReg name="scon" type="scon"/>
       <respondToGetReg name="scon_min" type="scon_min"/>
       <respondToGetReg name="scon_max" type="scon_max"/>
-      <respondToGetReg name="dr" type="dr"/>      
+      <respondToGetReg name="dr" type="dr"/>
       <respondToGetReg name="dt" type="dt"/>
       <respondToGetReg name="crop_cover" type="crop_cover"/>
       <read name="slmin" type="slmin" />
@@ -133,7 +133,7 @@
       <respondToGetSetReg name="bbc_potential" type="bbc_potential"/>
       <respondToGetSetReg name="bbc_gradient" type="bbc_gradient"/>
       <respondToMethodCallReg name="reset" type="null"/>
-      <respondToMethodCallReg name="sum_report" type="null"/>
+      <respondToMethodCallReg name="C" type="null"/>
       <respondToMethodCallReg name="tillage" type="null"/>
 
       <getVariableReg name="radn" type="radn"/>

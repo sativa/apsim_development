@@ -123,7 +123,7 @@
 
       elseif (eventID .eq. DoSoilWaterBalanceId) then
          call apswim_DoSoilWaterBalance ()
-         
+
       elseif (eventID .eq. SolutesChangedId) then
          call apswim_OnSolutesChanged (variant)
 
@@ -164,7 +164,7 @@
       if (methodID .eq. ResetId) then
          call apswim_reset ()
 
-      else if (methodID .eq. Sum_ReportId) then
+      else if (methodID .eq. SumReportId) then
          call apswim_sum_report ()
 
       else if (methodID .eq. tillageId) then
@@ -3946,7 +3946,7 @@ cnh       double precision table_slscr(nsol)
 
             call apswim_freundlich (node,solnum,g%csl(solnum,node)
      :                    ,Ctot,dCtot)
-                        
+
             ! Note:- Sometimes small numerical errors can leave
             ! -ve concentrations.  Set conc to zero in these cases.
 
@@ -4003,7 +4003,7 @@ cnh       double precision table_slscr(nsol)
          SoluteProfiles(solnum)%name = p%solute_names(solnum)
          SoluteProfiles(solnum)%NumLayers = p%n+1
   100 continue
-      
+
       call publish_SoluteProfile (SoluteFluxesCalculatedID
      :                                    , SoluteProfiles
      :                                    , p%num_solutes
@@ -4361,7 +4361,7 @@ cnh    character string_concat*(strsize)      ! function
       found = get_rain_time (rain_timeId, time)
 
       found = get_rain_durn (rain_durnId, duration, .true.)
-      
+
       if (.not.found) then
 
          found = get_rain_int (rain_intId, intensity, .true.)
@@ -6988,7 +6988,7 @@ c      pause
       use APSwimModule
       use ComponentInterfaceModule
 
-      implicit none                    
+      implicit none
 
 *+  Sub-Program Arguments
       integer variant
