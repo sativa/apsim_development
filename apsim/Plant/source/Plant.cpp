@@ -11750,7 +11750,7 @@ void Plant::plant_get_other_variables ()
        }
 
 
-    if (!parent->getVariable(id.co2, g.co2, 0.0, 1.0, true))
+    if (!parent->getVariable(id.co2, g.co2, 0.0, 1500.0, true))
        {
        g.co2 = c.co2_default;
        }
