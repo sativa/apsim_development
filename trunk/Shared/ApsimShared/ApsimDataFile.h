@@ -114,6 +114,7 @@ class __declspec(dllexport) ApsimDataFile
       iterator dayI;
       iterator dateI;
       iterator domI;
+      bool haveFoundDate;
 
       std::istream& getline(std::string& line);
 
