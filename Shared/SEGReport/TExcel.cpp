@@ -34,6 +34,37 @@ __fastcall TExcel::~TExcel()
    delete xlsPageNames;
    }
 //---------------------------------------------------------------------------
+// Component has loaded - assume the current dir is the reportDirectory.
+//---------------------------------------------------------------------------
+void __fastcall TExcel::Loaded(void)
+   {
+   TSEGTable::Loaded();
+   reportDirectory = GetCurrentDir();
+   }
+//---------------------------------------------------------------------------
+// If we already have a report directory then the current paths will be
+// relative to that dir.  Convert to absolute.
+//---------------------------------------------------------------------------
+void TExcel::relativeToAbsoluteFile(void)
+   {
+   if (reportDirectory != "")
+      {
+      SetCurrentDir(reportDirectory);
+      xlsFileName = ExpandFileName(xlsFileName);
+      }
+   }
+//---------------------------------------------------------------------------
+// If we already have a report directory then the current paths will be
+// relative to that dir.  Convert to absolute.
+//---------------------------------------------------------------------------
+void TExcel::absoluteToRelativeFile()
+   {
+   if (reportDirectory != "")
+      {
+      xlsFileName = ExtractRelativePath(reportDirectory + "\\", xlsFileName);
+      }
+   }
+//---------------------------------------------------------------------------
 // set the 'xlsFileName' property and refresh all data.
 //---------------------------------------------------------------------------
 void __fastcall TExcel::setFilename(AnsiString file)
@@ -42,10 +73,28 @@ void __fastcall TExcel::setFilename(AnsiString file)
       {
       xlsFileName = file;
       vector<string> sheetNames;
-      getXLSSheetNames(xlsFileName.c_str(), sheetNames);
-      Stl_2_tstrings(sheetNames, xlsPageNames);
-      forceRefresh();
+      if (reportDirectory == "")
+         reportDirectory = GetCurrentDir();
+
+      if (FileExists(xlsFileName))
+         {
+         relativeToAbsoluteFile();
+         getXLSSheetNames(xlsFileName.c_str(), sheetNames);
+         absoluteToRelativeFile();
+         Stl_2_tstrings(sheetNames, xlsPageNames);
+         forceRefresh();
+         }
       }
+   }
+//---------------------------------------------------------------------------
+// Called by SEGReport to give components a chance to know the current
+// report directory.  Used by ApsimFileReader to use relative paths.
+//---------------------------------------------------------------------------
+void TExcel::setReportDirectory(AnsiString reportDir)
+   {
+   relativeToAbsoluteFile();
+   reportDirectory = reportDir;
+   absoluteToRelativeFile();
    }
 //---------------------------------------------------------------------------
 // return the 'pageName' property
@@ -77,6 +126,8 @@ bool TExcel::createFields(void) throw(runtime_error)
    {
    if (xlsFileName != "" && pageName != "")
       {
+      relativeToAbsoluteFile();
+
       // get a list of pages from XL file
       ExcelApp = new TExcelApplication(NULL);
       ExcelApp->Connect();
@@ -118,6 +169,7 @@ void TExcel::storeRecords(void) throw(runtime_error)
          }
       catch (const runtime_error& err)
          {
+         absoluteToRelativeFile();
          // shut down EXCEL.
          worksheet->Release();
          ExcelApp->ActiveWorkbook->Close((Variant)false);
@@ -132,6 +184,8 @@ void TExcel::storeRecords(void) throw(runtime_error)
       ExcelApp->Quit();
       ExcelApp->Disconnect();
       delete ExcelApp;
+
+      absoluteToRelativeFile();
       Sleep(1000);
       }
    }
