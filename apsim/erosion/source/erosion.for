@@ -89,15 +89,6 @@
 *     DMS 25/02/94 (new template)
 *     190599 jngh removed reference to version
 
-*+  Calls
-      dll_import count_of_real_vals
-      dll_import sum_real_array
-*
-      dll_import pop_routine
-      dll_import fatal_error
-      dll_import report_event
-      dll_import push_routine
-
 *+  Constant Values
       character  my_name*(*)
       parameter (my_name = 'erosion_init')
@@ -168,11 +159,6 @@
 *+  Changes
 *     DMS 25/02/94 (new template)
 *     PdeV 2/10/94
-
-*+  Calls
-      dll_import pop_routine
-      dll_import write_string
-      dll_import push_routine
 
 *+  Constant Values
       character  my_name*(*)
@@ -304,14 +290,6 @@
 *     DMS 25/02/94 (new template)
 *     PdeV 25/08/94
 *     210395 jngh changed from erosion_section to a parameters section
-
-*+  Calls
-      dll_import pop_routine
-      dll_import read_real_var_optional
-      dll_import read_real_var
-      dll_import read_char_var
-      dll_import write_string
-      dll_import push_routine
 
 *+  Constant Values
       character  section_name*(*)
@@ -546,10 +524,6 @@ c     :   , 1.0)                 ! Upper Limit for bound checking
 *+  Changes
 *     DMS 25/02/94 (new template)
 
-*+  Calls
-      dll_import pop_routine
-      dll_import push_routine
-
 *+  Constant Values
       character my_name*(*)
       parameter (my_name = 'erosion_zero_variables')
@@ -610,11 +584,6 @@ c      g_total_cover  = 0.0
 *     210498 pdev added profile resets here due to stale data left in dlayer
 *                 after an entire layer was eroded.
 
-*+  Calls
-      dll_import pop_routine
-      dll_import fill_real_array
-      dll_import push_routine
-
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name  = 'erosion_zero_daily_variables')
@@ -657,15 +626,6 @@ c      g_resid_cover = 0.0
 *+  Changes
 *     DMS 25/02/94 (new template)
 *     PdeV 27/08/94
-
-*+  Calls
-      dll_import bound
-*
-      dll_import pop_routine
-      dll_import get_real_array
-      dll_import get_real_var
-      dll_import get_integer_var
-      dll_import push_routine
 
 *+  Constant Values
       character  my_name*(*)
@@ -803,12 +763,6 @@ c$$$     :     g_crop_cover * p_crop_cover_wtg, 0.0, 1.0)
 *      011195 jngh  added call to message_unused
 *      090696 jngh changed respond2set to collect
 
-*+  Calls
-      dll_import pop_routine
-      dll_import message_unused
-      dll_import collect_real_var
-      dll_import push_routine
-
 *+  Constant Values
       character my_name*(*)
       parameter (my_name = 'erosion_set_my_variable')
@@ -859,16 +813,6 @@ c$$$     :     g_crop_cover * p_crop_cover_wtg, 0.0, 1.0)
 *     DMS 25/02/94 (New template)
 *     300695 jngh changed number of values sent from max_layer to numvals
 *     090696 nih  changed set calls to post_var constructs
-
-*+  Calls
-      dll_import count_of_real_vals
-*
-      dll_import pop_routine
-      dll_import delete_postbox
-      dll_import message_send_immediate
-      dll_import post_real_array
-      dll_import new_postbox
-      dll_import push_routine
 
 *+  Constant Values
       character  my_name*(*)
@@ -935,14 +879,6 @@ c$$$     :        , max_layers)
 *     DMS 25/02/94 (new template)
 *     PdeV. 27/08/94
 *      011195 jngh  added call to message_unused
-
-*+  Calls
-      dll_import divide
-*
-      dll_import pop_routine
-      dll_import message_unused
-      dll_import respond2get_real_var
-      dll_import push_routine
 
 *+  Constant Values
       character my_name*(*)
@@ -1045,10 +981,6 @@ c$$$     :        , max_layers)
 *     DMS 25/02/94 (new template)
 *     PdeV. 28/08/94
 
-*+  Calls
-      dll_import pop_routine
-      dll_import push_routine
-
 *+  Constant Values
       character  my_name*(*)
       parameter (my_name = 'erosion_process')
@@ -1100,10 +1032,6 @@ c$$$     :        , max_layers)
 
 *+  Changes
 *     PdeV. 28/08/94
-
-*+  Calls
-      dll_import pop_routine
-      dll_import push_routine
 
 *+  Constant Values
       character  my_name*(*)
@@ -1181,10 +1109,6 @@ cjh       (100*g/(1000*1000))/(g*1000/1000000) *mm  -> t/ha
 *+  Changes
 *     PdeV. 28/08/94
 
-*+  Calls
-      dll_import pop_routine
-      dll_import push_routine
-
 *+  Constant Values
       character  my_name*(*)
       parameter (my_name = 'erosion_rose')
@@ -1242,13 +1166,6 @@ cjh           what is the unit conversion here???
 *     DMS 25/02/94 (new template)
 *     PdeV. 28/08/94
 
-*+  Calls
-      dll_import sum_real_array
-      dll_import count_of_real_vals
-*
-      dll_import pop_routine
-      dll_import push_routine
-
 *+  Constant Values
       character  my_name*(*)
       parameter (my_name = 'erosion_move_profile')
@@ -1299,11 +1216,6 @@ c      write (*,*) 'xxx',g_dlt_dlayer, dlt_bed_depth
 *     DMS 25/02/94 (new template)
 *     PdeV. 28/08/94
 
-*+  Calls
-      dll_import pop_routine
-      dll_import fatal_error
-      dll_import push_routine
-
 *+  Constant Values
       character  my_name*(*)
       parameter (my_name = 'erosion_bomb_run')
@@ -1342,16 +1254,6 @@ c      write (*,*) 'xxx',g_dlt_dlayer, dlt_bed_depth
 *+  Changes
 *     DMS 25/02/94 (new template)
 *     PdeV. 28/08/94
-
-*+  Calls
-      dll_import count_of_real_vals
-      dll_import sum_real_array
-      dll_import divide
-*
-      dll_import pop_routine
-      dll_import warning_error
-      dll_import fill_real_array
-      dll_import push_routine
 
 *+  Constant Values
       character  my_name*(*)
@@ -1458,10 +1360,6 @@ c     What happens when layer completely eroded?
 *+  Changes
 *     DMS 25/02/94 (new template)
 *     PdeV. 28/08/94
-
-*+  Calls
-      dll_import pop_routine
-      dll_import push_routine
 
 *+  Constant Values
       character  my_name*(*)
