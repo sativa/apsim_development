@@ -1,4 +1,4 @@
-C     Last change:  E     1 Sep 2000    4:50 pm
+C     Last change:  E    28 Nov 2000   11:19 am
 
 *     ===========================================================
       subroutine cproc_transp_eff_co2(svp_fract,
@@ -83,17 +83,15 @@ C     Last change:  E     1 Sep 2000    4:50 pm
 
       transp_eff = divide (transp_eff_cf(current_phase), vpd, 0.0) /g2mm
 
-      co2_modifier = linear_interp_real(co2level,
-     :                                  co2_level_te,
-     :                                  te_co2_modifier,
-     :                                  num_co2_level_te)
 
       if (co2level .lt. 1.0) then
           co2_modifier =1.0
+      else
+          co2_modifier = linear_interp_real(co2level,
+     :                                  co2_level_te,
+     :                                  te_co2_modifier,
+     :                                  num_co2_level_te)
       end if
-
-c       PRINT *, 'co2level    = ',co2level
-c       PRINT *, 'te_modifier = ',co2_modifier
 
       transp_eff = transp_eff *co2_modifier
  
@@ -183,13 +181,6 @@ c       PRINT *, 'te_modifier = ',co2_modifier
       if (co2 .lt. 0.1) then !assuming the switch is not on
           modifier = 1.0
       end if
-
-c      PRINT *, crop_type, croptype
-c      PRINT *, "maxt =", maxt
-c      PRINT *, "mint =", mint
-c      PRINT *, "temp =", temp
-c      PRINT *, "TT   =", TT
-c      PRINT *, "Modi =", modifier
 
 
       call pop_routine (my_name)
@@ -572,9 +563,10 @@ c      PRINT *, "Modi =", modifier
      .          g_dm_green,
      .          g_dm_plant_min,
      .          g_dm_seed_reserve,
-
+     .          g_obs_grain_no_psm,
+     .          g_dm_green_grainno,
      .          p_grain_num_coeff,
-     .          g_grain_no)
+     .          g_grain_no )
 *     ===========================================================
       implicit none
       include 'CropDefCons.inc'
@@ -596,9 +588,12 @@ c      PRINT *, "Modi =", modifier
        real g_dm_green(*)       !(INPUT/OUTPUT) plant part weights (g/m^2)
        real g_dm_plant_min(*)   !(OUTPUT) minimum weight of each plant part (g/plant)
        real g_dm_seed_reserve   !(OUTPUT) seed reserve weight (g/m^2)
-
+       REAL g_obs_grain_no_psm  !
+       REAL g_dm_green_grainno
        REAL p_grain_num_coeff   !(INPUT) grain number per g stem (grains/g stem)
        REAL g_grain_no          !(OUTPUT) grain number per square meter (grains/m^2)
+
+
 
 *+  Purpose
 *       Initialise plant weights and plant weight minimums at required instances.
@@ -635,6 +630,7 @@ c      PRINT *, "Modi =", modifier
 
          g_dm_seed_reserve = c_dm_seed_reserve * g_plants       ! (g/m2)   !  ew
 
+      !   g_dm_green_grainno = g_dm_green(stem)
 
 c for nwheat min stem weight at beginning of grain filling stage, no carbon mobile from leaves
       elseif (on_day_of (start_grain_fill
@@ -653,7 +649,11 @@ c for nwheat min stem weight at beginning of grain filling stage, no carbon mobi
          ! having grain filling prior to grain filling.
          ! In Nwheat stem did not include leaf sheath and so a leaf sheath approximation is removed below.
 
-         g_grain_no = p_grain_num_coeff * g_dm_green(stem)
+         if (g_obs_grain_no_psm .ne. 0.0) then
+             g_grain_no = g_obs_grain_no_psm
+         else
+             g_grain_no = p_grain_num_coeff * g_dm_green_grainno  !g_dm_green(stem)
+         end if
 
          dm_stem_retrans      = g_dm_green(stem) * c_stem_trans_frac
 
@@ -964,540 +964,659 @@ cglh uses sowing, not emerg to calc leaf no.
 
 
 
+**********************************************************************************
+
+* SUBROUTINES NEW TO THE CROP PROCESS LIBRARY
+* SUBROUTINES NEW TO THE CROP PROCESS LIBRARY
+* SUBROUTINES NEW TO THE CROP PROCESS LIBRARY
+* SUBROUTINES NEW TO THE CROP PROCESS LIBRARY
+
+**********************************************************************************
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-* ====================================================================
-       subroutine cproc_n_supply1_wang (
-     :            g_dlayer
-     :          , max_layer
-     :          , g_dlt_sw_dep
-     :          , g_NO3gsm
-     :          , g_NO3gsm_min
-     :          , g_root_depth
-     :          , g_sw_dep
-     :          , g_NO3gsm_mflow_avail
-     :          , g_sw_avail
-     :          , g_sw_avail_pot
-     :          , g_NO3gsm_diffn_pot
-     :          , G_current_stage
-     :          , C_n_fix_rate
-     :          , fixation_determinant
-     :          , G_swdef_fixation
-     :          , g_N_fix_pot
-     :          )
-* ====================================================================
-      implicit none
-c     dll_export cproc_n_supply1
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      real g_dlayer(*)             ! (INPUT)
-      integer max_layer            ! (INPUT)
-      real g_dlt_sw_dep(*)         ! (INPUT)
-      real g_NO3gsm(*)             ! (INPUT)
-      real g_NO3gsm_min(*)         ! (INPUT)
-      real g_root_depth            ! (INPUT)
-      real g_sw_dep(*)             ! (INPUT)
-      real g_NO3gsm_mflow_avail(*) ! (OUTPUT)
-      real g_sw_avail(*)           ! (INPUT)
-      real g_sw_avail_pot(*)       ! (INPUT)
-      real g_NO3gsm_diffn_pot(*)   ! (OUTPUT)
-      real G_current_stage         ! (INPUT)
-      real C_n_fix_rate(*)         ! (INPUT)
-      real fixation_determinant    ! (INPUT)
-      real G_swdef_fixation        ! (INPUT)
-      real g_N_fix_pot             ! (INPUT)
-
-*+  Purpose
-*      Calculate nitrogen supplys from soil and fixation
-
-*+  Mission Statement
-*   Calculate crop Nitrogen supplies (soil + fixation)
-
-*+  Changes
-*     21-04-1998 - neilh - Programmed and Specified
-
-*+  Calls
-      dll_import crop_n_mass_flow1
-      dll_import crop_n_diffusion1
-      dll_import crop_n_fixation_pot1
-
-*+  Constant Values
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'cproc_n_supply1')
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
- 
-         call crop_N_mass_flow1_wang  (max_layer,
-     .          g_dlayer,
-     .          g_dlt_sw_dep,
-     .          g_NO3gsm,
-     .          g_NO3gsm_min,
-     .          g_root_depth,
-     .          g_sw_dep,
-     .          g_NO3gsm_mflow_avail)
- 
-         call crop_N_diffusion1_wang (max_layer,
-     .          g_dlayer,
-     .          g_NO3gsm,
-     .          g_NO3gsm_min,
-     .          g_root_depth,
-     .          g_sw_avail,
-     .          g_sw_avail_pot,
-     .          g_NO3gsm_diffn_pot)
-
-
-
-                  ! determine N from fixation
-
-          call crop_N_fixation_pot1_wang
+*     ===========================================================
+      subroutine cproc_RUE_N_Gradients
      :               (
-     :                G_current_stage
-     :              , C_n_fix_rate
-     :              , fixation_determinant
-     :              , G_swdef_fixation
-     :              , g_N_fix_pot
-     :               )
- 
-      call pop_routine (myname)
-      return
-      end
-
-
-*     ===========================================================
-      subroutine crop_N_mass_flow1_wang(num_layer,
-     :                             dlayer,
-     :                             dlt_sw_dep,
-     :                             no3gsm,
-     :                             no3gsm_min,
-     :                             root_depth,
-     :                             sw_dep,
-     :                             NO3gsm_mflow_pot)
+     :                day,
+     :                latitude,
+     :                radiation,
+     :                tempmax,
+     :                tempmin,
+     :                lai_green,
+     :                sln_gradient,
+     :                pmaxmax,
+     :                shadow_projection,
+     :                biomass_conversion,
+     :                scatter_coeff,
+     :                rue_sln)
 *     ===========================================================
       implicit none
-c     dll_export crop_n_mass_flow1
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      INTEGER num_layer        ! (INPUT)  number of layers in profile
-      REAL    dlayer(*)         ! (INPUT)  thickness of soil layer I (mm)
-      REAL    dlt_sw_dep(*)     ! (INPUT)  water uptake in each layer (mm water)
-      REAL    no3gsm(*)         ! (INPUT)  nitrate nitrogen in layer L (g N/m^2)
-      REAL    no3gsm_min(*)     ! (INPUT)  minimum allowable NO3 in soil (g/m^2)
-      REAL    root_depth        ! (INPUT)  depth of roots (mm)
-      REAL    sw_dep(*)         ! (INPUT)  soil water content of layer L (mm)
-      real NO3gsm_mflow_pot(*) ! (OUTPUT) potential plant NO3
-                                              ! uptake (supply) g/m^2,
-                                              ! by mass flow
-
-*+  Purpose
-*       Return potential nitrogen uptake (supply) by mass flow (water
-*       uptake) (g/m^2)
-
-*+  Mission Statement
-*   Calculate crop nitrogen supply from mass flow, %8.
-
-*+  Changes
-*      090994 jngh specified and programmed
-*      970216 slw generalised to avoid common blocks , added num_layer parameter
-
-*+  Constant Values
-      character  my_name*(*)   ! name of procedure
-      parameter (my_name = 'crop_N_mass_flow1')
-
-*+  Local Variables
-      integer deepest_layer    ! deepest layer in which the roots are growing
-      integer layer            ! layer number of soil
-      real NO3_conc            ! nitrogen concentration (g/m^2/mm)
-      real NO3gsm_mflow        ! potential nitrogen uptake (g/m^2)
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-      call fill_real_array (NO3gsm_mflow_pot, 0.0, num_layer)
-         ! only take the layers in which roots occur
-      deepest_layer = find_layer_no(root_depth, dlayer, num_layer)
-      do 1000 layer = 1, deepest_layer
-            ! get  NO3 concentration
-         NO3_conc = divide(NO3gsm(layer), sw_dep(layer), 0.0)
-            ! get potential uptake by mass flow
-         NO3gsm_mflow = NO3_conc * (-dlt_sw_dep(layer))
-         NO3gsm_mflow_pot(layer) = u_bound (NO3gsm_mflow,
-     :                            NO3gsm(layer) - NO3gsm_min(layer))
- 
-1000  continue
-
-c       PRINT *,'=========================================='
-c       PRINT *,'mflow_supply =',sum_real_array
-c     :                         (NO3gsm_mflow_pot, deepest_layer)
-c       PRINT *,'wateruptake  =',- sum_real_array
-c     :                         (dlt_sw_dep, deepest_layer)
-c       PRINT *,'no3gsm       =',sum_real_array
-c     :                         (no3gsm, deepest_layer)
-c       PRINT *,'no3gsm_min   =',sum_real_array
-c     :                         (no3gsm_min, deepest_layer)
-c       PRINT *,'sw_dep       =',sum_real_array
-c     :                         (sw_dep, deepest_layer)
-
-
-
-
-c      write(*,101) sum_real_array (NO3gsm_mflow_pot, deepest_layer)
-c     :,sum_real_array (NO3gsm, deepest_layer)
-c     :,sum_real_array (NO3gsm_min, deepest_layer)
-c     :,divide (sum_real_array (NO3gsm, deepest_layer)
-c     :            ,sum_real_array (sw_dep, deepest_layer), 0.0)
-c     :,sum_real_array (-dlt_sw_dep, deepest_layer)
-101   format(1x,5f10.6)
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine crop_N_diffusion1_wang (num_layer,
-     :                              dlayer,
-     :                              no3gsm,
-     :                              no3gsm_min,
-     :                              root_depth,
-     :                              sw_avail,
-     :                              sw_avail_pot,
-     :                              NO3gsm_diffn_pot)
-*     ===========================================================
-      implicit none
-      dll_export crop_n_diffusion1
-      include 'convert.inc'       ! ha2sm, kg2gm
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      INTEGER num_layer           ! (INPUT)  number of layers in profile
-      REAL    dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
-      REAL    no3gsm(*)           ! (INPUT)  nitrate nitrogen in layer L (g N/m^
-      REAL    no3gsm_min(*)       ! (INPUT)  minimum allowable NO3 in soil (g/m^
-      REAL    root_depth          ! (INPUT)  depth of roots (mm)
-      REAL    sw_avail(*)         ! (INPUT)  actual extractable soil water (mm)
-      REAL    sw_avail_pot(*)     ! (INPUT)  potential extractable soil water (m
-      real    NO3gsm_diffn_pot(*) ! (OUTPUT) potential plant NO3
-                                              ! uptake (supply) g/m^2,
-                                              !  by diffusion
-
-*+  Purpose
-*       Return potential nitrogen uptake (supply) by diffusion
-*       for a plant (g/m^2)
-
-*+  Mission Statement
-*   Calculate crop nitrogen supply from active uptake, %8.
-
-*+  Changes
-*      060495 nih taken from template
-*      160297 slw generalised to avoid common blocks , added num_layer parameter
-
-*+  Constant Values
-      character  my_name*(*)      ! name of procedure
-      parameter (my_name = 'crop_N_diffusion1')
-
-*+  Local Variables
-      integer deepest_layer       ! deepest layer in which the roots are growing
-      integer layer               ! layer number of soil
-      real    NO3gsm_diffn        ! potential nitrogen uptake (g/m^2)
-      real    sw_avail_fract      ! fraction of extractable soil water ()
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
-           ! only take the layers in which roots occur
-      call fill_real_array(NO3gsm_diffn_pot, 0.0, num_layer)
- 
-      deepest_layer = find_layer_no(root_depth, dlayer, num_layer)
-      do 1000 layer = 1, deepest_layer
- 
-         sw_avail_fract = divide(sw_avail(layer),
-     :                           sw_avail_pot(layer), 0.0)
-         sw_avail_fract = bound(sw_avail_fract, 0.0, 1.0)
-
-c       PRINT *, 'acr/pot =', sw_avail_fract
-
-
-            ! get extractable NO3
-            ! restricts NO3 available for diffusion to NO3 in plant
-            ! available water range
-         NO3gsm_diffn = sw_avail_fract * NO3gsm(layer)
-         NO3gsm_diffn_pot(layer) = u_bound(NO3gsm_diffn,
-     :                             NO3gsm(layer) - NO3gsm_min(layer))
- 
-1000  continue
-
-
-c       PRINT *,'diffusion_sup  =',sum_real_array
-c     :                         (NO3gsm_diffn_pot, deepest_layer)
-
-c       PRINT *,'no3gsm       =',sum_real_array
-c     :                         (no3gsm, deepest_layer)
-
-
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine crop_N_fixation_pot1_wang
-     :               (
-     :                G_current_stage
-     :              , C_n_fix_rate
-     :              , fixation_determinant
-     :              , G_swdef_fixation
-     :              , N_fix_pot
-     :               )
-*     ===========================================================
-      implicit none
-      dll_export crop_n_fixation_pot1
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      REAL       G_Current_stage       ! (INPUT) Current stage
-      REAL       C_n_fix_rate(*)       ! (INPUT)  potential rate of N fixation (
-      REAL       fixation_determinant  ! (INPUT)
-      REAL       G_swdef_fixation      ! (INPUT)
-      real       N_fix_pot                   ! (OUTPUT) N fixation potential (g/
-
-*+  Purpose
-*           calculate the quantity of atmospheric nitrogen fixed
-*          per unit carbohydrate per day (mgN_fixed/g plant)
-
-*+  Mission Statement
-*   Calculate crop nitrogen supply from fixation, %8.
-
-*+  Changes
-*       240595  psc   specified
-
-*+  Constant Values
-      character  my_name*(*)                 ! name of subroutine
-      parameter (my_name = 'crop_N_fixation1')
-
-*+  Local Variables
-      integer current_phase                 ! guess
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-      current_phase = int(g_current_stage)
- 
-      N_fix_pot = c_N_fix_rate(current_phase)
-     :          * fixation_determinant
-     :          * g_swdef_fixation
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-
-*     ===========================================================
-      subroutine cproc_N_uptake1_wang
-     :               (
-     :                C_no3_diffn_const
-     :              , G_dlayer
-     :              , max_layer
-     :              , G_no3gsm_diffn_pot
-     :              , G_no3gsm_mflow_avail
-     :              , G_N_fix_pot
-     :              , c_n_supply_preference
-     :              , G_n_demand
-     :              , G_n_max
-     :              , max_part
-     :              , G_root_depth
-     :              , dlt_NO3gsm
-     :              , dlt_NO3gsm_massflow
-     :              , dlt_NO3gsm_diffusion
-     :               )
-*     ===========================================================
-      implicit none
-c      dll_export cproc_n_uptake1
+      dll_export cproc_RUE_N_Gradients
       include   'const.inc'
       include   'cmxlayer.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
+      include   'science.pub'
+      include   'data.pub'
+      include   'error.pub'
+
+*+  Purpose
+*       Return the daily RUE of a crop canopy
+
+*+  Mission Statement
+
+*	Program to calculate RUE from SLN and LAI profiles for peanut
+*	taking account of sun angle and light intensity during the day.
+*	Uses Gaussian integration to determine daily RUE.
+
+*+  Changes
+*       20001001 ew specified and programmed
+
+
+*+  Sub-Program Arguments
+      INTEGER   day                 !day of the year
+      REAL      latitude            !latitude in degree
+      REAL      radiation           !daily global radiation (MJ/m2/d)
+      REAL      tempmax             !daily maximum tempeature (C)
+      REAL      tempmin             !daily minimum tempeature (C)
+      REAL      lai_green           !leaf area index (-)
+      REAL      sln_gradient        !SLN gradients in canopy (g N/m2 leaf)
+      REAL      pmaxmax             !potential assimilation rate (SLN ASYMPTOTE) (mg CO2/m2.s)
+      REAL      shadow_projection   !shadow projection (=0.5)
+      REAL      biomass_conversion  !biomass coversion for biochemical coversion and maintenance respiration (mg DM / mgCO2)
+      REAL      scatter_coeff       !scattering coefficients (=0.15)
+      REAL      rue_sln             !rue based on SLN gradients in the canopy (g DM / MJ)
+
+*+  Constant Values
+
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'cproc_RUE_N_Gradients')
+
+      REAL       PI
+      parameter (PI = 3.14159)
+
+*+  Local Variables
+
+c	REAL LAI(5), LAISUN(5), LAISH(5), ISUN(5), ISH(5), ITOT, IDIR,
+c     1		IDIF, PMAX(5), K, LAICAN, IMAX, LAT, NEWLAT
+c	DIMENSION SLN(5), SUMLAI(5), SUMF(5), F(5), SLAISN(5),
+c     1 	CSUN(5), CSH(5), RUE(5), BIOMAS(3), RADINT(3), DIR(3), DIF(3)
+
+
+*	Glossary of variables (mostly defined by canopy layer)
+
+	real RUE(5)     ! radiation use efficiency g/MJ; instantaneous
+	real RUEDAY     ! RUE for whole canopy for the day g/MJ
+	real SLNGRAD    ! slope of SLN vs SUMLAI line
+	real SLN(5)     ! specific leaf nitrogen mg N/m2 leaf area
+	real AVSLN      ! average SLN for canopy mg N/m2 leaf area
+	real LAI(5)     ! leaf area index m2 leaf/m2 ground
+	real LAICAN     ! LAI of whole canopy
+	real LAISUN(5)  ! sunlit LAI
+	real LAISH(5)   ! shaded LAI
+	real IMAX       ! solar noon total incoming solar radiation MJ/m2/s
+	real ITOT       ! total incoming solar radiation MJ/m2/s
+	real IDIR       ! direct beam incoming solar radiation MJ/m2/s
+	real DIRRAD     ! direct beam solar radiation MJ/m2/day
+	real IDIF       ! diffuse incoming solar radiation MJ/m2/s
+	real DIFRAD     ! diffuse solar radiation MJ/m2/day
+	real ISUN(5)    ! light intensity on sunlit leaves MJ/m2/s/m2 leaf area
+	real ISH(5)     ! light intensity on shaded leaves MJ/m2/s/m2 leaf area
+	real PMAX(5)    ! asymptote of photosynthesis-light response curve mg/m2 leaf area/s
+	real SUMLAI(5)  ! cumulative LAI from top of canopy m2/m2
+	real SUMF(5)    ! proportion light intercepted to that point in the canopy
+	real F(5)       ! proportion light intercepted in canopy layer
+	real SLAISN(5)  ! cumulative sunlit LAI from top of canopy m2/m2
+	real CSUN(5)    ! photosynthesis by sunlit leaves mg/m2/s
+	real CSH(5)     ! photosynthesis by shaded leaves mg/m2/s
+	real K          ! extinction coefficient
+	real G          ! shade projection coefficient
+	real ALPHA      ! sun angle (solar elevation above horizon)
+	real B          ! conversion coefficient for CHO to biomass g/g
+	real BIOMAS(3)  ! canopy assimilation g/m2/sec
+	real BIO        ! canopy assimilation g/m2/day
+	real RADINT(3)  ! canopy radiation interception MJ/m2/sec
+	real RAD        ! canopy radiation interception MJ/m2/day
+	real SCAT       ! leaf light scattering coefficient
+	real A          ! Asymptote of Pmax - SLN response curve
+	real TIME       ! time of day expressed as fraction of daylength
+	real SOLAR      ! extraterrestrial global radiation (MJ/m2/day)
+	real RATIO      ! radiation attenuation factor for atmosphere; 0.75 if sunny
+	real DAYL       ! daylength (hours)
+	real LAT        ! latitude (degrees); negative for south
+        REAL SOLARDEC   ! solar declination
+
+        INTEGER II
+        INTEGER J
+        INTEGER L
+        INTEGER ITIME
+        REAL    NEWLAT
+        REAL    ALPHA1
+        REAL    SOLAR1
+        REAL    CON
+        REAL    SLNTOP
+        REAL    SLNBOT
+        REAL    DIR(3)
+        REAL    DIF(3)
+
+
+
+	
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+
+
+	SLNGRAD = sln_gradient
+	G       = shadow_projection
+	B       = biomass_conversion
+	SCAT    = scatter_coeff
+	A       = pmaxmax
+	LAT     = latitude
+
+        LAI(:)  = LAI_green/5.0
+
+********************************************************************
+*THE FOLLOWING PART ARE ADAPTED FROM GRAEME HAMMER'S CODE
+********************************************************************
+
+C	Set up loop for radiation levels by varying RATIO and DAY
+C
+	DO 90 II=1,6
+        RATIO = 0.25 + 0.1*FLOAT(II-1)
+C
+C  	Reduce ratio by 60% for inside a glasshouse
+C
+C	RATIO = 0.60*RATIO
+C	RATIO = 0.25
+C
+C	Output iteration attributes and headings
+C
+*	WRITE(20,25) LAT,RATIO,DAY,SLNGRAD
+*25	FORMAT(1X,6HLAT = ,F6.1,5X,8HRATIO = ,F5.2,5X,6HDAY = ,F6.1,
+*     1	5X,10HSLNGRAD = ,F6.2/1X,46H ETRAD  RADN   DIR   DIF    IMAX   A
+*     2VSLN  RUE /)
+C
+C	Set up loop for average canopy SLN - 0.7 to 3.1 g/m2
+C
+	DO 80 J=1,9
+	AVSLN = 0.7 + 0.3*FLOAT(J-1)
+C
+C	Set up loop for Gaussian integration of diurnal response 
+C	using three times of day
+C
+	DO 65 ITIME = 1,3
+
+	TIME = 0.06 + 0.19*FLOAT(ITIME-1)
+C
+C	Calculate global radiation from latitude, day of year, and time of day
+C
+	NEWLAT = (PI/180)*LAT
+	SOLARDEC = (PI/180) * 23.45 * SIN(2*PI*(284+DAY)/365)
+	DAYL = ACOS(-TAN(NEWLAT) * TAN(SOLARDEC))
+	SOLAR = 24*3600*1360 * (DAYL*SIN(NEWLAT)*SIN(SOLARDEC) +
+     1		COS(NEWLAT)*COS(SOLARDEC)*SIN(DAYL)) / (PI*1000000)
+	DAYL = (180/PI)*(2./15.)*DAYL
+	ALPHA = SIN(NEWLAT)*SIN(SOLARDEC) + 
+     1		COS(NEWLAT)*COS(SOLARDEC)*COS((PI/12)*DAYL*(TIME - 0.5))
+	ALPHA = ASIN(ALPHA)
+	ALPHA1 = ALPHA*180/PI
+	SOLAR1 = RATIO*SOLAR
+
+
+
+
+        SOLAR1 = radiation !ew - use the actual daily radation for the calculation
+
+
+
+	IMAX = SOLAR1*(1.0 + SIN(2*PI*0.5 + 1.5*PI))/(DAYL*60*60)
+	ITOT = SOLAR1*(1.0 + SIN(2*PI*TIME + 1.5*PI))/(DAYL*60*60)
+
+
+C       IDIF = 0.0
+	IDIF = 0.17*1360*SIN(ALPHA)/1000000
+C
+C       Increase IDIF by 20% for glasshouse conditions
+C
+C       IDIF = 1.20*IDIF
+	IF(ITOT.LT.IDIF) IDIF=ITOT
+	IDIR = ITOT - IDIF 
+C
+C	Do calculation by canopy layers; layer 1 is at top of canopy
+C
+	DO 10 L=1,5
+	SUMLAI(L) = 0.
+	SUMF(L) = 0.
+10	SLAISN(L) =0.
+C
+C	Calculate light intercepted and sunlit and shaded leaf area 
+C	for each canopy layer
+C
+	K = G/SIN(ALPHA)
+	SUMLAI(1) = LAI(1)
+	SUMF(1) = 1.0 - EXP(-K*SUMLAI(1))
+	F(1) = SUMF(1)
+	SLAISN(1) = SUMF(1)/K
+	LAISUN(1) = SLAISN(1)
+	LAISH(1) = LAI(1) - LAISUN(1)
+	DO 20 L=2,5
+	SUMLAI(L) = SUMLAI(L-1) + LAI(L)
+	SUMF(L) = 1.0 - EXP(-K*SUMLAI(L))
+	F(L) = AMAX1(SUMF(L) - SUMF(L-1), 0.000001)
+	SLAISN(L) = SUMF(L)/K
+	LAISUN(L) = AMAX1(SLAISN(L) - SLAISN(L-1), 0.000001)
+20	LAISH(L) = LAI(L) - LAISUN(L)
+	LAICAN = SUMLAI(5)
+C
+C	Calculate light intensity for sunlit and shaded leaf area 
+C	for each canopy layer
+C
+	DO 30 L=1,5
+30	ISUN(L) = IDIR*F(L)/LAISUN(L) + IDIF*F(L)/LAI(L)
+	ISH(1) = IDIF*F(1)/LAI(1) + 
+     1		 SCAT*(ISUN(1)*LAISUN(1))/(LAISH(1)+LAISH(2))
+	DO 40 L=2,4
+40	ISH(L) = IDIF*F(L)/LAI(L) +
+     1		 SCAT*(ISUN(L-1)*LAISUN(L-1))/(LAISH(L-1)+LAISH(L)) +
+     2		 SCAT*(ISUN(L)*LAISUN(L))/(LAISH(L)+LAISH(L+1))
+	ISH(5) = IDIF*F(5)/LAI(5) +
+     1		 SCAT*(ISUN(4)*LAISUN(4))/(LAISH(4)+LAISH(5)) +
+     2		 SCAT*(ISUN(5)*LAISUN(5))/LAISH(5)
+C
+C	Calculate SLN for each layer using SLNGRAD
+C
+	CON = AVSLN + SLNGRAD*(LAICAN/2.)
+	SLN(1) = (CON + (CON - SLNGRAD*SUMLAI(1)))/2.
+	DO 45 L=2,5
+	SLNTOP = CON - SLNGRAD*SUMLAI(L-1)
+	SLNBOT = CON - SLNGRAD*SUMLAI(L)
+	SLN(L) = (SLNTOP + SLNBOT)/2.
+45	IF (SLN(L).LE.0.61) SLN(L) = 0.61
+C
+C	Calculate RUE for each canopy layer from 
+C	photosynthesis of sunlit and shade leaves in each layer
+C
+	DO 50 L=1,5
+	PMAX(L) = A*(2.0/(1.0+EXP(-0.9*(SLN(L)-0.6)))-1.0)
+	CSUN(L) = LAISUN(L)*PMAX(L)*(1.0-EXP(-5000.0*ISUN(L)/PMAX(L)))
+	CSH(L) = LAISH(L)*PMAX(L)*(1.0-EXP(-5000.0*ISH(L)/PMAX(L)))
+50	RUE(L) = B/1000.*(CSUN(L)+CSH(L))/(F(L)*ITOT)
+C
+C	Calculate assimilation and radiation intercepted for the entire canopy
+C
+	BIOMAS(ITIME) = 0.
+	DO 60 L=1,5
+60	BIOMAS(ITIME) = BIOMAS(ITIME) + CSUN(L) + CSH(L)
+	BIOMAS(ITIME) = B/1000.*BIOMAS(ITIME)
+	RADINT(ITIME) = SUMF(5)*ITOT
+	DIR(ITIME) = IDIR
+	DIF(ITIME) = IDIF
+65	CONTINUE
+C
+C	Calculate BIO, RAD & RUE for the day; Gaussian integration
+C	Calculate DIRRAD & DIFRAD for the day; Gaussian integration
+C
+	BIO = 3600.*DAYL*(BIOMAS(1) + 1.6*BIOMAS(2) + BIOMAS(3))/3.6
+	RAD = 3600.*DAYL*(RADINT(1) + 1.6*RADINT(2) + RADINT(3))/3.6
+	RUEDAY = BIO/RAD
+	DIRRAD = 3600.*DAYL*(DIR(1) + 1.6*DIR(2) + DIR(3))/3.6
+	DIFRAD = 3600.*DAYL*(DIF(1) + 1.6*DIF(2) + DIF(3))/3.6
+C
+C	Calculate average SLN for canopy
+C
+	AVSLN = 0.
+	DO 70 L=1,5
+70	AVSLN = AVSLN + (LAI(L)*SLN(L))/SUMLAI(5)
+C
+C	Output
+C
+*	WRITE(20,100) SOLAR,SOLAR1,DIRRAD,DIFRAD,IMAX,AVSLN,RUEDAY
+*100	FORMAT(1X,4F6.2,F10.6,2F6.2)
+80	CONTINUE
+90	CONTINUE
+********************************************************************
+
+
+
+
+        rue_sln = RUEDAY
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+*     ===========================================================
+      real function leaf_size_bellshapecurve (
+     .          c_x0_const,
+     .          c_x0_slope,
+     .          g_leaf_no_final,
+     .          c_y0_const,
+     .          c_y0_slope,
+     .          c_a_const,
+     .          c_a_slope1,
+     .          c_a_slope2,
+     .          c_b_const,
+     .          c_b_slope1,
+     .          c_b_slope2,
+     .          leaf_no)
+*     ===========================================================
+      implicit none
+
+c     dll_export leaf_size_bellshapecurveellshapecurve
+
+      include 'data.pub'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
-      REAL       C_no3_diffn_const     ! (INPUT)  time constant for uptake by di
-      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
-      INTEGER    max_layer             ! (INPUT)  max number of soil layers
-      REAL       G_no3gsm_diffn_pot(*) ! (INPUT)  potential NO3 (supply) from so
-      REAL       G_no3gsm_mflow_avail(*) ! (INPUT)  potential NO3 (supply) from
-      REAL       G_N_Fix_Pot           ! (INPUT) potential N fixation (g/m2)
-      CHARACTER  c_n_supply_preference*(*) !(INPUT)
-      REAL       G_n_demand(*)         ! (INPUT)  critical plant nitrogen demand
-      INTEGER    max_part              ! (INPUT)  number of plant parts
-      REAL       G_n_max(*)            ! (INPUT)  maximum plant nitrogen demand
-      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
-      real       dlt_NO3gsm(*)         ! (OUTPUT) actual plant N uptake
-                                       ! from NO3 in each layer (g/m^2)
-
-
-
-      real       dlt_NO3gsm_massflow(*)
-      real       dlt_NO3gsm_diffusion(*)
-
-
+       real c_x0_const
+       real c_x0_slope
+       real g_leaf_no_final
+       real c_y0_const
+       real c_y0_slope
+       real c_a_const
+       real c_a_slope1
+       real c_a_slope2
+       real c_b_const
+       real c_b_slope1
+       real c_b_slope2
+       real leaf_no               ! (INPUT) nominated leaf number
 
 *+  Purpose
-*       Return actual plant nitrogen uptake from
-*       each soil layer.
-
-*+  Mission Statement
-*   Calculate crop Nitrogen Uptake
+*       Return the leaf area (mm^2) of a specified leaf no.
 
 *+  Changes
-*       160498 nih specified and programmed
+*       210397 nih/mjr specified and programmed
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'cproc_N_uptake1')
+      parameter (my_name = 'leaf_size_bellshapecurve')
 
 *+  Local Variables
-      integer    deepest_layer         ! deepest layer in which the roots are
-                                       ! growing
-      real       NO3gsm_diffn          ! actual N available (supply) for
-                                       ! plant (g/m^2) by diffusion
-      real       NO3gsm_mflow          ! actual N available (supply) for
-                                       ! plant (g/m^2) by mass flow
-      real       NO3gsm_diffn_avail(crop_max_layer) ! potential NO3 (supply)
-                                       ! from soil (g/m^2), by diffusion
-      real       NO3gsm_diffn_supply   ! total potential N uptake (supply)
-                                       ! for plant (g/m^2) by diffusion
-      real       NO3gsm_mflow_supply   ! total potential N uptake (supply)
-                                       ! for plant (g/m^2) by mass flow
-      real       diffn_fract           ! fraction of nitrogen to use (0-1)
-                                       ! for diffusion
-      real       mflow_fract           ! fraction of nitrogen to use (0-1)
-                                       ! for mass flow
-      integer    layer                 ! soil layer number of profile
-      real       N_demand              ! total nitrogen demand (g/m^2)
-      real       NO3gsm_uptake         ! plant NO3 uptake from layer (g/m^2)
-      real       N_max                 ! potential N uptake per plant (g/m^2)
+      real       area                  ! potential area of nominated leaf
+                                       ! no (mm^2)
+      real       area_max              ! potential area of largest leaf (mm^2)
+      real       breadth               ! breadth coef of leaf
+      real       largest_leaf          ! leaf no of largeat leaf
+      real       skewness              ! skewness coef of leaf
 
 *- Implementation Section ----------------------------------
  
       call push_routine (my_name)
  
-            ! get potential N uptake (supply) from the root profile.
-            ! get totals for diffusion and mass flow.
+           ! Once leaf no is calculated leaf area of largest expanding leaf
+           ! is determined with quadratic relationship. Coefficients for this
+           ! curve are functions of total leaf no.
  
-      deepest_layer = find_layer_no (g_root_depth
-     :                              ,g_dlayer
-     :                              ,max_layer)
-      do 1000 layer = 1, deepest_layer
-         NO3gsm_diffn_avail(layer) = g_NO3gsm_diffn_pot(layer)
-     :                             - g_NO3gsm_mflow_avail(layer)
-         NO3gsm_diffn_avail(layer) = l_bound (NO3gsm_diffn_avail(layer)
-     :                                       , 0.0)
-1000  continue
+      largest_leaf = c_x0_const + (c_x0_slope * g_leaf_no_final)
+      area_max     = c_y0_const + (c_y0_slope * g_leaf_no_final)
  
-      NO3gsm_mflow_supply = sum_real_array (g_NO3gsm_mflow_avail
-     :                                     , deepest_layer)
-      NO3gsm_diffn_supply = sum_real_array (NO3gsm_diffn_avail
-     :                                     , deepest_layer)
+      breadth  = c_a_const
+     :         + divide (c_a_slope1
+     :                , 1.0 + c_a_slope2 * g_leaf_no_final
+     :                , 0.0)
+      skewness = c_b_const
+     :         + divide (c_b_slope1
+     :                , 1.0 + c_b_slope2 * g_leaf_no_final
+     :                , 0.0)
  
-            ! get actual total nitrogen uptake for diffusion and mass flow.
-            ! If demand is not satisfied by mass flow, then use diffusion.
-            ! N uptake above N critical can only happen via mass flow.
+      area = area_max * exp (breadth * (leaf_no - largest_leaf)**2
+     :                      + skewness * (leaf_no - largest_leaf)**3)
  
-      N_demand = sum_real_array (g_N_demand, max_part)
-      N_max    = sum_real_array (g_N_max, max_part)
+      leaf_size_bellshapecurve = area
+
+      call pop_routine (my_name)
+
+      return
+
+      end
+
+
+
+
+
+*     ===========================================================
+      subroutine cproc_leaf_area_pot_bellshapecurve (
+     .          begin_stage,
+     .          now,
+     .          g_leaf_no,
+     .          c_leaf_no_correction,
+     .          c_x0_const,
+     .          c_x0_slope,
+     .          g_leaf_no_final,
+     .          c_y0_const,
+     .          c_y0_slope,
+     .          c_a_const,
+     .          c_a_slope1,
+     .          c_a_slope2,
+     .          c_b_const,
+     .          c_b_slope1,
+     .          c_b_slope2,
+     .          g_dlt_leaf_no,
+     .          g_plants,
+     .          g_swdef_expansion,
+     .          dlt_lai_pot)
+*     ===========================================================
+      implicit none
+      dll_export cproc_leaf_area_pot_bellshapecurve
+      include  'convert.inc'
+      include 'data.pub'
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+       INTEGER begin_stage
+       INTEGER now
+
+       real g_leaf_no(*)
+       real c_leaf_no_correction
+       real c_x0_const
+       real c_x0_slope
+       real g_leaf_no_final
+       real c_y0_const
+       real c_y0_slope
+       real c_a_const
+       real c_a_slope1
+       real c_a_slope2
+       real c_b_const
+       real c_b_slope1
+       real c_b_slope2
+       real g_dlt_leaf_no
+       real g_plants
+      real g_swdef_expansion
+      real       dlt_lai_pot           ! (OUTPUT) change in leaf area
+
+*+  Purpose
+*       Return the potential increase in leaf area development (mm^2)
+*       calculated on an individual leaf basis.
+
+*+  Changes
+*     210397 nih/mjr specified and programmed
+
+*+  Calls
+      real  leaf_size_bellshapecurve       ! function
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'cproc_leaf_area_pot_bellshapecurve')
+
+*+  Local Variables
+      real       area                  ! potential maximum area of oldest
+                                       ! expanding leaf (mm^2) in today's
+                                       ! conditions
+      real       leaf_no_effective     ! effective leaf no - includes
+                                       ! younger leaves that have emerged
+                                       ! after the current one
+
+*- Implementation Section ----------------------------------
  
-      if (NO3gsm_mflow_supply.ge.N_demand) then
-         NO3gsm_mflow = NO3gsm_mflow_supply
-         NO3gsm_mflow = u_bound (NO3gsm_mflow, N_max)
-         NO3gsm_diffn = 0.0
+      call push_routine (my_name)
  
-      else
+         !once leaf no is calculated leaf area of largest expanding leaf is determined
  
-         NO3gsm_mflow = NO3gsm_mflow_supply
+         !glh This should also be from sowing, as above? (changed from emerg (scc))
+         leaf_no_effective = sum_between (begin_stage, now, g_leaf_no)
+     :                       + c_leaf_no_correction
+
+         area = leaf_size_bellshapecurve (
+     .          c_x0_const,
+     .          c_x0_slope,
+     .          g_leaf_no_final,
+     .          c_y0_const,
+     .          c_y0_slope,
+     .          c_a_const,
+     .          c_a_slope1,
+     .          c_a_slope2,
+     .          c_b_const,
+     .          c_b_slope1,
+     .          c_b_slope2,
+     .         leaf_no_effective)
+
+         dlt_lai_pot = g_dlt_leaf_no * area * smm2sm * g_plants
  
-         if (c_n_supply_preference.eq.'active') then
-            NO3gsm_diffn = bound (N_demand - NO3gsm_mflow, 0.0
-     :                        , NO3gsm_diffn_supply)
+      call pop_routine (my_name)
+
+      return
+
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_leaf_area_pot_TPLA (
+     .          begin_stage,
+     .          end_stage_TPLA_plateau,
+     .          now,
+     .          g_phase_tt,
+     .          g_days_tot,
+     .          g_current_stage,
+     .          g_leaf_no_final,
+     .          c_initial_tpla,
+     .          g_tiller_no_fertile,
+     .          c_tiller_coef,
+     .          p_main_stem_coef,
+     .          g_tt_tot,
+     .          c_tpla_inflection_ratio,
+     .          g_tpla_today,
+     .          g_tpla_yesterday,
+     .          p_tpla_prod_coef,
+     .          g_plants,
+     .          g_lai,
+     .          g_dlt_lai_pot)
+*     ===========================================================
+      implicit none
+      dll_export cproc_leaf_area_pot_tpla
+      include 'convert.inc'
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      integer    begin_stage            !stage number of start
+      integer    end_stage_TPLA_plateau !stage number to stop TPLA growth
+      integer    now                    !stage number now
+      real       g_phase_tt(*)
+      real       g_days_tot(*)
+      real       g_current_stage
+      real       g_leaf_no_final
+      real       c_initial_tpla
+      real       g_tiller_no_fertile
+      real       c_tiller_coef
+      real       p_main_stem_coef
+      real       g_tt_tot(*)
+      real       c_tpla_inflection_ratio
+      real       g_tpla_today
+      real       g_tpla_yesterday
+      real       p_tpla_prod_coef
+      real       g_plants
+      real       g_lai
+      real       g_dlt_lai_pot           ! (OUTPUT) change in leaf area
+
+*+  Purpose
+*       Return the potential increase in leaf area development (mm^2)
+*       calculated on a whole plant basis as determined by thermal time
+*
+*   Called by srop_leaf_area_potential(2) in croptree.for
+
+*+  Changes
+*      010994    jngh specified and programmed
+*      26/02/97  sb moved stressing out to another routine.
+*      20001031  ew generalised
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'cproc_leaf_area_pot_TPLA')
+
+*+  Local Variables
+      real       tpla_max              ! maximum total plant leaf area (mm^2)
+      real       tt_since_begin        ! deg days since begin TPLA Period
+*
+      real       tpla_inflection       ! inflection adjusted for leaf no.
+*
+      real       tt_begin_to_end_TPLA  ! thermal time for TPLA period
+
+*- Implementation Section ----------------------------------
  
-         elseif (c_n_supply_preference.eq.'fixation') then
-            NO3gsm_diffn = bound (N_demand - NO3gsm_mflow - g_N_fix_pot
-     :                        , 0.0
-     :                        , NO3gsm_diffn_supply)
+      call push_routine (my_name)
  
-         else
-            call fatal_error (ERR_USER, 'bad n supply preference')
+           ! once leaf no is calculated maximum plant leaf area
+           ! is determined
+ 
+        if (on_day_of (begin_stage, g_current_stage, g_days_tot)) then
+          g_lai = c_initial_tpla * smm2sm * g_plants
+        endif
+ 
+ 
+        if (stage_is_between (begin_stage, end_stage_TPLA_plateau,
+     .        g_current_stage) .and.
+     .        g_phase_tt(end_stage_TPLA_plateau) .gt.0.0) then
+ 
+          tt_begin_to_end_TPLA = sum_between(begin_stage,
+     :                          end_stage_TPLA_plateau,g_phase_tt)
+ 
+          tpla_max = (((g_tiller_no_fertile + 1.0) ** c_tiller_coef)
+     :             * g_leaf_no_final ** p_main_stem_coef) * scm2smm
+
+          tt_since_begin = sum_between (begin_stage, now, g_tt_tot)
+ 
+cscc 10/95 fixing the beta inflection coefficient as halfway to thermal
+c time of flag_leaf expanded. Code needs work as the halfway point jumps
+c around a bit as we progress (espec. when final_leaf_no is reset at floral in
+c Note that tpla_inflection needs to be removed as a 'read-in' parameter
+c maybe the number is more like .66 of the distance?
+c can work out from the shape of a leaf area distribution - where is the biggest
+c leaf appearing...
+ 
+c  scc - generalise tpla_inflection  - needs more work
+ 
+         tpla_inflection = tt_begin_to_end_TPLA *
+     :           c_tpla_inflection_ratio
+ 
+c scc end of changes for tpla (more below)
+ 
+         g_tpla_today = divide (Tpla_max
+     :              , (1.0 + exp(-p_tpla_prod_coef
+     :                        * (tt_since_begin - tpla_inflection)))
+     :              , 0.0)
+ 
+         if (g_tpla_today .lt. g_tpla_yesterday)then
+            g_tpla_today = g_tpla_yesterday
          endif
  
-         NO3gsm_diffn = divide (NO3gsm_diffn, c_NO3_diffn_const, 0.0)
+         g_dlt_lai_pot = (g_tpla_today - g_tpla_yesterday)
+     .                  *smm2sm * g_plants
+ 
+         g_tpla_yesterday = g_tpla_today
+ 
+      else
+!Beyond TPLA growth stage
+         g_dlt_lai_pot = 0.0
  
       endif
  
-            ! get actual change in N contents
- 
-      call fill_real_array (dlt_NO3gsm, 0.0, max_layer)
- 
-      do 1100 layer = 1,deepest_layer
- 
-               ! allocate nitrate
-               ! Find proportion of nitrate uptake to be taken from layer
-               ! by diffusion and mass flow
- 
-         mflow_fract = divide (g_NO3gsm_mflow_avail(layer)
-     :                       , NO3gsm_mflow_supply, 0.0)
- 
-         diffn_fract = divide (NO3gsm_diffn_avail(layer)
-     :                       , NO3gsm_diffn_supply, 0.0)
- 
-               ! now find how much nitrate the plant removes from
-               ! the layer by both processes
- 
-         NO3gsm_uptake = NO3gsm_mflow * mflow_fract
-     :                 + NO3gsm_diffn * diffn_fract
-         dlt_NO3gsm(layer) = - NO3gsm_uptake
-
-
-
-
-
-
-
-         dlt_NO3gsm_massflow (layer) = - NO3gsm_mflow * mflow_fract
-         dlt_NO3gsm_diffusion(layer) = - NO3gsm_diffn * diffn_fract
-
-
-
-
-
-1100  continue
  
       call pop_routine (my_name)
       return
       end
+
+
 

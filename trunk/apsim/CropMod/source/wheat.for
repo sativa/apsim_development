@@ -1,4 +1,4 @@
-C     Last change:  E     7 Sep 2000    3:59 pm
+C     Last change:  E    28 Nov 2000    2:18 pm
 
 *     ===========================================================
       subroutine crop_dm_potential (current_stage,
@@ -772,6 +772,12 @@ c      end if
      : 				g_dlt_tt,
      : 				g_phase_tt,
      : 				g_tt_tot,
+
+     .                          c_max_tiller_area,
+     .                          c_tiller_area_tt_steepness,
+     .                          c_tiller_area_tt_inflection,
+
+
      .                          c_tiller_curve,
      .                          c_tiller_tt_infl,
      .                          g_tiller_tt_tot,
@@ -805,6 +811,11 @@ c      end if
       real g_dlt_tt
       real g_phase_tt(*)
       real g_tt_tot(*)
+
+      real c_max_tiller_area
+      real c_tiller_area_tt_steepness
+      real c_tiller_area_tt_inflection
+
       REAL c_tiller_curve(*)
       real c_tiller_tt_infl(*)
       real g_tiller_tt_tot(*)
@@ -903,6 +914,11 @@ c      end if
      .          g_current_stage,
      .          c_leaf_app_rate1,
      .          g_dlt_tt,
+
+     .          c_max_tiller_area,
+     .          c_tiller_area_tt_steepness,
+     .          c_tiller_area_tt_inflection,
+
      .          g_tiller_area_max,
      .          c_tiller_curve,
      .          c_tiller_tt_infl,
@@ -999,7 +1015,10 @@ c      end if
      :                  g_swdef_expansion,
      :                  g_nfact_expansion,
      :                  g_dlt_dm_grain_demand,
-     :                  g_dlt_dm_green)
+     :                  g_dlt_dm_green,
+     :                  c_start_grainno_dm_stage,
+     :                  c_end_grainno_dm_stage,
+     :                  g_dlt_dm_green_grainno)
      
 *     ===========================================================
       implicit none
@@ -1010,19 +1029,22 @@ c      end if
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
-      real g_current_stage
-      REAL c_ratio_root_shoot(*)
-      REAL c_sla_min
-      REAL g_dlt_lai
-      real g_dlt_dm              !Total daily biomass production including roots
-      real g_phase_tt(*)
-      real g_tt_tot(*)
-      real g_swdef_photo
-      real g_nfact_photo
-      real g_swdef_expansion
-      real g_nfact_expansion
-      real g_dlt_dm_grain_demand
-      real g_dlt_dm_green (*)     ! (OUTPUT) actual biomass partitioned to plant parts (g/m^2)
+      real    g_current_stage
+      REAL    c_ratio_root_shoot(*)
+      REAL    c_sla_min
+      REAL    g_dlt_lai
+      real    g_dlt_dm              !Total daily biomass production including roots
+      real    g_phase_tt(*)
+      real    g_tt_tot(*)
+      real    g_swdef_photo
+      real    g_nfact_photo
+      real    g_swdef_expansion
+      real    g_nfact_expansion
+      real    g_dlt_dm_grain_demand
+      real    g_dlt_dm_green (*)     ! (OUTPUT) actual biomass partitioned to plant parts (g/m^2)
+      integer c_start_grainno_dm_stage
+      integer c_end_grainno_dm_stage
+      real    g_dlt_dm_green_grainno
 
 
 *+  Purpose
@@ -1179,6 +1201,26 @@ ccccccccccccccccccccccccccc
          ! put all into stem
          g_dlt_dm_green(stem) = dlt_dm_tot * tops_fraction
        endif
+
+
+      !====================================================
+      !dry matter accumulation for grain no determination
+
+
+      if (stage_is_between (c_start_grainno_dm_stage,
+     :                      c_end_grainno_dm_stage,
+     :                      g_current_stage)) then
+
+         g_dlt_dm_green_grainno = g_dlt_dm_green(stem)
+
+      else
+
+         g_dlt_dm_green_grainno = 0.0
+
+      endif
+
+
+      !====================================================
 
 
       ! now check that we have mass balance
@@ -1685,55 +1727,19 @@ c        dm_green(grain)   = min(0.0035*grain_num, dm_plant_min(stem))
 
 
 
-* ====================================================================
-       subroutine crop_cover (
-     .          extinct_coef,
-     .          lai,
-     .          cover)
-* ====================================================================
-      implicit none
-      include 'science.pub'                       
-      include 'error.pub'                         
 
-*+  Sub-Program Arguments
-      real extinct_coef
-      real lai
-      real cover
-
-*+  Purpose
-*scc Does crop cover calculation for green, senesced or dead LAI
-!scc This is an excellent general routine
-
-*+  Changes
-*     15-08-1997 - huth - Programmed and Specified
-*
-*   Called by srop_water_demand(1) in crop
-
-*+  Constant Values
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'crop_cover')
-
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
- 
-
-      cover = (1.0 -exp (-extinct_coef*lai))
- 
-      call pop_routine (myname)
-      return
-      end
-
-
-
-
-  
 *     ===========================================================
       subroutine cproc_leaf_area_pot_iw (
      .          g_plants,
      .          g_current_stage,
      .          phint,
      .          g_dlt_tt,
+
+     .          c_max_tiller_area,
+     .          c_tiller_area_tt_steepness,
+     .          c_tiller_area_tt_inflection,
+
+
      .          g_tiller_area_max,
      .          c_tiller_curve,
      .          c_tiller_tt_infl,
@@ -1767,6 +1773,12 @@ c        dm_green(grain)   = min(0.0035*grain_num, dm_plant_min(stem))
       real g_current_stage
       real phint
       real g_dlt_tt
+
+      real c_max_tiller_area
+      real c_tiller_area_tt_steepness
+      real c_tiller_area_tt_inflection
+
+
       real g_tiller_area_max(*)
 
       real c_tiller_curve(*)
@@ -1789,6 +1801,11 @@ c        dm_green(grain)   = min(0.0035*grain_num, dm_plant_min(stem))
      .                               phint,
      .                               g_dlt_tt,
      .                               g_current_stage,
+
+     .                               c_max_tiller_area,
+     .                               c_tiller_area_tt_steepness,
+     .                               c_tiller_area_tt_inflection,
+
      .                               g_tiller_area_max,
      .                               c_tiller_curve,
      .                               c_tiller_tt_infl,
@@ -1819,6 +1836,11 @@ c        dm_green(grain)   = min(0.0035*grain_num, dm_plant_min(stem))
      .                               phint,
      .                               dly_therm_time,
      .                               g_current_stage,
+
+     .                               c_max_tiller_area,
+     .                               c_tiller_area_tt_steepness,
+     .                               c_tiller_area_tt_inflection,
+
      .                               g_tiller_area_max,
      .                               c_tiller_curve,
      .                               c_tiller_tt_infl,
@@ -1844,6 +1866,11 @@ c        dm_green(grain)   = min(0.0035*grain_num, dm_plant_min(stem))
       real phint
       real dly_therm_time
       real g_current_stage
+
+      real c_max_tiller_area
+      real c_tiller_area_tt_steepness
+      real c_tiller_area_tt_inflection
+
       real g_tiller_area_max(*)
       real c_tiller_curve(*)   ! curvature coefficient for tillers
       real c_tiller_tt_infl(*) ! inflection point for tiller development
@@ -1889,17 +1916,18 @@ c        dm_green(grain)   = min(0.0035*grain_num, dm_plant_min(stem))
           !Max tiller area should be related to final leaf number
 
           g_tiller_area_pot(1)   = 0.0
-          g_tiller_area_max(1)   = 2.0 / (g_plants/sm2smm*100.0) !cm2 per tiller  - this should be related to final leaf number
+          g_tiller_area_max(1)   = c_max_tiller_area * 100.0/ g_plants  !2.0 / (g_plants/sm2smm*100.0) !cm2 per tiller  - this should be related to final leaf number
  
-          c_tiller_curve  (1)    = 0.018
-          c_tiller_tt_infl(1)    = 400.0
-        
+          c_tiller_curve  (1)    = c_tiller_area_tt_steepness
+          c_tiller_tt_infl(1)    = c_tiller_area_tt_inflection
+
+
           do n = 2, max_leaf
             g_tiller_area_pot(n) = 0.0
-            g_tiller_area_max(n) = 2.0/(g_plants/sm2smm*100.0)
+            g_tiller_area_max(n) = c_max_tiller_area * 100.0/ g_plants  !2.0/(g_plants/sm2smm*100.0)
  
-            c_tiller_curve(n)        = c_tiller_curve(1)   * 1.5  !2.0
-            c_tiller_tt_infl(n)      = c_tiller_tt_infl(1) / 1.5  !2.0
+            c_tiller_curve(n)    = c_tiller_curve(1)   * 1.5  !2.0
+            c_tiller_tt_infl(n)  = c_tiller_tt_infl(1) / 1.5  !2.0
 
           end do
 
@@ -6472,6 +6500,10 @@ cnh now put at least 1/4 of C into roots
      :              , g_N_conc_min
      :              , g_N_green 
      :              , g_grain_no
+
+     :              , c_min_grain_nc_ratio
+     :              , c_max_kernel_weight
+
      :              , dlt_dm_yieldpart_demand
      :               )
 *     ===========================================================
@@ -6498,6 +6530,9 @@ cnh now put at least 1/4 of C into roots
       real       g_N_conc_min(*)         ! (INPUT) minimum n concentration of organs (g/g)
       real       g_N_green(*)            ! (INPUT) n content in the green biomass (g/m2)
       real       g_grain_no              ! (OUTPUT)grain number per sqare meter (grains /m^2)
+      real       c_min_grain_nc_ratio    ! (INPUT) minimum grain nc ratio to restrict grain dm filling, if nc ratio is less than this, no grain growth
+      real       c_max_kernel_weight     ! (INPUT) maximum mg/kernal
+
       real       dlt_dm_yieldpart_demand ! (OUTPUT)grain dry matter potential (g/m^2)
 
 *+  Purpose
@@ -6575,9 +6610,11 @@ c   This part in between handling the grain n/c ratio
 c ======================================================================
 
         !cnh Change similar to Senthold - He used max kernal weight of 55 mg
+        ! c_max_kernel_weight = 43    !  maximum mg/kernal
+
          dlt_dm_yield = bound (dlt_dm_yield
      :               ,0.0
-     :               ,max(0.0,  43.*mg2gm*g_grain_no
+     :               ,max(0.0,  c_max_kernel_weight * mg2gm * g_grain_no
      :                          -g_dm_green(grain)))
 
       !This part makes sure that grain N:C ratio does not go below that according to an estimate of N demand.
@@ -6605,8 +6642,10 @@ c ======================================================================
         grain_nc_ratio = divide (nflow
      :                          ,dlt_dm_yield
      :                          ,0.0)
+
+      ! c_min_grain_nc_ratio =0.0123 ! minimum grain nc ratio to restrict grain dm filling, if nc ratio is less than this, no grain growth
         grain_nc_ratio = l_bound(grain_nc_ratio
-     :                           ,0.0123)
+     :                           ,c_min_grain_nc_ratio)
 
        dlt_dm_yield = divide (nflow,grain_nc_ratio,0.0)
 
@@ -8069,6 +8108,8 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
       subroutine cproc_N_retranslocate_nw (  !for nwheat
      .          g_current_stage, 
      .          g_dlt_dm_green,
+     .          g_dlt_dm_green_retrans,
+     .          c_max_grain_nc_ratio,
      .          g_N_conc_min,
      .          g_N_conc_crit,
      .          g_N_conc_max,
@@ -8092,6 +8133,8 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
 *+  Sub-Program Arguments
        real g_current_stage        ! (INPUT)  current stage
        real g_dlt_dm_green(*)      ! (INPUT)  organ biomass growth rate (g/m2)
+       real g_dlt_dm_green_retrans(*)
+       real c_max_grain_nc_ratio
        real g_N_conc_min(*)        ! (INPUT)  minimum n concentration each organ (g/g)
        real g_N_conc_crit(*)       ! (INPUT)  critical n concentration each organ (g/g)
        real g_N_conc_max(*)        ! (INPUT)  maximum n concentration each organ (g/g)
@@ -8128,6 +8171,9 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
       real       N_potential           ! maximum grain N demand (g/m^2)
       integer    part                  ! plant part number
 
+      REAL delta_grainC
+      REAL delta_n_fraction
+
 *- Implementation Section ----------------------------------
  
       call push_routine (my_name)
@@ -8142,7 +8188,28 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
      :                  g_grain_num,
      :                  grain_n_demand)
       
+
+
+      !=========================================================
+      !RESTRICT GRAIN N DEMAND USING MAX_GRAIN_NC_RATIO
+
+      ! delta_grainc is the daily increment in grain weight (after stress)
+      ! check to see if the ratio of delta n /delta c is too high
+      ! that is, c stops but n continues. set max limit of 0.10
+
+       delta_grainC = g_dlt_dm_green(grain)
+     :              + g_dlt_dm_green_retrans(grain)
  
+       delta_N_fraction = divide (grain_n_demand,delta_grainC,0.0)
+       delta_N_fraction = u_bound (delta_N_fraction
+     :                            ,c_max_grain_nc_ratio)
+
+       grain_n_demand = delta_N_fraction * delta_grainC
+ 
+
+
+
+
       !The following two statements might be useless
       N_potential  = (g_dm_green(grain) + g_dlt_dm_green(grain))
      :             * g_N_conc_max(grain)
@@ -8264,13 +8331,13 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
 *+  Local Variables
       real rgnfil
       real temp
-   
+
 *- Implementation Section ----------------------------------
  
       call push_routine (myname)
  
-
-             ! calculate the grain N demand
+      !=========================================================
+      ! calculate the grain N demand based on temperature
       if (stage_is_between (start_grain_fill, end_grain_fill
      :                     , g_current_stage)) then
         
@@ -8295,6 +8362,7 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
          grain_n_demand = 0.0
  
       endif
+
 
 
       call pop_routine (myname)
@@ -8979,6 +9047,7 @@ c         g_dlt_slai_age = 5* (1 - stress_fact) * g_dlt_slai_age
      :                            )
 *     ===========================================================
       implicit none
+
       include 'science.pub'
       include 'error.pub'                         
 
@@ -9030,7 +9099,7 @@ c         g_dlt_slai_age = 5* (1 - stress_fact) * g_dlt_slai_age
 *     240599 ew reprogrammed to take out the stress in thermal time
 
 *+  Calls
-      !dll_import crop_thermal_time
+      dll_import crop_thermal_time
       dll_import crop_phase_devel
       dll_import crop_devel
 
@@ -9042,6 +9111,9 @@ c         g_dlt_slai_age = 5* (1 - stress_fact) * g_dlt_slai_age
       REAL     fstress
       REAL     g_dlt_tt_phenol
 
+      REAL     tempcx   !maximum crown temp
+      REAL     tempcn   !minimum crown temp
+
 
 
 *- Implementation Section ----------------------------------
@@ -9051,14 +9123,39 @@ c         g_dlt_slai_age = 5* (1 - stress_fact) * g_dlt_slai_age
          g_previous_stage = g_current_stage
  
             ! get thermal times
+c==============================================================================
+c        call crop_thermal_time_nw (
+c     :                             g_maxt,
+c     :                             g_mint,
+c     :                             0.0,
+c     :                             26.0,
+c     :                             34.0,
+c     :                             g_dlt_tt)
 
-        call crop_thermal_time_nw (
-     :                             g_maxt,
-     :                             g_mint,
-     :                             0.0,
-     :                             26.0,
-     :                             34.0,
-     :                             g_dlt_tt)
+
+c==============================================================================
+         !USE CROWN TEMPERATURE AND THREE HOURS THERMAL TIME
+
+         call crop_crown_temp_nwheat (g_maxt,g_mint,0.0,tempcx,tempcn)
+
+
+         call crop_thermal_time
+     :               (
+     :                C_num_temp
+     :              , C_x_temp
+     :              , C_y_tt
+     :              , G_current_stage
+     :              , tempcx           !G_maxt
+     :              , tempcn           !G_mint
+     :              , start_stress_stage
+     :              , end_stress_stage
+     :              , 1.0              !G_nfact_pheno
+     :              , 1.0              !G_swdef_pheno
+     :              , g_dlt_tt
+     :               )
+
+c==============================================================================
+
 
 
          if (stage_is_between (start_stress_stage,end_stress_stage
@@ -10103,6 +10200,12 @@ c     :                        * g_tiller_no
      .          g_current_stage,
      .          phint,
      .          g_dlt_tt,
+
+     .          c_max_tiller_area,
+     .          c_tiller_area_tt_steepness,
+     .          c_tiller_area_tt_inflection,
+
+
      .          g_tiller_area_max,
      .          c_tiller_curve,
      .          c_tiller_tt_infl,
@@ -10137,6 +10240,12 @@ c     :                        * g_tiller_no
       real g_current_stage
       real phint
       real g_dlt_tt
+
+      real c_max_tiller_area
+      real c_tiller_area_tt_steepness
+      real c_tiller_area_tt_inflection
+
+
       real g_tiller_area_max(*)
 
       real c_tiller_curve(*)
@@ -10160,6 +10269,12 @@ c     :                        * g_tiller_no
      .                               phint,
      .                               g_dlt_tt,
      .                               g_current_stage,
+
+     .                               c_max_tiller_area,
+     .                               c_tiller_area_tt_steepness,
+     .                               c_tiller_area_tt_inflection,
+
+
      .                               g_tiller_area_max,
      .                               c_tiller_curve,
      .                               c_tiller_tt_infl,
@@ -10191,6 +10306,11 @@ c     :                        * g_tiller_no
      .                               phint,
      .                               dly_therm_time,
      .                               g_current_stage,
+
+     .                               c_max_tiller_area,
+     .                               c_tiller_area_tt_steepness,
+     .                               c_tiller_area_tt_inflection,
+
      .                               g_tiller_area_max,
      .                               c_tiller_curve,
      .                               c_tiller_tt_infl,
@@ -10217,6 +10337,12 @@ c     :                        * g_tiller_no
       real phint
       real dly_therm_time
       real g_current_stage
+
+
+      real c_max_tiller_area
+      real c_tiller_area_tt_steepness
+      real c_tiller_area_tt_inflection
+
       real g_tiller_area_max(*)
       real c_tiller_curve(*)   ! curvature coefficient for tillers
       real c_tiller_tt_infl(*) ! inflection point for tiller development
@@ -10263,17 +10389,18 @@ c     :                        * g_tiller_no
           !Max tiller area should be related to final leaf number
 
           g_tiller_area_pot(1)   = 0.0
-          g_tiller_area_max(1)   = 2.0 / (g_plants/sm2smm*100.0) !cm2 per tiller  - this should be related to final leaf number
+          g_tiller_area_max(1)   = c_max_tiller_area * 100.0/ g_plants  !2.0 / (g_plants/sm2smm*100.0) !cm2 per tiller  - this should be related to final leaf number
  
-          c_tiller_curve  (1)    = 0.018
-          c_tiller_tt_infl(1)    = 400.0!400.0
-        
+          c_tiller_curve  (1)    = c_tiller_area_tt_steepness
+          c_tiller_tt_infl(1)    = c_tiller_area_tt_inflection
+
+
           do n = 2, max_leaf
             g_tiller_area_pot(n) = 0.0
-            g_tiller_area_max(n) = 2.0/(g_plants/sm2smm*100.0)
+            g_tiller_area_max(n) =  c_max_tiller_area * 100.0/ g_plants  !2.0/(g_plants/sm2smm*100.0)
  
-            c_tiller_curve(n)        = c_tiller_curve(1)   * 1.5
-            c_tiller_tt_infl(n)      = c_tiller_tt_infl(1) / 1.5
+            c_tiller_curve(n)    = c_tiller_curve(1)   * 1.5
+            c_tiller_tt_infl(n)  = c_tiller_tt_infl(1) / 1.5
 
           end do
 

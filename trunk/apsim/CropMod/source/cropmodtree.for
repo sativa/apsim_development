@@ -1,4 +1,4 @@
-C     Last change:  E    18 Oct 2000    1:25 pm
+C     Last change:  E    29 Nov 2000    9:25 am
 
 C      INCLUDE 'CropMod.inc'
 
@@ -978,7 +978,7 @@ c          g%swdef_expansion = g%swdef_tiller
          if (g%current_stage.lt.7.0) then
              g%extinction_coeff = extinct_coef
          else
-             g%extinction_coeff = 0.42
+             g%extinction_coeff = c%extinct_coeff_post_anthesis   !0.42
          end if
 
          g%cover_green = 1.0 - exp (-g%extinction_coeff*g%lai)
@@ -1345,7 +1345,8 @@ c        PRINT *,'biomass CF  =', co2_modifier
      .          g%dm_green,
      .          g%dm_plant_min,
      .          g%dm_seed_reserve,
-
+     .          g%obs_grain_no_psm,
+     .          g%dm_green_grainno,
      ,          p%head_grain_no_max,
      .          g%grain_no)
 
@@ -1447,6 +1448,10 @@ c        PRINT *,'biomass CF  =', co2_modifier
      :              , g%N_conc_min
      :              , g%N_green 
      :              , g%grain_no
+
+     :              , c%min_grain_nc_ratio
+     :              , c%max_kernel_weight
+
      :              , g%dlt_dm_grain_demand
      :               )
 
@@ -1651,7 +1656,10 @@ c      REAL nw_sla
      :                  g%swdef_expansion,
      :                  g%nfact_expansion,
      :                  g%dlt_dm_grain_demand,
-     :                  g%dlt_dm_green)
+     :                  g%dlt_dm_green,
+     :                  c%start_grainno_dm_stage,
+     :                  c%end_grainno_dm_stage,
+     :                  g%dlt_dm_green_grainno)
      
 
 
@@ -1667,6 +1675,11 @@ c      REAL nw_sla
      : 				g%dlt_tt,
      : 				g%phase_tt,
      : 				g%tt_tot,
+
+     .                          c%max_tiller_area,
+     .                          c%tiller_area_tt_steepness,
+     .                          c%tiller_area_tt_inflection,
+
      .                          p%tiller_curve,
      .                          p%tiller_tt_infl,
      .                          g%tiller_tt_tot,
@@ -2351,6 +2364,11 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      .          g%current_stage,
      .          c%leaf_app_rate1,
      .          g%dlt_tt,
+
+     .          c%max_tiller_area,
+     .          c%tiller_area_tt_steepness,
+     .          c%tiller_area_tt_inflection,
+
      .          g%tiller_area_max,
      .          p%tiller_curve,
      .          p%tiller_tt_infl,
@@ -2369,6 +2387,12 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      .          g%current_stage,
      .          c%leaf_app_rate1,
      .          g%dlt_tt,
+
+     .          c%max_tiller_area,
+     .          c%tiller_area_tt_steepness,
+     .          c%tiller_area_tt_inflection,
+
+
      .          g%tiller_area_max,
      .          p%tiller_curve,
      .          p%tiller_tt_infl,
@@ -2623,7 +2647,33 @@ c      endif
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      if ((Option.eq.1).or.(Option.eq.2).or.(Option.eq.3)) then
+      if (Option.eq.1) then
+
+         call cproc_root_depth2 (
+     :                              g%current_stage
+     :                             ,g%maxt
+     :                             ,g%mint
+     :                             ,g%swdef_photo
+     :                             ,g%root_depth
+     :                             ,c%num_temp_root
+     :                             ,c%x_temp_root
+     :                             ,c%y_temp_root_fac
+     :                             ,c%num_ws_root
+     :                             ,c%x_ws_root
+     :                             ,c%y_ws_root_fac
+     :                             ,C%num_sw_ratio
+     :                             ,C%x_sw_ratio
+     :                             ,C%y_sw_fac_root
+     :                             ,g%dlayer
+     :                             ,G%dul_dep
+     :                             ,G%sw_dep
+     :                             ,P%ll_dep
+     :                             ,C%root_depth_rate
+     :                             ,p%xf
+     :                             ,g%dlt_root_depth
+     :                             )
+
+       elseif ((Option.eq.2).or.(Option.eq.3)) then
 
          call cproc_root_depth1 (
      :                              g%dlayer
@@ -3719,7 +3769,9 @@ c"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
          n_avail_sum = sum_real_array(n_avail,max_part)
 
-         g%n_green(grain) = 0.03 * g%dm_green(grain)
+         !grain_embryo_nc = 0.03
+
+         g%n_green(grain) = c%grain_embryo_nc * g%dm_green(grain)
          g%n_green(grain) = min (g%n_green(grain),n_avail_sum)
 
          dlt_stem_n      = min(n_avail(stem), g%n_green(grain))
@@ -3806,7 +3858,7 @@ c     :          , g%N_fix_pot
 c     :          )
 c
 
-       call cproc_n_supply1_wang (
+       call cproc_n_supply2 (
      :            g%dlayer
      :          , max_layer
      :          , g%dlt_sw_dep
@@ -4065,8 +4117,7 @@ c       DATA b/0.,0.,0./
  
       elseif ((Option.eq.1).OR.(Option.eq.4)) then
  
-
-         call cproc_N_uptake1_wang
+         call cproc_n_uptake2
      :               (
      :                g%no3_diffn_const     !c%no3_diffn_const
      :              , g%dlayer
@@ -4276,6 +4327,8 @@ c       pause
          call cproc_N_retranslocate_nw (  !for nwheat
      .          g%current_stage, 
      .          g%dlt_dm_green,
+     .          g%dlt_dm_green_retrans,
+     .          c%max_grain_nc_ratio,
      .          g%N_conc_min,
      .          g%N_conc_crit,
      .          g%N_conc_max,
@@ -4615,4 +4668,28 @@ c         g%nfact_tiller = g%nfact_expansion
 
 
 
+* ====================================================================
+       subroutine Simulation_Prepare ()
+* ====================================================================
+      use CropModModule
+      implicit none
+      include 'error.pub'                         
+
+*+  Purpose
+*     <insert here>
+
+*+  Changes
+*     12-05-1997 - huth - Programmed and Specified
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'Simulation_Prepare')
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+ 
+
+      call pop_routine (myname)
+      return
+      end
 
