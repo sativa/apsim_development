@@ -1,3 +1,4 @@
+C     Last change:  P     8 Nov 2000    3:30 pm
       include 'Erosion.inc'
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
@@ -885,6 +886,7 @@ c$$$     :     g%crop_cover * p%crop_cover_wtg, 0.0, 1.0)
 *     DMS 25/02/94 (New template)
 *     300695 jngh changed number of values sent from max_layer to numvals
 *     090696 nih  changed set calls to post_var constructs
+*     081100 dph  changed post_var constructs back to set_var constructs
 
 *+  Constant Values
       character  my_name*(*)
@@ -900,25 +902,14 @@ c$$$     :     g%crop_cover * p%crop_cover_wtg, 0.0, 1.0)
       if ((g%soil_loss_bed + g%soil_loss_susp) .gt. 0.0 .and.
      :     p%profile_reduction .eq. on) then
  
-         call new_postbox()
-c$$$         call post_real_array (
-c$$$     :          'dlayer'
-c$$$     :        , '(mm)'
-c$$$     :        , g%dlayer
-c$$$     :        , max_layers)
- 
          num_layers = count_of_real_vals (g%dlayer, max_layer)
  
-         call post_real_array (
-     :          'dlt_dlayer'
+         call set_real_array (
+     :          unknown_module
+     :        , 'dlt_dlayer'
      :        , '(mm)'
      :        , g%dlt_dlayer
      :        , num_layers)      ! trailing 0s
- 
-         call Action_send (unknown_module
-     :                               ,ACTION_set_variable
-     :                               ,'dlt_dlayer')
-         call delete_postbox()
  
       else
          ! nothing
