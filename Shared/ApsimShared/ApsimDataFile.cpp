@@ -32,7 +32,7 @@ void ApsimDataFile::open(const std::string& file)
    readApsimHeader();
    firstRecordPos = in.tellg();
    readNextRecord();
-   lookForDateField();
+   haveFoundDate = false;
    }
 //---------------------------------------------------------------------------
 // retrieve the next line from the input stream.
@@ -255,6 +255,9 @@ void ApsimDataFile::lookForDateField(void)
 // ------------------------------------------------------------------
 gregorian::date ApsimDataFile::getDate(void) const
    {
+   if (!haveFoundDate)
+      lookForDateField();
+
    if (dateI != temporalData.end())
       return date(from_string(dateI->values[0]));
    else
