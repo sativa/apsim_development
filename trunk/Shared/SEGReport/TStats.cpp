@@ -35,7 +35,8 @@ void __fastcall TStats::setFieldName(AnsiString fieldName)
    if (fieldNameToAnalyse != fieldName)
       {
       fieldNameToAnalyse = fieldName;
-      refresh();
+      Active = false;
+      Active = true;
       }
    }
 //---------------------------------------------------------------------------
@@ -46,7 +47,8 @@ void __fastcall TStats::setStats(StatSet stats)
    if (statsToCalc != stats)
       {
       statsToCalc = stats;
-      refresh();
+      Active = false;
+      Active = true;
       }
    }
 //---------------------------------------------------------------------------

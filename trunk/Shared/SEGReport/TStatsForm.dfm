@@ -30,7 +30,7 @@ inherited StatsForm: TStatsForm
         Height = 17
         Caption = 'Mean'
         TabOrder = 1
-        OnClick = MeanCheckBoxClick
+        OnClick = CheckBoxClick
       end
       object MinCheckBox: TCheckBox
         Left = 8
@@ -39,7 +39,7 @@ inherited StatsForm: TStatsForm
         Height = 17
         Caption = 'Minimum'
         TabOrder = 2
-        OnClick = MinCheckBoxClick
+        OnClick = CheckBoxClick
       end
       object MaxCheckBox: TCheckBox
         Left = 8
@@ -48,7 +48,7 @@ inherited StatsForm: TStatsForm
         Height = 17
         Caption = 'Maximum'
         TabOrder = 3
-        OnClick = MaxCheckBoxClick
+        OnClick = CheckBoxClick
       end
       object CountCheckBox: TCheckBox
         Left = 8
@@ -57,7 +57,7 @@ inherited StatsForm: TStatsForm
         Height = 17
         Caption = 'Count'
         TabOrder = 4
-        OnClick = CountCheckBoxClick
+        OnClick = CheckBoxClick
       end
       object GroupBox1: TGroupBox
         Left = 8
@@ -73,7 +73,7 @@ inherited StatsForm: TStatsForm
           Height = 17
           Caption = '60%'
           TabOrder = 0
-          OnClick = Decile60CheckBoxClick
+          OnClick = CheckBoxClick
         end
         object Decile70CheckBox: TCheckBox
           Left = 112
@@ -82,7 +82,7 @@ inherited StatsForm: TStatsForm
           Height = 17
           Caption = '70%'
           TabOrder = 1
-          OnClick = Decile70CheckBoxClick
+          OnClick = CheckBoxClick
         end
         object Decile80CheckBox: TCheckBox
           Left = 112
@@ -91,7 +91,7 @@ inherited StatsForm: TStatsForm
           Height = 17
           Caption = '80%'
           TabOrder = 2
-          OnClick = Decile80CheckBoxClick
+          OnClick = CheckBoxClick
         end
         object Decile90CheckBox: TCheckBox
           Left = 112
@@ -100,7 +100,7 @@ inherited StatsForm: TStatsForm
           Height = 17
           Caption = '90%'
           TabOrder = 3
-          OnClick = Decile90CheckBoxClick
+          OnClick = CheckBoxClick
         end
         object Decile10CheckBox: TCheckBox
           Left = 8
@@ -109,7 +109,7 @@ inherited StatsForm: TStatsForm
           Height = 17
           Caption = '10%'
           TabOrder = 4
-          OnClick = Decile10CheckBoxClick
+          OnClick = CheckBoxClick
         end
         object Decile20CheckBox: TCheckBox
           Left = 8
@@ -118,7 +118,7 @@ inherited StatsForm: TStatsForm
           Height = 17
           Caption = '20%'
           TabOrder = 5
-          OnClick = Decile20CheckBoxClick
+          OnClick = CheckBoxClick
         end
         object Decile30CheckBox: TCheckBox
           Left = 8
@@ -127,7 +127,7 @@ inherited StatsForm: TStatsForm
           Height = 17
           Caption = '30%'
           TabOrder = 6
-          OnClick = Decile30CheckBoxClick
+          OnClick = CheckBoxClick
         end
         object Decile40CheckBox: TCheckBox
           Left = 8
@@ -136,7 +136,7 @@ inherited StatsForm: TStatsForm
           Height = 17
           Caption = '40%'
           TabOrder = 7
-          OnClick = Decile40CheckBoxClick
+          OnClick = CheckBoxClick
         end
         object Decile50CheckBox: TCheckBox
           Left = 64
@@ -145,7 +145,7 @@ inherited StatsForm: TStatsForm
           Height = 17
           Caption = '50%'
           TabOrder = 8
-          OnClick = Decile50CheckBoxClick
+          OnClick = CheckBoxClick
         end
       end
     end

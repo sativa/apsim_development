@@ -39,19 +39,7 @@ __published:	// IDE-managed Components
    TCheckBox *Decile50CheckBox;
    void __fastcall PropertiesSheetShow(TObject *Sender);
    void __fastcall FieldNameComboChange(TObject *Sender);
-   void __fastcall MeanCheckBoxClick(TObject *Sender);
-   void __fastcall MinCheckBoxClick(TObject *Sender);
-   void __fastcall MaxCheckBoxClick(TObject *Sender);
-   void __fastcall CountCheckBoxClick(TObject *Sender);
-   void __fastcall Decile10CheckBoxClick(TObject *Sender);
-   void __fastcall Decile20CheckBoxClick(TObject *Sender);
-   void __fastcall Decile30CheckBoxClick(TObject *Sender);
-   void __fastcall Decile40CheckBoxClick(TObject *Sender);
-   void __fastcall Decile50CheckBoxClick(TObject *Sender);
-   void __fastcall Decile60CheckBoxClick(TObject *Sender);
-   void __fastcall Decile70CheckBoxClick(TObject *Sender);
-   void __fastcall Decile80CheckBoxClick(TObject *Sender);
-   void __fastcall Decile90CheckBoxClick(TObject *Sender);
+   void __fastcall CheckBoxClick(TObject *Sender);
 private:	// User declarations
    TStats* stats;
 public:		// User declarations

@@ -68,94 +68,35 @@ void __fastcall TStatsForm::FieldNameComboChange(TObject *Sender)
    stats->fieldName = FieldNameCombo->Text;
    }
 //---------------------------------------------------------------------------
-void __fastcall TStatsForm::MeanCheckBoxClick(TObject *Sender)
+void __fastcall TStatsForm::CheckBoxClick(TObject *Sender)
    {
-   StatSet allStats = stats->stats;
-   allStats << statMean;
-   stats->stats = allStats;
-   }
-//---------------------------------------------------------------------------
-void __fastcall TStatsForm::MinCheckBoxClick(TObject *Sender)
-   {
-   StatSet allStats = stats->stats;
-   allStats << statMin;
-   stats->stats = allStats;
-   }
-//---------------------------------------------------------------------------
-void __fastcall TStatsForm::MaxCheckBoxClick(TObject *Sender)
-   {
-   StatSet allStats = stats->stats;
-   allStats << statMax;
-   stats->stats = allStats;
-   }
-//---------------------------------------------------------------------------
-void __fastcall TStatsForm::CountCheckBoxClick(TObject *Sender)
-   {
-   StatSet allStats = stats->stats;
-   allStats << statCount;
-   stats->stats = allStats;
-   }
-//---------------------------------------------------------------------------
-void __fastcall TStatsForm::Decile10CheckBoxClick(TObject *Sender)
-   {
-   StatSet allStats = stats->stats;
-   allStats << stat10;
-   stats->stats = allStats;
-   }
-//---------------------------------------------------------------------------
-void __fastcall TStatsForm::Decile20CheckBoxClick(TObject *Sender)
-   {
-   StatSet allStats = stats->stats;
-   allStats << stat20;
-   stats->stats = allStats;
-   }
-//---------------------------------------------------------------------------
-void __fastcall TStatsForm::Decile30CheckBoxClick(TObject *Sender)
-   {
-   StatSet allStats = stats->stats;
-   allStats << stat30;
-   stats->stats = allStats;
-   }
-//---------------------------------------------------------------------------
-void __fastcall TStatsForm::Decile40CheckBoxClick(TObject *Sender)
-   {
-   StatSet allStats = stats->stats;
-   allStats << stat40;
-   stats->stats = allStats;
-   }
-//---------------------------------------------------------------------------
-void __fastcall TStatsForm::Decile50CheckBoxClick(TObject *Sender)
-   {
-   StatSet allStats = stats->stats;
-   allStats << stat50;
-   stats->stats = allStats;
-   }
-//---------------------------------------------------------------------------
-void __fastcall TStatsForm::Decile60CheckBoxClick(TObject *Sender)
-   {
-   StatSet allStats = stats->stats;
-   allStats << stat60;
-   stats->stats = allStats;
-   }
-//---------------------------------------------------------------------------
-void __fastcall TStatsForm::Decile70CheckBoxClick(TObject *Sender)
-   {
-   StatSet allStats = stats->stats;
-   allStats << stat70;
-   stats->stats = allStats;
-   }
-//---------------------------------------------------------------------------
-void __fastcall TStatsForm::Decile80CheckBoxClick(TObject *Sender)
-   {
-   StatSet allStats = stats->stats;
-   allStats << stat80;
-   stats->stats = allStats;
-   }
-//---------------------------------------------------------------------------
-void __fastcall TStatsForm::Decile90CheckBoxClick(TObject *Sender)
-   {
-   StatSet allStats = stats->stats;
-   allStats << stat90;
+   StatSet allStats;
+   if (MeanCheckBox->Checked)
+      allStats << statMean;
+   if (MinCheckBox->Checked)
+      allStats << statMin;
+   if (MaxCheckBox->Checked)
+      allStats << statMax;
+   if (CountCheckBox->Checked)
+      allStats << statCount;
+   if (Decile10CheckBox->Checked)
+      allStats << stat10;
+   if (Decile20CheckBox->Checked)
+      allStats << stat20;
+   if (Decile30CheckBox->Checked)
+      allStats << stat30;
+   if (Decile40CheckBox->Checked)
+      allStats << stat40;
+   if (Decile50CheckBox->Checked)
+      allStats << stat50;
+   if (Decile60CheckBox->Checked)
+      allStats << stat60;
+   if (Decile70CheckBox->Checked)
+      allStats << stat70;
+   if (Decile80CheckBox->Checked)
+      allStats << stat80;
+   if (Decile90CheckBox->Checked)
+      allStats << stat90;
    stats->stats = allStats;
    }
 //---------------------------------------------------------------------------
