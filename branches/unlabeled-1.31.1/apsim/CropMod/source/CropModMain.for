@@ -531,6 +531,18 @@ cjh      endif
       else
       endif
 
+         !       cproc_sw_demand_bound
+
+      call read_real_var_optional (section_name
+     :                     , 'eo_crop_factor', '()'
+     :                     , p%eo_crop_factor, numvals
+     :                     , 0.0, 100.)
+      if (numvals.le.0) then
+         p%eo_crop_factor = c%eo_crop_factor_default
+      else
+      endif
+
+
       call read_real_array (section_name
      :                     , 'll', max_layer, '()'
      :                     , ll, num_layers
@@ -1803,6 +1815,11 @@ cjh      endif
          call respond2get_real_var (variable_name
      :                             , '(mm)'
      :                             , g%sw_demand)
+
+      elseif (variable_name .eq. 'sw_demand_te') then
+         call respond2get_real_var (variable_name
+     :                             , '(mm)'
+     :                             , g%sw_demand_te)
 
       elseif (variable_name .eq. 'sw_supply') then
          deepest_layer = find_layer_no (g%root_depth, g%dlayer
@@ -5497,6 +5514,7 @@ c     CALL fill_real_array(g%soil_temp,0.0, 366)
       g%num_layers =0
 
       g%sw_demand             =0.0
+      g%sw_demand_te          =0.0
       g%sw_supply_sum         =0.0
       g%sw_supply_demand_ratio=0.0
 
@@ -6902,6 +6920,15 @@ c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
      :                    , 'svp_fract', '()'
      :                    , c%svp_fract, numvals
      :                    , 0.0, 1.0)
+
+
+         !    cproc_sw_demand_bound
+
+      call read_real_var (section_name
+     :                    , 'eo_crop_factor_default', '()'
+     :                    , c%eo_crop_factor_default, numvals
+     :                    , 0.0, 100.)
+
 
       !Water stress factors
       call read_real_array (section_name
