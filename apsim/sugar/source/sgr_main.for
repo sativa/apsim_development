@@ -1,6 +1,7 @@
       module SugarModule
 
       Use CropLibrary
+      use Registrations
 
 
 !     ================================================================
@@ -781,6 +782,7 @@
       type (SugarGlobals),pointer :: g
       type (SugarParameters),pointer :: p
       type (SugarConstants),pointer :: c
+      type (IdsType), pointer :: id
 
       contains
 
@@ -4630,11 +4632,13 @@ cnh      c%crop_type = ' '
       end subroutine
 
 *     ===========================================================
-      subroutine sugar_ONtick ()
+      subroutine sugar_ONtick (variant)
 *     ===========================================================
 
       Use infrastructure
       implicit none
+      
+      integer ,intent(in) :: variant
 
 *+  Purpose
 *     Update internal time record and reset daily state variables.
@@ -4646,8 +4650,7 @@ cnh      c%crop_type = ' '
 *        260899 nih
 
 *+  Local Variables
-      character temp1*5
-      integer   temp2
+      type(timeType) :: tick
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -4656,10 +4659,9 @@ cnh      c%crop_type = ' '
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      ! Note that time and timestep information is not required
-      ! and so dummy variables are used in their place.
-
-      call handler_ONtick(g%day_of_year, g%year, temp1, temp2)
+      call unpack_time(variant, tick)                                                 
+      call jday_to_day_of_year(dble(tick%startday), g%day_of_year, 
+     .                         g%year)
 
       call sugar_zero_daily_variables ()
 
@@ -4770,10 +4772,12 @@ cnh      c%crop_type = ' '
          allocate(g)
          allocate(p)
          allocate(c)
+         allocate(id)
       else
          deallocate(g)
          deallocate(p)
          deallocate(c)
+         deallocate(id)
       end if
       return
       end subroutine
@@ -4823,9 +4827,6 @@ cnh      c%crop_type = ' '
       elseif (action.eq.ACTION_set_variable) then
             ! respond to request to reset variable values - from modules
          call sugar_set_my_variable (data_string)
-
-      elseif (action.eq.EVENT_tick) then
-         call sugar_ONtick()
 
       elseif (action.eq.ACTION_prepare) then
          call sugar_prepare ()
@@ -4893,6 +4894,7 @@ cnh      c%crop_type = ' '
          call sugar_init ()
 
       else if (Action.eq.ACTION_Create) then
+         call doRegistrations(id)
          call sugar_zero_all_globals ()
 
       else
@@ -4904,3 +4906,22 @@ cnh      c%crop_type = ' '
       return
       end subroutine
 
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      use SugarModule
+      Use infrastructure
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+
+      if (eventID .eq. id%tick) then
+         call Sugar_ONtick(variant)
+      endif
+      return
+      end subroutine respondToEvent
+                                   

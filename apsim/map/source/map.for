@@ -1,6 +1,8 @@
 *     ========================================
       module MapModule
 !     ========================================
+      use Registrations
+      
       integer    max_size              !the greatest size_of the arrays can be
       parameter (max_size = 50)
 
@@ -56,7 +58,7 @@
       save InstancePointers
       type (MapGlobals),pointer :: g
       type (MapParameters),pointer :: p
-
+      type (IDsType), pointer :: id
       contains
 
 
@@ -1649,9 +1651,11 @@ c      endif
       if (doAllocate) then
          allocate(g)
          allocate(p)
+         allocate(id)
       else
          deallocate(g)
          deallocate(p)
+         deallocate(id)
       end if
       return
       end subroutine
@@ -1697,6 +1701,7 @@ cnh      call set_warning_off ()
          call map_Set_my_variable (data_string)
 
       else if (Action.eq.ACTION_Create) then
+         call doRegistrations(id)
          call map_zero_variables ()
 
       else
@@ -1709,3 +1714,17 @@ cnh      call set_warning_off ()
       return
       end subroutine
 
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      Use infrastructure
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+      
+      return
+      end subroutine respondToEvent

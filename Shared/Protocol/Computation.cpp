@@ -7,6 +7,7 @@
 #include <list>
 #include <functional>
 #include <general\path.h>
+#include <ApsimShared\ApsimDirectories.h>
 using namespace std;
 using namespace protocol;
 
@@ -156,9 +157,8 @@ bool Computation::loadComponent(const std::string& filename) throw (runtime_erro
       if (wrapperFilename != "")
          {
          FreeLibrary(handle);
-         Path wrapperPath(filename.c_str());
-         wrapperPath.Set_name(wrapperFilename.c_str());
-         handle = LoadLibrary(wrapperPath.Get_path().c_str());
+         string wrapperPath = getApsimDirectory() + "\\bin\\" + wrapperFilename;
+         handle = LoadLibrary(wrapperPath.c_str());
          }
 
       (FARPROC) createInstanceProc = GetProcAddress(handle, "createInstance");

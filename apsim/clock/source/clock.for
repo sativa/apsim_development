@@ -1,6 +1,7 @@
 C     Last change:  E     5 Dec 2000    8:52 am
       module ClockModule
-
+      use Registrations
+      
 !      ml_external alloc_dealloc_instance
 
       type ClockData
@@ -30,9 +31,19 @@ C     Last change:  E     5 Dec 2000    8:52 am
       common /InstancePointers/ ID,g,p,c
       save InstancePointers
       type (ClockData),pointer :: g
-!      type (IDsType), pointer :: ID
+      type (IDsType), pointer :: ID
       
       contains
+
+      ! ====================================================================
+      ! do first stage initialisation stuff.
+      ! ====================================================================
+      subroutine clock_init1 ()
+      use infrastructure
+      
+      call doRegistrations(id) 
+      
+      end subroutine
 
 * ====================================================================
       subroutine clock_init ()
@@ -692,43 +703,72 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
 !+  Local Variables
       character time*(5)               ! time in 24 hour format
+      type(TimeType) :: tick
 
 !- Implementation Section ----------------------------------
 
       call push_routine (This_routine)
 
-      call new_postbox()
-
-      call post_integer_var (DATA_day
-     :                     , '()'
-     :                     , g%day)
-
-      call post_integer_var (DATA_year
-     :                     , '()'
-     :                     , g%year)
-
-      call post_double_var (DATA_jday
-     :                     , '()'
-     :                     , g%current_date)
-
-      time = clock_time_string()
-      call post_char_var (DATA_time
-     :                   , '(hh:mm)'
-     :                   , time)
-
-      call post_integer_var (DATA_timestep
-     :                     , '(min)'
-     :                     , g%timestep)
-
-      call event_send (EVENT_tick)
-
-      call delete_postbox()
-
+      tick = Clock_get_time()
+      call publish_time(ID%tick, tick)
       call pop_routine (This_routine)
 
       return
       end subroutine
-      
+              
+! ====================================================================
+       function Clock_get_time()
+! ====================================================================
+      Use infrastructure
+
+      implicit none
+
+!+  Sub-Program Arguments
+      type(TimeType) :: Clock_get_time
+
+!+  Purpose
+!     Notify all modules of a clock tick and the new timestep
+
+!+  Changes
+!      NIH 25/08/99
+
+!+  Constant Values
+      character This_routine*(*)       ! name of this routine
+      parameter (This_routine='Clock_get_time')
+
+!+  Local Variables
+      character time*(5)               ! time in 24 hour format
+      integer time_mins                !time since start of day (min)
+      integer currentDate(3)
+
+!- Implementation Section ----------------------------------
+
+      call push_routine (This_routine)
+
+      time = clock_time_string()
+
+      ! Work out which timestep we're in.
+      time_mins = mod(int(g%current_time), mins_in_day)
+
+      call day_of_year_to_date(g%day, g%year, currentDate);
+
+      ! New tick event.
+      clock_get_time%startday = Date_to_jday
+     .     (currentDate(1), currentDate(2), currentDate(3))
+      clock_get_time%startsec = time_mins*60.0
+      clock_get_time%startsecpart = 0.0;
+      clock_get_time%endday = clock_get_time%startday
+      clock_get_time%endsec = (time_mins+g%timestep) * 60.0 - 1.0
+      clock_get_time%endsecpart = 1.0;
+
+      call pop_routine (This_routine)
+
+      return
+      end function
+
+
+              
+              
       end module ClockModule
       
       
@@ -749,10 +789,10 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
       if (doAllocate) then
          allocate(g)
-!         allocate(ID)
+         allocate(ID)
       else
          deallocate(g)
-!         deallocate(ID)
+         deallocate(ID)
       end if
       return
       end subroutine
@@ -781,6 +821,9 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
       if (Action.eq.ACTION_Get_variable) then
          call clock_send_my_variable (Data)
+
+      else if (Action .eq. ACTION_Create) then
+         call clock_init1()
 
       else if (Action .eq. ACTION_Init) then
          call clock_init ()
@@ -812,3 +855,19 @@ C     Last change:  E     5 Dec 2000    8:52 am
       return
       end
       
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      Use infrastructure
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+      
+      return
+      end subroutine respondToEvent
+                                   
+                                   

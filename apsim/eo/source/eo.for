@@ -1,5 +1,5 @@
       module EoModule
-
+      use Registrations
 !     ================================================================
 !      Eo constants
 !     ================================================================
@@ -189,6 +189,7 @@
       type (EoGlobals),pointer :: g
       type (EoParameters),pointer :: p
       type (EoConstants),pointer :: c
+      type (IDsType), pointer ::id
 
 
       contains
@@ -3339,10 +3340,12 @@ cjh      print*, 'g%da, fe = ', g%da, fe
          allocate(g)
          allocate(p)
          allocate(c)
+         allocate(id)
       else
          deallocate(g)
          deallocate(p)
          deallocate(c)
+         deallocate(id)
       end if
       return
       end subroutine
@@ -3383,6 +3386,9 @@ cjh      print*, 'g%da, fe = ', g%da, fe
          call Eo_zero_variables ()
          call Eo_init ()
 
+      else if (Action.eq.ACTION_Create) then
+         call doRegistrations(id)
+
       elseif (Action.eq.ACTION_Prepare) then
          call Eo_zero_daily_variables ()
          call Eo_get_other_variables ()
@@ -3407,4 +3413,18 @@ cjh      print*, 'g%da, fe = ', g%da, fe
       return
       end subroutine
 
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      Use infrastructure
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+      
+      return
+      end subroutine respondToEvent
 

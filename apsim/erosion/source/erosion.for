@@ -1,4 +1,5 @@
       module ErosionModule
+      use Registrations
 !     ================================================================
 !     Erosion array sizes and constants
 !     ================================================================
@@ -94,6 +95,7 @@
       save InstancePointers
       type (ErosionGlobals),pointer :: g
       type (ErosionParameters),pointer :: p
+      type (IDsType), pointer :: id
 
       contains
 
@@ -1448,9 +1450,11 @@ c     What happens when layer completely eroded?
       if (doAllocate) then
          allocate(g)
          allocate(p)
+         allocate(id)
       else
          deallocate(g)
          deallocate(p)
+         deallocate(id)
       end if
       return
       end subroutine
@@ -1500,6 +1504,9 @@ c     What happens when layer completely eroded?
          call erosion_init ()   ! get parameters & do initial one-off calc's
          call erosion_write_summary () ! tell summary file what we're using
 
+      else if (Action.eq.ACTION_Create) then
+         call doRegistrations(id)
+
       else if (Action.eq.ACTION_Process) then
          call erosion_zero_daily_variables ()
             ! get todays variables
@@ -1528,3 +1535,17 @@ c     What happens when layer completely eroded?
       return
       end subroutine
 
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      Use infrastructure
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+      
+      return
+      end subroutine respondToEvent

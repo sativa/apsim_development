@@ -1,5 +1,6 @@
       module GraspModule
-
+      use Registrations
+      
 !      ====================================================================
 !      grasp_array_sizes
 !      ====================================================================
@@ -374,7 +375,7 @@
       type (GraspGlobals),pointer :: g
       type (GraspParameters),pointer :: p
       type (GraspConstants),pointer :: c
-
+      type (IDsType), pointer :: id
 
       contains
 
@@ -4832,10 +4833,12 @@ c     :                    , 0.0, 10000.0)
          allocate(g)
          allocate(p)
          allocate(c)
+         allocate(id)
       else
          deallocate(g)
          deallocate(p)
          deallocate(c)
+         deallocate(id)
       end if
       return
       end subroutine
@@ -4903,6 +4906,9 @@ c     :                    , 0.0, 10000.0)
             ! Get constants
          call grasp_init ()
 
+      else if (Action.eq.ACTION_Create) then
+         call doRegistrations(id)
+
       elseif (action.eq.ACTION_set_variable) then
                                 ! respond to request to reset
                                 ! variable values - from modules
@@ -4936,3 +4942,17 @@ c     :                    , 0.0, 10000.0)
       return
       end subroutine
 
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      Use infrastructure
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+      
+      return
+      end subroutine respondToEvent

@@ -37,7 +37,7 @@
       <respondToMethodCallReg name="pause" type="pause"/>
       <respondToMethodCallReg name="cont" type="cont"/>
       <respondToMethodCallReg name="end_run" type="end_run"/>
-      <eventReg name="tick" type="tick"/>
+      <eventReg name="tick" type="time"/>
       <eventReg name="prepare" type="null"/>
       <eventReg name="process" type="null"/>
       <eventReg name="post" type="null"/>

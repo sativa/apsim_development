@@ -202,6 +202,16 @@ void XMLDocument::writeXML(std::string& xml) const
    formatXML(xml);
    }
 //---------------------------------------------------------------------------
+// transform the document using the specified stylesheet.
+//---------------------------------------------------------------------------
+string XMLDocument::transformUsingStyleSheet(const std::string& stylesheetFileName) const
+   {
+   XMLDocumentImpl* styleDocImpl = new XMLDocumentImpl(stylesheetFileName);
+   WideString st = docImpl->xmlDoc->documentElement->transformNode(styleDocImpl->xmlDoc);
+   delete styleDocImpl;
+   return AnsiString(st).c_str();
+   }
+//---------------------------------------------------------------------------
 // return the name of the node.
 //---------------------------------------------------------------------------
 string XMLNode::getName(void) const

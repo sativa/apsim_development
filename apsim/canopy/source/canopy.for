@@ -1,4 +1,5 @@
       module CanopyModule
+      use Registrations
 ! ====================================================================
 !     canopy constants
 ! ====================================================================
@@ -52,6 +53,7 @@
       common /InstancePointers/ ID,g,p,c
       save InstancePointers
       type (CanopyGlobals),pointer :: g
+      type (IDsType),pointer :: id
 
       contains
 
@@ -1056,8 +1058,10 @@ c      real       canopy_width          ! function
 
       if (doAllocate) then
          allocate(g)
+         allocate(id)
       else
          deallocate(g)
+         deallocate(id)
       end if
       return
       end subroutine
@@ -1116,6 +1120,9 @@ c      real       canopy_width          ! function
          call canopy_find_crops ()
 !         call canopy_get_other_variables ()
 
+      else if (Action.eq.ACTION_Create) then
+         call doRegistrations(id)
+
       else
             ! Don't use message
 
@@ -1127,5 +1134,17 @@ c      real       canopy_width          ! function
       return
       end subroutine
 
-
- 
+ ! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      Use infrastructure
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+      
+      return
+      end subroutine respondToEvent

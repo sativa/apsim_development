@@ -1,4 +1,5 @@
       module SoilTModule
+      use Registrations
 
 ! ====================================================================
 !      soilt parameters
@@ -66,6 +67,7 @@
       type (SoilTParameters),pointer :: p
       type (SoilTConstants),pointer :: c
       type (SoilTExternals),pointer :: e
+      type (IDsType), pointer :: id
 
       contains
 
@@ -961,10 +963,12 @@ c     endif
          allocate(g)
          allocate(p)
          allocate(c)
+         allocate(id)
       else
          deallocate(g)
          deallocate(p)
          deallocate(c)
+         deallocate(id)
       end if
       return
       end subroutine
@@ -1002,6 +1006,9 @@ c     endif
       if (Action.eq.ACTION_init) then
          call soilt_zero_variables ()
          call soilt_Init ()
+
+      else if (Action.eq.ACTION_Create) then
+         call doRegistrations(id)
 
       else if (Action .eq. ACTION_prepare) then
          call soilt_prepare ()
@@ -1041,3 +1048,17 @@ c     endif
       return
       end subroutine
 
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      Use infrastructure
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+      
+      return
+      end subroutine respondToEvent

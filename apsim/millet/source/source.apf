@@ -3,7 +3,7 @@ Dependency = %licensed_source(millet)
 
 [Contents]
 mil_main.for = mil_main.for
-ComponentInterface.f90 = ComponentInterface.f90
+Registrations.f90 = Registrations.f90
                                                
 [APSBuild]
 binary = ..\lib\millet.dll

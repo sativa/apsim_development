@@ -102,72 +102,47 @@ void GenerateComponentInterface(const string& interfaceFileName)
       {
       AMF->filename = macrofile;
 
+      // get all macros that we're going to add values to.
+      Macro* moduleMacro = AMF->getMacro("module");
+      Macro* subevent = AMF->getMacro("subevent");
+      Macro* pubevent = AMF->getMacro("pubevent");
+      Macro* submethod = AMF->getMacro("submethod");
+      Macro* pubmethod = AMF->getMacro("pubmethod");
+
       // set the module name as an attribute of the module macro.
       string moduleName = Path(interfaceFileName).Get_name_without_ext();
-      Macro* moduleMacro = AMF->getMacro("module");
       moduleMacro->setAttribute("moduleName", moduleName);
 
-      vector<string> temp;
-
-      // Set Subscribed Event Macro Values
-      GetSubscribedEvents(component, temp);
-      Macro* subMacro = AMF->getMacro("subevent");
-      if (subMacro == NULL)
-         throw string("Cannot find a 'subevent' macro.");
-      for (vector<string>::iterator nameI = temp.begin();
-                                    nameI != temp.end();
-                                    nameI++)
+      // Loop through all registrations and create a macro value for each.
+      for (ApsimComponentData::RegIterator reg = component->regBegin();
+                                           reg != component->regEnd();
+                                           ++reg)
          {
-         To_lower(*nameI);
-         MacroValue macroValue;
-         macroValue.addAttribute("name", *nameI);
-         subMacro->addValue(macroValue);
-         }
+         string name = reg->getName();
+         To_lower(name);
+         try
+            {
+            ApsimDataTypeData dataType = component->getDataType(reg->getDataTypeName());
+            string type = dataType.getName();
+            if (!dataType.isStructure())
+               type = "null";
+            MacroValue macroValue;
+            macroValue.addAttribute("name", name);
+            macroValue.addAttribute("kind", type);
 
-      // Set Published Event Macro Values
-      temp.clear();
-      GetPublishedEvents(component, temp);
-      Macro* pubevent = AMF->getMacro("pubevent");
-      if (pubevent == NULL)
-         throw string("Cannot find a 'pubevent' macro.");
-      for (vector<string>::iterator nameI = temp.begin();
-                                    nameI != temp.end();
-                                    nameI++)
-         {
-         To_lower(*nameI);
-         MacroValue macroValue;
-         macroValue.addAttribute("name", *nameI);
-         pubevent->addValue(macroValue);
-         }
+            if (reg->isOfType("event"))
+               pubevent->addValue(macroValue);
+            else if (reg->isOfType("respondToEvent"))
+               subevent->addValue(macroValue);
+            else if (reg->isOfType("methodCall"))
+               pubmethod->addValue(macroValue);
+            else if (reg->isOfType("respondToMethodCall"))
+               submethod->addValue(macroValue);
+            }
+         catch (...)
+            {
 
-      // Set Subscribed Method Macro Values
-      temp.clear();
-      GetSubscribedMethods(component, temp);
-      Macro* submethod = AMF->getMacro("submethod");
-      if (submethod == NULL)
-         throw string("Cannot find a 'submethod' macro.");
-      for (vector<string>::iterator nameI = temp.begin();
-                                    nameI != temp.end();
-                                    nameI++)
-         {
-         MacroValue macroValue;
-         macroValue.addAttribute("name", *nameI);
-         submethod->addValue(macroValue);
-         }
-
-      // Set Published Method Macro Values
-      temp.clear();
-      GetPublishedMethods(component, temp);
-      Macro* pubmethod = AMF->getMacro("pubmethod");
-      if (pubmethod == NULL)
-         throw string("Cannot find a 'pubmethod' macro.");
-      for (vector<string>::iterator nameI = temp.begin();
-                                    nameI != temp.end();
-                                    nameI++)
-         {
-         MacroValue macroValue;
-         macroValue.addAttribute("name", *nameI);
-         pubmethod->addValue(macroValue);
+            }
          }
 
       //  All done - so now write out the output files

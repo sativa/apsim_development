@@ -1,4 +1,5 @@
-      module IrrigateModule
+      module IrrigateModule 
+      use Registrations
 !     ================================================================
 !     Irrigate array sizes and constants
 !     ================================================================
@@ -86,7 +87,7 @@
       save InstancePointers
       type (IrrigateGlobals),pointer :: g
       type (IrrigateParameters),pointer :: p
-
+      type (IDsType),pointer :: id
 
 
       contains
@@ -1282,10 +1283,13 @@ c    Check whether to apply default solute concentrations
 
 
 *     ===========================================================
-      subroutine irrigate_ONtick ()
+      subroutine irrigate_ONtick (variant)
 *     ===========================================================
       Use infrastructure
-      implicit none
+      implicit none                      
+      
+      integer, intent(in) :: variant
+     
 
 *+  Purpose
 *     Update internal time record and reset daily state variables.
@@ -1297,8 +1301,7 @@ c    Check whether to apply default solute concentrations
 *     NIH 250899
 
 *+  Local Variables
-      character temp1*5
-      integer   temp2
+      type(timeType) :: tick
 
 *+  Constant Values
       character*(*) my_name            ! name of current procedure
@@ -1310,7 +1313,8 @@ c    Check whether to apply default solute concentrations
       ! Note that time and timestep information is not required
       ! and so dummy variables are used in their place.
 
-      call handler_ONtick(g%day, g%year, temp1, temp2)
+      call unpack_time(variant, tick)                                                 
+      call jday_to_day_of_year(dble(tick%startday), g%day, g%year)
 
       g%irrigation_applied = 0.0
       g%irrigation_tot = 0.0
@@ -1780,9 +1784,11 @@ cnh note that results may be strange if swdep < ll15
       if (doAllocate) then
          allocate(g)
          allocate(p)
+         allocate(id)
       else
          deallocate(g)
          deallocate(p)
+         deallocate(id)
       end if
       return
       end subroutine
@@ -1830,8 +1836,8 @@ cnh note that results may be strange if swdep < ll15
          call irrigate_zero_variables ()
          call irrigate_Init ()
 
-      else if (Action.eq.EVENT_tick) then
-         call irrigate_ONtick()
+      else if (Action.eq.ACTION_Create) then
+         call doRegistrations(id)
 
       else if (Action.eq.ACTION_Process) then
          call irrigate_get_other_variables ()
@@ -1856,3 +1862,21 @@ cnh note that results may be strange if swdep < ll15
       call pop_routine (my_name)
       return
       end subroutine
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      Use infrastructure 
+      Use IrrigateModule
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+                        
+      if (eventID .eq. id%tick) then
+         call irrigate_ONtick(variant)
+      endif                  
+      return
+      end subroutine respondToEvent

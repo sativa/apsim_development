@@ -1,4 +1,5 @@
       module SoilTempModule
+      use Registrations
 ! ====================================================================
 !     soilTemp constants
 ! ====================================================================
@@ -101,6 +102,7 @@
       type (SoilTempParameters),pointer :: p
       type (SoilTempConstants),pointer :: c
       type (SoilTempExternals),pointer :: e
+      type (IDsType), pointer :: id
 
       contains
 
@@ -1307,11 +1309,13 @@
          allocate(p)
          allocate(c)
          allocate(e)
+         allocate(id)
       else
          deallocate(g)
          deallocate(p)
          deallocate(c)
          deallocate(e)
+         deallocate(id)
       end if
       return
       end subroutine
@@ -1377,6 +1381,7 @@
                ! clean up at end of run
 !         call soiltemp_end_run ()
       elseif (Action.eq.ACTION_Create) then
+         call doRegistrations(id)
          call soilTemp_zero_all_globals ()
 
       else
@@ -1390,3 +1395,17 @@
       end subroutine
 
 
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      Use infrastructure
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+      
+      return
+      end subroutine respondToEvent

@@ -9,6 +9,7 @@ module Infrastructure
    use ComponentInterfaceModule
    use ConvertModule
    use ReadModule
-   Use EventModule          
+   use DataTypes
+   use DataTypesInterface         
 end module Infrastructure
                                               

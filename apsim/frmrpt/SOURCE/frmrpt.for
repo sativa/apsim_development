@@ -1,5 +1,6 @@
       module FrmrptModule
-
+      use Registrations
+      
 !   Constant values
       integer max_vars, varname_len_max
       integer max_elems
@@ -53,6 +54,7 @@
       save InstancePointers
       type (FrmrptGlobals),pointer :: g
       type (FrmrptParameters),pointer :: p
+      type (IDsType), pointer :: id
 
 
       contains
@@ -1183,9 +1185,11 @@
       if (doAllocate) then
          allocate(g)
          allocate(p)
+         allocate(id)
       else
          deallocate(g)
          deallocate(p)
+         deallocate(id)
       end if
       return
       end subroutine
@@ -1218,6 +1222,9 @@
          call frmrpt_read_param()
          call frmrpt_init()
 
+      else if (Action.eq.ACTION_Create) then
+         call doRegistrations(id)
+
       else if (Action.eq.ACTION_Process) then
          call frmrpt_update_sumvars()
          call frmrpt_report_counts()
@@ -1238,4 +1245,18 @@
 
       return
       end subroutine
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      Use infrastructure
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+      
+      return
+      end subroutine respondToEvent
 

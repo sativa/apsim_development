@@ -1,5 +1,6 @@
       module TreeModule
       use Infrastructure
+      use Registrations
 
 *      tree_array_sizes
 
@@ -110,6 +111,7 @@
       type (TreeGlobals),pointer :: g
       type (TreeParameters),pointer :: p
       type (TreeConstants),pointer :: c
+      type (IDsType), pointer :: id
 
       contains
 
@@ -1427,10 +1429,12 @@ c      not have the same meaning.....
          allocate(g)
          allocate(p)
          allocate(c)
+         allocate(id)
       else
          deallocate(g)
          deallocate(p)
          deallocate(c)
+         deallocate(id)
       end if
       return
       end subroutine
@@ -1496,6 +1500,9 @@ c      not have the same meaning.....
             ! Get constants
          call tree_init ()
 
+      else if (Action.eq.ACTION_Create) then
+         call doRegistrations(id)
+
       elseif (action.eq.ACTION_Set_variable) then
                                 ! respond to request to reset
                                 ! variable values - from modules
@@ -1529,4 +1536,18 @@ c      not have the same meaning.....
       return
       end subroutine
 
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      Use infrastructure
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+      
+      return
+      end subroutine respondToEvent
       

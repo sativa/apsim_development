@@ -1,5 +1,5 @@
       module FertilizModule
-
+      use Registrations
 !     ================================================================
 !     Fertiliz_array_sizes and constants
 !     ================================================================
@@ -65,6 +65,7 @@
       save InstancePointers
       type (FertilizGlobals),pointer :: g
       type (FertilizParameters),pointer :: p
+      type (IDsType),pointer :: id
 
 
       contains
@@ -665,10 +666,13 @@ c     include 'fertiliz.inc'
 
 
 *     ===========================================================
-      subroutine fertiliz_ONtick ()
+      subroutine fertiliz_ONtick (variant)
 *     ===========================================================
       Use infrastructure
       implicit none
+      
+      integer, intent(in) :: variant
+      
 c     include   'fertiliz.inc'
 
 *+  Purpose
@@ -685,6 +689,7 @@ c     include   'fertiliz.inc'
 *+  Local Variables
       character temp1*5
       integer   temp2
+      type(timeType) :: tick
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -693,10 +698,8 @@ c     include   'fertiliz.inc'
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      ! Note that time and timestep information is not required
-      ! and so dummy variables are used in their place.
-
-      call handler_ONtick(g%day, g%year, temp1, temp2)
+      call unpack_time(variant, tick)                                                 
+      call jday_to_day_of_year(dble(tick%startday), g%day, g%year)
 
       g%fert_applied = 0.0
 
@@ -818,9 +821,11 @@ c     include   'fertiliz.inc'
       if (doAllocate) then
          allocate(g)
          allocate(p)
+         allocate(id)
       else
          deallocate(g)
          deallocate(p)
+         deallocate(id)
       end if
       return
       end subroutine
@@ -869,15 +874,12 @@ C      call set_warning_off ()
          call fertiliz_Send_my_variable (Data_string)
 
       else if (Action.eq.ACTION_Create) then
-
+         call doRegistrations(id)
          call fertiliz_zero_variables ()
 
       else if (Action.eq.ACTION_Init) then
 
          call fertiliz_Init ()
-
-      else if (Action.eq.EVENT_tick) then
-         call fertiliz_ONtick()
 
       else if (Action.eq.ACTION_Process) then
 
@@ -906,3 +908,22 @@ C      call set_warning_off ()
       end subroutine
 
 
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      Use infrastructure
+      Use FertilizModule
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+
+      if (eventID .eq. id%tick) then
+         call fertiliz_ONtick(variant)
+      endif
+            
+      return
+      end subroutine respondToEvent

@@ -1,6 +1,6 @@
 
       module MilletModule
-
+      Use Registrations
       Use CropLibrary
 
 !      millet_array_sizes
@@ -629,6 +629,7 @@
       type (MilletGlobals),pointer :: g
       type (MilletParameters),pointer :: p
       type (MilletConstants),pointer :: c
+      type (IDsType), pointer :: id
 
       contains
 
@@ -2610,10 +2611,13 @@ cgd   Eriks modifications for Leaf Area
       end subroutine
 *     ===========================================================
       Recursive
-     :subroutine millet_ONtick ()
+     :subroutine millet_ONtick (variant)
 *     ===========================================================
       Use infrastructure
-      implicit none
+      implicit none           
+      
+      integer, intent(in) :: variant
+      
 
 *+  Purpose
 *     Update internal time record and reset daily state variables.
@@ -2625,8 +2629,7 @@ cgd   Eriks modifications for Leaf Area
 *        260899 nih
 
 *+  Local Variables
-!      character temp1*5
-!      integer   temp2
+      type(timeType) :: tick
       integer    numvals               ! number of values found in array
 
 *+  Constant Values
@@ -2636,34 +2639,22 @@ cgd   Eriks modifications for Leaf Area
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      ! Note that time and timestep information is not required
-      ! and so dummy variables are used in their place.
-
-!      call handler_ONtick(g%day_of_year, g%year, temp1, temp2)
-
-      call collect_integer_var (DATA_day
-     :                      ,'()'
-     :                      ,g%day_of_year
-     :                      ,numvals
-     :                      ,1
-     :                      ,366)
-
-      call collect_integer_var (DATA_year
-     :                      ,'()'
-     :                      ,g%year
-     :                      ,numvals
-     :                      ,min_year
-     :                      ,max_year)
+      call unpack_time(variant, tick)                                                 
+      call jday_to_day_of_year(dble(tick%startday), g%day_of_year, 
+     .                         g%year)
 
       call pop_routine (myname)
       return
       end subroutine
 *     ===========================================================
       Recursive
-     :subroutine millet_ONnewmet ()
+     :subroutine millet_ONnewmet (variant)
 *     ===========================================================
       Use infrastructure
       implicit none
+      
+      integer, intent(in) :: variant
+      
 *+  Purpose
 *     Get new met data
 
@@ -2675,8 +2666,7 @@ cgd   Eriks modifications for Leaf Area
 *        111099 jngh removed unused variables
 
 *+  Local Variables
-!      real   temp1
-!      real   temp2
+      type(newmetType) :: newmet
       integer    numvals               ! number of values found in array
 
 *+  Constant Values
@@ -2686,38 +2676,14 @@ cgd   Eriks modifications for Leaf Area
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      ! Note that rain and vp are not needed
-      ! and so dummy variables are used in their place.
-
-!c      call handler_ONnewmet(g%solrad, g%tempmx, g%tempmn, temp1, temp2)
-
-      call collect_real_var (DATA_radn
-     :                      ,'(MJ)'
-     :                      ,g%radn
-     :                      ,numvals
-     :                      ,c%radn_lb
-     :                      ,c%radn_ub)
-
-      call collect_real_var (DATA_maxt
-     :                      ,'(oC)'
-     :                      ,g%maxt
-     :                      ,numvals
-     :                      ,c%maxt_lb
-     :                      ,c%maxt_ub)
-
-      call collect_real_var (DATA_mint
-     :                      ,'(oC)'
-     :                      ,g%mint
-     :                      ,numvals
-     :                      ,c%mint_lb
-     :                      ,min(c%mint_ub, g%maxt))
-
+      call unpack_newmet(variant, newmet)
+      g%radn = newmet%radn
+      g%maxt = newmet%maxt
+      g%mint = newmet%mint
 
       call pop_routine (myname)
       return
       end subroutine
-
-
 
 
 *     ================================================================
@@ -5136,10 +5102,12 @@ cpsc
          allocate(g)
          allocate(p)
          allocate(c)
+         allocate(id)
       else
          deallocate(g)
          deallocate(p)
          deallocate(c)
+         deallocate(id)
       end if
       return
       end subroutine
@@ -5196,12 +5164,6 @@ cpsc
       elseif (action.eq.ACTION_set_variable) then
             ! respond to request to reset variable values - from modules
          call millet_set_my_variable (data_string)
-
-      else if (Action .eq. Event_tick) then
-         call millet_Ontick()
-
-      else if (Action .eq. Event_newmet) then
-         call millet_Onnewmet()
 
       elseif (action.eq.ACTION_prepare) then
          if (g%plant_status.ne.status_out) then
@@ -5311,6 +5273,7 @@ cpsc
          endif
 
       elseif (Action.eq.ACTION_Create) then
+         call doRegistrations(id)
          call Millet_zero_all_globals ()
 
 cjh special for erik - start
@@ -5332,3 +5295,24 @@ cjh special for erik - end
       call pop_routine (my_name)
       return
       end subroutine
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      use MilletModule
+      Use infrastructure
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+
+      if (eventID .eq. id%tick) then
+         call millet_ONtick(variant)
+      else if (eventID .eq. id%newmet) then
+         call millet_ONnewmet(variant)
+      endif
+      return
+      end subroutine respondToEvent
+                                   
