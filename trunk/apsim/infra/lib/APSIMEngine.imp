@@ -7,4 +7,5 @@
 -import    ApsimComponentData_getNumRuleLines
 -import    ApsimComponentData_getRuleLine
 -import    ApsimComponentData_getRuleCondition
-                      
+-implib  "test.dll"
+-import    test                      
