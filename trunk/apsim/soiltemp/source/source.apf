@@ -2,9 +2,9 @@
 Dependency = %licensed_source(soiltemp)
 
 [Contents]
-ComponentInterface.for = ComponentInterface.for
+ComponentInterface.f90 = ComponentInterface.f90
 soiltemp.for = soiltemp.for
 
 [APSBuild]
 binary = ..\lib\soiltemp.dll
-moduletype=module
+compilerfile=release.compile

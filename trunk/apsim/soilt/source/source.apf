@@ -2,9 +2,9 @@
 Dependency = %licensed_source(soilt)
 
 [Contents]
-ComponentInterface.for = ComponentInterface.for
+ComponentInterface.f90 = ComponentInterface.f90
 soilt.for = soilt.for
 
 [APSBuild]
 binary = ..\lib\soilt.dll
-moduletype=module
+compilerfile=release.compile

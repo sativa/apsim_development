@@ -2,10 +2,9 @@
 Dependency = %licensed_source(solute)
 
 [Contents]
-ComponentInterface.for = ComponentInterface.for
-datatypesmodule.f90=datatypesmodule.f90
+ComponentInterface.f90 = ComponentInterface.f90
 solute.for = solute.for
 
 [APSBuild]
 binary = ..\lib\solute.dll
-;compilerfile=debug.compile
+compilerfile=release.compile

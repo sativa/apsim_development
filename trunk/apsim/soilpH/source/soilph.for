@@ -205,7 +205,7 @@
       parameter (max_actions = 10)
 
       integer    module_name_size         ! maximum length of module name
-      parameter (module_name_size = 8)
+      parameter (module_name_size = 20)
 
       integer    crop_type_size           ! max length of the crop type.
       parameter (crop_type_size = 50)
@@ -1700,7 +1700,7 @@
       parameter (my_name = 'SoilpH_get_crop_uptakes')
 
 *+  Local Variables
-      character  crop_module(max_crops)*(module_name_size)    ! list of modules
+      integer    crop_module(max_crops)      ! list of module IDs
       integer    num_crops                   ! How many crops do we know about.
       integer    index_crop                  ! Loop counter to keep track of which crop.
       integer    numvals                     ! Was there a variable.
@@ -1721,7 +1721,7 @@
      :                     ,  numvals)
          if (numvals.eq.1 .and. num_crops.lt.max_crops)  then
             num_crops = num_crops + 1
-            call get_posting_module (crop_module(num_crops))
+            crop_module(num_crops) = get_posting_module ()
             goto 110
          else
          endif
@@ -1793,7 +1793,7 @@
       implicit none
 
 *+  Sub-Program Arguments
-      character  crop_module*(module_name_size) ! (INPUT) name of crop module
+      integer    crop_module                    ! (INPUT) name of crop module
       real       crop_ash_alk_wt                ! (INPUT) ash alkalinity weight (Mol/ha)
       real       Ca_uptake_equiv(max_layer)     ! (OUTPUT) H+ uptake equivalents of Ca (mol/ha)
       real       Mg_uptake_equiv(max_layer)     ! (OUTPUT) H+ uptake equivalents of Mg (mol/ha)
@@ -1836,6 +1836,8 @@
       real       dlt_P_uptake_equiv(max_layer)
       real       dlt_S_uptake_equiv(max_layer)
       real       dlt_Cl_uptake_equiv(max_layer)
+      character  module_name*(module_name_size)
+      logical    ok
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -1889,9 +1891,10 @@
 1500           continue
 
                else
+                  ok = component_id_to_name(crop_module, module_name)
                   call fatal_error (err_internal
      :                  , ' Cannot get RLV or ROOT_DEPTH from '
-     :                  //trim(crop_module))
+     :                  //trim(module_name))
                endif
             endif
 
@@ -2961,7 +2964,7 @@
       character string*(400)
       real      ash_alk_rate                   ! ash alkalinity of drymatter type (mol/kg)
       real      dlt_crop_ash_alk_wt            ! ash alkalinity weight of drymatter (mol/ha)
-      character crop_module*(module_name_size) ! posting module - crop name
+      integer   crop_module                    ! posting module - crop name
       integer   type
       integer   num_types
 
@@ -2998,10 +3001,12 @@
          !    Calculate ash alkalinity
          ! ----------------------------------------------------------
 
-      call collect_char_var (DATA_sender
+      call collect_integer_var ('sender_id'
      :                     , '()'
      :                     , crop_module
-     :                     , numvals)
+     :                     , numvals
+     :                     , 0
+     :                     , 1000000)
 
       do 1000 type = 1, num_types
          if (dlt_crop_dm(type) .gt. 0.0) then
@@ -4900,6 +4905,7 @@
       subroutine main (action, data_string)
 *     ===========================================================
       Use infrastructure
+      Use SoilpHModule
       implicit none
       ml_external Main
 
