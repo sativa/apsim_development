@@ -281,8 +281,8 @@ endif
 
 !-------1993 fallow-------
 !tillage
- 90 1993 residue2 tillage type = burn_95 ()
-105 1993 residue2 tillage type = chisel ()
+ 90 1993 surfaceom tillage type = burn_95 ()
+105 1993 surfaceom tillage type = chisel ()
 
 !------1993 wheat-------
 !wheat sown and DAP (17 kg N/ha, 25 kg P/ha) applied on 6/6/93
@@ -294,8 +294,8 @@ endif
 
 !-------1994 fallow-------
 !tillage: stubble burnt 13/4/94, assumed tilled not long after
-103 1994 residue2 tillage type = burn_95
-118 1994 residue2 tillage type = chisel ()
+103 1994 surfaceom tillage type = burn_95
+118 1994 surfaceom tillage type = chisel ()
 
 !-------1994 lucerne-------
 !lucerne sown on 10/6/94 (plant density 10/m2, after 1/12 5/m2)
@@ -311,7 +311,7 @@ endif
  32 1995 lucerne harvest height = 50 (mm), remove = 0.95, plants = 25
 120 1995 lucerne harvest
 120 1995 lucerne end_crop
- !120 1995 residue2 tillage type = chisel ()
+ !120 1995 surfaceom tillage type = chisel ()
 
 !-------1995-97 lucerne-------
 !lucerne direct drilled on 3/6/95 (plant density 30 until 1/12/96, then 15 until 1/12/97, then 10/m2)
@@ -338,7 +338,7 @@ endif
 288 1997 lucerne harvest height = 50 (mm), remove = 0.95, plants = 100
  54 1998 lucerne harvest
  54 1998 lucerne end_crop
- 56 1998 residue2 tillage type = graze ()
+ 56 1998 surfaceom tillage type = graze ()
 !need to add N to compensate for residueN loss
 
 !-------1998 canola-------
@@ -363,8 +363,8 @@ endif
 
 !-------2000 fallow------
 !tillage - temporary assumptions due to lack of info
- 90 2000 residue2 tillage type = burn_95
-105 2000 residue2 tillage type = chisel ()
+ 90 2000 surfaceom tillage type = burn_95
+105 2000 surfaceom tillage type = chisel ()
 
 !-------2000 lupin-------
 !lupins on lysimeter sown on 11/5/00, days prior in field
@@ -727,7 +727,7 @@ kl        =     0.16    0.16    0.16    0.16    0.16    0.16    0.16    0.16    
 xf        =        1       1       1     0.9     0.9    0.75    0.75     0.5     0.5    0.35    0.35    0.15    0.05       0       0       0       0       0       0       0
 ll        =    0.112   0.112   0.163   0.163   0.163   0.166   0.182   0.214   0.261   0.267   0.261   0.284   0.284   0.267   0.284   0.267   0.276   0.284   0.284   0.284
 
-!******************** Residue2 module ********************
+!******************** surfaceom module ********************
 [all.SurfaceOM.parameters]
 mass = 11000.
 cnr = 70.
