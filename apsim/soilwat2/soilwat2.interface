@@ -12,10 +12,6 @@
       <read name="mobile_solutes" type="mobile_solutes" />
       <read name="immobile_solutes" type="immobile_solutes" />
       <read name="act_evap_method" type="act_evap_method" />
-      <read name="chisel" type="chisel" />
-      <read name="disc" type="disc" />
-      <read name="planter" type="planter" />
-      <read name="burn" type="burn" />
 
       <read name="cona" type="cona" />
       <read name="u" type="u" />
@@ -47,10 +43,14 @@
       <respondToGetReg name="flow_water" type="flow_water"/>
       <respondToGetReg name="flux" type="flux"/>
       <respondToGetReg name="infiltration" type="infiltration"/>
+      <respondToGetReg name="water_table" type="water_table"/>
+      <respondToGetReg name="sws" type="sws"/>
       <respondToGetReg name="solute_n_flow" type="solute_n_flow" autoregister="F"/>
       <respondToGetReg name="solute_n_leach" type="solute_n_leach" autoregister="F"/>
       <respondToGetReg name="solute_n_up" type="solute_n_up" autoregister="F"/>
 
+      <respondToGetSetReg name="sw" type="sw" />
+      <respondToGetSetReg name="sw_dep" type="sw_dep"/>
       <respondToGetSetReg name="air_dry" type="air_dry" />
       <respondToGetSetReg name="air_dry_dep" type="air_dry_dep"/>
       <respondToGetSetReg name="dlayer" type="dlayer" />
@@ -67,8 +67,6 @@
       <respondToSetReg name="insoil" type="insoil" />
       <respondToSetReg name="dlt_dlayer" type="dlt_dlayer"/>
       <respondToSetReg name="profile_fesw" type="profile_fesw" />
-      <respondToSetReg name="sw" type="sw" />
-      <respondToSetReg name="sw_dep" type="sw_dep"/>
       <respondToSetReg name="wet_soil_depth" type="wet_soil_depth" />
       <respondToSetReg name="cona" type="cona"/>
       <respondToSetReg name="u" type="u"/>
