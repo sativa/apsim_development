@@ -429,6 +429,29 @@ void StringContainerToDoubleContainer (container1& StringContainer,
                              i++)
       DoubleContainer.push_back ( atof( (*i).c_str() ));
    }
+
+// ------------------------------------------------------------------
+//  Short description:
+//    convert a container of strings to a container of doubles.
+
+//  Notes:
+//    eg.  if Value = 369 and Nearest = 200 Rounds down to 200 Rounds up to 400
+
+//  Changes:
+//    DPH 6/8/98
+
+// ------------------------------------------------------------------
+template <class container1, class container2>
+void StringContainerToIntegerContainer (container1& StringContainer,
+                                        container2& IntegerContainer)
+   {
+   IntegerContainer.erase(IntegerContainer.begin(), IntegerContainer.end());
+   for (container1::iterator i = StringContainer.begin();
+                             i != StringContainer.end();
+                             i++)
+      IntegerContainer.push_back ( atoi( (*i).c_str() ));
+   }
+
 // ------------------------------------------------------------------
 //  Short description:
 //    convert a container of doubles to a container of strings.
