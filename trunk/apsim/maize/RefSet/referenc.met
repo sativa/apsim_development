@@ -1,7 +1,7 @@
-[reference.met.weather]  
+[reference.met.weather]
 ! [photoperiod.latitude] Single value of latitude will suffice
 !                        with photoperiod varying with day of year
-latitude =  -28.   
+latitude =  -28.
 
 rain =  0.0   ! rainfall is turned off - use irrigation to control water stress
 
@@ -9,6 +9,11 @@ rain =  0.0   ! rainfall is turned off - use irrigation to control water stress
 ! [temperature.mint]  are tested simply by using
 ! [radiation.radn]    the variation in this file
 ! [photoperiod.day]   Day length to vary with day of year
+
+
+   ! TAV and AMP inserted by "tav_amp" on 28/10/1999 at 16:31 for period from   1/1993 to 365/1994 (ddd/yyyy)
+ tav =  20.53 (oC)     ! annual average ambient temperature
+ amp =  11.82 (oC)     ! annual amplitude in mean monthly temperature
 
   year  day   radn  maxt  mint  dummy
   ()    ()    (MJ)  (oC)  (oC)  (mm)
