@@ -4,6 +4,7 @@
       implicit none
       dll_export apsim_irrigate
       include   'const.inc'            ! Global constant definitions
+      include   'event.inc'
       include   'irrigate.inc'         ! irrigate common block
       include 'engine.pub'
       include 'error.pub'
@@ -55,6 +56,9 @@
  
       else if (Action .eq. MES_Set_variable) then
          call irrigate_set_my_variable (Data_String)
+
+      else if (Action .eq. EVENT_new_solute) then
+         call irrigate_on_new_solute ()
  
       else
             ! Don't use message
@@ -163,16 +167,14 @@
       ! ----------------------------------------------
       do 100 solnum = 1, g_num_solutes
          Call collect_real_var_optional (
-     :                       p_solutes(solnum)
+     :                       g_solute_names(solnum)
      :                     , '(kg/ha)'
      :                     , solute(solnum)
      :                     , numvals_solute(solnum)
      :                     , 0.0
      :                     , 1000.0)
- 
+
   100 continue
- 
- 
  
       call new_postbox ()
  
@@ -192,7 +194,7 @@
  
       do 200 solnum = 1, g_num_solutes
          if (numvals_solute(solnum) .ne.0) then
-            call post_real_var   (p_solutes(solnum)
+            call post_real_var   (g_solute_names(solnum)
      :                           ,'(kg/ha)'
      :                           , solute(solnum))
          else
@@ -335,16 +337,6 @@
       string = '     -----------------------------------------------'
       call write_string (lu_scr_sum, string)
  
-      call write_string(LU_Scr_Sum,
-     : 'The following solutes can be added with irrigation water')
-      do 200 counter=1,max_solutes
-         if(p_solutes(counter).ne.' ') then
-            call write_string(LU_Scr_Sum,
-     :                  '     '//p_solutes(counter))
-         else
-         endif
-  200 continue
- 
       call pop_routine (my_name)
       return
       end
@@ -379,27 +371,13 @@
       parameter (section_name = 'parameters')
  
 *+  Local Variables
-      integer    counter
       integer    numvals               ! number of values read from file
-      integer    solnum
-      real       temp_solute(max_irrigs)! temp solute array (kg/ha)
  
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
       call write_string (lu_scr_sum
      :                 ,new_line//'   - Reading Parameters')
- 
-      ! Read in the list of solutes that are allowed in irrigation
-      ! water.
- 
-      call read_char_array_optional (
-     :           section_name         ! Section header
-     :         , 'solutes'            ! Keyword
-     :         , max_solutes          ! array size
-     :         , '(nnnn)'             ! Units
-     :         , p_solutes            ! Array
-     :         , g_num_solutes)       ! Number of values returned
  
  
          ! Read in irrigation schedule from parameter file
@@ -478,20 +456,6 @@
       else
       endif
  
-      do 100 solnum = 1, g_num_solutes
-         call read_real_array_optional (
-     :           section_name         ! Section header
-     :         , p_solutes(solnum)    ! Keyword
-     :         , max_irrigs           ! array size
-     :         , '(kg/ha)'            ! Units
-     :         , temp_solute          ! Variable
-     :         , numvals              ! Number of values returned
-     :         , 0.0                  ! Lower Limit for bound checking
-     :         , 1000.)               ! Upper Limit for bound checking
-            do 50 counter=1, numvals
-               g_irrigation_solutes(solnum,counter) =
-     :                                   temp_solute(counter)
-   50       continue
  
   100 continue
  
@@ -635,7 +599,10 @@
       call fill_real_array  (p_amount, 0.0, max_irrigs)
       call fill_real_array  (p_duration, 0.0, max_irrigs)
       call fill_char_array (p_time, ' ', max_irrigs)
-      call fill_char_array (p_solutes, ' ', max_solutes)
+
+      call fill_char_array (g_solute_names, ' ', max_solutes)
+      call fill_char_array (g_solute_owners, ' ', max_solutes)
+      g_num_solutes = 0
  
       do 200 solnum=1,max_solutes
          do 100 counter=1, max_irrigs
@@ -1123,7 +1090,7 @@
      :                              , mytime)
  
                do 200 solnum = 1, g_num_solutes
-                     call post_real_var (p_solutes(solnum)
+                     call post_real_var (g_solute_names(solnum)
      :                    ,'(kg/ha)'
      :                    , g_irrigation_solutes(solnum, irigno))
 200            continue
@@ -1520,4 +1487,90 @@ cnh note that results may be strange if swdep < ll15
       return
       end
  
+ 
+*     ===========================================================
+      subroutine irrigate_on_new_solute ()
+*     ===========================================================
+      implicit none
+      include 'const.inc' 
+      include 'event.inc'
+      include 'irrigate.inc'
+      include 'error.pub'
+      include 'read.pub'
+      include 'intrface.pub'
+ 
+*+  Purpose
+*     Add new solute to internal list of system solutes
+ 
+*+  Mission Statement
+*      Add new solute information to list of system solutes
+ 
+*+  Changes
+*       170599 nih - specified
+ 
+*+  Constant Values
+      character  my_name*(*)           ! this subroutine name
+      parameter (my_name = 'irrigate_on_new_solute')
+
+      character  section_name*(*)
+      parameter (section_name = 'parameters')
+ 
+*+  Local Variables
+      integer numvals
+      integer num_irrigs
+      character names(max_solutes)*32
+      character sender*(max_module_name_size)
+      integer counter1
+      integer counter2
+      real       temp_solute(max_irrigs)! temp solute array (kg/ha)
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+
+      call collect_char_var (DATA_sender
+     :                      ,'()'
+     :                      ,sender
+     :                      ,numvals)
+
+      call collect_char_array (DATA_new_solute_names
+     :                        ,max_solutes
+     :                        ,'()'
+     :                        ,names
+     :                        ,numvals)
+
+      if (g_num_solutes+numvals.gt.max_solutes) then
+         call fatal_error (ERR_Internal
+     :                    ,'Too many solutes for Soilwat2')
+      else
+
+         do 100 counter1 = 1, numvals
+
+            g_num_solutes = g_num_solutes + 1
+            g_solute_names(g_num_solutes) = names(counter1)
+            g_solute_owners(g_num_solutes) = sender
+
+            call read_real_array_optional (
+     :              section_name         ! Section header
+     :            , g_solute_names(g_num_solutes) ! Keyword
+     :            , max_irrigs           ! array size
+     :            , '(kg/ha)'            ! Units
+     :            , temp_solute          ! Variable
+     :            , num_irrigs           ! Number of values returned
+     :            , 0.0                  ! Lower Limit for bound checking
+     :            , 1000.)               ! Upper Limit for bound checking
+
+               do 50 counter2=1, num_irrigs
+                  g_irrigation_solutes(g_num_solutes,counter2) =
+     :                                   temp_solute(counter2)
+
+   50          continue
+
+
+  100    continue
+      endif
+
+      call pop_routine (my_name)
+      return
+      end
  
