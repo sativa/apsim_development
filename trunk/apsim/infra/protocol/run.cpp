@@ -55,7 +55,7 @@ void PROTOCOLRun::setConfiguration(ISimulationConfiguration* config)
 string PROTOCOLRun::getName(void)
    {
    if (simConfiguration != NULL)
-      return simConfiguration->getName();
+      return simConfiguration->getSimulationName();
    else
       return "";
    }
