@@ -49,7 +49,7 @@ class Coordinator : public protocol::Component
       virtual void onQueryInfoMessage(unsigned int fromID, unsigned int messageID, protocol::QueryInfoData& queryInfo);
       virtual void onRequestSetValueMessage(unsigned int fromID, protocol::RequestSetValueData& setValueData);
       virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
-      virtual void onApsimChangeOrderData(protocol::ApsimChangeOrderData& apsimChangeOrderData);
+      virtual void onApsimChangeOrderData(protocol::MessageData& messageData);
 
       void addComponent(const std::string& name,
                         const std::string& executable,

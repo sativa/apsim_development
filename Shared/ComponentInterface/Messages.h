@@ -555,16 +555,6 @@ inline Message* newApsimSetQueryMessage(unsigned int from,
    return msg;
    }
 // -------------- ApsimChangeOrder -------------
-struct ApsimChangeOrderData
-   {
-   FStrings componentNames;
-   };
-inline MessageData& operator>> (MessageData& messageData, ApsimChangeOrderData& data)
-   {
-   messageData >> data.componentNames;
-   return messageData;
-   }
-
 inline Message* newApsimChangeOrderMessage(unsigned int from,
                                            unsigned int to,
                                            const FStrings& names)
