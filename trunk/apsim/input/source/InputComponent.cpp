@@ -7,6 +7,7 @@
 #include <ComponentInterface\MessageDataExt.h>
 #include <ComponentInterface\ApsimVariant.h>
 #include <ComponentInterface\datatypes.h>
+#include <ApsimShared\fstringext.h>
 #include <general\string_functions.h>
 #include <general\stl_functions.h>
 #include <general\date_class.h>
@@ -21,11 +22,12 @@ using namespace boost::gregorian;
 
 static const char* dayLengthType =
    "<type name=\"daylength\" kind=\"single\" units=\"hours\"/>";
-
 static const char* startDateType =
    "<type name=\"startDate\" kind=\"integer4\" units=\"julian days\"/>";
 static const char* endDateType =
    "<type name=\"endDate\" kind=\"integer4\" units=\"julian days\"/>";
+static const char* hasDataTodayTypeDDML =
+   "<type name=\"hasDataToday\" kind=\"boolean\"/>";
 
 // ------------------------------------------------------------------
 // createComponent
@@ -59,10 +61,15 @@ void InputComponent::doInit1(const FString& sdml)
       {
       protocol::Component::doInit1(sdml);
 
+      static const char* getDataDDML = "<type kind=\"string\" array=\"T\"/>";
+
       // register a few things.
       tickID = addRegistration(protocol::respondToEventReg, "tick", timeTypeDDML);
       preNewmetID = addRegistration(protocol::eventReg, "preNewmet", newmetTypeDDML);
       newmetID = addRegistration(protocol::eventReg, "newmet", newmetTypeDDML);
+      hasDataTodayID = addRegistration(protocol::respondToGetReg, "hasDataToday", hasDataTodayTypeDDML);
+      getDataMethodID = addRegistration(protocol::respondToMethodCallReg, "getData", getDataDDML);
+
       iAmMet = (stricmp(name, "met") == 0);
       if (iAmMet)
          daylengthID = addRegistration(protocol::respondToGetReg, "day_length", dayLengthType);
@@ -193,6 +200,11 @@ void InputComponent::respondToGet(unsigned int& fromID, protocol::QueryValueData
       sendVariable(queryData, (int) endDate.julian_day());
       }
 
+   else if (queryData.ID == hasDataTodayID)
+      {
+      sendVariable(queryData, (todaysDate == fileDate));
+      }
+
    else
       variables[queryData.ID].sendVariable(queryData, (todaysDate == fileDate));
    }
@@ -223,6 +235,56 @@ void InputComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID,
          }
       else
          publishNewMetEvent();
+      }
+   }
+// ------------------------------------------------------------------
+// method call handler.
+// ------------------------------------------------------------------
+void InputComponent::respondToMethod(unsigned int& fromID, unsigned int& methodID, protocol::Variant& variant)
+   {
+   if (methodID == methodID)
+      {
+      data.first();
+      vector<protocol::newmetType> newmets;
+      vector<string> dataDates;
+      variant.unpack(dataDates);
+      for (unsigned i = 0; i != dataDates.size(); i++)
+         {
+         date dataDate(from_string(dataDates[i]));
+         data.gotoDate(dataDate);
+
+         protocol::newmetType newmet;
+         newmet.today = dataDate.julian_day();
+         newmet.maxt = getVariableValue("maxt");
+         newmet.mint = getVariableValue("mint");
+         newmet.radn = getVariableValue("radn");
+         newmet.rain = getVariableValue("rain");
+         newmet.vp = getVariableValue("vp");
+         newmets.push_back(newmet);
+         }
+
+
+      static const char* returnDataDDML =
+         "<type name=\"newmet\" array=\"T\">"
+         "   <field name=\"today\" kind=\"double\"/>"
+         "   <field name=\"radn\" kind=\"single\"/>"
+         "   <field name=\"maxt\" kind=\"single\"/>"
+         "   <field name=\"mint\" kind=\"single\"/>"
+         "   <field name=\"rain\" kind=\"single\"/>"
+         "   <field name=\"vp\" kind=\"single\"/>"
+         "</type>";
+      FString fromComponent;
+      componentIDToName(fromID, fromComponent);
+      string returnDataMethodCallString = asString(fromComponent);
+      returnDataMethodCallString += ".returnData";
+      unsigned returnDataMethodID = addRegistration(protocol::methodCallReg,
+                                                    returnDataMethodCallString.c_str(),
+                                                    returnDataDDML);
+      methodCall(returnDataMethodID, newmets);
+
+      // reposition the data file to todays date.
+      data.first();
+      data.gotoDate(todaysDate);
       }
    }
 // ------------------------------------------------------------------
