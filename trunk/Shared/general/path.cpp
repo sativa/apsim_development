@@ -19,7 +19,7 @@
 string Path::Get_drive(void)
    {
    return Drive;
-   }
+   }                                    
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -407,24 +407,33 @@ void Path::Append_directory (const char* Additional_directory)
       }
    Directory += Additional_directory;
    To_lower(Directory);
-   }
 
-// ------------------------------------------------------------------
-//  Short description:
-//    append the specified path (which could contain a file name) to
-//    our directory and file name.
+   // need to make sure path is an absolute one.
+   // get the current directory because we're going to change it.
+   char Saved_directory[500];
+   GetCurrentDirectory(sizeof Saved_directory, Saved_directory);
 
-//  Notes:
+   // Change current directory
+   Change_directory();
 
-//  Changes:
-//    DPH 25/5/98
+   // Get the full path name of the directory passed in.  This API routine
+   // properly converts any relative paths to full paths.
+   char Full_path[500];
+   char* Ptr_to_name;
+   GetFullPathName(Additional_directory, sizeof Full_path, Full_path, &Ptr_to_name);
 
-// ------------------------------------------------------------------
-void Path::Append_relative_path (const char* relative_path)
-   {
-   Path Relative_path (relative_path);
-   Append_directory (Relative_path.Get_directory().c_str());
-   Name = Relative_path.Get_name();
+   // setup drive.
+   Drive.assign(Full_path, 2);
+
+   // setup directory.
+   size_t Directory_size = Ptr_to_name - (char*) &Full_path - 2;
+   Directory.assign (&Full_path[2], Directory_size);
+
+   // setup name
+   Name.assign (Ptr_to_name);
+
+   // restore current directory.
+   SetCurrentDirectory (Saved_directory);
    }
 
 // ------------------------------------------------------------------
