@@ -228,7 +228,7 @@ void Plant::doRegistrations(void)
    setupGetFunction("plant_status", protocol::DTstring, false,
                      &Plant::get_plant_status, "", "Plant Status");
 
-   setupGetVar("dlt_stage", 
+   setupGetVar("dlt_stage",
                g.dlt_stage, "", "Change in plant stage");
 
    setupGetVar("stage",
@@ -244,10 +244,10 @@ void Plant::doRegistrations(void)
 //   id = parent->addGettableVar("crop_type", protocol::DTstring, false, "");
 //   IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_crop_type));
 
-   setupGetVar("crop_class", 
+   setupGetVar("crop_class",
                g.crop_class, "", "Plant crop class");
 
-   setupGetVar("dlt_tt", 
+   setupGetVar("dlt_tt",
                g.dlt_tt, "dd", "Change in cumulative thermal time");
 
    setupGetVar("phase_tt", max_stage,
@@ -262,19 +262,19 @@ void Plant::doRegistrations(void)
    setupGetFunction("das", protocol::DTint4, false,
                     &Plant::get_das, "days", "Days after sowing");
 
-   setupGetVar("cum_vernal_days", 
+   setupGetVar("cum_vernal_days",
                g.cum_vernal_days, "vd", "Days in vernalisation");
 
-   setupGetVar("flowering_date", 
+   setupGetVar("flowering_date",
                g.flowering_date, "doy", "Day of flowering");
 
-   setupGetVar("maturity_date", 
+   setupGetVar("maturity_date",
                g.maturity_date, "doy", "Day of maturity");
 
-   setupGetVar("flowering_das", 
+   setupGetVar("flowering_das",
                g.flowering_das, "days", "Days from sowing to flowering");
 
-   setupGetVar("maturity_das", 
+   setupGetVar("maturity_das",
                g.maturity_das, "days", "Days from sowing to maturity");
 
    setupGetFunction("leaf_no", protocol::DTsingle, false,
@@ -283,7 +283,7 @@ void Plant::doRegistrations(void)
    setupGetFunction("node_no", protocol::DTsingle, false,
                     &Plant::get_node_no, "nodes/m2", "number of nodes per square meter");
 
-   setupGetVar("dlt_leaf_no", 
+   setupGetVar("dlt_leaf_no",
                g.dlt_leaf_no, "leaves/m2", "Change in number of leaves");
 
    setupGetVar("dlt_node_no",
@@ -298,13 +298,13 @@ void Plant::doRegistrations(void)
 //   id = parent->addGettableVar("height", protocol::DTsingle, false, "mm");
 //   IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_height));
 
-   setupGetVar("width", 
+   setupGetVar("width",
                g.canopy_width, "mm", "canopy row width");
 
-   setupGetVar("root_depth", 
+   setupGetVar("root_depth",
                g.root_depth, "mm", "depth of roots");
 
-   setupGetVar("plants", 
+   setupGetVar("plants",
                g.plants, "plants/m^2", "Plant desnity");
 
 //   id = parent->addGettableVar("cover_green", protocol::DTsingle, false, "");
@@ -319,61 +319,61 @@ void Plant::doRegistrations(void)
    setupGetFunction("tlai", protocol::DTsingle, false,
                     &Plant::get_tlai, "m^2/m^2", "tlai");
 
-   setupGetVar("slai", 
+   setupGetVar("slai",
                g.slai, "m^2/m^2", "Senesced lai");
 
-   setupGetVar("lai", 
+   setupGetVar("lai",
                g.lai, "m^2/m^2", "Leaf area index");
 
-   setupGetVar("lai_canopy_green", 
+   setupGetVar("lai_canopy_green",
                g.lai_canopy_green, "m^2/m^2", "Green lai");
 
-   setupGetVar("tlai_dead", 
+   setupGetVar("tlai_dead",
                g.tlai_dead, "m^2/m^2", "tlai dead");
 
-   setupGetVar("pai", 
+   setupGetVar("pai",
                g.pai, "m^2/m^2", "Pod area index");
 
-   setupGetVar("dlt_slai_age", 
+   setupGetVar("dlt_slai_age",
                g.dlt_slai_age, "m^2/m^2", "Change in lai via age");
 
-   setupGetVar("dlt_slai_light", 
+   setupGetVar("dlt_slai_light",
                g.dlt_slai_light, "m^2/m^2", "Change in lai via light");
 
    setupGetVar("dlt_slai_water",
                g.dlt_slai_water, "m^2/m^2", "Change in lai via water stress");
 
-   setupGetVar("dlt_slai_frost", 
+   setupGetVar("dlt_slai_frost",
                g.dlt_slai_frost, "m^2/m^2", "Change in lai via low temperature");
 
-   setupGetVar("grain_no", 
+   setupGetVar("grain_no",
                g.grain_no, "/m^2", "Grain number");
 
    setupGetFunction("grain_size", protocol::DTsingle, false,
                     &Plant::get_grain_size, "g", "Size of each grain");
 
-   setupGetVar("root_wt", 
+   setupGetVar("root_wt",
                g.dm_green[root], "g/m^2", "Weight of roots");
 
-   setupGetVar("leaf_wt", 
+   setupGetVar("leaf_wt",
                g.dm_green[leaf], "g/m^2", "Weight of leaf");
 
-   setupGetVar("stem_wt", 
+   setupGetVar("stem_wt",
                g.dm_green[stem], "g/m^2", "Weight of stems");
 
    setupGetFunction("head_wt", protocol::DTsingle, false,
                     &Plant::get_head_wt, "g/m^2", "Weight of heads");
 
-   setupGetVar("pod_wt", 
+   setupGetVar("pod_wt",
                g.dm_green[pod],"g/m^2", "Weight of pods");
 
    setupGetFunction("grain_wt", protocol::DTsingle, false,
                     &Plant::get_grain_wt, "g/m^2", "Weight of grain");
 
-   setupGetVar("meal_wt", 
+   setupGetVar("meal_wt",
                g.dm_green[meal], "g/m^2", "Weight of meal");
 
-   setupGetVar("oil_wt", 
+   setupGetVar("oil_wt",
                g.dm_green[oil], "g/m^2", "Weight of oil");
 
    setupGetVar("dm_green", max_part,
@@ -400,13 +400,13 @@ void Plant::doRegistrations(void)
    setupGetFunction("green_biomass_wt", protocol::DTsingle, false,
                     &Plant::get_green_biomass_wt, "g/m^2", "Green Biomass weight");
 
-   setupGetVar("dlt_dm", 
+   setupGetVar("dlt_dm",
                g.dlt_dm, "g/m^2", "Change in dry matter");
 
-   setupGetVar("dlt_dm_pot_rue", 
+   setupGetVar("dlt_dm_pot_rue",
                g.dlt_dm_pot_rue, "g/m^2", "Potential dry matter production via photosynthesis");
 
-   setupGetVar("dlt_dm_pot_te", 
+   setupGetVar("dlt_dm_pot_te",
                g.dlt_dm_pot_te, "g/m^2", "Potential dry matter production via transpiration");
 
    setupGetVar("dlt_dm_grain_demand",
@@ -427,13 +427,13 @@ void Plant::doRegistrations(void)
    setupGetVar("dlt_dm_dead_detached", max_part,
                g.dlt_dm_dead_detached,  "g/m^2", "change in dry matter via detachment");
 
-   setupGetVar("grain_oil_conc", 
+   setupGetVar("grain_oil_conc",
                c.grain_oil_conc, "%", "??");
 
-   setupGetVar("dlt_dm_oil_conv", 
+   setupGetVar("dlt_dm_oil_conv",
                g.dlt_dm_oil_conv,"g/m^2", "change in oil via ??");
 
-   setupGetVar("dlt_dm_oil_conv_retrans", 
+   setupGetVar("dlt_dm_oil_conv_retrans",
                g.dlt_dm_oil_conv_retranslocate, "g/m^2", "change in oil via retranslocation");
 
    setupGetFunction("biomass_n", protocol::DTsingle, false,
@@ -451,16 +451,16 @@ void Plant::doRegistrations(void)
    setupGetVar("leaf_n",
                g.n_green[leaf],"g/m^2", "N in leaves");
 
-   setupGetVar("stem_n", 
+   setupGetVar("stem_n",
                g.n_green[stem], "g/m^2", "N in stems");
 
    setupGetVar("root_n",
                g.n_green[root], "g/m^2", "N in roots");
 
-   setupGetVar("pod_n", 
+   setupGetVar("pod_n",
                g.n_green[pod], "g/m^2", "N in pods");
 
-   setupGetVar("deadleaf_n", 
+   setupGetVar("deadleaf_n",
                g.n_senesced[leaf], "g/m^2", "N in dead leaves");
 
    setupGetFunction("head_n", protocol::DTsingle, false,
@@ -499,22 +499,22 @@ void Plant::doRegistrations(void)
    setupGetVar("dlt_n_dead_detached", max_part,
                g.dlt_n_dead_detached,  "g/m^2", "N in dead detached");
 
-   setupGetVar("temp_stress_photo", 
+   setupGetVar("temp_stress_photo",
                g.temp_stress_photo, "", "Temperature Stress in photosynthesis");
 
    setupGetVar("swdef_pheno",
                g.swdef_pheno, "", "Soil water deficit in phenological development");
 
-   setupGetVar("swdef_photo", 
+   setupGetVar("swdef_photo",
                g.swdef_photo, "", "Soil water deficit in photosynthesis");
 
-   setupGetVar("swdef_expan", 
+   setupGetVar("swdef_expan",
                g.swdef_expansion, "", "Soil water deficit in leaf expansion");
 
-   setupGetVar("swdef_fixation", 
+   setupGetVar("swdef_fixation",
                g.swdef_fixation, "", "Soil water deficit in N fixation");
 
-   setupGetVar("oxdef_photo", 
+   setupGetVar("oxdef_photo",
                g.oxdef_photo, "", "Oxygen deficit in photosynthesis");
 
    setupGetFunction("sw_stress_pheno", protocol::DTsingle, false,
@@ -533,7 +533,7 @@ void Plant::doRegistrations(void)
                     &Plant::get_swstress_fixation,
                     "","Soil water stress for N fixation");
 
-   setupGetVar("transp_eff", 
+   setupGetVar("transp_eff",
                g.transp_eff, "g/m2/mm", "Transpiration Efficiency");
 
    setupGetFunction("ep", protocol::DTsingle, false,
@@ -613,32 +613,32 @@ void Plant::doRegistrations(void)
                     &Plant::get_n_demand,
                     "g/m^2", "N demand");
 
-   setupGetVar("grain_n_demand", 
+   setupGetVar("grain_n_demand",
                g.grain_n_demand, "g/m^2", "N demand of grain");
 
    setupGetFunction("n_supply_soil", protocol::DTsingle, false,
                     &Plant::get_n_supply_soil,
                     "g/m^2", "N supply");
 
-   setupGetVar("dlt_n_fixed_pot", 
+   setupGetVar("dlt_n_fixed_pot",
                g.n_fix_pot, "g/m^2", "potential N fixation");
 
-   setupGetVar("dlt_n_fixed", 
+   setupGetVar("dlt_n_fixed",
                g.n_fix_uptake, "g/m^2", "N fixation");
 
-   setupGetVar("n_fixed_tops", 
+   setupGetVar("n_fixed_tops",
                g.n_fixed_tops, "g/m^2", "N fixation");
 
    setupGetVar("nfact_photo",
                g.nfact_photo, "", "N factor for photosynthesis");
 
-   setupGetVar("nfact_pheno", 
+   setupGetVar("nfact_pheno",
                g.nfact_pheno, "", "N factor for phenology");
 
-   setupGetVar("nfact_expan", 
+   setupGetVar("nfact_expan",
                g.nfact_expansion, "", "N factor for leaf expansion");
 
-   setupGetVar("nfact_grain", 
+   setupGetVar("nfact_grain",
                g.nfact_grain_conc, "", "N factor for ??");
 
    setupGetVar("nfact_grain_tot", max_stage,
@@ -671,10 +671,10 @@ void Plant::doRegistrations(void)
                     &Plant::get_no3_demand,
                     "kg/ha", "Demand for NO3");
 
-   setupGetVar("sw_demand", 
+   setupGetVar("sw_demand",
                g.sw_demand, "mm", "Demand for sw");
 
-   setupGetVar("sw_demand_te", 
+   setupGetVar("sw_demand_te",
                g.sw_demand_te, "mm", "Demand for sw");
 
    setupGetFunction("root_length", protocol::DTsingle, true,
@@ -693,7 +693,7 @@ void Plant::doRegistrations(void)
                     &Plant::get_no3_swfac,
                     "", "Work this out...>>");
 
-   setupGetVar("leaves_per_node", 
+   setupGetVar("leaves_per_node",
                g.leaves_per_node, "","");
 
    setupGetFunction("no3_uptake", protocol::DTsingle, false,
@@ -756,10 +756,10 @@ void Plant::doRegistrations(void)
                     &Plant::get_dlt_dm_fruit_green_retrans_part,
                     "g/m2","");
 
-   setupGetVar("num_fruit_cohorts", 
+   setupGetVar("num_fruit_cohorts",
                g.num_fruit_cohorts, "cohorts","");
 
-   setupGetVar("dm_parasite_retranslocate", 
+   setupGetVar("dm_parasite_retranslocate",
               g.dm_parasite_retranslocate, "g/m2","");
 
    setupGetFunction("count_fruit_cohorts", protocol::DTint4, false,
@@ -917,8 +917,8 @@ void Plant::doEndRun(unsigned &, unsigned &,protocol::Variant &/*v*/)
 void Plant::doAutoClassChange(unsigned &/*fromId*/, unsigned &eventId, protocol::Variant &v)
   {
   string ps = IDtoAction[eventId];
-  //printf("got '%s' from %d\n",ps.c_str(),eventId); 
-  
+  //printf("got '%s' from %d\n",ps.c_str(),eventId);
+
   plant_auto_class_change(ps.c_str());
   }
 
@@ -12180,10 +12180,10 @@ void Plant::registerClassActions(void)
       unsigned int id;
       boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;
       fn = boost::bind(&Plant::doAutoClassChange, this, _1, _2, _3);
-      id = parent->addEvent(i->c_str(), protocol::respondToEvent, fn);
+      id = parent->addEvent(i->c_str(), RegistrationType::respondToEvent, fn);
 
       IDtoAction.insert(UInt2StringMap::value_type(id,i->c_str()));
-      //printf("registered '%s' as %d\n",i->c_str(),id); 
+      //printf("registered '%s' as %d\n",i->c_str(),id);
       }
    }
 
@@ -12210,7 +12210,7 @@ void Plant::plant_read_species_const ()
 //- Implementation Section ----------------------------------
 
     push_routine (my_name);
-    
+
     string scratch = parent->readParameter (c.crop_type.c_str(), g.crop_class.c_str());
     Split_string(scratch, " ", search_order);
 
