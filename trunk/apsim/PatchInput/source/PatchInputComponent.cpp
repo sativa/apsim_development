@@ -214,9 +214,6 @@ void PatchInputComponent::respondToEvent(unsigned int& fromID, unsigned int& eve
             }
          }
       }
-   else if (eventID != tickID)  // stop the tick event going to base class.
-      InputComponent::respondToEvent(fromID, eventID, variant);
-
    else if (eventID == returnDataMethodID)
       {
       vector<protocol::newmetType> data;
@@ -231,6 +228,8 @@ void PatchInputComponent::respondToEvent(unsigned int& fromID, unsigned int& eve
          patchData.insert(make_pair(dayNumber, data[i]));
          }
       }
+   else if (eventID != tickID)  // stop the tick event going to base class.
+      InputComponent::respondToEvent(fromID, eventID, variant);
 
    }
 
