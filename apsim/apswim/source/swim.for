@@ -1,4 +1,4 @@
-      include 'apswim.inc'
+!      include 'apswim.inc'
 
 C     Last change:  NH    1 Oct 1999    8:57 am
 * =====================================================================
