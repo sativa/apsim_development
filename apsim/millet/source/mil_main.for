@@ -1,4 +1,656 @@
 
+      module MilletModule
+
+      Use CropLibrary
+
+!      millet_array_sizes
+
+!   Changes:
+!      290393 jngh
+
+      integer    max_leaf              ! maximum number of plant leaves
+      parameter (max_leaf = 30)
+
+      integer    max_layer             ! Maximum number of layers in soil
+      parameter (max_layer = 100)
+
+      integer    max_table             ! Maximum size_of of tables
+      parameter (max_table = 10)
+
+!      millet_crop status
+
+
+         ! crop status
+
+      character  status_alive*(*)
+      parameter (status_alive = 'alive')
+
+      character  status_dead*(*)
+      parameter (status_dead = 'dead')
+
+      character  status_out*(*)
+      parameter (status_out = 'out')
+
+      character  class_main*(*)
+      parameter (class_main = 'main')
+
+      character  class_tiller*(*)
+      parameter (class_tiller = 'tiller')
+
+      character  name_main*(*)
+      parameter (name_main = 'millet')
+
+!      millet_processes_for_stress
+
+      integer    photo                 ! photosynthesis flag
+      parameter (photo = 1)
+
+      integer    expansion             ! cell expansion flag
+      parameter (expansion = 2)
+
+      integer    pheno                 ! phenological flag
+      parameter (pheno = 3)
+
+      integer    grain_conc            ! grain concentration flag
+      parameter (grain_conc = 4)
+
+      integer    fixation              ! N fixation flag
+      parameter (fixation = 5)
+
+!      millet_ plant parts
+
+
+      integer    root                  ! root
+      parameter (root = 1)
+
+      integer    leaf                  ! leaf
+      parameter (leaf = 2)
+
+      integer    stem                  ! stem
+      parameter (stem = 3)
+
+      integer    tiller                ! tiller
+      parameter (tiller = 4)
+
+      integer    flower                ! flower
+      parameter (flower = 5)
+
+      integer    grain                 ! grain
+      parameter (grain = 6)
+
+      integer    max_part              ! number of plant parts
+      parameter (max_part = 6)
+
+      character part_name(max_part)*(10)
+      data part_name /'root', 'leaf', 'stem'
+     :               , 'tiller', 'flower', 'grain'/
+
+      integer num_demand_parts         ! number of plant parts for N demand
+      parameter (num_demand_parts = 4)
+
+      integer demand_parts(num_demand_parts)
+      data demand_parts /root,leaf,stem,flower/
+
+!     millet_phenological_names
+
+            ! administration
+
+      integer    max_stage             ! number of growth stages
+      parameter (max_stage = 12)
+
+      integer    now                   ! at this point in time ()
+      parameter (now = max_stage+1)
+
+            ! mechanical operations
+
+      integer    plant_end              ! plant_end stage
+      parameter (plant_end = 12)
+      integer    fallow                ! fallow phase
+      parameter (fallow = plant_end)
+
+      integer    sowing                ! Sowing stage
+      parameter (sowing = 1)
+      integer    sow_to_germ           ! seed sow_to_germ phase
+      parameter (sow_to_germ = sowing)
+
+      integer    germ                  ! Germination stage
+      parameter (germ = 2)
+      integer    germ_to_emerg         ! germ_to_emerg elongation phase
+      parameter (germ_to_emerg = germ)
+
+      integer    emerg                 ! Emergence stage
+      parameter (emerg = 3)
+      integer    emerg_to_endjuv       ! basic vegetative phase
+      parameter (emerg_to_endjuv = emerg)
+
+      integer    endjuv                ! End of emerg_to_endjuv stage
+      parameter (endjuv = 4)
+      integer    endjuv_to_init        ! Photoperiod sensitive phase
+      parameter (endjuv_to_init = endjuv)
+
+      integer    floral_init           ! Floral (Tassel) initiation stage
+      parameter (floral_init = 5)
+      integer    init_to_flag          ! flower development phase
+      parameter (init_to_flag = floral_init)
+
+      integer    flag_leaf             ! end of leaf appearance stage
+      parameter (flag_leaf = 6)
+      integer    flag_to_flower        ! head (tassel) emergence phase
+      parameter (flag_to_flower = flag_leaf)
+
+      integer    flowering             ! flowering (Silking) stage
+      parameter (flowering = 7)
+      integer    flower_to_start_grain ! grain development phase
+      parameter (flower_to_start_grain = flowering)
+
+      integer    start_grain_fill      ! start of linear grain filling stage
+      parameter (start_grain_fill = 8)
+      integer    start_to_end_grain    ! linear grain filling phase
+      parameter (start_to_end_grain = start_grain_fill)
+
+      integer    end_grain_fill        ! End of linear (effective) grain filling
+                                       ! stage
+      parameter (end_grain_fill = 9)
+      integer    end_grain_to_maturity ! End of effective grain filling
+      parameter (end_grain_to_maturity = end_grain_fill)
+
+      integer    maturity              ! physiological maturity (black layer)
+                                       ! stage
+      parameter (maturity = 10)
+      integer    maturity_to_ripe      ! grain dry down phase
+      parameter (maturity_to_ripe = maturity)
+
+      integer    harvest_ripe          ! harvest ripe stage
+      parameter (harvest_ripe = 11)
+      integer    ripe_to_harvest       ! harvest ready phase (waiting for
+                                       ! harvest
+      parameter (ripe_to_harvest = harvest_ripe) ! by manager)
+
+
+
+!     ================================================================
+      type MilletConstants
+         real       a_const             ! leaf area breadth intercept
+         real       a_slope1            ! leaf area breadth slope1
+         real       a_slope2            ! leaf area breadth slope2
+         real       amax                ! Maximum temperature to flowering
+         real       amin                ! Base temperature to flowering
+         real       aopt                ! Optimum temperature to flowering
+         real       aoptr               ! Optimum rate to flowering
+         real       b_const             ! leaf area skewness intercept
+         real       b_slope1            ! leaf area skewness slope1
+         real       b_slope2            ! leaf area skewness slope2
+         real       barren_crit         ! fraction of maximum grains per plant below which barrenness occurs (0-1)
+         character  crop_type*50        ! crop type
+         real       days_germ_limit     ! maximum days allowed after sowing for germination to take place (days)
+         real       dead_detach_frac(max_part) ! fraction of dead plant parts detaching each day (0-1)
+         real       dlayer_lb           ! lower limit of layer depth (mm)
+         real       dlayer_ub           ! upper limit of layer depth (mm)
+         real       dm_leaf_detach_frac ! fraction of senesced leaf dry matter detaching from live plant each day (0-1)
+         real       dm_leaf_init        ! leaf growth before emergence (g/plant)
+         real       dm_leaf_sen_frac    ! fraction of senescing leaf dry matter remaining in leaf (0-1)
+         real       dm_root_init        ! root growth before emergence (g/plant)
+         real       dm_root_sen_frac    ! fraction of root dry matter senescing each day (0-1)
+         real       dm_stem_init        ! stem growth before emergence (g/plant)
+         real       dm_tiller_crit      ! critical dry matter required for a new tiller to become independent
+         real       dul_dep_lb          ! lower limit of dul (mm)
+         real       dul_dep_ub          ! upper limit of dul (mm)
+         real       extinction_coef     ! radiation extinction coefficient ()
+         real       extinction_coef_change ! (=X) effect of row spacing on extinction coef i.e. k=exp(X*RS)
+         real       extinction_coef_dead ! radiation extinction coefficient () of dead leaves
+         real       frac_flower2grain         ! fraction of dm allocated to flower relative to grain
+         real       frac_leaf_post_flower     ! fraction of dm allocated to leaves after flowering
+         real       frac_dm_to_leaf(max_stage)       ! fraction of dm allocated to leaves
+         real       frac_leaf_pre_flower      ! fraction of dm allocated to leaves prior to flowering
+         real       frac_stem2flower          ! fraction of dm allocated_z to stem that goes to developing head
+         real       frost_kill          ! temperature threshold for leaf death (oC)
+         real       grain_gth_rate_ub   ! upper limit
+         real       grain_N_conc_min    ! minimum nitrogen concentration of grain
+         real       grn_water_cont      ! water content of grain g/g
+         real       growth_rate_crit    ! threshold  rate of photosynthesis below which heat stress has no effect (g/plant).  This is also the rate at which the grains/plant is half of the maximum grains.
+         real       growth_rate_min     ! minimum rate of photosynthesis below which there is no grain produced (g/plant)
+         real       head_grain_no_crit  ! grains per plant minimum which all heads are barren
+         real       head_grain_no_max_ub ! upper limit
+         real       height_max          ! maximum canopy height (mm)
+         real       height_stem_slope   ! rate of height growth (mm/g/stem)
+         real       hi_min              ! minimum harvest index (g grain/ g biomass)
+         real       htstress_coeff      ! coeff for conversion of heat stress during flowering to heat stress factor on grain number development.
+         real       imax                ! Maximum temperature to fl_init
+         real       imin                ! Base temperature   to fl_init
+         real       initial_root_depth  ! initial depth of roots (mm)
+         real       initial_tpla        ! initial plant leaf area (mm^2)
+         real       iopt                ! Optimum temperature to fl_init
+         real       ioptr               ! Optimum rate  to fl_init
+         real       kl_ub               ! upper limit of water uptake factor
+         real       lai_sen_light       ! critical lai above which light
+         real       latitude_lb         ! lower limit of latitude for model(oL)
+         real       latitude_ub         ! upper limit of latitude for model (oL)
+         real       leaf_app_rate1      ! thermal time required to develop a leaf ligule for first leaves (deg day).
+         real       leaf_app_rate2      ! thermal time required to develop a leaf ligule for later leaves (deg day).
+         real       leaf_init_rate      ! growing degree days to initiate each le primordium until fl_initling (deg day)
+         real       leaf_no_at_emerg    ! leaf number at emergence ()
+         real       leaf_no_correction  ! corrects for other growing leaves
+         real       leaf_no_crit        ! critical number of leaves below which portion of the crop may die due to water stress
+         real       leaf_no_dead_const  ! dead leaf no intercept
+         real       leaf_no_dead_slope  ! dead leaf no slope
+         real       leaf_no_dead_slope1 ! dead leaf no slope
+         real       leaf_no_dead_slope2 ! dead leaf no slope
+         real       leaf_no_diff        ! GD
+         real       leaf_no_max         ! upper limit of leaf number ()
+         real       leaf_no_min         ! lower limit of leaf number ()
+         real       leaf_no_rate_change ! leaf no at which change from rate1 to rate2 for leaf appearance
+         real       leaf_no_seed        ! number of leaf primordia present in seed
+         real       leaf_size_average   ! average leaf size (mm2)
+         real       leaf_size_endjuv    ! early leaf size (mm2)
+         real       leaf_trans_frac     ! fraction of leaf used in translocat to grain
+         real       ll_ub               ! upper limit of lower limit (mm/mm)
+         real       main_stem_coef      ! exponent_of for determining leaf area on main culm
+         real       maxt_lb             ! lower limit of maximum temperature (oC)
+         real       maxt_ub             ! upper limit of maximum temperature (oC)
+         real       minsw               ! lowest acceptable value for ll
+         real       mint_lb             ! lower limit of minimum temperature (oC)
+         real       mint_ub             ! upper limit of minimum temperature (oC)
+         real       N_conc_crit_grain   ! critical N concentration of grain (g N/g biomass)
+         real       N_conc_crit_root    ! critical N concentration of root (g N/g biomass)
+         real       N_conc_max_grain    ! maximum N concentration of grain (g N/g biomass)
+         real       N_conc_max_root     ! maximum N concentration of root (g N/g biomass)
+         real       N_conc_min_grain    ! minimum N concentration of grain (g N/g biomass)
+         real       N_conc_min_root     ! minimum N concentration of root (g N/g biomass)
+         real       N_fact_expansion    ! multipler for N deficit effect on leaf expansion
+         real       N_fact_pheno        ! multipler for N deficit effect on     phenology
+         real       N_fact_photo        ! multipler for N deficit effect on photosynthesis
+         real       N_fix_rate(max_stage) ! potential rate of N fixation (g N fixed per g above ground biomass
+         real       N_leaf_init_conc    ! initial leaf N concentration (gN/gdm)
+         real       N_leaf_sen_conc     ! N concentration of senesced leaf (gN/gdm)
+         real       N_root_init_conc    ! initial root N concentration (gN/gdm)
+         real       N_root_sen_conc     ! N concentration of senesced root (gN/gdm)
+         real       N_stem_init_conc    ! initial stem N concentration (gN/gdm)
+         real       NO3_diffn_const     ! time constant for uptake by diffusion (days). H van Keulen & NG Seligman. Purdoe 1987. This is the time it would take to take up by diffusion the current amount of N if it wasn't depleted between time steps
+         real       NO3_lb              ! lower limit of soil NO3 (kg/ha)
+         real       NO3_min_lb          ! lower limit of minimum soil NO3 (kg/ha)
+         real       NO3_min_ub          ! upper limit of minimum soil NO3 (kg/ha)
+         real       NO3_ub              ! upper limit of soil NO3 (kg/ha)
+         integer    num_ave_temp        ! size_of critical temperature table
+         integer    num_factors         ! size_of table
+         integer    num_lai
+         integer    num_lai_ratio       ! number of ratios in table ()
+         integer    num_N_conc_stage    ! no of values in stage table
+         integer    num_row_spacing     ! no of values
+         integer    num_sw_avail_fix
+         integer    num_sw_avail_ratio
+         integer    num_sw_demand_ratio
+         integer    num_sw_ratio
+         integer    num_temp            ! size_of table
+         integer    num_temp_grain      ! size_of table
+         integer    num_temp_other      !
+         integer    num_temp_senescence ! number of temperatures in senescence table
+         integer    num_tiller_no_next  ! number in table ()
+         integer    num_weighted_temp   ! size of table
+         real       partition_rate_leaf ! rate coefficient of sigmoidal function between leaf partition fraction and internode no**2 (0-1)
+         real       pesw_germ           ! plant extractable soil water in seedling layer inadequate for germination (mm/mm)
+         real       photo_tiller_crit   ! critical daylength (h) to amend c%y_tiller_tt
+         real       photoperiod_base    ! lower threshold of hours of light (hours)
+         real       photoperiod_crit    ! critical threshold of hours of light (hours)
+         real       pp_endjuv_to_init_ub ! upper limit
+         real       radn_lb              ! lower limit of solar radiation (Mj/M^2)
+         real       radn_ub              ! upper limit of solar radiation (Mj/m^2)
+         real       ratio_root_shoot(max_stage) ! root:shoot ratio of new dm ()
+         real       root_depth_rate(max_stage) ! root growth rate potential (mm depth/day)
+         real       root_extinction     ! extinction coef to distribute roots down profile
+         real       row_spacing_default ! default row spacing for calculating k (m)
+         real       rue(max_stage)      ! radiation use efficiency (g dm/mj)
+         real       seed_wt_min         ! minimum grain weight (g/kernel)
+         real       sen_detach_frac(max_part)  ! fraction of senesced plant parts dry matter detaching from live plant each day (0-1)
+         real       sen_light_slope     ! slope of linear relationship between lai and light competition factor for determining leaf senesence rate.
+         real       sen_light_time_const ! delay factor for light senescence
+         real       sen_radn_crit       ! radiation level for onset of light senescence
+         real       sen_rate_water      ! slope in linear eqn relating soil water stress during photosynthesis to leaf senesense rate
+         real       sen_threshold       ! supply:demand ratio for onset of water senescence
+         real       sen_water_time_const ! delay factor for water senescence
+         real       sfac_slope          ! soil water stress factor slope
+         real       shoot_lag           ! minimum growing degree days for germination (deg days)
+         real       shoot_rate          ! growing deg day increase with depth for germination (deg day/mm depth)
+         real       sla_max             ! maximum specific leaf area for new leaf area (mm^2/g)
+         real       sla_min             ! minimum specific leaf area for new leaf area (mm^2/g)
+         real       spla_slope          ! regression slope for calculating inflection point for leaf senescence
+         real       stage_code_list(max_stage) ! list of stage numbers
+         character  stage_names(max_stage)*32 ! full names of stages for reporting
+         real       stem_trans_frac           ! fraction of stem used in translocat to grain
+         real       svp_fract           ! fraction of distance between svp at min temp and svp at max temp where average svp during transpiration lies. (0-1)
+         real       sw_dep_lb           ! lower limit of soilwater depth (mm)
+         real       sw_dep_ub           ! upper limit of soilwater depth (mm)
+         real       sw_fac_max          ! soil water stress factor maximum
+         real       swdf_grain_min      ! minimum of water stress factor
+         real       swdf_pheno_limit    ! critical cumulative phenology water stress above which the crop fails (unitless)
+         real       swdf_photo_limit    ! critical cumulative photosynthesis water stress above which the crop partly fails (unitless)
+         real       swdf_photo_rate     ! rate of plant reduction with photosynthesis water stress
+         real       temp_fac_min        ! temperature stress factor minimum optimum temp
+         real       temp_grain_crit_stress    ! temperature above which heat stress occurs
+         real       tfac_slope          ! temperature stress factor slope
+         character  tiller_appearance*2 ! method of tiller appearance
+         real       tiller_appearance_slope ! relationship between tiller appearance and plant density
+         real       tiller_coef         ! exponent_of for determining leaf area on each additional tiller
+         integer    tiller_no_pot       ! potential number of tillers ()
+         real       tpla_min
+         real       transp_eff_cf(max_stage) ! transpiration efficiency coefficient to convert vpd to transpiration efficiency (kpa)
+                                        ! although this is expressed as a pressure it is really in the form
+                                        ! kpa*g carbo per m^2 / g water per m^2 and this can be converted to kpa*g carbo per m^2 / mm water
+                                        ! because 1g water = 1 cm^3 water
+         real       tt_emerg_limit      ! maximum degree days allowed for emergence to take place (deg day)
+         real       tt_emerg_to_endjuv_ub         ! upper limit
+         real       tt_flag_to_flower_ub          ! upper limit
+         real       tt_flower_to_maturity_ub      ! upper limit
+         real       tt_flower_to_start_grain_ub   ! upper limit
+         real       tt_maturity_to_ripe_ub        ! upper limit
+         real       twilight            ! twilight in angular distance between sunset and end of twilight - altitude of sun. (deg)
+         real       x0_const            ! largest leaf no intercept
+         real       x0_slope            ! largest leaf no slope
+         real       x_ave_temp(max_table)  ! critical temperatures for photosynthesis (oC)
+         real       x_lai(max_table)       ! LAI for interpolating SLA_max
+         real       x_lai_ratio(max_table) ! ratio table for critical leaf size below which leaf number is reduced ()
+         real       x_row_spacing(max_table) ! row spacing for interpolating k (m)
+         real       x_stage_code(max_stage)  ! stage table for N concentrations (g N/g biomass)
+         real       x_sw_avail_fix (max_table)
+         real       x_sw_avail_ratio (max_table)
+         real       x_sw_demand_ratio (max_table)
+         real       x_sw_ratio (max_table)
+         real       x_temp(max_table)       ! temperature table for photosynthesis degree days
+         real       x_temp_grain(max_table) ! critical temperatures controlling grain fill rates (oC)
+         real       x_temp_other(max_table) !
+         real       x_temp_senescence(max_table) ! temperature senescence table (oC)
+         real       x_tiller_no_next(max_table)  ! tiller table for determining tt for tiller appearance rate ()
+         real       x_weighted_temp(max_table)   ! temperature table for poor establishment
+         real       y_extinct_coef(max_table)      ! interpolated k
+         real       y_extinct_coef_dead(max_table) ! interpolated k
+         real       y_grain_rate(max_table)        ! Relative grain fill rates for critical temperatures (0-1)
+         real       y_leaf_no_frac(max_table)      ! reduction in leaf appearance ()
+         real       y_n_conc_crit_flower(max_stage) ! critical N concentration of flower(g N/g biomass)
+         real       y_n_conc_crit_leaf(max_stage)  ! critical N concentration of leaf (g N/g biomass)
+         real       y_n_conc_crit_stem(max_stage)  ! critical N concentration of stem (g N/g biomass)
+         real       y_n_conc_max_flower(max_stage) ! maximum N concentration of flower (g N/g biomass)
+         real       y_n_conc_max_leaf(max_stage)   ! maximum N concentration of leaf (g N/g biomass)
+         real       y_n_conc_max_stem(max_stage)   ! maximum N concentration of stem (g N/g biomass)
+         real       y_n_conc_min_flower(max_stage) ! minimum N concentration of flower (g N/g biomass)
+         real       y_n_conc_min_leaf(max_stage)   ! minimum N concentration of leaf (g N/g biomass)
+         real       y_n_conc_min_stem(max_stage)   ! minimum N concentration of stem (g N/g biomass)
+         real       y_plant_death(max_table)       ! index of plant death
+         real       y_senescence_fac(max_table)    ! temperature factor senescence table (0-1)
+         real       y_sla_max(max_table)           ! interpolated SLA_max (mm2/g)
+         real       y_stress_photo(max_table)      ! Factors for critical temperatures (0-1)
+         real       y_sw_fac_root (max_table)
+         real       y_swdef_fix (max_table)
+         real       y_swdef_leaf (max_table)
+         real       y_swdef_pheno (max_table)
+         real       y_tiller_tt(max_table)         ! thermal time for theoretical  tiller appearance rate (oCd) at plant density = 0
+         real       y_tt(max_table)                ! degree days
+         real       y_tt_other(max_table)          !
+
+         character n_supply_preference*20
+         real       fasw_emerg(max_table)     !
+         real       rel_emerg_rate(max_table) !
+         integer    num_fasw_emerg
+      !...................maiz_p_real
+         real k_pfact_expansion
+         real k_pfact_photo
+         real k_pfact_pheno
+         real k_pfact_grain
+         real P_stage_code(max_stage)
+         real P_conc_max(max_stage)
+         real P_conc_min(max_stage)
+         real P_Uptake_Factor
+
+      !...................maiz_p_int
+         integer num_p_conc_stage
+      end type MilletConstants
+!     ================================================================
+
+
+      type MilletGlobals
+         real       canopy_height               ! canopy height (mm)
+         real       cnd_grain_conc (max_stage)  ! cumulative nitrogen stress type 2
+         real       cnd_photo (max_stage)       ! cumulative nitrogen stress type 1
+         real       cover_dead          ! fraction of radiation reaching the canopy that is intercepted by the dead leaves of the dead canopy (0-1)
+         real       cover_green         ! fraction of radiation reaching the canopy that is intercepted by the green leaves of the canopy (0-1)
+         real       cover_green_sum     ! summation of green cover from all modules
+         real       cover_sen           ! fraction of radiation reaching the canopy that is intercepted by the senesced leaves of the canopy (0-1)
+         real       cswd_expansion (max_stage) ! cumulative water stress type 2
+         real       cswd_pheno (max_stage)     ! cumulative water stress type 3
+         real       cswd_photo (max_stage)     ! cumulative water stress type 1
+         character  cultivar*20         ! name of cultivar
+         real       current_stage       ! current phenological stage
+         integer    day_of_year         ! day of year
+         real       daylength_at_emerg  ! daylength at emergence (h)
+         real       days_tot (max_stage) ! duration of each phase (days)
+         real       dlayer (max_layer)   ! thickness of soil layer I (mm)
+         real       dlt_canopy_height   ! change in canopy height (mm)
+         real       dlt_dm              ! the daily biomass production (g/m^2)
+         real       dlt_dm_dead_detached(max_part) ! plant biomass detached from dead plant (g/m^2)
+         real       dlt_dm_detached(max_part) ! plant biomass detached (g/m^2)
+         real       dlt_dm_grain_demand ! grain dm demand (g/m^2)
+         real       dlt_dm_green(max_part) ! plant biomass growth (g/m^2)
+         real       dlt_dm_green_retrans(max_part) ! plant biomass retranslocated (g/m^2)
+         real       dlt_dm_light          ! the daily biomass production limited by light(g/m^2)
+         real       dlt_dm_N              ! the daily biomass production limited by nitrogen(g/m^2)
+         real       dlt_dm_sen_retrans(max_part) ! plant biomass retranslocated out of senesced parts (g/m^2)
+         real       dlt_dm_senesced(max_part) ! plant biomass senescence (g/m^2)
+         real       dlt_dm_stress_max   ! maximum daily stress on dm production (0-1)
+         real       dlt_dm_water          ! the daily biomass production limited by water(g/m^2)
+         real       dlt_heat_stress_tt  ! change in heat stress accumulation
+         real       dlt_lai             ! actual change in live plant lai
+         real       dlt_lai_stressed    ! potential change in plant lai allowing for stress
+         real       dlt_lai_pot         ! potential change in live plant lai
+         real       dlt_leaf_no         ! actual fraction of oldest leaf expanded ()
+         real       dlt_leaf_no_dead    ! fraction of oldest green leaf senesced ()
+         real       dlt_leaf_no_pot     ! potential fraction of oldest leaf expanded ()
+         real       dlt_N_dead_detached(max_part) ! actual N loss with detached dead plant (g/m^2)
+         real       dlt_N_detached(max_part) ! actual N loss with detached plant (g/m^2)
+         real       dlt_N_green(max_part) ! actual N uptake into plant (g/m^2)
+         real       dlt_N_retrans(max_part) ! nitrogen retranslocated out from parts to grain (g/m^2)
+         real       dlt_N_senesced(max_part) ! actual N loss with senesced plant (g/m^2)
+         real       dlt_NO3gsm(max_layer) ! actual NO3 uptake from soil (g/m^2)
+         real       dlt_plants          ! change in Plant density (plants/m^2)
+         real       dlt_plants_failure_germ
+         real       dlt_plants_failure_emergence
+         real       dlt_plants_failure_leaf_sen
+         real       dlt_plants_failure_phen_delay
+         real       dlt_plants_death_seedling
+         real       dlt_plants_death_drought
+         real       dlt_plants_death_barrenness
+         real       dlt_root_depth      ! increase in root depth (mm)
+         real       dlt_slai            ! area of leaf that senesces from plant
+         real       dlt_slai_detached      ! plant senesced lai detached
+         real       dlt_stage           ! change in stage number
+         real       dlt_sw_dep(max_layer) ! water uptake in each layer (mm water)
+         real       dlt_tiller_no       ! fraction of new tiller ()
+         real       dlt_tlai_dead_detached ! plant lai detached from dead plant
+         real       dlt_tt              ! daily thermal time (growing deg day)
+         real       dlt_tt_curv         ! daily thermal time (growing deg day)
+         real       dlt_tt_other        ! daily thermal time (growing deg day)
+         real       dm_dead(max_part)   ! dry wt of dead plants (g/m^2)
+         real       dm_green(max_part)  ! live plant dry weight (biomass) (g/m^2)
+         real       dm_green_demand(max_part) ! biomass demand of the plant parts (g/m^2)
+         real       dm_plant_min(max_part) ! minimum weight of each plant part (g/plant)
+         real       dm_plant_top_tot(max_stage) ! total carbohydrate production in tops per stage (g/plant)
+         real       dm_senesced(max_part) ! senesced plant dry wt (g/m^2)
+         real       dm_stress_max(max_stage) ! sum of maximum daily stress on dm production per phase
+         real       dm_tiller_independence ! new tiller DM (g/m^2)
+         real       dul_dep (max_layer)   ! drained upper limit soil water content for soil layer L (mm water)
+         real       fr_intc_radn        ! fraction of radiation intercepted by canopy
+         real       grain_no            ! grain number (grains/plant)
+         real       heat_stress_tt(max_stage) ! heat stress cumulation in each phase
+         integer      isdate                 ! flowering day number
+         real       lai                 ! live plant green lai
+         real       lai_equilib_light(366) ! lai threshold for light senescence
+         real       lai_equilib_water(366) ! lai threshold for water senescence
+         real         lai_max                ! maximum lai - occurs at flowering
+         real       latitude            ! latitude (degrees, negative for southern hemisphere)
+         real       leaf_area(max_leaf) ! leaf area of each leaf (mm^2)
+         real       leaf_no(max_stage)  ! number of fully expanded leaves ()
+         real       leaf_no_dead(max_stage) ! no of dead leaves ()
+         real       leaf_no_dead_const2 ! intercept for second slope of seneced leaf number (after flag leaf stage)
+         real       leaf_no_effective   ! number of leaves the plant produced # fully expanded leaves plus corr. factor
+         real       leaf_no_final       ! total number of leaves the plant produces
+         real       leaf_no_ref         ! total no of leaves the main shoot produces GD
+         real       leaf_no_total       ! gd
+         real       lf_no_dead_at_flaglf ! senesced leaf number at flag leaf
+         real       maxt                 ! maximum air temperature (oC)
+         integer    mdate                ! maturity day number
+         real       mint                 ! minimum air temperature (oC)
+         real       N_conc_act_stover_tot  ! sum of tops actual N concentration (g N/g biomass)
+         real       N_conc_crit(max_part)  ! critical N concentration (g N/g biomass)
+         real       N_conc_crit_stover_tot ! sum of tops critical N concentration (g N/g biomass)
+         real       N_conc_max(max_part)   ! maximum N concentration (g N/g biomass)
+         real       N_conc_min(max_part)   ! minimum N concentration (g N/g biomass)
+         real       N_dead(max_part)       ! plant N content of dead plants (g N/m^2)
+         real       N_demand (max_part)    ! critical plant nitrogen demand (g/m^2)
+         real       N_demand_tot           ! sum of N demand since last output (g/m^2)
+         real       N_green(max_part)      ! plant nitrogen content (g N/m^2)
+         real       N_max (max_part)       ! maximum plant nitrogen demand (g/m^2)
+         real       N_senesced(max_part)   ! plant N content of senesced plant (g N/m^2)
+         real       N_tiller_independence  ! new tiller N (g/m^2)
+         real       N_uptake_grain_tot     ! sum of grain N uptake (g N/m^2)
+         real       N_uptake_stover_tot    ! sum of tops N uptake (g N/m^2)
+         real       N_uptake_tot           ! cumulative total N uptake (g/m^2)
+         real       NO3gsm (max_layer)     ! nitrate nitrogen in layer L (g N/m^2)
+         real       NO3gsm_min(max_layer)  ! minimum allowable NO3 in soil (g/m^2)
+         real       NO3gsm_diffn_pot(max_layer) ! potential NO3 (supply) from soil (g/m^2), by diffusion
+         real       NO3gsm_mflow_avail(max_layer) ! potential NO3 (supply) from soil (g/m^2) by mass flow
+         real       n_fix_pot
+         integer    num_layers             ! number of layers in profile ()
+         real       phase_tt(max_stage) ! Cumulative growing degree days required for each stage (deg days)
+         real       phase_tt_curv(max_stage) ! Cumulative growing degree days required for each stage (deg days)
+         real       phase_tt_other(max_stage) ! Cumulative growing degree days required for each stage (deg days)
+         character  plant_status*5      ! status of crop
+         real       plants              ! Plant density (plants/m^2)
+         real       previous_stage      ! previous phenological stage
+         real       radn                ! solar radiation (Mj/m^2/day)
+         real       radn_int            ! radn intercepted by leaves (mj/m^2)
+         real       root_depth          ! depth of roots (mm)
+         real       row_spacing         ! row spacing (m) [optional]
+         real       slai                ! area of leaf that senesces from plant
+         real       soil_temp(366)      ! soil surface temperature (oC)
+         real       sowing_depth        ! sowing depth (mm)
+         character  stem_class*10       ! main stem or tiller
+!           character  last_mdl_name*10 ! last name of THIS data for debugging.
+         real       sw_avail(max_layer)   ! actual extractable soil water (mm)
+         real       sw_avail_pot(max_layer) ! potential extractable soil water (mm)
+         real       sw_demand             ! total crop demand for water (mm)
+         real       sw_dep (max_layer)    ! soil water content of layer L (mm)
+         real       sw_supply (max_layer) ! potential water to take up (supply) from current soil water (mm)
+         integer    tiller_independence ! tiller ready to become independent (0/1)
+         real       tiller_no(max_stage)  ! number of tillers ()
+         real       tlai_dead              ! total lai of dead plants
+         real       transp_eff             ! transpiration efficiency (g dm/m^2/mm water)
+         real       transpiration_tot        ! cumulative transpiration (mm)
+         real       tt_curv_tot(max_stage)  ! the sum of growing degree days for a phenological stage (oC d)
+         real       tt_other_tot(max_stage)  ! the sum of growing degree days for a phenological stage (oC d)
+         real       tt_tot(max_stage)   ! the sum of growing degree days for a phenological stage (oC d)
+         real       y_tiller_tt_adj(max_table)  ! thermal time for tiller appearance rate (oCd)
+         integer    year                ! year
+         real       swdef_expansion
+         real       swdef_photo
+         real       swdef_pheno
+         real       nfact_expansion
+         real       nfact_photo
+         real       nfact_grain_conc
+         real       nfact_pheno
+         real       temp_stress_photo
+         real       swdef_fixation
+         real       node_no(max_stage)
+ !        real       dlt_leaf_no_pot
+         real       dlt_node_no_pot
+         real       dlt_slai_age
+         real       dlt_slai_light
+         real       dlt_slai_water
+         real       dlt_slai_frost
+      !...................millet_p_real
+         real uptake_P (max_layer) !
+         real pfact_photo
+         real pfact_pheno
+         real pfact_expansion
+         real pfact_grain
+         real p_demand
+         real plant_p
+         real dlt_plant_p
+         real P_conc_max
+         real P_conc_min
+
+      !...................millet_p_int
+         integer num_uptake_P
+
+!jh special for erik
+         logical    stop_growth         ! flag to prevent growth and development.
+         logical    set_leaf_no_final   ! flag for external setting of final leaf no.
+!jh special for erik
+
+      end type MilletGlobals
+!     ================================================================
+
+
+      type MilletParameters
+         sequence
+         integer    est_days_emerg_to_init ! estimated days from emergence to floral initiation
+         real       grain_gth_rate      ! potential grain growth rate (G3) (mg/grain/day)
+         real       head_grain_no_max   ! maximum kernel number (was G2) (grains/plant)
+         real       hi_incr             ! harvest index increment per day ()
+         real       hi_max_pot          ! maximum harvest index (g grain/ g biomass)
+         real       kl(max_layer)         ! root length density factor for water
+         real       ll_dep(max_layer)     ! lower limit of plant-extractable soil water for soil layer L (mm)
+         real       pp_endjuv_to_init   ! Photoperiod sensitivity coefficient (dtt/hr)
+         real       spla_intercept      ! intercept of regression for calculating inflection point of senescence function (oC)
+         real       spla_prod_coef      ! curvature coefficient for leaf area senescence function (1/oC)
+         real       tiller_no_fertile   ! no of tillers that produce a head  ()
+         real       tpla_inflection     ! inflection point of leaf area production function (oC)
+         real       tpla_prod_coef      ! curvature coefficient for leaf area production function (1/oC)
+         real       tt_emerg_to_endjuv  ! Growing degree days to complete emerg_to_endjuv stage (emergence to end of emerg_to_endjuv) (deg day)
+         real       tt_flag_to_flower   ! growing deg days for head emergence phase (deg day).
+         real       tt_flower_to_maturity ! Growing degree days to complete grainfill (silking to maturity) (deg day)
+         real       tt_flower_to_start_grain ! growing degree-days for flower_to_start_grain
+         real       tt_maturity_to_ripe ! growing deg day required to for grain dry down (deg day)
+         real       y0_const            ! largest leaf area intercept
+         real       y0_slope            ! largest leaf area slope
+
+         real       xf(max_layer)      ! root exploration factor (0-1)
+         character  uptake_source*10   ! switch for source of water and no3
+                                       ! uptake.
+         real       x_stem_wt(max_table)!plant weights
+         real       y_height(max_table) !plant heights for above weights
+         integer    num_stem_wt         !number of lookup pairs
+
+      end type MilletParameters
+!     ================================================================
+
+
+      ! instance variables.
+      type (MilletGlobals), pointer :: g
+      type (MilletParameters), pointer :: p
+      type (MilletConstants), pointer :: c
+      save g
+      save p
+      save c
+
+      integer MAX_NUM_INSTANCES
+      parameter (MAX_NUM_INSTANCES=10)
+      integer MAX_INSTANCE_NAME_SIZE
+      parameter (MAX_INSTANCE_NAME_SIZE=50)
+
+      type MilletDataPtr
+         type (MilletGlobals), pointer ::    gptr
+         type (MilletParameters), pointer :: pptr
+         type (MilletConstants), pointer ::  cptr
+         character Name*(MAX_INSTANCE_NAME_SIZE)
+      end type MilletDataPtr
+
+      type (MilletDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+      save Instances
+
+      contains
+
+      include 'millet.for'
+      include 'mill_opt.for'
+
+
+
 !  This is an instantiating version of millet.  It is used to allow multiple
 !  instantiations of this module.  One for the main stem and one for each
 !  of the 5 tillers.  It that uses some features of FORTRAN 90 as
@@ -96,7 +748,6 @@
       Recursive
      :subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -118,13 +769,11 @@
       Instances(InstanceNo)%Name = InstanceName
 
       return
-      end
-
+      end subroutine
 !     ===========================================================
       Recursive
      :subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -144,13 +793,11 @@
       deallocate (Instances(anInstanceNo)%cptr)
 
       return
-      end
-
+      end subroutine
 !     ===========================================================
       Recursive
      :subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -170,14 +817,12 @@
       c => Instances(anInstanceNo)%cptr
 
       return
-      end
-
+      end subroutine
 
 *     ================================================================
       Recursive
      :subroutine Main (action, data_string)
 *     ================================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -186,7 +831,7 @@
       character  data_string*(*)       ! (INPUT) Message data
 
 *+  Purpose
-*      This module simulates phenology, root, leaf, stem, panicle, and grain growth, 
+*      This module simulates phenology, root, leaf, stem, panicle, and grain growth,
 *      water and nitrogen uptake, photosynthesis, and leaf and root senescence.
 
 *+  Mission Statement
@@ -197,8 +842,6 @@
 *      220696 jngh added message_unused to else
 *      190599 jngh removed reference to version and mes_presence
 
-*+  Calls
-      logical millet_my_type
 
 *+  Constant Values
       character  my_name*(*)           ! name of this procedure
@@ -359,13 +1002,11 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 * ====================================================================
       Recursive
      :subroutine Millet_prepare ()
 * ====================================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -408,8 +1049,7 @@ cjh special for erik - end
 
       call pop_routine (myname)
       return
-      end
-
+      end subroutine
 
 
 
@@ -418,14 +1058,13 @@ cjh special for erik - end
       Recursive
      :subroutine millet_process ()
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
 *+  Purpose
 *     Simulate crop process, including phenology, biomass (carbohydrate) and nitrogen
 *     accumulation and partitioning, senescence of vegetative plant parts, and water
-*     and N uptake. All processes can be affected by abiotic stresses like drought, 
+*     and N uptake. All processes can be affected by abiotic stresses like drought,
 *     N and P deficiency, and temperature stress.
 
 *+  Mission Statement
@@ -515,15 +1154,13 @@ c+!!!!!!!!! check order dependency of deltas
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       Recursive
      :subroutine millet_dead ()
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -547,15 +1184,13 @@ c+!!!!!!!!! check order dependency of deltas
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       Recursive
      :subroutine millet_harvest ()
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -569,7 +1204,6 @@ c+!!!!!!!!! check order dependency of deltas
 *+  Changes
 *     010994 jngh specified and programmed
 
-*+  Calls
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -766,15 +1400,13 @@ cejvo      leaf_no = sum_between (germ, harvest_ripe, g%leaf_no)
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       Recursive
      :subroutine millet_zero_all_globals ()
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -884,7 +1516,7 @@ cejvo      leaf_no = sum_between (germ, harvest_ripe, g%leaf_no)
          c%N_fact_expansion          = 0.0
          c%N_fact_pheno              = 0.0
          c%N_fact_photo              = 0.0
-         c%N_fix_rate                = 0.0
+         c%N_fix_rate(:)             = 0.0
          c%N_leaf_init_conc          = 0.0
          c%N_leaf_sen_conc           = 0.0
          c%N_root_init_conc          = 0.0
@@ -1211,13 +1843,11 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       Recursive
      :subroutine millet_zero_variables ()
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -1371,15 +2001,13 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       Recursive
      :subroutine millet_zero_daily_variables ()
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -1456,15 +2084,13 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       Recursive
      :subroutine millet_init ()
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -1497,15 +2123,13 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       Recursive
      :subroutine millet_start_crop ()
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -1520,7 +2144,6 @@ cjh special for erik - end
 *     090695 psc  add row spacing read
 *     220696 jngh changed extract to collect
 
-*+  Calls
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -1606,15 +2229,13 @@ cjh      endif
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       Recursive
      :subroutine millet_initiate ()
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -1727,14 +2348,12 @@ cjh      endif
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine millet_read_cultivar_params ()
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -1746,8 +2365,6 @@ cjh      endif
 
 *+  Changes
 *       090994 jngh specified and programmed
-
-*+  Calls
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -1921,14 +2538,12 @@ cgd   Eriks modifications for Leaf Area
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine millet_read_root_params ()
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -1941,8 +2556,6 @@ cgd   Eriks modifications for Leaf Area
 *+  Changes
 *       090994 jngh specified and programmed
 *     210395 jngh changed from millet_section to a parameters section
-
-*+  Calls
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -2054,13 +2667,11 @@ cgd   Eriks modifications for Leaf Area
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 *     ================================================================
       Recursive
      :subroutine millet_get_other_parameters ()
 *     ================================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -2095,8 +2706,7 @@ cgd   Eriks modifications for Leaf Area
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 
@@ -2104,7 +2714,6 @@ cgd   Eriks modifications for Leaf Area
       Recursive
      :subroutine millet_end_crop ()
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -2229,8 +2838,7 @@ cgd   Eriks modifications for Leaf Area
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 
@@ -2238,7 +2846,6 @@ cgd   Eriks modifications for Leaf Area
       Recursive
      :subroutine millet_store_value (array, value)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -2273,13 +2880,11 @@ cgd   Eriks modifications for Leaf Area
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       Recursive
      :subroutine millet_ONtick ()
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -2325,13 +2930,11 @@ cgd   Eriks modifications for Leaf Area
 
       call pop_routine (myname)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       Recursive
      :subroutine millet_ONnewmet ()
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 *+  Purpose
@@ -2385,8 +2988,7 @@ cgd   Eriks modifications for Leaf Area
 
       call pop_routine (myname)
       return
-      end
-
+      end subroutine
 
 
 
@@ -2395,7 +2997,6 @@ cgd   Eriks modifications for Leaf Area
       Recursive
      :subroutine millet_get_other_variables ()
 *     ================================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -2534,15 +3135,13 @@ c+!!!!!!!! what to do if no waterbalance variables found
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ================================================================
       Recursive
      :subroutine millet_set_other_variables ()
 *     ================================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -2595,13 +3194,11 @@ c+!!!! perhaps we should get number of layers at init and keep it
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       Recursive
      :subroutine millet_update_other_variables ()
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -2683,8 +3280,7 @@ c+!!!! perhaps we should get number of layers at init and keep it
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 * ====================================================================
       Recursive
      :subroutine millet_Send_Crop_Chopped_Event (crop_type
@@ -2765,14 +3361,12 @@ c+!!!! perhaps we should get number of layers at init and keep it
 
       call pop_routine (myname)
       return
-      end
-
+      end subroutine
 
 *     ===============================================================
       Recursive
      :subroutine millet_set_my_variable (Variable_name)
 *     ===============================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -2840,15 +3434,13 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ================================================================
       Recursive
      :subroutine millet_send_my_variable (variable_name)
 *     ================================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -2867,9 +3459,6 @@ cjh special for erik - end
 *      170495 psc  added grain_size, yield, biomass to output list
 *      220696 jngh added message_unused to else
 
-*+  Calls
-!x      real  MILLET_SWDEF
-!x      real  millet_N_fixation
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -3634,13 +4223,11 @@ cejvo
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       Recursive
      :logical function millet_my_type ()
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -3677,14 +4264,12 @@ cejvo
 
       call pop_routine (my_name)
       return
-      end
-
+      end function
 
 
 *     ===========================================================
       subroutine millet_read_constants ()
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -4001,8 +4586,8 @@ cejvo             linear interpolate SLA_max
 
          !    millet_N_fixation
 
-      call read_real_var (section_name
-     :                    , 'N_fix_rate', '(g N/g plant)'
+      call read_real_array (section_name
+     :                    , 'N_fix_rate', max_stage, '(g N/g plant)'
      :                    , c%N_fix_rate, numvals
      :                    , 0.0, 1.0)
 
@@ -4763,14 +5348,12 @@ cpsc
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 *     ===========================================================
       Recursive
      :subroutine millet_set_my_class (module_name)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -4802,6 +5385,6 @@ cpsc
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
-
+      end module MilletModule
