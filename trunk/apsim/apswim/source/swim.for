@@ -416,6 +416,7 @@ c        timestep??????? !!
       logical          xipdif
       character        string*300
       double precision gfhkp
+      double precision qdrain(0:M)
 
       save ifirst,ilast,gr
 
@@ -573,11 +574,14 @@ cnh
       do 25 i=0,p%n
 25    g%rex=g%rex+g%qex(i)
 
-***   NIH  get subsurface inflow fluxes
+***   NIH  get subsurface fluxes
+      call apswim_drain(qdrain)
+
       g%rssf = 0.
       do 26 i=0,p%n
-         g%qssf(i) = g%SubSurfaceInFlow(i)/10./24d0 ! assumes mm and daily timestep - need something better !!!!
-         g%rssf = g%rssf + g%qssf(i)
+         g%qssif(i) = g%SubSurfaceInFlow(i)/10./24d0 ! assumes mm and daily timestep - need something better !!!!
+         g%qssof(i) = qdrain(i) ! Add outflow calc here later
+         g%rssf = g%rssf + g%qssif(i) - g%qssof(i)
 26    continue
 
 ***   get soil surface fluxes, taking account of top boundary condition
@@ -599,7 +603,8 @@ cnh
             q0=g%ron-g%res+g%hold/g%dt
 
             if(g%psi(0).lt.0..or.
-     :             q0.lt.g%qs(0)+g%qex(0)+g%q(1)-g%qssf(0))then
+     :             q0.lt.g%qs(0)+g%qex(0)+g%q(1)-g%qssif(0)
+     :                   +g%qssof(0))then
                g%q(0)=q0
                qp2(0)=-respsi*psip(0)
                g%roff=0.
@@ -607,7 +612,7 @@ cnh
             else
 *              const zero potl
                ifirst=1
-               g%q(0)=g%qs(0)+g%qex(0)+g%q(1)-g%qssf(0)
+               g%q(0)=g%qs(0)+g%qex(0)+g%q(1)-g%qssif(0)+g%qssof(0)
                g%roff=q0-g%q(0)
                roffd=-qp2(1)
             end if
@@ -640,7 +645,7 @@ cnh
             g%res=g%resp
          end if
          g%h=max(g%psi(0),0d0)
-         g%q(0)=g%qs(0)+g%qex(0)+g%q(1)-g%qssf(0)
+         g%q(0)=g%qs(0)+g%qex(0)+g%q(1)-g%qssif(0)+g%qssof(0)
 *        flow to source of potl treated as "runoff" (but no bypass flow)
          g%roff=g%ron-g%res-(g%h-g%hold)/g%dt-g%q(0)
       end if
@@ -740,7 +745,8 @@ cnh
       else if(p%ibbc.eq.1)then
 **       const potl
          ilast=p%n-1
-         g%q(p%n+1)=g%q(p%n)-g%qs(p%n)-g%qex(p%n)+g%qssf(p%n)
+         g%q(p%n+1)=g%q(p%n)-g%qs(p%n)-g%qex(p%n)+g%qssif(p%n)
+     :             -g%qssof(p%n)
          if(p%ibp.eq.p%n)then
             g%q(p%n+1)=g%q(p%n+1)+g%qbp-qbps
             g%qbpd=0.
@@ -754,7 +760,8 @@ cnh
 cnh added to allow seepage to user potential at bbc
 cnh         if(g%psi(p%n).ge.0.)then
          if(g%psi(p%n).ge.p%constant_potential) then
-            g%q(p%n+1)=g%q(p%n)-g%qs(p%n)-g%qex(p%n)+g%qssf(p%n)
+            g%q(p%n+1)=g%q(p%n)-g%qs(p%n)-g%qex(p%n)+g%qssif(p%n)
+     :                -g%qssof(p%n)
             if(p%ibp.eq.p%n)g%q(p%n+1)=g%q(p%n+1)+g%qbp
             if(g%q(p%n+1).ge.0.)then
                ilast=p%n-1
@@ -792,7 +799,7 @@ cnh         if(g%psi(p%n).ge.0.)then
             b(k)=qp2(i)-qp1(j)
             c_(k)=-qp2(j)
          end if
-         rhs(k)=rhs(k)+g%qs(i)+g%qex(i)-g%qssf(i)
+         rhs(k)=rhs(k)+g%qs(i)+g%qex(i)-g%qssif(i)+g%qssof(i)
          b(k)=b(k)-qsp(i)
 *        bypass flow?
          if(p%ibp.ne.0.and.i.eq.p%ibp)then
@@ -1006,7 +1013,7 @@ cnh         j=indxsl(solnum,i)
             exco3=p%betaex(solnum,j)*(1.-p%fip(solnum,j))*c2(i)
          end if
          b(i)=(-(thi+exco1)/g%dt+p%alpha(solnum,j)*thi+exco2)*p%dx(i)-
-     1        apswim_slupf(1,solnum)*g%qex(i)
+     1        apswim_slupf(1,solnum)*g%qex(i)-g%qssof(i)
 cnh     1        p%slupf(solnum)*g%qex(i)
          rhs(i)=-g%qslprd(solnum,i)
      :          -(g%csl(solnum,i)*((g%thold(i)+exco1)
@@ -1294,6 +1301,7 @@ cnh         j=indxsl(solnum,p%n)
          g%qsl(solnum,p%n+1)=g%qsl(solnum,p%n)-g%qsls(solnum,p%n)
 cnh     :                  -g%qex(p%n)*g%csl(solnum,p%n)*p%slupf(solnum)
      :              -g%qex(p%n)*g%csl(solnum,p%n)*apswim_slupf(1,solnum)
+     :              -g%qssof(p%n)*g%csl(solnum,p%n)
      :              +g%qslprd(solnum,p%n)
      :              +(p%alpha(solnum,j)*g%th(p%n)
      :              +p%betaex(solnum,j)*cp)
@@ -1887,3 +1895,106 @@ cnh added following declarations
          if(again)go to 10
 20    continue
       end subroutine
+
+* =====================================================================
+      subroutine apswim_drain(qdrain)
+* =====================================================================
+*     Short Description:
+*     gets flow rate into drain
+*     All units are mm and days
+
+      Use infrastructure
+      implicit none
+
+*     Subroutine Arguments
+      double precision qdrain(0:M)
+
+*     Internal Variables
+      integer drain_node
+      real dlayer(1:M)
+      double precision q,d,wt_above_drain
+
+*     Constant Values
+*     none
+
+*
+      qdrain(0:M) = 0d0
+      dlayer(0:M) = g%dlayer(0:M)
+
+      if (p%subsurface_drain.eq.'on') then
+         drain_node = find_layer_no(real(p%drain_depth)
+     :                             ,dlayer(0)
+     :                             ,p%n+1)
+     :              - 1
+
+         d = p%Imperm_depth - p%drain_depth
+         if (g%psi(drain_node).gt.0) then
+            wt_above_drain = g%psi(drain_node)*10d0
+         else
+            wt_above_drain = 0d0
+         endif
+
+         q = Hooghoudt(d
+     :                ,wt_above_drain
+     :                ,p%drain_spacing
+     :                ,p%drain_radius
+     :                ,p%Klat)
+
+         qdrain(drain_node) = q/10d0/24d0
+
+      endif
+
+      return
+      end subroutine
+
+*     ===========================================================
+      double precision function Hooghoudt (d,m,L,r,Ke)
+*     ===========================================================
+      Use Infrastructure
+      implicit none
+
+*+  Sub-Program Arguments
+      double precision       d           ! (input) distance from drain to impermeable layer (mm)
+      double precision       m           ! (input) distance from drain to water table       (mm)
+      double precision       L           ! (input) distance between drains                  (mm)
+      double precision       r           ! (input) drain radius                             (mm)
+      double precision       Ke          ! (input) effective lateral saturated conductivity (mm/d)
+
+*+  Purpose
+*       Drainage loss to subsurface drain using Hooghoudts drainage equation. (mm/d)
+
+
+*+  Constant Values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'Hooghoudt')
+
+      double precision C                 ! ratio of flux between drains to flux midway between drains.
+      parameter (C = 1.0)    ! value of 1.0 usually used as a simplification.
+
+      double precision pi
+      parameter (pi = 3.14159265)
+
+*+  Local Variables
+      double precision       q           ! flux into drains (mm/s)
+      double precision       de          ! effective d to correct for convergence near the drain. (mm)
+      double precision       alpha       ! intermediate variable in de calculation
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+      if (d/L .le. 0) then
+         de = 0.0
+      elseif (d/L .lt. 0.3) then
+         alpha = 3.55 - 1.6*(d/L) + 2*(d/L)**2
+         de = d/(1.0+d/L*(8.0/pi*log(d/r)-alpha))
+      else
+         de = L*pi/(8.0*log(L/r)-1.15)
+      endif
+
+      q = (8.0*Ke*de*m + 4*Ke*m**2)/(C*L**2)
+
+      Hooghoudt = q
+
+      call pop_routine (my_name)
+      return
+      end function

@@ -31,6 +31,9 @@
       character bypass_flow_section*(*)
       parameter (bypass_flow_section = 'bypass_flow')
 
+      character drain_section*(*)
+      parameter (drain_section = 'drain')
+
       integer M
       parameter (M=100)
 
@@ -121,7 +124,9 @@
          double precision TD_evap
          double precision TD_pevap
          double precision TD_drain
+         double precision TD_subsurface_drain
          double precision TD_soldrain(nsol)
+         double precision TD_slssof(nsol)
          double precision TD_wflow(0:M)
          double precision TD_sflow(nsol,0:M)
 
@@ -161,7 +166,8 @@
          double precision rssf
          double precision qs(0:M)
          double precision qex(0:M)
-         double precision qssf(0:M)
+         double precision qssif(0:M)
+         double precision qssof(0:M)
 
          double precision slon (nsol)
          double precision sloff (nsol)
@@ -349,6 +355,12 @@
          double precision x(0:M)
          double precision dx(0:M)
 
+         character subsurface_drain*3
+         double precision drain_depth
+         double precision drain_spacing
+         double precision Klat
+         double precision drain_radius
+         double precision imperm_depth
 
       End Type APSwimParameters
 ! =====================================================================
@@ -820,6 +832,16 @@ c     :              1.0d0)
      :              p%echo_directives,
      :              numvals)
 
+      ! Read in flag for subsurface drainage
+      call Read_char_var_optional (
+     :              init_section,
+     :              'subsurface_drain',
+     :              '()',
+     :              p%subsurface_drain,
+     :              numvals)
+      if (numvals.eq.0) then
+         p%subsurface_drain = 'off'
+      endif
 
          ! Read in soil water characteristics for each node
          !            from parameter file
@@ -875,7 +897,7 @@ c     :              1.0d0)
      :              '(?)',
      :              temp_hkld,
      :              numvals,
-     :              -100.d0,
+     :              -200.d0,
      :              100.d0)
 
                do 90 point=1,num_sl
@@ -1248,6 +1270,59 @@ c     :              1.0d0)
       else
       endif
 
+      ! Subsurface Drainage Parameters
+      ! ==============================
+
+      If (p%subsurface_drain.eq.'on') then
+
+         call Read_double_var (
+     :              drain_section,
+     :              'drain_depth',
+     :              '(mm)',
+     :              p%drain_depth,
+     :              numvals,
+     :              1.0d0,
+     :              p%x(p%n))
+
+         call Read_double_var (
+     :              drain_section,
+     :              'drain_spacing',
+     :              '(mm)',
+     :              p%drain_spacing,
+     :              numvals,
+     :              1.0d0,
+     :              1.0d5)
+
+         call Read_double_var (
+     :              drain_section,
+     :              'drain_radius',
+     :              '(mm)',
+     :              p%drain_radius,
+     :              numvals,
+     :              1.0d0,
+     :              1.0d3)
+
+         call Read_double_var (
+     :              drain_section,
+     :              'imperm_depth',
+     :              '(mm)',
+     :              p%imperm_depth,
+     :              numvals,
+     :              p%drain_depth,
+     :              p%x(p%n))
+
+         call Read_double_var (
+     :              drain_section,
+     :              'Klat',
+     :              '(mm/d)',
+     :              p%Klat,
+     :              numvals,
+     :              1.0d0,
+     :              1.0d4)
+
+      else
+         ! Do nothing
+      endif
 
       call pop_Routine (myname)
       return
@@ -1715,6 +1790,24 @@ cnh added as per request by Dr Val Snow
      :            conc_adsorb_solute(0),
      :            p%n+1)
 
+      else if (Variable_name .eq. 'subsurface_drain') then
+         call respond2Get_double_var (
+     :            Variable_name,
+     :            '(mm)',
+     :            g%TD_subsurface_drain)
+
+      else if (index(Variable_name,'subsurface_drain_').eq.1) then
+
+         solname = Variable_name(18:)
+         solnum = apswim_solute_number(solname)
+
+         if (solnum .ne.0) then
+            call respond2Get_double_var (
+     :            Variable_name,
+     :            '(kg/ha)',
+     :            g%TD_slssof(solnum))
+
+         endif
 
       else
          call Message_Unused ()
@@ -1990,7 +2083,8 @@ cnh
       g%rssf = 0d0
       g%qs(:) = 0d0
       g%qex(:) = 0d0
-      g%qssf(:) = 0d0
+      g%qssif(:) = 0d0
+      g%qssof(:) = 0d0
 
 * =====================================================================
 cnh*      common/bypass/p%ibp,p%gbp,p%sbp,g%hbp,g%hbp0,g%hbpold,g%qbp,g%qbpd,slbp0,g%qslbp
@@ -3023,7 +3117,8 @@ c         print*,g%t
                do 15 i=0,p%n
                   qmax=max(qmax,g%qex(i))
                   qmax=max(qmax,abs(g%qs(i)))
-                  qmax=max(qmax,abs(g%qssf(i)))
+                  qmax=max(qmax,abs(g%qssif(i)))
+                  qmax=max(qmax,abs(g%qssof(i)))
 15             continue
                do 20 i=0,p%n+1
                   qmax=max(qmax,abs(g%q(i)))
@@ -3183,6 +3278,8 @@ cnh
                g%TD_drain  = g%TD_drain  + g%q(p%n+1)*g%dt*10d0
                g%TD_rain   = g%TD_rain   + g%ron*g%dt*10d0
                g%TD_pevap  = g%TD_pevap  + g%resp*g%dt*10d0
+               g%TD_subsurface_drain = g%TD_subsurface_drain
+     :                               + sum(g%qssof(0:p%n))*g%dt*10d0
                do 53 node = 0,p%n+1
                   g%TD_wflow(node) = g%TD_wflow(node)
      :                           + g%q(node)*g%dt*10d0
@@ -3199,10 +3296,15 @@ cnh
      :                     * (1d4)**2   ! cm^2/ha = g/ha
      :                     * 1d-9       ! kg/ug
      :                       )
+
+
                   do 52 node=0,p%n+1
                      g%TD_sflow(solnum,node) =
      :                    g%TD_sflow(solnum,node)
      :                  + g%qsl(solnum,node)*g%dt*(1d4)**2*1d-9
+                     g%TD_slssof(solnum) = g%TD_slssof(solnum)
+     :                  + g%csl(solnum,node)*g%qssof(node)
+     :                  *g%dt*(1d4)**2*1d-9
    52             continue
    51          continue
 
@@ -3675,6 +3777,8 @@ cnh     :       p%x(layer), p%soil_type(layer), g%th(layer),g%psi(layer)*1000.,
       g%TD_evap    = 0.0
       g%TD_pevap   = 0.0
       g%TD_drain   = 0.0
+      g%TD_subsurface_drain   = 0.0
+      g%TD_slssof(:) = 0d0
 
       g%TD_soldrain(:) = 0d0
       g%TD_wflow(:) = 0d0
@@ -5338,7 +5442,7 @@ cnh NOTE - intensity is not part of the official design !!!!?
      :              p%n+1,
      :              '(mm)',
      :              amount(0),
-     :              num vals,
+     :              numvals,
      :              0d0,
      :              1000d0)
 
@@ -9119,3 +9223,4 @@ c      pause
       endif
       return
       end subroutine respondToEvent
+
