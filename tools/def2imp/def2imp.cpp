@@ -29,7 +29,7 @@ int main (int argc, char** argv)
       if (words.size() > 0 &&
           words[0].find("@") == string::npos)
          {
-           out << "-import " << words[0].c _str() << endl;
+           out << "-import " << words[0].c_str() << endl;
          }
       else
          {
