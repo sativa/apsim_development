@@ -13,20 +13,24 @@
 #include "TREMSForm.h"
 #include "TExcelForm.h"
 #include "TFilterForm.h"
-
+#include "TStatsForm.h"
+#include "TeeEditPro.hpp"
+#include "TDecileFunction.h"
 //---------------------------------------------------------------------------
 #pragma resource "*.res"
-
 #pragma package(smart_init)
+#pragma link "TeeEditPro"
 
 //---------------------------------------------------------------------------
 // Called by SEG report to register all components.
 // These components will appear on the
 // form designer palette allowing the user to drop them on the report.
 //---------------------------------------------------------------------------
+AnsiString DecileDescription = "Decile function";
 void RegisterComponents(void)
    {
-   TComponentClass classes[9] = {__classid(TRichText),
+   RegisterTeeBasicFunction(__classid(TDecileFunction), &DecileDescription);
+   TComponentClass classes[10] = {__classid(TRichText),
                                  __classid(TQRImage),
                                  __classid(TApsimFileReader),
                                  __classid(TSOI),
@@ -34,8 +38,9 @@ void RegisterComponents(void)
                                  __classid(TProbability),
                                  __classid(TREMS),
                                  __classid(TExcel),
-                                 __classid(::TFilter)};
-   RegisterComponents("Standard", classes, 8);
+                                 __classid(::TFilter),
+                                 __classid(TStats)};
+   RegisterComponents("Standard", classes, 9);
    }
 
 //---------------------------------------------------------------------------
@@ -109,6 +114,13 @@ TForm* createComponentUI(TComponent* component, TWinControl* parent)
       TFilterForm* form = new TFilterForm(parent);
       form->Parent = parent;
       form->setComponent((::TFilter*) (component));
+      return form;
+      }
+   else if (component->ClassType() == __classid(TStats))
+      {
+      TStatsForm* form = new TStatsForm(parent);
+      form->Parent = parent;
+      form->setComponent(dynamic_cast<TStats*> (component));
       return form;
       }
 
