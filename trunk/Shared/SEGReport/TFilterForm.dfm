@@ -5,38 +5,21 @@ inherited FilterForm: TFilterForm
   TextHeight = 13
   inherited PageControl1: TPageControl
     inherited PropertiesSheet: TTabSheet
-      OnShow = PropertiesSheetShow
       object Label3: TLabel
         Left = 0
         Top = 32
-        Width = 67
+        Width = 25
         Height = 13
-        Caption = 'Column name:'
+        Caption = 'Filter:'
       end
-      object Label4: TLabel
-        Left = 0
-        Top = 72
-        Width = 67
-        Height = 13
-        Caption = 'Column value:'
-      end
-      object FieldNameCombo: TComboBox
-        Left = 72
-        Top = 32
-        Width = 145
+      object FilterEdit: TEdit
+        Left = 8
+        Top = 48
+        Width = 201
         Height = 21
-        ItemHeight = 13
+        Anchors = [akLeft, akTop, akRight]
         TabOrder = 0
-        OnChange = FieldNameComboChange
-      end
-      object FieldValueCombo: TComboBox
-        Left = 72
-        Top = 72
-        Width = 145
-        Height = 21
-        ItemHeight = 13
-        TabOrder = 1
-        OnChange = FieldValueComboChange
+        OnExit = FilterEditExit
       end
     end
   end
