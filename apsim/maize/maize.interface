@@ -122,7 +122,7 @@ class APSIMMaizePublic
   tt_maturity_to_ripe     : APSIMReal           = Growing deg day required to for grain dry down, (oC-days), READ
   x_stem_wt               : APSIMRealArray      = Plant weights, (g), READ, 0.0, 1000.0
   y_height                : APSIMRealArray      = Plant heights for above weights, (mm), READ, 0.0, 5000.0
-  uptake_source           : APSIMString_Opt     = Switch for source of water and no3 uptake, (), READ
+  uptake_source           : APSIMString         = Switch for source of water and no3 uptake, (), READ
   ll                      : APSIMRealArray      = Lower limit of plant-extractable soil water for soil layer l, (mm water/mm soil), READ
   kl                      : APSIMRealArray      = Root length density factor for water, (), READ
   xf                      : APSIMRealArray      = Root exploration factor, (0-1), READ
@@ -313,15 +313,15 @@ class APSIMMaizeExternal
   maxt                    : APSIMReal           = Maximum temperature, (oC), GET
   mint                    : APSIMReal           = Minimum temperature, (oC), GET
   radn                    : APSIMReal           = Incoming solar radiation, (MJ/m2), GET
-  soil_temp               : APSIMReal_Opt       = Soil temperature, (oC), GET, 0.0, 80.0
-  eo                      : APSIMReal_Opt       = Potential evapotranspiration (Priestley-Taylor), (mm/d), GET, 0.0, 20.0
+  soil_temp               : APSIMReal           = Soil temperature, (oC), GET, 0.0, 80.0
+  eo                      : APSIMReal           = Potential evapotranspiration (Priestley-Taylor), (mm/d), GET, 0.0, 20.0
   fr_intc_radn_nnnn       : APSIMReal           = Fraction of intercepted radiation from module nnnn, (), GET, 0.0, 1.0
   dlayer                  : APSIMRealArray      = Depth of soil layer, (mm), GET
   dul_dep                 : APSIMRealArray      = Drained upper limit in each layer, (mm), GET
   sw_dep                  : APSIMRealArray      = Soil water in each layer, (mm), GET
-  no3                     : APSIMRealArray_Opt  = Soil NO3 content, (kg/ha), GET
-  no3_min                 : APSIMRealArray_Opt  = Soil NO3 minimum, (kg/ha), GET
-  uptake_p_maize          : APSIMRealArray_Opt  = Soil P uptake, (g/m2), GET, 0.0, 100.0
+  no3                     : APSIMRealArray      = Soil NO3 content, (kg/ha), GET
+  no3_min                 : APSIMRealArray      = Soil NO3 minimum, (kg/ha), GET
+  uptake_p_maize          : APSIMRealArray      = Soil P uptake, (g/m2), GET, 0.0, 100.0
 
   add_residue             : APSIMAddResidueMethod      = Message to report a residue decomposition
   incorp_fom              : APSIMIncorporateFOMMethod  = Message to report a residue decomposition
