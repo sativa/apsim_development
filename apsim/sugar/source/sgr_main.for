@@ -307,6 +307,7 @@
       include 'data.pub'                          
       include 'crp_comm.pub'                      
       include 'error.pub'                         
+      include 'componentinterface.inc'
 
 *+  Purpose
 *       Report occurence of harvest and the current status of specific
@@ -318,6 +319,7 @@
 *+  Changes
 *     070495 nih taken from template
 *     191099 jngh changed to sugar_Send_Crop_Chopped_Event
+*     101100 dph  added eventInterface parameter to crop_root_incorp
 
 *+  Calls
                                        ! lu_scr_sum
@@ -541,6 +543,7 @@
      :                      ,g%root_depth
      :                      ,c%crop_type
      :                      ,max_layer
+     :                      ,EventInterface
      :                      )
  
 !         call crop_top_residue (c%crop_type, dm_residue, N_residue)
@@ -1640,6 +1643,7 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       include 'data.pub'                          
       include 'crp_comm.pub'                      
       include 'error.pub'                         
+      include 'componentinterface.inc'
 
 *+  Purpose
 *       End crop
@@ -1650,6 +1654,7 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 *+  Changes
 *       070495 nih taken from template
 *       191099 jngh changed to sugar_Send_Crop_Chopped_Event
+*     101100 dph  added eventInterface parameter to crop_root_incorp
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -1692,6 +1697,7 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
      :                      ,g%root_depth
      :                      ,c%crop_type
      :                      ,max_layer
+     :                      ,EventInterface
      :                      )
  
  
@@ -2012,21 +2018,11 @@ c      call sugar_update_other_variables ()
             dlt_NO3(layer) = g%dlt_NO3gsm(layer) * gm2kg /sm2ha
 1000     continue
  
-         call new_postbox()
-         call post_real_array ('dlt_no3', '(kg/ha)'
+         call set_real_array (unknown_module, 'dlt_no3', '(kg/ha)'
      :                    , dlt_NO3, num_layers)
-         call Action_send (unknown_module
-     :                    ,ACTION_set_variable
-     :                    ,'dlt_no3')
-         call delete_postbox()
  
-         call new_postbox()
-         call post_real_array ('dlt_sw_dep', '(mm)'
+         call set_real_array (unknown_module, 'dlt_sw_dep', '(mm)'
      :                    , g%dlt_sw_dep, num_layers)
-         call Action_send (unknown_module
-     :                    ,ACTION_set_variable
-     :                    ,'dlt_sw_dep')
-         call delete_postbox()
  
       else
          ! assume that the module that calculated uptake has also
@@ -3780,6 +3776,7 @@ cnh      c%crop_type = ' '
       include 'data.pub'                          
       include 'crp_comm.pub'                      
       include 'error.pub'                         
+      include 'componentinterface.inc'
 
 *+  Purpose
 *       Update other modules states
@@ -3790,6 +3787,7 @@ cnh      c%crop_type = ' '
 *+  Changes
 *      250894 jngh specified and programmed
 *      191099 jngh changed to sugar_Send_Crop_Chopped_Event
+*     101100 dph  added eventInterface parameter to crop_root_incorp
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -3835,6 +3833,7 @@ cnh      c%crop_type = ' '
      :                      ,g%root_depth
      :                      ,c%crop_type
      :                      ,max_layer
+     :                      ,EventInterface
      :                      )
  
       call pop_routine (my_name)
