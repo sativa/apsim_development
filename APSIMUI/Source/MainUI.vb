@@ -23,9 +23,9 @@ Public Class MainUI
 
         Dim splash As New SplashScreen
         splash.Show()
+        Application.EnableVisualStyles()
         Application.DoEvents()
         Application.Run(New MainUI)
-        Application.EnableVisualStyles()
         Application.DoEvents()
         splash.Hide()
 
@@ -43,7 +43,7 @@ Public Class MainUI
         Xceed.Chart.Licenser.LicenseKey = "CHT30-YTL57-0UXLJ-145A"
 
         'Add any initialization after the InitializeComponent() call
-        Application.EnableVisualStyles()
+        'Application.EnableVisualStyles()
 
         Dim settings As New APSIMSettings
         Dim documentationFile As String = settings.GetSetting("apsimui", "docfile")
@@ -701,15 +701,15 @@ Public Class MainUI
             SimulationFile = New APSIMFile
             Dim NewDocForm As New NewDocumentForm
             NewDocForm.ShowDialog()
-            If Not IsNothing(NewDocForm.Selection) Then
-                Dim newsim As New APSIMData("simulations", "untitled")
-                newsim.Add(NewDocForm.Selection)
-                newsim.Add(New APSIMData("shared", "shared"))
-                SimulationFile.OpenNewDocument(newsim)
-                SimulationExplorer.Data = SimulationFile.data
-                UpdateMainForm()
-                NewDocForm.Close()
-            End If
+            'If Not IsNothing(NewDocForm.Selection) Then
+            '    Dim newsim As New APSIMData("simulations", "untitled")
+            '    newsim.Add(NewDocForm.Selection)
+            '    newsim.Add(New APSIMData("shared", "shared"))
+            '    SimulationFile.OpenNewDocument(newsim)
+            '    SimulationExplorer.Data = SimulationFile.data
+            '    UpdateMainForm()
+            '    NewDocForm.Close()
+            'End If
 
         Catch e As System.Exception
             MsgBox(e.Message, MsgBoxStyle.Critical, "Error openinig document template")
