@@ -426,7 +426,15 @@ void Coordinator::onTerminateSimulationMessage(void)
 // ------------------------------------------------------------------
 void Coordinator::onGetValueMessage(unsigned int fromID, GetValueData& getValueData)
    {
-   sendQueryValueMessage(fromID, fromID, getValueData.ID, getValueData.ID);
+   if (!afterInit2)
+      {
+      string msg = "Cannot do GET's before the INIT2.\n";
+      msg += "Variable name: ";
+      msg += registrations.getRegistrationName(fromID, getValueData.ID);
+      error(msg.c_str(), true);
+      }
+   else
+      sendQueryValueMessage(fromID, fromID, getValueData.ID, getValueData.ID);
    }
 // ------------------------------------------------------------------
 // Send queryValue messages to all subscribed components.  The toID
