@@ -162,8 +162,13 @@ void Scenarios::getFactorAttributes(const std::string& factorName,
 void Scenarios::createScenariosFromCurrent(const string& factorName,
                                            const vector<string>& factorValues)
    {
-   createMultipleScenariosFrom(*currentScenario, factorName, factorValues);
-   deleteCurrentScenario();
+   if (factorValues.size() == 1)
+      currentScenario->setFactorValue(factorName, *(factorValues.begin()));
+   else
+      {
+      createMultipleScenariosFrom(*currentScenario, factorName, factorValues);
+      deleteCurrentScenario();
+      }
    }
 
 // ------------------------------------------------------------------
