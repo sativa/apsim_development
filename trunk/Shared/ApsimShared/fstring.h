@@ -303,16 +303,6 @@ class FStrings
       FString st;
    };
 
-char* strchr(const char* st, char ch)
-   {
-   char* pos = (char*)st;
-   while (*pos != NULL && *pos != ch)
-      ++pos;
-   if (*pos == NULL)
-      return NULL;
-   return pos;
-   }
-
 // restore the warnings about "Functions containing for are not expanded inline.
 #pragma warn .inl
 
