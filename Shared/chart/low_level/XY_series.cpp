@@ -70,8 +70,8 @@ void XY_series::Design (TChart* TChart_ptr)
    // set marker stuff.
    if (Line_series_ptr != NULL)
       {
-      Line_series_ptr->Pointer->Pen = Outline.Get_TChartpen();
-      Line_series_ptr->LinePen = Outline.Get_TChartpen();
+      Outline.Set_TChartpen(Line_series_ptr->Pointer->Pen);
+      Outline.Set_TChartpen(Line_series_ptr->LinePen);
       Line_series_ptr->SeriesColor = TColor(Outline.Colour);
       if (Marker_style == None)
          {

@@ -78,7 +78,7 @@ void Bar_series::Design (TChart* TChart_ptr)
       Custom_bar_series_ptr->ColorEachPoint = false;
 
       // set the brush.
-      Custom_bar_series_ptr->BarBrush = Fill.Get_TChartBrush ();
+      Fill.Set_TChartBrush(Custom_bar_series_ptr->BarBrush);
       Custom_bar_series_ptr->SeriesColor = TColor(Fill.Colour);
 
       // set the brush pen

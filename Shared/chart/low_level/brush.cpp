@@ -18,7 +18,7 @@ Brush::Brush (void)
    Colour.Green = 255;
    Colour.Blue = 255;
    Style = Solid;
-   brush = new TChartBrush;
+   brush = new TBrush;
    }
 
 // ------------------------------------------------------------------
@@ -46,11 +46,9 @@ Brush::~Brush (void)
 //    DPH 3/2/1997
 
 // ------------------------------------------------------------------
-
-TChartBrush* Brush::Get_TChartBrush (void)
+void Brush::Set_TChartBrush (TChartBrush* Brush)
    {
-   brush->Color = TColor(Colour);
-   brush->Style = TBrushStyle(Style);
-   return brush;
+   Brush->Color = TColor(Colour);
+   Brush->Style = TBrushStyle(Style);
    }
 

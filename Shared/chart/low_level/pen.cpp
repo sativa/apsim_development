@@ -20,7 +20,7 @@ Pen::Pen (void)
    Colour.Green = 0;
    Colour.Blue = 0;            // black.
    Style = Solid;
-   pen = new TChartPen;
+   pen = new TPen;
    }
 
 // ------------------------------------------------------------------
@@ -50,10 +50,9 @@ Pen::~Pen (void)
 
 // ------------------------------------------------------------------
 
-TChartPen* Pen::Get_TChartpen (void)
+void Pen::Set_TChartpen (TChartPen* Pen)
    {
-   pen->Color = TColor(Colour);
-   pen->Style = TPenStyle(Style);
-   return pen;
+   Pen->Color = TColor(Colour);
+   Pen->Style = TPenStyle(Style);
    }
 
