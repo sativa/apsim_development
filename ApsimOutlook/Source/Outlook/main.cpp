@@ -10,6 +10,7 @@
 #include <general\ini_file.h>
 #include <general\path.h>
 #include <dos.h>
+#include <shellapi.h>
 //---------------------------------------------------------------------
 #pragma link "TSimulations"
 #pragma link "TSimulations_from_mdbs"
