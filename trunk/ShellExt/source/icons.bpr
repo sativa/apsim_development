@@ -38,12 +38,11 @@ CFLAG1 = -I$(BCB)\include;$(BCB)\include\vcl -WD -Od -Hc -H=$(BCB)\lib\vcl40.csm
   -w-inl -Vx -tWM
 CFLAG2 =
 CFLAG3 =
-PFLAGS = -U..\..\shared\components\ui;..\..\shared\components\general;..\..\shared\components\thirdparty;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
+PFLAGS = -U$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
   -I$(BCB)\include;$(BCB)\include\vcl -$YD -$W -$O- -v -M -JPHNE
 RFLAGS = -i$(BCB)\include;$(BCB)\include\vcl
 AFLAGS = /i$(BCB)\include /i$(BCB)\include\vcl /mx /w2 /zd /d_RTLDLL
-LFLAGS = -L..\..\shared\components\ui;..\..\shared\components\general;..\..\shared\components\thirdparty;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
-  -aa -Tpd -x -Gn -Gi -v
+LFLAGS = -L$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) -aa -Tpd -x -Gn -Gi -v
 IFLAGS =
 # ---------------------------------------------------------------------------
 ALLOBJ = c0d32.obj Memmgr.Lib sysinit.obj $(OBJFILES)
@@ -79,24 +78,14 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
-[Excluded Packages]
-C:\THyperGrid\HyperGrid.bpl=THyperGrid component
-C:\Program Files\Borland\CBuilder3\Bin\DclTee4C.bpl=TeeChart 4.0 Components
-C:\Program Files\Borland\CBuilder3\Bin\DclTeP4C.bpl=TeeChart Pro 4.0 Components
-D:\apsuite\shared\components\ThirdParty\thirdparty.bpl=APSuite third party components
-D:\apsuite\shared\components\general\APSGeneral.bpl=APSuite general components
-D:\apsuite\shared\components\data\APSData.bpl=APSuite data mining/analysis components.
-C:\RX\Units\Dclrxctl.bpl=RX Library Controls and Tools
-C:\RX\Units\Dclrxdb.bpl=RX Library Database Components
-D:\apsuite\shared\components\UI\APSUI.bpl=APSuite user interface components and forms
-
 [HistoryLists\hlIncludePath]
 Count=1
 Item0=$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=1
-Item0=..\..\shared\components\ui;..\..\shared\components\general;..\..\shared\components\thirdparty;$(BCB)\lib\obj;$(BCB)\lib
+Count=2
+Item0=$(BCB)\lib\obj;$(BCB)\lib
+Item1=..\..\shared\components\ui;..\..\shared\components\general;..\..\shared\components\thirdparty;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
