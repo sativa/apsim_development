@@ -5,6 +5,7 @@
 #include <general\IniFile.h>
 #include <general\string_functions.h>
 #include <general\stl_functions.h>
+#include <general\path.h>
 #include <fstream.h>
 
 using namespace std;
@@ -14,12 +15,15 @@ typedef vector<pair<unsigned, unsigned> > Indexes;
 // ------------------------------------------------------------------
 IniFile::IniFile(void)
    {
+   haveDoneBackup = false;
    }
 // ------------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------------
-IniFile::IniFile(const string& fileName)
+IniFile::IniFile(const string& fileName, bool backups)
+   : createBackups(backups)
    {
+   haveDoneBackup = false;
    setFileName(fileName);
    }
 // ------------------------------------------------------------------
@@ -274,6 +278,7 @@ void IniFile::updateIndexesAfter(const string& section, unsigned numChars)
 // ------------------------------------------------------------------
 void IniFile::writeSection(const string& section, const string& newContents)
 	{
+   doBackup();
    unsigned posStartSection;
    unsigned posEndSection;
    if (getSectionPosition(section, posStartSection, posEndSection))
@@ -299,7 +304,7 @@ void IniFile::writeSection(const string& section, const string& newContents)
                contents += "\n";
             }
          else
-            contents = "\n\n";
+            contents += "\n\n";
          }
       sectionNames.push_back(section);
       sectionIndexes.push_back(contents.length());
@@ -315,6 +320,7 @@ void IniFile::writeSection(const string& section, const string& newContents)
 // ------------------------------------------------------------------
 void IniFile::write(const string& section, const string& key, const string& value)
 	{
+   doBackup();
    if (value == "")
       deleteKey(section, key);
    else
@@ -330,6 +336,7 @@ void IniFile::write(const string& section, const string& key, const string& valu
 void IniFile::write(const string& section, const string& key,
                     const vector<string>& values)
 	{
+   doBackup();
    unsigned insertPos;
    string contents;
    readSection(section, contents);
@@ -356,6 +363,7 @@ void IniFile::write(const string& section, const string& key,
 // ------------------------------------------------------------------
 void IniFile::deleteKey(const string& section, const string& key)
 	{
+   doBackup();
    unsigned insertPos;
    string contents;
    readSection(section, contents);
@@ -372,6 +380,7 @@ void IniFile::deleteKey(const string& section, const string& key)
 // ------------------------------------------------------------------
 void IniFile::deleteSection(const string& section)
 	{
+   doBackup();
    vector<string>::iterator i = find(sectionNames.begin(),
                                      sectionNames.end(),
                                      section);
@@ -480,6 +489,7 @@ void getKeyNameAndValue(const string& line, string& key, string& value)
 void IniFile::renameSection(const string& oldSection,
                             const string& newSection)
 	{
+   doBackup();
    vector<string>::iterator i = find(sectionNames.begin(),
                                      sectionNames.end(),
                                      oldSection);
@@ -502,6 +512,7 @@ bool IniFile::renameKey(const std::string& section,
                         const std::string& oldKey,
                         const std::string& newKey)
    {
+   doBackup();
    string sectionContents;
    readSection(section, sectionContents);
    Indexes indexes;
@@ -519,5 +530,20 @@ bool IniFile::renameKey(const std::string& section,
       return true;
       }
    return false;
+   }
+// ------------------------------------------------------------------
+// Perform a backup if we haven't already done so.
+// ------------------------------------------------------------------
+void IniFile::doBackup()
+   {
+   if (!haveDoneBackup)
+      {
+      Path bakFile(fileName);
+      string ext = bakFile.Get_extension();
+      ext.insert(1, "old");
+      bakFile.Set_extension(ext.c_str());
+      CopyFile(fileName, bakFile.Get_path().c_str(), false);
+      haveDoneBackup = true;
+      }
    }
 

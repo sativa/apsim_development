@@ -11,7 +11,7 @@ class IniFile
    public:
       IniFile(void);
       ~IniFile(void);
-      IniFile(const std::string& fileName);
+      IniFile(const std::string& fileName, bool createBackups = false);
 
       void refresh(void);
 
@@ -46,6 +46,8 @@ class IniFile
                          const std::string& newSection);
 
    private:
+      bool createBackups;
+      bool haveDoneBackup;
       std::string fileName;
       std::string contents;
       std::vector<std::string> sectionNames;
@@ -60,6 +62,8 @@ class IniFile
                               unsigned& posStartSection,
                               unsigned& posEndSection) const;
       void updateIndexesAfter(const std::string& section, unsigned numChars);
+
+      void doBackup();
    };
 
 // ------------------------------------------------------------------
