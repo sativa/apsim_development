@@ -1,0 +1,29 @@
+Output_file=rpt.out
+ 
+---------------------------------------------------------
+Registered to      : Zvi Hochman
+                   : APSRU
+Module : input
+Module : manager
+Module : report
+Module : frmrpt   - unknown in APSRU version control system.
+---------------------------------------------------------
+ 
+Report - initialising,V1.3  11/10/96
+Title =
+Screen output =off
+ 
+Variable list
+-------------
+ 
+Module = input
+Variables =day,year
+---------------------------------------------------------
+ 
+   - Reading Parameters
+ 
+======= Start of APSIM simulation ============================
+ Day=   5 Year =  1970     Manager sending message :- frmrpt clear test2
+ Day=  10 Year =  1970     Manager sending message :- frmrpt clear test2:ramp2
+ Day=  15 Year =  1970     Manager sending message :- frmrpt clear test2:manager.ramp2
+Simulation is terminating due to satisfying end of run conditions.
