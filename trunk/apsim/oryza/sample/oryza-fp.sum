@@ -35,8 +35,39 @@
      Output variables:
         clock.day
         clock.year
-        soiln2.no3()
-        soiln2.no3
+        oryza.crop_type
+        oryza.ep
+        micromet.peta
+        soilwat2.sw_dep
+        oryza.cropsta
+        oryza.dvs
+        soilwat2.sw_dep()
+        oryza.wso
+        oryza.wagt
+        oryza.wlvg
+        oryza.dvs
+        oryza.eff
+        oryza.ssga
+        oryza.pcew
+        oryza.lrstrs
+        oryza.ldstrs
+        oryza.lestrs
+        oryza.tnsoil
+        oryza.nacr
+        oryza.etd
+        oryza.wlo
+        oryza.wclqt
+        oryza.wcst
+        oryza.rlai
+        oryza.rnstrs
+        oryza.anlv
+        oryza.nplsb
+        oryza.nplds
+        oryza.isurf
+        oryza.etrd
+        oryza.etae
+        oryza.evsc
+        oryza.trc
      
      Output file = oryza-fp.out
      Format = normal
@@ -57,10 +88,10 @@
      
      SECTION:- start_of_day
      if (day = 15) then
-       oryza sow cultivar = cv1
+       oryza sow cultivar = ir72, establishment_section = transplanted
      endif
-     if (day = 135) then
-       oryza sow cultivar = cv1
+     if (day = 165) then
+       oryza sow cultivar = ir72, establishment_section = transplanted
      endif
      
      SECTION:- end_of_day
@@ -104,24 +135,40 @@
      Non - limiting Soil Nitrogen conditions
 ------- Start of simulation  --------------------------------------------------
 15 January 1992(Day of year=15), manager: 
-     Manager sending message :- oryza sow  cultivar = cv1
+     Manager sending message :- oryza sow  cultivar = ir72, establishment_section = transplanted
 15 January 1992(Day of year=15), oryza: 
         - Reading Parameters
         - Reading Cultivar Parameters
-14 May 1992(Day of year=135), manager: 
-     Manager sending message :- oryza sow  cultivar = cv1
-14 May 1992(Day of year=135), oryza: 
-        - Reading Parameters
-        - Reading Cultivar Parameters
+        - Reading Establishment Parameters
 16 May 1992(Day of year=137), oryza: 
      Maturity
 16 May 1992(Day of year=137), manager: 
      Manager sending message :- oryza end_crop
 16 May 1992(Day of year=137), oryza: 
-         Crop ended. Rough Rice Yield (dw) =  9325.2 (kg/ha)
-                             straw residue = 2863.9 (kg/ha)
+         Crop ended. Rough Rice Yield (dw) =  9751.0 (kg/ha)
+                             straw residue =11573.0 (kg/ha)
                              straw N       =    0.0 (kg/ha)
                              root residue  = 1910.3 (kg/ha)
                              root N        =    0.0 (kg/ha)
+     Non - limiting Soil Water conditions
+     Non - limiting Soil Nitrogen conditions
+13 June 1992(Day of year=165), manager: 
+     Manager sending message :- oryza sow  cultivar = ir72, establishment_section = transplanted
+13 June 1992(Day of year=165), oryza: 
+        - Reading Parameters
+        - Reading Cultivar Parameters
+        - Reading Establishment Parameters
+1 December 1992(Day of year=336), oryza: 
+     Maturity
+1 December 1992(Day of year=336), manager: 
+     Manager sending message :- oryza end_crop
+1 December 1992(Day of year=336), oryza: 
+         Crop ended. Rough Rice Yield (dw) = 14225.1 (kg/ha)
+                             straw residue =20536.7 (kg/ha)
+                             straw N       =    0.0 (kg/ha)
+                             root residue  = 3520.2 (kg/ha)
+                             root N        =    0.0 (kg/ha)
+     Non - limiting Soil Water conditions
+     Non - limiting Soil Nitrogen conditions
 31 December 1992(Day of year=366), clock: 
      Simulation is terminating due to end criteria being met.
