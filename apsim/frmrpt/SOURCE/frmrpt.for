@@ -643,8 +643,7 @@
       if (mdl .eq. '?') then
          componentID = Unknown_module
       else
-         ok = get_simulation_information(mdl, componentInfo, 
-     .                                   componentID, regID)
+         ok = component_name_to_id(mdl, componentID)
       endif
       call get_real_array(componentID, var, max_vals,
      :                     '()', vals, num_vals, -1e9, 1e9)
