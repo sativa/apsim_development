@@ -109,8 +109,8 @@ bool ApsimDataFile::next(void)
 //---------------------------------------------------------------------------
 bool ApsimDataFile::first(void)
    {
-   in.seekg(firstRecordPos);
    in.clear();
+   in.seekg(firstRecordPos);
    return readNextRecord(in);
    }
 //---------------------------------------------------------------------------
