@@ -1,0 +1,51 @@
+# (Borlandish) Makefile for apsim cropmod module
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:\progra~1\apsim33
+#APSROOT=c:\development
+
+# Platform specific defns
+!include $(APSROOT)\APSBuild\platform.make
+
+# Fortran compiler defns
+!include $(APSROOT)\APSBuild\fortran.make
+
+# The statically linked components of the engine interface
+!include $(APSROOT)\APSBuild\ApsimComponentInterface.make
+
+# Main target
+source: ..\lib\cropmod.dll
+
+..\lib\cropmod.dll: Registrations.obj cropmoddata.obj cropmod.obj cropmodmain.obj $(STATICLINKEDOBJECTS) $(APSROOT)\apsim\croptemp\lib\croptemp.lib
+	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
+	$(ECHO) $(F90FLAGS) >> linker.tmp
+	$(ECHO) $(F90CROPLIBS) $(APSROOT)\apsim\croptemp\lib\croptemp.lib >> linker.tmp
+	$(LF95) cropmoddata.obj cropmodmain.obj cropmod.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\cropmod.dll @linker.tmp
+	$(RM) linker.tmp
+
+# Compile with Crop Libraries
+.for.obj:
+	$(ECHO) $(F90FLAGS) > compiler.tmp
+	$(ECHO) $(F90CROPINCLUDES) >> compiler.tmp
+	$(ECHO) $(F90CROPMODS) >> compiler.tmp
+	$(LF95) -c $< -o $@ @compiler.tmp
+	$(RM) compiler.tmp
+
+.f90.obj:
+	$(ECHO) $(F90FLAGS) > compiler.tmp
+	$(ECHO) $(F90CROPINCLUDES) >> compiler.tmp
+	$(ECHO) $(F90CROPMODS) >> compiler.tmp
+	$(LF95) -c $< -o $@ @compiler.tmp
+	$(RM) compiler.tmp
+
+cropmod.imp:
+	$(ECHO) -implib ApsimShared.dll > cropmod.imp
+
+Registrations.obj: Registrations.f90
+
+Registrations.f90: ..\cropmod.interface 
+	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\cropmod.interface 
+
+clean:
+	$(RM) ..\lib\cropmod.dll Registrations.obj Registrations.f90 cropmoddata.obj cropmodmain.obj cropmod.obj cropmod.imp

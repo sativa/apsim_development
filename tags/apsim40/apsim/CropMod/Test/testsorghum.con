@@ -1,0 +1,40 @@
+version = 4
+[APSIM.test1_Sorghum]
+title=Test sowing before out
+module = clock      testSorghum.par[all] %apsuite\apsim\clock\clock.ini[standard]
+module = report     testSorghum.par[test1]  testSorghum.par[all]
+module = input(met)        %apsuite\apsim\met\sample\dalby.met[weather]
+module = manager    testSorghum.par[test1]   testSorghum.par[all]
+module = soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]  %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
+module = sorghum  testSorghum.par[all] %apsuite\apsim\sorghum\sorghum.ini [standard]
+module = SummaryFile  testSorghum.par[test1]
+module = Screen  testSorghum.par[all]
+
+[APSIM.test2_Sorghum]
+title=Test sowing after out on same day
+module = clock      testSorghum.par[all] %apsuite\apsim\clock\clock.ini[standard]
+module = report     testSorghum.par[test2]  testSorghum.par[all]
+module = input(met)        %apsuite\apsim\met\sample\dalby.met[weather]
+module = manager    testSorghum.par[test2]   testSorghum.par[all]
+module = soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]  %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
+module = sorghum  testSorghum.par[all] %apsuite\apsim\sorghum\sorghum.ini [standard]
+module = SummaryFile  testSorghum.par[test2]
+module = Screen  testSorghum.par[all]
+
+[APSIM.test3_Sorghum]
+title=Test sowing next day after out
+module = clock      testSorghum.par[all] %apsuite\apsim\clock\clock.ini[standard]
+module = report     testSorghum.par[test3]  testSorghum.par[all]
+module = input(met)        %apsuite\apsim\met\sample\dalby.met[weather]
+module = manager    testSorghum.par[test3]   testSorghum.par[all]
+module = soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]  %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
+module = sorghum  testSorghum.par[all] %apsuite\apsim\sorghum\sorghum.ini [standard]
+module = SummaryFile  testSorghum.par[test3]
+module = Screen  testSorghum.par[all]
+

@@ -1,0 +1,17 @@
+
+version = 4
+[apsim.maize]
+module = clock               sample.man [all]       %apsuite\apsim\clock\clock.ini [standard]
+module = report              report.par [sorghum]     report.par [sorghumF]    report.par  [all]
+module = input(met)          gatton.met [weather]
+module = manager             sample.man [sorghum]
+module = irrigate
+module = fertiliz                                    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = soilwat2            soil.par   [sample]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2              soil.par   [sample]     %apsuite\apsim\soiln2\soiln2.ini     [standard]
+module = SurfaceOM           soil.par   [sample]     %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soilp               soil.par   [sample]     %apsuite\apsim\soilp\soilp.ini [standard]
+module = sorghum             soil.par   [sample]     %apsuite\apsim\sorghum\sorghum.ini [standard]
+module = SummaryFile         sample.man [sorghum]
+module = Screen              sample.man [all]
+

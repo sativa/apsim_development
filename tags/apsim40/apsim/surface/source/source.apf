@@ -1,0 +1,10 @@
+[Dependencies]
+Dependency = %licensed_source(surface)
+
+[Contents]
+Registrations.f90 = Registrations.f90
+surface.for = surface.for
+
+[APSBuild]
+binary = ..\lib\surface.dll
+compilerfile=release.compile

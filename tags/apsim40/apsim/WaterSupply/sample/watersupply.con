@@ -1,0 +1,17 @@
+version = 4
+[apsim.sample_watersupply]
+
+title=watersupply Sample Simulation
+module = clock    watersupply.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   watersupply.par [sample]
+module = Input(Met)      %apsuite\apsim\met\sample\dalby.met[weather]
+module = manager  watersupply.par [sample]
+module = soilwat2 watersupply.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2   watersupply.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = solute   watersupply.par [sample]     %apsuite\apsim\solute\solute.ini [standard]
+module = Screen  watersupply.par[sample]
+module = SummaryFile watersupply.par[sample]
+module = watersupply(dam) watersupply.par[sample] dam.ini [standard]
+module = watersupply(bore) watersupply.par[sample] bore.ini [standard]
+module = watersupply(sump) watersupply.par[sample] sump.ini [standard]
+module = irrigate

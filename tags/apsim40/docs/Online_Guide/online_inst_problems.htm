@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Installation problems</title>
+</head>
+<body>
+<p><a name="top"></a></p>
+<!--BEGIN HEADER-->
+<!--END HEADER--><!--BEGIN MAIN CONTENT-->
+<!--=========<< LEFT SIDE CONTENT >>>>===========-->
+<table bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0"
+ width="602">
+  <tbody>
+    <tr>
+      <td rowspan="2" align="left" valign="top" width="200">
+      <table bgcolor="#999999" border="0" cellpadding="0"
+ cellspacing="0" width="202">
+        <tbody>
+          <tr>
+            <td bgcolor="#ffffff" valign="top"><br>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <table bgcolor="#ffffff" border="0" cellpadding="0"
+ cellspacing="0" width="191">
+        <tbody>
+          <tr>
+            <td valign="top"><img src="../shared/top_plate.jpg"
+ height="16" width="190"></td>
+          </tr>
+<!--spacer-->
+<!--end spacer--><!--END RELATED LINKS-->
+        </tbody>
+      </table>
+      <table bgcolor="#effbb9" border="0" cellpadding="8"
+ cellspacing="0" width="190">
+        <tbody>
+          <tr>
+            <td valign="top"><font face="helvetica, arial, sans serif"
+ size="2"><a href="online_inst_problems.htm">Installation Problems</a><br>
+            <a href="online_sim_failure.htm">Simulation Failure</a><br>
+            <a href="online_sim_malfunction.htm">Simulation Malfunction</a><br>
+            <a href="online_sim_tbl_shooting.htm">Science Trouble
+Shooting</a></font></td>
+          </tr>
+        </tbody>
+      </table>
+      <table bgcolor="#ffffff" border="0" cellpadding="0"
+ cellspacing="0" width="191">
+        <tbody>
+          <tr>
+            <td valign="top"><img src="../shared/Base_plate.jpg"
+ height="16" width="190"></td>
+          </tr>
+<!--spacer--> <tr>
+            <td><br>
+            </td>
+          </tr>
+<!--end spacer-->
+<!--END RELATED LINKS-->
+        </tbody>
+      </table>
+      </td>
+<!--=========<<<<< RIGHT SIDE CONTENT >>>>>==========--> <td
+ align="right" valign="top"><img src="../shared/spacer.gif" height="8"
+ width="390"><br>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top"><!-- MAIN CONTENT -->
+      <table border="0" width="390">
+<!-- SUPPORT HEADER, INDEX & INTRO --> <tbody>
+          <tr>
+            <td valign="top"><font color="#00376f" size="5">Installation
+Problems</font></td>
+          </tr>
+          <tr>
+            <td height="2" valign="top"><font size="4">&nbsp;</font>
+            <ol>
+              <font size="4"> </font> <li>
+                <p class="text"><b>When I run the APSIM installation
+program, I get an error message that says I must have a valid APSIM
+password. I type in the key given to me, but it fails to accept it.</b></p>
+              </li>
+              <p class="text">1. Be sure that you have typed the
+password correctly.<br>
+2. The password changes with each release. If you are trying to install
+a new version with an older key, you will get this message. <br>
+              </p>
+              <p class="text">If you have need a new password, or have
+misplaced your old one, please contact the <a
+ href="mailto:APSIM-Help@tag.csiro.au">Help Desk</a> to receive another
+key to complete a new installation.</p>
+              <b><li>
+                <p class="text">I used to have APSuite version 1.4 or
+lower and now after installing APSuite 1.5, APSFront produces and error
+message and crashes when I try to start the program.</p>
+              </li>
+              </b>
+              <p class="text">In Windows Explorer, look in the
+\APSWORK\CONFIG directory. Open the file called APSFRONT.INI. The file
+will have various lines that reference directories where the APSfront
+templates and met files are drawn from. Firstly make sure the
+directories are pointing to the correct relative paths. Secondly, you
+will notice that the start of the directory reference will have
+%HOMEDIR or %WORKDIR . For version 1.5 this should now be %APSWORK. The
+previous versions were are now obsolete and require the newer reference.</p>
+              <b> <li>
+                <p class="text">I am upgrading from version 1.3. Are
+there any issues I need to be aware of?</p>
+              </li>
+              </b>
+            </ol>
+            <b> </b>
+            <ul>
+              <b> </b>
+              <p class="text">(1.6+) Yes. In your AUTOEXEC.BAT file in
+your computer&#8217;s root directory, there will be a reference to an \APSIM
+directory in the SET PATH statement. When you upgrade to version 1.5
+there will be two new references in the SET PATH statement. These are
+\APSUITE\SHARED and \APSUITE\3RDPARTY. To ensure that APSIM runs
+correctly you must remove the \APSIM reference from the SET PATH
+statement in the AUTOEXEC.BAT file.<br>
+              </p>
+              <p class="text">(3.0+). Since the release of Apsim 3.0, a
+change tool will modify your control/parameter files to the current
+version. Make sure you keep backups to refer to.<br>
+              </p>
+            </ul>
+            </td>
+          </tr>
+          <tr>
+            <td valign="top"><br>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<!--END MAIN CONTENT -->
+<!--BEGIN FOOTER --><!-- #include file="../common/footer.inc" -->
+<!--END FOOTER -->
+<p>&nbsp;</p>
+</body>
+</html>

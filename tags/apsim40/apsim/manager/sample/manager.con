@@ -1,0 +1,23 @@
+version = 4
+
+[apsim.sample_manager]
+
+title=Manager Sample Simulation
+module = clock   manager.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report  manager.par [sample]
+module = Input(Met)     %apsuite\apsim\met\sample\dalby.met [weather]
+module = manager manager.par [sample]
+module = operatns manager.par [sample]
+module = screen manager.par [sample]
+module = summaryfile manager.par [sample]
+
+[test_modify_met_variables]
+
+title=Manager Sample Simulation
+module = clock   manager.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report  manager.par [modify_met]
+module = Input(Met)     %apsuite\apsim\met\sample\dalby.met [weather]
+module = manager manager.par [modify_met]
+module = screen manager.par [sample]
+module = summaryfile manager.par [modify_met]
+module = log manager.par[test]

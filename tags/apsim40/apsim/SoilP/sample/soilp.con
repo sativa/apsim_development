@@ -1,0 +1,15 @@
+version = 4
+[apsim.sample_soilp]
+title=soilp Sample Simulation
+
+module = clock    soilp.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   soilp.par [sample]
+module = Input(Met)      %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
+module = fertiliz                                                  %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = manager  soilp.par [sample]
+module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = SurfaceOM   soilp.par [sample] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = soilp    soilp.par [sample]                               %apsuite\apsim\soilp\soilp.ini [standard]
+module = screen   soilp.par [sample]
+module = summaryfile soilp.par [sample]

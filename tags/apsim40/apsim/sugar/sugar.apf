@@ -1,0 +1,23 @@
+[Dependencies]
+Dependency = %licensed(sugar)
+
+[Contents]
+Executable = lib\lib.apf
+Source = source\source.apf
+Sample = sample\sample.apf
+Documentation = docs\docs.apf
+
+[contacts]
+contact = Brian Keating - Module Developer; mailto:Brian.Keating@tag.csiro.au
+
+[apseudo]
+title=The APSIM Sugar Model
+parfile=
+parshowall=yes
+
+inifile=sugar.ini
+inishowall=yes
+
+rddfile=
+
+heading = The APSIM Sugar Model; main

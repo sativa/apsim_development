@@ -1,0 +1,269 @@
+<html>
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<title>APSIM 4.0</title>
+<link href="./docstyle.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<p class="Title1">APSIM<b><sup>4.0</sup></b> release notes</p>
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">10<sup>th</sup> Dec 2004</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">APSIM version 4 is a major release with many changes and
+enhancements.</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Title2">Documentation</p>
+
+<ul>
+  <li>
+
+<p class="Normal">All APSIM documentation has been recomposed to HTML format, and
+is available under the APSIM4 icon on your desktop and on the web at
+<a href="http://www.apsim.info">www.apsim.info</a>.</p>
+
+  </li>
+</ul>
+
+<p class="Title2">APSoil</p>
+
+<ul>
+  <li>
+
+<p class="Normal">APSoil has been reworked as a soil characterisation database
+capable of holding all soil numbers that APSIM requires. Soils can be created,
+edited and copied and pasted between databases. The soils can then be used from
+APSFront and from the new APSIM User Interface.</p>
+
+  </li>
+</ul>
+
+<p class="Title2">ApsimUI</p>
+
+<ul>
+  <li>
+
+<p class="Normal">Starting with version 4.0, a new user interface is being
+released. This interface provides full access to all APSIM functionality and
+will ultimately replace APSFront. To learn more about the interface and see some
+screen shots goto the APSIM User Interface Documentation.</p>
+
+  </li>
+</ul>
+
+<p class="Title2">Plant</p>
+
+<ul>
+  <li>
+
+<p class="Normal"> Internal changes to plant phenology (both legumes &amp; wheat)
+have resulted in (mostly minor) changes to plant development, with subsequent changes to
+biomass production / leaf area / N uptake.</p>
+
+  </li>
+  <li>
+
+<p class="Normal">Several defects to do with the water use efficiency
+calculations in the plant module have now been fixed.</p>
+
+  </li>
+  <li>
+
+<p class="Normal">A P defect is fixed - when SoilP was plugged in, there was no
+water uptake.</p>
+
+  </li>
+</ul>
+
+<p class="Title2">Peanut</p>
+<ul>
+  <li>
+<p class="Normal">There have been changes to the pod-filling process
+under water stress, as well as changes to Indian cultivars.</p>
+  </li>
+</ul>
+
+<p class="Title2">SurfaceOM, Residue2 and Manure</p>
+
+<ul>
+  <li>
+
+<p class="Normal">SurfaceOM replaces the old APSIM Residue2 and APSIM Manure as
+the module responsible for modelling the surface organic material present in a
+simulation. This new module contains numerous new features, including the
+ability to keep track of the fate of individual components in the surface matter
+mix (ie old wheat residues and new lucerne residues), the ability to specify
+different C:N and C:P ratios in each of the fresh organic matter pools
+(carbohydrate, cellulose, and lignin) for any individual residue, as well as
+retaining the old capacity to consider all the surface materials as a single
+entity, if desired. The new SurfaceOM module now facilitates more realistic
+modelling of crop residues in rotations, forest floor mulches (consisting of
+sticks, twigs, leaves etc – each with very different physical and chemical
+characteristics), and the use of manures in agriculture. For more information,
+please see the SURFACEOM science documentation. The changes required to the control and
+parameters files are made automatically when you run your simulation.</p>
+
+  </li>
+</ul>
+
+<p class="Title2">Solute</p>
+
+<ul>
+  <li>
+
+<p class="Normal">Several new output variables are now available in the APSIM
+Solute module. These allow the user to report the soil layer with the greatest
+concentration of any particular solute, and the corresponding amount of that
+solute in either parts per million (ppm) or kilograms per hectare (kg/ha).</p>
+
+  </li>
+</ul>
+
+<p class="Title2">Watersupply</p>
+
+<ul>
+  <li>
+
+<p class="Normal">APSIM Watersupply now has the capacity to specify the runoff
+characteristics of a catchment in terms of the catchment area (ha) and a
+catchment_runoff_factor (based on the USDA curve-number method). See
+documentation for more details. This feature is used to provide a simplified
+model for incoming surface water to a sump or dam, and may augment the capture
+of runoff from the simulated cropping area in situations where this is required.
+Several new output variables are also available in APSIM4, specifically relating
+to statistics on dam levels and dam filling events. See WaterSupply documentation for more details.</p>
+
+  </li>
+</ul>
+
+<p class="Title2">SWIM</p>
+
+<ul>
+  <li>
+
+<p class="Normal">Apswim is now capable of simulating soil profiles which
+include subsurface drains. The Hooghoudt drainage algorithm from DrainMod can
+now be used to provide a sink term for water and solutes at a given depth. A new
+bottom boundary condition has also been added to help better describe situations
+where the soil profile is interacting with a regional water table. For more
+information on either of these, refer to the apswim science documentation.</p>
+
+  </li>
+</ul>
+
+<p class="Title2">SoilN2</p>
+
+<ul>
+  <li>
+
+<p class="Normal">Temperature factors for decomposition have been changed to
+better handle frozen soil conditions.</p>
+
+  </li>
+</ul>
+
+<p class="Title2">Ozcot, PigeonP and Millet</p>
+
+<ul>
+  <li>
+
+<p class="Normal">These three modules are now included as part of the standard
+release. When using these modules, acknowledgement should be given to CSIRO
+Plant Industry, Narrabri for OZCOT and ICRISAT for PigeonP and Millet.</p>
+
+  </li>
+</ul>
+
+<p class="Title2">Sorghum</p>
+
+<ul>
+  <li>
+
+<p class="Normal">Several defects relating to N balance in Sorghum have been
+fixed.</p>
+
+  </li>
+</ul>
+
+<p class="Title2">Stock</p>
+
+<ul>
+  <li>
+
+<p class="Normal">The CSIRO Plant Industry <i>STOCK</i> module is now compatible
+with APSIM. To use STOCK in APSIM, please contact Andrew Moore, CSIRO Plant
+Industry, Canberra to obtain a licence for <i>Farmwi$e</i>. </p>
+
+  </li>
+  <li>
+
+<p class="Normal">Once <i>Farmwi$e</i> is installed, the stock.dll can be copied
+to the apsim/stock/lib directory.</p>
+
+  </li>
+</ul>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Title2">Phosphorus</p>
+
+<ul>
+  <li>
+
+<p class="Normal">Crops parameterised for P to use with SoilP are -</p>
+
+<ul>
+  <li>
+
+<p class="Normal">Cowpea</p>
+
+  </li>
+  <li>
+
+<p class="Normal">Maize</p>
+
+  </li>
+  <li>
+
+<p class="Normal">Mungbean</p>
+
+  </li>
+  <li>
+
+<p class="Normal">Navybean</p>
+
+  </li>
+  <li>
+
+<p class="Normal">Peanut</p>
+
+  </li>
+  <li>
+
+<p class="Normal">PigeonP</p>
+
+  </li>
+  <li>
+
+<p class="Normal">Sorghum</p>
+
+  </li>
+  <li>
+
+<p class="Normal">Soybean</p>
+
+  </li>
+</ul>
+
+<p class="Normal">&nbsp;</p>
+
+  </li>
+</ul>
+
+<p class="Title2">&nbsp;</p>
+
+</body>
+
+</html>

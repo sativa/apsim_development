@@ -1,0 +1,100 @@
+[sample.report.parameters]
+outputfile =micromet.out
+
+!module_names   = slurp     slurp     slurp       slurp slurp  slurp     slurp       slurp slurp      slurp          slurp      slurp
+!variable_names = crop_type sw_demand eo_fraction ep    cum_ep cover_tot cover_green rlv   no3_demand cum_uptake_no3 nh4_demand cum_uptake_nh4
+!variable_alias = -         -          -           -     -      -         -           -     -          -              -          -
+!units          = -         -          -           -     -      -         -           -     -          -              -          -
+
+!module_names   = soiln2 soiln2 soilwat2
+!variable_names = no3    nh4    sw_dep
+!variable_alias = -         -   -
+!units          = -         -   -
+
+variable = clock.day
+variable = clock.year
+variable = grass.sw_demand as grass_swd
+variable = grass.ep as grass_ep
+variable = tree.sw_demand as tree_swd
+variable = tree.ep as tree_ep
+[sample.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_date=1/1/1988
+end_date=30/1/1988
+
+[sample.manager.start_of_day]
+!if day = 1 or day = 15 then
+!   fertiliz apply amount = 100 (), type = nh4no3 ()
+!elseif day = 10 then
+!   slurp set eo_fraction = 0.75 ()
+!
+!endif
+
+
+
+[sample.manager.end_of_day]
+if day = 1 then
+   micromet lai_table
+   micromet rs_table
+   micromet pet_table
+endif
+report do_output
+
+[sample.grass.parameters]
+crop_type     = grass
+uptake_source = calc
+lai           = 3.0  ! Green LAI
+kg            = 0.5  ! Green light extinction coefficient
+laid          = 0.0  ! Dead LAI
+kd            = 0.5  ! Dead light extinction coefficient
+Frgr          = 1.0  ! Growth modifier for nutrients etc
+vpd = 0 10 50       ! vapour pressure deficit for interpolation (hPa)
+fvpd= 1 1  1        ! Interpolated VPD stress factor (0-1)
+height        = 200. (mm)
+tav =  5 20 25 40
+ft =   1  1  1  1
+
+ll =  0.230   0.240   0.240   0.250   0.260   0.270   0.280 () !mm3 water/mm3 soil
+kl =  0.07    0.07    0.07    0.07    0.05    0.05    0.04  () ! 1st order decay rate for PAWC
+XF =  1.0     1.0     1.0     1.0     1.0     1.0     1.0   () ! root exploration factor (0-1)
+RLV=  0.05    0.03    0.02    0.01    0.01    0.005   0.001 () ! mm/mm3 root length density
+
+[sample.tree.parameters]
+crop_type     = tree
+uptake_source = calc
+lai           = 3.0
+kg            = 0.5  ! Green light extinction coefficient
+laid          = 0.0  ! Dead LAI
+kd            = 0.5  ! Dead light extinction coefficient
+Frgr          = 1.0  ! Growth modifier for nutrients etc
+vpd = 0 10 50       ! vapour pressure deficit for interpolation (hPa)
+fvpd= 1 1  1        ! Interpolated VPD stress factor (0-1)
+tav =  5 20 25 40
+ft =   1  1  1  1
+
+height        = 5000. (mm)
+
+ll =  0.230   0.240   0.240   0.250   0.260   0.270   0.280 () !mm3 water/mm3 soil
+kl =  0.07    0.07    0.07    0.07    0.05    0.05    0.04  () ! 1st order decay rate for PAWC
+XF =  1.0     1.0     1.0     1.0     1.0     1.0     1.0   () ! root exploration factor (0-1)
+RLV=  0.05    0.03    0.02    0.01    0.01    0.005   0.001 () ! mm/mm3 root length density
+
+[sample.micromet.parameters]
+soil_albedo = 0.13
+layer_ga = 0.01666
+
+!      Interception = A_interception * (rain ^ B_interception)
+!                   + C_interception * Total_LAI
+!                   + D_interception
+! Standard LAI approach
+a_interception = 0.0
+b_interception = 0.0
+c_interception = 0.0
+d_interception = 0.0
+[sample.SummaryFile.parameters]
+summaryfile=micromet.sum
+[sample.Log.parameters]
+debug_output=on
+logfile=micromet.log
+[sample.Screen.parameters]
+screen_output=on

@@ -1,0 +1,22 @@
+[Dependencies]
+Dependency = %licensed(soilp)
+
+[Contents]
+Executable = lib\lib.apf
+Source = source\source.apf
+Sample = sample\sample.apf
+Documentation = docs\docs.apf
+
+[contacts]
+contact = Merv Probert - Module Developer; mailto:Merv.Probert@tag.csiro.au
+
+
+[apseudo]
+title=The APSIM SoilP Model
+parfile=
+parshowall=yes
+inifile=soilp.ini
+inishowall=yes
+rddfile=
+
+heading = APSIM Soilp Module; main

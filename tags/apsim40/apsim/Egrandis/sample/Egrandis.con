@@ -1,0 +1,16 @@
+version = 4
+[APSIM.sample_Egrandis]
+title=forest Sample Simulation
+module = clock   Egrandis.par [sample] %apsuite\apsim\clock\clock.ini [standard]
+module = report     Egrandis.par[sample]
+module = input(met)        %apsuite\apsim\met\sample\Toolara.met[weather]
+module = micromet   Egrandis.par[sample] %apsuite\apsim\micromet\micromet.ini[standard]
+module = manager    Egrandis.par[sample]
+module = fertiliz   %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = irrigate
+module = soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]  %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
+module = growth(Egrandis)     Egrandis.par[sample] %apsuite\apsim\Egrandis\Egrandis.ini[standard]
+module = SummaryFile  Egrandis.par[sample]
+module = Screen  Egrandis.par[sample]

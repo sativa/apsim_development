@@ -1,0 +1,39 @@
+# (Borlandish) Makefile for apsim sorghum module
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:\progra~1\apsim33
+#APSROOT=c:\development
+
+# Platform specific defns
+!include $(APSROOT)\APSBuild\platform.make
+
+# Fortran compiler defns
+!include $(APSROOT)\APSBuild\fortran.make
+
+# The statically linked components of the engine interface
+!include $(APSROOT)\APSBuild\ApsimComponentInterface.make
+
+# Main target
+source: ..\lib\sorghum.dll
+..\lib\sorghum.dll: Registrations.obj sorghum.obj $(STATICLINKEDOBJECTS) 
+	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
+	$(ECHO) $(F90FLAGS) >> linker.tmp
+	$(ECHO) $(F90CROPLIBS) >> linker.tmp
+	$(LF95) sorghum.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\sorghum.dll @linker.tmp
+	$(RM) linker.tmp
+   
+sorghum.obj: sorghum.for
+	$(ECHO) $(F90FLAGS) > compiler.tmp
+	$(ECHO) $(F90CROPINCLUDES);$(APSROOT)\apsim\cropmod\source >> compiler.tmp
+	$(ECHO) $(F90CROPMODS);$(APSROOT)\apsim\cropmod\source >> compiler.tmp
+	$(LF95) -c sorghum.for -o sorghum.obj @compiler.tmp
+	$(RM) compiler.tmp
+
+Registrations.obj: Registrations.f90
+Registrations.f90: ..\sorghum.interface 
+	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\sorghum.interface
+
+clean:
+	$(RM) ..\lib\sorghum.dll Registrations.obj Registrations.f90 sorghum.obj sorghum.imp
+

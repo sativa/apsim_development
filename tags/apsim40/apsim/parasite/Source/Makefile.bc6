@@ -1,0 +1,38 @@
+# (Borlandish) Makefile for apsim parasite module
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:\progra~1\apsim33
+#APSROOT=c:\development
+
+# Platform specific defns
+!include $(APSROOT)\APSBuild\platform.make
+
+# Fortran compiler defns
+!include $(APSROOT)\APSBuild\fortran.make
+
+# The statically linked components of the engine interface
+!include $(APSROOT)\APSBuild\ApsimComponentInterface.make
+
+# Main target
+source: ..\lib\parasite.dll
+..\lib\parasite.dll: Registrations.obj parasite.obj $(STATICLINKEDOBJECTS) 
+	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
+	$(ECHO) $(F90FLAGS) >> linker.tmp
+	$(ECHO) $(F90CROPLIBS) >> linker.tmp
+	$(LF95) parasite.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\parasite.dll @linker.tmp
+	$(RM) linker.tmp
+   
+parasite.obj: parasite.for
+	$(ECHO) $(F90FLAGS) > compiler.tmp
+	$(ECHO) $(F90CROPINCLUDES) >> compiler.tmp
+	$(ECHO) $(F90CROPMODS) >> compiler.tmp
+	$(LF95) -c parasite.for @compiler.tmp
+	$(RM) compiler.tmp
+
+Registrations.obj: Registrations.f90
+Registrations.f90: ..\parasite.interface
+	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\parasite.interface
+clean:
+	$(RM) ..\lib\parasite.dll Registrations.obj Registrations.f90 parasite.obj parasite.imp
+

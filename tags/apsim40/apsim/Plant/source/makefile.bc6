@@ -1,0 +1,76 @@
+# ---------------------------------------------------------------------------
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:\progra~1\apsim33
+#APSROOT=c:\development
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
+
+PROJECT=..\lib\Plant.dll
+
+OBJFILES=PlantComponent.obj Plant.obj PlantBiomass.obj PlantCanopy.obj PlantFail.obj PlantLibrary.obj \
+PlantNitrogen.obj PlantPhenology.obj PlantRoot.obj PlantTemp.obj PlantUtility.obj PlantWater.obj \
+Data.obj Science.obj Date.obj PlantComms.obj PlantP.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj
+
+LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
+	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
+	$(APSROOT)\Shared\general\general.lib
+
+USERDEFINES =
+SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
+INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\Boost;$(APSROOT)\Shared
+LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface
+
+# ---------------------------------------------------------------------------
+CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
+WARNINGS = -w-par
+LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
+
+ALLOBJ = c0d32.obj vcl.bpi Memmgr.Lib sysinit.obj $(OBJFILES)
+ALLRES = $(RESFILES)
+ALLLIB = $(LIBFILES) import32.lib cw32mti.lib
+
+CC=$(BCB)\Bin\bcc32.exe
+LD=$(BCB)\Bin\ilink32
+# ---------------------------------------------------------------------------
+source: $(PROJECT)
+
+$(PROJECT): $(OBJFILES) $(DEFFILE)
+    $(LD) @&&!
+    $(LFLAGS) -L$(LIBPATH) +
+    $(ALLOBJ), +
+    $(PROJECT),, +
+    $(ALLLIB), +
+    $(DEFFILE), +
+    $(ALLRES)
+!
+
+.cpp.obj:
+	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+
+
+####
+clean:
+	rm -f $(OBJFILES) *.bak *.csm
+
+PlantComponent.obj: PlantComponent.cpp plant.h
+Plant.obj: plant.cpp plant.h
+PlantBiomass.obj: PlantBiomass.cpp PlantLibrary.h
+PlantCanopy.obj: PlantCanopy.cpp PlantLibrary.h
+PlantComms.obj: PlantComms.cpp PlantLibrary.h
+PlantFail.obj: PlantFail.cpp PlantLibrary.h
+PlantLibrary.obj: PlantLibrary.cpp PlantLibrary.h
+PlantNitrogen.obj: PlantNitrogen.cpp PlantLibrary.h
+PlantPhenology.obj: PlantPhenology.cpp PlantPhenology.h
+PlantRoot.obj: PlantRoot.cpp PlantLibrary.h
+PlantTemp.obj: PlantTemp.cpp PlantLibrary.h
+PlantUtility.obj: PlantUtility.cpp PlantLibrary.h
+PlantWater.obj: PlantWater.cpp PlantLibrary.h
+PlantP.obj: PlantP.cpp PlantP.h
+Data.obj: Data.cpp PlantLibrary.h
+Date.obj: Date.cpp PlantLibrary.h
+Science.obj: Science.cpp PlantLibrary.h
+Error.obj: Error.cpp PlantLibrary.h

@@ -1,0 +1,62 @@
+[soilph.report.parameters]  
+
+!General parameters
+
+!Wheat paramaters
+
+
+!Water balance parameters
+
+
+ 
+!Soiln2 parameters
+ 
+
+
+!Residue2 parameters
+
+!SoilpH parameters
+
+variable = clock.day
+variable = clock.month
+variable = clock.year
+variable = clock.dd/mm/yyyy as date
+variable = tracker.avg@maxt
+variable = tracker.avg@mint
+variable = tracker.avg@radn
+variable = manager.crop_in
+variable = nwheat.emer_date
+variable = nwheat.anth_date
+variable = nwheat.mat_date
+variable = nwheat.lai as lai
+variable = nwheat.yield as yield
+variable = nwheat.tops_biom as tops_biom
+variable = nwheat.plantn as plantn
+variable = nwheat.root_wt as root_wt
+variable = tracker.sum@rain as rain
+variable = tracker.sum@ep() as ep
+variable = soilwat2.sw_dep() as sw_dep
+variable = tracker.sum@es as es
+variable = tracker.sum@runoff as runoff
+variable = tracker.sum@drain as drain
+variable = tracker.sum@eo as eo
+variable = soilwat2.sw
+variable = soiln2.urea
+variable = soiln2.nh4
+variable = soiln2.no3
+variable = tracker.sum@no3_leach as no3_leach
+variable = tracker.sum@nh4_leach as nh4_leach
+variable = tracker.sum@no3_uptake_equiv as no3_uptake
+variable = tracker.sum@nh4_uptake_equiv as nh4_uptake
+variable = tracker.sum@dnit as dnit
+variable = tracker.sum@dlt_n_min as dlt_n_min
+variable = surfaceom.surfaceom_n
+variable = surfaceom.surfaceom_wt
+variable = surfaceom.surfaceom_cover
+variable = soilph.phca as ph
+variable = tracker.sum@dlt_acid_n_cycle as acid_add_N
+variable = tracker.sum@acid_excretion_root as rt_excr
+variable = tracker.sum@ash_alk_wt_incorp as ash_alk
+variable = tracker.sum@dlt_acid_org_c_cycle
+variable = tracker.sum@h_equiv_flow_net
+variable = soilph.phbc

@@ -1,0 +1,19 @@
+version = 4
+[apsim.WagCW]
+
+
+title = Continuous wheat Wagga
+module = clock   csu-cw.par [all] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [soilph] csu-cw.par [WagCW]
+module = input(met)       072150.met [longterm]
+module = accum     csu-cw.par [all]
+module = manager   csu-cw.par [all] csu-cw.par [CW]
+module = soilwat2  csu-cw.par [all]  %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = SurfaceOM   csu-cw.par [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2    csu-cw.par [all]  %apsuite\apsim\SOILN2\SOILN2.INI [standard]
+module = plant(wheat)    csu-cw.par [all]  %apsuite\apsim\wheat\wheat.INI [standard]
+module = fertiliz                    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = soilph    csu-cw.par [all]  %apsuite\apsim\soilph\soilph.ini [standard]
+module = SummaryFile  csu-cw.par[WagCW]
+module = Screen  csu-cw.par[all]
+module = tracker  csu-cw.par[all]

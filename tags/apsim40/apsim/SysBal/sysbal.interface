@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="sysbal">
+   <registrations>
+      <respondToEventReg name="prepare" type="prepare"/>
+      <respondToEventReg name="post" type="prepare"/>
+   </registrations>
+</component>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="manager">
+   <registrations>
+      <read name="init" type="init" readable="T"/>
+      <read name="prepare" type="prepare" readable="T"/>
+      <read name="process" type="process" readable="T"/>
+      <read name="post" type="post" readable="T"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="prepare" type="prepare"/>
+      <respondToEventReg name="process" type="process"/>
+      <respondToEventReg name="post" type="post"/>
+   </registrations>
+</component>

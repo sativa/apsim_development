@@ -1,0 +1,57 @@
+# (Borlandish) Makefile for apsim infrastructure module
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:\progra~1\apsim33
+#APSROOT=c:\development
+
+# Platform specific defns
+!include $(APSROOT)\APSBuild\platform.make
+
+# Fortran compiler defns
+!include $(APSROOT)\APSBuild\fortran.make
+
+OBJECTS=ProtocolModule.obj dataTypes.obj dataTypesInterface.obj ComponentInterfaceModule.obj \
+convertmodule.obj constantsModule.obj error.obj string.obj \
+data.obj datastr.obj date.obj science.obj  \
+read.obj Infrastructure.obj
+#??event.obj is mentioned but missing??
+
+source: ..\lib\apsinfra.lib datatypes.f90
+
+### I GIVE UP.
+# For the life of me, I can't see why:
+#	"for /F %%o in ("$(OBJECTS)") do $(ECHO) +%%o \& >> linker.tmp"
+# doesn't work. So use this ugly hack for now. F78kling primitive cpm interpreter..
+###
+..\lib\apsinfra.lib: $(OBJECTS)
+	if exist apsinfra.lib $(RM) apsinfra.lib
+	$(ECHO) apsinfra.lib > linker.tmp
+	$(ECHO) +ProtocolModule.obj +ComponentInterfaceModule.obj +convertmodule.obj +constantsModule.obj +error.obj +string.obj +data.obj +datastr.obj +date.obj +science.obj +dataTypes.obj +dataTypesInterface.obj +read.obj +Infrastructure.obj >> linker.tmp
+	$(ECHO) apsinfra.lst >> linker.tmp
+	$(LFLM) @linker.tmp
+	$(MV) apsinfra.lib ..\lib\apsinfra.lib
+	$(RM) linker.tmp
+
+
+# NB. Assumption here that we are always working within the development tree. NB.
+# Datatypes.
+$(APSROOT)\shared\componentinterface\datatypes.h \
+$(APSROOT)\shared\componentinterface\datatypes.cpp \
+dataTypes.f90 \
+dataTypesInterface.f90: $(APSROOT)\apsim\infra\datatypes.interface $(APSROOT)\APSBuild\datatypes.macro $(APSROOT)\Bin\CreateDataTypesSource.exe
+	cd $(APSROOT)\Bin
+	$(APSROOT)\Bin\CreateDataTypesSource.exe
+   cd $(APSROOT)\apsim\infra\source
+
+# NB. Assumption here that we are always working within the development tree. NB.
+
+
+dataTypes.obj: dataTypes.f90
+dataTypesInterface.obj: dataTypesInterface.f90
+dataTypesModule.obj: dataTypesModule.f90
+
+clean:
+	$(RM) $(OBJECTS) datatypes.f90 datatypesinterface.f90
+	$(RM) $(APSROOT)\shared\componentinterface\datatypes.h
+	$(RM) $(APSROOT)\shared\componentinterface\datatypes.cpp
+	$(RM) ..\lib\apsinfra.lib

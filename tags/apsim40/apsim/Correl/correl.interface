@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="correl">
+   <registrations>
+      <type name="offset" kind="integer4" unit="-" lower_bound="0" upper_bound="30" description="Days on either side of of current day to correlate"/>
+      <type name="names" kind="string" array="T" unit="-" description="Names of variables to use in correlation matrix"/>
+      <type name="check" kind="string" array="T" unit="-" description="Not yet used"/>
+      <type name="check(i)" kind="integer4" array="T" unit="-" lower_bound="-1" upper_bound="1" description="Not yet used"/>
+      <type name="p%names(i)" kind="single" unit="" lower_bound="-1000.0" upper_bound="10000.0" description="Data values for correlation - to determine which variables are available"/>
+      <type name="g%name_found(i)" kind="single" unit="" lower_bound="-1000.0" upper_bound="10000.0" description="Data values of variables found used for correlation"/>
+
+      <read name="offset" type="offset" readable="T"/>
+      <read name="names" type="names" readable="T"/>
+      <read name="check" type="check" readable="T"/>
+      <read name="check(i)" type="check(i)" readable="T"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="end_run" type="end_run"/>
+      <getVariableReg name="p%names(i)" type="p%names(i)"/>
+      <getVariableReg name="g%name_found(i)" type="g%name_found(i)"/>
+      <respondToEventReg name="prepare" type="prepare"/>
+      <respondToEventReg name="process" type="process"/>
+   </registrations>
+</component>

@@ -1,0 +1,34 @@
+[all.report.parameters]
+outputfile = HTTcalculator.out
+variable = clock.day
+variable = clock.year
+variable = VenLink.st1
+variable = VenLink.sw1
+variable = VenLink.daily_htt
+variable = VenLink.sum_htt
+
+[all.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_date=1/1/1988
+end_date=31/12/1988
+
+[all.manager.start_of_day]
+! variables VENSIM needs on a daily basis.
+VenLink.st1 = st(1)
+VenLink.sw1 = sw(1)  
+
+report do_end_day_output
+
+[all.VenLink.parameters]
+model_filename = HTTcalculator.vmf
+! VENSIM variables that are gettable/settable by APSIM
+variable = st1
+variable = sw1
+variable = daily htt     
+variable = sum htt        
+
+[all.SummaryFile.parameters]
+summaryfile = HTTcalculator.sum
+
+[all.Screen.parameters]
+screen_output = on

@@ -1,0 +1,142 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<title>
+The APSIM Accum Module (ACCUM)</title>
+<link href="../../../docs/shared/docstyle.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<div>
+
+<p class="Title1">Tav_Amp</p>
+
+<p class="title2"><b><i>&nbsp;</i></b></p>
+
+<p class="title2">Purpose</p>
+
+<p class="Normal"><b><i>&nbsp;</i></b></p>
+
+<p class="Normal">Calculate values of annual average ambient temperature (TAV) 
+and annual amplitude in mean monthly temperature (AMP) for an APSIM climate 
+(met) file and insert these values with keywords into the file.<br>
+&nbsp;</p>
+<p class="Title2"><br>
+Introduction</p>
+<p class="Normal"><br>
+Apsim-SoilN2 (SoilN2) model uses the TAV and AMP to calculate the daily soil 
+temperature for a site. These two variables are read by SoilN2 from its site 
+parameter file and are used as default values for the site. If SoilN2 is unable 
+to obtain these values from another APSIM module, such as the Met or Manager 
+modules, it will use these default values. Tav_Amp has been constructed to 
+calculate and insert the TAV and AMP values into the keyword portion of an APSIM 
+climate file so that the Met module can provide these values on request by 
+SoilN2. Tav_Amp is a Lahey Fortran90 program compiled and linked to for 32 bit 
+operation.<br>
+&nbsp;<p class="Title2">
+<br>
+Description<p class="Normal"><br>
+Amp is obtained by averaging the mean daily temperature of each month over the 
+entire data period resulting in twelve mean temperatures, and then subtracting 
+the minimum of these values from the maximum. Tav is obtained by averaging the 
+twelve mean monthly temperatures.<br>
+<br>
+Tav_Amp reads a nominated met file, calculates the values for TAV and AMP and 
+writes a new met file with the calculated values inserted after the TAV and AMP 
+keywords, which are placed immediately before the column headers. A comment is 
+inserted before these new lines which specifies the date and time of insertion 
+and the start and end of the period over which the data is calculated. Any 
+existing TAV and AMP keyword and comment lines are removed. Ambient temperature 
+is calculated by averaging the maximum and minimum temperatures of the day. 
+Before reading the temperature data columns, the column headers are identified 
+by the text strings, year, maxt and mint which are not within a comment. <br>
+Tav_Amp is run from a DOS prompt or the Windows Run command and requires the 
+input and output file names to be specified after ‘Tav_Amp’.<br>
+&nbsp;<p class="Title2"><br>
+Requirements<p class="Normal"><br>
+Tav_Amp is a MSDOS based program written in Fortran 90, linked as a 32 bit 
+windows executable. It is currently compiled to use a maths co-processor. It 
+requires the input file to have at least 4 data columns, headed with the text 
+names of year, day, maxt and mint. A units line is expected to immediately 
+follow this header line. There are no requirements for the lines preceding the 
+header line. There must be at least one data line following the units line. All 
+comments are ignored. The column headers and data values must be separated by at 
+least one blank.<br>
+<br>
+Use<br>
+Syntax:<br>
+<br>
+Tav_Amp [drive:][path]input_filename [drive:][path]output_filename<br>
+<br>
+where:<br>
+[drive:][path]input_filename - <br>
+the name of the input file and optionally its path, up to 255 characters 
+including the path.<br>
+<br>
+[drive:][path]output_filename - <br>
+the name of the output file and optionally its path, up to 255 characters 
+including the path.<br>
+Eg.<br>
+Tav_Amp dalby.met dalby.me1<br>
+<br>
+The DOS ERRORLEVEL flag is not used.<br>
+<br>
+While Tav_Amp is running, it reports its progress as it analyses the input file 
+by displaying information about its actions in a window.<br>
+<br>
+Eg.<br>
+<br>
+<br>
+<font face="Courier New">Reading data from dalby.met<br>
+<br>
+Column header record found<br>
+Reading record : site year day radn maxt mint rain evap<br>
+<br>
+Reading temperature data<br>
+Starting record: DALB 1988 1 20.74 33.0 17.4 0.2 7.41<br>
+Ending record&nbsp; : DALB 1990 120 17.39 25.0 6.6 0.0 3.83<br>
+Number of records = 857<br>
+<br>
+Calculating TAV and AMP<br>
+TAV = 19.4890 AMP = 12.7583<br>
+<br>
+Writing data to file<br>
+AMP and TAV variables inserted into weather file: dalby.me1<br>
+<br>
+<br>
+Pause... Press Enter to exit<br>
+&nbsp;</font><p class="Title2">Output file description:<br>
+&nbsp;<p class="Normal"><br>
+The output file is a copy of the input file with all previous Tav and Amp lines 
+removed and three new lines inserted above the column header line.<br>
+<br>
+Eg.<br>
+<br>
+<font face="Courier New">!Title = Dalby 1988-1990<br>
+<br>
+[weather.met.weather]<br>
+Latitude=-27.11<br>
+! TAV and AMP inserted by &quot;tav_amp&quot; on 27/10/1999 at 22:31 for period from 
+1/1988 to 120/1990 (ddd/yyyy)<br>
+tav = 19.49 (oC) ! annual average ambient temperature<br>
+amp = 12.76 (oC) ! annual amplitude in mean monthly temperature<br>
+site year day radn maxt mint rain evap<br>
+() () () (MJ/m2) (oC) (oC) (mm) (mm)<br>
+DALB 1988 1 20.74 33.0 17.4 0.2 7.41<br>
+DALB 1988 2 23.43 33.8 23.0 0.0 7.41<br>
+DALB 1988 3 23.79 32.5 21.0 0.0 7.41<br>
+</font>…<p class="Title2"><br>
+Limits<br>
+&nbsp;<p class="Normal"><br>
+Maximum length of file names with paths is 255 characters.<br>
+Maximum source file line length is 200 characters.<br>
+Maximum number of data columns is 20.<br>
+Year range is 1850 to 2020 inclusive.<br>
+<br>
+&nbsp;</div>
+
+</body>
+
+</html>

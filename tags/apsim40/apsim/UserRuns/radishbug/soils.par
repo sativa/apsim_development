@@ -1,0 +1,127 @@
+!*******************************************************************
+!**************** SAND *********************************************
+!*******************************************************************
+
+!*************** Soiln2 Parameters *************************
+[sand.soiln2.parameters]
+!          0-5  5-10  10-20 10-30  30-40 40-50  50-60 60-70 70-90 80-110 110-130 130-150 150-170 170-190 190-210 210-230 230-250
+!layer     1     2     3      4      5    6       7    8     9     10      11      12      13      14      15      16      17
+nh4ppm   = 1.25 1.00  0.00   0.00  0.00  0.00   0.00  0.00  0.00  0.00     0       0       0        0       0       0       0
+no3ppm   = 1.5  1.00  0.50   0.50  0.50  0.50   0.50  0.50  0.50  0.50     0.50    0.50    0.50     0.50    0.50    0.50    0.50
+uppm  = 0  0    0     0      0     0     0      0      0      0     0      0       0       0        0       0       0       0
+root_wt = 1000. ! root residues as biomass (kg/ha)
+root_cn = 40.
+
+bd      = 1.58  1.68  1.67   1.78  1.85 1.85  1.8   1.8   1.8   1.8   1.8   1.8  1.8  1.8  1.8  1.8  1.8
+oc      =  .9    .9    .39   0.1   0.01 0.01  0.01  0.01  0.01  0.01  0.01  0.01 0.01 0.01 0.01 0.01 0.01
+ph      = 5.03  5.03  4.33   4.25  4.53 4.53  5.18  5.40  5.40  5.63  5.68  5.68 5.68 5.68 5.68 5.68 5.68
+
+! initial ratio of biomass-C to mineralizable humic-C (0-1)
+fbiom   = 0.040 0.040 0.03   0.02  0.01 0.01  0.01  0.01 0.01   0.01  0.01  0.01 0.01  0.01  0.01  0.01  0.01
+
+!initial proportion of total soil C that is not subject to mineralization (0-1)
+finert   = 0.1  0.1   0.1    0.2   0.8  0.8   0.9   0.9  0.9    0.9   0.9   0.09 0.09  0.09  0.09  0.09  0.09
+
+amp = 14.0   !12.0old temperature amplitude (oC) - difference between highest and
+             ! lowest mean monthly air temperatures
+tav = 18.6   !21.0old mean annual air temperature (oC)
+dmod = 1.0   ! weighting factor to adjust the rate of humus mineralization
+             ! for soils in which organic matter is chemically or physically
+             ! protected.
+
+soil_cn = 15.0 ! test 23.6, GA Moora estimate top layer 0-10cms test with 13 showed not different
+
+
+profile_reduction = on               ! (on|off) whether to remap N+C if
+                                     ! soil loss occurs.
+   enr_a_coeff    = 7.4  ()          ! 1.0 to 20.0 enrichment equation coefficients
+
+   enr_b_coeff    = 0.2  ()          ! 1.0 to 20.0 enrichment equation coefficients
+
+!******************** SurfaceOM Parameters ****************
+[sand.SurfaceOM.parameters]
+mass = 1500. (kg/ha)   ! Initial surface residue
+cnr = 70.0 ()        ! C:N ration of initial residue
+type = wheat         ! Type if initial residue
+
+
+!******************** Soilwat2 Parameters ****************
+name = wheat
+[sand.soilwat2.parameters]
+insoil = 0.1   ! indicator for initial soil water ! assuming profile close to ll15 on 1.5.
+               ! 0 to 1 is fraction of avail soil water (0=ll15, 1 = dul,
+               !                                         >1 = input by user)
+u = 6          ! stage 1 soil evaporation coefficient (mm)
+max_pond = 0   ! ponding capacity
+
+cn2_bare = 60       ! runoff curve number
+salb = 0.13    ! bare soil albedo
+cn_red = 20     ! curve number max reduction
+cn_cov = .80     ! cover which generates max cn reduction
+cona = 2.0      ! test for sandy soil
+crop _cover = 0. ! initialisation of crop cover
+diffus_const = 88  ! coeffs for dbar ! jpd suggests 550 for sands
+diffus_slope = 35 ! "   "   " ! jpd suggests 26 for sands
+
+
+runoff_filename = blank
+
+!depth     0-5  5-10 10-20 10-30 30-40 40-50 50-60 60-70 70-90 80-110 110-130 130-150 150-170 170-190 190-210 210-230 230-250
+!layer      1    2     3     4     5     6     7     8     9     10    11     12      13      14      15      16      17
+dlayer  =   50   50    100   100   100   100   100   100   200   200   200    200     200     200     200     200     200
+ll15  =    0.03  0.03  0.06  0.06  0.06  0.06  0.07  0.07  0.08  0.085  0.09  0.09    0.09    0.09    0.09    0.095   0.1
+sat   =    0.32  0.32  0.32  0.31  0.31  0.3   0.3   0.31  0.31  0.31   0.31  0.31    0.31    0.31    0.31    0.31    0.31
+dul   =    0.18  0.13  0.13  0.13  0.13  0.13  0.13  0.13  0.13  0.13   0.13  0.13    0.13    0.13    0.13    0.13    0.13
+sw      =  .180  .130  .120  .110  .110  .095  .095  .095  .100  .110  .110  .120    .120     .120   .120    .120    .120
+bd      =  1.58  1.68  1.67  1.78  1.78  1.85  1.85  1.8   1.8   1.8   1.8   1.8     1.8      1.8    1.8     1.8     1.8
+swcon   =  .75   .65    .60  .70   .70   .70   .70   .50   .50   .50   .50   .50     0.50     0.50   0.50    0.50    0.50
+mwcon   =  1.    1.     1.   1.    1.    1.    1.    1.    1.    1.    1.    1.      1.       1.     1.      1.      1.
+air_dry =  .030  .030   .040 .050  .050  .050  .050  .050  .050  .050  .050  .050   .050     .050    .050    .050    .050
+
+
+!******************** Crop Parameters ********************
+
+[sand.wheat.parameters]
+
+uptake_source = calc
+ll      =     0.03  0.03  0.06  0.06  0.06  0.06  0.07  0.08  0.085  0.09  0.11  0.12  0.12  0.12  0.12  0.12  0.12
+xf=           1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00  1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+kl=           0.08 0.08 0.08 0.08 0.08 0.08 0.08 0.08  0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.03 0.03
+! copied from red_earth.janz above
+nem =             0.6     0.6     0.6     0.6     0.6     0       0       0       0
+wr =              1        1      0.6     0.2     0.05    0       0       0       0
+
+[sand.wheat2.parameters]
+
+uptake_source = calc
+ll      =     0.03  0.03  0.06  0.06  0.06  0.06  0.07  0.08  0.085  0.09  0.11  0.12  0.12  0.12  0.12  0.12  0.12
+xf=           1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00  1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+kl=           0.08 0.08 0.08 0.08 0.08 0.08 0.08 0.08  0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.03 0.03
+! copied from red_earth.janz above
+nem =             0.6     0.6     0.6     0.6     0.6     0       0       0       0
+wr =              1        1      0.6     0.2     0.05    0       0       0       0
+
+[sand.radish.parameters]
+uptake_source = calc
+ll      =     0.03  0.03  0.06  0.06  0.06  0.06  0.07  0.08  0.085  0.09  0.11  0.12  0.12  0.12  0.12  0.12  0.12
+xf=           1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00  1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+kl=           0.08 0.08 0.08 0.08 0.08 0.08 0.08 0.08  0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.03 0.03
+
+[sand.radish2.parameters]
+uptake_source = calc
+ll      =     0.03  0.03  0.06  0.06  0.06  0.06  0.07  0.08  0.085  0.09  0.11  0.12  0.12  0.12  0.12  0.12  0.12
+xf=           1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00  1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+kl=           0.08 0.08 0.08 0.08 0.08 0.08 0.08 0.08  0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.03 0.03
+
+[sand.ryegrass.parameters]
+uptake_source = calc
+ll      =     0.03  0.03  0.06  0.06  0.06  0.06  0.07  0.08  0.085  0.09  0.11  0.12  0.12  0.12  0.12  0.12  0.12
+xf=           1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00  1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+kl=           0.08 0.08 0.08 0.08 0.08 0.08 0.08 0.08  0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.03 0.03
+
+[sand.ryegras2.parameters]
+uptake_source = calc
+ll      =     0.03  0.03  0.06  0.06  0.06  0.06  0.07  0.08  0.085  0.09  0.11  0.12  0.12  0.12  0.12  0.12  0.12
+xf=           1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00  1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+kl=           0.08 0.08 0.08 0.08 0.08 0.08 0.08 0.08  0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.03 0.03
+

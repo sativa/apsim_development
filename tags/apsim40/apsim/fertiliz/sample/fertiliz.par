@@ -1,0 +1,41 @@
+[sample.report.parameters]  
+outputfile =fertiliz.out   
+
+
+
+
+
+variable = clock.day
+variable = clock.year
+variable = fertiliz.fertilizer
+variable = soiln2.no3()
+variable = soiln2.nh4()
+[sample.clock.parameters]  
+! Start and end date of run (day number of year and year)
+start_date=1/1/1988
+end_date=30/1/1988
+
+[sample.manager.start_of_day]  
+if day = 10 then
+   fertiliz apply amount = 100 (kg/ha), depth = 20 (mm), type = no3_n
+
+elseif day = 25 then
+   fertiliz.fert_no3_n = 100
+
+endif
+
+[sample.manager.end_of_day]  
+report do_output
+
+[sample.fertiliz.parameters]  
+
+! Fertilizer application schedule
+year =  1988  1988   ! Year for application date
+day =      5    15   ! Day for application date
+type =  nh4_n no3_n   ! Type of fertilizer to apply
+depth =   50    50  (mm)   ! Depth of fertilizer application
+amount =  100  100  (kg/ha)   ! Amount of fertilizer applied
+[sample.SummaryFile.parameters]
+summaryfile=fertiliz.sum
+[sample.Screen.parameters]
+screen_output=on

@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value="..\..\..\..\Bin\WhopEconAddin.dll"/>
+    <OBJFILES value="WhopEconAddin.obj WhopEcon.obj ..\Scenario.obj ..\CropFields.obj"/>
+    <RESFILES value=""/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES)"/>
+    <LIBFILES value="..\..\..\..\Shared\general\general.lib
+      ..\..\..\..\Shared\ApsimShared\ApsimShared.lib
+      ..\..\..\..\Shared\GrossMarginCalculator\GrossMarginCalculator.lib
+      ..\..\..\..\Shared\general\general_vcl.lib"/>
+    <LIBRARIES value="VclSmp.lib kbmMemC6Run.lib TMSC6.lib APSGENERAL.lib APSData.lib"/>
+    <SPARELIBS value="rtl.lib vcl.lib dbrtl.lib vcldb.lib vclx.lib bdertl.lib vcldbx.lib
+      adortl.lib APSData.lib APSGENERAL.lib TMSC6.lib kbmMemC6Run.lib VclSmp.lib"/>
+    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi vcldb.bpi ibsmp.bpi
+      vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi inet.bpi nmfast.bpi
+      dclocx.bpi bcb97axserver.bpi adortl.bpi bdertl.bpi"/>
+    <PATHCPP value=".;.."/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
+    <RELEASELIBPATH value="$(BCB)\lib\release"/>
+    <LINKER value="ilink32"/>
+    <USERDEFINES value="_DEBUG"/>
+    <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
+    <MAINSOURCE value="WhopEconAddin.bpf"/>
+    <INCLUDEPATH value="..\..;..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED);$(SHARED)\components\data"/>
+    <LIBPATH value="..\..;..\;$(BCB)\Components\TeeChart\CBuilder6\Lib;..;..\..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\imports;$(BCB)\components\tms;$(BCB)\components\memtable;$(SHARED)\components\general"/>
+    <WARNINGS value="-w-par"/>
+    <OTHERFILES value=""/>
+  </MACROS>
+  <OPTIONS>
+    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi-
+      -tWD -tWM -c"/>
+    <PFLAGS value="-$Y+ -$W -$O- -$A8 -v -JPHNE -M"/>
+    <RFLAGS value=""/>
+    <AFLAGS value="/mx /w2 /zi"/>
+    <LFLAGS value="-l. -D&quot;&quot; -aa -Tpd -x -Gn -Gi -v"/>
+    <OTHERFILES value=""/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="c0d32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
+    <ALLRES value="$(RESFILES)"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+    <OTHERFILES value=""/>
+  </LINKER>
+  <FILELIST>
+      <FILE FILENAME="WhopEconAddin.bpf" FORMNAME="" UNITNAME="WhopEconAddin" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="WhopEconAddin.cpp" FORMNAME="" UNITNAME="WhopEconAddin" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="WhopEcon.cpp" FORMNAME="" UNITNAME="WhopEcon" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\Scenario.cpp" FORMNAME="" UNITNAME="Scenario" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\CropFields.cpp" FORMNAME="" UNITNAME="CropFields" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\..\Shared\GrossMarginCalculator\GrossMarginCalculator.lib" FORMNAME="" UNITNAME="GrossMarginCalculator.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\..\Shared\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=0
+AutoIncBuild=0
+MajorVer=1
+MinorVer=0
+Release=0
+Build=0
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=3081
+CodePage=1252
+
+[Version Info Keys]
+CompanyName=
+FileDescription=
+FileVersion=1.0.0.0
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=
+
+[HistoryLists\hlIncludePath]
+Count=24
+Item0=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED);$(SHARED)\components\data
+Item1=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(BCB)\components\tms;$(BCB)\components;$(SHARED);$(SHARED)\components\data
+Item2=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(BCB)\components\tms;$(BCB)\components;$(SHARED);$(SHARED)\components\data
+Item3=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
+Item4=$(BCB)\components\tms;..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(SHARED)
+Item5=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(SHARED)
+Item6=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(SHARED)
+Item7=K:\general;..\;..;$(BCB)\include;$(BCB)\include\vcl;K:\Components\Data\;K:\;K:\Components\General\;j:\RX\Units\;j:\ThirdParty\;$(BCB)\imports
+Item8=..;$(BCB)\include;$(BCB)\include\vcl;K:\Components\Data\;K:\;K:\Components\General\;j:\RX\Units\;j:\ThirdParty\;$(BCB)\imports
+Item9=..\;..;$(BCB)\include;$(BCB)\include\vcl;K:\Components\Data\;K:\;K:\Components\General\;j:\RX\Units\;j:\ThirdParty\;$(BCB)\imports
+Item10=..\;..;$(BCB)\include;$(BCB)\include\vcl;K:\Components\Data\;K:\;K:\Components\General\;j:\RX\Units\;j:\ThirdParty\
+Item11=..\;..;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components\Data\;K:\;K:\Components\General\;j:\RX\Units\;j:\ThirdParty\
+Item12=..\;..;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components\Data\;K:\;K:\Components\General\;j:\RX\Units;j:\ThirdParty
+Item13=..\..\..\..\3rdParty\RX\Units;..\..\..\..\3rdParty\ThirdParty;..\;..;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components\Data\;K:\;K:\Components\General\
+Item14=..\;..;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components\Data\;K:\;K:\Components\General\
+Item15=..\;..;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components\Data\;K:\;K:\Components\General
+Item16=..\;..;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components\Data\;K:\
+Item17=..\;..;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components\Data\
+Item18=..\;..;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components\
+Item19=..\;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;..;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components
+Item20=..\;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;..;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\
+Item21=..\..\..\..\3rdParty\Raize\RC25\LibBCB5;..\;..;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\
+Item22=..\..\..\..\3rdParty\Raize\RC25\LibBCB5;..\;..;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl
+Item23=..\;C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\include;$(BCB)\include\vcl
+
+[HistoryLists\hlLibraryPath]
+Count=25
+Item0=$(BCB)\Components\TeeChart\CBuilder6\Lib;..\;..;..\..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\imports;$(BCB)\components\tms;$(BCB)\components\memtable;$(SHARED)\components\general
+Item1=$(BCB)\Components\TeeChart\CBuilder6\Lib;..\;..;..\..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\imports;$(BCB)\components\tms;$(SHARED)\components\general
+Item2=..\;..;..\..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\imports;$(BCB)\components\tms;$(SHARED)\components\general
+Item3=..;..\..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\imports;$(BCB)\components\tms;$(SHARED)\components\general
+Item4=..;..\..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\imports;$(BCB)\components\tms
+Item5=..\;..;..\..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\imports;$(BCB)\components\tms
+Item6=..\;..;..\..\..\..\shared\components\data;..\..\..\..\shared\components\general;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\imports;$(BCB)\components\tms
+Item7=..\;..\..\..\..\shared\components\data;..\..\..\..\shared\components\general;..;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\imports;$(BCB)\components\tms
+Item8=..\..\..\..\shared\components\data;..\..\..\..\shared\components\general;..\;..;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\imports;$(BCB)\components\tms
+Item9=..\;..;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\imports;$(BCB)\components\tms
+Item10=$(BCB)\components\tms;..\;..;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\imports
+Item11=..;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\imports
+Item12=..\;..;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\imports
+Item13=K:\general;..\;..;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;K:\Components\General\;j:\RX\Units\;j:\ThirdParty\;$(BCB)\imports
+Item14=..;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;K:\Components\General\;j:\RX\Units\;j:\ThirdParty\;$(BCB)\imports
+Item15=..\;..;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;K:\Components\General\;j:\RX\Units\;j:\ThirdParty\;$(BCB)\imports
+Item16=..\;..;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;K:\Components\General\;j:\RX\Units\;j:\ThirdParty\
+Item17=..\;..;$(BCB)\projects\lib;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\lib\obj;$(BCB)\lib;K:\Components\General\;j:\RX\Units\;j:\ThirdParty\
+Item18=..\;..;$(BCB)\projects\lib;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\lib\obj;$(BCB)\lib;K:\Components\General\;j:\RX\Units;j:\ThirdParty
+Item19=..\..\..\..\3rdParty\RX\Units;..\..\..\..\3rdParty\ThirdParty;..\;..;$(BCB)\projects\lib;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\lib\obj;$(BCB)\lib;K:\Components\General\
+Item20=..\;..;$(BCB)\projects\lib;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\lib\obj;$(BCB)\lib;K:\Components\General\
+Item21=..\;..;$(BCB)\projects\lib;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\lib\obj;$(BCB)\lib;K:\Components\General
+Item22=..\;..;$(BCB)\projects\lib;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\lib\obj;$(BCB)\lib
+Item23=..\;$(BCB)\projects\lib;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;..;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\lib\obj;$(BCB)\lib
+Item24=$(BCB)\projects\lib;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;..\;C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=1
+Item0=_DEBUG
+
+[HistoryLists\hlFinalOutputDir]
+Count=4
+Item0=..\..\..\..\Bin\
+Item1=..\..\..\..\Bin
+Item2=L:\APSIMOutlook\WhopEconAddin\
+Item3=L:\OutlookDevelopment\WhopEconAddin\
+
+[HistoryLists\hIBPIOutputDir]
+Count=1
+Item0=.
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=
+Launcher=
+UseLauncher=0
+DebugCWD=
+HostApplication=C:\MyData\development\Bin\ApsimOutlook.exe
+RemoteHost=
+RemotePath=
+RemoteLauncher=
+RemoteCWD=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+
+[Linker]
+LibPrefix=
+LibSuffix=
+LibVersion=
+  </IDEOPTIONS>
+</PROJECT>

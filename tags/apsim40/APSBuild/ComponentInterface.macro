@@ -1,0 +1,42 @@
+#file Registrations.f90
+module Registrations
+   use DataTypes
+   type IDsType
+      sequence
+#for_each pubevent
+      integer :: pubevent.name
+#endfor
+#for_each subevent
+      integer :: subevent.name
+#endfor
+#for_each pubmethod
+      integer :: pubmethod.name_send
+#endfor
+#for_each submethod
+      integer :: submethod.name_receive
+#endfor
+
+   end type IDsType
+
+   contains
+
+      subroutine doRegistrations(id)
+         use Infrastructure
+         type(IDsType) :: id
+
+#for_each pubevent
+         id%pubevent.name = add_registration(eventReg, 'pubevent.name', pubevent.kindTypeDDML, '', '')
+#endfor
+#for_each subevent
+         id%subevent.name = add_registration(respondToEventReg, 'subevent.name', subevent.kindTypeDDML, '', '')
+#endfor
+#for_each pubmethod
+         id%pubmethod.name_send = add_registration(methodCallReg, 'pubmethod.name', pubmethod.kindTypeDDML, '', '')
+#endfor
+#for_each submethod
+         id%submethod.name_receive = add_registration(respondToMethodCallReg, 'submethod.name', submethod.kindTypeDDML, '', '')
+#endfor
+      end subroutine
+end module Registrations
+
+#endfile

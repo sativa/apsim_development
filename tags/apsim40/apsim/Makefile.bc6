@@ -1,0 +1,71 @@
+# (Borlandish) Makefile for apsim source modules
+
+####Unused: SurfaceWater soilnitrogen soilwater tcllink
+
+SUBDIRS=infra croptemp cropmod \
+accum \
+apswim \
+canopy \
+clock \
+correl \
+eo \
+erosion \
+fertiliz \
+frmrpt \
+grasp \
+growth \
+input \
+irrigate \
+log \
+maize \
+manager \
+map \
+micromet \
+millet \
+operatns \
+oryza \
+ozcot \
+parasite \
+PatchInput \
+Plant \
+report \
+Screen \
+SiloInput \
+slurp \
+SOI \
+soiln2 \
+SoilP \
+soilpH \
+soilt \
+soiltemp \
+soilwat2 \
+solute \
+sorghum \
+stock \
+sugar \
+SummaryFile \
+surface \
+SurfaceOM \
+Sysbal \
+tamet2 \
+Tracker \
+tree \
+VenLink \
+WaterSupply
+
+
+# Ideally, we want something like:
+#
+#source-recursive sample-recursive clean-recursive:
+#	target=`echo $@ |sed s/-recursive//`; \
+#	for dir in $(SUBDIRS); do (cd $dir && 	$(APSMAKE)  $(target)); done
+#
+# but for now, we are only concerned with target = source.
+
+source: $(SUBDIRS)
+
+$(SUBDIRS):
+   cd $@
+   echo  ------Compiling $@
+	$(APSMAKE)  source
+   cd ..

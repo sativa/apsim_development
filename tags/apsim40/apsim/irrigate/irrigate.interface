@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="irrigate">
+   <registrations>
+      <read name="day" type="day" readable="T"/>
+      <read name="year" type="year" readable="T"/>
+      <read name="amount" type="amount" readable="T"/>
+      <read name="time" type="time" readable="T"/>
+      <read name="duration" type="duration" readable="T"/>
+      <read name="default_time" type="default_time" readable="T"/>
+      <read name="default_duration" type="default_duration" readable="T"/>
+      <read name="crit_fr_asw" type="crit_fr_asw" readable="T"/>
+      <read name="asw_depth" type="asw_depth" readable="T"/>
+      <read name="manual_irrigation" type="manual_irrigation" readable="T"/>
+      <read name="automatic_irrigation" type="automatic_irrigation" readable="T"/>
+      <read name="irrigation_allocation" type="irrigation_allocation" readable="T"/>
+      <read name="allocation" type="allocation" readable="T"/>
+      <read name="irrigation_efficiency" type="irrigation_efficiency" readable="T"/>
+      <respondToGetSetReg name="crit_fr_asw" type="crit_fr_asw" readable="T"/>
+      <respondToGetSetReg name="manual_irrigation" type="manual_irrigation" readable="T"/>
+      <respondToGetSetReg name="asw_depth" type="asw_depth" readable="T"/>
+      <respondToGetSetReg name="automatic_irrigation" type="automatic_irrigation" readable="T"/>
+      <respondToGetSetReg name="allocation" type="allocation" readable="T"/>
+      <respondToGetSetReg name="amount" type="amount" readable="T"/>
+      <respondToGetSetReg name="irrigation_efficiency" type="irrigation_efficiency" readable="T"/>
+      <respondToGetReg name="irrigation" type="irrigation"/>
+      <respondToGetReg name="area" type="area"/>
+      <respondToGetReg name="irrig_tot" type="irrig_tot"/>
+      <respondToGetReg name="irrig_loss" type="irrig_loss"/>
+      <respondToGetReg name="irr_fasw" type="irr_fasw"/>
+      <respondToGetReg name="irr_deficit" type="irr_deficit"/>
+      <respondToGetReg name="carry_over" type="carry_over"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="irrigate" type="irrigate"/>
+      <respondToEventReg name="apply" type="apply"/>
+      <eventReg name="irrigated" type="irrigated"/>
+      <getVariableReg name="sw_dep" type="sw_dep"/>
+      <getVariableReg name="ll15_dep" type="ll15_dep"/>
+      <getVariableReg name="dul_dep" type="dul_dep"/>
+      <getVariableReg name="dlayer" type="dlayer"/>
+      <respondToEventReg name="water_supplied" type="water_supplied"/>
+      <respondToEventReg name="tick" type="tick"/>
+      <respondToEventReg name="new_solute" type="new_solute"/>
+      <respondToEventReg name="process" type="process"/>
+   </registrations>
+</component>

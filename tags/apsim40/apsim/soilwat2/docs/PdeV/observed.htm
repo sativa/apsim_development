@@ -1,0 +1,52 @@
+<html>
+<meta>
+<title> Observed runoff</title>
+</meta>
+
+<h1>Using observed runoff in soilwat calibration studies</h1>
+Follow these steps:
+<ol>
+<li> collect your observed runoff into a file that can be understood by the input module. This will look something like:
+<pre>[myrun.input.observations]
+year    day  rain  runoff
+ ()     ()   (mm)  (mm)
+1988  312   4      0
+1988  325   13     0
+1988  327   9      5.9
+....
+</pre>
+You may have to change the name of the rain column (eg obrain) so that input is not confused as to which rain (this file, or the met file) is to be used.
+<p> As at 10/4/97, input cannot handle sparse files (unequal timestep) like this. If this situation persists, you'll have to pad out each day with 0s.</li>
+
+<li> In your control file, add the name of this observed file to the the list of files input is to read:
+<pre>...
+module=input  [myrun] weather.met[myrun] myrun.obs[myrun]
+...
+</pre></li>
+
+<li> Change the soilwat parameters to use this observed runoff:
+<pre>[myrun.soilwat2.parameters]
+observed_runoff = runoff
+...
+</pre>
+To turn this off, either 
+<ul><li>scrub the entire line, or</li>
+<li>use the keyword 'blank':
+<pre>[myrun.soilwat2.parameters]
+observed_runoff = blank
+</pre></li>
+</ul></li>
+
+<li> Run the model. You will see a message in the summary file.</li>
+
+<li> Examine the summary file for warning messages concerning predicted runoff. This indicates you have a day with rainfall but no runoff observation. Perhaps:
+<ul>
+<li>you have missing data in the observed file</li>
+<li>you are using the wrong climate for this data</li>
+</ul>
+</li>
+
+</ol>
+
+
+</html>

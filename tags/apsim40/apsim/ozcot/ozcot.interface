@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="ozcot">
+   <registrations>
+      <respondToGetReg name="das" type="das"/>
+      <respondToGetReg name="sumdd" type="sumdd"/>
+      <respondToGetReg name="sites" type="sites"/>
+      <respondToGetReg name="squarz" type="squarz"/>
+      <respondToGetReg name="bollz" type="bollz"/>
+      <respondToGetReg name="openz" type="openz"/>
+      <respondToGetReg name="alint" type="alint"/>
+      <respondToGetReg name="openwt" type="openwt"/>
+      <respondToGetReg name="frudw" type="frudw"/>
+      <respondToGetReg name="frudw_tot" type="frudw_tot"/>
+      <respondToGetReg name="frudw_shed" type="frudw_shed"/>
+      <respondToGetReg name="frun" type="frun"/>
+      <respondToGetReg name="bload" type="bload"/>
+      <respondToGetReg name="carcap_c" type="carcap_c"/>
+      <respondToGetReg name="carcap_n" type="carcap_n"/>
+      <respondToGetReg name="vnstrs" type="vnstrs"/>
+      <respondToGetReg name="fnstrs" type="fnstrs"/>
+      <respondToGetReg name="dm" type="dm"/>
+      <respondToGetReg name="dw_boll" type="dw_boll"/>
+      <respondToGetReg name="dw_root" type="dw_root"/>
+      <respondToGetReg name="dw_leaf" type="dw_leaf"/>
+      <respondToGetReg name="dw_stem" type="dw_stem"/>
+      <respondToGetReg name="totnup" type="totnup"/>
+      <respondToGetReg name="yield" type="yield"/>
+      <respondToGetReg name="lint_yield" type="lint_yield"/>
+      <respondToGetReg name="lai" type="lai"/>
+      <respondToGetReg name="cover_green" type="cover_green"/>
+      <respondToGetReg name="cover_tot" type="cover_tot"/>
+      <respondToGetReg name="height" type="height"/>
+      <respondToGetReg name="availn" type="availn"/>
+      <respondToGetReg name="uptakn" type="uptakn"/>
+      <respondToGetReg name="tsno3" type="tsno3"/>
+      <respondToGetReg name="ysno3" type="ysno3"/>
+      <respondToGetReg name="tsnh4" type="tsnh4"/>
+      <respondToGetReg name="ysnh4" type="ysnh4"/>
+      <respondToGetReg name="d_nup" type="d_nup"/>
+      <respondToGetReg name="rtdep" type="rtdep"/>
+      <respondToGetReg name="s_bed_mi" type="s_bed_mi"/>
+      <respondToGetReg name="smi" type="smi"/>
+      <respondToGetReg name="wli" type="smi"/>
+      <respondToGetReg name="evap_plant" type="evap_plant"/>
+      <respondToGetReg name="evap_soil" type="evap_soil"/>
+      <respondToGetReg name="evap_pot" type="evap_pot"/>
+      <respondToGetReg name="evap_tot" type="evap_tot"/>
+      <respondToGetReg name="ozcot_crop_in" type="ozcot_crop_in"/>
+      <respondToGetReg name="ozcot_status" type="ozcot_status"/>
+      <respondToGetReg name="bolls_sc" type="bolls_sc"/>
+      <respondToGetReg name="nuptake" type="nuptake"/>
+      <respondToGetReg name="squarz_max" type="squarz_max"/>
+      <respondToGetReg name="lai_max" type="lai_max"/>
+      <read name="percent_l" type="percent_l" readable="T"/>
+      <read name="scboll" type="scboll" readable="T"/>
+      <read name="respcon" type="respcon" readable="T"/>
+      <read name="sqcon" type="sqcon" readable="T"/>
+      <read name="fcutout" type="fcutout" readable="T"/>
+      <read name="flai" type="flai" readable="T"/>
+      <read name="ddisq" type="ddisq" readable="T"/>
+      <read name="stage_code" type="stage_code" readable="T"/>
+      <read name="crop_" type="crop_type" readable="T"/>
+      <read name="frudd" type="frudd" readable="T"/>
+      <read name="bltme" type="bltme" readable="T"/>
+      <read name="wt" type="wt" readable="T"/>
+      <read name="popcon" type="popcon" readable="T"/>
+      <read name="fburr" type="fburr" readable="T"/>
+      <read name="acotyl" type="acotyl" readable="T"/>
+      <read name="rlai" type="rlai" readable="T"/>
+      <read name="dlds_max" type="dlds_max" readable="T"/>
+      <read name="rate_emergence" type="rate_emergence" readable="T"/>
+
+      <read name="row_spacing_default" type="row_spacing_default" readable="T"/>
+      <read name="leaf_res_n_conc" type="leaf_res_n_conc" readable="T"/>
+      <read name="hucut" type="hucut" readable="T"/>
+      <read name="baset" type="baset" readable="T"/>
+      <read name="ul1" type="ul1" readable="T"/>
+      <read name="cona" type="cona" readable="T"/>
+      <read name="open_def" type="open_def" readable="T"/>
+      <read name="a_root_leaf" type="a_root_leaf" readable="T"/>
+      <read name="a_stem_leaf" type="a_stem_leaf" readable="T"/>
+      <read name="e_par" type="e_par" readable="T"/>
+      <read name="specific_lw" type="specific_lw" readable="T"/>
+      <read name="t_opt" type="t_opt" readable="T"/>
+      <read name="t_base" type="t_base" readable="T"/>
+      <read name="wt_area_max" type="wt_area_max" readable="T"/>
+      <read name="embryo" type="embryo" readable="T"/>
+      <read name="f_leaf" type="f_leaf" readable="T"/>
+      <read name="f_stem" type="f_stem" readable="T"/>
+      <read name="f_root" type="f_root" readable="T"/>
+      <read name="elevation_default" type="elevation_default" readable="T"/>
+      <read name="wlog_assimilate_red" type="wlog_assimilate_red" readable="T"/>
+      <read name="wlog_carcap_red" type="wlog_carcap_red" readable="T"/>
+      <read name="wlog_carcap_red_stress" type="wlog_carcap_red_stress" readable="T"/>
+      <read name="watlog_c" type="watlog_c" readable="T"/>
+      <read name="watlog_n" type="watlog_n" readable="T"/>
+      <read name="smi_affect_wlog" type="smi_affect_wlog" readable="T"/>
+      <read name="days_relief_wlog" type="days_relief_wlog" readable="T"/>
+      <read name="frost_kill_immediate" type="frost_kill_immediate" readable="T"/>
+      <read name="rtdep_max" type="rtdep_max" readable="T"/>
+      <read name="harvest_n_frac" type="harvest_n_frac" readable="T"/>
+      <read name="cutout_smi_crit" type="cutout_smi_crit" readable="T"/>
+      <read name="cutout_smi_days" type="cutout_smi_days" readable="T"/>
+      <read name="cutout_smi_site_red" type="cutout_smi_site_red" readable="T"/>
+      <read name="fert_crit" type="fert_crit" readable="T"/>
+      <read name="fert_detect" type="fert_detect" readable="T"/>
+      <read name="days_since_fert_max" type="days_since_fert_max" readable="T"/>
+      <read name="smi_delay_crit" type="smi_delay_crit" readable="T"/>
+      <read name="cold_shock_delay_crit" type="cold_shock_delay_crit" readable="T"/>
+      <read name="cold_shock_delay" type="cold_shock_delay" readable="T"/>
+      <read name="epcoef1" type="epcoef1" readable="T"/>
+      <read name="epcoef2" type="epcoef2" readable="T"/>
+      <read name="epcoef_smi_crit" type="epcoef_smi_crit" readable="T"/>
+      <read name="fbwstr_low" type="fbwstr_low" readable="T"/>
+      <read name="fbwstr_high" type="fbwstr_high" readable="T"/>
+      <read name="fbwstr_a" type="fbwstr_a" readable="T"/>
+      <read name="fbnstr_low" type="fbnstr_low" readable="T"/>
+      <read name="fbnstr_high" type="fbnstr_high" readable="T"/>
+      <read name="fbnstr_a" type="fbnstr_a" readable="T"/>
+      <read name="relp_smi_crit" type="relp_smi_crit" readable="T"/>
+      <read name="relp_intercept" type="relp_intercept" readable="T"/>
+      <read name="relp_slope" type="relp_slope" readable="T"/>
+      <read name="relp_low" type="relp_low" readable="T"/>
+      <read name="relp_high" type="relp_high" readable="T"/>
+      <read name="relp_a" type="relp_a" readable="T"/>
+      <read name="vsnstr_low" type="vsnstr_low" readable="T"/>
+      <read name="vsnstr_high" type="vsnstr_high" readable="T"/>
+      <read name="vsnstr_a" type="vsnstr_a" readable="T"/>
+      <read name="flfsmi_low" type="flfsmi_low" readable="T"/>
+      <read name="flfsmi_high" type="flfsmi_high" readable="T"/>
+      <read name="flfsmi_a" type="flfsmi_a" readable="T"/>
+      <read name="vlnstr_low" type="vlnstr_low" readable="T"/>
+      <read name="vlnstr_high" type="vlnstr_high" readable="T"/>
+      <read name="vlnstr_a" type="vlnstr_a" readable="T"/>
+      <read name="fw_low" type="fw_low" readable="T"/>
+      <read name="fw_high" type="fw_high" readable="T"/>
+      <read name="fw_a" type="fw_a" readable="T"/>
+      <read name="adjust_low" type="adjust_low" readable="T"/>
+      <read name="adjust_high" type="adjust_high" readable="T"/>
+      <read name="adjust_a" type="adjust_a" readable="T"/>
+      <read name="fwstrs_low" type="fwstrs_low" readable="T"/>
+      <read name="fwstrs_high" type="fwstrs_high" readable="T"/>
+      <read name="fwstrs_a" type="fwstrs_a" readable="T"/>
+      <read name="ll" type="ll" readable="T"/>
+      <respondToEventReg name="create" type="create"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="end_run" type="end_run"/>
+      <respondToEventReg name="sow" type="sow"/>
+      <respondToEventReg name="harvest" type="harvest"/>
+      <respondToEventReg name="end_crop" type="end_crop"/>
+      <respondToEventReg name="kill_crop" type="kill_crop"/>
+      <getVariableReg name="day" type="day"/>
+      <getVariableReg name="year" type="year"/>
+      <getVariableReg name="maxt" type="maxt"/>
+      <getVariableReg name="mint" type="mint"/>
+      <getVariableReg name="radn" type="radn"/>
+      <getVariableReg name="rain" type="rain"/>
+      <getVariableReg name="dlayer" type="dlayer"/>
+      <getVariableReg name="bd" type="bd"/>
+      <getVariableReg name="ll15" type="ll15"/>
+      <getVariableReg name="dul" type="dul_dep"/>
+      <getVariableReg name="sat" type="sat_dep"/>
+      <getVariableReg name="es" type="es"/>
+      <getVariableReg name="sw" type="sw"/>
+      <getVariableReg name="runoff" type="runoff"/>
+      <getVariableReg name="no3_min" type="no3_min"/>
+      <getVariableReg name="no3" type="no3"/>
+      <getVariableReg name="nh4_min" type="nh4_min"/>
+      <getVariableReg name="nh4" type="nh4"/>
+      <getVariableReg name="urea" type="urea"/>
+      <setVariableReg name="dlt_no3" type="no3"/>
+      <setVariableReg name="dlt_sw_dep" type="sw_dep"/>
+      <eventReg name="crop_chopped" type="crop_chopped"/>
+      <eventReg name="sowing" type="sowing"/>
+      <eventReg name="harvesting" type="harvesting"/>
+      <respondToEventReg name="tick" type="tick"/>
+      <respondToEventReg name="newmet" type="newmet"/>
+      <respondToEventReg name="prepare" type="prepare"/>
+      <respondToEventReg name="process" type="process"/>
+      <respondToEventReg name="post" type="post"/>
+   </registrations>
+</component>

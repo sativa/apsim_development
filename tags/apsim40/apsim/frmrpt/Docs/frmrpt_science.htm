@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>The APSIM Form Report Module - (frmrpt)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="../../../docs/shared/docstyle.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<p class="Title1">The APSIM Form Report Module - (frmrpt)</p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Glossary</p>
+<p class="Normal">&nbsp;</p>
+<table cellspacing="0" cellpadding="0">
+  <tr class="Normal">
+    <td width="145" valign="top"><p>escape character </p></td>
+    <td width="432" valign="top"><p>A special character that is used to mark the beginning of escaped text. </p></td>
+  </tr>
+  <tr class="Normal">
+    <td width="145" valign="top"><p>Escaped text </p></td>
+    <td width="432" valign="top"><p>A block of escaped text begins with an escape character and continues until either the next space or the end of the line. It contains the name of a variable and when the output is generated the escaped text is replaced by the value of that variable </p></td>
+  </tr>
+  <tr class="Normal">
+    <td width="145" valign="top"><p>form file </p></td>
+    <td width="432" valign="top"><p>Contains a stencil for formatting output. Most text is output literally, but escaped text is substited (see above). </p></td>
+  </tr>
+</table>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Introduction</p>
+<p class="Normal">The form report APSIM module <strong>frmrpt </strong> can create any number of output files which are customised to the user's desire by means of user supplied form files. Output to a form file may occur (ie data is appended to its corresponding output file) at regular intervals, or it may be output in response to a message (usually from the manager module).</p>
+<p class="Normal">Form files are plain text files in which an escape character (normally “$”) is used as a place-holder to indicate that the small section of text that follows, the name of an APSIM variable, will not be output literally, but will substituted with the value of the APSIM variable. In the current version this is limited to numeric variables or and arrays. Scalar values and the elements of arrays are printed out in FORTRAN “G13.5” format (ie 5 decimal digits of precision printed using 13 character places). . In the current version arrays are printed in neat columns of 5 elements. In future releases the user will have greater control of the formatting and string variables will be supported.</p>
+<p class="Normal">Summation and averaging are supported in <strong>frmrpt </strong> in the same way as the existing APSIM <strong>report </strong> module. For the purpose of averaging over time, APSIM variables that are output using <strong>frmrpt </strong> may be initialised (ie cleared ) at any time by means of a message from the manager module.</p>
+<p class="Normal">A simple example of use of the frmrpt module is included in the <em>samples </em> directory that is located within the frmrpt directory, that is located within the APSIM directory. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">frmrpt parameters</p>
+<p class="Normal">The control section of an APSIM run that includes the form report module must indicate where the <strong><em>parameters </em></strong> section for frmrpt is - in the usual way. The following things must be specified in the parameters section:- </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><strong>handle</strong></p>
+<p class="Normal">The form report module can create any number of output files and each output file must have a handle so that the form report module can receive a message for a output file, e.g. :-</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>handle = yield_summary nit_summary </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><strong>frmrpt </strong>'s action do_output can be called by the manager with the name of a <strong>frmrpt </strong> handle, eg:</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>frmrpt do_output yield_summary </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">Every output file must have an associated handle, regardless of whether or not there is an intention to send messages to it. Other parameters must have the same number of elements as does handle. There is a one to one positional correspondence. The form report module currently does not permit the number of handles to be zero.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><strong>form_file</strong></p>
+<p class="Normal">These are the names of the form files containing literal text and the names of APSIM variables for substitution. It is good practice to use the extension “.frm”,for form files to distinguish them from other file types, eg:</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>form_file = yield.frm nit.frm </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><strong>out_file</strong></p>
+<p class="Normal">This parameter is used to specify the output file names, e.g:</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>out_file = yield.out nit.out </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><strong>report_start</strong></p>
+<p class="Normal">This parameter is used to schedule periodic reporting by <strong>frmrpt </strong>. It indicates how many days from the start of a run automatic reporting for each output file should commence. For example a value of 1 indicates that the 1 st output will occur on the 1 st day of the run, whereas a value of 50 indicates that the reporting will begin on the 50 th day of the run. Assigning a value of 0 indicates that automatic reporting is not required i.e. output will only occur in response to run-time messages to <strong>frmrpt </strong>. Here is an of scheduled reporting example:</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>report_start = 50 0 </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><strong>report_days</strong></p>
+<p class="Normal">This parameter indicates the interval between outputs (how many days after the previous automatically generated output will the next output occur). Daily output is scheduled by assigning a value of 1 to this parameter. A value of 50 will schedule reporting to occur every 50 days. If no automatic reporting has been scheduled, by setting report_start = 0 , this value is ignored Here is an example:</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>report_days = 50 0</p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Form Files</p>
+<p class="Normal">When a form file is output, most of its text is copied literally to the end of the corresponding output file, however escaped text is subjected to substitution. The escaped text begins with the escape character (normally “$”) and ends at the character just preceding the first space after that escape character or the end of the line. The escaped text has the following form:</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>[ <em>func_name </em> @ ] <em> [ module_name </em>. ] <em>variable_name </em></p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">... where items enclosed in [ ] are optional and items underlined and in italics are placeholders for real names. The “@” and the “.” are meant literally.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><em>variable_name </em>must be the name of an APSIM variable. If it is an array, then there are some standard APSIM features which may be used here:</p>
+<ul>
+  <li class="Normal">An identifier alone will imply every element of the array. </li>
+  <li class="Normal">An identifier with an empty set of braces appended results in the sum of all the elements of the array. </li>
+  <li class="Normal">An identifier having a set of braces containing an integer results in the element of the array indicated by the integer. </li>
+</ul>
+<p class="Normal"><em>module_name </em> if present, must be the name of an APSIM module. The form report module will consider “module1.varname” as a distinct variable from “module2.varname” and they are both distinct from “varname”. “module1.varname” is the APSIM variable, “module” coming only from the module “module1”. “varname”, is the APSIM variable “varname” from any APSIM module.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><em>func_name , </em> if present, must be either the word “sum” or the word “avg”. </p>
+<ul>
+  <li class="Normal">If it is “sum”, it would cause substituting the sum of the value of the apsim variable over each time step since the variable was last cleared or since the beginning of the run. </li>
+  <li class="Normal">If it is “avg”, it would cause substituting the average of the apsim variable over each time step since the variable was last cleared or since the beginning of the run. </li>
+</ul>
+<p class="Normal"><strong>Sample form file</strong></p>
+<p align="left" class="Normal">&nbsp;</p>
+<p align="left" class="Normal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Day=$day Year=$year <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>The thickness of the entire profile is $dlayer() <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>The thickness of the top layer is $dlayer(1) <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>The thickness of each layer is:- <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>$soilwat2.dlayer <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>The infiltration of water since the start of the run was $sum@infiltration <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>The average infiltration over that period was $avg@infiltration </p>
+<p align="left" class="Normal">&nbsp;</p>
+<p class="Title2">Messages</p>
+<p class="Normal">The form report module responds to two messages:- </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><strong>do_output</strong></p>
+<p class="Normal">This message causes “outputting” of a form file to its associated output file. The action part of the message must be “do_output”. The data portion of the message must be the handle of the output form. The following <em>manager </em> example would cause the yield_summary form to be outputted on to the end of it's output file.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>frmrpt do_output yield_summary </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><strong>clear</strong></p>
+<p class="Normal">This causes the history of values of form report variables to be erased. (See “avg” and “sum” functions.) It can apply to specific form report variables or to all variables in a specific form report.</p>
+<p class="Normal">The action part of the message must be the word “clear”. The data portion of this message must have the following form:</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>handle </em>[ : [ <em>module_name </em>. ] <em>var_name </em>] </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">... where things enclosed in [ ] are optional and things underlined and in italics are placeholders for real names. The “:” and the “.” are taken literally. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><strong>Manager examples:-</strong></p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>frmrpt clear yield_summary </p>
+<p class="Normal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>frmrpt clear yield_summary:dlayer </p>
+<p class="Normal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>frmrpt clear yield_summary:soilwat2.dlayer </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">There are no handles for individual occurrences of a single variable in a form file, therefore it is not possible to selectively clear specific instances of a variable occurring in the same form file. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Obscure Features</p>
+<p class="Normal">There is an optional “escape_char” parameter. Do not use this unless there is a good reason to do so.</p>
+<p class="Normal">The following example would set the escape character for the first form file to “$” and the escape character for the second one to “@”. If this parameter is not present, the escape character defaults to “$”.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>escape_char = $ @ </p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Constraints</p>
+<p class="Normal">The following constraints apply to the current version of <strong>frmrpt </strong>. If your requirements exceed these constraints, please contact the APSRU help desk ( <a href="mailto:apsim-help@csiro.au">apsim-help@csiro.au </a>. ) </p>
+<ul>
+  <li class="Normal">The maximum number of output files is 5. </li>
+  <li class="Normal">The maximum number elements of a variable (max layers) is 20. </li>
+  <li class="Normal">The maximum of variables that can be summed or averaged over timesteps is 40. </li>
+  <li class="Normal"> The maximum length of a units string is 30. </li>
+  <li class="Normal"> The maximum length of a variable name is 30. </li>
+  <li class="Normal"> The maximum length of a file name is 130. </li>
+  <li class="Normal"> The maximum length of line in a form file is 200. </li>
+</ul>
+<p class="Title2">frmrpt Examples</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><strong>control file</strong></p>
+<p class="Normal">&nbsp;</p>
+<p class="Code">[APSIM.test1] </p>
+<p class="Code">module=input [test] test.met[test] </p>
+<p class="Code">module=report [test] </p>
+<p class="Code">module=frmrpt [test] </p>
+<p class="Code">module=soilwat2 %apsuite/apsim/soilwat2/soilwat2.ini [standard] %apsuite/apsim/soilwat2/sample/soilwat2.par [m1s1n1]</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">[test.report.parameters] </p>
+<p class="Code">outputfile = rpt2.out /overwrite </p>
+<p class="Code">summaryfile =rpt2.sum /overwrite</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">module_names= input input </p>
+<p class="Code">variable_names= day year </p>
+<p class="Code">variable_alias= - - </p>
+<p class="Code">units= - -</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">[test.input.parameters] </p>
+<p class="Code">! Start and end date of run (day number of year and year) </p>
+<p class="Code">start_day = 1 </p>
+<p class="Code">start_year = 1970 </p>
+<p class="Code">end_day = 10 </p>
+<p class="Code">end_year = 1970</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">[test.frmrpt.parameters] </p>
+<p class="Code">handle= soilwat </p>
+<p class="Code">form_file= soilwat.frm </p>
+<p class="Code">out_file= soilwat.out </p>
+<p class="Code">report_start= 1 </p>
+<p class="Code">report_days= 3</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><strong>form file </strong></p>
+<p class="Normal">&nbsp;</p>
+<p class="Code">----- day=$day year=$year ----------------------------- </p>
+<p class="Code">sw:- </p>
+<p class="Code">$sw</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">flux:- </p>
+<p class="Code">$flux</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><strong>output </strong></p>
+<p class="Code">----- day= 1.0000 year= 1970.0 ----------------------------- </p>
+<p class="Code">sw:- </p>
+<p class="Code">0.36800 0.36900 0.35700 0.36800 0.37800 </p>
+<p class="Code">0.38400 0.37700 0.36600 0.35300</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">flux:- </p>
+<p class="Code">0.00000 0.00000 0.00000 0.00000 0.00000 </p>
+<p class="Code">0.00000 0.00000 0.00000 0.00000 </p>
+<p class="Code">----- day= 4.0000 year= 1970.0 ----------------------------- </p>
+<p class="Code">sw:- </p>
+<p class="Code">0.33239 0.35518 0.36122 0.36854 0.37704 </p>
+<p class="Code">0.38233 0.37709 0.36608 0.35330</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">flux:- </p>
+<p class="Code">0.00000 0.00000 0.72123E-01 0.12996E-01 0.00000 </p>
+<p class="Code">0.00000 0.21919E-02 0.17784E-02 0.63164E-02 </p>
+<p class="Code">----- day= 7.0000 year= 1970.0 ----------------------------- </p>
+<p class="Code">sw:- </p>
+<p class="Code">0.32006 0.34767 0.35810 0.36767 0.37615 </p>
+<p class="Code">0.38099 0.37709 0.36615 0.35353</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">flux:- </p>
+<p class="Code">0.00000 0.00000 0.32238E-01 0.50621E-02 0.00000 </p>
+<p class="Code">0.00000 0.28214E-02 0.41466E-02 0.14139E-01</p>
+</body>
+</html>

@@ -1,0 +1,1207 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../docs/shared/ModuleDocumentation.xsl"?>
+<Types>
+   <area>
+      <UItype>area</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <LargeIcon>Images\layout_center32.png</LargeIcon>
+      <SmallIcon>Images\layout_center16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+   </area>
+   <variables>
+      <ShowInMainTree>No</ShowInMainTree>
+      <SmallIcon>Images\books_blue.png</SmallIcon>
+   </variables>
+   <variable>
+      <ShowInMainTree>No</ShowInMainTree>
+      <SmallIcon>Images\book_blue.png</SmallIcon>
+   </variable>
+   <events>
+      <ShowInMainTree>No</ShowInMainTree>
+      <SmallIcon>Images\books_green.png</SmallIcon>
+   </events>
+   <event>
+      <ShowInMainTree>No</ShowInMainTree>
+      <SmallIcon>Images\book_green.png</SmallIcon>
+   </event>
+
+   <simulation>
+      <UItype>area</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <LargeIcon>Images\layout_center32.png</LargeIcon>
+      <SmallIcon>Images\layout_center16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="simulations"/>
+     </drops>
+   </simulation>
+   <clock>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Science documentation">../apsim/clock/docs/clock_science.htm</Documentation>
+      <LargeIcon>Images\clock32.png</LargeIcon>
+      <SmallIcon>Images\clock16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables>
+         <variable name="year" description="Year"/>
+         <variable name="day" description="Day"/>
+         <variable name="month" description="Month"/>
+         <variable name="day_of_month" description="Day of month"/>
+         <variable name="dd/mm/yyyy" description="Date (dd/mm/yyyy)"/>
+         <variable name="dd/mm" description="Date (dd/mm)"/>
+         <variable name="dd_mmm" description="Date (dd_mmm  eg '1_Dec')"/>
+         <variable name="month_str" description="Month string (eg 'Dec')"/>
+      </variables>
+      <events>
+         <event name="prepare" description="Start of daily simulation time step"/>
+         <event name="post" description="End of daily simulation time step"/>
+      </events>
+   </clock>
+   <summaryfile>
+      <UItype>file</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <LargeIcon>Images\document_edit32.png</LargeIcon>
+      <SmallIcon>Images\document_edit16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+   </summaryfile>
+   <outputfile>
+      <UItype>file</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Science documentation">../apsim/report/docs/report_science.htm</Documentation>
+      <LargeIcon>Images\table_selection_column32.png</LargeIcon>
+      <SmallIcon>Images\table_selection_column16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+   </outputfile>
+   <metfile>
+      <UItype>met</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Science documentation">../apsim/met/docs/met_science.htm</Documentation>
+      <LargeIcon>Images\thermometer32.png</LargeIcon>
+      <SmallIcon>Images\thermometer16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables module="met">
+         <variable name="maxt" description="Maximum temperature (oC)"/>
+         <variable name="mint" description="Minimum temperature (oC)"/>
+         <variable name="rain" description="Rainfall (mm)"/>
+         <variable name="radn" description="Solar Radiation (MJ/m2/day)"/>
+      </variables>
+   </metfile>
+   <logic>
+      <UItype>logic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Science documentation">../apsim/manager/docs/manager_science.htm</Documentation>
+      <LargeIcon>Images\lightbulb_on32.png</LargeIcon>
+      <SmallIcon>Images\lightbulb_on16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+   </logic>
+   <irrigation>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Science documentation">../apsim/irrigate/docs/irrigate_science.htm</Documentation>
+      <LargeIcon>Images\drink_blue32.png</LargeIcon>
+      <SmallIcon>Images\drink_blue16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables module="irrigate">
+         <variable name="irrigation" description="Irrigation entering the profile (mm)"/>
+         <variable name="irrig_loss" description="Irrigation losses (mm)"/>
+         <variable name="irrig_tot" description="Total applied irrigation (irrigation + loss) (mm)"/>
+         <variable name="allocation" description="Remaining irrigation allocation (Ml)"/>
+         <variable name="carry_over" description="Carry-over from allocation (Ml)"/>
+         <variable name="irr_fasw" description="Irrigation fraction of available soil water (0-1)"/>
+         <variable name="irr_deficit" description="Water deficit within the critical irrigation soil depth (mm)"/>
+      </variables>
+   </irrigation>
+   <fertiliser>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Description>The fertiliser module doesn't have any properties. It is required though if you wish to apply fertiliser."</Description>
+      <Documentation name="Science documentation">../apsim/fertiliz/docs/fertiliz_science.htm</Documentation>
+      <LargeIcon>images\fertiliser32.png</LargeIcon>
+      <SmallIcon>images\fertiliser16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables module="fertiliz">
+         <variable name="fertilizer" description="Amount of fertilizer applied (kg/ha)"/>
+      </variables>
+   </fertiliser>
+   <soil>
+      <UItype>soil</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Water science documentation">../apsim/soilwat2/docs/soilwat2_science.htm</Documentation>
+      <Documentation name="Nitrogen science documentation">../apsim/soiln2/docs/soiln2_science.htm</Documentation>
+      <LargeIcon>Images\shovel32.bmp</LargeIcon>
+      <SmallIcon>Images\shovel16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+     <variables name="Nitrogen variables" module="soiln2">
+         <variable name="no3ppm" array="T" description="NO3 - layered (ppm)"/>
+         <variable name="no3" array="T" description="NO3 - layered (kg/ha)"/>
+         <variable name="nh4ppm" array="T" description="NH4 - layered (ppm)"/>
+         <variable name="nh4" array="T" description="NH4 - layered (kg/ha)"/>
+         <variable name="urea" array="T" description="Urea - layered (ppm)"/>
+         <variable name="fom_c" array="T" description="FOM Carbon - layered (kg/ha)"/>
+         <variable name="fom_n" array="T" description="FOM Nitrogen - layered (kg/ha)"/>
+         <variable name="hum_c" array="T" description="Humic Carbon - layered (kg/ha)"/>
+         <variable name="hum_n" array="T" description="Humic Nitrogen - layered (kg/ha)"/>
+         <variable name="biom_c" array="T" description="Biomass Carbon - layered (kg/ha)"/>
+         <variable name="biom_n" array="T" description="Biomass Nitrogen - layered (kg/ha)"/>
+         <variable name="carbon_tot" description="Total soil Carbon - total (kg/ha)"/>
+         <variable name="nit_tot" description="Total soil Nitrogen - total (kg/ha)"/>
+         <variable name="dnit" array="T" description="denitrification - layered (kg/ha)"/>
+         <variable name="dlt_n_min" array="T" description="N mineralised - layered (kg/ha)"/>
+      </variables>
+      <variables name="Water variables" module="soilwat2">
+         <variable name="dlayer" array="T" description="Depth - layered (mm)"/>
+         <variable name="ll15" array="T" description="15 Bar Lower limit - layered (mm/mm)"/>
+         <variable name="ll15_dep" array="T" description="15 Bar Lower limit - layered (mm)"/>
+         <variable name="dul" array="T" description="Drained upper limit - layered (mm/mm)"/>
+         <variable name="dul_dep" array="T" description="Drained upper limit - layered (mm)"/>
+         <variable name="sat" array="T" description="Saturation - layered (mm/mm)"/>
+         <variable name="sat_dep" array="T" description="Saturation - layered (mm)"/>
+         <variable name="air_dry" array="T" description="Air dry - layered (mm/mm)"/>
+         <variable name="air_dry_dep" array="T" description="Air dry - layered (mm)"/>
+         <variable name="sw" array="T" description="Soil water - layered (mm/mm)"/>
+         <variable name="sw_dep" array="T" description="Soil water - layered (mm)"/>
+         <variable name="esw" array="T" description="Extractable Soil Water - all layers (mm)"/>
+         <variable name="es" description="Evaporation (mm)"/>
+         <variable name="eo" description="Potential evapotranspiration (mm)"/>
+         <variable name="eos" description="potential evaporation (mm)"/>
+         <variable name="total_cover" description="Total crop cover"/>
+         <variable name="runoff" description="Runoff (mm)"/>
+         <variable name="drain" description="Drainage (mm)"/>
+         <variable name="flow_water" array="T" description="Water flow from each layer - layered(mm)"/>
+         <variable name="flow_no3" array="T" description="N flow out of each layer - layered (kg/ha)"/>
+         <variable name="eff_rain" description="Effective rainfall (mm)"/>
+         <variable name="pond" description="Surface ponding depth (mm)"/>
+         <variable name="water_table" description="Water table depth (mm)"/>
+         <variable name="infiltration" description="Infiltration (mm)"/>
+      </variables>
+   </soil>
+   <InitWater>
+      <UItype>initwater</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <LargeIcon>Images\drink_blue32.png</LargeIcon>
+      <SmallIcon>Images\drink_blue16.png</SmallIcon>
+   </InitWater>
+   <soilp>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Science documentation">../apsim/soilp/docs/soilp_science.htm</Documentation>
+      <LargeIcon>Images\cubes32.png</LargeIcon>
+      <SmallIcon>Images\cubes16.png</SmallIcon>
+      <drops>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables>
+         <variable name="labile_p" array="T" description="Labile Phosphorus - layered (kg/ha)"/>
+         <variable name="banded_p" array="T" description="Banded Phosphorus - layered (kg/ha)"/>
+         <variable name="rock_p" array="T" description="Rock Phosphorus - layered (kg/ha)"/>
+         <variable name="biom_p" array="T" description="Biomass Phosphorus - layered (kg/ha)"/>
+         <variable name="hum_p" array="T" description="Humic Phosphorus - layered (kg/ha)"/>
+         <variable name="fom_p" array="T" description="FOM Phosphorus - layered (kg/ha)"/>
+         <variable name="soil_test_p" array="T" description="Soil Test Phosphorus - layered (kg/ha)"/>
+      </variables>
+   </soilp>
+   <swimsoil>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Science documentation">../apsim/apswim/docs/apswim_science.htm</Documentation>
+      <Documentation name="Technical specification">../apsim/apswim/docs/SWIMv21UserManual.pdf</Documentation>
+      <LargeIcon>Images\shovel32.bmp</LargeIcon>
+      <SmallIcon>Images\shovel16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+   </swimsoil>
+   <log>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Science documentation">../apsim/log/docs/log.htm</Documentation>
+      <LargeIcon>Images\debug32.png</LargeIcon>
+      <SmallIcon>Images\debug16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+   </log>
+   <micromet>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Science documentation">../apsim/micromet/docs/micromet_science.pdf</Documentation>
+      <LargeIcon>Images\thermometer32.png</LargeIcon>
+      <SmallIcon>Images\thermometer16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+   </micromet>
+   <stock>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Component description">../apsim/stock/docs/Stock Component Description.htm</Documentation>
+      <Documentation name="Component drivers">../apsim/stock/docs/Stock Component Drivers.htm</Documentation>
+      <LargeIcon>Images\stock32.bmp</LargeIcon>
+      <SmallIcon>Images\stock16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+     <variables link="stock.xml"/>
+   </stock>
+   <StockScienceConverter>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <LargeIcon>Images\stock32.bmp</LargeIcon>
+      <SmallIcon>Images\stock16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables>
+         <variable name="dm_feed_on_offer" module = "StockScienceConverter" description="Dry matter of feed on offer (kg/ha)"></variable>
+         <variable name="dm_feed_removed" module = "StockScienceConverter" description="Dry matter of feed removed (kg/ha)"></variable>
+      </variables>
+   </StockScienceConverter>
+   <cattle>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <LargeIcon>Images\cow32.bmp</LargeIcon>
+      <SmallIcon>Images\cow16.bmp</SmallIcon>
+      <drops>
+         <drop name="stock"/>
+     </drops>
+   </cattle>
+   <sheep>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <LargeIcon>Images\sheep32.bmp</LargeIcon>
+      <SmallIcon>Images\sheep16.bmp</SmallIcon>
+      <drops>
+         <drop name="stock"/>
+     </drops>
+   </sheep>
+   <outputfiledescription>
+      <UItype>outputfiledescription</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <LargeIcon>Images\cubes32.png</LargeIcon>
+      <SmallIcon>Images\cubes16.png</SmallIcon>
+      <drops>
+         <drop name="outputfile"/>
+     </drops>
+   </outputfiledescription>
+   <manager>
+      <UItype>area</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Science documentation">../apsim/manager/docs/manager_science.htm</Documentation>
+      <LargeIcon>Images\manager32.png</LargeIcon>
+      <SmallIcon>Images\manager16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+   </manager>
+   <rule>
+      <UItype>rule</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <LargeIcon>Images\question_and_answer32.png</LargeIcon>
+      <SmallIcon>Images\question_and_answer16.png</SmallIcon>
+      <drops>
+         <drop name="manager"/>
+         <drop name="StockScienceConverter"/>
+     </drops>
+   </rule>
+   <vinelogic>
+      <UItype>vinelogic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <LargeIcon>Images\grape32.jpg</LargeIcon>
+      <SmallIcon>Images\grape16.jpg</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+   </vinelogic>
+   <surfaceom>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\graphics\som.jpg</Image>
+      <Documentation name="Science documentation">../apsim/surfaceom/docs/surfaceom_science.htm</Documentation>
+      <LargeIcon>Images\som32.png</LargeIcon>
+      <SmallIcon>Images\som16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables>
+         <variable name="surfaceom_wt" module = "surfaceom" description="Total mass of all surface organic materials"></variable>
+         <variable name="surfaceom_c" module = "surfaceom" description="Total mass of all surface organic carbon"></variable>
+         <variable name="surfaceom_n" module = "surfaceom" description="Total mass of all surface organic nitrogen"></variable>
+         <variable name="surfaceom_p" module = "surfaceom" description="Total mass of all surface organic phosphor"></variable>
+         <variable name="surfaceom_no3" module = "surfaceom" description="Total mass of nitrate"></variable>
+         <variable name="surfaceom_nh4" module = "surfaceom" description="Total mass of ammonium"></variable>
+         <variable name="surfaceom_labile_p" module = "surfaceom" description="Total mass of labile phosphorus"></variable>
+         <variable name="surfaceom_cover" module = "surfaceom" description="Fraction of ground covered by all surface OM&quot;s"></variable>
+         <variable name="surfaceom_tf" module = "surfaceom" description="Temperature factor for decomposition"></variable>
+         <variable name="surfaceom_wf" module = "surfaceom" description="Water factor for decomposition"></variable>
+         <variable name="surfaceom_cf" module = "surfaceom" description="Contact factor for decomposition"></variable>
+         <variable name="surfaceom_wt_xxxx" module = "surfaceom" description="Mass of organic matter named &quot;xxxx&quot;"></variable>
+         <variable name="surfaceom_c_xxxx" module = "surfaceom"  description="Mass of organic carbon in &quot;xxxx&quot;"></variable>
+         <variable name="surfaceom_n_xxxx" module = "surfaceom"  description="Mass of organic nitrogen in &quot;xxxx&quot;"></variable>
+         <variable name="surfaceom_p_xxxx" module = "surfaceom"  description="Mass of organic phosphor in &quot;xxxx&quot;"></variable>
+         <variable name="surfaceom_no3_xxxx" module = "surfaceom" description="Mass of nitrate in &quot;xxxx&quot;"></variable>
+         <variable name="surfaceom_nh4_xxxx" module = "surfaceom" description="Mass of ammonium in &quot;xxxx&quot;"></variable>
+         <variable name="surfaceom_labile_p_xxxx" module = "surfaceom" description="Mass of labile phosphorus in &quot;xxxx&quot;"></variable>
+         <variable name="surfaceom_c1_xxxx" module = "surfaceom" description="Mass of organic carbon in &quot;xxxx&quot; in fpool1"></variable>
+         <variable name="surfaceom_c2_xxxx" module = "surfaceom" description="Mass of organic carbon in &quot;xxxx&quot; in fpool2"></variable>
+         <variable name="surfaceom_c3_xxxx" module = "surfaceom" description="Mass of organic carbon in &quot;xxxx&quot; in fpool3"></variable>
+         <variable name="surfaceom_n1_xxxx" module = "surfaceom" description="Mass of organic nitrogen in &quot;xxxx&quot; in fpool1"></variable>
+         <variable name="surfaceom_n2_xxxx" module = "surfaceom" description="Mass of organic nitrogen in &quot;xxxx&quot; in fpool2"></variable>
+         <variable name="surfaceom_n3_xxxx" module = "surfaceom" description="Mass of organic nitrogen in &quot;xxxx&quot; in fpool3"></variable>
+         <variable name="surfaceom_p1_xxxx" module = "surfaceom" description="Mass of organic phosphorous in &quot;xxxx&quot; in fpool1"></variable>
+         <variable name="surfaceom_p2_xxxx" module = "surfaceom" description="Mass of organic phosphorous in &quot;xxxx&quot; in fpool2"></variable>
+         <variable name="surfaceom_p3_xxxx" module = "surfaceom" description="Mass of organic phosphorous in &quot;xxxx&quot; in fpool3"></variable>
+         <variable name="pot_c_decomp_xxxx" module = "surfaceom" description="Potential organic C decomposition in &quot;xxxx&quot;"></variable>
+         <variable name="pot_n_decomp_xxxx" module = "surfaceom" description="Potential organic N decomposition in &quot;xxxx&quot;"></variable>
+         <variable name="pot_p_decomp_xxxx" module = "surfaceom" description="Potential organic P decomposition in &quot;xxxx&quot;"></variable>
+         <variable name="standing_fraction_xxxx" module = "surfaceom" description="Fraction of &quot;xxxx&quot; which is inert, ie not in contact with the ground"></variable>
+         <variable name="surfaceom_cover_xxxx" module = "surfaceom" description="Fraction of ground covered by &quot;xxxx&quot;"></variable>
+         <variable name="cnrf_xxxx" module = "surfaceom" description="C:N ratio factor for decomposition for &quot;xxxx&quot;"></variable>
+      </variables>
+   </surfaceom>
+   <folder>
+      <UItype>area</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <LargeIcon>Images\folder_closed32.png</LargeIcon>
+      <SmallIcon>Images\folder_closed16.png</SmallIcon>
+      <drops>
+         <drop name="folder"/>
+     </drops>
+   </folder>
+   <erosion>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Science documentation">../apsim/erosion/docs/erosion_science.htm</Documentation>
+      <LargeIcon>Images\cubes32.png</LargeIcon>
+      <SmallIcon>Images\cubes16.png</SmallIcon>
+      <drops>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables>
+         <variable name="soil_loss" description="Soil loss (t/ha)"/>
+         <variable name="soil_loss_mm" description="Soil loss (mm)"/>
+         <variable name="sed_conc" description="Sediment concentration (g/l)"/>
+         <variable name="bed_depth" description="Depth to bedrock (mm)"/>
+      </variables>
+   </erosion>
+   <grasp>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <LargeIcon>Images\cubes32.png</LargeIcon>
+      <SmallIcon>Images\cubes16.png</SmallIcon>
+      <drops>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables>
+         <variable name="height" description="height: Sward height"/>
+         <variable name="cover_tot" description="cover_tot: Total cover"/>
+         <variable name="green_cover" description="green_cover: Green cover"/>
+         <variable name="cover_green" description="cover_green: Green cover"/>
+         <variable name="crop_type" description="crop_type: Name of crop"/>
+         <variable name="runoff_cover" description ="runoff_cover: Cover"/>
+         <variable name="radn_cover" description ="radn_cover: Cover"/>
+         <variable name="transp_cover" description ="transp_cover: Cover"/>
+         <variable name="clothesline" description ="clothesline: Clothesline effect"/>
+         <variable name="tfact" description ="tfact: Temperature index"/>
+         <variable name="nfact" description ="nfact: Nitrogen index"/>
+         <variable name="vpd_estimation" description ="vpd_estimation: What Grasp used for daily VPD"/>
+         <variable name="tsdm" description ="tsdm: Total standing dry matter"/>
+         <variable name="root_depth" description ="root_depth: depths of roots"/>
+         <variable name="green_leaf" description ="green_leaf: Green leaf pool "/>
+         <variable name="green_stem" description ="green_stem: Green stem pool"/>
+         <variable name="green_pool" description ="green_pool: Green pool"/>
+         <variable name="dead_leaf" description ="dead_leaf: Dead leaf pool"/>
+         <variable name="dead_stem" description ="dead_stem: Dead stem pool"/>
+         <variable name="dead_pool" description ="dead_pool: Dead pool"/>
+         <variable name="basal_area" description ="basal_area: Basal area of tussocks"/>
+         <variable name="acc_growth" description ="acc_growth: Accumulated growth"/>
+         <variable name="ep" description ="ep: Water uptake"/>
+         <variable name="sw_pot" description ="sw_pot: Potential uptake"/>
+         <variable name="sw_index" description ="sw_index: "/>
+         <variable name="growth" description ="growth: daily growth (or death)"/>
+         <variable name="growth_transp" description ="growth_transp: Potential growth by mass flow"/>
+         <variable name="growth_photo" description ="growth_photo: Potential growth by radiation"/>
+         <variable name="growth_regrowth" description ="growth_regrowth: Pot growth basal area"/>
+         <variable name="death" description ="death: Total death"/>
+         <variable name="death_frost" description ="death_frost: Death by frost"/>
+         <variable name="death_frost_leaf" description ="death_frost_leaf: Leaf death by frost"/>
+         <variable name="death_frost_stem" description ="death_frost_stem: Stem death by frost"/>
+         <variable name="death_water" description ="death_water; Leaf death by water stress"/>
+         <variable name="death_water_leaf" description ="death_w_leaf: Leaf death water stress"/>
+         <variable name="death_water_stem" description ="death_w_stem: Stem death by water stress"/>
+         <variable name="death_pheno" description ="death_pheno: Background death"/>
+         <variable name="death_pheno_leaf" description ="death_pheno_leaf: Background leaf death"/>
+         <variable name="death_pheno_stem" description ="death_pheno_stem: Background stem death"/>
+         <variable name="sw_demand" description ="sw_demand: SW demand"/>
+         <variable name="n_uptake" description ="n_uptake: N uptake"/>
+      </variables>
+      <events>
+      </events>
+   </grasp>
+
+   <canola>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\Canola.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <Documentation name="Canola science documentation">../apsim/canola/docs/canola_science.htm</Documentation>
+      <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables link="plant.xml"/>
+   </canola>
+   <chickpea>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\Chickpea.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <Documentation name="Chickpea science documentation">../apsim/chickpea/docs/chickpea_science.htm</Documentation>
+      <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
+      <Documentation name="Darling Downs sensibility tests">http://www.apsim.info/apsim/apsim/apsim/chickpea/sensibility/darlingdowns.html</Documentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables link="plant.xml"/>
+   </chickpea>
+   <cowpea>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\Cowpea.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <Documentation name="Cowpea science documentation">../apsim/cowpea/docs/cowpea_science.htm</Documentation>
+      <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables link="plant.xml"/>
+   </cowpea>
+   <fababean>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\FabaBean.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <Documentation name="Generic plant documentation" >../apsim/plant/docs/plant_science.htm</Documentation>
+      <Documentation name="Darling Downs sensibility tests">http://www.apsim.info/apsim/apsim/apsim/fababean/sensibility/fababean.html</Documentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables link="plant.xml"/>
+   </fababean>
+   <fieldpea>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\fieldpea.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <Documentation name="Fieldpea science documentation">../apsim/fieldpea/docs/Working science document for fieldpea module.htm</Documentation>
+      <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables link="plant.xml"/>
+   </fieldpea>
+   <lablab>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\lablab.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <Documentation name="Lablab science documentation">../apsim/lablab/docs/Working science doc for lablab module.htm</Documentation>
+      <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+
+         <drop name="folder"/>
+     </drops>
+      <variables link="plant.xml"/>
+   </lablab>
+   <lucerne>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\lucerne.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <Documentation name="Lucerne science documentation">../apsim/lucerne/docs/lucerne_science.htm</Documentation>
+      <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables link="plant.xml"/>
+   </lucerne>
+   <lupin>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\lupin.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <Documentation name="Lupin science documentation">../apsim/lupin/docs/lupin_science.htm</Documentation>
+      <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables link="plant.xml"/>
+   </lupin>
+   <maize>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\maize.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <Documentation name="Maize science documentation">../apsim/maize/docs/maize_science.htm</Documentation>
+      <Documentation name="Dalby sensibility tests">http://www.apsim.info/apsim/apsim/apsim/maize/sensibility/dalby.html</Documentation>
+      <Documentation name="Roma sensibility tests">http://www.apsim.info/apsim/apsim/apsim/maize/sensibility/roma.html</Documentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables>
+         <variable name="das" description ="Maize Days after sowing"/>
+         <variable name="stage" description ="Maize Phenological stage"/>
+         <variable name="stage_name" description ="Maize Phenological stage name"/>
+         <variable name="dlt_tt" description ="Maize Daily thermal time (oC)"/>
+         <variable name="tt_tot" array="T" description ="Maize Cum. growing degree days since sowing"/>
+         <variable name="flowering_das" description ="Maize Flowering days (days)"/>
+         <variable name="maturity_das" description ="Maize Maturity days (days)"/>
+         <variable name="flowering_date" description ="Maize Flowering date"/>
+         <variable name="maturity_date" description ="Maize Maturity_date"/>
+         <variable name="leaf_no" description ="Maize Leaf number"/>
+         <variable name="leaf_no_dead" description ="Maize Number dead leaves"/>
+         <variable name="height" description ="Maize Height of plant (mm)"/>
+         <variable name="root_depth" description ="Maize Root_depth (mm)"/>
+         <variable name="plants" description ="Maize Plant density (plants/m2)"/>
+         <variable name="grain_no" description ="Maize Grain number (g/m2)"/>
+         <variable name="grain_size" description ="Maize Grain size (g)"/>
+         <variable name="cover_green" description ="Maize Cover green"/>
+         <variable name="cover_tot" description ="Maize Cover total"/>
+         <variable name="slai" description ="Maize Senesced leaf area index"/>
+         <variable name="lai" description ="Maize Leaf area index"/>
+         <variable name="root_wt" description ="Maize Root weight (g/m2)"/>
+         <variable name="leaf_wt" description ="Maize Leaf weight (g/m2)"/>
+         <variable name="stem_wt" description ="Maize Stem weight (g/m2)"/>
+         <variable name="flower_wt" description ="Maize Flower weight (g/m2)"/>
+         <variable name="grain_wt" description ="Maize Grain weight (g/m2)"/>
+         <variable name="yield" description ="Maize Yield (kg/ha)"/>
+         <variable name="biomass" description ="Maize Biomass (kg/ha)"/>
+         <variable name="stover" description ="Maize Stover (kg/ha)"/>
+         <variable name="green_biomass" description ="Maize Green biomass (kg/ha)"/>
+         <variable name="hi" description ="Maize harvest_index"/>
+         <variable name="biomass_n" description ="Maize Total N uptake (g/m2)"/>
+         <variable name="N_conc_grain" description ="Maize grain N concentration (%)"/>
+         <variable name="n_conc_stover" description ="Maize stover N concentration  (%)"/>
+         <variable name="swdef_photo" description ="Maize soil water factor for photosynthesis"/>
+         <variable name="nfact_photo" description ="Maize Nitrogen factor for photosynthesis"/>
+         <variable name="swdef_expan" description ="Maize soil water factor for expansion"/>
+         <variable name="nfact_expan" description ="Maize Nitrogen factor for expansion"/>
+         <variable name="ep" description ="Maize Water Uptake, Ep (mm)"/>
+         <variable name="pfact_photo" description ="Maize Phosphorus factor for photosynthesis"/>
+         <variable name="pfact_pheno" description ="Maize Phosphorus factor for phenology"/>
+         <variable name="pfact_expan" description ="Maize Phosphorus factor for expansion"/>
+         <variable name="plant_p" description ="Maize Total Plant Phosphorus (g/m2)"/>
+         <variable name="biomass_p" description ="Maize Above-ground Phosphorus (g/m2)"/>
+      </variables>
+      <events>
+      </events>
+   </maize>
+   <mucuna>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\mucuna.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <Documentation name="Generic plant documentation" >../apsim/plant/docs/plant_science.htm</Documentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables link="plant.xml"/>
+   </mucuna>
+   <mungbean>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\mungbean.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <Documentation name="Mungbean science documentation">../apsim/mungbean/docs/mungbean_science.htm</Documentation>
+      <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
+      <Documentation name="Darling downs sensibility tests">http://www.apsim.info/apsim/apsim/apsim/mungbean/sensibility/darlingdowns.html</Documentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables link="plant.xml"/>
+   </mungbean>
+   <navybean>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphicsnavybean.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <Documentation name="Generic plant documentation" >../apsim/plant/docs/plant_science.htm</Documentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables link="plant.xml"/>
+   </navybean>
+   <ozcot>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\cottton.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <Documentation name="Ozcot science documentation">../apsim/ozcot/docs/ozcot_science.htm</Documentation>
+      <LargeIcon>Images\cubes32.png</LargeIcon>
+      <SmallIcon>Images\cubes16.png</SmallIcon>
+      <drops>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables>
+         <variable name="das" description ="Days after sowing"/>
+         <variable name="sites" description ="No. fruiting sites /m"/>
+         <variable name="squarz" description ="No. squares /m"/>
+         <variable name="bollz" description ="No. bolls /m"/>
+         <variable name="openz" description ="No. open bolls /m"/>
+         <variable name="alint" description ="Lint weight (kg/ha)"/>
+         <variable name="yield" description ="Yield (bales/ha)"/>
+         <variable name="dm" description ="Total biomass (kg/ha)"/>
+         <variable name="lai" description ="Leaf area index"/>
+         <variable name="totnup" description ="Total N uptake (kg/ha)"/>
+         <variable name="evap_plant" description ="Crop transpiration (mm)"/>
+      </variables>
+      <events>
+      </events>
+   </ozcot>
+   <peanut>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\peanut.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <Documentation name="Peanut science documentation">../apsim/peanut/docs/peanut_science.htm</Documentation>
+      <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables link="plant.xml"/>
+   </peanut>
+   <pigeonp>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\pigeonpea.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <Documentation name="Pigeonpea science documentation">../apsim/pigeonp/docs/pigeonpea_science.htm</Documentation>
+      <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables link="plant.xml"/>
+   </pigeonp>
+   <slurp>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Slurp science documentation">../apsim/slurp/docs/slurp_science.htm</Documentation>
+      <LargeIcon>Images\cubes32.png</LargeIcon>
+      <SmallIcon>Images\cubes16.png</SmallIcon>
+      <drops>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables>
+         <variable name="lai" description="Slurp Green leaf area index"></variable>
+         <variable name="cover_green" description="Slurp Green Cover"></variable>
+         <variable name="ep" description="Slurp water use - (mm)"></variable>
+      </variables>
+   </slurp>
+   <sorghum>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\sorghum.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <Documentation name="Sorghum science documentation">../apsim/sorghum/docs/sorghum_science.htm</Documentation>
+      <Documentation name="Darling downs sensibility tests">http://www.apsim.info/apsim/apsim/apsim/sorghum/sensibility/sorghum.html</Documentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+     <variables link="plant.xml"/>
+   </sorghum>
+   <soybean>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\soybean.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <Documentation name="Soybean science documentation">../apsim/soybean/docs/soybean_science.htm</Documentation>
+      <Documentation name="Generic plant document" >../apsim/plant/docs/plant_science.htm</Documentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables link="plant.xml"/>
+   </soybean>
+   <stylo>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\stylo.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <Documentation name="Generic plant documentation" >../apsim/plant/docs/plant_science.htm</Documentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables link="plant.xml"/>
+   </stylo>
+   <sugar>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Sugar science documentation">../apsim/sugar/docs/sugar_science.htm</Documentation>
+      <LargeIcon>Images\cubes32.png</LargeIcon>
+      <SmallIcon>Images\cubes16.png</SmallIcon>
+      <drops>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables>
+         <variable name="stage_name" description ="Sugar Stage name"/>
+         <variable name="crop_status" description ="Sugar Crop status (dead,alive,out)"/>
+         <variable name="ratoon_no" description ="Sugar Ratoon number"/>
+         <variable name="ep" description ="Sugar daily crop water uptake (mm)"/>
+         <variable name="dm_senesced" array="T" description ="Sugar senesced plant material (trash) (g/m2)"/>
+         <variable name="n_senesced" array="T" description ="Sugar N in trash (g/m2)"/>
+         <variable name="rlv" description ="Sugar root length density for each layer (mm/mm3)"/>
+         <variable name="cep" description ="Sugar cumulative crop water uptake (mm)"/>
+         <variable name="biomass" description ="Sugar total above-ground biomass (green + trash) (g/m2)"/>
+         <variable name="green_biomass" description ="Sugar green biomass (g/m2)"/>
+         <variable name="biomass_n" description ="Sugar total N in biomass (green + trash) (g/m2)"/>
+         <variable name="cane_wt" description ="Sugar cane dry weight (g/m2)"/>
+         <variable name="canefw" description ="Sugar cane fresh weight (t/ha)"/>
+         <variable name="n_conc_cab" description ="Sugar N concentration in cabbage (g/g)"/>
+         <variable name="n_conc_cane" description ="Sugar N concentration in cane (g/g)"/>
+         <variable name="n_conc_leaf" description ="Sugar N concentration in green leaf (g/g)"/>
+         <variable name="stage" description ="Sugar current phenological stage"/>
+         <variable name="dlt_dm" description ="Sugar daily biomass production (g/m2)"/>
+         <variable name="leaf_wt" description ="Sugar leaf weight (g/m2)"/>
+         <variable name="root_wt" description ="Sugar root weight (g/m2)"/>
+         <variable name="sstem_wt" description ="Sugar structural stem weight (g/m2)"/>
+         <variable name="sucrose_wt" description ="Sugar sucrose weight (g/m2)"/>
+         <variable name="cabbage_wt" description ="Sugar cabbage weight (g/m2)"/>
+         <variable name="lai" description ="Sugar green leaf area index"/>
+         <variable name="tlai" description ="Sugar total leaf area index (green and senesced)"/>
+         <variable name="root_depth" description ="Sugar depth of roots (mm)"/>
+         <variable name="slai" description ="Sugar senesced leaf area index"/>
+         <variable name="sw_demand" description ="Sugar crop demand for water (potential uptake) (mm)"/>
+         <variable name="green_biomass_n" description ="Sugar green biomass N (g/m2)"/>
+         <variable name="n_demand" description ="Sugar nitrogen demand (g/m2)"/>
+         <variable name="nfact_photo" description ="Sugar Nitrogen stress factor on photosynthesis (0-1)"/>
+         <variable name="nfact_expan" description ="Sugar Nitrogen stress factor on cell expansion (0-1)"/>
+         <variable name="swdef_pheno" description ="Sugar water stress factor on phenology (0-1)"/>
+         <variable name="swdef_photo" description ="Sugar water stress factor on photosynthesis (0-1)"/>
+         <variable name="swdef_expan" description ="Sugar water stress factor on cell expansion (0-1)"/>
+         <variable name="das" description ="Sugar days after sowing"/>
+         <variable name="ep" description ="Sugar daily crop water uptake, Ep (mm)"/>
+      </variables>
+      <events>
+      </events>
+   </sugar>
+   <sunflower>
+      <UItype>empty</UItype>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\sunflower.jpg</Image>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables>
+         <variable name="das" description ="Sunflower days after sowing"/>
+         <variable name="plant_status" description ="Sunflower plant status"/>
+         <variable name="flowering_date" description ="Sunflower flowering date"/>
+         <variable name="maturity_date" description ="Sunflower maturity date"/>
+         <variable name="leaf_no" description ="Sunflower leaf number"/>
+         <variable name="height" description ="Sunflower height (mm)"/>
+         <variable name="grain_no" description ="Sunflower grain number"/>
+         <variable name="grain_size" description ="Sunflower grain size (g)"/>
+         <variable name="cover_green" description ="Sunflower Cover Green"/>
+         <variable name="cover_tot" description ="Sunflower Cover total"/>
+         <variable name="lai" description ="Sunflower leaf area index"/>
+         <variable name="root_depth" description ="Sunflower root depth (mm)"/>
+         <variable name="root_length" description ="Sunflower root length (mm)"/>
+         <variable name="transp_eff" description ="Sunflower transpiration efficiency"/>
+         <variable name="leaf_wt" description ="Sunflower leaf weight (g/m^2)"/>
+         <variable name="stem_wt" description ="Sunflower stem weight (g/m^2)"/>
+         <variable name="flower_wt" description ="Sunflower flower weight (g/m^2)"/>
+         <variable name="grain_wt" description ="Sunflower grain weight (g/m^2)"/>
+         <variable name="root_wt" description ="Sunflower root weight (g/m^2)"/>
+         <variable name="biomass_wt" description ="Sunflower biomass weight (g/m^2)"/>
+         <variable name="yield" description ="Sunflower yield (kg/ha)"/>
+         <variable name="biomass" description ="Sunflower biomass (kg/ha)"/>
+         <variable name="green_biomass" description ="Sunflower green biomass (kg/ha)"/>
+         <variable name="hi" description ="Sunflower harvest index"/>
+         <variable name="swdef_photo" description ="Sunflower water stress factor for photosynthesis"/>
+         <variable name="swdef_pheno" description ="Sunflower water stress factor for phenology"/>
+         <variable name="swdef_expan" description ="Sunflower water stress factor for expansion"/>
+         <variable name="esw_layer" description ="Sunflower extractable soil water - layered"/>
+         <variable name="ep" description ="Sunflower daily water uptake"/>
+         <variable name="sw_supply" description ="Sunflower water supply over all layers"/>
+         <variable name="sw_deficit" description ="Sunflower total water deficit"/>
+         <variable name="sw_demand" description ="Sunflower total crop demand for water "/>
+         <variable name="no3_demand" description ="Sunflower total no3 demand (g/m^2)"/>
+         <variable name="biomass_n" description ="Sunflower total biomass N (kg/ha)"/>
+         <variable name="green_biomass_n" description ="Sunflower total above ground biomass N (kg/ha)"/>
+         <variable name="nfact_photo" description ="Sunflower nitrogen stress factor for photosynthesis"/>
+         <variable name="nfact_pheno" description ="Sunflower nitrogen stress factor for phenology"/>
+         <variable name="nfact_expan" description ="Sunflower nitrogen stress factor for expansion"/>
+         <variable name="pfact_photo" description ="Sunflower phosphorus stress factor for photosynthesis"/>
+         <variable name="pfact_pheno" description ="Sunflower phosphorus stress factor for phenology"/>
+         <variable name="pfact_expan" description ="Sunflower phosphorus stress factor for expansion"/>
+         <variable name="biomass_p" description ="Sunflower total biomass P (kg/ha)"/>
+      </variables>
+      <events>
+      </events>
+   </sunflower>
+   <weed>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\weed.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <Documentation name="Weed science documentation">../apsim/weed/docs/weed_science.htm</Documentation>
+      <Documentation name="Generic plant documentation" >../apsim/plant/docs/plant_science.htm</Documentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables link="plant.xml"/>
+   </weed>
+   <wheat>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\wheat.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <Documentation name="Wheat science documentation">../apsim/wheat/docs/wheat_science.htm</Documentation>
+      <Documentation name="Generic plant documentation" >../apsim/plant/docs/plant_science.htm</Documentation>
+      <Documentation name="Gunnedah and Walgett sensibility tests">http://www.apsim.info/apsim/apsim/apsim/wheat/sensibility/nsw.html</Documentation>
+      <Documentation name="Birchip sensibility tests">http://www.apsim.info/apsim/apsim/apsim/wheat/sensibility/birchip.html</Documentation>
+      <Documentation name="Warra sensibility tests">http://www.apsim.info/apsim/apsim/apsim/wheat/sensibility/warra.html</Documentation>
+      <Documentation name="Darling downs sensibility tests">http://www.apsim.info/apsim/apsim/apsim/wheat/sensibility/darlingdowns.html</Documentation>
+      <Documentation name="Mingenew sensibility tests">http://www.apsim.info/apsim/apsim/apsim/wheat/sensibility/Mingenew.html</Documentation>
+      <Documentation name="Walpeup sensibility tests">http://www.apsim.info/apsim/apsim/apsim/wheat/sensibility/Walpeup.html</Documentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables link="plant.xml"/>
+   </wheat>
+
+   <accum>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation name="Science documentation">../apsim/accum/docs/accum_science.htm</Documentation>
+   </accum>
+   <canopy>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation name="Science documentation">../apsim/canopy/docs/canopy_science.htm</Documentation>
+   </canopy>
+   <growth>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation name="Science documentation">../apsim/growth/docs/growth_science.htm</Documentation>
+   </growth>
+   <input>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation name="Science documentation">../apsim/input/docs/input_science.htm</Documentation>
+   </input>
+   <map>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation name="Science documentation">../apsim/map/docs/map_science.htm</Documentation>
+   </map>
+   <millet>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation name="Science documentation">../apsim/millet/docs/millet_science.htm</Documentation>
+   </millet>
+   <operatns>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation name="Science documentation">../apsim/operatns/docs/operatns_science.htm</Documentation>
+   </operatns>
+   <PatchInput>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation name="Science documentation">../apsim/PatchInput/docs/PatchInput_science.htm</Documentation>
+   </PatchInput>
+   <report>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation name="Science documentation">../apsim/report/docs/report_science.htm</Documentation>
+   </report>
+   <SiloInput>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation name="Science documentation">../apsim/SiloInput/docs/SiloInput.htm</Documentation>
+   </SiloInput>
+   <soi>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation name="Science documentation">../apsim/soi/docs/soi_science.htm</Documentation>
+   </soi>
+   <soilph>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation name="Science documentation">../apsim/soilph/docs/soil_ph.htm</Documentation>
+   </soilph>
+   <soiltemp>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation name="Science documentation">../apsim/soiltemp/docs/soiltemp_science.htm</Documentation>
+   </soiltemp>
+   <solute>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation name="Science documentation">../apsim/solute/docs/solute_science.htm</Documentation>
+   </solute>
+   <surface>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation name="Science documentation">../apsim/surface/docs/surface_science.htm</Documentation>
+   </surface>
+   <sysbal>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation name="Science documentation">../apsim/sysbal/docs/sysbal science.txt</Documentation>
+   </sysbal>
+   <tcllink>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation name="Science documentation">../apsim/tcllink/docs/tclink_science.htm</Documentation>
+   </tcllink>
+   <tracker>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation name="Science documentation">../apsim/tracker/docs/tracker.htm</Documentation>
+   </tracker>
+   <venlink>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation name="Science documentation">../apsim/venlink/docs/Guide to linking APSIM with the VENSIM.htm</Documentation>
+   </venlink>
+   <WaterSupply>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation name="Science documentation">../apsim/WaterSupply/docs/WaterSupply_science.htm</Documentation>
+   </WaterSupply>
+
+   <egrandis>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\Egrandis.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <Documentation name="Generic Growth science documentation" >../apsim/growth/docs/growth_science.htm</Documentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+     <variables>
+         <variable name="lai" description ="E. grandis leaf area index"/>
+         <variable name="fw" description ="E. grandis water stress factor"/>
+         <variable name="fn" description ="E. grandis N stress factor"/>
+         <variable name="ft" description ="E. grandis Temperature stress factor"/>
+         <variable name="fvpd" description ="E. grandis VPD stress factor"/>
+         <variable name="cover_green" description ="E. grandis Canopy Cover"/>
+         <variable name="height" description ="E. grandis Tree Height"/>
+         <variable name="plants" description ="E. grandis Plant Population"/>
+         <variable name="age" description ="E. grandis Tree Age"/>
+         <variable name="sw_demand" description ="E. grandis soil water demand"/>
+         <variable name="ep" description ="E. grandis Tree water use"/>
+         <variable name="foliage_mass" description ="E. grandis foliage mass"/>
+         <variable name="foliage_n" description ="E. grandis foliage N mass"/>
+         <variable name="biomass" description ="E. grandis Total Above-ground biomass"/>
+         <variable name="adm_green" array = "T" description ="E. grandis Live Above-ground Biomass Pools"/>
+         <variable name="adm_dead" array = "T" description ="E. grandis Dead Above-ground Biomass Pools"/>
+         <variable name="adm_sen" array = "T" description ="E. grandis Senesced Above-ground Biomass Pools"/>
+     </variables>
+   </egrandis>
+</Types>
+

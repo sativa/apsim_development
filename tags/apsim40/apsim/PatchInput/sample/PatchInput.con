@@ -1,0 +1,22 @@
+version = 4
+[Sample PatchInput]
+
+title=PatchInput1 Simulation
+module = clock PatchInput.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report PatchInput.par [sample]
+module = input(met) %apsuite\apsim\met\sample\dalby.met[weather]
+module = PatchInput(patch) patch.dat [test]
+module = manager PatchInput.par [sample]
+module = SummaryFile  PatchInput.par[sample]
+module = Screen  PatchInput.par[sample]
+
+[Sample PatchInput2]
+
+title=PatchInput2 Simulation
+module = clock PatchInput.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report PatchInput.par [sample2]
+module = input(met) %apsuite\apsim\met\sample\dalby.met[weather]
+module = PatchInput(patch) patch2.dat [test]
+module = manager PatchInput.par [sample]
+module = SummaryFile  PatchInput.par[sample2]
+module = Screen  PatchInput.par[sample]
