@@ -1,4 +1,4 @@
-C     Last change:  E     3 Aug 2001    2:00 pm
+C     Last change:  E    24 Aug 2001    3:51 pm
 
       INCLUDE 'CropMod.inc'
 
@@ -977,10 +977,23 @@ cjh      endif
       REAL       biomass_p
       REAL       plant_p_max
       REAL       pconc
+      REAL       value
+
 
 *- Implementation Section ----------------------------------
  
       call push_routine (my_name)
+
+
+
+         biomass = sum_real_array (g%dm_green, max_part)
+     :           - g%dm_green(root) - g%dm_green(energy)
+     :           + sum_real_array (g%dm_senesced, max_part)
+     :           - g%dm_senesced(root) - g%dm_senesced(energy)
+     :           + sum_real_array (g%dm_dead, max_part)
+     :           - g%dm_dead(root) - g%dm_dead(energy)
+
+
  
 
       !================================================================
@@ -1331,6 +1344,44 @@ cjh      endif
      :                               , rlv
      :                               , num_layers)
 
+
+      !===============================================================
+      !plant biomass partition
+
+      elseif (variable_name .eq. 'leaf_part') then
+
+         value=divide(g%dm_green   (leaf) +
+     :                g%dm_senesced(leaf) +
+     :                g%dm_dead    (leaf) ,  biomass,0.0)
+
+         call respond2get_real_var (variable_name, '()', value)
+
+      elseif (variable_name .eq. 'stem_part') then
+
+         value=divide(g%dm_green   (stem) +
+     :                g%dm_senesced(stem) +
+     :                g%dm_dead    (stem) ,  biomass,0.0)
+
+         call respond2get_real_var (variable_name, '()', value)
+
+      elseif (variable_name .eq. 'grain_part') then
+
+         value=divide(g%dm_green   (grain) +
+     :                g%dm_senesced(grain) +
+     :                g%dm_dead    (grain) ,  biomass,0.0)
+
+         call respond2get_real_var (variable_name, '()', value)
+
+      elseif (variable_name .eq. 'root_part') then
+
+
+         value=       g%dm_green   (root) +
+     :                g%dm_senesced(root) +
+     :                g%dm_dead    (root)
+
+        value= divide(value,  biomass + value, 0.0)
+
+         call respond2get_real_var (variable_name, '()', value)
 
       !===============================================================
       !plant biomass
@@ -3570,8 +3621,8 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       call push_routine (my_name)
  
       if (g_plant_status.eq.status_alive) then
-         g_plant_status = status_dead
- 
+         g_plant_status  = status_dead
+
          biomass = (sum_real_array (g_dm_green, max_part)
      :           - g_dm_green(root)) * gm2kg /sm2ha
  
@@ -3910,6 +3961,9 @@ c     :                                         - g%dlt_stiller_no
       g%tiller_no_sen    = g%tiller_no_sen + g%dlt_stiller_no
       !&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
+
+      g%tt_tiller_emergence(1 + INT(g%tiller_no)) =
+     :                           sum_between(emerg, flag_leaf, g%tt_tot)
 
 
       ! transfer plant leaf area
@@ -5313,6 +5367,8 @@ c     CALL fill_real_array(g%soil_temp,0.0, 366)
       call fill_real_array(g%tiller_area_act,      0.0, max_leaf)
       call fill_real_array(g%tiller_area_act_stage,0.0, max_leaf)
       call fill_real_array(g%tiller_area_sen,      0.0, max_leaf)
+
+      call fill_real_array(g%tt_tiller_emergence,  0.0, max_leaf)
 
 
       !plant_N
@@ -6962,6 +7018,20 @@ C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
      :                    , 'swdf_photo_rate', '()'
      :                    , c%swdf_photo_rate, numvals
      :                    , 0.0, 1.0)
+
+
+      call read_real_var_optional (section_name
+     :                    , 'days_germ_limit', '(days)'
+     :                    , c%days_germ_limit, numvals
+     :                    , 0.0, 365.0)
+      if (numvals .eq. 0) c%days_germ_limit = 1000 !basically no limit
+
+
+      call read_real_var_optional (section_name
+     :                    , 'swdf_pheno_limit', '()'
+     :                    , c%swdf_pheno_limit, numvals
+     :                    , 0.0, 100.0)
+      if (numvals .eq. 0) c%swdf_pheno_limit = 1000 !basically no limit
 
 
 C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
