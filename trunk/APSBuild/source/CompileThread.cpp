@@ -9,12 +9,15 @@
 #include <general\io_functions.h>
 #include <general\stristr.h>
 #pragma package(smart_init)
+using std::ofstream;
+using std::ifstream;
 
 static const char* COMPILER_OUTPUT_FILENAME = "compiler.rpt";
 
 static const char* APSBUILD_SECTION = "APSBuild";
 static const char* BINARY_KEY = "binary";
 static const char* IMPORT_KEY = "import";
+static const char* OBJECT_KEY = "object";
 static const char* LIBRARY_KEY = "library";
 static const char* INCLUDE_KEY = "include";
 static const char* SWITCHES_KEY = "switches";
@@ -191,8 +194,8 @@ void CompileThread::GetBinaryFileNames (APSIM_project& apf, list<string>& Binary
 // ------------------------------------------------------------------
 void CompileThread::WriteToOutputFile (string& msg)
    {
-   ofstream out (Compiler_output_filename.c_str(), ios::app);
-   out << msg << endl;
+   ofstream out (Compiler_output_filename.c_str(), std::ios::app);
+   out << msg << std::endl;
    }
 
 // ------------------------------------------------------------------
@@ -212,9 +215,9 @@ void CompileThread::CreateAutoMakeFile (APSIM_project& apf, Path& BinaryFile)
    ofstream out (AutomakeFilename.c_str());
 
    // write lf90 lines to automake file.
-   out << "COMPILE = @lf90 @" << COMPILER_RESPONSE_FILENAME << " -c %sf%se -i %id >> " << Compiler_output_filename << endl;
+   out << "COMPILE = @lf90 @" << COMPILER_RESPONSE_FILENAME << " -c %sf%se -i %id >> " << Compiler_output_filename << std::endl;
    out << "LINK = @lf90 @%rf -out %ex @" << LINKER_RESPONSE_FILENAME;
-   out                            << " >> " << Compiler_output_filename << endl;
+   out                            << " >> " << Compiler_output_filename << std::endl;
 
    // get an include directory string.
    list<string> IncludeDirectories;
@@ -223,10 +226,10 @@ void CompileThread::CreateAutoMakeFile (APSIM_project& apf, Path& BinaryFile)
    Build_string (IncludeDirectories, ";", IncludeString);
 
    // write out include directory string.
-   out << "INCLUDE=" << IncludeString << endl;
+   out << "INCLUDE=" << IncludeString << std::endl;
 
    // write out target name.
-   out << "TARGET=" << BinaryFile.Get_path() << endl;
+   out << "TARGET=" << BinaryFile.Get_path() << std::endl;
 
    // get a list of all source files.
    list<string> SourceFiles;
@@ -238,8 +241,8 @@ void CompileThread::CreateAutoMakeFile (APSIM_project& apf, Path& BinaryFile)
                                i++)
       {
       if (i != SourceFiles.begin())
-         out << "AND" << endl;
-      out << "FILES=" << *i << endl;
+         out << "AND" << std::endl;
+      out << "FILES=" << *i << std::endl;
       }
    }
 
@@ -292,7 +295,17 @@ void CompileThread::CreateLinkerResponseFile (APSIM_project& apf)
                               i++)
       {
       Path Imp( (*i).c_str() );
-      out << Imp.Get_name() << endl;
+      out << Imp.Get_name() << std::endl;
+      }
+
+   // get a list of all object files for this binary.
+   list<string> ObjectFiles;
+   GetFilesForCompiler (apf, OBJECT_KEY, ObjectFiles);
+   for (list<string>::iterator i = ObjectFiles.begin();
+                              i != ObjectFiles.end();
+                              i++)
+      {
+      out << (*i) << std::endl;
       }
 
    // get a list of all library files for this binary.
@@ -303,7 +316,7 @@ void CompileThread::CreateLinkerResponseFile (APSIM_project& apf)
    for (list<string>::iterator i = LibraryFiles.begin();
                                i != LibraryFiles.end();
                                i++)
-      out << "-lib " << *i << endl;
+      out << "-lib " << *i << std::endl;
    }
 
 // ------------------------------------------------------------------
@@ -356,8 +369,8 @@ void CompileThread::RunAutoMake (APSIM_project& apf, Path& BinaryFile)
    // need to modify the amtemp.bat file to add an extra line on the
    // end that deletes the target binary file on an unsuccessful link.
    string AmtempPath = GetSourceDirectory(apf) + "\\amtemp.bat";
-   ofstream amtemp (AmtempPath.c_str(), ios::app);
-   amtemp << "@IF ERRORLEVEL 1 del " << BinaryFile.Get_path() << endl;
+   ofstream amtemp (AmtempPath.c_str(), std::ios::app);
+   amtemp << "@IF ERRORLEVEL 1 del " << BinaryFile.Get_path() << std::endl;
    amtemp.close();
 
    // run batch file that automake has created.
@@ -412,7 +425,7 @@ void CompileThread::CopySwitchesToStream (APSIM_project& apf, ostream& out)
       ifstream in ( (*i).c_str() );
       string SwitchLine;
       getline(in, SwitchLine);
-      out << SwitchLine << endl;
+      out << SwitchLine << std::endl;
       }
    }
 

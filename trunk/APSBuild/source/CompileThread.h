@@ -3,6 +3,7 @@
 #define CompileThreadH
 #include <general\path.h>
 #include <aps\apsim_project.h>
+using std::ostream;
 // ------------------------------------------------------------------
 //  Short description:
 //     this class is responsible for compiling an APSIM project

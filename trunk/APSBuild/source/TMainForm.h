@@ -7,8 +7,10 @@
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
 #include "CompileThread.h"
-#include <general\mystring.h>
-#include <general\mylist.h>
+#include <string>
+#include <list>
+using std::list;
+using std::string;
 //---------------------------------------------------------------------------
 class TMainForm : public TForm
 {
