@@ -31,6 +31,9 @@
 #include "Scenarios.h"
 #include "ToolBarAddIn.h"
 #include <DB.hpp>
+#include "AdvGrid.hpp"
+#include "BaseGrid.hpp"
+#include "dbadvgrd.hpp"
 #include <ApsimShared\ApsimSettings.h>
 
 class AddInEventMap;  // see bottom of page for class definition
@@ -39,7 +42,6 @@ class AddInEventMap;  // see bottom of page for class definition
 class TMDIChild : public TForm
 {
 __published:
-   TDBGrid *Grid;
    TSplitter *Splitter;
    TMainMenu *MainMenu2;
    TMenuItem *ChartsMenu;
@@ -65,13 +67,13 @@ __published:
    TMenuItem *N6;
    TMenuItem *N1;
    TDataSource *Grid_data_source;
-   TOLEExcel *Excel;
    TAPSTable_2_TDataSet *APSTable_2_TDataSet;
    TMenuItem *ChartsViewSettingsMenu;
    TMenuItem *View1;
    TMenuItem *ChartsNoChartMenu;
    TAPSTable *AllData;
    TAPSTable *working;
+   TDBAdvStringGrid *Grid;
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
    void __fastcall SelectSimulations(TObject *Sender);
    void __fastcall TimeSeriesChart(TObject *Sender);
