@@ -342,7 +342,7 @@ c       PRINT *, 'g_phase_tt = ',g_phase_tt(germ_to_emerg)
          tt_endjuv_init = MAX(g_phase_tt(endjuv_to_init),
      :                        g_tt_tot(endjuv_to_init))
 
-         PRINT *,  g_phase_tt(endjuv_to_init),g_tt_tot(endjuv_to_init)
+!         PRINT *,  g_phase_tt(endjuv_to_init),g_tt_tot(endjuv_to_init)
 
          g_phase_tt(init_to_flag) = tt_emerg_to_flag_leaf
      :                            - g_phase_tt(emerg_to_endjuv)
