@@ -17,9 +17,9 @@ object MoveParametersForm: TMoveParametersForm
   object Label1: TLabel
     Left = 19
     Top = 16
-    Width = 290
+    Width = 227
     Height = 13
-    Caption = 'APSIM 2.2 and above no longer supports parameters being in'
+    Caption = 'APSIM 3 no longer supports parameters being in'
   end
   object Label2: TLabel
     Left = 16
