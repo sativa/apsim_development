@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------
-#ifndef RotationAddInH
-#define RotationAddInH
+#ifndef RotAddInH
+#define RotAddInH
 
 #include "ToolBarAddIn.h"
 #include <vector>
@@ -27,7 +27,6 @@ class RotationAddIn : public ToolBarAddInBase
       typedef std::vector<std::string> DataBlockNames;
       typedef std::map<std::string, DataBlockNames> Rotations;
       Rotations rotations;
-      TAPSTable* source;
 
       void __fastcall buttonClick(TObject* Sender);
       const Graphics::TBitmap* getImageForFactor(const std::string& factorName) const {return NULL;}
@@ -67,15 +66,11 @@ class RotationAddIn : public ToolBarAddInBase
       // Each file is categorised as belonging to a particular named rotation.
       // These methods allow callers to manipulate which files belong to which
       // rotations.
-      int getNumRotations(void) const {return rotations.size();}
+      int getNumRotations(void) const;
       void getRotationNames(std::vector<std::string>& names) const;
       void clearRotations(void) {rotations.erase(rotations.begin(), rotations.end());}
       bool getRotation(const std::string& name, DataBlockNames& dataBlockNames) const;
       void addRotation(const std::string& name, const DataBlockNames& dataBlockNames);
-
-      // set the source dataset.
-      void setSource(TAPSTable* s);
-
    };
 
 // ------------------------------------------------------------------

@@ -27,15 +27,6 @@ extern "C" ToolBarAddInBase* _export __stdcall createToolBarAddIn(const string& 
    {
    return new RotationAddIn(parameters);
    }
-
-// ------------------------------------------------------------------
-// Exported function for that gives a source dataset to an addin.
-// ------------------------------------------------------------------
-extern "C" void _export __stdcall setSourceData(RotationAddIn* addIn, TAPSTable* source)
-   {
-   addIn->setSource(source);
-   }
-
 // ------------------------------------------------------------------
 //  Short description:
 //    constructor
@@ -102,14 +93,14 @@ void __fastcall RotationAddIn::buttonClick(TObject* Sender)
    needsUpdating = (RotationForm->ShowModal() == mrOk);
    delete RotationForm;
    }
-
 // ------------------------------------------------------------------
-// Set the source data set.
+// Return the number of rotations.
 // ------------------------------------------------------------------
-void RotationAddIn::setSource(TAPSTable* s)
+int RotationAddIn::getNumRotations(void) const
    {
-   source = s;
-   partitionFilesIntoRotations();
+   if (rotations.size() == 0)
+      partitionFilesIntoRotations();
+   return rotations.size();
    }
 
 // ------------------------------------------------------------------
@@ -185,11 +176,11 @@ class ScoreNameAgainst
 void RotationAddIn::partitionFilesIntoRotations(void)
    {
    clearRotations();
-   if (source != NULL)
+   if (working != NULL)
       {
       vector<string> unknownDataBlocks;
       vector<string> dataBlockNames;
-      source->getAllDataBlockNames(dataBlockNames);
+      working->getAllDataBlockNames(dataBlockNames);
 
       vector<string>::iterator dataBlockI = dataBlockNames.begin();
       while (dataBlockI != dataBlockNames.end())
