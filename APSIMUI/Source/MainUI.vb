@@ -123,7 +123,6 @@ Public Class MainUI
     Friend WithEvents MenuItem9 As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItem10 As System.Windows.Forms.MenuItem
     Friend WithEvents ToolboxPanel As System.Windows.Forms.Panel
-    Friend WithEvents Splitter1 As System.Windows.Forms.Splitter
     Friend WithEvents SimulationPanel As System.Windows.Forms.Panel
     Friend WithEvents ToolboxMenuItem As System.Windows.Forms.MenuItem
     Friend WithEvents CaptionLabel As System.Windows.Forms.Label
@@ -132,6 +131,7 @@ Public Class MainUI
     Friend WithEvents BackButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents ForwardButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents CloseButton As System.Windows.Forms.ToolBarButton
+    Friend WithEvents ToolBoxSplitter As System.Windows.Forms.Splitter
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MainUI))
@@ -193,22 +193,22 @@ Public Class MainUI
         Me.ComponentImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.HorizontalSplitter = New System.Windows.Forms.Splitter
         Me.HelpBrowserPanel = New System.Windows.Forms.Panel
+        Me.HelpBrowser = New AxSHDocVw.AxWebBrowser
         Me.HelpToolBarPanel = New System.Windows.Forms.Panel
-        Me.SmallButtonImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.HelpBrowsertoolBar = New System.Windows.Forms.ToolBar
         Me.BackButton = New System.Windows.Forms.ToolBarButton
         Me.ForwardButton = New System.Windows.Forms.ToolBarButton
-        Me.HelpBrowser = New AxSHDocVw.AxWebBrowser
+        Me.CloseButton = New System.Windows.Forms.ToolBarButton
+        Me.SmallButtonImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.CaptionLabel = New System.Windows.Forms.Label
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
         Me.SaveFileDialog = New System.Windows.Forms.SaveFileDialog
         Me.ToolboxPanel = New System.Windows.Forms.Panel
-        Me.Splitter1 = New System.Windows.Forms.Splitter
+        Me.ToolBoxSplitter = New System.Windows.Forms.Splitter
         Me.SimulationPanel = New System.Windows.Forms.Panel
-        Me.CloseButton = New System.Windows.Forms.ToolBarButton
         Me.HelpBrowserPanel.SuspendLayout()
-        Me.HelpToolBarPanel.SuspendLayout()
         CType(Me.HelpBrowser, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.HelpToolBarPanel.SuspendLayout()
         Me.SuspendLayout()
         '
         'MainMenu1
@@ -529,14 +529,24 @@ Public Class MainUI
         '
         'HelpBrowserPanel
         '
-        Me.HelpBrowserPanel.Controls.Add(Me.HelpToolBarPanel)
         Me.HelpBrowserPanel.Controls.Add(Me.HelpBrowser)
+        Me.HelpBrowserPanel.Controls.Add(Me.HelpToolBarPanel)
         Me.HelpBrowserPanel.Controls.Add(Me.CaptionLabel)
         Me.HelpBrowserPanel.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.HelpBrowserPanel.Location = New System.Drawing.Point(0, 288)
         Me.HelpBrowserPanel.Name = "HelpBrowserPanel"
         Me.HelpBrowserPanel.Size = New System.Drawing.Size(1016, 200)
         Me.HelpBrowserPanel.TabIndex = 11
+        '
+        'HelpBrowser
+        '
+        Me.HelpBrowser.ContainingControl = Me
+        Me.HelpBrowser.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.HelpBrowser.Enabled = True
+        Me.HelpBrowser.Location = New System.Drawing.Point(0, 48)
+        Me.HelpBrowser.OcxState = CType(resources.GetObject("HelpBrowser.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.HelpBrowser.Size = New System.Drawing.Size(1016, 152)
+        Me.HelpBrowser.TabIndex = 8
         '
         'HelpToolBarPanel
         '
@@ -546,12 +556,6 @@ Public Class MainUI
         Me.HelpToolBarPanel.Name = "HelpToolBarPanel"
         Me.HelpToolBarPanel.Size = New System.Drawing.Size(1016, 28)
         Me.HelpToolBarPanel.TabIndex = 11
-        '
-        'SmallButtonImageList
-        '
-        Me.SmallButtonImageList.ImageSize = New System.Drawing.Size(16, 16)
-        Me.SmallButtonImageList.ImageStream = CType(resources.GetObject("SmallButtonImageList.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.SmallButtonImageList.TransparentColor = System.Drawing.Color.Transparent
         '
         'HelpBrowsertoolBar
         '
@@ -577,15 +581,16 @@ Public Class MainUI
         Me.ForwardButton.ImageIndex = 1
         Me.ForwardButton.Text = "Forward"
         '
-        'HelpBrowser
+        'CloseButton
         '
-        Me.HelpBrowser.ContainingControl = Me
-        Me.HelpBrowser.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.HelpBrowser.Enabled = True
-        Me.HelpBrowser.Location = New System.Drawing.Point(0, 20)
-        Me.HelpBrowser.OcxState = CType(resources.GetObject("HelpBrowser.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.HelpBrowser.Size = New System.Drawing.Size(1016, 180)
-        Me.HelpBrowser.TabIndex = 8
+        Me.CloseButton.ImageIndex = 2
+        Me.CloseButton.Text = "Close"
+        '
+        'SmallButtonImageList
+        '
+        Me.SmallButtonImageList.ImageSize = New System.Drawing.Size(16, 16)
+        Me.SmallButtonImageList.ImageStream = CType(resources.GetObject("SmallButtonImageList.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.SmallButtonImageList.TransparentColor = System.Drawing.Color.Transparent
         '
         'CaptionLabel
         '
@@ -612,15 +617,16 @@ Public Class MainUI
         Me.ToolboxPanel.Name = "ToolboxPanel"
         Me.ToolboxPanel.Size = New System.Drawing.Size(1016, 201)
         Me.ToolboxPanel.TabIndex = 12
+        Me.ToolboxPanel.Visible = False
         '
-        'Splitter1
+        'ToolBoxSplitter
         '
-        Me.Splitter1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Splitter1.Location = New System.Drawing.Point(0, 79)
-        Me.Splitter1.Name = "Splitter1"
-        Me.Splitter1.Size = New System.Drawing.Size(1016, 2)
-        Me.Splitter1.TabIndex = 13
-        Me.Splitter1.TabStop = False
+        Me.ToolBoxSplitter.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.ToolBoxSplitter.Location = New System.Drawing.Point(0, 79)
+        Me.ToolBoxSplitter.Name = "ToolBoxSplitter"
+        Me.ToolBoxSplitter.Size = New System.Drawing.Size(1016, 2)
+        Me.ToolBoxSplitter.TabIndex = 13
+        Me.ToolBoxSplitter.TabStop = False
         '
         'SimulationPanel
         '
@@ -630,17 +636,12 @@ Public Class MainUI
         Me.SimulationPanel.Size = New System.Drawing.Size(1016, 43)
         Me.SimulationPanel.TabIndex = 14
         '
-        'CloseButton
-        '
-        Me.CloseButton.ImageIndex = 2
-        Me.CloseButton.Text = "Close"
-        '
         'MainUI
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.ClientSize = New System.Drawing.Size(1016, 488)
         Me.Controls.Add(Me.SimulationPanel)
-        Me.Controls.Add(Me.Splitter1)
+        Me.Controls.Add(Me.ToolBoxSplitter)
         Me.Controls.Add(Me.ToolboxPanel)
         Me.Controls.Add(Me.HorizontalSplitter)
         Me.Controls.Add(Me.HelpBrowserPanel)
@@ -651,8 +652,8 @@ Public Class MainUI
         Me.Text = "APSIM"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.HelpBrowserPanel.ResumeLayout(False)
-        Me.HelpToolBarPanel.ResumeLayout(False)
         CType(Me.HelpBrowser, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.HelpToolBarPanel.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -689,26 +690,20 @@ Public Class MainUI
         End Try
     End Sub
     Private Sub UpdateMainForm()
-
         Me.Text = SimulationFile.Filename
-        'SimulationExplorer.DrawTree()
-        'MainUImanager.FillSimulationExplorer(SimulationFile.Data)
-        'SimulationExplorer.SelectedNode = SimulationExplorer.Nodes(0)
-        'SimulationExplorer.SelectedNode.Expand()
-
     End Sub
     Private Sub FileMenuExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileMenuExit.Click
         End
     End Sub
     Private Sub FileMenuOpen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileMenuOpen.Click
-        OpenAPSimFile()
+        OpenAPSIMFile()
     End Sub
 
     Private Sub ToolBar1_ButtonClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs) Handles ToolBar1.ButtonClick
         If e.Button Is FileNewButton Then
             OpenNewFile()
         ElseIf e.Button Is FileOpenButton Then
-            OpenAPSimFile()
+            OpenAPSIMFile()
         ElseIf e.Button Is FileSaveButton Then
             SimulationExplorer.UIManager.SaveDocument(SimulationFile)
             SimulationFile.Save()
@@ -721,18 +716,17 @@ Public Class MainUI
         ElseIf e.Button Is ExportButton Then
             MakeSimFiles()
         ElseIf e.Button Is ToolBoxButton Then
-            If Not IsNothing(toolBoxContextMenu.MenuItems(0)) Then
-                toolBoxContextMenu.MenuItems(0).PerformClick()
+            If ToolboxMenuItem.Checked Then
+                ToolboxMenuItem.PerformClick()
+            Else
+                If Not IsNothing(toolBoxContextMenu.MenuItems(0)) Then
+                    toolBoxContextMenu.MenuItems(0).PerformClick()
+                End If
             End If
         End If
-    End Sub
-
-
-    Private Sub SimulationExplorer_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-
 
     End Sub
+
 
     Private Sub FileMenuSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileMenuSave.Click
 
@@ -759,6 +753,8 @@ Public Class MainUI
         ToolboxExplorer.Parent = ToolboxPanel
         ToolboxExplorer.Visible = True
         ToolboxPanel.Visible = False
+        Dim inifile As New APSIMSettings
+        ToolboxPanel.Height = Val(inifile.GetSetting("apsimui", "toolboxheight"))
 
         ' Declare variables.
         Dim separators As String = " "
@@ -768,7 +764,7 @@ Public Class MainUI
             ' do nothing
         ElseIf args.Length = 1 Then
             If args(0).Length() > 0 Then
-                OpenAPSimFile(args(0))
+                OpenAPSIMFile(args(0))
             End If
         Else
             MsgBox("cannot handle > 1 command line arguments", MsgBoxStyle.Critical, "Error")
@@ -831,7 +827,7 @@ Public Class MainUI
                 AddHandler Item.Click, AddressOf Me.ToolBoxes_Click
                 toolBoxContextMenu.MenuItems.Add(Item)
             Next
-        Catch e as system.exception
+        Catch e As System.Exception
             MsgBox(e.Message, MsgBoxStyle.Critical, "Error building tool box menus")
         End Try
     End Sub
@@ -843,12 +839,17 @@ Public Class MainUI
     Private Sub ToolBoxes_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Dim toolboxes As New Toolboxes
         ToolboxMenuItem.Checked = True
+        Dim inifile As New APSIMSettings
+        ToolboxPanel.Height = Val(inifile.GetSetting("apsimui", "toolboxheight"))
+
         Dim filename As String = toolboxes.NameToFileName(sender.text)
         ToolboxFile.Open(filename)
         ToolboxExplorer.Data = ToolboxFile.data
         ToolboxExplorer.UIManager.ShowUI(ToolboxFile.data)
         ToolboxPanel.Visible = True
+
         ToolboxPanel.Height = ToolboxPanel.Height + 1
+        ToolboxPanel.Height = ToolboxPanel.Height - 1
     End Sub
 
 
@@ -875,7 +876,8 @@ Public Class MainUI
     Private Sub ShowHelpBrowser()
         HelpBrowser.Visible = True
         HelpBrowsertoolBar.Visible = True
-        HelpBrowserPanel.Height = Me.Height / 3
+        Dim inifile As New APSIMSettings
+        HelpBrowserPanel.Height = Val(inifile.GetSetting("apsimui", "helpheight"))
         HorizontalSplitter.Enabled = True
     End Sub
     Private Sub CloseHelpBrowser()
@@ -900,7 +902,7 @@ Public Class MainUI
             ElseIf e.Button Is CloseButton Then
                 CloseHelpBrowser()
                 ViewMenuHelp.Checked = False
-        End If
+            End If
         Catch ex As System.Exception
             ' do nothing??
         End Try
@@ -1002,4 +1004,17 @@ Public Class MainUI
 
 
 
+    Private Sub HelpBrowserPanel_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles HelpBrowserPanel.Resize
+        If HelpBrowser.Visible = True Then
+            Dim inifile As New APSIMSettings
+            inifile.SetSetting("apsimui", "helpheight", Str(HelpBrowserPanel.Height))
+        End If
+    End Sub
+
+    Private Sub ToolBoxSplitter_LocationChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolBoxSplitter.LocationChanged
+        If ToolboxPanel.Visible Then
+            Dim inifile As New APSIMSettings
+            inifile.SetSetting("apsimui", "toolboxheight", Str(ToolboxPanel.Height))
+        End If
+    End Sub
 End Class
