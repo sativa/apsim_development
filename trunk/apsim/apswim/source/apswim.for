@@ -1878,7 +1878,9 @@ c       double precision slup(mv)
             rld(node,vegnum) = 0d0
             rc (node,vegnum) = 0d0
             qr (node,vegnum) = 0d0
-            slup (vegnum,node) = 0d0
+            do 39 solnum=1,nsol
+               slup (vegnum,solnum) = 0d0
+   39       continue
    40    continue
          rtp (vegnum) = 0d0
          rt  (vegnum) = 0d0
