@@ -1,8 +1,16 @@
 [general]
 name = source
 uses = %thispath\*.*
-apf = %thispath\..\..\base-source.apf
+apf = %apsuite\apsim\base-source.apf
 
 [source]
 source  = solute.for; %thispath\solute.for
 
+[styles]
+style = Maximum number of solutes
+style = Number of solutes
+style = Solute number
+
+Number of solutes = num_solutes; number of solutes
+Solute number = solnum; solute number
+Maximum number of solutes = max_solutes; maximum number of solutes
