@@ -20,7 +20,7 @@
      Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\sugar\lib\sugar.dll
 
@@ -38,7 +38,7 @@
         clock.dd/mm/yyyy as Date
         soilwat2.esw
         soiln2.no3()
-        residue2.residue_wt
+        surfaceom.surfaceom_wt
         irrigate.irrigation
         sugar.lai
         sugar.biomass
@@ -132,7 +132,7 @@
            (das = ratoonlen and ratoon_no > 0) then
            sugar harvest
            if burn_flag = 1 then
-              residue2 tillage type = burn
+              surfaceom tillage type = burn
            endif
            if ratoon_no = noratoons + 1 then
               sugar kill_crop
@@ -142,7 +142,7 @@
               if sowing_reset = 1 then
                  soilwat2 reset
                  soiln2   reset
-                 residue2 reset
+                 surfaceom reset
               else
               endif
               if irrigate_flag = 1 and automatic_irrigation = 'off' then
@@ -163,7 +163,7 @@
         sugar harvest
         sugar end_crop
         if burn_flag = 1 then
-           residue2 tillage type = burn
+           surfaceom tillage type = burn
         endif
      elseif (sugar.crop_status = 'out') and (day = planting_day) then
         sugar sow plants = 10 (), cultivar = q117, sowing_depth = 150
@@ -270,30 +270,29 @@
             CONA:                     2.50 ()
            Eo from priestly-taylor
 
-------- residue2 Initialisation -----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sugar
+      Residue type = sugar
+      Overall mass =  10000.0000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  2000.00000
+                            C:N =  80.0000000
+      Lying cellulose mass =  7000.00000
+                            C:N =  80.0000000
+      Lying lignin mass =  1000.00000
+                            C:N =  80.0000000
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-             10000.0    50.0     0.0  sugar
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100    80.0     0.0       F       no
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -409,7 +408,7 @@
 26 October 1980(Day of year=300), sugar: 
       stage    4.0 begin_cane
                           biomass =           2223.399       lai =     6.324995
-                          stover N conc =   0.6754378       extractable sw =    166.4959
+                          stover N conc =   0.6754377       extractable sw =    166.4959
 2 August 1981(Day of year=214), manager: 
      Manager sending message :- sugar harvest
 2 August 1981(Day of year=214), sugar: 
@@ -436,7 +435,7 @@
      
      
       stress indices for begin_cane
-      water stress 1 =    0.000000       nitrogen stress 1 =   0.4063047E-01
+      water stress 1 =    0.000000       nitrogen stress 1 =   0.4063049E-01
       water stress 2 =    0.000000
      
      
@@ -453,8 +452,8 @@
      
          - Reading constants from q117_ratoon
 2 August 1981(Day of year=214), manager: 
-     Manager sending message :- residue2 tillage  type = burn
-2 August 1981(Day of year=214), residue2: 
+     Manager sending message :- surfaceom tillage  type = burn
+2 August 1981(Day of year=214), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using burn
@@ -472,6 +471,6 @@
 12 December 1981(Day of year=346), sugar: 
       stage    4.0 begin_cane
                           biomass =           1780.638       lai =     6.503102
-                          stover N conc =   0.7502247       extractable sw =    242.6063
+                          stover N conc =   0.7502244       extractable sw =    242.6063
 10 April 1982(Day of year=100), clock: 
      Simulation is terminating due to end criteria being met.

@@ -1,4 +1,4 @@
-version = 3.6
+version = 4
 [apsim.sample_sugar]
 
 
@@ -12,7 +12,7 @@ module = manager  test.par [sample]
 module = irrigate test.par [sample]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini [standard]
 module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
-module = residue2 %apsuite\apsim\residue2\sample\residue2.par [sugar_residue]     %apsuite\apsim\residue2\residue2.ini [standard]
+module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [sugar_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]
 module = sugar    test.par [sample]      %apsuite\apsim\sugar\sugar.ini [standard]
 module = SummaryFile   test.par [sample]
@@ -30,7 +30,7 @@ module = manager  test.par [sample2]
 module = irrigate test.par [sample]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini [standard]
 module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
-module = residue2 %apsuite\apsim\residue2\sample\residue2.par [sugar_residue]     %apsuite\apsim\residue2\residue2.ini [standard]
+module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [sugar_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]
 module = sugar    test.par [sample]      %apsuite\apsim\sugar\sugar.ini [standard]
 module = SummaryFile   test.par [sample2]

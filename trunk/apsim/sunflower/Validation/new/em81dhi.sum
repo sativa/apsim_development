@@ -20,7 +20,7 @@
      Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\cropmod\lib\cropmod.dll
 
@@ -208,30 +208,29 @@
             CONA:                     3.50 ()
            Eo from priestly-taylor
 
-------- residue2 Initialisation -----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = wheat
+      Residue type = wheat
+      Overall mass =  1000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  200.000000
+                            C:N =  33.0000000
+      Lying cellulose mass =  700.000000
+                            C:N =  33.0000000
+      Lying lignin mass =  100.000000
+                            C:N =  33.0000000
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-              1000.0    12.1     0.0  wheat
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100    33.0     0.0       F       yes
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -396,7 +395,7 @@
                           stover N conc =    2.626029       extractable sw =    312.3637
 19 April 1981(Day of year=109), sunflower: 
       stage    7.0 flowering
-                          biomass =           603.0201       lai =     3.279821
+                          biomass =           603.0202       lai =     3.279820
                           stover N conc =    2.584786       extractable sw =    312.5557
 22 April 1981(Day of year=112), sunflower: 
       stage    8.0 start_grain_fill
@@ -443,7 +442,7 @@
      
       stress indices for emergence
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1158102
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1158103
      
      
      
@@ -482,32 +481,11 @@
      Manager sending message :- sunflower end_crop
 25 May 1981(Day of year=145), sunflower: 
          ended. Yield (dw) =     0.0
-25 May 1981(Day of year=145), residue2: 
+25 May 1981(Day of year=145), SurfaceOM: 
+       Added surfom
+                                             surfom Type         = sunflower
      
-         - Reading residue specific area
-       Added Residue
-                                             Residue Type         = sunflower
-                                             Dry matter Type      = leaf
-                                             Amount Added (kg/ha) =  2714.67
-                                             Specific Area        =  0.00020
-     
-       Added Residue
-                                             Residue Type         = sunflower
-                                             Dry matter Type      = stem
-                                             Amount Added (kg/ha) =  4958.43
-                                             Specific Area        =  0.00020
-     
-       Added Residue
-                                             Residue Type         = sunflower
-                                             Dry matter Type      = flower
-                                             Amount Added (kg/ha) =   129.17
-                                             Specific Area        =  0.00020
-     
-       Added Residue
-                                             Residue Type         = sunflower
-                                             Dry matter Type      = energy
-                                             Amount Added (kg/ha) =   472.61
-                                             Specific Area        =  0.00020
+     Amount Added (kg/ha) = ŠKF
      
 25 May 1981(Day of year=145), sunflower: 
                                                straw residue = 8274.9 kg/ha

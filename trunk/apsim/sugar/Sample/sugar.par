@@ -12,7 +12,7 @@ variable = soilwat2.infiltration
 variable = soilwat2.esw
 variable = sugar.esw()
 variable = soiln2.no3
-variable = residue2.residue_wt
+variable = surfaceom.surfaceom_wt
 variable = irrigate.irrigation
 variable = sugar.lai
 variable = sugar.biomass
@@ -103,7 +103,7 @@ if sugar.crop_status = 'alive' then
       sugar harvest
 
       if burn_flag = 1 then
-         residue2 tillage type = burn
+         surfaceom tillage type = burn
       endif
 
       if ratoon_no = NoRatoons + 1 then
@@ -116,7 +116,7 @@ if sugar.crop_status = 'alive' then
          if sowing_reset = 1 then
             soilwat2 reset
             soiln2   reset
-            residue2 reset
+            surfaceom reset
          else
          endif
          if irrigate_flag = 1 and automatic_irrigation = 'off' then
@@ -143,7 +143,7 @@ elseif (sugar.crop_status = 'dead') then
    sugar harvest
    sugar end_crop
    if burn_flag = 1 then
-      residue2 tillage type = burn
+      surfaceom tillage type = burn
    endif
 
 elseif (sugar.crop_status = 'out') and (day = planting_day) then
