@@ -2825,7 +2825,7 @@
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =               6254.95                    0.00
-                          N  (kg/ha) =                115.93                    0.00
+                          N  (kg/ha) =                115.92                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               4624.60                    0.00
@@ -4007,6 +4007,14 @@
                      biomass =         826.52 (g/m^2)   lai          =   5.966 (m^2/m^2)
                      stover N conc =     2.35 (%)    extractable sw =   89.86 (mm)
 11 October 1978(Day of year=284), Fababean: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     dm_retranslocate mass balance of fruit is off: -0.000002 vs 0.000000
+     Component name: Fababean
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
       stage 8.0 end_grain_fill
                      biomass =        1353.12 (g/m^2)   lai          =   3.102 (m^2/m^2)
                      stover N conc =     2.17 (%)    extractable sw =   10.15 (mm)
