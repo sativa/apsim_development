@@ -357,5 +357,18 @@ void Replace_all (string& St, const char* Sub_string, const char* Replacement_st
 // ------------------------------------------------------------------
 string ftoa(double Float, int Num_decplaces);
 
+// ------------------------------------------------------------------
+//  Short description:
+//     case insensitive string comparison routines.
+
+//  Notes:
+
+//  Changes:
+//    SB ???
+
+// ------------------------------------------------------------------
+int Str_i_Cmp(const string &a, const string &b);
+#define Str_i_Eq(a,b)  (!Str_i_Cmp((a),(b)))
+
 #endif
 
