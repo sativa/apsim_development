@@ -1,0 +1,15 @@
+[default.cowpea.banjo]
+
+   hi_incr                  =    0.0164 (1/days)        !c rate of HI increase (optional)
+   hi_max_pot               =    0.38   ()              !c maximum harvest index potential
+   head_grain_no_max        =    0      (grains/head)   ! potential grains per head [Jones & Carberry, 1994]
+   grain_gth_rate           =    0      (mg/grain/d)    ! potential grain growth rate [Jones & Carberry, 1994] 
+   tt_emerg_to_endjuv       =  552.0    (oCd)           !c TT from emergence to end of juvenile phase 
+   est_days_emerg_to_init   =    0      (d)             ! estimated days from emergence to floral init.
+   pp_endjuv_to_init        =   48.8    (oCd/h)         !c photoperiod sensitivity
+   tt_flower_to_maturity    =  486.0    (oCd)           !c TT from flowering to maturity 
+   tt_init_to_flower        =   20.0    (oCd)           !c TT from initiation to flowering
+   tt_flower_to_start_grain =   30.0    (oCd)           !c TT from flowering to start grain fill 
+   tt_maturity_to_ripe      =    1      (oCd)           ! TT from maturity to harvest ripe 
+
+
