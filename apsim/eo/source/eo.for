@@ -486,6 +486,7 @@
 
 *+  Changes
 *       210995 jngh programmed
+*       170599 jngh changed Ra upperbound from 300 to 3000
 
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
@@ -635,7 +636,7 @@
      :          ,c_ra_ub
      :          ,numvals
      :          ,0.0
-     :          ,300.0)
+     :          ,3000.0)
  
          ! c_alt_photo_radn
       call read_real_var (
