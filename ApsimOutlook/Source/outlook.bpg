@@ -9,9 +9,8 @@ MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
 DCC = $(ROOT)\bin\dcc32.exe $**
 BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
-PROJECTS = ApsimOutlook.exe DBAddIn.dll DamEasyAddin.dll APSData.bpl \
-  FilterAddIn.dll SOIAddin.dll WhopEconAddin.dll RotationAddIn.dll \
-  NewDrillDown.exe advpan.exe TreeExperiment.exe
+PROJECTS = APSData.bpl DBAddIn.dll DamEasyAddin.dll SOIAddin.dll \
+  WhopEconAddin.dll RotationAddIn.dll ApsimOutlook.exe
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
 #------------------------------------------------------------------------------
@@ -28,10 +27,6 @@ DamEasyAddin.dll: Outlook\DamEasyAddin\DamEasyAddin.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
-FilterAddIn.dll: Outlook\FilterAddin\FilterAddIn.bpr
-  $(ROOT)\bin\bpr2mak $**
-  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
-
 SOIAddin.dll: Outlook\SOIAddin\SOIAddin.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
@@ -45,18 +40,6 @@ RotationAddIn.dll: Outlook\RotationAddin\RotationAddIn.bpr
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
 APSData.bpl: ..\..\Shared\Components\Data\APSData.bpk
-  $(ROOT)\bin\bpr2mak $**
-  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
-
-NewDrillDown.exe: ..\..\..\Program Files\Borland\CBuilder5\Projects\NewDrillDown.bpr
-  $(ROOT)\bin\bpr2mak $**
-  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
-
-advpan.exe: ..\..\..\Program Files\Borland\CBuilder5\Projects\advpan.bpr
-  $(ROOT)\bin\bpr2mak $**
-  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
-
-TreeExperiment.exe: ..\..\..\Program Files\Borland\CBuilder5\Projects\TreeExperiment.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
