@@ -1,88 +1,49 @@
 *     ===========================================================
       character*(*) function ozcot_version ()
 *     ===========================================================
+      implicit none
 
-
-*   Short description:
+*+  Purpose
 *       return version number of ozcot module
 
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
-
-*   Changes:
+*+  Changes
 *      psc - 9/08/93
 *      07/07/94 - jngh changed names from ozcot_3 to ozcot
 *                      prefixed all subroutines and functions with ozcot
 *      20/7/94 - jngh put divide function in dryxmatter s/r
 
-*   Calls:
-*       none
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-*       none
-
-*   Global variables
-*       none
-
-*   Internal variables
-*       none
-
-*   Constant values
-
+*+  Constant Values
       character  version_number*(*)    ! version number of module
       parameter (version_number = 'V3.3  30/04/98' )
 
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
+*- Implementation Section ----------------------------------
+ 
       ozcot_version = version_number
-
+ 
       return
       end
+
 
 
 * ====================================================================
        subroutine APSIM_ozcot (action, data_string)
 * ====================================================================
+       implicit none
+       dll_export apsim_ozcot
+       include 'ozcot.inc'            ! ozcot common block
+       include 'const.inc'             ! Global constant definitions
+       include 'engine.pub'                        
+       include 'error.pub'                         
 
-*   Short description:
+*+  Sub-Program Arguments
+      character Action*(*)            ! Message action to perform
+      character data_string*(*)
+
+*+  Purpose
 *      This routine is the interface between the main system and the
 *      ozcot module.
 
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                      implicit none
-
-*   Changes:
+*+  Changes
 *      psc - 9/08/93
 *      DPH - 11/7/94 Modifed routine to zero variables if required
 *                    when a process message is received.
@@ -91,159 +52,102 @@
 *      jngh  250996  added version to presence report
 *                    added message_unused call
 
-*   Calls:
-*       ozcot_zero_variables
-*       ozcot_Init
-*       ozcot_Prepare
-*       ozcot_get_other_variables
-*       ozcot_Process
-*       ozcot_Post
-*       ozcot_set_other_variables
-*       ozcot_Send_my_variable
-*       Send_variable_value
-*       ozcot_set_my_variable
-*       ozcot_manager
-*       ozcot_capture_event
-*       ozcot_end_run
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      character Action*(*)            ! Message action to perform
-      character data_string*(*)
-
-*   Global variables
-       include 'ozcot.inc'            ! ozcot common block
-       include 'const.inc'             ! Global constant definitions
-
+*+  Calls
       character  ozcot_version*15     ! function
 
-*   Internal variables
-*     none
-
-*   Constant values
+*+  Constant Values
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'apsim_ozcot')
 
-*   Initial data values
-*      None
-
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
-
+ 
       if (Action.eq.MES_Presence) then
          write(*, *) 'Module_name = ', Module_name
      :              // ', Version : ' // ozcot_version()
-
+ 
       else if (Action.eq.mes_init) then
          call ozcot_zero_variables ()
          call ozcot_Init ()
-
+ 
       else if (Action .eq. mes_prepare) then
          call ozcot_prepare ()
-
+ 
       else if (Action.eq.MES_Process) then
          if (Zero_variables) then
             call ozcot_zero_variables()
             call ozcot_init()
-
+ 
          else
             ! No need to zero variables.
          endif
-
+ 
          call ozcot_get_other_variables ()
          call ozcot_Process ()
          call ozcot_set_other_variables ()
-
+ 
       else if (Action .eq. MES_Post) then
          call ozcot_post ()
-
+ 
       else if (Action.eq.MES_Get_variable) then
          call ozcot_Send_my_variable (data_string)
-
+ 
       else if (Action .eq. MES_Set_variable) then
          call ozcot_set_my_variable (data_string)
-
+ 
       else if (Action .eq. 'sow' .or. action .eq. 'harvest') then
          call ozcot_manager (Action, data_string)
-
+ 
       else if (Action .eq. MES_End_run) then
          call ozcot_end_run ()
-
+ 
       else
          ! Don't use message
          call message_unused ()
-
+ 
       endif
-
+ 
       call pop_routine(myname)
       return
       end
 
+
+
 * ====================================================================
        subroutine ozcot_Init ()
 * ====================================================================
+      implicit none
+      include 'write.pub'                         
+      include 'error.pub'                         
 
-*   Short description:
+*+  Purpose
 *      Initialise ozcot module
 
-*   Assumptions:
-*      None
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         Any hardwfare/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                      implicit none
-
-*   Changes:
+*+  Changes
 *      psc - 9/08/93
 *      250996 jngh removed unused includes
 
-*   Calls:
-*     ozcot_version
-*     ozcot_get_other_variables
-*     rep_evnt
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-*      none
-
-*   Global variables
+*+  Calls
        character ozcot_version*15   ! function
 
-*   Internal variables
-       character Event_string*40       ! String to output
-
-*   Constant values
+*+  Constant Values
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_init')
 
-*   Initial data values
-*      none
+*+  Local Variables
+       character Event_string*40       ! String to output
 
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
       ! Notify system that we have initialised
-
+ 
       Event_string = 'Initialising, Version : ' // ozcot_version()
       call report_event (Event_string)
-
+ 
       ! Get all parameters from parameter file
-
+ 
       call ozcot_read_param ()
-
+ 
 cpsc      call Init()                      ! now called from o_zero_variables
       call ozcot_initial()
       call ozcot_get_other_variables ()
@@ -251,29 +155,21 @@ cpsc      call Init()                      ! now called from o_zero_variables
       return
       end
 
+
+
 * ====================================================================
        subroutine ozcot_read_param ()
 * ====================================================================
+      implicit none
+       include 'ozcot.inc'            ! ozcot model common block
+       include 'const.inc'             ! Constant definitions
+      include 'read.pub'                          
+      include 'error.pub'                         
 
-*   Short description:
+*+  Purpose
 *      Read in all parameters from parameter file.
 
-*   Assumptions:
-*      None
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
-
-*   Changes:
+*+  Changes
 *      psc - 09/08/93 first go
 *      psc - 30/03/94 specified properly
 *      DPH - 7/7/94  Removed free format internal read to title.  Line now
@@ -283,51 +179,33 @@ cpsc      call Init()                      ! now called from o_zero_variables
 *                     made reading of ll optional with a warning error if not found
 *                    as ll15 will then be used.
 
-*   Calls:
-*      Get_param
-*      Open_param_file
-
-* ----------------------- Declaration section ------------------------
-
-       implicit none
-
-*   Subroutine arguments
-*      none
-
-*   Global variables
-       include 'ozcot.inc'            ! ozcot model common block
-       include 'const.inc'             ! Constant definitions
-
-*   Internal variables
-       integer numvals
-
-*   Constant values
+*+  Constant Values
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_read_param')
       character  section_name*(*)
       parameter (section_name = 'parameters')
 
-*   Initial data values
-*      none
+*+  Local Variables
+       integer numvals
 
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 !         ! Read in title from parameter file
 !      call read_char_array (section_name
 !     :                     , 'title', 15, '()'
 !     :                     , title, numvals)
-
+ 
 !         ! Read in soil temperature factor from parameter file
 !      call read_real_var (section_name
 !     :                    , 'asoil', '()'
 !     :                     , asoil, numvals
 !     :                     , 0.0, 10000.0)
-
+ 
       call read_real_array_optional (section_name
      :                     , 'll', max_layers, '(mm/mm)'
      :                     , unul, g_num_ll_vals
      :                     , 0.0, 1.0)
-     
+ 
       if (g_num_ll_vals.ne.0) then
          ! LL found
       else
@@ -335,60 +213,31 @@ cpsc      call Init()                      ! now called from o_zero_variables
          call warning_error (err_user
      :         , ' Cotton LL not found. Using Soilwat LL15 instead.' )
       endif
-
+ 
       call pop_routine(myname)
       return
       end
 
+
+
 * ====================================================================
        subroutine ozcot_zero_variables ()
 * ====================================================================
+      implicit none
+       include 'ozcot.inc'            ! ozcot common block
+      include 'error.pub'                         
 
-*   Short description:
+*+  Purpose
 *     Set all variables in this module to zero.
 
-*   Assumptions:
-*      None
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                      implicit none
-
-*   Changes:
+*+  Changes
 *      psc - 9/08/93
 
-*   Calls:
-*       none
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-*      none
-
-*   Global variables
-       include 'ozcot.inc'            ! ozcot common block
-
-*   Internal variables
-*      none
-
-*   Constant values
+*+  Constant Values
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_zero_variables')
 
-*   Initial data values
-*      none
-
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
       call ozcot_initial()
       das = 0
@@ -401,187 +250,141 @@ cpsc      call Init()                      ! now called from o_zero_variables
       return
       end
 
+
+
 * ====================================================================
        subroutine ozcot_manager (Event_action, event_data)
 * ====================================================================
+      implicit none
+      include 'const.inc'              ! global_active
+      include 'ozcot.inc'              ! ozcot common block
+      include 'engine.pub'                        
+      include 'intrface.pub'                      
+      include 'write.pub'                         
+      include 'error.pub'                         
 
-*   Short description:
+*+  Sub-Program Arguments
+      character Event_action*(*)       ! (INPUT) Action to be performed
+      character Event_data*(*)         ! (INPUT) Data sent with event
+
+*+  Purpose
 *     The manager has sent an event to this module.  Process it.
 
-*   Assumptions:
-*      None
-
-*   Notes:
+*+  Notes
 *     Event_action is the action specified in the management parameter
 *     file.  e.g. 'sow'
 
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                      implicit none
-
-*   Changes:
+*+  Changes
 *      psc - 9/08/93
 *      07/07/94 - jngh changed residue module reference to global_active
 *      170895 jngh changed message send to message pass to module
 *      250996 jngh changed to post_ construct
 
-*   Calls:
-*     rep_evnt
-*     ozcot_sow
-*     message_pass_to_module
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      character Event_action*(*)       ! (INPUT) Action to be performed
-      character Event_data*(*)         ! (INPUT) Data sent with event
-
-*   Global variables
-      include 'const.inc'              ! global_active
-      include 'ozcot.inc'              ! ozcot common block
-
-*   Internal variables
-       real    res_dm                  ! Residue dry weight (kg/ha)
-       real    res_N                   ! Amount of N in residue (kg/ha)
-
-*   Constant values
+*+  Constant Values
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_manager')
 
+*+  Local Variables
+       real    res_dm                  ! Residue dry weight (kg/ha)
+       real    res_N                   ! Amount of N in residue (kg/ha)
 
-*   Initial data values
-*      none
-
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
       ! **** Repeat for each action
-
+ 
       if (Event_action .eq. 'sow') then
-
+ 
          Crop_in = .true.
-
+ 
          ! Report the event to the rest of the system
-
+ 
          call report_event (Event_action)
-
+ 
          call ozcot_sow (event_data)
-
+ 
       else if (Event_action .eq. 'harvest') then
-
+ 
          ! Report the event to the rest of the system
-
+ 
          call report_event (Event_action)
-
+ 
          res_dm = (dw_total - openwt / rs ) * 10.
          if (res_dm.le.0.) res_dm = 0.
          res_N = res_dm * 0.4 / 100.0
-
+ 
          call New_postbox ()
-
+ 
          call post_char_var('dlt_residue_type','()','cotton')
-
+ 
          call post_real_var ('dlt_residue_wt'
      :                        ,'(kg/ha)'
      :                        ,res_dm)
-
+ 
          call post_real_var ('dlt_residue_n'
      :                        ,'(kg/ha)'
      :                        ,res_N)
-
+ 
          call message_send_immediate (
      :                              unknown_module
      :                            , 'add_residue'
      :                            , Blank
      :                            )
-     
+ 
          call Delete_postbox ()
-
+ 
          Crop_in = .false.
          Zero_variables = .true.
-
+ 
       else
          ! Don't know about this event !!!
-
+ 
       endif
-
+ 
       ! Report the event to the rest of the system
-
+ 
       call Report_event ( Event_action)
       call pop_routine(myname)
       return
       end
 
+
+
 *     ===========================================================
       subroutine ozcot_sow (myrecd)
 *     ===========================================================
-
-*   Short description:
-*       start crop using parameters specified in passed record
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*       300394 psc  taken from cm_sat module
-
-
-*   Calls:
-*       pop_routine
-*       push_routine
-*       rep_evnt
-*       return_logical_unit
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
-
-*   Subroutine arguments
-      character  myrecd*(*)            ! (INPUT) message received
-
-*   Global variables
       include 'const.inc'              ! lu_summary_file, blank
       include 'ozcot.inc'              ! ozcot
+      include 'write.pub'                         
+      include 'error.pub'                         
 
-*   Internal variables
-cpsc      character  cv_name*20            ! name of cultivar
-      character  string*300            ! output string
+*+  Sub-Program Arguments
+      character  myrecd*(*)            ! (INPUT) message received
 
-*   Constant values
+*+  Purpose
+*       start crop using parameters specified in passed record
+
+*+  Changes
+*       300394 psc  taken from cm_sat module
+
+*+  Constant Values
       character  myname*(*)            ! procedure name
       parameter (myname  = 'ozcot_sow')
 
-*   Initial data values
-*       none
+*+  Local Variables
+cpsc      character  cv_name*20            ! name of cultivar
+      character  string*300            ! output string
 
-* --------------------- Executable code section ----------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (myname)
-
+ 
       if (myrecd.ne.blank) then
-
+ 
          ! variety,seed depth,rowspace,plants per m row
-
+ 
          read (myrecd,*) ivar,sdepth,rs,ppm
-   
+ 
          isow = jdate
            RTDEP=SDEPTH
          PPM = PPM/RS        !  adjust for non standard rows incl skip
@@ -590,60 +393,52 @@ cpsc      character  cv_name*20            ! name of cultivar
            S=PS/RS
          RRIG(2) = SW                   ! soil water at sowing
          iend = 1
-   
+ 
              ! report
-   
+ 
          write (string, '(a)')
      :                  ' sowing  depth plants row sp'
          call write_string (lu_summary_file, string)
-   
+ 
          write (string, '(a)')
      :                  ' day no   mm     m^2    m  '
          call write_string (lu_summary_file, string)
-   
+ 
          write (string, '(i7, 3f7.1, 1x, a10)')
      :                   isow, sdepth, pp, rs
          call write_string (lu_summary_file, string)
-   
+ 
          call write_string (lu_summary_file, blank)
-
+ 
 cpcs                 ! get cultivar parameters
-
+ 
 cpsc         call cm_cultv (cv_name)
-
+ 
       else
             ! report empty sowing record
          call fatal_error (err_user, 'No sowing criteria supplied')
-      
+ 
       endif
-
+ 
       call pop_routine (myname)
       return
       end
 
+
+
 * ====================================================================
        subroutine ozcot_get_other_variables ()
 * ====================================================================
+      implicit none
+       include 'const.inc'             ! Constant definitions
+       include 'ozcot.inc'             ! ozcot common block
+      include 'intrface.pub'                      
+      include 'error.pub'                         
 
-*   Short description:
+*+  Purpose
 *      Get the values of variables from other modules
 
-*   Assumptions:
-*      None
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                      implicit none
-
-*   Changes:
+*+  Changes
 *      psc - 9/08/93
 *      psc - 28/03/94  used this routine properly
 *      DPH - 7/7/94 Changed call to nt_fac to ozcot_nt_fac
@@ -653,85 +448,70 @@ cpsc         call cm_cultv (cv_name)
 *      JNGH - 12/7/94 Changed dlayer in cm to dlayr_cm
 *      psc - commented out read of LL_DEP
 
-*   Calls:
-*     get_variable_value
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-*      none
-
-*   Global variables
-       include 'const.inc'             ! Constant definitions
-       include 'ozcot.inc'             ! ozcot common block
+*+  Calls
                                        ! function
 
-*   Internal variables
+*+  Constant Values
+      character  myname*(*)            ! name of subroutine
+      parameter (myname = 'ozcot_get_other_variables')
+
+*+  Local Variables
       logical N_in_system              ! Is there any N in system ?
       integer layer                    ! layer number
       real    no3(Max_layers)          ! soil nitrate kg/ha in layer
       integer numvals
 
-*   Constant values
-      character  myname*(*)            ! name of subroutine
-      parameter (myname = 'ozcot_get_other_variables')
-
-*   Initial data values
-*      none
-
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
-
+ 
       call get_integer_var (unknown_module, 'day', '()'
      :                      , jdate, numvals
      :                      , 1, 366)
-
+ 
       call get_integer_var (unknown_module, 'year', '()'
      :                      , imyr, numvals
      :                      , 1800, 2000)
-
+ 
       call get_real_var (unknown_module, 'maxt', '(oC)'
      :                                  , tempmx, numvals
      :                                  , -100.0, 100.0)
-
+ 
       call get_real_var (unknown_module, 'mint', '(oC)'
      :                                  , tempmn, numvals
      :                                  , -100.0, 100.0)
-
-
+ 
+ 
       tempav = (tempmx + tempmn)/2.
       TMEAN3 = (TEMPAV+TEMPYD+TEMPRE)/3.  ! mean temperature for last 3 days
       TEMPRE = TEMPYD                     ! update previous days temp for tomorrow
       TEMPYD = TEMPAV                     ! update yesterdays temp for tomorrow
-
+ 
       call get_real_var (unknown_module, 'radn', '(Mj/m^2)'
      :                                  , solrad, numvals
      :                                  , 0.0, 1000.0)
-
+ 
       solrad = solrad / 0.04186                ! convert to langleys
-
+ 
       call get_real_var (unknown_module, 'rain', '(mm)'
      :                                  , rain, numvals
      :                                  , 0.0, 1000.0)
-
+ 
       rain = rain /10.                         ! convert to cm
-
+ 
       ! Get depths of each layer
-
+ 
                                 ! get depth of each soil water layer
       call get_real_array (unknown_module, 'dlayer', max_layers
      :                                    , '(mm)'
      :                                    , dlayr, nlayr
      :                                    , 0.0, 1000.0)
-
+ 
       ! Get moist bulk density
       call get_real_array (unknown_module, 'bd', max_layers
      :                                    , '(mm)'
      :                                    , bulkd, numvals
      :                                    , 0.0, 1000.0)
-
+ 
       if (g_num_ll_vals .eq.0) then
          ! Get unavailable sw - use ll15 because crop ll is unavailable
          call get_real_array (unknown_module, 'll15', max_layers
@@ -741,31 +521,31 @@ cpsc         call cm_cultv (cv_name)
       else
          ! ll had been read at init
       endif
-
+ 
       ! Get upper limit of available sw
       call get_real_array (unknown_module, 'dul_dep', max_layers
      :                                    , '(mm)'
      :                                    , ullayr, numvals
      :                                    , 0.0, 1000.0)
-
+ 
       ! Get upper limit of available sw
       call get_real_array (unknown_module, 'sat_dep', max_layers
      :                                    , '(mm)'
      :                                    , stlayr, numvals
      :                                    , 0.0, 1000.0)
-
+ 
       ! Convert field capacity relative to wilting point.
       ! convert units to cm and cm/cm
-
+ 
       RTDEPM=0.0
       UL=0.0
-cpc      
+cpc
       sat = 0.0
       WPWC=0.0
-
+ 
 C      ULLAYR(J) = ULLAYR(J)*2.      !   simulate skip row
 C      UNUL(J)   = UNUL(J)*2.        !          ditto
-
+ 
       do 10 Layer = 1, nlayr
          unul(layer) = unul(layer) * dlayr(layer)
          ullayr(Layer) = ullayr(Layer) - unul(Layer)
@@ -774,70 +554,70 @@ C      UNUL(J)   = UNUL(J)*2.        !          ditto
          stlayr(layer) = stlayr(layer) / dlayr(layer)
          unul(layer) = unul(layer) / dlayr(layer)
          dlayr_cm(layer)=dlayr(layer)/10.
-
+ 
          RTDEPM=RTDEPM+DLAYR_cm(layer)             ! depth of profile
          UL=UL+ULLAYR(layer)*DLAYR_cm(layer)       ! upper limit for profile
          sat=sat+STLAYR(layer)*DLAYR_cm(layer)     ! saturated limit for profile
          WPWC=WPWC+UNUL(layer)*DLAYR_cm(layer)     ! unavailable water content
 10    continue
-
+ 
       call get_real_var (unknown_module, 'es', '(mm)'
      :                                  , es, numvals
      :                                  , 0.0, 1000.0)
-
+ 
       es = es / 10.                            ! convert to cm
-
+ 
       call get_real_var (unknown_module, 'runoff', '(mm)'
      :                                  , q, numvals
      :                                  , 0.0, 1000.0)
-
-
+ 
+ 
       call get_real_array (unknown_module, 'sw_dep', max_layers, '(mm)'
-     :                     , swlayr, nlayr 
+     :                     , swlayr, nlayr
      :                     , 0.0, 1000.0)
-
+ 
       ! Convert water to plant available  (cm/cm)
-
+ 
       do 12 Layer = 1, nlayr
         swlayr(Layer) = swlayr(Layer) / 10. / dlayr_cm(layer)
      :                - unul(Layer)
         swlayr(Layer) = max(0.0, swlayr(Layer))
 12    continue
-
+ 
       S_BED_MI = SWLAYR(1)/ULLAYR(1)              ! seed bed moisture index
       s_bed_sat = max(s_bed_sat,s_bed_mi)         ! top layer saturated?
-
+ 
       !   get initial estimate of available soil no3
       call get_real_array (unknown_module, 'no3_min', max_layers
      :                                    , '(mm)'
      :                                    , no3mn, numvals
      :                                    , 0.0, 1000.0)
-
+ 
       call get_real_array_optional (unknown_module, 'no3'
-     :                                  , max_layers 
-     :                                  ,'(kg/ha)' 
+     :                                  , max_layers
+     :                                  ,'(kg/ha)'
      :                                  , no3, numvals
      :                                  , 0.0, 1000.0)
-
+ 
       ! Need to check for situation of no N in system.
-
+ 
       N_in_system = (numvals .eq. nlayr)
-
+ 
       if (N_in_system) then
          !nothing
-
+ 
       else
          ! There is no N model in system.  Feed ozcot 150 units of N
          ! distributed throughout the profile
-
+ 
          do 15 Layer = 1, nlayr
-
+ 
             no3(Layer) = (150. / nlayr * 100.) / dlayr_cm(Layer)
 15       continue
       endif
-
+ 
       ! Sum soil nitrate over all layers  (kg/ha)
-
+ 
       tsno3 = 0.
       do 20 Layer = 1, nlayr
         aNO3(layer) = no3(layer)-NO3mn(layer)
@@ -845,44 +625,36 @@ C      UNUL(J)   = UNUL(J)*2.        !          ditto
 20    continue
 cpc
          availn = tsno3
-
+ 
       if (.not. N_in_system) then
          availn = tsno3
-
+ 
       else if(yest_tsno3.ne.0.) then
          availn = availn + tsno3 - yest_tsno3
-
+ 
       else
          availn = availn
       endif
-      
+ 
       call pop_routine(myname)
       return
       end
 
+
+
 * ====================================================================
        subroutine ozcot_set_other_variables ()
 * ====================================================================
+      implicit none
+      include 'const.inc'
+      include 'ozcot.inc'            ! ozcot common block
+      include 'intrface.pub'                      
+      include 'error.pub'                         
 
-*   Short description:
+*+  Purpose
 *     Update variables owned by other modules.
 
-*   Assumptions:
-*      None
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                      implicit none
-
-*   Changes:
+*+  Changes
 *      psc - 9/08/93
 *      psc   300394  specified properly
 *      DPH   7/7/94  Put 0.0 in max function call instead of 0
@@ -892,556 +664,355 @@ cpc
 *      JNGH 18/7/94 Corrected conversion of min no3 from ppm to kg/ha
 *      JNGH - 12/7/94 Changed dlayer in cm to dlayr_cm
 
-*   Calls:
-*     divide
-*     Set_variable_value
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-*      none
-
-*   Global variables
-      include 'const.inc'
-      include 'ozcot.inc'            ! ozcot common block
-
-*   Internal variables
-      integer Layer                    ! Layer number
-      real    sno3(Max_layers)         ! available soil nitrate in layer kg/ha
-
-*   Constant values
+*+  Constant Values
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_set_other_variables')
 
+*+  Local Variables
+      integer Layer                    ! Layer number
+      real    sno3(Max_layers)         ! available soil nitrate in layer kg/ha
 
-*   Initial data values
-*      none
-
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
       ! Convert water from plant available  (cm/cm)
-
+ 
       do 10 Layer = 1, nlayr
         swlayr(Layer) = (swlayr(Layer) + unul(Layer))*10.
      :                * dlayr_cm(layer)
         swlayr(Layer) = max(0.0, swlayr(Layer))
 10    continue
-
+ 
       ! Send updated soil water
-
+ 
 cjh      call Set_real_array('sw_dep', swlayr, Max_layers, '(mm)')
       call Set_real_array (unknown_module, 'sw_dep', '(mm)'
      :                    , swlayr, nlayr)
-
+ 
       ! extract soil NO3
-
+ 
       do 20 Layer = 1, nlayr
         ano3(Layer) = ano3(Layer) - (dn_plant*10. * ano3(Layer) / tsno3)
         ano3(Layer) = max(0.0, ano3(Layer))
         sNO3(layer) = ano3(layer) + no3mn(layer)
 20    continue
       yest_tsno3 = tsno3 - (dn_plant*10.)
-
+ 
       ! Send updated soil N
-
-
+ 
+ 
 cjh      call Set_real_array('no3', sno3, nlayr, '(kg/ha)' )
-      call Set_real_array (unknown_module, 'no3', '(kg/ha)' 
+      call Set_real_array (unknown_module, 'no3', '(kg/ha)'
      :                    , sno3, nlayr)
-
+ 
       call pop_routine(myname)
       return
       end
+
+
 
 * ====================================================================
        subroutine ozcot_Send_my_variable
      .    (Variable_name)
 * ====================================================================
+      implicit none
+       include 'ozcot.inc'           ! ozcot Common block
+      include 'data.pub'                          
+      include 'engine.pub'                        
+      include 'intrface.pub'                      
+      include 'error.pub'                         
 
-*   Short description:
+*+  Sub-Program Arguments
+       character Variable_name*(*)     ! (INPUT) Variable name to search for
+
+*+  Purpose
 *      Return the value of one of our variables to caller
 
-*   Assumptions:
-*      None
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                      implicit none
-
-*   Changes:
+*+  Changes
 *      psc - 9/08/93
 *      DPH 7/7/94 Changed crop_in variable to ozcot_crop_in.
 *      250996 jngh added message_unused to else block
 *                  replaced litteral names to variable (in arguments)
 *                  removed unused include
 
-*   Calls:
-*       none
+*+  Constant Values
+      character  myname*(*)            ! name of subroutine
+      parameter (myname = 'ozcot_send_my_variable')
 
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-       character Variable_name*(*)     ! (INPUT) Variable name to search for
-
-*   Global variables
-       include 'ozcot.inc'           ! ozcot Common block
-       real    l_bound
-
-*   Internal variables
+*+  Local Variables
       real    yield                    ! lint yield kg/ha
       real    dm                       ! total dry matter kg/ha
       real    totnup                   ! N uptake kg/ha
       real    d_nup                    ! daily N uptake kg/ha
       real    cover
 
-*   Constant values
-      character  myname*(*)            ! name of subroutine
-      parameter (myname = 'ozcot_send_my_variable')
-
-
-*   Initial data values
-*      none
-
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
       ! **** Repeat for each variable
-
+ 
       if (Variable_name .eq. 'das') then
          call respond2get_integer_var (variable_name
      :        , '(days)', das)
-
+ 
       else if (variable_name .eq. 'sumdd') then
          call respond2get_real_var (variable_name
      :        , '(oCd)', sumdd)
-
+ 
       else if (Variable_name .eq. 'sites') then
          call respond2get_real_var (variable_name
      :        , '()', sites)
-
+ 
       else if (Variable_name .eq. 'squarz') then
          call respond2get_real_var (variable_name
      :        , '()', squarz)
-
+ 
       else if (Variable_name .eq. 'bollz') then
          call respond2get_real_var (variable_name
      :        , '()', bollz)
-
+ 
       else if (Variable_name .eq. 'openz') then
          call respond2get_real_var (variable_name
      :        , '()', openz)
-
+ 
       else if (Variable_name .eq. 'alint') then
          call respond2get_real_var (variable_name
      :        , '()', alint)
-
+ 
       else if (Variable_name .eq. 'dm') then
          dm = dw_total * 10.
          call respond2get_real_var (variable_name
      :        , '(kg/ha)', dm)
-
+ 
       else if (Variable_name .eq. 'totnup') then
          totnup = total_n * 10.
          call respond2get_real_var (variable_name
      :        , '(kg/ha)', totnup)
-
+ 
       else if (variable_name .eq. 'yield') then
          yield = alint / 227.
          call respond2get_real_var (variable_name
      :        , '(bales/ha)', yield)
-
+ 
       else if (variable_name .eq. 'lai') then
          call respond2get_real_var (variable_name
      :        , '(m^2/m^2)', alai)
-
+ 
       elseif (variable_name .eq. 'cover_green') then
          cover = l_bound (1.0 - exp (-ozcot_kvalue * alai), 0.0)
-
+ 
          call respond2get_real_var (variable_name
      :                             , '()'
      :                             , cover)
-
+ 
       elseif (variable_name .eq. 'cover_tot') then
          cover = 1.0 - exp (-ozcot_kvalue * alaiz)
-
+ 
          call respond2get_real_var (variable_name
      :                             , '()'
      :                             , cover)
-
-
-
+ 
+ 
+ 
       else if (Variable_name .eq. 'availn') then
          call respond2get_real_var (variable_name
      :        , '(kg/ha)', availn)
-
+ 
       else if (Variable_name .eq. 'tsno3') then
          call respond2get_real_var (variable_name
      :        , '(kg/ha)', tsno3)
-
+ 
       else if (Variable_name .eq. 'ysno3') then
          call respond2get_real_var (variable_name
      :        , '(kg/ha)', yest_tsno3)
-
+ 
       else if (Variable_name .eq. 'd_nup') then
          d_nup = dn_plant * 10.
          call respond2get_real_var (variable_name
      :        , '(kg/ha)', d_nup)
-
+ 
       else if (variable_name .eq. 'rtdep') then
          call respond2get_real_var (variable_name
      :        , '(cm)', rtdep)
-
+ 
       else if (variable_name .eq. 'tmean3') then
          call respond2get_real_var (variable_name
      :        , '(oC)', tmean3)
-
+ 
       else if (variable_name .eq. 's_bed_sat') then
          call respond2get_real_var (variable_name
      :        , '()', s_bed_sat)
-
+ 
       else if (variable_name .eq. 's_bed_mi') then
          call respond2get_real_var (variable_name
      :        , '()', s_bed_mi)
-
+ 
       else if (variable_name .eq. 'smi') then
          call respond2get_real_var (variable_name
      :        , '()', smi)
-
+ 
       else if (variable_name .eq. 'evap_plant') then
          call respond2get_real_var (variable_name
      :        , '(cm)', ep)
-
+ 
       else if (variable_name .eq. 'evap_soil') then
          call respond2get_real_var (variable_name
      :        , '(cm)', es)
-
+ 
       else if (variable_name .eq. 'evap_pot') then
          call respond2get_real_var (variable_name
      :        , '(cm)', eo)
-
+ 
       else if (variable_name .eq. 'evap_tot') then
          call respond2get_real_var (variable_name
      :        , '(cm)', et)
-
+ 
       else if (variable_name .eq. 'ozcot_crop_in') then
          call respond2get_logical_var (variable_name
      :        , '()', crop_in)
-
+ 
       else if (variable_name .eq. 'ozcot_status') then
          call respond2get_integer_var (variable_name
      :        , '()', iend)
-
+ 
       else
             ! Nothing
          call message_unused ()
       endif
-
+ 
       call pop_routine(myname)
       return
       end
+
+
 
 * ====================================================================
        subroutine ozcot_set_my_variable (Variable_name)
 * ====================================================================
+      implicit none
+      include 'ozcot.inc'             ! ozcot common block
+      include 'engine.pub'                        
 
-*   Short description:
+*+  Sub-Program Arguments
+      character Variable_name*(*)      ! (INPUT) Variable name to search for
+
+*+  Purpose
 *     Set one of our variables altered by some other module
 
-*   Assumptions:
-*      None
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                      implicit none
-
-*   Changes:
+*+  Changes
 *      psc - 9/08/93
 *      250996 jngh updated interface
 
-*   Calls:
-*       none
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      character Variable_name*(*)      ! (INPUT) Variable name to search for
-
-*   Global variables
-      include 'ozcot.inc'             ! ozcot common block
-
-*   Internal variables
-
-*   Constant values
-*      none
-
-*   Initial data values
-*      none
-
-* --------------------- Executable code section ----------------------
-
+*- Implementation Section ----------------------------------
+ 
 *      if (variable_name .eq. '????') then
 *         call collect_real_array (variable_name, '()', max_layer
 *     :                               , ????, numvals
 *     :                               , 0.0, 1.0)
-
+ 
 *      else
             ! Don't know this variable name
          call Message_unused ()
 *      endif
-
-
+ 
+ 
       return
       end
+
+
 
 * ====================================================================
        subroutine ozcot_Process ()
 * ====================================================================
+      implicit none
+       include 'ozcot.inc'
+      include 'error.pub'                         
 
-*   Short description:
+*+  Purpose
 *      Perform actions for current day.
 
-*   Assumptions:
-*      None
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                      implicit none
-
-*   Changes:
+*+  Changes
 *      psc - 9/08/93
-*      250996 jngh removed unused include 
+*      250996 jngh removed unused include
 
-*   Calls:
-*      growth_grow_crop
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-*      none
-
-*   Global variables
-       include 'ozcot.inc'
-
-*   Internal variables
-*     none
-
-*   Constant values
+*+  Constant Values
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_process')
 
-
-*   Initial data values
-*      none
-
-* --------------------- Executable code section ----------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine(myname)
 !     call patched-in ozcot model
-
+ 
       if (Crop_in) then
-
+ 
          if(jdate.ne.isow) das = das + 1
-
+ 
          call ozcot2 ()
-
+ 
          if (iend .eq. 2) then
             call ozcot_manager('harvest', ' ')
          endif
-
+ 
       else
-
+ 
       endif
       call pop_routine(myname)
       return
       end
+
 
 
 * ====================================================================
        subroutine ozcot_Prepare ()
 * ====================================================================
-
-*   Short description:
-*     Perform calculations before the current timestep.
-
-*   Assumptions:
-*      None
-
-*   Notes:
-*     None
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                      implicit none
-
-*   Changes:
-*      psc - 9/08/93
-
-*   Calls:
-*     None
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
 
-*   Subroutine arguments
-*      none
+*+  Purpose
+*     Perform calculations before the current timestep.
 
-*   Global variables
-*      none
+*+  Changes
+*      psc - 9/08/93
 
-*   Internal variables
-*      none
-
-*   Constant values
-*      none
-
-*   Initial data values
-*      none
-
-* --------------------- Executable code section ----------------------
-
+*- Implementation Section ----------------------------------
+ 
       return
       end
+
+
 
 * ====================================================================
        subroutine ozcot_post ()
 * ====================================================================
-
-*   Short description:
-*     Perform calculations after the current timestep.
-
-*   Assumptions:
-*      None
-
-*   Notes:
-*     None
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                      implicit none
-
-*   Changes:
-*      psc - 9/08/93
-
-*   Calls:
-*     None
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
 
-*   Subroutine arguments
-*      none
+*+  Purpose
+*     Perform calculations after the current timestep.
 
-*   Global variables
-*      none
+*+  Changes
+*      psc - 9/08/93
 
-*   Internal variables
-*      none
-
-*   Constant values
-*      none
-
-*   Initial data values
-*      none
-
-* --------------------- Executable code section ----------------------
-
+*- Implementation Section ----------------------------------
+ 
       return
       end
+
+
 
 * ====================================================================
        subroutine ozcot_end_run ()
 * ====================================================================
-
-*   Short description:
-*     Perform cleanup because the current simulation is about to end.
-
-*   Assumptions:
-*      None
-
-*   Notes:
-*     None
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                      implicit none
-
-*   Changes:
-*      psc - 9/08/93
-
-*   Calls:
-*     None
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
 
-*   Subroutine arguments
-*      none
+*+  Purpose
+*     Perform cleanup because the current simulation is about to end.
 
-*   Global variables
-*      none
+*+  Changes
+*      psc - 9/08/93
 
-*   Internal variables
-*      none
-
-*   Constant values
-*      none
-
-*   Initial data values
-*      none
-
-* --------------------- Executable code section ----------------------
-
+*- Implementation Section ----------------------------------
+ 
       return
       end
+
 
 
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
@@ -1530,8 +1101,10 @@ C
 C
 c      PROGRAM OZCOT2
       subroutine OZCOT2
+      implicit none
+      include 'ozcot.inc'
+      include 'error.pub'
 
-      INCLUDE 'ozcot.inc'
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot2')
       call push_routine(myname)
@@ -1621,11 +1194,14 @@ C      THERE ARE ALSO SOME VARIABLE CONVERSIONS TO ALLOW MERGING   !
 C      OF THE INDEPENDENTLY DERIVED SOIL AND PLANT PORTIONS OF THE !
 C      MODEL.                                                      !
 C-------------------------------------------------------------------
+
+      implicit none
+      include 'ozcot.inc'
+      include 'error.pub'
+
       real percent_l
 cpc   integer ifrost
       integer j
-
-      INCLUDE 'ozcot.inc'
 
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_pltgrw')
@@ -1748,7 +1324,10 @@ C     CALCULATES INCREASE IN WEIGHT OF EACH DAYS'S BOLLS.
 C     BOLLGROWTH RATE IS DRIVEN BY DD,LIMITED BY WATER,
 C     N AND C(incl water effects on photosynthesis) STRESS
 
-      INCLUDE 'ozcot.inc'
+      implicit none
+      include 'ozcot.inc'
+      include 'error.pub'
+
 
 C------stuff done on 1st call of the day - stresses & growth rate -------------
       !  functions
@@ -1828,8 +1407,11 @@ C     ESTIMATES CARRYING CAPACITY OF CROP ON BASIS OF PHOTOSYNTHESIS.
 C     SELECTS PARAMETER FOR VARIETY. ADJUSTED FOR WATER STRESS.
 C     CARCAP is carrying capacity, maximum number of bolls the crop
 C     can carry, therefore the boll load that causes 100% shedding.
+  
+      implicit none
+      include 'ozcot.inc'
+      include 'error.pub'
 
-      INCLUDE 'ozcot.inc'
       real ozcot_stress
 
       real alight
@@ -4166,9 +3748,11 @@ C       STRSBL     stress factor for boll growth, minimum of N and water
 C       SUPPLY     day's supply of assimilate available for potential growth
 C       WT_AREA    leaf weight:area ratio
 
+      implicit none
+      include 'ozcot.inc'
+      include 'data.pub'
 
-      INCLUDE 'ozcot.inc'
-      real divide, ozcot_stress
+      real ozcot_stress
       real wt_area, fwstrs, fnstrs2
       real strsbl, assimilate, supply, demand
       real sd_ratio, sd_root, ddw_root_max
@@ -4409,4 +3993,5 @@ C------------------------------------------------------------------------------
 
       RETURN
       END
+
 
