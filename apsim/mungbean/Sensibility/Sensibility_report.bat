@@ -1,4 +1,4 @@
 pushd
 cd \development\apsim\mungbean\sensibility
-c:\development\bin\apsimreport.exe DarlingDowns.report DarlingDowns.pdf
+\development\bin\apsimreport.exe DarlingDowns.report DarlingDowns.html
 popd

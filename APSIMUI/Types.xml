@@ -557,6 +557,7 @@
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Chickpea science documentation">../apsim/chickpea/docs/chickpea_science.htm</Documentation>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
+      <Documentation name="Darling Downs sensibility tests">http://www.apsim.info/apsim/apsim/chickpea/sensibility/darlingdowns.html</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
       <drops>
@@ -590,6 +591,7 @@
       <Image>%apsuite\ApsimUI\Graphics\FabaBean.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Generic plant documentation" >../apsim/plant/docs/plant_science.htm</Documentation>
+      <Documentation name="Darling Downs sensibility tests">http://www.apsim.info/apsim/apsim/fababean/sensibility/fababean.html</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
       <drops>
@@ -622,7 +624,7 @@
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\lablab.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
-      <Documentation name="Lablab science documentation">../apsim/lablab/docs/Working science document for lablab module.htm</Documentation>
+      <Documentation name="Lablab science documentation">../apsim/lablab/docs/Working science doc for lablab module.htm</Documentation>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -675,6 +677,8 @@
       <Image>%apsuite\ApsimUI\Graphics\maize.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Maize science documentation">../apsim/maize/docs/maize_science.htm</Documentation>
+      <Documentation name="Dalby sensibility tests">http://www.apsim.info/apsim/apsim/maize/sensibility/dalby.html</Documentation>
+      <Documentation name="Roma sensibility tests">http://www.apsim.info/apsim/apsim/maize/sensibility/roma.html</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
       <drops>
@@ -752,8 +756,9 @@
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\mungbean.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
-      <Documentation name="Mungbean science documentation">../apsim/mungbean/docs/lmungbean_science.htm</Documentation>
+      <Documentation name="Mungbean science documentation">../apsim/mungbean/docs/mungbean_science.htm</Documentation>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
+      <Documentation name="Darling downs sensibility tests">http://www.apsim.info/apsim/apsim/mungbean/sensibility/darlingdowns.html</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
       <drops>
@@ -865,6 +870,7 @@
       <Image>%apsuite\ApsimUI\Graphics\sorghum.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Sorghum science documentation">../apsim/sorghum/docs/sorghum_science.htm</Documentation>
+      <Documentation name="Darling downs sensibility tests">http://www.apsim.info/apsim/apsim/sorghum/sensibility/sorghum.html</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
       <drops>
@@ -1045,6 +1051,12 @@
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Wheat science documentation">../apsim/wheat/docs/wheat_science.htm</Documentation>
       <Documentation name="Generic plant documentation" >../apsim/plant/docs/plant_science.htm</Documentation>
+      <Documentation name="Gunnedah and Walgett sensibility tests">http://www.apsim.info/apsim/apsim/wheat/sensibility/nsw.html</Documentation>
+      <Documentation name="Birchip sensibility tests">http://www.apsim.info/apsim/apsim/wheat/sensibility/birchip.html</Documentation>
+      <Documentation name="Warra sensibility tests">http://www.apsim.info/apsim/apsim/wheat/sensibility/warra.html</Documentation>
+      <Documentation name="Darling downs sensibility tests">http://www.apsim.info/apsim/apsim/wheat/sensibility/darlingdowns.html</Documentation>
+      <Documentation name="Mingenew sensibility tests">http://www.apsim.info/apsim/apsim/wheat/sensibility/Mingenew.html</Documentation>
+      <Documentation name="Walpeup sensibility tests">http://www.apsim.info/apsim/apsim/wheat/sensibility/Walpeup.html</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
       <drops>
@@ -1139,7 +1151,7 @@
    <tcllink>
       <UItype>generic</UItype>
       <ShowInMainTree>No</ShowInMainTree>
-      <Documentation name="Science documentation">../apsim/tcllink/docs/tcllink_science.htm</Documentation>
+      <Documentation name="Science documentation">../apsim/tcllink/docs/tclink_science.htm</Documentation>
    </tcllink>
    <tracker>
       <UItype>generic</UItype>
