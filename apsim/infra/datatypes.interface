@@ -1772,6 +1772,11 @@
          <field name="young_fleece_wt"  unit="kg"      kind="double"/>
       </type>
 
+      <type name="sellstock">
+         <field name="group"         unit=""        kind="integer4"/>
+         <field name="number"        unit=""        kind="integer4"/>
+      </type>
+
       <type name="removeCropDm">
         <field name = "dm" array="T">
           <element>
