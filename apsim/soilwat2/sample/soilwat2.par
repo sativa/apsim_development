@@ -31,9 +31,11 @@ end_year =  1988
 report do_output
 
 [black_earth.soilwat2.parameters]  
-insoil =    2.0 ()   ! indicator for initial soil water
-                    ! 0 to 1 is fraction of avail soil water (0=ll15, 1 = dul,
-                    !                                         >1 = input by user)
+insoil =    2.0 ()  ! indicator for initial soil water
+                    ! 0 to 1 = fraction of max avail soil water (0=ll15,
+                    !          1 = dul) used to initialise each soil layer
+                    !  > 1   = initialise to user specified volumetric
+                    !          soil water content information
 
 diffus_const =    88. ()   !   coeffs for unsaturated water flow
 diffus_slope =    35.4  ()   !     "
