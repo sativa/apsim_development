@@ -1,5 +1,5 @@
 report - Output_file=soi.out
-report - initialising,V1.6  21/8/98
+report - initialising
 Title =* insur chin sorg 15 oct
 Screen output =off
  
@@ -12,9 +12,9 @@ Variables =today.dd/mm/yyyy
 Module = soi
 Variables =soi[apr]
 ---------------------------------------------------------
- INPUT (met) Initialised, Version: V3.0 26/11/98
+ INPUT (met) Initialised
 ---------------------------------------------------------
- day=   1 date=  1  1 1980 manager  - Initialising, Version : V1.40  23/04/98
+ day=   1 date=  1  1 1980 manager  - Initialising
  
 Manager rules
 ------- -----
@@ -196,10 +196,10 @@ the insoil parameter which is between 0 and 1
     ------------------------------------------------
           500.0     2.6     0.0  sorghum
     ------------------------------------------------
- day=   1 date=  1  1 1980 sorg     -  Initialising, V1.2 100397
+ day=   1 date=  1  1 1980 sorg     -  Initialising
  
     - Reading constants
- day=   1 date=  1  1 1980 soi      -  - Initialised ,Version : V1.00 01/09/97
+ day=   1 date=  1  1 1980 soi      - Initialised
  
 ======= Start of APSIM simulation ============================
  Day= 289 Year =  1980     Manager sending message :- sorg sow plants = 10 (plants/m2), sowing_depth = 30, cultivar = medium, tiller_no_fertile = 0.5
