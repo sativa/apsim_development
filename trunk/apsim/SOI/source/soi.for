@@ -185,7 +185,7 @@
      .                                'SOI_inp_month')
 
          g%SOI_array(Year, Month) = Phase
-         if (ApsimDataFile_Next(g%LU_SOI)) then
+         if (ApsimDataFile_Next(g%LU_SOI).eq.0) then
             goto 10
          endif
       endif
