@@ -111,6 +111,9 @@ bool ControlFileConverter::convert(const string& fileName,
                                    const string& scriptFileName,
                                    TControlFileConverterEvent callback) throw(runtime_error)
    {
+   typedef map<string, vector<string> > Output;
+   Output output;
+
    bool somethingWasConverted = false;
    con = new ApsimControlFile(fileName);
 
@@ -128,7 +131,7 @@ bool ControlFileConverter::convert(const string& fileName,
       // only convert this section if it has a module= line in it.
       if (ApsimControlFile::getVersionNumber(fileName) == 21)
          ok = con->isValid(conSection);
-         
+
       else
          ok = true;
 
@@ -136,9 +139,6 @@ bool ControlFileConverter::convert(const string& fileName,
          {
          if (callback != NULL)
             callback(conSection);
-         log << "-------------------------------------------------------" << endl;
-         log << "Converting section: " << conSection << endl;
-         log << "-------------------------------------------------------" << endl;
 
          // Loop through all lines in script and perform required actions
          script = new IniFile(scriptFileName);
@@ -150,13 +150,23 @@ bool ControlFileConverter::convert(const string& fileName,
             if (ok)
                {
                somethingWasConverted = true;
-               log << conversions[i] << endl;
+               output[conSection].push_back(conversions[i]);
                }
             }
          delete script;
          }
       }
    delete con;
+   if (somethingWasConverted)
+      {
+      for (Output::iterator out = output.begin(); out != output.end(); out++)
+         {
+         log << "Converting section: " << out->first << endl;
+         for (unsigned i = 0; i != out->second.size(); i++)
+            log << "   " << out->second[i] << endl;
+         log << endl;
+         }
+      }
    return somethingWasConverted;
    }
 //---------------------------------------------------------------------------

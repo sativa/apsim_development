@@ -1189,8 +1189,14 @@ bool ApsimControlFile::renameModule(const std::string& section,
          modsMade = true;
          }
       }
+
    if (modsMade)
+      {
+      for (unsigned p = 0; p != paramFiles.size(); p++)
+         replaceAll(paramFiles[p].fileName, getApsimDirectory(), "%apsuite");
+
       setModuleLine(ini, section, newModuleName, paramFiles);
+      }
    return modsMade;
    }
 // ------------------------------------------------------------------
