@@ -1,9 +1,9 @@
-      include 'Ozcot.inc'
 
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
       use OzcotModule
+      Use Infrastructure
       implicit none
 
 !+  Sub-Program Arguments
@@ -27,6 +27,7 @@
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
       use OzcotModule
+      Use Infrastructure
       implicit none
 
 !+  Sub-Program Arguments
@@ -48,6 +49,7 @@
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
       use OzcotModule
+      Use Infrastructure
       implicit none
 
 !+  Sub-Program Arguments
@@ -71,11 +73,8 @@
        subroutine Main (action, data_string)
 * ====================================================================
       use OzcotModule
+      Use Infrastructure
       implicit none
-       include 'action.inc'
-       include 'event.inc'
-       include 'const.inc'             ! Global constant definitions
-       include 'error.pub'
 
 *+  Sub-Program Arguments
       character Action*(*)            ! Message action to perform
@@ -228,8 +227,8 @@
        subroutine ozcot_Init ()
 * ====================================================================
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Purpose
 *      Initialise ozcot module
@@ -271,7 +270,8 @@
 !obsolete        subroutine ozcot_read_param ()
 !obsolete * ====================================================================
 !obsolete       use OzcotModule
-!obsolete       implicit none
+!obsolete       Use Infrastructure
+!      implicit none
 !obsolete        include 'const.inc'             ! Constant definitions
 !obsolete       include 'read.pub'
 !obsolete       include 'error.pub'
@@ -332,8 +332,8 @@
       subroutine ozcot_zero_all_globals ()
 *     ===========================================================
       use ozcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Purpose
 *       Zero all global variables & arrays
@@ -685,8 +685,8 @@
        subroutine ozcot_zero_variables ()
 * ====================================================================
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Purpose
 *     Set all variables in this module to zero.
@@ -759,11 +759,8 @@
        subroutine ozcot_manager (Event_action, event_data)
 * ====================================================================
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'const.inc'              ! global_active
-      include 'intrface.pub'
-      include 'error.pub'
-      include 'postbox.pub'
 
 *+  Sub-Program Arguments
       character Event_action*(*)       ! (INPUT) Action to be performed
@@ -831,9 +828,8 @@
       subroutine ozcot_sow (myrecd)
 *     ===========================================================
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'const.inc'              ! blank
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       character  myrecd*(*)            ! (INPUT) message received
@@ -908,10 +904,8 @@
        subroutine ozcot_get_other_variables ()
 * ====================================================================
       use OzcotModule
+      Use Infrastructure
       implicit none
-       include 'const.inc'             ! Constant definitions
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Purpose
 *      Get the values of variables from other modules
@@ -1185,11 +1179,8 @@
        subroutine ozcot_set_other_variables ()
 * ====================================================================
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'const.inc'
-      include 'intrface.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Purpose
 *     Update variables owned by other modules.
@@ -1321,10 +1312,8 @@
      .    (Variable_name)
 * ====================================================================
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'data.pub'
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
        character Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -1594,6 +1583,7 @@
        subroutine ozcot_set_my_variable (Variable_name)
 * ====================================================================
       use OzcotModule
+      Use Infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -1628,9 +1618,8 @@
        subroutine ozcot_Process ()
 * ====================================================================
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'const.inc'              ! blank
-      include 'error.pub'
 
 *+  Purpose
 *      Perform actions for current g%day.
@@ -1673,6 +1662,7 @@
        subroutine ozcot_Prepare ()
 * ====================================================================
       use OzcotModule
+      Use Infrastructure
       implicit none
 
 *+  Purpose
@@ -1692,6 +1682,7 @@
        subroutine ozcot_post ()
 * ====================================================================
       use OzcotModule
+      Use Infrastructure
       implicit none
 
 *+  Purpose
@@ -1713,6 +1704,7 @@
        subroutine ozcot_end_run ()
 * ====================================================================
       use OzcotModule
+      Use Infrastructure
       implicit none
 
 *+  Purpose
@@ -1817,8 +1809,8 @@
       subroutine OZCOT2
 * ====================================================================
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot2')
@@ -1905,8 +1897,8 @@
 !-------------------------------------------------------------------
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
  !     real percent_l
 !pc   integer ifrost
@@ -2073,8 +2065,8 @@
 !     n and c(incl water effects on photosynthesis) stress
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
 
 !------stuff done on 1st call of the day - stresses & growth rate -------------
@@ -2177,8 +2169,8 @@
 !     can carry, therefore the boll load that causes 100% shedding.
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
       real ozcot_stress
 
@@ -2308,8 +2300,8 @@
 * ====================================================================
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
       real harvest_n
       real bgr
@@ -2435,8 +2427,8 @@
 !------------------------------------------------------------------------------------------------
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
       real    ESTABLISH
       character string*100
@@ -2605,8 +2597,8 @@
 !ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
       real ozcot_satvp
 
@@ -2758,9 +2750,8 @@
 !      data from "siratac" - 1987-88 hearn (pers. comm.).
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
       integer ndas
 
@@ -2863,8 +2854,8 @@
 !      available.
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
       real ozcot_frugen
       real ozcot_survive
@@ -3129,8 +3120,8 @@
 !     management model.
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
       character  string*200            ! output string
 
@@ -3226,8 +3217,8 @@
 !ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
       real pi
       real amp
@@ -3273,8 +3264,8 @@
 !ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
 !pc      real soltro, spi, cumep, cumes, cumet, deltsw, dal
 !pc      real bolln, bolnc
@@ -3552,8 +3543,8 @@
 !     when convenient, change and check all refs to isq
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
 !      real ddisq
 
@@ -3643,8 +3634,8 @@
 !      which is m**2/m**2 i.e. lai.
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
       real ozcot_stress
       real ozcot_senlf
@@ -3797,9 +3788,8 @@
 !ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 !jh      integer nsince
 !jh v2001       integer ndate
@@ -4014,8 +4004,8 @@
 !c      gr rev). assume intial rate is 1.0 (100% recovery) and maximum uptake
 !c      is 240 kg/ha.
 !c
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
       real uptakn_max
       real rate_reducer
@@ -4060,8 +4050,8 @@
 !-------------------------------------------------------------------------------
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
       real over_c
       real over_n
@@ -4156,8 +4146,8 @@
         real FUNCTION ozcot_satvp(Tdeg)
 * ====================================================================
 
-        implicit none
-      include 'error.pub'
+        Use Infrastructure
+      implicit none
 
         real Tdeg
 
@@ -4198,8 +4188,8 @@
 !     canopy when lai gt 3.
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
       real ozcot_stress
 
@@ -4259,8 +4249,8 @@ C      can be day of year (+ve) or days after sowing (-ve), assigned to local
 C      variable JNAPLC(J) on first day of season or day of sowing.
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
 !jh      INTEGER JNAPLC(2)                         ! local variable, day of applcn
       real    APPLIED_AVAIL
@@ -4363,8 +4353,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
 !-------INITIALISING -----------------------------------------------------------
 
@@ -4415,8 +4405,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !     assuming water logging is limited to plant row.
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
 
       real     smi_row
@@ -4461,8 +4451,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !     calculates EP, adds to ES, to get ET, limits to EO
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
       real ozcot_watco
 
@@ -4509,8 +4499,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !     calculates SMI AND WLI
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
       real depth
       real rtul
@@ -4564,8 +4554,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !     calculates SW in each layer & sums down profile
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
       integer L
 
@@ -4586,8 +4576,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 * ====================================================================
         real FUNCTION ozcot_stress(LOW,HIGH,A,STRS)
 * ====================================================================
-        implicit none
-      include 'error.pub'
+        Use Infrastructure
+      implicit none
 
         real HIGH
         real A
@@ -4623,8 +4613,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 * ====================================================================
       real FUNCTION ozcot_survive(CAPACITY,bload)
 * ====================================================================
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
       real CAPACITY
       real bload
@@ -4667,8 +4657,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !   **** beginning with the top soil layer.                      ****
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
       real ux
       real epcoef
@@ -4772,8 +4762,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !      water stress function for root growth.                      c
 !ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
       real smi
       real eo
@@ -4816,8 +4806,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !     estimates yield and gross margin at end of season
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
 !      real bollsc
 
@@ -4977,9 +4967,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !               dn_plant = daily increment of plant n to system
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
       real ozcot_stress
 
@@ -5095,8 +5084,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !      called from s/r yield to calculate stem and root residues
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
       real conc_res
 
@@ -5168,9 +5157,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !       wt_area    leaf weight:area ratio
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
       real ozcot_stress
 
@@ -5349,8 +5337,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !       tf              temperature scalar for dry matter production
 
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
 
 !      real assim_1
 !      real assim_2
@@ -5473,9 +5461,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       logical function ozcot_my_type ()
 *     ===========================================================
       use ozcotModule
+      Use Infrastructure
       implicit none
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Returns true if 'type' is equal to the crop type or is absent.
@@ -5518,10 +5505,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       subroutine ozcot_read_constants ()
 *     ===========================================================
       use ozcotModule
+      Use Infrastructure
       implicit none
-      include   'const.inc'
-      include 'read.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Crop initialisation - reads constants from constants file
@@ -5972,10 +5957,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       subroutine ozcot_start_crop ()
 *     ===========================================================
       use ozcotModule
+      Use Infrastructure
       implicit none
-      include   'const.inc'            ! lu_scr_sum, blank
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Start crop using parameters specified in passed record
@@ -6102,10 +6085,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       subroutine ozcot_read_cultivar_params ()
 *     ===========================================================
       use ozcotModule
+      Use Infrastructure
       implicit none
-      include   'const.inc'            ! new_line, lu_scr_sum, blank
-      include 'read.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Get cultivar parameters for named cultivar, from crop parameter file.
@@ -6327,11 +6308,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       subroutine ozcot_read_root_params ()
 *     ===========================================================
       use ozcotModule
+      Use Infrastructure
       implicit none
-      include   'const.inc'            ! new_line, lu_scr_sum, blank,
-      include 'data.pub'
-      include 'read.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Get root profile parameters
@@ -6419,14 +6397,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       subroutine ozcot_end_crop ()
 *     ===========================================================
       use ozcotModule
+      Use Infrastructure
       implicit none
-      include   'const.inc'            ! new_line, lu_scr_sum, blank,
-      include   'convert.inc'          ! gm2kg, sm2ha, sm2smm
-      include   'action.inc'
-      include   'EVENT.inc'
-      include 'intrface.pub'
-      include 'postbox.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Report occurence of harvest and the current status of specific
@@ -6471,14 +6443,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       subroutine ozcot_harvest_update ()
 *     ===========================================================
       use ozcotModule
+      Use Infrastructure
       implicit none
-      include   'const.inc'            ! new_line, lu_scr_sum, blank,
-      include   'convert.inc'          ! gm2kg, sm2ha, sm2smm
-      include   'action.inc'
-      include   'EVENT.inc'
-      include 'intrface.pub'
-      include 'postbox.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Report the current status of specific
@@ -6536,14 +6502,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       subroutine ozcot_harvest_report ()
 *     ===========================================================
       use ozcotModule
+      Use Infrastructure
       implicit none
-      include   'const.inc'            ! new_line, lu_scr_sum, blank,
-      include   'convert.inc'          ! gm2kg, sm2ha, sm2smm
-      include   'action.inc'
-      include   'EVENT.inc'
-      include 'intrface.pub'
-      include 'postbox.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Report the current status of specific
@@ -6618,11 +6578,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       subroutine Ozcot_ONNew_Met ()
 *     ===========================================================
       use OzcotModule
+      Use Infrastructure
       implicit none
-      include 'event.inc'
-      include 'intrface.pub'
-      include 'error.pub'
-      include 'data.pub'
 
 *+  Purpose
 *     Update met data record
@@ -6687,9 +6644,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       subroutine ozcot_ONtick ()
 *     ===========================================================
       use ozcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
-      include 'event.pub'
 
 *+  Purpose
 *     Update internal time record and reset daily state variables.
@@ -6724,9 +6680,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       subroutine ozcot_ONHail ()
 *     ===========================================================
       use ozcotModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'
-      include 'event.pub'
 
 *+  Purpose
 *     Update internal time record and reset daily state variables.

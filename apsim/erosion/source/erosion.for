@@ -1,9 +1,9 @@
 C     Last change:  P     8 Nov 2000    3:30 pm
-      include 'Erosion.inc'
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
       use ErosionModule
+      Use infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -29,6 +29,7 @@ C     Last change:  P     8 Nov 2000    3:30 pm
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
       use ErosionModule
+      Use infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -52,6 +53,7 @@ C     Last change:  P     8 Nov 2000    3:30 pm
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
       use ErosionModule
+      Use infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -74,10 +76,8 @@ C     Last change:  P     8 Nov 2000    3:30 pm
       subroutine Main (Action, Data_string)
 * ====================================================================
       use ErosionModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Global constant definitions
-      include 'action.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       character  Action*(*)            ! Message action to perform
@@ -148,11 +148,8 @@ C     Last change:  P     8 Nov 2000    3:30 pm
       subroutine erosion_init ()
 * ====================================================================
       use ErosionModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'convert.inc'          ! pcnt2fract
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Purpose
 *     Initialise erosion module
@@ -223,9 +220,8 @@ C     Last change:  P     8 Nov 2000    3:30 pm
       subroutine erosion_write_summary ()
 * ====================================================================
       use ErosionModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Constant definitions
-      include 'error.pub'                         
 
 *+  Purpose
 *     Tell summary file what parameters we're using
@@ -354,10 +350,8 @@ C     Last change:  P     8 Nov 2000    3:30 pm
       subroutine erosion_read_param ()
 * ====================================================================
       use ErosionModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'read.pub'                          
-      include 'error.pub'                         
 
 *+  Purpose
 *     Read in all parameters from parameter file.
@@ -594,8 +588,8 @@ c     :   , 1.0)                 ! Upper Limit for bound checking
       subroutine erosion_zero_variables ()
 * ====================================================================
       use ErosionModule
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Purpose
 *     Set all variables in this module to zero.
@@ -654,9 +648,8 @@ c      g%total_cover  = 0.0
       subroutine erosion_zero_daily_variables ()
 *     ===========================================================
       use ErosionModule
+      Use infrastructure
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Purpose
 *       zero erosion daily variables & arrays
@@ -699,11 +692,8 @@ c      g%resid_cover = 0.0
       subroutine erosion_get_other_variables ()
 * ====================================================================
       use ErosionModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Constant definitions
-      include 'data.pub'                          
-      include 'intrface.pub'                      
-      include 'error.pub'                         
 
 *+  Purpose
 *     Get the values of variables from other modules
@@ -849,9 +839,8 @@ c$$$     :     g%crop_cover * p%crop_cover_wtg, 0.0, 1.0)
       subroutine erosion_set_my_variable (variable_name)
 * ====================================================================
       use ErosionModule
+      Use infrastructure
       implicit none
-      include 'intrface.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       character  variable_name*20      ! (INPUT)
@@ -904,13 +893,8 @@ c$$$     :     g%crop_cover * p%crop_cover_wtg, 0.0, 1.0)
       subroutine erosion_set_other_variables ()
 * ====================================================================
       use ErosionModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'action.inc'
-      include 'data.pub'                          
-      include 'intrface.pub'                      
-      include 'error.pub'
-      include 'postbox.pub'                         
 
 *+  Purpose
 *     Update variables owned by other modules.
@@ -961,11 +945,8 @@ c$$$     :     g%crop_cover * p%crop_cover_wtg, 0.0, 1.0)
       subroutine erosion_send_my_variable (variable_name)
 * ====================================================================
       use ErosionModule
+      Use infrastructure
       implicit none
-      include   'convert.inc'          ! t2g, ha2sqcm, cm2mm
-      include 'data.pub'                          
-      include 'intrface.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       character  variable_name*(*)     ! (INPUT) variable name to search for
@@ -1071,9 +1052,8 @@ c$$$     :     g%crop_cover * p%crop_cover_wtg, 0.0, 1.0)
       subroutine erosion_process ( )
 * ====================================================================
       use ErosionModule
+      Use infrastructure
       implicit none
-      include   'const.inc'       ! Constant definitions
-      include 'error.pub'                         
 
 *+  Purpose
 *     Perform actions for current day.
@@ -1122,9 +1102,8 @@ c$$$     :     g%crop_cover * p%crop_cover_wtg, 0.0, 1.0)
       subroutine erosion_freeb (bed_loss, susp_loss)
 *     ===========================================================
       use ErosionModule
+      Use infrastructure
       implicit none
-      include   'convert.inc'          ! fract2pcnt
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real      bed_loss               ! (OUTPUT) soil loss in bed load (t/ha)
@@ -1186,9 +1165,8 @@ cjh       (100*g/(1000*1000))/(g*1000/1000000) *mm  -> t/ha
       subroutine erosion_rose (bed_loss, susp_loss)
 *     ===========================================================
       use ErosionModule
+      Use infrastructure
       implicit none
-      include   'convert.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real      bed_loss               ! (OUTPUT) soil loss in bed load (t/ha)
@@ -1261,9 +1239,8 @@ cjh           what is the unit conversion here???
       subroutine erosion_move_profile ()
 *     ================================================================
       use ErosionModule
+      Use infrastructure
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Purpose
 *     move things in the profile
@@ -1318,9 +1295,8 @@ c      write (*,*) 'xxx',g%dlt_dlayer, dlt_bed_depth
       subroutine erosion_bomb_run ()
 *     ================================================================
       use ErosionModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Constant definitions
-      include 'error.pub'                         
 
 *+  Purpose
 *      kill the run
@@ -1351,11 +1327,8 @@ c      write (*,*) 'xxx',g%dlt_dlayer, dlt_bed_depth
       subroutine erosion_move_dlayr (dlt_dlayer, dlt_bed_depth)
 *     ================================================================
       use ErosionModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Constant definitions
-      include   'convert.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       dlt_dlayer(*)         ! (OUTPUT)
@@ -1483,8 +1456,8 @@ c     What happens when layer completely eroded?
       subroutine erosion_end_run ()
 *     ================================================================
       use ErosionModule
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Purpose
 *      Perform cleanup because the current simulation is about to end.

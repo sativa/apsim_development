@@ -1,8 +1,8 @@
-      include 'canopy.inc'
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
       use CanopyModule
+      Use Infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -24,6 +24,7 @@
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
       use CanopyModule
+      Use Infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -43,6 +44,7 @@
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
       use CanopyModule
+      Use Infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -61,11 +63,8 @@
       subroutine Main (Action, Data_string)
 *     ===========================================================
       use CanopyModule
+      Use Infrastructure
       implicit none
-      include   'const.inc'
-      include 'action.inc'
-      include 'string.pub'                        
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       character  Action*(*)            ! (INPUT) Message action to perform
@@ -126,11 +125,8 @@
       subroutine canopy_init ()
 *     ===========================================================
       use CanopyModule
+      Use Infrastructure
       implicit none
-      include 'const.inc'
-      include 'data.pub'                          
-      include 'read.pub'                          
-      include 'error.pub'                         
 
 *+  Purpose
 *      Initialise canopy module. Output mesage and get list from control file.
@@ -196,11 +192,8 @@
       subroutine canopy_find_crops ()
 * ====================================================================
       use CanopyModule
+      Use Infrastructure
       implicit none
-      include 'const.inc'
-      include 'intrface.pub'                      
-      include 'error.pub'                         
-      include 'postbox.pub'
 
 *+  Purpose
 *      Find what crops are in system
@@ -261,10 +254,8 @@
       subroutine canopy_zero_all_variables ()
 *     ===========================================================
       use CanopyModule
+      Use Infrastructure
       implicit none
-      include   'const.inc' 
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Purpose
 *     Set all variables in this module to zero.
@@ -302,10 +293,8 @@
       subroutine canopy_zero_variables ()
 *     ===========================================================
       use CanopyModule
+      Use Infrastructure
       implicit none
-      include 'const.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Purpose
 *     Set all variables in this module to zero.
@@ -341,11 +330,8 @@
       subroutine canopy_get_other_variables ()
 *     ===========================================================
       use CanopyModule
+      Use Infrastructure
       implicit none
-      include 'const.inc'
-      include 'intrface.pub'                      
-      include 'error.pub' 
-      include 'postbox.pub'                        
 
 *+  Purpose
 *      Get the values of variables from other modules
@@ -490,11 +476,8 @@
       subroutine canopy_send_my_variable (Variable_name)
 *     ===========================================================
       use CanopyModule
+      Use Infrastructure
       implicit none
-      include   'const.inc'
-      include 'data.pub'                          
-      include 'intrface.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       character  Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -605,8 +588,8 @@
        integer function canopy_crop_number (module_name)
 * ====================================================================
       use CanopyModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       character  module_name*(*)         ! (INPUT) name of crop to locate
@@ -652,8 +635,8 @@
       subroutine canopy_prepare ()
 *     ===========================================================
       use CanopyModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Purpose
 *     Perform calculations before the current timestep. This is the main
@@ -698,10 +681,8 @@
       subroutine canopy_canopies_present (canopy_index, num_canopies)
 *     ===========================================================
       use CanopyModule
+      Use Infrastructure
       implicit none
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    canopy_index(*)       ! (OUTPUT) presence of canopy and order
@@ -754,9 +735,8 @@
       subroutine canopy_top_layer_light (layer_light)
 *     ===========================================================
       use CanopyModule
+      Use Infrastructure
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       layer_light(*)        ! (OUTPUT) light at top of canopy
@@ -834,9 +814,8 @@
       subroutine canopy_intc_light (intc_light)
 *     ===========================================================
       use CanopyModule
+      Use Infrastructure
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       intc_light(*)         ! (OUTPUT) fraction of light at top
@@ -924,9 +903,8 @@ cjh            of the canopies within the layer.
       subroutine canopy_k_lai (K_lai_in_layer, K_lai, layer)
 *     ===========================================================
       use CanopyModule
+      Use Infrastructure
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       K_lai_in_layer(*)     ! (OUTPUT) K*lai product for each
@@ -979,10 +957,8 @@ cjh            of the canopies within the layer.
       real function canopy_fract_canopy (crop, layer)
 *     ===========================================================
       use CanopyModule
+      Use Infrastructure
       implicit none
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    crop                  ! (INPUT) crop canopy number
@@ -1046,8 +1022,8 @@ cjh            of the canopies within the layer.
       real function canopy_width (height_in_canopy)
 *     ===========================================================
       use CanopyModule
+      Use Infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       height_in_canopy      ! (INPUT) normalised height (0-1)
@@ -1079,11 +1055,8 @@ cjh            of the canopies within the layer.
       subroutine canopy_post ()
 *     ===========================================================
       use CanopyModule
+      Use Infrastructure
       implicit none
-      include 'const.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
-      include 'apsimengine.pub'
 
 *+  Purpose
 *     Perform calculations after the current timestep.

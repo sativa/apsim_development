@@ -2,16 +2,21 @@
 Dependency = %licensed_source(croptemp)
 
 [Contents]
-crp_biom.for = crp_biom.for
-crp_cnpy.for = crp_cnpy.for
-crp_comm.for = crp_comm.for
-crp_fail.for = crp_fail.for
-crp_nitn.for = crp_nitn.for
-crp_phen.for = crp_phen.for
-crp_root.for = crp_root.for
-crp_temp.for = crp_temp.for
-crp_util.for = crp_util.for
-crp_watr.for = crp_watr.for
+crp_root.f90 = crp_root.f90
+crp_watr.f90 = crp_watr.f90
+crp_biom.f90 = crp_biom.f90
+crp_cnpy.f90 = crp_cnpy.f90
+
+crp_comm.f90 = crp_comm.f90
+crp_fail.f90 = crp_fail.f90
+crp_nitn.f90 = crp_nitn.f90
+crp_phen.f90 = crp_phen.f90
+
+crp_temp.f90 = crp_temp.f90
+crp_util.f90 = crp_util.f90
+
+crp_oxdef.f90 = crp_oxdef.f90
+CropLibrary.f90 = CropLibrary.f90
 
 [APSBuild]
 binary = ..\lib\croptemp.dll

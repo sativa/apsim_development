@@ -91,13 +91,13 @@
 !     pipelines that do nothing but pass their arguments onto routines that
 !     may not be dll exported, millet(), millet_alloc() and millet_free().
 
-      include 'Millet.inc'
 
 !     ===========================================================
       Recursive
      :subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
 
 !+  Sub-Program Arguments
@@ -125,6 +125,7 @@
      :subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
 
 !+  Sub-Program Arguments
@@ -150,6 +151,7 @@
      :subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
 
 !+  Sub-Program Arguments
@@ -176,12 +178,8 @@
      :subroutine Main (action, data_string)
 *     ================================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include   'action.inc'
-      include   'event.inc'
-      include 'string.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       character  action*(*)            ! (INPUT) Message action to perform
@@ -368,8 +366,8 @@ cjh special for erik - end
      :subroutine Millet_prepare ()
 * ====================================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Purpose
 *     APSim allows modules to perform calculations in preparation for
@@ -421,9 +419,8 @@ cjh special for erik - end
      :subroutine millet_process ()
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Purpose
 *     Simulate crop process, including phenology, biomass (carbohydrate) and nitrogen
@@ -527,8 +524,8 @@ c+!!!!!!!!! check order dependency of deltas
      :subroutine millet_dead ()
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Purpose
 *       Set up states for dead crop
@@ -559,11 +556,8 @@ c+!!!!!!!!! check order dependency of deltas
      :subroutine millet_harvest ()
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include   'convert.inc'          ! gm2kg, sm2ha, sm2smm
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Report occurence of harvest and the current status of specific
@@ -781,8 +775,8 @@ cejvo      leaf_no = sum_between (germ, harvest_ripe, g%leaf_no)
      :subroutine millet_zero_all_globals ()
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Purpose
 *       Zero all global variables & arrays
@@ -1224,9 +1218,8 @@ cjh special for erik - end
      :subroutine millet_zero_variables ()
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Zero crop variables & arrays
@@ -1387,9 +1380,8 @@ cjh special for erik - end
      :subroutine millet_zero_daily_variables ()
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Zero crop daily variables & arrays
@@ -1473,8 +1465,8 @@ cjh special for erik - end
      :subroutine millet_init ()
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Purpose
 *       Crop initialisation
@@ -1514,10 +1506,8 @@ cjh special for erik - end
      :subroutine millet_start_crop ()
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Start crop using parameters specified in passed record
@@ -1625,11 +1615,8 @@ cjh      endif
      :subroutine millet_initiate ()
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'data.pub'
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Initiate crop, tillers or other axes using parameters
@@ -1748,10 +1735,8 @@ cjh      endif
       subroutine millet_read_cultivar_params ()
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'read.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Get cultivar parameters for named cultivar, from crop parameter file.
@@ -1944,11 +1929,8 @@ cgd   Eriks modifications for Leaf Area
       subroutine millet_read_root_params ()
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'data.pub'
-      include 'read.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Get root profile parameters
@@ -2079,12 +2061,8 @@ cgd   Eriks modifications for Leaf Area
      :subroutine millet_get_other_parameters ()
 *     ================================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include   'convert.inc'
-      include 'data.pub'
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Purpose
 *      Get the values of parameters from other modules.
@@ -2127,12 +2105,8 @@ cgd   Eriks modifications for Leaf Area
      :subroutine millet_end_crop ()
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! new_line, lu_scr_sum
-      include   'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc
-      include 'data.pub'
-      include 'crp_comm.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       End crop
@@ -2265,9 +2239,8 @@ cgd   Eriks modifications for Leaf Area
      :subroutine millet_store_value (array, value)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'date.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       array(*)              ! (OUTPUT) storage array
@@ -2307,12 +2280,8 @@ cgd   Eriks modifications for Leaf Area
      :subroutine millet_ONtick ()
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include   'event.inc'
-      include 'intrface.pub'
-      include 'error.pub'
-      include 'event.pub'
 
 *+  Purpose
 *     Update internal time record and reset daily state variables.
@@ -2363,11 +2332,8 @@ cgd   Eriks modifications for Leaf Area
      :subroutine millet_ONnewmet ()
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'error.pub'
-      include 'event.pub'
-      include 'event.inc'
-      include 'intrface.pub'
 *+  Purpose
 *     Get new met data
 
@@ -2430,12 +2396,8 @@ cgd   Eriks modifications for Leaf Area
      :subroutine millet_get_other_variables ()
 *     ================================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include   'convert.inc'
-      include 'data.pub'
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Purpose
 *      Get the values of variables/arrays from other modules.
@@ -2581,14 +2543,8 @@ c+!!!!!!!! what to do if no waterbalance variables found
      :subroutine millet_set_other_variables ()
 *     ================================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'action.inc'
-      include   'convert.inc'
-      include 'data.pub'
-      include 'intrface.pub'
-      include 'error.pub'
-      include 'postbox.pub'
 
 *+  Purpose
 *      Set the value of a variable or array in other module/s.
@@ -2646,11 +2602,8 @@ c+!!!! perhaps we should get number of layers at init and keep it
      :subroutine millet_update_other_variables ()
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include   'convert.inc'
-      include 'data.pub'
-      include 'crp_comm.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Update other modules states
@@ -2741,13 +2694,8 @@ c+!!!! perhaps we should get number of layers at init and keep it
      :                                           , fraction_to_Residue
      :                                           , max_part)
 * ====================================================================
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'event.inc'
-      include 'intrface.pub'
-      include 'error.pub'
-      include 'data.pub'
-      include 'postbox.pub'
 
 *+  Sub-Program Arguments
       character  crop_type*(*)              ! (INPUT) crop type
@@ -2825,9 +2773,8 @@ c+!!!! perhaps we should get number of layers at init and keep it
      :subroutine millet_set_my_variable (Variable_name)
 *     ===============================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       character  Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -2902,12 +2849,8 @@ cjh special for erik - end
      :subroutine millet_send_my_variable (variable_name)
 *     ================================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include   'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc
-      include 'science.pub'
-      include 'data.pub'
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       character variable_name*(*)      ! (INPUT) variable name to search for
@@ -3698,9 +3641,8 @@ cejvo
      :logical function millet_my_type ()
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Returns true if 'type' is equal to the crop type or is absent.
@@ -3743,10 +3685,8 @@ cejvo
       subroutine millet_read_constants ()
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'read.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Crop initialisation - reads constants from constants file
@@ -4831,8 +4771,8 @@ cpsc
      :subroutine millet_set_my_class (module_name)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       character module_name*(*)

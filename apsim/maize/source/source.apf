@@ -2,7 +2,11 @@
 Dependency = %licensed_source(maize)
 
 [Contents]
+cropmod.inc = ..\..\cropmod\source\cropmod.inc
+ComponentInterface.for = ComponentInterface.for
+
 cropmodmain.for = ..\..\cropmod\source\cropmodmain.for
+maize.inc = maize.inc
 maizmain.for = maizmain.for
 maize.for    = maize.for
 

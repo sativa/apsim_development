@@ -2,6 +2,9 @@
 Dependency = %licensed_source(ozcot)
 
 [Contents]
+ComponentInterface.for = ComponentInterface.for
+datatypesmodule.f90=datatypesmodule.f90 
+ozcot.inc = ozcot.inc
 ozcot.for = ozcot.for
 
 [APSBuild]

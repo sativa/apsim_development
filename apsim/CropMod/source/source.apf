@@ -2,6 +2,9 @@
 Dependency = %licensed_source(wheat)
 
 [Contents]
+ComponentInterface.for = ComponentInterface.for
+CropDefCons.inc = CropDefCons.inc
+CropMod.inc     = CropMod.inc
 CropModMain.for = CropModMain.for
 CropModTree.for = CropModTree.for
 wheat.for       = wheat.for

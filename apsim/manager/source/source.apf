@@ -2,6 +2,9 @@
 Dependency = %licensed_source(manager)
 
 [Contents]
+ComponentInterface.for = ComponentInterface.for
+datatypesmodule.f90 = datatypesmodule.f90
+manager.inc = manager.inc
 manager.for = manager.for
 
 [APSBuild]

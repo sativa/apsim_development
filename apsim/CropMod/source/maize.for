@@ -29,11 +29,9 @@ C     Last change:  E     1 Oct 2001   11:38 am
      :        , p_tt_maturity_to_ripe
      :        , phase_tt)
 *     ===========================================================
+      Use infrastructure
+      Use CropDefCons
       implicit none
-      include 'CropDefCons.inc'
-      include 'data.pub'
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -206,11 +204,9 @@ cjh
      :        , leaf_no_final)
 
 *     ===========================================================
+      Use infrastructure
+      Use CropDefCons
       implicit none
-      include 'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -307,11 +303,9 @@ cjh
      :        , c_leaf_trans_frac
      :        , dm_green, dm_plant_min)
 *     ===========================================================
+      Use infrastructure
+      Use CropDefCons
       implicit none
-      include 'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -392,8 +386,8 @@ cjh
      :                      , c_temp_grain_crit_stress
      :                      , dlt_tt_heat_stress)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_maxt                ! (INPUT) maximum temperature (oC)
@@ -452,12 +446,9 @@ cjh
      :        , c_grain_N_conc_min
      :        , grain_num)
 *     ===========================================================
+      Use infrastructure
+      Use CropDefCons
       implicit none
-      include    'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'crp_nitn.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -612,12 +603,9 @@ c     :                           , 'grain_no_fract')
      :        , g_nfact_grain_conc
      :        , dlt_dm_grain_demand)
 *     ===========================================================
+      Use infrastructure
+      Use CropDefCons
       implicit none
-      include   'convert.inc'          ! mg2gm
-      include 'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -750,11 +738,10 @@ c     :                           , 'grain_no_fract')
      :        , g_swdef_expansion
      :        , g_nfact_grain_conc)
 *     ===========================================================
+      Use infrastructure
+      Use CropDefCons
+      Use CropLibrary
       implicit none
-      include    'CropDefCons.inc'
-      include 'data.pub'
-      include 'crp_nitn.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_N_conc_min(*)
@@ -834,12 +821,9 @@ c     :                           , 'grain_no_fract')
      :        , g_dlt_dm_grain_demand
      :        , dlt_dm_green)
 *     ===========================================================
+      Use infrastructure
+      Use CropDefCons
       implicit none
-      include   'convert.inc'
-      include 'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -1003,11 +987,9 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
      :        , g_days_tot
      :        , dlt_leaf_no_dead)
 *     ===========================================================
+      Use infrastructure
+      Use CropDefCons
       implicit none
-      include 'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_leaf_no_dead(*)
@@ -1079,12 +1061,9 @@ cpsc need to develop leaf senescence functions for crop
      :                    , g_plants
      :                    , dlt_plants)
 *     ===========================================================
+      Use infrastructure
+      Use CropDefCons
       implicit none
-      include   'const.inc'
-      include 'CropDefCons.inc'
-      include 'data.pub'
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_cswd_pheno(*)
@@ -1145,11 +1124,9 @@ cpsc need to develop leaf senescence functions for crop
      :                    , g_plants
      :                    , dlt_plants)
 *     ===========================================================
+      Use infrastructure
+      Use CropDefCons
       implicit none
-      include   'const.inc'
-      include 'CropDefCons.inc'
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -1224,9 +1201,8 @@ cpsc need to develop leaf senescence functions for crop
      :        , g_plants
      :        , killfr)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       c_head_grain_no_crit
@@ -1300,9 +1276,8 @@ cpsc need to develop leaf senescence functions for crop
      :        , p_head_grain_no_max
      :        , c_barren_crit)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! err_user
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       c_head_grain_no_crit
@@ -1361,10 +1336,8 @@ cpsc need to develop leaf senescence functions for crop
      :        , g_p_conc_max
      :        , g_plant_p)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    init_stage
@@ -1422,9 +1395,8 @@ cpsc need to develop leaf senescence functions for crop
      :        , c_p_uptake_factor
      :        , g_P_demand)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Purpose
 *     Calculate the plant p demand
@@ -1502,12 +1474,10 @@ cpsc need to develop leaf senescence functions for crop
      :        , P_conc_max
      :        , P_conc_min)
 *     ===========================================================
+      Use infrastructure
+      Use CropDefCons
+      Use CropLibrary
       implicit none
-      include 'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
-      include 'crp_phen.pub'
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -1597,10 +1567,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :              , pfact
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_dm_green(*)    ! (INPUT)  live plant biomass (g/m2)
@@ -1667,11 +1635,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
        subroutine maize_nit_demand_est (Option)
 * ====================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'data.pub'
-      include 'crp_nitn.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option
@@ -1756,10 +1721,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       subroutine Read_Constants_Maize ()
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'read.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Crop initialisation - reads constants from constants file
@@ -2826,10 +2789,8 @@ c     :                    , 0.0, 100.0)
       subroutine Read_Cultivar_Params_Maize (cultivar)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! new_line, blank
-      include 'read.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       character  cultivar*(*)          ! (INPUT) keyname of cultivar in crop
@@ -3034,10 +2995,8 @@ c     :                    , 0.0, 100.0)
       subroutine Maize_bio_retrans ()
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_biom.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
 
