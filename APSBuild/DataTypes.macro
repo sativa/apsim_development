@@ -170,12 +170,12 @@ structure.forddml
    type structure.nameType
       sequence
       #for_each structure.field
-      #if (field.isStructure = T)
+      #if (field.isArrayAndStructure = T)
+      type(field.forTypeType):: field.name(max_array_size)
+      #elseif (field.isStructure = T)
       type(field.forTypeType) :: field.name
       #elseif (field.array = T)
       field.fortype :: field.name(max_array_size)
-      #elseif (field.isArrayAndStructure = T)
-      type(field.forTypeType) :: field.name(max_array_size)
       #else
       field.fortype :: field.name
       #endif
