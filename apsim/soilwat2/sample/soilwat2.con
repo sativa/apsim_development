@@ -1,7 +1,0 @@
-[apsim.sample_soilwat2]  
-  Module = clock    soilwat2.par [sample]      
-  Module = report   soilwat2.par [sample]      
-  Module = met      %apsuite\apsim\met\sample\dalby.met[weather] 
-  Module = manager  soilwat2.par [sample]      
-  Module = soilwat2 soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]      
-
