@@ -64,6 +64,7 @@
 *+  Local Variables
       character filename*100           ! filename of table to open
       logical ok
+      integer errCode
 
 *- Implementation Section ----------------------------------
 
@@ -75,10 +76,17 @@
       if (read_parameter('filename', 'parameters', filename,
      .     .false.)) then
          ! create an external table object and open it
-         g%LU_SOI = newApsimDataFile(filename)
-         ! Read in all parameters from parameter file
-         call SOI_read_phases ()
-         call deleteApsimDataFile(g%LU_SOI)
+         g%LU_SOI = 10
+         open(unit=g%LU_SOI, file=filename, status='old',
+     .        iostat=errCode)
+         if (errCode .ne. 0) then
+            call Fatal_error(ERR_user,
+     .         'Cannot find SOI phase file: ' // filename)
+         else
+            ! Read in all parameters from parameter file
+            call SOI_read_phases ()
+            close(g%LU_SOI)
+         endif
       endif
 
       call pop_routine (this_routine)
@@ -151,7 +159,9 @@
       character st*(100)               ! Line read from climate file
       logical ok                       ! all ok?
       integer numvals
+      real SOI
       real Phase
+      integer errCode
 
 *- Implementation Section ----------------------------------
 
@@ -160,23 +170,10 @@
       ! Loop through the SOI file, reding the phases into an array
 
 10    continue
-      ok = ApsimDataFile_getFieldValue (g%LU_SOI, 0, St)
-      if (ok) then
-         call String_to_integer_var(St, Year, numvals)
-         ok = ApsimDataFile_getFieldValue (g%LU_SOI, 1, St)
-      endif
-      if (ok) then
-         call String_to_integer_var(St, Month, numvals)
-         ok = ApsimDataFile_getFieldValue (g%LU_SOI, 2, St)
-      endif
-      if (ok) then
-         call String_to_real_var(St, Phase, numvals)
-      endif
-      if (ok) then
+      read (g%LU_SOI, *, iostat=errCode) Year, Month, SOI, Phase
+      if (errCode .eq. 0) then
          g%SOI_array(Year, Month) = Phase
-         if (ApsimDataFile_Next(g%LU_SOI).eq.0) then
-            goto 10
-         endif
+         goto 10
       endif
 
       call pop_routine (this_routine)
@@ -296,7 +293,6 @@
       endif
 
       ! get the SOI phase for the given month
-
       g%SOI_phase = g%SOI_array(SOI_year, SOI_Month)
       ! print *, SOI_units,SOI_Month,SOI_year,g%SOI_phase
 

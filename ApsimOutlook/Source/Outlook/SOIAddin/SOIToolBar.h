@@ -78,7 +78,8 @@ class SOIToolBar : public ToolBarAddInBase
                }
             friend std::istream& operator>>(std::istream& in, soi& to)
                {
-               in >> to.Year >> to.Month >> to.Phase;
+               float soi;
+               in >> to.Year >> to.Month >> soi >> to.Phase;
                return in;
                }
          };

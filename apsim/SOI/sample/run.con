@@ -8,6 +8,6 @@ module = report     run1.par [run1]
 module = Input(Met) %apsuite\apsim\met\sample\goond.met [weather]
 module = manager    run1.man [run1]
 module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
-module = soi       phases.soi [soi]
+module = soi       %apsuite\soi\phases.soi [soi]
 module = screen
 module = summaryfile run1.par [run1]

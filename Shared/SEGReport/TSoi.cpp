@@ -224,33 +224,23 @@ void TSOI::readSoiData(void) throw (runtime_error)
    if (!FileExists(soiFilename))
       throw runtime_error("Cannot find soi data file: " + string(soiFilename.c_str()));
 
-   // Read the first line of the file - may contain phase names.
+   // Read in all soi data.
    ifstream in (soiFilename.c_str());
    string line;
-   getline(in, line);
-   string phaseNamesString = getKeyValue(line, PHASE_NAMES_KEY);
-   if (phaseNamesString != "")
-      {
-      Split_string(phaseNamesString, "," , phaseNames);
-      getline(in, line);  // get the column header line
-      }
-   else  // no phase names specified, use default
-      {
-      static const char* defaultPhaseNamesString
-         = "Unknown,Negative,Positive,Falling,Rising,Zero";
-      Split_string(defaultPhaseNamesString, "," , phaseNames);
-      }
+   static const char* defaultPhaseNamesString
+      = "Unknown,Negative,Positive,Falling,Rising,Zero";
+   Split_string(defaultPhaseNamesString, "," , phaseNames);
 
    vector<string> words;
    unsigned year,month,phase;
    while (getline(in, line))
       {
       Split_string(line, " ", words);
-      if (words.size() == 3)
+      if (words.size() == 4)
          {
          year = StrToInt(words[0].c_str());
          month = StrToInt(words[1].c_str());
-         phase = StrToInt(words[2].c_str());
+         phase = StrToInt(words[3].c_str());
          string yearMonth = AnsiString(IntToStr(year) + "/" + IntToStr(month)).c_str();
          phases.insert(Phases::value_type(yearMonth.c_str(), phase));
          }
