@@ -327,7 +327,7 @@ cnh
          do 90 i=1,nveg
             do 80 j=0,n
                do 95 solnum=1,num_solutes
-                  slup(solnum,i)=slup(solnum,i)
+                  slup(i,solnum)=slup(i,solnum)
      :                +apswim_slupf(i,solnum)*csl(solnum,j)*qr(j,i)
 cnh     :                      +slupf(solnum)*csl(solnum,j)*qr(j,i)
                   ! I thought qr was a rate ----------------/
