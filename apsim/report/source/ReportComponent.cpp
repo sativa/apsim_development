@@ -257,14 +257,14 @@ void ReportComponent::doInit1(const FString& sdml)
       daysSinceLastReportVariableID = addRegistration(respondToGetReg,
                                                       "days_since_last_report",
                                                       daysSinceLastReportType);
-      string fileName = componentData->getProperty("outputfile");
+      string fileName = componentData->getProperty("parameters", "outputfile");
       if (fileName == "")
          throw runtime_error("Cannot find name of output file in parameter file. ");
 
       out.open(fileName.c_str());
 
       // get format specifier.
-      CSVFormat = Str_i_Eq(componentData->getProperty("format"), "csv");
+      CSVFormat = Str_i_Eq(componentData->getProperty("parameters", "format"), "csv");
 
       // enumerate through all output variables
       // and create a field for each.

@@ -60,7 +60,7 @@ void InputComponent::doInit1(const FString& sdml)
 
    try
       {
-      string fileName = componentData->getProperty("filename");
+      string fileName = componentData->getProperty("parameters", "filename");
       if (fileName == "")
          throw runtime_error("Cannot find a filename parameter for module: "
                              + string(name));
