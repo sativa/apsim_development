@@ -39,9 +39,13 @@
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
+     
+     SECTION:- end_of_day
      if (soi['may'] = 4) then
            report do_end_day_output
      endif
+     END of rules
+     
 
 ------- soilwat2 Initialisation -----------------------------------------------
      

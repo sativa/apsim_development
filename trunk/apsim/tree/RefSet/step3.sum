@@ -40,8 +40,12 @@
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
+     
+     SECTION:- end_of_day
      transpiration = tree.ep() * -1.0
      report do_output
+     END of rules
+     
 
 ------- apswim Initialisation -------------------------------------------------
      Initialising

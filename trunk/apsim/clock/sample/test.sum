@@ -40,9 +40,13 @@
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
+     
+     SECTION:- start_of_day
      if (today > date('31_jan')) then
         report do_output
      endif
+     END of rules
+     
 ------- Start of simulation  --------------------------------------------------
 8 April 1988(Day of year=99), clock: 
      Simulation is terminating due to end criteria being met.

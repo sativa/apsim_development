@@ -54,6 +54,8 @@
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
+     
+     SECTION:- start_of_day
         if day = 305 and year = 1989 then
            sorghum sow cultivar = early, plants = 10, sowing_depth = 30 (mm), tiller_no_fertile = 0 (), row_spacing = 1.0 (m)
         endif
@@ -66,9 +68,13 @@
            sorghum kill_crop
            sorghum end_crop
      endif
+     
+     SECTION:- end_of_day
       if (sorghum.stage >=1 and sorghum.stage <= 11) then
          report do_output
       endif
+     END of rules
+     
 
 ------- soilwat2 Initialisation -----------------------------------------------
      

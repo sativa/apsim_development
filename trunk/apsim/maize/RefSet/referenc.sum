@@ -89,6 +89,10 @@
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
+     
+     SECTION:- init
+     
+     SECTION:- start_of_day
           if year = 1993 and day = 10 then
              maize sow cultivar = dekalb_xl82, plants = 10, sowing_depth = 50, tiller_no_fertile = 1
              soilwat2 set sw = 0.15 0.15 0.1
@@ -133,6 +137,8 @@
              fertiliz apply amount = 50, type = no3_n, depth = 5
              report do_output
           endif
+     
+     SECTION:- end_of_day
           if (maize.plant_status = 'dead') then
              maize    end_crop
              report do_output
@@ -143,6 +149,8 @@
           elseif days_since_last_report = 7 then
              report do_output
           endif
+     END of rules
+     
 
 ------- soilwat2 Initialisation -----------------------------------------------
      

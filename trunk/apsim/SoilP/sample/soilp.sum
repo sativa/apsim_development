@@ -61,6 +61,8 @@
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
+     
+     SECTION:- start_of_day
      if day = 5 then
         fertiliz apply amount = 30 (kg/ha), depth = 20 (mm), type = rock_p
      elseif day = 10 then
@@ -70,7 +72,11 @@
      elseif day = 20 then
         act_mods tillage type = disc ()
      endif
+     
+     SECTION:- end_of_day
      report do_output
+     END of rules
+     
 
 ------- soilwat2 Initialisation -----------------------------------------------
      

@@ -91,6 +91,8 @@
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
+     
+     SECTION:- end_of_day
         if day = 91 and year = 1984 then
            sugar sow plants = 10, sowing_depth = 150, cultivar = q138, ratoon = 0 ()
         elseif day = 60 and year = 1985 then
@@ -125,6 +127,8 @@
         elseif end_week = 1 then
            report do_output
         endif
+     END of rules
+     
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
