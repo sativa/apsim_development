@@ -162,7 +162,7 @@ class RegistrationsInternal
             resolve(newReg);
          }
       //---------------------------------------------------------------------------
-      // Return a registration name to caller.
+      // Return a registration to caller.
       //---------------------------------------------------------------------------
       Registration get(unsigned componentId, unsigned regId, RegistrationType type)
          {
@@ -175,6 +175,21 @@ class RegistrationsInternal
 
          return reg->details;
          }
+      //---------------------------------------------------------------------------
+      // Return a registration to caller given a name
+      //---------------------------------------------------------------------------
+      Registration get(unsigned componentId, const string& regName, RegistrationType type)
+         {
+         Regs& registrations = getRegsForType(type);
+         Regs::iterator reg = find_if(registrations.begin(),
+                                      registrations.end(),
+                                      bind(&isAMatch, _1, componentId, regName));
+         if (reg == registrations.end())
+            throw runtime_error("Cannot get registration " + lexical_cast<string>(regName));
+
+         return reg->details;
+         }
+
       //---------------------------------------------------------------------------
       // Delete a registration
       //---------------------------------------------------------------------------

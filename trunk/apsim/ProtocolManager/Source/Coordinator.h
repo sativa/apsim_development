@@ -98,6 +98,8 @@ class Coordinator : public protocol::Component
       void reorderSubscriptions(Registrations::Subscriptions& subs);
       void readAllRegistrations(void);
 
+      virtual void onApsimGetQuery(protocol::ApsimGetQueryData& apsimGetQueryData);
+
 
    };
 #endif
