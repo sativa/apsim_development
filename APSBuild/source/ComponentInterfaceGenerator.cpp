@@ -4,9 +4,10 @@
 #pragma hdrstop
 #include "ComponentInterfaceGenerator.h"
 #include <general\path.h>
-#include <general\MacroSubstFile.h>
+#include <general\Macro.h>
+#include <general\xml.h>
 #include <general\stl_functions.h>
-#include <ApsimShared\ApsimDirectories.h>
+#include <ApsimShared\ApsimSettings.h>
 #include <ApsimShared\ApsimComponentData.h>
 #include <iostream>
 #include <vector>
@@ -81,25 +82,23 @@ void GetPublishedMethods(ApsimComponentData* component,
 // ------------------------------------------------------------------
 void GenerateComponentInterface(const string& interfaceFileName)
    {
-   // need to change the current working directory.
-   AnsiString sourceDir = ExtractFileDir(interfaceFileName.c_str()) + "\\source";
-   SetCurrentDir(sourceDir);
-
-   if (!FileExists(interfaceFileName.c_str()))
-      throw runtime_error("Cannot find component interface file: " + interfaceFileName);
-   ifstream in(interfaceFileName.c_str());
-   ostringstream contents;
-   contents << in.rdbuf();
-   ApsimComponentData* component = new ApsimComponentData(contents.str());
-
-   // Macro substitution file in the same directory as the
-   // program executable file.
-   string macrofile = getApsimDirectory() + "\\apsbuild\\ComponentInterface.amf";
-
-   // Set up macrosubst file object using the derived file name
-   MacroSubstFile* AMF = new MacroSubstFile (macrofile);
    try
       {
+      // need to change the current working directory.
+      AnsiString sourceDir = ExtractFileDir(interfaceFileName.c_str()) + "\\source";
+      SetCurrentDir(sourceDir);
+
+      if (!FileExists(interfaceFileName.c_str()))
+         throw runtime_error("Cannot find component interface file: " + interfaceFileName);
+      ifstream in(interfaceFileName.c_str());
+      ostringstream contents;
+      contents << in.rdbuf();
+      ApsimComponentData* component = new ApsimComponentData(contents.str());
+
+      // Set up macrosubst file object using the derived file name
+      XMLDocument xml;
+      xml.setRootNode("Data");
+
       // Loop through all registrations and create a macro value for each.
       for (ApsimComponentData::RegIterator reg = component->regBegin();
                                            reg != component->regEnd();
@@ -120,9 +119,6 @@ void GenerateComponentInterface(const string& interfaceFileName)
             type = "null";
             }
 
-         MacroSubstFile::ValueAttributes attributes;
-         attributes.push_back(make_pair("name", name));
-         attributes.push_back(make_pair("kind", type));
          string macroName;
          if (reg->isOfType("event"))
             macroName = "pubevent";
@@ -133,16 +129,35 @@ void GenerateComponentInterface(const string& interfaceFileName)
          else if (reg->isOfType("respondToMethodCall"))
             macroName = "submethod";
          if (macroName != "")
-            AMF->addValue(macroName, attributes);
+            {
+            XMLNode macroNode = xml.documentElement().appendChild(macroName, true);
+            macroNode.setAttribute("name", name);
+            macroNode.setAttribute("kind", type);
+            }
          }
 
+      // read in contents of macro file.
+      string macrofile;
+      ApsimSettings settings;
+      settings.read("APSBuild|ComponentInterfaceMacroFile", macrofile, true);
+      if (!FileExists(macrofile.c_str()))
+         throw runtime_error("Cannot find component interface macro file: " + macrofile);
+
+      ifstream in2(macrofile.c_str());
+      ostringstream macroContents;
+      macroContents << in2.rdbuf();
+
       //  All done - so now write out the output files
-      vector<string> filesWriten;
-      AMF->generateFiles(filesWriten);
+      vector<string> filesGenerated;
+      Macro macro;
+      macro.go(xml.documentElement(), macroContents.str(), filesGenerated);
+      }
+   catch (const runtime_error& error)
+      {
+      ShowMessage(error.what());
       }
    catch (...)
       {
       }
-   delete AMF;
    }
 //---------------------------------------------------------------------------
