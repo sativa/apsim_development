@@ -61,17 +61,18 @@ variable = tracker2.sum@soilph_cl_uptake_equiv as cl_uptk_eqv
              crop_in = 0 AND
              esw >= 30) THEN
 !      nwheat sow 100 30 Sunco
-      nwheat sow plants = 100 (/m2), depth = 30 (mm), cultivar = Sunco
+!!      wheat sow plants = 100 (/m2), depth = 30 (mm), cultivar = Sunco
       crop_in = 1
       fertiliz apply amount = 100 (kg/ha), depth = 50 (mm), type = urea ()
    endif
 
-   if (nwheat.nwheat_status = 10) then
-      nwheat harvest
-      crop_in = 0
-      report do_end_day_output
-      report1 do_end_day_output
-   endif
+!   if (wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' ) then
+!      wheat harvest
+!      crop_in = 0
+!      report do_end_day_output
+!      report1 do_end_day_output
+!      wheat end_crop
+!   endif
 
 [sample.manager.end_of_day]
    if (first_day = 1) then
