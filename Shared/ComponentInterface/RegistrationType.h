@@ -26,6 +26,8 @@ class __declspec(dllexport) RegistrationType
 
       bool operator ==(const RegistrationType& rhs)
          {return rhs.regType == regType;}
+      bool operator !=(const RegistrationType& rhs)
+         {return rhs.regType != regType;}
    private:
       Type regType;
    };
