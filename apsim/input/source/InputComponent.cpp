@@ -111,7 +111,17 @@ void InputComponent::readConstants(void)
    for (vector<string>::iterator constantI = constantNames.begin();
                                  constantI != constantNames.end();
                                  constantI++)
-      addVariable(*constantI, data->getConstant(*constantI), 1);
+      {
+      string value = data->getConstant(*constantI);
+      unsigned posStartUnit = value.find("(");
+      if (posStartUnit != string::npos)
+         {
+         unsigned posEndUnit = value.find(")");
+         if (posEndUnit == value.length()-1)
+            value = value.erase(posStartUnit, posEndUnit-posStartUnit+1);
+         }
+      addVariable(*constantI, value, 1);
+      }
    }
 // ------------------------------------------------------------------
 // read in all headings from file.
