@@ -822,11 +822,16 @@
  
 *+  Changes
 *      011195 jngh  added call to message_unused
+*      230399 nih   added output for irrigation_fasw and irrigation_def
  
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'irrigate_send_my_variable')
- 
+
+*+  Local Variables
+      real fasw
+      real swdef
+
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
@@ -859,6 +864,22 @@
      :                variable_name           ! variable name
      :              , '(mm)'                  ! units
      :              , p_asw_depth)            ! array
+
+      elseif (Variable_name .eq. 'irr_fasw') then
+         call irrigate_fasw (fasw, swdef)
+
+         call respond2get_real_var (
+     :                variable_name           ! variable name
+     :              , '(0-1)'                 ! units
+     :              , fasw)                   ! array
+
+      elseif (Variable_name .eq. 'irr_deficit') then
+         call irrigate_fasw (fasw, swdef)
+
+         call respond2get_real_var (
+     :                variable_name           ! variable name
+     :              , '(mm)'                  ! units
+     :              , swdef)                  ! array
 
       elseif (Variable_name .eq. 'allocation') then
          call respond2get_real_var (
@@ -1213,44 +1234,13 @@
       real       amount                ! amount of irrigation to apply (mm)
       real       avail_fr              ! fraction of avalable water in
                                        !    specified profile
-      real       cumdep                ! cumulative depth in loop (mm)
-      integer    nlayr                 ! number of layers
       real       swdef                 ! sw deficit (mm)
-      real       avail_sw              ! total avail. sw down to specified depth
-                                       ! (mm)
-      real       pot_avail_sw          ! total potential avail sw down to
-                                       ! specified depth (mm)
-      real       excess_fr             ! fraction of excess depth below specifie
-                                       ! in last layer (mm)
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-               ! get water deficit on the spot
- 
-      nlayr = get_cumulative_index_real (p_asw_depth, g_dlayer
-     :                                 , max_layer)
-      cumdep = sum_real_array (g_dlayer, nlayr)
- 
-      excess_fr = divide ((cumdep - p_asw_depth) ,g_dlayer(nlayr), 0.0)
- 
-cnh note that results may be strange if swdep < ll15
-      avail_sw  = (sum_real_array (g_sw_dep, nlayr)
-     :          - excess_fr * g_sw_dep(nlayr))
-     :          - (sum_real_array (g_ll15_dep, nlayr)
-     :          - excess_fr * g_ll15_dep(nlayr))
-     :          + g_irrigation_applied
- 
-      pot_avail_sw = (sum_real_array (g_dul_dep, nlayr)
-     :             - excess_fr * g_dul_dep(nlayr))
-     :             - (sum_real_array (g_ll15_dep, nlayr)
-     :             - excess_fr * g_ll15_dep(nlayr))
- 
-      avail_fr = divide (avail_sw, pot_avail_sw, 0.0)
-      swdef = (pot_avail_sw - avail_sw)
- 
-          ! now get automatic irrigation amount
- 
+      call irrigate_fasw (avail_fr, swdef)
+
       if (avail_fr.lt.p_crit_fr_asw) then
          amount = divide (swdef, effirr, 0.0)
  
@@ -1513,3 +1503,71 @@ cnh note that results may be strange if swdep < ll15
       call pop_routine (my_name)
       return
       end
+
+*     ===========================================================
+      subroutine irrigate_fasw (fasw, swdef)
+*     ===========================================================
+      implicit none
+      include   'const.inc'
+      include   'irrigate.inc'
+      include 'data.pub'
+      include 'error.pub'
+
+*+  Sub-Program Arguments
+      real fasw
+      real swdef
+ 
+*+  Purpose
+*       Calculate Fraction of available soil water and water deficit
+ 
+*+  Mission Statement
+*       Calculate Fraction of available soil water and water deficit.
+ 
+*+  Changes
+*      230399 nih  based on code from irrigate automatic
+ 
+*+  Constant Values
+      character  my_name*(*)           ! name of this module
+      parameter (my_name = 'irrigate_fasw')
+ 
+*+  Local Variables
+      real       cumdep                ! cumulative depth in loop (mm)
+      integer    nlayr                 ! number of layers
+      real       avail_sw              ! total avail. sw down to specified depth
+                                       ! (mm)
+      real       pot_avail_sw          ! total potential avail sw down to
+                                       ! specified depth (mm)
+      real       excess_fr             ! fraction of excess depth below specifie
+                                       ! in last layer (mm)
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+ 
+               ! get water deficit on the spot
+ 
+      nlayr = get_cumulative_index_real (p_asw_depth, g_dlayer
+     :                                 , max_layer)
+      cumdep = sum_real_array (g_dlayer, nlayr)
+ 
+      excess_fr = divide ((cumdep - p_asw_depth) ,g_dlayer(nlayr), 0.0)
+ 
+cnh note that results may be strange if swdep < ll15
+      avail_sw  = (sum_real_array (g_sw_dep, nlayr)
+     :          - excess_fr * g_sw_dep(nlayr))
+     :          - (sum_real_array (g_ll15_dep, nlayr)
+     :          - excess_fr * g_ll15_dep(nlayr))
+     :          + g_irrigation_applied
+ 
+      pot_avail_sw = (sum_real_array (g_dul_dep, nlayr)
+     :             - excess_fr * g_dul_dep(nlayr))
+     :             - (sum_real_array (g_ll15_dep, nlayr)
+     :             - excess_fr * g_ll15_dep(nlayr))
+ 
+      fasw = divide (avail_sw, pot_avail_sw, 0.0)
+      swdef = l_bound(pot_avail_sw - avail_sw, 0.0)
+
+      call pop_routine (my_name)
+      return
+      end
+ 
+ 
