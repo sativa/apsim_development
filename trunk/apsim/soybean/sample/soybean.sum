@@ -20,7 +20,7 @@ latitude =  -27.11
 Manager rules
 ------- -----
 if day = 330 and year  = 1988 then
-soybean sow crop_type = soybean, cultivar = davis, plants = 25 (/m2), sowing_depth = 40 (mm)
+soybean sow cultivar = davis, plants = 25 (/m2), sowing_depth = 40 (mm)
 elseif day = 80 and year = 1989 then
 soybean harvest
 soybean end_crop
@@ -142,7 +142,7 @@ report do_output
     - Reading constants
  
 ======= Start of APSIM simulation ============================
- Day= 330 Year =  1988     Manager sending message :- soybean sow crop_type = soybean, cultivar = davis, plants = 25 (/m2), sowing_depth = 40 (mm)
+ Day= 330 Year =  1988     Manager sending message :- soybean sow cultivar = davis, plants = 25 (/m2), sowing_depth = 40 (mm)
  day= 330 date= 25 11 1988 soybean  - Sow
  
  - Reading constants for plant
@@ -196,29 +196,29 @@ report do_output
                      biomass =           5.000000       lai =    0.2500000e-01
                      stover N conc =    5.999999       extractable sw =    23.20686
  day= 339 date=  4 12 1988 soybean  -  stage    4.0 end_of_juvenile
-                     biomass =           7.047663       lai =    0.6922953e-01
+                     biomass =           7.047662       lai =    0.6922951e-01
                      stover N conc =    5.222317       extractable sw =    44.85078
  day=  13 date= 13  1 1989 soybean  -  stage    5.0 floral_initiation
                      biomass =           337.7279       lai =     5.134609
                      stover N conc =    2.108032       extractable sw =    202.4820
  day=  15 date= 15  1 1989 soybean  -  stage    6.0 flowering
-                     biomass =           363.3674       lai =     5.392724
+                     biomass =           363.3675       lai =     5.392724
                      stover N conc =    2.321732       extractable sw =    192.6267
  day=  39 date=  8  2 1989 soybean  -  stage    7.0 start_grain_fill
                      biomass =           727.9853       lai =     6.330470
-                     stover N conc =    2.921402       extractable sw =    122.6122
+                     stover N conc =    2.921402       extractable sw =    122.6123
  day=  74 date= 15  3 1989 soybean  -  stage    8.0 end_grain_fill
-                     biomass =           998.0881       lai =     2.888774
-                     stover N conc =   0.8326510       extractable sw =    78.66756
+                     biomass =           998.0881       lai =     2.888771
+                     stover N conc =   0.8326512       extractable sw =    78.66759
  day=  77 date= 18  3 1989 soybean  -  stage    9.0 maturity
-                     biomass =           1003.306       lai =     2.325421
-                     stover N conc =   0.8321674       extractable sw =    89.60447
+                     biomass =           1003.306       lai =     2.325419
+                     stover N conc =   0.8321673       extractable sw =    89.60450
  day=  78 date= 19  3 1989 soybean  -  stage   10.0 harvest_ripe
-                     biomass =           1003.306       lai =    0.1236134
-                     stover N conc =   0.8024909       extractable sw =    88.42834
+                     biomass =           1003.306       lai =    0.1236107
+                     stover N conc =   0.8024911       extractable sw =    88.42837
  day=  79 date= 20  3 1989 soybean  -  stage   10.0 harvest_ripe
-                     biomass =           1003.306       lai =    0.1236134
-                     stover N conc =   0.8024909       extractable sw =    87.46285
+                     biomass =           1003.306       lai =    0.1236107
+                     stover N conc =   0.8024912       extractable sw =    87.46288
  Day=  80 Year =  1989     Manager sending message :- soybean harvest
  
  flowering day  =   15                  stover (kg/ha) =    6052.4
@@ -238,23 +238,23 @@ report do_output
  
  stress indices for emergence
  water stress 1 =       0.0000000   nitrogen stress 1 =       0.1785596
- water stress 2 =       0.0000000   nitrogen stress 2 =       0.2090793
+ water stress 2 =       0.0000000   nitrogen stress 2 =       0.2090792
  
  stress indices for end_of_juvenile
  water stress 1 =       0.0000000   nitrogen stress 1 =       0.1461349
  water stress 2 =       0.0000000   nitrogen stress 2 =       0.2762291
  
  stress indices for floral_initiation
- water stress 1 =       0.0000000   nitrogen stress 1 =       0.3577877
- water stress 2 =       0.0000000   nitrogen stress 2 =       0.4862302
+ water stress 1 =       0.0000000   nitrogen stress 1 =       0.3577878
+ water stress 2 =       0.0000000   nitrogen stress 2 =       0.4862303
  
  stress indices for flowering
- water stress 1 =       0.0970326   nitrogen stress 1 =       0.0372615
+ water stress 1 =       0.0970325   nitrogen stress 1 =       0.0372615
  water stress 2 =       0.1327679   nitrogen stress 2 =       0.1228575
  
  stress indices for start_grain_fill
- water stress 1 =       0.1890705   nitrogen stress 1 =       0.2245126
- water stress 2 =       0.2238805   nitrogen stress 2 =       0.2877038
+ water stress 1 =       0.1890704   nitrogen stress 1 =       0.2245126
+ water stress 2 =       0.2238804   nitrogen stress 2 =       0.2877038
  Day=  80 Year =  1989     Manager sending message :- soybean end_crop
  day=  80 date= 21  3 1989 soybean  -     ended. Yield (dw) =     0.0
                                           straw residue =   31.0 kg/ha

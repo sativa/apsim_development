@@ -20,7 +20,7 @@ latitude =  -27.11
 Manager rules
 ------- -----
 if day = 330 and year  = 1988 then
-navybean sow crop_type = navybean, cultivar = rainbird, plants = 25 (/m2), sowing_depth = 40 (mm)
+navybean sow cultivar = rainbird, plants = 25 (/m2), sowing_depth = 40 (mm)
 elseif day = 55 and year = 1989 then
 navybean harvest
 navybean end_crop
@@ -142,7 +142,7 @@ report do_output
     - Reading constants
  
 ======= Start of APSIM simulation ============================
- Day= 330 Year =  1988     Manager sending message :- navybean sow crop_type = navybean, cultivar = rainbird, plants = 25 (/m2), sowing_depth = 40 (mm)
+ Day= 330 Year =  1988     Manager sending message :- navybean sow cultivar = rainbird, plants = 25 (/m2), sowing_depth = 40 (mm)
  day= 330 date= 25 11 1988 navybean - Sow
  
  - Reading constants for plant
@@ -208,14 +208,14 @@ report do_output
                      biomass =           408.7654       lai =     6.468755
                      stover N conc =    2.927895       extractable sw =    153.1390
  day=  51 date= 20  2 1989 navybean -  stage    8.0 end_grain_fill
-                     biomass =           799.8274       lai =    0.8243263
-                     stover N conc =    1.294987       extractable sw =    34.50447
+                     biomass =           799.8273       lai =    0.8243263
+                     stover N conc =    1.294987       extractable sw =    34.50446
  day=  53 date= 22  2 1989 navybean -  stage    9.0 maturity
-                     biomass =           804.9829       lai =    0.3870904
-                     stover N conc =    1.301880       extractable sw =    127.6419
+                     biomass =           804.9828       lai =    0.3870895
+                     stover N conc =    1.301881       extractable sw =    127.6419
  day=  54 date= 23  2 1989 navybean -  stage   10.0 harvest_ripe
                      biomass =           804.9828       lai =    0.2106550
-                     stover N conc =    1.309886       extractable sw =    125.7233
+                     stover N conc =    1.309886       extractable sw =    125.7232
  Day=  55 Year =  1989     Manager sending message :- navybean harvest
  
  flowering day  =    7                  stover (kg/ha) =    5221.7

@@ -20,7 +20,7 @@ latitude =  -27.11
 Manager rules
 ------- -----
 if day = 130 and year  = 1988 then
-chickpea sow crop_type = chickpea, cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
+chickpea sow cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
 elseif day = 290 and year = 1988 then
 chickpea harvest
 chickpea end_crop
@@ -142,7 +142,7 @@ report do_output
     - Reading constants
  
 ======= Start of APSIM simulation ============================
- Day= 130 Year =  1988     Manager sending message :- chickpea sow crop_type = chickpea, cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
+ Day= 130 Year =  1988     Manager sending message :- chickpea sow cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
  day= 130 date=  9  5 1988 chickpea - Sow
  
  - Reading constants for plant
@@ -196,16 +196,16 @@ report do_output
                      biomass =           5.000000       lai =    0.2500000e-01
                      stover N conc =    5.999999       extractable sw =    18.70777
  day= 172 date= 20  6 1988 chickpea -  stage    4.0 end_of_juvenile
-                     biomass =           28.54721       lai =    0.5633819
-                     stover N conc =    4.307539       extractable sw =    142.2485
+                     biomass =           28.54720       lai =    0.5633819
+                     stover N conc =    4.307540       extractable sw =    142.2485
  day= 202 date= 20  7 1988 chickpea -  stage    5.0 floral_initiation
                      biomass =           161.8516       lai =     2.285726
                      stover N conc =    3.140203       extractable sw =    260.5363
  day= 204 date= 22  7 1988 chickpea -  stage    6.0 flowering
                      biomass =           172.7767       lai =     2.427586
-                     stover N conc =    3.018459       extractable sw =    264.0938
+                     stover N conc =    3.018460       extractable sw =    264.0938
  day= 236 date= 23  8 1988 chickpea -  stage    7.0 start_grain_fill
-                     biomass =           430.8287       lai =     3.825109
+                     biomass =           430.8288       lai =     3.825109
                      stover N conc =    1.890702       extractable sw =    257.0666
  day= 276 date=  2 10 1988 chickpea -  stage    8.0 end_grain_fill
                      biomass =           844.0833       lai =     2.473959
@@ -224,7 +224,7 @@ report do_output
                      stover N conc =    2.098324       extractable sw =    154.9320
  day= 283 date=  9 10 1988 chickpea -  stage   10.0 harvest_ripe
                      biomass =           884.4542       lai =    0.2499962e-01
-                     stover N conc =    2.098324       extractable sw =    154.5411
+                     stover N conc =    2.098325       extractable sw =    154.5411
  day= 284 date= 10 10 1988 chickpea -  stage   10.0 harvest_ripe
                      biomass =           884.4543       lai =    0.2499962e-01
                      stover N conc =    2.098324       extractable sw =    154.1680
@@ -235,7 +235,7 @@ report do_output
                      biomass =           884.4542       lai =    0.2499962e-01
                      stover N conc =    2.098324       extractable sw =    153.4668
  day= 287 date= 13 10 1988 chickpea -  stage   10.0 harvest_ripe
-                     biomass =           884.4542       lai =    0.2499962e-01
+                     biomass =           884.4543       lai =    0.2499962e-01
                      stover N conc =    2.098324       extractable sw =    153.1354
  day= 288 date= 14 10 1988 chickpea -  stage   10.0 harvest_ripe
                      biomass =           884.4543       lai =    0.2499962e-01
