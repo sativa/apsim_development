@@ -263,6 +263,8 @@
          double precision hysref(0:M)
          double precision hysdry(0:M)
 
+         logical crops_found
+
       End Type APSwimGlobals
 ! =====================================================================
 !     APSWIM Parameters
@@ -515,7 +517,6 @@
 * ====================================================================
        subroutine apswim_Reset ()
 * ====================================================================
-            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -556,6 +557,8 @@
       call apswim_read_solute_params()
       call apswim_read_solsoil_params()
       call apswim_read_crop_params()
+
+      call apswim_register_solute_outputs()
 
       ! set swim defaults - params that are not to be set by user
       call apswim_init_defaults ()
@@ -2417,6 +2420,8 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 
       p%extra_solute_supply_flag = 'off'
 
+      g%crops_found = .false.
+
       return
       end subroutine
 
@@ -3444,7 +3449,6 @@ cnh
 * ====================================================================
        subroutine apswim_Process ()
 * ====================================================================
-            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -3479,8 +3483,13 @@ cnh
       call apswim_reset_daily_totals()
       call apswim_get_other_variables ()
       call apswim_get_solute_variables ()
-      call apswim_find_crops()
-      call apswim_assign_crop_params ()
+
+      if (.not. g%crops_found) then
+         call apswim_find_crops()
+         call apswim_assign_crop_params ()
+         call apswim_register_crop_outputs()
+         g%crops_found = .true.
+      endif
       call apswim_get_crop_variables ()
       call apswim_get_residue_variables ()
       call apswim_remove_interception ()
@@ -3512,7 +3521,6 @@ cnh
 * ====================================================================
        subroutine apswim_sum_report ()
 * ====================================================================
-            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -5111,7 +5119,102 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
       return
       end subroutine
 
+* ====================================================================
+       subroutine apswim_register_crop_outputs ()
+* ====================================================================
+      Use infrastructure
+      implicit none
 
+*+  Purpose
+*     Register any crop related output variables
+
+
+*+  Constant Values
+      character myname*(*)               ! name of current procedure
+      parameter (myname = 'apswim_register_crop_outputs')
+
+*+  Local Variables
+      integer id
+      integer vegnum
+      integer solnum
+      character Variable_name*64
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      do vegnum = 1, g%num_crops
+         do solnum = 1, p%num_solutes
+
+            variable_name = 'uptake_'//trim(p%solute_names(solnum))
+     :                       //'_'//trim(g%crop_names(vegnum))
+            id = Add_Registration (respondToGetSetReg, Variable_name,
+     :                       double_arrayTypeDDML, ' ', ' ')
+
+         end do
+      end do
+
+      call pop_routine (myname)
+      return
+      end subroutine
+
+* ====================================================================
+       subroutine apswim_register_solute_outputs ()
+* ====================================================================
+      Use infrastructure
+      implicit none
+
+*+  Purpose
+*     Register any solute related output variables
+
+
+*+  Constant Values
+      character myname*(*)               ! name of current procedure
+      parameter (myname = 'apswim_register_solute_outputs')
+
+*+  Local Variables
+      integer id
+      integer solnum
+      character Variable_name*64
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      do solnum = 1, p%num_solutes
+
+            variable_name = 'flow_'//trim(p%solute_names(solnum))
+            id = Add_Registration (respondToGetSetReg, Variable_name,
+     :                       double_arrayTypeDDML, ' ', ' ')
+
+            variable_name = 'leach_'//trim(p%solute_names(solnum))
+            id = Add_Registration (respondToGetSetReg, Variable_name,
+     :                       doubleTypeDDML, ' ', ' ')
+
+            variable_name = 'exco_'//trim(p%solute_names(solnum))
+            id = Add_Registration (respondToGetSetReg, Variable_name,
+     :                       double_arrayTypeDDML, ' ', ' ')
+
+            variable_name = 'dis_'//trim(p%solute_names(solnum))
+            id = Add_Registration (respondToGetSetReg, Variable_name,
+     :                       double_arrayTypeDDML, ' ', ' ')
+
+            variable_name = 'conc_water_'//trim(p%solute_names(solnum))
+            id = Add_Registration (respondToGetSetReg, Variable_name,
+     :                       double_arrayTypeDDML, ' ', ' ')
+
+            variable_name = 'conc_adsorb_'//trim(p%solute_names(solnum))
+            id = Add_Registration (respondToGetSetReg, Variable_name,
+     :                       double_arrayTypeDDML, ' ', ' ')
+
+            variable_name = 'subsurface_drain_'//
+     :                          trim(p%solute_names(solnum))
+            id = Add_Registration (respondToGetSetReg, Variable_name,
+     :                       doubleTypeDDML, ' ', ' ')
+
+      end do
+
+      call pop_routine (myname)
+      return
+      end subroutine
 
 * ====================================================================
        subroutine apswim_get_crop_variables ()
