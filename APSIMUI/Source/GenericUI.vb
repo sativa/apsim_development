@@ -21,6 +21,10 @@ Public Class GenericUI
 
     'Form overrides dispose to clean up the component list.
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
+        If Grid.CurrentCell.IsBeingEdited Then
+            Grid.CurrentCell.LeaveEdit(False)
+        End If
+
         If disposing Then
             If Not (components Is Nothing) Then
                 components.Dispose()
@@ -153,6 +157,7 @@ Public Class GenericUI
         For Each Prop As APSIMData In MyData.Children()
             If Prop.Children.Count = 0 Then
                 Dim row As Xceed.Grid.DataRow = Grid.DataRows.AddNew()
+                row.BeginEdit()
                 row.Cells(0).Value = Prop.Name
                 row.Cells(1).Value = Prop.Value
                 Dim Editor As CustomEditor = CreateCustomEditorForColumn(Prop)
