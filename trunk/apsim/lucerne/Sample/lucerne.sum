@@ -85,7 +85,7 @@
                   Soil Water Holding Capacity
           ---------------------------------------------------------
               Depth    Unavailable Available  Max Avail.  Drainable
-                           (LL)     (SW-LL)    (DUL-LL)   (SAT-DUL)
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
                             mm        mm          mm         mm
           ---------------------------------------------------------
             0.-  150.      34.50       7.50      33.00       7.50
@@ -194,8 +194,6 @@
 
 ------- LUCERNE Initialisation -----------------------------------------------
       Initialising
-     
-         - Reading constants
 ------- Start of simulation  --------------------------------------------------
 29 May 1988 (Day of year=150):
    MANAGER:
@@ -211,11 +209,14 @@
           est_days_emerg_to_init  =      30
           cum_vernal_days  =    0.00 100.00
           tt_emerg_to_endjuv  =  700.00 700.00
-          photoperiod      =   10.70  17.00
-          phase_tt_init      =    0.00   0.00
-          tt_flower_to_maturity    = 10000.0
-          tt_init_to_flower        =   500.0
-          tt_flower_to_start_grain =   100.0
+          x_pp_endjuv_to_init      =   10.70  17.00
+          y_tt_endjuv_to_init      =    0.00   0.00
+          x_pp_init_to_flower      =    1.00  24.00
+          y_tt_init_to_flower      =  500.00 500.00
+          x_pp_flower_to_start_grain      =    1.00  24.00
+          y_tt_flower_to_start_grain      =  100.00 100.00
+          tt_start_to_end_grain      =  9400.0
+          tt_end_grain_to_maturity      =   500.0
           tt_maturity_to_ripe      =     5.0
           hi_incr                  =     0.0
           x_hi_max_pot_stress =    0.00   1.00
