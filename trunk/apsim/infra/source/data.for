@@ -1,3 +1,4 @@
+
 *     ===========================================================
       subroutine Add_real_array (amount, store, dimen)
 *     ===========================================================
@@ -32,9 +33,138 @@
  
       return
       end
+
+
+
+*     ===========================================================
+      subroutine copy_real_array(dest, src, n)
+*     ===========================================================
+      implicit none
  
+*+  Sub-Program Arguments
+      integer n      ! (IN) Size of 'dest' and 'src'.
+      real dest(n)   ! (OUT) Destination array.
+      real src(n)   ! (IN) Source array.
  
+*+  Mission statement
+*     Copy each element of %2 to its corresponding element in %1
  
+*+  Purpose
+*     Copies each element of 'src' to its corresponding element in 'dest'.
+ 
+*+  Changes
+*     030998 sb created
+ 
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'copy_real_array')
+ 
+*+  Local Variables
+      integer i     ! Loop counter.
+ 
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+ 
+      do 10, i=1, n
+         dest(i) = src(i)
+10    continue
+ 
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+*     ===========================================================
+      subroutine array_val_mul(vec, n, mul)
+*     ===========================================================
+      implicit none
+ 
+*+  Sub-Program Arguments
+      integer n      ! (IN) Size of 'vec'.
+      real vec(n)    ! (INOUT) Vector to be multipied by 'mul'.
+      real mul       ! (IN) Value that 'vec' gets mutiplied by.
+ 
+*+  Mission statement
+*     Multipy each of the %2 elements of %1 by %3
+ 
+*+  Purpose
+*     Multiplies each of the 'n' elements of 'vec' by 'mul'.
+ 
+*+  Changes
+*     040998 sb created
+ 
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'array_val_mul')
+ 
+*+  Local Variables
+      integer i
+ 
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+ 
+      do 10, i=1, n
+         vec(i) = vec(i) * mul
+10    continue
+ 
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+*     ===========================================================
+      subroutine print_real_array(unt, vec, nvars)
+*     ===========================================================
+      implicit none
+ 
+*+  Sub-Program Arguments
+      integer unt        ! (IN)
+      integer nvars      ! (IN)
+      real vec(nvars)    ! (IN)
+ 
+*+  Mission statement
+*     Print out real array %2
+ 
+*+  Purpose
+*     Prints out real array.
+ 
+*+  Definition
+*     Prints out array 'vec' to logical unit no 'unt'.
+*     'vec' has 'nvars' elements.
+ 
+*+  Changes
+*     040998 sb created
+ 
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'print_real_array')
+      integer llen
+      parameter (llen=5)
+ 
+*+  Local Variables
+      integer i, j, nlines, lcnt
+ 
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+ 
+      nlines = nvars/llen
+      lcnt = 0
+      do 10 i=1, nlines
+         write(unt, '(5(1X,G13.5))')  (vec(j), j=lcnt+1, lcnt+llen)
+         lcnt = lcnt + llen
+10    continue
+      if (nvars .gt. lcnt)  then
+         write(unt, '(5(1X,G13.5))')  (vec(j), j=lcnt+1, nvars)
+      end if
+ 
+      call pop_routine (my_name)
+      return
+      end
+
+
+
 *     ===========================================================
       subroutine Bound_check_real_var (value, lower, upper, vname)
 *     ===========================================================
@@ -148,9 +278,9 @@
  
       return
       end
- 
- 
- 
+
+
+
 *     ================================================================
       subroutine Bound_check_real_array
      .    (array, lower_bound, upper_bound, array_name, array_size)
@@ -173,7 +303,6 @@
  
 *+  Mission Statement
 *      Check that all %1 lies between %2 and %3
-
  
 *+ Changes
 *     010794 PdeV.      initial coding
@@ -207,9 +336,9 @@
       call pop_routine(myname)
       return
       end
- 
- 
- 
+
+
+
 *     ===========================================================
       subroutine Bound_check_integer_var (value, lower, upper, vname)
 *     ===========================================================
@@ -255,9 +384,9 @@
  
       return
       end
- 
- 
- 
+
+
+
 *     ================================================================
       subroutine Bound_check_integer_array
      .    (array, lower_bound, upper_bound, array_name, array_size)
@@ -312,9 +441,9 @@
       call pop_routine(myname)
       return
       end
- 
- 
- 
+
+
+
 *     ===========================================================
       subroutine Bound_check_double_var (value, lower, upper, vname)
 *     ===========================================================
@@ -1690,9 +1819,9 @@
  
       return
       end
- 
- 
- 
+
+
+
 *     ===========================================================
       integer function position_in_integer_array
      :                (Number, Array, Array_size)
@@ -1740,9 +1869,9 @@
  
       return
       end
- 
- 
- 
+
+
+
 *     ===========================================================
       integer function position_in_real_array
      :                (Number, Array, Array_size)
@@ -1791,9 +1920,9 @@
  
       return
       end
- 
- 
- 
+
+
+
 *     ===========================================================
       integer function position_in_char_array
      :                (String, Array, Array_size)
@@ -1841,9 +1970,9 @@
  
       return
       end
- 
- 
- 
+
+
+
 *     ===========================================================
       logical function reals_are_equal (first, second)
 *     ===========================================================
@@ -1880,9 +2009,9 @@
  
       return
       end
- 
- 
- 
+
+
+
 *     ===========================================================
       logical function Doubles_are_equal (first, second)
 *     ===========================================================
@@ -1919,9 +2048,9 @@
  
       return
       end
- 
- 
- 
+
+
+
 * ====================================================================
        logical function data_init()
 * ====================================================================
@@ -1945,9 +2074,9 @@
  
       return
       end
- 
- 
- 
+
+
+
 * ====================================================================
        subroutine data_term()
 * ====================================================================
