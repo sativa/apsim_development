@@ -2,10 +2,8 @@ C     Last change:  P     1 Nov 2000    9:53 am
 ! ====================================================================
       subroutine UseInstance(anInstanceNo)
 ! ====================================================================
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'ComponentInterface.inc'
-      include 'error.pub'
 
 !+ Sub-Program Arguments
       integer anInstanceNo            ! (INPUT) the particular instance number
@@ -54,9 +52,8 @@ C     Last change:  P     1 Nov 2000    9:53 am
 ! ====================================================================
       subroutine RestoreInstance()
 ! ====================================================================
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'ComponentInterface.inc'
 
 !+ Sub-Program Arguments
 
@@ -90,12 +87,9 @@ C     Last change:  P     1 Nov 2000    9:53 am
       recursive subroutine Create 
      .   (aName, anInstanceNo, aComputation, ssdl)
 ! ====================================================================
+      Use infrastructure
       implicit none
       dll_export create
-      include 'action.inc'
-      include 'ComponentInterface.inc'
-      include 'apsimengine.pub'
-      include 'postbox.pub'
 
 !+ Sub-Program Arguments
       character aName*(*)             ! (INPUT) the name of the protocol component
@@ -142,12 +136,9 @@ C     Last change:  P     1 Nov 2000    9:53 am
 ! ====================================================================
       recursive subroutine Init (anInstanceNo)
 ! ====================================================================
+      Use infrastructure
       implicit none
       dll_export init
-      include 'const.inc'
-      include 'action.inc'
-      include 'ComponentInterface.inc'
-      include 'apsimengine.pub'
 
 !+ Sub-Program Arguments
       integer anInstanceNo            ! (INPUT) the particular instance number
@@ -180,13 +171,9 @@ C     Last change:  P     1 Nov 2000    9:53 am
 ! ====================================================================
        subroutine Term (anInstanceNo)
 ! ====================================================================
+      Use infrastructure
       implicit none
       dll_export term
-      include 'const.inc'
-      include 'ComponentInterface.inc'
-      include 'apsimengine.pub'
-      include 'postbox.pub'
-      include 'action.inc'
        
 !+ Sub-Program Arguments
       integer anInstanceNo            ! (INPUT) the particular instance number
@@ -219,11 +206,9 @@ C     Last change:  P     1 Nov 2000    9:53 am
       recursive subroutine Action (anInstanceNo, anAction, 
      .                    aDnbytes, apData, aTnbytes, apTypDsc)
 ! ====================================================================
+      Use infrastructure
       implicit none
       dll_export action
-      include 'ComponentInterface.inc'
-      include 'apsimengine.pub'
-      include 'action.inc'
  
 !+ Sub-Program Arguments
       integer anInstanceNo            ! (INPUT) the particular instance number
@@ -262,11 +247,9 @@ C     Last change:  P     1 Nov 2000    9:53 am
        subroutine InEvent (anInstanceNo, anAction, aDnbytes, 
      .                     apData, aTnbytes, apTypDsc)
 ! ====================================================================
+      Use infrastructure
       implicit none
       dll_export inevent
-      include 'ComponentInterface.inc'
-      include 'apsimengine.pub'
-      include 'action.inc'
  
 !+ Sub-Program Arguments
       integer anInstanceNo            ! (INPUT) the particular instance number
@@ -305,9 +288,9 @@ C     Last change:  P     1 Nov 2000    9:53 am
        subroutine OutEvent (anInstanceNo, anAction, aDnbytes, 
      .                      apData, aTnbytes, apTypDsc)
 ! ====================================================================
+      Use infrastructure
       implicit none
       dll_export outevent
-      include 'ComponentInterface.inc'
       
  
 !+ Sub-Program Arguments
@@ -341,8 +324,8 @@ C     Last change:  P     1 Nov 2000    9:53 am
 ! ====================================================================
        subroutine  Message_unused ()
 ! ====================================================================
+      Use infrastructure
       implicit none
-      include 'ComponentInterface.inc'
  
 !+ Sub-Program Arguments
  
@@ -363,10 +346,8 @@ C     Last change:  P     1 Nov 2000    9:53 am
 ! ====================================================================
        subroutine  Get_current_module (ModuleName)
 ! ====================================================================
+      Use infrastructure
       implicit none
-      include 'error.pub'
-      include 'ComponentInterface.inc'
-      include 'apsimengine.pub'
  
 !+ Sub-Program Arguments
       character ModuleName*(*)         ! (OUTPUT) current module name
@@ -394,10 +375,8 @@ C     Last change:  P     1 Nov 2000    9:53 am
 ! ====================================================================
        subroutine Write_string (String)
 ! ====================================================================
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Constant definitions
-      include 'error.pub'
-      include 'componentinterface.inc'
  
 !+ Sub-Program Arguments
        character String*(*)            ! (INPUT) String to write out.
@@ -445,11 +424,8 @@ C     Last change:  P     1 Nov 2000    9:53 am
 ! ====================================================================
        subroutine  Action_Send (ModuleName, ActionName, Dat)
 ! ====================================================================
+      Use infrastructure
       implicit none
-      include 'ComponentInterface.inc'
-      include 'const.inc'
-      include 'apsimengine.pub'
-      include 'error.pub'
  
 !+ Sub-Program Arguments
       character ModuleName*(*)          ! (INPUT) the module name
@@ -498,9 +474,8 @@ C     Last change:  P     1 Nov 2000    9:53 am
 ! ====================================================================
        subroutine  Action_Send_to_all_comps (ActionName)
 ! ====================================================================
+      Use infrastructure
       implicit none
-      include 'ComponentInterface.inc'
-      include 'apsimengine.pub'
  
 !+ Sub-Program Arguments
       character ActionName*(*)          ! (INPUT) the event name we're sending
@@ -522,10 +497,8 @@ C     Last change:  P     1 Nov 2000    9:53 am
 ! ====================================================================
        subroutine  Event_Send (EventName)
 ! ====================================================================
+      Use infrastructure
       implicit none
-      include 'ComponentInterface.inc'
-      include 'apsimengine.pub'
-      include 'postbox.pub'
  
 !+ Sub-Program Arguments
       character EventName*(*)          ! (INPUT) the event name we're sending
