@@ -104,6 +104,7 @@ void __fastcall TMainForm::EditDataActionExecute(TObject *Sender)
       }
    else
       {
+      saveFormPosition(DataPreviewForm);
       report.showDataPage(false);
       TabControl->TabHeight = 0;  // auto size.
       TabControl->TabWidth = 0;
@@ -360,6 +361,7 @@ void TMainForm::processCommandLine(AnsiString commandLine)
             }
          Path(reportFileName).Change_directory();
          save(outputFileName.c_str());
+         report.clear();
          Close();
          }
       }
@@ -499,58 +501,68 @@ void __fastcall TMainForm::FormUnDock(TObject *Sender,
 //---------------------------------------------------------------------------
 void TMainForm::loadFormPosition(TForm* form)
    {
-   form->Visible = true;
-
-   ApsimSettings settings;
-   string keyPrefix = string("Apsim Report Pos|") + form->Name.c_str() + string("_");
-   int left, top, width, height;
-
-   settings.read(keyPrefix + "Left", left);
-   settings.read(keyPrefix + "Top", top);
-   settings.read(keyPrefix + "Width", width);
-   settings.read(keyPrefix + "Height", height);
-   form->Left = left;
-   form->Top = top;
-   form->Width = width;
-   form->Height = height;
-   string dockSiteName;
-   settings.read(keyPrefix + "DockSite", dockSiteName);
-   if (dockSiteName != "")
+   try
       {
-      string alignString;
-      settings.read(keyPrefix + "DockSiteAlign", alignString);
-      TAlign align = alLeft;
-      if (alignString == "alLeft")
-         align = alLeft;
-      else if (alignString == "alTop")
-         align = alTop;
-      else if (alignString == "alRight")
-         align = alRight;
-      else if (alignString == "alBottom")
-         align = alBottom;
-      else if (alignString == "alNone")
-         align = alNone;
-      else
-         {
-         string msg = "Invalid align type in positionControl: " + alignString;
-         ShowMessage(msg.c_str());
-         }
+      form->Visible = true;
 
-      TWinControl* dockSite = getComponent<TWinControl>(this, dockSiteName.c_str());
-      if (form->Parent != dockSite)
+      ApsimSettings settings;
+      string keyPrefix = string("Apsim Report Pos|") + form->Name.c_str() + string("_");
+      int left, top, width, height;
+
+      settings.read(keyPrefix + "Left", left);
+      settings.read(keyPrefix + "Top", top);
+      settings.read(keyPrefix + "Width", width);
+      settings.read(keyPrefix + "Height", height);
+      if (width == 0)
+         width = 100;
+      if (height == 0)
+         height = 100;
+      form->Left = left;
+      form->Top = top;
+      form->Width = width;
+      form->Height = height;
+      string dockSiteName;
+      settings.read(keyPrefix + "DockSite", dockSiteName);
+      if (dockSiteName != "")
          {
-         form->Parent = dockSite;
-         form->ManualDock(dockSite, NULL, align);
-         }
-      else if (dockSite != NULL)
-         {
-         TPanel* panel = dynamic_cast<TPanel*>(dockSite);
-         if (panel != NULL)
+         string alignString;
+         settings.read(keyPrefix + "DockSiteAlign", alignString);
+         TAlign align = alLeft;
+         if (alignString == "alLeft")
+            align = alLeft;
+         else if (alignString == "alTop")
+            align = alTop;
+         else if (alignString == "alRight")
+            align = alRight;
+         else if (alignString == "alBottom")
+            align = alBottom;
+         else if (alignString == "alNone")
+            align = alNone;
+         else
             {
-            ShowDockPanel(panel, form, form->ClientRect);
-            panel->DockManager->ResetBounds(true);
+            string msg = "Invalid align type in positionControl: " + alignString;
+            ShowMessage(msg.c_str());
+            }
+
+         TWinControl* dockSite = getComponent<TWinControl>(this, dockSiteName.c_str());
+         if (form->Parent != dockSite)
+            {
+            form->Parent = dockSite;
+            form->ManualDock(dockSite, NULL, align);
+            }
+         else if (dockSite != NULL)
+            {
+            TPanel* panel = dynamic_cast<TPanel*>(dockSite);
+            if (panel != NULL)
+               {
+               ShowDockPanel(panel, form, form->ClientRect);
+               panel->DockManager->ResetBounds(true);
+               }
             }
          }
+      }
+   catch (...)
+      {
       }
    }
 //---------------------------------------------------------------------------
@@ -596,7 +608,10 @@ void TMainForm::saveFormPosition(TForm* form)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::OnObjectInspectorShow(TObject* sender)
    {
-   loadFormPosition(ObjectInspectorForm);
+   if (ObjectInspectorForm->Parent == NULL ||
+       !ObjectInspectorForm->Parent->Visible ||
+       ObjectInspectorForm->Parent->Width <= 0)
+      loadFormPosition(ObjectInspectorForm);
    }
 //---------------------------------------------------------------------------
 // User has clicked add menu item

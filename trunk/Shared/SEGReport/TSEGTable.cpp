@@ -106,11 +106,6 @@ void TSEGTable::forceRefresh(bool displayError)
             }
          else
             Active = true;
-         for (unsigned i = 0; i != subscriptionEvents.size(); i++)
-            {
-            if (subscriptionEvents[i] != NULL)
-               subscriptionEvents[i](this);
-            }
          }
       catch (const exception& error)  // one of our error messages.
          {
@@ -128,21 +123,33 @@ void TSEGTable::forceRefresh(bool displayError)
          {
          Active = false;
          }
+      for (unsigned i = 0; i != subscriptionEvents.size(); i++)
+         {
+         if (subscriptionEvents[i] != NULL)
+            subscriptionEvents[i](this);
+         }
       EnableControls();
 
       // force children to update themselves.  Without this the chart series
       // don't draw for some reason.
       if (Active)
          {
-         First();
-         Edit();
-         Post();
+         try
+            {
+            First();
+            Edit();
+            Post();
+            }
+         catch (Exception& error)
+            {
+
+            }
          }
 
       Screen->Cursor = savedCursor;
       if (displayError && errorMessage != "")
          {
-         ::MessageBox(NULL, errorMessage.c_str(), "Errors were encountered", MB_ICONSTOP | MB_OK);
+//         ::MessageBox(NULL, errorMessage.c_str(), "Errors were encountered", MB_ICONSTOP | MB_OK);
          errorMessage = "";
          }
       }
