@@ -1,0 +1,7 @@
+[apsim.test]
+module = report  sample.par[sample]
+module = input   sample.met[sample] sample.par[sample]
+module = manager sample.par[sample]
+module = apswim  sample.par[sample] apswim.ini[calibration]
+module = slurp   sample.par[sample]
+module = surface sample.par[sample]
