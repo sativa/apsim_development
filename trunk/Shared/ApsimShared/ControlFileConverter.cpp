@@ -517,6 +517,7 @@ bool ControlFileConverter::executeMoveParametersOutOfCon(const std::string argum
 // ------------------------------------------------------------------
 bool ControlFileConverter::executeRemoveSumAvgToTracker(const std::string& arguments) throw(runtime_error)
    {
+   vector<string> trackerVariables;
    bool doneSomething = false;
    // Return all the parameter files for the specified section and instance.
    vector<ApsimParameterFile> paramFiles;
@@ -530,7 +531,6 @@ bool ControlFileConverter::executeRemoveSumAvgToTracker(const std::string& argum
 
       // For each variable on each variable line, create a new variable.
       vector<string> newVariables;
-      vector<string> trackerVariables;
       for (unsigned variableI = 0;
                     variableI != variables.size();
                     variableI++)
@@ -549,9 +549,14 @@ bool ControlFileConverter::executeRemoveSumAvgToTracker(const std::string& argum
 
             newVariables.push_back("tracker." + functionName +  "@" + variableName);
 
+            unsigned posAlias = variableName.find(" as ");
+            if (posAlias != string::npos)
+               variableName.erase(posAlias);
+
             // set the tracker variable.
-            string trackerVariable = trackerFunctionName + " of " + variableName + " since reported as "
-                  + functionName + "@" + variableName;
+            string trackerVariable = trackerFunctionName + " of " + moduleName + "."
+                                   + variableName + " since reported as ";
+            trackerVariable += functionName + "@" + variableName;
             trackerVariables.push_back(trackerVariable);
             }
          else
@@ -562,10 +567,11 @@ bool ControlFileConverter::executeRemoveSumAvgToTracker(const std::string& argum
       if (newVariables.size() > 0)
          {
          paramFiles[par].setParamValues("variable", newVariables);
-         controlFile.setParameterValues("tracker", "", "variable", trackerVariables);
          doneSomething = true;
          }
       }
+   if (doneSomething)
+      controlFile.setParameterValues("tracker", "", "variable", trackerVariables);
    return doneSomething;
    }
 

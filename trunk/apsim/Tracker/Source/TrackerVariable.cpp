@@ -9,6 +9,7 @@
 #include <general\string_functions.h>
 #include <numeric>
 #include <ApsimShared\FStringExt.h>
+#include <ComponentInterface\MessageDataExt.h>
 
 #pragma package(smart_init)
 using namespace std;
@@ -60,7 +61,7 @@ void TrackerVariable::parse(const string& fullName)
       keyword = tokenizer.nextToken();
       }
    if (on == "")
-      on = "post";
+      on = "process";
    }
 // ------------------------------------------------------------------
 // Parse a 'stat'
@@ -110,6 +111,9 @@ void TrackerVariable::parseSince(StringTokenizer& tokenizer)
    since = tokenizer.nextToken();
    if (since == "")
       throw runtime_error("Expected an event name following a 'since' keyword.");
+
+   // assume the start of simulation is the beginning of the sampling window
+   inWindow = true;
    }
 // ------------------------------------------------------------------
 // Parse an 'as' section
@@ -134,9 +138,10 @@ void TrackerVariable::parseOn(StringTokenizer& tokenizer)
 // ------------------------------------------------------------------
 void TrackerVariable::doRegistrations(void)
    {
-   static const char* nullDDML = "<type\\>";
-   static const char* singleDDML = "<type kind=\"single\"\\>";
-   string typeString = singleDDML;
+   static const char* nullDDML = "<type/>";
+   static const char* singleDDML = "<type kind=\"single\"/>";
+   static const char* singleArrayDDML = "<type kind=\"single\" array=\"T\"/>";
+   string typeString = singleArrayDDML;
 
    if (stat == countStat)
       variableID = parent->addRegistration(protocol::respondToEventReg,
@@ -146,14 +151,15 @@ void TrackerVariable::doRegistrations(void)
       {
       variableID = parent->addRegistration(protocol::getVariableReg,
                                            variable.c_str(),
-                                           singleDDML);
+                                           singleArrayDDML);
       protocol::Variant* variant;
       bool ok = parent->getVariable(variableID, variant);
       if (ok)
          {
          protocol::Type t = variant->getType();
          typeString = "<type kind=\"single\" units=\"" + asString(t.getUnits())
-                    + "\"/>";
+                    + "\" array=\"T\"/>";
+
          parent->setRegistrationType(variableID, typeString.c_str());
          }
       }
@@ -175,7 +181,7 @@ void TrackerVariable::doRegistrations(void)
 
    nameID = parent->addRegistration(protocol::respondToGetReg,
                                     name.c_str(),
-                                    singleDDML);
+                                    singleArrayDDML);
    parent->setRegistrationType(nameID, typeString.c_str());
 
    onID = parent->addRegistration(protocol::respondToEventReg,
@@ -201,7 +207,11 @@ void TrackerVariable::respondToGet(unsigned int& fromID,
                                    protocol::QueryValueData& queryData)
    {
    if (queryData.ID == nameID)
-      parent->sendVariable(queryData, getCurrentValue());
+      {
+      vector<float> values;
+      getCurrentValues(values);
+      parent->sendVariable(queryData, values);
+      }
    }
 // ------------------------------------------------------------------
 // Perform a sample.
@@ -216,9 +226,9 @@ void TrackerVariable::doSample(void)
       bool ok = parent->getVariable(variableID, variant);
       if (ok)
          {
-         float thisValue;
-         variant->unpack(thisValue);
-         values.push_back(thisValue);
+         vector<float> theseValues;
+         variant->unpack(theseValues);
+         values.push_back(theseValues);
 
          if (last != 0)
             {
@@ -248,20 +258,27 @@ void TrackerVariable::onEndPeriod(void)
 // ------------------------------------------------------------------
 // return the current value to caller.
 // ------------------------------------------------------------------
-float TrackerVariable::getCurrentValue(void)
+void TrackerVariable::getCurrentValues(vector<float>& currentValues)
    {
-   if (values.size() == 0)
-      return 0.0;
-
-   switch (stat)
+   currentValues.erase(currentValues.begin(), currentValues.end());
+   if (values.size() > 0)
       {
-      case sumStat     : return accumulate(values.begin(), values.end(), 0.0);
-      case averageStat : return accumulate(values.begin(), values.end(), 0.0)
-                                / values.size();
-      case minimumStat : return *min_element(values.begin(), values.end());
-      case maximumStat : return *max_element(values.begin(), values.end());
-      case countStat   : return count;
+      for (unsigned i = 0; i != values[0].size(); ++i)
+         {
+         float value = 0.0;
+         for (unsigned v = 0; v != values.size(); ++v)
+            {
+            switch (stat)
+               {
+               case sumStat     :
+               case averageStat : value += values[v][i]; break;
+               case minimumStat : value = min(value, values[v][i]); break;
+               case maximumStat : value = max(value, values[v][i]); break;
+               case countStat   : value++; break;
+               }
+            }
+         currentValues.push_back(value);
+         }
       }
-   return 0.0;
    }
 
