@@ -155,10 +155,18 @@ module Soiln2Module
                                           ! carbon from residues to biomass
       real         dlt_res_c_hum(max_layer, max_residues)
                                           ! carbon from residues to humic
+      real         soilp_dlt_res_c_atm(max_layer) ! carbon from all residues to atmosphere in each layer (kg/ha) for 'get' by soilp
+      real         soilp_dlt_res_c_hum(max_layer) ! carbon from all residues to humic in each layer (kg/ha) for 'get' by soilp
+      real         soilp_dlt_res_c_biom(max_layer)! carbon from all residues to biom in each layer (kg/ha) for 'get' by soilp
+      real         soilp_dlt_org_p(max_layer)     ! variable needed by soilp in its calculations
+
+
       real         pot_C_decomp(max_residues)
                                           ! Potential residue C decomposition (kg/ha)
       real         pot_N_decomp(max_residues)
                                           ! Potential residue N decomposition (kg/ha)
+      real         pot_P_decomp(max_residues)
+                                          ! Potential residue P decomposition (kg/ha)
       real         dlt_res_C_decomp(max_layer, max_residues)
                                           ! residue C decomposition (kg/ha)
       real         dlt_res_N_decomp(max_layer, max_residues)
@@ -857,9 +865,10 @@ subroutine Soiln2_sendActualResidueDecompositionCalculated()
     character*200  message
     integer   residue                     ! residue number
     integer   num_layers                  ! number of layers in profile
-    real      dlt_res_c_decomp(max_layer) ! amount of c to decompose into each layer
-    real      dlt_res_n_decomp(max_layer) ! amount of n to decompose into each layer
+    real      dlt_res_c_decomp(max_layer) ! amount of c to decompose into each layer for each residue
+    real      dlt_res_n_decomp(max_layer) ! amount of n to decompose into each layer for each residue
     real      c_summed                    ! total amount of c to decompose
+    real      c_summed_layer(max_layer)   ! total amount of c to decompose into each layer
     real      n_summed                    ! total amount of n to decompose
     type (SurfaceOrganicMatterDecompType), dimension(max_residues)::SurfaceOrganicMatterDecomp
 
@@ -867,6 +876,13 @@ subroutine Soiln2_sendActualResidueDecompositionCalculated()
 !- Implementation Section ----------------------------------
    call push_routine (my_name)
 
+   ! dsg 131004 these are variables calculated so that soilp can 'get' them  - yukko
+   g%soilp_dlt_res_c_atm(:) = 0.0
+   g%soilp_dlt_res_c_hum(:) = 0.0
+   g%soilp_dlt_res_c_biom(:) = 0.0
+   g%soilp_dlt_org_p(:) = 0.0
+   c_summed_layer(:) = 0.0  
+   
    num_layers = count_of_real_vals (g%dlayer, max_layer)
 
    ! Potential decomposition was given to this module by a residue
@@ -898,11 +914,21 @@ subroutine Soiln2_sendActualResidueDecompositionCalculated()
        SurfaceOrganicMatterDecomp(residue)%N = n_summed
 
        !   dsg 131103   The 'P' value will not be collected by SurfaceOrganicMatter, so send zero as default.
-       !                SurfaceOrganicMatter will calculate this
        SurfaceOrganicMatterDecomp(residue)%P = 0.0
        SurfaceOrganicMatterDecomp(residue)%AshAlk = 0.0
 
+     ! dsg 131004 soilp needs some stuff - very ugly process - needs to be streamlined
+     !    create some variables which soilp can "get" - layer based arrays independant of residues
+     
+       g%soilp_dlt_res_c_atm(:) = g%soilp_dlt_res_c_atm(:) +  g%dlt_res_c_atm(:,residue)
+       g%soilp_dlt_res_c_hum(:) = g%soilp_dlt_res_c_hum(:) +  g%dlt_res_c_hum(:,residue)
+       g%soilp_dlt_res_c_biom(:) = g%soilp_dlt_res_c_biom(:) +  g%dlt_res_c_biom(:,residue)
+       c_summed_layer(:) = c_summed_layer(:) + dlt_res_c_decomp(:)
    end do
+
+     ! dsg 131004  calculate the old dlt_org_p (from the old Decomposed event sent by residue2) for getting by soilp
+       g%soilp_dlt_org_p(:) = c_summed_layer(:) * divide (sum(g%pot_P_decomp), sum(g%pot_C_decomp), 0.0)
+ 
 
    call publish_SurfaceOrganicMatterDecomp(id%ActualResidueDecompositionCalculated, SurfaceOrganicMatterDecomp, g%num_residues)
 
@@ -1398,6 +1424,25 @@ subroutine soiln2_send_my_variable (variable_name)
       num_layers = count_of_real_vals (g%dlayer, max_layer)
       call respond2get_real_array (variable_name,'(kg/ha)', g%dlt_fom_c_pool3, num_layers)
 
+   elseif (variable_name .eq. 'soilp_dlt_res_c_atm') then
+   !                           --------------
+      num_layers = count_of_real_vals (g%dlayer, max_layer)
+      call respond2get_real_array (variable_name,'(kg/ha)', g%soilp_dlt_res_c_atm, num_layers)
+
+   elseif (variable_name .eq. 'soilp_dlt_res_c_hum') then
+   !                           --------------
+      num_layers = count_of_real_vals (g%dlayer, max_layer)
+      call respond2get_real_array (variable_name,'(kg/ha)', g%soilp_dlt_res_c_hum, num_layers)
+
+   elseif (variable_name .eq. 'soilp_dlt_res_c_biom') then
+   !                           --------------
+      num_layers = count_of_real_vals (g%dlayer, max_layer)
+      call respond2get_real_array (variable_name,'(kg/ha)', g%soilp_dlt_res_c_biom, num_layers)
+
+   elseif (variable_name .eq. 'soilp_dlt_org_p') then
+   !                           --------------
+      num_layers = count_of_real_vals (g%dlayer, max_layer)
+      call respond2get_real_array (variable_name,'(kg/ha)', g%soilp_dlt_org_p, num_layers)
 
    else
       call message_unused ()
@@ -4304,6 +4349,8 @@ subroutine soiln2_ONPotentialResidueDecompositionCalculated(variant)
       g%residue_type(residue)=SurfaceOrganicMatterDecomp(residue)%OrganicMatterType
       g%pot_C_decomp(residue)=SurfaceOrganicMatterDecomp(residue)%C
       g%pot_n_decomp(residue)=SurfaceOrganicMatterDecomp(residue)%N
+   ! this P decomposition is needed to formulate data required by SOILP - struth, this is very ugly
+      g%pot_p_decomp(residue)=SurfaceOrganicMatterDecomp(residue)%P
    end do
 
    call pop_routine (myname)
