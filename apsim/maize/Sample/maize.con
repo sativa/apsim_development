@@ -1,7 +1,0 @@
-[APSIM.sample_maize]
-module=report     maize.par[sample]                                 
-module=input      ..\..\input\sample\dalby.met[weather]  maize.par[sample]
-module=manager    maize.par[sample]
-module=soilwat2   ..\..\soilwat2\sample\soilwat2.par[black_earth]  ..\..\soilwat2\soilwat2.ini[standard]
-module=soiln2     ..\..\soiln2\sample\soiln2.par[black_earth]    ..\..\soiln2\soiln2.ini[standard]
-module=maize      maize.par[sample]  ..\maize.ini[standard]
