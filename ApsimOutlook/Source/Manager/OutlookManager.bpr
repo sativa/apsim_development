@@ -10,13 +10,15 @@
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TMain_form.dfm TFilespec_form.dfm TBatch_import_form.dfm"/>
     <LIBFILES value="general.lib &quot;C:\Program Files\Borland\CBuilder5\Lib\memmgr.lib&quot;"/>
-    <LIBRARIES value="VCLADO50.lib TEEDB4C5.lib THIRDPARTY.lib APSData.lib"/>
+    <LIBRARIES value="VCLADO50.lib TEEPRO4C5.lib TEEDB4C5.lib TEEUI4C5.lib TEE4C5.lib 
+      bcbsmp50.lib THIRDPARTY.lib vclx50.lib APSGENERAL.lib APSData.lib 
+      vclbde50.lib vcldb50.lib vcl50.lib"/>
     <SPARELIBS value="vcl50.lib vcldb50.lib vclbde50.lib APSData.lib APSGENERAL.lib vclx50.lib 
       THIRDPARTY.lib bcbsmp50.lib TEE4C5.lib TEEUI4C5.lib TEEDB4C5.lib 
       TEEPRO4C5.lib VCLADO50.lib"/>
     <PACKAGES value="vclx50.bpi vcl50.bpi vcldb50.bpi vclbde50.bpi vcldbx50.bpi bcbsmp50.bpi 
       dclocx50.bpi qrpt50.bpi ibsmp50.bpi nmfast50.bpi APSGeneral.bpi TEE4C5.bpi 
-      TEEUI4C5.bpi TEEPRO4C5.bpi"/>
+      TEEUI4C5.bpi TEEPRO4C5.bpi VCLADO50.bpi APSData.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -25,7 +27,7 @@
     <RELEASELIBPATH value="$(BCB)\lib\release"/>
     <LINKER value="ilink32"/>
     <USERDEFINES value=""/>
-    <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
+    <SYSDEFINES value="NO_STRICT"/>
     <MAINSOURCE value="OutlookManager.cpp"/>
     <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;&quot;j:\rx\units\&quot;"/>
     <LIBPATH value="$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\components\general\;k:\components\data\;k:\general\;&quot;j:\rx\units\&quot;"/>
@@ -41,9 +43,9 @@
     <LFLAGS value="-D&quot;&quot; -aa -Tpe -x -Gn -v"/>
   </OPTIONS>
   <LINKER>
-    <ALLOBJ value="c0w32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
+    <ALLOBJ value="c0w32.obj sysinit.obj $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
-    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mt.lib"/>
   </LINKER>
   <IDEOPTIONS>
 [Version Info]
