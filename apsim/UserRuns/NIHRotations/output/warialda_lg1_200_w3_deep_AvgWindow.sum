@@ -1530,7 +1530,7 @@
                           N  (kg/ha) =                 60.98                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2374.95                    0.00
+                          DM (kg/ha) =               2374.94                    0.00
                           N  (kg/ha) =                 85.50                    0.00
      
 16 November 1962(Day of year=320), manager: 
@@ -1801,7 +1801,7 @@
                      stover N conc =     1.79 (%)    extractable sw =   93.48 (mm)
 12 November 1964(Day of year=317), chickpea: 
       stage 9.0 maturity
-                     biomass =         744.11 (g/m^2)   lai          =   1.965 (m^2/m^2)
+                     biomass =         744.10 (g/m^2)   lai          =   1.965 (m^2/m^2)
                      stover N conc =     1.76 (%)    extractable sw =   86.81 (mm)
 13 November 1964(Day of year=318), chickpea: 
       stage 10.0 harvest_ripe
@@ -1845,7 +1845,7 @@
                           N  (kg/ha) =                 70.80                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               3325.91                    0.00
+                          DM (kg/ha) =               3325.90                    0.00
                           N  (kg/ha) =                119.73                    0.00
      
 15 November 1964(Day of year=320), manager: 
@@ -2156,7 +2156,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               2449.93                    0.00
+                          DM (kg/ha) =               2449.92                    0.00
                           N  (kg/ha) =                 41.07                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -2266,15 +2266,15 @@
                      stover N conc =     1.77 (%)    extractable sw =   19.09 (mm)
 11 November 1968(Day of year=316), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =        1080.98 (g/m^2)   lai          =   0.296 (m^2/m^2)
+                     biomass =        1080.97 (g/m^2)   lai          =   0.296 (m^2/m^2)
                      stover N conc =     1.73 (%)    extractable sw =   27.17 (mm)
 12 November 1968(Day of year=317), wheat: 
       stage 9.0 maturity
-                     biomass =        1080.98 (g/m^2)   lai          =   0.287 (m^2/m^2)
+                     biomass =        1080.97 (g/m^2)   lai          =   0.287 (m^2/m^2)
                      stover N conc =     1.73 (%)    extractable sw =   24.78 (mm)
 13 November 1968(Day of year=318), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1080.98 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =        1080.97 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.76 (%)    extractable sw =   22.48 (mm)
 14 November 1968(Day of year=319), manager: 
      Manager sending message :- wheat harvest
@@ -4202,7 +4202,7 @@
                           N  (kg/ha) =                 40.93                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               8011.83                    0.00
+                          DM (kg/ha) =               8011.84                    0.00
                           N  (kg/ha) =                179.11                    0.00
      
       stage 4.0 end_of_juvenile
@@ -4992,7 +4992,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3816.54                    0.00
+                          DM (kg/ha) =               3816.53                    0.00
                           N  (kg/ha) =                 64.54                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -5407,6 +5407,15 @@
       stage 5.0 floral_initiation
                      biomass =         496.66 (g/m^2)   lai          =   6.294 (m^2/m^2)
                      stover N conc =     3.13 (%)    extractable sw =  115.71 (mm)
+13 September 1991(Day of year=256), wheat: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     dlt_n_green mass balance is off: 0.000000 vs 0.000002
+     Component name: wheat
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
 29 September 1991(Day of year=272), wheat: 
       stage 6.0 flowering
                      biomass =        1000.02 (g/m^2)   lai          =   1.569 (m^2/m^2)
