@@ -12,10 +12,10 @@ class ApsimRegistrationData
    public:
       ApsimRegistrationData(XMLNode n) : node(n) { }
 
-      bool doAutoRegister(void) const {return !Str_i_Eq(node.getAttribute("autoregister"), "F");}
-      std::string getName(void) const {return node.getAttribute("name");}
-      std::string getType(void) const {return node.getName();}
-      std::string getDataTypeName(void) const {return node.getAttribute("type");}
+      bool doAutoRegister(void) const;
+      std::string getName(void) const;
+      std::string getType(void) const;
+      std::string getDataTypeName(void) const;
 
    private:
       XMLNode node;
