@@ -140,8 +140,7 @@ string Path::Get_full_path(void)
 	string Return_string;
    if (!Is_empty())
    	{
-      Path Full_path;
-      Full_path.Set_to_cwd();
+      Path Full_path = getCurrentFolder();
 
       if (Drive.length() > 0)
          Full_path.Set_drive (Drive.c_str());
@@ -158,31 +157,6 @@ string Path::Get_full_path(void)
    return Return_string;
    }
 
-// ------------------------------------------------------------------
-//  Short description:
-//    set the path to the current working directory.
-
-//  Notes:
-
-//  Changes:
-//    DPH 17/11/94
-//    DPH 13/5/1997 - reworked to use standard template library.
-
-// ------------------------------------------------------------------
-void Path::Set_to_cwd (void)
-	{
-   char Buffer[_MAX_PATH];          // Current directory name.
-
-   #ifdef __WIN32__
-      GetCurrentDirectory (sizeof Buffer, Buffer);
-   #else
-      getcwd (Buffer, sizeof Buffer);
-   #endif
-   strlwr(Buffer);
-   Drive += Buffer[0];
-   Drive += Buffer[1];
-   Directory = &Buffer[2];
-   }
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -270,9 +244,9 @@ void Path::Set_extension (const char* New_extension)
 //                directory path D394.
 
 // ------------------------------------------------------------------
-void Path::Set_path (const char* New_path)
+void Path::Set_path (const string& New_path)
 	{
-   if (strlen(New_path) > 0)
+   if (New_path.length() > 0)
       {
       string New_path_string(New_path);
       Strip (New_path_string, " ");
@@ -447,5 +421,28 @@ string Path::Back_up_directory (void)
          Return_string = Directory;
       }
    return Return_string;
+   }
+// ------------------------------------------------------------------
+// Return the current working folder as a path
+// ------------------------------------------------------------------
+Path Path::getCurrentFolder(void)
+	{
+   char Buffer[_MAX_PATH];          // Current directory name.
+
+   GetCurrentDirectory (sizeof Buffer, Buffer);
+   Path returnPath(Buffer);
+   return returnPath;
+   }
+
+// ------------------------------------------------------------------
+// Return the temporary folder as a path
+// ------------------------------------------------------------------
+Path Path::getTempFolder(void)
+	{
+   char Buffer[_MAX_PATH];          // Current directory name.
+
+   GetTempPath(sizeof Buffer, Buffer);
+   Path returnPath(Buffer);
+   return returnPath;
    }
 
