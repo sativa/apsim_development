@@ -3,7 +3,7 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.06.00"/>
-    <PROJECT value="ApsimShared.dll"/>
+    <PROJECT value="..\..\Bin\ApsimShared.dll"/>
     <OBJFILES value="ApsimShared.obj ApsimComponentData.obj ApsimConfigurationFile.obj 
       ApsimControlFile.obj ApsimDirectories.obj ApsimLicence.obj 
       ApsimParameterFile.obj ApsimProject.obj ApsimRunFile.obj 
@@ -45,7 +45,7 @@
     <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
     <AFLAGS value="/mx /w2 /zd"/>
-    <LFLAGS value="-D&quot;&quot; -aa -Tpd -x -Gn -Gi -v"/>
+    <LFLAGS value="-l. -D&quot;&quot; -aa -Tpd -x -Gn -Gi -v"/>
     <OTHERFILES value=""/>
   </OPTIONS>
   <LINKER>
@@ -137,6 +137,15 @@ Item0=$(BCB)\source\vcl
 [HistoryLists\hlConditionals]
 Count=1
 Item0=_DEBUG
+
+[HistoryLists\hlFinalOutputDir]
+Count=2
+Item0=..\..\Bin\
+Item1=..\..\Bin
+
+[HistoryLists\hIBPIOutputDir]
+Count=1
+Item0=.
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
