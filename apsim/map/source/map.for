@@ -235,7 +235,7 @@ cnh      call set_warning_off ()
 
 
 * ====================================================================
-       subroutine map_Send_my_variable (Variable_name)
+       recursive subroutine map_Send_my_variable (Variable_name)
 * ====================================================================
       use MapModule
       implicit none
