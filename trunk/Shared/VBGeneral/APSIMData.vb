@@ -31,7 +31,13 @@ Public Class APSIMData
     End Sub
     ReadOnly Property Parent() As APSIMData
         Get
-            Return New APSIMData(Node.ParentNode)
+            Dim A As New APSIMData(Node.ParentNode)
+            If A.Type = "#document" Then
+                Return Nothing
+            Else
+                Return A
+            End If
+
         End Get
     End Property
     Function Child(ByVal ChildName As String) As APSIMData
