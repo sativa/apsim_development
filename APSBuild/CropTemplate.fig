@@ -1,0 +1,9 @@
+[instructions]
+import   = %apsuite\apsim\infra\lib\apsiminfra.imp
+import   = %apsuite\apsim\infra\lib\apsimengine.imp
+import   = %apsuite\apsim\croptemp\lib\apsimcroptemp.imp
+include  = %apsuite\apsim\croptemp
+include  = %apsuite\apsim\infra
+include  = %apsuite\apsim\infra\componentinterface
+switches = %apsuite\apsbuild\switches.lf95
+source   = %apsuite\apsim\infra\ComponentInterface\ComponentInterface.for
