@@ -105,6 +105,10 @@ void TDrill_down_form::refreshScenarioTree (void)
       nodeNum++;
       node = node->getNextSibling();
       }
+
+   // if there is only 1 root node in tree then expand it.
+   if (ScenarioTree->Items->Item[0]->getNextSibling() == NULL)
+      ScenarioTree->Items->Item[0]->Expanded = true;
    }
 
 // ------------------------------------------------------------------
@@ -223,6 +227,7 @@ void __fastcall TDrill_down_form::ScenarioTreeMouseDown(TObject *Sender,
    if (!weAreExpanding && node != NULL && Button == mbLeft)
       {
       ScenarioTree->Selected = node;
+      ScenarioTree->Selected->Expanded = !ScenarioTree->Selected->Expanded;
       if (node->Parent != NULL)
          {
          // get factor name and value.
