@@ -33,7 +33,7 @@ class IniFile
                 std::vector<std::string>& values);
       void readSectionNames(std::vector<std::string>& sections);
       void readSection(const std::string& section, std::string& contents);
-      void writeSection(const std::string& section, std::string& contents);
+      void writeSection(const std::string& section, const std::string& contents);
 
       void write(const std::string& section,
                  const std::string& key,

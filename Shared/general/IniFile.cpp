@@ -131,7 +131,7 @@ void IniFile::readSection(const string& section, string& contents)
 // ------------------------------------------------------------------
 // Write contents to a section in file.
 // ------------------------------------------------------------------
-void IniFile::writeSection(const string& section, string& contents)
+void IniFile::writeSection(const string& section, const string& contents)
 	{
    flush();
    string line;
