@@ -270,65 +270,55 @@
 4 December 1988 (Day of year=339):
    SOYBEAN:
        stage    4.0 end_of_juvenile
-                           biomass =           1.055670       lai =    0.1410247E-01
-                           stover N conc =    5.474435       extractable sw =    45.27035
+                           biomass =           1.281609       lai =    0.1898275E-01
+                           stover N conc =    5.279048       extractable sw =    45.21447
 13 January 1989 (Day of year=13):
    SOYBEAN:
        stage    5.0 floral_initiation
-                           biomass =           49.90185       lai =     1.017016    
-                           stover N conc =    3.524041       extractable sw =    273.3235
+                           biomass =           305.5286       lai =     4.920090    
+                           stover N conc =    3.508131       extractable sw =    203.9729
 15 January 1989 (Day of year=15):
    SOYBEAN:
        stage    6.0 flowering
-                           biomass =           65.02260       lai =     1.224369    
-                           stover N conc =    3.343135       extractable sw =    307.6412
+                           biomass =           344.1418       lai =     5.324049    
+                           stover N conc =    3.396305       extractable sw =    226.8636
 8 February 1989 (Day of year=39):
    SOYBEAN:
        stage    7.0 start_grain_fill
-                           biomass =           267.0650       lai =     2.649824    
-                           stover N conc =    3.069926       extractable sw =    256.3478
+                           biomass =           710.2695       lai =     5.833134    
+                           stover N conc =    3.044063       extractable sw =    113.9765
+14 March 1989 (Day of year=73):
+   SOYBEAN:
+       crop failure because of total leaf senescence.
+          Plant Death. Standing above-ground dm =  8816.0 (kg/ha)
+       stage    0.0
 15 March 1989 (Day of year=74):
-   SOYBEAN:
-       stage    8.0 end_grain_fill
-                           biomass =           430.3174       lai =    0.5960464E-06
-                           stover N conc =   0.9380932       extractable sw =    224.6848
-18 March 1989 (Day of year=77):
-   SOYBEAN:
-       stage    9.0 maturity
-                           biomass =           426.7991       lai =    0.5960464E-06
-                           stover N conc =   0.8012675       extractable sw =    237.3964
-19 March 1989 (Day of year=78):
-   SOYBEAN:
-       stage   10.0 harvest_ripe
-                           biomass =           426.7991       lai =    0.5960464E-06
-                           stover N conc =   0.8012677       extractable sw =    235.9530
-20 March 1989 (Day of year=79):
    MANAGER:
            Manager sending message :- soybean harvest
    SOYBEAN:
       
       
       
-       flowering day  =   15                  stover (kg/ha) =    2484.0
-       maturity day        =   77             grain yield (kg/ha) =    1784.0
-       grain % water content   =    8.5       grain yield wet (kg/ha) =    1949.7
+       flowering day  =   15                  stover (kg/ha) =    5862.3
+       maturity day        =    0             grain yield (kg/ha) =    2953.0
+       grain % water content   =    8.5       grain yield wet (kg/ha) =    3227.3
        grain wt (g) =     0.000               grains/m^2   =     0.000
-       grains/head =   0.0                    maximum lai = 2.702
-       total above ground biomass (kg/ha) =    4268.0
-       live above ground biomass (kg/ha) =    4268.0
-       green above ground biomass (kg/ha) =    3361.4
-       senesced above ground biomass (kg/ha) =     906.6
-       dead above ground biomass (kg/ha) =       0.0
-       number of leaves =  12.8
-       grain N percent =      6.50            total N content (kg/ha) =    143.38
-       grain N uptake (kg/ha) =    115.96     senesced N content (kg/ha) =      9.07
-       green N content (kg/ha) =     18.36    dead N content (kg/ha) =      0.00
+       grains/head =   0.0                    maximum lai = 6.508
+       total above ground biomass (kg/ha) =    8815.3
+       live above ground biomass (kg/ha) =       0.0
+       green above ground biomass (kg/ha) =       0.0
+       senesced above ground biomass (kg/ha) =       0.0
+       dead above ground biomass (kg/ha) =    8815.3
+       number of leaves =  30.8
+       grain N percent =      6.50            total N content (kg/ha) =    262.49
+       grain N uptake (kg/ha) =    191.95     senesced N content (kg/ha) =      0.00
+       green N content (kg/ha) =      0.00    dead N content (kg/ha) =     70.54
       
       
       
        stress indices for emergence
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.1785596
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1910676
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1926600
       
       
       
@@ -345,22 +335,22 @@
       
       
        stress indices for flowering
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+       water stress 1 =       0.1079497   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.1503286   nitrogen stress 2 =       0.0000000
       
       
       
        stress indices for start_grain_fill
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+       water stress 1 =       0.1975855   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.2329770   nitrogen stress 2 =       0.0000000
    MANAGER:
            Manager sending message :- soybean end_crop
    SOYBEAN:
           ended. Yield (dw) =     0.0
                                                 straw residue =    0.0 kg/ha
                                                 straw N =    0.0 kg/ha
-                                                root residue = 1061.8 kg/ha
-                                                root N =   21.8 kg/ha
+                                                root residue = 3341.1 kg/ha
+                                                root N =   69.0 kg/ha
 31 March 1989 (Day of year=90):
    CLOCK:
       Simulation is terminating due to end criteria being met.
