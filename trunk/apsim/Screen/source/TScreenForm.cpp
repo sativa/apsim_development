@@ -42,7 +42,7 @@ void TScreenForm::setup(void)
 //---------------------------------------------------------------------------
 void TScreenForm::addLine(const string& line)
    {
-   static const int MAX_LINES = 22;
+   static const int MAX_LINES = 100;
    if (Memo->Lines->Count == MAX_LINES)
       Memo->Lines->Delete(0);
    Memo->Lines->Add(line.c_str());
