@@ -105,9 +105,9 @@ class StringFromBoolean : public TypeConverter
          bool value;
          messageData >> value;
          if (value)
-            bufferMessageData << 1;
+            bufferMessageData << FString("1");
          else
-            bufferMessageData << 0;
+            bufferMessageData << FString("0");
          }
       virtual TypeConverter* clone(void)
          {
@@ -171,7 +171,7 @@ class BooleanFromString : public TypeConverter
          {
          FString value;
          messageData >> value;
-         bufferMessageData << (bool) (value == "yes");
+         bufferMessageData << (bool) (value == "1");
          }
       virtual TypeConverter* clone(void)
          {
