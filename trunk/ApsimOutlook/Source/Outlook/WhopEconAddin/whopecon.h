@@ -5,7 +5,7 @@
 //---------------------------------------------------------------------------
 #include "..\Addin.h"
 #include "..\Scenario.h"
-
+#include <set>
 // ------------------------------------------------------------------
 //  Short description:
 //      Defines the WhopEcon class which implements economics for Whopper Cropper
@@ -48,18 +48,19 @@ class WhopEcon : public AddInBase
 
    private:
       static int numObjects;
+      std::set<std::string, std::less<std::string> > warnings;
       void Read_inifile_settings (void);
       string Get_descriptor_value(string Descriptor, std::string Item);
-      float getFloatFromRecord(const TAPSRecord* record,
-                               std::vector< std::string >& IDs);
+      bool getFloatFromRecord(const TAPSRecord* record,
+                              std::vector<std::string>& IDs,
+                              float& value);
       std::string getStringFromRecord(const TAPSRecord* record,
                                std::vector< std::string >& IDs);
+      void addWarning(const std::string& msg);
 
       std::vector<Factor> factors;
       std::string Econ_bitmap_name;
       std::string Econ_DB_name;
-      std::vector< std::string > CropIDs, ProteinIDs, YieldIDs, NRateIDs,
-                                                            PlantRateIDs;
 
 };
 //---------------------------------------------------------------------------

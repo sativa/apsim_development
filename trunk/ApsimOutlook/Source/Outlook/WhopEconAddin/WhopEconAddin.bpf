@@ -11,6 +11,9 @@ USELIB("C:\Program Files\Borland\CBuilder5\Projects\Lib\general.lib");
 USELIB("C:\Program Files\Borland\CBuilder5\Lib\memmgr.lib");
 USEFORM("WheatMatrix.cpp", WheatMatrixForm);
 USEFORM("SeedWeight.cpp", SeedWeightsForm);
+USEUNIT("..\CropFields.cpp");
+USEUNIT("EconConfigCropData.cpp");
+USEUNIT("EconConfigData.cpp");
 //---------------------------------------------------------------------------
 This file is used by the project manager only and should be treated like the project file
 

@@ -14,40 +14,21 @@
 #include <general\ini_file.h>
 #include <general\stl_functions.h>
 #include <general\string_functions.h>
+#include <sstream>
 #include "SeedWeight.h"
+#include "CropFields.h"
+#include "EconConfigData.h"
 
 //---------------------------------------------------------------------------
 
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
-
 #define WHOPECON_SECTION "WhopEcon"
 #define WHOPECON_FACTOR_NAME "Econ Config"
 #define ECON_DB_NAME "Econ Database"
 #define BITMAP_NAME_KEY "bitmap"
 #define SIMULATION_FACTOR_NAME "Simulation"
-#define WHOPECON_FIELDS "Econ Fields"
-#define CROPID "Crop"
-#define PROTEINID "Protein"
-#define YIELDID "Yield"
-#define NRATEID "NRate"
-#define PLANTRATEID "PlantRate"
-
-// static member variable declarations:
-int WhopEcon::numObjects;
-
-// general function declarations:
-float GetPrice(int ScenarioIndex, AnsiString Crop, float *HarvestLoss,float Protein);
-int GetScenarioIndex(AnsiString Scenario);
-int GetCropIndex(AnsiString Crop,int ScenarioIndex);
-float CalcAreaCost(void);
-float CalcCropCost(void);
-float GetSeedWt(AnsiString Crop);
-float CalcUnitCost(float NRate, float SeedWt, float PlantingRate);
-float ProteinAdj(float Protein);
-float GetFloatFromFieldValues(AnsiString fieldName, TADOTable* table);
-AnsiString GetStringFromFieldValues(AnsiString fieldName, TADOTable* table);
-
+#define WHOPECON_FIELDS "Crops"
 // ------------------------------------------------------------------
 //  Short description:
 //    Exported function for created an instance of this add-in
@@ -78,15 +59,17 @@ extern "C" AddInBase* _export __stdcall createAddIn(const string& parameters, bo
 // ------------------------------------------------------------------
 WhopEcon::WhopEcon(const string& parameters)
    {
-   if (numObjects == 0)
-   {
+   static bool firstTime = true;
+   if (firstTime)
+      {
       DATA = new TDATA(Application->MainForm);
       EconForm = new TEconForm(Application->MainForm);
       CropForm = new TCropForm(Application->MainForm);
       AboutBox = new TAboutBox(Application->MainForm);
       WheatMatrixForm = new TWheatMatrixForm(Application->MainForm);
       SeedWeightsForm = new TSeedWeightsForm(Application->MainForm);
-   }
+      firstTime = false;
+      }
 
    // handle parameter string
 
@@ -99,11 +82,11 @@ WhopEcon::WhopEcon(const string& parameters)
    bitmap->LoadFromFile(bitmap_path.Get_path().c_str());
 
    // get a default econ config name
-   string default_config_name;
+   AnsiString default_config_name;
    EconForm->OpenEconDB();
    DATA->Scenario->First();
    if (!DATA->Scenario->Eof)
-      default_config_name =  GetStringFromFieldValues("ScenarioName", DATA->Scenario).c_str();
+      default_config_name =  DATA->Scenario->FieldValues["ScenarioName"];
    else
       default_config_name = "Empty";
    EconForm->CloseEconDB();
@@ -111,22 +94,23 @@ WhopEcon::WhopEcon(const string& parameters)
    // create a factor with the default name
    Factor econ(bitmap,WHOPECON_FACTOR_NAME,default_config_name.c_str(),this);
    factors.push_back(econ);
-
-   numObjects++;
    }
 
-WhopEcon::~WhopEcon(void) {
-   if (numObjects == 1)
+WhopEcon::~WhopEcon(void)
    {
-      delete DATA;
-      delete EconForm;
-      delete CropForm;
-      delete AboutBox;
-      delete WheatMatrixForm;
-      delete SeedWeightsForm;
+   delete DATA;
+   DATA = NULL;
+   delete EconForm;
+   EconForm = NULL;
+   delete CropForm;
+   CropForm = NULL;
+   delete AboutBox;
+   AboutBox = NULL;
+   delete WheatMatrixForm;
+   WheatMatrixForm = NULL;
+   delete SeedWeightsForm;
+   SeedWeightsForm = NULL;
    }
-   numObjects--;
-}
 
 
 void WhopEcon::makeScenarioValid(Scenario& scenario,
@@ -148,8 +132,8 @@ void WhopEcon::getFactorValues(const Scenario& scenario,
    DATA->Scenario->First();
    while (!DATA->Scenario->Eof)
    {
-      string name = GetStringFromFieldValues("ScenarioName", DATA->Scenario).c_str();
-      factorValues.push_back(name);
+      AnsiString name = DATA->Scenario->FieldValues["ScenarioName"];
+      factorValues.push_back(name.c_str());
       DATA->Scenario->Next();
    }
    EconForm->CloseEconDB();
@@ -190,17 +174,6 @@ void WhopEcon::Read_inifile_settings (void)
    Econ_DB_name = p.Get_directory() +  "\\"  +  st;
    EconForm->DBFileName = Econ_DB_name.c_str();
 
-   ini.Read(WHOPECON_FIELDS, CROPID, st);
-   Split_string(st, ",", CropIDs);
-   ini.Read(WHOPECON_FIELDS, PROTEINID, st);
-   Split_string(st, ",", ProteinIDs);
-   ini.Read(WHOPECON_FIELDS, YIELDID, st);
-   Split_string(st, ",", YieldIDs);
-   ini.Read(WHOPECON_FIELDS, NRATEID, st);
-   Split_string(st, ",", NRateIDs);
-   ini.Read(WHOPECON_FIELDS, PLANTRATEID, st);
-   Split_string(st, ",", PlantRateIDs);
-
 }
 
 
@@ -213,326 +186,162 @@ void WhopEcon::Read_inifile_settings (void)
 //  Created:   DAH   7/9/01   Adapted from G. McLean's WhopEcon and Dameasy
 //                            doCalculations routine
 // ------------------------------------------------------------------
-
 void WhopEcon::doCalculations(TAPSTable& data,
-                                  const std::vector<Scenario*>& selectedScenarios)
-// for each data record, calculate the gross margin
-{
+                              const vector<Scenario*>& selectedScenarios)
+   {
    TCursor savedCursor = Screen->Cursor;
    Screen->Cursor = crHourGlass;
+
+   // Flag for determining if we need to tell 'data' about the new fields
+   // we're about to create.
+   bool haveInformedDataOfNewFields = false;
+
+   // Comments displayed at end of this routine.  Used for warning messages.
+   warnings.erase(warnings.begin(), warnings.end());
 
    // go thru the table 'data' and add a new factor field to reflect the
    // economic configuration
    data.markFieldAsAPivot(WHOPECON_FACTOR_NAME);
 
-   vector<string> econ_config_names;
-   bool ok = data.first();
-   while (ok)
-   {
-      for (vector<TAPSRecord>::const_iterator record = data.begin();
-                     record != data.end(); record++)
-      {
-         // for each record in data, find the corresponding Scenario to find which
-         // econConfig is being used
-         string rec_name = record->getFieldValue(SIMULATION_FACTOR_NAME);
-         vector<Scenario*>::const_iterator find_pos =
-               find_if(selectedScenarios.begin(),selectedScenarios.end(),
-                       PEqualToName<Scenario>(rec_name));
-         Graphics::TBitmap* temp;
-         string econ_config_name;
-         (*find_pos)->getFactorAttributes(WHOPECON_FACTOR_NAME, econ_config_name, temp);
-         econ_config_names.push_back(econ_config_name);
-      }
-      ok = data.next();
-   }
+   // create an instance of our economic configuration class.
+   EconConfigData econConfig;
 
-   // add the config names to the data table.
-   data.first();
-   data.storeStringArray(WHOPECON_FACTOR_NAME, econ_config_names);
-   data.endStoringData();   // this sorts the data so we can sensibly access it
-                            // for the next section of code.
-
-   // Now go thru entire table calculating GMs.
-   // result vectors:
-   vector<double> vGM, vReturn, vCost;
-
+   // open the relevant tables and convert the economic configuration name
+   // into an index.
    EconForm->OpenEconDB();
    DATA->CropList->Open();
 
-   ok = data.first();
+   bool ok = data.first();
    while (ok)
-   {
-      // do calculations/operations that are common to the whole block:
-      vector<TAPSRecord>::const_iterator record = data.begin();
-      AnsiString Config = record->getFieldValue(WHOPECON_FACTOR_NAME).c_str();
-      int ConfigIndex = GetScenarioIndex(Config);
-
-      AnsiString LastCrop = "";
-      float Price,HarvestLoss;
-      float AreaCost,CropCost;
-      float SeedWt;
-      for (record = data.begin(); record != data.end(); record++)
       {
-         //AnsiString Crop = record->getFieldValue("Crop").c_str();
-         AnsiString Crop = getStringFromRecord(record, CropIDs).c_str();
-         // wheat price has to be recalculated for every simulation (protein)
-         if(Crop == "Wheat"){
-            //float Protein = StrToFloat(record->getFieldValue("Protein").c_str());
-            float Protein = getFloatFromRecord(record, ProteinIDs);
-            Price = GetPrice(ConfigIndex,Crop,&HarvestLoss,Protein);   // price in $/t
-            // if price < 0 then no crop of this name in this scenario
-            //if(Price < 0){
-            //   SimData->Next();
-            //   continue;
-            //}
-         }
-         else if(Crop != LastCrop){
-            // get factors from EconDB tables
-            // first Price
-            Price = GetPrice(ConfigIndex,Crop,&HarvestLoss,0.0);   // price in $/t
-            // if price < 0 then no crop of this name in this scenario
-            //if(Price < 0){
-            //  SimData->Next();
-            //   continue;
-            //}
-         }
-            // now calculate cost in $/ha from 3 cost tables
-            //cost per area
-         AreaCost = CalcAreaCost();
-         SeedWt =  GetSeedWt(Crop);
-         CropCost = CalcCropCost();
-         LastCrop = Crop;
+      string econConfigName;
+      // find the corresponding Scenario and the economic configuration name
+      // that is used for this data block.
+      string rec_name = data.begin()->getFieldValue(SIMULATION_FACTOR_NAME);
+      vector<Scenario*>::const_iterator scenarioI =
+            find_if(selectedScenarios.begin(),selectedScenarios.end(),
+                    PEqualToName<Scenario>(rec_name));
+      Graphics::TBitmap* bitmap;
+      (*scenarioI)->getFactorAttributes(WHOPECON_FACTOR_NAME, econConfigName, bitmap);
 
-         //float Yield = StrToFloat(record->getFieldValue("Yield (kg/ha)").c_str()) * (1 - HarvestLoss/100);
-         float Yield = getFloatFromRecord(record, YieldIDs) * (1 - HarvestLoss/100);
-         float Return;
-         if (Crop == "Cotton")
-            Return = Price * Yield;       // $/bale * bale/ha = $/ha
-         else
-            Return = Price * Yield / 1000.0;  // $/tonne * kg/ha / 1000 = $/ha
-         float NRate = getFloatFromRecord(record, NRateIDs);
-         float PlantingRate = getFloatFromRecord(record, PlantRateIDs);
-         float UnitCost = CalcUnitCost(NRate,SeedWt,PlantingRate);
-         float Cost = AreaCost + UnitCost + CropCost;
+      // dph - need to remove const record iterators.
+      typedef vector<TAPSRecord>::iterator RecordsIterator;
+      for (RecordsIterator record = const_cast<RecordsIterator> (data.begin());
+                           record != const_cast<RecordsIterator> (data.end());
+                           record++)
+         {
+         // create a new column for the configuration name.
+         record->setFieldValue(WHOPECON_FACTOR_NAME, econConfigName);
 
-         vCost.push_back(Cost);
-         vReturn.push_back(Return);
-         vGM.push_back(Return - Cost);
-      }
+         // get a list of crops that have variables on the current record.
+         CropFields cropFields;
+         vector<string> cropAcronyms;
+         cropFields.getCropAcronyms(*record, cropAcronyms);
+
+         // Loop through all crops on this record and calculate a total
+         // cost and return.
+         float gmCost = 0.0;
+         float gmReturn = 0.0;
+         for (vector<string>::iterator cropAcronymI = cropAcronyms.begin();
+                                       cropAcronymI != cropAcronyms.end();
+                                       cropAcronymI++)
+            {
+            string cropName = cropFields.realCropName(*cropAcronymI).c_str();
+            EconConfigCropData* cropData;
+            if (econConfig.getCropData(econConfigName, cropName, cropData))
+               {
+               // if crop is wheat then get protein.
+               float protein = 0.0;
+               if (Str_i_Eq(cropName, "Wheat"))
+                  {
+                  if (!cropFields.getCropValue(*record, "protein", *cropAcronymI, protein))
+                     {
+                     addWarning("Cannot find a wheat protein column.");
+                     continue;
+                     }
+                  }
+
+               // get yield from file, change yield in file from a WET weight
+               // to a DRY weight and add a new WET weight column.
+               string yieldFieldName = cropFields.getCropFieldName
+                  (*record, "yield", *cropAcronymI);
+               string wetYieldFieldName = yieldFieldName + "WET";
+
+               float yield;
+               if (!cropFields.getCropValue(*record, "yield", *cropAcronymI, yield))
+                  addWarning("Cannot find a yield column for crop: " + cropName);
+               record->setFieldValue(wetYieldFieldName, FloatToStr(yield).c_str());
+               yield = cropData->calculateDryYield(yield);
+               record->setFieldValue(yieldFieldName, FloatToStr(yield).c_str());
+
+               // Calculate a return for this crop and store it as a new field
+               // for this crop.
+               float ret = cropData->calculateReturn(yield, protein);
+               string returnFieldName = "Return-" + cropName + " ($/ha)";
+               record->setFieldValue(returnFieldName, FloatToStr(ret).c_str());
+               gmReturn += ret;
+
+               // get an nrate, a planting rate and calculate cost in $/ha
+               float nitrogenRate;
+               if (!cropFields.getCropValue(*record, "NRate", *cropAcronymI, nitrogenRate))
+                  addWarning("Cannot find a nitrogen rate column for crop: " + cropName);
+               float plantingRate;
+               if (!cropFields.getCropValue(*record, "PlantRate", *cropAcronymI, plantingRate))
+                  addWarning("Cannot find a planting rate column for crop: " + cropName);
+
+               gmCost += cropData->calculateCost(nitrogenRate, plantingRate);
+
+               // tell 'data' about the new crop fields.
+               if (!haveInformedDataOfNewFields)
+                  {
+                  data.addField(wetYieldFieldName);
+                  data.addField(returnFieldName);
+                  }
+               }
+            else
+               {
+               addWarning("No gross margin information has been specified for crop: " + cropName);
+               continue;
+               }
+
+            // create new columns for cost, return, gm and gm split by crop
+            record->setFieldValue("Cost ($/ha)", FloatToStr(gmCost).c_str());
+            record->setFieldValue("Return ($/ha)", FloatToStr(gmReturn).c_str());
+            record->setFieldValue("GM ($/ha)", FloatToStr(gmReturn - gmCost).c_str());
+
+            // tell 'data' about the new GM fields.
+            if (!haveInformedDataOfNewFields)
+               {
+               data.addField("Cost ($/ha)");
+               data.addField("Return ($/ha)");
+               data.addField("GM ($/ha)");
+               haveInformedDataOfNewFields = true;
+               }
+            }
+         }
       ok = data.next();
-   }
+      }
 
-   // Append result vectors to 'data':
-   data.first();
-   data.storeNumericArray("Return ($/ha)", vReturn);
-   data.storeNumericArray("Cost ($/ha)", vCost);
-   data.storeNumericArray("GM ($/ha)", vGM);
-
+   data.endStoringData();
    EconForm->CloseEconDB();
    Screen->Cursor = savedCursor;
-}
 
-float WhopEcon::getFloatFromRecord(const TAPSRecord* record, vector<string>& IDs)
-{
-   string temp = getStringFromRecord(record, IDs);
+   if (warnings.size() > 0)
+      {
+      ostringstream messageStream;
+      ostream_iterator<string, char> out(messageStream, "\n");
+      copy(warnings.begin(), warnings.end(), out);
+      Application->MessageBox(messageStream.str().c_str(), "Gross margin warnings...",
+                              MB_ICONINFORMATION | MB_OK);
+      }
+   }
 
-   if (temp == "")  // then none of the known field names were found.
-      // could throw an error here.
-      return 0.0;
-
-   else
+//---------------------------------------------------------------------------
+// Make sure a warning is added if it doesn't alread exist.
+//---------------------------------------------------------------------------
+void WhopEcon::addWarning(const string& msg)
    {
-      char *endptr;
-      strtod(temp.c_str(), &endptr);  // check for a valid float
-      if (*endptr == '\0')   // then this is a fully valid float
-         return StrToFloat(temp.c_str());
-      else if (*endptr == *(temp.begin())) {  // then this is a non-floating pt field
-         return 0.0;
-      }
-      else { // part of the string can be parsed as a float - strip off non-float
-             // bits of the string
-         Replace_all(temp, endptr, "");
-         return StrToFloat(temp.c_str());
-      }
-
+   warnings.insert(msg.c_str());
    }
-}
-
-string WhopEcon::getStringFromRecord(const TAPSRecord* record, vector<string>& IDs)
-{
-   string temp;
-   for (vector<string>::const_iterator ID = IDs.begin(); ID != IDs.end(); ID++) {
-      temp = record->getFieldValue(*ID);
-      if (temp != "")
-         break;
-   }
-   if (temp == "") {
-      // could throw an error here
-   }
-   return temp;
-}
-
-//---------------------------------------------------------------------------
-int GetScenarioIndex(AnsiString Scenario)
-{
-   return DATA->Scenario->Lookup("ScenarioName",Scenario,"ScenarioIndex");
-}
-//---------------------------------------------------------------------------
-
-float GetPrice(int ScenarioIndex, AnsiString Crop, float *HarvestLoss, float Protein)
-{
-   // return the adjusted price in $/t
-   // = [(100 - DownGrade%) * Price] + [(DownGrade% * DownGradePrice)]  - Levy - Freight
-
-
-   Variant locvalues[2];
-   locvalues[0] = Variant(ScenarioIndex);
-   locvalues[1] = Variant(Crop);
-
-   if(!DATA->Crop->Locate("ScenarioIndex;CropName",VarArrayOf(locvalues, 1),TLocateOptions()))
-      return -1;
-
-   *HarvestLoss = GetFloatFromFieldValues("HarvestLoss", DATA->Crop);
-
-   float DnGrde = GetFloatFromFieldValues("Downgrade%", DATA->Crop);
-   float Price = GetFloatFromFieldValues("Price", DATA->Crop);
-   float DnGrdeRetn = GetFloatFromFieldValues("DowngradeReturn", DATA->Crop);
-   float Levy = GetFloatFromFieldValues("Levy", DATA->Crop);
-   float Freight = GetFloatFromFieldValues("Freight", DATA->Crop);
-
-   // if crop is wheat, add protein adjustment
-   if(Crop == "Wheat")Price += ProteinAdj(Protein);
-
-
-   return ((100 - DnGrde)/100.0 * Price) + (DnGrde/100.0 * DnGrdeRetn) -
-                                       Levy - Freight;
-}
-//---------------------------------------------------------------------------
-
-float GetFloatFromFieldValues(AnsiString fieldName, TADOTable* table)
-{
-   try
-   {
-      float fieldValue = table->FieldValues[fieldName];
-      return fieldValue;
-   }
-   catch(...)  // most likely error is that a blank or non-float was returned
-               // which couldn't be converted from Variant to float.
-   {
-      return 0.0;
-   }
-}
-
-AnsiString GetStringFromFieldValues(AnsiString fieldName, TADOTable* table)
-{
-   try
-   {
-      AnsiString fieldValue = table->FieldValues[fieldName];
-      return fieldValue;
-   }
-   catch(...)  // most likely error is that a blank or non-float was returned
-               // which couldn't be converted from Variant to float.
-   {
-      return "";
-   }
-}
-
-float ProteinAdj(float Protein)
-{
-   // use the values in the WheatMatrix table to decide on the protein adjustment
-   DATA->WheatMatrix->Open();
-   DATA->WheatMatrix->First();
-   float P0=0,P1,I0=100,I1;
-   // round to 0.1
-   Protein = ((int)(Protein*10+0.5))/10.0;
-
-   while(!DATA->WheatMatrix->Eof){
-      P1 = GetFloatFromFieldValues("Protein%", DATA->WheatMatrix);
-      I1 = GetFloatFromFieldValues("Increment", DATA->WheatMatrix);
-      if(Protein > P1){
-         P0 = P1;
-         I0 = I1;
-      }
-      else{
-         DATA->WheatMatrix->Close();
-         return I0 + (Protein - P0)/(P1 - P0) * (I1 - I0);
-      }
-      DATA->WheatMatrix->Next();
-   }
-   // if we get to here, Protein input was higher than anything in WheatMatrix,
-   // so we return 0
-   return 0.0;
-}
-//----------------------------------------------------------------------------
-
-float GetSeedWt(AnsiString Crop)
-{
-   Variant SeedWt = DATA->CropList->Lookup("CropName",Crop,"SeedWt");
-   if(!SeedWt.IsNull())return SeedWt;
-   return 0.0;
-}
-//---------------------------------------------------------------------------
-
-float CalcAreaCost(void)
-{
-   DATA->AreaCosts->First();
-   float AreaCost = 0.0;
-   while(!DATA->AreaCosts->Eof){
-      AreaCost += GetFloatFromFieldValues("OperationCost", DATA->AreaCosts);
-      AreaCost += GetFloatFromFieldValues("ProductCost", DATA->AreaCosts);
-      DATA->AreaCosts->Next();
-   }
-   return AreaCost;
-}
-//---------------------------------------------------------------------------
-
-float CalcCropCost(void)
-{
-   DATA->CropCosts->First();
-   float CropCost = 0.0;
-   while(!DATA->CropCosts->Eof){
-      CropCost += GetFloatFromFieldValues("OperationCost", DATA->CropCosts);
-      DATA->CropCosts->Next();
-   }
-   return CropCost;
-}
-//---------------------------------------------------------------------------
-
-float CalcUnitCost(float NRate, float SeedWt, float PlantingRate)
-{
-   // calculate unit costs
-   // for Sowing * use PlantingRate
-   // for Nitrogen Application * use NRate
-   // anything else use ProductRate
-   DATA->UnitCosts->First();
-   float UnitCost = 0.0;
-   while(!DATA->UnitCosts->Eof){
-      UnitCost += GetFloatFromFieldValues("OperationCost", DATA->UnitCosts);
-      AnsiString Operation = GetStringFromFieldValues("Operation", DATA->UnitCosts);
-      AnsiString Units = GetStringFromFieldValues("ProductUnits", DATA->UnitCosts);
-      float Cost = GetFloatFromFieldValues("ProductCost", DATA->UnitCosts);
-      float Factor;
-      if(Operation == "Sowing *"){
-         if(Units == "kg")Factor = 10.0;
-         else if(Units == "g")Factor = 10000.0;
-         else Factor = 0;
-         UnitCost += PlantingRate * Factor * SeedWt * Cost;
-      }
-      else if(Operation == "Nitrogen Application *"){
-         if(Units == "tonne")Factor = 0.001;
-         else if(Units == "kg") Factor = 1;
-         else Factor = 0;
-         UnitCost += Cost * Factor * NRate;
-      }
-      else{
-         float Rate = GetFloatFromFieldValues("ProductRate", DATA->UnitCosts);
-         UnitCost += Cost * Rate;
-      }
-      DATA->UnitCosts->Next();
-   }
-   return UnitCost;
-
-}
-
 
 
