@@ -33,9 +33,8 @@
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -vGc -vGt -vGd -O2 
-      -H=&quot;c:\program files\borland\cbuilder5\lib\vcl60.csm&quot; -Hc -Vx -Ve -X- -a8 
-      -b- -k- -vi -c -tWM"/>
+    <CFLAG1 value="-WD -vGc -vGt -vGd -O2 -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -a8 -b- -k- 
+      -vi -c -tWM"/>
     <PFLAGS value="-$Y- -$L- -$D- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
     <AFLAGS value="/mx /w2 /zn"/>
