@@ -14,7 +14,7 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 2.0
+     Version                = 2.1
      Simulation filename    = c:\regr\apsim\maize\sample\maize.sim
      Title                  = Maize Sample Simulation
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
@@ -65,6 +65,7 @@
         - Reading Soil Property Parameters
      
         - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
      
      
      
@@ -279,7 +280,7 @@
    MAIZE:
        stage    9.0 end_grain_fill
                            biomass =           1565.570       lai =     1.316808    
-                           stover N conc =   0.9275120       extractable sw =    132.7002
+                           stover N conc =   0.9275122       extractable sw =    132.7002
 9 March 1990 (Day of year=68):
    MAIZE:
        stage   10.0 maturity
@@ -334,7 +335,7 @@
       
       
        stress indices for flag_leaf
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.4642571
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.4642570
        water stress 2 =       0.0000000   nitrogen stress 2 =       0.5714056
       
       
@@ -347,7 +348,7 @@
       
        stress indices for start_grain_fill
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.5565494
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.6452395
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.6452396
    MANAGER:
            Manager sending message :- maize end_crop
    MAIZE:
