@@ -196,6 +196,37 @@ class GetNameAndStoreFunction
          Container.push_back (arg.GetName());
          };
    };
+template <class CT, class T>
+class PGetNameFunction
+   {
+   private:
+      CT& Container;
+   public:
+      PGetNameFunction(CT& container)
+         : Container (container)
+         { }
+
+      void operator () (T arg)
+         {
+         Container.push_back (arg->getName());
+         };
+   };
+
+template <class CT, class T>
+class GetNameFunction
+   {
+   private:
+      CT& Container;
+   public:
+      GetNameFunction(CT& container)
+         : Container (container)
+         { }
+
+      void operator () (T arg)
+         {
+         Container.push_back (arg.getName());
+         };
+   };
 
 template <class CT, class T>
 class GetFilenameAndStoreFunction
@@ -246,14 +277,20 @@ class Find_by_filename_predicate
    };
 
 template <class T>
-class ForEachFunction
+class CallbackFunction
    {
    public:
-      void operator () (T& x)
-         {ForEach(x);}
+      virtual void callback(T& x) = 0;
 
-      virtual void ForEach(T& x) {}
+   };
+template <class CT, class T>
+class GetNameCallback : public CallbackFunction<T>
+   {
+   public:
+      CT& C;
+      GetNameCallback(CT& c) : C(c) { }
 
+      virtual void callback(T& t) {C.push_back(t);}
    };
 
 
