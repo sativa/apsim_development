@@ -1,0 +1,10 @@
+[Dependencies]
+Dependency = %licensed_source(sugar)
+
+[Contents]
+sgr_main.for = sgr_main.for
+Registrations.f90 = Registrations.f90
+
+[APSBuild]
+binary = ..\lib\sugar.dll
+compilerfile=release.compile
