@@ -1296,15 +1296,15 @@ C     Last change:  P    25 Oct 2000    9:26 am
          endif
       endif
  
-      if (Is_apsim_variable) then
-         write (str, '(4a)' )
-     .      'Manager setting apsim variable : ',
-     .      trim(variable_name),
-     .      ' = ',
-     .      trim(Variable_value)
- 
-         call Write_string (str)
-      endif
+!      if (Is_apsim_variable) then
+!         write (str, '(4a)' )
+!     .      'Manager setting apsim variable : ',
+!     .      trim(variable_name),
+!     .      ' = ',
+!     .      trim(Variable_value)
+! 
+!         call Write_string (str)
+!      endif
  
       return
       end
