@@ -73,9 +73,9 @@ below_gnd_diff = P_below_ground - P_below_ground_yest
 residue_P_yest =  residue2.residue_P
 P_below_ground_yest = P_below_ground
 
-!  if (maize.stage >=1 and maize.stage <= 11) then
+  if (maize.stage >=1 and maize.stage <= 11) then
       report do_output
-!  endif
+  endif
 
 systemP_yday = systemP
 
