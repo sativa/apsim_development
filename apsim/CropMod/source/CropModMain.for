@@ -114,7 +114,7 @@ c         if (TestTrue) open (1, FILE='test.dat')
       elseif (action.eq.ACTION_get_variable) then
 
          !Respond to request for variable values - from other modules
-         call Send_My_Variable (Data_string)
+          call Send_My_Variable (Data_string)
 
       elseif (action.eq.ACTION_prepare) then !this happens each time step (daily)
 
@@ -131,7 +131,7 @@ c         if (TestTrue) open (1, FILE='test.dat')
 
          else
             ! Crop not in the field, do nothing
-            !call Zero_Variables (.false.)
+            call Zero_Variables (.false.)
          endif
 
       elseif (action.eq.ACTION_process) then
@@ -280,8 +280,8 @@ c        if (TestTrue)   close (1)
             !end crop - turn the stover into residue
             call End_Crop ()
 
-            !Zero all the globals, but not the contants and parameters
-            call Zero_Variables (.false.)
+!            !Zero all the globals, but not the contants and parameters
+!            call Zero_Variables (.false.)
 
             !Set plant status to status_out and stage to plant_end subroutine
             if (g%plant_status.ne.status_out) then

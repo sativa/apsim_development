@@ -252,6 +252,7 @@
 !-----------------------------------------------------------
 
         character plant_status*5           ! status of crop
+        Logical   plant_status_out_today
 
         integer     flowering_date         ! flowering day number
         integer     maturity_date          ! maturity day number
