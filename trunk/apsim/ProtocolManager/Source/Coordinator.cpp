@@ -356,7 +356,7 @@ void Coordinator::onRegisterMessage(unsigned int fromID, RegisterData& registerD
       string componentName;
       unsigned destID = registerData.destID;
       unsigned posPeriod = regName.find('.');
-      if (posPeriod != string::npos)
+      if (destID == 0 && posPeriod != string::npos)
          {
          componentName = regName.substr(0, posPeriod);
          regName = regName.substr(posPeriod+1, regName.length()-posPeriod);
