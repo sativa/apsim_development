@@ -552,21 +552,31 @@ bool ControlFileConverter::executeRemoveSumAvgToTracker(const std::string& argum
             string moduleName = tokenizer.nextToken();
             string functionName = tokenizer.nextToken();
             string variableName = tokenizer.nextToken();
+            string alias;
+            unsigned posAlias = variableName.find(" as ");
+            if (posAlias != string::npos)
+               {
+               alias = variableName.substr(posAlias+4);
+               variableName.erase(posAlias);
+               }
+
             string trackerFunctionName = functionName;
             if (Str_i_Eq(trackerFunctionName, "avg"))
                trackerFunctionName = "average";
 
-            newVariables.push_back("tracker." + functionName +  "@" + variableName);
-
-            unsigned posAlias = variableName.find(" as ");
-            if (posAlias != string::npos)
-               variableName.erase(posAlias);
+            if (alias == "")
+               newVariables.push_back("tracker." + functionName +  "@" + variableName);
+            else
+               newVariables.push_back("tracker." + alias);
 
             // set the tracker variable.
             string trackerVariable = trackerFunctionName + " of " + moduleName + "."
                    + variableName + " since " + paramFiles[par].getInstanceName()
                    + ".reported as ";
-            trackerVariable += functionName + "@" + variableName;
+            if (alias == "")
+               trackerVariable += functionName + "@" + variableName;
+            else
+               trackerVariable += alias;
             trackerVariables.push_back(trackerVariable);
             }
          else
