@@ -23,9 +23,9 @@
 class GENERAL_EXPORT Path
 	{
    private:
-      string Drive;
-      string Directory;
-      string Name;
+      std::string Drive;
+      std::string Directory;
+      std::string Name;
 
 	public:
       Path(void) {};
@@ -35,27 +35,27 @@ class GENERAL_EXPORT Path
       int operator< (const Path& From) const {return (Directory < From.Directory &&
                                                  Name < From.Name);};
 
-      string Get_drive(void);
-		string Get_directory(void);
-		string Get_name(void);
-      string Get_name_without_ext(void);
-		string Get_extension(void);
-      string Get_path(void);
-      string Get_full_path (void);              // always returns a full absolute path.
+      std::string Get_drive(void);
+		std::string Get_directory(void);
+		std::string Get_name(void);
+      std::string Get_name_without_ext(void);
+		std::string Get_extension(void);
+      std::string Get_path(void);
+      std::string Get_full_path (void);              // always returns a full absolute path.
 
       void Set_to_cwd(void);
       void Set_drive(const char* New_drive);
       void Set_directory(const char* New_directory);
       void Set_name(const char* New_name);
       void Set_extension(const char* New_extension);
-      void Set_path(const char* New_path); 
+      void Set_path(const char* New_path);
 
       bool Is_empty(void);
       bool Exists(void);
       void Change_directory(void);
 
       void Append_path (const char* Path);
-      string Back_up_directory (void);
+      std::string Back_up_directory (void);
 	};
 
 // ------------------------------------------------------------------
@@ -70,14 +70,14 @@ class GENERAL_EXPORT Path
 
 // ------------------------------------------------------------------
 template < class Container >
-class remove_directory_and_copy : private std::unary_function <string, void >
+class remove_directory_and_copy : private std::unary_function <std::string, void >
    {
    private:
       Container& container;
    public:
       remove_directory_and_copy( Container& c )
          : container(c) { }
-      void operator() (const string& x)
+      void operator() (const std::string& x)
          {
          Path p(x.c_str());
          container.push_back (p.Get_name());
@@ -96,15 +96,15 @@ class remove_directory_and_copy : private std::unary_function <string, void >
 
 // ------------------------------------------------------------------
 template < class Container >
-class prepend_directory_and_copy : private std::unary_function <string, void >
+class prepend_directory_and_copy : private std::unary_function <std::string, void >
    {
    private:
       Container& container;
-      string Directory;
+      std::string Directory;
    public:
       prepend_directory_and_copy(const char* directory, Container& c )
          : Directory(directory), container(c) { }
-      void operator() (const string& x)
+      void operator() (const std::string& x)
          {
          Path p (Directory.c_str());
          p.Append_path (x.c_str());
@@ -121,25 +121,21 @@ class prepend_directory_and_copy : private std::unary_function <string, void >
 
 //  Changes:
 //    DPH 28/10/97
+//    dph 12//2000 removed test for drive.
 
 // ------------------------------------------------------------------
 template < class Container >
-class remove_directory_ext_and_copy : private std::unary_function <string, void >
+class remove_directory_ext_and_copy : private std::unary_function <std::string, void >
    {
    private:
       Container& container;
    public:
       remove_directory_ext_and_copy( Container& c )
          : container(c) { }
-      void operator() (const string& x)
+      void operator() (const std::string& x)
          {
-         if (x.find(":") == string::npos)
-            {
-            Path p(x.c_str());
-            container.push_back (p.Get_name_without_ext());
-            }
-         else
-            container.push_back (x); 
+         Path p(x.c_str());
+         container.push_back (p.Get_name_without_ext());
          }
     };
 

@@ -5,7 +5,6 @@
 #include <general\general.h>
 #include <general\string_functions.h>
 #include <list>
-using std::list;
 #include <dos.h>
 // ------------------------------------------------------------------
 //  Short description:
@@ -19,7 +18,7 @@ using std::list;
 // ------------------------------------------------------------------
 void GENERAL_EXPORT Get_directory_listing (const char* Directory_name,
                                            const char* Extension,
-                                           list<string>& Dir_list,
+                                           std::list<std::string>& Dir_list,
                                            unsigned int Attribute = FA_NORMAL,
                                            bool Full_path = false);
 
@@ -34,7 +33,7 @@ void GENERAL_EXPORT Get_directory_listing (const char* Directory_name,
 //    DPH 11/6/1997
 
 // ------------------------------------------------------------------
-string GENERAL_EXPORT Locate_file (list<string>& Search_directories,
+std::string GENERAL_EXPORT Locate_file (std::list<std::string>& Search_directories,
                                    const char* Search_file);
 
 // ------------------------------------------------------------------
@@ -57,7 +56,7 @@ void GENERAL_EXPORT Get_recursive_directory_listing(const char* Directory,
                                                     const char* File_spec,
                                                     int Max_num_levels_to_descend,
                                                     bool Include_specified_directory,
-                                                    list<string>& Files);
+                                                    std::list<std::string>& Files);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -69,7 +68,7 @@ void GENERAL_EXPORT Get_recursive_directory_listing(const char* Directory,
 //    DPH 11/9/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Copy_files (list<string>& Source_files,
+void GENERAL_EXPORT Copy_files (std::list<std::string>& Source_files,
                                 const char* Destination_directory,
                                 bool Do_move_files);
 
@@ -96,7 +95,7 @@ void GENERAL_EXPORT Copy_files (list<string>& Source_files,
 
 // ------------------------------------------------------------------
 void GENERAL_EXPORT Copy_files_preserve_directories
-                                     (list<string>& Source_files,
+                                     (std::list<std::string>& Source_files,
                                       const char* Source_base_directory,
                                       const char* Destination_directory,
                                       bool Do_move_files,
@@ -113,7 +112,7 @@ void GENERAL_EXPORT Copy_files_preserve_directories
 //    DPH 11/9/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Copy_directories (list<string>& Source_directories,
+void GENERAL_EXPORT Copy_directories (std::list<std::string>& Source_directories,
                                       const char* Destination_directory,
                                       bool Do_move_files = false);
 
@@ -128,7 +127,7 @@ void GENERAL_EXPORT Copy_directories (list<string>& Source_directories,
 //    DPH 11/9/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Delete_files_or_directories (list<string>& Directories);
+void GENERAL_EXPORT Delete_files_or_directories (std::list<std::string>& Directories);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -141,7 +140,7 @@ void GENERAL_EXPORT Delete_files_or_directories (list<string>& Directories);
 //    DPH 11/9/98
 
 // ------------------------------------------------------------------
-string GENERAL_EXPORT Get_youngest_file (const char* Directory,
+std::string GENERAL_EXPORT Get_youngest_file (const char* Directory,
                                          const char* Filespec);
 
 #endif

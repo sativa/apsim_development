@@ -6,6 +6,7 @@
 #include <dos.h>
 #include <dir.h>
 #include <shellapi.h>
+using namespace std;
 // ------------------------------------------------------------------
 //  Short description:
 //      return a list of files/directories to caller.
