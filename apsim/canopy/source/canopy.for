@@ -166,6 +166,8 @@
 
       if (methodID.eq.id%lai_table) then
          call Canopy_table ('LAI',g%LAI)
+      else if (methodID.eq.id%cover_table) then
+         call Canopy_table ('Cover',g%Cover)
       else if (methodID.eq.id%f_table) then
          call Canopy_table ('F',g%F)
       else if (methodID.eq.id%rs_table) then
@@ -250,6 +252,8 @@
 
          call return_interception (variable_info, Total_interception)
 
+      elseif (Variable_info%id .eq. id%eo) then
+         call return_eo (variable_info, g%eo)
       else
 
       endif
@@ -905,7 +909,7 @@ c      g%ComponentFrgr(:) = 0.0
      :           ,g%DeltaZ
      :           ,KLAItotnew)
 
-         do 150 i=1,g%Canopies(j)%NumLayers
+         do 150 i=1,g%NumLayers
             g%Cover(i,j) = 1.0-exp(-KLAInew(i))
             g%CoverTotal(i,j) = 1.0-exp(-KLAItotnew(i))
   150    continue
@@ -1206,6 +1210,7 @@ c      g%ComponentFrgr(:) = 0.0
 
       call push_routine (myname)
 
+      
       call unpack_newmet(variant, g%met)
 
       call pop_routine (myname)
@@ -2198,7 +2203,7 @@ c      g%ComponentFrgr(:) = 0.0
   100 continue
 
       CanopyWaterBalance%interception = sum(g%Interception(:,:))
-      CanopyWaterBalance%Eo = 0.0
+      CanopyWaterBalance%Eo = g%eo
 
       call publish_CanopyWaterBalance(id%CanopyWaterBalanceCalculated
      :            ,CanopyWaterBalance,.false.)
@@ -2458,7 +2463,7 @@ c      g%ComponentFrgr(:) = 0.0
             again=.FALSE.
             if((j.lt.M).and.(sx.ge.su.or.i.eq.N))then
                j=j+1
-               w=sy-(sx-su)*y(i)
+               w=sy-max(0,(sx-su))/x(i)*y(i)
                v(j)=(w-sv)
                if(j.lt.M)then
                   su=su+u(j+1)
