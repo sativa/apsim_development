@@ -154,12 +154,12 @@ enr_a_coeff =  7.4 ()
 enr_b_coeff =  0.2
 profile_reduction =  off
 
-[sample.residue2.parameters]
-pot_decomp_rate =  0.10 ()   ! Potential decomposition rate
-residue_wt =  10000. (kg/ha)   ! Initial surface residue
-residue_cnr =  80.0 ()   ! C:N ration of initial residue
-residue_type =  sugar   ! Type if initial residue
+[sample.SurfaceOM.parameters]
+mass = 10000. (kg/ha)   ! Initial surface residue
+cnr = 80.0 ()   ! C:N ration of initial residue
+type = sugar   ! Type if initial residue
 
+name = sugar
 [sample.sugar.parameters]
 uptake_source =    apsim   ! calculate all uptakes
 ll =      0.200 0.205 0.210 0.215 0.220 0.225 0.230 0.235 0.240 0.245 0.250 0.255 0.260 0.265 0.270 0.275 0.280 0.285 0.290 0.295
@@ -247,7 +247,7 @@ if sugar.crop_status = 'alive' then
       sugar harvest
 
       if burn_flag = 1 then
-         residue2 tillage type = burn
+         surfaceom tillage type = burn
       endif
 
       if ratoon_no = NoRatoons + 1 then
@@ -260,7 +260,7 @@ if sugar.crop_status = 'alive' then
          if sowing_reset = 1 then
             soilwat2 reset
             soiln2   reset
-            residue2 reset
+            surfaceom reset
          else
          endif
          if irrigate_flag = 1 and automatic_irrigation = 'off' then
@@ -287,7 +287,7 @@ elseif (sugar.crop_status = 'dead') then
    sugar harvest
    sugar end_crop
    if burn_flag = 1 then
-      residue2 tillage type = burn
+      surfaceom tillage type = burn
    endif
 
 elseif (sugar.crop_status = 'out') and (day = planting_day) then
