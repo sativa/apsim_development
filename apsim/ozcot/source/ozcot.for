@@ -774,8 +774,14 @@ cjh      call Set_real_array('no3', sno3, nlayr, '(kg/ha)' )
          call respond2get_real_var (variable_name
      :                             , '()'
      :                             , cover)
- 
- 
+
+      elseif (variable_name .eq. 'height') then 
+cnh output height of zero for backward compatibility
+cnh this is a simple fix only due to the limited future
+cnh for this module!!!!!
+         call respond2get_real_var (variable_name
+     :                             , '(mm)'
+     :                             , 0.0)
  
       else if (Variable_name .eq. 'availn') then
          call respond2get_real_var (variable_name
