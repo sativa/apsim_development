@@ -280,6 +280,8 @@
       g%pond = min (g%pond, p%max_pond)
 
 
+
+
       call soilwat2_infiltration (g%infiltration)
  
             ! all infiltration and solutes(from irrigation)
@@ -1837,8 +1839,6 @@ c     should suffice.
 
              ! get water draining out of layer (mm)
 
-      
-
          if (excess.gt.0.0) then
  
             if (p%mwcon(layer).ge.1.0) then
@@ -2058,14 +2058,16 @@ cjh          flow_max is -ve, resulting in sw > sat.
      :                      + divide (1.0, dlayer2, 0.0)
          flow_max = divide ((sw2 - sw1 - swg), sum_inverse_dlayer, 0.0)
 
-         if (g%sw_dep(layer).gt.g%dul_Dep(layer)) then
-            flow(layer) = 0.0
- 
-         elseif (g%sw_dep(next_layer).gt.g%dul_Dep(next_layer)) then
-            flow(layer) = 0.0
+c dsg    un-incorporated code from senthold version
+!         if (g%sw_dep(layer).gt.g%dul_Dep(layer)) then
+!            flow(layer) = 0.0
+!
+!         elseif (g%sw_dep(next_layer).gt.g%dul_Dep(next_layer)) then
+!            flow(layer) = 0.0
+!
+!         endif
 
- 
-         elseif (flow(layer) .lt. 0.0) then
+         if (flow(layer) .lt. 0.0) then
             ! flow is down to layer below
             ! check capacity of layer below for holding water from this layer
             ! and the ability of this layer to supply the water
@@ -2796,6 +2798,13 @@ cjh
      :                     , 'mwcon', max_layer, '()'
      :                     , p%mwcon, numvals
      :                     , 0.0, 1000.0)
+
+c dsg - if there is no impermeable layer specified, then mwcon must
+c       be set to '1' in all layers by default 
+
+      if (numvals.eq.0) then
+          p%mwcon(:) = 1.0
+      endif
 
  
       call read_real_array ( section_name
@@ -4409,6 +4418,10 @@ c         g%crop_module(:) = ' '               ! list of modules
          g%sumeos_last = 0.0                  ! sumeos before inf reset
          g%eo_system = 0.0                    ! eo from somewhere else in the system
          g%eo_source = ' '                    ! system variable name of external eo source
+    
+         g%pond  =  0.0                       ! surface ponding depth (mm)
+         g%water_table = 0.0                  ! water table depth (mm)
+         g%sws (:) = 0.0                      ! soil water (mm/layer)
 
 * ====================================================================
 * Parameters
@@ -4429,6 +4442,9 @@ c         g%crop_module(:) = ' '               ! list of modules
          p%insoil = 0.0                       ! switch describing initial soil water
          p%max_evap = 0.0                     ! maximum daily evaporation for rickert
          p%beta = 0.0                         ! beta for b&s model
+
+         p%max_pond = 0.0                     ! maximum allowable surface storage (ponding) mm 
+         p%mwcon (:) = 0.0                   ! layer permeability factor (zero or one) 
 
 * ====================================================================
 * Constants             
@@ -5635,6 +5651,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
  
 *+  Changes
 *       221090 specified (jngh)
+*       051200 dsg  ponding feature incorporated
  
 *+  Constant Values
       character  my_name*(*)           ! this subroutine name
@@ -5652,9 +5669,9 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       call push_routine (my_name)
 
     ! DSG 041200
-    ! with the addition of the ponding feature, irrigation is now 
-    ! considered as consisting of two components - that from the rain + 
-    ! irrigation and that from ponding.
+    ! with the addition of the ponding feature, infiltration is now 
+    ! considered as consisting of two components - that from the (rain + 
+    ! irrigation) and that from ponding.
 
       infiltration_1 = (g%irrigation + g%rain) -  g%runoff_pot
       infiltration_2 = g%pond
