@@ -46,7 +46,7 @@
       parameter (my_name = 'erosion_version')
 
       character  version_number*(*) ! version number of module
-      parameter (version_number = 'V1.13 090696')
+      parameter (version_number = 'V1.14 170398')
 
 *   Initial data values
 *     none
@@ -328,57 +328,86 @@
       call write_string (lu_scr_sum, string)
 
       if (p_profile_reduction .eq. on) then
-         write (string, '(a)') '      Profile reduction: on'
+         write (string, '(a)') 
+     :          '      Profile reduction:                     on'
          call write_string (lu_scr_sum, string)
 
          write (string, '(a, f4.3)')
-     :                  '      Fraction of original layer for merge:'
+     :          '      Fraction of original layer for merge: '
      :                  , p_profile_layer_merge
          call write_string (lu_scr_sum, string)
 
       else
-         write (string, '(a)') '      Profile reduction: off'
+         write (string, '(a)') 
+     :          '      Profile reduction:                     off'
          call write_string (lu_scr_sum, string)
       endif
 
       if (p_model_type .eq. freeb_model) then
          write (string, '(2a)')
-     :             '      model: Freebairn cover-sediment concentration'
+     :          '      Freebairn cover-sediment concentration model'
      :             , new_line
          call write_string (lu_scr_sum, string)
 
          write (string, '(a, f6.4, a)')
-     :                  '         ls_factor: ', p_ls_factor, new_line
+     :          '      LS factor:                             ',
+     :          p_ls_factor, new_line
          call write_string (lu_scr_sum, string)
 
-         write (string, '(a, f6.4, a)')
-     :                  '         k_factor: ', p_k_factor, new_line
-         call write_string (lu_scr_sum, string)
+                     ! susp load K is 0.0 if not being used
+         if (p_k_factor_susp .le. 0.0) then
+           write (string, '(a, f6.4, a)')
+     :          '      K factor:                              ', 
+     :          p_k_factor_bed, new_line
+           call write_string (lu_scr_sum, string)
+         else
+           write (string, '(a, f6.4, a)')
+     :          '      K factor (bedload):                    ', 
+     :          p_k_factor_bed, new_line
+           call write_string (lu_scr_sum, string)
+           write (string, '(a, f6.4, a)')
+     :          '      K factor (suspended load):             ',
+     :          p_k_factor_susp, new_line
+           call write_string (lu_scr_sum, string)
+         endif
 
          write (string, '(a, f6.4, a)')
-     :                  '         p_factor: ', p_p_factor, new_line
+     :          '      P factor:                              ',
+     :          p_p_factor, new_line
          call write_string (lu_scr_sum, string)
 
       else if (p_model_type .eq. rose_model) then
 
          write (string, '(2a)')
-     :                  '      model: Rose model'
+     :          '      Rose sediment concentration model'
      :                  , new_line
          call write_string (lu_scr_sum, string)
 
-         write (string, '(a, f6.4, a)')
-     :                  '         Efficiency of Entrainment:'
-     :                  , p_entrain_eff, new_line
-         call write_string (lu_scr_sum, string)
+         if (p_entrain_eff_susp .le. 0.0) then
+           write (string, '(a, f6.4, a)')
+     :          '       Efficiency of entrainment:            '
+     :               , p_entrain_eff_bed, new_line
+           call write_string (lu_scr_sum, string)
+         else
+           write (string, '(a, f6.4, a)')
+     :          '       Efficiency of bed load entrainment:   '
+     :               , p_entrain_eff_bed, new_line
+           call write_string (lu_scr_sum, string)
+           write (string, '(a, f6.4, a)')
+     :          '       Efficiency of susp. load entrainment: '
+     :               , p_entrain_eff_susp, new_line
+           call write_string (lu_scr_sum, string)
+         endif
 
          write (string, '(a, f6.2, a)')
-     :                  '         slope (%):', p_slope, new_line
+     :          '       Slope (%):                            ',
+     :          p_slope, new_line
          call write_string (lu_scr_sum, string)
 
       else
             ! whoops - whats going on?
          write (string, '(2a)')
-     :                  '      ? Unknown model type ?'
+     :          '      ? Unknown model type ?'
      :                  , new_line
          call write_string (lu_scr_sum, string)
 
@@ -434,6 +463,8 @@
 
 *   Internal variables
       integer    num_read              ! temporary
+      integer    num_read_eteff        ! temporary
+      integer    num_read_b2           ! temporary
       character  string*(80)           ! temporary
 
 *   Constant values
@@ -528,37 +559,57 @@
      :   , num_read             ! Number of values returned
      :   , 0.0                  ! Lower Limit for bound checking
      :   , 5000.0)              ! Upper Limit for bound checking
+
+cPdeV - used for fudges      
+c      call read_real_var (
+c     :     section_name         ! Section header
+c     :   , 'crop_cover_wtg'     ! Keyword
+c     :   , '()'                 ! Units
+c     :   , p_crop_cover_wtg     ! Variable
+c     :   , num_read             ! Number of values returned
+c     :   , 0.0                  ! Lower Limit for bound checking
+c     :   , 1.0)                 ! Upper Limit for bound checking
       
-      call read_real_var (
-     :     section_name         ! Section header
-     :   , 'crop_cover_wtg'     ! Keyword
-     :   , '()'                 ! Units
-     :   , p_crop_cover_wtg     ! Variable
-     :   , num_read             ! Number of values returned
-     :   , 0.0                  ! Lower Limit for bound checking
-     :   , 1.0)                 ! Upper Limit for bound checking
-      
-      call read_real_var (
+      call read_real_var_optional (
      :     section_name         ! Section header
      :   , 'cover_extra'        ! Keyword
      :   , '()'                 ! Units
      :   , g_cover_extra        ! Variable
      :   , num_read             ! Number of values returned
-     :   , 0.0                  ! Lower Limit for bound checking
+     :   , -1.0                 ! Lower Limit for bound checking
      :   , 1.0)                 ! Upper Limit for bound checking
 
                                 ! model specific parameters..
       if (p_model_type .eq. freeb_model) then
 
-         call read_real_var (
+         call read_real_var_optional (
      :        section_name      ! Section header
      :      , 'k_factor'        ! Keyword
      :      , '()'              ! Units
-     :      , p_k_factor        ! Variable
+     :      , p_k_factor_bed    ! Variable
      :      , num_read          ! Number of values returned
      :      , 0.0               ! Lower Limit for bound checking
      :      , 1.0)              ! Upper Limit for bound checking
-         
+         if (num_read .le. 0) then 
+           call read_real_var (
+     :          section_name      ! Section header
+     :        , 'k_factor_bed'    ! Keyword
+     :        , '()'              ! Units
+     :        , p_k_factor_bed    ! Variable
+     :        , num_read          ! Number of values returned
+     :        , 0.0               ! Lower Limit for bound checking
+     :        , 1.0)              ! Upper Limit for bound checking
+           call read_real_var (
+     :          section_name      ! Section header
+     :        , 'k_factor_susp'   ! Keyword
+     :        , '()'              ! Units
+     :        , p_k_factor_susp   ! Variable
+     :        , num_read          ! Number of values returned
+     :        , 0.0               ! Lower Limit for bound checking
+     :        , 1.0)              ! Upper Limit for bound checking
+         else
+            ! Nothing
+         endif
          call read_real_var (
      :        section_name      ! Section header
      :      , 'p_factor'        ! Keyword
@@ -570,28 +621,63 @@
          
       else if (p_model_type .eq. rose_model) then
          
-         call read_real_var (
+         call read_real_var_optional (
      :        section_name      ! Section header
      :      , 'entrain_eff'     ! Keyword
      :      , '()'              ! Units
-     :      , p_entrain_eff     ! Variable
-     :      , num_read          ! Number of values returned
+     :      , p_entrain_eff_bed ! Variable
+     :      , num_read_eteff    ! Number of values returned
      :      , 0.0               ! Lower Limit for bound checking
      :      , 1.0)              ! Upper Limit for bound checking
-
-         call read_real_var (
+         call read_real_var_optional (
      :        section_name      ! Section header
      :      , 'eros_rose_b2'    ! Keyword
      :      , '()'              ! Units
-     :      , p_eros_rose_b2    ! Variable
-     :      , num_read          ! Number of values returned
+     :      , p_eros_rose_b2_bed ! Variable
+     :      , num_read_b2       ! Number of values returned
      :      , 0.0               ! Lower Limit for bound checking
      :      , 1.0)              ! Upper Limit for bound checking
 
+         if (num_read_eteff .ne. 1 .or. num_read_b2 .ne. 1) then
+           call read_real_var (
+     :          section_name      ! Section header
+     :        , 'entrain_eff_bed'     ! Keyword
+     :        , '()'              ! Units
+     :        , p_entrain_eff_bed ! Variable
+     :        , num_read_eteff    ! Number of values returned
+     :        , 0.0               ! Lower Limit for bound checking
+     :        , 1.0)              ! Upper Limit for bound checking
+           call read_real_var (
+     :          section_name      ! Section header
+     :        , 'eros_rose_b2_bed' ! Keyword
+     :        , '()'              ! Units
+     :        , p_eros_rose_b2_bed ! Variable
+     :        , num_read_b2       ! Number of values returned
+     :        , 0.0               ! Lower Limit for bound checking
+     :        , 1.0)              ! Upper Limit for bound checking
+           call read_real_var (
+     :          section_name      ! Section header
+     :        , 'entrain_eff_susp'     ! Keyword
+     :        , '()'              ! Units
+     :        , p_entrain_eff_susp ! Variable
+     :        , num_read_eteff    ! Number of values returned
+     :        , 0.0               ! Lower Limit for bound checking
+     :        , 1.0)              ! Upper Limit for bound checking
+           call read_real_var (
+     :          section_name      ! Section header
+     :        , 'eros_rose_b2_susp' ! Keyword
+     :        , '()'              ! Units
+     :        , p_eros_rose_b2_susp ! Variable
+     :        , num_read_b2       ! Number of values returned
+     :        , 0.0               ! Lower Limit for bound checking
+     :        , 1.0)              ! Upper Limit for bound checking
+         else
+             ! Nothing - we're not splitting soil loss.
+         endif
       else
-                                ! nothing
+                                ! nothing - unknown model type. A fatal error will be sent.
       endif
-      
+
       call pop_routine (my_name)
       return
       end
@@ -648,9 +734,11 @@
 
       call erosion_zero_daily_variables ()
 
-      p_crop_cover_wtg       = 0.0
-      p_entrain_eff          = 0.0
-      p_eros_rose_b2         = 0.0
+c      p_crop_cover_wtg       = 0.0
+      p_entrain_eff_bed      = 0.0
+      p_eros_rose_b2_bed     = 0.0
+      p_entrain_eff_susp     = 0.0
+      p_eros_rose_b2_susp    = 0.0
       p_minimum_depth        = 0.0
       p_model_type           = 0
       p_profile_reduction    = 0
@@ -659,7 +747,8 @@
       p_slope        = 0.0
       p_slope_length = 0.0
       p_ls_factor    = 0.0
-      p_k_factor     = 0.0
+      p_k_factor_bed = 0.0
+      p_k_factor_susp= 0.0
       p_p_factor     = 0.0
       p_layer_merge_mm = 0.0
 
@@ -669,13 +758,14 @@
 
       g_bed_depth    = 0.0
       g_runoff       = 0.0
-      g_soil_loss    = 0.0
-      g_cover_extra  = 0.0
-      g_contact_cover= 0.0
+      g_soil_loss_bed  = 0.0
+      g_soil_loss_susp = 0.0
       g_day_of_year  = 0
       g_erosion_cover= 0.0
-      g_total_cover  = 0.0
       g_year         = 0
+      g_cover_extra  = 0.0
+c      g_contact_cover= 0.0
+c      g_total_cover  = 0.0
 
       call pop_routine (my_name)
       return
@@ -735,10 +825,11 @@
 
           !  zero pools etc.
 
-      g_soil_loss = 0.0
-      g_crop_cover = 0.0
-      g_basal_cover = 0.0
-      g_resid_cover = 0.0
+      g_soil_loss_bed = 0.0
+      g_soil_loss_susp = 0.0
+c      g_crop_cover = 0.0
+c      g_basal_cover = 0.0
+c      g_resid_cover = 0.0
 
 
       call pop_routine (my_name)
@@ -787,12 +878,12 @@
       include   'const.inc'            ! Constant definitions
       include   'erosion.inc'          ! erosion common block
 
-c      real bound
+      real bound
 
 *   Internal variables
-      integer    num_read
 c      real       visible_contact_cover
-      real       total_cover
+      integer   numvals
+      real      total_cover
 
 *   Constant values
       character  my_name*(*)
@@ -810,7 +901,7 @@ c      real       visible_contact_cover
      :   , 'year'               ! Variable Name
      :   , '()'                 ! Units                (Not Used)
      :   , g_year               ! Variable
-     :   , num_read             ! Number of values returned
+     :   , numvals              ! Number of values returned
      :   , 0                    ! Lower Limit for bound checking
      :   , 2000  )              ! Upper Limit for bound checking
 
@@ -819,7 +910,7 @@ c      real       visible_contact_cover
      :   , 'day'                ! Variable Name
      :   , '()'                 ! Units                (Not Used)
      :   , g_day_of_year        ! Variable
-     :   , num_read             ! Number of values returned
+     :   , numvals              ! Number of values returned
      :   , 0                    ! Lower Limit for bound checking
      :   , 366  )               ! Upper Limit for bound checking
 
@@ -829,21 +920,20 @@ c      real       visible_contact_cover
      :   , 'runoff'             ! Variable Name
      :   , '(mm)'               ! Units                (Not Used)
      :   , g_runoff             ! Variable
-     :   , num_read             ! Number of values returned
+     :   , numvals              ! Number of values returned
      :   , 0.0                  ! Lower Limit for bound checking
      :   , 1000.0)              ! Upper Limit for bound checking
 
-c     use this one for john dimes' cover from soilwat
       call Get_real_var (
      :     unknown_module       ! Module that responds (Not Used)
      :   , 'total_cover'        ! Variable Name
      :   , '()'                 ! Units                (Not Used)
      :   , total_cover          ! Variable
-     :   , num_read             ! Number of values returned
+     :   , numvals              ! Number of values returned
      :   , 0.0                  ! Lower Limit for bound checking
-     :   , 100.0 )              ! Upper Limit for bound checking
-      
-      g_erosion_cover = total_cover
+     :   , 1.0 )                ! Upper Limit for bound checking
+
+      g_erosion_cover = bound(total_cover + g_cover_extra, 0.0, 1.0)
 
 c$$$c      use this for dms' special covers..
 c$$$
@@ -852,7 +942,7 @@ c$$$     :     unknown_module       ! Module that responds (Not Used)
 c$$$     :   , 'crop_cover'         ! Variable Name
 c$$$     :   , '()'                 ! Units                (Not Used)
 c$$$     :   , g_crop_cover         ! Variable
-c$$$     :   , num_read             ! Number of values returned
+c$$$     :   , numvals              ! Number of values returned
 c$$$     :   , 0.0                  ! Lower Limit for bound checking
 c$$$     :   , 1.0)                 ! Upper Limit for bound checking
 c$$$
@@ -861,7 +951,7 @@ c$$$     :     unknown_module       ! Module that responds (Not Used)
 c$$$     :   , 'resid_cover'        ! Variable Name
 c$$$     :   , '()'                 ! Units                (Not Used)
 c$$$     :   , g_resid_cover        ! Variable
-c$$$     :   , num_read             ! Number of values returned
+c$$$     :   , numvals              ! Number of values returned
 c$$$     :   , 0.0                  ! Lower Limit for bound checking
 c$$$     :   , 1.0)                 ! Upper Limit for bound checking
 c$$$
@@ -870,7 +960,7 @@ c$$$     :     unknown_module       ! Module that responds (Not Used)
 c$$$     :   , 'basal_cover'        ! Variable Name
 c$$$     :   , '()'                 ! Units                (Not Used)
 c$$$     :   , g_basal_cover        ! Variable
-c$$$     :   , num_read             ! Number of values returned
+c$$$     :   , numvals              ! Number of values returned
 c$$$     :   , 0.0                  ! Lower Limit for bound checking
 c$$$     :   , 1.0)                 ! Upper Limit for bound checking
 c$$$
@@ -883,14 +973,13 @@ c$$$
 c$$$      g_erosion_cover = bound(visible_contact_cover +
 c$$$     :     g_crop_cover * p_crop_cover_wtg, 0.0, 1.0)
 
-
       call get_real_array(
      :     unknown_module       ! Module that responds (Not Used)
      :   , 'dlayer'             ! Variable Name
      :   , max_layer            ! size of array
      :   , '(mm)'               ! Units                (Not Used)
      :   , g_dlayer             ! Variable
-     :   , num_read             ! Number of values returned
+     :   , numvals              ! Number of values returned
      :   , 0.0                  ! Lower Limit for bound checking
      :   , 2000.0)              ! Upper Limit for bound checking
 
@@ -900,9 +989,9 @@ c$$$     :     g_crop_cover * p_crop_cover_wtg, 0.0, 1.0)
      :   , max_layer            ! size of array
      :   , '(kg/m^3)'           ! Units                (Not Used)
      :   , g_bd                 ! Variable
-     :   , num_read             ! Number of values returned
+     :   , numvals              ! Number of values returned
      :   , 0.0                  ! Lower Limit for bound checking
-     :   , 10000.0)             ! Upper Limit for bound checking
+     :   , 10.0)               ! Upper Limit for bound checking
                  
       call pop_routine (my_name)
       return
@@ -971,7 +1060,7 @@ c$$$     :     g_crop_cover * p_crop_cover_wtg, 0.0, 1.0)
      :      , units             ! Units of variable (not used)
      :      , g_cover_extra     ! Variable
      :      , numvals
-     :      , 0.0
+     :      , -1.0
      :      , 1.0)    
 
       else
@@ -1042,7 +1131,7 @@ c$$$     :     g_crop_cover * p_crop_cover_wtg, 0.0, 1.0)
       call push_routine (my_name)
 
          ! no soil loss -> no profile change
-      if (g_soil_loss .gt. 0.0 .and.
+      if ((g_soil_loss_bed + g_soil_loss_susp) .gt. 0.0 .and.
      :     p_profile_reduction .eq. on) then
 
          call new_postbox()
@@ -1120,6 +1209,7 @@ c$$$     :        , max_layers)
       real       divide                ! function
 
 *   Internal variables
+      real       soil_loss_tha         ! soil loss from surface (t/ha)
       real       soil_loss_mm          ! soil loss from surface (mm)
       real       sed_conc              ! sediment concentration (g/l)
 
@@ -1134,22 +1224,48 @@ c$$$     :        , max_layers)
 
       call push_routine (my_name)
 
+      soil_loss_tha = g_soil_loss_bed + g_soil_loss_susp
+
       if (Variable_name .eq. 'soil_loss') then
          call respond2get_real_var (variable_name
      :                             , '(t/ha)'
-     :                             , g_soil_loss)
+     :                             , soil_loss_tha)
+
+      else if (Variable_name .eq. 'soil_loss_bed') then
+         call respond2get_real_var (variable_name
+     :                             , '(t/ha)'
+     :                             , g_soil_loss_bed)
+
+      else if (Variable_name .eq. 'soil_loss_susp') then
+         call respond2get_real_var (variable_name
+     :                             , '(t/ha)'
+     :                             , g_soil_loss_susp)
 
       else if (Variable_name .eq. 'soil_loss_mm') then
-         soil_loss_mm = divide (g_soil_loss * t2g/ha2scm
+         soil_loss_mm = divide (soil_loss_tha * t2g/ha2scm
      :                        , g_bd(1), 0.0)
      :                * cm2mm
 
          call respond2get_real_var (variable_name
      :                             , '(mm)'
-
      :                             , soil_loss_mm)
+
       else if (Variable_name .eq. 'sed_conc') then
-         sed_conc = divide (g_soil_loss * t2g/ha2sm
+         sed_conc = divide (soil_loss_tha * t2g/ha2sm
+     :                    , g_runoff * mm2lpsm, 0.0)
+         call respond2get_real_var (variable_name
+     :                             , '(g/l)'
+     :                             , sed_conc)
+
+      else if (Variable_name .eq. 'sed_conc_bed') then
+         sed_conc = divide (g_soil_loss_bed * t2g/ha2sm
+     :                    , g_runoff * mm2lpsm, 0.0)
+         call respond2get_real_var (variable_name
+     :                             , '(g/l)'
+     :                             , sed_conc)
+
+      else if (Variable_name .eq. 'sed_conc_susp') then
+         sed_conc = divide (g_soil_loss_susp * t2g/ha2sm
      :                    , g_runoff * mm2lpsm, 0.0)
          call respond2get_real_var (variable_name
      :                             , '(g/l)'
@@ -1220,10 +1336,8 @@ c$$$     :        , max_layers)
 *     none
 
 *   Global variables
+      include   'const.inc'       ! Constant definitions
       include   'erosion.inc'     ! erosion common block
-
-      real       erosion_freeb     ! function
-      real       erosion_rose      ! function
 
 *   Internal variables
 *      none
@@ -1238,19 +1352,21 @@ c$$$     :        , max_layers)
 * --------------------- Executable code section ----------------------
       call push_routine (my_name)
 
+      g_soil_loss_bed = 0.0
+      g_soil_loss_susp = 0.0
+
       if (p_model_type .eq. freeb_model) then
-         g_soil_loss = erosion_freeb ()
+         call erosion_freeb (g_soil_loss_bed, g_soil_loss_susp)
 
       else if (p_model_type .eq. rose_model) then
-         g_soil_loss = erosion_rose ()
+         call erosion_rose (g_soil_loss_bed, g_soil_loss_susp)
 
       else
-cjh   should be fatal error??
-         g_soil_loss = 0.0
-
+         call fatal_error(err_user, 'Unknown model_type.')
       endif
 
-      if (g_soil_loss .gt. 0.0 .and. p_profile_reduction .eq. on) then
+      if ((g_soil_loss_bed + g_soil_loss_susp .gt. 0.0) .and. 
+     :    p_profile_reduction .eq. on) then
             ! move profile
          call erosion_move_profile ()
       else
@@ -1262,12 +1378,12 @@ cjh   should be fatal error??
       end
 
 *     ===========================================================
-      real function erosion_freeb ()
+      subroutine erosion_freeb (bed_loss, susp_loss)
 *     ===========================================================
 
 *   Short description:
 *     Freebairn cover-sediment concentration model
-*     from PERFECT. returns t/ha
+*     from PERFECT. returns t/ha bed and suspended loss
 
 *   Assumptions:
 *       none
@@ -1295,7 +1411,8 @@ cjh   should be fatal error??
       implicit none
 
 *   Subroutine arguments
-*     none
+      real      bed_loss               ! (OUTPUT) soil loss in bed load (t/ha)
+      real      susp_loss              ! (OUTPUT) soil loss in suspended load (t/ha)
 
 *   Global variables
       include   'convert.inc'          ! fract2pcnt
@@ -1327,8 +1444,12 @@ cjh   should be fatal error??
 
       endif
 
-      erosion_freeb = sed_conc * pcnt2fract * g2t/(g2mm * sm2ha)
-     :              * p_ls_factor * p_k_factor
+      bed_loss = sed_conc * pcnt2fract * g2t/(g2mm * sm2ha)
+     :              * p_ls_factor * p_k_factor_bed
+     :              * p_p_factor * g_runoff
+
+      susp_loss = sed_conc * pcnt2fract * g2t/(g2mm * sm2ha)
+     :              * p_ls_factor * p_k_factor_susp
      :              * p_p_factor * g_runoff
 
 cjh      erosion_freeb = sed_conc
@@ -1341,12 +1462,12 @@ cjh       (100*g/(1000*1000))/(g*1000/1000000) *mm  -> t/ha
       end
 
 *     ===========================================================
-      real function erosion_rose ()
+      subroutine erosion_rose (bed_loss, susp_loss)
 *     ===========================================================
 
 *   Short description:
 *     Simplified rose model from PERFECT
-*     returns t/ha
+*     returns t/ha bed and suspended loads
 
 *   Assumptions:
 *       none
@@ -1386,14 +1507,16 @@ cjh       (100*g/(1000*1000))/(g*1000/1000000) *mm  -> t/ha
       implicit none
 
 *   Subroutine arguments
-*     none
+      real      bed_loss               ! (OUTPUT) soil loss in bed load (t/ha)
+      real      susp_loss              ! (OUTPUT) soil loss in suspended load (t/ha)
 
 *   Global variables
       include   'convert.inc'
       include   'erosion.inc'
 
 *   Internal variables
-      real       lambda                ! efficiency of entrainment ?
+      real       lambda_bed                ! efficiency of entrainment ?
+      real       lambda_susp                ! efficiency of entrainment ?
 
 *   Constant values
       character  my_name*(*)
@@ -1405,12 +1528,25 @@ cjh       (100*g/(1000*1000))/(g*1000/1000000) *mm  -> t/ha
 * --------------------- Executable code section ----------------------
       call push_routine (my_name)
 
-      lambda = p_entrain_eff
-     :       * exp (- p_eros_rose_b2 * g_erosion_cover * fract2pcnt)
+      lambda_bed = p_entrain_eff_bed
+     :       * exp (- p_eros_rose_b2_bed * g_erosion_cover * fract2pcnt)
 
-      erosion_rose = 2700.0 * (p_slope * pcnt2fract)
+      bed_loss = 2700.0 * (p_slope * pcnt2fract)
      :             * (1.0 - g_erosion_cover)
-     :             * lambda * g_runoff / 100.0
+     :             * lambda_bed * g_runoff / 100.0
+
+
+      lambda_susp = p_entrain_eff_susp
+     :       * exp (- p_eros_rose_b2_susp * 
+     :               g_erosion_cover * fract2pcnt)
+
+      susp_loss = 2700.0 * (p_slope * pcnt2fract)
+     :             * (1.0 - g_erosion_cover)
+     :             * lambda_susp * g_runoff / 100.0
+
+c      erosion_rose = 2700.0 * (p_slope * pcnt2fract)
+c     :             * (1.0 - g_erosion_cover)
+c     :             * lambda * g_runoff / 100.0
 cjh           what is the unit conversion here???
 
       call pop_routine (my_name)
@@ -1613,6 +1749,7 @@ c      write (*,*) g_dlt_dlayer, dlt_bed_depth
       real       tot_depth
       real       overrun
       real       new_depth
+      real       top                   ! temporary
       integer    num_layers
       integer    i
       real       dlt_depth_mm(max_layer) ! bd based change in depth
@@ -1634,7 +1771,8 @@ c      write (*,*) g_dlt_dlayer, dlt_bed_depth
          ! find density based change in each layer
 
       do 1000 i = 1,count_of_real_vals(g_dlayer, max_layer)
-         dlt_depth_mm(i) =  divide (g_soil_loss * t2g/ha2scm
+         top = (g_soil_loss_bed + g_soil_loss_susp) * t2g/ha2scm
+         dlt_depth_mm(i) =  divide (top
      :                            , g_bd(i), 0.0) * cm2mm
 
 c     What happens when layer completely eroded?
