@@ -14,12 +14,12 @@ class APSIMSoilpPublic
   unavailable_p           : APSIMRealArray      = Unavailable phosphorus content for each soil layer, (kg/ha), GET|READ
   banded_p                : APSIMRealArray      = Banded P content for each layer, (kg/ha), GET|READ|SET, 0.0, 1000.0
   rock_p                  : APSIMRealArray      = Rock P content for each layer ie. no water soluble, (kg/ha), GET|READ|SET, 0.0, 1000.0 
-  soil_test_p             : APSIMRealArray      =, (kg/ha), GET
-  biom_p                  : APSIMRealArray      =, (kg/ha), GET
-  hum_p                   : APSIMRealArray      =, (kg/ha), GET
-  fom_p                   : APSIMRealArray      =, (kg/ha), GET
-  fom_cp                  : APSIMRealArray      =, (kg/ha), GET
-  crop_p_uptake           : APSIMRealArray      =, (kg/ha), GET
+  soil_test_p             : APSIMRealArray      = , (kg/ha), GET
+  biom_p                  : APSIMRealArray      = , (kg/ha), GET
+  hum_p                   : APSIMRealArray      = , (kg/ha), GET
+  fom_p                   : APSIMRealArray      = , (kg/ha), GET
+  fom_cp                  : APSIMRealArray      = , (kg/ha), GET
+  crop_p_uptake           : APSIMRealArray      = , (kg/ha), GET
   sorption                : APSIMRealArray      = Soils P sorption characteristic, (), READ, 0.0, 10000.0
   root_cp                 : APSIMReal           = C:P ratio of roots at initialisation, (), READ, 0.0, 300.0
   rate_dissol_rock_p      : APSIMReal           = Rate at which rock P source becomes available, (/yr), READ, 0.0, 1.0
@@ -29,7 +29,7 @@ class APSIMSoilpPublic
   rate_decr_placement     : APSIMReal           = Fractional loss of placement effect per yr, (), READ, 0.0, 1.0
   eff_band                : APSIMReal           = Relative effectiveness of banded_p compared with broadcast_p, (), READ, 0.0, 100.0
   biom_cp                 : APSIMReal           = c:p ratio of biom pool, (), READ, 0.0, 100.0
-  hum _cp                 : APSIMReal           = c:p ratio of hum pool, (), READ, 0.0, 100.0
+  hum_cp                  : APSIMReal           = c:p ratio of hum pool, (), READ, 0.0, 100.0
   wf_loss_index           : APSIMReal           = Index specifying water content for water factor for loss of availability, (), READ, 0.0, 20.0
   wf_loss_values          : APSIMReal           = Value of water factor function at given index values, (), READ, 0.0, 1.0
   crop_name               : APSIMStringArray    = Name of crop, ()
