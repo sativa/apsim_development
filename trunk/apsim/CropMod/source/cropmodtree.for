@@ -1,4 +1,4 @@
-C     Last change:  E     2 Mar 2000   12:53 pm
+C     Last change:  E     3 Apr 2000    3:40 pm
 
       INCLUDE 'CropMod.inc'
 
@@ -293,7 +293,7 @@ C     Last change:  E     2 Mar 2000   12:53 pm
       if ((Option.eq.1).or.(Option.eq.2)) then
  
 
-         call biomass_potential (Option)
+         call biomass_potential (2)
 
          call cproc_transp_eff1(
      :                     c%svp_fract
