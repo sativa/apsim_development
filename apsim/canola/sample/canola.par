@@ -9,6 +9,7 @@ variable = canola.lai
 variable = canola.biomass
 variable = canola.green_biomass
 variable = canola.pai
+variable = canola.oil_wt
 [sample.clock.parameters]
 ! Start and end date of run (day number of year and year)
 start_date=9/5/1988
@@ -23,7 +24,7 @@ endif
 
 if canola.stage_name = 'harvest_ripe' or canola.plant_status = 'dead' then
    canola harvest
-   canola end_crop   
+   canola end_crop
 endif
 
 [sample.manager.end_of_day]
