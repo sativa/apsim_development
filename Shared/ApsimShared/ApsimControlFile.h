@@ -38,8 +38,8 @@ class __declspec(dllexport) ApsimControlFile
       // ------------------------------------------------------------------
       // Return the referenced file for the specified module e.g. met and soi.
       // ------------------------------------------------------------------
-      std::string getFileForModule(const std::string& section,
-                                   const std::string& module) const;
+      std::string getFileForInstance(const std::string& section,
+                                     const std::string& instanceName) const;
 
       // ------------------------------------------------------------------
       // Return the .ini file name for the specified instance.
