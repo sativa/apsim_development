@@ -7,7 +7,7 @@
   Module = manager  [swat]      
 
 ! Test calibrators options - External Eo, runoff. 
-[apsim.swat0.control]  
+[apsim.swat1.control]  
   Module = clock    [swat]      
   Module = report   [swat]     [calibrators]      
   Module = met      GMTR.MET [weather]      
