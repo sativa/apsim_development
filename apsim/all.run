@@ -48,9 +48,14 @@ Configuration_file=c:\development\settings\standard apsim release.config
 Simulation_file=c:\development\apsim\eo\sample\sample.con
 Simulation=
 
-[erosion]
+[erosion refset]
 Configuration_file=c:\development\settings\standard apsim release.config
 Simulation_file=c:\development\apsim\erosion\refset\refdata.con
+Simulation=
+
+[erosion sample]
+Configuration_file=c:\development\settings\standard apsim release.config
+Simulation_file=c:\development\apsim\erosion\sample\erosion.con
 Simulation=
 
 [fababean]
@@ -98,6 +103,11 @@ Configuration_file=c:\development\settings\standard apsim release.config
 Simulation_file=c:\development\apsim\grasp\sample\step4\grasp.con
 Simulation=
 
+[graz test]
+Configuration_file=c:\development\settings\standard apsim release.config
+Simulation_file=c:\development\apsim\graz\test\graz.con
+Simulation=
+
 [input]
 Configuration_file=c:\development\settings\standard apsim release.config
 Simulation_file=c:\development\apsim\input\sample\input.con
@@ -141,6 +151,11 @@ Simulation=
 [manager sample1]
 Configuration_file=c:\development\settings\standard apsim release.config
 Simulation_file=c:\development\apsim\manager\sample\manager.con
+Simulation=
+
+[manager test]
+Configuration_file=c:\development\settings\standard apsim release.config
+Simulation_file=c:\development\apsim\manager\test\test.con
 Simulation=
 
 [manure]
@@ -313,7 +328,7 @@ Simulation=
 
 [sunflower]
 Configuration_file=c:\development\settings\standard apsim release.config
-Simulation_file=c:\development\apsim\sunflower\sample\sample.con
+Simulation_file=c:\development\apsim\sunflower\sample\sunflower.con
 Simulation=
 
 [surface]
@@ -326,6 +341,26 @@ Configuration_file=c:\development\settings\standard apsim release.config
 Simulation_file=c:\development\apsim\tamet2\sample\sample.con
 Simulation=
 
+[tracker]
+Configuration_file=c:\development\settings\standard apsim release.config
+Simulation_file=c:\development\apsim\tracker\sample\tracker.con
+Simulation=
+
+[tree]
+Configuration_file=c:\development\settings\standard apsim release.config
+Simulation_file=c:\development\apsim\tree\refset\refdata.con
+Simulation=
+
+[tree step1]
+Configuration_file=c:\development\settings\standard apsim release.config
+Simulation_file=c:\development\apsim\tree\test\step1\tree.con
+Simulation=
+
+[tree step2]
+Configuration_file=c:\development\settings\standard apsim release.config
+Simulation_file=c:\development\apsim\tree\test\step2\tree.con
+Simulation=
+
 [weed]
 Configuration_file=c:\development\settings\standard apsim release.config
 Simulation_file=c:\development\apsim\weed\sample\weed.con
@@ -333,7 +368,7 @@ Simulation=
 
 [wheat]
 Configuration_file=c:\development\settings\standard apsim release.config
-Simulation_file=c:\development\apsim\wheat\sample\sample.con
+Simulation_file=c:\development\apsim\wheat\sample\wheat.con
 Simulation=
 
 [tests]
