@@ -33,10 +33,7 @@ Variable_names = sum@h_equiv_infiltration
 Variable_alias = infiltn_mol                
 
 [rtexcr.report1.parameters]  
-title = Sample run - root excretion
 outputfile =  rtexcr.out /overwrite   
-
-screen_output =  off   
 
 Module_names =   clock clock clock clock
 Variable_names = year  month day   today.dd/mm/yyyy
