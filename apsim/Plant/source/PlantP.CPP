@@ -877,7 +877,7 @@ const char*  my_name = "PlantP_set_phosphorus_aware";
       {
            //module is p aware
          g.phosphorus_aware = true;
-         plant->parent->writeString ("   - Module is set Phosphorous aware");
+         plant->parent->writeString ("   - Module is set phosphorus aware");
          plant->parent->writeString (" ");
       }
       else

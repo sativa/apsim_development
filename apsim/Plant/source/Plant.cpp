@@ -106,7 +106,7 @@ Plant::Plant(PlantComponent *P)
          g.dlt_dm_fruit_abort[cohort]= new float [max_part];
          g.fruit_sdr_daily[cohort]=new float [366];
          }
-      phosphorous = new PlantP(this);
+      phosphorus = new PlantP(this);
       plant_zero_all_globals();
       parent = P;
     }
@@ -144,7 +144,7 @@ Plant::Plant(PlantComponent *P)
     delete [] g.dlt_dm_fruit_green_retrans;
     delete [] g.dlt_dm_fruit_abort;
     delete [] g.fruit_sdr_daily;
-    delete phosphorous;
+    delete phosphorus;
     }
 
 void Plant::doInit(void)
@@ -208,7 +208,7 @@ void Plant::doIDs(void)
                                        "incorp_fom", "",
                                        "", "");
 
-       phosphorous->doIDs(parent);
+       phosphorus->doIDs(parent);
   }
 
 // Register Methods, Events,
@@ -804,7 +804,7 @@ void Plant::doRegistrations(void)
    id = parent->addRegistration(protocol::respondToSetReg, "grain_oil_conc",       floatType);
    IDtoSetFn.insert(UInt2SetFnMap::value_type(id,&Plant::set_plant_grain_oil_conc));
 
-   phosphorous->doRegistrations(parent);
+   phosphorus->doRegistrations(parent);
    }
 
 void Plant::doEvent(unsigned int &id, protocol::Variant &v)
@@ -862,7 +862,7 @@ void Plant::sendStageMessage(const char *what)
 void Plant::doPrepare(unsigned &, protocol::Variant &)
   {
     plant_zero_daily_variables ();
-    phosphorous->zero_daily_variables();
+    phosphorus->zero_daily_variables();
 
     if (g.plant_status == out)
      {
@@ -1645,7 +1645,7 @@ void Plant::plant_bio_grain_demand_stress (int option /* (INPUT) option number *
 
     if (option == 1)
         {
-        cproc_yieldpart_demand_stress1 (min(g.nfact_photo, phosphorous->fact_photo())
+        cproc_yieldpart_demand_stress1 (min(g.nfact_photo, phosphorus->fact_photo())
                                         ,g.swdef_photo
                                         ,g.temp_stress_photo
                                         ,&g.dlt_dm_stress_max);
@@ -2373,7 +2373,7 @@ void Plant::plant_leaf_area_stressed (int option /* (INPUT) option number*/)
         {
         cproc_leaf_area_stressed1 (g.dlt_lai_pot
                                    ,g.swdef_expansion
-                                   ,min(g.nfact_expansion, phosphorous->fact_expansion())
+                                   ,min(g.nfact_expansion, phosphorus->fact_expansion())
                                    ,&g.dlt_lai_stressed);
         }
     else
@@ -2622,7 +2622,7 @@ void Plant::plant_leaf_no_pot (int option /* (INPUT) option number*/)
                              , emerg
                              , g.dlt_tt
                              , g.node_no
-                             , min(g.nfact_expansion, phosphorous->fact_expansion())
+                             , min(g.nfact_expansion, phosphorus->fact_expansion())
                              , g.swdef_expansion
                              , &g.leaves_per_node
                              , &g.dlt_leaf_no_pot
@@ -3525,7 +3525,7 @@ void Plant::plant_phenology (int   option/*(INPUT) option number*/)
                           ,c.y_tt
                           ,g.maxt
                           ,g.mint
-                          ,min(g.nfact_pheno, phosphorous->fact_pheno())
+                          ,min(g.nfact_pheno, phosphorus->fact_pheno())
                           ,g.swdef_pheno
                           ,g.swdef_pheno_flower
                           ,g.swdef_pheno_grainfill
@@ -3597,7 +3597,7 @@ void Plant::plant_phenology (int   option/*(INPUT) option number*/)
                             ,c.y_tt
                             ,g.maxt
                             ,g.mint
-                            ,min(g.nfact_pheno, phosphorous->fact_pheno())
+                            ,min(g.nfact_pheno, phosphorus->fact_pheno())
                             ,g.swdef_pheno
                             ,g.swdef_pheno_flower
                             ,g.swdef_pheno_grainfill
@@ -3637,7 +3637,7 @@ void Plant::plant_phenology (int   option/*(INPUT) option number*/)
                           ,c.y_tt
                           ,g.maxt
                           ,g.mint
-                          ,min(g.nfact_pheno, phosphorous->fact_pheno())
+                          ,min(g.nfact_pheno, phosphorus->fact_pheno())
                           ,g.swdef_pheno
                           ,g.swdef_pheno_flower
                           ,g.swdef_pheno_grainfill
@@ -3892,7 +3892,7 @@ void Plant::plant_leaf_death (int   option/*(INPUT) option number*/)
         legnew_leaf_death_leg(c.sen_start_stage
                               , c.fr_lf_sen_rate
                               , c.node_sen_rate
-                              , min(g.nfact_expansion, phosphorous->fact_expansion())
+                              , min(g.nfact_expansion, phosphorus->fact_expansion())
                               , c.n_fact_lf_sen_rate
                               , g.current_stage
                               , g.dlt_tt
@@ -5361,7 +5361,7 @@ void Plant::plant_bio_rue (int option /*(INPUT) option number*/)
                          , g.cover_pod
                          , g.radn_int
                          , min(min(min(g.temp_stress_photo, g.nfact_photo),
-                             g.oxdef_photo), phosphorous->fact_photo())
+                             g.oxdef_photo), phosphorus->fact_photo())
                          , g.co2, g.maxt, g.mint
                          , c.photosynthetic_pathway
                          , &g.dlt_dm_pot_rue);
@@ -8528,7 +8528,7 @@ void Plant::plant_process ( void )
            // retranslocation
            plant_nit_retrans (c.n_retrans_option);
            }
-        phosphorous->process(g.current_stage
+        phosphorus->process(g.current_stage
                             , g.dm_green
                             , g.dlt_dm_senesced);
 
@@ -8552,12 +8552,12 @@ void Plant::plant_process ( void )
         }
 
     plant_detachment (1);
-    phosphorous->detachment(g.dm_senesced
+    phosphorus->detachment(g.dm_senesced
                           , g.dm_dead
                           , g.dlt_dm_detached
                           , g.dlt_dm_dead_detached);
 
-    phosphorous->death(g.plants, g.dlt_plants);
+    phosphorus->death(g.plants, g.dlt_plants);
 
     plant_fruit_cleanup(c.fruit_no_option);
     plant_cleanup();
@@ -8755,7 +8755,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     float n_root_residue;                              // nitrogen added to residue (kg/ha)
     float dm_tops_residue;                             // dry matter added to residue (kg/ha)
     float n_tops_residue;                              // nitrogen added to residue (kg/ha)
-    float P_residue;                              // Phosphorous added to residue (g/m^2)
+    float P_residue;                              // phosphorus added to residue (g/m^2)
     float dm_removed;                             // dry matter removed from system (kg/ha)
     float n_removed;                              // nitrogen removed from system (kg/ha)
     float dm_root;
@@ -8997,7 +8997,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
          // Call plant P module so that it can add
          // its P to the message - green,senesced and dead
          // all removed using same fractions
-       phosphorous->crop_chopped(chop_fr_green  // green
+       phosphorus->crop_chopped(chop_fr_green  // green
                                   , chop_fr_sen    // senesced
                                   , chop_fr_dead   // dead
                                   , &P_tops
@@ -10443,7 +10443,7 @@ void Plant::plant_init (void)
     g.plant_status = out;
     g.module_name = parent->getName();
 
-    phosphorous->doInit(parent, c.crop_type, c.part_names);
+    phosphorus->doInit(parent, c.crop_type, c.part_names);
 
     pop_routine (my_name);
     return;
@@ -11331,10 +11331,10 @@ void Plant::plant_end_crop ()
 
     float dm_residue;                             // dry matter added to residue (g/m^2)
     float n_residue;                              // nitrogen added to residue (g/m^2)
-    float P_residue;                              // Phosphorous added to residue (g/m^2)
+    float P_residue;                              // phosphorus added to residue (g/m^2)
     float dm_root;                                // dry matter added to soil (g/m^2)
     float n_root;                                 // nitrogen added to soil (g/m^2)
-    float P_root;                                 // Phosphorous added to soil (g/m^2)
+    float P_root;                                 // phosphorus added to soil (g/m^2)
     char  msg[400];
     float yield;                                  // grain wt (kg/ha)
     float fraction_to_residue[max_part];          // fraction sent to residue (0-1)
@@ -11374,14 +11374,14 @@ void Plant::plant_end_crop ()
             }
         incorp_fr[root] = 1.0;
 
-        phosphorous->incorp_fom(incorp_fr // green
+        phosphorus->incorp_fom(incorp_fr // green
                               , incorp_fr // senesced
                               , g.dlayer
                               , g.root_length
                               , g.root_depth
                               , &P_root);  //  should be all root P all from green, sen and dead
 
-        phosphorous->incorp_fom_dead(incorp_fr // dead
+        phosphorus->incorp_fom_dead(incorp_fr // dead
                                     , g.dlayer
                                     , g.root_length_dead
                                     , g.root_depth
@@ -11438,14 +11438,14 @@ void Plant::plant_end_crop ()
            }
            chop_fr[root] = 0.0;
 //
-//           phosphorous->residue_chopped(chop_fr  // green
+//           phosphorus->residue_chopped(chop_fr  // green
 //                                      , chop_fr  // senesced
 //                                      , chop_fr  // dead
 //                                      , fraction_to_residue
 //                                      , &P_residue
 //                                      , dlt_dm_p);  // dlt_dm_p should be all P all from green, sen and dead
 
-            phosphorous->end_crop(chop_fr, &P_residue, dlt_dm_p);  // dlt_dm_p should be all P all from green, sen and dead
+            phosphorus->end_crop(chop_fr, &P_residue, dlt_dm_p);  // dlt_dm_p should be all P all from green, sen and dead
 
             plant_send_crop_chopped_event ( c.crop_type
                   , part_name
@@ -11800,7 +11800,7 @@ void Plant::plant_update_other_variables (void)
 //+  Local Variables
     float dm_residue[max_part+1];                   // dry matter added to residue (kg/ha)
     float n_residue[max_part+1];                    // nitrogen added to residue (kg/ha)
-    float P_residue[max_part+1];                    // phosphorous added to residue (kg/ha)
+    float P_residue[max_part+1];                    // phosphorus added to residue (kg/ha)
     float fraction_to_residue[max_part+1];          // fraction sent to residue (0-1)
     float chop_fr[max_part+1];
     float incorp_fr[max_part+1];
@@ -11842,14 +11842,14 @@ void Plant::plant_update_other_variables (void)
               chop_fr[part] = 1.0;
         }
         chop_fr[root] = 0.0;
-//        phosphorous->residue_chopped(chop_fr_green
+//        phosphorus->residue_chopped(chop_fr_green
 //                                   , chop_fr_sen
 //                                   , chop_fr_dead
 //                                   , fraction_to_residue
 //                                   , &P_tops
 //                                   , P_residue); // P residue should be just dlt_p_det here
 
-        phosphorous->detached (chop_fr, &P_tops, P_residue); // P residue should be just dlt_p_det here
+        phosphorus->detached (chop_fr, &P_tops, P_residue); // P residue should be just dlt_p_det here
 
         plant_send_crop_chopped_event (c.crop_type
                                      , part_name
@@ -11882,7 +11882,7 @@ void Plant::plant_update_other_variables (void)
     }
     incorp_fr[root] = 1.0;
 
-    phosphorous->incorp_fom_detached(incorp_fr
+    phosphorus->incorp_fom_detached(incorp_fr
                                     , g.dlayer
                                     , root_length
                                     , g.root_depth
@@ -11916,14 +11916,14 @@ void Plant::plant_update_other_variables (void)
         chop_fr[root] = 0.0;
 //             // Call plant P module so that it can add
 //             // its P to the message
-//        phosphorous->residue_chopped(chop_fr_green
+//        phosphorus->residue_chopped(chop_fr_green
 //                                    , chop_fr_sen
 //                                    , chop_fr_dead
 //                                    , fraction_to_residue
 //                                    , &P_tops
 //                                    , P_residue); // P residue should be just dlt_p_dead_det here
 
-        phosphorous->dead_detached (chop_fr, &P_tops, P_residue); // P residue should be just dlt_p_dead_det here
+        phosphorus->dead_detached (chop_fr, &P_tops, P_residue); // P residue should be just dlt_p_dead_det here
 
         plant_send_crop_chopped_event(c.crop_type
                                     , part_name
@@ -11956,7 +11956,7 @@ void Plant::plant_update_other_variables (void)
     }
     incorp_fr[root] = 1.0;
 
-    phosphorous->incorp_fom_dead_detached( incorp_fr
+    phosphorus->incorp_fom_dead_detached( incorp_fr
                                           , g.dlayer
                                           , root_length
                                           , g.root_depth
@@ -12140,7 +12140,7 @@ void Plant::plant_prepare (void)
 
     // Note actually should send total plant
     // potential growth rather than just tops - NIH
-    phosphorous->prepare(g.current_stage, g.dm_green, g.dlt_dm_pot_rue);
+    phosphorus->prepare(g.current_stage, g.dm_green, g.dlt_dm_pot_rue);
 
     pop_routine (myname);
     return;
@@ -13429,7 +13429,7 @@ void Plant::plant_harvest_report ()
              , " dead N content (kg/ha) = ", n_dead);
     parent->writeString (msg);
 
-    phosphorous->summary (g.dm_green, g.dm_dead);
+    phosphorus->summary (g.dm_green, g.dm_dead);
 
     parent->writeString ("");
 

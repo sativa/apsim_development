@@ -1445,7 +1445,7 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
   //     Plant
   //     ================================================================
 
-  PlantP *phosphorous;
+  PlantP *phosphorus;
 
   struct IDS {
        // gets
