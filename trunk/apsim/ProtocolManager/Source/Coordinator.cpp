@@ -16,16 +16,9 @@
 #include "DebugHook.h"
 using namespace std;
 using namespace protocol;
+
 // ------------------------------------------------------------------
-//  Short description:
-//     Return a blank string when requested to indicate that we
-//     don't need a wrapper DLL.
-
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
+// Return a blank string when requested to indicate that we don't need a wrapper DLL.
 // ------------------------------------------------------------------
 extern "C" _export void __stdcall wrapperDLL(char* wrapperDll)
    {
@@ -104,8 +97,8 @@ void Coordinator::doInit1(const FString& sdml)
       title = simulationData.getTitle();
       if (componentID == parentID)
          {
-         titleID = addRegistration(respondToGetReg, "title", "<type kind=\"string\"/>");
-         componentsID = addRegistration(respondToGetReg, "components", "<type kind=\"string\" array=\"T\"/>");
+         titleID = addRegistration(RegistrationType::respondToGet, "title", "<type kind=\"string\"/>");
+         componentsID = addRegistration(RegistrationType::respondToGet, "components", "<type kind=\"string\" array=\"T\"/>");
          }
       printReport = simulationData.doPrintReport();
 
@@ -180,7 +173,6 @@ void Coordinator::doInit2(void)
    Component::doInit2();
 
    // resolve all registrations.
-   registrations.resolveAll();
    afterInit2 = true;
 
    // initialise all components.
@@ -327,23 +319,21 @@ void Coordinator::onRequestComponentIDMessage(unsigned int fromID,
 // ------------------------------------------------------------------
 void Coordinator::onRegisterMessage(unsigned int fromID, RegisterData& registerData)
    {
-   string regName;
-   if (registerData.destID > 0)
-       regName = components[registerData.destID]->getName() + "." + asString(registerData.name);
-   else
-      regName = asString(registerData.name);
    try
       {
-      convertKindToMethodCall(registerData.kind, regName);
+      string regName = asString(registerData.name);
+      unsigned destID = registerData.destID;
+      unsigned posPeriod = regName.find('.');
+      if (posPeriod != string::npos)
+         {
+         destID = componentNameToID(regName.substr(0, posPeriod));
+         if (destID == INT_MAX)
+            throw runtime_error("Cannot find component " + regName.substr(0, posPeriod));
+         regName.erase(0, posPeriod+1);
+         }
 
-      string childName;
-      if (fromID == componentID)
-         childName = name;
-      else
-         childName = components[fromID]->getName();
-      registrations.add(fromID, registerData.ID, regName,
-                        registerData.kind, childName,
-                        afterInit2);
+      Registration newReg(fromID, registerData.ID, regName, registerData.kind);
+      registrations.add(newReg, destID);
       }
    catch (const runtime_error& err)
       {
@@ -365,7 +355,7 @@ void Coordinator::onDeregisterMessage(unsigned int fromID, DeregisterData& dereg
    {
    try
       {
-      registrations.erase(fromID, deregisterData.ID);
+      registrations.erase(fromID, deregisterData.ID, deregisterData.kind);
       }
    catch (const runtime_error& err)
       {
@@ -381,27 +371,23 @@ void Coordinator::onPublishEventMessage(unsigned int fromID, PublishEventData& p
    try
       {
       ::Registrations::Subscriptions subscriptions;
-      registrations.getSubscriptions(fromID, publishEventData.ID, subscriptions);
+      registrations.getSubscriptions(fromID, publishEventData.ID, RegistrationType::event, subscriptions);
 
       if (componentOrders.size() > 0)
          reorderSubscriptions(subscriptions);
 
-      if (subscriptions.size() == 0 && registrations.isMethodCall(fromID, publishEventData.ID))
-         throw runtime_error("No module responded to method call: "
-            + registrations.getRegistrationName(fromID, publishEventData.ID));
-
       for (::Registrations::Subscriptions::iterator s = subscriptions.begin();
-                                                  s != subscriptions.end() && !doTerminate;
-                                                  s++)
+                                                    s != subscriptions.end() && !doTerminate;
+                                                    s++)
          {
          // if the event is going to our parent then we need to say that it is
          // coming from us rather than our child.
-         if (s->first == parentID)
+         if (s->componentId == parentID)
             fromID = componentID;
 
          sendMessage(newEventMessage(componentID,
-                                     s->first,
-                                     s->second,
+                                     s->componentId,
+                                     s->id,
                                      fromID,
                                      publishEventData.variant));
          }
@@ -445,49 +431,65 @@ void Coordinator::onGetValueMessage(unsigned int fromID, GetValueData& getValueD
       {
       string msg = "Cannot do GET's before the INIT2.\n";
       msg += "Variable name: ";
-      msg += registrations.getRegistrationName(fromID, getValueData.ID);
+      msg += registrations.getName(fromID, getValueData.ID, RegistrationType::get);
       error(msg.c_str(), true);
       }
    else
-      sendQueryValueMessage(fromID, fromID, getValueData.ID, getValueData.ID);
+      sendQueryValueMessage(fromID, getValueData.ID);
    }
 // ------------------------------------------------------------------
-// Send queryValue messages to all subscribed components.  The toID
-// is used so that the receiving component can send a returnValue
-// message straight back to the originating module.  The fromID
-// can be different to the toID in a multi-paddock simulation where
-// the parent PM may be simply routing a queryValue message on behalf
-// of the originating component.
+// Send queryValue messages to all subscribed components.
 // ------------------------------------------------------------------
-void Coordinator::sendQueryValueMessage(unsigned ourComponentID,
-                                        unsigned foreignComponentID,
-                                        unsigned ourRegID,
-                                        unsigned foreignRegID)
+void Coordinator::sendQueryValueMessage(unsigned fromID, unsigned regID)
    {
    try
       {
       ::Registrations::Subscriptions subs;
-      registrations.getSubscriptions(ourComponentID, ourRegID, subs);
+
+      bool hasBeenResolved = registrations.isResolved(fromID, regID, RegistrationType::get);
+      registrations.getSubscriptions(fromID, regID, RegistrationType::get, subs);
 
       // apsim hack to poll modules for variables.  This is because we haven't
       // yet got all the .interface files up to date.
-      if (subs.size() == 0)
+      if (!hasBeenResolved && subs.size() == 0)
          {
-         string regName = registrations.getRegistrationName(ourComponentID, ourRegID);
-         pollComponentsForGetVariable(regName);
-         registrations.getSubscriptions(ourComponentID, ourRegID, subs);
+         string regName = registrations.getName(fromID, regID, RegistrationType::get);
+         unsigned destID = registrations.getDestId(fromID, regID, RegistrationType::get);
+         pollComponentsForGetVariable(regName, destID);
+         registrations.getSubscriptions(fromID, regID, RegistrationType::get, subs);
          }
 
+      previousGetValueCompID.push(fromID);
+      previousGetValueRegID.push(regID);
       for (::Registrations::Subscriptions::iterator s = subs.begin();
                                                     s != subs.end();
                                                     s++)
          {
          sendMessage(newQueryValueMessage(componentID,
-                                          s->first,
-                                          s->second,
-                                          foreignComponentID,
-                                          foreignRegID));
+                                          s->componentId,
+                                          s->id,
+                                          fromID));
          }
+      }
+   catch (const runtime_error& err)
+      {
+      error(err.what(), true);
+      }
+   }
+// ------------------------------------------------------------------
+// Send a returnValue message back to originating component.
+// ------------------------------------------------------------------
+void Coordinator::onReplyValueMessage(unsigned fromID, ReplyValueData replyValueData)
+   {
+   try
+      {
+      sendMessage(newReturnValueMessage(componentID,
+                                        previousGetValueCompID.top(),
+                                        fromID,
+                                        previousGetValueRegID.top(),
+                                        replyValueData.variant));
+      previousGetValueCompID.pop();
+      previousGetValueRegID.pop();
       }
    catch (const runtime_error& err)
       {
@@ -509,47 +511,49 @@ void Coordinator::onQueryInfoMessage(unsigned int fromID,
                                      unsigned int messageID,
                                      QueryInfoData& queryInfo)
    {
-   std::vector< ::Registrations::Info> info;
+   unsigned componentId = 0;
+
+   string name = asString(queryInfo.name);
+   unsigned posPeriod = name.find('.');
+   if (posPeriod != string::npos)
+      {
+      string componentName = name.substr(0, posPeriod);
+      name.erase(0, posPeriod);
+      componentID = componentNameToID(name);
+      }
+   std::vector<Registration> matches;
+
    if (queryInfo.kind == respondToGetInfo)
-      registrations.findMatchingRegistrations(asString(queryInfo.name), respondToGetReg, info);
+      registrations.findMatching(componentId, name, RegistrationType::respondToGet, matches);
    else if (queryInfo.kind == respondToSetInfo)
-      registrations.findMatchingRegistrations(asString(queryInfo.name), respondToSetReg, info);
-   else if (queryInfo.kind == respondToMethodInfo)
-      registrations.findMatchingRegistrations(asString(queryInfo.name), respondToMethodCallReg, info);
+      registrations.findMatching(componentId, name, RegistrationType::respondToSet, matches);
    else if (queryInfo.kind == respondToEventInfo)
-      registrations.findMatchingRegistrations(asString(queryInfo.name), respondToEventReg, info);
+      registrations.findMatching(componentId, name, RegistrationType::respondToEvent, matches);
    else if (queryInfo.kind == componentInfo)
       {
-      string name = asString(queryInfo.name);
-      unsigned int componentID;
-      if (Is_numerical(name.c_str()))
-         componentID = atoi(name.c_str());
-      else
-         {
-         componentID = componentNameToID(name);
-         if (componentID == INT_MAX)
-            return;
-         }
+      unsigned childID = componentNameToID(name);
+      if (childID == INT_MAX)
+         return;
       string fqn = name;
       fqn += ".";
-      fqn += components[componentID]->getName();
+      fqn += components[childID]->getName();
       sendMessage(newReturnInfoMessage(componentID,
                                        fromID,
                                        messageID,
-                                       componentID,
-                                       componentID,
+                                       childID,
+                                       childID,
                                        fqn.c_str(),
                                        " ",
                                        queryInfo.kind));
       }
 
-   for (unsigned i = 0; i != info.size(); i++)
+   for (unsigned i = 0; i != matches.size(); i++)
       sendMessage(newReturnInfoMessage(componentID,
                                        fromID,
                                        messageID,
-                                       info[i].componentId,
-                                       info[i].regId,
-                                       info[i].fqn.c_str(),
+                                       matches[i].componentId,
+                                       matches[i].id,
+                                       matches[i].name.c_str(),
                                        " ",
                                        queryInfo.kind));
    }
@@ -576,28 +580,35 @@ void Coordinator::sendQuerySetValueMessage(unsigned ourComponentID,
    try
       {
       ::Registrations::Subscriptions subs;
-      registrations.getSubscriptions(ourComponentID, ourRegID, subs);
+      bool hasBeenResolved = registrations.isResolved(ourComponentID, ourRegID, RegistrationType::set);
+      registrations.getSubscriptions(ourComponentID, ourRegID, RegistrationType::set, subs);
 
       // apsim hack to poll modules for variables.  This is because we haven't
       // yet got all the .interface files up to date.
+      if (!hasBeenResolved && subs.size() == 0)
+         {
+         string regName = registrations.getName(ourComponentID, ourRegID, RegistrationType::set);
+         unsigned destID = registrations.getDestId(ourComponentID, ourRegID, RegistrationType::set);
+         pollComponentsForSetVariable(regName, destID, ourComponentID, ourRegID, variant);
+         registrations.getSubscriptions(ourComponentID, ourRegID, RegistrationType::set, subs);
+         }
+
       if (subs.size() == 0)
          {
-         string regName = registrations.getRegistrationName(ourComponentID, ourRegID);
-         pollComponentsForSetVariable(regName, ourComponentID, ourRegID, variant);
-         registrations.getSubscriptions(ourComponentID, ourRegID, subs);
-         if (subs.size() == 0)
-            throw runtime_error("No module allows a set of the variable " + regName);
+         string regName = registrations.getName(ourComponentID, ourRegID, RegistrationType::set);
+         throw runtime_error("No module allows a set of the variable " + regName);
          }
+
       else if (subs.size() == 1)
          sendMessage(newQuerySetValueMessage(componentID,
-                                             subs[0].first,
-                                             subs[0].second,
+                                             subs[0].componentId,
+                                             subs[0].id,
                                              foreignComponentID,
                                              foreignRegID,
                                              variant));
       else
          {
-         string regName = registrations.getRegistrationName(ourComponentID, ourRegID);
+         string regName = registrations.getName(ourComponentID, ourRegID, RegistrationType::set);
          throw runtime_error("Too many modules allow a set of the variable " + regName);
          }
       }
@@ -639,18 +650,15 @@ unsigned Coordinator::componentNameToID(const std::string& name)
 // apsim hack to poll modules for gettable variables.  This is because we haven't
 // yet got all the .interface files up to date.
 // ------------------------------------------------------------------
-void Coordinator::pollComponentsForGetVariable(const string& variableName)
+void Coordinator::pollComponentsForGetVariable(const string& variableName,
+                                               unsigned destID)
    {
    string lowerName = variableName;
    To_lower(lowerName);
-   unsigned posPeriod = lowerName.find('.');
-   if (posPeriod != string::npos)
+   if (destID > 0)
       {
-      string regComponent = lowerName.substr(0, posPeriod);
-      string regName = lowerName.substr(posPeriod+1);
-      unsigned toID = componentNameToID(regComponent);
-      if (toID != INT_MAX)
-         sendMessage(newApsimGetQueryMessage(componentID, toID, regName.c_str()));
+      sendMessage(newApsimGetQueryMessage(componentID, destID,
+                                          lowerName.c_str()));
       }
    else
       {
@@ -669,24 +677,21 @@ void Coordinator::pollComponentsForGetVariable(const string& variableName)
 // yet got all the .interface files up to date.
 // ------------------------------------------------------------------
 void Coordinator::pollComponentsForSetVariable(const string& variableName,
+                                               unsigned destID,
                                                unsigned fromID,
                                                unsigned ourRegID,
                                                protocol::Variant& variant)
    {
    string lowerName = variableName;
    To_lower(lowerName);
-   unsigned posPeriod = lowerName.find('.');
-   if (posPeriod != string::npos)
-      {
-      string regComponent = lowerName.substr(0, posPeriod);
-      string regName = lowerName.substr(posPeriod+1);
+   if (destID > 0)
       sendMessage(newApsimSetQueryMessage(componentID,
-                                          componentNameToID(regComponent),
-                                          regName.c_str(),
+                                          destID,
+                                          variableName.c_str(),
                                           fromID,
                                           ourRegID,
                                           variant));
-      }
+
    else
       {
       for (Components::iterator i = components.begin();
@@ -750,7 +755,7 @@ void Coordinator::reorderSubscriptions(::Registrations::Subscriptions& subs)
       {
       ::Registrations::Subscriptions::iterator sub = subsToMove.begin();
       if (find(componentOrders.begin(), componentOrders.end(),
-               sub->first) == componentOrders.end())
+               sub->componentId) == componentOrders.end())
          {
          newSubs.push_back(*sub);
          subsToMove.erase(subsToMove.begin());
@@ -763,7 +768,7 @@ void Coordinator::reorderSubscriptions(::Registrations::Subscriptions& subs)
                                                           s != subsToMove.end();
                                                           s++)
                {
-               if (s->first == componentOrders[o])
+               if (s->componentId == componentOrders[o])
                   {
                   newSubs.push_back(*s);
                   s = subsToMove.erase(s);
@@ -784,58 +789,17 @@ void Coordinator::readAllRegistrations(void)
                                         reg != componentData->regEnd();
                                         reg++)
       {
-      RegistrationType kind;
-      RegistrationType oppositeKind;
-      string kindString = reg->getType();
+      RegistrationType regType(reg->getType());
+      RegistrationType oppositeRegType = regType.opposite();
       string internalName = reg->getInternalName();
       if (internalName == "")
          internalName = reg->getName();
-      if (Str_i_Eq(kindString, "getVariableReg"))
-         {
-         kind = getVariableReg;
-         oppositeKind = respondToGetReg;
-         }
-      else if (Str_i_Eq(kindString, "setVariableReg"))
-         {
-         kind = setVariableReg;
-         oppositeKind = respondToSetReg;
-         }
-      else if (Str_i_Eq(kindString, "methodCallReg"))
-         {
-         kind = methodCallReg;
-         oppositeKind = respondToMethodCallReg;
-         }
-      else if (Str_i_Eq(kindString, "eventReg"))
-         {
-         kind = eventReg;
-         oppositeKind = respondToEventReg;
-         }
-      else if (Str_i_Eq(kindString, "respondToGetReg"))
-         {
-         kind = respondToGetReg;
-         oppositeKind = getVariableReg;
-         }
-      else if (Str_i_Eq(kindString, "respondToSetReg"))
-         {
-         kind = respondToSetReg;
-         oppositeKind = setVariableReg;
-         }
-      else if (Str_i_Eq(kindString, "respondToMethodCallReg"))
-         {
-         kind = respondToMethodCallReg;
-         oppositeKind = methodCallReg;
-         }
-      else if (Str_i_Eq(kindString, "respondToEventReg"))
-         {
-         kind = respondToEventReg;
-         oppositeKind = eventReg;
-         }
 
       ApsimDataTypeData dataType = componentData->getDataType(reg->getDataTypeName());
-      unsigned regId = addRegistration(kind, reg->getName().c_str(),
+      unsigned regId = addRegistration(regType, reg->getName().c_str(),
                                        dataType.getTypeString().c_str());
 
-      registrations.add(parentID, regId, internalName, oppositeKind, name, true);
+      registrations.add(Registration(parentID, regId, internalName, oppositeRegType));
       }
    }
 // ------------------------------------------------------------------
@@ -856,30 +820,13 @@ void Coordinator::respondToEvent(unsigned int& fromID, unsigned int& eventID, pr
    onPublishEventMessage(foreignComponentID, publishEventData);
    }
 // ------------------------------------------------------------------
-// respond to a method call request
-// ------------------------------------------------------------------
-void Coordinator::respondToMethod(unsigned int& fromID, unsigned int& methodID, protocol::Variant& variant)
-   {
-   PublishEventData publishEventData;
-   publishEventData.ID = methodID;
-   publishEventData.variant = variant;
-
-   // need to work out if this event has come from outside this system or
-   // from one of our child components.  If from outside then set the
-   // fromID to point to our parent.
-   unsigned foreignComponentID = fromID;
-   if (components.find(fromID) == components.end())
-      foreignComponentID = parentID;
-   onPublishEventMessage(foreignComponentID, publishEventData);
-   }
-// ------------------------------------------------------------------
 // return one of our variables to caller
 // ------------------------------------------------------------------
-void Coordinator::respondToGet(unsigned int& fromID, QueryValueData& queryData)
+void Coordinator::respondToGet(unsigned int& fromID, QueryValueData& queryValueData)
    {
-   if (queryData.ID == titleID)
-      sendVariable(queryData, FString(title.c_str()));
-   else if (queryData.ID == componentsID)
+   if (queryValueData.ID == titleID)
+      sendVariable(queryValueData, FString(title.c_str()));
+   else if (queryValueData.ID == componentsID)
       {
       std::vector<string> comps;
       for (Components::iterator c = components.begin();
@@ -890,10 +837,10 @@ void Coordinator::respondToGet(unsigned int& fromID, QueryValueData& queryData)
          if (dll != "")
             comps.push_back(dll);
          }
-      sendVariable(queryData, comps);
+      sendVariable(queryValueData, comps);
       }
    else
-      sendQueryValueMessage(fromID, queryData.replytoID, queryData.ID, queryData.replyID);
+      sendQueryValueMessage(fromID, queryValueData.ID);
    }
 // ------------------------------------------------------------------
 // respond to a method call request
@@ -910,7 +857,7 @@ bool Coordinator::respondToSet(unsigned int& fromID, QuerySetValueData& setValue
 // ------------------------------------------------------------------
 void Coordinator::notifyTermination(void)
    {
-   if (printReport)
+/*   if (printReport)
       {
       string msg = "---------- Registrations for: ";
       msg += name;
@@ -923,20 +870,5 @@ void Coordinator::notifyTermination(void)
 
       writeString("--------------------");
       }
-   }
-// ------------------------------------------------------------------
-// convert and event or respondtoevent to a methodCall or
-// respondToMethodCall if the registration name has a period in it.
-// ------------------------------------------------------------------
-void Coordinator::convertKindToMethodCall(protocol::RegistrationType& kind,
-                                          const string& regName)
-   {
-   if (regName.find('.') != string::npos)
-      {
-      if (kind == eventReg)
-         kind = methodCallReg;
-      else if (kind == respondToEventReg)
-         kind = respondToMethodCallReg;
-      }
-   }
+*/   }
 
