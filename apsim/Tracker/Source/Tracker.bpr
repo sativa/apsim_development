@@ -10,7 +10,7 @@
     <RESDEPEN value="$(RESFILES)"/>
     <LIBFILES value="..\..\..\Shared\ApsimShared\ApsimShared.lib 
       ..\..\..\Shared\ComponentInterface\ComponentInterface.lib 
-      ..\..\..\Shared\general\general.lib"/>
+      ..\..\..\Shared\general\general.lib &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib&quot;"/>
     <LIBRARIES value=""/>
     <SPARELIBS value="rtl.lib"/>
     <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi vcljpg.bpi dbrtl.bpi vcldb.bpi"/>
@@ -24,7 +24,7 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="Tracker.bpf"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(SHARED)"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost"/>
     <LIBPATH value="$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
@@ -53,6 +53,7 @@
       <FILE FILENAME="..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\ComponentInterface\ComponentInterface.lib" FORMNAME="" UNITNAME="ComponentInterface.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib" FORMNAME="" UNITNAME="date_time.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -86,13 +87,13 @@ ProductVersion=1.0.0.0
 Comments=
 
 [Excluded Packages]
-C:\WINDOWS\System32\PsQRC60.bpl=Pragnaan QuickReport Export Filters
 c:\program files\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
 
 [HistoryLists\hlIncludePath]
-Count=2
-Item0=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item1=..\apsim\Tracker\Source;$(BCB)\include;$(BCB)\include\vcl
+Count=3
+Item0=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost
+Item1=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item2=..\apsim\Tracker\Source;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
 Count=2
@@ -120,11 +121,11 @@ Item0=.
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=
+RunParams=c:\mydata\development\apsim\tracker\sample\tracker.sim
 Launcher=
 UseLauncher=0
 DebugCWD=
-HostApplication=
+HostApplication=c:\mydata\development\bin\apsim.exe
 RemoteHost=
 RemotePath=
 RemoteLauncher=
