@@ -20,7 +20,7 @@ class APSIMSoilwat2Public
    eff_rain                : APSIMReal         = Effective rainfall = Rainfall - runoff - drainage, (mm), GET
    bd                      : APSIMRealArray    = Bulk density of the soil for each layer, (g/cc), GET|READ, 0.0, 2.0
    esw                     : APSIMReal         = Extractable soil water, (mm), GET
-   sw_dep                  : APSIMRealArray    = Layered soil water, (mm), GET|SET
+   sw_dep                  : APSIMReal         = Layered soil water, (mm), GET|SET
    dlt_sw_dep              : APSIMRealArray    = Change in soil moisture, (mm), SET, -10000.0, 10000.0
    sw                      : APSIMRealArray    = Soil water, (mm/mm), GET|SET|READ, 0.0, 1.0
    dlt_sw                  : APSIMRealArray    = Change in volumetric soil moisture, (mm/mm), SET, -1.0, 1.0
@@ -42,7 +42,10 @@ class APSIMSoilwat2Public
    nnnn_up                 : APSIMRealArray    = Amount of solute nnnn in unsaturated water movement for each layer (+ve up), (mm), GET
 
    observed_runoff         : APSIMString       = Name of APSIM variable containing observed runoff data, (), READ_OPT
-   insoil                  : APSIMReal         = Indicator for initial soil water, (), READ, 0.0, 100.0
+   insoil                  : APSIMReal         = Indicator for initial soil water - evenly distributed over profile, (), SET|READ, 0.0, 10.0
+   profile_fesw            : APSIMReal         = Initial fraction of esw of profile distributed from top down, (), SET|READ, 0.0, 1.0
+   profile_esw_depth       : APSIMReal         = Initial depth of extractable soil water distributed from the top down, (mm), SET|READ, 0.0, 10000.0
+   profile_field_capacity_depth  : APSIMReal   = Initial depth of soil filled to drained upper limit - field capacity, (mm), SET|READ, 0.0, 10000.0
    diffus_const            : APSIMReal         = Constant term in diffusivity calculation, (), READ, 0.0, 500.0
    diffus_slope            : APSIMReal         = Slope term in diffusivity calculation, (), READ, 0.0, 100.0
    cn2_bare                : APSIMReal         = Bare soil runoff curve number, (), READ|SET, 0.0, 100.0
@@ -80,10 +83,9 @@ class APSIMSoilwat2Public
    tillage                 : APSIMSoilwat2TillageMethod = Set up for CN reduction after tillage operation
    sysinit                 : APSIMMethod                = System initialise
    reset                   : APSIMMethod                = System reset stage
-   sum_report              : APSIMSumReportMethod       = Report SoilWat module summary details
-   evap_init               : APSIMEvapInitMethod        = Method of evaporation calculation
-
-   new_profile             : APSIMNewProfileEvent       = New Profile
+   process                 : APSIMMethod                = System process stage
+   sum_report              : APSIMMethod                = Report SoilWat module summary details
+   post                    : APSIMMethod                = System post stage
 end
 
 ; -----------------------------------------------------------
@@ -109,9 +111,6 @@ class APSIMSoilwat2External
    newmet                  : APSIMNewMetEvent           = New met event
    irrigated               : APSIMIrrigatedEvent        = Irrigated event
    new_solute              : APSIMNewSoluteEvent        = New solute event
-   process                 : APSIMEvent                 = System process stage
-   post                    : APSIMEvent                 = System post stage
-
 end
 
 class APSIMSoilwat2
