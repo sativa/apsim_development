@@ -32,7 +32,7 @@ class APSIMManagerExternal
    year  : APSIMInteger = Year, (year)
 end
 
-class APSIMManager
+class APSIMManager : APSIMComponent
    dll  : String
    public  : APSIMManagerPublic
    external   : APSIMManagerExternal

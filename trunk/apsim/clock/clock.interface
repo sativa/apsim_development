@@ -45,7 +45,7 @@ class APSIMClockPublic
    tick                   : APSIMEvent  = Tick event
 end
 
-class APSIMClock
+class APSIMClock : APSIMComponent
    dll  : string
    public  : APSIMClockPublic
 end
