@@ -1,0 +1,102 @@
+<HTML>
+  <HEAD>
+    <TITLE> Ini and parameter file changes</TITLE>
+    <META NAME="GENERATOR" CONTENT="Mozilla/3.0Gold (X11; I; Linux 2.0.21 i486) [Netscape]">
+  </HEAD>
+  <BODY>
+    
+    <h3> Changes to the parameter file </h3>
+    <p> 
+      <b><i>Old (soilwat2.0) parameter files do not need modification</i></b>. Several parameters are now superfluous, and a new value needs to be added to the ini file:
+    <p> <tt>act_evap_method</tt> in the ini file selects which actual soil evaporation is to be used. 
+    <p>
+    Each submodel defined by <tt>act_evap_method</tt> requires different parameters:
+      <table > 
+    <tr> <td></td><td></td> <td colspan=4>Parameter name</td> </tr>
+    <tr> 
+      <td></td> 
+      <td width=130><tt>act_evap_method</tt></td>
+      <td width=50><tt>cona</tt></td> 
+      <td width=50><tt>u</tt></td> 
+      <td width=50><tt>beta</tt></td> 
+      <td width=50><tt>max_evap</tt></td> 
+    </tr>
+    <tr>
+      <td> Ritchie </td>
+      <td> <tt>ritchie</tt></td>
+      <td> Yes </td>      
+      <td> Yes </td>
+      <td> - </td>
+      <td> - </td>
+    </tr>
+    <tr>
+      <td> B&amp;S A </td>
+      <td> <tt>bs_a</tt></td>
+      <td> - </td>    
+      <td> - </td>
+      <td> Yes </td>
+      <td> - </td>
+    </tr>
+    <tr>
+      <td> B&amp;S B </td>
+      <td> <tt>bs_b</tt></td>
+      <td> - </td>    
+      <td> - </td>
+      <td> Yes </td>
+      <td> - </td>
+    </tr>
+    <tr>
+      <td> B&amp;S (andy) </td>
+      <td> <tt>bs_acs</tt></td>
+      <td> Yes </td>
+      <td> Yes </td>
+      <td> Yes </td>
+      <td> - </td>
+    </tr>
+    <tr>
+      <td> Rickert </td>
+      <td> <tt>rickert</tt></td>
+      <td> - </td>    
+      <td> - </td>
+      <td> - </td>
+      <td> Yes </td>
+    </tr>
+      </table>
+    </p>
+    <p>
+    
+    
+      <ul>
+    <li> Andy is using cona and U at  initialisation of his model -
+      I'm not sure that he's recycling variable names (heaven
+      forbid!) or assuming incorrectly that they'll always be
+      there. </li>
+    <li> The rickert model needs diffus_xx set to zero, but this
+      interferes with upward flow. A warning is generated if they are non-zero.
+    </li>
+      </ul>
+      
+    </p>
+    <p> A brief description of each new variable:
+    <table>
+      <tr>
+    <td>Cona</td>
+    <td>The change in cumulative second stage evaporation against the square root of time. </td>
+      </tr>
+      <tr>
+    <td>U</td>
+    <td> The amount of cumulative evaporation, since soil wetting, before soil supply becomes limiting.</td>
+      </tr>
+      <tr>
+    <td>Beta</td>
+    <td>The evaporation characteristic soil parameter determined
+      experimentally.</td> 
+      </tr>
+      <tr>
+    <td>max_evap</td>
+    <td> The maximum daily soil evaporation (mm).</td>
+      </tr>
+    </table>
+
+  </body>
+</html>
