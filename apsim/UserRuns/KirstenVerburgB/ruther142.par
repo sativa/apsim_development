@@ -1155,14 +1155,14 @@ endif
 
 !******************** Residue2 module ********************
 
-[all.residue2.parameters]
+[all.SurfaceOM.parameters]
 report_additions = no
-residue_wt =  1000
-residue_cnr =  25.0
-residue_type =  grass
-pot_decomp_rate =  0.10
+mass = 1000
+cnr = 25.0
+type = grass
 
 !******************** Soilwat2 module ********************
+name = grass
 [all.soilwat2.parameters]
 u =                   6.0   (mm) ! stage 1 soil evaporation coefficient (mm)
 cona =                3.5   ()   ! stage 2 evap coef.
