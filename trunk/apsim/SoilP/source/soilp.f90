@@ -1802,10 +1802,10 @@ subroutine soilp_min_residues ()
 !- Implementation Section ----------------------------------
    call push_routine (myname)
 
-   dlt_res_c_atm = 0.0
-   dlt_res_c_hum = 0.0
-   dlt_res_c_biom = 0.0
-   dlt_org_p = 0.0
+   dlt_res_c_atm(:)= 0.0
+   dlt_res_c_hum(:) = 0.0
+   dlt_res_c_biom(:) = 0.0
+   dlt_org_p(:) = 0.0
 
 
   !   call collect_real_array ('dlt_res_c_atm',  max_layer,  '()',  dlt_res_c_atm,  numvals,  0.0,  1000.0)
@@ -2329,14 +2329,16 @@ subroutine Main (Action, Data_string)
    else if (Action.eq.ACTION_Till) then
       call soilp_tillage ()
 
-   else if (Action.eq.ACTION_incorp_fom) then
-      call soilp_incorp_residues ()
+!   now responds to 'FreshOrganicMatterIncorporated'
+!   else if (Action.eq.ACTION_incorp_fom) then
+!      call soilp_incorp_residues ()
+!
+!   else if (Action.eq.ACTION_incorp_fom_p) then
+!      call soilp_incorp_residue_p ()
 
-   else if (Action.eq.ACTION_incorp_fom_p) then
-      call soilp_incorp_residue_p ()
-
-   else if (Action.eq.ACTION_Decomposed) then
-      call soilp_min_residues ()
+!   now responds to 'ActualResidueDecompositionCalculated'
+!   else if (Action.eq.ACTION_Decomposed) then
+!      call soilp_min_residues ()
 
    else
       ! Don't use message
@@ -2363,6 +2365,8 @@ subroutine respondToEvent(fromID, eventID, variant)
 
    if (eventID .eq.id%FreshOrganicMatterIncorporated) then
       call soilP_ONFreshOrganicMatterIncorporated(variant)
+   elseif (eventID .eq.id%ActualResidueDecompositionCalculated) then
+      call soilp_min_residues ()
 
    endif
  
