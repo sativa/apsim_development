@@ -273,6 +273,7 @@
          real    dDW_BOLL
          real    dDW_LEAF
          real    dDW_ROOT
+         real    dDW_ROOT_max
          real    dDW_STEM
          real    LEAF_RES
          real    STEM_RES
@@ -860,6 +861,7 @@
       g%dDW_BOLL            = 0.0
       g%dDW_LEAF            = 0.0
       g%dDW_ROOT            = 0.0
+      g%dDW_ROOT_max        = 0.0
       g%dDW_STEM            = 0.0
       g%LEAF_RES            = 0.0
       g%STEM_RES            = 0.0
@@ -1260,6 +1262,12 @@
       ll(:) = 0.0
       sat_adj(:) = 0.0
       ll_adj(:) = 0.0
+      no3(:) = 0.0
+      nh4(:) = 0.0
+      urea(:) = 0.0
+      dul(:) = 0.0
+      sat(:) = 0.0
+
 
       ! Get depths of each layer
 
@@ -2223,6 +2231,7 @@
       call push_routine(myname)
 !psc      iday=i-isow ! replaced ncrpdy throughout, 15 nov 1983
       g%iday=g%das
+
       IF(g%iday.EQ.300) THEN
           g%iend = 10                             ! terminate crop growth
           WRITE(string,775)            ! mature bolls will be forced open.
@@ -2271,12 +2280,12 @@
 !---- check if frost terminates crop -----------------------------------------
 
       IF(g%tempmn.LE.c%frost_kill_immediate
-     :   .and. g%iemrg .gt. 0) THEN    ! frost after emergence?
+     :   .and. g%iemrg .gt. 0.0) THEN    ! frost after emergence?
           IF(g%bollz.EQ.0) THEN                  ! pre-fruiting?
               g%iend=2                           ! flag for frost -
               WRITE(string,771)
               call write_string (string)
-          ELSE IF(g%openz.EQ.0) THEN             ! green bolls yet?
+          ELSE IF(g%openz.EQ.0.0) THEN             ! green bolls yet?
               g%iend=2                           ! flag for frost - force open bolls > 80% mature
               WRITE(string,772)
               call write_string (string)
@@ -2674,7 +2683,7 @@
           g%vnstrs = 0.0
       ENDIF
 !jh v2001
-      IF(g%bollz.EQ.0.) THEN            ! during veg growth, before 1st boll
+      IF(g%bollz.EQ.0.0) THEN            ! during veg growth, before 1st boll
           g%fnstrs = 1.0
       ELSE
 !jh v2001
@@ -5373,7 +5382,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !jh          dN_BOLL = 0.0                ! boll nitrogen adjusted
 !jh          g%dn_plant = 0.0             ! plant N increment
       IF(total_n_pot.GT.uptakn_max/10.) THEN
-          g%dn_plant = max(0.0, uptakn_max/10. - g%total_n)   ! plant N increment
+          dn_plant = max(0.0, uptakn_max/10. - g%total_n)   ! plant N increment
           adjust = divide (dn_plant, g%dn_plant, 0.0)
           dN_LEAF = dN_LEAF * ADJUST   ! leaf nitrogen adjusted
           dN_STEM = dN_STEM * ADJUST   ! stem nitrogen adjusted
@@ -5493,7 +5502,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       real demand
       real sd_ratio
       real sd_root
-      real ddw_root_max
+!      real ddw_root_max
 
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_dryxmatter')
@@ -5608,17 +5617,16 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !------------------------------------------------------------------------------
 !     feed back from root grow to root depth
 !------------------------------------------------------------------------------
+      IF(g%iday.EQ.1) g%ddw_root_max = g%ddw_root        ! initialise max root rate
 
-      IF(g%iday.EQ.1) dDW_ROOT_MAX = g%ddw_root        ! initialise max root rate
-
-      IF(g%ddw_root.GT.dDW_ROOT_MAX) THEN
-          dDW_ROOT_MAX = g%ddw_root                    ! save maximum root rate
+      IF(g%ddw_root.GT.g%ddw_root_max) THEN
+          g%ddw_root_max = g%ddw_root                    ! save maximum root rate
           g%root_feedback = 1.0                        ! feedback of dw on depth
       ELSE
-          IF(dDW_ROOT_MAX.EQ.0.) THEN
+          IF(g%ddw_root_max.EQ.0.) THEN
               g%root_feedback = 1.0
           ELSE
-              g%root_feedback = divide (g%ddw_root, dDW_ROOT_MAX, 0.0) ! feedback of dw on depth
+              g%root_feedback = divide (g%ddw_root, g%ddw_root_max, 0.0) ! feedback of dw on depth
           ENDIF
       ENDIF
 
