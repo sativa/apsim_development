@@ -14,6 +14,33 @@
          <drop name="folder"/>
      </drops>
    </area>
+   <registrations>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <LargeIcon>Images\layout_center32.png</LargeIcon>
+      <SmallIcon>Images\layout_center16.png</SmallIcon>
+      <drops>
+     </drops>
+      <variables>
+         <variable name="year" description="Year"/>
+         <variable name="day" description="Day"/>
+         <variable name="dd/mm/yyyy" description="Date (dd/mm/yyyy)"/>
+         <variable name="maxt" description="Maximum temperature (oC)"/>
+         <variable name="mint" description="Minimum temperature (oC)"/>
+         <variable name="rain" description="Rainfall (mm)"/>
+         <variable name="radn" description="Solar Radiation (MJ/m2/day)"/>
+      </variables>
+      <events>
+         <event name="prepare" description="Start of daily simulation time step"/>
+         <event name="end_week" description="End of week"/>
+         <event name="end_month" description="End of month"/>
+         <event name="end_year" description="End of year"/>
+         <event name="post" description="End of daily simulation time step"/>
+         <event name="newmet" description="Event indicating change in meteorological data"/>
+      </events>
+   </registrations>
+
    <variables>
       <ShowInMainTree>No</ShowInMainTree>
       <SmallIcon>Images\books_blue.png</SmallIcon>
@@ -1165,8 +1192,22 @@
    </venlink>
    <WaterSupply>
       <UItype>generic</UItype>
-      <ShowInMainTree>No</ShowInMainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/WaterSupply/docs/WaterSupply_science.htm</Documentation>
+      <LargeIcon>Images\drink_blue32.png</LargeIcon>
+      <SmallIcon>Images\drink_blue16.png</SmallIcon>
+      <drops>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+     <variables>
+         <variable name="evaporation" description ="Dam Evaporation"/>
+         <variable name="seepage" description ="Dam Seepage"/>
+         <variable name="available_water" description ="Available Dam Water"/>
+         <variable name="overflow" description ="Dam Overflow"/>
+         <variable name="available_depth" description ="Dam Water Depth"/>
+     </variables>
    </WaterSupply>
 
    <egrandis>
