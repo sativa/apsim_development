@@ -78,9 +78,9 @@ class APSIMsoiln2Public
    rd_cell                  : APSIMReal              = Maximum rate constant for decomposition of fresh organic matter pools, (), READ, 0.0, 1.0
    rd_lign                  : APSIMReal              = Maximum rate constant for decomposition of fresh organic matter pools, (), READ, 0.0, 1.0
    fom_type                 : APSIMStringArray       = List of fresh organic types, (), READ
-   fr_carb                  : APSIMRealArray         = Carbohydrate, cellulose & libnin fractions of FOM, (), READ, 0.0, 1.0
-   fr_cell                  : APSIMRealArray         = Carbohydrate, cellulose & libnin fractions of FOM, (), READ, 0.0, 1.0
-   fr_lign                  : APSIMRealArray         = Carbohydrate, cellulose & libnin fractions of FOM, (), READ, 0.0, 1.0
+   fr_carb                  : APSIMRealArray         = Carbohydrate cellulose & libnin fractions of FOM, (), READ, 0.0, 1.0
+   fr_cell                  : APSIMRealArray         = Carbohydrate cellulose & libnin fractions of FOM, (), READ, 0.0, 1.0
+   fr_lign                  : APSIMRealArray         = Carbohydrate cellulose & libnin fractions of FOM, (), READ, 0.0, 1.0
    oc2om_factor             : APSIMReal              = oc2om_factor, (), READ, 0.0, 3.0
    fom_min                  : APSIMReal              = Minimum allowable fresh organic matter, (), READ, 0.0, 1.0
    no3ppm_min               : APSIMReal              = Minimum allowable NO3 ppm, (), READ, 0.0, 1.0
