@@ -3,6 +3,6 @@
   Module = report   sample.par [sample]      
   Module = met      SAMPLE.MET [sample]      
   Module = manager  sample.par [sample]      
-  Module = apswim   sample.par [sample]     ..\..\apswim\apswim.ini [standard]   
+  Module = apswim   sample.par [sample]     %apsuite\apsim\apswim\apswim.ini [standard]   
   Module = slurp    sample.par [sample]      
   Module = surface  sample.par [sample]      
