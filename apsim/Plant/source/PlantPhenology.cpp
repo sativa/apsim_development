@@ -15,7 +15,7 @@ int environment_t::find_layer_no(float depth) const
    {
    unsigned int indx;
    float progressive_sum = 0.0;
-   
+
    for(indx = 0; indx < dlayer.size(); indx++)
       {
       progressive_sum = progressive_sum + dlayer[indx];
@@ -186,11 +186,21 @@ bool compositePhase::contains(const pPhase &p) const
    return (find(phases.begin(), phases.end(), p) != phases.end());
    }
 
+float compositePhase::getTT() const
+{
+   float tt = 0.0;
+   for (vector<pPhase>::const_iterator phase = phases.begin(); phase !=  phases.end(); phase++)
+   {
+      tt += phase->getTT();
+   }
+   return tt;
+}
+
 void PlantPhenology::initialise (PlantComponent *s, const string &section)
 {
    phases.push_back(pPhase("out"));
    currentStage = 0.0;
-   
+
    // Read the sequential list of stage names
    string scratch = s->readParameter(section, "stage_names");
    vector<string> stage_names;
@@ -259,7 +269,7 @@ void PlantPhenology::doRegistrations (protocol::Component *s)
                     &PlantPhenology::get_tt_tot, "dd", "Thermal time spent in each crop stage");
    setupGetFunction("days_tot",protocol::DTsingle, true,
                     &PlantPhenology::get_days_tot, "days", "Days spent in each crop stage");
-   
+
 #undef setupGetVar
 #undef setupGetFunction
 }
@@ -352,6 +362,29 @@ int PlantPhenology::daysInCurrentStage(void)
 	return current.getDays();
    }
 
+float PlantPhenology::ttInPhase(const string &phaseName)
+   {
+      // See if it's a composite
+      compositePhase phaseGroup = composites[phaseName];
+      if (!phaseGroup.isEmpty())
+      {
+         return phaseGroup.getTT();
+      }
+      else
+      {
+         // No, see if the stage is known at all to us
+         pPhase *phase = find(phases.begin(), phases.end(), pPhase(phaseName));
+         if (phase == phases.end())
+         {
+            throw std::runtime_error("unknown phase name " + phaseName);
+         }
+         else
+         {
+   	      return phase->getTT();
+   	   }
+   	}
+   }
+
 float PlantPhenology::ttInCurrentStage(void)
    {
 	const pPhase &current = phases[currentStage];
@@ -410,10 +443,10 @@ void PlantPhenology::zeroStateVariables(void)
 //       and a nominated stage number. Returns the first or last table value if the stage number is not
 //       found. Interpolation is done on thermal time.
 // Hmmmmmm. This is very dodgy.
-float PlantPhenology::stageCode (void) 
+float PlantPhenology::stageCode (void)
     {
     if (currentStage < 3.0) return 3.0;
-    if (phases[currentStage].isFirstDay()) 
+    if (phases[currentStage].isFirstDay())
         {
         float tt_tot = phases[currentStage].getTT();
         float phase_tt = phases[currentStage].getTTTarget();
@@ -437,7 +470,7 @@ void PlantPhenology::get_stage_code(protocol::Component *s, protocol::QueryValue
    s->sendVariable(qd, stage_no);
    }
 
-// NB. the 0'th element in these arrays is the "out" stage. 
+// NB. the 0'th element in these arrays is the "out" stage.
 // For backward compatibility, don't report it.
 void PlantPhenology::get_phase_tt(protocol::Component *s, protocol::QueryValueData &qd)
    {
@@ -523,10 +556,10 @@ void WheatPhenology::readSpeciesParameters (PlantComponent *s, vector<string> &s
                        "pesw_germ"//, "(mm/mm)"
                       , pesw_germ
                       , 0.0, 1.0);
-   
+
    rel_emerg_rate.search(s, sections,
                          "fasw_emerg", "()", 0.0, 1.0,
-                         "rel_emerg_rate",  "()", 0.0, 1.0);                   
+                         "rel_emerg_rate",  "()", 0.0, 1.0);
 
    }
 
@@ -644,7 +677,7 @@ void WheatPhenology::vernalisation (const environment_t &t)
    }
 
 // Crown temperature from nwheat
-float WheatPhenology::crown_temp_nwheat (float maxt, float mint, float snow) 
+float WheatPhenology::crown_temp_nwheat (float maxt, float mint, float snow)
    {
    // Calculate max crown temperature
    float cx;
@@ -670,7 +703,7 @@ float WheatPhenology::crown_temp_nwheat (float maxt, float mint, float snow)
 //     The initial daily thermal time and height are also set.
 // NB. There are 2 ways to advance from one stage to the next:
 // via the dltStage calculation in stage_devel(), or
-// via thermal time accumulation 
+// via thermal time accumulation
 #ifdef PHENOLOGY_PETE
 void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
    {
@@ -680,7 +713,7 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
       {
       dlt_tt_phenol = dlt_tt;
       // can't germinate on same day as sowing, because we would miss out on
-      // day of sowing elsewhere. 
+      // day of sowing elsewhere.
       if (das == 0)
          {
          dltStage = 0.0;
@@ -697,9 +730,7 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
                                 sw.dul_dep[layer_no_seed] - sw.ll_dep[layer_no_seed], 0.0);
       fasw_seed = bound (fasw_seed, 0.0, 1.0);
 
-      dlt_tt_phenol = dlt_tt *
-                       min(vern_eff, photop_eff) *
-                       rel_emerg_rate[fasw_seed];
+      dlt_tt_phenol = dlt_tt * min(vern_eff, photop_eff) * rel_emerg_rate[fasw_seed];
       dltStage = (phase_fraction(dlt_tt_phenol) + floor(currentStage))- currentStage;
       }
    else if (inPhase("above_ground"))
@@ -713,10 +744,8 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
          fstress = 1.0;                          //no stress - not really a stage..
       else if (inPhase("harvest_ripe"))
          fstress = 0.0;                          //stop development
-      dlt_tt_phenol = dlt_tt *
-                      fstress *
-                      min(vern_eff, photop_eff);
-      dltStage = (phase_fraction(dlt_tt_phenol) + floor(currentStage))- currentStage;
+      dlt_tt_phenol = dlt_tt * fstress * min(vern_eff, photop_eff) * ps.remove_biom_pheno;
+      dltStage = (phase_fraction(dlt_tt_phenol) + floor(currentStage)) - currentStage;
       }
    else
       {
@@ -726,7 +755,8 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
       }
 
    // update thermal time states and day count
-   float balance_tt = 0.0, balance_days = 0.0;
+   float balance_tt = 0.0;
+   float balance_days = 0.0;
    phases[(int)currentStage].add(1.0, dlt_tt_phenol, &balance_days, &balance_tt);
 
    // (new) stage calculation
@@ -754,7 +784,7 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
       {
       dlt_tt_phenol = dlt_tt;
       // can't germinate on same day as sowing, because we would miss out on
-      // day of sowing elsewhere. 
+      // day of sowing elsewhere.
       if (das == 0)
          {
          phase_devel = 0.999;
@@ -763,7 +793,7 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
          {
          phase_devel = 1.999;
          }
-      else 
+      else
          {
          phase_devel = 0.0;
          }
@@ -797,7 +827,7 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
          fstress = 0.0;                          //stop development
       dlt_tt_phenol = dlt_tt *
                       fstress *
-                      min(vern_eff, photop_eff);
+                      min(vern_eff, photop_eff) * ps.remove_biom_pheno;
 
       const pPhase &current = phases[currentStage];
       phase_devel = divide(current.getTT() + dlt_tt_phenol, current.getTTTarget(), 1.0);
@@ -806,7 +836,7 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
    else
       {
       // ??Hmmm. should probably stop dead here??
-      dlt_tt_phenol = dlt_tt;
+      dlt_tt_phenol = dlt_tt * ps.remove_biom_pheno;
       phase_devel = 0.0;
       new_stage = floor(currentStage) + phase_devel;
       }
@@ -815,8 +845,8 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
 
    /// accumulate() to objects
    float value = dlt_tt_phenol;             //  (INPUT) value to add to array
-   float p_index = currentStage;           //  (INPUT) current p_index no       
-   float dlt_index = dltStage;       //  (INPUT) increment in p_index no  
+   float p_index = currentStage;           //  (INPUT) current p_index no
+   float dlt_index = dltStage;       //  (INPUT) increment in p_index no
 
    {
    int current_index;           // current index number ()
@@ -1092,6 +1122,31 @@ void LegumePhenology::onKillStem()
       phases[stage].reset();
    }
 
+void LegumePhenology::onRemoveBiomass(float removeBiomPheno)
+{
+   float ttAboveGround = ttInPhase("above_ground");
+   float phenoRemoveFract = removeBiomPheno*0.3; // Table lookup required here ***
+   float phenoRemoveTT = ttAboveGround * phenoRemoveFract;
+
+   float ttRemaining = phenoRemoveTT;
+   vector <pPhase>::reverse_iterator phase;
+   for (phase = phases.rbegin(); phase !=  phases.rend(); ++phase)
+   {
+      float ttCurrentPhase = phase->getTT();
+      if (ttRemaining > ttCurrentPhase)
+      {
+         phase->reset();
+         ttRemaining -= ttCurrentPhase;
+      }
+      else
+      {
+         phase->add(0.0, -ttRemaining);
+         ttRemaining = 0.0;
+         break;
+      }
+   }
+}
+
 void LegumePhenology::prepare (const environment_t &e)
    {
    PlantPhenology::prepare(e);
@@ -1251,7 +1306,7 @@ void LegumePhenology::readSpeciesParameters (PlantComponent *s, vector<string> &
                                    "stage_code_list" , "()", 1.0, 100.0,
                                    "stage_stem_reduction_kill_stem" , "()", 1.0, 100.0);
 
-   vernal_days.search(s, sections, 
+   vernal_days.search(s, sections,
                        "x_vernal_temp", "(oc)", -10., 60.0,
                        "y_vernal_days", "(days)", 0.0, 1.0);
 
@@ -1300,7 +1355,7 @@ void LegumePhenology::zeroEverything(void)
    {
    est_days_emerg_to_init=0;
    }
-   
+
 void LegumePhenology::writeCultivarInfo (PlantComponent *systemInterface)
    {
    string s;
@@ -1329,7 +1384,7 @@ void LegumePhenology::process(const environment_t &e, const pheno_stress_t &ps)
       {
       dlt_tt_phenol = dlt_tt;
       // can't germinate on same day as sowing, because we would miss out on
-      // day of sowing elsewhere. 
+      // day of sowing elsewhere.
       if (das == 0)
          {
          dltStage = 0.0;
@@ -1351,22 +1406,22 @@ void LegumePhenology::process(const environment_t &e, const pheno_stress_t &ps)
       }
    else if (inPhase("emergence2floral_initiation"))
        {
-       dlt_tt_phenol = dlt_tt *  min(ps.swdef, ps.nfact);
+       dlt_tt_phenol = dlt_tt *  min(ps.swdef, ps.nfact) * ps.remove_biom_pheno;
        dltStage = (phase_fraction(dlt_tt_phenol) + floor(currentStage))- currentStage;
        }
     else if (inPhase("flowering"))
        {
-       dlt_tt_phenol = dlt_tt *  ps.swdef_flower;          //no nstress
+       dlt_tt_phenol = dlt_tt *  ps.swdef_flower * ps.remove_biom_pheno;          //no nstress
        dltStage = (phase_fraction(dlt_tt_phenol) + floor(currentStage))- currentStage;
        }
     else if (inPhase("start_grain_fill2harvest_ripe"))
        {
-       dlt_tt_phenol = dlt_tt *  ps.swdef_grainfill;       //no nstress
+       dlt_tt_phenol = dlt_tt *  ps.swdef_grainfill * ps.remove_biom_pheno;       //no nstress
        dltStage = (phase_fraction(dlt_tt_phenol) + floor(currentStage))- currentStage;
        }
     else
        {
-       dlt_tt_phenol = dlt_tt;
+       dlt_tt_phenol = dlt_tt * ps.remove_biom_pheno;
        dltStage = (phase_fraction(dlt_tt_phenol) + floor(currentStage))- currentStage;
        }
 
@@ -1400,7 +1455,7 @@ void LegumePhenology::process (const environment_t &e, const pheno_stress_t &ps)
       {
       dlt_tt_phenol = dlt_tt;
       // can't germinate on same day as sowing, because we would miss out on
-      // day of sowing elsewhere. 
+      // day of sowing elsewhere.
       phase_devel = 0.999;
       if (das == 0)
          {
@@ -1428,7 +1483,7 @@ void LegumePhenology::process (const environment_t &e, const pheno_stress_t &ps)
       }
    else if (inPhase("emergence2floral_initiation"))
       {
-      dlt_tt_phenol = dlt_tt * min(ps.swdef, ps.nfact);
+      dlt_tt_phenol = dlt_tt * min(ps.swdef, ps.nfact) * ps.remove_biom_pheno;
       const pPhase &current = phases[currentStage];
       float a =  current.getTT() + dlt_tt_phenol;
       float b =  current.getTTTarget();
@@ -1437,7 +1492,7 @@ void LegumePhenology::process (const environment_t &e, const pheno_stress_t &ps)
       }
     else if (inPhase("flowering"))
       {
-      dlt_tt_phenol = dlt_tt *  ps.swdef_flower;          //no nstress
+      dlt_tt_phenol = dlt_tt *  ps.swdef_flower * ps.remove_biom_pheno;          //no nstress
       const pPhase &current = phases[currentStage];
       float a =  current.getTT() + dlt_tt_phenol;
       float b =  current.getTTTarget();
@@ -1446,7 +1501,7 @@ void LegumePhenology::process (const environment_t &e, const pheno_stress_t &ps)
       }
     else if (inPhase("start_grain_fill2harvest_ripe"))
       {
-      dlt_tt_phenol = dlt_tt *  ps.swdef_grainfill;       //no nstress
+      dlt_tt_phenol = dlt_tt *  ps.swdef_grainfill * ps.remove_biom_pheno;       //no nstress
       const pPhase &current = phases[currentStage];
       float a =  current.getTT() + dlt_tt_phenol;
       float b =  current.getTTTarget();
@@ -1456,7 +1511,7 @@ void LegumePhenology::process (const environment_t &e, const pheno_stress_t &ps)
    else
       {
       // ??Hmmm. should probably stop dead here??
-      dlt_tt_phenol = dlt_tt;
+      dlt_tt_phenol = dlt_tt * ps.remove_biom_pheno;
       phase_devel = 0.0;
       new_stage = floor(currentStage) + phase_devel;
       }
@@ -1465,8 +1520,8 @@ void LegumePhenology::process (const environment_t &e, const pheno_stress_t &ps)
 
    /// accumulate() to objects
    float value = dlt_tt_phenol;             //  (INPUT) value to add to array
-   float p_index = currentStage;           //  (INPUT) current p_index no       
-   float dlt_index = dltStage;       //  (INPUT) increment in p_index no  
+   float p_index = currentStage;           //  (INPUT) current p_index no
+   float dlt_index = dltStage;       //  (INPUT) increment in p_index no
 
    {
    int current_index;           // current index number ()
@@ -2490,9 +2545,9 @@ float temp_3hr (float tmax, float tmin, int period)
       throw std::invalid_argument("3 hr. period number is above 8");
 
    period_no = float(period);
-   t_range_fract = 0.92105 
-                   + 0.1140  * period_no 
-                   - 0.0703  * pow(period_no,2) 
+   t_range_fract = 0.92105
+                   + 0.1140  * period_no
+                   - 0.0703  * pow(period_no,2)
                    + 0.0053  * pow(period_no,3);
 
    diurnal_range = tmax - tmin;
@@ -2507,8 +2562,8 @@ float temp_3hr (float tmax, float tmin, int period)
 *     is calculated.  The eight three-hour estimates
 *     are then averaged to obtain the daily value.
 */
-float linint_3hrly_temp (float tmax,          //(INPUT) maximum temperature (oC)        
-                         float tmin,          //(INPUT) maximum temperature (oC)        
+float linint_3hrly_temp (float tmax,          //(INPUT) maximum temperature (oC)
+                         float tmin,          //(INPUT) maximum temperature (oC)
                          externalFunction *ttFn)
    {
    //Constants

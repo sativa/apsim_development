@@ -4,7 +4,11 @@
 #include <algorithm>
 
 typedef struct {
-	float swdef, nfact, swdef_flower, swdef_grainfill;
+	float swdef;
+	float nfact;
+	float swdef_flower;
+	float swdef_grainfill;
+	float remove_biom_pheno;
 } pheno_stress_t ;
 
 class environment_t {
@@ -18,14 +22,14 @@ class environment_t {
    int find_layer_no(float) const;
    float daylength(float) const;
    float daylength(int, float) const;
-};          
+};
 // Terminology:
 // A "stage" is a point in time.
 // A "phase" is the period between two stages.
 // A "composite phase" is a group of one or more phases.
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// A phenological phase. 
+// A phenological phase.
 class pPhase
    {
    private:
@@ -64,6 +68,7 @@ class compositePhase {
    void add(const pPhase &p) {phases.push_back(p);}
    bool contains(const pPhase &p) const;
    bool isEmpty(void) const {return phases.size() == 0;};
+   float getTT(void) const;
 };
 
 // An abstract phenology class.
@@ -77,7 +82,7 @@ class PlantPhenology {
    vector<pPhase>     phases;                        // The list of phases that this plant goes through
 
    typedef std::map<string, compositePhase> string2composite;
-   string2composite   composites;                    // Composite phases we know about 
+   string2composite   composites;                    // Composite phases we know about
 
    float previousStage, currentStage, dltStage;
 
@@ -88,7 +93,7 @@ class PlantPhenology {
 
    float phase_fraction(float dlt_tt);               // return the fraction through the current phase we are in
    pPhase *getPhase(const char *);
-   
+
  public:
    PlantPhenology(plantInterface *p) {plant = p;};
    virtual void writeCultivarInfo (PlantComponent *)=0;
@@ -110,17 +115,18 @@ class PlantPhenology {
    int   daysInCurrentStage(void);
    int   daysInStage(const pPhase &);
 
+   float ttInPhase(const string &phaseName);
    float ttInCurrentStage(void);
    float ttInStage(const pPhase &);
 
    float stageNumber(void) {return currentStage;};
    float previousStageNumber(void) {return previousStage;};
-   
+
    string stageName(void);
    string previousStageName(void);
    string stageName(int);
    float stageCode (void);
-   
+
    void get_stage(protocol::Component *, protocol::QueryValueData &);
    void get_stage_name(protocol::Component *, protocol::QueryValueData &);
    void get_stage_code(protocol::Component *, protocol::QueryValueData &);
@@ -132,7 +138,7 @@ class PlantPhenology {
    virtual void onEndCrop(void){};
    virtual void onHarvest(void){};
    virtual void onKillStem(void){};
-   virtual void onRemoveBiomass(void){};
+   virtual void onRemoveBiomass(float removeBiomPheno){};
 
    virtual float get_dlt_tt(void) = 0;
    virtual float get_das(void) = 0;
@@ -153,7 +159,7 @@ class WheatPhenology : public PlantPhenology {
    float dlt_cumvd;
    float dlt_tt;
    float dlt_tt_phenol;
-   
+
    // Parameters
    float shoot_lag;                                  // minimum growing degree days for
                                                      // germination (deg days)
@@ -168,7 +174,7 @@ class WheatPhenology : public PlantPhenology {
    interpolationFunction y_tt, rel_emerg_rate;
    lookupFunction stage_reduction_harvest;
    lookupFunction stage_reduction_kill_stem;
-   
+
    float wheat_photoperiod_effect(float photoperiod ,float p_photop_sen);
    float wheat_vernaliz_days(float g_maxt, float g_mint, float crownt, float g_snow, float cumvd);
    float wheat_vernaliz_effect(float p_vern_sens, float cumvd, float dlt_cumvd, float reqvd);
@@ -192,10 +198,11 @@ class WheatPhenology : public PlantPhenology {
    void onEndCrop(void);
    void onHarvest(void);
    void onKillStem(void);
+   void onRemoveBiomass(float removeBiomPheno){};
 
    void zeroStateVariables(void);
    void zeroEverything(void){};
-   
+
    float get_dlt_tt(void) {return dlt_tt;};
    float get_das(void)    {return das;};
 
@@ -207,13 +214,13 @@ class LegumePhenology : public PlantPhenology {
    // states
    int   das;
    float photoperiod;                                // is really day length..
-   float cumvd;                                      // cumulative v days 
+   float cumvd;                                      // cumulative v days
 
    // rates
    float dlt_tt;
-   float dlt_tt_phenol; 
+   float dlt_tt_phenol;
    float dlt_cumvd;
-   
+
    //parameters
    float shoot_lag;                                  // minimum growing degree days for
                                                      // germination (deg days)
@@ -265,6 +272,7 @@ class LegumePhenology : public PlantPhenology {
    void onEndCrop(void);
    void onHarvest(void);
    void onKillStem(void);
+   void onRemoveBiomass(float removeBiomPheno);
 
    void zeroStateVariables(void);
    void zeroEverything(void);
