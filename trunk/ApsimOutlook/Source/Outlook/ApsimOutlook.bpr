@@ -41,18 +41,18 @@ RELEASELIBPATH = $(BCB)\lib\release
 SYSDEFINES = NO_STRICT;_RTLDLL;USEPACKAGES
 USERDEFINES =
 # ---------------------------------------------------------------------------
-CFLAG1 = -I"C:\Program Files\Borland\CBuilder4\Projects\";$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;"j:\thirdparty\" \
+CFLAG1 = -I$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;"j:\thirdparty\" \
   -Od -Hc -H=$(BCB)\lib\vcl40.csm -w -Ve -Tkh30000 -r- -a8 -k -y -v -vi- \
   -D$(SYSDEFINES);$(USERDEFINES) -c -b- -w-par -w-inl -Vx -tW -tWM
 CFLAG2 =
 CFLAG3 =
 PFLAGS = -U$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\data\;k:\components\general\;j:\tb97\;j:\thypergrid\;"j:\rx\units\";$(RELEASELIBPATH) \
-  -I"C:\Program Files\Borland\CBuilder4\Projects\";$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;"j:\thirdparty\" \
+  -I$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;"j:\thirdparty\" \
   -$YD -$W -$O- -v -M -JPHNE
-RFLAGS = -i"C:\Program Files\Borland\CBuilder4\Projects\";$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;"j:\thirdparty\"
-AFLAGS = /i"C:\Program Files\Borland\CBuilder4\Projects\" /i$(BCB)\include \
-  /i$(BCB)\include\vcl /ik:\ /ik:\components\data\ /ik:\components\general\ \
-  /ij:\rx\units\ /i"j:\thirdparty\" /mx /w2 /zd /d_RTLDLL /dUSEPACKAGES
+RFLAGS = -i$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;"j:\thirdparty\"
+AFLAGS = /i$(BCB)\include /i$(BCB)\include\vcl /ik:\ /ik:\components\data\ \
+  /ik:\components\general\ /ij:\rx\units\ /i"j:\thirdparty\" /mx /w2 /zd \
+  /d_RTLDLL /dUSEPACKAGES
 LFLAGS = -L$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\data\;k:\components\general\;j:\tb97\;j:\thypergrid\;"j:\rx\units\";$(RELEASELIBPATH) \
   -aa -Tpe -x -Gn -v
 IFLAGS =
@@ -91,24 +91,26 @@ ProductVersion=1.2
 Comments=Build date: 5 October 1998
 
 [HistoryLists\hlIncludePath]
-Count=7
-Item0=C:\Program Files\Borland\CBuilder4\Projects\;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
-Item1=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdpartyItem1=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdpartyItem1=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdpartyItem1=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdpartyItem1=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data;k:\components\general;j:\rx\units;j:\thirdparty
+Count=8
+Item0=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
+Item1=C:\Program Files\Borland\CBuilder4\Projects\;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdpartyItem1=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdpartyItem1=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdpartyItem1=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdpartyItem1=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdpartyItem1=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data;k:\components\general;j:\rx\units;j:\thirdparty
 Item2=
 Item3=
 Item4=
 Item5=
 Item6=
+Item7=
 
 [HistoryLists\hlLibraryPath]
-Count=7
-Item0=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\data;k:\components\general\;j:\tb97\;j:\thypergrid\;j:\rx\units\
-Item1=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\ui\;k:\components\general\;j:\tb97\;j:\thypergrid\;j:\rx\unitsItem1=k:\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\ui\;k:\components\data\;k:\components\general\;j:\tb97\;j:\thypergrid\;j:\rx\unitsItem1=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general;k:\components\ui\;k:\components\data\;k:\components\general\;j:\tb97\;j:\thypergrid\;j:\rx\unitsItem1=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\components\ui\;k:\components\data\;k:\components\general\;j:\tb97\;j:\thypergrid\;j:\rx\unitsItem1=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\components\ui;k:\components\data;k:\components\general;j:\tb97;j:\thypergrid;j:\rx\units
+Count=8
+Item0=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\data\;k:\components\general\;j:\tb97\;j:\thypergrid\;j:\rx\units\
+Item1=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\data;k:\components\general\;j:\tb97\;j:\thypergrid\;j:\rx\unitsItem1=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\ui\;k:\components\general\;j:\tb97\;j:\thypergrid\;j:\rx\unitsItem1=k:\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\ui\;k:\components\data\;k:\components\general\;j:\tb97\;j:\thypergrid\;j:\rx\unitsItem1=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general;k:\components\ui\;k:\components\data\;k:\components\general\;j:\tb97\;j:\thypergrid\;j:\rx\unitsItem1=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\components\ui\;k:\components\data\;k:\components\general\;j:\tb97\;j:\thypergrid\;j:\rx\unitsItem1=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\components\ui;k:\components\data;k:\components\general;j:\tb97;j:\thypergrid;j:\rx\units
 Item2=
 Item3=
 Item4=
 Item5=
 Item6=
+Item7=
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
