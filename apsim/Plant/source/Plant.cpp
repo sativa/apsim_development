@@ -247,6 +247,9 @@ void Plant::doRegistrations(void)
    id = parent->addRegistration(protocol::respondToMethodCallReg, "end_crop", "");
    IDtoEventFn.insert(UInt2EventFnMap::value_type(id,&Plant::doEndCrop));
 
+   id = parent->addRegistration(protocol::respondToMethodCallReg, "kill_crop", "");
+   IDtoEventFn.insert(UInt2EventFnMap::value_type(id,&Plant::doKillCrop));
+
    id = parent->addRegistration(protocol::respondToMethodCallReg, "end_run", "");
    IDtoEventFn.insert(UInt2EventFnMap::value_type(id,&Plant::doEndRun));
 
@@ -13087,6 +13090,7 @@ void Plant::plant_send_crop_chopped_event (
 #else
     protocol::ApsimVariant outgoingApsimVariant(parent);
     outgoingApsimVariant.store("crop_type", protocol::DTstring, false, FString(crop_type.c_str()));
+#if 1
     unsigned int maxlen = 0;
     for (unsigned int i=0; i <  dm_type.size();i++)
         {
@@ -13101,7 +13105,14 @@ void Plant::plant_send_crop_chopped_event (
     outgoingApsimVariant.store("dm_type", protocol::DTstring, true,
               FStrings(buf, maxlen, dm_type.size(), dm_type.size()));
     delete [] buf;
-
+#else
+    protocol::vector<FString> dmtypes;
+    for (unsigned int i=0; i <  dm_type.size();i++)
+        {
+        dmtypes.push_back(dm_type[i].c_str());
+        }
+    outgoingApsimVariant.store("dm_type", protocol::DTstring, true, dmtypes);
+#endif
     outgoingApsimVariant.store("dlt_crop_dm", protocol::DTsingle, true,
              protocol::vector<float>(dlt_crop_dm, dlt_crop_dm+max_part));
     outgoingApsimVariant.store("dlt_dm_n", protocol::DTsingle, true,
