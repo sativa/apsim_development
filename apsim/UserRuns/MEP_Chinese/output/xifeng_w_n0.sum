@@ -2601,8 +2601,8 @@
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      296.1
       grain wt (g)           =    0.037                       grains/m^2             =    709.727
       grains/plant           =    1.8                         maximum lai            =      0.723
-      total above ground biomass (kg/ha)    =      792.3
-      live above ground biomass (kg/ha)     =      792.3
+      total above ground biomass (kg/ha)    =      792.2
+      live above ground biomass (kg/ha)     =      792.2
       green above ground biomass (kg/ha)    =      521.9
       senesced above ground biomass (kg/ha) =      270.4
       dead above ground biomass (kg/ha)     =        0.0
@@ -2913,7 +2913,7 @@
       flowering day          =  129                           stover (kg/ha)         =     1612.5
       maturity day           =  172                           grain yield (kg/ha)    =      313.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      358.5
-      grain wt (g)           =    0.017                       grains/m^2             =   1892.128
+      grain wt (g)           =    0.017                       grains/m^2             =   1892.129
       grains/plant           =    4.7                         maximum lai            =      2.554
       total above ground biomass (kg/ha)    =     1926.1
       live above ground biomass (kg/ha)     =     1926.1
@@ -3541,7 +3541,7 @@
       flowering day          =  143                           stover (kg/ha)         =      925.1
       maturity day           =  183                           grain yield (kg/ha)    =      741.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      847.6
-      grain wt (g)           =    0.055                       grains/m^2             =   1352.924
+      grain wt (g)           =    0.055                       grains/m^2             =   1352.923
       grains/plant           =    3.4                         maximum lai            =      0.645
       total above ground biomass (kg/ha)    =     1666.7
       live above ground biomass (kg/ha)     =     1666.7
@@ -6657,6 +6657,15 @@
       stage 4.0 end_of_juvenile
                      biomass =           2.50 (g/m^2)   lai          =   0.091 (m^2/m^2)
                      stover N conc =     5.83 (%)    extractable sw =   42.96 (mm)
+7 February 2002(Day of year=38), wheat: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     dlt_n_green mass balance is off: 0.000000 vs 0.000001
+     Component name: wheat
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
 28 February 2002(Day of year=59), wheat: 
       stage 5.0 floral_initiation
                      biomass =         127.33 (g/m^2)   lai          =   0.004 (m^2/m^2)
