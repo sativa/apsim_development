@@ -14,6 +14,9 @@ C     Last change:  IH   27 Sep 1999    3:34 pm
  
 !+  Purpose
 !      Module instantiation routine.
+
+*+  Mission Statement
+*     Instantiate routine
  
 !- Implementation Section ----------------------------------
                
@@ -36,6 +39,9 @@ c     allocate (Instances(InstanceNo)%cptr)
  
 !+  Purpose
 !      Module de-instantiation routine.
+
+*+  Mission Statement
+*     De-Instantiate routine
  
 !- Implementation Section ----------------------------------
                
@@ -57,6 +63,9 @@ c     deallocate (Instances(anInstanceNo)%cptr)
  
 !+  Purpose
 !      Swap an instance into the global 'g' pointer
+
+*+  Mission Statement
+*     Swap an instance into global pointer
  
 !- Implementation Section ----------------------------------
                
