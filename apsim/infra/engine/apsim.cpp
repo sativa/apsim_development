@@ -59,6 +59,7 @@ void Run_apsim (const char* RunFilename)
             // Go RUN APSIM!!
             if (ApsimSystem().Init(*Run.Simulations.Get( (*sim).c_str()), Run.Configuration))
                ApsimSystem().Go();
+            DestroyApsimSystem();
             }
          }
       }
