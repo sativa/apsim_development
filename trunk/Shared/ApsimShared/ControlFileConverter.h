@@ -5,7 +5,7 @@
 #include <string>
 #include <stdexcept>
 #include <iosfwd.h>
-class ApsimControlFile;
+#include "ApsimControlFile.h"
 class IniFile;
 
 typedef void __fastcall (__closure *TControlFileConverterEvent)(const std::string& section);
@@ -48,6 +48,11 @@ class __declspec(dllexport) ControlFileConverter
       IniFile* script;
       std::string parFileToUse;
       std::ofstream log;
+      std::string managerActionValue1;
+      std::string managerActionOper;
+      std::string managerActionValue2;
+      std::string managerActionNewParameter;
+
 
       //---------------------------------------------------------------------------
       // convert the control file using the commands in the specified section
@@ -61,6 +66,11 @@ class __declspec(dllexport) ControlFileConverter
       // success.
       //---------------------------------------------------------------------------
       bool evaluate(const string& expression, string& value) const throw(runtime_error);
+
+      // ------------------------------------------------------------------
+      // resolve a module.variable to a value if necessary.
+      // ------------------------------------------------------------------
+      void resolveVariableRef(string& value) const;
 
       // ------------------------------------------------------------------
       // evaluate the date arguments passed in and return a date.
@@ -137,6 +147,38 @@ class __declspec(dllexport) ControlFileConverter
       // Rework the tracker variables to new format.
       //---------------------------------------------------------------------------
       bool ReworkTrackerVariables(const string& arguments) throw(runtime_error);
+
+      //---------------------------------------------------------------------------
+      // Add a parameter file reference to all instances of a module in con file.
+      //---------------------------------------------------------------------------
+      bool executeRenameModule(const string& arguments) throw(runtime_error);
+
+      //---------------------------------------------------------------------------
+      // Perform a search and replace on a param file section
+      //---------------------------------------------------------------------------
+      bool executeSearchReplace(const string& arguments) throw(runtime_error);
+
+      //---------------------------------------------------------------------------
+      // Set a manager action parameter.
+      //---------------------------------------------------------------------------
+      bool executeSetManagerActionParameter(const string& arguments) throw(runtime_error);
+
+      //---------------------------------------------------------------------------
+      // Callback for SetmanagerActionParameter.
+      //---------------------------------------------------------------------------
+      void SetManagerActionCallback(std::vector<ApsimControlFile::ManagerActionParameter>& parameters,
+                                    bool& modified);
+
+      //---------------------------------------------------------------------------
+      // Delete a manager action parameter.
+      //---------------------------------------------------------------------------
+      bool executeDeleteManagerActionParameter(const string& arguments) throw(runtime_error);
+
+      //---------------------------------------------------------------------------
+      // Callback for DeleteManagerActionParameter.
+      //---------------------------------------------------------------------------
+      void DeleteManagerActionCallback(std::vector<ApsimControlFile::ManagerActionParameter>& parameters,
+                                       bool& modified);
 
    };
 
