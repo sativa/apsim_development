@@ -164,4 +164,11 @@ bool ApsimSystemData::deleteComponent(const std::string& name)
       }
    return false;
    }
+// ------------------------------------------------------------------
+// return this system as a component
+// ------------------------------------------------------------------
+ApsimComponentData ApsimSystemData::asComponent(void)
+   {
+   return ApsimComponentData(node);
+   }
 
