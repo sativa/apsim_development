@@ -2,10 +2,9 @@
 Dependency = %licensed_source(ozcot)
 
 [Contents]
-ComponentInterface.for = ComponentInterface.for
-datatypesmodule.f90=datatypesmodule.f90
+ComponentInterface.f90 = ComponentInterface.f90
 ozcot.for = ozcot.for
 
 [APSBuild]
 binary = ..\lib\ozcot.dll
-moduletype=module
+compilerfile=release.compile
