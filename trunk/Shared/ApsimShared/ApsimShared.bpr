@@ -10,7 +10,7 @@
       ApsimServiceData.obj ApsimSettings.obj ApsimSimulationFile.obj 
       ApsimSystemData.obj ApsimVersion.obj TAboutForm.obj 
       TControlFileConversionForm.obj TSplashForm.obj ApsimForms.obj 
-      ApsimDataFile.obj"/>
+      ApsimDataFile.obj ApsimDataTypesFile.obj ApsimDataTypeData.obj"/>
     <RESFILES value="ApsimShared.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TAboutForm.dfm TControlFileConversionForm.dfm TSplashForm.dfm"/>
@@ -76,6 +76,8 @@
       <FILE FILENAME="ApsimForms.cpp" FORMNAME="" UNITNAME="ApsimForms" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ApsimDataFile.cpp" FORMNAME="" UNITNAME="ApsimDataFile" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ApsimDataTypesFile.cpp" FORMNAME="" UNITNAME="ApsimDataTypesFile" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ApsimDataTypeData.cpp" FORMNAME="" UNITNAME="ApsimDataTypeData" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
