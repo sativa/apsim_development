@@ -683,6 +683,7 @@ c      g%resid_cover = 0.0
 *+  Changes
 *     DMS 25/02/94 (new template)
 *     PdeV 27/08/94
+*     02/11/99 jngh changed total_cover to cover_surface_runoff
 
 *+  Constant Values
       character  my_name*(*)
@@ -691,7 +692,7 @@ c      g%resid_cover = 0.0
 *+  Local Variables
 c      real       visible_contact_cover
       integer   numvals
-      real      total_cover
+      real      cover_surface_runoff
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -725,17 +726,31 @@ c      real       visible_contact_cover
      :   , 0.0                  ! Lower Limit for bound checking
      :   , 1000.0)              ! Upper Limit for bound checking
  
+!      call Get_real_var (
+!     :     unknown_module       ! Module that responds (Not Used)
+!     :   , 'total_cover'        ! Variable Name
+!     :   , '()'                 ! Units                (Not Used)
+!     :   , total_cover          ! Variable
+!     :   , numvals              ! Number of values returned
+!     :   , 0.0                  ! Lower Limit for bound checking
+!     :   , 1.0 )                ! Upper Limit for bound checking
+ 
       call Get_real_var (
      :     unknown_module       ! Module that responds (Not Used)
-     :   , 'total_cover'        ! Variable Name
+     :   , 'cover_surface_runoff' ! Variable Name
      :   , '()'                 ! Units                (Not Used)
-     :   , total_cover          ! Variable
+     :   , cover_surface_runoff          ! Variable
      :   , numvals              ! Number of values returned
      :   , 0.0                  ! Lower Limit for bound checking
      :   , 1.0 )                ! Upper Limit for bound checking
  
-      g%erosion_cover = bound(total_cover + g%cover_extra, 0.0, 1.0)
- 
+!      g%erosion_cover = bound(total_cover + g%cover_extra, 0.0, 1.0)
+      g%erosion_cover = bound(cover_surface_runoff + g%cover_extra
+     :                        , 0.0, 1.0)
+!  when cover extra is included in cover_surface_runoff calc, remove previous calc
+!   and add the following line
+!      g%erosion_cover = cover_surface_runoff
+
 c$$$c      use this for dms' special covers..
 c$$$
 c$$$      call Get_real_var(
