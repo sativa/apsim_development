@@ -1,3 +1,4 @@
+C     Last change:  P    25 Oct 2000    9:26 am
 ! --------------------------------------------------------------------
 !   Short description:
 !      Variables used in Manager
@@ -155,6 +156,9 @@
       integer MAX_INSTANCE_NAME_SIZE
       parameter (MAX_INSTANCE_NAME_SIZE=50)
 
+      integer NUM_RULE_TYPES          ! number of rule types
+      parameter (NUM_RULE_TYPES=4)
+
       type ManagerData
 
 !   Global variables
@@ -168,18 +172,14 @@
 
          character token_array(Max_tokens)*(Max_token_size)
                                           ! Array to hold tokens.
-         character current_section*50   ! Current section to look in for reading of rules
-
          integer num_local_variables    ! Number of local variables.
          integer token_array2(Max_tokens)
                                        ! Second array for tokens.
-         integer init_index             ! index into token array for 'init' keyword
-         integer prepare_index          ! index into token array for 'prepare' keyword
-         integer process_index          ! index into token array for 'process' keyword
-         integer post_index             ! index into token array for 'post' keyword
+         integer rule_indexes(NUM_RULE_TYPES)  ! indexes into token array
+
          integer line_number            ! line number in section to read from.
          integer num_lines              ! number of lines in section
-         integer lines                  ! C++ MEMO object containing all lines in section
+         integer rule                   ! C++ RULE object containing all lines in section
       
          logical lines_been_read        ! have any lines been read so far?
 
@@ -468,7 +468,6 @@
      :                     , blank, Max_local_variables)
  
       call fill_char_array (g%token_array, blank, Max_tokens)
-      g%current_section = blank
       g%token         = 0
       g%end_of_file   = 0
       g%start_token   = 0
@@ -497,19 +496,14 @@
       g%num_local_variables      = 0
  
       call fill_integer_array (g%token_array2, 0, Max_tokens)
- 
-      g%init_index               = 0
-      g%prepare_index            = 0
-      g%process_index            = 0
-      g%post_index               = 0
+
+      g%rule_indexes = 0
  
       g%lines_been_read          = .false.
  
       call pop_routine(Routine_name)
       return
       end
-
-
 
 ! ====================================================================
        subroutine Manager_read_rules ()
@@ -520,6 +514,7 @@
       include 'error.pub'                         
       include 'apsimengine.pub'
       include 'data.pub'
+      include 'componentinterface.inc'
 
 !+  Purpose
 !     Read in all criterias one word at a time and pass it to a processing
@@ -531,73 +526,78 @@
 !     DPH 10/7/96 Re-ordered code so that manager will look for init section
 !                 first, then start_of_day, prepare in chronological order.
 !     DPH 30/8/99 Changed code to use C++ MEMO objects
+!     DPH 23/10/00 Changed to use new RULE object and reworked to use
+!                  loop rather than duplicate code.
+!     dph 10/11/00 changed to accept a rule_type argument.
 
 !+  Constant Values
       character Routine_name*(*)       ! Name of this routine
       parameter (Routine_name='Manager_read_rules')
 
+       INTEGER MAX_RULE_NAME_SIZE
+       parameter (MAX_RULE_NAME_SIZE=100)
+       INTEGER MAX_RULES
+       PARAMETER (MAX_RULES=100) 
+                                 
+       INTEGER MAX_CONDITION_SIZE
+       parameter (MAX_CONDITION_SIZE=20)
+
 !+  Local variables
-      logical ok
+       INTEGER Num_rules               ! number of rules user has defined
+       integer Rule_Type               ! index into rules list
+       integer Rule_index
+       CHARACTER Rule_names(MAX_RULES)*(MAX_RULE_NAME_SIZE)
+                                       ! rule names user has defined
+       CHARACTER condition*(MAX_CONDITION_SIZE)
+                                       ! condition of each rule
+
+       character Rule_types(NUM_RULE_TYPES)*(20)
+       data Rule_types(1) /'init'/
+       data Rule_types(2) /'start_of_day'/
+       data Rule_types(3) /'process'/
+       data Rule_types(4) /'end_of_day'/
+
 
 !- Implementation Section ----------------------------------
  
       call push_routine (Routine_name)
-      ! Set the read flag so that the next call to manager_read_line
-      ! will restart the reading routine.
- 
- 
-      ! Go tokenize the parameter file.
- 
-      g%start_token = g%last_token + 2
-      g%init_index = g%start_token
-      g%current_section = 'init'
-      call Memo_Create(g%lines)
-      ok = ApsimSystem_Data_Get(
-     .    Trim(g%Instance_name) // '.' // g%current_section, g%lines)
-      g%num_lines = Memo_GetLineCount(g%lines)
-      g%line_number = 0
-      call Tokenize (g%token_array, g%token_array2, max_tokens)
-      call Memo_Free (g%lines)
-      g%start_token = g%last_token + 2
-      g%prepare_index = g%start_token
-      g%current_section = 'prepare'
-      call Memo_Create(g%lines)
-      ok = ApsimSystem_Data_Get(
-     .    Trim(g%Instance_name) // '.' // g%current_section, g%lines)
-      g%num_lines = Memo_GetLineCount(g%lines)
-      g%line_number = 0
-      call Tokenize (g%token_array, g%token_array2, max_tokens)
-      call Memo_Free (g%lines)
- 
-      g%start_token = g%last_token + 2
-      g%process_index = g%start_token
-      g%current_section = 'process'
-      call Memo_Create(g%lines)
-      ok = ApsimSystem_Data_Get(
-     .    Trim(g%Instance_name) // '.' // g%current_section, g%lines)
-      g%num_lines = Memo_GetLineCount(g%lines)
-      g%line_number = 0
-      call Tokenize (g%token_array, g%token_array2, max_tokens)
-      call Memo_Free (g%lines)
- 
-      g%start_token = g%last_token + 2
-      g%post_index = g%start_token
-      g%current_section = 'post'
-      call Memo_Create(g%lines)
-      ok = ApsimSystem_Data_Get(
-     .    Trim(g%Instance_name) // '.' // g%current_section, g%lines)
-      g%num_lines = Memo_GetLineCount(g%lines)
-      g%line_number = 0
-      call Tokenize (g%token_array, g%token_array2, max_tokens)
-      call Memo_Free (g%lines)
-      
-      ok = ok    ! stops compiler warning
-      
+
+      ! get a list of all rule names that user has defined.
+      call somcomponent_getpropertynames(componentData,
+     .                                   Rule_names,
+     .                                   'rule',
+     .                                   MAX_RULES,
+     .                                   Num_rules)
+
+      do Rule_type = 1, NUM_RULE_TYPES
+
+         ! Go tokenize each rule.
+         do Rule_Index = 1, Num_rules
+            g%rule = component_getrule(ComponentData,
+     .                                 Rule_names(Rule_index))
+            if (g%rule .ne. 0) then
+               call rule_getcondition(g%rule, condition)
+               if (condition .eq. rule_types(rule_type)) then
+                  if (g%rule_indexes(rule_type) .eq. 0) then
+                     g%rule_indexes(rule_type) = g%last_token + 2
+                     g%start_token = g%last_token + 2
+                  else
+                     g%start_token = g%last_token
+                  end if
+                  g%line_number = 0
+                  g%num_lines = rule_getactionlinecount(g%rule)
+                  call Tokenize (g%token_array
+     .                          , g%token_array2
+     .                          , max_tokens)
+               end if 
+           end if
+         end do 
+
+      end do
+
       call pop_routine(Routine_name)
       return
       end
-
-
 
 ! ====================================================================
        subroutine Manager_init_rules ()
@@ -623,9 +623,11 @@
  
       ! Go call the parsing routine.
  
-      g%start_token = g%init_index
-      call Parse (g%token_array, g%token_array2)
- 
+      g%start_token = g%rule_indexes(1)
+      if (g%start_token .gt. 0) then
+         call Parse (g%token_array, g%token_array2)
+      end if
+
       call pop_routine (my_name)
       return
       end
@@ -657,8 +659,10 @@
  
       ! Go call the parsing routine.
  
-      g%start_token = g%prepare_index
-      call Parse (g%token_array, g%token_array2)
+      g%start_token = g%rule_indexes(2)
+      if (g%start_token .gt. 0) then
+         call Parse (g%token_array, g%token_array2)
+      end if
  
       call pop_routine (my_name)
       return
@@ -690,8 +694,10 @@
  
       ! Go call the parsing routine.
  
-      g%start_token = g%process_index
-      call Parse (g%token_array, g%token_array2)
+      g%start_token = g%rule_indexes(3)
+      if (g%start_token .gt. 0) then
+         call Parse (g%token_array, g%token_array2)
+      end if
  
       call pop_routine (my_name)
       return
@@ -723,8 +729,10 @@
       call push_routine (my_name)
  
       ! Go call the parsing routine.
-      g%start_token = g%post_index
-      call Parse (g%token_array, g%token_array2)
+      g%start_token = g%rule_indexes(4)
+      if (g%start_token .gt. 0) then
+         call Parse (g%token_array, g%token_array2)
+      end if
  
       call pop_routine (my_name)
       return
@@ -856,7 +864,7 @@
          EOF_flag = 1
          
       else 
-         call Memo_GetLine(g%lines, g%line_number, Line)
+         call Rule_GetActionLine(g%rule, g%line_number, Line)
          Line = lower_case(Line)
 
          ! advance line number
