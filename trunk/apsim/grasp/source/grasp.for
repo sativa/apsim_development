@@ -2868,8 +2868,7 @@ c         write (*,*) ' n = ', dlt_residue_N
          call post_real_var ('dlt_residue_n',
      :        '(kg/ha)', dlt_residue_n)
 
-         call Action_send (All_active_modules,
-     :        'add_residue')
+         call event_send ('add_residue')
 
          call delete_postbox ()
 
@@ -3333,12 +3332,11 @@ cpdev  bound required?..
       call get_real_var_optional (unknown_module
      :     ,'soil_loss', '(t/ha)'
      :     ,g%soil_loss, numvals, 0.0, 50000.0)
-                              
+
       if (component_name_to_id('tree', treeID)) then
          call get_real_var_optional (treeID, 'sw_demand', '(mm)'
      :     , g%tree_sw_demand, numvals, c%tree_sw_lb, c%tree_sw_ub)
       end if
-
       call pop_routine (my_name)
       return
       end subroutine
@@ -4814,7 +4812,7 @@ c     :                    , 0.0, 10000.0)
       subroutine alloc_dealloc_instance(doAllocate)
 !     ===========================================================
       use GraspModule
-      implicit none  
+      implicit none
       ml_external alloc_dealloc_instance
 
 !+  Sub-Program Arguments

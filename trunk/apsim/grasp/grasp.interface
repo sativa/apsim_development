@@ -4,7 +4,7 @@
 <component name="grasp">
    <registrations>
       <respondToMethodCallReg name="sysinit" type="sysinit"/>
-      <methodCallReg name="add_residue" type="add_residue"/>
+      <eventReg name="add_residue" type="add_residue"/>
       <respondToEventReg name="prepare" type="prepare"/>
       <respondToEventReg name="process" type="process"/>
    </registrations>
