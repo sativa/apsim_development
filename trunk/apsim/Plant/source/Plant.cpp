@@ -3603,7 +3603,7 @@ void Plant::plant_cleanup ()
                     , g.root_depth
                     , g.sw_dep
                     , p.ll_dep);
-        if (phenology->inPhase("above_ground")) {
+        if (phenology->inPhase("stress_reporting")) {
             float si1 = divide (g.cswd_photo.getSum(),
                                 phenology->daysInStage(phenology->previousStageName()), 0.0);
             float si2 = divide (g.cswd_expansion.getSum(),
@@ -3613,9 +3613,9 @@ void Plant::plant_cleanup ()
             float si5 = divide (g.cnd_grain_conc.getSum(),
                                 phenology->daysInStage(phenology->previousStageName()), 0.0);
             char msg[1024];
-            sprintf (msg,"%4s%-20s%s%-23s%6.3f%13.3f%13.3f%13.3f\n", " ", 
+            sprintf (msg,"%4s%-20s%s%-23s%6.3f%13.3f%13.3f%13.3f\n", " ",
                       phenology->previousStageName().c_str(),
-                      " to ", 
+                      " to ",
                       phenology->stageName().c_str(), si1, si2, si4, si5);
             g.averageStressMessage += msg;
         }
@@ -4357,7 +4357,7 @@ void Plant::plant_event(float *g_dlayer           // (INPUT)  thickness of soil 
     ,float *g_n_green                     // (INPUT)  plant nitrogen content (g N/m^
     ,float  g_root_depth                  // (INPUT)  depth of roots (mm)
     ,float *g_sw_dep                      // (INPUT)  soil water content of layer L
-                       ,float *p_ll_dep)          // (INPUT)  lower limit of plant-extractab
+    ,float *p_ll_dep)          // (INPUT)  lower limit of plant-extractab
     {
 //+  Local Variables
     float biomass;                                // total above ground plant wt (g/m^2)
@@ -4370,7 +4370,7 @@ void Plant::plant_event(float *g_dlayer           // (INPUT)  thickness of soil 
     int   stage_no;                               // stage number at beginning of phase
     float n_green_conc_percent;                   // n% of tops less pod (incl grain)
 
-    if (phenology->stageName() != "end_crop") 
+    if (phenology->stageName() != "end_crop")
        sendStageMessage(phenology->stageName().c_str());
 
     char msg[80];
@@ -10975,14 +10975,14 @@ void Plant::plant_get_other_variables ()
     // Soilwat2
     parent->getVariable(id.eo, g.eo, 0.0, 20.0);
 
-    values.empty();
+    values.clear();
     parent->getVariable(id.sw_dep, values, c.sw_dep_lb, c.sw_dep_ub);
     for (unsigned int i=0; i< values.size(); i++) {
     	g.sw_dep[i] = values[i];
     }
     //assert (values.size() == g.num_layers);
 
-    values.empty();
+    values.clear();
     if (!parent->getVariable(id.no3, values, c.no3_lb, c.no3_ub, true))
         {
         // we have no N supply - make non-limiting.
@@ -10994,14 +10994,14 @@ void Plant::plant_get_other_variables ()
        g.no3gsm[i] = values[i] * kg2gm /ha2sm;
        }
 
-    values.empty();
+    values.clear();
     parent->getVariable(id.no3_min, values, c.no3_min_lb, c.no3_min_ub, true);
     for (int i = 0; i < g.num_layers; i++)
        {
        g.no3gsm_min[i] = values[i] * kg2gm /ha2sm;
        }
 
-    values.empty();
+    values.clear();
     if (!parent->getVariable(id.nh4, values, c.nh4_lb, c.nh4_ub, true))
         {
         // we have no N supply - make non-limiting.
@@ -11013,7 +11013,7 @@ void Plant::plant_get_other_variables ()
        g.nh4gsm[i] = values[i] * kg2gm /ha2sm;
        }
 
-    values.empty();
+    values.clear();
     parent->getVariable(id.nh4_min, values, c.nh4_min_lb, c.nh4_min_ub, true);
     for (int i = 0; i < g.num_layers; i++)
        {
