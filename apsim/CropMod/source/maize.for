@@ -1,5 +1,5 @@
 
-C     Last change:  E     7 Sep 2001    4:01 pm
+C     Last change:  E    14 Sep 2001    2:07 pm
 
 
 *     ===========================================================
@@ -904,9 +904,6 @@ c occurs before FI!
  
          dlt_dm_green(leaf) = g_dlt_dm
 
-         print *, 'stage  = ', g_current_stage
-         print *, 'dlt_dm = ', g_dlt_dm
-   
          internode_no = sum_between (emerg, now, g_leaf_no)
          partition_coef_leaf = 1.0
      :            /(1.0 + c_partition_rate_leaf * internode_no**2)
