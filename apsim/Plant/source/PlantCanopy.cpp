@@ -986,6 +986,13 @@ void plant_leaf_detachment (float *leaf_area           // OUT
     }
 
 
+//===========================================================================
+void plant_leaf_removal_top (float *leaf_area           // OUT
+                           , float dlt_lai_removed   // IN
+                           , float plants              // IN
+                           , float *last_node)            // IN
+//===========================================================================
+{
 //+  Purpose
 //      Remove detachment from leaf area record from top downwards
 
@@ -994,37 +1001,33 @@ void plant_leaf_detachment (float *leaf_area           // OUT
 
 //+  Changes
 //       050199 nih specified and programmed
-void plant_leaf_removal_top (float *leaf_area           // OUT
-                           , float dlt_lai_removed   // IN
-                           , float plants              // IN
-                           , int last_node)            // IN
-    {
-//+  Local Variables
+
+//+  Local*last_node Variables
     float area_removed;                          // (mm2/plant)
     int   node;
 
 //- Implementation Section ----------------------------------
 
-
     area_removed = dlt_lai_removed / plants * sm2smm;
 
-    for (node = last_node; node >= 0; node--)
-      {
+    for (node = (int)*last_node; node >= 0 ; node--)
+    {
       if(area_removed > leaf_area[node])
-        {
+      {
+//        *last_node -= 1.0;
         area_removed = area_removed - leaf_area[node];
         leaf_area[node] = 0.0;
-        }
+      }
       else
-        {
+      {
+//        float dlt_last_node = divide(area_removed, leaf_area[node], 0.0) ;
+//        *last_node -= dlt_last_node;
         leaf_area[node] = leaf_area[node] - area_removed;
         area_removed = 0.0;
         break;
-        }
       }
-
-    return;
-    }
+   }
+}
 
 //+  Purpose
 //     Calculate extinction coefficient as a function of row spacing
