@@ -207,7 +207,7 @@
    <type name="allocation" kind="single" unit="mm" lower_bound="0.0" upper_bound="10000.0" description="Allocation amount"/>
    <type name="crit_fr_asw" kind="single" unit="0-1" lower_bound="0.0" upper_bound="1.0" description="Critical fraction of available soil water"/>
    <type name="asw_depth" kind="single" unit="mm" lower_bound="0.0" upper_bound="10000.0" description="Available soil water depth"/>
-   <type name="automatic_irrigation" kind="boolean" unit="" description="Automatic irrigation on?"/>
+   <type name="automatic_irrigation" kind="string" unit="" description="Automatic irrigation on?"/>
    <type name="irrigation_allocation" kind="boolean" unit="" description="Irrigation allocation on?"/>
    <type name="irrigation_efficiency" kind="single" unit="0-1" lower_bound="0.0" upper_bound="1.0" description="Irrigation efficiency"/>
 
