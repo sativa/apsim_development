@@ -788,8 +788,6 @@ void Coordinator::fixupRegistrationID(PMRegistrationItem& registrationItem)
          registrationItem.destID = id;
       else
          {
-         string msg = "Cannot find a component called: " + registrationItem.componentName;
-         error(msg.c_str(), true);
          registrationItem.name = registrationItem.componentName + "." + registrationItem.name;
          registrationItem.destID = 0;
          }
