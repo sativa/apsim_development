@@ -64,8 +64,8 @@ variable=soiln2.fom_n()
 variable=maize.leaf_no
 
 [reference.tracker.parameters]
-variable = average of maize.nfact_photo since reported as avg_nfact_photo
-variable = average of maize.swdef_photo since reported as avg_swdef_photo
+variable = average of maize.nfact_photo since reported as avg_nfact_photo on process
+variable = average of maize.swdef_photo since reported as avg_swdef_photo on process
 
 [reference.clock.parameters]
 start_date=1/1/1993
