@@ -1,0 +1,17 @@
+# statically linked components of the engine interface
+
+STATICLINKEDOBJECTS=\
+$(APSROOT)/apsim/infra/lib/ApsimEngine.imp \
+$(APSROOT)/shared/ComponentInterface/FORTRANComponent.obj \
+$(APSROOT)/shared/ComponentInterface/Component.obj \
+$(APSROOT)/shared/ComponentInterface/TypeConverter.obj \
+$(APSROOT)/shared/ComponentInterface/ProtocolVector.obj \
+$(APSROOT)/shared/ComponentInterface/Message.obj \
+$(APSROOT)/shared/ComponentInterface/MessageData.obj \
+$(APSROOT)/shared/ComponentInterface/Type.obj \
+$(APSROOT)/shared/ComponentInterface/Variant.obj \
+$(APSROOT)/shared/ComponentInterface/Variants.obj \
+$(APSROOT)/shared/ComponentInterface/Registrations.obj \
+$(APSROOT)/shared/ComponentInterface/RegistrationItem.obj \
+$(APSROOT)/shared/ComponentInterface/ArraySpecifier.obj \
+$(APSROOT)/shared/ComponentInterface/DataTypes.obj
