@@ -5,35 +5,38 @@ inherited REMSForm: TREMSForm
   TextHeight = 16
   object Label3: TLabel [2]
     Left = 22
-    Top = 132
+    Top = 163
     Width = 59
     Height = 16
     Caption = 'Filename:'
   end
   object Label4: TLabel [3]
     Left = 10
-    Top = 160
+    Top = 192
     Width = 70
     Height = 16
     Caption = 'Experiment:'
   end
   object Label5: TLabel [4]
     Left = 15
-    Top = 190
+    Top = 222
     Width = 64
     Height = 16
     Caption = 'Treatment:'
   end
   object Label6: TLabel [5]
     Left = 0
-    Top = 219
+    Top = 251
     Width = 78
     Height = 16
     Caption = 'Data Source:'
   end
+  inherited GroupByEdit: TEdit
+    TabOrder = 8
+  end
   object FilenameEdit: TAdvFileNameEdit
     Left = 89
-    Top = 130
+    Top = 162
     Width = 178
     Height = 21
     AutoFocus = False
@@ -101,7 +104,7 @@ inherited REMSForm: TREMSForm
   end
   object ExperimentCombo: TComboBox
     Left = 89
-    Top = 160
+    Top = 192
     Width = 178
     Height = 24
     BevelKind = bkSoft
@@ -112,7 +115,7 @@ inherited REMSForm: TREMSForm
   end
   object TreatmentCombo: TComboBox
     Left = 89
-    Top = 190
+    Top = 222
     Width = 177
     Height = 24
     BevelKind = bkSoft
@@ -123,7 +126,7 @@ inherited REMSForm: TREMSForm
   end
   object DataSourceCombo: TComboBox
     Left = 89
-    Top = 219
+    Top = 251
     Width = 177
     Height = 24
     BevelKind = bkSoft

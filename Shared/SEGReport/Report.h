@@ -118,6 +118,11 @@ class __declspec(dllexport) Report
       //---------------------------------------------------------------------------
       void setZoomToFit(bool fit) {zoomToFit = fit;}
 
+      //---------------------------------------------------------------------------
+      // Show the report wizard
+      //---------------------------------------------------------------------------
+      void showWizard();
+
    private:
       TWinControl* parent;
       std::vector<Quickrpt::TQuickRep*> pages;
@@ -191,6 +196,11 @@ class __declspec(dllexport) Report
       // Move the specified component to the specified owner.  Uses recursion.
       //---------------------------------------------------------------------------
       void moveComponentTree(TComponent* component, TComponent* owner);
+
+      //---------------------------------------------------------------------------
+      // Return true if the specified component show be include in the wizard.
+      //---------------------------------------------------------------------------
+      bool doShowComponentInWizard(TComponent* component);
 
    };
 #endif

@@ -1,6 +1,6 @@
 object PropertyForm: TPropertyForm
-  Left = 442
-  Top = 110
+  Left = 606
+  Top = 152
   Width = 279
   Height = 442
   Caption = 'PropertyForm'
@@ -17,7 +17,7 @@ object PropertyForm: TPropertyForm
   PixelsPerInch = 120
   TextHeight = 16
   object SourceLabel: TLabel
-    Left = 32
+    Left = 33
     Top = 39
     Width = 46
     Height = 16
@@ -38,11 +38,18 @@ object PropertyForm: TPropertyForm
     Caption = 'On toolbar?'
   end
   object SortFieldsLabel: TLabel
-    Left = 15
+    Left = 34
     Top = 98
-    Width = 62
+    Width = 45
     Height = 16
-    Caption = 'Sort fields:'
+    Caption = 'Sort by:'
+  end
+  object PivotLabel: TLabel
+    Left = 21
+    Top = 130
+    Width = 58
+    Height = 16
+    Caption = 'Group by:'
   end
   object SourceCombo: TComboBox
     Left = 89
@@ -86,5 +93,16 @@ object PropertyForm: TPropertyForm
     BorderStyle = bsNone
     TabOrder = 3
     OnExit = SortFieldsEditChange
+  end
+  object GroupByEdit: TEdit
+    Left = 89
+    Top = 130
+    Width = 178
+    Height = 26
+    Anchors = [akLeft, akTop, akRight]
+    BevelKind = bkSoft
+    BorderStyle = bsNone
+    TabOrder = 4
+    OnExit = GroupByEditExit
   end
 end

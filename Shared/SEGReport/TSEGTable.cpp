@@ -5,15 +5,16 @@
 
 #include "TSEGTable.h"
 #include <general\stl_functions.h>
+#include <general\string_functions.h>
 #include <general\db_functions.h>
 #include <general\vcl_functions.h>
 #include <general\StringTokenizer.h>
+#include <iterator>
 using namespace std;
 
 #pragma package(smart_init)
 #pragma link "kbmMemTable"
 
-static const char* SERIES_FIELD_NAME = "Series";
 AnsiString TSEGTable::errorMessage;
 
 // ------------------------------------------------------------------
@@ -83,29 +84,23 @@ void TSEGTable::forceRefresh(bool displayError)
       try
          {
          Active = false;
-         if (IndexDefs->Count > 0)
-            DeleteIndex("mainIndex");
-
+         FieldDefs->Clear();
+         IndexFieldNames = "";
+         IndexDefs->Clear();
          if (createFields())
             {
-            if (FieldDefs->IndexOf(SERIES_FIELD_NAME) == -1)
-               {
-               TFieldDef *fieldDef = FieldDefs->AddFieldDef();
-               fieldDef->Name = SERIES_FIELD_NAME;
-               fieldDef->DataType = ftString;
-               fieldDef->Size = 200;
-               fieldDef->FieldNo = 1;
-               }
-
-            SortFields = "";
-
             Active = true;
-
-            // Go load all records.
             storeRecords();
             }
          else
             Active = true;
+
+         // Sort records.
+         if (sortFieldNames != "")
+            {
+            SortFields = sortFieldNames;
+            Sort(TkbmMemTableCompareOptions());
+            }
 
          refreshLinkedComponents();
          }
@@ -144,16 +139,6 @@ void TSEGTable::refreshLinkedComponents()
    {
    if (Active)
       {
-      // Create an index so that the range methods work.
-      if (IndexDefs->Count == 0)
-         {
-         AnsiString indexFields = AnsiString(SERIES_FIELD_NAME);
-         if (sortFields != "")
-            indexFields += ";" + AnsiString(sortFields.c_str());
-         AddIndex("mainIndex", indexFields, TIndexOptions());
-         IndexFieldNames = indexFields;
-         }
-
       for (unsigned i = 0; i != subscriptionEvents.size(); i++)
          {
          if (subscriptionEvents[i] != NULL)
@@ -191,63 +176,76 @@ string TSEGTable::getYearFieldName(void) const throw(runtime_error)
       }
    return "";
    }
-
 // ------------------------------------------------------------------
-// return a list of all unique series names.
+// add groupby field defs from source to this dataset.
 // ------------------------------------------------------------------
-void TSEGTable::getSeriesNames(vector<string>& seriesNames)
+void TSEGTable::addGroupByFieldDefsFromSource(void)
    {
-   seriesNames.erase(seriesNames.begin(), seriesNames.end());
-   First();
-   while (!Eof)
+   if (sourceDataset != NULL)
       {
-      string seriesName = getSeriesName();
-      if (find(seriesNames.begin(),
-               seriesNames.end(),
-               seriesName) == seriesNames.end())
-         seriesNames.push_back(seriesName.c_str());
-      Next();
+      string sourceGroupByFields = sourceDataset->groupByFields.c_str();
+      vector<string> groupByFields;
+      splitIntoValues(sourceGroupByFields, ",", groupByFields);
+      for (unsigned i = 0; i != groupByFields.size(); i++)
+         {
+         TFieldDef* groupByFieldDef = sourceDataset->FieldDefs->Find(groupByFields[i].c_str());
+         TFieldDef* newFieldDef = FieldDefs->AddFieldDef();
+         newFieldDef->Assign(groupByFieldDef);
+         }
       }
    }
 // ------------------------------------------------------------------
-// Return the current series name.
+// add groupby values from specified dataset to this dataset.
 // ------------------------------------------------------------------
-string TSEGTable::getSeriesName(void)
+void TSEGTable::addGroupByValuesFromSource()
    {
-   if (!FieldValues[SERIES_FIELD_NAME].IsNull())
-      return AnsiString(FieldValues[SERIES_FIELD_NAME]).c_str();
-   else
-      return "";
+   if (sourceDataset != NULL)
+      {
+      vector<string> groupByFields;
+      splitIntoValues(sourceDataset->groupByFields.c_str(), ",", groupByFields);
+      for (unsigned i = 0; i != groupByFields.size(); i++)
+         FieldValues[groupByFields[i].c_str()] = sourceDataset->FieldValues[groupByFields[i].c_str()];
+      }
    }
 // ------------------------------------------------------------------
-// Return the current series number - zero index based.
+// Calculate a groupby filter for current record.
 // ------------------------------------------------------------------
-unsigned TSEGTable::getSeriesNumber(void)
+string TSEGTable::calcGroupByFilter(void)
    {
-   if (seriesNames.size() == 0)
-      getSeriesNames(seriesNames);
-   return find(seriesNames.begin(), seriesNames.end(), getSeriesName())
-          - seriesNames.begin();
+   string filter;
+   vector<string> groupByFields;
+   splitIntoValues(groupByFieldNames.c_str(), ",", groupByFields);
+   for (unsigned i = 0; i != groupByFields.size(); i++)
+      {
+      if (filter != "")
+         filter += " and ";
+      filter = groupByFields[i] + "=";
+      string filterValue = AnsiString(FieldValues[groupByFields[i].c_str()]).c_str();
+      if (Is_numerical(filterValue.c_str()))
+         filter += filterValue;
+      else
+         filter += singleQuoted(filterValue);
+      }
+   return filter;
    }
 // ------------------------------------------------------------------
-// Set the series name for the current record.
+// Calculate all group by filters.
 // ------------------------------------------------------------------
-void TSEGTable::setSeriesName(const std::string& seriesName)
+void TSEGTable::calcGroupByFilters(void)
    {
-   Edit();
-   FieldValues[SERIES_FIELD_NAME] = seriesName.c_str();
-   Post();
-   }
-// ------------------------------------------------------------------
-// add a factor to the series name for the current record.
-// ------------------------------------------------------------------
-void TSEGTable::addFactorToSeriesName(const std::string& factorName)
-   {
-   string seriesName = getSeriesName();
-   if (seriesName != "")
-      seriesName += ",";
-   seriesName += factorName;
-   setSeriesName(seriesName);
+   groupByFilters.erase(groupByFilters.begin(), groupByFilters.end());
+   if (groupByFieldNames != "")
+      {
+      First();
+      while (!Eof)
+         {
+         string groupByFilter = calcGroupByFilter();
+         if (find(groupByFilters.begin(), groupByFilters.end(), groupByFilter)
+             == groupByFilters.end())
+             groupByFilters.push_back(groupByFilter);
+         Next();
+         }
+      }
    }
 // ------------------------------------------------------------------
 // This method is called to begin iterating through records for the
@@ -255,8 +253,13 @@ void TSEGTable::addFactorToSeriesName(const std::string& factorName)
 // ------------------------------------------------------------------
 bool TSEGTable::firstSeries(void)
    {
-   getSeriesNames(seriesNames);
-   currentSeriesI = seriesNames.begin();
+   calcGroupByFilters();
+   groupByFiltersI = groupByFilters.begin();
+   if (groupByFiltersI == groupByFilters.end())
+      {
+      First();
+      return true;
+      }
    return nextSeries();
    }
 
@@ -266,24 +269,17 @@ bool TSEGTable::firstSeries(void)
 // ------------------------------------------------------------------
 bool TSEGTable::nextSeries(void)
    {
-   string seriesName = "zzzzzzzzzzzzzzzzzz";
-   if (currentSeriesI != seriesNames.end())
+   if (groupByFiltersI != groupByFilters.end())
       {
-      seriesName = *currentSeriesI;
-      currentSeriesI++;
-      SetRangeStart();
-      FieldByName(SERIES_FIELD_NAME)->AsString = seriesName.c_str();
-      SetRangeEnd();
-      FieldByName(SERIES_FIELD_NAME)->AsString = seriesName.c_str();
-      ApplyRange();
+      Filtered = false;
+      Filter = groupByFiltersI->c_str();
+      groupByFiltersI++;
+      Filtered = true;
+      First();
       }
    else
-      {
-      CancelRange();
-      Last();
-      Next();  // this will force Eof = true
-      }
-   return !Eof;
+      cancelSeries();
+   return Filtered;
    }
 // ------------------------------------------------------------------
 // Cancel the series ranging.  After this routine, the caller will
@@ -291,7 +287,7 @@ bool TSEGTable::nextSeries(void)
 // ------------------------------------------------------------------
 void TSEGTable::cancelSeries(void)
    {
-   CancelRange();
+   Filtered = false;
    }
 // ------------------------------------------------------------------
 // Add a subscription to the data changed event.

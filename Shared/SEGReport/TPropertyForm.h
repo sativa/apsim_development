@@ -28,10 +28,13 @@ __published:	// IDE-managed Components
    TCheckBox *ToolbarCheckBox;
    TEdit *SortFieldsEdit;
    TLabel *SortFieldsLabel;
+   TEdit *GroupByEdit;
+   TLabel *PivotLabel;
    void __fastcall NameEditExit(TObject *Sender);
    void __fastcall SourceComboChange(TObject *Sender);
    void __fastcall ToolbarCheckBoxClick(TObject *Sender);
    void __fastcall SortFieldsEditChange(TObject *Sender);
+   void __fastcall GroupByEditExit(TObject *Sender);
 private:	// User declarations
    TComponent* component;
 protected:

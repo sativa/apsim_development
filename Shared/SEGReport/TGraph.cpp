@@ -11,6 +11,7 @@
 #include <TeEngine.hpp>
 #include <TeeEdit.hpp>
 #include <DBEditCh.hpp>
+#include <EditChar.hpp>
 #include <sstream>
 using namespace std;
 #pragma package(smart_init)
@@ -111,8 +112,16 @@ void __fastcall TGraph::DefineProperties(TFiler *Filer)
    Filer->DefineProperty("bottomAxisTitle", LoadStringProperty, StoreStringProperty, true);
    stRef = &footTitle;
    Filer->DefineProperty("footTitle", LoadStringProperty, StoreStringProperty, true);
-   stRef = &seriesTitle;
-   Filer->DefineProperty("seriesTitle", LoadStringProperty, StoreStringProperty, true);
+   stRef = &seriesTitle1;
+   Filer->DefineProperty("seriesTitle1", LoadStringProperty, StoreStringProperty, true);
+   stRef = &seriesTitle2;
+   Filer->DefineProperty("seriesTitle2", LoadStringProperty, StoreStringProperty, true);
+   stRef = &seriesTitle3;
+   Filer->DefineProperty("seriesTitle3", LoadStringProperty, StoreStringProperty, true);
+   stRef = &seriesTitle4;
+   Filer->DefineProperty("seriesTitle4", LoadStringProperty, StoreStringProperty, true);
+   stRef = &seriesTitle5;
+   Filer->DefineProperty("seriesTitle5", LoadStringProperty, StoreStringProperty, true);
    }
 //---------------------------------------------------------------------------
 // setter for the 'seriesNumbers' property
@@ -189,6 +198,7 @@ void TGraph::refresh(void)
          Chart->Series[s]->CheckDataSource();
       scaleAxis();
       }
+   replaceChartMacros();
    }
 //---------------------------------------------------------------------------
 // using the 1st chart series as a template, create a new chart series for
@@ -201,7 +211,7 @@ void TGraph::createTemplatedChartSeries(void)
       TSEGTable* source = dynamic_cast<TSEGTable*> (Chart->Series[0]->DataSource);
       if (source != NULL)
          {
-         source->getSeriesNames(seriesNames);
+//         source->getSeriesNames(seriesNames);
 
          vector<unsigned> seriesNumbers;
          if (dataSeriesNumbers == "*")
@@ -226,12 +236,12 @@ void TGraph::createTemplatedChartSeries(void)
             series->Color = Chart->GetFreeSeriesColor();
             }
 
-         for (int s = 0; s != Chart->SeriesCount(); s++)
-            {
-            string title = seriesTitle.c_str();
-            replaceAll(title, "$seriesName", seriesNames[seriesNumbers[s]]);
-            Chart->Series[s]->Title = title.c_str();
-            }
+//         for (int s = 0; s != Chart->SeriesCount(); s++)
+//            {
+//            string title = seriesTitle.c_str();
+//            replaceAll(title, "$seriesName", seriesNames[seriesNumbers[s]]);
+//            Chart->Series[s]->Title = title.c_str();
+//            }
          }
       }
    }
@@ -248,7 +258,7 @@ void TGraph::removeTemplatedChartSeries(void)
          Chart->RemoveSeries(series);
          delete series;
          }
-      Chart->Series[0]->Title = seriesTitle;
+      Chart->Series[0]->Title = seriesTitle1;
       }
    }
 //---------------------------------------------------------------------------
@@ -278,6 +288,17 @@ void TGraph::replaceChartMacros(void)
    Chart->RightAxis->Title->Caption = macros.doReplacement(Owner, rightAxisTitle);
    Chart->BottomAxis->Title->Caption = macros.doReplacement(Owner, bottomAxisTitle);
    Chart->Foot->Text->Text = macros.doReplacement(Owner, footTitle);
+   if (Chart->SeriesCount() >= 1)
+      Chart->Series[0]->Title = macros.doReplacement(Owner, seriesTitle1);
+   if (Chart->SeriesCount() >= 2)
+      Chart->Series[1]->Title = macros.doReplacement(Owner, seriesTitle2);
+   if (Chart->SeriesCount() >= 3)
+      Chart->Series[2]->Title = macros.doReplacement(Owner, seriesTitle3);
+   if (Chart->SeriesCount() >= 4)
+      Chart->Series[3]->Title = macros.doReplacement(Owner, seriesTitle4);
+   if (Chart->SeriesCount() >= 5)
+      Chart->Series[4]->Title = macros.doReplacement(Owner, seriesTitle5);
+
    }
 //---------------------------------------------------------------------------
 // Let the user edit the chart.
@@ -290,14 +311,23 @@ void TGraph::userEdit(void)
    Chart->RightAxis->Title->Caption = rightAxisTitle;
    Chart->BottomAxis->Title->Caption = bottomAxisTitle;
    Chart->Foot->Text->Text = footTitle;
-   if (Chart->SeriesCount() == 1)
-      Chart->Series[0]->Title = seriesTitle;
+   if (Chart->SeriesCount() >= 1)
+      Chart->Series[0]->Title = seriesTitle1;
+   if (Chart->SeriesCount() >= 2)
+      Chart->Series[1]->Title = seriesTitle2;
+   if (Chart->SeriesCount() >= 3)
+      Chart->Series[2]->Title = seriesTitle3;
+   if (Chart->SeriesCount() >= 4)
+      Chart->Series[3]->Title = seriesTitle4;
+   if (Chart->SeriesCount() >= 5)
+      Chart->Series[4]->Title = seriesTitle5;
    removeDataChangeSubscriptions();
 
-   TChartEditor* editor = new TChartEditor(Chart);
-   editor->Chart = Chart;
-   editor->Execute();
-   delete editor;
+   TDataSetSeriesSource* dummy = new TDataSetSeriesSource((TComponent*)NULL);
+
+   TeeSaveBoolOption(TeeMsg_TreeMode, true);
+   EditChart(NULL, this->Chart);
+   delete dummy;
 
    title = Chart->Title->Text->Text;
    leftAxisTitle = Chart->LeftAxis->Title->Caption;
@@ -305,9 +335,18 @@ void TGraph::userEdit(void)
    rightAxisTitle = Chart->RightAxis->Title->Caption;
    bottomAxisTitle = Chart->BottomAxis->Title->Caption;
    footTitle = Chart->Foot->Text->Text;
-   if (Chart->SeriesCount() == 1)
-      seriesTitle = Chart->Series[0]->Title;
-
+   if (Chart->SeriesCount() >= 1)
+      seriesTitle1 = Chart->Series[0]->Title;
+   if (Chart->SeriesCount() >= 2)
+      seriesTitle2 = Chart->Series[1]->Title;
+   if (Chart->SeriesCount() >= 3)
+      seriesTitle3 = Chart->Series[2]->Title;
+   if (Chart->SeriesCount() >= 4)
+      seriesTitle4 = Chart->Series[3]->Title;
+   if (Chart->SeriesCount() >= 5)
+      seriesTitle5 = Chart->Series[4]->Title;
+   replaceChartMacros();
+   
    for (int s = 0; s != Chart->SeriesCount(); s++)
       Chart->Series[s]->OnBeforeAdd = onBeforeAdd;
    addDataChangeSubscriptions();

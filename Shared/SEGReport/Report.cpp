@@ -16,12 +16,14 @@
 #include <gtQrRtns.hpp>
 #include "TSegTable.h"
 #include "TGraph.h"
+#include "TWizardForm.h"
 
 #pragma package(smart_init)
 #pragma link "dcfdes"
 #pragma link "gtQRXport"
 #pragma link "gtQRXport_Doc"
 #pragma link "gtQRXport_HTML"
+#pragma link "gtQRXport_JPEG"
 #pragma link "kbmMemTable"
 #pragma link "jpeg"
 using namespace std;
@@ -250,7 +252,7 @@ void Report::updateObjectInspector(TComponent* component)
       {
       if (OnObjectInspectorUpdate != NULL)
          OnObjectInspectorUpdate(objectInspectorForm);
-         
+
       objectInspectorForm->Visible = true;
 
       delete uiForm;
@@ -598,21 +600,24 @@ void Report::exportCurrentToFile(const std::string& fileName)
    {
    if (currentPage != NULL)
       {
-      setZoom(100);
+      setZoom(100);            
       try
          {
          if (ExtractFileExt(fileName.c_str()) == ".bmp")
-            ExportToBMP(currentPage, fileName.c_str(), false, false);
+            ExportToBMP(currentPage, fileName.c_str(), false, true);
          else if (ExtractFileExt(fileName.c_str()) == ".jpg")
-            ExportToJPEG(currentPage, fileName.c_str(), false, false);
+            {
+            gtQRJPEGSettings->PixelFormat = pf8bit;
+            ExportToJPEG(currentPage, fileName.c_str(), false, true);
+            }
          else if (ExtractFileExt(fileName.c_str()) == ".html")
             ExportToHTML(currentPage, fileName.c_str(), false, false);
          else if (ExtractFileExt(fileName.c_str()) == ".pdf")
             ExportToPDF(currentPage, fileName.c_str(), false, false);
          else if (ExtractFileExt(fileName.c_str()) == ".gif")
             {
-            gtQRGIFSettings->PixelFormat = pf16bit;
-            ExportToGIF(currentPage, fileName.c_str(), false, false);
+            gtQRGIFSettings->PixelFormat = pf8bit;
+            ExportToGIF(currentPage, fileName.c_str(), false, true);
             }
          else if (ExtractFileExt(fileName.c_str()) == ".rtf")
             {
@@ -830,5 +835,46 @@ void Report::moveComponentTree(TComponent* component, TComponent* owner)
             moveComponentTree(control->Controls[c], owner);
          }
       }
+   }
+//---------------------------------------------------------------------------
+// Show the report wizard
+//---------------------------------------------------------------------------
+void Report::showWizard()
+   {
+   TForm* parents[2];
+   parents[0] = dataForm;
+   parents[1] = reportForm;
+
+   TWizardForm* wizardForm = new TWizardForm(parent);
+
+   for (int formI = 0; formI != 2; formI++)
+      {
+      for (int componentI = 0; componentI < parents[formI]->ComponentCount; componentI++)
+         {
+         TComponent* component = parents[formI]->Components[componentI];
+         if (doShowComponentInWizard(component))
+            {
+            // get a property form.
+            uiForm = createComponentUI(component, wizardForm);
+
+            // If an addin returned a form then make that form a child of the parent
+            // form.
+            if (uiForm != NULL)
+               {
+               uiForm->BorderStyle = bsNone;
+               wizardForm->addComponentForm(uiForm);
+               }
+            }
+         }
+      }
+   wizardForm->ShowModal();
+   delete wizardForm;
+   }
+//---------------------------------------------------------------------------
+// Return true if the specified component show be include in the wizard.
+//---------------------------------------------------------------------------
+bool Report::doShowComponentInWizard(TComponent* component)
+   {
+   return true;
    }
 

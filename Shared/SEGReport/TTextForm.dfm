@@ -1,11 +1,13 @@
 inherited TextForm: TTextForm
+  Width = 278
+  Height = 527
   Caption = 'TextForm'
   OldCreateOrder = True
   PixelsPerInch = 120
   TextHeight = 16
   object Label5: TLabel [3]
     Left = 10
-    Top = 330
+    Top = 415
     Width = 71
     Height = 16
     Anchors = [akLeft, akBottom]
@@ -13,7 +15,7 @@ inherited TextForm: TTextForm
   end
   object Label3: TLabel [4]
     Left = 30
-    Top = 345
+    Top = 430
     Width = 185
     Height = 16
     Anchors = [akLeft, akBottom]
@@ -21,7 +23,7 @@ inherited TextForm: TTextForm
   end
   object Label4: TLabel [5]
     Left = 30
-    Top = 363
+    Top = 448
     Width = 189
     Height = 32
     Anchors = [akLeft, akBottom]
@@ -98,11 +100,24 @@ inherited TextForm: TTextForm
     Height = 16
     Caption = 'Autosize?'
   end
+  inherited SourceCombo: TComboBox
+    Width = 176
+  end
+  inherited NameEdit: TEdit
+    Width = 176
+  end
+  inherited SortFieldsEdit: TEdit
+    Width = 176
+  end
+  inherited GroupByEdit: TEdit
+    Width = 177
+    TabOrder = 7
+  end
   object TextEdit: TRichEdit
     Left = 8
-    Top = 208
-    Width = 257
-    Height = 121
+    Top = 216
+    Width = 256
+    Height = 198
     Anchors = [akLeft, akTop, akRight, akBottom]
     BevelInner = bvNone
     BevelOuter = bvRaised
@@ -116,7 +131,7 @@ inherited TextForm: TTextForm
   object AlignmentCombo: TComboBox
     Left = 88
     Top = 127
-    Width = 177
+    Width = 176
     Height = 24
     BevelKind = bkSoft
     Anchors = [akLeft, akTop, akRight]

@@ -5,49 +5,52 @@ inherited SOIForm: TSOIForm
   TextHeight = 16
   object Label3: TLabel [3]
     Left = 21
-    Top = 160
+    Top = 192
     Width = 58
     Height = 16
     Caption = 'Negative:'
   end
   object Label4: TLabel [4]
     Left = 28
-    Top = 190
+    Top = 222
     Width = 51
     Height = 16
     Caption = 'Positive:'
   end
   object Label5: TLabel [5]
     Left = 37
-    Top = 219
+    Top = 251
     Width = 43
     Height = 16
     Caption = 'Falling:'
   end
   object Label6: TLabel [6]
     Left = 38
-    Top = 249
+    Top = 281
     Width = 41
     Height = 16
     Caption = 'Rising:'
   end
   object Label7: TLabel [7]
     Left = 47
-    Top = 278
+    Top = 310
     Width = 31
     Height = 16
     Caption = 'Zero:'
   end
   object Label8: TLabel [8]
     Left = 37
-    Top = 131
+    Top = 164
     Width = 39
     Height = 16
     Caption = 'Month:'
   end
+  inherited GroupByEdit: TEdit
+    TabOrder = 10
+  end
   object MonthCombo: TComboBox
     Left = 89
-    Top = 130
+    Top = 162
     Width = 178
     Height = 24
     BevelKind = bkSoft
@@ -71,7 +74,7 @@ inherited SOIForm: TSOIForm
   end
   object NegativeCheckBox: TCheckBox
     Left = 89
-    Top = 160
+    Top = 192
     Width = 119
     Height = 21
     TabOrder = 5
@@ -79,7 +82,7 @@ inherited SOIForm: TSOIForm
   end
   object PositiveCheckBox: TCheckBox
     Left = 89
-    Top = 190
+    Top = 222
     Width = 119
     Height = 20
     TabOrder = 6
@@ -87,7 +90,7 @@ inherited SOIForm: TSOIForm
   end
   object FallingCheckBox: TCheckBox
     Left = 89
-    Top = 219
+    Top = 251
     Width = 119
     Height = 21
     TabOrder = 7
@@ -95,7 +98,7 @@ inherited SOIForm: TSOIForm
   end
   object RisingCheckBox: TCheckBox
     Left = 89
-    Top = 249
+    Top = 281
     Width = 119
     Height = 21
     TabOrder = 8
@@ -103,7 +106,7 @@ inherited SOIForm: TSOIForm
   end
   object ZeroCheckBox: TCheckBox
     Left = 89
-    Top = 278
+    Top = 310
     Width = 119
     Height = 21
     TabOrder = 9

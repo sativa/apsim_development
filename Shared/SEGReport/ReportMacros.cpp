@@ -7,10 +7,11 @@
 #include <general\stringtokenizer.h>
 #include <general\string_functions.h>
 #include <general\vcl_functions.h>
+#include <general\date_functions.h>
 #pragma package(smart_init)
 
 using namespace std;
-
+using namespace boost::gregorian;
 //---------------------------------------------------------------------------
 // Evaluate the specified macro.
 //---------------------------------------------------------------------------
@@ -52,6 +53,11 @@ string ReportMacros::evaluateMacro(TComponent* owner, const string& macro, const
          unsigned posPeriod = arguments[0].find('.');
          componentNames.push_back(arguments[0].substr(0, posPeriod));
          }
+      }
+   else if (macro == "$today")
+      {
+      date today(day_clock::local_day());
+      returnValue = to_dmy(today);
       }
    return returnValue;
    }
