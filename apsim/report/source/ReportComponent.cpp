@@ -139,7 +139,7 @@ void Field::writeHeading (ostream& out)
    if (FieldName == "-")
       FieldName = VariableName;
 
-   if (NumElements == 1)
+   if (NumElements <= 1)
       {
       out.width(getWidth());
       out << truncateSt(FieldName, getWidth()-1);
@@ -172,7 +172,7 @@ void Field::writeHeading (ostream& out)
 // ------------------------------------------------------------------
 void Field::writeUnits (ostream& out)
    {
-   for (unsigned int elem = 1; elem <= NumElements; elem++)
+   for (unsigned int elem = 1; elem <= max((unsigned)1, NumElements); elem++)
       {
       out.width(getWidth());
       out << truncateSt(VariableUnits, getWidth()-1);
