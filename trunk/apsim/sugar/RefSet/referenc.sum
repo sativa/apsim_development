@@ -14,7 +14,7 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 2.0
+     Version                = 2.1
      Simulation filename    = c:\regr\apsim\sugar\refset\referenc.sim
      Title                  = sugar reference run
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
@@ -128,6 +128,7 @@
      
      Soil water in parameter file is being overridden by
      the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
      
      
      
@@ -366,8 +367,8 @@
 28 August 1985 (Day of year=240):
    SUGAR:
        stage    4.0 begin_cane
-                           biomass =           287.1469       lai =     1.604564    
-                           stover N conc =   0.4442948       extractable sw =    36.07864
+                           biomass =           287.1470       lai =     1.604564    
+                           stover N conc =   0.4442947       extractable sw =    36.07864
 2 April 1986 (Day of year=92):
    MANAGER:
            Manager sending message :- sugar harvest
@@ -395,8 +396,8 @@
       
       
        stress indices for begin_cane
-       water stress 1 =   0.3215131       nitrogen stress 1 =   0.2515774E-01
-       water stress 2 =   0.1786475
+       water stress 1 =   0.3215130       nitrogen stress 1 =   0.2515774E-01
+       water stress 2 =   0.1786474
       
       
       
@@ -534,12 +535,12 @@
    SUGAR:
        stage    3.0 emergence
                            biomass =           2.823975       lai =    0.8000000E-02
-                           stover N conc =    2.529776       extractable sw =    79.99653
+                           stover N conc =    2.529776       extractable sw =    79.99654
 30 December 1987 (Day of year=364):
    SUGAR:
        stage    4.0 begin_cane
                            biomass =           78.08504       lai =    0.4710988    
-                           stover N conc =   0.6631790       extractable sw =    90.12068
+                           stover N conc =   0.6631790       extractable sw =    90.12067
 1 January 1988 (Day of year=1):
    MANAGER:
            Manager sending message :- sugar graze fraction = 0.05, c_eff = 0.5, n_eff = 0.5, report = yes
