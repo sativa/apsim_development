@@ -13,15 +13,14 @@
       SeedWeight.dfm"/>
     <LIBFILES value="..\..\..\..\Shared\general\general.lib 
       ..\..\..\..\Shared\ApsimShared\ApsimShared.lib"/>
-    <LIBRARIES value="kbmMemC6Run.lib TMSC6.lib APSGENERAL.lib APSData.lib"/>
+    <LIBRARIES value="kbmMemC6Run.lib TMSC6.lib APSGENERAL.lib APSData.lib bdertl.lib"/>
     <SPARELIBS value="rtl.lib vcl.lib dbrtl.lib vcldb.lib vclx.lib bdertl.lib vcldbx.lib 
       adortl.lib APSData.lib APSGENERAL.lib TMSC6.lib Tee.lib TeePro.lib 
       TeeUI.lib kbmMemC6Run.lib"/>
-    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi qrpt.bpi dbrtl.bpi vcldb.bpi 
-      bdertl.bpi ibsmp.bpi vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi 
-      inet.bpi nmfast.bpi dclocx.bpi bcb97axserver.bpi adortl.bpi TeeUI.bpi 
-      Tee.bpi TeeDB.bpi TeeGL.bpi TeeQR.bpi TeePro.bpi TeeLanguage.bpi 
-      TeeImage.bpi designide.bpi"/>
+    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi vcldb.bpi ibsmp.bpi 
+      vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi inet.bpi nmfast.bpi 
+      dclocx.bpi bcb97axserver.bpi adortl.bpi TeeUI.bpi Tee.bpi TeeDB.bpi 
+      TeeGL.bpi TeeQR.bpi TeePro.bpi TeeLanguage.bpi TeeImage.bpi"/>
     <PATHCPP value=".;.."/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -102,8 +101,8 @@ ProductVersion=1.0.0.0
 Comments=
 
 [Excluded Packages]
-C:\MyData\development\Bin\APSData.bpl=APSuite data components
-c:\program files\borland\cbuilder6\Projects\Bpl\FilterBarPackage.bpl=FilterBarPackage
+C:\WINDOWS\System32\PsQRC60.bpl=Pragnaan QuickReport Export Filters
+C:\Program Files\Borland\CBuilder6\Projects\Bpl\FilterBarPackage.bpl=FilterBarPackage
 
 [HistoryLists\hlIncludePath]
 Count=24

@@ -13,11 +13,10 @@
       ..\..\..\..\Shared\ApsimShared\ApsimShared.lib"/>
     <LIBRARIES value="TMSC6.lib"/>
     <SPARELIBS value="rtl.lib vcl.lib TMSC6.lib vclx.lib dbrtl.lib vcldb.lib Tee.lib"/>
-    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi qrpt.bpi dbrtl.bpi vcldb.bpi 
-      bdertl.bpi ibsmp.bpi vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi 
-      inet.bpi nmfast.bpi dclocx.bpi bcb97axserver.bpi adortl.bpi TeeUI.bpi 
-      Tee.bpi TeeDB.bpi TeeGL.bpi TeeQR.bpi TeePro.bpi TeeLanguage.bpi 
-      TeeImage.bpi designide.bpi"/>
+    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi vcldb.bpi ibsmp.bpi 
+      vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi inet.bpi nmfast.bpi 
+      dclocx.bpi bcb97axserver.bpi adortl.bpi TeeUI.bpi Tee.bpi TeeDB.bpi 
+      TeeGL.bpi TeeQR.bpi TeePro.bpi TeeLanguage.bpi TeeImage.bpi"/>
     <PATHCPP value=".;.."/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -29,7 +28,7 @@
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="RotationAddIn.bpf"/>
     <INCLUDEPATH value="..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED);$(SHARED)\components\data"/>
-    <LIBPATH value="..\;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general"/>
+    <LIBPATH value="..\;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general;$(BCB)\components\tms"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -92,8 +91,8 @@ ProductVersion=1.0.0.0
 Comments=
 
 [Excluded Packages]
-C:\MyData\development\Bin\APSData.bpl=APSuite data components
-c:\program files\borland\cbuilder6\Projects\Bpl\FilterBarPackage.bpl=FilterBarPackage
+C:\WINDOWS\System32\PsQRC60.bpl=Pragnaan QuickReport Export Filters
+C:\Program Files\Borland\CBuilder6\Projects\Bpl\FilterBarPackage.bpl=FilterBarPackage
 
 [HistoryLists\hlIncludePath]
 Count=10
@@ -109,21 +108,22 @@ Item8=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
 Item9=D:\Development\ApsimOutlook\Source\Outlook\RotationAddin;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=14
-Item0=..\;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general
-Item1=..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general
-Item2=..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item3=..\;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item4=..\;..;..\..\..\..\shared\components\general;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item5=..\;..\..\..\..\shared\components\general;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item6=..\..\..\..\shared\components\general;..\;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item7=..\;..\..\..\..\shared\components\data;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item8=..\..\..\..\shared\components\data;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item9=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item10=..\;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item11=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item12=$(BCB)\lib\obj;$(BCB)\lib
-Item13=D:\Development\ApsimOutlook\Source\Outlook\RotationAddin;$(BCB)\lib\obj;$(BCB)\lib
+Count=15
+Item0=..\;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general;$(BCB)\components\tms
+Item1=..\;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general
+Item2=..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general
+Item3=..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item4=..\;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item5=..\;..;..\..\..\..\shared\components\general;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item6=..\;..\..\..\..\shared\components\general;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item7=..\..\..\..\shared\components\general;..\;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item8=..\;..\..\..\..\shared\components\data;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item9=..\..\..\..\shared\components\data;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item10=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item11=..\;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item12=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item13=$(BCB)\lib\obj;$(BCB)\lib
+Item14=D:\Development\ApsimOutlook\Source\Outlook\RotationAddin;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1

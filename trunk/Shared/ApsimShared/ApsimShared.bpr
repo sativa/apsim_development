@@ -16,14 +16,14 @@
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TAboutForm.dfm TSplashForm.dfm TMoveParametersForm.dfm"/>
     <LIBFILES value="..\general\general.lib"/>
-    <LIBRARIES value="TMSC6.lib"/>
-    <SPARELIBS value="vcl.lib rtl.lib TMSC6.lib vclx.lib dbrtl.lib vcldb.lib Tee.lib"/>
+    <LIBRARIES value="xmlrtl.lib TMSC6.lib"/>
+    <SPARELIBS value="vcl.lib rtl.lib TMSC6.lib vclx.lib dbrtl.lib vcldb.lib Tee.lib xmlrtl.lib"/>
     <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi adortl.bpi vcldb.bpi 
-      qrpt.bpi bdertl.bpi vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi ibxpress.bpi 
-      visualclx.bpi visualdbclx.bpi vclie.bpi xmlrtl.bpi inet.bpi inetdbbde.bpi 
-      inetdbxpress.bpi inetdb.bpi nmfast.bpi bcbie.bpi soaprtl.bpi dclocx.bpi 
-      dbexpress.bpi dbxcds.bpi indy.bpi bcb2kaxserver.bpi TeeDB.bpi Tee.bpi 
-      TeeUI.bpi TeeLanguage.bpi TeePro.bpi TeeGL.bpi TeeQR.bpi"/>
+      vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi ibxpress.bpi visualclx.bpi 
+      visualdbclx.bpi vclie.bpi inet.bpi inetdbbde.bpi inetdbxpress.bpi 
+      inetdb.bpi nmfast.bpi bcbie.bpi soaprtl.bpi dclocx.bpi dbexpress.bpi 
+      dbxcds.bpi indy.bpi bcb2kaxserver.bpi TeeDB.bpi Tee.bpi TeeUI.bpi 
+      TeeLanguage.bpi TeePro.bpi TeeGL.bpi TeeQR.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>

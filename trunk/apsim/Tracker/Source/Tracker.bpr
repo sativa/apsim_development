@@ -13,12 +13,7 @@
       ..\..\..\Shared\general\general.lib"/>
     <LIBRARIES value=""/>
     <SPARELIBS value="rtl.lib"/>
-    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi adortl.bpi vcldb.bpi 
-      qrpt.bpi bdertl.bpi vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi ibxpress.bpi 
-      visualclx.bpi visualdbclx.bpi vclie.bpi xmlrtl.bpi inet.bpi inetdbbde.bpi 
-      inetdbxpress.bpi inetdb.bpi nmfast.bpi bcbie.bpi soaprtl.bpi dclocx.bpi 
-      dbexpress.bpi dbxcds.bpi indy.bpi bcb2kaxserver.bpi TeeDB.bpi Tee.bpi 
-      TeeUI.bpi TeeLanguage.bpi TeePro.bpi TeeGL.bpi TeeQR.bpi TMSC6.bpi"/>
+    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi vcljpg.bpi dbrtl.bpi vcldb.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -91,7 +86,7 @@ ProductVersion=1.0.0.0
 Comments=
 
 [Excluded Packages]
-c:\program files\borland\cbuilder6\Projects\Bpl\SEGReport.bpl=SEGReport
+C:\WINDOWS\System32\PsQRC60.bpl=Pragnaan QuickReport Export Filters
 c:\program files\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
 
 [HistoryLists\hlIncludePath]
@@ -113,8 +108,9 @@ Count=1
 Item0=_DEBUG
 
 [HistoryLists\hlFinalOutputDir]
-Count=1
-Item0=..\Lib
+Count=2
+Item0=..\Lib\
+Item1=..\Lib
 
 [HistoryLists\hIBPIOutputDir]
 Count=1
