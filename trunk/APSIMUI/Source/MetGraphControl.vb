@@ -154,86 +154,8 @@ Public Class MetGraphControl
             .SmallChange = 1
             .LargeChange = 1
         End With
-
-
-
-        With Graph
-            .Clear()
-            'Create a new line plot from array data via the ArrayAdapter class.
-            Dim lp As New LinePlot(New ArrayAdapter(makeDaub(256)))
-            lp.Color = Color.Green
-
-            ' Add it to the plot Surface
-            .Add(lp)
-            .Title = "Daubechies Wavelet"
-            ' Ok, the above will produce a decent default plot, but we would like to change
-            ' some of the Y Axis details. First, we'd like lots of small ticks (10) between 
-            ' large tick values. Secondly, we'd like to draw a grid for the Y values. To do 
-            ' this, we create a new LinearAxis (we could also use Label, Log etc). Rather than
-            ' starting from scratch, we use the constructor that takes an existing axis and
-            ' clones it (values in the superclass Axis only are cloned). PlotSurface2D
-            ' automatically determines a suitable axis when we add plots to it (merging
-            ' current requirements with old requirements), and we use this as our starting
-            ' point. Because we didn't specify which Y Axis we are using when we added the 
-            ' above line plot (there is one on the left - YAxis1 and one on the right - YAxis2)
-            ' PlotSurface2D.Add assumed we were using YAxis1. So, we create a new axis based on
-            ' YAxis1, update the details we want, then set the YAxis1 to be our updated one.
-            Dim lax As New LinearAxis(.YAxis1)
-            lax.NumberSmallTicks = 10
-            lax.GridDetail = Axis.GridType.Fine
-            .YAxis1 = lax
-
-            ' We would also like to modify the way in which the X Axis is printed. This time,
-            ' we'll just modify the relevant PlotSurface2D Axis directly. 
-            .XAxis1.GridDetail = Axis.GridType.Coarse
-            .XAxis1.WorldMax = 100.0F
-
-            .PlotBackColor = Color.Beige
-
-            ' Force a re-draw the control. 
-            .Refresh()
-
-        End With
-
+        RedrawGraph()
     End Sub
-    Public Function makeDaub(ByVal len As Integer) As Single()
-
-        Dim daub4_h() As Single = {0.4829629F, 0.8365163F, 0.224143863F, -0.129409522F}
-        Dim daub4_g() As Single = {-0.129409522F, -0.224143863F, 0.8365163F, -0.4829629F}
-
-        Dim a(len) As Single
-        a(8) = 1
-        Dim t() As Single
-
-        Dim ns As Integer = 4
-
-        While (ns < len / 2)
-            t = a.Clone()
-
-            ns = ns * 2
-            Dim i As Integer
-            For i = 0 To ns * 2 - 1
-                a(i) = 0.0F
-            Next
-
-            ' wavelet contribution
-            For i = 0 To ns - 1
-                Dim j As Integer
-                For j = 0 To 3
-                    a((2 * i + j) Mod (2 * ns)) = a((2 * i + j) Mod (2 * ns)) + daub4_g(j) * t(i + ns)
-                Next j
-            Next i
-
-            ' smooth contribution
-            For i = 0 To ns - 1
-                Dim j As Integer
-                For j = 0 To 3
-                    a((2 * i + j) Mod (2 * ns)) = a((2 * i + j) Mod (2 * ns)) + daub4_h(j) * t(i)
-                Next j
-            Next i
-        End While
-        Return a
-    End Function
     Private Sub FillListBar()
         ListBar.Groups.Clear()
 
@@ -255,19 +177,19 @@ Public Class MetGraphControl
         RedrawGraph()
     End Sub
     Private Sub RedrawGraph()
-        Select Case ListBar.SelectedGroup.SelectedItem.Caption
-            Case "Rainfall Chart"
-                RainfallChart()
-            Case "Monthly Rainfall Chart"
-                MonthlyRainfallChart()
-            Case "Temperature Chart"
-                TemperatureChart()
-            Case "Radiation Chart"
-                RadiationChart()
-        End Select
-
-        If ListBar.SelectedGroup.SelectedItem.Caption = "Rainfall Chart" Then
-
+        If Not IsNothing(ListBar.SelectedGroup.SelectedItem) Then
+            Select Case ListBar.SelectedGroup.SelectedItem.Caption
+                Case "Rainfall Chart"
+                    RainfallChart()
+                Case "Monthly Rainfall Chart"
+                    MonthlyRainfallChart()
+                Case "Temperature Chart"
+                    TemperatureChart()
+                Case "Radiation Chart"
+                    RadiationChart()
+                Case "Frost Risk Chart"
+                    FrostRiskChart()
+            End Select
         End If
     End Sub
 
@@ -281,6 +203,11 @@ Public Class MetGraphControl
             .Add(lp)
             .Title = "Daily Rainfall (Year = " + Str(ScrollBar.Value) + ")"
             .PlotBackColor = Color.Beige
+            Dim lax As New LinearAxis(.YAxis1)
+            lax.NumberSmallTicks = 10
+            lax.GridDetail = Axis.GridType.Fine
+            .YAxis1 = lax
+
             ' Force a re-draw the control. 
             .Refresh()
 
@@ -321,7 +248,7 @@ Public Class MetGraphControl
             .Title = "Monthly Rainfall (Year = " + Str(ScrollBar.Value) + ")"
             .PlotBackColor = Color.Beige
             .YAxis1.WorldMin = 0
-            .XAxis1.WorldMin = 1
+            .XAxis1.WorldMin = 0
             ' Force a re-draw the control. 
             .Refresh()
 
@@ -341,6 +268,53 @@ Public Class MetGraphControl
 
             .Title = "Daily Temperature(Year = " + Str(ScrollBar.Value) + ")"
             .PlotBackColor = Color.Beige
+            .XAxis1.WorldMin = 1
+            ' Force a re-draw the control. 
+            .Refresh()
+
+        End With
+    End Sub
+    Private Sub FrostRiskChart()
+        With Graph
+            .Clear()
+            Dim count(366) As Single
+            Dim num(366) As Single
+            Dim Risk(366) As Single
+
+            Dim Data As DataTable
+            Metfile.ReadFromFile(MyData.Child("filename").Value)
+            Data = Metfile.Data
+
+            Dim DateColumn As New DataColumn
+            DateColumn = Data.Columns("date")
+            Dim MintColumn As New DataColumn
+            MintColumn = Data.Columns("mint")
+
+            For Each row As DataRow In Data.Rows
+                Today = row(DateColumn)
+                num(Today.DayOfYear) = num(Today.DayOfYear) + 1
+                If Not IsNothing(MintColumn) Then
+                    If row(MintColumn) < 0 Then
+                        count(Today.DayOfYear) = count(Today.DayOfYear) + 1
+                    End If
+                End If
+            Next
+            For i As Integer = 1 To 366
+                If num(i) > 0 Then
+                    Risk(i) = count(i) / num(i) * 100.0
+                Else
+                    Risk(i) = 0
+                End If
+            Next
+
+            Dim RiskPlot As New HistogramPlot(New ArrayAdapter(Risk))
+            RiskPlot.Color = Color.Blue
+            .Add(RiskPlot)
+
+            .Title = "Percent Frost Risk Across All Years"
+            .PlotBackColor = Color.Beige
+            .YAxis1.WorldMin = 0
+            .XAxis1.WorldMin = 0
             ' Force a re-draw the control. 
             .Refresh()
 
@@ -360,9 +334,15 @@ Public Class MetGraphControl
             RadnMax.Label = "Max Radn"
             .Add(RadnMax)
 
-            Dim Vp As New LinePlot(New ArrayAdapter(ReadAnnualData("radn")))
+            Dim vparray As Single() = ReadAnnualData("vp")
+            If vparray.Length = 0 Then
+                Dim MinTArray As Single() = ReadAnnualData("mint")
+                vparray = MinTArray
+            End If
+            Dim Vp As New LinePlot(New ArrayAdapter(vparray))
             Vp.Color = Color.Green
             Vp.Label = "VP"
+
             .Add(Vp)
 
             .Title = "Daily Radiation(Year = " + Str(ScrollBar.Value) + ")"
@@ -386,9 +366,11 @@ Public Class MetGraphControl
         Dim TempColumn As DataColumn
         TempColumn = data.Columns(ColumnName)
 
-        For i As Integer = 1 To data.Rows.Count
-            temp(i) = data.Rows(i - 1)(TempColumn)
-        Next
+        If Not IsNothing(TempColumn) Then
+            For i As Integer = 1 To data.Rows.Count
+                temp(i) = data.Rows(i - 1)(TempColumn)
+            Next
+        End If
 
         Return temp
     End Function
@@ -398,19 +380,6 @@ Public Class MetGraphControl
         Metfile.ReadFromFile(MyData.Child("filename").Value, New Date(ScrollBar.Value, 1, 1), New Date(ScrollBar.Value, 12, 31))
         Return Metfile.Data
 
-    End Function
-    Private Function makeRain() As Single()
-        Dim Rain(366) As Single
-        Rain(Int(Rnd() * 366)) = Rnd() * 100
-        Rain(Int(Rnd() * 366)) = Rnd() * 100
-        Rain(Int(Rnd() * 366)) = Rnd() * 100
-        Rain(Int(Rnd() * 366)) = Rnd() * 100
-        Rain(Int(Rnd() * 366)) = Rnd() * 100
-        Rain(Int(Rnd() * 366)) = Rnd() * 100
-        Rain(Int(Rnd() * 366)) = Rnd() * 100
-        Rain(Int(Rnd() * 366)) = Rnd() * 100
-        Rain(Int(Rnd() * 366)) = Rnd() * 100
-        Return Rain
     End Function
 
     Private Sub ScrollBar_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ScrollBar.ValueChanged
