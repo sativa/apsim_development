@@ -25,7 +25,7 @@ string getApsimDirectory(void) throw(runtime_error)
       throw runtime_error(msg);
       }
    else
-      return path.Get_path();
+      return path.Get_directory();
    }
 
 
