@@ -45,10 +45,18 @@ FiltAddIn::FiltAddIn(const string& parameters)
 
 //  Changes:
 //    DPH 5/4/01
+//    DAH 30/7/01
+//       added commands to remove button and glyph from toolbar and imageindex
+//       respectively, and to delete the button and glyph
 
 // ------------------------------------------------------------------
 FiltAddIn::~FiltAddIn(void)
    {
+   int pos = filterButton->ImageIndex;
+   Toolbar->RemoveControl(filterButton);
+   delete filterButton;
+   Toolbar->Images->Delete(pos);
+   delete glyph;
    }
 
 // ------------------------------------------------------------------
@@ -59,15 +67,18 @@ FiltAddIn::~FiltAddIn(void)
 
 //  Changes:
 //    DPH 4/4/01
+//    DAH 30/7/01    changed filterbutton and glyph to be a member variables so we
+//                   can delete them later. Kept a record of the toolbar passed in
 
 // ------------------------------------------------------------------
 void FiltAddIn::decorateToolBar(TToolBar* toolbar)
    {
-   TToolButton* filterButton = new TToolButton(toolbar);
+   Toolbar = toolbar;
+   filterButton = new TToolButton(toolbar);
    filterButton->Left = toolbar->Width; // ensures button goes at right end of row
    filterButton->Parent = toolbar;
 
-   Graphics::TBitmap* glyph = new Graphics::TBitmap;
+   glyph = new Graphics::TBitmap;
    glyph->LoadFromResourceName((unsigned int) HInstance, "FILTER_BITMAP");
    glyph->Transparent = true;
 
@@ -120,11 +131,14 @@ void __fastcall FiltAddIn::buttonClick(TObject* Sender)
 //                  descriptor names. c227,d308
 //    DAH 10/8/2000 saved and restored cursor
 //    dph 5/4/2001 pulled from the old TSelected_simulations.cpp and modified
+//    DAH 30/7/01    removed needsUpdating condition - this flag is essentially
+//                   used externally to work out whether or not to call doCalculations
+//                   for each toolbar addin.
 
 // ------------------------------------------------------------------
 void FiltAddIn::doCalculations(TAPSTable& data)
    {
-   if (needsUpdating && filters.size() > 0)
+   if (/*needsUpdating &&*/ filters.size() > 0)
       {
       TCursor savedCursor = Screen->Cursor;
       Screen->Cursor = crHourGlass;
