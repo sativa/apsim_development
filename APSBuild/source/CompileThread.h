@@ -21,6 +21,7 @@ class CompileThread : public TThread
 
       bool Build;
       bool Debug;
+      string CompileType;
       virtual void __fastcall Execute (void);
 
       string Get_compiler_output_filename (const char* Filename)
@@ -34,7 +35,6 @@ class CompileThread : public TThread
       string Compiler_output_filename;
       string Message;
       string CommandLineToExecute;
-      string F90Compiler;
 
       void   __fastcall GoDisplayMessage (void);
       void   __fastcall RunCommandLine (void);
@@ -45,7 +45,8 @@ class CompileThread : public TThread
       void   CreateAutoMakeFile (APSIM_project& apf, Path& BinaryFile);
       void   CreateCompilerResponseFile (APSIM_project& apf);
       void   CreateLinkerResponseFile (APSIM_project& apf);
-      void   CopyImportFiles (APSIM_project& apf);
+      void   CopySourceFiles (APSIM_project& apf);
+      void   DeleteSourceFiles (APSIM_project& apf);
       void   RunAutoMake (APSIM_project& apf, Path& BinaryFile);
       void   Cleanup (APSIM_project& apf);
       void   CopySwitchesToStream (APSIM_project& apf, ostream& out);

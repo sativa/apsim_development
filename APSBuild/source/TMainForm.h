@@ -32,6 +32,7 @@ public:		// User declarations
    bool Build;
    bool Debug;
    bool Quiet;
+   string CompileType;
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TMainForm *MainForm;
