@@ -7,15 +7,15 @@
       use SoilTempModule
       implicit none
 
- !+  Sub-Program Arguments
+*+  Sub-Program Arguments
       character InstanceName*(*)       ! (INPUT) name of instance
       integer   InstanceNo             ! (INPUT) instance number to allocate
 
- *+  Purpose
- *      Module instantiation routine.
+*+  Purpose
+*      Module instantiation routine.
 
- *+  Mission Statement
- *     Instantiate routine
+*+  Mission Statement
+*     Instantiate routine
 
  !- Implementation Section ----------------------------------
 
@@ -35,14 +35,14 @@
       use SoilTempModule
       implicit none
 
- !+  Sub-Program Arguments
+*+  Sub-Program Arguments
       integer anInstanceNo             ! (INPUT) instance number to allocate
 
- *+  Purpose
- *      Module de-instantiation routine.
+*+  Purpose
+*      Module de-instantiation routine.
 
- *+  Mission Statement
- *     De-Instantiate routine
+*+  Mission Statement
+*     De-Instantiate routine
 
  !- Implementation Section ----------------------------------
 
@@ -61,14 +61,14 @@
       use SoilTempModule
       implicit none
 
- !+  Sub-Program Arguments
+*+  Sub-Program Arguments
       integer anInstanceNo             ! (INPUT) instance number to allocate
 
- *+  Purpose
- *      Swap an instance into the global 'g' pointer
+*+  Purpose
+*      Swap an instance into the global 'g' pointer
 
- *+  Mission Statement
- *     Swap an instance into global pointer
+*+  Mission Statement
+*     Swap an instance into global pointer
 
  !- Implementation Section ----------------------------------
 
