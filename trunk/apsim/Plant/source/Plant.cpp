@@ -16671,22 +16671,28 @@ void Plant::get_zadok_stage(protocol::Component *system, protocol::QueryValueDat
        zadok_stage = 5.0 * (g.current_stage - sowing);
        }
     else if (g.current_stage > emerg &&
-             g.current_stage <= 5.2)  
+             g.current_stage <= 4.9)  
        {
-       // NB. Odd approximation of tiller number here..
-       float tiller_no = max(0.0, g.leaves_per_node -1.0);
- 
-       if (tiller_no <= 1.0)
+       float leaf_no_now = sum_between (emerg-1, now-1, g.leaf_no);
+
+       static float tillerno_y[] =   // tiller no.
+           {0, 0, 5};
+       static float tillerno_x[] =   // lf. no.
+           {0, 5, 8};
+       float tiller_no_now = linear_interp_real (leaf_no_now
+                                               , tillerno_x
+                                               , tillerno_y
+                                               , sizeof(tillerno_x)/sizeof(float));
+       if (tiller_no_now <= 0.0) 
            {
-           float leaf_no_now = sum_between (emerg-1, now-1, g.leaf_no);
            zadok_stage = 10.0 + leaf_no_now;
            }
         else
            {
-           zadok_stage = 20.0 + tiller_no - 1.0;  // Assumes max_tillers=10
+           zadok_stage = 20.0 + tiller_no_now;
            }
        }
-    else if (g.current_stage > 5.2 &&
+    else if (g.current_stage > 4.9 &&
              g.current_stage < plant_end )
        {
 // from senthold's archive:
@@ -16701,13 +16707,13 @@ void Plant::get_zadok_stage(protocol::Component *system, protocol::QueryValueDat
 
 // Plant:
 //                 sow    ger   eme  juv    fi       fl   st_gf end_gf  mat hv_rpe  end
-//stage_code      = 1      2    3     4     5   5.2 5.4   6     7      8     9    10     11  ()     ! numeric code for phenological stages
-//                  na     na   na    na    na   30  50   60    71     87    90    100
+//stage_code      = 1      2    3     4     5   4.9 5.4   6     7      8     9    10     11  ()     ! numeric code for phenological stages
+//                  na     na   na    na    na   30  43   65    71     87    90    100
 
        static float zadok_code_y[] =
-           {30, 50, 60, 71, 87, 90, 100};
+           {30,   43, 65, 71, 87, 90, 100};
        static float zadok_code_x[] =
-           {5.2, 5.4, 6,  7,  8,  9,  10};
+           {4.9, 5.4,  6,  7,  8,  9,  10};
 
       zadok_stage = linear_interp_real (g.current_stage
                                        , zadok_code_x
