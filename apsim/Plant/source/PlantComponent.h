@@ -5,6 +5,7 @@
 // turn of the warnings about "Functions containing for are not expanded inline.
 #pragma warn -inl
 #include <boost/function.hpp>
+#include "PlantInterface.h"
 
 class Plant;
 
@@ -12,7 +13,7 @@ class Plant;
 // This component acts as the interface between an instance of a
 // Plant model and an APSIM simulation.
 // ------------------------------------------------------------------
-class PlantComponent : public protocol::Component
+class PlantComponent : public protocol::Component , public commsInterface
    {
    private:
       Plant     *plant;    // The plant module
@@ -22,12 +23,12 @@ class PlantComponent : public protocol::Component
       ~PlantComponent(void);
       virtual void doInit1(const FString& sdml);
       virtual void doInit2(void);
-//      virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant){};
-//      virtual void respondToMethod(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant){};
-//      virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData){};
       virtual bool respondToSet(unsigned int& fromID, protocol::QuerySetValueData& setValueData);
       virtual void onApsimGetQuery(struct protocol::ApsimGetQueryData& apsimGetQueryData);
-      
+
+      void writeString (const char *msg);
+      void warningError (const char *msg);
+
       // Search a list of "sections" for a parameter.
       std::string searchParameter(vector<string> &sectionNames,
                                   const std::string& variableName)

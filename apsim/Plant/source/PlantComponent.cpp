@@ -99,3 +99,12 @@ bool PlantComponent::respondToSet(unsigned int& fromID, protocol::QuerySetValueD
    return (plant->setVariable(/*fromID, */setValueData.ID, setValueData));
    }
 
+void PlantComponent::warningError (const char *msg)
+{
+  error(msg, false);
+}
+
+void PlantComponent::writeString (const char *line)
+{
+  protocol::Component::writeString(FString(line));
+}

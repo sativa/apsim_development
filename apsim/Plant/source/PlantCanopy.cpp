@@ -1,14 +1,14 @@
-#include <general/pch.h>
-#include <vcl.h>
 #include <stdio.h>
 #include <math.h>
 #include <vector>
 #include <string>
+#include <stdexcept>
 #include "Plantlibrary.h"
 
 
 //===========================================================================
-void crop_lai_equilib_water (int    day_of_year,         // (INPUT) day of year                              
+void crop_lai_equilib_water (commsInterface *iface,
+                             int    day_of_year,         // (INPUT) day of year                              
                              int    year,                // (INPUT) year                                     
                              float  extinction_coef,     // (INPUT) radiation extinction coefficient         
                              float *rue,                 // (INPUT) radiation use efficiency (g dm/mj)       
@@ -54,7 +54,7 @@ void crop_lai_equilib_water (int    day_of_year,         // (INPUT) day of year
    rue_reduction = min(temp_stress_photo, nfact_photo);
    lrue = rue[stage_no-1] * rue_reduction;
 
-   bound_check_real_var(lrue, 0.0, rue[stage_no-1], "rue");
+   bound_check_real_var(iface, lrue, 0.0, rue[stage_no-1], "rue");
 
    radn_canopy = divide (radn_int, cover_green, radn);
    sen_radn_crit = divide (dlt_dm_transp, lrue, radn_canopy);
@@ -1182,8 +1182,7 @@ void legnew_dm_pot_rue (
 
     if (cover_green<cover_pod)
         {
-        fatal_error ("error in pod light interception");
-        *dlt_dm_pot = 0.0;
+        throw std::runtime_error("error in pod light interception : legnew_dm_pot_rue()");
         }
     else
         {

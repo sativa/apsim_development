@@ -13,13 +13,12 @@
 // Modification log
 //  25 Feb 04  J. Hargreaves  implementation
 
-#include <general/pch.h>
-#include <vcl.h>
 #include <stdio.h>
 #include <math.h>
 #include <map>
 #include <string>
 #include <algorithm>
+#include <stdexcept>
 #include <cstring.h>
 #include <iostream.h>
 #include <boost/function.hpp>
@@ -65,7 +64,7 @@ PlantP::PlantP(Plant *P)  			           // member initialisation
 //	copy data members of object
 PlantP::PlantP(const PlantP &PlantP)       // member initialisation
 {
-	throw "Copy constructor NI for plantp";
+	throw std::invalid_argument("Copy constructor NI for plantp");
 }
 
 
@@ -73,7 +72,7 @@ PlantP::PlantP(const PlantP &PlantP)       // member initialisation
 //	assign data members of object
 const PlantP &PlantP::operator=(const PlantP &other)
 {
- 	throw "Assignment operator NI for plantp";
+ 	throw std::invalid_argument("Assignment operator NI for plantp");
 }
 
 // destructor
