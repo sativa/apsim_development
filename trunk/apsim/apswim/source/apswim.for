@@ -886,26 +886,27 @@ c     :              1.0d0)
 
          call Read_double_var (
      :              top_boundary_section,
-     :              'maximum_conductance',
-     :              '(??)',
-     :              g1,
+     :              'minimum_conductance',
+     :              '(/h)',
+     :              g0,
      :              numvals,
-     :              1.0d0,
+     :              1.0d-6,
      :              1.0d2)
 
          call Read_double_var (
      :              top_boundary_section,
-     :              'minimum_conductance',
-     :              '(??)',
-     :              g0,
+     :              'maximum_conductance',
+     :              '(/h)',
+     :              g1,
      :              numvals,
-     :              1.0d-5,
-     :              1.0d2)
+     :              g0,
+     :              1.0d6)
+
 
          call Read_double_var (
      :              top_boundary_section,
      :              'initial_conductance',
-     :              '(??)',
+     :              '(/h)',
      :              gsurf,
      :              numvals,
      :              g0,
@@ -1095,15 +1096,15 @@ c      read(ret_string, *, iostat = err_code) rain
       if ((int(apsim_timestep).ne.0).and.(apsim_time.ne.blank)) then
          ! timestep is defined in the input files - use these.
          timestep_source = 'input'
-                  
+
       elseif (((int(apsim_timestep).ne.0).and.(apsim_time.eq.blank))
      :                                   .or.
-     :       ((int(apsim_timestep).eq.0).and.(apsim_time.ne.blank))) 
+     :       ((int(apsim_timestep).eq.0).and.(apsim_time.ne.blank)))
      :                                   then
         ! only one of the timestep info values available - error!
         call fatal_error(Err_User,
      :                  'Insufficient timestep information available')
-        
+
       else
          ! it has not been specified - use default (1 day)
          timestep_source = 'default'
@@ -1677,7 +1678,12 @@ cnh added as per request by Dr Val Snow
      :              numvals,
      :              0d0,
      :              100d0)
-
+         if ((gsurf.gt.g1).or.(gsurf.lt.g0)) then
+            call fatal_error (ERR_User,
+     :         'Scon set to a value outside of specified decay curve')
+         else
+            ! it is OK - keep going
+         endif
       elseif (Variable_name .eq. 'bbc_potential') then
          if (ibbc.eq.3) then
             call collect_double_var (
@@ -2503,7 +2509,9 @@ c  100 continue
 *   Global variables
       include 'apswim.inc'
 
-      integer count_of_double_vals     ! function
+      integer          count_of_double_vals     ! function
+      double precision apswim_time
+      integer          apswim_time_to_mins
 
 *   Internal variables
       double precision fraction
@@ -2522,6 +2530,7 @@ c  100 continue
 c      double precision tth
       double precision thetaj, thetak, dthetaj, dthetak
       double precision hklgj, hklgk, dhklgj, dhklgk
+       integer          time_mins
 
 *   Constant values
       character myname*(*)               ! name of current procedure
@@ -2542,6 +2551,10 @@ c      double precision tth
       ! change units of params to normal SWIM units
       ! ie. cm and hours etc.
       call apswim_init_change_units()
+
+* ------------------- CALCULATE CURRENT TIME -------------------------
+      time_mins = apswim_time_to_mins (apsim_time)
+      t = apswim_time (year,day,time_mins)
 
 * ----------------- SET UP NODE SPECIFICATIONS -----------------------
       ! safer to use number returned from read routine
@@ -4597,10 +4610,12 @@ cnh      cslsur = 0.d0 ! its an array now
       Time = (julian_date - julian_start_date)*days_to_hours +
      :                    dble(tt)/60.d0
 
-      If (Time .lt. 0d0) then
-         call fatal_error (Err_User, 'Cant have -ve time')
-      else
-      endif
+cnh this function is used for purposes where a time before start of
+c   simulation is required - eg reading logfiles.
+c      If (Time .lt. 0d0) then
+c         call fatal_error (Err_User, 'Cant have -ve time')
+c      else
+c      endif
 
       apswim_time = time
 
@@ -5792,11 +5807,17 @@ cnh
        include 'apswim.inc'
        double precision apswim_time
        integer          apswim_time_to_mins
+       double precision ddivide
 
 *   Internal variables
        integer          counter
        double precision amount
        double precision duration
+       double precision intensity
+       double precision check_amount
+       integer          numvals_int
+       integer          numvals_dur
+       integer          numvals_amt
        integer          numvals
        double precision solconc
        integer          solnum
@@ -5819,26 +5840,9 @@ cnh
 
       if (p_echo_directives.eq.'on') then
          ! flag this event in output file
-         call write_string 
-     :      (LU_Scr_sum,'APSwim adding irrigation to log')
+         call write_event ('APSwim adding irrigation to log')
       else
       endif
-
-      call collect_double_var (
-     :                         'amount'
-     :                        ,'(mm)'
-     :                        ,amount
-     :                        ,numvals
-     :                        ,0.d0
-     :                        ,1000.d0)
-
-      call collect_double_var (
-     :                         'duration'
-     :                        ,'(min)'
-     :                        ,duration
-     :                        ,numvals
-     :                        ,0.d0
-     :                        ,24d0*60d0)
 
       call collect_char_var (
      :                         'time'
@@ -5846,11 +5850,86 @@ cnh
      :                        ,time_string
      :                        ,numvals)
 
+
+      call collect_double_var_optional (
+     :                         'amount'
+     :                        ,'(mm)'
+     :                        ,amount
+     :                        ,numvals_amt
+     :                        ,0.d0
+     :                        ,1000.d0)
+
+      call collect_double_var_optional (
+     :                         'duration'
+     :                        ,'(min)'
+     :                        ,duration
+     :                        ,numvals_dur
+     :                        ,0.d0
+     :                        ,24d0*60d0)
+
+      call collect_double_var_optional (
+     :                         'intensity'
+     :                        ,'(mm/h)'
+     :                        ,intensity
+     :                        ,numvals_int
+     :                        ,0.d0
+     :                        ,24d0*60d0)
+
+
+      if ((numvals_int.ne.0).and.(numvals_dur.ne.0)
+     :       .and.(numvals_amt.ne.0)) then
+         ! the user has specified all three
+         check_amount = intensity/60d0*duration
+
+         if (abs(amount-check_amount).ge.1.) then
+            call fatal_error (ERR_User,
+     :         'Irrigation information error greater than 1 mm'//
+     :         '(ie amount not equal to intensity/60*duration)')
+
+         elseif (abs(amount-check_amount).ge.0.1) then
+            call warning_error (ERR_User,
+     :         'Irrigation information error greater than .1 mm'//
+     :         '(ie amount not equal to intensity/60*duration)')
+
+         else
+         endif
+
+      elseif ((numvals_amt.ne.0).and.(numvals_dur.ne.0)) then
+         ! We have all the information we require - do nothing
+
+      elseif ((numvals_int.ne.0).and.(numvals_dur.ne.0)) then
+         ! we need to calculate the amount
+         amount = intensity/60d0*duration
+
+      elseif ((numvals_int.ne.0).and.(numvals_amt.ne.0)) then
+         ! we need to calculate the duration
+         duration = ddivide (amount,intensity/60d0,0.0)
+      else
+         ! We do not have enough information
+         call fatal_error (ERR_User,
+     :     'Incomplete Irrigation information')
+
+         !  set defaults to allow completion
+         amount = 0.0
+         duration = 1.0
+
+      endif
+
       ! get information regarding time etc.
       call apswim_Get_other_variables()
 
       time_mins = apswim_time_to_mins (time_string)
       irrigation_time = apswim_time (year,day,time_mins)
+
+      ! allow 1 sec numerical error as data resolution is
+      ! 60 sec.
+      if (irrigation_time.lt.(t - 1.d0/3600.d0) )then
+         
+         call fatal_error (ERR_User,
+     :                    'Irrigation has been specified for an '//
+     :                    'already processed time period')
+      else
+      endif
 
       call apswim_insert_loginfo (
      :                         irrigation_time
@@ -7326,7 +7405,7 @@ c      endif
 
       if (p_echo_directives.eq.'on') then
          ! flag this event in output file
-         call write_string (LU_Scr_sum,'APSwim responding to tillage')
+         call write_event ('APSwim responding to tillage')
       else
       endif
 
@@ -8090,7 +8169,7 @@ cnh            if(fail)go to 90
             if(fail) then
 cnh               call warning_error(Err_internal,
 cnh     :            'swim will reduce timestep to solve water movement')
-                  call report_event (
+                  call write_event (
      :            'swim will reduce timestep to solve water movement')
                goto 90
             endif
@@ -8119,7 +8198,7 @@ cnh     :            'swim will reduce timestep to solve water movement')
       if(fail.and.it.lt.itlim)go to 10
 cnh      if(isol.ne.1.or.fail)go to 90
       if (fail) then
-         call report_event (
+         call write_event (
      :            'swim will reduce timestep to solve water movement')
 
          goto 90
@@ -8135,7 +8214,7 @@ cnh      call getsol(a(0),b(0),c(0),d(0),rhs(0),dp(0),vbp(0),fail)
          call apswim_getsol
      :          (solnum,a(0),b(0),c(0),d(0),rhs(0),dp(0),vbp(0),fail)
          If (fail) then
-            call report_event (
+            call write_event (
      :         'swim will reduce timestep to solve solute movement')
 
             goto 85
