@@ -184,24 +184,16 @@ finert   =  0.17  0.2   0.3   0.5   0.7   0.9   0.9   0.9   0.99   0.99 ()
 !******************** ini residues **************************************************************************
 ! RESIDUES
 
-[b7cp99.residue2.parameters]
+[b7cp99.SurfaceOM.parameters]
 
-  residue_wt      = 2000      ! 400 initial residues (kg/ha), residues wheat experiment harvest 9899: ~5.6t
-  residue_cnr     = 120  ()  ! cn ratio of surface residues, C:N 140 for fresh wheat straw
-  residue_type    = wheat    ! wheat residues
-  pot_decomp_rate = 0.1  ()  ! POTENTIAL decomposition rate of residues (day-1)
-  
-  
-  
-[b2cp00.residue2.parameters]
+mass = 2000      ! 400 initial residues (kg/ha), residues wheat experiment harvest 9899: ~5.6t
+cnr = 120  ()  ! cn ratio of surface residues, C:N 140 for fresh wheat straw
+type = wheat    ! wheat residues
+name = wheat
 
-  residue_wt      = 2000      ! 300 initial residues (kg/ha), residues wheat harvest 9899: ~5.6t
-  residue_cnr     = 120  ()  ! cn ratio of surface residues
-  residue_type    = wheat    ! wheat residues
-  pot_decomp_rate = 0.1  ()  ! POTENTIAL decomposition rate of residues (day-1)
-  
-  
+[b2cp00.SurfaceOM.parameters]
 
-                             
-
-
+mass = 2000      ! 300 initial residues (kg/ha), residues wheat harvest 9899: ~5.6t
+cnr = 120  ()  ! cn ratio of surface residues
+type = wheat    ! wheat residues
+name = wheat
