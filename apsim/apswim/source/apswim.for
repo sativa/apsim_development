@@ -3551,8 +3551,8 @@ cnh
       fail = apswim_swim (timestep_start,timestep)
 
       if (fail) then
-         call fatal_error (Err_Internal, 'Swim failed to find solution')
          call apswim_report_status()
+         call fatal_error (Err_Internal, 'Swim failed to find solution')
       else
          if (p%extra_solute_supply_flag .eq. 'on') then
             call apswim_extra_solute_supply ()
@@ -8237,7 +8237,7 @@ c     :       max(g%solute_demand (crop,solnum) - tpsuptake,0d0)
        double precision d1,d2,d3 ! dummy variables
        double precision t_psi(0:M)
        double precision t_th(0:M)
-       character        string*80
+       character        string*200
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
@@ -8247,6 +8247,9 @@ c     :       max(g%solute_demand (crop,solnum) - tpsuptake,0d0)
          call apswim_interp (i,t_psi(i),t_th(i),d1,d2,d3)
   100 continue
 
+      call write_string(new_line)
+      call write_string('================================')
+      call write_string('     Error Report Status')
       call write_string('================================')
       write(string,*) 'time =',g%day,g%year,mod(g%t-g%dt,24d0)
       call write_string(string)
