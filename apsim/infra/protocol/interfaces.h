@@ -71,6 +71,7 @@ class IComponent /* : public ICompABS */
       virtual void init(void) = 0;
       virtual void term(void) = 0;
       virtual const IComputation* getComputation(void) const = 0;
+      virtual void inEvent(PROTOCOLEvent& Event) = 0;
    };
 
 // ------------------------------------------------------------------
@@ -91,6 +92,7 @@ class ICoordinator : virtual public IComponent
    {
    public:
       virtual ~ICoordinator(void) { };
+      virtual void create(void) = 0;
       virtual void init(void) = 0;
       virtual void term(void) = 0;
       virtual void start(void) = 0;
@@ -103,6 +105,7 @@ class ICoordinator : virtual public IComponent
                                PROTOCOLMessage& aMsg) const = 0;
       virtual void broadcastMessage(PROTOCOLMessage& aMsg) const = 0;
       virtual void publishEvent(PROTOCOLEvent& anEvent) const = 0;
+      virtual bool getVariable(const FString& variableName) = 0;
       virtual bool sendMessageToFirst(PROTOCOLMessage& aMsg) = 0;
       virtual void enumerateComponents
          (ConstCallbackFunction<const IComponent*>& f) const = 0;

@@ -67,20 +67,7 @@ class EventInterface
          }
       bool getVariable(const FString& variableName)
          {
-         unsigned posArray = componentName.find('(');
-         try
-            {
-            if (posArray != std::string::npos)
-               return coordinator->sendMessageToFirst
-                  (PROTOCOLMessage("get", variableName.substr(0, posArray-1)));
-            else
-               return coordinator->sendMessageToFirst
-               (PROTOCOLMessage("get", variableName));
-            }
-         catch (std::string& msg)
-            {
-            return false;
-            }
+         return coordinator->getVariable(variableName);
          }
       bool getVariable(const FString& componentName, const FString& variableName)
          {
