@@ -45,9 +45,6 @@ class __declspec(dllexport) ApsimSimulationFile
       ApsimServiceData getService(const std::string& name) const throw(std::runtime_error);
       ApsimServiceData addService(const std::string& name);
 
-      // run apsim
-      static HANDLE run(const std::string& fileName, bool console = false);
-
       // return true if simulation is dirty.
       bool isDirty(void) const {return xmlDoc->isDirty();}
    protected:

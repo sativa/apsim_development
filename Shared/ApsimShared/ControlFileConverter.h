@@ -4,8 +4,9 @@
 
 #include <string>
 #include <stdexcept>
-#include <general\inifile.h>
-#include <ApsimShared\ApsimControlFile.h>
+
+class ApsimControlFile;
+class IniFile;
 
 typedef void __fastcall (__closure *TControlFileConverterEvent)(const std::string& section);
 //---------------------------------------------------------------------------
@@ -42,9 +43,15 @@ class __declspec(dllexport) ControlFileConverter
                    TControlFileConverterEvent callback) throw(runtime_error);
 
    private:
-      ApsimControlFile controlFile;
-      IniFile script;
+      ApsimControlFile* con;
+      std::string conSection;
+      IniFile* script;
       std::string parFileToUse;
+
+      //---------------------------------------------------------------------------
+      // Backup all parameter files.
+      //---------------------------------------------------------------------------
+      void backupFileAllFiles(void) const;
 
       //---------------------------------------------------------------------------
       // convert the control file using the commands in the specified section
@@ -52,15 +59,6 @@ class __declspec(dllexport) ControlFileConverter
       // Returns true on success.
       //---------------------------------------------------------------------------
       bool convertSection(const string& sectionName) throw(runtime_error);
-
-      //---------------------------------------------------------------------------
-      // Find the specified parameter in the parameter file somewhere.  Name
-      // should be a fully qualified name (module.name).  On success the routine
-      // returns true, along with a list of parameter files containing the value.
-      //---------------------------------------------------------------------------
-      bool findParameters(const std::string& fqn,
-                          std::string& parameterName,
-                          std::vector<ApsimParameterFile>& parameterFiles) const throw(runtime_error);
 
       //---------------------------------------------------------------------------
       // Evalulate the specified expression and return a value.  Returns true on

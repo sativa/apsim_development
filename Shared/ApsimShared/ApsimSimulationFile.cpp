@@ -39,52 +39,6 @@ ApsimSimulationFile::~ApsimSimulationFile(void)
    delete xmlDoc;
    }
 // ------------------------------------------------------------------
-// Run the simulation
-// ------------------------------------------------------------------
-HANDLE ApsimSimulationFile::run(const string& fileName, bool console)
-   {
-   string commandLine = "\"" + getApsimDirectory() + "\\bin\\apsim.exe\" ";
-   if (console)
-      commandLine += "/console ";
-   commandLine += "\"" + fileName + "\"";
-
-   STARTUPINFO StartupInfo;
-   PROCESS_INFORMATION ProcessInfo;
-   memset(&StartupInfo, '\0', sizeof(STARTUPINFO));
-   StartupInfo.cb = sizeof(StartupInfo);
-   StartupInfo.dwFlags = STARTF_USESHOWWINDOW;
-   StartupInfo.wShowWindow = SW_SHOW;
-   if (!CreateProcess( NULL,
-                       (char*) commandLine.c_str(),   // pointer to command line string
-                       NULL,                   // pointer to process security attributes
-                       NULL,                   // pointer to thread security attributes
-                       false,                  // handle inheritance flag
-                       NORMAL_PRIORITY_CLASS,  // creation flags
-                       NULL,                   // pointer to new environment block
-                       NULL,                   // pointer to current directory name
-                       &StartupInfo,           // pointer to STARTUPINFO
-                       &ProcessInfo) )         // pointer to PROCESS_INF
-      {
-      LPVOID lpMsgBuf;
-      FormatMessage(
-          FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-          NULL,
-          GetLastError(),
-          MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
-          (LPTSTR) &lpMsgBuf,
-          0,
-          NULL);
-
-      string error = (char*) lpMsgBuf;
-
-      // Free the buffer.
-      LocalFree( lpMsgBuf );
-
-      throw runtime_error(error);
-      }
-   return ProcessInfo.hProcess;
-   }
-// ------------------------------------------------------------------
 // Read in the contents of the simulation file.
 // ------------------------------------------------------------------
 void ApsimSimulationFile::write(void) const
