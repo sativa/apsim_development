@@ -288,7 +288,6 @@ void DEToolBar::doCalculations(TAPSTable& data)
 
       // add the config names to the data table.
       data.first();
-      data.storeStringArray(DE_ECON_FACTOR_NAME, econ_config_names);
 
       data.clearPivots();
       for (vector<string>::iterator piv = origPivots.begin(); piv != origPivots.end(); piv++)
@@ -296,6 +295,7 @@ void DEToolBar::doCalculations(TAPSTable& data)
          data.markFieldAsAPivot(*piv);
       }
       data.markFieldAsAPivot(DE_ECON_FACTOR_NAME);
+      data.storeStringArray(DE_ECON_FACTOR_NAME, econ_config_names);
 
       data.endStoringData();   // this sorts the data so we can sensibly access it
                                // for the next section of code.
