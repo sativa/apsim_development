@@ -51,13 +51,14 @@ class Scenario {
 
       TValueSelectionForm*  getUIForm(const std::string& factor_name, TComponent* Owner);
 
+      Scenario createScenarioForAddIn(const AddInBase* addIn);
+
    private:
       typedef std::vector<Factor> FactorContainer;
       std::string name;
       FactorContainer factors;
 
       void makeUsValid(const std::string factor_name);
-      Scenario createScenarioForAddIn(const AddInBase* addIn);
 };
 
 //---------------------------------------------------------------------------
