@@ -54,7 +54,7 @@ outputfile =referenc.out
 
 variable = clock.year
 variable = clock.day
-variable = clock.today.dd/mm/yyyy as date
+variable = clock.dd/mm/yyyy as date
 variable = soiln2.no3
 variable = soilwat2.sw_dep
 variable = sugar.tt_tot()

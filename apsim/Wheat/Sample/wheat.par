@@ -3,7 +3,7 @@
 outputfile    =wheat.out
 
 
-variable = clock.today.dd/mm/yyyy as Date
+variable = clock.dd/mm/yyyy as Date
 variable = met.rain as rain
 variable = wheat.das
 variable = wheat.stage

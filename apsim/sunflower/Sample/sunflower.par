@@ -1,7 +1,7 @@
 [sample.report.parameters]
 outputfile    =sunflower.out
 variable = clock.year
-variable = clock.today.dd/mm/yyyy
+variable = clock.dd/mm/yyyy
 variable = sunflower.das_int as das
 variable = sunflower.stage
 variable = sunflower.lai

@@ -16,7 +16,7 @@ endif
 
 
 
-variable = clock.today.dd/mm/yyyy as Date
+variable = clock.dd/mm/yyyy as Date
 variable = soilt.soil_temp
 variable = met.maxt
 variable = met.mint

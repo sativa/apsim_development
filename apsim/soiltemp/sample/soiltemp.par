@@ -14,7 +14,7 @@ endif
 
 [variables.report.parameters]
 
-variable = clock.today.dd/mm/yyyy as Date
+variable = clock.dd/mm/yyyy as Date
 variable = soiltemp.ave_soil_temp
 variable = soiltemp.ave_soil_temp_surface
 variable = soiltemp.maxt_soil_surface
