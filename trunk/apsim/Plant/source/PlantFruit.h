@@ -91,14 +91,21 @@ class PlantFruit
                                        , float *G_dm_green
                                        , float *G_n_conc_max
                                        , float *G_n_green
-                                       , float *grain_n_demand);
+                                       , float *grain_n_demand
+                                       );
 
             float dm_yield_demand ( float  c_frac_pod
                                   , float  g_grain_energy
                                   , float  g_dlt_dm_veg
                                   , double g_dlt_dm
                                   , float  g_dlt_dm_grain_demand
-                                 );
+                                  );
+
+            void yieldpart_demand_stress1(float nutrientFactPhoto
+                                          , float G_swdef_photo
+                                          , float G_temp_stress_photo
+                                          , float *Dlt_dm_stress_max
+                                          );
 
             void dm_partition1 (float  c_frac_pod
                                ,float  g_grain_energy
@@ -109,6 +116,26 @@ class PlantFruit
                                ,float  *dlt_dm_green
                                );
 
+  void legnew_dm_retranslocate1
+    (
+     float  c_frac_pod
+    ,float  g_grain_energy
+    ,float  c_grain_oil_conc
+    ,int    pod
+    ,int    meal
+    ,int    oil
+    ,int    max_part
+    ,int    *supply_pools
+    ,int    num_supply_pools
+    ,float  g_dlt_dm_grain_demand
+    ,float  g_dlt_dm_oil_conv
+    ,float  *g_dlt_dm_green
+    ,float  *g_dm_green
+    ,float  *g_dm_plant_min
+    ,float  g_plants
+    ,float  *dm_oil_conv_retranslocate
+    ,float  *dm_retranslocate
+    ) ;
 
 
 #if TEST_PlantFruit
