@@ -11,14 +11,18 @@
       real       store(*)              ! (INPUT/OUTPUT) array to be added to
  
 *+ Purpose
-*       add contents of each element of an array to each element of another
-*       array.
+*     add contents of each element of an array to each element of another
+*     array.
  
+*+  Definition
+*     This subroutine adds each of the "dimen" elements of "amount" to its
+*     corresponding element of "store".  
+
 *+  Mission Statement
-*      Add array %1 to %2
+*     Add array %1 to %2
  
 *+ Changes
-*       270591 specified and programmed jngh
+*     270591 specified and programmed jngh
  
 *+ Calls
  
@@ -51,8 +55,12 @@
 *     Copy each element of %2 to its corresponding element in %1
  
 *+  Purpose
-*     Copies each element of 'src' to its corresponding element in 'dest'.
+*     Copies array.
  
+*+  Definition
+*     Copies each of the "n" elements of 'src' to its
+*     corresponding element in 'dest'.  
+
 *+  Changes
 *     030998 sb created
  
@@ -181,12 +189,19 @@
       character  vname *(*)            ! (INPUT) variable name to be validated
  
 *+ Purpose
-*       checks if a variable lies outside lower and upper bounds.
-*       Reports an err if it does.
+*     checks if a variable lies outside lower and upper bounds.
+*     Reports an err if it does.
  
+*+  Definition
+*     This subroutine will issue a warning message using the
+*     name of "value", "vname", if "value" is greater than
+*     ("upper" + 2 * error_margin("upper")) or if "value" is less than
+*     ("lower" - 2 *error_margin("lower")).  If  "lower" is greater
+*     than ("upper" + 2 * error_margin("upper")) , then a warning
+*     message will be flagged to that effect.  
+
 *+ Notes
-*            reports err if value > upper or value < lower
-*            or lower > upper
+*     reports err if value > upper or value < lower or lower > upper
  
 *+  Mission Statement
 *     Check that %1 lies between %2 and %3
@@ -300,6 +315,15 @@
 *+ Purpose
 *     check bounds of values in an array
  
+*+  Definition
+*     This subroutine will issue a warning message using the
+*     name of "array", "name", for each element of "array" that is
+*     greater than  ("upper" + 2 * error_margin("upper")) or less
+*     than ("lower" - 2 *error_margin("lower")).  If 
+*     ("lower" - 2 *error_margin("lower")) is greater than "upper",
+*     then a warning message will be flagged to that effect "size"
+*     times. 
+
 *+ Assumptions
 *      each element has same bounds.
  
@@ -354,12 +378,17 @@
       character  vname *(*)            ! (INPUT) variable name to be validated
  
 *+ Purpose
-*       checks if a variable lies outside lower and upper bounds.
-*       Reports an err if it does.
+*     checks if a variable lies outside lower and upper bounds.
+*     Reports an err if it does.
  
+*+  Definition
+*     This subroutine will issue a warning message using the
+*     name of "value", "vname", if "value" is greater than "upper" or
+*     less than "lower".  If  "lower" is greater than "upper", then a
+*     warning message will be flagged to that effect. 
+
 *+ Notes
-*            reports err if value > upper or value < lower
-*            or lower > upper
+*     reports err if value > upper or value < lower or lower > upper
  
 *+  Mission Statement
 *      Check that %1 lies between %2 and %3
@@ -406,6 +435,14 @@
 *+ Purpose
 *     check bounds of values in an array
  
+*+  Definition
+*     This subroutine will issue a warning message using the
+*     name of "array", "name", for each of the "size" elements
+*     of "array" that is greater than "upper" or less than
+*     "lower".  If  "lower" is greater than "upper", then a
+*     warning message will be flagged to that effect "size"
+*     times.   
+
 *+ Assumptions
 *      each element has same bounds.
  
@@ -459,15 +496,22 @@
       character  vname *(*)            ! (INPUT) variable name to be validated
  
 *+ Purpose
-*       checks if a variable lies outside lower and upper bounds.
-*       Reports an err if it does.
+*     checks if a variable lies outside lower and upper bounds.
+*     Reports an err if it does.
  
+*+  Definition
+*     This subroutine will issue a warning message using the
+*     name of "value", "vname", if "value" is greater than
+*     ("upper" + 2 * error_margin("upper")) or if "value" is less than
+*     ("lower" - 2 *error_margin("lower")).  If  "lower" is greater
+*     than ("upper" + 2 * error_margin("upper")) , then a warning
+*     message will be flagged to that effect.  
+
 *+ Notes
-*            reports err if value > upper or value < lower
-*            or lower > upper
+*     reports err if value > upper or value < lower or lower > upper
  
 *+  Mission Statement
-*      Check that %1 lies between %2 and %3
+*     Check that %1 lies between %2 and %3
  
 *+ Changes
 *   DPH 19/10/94
@@ -511,11 +555,20 @@
 *+ Purpose
 *     check bounds of values in an array
  
+*+  Definition
+*     Each of the "size" elements of "array" should be greater than or equal to
+*     ("lower" - 2 *error_margin("lower")) and less than or equal to
+*     ("upper" + 2 * error_margin("upper")).  A warning error using
+*     the name of "array", "name", will be flagged for each element
+*     of "array" that fails the above test.  If  "lower" is greater
+*     than ("upper" + 2 * error_margin("upper")) , then a warning
+*     message will be flagged to that effect "size" times.  
+
 *+ Assumptions
-*      each element has same bounds.
+*     each element has same bounds.
  
 *+  Mission Statement
-*      Check that all %1 lies between %2 and %3
+*     Check that all %1 lies between %2 and %3
  
 *+ Changes
 *     19/10/94 DPH
@@ -564,11 +617,16 @@
       real       var                   ! (INPUT) variable to be constrained
  
 *+ Purpose
-*       constrains a variable within bounds of lower and upper
+*     constrains a variable within bounds of lower and upper
  
+*+  Definition
+*     Returns "lower", if "var" is less than "lower".  Returns "upper"
+*     if "var" is greater than "upper".  Otherwise returns "var".  A
+*     warning error is flagged if "lower" is greater than "upper".  
+
 *+ Notes
-*             If the lower bound is > the upper bound,
-*             the variable remains unconstrained.
+*     If the lower bound is > the upper bound,
+*     the variable remains unconstrained.
  
 *+  Mission Statement
 *     %1 constrained between %2 and %3
@@ -640,6 +698,11 @@
 *+ Purpose
 *       checks that real array is not empty
  
+*+  Definition
+*     Will issue a warning message using the name of "array",
+*     "aname" if there are no positive elements in the
+*     "limit" elements of "array".  
+
 *+  Mission Statement
 *      Check if %1 is empty
  
@@ -687,9 +750,14 @@
       real       array (*)             ! (INPUT) array to be searched
  
 *+ Purpose
-*             find the index of the last positive value in a real array,
-*             up to a specified limit.
+*     find the index of the last positive value in a real array,
+*     up to a specified limit.
  
+*+  Definition
+*     Returns the index of the last positive element of the
+*     "limit" elements of "array".  Returns zero if there are
+*     no positive elements in "array".  
+
 *+  Mission Statement
 *     number of elements in %1
  
@@ -732,9 +800,14 @@
       integer    array (*)             ! (INPUT) array to be searched
  
 *+ Purpose
-*             find the index of the last positive value in an integer array,
-*             up to a specified limit.
+*     find the index of the last positive value in an integer array,
+*     up to a specified limit.
  
+*+  Definition
+*     Returns the index of the last positive element of the
+*     "limit" elements of "array".  Returns zero if there are
+*     no positive elements in "array".  
+
 *+  Mission Statement
 *     the number of values in %1
  
@@ -774,9 +847,14 @@
       double precision array (*)       ! (INPUT) array to be searched
  
 *+ Purpose
-*             find the index of the last positive value in a double
-*             precision array, up to a specified limit.
+*     find the index of the last positive value in a double
+*     precision array, up to a specified limit.
  
+*+  Definition
+*     Returns the index of the last positive element of the
+*     "limit" elements of "array".  Returns zero if
+*     there are no positive elements in "array".  
+
 *+  Mission Statement
 *     the number of values in %1
  
@@ -816,9 +894,13 @@
       character  array(limit)*(*)      ! (INPUT) array to be searched
  
 *+ Purpose
-*             find the index of the last non-blank in a character array,
-*             up to a specified limit.
+*     find the index of the last non-blank in a character array,
+*     up to a specified limit.
  
+*+  Definition
+*     Returns the index of the last non empty string in "array". 
+*     Returns 0 if all "limit" strings in "array" are empty.  
+
 *+  Mission Statement
 *     the number of elements in %1
  
@@ -867,6 +949,12 @@
 *       would occur a specified default is returned.  If underflow would
 *       occur, nought is returned.
  
+*+  Definition
+*     Returns (dividend / divisor) if the division can be done
+*     without overflow or underflow.  If divisor is zero or
+*     overflow would have occurred, default is returned.  If
+*     underflow would have occurred, zero is returned.  
+
 *+ Assumptions
 *       largest/smallest real number is 1.0e+/-30
  
@@ -945,12 +1033,18 @@
       real       cum_sum               ! (INPUT) sum_of to be found
  
 *+ Purpose
-*              Find the first element of an array where a given value
-*              is contained with the cumulative sum_of of the elements.
-*              If sum_of is not reached by the end of the array, then it
-*              is ok to set it to the last element. This will take
-*              account of the case of the number of levels being 0.
+*     Find the first element of an array where a given value
+*     is contained with the cumulative sum_of of the elements.
+*     If sum_of is not reached by the end of the array, then it
+*     is ok to set it to the last element. This will take
+*     account of the case of the number of levels being 0.
  
+*+  Definition
+*     Returns ndx where ndx is the smallest value in the range
+*     1.."size_of" such that the sum of "array"(j), j=1..ndx is
+*     greater than or equal to "cum_sum".  If there is no such
+*     value of ndx, then "size_of" will be returned.  
+
 *+  Mission Statement
 *      Find index for cumulative %2 = %1
  
@@ -1003,6 +1097,10 @@
 *+ Purpose
 *       constrains a variable to or above lower bound of lower
  
+*+  Definition
+*     Returns "var" providing that it is greater than or equal to
+*     the lower bound, "lower".  Otherwise returns "lower".  
+
 *+  Mission Statement
 *     %1 constrained above %2
  
@@ -1035,14 +1133,18 @@
                                        !   from
  
 *+ Purpose
-*       remove contents of each element of an array from each element of
-*        another array.
+*     remove contents of each element of an array from each element of
+*     another array.
  
+*+  Definition
+*     This subroutine subtracts each of the "dimen" elements of
+*     "amount" from its corresponding element of "store".  
+
 *+  Mission Statement
-*      Subtract array %1 from %2
+*     Subtract array %1 from %2
  
 *+ Changes
-*       270591 specified and programmed jngh
+*     270591 specified and programmed jngh
  
 *+ Calls
  
@@ -1074,6 +1176,9 @@
 *+ Purpose
 *              sets real array var to value up to level limit
  
+*+  Definition
+*     Sets all "limit" elements of "var" to "value".
+
 *+  Mission Statement
 *     Fill %1 with %2
  
@@ -1113,6 +1218,9 @@
 *+ Purpose
 *              sets integer array var to value up to level limit
  
+*+  Definition
+*     Sets all "limit" elements of "var" to "value".
+
 *+  Mission Statement
 *     Fill %1 with %2
  
@@ -1149,6 +1257,9 @@
 *+ Purpose
 *              sets double array var to value up to level limit
  
+*+  Definition
+*     Sets all "limit" elements of "var" to "value".
+
 *+  Mission Statement
 *      Fill %1 with %2
  
@@ -1185,6 +1296,9 @@
 *+ Purpose
 *   Set elements of a character array to a specified string.
  
+*+  Definition
+*     Sets all "size_of" elements of "array" to "value".
+
 *+  Mission Statement
 *      Fill %1 with %2
  
@@ -1229,6 +1343,9 @@
 *+ Purpose
 *   Set elements of a character array to a specified string.
  
+*+  Definition
+*     Sets all "size_of" elements of "array" to "string".
+
 *+  Mission Statement
 *     Fill %1 with %2
  
@@ -1274,22 +1391,30 @@
       integer    nlayr                 ! (INPUT) number of layers
  
 *+ Purpose
-*       move amounts specified, downwards from one element to the next
+*     move amounts specified, downwards from one element to the next
  
+*+  Definition
+*     Each of the "nlayr" elements of "array" holds quantities
+*     for a given soil layer.  "array"(1) corresponds to the
+*     uppermost layer.   "array"(n) corresponds to the layer
+*     (n-1) layers down from the uppermost layer.  "down"(n)
+*     indicates a quantity to be moved from the layer
+*     corresponding to "array"(n) down into the layer
+*     corresponding to "array"(n+1).  This subroutine subtracts
+*     "down"(n) from "array"(n) and adds it to "array"(n+1) for
+*     n=1 .. ("nlayr"-1).  "down"("nlayr") is subtracted from
+*     "array"("nlayr").  
+
 *+  Mission Statement
 *      Move amounts of %1 down array %2
  
 *+ Changes
 *       031091  jngh changed variable movedn to down - cr157
  
-*+ Calls
- 
 *+ Local Variables
-      integer    layer                 ! layer number
-      real       win                   ! amount moving from layer above to
-                                       !   current layer
-      real       wout                  ! amount moving from current layer to
-                                       !   the one below
+      integer  layer  ! layer number
+      real     win    ! amount moving from layer above to current layer
+      real     wout   ! amount moving from current layer to the one below
  
 *- Implementation Section ----------------------------------
  
@@ -1321,6 +1446,17 @@
 *+ Purpose
 *       move amounts specified, upwards from one element to the next
  
+*+  Definition
+*     Each of the "nlayr" elements of "array" holds quantities
+*     for a given soil layer.  "array"(1) corresponds to the
+*     uppermost layer.   "array"(n) corresponds to the layer
+*     (n-1) layers down from the uppermost layer.  "up"(n)
+*     indicates a quantity to be moved from the layer
+*     corresponding to "array"(n+1) up into the layer
+*     corresponding to "array"(n).  This subroutine subtracts
+*     "up"(n) from "array"(n+1) and adds it to "array"(n) for
+*     n=1..("nlayr"-1).  "up"("nlayr") is added to "array"("nlayr").  
+
 *+  Mission Statement
 *      Move amounts %1 up array %2
  
@@ -1366,6 +1502,9 @@
 *+ Purpose
 *              returns sum_of of array var, from levels 1 to limit
  
+*+  Definition
+*     Returns sum of all "limit" elements of array "var".
+
 *+  Mission Statement
 *     |GREEK{S}|SUPERSCRIPT{1}|SUBSCRIPT{%2} %1
  
@@ -1406,6 +1545,9 @@
 *+ Purpose
 *              returns sum_of of integer array var, from levels 1 to limit
  
+*+  Definition
+*     Returns sum of all "limit" elements of "var".
+
 *+  Mission Statement
 *     |GREEK{S}|SUPERSCRIPT{1}|SUBSCRIPT{%2} %1
  
@@ -1448,6 +1590,9 @@
 *              up to level limit. each level of one array is
 *              multiplied by the corresponding level of the other.
  
+*+  Definition
+*     Returns sum of  ("var1"(j) * "var2"(j))   for all j in  1 .. "limit".
+
 *+  Mission Statement
 *     (|GREEK{S}|SUPERSCRIPT{1}|SUBSCRIPT{%3} %1 x %2)
  
@@ -1557,6 +1702,13 @@
 *       circular sum_of of integer array of size_of from specified start to
 *       stop.
  
+*+  Definition
+*     For the purposes of this function, "array" is treated as a
+*     circular array so that "array"(1) is said to follow
+*     "array"("size_of").  This function returns the sum of the
+*     elements of "array" from "array"("start") up to, and
+*     including "array"("stop").  
+
 *+  Mission Statement
 *     |GREEK{S}|SUPERSCRIPT{1}|SUPERSCRIPT{%2}|SUBSCRIPT{%3} %1
  
@@ -1621,6 +1773,10 @@
 *+ Purpose
 *       constrains a variable to upper bound of upper
  
+*+  Definition
+*     Returns "var" providing that it is less than or equal to the
+*     upper bound, "upper".  Otherwise returns "upper".  
+
 *+  Mission Statement
 *     %1 constrained above %2
  
@@ -1645,14 +1801,17 @@
       implicit none
       dll_export sum_between
  
-*+ Sub-Program Arguments
+*+  Sub-Program Arguments
       integer    finish                ! (INPUT) final level+ 1 to be summed to
       integer    start                 ! (INPUT) initial level to begin sum_of
       real       array (*)             ! (INPUT) array to be summed
  
-*+ Purpose
-*              returns sum_of of part of real array from start to finish-1
+*+  Purpose
+*     returns sum_of of part of real array from start to finish-1
  
+*+  Definition
+*     Returns sum of array(j), j="start" .. ("finish"-1).
+
 *+  Mission Statement
 *     |GREEK{S}|SUPERSCRIPT{1}|SUPERSCRIPT{%1}|SUBSCRIPT{%2} %3
  
@@ -1705,8 +1864,15 @@
       integer    stop                  ! (INPUT) stopping element
  
 *+ Purpose
-*       circular sum of real array of size_of from specified start to stop.
+*     circular sum of real array of size_of from specified start to stop.
  
+*+  Definition
+*     For the purposes of this function, "array" is treated as a
+*     circular array so that "array"(1) is said to follow
+*     "array"("size_of").  This function returns the sum of the
+*     elements of "array" from "array"("start") up to, and
+*     including "array"("stop").  
+
 *+  Mission Statement
 *     |GREEK{S}|SUPERSCRIPT{1}|SUPERSCRIPT{%2}|SUBSCRIPT{%3} %1
  
@@ -1773,6 +1939,13 @@
 *+ Purpose
 *       circular sum of integer array of size_of from specified start to stop.
  
+*+  Definition
+*     For the purposes of this function, "array" is treated as a
+*     circular array so that "array"(1) is said to follow
+*     "array"("size_of").  This function returns the sum of the
+*     elements of "array" from "array"("start") up to, and
+*     including "array"("stop").  
+
 *+  Mission Statement
 *     |GREEK{S}|SUPERSCRIPT{1}|SUPERSCRIPT{%2}|SUBSCRIPT{%3} %1
  
@@ -1889,6 +2062,11 @@
 *+ Purpose
 *       returns the index number of the first occurrence of specified value
  
+*+  Definition
+*     Returns the index of the first element of of the
+*     "array_size" elements of "array" that compares equal to
+*     "number".  Returns 0 if there are none.  
+
 *+  Mission Statement
 *      position of %1 in array %2
  
@@ -1938,13 +2116,18 @@
       character String*(*)        ! (INPUT) string to search for
  
 *+ Purpose
-*       returns the index number of the first occurrence of specified value
+*     returns the index number of the first occurrence of specified value
  
+*+  Definition
+*     Returns the index of the first element of the "array_size"
+*     elements of "array" that compares equal to "string". 
+*     Returns 0 if there are none.  
+
 *+  Mission Statement
 *     position of %1 in the list %2
  
 *+ Changes
-*       040995 nih created from position_in_iteger_array
+*     040995 nih created from position_in_iteger_array
  
 *+ Calls
  
@@ -1986,8 +2169,14 @@
       real       second                ! (INPUT) Number to search for
  
 *+ Purpose
-*       Returns true if real numbers are almost equal
+*     Returns true if real numbers are almost equal
  
+*+  Definition
+*     Returns true if "first" and "second" are almost equal.
+*     "first" and "second" are considered to be almost equal
+*     if ("first"+error_margin("first") >= "second"  .AND.
+*     "first"-error_margin("first") <= "second").  
+
 *+  Mission Statement
 *     %1 = %2
  
@@ -2025,8 +2214,14 @@
       double precision  second         ! (INPUT) Number to search for
  
 *+ Purpose
-*       Returns true if double numbers are almost equal
+*     Returns true if double numbers are almost equal
  
+*+  Definition
+*     Returns true if "first" and "second" are almost equal.  "first"
+*     and "second" are considered to be almost equal if 
+*     ("first"+double_error_margin("first") >= "second"  .AND. 
+*     "first"-double_error_margin("first") <= "second").  
+
 *+  Mission Statement
 *      %1 = %2
  

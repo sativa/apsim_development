@@ -1426,6 +1426,22 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *      Returns the next variable from Variables_str and its
 *      associated data.
  
+*+  Definition
+*     variables_str must contain an identifier followed by an
+*     '=' followed by an arbitrary sequence of characters.
+*     I will refer to this arbitrary sequence of
+*     characters as value.  The ',' is used to separate sets of
+*     identifiers and their values, so if there is one present
+*     before the end of variables_str, then value ends just
+*     before the ',', otherwise value goes to the end of
+*     variables_str.  This subroutine will assign the
+*     identifier with all spaces removed to var_name.  If there
+*     is not enough space in var_name for it, a warning error is
+*     flagged and truncation occurs.  This subroutine will
+*     assign value with leading spaces removed to values_str.  
+*     If there is not enough space in values_str for it, a
+*     warning error is flagged and truncation occurs.
+
 *+ Notes
 *      Example of a typical variables_str is :-
 *         sw=30 25 15 15, yield=1.6
@@ -1508,6 +1524,21 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *      Return an I/O status (0=Ok, 1=End_of_runblock, 2=End_of_file).
 *      The line returned is converted to lowercase.
  
+*+  Definition
+*     A comment begins with an exclamation mark and continues up
+*     to the end of the line.  A line with no non blank
+*     characters other than those within a comment is considered
+*     to be a blank line.  This subroutine will try to read the
+*     next non blank line from logical unit "logical_unit" into
+*     "line".  All uppercase character encountered are folded into
+*     their corresponding lowercase characters.  If the end of
+*     file is encountered before a non blank line, then "iostatus"
+*     is set to 2.  Otherwise if the non blank line finally
+*     assigned to line is equal to 'end run', then
+*     "iostatus" is set to 1, otherwise "iostatus" is set to 0.  
+*     Every time a line is read, regardless of whether it is
+*     blank, or end of file, "record_num" is incremented.  
+
 *+ Assumptions
 *      Assumes that line is long enough to hold an entire line read from
 *      control file.
@@ -1698,6 +1729,15 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *   from a section definition line.  If the record does not contain a
 *   section definition a blank value is returned
  
+*+  Definition
+*     A section definition line consists of zero or more blanks
+*     followed by an opening square bracket followed by zero or
+*     more blanks followed by a section heading followed by a
+*     closing square bracket.  If "record" is a section
+*     definition line, then this function will return the
+*     section heading contained in it.  Otherwise it will return
+*     blank.  
+
 *+  Mission Statement
 *      
  
@@ -2105,6 +2145,11 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *      if no more unit numbers are available and return a -1 (file not found
 *      flsg).
  
+*+  Definition
+*     This function will return an available logical unit number
+*     if there is one.  Otherwise it will flag a fatal error
+*     and return -1.  
+
 *+  Mission Statement
 *      
  
@@ -2175,6 +2220,9 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *+ Purpose
 *       Closes file attached to specified logical unit.
  
+*+  Definition
+*     Closes logical unit "logical_unit".
+
 *+  Mission Statement
 *      
  
@@ -2212,6 +2260,15 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *      Open and rewind a file and return the logical unit number.
 *      Return -1 (file_not_found flag) if file cannot be opened and
 *      calls Fatal_error
+
+*+  Definition
+*     Attempts to open the file file_name using the first
+*     available logical unit number.  On success, a message is
+*     sent to the screen to that effect and the logical unit
+*     number is returned.  If there is no logical unit number
+*     available, the constant NO_LOGICAL_UNITS will be returned.
+*     If the file cannot be opened, a fatal error is flagged and
+*     the constant FILE_NOT_FOUND will be returned.  
  
 *+  Mission Statement
 *     the file unit number for %1
@@ -2507,6 +2564,14 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *     Return TRUE if found or FALSE otherwise.  The logical unit number
 *     will be positioned to the line AFTER the section name if found.
  
+*+  Definition
+*     Attempts to find the section name "section" in the file
+*     given by the open logical unit number "unit".  If it
+*     succeeds, it positions the input to the beginning of the
+*     line after the section name, sets "record" to that record
+*     number (i.e. the line number of the line after the section
+*     name), and returns .TRUE..  Otherwise it returns .FALSE.  
+
 *+  Mission Statement
 *      
  
