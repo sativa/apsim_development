@@ -10300,7 +10300,7 @@ cjh      character  string*200            ! output string
       character  module_name*8         ! this module name
       real       dm_tiller_plant       ! dry matter of tiller (g/plant)
       real       N_tiller_plant        ! N content of tiller (g/plant)
-      real       tiller_no             ! number of tillers developed ()
+      integer    tiller_no             ! number of tillers developed ()
 
 *- Implementation Section ----------------------------------
  
