@@ -121,7 +121,7 @@ float lookupFunction::value(float v)
 
    // find which sector of the table that v falls in
    unsigned sector;
-   for(sector = 0; sector < x.size() && v > x[sector]; sector++) /*nothing*/ ;
+   for(sector = 0; sector < x.size() && v >= x[sector]; sector++) /*nothing*/ ;
 
    if(sector == 0) return y[0];
    return y[sector-1];
