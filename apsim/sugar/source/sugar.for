@@ -2877,6 +2877,7 @@ c      call sugar_get_other_variables ()
          g%leaf_dm (leaf_no) = g%leaf_dm (leaf_no)
      :                        *(1.-fraction_removed)
 
+
   100 continue
 
              ! report
@@ -3176,6 +3177,8 @@ c+!!!!!!!!! check order dependency of deltas
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'sugar_water_demand')
+*+  Local Variables
+      real cover_green
 
 *- Implementation Section ----------------------------------
 c+!!!!!!!!! check order dependency of deltas
@@ -3186,8 +3189,16 @@ c+!!!!!!!!! check order dependency of deltas
          call cproc_sw_demand1 (
      :          g%dlt_dm_pot_rue,
      :          g%transp_eff,
-     :          g%sw_demand)
+     :          g%sw_demand_te)
 
+         cover_green = 1.0 - exp (-c%extinction_coef * g%lai)
+
+          call cproc_sw_demand_bound(
+     :         g%sw_demand_te
+     :        ,p%eo_crop_factor
+     :        ,g%eo
+     :        ,cover_green
+     :        ,g%sw_demand)
 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -3561,6 +3572,7 @@ cnh      call sugar_radn_int (radn_int)
       include   'const.inc'
       include 'crp_watr.pub'
       include 'error.pub'                         
+
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4304,6 +4316,7 @@ cnh Due to small rounding errors I will say that small errors are ok
 *     ===========================================================
       use sugarModule
       implicit none
+
       include   'const.inc'
       include 'error.pub'
 
@@ -5404,6 +5417,7 @@ c     :                   * 0.5
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
+
       if (Option .eq. 1) then
 
          call sugar_water_content
@@ -5652,6 +5666,7 @@ c         call sugar_kill_crop ()
       implicit none
       include   'const.inc'            ! new_line
       include   'sugconst.inc'
+
       include 'error.pub'
 
 *+  Sub-Program Arguments
@@ -6880,6 +6895,7 @@ cnh for rlv at initialisation.
          lai = c_initial_tpla * smm2sm * g_plants
          leaf_area(1) = c_initial_tpla
       else
+
 
       endif
 

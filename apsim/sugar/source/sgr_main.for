@@ -662,6 +662,7 @@
       g%latitude              = 0.0
       g%mint                  = 0.0
       g%maxt                  = 0.0
+      g%eo                    = 0.0
       g%cnd_photo (:) = 0.0
       g%cswd_photo (:)     = 0.0
       g%cswd_expansion (:) = 0.0
@@ -709,6 +710,7 @@
       g%sw_dep (:)        = 0.0
       g%st (:)            = 0.0
       g%sw_demand                 = 0.0
+      g%sw_demand_te      = 0.0
       g%sw_avail_pot(:)   = 0.0
       g%sw_avail(:)       = 0.0
       g%sw_supply (:)               = 0.0
@@ -1013,6 +1015,7 @@
 
 *+  Mission Statement
 *     Zero soil global variables and arrays
+
 
 
 *+  Changes
@@ -1461,6 +1464,17 @@ cnh     :                 ' Initialising')
       call write_string (new_line
      :       //'   - Reading root profile parameters')
 
+         !       cproc_sw_demand_bound
+
+      call read_real_var_optional (section_name
+     :                     , 'eo_crop_factor', '()'
+     :                     , p%eo_crop_factor, numvals
+     :                     , 0.0, 100.)
+      if (numvals.le.0) then
+         p%eo_crop_factor = c%eo_crop_factor_default
+      else
+      endif
+
 
       call read_char_var   (section_name
      :                     , 'uptake_source'
@@ -1548,6 +1562,15 @@ cnh     :                 ' Initialising')
 
          string = '   -------------------------------------------------'
          call write_string (string)
+
+         call write_string (new_line)
+
+      write (string,'(2x,a,f5.1,a)')
+     :          'Crop factor for bounding water use is set to '
+     :        , p%eo_crop_factor
+     :        , ' times Eo'
+
+      call write_string (string)
 
          call write_string (new_line//new_line)
 
@@ -1819,7 +1842,9 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       call get_real_var (unknown_module, 'radn', '(Mj/m^2)'
      :                                  , g%radn, numvals
      :                                  , c%radn_lb, c%radn_ub)
-
+      call get_real_var (unknown_module, 'eo', '(mm)'
+     :                                  , g%eo, numvals
+     :                                  , 0.0, 20.)
       ! Canopy Module
       ! -------------
       call get_current_module (mod_name)
@@ -2428,6 +2453,7 @@ c I removed this NIH
      :                             , '(g/m^2)'
      :                             , biomass)
  
+
       elseif (variable_name .eq. 'green_biomass') then
          ! Add dead pool for lodged crops
          biomass =
@@ -2649,6 +2675,11 @@ c      call sugar_nit_stress_expansion (1)
          call respond2get_real_var (variable_name
      :                             , '(mm)'
      :                             , g%sw_demand)
+
+      elseif (variable_name .eq. 'sw_demand_te') then
+         call respond2get_real_var (variable_name
+     :                             , '(mm)'
+     :                             , g%sw_demand_te)
 
       elseif (variable_name .eq. 'fasw') then
          fasw = sugar_profile_fasw ()
@@ -3424,6 +3455,13 @@ cnh      c%crop_type = ' '
      :                    , 0.0, 1.0)
 
 
+         !    cproc_sw_demand_bound
+
+      call read_real_var (section_name
+     :                    , 'eo_crop_factor_default', '()'
+     :                    , c%eo_crop_factor_default, numvals
+     :                    , 0.0, 100.)
+
          !    sugar_germination
 
       call read_real_var (section_name
@@ -3783,6 +3821,7 @@ cnh      c%crop_type = ' '
       call read_real_array (section_name
      :                     , 'oxdef_photo', max_table, '()'
      :                     , c%oxdef_photo, c%num_oxdef_photo
+
      :                     , 0.0, 1.0)
 
       ! Plant Water Content function
