@@ -47,7 +47,7 @@ void __fastcall TMain_form::Open_database(TObject *Sender)
 //---------------------------------------------------------------------
 void __fastcall TMain_form::FormCreate(TObject *Sender)
    {
-	Application->OnHint = ShowHint;
+ 	Application->OnHint = ShowHint;
    }
 //---------------------------------------------------------------------
 void __fastcall TMain_form::Import_simulation(TObject *Sender)
