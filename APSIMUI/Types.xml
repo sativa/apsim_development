@@ -1,0 +1,698 @@
+<Types>
+   <area>
+      <UItype>area</UItype>
+      <MainTree>True</MainTree>
+      <Image>c:\development\apsimui\images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\layout_center32.png</LargeIcon>
+      <SmallIcon>Images\layout_center16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </area>
+
+   <simulation>
+      <UItype>area</UItype>
+      <MainTree>True</MainTree>
+      <Image>c:\development\apsimui\images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\layout_center32.png</LargeIcon>
+      <SmallIcon>Images\layout_center16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="simulations"/>
+     </drops>
+   </simulation>
+   <clock>
+      <UItype>generic</UItype>
+      <MainTree>True</MainTree>
+      <Image>c:\development\apsimui\images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\clock32.png</LargeIcon>
+      <SmallIcon>Images\clock16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </clock>
+   <summaryfile>
+      <UItype>file</UItype>
+      <MainTree>True</MainTree>
+      <Image>c:\development\apsimui\images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\document_edit32.png</LargeIcon>
+      <SmallIcon>Images\document_edit16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </summaryfile>
+   <outputfile>
+      <UItype>file</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\table_selection_column32.png</LargeIcon>
+      <SmallIcon>Images\table_selection_column16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </outputfile>
+   <metfile>
+      <UItype>met</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\thermometer32.png</LargeIcon>
+      <SmallIcon>Images\thermometer16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </metfile>
+   <logic>
+      <UItype>logic</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\lightbulb_on32.png</LargeIcon>
+      <SmallIcon>Images\lightbulb_on16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </logic>
+   <irrigation>
+      <UItype>generic</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\drink_blue32.png</LargeIcon>
+      <SmallIcon>Images\drink_blue16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </irrigation>
+   <log>
+      <UItype>generic</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\debug32.png</LargeIcon>
+      <SmallIcon>Images\debug16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </log>
+   <soil>
+      <UItype>soil</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\shovel32.bmp</LargeIcon>
+      <SmallIcon>Images\shovel16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </soil>
+   <swimsoil>
+      <UItype>generic</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\shovel32.bmp</LargeIcon>
+      <SmallIcon>Images\shovel16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </swimsoil>
+   <log>
+      <UItype>generic</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\debug32.png</LargeIcon>
+      <SmallIcon>Images\debug16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </log>
+   <micromet>
+      <UItype>generic</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\thermometer32.png</LargeIcon>
+      <SmallIcon>Images\thermometer16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </micromet>
+   <plant>
+      <UItype>crop</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </plant>
+   <crops>
+      <UItype>area</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="folder"/>
+     </drops>
+   </crops>
+   <stock>
+      <UItype>generic</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\stock32.bmp</LargeIcon>
+      <SmallIcon>Images\stock16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </stock>
+   <cattle>
+      <UItype>generic</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\cow32.bmp</LargeIcon>
+      <SmallIcon>Images\cow16.bmp</SmallIcon>
+      <drops>
+         <drop name="stock"/>
+     </drops>
+   </cattle>
+   <sheep>
+      <UItype>generic</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\sheep32.bmp</LargeIcon>
+      <SmallIcon>Images\sheep16.bmp</SmallIcon>
+      <drops>
+         <drop name="stock"/>
+     </drops>
+   </sheep>
+   <outputfiledescription>
+      <UItype>outputfiledescription</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\cubes32.png</LargeIcon>
+      <SmallIcon>Images\cubes16.png</SmallIcon>
+      <drops>
+         <drop name="outputfile"/>
+     </drops>
+   </outputfiledescription>
+   <manager>
+      <UItype>area</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\manager32.png</LargeIcon>
+      <SmallIcon>Images\manager16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </manager>
+   <rule>
+      <UItype>rule</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\question_and_answer32.png</LargeIcon>
+      <SmallIcon>Images\question_and_answer16.png</SmallIcon>
+      <drops>
+         <drop name="manager"/>
+     </drops>
+   </rule>
+   <vinelogic>
+      <UItype>vinelogic</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\grape32.jpg</LargeIcon>
+      <SmallIcon>Images\grape16.jpg</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </vinelogic>
+   <surfaceom>
+      <UItype>generic</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\cubes32.png</LargeIcon>
+      <SmallIcon>Images\cubes32.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </surfaceom>
+   <folder>
+      <UItype>area</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\folder_closed32.png</LargeIcon>
+      <SmallIcon>Images\folder_closed16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </folder>
+   <shared>
+      <UItype>area</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\folder_closed32.png</LargeIcon>
+      <SmallIcon>Images\folder_closed16.png</SmallIcon>
+      <drops>
+         <drop name="simulations"/>
+     </drops>
+   </shared>
+
+   <canola>
+      <UItype>crop</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </canola>
+   <chickpea>
+      <UItype>crop</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </chickpea>
+   <cowpea>
+      <UItype>crop</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </cowpea>
+   <fababean>
+      <UItype>crop</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </fababean>
+   <fieldpea>
+      <UItype>crop</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </fieldpea>
+   <lablab>
+      <UItype>crop</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </lablab>
+   <lucerne>
+      <UItype>crop</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </lucerne>
+   <lupin>
+      <UItype>crop</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </lupin>
+   <maize>
+      <UItype>crop</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </maize>
+   <mucuna>
+      <UItype>crop</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </mucuna>
+   <mungbean>
+      <UItype>crop</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </mungbean>
+   <navybean>
+      <UItype>crop</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </navybean>
+   <peanut>
+      <UItype>crop</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </peanut>
+   <pigeonp>
+      <UItype>crop</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </pigeonp>
+   <sorghum>
+      <UItype>crop</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </sorghum>
+   <soybean>
+      <UItype>crop</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </soybean>
+   <stylo>
+      <UItype>crop</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </stylo>
+   <sunflower>
+      <UItype>crop</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </sunflower>
+   <weed>
+      <UItype>crop</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </weed>
+   <wheat>
+      <UItype>crop</UItype>
+      <MainTree>True</MainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="shared"/>
+         <drop name="folder"/>
+     </drops>
+   </wheat>
+
+</Types>
+
