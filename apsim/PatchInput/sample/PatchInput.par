@@ -1,6 +1,5 @@
 [sample.report.parameters]
 outputfile = PatchInput.out
-
 variable = clock.day
 variable = clock.year
 variable = met.rain
@@ -18,3 +17,13 @@ summaryfile=PatchInput.sum
 
 [sample.Screen.parameters]
 screen_output=on
+
+[sample2.report.parameters]
+outputfile = PatchInput2.out
+variable = clock.day
+variable = clock.year
+variable = met.rain
+variable = patch.patch_rain
+
+[sample2.SummaryFile.parameters]
+summaryfile=PatchInput2.sum
