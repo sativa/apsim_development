@@ -15,17 +15,17 @@
 !  
 !  *  Some FORTRAN 90 types have been defined:-
 !     *  constant_t for holding all the constants (ini file parameters held
-!        in FORTRAN variables).  All the c_??? variables common block
+!        in FORTRAN variables).  All the c_??? common block
 !        variables that used to exist have now been replaced by a member in
 !        this type and their names will not include the leading two characters
 !        "c_".
 !  
 !     *  parameter_t for holding all the other parameters.  All the
-!        p_??? variables common block variables that used to exist have
+!        p_??? common block variables that used to exist have
 !        now been replaced by a member in this type and their names
 !        will not include the leading two characters "p_".
 !     
-!     *  global_t for holding all the variables not local to a
+!     *  global_t for holding all the not local to a
 !        subprogram.  All the g_??? variables common block variables
 !        that used to exist have now been replaced by a member in this
 !        type and their names will not include the leading two
@@ -43,7 +43,7 @@
 !     been replaced with references to the corresponding members of c, p,
 !     or g, i.e. a global search and replace has been performed so that all
 !     "c_???" is now c%???, all "p_???" is now "p%???" and all "g_???" is
-!     now "g_???".
+!     now "g%???".
 !  
 !  *  The variables 'c', 'g' and 'p' are really only
 !     pointers to constant_t, parameter_t and global_t, not the actual
@@ -75,13 +75,13 @@
 !        calls of millet active, their variables will be restored when this
 !        call of millet() returns.
 !  
-!     *  milet_alloc() is called for each module instantiation of millet
+!     *  millet_alloc() is called for each module instantiation of millet
 !        before using it.  It allocates the actual variables for the
 !        module.  It allocates its only parameter "this" and then
 !        allocated the three mebers of "this", "c", P", and "g".  
 !  
-!     *  milet_after() is called for each module instantiation of millet
-!        after using it in order to free th memory allocated by
+!     *  millet_free() is called for each module instantiation of millet
+!        after using it in order to free the memory allocated by
 !        millet_alloc().  It frees the three members of its only argument,
 !        "this", and then frees "this".
 !  
