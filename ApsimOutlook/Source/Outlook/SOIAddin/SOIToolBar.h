@@ -42,6 +42,7 @@ class SOIToolBar : public ToolBarAddInBase
       static int glyph_position;
       static TToolBar* Toolbar;
 
+      string sowYearFieldName;
       AnsiString FSOI_data_file;
       AnsiString FYear_field_name;
       int FFontHeight;
@@ -81,7 +82,8 @@ class SOIToolBar : public ToolBarAddInBase
 
       void Read_all_soi_data (void);
       void Get_phase (int Year, int Month, int& SOI_phase, std::string& SOI_phase_st);
-      std::string Get_sow_year_field_name(TAPSTable& data);
+      void calcSowYearFieldName(const TAPSRecord& record) throw(std::runtime_error);
+      unsigned getSowYear(const TAPSRecord& record) throw(std::runtime_error);
 
 /*   __published:
       __property int Phase_month = {read=FPhase_month, write=FPhase_month};
