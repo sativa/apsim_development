@@ -480,21 +480,24 @@ inline unsigned int memorySize(const NewMet& newmet)
 }; // protocol
 void InputComponent::publishNewMetEvent(void)
    {
-   protocol::ApsimVariant variant(this);
-   float maxt, mint, radn, rain, vp;
-   getVariableValue("maxt", maxt);
-   getVariableValue("mint", mint);
-   getVariableValue("radn", radn);
-   getVariableValue("rain", rain);
-   if (!getVariableValue("vp", vp))
-      vp = calcVP(mint);
+   if (iAmMet)
+      {
+      protocol::ApsimVariant variant(this);
+      float maxt, mint, radn, rain, vp;
+      getVariableValue("maxt", maxt);
+      getVariableValue("mint", mint);
+      getVariableValue("radn", radn);
+      getVariableValue("rain", rain);
+      if (!getVariableValue("vp", vp))
+         vp = calcVP(mint);
 
-   variant.store("maxt", protocol::DTsingle, false, maxt);
-   variant.store("mint", protocol::DTsingle, false, mint);
-   variant.store("radn", protocol::DTsingle, false, radn);
-   variant.store("rain", protocol::DTsingle, false, rain);
-   variant.store("vp", protocol::DTsingle, false, vp);
-   publish(newmetID, variant);
+      variant.store("maxt", protocol::DTsingle, false, maxt);
+      variant.store("mint", protocol::DTsingle, false, mint);
+      variant.store("radn", protocol::DTsingle, false, radn);
+      variant.store("rain", protocol::DTsingle, false, rain);
+      variant.store("vp", protocol::DTsingle, false, vp);
+      publish(newmetID, variant);
+      }
    }
 
 // ------------------------------------------------------------------
