@@ -5783,8 +5783,8 @@ void Plant::plant_n_conc_limits
     fill_real_array (n_conc_crit, 0.0, max_part);
     fill_real_array (n_conc_min, 0.0, max_part);
 
-    if (stage_is_between (emerg, maturity, g_current_stage))
-        {
+//    if (stage_is_between (emerg, maturity, g_current_stage))
+//        {
 
 //jh set elsewhere   N_conc_crit[meal] = c_n_conc_crit_meal
 //jh set elsewhere   N_conc_max[meal] = c_n_conc_max_meal
@@ -5873,7 +5873,7 @@ void Plant::plant_n_conc_limits
            {
            fatal_error(&err_user, "Aiieeee nconc_crit < nconc_min!");
            }
-        }
+//        }
     }
 
 
@@ -13450,7 +13450,7 @@ void Plant::plant_harvest_report ()
     parent->writeString (msg);
 
     sprintf (msg, "%s%6.1f%24s%s%10.3f"
-             , " grains/plant            = ", plant_grain_no, " "
+             , " grains/plant           = ", plant_grain_no, " "
              , " maximum lai            = ", g.lai_max);
     parent->writeString (msg);
 
