@@ -6,7 +6,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
       dll_export postbox_init
       include 'const.inc'
       include 'postbox.inc'
- 
+      include 'componentinterface.inc'
+
 *+ Purpose
 *     Initialisation for the apsim interface routines.
  
@@ -31,7 +32,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
       return
       end
  
- 
+
  
 * ====================================================================
        subroutine postbox_term()
@@ -1160,7 +1161,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
       include 'error.pub'
       include 'apsimengine.pub'
       include 'postbox.inc'
- 
+      include 'componentinterface.inc'
+
 *+ Sub-Program Arguments
       character Module_name*(*)        ! (INPUT) module to deliver message to.
       character Variable_name*(*)      ! (INPUT) Variable name
@@ -1229,7 +1231,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
       include 'error.pub'
       include 'apsimengine.pub'
       include 'postbox.inc'
- 
+      include 'componentinterface.inc'
+
 *+ Sub-Program Arguments
       character Module_name*(*)        ! (INPUT) module to deliver message to.
       character Variable_name*(*)      ! (INPUT) Variable name
@@ -1249,12 +1252,12 @@ C     Last change:  P     9 Nov 2000   10:29 am
       logical ok                                
  
 *- Implementation Section ----------------------------------
- 
+
       if (Module_name .eq. First_active_module) then
          ok = EI_SetVariable (EventInterface, Variable_name)
       else if (Module_name .eq. All_active_modules) then
         call EI_BroadcastAction (EventInterface,
-     .                           ACTION_Set_variable, 
+     .                           ACTION_Set_variable,
      .                           Variable_name)
         ok = .true.
       else
@@ -1545,16 +1548,17 @@ C     Last change:  P     9 Nov 2000   10:29 am
       include 'postbox.inc'
       include 'string.pub'
       include 'apsimengine.pub'
+      include 'componentinterface.inc'
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name
       character Units*(*)              ! (INPUT) Units
       integer Num_elements             ! (INPUT) Number of elements to store.
       integer Data_type                ! (INPUT) Data type of variable
- 
+
 *+ Purpose
 *     Store a variable in postbox system.  Return TRUE if an error occurred.
- 
+
 *+  Mission Statement
 *      
  
@@ -2839,8 +2843,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
       implicit none
       dll_export get_ei
       include 'const.inc'              ! constant definitions
-      include 'postbox.inc'
- 
+      include 'componentinterface.inc'
+
 *+ Sub-Program Arguments
  
 *+ Purpose
@@ -2866,14 +2870,14 @@ C     Last change:  P     9 Nov 2000   10:29 am
       implicit none
       dll_export set_ei
       include 'const.inc'              ! constant definitions
-      include 'postbox.inc'
- 
+      include 'componentinterface.inc'
+
 *+ Sub-Program Arguments
       integer EI                       ! (INPUT) event interface
- 
+
 *+ Purpose
 *     Set the variable type of from the previous repond call
- 
+
 *+  Mission Statement
 *      
  

@@ -107,9 +107,8 @@
      .   g_Empty_double_slot,
      .   g_Empty_char_slot,
      .   g_Empty_variable_slot,
-     .   g_Last_respond_type,
-     .   EventInterface
-     
+     .   g_Last_respond_type
+
 * ====================================================================
  
 *   Short description:
@@ -135,11 +134,11 @@
       integer g_Postbox_type(MAX_VARIABLES)
                                        ! Specifies whether Postbox_start and end point
                                        ! to the postbox_double or Postbox_char arrays.
-                                       
+
       integer g_Current_message        ! Pointer to Variable_start array for current
                                        ! message
       integer g_Empty_double_slot      ! Pointer to first empty slot in Postbox_double array
       integer g_Empty_char_slot        ! Pointer to first empty slot in Postbox_char array
       integer g_Empty_variable_slot    ! Pointer to first empty slot in variable arrays
       integer g_Last_respond_type      ! Data type of last variable respond.
-      integer EventInterface
+
