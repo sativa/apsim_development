@@ -1,7 +1,7 @@
 [APSIM.sample_soybean]
 module=clock      soybean.par[sample]
 module=report     soybean.par[sample]                                 
-module=met        ..\..\input\sample\dalby.met[weather]
+module=met        ..\..\met\sample\dalby.met[weather]
 module=manager    soybean.par[sample]
 module=soilwat2   ..\..\soilwat2\sample\soilwat2.par[black_earth]  ..\..\soilwat2\soilwat2.ini[standard]
 module=residue2   ..\..\residue2\sample\residue2.par[legume_residue]  ..\..\residue2\residue2.ini[standard]
