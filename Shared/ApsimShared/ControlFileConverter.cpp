@@ -88,9 +88,6 @@ void ControlFileConverter::convert(const string& fileName,
    vector<string> scriptFileNames;
    getScriptFilesToUse(fileName, scriptFileNames);
 
-   int apsimVersion = StrToFloat(getApsimVersion().c_str())*10;
-   ApsimControlFile::setVersionNumber(fileName, apsimVersion);
-
    // create a log file that we're going to write to.
    Path logPath(fileName);
    logPath.Set_extension(".conversions");
@@ -98,8 +95,11 @@ void ControlFileConverter::convert(const string& fileName,
 
    for (unsigned f = 0; f != scriptFileNames.size(); f++)
       convert(fileName, scriptFileNames[f], callback);
-      
+
    log.close();
+
+   int apsimVersion = StrToFloat(getApsimVersion().c_str())*10;
+   ApsimControlFile::setVersionNumber(fileName, apsimVersion);
    }
 //---------------------------------------------------------------------------
 // convert the specified control file using the commands in the specified
