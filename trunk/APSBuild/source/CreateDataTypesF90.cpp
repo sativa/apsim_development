@@ -234,7 +234,7 @@ class WriteRegistrationID
 
       void operator() (const ApsimRegistrationData& registration)
          {
-         string idString = "   integer :: " + getCleanName(registration.getName()) + "Id";
+         string idString = "      integer :: " + getCleanName(registration.getName());
          if (routinesDoneSoFar.find(idString) == routinesDoneSoFar.end())
             {
             routinesDoneSoFar.insert(idString);
@@ -1047,7 +1047,7 @@ class WriteRegistration
 
       void operator() (const ApsimRegistrationData& registration)
          {
-         out << "   " << getCleanName(registration.getName()) << "Id"
+         out << "   id%" << getCleanName(registration.getName())
              << " = add_registration(" << registration.getType()
              << ", '" << registration.getName()
              << "', " << getCleanName(registration.getDataTypeName()) << "Ddml)" << endl;
@@ -1084,8 +1084,11 @@ void CreateDataTypesF90::doConvert(const std::string& sourceFilename,
       out << "   integer, parameter :: max_char_size = 100" << endl;
       out << "   integer, parameter :: max_array_size = 100" << endl;
       out << endl;
+      out << "   type IDsType" << endl;
+      out << "      sequence" << endl;
       for_each_if(component->regBegin(), component->regEnd(),
                   WriteRegistrationID(out), IsAutoRegister);
+      out << "   end type IDsType" << endl;
       for_each_if(component->regBegin(), component->regEnd(),
                   WriteTypeString(out), IsNotOfType("read"));
       for_each_if(component->regBegin(), component->regEnd(),
@@ -1117,7 +1120,8 @@ void CreateDataTypesF90::doConvert(const std::string& sourceFilename,
                   WritePublish(out, "methodCall"), IsOfType("methodCall"));
 
       out << "   ! ----------" << endl;
-      out << "   subroutine do_registrations()" << endl;
+      out << "   subroutine do_registrations(id)" << endl;
+      out << "   type(IDSType) :: id" << endl;
       for_each_if(component->regBegin(), component->regEnd(),
                   WriteRegistration(out), IsAutoRegister);
       out << "   end subroutine do_registrations" << endl;
