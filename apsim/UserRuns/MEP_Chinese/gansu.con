@@ -1,7 +1,7 @@
 !Risk analysis for cropping systems in Gansu
 ! +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-version = 3.6
+version = 4
 
 
 ! +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -14,9 +14,9 @@ module = report     report.par [xifeng_w]  report.par [wheat]
 module = input(met) xifeng.met [weather]
 module = manager    gansu.man [xifeng_w]
 module = soilwat2   soil.par [xifeng]     %apsuite\apsim\soilwat2\soilwat2.ini[standard]
-module = residue2   soil.par [xifeng]     %apsuite\apsim\residue2\residue2.ini [standard]
+module = SurfaceOM   soil.par [xifeng] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = soiln2     soil.par [xifeng]     %apsuite\apsim\soiln2\soiln2.ini [standard]
-module = plant(wheat)     soil.par [xifeng]   %apsuite\apsim\wheat\wheat.ini [standard]  
+module = plant(wheat)     soil.par [xifeng]   %apsuite\apsim\wheat\wheat.ini [standard]
 module = fertiliz           %apsuite\apsim\fertiliz\fertiliz.ini [standard]
 module = SummaryFile  report.par [xifeng_w]
 module = Screen     gansu.man [all]
@@ -30,9 +30,9 @@ module = report     report.par [xifeng_w_n0]  report.par [wheat]
 module = input(met) xifeng.met [weather]
 module = manager    gansu.man [xifeng_w_n0]
 module = soilwat2   soil.par [xifeng]     %apsuite\apsim\soilwat2\soilwat2.ini[standard]
-module = residue2   soil.par [xifeng]     %apsuite\apsim\residue2\residue2.ini [standard]
+module = SurfaceOM   soil.par [xifeng] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = soiln2     soil.par [xifeng]     %apsuite\apsim\soiln2\soiln2.ini [standard]
-module = plant(wheat)     soil.par [xifeng]   %apsuite\apsim\wheat\wheat.ini [standard]  
+module = plant(wheat)     soil.par [xifeng]   %apsuite\apsim\wheat\wheat.ini [standard]
 module = fertiliz           %apsuite\apsim\fertiliz\fertiliz.ini [standard]
 module = SummaryFile  report.par [xifeng_w_n0]
 module = Screen     gansu.man [all]
@@ -47,9 +47,9 @@ module = report     report.par [dingxi_w]  report.par [wheat]
 module = input(met) dingxi.met [weather]
 module = manager    gansu.man [dingxi_w]
 module = soilwat2   soil.par [dingxi]     %apsuite\apsim\soilwat2\soilwat2.ini[standard]
-module = residue2   soil.par [dingxi]     %apsuite\apsim\residue2\residue2.ini [standard]
+module = SurfaceOM   soil.par [dingxi] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = soiln2     soil.par [dingxi]     %apsuite\apsim\soiln2\soiln2.ini [standard]
-module = plant(wheat)     soil.par [dingxi]   %apsuite\apsim\wheat\wheat.ini [standard]  
+module = plant(wheat)     soil.par [dingxi]   %apsuite\apsim\wheat\wheat.ini [standard]
 module = fertiliz           %apsuite\apsim\fertiliz\fertiliz.ini [standard]
 module = SummaryFile  report.par [dingxi_w]
 module = Screen      gansu.man [all]

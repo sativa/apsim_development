@@ -2,11 +2,11 @@
 !Dingxi - based on file received from Wen
 !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-[dingxi.residue2.parameters]    
-pot_decomp_rate =  0.10   
-residue_wt =  100.0   
-residue_cnr =  90.0   
-residue_type =  wheat   
+[dingxi.SurfaceOM.parameters]    
+mass = 100.0
+cnr = 90.0
+type = wheat
+name = wheat
 
 ! Dingxi soil par file updated at the APSIM workshop at Roseworthy on 29 Jan 2003!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -96,12 +96,11 @@ SW      =   0.12    0.16    0.175    0.18    0.17    0.17    0.17    0.20     ! 
 !Xifeng - based on file received from Wen
 !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-[xifeng.residue2.parameters]    
-pot_decomp_rate =  0.10   
-residue_wt =  100.0   
-residue_cnr =  90.0   
-residue_type =  wheat   
-
+[xifeng.SurfaceOM.parameters]    
+mass = 100.0
+cnr = 90.0
+type = wheat
+name = wheat
 
 [xifeng.soiln2.parameters]  
 soil_cn     =  10.0    ()      ! soil humic pool C:N ratio

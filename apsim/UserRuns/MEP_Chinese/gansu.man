@@ -73,12 +73,12 @@ if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
    report do_output 
    wheat harvest
    wheat end_crop
-   residue2 tillage type = user_defined, f_incorp = 0.95, tillage_depth = 0
+   surfaceom tillage type = user_defined, f_incorp = 0.95, tillage_depth = 0
 endif
 
 !sow wheat on 20 September 
  if today = date('20-sep') then
-    residue2  tillage  type = planter
+    surfaceom  tillage  type = planter
     wheat sow cultivar = xifeng24, plants = 400, sowing_depth = 50 (mm), row_spacing = 0.25 (m)
     fertiliz apply amount = 40 (kg/ha), depth = 50 (mm), type = urea_n 
  endif          
@@ -157,12 +157,12 @@ if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
    report do_output 
    wheat harvest
    wheat end_crop
-   residue2 tillage type = user_defined, f_incorp = 0.95, tillage_depth = 0
+   surfaceom tillage type = user_defined, f_incorp = 0.95, tillage_depth = 0
 endif
 
 !sow wheat on 15 March 
  if today = date('15-mar') then
-    residue2  tillage  type = planter
+    surfaceom  tillage  type = planter
     wheat sow cultivar = dingxi24, plants = 400, sowing_depth = 50 (mm), row_spacing = 0.25 (m)
     fertiliz apply amount = 30 (kg/ha), depth = 50 (mm), type = urea_n 
  endif          
@@ -216,14 +216,14 @@ if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
    report do_output 
    wheat harvest
    wheat end_crop
-   residue2 tillage type = user_defined, f_incorp = 0.95, tillage_depth = 0
+   surfaceom tillage type = user_defined, f_incorp = 0.95, tillage_depth = 0
 endif
 
 !sow wheat on 20 September 
  if day = 264 then
     flag = 3
     report do_output 
-    residue2  tillage  type = planter
+    surfaceom  tillage  type = planter
     wheat sow cultivar = xifeng24, plants = 400, sowing_depth = 50 (mm), row_spacing = 0.25 (m)
     fertiliz apply amount = 30 (kg/ha), depth = 50 (mm), type = nh4_n 
  endif          
@@ -254,14 +254,14 @@ if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
    report do_output 
    wheat harvest
    wheat end_crop
-   residue2 tillage type = user_defined, f_incorp = 0.95, tillage_depth = 0
+   surfaceom tillage type = user_defined, f_incorp = 0.95, tillage_depth = 0
 endif
 
 !sow wheat on 20 September 
  if day = 264 then
     flag = 3
     report do_output 
-    residue2  tillage  type = planter
+    surfaceom  tillage  type = planter
     wheat sow cultivar = xifeng24, plants = 400, sowing_depth = 50 (mm), row_spacing = 0.25 (m)
     fertiliz apply amount = 20 (kg/ha), depth = 50 (mm), type = nh4_n 
  endif          
@@ -293,12 +293,12 @@ if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
    report do_output 
    wheat harvest
    wheat end_crop
-   residue2 tillage type = user_defined, f_incorp = 0.95, tillage_depth = 0
+   surfaceom tillage type = user_defined, f_incorp = 0.95, tillage_depth = 0
 endif
 
 !sow wheat on 15 March 
  if day = 75 then
-    residue2  tillage  type = planter
+    surfaceom  tillage  type = planter
     wheat sow cultivar = dingxi24, plants = 400, sowing_depth = 50 (mm), row_spacing = 0.25 (m)
     fertiliz apply amount = 30 (kg/ha), depth = 50 (mm), type = nh4_n 
  endif          
