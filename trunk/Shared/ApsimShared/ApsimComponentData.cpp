@@ -141,11 +141,32 @@ void ApsimComponentData::setProperty(const string& propertyType,
    property.setValue(value);
    }
 // ------------------------------------------------------------------
+// Delete all properties with the specified type.
+// ------------------------------------------------------------------
+void ApsimComponentData::clearProperties(const std::string& propertyType)
+   {
+   XMLNode initData = getInitData();
+   eraseNodes(initData, propertyType);
+   }
+// ------------------------------------------------------------------
+// Return a list of group names to caller for the specified type
+// of properties.
+// ------------------------------------------------------------------
+void ApsimComponentData::getGroupNames(const std::string& propertyType,
+                                       std::vector<std::string>& groupNames)
+   {
+   XMLNode initData = getInitData();
+   for_each_if(initData.begin(), initData.end(),
+               GetNameAttributeFunction<vector<string>, XMLNode>(groupNames),
+               EqualToName<XMLNode>(propertyType));
+   }
+// ------------------------------------------------------------------
 // Clear all variables.
 // ------------------------------------------------------------------
 void ApsimComponentData::clearVariables(void)
    {
-   getInitData().deleteChild("variables");
+   XMLNode initData = getInitData();
+   eraseNodes(initData, "variables");
    }
 // ------------------------------------------------------------------
 // return a list of variables to caller.
@@ -181,7 +202,8 @@ void ApsimComponentData::addVariable(const string& name)
 // ------------------------------------------------------------------
 void ApsimComponentData::clearRules(void)
    {
-   getInitData().deleteChild("rules");
+   XMLNode initData = getInitData();
+   eraseNodes(initData, "rules");
    }
 // ------------------------------------------------------------------
 // return a list of rule names to caller.
@@ -199,7 +221,9 @@ void ApsimComponentData::getRuleNames(vector<string>& names) const
 // ------------------------------------------------------------------
 // return a rule to caller or blank if not found.
 // ------------------------------------------------------------------
-string ApsimComponentData::getRule(const std::string& name) const
+void ApsimComponentData::getRule(const std::string& name,
+                                 std::string& condition,
+                                 std::string& contents) const
    {
    XMLNode initData = getInitData();
    XMLNode::iterator rules = find_if(initData.begin(),
@@ -211,30 +235,35 @@ string ApsimComponentData::getRule(const std::string& name) const
                                        NodeEquals<XMLNode>("rule", name));
       if (rule != rules->end())
          {
-         string sanitisedContents = rule->getValue();
-         Replace_all(sanitisedContents, "[cr]", "\n");
-         return sanitisedContents;
+         condition = rule->getAttribute("condition");
+         contents = rule->getValue();
+         Replace_all(contents, "[cr]", "\n");
          }
       }
-   return "";
    }
 // ------------------------------------------------------------------
 // Add a rule if it doesn't already exist.  If it does exist then
 // update its contents.
 // ------------------------------------------------------------------
-void ApsimComponentData::addRule(const string& name, const string& ruleString)
+void ApsimComponentData::addRule(const string& name,
+                                 const string& condition,
+                                 const string& contents)
    {
    XMLNode initData = getInitData();
    XMLNode rules = initData.appendChild("rules");
    XMLNode::iterator rule = find_if(rules.begin(),
                                     rules.end(),
-                                    NodeEquals<XMLNode>("rule", name));
-   string sanitisedContents = ruleString;
+                                    NodeAttributesEquals<XMLNode>
+                                       ("rule",
+                                        "name", name,
+                                        "condition", condition));
+   string sanitisedContents = contents;
    Replace_all(sanitisedContents, "\n", "[cr]");
    if (rule == rules.end())
       {
       XMLNode child = rules.appendChild("rule", true);
       child.setAttribute("name", name);
+      child.setAttribute("condition", condition);
       child.setValue(sanitisedContents, true);
       }
    else
@@ -292,7 +321,6 @@ ApsimDataTypeData ApsimComponentData::getDataType
    throw runtime_error("Cannot find a data type: " + name
                        + " in component: " + getName());
    }
-
 // ------------------------------------------------------------------
 // ------------------------------------------------------------------
 // ------------------------------------------------------------------
@@ -331,13 +359,17 @@ extern "C" void _export __stdcall ApsimComponentData_getRuleNames
    *numNames = ruleNames.size();
    }
 vector<string> ruleLines;
+string ruleCondition;
 extern "C" void _export __stdcall ApsimComponentData_loadRule
    (ApsimComponentData** componentData,
     const char* name,
     unsigned nameLength)
    {
-   Split_string((*componentData)->getRule(asString(FString(name, nameLength))),
-                "\n", ruleLines);
+   string contents;
+   (*componentData)->getRule(asString(FString(name, nameLength)),
+                             ruleCondition,
+                             contents);
+   Split_string(contents, "\n", ruleLines);
    }
 extern "C" unsigned _export __stdcall ApsimComponentData_getNumRuleLines
    (void)
@@ -350,5 +382,11 @@ extern "C" void _export __stdcall ApsimComponentData_getRuleLine
     unsigned lineLength)
    {
    FString(line, lineLength) = ruleLines[*lineNumber].c_str();
+   }
+extern "C" void _export __stdcall ApsimComponentData_getRuleCondition
+   (const char* condition,
+    unsigned conditionLength)
+   {
+   FString(condition, conditionLength) = ruleCondition.c_str();
    }
 
