@@ -1,136 +1,35 @@
-!     ===========================================================
-      subroutine AllocInstance (InstanceName, InstanceNo)
-!     ===========================================================
-      use demoModule
-      Use infrastructure
-      implicit none
+*     ========================================
+      module demoModule
+!     ========================================
+      
+!     ========================================
+      Type demoGlobals
+         sequence
+         real    latitude
+         real    longitude
+         real    tav
+         real    amp
+         integer year
+         integer day
+         real    radn
+         real    maxt
+         real    mint
+         real    rain
+                 
+      end type demoGlobals
+!     ========================================
 
-!+  Sub-Program Arguments
-      character InstanceName*(*) !(DEMO) name of instance
-      integer   InstanceNo       !(DEMO) instance number to allocate
-
-!+  Purpose
-!      Module instantiation routine.
-
-*+  Mission Statement
-*     Instantiate routine
-
-!- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%gptr)
-      allocate (Instances(InstanceNo)%pptr)
-      allocate (Instances(InstanceNo)%cptr)
-      Instances(InstanceNo)%Name = InstanceName
-
-      return
-      end
-
-!     ===========================================================
-      subroutine FreeInstance (anInstanceNo)
-!     ===========================================================
-      use demoModule
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module de-instantiation routine.
-
-*+  Mission Statement
-*     De-Instantiate routine
-
-!- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%gptr)
-      deallocate (Instances(anInstanceNo)%pptr)
-      deallocate (Instances(anInstanceNo)%cptr)
-
-      return
-      end
-
-!     ===========================================================
-      subroutine SwapInstance (anInstanceNo)
-!     ===========================================================
-      use demoModule
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Swap an instance into the global 'g' pointer
-
-*+  Mission Statement
-*     Swap an instance into global pointer
-
-!- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%gptr
-      p => Instances(anInstanceNo)%pptr
-      c => Instances(anInstanceNo)%cptr
-
-      return
-      end
-
-* ====================================================================
-       subroutine Main (Action, Data_string)
-* ====================================================================
-      use demoModule
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-       character Action*(*)            ! Message action to perform
-       character Data_string*(*)       ! Message data
-
-*+  Purpose
-*      This routine is the interface between the main system and the
-*      demo module.
-
-*+  Mission Statement
-*     Apsim demo
-
-*+  Changes
-*     SDB 7/6/01 Created
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'demo Main')
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      if (Action.eq.ACTION_Init) then
-         call demo_Init ()
-
-      else if (Action.eq.ACTION_Prepare) then
-         call demo_read_todays_data()
-
-      else if (Action.eq.ACTION_Get_variable) then
-         call demo_Send_my_variable (Data_string)
-
-      else if (action .eq. ACTION_end_run) then
-         call demo_close_binary()
-
-      else
-         ! Don't use message
-         call Message_Unused ()
-      endif
-
-      call pop_routine (myname)
-      return
-      end
-
-
+      ! instance variables.
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (demoGlobals),pointer :: g
+!      type (IDsType), pointer :: ID
+               
+      contains
 
 * ====================================================================
        subroutine demo_Init ()
 * ====================================================================
-      use DemoModule
       Use infrastructure
       implicit none
 
@@ -141,8 +40,6 @@
 *     Initialise all internal state variables
 
 *+  Calls
-      logical demo_open_binary
-      external demo_open_binary
 
 *+  Changes
 *     SDB 07/06/01 Created.
@@ -183,12 +80,11 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 * ====================================================================
        logical function demo_open_binary()
 * ====================================================================
-      use demoModule
       Use infrastructure
       implicit none
 
@@ -225,13 +121,12 @@
 
       call pop_routine(this_routine)
       return
-      end
+      end function
 
 
 * ====================================================================
        subroutine demo_Send_my_variable (Variable_name)
 * ====================================================================
-      use demoModule
       Use infrastructure
       implicit none
 
@@ -328,12 +223,11 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 * ====================================================================
        subroutine demo_read_constants ()
 * ====================================================================
-      use demoModule
       Use infrastructure
       implicit none
 
@@ -366,12 +260,11 @@
       endif
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine demo_close_binary()
 !     ===========================================================
-      use demoModule
       Use infrastructure
       implicit none
 
@@ -398,12 +291,11 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 ! ====================================================================
       subroutine demo_read_todays_data()
 ! ====================================================================
-      use demoModule              ! demo common block
       Use infrastructure
       implicit none
 
@@ -426,12 +318,11 @@
 
       call pop_routine(this_routine)
       return
-      end
+      end subroutine
 
 ! ====================================================================
       subroutine demo_read_line()
 ! ====================================================================
-      use demoModule              ! demo common block
       Use infrastructure
       implicit none
 
@@ -478,12 +369,11 @@
 100   continue
       call pop_routine(this_routine)
       return
-      end
+      end subroutine
 
 * ====================================================================
       subroutine met_send_newmet_event()
 * ====================================================================
-      use demomodule
       Use infrastructure
       implicit none
 
@@ -534,6 +424,84 @@
       call delete_postbox()
 
       call pop_routine(this_routine)
+      return
+      end subroutine
+
+      end module demoModule
+
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use demoModule
+      implicit none  
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+!         allocate(ID)
+      else
+         deallocate(g)
+!         deallocate(ID)
+      end if
+      return
+      end subroutine
+
+* ====================================================================
+       subroutine Main (Action, Data_string)
+* ====================================================================
+      use demoModule
+      Use infrastructure
+      implicit none
+      ml_external Main
+
+*+  Sub-Program Arguments
+       character Action*(*)            ! Message action to perform
+       character Data_string*(*)       ! Message data
+
+*+  Purpose
+*      This routine is the interface between the main system and the
+*      demo module.
+
+*+  Mission Statement
+*     Apsim demo
+
+*+  Changes
+*     SDB 7/6/01 Created
+
+*+  Constant Values
+      character  myname*(*)            ! name of this procedure
+      parameter (myname = 'demo Main')
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (myname)
+
+      if (Action.eq.ACTION_Init) then
+         call demo_Init ()
+
+      else if (Action.eq.ACTION_Prepare) then
+         call demo_read_todays_data()
+
+      else if (Action.eq.ACTION_Get_variable) then
+         call demo_Send_my_variable (Data_string)
+
+      else if (action .eq. ACTION_end_run) then
+         call demo_close_binary()
+
+      else
+         ! Don't use message
+         call Message_Unused ()
+      endif
+
+      call pop_routine (myname)
       return
       end
 
