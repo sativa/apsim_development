@@ -3,6 +3,7 @@
 #define CoordinatorH
 #include <ComponentInterface\component.h>
 #include "ComponentAlias.h"
+#include "Registrations.h"
 #include <vector>
 #include <map>
 // ------------------------------------------------------------------
@@ -27,6 +28,7 @@ class Coordinator : public protocol::Component
    private:
       typedef std::map<unsigned int, ComponentAlias*> Components;
       Components components;
+      Registrations registrations;
       unsigned int sequencerID;
       unsigned int runningMessageID;
       unsigned int childComponentID;
@@ -35,6 +37,8 @@ class Coordinator : public protocol::Component
       unsigned titleID;
       unsigned componentsID;
       vector<unsigned> componentOrders;
+      bool doTerminate;
+      bool printReport;
 
       virtual void doInit1(const FString& sdml);
       virtual void doInit2(void);
@@ -51,11 +55,11 @@ class Coordinator : public protocol::Component
       virtual void onApsimChangeOrderData(protocol::MessageData& messageData);
       virtual void onQuerySetValueMessage(unsigned fromID, protocol::QuerySetValueData& querySetData);
 
-
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
       virtual void respondToMethod(unsigned int& fromID, unsigned int& methodID, protocol::Variant& variant);
       virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
       virtual bool respondToSet(unsigned int& fromID, protocol::QuerySetValueData& setValueData);
+      virtual void notifyTermination(void);
 
       void addComponent(const std::string& name,
                         const std::string& executable,
@@ -83,34 +87,18 @@ class Coordinator : public protocol::Component
                                     unsigned foreignRegID,
                                     protocol::Variant& variant);
 
-      PMRegistrationItem* findRegistration(const std::string& name,
-                                           protocol::RegistrationType type);
       unsigned componentNameToID(const std::string& name);
-      void resolveRegistrations(void);
-      void resolveRegistrations(ComponentAlias::Registrations* registrations);
-      void resolveRegistration(PMRegistrationItem* reg);
-      void fixupRegistrationIDs(const protocol::RegistrationType& type);
-      void fixupRegistrationID(PMRegistrationItem& registrationItem);
-      void pollComponentsForGetVariable(PMRegistrationItem& registrationItem);
-      void pollComponentsForSetVariable(PMRegistrationItem& registrationItem,
+      void pollComponentsForGetVariable(const std::string& variableName);
+      void pollComponentsForSetVariable(const std::string& variableName,
                                         unsigned fromID,
                                         unsigned ourRegID,
                                         protocol::Variant& variant);
 
-      void publishEventsInOrder(unsigned int fromID,
-                                protocol::PublishEventData& publishEventData,
-                                PMRegistrationItem* registrationItem);
-
-      // ------------------------------------------------------------------
-      // Register a property for our child components
-      // ------------------------------------------------------------------
-      unsigned addInternalRegistration(unsigned fromID,
-                                       protocol::RegistrationType kind,
-                                       const std::string& name,
-                                       const std::string& typeString,
-                                       unsigned foreignID = 0);
-
+      void reorderSubscriptions(Registrations::Subscriptions& subs);
       void readAllRegistrations(void);
+      void convertKindToMethodCall(protocol::RegistrationType& kind,
+                                   const string& regName);
+
 
    };
 #endif
