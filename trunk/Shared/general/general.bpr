@@ -6,7 +6,7 @@
     <PROJECT value="general.lib"/>
     <OBJFILES value="date_class.obj exec.obj general.obj IniFile.obj io_functions.obj 
       math_functions.obj path.obj stream_functions.obj stream_processor.obj 
-      string_functions.obj StringTokenizer.obj stristr.obj macro.obj"/>
+      string_functions.obj StringTokenizer.obj stristr.obj macro.obj xml.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -21,15 +21,14 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="general.bpf"/>
-    <INCLUDEPATH value="$(BCB)\include;$(SHARED);$(BCB)\components\boost"/>
+    <INCLUDEPATH value="$(BCB)\include;$(SHARED);$(BCB)\components\boost;$(BCB)\components\libxml2\include"/>
     <LIBPATH value="$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <LISTFILE value=""/>
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c 
-      -tW -tWM"/>
+    <CFLAG1 value="-Od -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c -tW -tWM"/>
     <PFLAGS value="-$Y+ -$W -$O- -$A8 -v -JPHNE -M"/>
     <AFLAGS value="/mx /w2 /zi"/>
     <LFLAGS value="/P128"/>
@@ -55,6 +54,7 @@
       <FILE FILENAME="StringTokenizer.cpp" FORMNAME="" UNITNAME="StringTokenizer.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="stristr.cpp" FORMNAME="" UNITNAME="stristr.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="macro.cpp" FORMNAME="" UNITNAME="Macro" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="xml.cpp" FORMNAME="" UNITNAME="xml" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -91,15 +91,17 @@ Comments=
 C:\WINDOWS\System32\PsQRC60.bpl=Pragnaan QuickReport Export Filters
 
 [HistoryLists\hlIncludePath]
-Count=8
-Item0=$(BCB)\include;$(SHARED);$(BCB)\components\boost
-Item1=C:\Program Files\Borland\CBuilder6\Projects;..\..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost
-Item2=..\..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\xerces\src;$(BCB)\components\boost
-Item3=..\..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\xerces\src
-Item4=..\..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item5=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item6=C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item7=$(BCB)\include;$(BCB)\include\vcl
+Count=10
+Item0=$(BCB)\include;$(SHARED);$(BCB)\components\boost;$(BCB)\components\libxml2\include
+Item1=$(BCB)\include;$(SHARED);$(BCB)\components\boost;$(BCB)\components\libxml2
+Item2=$(BCB)\include;$(SHARED);$(BCB)\components\boost
+Item3=C:\Program Files\Borland\CBuilder6\Projects;..\..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost
+Item4=..\..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\xerces\src;$(BCB)\components\boost
+Item5=..\..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\xerces\src
+Item6=..\..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item7=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item8=C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item9=$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
 Count=4

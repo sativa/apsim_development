@@ -2,42 +2,33 @@
 #ifndef xmlH
 #define xmlH
 #include <string>
-#include <stdexcept>
-#include <general\VCLAdaptors.h>
+#include <general\TreeNodeIterator.h>
 #include <general\stl_functions.h>
 class XMLNode;
-
-struct XMLDocumentImpl;
-
-namespace Msxml2_tlb
-  {
-   class IXMLDOMNode;
-   }
-
+struct _xmlNode;
+struct _xmlDoc;
 //---------------------------------------------------------------------------
 // This class encapsulates an XML document and provides an STL like interface.
 //---------------------------------------------------------------------------
 class XMLDocument
    {
    public:
-      XMLDocument(void);
+      enum RootName {rootName};
+      enum XmlContents {xmlContents};
+      XMLDocument(const std::string& rootNode, RootName rootName);
       XMLDocument(const std::string& fileName);
-      XMLDocument(const std::string& xml, bool dummy);
+      XMLDocument(const std::string& xml, XmlContents xmlContents);
 
       ~XMLDocument(void);
 
-      void setRootNode(const std::string& rootNode);
-      void write(const std::string& fileName) const;
-      void writeXML(std::string& xml) const;
+      void write(const std::string& fileName);
       XMLNode documentElement(void);
 
       void setDirty(bool d) {dirty = d;}
       bool isDirty(void) const {return dirty;}
 
-      std::string transformUsingStyleSheet(const std::string& stylesheetFileName) const;
-
    private:
-      XMLDocumentImpl* docImpl;
+      _xmlDoc* doc;
       mutable bool dirty;
    };
 //---------------------------------------------------------------------------
@@ -51,7 +42,7 @@ class XMLNode
       iterator end() const;
 
       XMLNode(void) : parent(NULL), node(NULL) { }
-      XMLNode(::XMLDocument* doc, Msxml2_tlb::IXMLDOMNode* n);
+      XMLNode(XMLDocument* doc, _xmlNode* n);
        ~XMLNode(void);
       XMLNode(const XMLNode& rhs);
       XMLNode& operator= (const XMLNode& rhs);
@@ -69,11 +60,11 @@ class XMLNode
       XMLNode appendChild(XMLNode childNode, bool alwaysAppend = false);
       XMLNode::iterator erase(XMLNode::iterator& nodeIterator);
 
-      void writeXML(std::string& xml) const;
+      std::string write() const;
 
    private:
       XMLDocument* parent;
-      Msxml2_tlb::IXMLDOMNode* node;
+      _xmlNode* node;
 
       XMLNode getNextSibling(void) const;
 
@@ -169,7 +160,7 @@ class ValueEquals
 //---------------------------------------------------------------------------
 // Handy functor that calls T.getAttribute("name") and stores result in a container.
 //---------------------------------------------------------------------------
-template <class CT, class T>
+template <class T, class CT=vector<string> >
 class GetNameAttributeFunction
    {
    private:
@@ -218,6 +209,65 @@ void eraseNodes(XMLNode node, const std::string& name)
                   node.end(),
                   EqualToName<XMLNode>(name));
       }
+   }
+//---------------------------------------------------------------------------
+// Handy predicate that can help find a node with a particular name
+// and 'name' attribute.
+// e.g. can be used with find_if
+//---------------------------------------------------------------------------
+template <class T>
+class AttributeEquals
+   {
+   private:
+      std::string attributeName;
+      std::string attributeValue;
+   public:
+      AttributeEquals(const std::string& attributename, const std::string& attributevalue)
+         : attributeName(attributename), attributeValue(attributevalue) {}
+
+      bool operator () (T& arg)
+         {return (strcmpi(arg.getAttribute(attributeName).c_str(), attributeValue.c_str()) == 0);};
+   };
+// ------------------------------------------------------------------
+// Handy function that returns a node given a fully qualified name
+// eg fqn:  root|child1|child2
+// ------------------------------------------------------------------
+XMLNode findNode(XMLNode node, const std::string& fqn)
+   {
+   unsigned posDelimiter = fqn.find('|');
+   XMLNode::iterator i = find_if(node.begin(),
+                                 node.end(),
+                                 EqualToName<XMLNode>(fqn.substr(0, posDelimiter)));
+   if (i != node.end())
+      {
+      if (posDelimiter == string::npos)
+         return XMLNode(*i);
+      else
+         return findNode(*i, fqn.substr(posDelimiter+1));
+      }
+   else
+      return XMLNode();
+   }
+// ------------------------------------------------------------------
+// Handy function that returns a node given a fully qualified name
+// This variant uses the 'name' attribute to search.
+// eg fqn:  root|child1|child2
+// ------------------------------------------------------------------
+XMLNode findNodeWithName(XMLNode node, const std::string& fqn)
+   {
+   unsigned posDelimiter = fqn.find('|');
+   XMLNode::iterator i = find_if(node.begin(),
+                                 node.end(),
+                                 AttributeEquals<XMLNode>("name", fqn.substr(0, posDelimiter)));
+   if (i != node.end())
+      {
+      if (posDelimiter == string::npos)
+         return XMLNode(*i);
+      else
+         return findNodeWithName(*i, fqn.substr(posDelimiter+1));
+      }
+   else
+      return XMLNode();
    }
 
 

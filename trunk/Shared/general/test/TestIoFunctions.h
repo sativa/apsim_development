@@ -1,7 +1,12 @@
 //---------------------------------------------------------------------------
-#ifndef TestIO_FUNCTIONS_H
-#define TestIO_FUNCTIONS_H
+#ifndef TestIoFunctionsH
+#define TestIoFunctionsH
 
-void TestIoFunctions(void);
+#include <boost/test/unit_test.hpp>
+
+//---------------------------------------------------------------------------
+// Register all tests.
+//---------------------------------------------------------------------------
+boost::unit_test_framework::test_suite* testIoFunctions(void);
 
 #endif

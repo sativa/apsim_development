@@ -58,9 +58,14 @@ void TestDirectoryExists(void)
 //getYoungestFile
 //renameOnCollision
 
-void TestIoFunctions(void)
+//---------------------------------------------------------------------------
+// Register all tests.
+//---------------------------------------------------------------------------
+test_suite* testIoFunctions(void)
    {
-   TestExpandFileName();
-   TestFileExists();
-   TestDirectoryExists();
+   test_suite* test= BOOST_TEST_SUITE("TestIoFunctions");
+   test->add(BOOST_TEST_CASE(&TestExpandFileName));
+   test->add(BOOST_TEST_CASE(&TestFileExists));
+   test->add(BOOST_TEST_CASE(&TestDirectoryExists));
+   return test;
    }
