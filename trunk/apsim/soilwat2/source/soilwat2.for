@@ -53,7 +53,7 @@
       parameter (precision_sw_dep = 1.0e-3)
 
       integer    max_layer        ! Maximum number of layers
-      parameter (max_layer = 50)
+      parameter (max_layer = 100)
 
       integer    max_solute       ! Maximum number of solutes in the soil
       parameter (max_solute = 20)

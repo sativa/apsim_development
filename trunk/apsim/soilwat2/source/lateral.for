@@ -8,7 +8,7 @@
 ! CONSTANTS
 ! =========
       integer max_layer
-      parameter (max_layer = 50)
+      parameter (max_layer = 100)
 
       integer max_table
       parameter (max_table = 10)
