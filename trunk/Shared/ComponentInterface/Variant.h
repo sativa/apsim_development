@@ -4,6 +4,9 @@
 #include "TypeConverter.h"
 #include "Type.h"
 #include "ArraySpecifier.h"
+
+void fatalError(const FString& st);
+
 namespace protocol {
 // ------------------------------------------------------------------
 //  Short description:
@@ -49,8 +52,12 @@ class Variant
       void unpack(T& obj)
          {
          if (arraySpecifier != NULL)
-            arraySpecifier->convert(messageData, type.getCode());
-
+            {
+            if (!type.isArray())
+               fatalError("Cannot use array notation on a scalar variable");
+            else
+               arraySpecifier->convert(messageData, type.getCode());
+            }
          if (typeConverter != NULL)
             typeConverter->getValue(messageData, obj);
 
