@@ -7,7 +7,6 @@ C     Last change:  E    31 Jul 2001    1:26 pm
       contains
 
       include 'cropmodcomms.for'
-      include 'plantp_code.for'
 
 *     ===========================================================
       subroutine Crop_process ()

@@ -1,3 +1,4 @@
+      include 'plantp_code.for'
       subroutine print_routine (my_name)
 
       character*(*) my_name
