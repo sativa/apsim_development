@@ -1,3 +1,4 @@
+#include <iostream.h>
 #include <stdlib.h>
 #include <windows.h>
 #include <dir.h>
@@ -211,12 +212,19 @@ void Path::Set_name (const char* New_name)
 //  Short description:
 //    set the file extension
 
-//  Notes:
+//  Notes: must place a "." in front of the intended extension. eg:
+//
+//         mypath.Set_name("myfile");
+//         mypath.Set_extension(".myext");
+// 
+//  wouuld result in a file named "myfile.myext"
+//
 
 //  Changes:
 //    DPH 17/11/94
 //    DPH 13/5/1997 - reworked to use standard template library.
 //    dph 27/3/98 changed string::npos to string::npos in line with standard.
+//
 
 // ------------------------------------------------------------------
 void Path::Set_extension (const char* New_extension)
@@ -296,7 +304,7 @@ void Path::Set_path (const string& New_path)
 
 // ------------------------------------------------------------------
 //  Short description:
-//    Return true if path is empty
+//    Return true if the Directory *string* is empty (JW)
 
 //  Notes:
 
@@ -306,7 +314,7 @@ void Path::Set_path (const string& New_path)
 
 // ------------------------------------------------------------------
 bool Path::Is_empty(void)
-	{
+   {
    return (Directory.length() == 0);
    }
 
@@ -315,6 +323,7 @@ bool Path::Is_empty(void)
 //    Return true if file exists.
 
 //  Notes:
+//    Works on file not directory (JW)
 
 //  Changes:
 //    DPH 17/11/94
@@ -356,11 +365,26 @@ void Path::Change_directory(void)
 #endif
    }
 
+/*void Path::Change_directory(void)
+   {
+   if (Directory.length() > 0)
+      chdir (Directory.c_str());
+
+#ifdef __WIN32__
+   // Change the drive on windows as well.
+   if (Drive.length() > 0)
+      {
+      int Drive_letter = Drive[0] - 'a' + 1;
+      _chdrive(Drive_letter);
+      }
+#endif
+   }  */
 // ------------------------------------------------------------------
 //  Short description:
 //    append a directory
 
 //  Notes:
+//    change to the current working dir (JW)
 
 //  Changes:
 //    DPH 17/11/94
@@ -392,7 +416,7 @@ void Path::Append_path (const char* path)
 
 // ------------------------------------------------------------------
 //  Short description:
-//    remove a directory
+//    remove the Directory *string* (JW)
 
 //  Notes:
 
@@ -434,6 +458,9 @@ Path Path::getCurrentFolder(void)
 
 // ------------------------------------------------------------------
 // Return the temporary folder as a path
+//
+// Note: 
+//
 // ------------------------------------------------------------------
 Path Path::getTempFolder(void)
 	{
