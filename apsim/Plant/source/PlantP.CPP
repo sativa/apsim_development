@@ -947,12 +947,12 @@ float PlantP::fact_pheno ()  const
 //      pop_routine (my_name);
 //}
 // ====================================================================
-void PlantP::residue_chopped (float chop_fr_green[]
-                            , float chop_fr_sen[]
-                            , float chop_fr_dead[]
-                            , float fraction_to_residue[]
-                            , float dlt_residue_p
-                            , float dlt_dm_p[]
+void PlantP::residue_chopped (float chop_fr_green[]        //IN
+                            , float chop_fr_sen[]          //IN
+                            , float chop_fr_dead[]         //IN
+                            , float fraction_to_residue[]  //IN
+                            , float *dlt_residue_p         //OUT
+                            , float dlt_dm_p[]             //OUT
                               )
 {
 
@@ -974,7 +974,7 @@ void PlantP::residue_chopped (float chop_fr_green[]
 
       if (g.phosphorus_aware == true)
       {
-         dlt_residue_p = 0.0;
+         *dlt_residue_p = 0.0;
          for (int part = 0; part < g.num_parts; part++)
          {
             dlt_dm_p[part]  = (chop_fr_green[part] * g.part_p_green[part] * fraction_to_residue[part]
@@ -982,7 +982,7 @@ void PlantP::residue_chopped (float chop_fr_green[]
                               + chop_fr_dead[part] * g.part_p_dead[part]  * fraction_to_residue[part])
                             * gm2kg/sm2ha;
 
-            dlt_residue_p += dlt_dm_p[part];
+            *dlt_residue_p += dlt_dm_p[part];
 
             g.part_p_green[part] = g.part_p_green[part] * (1.0 - chop_fr_green[part]);
             g.part_p_sen[part]   = g.part_p_sen[part]   * (1.0 - chop_fr_sen[part]);
@@ -994,20 +994,20 @@ void PlantP::residue_chopped (float chop_fr_green[]
          for (int part = 0; part < g.num_parts; part++)
          {
             dlt_dm_p[part] = 0.0;
-            dlt_residue_p = 0.0;
+            *dlt_residue_p = 0.0;
          }
       }
 
       pop_routine (my_name);
 }
 // ====================================================================
-void PlantP::incorp_fom (float incorp_fr_green[]
-                       , float incorp_fr_sen[]
-                       , float incorp_fr_dead[]
-                       , float dlayer[]
-                       , float root_length[]
-                       , float root_depth
-                       , float p_incorporated)
+void PlantP::incorp_fom (float incorp_fr_green[]      //IN
+                       , float incorp_fr_sen[]        //IN
+                       , float incorp_fr_dead[]       //IN
+                       , float dlayer[]               //IN
+                       , float root_length[]          //IN
+                       , float root_depth             //IN
+                       , float *p_incorporated)        //OUT
 {
 //+  Purpose
 //      Send P to soil or residues when plants are 'chopped'
@@ -1025,10 +1025,10 @@ void PlantP::incorp_fom (float incorp_fr_green[]
 //- Implementation Section ----------------------------------
       push_routine (my_name);
 
-      p_incorporated = 0.0;
+      *p_incorporated = 0.0;
       for (int part = 0; part < g.num_parts; part++)
       {
-         p_incorporated +=(incorp_fr_green[part] * g.part_p_green[part]
+         *p_incorporated +=(incorp_fr_green[part] * g.part_p_green[part]
                            + incorp_fr_sen[part]   * g.part_p_sen[part]
                            + incorp_fr_dead[part]  * g.part_p_dead[part])
                          * gm2kg/sm2ha;
@@ -1042,7 +1042,7 @@ void PlantP::incorp_fom (float incorp_fr_green[]
                     , root_length
                     , root_depth
                     , dlt_fom_p
-                    , p_incorporated
+                    , *p_incorporated
                     , max_layer);
 
       num_layers = 1 + count_of_real_vals(root_length, max_layer);

@@ -7,7 +7,7 @@
     <OBJFILES value="PlantComponent.obj Plant.obj PlantFail.obj Science.obj PlantCanopy.obj 
       PlantLibrary.obj PlantNitrogen.obj PlantPhenology.obj PlantRoot.obj 
       PlantTemp.obj PlantUtility.obj PlantWater.obj Data.obj Date.obj 
-      PlantBiomass.obj"/>
+      PlantBiomass.obj PlantP.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -29,7 +29,7 @@
     <USERDEFINES value=""/>
     <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
     <MAINSOURCE value="PlantComponent.cpp"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(SHARED)"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;$(SHARED)"/>
     <LIBPATH value="$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-wprc -wstv -wsig -w-par -wnod -w-8027 -w-8026 -wdef -wamb"/>
     <WARNOPTSTR value=""/>
@@ -68,6 +68,7 @@
       <FILE FILENAME="Data.cpp" FORMNAME="" UNITNAME="Data.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Date.cpp" FORMNAME="" UNITNAME="Date.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="PlantBiomass.cpp" FORMNAME="" UNITNAME="PlantBiomass.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="PlantP.CPP" FORMNAME="" UNITNAME="PlantP" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -101,19 +102,20 @@ ProductVersion=1.0.0.0
 Comments=
 
 [HistoryLists\hlIncludePath]
-Count=12
-Item0=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item1=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\infra\protocol;..\..\..\shared
-Item2=..\..\Report\source;$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\infra\protocol;..\..\..\shared
-Item3=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\infra\protocol
-Item4=k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\engine;..\..\infra\protocol
-Item5=k:\general;k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\engine;..\..\infra\protocol
-Item6=k:\general;$(BCB)\include;$(BCB)\include\vcl;k:\general\;k:\;..\..\infra\engine;..\..\infra\protocol
-Item7=$(BCB)\include;$(BCB)\include\vcl;k:\general;k:\;..\..\infra\engine
-Item8=..\..\..\shared\general;$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\..\shared
-Item9=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\..\shared
-Item10=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\c++source;..\..\..\shared
-Item11=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\c++source
+Count=13
+Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;$(SHARED)
+Item1=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item2=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\infra\protocol;..\..\..\shared
+Item3=..\..\Report\source;$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\infra\protocol;..\..\..\shared
+Item4=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\infra\protocol
+Item5=k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\engine;..\..\infra\protocol
+Item6=k:\general;k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\engine;..\..\infra\protocol
+Item7=k:\general;$(BCB)\include;$(BCB)\include\vcl;k:\general\;k:\;..\..\infra\engine;..\..\infra\protocol
+Item8=$(BCB)\include;$(BCB)\include\vcl;k:\general;k:\;..\..\infra\engine
+Item9=..\..\..\shared\general;$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\..\shared
+Item10=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\..\shared
+Item11=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\c++source;..\..\..\shared
+Item12=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\c++source
 
 [HistoryLists\hlLibraryPath]
 Count=17
@@ -160,7 +162,7 @@ Item1=..\lib
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=/console &quot;c:/development/apsim/wheat/sample/wheat.sim&quot;
+RunParams=/console &quot;c:/development/apsim/plant/refset/referenc1.sim&quot;
 Launcher=
 UseLauncher=0
 DebugCWD=
