@@ -4033,6 +4033,7 @@ cjh         endif
 *      130896 jngh removed crop_cover (g_cover_green_sum)
 *      260897 nih  Added output for flow_water and flow_(solute_name)
 *      970910 slw  fix problem with es reporting as zero
+*      990323 nih  Added output for effective rainfall (eff_rain)
  
 *+  Constant Values
       character  my_name*(*)           ! name of subroutine
@@ -4048,7 +4049,8 @@ cjh         endif
       real       temp_array(max_layer) ! temporary array
       real       total_cover           ! total ground cover (0-1)
       real       es                    ! total es
- 
+      real       eff_rain              ! daily effective rainfall (mm)
+
 *- Implementation Section ----------------------------------
  
       call push_routine (my_name)
@@ -4081,6 +4083,12 @@ cjh         endif
       else if (variable_name .eq. 'infiltration') then
          call respond2get_real_var (variable_name, '(mm)'
      :                             , g_infiltration)
+
+      else if (variable_name .eq. 'eff_rain') then
+         es = sum_real_array(g_es_layers, max_layer)
+         eff_rain = g_rain - g_runoff - g_drain - es
+         call respond2get_real_var (variable_name, '(mm)'
+     :                             , eff_rain)
  
       else if (variable_name .eq. 'salb') then
          call respond2get_real_var (variable_name, '(mm)', p_salb)
