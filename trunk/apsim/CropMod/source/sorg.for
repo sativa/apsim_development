@@ -51,7 +51,7 @@ cew   SLN = n_green(leaf)/lai
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 !      if(g_lai .gt. 0.0)then
 !         SLN = (G_n_green(leaf))/g_lai
@@ -68,7 +68,6 @@ cew   SLN = n_green(leaf)/lai
 *     ===========================================================
       Use infrastructure
       implicit none
-      dll_export cproc_n_senescence1
 
 *+  Sub-Program Arguments
       integer num_part            ! (INPUT) number of plant part
@@ -137,7 +136,7 @@ cew   SLN = n_green(leaf)/lai
   100 continue
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -153,7 +152,6 @@ cew   SLN = n_green(leaf)/lai
 *     ===========================================================
       Use infrastructure
       implicit none
-c      dll_export sorg_N_init1
 
 *+  Sub-Program Arguments
       REAL       C_n_init_conc(*)      ! (INPUT)  initial N concentration (
@@ -195,7 +193,7 @@ c      dll_export sorg_N_init1
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -224,7 +222,6 @@ c      dll_export sorg_N_init1
      :               )
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 
@@ -384,7 +381,7 @@ cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
 
@@ -406,7 +403,6 @@ cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
      :               )
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 !      dll_export sorg_N_uptake2
 
@@ -544,7 +540,7 @@ cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -568,7 +564,6 @@ cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
 
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 c      dll_export sorg_N_partition1
 
@@ -607,7 +602,7 @@ c      dll_export sorg_N_partition1
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -638,7 +633,6 @@ c      dll_export sorg_N_partition1
 
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -820,7 +814,7 @@ cew   SLN = LeafN/lai
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -863,7 +857,6 @@ cew   SLN = LeafN/lai
      .          g_phase_tt)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -977,7 +970,7 @@ cew   SLN = LeafN/lai
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1023,7 +1016,6 @@ cew   SLN = LeafN/lai
 
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 c     include 'stress.inc' !to set value of photo - not sure if correct way
 
@@ -1223,7 +1215,7 @@ c (how do we do this w. TPLA approach?)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1249,7 +1241,6 @@ c (how do we do this w. TPLA approach?)
      .          phase_dvl)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -1275,8 +1266,7 @@ c (how do we do this w. TPLA approach?)
 *     010994 jngh specified and programmed
 
 *+  Calls
-      real       srop_germination     ! function
-      real       srop_phase_tt        ! function
+
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -1312,7 +1302,7 @@ c (how do we do this w. TPLA approach?)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -1342,7 +1332,7 @@ c (how do we do this w. TPLA approach?)
 *     970518 scc modified, according to JNGH phen bug fix
 
 *+  Calls
-!      real       bound                 ! function
+
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -1363,7 +1353,7 @@ cjh  changed 0.0 to 1.0
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
@@ -1378,7 +1368,6 @@ cjh  changed 0.0 to 1.0
      .          g_days_tot)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -1446,7 +1435,7 @@ cjh  changed 0.0 to 1.0
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
@@ -1506,7 +1495,7 @@ cjh  changed 0.0 to 1.0
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1571,7 +1560,7 @@ cjh  changed 0.0 to 1.0
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1630,7 +1619,7 @@ cjh  changed 0.0 to 1.0
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1719,7 +1708,7 @@ cjh  changed 0.0 to 1.0
       endif
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1739,7 +1728,6 @@ cjh  changed 0.0 to 1.0
      .          dm_green, dm_plant_min)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -1817,7 +1805,7 @@ cjh  changed 0.0 to 1.0
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 * ====================================================================
@@ -1861,7 +1849,6 @@ c################################################################
 
 *+  Declaration section -----------------------------------------------
       Use infrastructure
-      Use CropDefCons
       implicit none
 *   Subroutine arguments
       real       stem_trans_frac
@@ -1991,7 +1978,7 @@ c################################################################
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -2008,7 +1995,6 @@ c################################################################
      .          g_dlt_dm_green)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -2156,7 +2142,7 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine sproc_leaf_area_actual1 (
@@ -2168,7 +2154,6 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
      .          )
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -2217,7 +2202,7 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -2225,8 +2210,7 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
 *     ===========================================================
       subroutine sorg_leaf_area_sen ()
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -2361,7 +2345,7 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -2464,7 +2448,7 @@ c look at its calculation. Not used at present.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -2483,7 +2467,6 @@ c look at its calculation. Not used at present.
      .          g_dlt_slai_age)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -2584,7 +2567,7 @@ c     :   , g_lai_max_possible, g_dlt_slai_age
 1000  format(6f10.3)
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine srop_lai_equilib_light (
@@ -2654,7 +2637,7 @@ c     :   , g_lai_max_possible, g_dlt_slai_age
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -2695,7 +2678,7 @@ c     :   , g_lai_max_possible, g_dlt_slai_age
 *     970317 slw templated
 
 *+  Calls
-      real       srop_running_ave     ! function
+
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -2737,7 +2720,7 @@ c the leaf can't sustain itself.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -2837,7 +2820,7 @@ c the leaf can't sustain itself.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -2884,7 +2867,7 @@ c the leaf can't sustain itself.
 *     970216 slw generalised to avoid common blocks , added num_layer parameter
 
 *+  Calls
-      real    srop_running_ave        ! function
+
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -2923,7 +2906,7 @@ c the leaf can't sustain itself.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -2971,14 +2954,13 @@ c the leaf can't sustain itself.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine Read_Constants_Sorghum ()
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Purpose
@@ -4028,14 +4010,13 @@ c     :                    , 0.0, 100.0)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine Read_Cultivar_Params_Sorghum (cultivar)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -4336,4 +4317,4 @@ cSCC changed lower limit from 0 to -1000
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine

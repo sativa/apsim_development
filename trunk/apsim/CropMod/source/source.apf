@@ -3,16 +3,8 @@ Dependency = %licensed_source(wheat)
 
 [Contents]
 ComponentInterface.for = ComponentInterface.for
-CropDefCons.inc = CropDefCons.inc
-CropMod.inc     = CropMod.inc
 CropModMain.for = CropModMain.for
-CropModTree.for = CropModTree.for
-wheat.for       = wheat.for
-sunf.for        = sunf.for
-sorg.for        = sorg.for
-maize.for       = maize.for
-Process.for     = Process.for
 
 [APSBuild]
 binary = ..\lib\CropMod.dll
-moduletype=croptemplate
+compilerfile = release.compile
