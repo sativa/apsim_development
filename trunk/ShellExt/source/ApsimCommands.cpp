@@ -165,4 +165,23 @@ extern "C" _export void __stdcall viewFiles(const char* csvFiles)
       ShellExecute(NULL, "open", fileNames[file].c_str(), NULL, "", SW_SHOW);
       }
    }
+//---------------------------------------------------------------------------
+// Send all files to ApsimReport
+//---------------------------------------------------------------------------
+extern "C" _export void __stdcall apsimReportFiles(const char* csvFiles)
+   {
+   vector<string> fileNames;
+   Split_string(csvFiles, ",", fileNames);
+
+   // write response file.
+   string responseFile = Path::getTempFolder().Get_path() + "\\response.file";
+   ofstream out(responseFile.c_str());
+   for (unsigned i = 0; i != fileNames.size(); ++i)
+      out << fileNames[i] << endl;
+   out.close();
+
+   // pass response file to apsimoutlook.
+   string command = "\"" + getApsimDirectory() + "\\bin\\ApsimReport\" " + responseFile;
+   WinExec(command.c_str(), SW_SHOW);
+   }
 

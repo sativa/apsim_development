@@ -42,5 +42,9 @@ extern "C" _export void __stdcall buildFiles(const char* csvFiles);
 //---------------------------------------------------------------------------
 extern "C" _export void __stdcall viewFiles(const char* csvFiles);
 
+//---------------------------------------------------------------------------
+// Send all files to ApsimReport
+//---------------------------------------------------------------------------
+extern "C" _export void __stdcall apsimReportFiles(const char* csvFiles);
 
 #endif
