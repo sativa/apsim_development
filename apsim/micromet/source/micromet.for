@@ -137,6 +137,39 @@
 
 
 * ====================================================================
+       subroutine Micromet_Create ()
+* ====================================================================
+      Use Infrastructure
+      implicit none
+
+
+*+  Purpose
+*      Zero everything
+
+*+  Mission Statement
+*     Zero Everything
+
+*+  Changes
+*     NIH 12/3/03 Specified
+
+*+  Constant Values
+      character  myname*(*)            ! name of this procedure
+      parameter (myname = 'Micromet_create')
+
+*+  Local Variables
+
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (myname)
+
+      call Micromet_zero_variables ()
+
+      call pop_routine (myname)
+      return
+      end subroutine
+
+* ====================================================================
        subroutine Micromet_Init ()
 * ====================================================================
 
@@ -163,8 +196,6 @@
 *- Implementation Section ----------------------------------
 
       call push_routine (myname)
-
-      call Micromet_zero_variables ()
 
       ! Notify system that we have initialised
 
@@ -241,7 +272,6 @@
       g%Interception(:,:) = 0.0
       g%albedo = 0.0
       g%Emissivity = 0.0
-
 
       g%radn = 0.0
       g%maxt = 0.0
@@ -1162,6 +1192,7 @@
          Rin = Rin - Rint
 
   200 continue
+
 
       call pop_routine (myname)
       return
@@ -2328,6 +2359,9 @@
 
       if (Action.eq.ACTION_Init) then
          call Micromet_Init ()
+
+      elseif (Action.eq.ACTION_Create) then
+         call Micromet_Create ()
 
       elseif (Action.eq.ACTION_Prepare) then
          call Micromet_Prepare ()
