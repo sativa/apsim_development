@@ -286,11 +286,16 @@ void Path::Set_path (const char* New_path)
       // is assumed to be a directory.
       // e.g. d:\apswork1.61\filename.ext = directory + filename
       // e.g. d:\apswork1.61\filename     = directory + no filename
+      // e.g. filename                    = filename
       size_t Pos_directory = New_path_string.find_last_of("\\");
       size_t Pos_name = New_path_string.find_last_of(".");
-      if (Pos_directory != string::npos &&
-          Pos_name != string::npos &&
-          Pos_name > Pos_directory)
+      if (Pos_directory == string::npos)
+         {
+         Name = New_path_string;
+         New_path_string = "";
+         }
+      else if (Pos_name != string::npos &&
+               Pos_name > Pos_directory)
          {
          Pos_name = Pos_directory + 1;
          Name = New_path_string.substr (Pos_name);
@@ -399,36 +404,25 @@ void Path::Change_directory(void)
 // ------------------------------------------------------------------
 void Path::Append_path (const char* path)
    {
-   Path New_path(path);
-   if (New_path.Get_directory().length() > 0)
-      {
+   // need to make sure path is an absolute one.
+   // get the current directory because we're going to change it.
+   char Saved_directory[500];
+   GetCurrentDirectory(sizeof Saved_directory, Saved_directory);
 
-      // need to make sure path is an absolute one.
-      // get the current directory because we're going to change it.
-      char Saved_directory[500];
-      GetCurrentDirectory(sizeof Saved_directory, Saved_directory);
+   // Change current directory
+   Change_directory();
 
-      // Change current directory
-      Change_directory();
+   // Get the full path name of the directory passed in.  This API routine
+   // properly converts any relative paths to full paths.
+   char Full_path[500];
+   char* Ptr_to_name;
+   GetFullPathName(path, sizeof Full_path, Full_path, &Ptr_to_name);
 
-      // Get the full path name of the directory passed in.  This API routine
-      // properly converts any relative paths to full paths.
-      char Full_path[500];
-      char* Ptr_to_name;
-      GetFullPathName(New_path.Get_directory().c_str(), sizeof Full_path, Full_path, &Ptr_to_name);
+   // restore current directory.
+   SetCurrentDirectory (Saved_directory);
 
-      // restore current directory.
-      SetCurrentDirectory (Saved_directory);
-
-      // setup drive.
-      Drive = string(Full_path).substr(0, 2);
-
-      // setup directory.
-      Directory = string(Full_path).substr(2);
-      }
-
-   // setup name
-   Name.assign (New_path.Get_name().c_str());
+   // setup drive.
+   Set_path(Full_path);
    }
 
 // ------------------------------------------------------------------
