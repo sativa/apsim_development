@@ -4,7 +4,7 @@
 #pragma hdrstop
 
 #include "ComponentRegistration.h"
-#include "TRichTextForm.h"
+#include "TTextForm.h"
 #include "TImageForm.h"
 #include "TApsimFileReaderForm.h"
 #include "TSOIForm.h"
@@ -31,7 +31,7 @@ AnsiString DecileDescription = "Decile function";
 void RegisterComponents(void)
    {
    RegisterTeeBasicFunction(__classid(TDecileFunction), &DecileDescription);
-   TComponentClass classes[11] = {__classid(TRichText),
+   TComponentClass classes[11] = {__classid(TText),
                                   __classid(::TShape),
                                   __classid(TQRImage),
                                   __classid(TApsimFileReader),
@@ -50,13 +50,13 @@ void RegisterComponents(void)
 //---------------------------------------------------------------------------
 TForm* createComponentUI(TComponent* component, TWinControl* parent)
    {
-   if (component->ClassNameIs("TRichText"))
+   if (component->ClassNameIs("TText"))
       {
-      TRichTextForm* form = new TRichTextForm(NULL);
+      TTextForm* form = new TTextForm(NULL);
       form->Parent = parent;
-      TRichText* richText = dynamic_cast<TRichText*> (component);
-      form->setComponent(richText);
-      richText->Frame->Style = psClear;
+      TText* text = dynamic_cast<TText*> (component);
+      form->setComponent(text);
+      text->Frame->Style = psClear;
       return form;
       }
    else if (component->ClassNameIs("TShape"))

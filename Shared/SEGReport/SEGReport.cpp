@@ -8,7 +8,7 @@ USEFORM("TStringsForm.cpp", StringsForm);
 USEFORM("TChartForm.cpp", ChartForm);
 USEFORM("TImageForm.cpp", ImageForm);
 USEFORM("TObjectInspectorForm.cpp", Form1);
-USEFORM("TRichTextForm.cpp", RichTextForm);
+USEFORM("TTextForm.cpp", TextForm);
 USEFORM("TSEGTableForm.cpp", SEGTableForm);
 USEFORM("TFilterForm.cpp", FilterForm);
 USEFORM("TSOIForm.cpp", SOIForm);
