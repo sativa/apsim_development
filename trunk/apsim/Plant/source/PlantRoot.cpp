@@ -1,8 +1,11 @@
-//---------------------------------------------------------------------------
-#include <string.h>
+#include <general/pch.h>
+#include <vcl.h>
 #include <stdio.h>
 #include <math.h>
-#include "PlantLibrary.h"
+#include <vector>
+#include <string>
+#include "Plantlibrary.h"
+
 #define dim(A,B) (min(0,(A)-(B)))
 
 //===========================================================================
@@ -143,7 +146,7 @@ void cproc_root_depth2 (float G_current_stage,             //  (INPUT) current g
 void crop_root_sw_avail_factor(int  num_sw_ratio,                 // (INPUT)                                                                    
                                float *x_sw_ratio,                 // (INPUT)                                                                    
                                float *y_sw_fac_root,              // (INPUT)                                                                    
-                               float *dlayer,                     // (INPUT) layer depth (mm)                                                   
+                               float *dlayer,                     // (INPUT) layer depth (mm)
                                float *dul_dep,                    // (INPUT) drained upper limit for layer L (mm water)                         
                                float *sw_dep,                     // (INPUT) soil water content of layer L (mm)                                 
                                float *ll_dep,                     // (INPUT) lower limit of plant-extractable soil water for soil layer L (mm)  
@@ -439,7 +442,7 @@ void crop_root_dist(float *G_dlayer,          //(INPUT)  thickness of soil layer
                     float G_root_depth,       //(INPUT)  depth of roots (mm)           
                     float *root_array,        //(OUTPUT) array to contain distributed material             
                     float root_sum,           //(INPUT) Material to be distributed                   
-                    int   max_layer)          // (INPUT) max number of soil layers 
+                    int   max_layer)          // (INPUT) max number of soil layers
 //=========================================================================
 /*  Purpose
 *       Distribute root material over profile based upon root
@@ -476,7 +479,7 @@ void crop_root_dist(float *G_dlayer,          //(INPUT)  thickness of soil layer
 //=============================================================================
 void cproc_root_length_senescence1(float  C_specific_root_length,    //(INPUT)  length of root per unit wt (m         
                                    float *G_dlayer,                  //(INPUT)  thickness of soil layer I (mm)        
-                                   float  G_dlt_root_dm_senesced,    //(INPUT)  plant biomass senescence  (g/m^2)             
+                                   float  G_dlt_root_dm_senesced,    //(INPUT)  plant biomass senescence  (g/m^2)
                                    float *G_root_length,             //(INPUT)                                                           
                                    float  G_root_depth,              //(INPUT)  depth of roots (mm)
                                    float *G_dlt_root_length_senesced,//(OUTPUT) root length lost from each layer (mm/mm^2)   
@@ -513,7 +516,7 @@ void cproc_root_length_senescence1(float  C_specific_root_length,    //(INPUT)  
 
 //==========================================================================
 void crop_root_redistribute (float *root_length,       //  root length (mm/mm^2)                 
-                             float  root_depth_old,    //  old root depth (mm)                   
+                             float  root_depth_old,    //  old root depth (mm)
                              float *dlayer_old,        //  old soil profile layers (mm)          
                              int    nlayr_old,         //  number of old soil profile layers     
                              float root_depth_new,     //  new root depth (mm)                   
@@ -608,246 +611,240 @@ void crop_root_redistribute (float *root_length,       //  root length (mm/mm^2)
    delete []cum_root_length;
    }
 
+//+  Purpose
+//   Calculate the increase in root length density in each rooted
+//   layer based upon soil hospitality, moisture and fraction of
+//   layer explored by roots.
 
+//+  Mission Statement
+//   Calculate the root length growth for each layer
+void cproc_root_length_growth_new (
+     float  c_specific_root_length                 // (INPUT) length of root per unit wt (mm
+    ,float  p_root_distribution_pattern            // (INPUT) patter with depth
+    ,float *g_dlayer                               // (INPUT)  thickness of soil layer I (mm)
+    ,float  g_dlt_root_wt                          // (INPUT)  plant root biomass growth (g/m
+    ,float *g_dlt_root_length                      // (OUTPUT) increase in root length (mm/mm
+    ,float  g_dlt_root_depth                       // (INPUT)  increase in root depth (mm)
+    ,float  g_root_depth                           // (INPUT)  depth of roots (mm)
+    ,float *g_root_length                          // (INPUT)
+    ,float  g_plants                               // (INPUT)
+    ,float *p_xf                                   // (INPUT)  eXtension rate Factor (0-1)
+    ,int    c_num_sw_ratio                         // (INPUT)
+    ,float *c_x_sw_ratio                           // (INPUT)
+    ,float *c_y_sw_fac_root                        // (INPUT)
+    ,float *c_x_plant_rld                          // (INPUT)
+    ,float *c_y_rel_root_rate                      // (INPUT)
+    ,int    c_num_plant_rld                        // (INPUT)
+    ,float *g_dul_dep                              // (INPUT)  drained upper limit soil water
+    ,float *g_sw_dep                               // (INPUT)  soil water content of layer L
+    ,float *p_ll_dep                               // (INPUT)  lower limit of plant-extractab
+    ,int    max_layer)                             // (INPUT)  maximum number of soil laye
+    {
+     //+  Local Variables
+    int   deepest_layer;                          // deepest rooted later
+    float dlt_length_tot;                         // total root length increase (mm/m^2)
+    int   layer;                                  // simple layer counter variable
+    float *rlv_factor;                           // relative rooting factor for a layer
+    float rlv_factor_tot;                         // total rooting factors across profile
+    float branching_factor;                       //
+    float plant_rld;
+    float rld;
+    float root_length_tot;
+    float rwf;
+    float cum_layer_depth;
+    float cum_depth;
+    float *root_length_new;
 
-#ifdef NOTYET
-//===========================================================================
-//===========================================================================
-//===========================================================================
-//===========================================================================
-//===========================================================================
+//- Implementation Section ----------------------------------
+    rlv_factor = new float [crop_max_layer];
+    root_length_new = new float [max_layer];
 
-//========================================================================
-/*  Purpose
-*     Initialise crop root length at emergence based on root weight
-*     at emergence and specific root length.
-*
-*  Mission Statement
-*   Initialise crop root length (on first day of %1)
-*
-*  Changes
-*     02-05-1997 - huth - Programmed and Specified
-*     02-11-1999 - wang - corrected the first argument of root_proportion
-*
-*/
-void crop_root_length_init (int   stage_to_init,
-                            float g_current_stage,
-                            float g_days_tot, 
-                            float root_wt,
-                            float c_specific_root_length, 
-                            float g_root_depth, 
-                            float *g_dlayer,
-                            float *g_root_length,
-                            int   max_layer)
+    if (max_layer > crop_max_layer)
+        {
+        fatal_error (&err_internal,"too many layers for crop routines");
+        }
+    else
+        {
+        fill_real_array (g_dlt_root_length, 0.0, max_layer);
+        fill_real_array (root_length_new, 0.0, max_layer);
 
-   {
-   //  Local Variables
-   float initial_root_length;       // initial root length (mm/mm^2)
-   float rld;                       // initial root length density (mm/mm^3)
-   int deepest_layer;             // number of layers with roots
-   int layer;                       // simple layer counter variable
+        deepest_layer = find_layer_no (g_root_depth+g_dlt_root_depth
+                                      , g_dlayer
+                                      , max_layer);
 
-   // Implementation Section ----------------------------------
-   if (on_day_of (stage_to_init, g_current_stage, g_days_tot))
-      {
-      initial_root_length = root_wt / sm2smm * c_specific_root_length;
-      rld = divide (initial_root_length, g_root_depth, 0.0);
-      deepest_layer = find_layer_no (g_root_depth,g_dlayer,max_layer);
-      fill_real_array (g_root_length, 0.0, max_layer);
+        cum_layer_depth = sum_real_array(g_dlayer, deepest_layer);
 
-      for(layer = 0; layer <= deepest_layer; layer++)
-         {
-         g_root_length[layer] = rld * g_dlayer[layer]
-                     * root_proportion (layer, g_dlayer, g_root_depth);
-         }
-      }
-   }
+        rlv_factor_tot = 0.0;
+        cum_depth      = 0.0;
 
+        for (layer = 0; layer <= deepest_layer; layer++) 
+           {
+           cum_depth = cum_depth + 0.5 * g_dlayer[layer];
+           rwf       = divide (cum_depth, cum_layer_depth, 0.0) ;
+           rwf       = pow((1.0 - rwf),p_root_distribution_pattern);
 
+           rld       = divide (g_root_length[layer], g_dlayer[layer], 0.0);
+   
+           plant_rld = divide (rld, g_plants ,0.0);
+   
+           branching_factor = linear_interp_real(plant_rld
+                                                ,c_x_plant_rld
+                                                ,c_y_rel_root_rate
+                                                ,c_num_plant_rld);
+   
+           rlv_factor[layer] =
+                  crop_sw_avail_fac(c_num_sw_ratio
+                                    , c_x_sw_ratio
+                                    , c_y_sw_fac_root
+                                    , g_dul_dep
+                                    , g_sw_dep
+                                    , p_ll_dep
+                                    , layer)
+                * branching_factor
+                * p_xf [layer]
+                * divide(g_dlayer[layer], g_root_depth, 0.0);
+   
+           rlv_factor[layer] = rlv_factor[layer] * rwf;
 
-//=========================================================================
-extern "C" void _stdcall _export cproc_root_depth1 (float *G_dlayer,
-      int *C_num_sw_ratio, float *C_x_sw_ratio, float *C_y_sw_fac_root,
-      float *G_dul_dep, float *G_sw_dep, float *P_ll_dep, float *C_root_depth_rate,
-      float *G_current_stage, float *P_xf, float *G_dlt_root_depth, float *G_root_depth)
-//=========================================================================
+           rlv_factor[layer] = l_bound(rlv_factor[layer],1e-6);
+           rlv_factor_tot = rlv_factor_tot + rlv_factor[layer];
+        }
 
-/*  Purpose
-*       Calculate plant rooting depth through time limited by soil water content
-*       in layer through which roots are penetrating.
-*
-*  Mission Statement
-*   Calculate today's rooting depth
-*
-*  Changes
-*     170498 nih specified and programmed
-*
-*  Calls
-*
-*
-*  Constant Values
-*      character  my_name*(*)           ! name of procedure
-*      parameter (my_name = 'cproc_root_depth1')
-*
-*  Sub-Program Arguments
-*      float *G_dlayer(*)              ! (INPUT)  layer thicknesses (mm)
-*      int *C_num_sw_ratio             ! (INPUT) number of sw lookup pairs
-*      float *C_x_sw_ratio(*)          ! (INPUT) sw factor lookup x
-*      float *C_y_sw_fac_root(*)       ! (INPUT) sw factor lookup y
-*      float *G_dul_dep(*)             ! (INPUT) DUL (mm)
-*      float *G_sw_dep(*)              ! (INPUT) SW (mm)
-*      float *P_ll_dep(*)              ! (INPUT) LL (mm)
-*      float *C_root_depth_rate(*)     ! (INPUT) root front velocity (mm)
-*      float *G_current_stage          ! (INPUT) current growth stage
-*      float *P_xf(*)                  ! (INPUT) exploration factor
-*      float *G_dlt_root_depth         ! (OUTPUT) increase in rooting depth (mm)
-*      float *G_root_Depth             ! (OUTPUT) root depth (mm)
-*
-*/
-   {
-   //  Local Variables
-   int deepest_layer;                  // deepest layer in which the roots are
-                                       // growing
-   float sw_avail_fac_deepest_layer;   //
+        dlt_length_tot = g_dlt_root_wt/sm2smm * c_specific_root_length;
 
-   // Implementation Section ----------------------------------
-   deepest_layer = find_layer_no (G_root_depth, G_dlayer, &crop_max_layer);
+        root_length_tot= sum_real_array(g_root_length, max_layer);
+        root_length_tot= root_length_tot + dlt_length_tot;
 
-   sw_avail_fac_deepest_layer = crop_sw_avail_fac(C_num_sw_ratio, C_x_sw_ratio,
-         C_y_sw_fac_root, G_dul_dep, G_sw_dep, P_ll_dep, &deepest_layer);
+        for (layer = 0; layer <= deepest_layer; layer++) 
+            {
+            root_length_new[layer] = root_length_tot
+                   * divide (rlv_factor[layer]
+                   ,rlv_factor_tot
+                   ,0.0);
 
-   crop_root_depth_increase(C_root_depth_rate, G_current_stage, G_dlayer,
-         G_root_depth, &sw_avail_fac_deepest_layer, P_xf, G_dlt_root_depth);
+            g_dlt_root_length [layer] = root_length_new[layer] - g_root_length [layer];
 
-   return;
-   }
+            g_dlt_root_length [layer] = dlt_length_tot
+                   * divide (rlv_factor[layer]
+                   ,rlv_factor_tot
+                   ,0.0);
 
+            }
+        }
+    delete [] rlv_factor;
+    delete [] root_length_new;
+    }
+//+  Purpose
+//       Return the increase in root depth (mm)
 
-//===========================================================================
-void crop_root_depth_increase(float *C_root_depth_rate,
-      float *G_current_stage, float *G_dlayer, float *G_root_depth,
-      float *G_sw_avail_fac_deepest_layer, float *P_xf, float *dlt_root_depth)
-//===========================================================================
+//+  Mission Statement
+//   Calculate the increase in rooting depth.
 
-/*  Purpose
-*       Return the increase in root depth (mm)
-*
-*  Mission Statement
-*   Calculate the increase in rooting depth.
-*
-*  Notes
-*         there is a discrepency when the root crosses into another
-*         layer. - cr380
-*
-*  Changes
-*      031097 nih specified and programmed
-*
-*  Constant Values
-*      character  my_name*(*)           ! name of procedure
-*      parameter (my_name = 'legume_root_depth_increase')
-*
-*  Sub-Program Arguments
-*      float *C_root_depth_rate(*)  ! (INPUT)  root growth rate potential (mm
-*      float *G_current_stage       ! (INPUT)  current phenological stage
-*      float *G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
-*      float *G_root_depth          ! (INPUT)  depth of roots (mm)
-*      float *G_sw_avail_fac_deepest_layer ! (INPUT)
-*      float *P_XF (*)              ! (INPUT) eXploration Factor (0-1)
-*      float *dlt_root_depth        ! (OUTPUT) increase in root depth (mm)
-*
-*/
-   {
-   //  Local Variables
-   int current_phase;         // current phase number
-   float root_depth_max;      // maximum depth to which roots can
-                              // go (mm)
-   int current_layer;         // layer of root front
-   int deepest_layer;         // deepest layer for rooting
-   float temp;                //temporary var
-   // Implementation Section ----------------------------------
-   current_layer = find_layer_no(G_root_depth, G_dlayer, &crop_max_layer);
-   current_phase = int (G_current_stage);
+//+  Notes
+//         there is a discrepency when the root crosses into another
+//         layer. - cr380
 
-         // this equation allows soil water in the deepest
-         // layer in which roots are growing
-         // to affect the daily increase in rooting depth.
+//+  Changes
+//      031097 nih specified and programmed
+void legopt_root_depth_increase
+    (
+     float  c_root_depth_rate[]                 // (INPUT)  root growth rate potential (mm
+    ,float  g_current_stage                    // (INPUT)  current phenological stage
+    ,float  *g_dlayer                          // (INPUT)  thickness of soil layer I (mm)
+    ,float  g_root_depth                       // (INPUT)  depth of roots (mm)
+    ,float  g_sw_avail_fac_deepest_layer       // (INPUT)
+    ,float  *p_xf                              // (INPUT) eXploration Factor (0-1)
+    ,float  temp_factor
+    ,float  *dlt_root_depth                     // (OUTPUT) increase in root depth (mm)
+    ) {
+//+  Local Variables
+    int   current_phase;                          // current phase number
+    float root_depth_max;                         // maximum depth to which roots can go (mm)
+    int   current_layer;                          // layer of root front
+    int   deepest_layer;                          // deepest layer for rooting
 
-   *dlt_root_depth  = C_root_depth_rate[current_phase-1] *
-            *G_sw_avail_fac_deepest_layer * P_xf[current_layer];
+//- Implementation Section ----------------------------------
 
-         // constrain it by the maximum
-         // depth that roots are allowed to grow.
+    current_layer = find_layer_no(g_root_depth, g_dlayer, crop_max_layer);
+    current_phase = (int) g_current_stage;
 
-   deepest_layer = count_of_real_vals (P_xf, &crop_max_layer);
-   root_depth_max = sum_real_array (G_dlayer, deepest_layer+1);
+// this equation allows soil water in the deepest
+// layer in which roots are growing
+// to affect the daily increase in rooting depth.
 
-   temp = root_depth_max - *G_root_depth;
-   *dlt_root_depth = u_bound (dlt_root_depth, &temp);
-   }
+    *dlt_root_depth  = c_root_depth_rate[current_phase-1]
+                              * g_sw_avail_fac_deepest_layer
+                              * p_xf[current_layer]
+                              * temp_factor;
 
+// constrain it by the maximum
+// depth that roots are allowed to grow.
 
+    deepest_layer = count_of_real_vals (p_xf, crop_max_layer);
+    root_depth_max = sum_real_array (g_dlayer, deepest_layer+1);
+    *dlt_root_depth = u_bound (*dlt_root_depth, root_depth_max - g_root_depth);
+    }
 
-//===========================================================================
-extern "C" void _stdcall _export cproc_root_length_init1 (const int *stage_to_init,
-      float *g_current_stage, float *g_days_tot, float *root_wt,
-      float *c_specific_root_length, float *g_root_depth, float *g_dlayer,
-      float *g_root_length, const int *max_layer)
-//============================================================================
+//+  Purpose
+//       Calculate plant rooting depth through time
 
-/*  Purpose
-*     Initialise crop root length at emergence based on root weight
-*     at emergence and specific root length.
-*
-*  Mission Statement
-*   Initialise crop root length (on first day of %1)
-*
-*  Changes
-*     02-05-1997 - huth - Programmed and Specified
-*     02-11-1998 - wang - corrected the first argument of root_proportion
-*
-*  Constant Values
-*      character*(*) myname               ! name of current procedure
-*      parameter (myname = 'cproc_root_length_init1')
-*
-*  Sub-Program Arguments
-*      int *stage_to_init
-*      float *g_current_stage
-*      float *g_days_tot(*)
-*      float *g_dlayer(*)
-*      float *root_wt
-*      float *c_specific_root_length
-*      float *g_root_length(*)
-*      float *g_root_Depth
-*      int *max_layer
-*
-*/
-   {
-   //  Local Variables
-   float initial_root_length;       // initial root length (mm/mm^2)
-   float rld;                       // initial root length density (mm/mm^3)
-   int deepest_layer;             // number of layers with roots
-   int layer;                       // simple layer counter variable
-   float zero = 0.0;
-   //- Implementation Section ----------------------------------
-   if (on_day_of (stage_to_init, g_current_stage, g_days_tot))
-      {
-      initial_root_length = *root_wt / sm2smm * *c_specific_root_length;
-      rld = divide (&initial_root_length, g_root_depth, &zero);
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer);
+//+  Mission Statement
+//   Calculate today's rooting depth
 
-      fill_real_array (g_root_length, &zero, max_layer);
+//+  Changes
+//     170498 nih specified and programmed
+void legopt_root_depth1
+    (
+     float *g_dlayer                     // (INPUT)  layer thicknesses (mm)
+    ,int   c_num_sw_ratio                // (INPUT) number of sw lookup pairs
+    ,float *c_x_sw_ratio                 // (INPUT) sw factor lookup x
+    ,float *c_y_sw_fac_root              // (INPUT) sw factor lookup y
+    ,float *g_dul_dep                    // (INPUT) DUL (mm)
+    ,float *g_sw_dep                     // (INPUT) SW (mm)
+    ,float *p_ll_dep                     // (INPUT) LL (mm)
+    ,float *c_root_depth_rate            // (INPUT) root front velocity (mm)
+    ,float g_current_stage               // (INPUT) current growth stage
+    ,float g_mint
+    ,float g_maxt
+    ,float *c_x_temp_root_advance
+    ,float *c_y_rel_root_advance
+    ,int   c_num_temp_root_advance
+    ,float *p_xf                         // (INPUT) exploration factor
+    ,float g_root_depth                  // (input) root depth (mm)
+    ,float *g_dlt_root_depth              // (OUTPUT) increase in rooting depth (mm)
+    ) {
+    //+  Local Variables
+    int   deepest_layer;                          // deepest layer in which the roots are growing
+    float sw_avail_fac_deepest_layer;             //
+    float temp_factor;
+    float av_temp;
 
-      for(layer = 0; layer <= deepest_layer; layer++)
-         {
-         g_root_length[layer] = rld * g_dlayer[layer] *
-                  root_proportion (&layer, g_dlayer, g_root_depth);
-         }
-      }
-   else
-      {
-      }
-   return;
-   }
+    //- Implementation Section ----------------------------------
 
+    deepest_layer = find_layer_no (g_root_depth, g_dlayer, crop_max_layer);
 
-#endif
+    sw_avail_fac_deepest_layer = crop_sw_avail_fac ( c_num_sw_ratio
+                                                   ,c_x_sw_ratio
+                                                   ,c_y_sw_fac_root
+                                                   ,g_dul_dep
+                                                   ,g_sw_dep
+                                                   ,p_ll_dep
+                                                   ,deepest_layer );
+
+    av_temp = (g_mint + g_maxt)/2.0;
+
+    temp_factor = linear_interp_real(av_temp
+                                     ,c_x_temp_root_advance
+                                     ,c_y_rel_root_advance
+                                     ,c_num_temp_root_advance);
+
+    legopt_root_depth_increase(c_root_depth_rate
+                               , g_current_stage
+                               , g_dlayer
+                               , g_root_depth
+                               , sw_avail_fac_deepest_layer
+                               , p_xf
+                               , temp_factor
+                               , g_dlt_root_depth);
+
+    }

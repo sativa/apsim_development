@@ -1,11 +1,10 @@
-//---------------------------------------------------------------------------
-
-#include <string.h>
-#include <stdlib.h>
+#include <general/pch.h>
+#include <vcl.h>
+#include <stdio.h>
 #include <math.h>
-#include "PlantLibrary.h"
-
-//---------------------------------------------------------------------------
+#include <vector>
+#include <string>
+#include "Plantlibrary.h"
 
 
 //===========================================================================
@@ -965,7 +964,723 @@ void cproc_leaf_area_pot_bellshapecurve (int  begin_stage,             //
 //---------------------------------------------------------------------------
 
 
+//+  Purpose
+//      Remove detachment from leaf area record
 
+//+  Mission Statement
+//     Remove detachment from leaf area record
+
+//+  Changes
+//       050199 nih specified and programmed
+void plant_leaf_detachment (float *leaf_area           // OUT
+                                   ,float dlt_slai_detached   // IN
+                                   ,float plants              // IN
+                                   , int max_node)            //IN
+    {
+//+  Local Variables
+    float area_detached;                          // (mm2/plant)
+    int   node;
+
+//- Implementation Section ----------------------------------
+
+
+    area_detached = dlt_slai_detached / plants * sm2smm;
+
+    for (node = 0; node < max_node; node++)
+      {
+      if(area_detached>leaf_area[node])
+        {
+        area_detached = area_detached - leaf_area[node];
+        leaf_area[node] = 0.0;
+        }
+      else
+        {
+        leaf_area[node] = leaf_area[node] - area_detached;
+        area_detached = 0.0;
+        }
+      }
+
+    return;
+    }
+
+//+  Purpose
+//     Calculate extinction coefficient as a function of row spacing
+
+//+  Mission Statement
+//     Calculate extinction coefficient as a function of row spacing
+
+//+  Changes
+//     15-08-1997 - huth - Programmed and Specified
+void legnew_extinct_coef
+    (
+     float g_row_spacing
+    ,float *c_x_row_spacing
+    ,float *c_y_extinct_coef
+    ,int   c_num_row_spacing
+    ,float *extinct_coef      //OUTPUT
+    ) {
+    *extinct_coef = linear_interp_real (g_row_spacing
+                                        ,c_x_row_spacing
+                                        ,c_y_extinct_coef
+                                        ,c_num_row_spacing);
+    }
+
+
+//+  Purpose
+//     Calculate crop cover
+
+//+  Mission Statement
+//     Calculate crop cover
+
+//+  Changes
+//     15-08-1997 - huth - Programmed and Specified
+//     10-02-1999 - huth - added pod cover component
+void legnew_cover (
+    float g_row_spacing
+    ,float *c_x_row_spacing
+    ,float *c_y_extinct_coef
+    ,int   c_num_row_spacing
+    ,float canopy_fac                        // skip row factor
+    ,float g_lai
+    ,float *g_cover_green                    //OUTPUT
+    ) {
+
+//+  Constant Values
+//+  Local Variables
+    float extinct_coef;
+    float lai_canopy;                             // lai transformed to solid canopy
+    float cover_green_leaf_canopy;                // green leaf cover in canopy
+
+//- Implementation Section ----------------------------------
+    if (g_lai > 0.0)
+        {
+        extinct_coef = linear_interp_real (g_row_spacing
+                                           ,c_x_row_spacing
+                                           ,c_y_extinct_coef
+                                           ,c_num_row_spacing);
+
+//-----light interception modified to give hedgerow effect with skip row
+
+        lai_canopy = g_lai * canopy_fac;          // lai in hedgerow
+                                                  // interception on row area basis
+        cover_green_leaf_canopy = 1.0 - exp(-extinct_coef*lai_canopy) ;
+        *g_cover_green = divide (cover_green_leaf_canopy, canopy_fac
+        , 0.0)             ;                      // interception on ground area basis
+
+        }
+    else
+        {
+        *g_cover_green = 0.0;
+        }
+    }
+
+
+//+  Purpose
+//     Calculate crop cover due to leaf and pod light interception
+
+//+  Mission Statement
+//     Calculate crop cover due to leaf and pod light interception
+
+//+  Changes
+//     15-08-1997 - huth - Programmed and Specified
+//     10-02-1999 - huth - added pod cover component
+void legnew_cover_leaf_pod (
+     float g_row_spacing
+    ,float *c_x_row_spacing
+    ,float *c_y_extinct_coef
+    ,int   c_num_row_spacing
+    ,float c_extinct_coef_pod
+    ,float  canopy_fac
+    ,float g_lai
+    ,float g_pai
+    ,float *g_lai_canopy     // OUTPUT lai transformed to solid rows
+    ,float *g_cover_green  // OUTPUT
+    ,float *g_cover_pod    // OUTPUT
+    ) {
+
+//+  Constant Values
+//+  Local Variables
+    double extinct_coef;
+    double lai_canopy;                             // lai transformed to solid rows
+    double pai_canopy;                             // pai transformed to solid rows
+    float cover_green_canopy;                     // green cover in row
+    float cover_green_pod_canopy;                 // green pod cover in row
+
+//- Implementation Section ----------------------------------
+    extinct_coef = linear_interp_real (g_row_spacing
+                                       ,c_x_row_spacing
+                                       ,c_y_extinct_coef
+                                       ,c_num_row_spacing);
+
+    //-----light interception modified to give hedgerow effect with skip row
+    lai_canopy = g_lai * canopy_fac;     // lai in hedgerow
+    pai_canopy = g_pai * canopy_fac;
+
+    if (g_lai > 0.0 || g_pai > 0.0)
+        {
+        cover_green_canopy = 1.0 - exp(-(c_extinct_coef_pod*pai_canopy
+                                         + extinct_coef*lai_canopy));
+                                                  // interception on ground area basis
+        *g_cover_green = divide (cover_green_canopy, canopy_fac, 0.0);
+        }
+    else
+        {
+        *g_cover_green = 0.0;
+        }
+
+    if (g_pai > 0.0)
+        {
+        cover_green_pod_canopy = 1.0
+        - exp(-c_extinct_coef_pod*pai_canopy) ;   // interception on row area basis
+                                                  // interception on ground area basis
+        *g_cover_pod = divide (cover_green_pod_canopy, canopy_fac, 0.0);
+
+        }
+    else
+        {
+        *g_cover_pod = 0.0;
+        }
+    *g_lai_canopy = lai_canopy;
+    }
+
+
+//+  Purpose
+//       Potential biomass (carbohydrate) production from
+//       photosynthesis (g/m^2).  The effect of factors such
+//       temperature and nutritional status of the plant are
+//       taken into account in the radiation use efficiency.
+
+//+  Mission Statement
+//     Get the potential biomass production - limited by stress factors
+
+//+  Changes
+//       181197 nih specified and programmed
+void legnew_dm_pot_rue (
+     float  current_stage
+    ,int    max_stage
+    ,float  *g_tt_tot
+    ,float  *c_x_stage_rue
+    ,float  *g_phase_tt
+    ,float  *c_y_rue
+    ,float  rue_pod
+    ,float  cover_green
+    ,float  cover_pod
+    ,double  radn_int
+    ,double  stress_factor
+    ,float  *dlt_dm_pot                    // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
+    ) {
+    //+  Local Variables
+    double podfr;                                  // fraction of intercepted light intercepted by pods
+    double rue_leaf;
+    int   numvals;
+
+
+    // Assume pods are above the rest of the canopy
+    podfr = bound(divide(cover_pod,cover_green,0.0), 0.0, 1.0);
+
+    if (cover_green<cover_pod)
+        {
+        fatal_error (&err_internal,"error in pod light interception");
+        *dlt_dm_pot = 0.0;
+        }
+    else
+        {
+        numvals = 1+count_of_real_vals (c_x_stage_rue, max_stage);
+        rue_leaf = linear_interp_real (current_stage
+                                       , c_x_stage_rue
+                                       , c_y_rue
+                                       , numvals);
+        *dlt_dm_pot = (radn_int * podfr * rue_pod +
+                       radn_int * (1.0 - podfr) * rue_leaf) * stress_factor;
+        // crue
+        //fprintf(stdout, "%d %f %f %f\n",
+        //        g.day_of_year, rue_leaf, radn_int, stress_factor);
+        }
+    }
+
+
+//+  Purpose
+//       Derives number of nodes to result in given cumulative area
+
+//+  Mission Statement
+//     Get the number of nodes for a given cumulative area
+
+//+  Changes
+//       110298 nih specified and programmed
+float legnew_node_no_from_area
+    (
+     float *g_leaf_area         // (INPUT)  leaf area of each leaf (mm^2)
+    ,int   num_nodes            // (INPUT)  number of nodes
+    ,float pla                  // (INPUT)  plant leaf area
+    ) {
+    //+  Local Variables
+    int   node_no;                                    // number of nodes containing leaf area (0-max_node)
+    float node_area_whole;                            // number of complete nodes ()
+    float node_area_part;                             // area from last node (mm^2)
+    float node_fract;                                 // fraction of last node (0-1)
+    float result;
+
+    node_no = get_cumulative_index_real (pla, g_leaf_area, num_nodes);
+
+    node_area_whole = sum_real_array (g_leaf_area, node_no);
+    node_area_part = pla - node_area_whole;
+    node_fract = divide (node_area_part, g_leaf_area[node_no], 0.0);
+
+    result = (float) (node_no - 1) + node_fract;
+    return (result);
+    }
+
+
+//+  Purpose
+//       Derives number of leaves to result in given cumulative area
+
+//+  Mission Statement
+//     Gets the number of leaves for given area
+
+//+  Changes
+//       110298 nih specified and programmed
+float legnew_leaf_no_from_area (
+     float  *g_leaf_area                // (INPUT)  leaf area of each leaf (mm^2)
+    ,float  *g_leaf_no
+    ,int    num_nodes                   // (INPUT)  number of nodes
+    ,float  pla                         // (INPUT)  plant leaf area
+    ) {
+    //+  Local Variables
+    int   node_no;                                    // number of nodes containing
+    // leaf area (0-max_node)
+    float node_area_whole;                            // number of complete nodes ()
+    float node_area_part;                             // area from last node (mm^2)
+    float node_fract;                                 // fraction of last node (0-1)
+    float result;
+
+
+    node_no = 1+get_cumulative_index_real (pla, g_leaf_area, num_nodes);
+
+    node_area_whole = sum_real_array (g_leaf_area, node_no-1);
+    node_area_part = pla - node_area_whole;
+    node_fract = divide (node_area_part, g_leaf_area[node_no-1], 0.0);
+
+    result = sum_real_array (g_leaf_no,node_no) + node_fract * g_leaf_no[node_no-1];
+//     fprintf(stdout, "%d,%.9f,%.9f,%.9f,%.9f,%.9f\n",
+//             g.day_of_year, (float)node_no,
+//             node_area_whole, node_fract, sum_real_array (g_leaf_no,node_no), result);
+//     fprintf(stdout, "%d,%.9f,%.9f,%.9f\n",
+//             g.day_of_year,g_leaf_no[0], g_leaf_no[1], g_leaf_no[2]);
+    return(result);
+    }
+
+
+//------------
+//+  Purpose
+//     Calculate crop cover
+
+//+  Mission Statement
+//     Calculate crop cover
+
+//+  Changes
+//     15-08-1997 - huth - Programmed and Specified
+//     10-02-1999 - huth - added pod cover component
+void legnew_canopy_fac (
+     float  g_row_spacing
+    ,float  g_plants
+    ,float  g_skip_row_fac              // skip row factor
+    ,float  g_skip_plant_fac            // skip plant factor
+    ,float  g_canopy_width
+    ,float  *g_canopy_fac
+    ) {
+
+
+//+  Local Variables
+    float area_actual;
+    float area_avail;
+    float plant_space;
+    float radius_intra_row_solid;
+    float radius_intra_row_skip;
+    float width_intra_row;
+    float radius_inter_row_solid;
+    float radius_inter_row_skip;
+    float width_inter_row;
+    float row_spacing_effective;
+    float plant_spacing_effective;
+
+
+    row_spacing_effective = g_row_spacing * g_skip_row_fac;
+    plant_space = divide (sm2smm
+       , row_spacing_effective * g_plants * g_skip_plant_fac
+       , 0.0);
+    plant_spacing_effective = plant_space * g_skip_plant_fac;
+    radius_intra_row_solid = min(plant_space * 0.5
+      , g_canopy_width * 0.5);
+    radius_intra_row_skip = min(plant_space * (g_skip_plant_fac - 0.5)
+      , g_canopy_width * 0.5);
+
+    width_intra_row = radius_intra_row_skip + radius_intra_row_solid;
+
+    radius_inter_row_solid = min(g_row_spacing * 0.5, g_canopy_width * 0.5);
+    radius_inter_row_skip = min(g_row_spacing * (g_skip_row_fac - 0.5), g_canopy_width * 0.5);
+    width_inter_row = radius_inter_row_solid + radius_inter_row_skip;
+
+    area_avail = plant_spacing_effective * row_spacing_effective;
+    area_actual = width_inter_row * width_intra_row;
+    *g_canopy_fac = divide (area_avail, area_actual, 0.0);
+
+    }
+//+  Purpose
+//       Get change in plant canopy width from stem dry matter per plant
+
+//+  Mission Statement
+//   Calculate change in crop canopy width (based upon weight of %7).
+
+//+  Changes
+//       230498 nih specified and programmed
+void plant_canopy_width
+    (
+     float  g_canopy_width                   // (INPUT)  canopy height (mm)
+    ,float  *p_x_stem_wt
+    ,float  *p_y_width
+    ,int    p_num_stem_wt
+    ,float  *g_dm_green                      // (INPUT)  live plant dry weight (biomass
+    ,float  g_plants                         // (INPUT)  Plant density (plants/m^2)
+    ,int    stem                             // (INPUT)  plant part no for stem
+    ,float  *dlt_canopy_width                 // (OUTPUT) canopy width change (mm)
+    ) {
+    float dm_stem_plant;                          // dry matter of stem (g/plant)
+    float new_width;                              // new plant width (mm)
+
+    dm_stem_plant = divide (g_dm_green[stem], g_plants, 0.0);
+    new_width = linear_interp_real(dm_stem_plant
+                                  ,p_x_stem_wt
+                                  ,p_y_width
+                                  ,p_num_stem_wt);
+
+    *dlt_canopy_width = new_width - g_canopy_width;
+    *dlt_canopy_width = l_bound (*dlt_canopy_width, 0.0);
+
+    }
+
+
+//+  Purpose
+//       Return the fractional increase in emergence of the oldest
+//       expanding leaf and nodes.  Nodes can initiate from a user-defined
+//       starting stage and leaves from emergence.  The initiation of both
+//       leaves and nodes finishes at a user-defined end stage.
+//       Note ! this does not take account of the other younger leaves
+//       that are currently expanding
+
+//+  Mission Statement
+//   Calculate the potential increase in plant leaf and node number
+
+//+  Changes
+//       270598 nih specified and programmed
+void cproc_leaf_no_pot3
+    (
+     float  *c_x_node_no_app                  //(INPUT)
+    ,float  *c_y_node_app_rate                //(INPUT)
+    ,int    c_num_node_no_app                 // (INPUT)
+    ,float  *c_x_node_no_leaf                 // (INPUT)
+    ,float  *c_y_leaves_per_node              // (INPUT)
+    ,int    c_num_node_no_leaf                // (INPUT)
+    ,float  g_current_stage                   // (INPUT)  current phenological stage
+    ,int    start_node_app                    // (INPUT)  stage of start of leaf appeara
+    ,int    end_node_app                      // (INPUT)  stage of end of leaf appearanc
+    ,int    emerg                             // (INPUT)  emergence stage
+    ,float  g_dlt_tt                          // (INPUT)  daily thermal time (growing de
+    ,float  *g_node_no                        // (INPUT)  number of fully expanded nodes
+    ,float  g_nfact_expansion
+    ,float  g_swdef_expansion
+    ,float  *g_leaves_per_node                 // OUTPUT
+    ,float  *dlt_leaf_no_pot                   // (OUTPUT) new fraction of oldest expanding leaf
+    ,float  *dlt_node_no_pot                   // (OUTPUT) new fraction of oldest expanding node on main stem
+    ) {
+
+//+  Local Variables
+    float node_no_now;                            // number of fully expanded nodes
+    float dlt_leaves_per_node;
+    float node_app_rate;
+    float leaves_per_node_now;
+
+//- Implementation Section ----------------------------------
+
+    node_no_now = sum_between (start_node_app-1
+                              ,end_node_app-1
+                              ,g_node_no);
+
+    node_app_rate = linear_interp_real(node_no_now
+                                       ,c_x_node_no_app
+                                       ,c_y_node_app_rate
+                                       ,c_num_node_no_app);
+
+    if (stage_is_between (start_node_app, end_node_app, g_current_stage))
+        {
+        *dlt_node_no_pot = divide (g_dlt_tt, node_app_rate, 0.0);
+        }
+    else
+        {
+        *dlt_node_no_pot = 0.0;
+        }
+
+    if (on_day_of (emerg, g_current_stage))
+        {
+        // no leaf growth on first day because initialised elsewhere ???
+        *dlt_leaf_no_pot = 0.0;
+
+        *g_leaves_per_node = linear_interp_real(node_no_now
+                                              ,c_x_node_no_leaf
+                                              ,c_y_leaves_per_node
+                                              ,c_num_node_no_leaf);
+        }
+    else if (stage_is_between (emerg, end_node_app,g_current_stage))
+        {
+        // NIH - bit scary using dlt_node_no_POT
+        // so make sure that we don't get ahead of ourselves
+        // of node number does not increase at potential rate
+
+        leaves_per_node_now = linear_interp_real(node_no_now
+                                                 ,c_x_node_no_leaf
+                                                 ,c_y_leaves_per_node
+                                                 ,c_num_node_no_leaf);
+
+        *g_leaves_per_node = min(*g_leaves_per_node,leaves_per_node_now);
+
+        dlt_leaves_per_node = linear_interp_real( node_no_now+(*dlt_node_no_pot)
+                                                ,c_x_node_no_leaf
+                                                ,c_y_leaves_per_node
+                                                ,c_num_node_no_leaf)
+                                 - leaves_per_node_now;
+
+        *g_leaves_per_node = (*g_leaves_per_node) + dlt_leaves_per_node * min(pow(g_nfact_expansion,2),g_swdef_expansion);
+
+        *dlt_leaf_no_pot = (*dlt_node_no_pot) * (*g_leaves_per_node);
+        }
+    else
+        {
+        *dlt_leaf_no_pot = 0.0;
+        }
+    }
+
+
+//+  Purpose
+//       Return the lai that would senesce on the
+//       current day.
+
+//+  Mission Statement
+//   Calculate today's leaf area senescence
+
+//+  Changes
+//     200498 nih specified and programmed
+void legopt_leaf_area_sen1
+    (
+     int    emergence                        // (INPUT) emergence stage no.
+    ,int    this_stage                       // (INPUT) This current stage
+    ,float  g_dlt_lai_stressed               // (INPUT)  potential change in live
+    ,float  g_dlt_leaf_no                    // (INPUT)  actual fraction of oldest leaf
+    ,float  g_dlt_leaf_no_dead               // (INPUT)  fraction of oldest green leaf
+    ,float  g_lai                            // (INPUT)  live plant green lai
+    ,float  *g_leaf_area                     // (INPUT)  leaf area of each leaf (mm^2)
+    ,float  *g_leaf_no
+    ,float  *g_leaf_no_dead                  // (INPUT)  no of dead leaves ()
+    ,int    max_node
+    ,float  g_plants                         // (INPUT)  Plant density (plants/m^2)
+    ,float  g_slai                           // (INPUT)  area of leaf that senesces fro
+    ,float  c_min_tpla                       // (INPUT)
+    ,float  *g_dlt_slai_age                   // (OUTPUT) new senesced lai from phasic devel.
+    ,float  c_lai_sen_light                  // (INPUT)
+    ,float  c_sen_light_slope                // (INPUT)
+    ,float  *g_dlt_slai_light                 // (OUTPUT)
+    ,float  c_sen_rate_water                 // (INPUT)
+    ,float  g_swdef_photo                    // (INPUT)
+    ,float  *g_dlt_slai_water                 // (OUTPUT)
+    ,float  *c_x_temp_senescence             // (INPUT)
+    ,float  *c_y_senescence_fac              // (INPUT)
+    ,int    c_num_temp_senescence            // (INPUT)
+    ,float  g_mint                           // (INPUT)
+    ,float  *g_dlt_slai_frost                 // (OUTPUT)
+    ,float  *g_dlt_slai                       // (OUTPUT)
+    ) {
+
+    //- Implementation Section ----------------------------------
+    legopt_leaf_area_sen_age1(emergence
+                              , this_stage
+                              , g_leaf_no
+                              , g_leaf_no_dead
+                              , g_dlt_leaf_no_dead
+                              , max_node
+                              , g_lai
+                              , g_slai
+                              , c_min_tpla
+                              , g_leaf_area
+                              , g_plants
+                              , g_dlt_slai_age );
+
+    crop_leaf_area_sen_light1(c_lai_sen_light
+                              , c_sen_light_slope
+                              , g_lai
+                              , g_plants
+                              , c_min_tpla
+                              , g_dlt_slai_light);
+
+    crop_leaf_area_sen_water1 (c_sen_rate_water,
+                               g_lai,
+                               g_swdef_photo,
+                               g_plants,
+                               c_min_tpla,
+                               g_dlt_slai_water);
+
+    crop_leaf_area_sen_frost1(c_x_temp_senescence,
+                              c_y_senescence_fac,
+                              c_num_temp_senescence,
+                              g_lai,
+                              g_mint,
+                              g_plants,
+                              c_min_tpla,
+                              g_dlt_slai_frost);
+//    fprintf(stdout, "%d,%.9f,%.9f,%.9f,%.9f\n",
+//                g.day_of_year,*g_dlt_slai_age, *g_dlt_slai_light, *g_dlt_slai_water, *g_dlt_slai_frost);
+
+    *g_dlt_slai = max(max(max(*g_dlt_slai_age, *g_dlt_slai_light), *g_dlt_slai_water), *g_dlt_slai_frost);
+
+    }
+
+
+//+  Purpose
+//       Initialise leaf area.
+
+//+  Mission Statement
+//   Initialise plant leaf area (on first day of %2)
+
+//+  Changes
+//     210498 nih specified and programmed
+void legopt_leaf_area_init1
+    (
+     float  c_initial_tpla              // (INPUT)  initial plant leaf area (mm^2)
+    ,float  c_leaf_no_at_emerg          //
+    ,int    init_stage                  // (INPUT)  initialisation stage
+    ,float  g_current_stage             // (INPUT)  current phenological stage
+    ,float  *g_days_tot                 // (INPUT)  duration of each phase (days)
+    ,float  g_plants                    // (INPUT)  Plant density (plants/m^2)
+    ,float  *lai                        // (OUTPUT) total plant leaf area
+    ,float  *leaf_area                  // (OUTPUT)
+    ) {
+
+    if (on_day_of (init_stage, g_current_stage))
+        {
+        *lai = c_initial_tpla * smm2sm * g_plants;
+
+        fill_real_array (leaf_area,
+                         divide(c_initial_tpla,c_leaf_no_at_emerg,0.0),
+                         (int)c_leaf_no_at_emerg);
+        leaf_area[(int)c_leaf_no_at_emerg] =                      //ok
+        divide(fmod(c_leaf_no_at_emerg, 1.0) * c_initial_tpla
+               ,c_leaf_no_at_emerg, 0.0);
+        }
+    else
+        {
+        }
+
+    }
+
+
+//+  Purpose
+//       Return the the initial number of leaves.
+
+//+  Mission Statement
+//   Initialise leaf number (on first day of %3)
+
+//+  Notes
+//    NIH - I would prefer to use leaf_no_at_init and init_stage
+//          for routine parameters for generalisation
+
+//+  Changes
+//       250598 nih specified and programmed
+void legopt_leaf_no_init1
+    (
+     float  c_leaf_no_at_emerg          // (INPUT)  leaf number at emergence ()
+    ,float  g_current_stage             // (INPUT)  current phenological stage
+    ,int    emerg                       // (INPUT)  emergence stage no
+    ,float  *g_days_tot                 // (INPUT)  duration of each phase (days)
+    ,float  *leaf_no                    // (OUTPUT) initial leaf number
+    ,float  *node_no                    // (OUTPUT) initial node number
+    ) {
+
+//+  Constant Values
+//- Implementation Section ----------------------------------
+
+
+    if (on_day_of (emerg, g_current_stage))
+        {
+        // initialise first leaves
+        node_no[emerg-1] = c_leaf_no_at_emerg;
+        fill_real_array (leaf_no, 1.0, int(c_leaf_no_at_emerg));
+        leaf_no[(int)c_leaf_no_at_emerg]= fmod(c_leaf_no_at_emerg,1.0);
+        }
+    else
+        {
+        // no inital leaf no
+        }
+
+    }
+
+
+
+//---------------------------------------------------------------------------
+// Return the lai that would senesce on the
+// current day due to ageing
+//---------------------------------------------------------------------------
+void legopt_leaf_area_sen_age1
+    (
+     int    emergence                           // (INPUT) emergence stage no.
+    ,int    this_stage                          // (INPUT) This current stage
+    ,float  *g_leaf_no
+    ,float  *g_leaf_no_dead                     // (INPUT)  no of dead leaves ()
+    ,float  g_dlt_leaf_no_dead                  // (INPUT)  fraction of oldest green leaf
+    ,int    max_node
+    ,float  g_lai                               // (INPUT)  live plant green lai
+    ,float  g_slai                              // (INPUT)  area of leaf that senesces fro
+    ,float  c_min_tpla                          // (INPUT)
+    ,float  *g_leaf_area                        // (INPUT)  leaf area of each leaf (mm^2)
+    ,float  g_plants                            // (INPUT)  Plant density (plants/m^2)
+    ,float  *dlt_slai_age                        // (OUTPUT) new senesced lai from phasic devel.
+    )
+    {
+
+    float area_sen_dying_node;                    // senesced leaf area from current node dying (mm^2)
+    int   dying_node;                             // current node number dying ()
+    float leaf_no_dead;                           // today's number of dead leaves ()
+    float slai_age;                               // lai senesced by natural ageing
+    float min_lai;                                // min allowable LAI
+    float max_sen;
+
+// now calculate the leaf senescence
+// due to normal phenological (phasic) development
+
+// get highest leaf no. senescing today
+
+    leaf_no_dead = sum_real_array (g_leaf_no_dead, max_node) + g_dlt_leaf_no_dead;
+    dying_node = get_cumulative_index_real (leaf_no_dead, g_leaf_no, max_node);
+
+// get area senesced from highest leaf no.
+    if (dying_node >= 0)
+        {
+        area_sen_dying_node = divide ( leaf_no_dead - sum_real_array(g_leaf_no, dying_node)
+                                      , g_leaf_no[dying_node]
+                                      , 0.0) * g_leaf_area[dying_node];
+
+        slai_age = (sum_real_array (g_leaf_area, dying_node)
+                      + area_sen_dying_node)
+                      * smm2sm * g_plants;
+
+        min_lai = c_min_tpla * g_plants * smm2sm;
+        max_sen = l_bound (g_lai - min_lai, 0.0);
+        *dlt_slai_age = bound (slai_age - g_slai, 0.0, max_sen);
+        }
+    else
+        {
+        *dlt_slai_age = 0.0;
+        }
+//    fprintf(stdout, "%d,%.9f,%.9f,%.9f,%.9f\n",
+//                g.day_of_year, slai_age, area_sen_dying_node, (float) dying_node, leaf_no_dead);
+
+    }
 
 
 

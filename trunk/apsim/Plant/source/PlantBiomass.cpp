@@ -1,12 +1,13 @@
-//---------------------------------------------------------------------------
+#include <general/pch.h>
+#include <vcl.h>
+#include <stdio.h>
+#include <math.h>
+#include <vector>
 #include <string>
-#include <math>
 #include <general/string_functions.h>
-using namespace std;
+#include "Plantlibrary.h"
 
-#include "PlantLibrary.h"
 
-                                                                                                                        
 //============================================================================
 void crop_dm_pot_rue (float current_stage,         //(IN)                             
                       float *rue,                  //(IN)                             
@@ -43,7 +44,7 @@ void crop_dm_pot_rue (float current_stage,         //(IN)
    }
 
 //============================================================================
-void crop_dm_senescence0(const int num_part,              //(INPUT)  number of plant parts              
+void crop_dm_senescence0(const int num_part,              //(INPUT)  number of plant parts
                          const int root,                  //(INPUT)  number of plant root part          
                          const int leaf,                  //(INPUT)  number for plant leaf part         
                          const int stem,                  //(INPUT)  number for plant stem part         
@@ -130,13 +131,13 @@ void crop_dm_dead_detachment(const int num_part,
 void cproc_dm_senescence1 (const int num_part,           //(INPUT)  number of plant parts      
                            const int max_table,          //(INPUT)  max lookup length          
                            float independant_variable,   //(INPUT)  independant variable which
-                           float **c_x_dm_sen_frac,        //(INPUT)  lookup for independant variabl   is said to drive senescence. 
-                           float **c_y_dm_sen_frac,        // (INPUT)  fraction of  material senescin              
-                           int   *c_num_dm_sen_frac,         // (INPUT)  fraction of  material sene         
-                           float *g_dm_green,              // (INPUT)  live plant dry weight (biomass     
-                           float *g_dlt_dm_green,          // (INPUT)  plant biomass growth (g/m^2)       
-                           float *g_dlt_dm_green_retrans,  // (INPUT)  plant biomass retranslocat         
-                           float *dlt_dm_senesced)         // (OUTPUT) actual biomass senesced from plant parts (g/m^2)           
+                           float **c_x_dm_sen_frac,      //(INPUT)  lookup for independant variabl   is said to drive senescence. 
+                           float **c_y_dm_sen_frac,      // (INPUT)  fraction of  material senescin              
+                           int   *c_num_dm_sen_frac,     // (INPUT)  fraction of  material sene         
+                           float *g_dm_green,            // (INPUT)  live plant dry weight (biomass     
+                           float *g_dlt_dm_green,        // (INPUT)  plant biomass growth (g/m^2)       
+                           float *g_dlt_dm_green_retrans,// (INPUT)  plant biomass retranslocat         
+                           float *dlt_dm_senesced)       // (OUTPUT) actual biomass senesced from plant parts (g/m^2)           
 //============================================================================
 
 /*Purpose
@@ -376,7 +377,7 @@ void cproc_yieldpart_demand_stress1(float G_nfact_photo,         // (INPUT)
 
 //===========================================================================
 void cproc_bio_init1(float *C_dm_init,         //(INPUT)                                
-                     int   Init_stage,         //(INPUT)                                
+                     int   Init_stage,         //(INPUT)
                      float G_current_stage,    //(INPUT)  current phenological stage    
 
                      float G_plants,           //(INPUT)  Plant density (plants/m^2)    
@@ -413,7 +414,7 @@ void cproc_rue_n_gradients(int   day,                  // !day of the year
                            float latitude,           //latitude in degree                                                                      
                            float radiation,          //daily global radiation (MJ/m2/d)                                                        
                            float tempmax,            //daily maximum tempeature (C)                                                            
-                           float tempmin,            //daily minimum tempeature (C)                                                            
+                           float tempmin,            //daily minimum tempeature (C)
                            float lai_green,          //leaf area index (-)                                                                     
                            float sln_gradient,      //SLN gradients in canopy (g N/m2 leaf)                                                   
                            float pmaxmax,            //potential assimilation rate (SLN ASYMPTOTE) (mg CO2/m2.s)                               
@@ -709,7 +710,7 @@ void cproc_rue_n_gradients(int   day,                  // !day of the year
                }
             }
          }
- 
+
 
    *rue_sln = RUEDAY;
    }
@@ -805,8 +806,8 @@ void cproc_rue_co2_modifier(char *crop_type,           //!please use 'C3' or 'C4
          Str_i_Eq(crop_type, "sugar"))
       {
       croptype = "c4";
-      }   
-   
+      }
+
    if (Str_i_Eq(croptype, "c3"))
       {
       temp = 0.5*( maxt + mint);
@@ -825,3 +826,111 @@ void cproc_rue_co2_modifier(char *crop_type,           //!please use 'C3' or 'C4
       *modifier = 1.0;
       }
    }
+
+//  Purpose
+//      Derives seneseced plant dry matter (g/m^2) for the day
+//
+//  Mission Statement
+//  Calculate biomass senescence as a function of %3
+void plant_dm_senescence (int num_part               // (INPUT) number of plant parts
+                               , float max_Table            // (INPUT) max lookup length
+                               , float independant_variable // (INPUT) independant variable which is said to drive senescence.
+                               , float **c_x_dm_sen_frac    // (INPUT)  lookup for independant variabl
+                               , float **c_y_dm_sen_frac    // (INPUT)  fraction of  material senescin
+                               , int *c_num_dm_sen_frac     // (INPUT)  fraction of  material sene
+                               , float *g_dm_green          // (INPUT)  live plant dry weight (biomass
+                               , float *dlt_dm_senesced)    // (OUTPUT) actual biomass senesced
+                                                            //          from plant parts (g/m^2)
+   {
+     int    part;
+     float  fraction_senescing;      // dm senesced (g/m^2)
+
+     for (part = 0; part < num_part; part++)
+         {
+         fraction_senescing
+              = linear_interp_real (independant_variable
+                                    , c_x_dm_sen_frac[part]
+                                    , c_y_dm_sen_frac[part]
+                                    , c_num_dm_sen_frac[part]);
+
+         fraction_senescing = bound (fraction_senescing, 0.0, 1.0);
+         dlt_dm_senesced[part] = g_dm_green[part]* fraction_senescing;
+         }
+   }
+
+//+  Purpose
+//       Perform grain filling calculations
+
+//+  Changes
+void legnew_bio_yieldpart_demand2(
+     float g_current_stage
+    ,int   start_grain_fill
+    ,int   end_grain_fill
+    ,float g_grain_no
+    ,float p_potential_grain_filling_rate
+    ,float g_maxt
+    ,float g_mint
+    ,float *c_x_temp_grainfill
+    ,float *c_y_rel_grainfill
+    ,int   c_num_temp_grainfill
+    ,float *g_dlt_dm_grain_demand
+    ) {
+    //+  Local Variables
+    float tav;
+
+    //- Implementation Section ----------------------------------
+    if (stage_is_between(start_grain_fill, end_grain_fill, g_current_stage))
+        {
+        // we are in grain filling stage
+        tav = (g_maxt+g_mint)/2.0;
+
+        *g_dlt_dm_grain_demand = g_grain_no
+                    * p_potential_grain_filling_rate
+                    * linear_interp_real(tav
+                                         ,c_x_temp_grainfill
+                                         ,c_y_rel_grainfill
+                                         ,c_num_temp_grainfill);
+
+        }
+    else
+        {
+        // no changes
+        *g_dlt_dm_grain_demand = 0.0;
+        }
+    }
+
+//+  Purpose
+//       Perform grain number calculations
+
+//+  Changes
+void crop_grain_number (
+     float g_current_stage
+    ,float *g_days_tot
+    ,int   emerg
+    ,int   flowering
+    ,float *dm_green
+    ,int   stem
+    ,float p_grains_per_gram_stem
+    ,float *g_grain_no    // OUTPUT
+    ) {
+
+//+  Local Variables
+
+//- Implementation Section ----------------------------------
+
+    if (on_day_of (emerg, g_current_stage))
+        {
+        // seedling has just emerged.
+        *g_grain_no = 0.0;
+        }
+    else if (on_day_of (flowering, g_current_stage))
+        {
+        // we are at first day of grainfill.
+        *g_grain_no = p_grains_per_gram_stem * dm_green[stem];
+        }
+    else
+        {
+        // no changes
+        }
+    }
+

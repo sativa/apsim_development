@@ -4,10 +4,10 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\lib\Plant.dll"/>
-    <OBJFILES value="PlantComponent.obj Plant.obj PlantComms.obj PlantFail.obj Science.obj 
-      PlantCanopy.obj PlantLibrary.obj PlantNitrogen.obj PlantPhenology.obj 
-      PlantRoot.obj PlantTemp.obj PlantUtility.obj PlantWater.obj Data.obj 
-      Date.obj PlantBiomass.obj"/>
+    <OBJFILES value="PlantComponent.obj Plant.obj PlantFail.obj Science.obj PlantCanopy.obj 
+      PlantLibrary.obj PlantNitrogen.obj PlantPhenology.obj PlantRoot.obj 
+      PlantTemp.obj PlantUtility.obj PlantWater.obj Data.obj Date.obj 
+      PlantBiomass.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -55,7 +55,6 @@
       <FILE FILENAME="..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Plant.cpp" FORMNAME="" UNITNAME="Plant.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="PlantComms.cpp" FORMNAME="" UNITNAME="PlantComms.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="PlantFail.cpp" FORMNAME="" UNITNAME="PlantFail.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Science.cpp" FORMNAME="" UNITNAME="Science.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="PlantCanopy.cpp" FORMNAME="" UNITNAME="PlantCanopy.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
@@ -161,7 +160,7 @@ Item1=..\lib
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=/console c:\development\apsim\plant-c++\testing\lucerne\lucerne_validation2.sim
+RunParams=/console C:\apswork\fababean\new1.sim
 Launcher=
 UseLauncher=0
 DebugCWD=

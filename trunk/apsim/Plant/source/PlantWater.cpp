@@ -1,8 +1,10 @@
-//---------------------------------------------------------------------------
-#include <string.h>
+#include <general/pch.h>
+#include <vcl.h>
 #include <stdio.h>
 #include <math.h>
-#include "PlantLibrary.h"
+#include <vector>
+#include <string>
+#include "Plantlibrary.h"
 
 
 //===========================================================================
@@ -739,7 +741,7 @@ void crop_check_sw(float minsw,    // (INPUT)  lowest acceptable value for ll
          {
          }
 
-      if (dul <= ll)
+      if (dul < ll)
          {
 
          sprintf(err_msg,

@@ -1,8 +1,10 @@
-//---------------------------------------------------------------------------
-#include <string.h>
+#include <general/pch.h>
+#include <vcl.h>
 #include <stdio.h>
 #include <math.h>
-#include "PlantLibrary.h"
+#include <vector>
+#include <string>
+#include "Plantlibrary.h"
 
 //===========================================================================
 void crop_temperature_stress_photo (int   num_ave_temp ,     // (INPUT)  size_of critical temperature table                               
