@@ -144,6 +144,7 @@ string Field::truncateSt (const string& st, unsigned int Width)
 
 //  Changes:
 //    DPH 29/7/99
+//    dph 13/4/2000 added check to remove array spec. from field name D343
 
 // ------------------------------------------------------------------
 void Field::writeHeading (ostream& out)
@@ -157,8 +158,19 @@ void Field::writeHeading (ostream& out)
 
    else
       {
+      // remove any array specification from field name otherwise
+      // we end up with ES(2-5)(2), ES(2-5)(3) etc.  D343
+      unsigned posArray = FieldName.find("(");
+      int startElement = 1;
+      if (posArray != string::npos)
+         {
+         char* endptr;
+         startElement = strtol(FieldName.substr(posArray+1).c_str(), &endptr, 10);
+         FieldName.erase(posArray);
+         }
+
       string ThisFieldName;
-      for (unsigned int elem = 1; elem <= NumElements; elem++)
+      for (unsigned int elem = startElement; elem < startElement+NumElements; elem++)
          {
          ThisFieldName = FieldName + "(" + IntToStr(elem).c_str() + ")";
          WriteString(out, ThisFieldName);
