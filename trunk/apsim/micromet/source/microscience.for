@@ -1,11 +1,11 @@
-! #Issue Flags for  further work
-      include 'micromet.inc'
+c      include 'micromet.inc'
 C     Last change:  VS   30 Jul 1999   11:44 am
-
-      module MicrometScienceModule
-
-      contains
-
+      ! ignore this - for simple testing purposes only
+      subroutine test()
+      dll_export test
+      pause 'test'
+      return
+      end
 *====================================================================
       real function micromet_PenmanMonteith (
      :               latitude
@@ -23,8 +23,11 @@ C     Last change:  VS   30 Jul 1999   11:44 am
      :              ,CanopyCond)
 *====================================================================
       Use MicrometModule
-      use ComponentInterfaceModule
       implicit none
+      dll_export micromet_PenmanMonteith
+      include   'data.pub'                         
+      include   'science.pub'
+      include   'error.pub'                         
 
 *+  Sub-Program Arguments
       real    latitude            !decimal degrees
@@ -50,6 +53,29 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *       050799 - VOS specified and programmed
 
 *+  Calls
+      real       micromet_Non_dQs_dT       ! function
+      dll_import micromet_Non_dQs_dT
+
+      real       micromet_LongWave       ! function
+      dll_import micromet_LongWave
+
+      real       micromet_RhoA       ! function
+      dll_import micromet_RhoA
+
+      real       micromet_Lambda       ! function
+      dll_import micromet_Lambda
+
+      real       micromet_SpecificHumidity          ! function
+      dll_import micromet_SpecificHumidity
+
+      real       micromet_SatSpecificHumidity          ! function
+      dll_import micromet_SatSpecificHumidity
+
+      real       micromet_Radn2SolRad          ! function
+      dll_import micromet_Radn2SolRad
+
+      real       micromet_SpecificVPD          ! function
+      dll_import micromet_SpecificVPD
 
 *+  Local Variables
       REAL Non_dQs_dT
@@ -69,7 +95,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (myname = 'micromet_PenmanMonteith')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
       if (NINT(timestep/60.0) .eq. 24 ) then
@@ -117,7 +143,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       call pop_routine (myname)
 
       return
-      end function
+      end
 
 *====================================================================
       real function micromet_Omega (
@@ -129,6 +155,10 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *====================================================================
       Use MicrometModule
       implicit none
+      dll_export micromet_Omega
+      include   'data.pub'                         
+      include   'science.pub'
+      include   'error.pub'                         
 
 *+  Sub-Program Arguments
       real    mint                !degC
@@ -146,6 +176,8 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *       050799 - VOS specified and programmed
 
 *+  Calls
+      real       micromet_Non_dQs_dT       ! function
+      dll_import micromet_Non_dQs_dT
 
 *+  Local Variables
       REAL Non_dQs_dT
@@ -155,7 +187,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (myname = 'micromet_Omega')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
       Non_dQs_dT = micromet_Non_dQs_dT ((mint+maxt )/2.0 ,AirPressure)
@@ -170,7 +202,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       call pop_routine (myname)
 
       return
-      end function
+      end
 *====================================================================
       real function micromet_ActualCanopyCond (
      :               latitude
@@ -188,8 +220,11 @@ C     Last change:  VS   30 Jul 1999   11:44 am
      :              ,Transpiration)
 *====================================================================
       Use MicrometModule
-      use ComponentInterfaceModule
       implicit none
+      dll_export micromet_ActualCanopyCond
+      include   'data.pub'                         
+      include   'science.pub'
+      include   'error.pub'                         
 
 *+  Sub-Program Arguments
       real    latitude            !decimal degrees
@@ -216,6 +251,29 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *       050799 - VOS specified and programmed
 
 *+  Calls
+      real       micromet_Non_dQs_dT       ! function
+      dll_import micromet_Non_dQs_dT
+
+      real       micromet_LongWave       ! function
+      dll_import micromet_LongWave
+
+      real       micromet_RhoA       ! function
+      dll_import micromet_RhoA
+
+      real       micromet_Lambda       ! function
+      dll_import micromet_Lambda
+
+      real       micromet_SpecificHumidity          ! function
+      dll_import micromet_SpecificHumidity
+
+      real       micromet_SatSpecificHumidity          ! function
+      dll_import micromet_SatSpecificHumidity
+
+      real       micromet_Radn2SolRad          ! function
+      dll_import micromet_Radn2SolRad
+
+      real       micromet_SpecificVPD          ! function
+      dll_import micromet_SpecificVPD
 
 *+  Local Variables
       REAL Non_dQs_dT
@@ -234,7 +292,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (myname = 'micromet_ActualCanopyCond')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
       if (NINT(timestep/60.0) .eq. 24 ) then
@@ -281,13 +339,16 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 
 
       return
-      end function
+      end
 *====================================================================
       real function micromet_RhoA (temperature
      :                            ,AirPressure)
 *====================================================================
       Use MicrometModule
       implicit none
+      dll_export micromet_RhoA
+      include 'error.pub'                         
+      include 'data.pub'
 
 *+  Sub-Program Arguments
       real       temperature           ! (INPUT) temperature (oC)
@@ -306,24 +367,26 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (myname = 'micromet_RhoA')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
       micromet_RhoA = divide(
-     :                 mwair
+     :                 mwair 
      :              *  AirPressure * 100.  !air pressure converted to Pa
      :              , (abs_temp + temperature)
      :              * r_gas
      :              , 0.0)
-
+ 
       call pop_routine (myname)
       return
-      end function
+      end
 
 *====================================================================
       real function micromet_Lambda (temperature)
 *====================================================================
       implicit none
+      dll_export micromet_Lambda
+      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real temperature   ! temperature (oC)
@@ -339,20 +402,22 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (myname = 'micromet_lambda')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
-
+ 
       micromet_lambda = (2501.0 - 2.38 * temperature)*1000.0      ! J/kg
-
+ 
       call pop_routine (myname)
       return
-      end function
+      end
 
 *====================================================================
       real function micromet_svp (temperature)
 *====================================================================
       Use MicrometModule
       implicit none
+      dll_export micromet_svp
+      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       temperature           ! (INPUT) temperature (oC)
@@ -368,14 +433,14 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (myname = 'micromet_svp')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
-
+ 
       micromet_svp = svp_A*exp(svp_B*temperature/(temperature + svp_C))
-
+ 
       call pop_routine (myname)
       return
-      end function
+      end
 
 *====================================================================
       real function micromet_Non_dQs_dT    (temperature
@@ -383,6 +448,8 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *====================================================================
       Use MicrometModule
       implicit none
+      dll_export micromet_Non_dQs_dT
+      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       temperature    ! (INPUT) minimum temperature (oC)
@@ -396,6 +463,10 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *       291098 - NIH adapted from Eo module
 
 *+  Calls
+      real       micromet_lambda       ! function
+      dll_import micromet_Lambda
+      real       micromet_svp          ! function
+      dll_import micromet_svp
 
 *+  Constant Values
       character  myname*(*)            ! name of procedure
@@ -407,19 +478,19 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       real       esat                  ! saturated vapour pressure (mb)
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
-
+ 
       esat = micromet_svp (temperature)  !saturated vapour pressure
-
+ 
       desdt = esat*svp_B*svp_C/ (svp_C + temperature)**2   ! d(sat VP)/dT: (mb/K)
       dqsdt = (mwh2o/mwair) *desdt/air_pressure            ! d(sat spec hum)/dT: (kg/kg)/K
 
       micromet_Non_dQs_dT = micromet_lambda (temperature)/Cp *dqsdt    ! dimensionless
-
+ 
       call pop_routine (myname)
       return
-      end function
+      end
 
 *====================================================================
       real function micromet_longwave (temperature
@@ -428,6 +499,9 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *====================================================================
       Use MicrometModule
       implicit none
+      dll_export micromet_LongWave
+      include 'error.pub'                         
+      include 'data.pub'
 
 *+  Sub-Program Arguments
       real temperature    ! temperature (oC)
@@ -458,27 +532,29 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (myname = 'micromet_longwave')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
       emmis_sky = 9.37e-6*(temperature+abs_temp)**2
       FracClearSkyRad = bound(FracClearSkyRad, 0.0, 1.0)
       cloud_effect = (c_cloud + (1.0-c_cloud)*FracClearSkyRad)
 
-      micromet_longwave = cloud_effect
+      micromet_longwave = cloud_effect     
      :                  * (emmis_canopy - emmis_sky)
      :                  * stef_boltz*(temperature+abs_temp)**4
-
+   
       call pop_routine (myname)
       return
-      end function
+      end
 *====================================================================
       real function micromet_DayLength      (latitude
      :                                      ,day)
 *====================================================================
       Use MicrometModule
-      use ComponentInterfaceModule
       implicit none
+      dll_export  micromet_DayLength
+      include   'error.pub'                         
+      include   'science.pub'
 
 *+  Sub-Program Arguments
       real    latitude
@@ -500,23 +576,25 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (myname = 'micromet_DayLength')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
       micromet_DayLength = day_length (day,latitude, -6.0)
-
+   
       call pop_routine (myname)
 
       return
-      end function
+      end
 *====================================================================
       real function micromet_sunshine_hours (radn
      :                                      ,latitude
      :                                      ,day)
 *====================================================================
       Use MicrometModule
-      use ComponentInterfaceModule
       implicit none
+      dll_export micromet_sunshine_hours
+      include   'error.pub'                         
+      include   'science.pub'
 
 *+  Sub-Program Arguments
       real    radn      !shortwave radiation from met file
@@ -529,19 +607,19 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 
 *+  Notes
 *     Assume that sunshine hours is the day length times measured
-*     shortwave radiation divided by maximum possible shortwave
+*     shortwave radiation divided by maximum possible shortwave 
 *     radiation.  Scheme for max. possible radiation is taken from:
-*     Smith, M. R., Allen, R. G., Monteith, J. L., Perrier, A.,
-*             Satos Pereira, L., and Segeren, A. (1992). Expert
-*             consultation on revision of FAO methodologies for
-*             crop water requirements. Land and Water Division,
-*             Food and Agriculture Organization of the United
+*     Smith, M. R., Allen, R. G., Monteith, J. L., Perrier, A., 
+*             Satos Pereira, L., and Segeren, A. (1992). Expert 
+*             consultation on revision of FAO methodologies for 
+*             crop water requirements. Land and Water Division, 
+*             Food and Agriculture Organization of the United 
 *             Nations, Rome.
 *     and
-*     Grayson, R. B., Argent, R. M., Nathan, R. J.,
-*             McMahon, T. A., and Mein, R. G. (1996). 'Hydrological
-*             Recipes: Estimation Techniques in Australian Hydrology.'
-*             (Cooperative Research Center for Catchment Hydrology:
+*     Grayson, R. B., Argent, R. M., Nathan, R. J., 
+*             McMahon, T. A., and Mein, R. G. (1996). 'Hydrological 
+*             Recipes: Estimation Techniques in Australian Hydrology.' 
+*             (Cooperative Research Center for Catchment Hydrology: 
 *             Clayton, Victoria, Australia.)
 
 *+  Changes
@@ -552,7 +630,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       real RelativeDistance    !relative distance between sun and earth
       real SolarDeclination
       real SunsetAngle
-      real ExtraTerrestrialRadn
+      real ExtraTerrestrialRadn 
       real MaxRadn             !maximum possible shortwave radiation
 
 *+  Constant Values
@@ -560,11 +638,11 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (myname = 'micromet_sunshine_hours')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
       MaxSunHrs = day_length (day,latitude, -6.0)
-
+      
       RelativeDistance = 1.0 + 0.033 * cos(0.0172 * day)
 
       SolarDeclination = 0.409 * sin(0.0172 * day - 1.39)
@@ -572,33 +650,35 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       SunsetAngle = acos(-tan(latitude * Deg2Rad)
      :                   *tan(SolarDeclination))
 
-      ExtraTerrestrialRadn = 37.6 * RelativeDistance *
-     :        ( SunsetAngle
-     :        * sin(latitude * Deg2Rad)
+      ExtraTerrestrialRadn = 37.6 * RelativeDistance * 
+     :        ( SunsetAngle 
+     :        * sin(latitude * Deg2Rad) 
      :        * sin(SolarDeclination)
-     :        +
-     :          cos(latitude * Deg2Rad)
-     :        * cos(SolarDeclination)
+     :        + 
+     :          cos(latitude * Deg2Rad) 
+     :        * cos(SolarDeclination) 
      :        * sin(SunsetAngle))
 
       MaxRadn = 0.75 * ExtraTerrestrialRadn
 
 
-!finally calculate the sunshine hours as the ratio of
+!finally calculate the sunshine hours as the ratio of 
 !maximum possible radiation
       micromet_sunshine_hours = min(MaxSunHrs * Radn / MaxRadn,
      :                              MaxSunHrs)
-
+   
       call pop_routine (myname)
 
       return
-      end function
+      end
 *====================================================================
       real function micromet_SpecificHumidity (vp
      :                                        ,AirPressure)
 *====================================================================
       Use MicrometModule
       implicit none
+      dll_export micromet_SpecificHumidity
+      include   'error.pub'                         
 
 *+  Sub-Program Arguments
       real vp              !vapour pressure in hPa (=mbar)
@@ -619,15 +699,15 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (myname = 'micromet_SpecificHumidity')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
       micromet_SpecificHumidity = (mwh2o/mwair) *vp /AirPressure
-
+   
       call pop_routine (myname)
 
       return
-      end function
+      end
 *====================================================================
       real function micromet_SatSpecificHumidity (mint
      :                                           ,maxt
@@ -635,6 +715,8 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *====================================================================
       Use MicrometModule
       implicit none
+      dll_export micromet_SatSpecificHumidity
+      include   'error.pub'                         
 
 *+  Sub-Program Arguments
       real mint            !degC
@@ -650,6 +732,8 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *       050799 - VOS specified and programmed
 
 *+  Calls
+      real       micromet_svp          ! function
+      dll_import micromet_svp
 
 *+  Local Variables
       REAL SatVP        !saturated vapour pressure in hPa
@@ -659,18 +743,18 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (myname = 'micromet_SatSpecificHumidity')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
       SatVP = (micromet_svp(mint)+micromet_svp(maxt))/ 2.0
 
       micromet_SatSpecificHumidity = (mwh2o/mwair) / AirPressure
      :                             * SatVP
-
+   
       call pop_routine (myname)
 
       return
-      end function
+      end
 *====================================================================
       real function micromet_FrictionVelocity (
      :                         WindSpeed
@@ -680,6 +764,9 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *====================================================================
       Use MicrometModule
       implicit none
+      dll_export micromet_FrictionVelocity
+      include   'error.pub'                         
+      include   'data.pub'
 
 *+  Sub-Program Arguments
       real Windspeed          !m/s
@@ -707,7 +794,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       REAL       von_karman
       parameter (von_karman = 0.41)
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
       denominator =
@@ -724,12 +811,15 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       call pop_routine (myname)
 
       return
-      end function
+      end
 *====================================================================
       real function micromet_ZeroPlaneDispl (CropHeight, CropLAI)
 *====================================================================
       Use MicrometModule
       implicit none
+      dll_export micromet_ZeroPlaneDispl
+      include   'error.pub'                         
+      include   'data.pub'
 
 *+  Sub-Program Arguments
       real CropHeight          !m
@@ -752,7 +842,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (myname = 'micromet_ZeroPlaneDispl')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
       if (CropLAI .lt. 0.001) then
@@ -767,12 +857,15 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       call pop_routine (myname)
 
       return
-      end function
+      end
 *====================================================================
       real function micromet_RoughnessLength (CropHeight,ZeroPlaneDispl)
 *====================================================================
       Use MicrometModule
       implicit none
+      dll_export micromet_RoughnessLength
+      include   'error.pub'                         
+      include   'data.pub'
 
 *+  Sub-Program Arguments
       real CropHeight          !m
@@ -795,7 +888,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (myname = 'micromet_RoughnessLength')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
       micromet_RoughnessLength = 0.36 * CropHeight *
@@ -804,7 +897,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       call pop_routine (myname)
 
       return
-      end function
+      end
 *====================================================================
       real function micromet_AerodynamicConductance (
      :                         WindSpeed
@@ -814,6 +907,9 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *====================================================================
       Use MicrometModule
       implicit none
+      dll_export micromet_AerodynamicConductance
+      include   'error.pub'                         
+      include   'data.pub'
 
 *+  Sub-Program Arguments
       real Windspeed           !m/s
@@ -830,6 +926,14 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *       060599 - VOS specified and programmed
 
 *+  Calls
+      real       micromet_ZeroPlaneDispl       ! function
+      dll_import micromet_ZeroPlaneDispl
+
+      real       micromet_RoughnessLength       ! function
+      dll_import micromet_RoughnessLength
+
+      real       micromet_FrictionVelocity       ! function
+      dll_import micromet_FrictionVelocity
 
 *+  Local Variables
       REAL ZeroPlaneDispl       !zero-plance displacement (m)
@@ -841,7 +945,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (myname = 'micromet_AerodynamicConductance')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
       ZeroPlaneDispl = micromet_ZeroPlaneDispl(CropHeight, CropLAI)
@@ -861,7 +965,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       call pop_routine (myname)
 
       return
-      end function
+      end
 *====================================================================
       real function micromet_CanopyConductance (CropGsMax
      :                                        , CropR50
@@ -873,6 +977,9 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *====================================================================
       Use MicrometModule
       implicit none
+      dll_export micromet_CanopyConductance
+      include   'error.pub'                         
+      include   'data.pub'
 
 *+  Sub-Program Arguments
       real CropGsMax        !crop-specific maximum stomatal conductance (m/s)
@@ -903,27 +1010,20 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (myname = 'micromet_CanopyConductance')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
-      ! #ISSUE
-      ! NIH - 20/08/02 - Is this correct????????
-      ! 1) We integrate across total layer lai (ie layer light profile)
-      !    and so it does not look like the old gs*lai approach
-      ! 2) We should use total canopy (ie green + dead) light extinction
-      !    to get light profile but integrate across green leaf area.
-
-      Numerator   =   LayerSolRad
+      Numerator   =   LayerSolRad 
      :            + CropR50
-      Denominator = LayerSolRad
-     :            * exp(-1
+      Denominator = LayerSolRad 
+     :            * exp(-1 
      :                  * LayerK
      :                  * LayerLAI)
      :            + CropR50
       Hyperbolic = divide(Numerator, Denominator, 0.0)
       Hyperbolic = L_Bound(Hyperbolic, 1.0)
 
-      micromet_CanopyConductance =
+      micromet_CanopyConductance = 
      :       divide (CropGsMax * CropRGfac * CropLAIfac
      :              ,LayerK
      :              ,0.0)
@@ -935,7 +1035,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       call pop_routine (myname)
 
       return
-      end function
+      end
 *====================================================================
       real function micromet_Radn2SolRad (
      :               latitude
@@ -944,8 +1044,11 @@ C     Last change:  VS   30 Jul 1999   11:44 am
      :              ,radn)
 *====================================================================
       Use MicrometModule
-      use ComponentInterfaceModule
       implicit none
+      dll_export micromet_Radn2SolRad
+      include   'data.pub'                         
+      include   'science.pub'
+      include   'error.pub'                         
 
 *+  Sub-Program Arguments
       real    latitude            !decimal degrees
@@ -972,7 +1075,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
       if (NINT(timestep/60.0) .eq. 24 ) then
@@ -986,7 +1089,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       call pop_routine (myname)
 
       return
-      end function
+      end
 *====================================================================
       real function micromet_PM_PropRad (
      :               latitude
@@ -1004,8 +1107,11 @@ C     Last change:  VS   30 Jul 1999   11:44 am
      :              ,CanopyCond)
 *====================================================================
       Use MicrometModule
-      use ComponentInterfaceModule
       implicit none
+      dll_export micromet_PM_PropRad
+      include   'data.pub'                         
+      include   'science.pub'
+      include   'error.pub'                         
 
 *+  Sub-Program Arguments
       real    latitude            !decimal degrees
@@ -1031,6 +1137,29 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *       050799 - VOS specified and programmed
 
 *+  Calls
+      real       micromet_Non_dQs_dT       ! function
+      dll_import micromet_Non_dQs_dT
+
+      real       micromet_LongWave       ! function
+      dll_import micromet_LongWave
+
+      real       micromet_RhoA       ! function
+      dll_import micromet_RhoA
+
+      real       micromet_Lambda       ! function
+      dll_import micromet_Lambda
+
+      real       micromet_SpecificHumidity          ! function
+      dll_import micromet_SpecificHumidity
+
+      real       micromet_SatSpecificHumidity          ! function
+      dll_import micromet_SatSpecificHumidity
+
+      real       micromet_Radn2SolRad          ! function
+      dll_import micromet_Radn2SolRad
+
+      real       micromet_SpecificVPD          ! function
+      dll_import micromet_SpecificVPD
 
 *+  Local Variables
       REAL Non_dQs_dT
@@ -1050,7 +1179,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (myname = 'micromet_PM_PropRad')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
       if (NINT(timestep/60.0) .eq. 24 ) then
@@ -1101,7 +1230,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       call pop_routine (myname)
 
       return
-      end function
+      end
 *====================================================================
       real function micromet_PropThroughfall (
      :               CropK
@@ -1109,6 +1238,8 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *====================================================================
       Use MicrometModule
       implicit none
+      dll_export micromet_PropThroughfall
+      include   'error.pub'
 
 *+  Sub-Program Arguments
       real    CropK                  !crop exctinction coefficient
@@ -1134,7 +1265,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (myname = 'micromet_PropThroughfall')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
       micromet_PropThroughfall = EXP (-1 * CropK * CropLAI)
@@ -1142,7 +1273,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       call pop_routine (myname)
 
       return
-      end function
+      end
 *====================================================================
       real function micromet_MaxStorage (
      :                CropSpecificStorage
@@ -1151,6 +1282,9 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *====================================================================
       Use MicrometModule
       implicit none
+      dll_export micromet_MaxStorage
+      include   'data.pub'
+      include   'error.pub'
 
 *+  Sub-Program Arguments
       real    CropSpecificStorage     !mm water stored per uni LAI
@@ -1176,7 +1310,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (myname = 'micromet_MaxStorage')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
       micromet_MaxStorage = CropSpecificStorage
@@ -1188,7 +1322,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       call pop_routine (myname)
 
       return
-      end function
+      end
 *====================================================================
       real function micromet_FreeEvapRate (
      :               EmmisCanopy
@@ -1199,8 +1333,11 @@ C     Last change:  VS   30 Jul 1999   11:44 am
      :              ,AerodynamicCond)
 *====================================================================
       Use MicrometModule
-      use ComponentInterfaceModule
       implicit none
+      dll_export micromet_FreeEvapRate
+      include   'data.pub'                         
+      include   'science.pub'
+      include   'error.pub'                         
 
 *+  Sub-Program Arguments
       REAL    EmmisCanopy         !emmisivity of the canopy -
@@ -1221,6 +1358,8 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *       160799 - VOS specified and programmed
 
 *+  Calls
+      real       micromet_PenmanMonteith       ! function
+      dll_import micromet_PenmanMonteith
 
 *+  Local Variables
 
@@ -1229,7 +1368,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (myname = 'micromet_FreeEvapRate')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
       micromet_FreeEvapRate = micromet_PenmanMonteith (
@@ -1251,7 +1390,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       call pop_routine (myname)
 
       return
-      end function
+      end
 *====================================================================
       real function micromet_GashIntercep (
      :                Precip
@@ -1262,6 +1401,9 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *====================================================================
       Use MicrometModule
       implicit none
+      dll_export micromet_GashIntercep
+      include   'data.pub'                         
+      include   'error.pub'
 
 *+  Sub-Program Arguments
       real    Precip              !mm irrigation or rainfall
@@ -1292,7 +1434,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (myname = 'micromet_GashIntercep')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
       PrecipRate = Divide(Precip, PrecipDurn, 1.0) !set top 1.0 mm/s
@@ -1324,7 +1466,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       call pop_routine (myname)
 
       return
-      end function
+      end
 *====================================================================
       real function micromet_Intercep (
      :                CropK
@@ -1341,8 +1483,11 @@ C     Last change:  VS   30 Jul 1999   11:44 am
      :              , AerodynamicCond)
 *====================================================================
       Use MicrometModule
-      use ComponentInterfaceModule
       implicit none
+      dll_export micromet_Intercep
+      include   'data.pub'                         
+      include   'science.pub'
+      include   'error.pub'                         
 
 *+  Sub-Program Arguments
        real CropK                !crop extinction coefficient
@@ -1367,6 +1512,17 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *       160799 - VOS specified and programmed
 
 *+  Calls
+      real       micromet_PropThroughfall       ! function
+      dll_import micromet_PropThroughfall
+
+      real       micromet_MaxStorage       ! function
+      dll_import micromet_MaxStorage
+
+      real       micromet_GashIntercep       ! function
+      dll_import micromet_GashIntercep
+
+      real       micromet_PenmanMonteith       ! function
+      dll_import micromet_PenmanMonteith
 
 *+  Local Variables
       REAL PropThroughfall                      !
@@ -1378,7 +1534,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (myname = 'micromet_Intercep')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
       PropThroughfall = micromet_PropThroughfall (
@@ -1414,7 +1570,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       call pop_routine (myname)
 
       return
-      end function
+      end
 *====================================================================
       real function micromet_InterpTemp (
      :                time
@@ -1426,6 +1582,9 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *====================================================================
       Use MicrometModule
       implicit none
+      dll_export micromet_InterpTemp
+      include   'data.pub'
+      include   'error.pub'
 
 *+  Sub-Program Arguments
       real time           !time of day in hours
@@ -1460,7 +1619,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (myname = 'micromet_InterpTemp')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
       p_time = time / 24.0
@@ -1483,7 +1642,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       call pop_routine (myname)
 
       return
-      end function
+      end
 
 *====================================================================
       real function micromet_VPD (
@@ -1493,6 +1652,9 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *====================================================================
       Use MicrometModule
       implicit none
+      dll_export micromet_VPD
+      include   'data.pub'                         
+      include   'error.pub'                         
 
 *+  Sub-Program Arguments
       real       vp             ! (INPUT) vapour pressure (hPa = mbar)
@@ -1500,12 +1662,14 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       real       maxt           ! (INPUT) maximum temperature (oC)
 
 *+  Purpose
-*     calculate the vapour pressure deficit
+*     calculate the vapour pressure deficit 
 
 *+  Changes
 *       230300 - VOS specified and programmed
 
 *+  Calls
+      real       micromet_svp       ! function
+      dll_import micromet_svp
 
 *+  Local Variables
       real       VPDmint !VPD at minimium temperature
@@ -1516,7 +1680,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (myname = 'micromet_VPD')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
       VPDmint = micromet_svp(mint) - vp
@@ -1526,10 +1690,10 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 
       micromet_VPD = svp_fract * VPDmaxt
      :             + (1 - svp_fract) * VPDmint
-
+ 
       call pop_routine (myname)
       return
-      end function
+      end
 
 *====================================================================
       real function micromet_SpecificVPD (
@@ -1540,6 +1704,9 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *====================================================================
       Use MicrometModule
       implicit none
+      dll_export micromet_SpecificVPD
+      include   'data.pub'                         
+      include   'error.pub'                         
 
 *+  Sub-Program Arguments
       real       vp             ! (INPUT) vapour pressure (hPa = mbar)
@@ -1548,12 +1715,17 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       real       AirPressure    ! (INPUT) Air pressure (hPa)
 
 *+  Purpose
-*     calculate the vapour pressure deficit
+*     calculate the vapour pressure deficit 
 
 *+  Changes
 *       230300 - VOS specified and programmed
 
 *+  Calls
+      real       micromet_VPD       ! function
+      dll_import micromet_VPD
+
+      real       micromet_SpecificHumidity       ! function
+      dll_import micromet_SpecificHumidity
 
 *+  Local Variables
       real       VPD     !VPD in hPa
@@ -1563,16 +1735,16 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (myname = 'micromet_SpecificVPD')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
       VPD = micromet_VPD (vp, mint, maxt)
       micromet_SpecificVPD = micromet_SpecificHumidity (VPD
      :                                                 ,AirPressure)
-
+ 
       call pop_routine (myname)
       return
-      end function
+      end
 
 *====================================================================
       real function micromet_RefWindSpeed (
@@ -1586,6 +1758,9 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *====================================================================
       Use MicrometModule
       implicit none
+      dll_export micromet_RefWindSpeed
+      include   'error.pub'                         
+      include   'data.pub'
 
 *+  Sub-Program Arguments
       real Windspeed               !m/s
@@ -1605,6 +1780,14 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *       240300 - VOS specified and programmed
 
 *+  Calls
+      real       micromet_ZeroPlaneDispl       ! function
+      dll_import micromet_ZeroPlaneDispl
+
+      real       micromet_RoughnessLength       ! function
+      dll_import micromet_RoughnessLength
+
+      real       micromet_FrictionVelocity       ! function
+      dll_import micromet_FrictionVelocity
 
 *+  Local Variables
       real MetZeroPlaneDispl       !zero-plance displacement (m)
@@ -1625,13 +1808,13 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (von_karman = 0.41)
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!!! Calculate properties of the measurement site
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      MetZeroPlaneDispl = micromet_ZeroPlaneDispl(MetCropHeight,
+      MetZeroPlaneDispl = micromet_ZeroPlaneDispl(MetCropHeight, 
      :                                             MetCropLAI)
       MetRoughnessLength = micromet_RoughnessLength(MetCropHeight,
      :                                               MetZeroPlaneDispl)
@@ -1654,7 +1837,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!!! Calculate properties of the simulation/reference site
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      RefZeroPlaneDispl = micromet_ZeroPlaneDispl(CropHeight,
+      RefZeroPlaneDispl = micromet_ZeroPlaneDispl(CropHeight, 
      :                                            CropLAI)
       RefRoughnessLength = micromet_RoughnessLength(CropHeight,
      :                                              RefZeroPlaneDispl)
@@ -1678,7 +1861,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       call pop_routine (myname)
 
       return
-      end function
+      end
 
 *====================================================================
       real function micromet_AerodynamicCondNew (
@@ -1691,6 +1874,9 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *====================================================================
       Use MicrometModule
       implicit none
+      dll_export micromet_AerodynamicCondNew
+      include   'error.pub'                         
+      include   'data.pub'
 
 *+  Sub-Program Arguments
       real Windspeed               !m/s
@@ -1709,6 +1895,18 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *       240300 - VOS specified and programmed
 
 *+  Calls
+      real       micromet_ZeroPlaneDispl       ! function
+      dll_import micromet_ZeroPlaneDispl
+
+      real       micromet_RoughnessLength       ! function
+      dll_import micromet_RoughnessLength
+
+      real       micromet_FrictionVelocity       ! function
+      dll_import micromet_FrictionVelocity
+
+      real       micromet_RefWindSpeed       ! function
+      dll_import micromet_RefWindSpeed
+
 *+  Local Variables
       real ZeroPlaneDispl       !zero-plance displacement (m)
       real RoughnessLength      !roughness length (m)
@@ -1721,7 +1919,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (myname = 'micromet_AerodynamicCondNew')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
 
@@ -1742,9 +1940,9 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 !!!!!! Calculate site properties
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-      ZeroPlaneDispl =
+      ZeroPlaneDispl = 
      :        micromet_ZeroPlaneDispl (CropHeight, CropLAI)
-      RoughnessLength =
+      RoughnessLength = 
      :        micromet_RoughnessLength(CropHeight, ZeroPlaneDispl)
       FrictionVelocity =
      :        micromet_FrictionVelocity (RefWindSpeed
@@ -1763,7 +1961,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       call pop_routine (myname)
 
       return
-      end function
+      end
 *====================================================================
       real function micromet_AerodynamicCondSub (
      :                                        WindSpeed
@@ -1778,6 +1976,9 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *====================================================================
       Use MicrometModule
       implicit none
+      dll_export micromet_AerodynamicCondSub
+      include   'error.pub'                         
+      include   'data.pub'
 
 *+  Sub-Program Arguments
       real WindSpeed               !wind speed (m/s)
@@ -1799,6 +2000,17 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *       110500 - VOS specified and programmed
 
 *+  Calls
+      real       micromet_ZeroPlaneDispl        ! function
+      dll_import micromet_ZeroPlaneDispl
+
+      real       micromet_RoughnessLength       ! function
+      dll_import micromet_RoughnessLength
+
+      real       micromet_FrictionVelocity      ! function
+      dll_import micromet_FrictionVelocity
+
+      real       micromet_RefWindSpeed          ! function
+      dll_import micromet_RefWindSpeed
 
 *+  Local Variables
       real ZeroPlaneDispl       !zero-plance displacement (m)
@@ -1818,7 +2030,7 @@ C     Last change:  VS   30 Jul 1999   11:44 am
       parameter (von_karman = 0.41)
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -1837,9 +2049,9 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!!! Calculate site properties
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      ZeroPlaneDispl =
+      ZeroPlaneDispl = 
      :        micromet_ZeroPlaneDispl (CropHeight, CropLAI)
-      RoughnessLength =
+      RoughnessLength = 
      :        micromet_RoughnessLength(CropHeight, ZeroPlaneDispl)
       FrictionVelocity =
      :        micromet_FrictionVelocity (RefWindSpeed
@@ -1857,25 +2069,24 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!!! Calculate conductance
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      tempTop = -1.0 * WindAttenuation
-     :        * SourceTop
+      tempTop = -1.0 * WindAttenuation 
+     :        * SourceTop 
      :        / (2.0 * CropHeight)
-      tempSub = -1.0 * WindAttenuation
-     :        * SourceSub
+      tempSub = -1.0 * WindAttenuation 
+     :        * SourceSub 
      :        / (2.0 * CropHeight)
 
-      micromet_AerodynamicCondSub =
-     :              CropHeight
+      micromet_AerodynamicCondSub = 
+     :              CropHeight 
      :           *  exp(WindAttenuation)
-     :           /  Diffusivity
+     :           /  Diffusivity 
      :           /  WindAttenuation
      :           * (exp(tempSub) - exp(tempTop))
-      micromet_AerodynamicCondSub =
+      micromet_AerodynamicCondSub = 
      :          Divide (1.0, micromet_AerodynamicCondSub, 0.0)
 
       call pop_routine (myname)
 
       return
-      end function
+      end
 
-      end module MicrometScienceModule
