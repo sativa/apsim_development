@@ -320,15 +320,16 @@ RegistrationItem* Component::addRegistrationToList(RegistrationType kind,
 // add a registration
 // ------------------------------------------------------------------
 unsigned Component::addRegistration(RegistrationType kind,
-                                    const FString& name,
+                                    const FString& regName,
                                     const Type& type,
                                     const FString& alias,
                                     const FString& componentNameOrID)
    {
-   RegistrationItem* reg = registrations->find(kind, name, componentNameOrID);
+   RegistrationItem* reg = registrations->find(kind, regName, componentNameOrID);
    if (reg == NULL)
       {
-      reg = registrations->add(kind, name, type, componentNameOrID);
+      reg = registrations->add(kind, regName, type, componentNameOrID);
+
       unsigned id = (unsigned) reg;
       int destID = reg->getComponentID();
       if (destID == -1) destID = 0;
@@ -336,6 +337,25 @@ unsigned Component::addRegistration(RegistrationType kind,
       strcpy(fqn, "");
       reg->getFQN(fqn);
 
+      if (kind == methodCallReg)
+         {
+         kind = eventReg;
+         if (strchr(fqn, '.') == NULL)
+            {
+            char msg[200];
+            strcpy(msg, "Method call registrations must be directed to specific modules. \n"
+                        "Registration name = ");
+            strcat(msg, fqn);
+            error(msg, true);
+            }
+         }
+      else if (kind == respondToMethodCallReg)
+         {
+         kind = respondToEventReg;
+         strcpy(fqn, name);
+         strcat(fqn, ".");
+         strncat(fqn, regName.f_str(), regName.length());
+         }
       sendMessage(newRegisterMessage(componentID,
                                      parentID,
                                      kind,

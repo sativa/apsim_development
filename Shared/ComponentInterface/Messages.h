@@ -373,10 +373,6 @@ inline Message* newRegisterMessage(unsigned int from,
                                    const FString& name,
                                    const Type& type)
    {
-   if (kind == methodCallReg)
-      kind = eventReg;
-   else if (kind == respondToMethodCallReg)
-      kind = respondToEventReg;
    Message* msg = constructMessage(Register, from, to, false,
                              memorySize(kind) + memorySize(ID) + memorySize(destID) +
                              memorySize(name) + memorySize(type));
