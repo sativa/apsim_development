@@ -18,7 +18,8 @@
 void Get_directory_listing (const char* Directory_name,
                             const char* Extension,
                             list<string>& Dir_list,
-                            unsigned int Attribute = FA_NORMAL);
+                            unsigned int Attribute = FA_NORMAL,
+                            bool Full_path = false);
 
 // ------------------------------------------------------------------
 //  Short description:

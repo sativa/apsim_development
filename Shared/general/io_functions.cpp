@@ -14,10 +14,11 @@
 void Get_directory_listing (const char* Directory_name,
                             const char* Extension,
                             list<string>& Dir_list,
-                            unsigned int Attribute)
+                            unsigned int Attribute,
+                            bool Full_path)
    {
    Path p;
-   
+
    struct ffblk ffblk;
    int done;
    p.Set_path (Directory_name);
@@ -28,7 +29,12 @@ void Get_directory_listing (const char* Directory_name,
       if (strcmpi(ffblk.ff_name, ".") != 0 &&
           strcmpi(ffblk.ff_name, "..") != 0 &&
           (ffblk.ff_attrib & Attribute) == Attribute)
-         Dir_list.push_back (ffblk.ff_name);
+         {
+         Path p (ffblk.ff_name);
+         if (Full_path)
+            p.Set_directory (Directory_name);
+         Dir_list.push_back (p.Get_path());
+         }
       done = findnext(&ffblk);
       }
    }
