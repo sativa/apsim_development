@@ -5,6 +5,7 @@
 #include "DBSimulation.h"
 #include <general\vcl_functions.h>
 #include <general\string_functions.h>
+#include <general\stristr.h>
 #include <sstream>
 #include <assert.h>
 #pragma package(smart_init)
@@ -63,6 +64,13 @@ void DBSimulation::readFromIndex (const string& dbFilename,
    simulationId = indexTable->FieldValues["SimulationID"];
 
    string titleSt = AnsiString(indexTable->FieldValues["Name"]).c_str();
+   Replace_all(titleSt, "; ", ";");
+   Replace_all(titleSt, " ;", ";");
+   Replace_all(titleSt, "= ", "=");
+   Replace_all(titleSt, " =", "=");
+   if (titleSt[titleSt.length()-1] == ';')
+      titleSt.erase(titleSt.length()-1);
+
    title = new char[titleSt.length() + 1];
    strcpy(title, titleSt.c_str());
    }
@@ -281,47 +289,6 @@ void DBSimulation::getFactors(std::vector<Factor>& factors) const
 
 // ------------------------------------------------------------------
 //  Short description:
-//    return true if this simulation equals the specified scenario.
-
-//  Notes:
-
-//  Changes:
-//    DPH 5/4/01
-//    DAH 2/5/01: changed to look for a subsequence rather than the equality of
-//                the factor sequences
-
-// ------------------------------------------------------------------
-bool DBSimulation::operator!= (const Scenario& rhs) const
-   {
-   vector<string> rhsFactorNames;
-   rhs.getFactorNames(rhsFactorNames);
-   vector<string> factorNames, factorValues;
-   getFactors(factorNames, factorValues);
-
-   vector<string>::iterator place =
-          search(rhsFactorNames.begin(),rhsFactorNames.end(),
-                 factorNames.begin(),factorNames.end());
-   if (place != rhsFactorNames.end())
-   // factorNames is contained within rhsFactorNames
-   {
-      vector<string> rhsFactorValues;
-      for (vector<string>::iterator n = place;
-                                    n != place + factorNames.size();
-                                    n++)
-         {
-         string value;
-         Graphics::TBitmap* bitmap;
-         rhs.getFactorAttributes(*n, value, bitmap);
-         rhsFactorValues.push_back(value);
-         }
-      return (rhsFactorValues != factorValues);
-      }
-   else
-      return true;
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
 //    calculate a rank based on how close the factors and values
 //    passed in are to our factors and values.
 
@@ -332,21 +299,16 @@ bool DBSimulation::operator!= (const Scenario& rhs) const
 
 // ------------------------------------------------------------------
 unsigned int DBSimulation::calculateRank
-   (const vector<string>& rhsFactorNames, const vector<string>& rhsFactorValues) const
+   (const string& titleToMatch) const
    {
-   vector<string> factorNames, factorValues;
-   getFactors(factorNames, factorValues);
-
-   unsigned int count = 0;
-   for (unsigned int f = 0; f < factorNames.size(); f++)
+   const char* pos1 = title;
+   const char* pos2 = titleToMatch.c_str();
+   while (*pos1 != 0 && *pos2 != 0 && *pos1 == *pos2)
       {
-      if (factorNames[f] == rhsFactorNames[f] &&
-          factorValues[f] == rhsFactorValues[f])
-         count++;
-      else
-         break;
+      pos1++;
+      pos2++;
       }
-   return count;
+   return pos1 - title;
    }
 
 // ------------------------------------------------------------------
@@ -361,7 +323,17 @@ unsigned int DBSimulation::calculateRank
 // ------------------------------------------------------------------
 string DBSimulation::getFactorValue(const string& factorName) const
    {
-   vector<string> factorNames, factorValues;
+   string searchString = factorName + "=";
+   char* posFactor = stristr(title, searchString.c_str());
+   posFactor += searchString.length();
+   char* posSemiColon = strchr(posFactor, ';');
+   if (posSemiColon == NULL)
+      return posFactor;
+   else
+      return string(posFactor, posSemiColon - posFactor);
+   }
+
+/*   vector<string> factorNames, factorValues;
    getFactors(factorNames, factorValues);
 
    if (factorName == SIMULATION_FACTOR_NAME)
@@ -377,7 +349,7 @@ string DBSimulation::getFactorValue(const string& factorName) const
          return factorValues[f-factorNames.begin()];
       }
    }
-
+*/
 // ------------------------------------------------------------------
 //  Short description:
 //    return all factor names and values to caller.

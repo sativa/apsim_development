@@ -45,12 +45,13 @@ class AddInBase
 
       // make the scenario passed in a valid one.  This may mean adding
       // extra factors to the scenario or changing existing factors.
-      virtual void makeScenarioValid(Scenario& scenario) const = 0;
+      virtual void makeScenarioValid(Scenario& scenario, const std::string factor_name) const = 0;
 
 		// if your add-in wants to just supply values for the "Value Selection" form
 		// then the following method needs to be implemented.  It returns a
       // list of values for the specified factor in the specified scenario.
-		virtual void getFactorValues(const std::string& factorName,
+		virtual void getFactorValues(const Scenario& scenario,
+                                   const std::string& factorName,
                                    std::vector<std::string>& factorValues) const { };
 
       // your add-in has the capability of inserting a panel between the

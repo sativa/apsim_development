@@ -27,55 +27,36 @@ extern "C" AddInBase* _export __stdcall createAddIn(const string& parameters)
 
 // ------------------------------------------------------------------
 //  Short description:
-//    A function class to call the getRank method of all
-//    each simulation and then keep track of the highest rank.
+//    create a lookup partial title that is based on the scenario
+//    passed in and the specified factor name.  This is used to
+//    limit the search for factorValues (getFactorValues) and to
+//    make a scenario valid (makeScenarioValid).
+
+//  Notes:
 
 //  Changes:
-//    DPH 5/4/01
-//    DAH 28/5/01:   changed operator() to take a pointer argument
+//    DPH 5/2/98
+//    dph 4/4/01 reworked for new Add-in.
 
 // ------------------------------------------------------------------
-class FindClosestScenario
+string createPartialTitle(const Scenario& scenario, const string& factorName)
    {
-   private:
-      vector<string> factorNames;
-      vector<string> factorValues;
-      const DBSimulation* closestSimulation;
-      unsigned int closestRank;
-
-   public:
-      FindClosestScenario(const Scenario& scenarioToMatch)
-         : closestRank(0),
-           closestSimulation(NULL)
-           {
-           scenarioToMatch.getFactorNames(factorNames);
-           for (vector<string>::iterator f = factorNames.begin();
-                                         f != factorNames.end();
-                                         f++)
-              {
-              string value;
-              Graphics::TBitmap* bitmap;
-              scenarioToMatch.getFactorAttributes(*f, value, bitmap);
-              factorValues.push_back(value);
-              }
-           }
-
-      void operator () (const DBSimulation* simulation)
-         {
-         unsigned int rank = simulation->calculateRank(factorNames, factorValues);
-         if (rank > closestRank)
-            {
-            closestRank = rank;
-            closestSimulation = simulation;
-            }
-         };
-
-      const DBSimulation* getClosestSimulation(void)
-         {
-         assert(closestSimulation != NULL);
-         return closestSimulation;
-         }
-   };
+   string partialTitle;
+   vector<string> factorNames;
+   scenario.getFactorNames(factorNames);
+   for (vector<string>::iterator f = factorNames.begin();
+                                 f != factorNames.end() && (*f) != factorName;
+                                 f++)
+      {
+      string factorValue;
+      Graphics::TBitmap* factorBitmap;
+      scenario.getFactorAttributes(*f, factorValue, factorBitmap);
+      if (partialTitle.length() > 0)
+         partialTitle += ";";
+      partialTitle += *f + "=" + factorValue;
+      }
+   return partialTitle;
+   }
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -91,17 +72,24 @@ class GetFactorValue
    private:
       vector<string>& Container;
       string factorName;
+      const char* partialTitle;
+
    public:
-      GetFactorValue(vector<string>& container, string factorname)
-         : Container (container), factorName(factorname)
+      GetFactorValue(vector<string>& container,
+                     string factorname,
+                     const string& partialtitle)
+         : Container (container), factorName(factorname), partialTitle(partialtitle.c_str())
          { }
 
       void operator () (const DBSimulation* simulation) const
          {
-         string factorValue = simulation->getFactorValue(factorName);
-         if (find(Container.begin(), Container.end(), factorValue)
-             == Container.end())
-            Container.push_back(factorValue);
+         if (simulation->partialTitleCompare(partialTitle))
+            {
+            string factorValue = simulation->getFactorValue(factorName);
+            if (find(Container.begin(), Container.end(), factorValue)
+                == Container.end())
+               Container.push_back(factorValue);
+            }
          };
    };
 
@@ -128,9 +116,10 @@ class ReadData
          }
       void operator() (const Scenario* scenario)
          {
+         string title = createPartialTitle(*scenario, "");
          vector<DBSimulation*>::iterator s = Pfind(simulations.begin(),
                                                    simulations.end(),
-                                                   *scenario);
+                                                   title);
          assert (s != simulations.end());
          (*s)->readData(data, scenario->getName());
          }
@@ -337,16 +326,33 @@ Scenario DatabaseAddIn::getDefaultScenario(void) const
 //    dph 4/4/01 reworked for new Add-in.
 
 // ------------------------------------------------------------------
-void DatabaseAddIn::makeScenarioValid(Scenario& scenario) const
+void DatabaseAddIn::makeScenarioValid(Scenario& scenario, const std::string factorName) const
    {
-   // Go find the closest matching simulation to the one passed in.
-   FindClosestScenario findClosest(scenario);
-   findClosest = for_each(simulations.begin(), simulations.end(), findClosest);
+   string titleToFind = createPartialTitle(scenario, "");
+   SimulationContainer::const_iterator closestSimulation = simulations.begin();
+   unsigned int closestRank = 0;
+   for (SimulationContainer::const_iterator  s = simulations.begin();
+                                             s != simulations.end() && closestRank != 10000;
+                                             s++)
+      {
+      unsigned int rank = (*s)->calculateRank(titleToFind);
+      if (rank > closestRank)
+         {
+         closestRank = rank;
+         closestSimulation = s;
+         }
+      }
+   scenario = convertSimulationToScenario(**closestSimulation, scenario.getName());
+   }
+/*   // Go find the closest matching simulation to the one passed in.
+   FindClosestScenario findClosest(scenario, createPartialTitle(scenario, factorName));
+   findClosest = for_each(simulations.begin(), simulations.end(),
+                          findClosest);
 
    // return the closest matching scenario.
    const DBSimulation* closestSimulation = findClosest.getClosestSimulation();
    scenario = convertSimulationToScenario(*closestSimulation, scenario.getName());
-   }
+*/   
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -358,11 +364,13 @@ void DatabaseAddIn::makeScenarioValid(Scenario& scenario) const
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void DatabaseAddIn::getFactorValues(const string& factorName,
+void DatabaseAddIn::getFactorValues(const Scenario& scenario,
+                                    const string& factorName,
                                     vector<string>& factorValues) const
    {
    for_each(simulations.begin(), simulations.end(),
-            GetFactorValue(factorValues, factorName));
+            GetFactorValue(factorValues, factorName,
+                           createPartialTitle(scenario, factorName)));
    }
 
 // ------------------------------------------------------------------
