@@ -221,8 +221,8 @@
           hi_incr                  =     0.0
           x_hi_max_pot_stress =    0.00   1.00
           y_hi_max_pot        =    0.50   0.50
-          x_stem_wt      =    0.00  50.00
-          y_height      =    0.003000.00
+          x_stem_wt      =    0.00  10.00
+          y_height      =    0.001200.00
           ------------------------------------------------
       
       
@@ -265,66 +265,76 @@
 30 November 1988 (Day of year=335):
    SOYBEAN:
        stage    3.0 emergence
-                           biomass =          0.7500000       lai =    0.2500000E-01
+                           biomass =          0.7500000       lai =    0.7500000E-02
                            stover N conc =    6.000000       extractable sw =    23.20686
 4 December 1988 (Day of year=339):
    SOYBEAN:
        stage    4.0 end_of_juvenile
-                           biomass =           2.505862       lai =    0.6292662E-01
-                           stover N conc =    4.747451       extractable sw =    44.91582
+                           biomass =           1.055670       lai =    0.1410247E-01
+                           stover N conc =    5.474435       extractable sw =    45.27035
 13 January 1989 (Day of year=13):
    SOYBEAN:
        stage    5.0 floral_initiation
-                           biomass =           409.3679       lai =     6.175908    
-                           stover N conc =    3.487645       extractable sw =    175.3091
+                           biomass =           49.90185       lai =     1.017016    
+                           stover N conc =    3.524041       extractable sw =    273.3235
 15 January 1989 (Day of year=15):
    SOYBEAN:
        stage    6.0 flowering
-                           biomass =           449.3771       lai =     6.476429    
-                           stover N conc =    3.387033       extractable sw =    196.8269
+                           biomass =           65.02260       lai =     1.224369    
+                           stover N conc =    3.343135       extractable sw =    307.6412
 8 February 1989 (Day of year=39):
    SOYBEAN:
        stage    7.0 start_grain_fill
-                           biomass =           778.4208       lai =     5.723231    
-                           stover N conc =    2.928696       extractable sw =    98.45444
-14 March 1989 (Day of year=73):
-   SOYBEAN:
-       crop failure because of total leaf senescence.
-          Plant Death. Standing above-ground dm =  9107.9 (kg/ha)
-       stage    0.0
+                           biomass =           267.0650       lai =     2.649824    
+                           stover N conc =    3.069926       extractable sw =    256.3478
 15 March 1989 (Day of year=74):
+   SOYBEAN:
+       stage    8.0 end_grain_fill
+                           biomass =           430.3174       lai =    0.5960464E-06
+                           stover N conc =   0.9380932       extractable sw =    224.6848
+18 March 1989 (Day of year=77):
+   SOYBEAN:
+       stage    9.0 maturity
+                           biomass =           426.7991       lai =    0.5960464E-06
+                           stover N conc =   0.8012675       extractable sw =    237.3964
+19 March 1989 (Day of year=78):
+   SOYBEAN:
+       stage   10.0 harvest_ripe
+                           biomass =           426.7991       lai =    0.5960464E-06
+                           stover N conc =   0.8012677       extractable sw =    235.9530
+20 March 1989 (Day of year=79):
    MANAGER:
            Manager sending message :- soybean harvest
    SOYBEAN:
       
       
       
-       flowering day  =   15                  stover (kg/ha) =    5640.2
-       maturity day        =    0             grain yield (kg/ha) =    3448.9
-       grain % water content   =   12.0       grain yield wet (kg/ha) =    3919.2
+       flowering day  =   15                  stover (kg/ha) =    2484.0
+       maturity day        =   77             grain yield (kg/ha) =    1784.0
+       grain % water content   =    8.5       grain yield wet (kg/ha) =    1949.7
        grain wt (g) =     0.000               grains/m^2   =     0.000
-       grains/head =   0.0                    maximum lai = 6.763
-       total above ground biomass (kg/ha) =    9089.2
-       live above ground biomass (kg/ha) =       0.0
-       green above ground biomass (kg/ha) =       0.0
-       senesced above ground biomass (kg/ha) =       0.0
-       dead above ground biomass (kg/ha) =    9089.2
-       number of leaves =  36.7
-       grain N percent =      6.43            total N content (kg/ha) =    276.77
-       grain N uptake (kg/ha) =    221.78     senesced N content (kg/ha) =      0.00
-       green N content (kg/ha) =      0.00    dead N content (kg/ha) =     55.00
+       grains/head =   0.0                    maximum lai = 2.702
+       total above ground biomass (kg/ha) =    4268.0
+       live above ground biomass (kg/ha) =    4268.0
+       green above ground biomass (kg/ha) =    3361.4
+       senesced above ground biomass (kg/ha) =     906.6
+       dead above ground biomass (kg/ha) =       0.0
+       number of leaves =  12.8
+       grain N percent =      6.50            total N content (kg/ha) =    143.38
+       grain N uptake (kg/ha) =    115.96     senesced N content (kg/ha) =      9.07
+       green N content (kg/ha) =     18.36    dead N content (kg/ha) =      0.00
       
       
       
        stress indices for emergence
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.1785596
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2279624
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1910676
       
       
       
        stress indices for end_of_juvenile
-       water stress 1 =       0.0027037   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0051951   nitrogen stress 2 =       0.0013378
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
       
       
       
@@ -335,22 +345,22 @@
       
       
        stress indices for flowering
-       water stress 1 =       0.1865529   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.2433137   nitrogen stress 2 =       0.0000000
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
       
       
       
        stress indices for start_grain_fill
-       water stress 1 =       0.2231764   nitrogen stress 1 =       0.0219162
-       water stress 2 =       0.2585679   nitrogen stress 2 =       0.0489263
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
    MANAGER:
            Manager sending message :- soybean end_crop
    SOYBEAN:
           ended. Yield (dw) =     0.0
                                                 straw residue =    0.0 kg/ha
                                                 straw N =    0.0 kg/ha
-                                                root residue = 3935.8 kg/ha
-                                                root N =   82.5 kg/ha
+                                                root residue = 1061.8 kg/ha
+                                                root N =   21.8 kg/ha
 31 March 1989 (Day of year=90):
    CLOCK:
       Simulation is terminating due to end criteria being met.

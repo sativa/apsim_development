@@ -222,7 +222,7 @@
           x_hi_max_pot_stress =    0.00   1.00
           y_hi_max_pot        =    0.35   0.35
           x_stem_wt      =    0.00   4.00   9.00  25.00  85.00 130.00
-          y_height      =    0.00  60.00 100.00 130.00 200.00 210.00
+          y_height      =    0.00 600.001000.001300.002000.002100.00
           ------------------------------------------------
       
       
@@ -271,37 +271,37 @@
    PIGEONP:
        stage    4.0 end_of_juvenile
                            biomass =           150.9850       lai =     1.492890    
-                           stover N conc =    3.783230       extractable sw =    135.8723
+                           stover N conc =    3.750810       extractable sw =    135.7338
 2 March 1989 (Day of year=61):
    PIGEONP:
        stage    5.0 floral_initiation
-                           biomass =           961.0870       lai =     3.931066    
-                           stover N conc =    3.077012       extractable sw =    127.3366
+                           biomass =           960.6382       lai =     3.928152    
+                           stover N conc =    3.063277       extractable sw =    113.7315
 3 March 1989 (Day of year=62):
    PIGEONP:
        stage    6.0 flowering
-                           biomass =           970.2568       lai =     3.967871    
-                           stover N conc =    3.040446       extractable sw =    122.0033
+                           biomass =           969.8067       lai =     3.964951    
+                           stover N conc =    3.026928       extractable sw =    108.3989
 10 March 1989 (Day of year=69):
    PIGEONP:
        stage    7.0 start_grain_fill
-                           biomass =           1059.446       lai =     4.028914    
-                           stover N conc =    2.713804       extractable sw =    90.72836
+                           biomass =           1047.416       lai =     3.855950    
+                           stover N conc =    2.788860       extractable sw =    80.82014
 14 April 1989 (Day of year=104):
    PIGEONP:
        stage    8.0 end_grain_fill
-                           biomass =           1310.551       lai =     3.011972    
-                           stover N conc =    1.050367       extractable sw =    104.7294
+                           biomass =           1281.944       lai =     2.780055    
+                           stover N conc =    1.364493       extractable sw =    94.81625
 17 April 1989 (Day of year=107):
    PIGEONP:
        stage    9.0 maturity
-                           biomass =           1326.164       lai =     3.011972    
-                           stover N conc =   0.9300912       extractable sw =    95.58010
+                           biomass =           1297.139       lai =     2.780055    
+                           stover N conc =    1.243117       extractable sw =    85.82780
 21 April 1989 (Day of year=111):
    PIGEONP:
        stage   10.0 harvest_ripe
-                           biomass =           1326.164       lai =    0.9536743E-06
-                           stover N conc =   0.5640178       extractable sw =    90.12195
+                           biomass =           1297.139       lai =    0.1430511E-05
+                           stover N conc =   0.9219564       extractable sw =    80.41611
 22 April 1989 (Day of year=112):
    MANAGER:
            Manager sending message :- pigeonp harvest
@@ -309,20 +309,20 @@
       
       
       
-       flowering day  =   62                  stover (kg/ha) =    9492.1
-       maturity day        =  107             grain yield (kg/ha) =    3769.5
-       grain % water content   =   12.0       grain yield wet (kg/ha) =    4283.6
+       flowering day  =   62                  stover (kg/ha) =    9284.3
+       maturity day        =  107             grain yield (kg/ha) =    3687.1
+       grain % water content   =   12.0       grain yield wet (kg/ha) =    4189.9
        grain wt (g) =     0.000               grains/m^2   =     0.000
-       grains/head =   0.0                    maximum lai = 4.163
-       total above ground biomass (kg/ha) =   13261.6
-       live above ground biomass (kg/ha) =   13261.6
-       green above ground biomass (kg/ha) =    8866.2
-       senesced above ground biomass (kg/ha) =    4395.5
+       grains/head =   0.0                    maximum lai = 4.072
+       total above ground biomass (kg/ha) =   12971.4
+       live above ground biomass (kg/ha) =   12971.4
+       green above ground biomass (kg/ha) =    8624.9
+       senesced above ground biomass (kg/ha) =    4346.5
        dead above ground biomass (kg/ha) =       0.0
-       number of leaves = 464.8
-       grain N percent =      4.00            total N content (kg/ha) =    295.05
-       grain N uptake (kg/ha) =    150.78     senesced N content (kg/ha) =    115.52
-       green N content (kg/ha) =     28.75    dead N content (kg/ha) =      0.00
+       number of leaves = 465.0
+       grain N percent =      4.00            total N content (kg/ha) =    311.96
+       grain N uptake (kg/ha) =    147.48     senesced N content (kg/ha) =    118.96
+       green N content (kg/ha) =     45.52    dead N content (kg/ha) =      0.00
       
       
       
@@ -333,8 +333,8 @@
       
       
        stress indices for end_of_juvenile
-       water stress 1 =       0.2390456   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.2944768   nitrogen stress 2 =       0.0000000
+       water stress 1 =       0.2392894   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.2948093   nitrogen stress 2 =       0.0000000
       
       
       
@@ -345,22 +345,22 @@
       
       
        stress indices for flowering
-       water stress 1 =       0.1316795   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.1929462   nitrogen stress 2 =       0.0000000
+       water stress 1 =       0.2193981   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.2806648   nitrogen stress 2 =       0.0000000
       
       
       
        stress indices for start_grain_fill
-       water stress 1 =       0.1705039   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.2025132   nitrogen stress 2 =       0.0000000
+       water stress 1 =       0.1919109   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.2246600   nitrogen stress 2 =       0.0000000
    MANAGER:
            Manager sending message :- pigeonp end_crop
    PIGEONP:
           ended. Yield (dw) =     0.0
                                                 straw residue =    0.0 kg/ha
                                                 straw N =    0.0 kg/ha
-                                                root residue = 2619.1 kg/ha
-                                                root N =   52.9 kg/ha
+                                                root residue = 2571.7 kg/ha
+                                                root N =   49.7 kg/ha
 30 April 1989 (Day of year=120):
    CLOCK:
       Simulation is terminating due to end criteria being met.

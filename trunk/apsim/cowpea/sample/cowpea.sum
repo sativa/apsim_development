@@ -220,8 +220,8 @@
           tt_maturity_to_ripe      =     5.0
           hi_incr                  =     0.0
           x_hi_max_pot_stress =    0.00   1.00
-          y_hi_max_pot        =    0.50   0.50
-          x_stem_wt      =    0.00  50.00
+          y_hi_max_pot        =    0.40   0.40
+          x_stem_wt      =    0.00  15.00
           y_height      =    0.001000.00
           ------------------------------------------------
       
@@ -267,100 +267,100 @@
        stage    3.0 emergence
                            biomass =          0.7500000       lai =    0.2500000E-01
                            stover N conc =    6.000000       extractable sw =    45.57298
-9 January 1989 (Day of year=9):
+7 January 1989 (Day of year=7):
    COWPEA:
        stage    4.0 end_of_juvenile
-                           biomass =           336.1581       lai =     4.674975    
-                           stover N conc =    3.020109       extractable sw =    177.0642
-13 January 1989 (Day of year=13):
+                           biomass =           291.8655       lai =     4.117059    
+                           stover N conc =    3.022676       extractable sw =    193.6905
+11 January 1989 (Day of year=11):
    COWPEA:
        stage    5.0 floral_initiation
-                           biomass =           426.1851       lai =     5.641269    
-                           stover N conc =    2.861996       extractable sw =    165.3382
-15 January 1989 (Day of year=15):
+                           biomass =           377.0040       lai =     5.106999    
+                           stover N conc =    2.837280       extractable sw =    187.7848
+12 January 1989 (Day of year=12):
    COWPEA:
        stage    6.0 flowering
-                           biomass =           474.3685       lai =     6.031096    
-                           stover N conc =    2.776303       extractable sw =    184.4301
-22 January 1989 (Day of year=22):
+                           biomass =           401.6082       lai =     5.310397    
+                           stover N conc =    2.784724       extractable sw =    177.3739
+19 January 1989 (Day of year=19):
    COWPEA:
        stage    7.0 start_grain_fill
-                           biomass =           591.7505       lai =     6.176703    
-                           stover N conc =    2.658851       extractable sw =    129.6551
-12 February 1989 (Day of year=43):
+                           biomass =           548.4512       lai =     6.023377    
+                           stover N conc =    2.646230       extractable sw =    147.9356
+9 February 1989 (Day of year=40):
    COWPEA:
        stage    8.0 end_grain_fill
-                           biomass =           823.4089       lai =     2.143653    
-                           stover N conc =    2.123562       extractable sw =    76.62660
-13 February 1989 (Day of year=44):
+                           biomass =           795.1259       lai =     2.331040    
+                           stover N conc =    2.016605       extractable sw =    86.97047
+10 February 1989 (Day of year=41):
    COWPEA:
        stage    9.0 maturity
-                           biomass =           830.1616       lai =     1.909188    
-                           stover N conc =    2.142727       extractable sw =    72.20451
-14 February 1989 (Day of year=45):
+                           biomass =           800.9574       lai =     2.082234    
+                           stover N conc =    2.045043       extractable sw =    82.40860
+11 February 1989 (Day of year=42):
    COWPEA:
        stage   10.0 harvest_ripe
-                           biomass =           830.1617       lai =     0.000000    
-                           stover N conc =    2.668242       extractable sw =    68.02409
-15 February 1989 (Day of year=46):
+                           biomass =           800.9575       lai =    0.2384186E-06
+                           stover N conc =    2.589211       extractable sw =    81.45055
+12 February 1989 (Day of year=43):
    MANAGER:
            Manager sending message :- cowpea harvest
    COWPEA:
       
       
       
-       flowering day  =   15                  stover (kg/ha) =    5765.5
-       maturity day        =   44             grain yield (kg/ha) =    2536.1
-       grain % water content   =   12.0       grain yield wet (kg/ha) =    2881.9
+       flowering day  =   12                  stover (kg/ha) =    5560.6
+       maturity day        =   41             grain yield (kg/ha) =    2449.0
+       grain % water content   =   12.0       grain yield wet (kg/ha) =    2782.9
        grain wt (g) =     0.000               grains/m^2   =     0.000
-       grains/head =   0.0                    maximum lai = 6.298
-       total above ground biomass (kg/ha) =    8301.6
-       live above ground biomass (kg/ha) =    8301.6
-       green above ground biomass (kg/ha) =    5385.3
-       senesced above ground biomass (kg/ha) =    2916.3
+       grains/head =   0.0                    maximum lai = 6.147
+       total above ground biomass (kg/ha) =    8009.6
+       live above ground biomass (kg/ha) =    8009.6
+       green above ground biomass (kg/ha) =    5297.0
+       senesced above ground biomass (kg/ha) =    2712.6
        dead above ground biomass (kg/ha) =       0.0
-       number of leaves =  26.0
-       grain N percent =      4.50            total N content (kg/ha) =    193.06
-       grain N uptake (kg/ha) =    114.12     senesced N content (kg/ha) =      2.92
-       green N content (kg/ha) =     76.02    dead N content (kg/ha) =      0.00
+       number of leaves =  23.5
+       grain N percent =      4.50            total N content (kg/ha) =    186.66
+       grain N uptake (kg/ha) =    110.20     senesced N content (kg/ha) =      2.71
+       green N content (kg/ha) =     73.74    dead N content (kg/ha) =      0.00
       
       
       
        stress indices for emergence
-       water stress 1 =       0.0000649   nitrogen stress 1 =       0.0042661
-       water stress 2 =       0.0026796   nitrogen stress 2 =       0.0154973
+       water stress 1 =       0.0000682   nitrogen stress 1 =       0.0044828
+       water stress 2 =       0.0028157   nitrogen stress 2 =       0.0155107
       
       
       
        stress indices for end_of_juvenile
-       water stress 1 =       0.0797974   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.1378964   nitrogen stress 2 =       0.0000000
+       water stress 1 =       0.0698547   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0946133   nitrogen stress 2 =       0.0000000
       
       
       
        stress indices for floral_initiation
-       water stress 1 =       0.0089916   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0366304   nitrogen stress 2 =       0.0000000
+       water stress 1 =       0.0261444   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0840390   nitrogen stress 2 =       0.0000000
       
       
       
        stress indices for flowering
-       water stress 1 =       0.3207379   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.4139991   nitrogen stress 2 =       0.0000000
+       water stress 1 =       0.1341341   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.2033906   nitrogen stress 2 =       0.0000000
       
       
       
        stress indices for start_grain_fill
-       water stress 1 =       0.3413114   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.4132105   nitrogen stress 2 =       0.0000000
+       water stress 1 =       0.3257919   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.3974539   nitrogen stress 2 =       0.0000000
    MANAGER:
            Manager sending message :- cowpea end_crop
    COWPEA:
           ended. Yield (dw) =     0.0
                                                 straw residue =    0.0 kg/ha
                                                 straw N =    0.0 kg/ha
-                                                root residue = 3947.6 kg/ha
-                                                root N =   63.7 kg/ha
+                                                root residue = 3626.0 kg/ha
+                                                root N =   58.0 kg/ha
 1 March 1989 (Day of year=60):
    CLOCK:
       Simulation is terminating due to end criteria being met.

@@ -220,9 +220,9 @@
           tt_maturity_to_ripe      =     5.0
           hi_incr                  =     0.0
           x_hi_max_pot_stress =    0.00   1.00
-          y_hi_max_pot        =    0.50   0.50
-          x_stem_wt      =    0.00  50.00
-          y_height      =    0.001000.00
+          y_hi_max_pot        =    0.40   0.40
+          x_stem_wt      =    0.00   3.00
+          y_height      =    0.00 800.00
           ------------------------------------------------
       
       
@@ -265,43 +265,43 @@
 28 November 1988 (Day of year=333):
    MUNGBEAN:
        stage    3.0 emergence
-                           biomass =           2.500000       lai =    0.8500000E-01
+                           biomass =           2.500000       lai =    0.5000000E-02
                            stover N conc =    6.000000       extractable sw =    23.25670
 1 January 1989 (Day of year=1):
    MUNGBEAN:
        stage    4.0 end_of_juvenile
-                           biomass =           205.3853       lai =     2.983889    
-                           stover N conc =    3.199889       extractable sw =    168.5540
+                           biomass =           95.47674       lai =     1.456544    
+                           stover N conc =    3.145155       extractable sw =    194.9800
 2 January 1989 (Day of year=2):
    MUNGBEAN:
        stage    5.0 floral_initiation
-                           biomass =           216.1700       lai =     3.103476    
-                           stover N conc =    3.114207       extractable sw =    165.4245
+                           biomass =           103.2687       lai =     1.578866    
+                           stover N conc =    3.114207       extractable sw =    192.4715
 3 January 1989 (Day of year=3):
    MUNGBEAN:
        stage    6.0 flowering
-                           biomass =           230.1203       lai =     3.235879    
-                           stover N conc =    3.005200       extractable sw =    213.0858
+                           biomass =           113.7037       lai =     1.715171    
+                           stover N conc =    2.961872       extractable sw =    241.1228
 15 January 1989 (Day of year=15):
    MUNGBEAN:
        stage    7.0 start_grain_fill
-                           biomass =           438.2599       lai =     4.438450    
-                           stover N conc =    2.663944       extractable sw =    213.6180
+                           biomass =           297.4410       lai =     3.297441    
+                           stover N conc =    2.591351       extractable sw =    247.3154
 6 February 1989 (Day of year=37):
    MUNGBEAN:
        stage    8.0 end_grain_fill
-                           biomass =           754.4442       lai =     3.016652    
-                           stover N conc =    2.028434       extractable sw =    122.8550
+                           biomass =           630.7444       lai =     2.758029    
+                           stover N conc =    1.804569       extractable sw =    150.1308
 8 February 1989 (Day of year=39):
    MUNGBEAN:
        stage    9.0 maturity
-                           biomass =           773.6902       lai =     2.833837    
-                           stover N conc =    1.888304       extractable sw =    116.9929
+                           biomass =           650.9031       lai =     2.595532    
+                           stover N conc =    1.698456       extractable sw =    144.0854
 9 February 1989 (Day of year=40):
    MUNGBEAN:
        stage   10.0 harvest_ripe
-                           biomass =           773.6902       lai =     0.000000    
-                           stover N conc =    2.386283       extractable sw =    111.1671
+                           biomass =           650.9031       lai =     0.000000    
+                           stover N conc =    2.063496       extractable sw =    138.0640
 10 February 1989 (Day of year=41):
    MANAGER:
            Manager sending message :- mungbean harvest
@@ -309,26 +309,26 @@
       
       
       
-       flowering day  =    3                  stover (kg/ha) =    4977.2
-       maturity day        =   39             grain yield (kg/ha) =    2759.8
-       grain % water content   =   12.0       grain yield wet (kg/ha) =    3136.1
+       flowering day  =    3                  stover (kg/ha) =    4192.4
+       maturity day        =   39             grain yield (kg/ha) =    2316.6
+       grain % water content   =   12.0       grain yield wet (kg/ha) =    2632.5
        grain wt (g) =     0.000               grains/m^2   =     0.000
-       grains/head =   0.0                    maximum lai = 4.453
-       total above ground biomass (kg/ha) =    7736.9
-       live above ground biomass (kg/ha) =    7736.9
-       green above ground biomass (kg/ha) =    5216.8
-       senesced above ground biomass (kg/ha) =    2520.1
+       grains/head =   0.0                    maximum lai = 3.576
+       total above ground biomass (kg/ha) =    6509.0
+       live above ground biomass (kg/ha) =    6509.0
+       green above ground biomass (kg/ha) =    4528.1
+       senesced above ground biomass (kg/ha) =    1981.0
        dead above ground biomass (kg/ha) =       0.0
-       number of leaves =  24.7
-       grain N percent =      4.50            total N content (kg/ha) =    208.02
-       grain N uptake (kg/ha) =    124.19     senesced N content (kg/ha) =     25.20
-       green N content (kg/ha) =     58.63    dead N content (kg/ha) =      0.00
+       number of leaves =  23.3
+       grain N percent =      4.50            total N content (kg/ha) =    169.69
+       grain N uptake (kg/ha) =    104.25     senesced N content (kg/ha) =     19.81
+       green N content (kg/ha) =     45.63    dead N content (kg/ha) =      0.00
       
       
       
        stress indices for emergence
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0110323
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0274791
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0270450
       
       
       
@@ -346,21 +346,21 @@
       
        stress indices for flowering
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0091440
       
       
       
        stress indices for start_grain_fill
-       water stress 1 =       0.0717798   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.1042407   nitrogen stress 2 =       0.0000000
+       water stress 1 =       0.0370676   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0512898   nitrogen stress 2 =       0.0400161
    MANAGER:
            Manager sending message :- mungbean end_crop
    MUNGBEAN:
           ended. Yield (dw) =     0.0
                                                 straw residue =    0.0 kg/ha
                                                 straw N =    0.0 kg/ha
-                                                root residue = 2491.3 kg/ha
-                                                root N =   37.8 kg/ha
+                                                root residue = 1569.5 kg/ha
+                                                root N =   23.7 kg/ha
 1 March 1989 (Day of year=60):
    CLOCK:
       Simulation is terminating due to end criteria being met.
