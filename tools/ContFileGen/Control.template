@@ -1,0 +1,16 @@
+!!!!!!!!!!!!!!!!!!!!!!!! site$ !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+[Title_sim_number$.report.parameters]
+Title = site=site$; soil=soil$; start water=water$; sow date=sow$; hybrid=hybrid$
+Outputfile =  output2\Wheatsim_number$.out /overwrite
+Summaryfile = output2\Wheatsim_number$.sum /overwrite
+
+[APSIM.sim_number$]
+module = report      [Title_sim_number$]      Wht98.par     [General]
+module = input       met\site$.met   [weather]
+module = manager     Wht98.man     [General]     Wht98.man [sow$]        Wht98.man [150N] Wht98.man [site$_hybrid$]
+module = soilwat2    Wht98.sol     [soil$mm_water$]  inifiles\soilwat2.ini   [standard]
+module = soiln2      Wht98.sol     [General]     inifiles\soiln2.ini       [standard]
+module = residue2    Wht98.sol     [General]     inifiles\residue2.ini   [standard]
+module = i_wheat     Wht98.par     [i_wheat]     inifiles\i_wheat.ini     [standard]
+module = fertiliz                                inifiles\fertiliz.ini   [standard]
