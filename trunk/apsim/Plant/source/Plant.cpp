@@ -11441,24 +11441,22 @@ void Plant::plant_end_crop ()
 
         plant_root_incorp (g.dm_dead[root], g.n_dead[root], g.root_length_dead);
 
+        P_root = 0.0;
         for (int part = 0; part < max_part; part++)
             {
             incorp_fr[part] = 0.0;
             }
         incorp_fr[root] = 1.0;
-
-        phosphorus->incorp_fom(incorp_fr // green
+        P_root += phosphorus->incorp_fom(incorp_fr // green
                               , incorp_fr // senesced
                               , g.dlayer
                               , g.root_length
-                              , g.root_depth
-                              , &P_root);  //  should be all root P all from green, sen and dead
+                              , g.root_depth);  //  should be all root P all from green, sen and dead
 
-        phosphorus->incorp_fom_dead(incorp_fr // dead
+        P_root += phosphorus->incorp_fom_dead(incorp_fr // dead
                                     , g.dlayer
                                     , g.root_length_dead
-                                    , g.root_depth
-                                    , &P_root);  //  should be all root P all from green, sen and dead
+                                    , g.root_depth);  //  should be all root P all from green, sen and dead
 
         // put stover and any remaining grain into surface residue
         dm_residue =
@@ -11878,7 +11876,7 @@ void Plant::plant_update_other_variables (void)
     float chop_fr[max_part+1];
     float incorp_fr[max_part+1];
     float P_tops;                // Phosphorus added to residue (g/m^2)
-    float P_root;                // Phosphorus added to soil (g/m^2)
+//    float P_root;                // Phosphorus added to soil (g/m^2)
     int   part;
     int   layer;
     float root_length[max_layer];
@@ -11958,8 +11956,7 @@ void Plant::plant_update_other_variables (void)
     phosphorus->incorp_fom_detached(incorp_fr
                                     , g.dlayer
                                     , root_length
-                                    , g.root_depth
-                                    , &P_root);    //  should be detached root P
+                                    , g.root_depth);    //  should be detached root P
 
     // now dispose of dead population detachments
     for (part =0; part < max_part; part++)
@@ -12032,8 +12029,7 @@ void Plant::plant_update_other_variables (void)
     phosphorus->incorp_fom_dead_detached( incorp_fr
                                           , g.dlayer
                                           , root_length
-                                          , g.root_depth
-                                          , &P_root);      //  should be dead detached root P
+                                          , g.root_depth);      //  should be dead detached root P
 
     pop_routine (my_name);
     return;

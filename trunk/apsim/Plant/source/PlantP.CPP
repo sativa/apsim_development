@@ -1302,12 +1302,11 @@ void PlantP::dead_detached (float chop_fr[]
 }
 
 // ====================================================================
-void PlantP::incorp_fom (float incorp_fr_green[]      //IN
+float PlantP::incorp_fom (float incorp_fr_green[]      //IN
                        , float incorp_fr_sen[]        //IN
                        , float dlayer[]               //IN
                        , float root_length[]          //IN
-                       , float root_depth             //IN
-                       , float *p_incorporated)       //OUT
+                       , float root_depth)             //IN
 {
 //+  Purpose
 //      Send P to soil or residues when plants are 'chopped'
@@ -1319,6 +1318,7 @@ void PlantP::incorp_fom (float incorp_fr_green[]      //IN
       const char*  my_name = "PlantP_incorp_fom";
 
 //+  Local Variables
+      float    dlt_p_tot = 0.0;
       float    dlt_fom_p[max_layer];
       int      num_layers;
 
@@ -1327,24 +1327,23 @@ void PlantP::incorp_fom (float incorp_fr_green[]      //IN
 
    if (g.phosphorus_aware == true)
    {
-      *p_incorporated = 0.0;
       for (int part = 0; part < g.num_parts; part++)
       {
-         *p_incorporated += incorp_fr_green[part] * g.part_p_green[part]
-                          + incorp_fr_sen[part]   * g.part_p_sen[part]
-                          + incorp_fr_sen[part]   * g.dlt_part_p_det[part];
+         dlt_p_tot += incorp_fr_green[part] * g.part_p_green[part]
+                    + incorp_fr_sen[part]   * g.part_p_sen[part]
+                    + incorp_fr_sen[part]   * g.dlt_part_p_det[part];
 
          g.part_p_green[part] = g.part_p_green[part] * (1.0 - incorp_fr_green[part]);
          g.part_p_sen[part]   = g.part_p_sen[part]   * (1.0 - incorp_fr_sen[part]);
       }
 
-      if (*p_incorporated > 0.0)
+      if (dlt_p_tot > 0.0)
       {
          crop_root_dist( dlayer
                        , root_length
                        , root_depth
                        , dlt_fom_p
-                       , *p_incorporated * gm2kg/sm2ha
+                       , dlt_p_tot * gm2kg/sm2ha
                        , max_layer);
 
          num_layers = 1 + count_of_real_vals(root_length, max_layer);
@@ -1360,16 +1359,18 @@ void PlantP::incorp_fom (float incorp_fr_green[]      //IN
       {} // nothing to incorporate
    }
    else
-   {} // not P aware
+     {
+     // not P aware, state variables (green & sen) unchanged.
+     }
    pop_routine (my_name);
+   return(dlt_p_tot);
 }
 
 // ====================================================================
-void PlantP::incorp_fom_dead (float incorp_fr_dead[]       //IN
-                       , float dlayer[]               //IN
-                       , float root_length_dead[]     //IN
-                       , float root_depth             //IN
-                       , float *p_incorporated)       //OUT
+float PlantP::incorp_fom_dead (float incorp_fr_dead[]       //IN
+                             , float dlayer[]               //IN
+                             , float root_length_dead[]     //IN
+                             , float root_depth)            // IN
 {
 //+  Purpose
 //      Send P to soil or residues when plants are 'chopped'
@@ -1381,6 +1382,7 @@ void PlantP::incorp_fom_dead (float incorp_fr_dead[]       //IN
       const char*  my_name = "PlantP_incorp_fom_dead";
 
 //+  Local Variables
+      float    dlt_p_tot = 0.0;
       float    dlt_fom_p[max_layer];
       int      num_layers;
 
@@ -1389,22 +1391,21 @@ void PlantP::incorp_fom_dead (float incorp_fr_dead[]       //IN
 
    if (g.phosphorus_aware == true)
    {
-      *p_incorporated = 0.0;
       for (int part = 0; part < g.num_parts; part++)
       {
-         *p_incorporated += incorp_fr_dead[part]  * g.part_p_dead[part]
-                          + incorp_fr_dead[part]  * g.dlt_part_p_dead_det[part];
+         dlt_p_tot += incorp_fr_dead[part]  * g.part_p_dead[part]
+                    + incorp_fr_dead[part]  * g.dlt_part_p_dead_det[part];
 
          g.part_p_dead[part]  = g.part_p_dead[part]  * (1.0 - incorp_fr_dead[part]);
       }
 
-      if (*p_incorporated > 0.0)
+      if (dlt_p_tot > 0.0)
       {
          crop_root_dist( dlayer
                        , root_length_dead
                        , root_depth
                        , dlt_fom_p
-                       , *p_incorporated * gm2kg/sm2ha
+                       , dlt_p_tot * gm2kg/sm2ha
                        , max_layer);
 
          num_layers = 1 + count_of_real_vals(root_length_dead, max_layer);
@@ -1422,14 +1423,14 @@ void PlantP::incorp_fom_dead (float incorp_fr_dead[]       //IN
    else
    {} // not P aware
    pop_routine (my_name);
+   return(dlt_p_tot);
 }
 
 // ====================================================================
-void PlantP::incorp_fom_detached (float incorp_fr[]      //IN
+float PlantP::incorp_fom_detached (float incorp_fr[]      //IN
                                 , float dlayer[]               //IN
                                 , float root_length[]          //IN
-                                , float root_depth             //IN
-                                , float *p_incorporated)        //OUT
+                                , float root_depth)             //IN
 {
 //+  Purpose
 //      Send P to soil or residues when plants are 'chopped'
@@ -1441,6 +1442,7 @@ void PlantP::incorp_fom_detached (float incorp_fr[]      //IN
       const char*  my_name = "PlantP_incorp_fom_detached";
 
 //+  Local Variables
+      float    dlt_p_tot = 0.0;
       float    dlt_fom_p[max_layer];
       int      num_layers;
 
@@ -1449,39 +1451,40 @@ void PlantP::incorp_fom_detached (float incorp_fr[]      //IN
 
    if (g.phosphorus_aware == true)
    {
-      *p_incorporated = 0.0;
       for (int part = 0; part < g.num_parts; part++)
       {
-         *p_incorporated += g.dlt_part_p_det[part] * incorp_fr[part];
+         dlt_p_tot += g.dlt_part_p_det[part] * incorp_fr[part];
       }
-
-      crop_root_dist( dlayer
-                    , root_length
-                    , root_depth
-                    , dlt_fom_p
-                    , *p_incorporated * gm2kg/sm2ha
-                    , max_layer);
-
-      num_layers = 1 + count_of_real_vals(root_length, max_layer);
-      if (num_layers > 0)
+      if (dlt_p_tot > 0.0) 
       {
-         protocol::ApsimVariant outgoingApsimVariant(plant->parent);
-         outgoingApsimVariant.store("dlt_fom_p", protocol::DTsingle, true,
-                                    protocol::vector<float>(dlt_fom_p, dlt_fom_p+num_layers));
-         plant->parent->publish (ids.incorp_fom_p, outgoingApsimVariant);
-      }
+          crop_root_dist( dlayer
+                        , root_length
+                        , root_depth
+                        , dlt_fom_p
+                        , dlt_p_tot * gm2kg/sm2ha
+                        , max_layer);
+    
+          num_layers = 1 + count_of_real_vals(root_length, max_layer);
+          if (num_layers > 0)
+          {
+             protocol::ApsimVariant outgoingApsimVariant(plant->parent);
+             outgoingApsimVariant.store("dlt_fom_p", protocol::DTsingle, true,
+                                        protocol::vector<float>(dlt_fom_p, dlt_fom_p+num_layers));
+             plant->parent->publish (ids.incorp_fom_p, outgoingApsimVariant);
+          }
+      } 
    }
    else
    {}
    pop_routine (my_name);
+   return(dlt_p_tot);
 }
 
 // ====================================================================
-void PlantP::incorp_fom_dead_detached (float incorp_fr[]      //IN
+float PlantP::incorp_fom_dead_detached (float incorp_fr[]      //IN
                                       , float dlayer[]               //IN
                                       , float root_length[]          //IN
-                                      , float root_depth             //IN
-                                      , float *p_incorporated)        //OUT
+                                      , float root_depth)             //IN
 {
 //+  Purpose
 //      Send P to soil or residues when plants are 'chopped'
@@ -1493,6 +1496,7 @@ void PlantP::incorp_fom_dead_detached (float incorp_fr[]      //IN
       const char*  my_name = "incorp_fom_dead_detached";
 
 //+  Local Variables
+      float    dlt_p_tot = 0.0;
       float    dlt_fom_p[max_layer];
       int      num_layers;
 
@@ -1501,31 +1505,33 @@ void PlantP::incorp_fom_dead_detached (float incorp_fr[]      //IN
 
    if (g.phosphorus_aware == true)
    {
-      *p_incorporated = 0.0;
       for (int part = 0; part < g.num_parts; part++)
       {
-         *p_incorporated += g.dlt_part_p_dead_det[part] * incorp_fr[part];
+         dlt_p_tot += g.dlt_part_p_dead_det[part] * incorp_fr[part];
       }
-
-      crop_root_dist( dlayer
-                    , root_length
-                    , root_depth
-                    , dlt_fom_p
-                    , *p_incorporated * gm2kg/sm2ha
-                    , max_layer);
-
-      num_layers = 1 + count_of_real_vals(root_length, max_layer);
-      if (num_layers > 0)
+      if (dlt_p_tot > 0.0) 
       {
-         protocol::ApsimVariant outgoingApsimVariant(plant->parent);
-         outgoingApsimVariant.store("dlt_fom_p", protocol::DTsingle, true,
-                                    protocol::vector<float>(dlt_fom_p, dlt_fom_p+num_layers));
-         plant->parent->publish (ids.incorp_fom_p, outgoingApsimVariant);
+         crop_root_dist( dlayer
+                       , root_length
+                       , root_depth
+                       , dlt_fom_p
+                       , dlt_p_tot * gm2kg/sm2ha
+                       , max_layer);
+   
+         num_layers = 1 + count_of_real_vals(root_length, max_layer);
+         if (num_layers > 0)
+         {
+            protocol::ApsimVariant outgoingApsimVariant(plant->parent);
+            outgoingApsimVariant.store("dlt_fom_p", protocol::DTsingle, true,
+                                       protocol::vector<float>(dlt_fom_p, dlt_fom_p+num_layers));
+            plant->parent->publish (ids.incorp_fom_p, outgoingApsimVariant);
+         }
       }
    }
    else
    {}
    pop_routine (my_name);
+   return(dlt_p_tot);
 }
 
 // ====================================================================
