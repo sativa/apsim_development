@@ -19,7 +19,7 @@
      Component DLL          = c:\development\apsim\Input\lib\Input.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\soilp\lib\soilp.dll
 
@@ -36,8 +36,8 @@
      Output variables:
         clock.day
         clock.year
-        residue2.residue_wt
-        residue2.residue_p
+        surfaceom.surfaceom_wt
+        surfaceom.surfaceom_p
         soilp.fom_p
         soilp.labile_p
         soilp.unavail_p
@@ -66,10 +66,10 @@
      
      SECTION:- start_of_day
      if day = 10 then
-        residue2 tillage type = disc, f_incorp = 0.5, tillage_depth = 300.
+        surfaceom tillage type = disc, f_incorp = 0.5, tillage_depth = 300.
      endif
      if day = 15 then
-        residue2 tillage type = disc, f_incorp = 0.5, tillage_depth = 0.
+        surfaceom tillage type = disc, f_incorp = 0.5, tillage_depth = 0.
      endif
      
      SECTION:- end_of_day
@@ -141,32 +141,29 @@
             CONA:                     2.50 ()
            Eo from priestly-taylor
 
-------- residue2 Initialisation -----------------------------------------------
-     
-         - Module is set Phosphorus aware
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = lucerne
+      Residue type = lucerne
+      Overall mass =  4000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  800.000000
+                            C:N =  20.0000000
+      Lying cellulose mass =  2800.00000
+                            C:N =  20.0000000
+      Lying lignin mass =  400.000000
+                            C:N =  20.0000000
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-              4000.0    80.0     8.0  lucerne
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100    20.0   200.0       T       no
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -236,14 +233,14 @@
            Root C:P :                    200.0
 ------- Start of simulation  --------------------------------------------------
 10 January 1988(Day of year=10), manager: 
-     Manager sending message :- residue2 tillage  type = disc, f_incorp = 0.5, tillage_depth = 300.
-10 January 1988(Day of year=10), residue2: 
+     Manager sending message :- surfaceom tillage  type = disc, f_incorp = 0.5, tillage_depth = 300.
+10 January 1988(Day of year=10), SurfaceOM: 
      Residue removed using disc
                                              Fraction Incorporated =     0.50
                                              Incorporated Depth    =   300.00
 15 January 1988(Day of year=15), manager: 
-     Manager sending message :- residue2 tillage  type = disc, f_incorp = 0.5, tillage_depth = 0.
-15 January 1988(Day of year=15), residue2: 
+     Manager sending message :- surfaceom tillage  type = disc, f_incorp = 0.5, tillage_depth = 0.
+15 January 1988(Day of year=15), SurfaceOM: 
      Residue removed using disc
                                              Fraction Incorporated =     0.50
                                              Incorporated Depth    =     0.00
