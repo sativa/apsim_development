@@ -1,4 +1,4 @@
-C     Last change:  E    18 Dec 2000    2:44 pm
+C     Last change:  E     7 Feb 2001   11:56 am
 *     ===========================================================
       subroutine Sorg_root_depth (Option)
 *     ===========================================================
@@ -1203,6 +1203,9 @@ c      dll_import  cproc_leaf_area_pot_TPLA
 *+  Changes
 *     <insert here>
 
+*+  Local variables
+      real tpla_max
+
 *+  Constant Values
       character*(*) myname               ! name of current procedure
       parameter (myname = 'sorg_leaf_area_pot')
@@ -1239,6 +1242,13 @@ c      dll_import  cproc_leaf_area_pot_TPLA
  
 !converted to new routine
 
+      call cproc_tpla_max (
+     .          g%leaf_no_final,
+     .          g%tiller_no_fertile,
+     .          c%tiller_coef,
+     .          p%main_stem_coef,
+     .          tpla_max)
+
       call cproc_leaf_area_pot_tpla (
      .          emerg,
      .          flag_leaf,
@@ -1247,11 +1257,8 @@ c      dll_import  cproc_leaf_area_pot_TPLA
      .          g%tt_tot,
      .          g%days_tot,
      .          g%current_stage,
-     .          g%leaf_no_final,
      .          c%initial_tpla,
-     .          g%tiller_no_fertile,
-     .          c%tiller_coef,
-     .          p%main_stem_coef,
+     .          tpla_max,
      .          c%tpla_inflection_ratio,
      .          g%tpla_today,
      .          g%tpla_yesterday,
@@ -1259,7 +1266,6 @@ c      dll_import  cproc_leaf_area_pot_TPLA
      .          g%plants,
      .          g%lai,
      .          g%dlt_lai_pot)
-
 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
