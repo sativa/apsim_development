@@ -1,0 +1,282 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>The APSIM WaterSupply Module </title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="../../../docs/shared/docstyle.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<p class="Title1">The APSIM WaterSupply Module
+</p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Description</p>
+<p class="Normal">APSIM WaterSupply is an instantiable module, capable of performing the role of water-source for the APSIM Irrigate module. The module can be configured to simulate a dam, sump, river, bore or effluent source. In any given APSIM simulation, different instances of WaterSupply can be configured to represent one or more of these water sources, at the same time. For example:</p>
+<p class="Normal">&nbsp;</p>
+<p class="Code">version = 3.1<br>
+  [apsim.sample_soilwat2] </p>
+<p class="Code">&nbsp;</p>
+<p class="Code">title=Soilwat2 Sample Simulation<br>
+  module = clock soilwat2.par [sample]<br>
+  module = report soilwat2.par [sample]<br>
+  module = Input(Met) %apsuite\apsim\met\sample\dalby.met[weather]<br>
+  module = manager soilwat2.par [sample]<br>
+  module = soilwat2 soilwat2.par [black_earth] soilwat2.ini [standard]<br>
+  module = soiln2 soilwat2.par [black_earth] soiln2.ini [standard]<br>
+  module = solute soilwat2.par [sample] solute.ini [standard]<br>
+  module = Screen soilwat2.par[sample]<br>
+  module = SummaryFile soilwat2.par[sample]<br>
+  module = WaterSupply(dam) soilwat2.par[sample] dam.ini [standard]<br>
+  module = WaterSupply(bore) soilwat2.par[sample] bore.ini [standard]<br>
+  module = WaterSupply(sump) soilwat2.par[sample] sump.ini [standard]<br>
+  module = irrigate</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">In the above simulation, WaterSupply is being instantiated to simulate a dam, a bore, and a sump.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">Each instance of this module is capable of maintaining an available pool of water, with a dynamic solute composition, able to provide water or receive water as required. Transfers of water between WaterSupply and Irrigate, or between WaterSupply and other instances of itself (eg dam and sump), are driven by commands from the APSIM Manager module. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">The WaterSupply module is subject to various internal daily processes which produce a dynamic balance of both water and solutes in storage. Depending on type of storage (eg dam or bore), these processes include direct capture of rainfall, capture of surface runoff (both local and catchment), evaporation and seepage losses, and renewal of allocations. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">WaterSupply Parameterisation</p>
+<p class="Normal">The first and most critical piece of information required by the APSIM WaterSupply module during configuration is a parameter called &lsquo;storage_type&rsquo;. There are six discrete categories available, and each instance of this module must be configured as one of these:</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><span class="Code">dam_gully</span> - a open surface storage formed by damming a watercourse<br>
+  <span class="Code">dam_ring</span> - a open-surface ring-tank into which water is pumped for storage<br>
+  <span class="Code">dam_exc</span> - an open-surface excavated storage<br>
+  <span class="Code">sump</span> - an open sump which generally collects local and/or catchment runoff<br>
+  <span class="Code">river</span> &ndash; a watercourse from which an annual pumping allocation is granted<br>
+  <span class="Code">bore</span> &ndash; a underground water-source from which similar allocation is granted</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">An Effluent Source would best be configured as type &lsquo;bore&rsquo; or &lsquo;river&rsquo;, since it will not be subject to daily processes such as evaporation, seepage etc. (see later). Depending on which &lsquo;storage_type&rsquo; is configured, the following parameters are required by APSIM WaterSupply:</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><strong>For Dams and sumps</strong></p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><span class="Code">[sample.watersupply.parameters]</span></p>
+<p class="Normal"><span class="Code"><br>
+  source_type = dam_ring &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;! type of water source<br>
+  receive_catchment_runoff = no &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;! use &lsquo;yes&rsquo; for sumps<br>
+  max_available_water = 150.0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;! capacity (ML)<br>
+  max_area = 20 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;! storage water surface area at capacity (ha)<br>
+  init_available_water = 144.0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;! supply volume available at start of simulation (ML)<br>
+  max_pump = 20.0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;! maximum pump delivery volume per day (ML/day)<br>
+  min_volume = 5.0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;! minimum volume in storage below which pump cannot access<br>
+  permeability = 0.00007 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;! permeability of sealing layer (m/day)<br>
+  seal_thickness = 0.5 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;! thickness of low permeability seal (m)<br>
+  init_br_conc = 100.0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;! initial bromide concentration (ppm)</span><br>
+</p>
+<p class="Normal"><strong>For Bores and Rivers</strong></p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><span class="Code">[sample.watersupply.parameters]</span></p>
+<p class="Normal"><span class="Code"><br>
+  source_type = bore &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ! type of water supply<br>
+  max_available_water = 400.0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;! maximum allocation including carry-overs (ML)<br>
+  init_available_water = 200.0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;! volume available at start of simulation (ML)<br>
+  max_pump = 20.0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;! maximum pump delivery volume per day (ML/day)<br>
+  min_volume = 0.0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;! minimum volume in storage below which pump cannot access<br>
+  annual_allocation = 200.0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;! Annual Allocation in ML<br>
+  allocation_renewal_day = 270 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;! Day of year on which allocation is granted<br>
+  init_br_conc = 100.0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;! initial bromide concentration (ppm)<br>
+  init_cl_conc = 8.0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;! initial chloride concentration (ppm)</span><br>
+</p>
+<p class="Normal"><strong>Parameterising Solutes</strong></p>
+<p class="Normal">As can be seen in of the above examples, initial concentrations of solutes in the storage water can be specified using the parameter &lsquo;init_xxx_conc&rsquo; in parts-per-million, where &lsquo;xxx&rsquo; is the name of the solute. All solutes used in the system must also be initialized in the APSIM Solute module and given an initial distribution in the soil layers, even if this is zero in all layers. As water is transferred between various elements in the simulation (sumps, dams, bores, irrigation, soil), solutes will be transferred accordingly.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">WaterSupply Processes</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><strong>Rainfall Capture </strong><br>
+  For open surface dams and sumps, rainfall results in a storage gain, expressed by:</p>
+<p class="Normal"> rain_capture = (area* rain)/100 (1)</p>
+<p class="Normal">where<br>
+  rain_capture = storage gain from rainfall event (Ml)<br>
+  area = capture surface area of dam (ha)<br>
+  rain = precipitation (mm)</p>
+<p class="Normal">Bore and river allocations are not affected by precipitation.<br>
+  <br>
+    <strong>Runoff Capture</strong><br>
+    For open dams and sumps, if the input parameter &lsquo;receive_catchment_runoff&rsquo; = &lsquo;yes&rsquo;, then local runoff (soilwat2.runoff) and catchment runoff (if provided in an external file) will be added to the storage water. If none of the instances of WaterSupply in a given simulation are configured to receive catchment runoff, then runoff is lost from the system. &lsquo;Soilwat2.runoff&rsquo; is calculated in mm, hence &lsquo;crop_area&rsquo; must be provided as a manager variable whenever WaterSupply is being used, to convert to Ml. Runoff capture is calculated on a daily basis.<br>
+</p>
+<p class="Normal"><strong>Evaporation</strong><br>
+  For open dams and sumps, loss of water to the atmosphere through evaporation is a daily occurrence. Evaporation is calculated in a two stage process as follows:</p>
+<p class="Normal">&nbsp; </p>
+<p class="Normal">From CERES maize soil evaporation (ref Shaun Lisson?? ) <br>
+  </p>
+<p class="Normal">&nbsp;&nbsp;&nbsp;&nbsp;soil_evaporation = radn*23.8846*(0.000204-(0.000183*0.1)) (2)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*(29+(0.6* maxt+0.4* mint))<br>where<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;radn = incident solar radiation (Mj/m2)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;maxt = maximum daily temperature (oC)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;mint = minimum daily temperature (oC)</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">The evaporation from the surface of the dam/sump is then calculated according to (reference??):</p>
+<p class="Normal">&nbsp; </p>
+<p class="Normal">&nbsp;&nbsp;&nbsp;&nbsp;evaporation = vol-(area*((d-(0.7*se/1000))** b)) (3)<br>
+  where<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;vol = current storage volume (Ml)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;area = dam surface area at capacity (ha)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;d = current storage depth (m)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;se = soil evaporation (as calculated above)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;b = geometry factor for dam type (from ini file)<br>
+</p>
+<p class="Normal"><strong>Seepage</strong><br>
+  For open dams and sumps, loss of water through seepage out the base and sides is also a daily occurrence. Seepage is calculated as follows:</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;&nbsp;&nbsp;&nbsp;seepage = vol-(area*((d-(k*(d/st)/365.0))** b)) (4)<br>
+    where<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;vol = current storage volume (Ml)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;area = dam surface area at capacity (ha)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;d = current storage depth (m)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;k = permeability of base (m/day)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;st = seal thickness (m)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;b = geometry factor for dam type (from ini file)</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><strong>Overflow</strong><br>
+  For open dams and sumps, incoming water which takes the storage volume above capacity is lost as &lsquo;overflow&rsquo;.</p>
+<p class="Normal">Allocation Renewal</p>
+<p class="Normal"><br>
+  For bores and rivers, an allocation renewal check is made every day, and on the day specified as &lsquo;renewal day&rsquo; in the input parameters, the &lsquo;annual_allocation&rsquo; is credited to the available storage volume. The amount of carry-over allowed is specified by the user in setting &lsquo;max_available water&rsquo;.</p>
+<p class="Normal"><span class="Normal"><br>
+  </span><span class="Title2">Using WaterSupply with APSIM Irrigate</span></p>
+<p class="Normal">APSIM Irrigate works on a &lsquo;mm&rsquo; basis, whereas APSIM WaterSupply works on real volumes (Ml). Hence, when an irrigation application is specified in mm, an &lsquo;area of application&rsquo; must be provided in order to calculate the required volume of water from the specified source instance of WaterSupply. As mentioned previously, whenever WaterSupply is used in a simulation for supply of irrigation water, a variable called &lsquo;crop_area&rsquo; (ha) must be specified in the manager logic.</p>
+<p class="Normal">Irrigations using water from WaterSupply can only be initiated by using the &lsquo;irrigate apply&rsquo; action in manager. A new optional argument called &lsquo;source&rsquo; is added to the &lsquo;apply&rsquo; command line to trigger the use of water from WaterSupply. The required syntax is as follows:<br>
+</p>
+<p class="Normal"><span class="Code">[sample.manager.start_of_day]</span></p>
+<p class="Normal"><span class="Code"><br>
+  if day = 10 then<br>
+  &nbsp;&nbsp;irrigate apply amount=10 (mm), source = dam bore dam2 ()<br>
+  endif </span><br>
+</p>
+<p class="Normal">The argument &lsquo;source&rsquo; specifies the sources from which to obtain the irrigation water, in preferential order. In other words, in the above example, if the dam cannot fully supply the required water, the balance will be taken from the bore. If there is still a shortage of water, then dam2 will be asked next to supply water. There is no limit to the number of sources which can be specified. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">When the irrigation water is applied to the soil, it will carry the solutes makeup of the water source being used. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Transfering Water between Instances of WaterSupply</p>
+<p class="Normal">In the general operation of an irrigation and water-storage system, there may be numerous occasions where the farmer wishes to transfer water between a sump and the dam, or to pump water from a bore or river into a dam. This is easily achieved in APSIM WaterSupply by employing the &lsquo;TOP_UP&rsquo; command from manager:</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">To transfer 5 megalitres of water from a sump to a dam, for example:</p>
+<p class="Normal">&nbsp;</p>
+<p class="Code">[sample.manager.start_of_day]<br>
+  </p>
+<p class="Code">if day = 15 then<br>
+  <span class="Code">&nbsp;&nbsp;</span>dam top_up amount=5 (Ml), source= sump <br>
+  endif </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">Or else, the dam (say, capacity =150 Ml) may need to be filled from the bore, without knowing the exact amount required:</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><span class="Code">[sample.manager.start_of_day]<br>
+  </span></p>
+<p class="Normal"><span class="Code">dam_deficit = 150-dam.available_water<br>
+  </span></p>
+<p class="Normal"><span class="Code">if day = 15 then<br>
+&nbsp;&nbsp;dam top_up amount=dam_deficit, source= bore<br>
+  endif </span><br>
+  <br>
+  Or else, the farmer may wish to pump to the dam whenever the sump is full :</p>
+<p class="Normal">&nbsp;</p>
+<p class="Code">[sample.manager.start_of_day]<br>
+  </p>
+<p class="Code">sump_volume = sump.available_water<br>
+  sump_deficit = sump.max_available_water -<br>
+  sump_volume<br>
+  </p>
+<p class="Code">if sump_deficit = 0 then<br>
+&nbsp;&nbsp;dam top_up amount=sump_volume, source= sump<br>
+  endif </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">The preferential ordering of sources is available with the &lsquo;top_up&rsquo; command, as for the Irrigate &lsquo;apply&rsquo; command. In all of these examples, the &lsquo;top_up&rsquo; command will transfer the specified water from the source to the destination and calculate the new solute figures in the destination pool. </p>
+<p class="Normal">WaterSupply Actions and Events<br>
+  <br>
+    Figure 1: UML diagram for an Irrigate &lsquo;apply&rsquo; action (specifying &lsquo;source = dam&rsquo;) showing responses from modules concerned.<br>
+<img width="554" height="300" src="WaterSupply_science_clip_image002_0000.gif"></p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">Figure 2: UML diagram for a WaterSupply (dam) &lsquo;top_up&rsquo; action (specifying &lsquo;source = bore&rsquo;) showing responses from modules concerned.<span class="Normal"><img width="553" height="282" src="WaterSupply_science_clip_image002_0001.gif"> <br>
+  <br>
+Figure 3: UML diagram for a WaterSupply (dam) &lsquo;top_up&rsquo; action (specifying &lsquo;source = sump bore&rsquo;) in the situation where the first specified source is not capable of supplying all of the water required. In this case supplementary water is required from the second specified source.</span></p>
+<p> <span class="Normal"><img width="575" height="310" src="WaterSupply_science_clip_image002_0002.gif">  </span></p>
+<p class="Title2">WaterSupply Module Outputs</p>
+<p class="Normal">&nbsp;</p>
+<table cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="175" valign="top"><p class="Normal"><strong>Name </strong></p></td>
+    <td width="66" valign="top"><p class="Normal"><strong>Units </strong></p></td>
+    <td width="349" valign="top"><p class="Normal"><strong>Description </strong></p></td>
+  </tr>
+  <tr>
+    <td width="175" valign="top"><p class="Normal">available_water </p></td>
+    <td width="66" valign="top"><p class="Normal">Ml </p></td>
+    <td width="349" valign="top"><p class="Normal">Current storage volume </p></td>
+  </tr>
+  <tr>
+    <td width="175" valign="top"><p class="Normal">available_depth </p></td>
+    <td width="66" valign="top"><p class="Normal">m </p></td>
+    <td width="349" valign="top"><p class="Normal">Current storage depth </p></td>
+  </tr>
+  <tr>
+    <td width="175" valign="top"><p class="Normal">max_available_water </p></td>
+    <td width="66" valign="top"><p class="Normal">Ml </p></td>
+    <td width="349" valign="top"><p class="Normal">Storage capacity or max allocation carry-over </p></td>
+  </tr>
+  <tr>
+    <td width="175" valign="top"><p class="Normal">min_volume </p></td>
+    <td width="66" valign="top"><p class="Normal">Ml </p></td>
+    <td width="349" valign="top"><p class="Normal">Storage volume below which pumping not allowed </p></td>
+  </tr>
+  <tr>
+    <td width="175" valign="top"><p class="Normal">max_pump </p></td>
+    <td width="66" valign="top"><p class="Normal">Ml/day </p></td>
+    <td width="349" valign="top"><p class="Normal">Maximum daily pump delivery </p></td>
+  </tr>
+  <tr>
+    <td width="175" valign="top"><p class="Normal">annual_allocation </p></td>
+    <td width="66" valign="top"><p class="Normal">Ml </p></td>
+    <td width="349" valign="top"><p class="Normal">Annual water allocation (bores, rivers) </p></td>
+  </tr>
+  <tr>
+    <td width="175" valign="top"><p class="Normal">allocation_renewal_day </p></td>
+    <td width="66" valign="top"><p class="Normal">doy </p></td>
+    <td width="349" valign="top"><p class="Normal">Day of year for renewal of allocation (bores, rivers) </p></td>
+  </tr>
+  <tr>
+    <td width="175" valign="top"><p class="Normal">rain_capture </p></td>
+    <td width="66" valign="top"><p class="Normal">Ml </p></td>
+    <td width="349" valign="top"><p class="Normal">Rainfall captured by dam area </p></td>
+  </tr>
+  <tr>
+    <td width="175" valign="top"><p class="Normal">evaporation </p></td>
+    <td width="66" valign="top"><p class="Normal">Ml </p></td>
+    <td width="349" valign="top"><p class="Normal">Daily water loss to atmosphere </p></td>
+  </tr>
+  <tr>
+    <td width="175" valign="top"><p class="Normal">seepage </p></td>
+    <td width="66" valign="top"><p class="Normal">Ml </p></td>
+    <td width="349" valign="top"><p class="Normal">Dam seepage loss through base and sides </p></td>
+  </tr>
+  <tr>
+    <td width="175" valign="top"><p class="Normal">overflow </p></td>
+    <td width="66" valign="top"><p class="Normal">Ml </p></td>
+    <td width="349" valign="top"><p class="Normal">Input water above storage capacity </p></td>
+  </tr>
+  <tr>
+    <td width="175" valign="top"><p class="Normal">runoff_input </p></td>
+    <td width="66" valign="top"><p class="Normal">Ml </p></td>
+    <td width="349" valign="top"><p class="Normal">Daily runoff added to storage </p></td>
+  </tr>
+  <tr>
+    <td width="175" valign="top"><p class="Normal">storage_xxx </p></td>
+    <td width="66" valign="top"><p class="Normal">ppm </p></td>
+    <td width="349" valign="top"><p class="Normal">Storage concentration of solute ‘xxx', eg storage_cl </p></td>
+  </tr>
+</table>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">References</p>
+<p class="Normal">Jones, C.A., and J.R. Kiniry. 1986. CERES-Maize: A simulation model of maize growth and development. Texas A&amp;M University Press, College Station, Texas.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">Don Gaydon<br>
+  Module Developer<br>
+  CSIRO Sustainable Ecosystems<br>
+  306 Carmody Road <br>
+  ST LUCIA Q 4067</p>
+<p class="Normal">Email: don.gaydon@csiro.au<br>
+  Phone: +61 (0)7 3214 2230<br>
+</p>
+</body>
+</html>
