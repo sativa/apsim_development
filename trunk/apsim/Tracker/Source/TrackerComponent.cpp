@@ -39,21 +39,18 @@ void TrackerComponent::doInit1(const FString& sdml)
 // ------------------------------------------------------------------
 void TrackerComponent::doInit2(void)
    {
-   vector<string> names, values;
-   componentData->getProperties("parameters", names, values);
+   vector<string> vars;
+   componentData->getVariables(vars);
 
    // only keep the values of variables that have a name of trackervariable
    writeString("Tracker variables:");
-   for (unsigned i = 0; i != names.size(); i++)
+   for (unsigned i = 0; i != vars.size(); i++)
       {
       try
          {
-         if (Str_i_Eq(names[i], "trackervariable"))
-            {
-            string msg = "   " + values[i];
-            writeString(msg.c_str());
-            variables.push_back(TrackerVariable(this, values[i]));
-            }
+         string msg = "   " + vars[i];
+         writeString(msg.c_str());
+         variables.push_back(TrackerVariable(this, vars[i]));
          }
       catch (const exception& err)
          {
