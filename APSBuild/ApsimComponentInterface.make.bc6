@@ -1,4 +1,5 @@
 # statically linked components of the engine interface
 STATICLINKEDOBJECTS=\
-$(APSROOT)/apsim/infra/lib/ApsimEngine.imp \
+$(APSROOT)/shared/ApsimShared/ApsimShared.imp \
+$(APSROOT)/shared/ComponentInterface/ApsimFortranWrapper.imp \
 $(APSROOT)/shared/ComponentInterface/SimpleWrapper.obj
