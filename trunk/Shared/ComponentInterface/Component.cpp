@@ -12,6 +12,7 @@ using namespace protocol;
 #define min(a, b)  (((a) < (b)) ? (a) : (b))
 
 static const unsigned int MAX_NUM_REGISTRATIONS = 1000;
+static const unsigned int MAX_NESTED_COMPLETES = 10;
 static const char* ERROR_TYPE = "<type name=\"error\">"
                                    "<field name=\"isFatal\" kind=\"boolean\"/>"
                                    "<field name=\"message\" kind=\"string\"/>"
@@ -37,7 +38,7 @@ enum ProtocolRegistrationType {drivingProperty=1, readableProperty=2,
 
 // ------------------------------------------------------------------
 Component::Component(void)
-   : registrations(MAX_NUM_REGISTRATIONS)
+   : registrations(MAX_NUM_REGISTRATIONS), completeIDs(MAX_NESTED_COMPLETES)
    {
    componentData = NULL;
    name = NULL;
@@ -451,26 +452,35 @@ bool Component::readParameter
 void Component::error(const FString& msg, bool isFatal)
    {
    char cMessage[1000];
-   strcpy(cMessage, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-   if (isFatal)
-      strcat(cMessage, "                 APSIM  Fatal  Error               \n");
+
+   if (beforeInit2)
+      {
+      strncpy(cMessage, msg.f_str(), min((int)msg.length(), 999));
+      ::MessageBox(NULL, cMessage, "Init1 error", MB_ICONSTOP | MB_OK);
+      }
    else
-      strcat(cMessage, "                 APSIM Warning Error               \n");
-   strcat(cMessage, "                 -------------------              \n");
+      {
+      strcpy(cMessage, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+      if (isFatal)
+         strcat(cMessage, "                 APSIM  Fatal  Error               \n");
+      else
+         strcat(cMessage, "                 APSIM Warning Error               \n");
+      strcat(cMessage, "                 -------------------              \n");
 
-   strncat(cMessage, msg.f_str(), min((int)msg.length(), 399));
-   strcat(cMessage, "\nComponent name: ");
-   strcat(cMessage, name);
-   strcat(cMessage, "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n");
+      strncat(cMessage, msg.f_str(), min((int)msg.length(), 999));
+      strcat(cMessage, "\nComponent name: ");
+      strcat(cMessage, name);
+      strcat(cMessage, "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n");
 
-   // create and send a message.
-   Message* errorMessage = newPublishEventMessage(componentID,
-                                                  parentID,
-                                                  errorID,
-                                                  Type(ERROR_TYPE),
-                                                  ErrorData(isFatal, cMessage));
-   errorMessage->toAcknowledge = true;
-   sendMessage(errorMessage);
+      // create and send a message.
+      Message* errorMessage = newPublishEventMessage(componentID,
+                                                     parentID,
+                                                     errorID,
+                                                     Type(ERROR_TYPE),
+                                                     ErrorData(isFatal, cMessage));
+      errorMessage->toAcknowledge = true;
+      sendMessage(errorMessage);
+      }
    }
 
 // ------------------------------------------------------------------
@@ -788,15 +798,20 @@ void Component::setVariableError(unsigned int regID)
 // ------------------------------------------------------------------
 void Component::onCompleteMessage(CompleteData& completeData)
    {
-   if (completeID == completeData.ack_ID)
+   if (completeIDs.size() > 0
+       && completeIDs[completeIDs.size()-1] == completeData.ack_ID)
+      {
       completeFound = true;
+      completeIDs.erase(completeIDs.size()-1);
+      }
    else
       {
       char buffer[200];
       strcpy(buffer, "Invalid complete message.  Was waiting for a complete\n");
       strcat(buffer, "message with ID=");
-      itoa(completeID, &buffer[strlen(buffer)], 10);
+      itoa(completeIDs[completeIDs.size()-1], &buffer[strlen(buffer)], 10);
       error(buffer, true);
+      completeFound = false;
       }
    }
 // ------------------------------------------------------------------
