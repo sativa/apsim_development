@@ -1,6 +1,7 @@
 #include "high_level_chart_base.h"
-
-#define MISSING_VALUE  '-'
+#include "bar_format.h"
+static const char* MISSING_VALUE = "-";
+#include <stdlib.h>
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -10,6 +11,7 @@
 
 //  Changes:
 //    DPH 18/4/1997
+//    dph 10/3/98 added accumulate x and y options C-081
 
 // ------------------------------------------------------------------
 High_level_chart_base::XY_pair::XY_pair (const char* p_X_column_name,
@@ -19,7 +21,9 @@ High_level_chart_base::XY_pair::XY_pair (const char* p_X_column_name,
                   X_axis_link_enum p_x_axis_link,
                   Y_axis_link_enum p_y_axis_link,
                   Format_base* p_Format_ptr,
-                  const char* p_Title)
+                  const char* p_Title,
+                  bool p_Accumulate_x,
+                  bool p_Accumulate_y)
    {
    X_column_name = p_X_column_name;
    Y_column_name = p_Y_column_name;
@@ -29,6 +33,10 @@ High_level_chart_base::XY_pair::XY_pair (const char* p_X_column_name,
    y_axis_link = p_y_axis_link;
    Format_ptr = p_Format_ptr;
    Title = p_Title;
+   Accumulate_x = p_Accumulate_x;
+   Accumulate_y = p_Accumulate_y;
+   Accumulated_x = 0.0;
+   Accumulated_y = 0.0;
    }
 
 // ------------------------------------------------------------------
@@ -39,6 +47,7 @@ High_level_chart_base::XY_pair::XY_pair (const char* p_X_column_name,
 
 //  Changes:
 //    DPH 18/4/1997
+//    dph 10/3/98 added accumulate x and y options C-081
 
 // ------------------------------------------------------------------
 High_level_chart_base::XY_pair::XY_pair (void)
@@ -48,6 +57,10 @@ High_level_chart_base::XY_pair::XY_pair (void)
    x_axis_link = bottom;
    y_axis_link = left;
    Format_ptr = NULL;
+   Accumulate_x = false;
+   Accumulate_y = false;
+   Accumulated_x = 0.0;
+   Accumulated_y = 0.0;
    }
 
 // ------------------------------------------------------------------
@@ -172,6 +185,9 @@ void High_level_chart_base::Set_splitting_field(const char* Splitting_f)
 
 //  Changes:
 //    DPH 18/4/1997
+//    dph 10/3/98 make sure all bar formats go to beginning of
+//                XYs array.  d-123
+//    dph 10/3/98 added accumulate x and y options C-081
 
 // ------------------------------------------------------------------
 void High_level_chart_base::Add_xy_pair (const char* X_field_name,
@@ -181,7 +197,9 @@ void High_level_chart_base::Add_xy_pair (const char* X_field_name,
                                     X_axis_link_enum X_axis_link,
                                     Y_axis_link_enum Y_axis_link,
                                     Format_base* Format_ptr,
-                                    const char* Title)
+                                    const char* Title,
+                                    bool Accumulate_x,
+                                    bool Accumulate_y)
    {
    // make sure we have enough space for another xy pair.
    if (Num_xys >= MAX_XY_PAIRS)
@@ -191,15 +209,31 @@ void High_level_chart_base::Add_xy_pair (const char* X_field_name,
       throw string(msg);
       }
 
+   // are we dealing with a bar format object?
+   int New_position;
+   if (dynamic_cast<Bar_format*> (Format_ptr) != NULL)
+      {
+      // yes we are.  we need to move all elements of XYs array down 1
+      // position to make room for this series at the top of the array.
+      for (int i = Num_xys-1; i >= 0; i--)
+         XYs[i+1] = XYs[i];
+
+      New_position = 0;
+      }
+   else
+      New_position = Num_xys;
+
    // create xy pair object and add to our list.
-   XYs[Num_xys] = new High_level_chart_base::XY_pair (X_field_name,
+   XYs[New_position] = new High_level_chart_base::XY_pair (X_field_name,
                                                  Y_field_name,
                                                  X_type,
                                                  Y_type,
                                                  X_axis_link,
                                                  Y_axis_link,
                                                  Format_ptr,
-                                                 Title);
+                                                 Title,
+                                                 Accumulate_x,
+                                                 Accumulate_y);
    Num_xys++;
    }
 
@@ -233,6 +267,8 @@ void High_level_chart_base::Create_plots_from_database (Database& DB)
 
 //  Changes:
 //    DPH 21/4/1997
+//    dph 7/4/98 added a better check for missing numbers.  Previously
+//               a negative number was considered missing D-131 
 
 // ------------------------------------------------------------------
 void High_level_chart_base::Create_plots_from_table (Table_base& Table_obj)
@@ -256,7 +292,8 @@ void High_level_chart_base::Create_plots_from_table (Table_base& Table_obj)
       if (strlen(x_value) > 0 && strlen(y_value) > 0)
          {
          // yes - do we have missing x or y values?
-         if (x_value[0] != MISSING_VALUE && y_value[0] != MISSING_VALUE)
+         if (strcmpi(x_value, MISSING_VALUE) != 0 &&
+             strcmpi(y_value, MISSING_VALUE) != 0)
             {
             // no - add data to plot.
              Plot_ptr->Data_series->Add_data (x_value, y_value);
@@ -285,6 +322,8 @@ void High_level_chart_base::Initialise_xys (Table_base& Table_obj)
       {
       XYs[XY_number]->x_index = Table_obj.Get_field_index (XYs[XY_number]->X_column_name.c_str());
       XYs[XY_number]->y_index = Table_obj.Get_field_index (XYs[XY_number]->Y_column_name.c_str());
+      XYs[XY_number]->Accumulated_x = 0.0;
+      XYs[XY_number]->Accumulated_y = 0.0;
       }
 
    if (Need_to_create_new_plots(Table_obj))
@@ -363,6 +402,10 @@ void High_level_chart_base::Get_next_point_and_plot (Table_base& Table_obj,
 
 //  Changes:
 //    DPH 18/4/1997
+//    dph 10/3/98 instead of throwing an exception when the x_index
+//                and y_index are invalid, I have simply returned a
+//                blank string.  D-124
+//    dph 10/3/98 added logic to accumulate variables when necessary C-081
 
 // ------------------------------------------------------------------
 bool High_level_chart_base::Get_next_point (Table_base& Table_obj,
@@ -371,25 +414,28 @@ bool High_level_chart_base::Get_next_point (Table_base& Table_obj,
    {
    // get x value.
    if (XYs[Current_xy_index]->x_index < 0)
+      strcpy(x_value, "");
+   else
       {
-      string msg;
-      msg = "Cannot locate field in table.  Field = ";
-      msg += XYs[Current_xy_index]->X_column_name;
-      throw msg;
+      Table_obj.Get_data_by_index (XYs[Current_xy_index]->x_index, x_value);
+      if (XYs[Current_xy_index]->Accumulate_x)
+         {
+         XYs[Current_xy_index]->Accumulated_x += atof(x_value);
+         gcvt(XYs[Current_xy_index]->Accumulated_x, 3, x_value);
+         }
       }
+
    if (XYs[Current_xy_index]->y_index < 0)
+      strcpy(y_value, "");
+   else
       {
-      string msg;
-      msg = "Cannot locate field in table.  Field = ";
-      msg += XYs[Current_xy_index]->Y_column_name;
-      throw msg;
+      Table_obj.Get_data_by_index (XYs[Current_xy_index]->y_index, y_value);
+      if (XYs[Current_xy_index]->Accumulate_y)
+         {
+         XYs[Current_xy_index]->Accumulated_y += atof(y_value);
+         gcvt(XYs[Current_xy_index]->Accumulated_y, 3, y_value);
+         }
       }
-
-   // get x value
-   Table_obj.Get_data_by_index (XYs[Current_xy_index]->x_index, x_value);
-
-   // get y value.
-   Table_obj.Get_data_by_index (XYs[Current_xy_index]->y_index, y_value);
 
    return true;
    }
@@ -459,7 +505,7 @@ void High_level_chart_base::Create_plots (const char* Title_of_table)
                    XYs[XY_number],
                    Title_of_table);
 
-      // give new plot to chart.
+      // give new plot to chart only if x and y variables exist in file.
       Chart_ptr->Add_plot (*(XYs[XY_number]->Plot_ptr));
       }
    }

@@ -9,6 +9,7 @@
 
 //  Changes:
 //    DPH 2/10/1997
+//    dph 10/3/98 added "accumulated_value = 0" for safety
 
 // ------------------------------------------------------------------
 APSIM_depth_chart::APSIM_depth_chart (TForm* parent)
@@ -16,6 +17,7 @@ APSIM_depth_chart::APSIM_depth_chart (TForm* parent)
    {
    Current_layer_number = 1;
    Num_layers = 1000;
+   Accumulated_value = 0.0;
    }
 
 // ------------------------------------------------------------------
@@ -28,6 +30,8 @@ APSIM_depth_chart::APSIM_depth_chart (TForm* parent)
 
 //  Changes:
 //    DPH 18/4/1997
+//    dph 10/3/98 Reset accumulated_value to 0 when finished with
+//                this variable. D-127
 
 // ------------------------------------------------------------------
 bool APSIM_depth_chart::Get_next_point (Table_base& Table_obj,
@@ -56,7 +60,10 @@ bool APSIM_depth_chart::Get_next_point (Table_base& Table_obj,
    // increment current layer number
    Current_layer_number++;
    if (Current_layer_number > Num_layers)
+      {
       Current_layer_number = 1;
+      Accumulated_value = 0.0;
+      }
 
    return (Current_layer_number == 1);
    }
