@@ -3156,7 +3156,7 @@ c       real bound
       integer          itlim
       integer          node
       integer          solnum
-      double precision pold(0:M)
+      
 cnh added next line
 c      double precision psiold(0:m)
       double precision qmax
@@ -3288,7 +3288,7 @@ cnh            dt = dubound(dt,timestep_remaining)
             if(.not.run_has_started)hysref(i)=hysdry(i)
 *           save transformed potls and water contents
             pold(i)=p(i)
-            thold(i)=th(i)
+            thold(i)=th(i)            
             old_hmin = hmin
             old_gsurf = gsurf
 cnh
@@ -8170,7 +8170,8 @@ cnh            if(fail)go to 90
 cnh               call warning_error(Err_internal,
 cnh     :            'swim will reduce timestep to solve water movement')
                   call write_event (
-     :            'swim will reduce timestep to solve water movement')
+     :      'swim will reduce timestep to avoid error in water balance')
+               call apswim_diagnostics()
                goto 90
             endif
 
@@ -8199,8 +8200,8 @@ cnh     :            'swim will reduce timestep to solve water movement')
 cnh      if(isol.ne.1.or.fail)go to 90
       if (fail) then
          call write_event (
-     :            'swim will reduce timestep to solve water movement')
-
+     :   'Maximum iterations reached - swim will reduce timestep')
+         call apswim_diagnostics()
          goto 90
       endif
       if(isol.ne.1) then
@@ -11409,6 +11410,99 @@ c      pause
   110    continue
       endif
       
+      call pop_routine (myname)
+      return
+      end
+* ====================================================================
+       subroutine apswim_diagnostics ()
+* ====================================================================
+
+*   Short description:
+*      None
+
+*   Assumptions:
+*      None
+
+*   Notes:
+*      None
+
+*   Procedure attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <= 20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       Include
+*                       implicit none
+
+*   Changes:
+*     15-04-1998 - neil huth - Programmed and Specified
+
+*   Calls:
+*     Pop_routine
+*     Push_routine
+
+* ----------------------- Declaration section ------------------------
+
+       implicit none
+
+*   Subroutine arguments
+*      none
+
+*   Global variables
+       include 'const.inc'
+       include 'apswim.inc'
+       integer   count_of_double_vals    ! function
+
+*   Internal variables
+       character string*100
+       integer   layer
+       integer   nlayers
+       double precision dummy1, dummy2, dummy3, dummy4, dummy5, dummy6
+       double precision k
+
+*   Constant values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'apswim_diagnostics')
+
+*   Initial data values
+*      none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (myname)
+
+      string =     '     APSwim Numerical Diagnostics'
+      call write_string (LU_Scr_sum,string)
+      
+      string =     '     --------------------------------------------'
+     :            //    '--------------------'
+      call write_string (LU_Scr_sum,string)
+
+      string =     '      depth   Soil Type     Theta         Psi    '
+     :            //    '    K           P'
+      call write_string (LU_Scr_sum,string)
+
+      string =     '     --------------------------------------------'
+     :            //    '--------------------'
+      call write_string (LU_Scr_sum,string)
+
+      nlayers = count_of_double_vals (x,M)
+
+      do 200 layer = 0,nlayers-1
+         call apswim_watvar(layer,p(layer),dummy1,dummy2,dummy3,dummy4
+     :                     ,dummy5,k,dummy6)
+         write(string
+     :        ,'(5x,f6.1,2x,a10,4x,f9.7,1x,f10.3,1x,f10.3,1x,f10.3)')
+     :       x(layer)*10., soil_type(layer), th(layer),psi(layer),
+     :       k ,p(layer)
+         call write_string (LU_Scr_sum,string)
+  200 continue
+
+      string =     '     --------------------------------------------'
+     :            //    '--------------------'
+      call write_string (LU_Scr_sum,string)
+
+
       call pop_routine (myname)
       return
       end
