@@ -1,4 +1,4 @@
-C     Last change:  E    29 Nov 2000   11:54 am
+C     Last change:  E    18 Dec 2000   10:20 am
 
       INCLUDE 'CropMod.inc'
 
@@ -275,22 +275,27 @@ C     Last change:  E    29 Nov 2000   11:54 am
  
 cjh      if (data_record.ne.blank) then
  
+         call collect_char_var ('cultivar', '()'
+     :                        , cultivar, numvals)
+
          call collect_real_var ('plants', '()'
      :                        , g%plants, numvals, 0.0, 400.0)
+
+         call collect_real_var (
+     :                          'sowing_depth', '(mm)'
+     :                        , g%sowing_depth, numvals
+     :                        , 0.0, 100.0)
 
          call collect_real_var_optional (
      :                          'row_spacing', '(m)'
      :                        , g%row_spacing, numvals
      :                        , 0.0, 2.0)
- 
-         call collect_real_var (
-     :                          'sowing_depth', '(mm)'
-     :                        , g%sowing_depth, numvals
-     :                        , 0.0, 100.0)
- 
-         call collect_char_var ('cultivar', '()'
-     :                        , cultivar, numvals)
- 
+
+         if (numvals.eq.0) then
+            g%row_spacing = c%row_spacing_default
+         endif
+
+
          !scc added FTN 11/10/95
          call collect_real_var_optional (
      :                      'tiller_no_fertile', '()'
@@ -2444,7 +2449,8 @@ c+!!!! perhaps we should get number of layers at init and keep it
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
-         dlt_no3(:) = - MIN(g%NO3(:), - dlt_NO3(:))
+         dlt_no3(:) = - MAX(1E-15, MIN(g%NO3(:), - dlt_NO3(:)))
+c        dlt_no3(:) = -  MIN(g%NO3(:), - dlt_NO3(:))
 
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
@@ -5189,6 +5195,8 @@ c           string_to_integer_var(value_string, value, numvals)
       c%extinction_coef_dead   =0.0
       c%extinction_coef_change =0.0
       c%root_extinction        =0.0
+
+      c%row_spacing_default    =0.0
 
       call fill_real_array(c%x_row_spacing,       0.0, max_Table)
       call fill_real_array(c%y_extinct_coef,      0.0, max_Table)
