@@ -151,14 +151,19 @@ void Report::save(const std::string& fileName)
       setReportDirectory(ExtractFileDir(fileName.c_str()).c_str());
 
       ofstream out(fileName.c_str(), ios::binary);
-      out << "Version = 2.0\r\n";
-      out << "NumPages = " << pages.size() << "\r\n";
-      saveComponent(out, dataForm);
-      for (unsigned p = 0; p != pages.size(); p++)
-         saveComponent(out, pages[p]);
+      if (out.is_open())
+         {
+         out << "Version = 2.0\r\n";
+         out << "NumPages = " << pages.size() << "\r\n";
+         saveComponent(out, dataForm);
+         for (unsigned p = 0; p != pages.size(); p++)
+            saveComponent(out, pages[p]);
 
-      out.close();
-      isDirty = false;
+         out.close();
+         isDirty = false;
+         }
+      else
+         MessageBox(NULL, "Cannot save file. Is file readonly?", "Error", MB_ICONSTOP | MB_OK);
       }
    else
       exportCurrentToFile(fileName);
