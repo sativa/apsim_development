@@ -18,7 +18,7 @@ OBJFILES = APSRun.obj
 RESFILES = APSRun.res
 DEFFILE =
 RESDEPEN = $(RESFILES)
-LIBFILES = ..\..\shared\aps\aps32.lib
+LIBFILES = ..\..\shared\aps\aps32.lib ..\..\shared\general\general.lib
 LIBRARIES = 
 SPARELIBS = VCL35.lib Rxctl.lib VCLX35.lib APSGeneral.lib VCLDB35.lib APSUI.lib TEE4C.lib \
   TREE1C3.lib THIRDPARTY.lib
