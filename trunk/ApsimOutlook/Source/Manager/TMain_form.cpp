@@ -1,4 +1,5 @@
 //---------------------------------------------------------------------
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 
@@ -85,8 +86,8 @@ void TMain_form::Import_files_using_filespec (const char* Database_file_name,
       {
       Simulation_database->File_name = Database_file_name;
 
-      list<string> File_list;
-      Get_directory_listing (Directory, File_spec, File_list, FA_NORMAL, true);
+      vector<string> File_list;
+      getDirectoryListing(Directory, File_spec, File_list, FA_NORMAL, true);
       TStringList* files = new TStringList;
       Stl_2_tstrings (File_list, files);
       Import_files (files);
@@ -98,8 +99,8 @@ void __fastcall TMain_form::Import_simulation_using_filespec(TObject *Sender)
    {
    if (Filespec_import_form->ShowModal() == mrOk)
       {
-      list<string> File_list;
-      Get_directory_listing (Filespec_import_form->DirectoryEdit->Text.c_str(),
+      vector<string> File_list;
+      getDirectoryListing (Filespec_import_form->DirectoryEdit->Text.c_str(),
                              Filespec_import_form->FilespecEdit->Text.c_str(),
                              File_list,
                              FA_NORMAL,
