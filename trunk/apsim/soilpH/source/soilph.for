@@ -2242,13 +2242,13 @@
       elseif (variable_name .eq. 'no3_transform_net_mol') then
          call respond2get_real_array (variable_name
      :                              , '(mol/ha)'
-     :                              , e%NO3_transform_net_mol
+     :                              , e%NO3_transform_net_mol_last
      :                              , e%num_layers)
 
       elseif (variable_name .eq. 'nh4_transform_net_mol') then
          call respond2get_real_array (variable_name
      :                              , '(mol/ha)'
-     :                              , e%NH4_transform_net_mol
+     :                              , e%NH4_transform_net_mol_last
      :                              , e%num_layers)
 
       elseif (variable_name .eq. 'dlt_lime_dissl') then
