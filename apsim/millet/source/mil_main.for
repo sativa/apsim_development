@@ -9,12 +9,7 @@
 *       none
 
 *   Notes:
-*   $Log$
-*   Revision 1.8  1996/08/15 00:42:54  WrightS
-*   Patch 10
-*r  $
-*      
-*         Rev 1.7   19 Jul 1995 18:21:16   PVCSUSER
+*      Rev 1.7   19 Jul 1995 18:21:16   PVCSUSER
 *      Added version keywords and lengthened version name
 
 *   Procedure attributes:
@@ -62,7 +57,7 @@
       call push_routine (my_name)
 
       millet_version = version_number 
-cjh     :  '$Revision$$Date$'
+cjh     :  'Revision:   1.7  Date:   19 Jul 1995 18:21:16  '
 
       call pop_routine (my_name)
       return
