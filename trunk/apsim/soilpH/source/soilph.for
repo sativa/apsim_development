@@ -733,10 +733,13 @@
       g%pHCa(:)                  = 0.0
       g%pHca_old(:)              = 0.0
       g%dlt_pHCa(:)              = 0.0
+      g%dlt_pHCa_tot(:)          = 0.0
       g%lime_pool(:)             = 0.0
       g%dlt_lime_pool(:)         = 0.0
       g%H_equiv_mass_flow(:)     = 0.0
+      g%H_equiv_mass_flow_tot(:) = 0.0
       g%H_equiv_flow_net(:)      = 0.0
+      g%H_equiv_flow_net_tot(:)  = 0.0
       g%dlt_lime_dissl(:)        = 0.0
       g%acid_excretion_root(:)   = 0.0
       g%tec_init(:)              = 0.0
@@ -959,10 +962,13 @@
       call fill_real_array (g%pHCa              , 0.0, max_layer)
       call fill_real_array (g%pHca_old          , 0.0, max_layer)
       call fill_real_array (g%dlt_pHCa          , 0.0, max_layer)
+      call fill_real_array (g%dlt_pHCa_tot      , 0.0, max_layer)
       call fill_real_array (g%lime_pool         , 0.0, max_layer)
       call fill_real_array (g%dlt_lime_pool     , 0.0, max_layer)
       call fill_real_array (g%H_equiv_mass_flow , 0.0, max_layer)
+      call fill_real_array (g%H_equiv_mass_flow_tot , 0.0, max_layer)
       call fill_real_array (g%H_equiv_flow_net  , 0.0, max_layer)
+      call fill_real_array (g%H_equiv_flow_net_tot  , 0.0, max_layer)
       call fill_real_array (g%dlt_lime_dissl    , 0.0, max_layer)
       call fill_real_array (g%acid_excretion_root, 0.0, max_layer)
       call fill_real_array (g%tec_init          , 0.0, max_layer)
@@ -1796,7 +1802,7 @@
       elseif (variable_name .eq. 'dlt_phca') then
          call respond2get_real_array (variable_name
      :                              , '()'
-     :                              , g%dlt_pHCa
+     :                              , g%dlt_pHCa_tot
      :                              , e%num_layers)
 
       elseif (variable_name .eq. 'lime_pool') then
@@ -1830,13 +1836,13 @@
       elseif (variable_name .eq. 'h_equiv_mass_flow') then
          call respond2get_real_array (variable_name
      :                              , '(mol/ha)'
-     :                              , g%H_equiv_mass_flow
+     :                              , g%H_equiv_mass_flow_tot
      :                              , e%num_layers)
 
       elseif (variable_name .eq. 'h_equiv_flow_net') then
          call respond2get_real_array (variable_name
      :                              , '(mol/ha)'
-     :                              , g%H_equiv_flow_net
+     :                              , g%H_equiv_flow_net_tot
      :                              , e%num_layers)
 
       elseif (variable_name .eq. 'dlt_acid_n_cycle') then
@@ -3183,6 +3189,11 @@
      :                             , 0.0)
 
       g%H_equiv_mass_flow(:) = 0.0
+      g%H_equiv_mass_flow_tot(:) = 0.0
+      g%H_equiv_flow_net(:) = 0.0 
+      g%H_equiv_flow_net_tot(:) = 0.0
+      g%dlt_pHCa(:) = 0.0
+      g%dlt_pHCa_tot(:) = 0.0
 
          !  Upward Flow of hydrogen ions out of each layer.
       do 1200 layer=e%num_layers, 2, -1
@@ -3200,7 +3211,7 @@
          g%H_equiv_flow_net(layer) = g%H_equiv_mass_flow(layer-1) 
      :                             - g%H_equiv_mass_flow(layer)
 
-               !  Difference in pHCa.
+               !  Difference in pHCa for up flow.
          call soilpH_dlt_pH (
      :                g%dlt_pHCa(layer)
      :               , g%pHBC(layer)
@@ -3226,6 +3237,12 @@
      :               , e%dlayer(layer)
      :               )
       g%pHCa(layer) = g%pHCa(1) + g%dlt_pHCa(1)
+      g%H_equiv_mass_flow_tot(:) = g%H_equiv_mass_flow_tot(:)
+     :                           + g%H_equiv_mass_flow(:)
+      g%H_equiv_flow_net_tot(:) = g%H_equiv_flow_net_tot(:)
+     :                          + g%H_equiv_flow_net(:)
+      g%dlt_pHCa_tot(:) = g%dlt_pHCa_tot(:)
+     :                  + g%dlt_pHCa(:)
 
       g%H_equiv_mass_flow(:) = 0.0
 
@@ -3251,7 +3268,7 @@
      :                                - g%H_equiv_mass_flow(layer)
          endif
 
-            !  Difference in pHCa.
+            !  Difference in pHCa for down flow.
          call soilpH_dlt_pH (
      :                g%dlt_pHCa(layer)
      :               , g%pHBC(layer)
@@ -3266,9 +3283,16 @@
         g%pHCa(layer) = g%pHCa(layer) + g%dlt_pHCa(layer)
 1300  continue
 
+      g%H_equiv_mass_flow_tot(:) = g%H_equiv_mass_flow_tot(:)
+     :                           + g%H_equiv_mass_flow(:)
+      g%H_equiv_flow_net_tot(:) = g%H_equiv_flow_net_tot(:)
+     :                          + g%H_equiv_flow_net(:)
+      g%dlt_pHCa_tot(:) = g%dlt_pHCa_tot(:)
+     :                  + g%dlt_pHCa(:)
+
       do 1400 layer=1, e%num_layers
 
-            !  Difference in pHCa.
+            !  Difference in pHCa for other processes.
          call soilpH_dlt_pH (
      :                g%dlt_pHCa(layer)
      :               , g%pHBC(layer)
@@ -3282,6 +3306,9 @@
      :                        )
          g%pHCa(layer) = g%pHCa(layer) + g%dlt_pHCa(layer)
 1400  continue
+      
+      g%dlt_pHCa_tot(:) = g%dlt_pHCa_tot(:)
+     :                  + g%dlt_pHCa(:)
 
       g%lime_pool(:) = g%lime_pool(:) + g%dlt_lime_pool(:)
 
