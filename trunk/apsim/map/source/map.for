@@ -347,7 +347,7 @@ cnh      call set_warning_off ()
       character*1 little_number
       character*2 big_number
       integer i
-      character*500 line
+      character*1000 line
       character*3 out_txt
 
 *- Implementation Section ----------------------------------
@@ -494,7 +494,7 @@ cnh      call set_warning_off ()
      :                 '    Core_end','    Simulation Layer'
          call write_string (line)
          do out=1,p%num_output_layers
-            write (line,'(f10.3,2x,f10.0,40(2x,f5.3))')
+            write (line,'(f10.3,2x,f10.0,100(2x,f5.3))')
      :     p%core_start(out), p%core_end(out)
      :     , (g%coeffs(out,in),in=1,g%nz)
             call write_string (line)
@@ -811,7 +811,7 @@ c      endif
      :                'Coefficients and point samples')
       else
 !if didn't fall into one of these catagories then crash
-         write (line,'(a,4(2x,f5.0)))') 'Failure of coeff. gen. ',
+         write (line,'(a,4(2x,f5.0))') 'Failure of coeff. gen. ',
      :            sim_up, sim_low, core_up, core_low
 !         write(*,*) line
          call fatal_error (err_internal,line)
