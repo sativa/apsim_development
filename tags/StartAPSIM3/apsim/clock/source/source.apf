@@ -1,0 +1,10 @@
+[Dependencies]
+Dependency = %licensed_source(clock)
+
+[Contents]
+datatypesmodule.f90 = datatypesmodule.f90 compilerFile=debug.compile
+clock.for = clock.for
+
+[APSBuild]
+binary = ..\lib\clock.dll
+compilerFile=debug.compile

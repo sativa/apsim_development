@@ -1,0 +1,10 @@
+[Dependencies]
+Dependency = %licensed_source(accum)
+
+[Contents]
+datatypesmodule.f90 = datatypesmodule.f90
+accum.for = accum.for
+
+[APSBuild]
+binary = ..\lib\accum.dll
+
