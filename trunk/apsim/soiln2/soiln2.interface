@@ -113,7 +113,7 @@
       <respondToMethodCallReg name="reset" type="reset"/>
       <respondToMethodCallReg name="sum_report" type="sum_report"/>
       <respondToMethodCallReg name="create" type="create"/>
-      <respondToMethodCallReg name="incorp_fom" type="incorp_fom"/>
+      <respondToEventReg name="incorp_fom" type="incorp_fom"/>
       <eventReg name="new_solute" type="new_solute"/>
       <eventReg name="n_balance" type="n_balance"/>
       <eventReg name="c_balance" type="c_balance"/>
