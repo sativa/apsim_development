@@ -27,6 +27,71 @@ extern "C" void __stdcall createInstance(const char* dllFileName,
 void callCallback(const unsigned int* callbackArg,
                    CallbackType* messageCallback,
                    Message* message);
+#ifdef NOTYET
+// ------------------------------------------------------------------
+// Pure virtual class to send variables to the rest of the system
+// via sendVariable()
+// ------------------------------------------------------------------
+class baseInfo {
+  protected:
+   int                    myLength;
+   protocol::DataTypeCode myType;
+   FString                myName;
+   FString                myUnits;
+   FString                myDescription;
+  public:
+   baseInfo() 
+      {
+      myLength = 0; 
+      myType = protocol::DTunknown; 
+      };
+   ~baseInfo() {};
+   virtual void sendVariable(Component *, QueryValueData&) = 0;
+};
+
+// ------------------------------------------------------------------
+// A class to wrap a variable for reporting/manager/etc. Keeps a pointer 
+// to memory region of scalar or array object, and knows how to send this
+// to the system via sendVariable when asked.  
+// ------------------------------------------------------------------
+class varInfo : public baseInfo {
+  private:
+   void                  *myPtr;
+  public:
+   varInfo(const char *name, DataTypeCode type, int length, void *ptr, const char *units, const char *desc) {
+      myName = name;
+      myType = type;
+      myLength = length;
+      myPtr = ptr;
+      myUnits = units;
+      myDescription = desc;
+   };
+   ~varInfo() {};
+   void sendVariable(Component *, QueryValueData&);
+};
+
+// Same as above, but stores pointers to function calls, not memory regions.
+class fnInfo : public baseInfo {
+  private:
+    boost::function2<void, Component *, QueryValueData &> myFn;
+  public:
+    fnInfo(const char *name, 
+           protocol::DataTypeCode type, int length, 
+           boost::function2<void, Component *, QueryValueData &> fn, 
+           const char *units, const char *desc) {
+      myFn = fn;
+      myName = name;
+      myType = type;
+      myLength = length;
+      myUnits = units;
+      myDescription = desc;
+   };
+   ~fnInfo() {};
+   void sendVariable(Component *s, QueryValueData &qd) { myFn(s, qd); };
+};
+
+typedef std::map<unsigned, baseInfo*>   UInt2InfoMap;
+#endif   // NOTYET
 
 // ------------------------------------------------------------------
 // Manages a single instance of an APSIM Component
@@ -210,8 +275,30 @@ class Component
          sendMessage(newApsimChangeOrderMessage(componentID, parentID, names));
          }
       void setRegistrationType(unsigned int regID, const Type& type);
-      const char *getName(void) {return name;}
-
+      const char *getName(void) {return name;};
+#ifdef NOTYET
+      void addGettableVar(const char *systemName,
+                          protocol::DataTypeCode type,
+                          int length,
+                          boost::function2<void, Component *, QueryValueData &> ptr,
+                          const char *units,
+                          const char *desc);
+      void addGettableVar(const char *systemName,
+                          int length,
+                          float *ptr,
+                          const char *units,
+                          const char *desc);
+      void addGettableVar(const char *systemName,
+                          int length,
+                          int *ptr,
+                          const char *units,
+                          const char *desc);
+      void addGettableVar(const char *systemName,
+                          int length,
+                          char *ptr,
+                          const char *units,
+                          const char *desc);
+#endif
    protected:
       unsigned int componentID;
       unsigned int parentID;
@@ -288,7 +375,9 @@ class Component
       bool setVariableSuccess;
       vector<unsigned> completeIDs;
       bool completeFound;
-
+#ifdef NOTYET
+      UInt2InfoMap getVarMap;                  // List of variables we can send to system
+#endif
       const unsigned int* callbackArg;
       CallbackType* messageCallback;
 
@@ -311,6 +400,12 @@ class Component
                                            unsigned int* instanceNumber,
                                            const unsigned int* callbackArg,
                                            CallbackType* callback);
+#ifdef NOTYET
+      unsigned int getReg(const char *systemName,
+                          DataTypeCode type, 
+                          bool isArray, 
+                          const char *units);
+#endif
    };
 
    } // end namespace protocol

@@ -850,3 +850,138 @@ void fatalError(const FString& st)
    {
    component->error(st, true);
    }
+
+#ifdef NOTYET
+// ------------------------------------------------------------------
+//  Short description:
+//    Send a variable to the system
+//  Notes:
+//    Using a pointer to a memory region of scalar or array object, calls 
+//    Component::sendVariable() with the correct typecast w
+// ------------------------------------------------------------------
+void varInfo::sendVariable(Component *systemInterface, QueryValueData& qd) 
+   {
+   switch (myType)
+      {
+      case DTdouble:
+         if (myLength == 1) 
+           systemInterface->sendVariable(qd, *(double *)myPtr);
+         else if (myLength > 1) 
+           systemInterface->sendVariable(qd,         
+             protocol::vector<double>((double *)myPtr, (double *)myPtr + myLength));
+         else
+           throw "Length = 0 in varInfo::sendVariable";  
+         break;
+      case DTsingle:
+         if (myLength == 1) 
+           systemInterface->sendVariable(qd, *(float *)myPtr);
+         else if (myLength > 1) 
+           systemInterface->sendVariable(qd,         
+             protocol::vector<float>((float *)myPtr, (float *)myPtr + myLength));
+         else
+           throw "Length = 0 in varInfo::sendVariable";  
+         break;
+      case DTint4 :
+         if (myLength == 1) 
+           systemInterface->sendVariable(qd, *(int *)myPtr);
+         else if (myLength > 1) 
+           systemInterface->sendVariable(qd,         
+             protocol::vector<int>((int *)myPtr, (int *)myPtr + myLength));
+         else
+           throw "Length = 0 in varInfo::sendVariable";  
+         break;
+      case DTstring :
+         if (myLength == 1) 
+           systemInterface->sendVariable(qd, FString((char *)myPtr));
+         else if (myLength > 1) 
+           throw  "String Array not yet implemented";
+         else
+           throw "Length = 0 in varInfo::sendVariable";  
+         break;
+
+      default:
+         throw "Aiee unknown type in varInfo::sendVariable";
+      }
+   }
+
+void Component::addGettableVar(const char *systemName,
+                               DataTypeCode type,
+                               int length,
+                               boost::function2<void, protocol::Component *, protocol::QueryValueData &> ptr,
+                               const char *units,
+                               const char *desc)
+   {
+   unsigned int id = getReg(systemName, type, length>1, units); 
+   
+   // Add to variable map
+   fnInfo *v = new fnInfo(systemName, type, length, ptr, units, desc);
+   getVarMap.insert(UInt2InfoMap::value_type(id,v));
+   }
+
+void Component::addGettableVar(const char *systemName,
+                               int length,
+                               float *ptr,
+                               const char *units,
+                               const char *desc)
+   {
+   unsigned int id = getReg(systemName, DTsingle, length>1, units); 
+   
+   // Add to variable map
+   varInfo *v = new varInfo(systemName, DTsingle, length, ptr, units, desc);
+   getVarMap.insert(UInt2InfoMap::value_type(id,v));
+   }
+
+void Component::addGettableVar(const char *systemName,
+                               int length,
+                               int *ptr,
+                               const char *units,
+                               const char *desc)
+   {
+   unsigned int id = getReg(systemName, DTint4, length>1, units); 
+   
+   // Add to variable map
+   varInfo *v = new varInfo(systemName, DTint4, length, ptr, units, desc);
+   getVarMap.insert(UInt2InfoMap::value_type(id,v));
+   }
+void Component::addGettableVar(const char *systemName,
+                               int length,
+                               char *ptr,
+                               const char *units,
+                               const char *desc)
+   {
+   unsigned int id = getReg(systemName, DTstring, length>1, units); 
+   
+   // Add to variable map
+   varInfo *v = new varInfo(systemName, DTstring, length, ptr, units, desc);
+   getVarMap.insert(UInt2InfoMap::value_type(id,v));
+   }
+
+
+// Build the xml fragment that describes this variable and publish to system
+unsigned int Component::getReg(const char *systemName,
+                                DataTypeCode type, 
+                                bool isArray, 
+                                const char *units)
+   {
+   char buffer[200];
+   strcpy(buffer, "<type kind=\"");
+   switch (type)
+      {
+   	case DTint4:   {strcat(buffer, "integer4"); break;}
+   	case DTsingle: {strcat(buffer, "single"); break;}
+   	case DTboolean:{strcat(buffer, "boolean"); break;}
+   	case DTstring: {strcat(buffer, "string"); break;}
+   	default: {throw "Undefined gettable var type";}
+      }
+   strcat(buffer, "\" array=\"");
+   if  (isArray) {
+       strcat(buffer, "T");
+   } else { 
+       strcat(buffer, "F");
+   }
+   strcat(buffer, "\" units=\"(");
+   strcat(buffer, units);
+   strcat(buffer, ")\"/>");
+   return this->addRegistration(respondToGetReg, systemName, buffer);
+   }
+#endif
