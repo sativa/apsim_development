@@ -10,7 +10,7 @@
       ApsimSystemData.obj ApsimVersion.obj TAboutForm.obj TSplashForm.obj 
       ApsimForms.obj ApsimDataFile.obj ApsimDataTypesFile.obj 
       ApsimDataTypeData.obj ApsimRegistrationData.obj ControlFileConverter.obj 
-      TMoveParametersForm.obj SimCreator.obj"/>
+      TMoveParametersForm.obj SimCreator.obj StarUtils.obj"/>
     <RESFILES value="ApsimShared.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TAboutForm.dfm TSplashForm.dfm TMoveParametersForm.dfm"/>
@@ -78,6 +78,7 @@
       <FILE FILENAME="TMoveParametersForm.cpp" FORMNAME="MoveParametersForm" UNITNAME="TMoveParametersForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="SimCreator.cpp" FORMNAME="" UNITNAME="SimCreator" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib" FORMNAME="" UNITNAME="filesystem.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="StarUtils.cpp" FORMNAME="" UNITNAME="StarUtils" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
