@@ -39,7 +39,7 @@
 
 ! ====================================================================
       type SoilTempGlobals
-
+	sequence
          integer*4 time
 
          integer  nz                     ! number of nodes
@@ -66,6 +66,7 @@
       end type SoilTempGlobals
 ! ====================================================================
       type SoilTempExternals
+         sequence
          real t_ave                       !annual average soil temperature
          real  timestep
          real dlayer(max_layer)
@@ -79,11 +80,13 @@
       end type SoilTempExternals
 ! ====================================================================
       type SoilTempParameters
+         sequence
          real  clay(max_layer)
 
       end type SoilTempParameters
 ! ====================================================================
       type SoilTempConstants
+         sequence
          real  nu                         !forward/backward differencing
          real  vol_spec_heat_clay         !(Joules*m-3*K-1)
          real  vol_spec_heat_om           !(Joules*m-3*K-1)
@@ -91,186 +94,16 @@
 
       end type SoilTempConstants
 ! ====================================================================
-
       ! instance variables.
-      type (SoilTempGlobals), pointer :: g
-      type (SoilTempExternals), pointer :: e
-      type (SoilTempParameters), pointer :: p
-      type (SoilTempConstants), pointer :: c
-
-      save g
-      save p
-      save c
-      save e
-
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)
-      integer MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-
-      type SoilTempDataPtr
-         type (SoilTempGlobals), pointer ::    gptr
-         type (SoilTempExternals), pointer ::  eptr
-         type (SoilTempParameters), pointer :: pptr
-         type (SoilTempConstants), pointer ::  cptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type SoilTempDataPtr
-
-      type (SoilTempDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
-      save Instances
+      common /InstancePointers/ ID,g,p,c,e
+      save InstancePointers
+      type (SoilTempGlobals),pointer :: g
+      type (SoilTempParameters),pointer :: p
+      type (SoilTempConstants),pointer :: c
+      type (SoilTempExternals),pointer :: e
 
       contains
 
-
-
- !     ===========================================================
-      Recursive
-     :subroutine AllocInstance (InstanceName, InstanceNo)
- !     ===========================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
-*+  Purpose
-*      Module instantiation routine.
-
-*+  Mission Statement
-*     Instantiate routine
-
- !- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%gptr)
-      allocate (Instances(InstanceNo)%eptr)
-      allocate (Instances(InstanceNo)%pptr)
-      allocate (Instances(InstanceNo)%cptr)
-      Instances(InstanceNo)%Name = InstanceName
-
-      return
-      end subroutine
-
- !     ===========================================================
-      Recursive
-     :subroutine FreeInstance (anInstanceNo)
- !     ===========================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-*+  Purpose
-*      Module de-instantiation routine.
-
-*+  Mission Statement
-*     De-Instantiate routine
-
- !- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%gptr)
-      deallocate (Instances(anInstanceNo)%eptr)
-      deallocate (Instances(anInstanceNo)%pptr)
-      deallocate (Instances(anInstanceNo)%cptr)
-
-      return
-      end subroutine
-
- !     ===========================================================
-      Recursive
-     :subroutine SwapInstance (anInstanceNo)
- !     ===========================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-*+  Purpose
-*      Swap an instance into the global 'g' pointer
-
-*+  Mission Statement
-*     Swap an instance into global pointer
-
- !- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%gptr
-      e => Instances(anInstanceNo)%eptr
-      p => Instances(anInstanceNo)%pptr
-      c => Instances(anInstanceNo)%cptr
-
-      return
-      end subroutine
-
-* ====================================================================
-      Recursive
-     :subroutine Main (Action, Data_string)
-* ====================================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-       character Action*(*)            ! Message action to perform
-       character Data_string*(*)       ! Message data
-
-*+  Purpose
-*      This routine is the interface between the main system and the
-*      soiltemp module.
-
-*+  Mission Statement
-*     Handles communications for Soiltemp
-
-*+  Changes
-*    ????
-*    070896 jngh added message_unused call at end subroutine
-
-*+  Constant Values
-      character*(*) myname                 ! Name of this procedure
-      parameter (myname = 'apsim_soiltemp')
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
-      if (Action.eq.ACTION_Init) then
-         call soiltemp_zero_variables ()
-         call soiltemp_Init ()
-
-      elseif (Action.eq.ACTION_Prepare) then
-         call soiltemp_prepare ()
-
-      else if (Action.eq.ACTION_Process) then
-         call soiltemp_process ()
-!         call soiltemp_set_other_variables ()
-
-      else if (Action.eq.ACTION_Get_variable) then
-         call soiltemp_Send_my_variable (Data_string)
-
-!      else if (Action.eq.ACTION_Set_variable) then
-!         call soiltemp_Set_my_variable (data_string)
-
-!      elseif (Action.eq.ACTION_Post) then
-               ! do any post processing
-!         call soiltemp_post ()
-
-!      elseif (action.eq.ACTION_event) then
-!               ! act upon an event
-!         call soiltemp_capture_event ('data')
-
-!      elseif (Action.eq.ACTION_End_run) then
-               ! clean up at end of run
-!         call soiltemp_end_run ()
-      elseif (Action.eq.ACTION_Create) then
-         call soilTemp_zero_all_globals ()
-
-      else
-         ! Don't use message
-         call Message_unused ()
-
-      endif
-
-      call pop_routine (myname)
-      return
-      end subroutine
 
 
 
@@ -1451,3 +1284,106 @@
 
 
       end module SoilTempModule
+
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use SoilTempModule
+      implicit none  
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+         allocate(p)
+         allocate(c)
+         allocate(e)
+      else
+         deallocate(g)
+         deallocate(p)
+         deallocate(c)
+         deallocate(e)
+      end if
+      return
+      end subroutine
+
+
+
+* ====================================================================
+      Recursive
+     :subroutine Main (Action, Data_string)
+* ====================================================================
+      Use infrastructure
+      implicit none
+      ml_external Main
+
+*+  Sub-Program Arguments
+       character Action*(*)            ! Message action to perform
+       character Data_string*(*)       ! Message data
+
+*+  Purpose
+*      This routine is the interface between the main system and the
+*      soiltemp module.
+
+*+  Mission Statement
+*     Handles communications for Soiltemp
+
+*+  Changes
+*    ????
+*    070896 jngh added message_unused call at end subroutine
+
+*+  Constant Values
+      character*(*) myname                 ! Name of this procedure
+      parameter (myname = 'apsim_soiltemp')
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+      if (Action.eq.ACTION_Init) then
+         call soiltemp_zero_variables ()
+         call soiltemp_Init ()
+
+      elseif (Action.eq.ACTION_Prepare) then
+         call soiltemp_prepare ()
+
+      else if (Action.eq.ACTION_Process) then
+         call soiltemp_process ()
+!         call soiltemp_set_other_variables ()
+
+      else if (Action.eq.ACTION_Get_variable) then
+         call soiltemp_Send_my_variable (Data_string)
+
+!      else if (Action.eq.ACTION_Set_variable) then
+!         call soiltemp_Set_my_variable (data_string)
+
+!      elseif (Action.eq.ACTION_Post) then
+               ! do any post processing
+!         call soiltemp_post ()
+
+!      elseif (action.eq.ACTION_event) then
+!               ! act upon an event
+!         call soiltemp_capture_event ('data')
+
+!      elseif (Action.eq.ACTION_End_run) then
+               ! clean up at end of run
+!         call soiltemp_end_run ()
+      elseif (Action.eq.ACTION_Create) then
+         call soilTemp_zero_all_globals ()
+
+      else
+         ! Don't use message
+         call Message_unused ()
+
+      endif
+
+      call pop_routine (myname)
+      return
+      end subroutine
+
+
