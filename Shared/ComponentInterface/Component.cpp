@@ -356,13 +356,21 @@ unsigned Component::addRegistration(RegistrationType kind,
                                     const FString& alias,
                                     const FString& componentNameOrID)
    {
+   static char regName[200];
+
    unsigned destID = 0;
    if (componentNameOrID.length() != 0)
       {
-      char buffer[100];
-      strncpy(buffer, componentNameOrID.f_str(), componentNameOrID.length());
+      strncpy(regName, componentNameOrID.f_str(), componentNameOrID.length());
       char* endPtr;
-      destID = strtol(buffer, &endPtr, 10);
+      destID = strtol(regName, &endPtr, 10);
+      if (endPtr == NULL)
+         strncpy(regName, name.f_str(), name.length());
+      else
+         {
+         strcat(regName, ".");
+         strncat(regName, name.f_str(), name.length());
+         }
       }
 
    RegistrationItem* newRegistration = new RegistrationItem
@@ -376,7 +384,7 @@ unsigned Component::addRegistration(RegistrationType kind,
                                      kind,
                                      id,
                                      destID,
-                                     name,
+                                     regName,
                                      type));
    else
       sendMessage(newRegisterMessage(componentID,
