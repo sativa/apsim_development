@@ -1,19 +1,20 @@
-// TestMath_functions.cpp - Test for functions defined in math_functions.cpp,
+// TestMathFunctions.cpp - Test for functions defined in math_functions.cpp,
 //     using the Boost library
 //
 // J Wang
 // Aug 2004
 #include <iostream.h>
 #include <list.h>
-#include "../math_functions.h"
-#include "TestMathFunctions.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/test/floating_point_comparison.hpp>  // BOOST_CHECK_CLOSE
 #include <string.h>
 
+#include "../math_functions.h"
+#include "TestMathFunctions.h"
+
 using boost::unit_test_framework::test_suite;
 using namespace boost::unit_test_framework;
-
+int chkException = 1;
 void TestMultiplyAccumulate (void){
     // 1. float case
     vector<float> v1;
@@ -94,10 +95,12 @@ void TestArithmetic(){
     BOOST_CHECK_EQUAL(i3.back(), (i1.back()/i2.back()));
 
     // Case 5. throw exception if diff size
+    if(chkException){
     BOOST_CHECK_THROW( multiply(f4,f1),exception);
     BOOST_CHECK_THROW( multiply(i4,i1),exception);
     BOOST_CHECK_THROW( divide(f4,f1),exception);
     BOOST_CHECK_THROW( divide(f4,f1),exception);
+    }
 }
 
 void TestArithmeticBy(){
@@ -340,7 +343,9 @@ void TestLinearInterpReal(){
     // Case 3. empty x_, y_coord
     xcord.clear();
     ycord.clear();
+    if(chkException){
     BOOST_CHECK_THROW(linear_interp_real(x,xcord,ycord, didInter), exception);
+    }
 }
 
 void TestCalculateProbDist(){
@@ -376,6 +381,7 @@ void TestCalculatePercentile(){
     BOOST_CHECK_EQUAL(Calculate_percentile(x, true, 2),1.0);
     // Case 2. empty vector -> exception
     x.clear();
+    if(chkException)
     BOOST_CHECK_THROW(Calculate_percentile(x, true, 2), exception);
 }
 

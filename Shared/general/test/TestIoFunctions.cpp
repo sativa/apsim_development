@@ -51,7 +51,7 @@ void TestDirectoryExists(void)
    BOOST_CHECK( DirectoryExists(t));
    rmdir(t);
    }
-   
+
 void TestRemovePathAndExtension(void)
    {
    std::string s = "c:\\a\\b.c";
@@ -193,3 +193,4 @@ test_suite* testIoFunctions(void)
 
    return test;
    }
+
