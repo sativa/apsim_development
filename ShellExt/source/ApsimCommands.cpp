@@ -162,3 +162,18 @@ extern "C" _export void __stdcall interfaceFiles(const char* csvFiles)
       WinExec(command.c_str(), SW_SHOW);
       }
    }
+
+//---------------------------------------------------------------------------
+// Open an .apsim file.
+//---------------------------------------------------------------------------
+extern "C" _export void __stdcall apsimFiles(const char* csvFiles)
+   {
+   vector<string> fileNames;
+   Split_string(csvFiles, ",", fileNames);
+
+   for (unsigned f = 0; f != fileNames.size(); f++)
+      {
+      string command = getApsimDirectory() + "\\bin\\ApsimUI \"" + fileNames[f] + "\"";
+      WinExec(command.c_str(), SW_SHOW);
+      }
+   }

@@ -227,7 +227,8 @@ void CContextMenuHandler::createMenus(string& subMenuName,
           strcmpi(extension.c_str(), ".run") == 0 ||
           strcmpi(extension.c_str(), ".sim") == 0 ||
           strcmpi(extension.c_str(), ".report") == 0 ||
-          strcmpi(extension.c_str(), ".interface") == 0)
+          strcmpi(extension.c_str(), ".interface") == 0 ||
+          strcmpi(extension.c_str(), ".apsim") == 0)
          {
 
          if (strcmpi(extension.c_str(), ".out") == 0)
@@ -293,6 +294,15 @@ void CContextMenuHandler::createMenus(string& subMenuName,
                                "interfaceFiles",
                                &interfaceFiles));
             }
+         else if (strcmpi(extension.c_str(), ".apsim") == 0)
+            {
+            menuDescriptions.push_back(
+               MenuDescription("&Run APSIM User Interface",
+                               "Run the APSIM user interface",
+                               "apsimUI",
+                               &apsimFiles));
+            }
+
          }
       }
    }
