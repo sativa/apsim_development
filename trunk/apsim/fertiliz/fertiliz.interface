@@ -11,7 +11,6 @@ class APSIMFertilizPublic
 
    create                  : APSIMMethod                = System message to create
    sysinit                 : APSIMMethod                = System initialise
-   process                 : APSIMMethod                = Message to process
    apply                   : APSIMApplyMethod           = Message from manager to module
    fertilize               : APSIMFertilizeMethod       = Message from manager to module fertiliz
 
@@ -31,6 +30,7 @@ class APSIMFertilizExternal
 
    tick                    : APSIMClockTickEvent        = Change in the simulation system time and the duration of the new time step
    new_profile             : APSIMNewProfileEvent       = To notify all interested modules of the change in soil water profile characteristic information
+   process                 : APSIMEvent                 = Message to process
 
 end
 

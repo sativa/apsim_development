@@ -12,7 +12,6 @@ class APSIMSoilphPublic
    sysinit                 : APSIMMethod                = System initialise
    reset                   : APSIMMethod                = System reset stage
    create                  : APSIMMethod                = System message to create
-   process                 : APSIMMethod                = Message to process
    end_run                 : APSIMMethod                = Message that run is to end
    sum_report              : APSIMSumReportMethod       = Report SoilWat module summary details
    tillage                 : APSIMSoilwat2TillageMethod = Set up for CN reduction after tillage operation
@@ -35,6 +34,7 @@ class APSIMSoilphExternal
    residue_added           : APSIMResidueAddedEvent     = To notify all interested modules of the addition of residue to the residue pool
    residue_removed         : APSIMResidueRemovedEvent   = To notify all interested modules of the removal of residue from the residue pool
    crop_chopped            : APSIMCropChoppedEvent      = To notify all interested modules of the removal of dry matter from a crop
+   process                 : APSIMEvent                 = Message to process
 
 
 end

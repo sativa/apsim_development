@@ -14,9 +14,7 @@ class APSIMManagerPublic
    post    : APSIMRule = Post stage(end of day) rules, (), READ
 
    sysinit : APSIMMethod = System initialise
-   prepare : APSIMMethod = System prepare
-   process : APSIMMethod = System process
-   post    : APSIMMethod = System post
+
 end
 ; -----------------------------------------------------------
 ; MANAGERs external interface which documents things in other 
@@ -30,9 +28,10 @@ class APSIMManagerExternal
    today : APSIMReal = Today, (day)
    day   : APSIMInteger = Day, (day)
    year  : APSIMInteger = Year, (year)
+
    prepare    : APSIMEvent      = System prepare
-   process    : APSIMEvent      = System prepare
-   post       : APSIMEvent      = System prepare
+   process    : APSIMEvent      = System process
+   post       : APSIMEvent      = System post
 
 end
 

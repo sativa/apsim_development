@@ -49,7 +49,6 @@ class APSIMSoilpPublic
 
    sysinit                 : APSIMMethod                = System initialise
    sum_report              : APSIMSumReportMethod       = Report SoilWat module summary details
-   process                 : APSIMMethod                = Message to process
    tillage                 : APSIMSoilwat2TillageMethod = Set up for CN reduction after tillage operation
    incorp_fom              : APSIMIncorporateFOMMethod  = Message to report a residue decomposition
    decomposed              : APSIMDecomposedMethod      = Message to report a residue decomposition
@@ -88,6 +87,8 @@ class APSIMSoilpExternal
   hum_c                    : APSIMRealArray      = temporary array, (), GET, 0.0, 100000.0
   fom_c                    : APSIMRealArray      = temporary array, (), GET, 0.0, 10000.0
   residue_wt               : APSIMReal           = Weight of residue, (kg/ha), GET, 0.0, 50000.0
+
+  process                  : APSIMEvent          = Message to process
 
 end 
 
