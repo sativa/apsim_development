@@ -1,4 +1,4 @@
-[soilph.report.parameters]
+[soilph.report.parameters]  
 
 !General parameters
 
@@ -8,9 +8,9 @@
 !Water balance parameters
 
 
-
+ 
 !Soiln2 parameters
-
+ 
 
 
 !Residue2 parameters
@@ -34,7 +34,7 @@ variable = nwheat.tops_biom as tops_biom
 variable = nwheat.plantn as plantn
 variable = nwheat.root_wt as root_wt
 variable = tracker.sum@rain as rain
-variable = tracker.sum@ep as ep
+variable = tracker.sum@ep() as ep
 variable = soilwat2.sw_dep() as sw_dep
 variable = tracker.sum@es as es
 variable = tracker.sum@runoff as runoff
