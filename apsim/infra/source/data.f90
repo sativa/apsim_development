@@ -45,6 +45,7 @@
    ! ===========================================================
       subroutine copy_real_array(dest, src, n)
    ! ===========================================================
+      use ErrorModule
       implicit none
 
    !+  Sub-Program Arguments
@@ -90,6 +91,7 @@
    ! ===========================================================
       subroutine array_val_mul(vec, n, mul)
    ! ===========================================================
+      use ErrorModule
       implicit none
 
    !+  Sub-Program Arguments
@@ -134,6 +136,7 @@
    ! ===========================================================
       subroutine print_real_array(unt, vec, nvars)
    ! ===========================================================
+      use ErrorModule
       implicit none
 
    !+  Sub-Program Arguments
@@ -277,7 +280,7 @@
 
 
    ! ===========================================================
-      subroutine bound_check_single (value, lower, upper, vname)
+      subroutine bound_check_real_var (value, lower, upper, vname)
    ! ===========================================================
       use ConstantsModule
       use ErrorModule
@@ -397,9 +400,10 @@
 
 
    ! ================================================================
-      subroutine bound_check_single_array &
+      subroutine bound_check_real_array &
          (array, lower_bound, upper_bound, array_name, array_size)
    ! ================================================================
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -446,7 +450,7 @@
       if (array_size.ge.1) then
 
          do 1000 indx = 1, array_size
-            call Bound_check_single (array(indx), lower_bound, &
+            call Bound_check_real_var (array(indx), lower_bound, &
                  upper_bound, array_name)
  1000    continue
       else
@@ -460,7 +464,7 @@
 
 
    ! ===========================================================
-      subroutine bound_check_integer4 (value, lower, upper, vname)
+      subroutine bound_check_integer_var (value, lower, upper, vname)
    ! ===========================================================
       implicit none
 
@@ -502,7 +506,7 @@
       real_upper = real(upper)
       real_val = real(value)
 
-      call Bound_check_single(real_val, real_lower, real_upper, vname)
+      call Bound_check_real_var(real_val, real_lower, real_upper, vname)
 
       return
       end subroutine
@@ -510,9 +514,10 @@
 
 
    ! ================================================================
-      subroutine bound_check_integer4_array  &
+      subroutine bound_check_integer_array  &
          (array, lower_bound, upper_bound, array_name, array_size)
    ! ================================================================
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -557,7 +562,7 @@
       if (array_size.ge.1) then
 
          do 1000 indx = 1, array_size
-            call Bound_check_integer4 (array(indx), lower_bound, &
+            call Bound_check_integer_var (array(indx), lower_bound, &
                 upper_bound, array_name)
  1000    continue
       else
@@ -571,7 +576,7 @@
 
 
    ! ===========================================================
-      subroutine bound_check_double (value, lower, upper, vname)
+      subroutine bound_check_double_var (value, lower, upper, vname)
    ! ===========================================================
       implicit none
 
@@ -615,7 +620,7 @@
       real_upper = real(upper)
       real_val = real(value)
 
-      call Bound_check_single(real_val, real_lower, real_upper, vname)
+      call Bound_check_real_var(real_val, real_lower, real_upper, vname)
 
       return
       end subroutine
@@ -626,6 +631,7 @@
       subroutine bound_check_double_array  &
          (array, lower_bound, upper_bound, array_name, array_size)
    !     ================================================================
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -671,7 +677,7 @@
       if (array_size.ge.1) then
 
          do 1000 indx = 1, array_size
-            call Bound_check_double (array(indx), lower_bound, &
+            call Bound_check_double_var (array(indx), lower_bound, &
                 upper_bound, array_name)
  1000    continue
       else
@@ -1057,82 +1063,116 @@
       return
       end subroutine
 
-   !     ===========================================================
-      logical function reals_are_equal (first, second)
-   !     ===========================================================
+!     ===========================================================
+      logical function reals_are_equal (first, second, tolerance)
+!     ===========================================================
       implicit none
-
-   !+ Sub-Program Arguments
+ 
+!+ Sub-Program Arguments
       real       first                 ! (INPUT) Number to search for
+      intent(in) first
       real       second                ! (INPUT) Number to search for
+      intent(in) second
+      real       tolerance             ! (INPUT) difference tolerance
+      intent(in) tolerance
+      optional   tolerance
+ 
+!+ Purpose
+!     Returns true if real numbers are almost equal
+ 
+!+  Definition
+!     Returns true if "first" and "second" are almost equal.
+!     "first" and "second" are considered to be almost equal
+!     if ("first"+error_margin("first") >= "second"  .AND.
+!     "first"-error_margin("first") <= "second").  
 
-   !+ Purpose
-   !     Returns true if real numbers are almost equal
-
-   !+  Definition
-   !     Returns true if "first" and "second" are almost equal.
-   !     "first" and "second" are considered to be almost equal
-   !     if ("first"+error_margin("first") >= "second"  .AND.
-   !     "first"-error_margin("first") <= "second").
-
-   !+  Mission Statement
-   !     %1 = %2
-
-   !+ Changes
-   !       070994 jngh specified and programmed
-   !       250698 jngh simplified algorithm
-
-   !- Implementation Section ----------------------------------
-
-
-      if (abs(first-second) .le. error_margin(second)) then
+!+  Mission Statement
+!     %1 = %2
+ 
+!+ Changes
+!       070994 jngh specified and programmed
+!       250698 jngh simplified algorithm
+!       250601 jngh added optional argument
+ 
+!+ Calls
+ 
+!+ Local Variables
+      real       margin
+ 
+!- Implementation Section ----------------------------------
+ 
+      if (present(tolerance)) then
+         margin = tolerance
+      else
+         margin = error_margin(second)
+      endif
+ 
+ 
+      if (abs(first-second) .le. margin) then
          reals_are_equal = .true.
-
+ 
       else
          reals_are_equal = .false.
       endif
-
+ 
       return
       end function
 
 
 
-   !     ===========================================================
-      logical function Doubles_are_equal (first, second)
-   !     ===========================================================
+!     ===========================================================
+      logical function Doubles_are_equal (first, second, tolerance)
+!     ===========================================================
       implicit none
-
-   !+ Sub-Program Arguments
+ 
+!+ Sub-Program Arguments
       double precision  first          ! (INPUT) Number to search for
+      intent(in) first
       double precision  second         ! (INPUT) Number to search for
+      intent(in) second
+      double precision tolerance       ! (INPUT) difference tolerance
+      intent(in) tolerance
+      optional   tolerance
+ 
+!+ Purpose
+!     Returns true if double numbers are almost equal
+ 
+!+  Definition
+!     Returns true if "first" and "second" are almost equal.  "first"
+!     and "second" are considered to be almost equal if 
+!     ("first"+double_error_margin("first") >= "second"  .AND. 
+!     "first"-double_error_margin("first") <= "second").  
 
-   !+ Purpose
-   !     Returns true if double numbers are almost equal
+!+  Mission Statement
+!      %1 = %2
+ 
+!+ Changes
+!       dph 24/6/96 specified and programmed - used reals_are_equal as template
+!       250698 jngh simplified algorithm
+ 
+!+ Calls
+ 
+!+ Local Variables
+      double precision       margin
 
-   !+  Definition
-   !     Returns true if "first" and "second" are almost equal.  "first"
-   !     and "second" are considered to be almost equal if
-   !     ("first"+double_error_margin("first") >= "second"  .AND.
-   !     "first"-double_error_margin("first") <= "second").
-
-   !+  Mission Statement
-   !      %1 = %2
-
-   !+ Changes
-   !       dph 24/6/96 specified and programmed - used reals_are_equal as template
-   !       250698 jngh simplified algorithm
-
-   !- Implementation Section ----------------------------------
-
-      if (abs(first-second) .le. double_error_margin(second)) then
+!- Implementation Section ----------------------------------
+ 
+      if (present(tolerance)) then
+         margin = tolerance
+      else
+         margin = double_error_margin(second)
+      endif
+ 
+      if (abs(first-second) .le. margin) then
          Doubles_are_equal = .true.
-
+ 
       else
          Doubles_are_equal = .false.
       endif
-
+ 
       return
       end function
+
 
    !     ===========================================================
       real function divide (dividend, divisor, default)
@@ -1438,6 +1478,7 @@
    ! ====================================================================
        subroutine Fill_logical_array (array, value, size_of)
    ! ====================================================================
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -1483,6 +1524,7 @@
        subroutine Fill_char_array (array, string, size_of)
    ! ====================================================================
       use StringModule
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -1764,6 +1806,7 @@
    !     ===========================================================
       real function sum_part_of_real_array (array, start, stop, size_of)
    !     ===========================================================
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -1796,8 +1839,8 @@
 
       call push_routine (myname)
 
-      call Bound_check_integer4 (start, 1, size_of, 'start')
-      call Bound_check_integer4 (stop, 1, size_of, 'stop')
+      call Bound_check_integer_var (start, 1, size_of, 'start')
+      call Bound_check_integer_var (stop, 1, size_of, 'stop')
 
       sum_of_array = array(start)
       indx = start
@@ -1827,6 +1870,7 @@
       integer function sum_part_of_integer_array &
          (array, start, stop, size_of)
    !     ===========================================================
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -1867,8 +1911,8 @@
 
       call push_routine (myname)
 
-      call Bound_check_integer4 (start, 1, size_of, 'start')
-      call Bound_check_integer4 (stop, 1, size_of, 'stop')
+      call Bound_check_integer_var (start, 1, size_of, 'start')
+      call Bound_check_integer_var (stop, 1, size_of, 'stop')
 
       sum_of_array = array(start)
       indx = start
@@ -1898,6 +1942,7 @@
    !     ===========================================================
       real function sum_between (start, finish, array)
    !     ===========================================================
+      use ErrorModule
       implicit none
 
    !+  Sub-Program Arguments
@@ -1932,7 +1977,7 @@
 
       call push_routine (myname)
 
-      call Bound_check_integer4 (start, 0, finish - 1, 'start')
+      call Bound_check_integer_var (start, 0, finish - 1, 'start')
 
       tot = 0.0
       do 1000 level = start, finish - 1
@@ -1950,6 +1995,7 @@
    !     ===========================================================
       real function sum_part_of_real (array, start, stop, size_of)
    !     ===========================================================
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -1989,8 +2035,8 @@
 
       call push_routine (myname)
 
-      call Bound_check_integer4 (start, 1, size_of, 'start')
-      call Bound_check_integer4 (stop, 1, size_of, 'stop')
+      call Bound_check_integer_var (start, 1, size_of, 'start')
+      call Bound_check_integer_var (stop, 1, size_of, 'stop')
 
       sum = array(start)
       indx = start
@@ -2019,6 +2065,7 @@
    !     ===========================================================
       integer function sum_part_of_integer (array, start, stop, size_of)
    !     ===========================================================
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -2058,8 +2105,8 @@
 
       call push_routine (myname)
 
-      call Bound_check_integer4 (start, 1, size_of, 'start')
-      call Bound_check_integer4 (stop, 1, size_of, 'stop')
+      call Bound_check_integer_var (start, 1, size_of, 'start')
+      call Bound_check_integer_var (stop, 1, size_of, 'stop')
 
       sum = array(start)
       indx = start
@@ -2286,38 +2333,51 @@
       return
       end subroutine
 
-   !     ===========================================================
-      real function round_to_zero (var)
-   !     ===========================================================
+!     ===========================================================
+      real function round_to_zero (var, tolerance)
+!     ===========================================================
       use ConstantsModule
       implicit none
-
-   !+ Sub-Program Arguments
+ 
+!+ Sub-Program Arguments
       real       var                   ! (INPUT) variable to be rounded
+      intent(in) var
+      real       tolerance             ! (INPUT) value considered to be zero
+      intent(in) tolerance
+      optional   tolerance
+ 
+!+ Purpose
+!       Round a very small variable to zero
+ 
+!+  Definition
+!     Returns "var" providing that it is greater than 
+!     the parameter "close_enough_to_zero".  Otherwise returns "0".  
 
-   !+ Purpose
-   !       Round a very small variable to zero
+!+  Mission Statement
+!     %1 rounded to 0 if smaller than or equal to close_enough_to_zero
+ 
+!+ Changes
+!       151200  specified and programmed (jng hargreaves)
+!       250601  jngh added optional argument
+ 
+!+ Calls
+ 
+!+ Local Variables
+      real     apparently_zero
+ 
+!- Implementation Section ----------------------------------
+ 
+      if (present(tolerance)) then
+         apparently_zero = tolerance
+      else
+         apparently_zero = close_enough_to_zero
+      endif
 
-   !+  Definition
-   !     Returns "var" providing that it is greater than
-   !     the parameter "close_enough_to_zero".  Otherwise returns "0".
-
-   !+  Mission Statement
-   !     %1 rounded to 0 if smaller than or equal to close_enough_to_zero
-
-   !+ Changes
-   !       151200  specified and programmed (jng hargreaves)
-
-   !+ Calls
-
-   !- Implementation Section ----------------------------------
-
-      if (abs(var) .le. close_enough_to_zero) then
+      if (abs(var) .le. apparently_zero) then
          round_to_zero = 0
       else
          round_to_zero = var
-      endif
-
+      endif 
       return
       end function
 

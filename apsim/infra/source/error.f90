@@ -143,8 +143,6 @@ contains
 !     dph 14/7/99 changed to call APSIMSYSTEM_ERROR_FATAL in new infrastructure
 
 !+ Calls
-       dll_import apsimsystem_error_fatal
-       dll_import ei_getname
 
 !+ Constant Values
 
@@ -187,9 +185,6 @@ contains
 !     030998 sb created
 
 !+  Calls
-      dll_import push_routine
-      dll_import pop_routine
-      dll_import fatal_error
 
 !+  Constant Values
       character  my_name*(*)

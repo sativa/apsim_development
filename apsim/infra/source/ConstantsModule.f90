@@ -104,6 +104,7 @@ module ConstantsModule
    ! identifier for no section returned
    character (len=*), parameter :: no_section = ' '
 
+
    character (len=*), parameter :: ACTION_Create        = 'create'
    character (len=*), parameter :: ACTION_Init          = 'init'
    character (len=*), parameter :: ACTION_Get_variable = 'get'

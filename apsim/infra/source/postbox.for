@@ -167,6 +167,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
        subroutine get_posting_module(Module_name)
 * ====================================================================
       use ConstantsModule
+      use ErrorModule
+      use StringModule
       implicit none
       include 'postbox.inc'
  
@@ -200,6 +202,106 @@ C     Last change:  P     9 Nov 2000   10:29 am
       end subroutine
  
  
+* ====================================================================
+       logical function Postbox_add_variable(Variable_name, Units,
+     .                                       Num_elements, Data_type)
+* ====================================================================
+      use ConstantsModule
+      use ComponentInterfaceModule
+      use ErrorModule
+      use StringModule
+      implicit none
+      include 'postbox.inc'
+ 
+*+ Sub-Program Arguments
+      character Variable_name*(*)      ! (INPUT) Variable name
+      character Units*(*)              ! (INPUT) Units
+      integer Num_elements             ! (INPUT) Number of elements to store.
+      integer Data_type                ! (INPUT) Data type of variable
+
+*+ Purpose
+*     Store a variable in postbox system.  Return TRUE if an error occurred.
+
+*+  Mission Statement
+*      
+ 
+*+ Changes
+*     DPH 19/10/95
+*     DPH 17/5/96  Added code to fill g_variable_owner
+*     dph 5/10/99  Added 2 calls to lower_case so that the postbox
+*                  system is NOT case sensitive.
+*     dph 3/11/99 removed calls to lower_case.  The find_variable_in_postbox
+*                 routine now does case insensitive string comparisons.
+ 
+*+ Calls
+ 
+*+ Constant Values
+      character This_routine*(*)
+      parameter (This_routine='Postbox_add_variable')
+ 
+*+ Local Variables
+      character msg*300                ! error message
+      logical Err                    ! Has an error occurred?
+ 
+*- Implementation Section ----------------------------------
+ 
+      call Push_routine(This_routine)
+ 
+      ! Ok we have enough space in postbox - store variable
+
+      call Assign_string(g_Variable_name(g_Empty_variable_slot),
+     .                   Variable_name)
+      call Assign_string(g_Variable_unit(g_Empty_variable_slot),
+     .                   Units)
+ 
+      ! By the time we get to this line we can assume that the data has
+      ! already been stored in the postbox.  We know how many variables
+      ! were stored and the end pointer to the postbox so we can calculate
+      ! a starting index.
+ 
+      if (Data_type .eq. DOUBLE_TYPE) then
+         g_Postbox_start(g_Empty_variable_slot) =
+     .       g_Empty_double_slot - Num_elements
+ 
+      else
+         g_Postbox_start(g_Empty_variable_slot) =
+     .       g_Empty_char_slot - Num_elements
+      endif
+ 
+      g_Postbox_end(g_Empty_variable_slot) =
+     .   g_Postbox_start(g_Empty_variable_slot) + Num_elements - 1
+      g_Postbox_type(g_Empty_variable_slot) = Data_type
+      call EI_GetName(EventInterface, 
+     .                g_variable_owners(g_empty_variable_slot))
+
+      Err = .false.
+ 
+      ! update the message pointers
+ 
+      g_Variable_start(g_Current_message + 1) =
+     .   g_Variable_start(g_Current_message + 1) + 1
+
+      g_Empty_variable_slot = g_Empty_variable_slot + 1
+      if (g_Empty_variable_slot .gt. MAX_VARIABLES) then
+         write(Msg, '(3a, i6)' )
+     .     'Too many variables are stored in postbox.',
+     .     New_line,
+     .     'Maximum number of variables = ',
+     .     MAX_VARIABLES
+         call error(Msg, .true.)
+         Err = .true.
+ 
+      else
+ 
+      endif
+ 
+      Postbox_add_variable = Err
+ 
+      call Pop_routine(This_routine)
+ 
+      return
+      end function
+ 
  
 * ====================================================================
        subroutine Post_char_array (variable_name, units,
@@ -207,6 +309,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
 * ====================================================================
       use ConstantsModule
       use ErrorModule
+      use StringModule 
       implicit none
       include 'postbox.inc'
  
@@ -227,7 +330,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 18/10/95
  
 *+ Calls
-      logical Postbox_add_variable     ! function
  
 *+ Constant Values
       character This_routine*(*)
@@ -283,6 +385,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
        subroutine Post_char_var (variable_name, units, Variable)
 * ====================================================================
       use ConstantsModule
+      use ErrorModule
+      use StringModule
       implicit none
       include 'postbox.inc'
  
@@ -349,7 +453,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 18/10/95
  
 *+ Calls
-      logical Postbox_add_variable     ! function
  
 *+ Constant Values
       character This_routine*(*)
@@ -404,6 +507,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
        subroutine Post_double_var (variable_name, units, Variable)
 * ====================================================================
       use ConstantsModule
+      use ErrorModule
       implicit none
       include 'postbox.inc'
  
@@ -448,6 +552,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .                             Variable, Numvals)
 * ====================================================================
       use ConstantsModule
+      use ErrorModule
       implicit none
       include 'postbox.inc'
  
@@ -501,6 +606,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
        subroutine Post_integer_var (variable_name, units, Variable)
 * ====================================================================
       use ConstantsModule
+      use ErrorModule
       implicit none
       include 'postbox.inc'
  
@@ -546,6 +652,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .                             Variable, Numvals)
 * ====================================================================
       use ConstantsModule
+      use ErrorModule
       implicit none
       include 'postbox.inc'
  
@@ -603,6 +710,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
        subroutine Post_logical_var (variable_name, units, Variable)
 * ====================================================================
       use ConstantsModule
+      use ErrorModule
       implicit none
       include 'postbox.inc'
  
@@ -654,6 +762,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .                             Variable, Numvals)
 * ====================================================================
       use ConstantsModule
+      use ErrorModule
       implicit none
       include 'postbox.inc'
  
@@ -707,6 +816,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
        subroutine Post_real_var (variable_name, units, Variable)
 * ====================================================================
       use ConstantsModule
+      use ErrorModule
       implicit none
       include 'postbox.inc'
  
@@ -751,6 +861,9 @@ C     Last change:  P     9 Nov 2000   10:29 am
        logical function Store_in_postbox (Data_string)
 * ====================================================================
       use ConstantsModule
+      use ErrorModule
+      use StringModule
+      use DataStrModule
       implicit none
       include 'postbox.inc'
  
@@ -848,6 +961,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
 * ====================================================================
       use ConstantsModule
       use ErrorModule
+      use DataStrModule
+      use StringModule
       implicit none
  
 *+ Sub-Program Arguments
@@ -1080,6 +1195,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
       use ConstantsModule
       use ComponentInterfaceModule
       use ErrorModule
+      use StringModule
       implicit none
       include 'postbox.inc'
 
@@ -1198,7 +1314,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .      (Variable_name, Variable_number)
 * ====================================================================
       use ConstantsModule
-      use StringModule
+      use StringModule 
+      use ErrorModule
       implicit none
       include 'postbox.inc'
 
@@ -1281,6 +1398,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
        subroutine Get_variables_in_postbox (Variable_names, Num_vars)
 * ====================================================================
       use ConstantsModule
+      use ErrorModule
       implicit none
       include 'postbox.inc'
  
@@ -1439,114 +1557,11 @@ C     Last change:  P     9 Nov 2000   10:29 am
       return
       end subroutine
  
- 
- 
-* ====================================================================
-       logical function Postbox_add_variable(Variable_name, Units,
-     .                                       Num_elements, Data_type)
-* ====================================================================
-      use ConstantsModule
-      use ComponentInterfaceModule
-      use ErrorModule
-      implicit none
-      include 'postbox.inc'
- 
-*+ Sub-Program Arguments
-      character Variable_name*(*)      ! (INPUT) Variable name
-      character Units*(*)              ! (INPUT) Units
-      integer Num_elements             ! (INPUT) Number of elements to store.
-      integer Data_type                ! (INPUT) Data type of variable
-
-*+ Purpose
-*     Store a variable in postbox system.  Return TRUE if an error occurred.
-
-*+  Mission Statement
-*      
- 
-*+ Changes
-*     DPH 19/10/95
-*     DPH 17/5/96  Added code to fill g_variable_owner
-*     dph 5/10/99  Added 2 calls to lower_case so that the postbox
-*                  system is NOT case sensitive.
-*     dph 3/11/99 removed calls to lower_case.  The find_variable_in_postbox
-*                 routine now does case insensitive string comparisons.
- 
-*+ Calls
-      character Lower_case*(MAX_VARIABLE_NAME_SIZE)
- 
-*+ Constant Values
-      character This_routine*(*)
-      parameter (This_routine='Postbox_add_variable')
- 
-*+ Local Variables
-      character msg*300                ! error message
-      logical Err                    ! Has an error occurred?
- 
-*- Implementation Section ----------------------------------
- 
-      call Push_routine(This_routine)
- 
-      ! Ok we have enough space in postbox - store variable
-
-      call Assign_string(g_Variable_name(g_Empty_variable_slot),
-     .                   Variable_name)
-      call Assign_string(g_Variable_unit(g_Empty_variable_slot),
-     .                   Units)
- 
-      ! By the time we get to this line we can assume that the data has
-      ! already been stored in the postbox.  We know how many variables
-      ! were stored and the end pointer to the postbox so we can calculate
-      ! a starting index.
- 
-      if (Data_type .eq. DOUBLE_TYPE) then
-         g_Postbox_start(g_Empty_variable_slot) =
-     .       g_Empty_double_slot - Num_elements
- 
-      else
-         g_Postbox_start(g_Empty_variable_slot) =
-     .       g_Empty_char_slot - Num_elements
-      endif
- 
-      g_Postbox_end(g_Empty_variable_slot) =
-     .   g_Postbox_start(g_Empty_variable_slot) + Num_elements - 1
-      g_Postbox_type(g_Empty_variable_slot) = Data_type
-      call EI_GetName(EventInterface, 
-     .                g_variable_owners(g_empty_variable_slot))
-
-      Err = .false.
- 
-      ! update the message pointers
- 
-      g_Variable_start(g_Current_message + 1) =
-     .   g_Variable_start(g_Current_message + 1) + 1
-
-      g_Empty_variable_slot = g_Empty_variable_slot + 1
-      if (g_Empty_variable_slot .gt. MAX_VARIABLES) then
-         write(Msg, '(3a, i6)' )
-     .     'Too many variables are stored in postbox.',
-     .     New_line,
-     .     'Maximum number of variables = ',
-     .     MAX_VARIABLES
-         call error(Msg, .true.)
-         Err = .true.
- 
-      else
- 
-      endif
- 
-      Postbox_add_variable = Err
- 
-      call Pop_routine(This_routine)
- 
-      return
-      end function
- 
- 
- 
 * ====================================================================
        subroutine Remove_array_spec (Variable_name)
 * ====================================================================
       use ConstantsModule
+      use DataStrModule
       implicit none
  
 *+ Sub-Program Arguments
@@ -1562,8 +1577,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 25/10/95
  
 *+ Calls
-      character Remove_units*(Function_string_len)
-                                       ! function
  
 *- Implementation Section ----------------------------------
  
@@ -1585,6 +1598,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .      Allow_zero_numvals, Variable_number)
 * ====================================================================
       use ConstantsModule
+      use ErrorModule
+      use DataModule
       implicit none
       include 'postbox.inc'
  
@@ -1637,6 +1652,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
 * ====================================================================
       use ConstantsModule
       use ErrorModule
+      use StringModule
+      use DataModule
       implicit none
       include 'postbox.inc'
  
@@ -1668,9 +1685,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     dph 3/11/99 - removed call to lower_case
  
 *+ Calls
-      integer Find_variable_in_postbox ! function
-      character Lower_case*(Function_string_len)
-                                       ! function
  
 *+ Constant Values
       character This_routine*(*)
@@ -1740,6 +1754,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .      Allow_zero_numvals, Variable_number)
 * ====================================================================
       use ConstantsModule
+      use ErrorModule
+      use StringModule
       implicit none
       include 'postbox.inc'
  
@@ -1796,6 +1812,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .      Allow_zero_numvals, Variable_number)
 * ====================================================================
       use ConstantsModule
+      use ErrorModule
+      use DataModule
       implicit none
       include 'postbox.inc'
  
@@ -1856,6 +1874,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
 * ====================================================================
       use ConstantsModule
       use ErrorModule
+      use StringModule
       implicit none
       include 'postbox.inc'
  
@@ -1885,9 +1904,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     dph 3/11/99 - removed call to lower_case
  
 *+ Calls
-      integer Find_variable_in_postbox ! function
-      character Lower_case*(Function_string_len)
-                                       ! function
  
 *+ Constant Values
       character This_routine*(*)
@@ -1956,6 +1972,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .      Allow_zero_numvals, Variable_number)
 * ====================================================================
       use ConstantsModule
+      use ErrorModule
+      use DataModule
       implicit none
       include 'postbox.inc'
  
@@ -2017,6 +2035,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .      Allow_zero_numvals, Variable_number)
 * ====================================================================
       use ConstantsModule
+      use ErrorModule
+      use DataModule
       implicit none
       include 'postbox.inc'
  
@@ -2086,6 +2106,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .      Allow_zero_numvals, Variable_number)
 * ====================================================================
       use ConstantsModule
+      use ErrorModule
+      use DataModule
       implicit none
       include 'postbox.inc'
  
@@ -2146,6 +2168,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .      Allow_zero_numvals, Variable_number)
 * ====================================================================
       use ConstantsModule
+      use ErrorModule
       implicit none
       include 'postbox.inc'
  
@@ -2204,6 +2227,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .      Allow_zero_numvals, Variable_number)
 * ====================================================================
       use ConstantsModule
+      use ErrorModule
       implicit none
       include 'postbox.inc'
  
@@ -2256,6 +2280,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .      Allow_zero_numvals, Variable_number)
 * ====================================================================
       use ConstantsModule
+      use ErrorModule
+      use DataModule
       implicit none
       include 'postbox.inc'
  
@@ -2326,6 +2352,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .      Allow_zero_numvals, Variable_number)
 * ====================================================================
       use ConstantsModule
+      use ErrorModule
+      use DataModule
       implicit none
       include 'postbox.inc'
  
@@ -2387,7 +2415,9 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .       Sum_array, Array_start_index, Array_end_index)
 * ====================================================================
       use ConstantsModule
+      use StringModule
       use ErrorModule
+      use DataStrModule
       implicit none
       include 'postbox.inc'
  
@@ -2411,7 +2441,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 23/10/95
  
 *+ Calls
-      logical Check_num_elements       ! function         
  
 *+ Constant Values
       character This_routine*(*)
@@ -2508,6 +2537,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
 * ====================================================================
       use ConstantsModule
       use ErrorModule
+      use DataStrModule
       implicit none
       include 'postbox.inc'
  
@@ -2531,7 +2561,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 23/10/95
  
 *+ Calls
-      logical Check_num_elements       ! function
  
 *+ Constant Values
       character This_routine*(*)
@@ -2765,7 +2794,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 4/5/2001
 
 *+ Calls
-      integer Find_variable_in_postbox
 
 *+ Local Variables
       integer Variable_ptr

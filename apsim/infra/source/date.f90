@@ -486,6 +486,7 @@ module DateModule
       subroutine day_of_year_to_date (dyoyr, iyr, date)
    !     ===========================================================
       use DataModule
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -556,7 +557,7 @@ module DateModule
 
             ! check validity of year
 
-      call Bound_check_integer4 (iyr, ylow, yhigh, 'iyr')
+      call Bound_check_integer_var (iyr, ylow, yhigh, 'iyr')
 
       if (iyr .ge. ylow .and. iyr .le. yhigh) then
 
@@ -574,7 +575,7 @@ module DateModule
 
              ! check validity of day of year
 
-         call Bound_check_integer4 (dyoyr, 1, ydays, 'dyoyr')
+         call Bound_check_integer_var (dyoyr, 1, ydays, 'dyoyr')
 
          if (dyoyr .ge. 1 .and. dyoyr .le. ydays) then
 
@@ -1121,6 +1122,7 @@ module DateModule
    !     ===========================================================
       integer function offset_day_of_year (iyr, doy, ndays)
    !     ===========================================================
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -1169,6 +1171,72 @@ module DateModule
       offset_day_of_year = nint(days - date_to_jday(1, 1, year) + 1.0d0)
 
       call pop_routine (myname)
+      return
+      end function
+
+
+
+
+!     ===========================================================
+      double precision function Date (Date_string, Today)
+!     ===========================================================
+      Use ConstantsModule
+      use ErrorModule
+      implicit none
+
+!+ Sub-Program Arguments
+      character Date_string*(*)        ! (INPUT) date string to convert
+      double precision Today           ! (INPUT) today's date.
+
+!+ Purpose
+!     This routine tries to convert the date string to a valid julian date.
+!     It issues a fatal error if cannot convert.
+
+!+ Notes
+!     Date_string can be one of the following :-
+!        30/6/95
+!        30/6/1995
+!        Jun
+!        30_Jun
+!        30_Jun_1995
+!        30-jun
+!        30-jun-1995
+
+!+  Mission Statement
+!
+
+!+ Changes
+!     DPH 11/4/96 Programmed
+!     DPH 14/5/96 Changed the line :- if (year < 100) then
+!                               to :- if (year .lt. 100) then
+!                 Why didn't the f77l-em32 compiler pick this up?
+!     dph 9/9/96  Added support for dashes in dates.
+!     dph 29/9/97 split this routine into two bits- this routine and what is now in string_to_date
+!     dph 20/7/99 changed to pass 'today' into the routine
+
+!+ Calls
+
+!+ Local Variables
+      character msg*200                ! error message
+      integer Numvals                  ! number of integers converted.
+      double precision Return_value    ! value to return to caller
+
+!- Implementation Section ----------------------------------
+
+      call String_to_jday (Date_string, Return_value, numvals, Today)
+
+      if (numvals .eq. 0) then
+         write (msg, '(4a)' )                                    &
+            'Invalid date string passed to the date function.',  &
+            new_line,                                            &
+            'Date string = ', Date_string
+         call Fatal_error (ERR_user, msg)
+         Date = 0.0d0
+
+      else
+         Date = Return_value
+      endif
+
       return
       end function
 
