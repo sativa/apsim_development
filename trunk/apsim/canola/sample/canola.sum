@@ -164,6 +164,7 @@
      
      
      
+           TAV and AMP supplied externally
      
      
      
@@ -210,156 +211,174 @@
          - Reading constants
 ------- Start of simulation  --------------------------------------------------
 9 May 1988 (Day of year=130):
-          Manager sending message :- fertiliz apply amount = 100 (kg/ha), depth = 50 (mm), type = no3_n
-     
-        - Reading Fertiliser Type Parameters
-       100.00 of n as nitrate (no3_n)
-                                              added at depth   50.00 (layer   1)
-          Manager sending message :- canola sow cultivar = hyola, plants = 40 (/m2), sowing_depth = 20 (mm), row_spacing = 300 (mm)
-     Sow
-     
-      - Reading constants for plant
-     
-        - Reading Cultivar Parameters
-         ------------------------------------------------
-         Cultivar                 = hyola
-         est_days_emerg_to_init  =      83
-         tt_emerg_to_endjuv       =   400.0
-         photoperiod      =   10.70  17.00
-         phase_tt_init      =  446.00   0.00
-         tt_flower_to_maturity    =  1100.0
-         tt_init_to_flower        =    33.0
-         tt_flower_to_start_grain =   225.0
-         tt_maturity_to_ripe      =     1.0
-         hi_incr                  =     0.0
-         x_hi_max_pot_stress =    0.00   1.00
-         y_hi_max_pot        =    0.30   0.30
-         x_stem_wt      =    0.00   8.00
-         y_height      =    0.001500.00
-         ------------------------------------------------
-     
-     
-     
-     
-        - Reading root profile parameters
-     
-     
-     
-                         Root Profile
-     ---------------------------------------------------
-          Layer       Kl           Lower    Exploration
-          Depth     Factor         Limit      Factor
-          (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
-          150.0     0.080          0.230       1.000
-          150.0     0.080          0.240       1.000
-          300.0     0.080          0.240       1.000
-          300.0     0.080          0.250       1.000
-          300.0     0.050          0.260       1.000
-          300.0     0.030          0.270       1.000
-          300.0     0.010          0.280       1.000
-     ---------------------------------------------------
-     
-     
-     
-     
-     
-     
-                      Crop Sowing Data
-         ------------------------------------------------
-         Sowing  Depth Plants Spacing Cultivar
-         Day no   mm     m^2     m     Name
-         ------------------------------------------------
-            130   20.0   40.0  300.0 hyola
-         ------------------------------------------------
+   MANAGER:
+           Manager sending message :- fertiliz apply amount = 100 (kg/ha), depth = 50 (mm), type = no3_n
+   FERTILIZ:
+      
+         - Reading Fertiliser Type Parameters
+        100.00 of n as nitrate (no3_n)
+                                               added at depth   50.00 (layer   1)
+   MANAGER:
+           Manager sending message :- canola sow cultivar = hyola, plants = 40 (/m2), sowing_depth = 20 (mm), row_spacing = 300 (mm)
+   CANOLA:
+      Sow
+      
+       - Reading constants for plant
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = hyola
+          est_days_emerg_to_init  =      83
+          tt_emerg_to_endjuv       =   400.0
+          photoperiod      =   10.70  17.00
+          phase_tt_init      =  446.00   0.00
+          tt_flower_to_maturity    =  1100.0
+          tt_init_to_flower        =    33.0
+          tt_flower_to_start_grain =   225.0
+          tt_maturity_to_ripe      =     1.0
+          hi_incr                  =     0.0
+          x_hi_max_pot_stress =    0.00   1.00
+          y_hi_max_pot        =    0.30   0.30
+          x_stem_wt      =    0.00   8.00
+          y_height      =    0.001500.00
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      
+      
+      
+                          Root Profile
+      ---------------------------------------------------
+           Layer       Kl           Lower    Exploration
+           Depth     Factor         Limit      Factor
+           (mm)         ()        (mm/mm)       (0-1)
+      ---------------------------------------------------
+           150.0     0.080          0.230       1.000
+           150.0     0.080          0.240       1.000
+           300.0     0.080          0.240       1.000
+           300.0     0.080          0.250       1.000
+           300.0     0.050          0.260       1.000
+           300.0     0.030          0.270       1.000
+           300.0     0.010          0.280       1.000
+      ---------------------------------------------------
+      
+      
+      
+      
+      
+      
+                       Crop Sowing Data
+          ------------------------------------------------
+          Sowing  Depth Plants Spacing Cultivar
+          Day no   mm     m^2     m     Name
+          ------------------------------------------------
+             130   20.0   40.0  300.0 hyola
+          ------------------------------------------------
 10 May 1988 (Day of year=131):
-      stage    2.0 germination
+   CANOLA:
+       stage    2.0 germination
 21 May 1988 (Day of year=142):
-      stage    3.0 emergence
-                          biomass =           1.200000       lai =    0.3200000e-01
-                          stover N conc =    6.500000       extractable sw =    51.17480
+   CANOLA:
+       stage    3.0 emergence
+                           biomass =           1.200000       lai =    0.3200000e-01
+                           stover N conc =    6.500000       extractable sw =    51.17480
 18 June 1988 (Day of year=170):
-      stage    4.0 end_of_juvenile
-                          biomass =           46.01286       lai =    0.9158397    
-                          stover N conc =    5.059787       extractable sw =    92.91586
+   CANOLA:
+       stage    4.0 end_of_juvenile
+                           biomass =           45.99875       lai =    0.9155775    
+                           stover N conc =    5.059686       extractable sw =    92.91801
 18 July 1988 (Day of year=200):
-      stage    5.0 floral_initiation
-                          biomass =           315.9473       lai =     4.435043    
-                          stover N conc =    4.257101       extractable sw =    154.2271
+   CANOLA:
+       stage    5.0 floral_initiation
+                           biomass =           315.8426       lai =     4.434062    
+                           stover N conc =    4.252420       extractable sw =    154.2437
 21 July 1988 (Day of year=203):
-      stage    6.0 flowering
-                          biomass =           355.5092       lai =     4.647271    
-                          stover N conc =    3.871646       extractable sw =    142.1435
+   CANOLA:
+       stage    6.0 flowering
+                           biomass =           355.4029       lai =     4.646395    
+                           stover N conc =    3.867081       extractable sw =    142.1597
 6 August 1988 (Day of year=219):
-      stage    7.0 start_grain_fill
-                          biomass =           570.6667       lai =     3.525275    
-                          stover N conc =    2.613817       extractable sw =    137.4324
+   CANOLA:
+       stage    7.0 start_grain_fill
+                           biomass =           570.5533       lai =     3.524551    
+                           stover N conc =    2.610416       extractable sw =    137.4495
 28 September 1988 (Day of year=272):
-      stage    8.0 end_grain_fill
-                          biomass =           942.8005       lai =    0.2000000e-02
-                          stover N conc =   0.2416119       extractable sw =    99.45491
+   CANOLA:
+       stage    8.0 end_grain_fill
+                           biomass =           941.4352       lai =    0.2000000e-02
+                           stover N conc =   0.2416589       extractable sw =    99.84229
 1 October 1988 (Day of year=275):
-      stage    9.0 maturity
-                          biomass =           949.3595       lai =    0.2000000e-02
-                          stover N conc =   0.2508960       extractable sw =    93.82039
+   CANOLA:
+       stage    9.0 maturity
+                           biomass =           948.0317       lai =    0.2000000e-02
+                           stover N conc =   0.2511377       extractable sw =    94.19717
 2 October 1988 (Day of year=276):
-      stage   10.0 harvest_ripe
-                          biomass =           949.3595       lai =    0.2000000e-02
-                          stover N conc =   0.2508958       extractable sw =    92.67869
+   CANOLA:
+       stage   10.0 harvest_ripe
+                           biomass =           948.0317       lai =    0.2000000e-02
+                           stover N conc =   0.2511380       extractable sw =    93.05054
 3 October 1988 (Day of year=277):
-          Manager sending message :- canola harvest
-     
-     
-     
-      flowering day  =  203                  stover (kg/ha) =    6322.0
-      maturity day        =  275             grain yield (kg/ha) =    3171.6
-      grain % water content   =    8.5       grain yield wet (kg/ha) =    3466.2
-      grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 4.672
-      total above ground biomass (kg/ha) =    9493.6
-      live above ground biomass (kg/ha) =    9493.6
-      green above ground biomass (kg/ha) =    7084.5
-      senesced above ground biomass (kg/ha) =    2409.1
-      dead above ground biomass (kg/ha) =       0.0
-      number of leaves =  26.7
-      grain N percent =      3.99            total N content (kg/ha) =    148.41
-      grain N uptake (kg/ha) =    126.55     senesced N content (kg/ha) =     12.05
-      green N content (kg/ha) =      9.82    dead N content (kg/ha) =      0.00
-     
-     
-     
-      stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.2072661
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.3587643
-     
-     
-     
-      stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0544841
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.2138948
-     
-     
-     
-      stress indices for floral_initiation
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0249241
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1329920
-     
-     
-     
-      stress indices for flowering
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for start_grain_fill
-      water stress 1 =       0.0016967   nitrogen stress 1 =       0.1122945
-      water stress 2 =       0.0035943   nitrogen stress 2 =       0.1249259
-          Manager sending message :- canola end_crop
-         ended. Yield (dw) =     0.0
-                                               straw residue =  562.4 kg/ha
-                                               straw N =    2.0 kg/ha
-                                               root residue = 3093.0 kg/ha
-                                               root N =   30.9 kg/ha
+   MANAGER:
+           Manager sending message :- canola harvest
+   CANOLA:
+      
+      
+      
+       flowering day  =  203                  stover (kg/ha) =    6313.3
+       maturity day        =  275             grain yield (kg/ha) =    3167.0
+       grain % water content   =    8.5       grain yield wet (kg/ha) =    3461.2
+       grain wt (g) =     0.000               grains/m^2   =     0.000
+       grains/head =   0.0                    maximum lai = 4.671
+       total above ground biomass (kg/ha) =    9480.3
+       live above ground biomass (kg/ha) =    9480.3
+       green above ground biomass (kg/ha) =    7072.0
+       senesced above ground biomass (kg/ha) =    2408.3
+       dead above ground biomass (kg/ha) =       0.0
+       number of leaves =  26.7
+       grain N percent =      3.99            total N content (kg/ha) =    148.21
+       grain N uptake (kg/ha) =    126.36     senesced N content (kg/ha) =     12.04
+       green N content (kg/ha) =      9.81    dead N content (kg/ha) =      0.00
+      
+      
+      
+       stress indices for emergence
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.2073713
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.3588484
+      
+      
+      
+       stress indices for end_of_juvenile
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0547851
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2143040
+      
+      
+      
+       stress indices for floral_initiation
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0274021
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1349744
+      
+      
+      
+       stress indices for flowering
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for start_grain_fill
+       water stress 1 =       0.0016882   nitrogen stress 1 =       0.1142368
+       water stress 2 =       0.0035857   nitrogen stress 2 =       0.1264798
+   MANAGER:
+           Manager sending message :- canola end_crop
+   CANOLA:
+          ended. Yield (dw) =     0.0
+                                                straw residue =  561.1 kg/ha
+                                                straw N =    2.0 kg/ha
+                                                root residue = 3091.2 kg/ha
+                                                root N =   30.9 kg/ha
 26 October 1988 (Day of year=300):
-     Simulation is terminating due to end criteria being met.
+   CLOCK:
+      Simulation is terminating due to end criteria being met.
