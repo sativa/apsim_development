@@ -36,14 +36,14 @@ RELEASELIBPATH = $(BCB)\lib\release
 SYSDEFINES = _RTLDLL
 USERDEFINES =
 # ---------------------------------------------------------------------------
-CFLAG1 = -I$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared -Od -Hc \
-  -H=$(BCB)\lib\vcl40.csm -w -Ve -Tkh30000 -r- -a4 -k -y -v -vi- -c -tWM -b- \
-  -w-par -w-inl -Vx -tWC -D$(SYSDEFINES);$(USERDEFINES)
+CFLAG1 = -Ik:\;$(BCB)\include;$(BCB)\include\vcl -Od -Hc -H=$(BCB)\lib\vcl40.csm -w -Ve \
+  -Tkh30000 -r- -a4 -k -y -v -vi- -c -tWM -b- -w-par -w-inl -Vx -tWC \
+  -D$(SYSDEFINES);$(USERDEFINES)
 IDLCFLAGS = -src_suffixcpp
 PFLAGS = -U$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
-  -I$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared -$YD -$W -$O- -v -JPHN -M
-RFLAGS = -i$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared
-AFLAGS = /i$(BCB)\include /i$(BCB)\include\vcl /i..\..\..\shared /mx /w2 /zd
+  -Ik:\;$(BCB)\include;$(BCB)\include\vcl -$YD -$W -$O- -v -JPHN -M
+RFLAGS = -ik:\;$(BCB)\include;$(BCB)\include\vcl
+AFLAGS = /ik:\ /i$(BCB)\include /i$(BCB)\include\vcl /mx /w2 /zd
 LFLAGS = -L$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) -ap -Tpe -x -Gn -v
 # ---------------------------------------------------------------------------
 ALLOBJ = c0x32.obj Memmgr.Lib $(OBJFILES)
@@ -80,9 +80,10 @@ ProductVersion=1.0.0.0
 Comments=
 
 [HistoryLists\hlIncludePath]
-Count=2
-Item0=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared
-Item1=..\..\report\source;$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared
+Count=3
+Item0=k:\;$(BCB)\include;$(BCB)\include\vcl
+Item1=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared
+Item2=..\..\report\source;$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared
 
 [HistoryLists\hlLibraryPath]
 Count=2
@@ -94,14 +95,16 @@ Count=1
 Item0=$(BCB)\source\vcl
 
 [HistoryLists\hlRunParameters]
-Count=1
-Item0=c:\apswork\test\test.run
+Count=3
+Item0="c:\apswork\all runs.run"
+Item1=c:\apswork\all runs.run
+Item2=c:\apswork\test\test.run
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=c:\apswork\test\test.run
+RunParams="c:\apswork\all runs.run"
 HostApplication=
 RemoteHost=
 RemotePath=
