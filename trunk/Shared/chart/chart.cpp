@@ -46,7 +46,6 @@ USEUNIT("high_level\Bar_format.cpp");
 USEUNIT("high_level\Depth_chart.cpp");
 USEUNIT("high_level\Format_base.cpp");
 USEUNIT("high_level\Frequency_chart.cpp");
-USEUNIT("high_level\high_level.cpp");
 USEUNIT("high_level\High_level_chart_base.cpp");
 USEUNIT("high_level\High_level_screen.cpp");
 USEUNIT("high_level\Pred_obs_chart.cpp");

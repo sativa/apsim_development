@@ -96,11 +96,17 @@ Item0=$(BCB)\source\vcl
 Count=1
 Item0=_RTLDLL;USEPACKAGES
 
+[HistoryLists\hlRunParameters]
+Count=3
+Item0=-build c:\apsuite\apsim\clock\clock.apf
+Item1=-run c:\apswork\apsbuild.rsp tempcon.con
+Item2=c:\apswork\apsbuild.rsp tempcon.con
+
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=
+RunParams=-build c:\apsuite\apsim\clock\clock.apf
 HostApplication=
 
 !endif

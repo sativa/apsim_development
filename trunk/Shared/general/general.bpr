@@ -22,7 +22,7 @@ DEFFILE =
 RESDEPEN = $(RESFILES)
 LIBFILES = "C:\Program Files\Borland\CBuilder3\Lib\memmgr.lib"
 LIBRARIES =
-SPARELIBS = VCL35.lib vcldb35.lib
+SPARELIBS = VCL35.lib vcldb35.lib Rxctl.lib VCLX35.lib
 PACKAGES = vclx35.bpi VCL35.bpi vcldb35.bpi vcldbx35.bpi bcbsmp35.bpi dclocx35.bpi \
   Qrpt35.bpi ibsmp35.bpi NMFast35.bpi inetdb35.bpi inet35.bpi Rxctl.bpi Rxdb.bpi \
   tee35.bpi teedb35.bpi teeUI35.bpi TeePro35.bpi HyperGrid.bpi
@@ -38,14 +38,14 @@ CFLAG1 = -WD -Od -Hc -w -Ve -r- -k -y -v -vi- -c -b- -w-par -w-inl -Vx
 CFLAG2 = -D_RTLDLL;BUILDING_GENERAL;USEPACKAGES \
   -I$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared -H=$(BCB)\lib\vcl35.csm
 CFLAG3 = -Tkh30000
-PFLAGS = -U"c:\program files\borland\cbuilder3\lib";c:\thypergrid;c:\rx-30\units;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
-  -D_RTLDLL;BUILDING_GENERAL;USEPACKAGES \
+PFLAGS = -D_RTLDLL;BUILDING_GENERAL;USEPACKAGES \
+  -U"c:\program files\borland\cbuilder3\lib";c:\thypergrid;c:\rx-30\units;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
   -I$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared -$Y -$W -$O- -v -JPHN -M
 RFLAGS = -D_RTLDLL;BUILDING_GENERAL;USEPACKAGES \
   -i$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared = /i$(BCB)\include \
   /i$(BCB)\include\vcl /i%(SHARED)\ /d_RTLDLL /dUSEPACKAGES /mx /w2 /zd
 AFLAGS = /i$(BCB)\include /i$(BCB)\include\vcl /id:\apsuite\shared /d_RTLDLL \
-  /dBUILDING_GENERAL /dUSEPACKAGES /mx /w2 /zd
+  /dBUILDING_GENERAL /dUSEPACKAGES /mx /w2 /zi
 LFLAGS = -L"c:\program files\borland\cbuilder3\lib";c:\thypergrid;c:\rx-30\units;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
   -aa -Tpd -x -Gn -Gi -v
 IFLAGS =
@@ -83,11 +83,6 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
-[Excluded Packages]
-C:\ShellControlPack\Plasmatools\PTShellControlPackBCB.bpl=Shell Control Pack 1.3f (C++Builder)
-D:\apsuite\shared\components\general\APSGeneral.bpl=APSuite general components
-D:\apsuite\shared\components\data\APSData.bpl=APSuite data mining/analysis components.
-
 [HistoryLists\hlIncludePath]
 Count=13
 Item0=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
@@ -105,19 +100,21 @@ Item11=$(BCB)\include;$(BCB)\include\vcl;$(%SHARED)\general
 Item12=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared\general
 
 [HistoryLists\hlLibraryPath]
-Count=1
-Item0=c:\thypergrid;c:\rx-30\units;$(BCB)\lib\obj;$(BCB)\lib
+Count=2
+Item0=c:\program files\borland\cbuilder3\lib;c:\thypergrid;c:\rx-30\units;$(BCB)\lib\obj;$(BCB)\lib
+Item1=c:\thypergrid;c:\rx-30\units;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
 Item0=$(BCB)\source\vcl
 
 [HistoryLists\hlConditionals]
-Count=4
-Item0=_RTLDLL;USEPACKAGES;BUILDING_GENERAL
-Item1=_RTLDLL;USEPACKAGES
-Item2=_RTLDLL;USEPACKAGES;SHARED=d:\apsuite\shared
-Item3=_RTLDLL;Shared=d:\apsuite\shared;USEPACKAGES
+Count=5
+Item0=_RTLDLL;BUILDING_GENERAL;USEPACKAGES
+Item1=_RTLDLL;USEPACKAGES;BUILDING_GENERAL
+Item2=_RTLDLL;USEPACKAGES
+Item3=_RTLDLL;USEPACKAGES;SHARED=d:\apsuite\shared
+Item4=_RTLDLL;Shared=d:\apsuite\shared;USEPACKAGES
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
