@@ -71,9 +71,11 @@
 *                   corrected magnitude when positive
 *       260293 jngh made err margin for value and adjusted all compared
 *                   values by its err margin.
-*       170294 jngh chanaged list directed writes to formatted.
+*       170294 jngh changed list directed writes to formatted.
 *   DPH 19/10/94 Removed routine name argument from call to warning_error
 *   DPH 19/10/94 Changed name from bndchk
+*       240698 jngh blanked e_messg before writing to it to remove trailing 
+*                   rubbish. D141.
  
 *+ Calls
       dll_import error_margin
@@ -103,6 +105,7 @@
             ! are the upper and lower bounds valid?
  
       if (lower - margin_lower.gt.upper + margin_upper) then
+         e_messg = blank
          write (e_messg, '(a, g16.7e2, a, g16.7e2, 3a)')
      :                     'Lower bound ('
      :                    , lower
@@ -116,6 +119,7 @@
             ! is the value too big?
  
       else if (value - margin_val.gt.upper + margin_upper) then
+         e_messg = blank
          write (e_messg, '(2a, g16.7e2, 2a, g16.7e2)')
      :                      vname
      :                    , ' = '
@@ -128,6 +132,7 @@
             ! is the value too small?
  
       else if (value + margin_val.lt.lower - margin_lower) then
+         e_messg = blank
          write (e_messg, '(2a, g16.7e2, 2a, g16.7e2)')
      :                      vname
      :                    , ' = '
@@ -1857,6 +1862,7 @@
  
 *+ Changes
 *       070994 jngh specified and programmed
+*       250698 jngh simplified algorithm
  
 *+ Calls
       dll_import error_margin
@@ -1865,8 +1871,7 @@
 *- Implementation Section ----------------------------------
  
  
-      if (first.ge.second - error_margin (second)
-     :   .and. first.le.second + error_margin (second)) then
+      if (abs(first-second) .le. error_margin(second)) then
          reals_are_equal = .true.
  
       else
@@ -1896,6 +1901,7 @@
  
 *+ Changes
 *       dph 24/6/96 specified and programmed - used reals_are_equal as template
+*       250698 jngh simplified algorithm
  
 *+ Calls
       dll_import double_error_margin
@@ -1904,9 +1910,7 @@
  
 *- Implementation Section ----------------------------------
  
- 
-      if (first.ge.second - double_error_margin (second)
-     :   .and. first.le.second + double_error_margin (second)) then
+      if (abs(first-second) .le. double_error_margin(second)) then
          Doubles_are_equal = .true.
  
       else
