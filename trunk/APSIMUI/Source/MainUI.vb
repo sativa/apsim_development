@@ -21,9 +21,14 @@ Public Class MainUI
     <System.STAThread()> _
     Public Shared Sub Main()
 
-        Application.EnableVisualStyles()
+        Dim splash As New SplashScreen
+        splash.Show()
         Application.DoEvents()
         Application.Run(New MainUI)
+        Application.EnableVisualStyles()
+        Application.DoEvents()
+        splash.Hide()
+
     End Sub 'Main
 
 
