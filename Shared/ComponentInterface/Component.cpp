@@ -41,6 +41,7 @@ Component* component;
 Component::Component(void)
    : completeIDs(MAX_NESTED_COMPLETES),registrations(new Registrations(this))
    {
+   dllName = NULL;
    componentData = NULL;
    name = NULL;
    beforeInit2 = true;
@@ -68,6 +69,7 @@ Component::~Component(void)
 
    delete [] name;
    clearReturnInfos();
+   if (dllName) delete [] dllName;
    }
 
 // -----------------------------------------------------------------
@@ -96,11 +98,16 @@ void Component::clearReturnInfos(void)
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-void Component::setup(const unsigned int componentid,
+void Component::setup(const char *dllname,
+                      const unsigned int componentid,
                       const unsigned int parentid,
                       const unsigned int* callbackarg,
                       void* messagecallback)
    {
+   if (dllName) delete [] dllName;
+   dllName = new char [strlen(dllname)+1];
+   strcpy(dllName, dllname);
+
    parentID = parentid;
    componentID = componentid;
    callbackArg = callbackarg;
@@ -792,7 +799,7 @@ extern "C" _export void __stdcall createInstance
     CallbackType* callback)
    {
    protocol::Component* component = ::createComponent();
-   component->setup(*compID, *parentID, callbackArg, (FARPROC)callback);
+   component->setup(dllFileName, *compID, *parentID, callbackArg, (FARPROC)callback);
    *instanceNumber = (unsigned) component;
    }
 }
