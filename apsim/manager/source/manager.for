@@ -510,7 +510,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !- Implementation Section ----------------------------------
 
       call push_routine (my_name)
-      print *, 'here'
       
       ! Go call the parsing routine.
 
