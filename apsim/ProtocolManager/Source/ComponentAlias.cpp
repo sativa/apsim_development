@@ -2,7 +2,7 @@
 #pragma hdrstop
 
 #include "ComponentAlias.h"
-#include <ComponentInterface\computation.h>
+#include <Protocol\computation.h>
 
 using namespace std;
 using namespace protocol;

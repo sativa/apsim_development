@@ -11,8 +11,8 @@
 #include <dir.h>
 
 #include "messages.h"
-#include "Transport.h"
-#include "Computation.h"
+#include <Protocol\Transport.h>
+#include <Protocol\Computation.h>
 
 using namespace std;
 using namespace protocol;
@@ -33,6 +33,7 @@ static const unsigned masterPMID = 0;
 Simulation::Simulation(void)
    {
    data = NULL;
+   masterPM = NULL;
    initMessages();
    }
 
@@ -65,7 +66,6 @@ void Simulation::go(const string& simFilename)
          chdir(Path(simFilename).Get_directory().c_str());
          init(simFilename);
          commence();
-         term();
          }
       else
          throw runtime_error("Cannot find simulation file: " + simFilename);
@@ -80,6 +80,7 @@ void Simulation::go(const string& simFilename)
       {
       logError(simFilename.c_str(), msg);
       }
+   term();
    }
 
 // ------------------------------------------------------------------
@@ -117,7 +118,7 @@ void Simulation::init(const string& fileName)
 
    // create a Master PM and give it to the transport layer.
    masterPM = new Computation("MasterPM", dllFilename, parentID, masterPMID);
-   transport.addComponent(masterPMID, "MasterPM", masterPM);
+   Transport::getTransport().addComponent(masterPMID, "MasterPM", masterPM);
 
    // get sdml contents.
    ifstream in(fileName.c_str());
@@ -130,12 +131,12 @@ void Simulation::init(const string& fileName)
                                        memorySize(sdml.str()) + memorySize(pmName) + memorySize(true));
    MessageData messageData(message);
    messageData << sdml.str() << pmName << true;
-   transport.deliverMessage(message);
+   Transport::getTransport().deliverMessage(message);
    deleteMessage(message);
 
    // initialise the simulation
    message = constructMessage(Init2, parentID, masterPMID, false, 0);
-   transport.deliverMessage(message);
+   Transport::getTransport().deliverMessage(message);
    deleteMessage(message);
    }
 
@@ -168,7 +169,7 @@ void Simulation::term(void)
 void Simulation::commence(void)
    {
    Message* message = newCommenceMessage(parentID, masterPMID);
-   transport.deliverMessage(message);
+   Transport::getTransport().deliverMessage(message);
    deleteMessage(message);
    }
 // ------------------------------------------------------------------
@@ -183,6 +184,6 @@ void Simulation::commence(void)
 // ------------------------------------------------------------------
 void Simulation::setMessageHook(IMessageHook* hook)
    {
-   transport.setMessageHook(hook);
+   Transport::getTransport().setMessageHook(hook);
    }
 
