@@ -9,7 +9,6 @@ using namespace std;
 
 static const char* NUM_REMEMBERED_RUNS = "most_recent_apsim_runs|num_apsim_runs_remembered";
 static const char* RUN_KEY = "most_recent_apsim_runs|run";
-static const char* CONFIGURATION_KEY = "configuration";
 static const char* SIMULATION_KEY = "simulation";
 
 // ------------------------------------------------------------------
@@ -34,7 +33,6 @@ PreviousRuns::PreviousRuns(void)
 // true if found.
 // ------------------------------------------------------------------
 bool PreviousRuns::getPreviousRun(const string& controlFilename,
-                                  string& configurationName,
                                   vector<string>&simulationNames)
    {
    RememberedRuns::iterator i = find(rememberedRuns.begin(),
@@ -43,9 +41,7 @@ bool PreviousRuns::getPreviousRun(const string& controlFilename,
    if (i != rememberedRuns.end())
       {
       ApsimSettings settings;
-      string configKey = controlFilename + "|" + CONFIGURATION_KEY;
       string simulationKey = controlFilename + "|" + SIMULATION_KEY;
-      settings.read(configKey, configurationName);
       settings.read(simulationKey, simulationNames);
       return true;
       }
@@ -57,15 +53,12 @@ bool PreviousRuns::getPreviousRun(const string& controlFilename,
 // Set the most recent run to the one passed into this routine.
 // ------------------------------------------------------------------
 void PreviousRuns::setCurrentRun(const string& controlFilename,
-                                 const string& configurationName,
                                  const vector<string>&simulationNames)
    {
    ApsimSettings settings;
 
    // Write the control file section to the .ini file.
-   string configKey = controlFilename + "|" + CONFIGURATION_KEY;
    string simulationKey = controlFilename + "|" + SIMULATION_KEY;
-   settings.write(configKey, configurationName);
    settings.write(simulationKey, simulationNames);
 
    // if this control file name isn't in the current list of
@@ -84,7 +77,7 @@ void PreviousRuns::setCurrentRun(const string& controlFilename,
          i--;
          string controlFileToRemove = *i;
          rememberedRuns.erase(i);
-         settings.erase(controlFileToRemove + "|");
+         settings.deleteSection(controlFileToRemove);
          }
       }
    else

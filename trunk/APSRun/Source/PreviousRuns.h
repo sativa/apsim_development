@@ -22,11 +22,9 @@ class PreviousRuns
       PreviousRuns(void);
 
       bool getPreviousRun(const std::string& controlFilename,
-                          std::string& configurationName,
                           std::vector<std::string>&simulationNames);
 
       void setCurrentRun(const std::string& previousControlFilename,
-                         const std::string& configurationName,
                          const std::vector<std::string>&simulationNames);
 
    private:
