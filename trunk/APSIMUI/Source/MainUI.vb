@@ -116,6 +116,16 @@ Public Class MainUI
     Friend WithEvents NewsButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents SeparatorButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents SimulationMenuRun As System.Windows.Forms.MenuItem
+    Friend WithEvents HelpButtonMenu As System.Windows.Forms.ContextMenu
+    Friend WithEvents MenuItem6 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem7 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem8 As System.Windows.Forms.MenuItem
+    Friend WithEvents HelpMenuContents As System.Windows.Forms.MenuItem
+    Friend WithEvents HelpMenuNew As System.Windows.Forms.MenuItem
+    Friend WithEvents HelpMenuDefect As System.Windows.Forms.MenuItem
+    Friend WithEvents HelpMenuChange As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem9 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem10 As System.Windows.Forms.MenuItem
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MainUI))
@@ -140,6 +150,11 @@ Public Class MainUI
         Me.SimulationMenuMake = New System.Windows.Forms.MenuItem
         Me.SimulationMenuRun = New System.Windows.Forms.MenuItem
         Me.HelpMenu = New System.Windows.Forms.MenuItem
+        Me.HelpMenuContents = New System.Windows.Forms.MenuItem
+        Me.HelpMenuNew = New System.Windows.Forms.MenuItem
+        Me.HelpMenuDefect = New System.Windows.Forms.MenuItem
+        Me.HelpMenuChange = New System.Windows.Forms.MenuItem
+        Me.MenuItem9 = New System.Windows.Forms.MenuItem
         Me.HelpMenuAbout = New System.Windows.Forms.MenuItem
         Me.StatusBar1 = New System.Windows.Forms.StatusBar
         Me.ToolBar1 = New System.Windows.Forms.ToolBar
@@ -159,6 +174,11 @@ Public Class MainUI
         Me.SeparatorButton = New System.Windows.Forms.ToolBarButton
         Me.NewsButton = New System.Windows.Forms.ToolBarButton
         Me.UIHelpButton = New System.Windows.Forms.ToolBarButton
+        Me.HelpButtonMenu = New System.Windows.Forms.ContextMenu
+        Me.MenuItem6 = New System.Windows.Forms.MenuItem
+        Me.MenuItem7 = New System.Windows.Forms.MenuItem
+        Me.MenuItem8 = New System.Windows.Forms.MenuItem
+        Me.MenuItem10 = New System.Windows.Forms.MenuItem
         Me.ButtonImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.ImageList1 = New System.Windows.Forms.ImageList(Me.components)
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog
@@ -300,13 +320,38 @@ Public Class MainUI
         'HelpMenu
         '
         Me.HelpMenu.Index = 4
-        Me.HelpMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.HelpMenuAbout})
+        Me.HelpMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.HelpMenuContents, Me.HelpMenuNew, Me.HelpMenuDefect, Me.HelpMenuChange, Me.MenuItem9, Me.HelpMenuAbout})
         Me.HelpMenu.MergeOrder = 2
         Me.HelpMenu.Text = "&Help"
         '
+        'HelpMenuContents
+        '
+        Me.HelpMenuContents.Index = 0
+        Me.HelpMenuContents.Text = "Contents"
+        '
+        'HelpMenuNew
+        '
+        Me.HelpMenuNew.Index = 1
+        Me.HelpMenuNew.Text = "News (via APSIM.Info)"
+        '
+        'HelpMenuDefect
+        '
+        Me.HelpMenuDefect.Index = 2
+        Me.HelpMenuDefect.Text = "Report problem (vio APSIM.Info)"
+        '
+        'HelpMenuChange
+        '
+        Me.HelpMenuChange.Index = 3
+        Me.HelpMenuChange.Text = "Suggest change (via APSIM.Info)"
+        '
+        'MenuItem9
+        '
+        Me.MenuItem9.Index = 4
+        Me.MenuItem9.Text = "-"
+        '
         'HelpMenuAbout
         '
-        Me.HelpMenuAbout.Index = 0
+        Me.HelpMenuAbout.Index = 5
         Me.HelpMenuAbout.Text = "&About ..."
         '
         'StatusBar1
@@ -353,6 +398,7 @@ Public Class MainUI
         Me.EmailButton.ImageIndex = 12
         Me.EmailButton.Text = "Email"
         Me.EmailButton.ToolTipText = "Email your simulation to a friend"
+        Me.EmailButton.Visible = False
         '
         'Separator1
         '
@@ -387,7 +433,7 @@ Public Class MainUI
         '
         'RunButton
         '
-        Me.RunButton.ImageIndex = 8
+        Me.RunButton.ImageIndex = 14
         Me.RunButton.Text = "Run"
         Me.RunButton.ToolTipText = "Run APSIM on the current simulation set"
         '
@@ -396,6 +442,7 @@ Public Class MainUI
         Me.ExportButton.ImageIndex = 7
         Me.ExportButton.Text = "Export"
         Me.ExportButton.ToolTipText = "Export the simulation set to sim file format"
+        Me.ExportButton.Visible = False
         '
         'SeparatorButton
         '
@@ -406,12 +453,39 @@ Public Class MainUI
         Me.NewsButton.ImageIndex = 13
         Me.NewsButton.Text = "News"
         Me.NewsButton.ToolTipText = "Get the latest information from APSIM.info"
+        Me.NewsButton.Visible = False
         '
         'UIHelpButton
         '
+        Me.UIHelpButton.DropDownMenu = Me.HelpButtonMenu
         Me.UIHelpButton.ImageIndex = 6
+        Me.UIHelpButton.Style = System.Windows.Forms.ToolBarButtonStyle.DropDownButton
         Me.UIHelpButton.Text = "Help"
         Me.UIHelpButton.ToolTipText = "Get contextual help"
+        '
+        'HelpButtonMenu
+        '
+        Me.HelpButtonMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem6, Me.MenuItem7, Me.MenuItem8, Me.MenuItem10})
+        '
+        'MenuItem6
+        '
+        Me.MenuItem6.Index = 0
+        Me.MenuItem6.Text = "Contents"
+        '
+        'MenuItem7
+        '
+        Me.MenuItem7.Index = 1
+        Me.MenuItem7.Text = "News (via APSIM.Info)"
+        '
+        'MenuItem8
+        '
+        Me.MenuItem8.Index = 2
+        Me.MenuItem8.Text = "Report a problem (via APSIM.Info)"
+        '
+        'MenuItem10
+        '
+        Me.MenuItem10.Index = 3
+        Me.MenuItem10.Text = "Suggest a change (via APSIM.Info)"
         '
         'ButtonImageList
         '
@@ -776,41 +850,7 @@ Public Class MainUI
         HelpBrowser.Navigate("www.apsim.info")
     End Sub
 
-    'Private Sub FindTreeNode(ByVal path As String)
-    '    Try
-    '        Dim name As String = ""
 
-    '        ' Get rid of starting slash
-    '        If InStr(path, "/") = 1 Then
-    '            path = Mid$(path, 2)
-    '        End If
-    '        SimulationExplorer.SelectedNode = SimulationExplorer.TopNode
-
-    '        ' Now loop through all steps on the path finding nodes with matching names
-    '        Do While Len(path) <> 0
-    '            If InStr(path, "/") <> 0 Then
-    '                name = Microsoft.VisualBasic.Left(path, InStr(path, "/") - 1)
-    '                path = Mid$(path, InStr(path, "/") + 1)
-    '            Else
-    '                name = path
-    '                path = ""
-    '            End If
-
-    '            Dim node As TreeNode
-    '            Dim ChildName As String
-    '            For Each node In SimulationExplorer.SelectedNode.Nodes
-    '                ChildName = node.Text
-    '                If LCase(ChildName) = LCase(name) Then
-    '                    SimulationExplorer.SelectedNode = node
-    '                    Exit For
-    '                End If
-    '            Next
-    '        Loop
-    '    Catch e As Exception
-    '        MsgBox(e.Message + vbCrLf + "Data Path: " + path, MsgBoxStyle.Critical, "Error selecting data node in APSIM File")
-    '    End Try
-
-    'End Sub
 
     Private Sub ToolBar2_ButtonClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs) Handles HelpBrowsertoolBar.ButtonClick
         If e.Button Is ForwardButton Then
@@ -820,38 +860,6 @@ Public Class MainUI
         End If
 
     End Sub
-
-    'Private Sub SimulationExplorer_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs)
-    '    Dim path As String = SimulationExplorer.SelectedNode.FullPath
-    '    'If InStr(path, "|") > 0 Then
-    '    'path = Mid(path, InStr(path, "|") + 1)
-    '    MainUImanager.ShowUI(APSIMFile.data.FindChild(path))
-    '    'Else
-    '    '   MainUImanager.ShowUI(APSIMFile.data)
-    '    'End If
-
-    'End Sub
-
-    'Public Sub SimulationExplorer_DragDrop(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs)
-    '    Try
-    '        Dim pt As Point
-    '        Dim DestinationNode As TreeNode
-    '        pt = CType(sender, TreeView).PointToClient(New Point(e.X, e.Y))
-    '        DestinationNode = CType(sender, TreeView).GetNodeAt(pt)
-    '        'MsgBox(DestinationNode.Text)
-    '        'MsgBox(DestinationNode.FullPath)
-    '        'MsgBox(e.Data.GetData(DataFormats.Text))
-    '        APSIMFile.Data.Child(DestinationNode.Text).Add(e.Data.GetData(DataFormats.Text))
-
-
-
-    '        UpdateMainForm()
-
-    '    Catch ex As Exception
-    '        MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
-    '    End Try
-    'End Sub
-
 
     Private Sub FileMenuNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileMenuNew.Click
         OpenNewFile()
