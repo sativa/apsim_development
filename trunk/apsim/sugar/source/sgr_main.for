@@ -2749,7 +2749,7 @@ cmjr
       integer    layer
       real       rwu(max_layer)        ! root water uptake (mm)
       real       rlv(max_layer)
-
+      real       ep
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
@@ -3184,6 +3184,13 @@ c      call sugar_nit_stress_expansion (1)
      :                             , g%nfact_expansion)
 
       elseif (variable_name .eq. 'ep') then
+         num_layers = count_of_real_vals (g%dlayer, max_layer)
+         ep = abs(sum(g%dlt_sw_Dep(1:num_layers)))
+         call respond2get_real_var (variable_name
+     :                               , '(mm)'
+     :                               , ep)
+
+      elseif (variable_name .eq. 'sw_uptake') then
          num_layers = count_of_real_vals (g%dlayer, max_layer)
          do 10 layer = 1, num_layers
             rwu(layer) = - g%dlt_sw_dep(layer)
@@ -4637,7 +4644,7 @@ cnh      c%crop_type = ' '
 
       Use infrastructure
       implicit none
-      
+
       integer ,intent(in) :: variant
 
 *+  Purpose
@@ -4659,8 +4666,8 @@ cnh      c%crop_type = ' '
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      call unpack_time(variant, tick)                                                 
-      call jday_to_day_of_year(dble(tick%startday), g%day_of_year, 
+      call unpack_time(variant, tick)
+      call jday_to_day_of_year(dble(tick%startday), g%day_of_year,
      .                         g%year)
 
       call sugar_zero_daily_variables ()
@@ -4914,7 +4921,7 @@ cnh      c%crop_type = ' '
       Use infrastructure
       implicit none
       ml_external respondToEvent
-      
+
       integer, intent(in) :: fromID
       integer, intent(in) :: eventID
       integer, intent(in) :: variant
@@ -4924,4 +4931,4 @@ cnh      c%crop_type = ' '
       endif
       return
       end subroutine respondToEvent
-                                   
+
