@@ -18,9 +18,8 @@
 ApsimComponentData::ApsimComponentData(const std::string& xml)
    : node(NULL, NULL)
    {
-   xmlDoc = new XMLDocument;
-   xmlDoc->readXML(xml);
-   node = XMLNode(xmlDoc->documentElement());
+   xmlDoc = new XMLDocument(xml, true);
+   node = xmlDoc->documentElement();
    }
 // ------------------------------------------------------------------
 // constructor

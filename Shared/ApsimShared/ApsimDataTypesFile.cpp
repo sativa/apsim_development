@@ -11,12 +11,11 @@
 // constructor.
 //---------------------------------------------------------------------------
 ApsimDataTypesFile::ApsimDataTypesFile(void) throw(runtime_error)
+   : xmlDoc(getApsimDirectory() + "\\apsim\\infra\\datatypes.interface")
    {
    fileName = getApsimDirectory() + "\\apsim\\infra\\datatypes.interface";
    if (!FileExists(fileName.c_str()))
       throw runtime_error("Cannot find file: " + fileName);
-
-   xmlDoc.read(fileName);
    }
 //---------------------------------------------------------------------------
 // Return a specific data type to caller.  Will throw if that type doesn't

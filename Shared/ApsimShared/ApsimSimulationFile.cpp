@@ -13,7 +13,8 @@ using namespace std;
 // ------------------------------------------------------------------
 ApsimSimulationFile::ApsimSimulationFile(void)
    {
-   xmlDoc = new XMLDocument("simulation");
+   xmlDoc = new XMLDocument();
+   xmlDoc->setRootNode("Simulation");
    }
 // ------------------------------------------------------------------
 // Constructor
@@ -23,7 +24,22 @@ ApsimSimulationFile::ApsimSimulationFile(const string& filename) throw (std::run
    {
    try
       {
-      xmlDoc = new XMLDocument(filename, true);
+      xmlDoc = new XMLDocument(filename);
+      }
+   catch (...)
+      {
+      delete xmlDoc;
+      throw;
+      }
+   }
+// ------------------------------------------------------------------
+// Constructor
+// ------------------------------------------------------------------
+ApsimSimulationFile::ApsimSimulationFile(const string& xml, bool dummy) throw (std::runtime_error)
+   {
+   try
+      {
+      xmlDoc = new XMLDocument(xml, dummy);
       }
    catch (...)
       {
@@ -48,20 +64,6 @@ void ApsimSimulationFile::run(const string& fileName, bool console)
       commandLine += "/console ";
    commandLine += "\"" + fileName + "\"";
    Exec(commandLine.c_str(), SW_SHOW, true);
-   }
-// ------------------------------------------------------------------
-// Read in the contents of the simulation file.
-// ------------------------------------------------------------------
-void ApsimSimulationFile::read(void) throw (runtime_error)
-   {
-   xmlDoc->read(fileName);
-   }
-// ------------------------------------------------------------------
-// Read in the the specified xml.
-// ------------------------------------------------------------------
-void ApsimSimulationFile::readXML(const std::string& xml)
-   {
-   xmlDoc->readXML(xml);
    }
 // ------------------------------------------------------------------
 // Read in the contents of the simulation file.

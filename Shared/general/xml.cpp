@@ -20,6 +20,8 @@ struct XMLDocumentImpl
       : xmlDoc(NewXMLDocument()) { }
    XMLDocumentImpl(const string& fileName)
       : xmlDoc(LoadXMLDocument(AnsiString(fileName.c_str()))) { }
+   XMLDocumentImpl(const string& xml, bool dummy)
+      : xmlDoc(LoadXMLData(AnsiString(xml.c_str()))) { }
    };
 
 //---------------------------------------------------------------------------
@@ -68,46 +70,56 @@ void formatXML(std::string& xml)
 //---------------------------------------------------------------------------
 // constructor
 //---------------------------------------------------------------------------
-XMLDocument::XMLDocument(const std::string& rootNodeName)
+XMLDocument::XMLDocument()
+   : docElementNode(NULL)
    {
    docImpl = new XMLDocumentImpl();
-   docImpl->xmlDoc->DocumentElement = docImpl->xmlDoc->CreateNode(rootNodeName.c_str());
    dirty = true;
    }
 //---------------------------------------------------------------------------
 // constructor
 //---------------------------------------------------------------------------
-XMLDocument::XMLDocument(const std::string& fileName, bool dummy)
+XMLDocument::XMLDocument(const std::string& fileName)
+   : docElementNode(NULL)
    {
    docImpl = new XMLDocumentImpl(fileName);
+   createDocElementNode();
    dirty = true;
    }
-
+//---------------------------------------------------------------------------
+// constructor
+//---------------------------------------------------------------------------
+XMLDocument::XMLDocument(const std::string& xml, bool dummy)
+   : docElementNode(NULL)
+   {
+   docImpl = new XMLDocumentImpl(xml, dummy);
+   createDocElementNode();
+   dirty = true;
+   }
 //---------------------------------------------------------------------------
 // destructor
 //---------------------------------------------------------------------------
 XMLDocument::~XMLDocument(void)
    {
+   delete docElementNode;
    delete docImpl;
    }
 //---------------------------------------------------------------------------
-// read in contents of document.
+// create the document element node.
 //---------------------------------------------------------------------------
-void XMLDocument::read(const std::string& fileName) throw (runtime_error)
+void XMLDocument::createDocElementNode(void)
    {
-   if (!FileExists(fileName.c_str()))
-      throw runtime_error("Cannot find file: " + fileName);
-
-   short isSuccessful;
-   docImpl->xmlDoc->LoadFromFile(fileName.c_str());
+   delete docElementNode;
+   docElementNode = new XMLNode(this, docImpl->xmlDoc->DocumentElement);
    }
 //---------------------------------------------------------------------------
-// read in contents of document.
+// set the root node of the document.
 //---------------------------------------------------------------------------
-void XMLDocument::readXML(const std::string& xml) throw (runtime_error)
+void XMLDocument::setRootNode(const std::string& rootNodeName)
    {
-   docImpl->xmlDoc->LoadFromXML(AnsiString(xml.c_str()));
-   dirty = false;
+   docImpl->xmlDoc->ChildNodes->Clear();
+   docImpl->xmlDoc->DocumentElement = docImpl->xmlDoc->CreateNode(rootNodeName.c_str());
+   createDocElementNode();
    }
 //---------------------------------------------------------------------------
 // write the contents of this document to the specified file.
@@ -127,32 +139,6 @@ void XMLDocument::writeXML(std::string& xml) const
    {
    xml = docImpl->xmlDoc->XML->Text.c_str();
    formatXML(xml);
-   }
-//---------------------------------------------------------------------------
-// Throw a formatted exception based on the last parseError
-//---------------------------------------------------------------------------
-void XMLDocument::throwParseError(void) const throw(runtime_error)
-   {
-   // We must get info on error
-/*   Msxml2_tlb::IXMLDOMParseError* error = docImpl->xmlDoc->parseError;
-
-   // Show error line & column, source line and reason
-   AnsiString msg = "";
-   msg.sprintf("Error on line %d column %d : ", error->line, error->linepos);
-   msg += "\r\n";
-   msg += error->srcText;
-   msg += "\r\n";
-   msg += AnsiString::StringOfChar(' ', error->linepos - 1);
-   msg += "^\r\n";
-   msg += error->reason;
-   throw runtime_error(msg.c_str());
-*/   }
-//---------------------------------------------------------------------------
-// return the root document element
-//---------------------------------------------------------------------------
-XMLNode XMLDocument::documentElement(void)
-   {
-   return XMLNode(this, docImpl->xmlDoc->DocumentElement);
    }
 //---------------------------------------------------------------------------
 // return the name of the node.
@@ -267,7 +253,7 @@ XMLNode XMLNode::getNextSibling(void) const
 // ------------------------------------------------------------------
 XMLNode::iterator XMLNode::begin() const
    {
-   if (node != NULL)
+   if (node != NULL && node->HasChildNodes)
       return XMLNode::iterator(XMLNode(parent, node->ChildNodes->First()));
    else
       return XMLNode(parent, NULL);

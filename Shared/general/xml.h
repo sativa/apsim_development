@@ -9,10 +9,10 @@
 class XMLNode;
 
 namespace Msxml2_tlb
-   {
+  {
    class IXMLDOMNode;
    }
-class XMLDocumentImpl;
+struct XMLDocumentImpl;
 
 //---------------------------------------------------------------------------
 // This class encapsulates an XML document and provides an STL like interface.
@@ -20,24 +20,25 @@ class XMLDocumentImpl;
 class XMLDocument
    {
    public:
-      XMLDocument(const std::string& rootNodeName = "DummyRootNode");
-      XMLDocument(const std::string& fileName, bool dummy);
+      XMLDocument(void);
+      XMLDocument(const std::string& fileName);
+      XMLDocument(const std::string& xml, bool dummy);
 
       ~XMLDocument(void);
 
-      void readXML(const std::string& xml) throw(std::runtime_error);
-      void read(const std::string& fileName) throw (std::runtime_error);
+      void setRootNode(const std::string& rootNode);
       void write(const std::string& fileName) const;
       void writeXML(std::string& xml) const;
-      XMLNode documentElement(void);
+      XMLNode& documentElement(void) {return *docElementNode;}
 
       void setDirty(bool d) {dirty = d;}
       bool isDirty(void) const {return dirty;}
    private:
       XMLDocumentImpl* docImpl;
       mutable bool dirty;
+      XMLNode* docElementNode;
 
-      void throwParseError(void) const throw(std::runtime_error);
+      void createDocElementNode(void);
    };
 //---------------------------------------------------------------------------
 // This class encapsulates a node within an XML document
@@ -66,7 +67,6 @@ class XMLNode
       void setValue(const std::string& value, bool asCData = false);
       XMLNode appendChild(const std::string& nodeName, bool alwaysAppend = false);
       XMLNode::iterator erase(XMLNode::iterator& nodeIterator);
-
 
       void writeXML(std::string& xml) const;
 
