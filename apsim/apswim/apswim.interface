@@ -32,8 +32,7 @@
       <respondToGetSetReg name="scon" type="scon"/>
       <respondToGetReg name="scon_min" type="scon_min"/>
       <respondToGetReg name="scon_max" type="scon_max"/>
-      <respondToGetReg name="dr" type="dr"/>
-      <respondToGetReg name="dt" type="dt"/>
+      <respondToGetReg name="dr" type="dr"/>      <respondToGetReg name="dt" type="dt"/>
       <respondToGetReg name="crop_cover" type="crop_cover"/>
       <read name="slmin" type="slmin" />
       <read name="slmax" type="slmax" />
@@ -160,10 +159,10 @@
       <respondToEventReg name="tick" type="time"/>
       <respondToEventReg name="SolutesChanged" type="SoluteProfile"/>
       <respondToEventReg name="CropWaterDemandCalculated" type="CropWaterDemand"/>
-      <respondToEventReg name="SurfaceWaterChanged" type="SurfaceWater"/>
       <respondToEventReg name="EosCalculated" type="EosCalculated"/>
       <respondToEventReg name="SurfaceWaterChanged" type="SurfaceWater"/>
       <respondToEventReg name="DoSoilWaterBalance" type="null"/>
+
       <eventReg name="SoluteFluxesCalculated" type="SoluteProfile"/>
       <eventReg name="CropWaterSupplyCalculated" type="CropWaterSupply"/>
       <eventReg name="SoilWaterBalanceCalculated" type="SoilWaterBalance"/>
