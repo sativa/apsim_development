@@ -429,13 +429,13 @@ subroutine surfom_read_param ()
       g%SurfOM(i)%OrganicMatterType = temp_type(i)
 
       ! convert the ppm figures into kg/ha
-      g%SurfOM(i)%no3 = c%no3ppm(i)/ 1000000.0* temp_wt(i)
-      g%SurfOM(i)%nh4 = c%nh4ppm(i)/ 1000000.0* temp_wt(i)
-      g%SurfOM(i)%po4 = c%po4ppm(i)/ 1000000.0* temp_wt(i)
+      g%SurfOM(i)%no3 = c%no3ppm(i)/1000000.0* temp_wt(i)
+      g%SurfOM(i)%nh4 = c%nh4ppm(i)/1000000.0* temp_wt(i)
+      g%SurfOM(i)%po4 = c%po4ppm(i)/1000000.0* temp_wt(i)
 
       tot_c(i) = temp_wt(i) * c%c_fract(i)
-      tot_n(i) = tot_c(i) / temp_residue_cnr(i)
-      tot_p(i) = tot_c(i) / temp_residue_cpr(i)
+      tot_n(i) = divide(tot_c(i),temp_residue_cnr(i),0.0)
+      tot_p(i) = divide(tot_c(i),temp_residue_cpr(i),0.0)
 
       g%SurfOM(i)%Standing(1:MaxFr)%amount =temp_wt(i)*c%fr_pool_c(1:MaxFr,i) * p%standing_fraction(i)
       g%SurfOM(i)%Standing(1:MaxFr)%C =tot_c(i)* c%fr_pool_c(1:MaxFr,i) * p%standing_fraction(i)
@@ -448,7 +448,6 @@ subroutine surfom_read_param ()
       g%SurfOM(i)%Lying(1:MaxFr)%N =tot_n(i)* c%fr_pool_n(1:MaxFr,i) * (1 - p%standing_fraction(i))
       g%SurfOM(i)%Lying(1:MaxFr)%P =tot_p(i)* c%fr_pool_p(1:MaxFr,i) * (1 - p%standing_fraction(i))
       g%SurfOM(i)%Lying(1:MaxFr)%AshAlk = 0.0
-
 
       write(err_string,*)'Residue name = ',g%SurfOM(i)%name
       call write_string (err_string)
@@ -2337,7 +2336,7 @@ subroutine surfom_Sum_Report ()
    call write_string (string)
 
    do  i = 1,g%num_surfom
-
+ 
       name = g%SurfOM(i)%name
       mass = sum(g%SurfOM(i)%Standing(1:MaxFr)%amount) + sum(g%SurfOM(i)%Lying(1:MaxFr)%amount)
       N = sum(g%SurfOM(i)%Standing(1:MaxFr)%N) + sum(g%SurfOM(i)%Lying(1:MaxFr)%N)
