@@ -9,6 +9,7 @@
 #include <general\path.h>
 #include <fstream>
 #include <dos.h>
+#include <conio.h>
 #include "TAPSIMRunForm.h"
 
 USERES("APSRun.res");
@@ -32,48 +33,73 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR,  int)
 //    dph 7/7/2000 added support for .sim files.
 
 // ------------------------------------------------------------------
-   if (_argc == 2)
+   if (_argc == 2 || _argc == 3)
       {
-      APSIMSimulationCollection* simulations = NULL;
+      string filename;
+      bool quietRun = false;
+      if (stricmp(_argv[1], "\q") == 0)
+         {
+         quietRun = true;
+         filename = _argv[2];
+         }
+      else
+         filename = _argv[1];
+      if (FileExists(filename.c_str()))
+         {
+         APSIMSimulationCollection* simulations = NULL;
 
-      // Does the command line contain a control file?
-      if (stristr(_argv[1], ".con") != NULL)
-         {
-         simulations = new APSIMSimulationCollection;
+         // Does the command line contain a control file?
+         if (stristr((char*) filename.c_str(), ".con") != NULL)
+            {
+            simulations = new APSIMSimulationCollection;
 
-         // yes - better ask user for a configuration.
-         TAPSIMRunForm* runForm = new TAPSIMRunForm(NULL);
-         runForm->controlFilename = _argv[1];
-         if (runForm->ShowModal() == mrOk)
-            runForm->getSelectedSimulations(*simulations);
+            // yes - better ask user for a configuration.
+            TAPSIMRunForm* runForm = new TAPSIMRunForm(NULL);
+            runForm->controlFilename = filename;
+            if (runForm->ShowModal() == mrOk)
+               runForm->getSelectedSimulations(*simulations);
+            }
+         else if (stristr((char*) filename.c_str(), ".run") != NULL)
+            {
+            simulations = new APSIMCONSimulationCollection(filename);
+            simulations->read();
+            }
+
+         else if (stristr((char*) filename.c_str(), ".sim") != NULL)
+            {
+            simulations = new APSIMSimulationCollection;
+            Path simPath(filename.c_str());
+            simulations->addSimulation(new APSIMSimulation
+               (simPath.Get_name_without_ext(), simPath.Get_path()));
+            }
+
+         try
+            {
+            AllocConsole();
+            simulations->run();
+            if (!quietRun)
+               MessageBox(NULL, "APSIM has finished", "For your information", MB_ICONINFORMATION | MB_OK);
+
+            FreeConsole();
+            }
+         catch (string& msg)
+            {
+            MessageBox(NULL, msg.c_str(), "APSIM Error", MB_ICONSTOP | MB_OK);
+            }
+         delete simulations;
          }
-      else if (stristr(_argv[1], ".run") != NULL)
+      else
          {
-         simulations = new APSIMCONSimulationCollection(_argv[1]);
-         simulations->read();
+         string msg = "Cannot find file: " + filename;
+         MessageBox(NULL, msg.c_str(),
+                    "APSIM Error",
+                    MB_ICONSTOP | MB_OK);
          }
 
-      else if (stristr(_argv[1], ".sim") != NULL)
-         {
-         simulations = new APSIMSimulationCollection;
-         Path simPath(_argv[1]);
-         simulations->addSimulation(new APSIMSimulation
-            (simPath.Get_name_without_ext(), simPath.Get_path()));
-         }
-
-      try
-         {
-         simulations->run();
-         }
-      catch (string& msg)
-         {
-         MessageBox(NULL, msg.c_str(), "APSIM Error", MB_ICONSTOP | MB_OK);
-         }
-      delete simulations;
       }
    else
       {
-      MessageBox (NULL, "Usage:  APSRun [.con file | .run file | "
+      MessageBox (NULL, "Usage:  APSRun [/Q] [.con file | .run file | "
                         ".sim file]",
                   "Error",
                   MB_ICONSTOP | MB_OK);
