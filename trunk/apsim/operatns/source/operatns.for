@@ -307,6 +307,7 @@
       include   'const.inc'
       include   'error.pub'
       include   'read.pub'
+      include   'string.pub'
       include   'apsimengine.pub'
       include   'componentinterface.inc'
 
@@ -327,6 +328,16 @@
       character*(*) my_name            ! name of current procedure
       parameter (my_name = 'operatns_read_section')
 
+       INTEGER MAX_RULE_NAME_SIZE
+       parameter (MAX_RULE_NAME_SIZE=100)
+       INTEGER MAX_RULES
+       PARAMETER (MAX_RULES=100)
+       INTEGER MAX_CONDITION_SIZE
+       parameter (MAX_CONDITION_SIZE=20)
+
+*+  Calls
+      character lower_case*(MAX_CONDITION_SIZE)
+
 *+  Local Variables
       character  Line*(record_length) ! line from an operations file
 *      integer    recno                ! record number for direct
@@ -335,42 +346,63 @@
       logical ok                      ! created object ok?
       integer Line_number             ! line number
       integer num_lines               ! number of lines in memo
+      CHARACTER Rule_names(MAX_RULES)*(MAX_RULE_NAME_SIZE)
+                                       ! rule names user has defined
+       INTEGER Num_rules               ! number of rules user has defined
+       integer Rule_Type               ! index into rules list
+       CHARACTER condition*(MAX_CONDITION_SIZE)
+                                       ! condition of each rule
+       integer rule_index
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
-      rule_object = component_getrule(componentData, section)
-      if (rule_object .ne. 0) then
-         num_lines = rule_getActionLineCount(rule_object)
-         
-         do 100 Line_number = 0, num_lines-1
-            call rule_getActionLine(rule_object, Line_number, Line)
+      ! get a list of all rule names that user has defined.
+      call somcomponent_getpropertynames(componentData,
+     .                                   Rule_names,
+     .                                   'rule',
+     .                                   MAX_RULES,
+     .                                   Num_rules)
+      ! loop through all rules looking for ones that match our section
+      do Rule_Index = 1, Num_rules
+         rule_object = component_getrule(ComponentData,
+     .                            Rule_names(Rule_index))
+         if (rule_object .ne. 0) then
+            call rule_getcondition(rule_object, condition)
+            condition = lower_case(condition)
+            if (condition .eq. section) then
+               num_lines = rule_getActionLineCount(rule_object)
 
-            ! remove any comments
-            if (index(Line, '!') .gt. 0) then
-               Line(index(Line, '!'):) = Blank
+               do 100 Line_number = 0, num_lines-1
+                  call rule_getActionLine(rule_object,
+     .                                    Line_number, Line)
+
+                  ! remove any comments
+                  if (index(Line, '!') .gt. 0) then
+                     Line(index(Line, '!'):) = Blank
+                  endif
+
+                  if (line .ne. blank) then
+                     if (g%last_record .lt. max_ops) then
+                        g%last_record = g%last_record + 1
+                        call operatns_extract_date (line
+     :                               , g%op_days(g%last_record)
+     :                               , g%op_years(g%last_record))
+                        write (g%oplun, '(A)', rec=g%last_record) line
+                        g%op_order(g%last_record) = g%last_record
+                        g%op_phase(g%last_record) = phase_no
+
+                     else
+                        call fatal_error (Err_User,
+     :                     'Too many operations file to deal with')
+                        goto 200
+                     endif
+                  endif
+100            continue
+200            continue
             endif
-         
-            if (line .ne. blank) then
-               if (g%last_record .lt. max_ops) then
-                  g%last_record = g%last_record + 1
-                  call operatns_extract_date (line
-     :                                    , g%op_days(g%last_record)
-     :                                    , g%op_years(g%last_record))
-                  write (g%oplun, '(A)', rec=g%last_record) line
-                  g%op_order(g%last_record) = g%last_record
-                  g%op_phase(g%last_record) = phase_no
-                
-               else
-                  call fatal_error (Err_User,
-     :                          'Too many operations file to deal with')
-                  goto 200
-               endif
-            endif   
-100      continue      
-200      continue      
-      else
-      endif
+         endif
+      end do
 
       call pop_routine (my_name)
       return
