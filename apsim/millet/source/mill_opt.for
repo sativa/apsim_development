@@ -4,8 +4,8 @@
       use MilletModule
       implicit none
       include 'const.inc'
-      include 'crp_watr.pub'                      
-      include 'error.pub'                         
+      include 'crp_watr.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -22,11 +22,11 @@
       parameter (my_name = 'Millet_water_supply')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_sw_supply1 (
      :                 c%minsw
      :                ,g%dlayer
@@ -40,11 +40,11 @@
      :                ,g%sw_avail_pot
      :                ,g%sw_supply
      :                )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -55,8 +55,8 @@
       use MilletModule
       implicit none
       include   'const.inc'
-      include 'crp_nitn.pub'                      
-      include 'error.pub'                         
+      include 'crp_nitn.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -73,11 +73,11 @@
       parameter (my_name = 'Millet_nit_stress')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call crop_nfact_pheno(leaf, stem, g%dm_green
      :        ,                g%N_conc_crit
      :        ,                g%N_conc_min
@@ -101,11 +101,11 @@
      :        ,            g%N_green
      :        ,            c%N_fact_expansion
      :        ,            g%nfact_expansion)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -116,8 +116,8 @@
       use MilletModule
       implicit none
       include 'const.inc'
-      include 'crp_temp.pub'                      
-      include 'error.pub'                         
+      include 'crp_temp.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option         ! (INPUT) option number
@@ -134,9 +134,9 @@
       parameter (my_name = 'Millet_temp_stress')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
           call crop_temperature_stress_photo
      :               (c%num_ave_temp, c%x_ave_temp, c%y_stress_photo
@@ -144,7 +144,7 @@
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -156,8 +156,8 @@
       use MilletModule
       implicit none
       include 'const.inc'
-      include 'crp_util.pub'                      
-      include 'error.pub'                         
+      include 'crp_util.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -175,15 +175,15 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
        call crop_radn_int0(g%cover_green
      :        ,            g%fr_intc_radn, g%radn, g%radn_int)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -195,8 +195,8 @@
       use milletModule
       implicit none
       include 'const.inc'
-      include 'crp_watr.pub'                      
-      include 'error.pub'                         
+      include 'crp_watr.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -213,11 +213,11 @@
       parameter (my_name = 'millet_bio_TE')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_bio_water1(
      :           max_layer
      :         , g%dlayer
@@ -226,11 +226,11 @@
      :         , g%transp_eff
      :         , g%dlt_dm_water
      :         )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -241,8 +241,8 @@
       use MilletModule
       implicit none
       include 'const.inc'
-      include 'crp_biom.pub'                      
-      include 'error.pub'                         
+      include 'crp_biom.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -260,10 +260,10 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
          ! potential by photosynthesis
- 
+
          call crop_dm_pot_rue(
      :          g%current_stage
      :        , c%rue
@@ -272,11 +272,11 @@
      :        , min(g%nfact_photo,g%pfact_photo)
 !cjh     :        , g%nfact_photo
      :        , g%dlt_dm_light)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -288,8 +288,8 @@
       use MilletModule
       implicit none
       include     'const.inc'
-      include 'crp_watr.pub'                      
-      include 'error.pub'                         
+      include 'crp_watr.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -309,9 +309,9 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_transp_eff1(
      :               c%svp_fract
      :             , c%transp_eff_cf
@@ -323,7 +323,7 @@
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -334,8 +334,8 @@
       use MilletModule
       implicit none
       include 'const.inc'
-      include 'crp_watr.pub'                      
-      include 'error.pub'                         
+      include 'crp_watr.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -353,19 +353,19 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_sw_demand1(
      :           g%dlt_dm_light
      :         , g%transp_eff
      :         , g%sw_demand
      :         )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -377,8 +377,8 @@
       use MilletModule
       implicit none
       include 'const.inc'
-      include 'crp_root.pub'                      
-      include 'error.pub'                         
+      include 'crp_root.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -396,7 +396,7 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
          call cproc_root_depth1 (
      :                              g%dlayer
@@ -412,11 +412,11 @@
      :                             ,g%dlt_root_depth
      :                             ,g%root_depth
      :                             )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -428,8 +428,8 @@
       use MilletModule
       implicit none
       include 'const.inc'
-      include 'crp_root.pub'                      
-      include 'error.pub'                         
+      include 'crp_root.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -447,9 +447,9 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_root_depth_init1
      :               (
      :                c%initial_root_depth
@@ -459,9 +459,9 @@
      :              , g%root_depth
 !cjh     :              , g%dlt_root_depth
      :               )
- 
+
       elseif (Option .eq. 2) then
- 
+
          call cproc_root_depth_init1
      :               (
      :                g%sowing_depth
@@ -471,11 +471,11 @@
      :              , g%root_depth
 !cjh     :              , g%dlt_root_depth
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -486,9 +486,9 @@
       use MilletModule
       implicit none
       include 'const.inc'
-      include 'crp_watr.pub'                      
-      include 'crp_comm.pub'                      
-      include 'error.pub'                         
+      include 'crp_watr.pub'
+      include 'crp_comm.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option       ! (INPUT) option number
@@ -508,9 +508,9 @@
       real ext_sw_supply (max_layer) ! external sw supply (mm)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
          if (p%uptake_source .eq. 'apsim') then
             ! this would have been avoided if we have
@@ -518,7 +518,7 @@
             ! photo requires (really) actually water uptake
             ! but expansion requires pot water uptake.
             ! we only have one supply variable.
- 
+
             call crop_get_ext_uptakes(
      :                 p%uptake_source   ! uptake flag
      :                ,c%crop_type       ! crop type
@@ -545,7 +545,7 @@
      :                         , g%sw_supply
      :                         , g%swdef_photo)
          endif
- 
+
          call crop_swdef_expansion(
      :                           c%num_sw_demand_ratio
      :                         , c%x_sw_demand_ratio
@@ -569,7 +569,7 @@
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -582,11 +582,11 @@
       use MilletModule
       implicit none
       include 'const.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'crp_watr.pub'                      
-      include 'crp_comm.pub'                      
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'crp_watr.pub'
+      include 'crp_comm.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -608,7 +608,7 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (p%uptake_source .eq. 'apsim') then
          call crop_get_ext_uptakes(
      :                 p%uptake_source   ! uptake flag
@@ -620,12 +620,12 @@
      :                ,ext_sw_supply     ! uptake array
      :                ,max_layer         ! array dim
      :                )
- 
+
          do 100 layer = 1, g%num_layers
             g%dlt_sw_dep(layer) = -ext_sw_supply(layer)
   100    continue
- 
- 
+
+
       elseif (Option .eq. 1) then
          call crop_sw_uptake0 (max_layer
      :                       , g%dlayer
@@ -633,11 +633,11 @@
      :                       , g%sw_demand
      :                       , g%sw_supply
      :                       , g%dlt_sw_dep)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -650,8 +650,8 @@
       use MilletModule
       implicit none
       include 'const.inc'
-      include 'crp_cnpy.pub'                      
-      include 'error.pub'                         
+      include 'crp_cnpy.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -668,9 +668,9 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_leaf_area_init1 (
      :                c%initial_tpla
      :              , emerg
@@ -679,11 +679,11 @@
      :              , g%plants
      :              , g%lai
      :              )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -695,8 +695,8 @@
       use MilletModule
       implicit none
       include 'const.inc'
-      include 'crp_cnpy.pub'                      
-      include 'error.pub'                         
+      include 'crp_cnpy.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -713,9 +713,9 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_leaf_no_init1
      :               (
      :                c%leaf_no_at_emerg
@@ -725,11 +725,11 @@
      :              , g%leaf_no
      :              , g%node_no
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -740,7 +740,7 @@
       use MilletModule
       implicit none
       include 'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -757,10 +757,10 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 101) then
- 
- 
+
+
 !cjh         call Millet_leaf_number_final (g%leaf_no_final)
 cjh special for erik - start
       if (.not. g%set_leaf_no_final) then
@@ -768,7 +768,7 @@ cjh special for erik - start
       else
          ! final leaf no already set
       endif
-cjh special for erik - end      
+cjh special for erik - end
 !         call Millet_leaf_number_final (
 !     :          g%current_stage,
 !     :          g%days_tot,
@@ -780,8 +780,8 @@ cjh special for erik - end
 !     :          c%leaf_no_max,
 !     :          g%tt_tot,
 !     :          g%leaf_no_final)
- 
- 
+
+
       call millet_leaf_appearance (g%dlt_leaf_no_pot) ! fraction of leaf emerged
 !         call Millet_leaf_appearance0 (
 !     :          g%leaf_no,
@@ -793,11 +793,11 @@ cjh special for erik - end
 !     :          g%days_tot,
 !     :          g%dlt_tt,
 !     :          g%dlt_leaf_no) ! fraction of leaf emerged
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -808,7 +808,7 @@ cjh special for erik - end
       use MilletModule
       implicit none
       include 'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) option number
@@ -828,14 +828,14 @@ cjh special for erik - end
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
             ! Plant leaf development
             ! initialise total leaf number
          ! TEMPLATE OPTION
          ! Two alternative leaf area routines
- 
+
       if (Option .eq. 101) then
- 
+
          call millet_leaf_area_devel1 (
      :          g%leaf_no
      :        , g%leaf_no_effective
@@ -856,7 +856,7 @@ cjh special for erik - end
      :        , g%plants
      :        , g%swdef_expansion
      :        , g%dlt_lai_pot) ! individual leaf approach
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
@@ -871,8 +871,8 @@ cjh special for erik - end
       use MilletModule
       implicit none
       include 'const.inc'
-      include 'crp_cnpy.pub'                      
-      include 'error.pub'                         
+      include 'crp_cnpy.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) option number
@@ -889,9 +889,9 @@ cjh special for erik - end
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 101) then
- 
+
          call cproc_leaf_area_stressed1 (
      :                       g%dlt_lai_pot
      :                      ,g%swdef_expansion
@@ -902,7 +902,7 @@ cjh special for erik - end
      :                      )
 
       else
- 
+
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
       g%dlt_lai_pot = g%dlt_lai_stressed
@@ -918,7 +918,7 @@ cjh special for erik - end
       use milletModule
       implicit none
       include 'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -936,10 +936,10 @@ cjh special for erik - end
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 101) then
          ! use whichever is limiting
- 
+
          call millet_dm_init (g%dm_green, g%dm_plant_min)
 !         call millet_dm_init (g%current_stage,
 !     :          g%days_tot,
@@ -960,11 +960,11 @@ cjh special for erik - start
       endif
 cjh special for erik - end
 !cjh         g%dlt_dm = min (g%dlt_dm_light, g%dlt_dm_water)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -976,9 +976,9 @@ cjh special for erik - end
       use milletModule
       implicit none
       include 'const.inc'
-      include 'data.pub'                          
-      include 'science.pub'                       
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -995,9 +995,9 @@ cjh special for erik - end
       parameter (my_name = 'millet_bio_partition')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 101) then
          call millet_dm_partition (
      :          g%current_stage
@@ -1015,10 +1015,30 @@ cjh special for erik - end
      :        , p%hi_max_pot
      :        , g%dm_green
      :        , g%dm_senesced)
+      elseif (Option .eq. 102) then
+         call millet_dm_partition1 (
+     :          g%current_stage
+     :        , c%stage_code_list
+     :        , c%ratio_root_shoot
+     :        , g%dlt_dm
+     :        , g%leaf_no
+     :        , c%partition_rate_leaf
+     :        , c%frac_dm_to_leaf
+     :        , g%dlt_lai_stressed
+     :        , c%sla_min
+     :        , c%frac_stem2flower
+     :        , g%dlt_dm_grain_demand
+     :        , g%dlt_dm_green
+     :        , c%tiller_no_pot
+     :        , g%dlt_lai_pot
+     :        , p%hi_max_pot
+     :        , g%dm_green
+     :        , g%dm_senesced)
       else
+
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1030,8 +1050,8 @@ cjh special for erik - end
       use milletModule
       implicit none
       include 'const.inc'
-      include 'crp_biom.pub'                      
-      include 'error.pub'                         
+      include 'crp_biom.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1057,9 +1077,9 @@ cjh special for erik - end
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 101) then
- 
+
          call millet_dm_retranslocate (g%dlt_dm_green_retrans)
 !         call cproc_dm_retranslocate1
 !     :               (
@@ -1077,11 +1097,11 @@ cjh special for erik - end
 !     :              , g%plants
 !     :              , g%dlt_dm_green_retrans
 !     :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1094,10 +1114,10 @@ cjh special for erik - end
       use milletModule
       implicit none
       include 'const.inc'
-      include 'data.pub'                          
-      include 'science.pub'                       
-      include 'crp_cnpy.pub'                      
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'science.pub'
+      include 'crp_cnpy.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1118,16 +1138,16 @@ cjh special for erik - end
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 101) then
          ! potential by photosynthesis
- 
+
          call millet_leaf_area ()
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1137,10 +1157,10 @@ cjh special for erik - end
 *     ===========================================================
       use milletModule
       implicit none
-      include 'science.pub'                       
+      include 'science.pub'
       include 'const.inc'
-      include 'crp_cnpy.pub'                      
-      include 'error.pub'                         
+      include 'crp_cnpy.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1157,11 +1177,11 @@ cjh special for erik - end
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 101) then
          if (stage_is_between (emerg, flag_leaf
      :                    , g%current_stage)) then
- 
+
             call cproc_canopy_height
      :               (
      :                g%canopy_height
@@ -1173,15 +1193,15 @@ cjh special for erik - end
      :              , stem
      :              , g%dlt_canopy_height
      :               )
- 
+
          else
             g%dlt_canopy_height = 0.0
-    
+
          endif
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1192,7 +1212,7 @@ cjh special for erik - end
       use milletModule
       implicit none
       include 'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1211,11 +1231,11 @@ cjh special for erik - end
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
          ! note: The dm partition and retranslocate subroutines
          ! implicitly account for both grain no and harvest index
          ! approaches in calculating delta grain.
- 
+
       if (Option .eq. 1) then
          ! Standard routines (4) simulate grain no approach (Ceres)
            call millet_heat_stress (g%maxt
@@ -1260,7 +1280,7 @@ cjh special for erik - end
      :        , g%swdef_expansion
      :        , g%nfact_grain_conc
      :        , g%dlt_dm_grain_demand)
- 
+
 !      else if (Option .eq. 2) then
 !         ! Alternative routines (3) simulate harvest index approach (GLH)
 !           call millet_dm_stress_max (
@@ -1366,11 +1386,11 @@ cjh special for erik - end
 !     :          g%swdef_expansion,
 !     :          g%nfact_grain_conc,
 !     :      g%dlt_dm_grain_demand)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1382,7 +1402,7 @@ cjh special for erik - end
       use milletModule
       implicit none
       include 'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1399,16 +1419,16 @@ cjh special for erik - end
       parameter (my_name = 'millet_leaf_death')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 101) then
          call millet_leaf_death_o (g%dlt_leaf_no_dead)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1419,8 +1439,8 @@ cjh special for erik - end
       use milletModule
       implicit none
       include 'const.inc'
-      include 'crp_cnpy.pub'                      
-      include 'error.pub'                         
+      include 'crp_cnpy.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1437,14 +1457,14 @@ cjh special for erik - end
       parameter (my_name = 'millet_leaf_area_sen')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! Standard routine derived from Ceres - simpler ?
          !TEMPLATE OPTION alternative routine (1) developed by GLH - mechanistic
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_leaf_area_sen1
      :               (
      :                emerg
@@ -1472,11 +1492,11 @@ cjh special for erik - end
      :              , g%dlt_slai_frost
      :              , g%dlt_slai
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1488,8 +1508,8 @@ cjh special for erik - end
       use milletModule
       implicit none
       include 'const.inc'
-      include 'crp_biom.pub'                      
-      include 'error.pub'                         
+      include 'crp_biom.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1507,9 +1527,9 @@ cjh special for erik - end
       parameter (my_name = 'millet_sen_bio')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
          call crop_dm_senescence0(max_part, root, leaf, stem
      :        , c%dm_leaf_sen_frac
@@ -1522,11 +1542,11 @@ cjh special for erik - end
      :        , g%lai
      :        , g%dlt_dm_senesced
      :        , g%dlt_dm_sen_retrans)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1537,8 +1557,8 @@ cjh special for erik - end
       use milletModule
       implicit none
       include 'const.inc'
-      include 'crp_nitn.pub'                      
-      include 'error.pub'                         
+      include 'crp_nitn.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1555,11 +1575,11 @@ cjh special for erik - end
       parameter (my_name = 'millet_sen_nit')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 101) then
- 
+
          call millet_N_senescence (g%dlt_N_senesced)
 !         call cproc_N_senescence1 (max_part
 !     :                              , c%n_sen_conc
@@ -1567,11 +1587,11 @@ cjh special for erik - end
 !     :                              , g%n_green
 !     :                              , g%dm_green
 !     :                              , g%dlt_N_senesced)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1585,8 +1605,8 @@ cjh special for erik - end
       use milletModule
       implicit none
       include   'const.inc'
-      include 'crp_nitn.pub'                      
-      include 'error.pub'                         
+      include 'crp_nitn.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -1603,9 +1623,9 @@ cjh special for erik - end
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call millet_N_init (g%N_green)
 !         call cproc_N_init1
 !     :               (
@@ -1617,11 +1637,11 @@ cjh special for erik - end
 !     :              , g%dm_green
 !     :              , g%N_green
 !     :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1634,9 +1654,9 @@ cjh special for erik - end
       implicit none
       include 'const.inc'
       include 'convert.inc'
-      include 'data.pub'                          
-      include 'crp_nitn.pub'                      
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'crp_nitn.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1656,18 +1676,18 @@ cjh special for erik - end
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (p%uptake_source .eq. 'apsim') then
          ! do nothing here for now
          ! I assume that the retrans routine does not need the
          ! call below as it is called on its own from process routine.
          ! -NIH
- 
+
       elseif (Option .eq. 1) then
- 
+
          fixation_determinant = sum_real_array(g%dm_green, max_part)
      :                        - g%dm_green(root)
- 
+
          call cproc_n_supply1 (
      :            g%dlayer
      :          , max_layer
@@ -1685,11 +1705,11 @@ cjh special for erik - end
      :          , g%swdef_fixation
      :          , g%N_fix_pot
      :          )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1701,7 +1721,7 @@ cjh special for erik - end
       use milletModule
       implicit none
       include 'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1718,9 +1738,9 @@ cjh special for erik - end
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
            call millet_N_retranslocate (
      :          g%dlt_dm_green
      :        , g%maxt
@@ -1738,11 +1758,11 @@ cjh special for erik - end
      :        , g%nfact_grain_conc
      :        , g%dlt_N_retrans
      :                    )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1756,8 +1776,8 @@ cjh special for erik - end
       use milletModule
       implicit none
       include 'const.inc'
-      include 'crp_nitn.pub'                      
-      include 'error.pub'                         
+      include 'crp_nitn.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1784,14 +1804,14 @@ cjh special for erik - end
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
          ! calculate potential new shoot and root growth
          current_phase = int (g%current_stage)
          ! need to calculate dm using potential rue not affected by
          ! N and temperature
          dlt_dm_pot_radn = c%rue(current_phase)*g%radn_int
- 
+
          call cproc_N_demand1
      :               (
      :                max_part
@@ -1807,11 +1827,11 @@ cjh special for erik - end
      :              , g%n_green
      :              , g%N_demand, g%N_max
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1825,9 +1845,9 @@ cjh special for erik - end
       implicit none
       include 'const.inc'
       include 'convert.inc'
-      include 'crp_nitn.pub'                      
-      include 'crp_comm.pub'                      
-      include 'error.pub'                         
+      include 'crp_nitn.pub'
+      include 'crp_comm.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1844,7 +1864,7 @@ cjh special for erik - end
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (p%uptake_source .eq. 'apsim') then
          ! NIH - note that I use a -ve conversion
          ! factor FOR NOW to make it a delta.
@@ -1858,9 +1878,9 @@ cjh special for erik - end
      :                ,g%dlt_no3gsm      ! uptake array
      :                ,max_layer         ! array dim
      :                )
- 
+
       elseif (Option .eq. 1) then
- 
+
          call cproc_N_uptake1
      :               (
      :                c%no3_diffn_const
@@ -1876,11 +1896,11 @@ cjh special for erik - end
      :              , g%root_depth
      :              , g%dlt_NO3gsm
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1894,7 +1914,7 @@ cjh special for erik - end
       use milletModule
       implicit none
       include 'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1911,9 +1931,9 @@ cjh special for erik - end
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call millet_N_partition (
      :          g%root_depth
      :        , g%dlayer
@@ -1922,11 +1942,11 @@ cjh special for erik - end
      :        , g%dlt_NO3gsm
      :        , g%dlt_N_green
      :                  )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1937,9 +1957,9 @@ cjh special for erik - end
       use milletModule
       implicit none
       include 'const.inc'
-      include 'data.pub'                          
-      include 'crp_nitn.pub'                      
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'crp_nitn.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option
@@ -1971,12 +1991,12 @@ cjh special for erik - end
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       if (Option .eq. 1) then
             ! Option 1 is to assume that the distribution of plant
             ! C will be similar after today and so N demand is that
             ! required to raise all plant parts to critical N conc.
- 
+
          ! calculate potential new shoot and root growth
       current_phase = int (g%current_stage)
          ! need to calculate dm using potential rue not affected by
@@ -1990,7 +2010,7 @@ cjh special for erik - end
      :                                   ,0.0)
          dlt_N_retrans(part) = 0.0
   100 continue
- 
+
          call cproc_N_demand1
      :               (
      :                max_part
@@ -2006,11 +2026,11 @@ cjh special for erik - end
      :              , g%n_green
      :              , g%N_demand, g%N_max
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (myname)
       return
       end
@@ -2023,35 +2043,35 @@ cjh special for erik - end
       implicit none
       include 'const.inc'
       include 'convert.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
-      include 'intrface.pub'                      
+      include 'data.pub'
+      include 'error.pub'
+      include 'intrface.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
- 
+
 *+ Purpose
 *      Get P uptake from P module and convert to require units
 *      for internal use.
- 
+
 *+  Changes
 *     26-06-1997 - huth - Programmed and Specified
- 
+
 *+  Constant Values
       character*(*) myname               ! name of current procedure
       parameter (myname = 'millet_P_uptake')
- 
+
 *+  Local Variables
       real layered_p_uptake(max_layer)
       integer numvals
- 
+
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       if (Option.eq.1) then
          call fill_real_array (layered_p_uptake,0.0,max_layer)
 
-         call get_real_array_Optional 
+         call get_real_array_Optional
      :                        (unknown_module
      :                       ,'uptake_p_millet'
      :                       ,max_layer
@@ -2069,12 +2089,12 @@ cjh special for erik - end
             g%dlt_plant_p = g%p_demand
 
          endif
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
- 
+
+
       call pop_routine (myname)
       return
       end
@@ -2084,24 +2104,24 @@ cjh special for erik - end
       use milletModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
- 
+
 *+   Purpose
 *         Get current P stress factors (0-1)
- 
+
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'millet_p_stress_photo')
- 
+
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call millet_pfact
      :               (
      :                g%dm_green
@@ -2114,11 +2134,11 @@ cjh special for erik - end
      :              , c%k_pfact_photo
      :              , g%pfact_photo
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2128,24 +2148,24 @@ cjh special for erik - end
       use milletModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
- 
+
 *+  Purpose
 *         Get current P stress factors (0-1)
- 
+
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'millet_p_stress_pheno')
- 
+
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call millet_pfact
      :               (
      :                g%dm_green
@@ -2158,11 +2178,11 @@ cjh special for erik - end
      :              , c%k_pfact_pheno
      :              , g%pfact_pheno
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2172,24 +2192,24 @@ cjh special for erik - end
       use milletModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
- 
+      include 'error.pub'
+
 *+  Purpose
 *         Get current P stress factors (0-1)
- 
+
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
- 
+
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'millet_p_stress_expansion')
- 
+
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call millet_pfact
      :               (
      :                g%dm_green
@@ -2202,44 +2222,44 @@ cjh special for erik - end
      :              , c%k_pfact_expansion
      :              , g%pfact_expansion
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
 *     ===========================================================
       subroutine millet_p_stress_grain (Option)
 *     ===========================================================
- 
+
 *   Short description:
 *         Get current P stress factors (0-1)
- 
+
       use milletModule
       implicit none
- 
+
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
- 
+
 *   Global variables
       include   'const.inc'
-      include 'error.pub'                         
- 
+      include 'error.pub'
+
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'millet_p_stress_grain')
- 
+
 *   Initial data values
 *       none
- 
+
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call millet_pfact
      :               (
      :                g%dm_green
@@ -2252,36 +2272,36 @@ cjh special for erik - end
      :              , c%k_pfact_grain
      :              , g%pfact_grain
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
- 
+
 * ====================================================================
        subroutine millet_P_demand_est (Option)
 * ====================================================================
       use milletModule
       implicit none
       include 'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option
- 
+
 *+  Purpose
 *      None
- 
+
 *+  Constant Values
       character*(*) myname               ! name of current procedure
       parameter (myname = 'millet_P_demand_est')
- 
+
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
        if (Option.eq.1) then
           call millet_P_demand (
      :          g%current_stage
@@ -2296,11 +2316,11 @@ cjh special for erik - end
      :        , g%plant_P
      :        , c%P_uptake_factor
      :        , g%P_demand)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (myname)
       return
       end
@@ -2310,21 +2330,21 @@ cjh special for erik - end
       use milletModule
       implicit none
       include 'const.inc'
-      include 'error.pub'                         
- 
+      include 'error.pub'
+
 *+  Sub-Program Arguments
       integer Option
 
 *+  Purpose
 *      calculate p concentration curves
- 
+
 *+  Constant Values
       character*(*) myname               ! name of current procedure
       parameter (myname = 'millet_P_conc')
- 
+
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       if (Option.eq.1) then
          call millet_P_conc_limits (
      :          g%current_stage
@@ -2339,7 +2359,7 @@ cjh special for erik - end
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (myname)
       return
       end
@@ -2350,26 +2370,26 @@ cjh special for erik - end
       use milletModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
- 
+
 *+  Purpose
 *      Initialise plant Phosphorus
- 
+
 *+  Changes:
 *     270697 nih specified and programmed
- 
+
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'millet_p_init')
- 
+
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call millet_P_init (
      :          emerg
      :        , g%current_stage
@@ -2379,11 +2399,11 @@ cjh special for erik - end
      :        , g%p_conc_max
      :        , g%plant_p
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2393,9 +2413,9 @@ cjh special for erik - end
       use milletModule
       implicit none
       include 'const.inc'
-      include 'crp_fail.pub'                      
-      include 'error.pub'                         
-      include 'data.pub'                         
+      include 'crp_fail.pub'
+      include 'error.pub'
+      include 'data.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -2415,9 +2435,9 @@ cnh      real dlt_plants
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          g%dlt_plants_all = 0.0
          call crop_failure_germination (sowing, germ, now
      :        , c%days_germ_limit
@@ -2478,7 +2498,7 @@ cnh      real dlt_plants
 !cnh     :         , dlt_plants
      :        , g%dlt_plants
      :            )
- 
+
          if (reals_are_equal (g%dlt_plants + g%plants, 0.0)) then
             call millet_kill_crop (
      :          g%plant_status
@@ -2486,9 +2506,9 @@ cnh      real dlt_plants
      :        , g%dm_senesced
      :        , g%dm_dead)
          endif
- 
+
       elseif (Option .eq. 2) then
- 
+
          g%dlt_plants_all = 0.0
          call crop_failure_germination (sowing, germ, now
      :        , c%days_germ_limit
@@ -2549,7 +2569,7 @@ cnh      real dlt_plants
 !cnh     :         , dlt_plants
      :        , g%dlt_plants
      :            )
- 
+
          if (reals_are_equal (g%dlt_plants + g%plants, 0.0)) then
             call millet_kill_crop (
      :          g%plant_status
@@ -2557,11 +2577,11 @@ cnh      real dlt_plants
      :        , g%dm_senesced
      :        , g%dm_dead)
          endif
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2573,10 +2593,10 @@ cnh      real dlt_plants
       use milletModule
       implicit none
       include 'const.inc'
-      include 'crp_cnpy.pub'                      
-      include 'crp_nitn.pub'                      
-      include 'crp_biom.pub'                      
-      include 'error.pub'                         
+      include 'crp_cnpy.pub'
+      include 'crp_nitn.pub'
+      include 'crp_biom.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer option
@@ -2596,9 +2616,9 @@ c in millet
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_dm_detachment1( max_part
      :                              , c%sen_detach_frac
      :                              , g%dm_senesced
@@ -2606,7 +2626,7 @@ c in millet
      :                              , c%dead_detach_frac
      :                              , g%dm_dead
      :                              , g%dlt_dm_dead_detached)
- 
+
          call cproc_n_detachment1( max_part
      :                              , c%sen_detach_frac
      :                              , g%n_senesced
@@ -2614,7 +2634,7 @@ c in millet
      :                              , c%dead_detach_frac
      :                              , g%n_dead
      :                              , g%dlt_n_dead_detached)
- 
+
          call cproc_lai_detachment1 (leaf
      :                             , c%sen_detach_frac
      :                             , g%slai
@@ -2622,11 +2642,11 @@ c in millet
      :                             , c%dead_detach_frac
      :                             , g%tlai_dead
      :                             , g%dlt_tlai_dead_detached)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2637,9 +2657,9 @@ c in millet
       use milletModule
       implicit none
       include 'const.inc'
-      include 'science.pub'                       
-      include 'crp_phen.pub'                      
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'crp_phen.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer option
@@ -2669,18 +2689,18 @@ c (how do we do this w. TPLA approach?)
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (option .eq. 101)  then
          g%previous_stage = g%current_stage
- 
+
             ! get thermal times
- 
+
          call millet_tt (g%dlt_tt)
 !cjh         call millet_devel (g%dlt_stage, g%current_stage)
 cjh special for erik - start
       if (.not. g%stop_growth) then
          call millet_devel (g%dlt_stage, g%current_stage)
- 
+
       else
          ! no phenological development
          g%dlt_stage = 0.0
@@ -2688,18 +2708,18 @@ cjh special for erik - start
      :               , g%previous_stage, g%dlt_stage)
       endif
 cjh special for erik - end
- 
- 
+
+
          ! update thermal time states and day count
- 
+
          call accumulate (g%dlt_tt, g%tt_tot
      :               , g%previous_stage, g%dlt_stage)
- 
+
          call accumulate (1.0, g%days_tot
      :               , g%previous_stage, g%dlt_stage)
- 
+
       else if (option .eq. 1)  then
- 
+
          call cproc_phenology1 (
      :                             g%previous_stage
      :                            ,g%current_stage
@@ -2734,11 +2754,11 @@ cjh special for erik - end
      :                            ,g%tt_tot
      :                            ,g%days_tot
      :                            )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2749,7 +2769,7 @@ cjh special for erik - end
       use milletModule
       implicit none
       include 'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer option
@@ -2766,15 +2786,15 @@ cjh special for erik - end
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (option .eq. 101)  then
- 
+
          call millet_phenology_init_o (g%phase_tt)
 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
