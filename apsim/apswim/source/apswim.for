@@ -2655,6 +2655,8 @@ c   47       continue
 
 *+  Changes
 *     <insert here>
+*     26/11/1999 dph changed action_send(unknown_module, action, data)
+*                    to action_send_to_all_comps(action)
 
 *+  Calls
        double precision apswim_crain
@@ -2717,9 +2719,7 @@ c      double precision psiold(0:M)
 10    continue
 cnh
       call new_postbox()
-      call Action_send(unknown_module
-     :                              ,'swim_timestep_preparation'
-     :                              ,' ')
+      call Action_Send_to_all_comps('swim_timestep_preparation')
       call delete_postbox()
 
 
@@ -2882,9 +2882,7 @@ cnh
 
 cnh
          call new_postbox()
-         call Action_send(unknown_module
-     :                              ,'pre_swim_timestep'
-     :                              ,' ')
+         call Action_send_to_all_comps('pre_swim_timestep')
          call delete_postbox()
 ***
 *           integrate for step g%dt
@@ -2990,9 +2988,7 @@ cnh
 
 cnh
                call new_postbox()
-               call Action_send(unknown_module
-     :                              ,'post_swim_timestep'
-     :                              ,' ')
+               call Action_send_to_all_comps('post_swim_timestep')
                call delete_postbox()
 
 
