@@ -144,12 +144,12 @@ Public Class LogicUI
 
 
     Private Sub InitTextBox_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles InitTextBox.Leave
-        Data.Child("init").Value = Replace(InitTextBox.Text, vbCrLf, "[cr]")
+        Data.Child("init").Value = Replace(InitTextBox.Text, vbLf, "[cr]")
     End Sub
     Private Sub StartOfDayTextBox_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles StartOfDayTextBox.Leave
-        Data.Child("startofday").Value = Replace(StartOfDayTextBox.Text, vbCrLf, "[cr]")
+        Data.Child("startofday").Value = Replace(StartOfDayTextBox.Text, vbLf, "[cr]")
     End Sub
     Private Sub EndOfDayTextBox_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles EndOfDayTextBox.Leave
-        Data.Child("endofday").Value = Replace(EndOfDayTextBox.Text, vbCrLf, "[cr]")
+        Data.Child("endofday").Value = Replace(EndOfDayTextBox.Text, vbLf, "[cr]")
     End Sub
 End Class
