@@ -36,7 +36,7 @@ void crop_failure_germination(int   sowing,
 
    // Implementation Section ----------------------------------
    if ((stage_is_between (sowing, germ, current_stage)) &&
-          (sum_between (sowing-1, now-1, days_tot) > days_germ_limit))
+          (sum_between (sowing-1, now-1, days_tot) >= days_germ_limit))
       {
       *dlt_plants = -1 * plants;
 

@@ -410,7 +410,7 @@ void cproc_bio_init1(float *C_dm_init,         //(INPUT)
 
 
 //==========================================================================
-void cproc_rue_n_gradients(int   day,                  // !day of the year                                                                       
+void cproc_rue_n_gradients(int   day,                  // !day of the year
                            float latitude,           //latitude in degree                                                                      
                            float radiation,          //daily global radiation (MJ/m2/d)                                                        
                            float tempmax,            //daily maximum tempeature (C)                                                            
@@ -757,11 +757,11 @@ void crop_dm_pot_rue_co2 (float current_stage,
    }
 
 //==========================================================================
-void cproc_rue_co2_modifier(char *crop_type,           //!please use 'C3' or 'C4' for crop_type    
-                            float co2,                 //!CO2 level (ppm)                          
-                            float maxt,                //!daily max temp (C)                       
-                            float mint,                //!daily min temp (C)                       
-                            float *modifier)           //!modifier (-)                             
+void cproc_rue_co2_modifier(photosynthetic_pathway_t croptype, // Photosynthetic pathway
+                            float co2,                 //!CO2 level (ppm)
+                            float maxt,                //!daily max temp (C)
+                            float mint,                //!daily min temp (C)
+                            float *modifier)           //!modifier (-)
 //==========================================================================
 /*  Purpose
 *     Calculation of the CO2 modification on rue
@@ -783,47 +783,30 @@ void cproc_rue_co2_modifier(char *crop_type,           //!please use 'C3' or 'C4
       float TT;    //co2 compensation point (ppm)
       float first;            // Temp vars for passing composite arg to a func
       float second;           // expecting a pointer
-      char *croptype = "Undefined";
 
    // Implementation Section ----------------------------------
 
-   //Create a string from the char*
-   if (Str_i_Eq(crop_type, "c3") || Str_i_Eq(crop_type, "barley") ||
-         Str_i_Eq(crop_type, "wheat") || Str_i_Eq(crop_type, "canola") ||
-         Str_i_Eq(crop_type, "cotton") || Str_i_Eq(crop_type, "pigeonpea") ||
-         Str_i_Eq(crop_type, "mungbean") || Str_i_Eq(crop_type, "soybean") ||
-         Str_i_Eq(crop_type, "cowpea") || Str_i_Eq(crop_type, "lucerne") ||
-         Str_i_Eq(crop_type, "lupin") || Str_i_Eq(crop_type, "chickpea") ||
-         Str_i_Eq(crop_type, "stylo") || Str_i_Eq(crop_type, "navybean") ||
-         Str_i_Eq(crop_type, "fababean") || Str_i_Eq(crop_type, "peanut") ||
-         Str_i_Eq(crop_type, "mucuna") || Str_i_Eq(crop_type, "lablab") ||
-         Str_i_Eq(crop_type, "sunflower"))
+   switch (croptype)
       {
-      croptype ="c3";
-      }
-   else if(Str_i_Eq(crop_type, "c4") || Str_i_Eq(crop_type, "maize") ||
-         Str_i_Eq(crop_type, "sorghum") || Str_i_Eq(crop_type, "millet") ||
-         Str_i_Eq(crop_type, "sugar"))
-      {
-      croptype = "c4";
-      }
+      pw_C3:
+        {
+        temp = 0.5*( maxt + mint);
+        TT  = divide(163.0 - temp, 5.0 - 0.1 * temp, 0.0);
 
-   if (Str_i_Eq(croptype, "c3"))
-      {
-      temp = 0.5*( maxt + mint);
-      TT  = divide(163.0 - temp, 5.0 - 0.1 * temp, 0.0);
-
-      first = (co2 - TT) * (350.0 + 2.0 * TT);
-      second = (co2 + 2.0 * TT)*(350.0 - TT);
-      *modifier = divide( first, second, 1.0);
-      }
-   else
-      {
-      *modifier = 0.000143 * co2 + 0.95; //Mark Howden, personal communication
-      }
-   if (co2 < 0.1)
-      {
-      *modifier = 1.0;
+        first = (co2 - TT) * (350.0 + 2.0 * TT);
+        second = (co2 + 2.0 * TT)*(350.0 - TT);
+        *modifier = divide( first, second, 1.0);
+        break;
+        }
+      pw_C4:
+        {
+        *modifier = 0.000143 * co2 + 0.95; //Mark Howden, personal communication
+        break;
+        }
+      default:
+        {
+        fatal_error(&err_user, "Unknown photosynthetic pathway");
+        }
       }
    }
 

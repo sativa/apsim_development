@@ -354,10 +354,14 @@ class Plant {
     ,float *c_y_n_conc_max_stem                    
     ,float *c_y_n_conc_min_leaf                    
     ,float *c_y_n_conc_min_pod                     
-    ,float *c_y_n_conc_min_stem                    
-    ,float  g_row_spacing                          
-    ,float  g_skip_row_fac                         
-    ,float  g_skip_plant_fac                       
+    ,float *c_y_n_conc_min_stem
+    ,float *c_x_co2_nconc_modifier
+    ,float *c_y_co2_nconc_modifier
+    ,int   c_num_co2_nconc_modifier
+    ,float  g_co2
+    ,float  g_row_spacing
+    ,float  g_skip_row_fac
+    ,float  g_skip_plant_fac
     ,float *c_x_row_spacing
     ,float *c_y_extinct_coef
     ,float *c_y_extinct_coef_dead
@@ -577,6 +581,10 @@ class Plant {
 			     ,float  *c_y_n_conc_min_leaf
 			     ,float  *c_y_n_conc_min_pod
 			     ,float  *c_y_n_conc_min_stem
+                             ,float  *c_x_co2_nconc_modifier
+                             ,float  *c_y_co2_nconc_modifier
+                             ,int    c_num_co2_nconc_modifier
+                             ,float  g_co2
 			     ,float  g_current_stage
 			     ,float  *n_conc_crit
 			     ,float  *n_conc_max
@@ -1395,7 +1403,7 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
   void get_dlt_dm_fruit_green_part(protocol::QueryValueData &qd);  
   void get_dm_fruit_green_stage(protocol::QueryValueData &qd);  
   void get_dlt_dm_fruit_green_retrans_part(protocol::QueryValueData &qd);  
-  void get_num_fruit_cohorts(protocol::QueryValueData &qd);  
+  void get_num_fruit_cohorts(protocol::QueryValueData &qd);
   void get_dm_parasite_retranslocate(protocol::QueryValueData &qd);  
   void get_count_fruit_cohorts(protocol::QueryValueData &qd);  
   void get_dlt_dm_fruit_abort_cohort(protocol::QueryValueData &qd);  
@@ -1432,6 +1440,7 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
        unsigned int parasite_c_demand;
        unsigned int parasite_sw_demand;
        unsigned int maxt_soil_surface;
+       unsigned int co2;
 
        // sets
        unsigned int dlt_no3;
@@ -1694,7 +1703,7 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
       float     **dlt_dm_fruit_green_retrans;
       float     **dlt_dm_fruit_abort;
       float     **fruit_sdr_daily; //xxx
-      
+
       float     node_no_first_flower;
       float     dlt_dm_daily[367];
 
@@ -1710,6 +1719,7 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
       float     dlt_fruit_no_abort[max_fruit_cohorts];
       float     dm_fruit_pod_min[max_fruit_cohorts]; // minimum weight of each pod part
                                                      // [g/fruit]
+      float     co2;
     } g;   // Globals
 
 
@@ -2119,7 +2129,12 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
       float      fract_dm_fruit_abort_crit;
       float swdef_pheno_flower;
       float swdef_pheno_grainfill;
-      
+      float co2_default;
+      float      x_co2_te_modifier[max_table], y_co2_te_modifier[max_table];
+      int        num_co2_te_modifier;
+      float      x_co2_nconc_modifier[max_table], y_co2_nconc_modifier[max_table];
+      int        num_co2_nconc_modifier;
+      photosynthetic_pathway_t photosynthetic_pathway;
       }  c;   // Constants
 };  // Plant
 

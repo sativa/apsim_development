@@ -769,8 +769,7 @@ void crop_check_sw(float minsw,    // (INPUT)  lowest acceptable value for ll
 
 //==========================================================================
 void cproc_transp_eff_co2(float svp_fract,        // (INPUT)  fraction of distance between svp at mi
-                          float *transp_eff_cf,    // (INPUT)  transpiration efficiency coefficien
-                          float current_stage,    // (INPUT)  current phenological stages
+                          float transp_eff_cf,    // (INPUT)  transpiration efficiency coefficien
                           float maxt,             // (INPUT)  maximum air temperature (oC)
                           float mint,             // (INPUT)  minimum air temperature (oC)
                           float co2level,         // (INPUT)  current co2 level (ppm)
@@ -809,29 +808,19 @@ void cproc_transp_eff_co2(float svp_fract,        // (INPUT)  fraction of distan
    //  Local Variables
    float temp_arg;      // dummy temperature for function (oC)
    float vpd;           // vapour pressure deficit (kpa)
-   int current_phase;
    float co2_modifier;
    float tolerance;
 
    // Implementation Section ----------------------------------
-   current_phase = int(current_stage);
-
    //get vapour pressure deficit when net radiation is positive.
 
    vpd = svp_fract * (svp(maxt) - svp(mint));
    vpd = l_bound (vpd, 0.01);
 
-   *transp_eff = divide (transp_eff_cf[current_phase-1], vpd, 0.0) / g2mm;
+   *transp_eff = divide (transp_eff_cf, vpd, 0.0) / g2mm;
 
-   if (co2level < 1.0)
-      {
-      co2_modifier = 1.0;
-      }
-   else
-      {
-      co2_modifier = linear_interp_real(co2level, co2_level_te, te_co2_modifier,
-                                        num_co2_level_te);
-      }
+   co2_modifier = linear_interp_real(co2level, co2_level_te, te_co2_modifier,
+                                     num_co2_level_te);
 
    *transp_eff = *transp_eff * co2_modifier;
    }
