@@ -1067,7 +1067,7 @@
       logical function reals_are_equal (first, second, tolerance)
 !     ===========================================================
       implicit none
- 
+
 !+ Sub-Program Arguments
       real       first                 ! (INPUT) Number to search for
       intent(in) first
@@ -1076,45 +1076,45 @@
       real       tolerance             ! (INPUT) difference tolerance
       intent(in) tolerance
       optional   tolerance
- 
+
 !+ Purpose
 !     Returns true if real numbers are almost equal
- 
+
 !+  Definition
 !     Returns true if "first" and "second" are almost equal.
 !     "first" and "second" are considered to be almost equal
 !     if ("first"+error_margin("first") >= "second"  .AND.
-!     "first"-error_margin("first") <= "second").  
+!     "first"-error_margin("first") <= "second").
 
 !+  Mission Statement
 !     %1 = %2
- 
+
 !+ Changes
 !       070994 jngh specified and programmed
 !       250698 jngh simplified algorithm
 !       250601 jngh added optional argument
- 
+
 !+ Calls
- 
+
 !+ Local Variables
       real       margin
- 
+
 !- Implementation Section ----------------------------------
- 
+
       if (present(tolerance)) then
          margin = tolerance
       else
          margin = error_margin(second)
       endif
- 
- 
+
+
       if (abs(first-second) .le. margin) then
          reals_are_equal = .true.
- 
+
       else
          reals_are_equal = .false.
       endif
- 
+
       return
       end function
 
@@ -1124,7 +1124,7 @@
       logical function Doubles_are_equal (first, second, tolerance)
 !     ===========================================================
       implicit none
- 
+
 !+ Sub-Program Arguments
       double precision  first          ! (INPUT) Number to search for
       intent(in) first
@@ -1133,43 +1133,43 @@
       double precision tolerance       ! (INPUT) difference tolerance
       intent(in) tolerance
       optional   tolerance
- 
+
 !+ Purpose
 !     Returns true if double numbers are almost equal
- 
+
 !+  Definition
 !     Returns true if "first" and "second" are almost equal.  "first"
-!     and "second" are considered to be almost equal if 
-!     ("first"+double_error_margin("first") >= "second"  .AND. 
-!     "first"-double_error_margin("first") <= "second").  
+!     and "second" are considered to be almost equal if
+!     ("first"+double_error_margin("first") >= "second"  .AND.
+!     "first"-double_error_margin("first") <= "second").
 
 !+  Mission Statement
 !      %1 = %2
- 
+
 !+ Changes
 !       dph 24/6/96 specified and programmed - used reals_are_equal as template
 !       250698 jngh simplified algorithm
- 
+
 !+ Calls
- 
+
 !+ Local Variables
       double precision       margin
 
 !- Implementation Section ----------------------------------
- 
+
       if (present(tolerance)) then
          margin = tolerance
       else
          margin = double_error_margin(second)
       endif
- 
+
       if (abs(first-second) .le. margin) then
          Doubles_are_equal = .true.
- 
+
       else
          Doubles_are_equal = .false.
       endif
- 
+
       return
       end function
 
@@ -1224,12 +1224,13 @@
 
    !- Implementation Section ----------------------------------
 
-
-      if (reals_are_equal (dividend, nought)) then   ! multiplying by 0
-         quotient = nought
-
-      elseif (reals_are_equal (divisor, nought)) then ! dividing by 0
+      if (reals_are_equal (divisor, nought)) then ! dividing by 0
+         ! If divisor is nought, the rest is irrelevant - it is undefined
+         ! and so we return the user-defined default value
          quotient = default
+
+      elseif (reals_are_equal (dividend, nought)) then   ! multiplying by 0
+         quotient = nought
 
       elseif (abs (divisor).lt.1.0) then          ! possible overflow
          if (abs (dividend).gt.abs (largest*divisor)) then     ! overflow
@@ -2338,35 +2339,35 @@
 !     ===========================================================
       use ConstantsModule
       implicit none
- 
+
 !+ Sub-Program Arguments
       real       var                   ! (INPUT) variable to be rounded
       intent(in) var
       real       tolerance             ! (INPUT) value considered to be zero
       intent(in) tolerance
       optional   tolerance
- 
+
 !+ Purpose
 !       Round a very small variable to zero
- 
+
 !+  Definition
-!     Returns "var" providing that it is greater than 
-!     the parameter "close_enough_to_zero".  Otherwise returns "0".  
+!     Returns "var" providing that it is greater than
+!     the parameter "close_enough_to_zero".  Otherwise returns "0".
 
 !+  Mission Statement
 !     %1 rounded to 0 if smaller than or equal to close_enough_to_zero
- 
+
 !+ Changes
 !       151200  specified and programmed (jng hargreaves)
 !       250601  jngh added optional argument
- 
+
 !+ Calls
- 
+
 !+ Local Variables
       real     apparently_zero
- 
+
 !- Implementation Section ----------------------------------
- 
+
       if (present(tolerance)) then
          apparently_zero = tolerance
       else
@@ -2377,7 +2378,7 @@
          round_to_zero = 0
       else
          round_to_zero = var
-      endif 
+      endif
       return
       end function
 
