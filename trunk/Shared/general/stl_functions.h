@@ -65,7 +65,7 @@ void Destroy_pointers (CT& container, const T )
    {
    while (!container.empty())
       {
-		T* Ptr = container.back();
+		T Ptr = container.back();
       container.pop_back();
 		delete Ptr;
 		}
