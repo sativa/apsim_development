@@ -115,11 +115,15 @@ void ApsimSettings::deleteSection(const std::string& sectionName) const
 // ------------------------------------------------------------------
 // Read and return a list of values for the specified key.
 // ------------------------------------------------------------------
-void ApsimSettings::read(const string& key, vector<string>& values) const
+void ApsimSettings::read(const string& key, vector<string>& values,
+                         bool replaceMacros) const
    {
-//   working->read(getSection(key), getKey(key), values);
-//   if (values.size() == 0)
-      original->read(getSection(key), getKey(key), values);
+   original->read(getSection(key), getKey(key), values);
+   if (replaceMacros)
+      {
+      for (unsigned v = 0; v != values.size(); v++)
+         replaceAll(values[v], "%apsuite", getApsimDirectory());
+      }
    }
 // ------------------------------------------------------------------
 //	Write a key to ini file
