@@ -27,7 +27,13 @@ class GENERAL_EXPORT Macro
          }
 
       // return a macro name to caller.
-      std::string getName(void) {return name;}
+      std::string getName(void) const {return getAttribute("name");}
+
+      // return a macro attribute to caller.
+      std::string getAttribute(const std::string& name) const;
+
+      // return the number of values to caller.
+      unsigned int getNumValues(void) const {return values.size();}
 
       // return a complete list of macro value names to caller.
       void getValueNames(std::vector<std::string>& names);
@@ -35,15 +41,27 @@ class GENERAL_EXPORT Macro
       // return a specific macro value or NULL if not found.
       MacroValue* getValue(const std::string& name);
 
+      // return a specific macro value or NULL if not found.
+      MacroValue* getValue(unsigned int valueIndex)
+         {
+         return &values[valueIndex];
+         }
+
       // add a macro value to our list of macros.
       void addValue(const MacroValue& value) {values.push_back(value);}
 
+      // clear all macro values.
+      void clearValues(void)
+         {
+         values.erase(values.begin(), values.end());
+         }
+
       // Parse the specified string removing this macros' name and
-      // replacing with 1 or more values.  Original text is left
-      // unchanged.
-      std::string performMacroReplacement(const std::string& text);
+      // replacing with 1 or more values.
+      void performMacroReplacement(std::string& text);
    private:
-      std::string name;
+      typedef std::map<std::string, std::string, std::less<std::string> > Attributes;
+      Attributes attributes;
       std::vector<MacroValue> values;
 
       void parseString(const std::string& contents);
