@@ -1294,11 +1294,11 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !     dph 25/7/96  Changed decl of no_leading%spaces*(mes_action_size) to
 !                  no_leading%spaces*(function_string_len)
 !     dph 30/8/99  removed 'queue' keyword
+!     dph 11/7/01  removed the gets for year and day [d437]
 
 !+  Calls
 
 !+  Local Variables
-      integer Day                      ! Day number of year
       character Module_name*(30)       ! Module name to send action to
       character Action*(MES_Action_size)
                                        ! Action to send to APSIM
@@ -1307,7 +1307,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
       character Variable_name*(Max_manager_var_name_size)
                                        ! variable name in set actions.
       integer Numvals                  ! Number of values returned
-      integer Year                     ! Year number
       character Err*200                ! Error message
       logical Data_was_stored          ! Was data stored in postbox?
 
@@ -1315,11 +1314,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
  
       if (index(Action_string, 'do_output') .eq. 0 .and.
      .    index(Action_string, 'do_end_day_output') .eq. 0) then
-         call Get_integer_var
-     .       (Unknown_module, 'day', '()', Day, numvals, 1, 366)
-         call Get_integer_var
-     .      (Unknown_module, 'year', '()', year, numvals,
-     .               min_year, max_year)
  
          write (Data_string, '(2a)' )
      .      '     Manager sending message :- ', Action_string
