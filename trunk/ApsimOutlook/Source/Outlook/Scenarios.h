@@ -27,7 +27,7 @@ class AddInBase;
 // ------------------------------------------------------------------
 class Scenarios {
    public:
-      Scenarios(void);
+      Scenarios(bool& success);
 
       ~Scenarios();
 
@@ -104,7 +104,7 @@ class Scenarios {
                                        const std::vector<std::string>& factorValues);
 
       // load all add-in DLLs
-      void loadAllAddIns(void);
+      bool loadAllAddIns(void);
 };
 
 

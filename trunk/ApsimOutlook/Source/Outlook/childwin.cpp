@@ -82,7 +82,8 @@ __fastcall TMDIChild::~TMDIChild()
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::FormShow(TObject *Sender)
    {
-   scenarios = new Scenarios();
+   bool success;
+   scenarios = new Scenarios(success);
    // Create child settings window.
    Settings_form = new TChartSettingsForm(this);
    Settings_form->Parent = this;
@@ -94,7 +95,12 @@ void __fastcall TMDIChild::FormShow(TObject *Sender)
    if (numObjects == 1)
       loadAllToolbarAddIns();
 
-   SelectSimulations(NULL);
+   if (success)
+      {
+      SelectSimulations(NULL);
+      }
+   else
+      this->Close();
    }
 
 //---------------------------------------------------------------------------
