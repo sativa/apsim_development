@@ -12,7 +12,10 @@
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     Soil water supply
+*       Plant water supply
+
+*+  Mission Statement
+*     Plant water supply
 
 *+  Changes
 *     5/9/96 dph
@@ -65,6 +68,9 @@
 
 *+  Purpose
 *     Get current Nitrogen stress factors (0-1)
+
+*+  Mission Statement
+*         Gets the current Nitrogen stress factors
 
 *+  Changes
 *     010994 jngh specified and programmed
@@ -128,6 +134,9 @@
 *+  Purpose
 *     Get current temperature stress factors (0-1)
 
+*+  Mission Statement
+*     Calculate the temperature stress factors (0-1)
+
 *+  Changes
 *     010994 jngh specified and programmed
 *     970312 slw - templated
@@ -167,7 +176,10 @@
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     light supply
+*     Seek the light intercepted by the leaves
+
+*+  Mission Statement
+*     Seek the light intercepted by the leaves
 
 *+  Changes
 *     5/9/96 dph
@@ -207,7 +219,10 @@
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*      bio water
+*       Calculate bio transpiration efficiency
+
+*+  Mission Statement
+*     Calculate biomass transpiration efficiency
 
 *+  Changes
 *     5/9/96 dph
@@ -255,6 +270,9 @@
 
 *+  Purpose
 *     biomass light
+
+*+  Mission Statement
+*     Biomass radiation use efficiency
 
 *+  Changes
 *     5/9/96 dph
@@ -306,6 +324,9 @@
 *     temperatures and converting mm water to g dry matter
 *     (g dm/m^2/mm water)
 
+*+  Mission Statement
+*     Calculate today's transpiration efficiency
+
 *+  Changes
 *     5/9/96 dph
 *     970312 slw - templated
@@ -351,6 +372,9 @@
 *+  Purpose
 *     Soil water demand
 
+*+  Mission Statement
+*     Calculate the plant water demand
+
 *+  Changes
 *     5/9/96 dph
 *     970312 slw - templated
@@ -393,7 +417,10 @@
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     root distribution
+*       Plant root distribution in the soil
+
+*+  Mission Statement
+*     Calculates the plant root depth
 
 *+  Changes
 *     5/9/96 dph
@@ -445,7 +472,10 @@
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     root distribution
+*      Initialise plant root depth
+
+*+  Mission Statement
+*     Initialises the plant root depth
 
 *+  Changes
 *     5/9/96 dph
@@ -505,7 +535,10 @@
       integer    Option       ! (INPUT) option number
 
 *+  Purpose
-*     Get current water stress factors (0-1)
+*         Get current water stress factors (0-1)
+
+*+  Mission Statement
+*     Calulates the current water stress factors
 
 *+  Changes
 *     010994 jngh specified and programmed
@@ -604,7 +637,10 @@
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     Soil water uptake
+*       Plant transpiration and soil water extraction
+
+*+  Mission Statement
+*     Get the plant water uptake
 
 *+  Changes
 *     5/9/96 dph
@@ -670,7 +706,10 @@
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*
+*      Initialise plant leaf area
+
+*+  Mission Statement
+*     Initialise plant leaf area
 
 *+  Changes
 *      28/4/98 igh
@@ -716,7 +755,10 @@
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*
+*       Leaf number initialisation
+
+*+  Mission Statement
+*     Initialise leaf number development
 
 *+  Changes
 *      28/4/98 igh
@@ -761,7 +803,10 @@
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*       Phenology leaf
+*       Leaf number development
+
+*+  Mission Statement
+*     Calculate leaf number development
 
 *+  Changes
 *      28/4/98 igh
@@ -834,6 +879,9 @@ cjh special for erik - end
 *       Simulate potential crop leaf area development - may be limited by
 *       DM production in subsequent routine
 
+*+  Mission Statement
+*     Get the potential leaf area development
+
 *+  Changes
 *      250894 jngh specified and programmed
 *      270995 scc added leaf area routine option
@@ -896,7 +944,11 @@ cjh special for erik - end
       integer Option                   ! (INPUT) option number
 
 *+  Purpose
-*     Calculate the stressed dlt_lai from the potential dlt_lai.
+*       Simulate potential stressed crop leaf area development - may
+*       be limited by DM production in subsequent routine
+
+*+  Mission Statement
+*     Get potential stressed leaf area development
 
 *+  Changes
 *     26/2/96  sb made it up.
@@ -943,7 +995,12 @@ cjh special for erik - end
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     bio actual
+*       Takes the minimum of biomass production limited by radiation and 
+*       biomass production limited by water.
+
+*+  Mission Statement
+*     Takes the minimum of biomass production limited by radiation and 
+*     biomass production limited by water.
 
 *+  Changes
 *     5/9/96 dph
@@ -1004,7 +1061,10 @@ cjh special for erik - end
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     bio partition
+*       Partition biomass.
+
+*+  Mission Statement
+*     Calculate biomass partitioning
 
 *+  Changes
 *     5/9/96 dph
@@ -1078,7 +1138,10 @@ cjh special for erik - end
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     bio retrans
+*       Retranslocate biomass.
+
+*+  Mission Statement
+*     Retranslocate biomass
 
 *+  Changes
 *     5/9/96 dph
@@ -1145,7 +1208,11 @@ cjh special for erik - end
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*       biomass light
+*       Simulate actual crop leaf area development - checks that leaf area
+*       development matches DM production.
+
+*+  Mission Statement
+*     Caculate actual crop leaf area development
 
 *+  Changes
 *      5/9/96 dph
@@ -1189,7 +1256,10 @@ cjh special for erik - end
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*       canopy height
+*     Canopy height.
+
+*+  Mission Statement
+*     Calculate canopy height
 
 *+  Changes
 *      5/9/96 dph
@@ -1242,8 +1312,10 @@ cjh special for erik - end
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*       contains grain, partition and retrans grain routines
-*       bio grain
+*       Simulate crop grain biomass demand.
+
+*+  Mission Statement
+*     Calculate grain biomass demand
 
 *+  Changes
 *     5/9/96 dph
@@ -1433,7 +1505,10 @@ cjh special for erik - end
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     leaf death.
+*       Return the fractional death of oldest green leaf.
+
+*+  Mission Statement
+*     Get the fractional death of oldest green leaf
 
 *+  Changes
 *     5/9/96 dph
@@ -1472,7 +1547,10 @@ cjh special for erik - end
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     leaf area senesence - age
+*       Return the lai that senesces on the current day.
+
+*+  Mission Statement
+*     Calculate today's senesced leaf area index
 
 *+  Changes
 *     5/9/96 dph
@@ -1542,7 +1620,10 @@ cjh special for erik - end
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     biomass senescence
+*       Simulate plant senescence.
+
+*+  Mission Statement
+*     Calculate plant senescence
 
 *+  Changes
 *      5/9/96 dph
@@ -1592,7 +1673,10 @@ cjh special for erik - end
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     biomass senescence
+*       Simulate plant nitrogen senescence.
+
+*+  Mission Statement
+*     Calculate plant nitrogen senescence
 
 *+  Changes
 *     5/9/96 dph
@@ -1643,6 +1727,9 @@ cjh special for erik - end
 *+  Purpose
 *      Initialise plant nitrogen.
 
+*+  Mission Statement
+*     Initialise plant nitrogen
+
 *+  Changes
 *     250894 jngh specified and programmed
 
@@ -1692,7 +1779,10 @@ cjh special for erik - end
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*      n supply
+*       Get the nitrogen supply.
+
+*+  Mission Statement
+*     Get the nitrogen supply for plant
 
 *+  Changes
 *     5/9/96 dph
@@ -1758,7 +1848,10 @@ cjh special for erik - end
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     nitrogen retranslocation
+*       Do nitrogen retranslocation.
+
+*+  Mission Statement
+*     Calculate nitrogen retranslocation
 
 *+  Changes
 *     5/9/96 dph
@@ -1815,7 +1908,10 @@ cjh special for erik - end
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     n demand
+*       Find nitrogen demand.
+
+*+  Mission Statement
+*     Get the plant nitrogen demand
 
 *+  Changes
 *     5/9/96 dph
@@ -1886,7 +1982,10 @@ cjh special for erik - end
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     n uptake
+*       Find nitrogen uptake.
+
+*+  Mission Statement
+*     Get the plant nitrogen uptake
 
 *+  Changes
 *     5/9/96 dph
@@ -1954,7 +2053,10 @@ cjh special for erik - end
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     nitrogen partition
+*       Find nitrogen partitioning.
+
+*+  Mission Statement
+*     Calculate the nitrogen partitioning in the plant
 
 *+  Changes
 *     5/9/96 dph
@@ -2000,7 +2102,12 @@ cjh special for erik - end
       integer Option
 
 *+  Purpose
-*     <insert here>
+*      Calculate an approximate nitrogen demand for today's growth.
+*      The estimate basically = n to fill the plant up to maximum
+*      nitrogen concentration.
+
+*+  Mission Statement
+*     Calculate nitrogen demand for growth
 
 *+  Changes
 *     14-05-1997 - huth - Programmed and Specified
@@ -2090,6 +2197,9 @@ cjh special for erik - end
 *      Get P uptake from P module and convert to require units
 *      for internal use.
 
+*+  Mission statement
+*         Calcualate plant P uptake
+
 *+  Changes
 *     26-06-1997 - huth - Programmed and Specified
 
@@ -2147,7 +2257,10 @@ cjh special for erik - end
       integer    Option                ! (INPUT) option number
 
 *+   Purpose
-*         Get current P stress factors (0-1)
+*         Get current P stress factors for photosysnthesis(0-1)
+
+*+  Mission Statement
+*         Calculate the P stress factors for photosysnthesis(0-1)
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -2192,7 +2305,10 @@ cjh special for erik - end
       integer    Option                ! (INPUT) option number
 
 *+  Purpose
-*         Get current P stress factors (0-1)
+*         Get current P stress factors for phenology(0-1)
+
+*+  Mission Statement
+*         Calculate P stress factors for phenology(0-1)
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -2234,7 +2350,10 @@ cjh special for erik - end
       include 'error.pub'
 
 *+  Purpose
-*         Get current P stress factors (0-1)
+*         Get current P stress factors for cell expansion(0-1)
+
+*+  Mission Statement
+*         Calculate the P stress factors for cell expansion (0-1)
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2279,6 +2398,12 @@ cjh special for erik - end
 
       use milletModule
       implicit none
+
+*+  Purpose
+*         Get current P stress factors for grain(0-1)
+
+*+  Mission Statement
+*         Calculate the P stress factors for grain (0-1)
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2334,7 +2459,12 @@ cjh special for erik - end
       integer Option
 
 *+  Purpose
-*      None
+*      Calculate an approximate phosphorus demand for today's growth.
+*      The estimate basically = p to fill the plant up to maximum
+*      phosphorus concentration.
+
+*+  Mission Statement
+*     Calculate p demand for growth
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -2380,6 +2510,9 @@ cjh special for erik - end
 *+  Purpose
 *      calculate p concentration curves
 
+*+  Mission Statement
+*         Calculate p concentration
+
 *+  Constant Values
       character*(*) myname               ! name of current procedure
       parameter (myname = 'millet_P_conc')
@@ -2419,6 +2552,9 @@ cjh special for erik - end
       integer    Option                ! (INPUT) option number
 
 *+  Purpose
+*      Initialise plant Phosphorus
+
+*+  Mission Statement
 *      Initialise plant Phosphorus
 
 *+  Changes:
@@ -2465,7 +2601,10 @@ cjh special for erik - end
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*       crop death
+*      Determine plant death in crop
+
+*+  Mission Statement
+*     Determine plant death of crop
 
 *+  Changes
 *      5/9/96 dph
@@ -2652,6 +2791,9 @@ cscc Detachment is also a function of the environment. We've
 c noticed large diff. in detachment between wet and dry environments
 c in millet
 
+*+  Mission statement
+*       Simulate plant detachment
+
 *+  Changes
 *      091294 jngh specified and programmed
 
@@ -2714,6 +2856,9 @@ c in millet
 *     Use temperature, photoperiod and genetic characteristics
 *     to determine when the crop begins a new growth phase.
 *     The initial daily thermal time and height are also set.
+
+*+  Mission Statement
+*     Calculate the legume growth stages
 
 *+  Changes
 *     010994 jngh specified and programmed
@@ -2822,7 +2967,10 @@ cjh special for erik - end
       integer option
 
 *+  Purpose
-*     Initialise crop growth stage targets
+*       Initialise Phenological Growth Stage Targets
+
+*+  Mission Statement
+*     Initialise millet growth phases
 
 *+  Changes
 *     240498 igh specified and programmed
