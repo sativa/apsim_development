@@ -7,9 +7,6 @@
 *+  Purpose
 *       return version number of surface module
 
-*+  Mission Statement
-*       Current Version Number
-
 *+  Changes
 *     <insert here>
 
@@ -35,7 +32,7 @@
       subroutine APSIM_surface (Action, Data_String)
 *     ===========================================================
       implicit none
-      dll_export apsim_surface
+      dll_export APSIM_surface
       include   'const.inc'            ! Global constant definitions
       include   'surface.inc'         ! surface common block
       include 'string.pub'                        
@@ -55,9 +52,6 @@
 *      this module resets the surface seal value to the value this module
 *      wishes APSwim to use.  This will override any internally calculated
 *      value of surface conductance.
-
-*+  Mission Statement
-*      Main interface routine
 
 *+  Changes
 *     <insert here>
@@ -112,11 +106,11 @@ c         call surface_surface ()
       else if (Action .eq. MES_Set_variable) then
          call surface_set_my_variable (Data_String)
  
-c      else if (Action .eq. 'post_swim_timestep') then
+      else if (Action .eq. 'post_swim_timestep') then
+         call surface_post_swim_timestep ()
  
- 
-c      else if (Action .eq. 'tillage') then
-c         call surface_tillage ()
+      else if (Action .eq. 'tillage') then
+         call surface_tillage ()
  
       else
             ! Don't use message
@@ -141,9 +135,6 @@ c         call surface_tillage ()
 
 *+  Purpose
 *      Initialise surface module
-
-*+  Mission Statement
-*      Perform module initialisation
 
 *+  Changes
 *     <insert here>
@@ -172,6 +163,8 @@ c         call surface_tillage ()
  
       call surface_read_param ()
  
+      g_rr = p_rr_max
+ 
  
       call pop_routine (my_name)
       return
@@ -191,9 +184,6 @@ c         call surface_tillage ()
 
 *+  Purpose
 *      Read in all parameters from parameter file.
-
-*+  Mission Statement
-*      Read all module parameters
 
 *+  Changes
 *     <insert here>
@@ -293,9 +283,6 @@ c         call surface_tillage ()
 *+  Purpose
 *     Set all variables in this module to zero.
 
-*+  Mission Statement
-*     Initialise all module variables
-
 *+  Changes
 *     <insert here>
 
@@ -338,9 +325,6 @@ c         call surface_tillage ()
 
 *+  Purpose
 *      Get the values of variables from other modules
-
-*+  Mission Statement
-*      Get values of state variables from other modules
 
 *+  Changes
 *     <insert here>
@@ -394,9 +378,6 @@ c         call surface_tillage ()
 *+  Purpose
 *      Return the value of one of our variables to caller
 
-*+  Mission Statement
-*      Provide data to other modules upon request
-
 *+  Changes
 *      011195 jngh  added call to message_unused
 
@@ -406,12 +387,32 @@ c         call surface_tillage ()
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+c RDC
       if (Variable_name .eq. 'rr') then
          call respond2get_double_var (
      :                              variable_name
      :                            , '(cm)'
      :                            , g_RR)
+      else if (Variable_name .eq. 'surf_cover') then
+         call respond2get_double_var (
+     :                              variable_name
+     :                            , '(cm)'
+     :                            , g_cover)
+      else if (Variable_name .eq. 'g1') then
+         call respond2get_double_var (
+     :                              variable_name
+     :                            , '(cm)'
+     :                            , g_scon_max)
+      else if (Variable_name .eq. 'g0') then
+         call respond2get_double_var (
+     :                              variable_name
+     :                            , '(cm)'
+     :                            , g_scon_min)
+      else if (Variable_name .eq. 'grc') then
+         call respond2get_double_var (
+     :                              variable_name
+     :                            , '(cm)'
+     :                            , p_seal_decay_rate)
       else
          call Message_unused ()
       endif
@@ -429,6 +430,7 @@ c         call surface_tillage ()
       include   'const.inc'
       include   'surface.inc'         ! surface common block
       include 'engine.pub'                        
+      include 'intrface.pub'                      
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -436,9 +438,6 @@ c         call surface_tillage ()
 
 *+  Purpose
 *     Set one of our variables altered by some other module
-
-*+  Mission Statement
-*     Update internal state variable upon request
 
 *+  Changes
 *      011195 jngh  added call to message_unused
@@ -454,18 +453,41 @@ c         call surface_tillage ()
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-c      if (Variable_name .eq. 'scon') then
-c         call collect_double_var (
-c     :                variable_name        ! variable name
-c     :              , '(/h)'               ! units
-c     :              , g_Scon               ! array
-c     :              , numvals              ! number of elements returned
-c     :              ,0d0
-c     :              ,1000d0)
-c      else
-            ! Don't know this variable name
-         call Message_unused ()
-c      endif
+ 
+c RDC
+ 
+      if (variable_name .eq. 'seal_decay_rate') then
+         call collect_double_var (variable_name, '()'
+     :                             , p_seal_decay_rate, numvals
+     :                             , 0.0d0, 1.0d0)
+ 
+      else if (variable_name .eq. 'rr_decay_rate') then
+         call collect_double_var (variable_name, '()'
+     :                             , p_rr_decay_rate, numvals
+     :                             , 0.0d0, 1.0d0)
+ 
+      else if (variable_name .eq. 'rr_max') then
+         call collect_double_var (variable_name, '()'
+     :                             , p_RR_max, numvals
+     :                             , 0.0d0, 2000.0d0)
+ 
+      else if (variable_name .eq. 'rr_min') then
+         call collect_double_var (variable_name, '()'
+     :                             , p_RR_min, numvals
+     :                             , 0.0d0, 2000.0d0)
+      else if (variable_name .eq. 'maximum_conductance') then
+         call collect_double_var (variable_name, '()'
+     :                             , g_scon_max, numvals
+     :                             , 0.0d0, 2000.0d0)
+      else if (variable_name .eq. 'minimum_conductance') then
+         call collect_double_var (variable_name, '()'
+     :                             , g_scon_min, numvals
+     :                             , 0.0d0, 2000.0d0)
+ 
+      else
+         ! don't know this variable name
+         call Message_Unused()
+      endif
  
       call pop_routine (my_name)
       return
@@ -485,9 +507,6 @@ c      endif
 
 *+  Purpose
 *      Return the value of one of our variables to caller
-
-*+  Mission Statement
-*      Calculate change in surface seal based upon rainfall information
 
 *+  Changes
 *      011195 jngh  added call to message_unused
@@ -562,9 +581,6 @@ c      endif
       include 'error.pub'                         
 
 *+  Purpose
-*      Get the values of surface seal variables from apswim
-
-*+  Mission Statement
 *      Get the values of surface seal variables from apswim
 
 *+  Changes
@@ -664,9 +680,6 @@ c      endif
 *     decayed state.  We do this because APSwim "owns" the seal
 *     and it may have it reset at any time via tillage etc.
 
-*+  Mission Statement
-*     Calculate the surface conductance
-
 *+  Changes
 *     <insert here>
 
@@ -762,9 +775,6 @@ c      endif
 *        seal was decayed each day using all rainfall up to that
 *        point in time instead of the rainfall for just that time period.
 
-*+  Mission Statement
-*     Calculate the surface conductance (Silburn & Connelly)
-
 *+  Changes
 *     <insert here>
 
@@ -795,8 +805,9 @@ c      endif
  
          !  Calculate the random roughness that would exist after
          !  this amount of rainfall energy.
-         g_RR = p_RR_min
-     :          + (p_RR_max-p_RR_min)*exp(-p_RR_decay_rate*Es)
+! RDC this part not used
+!         g_RR = p_RR_min
+!     :          + (p_RR_max-p_RR_min)*exp(-p_RR_decay_rate*Es)
  
  
          ! Now calculate the rainfal energy for this SWIM timestep.
@@ -849,9 +860,6 @@ cnh but is more sensible at low rainfall intensities.
 *      We record the state here and then perform our own calculations
 *      at the pre_timestep stage of swim calculations.
 
-*+  Mission Statement
-*      Get variables before swim timesteps
-
 *+  Changes
 *     31-01-1997 - huth - Programmed and Specified
 
@@ -865,6 +873,105 @@ cnh but is more sensible at low rainfall intensities.
       call surface_get_swim_variables ()
  
       call pop_routine (myname)
+      return
+      end
+
+
+
+*     ===========================================================
+      subroutine surface_post_swim_timestep ()
+*     ===========================================================
+      implicit none
+      include   'const.inc'            ! Constant definitions
+      include   'surface.inc'         ! surface common block
+      include 'intrface.pub'                      
+      include 'error.pub'                         
+
+*+  Purpose
+*      Perform calcs after swim timestep
+
+*+  Changes
+*     <insert here>
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'surface_get_swim_variables')
+
+*+  Local Variables
+      integer    numvals               ! number of values returned
+      double precision dr              ! dr (mm)
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+*RDC
+      call Get_double_var (
+     :      'apswim'        ! Module that responds (Not Used)
+     :    , 'dr'            ! Variable Name
+     :    , '(mm)'          ! Units                (Not Used)
+     :    , dr              ! Variable
+     :    , numvals         ! Number of values returned
+     :    , 0d0             ! Lower Limit for bound checking
+     :    , 1000d0)         ! Upper Limit for bound checking
+ 
+      g_rr=p_rr_min+((1d0-p_rr_decay_rate)**dr*(g_rr-p_rr_min))  ! p_rr_decay_rate=frac drop in RR /mm rain
+ 
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+*     ===========================================================
+      subroutine surface_tillage ()
+*     ===========================================================
+      implicit none
+      include   'const.inc'            ! Constant definitions
+      include   'surface.inc'         ! surface common block
+      include 'intrface.pub'                      
+      include 'error.pub'                         
+
+*+  Purpose
+*      Perform calcs to respond to a tillage action
+
+*+  Changes
+*     <insert here>
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'surface_tillage')
+
+*+  Local Variables
+      integer    numvals               ! number of values returned
+      double precision temp              ! temp var
+
+*- Implementation Section ----------------------------------
+* RDC
+      call push_routine (my_name)
+         call collect_double_var_optional ('rr_max', '()'
+     :                             , temp, numvals
+     :                             , 0.0d0, 4.0d0)
+      if (numvals .ne. 0) then
+          p_rr_max = temp
+      else
+      endif
+         call collect_double_var_optional ('rr_min', '()'
+     :                             , temp, numvals
+     :                             , 0.0d0, 4.0d0)
+      if (numvals .ne. 0) then
+          p_rr_min = temp
+      else
+      endif
+         call collect_double_var_optional ('rr_decay_rate', '()'
+     :                             , temp, numvals
+     :                             , 0.0d0, 1.0d0)
+      if (numvals .ne. 0) then
+          p_rr_decay_rate = temp
+      else
+      endif
+ 
+      g_rr = p_rr_max
+ 
+      call pop_routine (my_name)
       return
       end
 
