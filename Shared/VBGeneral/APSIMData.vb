@@ -95,7 +95,8 @@ Public Class APSIMData
                 Dim InvalidChars As String = "&<>"
                 If value.IndexOfAny(InvalidChars.ToCharArray()) <> -1 Then
                     Dim cdata As XmlCDataSection = Node.OwnerDocument.CreateCDataSection(value)
-                    Node.AppendChild(cdata)
+                    'Node.AppendChild(cdata)
+                    Node.InnerXml = cdata.OuterXml
                 Else
                     Node.InnerXml = value
                 End If
