@@ -2,6 +2,7 @@
 #define PLANT_H_
 
 class PlantComponent;
+struct protocol::ApsimGetQueryData;
 class ApsimVariant;
 class Plant;
 
@@ -146,7 +147,7 @@ class Plant {
   void doNewMet(unsigned &, protocol::Variant &v) ;
   void doNewProfile(unsigned &, protocol::Variant &v) ;
   void registerClassActions(void);
-
+  void onApsimGetQuery(protocol::ApsimGetQueryData&);
   ////////////////////Interface code///////////////////////
   // FLOATs
   bool read_array(const char * sectionName,

@@ -72,10 +72,11 @@ void accumulate (float value,             //  (INPUT) value to add to array
          array[current_index] = array[current_index] + value;
          }
       }
-   else
-      {
-      fatal_error (&err_internal, "accumulate index < 0!!");
-      }
+// Hmmmm.
+//   else
+//      {
+//      fatal_error (&err_internal, "accumulate index < 0!!");
+//      }
    }
 
 //===========================================================================
