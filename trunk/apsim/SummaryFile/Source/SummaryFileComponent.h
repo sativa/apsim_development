@@ -23,11 +23,16 @@ class SummaryFileComponent : public protocol::Component
       ofstream out;
       bool inDiaryState;
       unsigned summaryFileWriteID;
+      unsigned summaryFileID;
       unsigned tickID;
       unsigned prepareID;
       unsigned externalErrorID;
       int currentDate;
+      string fileName;
+
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
+      virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
+
       void writeLine(const FString& moduleName, const FString& line);
       void writeBanner(void);
 

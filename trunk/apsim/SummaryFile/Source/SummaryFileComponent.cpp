@@ -53,18 +53,23 @@ void SummaryFileComponent::doInit1(const FString& sdml)
    {
    protocol::Component::doInit1(sdml);
 
+   // do registrations.
+   static const char* stringDDML = "<type kind=\"string\"\\>";
    summaryFileWriteID = addRegistration(respondToEventReg, "summaryFileWrite", "");
    tickID = addRegistration(respondToEventReg, "tick", "");
    prepareID = addRegistration(respondToEventReg, "prepare", "");
    externalErrorID = addRegistration(respondToEventReg, "error", "");
+   summaryFileID = addRegistration(respondToGetReg, "summaryFile", stringDDML);
 
    string sdmlString(sdml.f_str(), sdml.length());
    ApsimServiceData service(sdmlString);
-   string filename = service.getProperty("filename");
-   out.open(filename.c_str());
+
+   // read in and open our file.
+   fileName = service.getProperty("filename");
+   out.open(fileName.c_str());
    if (!out)
       {
-      string msg = "Cannot open summary file: " + filename;
+      string msg = "Cannot open summary file: " + fileName;
       ::MessageBox(NULL, msg.c_str(), "Error", MB_ICONSTOP | MB_OK);
       }
    else
@@ -207,5 +212,13 @@ void SummaryFileComponent::writeBanner(void)
                                " The Agricultural Production Systems Simulator\n"
                                "             Copyright(c) APSRU               \n\n";
    out << Banner;
+   }
+// ------------------------------------------------------------------
+// return one of our variables to caller
+// ------------------------------------------------------------------
+void SummaryFileComponent::respondToGet(unsigned int& fromID, QueryValueData& queryData)
+   {
+   if (queryData.ID == summaryFileID)
+      sendVariable(queryData, FString(fileName.c_str()));
    }
 
