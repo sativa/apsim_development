@@ -33,7 +33,7 @@ Public Class APSIMData
             Throw New Exception("Cannot find child " + ChildName)
         End If
     End Function
-    Function FindChild(ByVal ChildPath As String) As APSIMData
+    Function FindChild(ByVal ChildPath As String, Optional ByVal Delimiter As Char = "|") As APSIMData
         Dim name As String
         Dim CurrentNode As XmlNode = Node
         Dim Found As Boolean = False
@@ -41,9 +41,9 @@ Public Class APSIMData
 
         Do Until Path = ""
 
-            If InStr(Path, "|") <> 0 Then
-                name = Left$(Path, InStr(Path, "|") - 1)
-                Path = Mid$(Path, InStr(Path, "|") + 1)
+            If InStr(Path, Delimiter) <> 0 Then
+                name = Left$(Path, InStr(Path, Delimiter) - 1)
+                Path = Mid$(Path, InStr(Path, Delimiter) + 1)
             Else
                 name = Path
                 Path = ""
