@@ -1,62 +1,63 @@
 //---------------------------------------------------------------------------
 #include <vcl.h>
 #pragma hdrstop
-#include <aps\apsim_simulation_collection.h>
+#include <aps\apsim_run_collection.h>
 #include <general\string_functions.h>
+#include <general\stristr.h>
 #include <fstream>
 #include <dos.h>
+#include <aps\apsuite.h>
+#include "TAPSIM_config_form.h"
 
 USERES("APSRun.res");
 USELIB("..\..\shared\aps\aps32.lib");
 USELIB("..\..\shared\general\general.lib");
+USEFORM("TAPSIM_config_form.cpp", APSIM_config_form);
 //---------------------------------------------------------------------------
-WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR command_line, int)
+WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR,  int)
    {
-   string Command_line (command_line);
+// ------------------------------------------------------------------
+//  Short description:
+//    This application will be passed either a control file (.CON) or a
+//    run file (.RUN) depending on what the user has right clicked on.
 
-   APSIM_simulation_collection Simulation_collection;
-   list<string> Control_filenames;
+//  Notes:
 
-   if (Command_line.length() > 0 && Command_line[0] =='@')
+//  Changes:
+//    DPH 28/10/97
+
+// ------------------------------------------------------------------
+   if (_argc == 2)
       {
-      ifstream in (Command_line.substr(1).c_str());
-      string Line;
-      getline (in, Line);
-      while (in && Line.length() > 0)
+      APSIM_run_collection Run_collection;
+
+      // Does the command line contain a control file?
+      if (stristr(_argv[1], ".con") != NULL)
          {
-         Replace_all (Line, "\"", "");
-         Strip (Line, " ");
-         Control_filenames.push_back (Line);
-         getline (in, Line);
+         // yes - better ask user for a configuration.
+         TAPSIM_config_form* Form = new TAPSIM_config_form(NULL);
+         Form->Control_filename = _argv[1];
+         if (Form->ShowModal() == mrOk)
+            {
+            string DefaultRunFile = APSDirectories().Get_working() + "\\apsim.run";
+            Run_collection.Set_filename (DefaultRunFile.c_str());
+            Run_collection.Add("Default run", Form->Get_config(), Form->Get_simulations());
+            }
          }
+      else if (stristr(_argv[1], ".run") != NULL)
+         Run_collection.Set_filename (_argv[1]);
 
-      // assume that if we want to run a whole bunch of simulations then
-      // we want to do so with the released apsim configuration - eg: regression tests
-      Simulation_collection.Set_configuration_name ("Standard APSIM release");
-
-      for (list<string>::iterator i = Control_filenames.begin();
-                                  i != Control_filenames.end();
-                                  i++)
-         {
-         Simulation_collection.Add( (*i).c_str() );
-         }
-      Simulation_collection.Run_quietly();
-
+      // go perform run.
+      if (Run_collection.Count() > 0)
+         Run_collection.Run();
       }
    else
       {
-      for (int i = 1; i < _argc; i++)
-         Control_filenames.push_back (_argv[i]);
+      MessageBox (NULL, "Usage:  APSRun [control filename | run filename]",
+                        "Error",
+                        MB_ICONSTOP | MB_OK);
 
-      for (list<string>::iterator i = Control_filenames.begin();
-                                  i != Control_filenames.end();
-                                  i++)
-         {
-         Simulation_collection.Add( (*i).c_str() );
-         }
-      Simulation_collection.Run();
       }
-
    return 0;
    }
 //---------------------------------------------------------------------------
