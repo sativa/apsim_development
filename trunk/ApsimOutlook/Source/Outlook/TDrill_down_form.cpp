@@ -116,10 +116,17 @@ int TDrill_down_form::Get_bitmap_index_for_identifier (const char* name)
 // ------------------------------------------------------------------
 void TDrill_down_form::Create_tabs (void)
    {
+   AnsiString CurrentTabName;
+   if (Tab_control->TabIndex >= 0)
+      CurrentTabName = Tab_control->Tabs->Strings[Tab_control->TabIndex];
+
    list<string> Names;
    Simulations->Get_selected_simulation_names (Names);
    Stl_2_tstrings (Names, Tab_control->Tabs);
-   Tab_control->TabIndex = 0;
+
+   Tab_control->TabIndex = Tab_control->Tabs->IndexOf(CurrentTabName);
+   if (Tab_control->TabIndex == -1)
+      Tab_control->TabIndex = 0;
    }
 
 // ------------------------------------------------------------------
@@ -295,6 +302,10 @@ void TDrill_down_form::Select_multiple_simluations_permutation (const char* Sele
       {
       Simulations->Selected_simulations->Clear();
       Current_simulation.Set_name ("default");
+      Select_multiple_simulations (Current_simulation, Selected_identifier, Multiple_values);
+      }
+   else if (Multiple_values.size() == 1)
+      {
       Select_multiple_simulations (Current_simulation, Selected_identifier, Multiple_values);
       }
    else
