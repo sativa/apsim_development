@@ -379,7 +379,7 @@ cgd
 
          dlt_leaf_no_pot = 0.0
 
-      elseif (stage_is_between (emerg, flag_leaf, g%current_stage)
+      elseif (stage_is_between (emerg, harvest_ripe, g%current_stage)
      :       .and. (leaf_no_remaining.gt.0.0)) then
 
              ! we  haven't reached full number of leaves yet
