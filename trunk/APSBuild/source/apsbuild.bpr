@@ -9,7 +9,7 @@
     <IDLFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TMainForm.dfm"/>
-    <LIBFILES value="general.lib aps32.lib odl.lib"/>
+    <LIBFILES value="general.lib aps32.lib"/>
     <LIBRARIES value=""/>
     <SPARELIBS value="vcl50.lib tmsc5.lib VCLX50.lib VCLDB50.lib"/>
     <PACKAGES value="vcl50.bpi vcldb50.bpi vclbde50.bpi ibsmp50.bpi vclx50.bpi bcbsmp50.bpi 
@@ -118,7 +118,7 @@ Item0=..\
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=-build d:\apsuite\apsim\clock\source\source.apf
+RunParams=-make d:\development\apsim\all.apf
 HostApplication=
 RemoteHost=
 RemotePath=
