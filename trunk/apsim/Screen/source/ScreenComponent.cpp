@@ -35,7 +35,7 @@ ScreenComponent::ScreenComponent(void)
    {
    inDiaryState = false;
    startDateJDay = 0;
-   HWND parentHandle = GetForegroundWindow();
+   HWND parentHandle = FindWindow(NULL, "Running APSIM...");
    char parentCaption[100];
    GetWindowText(parentHandle, parentCaption, sizeof(parentCaption));
    if (strcmpi(parentCaption, "Running APSIM...") != 0)
