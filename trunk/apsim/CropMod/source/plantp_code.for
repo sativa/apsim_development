@@ -1287,7 +1287,6 @@ c     :          ,1.0)                 ! Upper Limit for bound check
      :                   , dlt_fom_P
      :                   , num_layers)
 
-       print*,'call event_send(ACTION_incorp_fom_p)'
        call event_send(ACTION_incorp_fom_p)
 
 !      call EI_BroadcastAction     (EventInterface
