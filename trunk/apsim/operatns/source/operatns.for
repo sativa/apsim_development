@@ -706,7 +706,7 @@
      :                                       , ' ', ' ', ' ')
                      call Event_Send (Action)
                   else
-                     call Action_send (destination, Action)
+                     call Event_Send_directed (destination, Action)
                   endif
                else
 !                  write(msg, '(2a)' )
