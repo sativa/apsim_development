@@ -183,12 +183,12 @@ void TrackerVariable::doRegistrations(void)
    static const char* singleArrayDDML = "<type kind=\"single\" array=\"T\"/>";
    string typeString = singleArrayDDML;
 
-   eventID = parent->addRegistration(protocol::respondToEventReg,
+   eventID = parent->addRegistration(RegistrationType::respondToEvent,
                                         eventName.c_str(),
                                         nullDDML);
    if (variableName != "")
       {
-      variableID = parent->addRegistration(protocol::getVariableReg,
+      variableID = parent->addRegistration(RegistrationType::get,
                                            variableName.c_str(),
                                            singleArrayDDML);
       protocol::Variant* variant;
@@ -205,25 +205,25 @@ void TrackerVariable::doRegistrations(void)
 
 
    if (startPeriod != "")
-      startPeriodID = parent->addRegistration(protocol::respondToEventReg,
+      startPeriodID = parent->addRegistration(RegistrationType::respondToEvent,
                                               startPeriod.c_str(),
                                               nullDDML);
    if (endPeriod != "")
-      endPeriodID = parent->addRegistration(protocol::respondToEventReg,
+      endPeriodID = parent->addRegistration(RegistrationType::respondToEvent,
                                             endPeriod.c_str(),
                                             nullDDML);
    if (stat == dateStat)
       {
-      nameID = parent->addRegistration(protocol::respondToGetReg,
+      nameID = parent->addRegistration(RegistrationType::respondToGet,
                                        name.c_str(),
                                        stringDDML);
-      todayID = parent->addRegistration(protocol::getVariableReg,
+      todayID = parent->addRegistration(RegistrationType::get,
                                        "today",
                                        doubleDDML);
       }
    else
       {
-      nameID = parent->addRegistration(protocol::respondToGetReg,
+      nameID = parent->addRegistration(RegistrationType::respondToGet,
                                        name.c_str(),
                                        singleArrayDDML);
       parent->setRegistrationType(nameID, typeString.c_str());
