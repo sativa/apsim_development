@@ -340,7 +340,7 @@ void __fastcall TMainForm::CreateDefaultDatabase(TStrings* files)
    TSimulation_database* newDatabase = new TSimulation_database(this);
    newDatabase->LoginPrompt = false;
    newDatabase->File_name = destinationMDB.c_str();
-   newDatabase->Import_APSIM_files (files);
+   newDatabase->Import_APSIM_files (files, NULL);
    delete newDatabase;
 
    // need to clear the OpenDialog, otherwise in becomes inactive for the user.
