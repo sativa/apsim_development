@@ -194,7 +194,7 @@
 !      else if (methodID .eq. TillageID) then
 !         call soilwat2_tillage ()
 
-      else if (methodID .eq. Evap_InitID) then
+      else if (methodID .eq. EvapInitID) then
          call soilwat2_evap_init ()
 
       else
