@@ -34,7 +34,7 @@ string Path::Get_drive(void)
 // ------------------------------------------------------------------
 string Path::Get_directory(void)
    {
-   return Directory;
+   return Drive + Directory;
    }
 
 // ------------------------------------------------------------------
@@ -405,11 +405,15 @@ string Path::Back_up_directory (void)
    if (Directory.length() > 1)
       {
       size_t Pos_directory = Directory.find_last_of("\\");
+      if (Pos_directory == NPOS && Directory[0] == '\\')
+         Pos_directory = 0;
       if (Pos_directory != NPOS)
          {
          Return_string = Directory.substr(Pos_directory+1);
          Directory.remove(Pos_directory);
          }
+      else
+         Return_string = Directory;
       }
    return Return_string;
    }
