@@ -1,14 +1,12 @@
 [general]
 name = apswim
+apf = %this\..\base-module.apf
+apf = %this\source\source.apf
+apf = %this\docs\docs.apf
+apf = %this\sample\sample.apf
 
-[Binaries]
-binary=apswim
+[dll]
+target  = target dll; %this\lib\apswim.dll
 
-[apswim]
-compiler_switches = %apsuite\apsim\infra\lf90.fig
-source  = source\apswim.for
-source  = source\swim.for
-target  = lib\apswim.dll
-include = %apsuite\apsim\infra\
-
-import  = %apsuite\apsim\infra\lib\APSinfra.imp
+[contacts]
+contact = Neil Huth - Module Developer; mailto:Neil.Huth@tag.csiro.au

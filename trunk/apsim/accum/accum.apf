@@ -1,13 +1,12 @@
 [general]
 name = accum
+apf = %this\..\base-module.apf
+apf = %this\source\source.apf
+apf = %this\docs\docs.apf
+apf = %this\sample\sample.apf
 
-[Binaries]
-binary=accum
+[dll]
+target  = target dll; %this\lib\accum.dll
 
-[accum]
-compiler_switches = %apsuite\apsim\infra\lf90.fig
-source  = source\accum.for
-target  = lib\accum.dll
-include = %apsuite\apsim\infra\
-
-import  = %apsuite\apsim\infra\lib\APSinfra.imp
+[contacts]
+contact = Dean Holzworth - Module Developer; mailto:Dean.Holzworth@tag.csiro.au
