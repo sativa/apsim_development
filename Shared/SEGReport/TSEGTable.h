@@ -45,7 +45,7 @@ class PACKAGE TSEGTable : public TkbmMemTable
       void fixupSubReferences(void);
 
    protected:
-      virtual void createFields(void) throw(std::runtime_error) {}
+      virtual bool createFields(void) throw(std::runtime_error) {return false;}
       virtual void storeRecords(void) throw(std::runtime_error) {}
       virtual void __fastcall Loaded(void);
 
