@@ -1,4 +1,4 @@
-C     Last change:  P    23 Oct 2000    4:14 pm
+C     Last change:  E     5 Dec 2000    8:52 am
       module ClockModule
       
       type ClockData
@@ -565,6 +565,7 @@ cih
 
 *+  Changes
 *        DPH - 11/4/96
+*        EW  - 05/12/00 - modified to change the date output from eg "1/04/1990" to "01/04/1990"
 
 *+  Calls
       character get_month_string*(3)
@@ -612,6 +613,11 @@ cih
       else if (variable_name .eq. '.dd/mm') then
          write (str, '(i2,a,i2)')
      .        thisdate(1), '/', thisdate(2)
+
+         if (str(1:1) .eq. Blank) then
+            str(1:1) = '0'
+         endif
+
          if (str(4:4) .eq. Blank) then
             str(4:4) = '0'
          endif
@@ -621,6 +627,11 @@ cih
       else if (variable_name .eq. '.dd/mm/yyyy') then
          write (str, '(i2,a,i2,a,i4)')
      .        thisdate(1), '/', thisdate(2), '/', thisdate(3)
+
+         if (str(1:1) .eq. Blank) then
+            str(1:1) = '0'
+         endif
+
          if (str(4:4) .eq. Blank) then
             str(4:4) = '0'
          endif
@@ -631,6 +642,11 @@ cih
          write (str, '(i2,a,a,a,i4)')
      .        thisdate(1), '_', Get_month_string(thisdate(2)),
      .        '_', thisdate(3)
+
+         if (str(1:1) .eq. Blank) then
+            str(1:1) = '0'
+         endif
+
          call Respond2get_char_var
      .        ('today.dd_mmm_yyyy', '()', str)
 
@@ -638,12 +654,22 @@ cih
          write (str, '(i2,a,a,a,i4)')
      .        thisdate(1), '/', Get_month_string(thisdate(2)),
      .        '/', thisdate(3)
+
+         if (str(1:1) .eq. Blank) then
+            str(1:1) = '0'
+         endif
+
          call Respond2get_char_var
      .        ('today.dd/mmm/yyyy', '()', str)
  
       else if (variable_name .eq. '.dd_mmm') then
          write (str, '(i2,a,a)')
      .        thisdate(1), '_', Get_month_string(thisdate(2))
+
+         if (str(1:1) .eq. Blank) then
+            str(1:1) = '0'
+         endif
+
          call Respond2get_char_var
      .        ('today.dd_mmm', '()', str)
  
