@@ -64,10 +64,15 @@ ScreenComponent::~ScreenComponent(void)
    if (ScreenForm->CancelButton->Caption == "Close")
       {
       MSG msg;
-      while (ScreenForm->Visible && GetMessage(&msg, 0, 0, 0) && msg.message != WM_CLOSE_CLICKED_MSG)
+      while (ScreenForm->Visible && GetMessage(&msg, 0, 0, 0)
+             && ScreenForm->PauseCheckBox->Checked
+             && msg.message != WM_CLOSE_CLICKED_MSG)
          {
-         TranslateMessage(&msg);
-         DispatchMessage(&msg);
+         if (!IsDialogMessage (ScreenForm->Handle, &msg))
+            {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+            }
          }
       }
 
