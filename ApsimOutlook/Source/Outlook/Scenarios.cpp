@@ -16,9 +16,14 @@ using namespace std;
 
 #pragma package(smart_init)
 
-Scenarios::Scenarios(void) {
-   loadAllAddIns();
-   makeDefaultScenario();
+Scenarios::Scenarios(bool& success) {
+   if (loadAllAddIns())
+   {
+      makeDefaultScenario();
+      success = true;
+   }
+   else
+      success = false;
 }
 
 
@@ -262,8 +267,11 @@ void Scenarios::createMultipleScenariosFrom(const Scenario& scenario,
 //    dph 4/4/01
 
 // ------------------------------------------------------------------
-void Scenarios::loadAllAddIns(void)
+bool Scenarios::loadAllAddIns(void)
    {
+   // clear any addins already loaded in previous calls to this method
+   addIns.clear();
+
    // get a list of add-in filenames from the .ini file.
    Path iniPath(Application->ExeName.c_str());
    iniPath.Set_extension(".ini");
@@ -313,12 +321,18 @@ void Scenarios::loadAllAddIns(void)
          {
          dllHandles.push_back(dllHandle);
 
-         AddInBase* __stdcall (*createAddInProc) (const string& addInParameters);
+         AddInBase* __stdcall (*createAddInProc) (const string& addInParameters, bool& success);
          (FARPROC) createAddInProc = GetProcAddress(dllHandle, "createAddIn");
          if (createAddInProc != NULL)
-            addIns.push_back( (*createAddInProc)(addInParameters) );
+            {
+            bool success;
+            AddInBase* instance = (*createAddInProc)(addInParameters, success);
+            if (success) addIns.push_back( instance );
+            else return false;
+            }
          }
       }
+   return true;
    }
 // ------------------------------------------------------------------
 //  Short description:
