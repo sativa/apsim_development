@@ -31,30 +31,16 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 ! ----------------------- Declaration section ------------------------
       module ManagerModule
-      use ComponentInterfaceModule
-      use DataTypesModule
 
 !  Constant variables
-      integer MAX_NUM_LOCAL_VARIABLES      ! Maximum number of local variables
-      parameter (MAX_NUM_LOCAL_VARIABLES=200)
+      integer Max_local_variables      ! Maximum number of local vars.
+      parameter (Max_local_variables=100)
 
-      integer MAX_NUM_APSIM_VARIABLES      ! Maximum number of Apsim variables
-      parameter (MAX_NUM_APSIM_VARIABLES=200)
-
-      integer MAX_MANAGER_VAR_NAME_SIZE
-      parameter (MAX_MANAGER_VAR_NAME_SIZE=35)
-
-      integer MAX_VARIABLE_VALUE_SIZE   ! Maximum size of a local variable name
-      parameter (MAX_VARIABLE_VALUE_SIZE=30)
-
-      integer MAX_METHOD_NAME_SIZE
-      parameter (MAX_METHOD_NAME_SIZE=100)
-
-      integer MAX_NUM_APSIM_METHODS
-      parameter (MAX_NUM_APSIM_METHODS = 200)
-
-      integer MAX_COMPONENT_NAME_SIZE
-      parameter (MAX_COMPONENT_NAME_SIZE = 100)
+      integer Max_manager_var_name_size
+      parameter (Max_manager_var_name_size=35)
+      
+      integer Max_variable_value_size   ! Maximum size of a local variable name
+      parameter (Max_variable_value_size=30)
 
       integer Max_tokens               ! Maximum number of tokens
       parameter (Max_tokens=4000)
@@ -167,69 +153,38 @@ C     Last change:  P    25 Oct 2000    9:26 am
       integer        NO                          ! NO flag
       parameter      (NO = -1)
 
+      integer MAX_INSTANCE_NAME_SIZE
+      parameter (MAX_INSTANCE_NAME_SIZE=50)
+
       integer NUM_RULE_TYPES          ! number of rule types
       parameter (NUM_RULE_TYPES=4)
 
-      ! the following type holds all information about a local variable
-      ! that is created in a manager file.
-      type LocalVariable
-         sequence
-         character (len=MAX_MANAGER_VAR_NAME_SIZE) :: name
-         character (len=MAX_VARIABLE_VALUE_SIZE)   :: value
-         integer                                   :: regID
-         logical                                   :: isNumeric
-      end type LocalVariable
-
-      ! the following type holds all information about an
-      ! APSIM variable that is requested by the manager file.
-      type ApsimVariable
-         sequence
-         character (len=MAX_MANAGER_VAR_NAME_SIZE) :: name
-         integer                                   :: regID
-         integer                                   :: setRegID
-      end type ApsimVariable
-
-      ! The following type holds all information about a method
-      ! call as specified in the manager file.
-      type ApsimMethod
-         sequence
-         character (len=MAX_METHOD_NAME_SIZE)      :: name
-         integer                                   :: regID
-      end type ApsimMethod
-
       type ManagerData
-         sequence
-         ! Local variable arrays
-         type(LocalVariable), dimension(MAX_NUM_LOCAL_VARIABLES)
-     .                                            :: localVariables
-         integer                                  :: numLocalVariables
 
-         ! APSIM variable arrays
-         type(ApsimVariable), dimension(MAX_NUM_APSIM_VARIABLES)
-     .                                            :: apsimVariables
-         integer                                  :: numApsimVariables
+!   Global variables
+         character Instance_name*(MAX_INSTANCE_NAME_SIZE)
+                                          ! instance name 
 
-         ! APSIM method arrays
-         type(ApsimMethod), dimension(MAX_NUM_APSIM_METHODS)
-     .                                            :: apsimMethods
-         integer                                  :: numApsimMethods
+         character local_variable_names(Max_local_variables)*
+     .       (Max_manager_var_name_size)  !  Array to hold local variables names
+         character local_variable_values(Max_local_variables)*
+     .       (Max_variable_value_size)    ! Array to hold local variables
 
-         ! Some arrays to hold all tokens
          character token_array(Max_tokens)*(Max_token_size)
+                                          ! Array to hold tokens.
+         integer num_local_variables    ! Number of local variables.
          integer token_array2(Max_tokens)
+                                       ! Second array for tokens.
          integer rule_indexes(NUM_RULE_TYPES)  ! indexes into token array
 
-         ! Variables used by the parsing engine to read lines from a
-         ! manager file.
          integer line_number            ! line number in section to read from.
          integer num_lines              ! number of lines in section
          integer rule                   ! C++ RULE object containing all lines in section
+      
          logical lines_been_read        ! have any lines been read so far?
 
-         ! miscellaneous variables
-         integer todayID                ! registration ID for today
          ! PARSING variables.
-
+         
          integer       token                     ! type of word
          integer       end_of_file               ! End of file flag
          integer       start_token               ! Where to start filling token array
@@ -273,118 +228,157 @@ C     Last change:  P    25 Oct 2000    9:26 am
       end type ManagerData
 
       ! instance variables.
-      common /InstancePointers/ ID, g
-      save InstancePointers
-      type (IDsType), pointer :: ID
       type (ManagerData), pointer :: g
+      integer MAX_NUM_INSTANCES
+      parameter (MAX_NUM_INSTANCES=10)  
+      type ManagerDataPtr
+         type (ManagerData), pointer :: ptr
+      end type ManagerDataPtr
+      type (ManagerDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+
 
       end module ManagerModule
 
 
 !     ===========================================================
-      subroutine alloc_dealloc_instance(doAllocate)
+      subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
       use ManagerModule
       implicit none
-      ml_external alloc_dealloc_instance
-
+ 
 !+  Sub-Program Arguments
-      logical, intent(in) :: doAllocate
-
+      character InstanceName*(*)       ! (INPUT) name of instance
+      integer   InstanceNo             ! (INPUT) instance number to allocate
+ 
 !+  Purpose
 !      Module instantiation routine.
-
+ 
 !- Implementation Section ----------------------------------
-
-      if (doAllocate) then
-         allocate(id)
-         allocate(g)
-      else
-         deallocate(id)
-         deallocate(g)
-      end if
+               
+      allocate (Instances(InstanceNo)%ptr)
+      Instances(InstanceNo)%ptr%Instance_name = InstanceName
+ 
       return
       end
 
 !     ===========================================================
-      subroutine respondToMethod(fromID, variant)
+      subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
+      use ManagerModule
       implicit none
-      ml_external respondToMethod
-
-!+  Purpose
-!      Method handler for all method calls coming into module.
-
+ 
 !+  Sub-Program Arguments
-      integer, intent(in) :: fromID
-      integer, intent(in) :: variant
-
-!- Implementation Section ----------------------------------
-
-
-      return
-      end
-
-!     ===========================================================
-      subroutine notify_termination()
-!     ===========================================================
-      implicit none
-      ml_external notify_termination
-
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+ 
 !+  Purpose
-!      Perform all registrations
-
+!      Module de-instantiation routine.
+ 
 !- Implementation Section ----------------------------------
-
+               
+      deallocate (Instances(anInstanceNo)%ptr)
+ 
       return
       end
-
-* ====================================================================
-      subroutine do_init2 ()
-* ====================================================================
+     
+!     ===========================================================
+      subroutine SwapInstance (anInstanceNo)
+!     ===========================================================
+      use ManagerModule
       implicit none
-      ml_external do_init2
-
-*+  Purpose
-*     Initialise the module
-
-*+  Changes
-
-*- Implementation Section ----------------------------------
-
+ 
+!+  Sub-Program Arguments
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Swap an instance into the global 'g' pointer
+ 
+!- Implementation Section ----------------------------------
+               
+      g => Instances(anInstanceNo)%ptr
+ 
       return
       end
 
-* ====================================================================
-       subroutine do_commence()
-* ====================================================================
-      implicit none
-      ml_external do_commence
-
-*+  Purpose
-*     start the clock going. ie. start the simulation
-
-*+  Changes
-*        DPH - 3/7/01
-
-
-*- Implementation Section ----------------------------------
-
-      return
-      end
 
 ! ====================================================================
-       subroutine do_init1(sdml)
+       subroutine Main (Action, Data_string)
 ! ====================================================================
       use ManagerModule
       implicit none
-      ml_external do_init1
+      include 'const.inc'             ! Global constant definitions
+      include 'error.pub'                         
+      include 'action.inc'
+
+!+  Sub-Program Arguments
+       character Action*(*)            ! Message action to perform
+       character Data_string*(*)       ! Message data
+
+!+  Purpose
+!      This module acts as the APSIM manager.
+
+!+  Changes
+!      DPH - 7/10/92
+!      DPH - 9/02/95 Substantially modified to incorporate a better
+!                    parsing method allowing nesting of brackets in
+!                    rules, nesting of ANDS and ORs and allowing
+!                    local variables to be defined.
+!     jngh 24/2/95 changed data to data_string
+!     DPH 19/7/95  Added call to manager_process
+!     DPH 27/10/95 Added call to message_unused
+!     jngh - 08/06/96 removed a_ from front of version function
+!     jngh - 23/04/98 added call to zero variables at initialisation
+!     dph - 7/5/99 removed version and presence report c186
+
+!+  Calls
+
+!+  Constant Values
+      character  my_name*(*)           ! name of this procedure
+      parameter (my_name='manager')
+
+!- Implementation Section ----------------------------------
+      call push_routine (my_name)
+ 
+      if (action .eq. ACTION_get_variable) then
+         call manager_send_my_variable (Data_string)
+
+      else if (action .eq. ACTION_set_variable) then
+         call manager_set_my_variable (Data_string)
+ 
+      else if (Action.eq.ACTION_Init) then
+         call Manager_zero_variables ()
+         call Manager_Init ()
+ 
+      else if (Action.eq.ACTION_Prepare) then
+         call Manager_Prepare ()
+ 
+      else if (Action.eq.ACTION_Process) then
+         call Manager_Process ()
+ 
+      else if (Action.eq.ACTION_Post) then
+         call Manager_Post ()
+ 
+      else
+         ! Don't use message
+ 
+         call Message_unused ()
+      endif
+ 
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+! ====================================================================
+       subroutine Manager_Init ()
+! ====================================================================
+      use ManagerModule
+      implicit none
+       include 'const.inc'             ! constant definitions
+      include 'error.pub'                         
 
 !+  Purpose
 !      Initialise Manager model.
-
-!+  Sub-Program Arguments
-      character (len=*), intent(in) :: sdml
 
 !+  Changes
 !      DPH - 8/10/92
@@ -405,33 +399,31 @@ C     Last change:  P    25 Oct 2000    9:26 am
        character  msg*200              ! err message
 
 !- Implementation Section ----------------------------------
-
+ 
       call push_routine(This_routine)
-
-      call do_registrations(id)
-
-      g%numLocalVariables = 0
+ 
+      g%num_local_variables = 0
       g%lines_been_read = .false.
-
+ 
       msg = 'Manager rules:'
       call Write_string(msg)
-
+ 
       call Manager_read_rules ()
-
+ 
       ! check for case when no manager lines were found anywhere.  Issue warning
-
+ 
       if (g%lines_been_read) then
          ! we're ok - lines were found
-
+ 
       else
          msg = 'No manager lines were found in any parameter file.'
-         call Error(msg, .false.)
+         call Warning_error(ERR_user, msg)
       endif
-
+ 
       call manager_init_rules ()
-
+ 
       call pop_routine(This_routine)
-
+ 
       return
       end
 
@@ -442,6 +434,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! ====================================================================
       use ManagerModule
       implicit none
+      include 'const.inc'              ! constant definitions
+      include 'data.pub'                          
+      include 'error.pub'                         
 
 !+  Purpose
 !     Zero all common block arrays
@@ -455,21 +450,26 @@ C     Last change:  P    25 Oct 2000    9:26 am
       parameter (Routine_name='Manager_zero_variables')
 
 !- Implementation Section ----------------------------------
-
+ 
       call push_routine (Routine_name)
-
+ 
       g%buffer = blank
       g%expression_result = blank
-
+ 
       call fill_char_array (g%expression_array, blank, Variable_maximum)
       call fill_char_array (g%stack, blank, stack_maximum)
-
+ 
       call fill_char_array (g%expression_sub_array
      :                     , blank, Variable_maximum)
       call fill_char_array (g%and_or_array, blank, Variable_maximum)
       g%line = blank
       g%last_line = blank
       g%ch = blank
+      call fill_char_array (g%local_variable_names
+     :                     , blank, Max_local_variables)
+      call fill_char_array (g%local_variable_values
+     :                     , blank, Max_local_variables)
+ 
       call fill_char_array (g%token_array, blank, Max_tokens)
       g%token         = 0
       g%end_of_file   = 0
@@ -484,28 +484,26 @@ C     Last change:  P    25 Oct 2000    9:26 am
       g%number_and_or       = 0
       g%number_expressions  = 0
       g%current_token       = 0
-
+ 
       g%next_token          = 0
-
+ 
       g%word_or_number      = 0
-
+ 
       call fill_integer_array (g%expression_array2, 0, Variable_maximum)
-
+ 
       call fill_integer_array (g%expression_sub_array2
      :                        , 0, Variable_maximum)
-
+ 
       call fill_integer_array (g%and_or_array2, 0, Variable_maximum)
-
-      g%numLocalVariables = 0
-      g%numApsimVariables = 0
-      g%numApsimMethods = 0
-
+ 
+      g%num_local_variables      = 0
+ 
       call fill_integer_array (g%token_array2, 0, Max_tokens)
 
       g%rule_indexes = 0
-
+ 
       g%lines_been_read          = .false.
-
+ 
       call pop_routine(Routine_name)
       return
       end
@@ -514,8 +512,12 @@ C     Last change:  P    25 Oct 2000    9:26 am
        subroutine Manager_read_rules ()
 ! ====================================================================
       use ManagerModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'              ! constant definitions
+      include 'error.pub'                         
+      include 'apsimengine.pub'
+      include 'data.pub'
+      include 'componentinterface.inc'
 
 !+  Purpose
 !     Read in all criterias one word at a time and pass it to a processing
@@ -538,8 +540,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
        INTEGER MAX_RULE_NAME_SIZE
        parameter (MAX_RULE_NAME_SIZE=100)
        INTEGER MAX_RULES
-       PARAMETER (MAX_RULES=100)
-
+       PARAMETER (MAX_RULES=100) 
+                                 
        INTEGER MAX_CONDITION_SIZE
        parameter (MAX_CONDITION_SIZE=20)
 
@@ -553,42 +555,47 @@ C     Last change:  P    25 Oct 2000    9:26 am
                                        ! condition of each rule
 
        character Rule_types(NUM_RULE_TYPES)*(20)
-       data Rule_types(1) /'.init'/
-       data Rule_types(2) /'.start_of_day'/
-       data Rule_types(3) /'.process'/
-       data Rule_types(4) /'.end_of_day'/
+       data Rule_types(1) /'init'/
+       data Rule_types(2) /'start_of_day'/
+       data Rule_types(3) /'process'/
+       data Rule_types(4) /'end_of_day'/
 
 
 !- Implementation Section ----------------------------------
-
+ 
       call push_routine (Routine_name)
 
       ! get a list of all rule names that user has defined.
-      call apsimcomponentdata_getrulenames(get_componentData(),
-     .                                     Rule_names,
-     .                                     MAX_RULES,
-     .                                     Num_rules)
+      call somcomponent_getpropertynames(componentData,
+     .                                   Rule_names,
+     .                                   'rule',
+     .                                   MAX_RULES,
+     .                                   Num_rules)
+
       do Rule_type = 1, NUM_RULE_TYPES
 
          ! Go tokenize each rule.
          do Rule_Index = 1, Num_rules
-            if (index(Rule_names(Rule_index),
-     .                rule_types(rule_type)) .ne. 0) then
-               call apsimcomponentdata_loadrule(get_componentData(),
-     .                                          Rule_names(Rule_index))
-               if (g%rule_indexes(rule_type) .eq. 0) then
-                  g%rule_indexes(rule_type) = g%last_token + 2
-                  g%start_token = g%last_token + 2
-               else
-                  g%start_token = g%last_token
+            g%rule = component_getrule(ComponentData,
+     .                                 Rule_names(Rule_index),
+     .                                 ' ')
+            if (g%rule .ne. 0) then
+               call rule_getcondition(g%rule, condition)
+               if (condition .eq. rule_types(rule_type)) then
+                  if (g%rule_indexes(rule_type) .eq. 0) then
+                     g%rule_indexes(rule_type) = g%last_token + 2
+                     g%start_token = g%last_token + 2
+                  else
+                     g%start_token = g%last_token
+                  end if
+                  g%line_number = 0
+                  g%num_lines = rule_getactionlinecount(g%rule)
+                  call Tokenize (g%token_array
+     .                          , g%token_array2
+     .                          , max_tokens)
                end if
-               g%line_number = 0
-               g%num_lines = apsimcomponentdata_getnumrulelines
-     .             ()
-               call Tokenize (g%token_array
-     .                      , g%token_array2
-     .                      , max_tokens)
-            end if
+               call component_freerule(g%rule)
+           end if
          end do
 
       end do
@@ -602,6 +609,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! ====================================================================
       use ManagerModule
       implicit none
+       include 'const.inc'             ! Global constant definitions
+      include 'error.pub'                         
 
 !+  Purpose
 !     Check to see if any criteria for initialisation are met.  If
@@ -616,9 +625,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 !- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       ! Go call the parsing routine.
-
+ 
       g%start_token = g%rule_indexes(1)
       if (g%start_token .gt. 0) then
          call Parse (g%token_array, g%token_array2)
@@ -628,62 +637,152 @@ C     Last change:  P    25 Oct 2000    9:26 am
       return
       end
 
-!     ===========================================================
-      subroutine respondToEvent(fromID, eventID, variant)
-!     ===========================================================
+
+
+! ====================================================================
+       subroutine Manager_Prepare ()
+! ====================================================================
       use ManagerModule
       implicit none
-      ml_external respondToEvent
+       include 'const.inc'             ! Global constant definitions
+      include 'error.pub'                         
 
 !+  Purpose
-!      Event handler for all events coming into module.
+!     Check to see if any criteria for prepare is met.  If
+!     so then issue message to relevent module.
 
-!+  Sub-Program Arguments
-      integer, intent(in) :: fromID
-      integer, intent(in) :: eventID
-      integer, intent(in) :: variant
+!+  Changes
+!     DPH 5/12/94
+!     DPH 19/7/95  Added code to parse the prepare index part of token array
 
 !+  Constant Values
       character  my_name*(*)           ! name of this procedure
-      parameter (my_name='manager_on_event')
+      parameter (my_name='manager_prepare')
 
 !- Implementation Section ----------------------------------
-
       call push_routine (my_name)
-
-      if (eventID .eq. id%prepare) then
-         g%start_token = g%rule_indexes(2)
-         if (g%start_token .gt. 0) then
-            call Parse (g%token_array, g%token_array2)
-         end if
-
-      else if (eventID .eq. id%process) then
-         g%start_token = g%rule_indexes(3)
-         if (g%start_token .gt. 0) then
-            call Parse (g%token_array, g%token_array2)
-         end if
-
-      else if (eventID .eq. id%post) then
-         g%start_token = g%rule_indexes(4)
-         if (g%start_token .gt. 0) then
-            call Parse (g%token_array, g%token_array2)
-         end if
-      endif
-
+ 
+      ! Go call the parsing routine.
+ 
+      g%start_token = g%rule_indexes(2)
+      if (g%start_token .gt. 0) then
+         call Parse (g%token_array, g%token_array2)
+      end if
+ 
       call pop_routine (my_name)
       return
       end
 
+
+
 ! ====================================================================
-      subroutine respondToGet(fromID, variable_info)
+       subroutine Manager_Process ()
 ! ====================================================================
       use ManagerModule
       implicit none
-      ml_external respondToGet
+       include 'const.inc'             ! Global constant definitions
+      include 'error.pub'                         
+
+!+  Purpose
+!     Check to see if any criteria for process is met.  If
+!     so then issue message to relevent module.
+
+!+  Changes
+!     DPH 19/7/95
+
+!+  Constant Values
+      character  my_name*(*)           ! name of this procedure
+      parameter (my_name='manager_process')
+
+!- Implementation Section ----------------------------------
+      call push_routine (my_name)
+ 
+      ! Go call the parsing routine.
+ 
+      g%start_token = g%rule_indexes(3)
+      if (g%start_token .gt. 0) then
+         call Parse (g%token_array, g%token_array2)
+      end if
+ 
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+! ====================================================================
+       subroutine Manager_Post ()
+! ====================================================================
+      use ManagerModule
+      implicit none
+       include 'const.inc'             ! Global constant definitions
+      include 'error.pub'                         
+
+!+  Purpose
+!     Check to see if any criteria for post is met.  If
+!     so then issue message to relevent module.
+
+!+  Changes
+!     DPH 5/12/94
+!     DPH 19/7/95  Added code to check in the post index part of token array.
+
+!+  Constant Values
+      character  my_name*(*)           ! name of this procedure
+      parameter (my_name='manager_post')
+
+!- Implementation Section ----------------------------------
+      call push_routine (my_name)
+ 
+      ! Go call the parsing routine.
+      g%start_token = g%rule_indexes(4)
+      if (g%start_token .gt. 0) then
+         call Parse (g%token_array, g%token_array2)
+      end if
+ 
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+! ====================================================================
+       subroutine Manager_event (Event_data)
+! ====================================================================
+      implicit none
 
 !+  Sub-Program Arguments
-      integer, intent(in) :: fromID
-      type(QueryData), intent(in) :: variable_info
+      character Event_data*(*)         ! (INPUT) Event data string
+
+!+  Purpose
+!     An event has occurred today.  Capture and store it in the
+!     events string.
+
+!+  Changes
+!     DPH 12/1/94
+!     DPH 11/7/94 Added call to no_leading%spaces.
+
+!- Implementation Section ----------------------------------
+ 
+      ! Convert module's event string to lowercase and remove
+      ! the module name the event came from.
+ 
+      return
+      end
+
+
+
+! ====================================================================
+      subroutine manager_send_my_variable (variable_name)
+! ====================================================================
+      use ManagerModule
+      implicit none
+      include 'const.inc'             ! Global constant definitions
+      include 'datastr.pub'                       
+      include 'intrface.pub'                      
+      include 'error.pub'                         
+
+!+  Sub-Program Arguments
+      character variable_name*(*)      ! (input) variable name to search for
 
 !+  Purpose
 !      return the value of a variable in return_string.  used to return
@@ -696,65 +795,79 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !                  respond2get_char_var so that character variables can
 !                  be sent to other modules.
 
-!+  Calls
-      logical Find_local_variable_by_reg
-
 !+  Constant Values
       character  my_name*(*)           ! name of subroutine
       parameter (my_name = 'manager_send_my_variable')
 
 !+  Local Variables
-      integer varIndex           ! index into local variable list
-      real real_value
-      integer numvals
+      integer Variable_index           ! index into local variable list
 
 !- Implementation Section ----------------------------------
-
+ 
       call push_routine (my_name)
-
+ 
       ! Try to find variable in local variable list.
-      if (Find_local_variable_by_reg(variable_info%id, varIndex)
-     .   .and. g%localVariables(varIndex)%isNumeric) then
-         call String_to_real_var
-     .         (g%localVariables(varIndex)%value,
-     .          real_value,
-     .          numvals)
-         call return_single(variable_info, real_value)
+ 
+      Variable_index = find_string_in_array
+     .   (Variable_name, g%local_variable_names, g%num_local_variables)
+ 
+      if (Variable_index .gt. 0) then
+         call respond2get_char_var (Variable_name, '()',
+     .                     g%local_variable_values(Variable_index))
       else
-         call return_string(variable_info,
-     .                      g%localVariables(variable_info%id)%value)
-
+         ! not our variable
+ 
+         call Message_unused ()
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+          
 * ====================================================================
-       logical function respondToSet (fromID, VariableID, variant)
+       subroutine manager_set_my_variable (Variable_name)
 * ====================================================================
       use ManagerModule
-      use ComponentInterfaceModule
       implicit none
-      ml_external respondToSet
+      include 'const.inc'
+      include 'error.pub'
+      include 'intrface.pub'
+      include 'datastr.pub'                       
+      include 'string.pub'
 
-
-!+  Sub-Program Arguments
-      integer, intent(in) :: fromID
-      integer, intent(in)     :: VariableID
-      integer, intent(in out) :: variant
+*+  Sub-Program Arguments
+      character Variable_name*(*) ! (INPUT) Variable name to search for
 
 *+  Purpose
-*     Set one of our variables altered by some other module
-
-*+  Changes
-*      21-06-96 NIH Changed respond2set calls to collect calls
-
-*+  Calls
+*     Set one of our local variables altered by some other module
 
 *+  Local Variables
+      integer variableIndex
+      character value*(Max_variable_value_size)
+      integer numvals
 
 *- Implementation Section ----------------------------------
-      respondToSet = .true.
+
+      ! Try to find variable in local variable list.
+ 
+      variableIndex = find_string_in_array(Variable_name, 
+     .                                     g%local_variable_names, 
+     .                                     g%num_local_variables)
+ 
+      if (variableIndex .gt. 0) then 
+         call Collect_char_var (Variable_name, 
+     .                          ' ',
+     .                          value, 
+     .                          numvals)
+      
+         call assign_string (g%local_variable_values(variableIndex), 
+     .                       value)
+      else
+         ! not our variable
+ 
+         call Message_unused ()
+      endif
+
       return
       end
 
@@ -762,8 +875,12 @@ C     Last change:  P    25 Oct 2000    9:26 am
        subroutine Parse_read_line(Line, EOF_flag)
 ! ====================================================================
       use ManagerModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'              ! constant definition
+      include 'read.pub'                          
+      include 'error.pub'                         
+      include 'apsimengine.pub'
+      include 'string.pub'
 
 !+  Sub-Program Arguments
       character Line*(*)               ! (OUTPUT) Line read from file
@@ -779,6 +896,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !                  Added code to write all lines to summary file
 !     DPH 30/8/99  Changed to call MEMO C++ object instead of Read_next_param_section
 
+!+  Calls
+      character Lower_case*(Function_string_len)
+
 !+  Constant Values
       character  my_name*(*)           ! name of this procedure
       parameter (my_name='Parse_read_line')
@@ -788,14 +908,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 !- Implementation Section ----------------------------------
       call push_routine (my_name)
-
-10    continue
+ 
+10    continue         
       if (g%line_number .ge. g%Num_lines) then
          EOF_flag = 1
-
-      else
-         call apsimcomponentdata_getruleline(g%line_number,
-     .                                       Line)
+         
+      else 
+         call Rule_GetActionLine(g%rule, g%line_number, Line)
          Line = lower_case(Line)
 
          ! advance line number
@@ -808,32 +927,36 @@ C     Last change:  P    25 Oct 2000    9:26 am
          endif
 
          if (Line .eq. Blank) goto 10
-
+         
          g%lines_been_read = .true.
-
+ 
          ! Echo all lines to summary file
          call Write_string(Line)
-
+         
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
 
+
+
 ! ====================================================================
-       function Add_local_variable(name, value, variableIndex)
+       subroutine Manager_new_local_variable(Variable_name,
+     .                                       Variable_value)
 ! ====================================================================
       use ManagerModule
       implicit none
+      include 'const.inc'              ! constant definitions
+      include 'string.pub'                        
+      include 'error.pub'                         
 
 !+  Sub-Program Arguments
-      character(len=*), intent(in)  :: name      ! Variable name to store
-      character(len=*), intent(in)  :: value     ! Variable value to store
-      integer         , intent(out) :: variableIndex
-      logical                       :: Add_local_variable
+      character Variable_name*(*)      ! (INPUT) Variable name to store
+      character Variable_value*(*)     ! (INPUT) Variable value to store
 
 !+  Purpose
-!     Add a new local variable to list of variables.
+!     Add a new local variable to list.
 
 !+  Changes
 !     DPH 9/02/95
@@ -841,432 +964,42 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 !+  Local Variables
       character Str*300                ! Dummy value returned by APSIM
-      real real_value
-      integer numvals
 
 !- Implementation Section ----------------------------------
-
-      g%numLocalVariables = g%numLocalVariables + 1
-
-      if (g%numLocalVariables .gt. MAX_NUM_LOCAL_VARIABLES) then
-         write (str, '(5a)' )
-     .      'Too many local variables have been specified in the ',
+ 
+      g%num_local_variables = g%num_local_variables + 1
+ 
+      if (g%num_local_variables .gt. Max_local_variables) then
+         write (str, '(50a)' )
+     .      'Too many local variables have been specified in ',
      .      new_line,
-     .      'manager file.  Contact the APSIM Help desk to have ',
-     .      new_line,
-     .      'problem rectified.'
-         call Error(str, .true.)
-         Add_local_variable = .false.
-
+     .      'manager file.'
+         call Fatal_error(ERR_user, str)
+ 
       else
-         call assign_string(
-     .        g%localVariables(g%numLocalVariables)%name, name)
-         call assign_string(
-     .        g%localVariables(g%numLocalVariables)%value, value)
-
-         call String_to_real_var(value, real_value, numvals)
-         g%localVariables(g%numLocalVariables)%isNumeric
-     .       = (numvals .gt. 0)
-
-         if (g%localVariables(g%numLocalVariables)%isNumeric) then
-            g%localVariables(g%numLocalVariables)%regID =
-     .      add_registration(respondToGetReg, name, singleddml)
-         else
-            g%localVariables(g%numLocalVariables)%regID =
-     .      add_registration(respondToGetReg, name, stringddml)
-         endif
-
-         variableIndex = g%numLocalVariables
-         Add_local_variable = .true.
+         call assign_string (
+     :        g%local_variable_names(g%num_local_variables)
+     :      , Variable_name)
+         call assign_string (
+     :        g%local_variable_values(g%num_local_variables)
+     :      , Variable_value)
       endif
-
-      return
-      end
-! ====================================================================
-       function Find_local_variable_by_name(name, variableIndex)
-! ====================================================================
-      use ManagerModule
-      use ComponentCInterfaceModule
-      implicit none
-
-!+  Sub-Program Arguments
-      character(len=*), intent(in)  :: name          ! Variable name to locate
-      integer         , intent(out) :: variableIndex ! index of variable
-      logical                       :: Find_local_variable_by_name
-
-!+  Purpose
-!     Locate a local variable in our list by name.  Return it's index in
-!     variableIndex and return .true. if found.
-
-!+  Changes
-!     DPH 26/7/2001
-
-!+  Local Variables
-      logical found
-
-!- Implementation Section ----------------------------------
-
-      variableIndex = 0
-      found = .false.
-      do while (variableIndex < g%numLocalVariables .and. .not. found)
-         variableIndex = variableIndex + 1
-         found = Strings_equal(g%localVariables(variableIndex)%name,
-     .                         name)
-      end do
-      Find_local_variable_by_name = found
+ 
       return
       end
 
-! ====================================================================
-       function Find_local_variable_by_reg(regID, variableIndex)
-! ====================================================================
-      use ManagerModule
-      use ComponentCInterfaceModule
-      implicit none
 
-!+  Sub-Program Arguments
-      integer         , intent(in)  :: regID         ! Registration ID to locate
-      integer         , intent(out) :: variableIndex ! index of variable
-      logical                       :: Find_local_variable_by_reg
-
-!+  Purpose
-!     Locate a local variable in our list by registration ID.  Return it's index in
-!     variableIndex and return .true. if found.
-
-!+  Changes
-!     DPH 26/7/2001
-
-!+  Local Variables
-      logical found
-
-!- Implementation Section ----------------------------------
-
-      variableIndex = 0
-      found = .false.
-      do while (variableIndex < g%numLocalVariables .and. .not. found)
-         variableIndex = variableIndex + 1
-         found = (g%localVariables(variableIndex)%regID .eq. regID)
-      end do
-      Find_local_variable_by_reg = found
-      return
-      end
-
-! ====================================================================
-       subroutine get_local_variable_value(variableIndex, value)
-! ====================================================================
-      use ManagerModule
-      implicit none
-
-!+  Sub-Program Arguments
-      integer, intent(in)           :: variableIndex ! index of variable to get value for.
-      character(len=*), intent(out) :: value         ! returned value.
-
-!+  Purpose
-!     This routine returns a character representation of the
-!     specified local variable.
-
-!+  Changes
-!     DPH 27/7/2001
-
-!+  Local Variables
-
-!- Implementation Section ----------------------------------
-
-      value = g%localVariables(variableIndex)%value
-
-      return
-      end
-
-! ====================================================================
-       subroutine set_local_variable_value(variableIndex, value)
-! ====================================================================
-      use ManagerModule
-      implicit none
-
-!+  Sub-Program Arguments
-      integer, intent(in)           :: variableIndex ! index of variable to set value for.
-      character(len=*), intent(in)  :: value         ! value.
-
-!+  Purpose
-!     This routine sets the value of a local variable
-
-!+  Changes
-!     DPH 27/7/2001
-
-!+  Local Variables
-
-!- Implementation Section ----------------------------------
-
-      g%localVariables(variableIndex)%value = value
-
-      return
-      end
-
-! ====================================================================
-       function Add_apsim_variable(name, variableIndex)
-! ====================================================================
-      use ManagerModule
-      implicit none
-
-!+  Sub-Program Arguments
-      character(len=*), intent(in) :: name           ! Name of variable
-      integer, intent(out)         :: variableIndex  ! Index of variable
-      logical                      :: Add_apsim_variable
-
-!+  Purpose
-!     Add a new APSIM variable to list of variables if it is in fact
-!     and APSIM variable.  Return .false. if variable is not an
-!     APSIM variable.
-
-!+  Changes
-!     DPH 26/7/2001
-
-!+  Local Variables
-      integer regID
-      integer componentID
-      character str*(300)
-
-!- Implementation Section ----------------------------------
-
-      ! See if variable exists in APSIM
-      add_apsim_variable = .false.
-      if (get_simulation_information(name, respondToGetReg,
-     .                               componentID, regID)) then
-         ! Yes it does - add to our list.
-         g%numApsimVariables = g%numApsimVariables + 1
-         if (g%numApsimVariables .gt. MAX_NUM_APSIM_VARIABLES) then
-            write (str, '(5a)' )
-     .         'Too many external APSIM variables have been specified',
-     .         new_line,
-     .         'in the manager file.  Contact the APSIM Help desk to',
-     .         new_line,
-     .         'have the problem rectified. '
-            call Error(str, .true.)
-             variableIndex = 0
-         else
-            call assign_string(
-     .        g%ApsimVariables(g%numApsimVariables)%name, name)
-            g%ApsimVariables(g%numApsimVariables)%regID
-     .          = add_registration(getVariableReg, name,
-     .                             stringddml)
-            g%ApsimVariables(g%numApsimVariables)%setRegID = 0
-            add_apsim_variable = .true.
-            variableIndex = g%numApsimVariables
-         endif
-      endif
-
-      return
-      end
-
-! ====================================================================
-       function Find_apsim_variable(name, variableIndex)
-! ====================================================================
-      use ManagerModule
-      implicit none
-
-!+  Sub-Program Arguments
-      character(len=*), intent(in)  :: name          ! Variable name to locate
-      integer         , intent(out) :: variableIndex ! index of variable
-      logical                       :: find_apsim_variable
-
-!+  Purpose
-!     Locate an apsim variable in our list.  Return it's index in
-!     variableIndex and return .true. if found.
-
-!+  Changes
-!     DPH 26/7/2001
-
-!+  Local Variables
-      logical found
-
-!- Implementation Section ----------------------------------
-
-      variableIndex = 0
-      found = .false.
-      do while (variableIndex < g%numApsimVariables .and. .not. found)
-         variableIndex = variableIndex + 1
-         found = Strings_equal(g%apsimVariables(variableIndex)%name,
-     .                         name)
-      end do
-      Find_apsim_variable = found
-      return
-      end
-
-! ====================================================================
-       subroutine get_apsim_variable_value(variableIndex, value)
-! ====================================================================
-      use ManagerModule
-      implicit none
-
-!+  Sub-Program Arguments
-      integer, intent(in)           :: variableIndex ! index of variable to get value for.
-      character(len=*), intent(out) :: value         ! returned value.
-
-!+  Purpose
-!     This routine asks APSIM for the value of a specified variable.
-!     It will return a character representation of the variable.
-
-!+  Changes
-!     DPH 27/7/2001
-
-!+  Local Variables
-
-!- Implementation Section ----------------------------------
-
-      if (.not. get_string(g%apsimVariables(variableIndex)%regID,
-     .                     value,
-     .                     .true.)) then
-         value = ' '
-      endif
-
-      return
-      end
-
-! ====================================================================
-       subroutine set_apsim_variable_value(variableIndex, value)
-! ====================================================================
-      use ManagerModule
-      implicit none
-
-!+  Sub-Program Arguments
-      integer, intent(in)           :: variableIndex ! index of variable to set value for.
-      character(len=*), intent(in)  :: value         ! value to set variable to
-
-!+  Purpose
-!     This routine sets an APSIM variable.
-
-!+  Changes
-!     DPH 27/7/2001
-
-!+  Local Variables
-      logical ok
-      character msg*100
-
-!- Implementation Section ----------------------------------
-
-      if (g%apsimVariables(variableIndex)%setRegID .eq. 0) then
-         g%ApsimVariables(g%numApsimVariables)%setRegID
-     .      = add_registration(setVariableReg,
-     .            g%ApsimVariables(g%numApsimVariables)%name,
-     .            stringddml)
-      endif
-
-      ok=set_string(g%apsimVariables(variableIndex)%setRegID, value)
-      return
-      end
-
-! ====================================================================
-       subroutine Add_apsim_method(name, componentName, methodIndex)
-! ====================================================================
-      use ManagerModule
-      implicit none
-
-!+  Sub-Program Arguments
-      character(len=*), intent(in) :: name           ! Name of method
-      character(len=*), intent(in) :: componentName  ! Name of component
-      integer, intent(out)         :: methodIndex    ! Index of method
-
-!+  Purpose
-!     Add a new APSIM method to list of methods
-
-!+  Changes
-!     DPH 26/7/2001
-
-!+  Local Variables
-      integer regID
-      integer componentID
-      character str*(300)
-      character fullName*(300)
-
-!- Implementation Section ----------------------------------
-
-      g%numApsimMethods = g%numApsimMethods + 1
-      if (g%numApsimMethods .gt. MAX_NUM_APSIM_METHODS) then
-         write (str, '(5a)' )
-     .      'Too many external APSIM methods have been specified',
-     .      new_line,
-     .      'in the manager file.  Contact the APSIM Help desk to',
-     .      new_line,
-     .      'have the problem rectified. '
-         call Error(str, .true.)
-         methodIndex = 0
-      else
-         fullName = Trim(componentName) // '.' // name
-         call assign_string(
-     .     g%ApsimMethods(g%numApsimMethods)%name, fullName)
-         g%ApsimMethods(g%numApsimMethods)%regID
-     .        = add_registration(methodCallReg, name,
-     .                           stringddml, ' ', componentName)
-         methodIndex = g%numApsimMethods
-      endif
-
-      return
-      end
-
-! ====================================================================
-       function Find_apsim_method(name, methodIndex)
-! ====================================================================
-      use ManagerModule
-      implicit none
-
-!+  Sub-Program Arguments
-      character(len=*), intent(in)  :: name          ! method name to locate
-      integer         , intent(out) :: methodIndex   ! index of method
-      logical                       :: Find_apsim_method
-
-!+  Purpose
-!     Locate an apsim method in our list.  Return it's index in
-!     methodIndex and return .true. if found.
-
-!+  Changes
-!     DPH 26/7/2001
-
-!+  Local Variables
-      logical found
-
-!- Implementation Section ----------------------------------
-
-      methodIndex = 0
-      found = .false.
-      do while (methodIndex < g%numApsimMethods .and. .not. found)
-         methodIndex = methodIndex + 1
-         found = Strings_equal(g%apsimMethods(methodIndex)%name,
-     .                         name)
-      end do
-      Find_apsim_method = found
-      return
-      end
-
-! ====================================================================
-       subroutine Call_apsim_method(methodIndex, dataString)
-! ====================================================================
-      use ManagerModule
-      implicit none
-
-!+  Sub-Program Arguments
-      integer, intent(in)          :: methodIndex    ! Index of method to call
-      character(len=*), intent(in) :: dataString     ! Data string to send with method
-
-!+  Purpose
-!     Call an APSIM method
-
-!+  Changes
-!     DPH 26/7/2001
-
-!- Implementation Section ----------------------------------
-
-      call methodcall_string(g%ApsimMethods(methodIndex)%regID,
-     .                        dataString,
-     .                        .false.)
-
-      return
-      end
 
 ! ====================================================================
        subroutine manager_get_params (Function_call, Params)
 ! ====================================================================
       use ManagerModule
       implicit none
+      include 'const.inc'              ! constant definitions
+      include 'intrface.pub'                      
+      include 'string.pub'                        
+      include 'error.pub'                         
+      include 'datastr.pub'                       
 
 !+  Sub-Program Arguments
       character     Function_call*(*)  ! (INPUT) function call
@@ -1293,62 +1026,69 @@ C     Last change:  P    25 Oct 2000    9:26 am
       integer pos_comma
 
 !- Implementation Section ----------------------------------
-
+ 
       ! locate open and close bracket.
-
+ 
       pos_open_bracket = index (Function_call, '(')
       pos_close_bracket = index (Function_call, ')')
-
+ 
       ! did we find both an open and a close bracket?
-
+ 
       if (pos_open_bracket .gt. 0 .and.
      .    pos_close_bracket .gt. pos_open_bracket) then
-
-
+ 
+ 
          ! yes - locate position of comma.
-
+ 
          pos_comma = index (Function_call, ',')
-
+ 
          ! did we find a comma between the brackets?
-
+ 
          if (pos_comma .gt. pos_open_bracket .and.
      .       pos_comma .lt. pos_close_bracket) then
             ! yes - 2 params
-
+ 
             Params(1) = Function_call (pos_open_bracket + 1:
      .                                 pos_comma - 1)
             Params(2) = Function_call(pos_comma + 1:
      .                                 pos_close_bracket - 1)
-
+ 
          else
             ! no - 1 param
-
+ 
             Params(1) = Function_call(pos_open_bracket + 1:
      .                                pos_close_bracket - 1)
             Params(2) = Blank
          endif
-
+ 
       else
          ! no - error
-
+ 
          Params(1) = Blank
          Params(2) = Blank
       endif
-
+ 
       return
       end
 
 
 
 ! ====================================================================
-      recursive subroutine Parse_get_variable(fullName, value)
+      recursive subroutine Parse_get_variable
+     .                 (Variable_Name, Variable_Value)
 ! ====================================================================
       use ManagerModule
       implicit none
+      include 'const.inc'              ! constant definitions
+      include 'datastr.pub'
+      include 'date.pub'
+      include 'error.pub'
+      include 'string.pub'
+      include 'intrface.pub'
 
 !+  Sub-Program Arguments
-      character     fullName*(*)       ! (INPUT) name of variable
-      character     value*(*)          ! (OUTPUT) return value of variable
+      character     Variable_Name*(*)  ! (INPUT) name of variable
+      character     Variable_Value*(*) ! (OUTPUT) return value of variable
 
 !+  Purpose
 !     The parse routine has requested a variable.  Return value to it.
@@ -1363,109 +1103,121 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !     sb  19/3/97  added manager function nearest_int().
 !     dph 10/2/98  called write_event instead of report_event - d097
 
-!+ Calls
-      logical Find_local_variable_by_name
-      logical Find_apsim_variable
-      logical Add_apsim_variable
-      logical Add_local_variable
-
 !+  Local Variables
-      logical isApsimVariable          ! Is the variable an APSIM variable?
-      logical isLocalVariable          ! Is the variable a local one?
+      logical Is_apsim_variable        ! Is the requested variable APSIM's?
       integer Numvals                  ! Number of values found.
-      integer variableIndex            ! Index into local variable array
-      character moduleName*100         ! name of module owning variable
-      character variableName*100       ! name of variable
+      integer Variable_index           ! Index into local variable array
+      character Mod_name*100           ! name of module owning variable
+      character Var_name*100           ! name of variable
       character Str*300                ! Dummy value returned by APSIM
       character Params(2)*(50)         ! params from function call
       double precision d_var_val       ! double precision of variable_value
       double precision today           ! todays date.
 
 !- Implementation Section ----------------------------------
+ 
+      ! Look for function first.
 
-      ! Look for a date function first.
-      if (fullName(1:5) .eq. 'date(') then
-         call Manager_get_params (fullName, Params)
-         if (Get_today(id%today, today)) then
-            call Double_var_to_string
-     .         (String_to_jday_with_error(Params(1), Today), value)
+      if (variable_name(1:5) .eq. 'date(') then
+         call Manager_get_params (variable_name, Params)
+         call Get_double_var (Unknown_module, 'today', '', Today, 
+     .                        numvals, 0d0, 10000000d0)
+         call Double_var_to_string (Date(Params(1), Today), 
+     .                              Variable_value)
+ 
+      else if (variable_name(1:12) .eq. 'date_within(') then
+         ! get parameters from string.
+ 
+         call Manager_get_params (variable_name, Params)
+
+         call Get_double_var (Unknown_module, 'today', '', Today, 
+     .                        numvals, 0d0, 10000000d0)
+ 
+         if (Date_within(Params(1), Params(2), Today)) then
+            Variable_value = '1'
+         else
+            Variable_value = '0'
          endif
-
-      ! Look for a date_within function
-      else if (fullName(1:12) .eq. 'date_within(') then
-         call Manager_get_params (fullName, Params)
-
-         if (Get_today(id%today, today)) then
-            if (Date_within(Params(1), Params(2), today)) then
-               value = '1'
-            else
-               value = '0'
-            endif
-         endif
-
-      ! Look for nearest_int function
-      else if (fullName(1:12) .eq. 'nearest_int(') then
-         call Manager_get_params (fullName, Params)
-         call parse_get_variable(params(1), value)
-         call string_to_double_var(value, d_var_val, numvals)
+ 
+      else if (variable_name(1:12) .eq. 'nearest_int(') then
+         call Manager_get_params (variable_name, Params)
+         call parse_get_variable(params(1), variable_value)
+         call string_to_double_var(variable_value, d_var_val, numvals)
          if (numvals .ne. 1) then
-            call error('Bad argument type for function nearest_int()',
-     .                 .true.)
+            call fatal_error(ERR_user,
+     .              'Bad argument type for function nearest_int()')
          else
             d_var_val = dnint(d_var_val)
-            call double_var_to_string (d_var_val, value)
+            call double_var_to_string (d_var_val, variable_value)
          end if
-
-      ! Must be a variable - process it
+ 
       else
-         moduleName = ' '
-         variableName = ' '
-         variableIndex = -1
-         isLocalVariable = .false.
-         isApsimVariable = .false.
-
-         ! See if we've already got a local variable in our list.
-         if (find_local_variable_by_name(fullName, variableIndex)) then
-            isLocalVariable = .true.
-
-         ! See if we've already got an APSIM variable in our list.
-         else if (find_apsim_variable(fullName, variableIndex)) then
-            isApsimVariable = .true.
-
-         ! We don't know what it is yet.
+         Is_apsim_variable = (index(variable_name, '.') .gt. 0)
+ 
+         if (Is_apsim_variable) then
+            call Split_line(variable_name, Mod_name, Var_name, '.')
+            call Get_char_var
+     .           (Mod_name, Var_name, '()',
+     .            Variable_value, Numvals)
+ 
          else
-            ! Try and add it as an APSIM variable.
-            if (add_apsim_variable(fullName, variableIndex)) then
-               isApsimVariable = .true.
-            else if (add_local_variable(fullName,
-     .                                  '0', variableIndex)) then
-               isLocalVariable = .true.
+ 
+            ! Try to find variable in local variable list.
+ 
+            Variable_index = find_string_in_array
+     .         (variable_name, g%local_variable_names,
+     .          g%num_local_variables)
+ 
+            ! If not in local variable list then ask APSIM for it.
+ 
+            if (Variable_index .le. 0) then
+               call Get_char_var_optional
+     .              (Unknown_module, variable_name, '()',
+     .               Variable_value, Numvals)
+ 
+               ! If not found anywhere in APSIM then it must be a local
+               ! variable not already defined.  Add variable to list.
+ 
+               if (Numvals .eq. 0) then
+                  call manager_new_local_variable(variable_name, '0')
+                  Variable_value = '0'
+                  write (str, '(4a)' )
+     .              'Manager creating a new local variable : ',
+     .               trim(variable_name),
+     .               ' = 0'
+                  call Write_string (str)
+ 
+               else
+                  ! Found variable elsewhere in APSIM
+               endif
+ 
             else
-               ! Can't do anything!  Fatal error already called - just exit.
-               return
+               call assign_string (Variable_value
+     .                      , g%local_variable_values(Variable_index))
+ 
             endif
          endif
-
-         ! go get the value.
-         if (isApsimVariable) then
-            call get_apsim_variable_value(variableIndex, value)
-         else
-            call get_local_variable_value(variableIndex, value)
-         endif
+ 
       endif
 
       return
       end
 
+
+
 ! ====================================================================
-       subroutine Parse_set_variable (fullName, value)
+       subroutine Parse_set_variable (Variable_Name, Variable_Value)
 ! ====================================================================
       use ManagerModule
       implicit none
+      include 'const.inc'              ! constant definitions
+      include 'datastr.pub'                       
+      include 'intrface.pub'                      
+      include 'string.pub'                        
 
 !+  Sub-Program Arguments
-      character     fullName*(*)  ! (INPUT) name of variable
-      character     Value*(*) ! (INPUT) value of variable to set
+      character     Variable_Name*(*)  ! (INPUT) name of variable
+      character     Variable_Value*(*) ! (INPUT) value of variable to set
 
 !+  Purpose
 !     The parsing routine has requested a set variable
@@ -1480,53 +1232,97 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !     sb 3/7/97  Trimmed args in both calls of set_char_var().
 !     dph 10/2/98  called write_event instead of report_event - d097
 
-      logical Find_local_variable_by_name
-      logical Find_apsim_variable
-      logical Add_apsim_variable
-      logical Add_local_variable
+!+  Calls
+      character Lower_case*(Function_string_len)
+                                       ! function
 
 !+  Local Variables
-      logical isApsimVariable          ! Is the variable an APSIM variable?
-      logical isLocalVariable          ! Is the variable a local one?
-      integer variableIndex
+      logical Is_apsim_variable        ! Is the requested variable APSIM's?
+      integer numvals                  ! number of values returned.
+      character Str*300                ! Dummy value returned by APSIM
+      integer Variable_index           ! Index into local variable array
+      character Mod_name*100           ! name of module owning variable
+      character Var_name*100           ! name of variable
 
 !- Implementation Section ----------------------------------
-
-      ! Work out what type of variable we're dealing with.
-      isApsimVariable = .false.
-      isLocalVariable = .false.
-      if (find_local_variable_by_name(fullName, variableIndex)) then
-         isLocalVariable = .true.
-      else if (find_apsim_variable(fullName, variableIndex)) then
-         isApsimVariable = .true.
+      variable_name = lower_case(variable_name)
+ 
+      Is_apsim_variable = (index(variable_name, '.') .gt. 0)
+      if (Is_apsim_variable) then
+         call Split_line(variable_name, Mod_name, Var_name, '.')
+         call set_char_var(Mod_name,
+     .         trim(var_name), ' ',
+     .         trim(Variable_value) )
+ 
       else
-         ! New variable - Try and add it as an APSIM variable.
-         if (add_apsim_variable(fullName, variableIndex)) then
-            isApsimVariable = .true.
-         else if (add_local_variable(fullName,
-     .                              '0', variableIndex)) then
-            isLocalVariable = .true.
+         ! Try to find variable in local variable list.
+ 
+         Variable_index = find_string_in_array
+     .      (variable_name, g%local_variable_names,
+     :       g%num_local_variables)
+ 
+         ! If not in local variable list then ask APSIM for it.  If
+         ! APSIM doesn't know about it then add to local variable list.
+ 
+         if (Variable_index .le. 0) then
+            call Get_char_var_optional
+     .          (Unknown_module, variable_name, '()',
+     .           Str, Numvals)
+
+            if (Numvals .eq. 0) then
+               ! Add variable to local variable list.
+ 
+               call manager_new_local_variable(variable_name,
+     .              Variable_value)
+ 
+               write (str, '(4a)' )
+     .           'Manager creating a new local variable : ',
+     .            trim(variable_name),
+     .            ' = ',
+     .            trim(Variable_value)
+               call Write_string (str)
+ 
+            else
+               call set_char_var(Unknown_module,
+     .            trim(variable_name), ' ',
+     .            trim(Variable_value))
+               Is_apsim_variable = .true.
+            endif
          else
-            ! Can't do anything!  Fatal error already called - just exit.
-            return
+            call assign_string (
+     :           g%local_variable_values(Variable_index)
+     :         , Variable_value)
+ 
          endif
       endif
-
-      ! go set the value.
-      if (isApsimVariable) then
-         call set_apsim_variable_value(variableIndex, value)
-      else
-         call set_local_variable_value(variableIndex, value)
-      endif
-
+ 
+!      if (Is_apsim_variable) then
+!         write (str, '(4a)' )
+!     .      'Manager setting apsim variable : ',
+!     .      trim(variable_name),
+!     .      ' = ',
+!     .      trim(Variable_value)
+! 
+!         call Write_string (str)
+!      endif
+ 
       return
       end
+
+
 
 ! ====================================================================
        subroutine Parse_action (Action_string)
 ! ====================================================================
       use ManagerModule
       implicit none
+      include 'const.inc'              ! constant definitions
+      include 'read.pub'                          
+      include 'error.pub'                         
+      include 'string.pub'                        
+      include 'intrface.pub'                      
+      include 'postbox.pub'
+      include 'datastr.pub'
 
 !+  Sub-Program Arguments
       character Action_string*(*)      ! (INPUT) ACtion to perform.
@@ -1546,58 +1342,161 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !     dph 25/7/96  Changed decl of no_leading%spaces*(mes_action_size) to
 !                  no_leading%spaces*(function_string_len)
 !     dph 30/8/99  removed 'queue' keyword
+!     dph 11/7/01  removed the gets for year and day [d437]
 
 !+  Calls
-      logical find_apsim_method
 
 !+  Local Variables
-      integer Day, Year                ! Todays day of year and year
-      double precision today           ! Todays julian date
-      character componentName*(MAX_COMPONENT_NAME_SIZE)
-      character methodName*(MAX_METHOD_NAME_SIZE)
-                                       ! Name of method to call
-      character fullMethodName*(MAX_COMPONENT_NAME_SIZE)
-
-      character dataString*(Function_string_len)
-                                       ! Data string to send with method
-      character msg*500                ! message
-      integer methodIndex
-      integer posSpace
+      character Module_name*(30)       ! Module name to send action to
+      character Action*(MES_Action_size)
+                                       ! Action to send to APSIM
+      character Data_string*(Function_string_len)
+                                       ! Data string to send to APSIM
+      character Variable_name*(Max_manager_var_name_size)
+                                       ! variable name in set actions.
+      integer Numvals                  ! Number of values returned
+      character msg*500                ! Error message
+      logical Data_was_stored          ! Was data stored in postbox?
 
 !- Implementation Section ----------------------------------
-
-      if (index(Action_string, 'do_output') .eq. 0 .and.
-     .    index(Action_string, 'do_end_day_output') .eq. 0) then
-         if (Get_today(id%today, today)) then
-            call jday_to_day_of_year (today, day, year)
-
-            msg = '     Manager sending message :- ' // Action_string
-
-            call Write_string(msg)
+ 
+      call split_line (Action_string, Module_name, Data_string, Blank)
+      Data_string = adjustl(Data_string)
+      call split_line (Data_string, Action, Data_string, Blank)
+      Action = adjustl(Action)
+ 
+      ! Test for case where user has forgotten to put in equals sign in set command.
+ 
+      if (Action .eq. 'set') then
+         if (index(Data_string, '=') .eq. 0) then
+            write (msg, '(50a)' )
+     .         'Your manager file has a set command that does not have',
+     .         new_line,
+     .         'have a equals sign in it.  Please correct problem.'
+            call Fatal_error(ERR_user, msg)
          endif
       endif
 
-      call split_line (Action_string, componentName, dataString, Blank)
-      componentName = adjustl(componentName)
-      dataString = adjustl(dataString)
-      call split_line (dataString, methodName, dataString, Blank)
-      methodName = adjustl(methodName)
-      fullMethodName = Trim(componentName) // '.' // methodName
+      ! Look for local variable names on the data string.  Replace any found
+      ! with their values.
+      call Replace_local_variables(Data_string)
 
-      ! perform the method call.
-      if (.not. find_apsim_method(fullMethodName, methodIndex)) then
-         call add_apsim_method(methodName, componentName, methodIndex)
+      if (index(Action_string, 'do_output') .eq. 0 .and.
+     .    index(Action_string, 'do_end_day_output') .eq. 0) then
+ 
+         write (msg, '(6a)' )
+     .      'Manager sending message :- ', 
+     .      Trim(Module_name), 
+     .      ' ',
+     .      Trim(Action),     
+     .      ' ',
+     .      Trim(Data_string)
+ 
+         call Write_string(msg)
       endif
-      call call_apsim_method(methodIndex, dataString)
+                        
+      ! Add code to check for a keyword of QUEUE.
+ 
+      call New_postbox ()
+      Data_was_stored = Store_in_postbox (Data_string)
+      if (Action .eq. 'set') then
+         call Get_next_variable (Data_string,
+     .                           Variable_name,
+     .                           Data_string)
+ 
+         Data_string = Variable_name
+ 
+      else if (Data_was_stored) then
+         Data_string = Blank
+ 
+      endif
+ 
+      call Action_send (Module_name, Action, Data_string)
+      call Delete_postbox ()
+ 
+      return
+      end
+
+! ====================================================================
+! Replace all local variables names in the specified string with the
+! variable values.
+! ====================================================================
+      subroutine Replace_local_variables(st)
+      use ManagerModule
+      implicit none
+      include 'const.inc'
+      include 'datastr.pub'
+      include 'string.pub'
+      include 'error.pub'
+      
+      character st*(*)
+      character key*(100)
+      character value*(100)
+      character newString*(2000)
+      character units*(100)
+      character No_leading_spaces*100
+      integer localIndex
+      integer posQuote
+      newString = ' '
+      
+      ! string will look like: 
+      !   cultivar = hartog, plants = 121.61, sowing_depth = 30 (mm)
+      ! We need to parse this looking for values that match a local
+      ! manager variable.  Make sure we honour double quotes ie don't
+      ! substitute local variable values.
+      call get_next_variable(st, key, value)
+      do while (key <> ' ')
+         call split_off_units (value, units)
+         value = No_leading_spaces(value)
+         if (value(1:1) <> '"' .and. value(1:1) <> '''') then
+
+            localIndex = find_string_in_array(value, 
+     .                                        g%local_variable_names,
+     .                                        g%num_local_variables)
+            if (localIndex > 0) then
+               value = g%local_variable_values(localIndex)
+            endif
+         else
+            value = value(2:)
+            posQuote = index(value, '"')
+            if (posQuote <= 0) then
+               posQuote = index(value, '''')
+            endif
+            if (posQuote <= 0) then
+               call Fatal_error(ERR_user, 
+     .             'Missing closing quote on action line in manager.')
+            else
+               value(posQuote:) = ' '
+            endif
+         endif    
+         
+         ! append all the bits for the current key to a new string.
+         if (newString <> ' ') then
+            call append_string(newString, ',')
+         endif
+         call append_string(newString, ' ' // key)
+         call append_string(newString, ' =')
+         call append_string(newString, ' ' // No_leading_spaces(value))
+         if (units <> '()') then
+            call append_string(newString, ' ' // units)
+         endif 
+
+      call get_next_variable(st, key, value)
+      end do
+      st = newString
 
       return
       end
+
+
 
 ! ====================================================================
        subroutine Parse_error (Error_message, Routine_message)
 ! ====================================================================
       use ManagerModule
       implicit none
+      include 'const.inc'              ! constant definitions
+      include 'error.pub'                         
 
 !+  Sub-Program Arguments
       character Error_message*(*)      ! (INPUT) Error message to display
@@ -1613,15 +1512,19 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !                  because the parsing routine tokenises all manager rules
 !                  from all files before validating the rules.
 
+!+  Calls
+!      include 'utility.inc'            ! needed for current line number and file
+                                       ! unit number for error messages.
+
 !+  Local Variables
 !      character File_name*200          ! name of manager file.
 !      character Our_error*(Function_string_len)
                                        ! our error message
 
 !- Implementation Section ----------------------------------
-
+ 
       call Push_routine(Routine_message)
-
+ 
 !      inquire (unit=Current_unit_num, name=File_name)
 !      write (Our_error, '(6a, i3)')
 !     .   Error_message,
@@ -1629,12 +1532,12 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !     .   'Manager_file = ', File_name,
 !     .   New_line,
 !     .   'Line number  = ', Current_record_num
-      call error(Error_message, .true.)
-
+      call Fatal_error(ERR_user, Error_message)
+ 
       g%all_ok = NO
-
+ 
       call Pop_routine(Routine_message)
-
+ 
       return
       end
 
@@ -1660,47 +1563,47 @@ C     Last change:  P    25 Oct 2000    9:26 am
        integer       Nested_ifs           ! Number of nested statements
 
 !- Implementation Section ----------------------------------
-
+ 
        Nested_ifs = 0
        g%end_of_file = NO
        g%next_token = g%start_token - 1
        if (g%next_token .lt. 0) then
           g%next_token = 0
        endif
-
+ 
 10     continue
-
+ 
        if (g%end_of_file .eq. NO) then
           call   Get_next_token(Token_array, Token_array2)
-
+ 
           if     (g%token .eq. C_WORD) then
                  call Assignment_Statement(Token_array,Token_array2)
-
+ 
           elseif (g%token .eq. C_ACTION) then
                  call   Process_Action(Token_array, Token_array2)
-
+ 
           elseif (g%token .eq. C_IF) then
                  Nested_ifs = Nested_ifs + 1
                  call   Process_if_statement(Nested_ifs,Token_array,
      .                                                Token_array2)
-
+ 
           elseif (g%token .eq. C_ENDIF) then
                  Nested_ifs = Nested_ifs - 1
-
+ 
           elseif (g%token .eq. C_ELSE) then
                  call   Process_else_statement(Nested_ifs,
      .                                 Token_array, Token_array2)
-
+ 
           endif
-
+ 
           goto 10
        endif
-
+ 
        if (Nested_ifs .gt. 0) then
           call   Parse_error('Missing endif       ',
      .                              'Parse               ')
        endif
-
+ 
        return
        end
 
@@ -1734,9 +1637,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
        integer       Last_Token           ! g%last g%token read
 
 !- Implementation Section ----------------------------------
-
+ 
        call   Get_next_token(Token_array, Token_array2)
-
+ 
        if (If_statement(Token_array, Token_array2) .eq. 0) then
           if (g%all_ok .eq. YES) then
              This_Nested = Nested_ifs
@@ -1745,26 +1648,26 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .                             'Process_if_statement')
              endif
           endif
-
+ 
 10        continue
           if (g%all_ok .eq. YES) then
-
+ 
              Last_Token = g%token
              call   Get_next_token(Token_array, Token_array2)
-
+ 
              if (g%token .eq. C_IF .and.
      .           Last_Token .eq. C_EOL) then
-
+ 
                 Nested_ifs = Nested_ifs + 1
-
+ 
                 goto 10
-
+ 
              elseif (g%token .eq. C_ELSE .and.
      .              Last_Token .eq. C_EOL) then
                  if (Nested_ifs .ne. This_Nested) then
                     goto 10
                  endif
-
+ 
              elseif (g%token .eq. C_ENDIF .and.
      .            Last_Token .eq. C_EOL) then
                  if (Nested_ifs .gt. This_Nested) then
@@ -1772,14 +1675,14 @@ C     Last change:  P    25 Oct 2000    9:26 am
                     goto 10
                  endif
                  Nested_ifs = Nested_ifs - 1
-
+ 
              elseif (g%token .eq. C_EOF) then
                  if (Nested_ifs .gt. This_Nested) then
                  call   Parse_error('Missing endif       ',
      .                              'Process_if_statement')
-
+ 
                  endif
-
+ 
              else
                 goto 10
              endif
@@ -1792,7 +1695,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
              endif
           endif
        endif
-
+ 
        return
        end
 
@@ -1820,28 +1723,28 @@ C     Last change:  P    25 Oct 2000    9:26 am
        integer       This_Nested          ! Number of this nested if
 
 !- Implementation Section ----------------------------------
-
+ 
        This_Nested = Nested_ifs
 10     continue
-
+ 
        call   Get_next_token(Token_array, Token_array2)
-
+ 
        if     (g%token .eq. C_IF) then
               Nested_ifs = Nested_ifs + 1
               goto 10
-
+ 
        elseif (g%token .eq. C_ENDIF) then
               if (Nested_ifs .gt. This_Nested) then
                      Nested_ifs = Nested_ifs - 1
                      goto 10
               endif
        else
-
+ 
               goto 10
        endif
-
+ 
        Nested_ifs = Nested_ifs - 1
-
+ 
        return
        end
 
@@ -1869,21 +1772,21 @@ C     Last change:  P    25 Oct 2000    9:26 am
                                           ! Variable to assign a value
 
 !- Implementation Section ----------------------------------
-
+ 
        Variable_name = g%buffer
-
+ 
        call   Get_next_token(Token_array, Token_array2)
-
+ 
        if     (g%token .eq. C_EQUAL) then
               call   Process_Assignment(Variable_name, Token_array,
      .                                                  Token_array2)
-
+ 
        else
               call   Parse_error('Syntax error        ',
      .                           'Assignment_Statement')
-
+ 
        endif
-
+ 
        return
        end
 
@@ -1895,6 +1798,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! =====================================================================
       use ManagerModule
       implicit none
+      include 'string.pub'                        
 
 !+  Sub-Program Arguments
        character     Variable_name*(Buffer_size)
@@ -1914,14 +1818,14 @@ C     Last change:  P    25 Oct 2000    9:26 am
                                           ! value to assign the variable
 
 !- Implementation Section ----------------------------------
-
+ 
        call   Get_next_token(Token_array, Token_array2)
        g%number_expressions = 1
        call assign_string (g%expression_array(g%number_expressions)
      :                   , g%buffer)
        g%expression_array2(g%number_expressions) = g%token
        call   Get_next_token (Token_array, Token_array2)
-
+ 
 10     continue
        if     (g%token .ne. C_EOL) then
               g%number_expressions = g%number_expressions + 1
@@ -1932,14 +1836,14 @@ C     Last change:  P    25 Oct 2000    9:26 am
               goto 10
        endif
        g%expression_array2(g%number_expressions+1) = C_END
-
+ 
        call   Process_expression
-
+ 
        if (g%all_ok .eq. YES) then
               call assign_string (Variable_value, g%expression_result)
               call   Parse_set_variable(Variable_Name, Variable_Value)
        endif
-
+ 
        return
        end
 
@@ -1950,6 +1854,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! =====================================================================
       use ManagerModule
       implicit none
+       include 'const.inc'
 
 !+  Sub-Program Arguments
        character     Token_array(*)*(*)
@@ -1963,11 +1868,11 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !      TM - 29/09/95 - changed action to be handled as one token
 
 !- Implementation Section ----------------------------------
-
+ 
        call   Parse_action (g%buffer)
-
+ 
        call   Get_next_token (Token_array, Token_array2)
-
+ 
        return
        end
 
@@ -1978,6 +1883,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! =====================================================================
       use ManagerModule
       implicit none
+      include 'datastr.pub'                       
 
 !+  Sub-Program Arguments
        character     Token_array(*)*(*)
@@ -1994,41 +1900,41 @@ C     Last change:  P    25 Oct 2000    9:26 am
        integer       NumVals
 
 !- Implementation Section ----------------------------------
-
+ 
        g%number_and_or        = 0
        g%number_expressions   = 0
        g%word_or_number       = NO
-
+ 
 10     continue
        call   Get_expression_array(Token_array, Token_array2)
-
+ 
 20     continue
-
+ 
        if (g%all_ok .eq. YES) then
               call   Process_expression
        endif
-
+ 
        if (g%all_ok .eq. YES) then
-
+ 
               if     (g%save_token .ne. C_THEN) then
                      call   Process_next_expression(Token_array,
      .                                                Token_array2)
                      goto 10
               endif
-
+ 
               if     (g%number_and_or .gt. 0) then
                      call   Process_And_Or_expression
                      goto 20
               endif
-
+ 
               g%token = g%save_token
-
+ 
               call string_to_integer_var (g%expression_result,
      :                                   If_result, NumVals)
-
+ 
               If_statement = If_result
        endif
-
+ 
        return
        end
 
@@ -2039,6 +1945,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! =====================================================================
       use ManagerModule
       implicit none
+      include 'string.pub'                        
 
 !+  Sub-Program Arguments
        character     Token_array(*)*(*)
@@ -2054,14 +1961,14 @@ C     Last change:  P    25 Oct 2000    9:26 am
        integer       ind                  ! loop index
 
 !- Implementation Section ----------------------------------
-
+ 
        g%number_expressions = g%number_expressions + 1
-
+ 
        g%expression_array2(g%number_expressions) = g%save_token
-
+ 
        if (g%save_token .eq. C_AND .or.
      :     g%save_token .eq. C_OR) then
-
+ 
           do 10  ind = g%number_and_or + 1
      .               , g%number_and_or + g%number_expressions
              call assign_string (g%and_or_array(ind)
@@ -2069,14 +1976,14 @@ C     Last change:  P    25 Oct 2000    9:26 am
              g%and_or_array2(ind) =
      .                     g%expression_array2(ind - g%number_and_or)
 10        continue
-
+ 
           g%number_and_or = g%number_and_or + g%number_expressions
           g%number_expressions = 0
        endif
-
+ 
        g%save_token = 0
        call   Get_next_token(Token_array, Token_array2)
-
+ 
        return
        end
 
@@ -2087,6 +1994,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! =====================================================================
       use ManagerModule
       implicit none
+      include 'string.pub'                        
 
 !+  Purpose
 !     Process the AND/C_OR part of an expression.
@@ -2098,26 +2006,26 @@ C     Last change:  P    25 Oct 2000    9:26 am
        integer       ind                  ! loop index
 
 !- Implementation Section ----------------------------------
-
+ 
       do 10  ind = g%number_and_or + 1
      :           , g%number_and_or + g%number_expressions
          call assign_string (g%and_or_array(ind)
      :                     , g%expression_array(ind-g%number_and_or))
          g%and_or_array2(ind)=g%expression_array2(ind-g%number_and_or)
 10    continue
-
+ 
        g%number_and_or = g%number_and_or + g%number_expressions
-
+ 
        do 20  ind = 1, g%number_and_or
           call assign_string (g%expression_array(ind)
      :                      , g%and_or_array(ind))
           g%expression_array2(ind) = g%and_or_array2(ind)
 20     continue
-
+ 
        g%expression_array2(g%number_and_or+2) = C_END
        g%number_expressions = g%number_and_or
        g%number_and_or = 0
-
+ 
        return
        end
 
@@ -2128,6 +2036,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! =====================================================================
       use ManagerModule
       implicit none
+      include 'string.pub'                        
 
 !+  Purpose
 !     Process the calculations in the given expression.
@@ -2147,11 +2056,11 @@ C     Last change:  P    25 Oct 2000    9:26 am
        integer       right                ! position of the right parent
 
 !- Implementation Section ----------------------------------
-
+ 
 20     continue
        left  = 0
        right = 0
-
+ 
        do 30  ind = 1, g%number_expressions
           if (right .eq. 0) then
              if (g%expression_array2(ind) .eq. C_LEFT_PAREN) then
@@ -2161,7 +2070,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
              endif
           endif
 30     continue
-
+ 
        if (left .gt. 0 .and. right .gt. 0) then
           g%number_of_tokens = right - left - 1
           do 40  ind = 1, g%number_of_tokens
@@ -2171,27 +2080,27 @@ C     Last change:  P    25 Oct 2000    9:26 am
      :                                 g%expression_array2(ind+left)
 40        continue
           g%expression_sub_array2(g%number_of_tokens+1) = C_END
-
+ 
           call assign_string (g%buffer, g%expression_sub_array(1))
           g%token = g%expression_sub_array2(1)
           g%current_token = 1
-
+ 
           call Process_sub_expression()
-
+ 
           if (g%all_ok .eq. YES) then
              if (left .eq. 0) then
                 left = 1
              endif
-
+ 
              g%expression_result = pop_stack()
-
+ 
           end if
-
+ 
           if (g%all_ok .eq. YES) then
               call assign_string (g%expression_array(left)
      :                         ,  g%expression_result)
               g%expression_array2(left) = C_NUMBER
-
+ 
               ind2 = 0
               do 50  ind = right+1, g%number_expressions
                  ind2 = ind2 + 1
@@ -2205,9 +2114,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
              goto 20
           endif
        else
-
+ 
           g%number_of_tokens = g%number_expressions - left
-
+ 
           do 60  ind = 1, g%number_of_tokens
              call assign_string (g%expression_sub_array(ind)
      :                         , g%expression_array(ind+left))
@@ -2215,40 +2124,40 @@ C     Last change:  P    25 Oct 2000    9:26 am
      :                             g%expression_array2(ind+left)
 60        continue
           g%expression_sub_array2(g%number_of_tokens+1) = C_END
-
+ 
           call assign_string (g%buffer, g%expression_sub_array(1))
           g%token = g%expression_sub_array2(1)
           g%current_token = 1
-
+ 
           call Process_sub_expression()
-
+ 
           if (g%all_ok .eq. YES) then
              call assign_string (g%expression_result, pop_stack())
           endif
-
+ 
           if (g%all_ok .eq. YES) then
              do 70  ind = 1, left
                 g%expression_array2(ind) = C_LEFT_PAREN
 70           continue
-
+ 
              call assign_string (g%expression_array(left+1)
      :                         , g%expression_result)
              g%expression_array2(left+1) = C_NUMBER
-
+ 
              if (right .gt. 0) then
                 do 80  ind = 1, g%number_expressions+1-right
                       g%expression_array2(ind+1) = C_RIGHT_PAREN
 80              continue
-
+ 
                 g%number_expressions = g%number_expressions + 2-right
              else
                 g%number_expressions = left + 1
              endif
-
+ 
              g%expression_array2(g%number_expressions+1) = C_END
           endif
        endif
-
+ 
        return
        end
 
@@ -2276,9 +2185,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !     dph 24/6/96 Changed routine from a real routine to a double routine
 
 !- Implementation Section ----------------------------------
-
+ 
       read (String, '(g25.0)',iostat = io_result) Double_value
-
+ 
       return
       end
 
@@ -2289,6 +2198,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! =====================================================================
       use ManagerModule
       implicit none
+      include 'data.pub'                          
+      include 'string.pub'                        
 
 !+  Purpose
 !     Process the comparing part of an expression.
@@ -2311,27 +2222,27 @@ C     Last change:  P    25 Oct 2000    9:26 am
                                           ! check for reals
 
 !- Implementation Section ----------------------------------
-
+ 
        call   Process_Simple_Expression
-
+ 
        if (g%token .eq. C_EQUAL         .or.
      :     g%token .eq. C_LESS_THAN     .or.
      .     g%token .eq. C_LESS_EQUAL    .or.
      :     g%token .eq. C_GREATER_THAN  .or.
      .     g%token .eq. C_GREATER_EQUAL .or.
      :     g%token .eq. C_NOT_EQUAL)    then
-
+ 
           operator = g%token
-
+ 
           call   Get_sub_token
           call   Process_Simple_Expression
-
+ 
           call assign_string (operand_2, pop_stack())
           call assign_string (operand_1, pop_stack())
-
+ 
           call Str_to_double_var(Operand_1, Temp_1, io_result1)
           call Str_to_double_var(Operand_2, Temp_2, io_result2)
-
+ 
           if (io_result1 .eq. 0 .and. io_result2 .eq. 0) then
             if (g%all_ok .eq. YES) then
                 if (operator .eq. C_EQUAL) then
@@ -2340,35 +2251,35 @@ C     Last change:  P    25 Oct 2000    9:26 am
                      else
                         call   push_stack('0.0')
                     endif
-
+ 
                 elseif (operator .eq. C_LESS_THAN) then
                     if (temp_1 .lt. temp_2) then
                         call   push_stack('1.0')
                     else
                         call   push_stack('0.0')
                     endif
-
+ 
                 elseif (operator .eq. C_LESS_EQUAL) then
                     if (temp_1 .le. temp_2) then
                         call   push_stack('1.0')
                     else
                         call   push_stack('0.0')
                     endif
-
+ 
                 elseif (operator .eq. C_GREATER_THAN) then
                     if (temp_1 .gt. temp_2) then
                         call   push_stack('1.0')
                     else
                         call   push_stack('0.0')
                     endif
-
+ 
                 elseif (operator .eq. C_GREATER_EQUAL) then
                     if (temp_1 .ge. temp_2) then
                         call   push_stack('1.0')
                     else
                         call   push_stack('0.0')
                     endif
-
+ 
                 elseif (operator .eq. C_NOT_EQUAL) then
                     if (doubles_are_equal (temp_1, temp_2)) then
                         call   push_stack('0.0')
@@ -2385,35 +2296,35 @@ C     Last change:  P    25 Oct 2000    9:26 am
                      else
                         call   push_stack('0.0')
                     endif
-
+ 
                 elseif (operator .eq. C_LESS_THAN) then
                     if (operand_1 .lt. operand_2) then
                         call   push_stack('1.0')
                     else
                         call   push_stack('0.0')
                     endif
-
+ 
                 elseif (operator .eq. C_LESS_EQUAL) then
                     if (operand_1 .le. operand_2) then
                         call   push_stack('1.0')
                     else
                         call   push_stack('0.0')
                     endif
-
+ 
                 elseif (operator .eq. C_GREATER_THAN) then
                     if (operand_1 .gt. operand_2) then
                         call   push_stack('1.0')
                     else
                         call   push_stack('0.0')
                     endif
-
+ 
                 elseif (operator .eq. C_GREATER_EQUAL) then
                     if (operand_1 .ge. operand_2) then
                         call   push_stack('1.0')
                     else
                         call   push_stack('0.0')
                     endif
-
+ 
                 elseif (operator .eq. C_NOT_EQUAL) then
                     if (operand_1 .ne. operand_2) then
                         call   push_stack('1.0')
@@ -2424,7 +2335,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
             endif
          endif
        endif
-
+ 
        return
        end
 
@@ -2435,6 +2346,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! =====================================================================
       use ManagerModule
       implicit none
+      include 'data.pub'                          
+      include 'datastr.pub'                       
+      include 'string.pub'                        
 
 !+  Purpose
 !     Process the add/minus/and part of an expression.
@@ -2457,39 +2371,39 @@ C     Last change:  P    25 Oct 2000    9:26 am
        integer       numvals
 
 !- Implementation Section ----------------------------------
-
+ 
        call   Process_Term
-
+ 
 10     continue
        if (g%token .eq. C_PLUS  .or.
      :     g%token .eq. C_MINUS .or.
      .     g%token .eq. C_AND)  then
-
+ 
           operator = g%token
-
+ 
           call  Get_sub_token
           call  Process_Term
-
+ 
           call assign_string (operand_2, pop_stack())
           call assign_string (operand_1, pop_stack())
-
+ 
           if (g%all_ok .eq. YES) then
              if (operator .eq. C_PLUS) then
                 call string_to_double_var(Operand_1, Temp_1, numvals)
                 call string_to_double_var(Operand_2, Temp_2, numvals)
                 call Double_var_to_string(Temp_1 + Temp_2, Temp_operand)
                 call   push_stack(Temp_operand)
-
+ 
              elseif (operator .eq. C_MINUS) then
                 call string_to_double_var(Operand_1, Temp_1, numvals)
                 call string_to_double_var(Operand_2, Temp_2, numvals)
                 call Double_var_to_string(Temp_1 - Temp_2, Temp_operand)
                 call push_stack(Temp_operand)
-
+ 
              elseif (operator .eq. C_AND) then
                 call string_to_double_var(Operand_1, Temp_1, numvals)
                 call string_to_double_var(Operand_2, Temp_2, numvals)
-
+ 
                 if (doubles_are_equal (Temp_1, 1.0d0) .and.
      .              doubles_are_equal (Temp_2, 1.0d0)) then
                    call push_stack('1.0')
@@ -2497,13 +2411,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
                    call push_stack('0.0')
                 endif
              endif
-
+ 
              if (g%all_ok .eq. YES) then
                 goto 10
              endif
           endif
        endif
-
+ 
        return
        end
 
@@ -2514,6 +2428,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! =====================================================================
       use ManagerModule
       implicit none
+      include 'data.pub'                          
+      include 'datastr.pub'                       
+      include 'string.pub'                        
 
 !+  Purpose
 !     Process the mult/div /or part of an expression.
@@ -2536,35 +2453,35 @@ C     Last change:  P    25 Oct 2000    9:26 am
        integer       numvals
 
 !- Implementation Section ----------------------------------
-
+ 
        call   Process_Power
-
-
+ 
+ 
 20     continue
        if (g%token .eq. C_MULTIPLY .or.
      :     g%token .eq. C_DIVIDE   .or.
      .     g%token .eq. C_POWER    .or.
      :     g%token .eq. C_OR)      then
            operator = g%token
-
+ 
           call  Get_sub_token
           call  Process_Power
-
+ 
           call assign_string (operand_2, pop_stack())
           call assign_string (operand_1, pop_stack())
-
-
+ 
+ 
           if (g%all_ok .eq. YES) then
              if (operator .eq. C_MULTIPLY) then
                 call string_to_double_var(Operand_1, Temp_1, numvals)
                 call string_to_double_var(Operand_2, Temp_2, numvals)
                 call Double_var_to_string(Temp_1 * Temp_2, Temp_operand)
                 call   push_stack(Temp_operand)
-
+ 
              elseif (operator .eq. C_DIVIDE) then
                 call string_to_double_var(Operand_1, Temp_1, numvals)
                 call string_to_double_var(Operand_2, Temp_2, numvals)
-
+ 
                 if (doubles_are_equal(Temp_2, 0.0d0)) then
                    call   Parse_error
      .                         ('Divide by zero      ',
@@ -2574,7 +2491,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .                                       Temp_operand)
                    call   push_stack(Temp_operand)
                 endif
-
+ 
              elseif (operator .eq. C_OR) then
                 call string_to_double_var(Operand_1, Temp_1, numvals)
                 call string_to_double_var(Operand_2, Temp_2, numvals)
@@ -2585,13 +2502,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
                    call push_stack('0.0')
                 endif
              endif
-
+ 
              if (g%all_ok .eq. YES) then
                 goto 20
              endif
           endif
        endif
-
+ 
        return
        end
 
@@ -2600,6 +2517,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! =====================================================================
       use ManagerModule
       implicit none
+      include 'data.pub'                          
+      include 'datastr.pub'                       
+      include 'string.pub'                        
 
 !+  Purpose
 !     Process the power part of an expression.
@@ -2620,21 +2540,21 @@ C     Last change:  P    25 Oct 2000    9:26 am
        integer       numvals
 
 !- Implementation Section ----------------------------------
-
+ 
        call   Process_Factor
-
-
+ 
+ 
 20     continue
        if (g%token .eq. C_POWER)      then
            operator = g%token
-
+ 
           call  Get_sub_token
           call  Process_Factor
-
+ 
           call assign_string (operand_2, pop_stack())
           call assign_string (operand_1, pop_stack())
-
-
+ 
+ 
           if (g%all_ok .eq. YES) then
              if (operator .eq. C_POWER) then
                 call string_to_double_var(Operand_1, Temp_1, numvals)
@@ -2643,13 +2563,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .                                    Temp_operand)
                 call push_stack(Temp_operand)
              endif
-
+ 
              if (g%all_ok .eq. YES) then
                 goto 20
              endif
           endif
        endif
-
+ 
        return
        end
 
@@ -2661,6 +2581,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! =====================================================================
       use ManagerModule
       implicit none
+      include 'string.pub'                        
 
 !+  Purpose
 !     Get the value to push on the stack.
@@ -2677,31 +2598,31 @@ C     Last change:  P    25 Oct 2000    9:26 am
        character     Temp*(Buffer_size)
 
 !- Implementation Section ----------------------------------
-
+ 
        if (g%token .eq. C_WORD) then
           call   Parse_get_variable(g%buffer, Variable_Value)
-
+ 
           call assign_string (Temp, Real_or_not(Variable_Value))
-
+ 
           call   push_stack(Temp)
-
+ 
           call   Get_sub_token
-
+ 
        elseif (g%token .eq. C_NUMBER) then
-
+ 
           call assign_string (Temp, Real_or_not(g%buffer))
           call   push_stack(Temp)
-
+ 
           call   Get_sub_token
-
+ 
        elseif (g%token .eq. C_LITERAL) then
           call   push_stack(g%buffer)
-
+ 
           call   Get_sub_token
-
+ 
        endif
-
-
+ 
+ 
        return
        end
 
@@ -2712,6 +2633,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! =====================================================================
       use ManagerModule
       implicit none
+      include 'string.pub'                        
 
 !+  Sub-Program Arguments
        character     Variable_Value*(*) ! (INPUT) Value to push on g%stack
@@ -2724,7 +2646,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !      jngh 24/2/95 put in calls to assign string
 
 !- Implementation Section ----------------------------------
-
+ 
        g%number_of_variables = g%number_of_variables + 1
        if (g%number_of_variables .gt. Variable_maximum) then
           call   Parse_error('Too many variables  ',
@@ -2735,8 +2657,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
        else
          ! we have a problem elsewhere
        endif
-
-
+ 
+ 
        return
        end
 
@@ -2747,6 +2669,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! =====================================================================
       use ManagerModule
       implicit none
+      include 'string.pub'                        
 
 !+  Purpose
 !     Get the string off the top of the stack.
@@ -2756,9 +2679,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !      jngh 24/2/95 put in calls to assign string
 
 !- Implementation Section ----------------------------------
-
+ 
        g%number_of_variables = g%number_of_variables - 1
-
+ 
        if (g%number_of_variables .lt. 0) then
           call   Parse_error('Too few variables   ',
      .                       'pop_stack           ')
@@ -2768,8 +2691,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
        else
          ! we have a problem elsewhere
        endif
-
-
+ 
+ 
        return
        end
 
@@ -2780,6 +2703,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! =====================================================================
       use ManagerModule
       implicit none
+      include 'string.pub'                        
 
 !+  Purpose
 !     Get the next token off the sub array.
@@ -2789,18 +2713,18 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !      jngh 24/2/95 put in calls to assign string
 
 !- Implementation Section ----------------------------------
-
+ 
        g%current_token = g%current_token + 1
        if     (g%current_token .gt. g%number_of_tokens+1) then
               call   Parse_error('Too many tokens     ',
      .                           'Get_sub_token       ')
        endif
-
+ 
        call assign_string (g%buffer
      :                   , g%expression_sub_array(g%current_token))
        g%token = g%expression_sub_array2(g%current_token)
-
-
+ 
+ 
        return
        end
 
@@ -2811,6 +2735,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! =====================================================================
       use ManagerModule
       implicit none
+      include 'string.pub'                        
 
 !+  Sub-Program Arguments
        character     Token_array(*)*(*)
@@ -2824,17 +2749,17 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !      jngh 24/2/95 put in calls to assign string
 
 !- Implementation Section ----------------------------------
-
+ 
        g%next_token = g%next_token + 1
-
+ 
        call assign_string (g%buffer, Token_array(g%next_token))
        g%token = Token_array2(g%next_token)
-
+ 
        if     (g%token .eq. C_EOF) then
               g%end_of_file = YES
        endif
-
-
+ 
+ 
        return
        end
 
@@ -2845,6 +2770,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! =====================================================================
       use ManagerModule
       implicit none
+      include 'string.pub'                        
 
 !+  Sub-Program Arguments
        character     Token_array(*)*(*)
@@ -2861,17 +2787,17 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !   Constant values*      none
 
 !- Implementation Section ----------------------------------
-
+ 
        if (g%token .ne. C_EOL) then
           call   Check_previous_word
-
+ 
           g%number_expressions = g%number_expressions + 1
           call assign_string (g%expression_array(g%number_expressions)
      :                      , g%buffer)
           g%expression_array2(g%number_expressions) = g%token
           call   Get_next_token(Token_array, Token_array2)
        endif
-
+ 
 10     continue
        if (g%all_ok .eq. YES) then
           if (g%token .eq. C_WORD        .or.
@@ -2884,22 +2810,22 @@ C     Last change:  P    25 Oct 2000    9:26 am
      :        g%token .eq. C_LEFT_PAREN  .or.
      .        g%token .eq. C_RIGHT_PAREN .or.
      :        g%token .eq. C_LITERAL)    then
-
+ 
               call   Check_previous_word
               g%number_expressions = g%number_expressions + 1
               call assign_string (
      :             g%expression_array(g%number_expressions), g%buffer)
               g%expression_array2(g%number_expressions) = g%token
-
+ 
               call   Get_next_token(Token_array, Token_array2)
               goto   10
           endif
-
+ 
           if (g%token .eq. C_EOL) then
              call   Get_next_token(Token_array, Token_array2)
              goto   10
           endif
-
+ 
           if (g%token .eq. C_EQUAL          .or.
      :        g%token .eq. C_NOT_EQUAL      .or.
      :        g%token .eq. C_LESS_THAN      .or.
@@ -2909,13 +2835,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
      :        g%token .eq. C_AND            .or.
      .        g%token .eq. C_OR             .or.
      :        g%token .eq. C_THEN)          then
-
+ 
              call   Check_previous_word
              g%save_token = g%token
           endif
        endif
-
-
+ 
+ 
        return
        end
 
@@ -2935,7 +2861,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !      TM - 21/11/94
 
 !- Implementation Section ----------------------------------
-
+ 
        if (g%token .eq. C_WORD    .or.
      :     g%token .eq. C_NUMBER  .or.
      .     g%token .eq. C_LITERAL) then
@@ -2956,8 +2882,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
              endif
           endif
        endif
-
-
+ 
+ 
        return
        end
 
@@ -2966,8 +2892,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! =====================================================================
        character*(*) function Real_or_not (Variable_Value)
 ! =====================================================================
-      use ManagerModule
       implicit none
+      include 'datastr.pub'                       
 
 !+  Sub-Program Arguments
        character*(*) Variable_Value
@@ -2984,16 +2910,16 @@ C     Last change:  P    25 Oct 2000    9:26 am
        integer          Double_flag
 
 !- Implementation Section ----------------------------------
-
+ 
        call Str_to_double_var(Variable_value, Temp, Double_flag)
-
+ 
        if     (Double_flag .eq. 0) then
               call Real_var_to_string(real(Temp), Variable_value)
        endif
-
-
+ 
+ 
        Real_or_not = Variable_Value
-
+ 
        return
        end
 
@@ -3004,6 +2930,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! =====================================================================
       use ManagerModule
       implicit none
+       include 'const.inc'
+      include 'string.pub'                        
+      include 'error.pub'                         
 
 !+  Sub-Program Arguments
        character     Token_array(*)*(*)
@@ -3022,6 +2951,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !                    and get Action Strings as one Token
 !     sb - 19/11/97 put in fix to ensure there is a c_eol before c_eof
 
+!+  Calls
+       character     string_concat*(500) ! function
+
 !+  Local Variables
        integer       ind                  ! loop index
        integer       count                ! loop index
@@ -3029,31 +2961,31 @@ C     Last change:  P    25 Oct 2000    9:26 am
        integer       if_count             !
 
 !- Implementation Section ----------------------------------
-
+ 
        g%first = 0
        g%last  = 0
        g%end_of_file = 0
        elseif_count = 0
        if_count = 0
-
+ 
        ind = g%start_token - 1
        if (ind .lt. 0) then
           ind = 0
        endif
        call   Get_Char()
-
+ 
 10     continue
-
+ 
        if (ind .ge. maxtokens-1) then
-          call error('Token array limit exceeded', .true.)
-
+          call fatal_error (err_internal, 'Token array limit exceeded')
+ 
        else
           call   Get_Token_from_file()
-
+ 
           if   (g%token .eq. C_IF .and. elseif_count .gt. 0) then
                if_count = if_count + 1
           endif
-
+ 
           if   (g%token .eq. C_ENDIF .and. elseif_count .gt. 0) then
                if  (if_count .gt. 0) then
                    if_count = if_count - 1
@@ -3068,7 +3000,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
                    elseif_count = 0
                endif
           endif
-
+ 
           if   (g%token .eq. C_ELSEIF) then
                elseif_count  = elseif_count + 1
                g%token = C_ELSE
@@ -3079,41 +3011,41 @@ C     Last change:  P    25 Oct 2000    9:26 am
                g%token = C_IF
                g%buffer = 'if'
           endif
-
+ 
           if   (g%token .eq. C_NUMBER .and. ind .ge. 2 .and.
      :           Token_array2(ind) .eq. C_MINUS .and.
      :           Token_array2(ind-1) .ne. C_NUMBER .and.
      :           Token_array2(ind-1) .ne. C_WORD) then
-
+ 
                  call assign_string (g%buffer, '-'//g%buffer)
                  ind = ind -1
         endif
-
+ 
           if   (ind .ge. 1 .and. g%token .eq. C_WORD .and.
      :          Token_array2(ind) .eq. C_WORD) then
-
+ 
                 g%buffer = string_concat (Token_Array(ind),
      :                                          ' '//g%buffer)
                call Get_Action()
                g%token = C_ACTION
                ind = ind - 1
           endif
-
+ 
           ind = ind + 1
           call assign_string (Token_array(ind), g%buffer)
           Token_array2(ind) = g%token
-
+ 
           if     (g%end_of_file .eq. 0) then
               goto 10
           endif
        endif
-
+ 
        if (token_array2(ind) .ne. c_eol) then
           ind = ind+1
           token_array2(ind) = c_eol
        end if
        Token_array2(ind+1) = C_EOF
-
+ 
        g%last_token = ind
        return
        end
@@ -3135,26 +3067,26 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !     DPH - 3/6/96    - Removed check for quote character - not needed.
 
 !- Implementation Section ----------------------------------
-
+ 
 10     continue
-
+ 
        if     (g%ch .ge. 'a' .and. g%ch .le. 'z') then
               call   Get_Word()
-
+ 
        elseif (g%ch .ge. '0' .and. g%ch .le. '9') then
               call   Get_Number()
-
+ 
        elseif (g%ch .eq. '''') then
               call Get_Literal()
-
+ 
        else
               call   Get_Special()
               if     (g%token .eq. C_SPACE) then
                      goto 10
               end if
-
+ 
        endif
-
+ 
        return
        end
 
@@ -3165,6 +3097,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! =====================================================================
       use ManagerModule
       implicit none
+      include 'string.pub'                        
 
 !+  Purpose
 !     Get the next character from the manager file.
@@ -3175,7 +3108,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !+  Calls
 
 !- Implementation Section ----------------------------------
-
+ 
        g%first = g%first + 1
        if     (g%first .gt. g%last) then
            call    assign_string (g%last_line, g%line)
@@ -3187,7 +3120,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
        else
               g%ch = g%line(g%first:g%first)
        end if
-
+ 
        return
        end
 
@@ -3198,6 +3131,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! =====================================================================
       use ManagerModule
       implicit none
+      include 'string.pub'                        
 
 !+  Purpose
 !     Get the next word token from the manager file.
@@ -3208,6 +3142,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !     JNGH - 23/4/98 - added % character to variable name list
 
 !+  Calls
+       character     string_concat*(Buffer_size)
+                                          ! function
        logical       Reserved             ! function
 
 !+  Local Variables
@@ -3221,13 +3157,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
           g%buffer = g%ch
           Inside_quotes = .false.
        endif
-
+ 
        left = 0
-
+ 
 10     continue
-
+ 
        call   Get_Char()
-
+ 
       if (g%ch .eq. '''') then
          if (Inside_quotes) then
             Inside_quotes = .false.
@@ -3235,7 +3171,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
             Inside_quotes = .true.
          endif
          goto 10
-
+ 
       else if (Inside_quotes .or.
      .     (g%ch .ge. 'a' .and. g%ch .le. 'z') .or.
      .      g%ch .eq. '.' .or.
@@ -3246,28 +3182,28 @@ C     Last change:  P    25 Oct 2000    9:26 am
      :      g%ch .eq. ']'     .or.
      :      g%ch .eq. '(')     .or.
      .      (g%ch .eq. ')' .and. left .gt. 0))   then
-
+ 
           g%buffer = string_concat(g%buffer, g%ch)
-
+ 
           if  (g%ch .eq. '(') then
                left = left + 1
           endif
-
+ 
           if  (g%ch .eq. ')') then
                left = left - 1
           endif
-
+ 
           goto 10
        endif
-
-
-
+ 
+ 
+ 
        if     (Reserved()) then
               ! reserved word
        else
               g%token = C_WORD
        endif
-
+ 
        return
        end
 
@@ -3278,6 +3214,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! =====================================================================
       use ManagerModule
       implicit none
+      include 'string.pub'                        
 
 !+  Purpose
 !     Get the next word in quotes from the manager file.
@@ -3285,24 +3222,28 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !+  Changes
 !      TM - 06/12/94
 
+!+  Calls
+       character     string_concat*(Buffer_size)
+                                          ! function
+
 !- Implementation Section ----------------------------------
-
+ 
        g%buffer = ' '
-
+ 
 10     continue
-
+ 
        call   Get_Char()
-
+ 
        if (g%ch .ne. '''') then
               g%buffer = string_concat (g%buffer, g%ch)
               goto 10
        endif
-
+ 
        call   Get_Char()
-
+ 
        g%token = C_LITERAL
-
-
+ 
+ 
        return
        end
 
@@ -3313,6 +3254,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! =====================================================================
       use ManagerModule
       implicit none
+      include 'string.pub'                        
 
 !+  Purpose
 !     Get the next number token from the manager file.
@@ -3320,23 +3262,27 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !+  Changes
 !      TM - 21/11/94
 
+!+  Calls
+       character     string_concat*(Buffer_size)
+                                          ! function
+
 !- Implementation Section ----------------------------------
-
-
+ 
+ 
        g%buffer = g%ch
 10     continue
-
+ 
        call Get_Char()
-
+ 
        if ((g%ch .ge. '0' .and. g%ch .le. '9')  .or.
      :     (g%ch .eq. '.'))                     then
               g%buffer = string_concat (g%buffer, g%ch)
               goto 10
        end if
-
-
+ 
+ 
        g%token = C_NUMBER
-
+ 
        return
        end
 
@@ -3347,6 +3293,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! =====================================================================
       use ManagerModule
       implicit none
+      include 'const.inc'
+      include 'string.pub'                        
+      include 'error.pub'                         
 
 !+  Purpose
 !     Get the next special token from the manager file.
@@ -3354,29 +3303,29 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !+  Changes
 !      TM - 21/11/94
 !      JNGH - 23/4/98 added warning error when special character found
-!      DPH  - 4/12/00 changed warning error to fatal error for special character
+!      DPH  - 4/12/00 changed warning error to fatal error for special character 
 
 !+  Local Variables
       character str*200
       integer   i
 
 !- Implementation Section ----------------------------------
-
+ 
        g%buffer = g%ch
-
-
+ 
+ 
        if (g%ch .eq. '-') then
               g%token = C_MINUS
               call Get_Char()
-
+ 
        elseif (g%ch .eq. '+') then
               g%token = C_PLUS
               call Get_Char()
-
+ 
        elseif (g%ch .eq. '^') then
               g%token = C_POWER
               call Get_Char()
-
+ 
        elseif (g%ch .eq. '*') then
               g%token = C_MULTIPLY
               call Get_Char()
@@ -3385,15 +3334,15 @@ C     Last change:  P    25 Oct 2000    9:26 am
                      g%token = C_POWER
                      call Get_Char()
               endif
-
+ 
        elseif (g%ch .eq. '/') then
               g%token = C_DIVIDE
               call Get_Char()
-
+ 
        elseif (g%ch .eq. '=') then
               g%token = C_EQUAL
               call Get_Char()
-
+ 
        elseif (g%ch .eq. '<') then
               g%token = C_LESS_THAN
               call Get_Char()
@@ -3406,7 +3355,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
                      g%token = C_LESS_EQUAL
                      call Get_Char()
               endif
-
+ 
        elseif (g%ch .eq. '>') then
               g%token = C_GREATER_THAN
               call Get_Char()
@@ -3415,26 +3364,26 @@ C     Last change:  P    25 Oct 2000    9:26 am
                      g%token = C_GREATER_EQUAL
                      call Get_Char()
               endif
-
+ 
        elseif (g%ch .eq. '(') then
               g%token = C_LEFT_PAREN
               call Get_Char()
-
+ 
        elseif (g%ch .eq. ')') then
               g%token = C_RIGHT_PAREN
               call Get_Char()
-
+ 
        elseif (g%ch .eq. ';') then
               g%token = C_EOL
               call Get_Char()
-
+ 
        elseif (g%ch .eq. ' ') then
               g%token = C_SPACE
               call Get_Char()
-
+ 
        else
               g%token = C_SPECIAL
-
+ 
              write (str, '(200a)' )
      .      'Cannot use character "',
      :      g%ch,
@@ -3443,15 +3392,15 @@ C     Last change:  P    25 Oct 2000    9:26 am
      :      trim(g%line),
      :      new_line,
      :      (blank, i=1,g%first-1), '^'
-
-            call error(str, .true.)
-
-
+ 
+            call fatal_error(ERR_user, str)
+ 
+ 
               call Get_Char()
-
+ 
        endif
-
-
+ 
+ 
        return
        end
 
@@ -3462,6 +3411,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! =====================================================================
       use ManagerModule
       implicit none
+      include 'string.pub'                        
 
 !+  Purpose
 !     Get the entire line from the manager file.
@@ -3470,20 +3420,20 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !      TM - 29/09/95
 
 !- Implementation Section ----------------------------------
-
+ 
        if (g%ch .eq. ';') then
           call assign_string (g%buffer, g%last_line)
       else
           call assign_string (g%buffer, g%line)
        endif
-
-
+ 
+ 
 10     continue
        if (g%ch .ne. ';') then
           call   Get_Char()
           goto 10
        endif
-
+ 
        return
        end
 
@@ -3520,18 +3470,18 @@ C     Last change:  P    25 Oct 2000    9:26 am
        integer       ind                  ! loop index
 
 !- Implementation Section ----------------------------------
-
+ 
        Found = .false.
-
+ 
        do 10  ind = 1, Num_reserved_words
               if (g%buffer .eq. Reserved_word_array(ind)) then
                      Found = .true.
                      g%token = Reserved_word_array2(ind)
               endif
 10     continue
-
+ 
        Reserved = Found
-
+ 
        return
        end
 

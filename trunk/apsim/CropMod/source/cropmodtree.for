@@ -1,9 +1,78 @@
+C     Last change:  E    14 Sep 2001    1:43 pm
+
+*     ===========================================================
+      subroutine Crop_Read_Constants ()
+*     ===========================================================
+      use CropModModule
+      implicit none
+      include   'const.inc'
+      include 'read.pub'
+      include 'error.pub'
+      include 'datastr.pub'
+
+*+  Purpose
+*       Crop initialisation - reads constants from constants file
+
+*+  Changes
+*     010994 sc   specified and programmed
+*     070495 psc added extra constants (leaf_app etc.)
+*     110695 psc added soil temp effects on plant establishment
+*     270995 scc added leaf area options
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name  = 'Crop_Read_Constants')
+*
+      character  section_name*(*)
+      parameter (section_name = 'constants')
+
+
+*+  Local Variables
+      integer    numvals               !number of values returned
+
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+
+      if (c%crop_type.eq.'wheat') then
+
+         call Read_Constants      ()
+         call Read_Constants_Wheat()
+
+      elseif (c%crop_type.eq.'sunflower') then
+
+         call Read_Constants      ()
+         call Read_Constants_Sunf ()
+
+
+      elseif (c%crop_type.eq.'sorghum') then
+         call Read_Constants_Sorghum ()
+
+      elseif (c%crop_type.eq.'maize') then
+         call Read_Constants_Maize ()
+
+
+      else
+
+         call Read_Constants_Wheat()
+
+      endif
+
+      call pop_routine (my_name)
+      return
+      end
+
+
 *     ===========================================================
       subroutine Crop_Read_Cultivar_Params (cultivar)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include   'const.inc'            ! new_line,  blank
+      include 'read.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       character  cultivar*(*)          ! (INPUT) keyname of cultivar in crop
@@ -39,20 +108,17 @@
 
            call Read_Cultivar_Params_Wheat (cultivar)
 
-cdg        elseif (c%crop_type .eq. 'sunflower') then
-cdg
-c           call Read_Cultivar_Params_Sunf (cultivar)
-c
-c        elseif (c%crop_type .eq. 'sorghum') thenc
-c
-c           call Read_Cultivar_Params_Sorghum (cultivar)
-c
-c        elseif (c%crop_type .eq. 'maize') then
-c
-c           call Read_Cultivar_Params_Maize (cultivar)
+        elseif (c%crop_type .eq. 'sunflower') then
 
-c       print*, '*** Calls to sunf, sorg or maize are commented out in
-c     :       Crop_Read_Cultivar_Params in cropmodtree.for'
+           call Read_Cultivar_Params_Sunf (cultivar)
+
+        elseif (c%crop_type .eq. 'sorghum') then
+
+           call Read_Cultivar_Params_Sorghum (cultivar)
+
+        elseif (c%crop_type .eq. 'maize') then
+
+           call Read_Cultivar_Params_Maize (cultivar)
 
         else
 
@@ -80,10 +146,16 @@ c     :       Crop_Read_Cultivar_Params in cropmodtree.for'
 *+  Include section
 
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
 
+      include 'const.inc'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
+      include 'crp_biom.pub'
+      include 'crp_util.pub'
+      include 'crp_temp.pub'
 
 
       INTEGER GetSwitchCode
@@ -224,8 +296,12 @@ c      call leaf_area_potential       (GetSwitchCode(c%can_switch,2))
       subroutine water_supply (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'science.pub'
+      include 'data.pub'
+      include 'crp_watr.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option   !(INPUT) template option number
@@ -292,7 +368,7 @@ c      call leaf_area_potential       (GetSwitchCode(c%can_switch,2))
          !This module is excluded from the model
       else
 
-          call error('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
 
@@ -314,8 +390,13 @@ c      call leaf_area_potential       (GetSwitchCode(c%can_switch,2))
       subroutine water_demand (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'crp_watr.pub'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
+      include 'convert.inc'  ! g2mm, mb2kpa
 
 *+  Sub-Program Arguments
       integer Option ! (INPUT) template option number
@@ -368,9 +449,15 @@ c      call leaf_area_potential       (GetSwitchCode(c%can_switch,2))
          call cproc_sw_demand1(
      :                     g%dlt_dm_light
      :                   , g%transp_eff
-     :                   , g%sw_demand
+     :                   , g%sw_demand_te
      :                     )
 
+         call cproc_sw_demand_bound(
+     :         g%sw_demand_te
+     :        ,p%eo_crop_factor
+     :        ,g%eo
+     :        ,g%cover_green
+     :        ,g%sw_demand)
 
       g%vpd = c%svp_fract* (svp (g%maxt) - svp (g%mint))
 
@@ -393,15 +480,23 @@ c      call leaf_area_potential       (GetSwitchCode(c%can_switch,2))
         call cproc_sw_demand1(
      :                     g%dlt_dm_light
      :                   , g%transp_eff
-     :                   , g%sw_demand
+     :                   , g%sw_demand_te
      :                     )
+
+         call cproc_sw_demand_bound(
+     :         g%sw_demand_te
+     :        ,p%eo_crop_factor
+     :        ,g%eo
+     :        ,g%cover_green
+     :        ,g%sw_demand)
+
 
       else if (Option.eq.0) then
 
          !This module is excluded from the model
 
       else
-         call error('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
 
@@ -420,8 +515,13 @@ c      call leaf_area_potential       (GetSwitchCode(c%can_switch,2))
       subroutine water_uptake (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'science.pub'
+      include 'data.pub'
+      include 'crp_watr.pub'
+      include 'crp_comm.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option      ! (INPUT) template option number
@@ -446,20 +546,20 @@ c     integer    deepest_layer
       call push_routine (my_name)
 
       if (p%uptake_source .eq. 'apsim') then
-cdsg  not used anymore         call crop_get_ext_uptakes(
-c     :                    p%uptake_source   ! uptake flag
-c     :                   ,c%crop_type       ! crop type
-c     :                   ,'water'           ! uptake name
-c     :                   ,1.0               ! unit conversion factor
-c     :                   ,0.0               ! uptake lbound
-c     :                   ,100.0             ! uptake ubound
-c     :                   ,ext_sw_supply     ! uptake array
-c     :                   ,max_layer         ! array dim
-c     :                   )
+         call crop_get_ext_uptakes(
+     :                    p%uptake_source   ! uptake flag
+     :                   ,c%crop_type       ! crop type
+     :                   ,'water'           ! uptake name
+     :                   ,1.0               ! unit conversion factor
+     :                   ,0.0               ! uptake lbound
+     :                   ,100.0             ! uptake ubound
+     :                   ,ext_sw_supply     ! uptake array
+     :                   ,max_layer         ! array dim
+     :                   )
 
-c         do layer = 1, g%num_layers
-c            g%dlt_sw_dep(layer) = -ext_sw_supply(layer)
-c         enddo
+         do layer = 1, g%num_layers
+            g%dlt_sw_dep(layer) = -ext_sw_supply(layer)
+         enddo
 
 
       elseif ((Option.eq.1).OR.(Option.eq.2).OR.(Option.eq.3)) then
@@ -477,7 +577,7 @@ c         enddo
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (my_name)
@@ -490,9 +590,14 @@ c         enddo
       subroutine water_stress(Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'crp_watr.pub'
+      include 'crp_comm.pub'
+      include 'error.pub'
 
+      include 'science.pub'
+      include 'data.pub'
 
 *+  Sub-Program Arguments
       integer    Option       ! (INPUT) option number
@@ -517,30 +622,30 @@ c      REAL    deepest_layer
       call push_routine (my_name)
 
 
-c       if (p%uptake_source .eq. 'apsim') then
+       if (p%uptake_source .eq. 'apsim') then
             ! this would have been avoided if we have
             ! each stress factor in its own routine! - NIH
             ! photo requires (really) actually water uptake
             ! but expansion requires pot water uptake.
             ! we only have one supply variable.
 
-cdsg not used anymore            call crop_get_ext_uptakes(
-c     :                 p%uptake_source   ! uptake flag
-c     :                ,c%crop_type       ! crop type
-c     :                ,'water'           ! uptake name
-c     :                ,1.0               ! unit conversion factor
-c     :                ,0.0               ! uptake lbound
-c     :                ,100.0             ! uptake ubound
-c     :                ,used_sw_supply    ! uptake array - external supply
-c     :                ,max_layer         ! array dim
-c     :                )
-c       else
+            call crop_get_ext_uptakes(
+     :                 p%uptake_source   ! uptake flag
+     :                ,c%crop_type       ! crop type
+     :                ,'water'           ! uptake name
+     :                ,1.0               ! unit conversion factor
+     :                ,0.0               ! uptake lbound
+     :                ,100.0             ! uptake ubound
+     :                ,used_sw_supply    ! uptake array - external supply
+     :                ,max_layer         ! array dim
+     :                )
+       else
 
          do layer = 1, g%num_layers
             used_sw_supply(layer) = g%sw_supply(layer)
          enddo
 
-c       endif
+       endif
 
 
 
@@ -603,7 +708,7 @@ c       endif
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
 
@@ -628,8 +733,10 @@ c       endif
       subroutine vernalization (option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer option
@@ -717,7 +824,7 @@ c       endif
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (my_name)
@@ -729,8 +836,11 @@ c       endif
       subroutine photoperiodism (option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer option
@@ -780,7 +890,7 @@ c       endif
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (my_name)
@@ -791,8 +901,11 @@ c       endif
       subroutine phenology_initalisation (option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'error.pub'
+      include 'science.pub'
+      include 'crp_phen.pub'
 
 *+  Sub-Program Arguments
       integer option
@@ -979,105 +1092,102 @@ c      !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN 
 
       elseif (option.eq.4)  then
 
-cdg       call sunf_phen_init_new (
-c     .          g%current_stage,
-c     .          g%days_tot,
-c     .          c%shoot_lag,
-c     .          g%sowing_depth,
-c     .          c%shoot_rate,
-c     .          p%tt_emerg_to_endjuv,
-c     .          p%tt_endjuv_to_init,
-c     .          g%day_of_year,
-c     .          g%latitude,
-c     .          c%twilight,
-c     .          p%photoperiod_crit1,
-c     .          p%photoperiod_crit2,
-c     .          p%photoperiod_slope,
-c     .          g%leaf_no_final,
-c     .          c%leaf_no_rate_change,
-c     .          c%leaf_no_at_emerg,
-c     .          p%determinate_crop,
-c     .          p%x_node_num_lar,
-c     .          p%y_node_lar,
-c     .          p%tt_fi_to_flag,
-c     .          p%tt_flag_to_flower,
-c     .          p%tt_flower_to_start_grain,
-c     .          p%tt_flower_to_maturity,
-c     .          p%tt_maturity_to_ripe,
-c     .          g%phase_tt)
+       call sunf_phen_init_new (
+     .          g%current_stage,
+     .          g%days_tot,
+     .          c%shoot_lag,
+     .          g%sowing_depth,
+     .          c%shoot_rate,
+     .          p%tt_emerg_to_endjuv,
+     .          p%tt_endjuv_to_init,
+     .          g%day_of_year,
+     .          g%latitude,
+     .          c%twilight,
+     .          p%photoperiod_crit1,
+     .          p%photoperiod_crit2,
+     .          p%photoperiod_slope,
+     .          g%leaf_no_final,
+     .          c%leaf_no_rate_change,
+     .          c%leaf_no_at_emerg,
+     .          p%determinate_crop,
+     .          p%x_node_num_lar,
+     .          p%y_node_lar,
+     .          p%tt_fi_to_flag,
+     .          p%tt_flag_to_flower,
+     .          p%tt_flower_to_start_grain,
+     .          p%tt_flower_to_maturity,
+     .          p%tt_maturity_to_ripe,
+     .          g%phase_tt)
 
 
       elseif (option.eq.5)  then
 
-cdsg      call sorg_phen_init (
-!previously commented     .          germ_stage,
+      call sorg_phen_init (
+!     .          germ_stage,
 !     .          emerg_stage,
 !     .          begin_PP_sensitive_stage, !end_juv
 !     .          germ_stage,
 
-c     .          g%current_stage,
-c     .          g%days_tot,
-c     .          c%shoot_lag,
-c     .          g%sowing_depth,
-c     .          c%shoot_rate,
-c     .          p%tt_emerg_to_endjuv,
-c     .          p%tt_endjuv_to_init,
-c     .          g%day_of_year,
-c     .          g%latitude,
-c     .          c%twilight,
-c     .          p%photoperiod_crit1,
-c     .          p%photoperiod_crit2,
-c     .          p%photoperiod_slope,
-c     .          g%leaf_no_final,
-c     .          c%leaf_no_rate_change,
-c     .          c%leaf_no_at_emerg,
-c     .          c%leaf_app_rate1,
-c     .          c%leaf_app_rate2,
-c     .          p%tt_flag_to_flower,
-c     .          p%tt_flower_to_start_grain,
-c     .          p%tt_flower_to_maturity,
-c     .          p%tt_maturity_to_ripe,
-c     .          g%phase_tt)
+     .          g%current_stage,
+     .          g%days_tot,
+     .          c%shoot_lag,
+     .          g%sowing_depth,
+     .          c%shoot_rate,
+     .          p%tt_emerg_to_endjuv,
+     .          p%tt_endjuv_to_init,
+     .          g%day_of_year,
+     .          g%latitude,
+     .          c%twilight,
+     .          p%photoperiod_crit1,
+     .          p%photoperiod_crit2,
+     .          p%photoperiod_slope,
+     .          g%leaf_no_final,
+     .          c%leaf_no_rate_change,
+     .          c%leaf_no_at_emerg,
+     .          c%leaf_app_rate1,
+     .          c%leaf_app_rate2,
+     .          p%tt_flag_to_flower,
+     .          p%tt_flower_to_start_grain,
+     .          p%tt_flower_to_maturity,
+     .          p%tt_maturity_to_ripe,
+     .          g%phase_tt)
 
 
       elseif (option.eq.6)  then
 
-cdsg       call maize_phen_init (
-c     :          g%current_stage
-c     :        , g%days_tot
-c     :        , c%shoot_lag
-c     :        , g%sowing_depth
-c     :        , c%shoot_rate
-c     :        , p%tt_emerg_to_endjuv
-c     :        , p%tt_endjuv_to_init
-c     :        , g%day_of_year
-c     :        , g%latitude
-c     :        , c%twilight
-c     :        , p%photoperiod_crit1
-c     :        , p%photoperiod_crit2
-c     :        , p%photoperiod_slope
-c     :        , g%leaf_no_final
-c     :        , c%leaf_no_rate_change
-c     :        , c%leaf_no_at_emerg
-c     :        , c%leaf_app_rate1
-c     :        , c%leaf_app_rate2
-c     :        , g%tt_tot
-c     :        , p%tt_flag_to_flower
-c     :        , p%tt_flower_to_start_grain
-c     :        , p%tt_flower_to_maturity
-c     :        , p%tt_maturity_to_ripe
-c     :        , g%phase_tt)
+       call maize_phen_init (
+     :          g%current_stage
+     :        , g%days_tot
+     :        , c%shoot_lag
+     :        , g%sowing_depth
+     :        , c%shoot_rate
+     :        , p%tt_emerg_to_endjuv
+     :        , p%tt_endjuv_to_init
+     :        , g%day_of_year
+     :        , g%latitude
+     :        , c%twilight
+     :        , p%photoperiod_crit1
+     :        , p%photoperiod_crit2
+     :        , p%photoperiod_slope
+     :        , g%leaf_no_final
+     :        , c%leaf_no_rate_change
+     :        , c%leaf_no_at_emerg
+     :        , c%leaf_app_rate1
+     :        , c%leaf_app_rate2
+     :        , g%tt_tot
+     :        , p%tt_flag_to_flower
+     :        , p%tt_flower_to_start_grain
+     :        , p%tt_flower_to_maturity
+     :        , p%tt_maturity_to_ripe
+     :        , g%phase_tt)
 
       elseif (Option.eq.0) then
 
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
-c      print*, '**** Calls to other crop phen_inits commented out in
-c     : sub phenology_init in cropmodtree.for'
 
       call pop_routine (my_name)
       return
@@ -1090,8 +1200,11 @@ c     : sub phenology_init in cropmodtree.for'
        subroutine phenology (Option)
 * ====================================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'convert.inc'
+      include 'error.pub'
+      include 'crp_phen.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -1192,48 +1305,48 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
 
       elseif (Option.eq.4) then
 
-c      print*, '**** Sorg phenology call commented out'
-cdsg         call sorg_phenology2 (
-c     .       g%previous_stage,
-c     .       g%current_stage,
-c
-c     .       g%maxt, g%mint,
-c     .       c%x_temp, c%y_tt,
-c     .       c%num_temp, g%dlt_tt,
-c
-c     :       c%num_sw_avail_ratio,
-c     :       c%x_sw_avail_ratio, c%y_swdef_pheno, g%dlayer,
-c     :       g%root_depth, g%sw_avail, g%sw_avail_pot, g%swdef_pheno,
+         call sorg_phenology2 (
+     .       g%previous_stage,
+     .       g%current_stage,
 
-c     .       g%dm_green,
-c     .       g%N_conc_crit, g%N_conc_min, g%N_green,
-c     .       c%N_fact_pheno, g%nfact_pheno,
+     .       g%maxt, g%mint,
+     .       c%x_temp, c%y_tt,
+     .       c%num_temp, g%dlt_tt,
 
-c     .          g%days_tot,
-c     .          g%sowing_depth,
-c     .          g%tt_tot,
-c     .          g%phase_tt,
+     :       c%num_sw_avail_ratio,
+     :       c%x_sw_avail_ratio, c%y_swdef_pheno, g%dlayer,
+     :       g%root_depth, g%sw_avail, g%sw_avail_pot, g%swdef_pheno,
 
-c     .          g%sw_dep,
-c     .          p%ll_dep,
-c     .          c%pesw_germ,
+     .       g%dm_green,
+     .       g%N_conc_crit, g%N_conc_min, g%N_green,
+     .       c%N_fact_pheno, g%nfact_pheno,
 
-c     .          g%dlt_stage,
+     .          g%days_tot,
+     .          g%sowing_depth,
+     .          g%tt_tot,
+     .          g%phase_tt,
 
-c     .          c%tt_base,
-c     .          c%tt_opt,
-c     .          g%tt_tot_fm,
-c     .          g%dlt_tt_fm,
-c     .          g%sw_supply_demand_ratio,
-c     .          p%tt_switch_stage)                                   !<------------- Enli added the switch
+     .          g%sw_dep,
+     .          p%ll_dep,
+     .          c%pesw_germ,
+
+     .          g%dlt_stage,
+
+     .          c%tt_base,
+     .          c%tt_opt,
+     .          g%tt_tot_fm,
+     .          g%dlt_tt_fm,
+     .          g%sw_supply_demand_ratio,
+     .          p%tt_switch_stage)                                   !<------------- Enli added the switch
 
       else if (Option.eq.0) then
 
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
+
 
       call zadok_stage_decimal_code(
      .          emerg,
@@ -1261,9 +1374,15 @@ c     .          p%tt_switch_stage)                                   !<--------
       subroutine biomass_rue (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'crp_biom.pub'
+      include 'error.pub'
+      include 'crp_util.pub'
+      include 'crp_temp.pub'
 
+      include 'science.pub'
+      include 'data.pub'
 
 
 *+  Sub-Program Arguments
@@ -1487,7 +1606,7 @@ c     .          p%tt_switch_stage)                                   !<--------
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (my_name)
@@ -1499,8 +1618,12 @@ c     .          p%tt_switch_stage)                                   !<--------
       subroutine biomass_te (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'crp_watr.pub'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1604,7 +1727,7 @@ c     .          p%tt_switch_stage)                                   !<--------
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (my_name)
@@ -1616,8 +1739,12 @@ c     .          p%tt_switch_stage)                                   !<--------
       subroutine biomass_actual (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'crp_watr.pub'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1672,7 +1799,7 @@ c     .          p%tt_switch_stage)                                   !<--------
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (my_name)
@@ -1687,8 +1814,9 @@ c     .          p%tt_switch_stage)                                   !<--------
       subroutine biomass_initialisation (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1774,38 +1902,37 @@ c     .          p%tt_switch_stage)                                   !<--------
 
       elseif (Option.eq.4) then
 
-c      print*, '*** call to sorg_dm_init commented out'
-cdsg         call sorg_dm_init (g%current_stage,
-c     .          g%days_tot,
-c     .          c%dm_root_init,
-c     .          g%plants,
-c     .          c%dm_stem_init,
-c     .          c%dm_leaf_init,
-c     :          c%flower_trans_frac,   !added for sunflower
-c     .          c%stem_trans_frac,
-c     .          c%leaf_trans_frac,
-c     .          g%dm_green,
-c     .          g%dm_plant_min)
+         call sorg_dm_init (g%current_stage,
+     .          g%days_tot,
+     .          c%dm_root_init,
+     .          g%plants,
+     .          c%dm_stem_init,
+     .          c%dm_leaf_init,
+     :          c%flower_trans_frac,   !added for sunflower
+     .          c%stem_trans_frac,
+     .          c%leaf_trans_frac,
+     .          g%dm_green,
+     .          g%dm_plant_min)
 
 
       elseif (Option.eq.6) then
-c      print*, '*** call to maize_dm_init commented out'
-cdsg         call Maize_dm_init (g%current_stage
-c     :        , g%days_tot
-c     :        , c%dm_root_init
-c     :        , g%plants
-c     :        , c%dm_stem_init
-c     :        , c%dm_leaf_init
-c     :        , c%stem_trans_frac
-c     :        , c%leaf_trans_frac
-c     :        , g%dm_green, g%dm_plant_min)
+
+         call Maize_dm_init (g%current_stage
+     :        , g%days_tot
+     :        , c%dm_root_init
+     :        , g%plants
+     :        , c%dm_stem_init
+     :        , c%dm_leaf_init
+     :        , c%stem_trans_frac
+     :        , c%leaf_trans_frac
+     :        , g%dm_green, g%dm_plant_min)
 
       else if (Option.eq.0) then
 
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (my_name)
@@ -1817,8 +1944,12 @@ c     :        , g%dm_green, g%dm_plant_min)
       subroutine biomass_yieldpart_demand (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'crp_biom.pub'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -1925,31 +2056,31 @@ c     :        , g%dm_green, g%dm_plant_min)
       else if (Option .eq. 4) then
 
           call biomass_grain_demand_stress (1)
-c      print*, '*** call to sunf_bio_yieldpart_demand1 commented out'
-cdsg          call sunf_bio_yieldpart_demand1
-c     :               (
-c     :                g%current_stage
-c     :              , flag_leaf ! Start Stress_stage
-c     :              , start_grain_fill
-c     :              , maturity
-c     :              , grain
-c     :              , root
-c     :              , max_part
-c     :              , g%dlt_dm
-c     :              , g%dm_green
-c     :              , g%dm_senesced
-c     :              , g%days_tot
-c     :              , g%dm_stress_max
-c     :              , p%hi_incr
-c     :              , p%x_hi_max_pot_stress
-c     :              , p%y_hi_max_pot
-c     :              , p%num_hi_max_pot
-c     :              , g%mint
-c     :              , g%dlt_dm_grain_demand
-c     :              , p%x_hi_incr_min_temp              !Enli added the following three variables (lookup tab)
-c     :              , p%y_hi_incr_reduct_fac
-c     :              , p%mum_hi_incr_min_temp
-c     :               )
+
+          call sunf_bio_yieldpart_demand1
+     :               (
+     :                g%current_stage
+     :              , flag_leaf ! Start Stress_stage
+     :              , start_grain_fill
+     :              , maturity
+     :              , grain
+     :              , root
+     :              , max_part
+     :              , g%dlt_dm
+     :              , g%dm_green
+     :              , g%dm_senesced
+     :              , g%days_tot
+     :              , g%dm_stress_max
+     :              , p%hi_incr
+     :              , p%x_hi_max_pot_stress
+     :              , p%y_hi_max_pot
+     :              , p%num_hi_max_pot
+     :              , g%mint
+     :              , g%dlt_dm_grain_demand
+     :              , p%x_hi_incr_min_temp              !Enli added the following three variables (lookup tab)
+     :              , p%y_hi_incr_reduct_fac
+     :              , p%mum_hi_incr_min_temp
+     :               )
 
 
 
@@ -1963,71 +2094,68 @@ c     :               )
      :              , g%dlt_dm_stress_max
      :               )
 
-c      print*, '*** call to sorg_dm_grain_source_sink commented out'
-cdsg           call sorg_dm_grain_source_sink (
-c     .          c%stem_trans_frac,
-c     .          c%leaf_trans_frac,
-c     .          g%current_stage,
-c     .          g%days_tot,
-c     .          g%dlt_dm,
-c     .          g%dlt_dm_grain_demand,
-c     .          g%grain_no,
-c     .          g%dlt_tt_fm,
-c     .          p%tt_flower_to_start_grain,
-c     .          p%tt_flower_to_maturity,
-c     .          g%dm_green,
-c     .          g%dm_dead,
-c     .          p%dm_per_seed,
-c     .          g%dm_green_tot_fi)
-c
+           call sorg_dm_grain_source_sink (
+     .          c%stem_trans_frac,
+     .          c%leaf_trans_frac,
+     .          g%current_stage,
+     .          g%days_tot,
+     .          g%dlt_dm,
+     .          g%dlt_dm_grain_demand,
+     .          g%grain_no,
+     .          g%dlt_tt_fm,
+     .          p%tt_flower_to_start_grain,
+     .          p%tt_flower_to_maturity,
+     .          g%dm_green,
+     .          g%dm_dead,
+     .          p%dm_per_seed,
+     .          g%dm_green_tot_fi)
+
 
       else if (Option .eq. 6) then
-c      print*, '*** call to maize_heat_stress & maize_grain_no2
-c     : commented out'
-cdsg          call Maize_heat_stress (g%maxt
-c     :                      , c%temp_grain_crit_stress
-c     :                      , g%dlt_heat_stress_tt)     ! high temperature stres
-c           call Maize_grain_no2(g%current_stage
-c     :        , g%days_tot
-c     :        , g%dm_plant_top_tot
-c     :        , c%grno_grate
-c     :        , c%grno_fract
-c     :        , c%num_grno_grate
-c     :        , p%head_grain_no_max
-c     :        , g%heat_stress_tt
-c     :        , c%htstress_coeff
-c     :        , g%N_conc_min
-c     :        , g%dm_green
-c     :        , g%N_green
-c     :        , g%plants
-c     :        , c%seed_wt_min
-c     :        , c%grain_N_conc_min
-c     :        , g%grain_no)              ! set grain number
 
-c      print*, '*** call to maize_dm_grain commented out'
-cdsg           call Maize_dm_grain (
-c     :          g%current_stage
-c     :        , g%maxt
-c     :        , g%mint
-c     :        , c%x_temp_grain
-c     :        , c%y_grain_rate
-c     :        , c%num_temp_grain
-c     :        , c%swdf_grain_min
-c     :        , g%grain_no
-c     :        , p%grain_gth_rate
-c     :        , g%N_conc_min
-c     :        , g%dm_green
-c     :        , g%N_green
-c     :        , c%temp_fac_min
-c     :        , c%tfac_slope
-c     :        , c%sw_fac_max
-c     :        , c%sfac_slope
-c     :        , g%N_conc_crit
-c     :        , g%swdef_photo
-c     :        , g%pfact_grain
-c     :        , g%swdef_expansion
-c     :        , g%nfact_grain_conc
-c     :    , g%dlt_dm_grain_demand)
+          call Maize_heat_stress (g%maxt
+     :                      , c%temp_grain_crit_stress
+     :                      , g%dlt_heat_stress_tt)     ! high temperature stres
+           call Maize_grain_no2(g%current_stage
+     :        , g%days_tot
+     :        , g%dm_plant_top_tot
+     :        , c%grno_grate
+     :        , c%grno_fract
+     :        , c%num_grno_grate
+     :        , p%head_grain_no_max
+     :        , g%heat_stress_tt
+     :        , c%htstress_coeff
+     :        , g%N_conc_min
+     :        , g%dm_green
+     :        , g%N_green
+     :        , g%plants
+     :        , c%seed_wt_min
+     :        , c%grain_N_conc_min
+     :        , g%grain_no)              ! set grain number
+
+           call Maize_dm_grain (
+     :          g%current_stage
+     :        , g%maxt
+     :        , g%mint
+     :        , c%x_temp_grain
+     :        , c%y_grain_rate
+     :        , c%num_temp_grain
+     :        , c%swdf_grain_min
+     :        , g%grain_no
+     :        , p%grain_gth_rate
+     :        , g%N_conc_min
+     :        , g%dm_green
+     :        , g%N_green
+     :        , c%temp_fac_min
+     :        , c%tfac_slope
+     :        , c%sw_fac_max
+     :        , c%sfac_slope
+     :        , g%N_conc_crit
+     :        , g%swdef_photo
+     :        , g%pfact_grain
+     :        , g%swdef_expansion
+     :        , g%nfact_grain_conc
+     :    , g%dlt_dm_grain_demand)
 
 
 
@@ -2058,8 +2186,8 @@ c     :    , g%dlt_dm_grain_demand)
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
-       endif
+         call Fatal_error (ERR_internal, 'Invalid template option')
+      endif
 
       call pop_routine (my_name)
       return
@@ -2070,8 +2198,12 @@ c     :    , g%dlt_dm_grain_demand)
       subroutine biomass_grain_demand_stress (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include   'const.inc'
+      include 'crp_biom.pub'
+      include 'science.pub'
+      include 'error.pub'
+      include 'data.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2116,7 +2248,7 @@ c     :    , g%dlt_dm_grain_demand)
      :               )
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (my_name)
@@ -2128,8 +2260,12 @@ c     :    , g%dlt_dm_grain_demand)
        subroutine biomass_partition (Option)
 * ====================================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'convert.inc'
+      include 'science.pub'
+      include 'error.pub'
+      include 'crp_cnpy.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2154,6 +2290,7 @@ c     :    , g%dlt_dm_grain_demand)
 
 
       if (Option.eq.1) then
+
          call leaf_area_potential(GetSwitchCode(c%can_switch,2))
 
          call cproc_leaf_area_stressed1 (
@@ -2262,6 +2399,7 @@ c          nw_sla = 22500.0  ! mm2/g - nwheat value
      :                  g%dlt_dm_leaf_pot)
 
 
+
       elseif (Option.eq.4) then
 
          call leaf_area_potential(GetSwitchCode(c%can_switch,2))
@@ -2273,25 +2411,26 @@ c          nw_sla = 22500.0  ! mm2/g - nwheat value
      :                      ,g%dlt_lai_stressed
      :                      )
 
-c      print*, '*** call to sproc_bio_partition2 commented out'
-cdsg      call sproc_bio_partition2 (
-c     .          g%current_stage,
-c     .          c%ratio_root_shoot,
-c     .          g%dlt_dm,
-c     .          g%leaf_no,
-c     .          c%partition_rate_leaf,
-c     .          g%dlt_lai_stressed,
-c     .          c%sla_min,
-c     .          c%frac_stem2flower,
-c     :          c%frac_pod2grain,
-c     :          c%grain_energy,
-c     .          g%dlt_dm_grain_demand,
-c     :          g%phase_tt,
-c     :          g%tt_tot,
-c     .          g%dlt_dm_green)
+
+      call sproc_bio_partition2 (
+     .          g%current_stage,
+     .          c%ratio_root_shoot,
+     .          g%dlt_dm,
+     .          g%leaf_no,
+     .          c%partition_rate_leaf,
+     .          g%dlt_lai_stressed,
+     .          c%sla_min,
+     .          c%frac_stem2flower,
+     :          c%frac_pod2grain,
+     :          c%grain_energy,
+     .          g%dlt_dm_grain_demand,
+     :          g%phase_tt,
+     :          g%tt_tot,
+     .          g%dlt_dm_green)
 
 
       elseif (Option.eq.5) then
+
 
          call leaf_area_potential(GetSwitchCode(c%can_switch,2))
 
@@ -2302,18 +2441,17 @@ c     .          g%dlt_dm_green)
      :                      ,g%dlt_lai_stressed
      :                      )
 
-c      print*, '*** call to sproc_bio_partition1 commented out'
-cdsg      call sproc_bio_partition1 (
-c     .          g%current_stage,
-c     .          c%ratio_root_shoot,
-c     .          g%dlt_dm,
-c     .          g%leaf_no,
-c     .          c%partition_rate_leaf,
-c     .          g%dlt_lai_stressed,
-c     .          c%sla_min,
-c     .          c%frac_stem2flower,
-c     .          g%dlt_dm_grain_demand,
-c     .          g%dlt_dm_green)
+      call sproc_bio_partition1 (
+     .          g%current_stage,
+     .          c%ratio_root_shoot,
+     .          g%dlt_dm,
+     .          g%leaf_no,
+     .          c%partition_rate_leaf,
+     .          g%dlt_lai_stressed,
+     .          c%sla_min,
+     .          c%frac_stem2flower,
+     .          g%dlt_dm_grain_demand,
+     .          g%dlt_dm_green)
 
 
       elseif (Option.eq.6) then
@@ -2333,18 +2471,17 @@ c     .          g%dlt_dm_green)
      :                                     , c%lai_sla_min
      :                                     , c%num_x_lai)
 
-c      print*, '*** call to maize_dm_partition commented out'
-cdsg         call Maize_dm_partition (
-c     :          g%current_stage
-c     :        , c%ratio_root_shoot
-c     :        , g%dlt_dm
-c     :        , g%leaf_no
-c     :        , c%partition_rate_leaf
-c    :        , g%dlt_lai_stressed
-c     :        , interp_sla_min
-c     :        , c%frac_stem2flower
-c     :        , g%dlt_dm_grain_demand
-c     :        , g%dlt_dm_green)
+         call Maize_dm_partition (
+     :          g%current_stage
+     :        , c%ratio_root_shoot
+     :        , g%dlt_dm
+     :        , g%leaf_no
+     :        , c%partition_rate_leaf
+     :        , g%dlt_lai_stressed
+     :        , interp_sla_min
+     :        , c%frac_stem2flower
+     :        , g%dlt_dm_grain_demand
+     :        , g%dlt_dm_green)
 
 
       elseif (Option.eq.9) then
@@ -2376,7 +2513,7 @@ c     :        , g%dlt_dm_green)
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (myname)
@@ -2388,8 +2525,11 @@ c     :        , g%dlt_dm_green)
       subroutine biomass_retranslocation (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'crp_biom.pub'
+      include 'error.pub'
+      include 'convert.inc'            ! mg2gm
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -2485,15 +2625,14 @@ c      REAL grain_now
 
       elseif (Option.eq.6) then
 
-c      print*, '*** call to maize_bio_retrans commented out'
-cdsg             call Maize_bio_retrans ()
+             call Maize_bio_retrans ()
 
       else if (Option.eq.0) then
 
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (my_name)
@@ -2508,8 +2647,12 @@ cdsg             call Maize_bio_retrans ()
       subroutine leaf_number_initialisation (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'science.pub'
+      include 'data.pub'
+      include 'crp_cnpy.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -2559,7 +2702,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (my_name)
@@ -2571,8 +2714,10 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
        subroutine leaf_number_final (Option)
 * ====================================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'convert.inc'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2631,52 +2776,51 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       elseif (Option.eq.4) then
 
-c      print*, '*** call to sunf_leaf_number_final1 commented out'
-cdsg            call sunf_leaf_number_final1 (
-c     .          emerg,
-c     .          floral_init,
-c     .          plant_end,
-c     .          g%current_stage,
-c     .          g%days_tot,
-c     .          g%phase_tt,
-c     .          c%leaf_init_rate,
-c     .          p%rel_leaf_init_rate,
-c     .          c%leaf_no_seed,
-c     .          c%leaf_no_min,
-c     .          c%leaf_no_max,
-c     .          g%leaf_no_final)
+            call sunf_leaf_number_final1 (
+     .          emerg,
+     .          floral_init,
+     .          plant_end,
+     .          g%current_stage,
+     .          g%days_tot,
+     .          g%phase_tt,
+     .          c%leaf_init_rate,
+     .          p%rel_leaf_init_rate,
+     .          c%leaf_no_seed,
+     .          c%leaf_no_min,
+     .          c%leaf_no_max,
+     .          g%leaf_no_final)
 
       elseif (Option.eq.5) then
-c      print*, '*** call to sorg_leaf_number_final1 commented out'
-cdsg       call sorg_leaf_number_final1 (
-c     .          emerg,
-c     .          floral_init,
-c     .          plant_end,
-c
-c     .          g%current_stage,
-c     .          g%days_tot,
-c     .          g%phase_tt,
-c     .          c%leaf_init_rate,
-c     .          c%leaf_no_seed,
-c     .          c%leaf_no_min,
-c     .          c%leaf_no_max,
-c     .          g%leaf_no_final)
+
+       call sorg_leaf_number_final1 (
+     .          emerg,
+     .          floral_init,
+     .          plant_end,
+
+     .          g%current_stage,
+     .          g%days_tot,
+     .          g%phase_tt,
+     .          c%leaf_init_rate,
+     .          c%leaf_no_seed,
+     .          c%leaf_no_min,
+     .          c%leaf_no_max,
+     .          g%leaf_no_final)
 
 
       elseif (Option.eq.6) then
 
-c      print*, '*** call to maize_leaf_number_final commented out'
-cdsg         call maize_leaf_number_final (
-c     :          g%current_stage
-c     :        , g%days_tot
-c     :        , g%phase_tt
-c     :        , germ
-c     :        , c%leaf_init_rate
-c     :        , c%leaf_no_seed
-c     :        , c%leaf_no_min
-c     :        , c%leaf_no_max
-c     :        , g%tt_tot
-c     :        , g%leaf_no_final)
+
+         call maize_leaf_number_final (
+     :          g%current_stage
+     :        , g%days_tot
+     :        , g%phase_tt
+     :        , germ
+     :        , c%leaf_init_rate
+     :        , c%leaf_no_seed
+     :        , c%leaf_no_min
+     :        , c%leaf_no_max
+     :        , g%tt_tot
+     :        , g%leaf_no_final)
 
 
 
@@ -2688,7 +2832,7 @@ c     :        , g%leaf_no_final)
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (myname)
@@ -2700,8 +2844,10 @@ c     :        , g%leaf_no_final)
        subroutine leaf_initiation (Option)
 * ====================================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'convert.inc'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2741,7 +2887,7 @@ c     :        , g%leaf_no_final)
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (myname)
@@ -2753,8 +2899,10 @@ c     :        , g%leaf_no_final)
        subroutine leaf_appearance (Option)
 * ====================================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'convert.inc'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2788,34 +2936,32 @@ c     :        , g%leaf_no_final)
 
       else if (Option.eq.4) then
 
-c      print*, '*** call to sunf_leaf_appearance commented out'
-cdsg           call sunf_leaf_appearance(
-c     .          g%leaf_no,
-c     .          g%leaf_no_final,
-c     .          p%determinate_crop,
-c     .          p%x_node_num_lar,
-c     .          p%y_node_lar,
-c     .          p%num_node_lar,
-c     .          emerg,
-c     .          flag_leaf,
-c     .          g%current_stage,
-c     .          g%days_tot,
-c     .          g%dlt_tt,
-c     .          g%dlt_leaf_no)
+           call sunf_leaf_appearance(
+     .          g%leaf_no,
+     .          g%leaf_no_final,
+     .          p%determinate_crop,
+     .          p%x_node_num_lar,
+     .          p%y_node_lar,
+     .          p%num_node_lar,
+     .          emerg,
+     .          flag_leaf,
+     .          g%current_stage,
+     .          g%days_tot,
+     .          g%dlt_tt,
+     .          g%dlt_leaf_no)
 
       else if (Option.eq.5) then
 
-c      print*, '*** call to maize_leaf_appearance commented out'
-cdsg         call maize_leaf_appearance (
-c     .          g%leaf_no,
-c     .          g%leaf_no_final,
-c     .          c%leaf_no_rate_change,
-c     .          c%leaf_app_rate2,
-c     .          c%leaf_app_rate1,
-c     .          g%current_stage,
-c     .          g%days_tot,
-c     .          g%dlt_tt,
-c     .          g%dlt_leaf_no) ! fraction of leaf emerged
+         call maize_leaf_appearance (
+     .          g%leaf_no,
+     .          g%leaf_no_final,
+     .          c%leaf_no_rate_change,
+     .          c%leaf_app_rate2,
+     .          c%leaf_app_rate1,
+     .          g%current_stage,
+     .          g%days_tot,
+     .          g%dlt_tt,
+     .          g%dlt_leaf_no) ! fraction of leaf emerged
 
 
       else if (Option.eq.0) then
@@ -2823,7 +2969,7 @@ c     .          g%dlt_leaf_no) ! fraction of leaf emerged
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (myname)
@@ -2835,8 +2981,11 @@ c     .          g%dlt_leaf_no) ! fraction of leaf emerged
       subroutine tillering_initialisation (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -2873,7 +3022,7 @@ c     .          g%dlt_leaf_no) ! fraction of leaf emerged
 
          !This module is excluded from the model
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (my_name)
@@ -2886,8 +3035,11 @@ c     .          g%dlt_leaf_no) ! fraction of leaf emerged
       subroutine tillering (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -2995,7 +3147,7 @@ c     .          g%dlt_leaf_no) ! fraction of leaf emerged
 
          !This module is excluded from the model
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (my_name)
@@ -3007,8 +3159,12 @@ c     .          g%dlt_leaf_no) ! fraction of leaf emerged
        subroutine leaf_area_initialisation (Option)
 * ====================================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'convert.inc'
+      include 'error.pub'
+      include 'science.pub'
+      include 'crp_cnpy.pub'
 
 
 *+  Sub-Program Arguments
@@ -3050,7 +3206,7 @@ c          endif
          !This module is excluded from the model
       else
 
-         call error ('Invalid template option',.true.)
+       call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (myname)
@@ -3064,8 +3220,12 @@ c          endif
        subroutine leaf_area_potential (Option)
 * ====================================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'convert.inc'
+      include 'data.pub'
+      include 'error.pub'
+      include 'crp_cnpy.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3146,11 +3306,10 @@ c          endif
 
       else if (Option.eq.4) then
 
-c      print*, '*** call to sunf_tpla_max commented out'
-cdsg      call sunf_tpla_max (
-c     .          g%leaf_no_final,
-c     .          g%plants,
-c     .          tpla_max)
+      call sunf_tpla_max (
+     .          g%leaf_no_final,
+     .          g%plants,
+     .          tpla_max)
 
       call cproc_leaf_area_pot_tpla (
      .          emerg,
@@ -3267,6 +3426,7 @@ c     .          tpla_max)
      .          g%tiller_no_fertile)
 
 
+        PRINT *,tt_emerg_to_flag,g%tt_tiller_emergence(1:6)
 
 
       elseif ((Option .eq. 0).or.(Option .eq. 3)) then
@@ -3274,7 +3434,7 @@ c     .          tpla_max)
          !This module is excluded from the model
       else
 
-         call error ('Invalid template option',.true.)
+       call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (myname)
@@ -3287,8 +3447,12 @@ c     .          tpla_max)
       subroutine leaf_area_actual (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'science.pub'
+      include 'data.pub'
+      include 'crp_cnpy.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) option number
@@ -3378,14 +3542,14 @@ c      endif
      :                      ,g%dlt_lai_stressed
      :                      )
 
-c      print*, '*** call to sproc_leaf_area_actual1 commented out'
-cdsg        call sproc_leaf_area_actual1 (
-c     .          g%current_stage,
-c     .          g%dlt_lai,
-c     .          g%dlt_lai_stressed,
-c     .          g%dlt_dm_green,
-c     .          c%sla_max
-c     .          )
+
+        call sproc_leaf_area_actual1 (
+     .          g%current_stage,
+     .          g%dlt_lai,
+     .          g%dlt_lai_stressed,
+     .          g%dlt_dm_green,
+     .          c%sla_max
+     .          )
 
 
       elseif (Option .eq. 6) then
@@ -3414,7 +3578,7 @@ c     .          )
 
       else
 
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (my_name)
@@ -3426,8 +3590,10 @@ c     .          )
       subroutine crop_height (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'crp_cnpy.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -3461,7 +3627,7 @@ c     .          )
       elseif (Option .eq. 0) then
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (my_name)
@@ -3474,8 +3640,10 @@ c     .          )
       subroutine root_depth_initialisation (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'crp_root.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -3508,7 +3676,7 @@ c     .          )
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (my_name)
@@ -3520,8 +3688,10 @@ c     .          )
       subroutine root_depth (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'crp_root.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -3585,7 +3755,7 @@ c     .          )
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (my_name)
@@ -3597,8 +3767,10 @@ c     .          )
       subroutine root_length_initialisation (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'crp_root.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -3633,7 +3805,7 @@ c     .          )
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (my_name)
@@ -3646,8 +3818,12 @@ c     .          )
       subroutine root_length (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'crp_root.pub'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3708,7 +3884,7 @@ c     .          )
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (my_name)
@@ -3722,8 +3898,12 @@ c     .          )
       subroutine senescence_leaf_area (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
+      include 'crp_cnpy.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) template option number
@@ -3899,27 +4079,24 @@ c     :                g%dlt_slai )
 
       else if (Option.eq.4) then
 
-c      print*, '*** call to sunf_leaf_area_sen commented out'
-cdsg          call sunf_leaf_area_sen ()
+          call sunf_leaf_area_sen ()
 
 
       else if (Option.eq.5) then
 
-c      print*, '*** call to sorg_leaf_area_sen commented out'
-cdsg          call sorg_leaf_area_sen ()
+          call sorg_leaf_area_sen ()
 
       else if (Option.eq.6) then
 
-c      print*, '*** call to maize_leaf_death commented out'
-cdsg         call Maize_leaf_death0 (
-c     :          g%leaf_no_dead
-c     :        , g%current_stage
-c     :        , c%leaf_no_dead_const
-c     :        , c%leaf_no_dead_slope
-c     :        , g%tt_tot
-c     :        , g%leaf_no_final
-c     :        , g%days_tot
-c     :        , g%dlt_leaf_no_dead)
+         call Maize_leaf_death0 (
+     :          g%leaf_no_dead
+     :        , g%current_stage
+     :        , c%leaf_no_dead_const
+     :        , c%leaf_no_dead_slope
+     :        , g%tt_tot
+     :        , g%leaf_no_final
+     :        , g%days_tot
+     :        , g%dlt_leaf_no_dead)
 
          call cproc_leaf_area_sen1
      :               (
@@ -4046,7 +4223,7 @@ c     :        , g%dlt_leaf_no_dead)
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (my_name)
@@ -4065,8 +4242,11 @@ c     :        , g%dlt_leaf_no_dead)
 
 *+  Include section
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'science.pub'
+      include 'data.pub'
+      include 'convert.inc'
+      include 'error.pub'
 
 *+  Constant Values
       character*(*) myname             ! name of this procedure
@@ -4151,8 +4331,11 @@ c     :        , g%dlt_leaf_no_dead)
 
 *+  Include section
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'science.pub'
+      include 'data.pub'
+      include 'convert.inc'
+      include 'error.pub'
 
 *+  Constant Values
       character*(*) myname             ! name of this procedure
@@ -4217,8 +4400,10 @@ c       end do
       subroutine senescence_biomass (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'crp_biom.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -4299,7 +4484,7 @@ c       end do
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (my_name)
@@ -4312,8 +4497,10 @@ c       end do
       subroutine senescence_root_length (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'crp_root.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4348,7 +4535,7 @@ c       end do
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (my_name)
@@ -4361,8 +4548,12 @@ c       end do
       subroutine senescence_nitrogen (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'crp_nitn.pub'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -4435,14 +4626,13 @@ c       end do
 
       elseif (Option.eq.5) then
 
-c      print*, '*** call to sorg_N_senescence1 commented out'
-c           call sorg_N_senescence1 (max_part
-c     :                              , c%n_sen_conc
-c     :                              , g%dlt_dm_senesced
-c     :                              , g%n_green
-c     :                              , g%dm_green
-c     :                              , g%swdef_expansion
-c     :                              , g%dlt_N_senesced)
+           call sorg_N_senescence1 (max_part
+     :                              , c%n_sen_conc
+     :                              , g%dlt_dm_senesced
+     :                              , g%n_green
+     :                              , g%dm_green
+     :                              , g%swdef_expansion
+     :                              , g%dlt_N_senesced)
 
       elseif (Option.eq.2) then
 
@@ -4641,7 +4831,7 @@ c"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
 
@@ -4656,8 +4846,12 @@ c"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
       subroutine nitrogen_initialisation (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include   'const.inc'
+      include 'crp_nitn.pub'
+      include 'error.pub'
+      include 'science.pub'
+      include 'data.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4697,19 +4891,18 @@ c"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
       else if (Option.eq.5) then
 
-c      print*, '*** call to sorg_N_init1 commented out'
-cdsg         call sorg_N_init1
-c     :               (
-c     :                C%n_init_conc
-c     :              , max_part
-c     :              , emerg
-c     :              , G%current_stage
-c     :              , G%days_tot
-c     :              , G%dm_green
-c     :              , g%lai
-c     :              , g%plants
-c     :              , g%N_green
-c     :               )
+         call sorg_N_init1
+     :               (
+     :                C%n_init_conc
+     :              , max_part
+     :              , emerg
+     :              , G%current_stage
+     :              , G%days_tot
+     :              , G%dm_green
+     :              , g%lai
+     :              , g%plants
+     :              , g%N_green
+     :               )
 
 
       else if (Option.eq.0) then
@@ -4717,7 +4910,7 @@ c     :               )
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
 
@@ -4767,8 +4960,12 @@ c     :               )
       subroutine nitrogen_supply (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'convert.inc'
+      include 'data.pub'
+      include 'crp_nitn.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -4788,7 +4985,7 @@ c     :               )
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
-c      if (p%uptake_source .eq. 'apsim') then
+      if (p%uptake_source .eq. 'apsim') then
          ! do nothing here for now
          ! I assume that the retrans routine does not need the
          ! call below as it is called on its own from process routine.
@@ -4818,7 +5015,7 @@ c     :          , g%swdef_fixation
 c     :          , g%N_fix_pot
 c     :          )
 
-      if (Option.eq.1) then
+      elseif (Option.eq.1) then
 
        fixation_determinant = sum_real_array(g%dm_green, max_part)
      :                        - g%dm_green(root)
@@ -4927,7 +5124,7 @@ c     :          )
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (my_name)
@@ -4940,8 +5137,12 @@ c     :          )
       subroutine nitrogen_demand (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'crp_nitn.pub'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -5016,28 +5217,28 @@ c      call fill_real_array (g%dlt_N_retrans, 0.0, max_part)
 
       elseif (Option .eq. 5) then
 
-c      print*, '*** call to sorg_N_demand3 commented out'
-cdsg             call sorg_N_demand3
-c     :               (
-c     :                max_part,
-c     :                G%dlt_dm_green,
-c     :                G%dm_green,
-c     :                G%n_green,
-c     :                g%lai,
-c     :                g%dlt_lai,
-c     :                g%dlt_slai,
-c     :                G%current_stage,
-c     :                g%grain_no,
-c     :                g%plants,
-c     :                g%tt_tot_fm,
-c     :                g%dlt_tt_fm,
-c     :                g%dlt_tt,
-c     :                g%phase_tt,
-c     .                c%x_stage_code,
-c     .                c%y_N_conc_crit_stem,
-c     .                c%n_target_conc,
-c     :                g%N_demand
-c     :               )
+
+       call sorg_N_demand3
+     :               (
+     :                max_part,
+     :                G%dlt_dm_green,
+     :                G%dm_green,
+     :                G%n_green,
+     :                g%lai,
+     :                g%dlt_lai,
+     :                g%dlt_slai,
+     :                G%current_stage,
+     :                g%grain_no,
+     :                g%plants,
+     :                g%tt_tot_fm,
+     :                g%dlt_tt_fm,
+     :                g%dlt_tt,
+     :                g%phase_tt,
+     .                c%x_stage_code,
+     .                c%y_N_conc_crit_stem,
+     .                c%n_target_conc,
+     :                g%N_demand
+     :               )
 
 
       elseif (Option .eq. 6) then
@@ -5074,7 +5275,7 @@ c     :               )
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (my_name)
@@ -5086,8 +5287,14 @@ c     :               )
       subroutine nitrogen_uptake (Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'convert.inc'
+      include 'crp_nitn.pub'
+      include 'crp_comm.pub'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -5138,21 +5345,21 @@ c       DATA b/0.,0.,0./
 
 
 
-c      if (p%uptake_source .eq. 'apsim') then
+      if (p%uptake_source .eq. 'apsim') then
          ! NIH - note that I use a -ve conversion
          ! factor FOR NOW to make it a delta.
-cdsg not used anymore         call crop_get_ext_uptakes(
-c     :                 p%uptake_source   ! uptake flag
-c     :                ,c%crop_type       ! crop type
-c     :                ,'no3'             ! uptake name
-c     :                ,-kg2gm/ha2sm      ! unit conversion factor
-c     :                ,0.0               ! uptake lbound
-c     :                ,100.0             ! uptake ubound
-c     :                ,g%dlt_no3gsm      ! uptake array
-c     :                ,max_layer         ! array dim
-c     :                )
+         call crop_get_ext_uptakes(
+     :                 p%uptake_source   ! uptake flag
+     :                ,c%crop_type       ! crop type
+     :                ,'no3'             ! uptake name
+     :                ,-kg2gm/ha2sm      ! unit conversion factor
+     :                ,0.0               ! uptake lbound
+     :                ,100.0             ! uptake ubound
+     :                ,g%dlt_no3gsm      ! uptake array
+     :                ,max_layer         ! array dim
+     :                )
 
-      if (Option.eq.1) then
+      elseif (Option.eq.1) then
 
 c         call cproc_n_uptake2
 c     :               (
@@ -5200,26 +5407,25 @@ c     :               )
 
       elseif (Option.eq.5) then
 
-
-c      print*, '*** call to sorg_N_uptake2 commented out'
-cdsg         call sorg_N_uptake2
-c     :               (
-c     :                C%no3_diffn_const
-c     :              , G%dlayer
-c     :              , G%no3gsm_diffn_pot
-c     :              , G%no3gsm_mflow_avail
-c     :              , G%N_fix_pot
-c     :              , c%n_supply_preference
-c     :              , G%n_demand
-c     :              , G%root_depth
-c     :              , g%NFract
-c     :              , g%current_stage
-c     :              , g%dlt_NO3gsm
-c     :               )
+         call sorg_N_uptake2
+     :               (
+     :                C%no3_diffn_const
+     :              , G%dlayer
+     :              , G%no3gsm_diffn_pot
+     :              , G%no3gsm_mflow_avail
+     :              , G%N_fix_pot
+     :              , c%n_supply_preference
+     :              , G%n_demand
+     :              , G%root_depth
+     :              , g%NFract
+     :              , g%current_stage
+     :              , g%dlt_NO3gsm
+     :               )
 
 
       elseif (Option.eq.9) then
 
+        PRINT *, 'uptake'
 
         call cproc_n_uptake_massflow_diffusion_fixation
      :               (
@@ -5311,7 +5517,7 @@ c     :               )
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
 
@@ -5327,8 +5533,12 @@ c     :               )
        subroutine Nitrogen_partition (Option)
 * ====================================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'convert.inc'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -5375,12 +5585,11 @@ c     :               )
 
       else if (Option.eq.5) then
 
-c      print*, '*** call to sorg_N_partition1 commented out'
-cdsg      call sorg_N_partition1(
-c     .          g%N_demand,
-c     .          G%NFract,
-c     .          G%dlt_N_green
-c     .                     )
+      call sorg_N_partition1(
+     .          g%N_demand,
+     .          G%NFract,
+     .          G%dlt_N_green
+     .                     )
 
 
       else if (Option.eq.0) then
@@ -5388,7 +5597,7 @@ c     .                     )
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (myname)
@@ -5399,8 +5608,10 @@ c     .                     )
        subroutine nitrogen_yieldpart_demand (Option)
 * ====================================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'convert.inc'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -5495,13 +5706,14 @@ c     .                     )
      :              , g%N_demand(grain)
      :               )
 
+       PRINT *, 'new N_Yieldpart_demand'
 
       else if (Option.eq.0) then
 
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (myname)
@@ -5514,8 +5726,10 @@ c     .                     )
        subroutine nitrogen_retranslocation (Option)
 * ====================================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'convert.inc'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -5602,18 +5816,18 @@ c     .                     )
 
       else if (Option .eq. 5) then
 
-c      print*, '*** call to sorg_N_retranslocate1 commented out'
-cdsg       call sorg_N_retranslocate1 (
-c     .          g%N_demand,
-c     .          g%NFract,
-c     .          g%lai, g%dlt_lai, g%dlt_slai,
-c     .          G%n_green, g%dlt_N_green,
-c     .          G%phase_tt,g%tt_tot_fm,g%dlt_tt_fm,
-c     .          g%nfact_expansion,
-c     :                G%dlt_dm_green,
-c     :                G%dm_green,
-c     .          g%current_stage,
-c     .          g%dlt_N_retrans)
+
+       call sorg_N_retranslocate1 (
+     .          g%N_demand,
+     .          g%NFract,
+     .          g%lai, g%dlt_lai, g%dlt_slai,
+     .          G%n_green, g%dlt_N_green,
+     .          G%phase_tt,g%tt_tot_fm,g%dlt_tt_fm,
+     .          g%nfact_expansion,
+     :                G%dlt_dm_green,
+     :                G%dm_green,
+     .          g%current_stage,
+     .          g%dlt_N_retrans)
 
 
       elseif (Option.eq.200) then
@@ -5636,7 +5850,7 @@ c     .          g%dlt_N_retrans)
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (myname)
@@ -5649,8 +5863,10 @@ c     .          g%dlt_N_retrans)
       subroutine nitrogen_stress(Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'crp_nitn.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -5798,11 +6014,10 @@ c         g%nfact_tiller = g%nfact_expansion
           g%nfact_pheno      = g%nfact_expansion
           g%nfact_grain_conc = 1
 
-c      print*, '*** call to sorg_nfact_photo commented out'
-cdsg          call sorg_nfact_photo(leaf,
-c     .                       g%lai,
-c     .                       g%N_green,
-c     .                       g%nfact_photo)
+          call sorg_nfact_photo(leaf,
+     .                       g%lai,
+     .                       g%N_green,
+     .                       g%nfact_photo)
 
           g%nfact_expansion = g%nfact_photo
 
@@ -5813,7 +6028,7 @@ c     .                       g%nfact_photo)
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
 
@@ -5836,8 +6051,9 @@ c     .                       g%nfact_photo)
       subroutine Phosphorus_initialisation(Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -5861,23 +6077,22 @@ c     .                       g%nfact_photo)
 
       if (Option.eq.1) then
 
-c      print*, '*** call to maize_P_init commented out'
-cdsg      call Maize_P_init (
-c     :          emerg
-c     :        , g%current_stage
-c     :        , g%days_tot
-c     :        , g%dm_green
-c     :        , max_part
-c     :        , g%p_conc_max
-c     :        , g%plant_p
-c     :               )
+         call Maize_P_init (
+     :          emerg
+     :        , g%current_stage
+     :        , g%days_tot
+     :        , g%dm_green
+     :        , max_part
+     :        , g%p_conc_max
+     :        , g%plant_p
+     :               )
 
       else if (Option.eq.0) then
 
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
 
@@ -5890,8 +6105,9 @@ c     :               )
       subroutine Phosphorus_demand(Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -5914,32 +6130,31 @@ c     :               )
       call push_routine (my_name)
 
       if (Option.eq.1) then
-c      print*, '*** call to maize_P_conc_limits commented out'
-cdsg         call Maize_P_conc_limits (
-c     :          g%current_stage
-c     :        , c%p_stage_code
-c     :        , c%stage_code_list
-c     :        , g%tt_tot
-c     :        , g%phase_tt
-c     :        , c%P_conc_max
-c     :        , c%P_conc_min
-c     :        , g%P_conc_max
-c     :        , g%P_conc_min)
 
-c      print*, '*** call to maize_P_demand commented out'
-cdsg          call Maize_P_demand (
-c     :          g%current_stage
-c     :        , g%radn_int
-c     :        , g%rue
-c     :        , c%ratio_root_shoot
-c     :        , g%dm_green
-c     :        , g%dm_senesced
-c     :        , g%dm_dead
-c     :        , max_part
-c     :        , g%P_conc_max
-c     :        , g%plant_P
-c     :        , c%P_uptake_factor
-c     :        , g%P_demand)
+         call Maize_P_conc_limits (
+     :          g%current_stage
+     :        , c%p_stage_code
+     :        , c%stage_code_list
+     :        , g%tt_tot
+     :        , g%phase_tt
+     :        , c%P_conc_max
+     :        , c%P_conc_min
+     :        , g%P_conc_max
+     :        , g%P_conc_min)
+
+          call Maize_P_demand (
+     :          g%current_stage
+     :        , g%radn_int
+     :        , g%rue
+     :        , c%ratio_root_shoot
+     :        , g%dm_green
+     :        , g%dm_senesced
+     :        , g%dm_dead
+     :        , max_part
+     :        , g%P_conc_max
+     :        , g%plant_P
+     :        , c%P_uptake_factor
+     :        , g%P_demand)
 
 
       else if (Option.eq.0) then
@@ -5947,7 +6162,7 @@ c     :        , g%P_demand)
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
 
@@ -5961,8 +6176,12 @@ c     :        , g%P_demand)
       subroutine Phosphorus_uptake(Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'convert.inc'
+      include 'data.pub'
+      include 'error.pub'
+      include 'intrface.pub'
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -5984,7 +6203,6 @@ c     :        , g%P_demand)
 *+  Local Variables
       real       layered_p_uptake(max_layer)
       integer    numvals
-      logical    found
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -5993,10 +6211,15 @@ c     :        , g%P_demand)
 
          call fill_real_array (layered_p_uptake, 0.0, max_layer)
 
-         found =  get_uptake_p_maize (uptake_p_maize_id
+         call get_real_array_Optional
+     :                        (unknown_module
+     :                       , 'uptake_p_maize'
+     :                       , max_layer
+     :                       , '()'
      :                       , layered_p_uptake
      :                       , numvals
-     :                       ,.true.)
+     :                       , 0.0
+     :                       , 100.)
          if (numvals.gt.0) then
             g%dlt_plant_p = sum_real_array (layered_p_uptake
      :                                    , numvals)
@@ -6011,7 +6234,7 @@ c     :        , g%P_demand)
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
 
@@ -6025,8 +6248,12 @@ c     :        , g%P_demand)
       subroutine Phosphorus_stress(Option)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'convert.inc'
+      include 'data.pub'
+      include 'error.pub'
+      include 'intrface.pub'
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -6054,60 +6281,60 @@ c     :        , g%P_demand)
 
       if (Option.eq.1) then
 
-c      print*, '*** 4x calls to maize_pfact commented out'
-cdsg         call maize_pfact
-c     :               (
-c     :                g%dm_green
-c     :              , g%dm_dead
-c     :              , g%dm_senesced
-c     :              , max_part
-c     :              , g%P_conc_max
-c     :              , g%P_conc_min
-c     :              , g%plant_p
-c     :              , c%k_pfact_photo
-c     :              , g%pfact_photo
-c     :               )
 
-cdsg         call maize_pfact
-c     :               (
-c     :                g%dm_green
-c     :              , g%dm_dead
-c     :              , g%dm_senesced
-c     :              , max_part
-c     :              , g%P_conc_max
-c     :              , g%P_conc_min
-c     :              , g%plant_p
-c     :              , c%k_pfact_pheno
-c     :              , g%pfact_pheno
-c     :               )
+         call maize_pfact
+     :               (
+     :                g%dm_green
+     :              , g%dm_dead
+     :              , g%dm_senesced
+     :              , max_part
+     :              , g%P_conc_max
+     :              , g%P_conc_min
+     :              , g%plant_p
+     :              , c%k_pfact_photo
+     :              , g%pfact_photo
+     :               )
 
-cdsg         call maize_pfact
-c     :               (
-c     :                g%dm_green
-c     :              , g%dm_dead
-c     :              , g%dm_senesced
-c     :              , max_part
-c     :              , g%P_conc_max
-c     :              , g%P_conc_min
-c     :              , g%plant_p
-c     :              , c%k_pfact_expansion
-c     :              , g%pfact_expansion
-c     :               )
+         call maize_pfact
+     :               (
+     :                g%dm_green
+     :              , g%dm_dead
+     :              , g%dm_senesced
+     :              , max_part
+     :              , g%P_conc_max
+     :              , g%P_conc_min
+     :              , g%plant_p
+     :              , c%k_pfact_pheno
+     :              , g%pfact_pheno
+     :               )
+
+         call maize_pfact
+     :               (
+     :                g%dm_green
+     :              , g%dm_dead
+     :              , g%dm_senesced
+     :              , max_part
+     :              , g%P_conc_max
+     :              , g%P_conc_min
+     :              , g%plant_p
+     :              , c%k_pfact_expansion
+     :              , g%pfact_expansion
+     :               )
 
 
 
-cdsg         call maize_pfact
-c     :               (
-c     :                g%dm_green
-c     :              , g%dm_dead
-c     :              , g%dm_senesced
-c     :              , max_part
-c     :              , g%P_conc_max
-c     :              , g%P_conc_min
-c     :              , g%plant_p
-c     :              , c%k_pfact_grain
-c    :              , g%pfact_grain
-c     :               )
+         call maize_pfact
+     :               (
+     :                g%dm_green
+     :              , g%dm_dead
+     :              , g%dm_senesced
+     :              , max_part
+     :              , g%P_conc_max
+     :              , g%P_conc_min
+     :              , g%plant_p
+     :              , c%k_pfact_grain
+     :              , g%pfact_grain
+     :               )
 
 
       !EW added the following
@@ -6123,7 +6350,7 @@ c     :               )
          !This module is excluded from the model
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
 
@@ -6140,8 +6367,12 @@ c     :               )
        subroutine Crop_death (Option)
 * ====================================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'crp_fail.pub'
+      include 'convert.inc'
+      include 'error.pub'
+      include 'data.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -6274,24 +6505,22 @@ c     :               )
      :        , g%plants
      :        , g%dlt_plants_death_drought)
 
-c      print*, '*** call to maize_failure_phen_delay commented out'
-cdsg         call maize_failure_phen_delay (
-c     :          g%cswd_pheno
-c     :        , g%current_stage
-c     :        , c%swdf_pheno_limit
-c     :        , g%plants
-c     :        , g%dlt_plants_failure_phen_delay)
+         call maize_failure_phen_delay (
+     :          g%cswd_pheno
+     :        , g%current_stage
+     :        , c%swdf_pheno_limit
+     :        , g%plants
+     :        , g%dlt_plants_failure_phen_delay)
 
-c      print*, '*** call to maize_death_barreness0 commented out'
-cdsg         call maize_death_barrenness0 (
-c     :          g%current_stage
-c     :        , g%days_tot
-c     :        , c%head_grain_no_crit
-c     :        , p%head_grain_no_max
-c     :        , c%barren_crit
-c     :        , g%grain_no
-c     :        , g%plants
-c     :        , g%dlt_plants_death_barrenness)
+         call maize_death_barrenness0 (
+     :          g%current_stage
+     :        , g%days_tot
+     :        , c%head_grain_no_crit
+     :        , p%head_grain_no_max
+     :        , c%barren_crit
+     :        , g%grain_no
+     :        , g%plants
+     :        , g%dlt_plants_death_barrenness)
 
          call crop_death_actual (
      :          g%dlt_plants_failure_germ
@@ -6306,7 +6535,7 @@ c     :        , g%dlt_plants_death_barrenness)
 
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (myname)
@@ -6319,9 +6548,13 @@ c     :        , g%dlt_plants_death_barrenness)
        subroutine Simulation_Prepare ()
 * ====================================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'error.pub'
 
+      include 'crp_biom.pub'
+      include 'crp_util.pub'
+      include 'crp_temp.pub'
+      include 'crp_cnpy.pub'
 
 
 *+  Purpose
@@ -6341,9 +6574,11 @@ c     :        , g%dlt_plants_death_barrenness)
       call push_routine (myname)
 
       if (g%plant_status.eq.status_alive) then
+
         !iwheat uses a accumulative radiation value
         call iw_rad_accum_10d(g%radn,g%current_stage,g%days_tot,
      :                      g%rad_accum,g%accum_rad_10d)
+
 
 
 
@@ -6353,9 +6588,9 @@ c     :        , g%dlt_plants_death_barrenness)
             call nitrogen_stress       (GetSwitchCode(c%nit_switch, 8))
             call water_demand          (GetSwitchCode(c%wat_switch, 2))
 
+
             if (c%crop_type.eq.'maize') then
-c      print*, '*** call to maize_nit_demand_est commented out'
-cdsg                 call maize_nit_demand_est (1)
+                 call maize_nit_demand_est (1)
             else
                 call biomass_rue_partition ()
                 call nitrogen_demand   (GetSwitchCode(c%nit_switch, 3))
@@ -6367,6 +6602,7 @@ cdsg                 call maize_nit_demand_est (1)
         call Phosphorus_initialisation  (GetSwitchCode(c%phos_switch,1))
         call Phosphorus_demand          (GetSwitchCode(c%phos_switch,2))
         call Phosphorus_stress          (GetSwitchCode(c%phos_switch,4))
+
 
       else
       endif
@@ -6380,9 +6616,13 @@ cdsg                 call maize_nit_demand_est (1)
        subroutine biomass_rue_partition ()
 * ====================================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'error.pub'
 
+      include 'crp_biom.pub'
+      include 'crp_util.pub'
+      include 'crp_temp.pub'
+      include 'crp_cnpy.pub'
 
 
 *+  Purpose

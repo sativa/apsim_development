@@ -1,2574 +1,1117 @@
-! #Issue Flags for  further work
+      include 'canopy.inc'
 !     ===========================================================
-      subroutine alloc_dealloc_instance(doAllocate)
+      subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
       use CanopyModule
       implicit none
-      ml_external alloc_dealloc_instance
-
+ 
 !+  Sub-Program Arguments
-      logical, intent(in) :: doAllocate
-
+      character InstanceName*(*)       ! (INPUT) name of instance
+      integer   InstanceNo             ! (INPUT) instance number to allocate
+ 
 !+  Purpose
 !      Module instantiation routine.
-
+ 
 !- Implementation Section ----------------------------------
-
-      if (doAllocate) then
-         allocate(id)
-         allocate(g)
-         allocate(p)
-         allocate(c)
-
-      else
-         deallocate(id)
-         deallocate(g)
-         deallocate(p)
-         deallocate(c)
-
-      end if
+               
+      allocate (Instances(InstanceNo)%gptr)
+      Instances(InstanceNo)%Name = InstanceName
+ 
       return
       end
 
 !     ===========================================================
-      subroutine do_init1(sdml)
+      subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
       use CanopyModule
       implicit none
-      ml_external do_init1
-
-!+  Purpose
-!      Perform all registrations and zeroing
-
+ 
 !+  Sub-Program Arguments
-      character (len=*), intent(in) :: sdml
-
-!- Implementation Section ----------------------------------
-
-      call do_registrations(id)
-
-      return
-      end
-
-!     ===========================================================
-      subroutine do_commence()
-!     ===========================================================
-      implicit none
-      ml_external do_commence
-
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+ 
 !+  Purpose
-!      Perform all registrations and zeroing
-
+!      Module de-instantiation routine.
+ 
 !- Implementation Section ----------------------------------
-
+               
+      deallocate (Instances(anInstanceNo)%gptr)
+       
       return
       end
-
-* ====================================================================
-      subroutine do_init2 ()
-* ====================================================================
+     
+!     ===========================================================
+      subroutine SwapInstance (anInstanceNo)
+!     ===========================================================
       use CanopyModule
-      use ComponentInterfaceModule
       implicit none
-      ml_external do_init2
+ 
+!+  Sub-Program Arguments
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Swap an instance into the global 'g' pointer
+ 
+!- Implementation Section ----------------------------------
+               
+      g => Instances(anInstanceNo)%gptr
+      return
+      end
+       
+*     ===========================================================
+      subroutine Main (Action, Data_string)
+*     ===========================================================
+      use CanopyModule
+      implicit none
+      include   'const.inc'
+      include 'action.inc'
+      include 'string.pub'                        
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      character  Action*(*)            ! (INPUT) Message action to perform
+      character  Data_string*(*)       ! (INPUT) Message data
 
 *+  Purpose
-*     Initialise the micromet module
+*      This routine is the interface between the main system and the
+*      canopy module.
 
 *+  Changes
-
-*+  Calls
+*      201093 jngh specified and programmed
+*      011195 jngh  added call to message_unused
+*      090299 jngh removed find crops and get other variables from init
+*      100299 jngh added find crops back in
+*      280999 sdb removed version reference
 
 *+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'Canopy_init')
-
-*+  Local Variables
-       character Event_string*40       ! String to output
+      character  my_name*(*)
+      parameter (my_name = 'canopy_main')
 
 *- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+      if (Action.eq.ACTION_Get_variable) then
+            ! respond to requests from other modules
+         call canopy_send_my_variable (Data_string)
+ 
+      elseif (Action .eq. ACTION_Prepare) then
+         call canopy_zero_variables ()
+         call canopy_find_crops ()
+         call canopy_get_other_variables ()
+         call canopy_prepare ()
+ 
+      else if (Action .eq. ACTION_Post) then
+         call canopy_post ()
+ 
+      else if (Action.eq.ACTION_Init) then
+         call canopy_zero_all_variables ()
+         call canopy_init ()
+         call canopy_find_crops ()
+!         call canopy_get_other_variables ()
+ 
+      else 
+            ! Don't use message
+ 
+         call Message_unused ()
+ 
+      endif
+ 
+      call pop_routine (my_name)
+      return
+      end
 
+
+
+*     ===========================================================
+      subroutine canopy_init ()
+*     ===========================================================
+      use CanopyModule
+      implicit none
+      include 'const.inc'
+      include 'data.pub'                          
+      include 'read.pub'                          
+      include 'error.pub'                         
+
+*+  Purpose
+*      Initialise canopy module. Output mesage and get list from control file.
+
+*+  Changes
+*     201093 jngh specified and programmed
+*     210395 jngh changed from unknown_section to a defined section
+*     280999 sdb removed version reference
+
+
+*+  Constant Values
+      character  my_name*(*)           ! procedure name
+      parameter (my_name  = 'canopy_init')
+*
+      character  section_name*(*)      ! name of parameter section
+      parameter (section_name = 'parameters')
+
+*+  Local Variables
+      integer    num_modules           ! number of module names in list
+      character  line*200              ! message
+      integer    i                     ! loop counter
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+            ! initialisation message
+ 
+      call Write_string (' Initialising')
+ 
+            ! now get intercropping swap list from control file
+ 
+      call read_char_array_optional (section_name
+     :                   , 'intercrop', max_crops, '()'
+     :                   , g%intercrop_list, num_modules)
+ 
+      call bound_check_integer_var (num_modules, 0, max_crops
+     :                            , 'num_modules')
+ 
+         ! now report initial conditions
+ 
+      if (num_modules.gt.1) then
+         write (line, '(a)')  ' Module rotation for intercropping :'
+         call write_string (line)
+ 
+         write (line, '(100a)')  (g%intercrop_list(i), i=1, num_modules)
+         call write_string (line)
+ 
+      else
+         ! no swapping required
+         write (line,'(a)')
+     :             ' No module rotation for intercropping'
+         call write_string (line)
+      endif
+ 
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+* ====================================================================
+      subroutine canopy_find_crops ()
+* ====================================================================
+      use CanopyModule
+      implicit none
+      include 'const.inc'
+      include 'intrface.pub'                      
+      include 'error.pub'                         
+      include 'postbox.pub'
+
+*+  Purpose
+*      Find what crops are in system
+
+*+  Changes
+*     090896 jngh - Programmed and Specified
+*     261196 jngh lengthened crop_type to 100 from 20 and set it blank before us
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'canopy_find_crops')
+
+*+  Local Variables
+      integer    crop                  ! index for crops
+      character  crop_type*100         ! type of crop
+      integer    numvals               ! number of values in string
+      character  owner_module*(max_module_name_size) ! owner module of variable
+
+*- Implementation Section ----------------------------------
       call push_routine (myname)
+ 
+ 
+      crop = 0
+      crop_type = blank
+1000  continue
+ 
+         call get_char_vars(
+     :             crop + 1
+     :           , 'crop_type'
+     :           , '()'
+     :           , crop_type
+     :           , numvals)
+ 
+         if (numvals.ne.0) then
+            if (crop+1.le.max_crops) then
+               crop = crop + 1
+               call get_posting_Module (Owner_module)
 
-      call Canopy_zero_variables ()
-
-      ! Notify system that we have initialised
-
-      Event_string = 'Initialising'
-      call Write_string (Event_string)
-
-      ! Get all parameters from parameter file
-
-      call Canopy_read_constants ()
-
-      call Canopy_read_param ()
-
+               g%crop_module(crop) = owner_module
+               goto 1000
+            else
+               call fatal_error (err_user
+     :            , 'Too many modules with crop type. Last module ='
+     :            // owner_module)
+            endif
+         else
+         endif
+ 
+      g%num_crops = crop
+ 
       call pop_routine (myname)
       return
       end
 
 
-!     ===========================================================
-      subroutine respondToEvent(fromID, eventID, variant)
-!     ===========================================================
+
+*     ===========================================================
+      subroutine canopy_zero_all_variables ()
+*     ===========================================================
       use CanopyModule
-      use ComponentInterfaceModule
       implicit none
-      ml_external respondToEvent
+      include   'const.inc' 
+      include 'data.pub'                          
+      include 'error.pub'                         
 
-!+  Purpose
-!      Event handler for all events coming into module.
+*+  Purpose
+*     Set all variables in this module to zero.
 
-!+  Sub-Program Arguments
-      integer, intent(in out) :: fromID
-      integer, intent(in) :: eventID
-      integer, intent(in out) :: variant
+*+  Changes
+*      201093 jngh specified and programmed
 
-!- Implementation Section ----------------------------------
+*+  Constant Values
+      character  my_name*(*)           ! procedure name
+      parameter (my_name  = 'canopy_zero_all_variables')
 
-      if (eventID .eq. id%DoMicromet) then
-         call on_do_micromet()
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+      g%canopy_index = 0
+      g%k_lai_total  = 0.0
+      g%k_lai_green  = 0.0
+      g%height       = 0.0
+      g%intc_light   = 0.0
+      g%num_canopies = 0
+      g%num_crops    = 0
+      g%top_layer_light = 0.0
 
-      else if (eventID .eq. id%CanopyChanged) then
-         call on_canopy_changed(variant)
+      g%intercrop_list = blank
+      g%crop_module    = blank
 
-      else if (eventID .eq. id%ResidueChanged) then
-         call OnResidueChanged(variant)
-         
-      else if (eventID .eq. id%Tick) then
-         call on_tick(variant)
+ 
 
-      else if (eventID .eq. id%newmet) then
-         call on_newmet(variant)
-
-      else
-         call error('bad event ID',.true.)
-      endif
-      return
-      end
-!     ===========================================================
-      subroutine respondToMethod(fromID, methodID, variant)
-!     ===========================================================
-      use CanopyModule
-      use ComponentInterfaceModule
-      implicit none
-      ml_external respondToMethod
-
-!+  Purpose
-!      Method handler for all method calls coming into module.
-
-!+  Sub-Program Arguments
-      integer, intent(in) :: fromID
-      integer, intent(in) :: methodID
-      integer, intent(in) :: variant
-
-!- Implementation Section ----------------------------------
-
-      if (methodID.eq.id%lai_table) then
-         call Canopy_table ('LAI',g%LAI)
-      else if (methodID.eq.id%cover_table) then
-         call Canopy_table ('Cover',g%Cover)
-      else if (methodID.eq.id%f_table) then
-         call Canopy_table ('F',g%F)
-      else if (methodID.eq.id%rs_table) then
-         call Canopy_table ('Rs',g%Rs)
-      else if (methodID.eq.id%rl_table) then
-         call Canopy_table ('Rl',g%Rl)
-      else if (methodID.eq.id%gc_table) then
-         call Canopy_table ('Gc',g%Gc)
-      else if (methodID.eq.id%ga_table) then
-         call Canopy_table ('Ga',g%Ga)
-      else if (methodID.eq.id%pet_table) then
-         call Canopy_table ('PET',g%PET)
-      else if (methodID.eq.id%petr_table) then
-         call Canopy_table ('PETr',g%PETr)
-      else if (methodID.eq.id%peta_table) then
-         call Canopy_table ('PETa',g%PETa)
-      else if (methodID.eq.id%omega_table) then
-         call Canopy_table ('Omega',g%Omega)
-      else
-         call error('bad method ID',.true.)
-      endif
-
+      call pop_routine (my_name)
       return
       end
 
-!     ===========================================================
-      subroutine notify_termination()
-!     ===========================================================
+*     ===========================================================
+      subroutine canopy_zero_variables ()
+*     ===========================================================
       use CanopyModule
       implicit none
-      ml_external notify_termination
+      include 'const.inc'
+      include 'data.pub'                          
+      include 'error.pub'                         
 
-!+  Purpose
-!      Prepare for termination
+*+  Purpose
+*     Set all variables in this module to zero.
 
-!- Implementation Section ----------------------------------
+*+  Changes
+*      201093 jngh specified and programmed
 
+*+  Constant Values
+      character  my_name*(*)           ! procedure name
+      parameter (my_name  = 'canopy_zero_variables')
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+      call fill_integer_array (g%canopy_index, 0, max_crops)
+      call fill_real_array (g%k_lai_total, 0.0, max_crops)
+      call fill_real_array (g%k_lai_green, 0.0, max_crops)
+      call fill_real_array (g%height, 0.0, max_crops)
+      call fill_real_array (g%intc_light, 0.0 ,max_crops)
+      call fill_real_array (g%top_layer_light, 0.0, max_crops)
+ 
+      g%num_canopies = 0
+      g%num_crops = 0
+ 
+      call pop_routine (my_name)
       return
       end
 
-* ====================================================================
-       subroutine respondToGet (fromID, Variable_info)
-* ====================================================================
+
+
+*     ===========================================================
+      subroutine canopy_get_other_variables ()
+*     ===========================================================
       use CanopyModule
       implicit none
-      ml_external respondToGet
+      include 'const.inc'
+      include 'intrface.pub'                      
+      include 'error.pub' 
+      include 'postbox.pub'                        
+
+*+  Purpose
+*      Get the values of variables from other modules
+
+*+  Changes
+*      201093 jngh specified and programmed
+*      261196 jngh tested incoming cover for 1. Set log to 100.0 if it is.
+
+*+  Constant Values
+      real       max_height          ! maximum crop canopy height (mm)
+      parameter (max_height  = 10000.0)
+*
+      real       k_lai_full_cover    ! a value for k*lai when cover is 100%
+      parameter (k_lai_full_cover = 100.0)
+*
+      character  my_name*(*)           ! procedure name
+      parameter (my_name='canopy_get_other_variables')
+
+*+  Local Variables
+      integer    crop                  ! index for crops
+      real       temp                  !
+      integer    numvals               ! number of values in string
+      character  owner_module*(max_module_name_size) ! owner module of variable
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+             ! Get green cover of each crop
+ 
+      crop = 0
+1000  continue
+ 
+         call get_real_vars (crop+1, 'cover_green', '()'
+     :                              , temp, numvals
+     :                              , 0.0, 1.0)
+ 
+         if (numvals.ne.0) then
+            if (crop+1.le.max_crops) then
+               crop = crop + 1
+               call get_posting_Module (Owner_module)
+               g%crop_module(crop) = owner_module
+               if (temp.lt.1) then
+                  g%K_lai_green(crop) = - log (1.0 - temp)
+               else
+                  g%K_lai_green(crop) = k_lai_full_cover
+               endif
+               goto 1000
+            else
+               call fatal_error (err_user
+     :            , 'Too many modules with green cover. Last module ='
+     :            // owner_module)
+            endif
+         else
+         endif
+ 
+         if (crop.ne.g%num_crops) then
+            call fatal_error (err_user
+     :              , 'Number of modules with green cover different to '
+     :              // 'number of modules with crop type.')
+         else
+         endif
+ 
+            ! Get total cover of each crop
+ 
+      crop = 0
+2000  continue
+         call get_real_vars (crop+1, 'cover_tot', '(mm)'
+     :                              , temp, numvals
+     :                              , 0.0, 1.0)
+         if (numvals.ne.0) then
+            if (crop+1.le.max_crops) then
+               crop = crop + 1
+               call get_posting_Module (Owner_module)
+               if (owner_module.eq.g%crop_module(crop)) then
+                  if (temp.lt.1) then
+                     g%K_lai_total(crop) = - log (1.0 - temp)
+                  else
+                     g%K_lai_total(crop) = k_lai_full_cover
+                  endif
+                  goto 2000
+               else
+                  call fatal_error (err_user
+     :              , 'Modules with total cover do not match '
+     :             // 'modules with green cover')
+               endif
+            else
+               call fatal_error (err_user
+     :            , 'Too many modules with total cover. Last module ='
+     :            // owner_module)
+            endif
+         else
+         endif
+ 
+         if (crop.ne.g%num_crops) then
+            call fatal_error (err_user
+     :              , 'Number of modules with total cover different to '
+     :              // 'number of modules with green cover.')
+         else
+         endif
+ 
+            ! Get canopy heights
+ 
+      crop = 0
+3000  continue
+         call get_real_vars (crop+1, 'height', '(mm)'
+     :                             , temp, numvals
+     :                             , 0.0, max_height)
+         if (numvals.ne.0) then
+            if (crop+1.le.max_crops) then
+               crop = crop + 1
+               call get_posting_Module (Owner_module)
+               if (owner_module.eq.g%crop_module(crop)) then
+                  g%height(crop) = temp
+                  goto 3000
+               else
+                  call fatal_error (err_user
+     :              , 'Modules with height do not match '
+     :             // 'modules with green cover')
+               endif
+            else
+               call fatal_error (err_user
+     :                  , 'Too many modules with height. Last module ='
+     :                  // owner_module)
+            endif
+         else
+         endif
+ 
+         if (crop.ne.g%num_crops) then
+            call fatal_error (err_user
+     :              , 'Number of modules with height different to '
+     :              // 'number of modules with green cover.')
+         else
+         endif
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+*     ===========================================================
+      subroutine canopy_send_my_variable (Variable_name)
+*     ===========================================================
+      use CanopyModule
+      implicit none
+      include   'const.inc'
+      include 'data.pub'                          
+      include 'intrface.pub'                      
+      include 'error.pub'                         
 
 *+  Sub-Program Arguments
-      integer, intent(in) :: fromID
-      type(QueryData), intent(in) :: variable_info
+      character  Variable_name*(*)     ! (INPUT) Variable name to search for
 
 *+  Purpose
 *      Return the value of one of our variables to caller
 
 *+  Changes
+*      201093 jngh specified and programmed
+*      011195 jngh  added call to message_unused
+*      010896 jngh changed method of getting module name for gets
+*      120996 jngh removed print statement
+*      021199 jngh added export of cover_tot_all and cover_height_all arrays
 
 *+  Calls
+      integer    canopy_crop_number    ! function
 
 *+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'respondToGet')
-
-*+  Local Variables
-       integer i
-       integer j
-       real Total_interception
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      if (Variable_info%id .eq. id%interception) then
-
-         Total_Interception = 0.0
-
-         do 200 i = 1, g%NumLayers
-            do 100 j = 1, g%NumComponents
-               Total_Interception = Total_Interception
-     :                            + g%Interception(i,j)
-  100       continue
-  200    continue
-
-         call return_interception (variable_info, Total_interception)
-
-      elseif (Variable_info%id .eq. id%eo) then
-         call return_eo (variable_info, g%eo)
-      else
-
-      endif
-
-      call pop_routine (myname)
-
-      return
-      end
-* ====================================================================
-      logical function respondToSet (fromID, VariableID, variant)
-* ====================================================================
-      use ComponentInterfaceModule
-
-      implicit none
-      ml_external respondToSet
-
-!+  Sub-Program Arguments
-      integer, intent(in) :: fromID
-      integer, intent(in)     :: VariableID
-      integer, intent(in out) :: variant
-
-
-*+  Purpose
-*       Set one of our variables altered by some other module.
-
-*+  Changes
-*      21-06-96 NIH Changed respond2set calls to collect calls
-
-*+  Calls
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'respondToSet')
-
-*+  Local Variables
-*- Implementation Section ----------------------------------
-
-      respondToSet = .false.
-      return
-      end
-
-* ====================================================================
-       subroutine Canopy_zero_variables ()
-* ====================================================================
-      use CanopyModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*     Set all variables to initial state.  i.e. zero or blank.
-
-*+  Mission Statement
-*     Set internal state variables to zero
-
-*+  Changes
-*     NIH 28/3/00 Specified
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'Canopy_zero_variables')
-
-*+  Local Variables
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      g%NumComponents = 0
-c      g%ComponentName(:) = ' '
-c      g%ComponentType(:) = ' '
-c      g%ComponentLAI(:) = 0.0
-c      g%ComponentCover(:) = 0.0
-      g%K(:,:) = 0.0
-c      g%ComponentHeight(:) = 0.0
-c      g%ComponentDepth(:) = 0.0
-      g%ComponentGsmax(:) = 0.0
-      g%ComponentR50(:) = 0.0
-      g%ComponentAlbedo(:) = 0.0
-      g%ComponentEmissivity(:) = 0.0
-c      g%ComponentFrgr(:) = 0.0
-
-      g%DeltaZ(:) = 0.0
-      g%NumLayers = 0
-
-      g%LayerK(:) = 0.0
-
-      g%LAI(:,:) = 0.0
-      g%Cover(:,:) = 0.0
-      g%CoverTotal(:,:) = 0.0
-      g%F(:,:) = 0.0
-      g%Rs(:,:) = 0.0
-      g%Rl(:,:) = 0.0
-      g%Gc(:,:) = 0.0
-      g%Ga(:,:) = 0.0
-      g%PET(:,:) = 0.0
-      g%PETr(:,:) = 0.0
-      g%PETa(:,:) = 0.0
-      g%Omega(:,:) = 0.0
-      g%Interception(:,:) = 0.0
-      g%albedo = 0.0
-      g%Emissivity = 0.0
-
-
-      g%latitude = 0.0
-      g%day = 0
-      g%year = 0
-      g%AverageT = 0.0
-      g%SunshineHours = 0.0
-      g%DayLength = 0.0
-
-      c%air_pressure = 0.0
-      c%soil_emissivity = 0.0
-
-      p%soil_albedo = 0.0
-      p%layer_ga = 0.0
-      p%A_interception = 0.0
-      p%B_interception = 0.0
-      p%C_interception = 0.0
-      p%D_interception = 0.0
-
-      call pop_routine (myname)
-      return
-      end
-
-*     ===========================================================
-      subroutine Canopy_read_param ()
-*     ===========================================================
-      use CanopyModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*       Read in all parameters from parameter file.
-
-*+  Mission Statement
-*     Read parameters from parameter file
-
-*+  Changes
-*     NIH 28/3/00 Specified
-
-*+  Calls
-
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'Canopy_read_param')
+      character  my_name*(*)           ! procedure name
+      parameter (my_name='canopy_send_my_variable')
 *
-      character section_name*(*)
-      parameter (section_name = 'parameters')
-
-*+  Local Variables
-      logical found
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      call write_string (new_line//'   - Reading Parameters')
-
-      found = read_parameter(
-     :        section_name,          ! Section header
-     :        'soil_albedo',         ! Keyword
-     :        p%soil_albedo,         ! Parameter
-     :        0.0,                   ! Lower Limit for bound checking
-     :        1.0)                   ! Upper Limit for bound checking
-
-      found = read_parameter (
-     :        section_name,          ! Section header
-     :        'layer_ga',            ! Keyword
-     :        p%layer_ga,            ! Parameter
-     :        0.0,                   ! Lower Limit for bound checking
-     :        1.0)                   ! Upper Limit for bound checking
-
-      found = read_parameter (
-     :        section_name,          ! Section header
-     :        'a_interception',      ! Keyword
-     :        p%a_interception,      ! Parameter
-     :        0.0,                   ! Lower Limit for bound checking
-     :        10.0,                  ! Upper Limit for bound checking
-     :        .true.)                ! is optional
-      if(.not. found) then
-         p%a_interception = 0.0
-      else
-      endif
-
-      found = read_parameter(
-     :        section_name,          ! Section header
-     :        'b_interception',      ! Keyword
-     :        p%b_interception,      ! Parameter
-     :        0.0,                   ! Lower Limit for bound checking
-     :        5.0,                   ! Upper Limit for bound checking
-     :        .true.)                ! is optional
-      if(.not. found) then
-         p%b_interception = 1.0
-      else
-      endif
-
-      found = read_parameter(
-     :        section_name,          ! Section header
-     :        'c_interception',      ! Keyword
-     :        p%c_interception,      ! Parameter
-     :        0.0,                   ! Lower Limit for bound checking
-     :        10.0,                  ! Upper Limit for bound checking
-     :        .true.)                ! is optional
-      if(.not. found) then
-         p%c_interception = 0.0
-      else
-      endif
-
-      found = read_parameter (
-     :        section_name,          ! Section header
-     :        'd_interception',      ! Keyword
-     :        p%d_interception,      ! Parameter
-     :        0.0,                   ! Lower Limit for bound checking
-     :        20.0,                  ! Upper Limit for bound checking
-     :        .true.)                ! is optional
-      if(.not. found) then
-         p%d_interception = 0.0
-      else
-      endif
-
-      found = read_parameter(
-     :        section_name,          ! Section header
-     :        'eo_source',           ! Keyword
-     :        p%eo_source,           ! Parameter
-     :        .true.)
-
-      if(.not.found) then
-         p%eo_source = blank
-      else
-         ! better register my interest in this data
-         g%EoSourceID = add_registration(GetVariableReg
-     :                                  ,p%eo_source
-     :                                  ,Eoddml)
-      endif
-
-
-      call pop_routine (myname)
-      return
-      end
-
-
-
-* ====================================================================
-       subroutine Canopy_read_constants ()
-* ====================================================================
-      use CanopyModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*      Read in all constants from ini file.
-
-*+  Mission Statement
-*     Read constants from ini file
-
-*+  Changes
-*     NIH 28/3/00 Specified
-
-*+  Constant Values
-      character*(*) section_name
-      parameter (section_name = 'constants')
+      character  fr_intc_radn_name*(*) ! name of fr_intc_radn variable
+      parameter (fr_intc_radn_name = 'fr_intc_radn_')
 *
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'Canopy_read_constants')
+      integer    fr_intc_radn_name_length ! length of name
+      parameter (fr_intc_radn_name_length = 13)
+*
+*   Internal variables - second round
+      character  temp_variable_name*(fr_intc_radn_name_length)
+                                       ! temporary storage of first part of
+                                       !  variable name
 
 *+  Local Variables
-      logical found
+      real       cover                 ! temporary cover variable
+      integer    module                ! module counter
+      character  module_name*(max_module_name_size) ! module name
+      real       cover_tot_all(max_crops)   ! total cover of each crop (0-1)
+      real       cover_green_all(max_crops) ! green cover of each crop (0-1)
 
 *- Implementation Section ----------------------------------
-      call push_routine (myname)
-
-      call write_string (new_line//'   - Reading Constants')
-
-      found = read_parameter (
-     :           section_name         ! Section header
-     :         , 'air_pressure'       ! Keyword
-     :         , c%air_pressure       ! Variable
-     :         , 900.                 ! Lower Limit for bound checking
-     :         , 1100.)               ! Upper Limit for bound checking
-
-      found = read_parameter(
-     :           section_name         ! Section header
-     :         , 'soil_emissivity'    ! Keyword
-     :         , c%soil_emissivity    ! Variable
-     :         , 0.9                  ! Lower Limit for bound checking
-     :         , 1.0)                 ! Upper Limit for bound checking
-
-      found = read_parameter(
-     :           section_name         ! Section header
-     :         , 'min_crit_temp'      ! Keyword
-     :         , c%min_crit_temp      ! Variable
-     :         , 0.0                  ! Lower Limit for bound checking
-     :         , 10.)                 ! Upper Limit for bound checking
-
-      found = read_parameter(
-     :           section_name         ! Section header
-     :         , 'max_crit_temp'      ! Keyword
-     :         , c%max_crit_temp      ! Variable
-     :         , 0.0                  ! Lower Limit for bound checking
-     :         , 50.)                 ! Upper Limit for bound checking
-
-          
-      call pop_routine (myname)
-      return
-      end
-
-
-*     ===========================================================
-      subroutine on_canopy_changed(variant)
-*     ===========================================================
-      use CanopyModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*       Obtain updated information about a plant canopy
-
-!+  Sub-Program Arguments
-      integer, intent(in out) :: variant
-
-*+  Mission Statement
-*       Obtain updated information about a plant canopy
-
-*+  Changes
-*     NIH 30/3/00 Specified
-
-*+  Calls
-      integer Canopy_Component_Number ! function
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'on_canopy_changed')
-
-*+  Local Variables
-      integer    numvals               ! number of values read
-      character  sender*32
-      integer    ComponentNo
-      type (canopyType), dimension(max_canopies) :: canopies
-      integer num_canopies
-      integer counter
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      call unpack_canopy(variant, canopies, num_canopies)
-
-
-!      print*,canopies(1)%cropType
-!      print*,canopies(1)%NumLayers
-!      print*,canopies(1)%layer(1)%thickness
-!      print*,canopies(1)%layer(1)%Lai
-!      print*,canopies(1)%layer(1)%CoverGreen
-!      print*,canopies(1)%layer(1)%CoverTotal
-!      print*,canopies(1)%frgr
-!      pause
-
-      do 100 counter = 1, num_canopies
-
-         ComponentNo = Canopy_Component_Number
-     :                   (canopies(counter)%name)
-
-         if (ComponentNo.eq.0) then
-
-            g%NumComponents = g%NumComponents + 1
-            g%Canopies(g%NumComponents) = canopies(counter)
-
-            ! Read Component Specific Constants
-            ! ---------------------------------
-            call Canopy_component_constants(g%NumComponents)
-
+ 
+      call push_routine (my_name)
+ 
+      temp_variable_name = variable_name
+ 
+      if (temp_variable_name .eq. fr_intc_radn_name) then
+         module_name = Variable_name(fr_intc_radn_name_length+1:)
+         module = canopy_crop_number (module_name)
+         if (module.gt.0) then
+            call respond2get_real_var (variable_name, '()'
+     :                                , g%intc_light(module))
          else
-
-            g%Canopies(ComponentNo) = canopies(counter)
-
+               call fatal_error (err_user
+     :              , module_name
+     :              // ' requested fr_intc_radn and does not '
+     :              // 'have a canopy')
+ 
          endif
-  100 continue
-
-      call pop_routine (myname)
-      return
-      end
-
-*     ===========================================================
-      subroutine on_do_micromet()
-*     ===========================================================
-      use CanopyModule
-      implicit none
-
-*+  Purpose
-*       Perform Prepare Phase Calculations
-
-*+  Mission Statement
-*       Perform Prepare Phase Calculations
-
-*+  Changes
-*     NIH 30/3/00 Specified
-
-*+  Calls
-
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'on_do_micromet')
-
-*+  Local Variables
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      call Canopy_Met_Variables ()
-      call Canopy_Canopy_Compartments ()
-      call Canopy_Canopy_Energy_Balance ()
-      call Canopy_Reference_Et()
-
-      call Canopy_Energy_Balance_Event()
-      call Canopy_Water_Balance_Event()
-
-      call pop_routine (myname)
-      return
-      end
-
-*     ===========================================================
-      subroutine Canopy_Process ()
-*     ===========================================================
-      use CanopyModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*       Perform Process Phase Calculations
-
-*+  Mission Statement
-*       Perform Process Phase Calculations
-
-*+  Changes
-*     NIH 30/3/00 Specified
-
-*+  Calls
-
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'Canopy_Process')
-
-*+  Local Variables
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      call Canopy_Calculate_Gc ()
-      call Canopy_Calculate_Ga ()
-      call Canopy_Calculate_Interception ()
-      call Canopy_Calculate_PM()
-      call Canopy_Calculate_Omega()
-
-
-      call Canopy_Energy_Balance_Event()
-      call Canopy_Water_Balance_Event()
-
-      call pop_routine (myname)
-      return
-      end
-
-*     ===========================================================
-      subroutine Canopy_Canopy_Compartments ()
-*     ===========================================================
-      use CanopyModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*       Break the combined Canopy into functional compartments
-
-*+  Mission Statement
-*       Break the combined Canopy into functional compartments
-
-*+  Changes
-*     NIH 30/3/00 Specified
-
-*+  Calls
-
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'Canopy_Canopy_Compartments')
-
-*+  Local Variables
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      Call Canopy_Define_Layers ()
-
-      Call Canopy_Divide_Components ()
-
-      Call Canopy_Light_Extinction()
-
-      call pop_routine (myname)
-      return
-      end
-
-*     ===========================================================
-      subroutine Canopy_Define_Layers ()
-*     ===========================================================
-      use CanopyModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*       Break the combined Canopy into layers
-
-*+  Mission Statement
-*       Break the combined Canopy into layers
-
-*+  Changes
-*     NIH 30/3/00 Specified
-
-*+  Calls
-
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'Canopy_Define_Layers')
-
-*+  Local Variables
-      real nodes(2*max_components - 1)
-      integer NumNodes
-      integer ComponentNo
-      integer Node
-      real    CanopyBase
-      integer key(2*max_components - 1)
-      integer layer
-      real    CumHeight
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      nodes(:) = 0.0
-      NumNodes = 0
-
-      ! Bottom layer will start at ground surface
-      NumNodes = 1
-      Nodes(1) = 0.0
-
-      do 100 ComponentNo = 1, g%NumComponents
-
-         CumHeight = 0.0
-         do 50 layer = 1, max_layer
-               CumHeight = CumHeight
-     :            + g%Canopies(ComponentNo)%Layer(layer)%thickness
-            if (position_in_real_array
-     :         (CumHeight
-     :         ,Nodes
-     :         ,NumNodes)
-     :       .eq.0) then
-               NumNodes = NumNodes + 1
-               Nodes(NumNodes) = CumHeight
-
-            else
-               ! it is already there - ignore it
-            endif
-   50    continue
-  100 continue
-
-      ! Sort into Ascending order
-      call shell_sort_real (Nodes,NumNodes,key)
-
-      g%NumLayers = NumNodes - 1
-
-      do 200 Node = 1, NumNodes - 1
-         g%DeltaZ(Node) = Nodes(Node+1) - Nodes(Node)
-  200 continue
-
-      call pop_routine (myname)
+ 
+      else if (variable_name.eq.'cover_tot_sum') then
+         cover = 1.0
+     :         - exp (-sum_real_array (g%K_lai_total, g%num_crops))
+         call respond2get_real_var (variable_name, '()', cover)
+ 
+      else if (variable_name.eq.'cover_tot_all') then
+         cover_tot_all(:) = 0.0
+         do 1000 module = 1, g%num_crops
+            cover_tot_all(module) = 1.0
+     :                            - exp (-g%K_lai_total(module))
+1000     continue
+         call respond2get_real_array (variable_name, '()'
+     :                                 , cover_tot_all, g%num_crops)
+ 
+      else if (variable_name.eq.'cover_height_all') then
+         call respond2get_real_array (variable_name, '()', g%height
+     :                                 , g%num_crops)
+ 
+      else if (variable_name.eq.'cover_green_sum') then
+         cover = 1.0
+     :         - exp (-sum_real_array (g%K_lai_green, g%num_crops))
+         call respond2get_real_var (variable_name, '()', cover)
+ 
+      else if (variable_name.eq.'cover_green_all') then
+         cover_tot_all(:) = 0.0
+         do 2000 module = 1, g%num_crops
+            cover_green_all(module) = 1.0
+     :                              - exp (-g%K_lai_green(module))
+2000     continue
+         call respond2get_real_array (variable_name, '()'
+     :                                 , cover_green_all, g%num_crops)
+ 
+      else if (variable_name.eq.'cover_crops_all') then
+         call respond2get_char_array (variable_name, '()', g%crop_module
+     :                                 , g%num_crops)
+ 
+      else
+            ! don't own the variable
+         call Message_unused ()
+      endif
+ 
+      call pop_routine (my_name)
       return
       end
 
 
-*     ===========================================================
-      subroutine Canopy_Divide_Components ()
-*     ===========================================================
+
+* ====================================================================
+       integer function canopy_crop_number (module_name)
+* ====================================================================
       use CanopyModule
-      use ComponentInterfaceModule
       implicit none
-
-*+  Purpose
-*       Break the components into layers
-
-*+  Mission Statement
-*       Break the components into layers
-
-*+  Changes
-*     NIH 30/3/00 Specified
-
-*+  Calls
-
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'Canopy_Divide_Components')
-
-*+  Local Variables
-      integer i
-      integer j
-      real    KLAI(max_layer)
-      real    KLAInew(max_layer)
-      real    KLAItot(max_layer)
-      real    KLAItotnew(max_layer)
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      g%LAI(:,:) = 0.0
-
-         ! Calculate LAI for layer i and component j
-         ! =========================================
-
-      do 200 j = 1, g%NumComponents
-
-         do 100 i=1,g%Canopies(j)%NumLayers
-            if(g%Canopies(j)%Layer(i)%CoverGreen.gt.0) then
-               KLAI(i) = - log(1.0-g%Canopies(j)%Layer(i)%CoverGreen)
-               KLAItot(i) = - log(1.0-g%Canopies(j)%Layer(i)%CoverTotal)
-            else
-               KLAI(i) = 0.0
-               KLAItot(i) = 0.0
-            endif
-  100    continue
-
-         call map(g%Canopies(j)%NumLayers
-     :           ,g%Canopies(j)%Layer(:)%thickness
-     :           ,g%Canopies(j)%Layer(:)%LAI
-     :           ,g%NumLayers
-     :           ,g%DeltaZ
-     :           ,g%LAI(:,j))
-
-         call map(g%Canopies(j)%NumLayers
-     :           ,g%Canopies(j)%Layer(:)%thickness
-     :           ,KLAI
-     :           ,g%NumLayers
-     :           ,g%DeltaZ
-     :           ,KLAInew)
-
-         call map(g%Canopies(j)%NumLayers
-     :           ,g%Canopies(j)%Layer(:)%thickness
-     :           ,KLAItot
-     :           ,g%NumLayers
-     :           ,g%DeltaZ
-     :           ,KLAItotnew)
-
-         do 150 i=1,g%NumLayers
-            g%Cover(i,j) = 1.0-exp(-KLAInew(i))
-            g%CoverTotal(i,j) = 1.0-exp(-KLAItotnew(i))
-  150    continue
-
-  200 continue
-
-         ! Calculate fractional contribution for layer i and component j
-         ! =============================================================
-
-      do 300 i=1, g%NumLayers
-
-         do 250 j = 1, g%NumComponents
-            g%F(i,j) = divide(g%LAI(i,j)
-     :                       ,sum(g%LAI(i,1:g%NumComponents))
-     :                       ,0.0)
-  250    continue
-
-  300 continue
-
-      call pop_routine (myname)
-      return
-      end
-
-*     ===========================================================
-      subroutine Canopy_Table (Title,Array)
-*     ===========================================================
-      use CanopyModule
-      use ComponentInterfaceModule
-      implicit none
+      include 'error.pub'                         
 
 *+  Sub-Program Arguments
-      character Title*(*)
-      real      Array(1:max_layer,1:max_components)
+      character  module_name*(*)         ! (INPUT) name of crop to locate
 
 *+  Purpose
-*       Print out a 2-Dimensional table for a given state variable
-
-*+  Mission Statement
-*       Print out a 2-Dimensional table for a given state variable
+*     Return the position of the module_name in module_names array
 
 *+  Changes
-*     NIH 30/3/00 Specified
-
-*+  Calls
-
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'Canopy_Table')
-
-*+  Local Variables
-      integer i
-      integer j
-      character string*200
-      character line_rule*200
-      real      top
-      real      bottom
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      write(line_rule,'(5x,70(''-''))')
-
-
-      call write_string('Table for '//Title)
-
-      call write_string(Line_Rule)
-
-      write(string,'(5x,a,4x,11a10)')
-     :       'Canopy Layer Height'
-     :      ,(g%Canopies(j)%name,j=1,g%NumComponents)
-     :      ,'Total'
-      call write_string(String)
-
-      call write_string(Line_Rule)
-
-      do 100 i = g%NumLayers, 1, -1
-         top = sum(g%DeltaZ(1:i))
-         if (i.eq.1) then
-            bottom = 0.0
-         else
-            bottom = top - g%DeltaZ(i)
-         endif
-
-         write(string,'(x,f7.1,'' - '',f7.1,5x,11f10.3)')
-     :              bottom
-     :           ,  top
-     :           , (array(i,j),j=1,g%NumComponents)
-     :           , sum(array(i,1:g%NumComponents))
-
-         call write_string(String)
-
-  100 continue
-
-      call write_string(Line_Rule)
-
-         write(string,'(x,''       Total     '',5x,11f10.3)')
-     :            (sum(array(1:g%NumLayers,j)),j=1,g%NumComponents)
-     :            ,sum(array(:,:))
-         call write_string(String)
-
-      call write_string(Line_Rule)
-
-
-      call pop_routine (myname)
-      return
-      end
-
-*     ===========================================================
-      subroutine Canopy_Light_Extinction ()
-*     ===========================================================
-      use CanopyModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*       Calculate light extinction parameters
-
-*+  Mission Statement
-*       Calculate light extinction parameters
-
-*+  Changes
-*     NIH 30/3/00 Specified
-
-*+  Calls
-
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'Canopy_Light_Extinction')
-
-*+  Local Variables
-      integer i
-      integer j
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-         ! Calculate effective K from LAI and Cover
-         ! ========================================
-
-      do 150 i = 1, g%NumLayers
-         do 100 j = 1, g%NumComponents
-
-
-            g%K(i,j) = divide(-log(1.-g%Cover(i,j))
-     :                           ,g%LAI(i,j)
-     :                           ,0.0)
-
-  100    continue
-  150 continue
-
-         ! Calculate extinction for individual layers
-         ! ==========================================
-
-
-      do 200 i = 1, g%NumLayers
-
-         g%LayerK(i) = Sum(g%F(i,1:g%NumComponents)
-     :                   * g%K(i,1:g%NumComponents))
-
-  200 continue
-
-      call pop_routine (myname)
-      return
-      end
-
-*     ===========================================================
-      subroutine Canopy_Canopy_Energy_Balance ()
-*     ===========================================================
-      use CanopyModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*       Perform the Overall Canopy Energy Balance
-
-*+  Mission Statement
-*       Perform the Overall Canopy Energy Balance
-
-*+  Changes
-*     NIH 30/3/00 Specified
-
-*+  Calls
-
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'Canopy_Canopy_Energy_Balance')
-
-*+  Local Variables
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      Call Canopy_short_wave_radiation ()
-      Call Canopy_Energy_Terms ()
-      Call Canopy_Long_Wave_Radiation ()
-
-      call pop_routine (myname)
-      return
-      end
-
-*     ===========================================================
-      subroutine Canopy_short_wave_radiation ()
-*     ===========================================================
-      use CanopyModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*       Calculate interception of short wave by canopy compartments
-
-*+  Mission Statement
-*       Calculate interception of short wave by canopy compartments
-
-*+  Changes
-*     NIH 30/3/00 Specified
-
-*+  Calls
-
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'Canopy_short_wave_radiation')
-
-*+  Local Variables
-      integer i
-      integer j
-      real    Rin
-      real    Rint
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-         ! Perform Top-Down Light Balance
-         ! ==============================
-
-      Rin = g%met%Radn
-
-      do 200 i = g%NumLayers,1,-1
-
-         Rint = Rin
-     :        * (1. - exp(-g%LayerK(i)
-     :                    *sum(g%LAI(i,1:g%NumComponents))))
-
-         !  #Issue NIH 20/08/02
-         !  Need to Take into account interception by dead leaves
-
-         do 100 j = 1, g%NumComponents
-            g%Rs(i,j) = Rint
-     :                * divide(g%F(i,j)*g%K(i,j)
-     :                        ,g%LayerK(i)
-     :                        ,0.0)
-  100    continue
-
-         Rin = Rin - Rint
-
-  200 continue
-
-      call pop_routine (myname)
-      return
-      end
-
-
-*     ===========================================================
-      subroutine on_newmet (variant)
-*     ===========================================================
-      use CanopyModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*       Obtain all relevant met data
-
-!+  Sub-Program Arguments
-      integer, intent(in out) :: variant
-
-*+  Mission Statement
-*       Obtain all relevant met data
-
-*+  Changes
-*     NIH 30/3/00 Specified
-
-*+  Calls
-
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'on_newmet')
-
-*+  Local Variables
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      
-      call unpack_newmet(variant, g%met)
-
-      call pop_routine (myname)
-      return
-      end
-
-*     ===========================================================
-      subroutine Canopy_Long_Wave_Radiation ()
-*     ===========================================================
-      use CanopyModule
-      use MicrometScienceModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*       Calculate Net Long Wave Radiation Balance
-
-*+  Mission Statement
-*       Calculate Net Long Wave Radiation Balance
-
-*+  Changes
-*     NIH 30/3/00 Specified
-
-*+  Calls
-
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'Canopy_Long_Wave_Radiation')
-
-*+  Local Variables
-      integer i
-      integer j
-      real    Net_Long_Wave
-      real    FractionClearSky
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      FractionClearSky = divide(g%SunshineHours
-     :                         ,g%DayLength
-     :                         ,0.0)
-
-      Net_Long_Wave = Canopy_longwave(g%AverageT
-     :                                  ,FractionClearSky
-     :                                  ,g%Emissivity)
-     :              * day2hr * hr2s / 1.0e6  ! W to MJ
-
-
-         ! Long Wave Balance Proportional to Short Wave Balance
-         ! ====================================================
-
-      do 200 i = g%NumLayers,1,-1
-
-
-         do 100 j = 1, g%NumComponents
-            g%Rl(i,j) = divide(g%Rs(i,j)
-     :                        ,g%met%Radn
-     :                        ,0.0)
-     :                * Net_Long_Wave
-  100    continue
-
-
-  200 continue
-
-      call pop_routine (myname)
-      return
-      end
-
-*     ===========================================================
-      subroutine Canopy_Met_Variables ()
-*     ===========================================================
-      use CanopyModule
-      use MicrometScienceModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*       Calculate Daily Met Variables
-
-*+  Mission Statement
-*       Calculate Daily Met Variables
-
-*+  Changes
-*     NIH 30/3/00 Specified
-
-*+  Calls
-
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'Canopy_Met_Variables')
-
-*+  Local Variables
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-
-      g%Daylength = Canopy_DayLength(g%latitude,g%day)
-
-      g%AverageT = (g%met%maxt + g%met%mint)/2.0
-
-      g%SunshineHours = Canopy_Sunshine_Hours(g%met%Radn
-     :                                         ,g%latitude
-     :                                         ,g%day)
-
-
-      call pop_routine (myname)
-      return
-      end
-
-*     ===========================================================
-      subroutine on_tick (variant)
-*     ===========================================================
-      use CanopyModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*     Update internal time record and reset daily state variables.
-
-!+  Sub-Program Arguments
-      integer, intent(in out) :: variant
-
-*+  Mission Statement
-*     Update internal time record and reset daily state variables.
-
-*+  Changes
-*        140400 nih
-
-*+  Local Variables
-      type(timeType) :: time
+*        090896 jngh - Programmed and Specified
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
-      parameter (myname = 'on_tick')
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
-
-      ! Note that time and timestep information is not required
-      ! and so dummy variables are used in their place.
-
-      call unpack_time(variant, time)
-      call jday_to_day_of_year (dble(time%startday), g%day, g%year)
-
-      call pop_routine (myname)
-      return
-      end
-
-*     ===========================================================
-      subroutine Canopy_Energy_Terms ()
-*     ===========================================================
-      use CanopyModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*       Calculate the overall system energy terms
-
-*+  Mission Statement
-*       Calculate the overall system energy terms
-
-*+  Changes
-*     NIH 14/4/00 Specified
-
-*+  Calls
-
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'Canopy_Energy_Terms')
+      parameter (myname = 'canopy_crop_number')
 
 *+  Local Variables
-      integer i
-      integer j
+      integer    crop                  ! crop counter
+      integer    crop_num              ! position of crop in array
 
 *- Implementation Section ----------------------------------
-
       call push_routine (myname)
-
-      ! Each term is a radiation weighted average of component terms
-      ! ============================================================
-
-      g%albedo = 0.0
-      g%Emissivity = 0.0
-
-      do 200 i = g%NumLayers,1,-1
-
-         do 100 j = 1, g%NumComponents
-            g%albedo = g%albedo
-     :               + divide(g%Rs(i,j)
-     :                       ,g%met%Radn
-     :                       ,0.0)
-     :                   * g%ComponentAlbedo(j)
-            g%Emissivity = g%Emissivity
-     :               + divide(g%Rs(i,j)
-     :                       ,g%met%Radn
-     :                       ,0.0)
-     :                   * g%ComponentEmissivity(j)
-
-  100    continue
-
-  200 continue
-
-      g%albedo = g%albedo
-     :         + (1. - divide(sum(g%Rs(:,:))
-     :                       ,g%met%Radn
-     :                       ,0.0))
-     :             * p%Soil_Albedo
-
-      g%Emissivity = g%Emissivity
-     :         + (1. - divide(sum(g%Rs(:,:))
-     :                       ,g%met%Radn
-     :                       ,0.0))
-     :             * c%Soil_Emissivity
-
-      call pop_routine (myname)
-      return
-      end
-
-*     ===========================================================
-      subroutine Canopy_component_constants (Cno)
-*     ===========================================================
-      use CanopyModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Sub-Program Arguments
-      integer Cno ! Component Number
-
-*+  Purpose
-*       Read constants for a given canopy component
-
-*+  Mission Statement
-*       Read constants for a given canopy component
-
-*+  Changes
-*     NIH 30/3/00 Specified
-
-*+  Calls
-
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'Canopy_component_constants')
-
-*+  Local Variables
-      integer    numvals               ! number of values read
-      character  search_order(max_table)*32 ! sections to search
-      integer    num_sections          ! number of sections to search
-      logical    found
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-         ! Read Component Specific Constants
-         ! ---------------------------------
-         ! (should be in dedicated routine)
-
-         found = read_parameter (
-     :           g%canopies(Cno)%croptype
-     :         , 'albedo'             ! Keyword
-     :         , g%ComponentAlbedo(Cno)  ! Variable
-     :         , 0.0                  ! Lower Limit for bound checking
-     :         , 1.0)                 ! Upper Limit for bound checking
-
-         found = read_parameter (
-     :           g%canopies(Cno)%croptype
-     :         , 'emissivity'         ! Keyword
-     :         , g%ComponentEmissivity(Cno)  ! Variable
-     :         , 0.9                  ! Lower Limit for bound checking
-     :         , 1.0)                 ! Upper Limit for bound checking
-
-         found = read_parameter (
-     :           g%canopies(Cno)%croptype
-     :         , 'gsmax'              ! Keyword
-     :         , g%ComponentGsmax(Cno)  ! Variable
-     :         , 0.0                  ! Lower Limit for bound checking
-     :         , 1.0)                 ! Upper Limit for bound checking
-
-         found = read_parameter (
-     :           g%canopies(Cno)%croptype
-     :         , 'r50'                ! Keyword
-     :         , g%ComponentR50(Cno)  ! Variable
-     :         , 0.0                  ! Lower Limit for bound checking
-     :         , 1e3)                 ! Upper Limit for bound checking
-
-
-      call pop_routine (myname)
-      return
-      end
-
-*     ===========================================================
-      subroutine Canopy_Calculate_Gc ()
-*     ===========================================================
-      use CanopyModule
-      use MicrometScienceModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*       Calculate the canopy conductance for system compartments
-
-*+  Mission Statement
-*       Calculate the canopy conductance for system compartments
-
-*+  Changes
-*     NIH 19/4/00 Specified
-
-*+  Calls
-
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'Canopy_Calculate_Gc')
-
-*+  Local Variables
-      integer i
-      integer j
-      real    layerLAI
-      real    Rin
-      real    Rint
-      real    Rflux
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      Rin = g%met%Radn
-
-      do 200 i = g%NumLayers,1,-1
-         LayerLAI = sum(g%LAI(i,:))
-
-         Rflux = Rin * 10**6 / (g%DayLength *3600.0) ! should use convert.inc
-     :         * (1. - g%albedo)
-
-         do 100 j = 1, g%NumComponents
-            g%Gc(i,j) = Canopy_CanopyConductance
-     :                    (g%ComponentGsmax(j)
-     :                    ,g%ComponentR50(j)
-     :                    ,g%Canopies(j)%Frgr
-     :                    ,g%F(i,j)
-     :                    ,g%LayerK(i)
-     :                    ,LayerLAI
-     :                    ,Rflux)
-
-  100    continue
-
-         ! Calculate Rin for next layer down
-         Rint = sum(g%Rs(i,:))
-         Rin = Rin - Rint
-
-  200 continue
-
-      call pop_routine (myname)
-      return
-      end
-
-*     ===========================================================
-      subroutine Canopy_Calculate_Ga ()
-*     ===========================================================
-      use CanopyModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*       Calculate the aerodynamic conductance for system compartments
-
-*+  Mission Statement
-*       Calculate the aerodynamic conductance for system compartments
-
-*+  Changes
-*     NIH 30/5/00 Specified
-
-*+  Calls
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'Canopy_Calculate_Ga')
-
-      real       WindSpeed
-      parameter (WindSpeed = 3.0)
-
-*+  Local Variables
-      integer i
-      integer j
-      real layer_ga
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      do 200 i = 1, g%NumLayers
-
-         if (i .eq. 1) then
-!            layer_ga = Canopy_AerodynamicCondNew (
-!     :                         WindSpeed
-!     :                       , MetHeight
-!     :                       , CropHeight
-!     :                       , CropLAI
-!     :                       , Meas_ZeroPlane)
-            layer_ga = p%layer_ga
+ 
+      do 1000 crop = 1, g%num_crops
+         if (module_name.eq.g%crop_module(crop)) then
+            crop_num = crop
+            goto 1100
          else
-!            layer_ga = Canopy_AerodynamicCondSub (
-!     :                                        WindSpeed
-!     :                                      , WindAttenuation
-!     :                                      , MetHeight
-!     :                                      , CropLAI
-!     :                                      , CropHeight
-!     :                                      , SourceTop
-!     :                                      , SourceSub
-!     :                                      , Meas_ZeroPlane)
-            layer_ga = p%layer_ga
          endif
-
-
-         do 100 j = 1, g%NumComponents
-
-            g%Ga(i,j) = layer_ga
-     :                * g%F(i,j)
-
-  100    continue
-
-  200 continue
-
+ 
+1000  continue
+      crop_num = 0
+ 
+1100  continue
+ 
+      canopy_crop_number = crop_num
+ 
       call pop_routine (myname)
       return
       end
 
+
+
 *     ===========================================================
-      subroutine Canopy_Calculate_Interception ()
+      subroutine canopy_prepare ()
 *     ===========================================================
       use CanopyModule
-      use ComponentInterfaceModule
       implicit none
+      include 'error.pub'                         
 
 *+  Purpose
-*       Calculate the interception loss of water from the canopy
-
-*+  Mission Statement
-*       Calculate the interception loss of water from the canopy
+*     Perform calculations before the current timestep. This is the main
+*     processing for the arbitrator
 
 *+  Changes
-*     NIH 23/8/00 Specified
-
-*+  Calls
-
+*      201093 jngh specified and programmed
 
 *+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'Canopy_Calculate_Interception')
-
-*+  Local Variables
-      real Total_LAI
-      real Total_Interception
-      integer i
-      integer j
+      character  my_name*(*)           ! procedure name
+      parameter (my_name='canopy_prepare')
 
 *- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      Total_LAI = sum(g%LAI(:,:))
-
-      Total_Interception = p%A_interception
-     :              * g%met%rain**p%B_interception
-     :               + p%C_interception * Total_LAI
-     :               + p%D_interception
-
-      Total_Interception = bound(Total_Interception, 0.0,
-     :                           0.99*g%met%Rain)
-
-      do 200 i = 1, g%NumLayers
-         do 100 j = 1, g%NumComponents
-
-            g%Interception(i,j) = divide(g%LAI(i,j)
-     :                                  ,sum(g%LAI(:,:))
-     :                                  ,0.0)
-     :                          * Total_Interception
-
-  100    continue
-  200 continue
-      call pop_routine (myname)
-      return
-      end
-
-
-*     ===========================================================
-      subroutine Canopy_Calculate_Omega ()
-*     ===========================================================
-      use CanopyModule
-      use MicrometScienceModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*       Calculate the aerodynamic decoupling for system compartments
-
-*+  Mission Statement
-*       Calculate the aerodynamic decoupling for system compartments
-
-*+  Changes
-*     NIH 30/5/00 Specified
-
-*+  Calls
-
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'Canopy_Calculate_Omega')
-
-*+  Local Variables
-      integer i
-      integer j
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      do 200 i = 1, g%NumLayers
-         do 100 j = 1, g%NumComponents
-
-            g%Omega(i,j) = Canopy_omega(g%met%mint
-     :                                   ,g%met%maxt
-     :                                   ,c%air_pressure
-     :                                   ,g%Ga(i,j)
-     :                                   ,g%Gc(i,j)
-     :                                   )
-
-  100    continue
-
-  200 continue
-
-      call pop_routine (myname)
-      return
-      end
-
-*====================================================================
-      subroutine Canopy_calculate_PM ()
-*====================================================================
-      Use CanopyModule
-      use MicrometScienceModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Sub-Program Arguments
-
-*+  Purpose
-*     Calculate the Penman-Monteith water demand
-
-*+  Notes
-
-*+  Changes
-*       270500 - NIH specified and programmed
-
-*+  Calls
-      REAL Canopy_PETa
-      REAL Canopy_PETr
-      REAL Canopy_Penman_Monteith
-
-*+  Local Variables
-      REAL AverageT
-      REAL Lambda
-      REAL NetRadiation       ! J
-      INTEGER i
-      INTEGER j
-      REAL Free_Evap
-      REAL Free_Evap_Ga
-      REAL Free_Evap_Gc
-      REAL Dry_Leaf_Fraction
-
-*+  Constant Values
-      character  myname*(*)            ! name of procedure
-      parameter (myname = 'Canopy_calculate_PM')
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      NetRadiation = ((1. - g%Albedo) * sum(g%Rs(:,:))+ sum(g%Rl(:,:)))
-     :             * 1e6        ! MJ/J
-
-      Free_Evap_Ga = p%layer_ga
-      Free_Evap_Gc = Free_Evap_Ga * 1e6  !=infinite surface conductance
-
-      Free_Evap = Canopy_Penman_Monteith
-     :              (
-     :               NetRadiation
-     :              ,g%met%mint
-     :              ,g%met%maxt
-     :              ,g%met%vp
-     :              ,c%Air_Pressure
-     :              ,g%daylength
-     :              ,Free_Evap_Ga
-     :              ,Free_Evap_Gc
-     :              )
-
-      Dry_Leaf_Fraction = 1.0 -  divide (sum(g%Interception(:,:))
-     :                                  ,Free_Evap
-     :                                  ,0.0)
-
-      if (Dry_Leaf_Fraction.lt.0.0) then
-!         call Warning_Error(Err_User,
-!     :            'Interception volume > max free water evaporation')
-         Dry_Leaf_Fraction = 0.0
+ 
+      call push_routine (my_name)
+ 
+            ! determine crops with canopies now
+ 
+      call canopy_canopies_present (g%canopy_index, g%num_canopies)
+ 
+      if (g%num_canopies.gt.0) then
+ 
+               ! get light transmitted through each layer
+ 
+         call canopy_top_layer_light (g%top_layer_light)
+ 
+               ! get light intercepted by each crop canopy
+ 
+         call canopy_intc_light (g%intc_light)
+ 
       else
+            ! no canopies present
       endif
-
-      averageT = (g%met%mint + g%met%maxt)/2.0
-      Lambda = Canopy_Lambda (AverageT)
-
-      do 200 i = 1, g%NumLayers
-         do 100 j = 1, g%NumComponents
-
-            NetRadiation = ((1. - g%Albedo) * g%Rs(i,j)+ g%Rl(i,j))
-     :             * 1e6        ! MJ/J
-
-            g%PETr(i,j) = Canopy_PETr
-     :              (
-     :               NetRadiation * Dry_Leaf_Fraction
-     :              ,g%met%mint
-     :              ,g%met%maxt
-     :              ,c%Air_Pressure
-     :              ,g%Ga(i,j)
-     :              ,g%Gc(i,j)
-     :              )
-
-            g%PETa(i,j) = Canopy_PETa
-     :                 (
-     :                  g%met%mint
-     :                 ,g%met%maxt
-     :                 ,g%met%vp
-     :                 ,c%Air_Pressure
-     :                 ,g%daylength * Dry_Leaf_Fraction
-     :                 ,g%Ga(i,j)
-     :                 ,g%Gc(i,j)
-     :                 )
-
-            g%PET(i,j) = g%PETr(i,j) + g%PETa(i,j)
-
-  100    continue
-  200 continue
-
-      call pop_routine (myname)
-
+ 
+      call pop_routine (my_name)
       return
       end
 
-*====================================================================
-      real function Canopy_Penman_Monteith
-     :              (
-     :               Rn
-     :              ,mint
-     :              ,maxt
-     :              ,vp
-     :              ,Air_Pressure
-     :              ,daylength
-     :              ,Ga
-     :              ,Gc
-     :              )
-*====================================================================
-      Use CanopyModule
-      use MicrometScienceModule
-      use ComponentInterfaceModule
-      implicit none
 
-*+  Sub-Program Arguments
-      real Rn
-      real mint
-      real maxt
-      real vp
-      real Air_Pressure
-      real daylength
-      real Ga
-      real Gc
-
-*+  Purpose
-*     Calculate the Penman-Monteith water demand
-
-*+  Notes
-
-*+  Changes
-*       270500 - NIH specified and programmed
-
-*+  Calls
-
-
-*+  Local Variables
-      REAL Non_dQs_dT
-      REAL Lambda             ! J/kg
-      REAL denominator         !of the Penman-Monteith equation
-      REAL RhoA
-      REAL SpecificVPD
-      REAL averageT
-      REAL PETa
-      REAL PETr
-
-*+  Constant Values
-      character  myname*(*)            ! name of procedure
-      parameter (myname = 'Canopy_Penman_Monteith')
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      averageT = (mint + maxt)/2.0
-      Non_dQs_dT = Canopy_Non_dQs_dT (averageT ,Air_Pressure)
-      RhoA = Canopy_RhoA (averageT, Air_Pressure)
-      Lambda = Canopy_Lambda (AverageT)
-
-      SpecificVPD = Canopy_SpecificVPD ( vp
-     :                                   , mint
-     :                                   , maxt
-     :                                   , Air_Pressure)
-
-      Denominator = Non_dQs_dT
-     :            + Divide( Ga, Gc, 0.0)
-     :            + 1.0                        ! unitless
-
-      PETr = Divide( Non_dQs_dT * Rn
-     :             , Denominator, 0.0)      ! J
-     :             * 1000.0                 ! mm/m3  ????
-     :             / Lambda                 ! J/kg
-     :             / RhoW                   ! kg/m3
-
-
-      PETa = Divide( RhoA * SpecificVPD * Ga
-     :             , Denominator, 0.0)      ! kg/m3.kg/kg.m/s =
-     :             * 1000.0                 ! m to mm ?
-     :             * (DayLength *3600.0)    ! s
-     :             / RhoW                   ! kg/m3
-
-      Canopy_penman_monteith = PETr + PETa
-
-      call pop_routine (myname)
-      return
-      end
-
-*====================================================================
-      real function Canopy_PETr
-     :              (
-     :               Rn
-     :              ,minT
-     :              ,maxT
-     :              ,Air_Pressure
-     :              ,Ga
-     :              ,Gc
-     :              )
-*====================================================================
-      Use CanopyModule
-      use MicrometScienceModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Sub-Program Arguments
-      real Rn
-      real MinT
-      real MaxT
-      real Air_Pressure
-      real Ga
-      real Gc
-
-*+  Purpose
-*     Calculate the radiation-driven term for the Penman-Monteith
-*     water demand
-
-*+  Notes
-
-*+  Changes
-*       270500 - NIH specified and programmed
-
-*+  Calls
-
-
-*+  Local Variables
-      REAL AverageT
-      REAL Non_dQs_dT
-      REAL Lambda             ! J/kg
-      REAL denominator         !of the Penman-Monteith equation
-
-*+  Constant Values
-      character  myname*(*)            ! name of procedure
-      parameter (myname = 'Canopy_PETr')
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      averageT = (mint + maxt)/2.0
-
-      Non_dQs_dT = Canopy_Non_dQs_dT (averageT ,Air_Pressure)
-
-      Lambda = Canopy_Lambda (AverageT)
-
-      Denominator = Non_dQs_dT
-     :            + Divide(Ga, Gc, 0.0)
-     :            + 1.0                        ! unitless
-
-      Canopy_PETr = Divide( Non_dQs_dT * Rn
-     :                      , Denominator, 0.0)      ! J
-     :                      * 1000.0                 ! mm/m3  ????
-     :                      / Lambda                 ! J/kg
-     :                      / RhoW                   ! kg/m3
-
-      call pop_routine (myname)
-
-      return
-      end
-
-*====================================================================
-      real function Canopy_PETa
-     :              (
-     :               mint
-     :              ,maxt
-     :              ,vp
-     :              ,Air_Pressure
-     :              ,daylength
-     :              ,Ga
-     :              ,Gc
-     :              )
-*====================================================================
-      Use CanopyModule
-      use MicrometScienceModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Sub-Program Arguments
-      real mint
-      real maxt
-      real vp
-      real Air_Pressure
-      real daylength
-      real Ga
-      real Gc
-
-*+  Purpose
-*     Calculate the aerodynamically-driven term for the Penman-Monteith
-*     water demand
-
-*+  Notes
-
-*+  Changes
-*       270500 - NIH specified and programmed
-
-*+  Calls
-
-
-*+  Local Variables
-      REAL Non_dQs_dT
-      REAL Lambda             ! J/kg
-      REAL denominator         !of the Penman-Monteith equation
-      REAL RhoA
-      REAL SpecificVPD
-      REAL averageT
-
-*+  Constant Values
-      character  myname*(*)            ! name of procedure
-      parameter (myname = 'Canopy_PETa')
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      averageT = (mint + maxt)/2.0
-      Non_dQs_dT = Canopy_Non_dQs_dT (averageT ,Air_Pressure)
-      RhoA = Canopy_RhoA (averageT, Air_Pressure)
-      Lambda = Canopy_Lambda (AverageT)
-
-      SpecificVPD = Canopy_SpecificVPD ( vp
-     :                                   , mint
-     :                                   , maxt
-     :                                   , Air_Pressure)
-
-      Denominator = Non_dQs_dT
-     :            + Divide( Ga, Gc, 0.0)
-     :            + 1.0                        ! unitless
-
-      Canopy_PETa = Divide( RhoA * SpecificVPD * Ga
-     :                      , Denominator, 0.0)      ! kg/m3.kg/kg.m/s =
-     :                      * 1000.0                 ! m to mm ?
-     :                      * (DayLength *3600.0)    ! s
-     :                      / RhoW                   ! kg/m3
-
-      call pop_routine (myname)
-
-      return
-      end
 
 *     ===========================================================
-      subroutine Canopy_Energy_Balance_Event ()
+      subroutine canopy_canopies_present (canopy_index, num_canopies)
 *     ===========================================================
       use CanopyModule
-      use ComponentInterfaceModule
       implicit none
-
-*+  Purpose
-*       Send an energy balance event
-
-*+  Mission Statement
-*       Send an energy balance event
-
-*+  Changes
-*     NIH 30/5/00 Specified
-
-*+  Calls
-
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'Canopy_Energy_Balance_Event')
-
-*+  Local Variables
-      integer j
-      integer i
-      type (LightProfileType)::profile
-      integer layer
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
-
-      profile%NumInterceptions = g%NumComponents
-
-      do 100 j=1,g%NumComponents
-
-         profile%interception(j)%name = g%canopies(j)%name
-         profile%interception(j)%CropType = g%canopies(j)%CropType
-         profile%interception(j)%NumLayers = g%NumLayers
-
-         do 50 i = 1,g%NumLayers
-            profile%interception(j)%layer(i)%thickness
-     :                       = g%DeltaZ(i)
-            profile%interception(j)%layer(i)%amount
-     :                       = g%Rs(i,j)
-   50    continue
-  100 continue
-      profile%transmission = g%met%radn - sum(g%Rs(:,:))
-
-      call publish_LightProfile(id%LightProfileCalculated
-     :            ,profile,.false.)
-
-      call pop_routine (myname)
-      return
-      end
-
-*     ===========================================================
-      subroutine Canopy_Water_Balance_Event ()
-*     ===========================================================
-      use CanopyModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*       Send a canopy water balance event
-
-*+  Mission Statement
-*       Send a canopy water balance event
-
-*+  Changes
-*     NIH 30/5/00 Specified
-
-*+  Calls
-
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'Canopy_Water_Balance_Event')
-
-*+  Local Variables
-      integer j
-      integer i
-      type (CanopyWaterBalanceType)::CanopyWaterBalance
-      integer layer
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
-
-      CanopyWaterBalance%NumCanopys = g%NumComponents
-
-      do 100 j=1,g%NumComponents
-
-         CanopyWaterBalance%canopy(j)%name = g%canopies(j)%name
-         CanopyWaterBalance%canopy(j)%CropType = g%canopies(j)%CropType
-         CanopyWaterBalance%canopy(j)%potentialEp
-     :                 =  sum(g%PET(1:g%NumLayers,j))
-  100 continue
-
-      CanopyWaterBalance%interception = sum(g%Interception(:,:))
-      CanopyWaterBalance%Eo = g%eo
-
-      call publish_CanopyWaterBalance(id%CanopyWaterBalanceCalculated
-     :            ,CanopyWaterBalance,.false.)
-
-      call pop_routine (myname)
-      return
-      end
-
-*     ===========================================================
-      integer function Canopy_Component_Number (name)
-*     ===========================================================
-      use CanopyModule
-      use ComponentInterfaceModule
-      implicit none
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
 
 *+  Sub-Program Arguments
-      character name*(*)
+      integer    canopy_index(*)       ! (OUTPUT) presence of canopy and order
+      integer    num_canopies          ! (OUTPUT) number of canopies present
 
 *+  Purpose
-*       Find record number for a given canopy name
-
-*+  Mission Statement
-*       Find record number for a given canopy name
+*     Determine which canopies are present and their order from top down.
 
 *+  Changes
-*     NIH 5/3/02 Specified
-
-*+  Calls
-
+*      201093 jngh specified and programmed
 
 *+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'Canopy_Component_Number')
+      character  my_name*(*)           ! procedure name
+      parameter (my_name='canopy_canopies_present')
 
 *+  Local Variables
-      integer    counter
+      real       temp(max_crops)       ! temporary height array for sorting
+      real       temp1(max_crops)      ! temporary height array for counting
 
 *- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      Canopy_Component_Number = 0
-      do 100 counter = 1, g%NumComponents
-         if (g%Canopies(counter)%name.eq.name) then
-            Canopy_Component_Number = counter
-         else
-         endif
-  100 continue
-
-      call pop_routine (myname)
-      return
-      end
-
-
-*     ===========================================================
-      subroutine Canopy_Reference_Et ()
-*     ===========================================================
-      use CanopyModule
-      use ComponentInterfaceModule
-
-      implicit none
-
-*+  Sub-Program Arguments
-
-
-*+  Purpose
-*       calculate Reference(potential) evapotranspiration
-
-*+  Notes
-
-
-*+  Mission Statement
-*     Calculate Reference(Potential) EvapoTranspiration
-
-*+  Changes
-*        190802   specified and programmed jngh (j hargreaves
-
-*+  Local Variables
-      real eo_system  ! value of Eo obtained from the comm. system
-      logical found
-
-*+  Constant Values
-      character  my_name*(*)           ! name of subroutine
-      parameter (my_name = 'Canopy_pot_evapotranspiration')
-
-*- Implementation Section ----------------------------------
-
+ 
       call push_routine (my_name)
+ 
+            ! determine crops with canopies now
+ 
+            ! We put the heights into a temporary array as negative numbers,
+            ! sort that into ascending order, with a key to their original
+            ! position before sortine.  This gives us an index to the
+            ! height array in descending order of height.
+ 
+      call fill_real_array (temp, 0.0, max_crops)
+      call subtract_real_array (g%height, temp, max_crops)
+      call fill_integer_array (canopy_index, 0, max_crops)
+ 
+            ! determine order of canopies from top down
+ 
+      call shell_sort_real (temp, -max_crops, canopy_index)
+ 
+      call fill_real_array (temp1, 0.0, max_crops)
+      call subtract_real_array (temp, temp1, max_crops)
+      num_canopies = count_of_real_vals (temp1, max_crops)
+ 
+      call pop_routine (my_name)
+      return
+      end
 
-      if (p%eo_source .eq. blank) then
-          call Canopy_priestly_taylor (g%eo) ! eo from priestly taylor
+
+
+*     ===========================================================
+      subroutine canopy_top_layer_light (layer_light)
+*     ===========================================================
+      use CanopyModule
+      implicit none
+      include 'data.pub'                          
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      real       layer_light(*)        ! (OUTPUT) light at top of canopy
+                                       ! (0-1)
+
+*+  Purpose
+*     Determine light at top of each canopy.
+
+*+  Changes
+*      201093 jngh specified and programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! procedure name
+      parameter (my_name='canopy_top_layer_light')
+
+*+  Local Variables
+      integer    layer_no              ! layer number in combined canopy ()
+      real       K_lai_in_layer(max_crops) ! K*lai product for each canopy in
+                                       ! layer
+      real       K_lai_in_layer_sum    ! total K*lai of canopies in layer ()
+                                       ! (area leaf/area soil)
+      integer    layer                 ! layer counter in total canopy ()
+      real       light_in              ! fraction of light entering layer (0-1)
+      real       light_out             ! fraction of light leaving layer (0-1)
+      integer    num_layers            ! number of layers in total canopy ()
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+            ! initialise canopy light array and top of combined canopy
+ 
+      light_out = 1.0
+      call fill_real_array (layer_light, 0.0, max_crops)
+ 
+            ! We define the layer boundaries by the top of each canopy.
+            ! Thus thwre are as many layers as canopies.
+            ! We now take each layer in turn from the top, in the combined
+            ! canopy, and thenlook at each canopy in that layer to get the
+            ! combined K*lai value of the canopies present in that layer.
+            ! The fractiion of light transmitted out of the bottom of
+            ! that layer can be calculated, which is in turn the fraction
+            ! entering the next layer below.
+            ! The lai here is the lai of green and dead leaves.
+ 
+      num_layers = g%num_canopies
+ 
+            ! take each layer in turn from top.
+ 
+      do 1000 layer = 1, num_layers
+         light_in = light_out
+         layer_no = g%canopy_index(layer)
+         layer_light(layer_no) = light_in
+ 
+               ! get the combined K*lai of the canopies.
+ 
+         call canopy_k_lai (K_lai_in_layer, g%K_lai_total, layer)
+         K_lai_in_layer_sum = sum_real_array (K_lai_in_layer, max_crops)
+ 
+               ! now we can get the fraction of transmitted light
+ 
+               ! this equation implies that leaf interception of radiation
+               ! obeys beer's law.
+ 
+         light_out = exp (-K_lai_in_layer_sum)*light_in
+1000  continue
+ 
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+*     ===========================================================
+      subroutine canopy_intc_light (intc_light)
+*     ===========================================================
+      use CanopyModule
+      implicit none
+      include 'data.pub'                          
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      real       intc_light(*)         ! (OUTPUT) fraction of light at top
+                                       ! of canopy (0-1)
+
+*+  Purpose
+*     Determine light fraction captured by green leaf of each canopy. (0-1)
+
+*+  Changes
+*      201093 jngh specified and programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! procedure name
+      parameter (my_name='canopy_intc_light')
+
+*+  Local Variables
+      integer    crop                  ! pointer to current crop array ()
+      integer    canopy_in_layer       ! canopy counter in layer ()
+      integer    layer_no              ! layer number in combined canopy ()
+      real       K_lai_in_layer(max_crops) ! K*lai product for each canopy in
+                                       ! layer ()
+      real       fr_light_intc         ! fraction of light intercepted (0-1)
+      real       K_lai_in_layer_sum    ! total K*lai of canopies in layer ()
+                                       ! (area leaf/area soil)
+      integer    layer                 ! layer counter in total canopy ()
+      real       light_in              ! fraction of light entering layer (0-1)
+      real       light_used_in_layer   ! fraction of light used in layer (0-1)
+      integer    num_layers            ! number of layers in total canopy ()
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+      call fill_real_array (intc_light, 0.0, max_crops)
+ 
+            ! Here we take each layer in turn from the top down, get the
+            ! light used by the combined canopy and then apportion that
+            ! to each canopy occupying the layer
+ 
+      num_layers = g%num_canopies
+      do 2000 layer = 1, num_layers
+ 
+               ! get the combined K*lai of the canopies.
+ 
+         call canopy_k_lai (K_lai_in_layer, g%K_lai_green, layer)
+         K_lai_in_layer_sum = sum_real_array (K_lai_in_layer, max_crops)
+ 
+               ! get the fraction of light used in the layer
+ 
+         layer_no = g%canopy_index(layer)
+         light_in = g%top_layer_light(layer_no)
+ 
+               ! this equation implies that leaf interception of radiation
+               ! obeys beer's law.
+ 
+         light_used_in_layer = (1.0 - exp (-K_lai_in_layer_sum))
+     :                       * light_in
+ 
+               ! now we divide the total light used amongst the canopies
+               ! occupying the layer.  This is done on the basis of the
+               ! K*lai product_of of each canopy as its structure (K) must
+               ! be taken into account.
+ 
+         do 1000 canopy_in_layer = 1, g%num_canopies
+            crop = g%canopy_index(canopy_in_layer)
+ 
+cjh            note that the fraction is of the total green - perhaps it
+cjh            should be of total tot. This method also ignores the shape
+cjh            of the canopies within the layer.
+ 
+            fr_light_intc = divide (K_lai_in_layer(crop)
+     :                            , K_lai_in_layer_sum, 0.0)
+            intc_light(crop) = intc_light(crop)
+     :                       + fr_light_intc*light_used_in_layer
+1000     continue
+2000  continue
+ 
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+*     ===========================================================
+      subroutine canopy_k_lai (K_lai_in_layer, K_lai, layer)
+*     ===========================================================
+      use CanopyModule
+      implicit none
+      include 'data.pub'                          
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      real       K_lai_in_layer(*)     ! (OUTPUT) K*lai product for each
+                                       ! crop in layer
+      real       K_lai(*)              ! (INPUT) K_lai's of crop canopies
+      integer    layer                 ! (INPUT) layer number in total canopy
+
+*+  Purpose
+*     Determine product of K and lai for each canopy in a specified layer.
+
+*+  Changes
+*      201093 jngh specified and programmed
+
+*+  Calls
+      real       canopy_fract_canopy   ! function
+
+*+  Constant Values
+      character  my_name*(*)           ! procedure name
+      parameter (my_name='canopy_k_lai')
+
+*+  Local Variables
+      integer    canopies_in_layer     ! number of canopies in layer ()
+      integer    crop                  ! pointer to current crop array ()
+      integer    canopy                ! canopy counter in layer ()
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+      call fill_real_array (K_lai_in_layer, 0.0, max_crops)
+ 
+            ! now take each canopy in turn that possibly lies in the layer
+            ! and get its K*lai product_of
+ 
+      canopies_in_layer = layer
+      do 1000 canopy = 1, canopies_in_layer
+         crop = g%canopy_index(canopy)
+         K_lai_in_layer(crop) = canopy_fract_canopy (crop, layer)
+     :                        * K_lai(crop)
+ 
+1000  continue
+ 
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+*     ===========================================================
+      real function canopy_fract_canopy (crop, layer)
+*     ===========================================================
+      use CanopyModule
+      implicit none
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      integer    crop                  ! (INPUT) crop canopy number
+      integer    layer                 ! (INPUT) layer number
+
+*+  Purpose
+*     Returns fraction of specified canopy in specified layer. (0-1)
+
+*+  Changes
+*      201093 jngh specified and programmed
+
+*+  Calls
+            ! describe the canopy shape as a function of height.
+      external   canopy_width
+      real       canopy_width          ! function
+
+*+  Constant Values
+      character  my_name*(*)           ! procedure name
+      parameter (my_name='canopy_fract_canopy')
+
+*+  Local Variables
+      integer    layer_no              ! layer number in combined canopy ()
+      real       height_at_top         ! height to top of layer (mm)
+      real       height_at_bottom      ! height to bottom of layer (mm)
+      integer    next_layer            ! layer number in combined canopy ()
+      real       part_in_layer         ! area in layer ()
+      real       total_canopy          ! area of total canopy ()
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+            ! we get the heights of the top and bottom of the layer and
+            ! then find the k_lai contained in each of the heights,
+            ! the difference being the k_lai in the layer.
+ 
+      layer_no = g%canopy_index(layer)
+      call bound_check_integer_var (layer+1, 0, max_crops, 'layer+1')
+      next_layer = g%canopy_index(layer+1)
+ 
+      height_at_top = divide (g%height(layer_no)
+     :                      , g%height(crop), 0.0)
+      height_at_top = bound (height_at_top, 0.0, 1.0)
+ 
+      height_at_bottom = divide (g%height(next_layer)
+     :                         , g%height(crop), 0.0)
+      height_at_bottom = bound (height_at_bottom, 0.0, 1.0)
+ 
+      part_in_layer = integrate_real_lg (height_at_bottom, height_at_top
+     :                                 , canopy_width)
+      total_canopy = integrate_real_lg (0.0, 1.0, canopy_width)
+ 
+      canopy_fract_canopy = divide (part_in_layer, total_canopy, 0.0)
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+*     ===========================================================
+      real function canopy_width (height_in_canopy)
+*     ===========================================================
+      use CanopyModule
+      implicit none
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      real       height_in_canopy      ! (INPUT) normalised height (0-1)
+
+*+  Purpose
+*       describe canopy shape as a function of normalised height
+
+*+  Changes
+*       201193 jngh specified and programmed
+
+*+  Constant Values
+      character  my_name*(*)            ! procedure name
+      parameter (my_name = 'canopy_width')
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+      canopy_width = height_in_canopy**5.0
+ 
+      call pop_routine (my_name)
+ 
+      return
+      end
+
+
+
+*     ===========================================================
+      subroutine canopy_post ()
+*     ===========================================================
+      use CanopyModule
+      implicit none
+      include 'const.inc'
+      include 'data.pub'                          
+      include 'error.pub'                         
+      include 'apsimengine.pub'
+
+*+  Purpose
+*     Perform calculations after the current timestep.
+
+*+  Changes
+*      201093 jngh specified and programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! procedure name
+      parameter (my_name='canopy_post')
+
+*+  Local Variables
+      integer    num_in_list           ! number of names in crop list
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+      num_in_list = count_of_char_vals (g%intercrop_list, max_crops)
+      if (num_in_list.gt.1) then
+         call Loader_ChangeComponentOrder(g%intercrop_list, num_in_list)
       else
-          found = get_Eo(g%EoSourceId, Eo_system)
-          if (.not.found) then
-             ! said data is not available
-             call error('Cannot find data for '//Trim(p%Eo_Source)
-     :                 ,.true.)
-          else
-             g%eo = eo_system       ! eo is provided by system
-          endif
+         ! no swapping required
       endif
-
-      call pop_routine (my_name)
-      end
-
-
-
-*     ===========================================================
-      subroutine Canopy_priestly_taylor (eo)
-*     ===========================================================
-      use CanopyModule
-      use ComponentInterfaceModule
-
-      implicit none
-
-*+  Sub-Program Arguments
-      real       eo            ! (output) potential evapotranspiration
-
-*+  Purpose
-*       calculate potential evapotranspiration via priestly-taylor
-
-*+  Mission Statement
-*       Calculate potential evapotranspiration using priestly-taylor method
-
-*+  Changes
-*        190802 NIH taken from soilwat2 module code
-
-
-*+  Calls
-      real       Canopy_eeq_fac       ! function
-
-*+  Constant Values
-      character  my_name*(*)           ! name of subroutine
-      parameter (my_name = 'Canopy_priestly_taylor')
-
-*+  Local Variables
-      real       eeq                   ! equilibrium evaporation rate (mm)
-      real       wt_ave_temp           ! weighted mean temperature for the
-                                       !    day (oC)
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-*  ******* calculate potential evaporation from soil surface (eos) ******
-
-                ! find equilibrium evap rate as a
-                ! function of radiation, albedo, and temp.
-
-                ! wt_ave_temp is mean temp, weighted towards max.
-
-      wt_ave_temp = 0.60*g%met%maxt + 0.40*g%met%mint
-
-      eeq = g%met%radn*23.8846* (0.000204 - 0.000183*g%albedo)
-     :    * (wt_ave_temp + 29.0)
-
-                ! find potential evapotranspiration (eo)
-                ! from equilibrium evap rate
-
-      eo = eeq*Canopy_eeq_fac ()
-
+ 
       call pop_routine (my_name)
       return
       end
 
 
 
-*     ===========================================================
-      real function Canopy_eeq_fac ()
-*     ===========================================================
-      use CanopyModule
-      use ComponentInterfaceModule
-
-      implicit none
-
-*+  Purpose
-*    calculate coefficient for equilibrium evaporation rate
-
-*+  Mission Statement
-*     Calculate the Equilibrium Evaporation Rate
-
-*+  Changes
-*        190802 NIH Taken from soilwat2 module
-
-*+  Constant Values
-      character  my_name*(*)           ! name of subroutine
-      parameter (my_name = 'Canopy_eeq_fac')
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-      if (g%met%maxt.gt.c%max_crit_temp) then
-
-                ! at very high max temps eo/eeq increases
-                ! beyond its normal value of 1.1
-
-         Canopy_eeq_fac = ((g%met%maxt - c%max_crit_temp)*0.05 + 1.1)
-      else if (g%met%maxt.lt.c%min_crit_temp) then
-
-                ! at very low max temperatures eo/eeq
-                ! decreases below its normal value of 1.1
-                ! note that there is a discontinuity at tmax = 5
-                ! it would be better at tmax = 6.1, or change the
-                ! .18 to .188 or change the 20 to 21.1
-
-         Canopy_eeq_fac = 0.01*exp (0.18* (g%met%maxt + 20.0))
-      else
-
-                ! temperature is in the normal range, eo/eeq = 1.1
-
-         Canopy_eeq_fac = 1.1
-      endif
-
-      call pop_routine (my_name)
-      return
-      end
-
-*     ===========================================================
-      subroutine map(n,x,y,M,u,v)
-*     ===========================================================
-      implicit none
-*+  Sub-Program Arguments
-      integer N,M
-      real x(*),y(*),u(*),v(*)
-
-*+  Purpose
-*     maps concentration in y into v so that integral is conserved
-*     x and u give intervals corresponding to y and v values
-
-*+  Mission Statement
-*    Map array of amounts into new layer structure
-
-*+  Changes
-*        190802 NIH Taken from similar routine in swim module
-
-*+  Local Variables
-      double precision sx, sy, su, sv,w
-      logical again
-      integer i,j
-
-*+  Constant Values
-      character  my_name*(*)           ! name of subroutine
-      parameter (my_name = 'Map')
-
-*- Implementation Section ----------------------------------
-
-      sx=0.
-      sy=0.
-      j=0
-      su=u(1)
-      sv=0.
-      do 20 i=1,N
-         sx=sx+x(i)
-         sy=sy+y(i)
-10       continue
-            again=.FALSE.
-            if((j.lt.M).and.(sx.ge.su.or.i.eq.N))then
-               j=j+1
-               w=sy-max(0,(sx-su))/x(i)*y(i)
-               v(j)=(w-sv)
-               if(j.lt.M)then
-                  su=su+u(j+1)
-                  sv=w
-                  again=.TRUE.
-               end if
-            end if
-         if(again)go to 10
-20    continue
-
-      return
-      end
-      
-*     ================================================================
-      subroutine OnResidueChanged (variant)
-*     ================================================================
-      use CanopyModule
-      use ComponentInterfaceModule
-      implicit none
-
-!+  Sub-Program Arguments
-      integer, intent(in out) :: variant
-
-*+  Purpose
-*     Obtain new residue information
-
-*+  Mission Statement
-*     Obtain new residue information
-
-*+  Changes
-*     <insert here>
-
-*+  Calls
-      integer Get_Residue_Number
-
-*+  Constant Values
-      character*(*) my_name
-      parameter (my_name = 'OnResidueChanged')
-
-*+  Local Variables
-      type (residuetype) :: Residues(max_residues)
-      integer num_Residues
-      integer Counter
-      integer Residue_number
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
-
-      call unpack_residue (variant, Residues, num_residues)
-
-      do 100 counter = 1, num_residues
-         residue_number = get_residue_number(Residues(counter)%name)
-
-         if (residue_number.ne.0) then
-            g%residues(residue_number) = Residues(counter)
-         else
-            g%num_residues = g%num_residues + 1
-            g%residues(g%num_residues) = Residues(counter)
-         endif
-
-  100 continue
-
-      call pop_routine (my_name)
-      return
-      end
-
-*     ================================================================
-      integer function Get_Residue_number (name)
-*     ================================================================
-      use CanopyModule
-      use ComponentInterfaceModule
-      implicit none
-
-!+  Sub-Program Arguments
-      character name*(*)
-
-*+  Purpose
-*     Find record number for a given residue name
-
-*+  Mission Statement
-*     Find record number for a given residue name
-
-*+  Changes
-*     <insert here>
-
-*+  Constant Values
-      character*(*) my_name
-      parameter (my_name = 'Get_Residue_number')
-
-*+  Local Variables
-      integer counter
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
-
-      Get_Residue_number = 0
-
-      do 100 counter = 1, g%num_residues
-         if (g%residues(counter)%name.eq.name) then
-            Get_Residue_number = counter
-         else
-         endif
-  100 continue
-
-      call pop_routine (my_name)
-      return
-      end
-      

@@ -1,4 +1,4 @@
- 
+
 C     Last change:  E     1 Oct 2001   11:38 am
 
 
@@ -29,9 +29,11 @@ C     Last change:  E     1 Oct 2001   11:38 am
      :        , p_tt_maturity_to_ripe
      :        , phase_tt)
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
       include 'CropDefCons.inc'
+      include 'data.pub'
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -204,9 +206,11 @@ cjh
      :        , leaf_no_final)
 
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
-      include 'CropDefCons.inc'      
+      include 'CropDefCons.inc'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -303,9 +307,11 @@ cjh
      :        , c_leaf_trans_frac
      :        , dm_green, dm_plant_min)
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
-      include 'CropDefCons.inc'      
+      include 'CropDefCons.inc'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -386,8 +392,8 @@ cjh
      :                      , c_temp_grain_crit_stress
      :                      , dlt_tt_heat_stress)
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_maxt                ! (INPUT) maximum temperature (oC)
@@ -446,9 +452,12 @@ cjh
      :        , c_grain_N_conc_min
      :        , grain_num)
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
-      include 'CropDefCons.inc'      
+      include    'CropDefCons.inc'
+      include 'science.pub'
+      include 'data.pub'
+      include 'crp_nitn.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -603,9 +612,12 @@ c     :                           , 'grain_no_fract')
      :        , g_nfact_grain_conc
      :        , dlt_dm_grain_demand)
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
-      include 'CropDefCons.inc'      
+      include   'convert.inc'          ! mg2gm
+      include 'CropDefCons.inc'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -738,9 +750,11 @@ c     :                           , 'grain_no_fract')
      :        , g_swdef_expansion
      :        , g_nfact_grain_conc)
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
-      include 'CropDefCons.inc'      
+      include    'CropDefCons.inc'
+      include 'data.pub'
+      include 'crp_nitn.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_N_conc_min(*)
@@ -767,7 +781,7 @@ c     :                           , 'grain_no_fract')
 *     970317 slw new template form
 
 *+  Calls
-      real      crop_N_dlt_grain_conc   ! function
+
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_dm_grain_max')
@@ -820,9 +834,12 @@ c     :                           , 'grain_no_fract')
      :        , g_dlt_dm_grain_demand
      :        , dlt_dm_green)
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
+      include   'convert.inc'
       include 'CropDefCons.inc'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -986,9 +1003,11 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
      :        , g_days_tot
      :        , dlt_leaf_no_dead)
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
-      include 'CropDefCons.inc'      
+      include 'CropDefCons.inc'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_leaf_no_dead(*)
@@ -1060,9 +1079,12 @@ cpsc need to develop leaf senescence functions for crop
      :                    , g_plants
      :                    , dlt_plants)
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
-      include 'CropDefCons.inc'      
+      include   'const.inc'
+      include 'CropDefCons.inc'
+      include 'data.pub'
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_cswd_pheno(*)
@@ -1123,9 +1145,11 @@ cpsc need to develop leaf senescence functions for crop
      :                    , g_plants
      :                    , dlt_plants)
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
-      include 'CropDefCons.inc'      
+      include   'const.inc'
+      include 'CropDefCons.inc'
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -1200,8 +1224,9 @@ cpsc need to develop leaf senescence functions for crop
      :        , g_plants
      :        , killfr)
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       c_head_grain_no_crit
@@ -1275,8 +1300,9 @@ cpsc need to develop leaf senescence functions for crop
      :        , p_head_grain_no_max
      :        , c_barren_crit)
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
+      include   'const.inc'            ! err_user
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       c_head_grain_no_crit
@@ -1314,7 +1340,7 @@ cpsc need to develop leaf senescence functions for crop
      :              ,'        which is '
      :              , c_barren_crit
      :              ,' of potential.'
-         call error (err_messg,.false.)
+         call warning_error (err_user, err_messg)
 
       else
       endif
@@ -1335,8 +1361,10 @@ cpsc need to develop leaf senescence functions for crop
      :        , g_p_conc_max
      :        , g_plant_p)
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
+      include 'data.pub'
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    init_stage
@@ -1394,8 +1422,9 @@ cpsc need to develop leaf senescence functions for crop
      :        , c_p_uptake_factor
      :        , g_P_demand)
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Purpose
 *     Calculate the plant p demand
@@ -1473,9 +1502,12 @@ cpsc need to develop leaf senescence functions for crop
      :        , P_conc_max
      :        , P_conc_min)
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
       include 'CropDefCons.inc'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
+      include 'crp_phen.pub'
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -1501,9 +1533,6 @@ cpsc need to develop leaf senescence functions for crop
 
 *+  Changes
 *     080994 jngh specified and programmed
-
-*+  calls
-      real  Crop_stage_code   ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -1568,8 +1597,10 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :              , pfact
      :               )
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
+      include   'const.inc'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_dm_green(*)    ! (INPUT)  live plant biomass (g/m2)
@@ -1636,9 +1667,11 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
        subroutine maize_nit_demand_est (Option)
 * ====================================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
-!      include 'CropDefCons.inc'      
+      include 'const.inc'
+      include 'data.pub'
+      include 'crp_nitn.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option
@@ -1712,7 +1745,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :               )
 
       else
-         call error ('Invalid template option',.true.)
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (myname)
@@ -1723,8 +1756,10 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       subroutine Read_Constants_Maize ()
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include   'const.inc'
+      include 'read.pub'
+      include 'error.pub'
 
 *+  Purpose
 *       Crop initialisation - reads constants from constants file
@@ -1790,6 +1825,11 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :                    , 'row_spacing_default', '(m)'
      :                    , c%row_spacing_default, numvals
      :                    , 0.0, 2.0)
+
+      call read_real_var (section_name
+     :                     , 'skiprow_default', '()'
+     :                     , c%skip_row_default, numvals
+     :                     , 0.0, 2.0)
 
       call read_real_array (section_name
      :                     , 'x_row_spacing', max_table, '(mm)'
@@ -2786,8 +2826,10 @@ c     :                    , 0.0, 100.0)
       subroutine Read_Cultivar_Params_Maize (cultivar)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include   'const.inc'            ! new_line, blank
+      include 'read.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       character  cultivar*(*)          ! (INPUT) keyname of cultivar in crop
@@ -2992,8 +3034,10 @@ c     :                    , 0.0, 100.0)
       subroutine Maize_bio_retrans ()
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'crp_biom.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
 

@@ -34,9 +34,10 @@ C     Last change:  E    29 Aug 2001    9:15 pm
      .          p_tt_maturity_to_ripe,
      .          g_phase_tt)
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
-      include 'CropDefCons.inc'
+      include   'CropDefCons.inc'
+      include 'science.pub'
+      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real      g_current_stage
@@ -90,47 +91,47 @@ c      real       tt_emerg_to_flag_leaf ! thermal time to develop
 c                                       ! and fully expand all leaves (oC)
       real       photoperiod           ! daylength (hours)
 c     real       leaf_no_change
-
+      
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (my_name)
-
+ 
       ! set estimates of phase thermal time targets at germination
-
+ 
       if (on_day_of (germ, g_current_stage, g_days_tot)) then
          g_phase_tt(germ_to_emerg) = c_shoot_lag
      :                             + g_sowing_depth*c_shoot_rate
-
+ 
          g_phase_tt(emerg_to_endjuv) = p_tt_emerg_to_endjuv
          g_phase_tt(endjuv_to_init)  = p_tt_endjuv_to_init
-
-
+ 
+      
       ! revise thermal time target for floral initialisation at emergence
-
+ 
       elseif (on_day_of (emerg, g_current_stage, g_days_tot) .or.
      :        stage_is_between (emerg, endjuv, g_current_stage) .or.
      :        on_day_of (endjuv, g_current_stage, g_days_tot)) then
-
+ 
          photoperiod = day_length (g_day_of_year, g_latitude,c_twilight)
 
 
 
          if (photoperiod.le.p_photoperiod_crit1) then
             g_phase_tt(endjuv_to_init) = p_tt_endjuv_to_init
-
+ 
          elseif (photoperiod.lt.p_photoperiod_crit2) then
-
+ 
             g_phase_tt(endjuv_to_init) = p_tt_endjuv_to_init +
      :      p_photoperiod_slope*(photoperiod - p_photoperiod_crit1)
-
+ 
          elseif (photoperiod.ge.p_photoperiod_crit2) then
             g_phase_tt(endjuv_to_init) = p_tt_endjuv_to_init +
      :      p_photoperiod_slope*(p_photoperiod_crit2
      :                         - p_photoperiod_crit1)
-
+ 
          else
          endif
-
+ 
 
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -157,31 +158,31 @@ c      endif
 
 c
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+     
 c         g_phase_tt(init_to_flag) = tt_emerg_to_flag_leaf
 c     :              - g_phase_tt(emerg_to_endjuv)
 c     :              - g_phase_tt(endjuv_to_init)
-
+ 
          g_phase_tt(init_to_flag) = p_tt_fi_to_flag
 
-
+ 
          g_phase_tt(flag_to_flower) = p_tt_flag_to_flower
-
+ 
          g_phase_tt(flower_to_start_grain) =
      :                    p_tt_flower_to_start_grain
-
+ 
          g_phase_tt(end_grain_to_maturity) =
      :                  0.05*p_tt_flower_to_maturity
-
+ 
          g_phase_tt(start_to_end_grain) = p_tt_flower_to_maturity
      :                  - g_phase_tt(flower_to_start_grain)
      :                  - g_phase_tt(end_grain_to_maturity)
-
+       
          g_phase_tt(maturity_to_ripe) = p_tt_maturity_to_ripe
       else
           ! do nothing
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
@@ -212,11 +213,14 @@ c     :              - g_phase_tt(endjuv_to_init)
      :              , dlt_dm_yieldpart_demand
      :              ,p_x_hi_incr_min_temp
      :              ,p_y_hi_incr_reduct_fac
-     :              ,p_mum_hi_incr_min_temp
+     :              ,p_mum_hi_incr_min_temp 
      :               )
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
+c     dll_export cproc_bio_yieldpart_demand1
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       REAL       G_current_stage       ! (INPUT)  current phenological stage
@@ -237,8 +241,8 @@ c     :              - g_phase_tt(endjuv_to_init)
       INTEGER    P_num_hi_max_pot      ! (INPUT) Number of lookup pairs
       real       dlt_dm_yieldpart_demand ! (OUTPUT) grain dry matter
                                        ! potential (g/m^2)
-
-      real       g_mint
+                                       
+      real       g_mint                                       
       real       p_x_hi_incr_min_temp(*)   !(INPUT) minimum temp affecting hi_incr
       real       p_y_hi_incr_reduct_fac(*) !(INPUT) recduction factor of minimum temp on hi_incr
       integer    p_mum_hi_incr_min_temp    !(INPUT) Number of lookup pairs
@@ -276,13 +280,13 @@ c     :              - g_phase_tt(endjuv_to_init)
 !      real       critical_temp
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (my_name)
-
+ 
       if (stage_is_between (start_grainfill_stage
      :                    , end_grainfill_Stage
      :                    , g_current_stage)) then
-
+ 
          stress_sum = sum_between (start_stress_stage
      :                            ,start_grainfill_stage
      :                            ,g_dm_stress_max)
@@ -294,9 +298,9 @@ c     :              - g_phase_tt(endjuv_to_init)
      :                                  ,p_x_hi_max_pot_stress
      :                                  ,p_y_hi_max_pot
      :                                  ,p_num_hi_max_pot)
-
+ 
             ! effective grain filling period
-
+        
          dm_tops = sum_real_array (g_dm_green, max_part)
      :           - g_dm_green(root_part)
      :           + sum_real_array (g_dm_senesced, max_part)
@@ -305,25 +309,25 @@ c     :              - g_phase_tt(endjuv_to_init)
          harvest_index = divide (g_dm_green(yield_part), dm_tops, 0.0)
 
          dm_tops_new = dm_tops + g_dlt_dm
-
+ 
 !================================================================================
 !This part is new for sunflower - ENLI
 !Include Bange thesis effect of minimum temperature reducing p_hi_incr
-
+ 
 !NEW BIT - min. temp modifier on p_hi_incr
 
        min_temp_fact_hi_incr = linear_interp_Real(g_mint
      :                                  ,p_x_hi_incr_min_temp
      :                                  ,p_y_hi_incr_reduct_fac
      :                                  ,p_mum_hi_incr_min_temp)
-
+                
 c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
 
 
 
-       harvest_index_new = u_bound (harvest_index +
+       harvest_index_new = u_bound (harvest_index + 
      :           p_hi_incr * min_temp_fact_hi_incr, hi_max_pot)
-
+ 
 !================================================================================
 
          dm_grain_new = dm_tops_new * harvest_index_new
@@ -332,15 +336,15 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
 
          dlt_dm_yield = bound (dlt_dm_yield, 0.0, dm_grain_new)
 
-
+ 
       else
             ! we are out of grain fill period
-
+ 
          dlt_dm_yield = 0.0
       endif
-
+ 
       dlt_dm_yieldpart_demand = dlt_dm_yield
-
+ 
       call pop_routine (my_name)
       return
       end
@@ -365,8 +369,10 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
      .          c_leaf_no_max,
      .          g_leaf_no_final)
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    start_leaf_init !stage to begin (e.g. emerg) est. final leaf no.
@@ -407,20 +413,20 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
                                        ! to true floral initiation (deg day)
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (my_name)
-
+ 
          ! set total leaf number
-
+ 
       if (stage_is_between(start_leaf_init, end_leaf_init
      .     , g_current_stage)
      .      .or.
      .      on_day_of (end_leaf_init, g_current_stage, g_days_tot))
      .      then
-
+ 
           ! estimate the final leaf no from an approximated thermal
           ! time for the period from emergence to floral initiation.
-
+ 
         tt_floral_init = sum_between(start_leaf_init, end_leaf_init
      .     ,g_phase_tt)
 
@@ -430,15 +436,15 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
         g_leaf_no_final = divide (tt_floral_init
      :                , c_leaf_init_rate * p_rel_leaf_init_rate, 0.0)
      :                + c_leaf_no_seed
-
+ 
          call bound_check_real_var (g_leaf_no_final
      :                            , c_leaf_no_min, c_leaf_no_max
      :                            , 'g_leaf_no_final')
-
+ 
       elseif (on_day_of (reset_stage, g_current_stage, g_days_tot))
      . then
          g_leaf_no_final = 0.0
-
+ 
       endif
       call pop_routine (my_name)
       return
@@ -461,19 +467,21 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
      .          g_dlt_tt,
      .          g_dlt_leaf_no)
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
-      include 'CropDefCons.inc'
+      include   'CropDefCons.inc'
+      include 'science.pub'
+      include 'data.pub'                          
+      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_leaf_no(*)
       real       g_leaf_no_final
-
+      
       integer    p_determinate_crop
       real       p_x_node_num_lar(*)
       real       p_y_node_lar(*)
       integer    p_num_node_lar
-
+      
       integer    start_leaf_stage
       integer    end_leaf_stage
 
@@ -500,15 +508,15 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
 
 *+  Local Variables
       real       leaf_no_change        ! number of leaves where the last lar change occurs
-      real       leaf_no_remain        ! number of leaves to go
+      real       leaf_no_remain        ! number of leaves to go 
       real       leaf_no_now           ! number of fully expanded leaves
       real       leaf_app_rate         ! rate of leaf appearance (oCd/leaf)
       integer    stage                 ! rate of leaf appearance (oCd/leaf)
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (my_name)
-
+ 
 
       leaf_no_now = sum_between (emerg, now, g_leaf_no)
 
@@ -517,43 +525,43 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
           leaf_no_change = g_leaf_no_final - p_x_node_num_lar(3)
       else
           leaf_no_change = p_x_node_num_lar(3)
-      endif
+      endif 
 
 
       !Get the lar from the lookup table
       if (leaf_no_now.lt.p_x_node_num_lar(2)) then
           leaf_app_rate = p_y_node_lar(1)
-
-      else if (leaf_no_now .ge. p_x_node_num_lar(2) .and.
+          
+      else if (leaf_no_now .ge. p_x_node_num_lar(2) .and.   
      :         leaf_no_now .lt. leaf_no_change) then
           leaf_app_rate = p_y_node_lar(2)
-
+      
       else
           leaf_app_rate = p_y_node_lar(3)
-      endif
-
-
-
+      endif 
+          
+ 
+ 
       stage = int(g_current_stage)
-
-
+      
+      
       if (stage.ge.start_leaf_stage.and.stage.le.end_leaf_stage) then
          ! if leaves are still growing, the cumulative number of
          ! phyllochrons or fully expanded leaves is calculated from
          ! daily thermal time for the day.
-
+ 
          g_dlt_leaf_no = divide (g_dlt_tt, leaf_app_rate, 0.0)
 
-        if (p_determinate_crop .eq. 1) then
+        if (p_determinate_crop .eq. 1) then 
             leaf_no_remain=MAX(0.0, g_leaf_no_final - leaf_no_now)
             g_dlt_leaf_no =bound(g_dlt_leaf_no, 0.0, leaf_no_remain)
-        endif
-
+        endif 
+        
       else
          g_dlt_leaf_no = 0.0
-
+ 
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
@@ -566,8 +574,9 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
       subroutine sunf_leaf_area_sen ()
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
 
@@ -599,16 +608,16 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
       parameter (my_name = 'sunf_leaf_area_sen')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (my_name)
-
+ 
          ! Standard routines derived from Ceres - simpler ?
          !TEMPLATE OPTION alternatives developed by GLH - mechanistic
-
+ 
 
 *check against cropsid.for
 *set the lai_max_possible for input to SPLA routines
-
+ 
            call srop_leaf_area_lai_max_possible (
      .          c%crop_type,
      .          floral_init,
@@ -621,7 +630,7 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
      .          g%slai,
      .          g%dlt_lai_pot,
      .          g%dlt_lai_stressed)
-
+ 
 !sunf - modifying the next one
 
            call sunf_leaf_area_sen_age2 (
@@ -634,11 +643,11 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
      .          p%spla_prod_coef,
      .          g%slai,
      .          g%days_tot,
-     .          g%plants,
+     .          g%plants,      
      .          g%lai,
      .          g%dlt_lai,
      .          g%dlt_slai_age)
-
+ 
             call srop_lai_equilib_light (
      .          g%radn_int,
      .          g%cover_green,
@@ -648,7 +657,7 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
      .          g%day_of_year,
      .          g%year,
      .          g%lai_equilib_light)
-
+ 
             call srop_leaf_area_sen_light2 (
      .          g%radn_int,
      .          g%radn,
@@ -659,7 +668,7 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
      .          g%lai,
      .          c%sen_light_time_const,
      .          g%dlt_slai_light)
-
+ 
 *Water limiting routines... in CROP.FOR
             call srop_lai_equilib_water(
      .          g%day_of_year,
@@ -675,7 +684,7 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
      .          g%temp_stress_photo,
      .          g%transp_eff,
      .          g%lai_equilib_water)
-
+ 
             call srop_leaf_area_sen_water2 (
      .          g%day_of_year,
      .          g%year,
@@ -689,20 +698,20 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
      .          g%sw_demand,
      .          g%sw_supply,
      .          g%dlt_slai_water)
-
+ 
 *Frost effects in CROP.FOR
             call srop_leaf_area_sen_frost2(
      .          c%frost_kill,
      .          g%lai,
      .          g%mint,
      .          g%dlt_slai_frost)
-
+ 
          ! now take largest of deltas
          g%dlt_slai = max (g%dlt_slai_age
      :                 , g%dlt_slai_light
      :                 , g%dlt_slai_water
      :                 , g%dlt_slai_frost)
-
+ 
 
       call pop_routine (my_name)
       return
@@ -727,9 +736,11 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
      .          g_dlt_lai,
      .          g_dlt_slai_age)
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
-      include 'CropDefCons.inc'
+      include   'CropDefCons.inc'
+      include 'science.pub'
+      include 'data.pub'                          
+      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -772,28 +783,28 @@ c applied at flowering also)
       real       tt_since_emerg        ! thermal time since emergence (oC)
 
       real       tplamax               ! new
-
-
-
+      
+      
+      
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (my_name)
          ! calculate senescence due to ageing
       if (stage_is_between (floral_init, harvest_ripe
      :                     , g_current_stage)) then
-
+ 
 cscc This aging should really be linked better to phenology. The spla_inflection
 c could be a function of pred. time from floral_init and to harvest_ripe or at
 c least be top-limited by the actual tplamax cf. intitial pred. of tplamax. This
 c would be similar to the change made to TPLA prediction. Obviously though there
 c still need to feedback to actual production etc.
-
+ 
          tt_since_emerg = sum_between (emerg, now, g_tt_tot)
 !        spla_inflection = p_spla_intercept
 !    :                   + c_spla_slope * g_leaf_no_final
 
         spla_inflection = sum_between(emerg,floral_init,g_tt_tot)
-
+  
 cscc The Senescence paper on sunfhum says that the numerator below is supposed
 c to be tplamax. I guess that after flag leaf, the below will be tplamax, but be
 c the slai_today equation is not really doing what it should be, and is prob.
@@ -802,7 +813,7 @@ c Up to flag leaf, need to adjust the numerator daily, depending on stresses.
 c The g_lai_max_possible is calculated in leaf (leaf_Area_Devel_plant)
 !scc May 96. This not doing anything at present as g_lai_max_possible has been s
 !to lai+g+g_slai. Need to fix code in leaf_Area_Devel_plant.
-
+ 
 !         slai_today = divide ((g_lai + g_slai)
 
 !         slai_today = divide ((g_lai_max_possible)
@@ -811,38 +822,38 @@ c The g_lai_max_possible is calculated in leaf (leaf_Area_Devel_plant)
 !    :              , 0.0)
 
          tplamax = g_lai_max_possible*10000/g_plants     !and change to cm2
-
+          
          slai_today = tplamax*p_spla_intercept
      :       *exp(p_spla_prod_coef * (tt_since_emerg - spla_inflection))
-
-         slai_today = slai_today/10000*g_plants          !and change to cm2
-
+     
+         slai_today = slai_today/10000*g_plants          !and change to cm2 
+    
 
          g_dlt_slai_age = l_bound (slai_today - g_slai, 0.0)
-
+ 
          ! all leaves senesce at harvest ripe
-
+ 
 cscc Does this make sense? I know we are supposed to harvest at PM, but leaves
 c of sunfhum don't instantly senescence when you harvest.
 c What if you harvest the crop and leave it to rattoon?
-
+ 
       elseif (on_day_of (harvest_ripe
      :                 , g_current_stage, g_days_tot)) then
           g_dlt_slai_age = g_lai + g_dlt_lai
-
+ 
       else
          g_dlt_slai_age = 0.0
       endif
-
+ 
       g_dlt_slai_age = bound (g_dlt_slai_age, 0.0, g_lai)
-
-
+ 
+       
 !      write(*,900)
 !900   format(" spla_inflection, tplamax, g_slai, slai_today"
 !c     :   , " g_lai_max_possible, g_dlt_slai_age")
 !      write(*,1000)spla_inflection, tplamax, g_slai, slai_today
 !     :   , g_lai_max_possible, g_dlt_slai_age
-
+ 
 1000  format(6f10.3)
       call pop_routine (my_name)
       return
@@ -861,8 +872,11 @@ c What if you harvest the crop and leave it to rattoon?
      .          g_tt_tot,
      .          g_dlt_plants)
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
+      include   'const.inc'            ! new_line
+      include 'data.pub'                          
+      include 'science.pub'                       
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer germ
@@ -891,24 +905,24 @@ c What if you harvest the crop and leave it to rattoon?
       character  string*200            ! output string
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (my_name)
-
+ 
       if (stage_is_between (germ, emerg, g_current_stage)
      :       .and. sum_between (germ, now, g_tt_tot)
      :       .gt. c_tt_emerg_limit) then
-
+ 
          g_dlt_plants = - g_plants
-
+ 
          write (string, '(a)')
      :                 ' failed emergence due to deep planting'
          call write_string (string)
-
+ 
       else
          g_dlt_plants = 0.0
-
+ 
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
@@ -922,8 +936,10 @@ c What if you harvest the crop and leave it to rattoon?
      .          array,
      .          number_of_days)
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       INTEGER g_day_of_year        ! (INPUT)  day of year
@@ -949,16 +965,16 @@ c What if you harvest the crop and leave it to rattoon?
       integer start_day          ! day of year to start running
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (my_name)
-
+ 
       start_day = offset_day_of_year(g_year,
      :                              g_day_of_year, - number_of_days)
-
+ 
       srop_running_ave = divide(sum_part_of_real(array, start_day,
      :                                           g_day_of_year, 366)
      :                          , real (abs (number_of_days)), 0.0)
-
+ 
       call pop_routine (my_name)
       return
       end
@@ -974,8 +990,9 @@ c What if you harvest the crop and leave it to rattoon?
      .          array,
      .          value)
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
+      include 'date.pub'                          
+      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       INTEGER g_day_of_year    ! (INPUT)  day of year
@@ -997,17 +1014,17 @@ c What if you harvest the crop and leave it to rattoon?
       parameter (my_name = 'srop_store_value')
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (my_name)
-
+ 
       array(g_day_of_year) = value
-
+ 
       if (g_day_of_year.eq.365
      :   .and. leap_year (g_year - 1)) then
          array(366) = 0.0
       else
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
@@ -1031,9 +1048,11 @@ c What if you harvest the crop and leave it to rattoon?
      .           g_plants,
      .           g_dlt_plants_water)
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
-      include 'CropDefCons.inc'
+      include   'const.inc'
+      include   'CropDefCons.inc'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        real g_cswd_photo(*)
@@ -1065,32 +1084,32 @@ c What if you harvest the crop and leave it to rattoon?
       character  string*200            ! output string
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (my_name)
-
+ 
       cswd_photo = sum_between (emerg, flag_leaf, g_cswd_photo)
       leaf_no = sum_between (emerg, now, g_leaf_no)
-
+ 
       if (leaf_no.lt.c_leaf_no_crit
      :       .and. cswd_photo.gt.c_swdf_photo_limit
      :       .and. g_swdef_photo .lt.1.0) then
-
+ 
          killfr = c_swdf_photo_rate* (cswd_photo - c_swdf_photo_limit)
          killfr = bound (killfr, 0.0, 1.0)
          g_dlt_plants_water = - g_plants*killfr
-
+ 
          write (string, '(a, i4, a)')
      :          'plant_kill.'
      :         , nint (killfr*100.0)
      :         , '% failure because of water stress.'
-
+ 
          call write_string (string)
-
+ 
       else
          g_dlt_plants_water = 0.0
-
+ 
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
@@ -1113,14 +1132,17 @@ c What if you harvest the crop and leave it to rattoon?
      .          c_frac_stem2flower,
      :          c_frac_pod2grain,
      :          c_grain_energy,
-     .          g_dlt_dm_grain_demand,
+     .          g_dlt_dm_grain_demand,   
      :          g_phase_tt,
      :          g_tt_tot,
      .          g_dlt_dm_green)
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
-      include 'CropDefCons.inc'
+      include   'convert.inc'
+      include   'CropDefCons.inc'
+      include 'science.pub'
+      include 'data.pub'                          
+      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real g_current_stage
@@ -1164,33 +1186,33 @@ c What if you harvest the crop and leave it to rattoon?
 
       real       partition_grain
       real       yield_demand
-
+      
       real       tt_emerg_to_flower
       real       tt_since_emerg
-
+      
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (my_name)
-
+ 
          ! Root must be satisfied. The roots don't take any of the
          ! carbohydrate produced - that is for tops only.  Here we assume
          ! that enough extra was produced to meet demand. Thus the root
          ! growth is not removed from the carbo produced by the model.
-
+ 
          ! first we zero all plant component deltas
-
+ 
       call fill_real_array (g_dlt_dm_green, 0.0, max_part)
-
+ 
          ! now we get the root delta for all stages - partition scheme
          ! specified in coeff file
-
+ 
       current_phase = int (g_current_stage)
       g_dlt_dm_green(root) =c_ratio_root_shoot(current_phase)*g_dlt_dm
-
-
+ 
+ 
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Enli  Begin
 * ENLI has to find the change
-
+ 
       if (stage_is_between (emerg, flag_leaf, g_current_stage)) then
             ! we have leaf development only
 
@@ -1202,37 +1224,37 @@ c What if you harvest the crop and leave it to rattoon?
 
          tt_since_emerg = sum_between (emerg, now, g_tt_tot)
 
-         partition_coef_leaf = 1.0
+         partition_coef_leaf = 1.0 
      :     -0.7*divide(tt_since_emerg,tt_emerg_to_flower, 0.0)
 
 
          g_dlt_dm_green(leaf) = partition_coef_leaf * g_dlt_dm
-
+        
         ! limit the delta leaf area to maximum
          dlt_dm_leaf_max = divide (g_dlt_lai_stressed
      :                           , c_sla_min * smm2sm, 0.0)
          g_dlt_dm_green(leaf) = u_bound (g_dlt_dm_green(leaf)
      :                               , dlt_dm_leaf_max)
-
+ 
         !Beginning at halfway between BV and FA,
         !part ratio of stem to head = 0.56*(TT/TTEFA) - 0.42
         !equals 0 if ratio tt/ttefa<0.75
-
-         c_frac_stem2flower = -0.42
+ 
+         c_frac_stem2flower = -0.42 
      :     +0.56*divide(tt_since_emerg,tt_emerg_to_flower, 0.0)
 
          if (c_frac_stem2flower.lt.0.0) c_frac_stem2flower=0.0
-
+         
          g_dlt_dm_green(flower) = (g_dlt_dm - g_dlt_dm_green(leaf))
      :                            * c_frac_stem2flower
 
          g_dlt_dm_green(stem) = g_dlt_dm
      :             - (g_dlt_dm_green(flower) + g_dlt_dm_green(leaf))
-
-
+ 
+ 
         elseif (stage_is_between (flag_leaf, start_grain_fill
      :                        , g_current_stage)) then
-
+ 
         !==============================================================
         !repeat here
         ! we only have flower and stem growth here
@@ -1242,25 +1264,25 @@ c What if you harvest the crop and leave it to rattoon?
 
          tt_since_emerg = sum_between (emerg, now, g_tt_tot)
 
-         c_frac_stem2flower = -0.42
+         c_frac_stem2flower = -0.42 
      :     +0.56*divide(tt_since_emerg,tt_emerg_to_flower, 0.0)
 
          if (c_frac_stem2flower.lt.0.0) c_frac_stem2flower=0.0
 
          g_dlt_dm_green(flower) = g_dlt_dm*c_frac_stem2flower
          g_dlt_dm_green(stem) = g_dlt_dm - g_dlt_dm_green(flower)
-
-
+ 
+     
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Enli End
 
        elseif (stage_is_between (start_grain_fill, maturity
      :                        , g_current_stage)) then
-
+ 
         !==============================================================
         !In sunflower, c_frac_pod2grain =0 so some of the code are redundant
         partition_grain = divide (1.0
      :                     , c_frac_pod2grain + c_grain_energy, 0.0)
-
+  
          g_dlt_dm_green(grain) = divide (g_dlt_dm_grain_demand
      :                              , c_grain_energy, 0.0)
          g_dlt_dm_green(grain) = bound (g_dlt_dm_green(grain), 0.0,
@@ -1272,7 +1294,7 @@ c What if you harvest the crop and leave it to rattoon?
      :                        * c_frac_pod2grain
          yield_demand = g_dlt_dm_green(flower) + g_dlt_dm_green(grain)
      :                    + g_dlt_dm_green(energy)
-
+ 
         if (yield_demand .ge. g_dlt_dm) then
             g_dlt_dm_green(grain) = g_dlt_dm
      :            * divide (g_dlt_dm_green(grain), yield_demand, 0.0)
@@ -1287,28 +1309,28 @@ c What if you harvest the crop and leave it to rattoon?
             g_dlt_dm_green(leaf) = 0.0
 
          endif
-
+     
        elseif (stage_is_between (maturity, plant_end
      :                        , g_current_stage)) then
-
+ 
             ! put into stem
          g_dlt_dm_green(stem) = g_dlt_dm
-
+ 
       else
             ! no partitioning
       endif
-
+ 
          ! do mass balance check - roots are not included
       dlt_dm_green_tot = sum_real_array (g_dlt_dm_green, max_part)
      :                 - g_dlt_dm_green(root)
       call bound_check_real_var (dlt_dm_green_tot, g_dlt_dm, g_dlt_dm
      :                        , 'dlt_dm_green_tot mass balance')
-
+ 
          ! check that deltas are in legal range
-
+ 
       call bound_check_real_array (g_dlt_dm_green, 0.0, g_dlt_dm
      :                          , 'dlt_dm_green', max_part)
-
+ 
       call pop_routine (my_name)
       return
       end
@@ -1327,9 +1349,11 @@ c What if you harvest the crop and leave it to rattoon?
      .          dlt_N_green
      .                     )
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
-      include 'CropDefCons.inc'
+      include   'CropDefCons.inc'
+      include 'data.pub'
+      include 'error.pub'                         
+      include 'science.pub'                         
 
 *+  Sub-Program Arguments
        real g_root_depth
@@ -1367,17 +1391,17 @@ c What if you harvest the crop and leave it to rattoon?
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
                ! find proportion of uptake to be
                ! distributed to to each plant part and distribute it.
-
+ 
       deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
       N_uptake_sum = - sum_real_array (dlt_NO3gsm, deepest_layer)
       N_demand = sum_real_array (g_N_demand, max_part)
-
+ 
       N_excess = N_uptake_sum - N_demand
       N_excess = l_bound (N_excess, 0.0)
-
+ 
       if (N_excess.gt.0.0) then
          do 1200 part = 1, max_part
             N_capacity(part) = g_N_max(part) - g_N_demand(part)
@@ -1386,16 +1410,16 @@ c What if you harvest the crop and leave it to rattoon?
       else
          call fill_real_array (N_capacity, 0.0, max_part)
       endif
-
+ 
       N_capacity_sum = sum_real_array (N_capacity, max_part)
-
+ 
 !scc RCM found that this partitioning was biased toward leaf...
 !60:40 vs stem. Can achieve same effect via concentration I guess.
-
+ 
 !scc Should this happen - could probably put excess into preferentially
 !stem, leaf, flower, root (reverse order of usage)
-
-
+ 
+ 
       do 1300 part = 1, max_part
          if (N_excess.gt.0.0) then
             plant_part_fract = divide (N_capacity(part)
@@ -1408,14 +1432,14 @@ c What if you harvest the crop and leave it to rattoon?
             dlt_N_green(part) = N_uptake_sum * plant_part_fract
           endif
 1300  continue
-
+ 
       dlt_N_green(grain) = 0.0
-
+ 
       call bound_check_real_var (
      :             sum_real_array (dlt_N_green, max_part)
      :           , N_uptake_sum, N_uptake_sum
      :           , 'dlt_N_green mass balance')
-
+ 
       call pop_routine (my_name)
       return
       end
@@ -1429,10 +1453,10 @@ c What if you harvest the crop and leave it to rattoon?
      .          g_plants,
      .          g_tt_tot,
      .          g_dlt_plants_all,
-
+ 
      .          g_lai,
      .          g_dlt_slai,
-
+ 
      .          g_cswd_photo,
      .          g_leaf_no,
      .          c_leaf_no_crit,
@@ -1441,11 +1465,14 @@ c What if you harvest the crop and leave it to rattoon?
      .          c_swdf_photo_rate,
      .          g_dlt_plants_water,
      .          g_dlt_plants_dead)
-
+ 
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
+      include 'const.inc'
       include 'CropDefCons.inc'
+      include 'error.pub'
+      include 'science.pub'                         
+      include 'data.pub'                         
 
 *+  Sub-Program Arguments
       REAL c_tt_emerg_limit      ! (INPUT)  maximum degree days allowed fo
@@ -1483,7 +1510,7 @@ c What if you harvest the crop and leave it to rattoon?
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
          call srop_failure_emergence1 (sowing, emerg, now,
      .          c_tt_emerg_limit,
      .          g_current_stage,
@@ -1499,18 +1526,18 @@ c What if you harvest the crop and leave it to rattoon?
      .          c_swdf_photo_rate,
      .          g_plants,
      .          g_dlt_plants_water)
-
+ 
 !scc Don't really need a call to calculate a minimum!!!!
-
+ 
         g_dlt_plants_dead = min (g_dlt_plants_all
      :          ,g_dlt_plants_water)
-
+ 
 !         call srop_death_actual1 (
 !     .          g_dlt_plants_all,
 !     .          g_dlt_plants_water,
 !     .          dlt_plants
 !     .            )
-
+ 
 !        if leaves are killed from frost, g_dlt_slai is set to g_lai
 !        need to kill plant if lai = 0
 !        gmc & rlv
@@ -1521,7 +1548,7 @@ c What if you harvest the crop and leave it to rattoon?
                g_dlt_plants_dead = -g_plants
             endif
          endif
-
+ 
       call pop_routine (my_name)
       return
       end
@@ -1535,8 +1562,12 @@ c What if you harvest the crop and leave it to rattoon?
      .          g_plants,
      .          tpla_max)
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
+      include 'convert.inc'
+      include 'CropDefCons.inc'
+      include 'science.pub'
+      include 'data.pub'                          
+      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_leaf_no_final
@@ -1559,11 +1590,11 @@ c What if you harvest the crop and leave it to rattoon?
 
 *  calls
       real      sunflower_dens_fact
-
+   
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (my_name)
-
+ 
 
       ! the original sorghum equation
       !         tpla_max = (((g_tiller_no_fertile + 1.0) ** c_tiller_coef)
@@ -1586,10 +1617,10 @@ c What if you harvest the crop and leave it to rattoon?
       !  scc introduced new function for tpla_max  on 25/09/98
       !  This works out tpla_max as function of final leaf number
       !==============================================================================
-
-       tpla_max = (445.97 * g_leaf_no_final - 5828.86) * scm2smm
-
-       density_factor = sunflower_dens_fact(g_plants)
+         
+       tpla_max = (445.97 * g_leaf_no_final - 5828.86) * scm2smm 
+         
+       density_factor = sunflower_dens_fact(g_plants) 
 
        tpla_max = tpla_max * density_factor  !In the sorghum version no density factor is used
 
@@ -1602,10 +1633,11 @@ c What if you harvest the crop and leave it to rattoon?
 * ====================================================================
        real function sunflower_dens_fact(plants)
 * ====================================================================
-      use ComponentInterfaceModule
       implicit none
-
-      real     plants
+      include 'data.pub'
+      include 'error.pub'    
+      
+      real     plants                     
 
 *+  Purpose
 *   this function returns the scaling factor for total leaf area as
@@ -1646,19 +1678,19 @@ c What if you harvest the crop and leave it to rattoon?
 
 *- Implementation Section ----------------------------------
       call Push_routine(myname)
-
+ 
       ! planting densities above 10 plants/m^2 have no additional effect
       !                   on total leaf area.
       density = u_bound (plants, 10.0)
-
+ 
       dens_fact = exp (dint + dslope * density)
       dens_fact = bound (dens_fact, 0.0, 1.0)
       ! adjust the normalised density factor for a planting density of
       !                        5 plants/m^2
       dens_fact = dens_fact / 0.549
-
+ 
       sunflower_dens_fact = dens_fact
-
+ 
       call Pop_routine (myname)
       return
       end
@@ -1668,8 +1700,11 @@ c What if you harvest the crop and leave it to rattoon?
       subroutine Read_Constants_Sunf ()
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include   'const.inc'
+      include 'read.pub'
+      include 'error.pub'
+      include 'datastr.pub'
 
 *+  Purpose
 *       Crop initialisation - reads constants from constants file
@@ -1693,7 +1728,7 @@ c What if you harvest the crop and leave it to rattoon?
 
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (my_name)
 
 
@@ -1702,18 +1737,18 @@ c What if you harvest the crop and leave it to rattoon?
      :                    , 'x_row_spacing', max_table, '(m)'
      :                    , c%x_row_spacing, c%num_row_spacing
      :                    , 0.0, 2000.)
-
+ 
       call read_real_array (section_name
      :                    , 'y_extinct_coef', max_table, '()'
      :                    , c%y_extinct_coef, c%num_row_spacing
      :                    , 0.0, 1.0)
-
+ 
       call read_real_array (section_name
      :                    , 'y_extinct_coef_dead', max_table, '()'
      :                    , c%y_extinct_coef_dead, c%num_row_spacing
      :                    , 0.0, 1.0)
           ! legume_root_distrib
-
+ 
 
 
 
@@ -1722,23 +1757,23 @@ c What if you harvest the crop and leave it to rattoon?
      :                    , 'days_germ_limit', '(days)'
      :                    , c%days_germ_limit, numvals
      :                    , 0.0, 365.0)
-
+ 
       call read_real_var (section_name
      :                    , 'swdf_pheno_limit', '()'
      :                    , c%swdf_pheno_limit, numvals
      :                    , 0.0, 100.0)
-
+ 
       call read_real_var (section_name
      :                    , 'swdf_photo_limit', '()'
      :                    , c%swdf_photo_limit, numvals
      :                    , 0.0, 100.0)
-
+ 
       call read_real_var (section_name
      :                    , 'swdf_photo_rate', '()'
      :                    , c%swdf_photo_rate, numvals
      :                    , 0.0, 1.0)
-
-
+ 
+ 
 
 
          ! TEMPLATE OPTION
@@ -1748,59 +1783,59 @@ c What if you harvest the crop and leave it to rattoon?
      :                    , 'tiller_coef', '()'
      :                    , c%tiller_coef , numvals
      :                    , 0.0, 10.0)
-
+ 
       call read_real_var (section_name
      :                    , 'tpla_inflection_ratio', '()'
      :                    , c%tpla_inflection_ratio , numvals
      :                    , 0.0, 1.0)
+ 
 
 
-
-
+ 
          !    sunf_get_cultivar_params
 
       call read_real_var (section_name
      :                    , 'head_grain_no_max_ub', '()'
      :                    , c%head_grain_no_max_ub, numvals
      :                    , 0.0, 100000.0)
-
+ 
       call read_real_var (section_name
      :                    , 'grain_gth_rate_ub', '()'
      :                    , c%grain_gth_rate_ub, numvals
      :                    , 0.0, 1000.0)
-
+ 
       call read_real_var (section_name
      :                    , 'tt_emerg_to_endjuv_ub', '()'
      :                    , c%tt_emerg_to_endjuv_ub, numvals
      :                    , 0.0, 1000.0)
-
+ 
       call read_real_var (section_name
      :                    , 'pp_endjuv_to_init_ub', '()'
      :                    , c%pp_endjuv_to_init_ub, numvals
      :                    , 0.0, 1000.0)
-
+ 
       call read_real_var (section_name
      :                    , 'tt_flower_to_maturity_ub', '()'
      :                    , c%tt_flower_to_maturity_ub, numvals
      :                    , 0.0, 1000.0)
-
+ 
       call read_real_var (section_name
      :                    , 'tt_maturity_to_ripe_ub', '()'
      :                    , c%tt_maturity_to_ripe_ub, numvals
      :                    , 0.0, 1000.0)
-
+ 
       call read_real_var (section_name
      :                    , 'tt_flower_to_start_grain_ub', '()'
      :                    , c%tt_flower_to_start_grain_ub, numvals
      :                    , 0.0, 1000.0)
-
+ 
       call read_real_var (section_name
      :                    , 'tt_flag_to_flower_ub', '()'
      :                    , c%tt_flag_to_flower_ub, numvals
      :                    , 0.0, 1000.0)
-
+ 
          !    Maize_transp_eff
-
+ 
 
 
          ! TEMPLATE OPTION
@@ -1810,14 +1845,14 @@ c What if you harvest the crop and leave it to rattoon?
      :                    , 'head_grain_no_crit', '()'
      :                    , c%head_grain_no_crit, numvals
      :                    , 0.0, 1000.0)
-
+ 
          !    sunf_plants_barren
 
       call read_real_var (section_name
      :                    , 'barren_crit', '()'
      :                    , c%barren_crit, numvals
      :                    , 0.0, 1.0)
-
+ 
          !    sunf_germination
 
 
@@ -1828,22 +1863,22 @@ c What if you harvest the crop and leave it to rattoon?
      :                    , 'grain_n_conc_min', '()'
      :                    , c%grain_N_conc_min, numvals
      :                    , 0.0, 100.0)
-
+ 
       call read_real_var (section_name
      :                    , 'seed_wt_min', '(g/seed)'
      :                    , c%seed_wt_min, numvals
      :                    , 0.0, 100.0)
-
+ 
       call read_real_var (section_name
      :                    , 'growth_rate_min', '(g/plant)'
      :                    , c%growth_rate_min, numvals
      :                    , 0.0, 1000.0)
-
+ 
       call read_real_var (section_name
      :                    , 'growth_rate_crit', '(g/plant)'
      :                    , c%growth_rate_crit, numvals
      :                    , 0.0, 1000.0)
-
+ 
 
       call read_real_var (section_name
      :                    , 'flower_trans_frac', '()'
@@ -1856,7 +1891,7 @@ c What if you harvest the crop and leave it to rattoon?
      :                    , 'minsw', '()'
      :                    , c%minsw, numvals
      :                    , 0.0, 1000.0)
-
+ 
          ! TEMPLATE OPTION
          !    sunf_dm_grain
 
@@ -1864,7 +1899,7 @@ c What if you harvest the crop and leave it to rattoon?
      :                    , 'swdf_grain_min', '()'
      :                    , c%swdf_grain_min, numvals
      :                    , 0.0, 100.0)
-
+ 
          ! TEMPLATE OPTION
          !    sunf_dm_grain_hi
 
@@ -1872,29 +1907,29 @@ c What if you harvest the crop and leave it to rattoon?
      :                    , 'hi_min', '()'
      :                    , c%hi_min, numvals
      :                    , 0.0, 100.0)
-
+ 
          !    sunf_N_dlt_grain_conc
 
       call read_real_var (section_name
      :                    , 'sw_fac_max', '()'
      :                    , c%sw_fac_max, numvals
      :                    , 0.0, 100.0)
-
+ 
       call read_real_var (section_name
      :                    , 'temp_fac_min', '()'
      :                    , c%temp_fac_min, numvals
      :                    , 0.0, 100.0)
-
+ 
       call read_real_var (section_name
      :                    , 'sfac_slope', '()'
      :                    , c%sfac_slope, numvals
      :                    , -10.0, 0.0)
-
+ 
       call read_real_var (section_name
      :                    , 'tfac_slope', '()'
      :                    , c%tfac_slope, numvals
      :                    , 0.0, 100.0)
-
+ 
          !    sunf_leaf_death
 
 cSCC changed lower limit from 10.0 to 0.0
@@ -1902,18 +1937,18 @@ cSCC changed lower limit from 10.0 to 0.0
      :                    , 'leaf_no_dead_const', '()'
      :                    , c%leaf_no_dead_const, numvals
      :                    , 0.0, 100.0)
-
+ 
       call read_real_var (section_name
      :                    , 'leaf_no_dead_slope', '()'
      :                    , c%leaf_no_dead_slope, numvals
      :                    , 0.0, 100.0)
-
+ 
          !    sunf_get_other_variables
 
          !    sunf_event
 
 
-
+ 
        call read_real_var (section_name
      :                    , 'grain_energy', '()'
      :                    , c%grain_energy, numvals
@@ -1931,12 +1966,12 @@ cSCC changed lower limit from 10.0 to 0.0
      :                    , 'partition_rate_leaf', '()'
      :                    , c%partition_rate_leaf, numvals
      :                    , 0.0, 1.0)
-
+ 
       call read_real_var (section_name
      :                    , 'frac_stem2flower', '()'
      :                    , c%frac_stem2flower, numvals
      :                    , 0.0, 1.0)
-
+ 
          ! TEMPLATE OPTION
          !    sunf_grain_no
 
@@ -1944,7 +1979,7 @@ cSCC changed lower limit from 10.0 to 0.0
      :                    , 'htstress_coeff', '()'
      :                    , c%htstress_coeff, numvals
      :                    , 0.0, 1.0)
-
+ 
          ! TEMPLATE OPTION
          !    sunf_leaf_area_devel
 
@@ -1952,7 +1987,7 @@ c      call read_real_var (section_name
 c     :                    , 'leaf_no_correction', '()'
 c     :                    , c%leaf_no_correction, numvals
 c     :                    , 0.0, 100.0)
-
+ 
 
          ! TEMPLATE OPTION
          !    sunf_leaf_size
@@ -1964,13 +1999,13 @@ c     :                    , 0.0, 100.0)
      :                   , 'lai_sen_light', '(m^2/m^2)'
      :                   , c%lai_sen_light, numvals
      :                   , 3.0, 20.0)
-
+ 
       call read_real_var (section_name
      :                    , 'sen_light_slope', '()'
      :                    , c%sen_light_slope, numvals
      :                    , 0.0, 100.0)
-
-
+ 
+ 
          ! TEMPLATE OPTION
          !    sunf_leaf_area_sen_frost
 
@@ -1978,12 +2013,12 @@ c     :                    , 0.0, 100.0)
      :                   , 'x_temp_senescence', max_table, '(oC)'
      :                   , c%x_temp_senescence, c%num_temp_senescence
      :                   , -20.0, 20.0)
-
+ 
       call read_real_array (section_name
      :                   , 'y_senescence_fac', max_table, '()'
      :                   , c%y_senescence_fac, c%num_temp_senescence
      :                   , 0.0, 1.0)
-
+ 
          ! TEMPLATE OPTION
          !    sunf_leaf_area_sen_water
 
@@ -1991,7 +2026,7 @@ c     :                    , 0.0, 100.0)
      :                    , 'sen_rate_water', '()'
      :                    , c%sen_rate_water, numvals
      :                    , 0.0, 100.0)
-
+ 
          ! TEMPLATE OPTION
          !    sunf_leaf_area_sen_light1
 
@@ -1999,12 +2034,12 @@ c     :                    , 0.0, 100.0)
      :                    , 'sen_light_time_const', '(days)'
      :                    , c%sen_light_time_const, numvals
      :                    , 0.0, 50.0)
-
+ 
       call read_real_var (section_name
      :                    , 'sen_radn_crit', '(Mj/m^2)'
      :                    , c%sen_radn_crit, numvals
      :                    , 0.0, 10.0)
-
+ 
          ! TEMPLATE OPTION
          !    sunf_leaf_area_sen_frost1
 
@@ -2012,7 +2047,7 @@ c     :                    , 0.0, 100.0)
      :                    , 'frost_kill', '(oC)'
      :                    , c%frost_kill, numvals
      :                    , -6.0, 6.0)
-
+ 
         ! TEMPLATE OPTION
          !    sunf_leaf_area_sen_water1
 
@@ -2020,12 +2055,12 @@ c     :                    , 0.0, 100.0)
      :                    , 'sen_water_time_const', '(days)'
      :                    , c%sen_water_time_const, numvals
      :                    , 0.0, 50.0)
-
+ 
       call read_real_var (section_name
      :                    , 'sen_threshold', '()'
      :                    , c%sen_threshold, numvals
      :                    , 0.0, 10.0)
-
+ 
          ! TEMPLATE OPTION
          !    sunf_leaf_area_sen_age1
 
@@ -2033,7 +2068,7 @@ c     :                    , 0.0, 100.0)
      :                    , 'spla_slope', '(oC/leaf)'
      :                    , c%spla_slope, numvals
      :                    , 0.0, 1000.0)
-
+ 
          !    sunf_phenology_init
 
          ! TEMPLATE OPTION
@@ -2043,7 +2078,7 @@ c     :                    , 0.0, 100.0)
      :                   , 'temp_grain_crit_stress', '(oC)'
      :                   , c%temp_grain_crit_stress, numvals
      :                   , 20.0, 50.0)
-
+ 
          !    sunf_N_conc_limits
 
          !    Maize_N_init
@@ -2056,19 +2091,19 @@ c     :                    , 0.0, 100.0)
      :                     , 'x_ave_temp', max_table, '(oC)'
      :                     , c%x_ave_temp, c%num_ave_temp
      :                     , 0.0, 100.0)
-
+ 
 !cscc added the following to do 3-hour effect on RUE
-
+ 
       call read_real_array (section_name
      :                     , 'x_temp_photo', max_table, '(oC)'
      :                     , c%x_temp_photo, c%num_temp_photo
      :                     , 0.0, 100.0)
-
+ 
       call read_real_array (section_name
      :                     , 'y_stress_photo', max_table, '()'
      :                     , c%y_stress_photo, c%num_factors
      :                     , 0.0, 1.0)
-
+ 
          ! TEMPLATE OPTION
          !    sunf_dm_grain
 
@@ -2076,12 +2111,12 @@ c     :                    , 0.0, 100.0)
      :                     , 'x_temp_grain', max_table, '(oC)'
      :                     , c%x_temp_grain, c%num_temp_grain
      :                     , 0.0, 100.0)
-
+ 
       call read_real_array (section_name
      :                     , 'y_grain_rate', max_table, '()'
      :                     , c%y_grain_rate, c%num_temp_grain
      :                     , 0.0, 1.0)
-
+ 
          !    sunf_tt
 
 
@@ -2089,41 +2124,41 @@ c     :                    , 0.0, 100.0)
      :                   , 'tt_base', '()'
      :                   , c%tt_base, numvals
      :                   , 0.0, 100.0)
-
+ 
       call read_real_var (section_name
      :                   , 'tt_opt', '()'
      :                   , c%tt_opt, numvals
      :                   , 0.0, 100.0)
-
+ 
          ! TEMPLATE OPTION
          !    sunf_tt_other
 
          !    swdef
+ 
 
 
-
-
-
-!=====================================================================================
+ 
+ 
+!===================================================================================== 
 !Effect of minimum temperature on harvest index increase, based on Mike Bange's thesis - ENLI
       call read_real_array (section_name
      :        , 'x_hi_incr_min_temp', max_table, '(0-1)'
      :        , p%x_hi_incr_min_temp, p%mum_hi_incr_min_temp
      :        , 0.0, 50.0)
-
+ 
       call read_real_array (section_name
      :        , 'y_hi_incr_reduct_fac', max_table, '(0-1)'
      :        , p%y_hi_incr_reduct_fac, p%mum_hi_incr_min_temp
      :        , 0.0, 1.0)
-
+     
 
 
        call read_integer_var(section_name
      :                   , 'tt_switch_stage', '()'
      :                   , p%tt_switch_stage, numvals
      :                   , 1, 10)
-
-
+      
+     
 
       call read_real_array (section_name
      :        , 'x_node_num_lar', max_table, '(0-1)'
@@ -2139,7 +2174,7 @@ c     :                    , 0.0, 100.0)
      :                   , 'determinate_crop', '()'
      :                   , p%determinate_crop, numvals
      :                   , 0, 2)
-
+     
 
 cew - added this section
 
@@ -2152,8 +2187,10 @@ cew - added this section
       subroutine Read_Cultivar_Params_Sunf (cultivar)
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include   'const.inc'            ! new_line,  blank
+      include 'read.pub'
+      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       character  cultivar*(*)          ! (INPUT) keyname of cultivar in crop
@@ -2178,12 +2215,12 @@ cew - added this section
       integer    i
 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (my_name)
-
+ 
       call write_string (
      :                 new_line//'   - Reading Cultivar Parameters')
-
+ 
          ! TEMPLATE OPTION
          !   sunf_leaf_area_devel_plant
 
@@ -2192,24 +2229,24 @@ cew - added this section
      :                    , 'main_stem_coef', '()'
      :                    , p%main_stem_coef, numvals
      :                    , 0.0, 10.0)
-
+ 
        call read_real_var (cultivar
      :                    , 'tpla_prod_coef', '(????)'
      :                    , p%tpla_prod_coef, numvals
      :                    , 0.0, 10.0)
-
+ 
 cSCC change upper limit from 10 to 1000
        call read_real_var_optional (cultivar
      :                    , 'tpla_inflection', '(????)'
      :                    , p%tpla_inflection, numvals
      :                    , 0.0, 1000.0)
-
+ 
 cSCC Moved to be read in w. sowing info
 !       call read_real_var (cultivar
 !     :                    , 'tiller_no_fertile', '(????)'
 !     :                    , p%tiller_no_fertile, numvals
 !     :                    , 0.0, 100.0)
-
+ 
          ! TEMPLATE OPTION
          !   sunf_leaf_area_sen_age1
 
@@ -2217,31 +2254,31 @@ cSCC Moved to be read in w. sowing info
      :                    , 'spla_prod_coef', '(????)'
      :                    , p%spla_prod_coef, numvals
      :                    , 0.0, 100.0)
-
+ 
 cSCC changed lower limit from 0 to -1000
        call read_real_var (cultivar
      :                    , 'spla_intercept', '(????)'
      :                    , p%spla_intercept, numvals
      :                    , -1000.0, 100.0)
-
+ 
          ! TEMPLATE OPTION
          !       legume_dm_grain_hi
-
+ 
       call read_real_var (cultivar
      :                    , 'hi_incr', '()'
      :                    , p%hi_incr, numvals
      :                    , 0.0, 1.0)
-
+ 
       call read_real_array (cultivar
      :                   , 'x_hi_max_pot_stress', max_table, '(0-1)'
      :                   , p%x_hi_max_pot_stress, p%num_hi_max_pot
      :                   , 0.0, 1.0)
-
+ 
       call read_real_array (cultivar
      :                   , 'y_hi_max_pot', max_table, '(0-1)'
      :                   , p%y_hi_max_pot, p%num_hi_max_pot
      :                   , 0.0, 1.0)
-
+ 
 
 
 
@@ -2253,7 +2290,7 @@ cSCC changed lower limit from 0 to -1000
      :                    , 'head_grain_no_max', '()'
      :                    , p%head_grain_no_max, numvals
      :                    , 0.0, c%head_grain_no_max_ub)
-
+ 
          ! TEMPLATE OPTION
          !   sunf_dm_grain
 
@@ -2261,29 +2298,29 @@ cSCC changed lower limit from 0 to -1000
      :                    , 'grain_gth_rate', '()'
      :                    , p%grain_gth_rate, numvals
      :                    , 0.0, c%grain_gth_rate_ub)
-
+ 
          !   sunf_phenology_init
 
       call read_real_var (cultivar
      :                    , 'tt_emerg_to_endjuv', '()'
      :                    , p%tt_emerg_to_endjuv, numvals
      :                    , 0.0, c%tt_emerg_to_endjuv_ub)
-
+ 
       call read_real_var (cultivar
      :                    , 'tt_flower_to_maturity', '()'
      :                    , p%tt_flower_to_maturity, numvals
      :                    , 0.0, c%tt_flower_to_maturity_ub)
-
+ 
       call read_integer_var_optional (cultivar
      :                    , 'est_days_endjuv_to_init', '()'
      :                    , p%est_days_endjuv_to_init, numvals
      :                    , 0, 100)
-
+ 
       call read_real_var_optional (cultivar
      :                    , 'pp_endjuv_to_init', '()'
      :                    , p%pp_endjuv_to_init, numvals
      :                    , 0.0, c%pp_endjuv_to_init_ub)
-
+ 
       call read_real_var (cultivar
      :                    , 'tt_endjuv_to_init', '()'
      :                    , p%tt_endjuv_to_init, numvals
@@ -2293,22 +2330,22 @@ cSCC changed lower limit from 0 to -1000
      :                    , 'rel_leaf_init_rate', '()'
      :                    , p%rel_leaf_init_rate, numvals
      :                    , 0.0, 1.0)
-
+ 
       call read_real_var (cultivar
      :                    , 'photoperiod_crit1', '()'
      :                    , p%photoperiod_crit1, numvals
      :                    , 0.0, 24.0)
-
+ 
       call read_real_var (cultivar
      :                    , 'photoperiod_crit2', '()'
      :                    , p%photoperiod_crit2, numvals
      :                    , 0.0, 24.0)
-
+ 
       call read_real_var (cultivar
      :                    , 'photoperiod_slope', '()'
      :                    , p%photoperiod_slope, numvals
      :                    , -1000.0, 200.0)
-
+ 
       call read_real_var (cultivar
      :                    , 'tt_fi_to_flag', '()'
      :                    , p%tt_fi_to_flag, numvals
@@ -2318,42 +2355,42 @@ cSCC changed lower limit from 0 to -1000
      :                    , 'tt_flag_to_flower', '()'
      :                    , p%tt_flag_to_flower, numvals
      :                    , 0.0, c%tt_flag_to_flower_ub)
-
+ 
       call read_real_var (cultivar
      :                    , 'tt_flower_to_start_grain', '()'
      :                    , p%tt_flower_to_start_grain, numvals
      :                    , 0.0, c%tt_flower_to_start_grain_ub)
-
-
+ 
+ 
       call read_real_var (cultivar
      :                    , 'tt_maturity_to_ripe', '()'
      :                    , p%tt_maturity_to_ripe, numvals
      :                    , 0.0, c%tt_maturity_to_ripe_ub)
-
+ 
       call read_real_var_optional (cultivar
      :                    , 'dm_per_seed', '()'
      :                    , p%dm_per_seed, numvals
      :                    , 0.0, 1.0)
-
+ 
       call read_real_array (cultivar
      :                     , 'x_stem_wt', max_table, '()'
      :                     , p%x_stem_wt, p%num_stem_wt
      :                     , 0.0, 1000.0)
-
+ 
       call read_real_array (cultivar
      :                     , 'y_height', max_table, '()'
      :                     , p%y_height, p%num_stem_wt
      :                     , 0.0, 5000.0)
-
+ 
              ! report
-
+ 
       string = '    ------------------------------------------------'
       call write_string (string)
-
+ 
       write (string, '(4x,2a)')
      :                'Cultivar                 = ', cultivar
       call write_string (string)
-
+ 
       write (string, '(4x, a, f7.2)')
      :                'rel_leaf_init_rate       = '
      :               , p%rel_leaf_init_rate
@@ -2413,7 +2450,7 @@ cSCC changed lower limit from 0 to -1000
      :                'tt_maturity_to_ripe      = '
      :               , p%tt_maturity_to_ripe
       call write_string (string)
-
+ 
 
 c      write (string, '(4x, a, i4)')
 c     :                'est_days_endjuv_to_init  = '
@@ -2441,64 +2478,64 @@ c      call write_string (string)
      :                'hi_incr                  = '
      :               , p%hi_incr
        call write_string (string)
-
+ 
          ! TEMPLATE OPTION
-
+ 
       write (string, '(4x, a, 10f7.2)')
      :                'x_hi_max_pot_stress      = '
      :               , (p%x_hi_max_pot_stress(i), i=1,p%num_hi_max_pot)
       call write_string (string)
-
+ 
       write (string, '(4x, a, 10f7.2)')
      :                'y_hi_max_pot             = '
      :               , (p%y_hi_max_pot(i), i=1,p%num_hi_max_pot)
       call write_string (string)
-
+ 
          ! TEMPLATE OPTION
        write (string, '(4x, a, f7.3)')
      :                'tpla_prod_coef           = '
      :               , p%tpla_prod_coef
        call write_string (string)
-
+ 
          ! TEMPLATE OPTION
        write (string, '(4x, a, f7.3)')
      :                'tpla_inflection          = '
      :               , p%tpla_inflection
        call write_string (string)
-
+ 
          ! TEMPLATE OPTION
 !       write (string, '(4x, a, f7.3)')
 !     :                'tiller_no_fertile        = '
 !     :               , p%tiller_no_fertile
 !       call write_string (string)
-
+ 
          ! TEMPLATE OPTION
        write (string, '(4x, a, f7.3)')
      :                'spla_prod_coef           = '
      :               , p%spla_prod_coef
        call write_string (string)
-
+ 
          ! TEMPLATE OPTION
        write (string, '(4x, a, f7.3)')
      :                'spla_intercept           = '
      :               , p%spla_intercept
        call write_string (string)
-
+ 
       write (string, '(4x, a, 10f7.1)')
      :                'x_stem_wt                = '
      :               , (p%x_stem_wt(i), i=1,p%num_stem_wt)
       call write_string (string)
-
+ 
       write (string, '(4x, a, 10f7.1)')
      :                'y_height                 = '
      :               , (p%y_height(i), i=1,p%num_stem_wt)
       call write_string (string)
-
+ 
       string = '    ------------------------------------------------'
       call write_string (string)
-
+ 
       call write_string (new_line//new_line)
-
+ 
       call pop_routine (my_name)
 
       return

@@ -1,29 +1,54 @@
-<component name="canopy">
+include base.interface
 
-   <registrations>
-      <respondToMethodCallReg name="lai_table" type="null"/>
-      <respondToMethodCallReg name="cover_table" type="null"/>
-      <respondToMethodCallReg name="f_table" type="null"/>
-      <respondToMethodCallReg name="rs_table" type="null"/>
-      <respondToMethodCallReg name="rl_table" type="null"/>
-      <respondToMethodCallReg name="gc_table" type="null"/>
-      <respondToMethodCallReg name="ga_table" type="null"/>
-      <respondToMethodCallReg name="pet_table" type="null"/>
-      <respondToMethodCallReg name="petr_table" type="null"/>
-      <respondToMethodCallReg name="peta_table" type="null"/>
-      <respondToMethodCallReg name="omega_table" type="null"/>
+; -----------------------------------------------------------
+; Canopys public interface which other components may
+; use.  Contains:
+;    Properties which other components may get or set
+;    Methods which other components may call
+;    Events which other components may trap (or subscribe to)
+; -----------------------------------------------------------
+class APSIMCanopyPublic
+; read frm section Parameters in parameter file by canopy_init
+    intercrop               : APSIMStringArray    = List of crop modules to rotate for intercropping, (), READ, optional
+    fr_intc_radn_"ModuleName" : APSIMReal          = fraction of light intercepted by the crop's canopy, (), GET
+    cover_tot_sum           : APSIMReal           = total of all total crop covers, (), GET
+    cover_tot_all           : APSIMRealArray      = total cover of each crop, (), GET
+    cover_height_all        : APSIMRealArray      = canopy height of each crop, (mm), GET
+    cover_green_sum         : APSIMReal           = total of all green crop covers, (), GET
+    cover_green_all         : APSIMRealArray      = green cover of each crop, (), GET
+    cover_crops_all         : APSIMStringArray    = list of crop modules using this module, (), GET
 
-      <respondToEventReg name="tick" type="time"/>
-      <respondToEventReg name="newmet" type="newmet"/>
-      <respondToEventReg name="canopychanged" type="canopy"/>
-      <respondToEventReg name="residuechanged" type="residue"/>
-      <respondToEventReg name="domicromet" type="null"/>
-      <respondToGetReg name="interception" type="interception"/>
-      <eventReg name="lightprofilecalculated" type="lightprofile"/>
-      <eventReg name="CanopyWaterBalanceCalculated" type="canopywaterbalance"/>
-      
-      <getVariableReg name="eo" type="eo" autoregister = "F"/>      
-      <respondToGetReg name="eo" type="eo"/>
-      
-   </registrations>
-</component>
+; Main actions
+
+    sysinit                : APSIMMethod         = System initialise
+
+end
+; -----------------------------------------------------------
+; Canopys External interface which documents things in other 
+; components that this component uses.
+; Contains:
+;    Properties used in other components
+;    Methods called in other components
+;    Events from other components that this component uses.
+; -----------------------------------------------------------
+class APSIMCanopyExternal
+; variables from other modules by canopy_find_crops
+                ; This is used to obtain a list of crop modules and is repeated until no module responds (get_char_vars).
+                ; get_posting_module is used to obtain the module name responding.
+    crop_type               : APSIMString           = type of crop, (), GET 
+                ; These are repeated until no module responds (get_real_vars).
+    cover_green             : APSIMReal             = green cover of crop canopy, (), GET, 0.0, 1.0 
+    cover_tot               : APSIMReal             = total cover of crop canopy, (), GET, 0.0, 1.0 
+    height                  : APSIMReal             = height of crop canopy, (mm), GET, 0.0, 10000.0 
+
+    prepare                 : APSIMEvent            = System prepare stage
+    post                    : APSIMEvent            = System post stage
+
+
+end
+
+class APSIMCanopy
+   dll      : string
+   public   : APSIMCanopyPublic
+   external : APSIMCanopyExternal
+end

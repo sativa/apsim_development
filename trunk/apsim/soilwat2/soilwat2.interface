@@ -1,92 +1,127 @@
-<component name="soilwat2">
-   <registrations>
+include base.interface
 
-      <read name="A_to_evap_fact" type="A_to_evap_fact" />
-      <read name="sw_top_crit" type="sw_top_crit" />
-      <read name="sumes1_max" type="sumes1_max" />
-      <read name="sumes2_max" type="sumes2_max" />
-      <read name="solute_flow_eff" type="solute_flow_eff" />
-      <read name="solute_flux_eff" type="solute_flux_eff" />
-      <read name="gravity_gradient" type="gravity_gradient" />
-      <read name="specific_bd" type="specific_bd" />
-      <read name="mobile_solutes" type="mobile_solutes" />
-      <read name="immobile_solutes" type="immobile_solutes" />
-      <read name="act_evap_method" type="act_evap_method" />
+; -----------------------------------------------------------
+; Soilwat2's public interface which other components may
+; use.  Contains:
+;    Properties which other components may get or set
+;    Methods which other components may call
+;    Events which other components may trap (or subscribe to)
+; -----------------------------------------------------------
+class APSIMSoilwat2Public
+   es                      : APSIMReal         = Evaporation, (mm), GET
+   eo                      : APSIMReal         = Potential evapotranspiration, (mm), GET
+   eos                     : APSIMReal         = Potential soil water evaporation, (mm), GET
+   total_cover             : APSIMReal         = Total crop cover, (), GET
+   cover_surface_runoff    : APSIMReal         = Surface runoff in relation to crop cover, (), GET
+   cn2_new                 : APSIMReal         = Daily value CN2 adjusted for surface cover, (), GET
+   runoff                  : APSIMReal         = Surface water runoff, (mm), GET
+   drain                   : APSIMReal         = Drainage, (mm), GET
+   infiltration            : APSIMReal         = Infiltration, (mm), GET
+   outflow_lat             : APSIMRealArray    = Lateral Outflow (mm),GET
+   eff_rain                : APSIMReal         = Effective rainfall = Rainfall - runoff - drainage, (mm), GET
+   bd                      : APSIMRealArray    = Bulk density of the soil for each layer, (g/cc), GET|READ, 0.0, 2.0
+   esw                     : APSIMReal         = Extractable soil water, (mm), GET
+   sw_dep                  : APSIMReal         = Layered soil water, (mm), GET|SET
+   dlt_sw_dep              : APSIMRealArray    = Change in soil moisture, (mm), SET, -10000.0, 10000.0
+   sw                      : APSIMRealArray    = Soil water, (mm/mm), GET|SET|READ, 0.0, 1.0
+   dlt_sw                  : APSIMRealArray    = Change in volumetric soil moisture, (mm/mm), SET, -1.0, 1.0
+   dlayer                  : APSIMRealArray    = Soil Depth - layered, (mm), GET|SET|READ, 0.0, 10000.0
+   dlt_dlayer              : APSIMRealArray    = Change in layer thicknesses, (mm), SET, 0.0, 10000.0
+   ll15_dep                : APSIMRealArray    = 15 bar Lower limit - layered, (mm), GET|SET, 0.0, 1.0
+   ll15                    : APSIMRealArray    = Volumetric 15 bar Lower limit - layered, (mm/mm), GET|SET|READ, 0.0, 1.0
+   dul_dep                 : APSIMRealArray    = Drained upper limit - layered, (mm), GET|SET, 0.0, 10000.0
+   dul                     : APSIMRealArray    = Volumetric drained upper limit - layered, (mm/mm), GET|SET|READ, 0.0, 1.0
+   sat_dep                 : APSIMRealArray    = Saturation - layered, (mm), GET|SET, 0.0, 10000.0
+   sat                     : APSIMRealArray    = Volumetric saturation - layered, (mm/mm), GET|SET|READ, 0.0, 1.0
+   air_dry_dep             : APSIMRealArray    = Air dry - layered, (mm), GET|SET, 0.0, 10000.0
+   air_dry                 : APSIMRealArray    = Volumetric air dry - layered, (mm/mm), GET|SET|READ, 0.0, 1.0
+   flux                    : APSIMRealArray    = Saturated water flux from each layer to the layer below, (mm), GET
+   flow                    : APSIMRealArray    = Unsaturated water movements between layers (+ve up), (mm), GET
+   flow_water              : APSIMRealArray    = flow_water, (mm), GET
+   flow_nnnn               : APSIMRealArray    = Flow of solute nnnn between layers, (mm), GET
+   nnnn_leach              : APSIMRealArray    = Amount of solute nnnn in saturated water movement from each layer to the layer below, (mm), GET
+   nnnn_up                 : APSIMRealArray    = Amount of solute nnnn in unsaturated water movement for each layer (+ve up), (mm), GET
 
-      <read name="cona" type="cona" />
-      <read name="u" type="u" />
-      <read name="air_dry" type="air_dry" />
-      <read name="bd" type="bd" />
-      <read name="diffus_const" type="diffus_const" />
-      <read name="diffus_slope" type="diffus_slope" />
-      <read name="dlayer" type="dlayer" />
-      <read name="dul" type="dul" />
-      <read name="insoil" type="insoil" />
-      <read name="ll15" type="ll15" />
-      <read name="profile_esw_depth" type="profile_esw_depth" />
-      <read name="profile_fesw" type="profile_fesw" />
-      <read name="sat" type="sat" />
-      <read name="sw" type="sw" />
-      <read name="wet_soil_depth" type="wet_soil_depth" />
-      <read name="irrigation_layer" type="dlayer"/>
-      <read name="swcon" type="swcon"/>
-      <read name="mwcon" type="mwcon"/>
-      <read name="beta" type="beta"/>
-      <read name="max_evap" type="max_evap"/>
+   observed_runoff         : APSIMString       = Name of APSIM variable containing observed runoff data, (), READ_OPT
+   insoil                  : APSIMReal         = Indicator for initial soil water - evenly distributed over profile, (), SET|READ, 0.0, 10.0
+   profile_fesw            : APSIMReal         = Initial fraction of esw of profile distributed from top down, (), SET|READ, 0.0, 1.0
+   profile_esw_depth       : APSIMReal         = Initial depth of extractable soil water distributed from the top down, (mm), SET|READ, 0.0, 10000.0
+   wet_soil_depth          : APSIMReal         = Initial depth of soil filled to drained upper limit - field capacity, (mm), SET|READ, 0.0, 10000.0
+   diffus_const            : APSIMReal         = Constant term in diffusivity calculation, (), READ, 0.0, 500.0
+   diffus_slope            : APSIMReal         = Slope term in diffusivity calculation, (), READ, 0.0, 100.0
+   cn2_bare                : APSIMReal         = Bare soil runoff curve number, (), READ|SET, 0.0, 100.0
+   cn_red                  : APSIMReal         = Maximum reduction in curve number due to cover, (), READ|SET, 0.0, 100.0
+   cn_cov                  : APSIMReal         = Cover effecting a maximum reduction in curve number, (0-1), READ|SET, 0.0, 1.0
+   salb                    : APSIMReal         = Bare soil albedo, (0-1), GET|READ, 0.0, 1.0
+   cona                    : APSIMReal         = Slope coefficient for 2nd stage evaporation, (), READ, 0.0, 10.0
+   u                       : APSIMReal         = Duration of 1st stage evaporation, (mm), READ, 0.0, 100.0
+; NIH - note that I have ignored the parameters for the unused evaporation options - this may lead to confusion to current users if I put them in
 
-      <respondToGetReg name="bd" type="bd" />
-      <respondToGetReg name="drain" type="drain"/>
-      <respondToGetReg name="eo" type="eo"/>
-      <respondToGetReg name="es" type="es"/>
-      <respondToGetReg name="esw" type="esw"/>
-      <respondToGetReg name="flow" type="flow"/>
-      <respondToGetReg name="flow_water" type="flow_water"/>
-      <respondToGetReg name="flux" type="flux"/>
-      <respondToGetReg name="infiltration" type="infiltration"/>
-      <respondToGetReg name="water_table" type="water_table"/>
-      <respondToGetReg name="sws" type="sws"/>
-      <respondToGetReg name="solute_n_flow" type="solute_n_flow" autoregister="F"/>
-      <respondToGetReg name="solute_n_leach" type="solute_n_leach" autoregister="F"/>
-      <respondToGetReg name="solute_n_up" type="solute_n_up" autoregister="F"/>
+   eo_source               : APSIMString       = Name of APSIM variable containing Eo data, (), READ_OPT
 
-      <respondToGetSetReg name="sw" type="sw" />
-      <respondToGetSetReg name="sw_dep" type="sw_dep"/>
-      <respondToGetSetReg name="air_dry" type="air_dry" />
-      <respondToGetSetReg name="air_dry_dep" type="air_dry_dep"/>
-      <respondToGetSetReg name="dlayer" type="dlayer" />
-      <respondToGetSetReg name="dlt_sw" type="dlt_sw"/>
-      <respondToGetSetReg name="dlt_sw_dep" type="dlt_sw_dep"/>
-      <respondToGetSetReg name="dul" type="dul" />
-      <respondToGetSetReg name="dul_dep" type="dul_dep"/>
-      <respondToGetSetReg name="ll15" type="ll15" />
-      <respondToGetSetReg name="ll15_dep" type="ll15_dep"/>
-      <respondToGetSetReg name="sat" type="sat" />
-      <respondToGetSetReg name="sat_dep" type="sat_dep"/>
+   min_crit_temp           : APSIMReal         = Temperature below which eeq decreases, (oC), READ, 0.0, 10.0
+   max_crit_temp           : APSIMReal         = Temperature above which eeq increases, (oC), READ, 0.0, 50.0
+   max_albedo              : APSIMReal         = Maximum bare ground soil albedo, (), READ, 0.0, 1.0
+   A_to_evap_fact          : APSIMReal         = Factor to convert 'A' to coefficient in Adam's type residue effect on eos, (), READ, 0.0, 1.0
+   canopy_eos_coef         : APSIMReal         = Coefficient in cover eos reduction equation, (), READ, 0.0, 10
+   sw_top_crit             : APSIMReal         = Critical soil water ratio in top layer below which stage 2 evaporation occurs, (), READ, 0.0, 1.0
+   sumes1_max              : APSIMReal         = Upper limit of Sumes1, (), READ, 0.0, 1000.0
+   sumes2_max              : APSIMReal         = Upper limit of Sumes2, (), READ, 0.0, 1000.0
+   solute_flow_eff         : APSIMReal         = Efficiency of moving solute with flow, (), READ, 0.0, 1.0
+   solute_flux_eff         : APSIMReal         = Efficiency of moving solute with flux, (), READ, 0.0, 1.0
+   gravity_gradient        : APSIMReal         = Gradient due to hydrolic differentials, (), READ, 0.0, 1.0
+   specific_bd             : APSIMReal         = Specific bulk density, (g/cc), READ, 0.0, 3.0
+   hydrol_effective_depth  : APSIMReal         = Hydrologically effective depth for runoff, (mm), READ, 1.0, 1000.0
+   mobile_solutes          : APSIMStringArray  = Name of all possible mobile solutes, (), READ
+   immobile_solutes        : APSIMStringArray  = Name of all possible immobile solutes, (), READ
+   canopy_fact             : APSIMRealArray    = Canopy factors for cover runoff effect, (), READ, 0.0, 1.0
+   canopy_fact_height      : APSIMRealArray    = Heights for canopy factors, (mm), READ, 0.0, 100000.0
+   canopy_fact_default     : APSIMReal         = Default canopy factor in absence of height, (), READ, 0.0, 1.0
+   act_evap_method         : APSIMString       = act_evap_method, (), READ
 
-      <respondToSetReg name="profile_esw_depth" type="profile_esw_depth" />
-      <respondToSetReg name="insoil" type="insoil" />
-      <respondToSetReg name="dlt_dlayer" type="dlt_dlayer"/>
-      <respondToSetReg name="profile_fesw" type="profile_fesw" />
-      <respondToSetReg name="wet_soil_depth" type="wet_soil_depth" />
-      <respondToSetReg name="cona" type="cona"/>
-      <respondToSetReg name="u" type="u"/>
 
-      <respondToMethodCallReg name="UserInit" type="null"/>
-      <respondToMethodCallReg name="reset" type="null"/>
-      <respondToMethodCallReg name="SumReport" type="null"/>
-      <respondToMethodCallReg name="EvapInit" type="null"/>
 
-      <respondToEventReg name="SolutesChanged" type="SoluteProfile"/>
-      <respondToEventReg name="CropWaterDemandCalculated" type="CropWaterDemand"/>
-      <respondToEventReg name="SurfaceWaterChanged" type="SurfaceWater"/>
-      <respondToEventReg name="SurfaceWaterDemandCalculated" type="SurfaceWaterDemand"/>
-      <respondToEventReg name="DoSoilWaterBalance" type="null"/>
+   tillage                 : APSIMSoilwat2TillageMethod = Set up for CN reduction after tillage operation
+   sysinit                 : APSIMMethod                = System initialise
+   reset                   : APSIMMethod                = System reset stage
+   sum_report              : APSIMSumReportMethod       = Report SoilWat module summary details
+   evap_init               : APSIMEvapInitMethod        = Method of evaporation calculation
 
-      <eventReg name="SoluteFluxesCalculated" type="soluteprofile"/>
-      <eventReg name="CropWaterSupplyCalculated" type="CropWaterSupply"/>
-      <eventReg name="SoilWaterBalanceCalculated" type="SoilWaterBalance"/>
-      <eventReg name="SoilWaterProfileChanged" type="SoilWaterProfileLayer"/>
-      <eventReg name="SoilWaterChanged" type="SoilWaterLayer"/>
+   new_profile             : APSIMNewProfileEvent       = New Profile
+end
 
-   </registrations>
-</component>
+; -----------------------------------------------------------
+; Soilwat2's external interface which documents things in other 
+; components that this component uses.
+; Contains:
+;    Properties used in other components
+;    Methods called in other components
+;    Events from other components that this component uses.
+; -----------------------------------------------------------
+
+class APSIMSoilwat2External
+   residue_cover           : APSIMReal                  = Residue cover reduces cn2_bare, (), GET_OPT, 0.0, 1.0
+   cover_surface_extra     : APSIMReal                  = Cover surface extra, (), GET_OPT, 0.0, 1.0
+   cover_green             : APSIMReal                  = Temporary array for green cover of each crop, (), GET, 0.0, 1.0
+   cover_tot               : APSIMReal                  = Temporary array for total cover, (), GET, 0.0, 1.0
+   height                  : APSIMReal                  = Height of canopy, (mm), GET, 0.0, 100000.0
+   eo_source               : APSIMReal                  = eo from somewhere else in the system, (), GET, 0.0, 100.0
+   obsrunoff_name          : APSIMReal                  = Observed runoff, (), GET_OPT, 0.0, 1000.0
+   run_on                  : APSIMReal                  = run_on,(),GET_OPT,0.0,100000.0
+   inflow_lat              : APSIMRealArray             = Lateral Inflow in each layer, (),GET_OPT,0.0,100000.0
+   dlt_nnnn                : APSIMRealArray             = solute amount, (), SET
+
+   tick                    : APSIMClockTickEvent        = Clock Tick event
+   newmet                  : APSIMNewMetEvent           = New met event
+   irrigated               : APSIMIrrigatedEvent        = Irrigated event
+   new_solute              : APSIMNewSoluteEvent        = New solute event
+   process                 : APSIMEvent                 = System process stage
+   post                    : APSIMEvent                 = System post stage
+
+end
+
+class APSIMSoilwat2
+   dll       : string
+   public    : APSIMSoilwat2Public
+   External  : APSIMSoilwat2External
+end
