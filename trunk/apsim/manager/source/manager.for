@@ -2309,7 +2309,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       include 'string.pub'                        
 
 !+  Purpose
-!     Process the mult/div/power/or part of an expression.
+!     Process the mult/div /or part of an expression.
 
 !+  Changes
 !      TM - 21/11/94
@@ -2330,7 +2330,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 !- Implementation Section ----------------------------------
  
-       call   Process_Factor
+       call   Process_Power
  
  
 20     continue
@@ -2341,7 +2341,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
            operator = g%token
  
           call  Get_sub_token
-          call  Process_Factor
+          call  Process_Power
  
           call assign_string (operand_2, pop_stack())
           call assign_string (operand_1, pop_stack())
@@ -2368,13 +2368,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
                    call   push_stack(Temp_operand)
                 endif
  
-             elseif (operator .eq. C_POWER) then
-                call string_to_double_var(Operand_1, Temp_1, numvals)
-                call string_to_double_var(Operand_2, Temp_2, numvals)
-                call Double_var_to_string(Temp_1 ** Temp_2,
-     .                                    Temp_operand)
-                call push_stack(Temp_operand)
- 
              elseif (operator .eq. C_OR) then
                 call string_to_double_var(Operand_1, Temp_1, numvals)
                 call string_to_double_var(Operand_2, Temp_2, numvals)
@@ -2394,6 +2387,68 @@ C     Last change:  P    25 Oct 2000    9:26 am
  
        return
        end
+
+! =====================================================================
+       subroutine Process_Power ()
+! =====================================================================
+      use ManagerModule
+      implicit none
+      include 'data.pub'                          
+      include 'datastr.pub'                       
+      include 'string.pub'                        
+
+!+  Purpose
+!     Process the power part of an expression.
+
+!+  Changes
+!      dph  5/12/2000 separated power stuff into its own process routine
+
+!+  Calls
+       character     pop_stack*(Buffer_size)
+                                          ! function
+
+!+  Local Variables
+       integer       operator             ! save the operator
+       character     Temp_operand*(Buffer_size)
+       double precision Temp_1, Temp_2
+       character     operand_1*(Buffer_size)
+       character     operand_2*(Buffer_size)
+       integer       numvals
+
+!- Implementation Section ----------------------------------
+ 
+       call   Process_Factor
+ 
+ 
+20     continue
+       if (g%token .eq. C_POWER)      then
+           operator = g%token
+ 
+          call  Get_sub_token
+          call  Process_Factor
+ 
+          call assign_string (operand_2, pop_stack())
+          call assign_string (operand_1, pop_stack())
+ 
+ 
+          if (g%all_ok .eq. YES) then
+             if (operator .eq. C_POWER) then
+                call string_to_double_var(Operand_1, Temp_1, numvals)
+                call string_to_double_var(Operand_2, Temp_2, numvals)
+                call Double_var_to_string(Temp_1 ** Temp_2,
+     .                                    Temp_operand)
+                call push_stack(Temp_operand)
+             endif
+ 
+             if (g%all_ok .eq. YES) then
+                goto 20
+             endif
+          endif
+       endif
+ 
+       return
+       end
+
 
 
 
