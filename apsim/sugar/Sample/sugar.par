@@ -21,10 +21,10 @@ units =          -          -         -            -           -
 
 [sample.clock.parameters]  
 ! Start and end date of run (day number of year and year)
-start_day =  100   
-start_year =  1980   
-end_day =  100   
-end_year =  1990   
+simulation_start_day =  100   
+simulation_start_year =  1980   
+simulation_end_day =  100   
+simulation_end_year =  1990   
 
 
 [sample.irrigate.parameters]  
