@@ -1,4 +1,4 @@
-Imports General
+Imports VBGeneral
 Public Class OptionsForm
     Inherits System.Windows.Forms.Form
 
