@@ -44,13 +44,16 @@
       <p class="Normal"><a href="#4.2">4.2 User-Specified potential</a></p>
       <p class="Normal"><a href="#4.3">4.3 Zero flux</a></p>
       <p class="Normal"><a href="#4.4">4.4 Seepage with threshold suction</a></p>
-      <p class="Normal"><a href="#4.5">4.5 Runtime alterations to the bottom boundary condition</a></p>
+      <p class="Normal"><a href="#4.5">4.5 Responsive Water Table</a></p>
+      <p class="Normal"><a href="#4.6">4.6 Runtime alterations to the bottom boundary condition</a></p>
       <p class="Normal">&nbsp;</p>
-      <p class="Normal"><b><a href="#5">5. APSIM SWIM Outputs</a></b></p>
-      <p class="Normal"><a href="#5.1">5.1 List of Outputs</a></p>
-      <p class="Normal"><a href="#5.2">5.2 Crop Interface to APSIM SWIM</a></p>
-      <p class="Normal"><a href="#5.3">5.3 Solute Interface to APSIM SWIM</a></p>
-      <p class="Normal"><a href="#5.4">5.4 APSIM SWIM module actions</a></p>    </td>
+      <p class="Normal"><b><a href="#5">5. Subsurface Flows</a></b></p>
+      <p class="Normal"><a href="#6.1">5.1 Subsurface Drains</a></p>
+      <p class="Normal">&nbsp;</p>
+      <p class="Normal"><b><a href="#6">6. APSIM SWIM Interface</a></b></p>
+      <p class="Normal"><a href="#6.1">6.1 Crop Interface to APSIM SWIM</a></p>
+      <p class="Normal"><a href="#6.2">6.2 Solute Interface to APSIM SWIM</a></p>
+      <p class="Normal"><a href="#6.3">6.3 APSIM SWIM module actions</a></p>    </td>
   </tr>
 </table>
 <p class="Normal">&nbsp;</p>
@@ -177,7 +180,7 @@ setting the parameter to &quot;none&quot;.</i></p>
 soil profile description above.</p>
 <p class="Normal">The parameters extra_solute_supply and solute_exclusion allow the user to specify
   the response to situations where total uptake of solute does not match the solute demand of the crop.  
-  Extra solute can be excluded (in single cropping situations only) or taken up empirically,
+  Extra solute can be excluded  or taken up empirically,
   depending on the situation.  This functionality is not part of the original SWIMV2 model but has 
   been included to allow flexibility in responses to crop modules depending upon APSwim for uptake
 of solutes.  The specification of these parameters is optional and default to “off”.</p>
@@ -759,7 +762,62 @@ profile, therefore, are calculated using convection only.</p>
 
 <p class="Normal"><a href="#top"><b>Back To Top</b></a></p>
 <p class="Normal">&nbsp;</p>
-<p class="Title2"><a name="4.5"></a>Runtime alterations to the bottom boundary condition</p>
+<p class="Title2"><a name="4.5"></a>Responsive Water Table</p>
+<p class="Normal">The responsive water table condition acts like a water table 
+with a user-specified level of &quot;responsiveness&quot;, where responsiveness refers to 
+the time required for the water table depth to equilibrate with the piezometric 
+pressure. 
+  This condition is useful for simulating the situations where local management 
+might temporarily alter the effective water table depth.&nbsp; For example, 
+irrigation might temporarily raise a water table or plant water use might lower 
+a water table from that which would correspond to the ground water pressure.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><b>Water Flow</b></p>
+
+<p class="Normal">Water flow (in or out) is calculated based upon the difference 
+between the piezometric pressure and the actual pressure at the base of the 
+profile. If the pressure is above the ground water pressure, water will flow out 
+of the profile.&nbsp; If the pressure is below the ground water pressure, water 
+will flow into the profile.&nbsp; The rate of water flow is calculated as 
+follows:</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">q = (W - (&#968;-X)) x g<sub>w</sub></p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">where q is flow at the base of the profile, W is the depth to 
+ground water, &#968; is pressure head at the bottom of the profile, X is the depth to 
+the bottom of the profile and g<sub>w</sub> is a ground water table 
+&quot;conductance&quot;.&nbsp; g<sub>w</sub> has units of per hour.&nbsp; Therefore, a 
+value of 1 would provide an flow of 1 cm per hour for every cm of pressure 
+difference at the base of the profile.&nbsp; This same calculation is used to 
+provide flows of water into or out of the profile.&nbsp; The sign of the 
+pressure difference term will dictate the direction of flow. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><b>Solute Flow</b></p>
+<p class="Normal">Solute flows across the bottom boundary follow those for water. As implied by the nature of the boundary condition, 
+  there can be no dispersion for flux of solutes out of the profile (the profile is discontinuous at this point).  Fluxes out of the
+profile, therefore, are calculated using convection only.</p>
+
+<ul>
+  <li class="Normal">In situations where a water table is maintained it is assumed that the solute concentration 
+    of the water at the bottom of the profile is also maintained at a constant 
+  concentration.&nbsp; In APSIM SWIM this concentration is the concentration of 
+  solutes in ground water.&nbsp; It is assumed that the solute concentration 
+  within the ground water is spatially homogeneous. Any water that enters the 
+  profile from the ground water will contain solutes at this given 
+  concentration.&nbsp;</li>
+  <li class="Normal">The solute concentration within water draining out of the 
+  profile will be determined via the normal solute flux calculations (convection 
+  only).</li>
+</ul>
+
+<p class="Normal"><a href="#top"><b>Back To Top</b></a></p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2"><a name="4.6"></a>Runtime alterations to the bottom boundary condition</p>
 <p class="Normal">The user can change the bottom boundary condition and/or value at runtime via the setting of the state of the 
   bottom boundary condition at any time via the messaging system.  The following manager code will change the bottom boundary 
 to a water table for five days before reverting to a constant gradient at the end of this period.</p>
@@ -779,26 +837,57 @@ to a water table for five days before reverting to a constant gradient at the en
 <p class="Normal"><a href="#top"><b>Back To Top</b></a></p>
 <p class="Normal">&nbsp;</p>
 
-<p class="Title1"><a name="5"></a>APSIM SWIM Outputs</p>
+<p class="Title1"><a name="5"></a>Subsurface Flows</p>
 <p class="Normal">&nbsp;</p>
-<p class="Normal">APSIM SWIM handles its model outputs in the same manner as all other modules in the APSIM system.  It 
-  uses the <b>Report Module</b>.</p>
+<p class="Title2"><a name="6.1"></a>Subsurface Drains</p>
+
+<p class="Normal">The flux of water and solutes into subsurface tile drains can 
+be calculated using a formulation of the Hooghoudt equation as utilised in the
+<a href="http://www.bae.ncsu.edu/soil_water/drainmod/">DrainMod</a> model.&nbsp; 
+The basic geometry of the system is as follows:</p>
 <p class="Normal">&nbsp;</p>
-
-<p class="Title2"><a name="5.1"></a>List of Outputs</p>
-
-<p class="Normal">The following variables are currently available for output from the APSIM SWIM module.</p>
+<p class="Normal">
+<img border="0" src="APSwim_science_files/image018.gif" width="493" height="349"></p>
 <p class="Normal">&nbsp;</p>
-
-<table width="144" height="80" border="0" cellpadding="0" cellspacing="0" class="TableBorder">
-  <tr>
-    <td align="center" valign="middle" class="TableEven">Table Missing </td>
-  </tr>
-</table>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">The flow into the drain (q) is calculated</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">q = (8.0 K<sub>e</sub> d<sub>e</sub> m + 4K<sub>e</sub> m<sup>2</sup>)/L<sup>2</sup></p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">where K<sub>e</sub> is the effective lateral conductivity of 
+the soil profile, m is the height of the water table above the drains, d is the 
+height of the drains above the impermeable soil horizon, L is the drain spacing, 
+r is the drain radius and d<sub>e</sub> is the effective depth of impermeable 
+soil horizon which takes into effect the convergence near to the drains.&nbsp; d<sub>e</sub> 
+is calculated as:</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">d<sub>e</sub> = L*&#960;/(8 log (L/r) - 1.15) , where d/L &gt;= 0.3</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">d<sub>e</sub> = d/(1.0+d/L*(8&#960; log (d/r) - &#945;)),&nbsp;&nbsp; 
+where d/L &lt; 0.3, &#945; = 3.55 - 1.6(d/L) + 2(d/L)<sup>2</sup><br>
+&nbsp;</p>
+<p class="Normal">The user specifies the system via input parameters for the 
+various aspects of the geometry as follows:</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">[sample.apswim.drain]<br>
+drain_depth = 1000. (mm)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+! depth of the drain below the soil surface<br>
+drain_spacing = 30000 (mm)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ! distance 
+between subsurface drains<br>
+drain_radius = 50 (mm)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+! radius of each tile drain<br>
+Klat = 1000. (mm/d)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+! lateral conductivity<br>
+imperm_depth = 3000.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+! depth of the impermeable soil profile below the soil surface</p>
 <p class="Normal">&nbsp;</p>
 <p class="Normal"><a href="#top"><b>Back To Top</b></a></p>
 <p class="Normal">&nbsp;</p>
-<p class="Title2"><a name="5.2"></a>Crop Interface to APSIM SWIM</p>
+
+<p class="Title1"><a name="6"></a>APSIM SWIM Interface</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2"><a name="6.1"></a>Crop Interface to APSIM SWIM</p>
 
 <p class="Normal">All uptake of water and/or solutes by crops is handled by SWIM.  The uptake of these substances in
   built into the SWIM flow equations. Competition between crops for resources such as water and solute is intrinsic 
@@ -862,7 +951,7 @@ their daily time step.</p>
 <p class="Normal"><a href="#top"><b>Back To Top</b></a></p>
 <p class="Normal">&nbsp;</p>
 
-<p class="Title2"><a name="5.3"></a>Solute Interface to APSIM SWIM</p>
+<p class="Title2"><a name="6.2"></a>Solute Interface to APSIM SWIM</p>
 
 <p class="Normal">The interface between solute owner modules and APSIM SWIM is very simple.</p>
 <p class="Normal">The APSIM SWIM parameter file must contain the names of all solutes the user is wanting SWIM to 
@@ -883,7 +972,7 @@ is a simple solute module within APSIM that will allow the addition of any solut
 <p class="Normal"><a href="#top"><b>Back To Top</b></a></p>
 <p class="Normal">&nbsp;</p>
 
-<p class="Title2"><a name="5.4"></a>APSIM SWIM module actions</p>
+<p class="Title2"><a name="6.3"></a>APSIM SWIM module actions</p>
 <p class="Normal">&nbsp;</p>
 <p class="Normal"><b>Reset</b></p>
 <p class="Normal">The reset action can be invoked to reset the module to the
