@@ -1,0 +1,65 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+     Version                = 4.0
+     Title                  = Soilwat2 test_array_size_100 Simulation
+     Component DLL          = c:\temp\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\temp\development\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\temp\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\temp\development\apsim\report\lib\report.dll
+     Component DLL          = c:\temp\development\apsim\Input\lib\Input.dll
+     Component DLL          = c:\temp\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\temp\development\apsim\soilwat2\lib\soilwat2.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        do_stock
+        post
+     Simulation start date =  1/01/1988
+     Simulation end date   = 30/01/1988
+     Time step =           = 1440 (mins)
+
+------- report Initialisation -------------------------------------------------
+     Output variables:
+        clock.day
+        clock.year
+        met.rain
+        soilwat2.runoff
+        soilwat2.drain
+        soilwat2.eo
+        soilwat2.es
+        soilwat2.sw_dep
+     
+     Output file = test_array_size_100.out
+     Format = normal
+
+------- Met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\temp\development\apsim\met\sample\dalby.met
+
+------- manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- end_of_day
+     report do_output
+     END of rules
+     
+
+------- soilwat2 Initialisation -----------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
