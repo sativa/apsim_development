@@ -141,7 +141,7 @@ object ScreenForm: TScreenForm
     object PauseCheckBox: TCheckBox
       Left = 8
       Top = 8
-      Width = 177
+      Width = 313
       Height = 17
       Caption = 'Pause on simulation completion.'
       Checked = True
