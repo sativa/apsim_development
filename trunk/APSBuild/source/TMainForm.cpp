@@ -188,8 +188,11 @@ void __fastcall TMainForm::FormShow(TObject *Sender)
       ini.Set_file_name(filename.c_str());
       ini.Read("APSBuild", "left", left);
       ini.Read("APSBuild", "top", top);
-      Left = StrToInt(left.c_str());
-      Top = StrToInt(top.c_str());
+      if (left != "" && top != "")
+         {
+         Left = StrToInt(left.c_str());
+         Top = StrToInt(top.c_str());
+         }
 
       Go();
       }
