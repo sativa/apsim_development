@@ -27,6 +27,7 @@
 !   Global variables
 
       type SurfaceGlobals
+         sequence
          integer    year                ! year
          integer    day                 ! day of year
          double precision scon
@@ -40,6 +41,7 @@
       end type SurfaceGlobals
 ! ====================================================================
       type SurfaceParameters
+         sequence
          integer    model_no            ! model identifier flag
          double precision precip_const
          double precision effpar
@@ -49,171 +51,14 @@
          double precision RR_decay_rate
       end type SurfaceParameters
 ! ====================================================================
-
       ! instance variables.
-      type (SurfaceGlobals), pointer :: g
-      type (SurfaceParameters), pointer :: p
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)
-      integer MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-      type SurfaceDataPtr
-         type (SurfaceGlobals), pointer ::    gptr
-         type (SurfaceParameters), pointer :: pptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type SurfaceDataPtr
-      type (SurfaceDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (SurfaceGlobals),pointer :: g
+      type (SurfaceParameters),pointer :: p
+
 
       contains
-
-
-!     ===========================================================
-      subroutine AllocInstance (InstanceName, InstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module instantiation routine.
-
-*+  Mission Statement
-*     Instantiate routine
-
-!- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%gptr)
-      allocate (Instances(InstanceNo)%pptr)
-      Instances(InstanceNo)%Name = InstanceName
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine FreeInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module de-instantiation routine.
-
-*+  Mission Statement
-*     De-Instantiate routine
-
-!- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%gptr)
-      deallocate (Instances(anInstanceNo)%pptr)
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine SwapInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Swap an instance into the global 'g' pointer
-
-*+  Mission Statement
-*     Swap an instance into global pointer
-
-!- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%gptr
-      p => Instances(anInstanceNo)%pptr
-
-      return
-      end subroutine
-*     ===========================================================
-      subroutine Main (Action, Data_String)
-*     ===========================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      character  Action*(*)            ! Message action to perform
-      character  Data_String*(*)       ! Message data
-
-*+  Purpose
-*      This routine is the interface between the main system and the
-*      surface module.  The communications and responses for this module
-*      are as follows.  The module will get Surface seal state variables
-*      at the start of the APSwim calculations for the current APSim
-*      timestep.  Just prior to the attempt at an APSwim timestep solution
-*      this module resets the surface seal value to the value this module
-*      wishes APSwim to use.  This will override any internally calculated
-*      value of surface conductance.
-
-*+  Mission statement
-*      Handles the communication for surface.
-
-*+  Changes
-*     050599 sdb removed reference to version and presence action
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'surface')
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
-
-         ! initialise error flags
-
-      if (Action.eq.ACTION_Init) then
-         call surface_zero_variables ()
-         call surface_Init ()
-
-c      else if (Action.eq.ACTION_Inter_Timestep) then
-c         call surface_Inter_Timestep()
-
-c      else if (Action.eq.ACTION_Process) then
-c         call surface_get_other_variables ()
-c         call surface_process ()
-
-c      else if ((Action.eq.'surface').or.(Action.eq.'apply')) then
-c         call surface_get_other_variables ()
-c         call surface_surface ()
-
-      else if (Action.eq.ACTION_Get_variable) then
-         call surface_Send_my_variable (Data_String)
-
-      else if (Action.eq.'swim_timestep_preparation') then
-         call surface_timestep_preparation ()
-
-      else if (Action.eq.'pre_swim_timestep') then
-         call surface_calc_scon ()
-
-      else if (Action .eq. ACTION_Set_variable) then
-         call surface_set_my_variable (Data_String)
-
-      else if (Action .eq. 'post_swim_timestep') then
-         call surface_post_swim_timestep ()
-
-      else if (Action .eq. 'tillage') then
-         call surface_tillage ()
-
-      else
-            ! Don't use message
-         call Message_unused ()
-
-      endif
-
-      call pop_routine (my_name)
-      return
-      end subroutine
 
 
 
@@ -1101,3 +946,111 @@ cnh but is more sensible at low rainfall intensities.
 
 
       end module SurfaceModule
+
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use SurfaceModule
+      implicit none  
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+         allocate(p)
+      else
+         deallocate(g)
+         deallocate(p)
+      end if
+      return
+      end subroutine
+
+
+
+*     ===========================================================
+      subroutine Main (Action, Data_String)
+*     ===========================================================
+      Use infrastructure
+      implicit none
+      ml_external Main
+
+*+  Sub-Program Arguments
+      character  Action*(*)            ! Message action to perform
+      character  Data_String*(*)       ! Message data
+
+*+  Purpose
+*      This routine is the interface between the main system and the
+*      surface module.  The communications and responses for this module
+*      are as follows.  The module will get Surface seal state variables
+*      at the start of the APSwim calculations for the current APSim
+*      timestep.  Just prior to the attempt at an APSwim timestep solution
+*      this module resets the surface seal value to the value this module
+*      wishes APSwim to use.  This will override any internally calculated
+*      value of surface conductance.
+
+*+  Mission statement
+*      Handles the communication for surface.
+
+*+  Changes
+*     050599 sdb removed reference to version and presence action
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'surface')
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+         ! initialise error flags
+
+      if (Action.eq.ACTION_Init) then
+         call surface_zero_variables ()
+         call surface_Init ()
+
+c      else if (Action.eq.ACTION_Inter_Timestep) then
+c         call surface_Inter_Timestep()
+
+c      else if (Action.eq.ACTION_Process) then
+c         call surface_get_other_variables ()
+c         call surface_process ()
+
+c      else if ((Action.eq.'surface').or.(Action.eq.'apply')) then
+c         call surface_get_other_variables ()
+c         call surface_surface ()
+
+      else if (Action.eq.ACTION_Get_variable) then
+         call surface_Send_my_variable (Data_String)
+
+      else if (Action.eq.'swim_timestep_preparation') then
+         call surface_timestep_preparation ()
+
+      else if (Action.eq.'pre_swim_timestep') then
+         call surface_calc_scon ()
+
+      else if (Action .eq. ACTION_Set_variable) then
+         call surface_set_my_variable (Data_String)
+
+      else if (Action .eq. 'post_swim_timestep') then
+         call surface_post_swim_timestep ()
+
+      else if (Action .eq. 'tillage') then
+         call surface_tillage ()
+
+      else
+            ! Don't use message
+         call Message_unused ()
+
+      endif
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+
