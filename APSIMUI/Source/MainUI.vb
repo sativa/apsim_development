@@ -21,9 +21,11 @@ Public Class MainUI
     <System.STAThread()> _
     Public Shared Sub Main()
 
+
+        Application.EnableVisualStyles()
+        Application.DoEvents()
         Dim splash As New SplashScreen
         splash.Show()
-        Application.EnableVisualStyles()
         Application.DoEvents()
         Application.Run(New MainUI)
         Application.DoEvents()
@@ -701,15 +703,15 @@ Public Class MainUI
             SimulationFile = New APSIMFile
             Dim NewDocForm As New NewDocumentForm
             NewDocForm.ShowDialog()
-            'If Not IsNothing(NewDocForm.Selection) Then
-            '    Dim newsim As New APSIMData("simulations", "untitled")
-            '    newsim.Add(NewDocForm.Selection)
-            '    newsim.Add(New APSIMData("shared", "shared"))
-            '    SimulationFile.OpenNewDocument(newsim)
-            '    SimulationExplorer.Data = SimulationFile.data
-            '    UpdateMainForm()
-            '    NewDocForm.Close()
-            'End If
+            If Not IsNothing(NewDocForm.Selection) Then
+                Dim newsim As New APSIMData("simulations", "untitled")
+                newsim.Add(NewDocForm.Selection)
+                newsim.Add(New APSIMData("shared", "shared"))
+                SimulationFile.OpenNewDocument(newsim)
+                SimulationExplorer.Data = SimulationFile.data
+                UpdateMainForm()
+                NewDocForm.Close()
+            End If
 
         Catch e As System.Exception
             MsgBox(e.Message, MsgBoxStyle.Critical, "Error openinig document template")
