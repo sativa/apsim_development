@@ -52,6 +52,7 @@ Field::Field (EventInterface* eInterface,
       else
          FunctionName = "";
       }
+   To_lower(VariableName);
    }
 
 // ------------------------------------------------------------------
