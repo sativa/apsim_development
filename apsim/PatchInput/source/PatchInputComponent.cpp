@@ -51,7 +51,7 @@ void PatchInputComponent::doInit1(const FString& sdml)
 
    i = find(data.constantsBegin(), data.constantsEnd(), "patch_variables_long_term");
    if (i != data.constantsEnd())
-      splitIntoValues(i->values[0], " ", patchVariablesLongTerm);
+      patchVariablesLongTerm = i->values;
    }
 // ------------------------------------------------------------------
 // Read all patch dates.
@@ -230,6 +230,9 @@ void PatchInputComponent::respondToMethod(unsigned int& fromID, unsigned int& me
          {
          date d(data[i].today);
          unsigned dayNumber = day_of_year(d);
+         if (gregorian_calendar::is_leap_year(d.year()))
+            dayNumber--;
+
          patchData.insert(make_pair(dayNumber, data[i]));
          }
       }
@@ -240,6 +243,8 @@ void PatchInputComponent::respondToMethod(unsigned int& fromID, unsigned int& me
 void PatchInputComponent::setPatchData()
    {
    unsigned dayNumber = day_of_year(todaysDate);
+   if (gregorian_calendar::is_leap_year(todaysDate.year()))
+      dayNumber--;
    PatchData::iterator i = patchData.find(dayNumber);
    if (i == patchData.end())
       {
