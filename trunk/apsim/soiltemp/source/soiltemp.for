@@ -1,10 +1,10 @@
 
-      include 'SoilTemp.inc'
  !     ===========================================================
       Recursive
      :subroutine AllocInstance (InstanceName, InstanceNo)
  !     ===========================================================
       use SoilTempModule
+      Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -33,6 +33,7 @@
      :subroutine FreeInstance (anInstanceNo)
  !     ===========================================================
       use SoilTempModule
+      Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -59,6 +60,7 @@
      :subroutine SwapInstance (anInstanceNo)
  !     ===========================================================
       use SoilTempModule
+      Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -85,11 +87,8 @@
      :subroutine Main (Action, Data_string)
 * ====================================================================
       use SoilTempModule
+      Use infrastructure
       implicit none
-      include   'action.inc'
-      include   'const.inc'             ! Global constant definitions
-      include   'event.inc'
-      include   'error.pub'                         
 
 *+  Sub-Program Arguments
        character Action*(*)            ! Message action to perform
@@ -160,9 +159,8 @@
      :subroutine soiltemp_Init ()
 * ====================================================================
       use SoilTempModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Constant definitions
-      include 'error.pub'                         
 
 *+  Purpose
 *      Initialise soiltemp module
@@ -208,8 +206,8 @@
      :subroutine soiltemp_process ()
 *     ================================================================
       use SoilTempModule
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Purpose
 *      perform actions for current day.
@@ -288,9 +286,8 @@
      :subroutine soiltemp_heat (l_heat_store)
 * ====================================================================
       use SoilTempModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Constant definitions
-      include 'error.pub'                         
 
 *+  Purpose
 *     Calculate the storage of heat energy in the soil layer following
@@ -336,9 +333,8 @@
      :subroutine soiltemp_therm (l_therm_cond)
 * ====================================================================
       use SoilTempModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Constant definitions
-      include 'error.pub'                         
 
 *+  Purpose
 *     Calculate the thermal conductivity of the soil layer following
@@ -395,9 +391,8 @@
      :subroutine soiltemp_thomas ()
 * ====================================================================
       use SoilTempModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Constant definitions
-      include 'error.pub'                         
 
 *+  Purpose
 *     Numerical solution of the differential equations. Solves the 
@@ -499,9 +494,8 @@
      :subroutine soiltemp_update ()
 * ====================================================================
       use SoilTempModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Constant definitions
-      include 'error.pub'                         
 
 *+  Purpose
 *     Determine min, max, and average soil temperature from the
@@ -553,8 +547,8 @@
      :subroutine soiltemp_zero_all_globals ()
 * ====================================================================
       use SoilTempModule
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Purpose
 *     Set all variables in this module to zero.
@@ -623,8 +617,8 @@
      :subroutine soiltemp_zero_variables ()
 * ====================================================================
       use SoilTempModule
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Purpose
 *     Set all variables in this module to zero.
@@ -656,8 +650,8 @@
      :subroutine soiltemp_prepare ()
 *     ================================================================
       use SoilTempModule
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Purpose
 *     perform calculations before the current timestep.
@@ -689,12 +683,8 @@
      :subroutine soiltemp_get_other_variables ()
 * ====================================================================
       use SoilTempModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Constant definitions
-      include 'string.pub'
-      include 'data.pub'
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Purpose
 *      Get the values of variables from other modules
@@ -855,13 +845,8 @@
      :subroutine soiltemp_Send_my_variable (Variable_name)
 * ====================================================================
       use SoilTempModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! constant definitions
-      include 'string.pub'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
-      include 'intrface.pub'
  
 
 *+  Sub-Program Arguments
@@ -994,10 +979,8 @@
       subroutine soiltemp_read_param ()
 *     ===========================================================
       use SoilTempModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'read.pub'                          
-      include 'error.pub'                         
 
 *+  Purpose
 *       Read all module parameters.
@@ -1097,10 +1080,8 @@
       subroutine soiltemp_read_constants ()
 *     ===========================================================
       use SoilTempModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'read.pub'                          
-      include 'error.pub'                         
 
 *+  Purpose
 *       Read all module constants.
@@ -1173,8 +1154,8 @@
      :subroutine soiltemp_zero_daily_variables ()
 * ====================================================================
       use SoilTempModule
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Purpose
 *     Set all variables in this module to zero.
@@ -1207,9 +1188,8 @@
      :              , mint_yesterday
      :              , maxt_yesterday)
 *====================================================================
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real time           !time of day in hours
@@ -1277,10 +1257,8 @@
      :subroutine soiltemp_get_ini_variables ()
 * ====================================================================
       use SoilTempModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Constant definitions
-      include 'intrface.pub'                      
-      include 'error.pub'                         
 
 *+  Purpose
 *      Get the values of variables from other modules

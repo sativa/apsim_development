@@ -10,11 +10,8 @@
      .          c_leaf_trans_frac,
      .                    dm_green, dm_plant_min)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'cropdefcons.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
        real g_current_stage
@@ -102,9 +99,8 @@
      .          g_dlt_lai_stressed)
  
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
-      include 'science.pub'                         
 
 *+  Sub-Program Arguments
       integer    start_stage_SPLA
@@ -190,9 +186,8 @@ c look at its calculation. Not used at present.
      .          g_lai,
      .          g_cover_green)
 * ====================================================================
+      Use infrastructure
       implicit none
-      include 'science.pub'                       
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real g_row_spacing
@@ -257,11 +252,8 @@ c look at its calculation. Not used at present.
      .          g_lai,
      .          g_dlt_lai_pot)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'convert.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    begin_stage            !stage number of start
@@ -392,9 +384,8 @@ c scc end of changes for tpla (more below)
      .          g_dlt_leaf_no,
      .          g_node_no)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'cropdefcons.inc' !!!THESE SHOULD BE READ IN as part of initialisation
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -481,10 +472,8 @@ c scc end of changes for tpla (more below)
      .          c_leaf_no_max,
      .          g_leaf_no_final)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    start_leaf_init !stage to begin (e.g. emerg) est. final leaf no.
@@ -569,11 +558,8 @@ c scc end of changes for tpla (more below)
      .          g_dlt_tt,
      .          g_dlt_leaf_no)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'cropdefcons.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_leaf_no(*)
@@ -697,12 +683,9 @@ cglh uses sowing, not emerg to calc leaf no.
  
  
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'cropdefcons.inc'
-      include 'const.inc'
 !      include 'stress.inc' !to set value of photo - not sure if correct way
-      include 'science.pub'                       
-      include 'error.pub'                         
 
 *+  Purpose
 *     Use temperature, photoperiod and genetic characteristics
@@ -930,10 +913,8 @@ c (how do we do this w. TPLA approach?)
      .          p_tt_maturity_to_ripe,
      .          g_phase_tt)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'cropdefcons.inc'
-      include 'science.pub'                       
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real      g_current_stage
@@ -1106,13 +1087,9 @@ c (how do we do this w. TPLA approach?)
  
  
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'cropdefcons.inc'
-      include 'const.inc'
 !      include 'stress.inc' !to set value of photo - not sure if correct way
-      include 'science.pub'                       
-      include 'crp_phen.pub'                      
-      include 'error.pub'                         
 
 *+  Purpose
 *     Use temperature, photoperiod and genetic characteristics
@@ -1367,10 +1344,8 @@ c (how do we do this w. TPLA approach?)
      .          g_phase_tt,
      .          phase_dvl)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'cropdefcons.inc'
-      include 'science.pub'                       
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -1446,10 +1421,8 @@ c (how do we do this w. TPLA approach?)
      .          c_n_fact_pheno,
      .          g_nfact)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer leaf
@@ -1512,10 +1485,8 @@ c (how do we do this w. TPLA approach?)
      .          g_sw_avail_pot,
      .          g_swdef)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       INTEGER c_num_sw_avail_ratio  ! (INPUT)
@@ -1572,8 +1543,8 @@ c (how do we do this w. TPLA approach?)
      .    g_swdef_pheno)
  
 * ====================================================================
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real g_sw_supply_demand_ratio
@@ -1628,10 +1599,8 @@ c (how do we do this w. TPLA approach?)
      .          g_n_green,
      .          g_N_conc_ratio)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer leaf
@@ -1732,9 +1701,8 @@ c (how do we do this w. TPLA approach?)
      .          g_dlt_tt,
      .          g_phase_tt)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_current_stage              ! (INPUT) stage number
@@ -1788,11 +1756,8 @@ cjh  changed 0.0 to 1.0
      .          g_current_stage,
      .          g_days_tot)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'cropdefcons.inc'
-      include 'data.pub'                          
-      include 'science.pub'                       
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_sowing_depth
@@ -1872,10 +1837,8 @@ cjh  changed 0.0 to 1.0
      .          c_num_temp,
      .          g_dlt_tt)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include    'cropdefcons.inc'
-      include 'science.pub'                       
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_maxt
@@ -1933,9 +1896,8 @@ cjh  changed 0.0 to 1.0
      .          c_tt_opt,
      .          g_dlt_tt_fm)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include    'cropdefcons.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_maxt
@@ -1998,8 +1960,8 @@ cjh  changed 0.0 to 1.0
      .          phase_devel,
      .          max_stage)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_dlt_stage             ! (OUTPUT) change in growth stage
@@ -2059,10 +2021,8 @@ cjh  changed 0.0 to 1.0
      .          g_mint,
      .          g_dlt_slai_frost)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       REAL    c_frost_fraction(*) ! (INPUT)
@@ -2114,9 +2074,8 @@ cjh  changed 0.0 to 1.0
      .          g_mint,
      .          g_dlt_slai_frost)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       REAL c_frost_kill        ! (INPUT)  temperature threshold for leaf death (oC
@@ -2171,11 +2130,8 @@ cjh  changed 0.0 to 1.0
      .          g_dlt_lai,
      .          g_dlt_slai_age)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'cropdefcons.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -2290,10 +2246,8 @@ c     :   , g_lai_max_possible, g_dlt_slai_age
      .          g_lai,
      .          g_dlt_slai_age)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'convert.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
        integer first_stage
@@ -2364,9 +2318,8 @@ c     :   , g_lai_max_possible, g_dlt_slai_age
      .          g_lai,
      .          g_dlt_slai_light)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
        real c_lai_sen_light
@@ -2424,9 +2377,8 @@ c+!!!!!!!! should be based on reduction of intercepted light and k*lai
      .          g_swdef_photo,
      .          g_dlt_slai_water)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       REAL c_sen_rate_water       ! (INPUT)  slope in linear eqn relating soil wat
@@ -2480,10 +2432,8 @@ c+!!!!!!!! should be based on reduction of intercepted light and k*lai
      .          g_sw_supply,
      .          g_dlt_slai_water)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       INTEGER g_day_of_year              ! (INPUT)  day of year
@@ -2566,9 +2516,8 @@ c+!!!!!!!! should be based on reduction of intercepted light and k*lai
      .          c_sen_light_time_const,
      .          g_dlt_slai_light)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
        real g_radn_int
@@ -2648,11 +2597,8 @@ c the leaf can't sustain itself.
      .          g_plants,
      .          g_dlt_plants)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! new_line
-      include 'data.pub'                          
-      include 'science.pub'                       
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer sowing
@@ -2716,11 +2662,8 @@ c the leaf can't sustain itself.
      .          g_tt_tot,
      .          g_dlt_plants)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! new_line
-      include 'data.pub'                          
-      include 'science.pub'                       
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer germ
@@ -2780,10 +2723,8 @@ c the leaf can't sustain itself.
      .          array,
      .          number_of_days)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       INTEGER g_day_of_year        ! (INPUT)  day of year
@@ -2841,9 +2782,8 @@ c the leaf can't sustain itself.
      .           g_transp_eff,
      .           g_lai_equilib_water)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       INTEGER g_day_of_year          ! (INPUT)  day of year
@@ -2932,9 +2872,8 @@ c the leaf can't sustain itself.
      .          array,
      .          value)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'date.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       INTEGER g_day_of_year    ! (INPUT)  day of year
@@ -2984,9 +2923,8 @@ c the leaf can't sustain itself.
      .          g_year,
      .          g_lai_eqlb_light)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
        real g_radn_int
@@ -3073,11 +3011,8 @@ c the leaf can't sustain itself.
      .          p_tt_maturity_to_ripe,
      .          g_phase_tt)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'cropdefcons.inc'
-      include 'data.pub'                          
-      include 'science.pub'                       
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real      g_current_stage
@@ -3249,8 +3184,8 @@ cpsc
      .              g_n_conc_min,
      .              g_swdef_expansion)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    grain
@@ -3339,9 +3274,8 @@ c+!!!!!!!!!! return to orig cm
      .          g_N_green,
      .          N_avail)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
        integer num_part
@@ -3415,11 +3349,8 @@ c+!!!!!!!!!! return to orig cm
      .           g_plants,
      .           g_dlt_plants_water)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'cropdefcons.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
        real g_cswd_photo(*)
@@ -3531,12 +3462,9 @@ c+!!!!!!!!!! return to orig cm
      .          g_dlt_stage)
  
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'cropdefcons.inc'
-      include 'const.inc'
 !      include 'stress.inc' !to set value of photo - not sure if correct way
-      include 'science.pub'                       
-      include 'error.pub'                         
 
 *+  Purpose
 *     Use temperature, photoperiod and genetic characteristics
@@ -3749,12 +3677,8 @@ c (how do we do this w. TPLA approach?)
      .          g_lai,
      .          g_dlt_lai_pot)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'cropdefcons.inc' !!!THESE SHOULD BE READ IN as part of initialisation
-      include   'convert.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
 !      integer    emerg
@@ -3909,12 +3833,8 @@ c gmc following 2 lines commented out and replaced by 2 above
      .          g_dlt_dm_grain_demand,
      .          g_dlt_dm_green)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'convert.inc'
-      include   'cropdefcons.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real g_current_stage
@@ -4083,10 +4003,8 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
      .          g_nfact_grain_conc,
      .          o_dlt_N_retrans)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'cropdefcons.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
        real g_dlt_dm_green(*)
@@ -4225,11 +4143,8 @@ csc  true....
      .          dlt_N_green
      .                     )
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'cropdefcons.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
-      include 'science.pub'                         
 
 *+  Sub-Program Arguments
        real g_root_depth
@@ -4343,11 +4258,8 @@ csc  true....
      .          g_dlt_plants_dead)
  
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'cropdefcons.inc'
-      include 'error.pub'                         
-      include 'science.pub'                         
 
 *+  Sub-Program Arguments
       REAL c_tt_emerg_limit      ! (INPUT)  maximum degree days allowed fo
@@ -4442,12 +4354,8 @@ csc  true....
      .          c_sla_max
      .          )
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'convert.inc'
-      include   'cropdefcons.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -4539,6 +4447,7 @@ c################################################################
 *      Revised 10/5/97 to reset maximum amount translocated from stem and leaf
 
 *+  Declaration section -----------------------------------------------
+      Use infrastructure
       implicit none
 *   Subroutine arguments
       real       stem_trans_frac
@@ -4558,11 +4467,6 @@ c################################################################
 
 *   Global variables
 
-      include   'convert.inc'
-      include   'cropdefcons.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *      logical    stage_is_between      ! function
 *      logical    on_day_of

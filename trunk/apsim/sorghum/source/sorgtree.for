@@ -3,10 +3,8 @@ C     Last change:  E     6 Aug 2001   12:28 pm
       subroutine Sorg_root_depth (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_root.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -55,10 +53,8 @@ C     Last change:  E     6 Aug 2001   12:28 pm
       subroutine Sorg_root_depth_init (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_root.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -113,10 +109,8 @@ C     Last change:  E     6 Aug 2001   12:28 pm
       subroutine Sorg_water_supply (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_watr.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -166,11 +160,8 @@ C     Last change:  E     6 Aug 2001   12:28 pm
       subroutine Sorg_water_stress(Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_watr.pub'                      
-      include 'crp_comm.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option       ! (INPUT) option number
@@ -238,10 +229,8 @@ C     Last change:  E     6 Aug 2001   12:28 pm
       subroutine sorg_nit_stress(Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_nitn.pub'                      
-      include 'error.pub'                         
 
       dll_import sorg_nfact_photo
 
@@ -339,11 +328,9 @@ C     Last change:  E     6 Aug 2001   12:28 pm
       subroutine Sorg_temp_stress(Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
 !      include 'stress.inc'
-      include 'crp_temp.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer Option         ! (INPUT) option number
@@ -381,11 +368,8 @@ C     Last change:  E     6 Aug 2001   12:28 pm
       subroutine sorg_light_supply (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_util.pub'                      
-      include 'error.pub'                         
-      include 'science.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -432,10 +416,8 @@ C     Last change:  E     6 Aug 2001   12:28 pm
       subroutine Sorg_bio_RUE (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_biom.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -479,10 +461,8 @@ C     Last change:  E     6 Aug 2001   12:28 pm
       subroutine Sorg_transpiration_eff (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include     'const.inc'
-      include 'crp_watr.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -528,10 +508,8 @@ C     Last change:  E     6 Aug 2001   12:28 pm
       subroutine Sorg_water_demand (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_watr.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -572,9 +550,8 @@ C     Last change:  E     6 Aug 2001   12:28 pm
       subroutine sorg_phenology_init (option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer option
@@ -637,10 +614,8 @@ C     Last change:  E     6 Aug 2001   12:28 pm
        subroutine sorg_phenology (Option)
 * ====================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -818,13 +793,8 @@ c     :          g%days_tot)
       subroutine Sorg_water_uptake (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'crp_watr.pub'                      
-      include 'crp_comm.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -901,12 +871,8 @@ c     :          g%days_tot)
       subroutine Sorg_nit_supply (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'data.pub'                          
-      include 'crp_nitn.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -970,10 +936,8 @@ c     :          g%days_tot)
       subroutine Sorg_nit_init (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_nitn.pub'                      
-      include 'error.pub'                         
 
       dll_import sorg_N_init1
 
@@ -1034,10 +998,8 @@ c     :          g%days_tot)
       subroutine Sorg_height (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_cnpy.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1083,10 +1045,8 @@ c     :          g%days_tot)
       subroutine Sorg_leaf_no_init (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_cnpy.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1130,10 +1090,8 @@ c     :          g%days_tot)
        subroutine sorg_leaf_no_pot (Option)
 * ====================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -1185,11 +1143,8 @@ c     :          g%days_tot)
        subroutine sorg_leaf_area_pot (Option)
 * ====================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'error.pub'                         
-      include 'crp_cnpy.pub'
 
 c      dll_import  cproc_leaf_area_pot_TPLA
 
@@ -1281,10 +1236,8 @@ c      dll_import  cproc_leaf_area_pot_TPLA
       subroutine Sorg_leaf_area_stressed (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_cnpy.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) option number
@@ -1328,10 +1281,8 @@ c      dll_import  cproc_leaf_area_pot_TPLA
       subroutine Sorg_bio_TE (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_watr.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1376,9 +1327,8 @@ c      dll_import  cproc_leaf_area_pot_TPLA
       subroutine sorg_bio_init (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1426,9 +1376,8 @@ c      dll_import  cproc_leaf_area_pot_TPLA
       subroutine sorg_bio_actual (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1469,11 +1418,8 @@ c      dll_import  cproc_leaf_area_pot_TPLA
       subroutine Sorg_bio_grain_demand_stress (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_biom.pub'                      
-      include 'error.pub'                         
-      include 'data.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -1521,10 +1467,8 @@ c      dll_import  cproc_leaf_area_pot_TPLA
       subroutine Sorg_bio_grain_demand (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_biom.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -1594,10 +1538,8 @@ c      dll_import  cproc_leaf_area_pot_TPLA
        subroutine sorg_bio_partition (Option)
 * ====================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -1643,10 +1585,8 @@ c      dll_import  cproc_leaf_area_pot_TPLA
       subroutine Sorg_bio_retrans (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_biom.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1706,10 +1646,8 @@ c      dll_import  cproc_leaf_area_pot_TPLA
        subroutine sorg_leaf_area_actual (Option)
 * ====================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -1768,10 +1706,8 @@ c      dll_import  cproc_leaf_area_pot_TPLA
       subroutine Sorg_root_length_init (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_root.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1817,10 +1753,8 @@ c      dll_import  cproc_leaf_area_pot_TPLA
       subroutine Sorg_root_dist (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_root.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -1878,10 +1812,8 @@ c      dll_import  cproc_leaf_area_pot_TPLA
       subroutine Sorg_sen_bio (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_biom.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1928,10 +1860,8 @@ c      dll_import  cproc_leaf_area_pot_TPLA
       subroutine Sorg_sen_root_length (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_root.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -1976,10 +1906,8 @@ c      dll_import  cproc_leaf_area_pot_TPLA
       subroutine Sorg_sen_nit (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_nitn.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -2033,10 +1961,8 @@ c      dll_import  cproc_leaf_area_pot_TPLA
        subroutine sorg_N_retranslocate (Option)
 * ====================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2101,10 +2027,8 @@ c      dll_import  cproc_leaf_area_pot_TPLA
       subroutine Sorg_nit_demand (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_nitn.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -2190,12 +2114,8 @@ c      dll_import  cproc_leaf_area_pot_TPLA
       subroutine Sorg_nit_uptake (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'crp_nitn.pub'                      
-      include 'crp_comm.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -2276,10 +2196,8 @@ c      dll_import  cproc_leaf_area_pot_TPLA
        subroutine sorg_N_partition (Option)
 * ====================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'error.pub'                         
 
       dll_import sorg_N_partition1
 
@@ -2332,10 +2250,8 @@ c      dll_import  cproc_leaf_area_pot_TPLA
        subroutine sorg_plant_death (Option)
 * ====================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2388,12 +2304,8 @@ c      dll_import  cproc_leaf_area_pot_TPLA
       subroutine Sorg_detachment(option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_cnpy.pub'                      
-      include 'crp_nitn.pub'                      
-      include 'crp_biom.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer option
@@ -2454,9 +2366,8 @@ c in maize
       subroutine sorg_leaf_area_sen (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) template option number

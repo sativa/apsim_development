@@ -4,6 +4,7 @@
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
 
 !+  Sub-Program Arguments
@@ -30,6 +31,7 @@
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
 
 !+  Sub-Program Arguments
@@ -54,6 +56,7 @@
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
 
 !+  Sub-Program Arguments
@@ -78,12 +81,8 @@
       subroutine Main (action, data_string)
 *     ================================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! ACTION_presence, ACTION_init, ACTION_process
-      include   'event.inc'
-      include   'action.inc'
-      include 'crp_comm.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       character  action*(*)            ! (INPUT) Message action to perform
@@ -204,8 +203,8 @@
       subroutine sugar_process ()
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Purpose
 *       Simulate crop processes.  These include biomass production,
@@ -300,14 +299,8 @@
       subroutine sugar_harvest ()
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! new_line, lu_scr_sum, blank,
-      include   'convert.inc'          ! gm2kg, sm2ha, sm2smm
-      include 'string.pub'
-      include 'data.pub'
-      include 'crp_comm.pub'
-      include 'error.pub'
-      include 'componentinterface.inc'
 
 *+  Purpose
 *       Report occurence of harvest and the current status of specific
@@ -617,9 +610,8 @@
       subroutine sugar_zero_all_globals ()
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'
 
 *+  Purpose
 *       Zero crop variables & arrays
@@ -973,8 +965,8 @@
       subroutine sugar_zero_variables ()
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Purpose
 *       Zero crop variables & arrays
@@ -1006,9 +998,8 @@
       subroutine sugar_zero_soil_globals ()
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Zero soil variables & arrays
@@ -1047,9 +1038,8 @@
       subroutine sugar_zero_daily_variables ()
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Zero crop daily variables & arrays
@@ -1135,8 +1125,8 @@
       subroutine sugar_init ()
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Purpose
 *       Crop initialisation
@@ -1183,11 +1173,8 @@ cnh     :                 ' Initialising')
       subroutine sugar_start_crop ()
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! lu_scr_sum, blank
-      include 'string.pub'
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Start crop using parameters specified in passed record
@@ -1302,10 +1289,8 @@ cnh     :                 ' Initialising')
       subroutine sugar_read_cultivar_params (section_name)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'read.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       character section_name*(*)
@@ -1422,11 +1407,8 @@ cnh     :                 ' Initialising')
       subroutine sugar_read_root_params ()
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! new_line, lu_scr_sum, blank,
-      include 'data.pub'
-      include 'read.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Get root profile parameters
@@ -1592,11 +1574,8 @@ cnh     :                 ' Initialising')
      :              , G_year
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc
-      include   'sugconst.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       CHARACTER  G_crop_status   *(*)  ! (INPUT)
@@ -1661,13 +1640,8 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       subroutine sugar_end_crop ()
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! new_line, lu_scr_sum
-      include   'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc
-      include 'data.pub'
-      include 'crp_comm.pub'
-      include 'error.pub'
-      include 'componentinterface.inc'
 
 *+  Purpose
 *       End crop
@@ -1801,10 +1775,8 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       subroutine sugar_get_met_variables ()
 *     ================================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Purpose
 *      Get the values of variables/arrays from other modules.
@@ -1864,13 +1836,8 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       subroutine sugar_get_soil_variables ()
 *     ================================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'convert.inc'
-      include 'data.pub'
-      include 'intrface.pub'
-      include 'error.pub'
-      include 'crp_root.pub'
 
 *+  Purpose
 *      Get the values of variables/arrays from soil modules.
@@ -2000,14 +1967,8 @@ c     :                                    , -10., 80.)
       subroutine sugar_set_other_variables ()
 *     ================================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'convert.inc'
-      include 'action.inc'
-      include 'postbox.pub'
-      include 'data.pub'
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Purpose
 *      Set the value of a variable or array in other module/s.
@@ -2065,10 +2026,8 @@ c      call sugar_update_other_variables ()
       subroutine sugar_set_my_variable (Variable_name)
 *     ===============================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       character  Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -2152,12 +2111,8 @@ c      call sugar_update_other_variables ()
       subroutine sugar_send_my_variable (variable_name)
 *     ================================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc
-      include 'science.pub'
-      include 'data.pub'
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       character variable_name*(*)      ! (INPUT) variable name to search for
@@ -2806,12 +2761,8 @@ c      call sugar_nit_stress_expansion (1)
      :              , stage_no, stage_table, numvals
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! err_user
-      include   'sugconst.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_stage_code_list(*)  ! (INPUT)  list of stage numbers
@@ -2904,10 +2855,8 @@ c      call sugar_nit_stress_expansion (1)
       subroutine sugar_read_constants ()
 *     ===========================================================
             use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'read.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Crop initialisation - reads constants from constants file
@@ -3089,9 +3038,8 @@ c      call sugar_nit_stress_expansion (1)
       subroutine sugar_zero_globals ()
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Zero global variables and arrays
@@ -3174,9 +3122,8 @@ cnh      g%initial_plant_density = 0.0
       subroutine sugar_zero_parameters ()
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Zero parameter variables and arrays
@@ -3214,8 +3161,8 @@ cnh      c%crop_type = ' '
        subroutine sugar_prepare ()
 * ====================================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Purpose
 *     APSim allows modules to perform calculations in preparation for
@@ -3275,10 +3222,8 @@ cnh      c%crop_type = ' '
       subroutine sugar_read_crop_constants (section_name)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'read.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       character section_name*(*)
@@ -3877,12 +3822,8 @@ cnh      c%crop_type = ' '
       subroutine sugar_update_other_variables ()
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'convert.inc'
-      include 'data.pub'
-      include 'crp_comm.pub'
-      include 'error.pub'
-      include 'componentinterface.inc'
 
 *+  Purpose
 *       Update other modules states
@@ -3957,13 +3898,8 @@ cnh      c%crop_type = ' '
       subroutine sugar_hill_up ()
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'action.inc'
-      include 'postbox.pub'
-      include 'data.pub'
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Mound soil around base of crop and bury some plant material
@@ -4102,8 +4038,8 @@ cnh      c%crop_type = ' '
        subroutine sugar_lodge ()
 * ====================================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -4132,9 +4068,8 @@ cnh      c%crop_type = ' '
       subroutine sugar_ONtick ()
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include 'error.pub'
-      include 'event.pub'
 
 *+  Purpose
 *     Update internal time record and reset daily state variables.
@@ -4174,13 +4109,8 @@ cnh      c%crop_type = ' '
      :                                           , fraction_to_Residue
      :                                           , max_part)
 * ====================================================================
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'event.inc'
-      include 'intrface.pub'
-      include 'error.pub'
-      include 'data.pub'
-      include 'postbox.pub'
 
 *+  Sub-Program Arguments
       character  crop_type*(*)              ! (INPUT) crop type
