@@ -24,12 +24,14 @@ class __declspec(dllexport) ApsimSettings
       // Will throw if key value cannot be converted to int or double.
       void read(const std::string& key, std::string& value, bool replaceMacros = false) const;
       void read(const std::string& key, int& value) const;
+      void read(const std::string& key, bool& value) const;
       void read(const std::string& key, double& value) const;
       void read(const std::string& key, std::vector<std::string>& values, bool replaceMacros = false) const;
 
       // Write a setting for the specified key.
       void write(const std::string& key, const std::string& value);
       void write(const std::string& key, int value);
+      void write(const std::string& key, bool value);
       void write(const std::string& key, double value);
       void write(const std::string& key, const std::vector<std::string>& values);
 

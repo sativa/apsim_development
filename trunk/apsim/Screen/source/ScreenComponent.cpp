@@ -221,9 +221,7 @@ void ScreenComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID
       }
    else if (eventID == externalErrorID)
       {
-      bool isFatal;
       FString errorMessage;
-      variant.unpack(isFatal);
       variant.unpack(errorMessage);
       string componentName = asString(errorMessage);
       unsigned int posComponentName = componentName.find("Component name: ");
@@ -234,6 +232,7 @@ void ScreenComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID
          }
       else
          componentName = "";
+      bool isFatal = (errorMessage.find("APSIM  Fatal  Error") != string::npos);
       writeLine(componentName.c_str(), errorMessage);
       if (isFatal)
          ScreenForm->errorsWereEncountered();

@@ -11,6 +11,7 @@ class ComponentAlias
                      unsigned int ComponentAliasId);
       ComponentAlias(const std::string& name,
                      const std::string& dllFileName,
+                     const std::string& componentInterfaceFileName,
                      unsigned int ComponentAliasId,
                      unsigned int parentId);
       ~ComponentAlias(void);

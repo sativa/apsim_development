@@ -19,6 +19,7 @@
 #include <TXY_panel.h>
 #include <TSummary_panel.h>
 #include <TFrequency_panel.h>
+#include <GrossMarginCalculator\GMCalculator.h>
 
 //---------------------------------------------------------------------
 #pragma link "TAnalysis_chart"
@@ -99,6 +100,7 @@ void __fastcall TMDIChild::FormShow(TObject *Sender)
    Settings_form = new TChartSettingsForm(this);
    Settings_form->Parent = this;
    Settings_form->Show();
+   Settings_form->Align = alLeft;
    Settings_form->OnClose = On_settings_form_close;
 
    // could load the toolbar addins here
@@ -115,14 +117,6 @@ void __fastcall TMDIChild::FormShow(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::FormResize(TObject *Sender)
    {
-//   if (true /*WindowState == wsMaximized*/)
-      {
-      Settings_form->Left = ClientWidth - 250;
-      Settings_form->Top = 0;
-      Settings_form->Width = 250;
-      Settings_form->Height = 300;
-      FirstTime = false;
-      }
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::FormClose(TObject *Sender, TCloseAction &Action)
@@ -426,6 +420,8 @@ void TMDIChild::Display_settings(void)
                                  scenario != scenarioNames.end();
                                  scenario++)
       {
+      string cropName;
+
       // build up a factor string.
       vector<string> factors;
       scenarios->getFactorNames(*scenario, factors);
@@ -434,8 +430,21 @@ void TMDIChild::Display_settings(void)
          {
          string value = scenarios->getFactorValue(*scenario, factors[i]);
 
-         Text += "\r\n";
-         Text += "   " + factors[i] + "=" + value;
+         if (Str_i_Eq(factors[i], "crop"))
+            cropName = value;
+
+         if (Str_i_Eq(factors[i], "Econ Config"))
+            {
+            string econConfigFileName;
+            ApsimSettings settings;
+            settings.read("Economics|Database", econConfigFileName, true);
+            GMCalculator gm;
+            gm.open(econConfigFileName);
+            Text += gm.econDescription(value, cropName);
+            }
+         else
+            Text += "\r\n   " + factors[i] + "=" + value;
+
          }
 
       Text += "\r\n\r\n";

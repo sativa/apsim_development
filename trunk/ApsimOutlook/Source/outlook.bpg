@@ -9,8 +9,9 @@ MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
 DCC = $(ROOT)\bin\dcc32.exe $**
 BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
-PROJECTS = APSData.bpl ApsimOutlook.exe DBAddIn.dll \
-  SOIAddin.dll WhopEconAddin.dll RotationAddIn.dll FilterAddIn.dll
+PROJECTS = APSData.bpl ApsimOutlook.exe DBAddIn.dll SOIAddin.dll \
+  WhopEconAddin.dll RotationAddIn.dll FilterAddIn.dll NCAddIn.dll \
+  GrossMarginCalculator.dll ConvertEconomics.exe
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
 #------------------------------------------------------------------------------
@@ -40,6 +41,18 @@ APSData.bpl: ..\..\Shared\Components\Data\APSData.bpk
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
 FilterAddIn.dll: Outlook\FilterAddin\FilterAddIn.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+NCAddIn.dll: Outlook\NCAddin\NCAddIn.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+GrossMarginCalculator.dll: ..\..\Shared\GrossMarginCalculator\GrossMarginCalculator.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+ConvertEconomics.exe: Outlook\ConvertEconomics\ConvertEconomics.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 

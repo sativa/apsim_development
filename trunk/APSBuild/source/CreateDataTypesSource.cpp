@@ -16,15 +16,15 @@ int main(int argc, char* argv[])
    try
       {
       bool writeXML = false;
-      if (argc==2)
+      if (argc != 3 && argc != 4)
+         throw runtime_error("Usage: \n   CreateDataTypesSource datatypes.interface macro.txt [/writexml]");
+
+      if (argc==4)
         {
-        writeXML= Str_i_Eq(argv[1], "/writexml");
+        writeXML= Str_i_Eq(argv[3], "/writexml");
         }
-      ApsimSettings settings;
-      string dataTypesInterfaceFile;
-      string dataTypesMacroFile;
-      settings.read("APSBuild|DataTypesInterfaceFile", dataTypesInterfaceFile, true);
-      settings.read("APSBuild|DataTypesMacroFile", dataTypesMacroFile, true);
+      string dataTypesInterfaceFile = argv[1];
+      string dataTypesMacroFile = argv[2];
 
       // read contents of datatypes.interface
       ifstream dataTypesInterface(dataTypesInterfaceFile.c_str());

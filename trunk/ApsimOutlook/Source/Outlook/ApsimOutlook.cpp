@@ -33,7 +33,6 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdline, int)
 
       Application->CreateForm(__classid(TMainForm), &MainForm);
        Application->CreateForm(__classid(TAboutBox), &AboutBox);
-       Application->CreateForm(__classid(TDrill_down_form), &Drill_down_form);
        Application->CreateForm(__classid(TPreferences_form), &Preferences_form);
        Application->CreateForm(__classid(TOutlookSplashForm), &OutlookSplashForm);
        Application->CreateForm(__classid(TScenarioSelectForm), &ScenarioSelectForm);

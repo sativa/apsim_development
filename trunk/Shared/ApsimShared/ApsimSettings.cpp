@@ -80,6 +80,17 @@ void ApsimSettings::read(const string& key, int& value) const
 // ------------------------------------------------------------------
 // read in a string value for the specified key.
 // ------------------------------------------------------------------
+void ApsimSettings::read(const string& key, bool& value) const
+   {
+   string stringValue;
+   read(key, stringValue);
+   if (stringValue == "")
+      throw runtime_error("Cannot find value for key: " + key);
+   value = Str_i_Eq(stringValue, "yes");
+   }
+// ------------------------------------------------------------------
+// read in a string value for the specified key.
+// ------------------------------------------------------------------
 void ApsimSettings::read(const string& key, double& value) const
    {
    string stringValue;
@@ -139,6 +150,16 @@ void ApsimSettings::write(const string& key, const string& value)
 void ApsimSettings::write(const string& key, int value)
    {
    original->write(getSection(key), getKey(key), lexical_cast<string>(value));
+   }
+// ------------------------------------------------------------------
+//	Write a key to ini file
+// ------------------------------------------------------------------
+void ApsimSettings::write(const string& key, bool value)
+   {
+   if (value)
+      original->write(getSection(key), getKey(key), "yes");
+   else
+      original->write(getSection(key), getKey(key), "no");
    }
 // ------------------------------------------------------------------
 //	Write a key to ini file

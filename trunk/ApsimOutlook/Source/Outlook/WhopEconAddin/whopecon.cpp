@@ -49,6 +49,12 @@ void WhopEcon::setStartupParameters(const std::string& parameters)
    // open the last economics data base.
    ApsimSettings settings;
    settings.read(MDB_KEY, econMDB, true);
+   To_lower(econMDB);
+   if (econMDB.find(".mdb") != string::npos)
+      {
+      econMDB = convertMDBToXML(econMDB);
+      settings.write(MDB_KEY, econMDB);
+      }
    gm.open(econMDB);
 
    // create a factor with the default name

@@ -112,6 +112,7 @@ void Coordinator::doInit1(const FString& sdml)
          ApsimServiceData service = simulationData.getService(*serviceI);
          addComponent(service.getName(),
                       service.getExecutableFileName(),
+                      "",
                       service.getXML());
          }
 
@@ -126,6 +127,7 @@ void Coordinator::doInit1(const FString& sdml)
          ApsimComponentData component = simulationData.getComponent(*componentI);
          addComponent(component.getName(),
                       component.getExecutableFileName(),
+                      component.getComponentInterfaceFileName(),
                       component.getXML());
          }
 
@@ -140,6 +142,7 @@ void Coordinator::doInit1(const FString& sdml)
          ApsimSystemData system = simulationData.getSystem(*systemI);
          addComponent(system.getName(),
                       system.getExecutableFileName(),
+                      "",
                       system.getXML());
          }
 
@@ -212,6 +215,7 @@ void Coordinator::doCommence(void)
 // ------------------------------------------------------------------
 void Coordinator::addComponent(const string& compName,
                                const string& compExecutable,
+                               const string& componentInterfaceExecutable,
                                const string& compSdml)
    {
    // get a unique id for the component we're about to create.
@@ -225,6 +229,7 @@ void Coordinator::addComponent(const string& compName,
    ComponentAlias* componentAlias = new ComponentAlias
          (compName,
           compExecutable,
+          componentInterfaceExecutable,
           childID,
           componentID);
    components.insert(Components::value_type(childID, componentAlias));

@@ -49,29 +49,31 @@ std::string ddmlKindToFOR(const std::string& kind)
    else
       return kind;
    }
-std::string indent(int indentLevel)
+std::string indent(int indentAtStartOfLine, int indentLevel)
    {
-   return "   \"" + string(indentLevel*3, ' ');
+   return string(indentAtStartOfLine, ' ') + "\"" + string(indentLevel*3, ' ');
    }
 // ------------------------------------------------------------------
 // convert a DDML string to a C formatted string
 // ------------------------------------------------------------------
 std::string ddmlToCPP(const ApsimDataTypeData& dataType,
                       bool isType = true,
-                      int indentLevel = 0)
+                      int indentLevel = 0,
+                      int indentAtStartOfLine = 3,
+                      string lineDelimiter = "\\")
    {
    string st;
    if (isType)
-      st = indent(indentLevel) + "<type";
+      st = indent(indentAtStartOfLine, indentLevel) + "<type";
    else
-      st = indent(indentLevel) + "<field";
+      st = indent(indentAtStartOfLine, indentLevel) + "<field";
    if (dataType.isStructure())
       st += " name = \\\"" + dataType.getName() + "\\\"";
 
    if (dataType.isArray())
       st += " array=\\\"T\\\"";
    if (dataType.getNumFields() > 0)
-      st += ">\" \\\n";
+      st += ">\" " + lineDelimiter + "\n";
    else
       {
       st += " kind=\\\"" + dataType.getKind() + "\\\"";
@@ -83,7 +85,7 @@ std::string ddmlToCPP(const ApsimDataTypeData& dataType,
    if (dataType.isArray())
       {
       indentLevel++;
-      st += indent(indentLevel) + "<element>\" \\\n";
+      st += indent(indentAtStartOfLine, indentLevel) + "<element>\" " + lineDelimiter + "\n";
       thisNode = *dataType.begin();
       }
 
@@ -95,22 +97,22 @@ std::string ddmlToCPP(const ApsimDataTypeData& dataType,
          st += ddmlToCPP(*field, false, indentLevel+1) + " \\\n";
       else
          {
-         st += indent(indentLevel+1) + "<field name=\\\"" + field->getName()
+         st += indent(indentAtStartOfLine, indentLevel+1) + "<field name=\\\"" + field->getName()
              + "\\\" kind=\\\"" + field->getKind() + "\\\"";
          if (field->isArray())
             st += " array=\\\"T\\\"";
-         st += "/>\" \\\n";
+         st += "/>\" " + lineDelimiter + "\n";
          }
       }
    if (dataType.isArray())
       {
-      st += indent(indentLevel) + "</element>\" \\\n";
+      st += indent(indentAtStartOfLine, indentLevel) + "</element>\" " + lineDelimiter + "\n";
       indentLevel--;
       }
    if (isType)
-      st += indent(indentLevel) + "</type>\"";
+      st += indent(indentAtStartOfLine, indentLevel) + "</type>\"";
    else
-      st += indent(indentLevel) + "</field>\"";
+      st += indent(indentAtStartOfLine, indentLevel) + "</field>\"";
    return st;
    }
 // ------------------------------------------------------------------
@@ -238,10 +240,16 @@ void processStructure(const ApsimDataTypeData& dataType, XMLNode& node)
          child.setAttribute("array", "T");
       else
          child.setAttribute("array", "F");
+      if (dataType.isMessage())
+         child.setAttribute("message", "T");
+      else
+         child.setAttribute("message", "F");
       XMLNode cddmlNode = child.appendChild("cddml");
       cddmlNode.setValue(ddmlToCPP(dataType));
       XMLNode forddmlNode = child.appendChild("forddml");
       forddmlNode.setValue(ddmlToFOR(dataType));
+      XMLNode dotnetddmlNode = child.appendChild("dotnetddml");
+      dotnetddmlNode.setValue(ddmlToCPP(dataType, true, 0, 9, ""));
 
       for_each(fields.begin(), fields.end(),
                bind2nd(mem_fun_ref(&Field::addFieldToMacro), child));
@@ -274,6 +282,17 @@ void processField(const ApsimDataTypeData& dataType, XMLNode& node)
       }
    }
 //---------------------------------------------------------------------------
+// Process an event
+//---------------------------------------------------------------------------
+void processEvent(const ApsimDataTypeData& dataType, XMLNode& node)
+   {
+   // add field to a new macro.
+   XMLNode child = node.appendChild("event", true);
+   child.setAttribute("name", dataType.getName());
+   child.setAttribute("type", dataType.getType());
+   }
+
+//---------------------------------------------------------------------------
 // Performs the conversion using the specified ddml and the specified
 // macro file.
 //---------------------------------------------------------------------------
@@ -295,6 +314,8 @@ void CreateSource::go(const std::string& ddml,
             processStructure(*dataType, rootNode);
          else if (dataType->isBuiltIn())
             processField(*dataType, rootNode);
+         else if (dataType->isEvent())
+            processEvent(*dataType, rootNode);
          }
       if (writeXML)
          xml.write("macro.xml");
