@@ -76,6 +76,9 @@ class __declspec(dllexport) ApsimComponentData
       XMLNode node;
       XMLNode getInitData(void) const;
       mutable ApsimDataTypesFile* dataTypesFile;
+
+      void replaceAllMacros(XMLNode::iterator rules, string& contents) const;
+
       friend ApsimSystemData;  // so that ApsimSystemData::appendChild can get to node.
    };
 #endif
