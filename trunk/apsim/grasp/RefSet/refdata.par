@@ -1,5 +1,5 @@
 [all.report.parameters]
-variable = clock.today.dd/mm/yyyy as date
+variable = clock.dd/mm/yyyy as date
 !          [reset_sw.dlt_sw_dep],
 variable = soilwat2.sw_dep()
 !          [soil_moisture.sw_dep]
@@ -26,12 +26,12 @@ variable = residue2.residue_wt
 variable = manager.transpiration
 
 [ep.report.parameters]
-variable = clock.today.dd/mm/yyyy as date
+variable = clock.dd/mm/yyyy as date
 !          [erosion.n_uptake]
 variable = grasp.max_n_avail()
 
 [wupt.report.parameters]
-variable = clock.today.dd/mm/yyyy as date
+variable = clock.dd/mm/yyyy as date
 !               [water_uptake.uptake_water_grass]
 variable = manager.transpiration
 

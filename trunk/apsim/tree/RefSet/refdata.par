@@ -4,7 +4,7 @@ end_date=1/1/1958
 
 [all.report.parameters]
 
-variable = clock.today.dd/mm/yyyy as date
+variable = clock.dd/mm/yyyy as date
 !                [profile.root_depth]
 variable = tree.root_depth
 !           [dul.sw_index] [soil_moisture.sw_index]

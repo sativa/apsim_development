@@ -1,6 +1,6 @@
 [gmtb0.report.parameters]
 outputfile =gmtb0s.out
-variable = clock.today.dd/mm/yyyy as date
+variable = clock.dd/mm/yyyy as date
 !                  [runoff.soil_loss]
 variable = erosion.soil_loss
 !                  [fudge_cover.erosion_cover]
