@@ -5,6 +5,7 @@
 
 #include "ApsimDirectories.h"
 #include <general\path.h>
+#include "FString.h"
 #pragma package(smart_init)
 
 using namespace std;
@@ -44,6 +45,26 @@ std::string _export getAppHomeDirectory(void) throw(std::runtime_error)
    catch (const exception& error)
       {
       return Path(Application->ExeName.c_str()).Get_directory();
+      }
+   }
+
+// ------------------------------------------------------------------
+// This routine provides a way for APSIM applications to get the
+// home directory.  Will throw a runtime error if the current
+// Application is not in the apsim directory structure.
+// Currently called by DEMO.
+// ------------------------------------------------------------------
+extern "C" void _export __stdcall getApsuiteDirectory
+   (const char* directory, unsigned directoryLength)
+   {
+   try
+      {
+      string dir = getApsimDirectory();
+      FString(directory, directoryLength) = dir.c_str();
+      }
+   catch (const runtime_error& err)
+      {
+      ::MessageBox(NULL, err.what(), "Error", MB_ICONSTOP | MB_OK);
       }
    }
 
