@@ -419,23 +419,26 @@ cjh      if (data_record.ne.blank) then
          string = '                 Crop Sowing Data'
          call write_string (string)
 
-         string = '    ------------------------------------------------'
+         string =
+     :     '    -------------------------------------------------------'
          call write_string (string)
          call write_string (
-     :           '    Sowing  Depth Plants Spacing Cultivar    FTN')
+     :     '    Sowing   Depth  Plants Spacing Skiprow Cultivar    FTN')
          call write_string (
-     :           '    Day no   mm     m^2     m     Name       no')
+     :     '    Day no    mm      m^2    m      code     name       no')
 
-         string = '    ------------------------------------------------'
+         string =
+     :     '    -------------------------------------------------------'
          call write_string ( string)
 
-         write (string, '(3x, i7, 3f7.1, 1x, a10,1x,f7.2)')
+         write (string, '(3x, i7, 4f7.1, 3x, a10, 1x, f7.2)')
      :                   g%day_of_year, g%sowing_depth
-     :                 , g%plants, g%row_spacing, cultivar
+     :                 , g%plants, g%row_spacing, g%skip_row, cultivar
      :                 , g%tiller_no_fertile
          call write_string (string)
 
-         string = '    ------------------------------------------------'
+         string =
+     :     '    -------------------------------------------------------'
          call write_string (string)
 
 
