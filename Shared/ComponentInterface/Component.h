@@ -612,7 +612,7 @@ class __declspec(dllexport) Component
 
       // Add a procedure to be called when events occur
       unsigned int addEvent(const char *systemName,
-                            protocol::RegistrationType type,
+                            RegistrationType type,
                             boost::function3<void, unsigned &, unsigned &, protocol::Variant &> ptr);
 
    }; // end class Component
