@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="shared/documentation.xsl"?>
+<!DOCTYPE document [
+<!ELEMENT component ANY>
+<!ENTITY released SYSTEM "shared/modules.xml" NDATA XML>
+<!ENTITY loc SYSTEM "../apsim/" NDATA TEXT>
+<!ENTITY docs SYSTEM "shared/" NDATA TEXT>
+]>
+<document>
+   <component name="Getting started with APSIM" type="Apsim for apprentices.pdf" description="Introductory guide to learn APSIM modelling file structures" />
+   <component name="Submit a change request" type="http://www.apsim.info/apsim/helpdesk/submit-change.asp" description="Submitting a change request to modify APSIM or an APSIM product" link="asp"/>
+   <component name="Submit a defect report" type="http://www.apsim.info/apsim/helpdesk/submit-defect.asp" description="Submitting a defect report related to APSIM or an APSIM product" link="asp"/>
+   <component name="What is module instantiation?" type="Module instantiation.pdf" description="Guide to learn more about creating new intances of modules in a simulation" />
+   <component name="APSIM release notes" type="Release notes.pdf" description="Current and updated features for this release"/>
+   <component name="Trouble shooting guide" type="Online_Guide/online_sim_tbl_shooting.htm" description="Trouble shooting guide for APSIM - online" link="asp"/>
+</document>

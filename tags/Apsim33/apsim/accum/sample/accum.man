@@ -1,0 +1,10 @@
+[general.manager.start_of_day]
+
+! tell report module to output when accumulated rainfall is 
+! greater than 20 mm.
+
+if (rain[3] >= 20) then
+   report do_output
+endif
+
+

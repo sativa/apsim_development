@@ -1,0 +1,242 @@
+##################################################
+#file %apsuite\shared\componentinterface\datatypes.h
+#ifndef DataTypesH
+#define DataTypesH
+#include <ComponentInterface\MessageData.h>
+#include "ProtocolVector.h"
+namespace protocol {
+
+#for_each structure
+//-------------------- structure.nameType
+#define structure.nameTypeDDML \
+structure.cddml
+struct structure.nameType
+   {
+   #for_each structure.field
+   #if (field.isArrayAndStructure = T)
+   protocol::vector<field.ctypeType> field.name;
+   #elseif (field.array = T)
+   protocol::vector<field.ctype> field.name;
+   #elseif (field.isStructure = T)
+   field.ctype field.name;
+   #else
+   field.ctype field.name;
+   #endif
+   #endfor
+   };
+inline protocol::MessageData& operator<<(protocol::MessageData& messageData, const structure.nameType& data)
+   {
+   #for_each structure.field
+   messageData << data.field.name;
+   #endfor
+   return messageData;
+   }
+inline protocol::MessageData& operator>>(protocol::MessageData& messageData, structure.nameType& data)
+   {
+   #for_each structure.field
+   messageData >> data.field.name;
+   #endfor
+   return messageData;
+   }
+inline unsigned int memorySize(const structure.nameType& data)
+   {
+   return 0
+   #for_each structure.field
+      + protocol::memorySize(data.field.name)
+   #endfor;
+   }
+
+#endfor
+#endif
+} // protocol
+#endfile
+##################################################
+#file %apsuite\shared\componentinterface\datatypes.cpp
+#include "DataTypes.h"
+#include "FortranComponent.h"
+const unsigned max_array_size = 100;
+
+// turn off the warnings about "Functions containing for are not expanded inline.
+#pragma warn -inl
+
+extern "C" void __stdcall publish_null(unsigned* id)
+   {
+   FortranProxyComponent::currentInstance->publish(*id, protocol::NoData());
+   }
+
+#for_each structure
+namespace protocol {
+struct Fstructure.nameType
+   {
+   #for_each structure.field
+   #if (field.isArrayAndStructure = T)
+   field.ctypeType field.name[max_array_size];
+   #elseif (field.array = T)
+   field.ctype field.name[max_array_size];
+   #elseif (field.isStructure = T)
+   field.ctypeType field.name;
+   #elseif (field.ctype = FString)
+   char field.name[max_array_size];
+   #else
+   field.ctype field.name;
+   #endif
+   #if (field.array = T)
+   unsigned num_field.name;
+   #endif
+   #endfor
+   };
+inline protocol::MessageData& operator<<(protocol::MessageData& messageData, const Fstructure.nameType& data)
+   {
+   #for_each structure.field
+   #if (field.array = T)
+   messageData << data.num_field.name;
+   for (unsigned i = 0; i != data.num_field.name; i++)
+      messageData << data.field.name[i];
+   #elseif (field.ctype = FString)
+   messageData << FString(data.field.name, max_array_size, FORString);
+   #else
+   messageData << data.field.name;
+   #endif
+   #endfor
+   return messageData;
+   }
+inline protocol::MessageData& operator>>(protocol::MessageData& messageData, Fstructure.nameType& data)
+   {
+   #for_each structure.field
+   #if (field.array = T)
+   messageData >> data.num_field.name;
+   for (unsigned i = 0; i != data.num_field.name; i++)
+      messageData >> data.field.name[i];
+   #elseif (field.ctype = FString)
+   FString field.nameString(data.field.name, max_array_size, FORString);
+   messageData >> field.nameString;
+   #else
+   messageData >> data.field.name;
+   #endif
+   #endfor
+   return messageData;
+   }
+inline unsigned int memorySize(const Fstructure.nameType& data)
+   {
+   return 0
+   #for_each structure.field
+      #if (field.array = T)
+      + 4 + data.num_field.name * protocol::memorySize(data.field.name[0])
+      #elseif (field.ctype = FString)
+      + protocol::memorySize(FString(data.field.name, max_array_size, FORString))
+      #else
+      + protocol::memorySize(data.field.name)
+      #endif
+   #endfor;
+   }
+};
+   #if (structure.array = T)
+extern "C" void __stdcall publish_structure.name(unsigned* id, const protocol::Fstructure.nameType data[], unsigned* numValues)
+   {
+   FortranProxyComponent::currentInstance->publishArray(*id, data, *numValues);
+   }
+   #else
+extern "C" void __stdcall publish_structure.name(unsigned* id, const protocol::Fstructure.nameType* data)
+   {
+   FortranProxyComponent::currentInstance->publish(*id, *data);
+   }
+   #endif
+   #if (structure.array = T)
+extern "C" void __stdcall unpack_structure.name(protocol::Variant* variant, protocol::Fstructure.nameType data[], unsigned* numValues)
+   {
+   variant->unpackArray(data, *numValues);
+   }
+   #else
+extern "C" void __stdcall unpack_structure.name(protocol::Variant* variant, protocol::Fstructure.nameType* data)
+   {
+   variant->unpack(*data);
+   }
+   #endif
+#endfor
+
+// restore the warnings about "Functions containing for are not expanded inline.
+#pragma warn .inl
+
+#endfile
+##################################################
+#file %apsuite\apsim\infra\source\datatypes.f90
+module dataTypes
+   character(len=*), parameter :: nullTypeDDML = '<type/>'
+   integer, parameter :: max_array_size = 100
+#for_each structure
+!-------------------- structure.nameType
+   character(len=*), parameter :: structure.nameTypeDDML = &
+structure.forddml
+   type structure.nameType
+      sequence
+      #for_each structure.field
+      #if (field.isStructure = T)
+      type(field.forTypeType) :: field.name
+      #elseif (field.array = T)
+      field.fortype :: field.name(max_array_size)
+      #elseif (field.isArrayAndStructure = T)
+      type(field.forTypeType) :: field.name(max_array_size)
+      #else
+      field.fortype :: field.name
+      #endif
+      #if (field.array = T)
+      integer :: num_field.name
+      #endif
+      #endfor
+   end type structure.nameType
+
+#endfor
+end module dataTypes
+#endfile
+
+##################################################
+#file %apsuite\apsim\infra\source\datatypesinterface.f90
+module dataTypesInterface
+   interface
+
+   subroutine publish_null(id)
+   use datatypes
+   ml_external publish_null
+   integer :: id
+   end subroutine
+
+   #for_each structure
+   #if (structure.array = T)
+   subroutine publish_structure.name(id, data, numValues)
+   use datatypes
+   ml_external publish_structure.name
+   integer :: id
+   type(structure.nameType) :: data(*)
+   integer :: numValues
+   end subroutine
+   #else
+   subroutine publish_structure.name(id, data)
+   use datatypes
+   ml_external publish_structure.name
+   integer :: id
+   type(structure.nameType) :: data
+   end subroutine
+   #endif
+
+   #if (structure.array = T)
+   subroutine unpack_structure.name(variant, data, numValues)
+   use datatypes
+   ml_external unpack_structure.name
+   integer :: variant
+   type(structure.nameType) :: data(*)
+   integer :: numValues
+   end subroutine
+   #else
+   subroutine unpack_structure.name(variant, data)
+   use datatypes
+   ml_external unpack_structure.name
+   integer :: variant
+   type(structure.nameType) :: data
+   end subroutine
+   #endif
+   #endfor
+
+   end interface
+end module dataTypesInterface
+
+#endfile

@@ -1,0 +1,20 @@
+[Dependencies]
+Dependency = %licensed(maize)
+
+[Contents]
+Executable = lib\lib.apf
+Source = source\source.apf
+Sample = sample\sample.apf
+Documentation = docs\docs.apf
+
+[contacts]
+contact = Mike Robertson - Module Developer; mailto:Mike.Robertson@tag.csiro.au
+
+[apseudo]
+title=The APSIM Maize Model
+parfile=
+parshowall=yes
+inifile=maize.ini
+inishowall=yes
+rddfile=
+heading = The APSIM Maize Model; main

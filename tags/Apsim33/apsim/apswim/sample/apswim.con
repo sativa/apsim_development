@@ -1,0 +1,13 @@
+version = 3.3
+[apsim.sample_apswim]  
+
+
+title=APSwim Sample Simulation
+module = clock    apswim.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   apswim.par [sample]
+module = input(met)      SAMPLE.MET [sample]
+module = manager  apswim.par [sample]
+module = apswim   apswim.par [sample]     %apsuite\apsim\apswim\apswim.ini [standard]
+module = solute   apswim.par [sample]     %apsuite\apsim\solute\solute.ini [standard]
+module = SummaryFile  apswim.par[sample]
+module = Screen  apswim.par[sample]
