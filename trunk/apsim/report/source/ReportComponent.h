@@ -1,18 +1,14 @@
 //---------------------------------------------------------------------------
 #ifndef ReportComponentH
 #define ReportComponentH
-#include <Component.h>
-#include <aps\APSIMOutputFile.h>
+#include <ComponentInterface\Component.h>
 #include <string>
 #include <vector>
-#include <list>
 class Field
    {
    public:
       Field (protocol::Component* parent,
-             const std::string& ModuleName,
-             const std::string& VariableName,
-             const std::string& VariableAlias,
+             const std::string& variable,
              bool CSVFormat);
 
       void writeHeadings(std::ostream& headingOut, std::ostream& unitOut);
@@ -61,9 +57,9 @@ class ReportComponent : public protocol::Component
       virtual void respondToMethod(unsigned int& fromID, unsigned int& methodID, protocol::Variant& variant);
 
    private:
-      APSIMOutputFile* Out;
+      std::ofstream out;
       bool OutputOnThisDay;
-      typedef std::list<Field> Fields;
+      typedef std::vector<Field> Fields;
       Fields fields;
       int DaysSinceLastReport;
       bool CSVFormat;
@@ -72,7 +68,6 @@ class ReportComponent : public protocol::Component
       unsigned doOutputID;
       unsigned doEndDayOutputID;
       unsigned daysSinceLastReportVariableID;
-      unsigned tempID;
 
       void writeHeadings(void);
       void WriteLineOfOutput(void);

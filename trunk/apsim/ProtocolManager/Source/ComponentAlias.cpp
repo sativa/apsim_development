@@ -1,6 +1,8 @@
-//---------------------------------------------------------------------------
+#include <general\pch.h>
+#pragma hdrstop
+
 #include "ComponentAlias.h"
-#include "computation.h"
+#include <ComponentInterface\computation.h>
 
 using namespace std;
 using namespace protocol;

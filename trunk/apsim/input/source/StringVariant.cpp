@@ -1,12 +1,11 @@
-//---------------------------------------------------------------------------
-
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 
 #include "StringVariant.h"
 #include <general\string_functions.h>
 #include <general\math_functions.h>
-#include <Component.h>
+#include <ComponentInterface\Component.h>
 
 using namespace std;
 using namespace protocol;

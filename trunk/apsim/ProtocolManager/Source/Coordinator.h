@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 #ifndef CoordinatorH
 #define CoordinatorH
-#include "component.h"
+#include <ComponentInterface\component.h>
 #include "ComponentAlias.h"
 #include <vector>
 #include <map>
@@ -46,7 +46,9 @@ class Coordinator : public protocol::Component
       virtual void onQueryInfoMessage(unsigned int fromID, unsigned int messageID, protocol::QueryInfoData& queryInfo);
       virtual void onRequestSetValueMessage(unsigned int fromID, protocol::RequestSetValueData& setValueData);
 
-      void addComponent(SOMComponent componentData);
+      void addComponent(const std::string& name,
+                        const std::string& executable,
+                        const std::string& sdml);
       unsigned int getComponentID(const std::string& name);
 
       PMRegistrationItem* findRegistration(const std::string& name,

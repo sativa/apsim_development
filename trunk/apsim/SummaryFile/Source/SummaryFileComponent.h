@@ -2,7 +2,7 @@
 #ifndef SummaryFileComponentH
 #define SummaryFileComponentH
 #include <fstream>
-#include <component.h>
+#include <ComponentInterface\Component.h>
 // ------------------------------------------------------------------
 //  Short description:
 //     Encapsulates the APSIM SUMMARY FILE module

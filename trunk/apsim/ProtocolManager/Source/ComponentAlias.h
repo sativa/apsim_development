@@ -1,8 +1,10 @@
-//---------------------------------------------------------------------------
+#include <general\pch.h>
+#pragma hdrstop
+
 #ifndef ComponentAliasH
 #define ComponentAliasH
 #include "PMRegistrationItem.h"
-#include "Interfaces.h"
+#include <ComponentInterface\Interfaces.h>
 #include <map>
 // ------------------------------------------------------------------
 //  Short description:
