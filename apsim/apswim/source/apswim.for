@@ -6,6 +6,7 @@
       include 'const.inc'             ! Global constant definitions
       include 'engine.pub'                        
       include 'error.pub'                         
+      include 'event.inc'
 
 *+  Sub-Program Arguments
        character Action*(*)            ! Message action to perform
@@ -52,7 +53,10 @@
  
       else if (Action .eq. MES_End_run) then
          call apswim_end_run ()
- 
+
+      else if (Action .eq. EVENT_new_solute) then
+         call apswim_on_new_solute()
+
       else
          ! Don't use message
          call Message_Unused ()
@@ -351,14 +355,20 @@ c     :              1.0d0)
          ivap = 0
       endif
  
-      call Read_char_array_optional(
+      call Read_char_array (
      :           init_section,
      :           'run_solutes',
      :           nsol,
      :           '()',
      :           solute_names,
      :           num_solutes)
- 
+
+      if ((num_solutes.eq.1).and.(solute_names(1).eq.'none')) then
+         ! user wants no solutes
+         num_solutes = 0
+         solute_names(1) = ' '
+      endif
+
       ! Read in flag for extra_solute_supply
       call Read_char_var_optional (
      :              init_section,
@@ -1882,6 +1892,8 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
       do 102 vegnum=1,MV
          pep(vegnum) = 0d0
          do 101 solnum=1,nsol
+            solute_names(solnum) = ' '
+            solute_owners(solnum) = ' '
             solute_demand(vegnum,solnum) = 0d0
   101    continue
   102 continue
@@ -4469,7 +4481,7 @@ c      endif
      :           '(kg/ha)',
      :           solute_n(0),
      :           n+1)
-         call message_send_immediate(unknown_module
+         call message_send_immediate(solute_owners(solnum)
      :                              ,MES_set_variable
      :                              ,solute_names(solnum))
          call delete_postbox()
@@ -7885,7 +7897,7 @@ c      pause
       if (solnum .gt. 0) then
          ! only continue if solute exists. 
          call get_double_array (
-     :           unknown_module,
+     :           solute_owners(solnum),
      :           solname,
      :           n+1,
      :           '(kg/ha)',
@@ -8297,3 +8309,71 @@ c      pause
       end
 
 
+*     ===========================================================
+      subroutine apswim_on_new_solute ()
+*     ===========================================================
+      implicit none
+      include 'const.inc' 
+      include 'event.inc'
+      include 'apswim.inc'
+      include 'error.pub'
+      include 'data.pub'
+      include 'intrface.pub'
+ 
+*+  Purpose
+*     Find the owner of any run_solutes
+ 
+*+  Mission Statement
+*      Find the owner of individual solutes
+ 
+*+  Changes
+*       170599 nih - specified
+
+*+  Calls
+      integer apswim_solute_number
+ 
+*+  Constant Values
+      character  my_name*(*)           ! this subroutine name
+      parameter (my_name = 'apswim_on_new_solute')
+ 
+*+  Local Variables
+      integer numvals
+      character names(nsol)*32
+      character sender*(max_module_name_size)
+      integer counter
+      integer solnum
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+
+      call collect_char_var (DATA_sender
+     :                      ,'()'
+     :                      ,sender
+     :                      ,numvals)
+
+      call collect_char_array (DATA_new_solute_names
+     :                        ,nsol
+     :                        ,'()'
+     :                        ,names
+     :                        ,numvals)
+
+      do 100 counter = 1, numvals
+
+         solnum = apswim_solute_number (names(counter))
+
+         if (solnum.ne.0) then
+            solute_owners(solnum) = sender
+         else
+             ! not a run_solute
+            call write_event (
+     :          'Note - APSwim will not redistribute '
+     :           //names(counter))
+         endif
+
+  100 continue
+      
+      call pop_routine (my_name)
+      return
+      end
+ 
