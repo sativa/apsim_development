@@ -24,7 +24,7 @@ LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface
 
 
 # ---------------------------------------------------------------------------
-CFLAG1 = $(SYSCFLAGS) -tWM 
+CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
 WARNINGS = -w-par
 LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
 

@@ -27,9 +27,9 @@ LIBPATH = $(SYSLIBPATH);$(APSROOT)\Shared\ComponentInterface
 
 # ---------------------------------------------------------------------------
 
-CFLAG1 = $(SYSCFLAGS) -tWM 
+CFLAG1 = $(SYSCFLAGS) -O2 -vi -tWM 
 WARNINGS = -w-par
-LFLAGS = 
+LFLAGS = -l. -D"" -aa -Tpe -x -Gn
 
 ALLOBJ = c0w32.obj vcl.bpi Memmgr.Lib sysinit.obj $(OBJECTS)
 ALLRES = $(RESFILES)
