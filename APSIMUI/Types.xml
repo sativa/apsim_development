@@ -425,6 +425,27 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
+     <variables>
+         <variable name="istage" module = "vinelogic" description="Growth Stage Number"></variable>
+         <variable name="lai" module = "vinelogic" description="Leaf Area Index"></variable>
+			<variable name="nlayr" module = "vinelogic" description="Number of Soil Layers"></variable>
+			<variable name="sw" array="T" module = "vinelogic" description="Volumetric Soil Water"></variable>
+			<variable name="sw_dep" array="T" module = "vinelogic" description="Total Soil Water (mm)"></variable>
+			<variable name="ll15_dep" array="T" module = "vinelogic" description="15 bar Lower Limit (mm)"></variable>
+			<variable name="dul_dep" array="T" module = "vinelogic" description="Drained Upper Limit (mm)"></variable>
+			<variable name="sat_dep" array="T" module = "vinelogic" description="Saturation (mm)"></variable>
+			<variable name="runoff" module = "vinelogic" description="Runoff (mm)"></variable>
+			<variable name="drain" module = "vinelogic" description="Drainage (mm)"></variable>
+			<variable name="flowd" array="T" module = "vinelogic" description="downward flow (mm)"></variable>
+			<variable name="irrigation" module = "vinelogic" description="Irrigation (mm)"></variable>
+			<variable name="es" module = "vinelogic" description="Soil Water Evaporation (mm)"></variable>
+			<variable name="ep" module = "vinelogic" description="Plant Water Use (mm)"></variable>
+			<variable name="sw_demand" module = "vinelogic" description="Plant Soil Water Demand (mm)"></variable>
+			<variable name="swdef_photo" module = "vinelogic" description="Water Stress (photosynthesis)"></variable>
+			<variable name="swdef_expan" module = "vinelogic" description="Water Stress (cell expansion)"></variable>
+			<variable name="fruit_wt" module = "vinelogic" description="Fruit Weight (kg/ha)"></variable>
+			<variable name="fruit_fresh_wt" module = "vinelogic" description="Fruit Fresh Weight (kg/ha)"></variable>
+      </variables>
    </vinelogic>
    <surfaceom>
       <UItype>generic</UItype>
@@ -884,6 +905,7 @@
       <drops>
          <drop name="simulation"/>
          <drop name="folder"/>
+         <drop name="area"/>
      </drops>
       <variables>
          <variable name="lai" description="Slurp Green leaf area index"></variable>
@@ -1244,5 +1266,66 @@
          <variable name="adm_sen" array = "T" description ="E. grandis Senesced Above-ground Biomass Pools"/>
      </variables>
    </egrandis>
+   <stream>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Description>The stream module doesn't have any properties. It is required though if you wish to track stream flow in a spatial simulation."</Description>
+      <Documentation name="Science documentation">../apsim/fertiliz/docs/fertiliz_science.htm</Documentation>
+      <LargeIcon>images\fertiliser32.png</LargeIcon>
+      <SmallIcon>images\fertiliser16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+
+     <variables>
+         <variable name="streamflow" description ="Stream Flow (ML)"/>
+     </variables>
+   </stream>
+   <root>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Description>The Root module doesn't have any properties. It is required though if you wish to use the spatial root system capability in APSIM."</Description>
+      <Documentation name="Science documentation">../apsim/fertiliz/docs/fertiliz_science.htm</Documentation>
+      <LargeIcon>images\fertiliser32.png</LargeIcon>
+      <SmallIcon>images\fertiliser16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+
+     <variables>
+         <variable name="root_sw_demand_vol" description ="Root SW Demand (ML)"/>
+         <variable name="root_sw_supply_vol" description ="Root SW Supply (ML)"/>
+         <variable name="root_sw_uptake_vol" description ="Root SW Uptake (ML)"/>
+     </variables>
+   </root>
+   <spaceslurp>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Description>The Spatial slurp module doesn't have any properties. It is required though if you wish to use the spatial root system capability in APSIM."</Description>
+      <Documentation name="Science documentation">../apsim/fertiliz/docs/fertiliz_science.htm</Documentation>
+      <LargeIcon>images\fertiliser32.png</LargeIcon>
+      <SmallIcon>images\fertiliser16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+
+     <variables>
+         <variable name="sw_demand" description ="SW Demand (mm)"/>
+         <variable name="sw_demand_vol" description ="SW Demand (ML)"/>
+     </variables>
+   </spaceslurp>
+
 </Types>
 
