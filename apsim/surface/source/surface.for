@@ -11,6 +11,9 @@
  
 !+  Purpose
 !      Module instantiation routine.
+
+*+  Mission Statement
+*     Instantiate routine
  
 !- Implementation Section ----------------------------------
                
@@ -32,6 +35,9 @@
  
 !+  Purpose
 !      Module de-instantiation routine.
+
+*+  Mission Statement
+*     De-Instantiate routine
  
 !- Implementation Section ----------------------------------
                
@@ -52,6 +58,9 @@
  
 !+  Purpose
 !      Swap an instance into the global 'g' pointer
+
+*+  Mission Statement
+*     Swap an instance into global pointer
  
 !- Implementation Section ----------------------------------
                
@@ -82,6 +91,9 @@
 *      this module resets the surface seal value to the value this module
 *      wishes APSwim to use.  This will override any internally calculated
 *      value of surface conductance.
+
+*+  Mission statement
+*      Handles the communication for surface.
 
 *+  Changes
 *     050599 sdb removed reference to version and presence action
@@ -151,6 +163,9 @@ c         call surface_surface ()
 *+  Purpose
 *      Initialise surface module
 
+*+  Mission statement
+*      Initialise the module
+
 *+  Changes
 *     050599 sdb removed reference to version and presence action
 
@@ -195,6 +210,9 @@ c         call surface_surface ()
 
 *+  Purpose
 *      Read in all parameters from parameter file.
+
+*+  Mission Statement
+*     Read parameters from parameter file
 
 *+  Changes
 *     <insert here>
@@ -293,6 +311,9 @@ c         call surface_surface ()
 *+  Purpose
 *     Set all variables in this module to zero.
 
+*+  Mission statement
+*     Zero all the variables
+
 *+  Changes
 *     <insert here>
 
@@ -338,6 +359,9 @@ c         call surface_surface ()
 
 *+  Purpose
 *      Get the values of variables from other modules
+
+*+  Mission Statement
+*     Get Other Variables
 
 *+  Changes
 *     <insert here>
@@ -388,6 +412,9 @@ c         call surface_surface ()
       character  Variable_name*(*)     ! (INPUT) Variable name to search for
 
 *+  Purpose
+*      Return the value of one of our variables to caller
+
+*+  Mission statement
 *      Return the value of one of our variables to caller
 
 *+  Changes
@@ -449,6 +476,9 @@ c RDC
 
 *+  Purpose
 *     Set one of our variables altered by some other module
+
+*+  Mission statement
+*     Set Variable as Requested
 
 *+  Changes
 *      011195 jngh  added call to message_unused
@@ -518,6 +548,9 @@ c RDC
       include 'postbox.pub'                         
 
 *+  Purpose
+*      Return the value of one of our variables to caller
+
+*+  Mission statement
 *      Return the value of one of our variables to caller
 
 *+  Changes
@@ -595,6 +628,9 @@ c RDC
 
 *+  Purpose
 *      Get the values of surface seal variables from apswim
+
+*+  Mission statement
+*      Get the vales of surface seal variables from apswim
 
 *+  Changes
 *     <insert here>
@@ -718,6 +754,9 @@ c RDC
 *     decayed state.  We do this because APSwim "owns" the seal
 *     and it may have it reset at any time via tillage etc.
 
+*+  Mission statement
+*     Update surface conductance given some rainfall
+
 *+  Changes
 *     <insert here>
 
@@ -813,6 +852,9 @@ c RDC
 *        seal was decayed each day using all rainfall up to that
 *        point in time instead of the rainfall for just that time period.
 
+*+  Mission statement
+*     Update surface conductance using Silburn & Connolly approach
+ 
 *+  Changes
 *     <insert here>
 
@@ -899,6 +941,9 @@ cnh but is more sensible at low rainfall intensities.
 *      We record the state here and then perform our own calculations
 *      at the pre_timestep stage of swim calculations.
 
+*+  Mission statement
+*     Get the state variables prior to the timestep
+
 *+  Changes
 *     31-01-1997 - huth - Programmed and Specified
 
@@ -927,6 +972,9 @@ cnh but is more sensible at low rainfall intensities.
       include 'error.pub'                         
 
 *+  Purpose
+*      Perform calcs after swim timestep
+
+*+  Mission statement
 *      Perform calcs after swim timestep
 
 *+  Changes
@@ -970,6 +1018,9 @@ cnh but is more sensible at low rainfall intensities.
       include 'error.pub'                         
 
 *+  Purpose
+*      Perform calcs to respond to a tillage action
+
+*+  Mission statement
 *      Perform calcs to respond to a tillage action
 
 *+  Changes
