@@ -1,3 +1,6 @@
+[all.log.parameters]
+debug_output = on
+logfile=log.log
 !********** CLOCK MODULE **********
 [all.clock.parameters]
 start_date=15/12/1992
@@ -777,7 +780,7 @@ endif
 !-------1992/93 fallow-------
 !350 1992 soiln2 incorp_fom dlt_fom_wt = 500 2500 1500 1000 500 300 200 150 50 10 0 0 0 0 0 0 0 0 0 0 (kg/ha), dlt_fom_cnr = 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 ()
 !350 1992 soiln2 incorp_fom dlt_fom_wt =  10 48 152 320 421 419 381 352 443 400 229 57 0 0 0 0 0 0 (kg/ha), dlt_fom_cnr = 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 ()
-350 1992 soiln2 incorp_fom dlt_fom_wt =  10 50 200 350 500 700 500 400 450 400 250 100 0 0 0 0 0 0 (kg/ha), dlt_fom_cnr = 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 ()
+350 1992 soiln2 add_roots dlt_fom_wt =  10 50 200 350 500 700 500 400 450 400 250 100 0 0 0 0 0 0 (kg/ha), dlt_fom_cnr = 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 ()
 350 1992 weed2 sow cultivar = early, plants = 20 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
 ! 90 1993 weed2 kill_crop
  90 1993 weed2 end_crop
@@ -908,7 +911,7 @@ endif
 !-------1992/93 fallow-------
 !350 1992 soiln2 incorp_fom dlt_fom_wt = 500 2500 1500 1000 500 300 200 150 50 10 0 0 0 0 0 0 0 0 0 0 (kg/ha), dlt_fom_cnr = 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 ()
 !350 1992 soiln2 incorp_fom dlt_fom_wt =  10 48 152 320 421 419 381 352 443 400 229 57 0 0 0 0 0 0 (kg/ha), dlt_fom_cnr = 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 ()
-350 1992 soiln2 incorp_fom dlt_fom_wt =  10 50 200 350 500 700 500 400 450 400 250 100 0 0 0 0 0 0 (kg/ha), dlt_fom_cnr = 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 ()
+350 1992 soiln2 add_roots dlt_fom_wt =  10 50 200 350 500 700 500 400 450 400 250 100 0 0 0 0 0 0 (kg/ha), dlt_fom_cnr = 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 ()
 350 1992 weed1 sow cultivar = early, plants = 20 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
 ! 90 1993 weed1 kill_crop
  90 1993 weed1 end_crop
@@ -1051,7 +1054,7 @@ endif
 
 !-------1992/93 fallow-------
 !350 1992 soiln2 incorp_fom dlt_fom_wt = 500 2500 1500 1000 500 300 200 150 50 10 0 0 0 0 0 0 0 0 0 0 (kg/ha), dlt_fom_cnr = 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 ()
-350 1992 soiln2 incorp_fom dlt_fom_wt =  10 50 200 350 500 700 500 400 450 400 250 100 0 0 0 0 0 0 (kg/ha), dlt_fom_cnr = 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 ()
+350 1992 soiln2 add_roots dlt_fom_wt =  10 50 200 350 500 700 500 400 450 400 250 100 0 0 0 0 0 0 (kg/ha), dlt_fom_cnr = 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 ()
 90  1993 residue2 tillage type = burn_95 ()
 105 1993 residue2 tillage type = chisel ()
 
