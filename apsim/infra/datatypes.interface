@@ -676,6 +676,38 @@
    <type name="AddResidueString" kind="string" unit="" description="Residue Added String: dlt_residue_type=xx (), dlt_residue_wt=xx (kg/ha), dlt_residue_n=xx (kg/ha), dlt_residue_cnr=xx (kg/ha), dlt_residue_p=xx (kg/ha), dlt_residue_cpr=xx (kg/ha)"/>
    <type name="ResidueTillageString" kind="string" unit="" description="Residue Tillage String: f_incorp=xx (), tillage_depth=xx (mm), type=xx ()"/>
 
+   <type name="residue_wt" kind="single" unit="kg/ha" lower_bound="0.0" upper_bound="20000.0" description="Residue Weight"/>
+   <type name="init_residue_type" kind="string" unit="" description="Initial residue type"/>
+   <type name="init_residue_dm_type" kind="string" unit="" description="init_residue_dm_type"/>
+   <type name="residue_n" kind="single" unit="kg/ha" description="residue_n"/>
+   <type name="residue_p" kind="single" unit="kg/ha" description="residue_p"/>
+   <type name="pot_c_decomp" kind="single" array="T" unit="kg/ha" description="C in decomposing material"/>
+   <type name="pot_n_decomp" kind="single" array="T" unit="kg/ha" description="N in decomposing material"/>
+   <type name="pot_p_decomp" kind="single" array="T" unit="kg/ha" description="P in decomposing material"/>
+   <type name="residue_cover" kind="single" unit="m2/m2" description="Fraction of ground covered by residue"/>
+   <type name="tf" kind="single" unit="0-1" description="Temperature factor"/>
+   <type name="wf" kind="single" unit="0-1" description="wf"/>
+   <type name="cnrf" kind="single" unit="0-1" description="C:N factor for decomposition"/>
+   <type name="cf" kind="single" unit="0-1" description="residue/soil contact factor for decomposition"/>
+   <type name="pot_decomp_rate" kind="single" unit="/day" lower_bound="0.0" upper_bound="1.0" description="pot_decomp_rate"/>
+   <type name="residue_cnr" kind="single" unit="" lower_bound="0.0" upper_bound="200.0" description="Carbon-nitrogen ratio in residue"/>
+   <type name="residue_cpr" kind="single" unit="" lower_bound="0.0" upper_bound="500.0" description="Carbon-phosphorus ratio in residue"/>
+   <type name="residue_type" kind="string" unit="" description="Type of residue"/>
+   <type name="report_additions" kind="string" unit="" description="report_additions"/>
+   <type name="tillage_type" kind="single" array="T" unit="" description="Tillage type"/>
+   <type name="Specific_Area" kind="single" unit="cm2/g" lower_bound="0.00001" upper_bound="0.1" description="Specific area of residue types"/>
+   <type name="opt_temp" kind="single" unit="oC" lower_bound="0.0" upper_bound="100.0" description="Temperature at which decomposition reaches optimum"/>
+   <type name="cum_eos_max" kind="single" unit="mm" lower_bound="0.0" upper_bound="100.0" description="Cumulative eos at which decomposition rate becomes zero"/>
+   <type name="cnrf_coeff" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="Coefficient for rate of change in decomposition with C:N"/>
+   <type name="cnrf_optcn" kind="single" unit="" lower_bound="5.0" upper_bound="100.0" description="C:N ratio above which decomposition is slowed"/>
+   <type name="c_fract" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Fraction of carbon in plant material"/>
+   <type name="cf_residue_wt" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="20000.0" description="Residue weight for contact effect on residue decomposition specified in ini file"/>
+   <type name="cf_factor" kind="single" array="T" unit="0-1" lower_bound="0.0" upper_bound="1.0" description="Rate factor for contact effect on residue decomposition specified in ini file"/>
+   <type name="crit_residue_wt" kind="single" unit="kg/ha" lower_bound="0.0" upper_bound="1e7" description="Residue weight below which the Thorburn cover factor is one"/>
+   <type name="crit_min_residue_wt" kind="single" unit="kg/ha" lower_bound="0.0" upper_bound="10.0" description="crit_min_residue_wt"/>
+   <type name="default_cpr" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="default_cpr"/>
+
+
    <type name="Residue" array="T">
       <element>
 ! dsg 040702  ****** note: below is the 'SurfaceOrganicMatter' data structure with 'cover' added *******
