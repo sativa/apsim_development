@@ -48,7 +48,9 @@ void __fastcall TApsimFileReader::setFileNames(TStrings* apsimFiles)
    {
    files->Assign(apsimFiles);
    absoluteToRelativeFiles();
-   forceRefresh();
+   string yearField = getYearFieldName();
+   if (yearField != "")
+      sortFields = yearField.c_str();
    }
 //---------------------------------------------------------------------------
 // If we already have a report directory then the current paths will be
@@ -108,14 +110,7 @@ bool TApsimFileReader::createFields(void) throw(runtime_error)
          throw runtime_error(msg);
          }
       }
-   try
-      {
-      SortFields = getYearFieldName().c_str();
-      }
-   catch (const runtime_error& error)
-      {
-      }
-   return (files->Count > 0);
+   return true;
    }
 //---------------------------------------------------------------------------
 // Called by our base class to allow us to add records to the table.

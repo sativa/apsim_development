@@ -36,12 +36,14 @@ class PACKAGE TSEGTable : public TkbmMemTable
       std::vector<std::string>::iterator currentSeriesI;
       TStringList* subscriptionComponents;
       bool addToToolbar;
+      AnsiString sortFieldNames;
 
       typedef std::vector<TDataSetNotifyEvent> SubscriptionEvents;
       SubscriptionEvents subscriptionEvents;
 
       void __fastcall setSourceDataset(TSEGTable* sourceDataset);
       void __fastcall setSubComponentNames(TStringList* compNames);
+      void __fastcall setSortFieldNames(AnsiString sortFieldNames);
       void fixupSubReferences(void);
 
    protected:
@@ -77,6 +79,7 @@ class PACKAGE TSEGTable : public TkbmMemTable
       void cancelSeries(void);
 
       void refresh (void);
+      void refreshLinkedComponents();
 
       // ------------------------------------------------------------------
       // force refresh regardless of source.
@@ -101,6 +104,7 @@ class PACKAGE TSEGTable : public TkbmMemTable
       __property TSEGTable* source = {read=sourceDataset, write=setSourceDataset};
       __property TStringList* subscriptionComponentNames = {read=subscriptionComponents, write=setSubComponentNames};
       __property bool addToToolBar = {read=addToToolbar, write=addToToolbar};
+      __property AnsiString sortFields = {read=sortFieldNames, write=setSortFieldNames};
 
       void __fastcall onSourceDataChanged(TDataSet* dataset);
    };

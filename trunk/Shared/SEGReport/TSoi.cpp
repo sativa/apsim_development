@@ -151,7 +151,7 @@ bool TSOI::createFields(void) throw(runtime_error)
       FieldDefs->Assign(source->FieldDefs);
       addDBField(this, SOI_PHASE_FIELD_NAME, "xxxx");
       addDBField(this, SOI_PHASE_NUMBER_FIELD_NAME, "1");
-      SortFields = getSowYearFieldName(source).c_str();
+      sortFields = getSowYearFieldName(source).c_str();
       return true;
       }
    return false;
