@@ -152,7 +152,7 @@ if (day = 270 and lucerne.crop_class = 'reduced') then
 endif
 
 if (year = 1996 and day = 306) then
-   soiln2 incorp_fom dlt_fom_wt = 100 500 300 100 50 30 20 15 5 1 0 0 0 0 0 0 0 0 0 0 (kg/ha), dlt_fom_cnr = 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 ()
+   soiln2 add_roots dlt_fom_wt = 100 500 300 100 50 30 20 15 5 1 0 0 0 0 0 0 0 0 0 0 (kg/ha), dlt_fom_cnr = 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 ()
 endif
 
 !if (year = 1998 and day = 267) then
