@@ -119,7 +119,7 @@ class Registration
       //---------------------------------------------------------------------------
       bool matchForSubscription (const Registration& rhs)
          {
-         return (regName == rhs.regName);
+         return (Str_i_Eq(regName, rhs.regName));
          }
 
       //---------------------------------------------------------------------------
