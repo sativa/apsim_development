@@ -504,6 +504,9 @@ void Plant::doRegistrations(void)
    setupGetFunction("head_n", protocol::DTsingle, 1,
                     &Plant::get_head_n, "g/m^2", "N in heads");
 
+   setupGetVar("n_green", protocol::DTsingle, max_part,
+               &g.n_green,  "g/m^2", "N in green");
+
    setupGetVar("n_senesced", protocol::DTsingle, max_part,
                &g.n_senesced,  "g/m^2", "N in senesced");
 
@@ -511,10 +514,16 @@ void Plant::doRegistrations(void)
                &g.n_dead,"g/m^2", "N in dead");
 
    setupGetVar("dlt_n_green", protocol::DTsingle, max_part,
-                &g.dlt_n_green, "g/m^2", "N in dead");
+                &g.dlt_n_green, "g/m^2", "N in delta green");
+
+   setupGetVar("dlt_n_dead", protocol::DTsingle, max_part,
+                &g.dlt_n_dead, "g/m^2", "N in delta dead");
 
    setupGetVar("dlt_n_retrans", protocol::DTsingle, max_part,
                &g.dlt_n_retrans, "g/m^2", "N in retranslocate");
+
+   setupGetVar("dlt_n_senesced", protocol::DTsingle, max_part,
+               &g.dlt_n_senesced, "g/m^2", "N in delta senesced");
 
    setupGetVar("dlt_n_detached", protocol::DTsingle, max_part,
                &g.dlt_n_detached, "g/m^2", "N in detached");
@@ -8742,6 +8751,10 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     //c      real       dlt_leaf_area         ;     // leaf area increase (mm^2/plant)
     float dm_residue;                             // dry matter added to residue (kg/ha)
     float n_residue;                              // nitrogen added to residue (kg/ha)
+    float dm_root_residue;                             // dry matter added to residue (kg/ha)
+    float n_root_residue;                              // nitrogen added to residue (kg/ha)
+    float dm_tops_residue;                             // dry matter added to residue (kg/ha)
+    float n_tops_residue;                              // nitrogen added to residue (kg/ha)
     float P_residue;                              // Phosphorous added to residue (g/m^2)
     float dm_removed;                             // dry matter removed from system (kg/ha)
     float n_removed;                              // nitrogen removed from system (kg/ha)
@@ -8982,6 +8995,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
         }
 
 
+
     dm_residue = 0.0;
     for (part=0; part < max_part; part++)
      dm_residue = dm_residue + (dlt_dm_crop[part] * fraction_to_residue[part]);
@@ -8990,27 +9004,31 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     for (part=0; part < max_part; part++)
       n_residue = n_residue + (dlt_dm_n[part] * fraction_to_residue[part]);
 
-    dm_root = dlt_dm_crop[root];
-    n_root = dlt_dm_n[root];
+    dm_root_residue = dlt_dm_crop[root] * fraction_to_residue[root];
+    n_root_residue = dlt_dm_n[root] * fraction_to_residue[root];
+
+    dm_tops_residue = dm_residue - dm_root_residue;
+    n_tops_residue = n_residue - n_root_residue;
 
     parent->writeString ("\nCrop harvested.");
-    parent->writeString (string("    tops residue =  " + ftoa(dm_residue, ".2") + " kg/ha").c_str());
-    parent->writeString (string("    tops N       =  " + ftoa(n_residue, ".2") + " kg/ha").c_str());
-    parent->writeString (string("    root residue =  " + ftoa(dm_root, ".2") + " kg/ha").c_str());
-    parent->writeString (string("    root N       =  " + ftoa(n_root, ".2") + " kg/ha\n").c_str());
+    parent->writeString (string("    tops residue =  " + ftoa(dm_tops_residue, ".2") + " kg/ha").c_str());
+    parent->writeString (string("    tops N       =  " + ftoa(n_tops_residue, ".2") + " kg/ha").c_str());
+    parent->writeString (string("    root residue =  " + ftoa(dm_root_residue, ".2") + " kg/ha").c_str());
+    parent->writeString (string("    root N       =  " + ftoa(n_root_residue, ".2") + " kg/ha\n").c_str());
 
     dm_removed = 0.0;
     for (part=0; part < max_part; part++)
-      dm_removed = dm_removed + dlt_dm_crop[part];
-    dm_removed = dm_removed - dm_residue - dm_root;
+      dm_removed = dm_removed + dlt_dm_crop[part] * chop_fr_green[part];  // assumes chop_fr is same for green, dead and senesced
 
     n_removed = 0.0;
     for (part=0; part < max_part; part++)
-      n_removed = n_removed + dlt_dm_n[part];
-    n_removed = n_removed - n_residue - n_root;
+      n_removed = n_removed + dlt_dm_n[part] * chop_fr_green[part];   // assumes chop_fr is same for green, dead and senesced
 
-    dm_root = 0.0;
-    n_root  = 0.0;
+    dm_root = dlt_dm_crop[root] * chop_fr_green[root];
+    n_root  = dlt_dm_n[root] * chop_fr_green[root];
+
+    dm_removed = dm_removed - dm_root - dm_tops_residue - dm_root_residue;
+    n_removed = n_removed - n_root - n_tops_residue - n_root_residue;
 
     parent->writeString (string("    tops removed =  "+ ftoa(dm_removed, ".2") + " kg/ha").c_str());
     parent->writeString (string("    tops N removed= "+ ftoa(n_removed, ".2") + " kg/ha").c_str());
