@@ -145,7 +145,7 @@
                 />
                 <Reference
                     Name = "sharedcontrols"
-                    AssemblyName = "sharedcontrols"
+                    AssemblyName = "SharedControls"
                     HintPath = "..\..\..\documents and settings\hut104\my documents\visual studio projects\sharedcontrols\bin\sharedcontrols.dll"
                 />
             </References>
@@ -172,13 +172,18 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "AreaUI.vb"
+                    RelPath = "AreaListView.vb"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "areaui.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "AreaUI.resx"
-                    DependentUpon = "AreaUI.vb"
+                    RelPath = "areaui.resx"
+                    DependentUpon = "areaui.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
