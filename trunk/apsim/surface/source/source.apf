@@ -1,7 +1,8 @@
 [general]
 name = source
-uses = %this\*.*
+uses = %thispath\*.*
+apf = %thispath\..\..\base-source.apf
 
 [source]
-source  = surface.for; %this\surface.for
+source  = surface.for; %thispath\surface.for
 

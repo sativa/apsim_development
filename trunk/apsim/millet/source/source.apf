@@ -1,8 +1,9 @@
 [general]
 name = source
-uses = %this\*.*
+uses = %thispath\*.*
+apf = %thispath\..\..\base-source.apf
 
 [source]
-source  = millet.for; %this\millet.for
-source  = millet_i.for; %this\millet_i.for
+source  = millet.for; %thispath\millet.for
+source  = millet_i.for; %thispath\millet_i.for
 

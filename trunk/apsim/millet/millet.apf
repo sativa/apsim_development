@@ -1,12 +1,12 @@
 [general]
 name = millet
-apf = %this\..\base-croptemp.apf
-apf = %this\source\source.apf
-apf = %this\docs\docs.apf
-apf = %this\sample\sample.apf
+apf = %thispath\..\base-croptemp.apf
+apf = %thispath\docs\docs.apf
+optional_apf = %thispath\sample\sample.apf
+optional_apf = %thispath\source\source.apf
 
 [dll]
-target  = target dll; %this\lib\millet.dll
+target  = target dll; %thispath\lib\millet.dll
 
 [contacts]
 contact = Peter Carberry - Module Developer; mailto:Peter.Carberry@tag.csiro.au

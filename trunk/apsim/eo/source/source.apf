@@ -1,9 +1,10 @@
 [general]
 name = source
-uses = %this\*.*
+uses = %thispath\*.*
+apf = %thispath\..\..\base-source.apf
 
 [source]
-source  = eo.for; %this\eo.for
+source  = eo.for; %thispath\eo.for
 
 
 

@@ -1,9 +1,10 @@
 [general]
 name = source
-uses = %this\*.*
+uses = %thispath\*.*
+apf = %thispath\..\..\base-source.apf
 
 [source]
-source  = fertiliz.for; %this\fertiliz.for
+source  = fertiliz.for; %thispath\fertiliz.for
 
 
 

@@ -1,7 +1,8 @@
 [general]
 name = source
-uses = %this\*.*
+uses = %thispath\*.*
+apf = %thispath\..\..\base-source.apf
 
 [source]
-source  = soilwat2.for; %this\soilwat2.for
+source  = soilwat2.for; %thispath\soilwat2.for
 

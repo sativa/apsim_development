@@ -1,7 +1,8 @@
 [general]
 name = docs
 uses = *.*
+apf = %thispath\..\..\base-docs.apf
 
 [docs]
-doc = Interface document; %this\met_int.pdf
-doc = Science document; %this\met_science.pdf
+doc = Interface document; %thispath\met_int.pdf
+doc = Science document; %thispath\met_science.pdf

@@ -1,10 +1,11 @@
 [general]
 name = source
-uses = %this\*.*
+uses = %thispath\*.*
+apf = %thispath\..\..\base-source.apf
 
 [source]
-source  = apswim.for; %this\apswim.for
-source  = swim.for; %this\swim.for
+source  = apswim.for; %thispath\apswim.for
+source  = swim.for; %thispath\swim.for
 
 
 

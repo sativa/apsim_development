@@ -1,9 +1,10 @@
 [general]
 name = source
-uses = %this\*.*
+uses = %thispath\*.*
+apf = %thispath\..\..\base-source.apf
 
 [source]
-source  = frmrpt.for; %this\frmrpt.for
+source  = frmrpt.for; %thispath\frmrpt.for
 
 
 

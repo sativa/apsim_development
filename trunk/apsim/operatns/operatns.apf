@@ -1,12 +1,12 @@
 [general]
 name = operatns
-apf = %this\..\base-module.apf
-apf = %this\source\source.apf
-apf = %this\docs\docs.apf
-apf = %this\sample\sample.apf
+apf = %thispath\..\base-module.apf
+apf = %thispath\docs\docs.apf
+optional_apf = %thispath\sample\sample.apf
+optional_apf = %thispath\source\source.apf
 
 [dll]
-target  = target dll; %this\lib\operatns.dll
+target  = target dll; %thispath\lib\operatns.dll
 
 [contacts]
 contact = Neil Huth - Module Developer; mailto:Neil.Huth@tag.csiro.au

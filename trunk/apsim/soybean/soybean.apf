@@ -1,9 +1,9 @@
 [general]
 name = soybean
-apf = %this\..\base-legume.apf
-apf = %this\source\source.apf
-apf = %this\docs\docs.apf
-apf = %this\sample\sample.apf
+apf = %thispath\..\base-legume.apf
+apf = %thispath\docs\docs.apf
+optional_apf = %thispath\sample\sample.apf
+optional_apf = %thispath\source\source.apf
 
 [dll]
-target  = target dll; %this\lib\soybean.dll
+target  = target dll; %thispath\lib\soybean.dll

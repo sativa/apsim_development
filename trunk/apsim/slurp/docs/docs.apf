@@ -1,6 +1,7 @@
 [general]
 name = docs
 uses = *.*
+apf = %thispath\..\..\base-docs.apf
 
 [docs]
-doc = Interface document; %this\slurp_int.pdf
+doc = Interface document; %thispath\slurp_int.pdf
