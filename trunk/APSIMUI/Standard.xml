@@ -10436,7 +10436,7 @@
       </other>
     </soil>
   </folder>
-  <crops>
+  <folder name="crops">
     <canola />
     <chickpea />
     <cowpea />
@@ -10457,8 +10457,8 @@
     <sunflower />
     <weed />
     <wheat />
-    <ozcot name="cotton" />
-  </crops>
+    <ozcot />
+  </folder>
   <StockScienceConverter name="StockScienceConverter" />
   <stock name="stock">
     <type name="type">sheep</type>

@@ -117,7 +117,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
-      <variables>
+      <variables module="met">
          <variable name="maxt" description="Maximum temperature (oC)"/>
          <variable name="mint" description="Minimum temperature (oC)"/>
          <variable name="rain" description="Rainfall (mm)"/>
@@ -153,7 +153,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
-      <variables>
+      <variables module="irrigate">
          <variable name="irrigation" description="Irrigation entering the profile (mm)"/>
          <variable name="irrig_loss" description="Irrigation losses (mm)"/>
          <variable name="irrig_tot" description="Total applied irrigation (irrigation + loss) (mm)"/>
@@ -177,7 +177,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
-      <variables>
+      <variables module="fertiliz">
          <variable name="fertilizer" description="Amount of fertilizer applied (kg/ha)"/>
       </variables>
    </fertiliser>
@@ -195,50 +195,48 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
-     <variables>
-        <folder name="nitrogen">
-            <variable name="no3ppm" array="T" description="NO3 - layered (ppm)"/>
-            <variable name="no3" array="T" description="NO3 - layered (kg/ha)"/>
-            <variable name="nh4ppm" array="T" description="NH4 - layered (ppm)"/>
-            <variable name="nh4" array="T" description="NH4 - layered (kg/ha)"/>
-            <variable name="urea" array="T" description="Urea - layered (ppm)"/>
-            <variable name="fom_c" array="T" description="FOM Carbon - layered (kg/ha)"/>
-            <variable name="fom_n" array="T" description="FOM Nitrogen - layered (kg/ha)"/>
-            <variable name="hum_c" array="T" description="Humic Carbon - layered (kg/ha)"/>
-            <variable name="hum_n" array="T" description="Humic Nitrogen - layered (kg/ha)"/>
-            <variable name="biom_c" array="T" description="Biomass Carbon - layered (kg/ha)"/>
-            <variable name="biom_n" array="T" description="Biomass Nitrogen - layered (kg/ha)"/>
-            <variable name="carbon_tot" description="Total soil Carbon - total (kg/ha)"/>
-            <variable name="nit_tot" description="Total soil Nitrogen - total (kg/ha)"/>
-            <variable name="dnit" array="T" description="denitrification - layered (kg/ha)"/>
-            <variable name="dlt_n_min" array="T" description="N mineralised - layered (kg/ha)"/>
-         </folder>
-         <folder name="water">
-            <variable name="dlayer" array="T" description="Depth - layered (mm)"/>
-            <variable name="ll15" array="T" description="15 Bar Lower limit - layered (mm/mm)"/>
-            <variable name="ll15_dep" array="T" description="15 Bar Lower limit - layered (mm)"/>
-            <variable name="dul" array="T" description="Drained upper limit - layered (mm/mm)"/>
-            <variable name="dul_dep" array="T" description="Drained upper limit - layered (mm)"/>
-            <variable name="sat" array="T" description="Saturation - layered (mm/mm)"/>
-            <variable name="sat_dep" array="T" description="Saturation - layered (mm)"/>
-            <variable name="air_dry" array="T" description="Air dry - layered (mm/mm)"/>
-            <variable name="air_dry_dep" array="T" description="Air dry - layered (mm)"/>
-            <variable name="sw" array="T" description="Soil water - layered (mm/mm)"/>
-            <variable name="sw_dep" array="T" description="Soil water - layered (mm)"/>
-            <variable name="esw" array="T" description="Extractable Soil Water - all layers (mm)"/>
-            <variable name="es" description="Evaporation (mm)"/>
-            <variable name="eo" description="Potential evapotranspiration (mm)"/>
-            <variable name="eos" description="potential evaporation (mm)"/>
-            <variable name="total_cover" description="Total crop cover"/>
-            <variable name="runoff" description="Runoff (mm)"/>
-            <variable name="drain" description="Drainage (mm)"/>
-            <variable name="flow_water" array="T" description="Water flow from each layer - layered(mm)"/>
-            <variable name="flow_no3" array="T" description="N flow out of each layer - layered (kg/ha)"/>
-            <variable name="eff_rain" description="Effective rainfall (mm)"/>
-            <variable name="pond" description="Surface ponding depth (mm)"/>
-            <variable name="water_table" description="Water table depth (mm)"/>
-            <variable name="infiltration" description="Infiltration (mm)"/>
-         </folder>
+     <variables name="Nitrogen variables" module="soiln2">
+         <variable name="no3ppm" array="T" description="NO3 - layered (ppm)"/>
+         <variable name="no3" array="T" description="NO3 - layered (kg/ha)"/>
+         <variable name="nh4ppm" array="T" description="NH4 - layered (ppm)"/>
+         <variable name="nh4" array="T" description="NH4 - layered (kg/ha)"/>
+         <variable name="urea" array="T" description="Urea - layered (ppm)"/>
+         <variable name="fom_c" array="T" description="FOM Carbon - layered (kg/ha)"/>
+         <variable name="fom_n" array="T" description="FOM Nitrogen - layered (kg/ha)"/>
+         <variable name="hum_c" array="T" description="Humic Carbon - layered (kg/ha)"/>
+         <variable name="hum_n" array="T" description="Humic Nitrogen - layered (kg/ha)"/>
+         <variable name="biom_c" array="T" description="Biomass Carbon - layered (kg/ha)"/>
+         <variable name="biom_n" array="T" description="Biomass Nitrogen - layered (kg/ha)"/>
+         <variable name="carbon_tot" description="Total soil Carbon - total (kg/ha)"/>
+         <variable name="nit_tot" description="Total soil Nitrogen - total (kg/ha)"/>
+         <variable name="dnit" array="T" description="denitrification - layered (kg/ha)"/>
+         <variable name="dlt_n_min" array="T" description="N mineralised - layered (kg/ha)"/>
+      </variables>
+      <variables name="Water variables" module="soilwat2">
+         <variable name="dlayer" array="T" description="Depth - layered (mm)"/>
+         <variable name="ll15" array="T" description="15 Bar Lower limit - layered (mm/mm)"/>
+         <variable name="ll15_dep" array="T" description="15 Bar Lower limit - layered (mm)"/>
+         <variable name="dul" array="T" description="Drained upper limit - layered (mm/mm)"/>
+         <variable name="dul_dep" array="T" description="Drained upper limit - layered (mm)"/>
+         <variable name="sat" array="T" description="Saturation - layered (mm/mm)"/>
+         <variable name="sat_dep" array="T" description="Saturation - layered (mm)"/>
+         <variable name="air_dry" array="T" description="Air dry - layered (mm/mm)"/>
+         <variable name="air_dry_dep" array="T" description="Air dry - layered (mm)"/>
+         <variable name="sw" array="T" description="Soil water - layered (mm/mm)"/>
+         <variable name="sw_dep" array="T" description="Soil water - layered (mm)"/>
+         <variable name="esw" array="T" description="Extractable Soil Water - all layers (mm)"/>
+         <variable name="es" description="Evaporation (mm)"/>
+         <variable name="eo" description="Potential evapotranspiration (mm)"/>
+         <variable name="eos" description="potential evaporation (mm)"/>
+         <variable name="total_cover" description="Total crop cover"/>
+         <variable name="runoff" description="Runoff (mm)"/>
+         <variable name="drain" description="Drainage (mm)"/>
+         <variable name="flow_water" array="T" description="Water flow from each layer - layered(mm)"/>
+         <variable name="flow_no3" array="T" description="N flow out of each layer - layered (kg/ha)"/>
+         <variable name="eff_rain" description="Effective rainfall (mm)"/>
+         <variable name="pond" description="Surface ponding depth (mm)"/>
+         <variable name="water_table" description="Water table depth (mm)"/>
+         <variable name="infiltration" description="Infiltration (mm)"/>
       </variables>
    </soil>
    <soilp>
