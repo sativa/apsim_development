@@ -180,28 +180,29 @@ void Scenarios::createScenariosFrom(const string& scenarioName,
                                                scenarios.end(),
                                                scenarioName);
    if (scenario != scenarios.end())
-      createScenariosFrom(*scenario, factorName, factorValues);
+      createScenariosFrom(scenario, factorName, factorValues);
    makeScenarioNamesValid();
    }
 // ------------------------------------------------------------------
 // create multiple scenarios, based on the given scenario, given
 // the factor name and 1 or more factor values.
 // ------------------------------------------------------------------
-void Scenarios::createScenariosFrom(Scenario& scenario,
+void Scenarios::createScenariosFrom(ScenarioContainer::iterator posn,
                                     const string& factorName,
                                     const vector<string>& factorValues)
    {
-   Scenario copiedScen(scenario);
+   Scenario copiedScen(*posn);
    if (factorValues.size() >= 1)
       {
-      scenario.setFactorValue(factorName, factorValues[0]);
+      posn->setFactorValue(factorName, factorValues[0]);
       for (unsigned factorI = 1; factorI != factorValues.size(); factorI++)
          {
          Scenario newScenario(copiedScen);
          newScenario.setFactorValue(factorName, factorValues[factorI]);
          newScenario.setName("");
          makeScenarioValid(newScenario, factorName);
-         scenarios.push_back(newScenario);
+         posn++;
+         scenarios.insert(posn, newScenario);
          }
       }
    }
@@ -232,7 +233,7 @@ void Scenarios::createScenarioPermutation(const std::string& scenarioName,
                                                            scenarios.end(),
                                                            *name);
          if (scenarioToCopy != scenarios.end())
-             createScenariosFrom(*scenarioToCopy, factorName, factorValues);
+             createScenariosFrom(scenarioToCopy, factorName, factorValues);
          }
       makeScenarioNamesValid();
       }

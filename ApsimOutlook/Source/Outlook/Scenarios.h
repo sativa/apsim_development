@@ -91,7 +91,7 @@ class Scenarios
 
       // create multiple scenarios, based on the specified scenario, given
       // the factor name and 1 or more factor values.
-      void createScenariosFrom(Scenario& scenario,
+      void createScenariosFrom(ScenarioContainer::iterator posn,
                                const std::string& factorName,
                                const std::vector<std::string>& factorValues);
 
