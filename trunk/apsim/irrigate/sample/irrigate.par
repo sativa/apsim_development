@@ -1,14 +1,28 @@
 [sample.report.parameters]  
 outputfile =irrigate.out   
-
-
-
-
-
 variable = clock.day
 variable = clock.year
 variable = soilwat2.sw_dep()
 variable = irrigate.irrigation
+
+[sample2.report.parameters]  
+outputfile =irrigate2.out   
+variable = clock.day
+variable = clock.year
+variable = soilwat2.sw_dep()
+variable = irrigate.irrigation
+variable = irrigate.allocation
+
+[sample3.report.parameters]  
+outputfile =irrigate3.out   
+variable = clock.day
+variable = clock.year
+variable = soilwat2.sw_dep()
+variable = irrigate.irrigation
+variable = irrigate.allocation
+! the following variable can be reported since allocation information was input in ML
+variable = irrigate.allocation_ml
+
 [sample.clock.parameters]  
 ! Start and end date of run (day number of year and year)
 start_date=1/1/1988
@@ -46,7 +60,23 @@ crit_fr_asw =  0.5 (0-1)   ! Critical fraction of available soil water
                        ! to trigger irrigation
 asw_depth =   500 (mm)   ! Depth to use for available soil water
                        ! calculations
+[sample2.irrigate.parameters]  
+!supply the irrigation allocation in mm
+irrigation_allocation= on
+allocation = 100
+
+[sample3.irrigate.parameters]  
+!the other option is to supply the irrigation allocation in ML and the application area in hectares
+irrigation_allocation= on
+allocation_ml = 100
+application_area = 80 
+
+
 [sample.SummaryFile.parameters]
 summaryfile=irrigate.sum
+[sample2.SummaryFile.parameters]
+summaryfile=irrigate2.sum
+[sample3.SummaryFile.parameters]
+summaryfile=irrigate3.sum
 [sample.Screen.parameters]
 screen_output=on
