@@ -1888,9 +1888,10 @@ void Plant::plant_plant_death (int option /* (INPUT) option number*/)
               }
            }
         /*XXXX this needs tou be coupled with dlt_leaf_area_sen, c_sen_start_stage  FIXME*/
-        if (phenology->inPhase("leaf_senescence"))
+//        if (phenology->inPhase("leaf_senescence"))
+        if (phenology->inPhase("above_ground"))
            g.dlt_plants_failure_leaf_sen =
-                  crop_failure_leaf_sen(parent, g.lai, g.plants);
+                  crop_failure_leaf_sen(parent, g.lai-g.dlt_slai, g.plants);
         else
            g.dlt_plants_failure_leaf_sen = 0.0;
 
@@ -9307,9 +9308,9 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
 
          // keep leaf area above a minimum
 
-//    float lai_init = c.initial_tpla * smm2sm * g.plants;
-//    float dlt_lai_max = g.lai - lai_init;
-//    dlt_lai = u_bound (dlt_lai, dlt_lai_max);
+    float lai_init = c.initial_tpla * smm2sm * g.plants;
+    float dlt_lai_max = g.lai - lai_init;
+    dlt_lai = u_bound (dlt_lai, dlt_lai_max);
 
     g.lai = g.lai - dlt_lai;
     g.slai = g.slai - dlt_slai;
@@ -9317,11 +9318,11 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
 
          // keep dm above a minimum
 
-//    dm_init = c.dm_init [leaf] * g.plants;
-//    g.dm_green[leaf] = l_bound (g.dm_green[leaf], dm_init);
-//
-//    n_init = dm_init * c.n_init_conc[leaf];
-//    g.n_green[leaf] = l_bound (g.n_green[leaf], n_init);
+    dm_init = c.dm_init [leaf] * g.plants;
+    g.dm_green[leaf] = l_bound (g.dm_green[leaf], dm_init);
+
+    n_init = dm_init * c.n_init_conc[leaf];
+    g.n_green[leaf] = l_bound (g.n_green[leaf], n_init);
 
     plant_leaf_detachment (g.leaf_area
                             , dlt_slai
