@@ -126,6 +126,8 @@
                            ,dlt_n_incorp          &
                            ,deepest_layer)
 
+            call post_char_var('use_default_p','()','false')
+
             call event_send(ACTION_incorp_fom)
 
             call Delete_postbox ()
