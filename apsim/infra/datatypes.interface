@@ -681,9 +681,9 @@
    <type name="init_residue_dm_type" kind="string" unit="" description="init_residue_dm_type"/>
    <type name="residue_n" kind="single" unit="kg/ha" description="residue_n"/>
    <type name="residue_p" kind="single" unit="kg/ha" description="residue_p"/>
-   <type name="pot_c_decomp" kind="single" array="T" unit="kg/ha" description="C in decomposing material"/>
-   <type name="pot_n_decomp" kind="single" array="T" unit="kg/ha" description="N in decomposing material"/>
-   <type name="pot_p_decomp" kind="single" array="T" unit="kg/ha" description="P in decomposing material"/>
+   <type name="pot_c_decomp" kind="single" unit="kg/ha" description="C in decomposing material"/>
+   <type name="pot_n_decomp" kind="single" unit="kg/ha" description="N in decomposing material"/>
+   <type name="pot_p_decomp" kind="single" unit="kg/ha" description="P in decomposing material"/>
    <type name="residue_cover" kind="single" unit="m2/m2" description="Fraction of ground covered by residue"/>
    <type name="tf" kind="single" unit="0-1" description="Temperature factor"/>
    <type name="wf" kind="single" unit="0-1" description="wf"/>
