@@ -2,6 +2,8 @@
 #ifndef xmlH
 #define xmlH
 #include <string>
+#include <stdexcept>
+#include <general\treenodeiterator.h>
 class XMLNode;
 
 namespace Msxml2_tlb
@@ -9,51 +11,7 @@ namespace Msxml2_tlb
    class IXMLDOMNode;
    }
 class XMLDocumentImpl;
-// ------------------------------------------------------------------
-// This template provides a tree iterator.
-//   It requires of type T the following methods:
-//      T* getNextSibling(void) const;
-// ------------------------------------------------------------------
-template <class T>
-struct TreeNodeIterator
-   {
-   typedef ptrdiff_t   difference_type;
-   typedef T value_type;
-   typedef T *pointer;
-   typedef T &reference;
-   typedef std::forward_iterator_tag  iterator_category;
 
-   TreeNodeIterator(const T n)
-      : node(n)
-      {}
-   reference operator* ()
-      {return node;}
-   pointer operator-> ()
-      {return &node;}
-
-   TreeNodeIterator& operator++()
-      {
-      node = node.getNextSibling();
-      return *this;
-      }
-   TreeNodeIterator operator++(int)
-      {
-      TreeNodeIterator tmp(*this);
-      node = node.getNextSibling();
-      return tmp;
-      }
-   bool operator==(const TreeNodeIterator& rhs) const
-      {
-      return node.node == rhs.node.node;
-      }
-   bool operator!=(const TreeNodeIterator& rhs) const
-      {
-      return node.node != rhs.node.node;
-      }
-
-   private:
-      T node;
-   };
 //---------------------------------------------------------------------------
 // This class encapsulates an XML document and provides an STL like interface.
 //---------------------------------------------------------------------------
