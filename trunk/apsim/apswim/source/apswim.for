@@ -114,6 +114,7 @@
          double precision SWIMEvapAmt (SWIMLogSize)
          double precision SWIMSolTime (nsol,SWIMLogSize)
          double precision SWIMSolAmt (nsol,SWIMLogSize)
+         double precision SubSurfaceInFlow(0:M)
 
          double precision TD_runoff
          double precision TD_rain
@@ -157,8 +158,10 @@
          double precision res
          double precision resp
          double precision rex
+         double precision rssf
          double precision qs(0:M)
          double precision qex(0:M)
+         double precision qssf(0:M)
 
          double precision slon (nsol)
          double precision sloff (nsol)
@@ -1501,9 +1504,9 @@ c      read(ret_string, *, iostat = err_code) g%rain
 
       else if (Variable_name .eq. 'infiltration') then
 
-         infiltration = max(0d0
-     :                     ,g%TD_wflow(0) + g%TD_evap)
-
+!         infiltration = max(0d0
+!     :                     ,g%TD_wflow(0) + g%TD_evap)
+         infiltration = g%TD_wflow(0)
          call respond2Get_double_var (
      :            'infiltration',
      :            '(mm)',
@@ -1984,8 +1987,10 @@ cnh
       g%res = 0d0
       g%resp = 0d0
       g%rex = 0d0
+      g%rssf = 0d0
       g%qs(:) = 0d0
       g%qex(:) = 0d0
+      g%qssf(:) = 0d0
 
 * =====================================================================
 cnh*      common/bypass/p%ibp,p%gbp,p%sbp,g%hbp,g%hbp0,g%hbpold,g%qbp,g%qbpd,slbp0,g%qslbp
@@ -3018,6 +3023,7 @@ c         print*,g%t
                do 15 i=0,p%n
                   qmax=max(qmax,g%qex(i))
                   qmax=max(qmax,abs(g%qs(i)))
+                  qmax=max(qmax,abs(g%qssf(i)))
 15             continue
                do 20 i=0,p%n+1
                   qmax=max(qmax,abs(g%q(i)))
@@ -5105,7 +5111,7 @@ cnh
 * ====================================================================
        subroutine apswim_ONirrigated ()
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -5298,6 +5304,52 @@ cnh NOTE - intensity is not part of the official design !!!!?
       return
       end subroutine
 
+* ====================================================================
+       subroutine apswim_OnSubSurfaceFlow ()
+* ====================================================================
+
+      Use infrastructure
+      implicit none
+
+*+  Purpose
+*     <insert here>
+
+*+  Assumptions
+
+
+*+  Constant Values
+      character myname*(*)               ! name of current procedure
+      parameter (myname = 'apswim_OnSubSurfaceFlow')
+
+*+  Local Variables
+      double precision amount(0:m)
+      integer          numvals
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      if (p%echo_directives.eq.'on') then
+         ! flag this event in output file
+         call Write_string ('APSwim adding sub-surface water flow')
+      else
+      endif
+
+      call collect_double_array (
+     :              'amount',
+     :              p%n+1,
+     :              '(mm)',
+     :              amount(0),
+     :              num vals,
+     :              0d0,
+     :              1000d0)
+
+      g%SubSurfaceInflow(0:numvals) = g%SubSurfaceInflow(0:numvals)
+     :                             + amount(0:numvals)
+
+
+
+      call pop_routine (myname)
+      return
+      end subroutine
 
 
 * ====================================================================
@@ -8709,10 +8761,46 @@ c      pause
    60   continue
   100 continue
 
+      g%SubSurfaceInFlow = 0.0
+
 
       call pop_routine (myname)
       return
       end subroutine
+!*     ===========================================================
+!      subroutine apswim_ONSubSurfaceFlow (variant)
+!*     ===========================================================
+!      Use infrastructure
+!      implicit none
+!
+!      integer, intent(in) :: variant
+!
+!*+  Purpose
+!*     Add Subsurface flow of water to today's water balance data
+!
+!*+  Mission Statement
+!*     Add Subsurface flow of water to today's water balance data
+!
+!*+  Changes
+!*        270899 nih
+!
+!*+  Calls
+!
+!*+  Local Variables
+!      type(SubSurfaceFlowType) :: temp
+!
+!*+  Constant Values
+!      character*(*) myname               ! name of current procedure
+!      parameter (myname = 'apswim_ONSubSurfaceFlow')
+!
+!*- Implementation Section ----------------------------------
+!      call push_routine (myname)
+!
+!      call unpack_time(variant, temp)
+!
+!      call pop_routine (myname)
+!      return
+!      end subroutine
 
 * ====================================================================
        subroutine apswim_remove_interception ()
@@ -8987,6 +9075,8 @@ c      pause
       else if (Action .eq. EVENT_new_solute) then
          call apswim_on_new_solute()
 
+      else if (Action .eq. 'subsurfaceflow') then
+         call apswim_OnSubSurfaceFlow()
       else
          ! Don't use message
          call Message_Unused ()
@@ -9010,6 +9100,8 @@ c      pause
 
       if (eventID .eq. id%tick) then
          call apswim_ONtick (variant)
+!      elseif (eventID .eq. id%subsurfaceflow) then
+!         call apswim_OnSubSurfaceFlow(variant)
       endif
       return
       end subroutine respondToEvent
