@@ -21,7 +21,7 @@ ApsimDataTypeData.obj ApsimRegistrationData.obj ControlFileConverter.obj \
 TMoveParametersForm.obj SimCreator.obj StarUtils.obj ApsimMacroFile.obj
 
 RESFILES = ApsimShared.res
-USERDEFINES = 
+USERDEFINES =
 SYSDEFINES = NO_STRICT;_RTLDLL;USEPACKAGES
 INCLUDEPATH = $(SYSINCLUDES);$(BCB)\Components;$(BCB)\Components\tms;$(BCB)\components\boost;$(APSROOT)\Shared
 LIBPATH =  $(SYSLIBPATH);$(BCB)\Components\tms
@@ -29,7 +29,8 @@ RESDEPEN = $(RESFILES) TAboutForm.dfm TSplashForm.dfm TMoveParametersForm.dfm
 LIBFILES = $(APSROOT)\Shared\general\general.lib \
     $(APSROOT)\Shared\general\general_vcl.lib \
     $(BCB)\Components\Boost\libs\filesystem\filesystem.lib \
-    $(BCB)\Components\Boost\libs\date_time\date_time.lib
+    $(BCB)\Components\Boost\libs\date_time\date_time.lib \
+    $(BCB)\Components\LibXml2\win32\bin\LibXml2.lib
 
 LIBRARIES = xmlrtl.lib TMSC6.lib
 PACKAGES = vcl.bpi rtl.bpi
@@ -54,10 +55,10 @@ $(ALLRES)
 !
 	$(IMPDEF) ApsimShared.def $(TARGET)
 	$(APSROOT)\Tools\def2imp\def2imp.exe ApsimShared.def ApsimShared.imp
-	
+
 .cpp.obj:
 	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
 
 clean:
 	$(RM) $(OBJECTS) $(TARGET)
-	
+
