@@ -16,6 +16,7 @@ USERES("APSRun.res");
 USELIB("aps32.lib");
 USELIB("general.lib");
 USEFORM("TAPSIMRunForm.cpp", APSIMRunForm);
+USEUNIT("PreviousRuns.cpp");
 //---------------------------------------------------------------------------
 using namespace std;
 //---------------------------------------------------------------------------

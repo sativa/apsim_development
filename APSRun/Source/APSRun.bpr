@@ -4,7 +4,7 @@
   <MACROS>
     <VERSION value="BCB.05.03"/>
     <PROJECT value="APSRun.exe"/>
-    <OBJFILES value="APSRun.obj TAPSIMRunForm.obj"/>
+    <OBJFILES value="APSRun.obj TAPSIMRunForm.obj PreviousRuns.obj"/>
     <RESFILES value="APSRun.res"/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -110,7 +110,7 @@ Item2=c:\apswork\apsim\mungbean\sample\mungbean.con
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=d:\apsuite\apsim\clock\sample\test.sim
+RunParams=c:\apsuite\apsim\clock\sample\test.con
 HostApplication=
 RemoteHost=
 RemotePath=
