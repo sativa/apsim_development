@@ -49,6 +49,27 @@ CompileThread::CompileThread (const char* File_name)
 
 // ------------------------------------------------------------------
 //  Short description:
+//     destructor
+
+//  Notes:
+
+//  Changes:
+//    DPH 18/3/99
+
+// ------------------------------------------------------------------
+__fastcall CompileThread::~CompileThread (void)
+   {
+   // send contents of compiler.rpt to standard out.
+   // for some reason this section of code causes a Access Violation
+/*
+   string compilerRptPath = APSDirectories().Get_working() + "\\compiler.rpt";
+   ifstream compilerRpt(compilerRptPath.c_str());
+   string contents;
+   getline(compilerRpt, contents, '\0');
+   std::cout << contents;
+*/   }
+// ------------------------------------------------------------------
+//  Short description:
 //     go compile project.
 
 //  Notes:
@@ -177,13 +198,6 @@ void CompileThread::CompileProject (APSIM_project& apf)
          {
          // cleanup after ourselves.
          Cleanup (apf);
-
-         // send contents of compiler.rpt to standard out.
-         string compilerRptPath = APSDirectories().Get_working() + "\\compiler.rpt";
-         ifstream compilerRpt(compilerRptPath.c_str());
-         string contents;
-         getline(compilerRpt, contents, '\0');
-         std::cout << contents;
          }
       }
    }

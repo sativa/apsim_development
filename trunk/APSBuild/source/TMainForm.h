@@ -28,6 +28,7 @@ private:	// User declarations
 
 public:		// User declarations
    __fastcall TMainForm(TComponent* Owner);
+   __fastcall ~TMainForm();
    list<string> ProjectFiles;
    bool Build;
    bool Debug;
