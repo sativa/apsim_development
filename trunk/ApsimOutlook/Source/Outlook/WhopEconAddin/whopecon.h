@@ -50,13 +50,16 @@ class WhopEcon : public AddInBase
       static int numObjects;
       void Read_inifile_settings (void);
       string Get_descriptor_value(string Descriptor, std::string Item);
-      float getFloatFromRecord(TAPSRecord& record, std::string ID);
-      std::string getStringFromRecord(TAPSRecord& record, std::string ID);
+      float getFloatFromRecord(const TAPSRecord* record,
+                               std::vector< std::string >& IDs);
+      std::string getStringFromRecord(const TAPSRecord* record,
+                               std::vector< std::string >& IDs);
 
       std::vector<Factor> factors;
       std::string Econ_bitmap_name;
       std::string Econ_DB_name;
-      std::string CropID, ProteinID, YieldID, NRateID, PlantRateID;
+      std::vector< std::string > CropIDs, ProteinIDs, YieldIDs, NRateIDs,
+                                                            PlantRateIDs;
 
 };
 //---------------------------------------------------------------------------
