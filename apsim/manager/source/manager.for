@@ -1407,6 +1407,12 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       else if (Data_was_stored) then
          Action = Lower_case(Action)
+         if (Action .eq. 'init') then
+             ! Init probably won't work via this method. Stop dead.
+             call Fatal_error(ERR_user,
+     .             'INIT messages do not work anymore. Use RESET')
+         else
+         endif
          if (Module_name.eq.All_active_modules)then
             regID=Add_Registration(EventReg,Action,' ',' ',' ')
             call Event_Send(Action)
