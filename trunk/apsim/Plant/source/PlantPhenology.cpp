@@ -399,6 +399,25 @@ void PlantPhenology::zeroStateVariables(void)
       phases[i].reset();
    }
 
+/////+  Purpose
+/////       Return an interpolated stage code from a table of stage_codes
+/////       and a nominated stage number. Returns the first or last table value if the stage number is not
+/////       found. Interpolation is done on thermal time.
+///// Hmmmmmm. This is very dodgy.
+///float PlantPhenology::stageCode (void) 
+///    {
+///if (currentStage < 3.0) return 3.0;
+///if (phases[currentStage].isFirstDay()) {
+///    float tt_tot = phases[currentStage].getTT();
+///    float phase_tt = phases[currentStage].getTTTarget();
+///    float fraction_of = divide (tt_tot, phase_tt, 0.0);
+///    fraction_of = bound(fraction_of, 0.0, 0.999);
+///    return((int)currentStage +  fraction_of);
+///}
+///return currentStage;
+///}
+
+
 //////////////////////GetVariable etc////////////////////////////
 void PlantPhenology::get_stage_name(protocol::Component *s, protocol::QueryValueData &qd)
    {
@@ -638,7 +657,7 @@ float WheatPhenology::crown_temp_nwheat (float maxt, float mint, float snow)
 // NB. There are 2 ways to advance from one stage to the next:
 // via the dltStage calculation in stage_devel(), or
 // via thermal time accumulation 
-#if 0
+#ifdef PHENOLOGY_PETE
 void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
    {
    vernalisation(sw);
@@ -826,7 +845,6 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
    cumvd += dlt_cumvd;
    das++;
    }
-
 #endif
 
 //+  Mission Statement
@@ -1074,7 +1092,14 @@ void LegumePhenology::setupTTTargets(void)
 // dynamic TT targets
 void LegumePhenology::updateTTTargets(const environment_t &e)
    {
-   if (inPhase("emergence"))
+   dlt_cumvd = vernal_days.value((e.maxt + e.mint)*0.5);
+
+   if (inPhase("germination"))
+      {
+      pPhase *emerg_to_endjuv = getStage("emergence");
+      emerg_to_endjuv->setTarget(tt_emerg_to_endjuv[cumvd + dlt_cumvd]);
+      }
+   else if (inPhase("emergence"))
       {
       if (on_day_of("emergence"))
          {
@@ -1085,24 +1110,35 @@ void LegumePhenology::updateTTTargets(const environment_t &e)
          endjuv_to_init->setTarget(tt_endjuv_to_init[est_photoperiod]);
          }
 
-      dlt_cumvd = vernal_days.value((e.maxt + e.mint)*0.5);
       pPhase *emerg_to_endjuv = getStage("emergence");
       emerg_to_endjuv->setTarget(tt_emerg_to_endjuv[cumvd + dlt_cumvd]);
+
+      pPhase *endjuv_to_init = getStage("end_of_juvenile");
+      endjuv_to_init->setTarget(tt_endjuv_to_init[photoperiod]);
       }
    else if (inPhase("end_of_juvenile"))
       {
       pPhase *endjuv_to_init = getStage("end_of_juvenile");
       endjuv_to_init->setTarget(tt_endjuv_to_init[photoperiod]);
+
+      pPhase *init_to_flower = getStage("floral_initiation");
+      init_to_flower->setTarget(tt_init_to_flower[photoperiod]);
       }
    else if (inPhase("floral_initiation"))
       {
       pPhase *init_to_flower = getStage("floral_initiation");
       init_to_flower->setTarget(tt_init_to_flower[photoperiod]);
+
+      pPhase *flower_to_start_grain = getStage("flowering");
+      flower_to_start_grain->setTarget(tt_flower_to_start_grain[photoperiod]);
       }
    else if (inPhase("flowering"))
       {
       pPhase *flower_to_start_grain = getStage("flowering");
       flower_to_start_grain->setTarget(tt_flower_to_start_grain[photoperiod]);
+
+      pPhase *start_to_end_grain = getStage("start_grain_fill");
+      start_to_end_grain->setTarget(tt_start_to_end_grain[photoperiod]);
       }
    else if (inPhase("start_grain_fill"))
       {
@@ -1260,6 +1296,7 @@ void LegumePhenology::writeCultivarInfo (PlantComponent *systemInterface)
 //     Use temperature, photoperiod and genetic characteristics
 //     to determine when the crop begins a new growth phase.
 //     The initial daily thermal time and height are also set.
+#ifdef PHENOLOGY_PETE
 void LegumePhenology::process(const environment_t &e, const pheno_stress_t &ps)
    {
    dlt_tt = linint_3hrly_temp (e.maxt, e.mint, &y_tt);
@@ -1296,7 +1333,6 @@ void LegumePhenology::process(const environment_t &e, const pheno_stress_t &ps)
        {
        dlt_tt_phenol = dlt_tt *  ps.swdef_flower;          //no nstress
        dltStage = (phase_fraction(dlt_tt_phenol) + floor(currentStage))- currentStage;
-      fprintf(stdout, "f2sg: %f\n",phase_fraction(dlt_tt_phenol)); 
        }
     else if (inPhase("start_grain_fill2harvest_ripe"))
        {
@@ -1328,6 +1364,135 @@ void LegumePhenology::process(const environment_t &e, const pheno_stress_t &ps)
    das++;
    cumvd += dlt_cumvd;
    }
+#else
+void LegumePhenology::process (const environment_t &e, const pheno_stress_t &ps)
+   {
+   float phase_devel, new_stage;
+
+   dlt_tt = linint_3hrly_temp (e.maxt, e.mint, &y_tt);
+
+   if (inPhase("sowing"))
+      {
+      dlt_tt_phenol = dlt_tt;
+      // can't germinate on same day as sowing, because we would miss out on
+      // day of sowing elsewhere. 
+      phase_devel = 0.999;
+      if (das == 0)
+         {
+         phase_devel = 0.999;
+         }
+      else if ( plant_germination(pesw_germ, sowing_depth, e) )
+         {
+      	phase_devel =  1.999;
+         }
+      new_stage = floor(currentStage) + phase_devel;
+      }
+   else if (inPhase("germination"))
+      {
+      int layer_no_seed = e.find_layer_no (sowing_depth);
+      float fasw_seed = divide (e.sw_dep[layer_no_seed] - e.ll_dep[layer_no_seed],
+                                e.dul_dep[layer_no_seed] - e.ll_dep[layer_no_seed], 0.0);
+      fasw_seed = bound (fasw_seed, 0.0, 1.0);
+
+      dlt_tt_phenol = dlt_tt * rel_emerg_rate[fasw_seed];
+      const pPhase &current = phases[currentStage];
+      float a =  current.getTT() + dlt_tt_phenol;
+      float b =  current.getTTTarget();
+      phase_devel = divide(a, b, 1.0);
+      new_stage = floor(currentStage) + phase_devel;
+//fprintf(stdout, "%.6f, %.6f, %.6f, %.6f\n", a, b, currentStage, phase_devel);     
+      }
+   else if (inPhase("emergence2floral_initiation"))
+      {
+      dlt_tt_phenol = dlt_tt * min(ps.swdef, ps.nfact);
+      const pPhase &current = phases[currentStage];
+      float a =  current.getTT() + dlt_tt_phenol;
+      float b =  current.getTTTarget();
+      phase_devel = divide(a, b, 1.0);
+      new_stage = floor(currentStage) + phase_devel;
+//fprintf(stdout, "%.6f, %.6f, %.6f, %.6f\n", a, b, currentStage, phase_devel);     
+      }
+    else if (inPhase("flowering"))
+      {
+      dlt_tt_phenol = dlt_tt *  ps.swdef_flower;          //no nstress
+      const pPhase &current = phases[currentStage];
+      float a =  current.getTT() + dlt_tt_phenol;
+      float b =  current.getTTTarget();
+      phase_devel = divide(a, b, 1.0);
+      new_stage = floor(currentStage) + phase_devel;
+      }
+    else if (inPhase("start_grain_fill2harvest_ripe"))
+      {
+      dlt_tt_phenol = dlt_tt *  ps.swdef_grainfill;       //no nstress
+      const pPhase &current = phases[currentStage];
+      float a =  current.getTT() + dlt_tt_phenol;
+      float b =  current.getTTTarget();
+      phase_devel = divide(a, b, 1.0);
+      new_stage = floor(currentStage) + phase_devel;
+      }
+   else
+      {
+      // ??Hmmm. should probably stop dead here??
+      dlt_tt_phenol = dlt_tt;
+      const pPhase &current = phases[currentStage];
+      float a =  current.getTT() + dlt_tt_phenol;
+      float b =  current.getTTTarget();
+      phase_devel = divide(a, b, 1.0);
+      new_stage = floor(currentStage) + phase_devel;
+      }
+
+   dltStage = new_stage - currentStage;
+
+   /// accumulate() to objects
+   float value = dlt_tt_phenol;             //  (INPUT) value to add to array
+   float p_index = currentStage;           //  (INPUT) current p_index no       
+   float dlt_index = dltStage;       //  (INPUT) increment in p_index no  
+
+   {
+   int current_index;           // current index number ()
+   float fract_in_old;           // fraction of value in last index
+   float index_devel;            // fraction_of of current index elapsed ()
+   int new_index;                // number of index just starting ()
+   float portion_in_new;         // portion of value in next index
+   float portion_in_old;         // portion of value in last index
+
+   current_index = int(p_index);
+
+   // make sure the index is something we can work with
+   index_devel = p_index - floor(p_index) + dlt_index;
+   if (index_devel >= 1.0)
+      {
+      // now we need to divvy
+      new_index = (int) (p_index + min (1.0, dlt_index));
+      if (reals_are_equal(fmod(p_index,1.0),0.0))
+         {
+         fract_in_old = 1.0 - divide(index_devel - 1.0, dlt_index, 0.0);
+         portion_in_old = fract_in_old * (value + phases[current_index].getTT())-
+                              phases[current_index].getTT();
+         }
+      else
+         {
+         fract_in_old = 1.0 - divide(index_devel - 1.0, dlt_index, 0.0);
+         portion_in_old = fract_in_old * value;
+         }
+      portion_in_new = value - portion_in_old;
+      phases[current_index].add(fract_in_old, portion_in_old);
+      phases[new_index].add(1.0-fract_in_old, portion_in_new);
+      }
+   else
+      {
+      phases[current_index].add(1.0, value);
+      }
+   }
+   if (phase_devel >= 1.0)
+      currentStage = floor(currentStage + 1.0);
+   else
+      currentStage = new_stage;
+
+   cumvd += dlt_cumvd;
+   das++;
+   }
+#endif
 
 #if 0
 void LegumeCohortPhenology::init (void)
@@ -1566,7 +1731,6 @@ void LegumeCohortPhenology::plant_fruit_phenology_update (float g_previous_stage
 }
 ////////////////////////////////////////////////////////////////////////////
 
-
 ////////////////////////////////////////////////////////////////////////////
 // XX note *3* versions of this routine here...
 float legume_stage_code(
@@ -1640,92 +1804,6 @@ float legume_stage_code(
 
    return x_stage_code;
    }
-
-//+  Purpose
-//       Return an interpolated stage code from a table of stage_codes
-//       and a nominated stage number. Returns the first or last table value if the stage number is not
-//       found. Interpolation is done on thermal time.
-
-//+  Mission Statement
-//     Get the stage code from a table of stage codes
-
-//+  Changes
-//       080994 jngh specified and programmed
-float plant_stage_code (float  *c_stage_code_list  // (INPUT)  list of stage numbers
-                              ,float  *g_phase_tt         // (INPUT)  Cumulative growing degree days required for each stage (deg days)
-                              ,float  *g_tt_tot           // (INPUT)  the sum of growing degree days for a phenological stage (oC d)
-                              ,float  stage_no            // (INPUT) stage number to convert
-                              ,float  *stage_table        // (INPUT) table of stage codes
-                              ,int    numvals             // (INPUT) size_of of table
-                              ,int    max_stage) {        // IN
-     //+  Local Variables
-     float phase_tt;                                   // required thermal time between stages (oC)
-     float fraction_of;                                //
-     int   i;                                          // array index - counter
-     int   next_stage;                                 // next stage number to use
-     float tt_tot;                                     // elapsed thermal time between stages (oC)
-     int   this_stage;                                 // this stage to use
-     float x_stage_code = 0.0;                         // interpolated stage code
-
-     //- Implementation Section ----------------------------------
-
-     if (numvals>=2)
-         {
-         // we have a valid table
-         this_stage = stage_no_of (stage_table[0] , c_stage_code_list, max_stage);
-
-         for (i = 1; i < numvals; i++)
-           {
-           next_stage = stage_no_of (stage_table[i], c_stage_code_list, max_stage);
-           if (stage_is_between (this_stage, next_stage, stage_no))
-              {
-              // we have found its place
-              tt_tot = sum_between (this_stage-1, next_stage-1, g_tt_tot);
-              phase_tt = sum_between (this_stage-1, next_stage-1, g_phase_tt);
-              fraction_of = divide (tt_tot, phase_tt, 0.0);
-              fraction_of = bound(fraction_of, 0.0, 0.999);
-              x_stage_code = stage_table[i-1] + (stage_table[i] - stage_table[i-1])
-                                  * fraction_of;
-              break;
-              }
-           else
-              {
-              x_stage_code = 0.0;
-              this_stage = next_stage;
-              }
-           }
-              // if stage number is not found, return the first or last value of the table
-           if (x_stage_code <= 0.1e-6)
-           {
-               if (stage_no <= stage_table[0])
-               {
-                  x_stage_code = stage_table[0];
-               }
-               else if (stage_no >= stage_table[numvals-1])
-               {
-                  x_stage_code = stage_table[numvals-1];
-               }
-               else
-               {
-                  // the stage number was found - do nothing
-               }
-            }
-            else
-            {
-               // the stage number was found - do nothing
-            }
-        }
-     else
-        {
-        // we have no valid table, set to first and only entry
-        x_stage_code = stage_table[0];
-
-        char msg[80];
-        sprintf(msg, "invalid stage code lookup table in plant_stage_code(): number of values = %d", numvals);
-        throw std::runtime_error(msg);
-        }
-    return (x_stage_code);
-    }
 
 
 

@@ -342,6 +342,15 @@ void Plant::doRegistrations(protocol::Component *system)
    setupGetVar("lai",
                g.lai, "m^2/m^2", "Leaf area index");
 
+   setupGetVar("dlt_lai_pot",
+               g.dlt_lai_pot, "m^2/m^2", "Leaf area index");
+
+   setupGetVar("dlt_lai_stressed",
+               g.dlt_lai_stressed, "m^2/m^2", "Leaf area index");
+
+   setupGetVar("dlt_leaf_no_pot",
+               g.dlt_leaf_no_pot, "m^2/m^2", "Leaf no");
+
    setupGetVar("lai_canopy_green",
                g.lai_canopy_green, "m^2/m^2", "Green lai");
 
@@ -2194,6 +2203,8 @@ void Plant::plant_leaf_area_potential (int option /* (INPUT) option number */)
                               , g.dlt_leaf_no_pot
                               , g.plants
                               , &g.dlt_lai_pot);
+//       fprintf(stdout, "dlt_lai_pot:%.6f %.6f %.6f\n",
+//               phenology->stageNumber(), g.dlt_leaf_no_pot, g.dlt_lai_pot);
         }
     else
         {
@@ -2231,6 +2242,8 @@ void Plant::plant_leaf_area_stressed (int option /* (INPUT) option number*/)
                                    ,g.swdef_expansion
                                    ,min(g.nfact_expansion, phosphorus->fact_expansion())
                                    ,&g.dlt_lai_stressed);
+//fprintf(stdout, "%f,%f,%f,%f\n", g.dlt_lai_stressed,g.swdef_expansion,g.nfact_expansion,phosphorus->fact_expansion());
+//        g.dlt_lai_stressed =  g.dlt_lai_pot * min(g.swdef_expansion, min(g.nfact_expansion, phosphorus->fact_expansion()));
         }
     else
         {
@@ -4763,9 +4776,7 @@ void Plant::plant_dm_pot_rue (externalFunction *c_rue
   *dlt_dm_pot = (radn_int * podfr * rue_pod +
                  radn_int * (1.0 - podfr) * rue_leaf) *
                 stress_factor * co2_modifier;
-
-//  fprintf(stdout, "pot_rue:%f,%f,%f,%f\n",
-//          phenology->stageNumber(), *dlt_dm_pot, rue_leaf, stress_factor);
+//  fprintf(stdout, "%f,%f,%f\n", phenology->stageNumber(), stress_factor, *dlt_dm_pot);
   }
 
 
@@ -5174,8 +5185,8 @@ void Plant::plant_n_conc_limits
 // (non-grain shoot) concentration below which N concentration
 // begins to affect plant growth.
 
-        stage_code = phenology->stageNumber();
-        numvals = count_of_real_vals( c_x_stage_code, max_table);
+        stage_code = phenology->stageNumber();  /*was stageCode(), which uses "floor(stageNumber) + ttfrac". Not exactly the same..*/
+        numvals = 1+count_of_real_vals( c_x_stage_code, max_table);
         n_conc_crit[stem] = linear_interp_real (stage_code
                                                 , c_x_stage_code
                                                 , c_y_n_conc_crit_stem
