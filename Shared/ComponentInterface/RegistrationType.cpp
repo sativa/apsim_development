@@ -21,7 +21,8 @@ RegistrationType::RegistrationType(const std::string& st)
       regType = respondToSet;
    else if (Str_i_Eq(st, "respondToEvent"))
       regType = respondToEvent;
-   throw runtime_error("Invalid registration type: " + st);
+   else
+      throw runtime_error("Invalid registration type: " + st);
    }
 //---------------------------------------------------------------------------
 // Return a string representation of the specified registration type.
