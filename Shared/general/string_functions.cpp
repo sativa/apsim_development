@@ -114,7 +114,7 @@ void To_upper (string& St)
    strcpy(buffer, St.c_str());
    strupr(buffer);
    St = buffer;
-   delete buffer;
+   delete [] buffer;
    }
 
 // ------------------------------------------------------------------
