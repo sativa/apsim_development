@@ -1,72 +1,60 @@
-# ---------------------------------------------------------------------------
-!if !$d(BCB)
-BCB = $(MAKEDIR)\..
-!endif
-
-# ---------------------------------------------------------------------------
-# IDE SECTION
-# ---------------------------------------------------------------------------
-# The following section of the project makefile is managed by the BCB IDE.
-# It is recommended to use the IDE to change any of the values in this
-# section.
-# ---------------------------------------------------------------------------
-
-VERSION = BCB.04.04
-# ---------------------------------------------------------------------------
-PROJECT = chart.dll
-OBJFILES = chart.obj low_level\XY_series.obj low_level\Bar_series.obj low_level\Brush.obj \
-  low_level\Chart_base.obj low_level\Drawable.obj low_level\Font.obj \
-  low_level\Legend_class.obj low_level\Line.obj low_level\Plot.obj \
-  low_level\Position.obj low_level\Rectangle.obj low_level\Screen.obj \
-  low_level\Series_base.obj low_level\Text.obj low_level\Axis.obj \
-  high_level\Scatter_format.obj high_level\Bar_format.obj \
-  high_level\Depth_chart.obj high_level\Format_base.obj \
-  high_level\Frequency_chart.obj high_level\High_level_chart_base.obj \
-  high_level\High_level_screen.obj high_level\Pred_obs_chart.obj \
-  high_level\Prob_chart.obj high_level\Scatter_chart.obj \
-  high_level\Apsim_depth_chart.obj low_level\Pen.obj
-RESFILES =
-DEFFILE =
-RESDEPEN = $(RESFILES)
-LIBFILES = general.lib data.lib
-LIBRARIES =
-SPARELIBS = vcl40.lib vcldb40.lib vclx40.lib TEE4C.lib
-PACKAGES = vclx40.bpi vcl40.bpi vcldb40.bpi vcldbx40.bpi bcbsmp40.bpi dclocx40.bpi \
-  qrpt40.bpi ibsmp40.bpi nmfast40.bpi tee4c.bpi teedb4c.bpi teeUI4c.bpi \
-  TeePro4c.bpi
-# ---------------------------------------------------------------------------
-PATHCPP = .;low_level;high_level
-PATHASM = .;
-PATHPAS = .;
-PATHRC = .;
-DEBUGLIBPATH = $(BCB)\lib\debug
-RELEASELIBPATH = $(BCB)\lib\release
-SYSDEFINES = NO_STRICT;_RTLDLL;USEPACKAGES
-USERDEFINES = BUILDING_CHART
-# ---------------------------------------------------------------------------
-CFLAG1 = -Ihigh_level;low_level;k:\;$(BCB)\include;$(BCB)\include\vcl -WD -Od -Hc \
-  -H=$(BCB)\lib\vcl40.csm -w -Ve -Tkh30000 -r- -a8 -k -y -v -vi- \
-  -D$(SYSDEFINES);$(USERDEFINES) -c -b- -w-par -w-inl -Vx -tWM
-CFLAG2 =
-CFLAG3 =
-PFLAGS = -U$(BCB)\lib\debug;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;k:\data\;"k:\general\";$(RELEASELIBPATH) \
-  -Ihigh_level;low_level;k:\;$(BCB)\include;$(BCB)\include\vcl -DBUILDING_CHART \
-  -$YD -$W -$O- -v -M -JPHNE
-RFLAGS = -ihigh_level;low_level;k:\;$(BCB)\include;$(BCB)\include\vcl -DBUILDING_CHART = \
-  /ihigh_level /ilow_level /i$(BCB)\include /i$(BCB)\include\vcl /i..\ /d_RTLDLL \
-  /dBUILDING_CHART /dUSEPACKAGES /mx /w2 /zd
-AFLAGS = /ihigh_level /ilow_level /ik:\ /i$(BCB)\include /i$(BCB)\include\vcl \
-  /dBUILDING_CHART /mx /w2 /zd
-LFLAGS = -L$(BCB)\lib\debug;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;k:\data\;"k:\general\";$(RELEASELIBPATH) \
-  -aa -Tpd -x -Gn -Gi -v
-IFLAGS =
-# ---------------------------------------------------------------------------
-ALLOBJ = c0d32.obj Memmgr.Lib $(PACKAGES) sysinit.obj $(OBJFILES)
-ALLRES = $(RESFILES)
-ALLLIB = $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib
-# ---------------------------------------------------------------------------
-!ifdef IDEOPTIONS
-
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.05.03"/>
+    <PROJECT value="chart.dll"/>
+    <OBJFILES value="chart.obj low_level\XY_series.obj low_level\Bar_series.obj 
+      low_level\Brush.obj low_level\Chart_base.obj low_level\Drawable.obj 
+      low_level\Font.obj low_level\Legend_class.obj low_level\Line.obj 
+      low_level\Plot.obj low_level\Position.obj low_level\Rectangle.obj 
+      low_level\Screen.obj low_level\Series_base.obj low_level\Text.obj 
+      low_level\Axis.obj high_level\Scatter_format.obj high_level\Bar_format.obj 
+      high_level\Depth_chart.obj high_level\Format_base.obj 
+      high_level\Frequency_chart.obj high_level\High_level_chart_base.obj 
+      high_level\High_level_screen.obj high_level\Pred_obs_chart.obj 
+      high_level\Prob_chart.obj high_level\Scatter_chart.obj 
+      high_level\Apsim_depth_chart.obj low_level\Pen.obj"/>
+    <RESFILES value=""/>
+    <IDLFILES value=""/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES)"/>
+    <LIBFILES value="general.lib data.lib"/>
+    <LIBRARIES value=""/>
+    <SPARELIBS value="vcl50.lib vcldb50.lib vclbde50.lib vclx50.lib tee4c5.lib"/>
+    <PACKAGES value="vclx50.bpi vcl50.bpi vcldb50.bpi vclbde50.bpi vcldbx50.bpi bcbsmp50.bpi 
+      dclocx50.bpi qrpt50.bpi ibsmp50.bpi nmfast50.bpi TEEDB4C5.bpi TEE4C5.bpi 
+      TEEUI4C5.bpi TeeQR4C5.bpi TEEGL4C5.bpi TEEPRO4C5.bpi"/>
+    <PATHCPP value=".;low_level;high_level"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
+    <RELEASELIBPATH value="$(BCB)\lib\release"/>
+    <LINKER value="ilink32"/>
+    <USERDEFINES value="BUILDING_CHART"/>
+    <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
+    <MAINSOURCE value="chart.cpp"/>
+    <INCLUDEPATH value="high_level;low_level;k:\;$(BCB)\include;$(BCB)\include\vcl"/>
+    <LIBPATH value="$(BCB)\lib\debug;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;k:\data\;&quot;k:\general\&quot;"/>
+    <WARNINGS value="-w-par -w-8027 -w-8026"/>
+    <WARNOPTSTR value=""/>
+  </MACROS>
+  <OPTIONS>
+    <CFLAG1 value="-WD -Od -H=c:\PROGRA~1\borland\CBUILD~2\lib\vcl50.csm -Hc -Vx -Ve 
+      -Tkh30000 -X- -r- -a8 -b- -k -y -v -vi- -c -tWM"/>
+    <PFLAGS value="-$YD -$W -$O- -v -M -JPHNE"/>
+    <RFLAGS value="= /ihigh_level /ilow_level /i$(BCB)\include /i$(BCB)\include\vcl /i..\ 
+      /d_RTLDLL /dBUILDING_CHART /dUSEPACKAGES /mx /w2 /zd"/>
+    <AFLAGS value="/mx /w2 /zd"/>
+    <LFLAGS value="-D&quot;&quot; -aa -Tpd -x -Gn -Gi -v"/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="c0d32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
+    <ALLRES value="$(RESFILES)"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+  </LINKER>
+  <IDEOPTIONS>
 [Version Info]
 IncludeVerInfo=0
 AutoIncBuild=0
@@ -106,15 +94,16 @@ Item6=
 Item7=
 
 [HistoryLists\hlLibraryPath]
-Count=8
-Item0=$(BCB)\lib\debug;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;k:\data\;k:\general
-Item1=$(BCB)\lib\debug;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;k:\dataItem1=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;k:\data
-Item2=
-Item3=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level
-Item4=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib;low_level;high_level
-Item5=$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level
-Item6=c:\program files\borland\cbuilder3\lib;..\components\ui;..\components\general;c:\thypergrid;c:\rx-30\units;high_level;low_level;$(BCB)\lib\obj;$(BCB)\lib
-Item7=..\components\ui;..\components\general;c:\thypergrid;c:\rx-30\units;high_level;low_level;$(BCB)\lib\obj;$(BCB)\lib
+Count=9
+Item0=$(BCB)\lib\debug;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;k:\data\;k:\general\
+Item1=$(BCB)\lib\debug;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;k:\data\;k:\general
+Item2=$(BCB)\lib\debug;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;k:\dataItem1=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;k:\data
+Item3=
+Item4=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level
+Item5=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib;low_level;high_level
+Item6=$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level
+Item7=c:\program files\borland\cbuilder3\lib;..\components\ui;..\components\general;c:\thypergrid;c:\rx-30\units;high_level;low_level;$(BCB)\lib\obj;$(BCB)\lib
+Item8=..\components\ui;..\components\general;c:\thypergrid;c:\rx-30\units;high_level;low_level;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
@@ -138,82 +127,13 @@ RemotePath=
 RemoteDebug=0
 
 [Compiler]
-InMemoryExe=0
 ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=0
 
-!endif
-
-# ---------------------------------------------------------------------------
-# MAKE SECTION
-# ---------------------------------------------------------------------------
-# This section of the project file is not used by the BCB IDE.  It is for
-# the benefit of building from the command-line using the MAKE utility.
-# ---------------------------------------------------------------------------
-
-.autodepend
-# ---------------------------------------------------------------------------
-!if !$d(BCC32)
-BCC32 = bcc32
-!endif
-
-!if !$d(DCC32)
-DCC32 = dcc32
-!endif
-
-!if !$d(TASM32)
-TASM32 = tasm32
-!endif
-
-!if !$d(LINKER)
-LINKER = ilink32
-!endif
-
-!if !$d(BRCC32)
-BRCC32 = brcc32
-!endif
-# ---------------------------------------------------------------------------
-!if $d(PATHCPP)
-.PATH.CPP = $(PATHCPP)
-.PATH.C   = $(PATHCPP)
-!endif
-
-!if $d(PATHPAS)
-.PATH.PAS = $(PATHPAS)
-!endif
-
-!if $d(PATHASM)
-.PATH.ASM = $(PATHASM)
-!endif
-
-!if $d(PATHRC)
-.PATH.RC  = $(PATHRC)
-!endif
-# ---------------------------------------------------------------------------
-$(PROJECT): $(OBJFILES) $(RESDEPEN) $(DEFFILE)
-    $(BCB)\BIN\$(LINKER) @&&!
-    $(LFLAGS) +
-    $(ALLOBJ), +
-    $(PROJECT),, +
-    $(ALLLIB), +
-    $(DEFFILE), +
-    $(ALLRES)
-!
-# ---------------------------------------------------------------------------
-.pas.hpp:
-    $(BCB)\BIN\$(DCC32) $(PFLAGS) {$< }
-
-.pas.obj:
-    $(BCB)\BIN\$(DCC32) $(PFLAGS) {$< }
-
-.cpp.obj:
-    $(BCB)\BIN\$(BCC32) $(CFLAG1) $(CFLAG2) $(CFLAG3) -n$(@D) {$< }
-
-.c.obj:
-    $(BCB)\BIN\$(BCC32) $(CFLAG1) $(CFLAG2) $(CFLAG3) -n$(@D) {$< }
-
-.asm.obj:
-    $(BCB)\BIN\$(TASM32) $(AFLAGS) $<, $@
-
-.rc.res:
-    $(BCB)\BIN\$(BRCC32) $(RFLAGS) -fo$@ $<
-# ---------------------------------------------------------------------------
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+  </IDEOPTIONS>
+</PROJECT>
