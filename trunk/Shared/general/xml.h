@@ -55,7 +55,7 @@ class XMLNode
       std::string getValue(void) const;
       void setAttribute(const std::string& attributeName,
                         const std::string& attributeValue);
-      void setValue(const std::string& value, bool asCData = false);
+      void setValue(const std::string& value);
       XMLNode appendChild(const std::string& nodeName, bool alwaysAppend = false);
       XMLNode appendChild(XMLNode childNode, bool alwaysAppend = false);
       XMLNode::iterator erase(XMLNode::iterator& nodeIterator);
