@@ -20,7 +20,7 @@
      Title                  = fababean Sample Simulation
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\met\lib\met.dll(met) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\soilwat2\lib\soilwat2.dll(soilwat2) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\residue2\lib\residue2.dll(residue2) - Licensed
@@ -263,8 +263,8 @@
 21 May 1988 (Day of year=142):
    FABABEAN:
        stage    3.0 emergence
-                           biomass =           1.000000       lai =    0.2500000e-01
-                           stover N conc =    7.000000       extractable sw =    51.17480
+                           biomass =           1.000000       lai =    0.2500000E-01
+                           stover N conc =    7.000000       extractable sw =    51.17479
 29 June 1988 (Day of year=181):
    FABABEAN:
        stage    4.0 end_of_juvenile
@@ -289,7 +289,7 @@
    FABABEAN:
        stage    8.0 end_grain_fill
                            biomass =           1308.301       lai =     3.548001    
-                           stover N conc =    1.038939       extractable sw =    50.55004
+                           stover N conc =    1.038939       extractable sw =    50.55003
 11 October 1988 (Day of year=285):
    FABABEAN:
        stage    9.0 maturity
@@ -298,7 +298,7 @@
 12 October 1988 (Day of year=286):
    FABABEAN:
        stage   10.0 harvest_ripe
-                           biomass =           1309.138       lai =    0.2622604e-05
+                           biomass =           1309.138       lai =    0.2622604E-05
                            stover N conc =   0.9733847       extractable sw =    40.61510
 13 October 1988 (Day of year=287):
    MANAGER:
