@@ -322,6 +322,7 @@
       real     dlt_plant_wc(max_part)
       character uptake_source*5
       real       dlayer (max_layer)    ! thickness of soil layer I (mm)
+      real       bd(max_layer)
       real       dlt_sw_dep(max_layer) ! water uptake in each layer (mm water)
       real       sat_dep (max_layer)    !
       real       dul_dep (max_layer)   ! drained upper limit soil water
@@ -428,16 +429,26 @@
       real       dlt_N_retrans(max_part) ! nitrogen retranslocated out from
                                            ! parts to grain (g/m^2)
       real       dlt_NO3gsm(max_layer) ! actual NO3 uptake from soil (g/m^2)
+      real       dlt_NH4gsm(max_layer) ! actual NO3 uptake from soil (g/m^2)
       real       NO3gsm (max_layer)  ! nitrate nitrogen in layer L (g N/m^2)
+      real       NH4gsm (max_layer)  ! nitrate nitrogen in layer L (g N/m^2)
       real       NO3gsm_min(max_layer) ! minimum allowable NO3 in soil (g/m^2)
+      real       NH4gsm_min(max_layer) ! minimum allowable NO3 in soil (g/m^2)
       real       uptake_no3(max_layer) ! uptake of no3 as provided by another
+                                         ! module in APSIM (kg/ha)
+      real       uptake_nh4(max_layer) ! uptake of no3 as provided by another
                                          ! module in APSIM (kg/ha)
       real       NO3gsm_diffn_pot(max_layer) ! potential NO3 (supply) from
                                          ! soil (g/m^2), by diffusion
       real       NO3gsm_mflow_avail(max_layer) ! potential NO3 (supply) from
                                          ! soil (g/m^2) by mass flow
+
+      real       no3gsm_uptake_pot(max_layer)
+      real       nh4gsm_uptake_pot(max_layer)
+
       real       n_fix_pot
       integer    num_uptake_no3        ! number of layers in uptake_no3 ()
+      integer    num_uptake_nh4        ! number of layers in uptake_no3 ()
       real       N_conc_crit(max_part) ! critical N concentration (g N/g
                                          ! biomass)
       real       N_conc_max(max_part) ! max N concentration (g N/g
@@ -485,6 +496,8 @@
 !     ================================================================
       Type SugarConstants
       Sequence
+      integer n_uptake_option
+
       character  stage_names(max_stage)*32 ! full names of stages for
                                              ! reporting
       character  crop_type*50        ! crop type
@@ -566,6 +579,11 @@
                                        ! the rate at which the grains/plant
                                        ! is half of the maximum grains.
       real       leaf_no_at_emerg    ! leaf number at emergence ()
+      real       kno3
+      real       no3ppm_min
+      real       knh4
+      real       nh4ppm_min
+      real       total_n_uptake_max
       real       NO3_diffn_const     ! time constant for uptake by
                                        ! diffusion (days). H van Keulen &
                                        ! NG Seligman. Purdoe 1987. This is the
@@ -709,6 +727,10 @@
       real       NO3_lb              ! lower limit of soil NO3 (kg/ha)
       real       NO3_min_ub          ! upper limit of minimum soil NO3 (kg/ha)
       real       NO3_min_lb          ! lower limit of minimum soil NO3 (kg/ha)
+      real       NH4_ub              ! upper limit of soil NO3 (kg/ha)
+      real       NH4_lb              ! lower limit of soil NO3 (kg/ha)
+      real       NH4_min_ub          ! upper limit of minimum soil NO3 (kg/ha)
+      real       NH4_min_lb          ! lower limit of minimum soil NO3 (kg/ha)
       real       leaf_no_min         ! lower limit of leaf number ()
       real       leaf_no_max         ! upper limit of leaf number ()
       real    latitude_ub            ! upper limit of latitude for model (oL)
@@ -790,6 +812,7 @@
 
       contains
 
+
       include 'sugar.for'
 
 
@@ -865,9 +888,9 @@
 
          call sugar_nit_retrans (1)
          call sugar_nit_Demand(1)
-         call sugar_nit_supply (1)
+         call sugar_nit_supply (c%n_uptake_option)
          call sugar_nit_init (1)
-         call sugar_nit_uptake (1)
+         call sugar_nit_uptake (c%n_uptake_option)
          call sugar_nit_partition (1)
 
 
@@ -1364,13 +1387,18 @@
       g%N_senesced(:)                = 0.0
       g%dlt_N_retrans(:)             = 0.0
       g%dlt_NO3gsm(:)               = 0.0
+      g%dlt_NH4gsm(:)               = 0.0
       g%NO3gsm (:)                  = 0.0
+      g%NH4gsm (:)                  = 0.0
       g%NO3gsm_min(:)               = 0.0
+      g%NH4gsm_min(:)               = 0.0
       g%uptake_no3(:)               = 0.0
+      g%uptake_nh4(:)               = 0.0
       g%NO3gsm_diffn_pot(:)         = 0.0
       g%NO3gsm_mflow_avail(:)       = 0.0
       g%n_fix_pot                           = 0.0
       g%num_uptake_no3               = 0
+      g%num_uptake_nh4               = 0
       g%N_conc_crit(:)               = 0.0
       g%N_conc_max(:)                = 0.0
       g%N_conc_min(:)                = 0.0
@@ -1499,6 +1527,10 @@
       c%NO3_lb                           = 0.0
       c%NO3_min_ub                       = 0.0
       c%NO3_min_lb                       = 0.0
+      c%NH4_ub                           = 0.0
+      c%NH4_lb                           = 0.0
+      c%NH4_min_ub                       = 0.0
+      c%NH4_min_lb                       = 0.0
       c%leaf_no_min                      = 0.0
       c%leaf_no_max                      = 0.0
       c%latitude_ub                         = 0.0
@@ -1654,6 +1686,7 @@
       call fill_real_array (g%dlt_N_green, 0.0, max_part)
       call fill_real_array (g%dlt_N_retrans, 0.0, max_part)
       call fill_real_array (g%dlt_NO3gsm, 0.0, max_layer)
+      call fill_real_array (g%dlt_NH4gsm, 0.0, max_layer)
       call fill_real_array (g%dlt_sw_dep, 0.0, max_layer)
       call fill_real_array (g%dm_green_demand, 0.0, max_part)
       call fill_real_array (g%N_demand, 0.0, max_part)
@@ -2441,6 +2474,8 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       real       dlayer(max_layer)     ! soil layer depths (mm)
       real       NO3(max_layer)        ! soil NO3 content (kg/ha)
       real       NO3_min(max_layer)    ! soil NO3 minimum (kg/ha)
+      real       NH4(max_layer)        ! soil NO3 content (kg/ha)
+      real       NH4_min(max_layer)    ! soil NO3 minimum (kg/ha)
       real       profile_depth
       real       root_depth_new
 
@@ -2495,6 +2530,10 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 
       endif
 
+      call get_real_array (unknown_module, 'bd', max_layer
+     :                                    , '(g/cc)'
+     :                                    , g%bd, numvals
+     :                                    , 0.0, 2.65)
 
       call get_real_array (unknown_module, 'dul_dep', max_layer
      :                                    , '(mm)'
@@ -2535,6 +2574,26 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
          g%NO3gsm_min(layer) = NO3_min(layer) * kg2gm /ha2sm
 3000  continue
 
+      call get_real_array_optional (unknown_module, 'nh4', max_layer
+     :                                  ,  '(kg/ha)'
+     :                                  , NH4, numvals
+     :                                  , c%NH4_lb, c%NH4_ub)
+      if (numvals.eq.0) then
+            ! we have no N supply - make non-limiting.
+         call fill_real_array (NH4, 10000.0, g%num_layers)
+      else
+      endif
+      do 4000 layer = 1, g%num_layers
+         g%NH4gsm(layer) = NH4(layer) * kg2gm /ha2sm
+4000  continue
+      call get_real_array_optional (unknown_module, 'nh4_min',max_layer
+     :                                  ,  '(kg/ha)'
+     :                                  , NH4_min, numvals
+     :                                  , c%NH4_min_lb, c%NH4_min_ub)
+      do 5000 layer = 1, g%num_layers
+         g%NH4gsm_min(layer) = NH4_min(layer) * kg2gm /ha2sm
+5000  continue
+
 c      call get_real_array (unknown_module, 'st', max_layer
 c     :                                    , '(oC)'
 c     :                                    , g%st, numvals
@@ -2572,6 +2631,7 @@ c     :                                    , -10., 80.)
 
 *+  Local Variables
       real       dlt_NO3(max_layer)    ! soil NO3 change (kg/ha)
+      real       dlt_NH4(max_layer)    ! soil NO3 change (kg/ha)
       integer    layer                 ! soil layer no.
       integer    num_layers            ! number of layers
 
@@ -2586,11 +2646,13 @@ c      call sugar_update_other_variables ()
 
          do 1000 layer = 1, num_layers
             dlt_NO3(layer) = g%dlt_NO3gsm(layer) * gm2kg /sm2ha
+            dlt_NH4(layer) = g%dlt_NH4gsm(layer) * gm2kg /sm2ha
 1000     continue
 
          call set_real_array (unknown_module, 'dlt_no3', '(kg/ha)'
      :                    , dlt_NO3, num_layers)
-
+         call set_real_array (unknown_module, 'dlt_nh4', '(kg/ha)'
+     :                    , dlt_NH4, num_layers)
          call set_real_array (unknown_module, 'dlt_sw_dep', '(mm)'
      :                    , g%dlt_sw_dep, num_layers)
 
@@ -3300,6 +3362,34 @@ c      call sugar_nit_stress_expansion (1)
      :                             , '(g/m^2)'
      :                             , N_supply)
 
+      elseif (variable_name .eq. 'no3_uptake') then
+         num_layers = count_of_real_vals (g%dlayer, max_layer)
+         call respond2get_real_array (variable_name
+     :                               , '(g/m2)'
+     :                               , -1.0*g%dlt_NO3gsm
+     :                               , num_layers)
+
+      elseif (variable_name .eq. 'nh4_uptake') then
+         num_layers = count_of_real_vals (g%dlayer, max_layer)
+         call respond2get_real_array (variable_name
+     :                               , '(g/m2)'
+     :                               , -1.0*g%dlt_NH4gsm
+     :                               , num_layers)
+
+      elseif (variable_name .eq. 'no3_uptake_pot') then
+         num_layers = count_of_real_vals (g%dlayer, max_layer)
+         call respond2get_real_array (variable_name
+     :                               , '(g/m2)'
+     :                               , g%no3gsm_uptake_pot
+     :                               , num_layers)
+
+      elseif (variable_name .eq. 'nh4_uptake_pot') then
+         num_layers = count_of_real_vals (g%dlayer, max_layer)
+         call respond2get_real_array (variable_name
+     :                               , '(g/m2)'
+     :                               , g%nh4gsm_uptake_pot
+     :                               , num_layers)
+
 
       elseif (variable_name .eq. 'rlv') then
          num_layers = count_of_real_vals (g%dlayer, max_layer)
@@ -3519,15 +3609,45 @@ c      call sugar_nit_stress_expansion (1)
 
          !    sugar_N_uptake
 
-      call read_real_var (section_name
+      call read_integer_var (section_name
+     :                    , 'n_uptake_option', '()'
+     :                    , c%n_uptake_option, numvals
+     :                    , 1, 2)
+
+      if (c%n_uptake_option.eq.1) then
+         call read_real_var (section_name
      :                    , 'no3_diffn_const', '(days)'
      :                    , c%NO3_diffn_const, numvals
      :                    , 0.0, 100.0)
 
-      call read_char_var (section_name
+         call read_char_var (section_name
      :                   , 'n_supply_preference', '()'
      :                   , c%n_supply_preference, numvals)
 
+      else
+         call read_real_var (section_name
+     :                    , 'kno3', '(/day)'
+     :                    , c%kno3, numvals
+     :                    , 0.0, 1.0)
+         call read_real_var (section_name
+     :                    , 'no3ppm_min', '(ppm)'
+     :                    , c%no3ppm_min, numvals
+     :                    , 0.0, 10.0)
+
+         call read_real_var (section_name
+     :                    , 'knh4', '(/day)'
+     :                    , c%knh4, numvals
+     :                    , 0.0, 1.0)
+         call read_real_var (section_name
+     :                    , 'nh4ppm_min', '(ppm)'
+     :                    , c%nh4ppm_min, numvals
+     :                    , 0.0, 10.0)
+
+         call read_real_var (section_name
+     :                    , 'total_n_uptake_max', '(g/m2)'
+     :                    , c%total_n_uptake_max, numvals
+     :                    , 0.0, 100.0)
+      endif
          !    sugar_get_root_params
 
       call read_real_var (section_name
@@ -3641,6 +3761,25 @@ c      call sugar_nit_stress_expansion (1)
      :                    , c%NO3_min_lb, numvals
      :                    , 0.0, 100000.0)
 
+      call read_real_var (section_name
+     :                    , 'nh4_ub', '(kg/ha)'
+     :                    , c%NH4_ub, numvals
+     :                    , 0.0, 100000.0)
+
+      call read_real_var (section_name
+     :                    , 'nh4_lb', '(kg/ha)'
+     :                    , c%NH4_lb, numvals
+     :                    , 0.0, 100000.0)
+
+      call read_real_var (section_name
+     :                    , 'nh4_min_ub', '(kg/ha)'
+     :                    , c%NH4_min_ub, numvals
+     :                    , 0.0, 100000.0)
+
+      call read_real_var (section_name
+     :                    , 'nh4_min_lb', '(kg/ha)'
+     :                    , c%NH4_min_lb, numvals
+     :                    , 0.0, 100000.0)
 
       call pop_routine (my_name)
       return
