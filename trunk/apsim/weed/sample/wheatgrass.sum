@@ -185,6 +185,15 @@
          ------------------------------------------------
               2000.0    26.7     0.0  mungbean
          ------------------------------------------------
+     
+     
+                      Residue Initial Parameters
+         ------------------------------------------------
+           Pot Decomp Rate  C:N     C:P  Phosphorous  Report
+           (fraction/day) (ratio) (ratio)  aware      additions
+         ------------------------------------------------
+                  0.100    30.0     0.0       F       no
+         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -271,13 +280,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          150.0     0.060          0.200       1.000
          150.0     0.060          0.201       0.600
          300.0     0.060          0.215       0.450
@@ -285,11 +294,9 @@
          300.0     0.060          0.141       0.100
          300.0     0.060          0.249       0.080
          300.0     0.020          0.279       0.050
-     ---------------------------------------------------
-        1800.0                    378.2(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   397mm in  1800mm total depth ( 22%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -329,13 +336,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          150.0     0.080          0.230       1.000
          150.0     0.080          0.240       1.000
          300.0     0.080          0.240       1.000
@@ -343,11 +350,9 @@
          300.0     0.050          0.260       1.000
          300.0     0.030          0.270       1.000
          300.0     0.010          0.280       1.000
-     ---------------------------------------------------
-        1800.0                    460.5(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to 100.0 times eo)
+         -----------------------------------------------
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
+         Crop factor for bounding water use is set to 100.0 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -385,6 +390,7 @@
          straw N =           0.9 kg/ha
          root residue =     16.3 kg/ha
          root N =            0.2 kg/ha
+         root P =            0.0 kg/ha
 16 August 1988(Day of year=229), wheat: 
       stage 5.0 floral_initiation
                      biomass =         199.92 (g/m^2)   lai          =   2.880 (m^2/m^2)
@@ -474,5 +480,6 @@
          straw N =           0.0 kg/ha
          root residue =   1256.5 kg/ha
          root N =           16.2 kg/ha
+         root P =            0.0 kg/ha
 30 May 1989(Day of year=150), clock: 
      Simulation is terminating due to end criteria being met.

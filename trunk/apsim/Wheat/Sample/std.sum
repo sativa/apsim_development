@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.4
+     Version                = 3.5
      Title                  = Constant CO2 levels
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -217,7 +217,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -232,7 +232,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -338,6 +338,7 @@
          straw N =           0.0 kg/ha
          root residue =   2204.3 kg/ha
          root N =           28.4 kg/ha
+         root P =            0.0 kg/ha
 18 June 1941(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1941(Day of year=169), wheat: 
@@ -368,7 +369,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -383,7 +384,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -489,6 +490,7 @@
          straw N =           0.0 kg/ha
          root residue =   1330.6 kg/ha
          root N =           15.3 kg/ha
+         root P =            0.0 kg/ha
 18 June 1942(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1942(Day of year=169), wheat: 
@@ -519,7 +521,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -534,7 +536,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -640,6 +642,7 @@
          straw N =           0.0 kg/ha
          root residue =   1000.0 kg/ha
          root N =           11.4 kg/ha
+         root P =            0.0 kg/ha
 18 June 1943(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1943(Day of year=169), wheat: 
@@ -670,7 +673,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -685,7 +688,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -791,6 +794,7 @@
          straw N =           0.0 kg/ha
          root residue =   1611.2 kg/ha
          root N =           18.2 kg/ha
+         root P =            0.0 kg/ha
 17 June 1944(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 17 June 1944(Day of year=169), wheat: 
@@ -821,7 +825,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -836,7 +840,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -942,6 +946,7 @@
          straw N =           0.0 kg/ha
          root residue =   1548.1 kg/ha
          root N =           16.3 kg/ha
+         root P =            0.0 kg/ha
 18 June 1945(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1945(Day of year=169), wheat: 
@@ -972,7 +977,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -987,7 +992,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -1093,6 +1098,7 @@
          straw N =           0.0 kg/ha
          root residue =   1434.9 kg/ha
          root N =           14.9 kg/ha
+         root P =            0.0 kg/ha
 18 June 1946(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1946(Day of year=169), wheat: 
@@ -1123,7 +1129,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -1138,7 +1144,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -1244,6 +1250,7 @@
          straw N =           0.0 kg/ha
          root residue =   1383.8 kg/ha
          root N =           15.3 kg/ha
+         root P =            0.0 kg/ha
 18 June 1947(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1947(Day of year=169), wheat: 
@@ -1274,7 +1281,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -1289,7 +1296,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -1395,6 +1402,7 @@
          straw N =           0.0 kg/ha
          root residue =   1501.5 kg/ha
          root N =           16.4 kg/ha
+         root P =            0.0 kg/ha
 17 June 1948(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 17 June 1948(Day of year=169), wheat: 
@@ -1425,7 +1433,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -1440,7 +1448,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -1546,6 +1554,7 @@
          straw N =           0.0 kg/ha
          root residue =   1362.5 kg/ha
          root N =           13.9 kg/ha
+         root P =            0.0 kg/ha
 18 June 1949(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1949(Day of year=169), wheat: 
@@ -1576,7 +1585,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -1591,7 +1600,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -1697,6 +1706,7 @@
          straw N =           0.0 kg/ha
          root residue =   1470.9 kg/ha
          root N =           15.9 kg/ha
+         root P =            0.0 kg/ha
 18 June 1950(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1950(Day of year=169), wheat: 
@@ -1727,7 +1737,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -1742,7 +1752,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -1848,6 +1858,7 @@
          straw N =           0.0 kg/ha
          root residue =   1063.1 kg/ha
          root N =           11.0 kg/ha
+         root P =            0.0 kg/ha
 18 June 1951(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1951(Day of year=169), wheat: 
@@ -1878,7 +1889,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -1893,7 +1904,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -1999,6 +2010,7 @@
          straw N =           0.0 kg/ha
          root residue =   1318.1 kg/ha
          root N =           12.0 kg/ha
+         root P =            0.0 kg/ha
 17 June 1952(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 17 June 1952(Day of year=169), wheat: 
@@ -2029,7 +2041,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -2044,7 +2056,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -2150,6 +2162,7 @@
          straw N =           0.0 kg/ha
          root residue =   1433.1 kg/ha
          root N =           13.3 kg/ha
+         root P =            0.0 kg/ha
 18 June 1953(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1953(Day of year=169), wheat: 
@@ -2180,7 +2193,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -2195,7 +2208,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -2301,6 +2314,7 @@
          straw N =           0.0 kg/ha
          root residue =   1216.6 kg/ha
          root N =           11.3 kg/ha
+         root P =            0.0 kg/ha
 18 June 1954(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1954(Day of year=169), wheat: 
@@ -2331,7 +2345,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -2346,7 +2360,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -2452,6 +2466,7 @@
          straw N =           0.0 kg/ha
          root residue =   1300.3 kg/ha
          root N =           12.2 kg/ha
+         root P =            0.0 kg/ha
 18 June 1955(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1955(Day of year=169), wheat: 
@@ -2482,7 +2497,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -2497,7 +2512,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -2603,6 +2618,7 @@
          straw N =           0.0 kg/ha
          root residue =   1224.9 kg/ha
          root N =           11.4 kg/ha
+         root P =            0.0 kg/ha
 17 June 1956(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 17 June 1956(Day of year=169), wheat: 
@@ -2633,7 +2649,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -2648,7 +2664,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -2754,6 +2770,7 @@
          straw N =           0.0 kg/ha
          root residue =   1058.3 kg/ha
          root N =            9.1 kg/ha
+         root P =            0.0 kg/ha
 18 June 1957(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1957(Day of year=169), wheat: 
@@ -2784,7 +2801,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -2799,7 +2816,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -2905,6 +2922,7 @@
          straw N =           0.0 kg/ha
          root residue =   1361.1 kg/ha
          root N =           12.6 kg/ha
+         root P =            0.0 kg/ha
 18 June 1958(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1958(Day of year=169), wheat: 
@@ -2935,7 +2953,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -2950,7 +2968,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -3056,6 +3074,7 @@
          straw N =           0.0 kg/ha
          root residue =   1359.6 kg/ha
          root N =           12.4 kg/ha
+         root P =            0.0 kg/ha
 18 June 1959(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1959(Day of year=169), wheat: 
@@ -3086,7 +3105,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -3101,7 +3120,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -3207,6 +3226,7 @@
          straw N =           0.0 kg/ha
          root residue =   1062.1 kg/ha
          root N =           10.5 kg/ha
+         root P =            0.0 kg/ha
 17 June 1960(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 17 June 1960(Day of year=169), wheat: 
@@ -3237,7 +3257,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -3252,7 +3272,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -3358,6 +3378,7 @@
          straw N =           0.0 kg/ha
          root residue =   1240.9 kg/ha
          root N =           11.0 kg/ha
+         root P =            0.0 kg/ha
 18 June 1961(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1961(Day of year=169), wheat: 
@@ -3388,7 +3409,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -3403,7 +3424,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -3509,6 +3530,7 @@
          straw N =           0.0 kg/ha
          root residue =   1216.5 kg/ha
          root N =           10.9 kg/ha
+         root P =            0.0 kg/ha
 18 June 1962(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1962(Day of year=169), wheat: 
@@ -3539,7 +3561,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -3554,7 +3576,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -3660,6 +3682,7 @@
          straw N =           0.0 kg/ha
          root residue =    894.6 kg/ha
          root N =            7.6 kg/ha
+         root P =            0.0 kg/ha
 18 June 1963(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1963(Day of year=169), wheat: 
@@ -3690,7 +3713,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -3705,7 +3728,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -3811,6 +3834,7 @@
          straw N =           0.0 kg/ha
          root residue =   1071.4 kg/ha
          root N =            9.5 kg/ha
+         root P =            0.0 kg/ha
 17 June 1964(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 17 June 1964(Day of year=169), wheat: 
@@ -3841,7 +3865,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -3856,7 +3880,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -3962,6 +3986,7 @@
          straw N =           0.0 kg/ha
          root residue =    973.1 kg/ha
          root N =            9.4 kg/ha
+         root P =            0.0 kg/ha
 18 June 1965(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1965(Day of year=169), wheat: 
@@ -3992,7 +4017,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -4007,7 +4032,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -4113,6 +4138,7 @@
          straw N =           0.0 kg/ha
          root residue =   1157.6 kg/ha
          root N =           11.2 kg/ha
+         root P =            0.0 kg/ha
 18 June 1966(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1966(Day of year=169), wheat: 
@@ -4143,7 +4169,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -4158,7 +4184,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -4264,6 +4290,7 @@
          straw N =           0.0 kg/ha
          root residue =   1141.1 kg/ha
          root N =            9.7 kg/ha
+         root P =            0.0 kg/ha
 18 June 1967(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1967(Day of year=169), wheat: 
@@ -4294,7 +4321,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -4309,7 +4336,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -4415,6 +4442,7 @@
          straw N =           0.0 kg/ha
          root residue =   1051.2 kg/ha
          root N =            8.7 kg/ha
+         root P =            0.0 kg/ha
 17 June 1968(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 17 June 1968(Day of year=169), wheat: 
@@ -4445,7 +4473,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -4460,7 +4488,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -4566,6 +4594,7 @@
          straw N =           0.0 kg/ha
          root residue =   1089.8 kg/ha
          root N =            9.7 kg/ha
+         root P =            0.0 kg/ha
 18 June 1969(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1969(Day of year=169), wheat: 
@@ -4596,7 +4625,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -4611,7 +4640,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -4717,6 +4746,7 @@
          straw N =           0.0 kg/ha
          root residue =   1055.8 kg/ha
          root N =            9.8 kg/ha
+         root P =            0.0 kg/ha
 18 June 1970(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1970(Day of year=169), wheat: 
@@ -4747,7 +4777,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -4762,7 +4792,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -4868,6 +4898,7 @@
          straw N =           0.0 kg/ha
          root residue =    848.2 kg/ha
          root N =            8.0 kg/ha
+         root P =            0.0 kg/ha
 18 June 1971(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1971(Day of year=169), wheat: 
@@ -4898,7 +4929,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -4913,7 +4944,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -5019,6 +5050,7 @@
          straw N =           0.0 kg/ha
          root residue =    736.9 kg/ha
          root N =            6.9 kg/ha
+         root P =            0.0 kg/ha
 17 June 1972(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 17 June 1972(Day of year=169), wheat: 
@@ -5049,7 +5081,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -5064,7 +5096,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -5170,6 +5202,7 @@
          straw N =           0.0 kg/ha
          root residue =    914.3 kg/ha
          root N =            8.1 kg/ha
+         root P =            0.0 kg/ha
 18 June 1973(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1973(Day of year=169), wheat: 
@@ -5200,7 +5233,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -5215,7 +5248,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -5321,6 +5354,7 @@
          straw N =           0.0 kg/ha
          root residue =    721.1 kg/ha
          root N =            7.3 kg/ha
+         root P =            0.0 kg/ha
 18 June 1974(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1974(Day of year=169), wheat: 
@@ -5351,7 +5385,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -5366,7 +5400,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -5472,6 +5506,7 @@
          straw N =           0.0 kg/ha
          root residue =    945.9 kg/ha
          root N =            8.4 kg/ha
+         root P =            0.0 kg/ha
 18 June 1975(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1975(Day of year=169), wheat: 
@@ -5502,7 +5537,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -5517,7 +5552,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -5623,6 +5658,7 @@
          straw N =           0.0 kg/ha
          root residue =    649.1 kg/ha
          root N =            5.9 kg/ha
+         root P =            0.0 kg/ha
 17 June 1976(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 17 June 1976(Day of year=169), wheat: 
@@ -5653,7 +5689,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -5668,7 +5704,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -5774,6 +5810,7 @@
          straw N =           0.0 kg/ha
          root residue =    705.0 kg/ha
          root N =            5.9 kg/ha
+         root P =            0.0 kg/ha
 18 June 1977(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1977(Day of year=169), wheat: 
@@ -5804,7 +5841,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -5819,7 +5856,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -5925,6 +5962,7 @@
          straw N =           0.0 kg/ha
          root residue =    666.0 kg/ha
          root N =            5.6 kg/ha
+         root P =            0.0 kg/ha
 18 June 1978(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1978(Day of year=169), wheat: 
@@ -5955,7 +5993,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -5970,7 +6008,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -6076,6 +6114,7 @@
          straw N =           0.0 kg/ha
          root residue =    749.8 kg/ha
          root N =            6.2 kg/ha
+         root P =            0.0 kg/ha
 18 June 1979(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1979(Day of year=169), wheat: 
@@ -6106,7 +6145,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -6121,7 +6160,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -6227,6 +6266,7 @@
          straw N =           0.0 kg/ha
          root residue =    625.8 kg/ha
          root N =            5.5 kg/ha
+         root P =            0.0 kg/ha
 17 June 1980(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 17 June 1980(Day of year=169), wheat: 
@@ -6257,7 +6297,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -6272,7 +6312,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -6378,6 +6418,7 @@
          straw N =           0.0 kg/ha
          root residue =    818.3 kg/ha
          root N =            7.0 kg/ha
+         root P =            0.0 kg/ha
 18 June 1981(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1981(Day of year=169), wheat: 
@@ -6408,7 +6449,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -6423,7 +6464,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -6529,6 +6570,7 @@
          straw N =           0.0 kg/ha
          root residue =    697.3 kg/ha
          root N =            6.0 kg/ha
+         root P =            0.0 kg/ha
 18 June 1982(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1982(Day of year=169), wheat: 
@@ -6559,7 +6601,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -6574,7 +6616,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -6680,6 +6722,7 @@
          straw N =           0.0 kg/ha
          root residue =    582.6 kg/ha
          root N =            5.4 kg/ha
+         root P =            0.0 kg/ha
 18 June 1983(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1983(Day of year=169), wheat: 
@@ -6710,7 +6753,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -6725,7 +6768,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -6831,6 +6874,7 @@
          straw N =           0.0 kg/ha
          root residue =    419.8 kg/ha
          root N =            3.9 kg/ha
+         root P =            0.0 kg/ha
 17 June 1984(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 17 June 1984(Day of year=169), wheat: 
@@ -6861,7 +6905,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -6876,7 +6920,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -6982,6 +7026,7 @@
          straw N =           0.0 kg/ha
          root residue =    441.5 kg/ha
          root N =            3.9 kg/ha
+         root P =            0.0 kg/ha
 18 June 1985(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1985(Day of year=169), wheat: 
@@ -7012,7 +7057,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -7027,7 +7072,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -7133,6 +7178,7 @@
          straw N =           0.0 kg/ha
          root residue =    534.0 kg/ha
          root N =            4.7 kg/ha
+         root P =            0.0 kg/ha
 18 June 1986(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1986(Day of year=169), wheat: 
@@ -7163,7 +7209,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -7178,7 +7224,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -7284,6 +7330,7 @@
          straw N =           0.0 kg/ha
          root residue =    617.7 kg/ha
          root N =            5.3 kg/ha
+         root P =            0.0 kg/ha
 18 June 1987(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1987(Day of year=169), wheat: 
@@ -7314,7 +7361,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -7329,7 +7376,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -7435,6 +7482,7 @@
          straw N =           0.0 kg/ha
          root residue =    608.8 kg/ha
          root N =            5.0 kg/ha
+         root P =            0.0 kg/ha
 17 June 1988(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 17 June 1988(Day of year=169), wheat: 
@@ -7465,7 +7513,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -7480,7 +7528,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -7586,6 +7634,7 @@
          straw N =           0.0 kg/ha
          root residue =    334.9 kg/ha
          root N =            3.2 kg/ha
+         root P =            0.0 kg/ha
 18 June 1989(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 18 June 1989(Day of year=169), wheat: 
@@ -7616,7 +7665,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -7631,7 +7680,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -7737,5 +7786,6 @@
          straw N =           0.0 kg/ha
          root residue =    561.9 kg/ha
          root N =            4.4 kg/ha
+         root P =            0.0 kg/ha
 31 December 1989(Day of year=365), clock: 
      Simulation is terminating due to end criteria being met.
