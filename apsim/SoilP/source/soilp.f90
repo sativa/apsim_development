@@ -1807,10 +1807,18 @@ subroutine soilp_min_residues ()
    dlt_res_c_biom = 0.0
    dlt_org_p = 0.0
 
-   call collect_real_array ('dlt_res_c_atm',  max_layer,  '()',  dlt_res_c_atm,  numvals,  0.0,  1000.0)
-   call collect_real_array ('dlt_res_c_hum',  max_layer,  '()',  dlt_res_c_hum,  numvals,  0.0,  1000.0)
-   call collect_real_array ('dlt_res_c_biom',  max_layer,  '()',  dlt_res_c_biom,  numvals,  0.0,  1000.0)
-   call collect_real_array ('dlt_org_p',  max_layer,  '()',  dlt_org_p,  numvals,  0.0,  1000.0)
+
+  !   call collect_real_array ('dlt_res_c_atm',  max_layer,  '()',  dlt_res_c_atm,  numvals,  0.0,  1000.0)
+  !   call collect_real_array ('dlt_res_c_hum',  max_layer,  '()',  dlt_res_c_hum,  numvals,  0.0,  1000.0)
+  !   call collect_real_array ('dlt_res_c_biom',  max_layer,  '()',  dlt_res_c_biom,  numvals,  0.0,  1000.0)
+  !   call collect_real_array ('dlt_org_p',  max_layer,  '()',  dlt_org_p,  numvals,  0.0,  1000.0)
+
+  ! dsg 131004 get these variables from soiln2, pre-surfaceom they were sent by residue2/manure in the 'decomposed' event
+   call Get_real_array (unknown_module,'soilp_dlt_res_c_atm',max_layer,'()',dlt_res_c_atm, numvals, 0.0,1000.)
+   call Get_real_array (unknown_module,'soilp_dlt_res_c_hum',max_layer,'()',dlt_res_c_hum, numvals, 0.0,1000.)
+   call Get_real_array (unknown_module,'soilp_dlt_res_c_biom',max_layer,'()',dlt_res_c_biom, numvals, 0.0,1000.)
+   call Get_real_array (unknown_module,'soilp_dlt_org_p',max_layer,'()',dlt_org_p, numvals, 0.0,1000.)
+
 
    num_layers = count_of_real_vals (dlt_res_c_biom , max_layer)
 
