@@ -13,10 +13,10 @@
    </html>
 </xsl:template>
 
-<xsl:template match="document">
+<xsl:template match="Documentation">
    <tr>
    <td>
-   <a href="{@link}"><xsl:value-of select="@name"/></a>
+   <a href="{.}"><xsl:value-of select="@name"/></a>
    </td>
    </tr>
 

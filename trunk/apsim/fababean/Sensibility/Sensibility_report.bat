@@ -1,4 +1,4 @@
 pushd
 cd \development\apsim\fababean\sensibility
-c:\development\bin\apsimreport.exe fababean.report fababean.jpg
+\development\bin\apsimreport.exe fababean.report fababean.html
 popd
