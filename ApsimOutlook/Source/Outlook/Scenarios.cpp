@@ -372,10 +372,21 @@ void Scenarios::restore(const string& name)
 // ensure the specified scenario is completely valid.
 //---------------------------------------------------------------------------
 void Scenarios::makeScenarioValid(Scenario& scenario,
-                                  const string factorName)
+                                  const string& factorName)
    {
    for (unsigned addinIndex = 0; addinIndex != addIns.getNumAddIns(); addinIndex++)
       addIns.getAddIn(addinIndex)->makeScenarioValid(scenario, factorName);
+   }
+//---------------------------------------------------------------------------
+// ensure all scenarios are completely valid.
+//---------------------------------------------------------------------------
+void Scenarios::makeScenariosValid(void)
+   {
+   for (ScenarioContainer::iterator s = scenarios.begin(); s != scenarios.end(); s++)
+      {
+      for (unsigned addinIndex = 0; addinIndex != addIns.getNumAddIns(); addinIndex++)
+         addIns.getAddIn(addinIndex)->makeScenarioValid(*s, "");
+      }
    }
 //---------------------------------------------------------------------------
 // return true if the specified scenario is valid.

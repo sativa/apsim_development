@@ -290,4 +290,20 @@ void TDamEasy_form::createNewConfig(AnsiString name, DEEconConfig* config)
    newConfig.setName(name.c_str());
    Configs->push_back(newConfig);
 }
+//---------------------------------------------------------------------------
+// User is trying to rename a label.
+//---------------------------------------------------------------------------
+void __fastcall TDamEasy_form::RenameLabelClick(TObject *Sender)
+   {
+   AnsiString newName = currentConfig->getName().c_str();
+   if (InputQuery("Configuration rename", "Enter a new name for configuration",
+                  newName))
+      {
+      int savedIndex = ConfigNameCombo->ItemIndex;
+      currentConfig->setName(newName.c_str());
+      ConfigNameCombo->Items->Strings[ConfigNameCombo->ItemIndex] = newName;
+      ConfigNameCombo->ItemIndex = savedIndex;
+      }
+   }
+//---------------------------------------------------------------------------
 

@@ -74,6 +74,8 @@ class Scenarios
       std::string getUIButtonCaption(void) const;
       void showUI(void);
 
+      void makeScenariosValid(void);
+
 
    private:
       AddInManager<AddInBase> addIns;
@@ -101,9 +103,8 @@ class Scenarios
       // Make sure all scenario names is valid and reflects the factor values.
       void makeScenarioNamesValid(void);
 
-      // ensure the specified scenario is completely valid.
-      void makeScenarioValid(Scenario& scenario,
-                             const std::string factorName);
+      // ensure scenario is completely valid.
+      void makeScenarioValid(Scenario& scenario, const string& factorName);
       bool isScenarioValid(Scenario& scenario);
 
 };

@@ -231,12 +231,12 @@ bool TMDIChild::Create_chart(TAnalysis_panel* new_panel)
    {
       delete saved_panel;
       Hook_panel_to_this_form();
-      Enable_options();
    }
    else
    {
       Analysis_panel = saved_panel;
    }
+   Enable_options();
    if (ChartsViewSettingsMenu->Checked)
       Settings_form->BringToFront();
    return ok;
@@ -383,9 +383,9 @@ void __fastcall TMDIChild::ViewData(TObject *Sender)
    ChartsViewDataMenu->Checked = !ChartsViewDataMenu->Checked;
    Splitter->Visible = ChartsViewDataMenu->Checked;
    Grid->Visible = ChartsViewDataMenu->Checked;
-   Grid->Datasource = NULL;
+   Grid->DataSource = NULL;
    APSTable_2_TDataSet->Refresh();
-   Grid->Datasource = Grid_data_source;
+   Grid->DataSource = Grid_data_source;
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::ChartsNoChartMenuClick(TObject *Sender)
@@ -395,6 +395,7 @@ void __fastcall TMDIChild::ChartsNoChartMenuClick(TObject *Sender)
       APSTable_2_TDataSet->APSTable =  working;
       if (ChartsViewDataMenu->Checked)
          APSTable_2_TDataSet->Refresh();
+      Enable_options();
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::SendDataToEXCEL(TObject *Sender)
@@ -404,9 +405,9 @@ void __fastcall TMDIChild::SendDataToEXCEL(TObject *Sender)
    TCursor Saved_Cursor = Screen->Cursor;
    Screen->Cursor = crHourGlass;
 
-   Grid->Datasource = NULL;
+   Grid->DataSource = NULL;
    APSTable_2_TDataSet->Refresh();
-   Grid->Datasource = Grid_data_source;
+   Grid->DataSource = Grid_data_source;
    Grid->ExcelClipboardFormat = true;
    Grid->CopyToClipBoard();
 

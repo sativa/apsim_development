@@ -85,6 +85,7 @@ __published:	// IDE-managed Components
    TLabel *Label15;
    TEdit *Payment_constant_box;
    TComboBox *ConfigNameCombo;
+   TLabel *RenameLabel;
    void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
    void __fastcall FormShow(TObject *Sender);
    void __fastcall Repayment_time_boxExit(TObject *Sender);
@@ -93,6 +94,7 @@ __published:	// IDE-managed Components
    void __fastcall ConfigNameComboChange(TObject *Sender);
    void __fastcall ConfigNameComboKeyPress(TObject *Sender, char &Key);
    void __fastcall ConfigNameComboExit(TObject *Sender);
+   void __fastcall RenameLabelClick(TObject *Sender);
 private:	// User declarations
    std::vector<DEEconConfig>* Configs;
    DEEconConfig* currentConfig;

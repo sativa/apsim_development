@@ -11,6 +11,7 @@
 #include <general\path.h>
 #include <functional>
 #include <ApsimShared\ApsimDirectories.h>
+#include "TDamEasy_form.h"
 
 #define DE_ECON_FACTOR_NAME "Econ Config"
 #define ECON_CONFIGS_KEY    "DamEa$y Economics|econconfigs"
@@ -80,7 +81,18 @@ bool DamEasyEcon::isScenarioValid(Scenario& scenario) const
    }
 
 void DamEasyEcon::makeScenarioValid(Scenario& scenario,
-                                        const std::string factor_name) const {}
+                                    const std::string factor_name) const
+   {
+   string econName = scenario.getFactorValue(DE_ECON_FACTOR_NAME);
+
+   vector<string> econConfigs;
+   getAllFactorValues("", econConfigs);
+   if (find(econConfigs.begin(), econConfigs.end(), econName) == econConfigs.end())
+      {
+      // not valid - make it valid.
+      scenario.setFactorValue(DE_ECON_FACTOR_NAME, econConfigs[0]);
+      }
+   }
 
 Scenario DamEasyEcon::getDefaultScenario(void) const {
    // check the following to see if "" is the right thing to pass in.
@@ -126,18 +138,10 @@ void DamEasyEcon::Read_inifile_settings (void)
    string st;
    settings.read(BITMAP_NAME_KEY, st);
    Econ_bitmap_name = st;
-   settings.read(ECON_CONFIGS_KEY, st);
-   vector<string> words;
-   Split_string(st, ",", words);
 
-   Econ_configs.clear();
-   // loop through econ configs present in ini file
-   for (vector<string>::iterator e = words.begin(); e!=words.end(); e++)
-   {
-      DEEconConfig config;
-      if (config.readFromFile(*e))
-         Econ_configs.push_back(config);
-   }
+   getConfigs();
+
+   vector<string> words;
 
    // read tax table
    settings.read ("TAX_BRACKETS_KEY", st);
@@ -203,4 +207,60 @@ void DamEasyEcon::doCalculations(TAPSTable& data,
 {  }
 
 
+// ------------------------------------------------------------------
+// display our form.
+// ------------------------------------------------------------------
+void DamEasyEcon::showUI(void)
+   {
+   DamEasy_form->setMyConfigs(Econ_configs);
+   if (DamEasy_form->ShowModal() == mrOk)
+      saveConfigs();
+
+   else
+      getConfigs();
+   }
+void DamEasyEcon::getConfigs()
+{
+   string st;
+   settings.read(ECON_CONFIGS_KEY, st);
+   vector<string> words;
+   Split_string(st, ",", words);
+
+   Econ_configs.clear();
+   // loop through econ configs present in ini file
+   for (vector<string>::iterator e = words.begin(); e!=words.end(); e++)
+   {
+      DEEconConfig config;
+      if (config.readFromFile(*e))
+         Econ_configs.push_back(config);
+   }
+}
+void DamEasyEcon::saveConfigs()
+{
+   // update the ini file
+   vector<string> config_names;
+   getAllFactorValues("", config_names);
+   string config_names_comma_list;
+   Build_string(config_names, ",", config_names_comma_list);
+   settings.write(ECON_CONFIGS_KEY, config_names_comma_list.c_str());
+
+   // remove old Econconfig sections, and put in only the ones remaining in Econ_configs
+   vector<string> Section_names;
+   settings.getSectionNames(Section_names);
+   // find those section names that are EconConfig entries
+   vector<string>::iterator sect_name = Section_names.begin();
+   while (sect_name != Section_names.end()) {
+      string prefix = SECTION_PREFIX;
+      string::iterator where =
+           search((*sect_name).begin(),(*sect_name).end(),prefix.begin(),prefix.end());
+      if (where == (*sect_name).begin())  // then this section needs deleting
+         settings.deleteSection((*sect_name).c_str());
+      sect_name++;
+   }
+
+   // now write to file the current list of EconConfigs
+   vector<DEEconConfig>::iterator config;
+   for (config = Econ_configs.begin(); config!= Econ_configs.end(); config++)
+      (*config).writeToFile();
+}
 

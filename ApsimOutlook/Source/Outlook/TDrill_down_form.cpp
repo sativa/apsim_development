@@ -44,6 +44,7 @@ __fastcall TDrill_down_form::TDrill_down_form(TComponent* Owner)
    weAreExpanding = false;
    fullExpColl = false;
    renamingNode = false;
+   ValueSelectPopup = NULL;
    }
 
 // ------------------------------------------------------------------
@@ -130,6 +131,7 @@ void TDrill_down_form::refreshScenarioTree (void)
 // ------------------------------------------------------------------
 void TDrill_down_form::Refresh (void)
    {
+   fullExpColl = true;
    refreshScenarioTree();
    }
 // ------------------------------------------------------------------
@@ -144,8 +146,6 @@ void TDrill_down_form::Refresh (void)
 // ------------------------------------------------------------------
 void __fastcall TDrill_down_form::FormShow(TObject *Sender)
    {
-   ValueSelectPopup = new TValueSelectPopup(this);
-
    scenarios->restore("Default");
    Refresh();
 
@@ -186,7 +186,6 @@ void __fastcall TDrill_down_form::FormShow(TObject *Sender)
 void __fastcall TDrill_down_form::FormClose(TObject *Sender,
       TCloseAction &Action)
    {
-   delete ValueSelectPopup;
    if (ModalResult == mrOk)
       scenarios->save("Default");
    }
@@ -222,6 +221,7 @@ void __fastcall TDrill_down_form::popupClose(System::TObject* Sender, TCloseActi
                                            ValueSelectPopup->SelectedItems);
       Refresh();
       }
+   delete ValueSelectPopup;
    }
 //---------------------------------------------------------------------------
 void __fastcall TDrill_down_form::ScenarioTreeMouseDown(TObject *Sender,
@@ -248,8 +248,7 @@ void __fastcall TDrill_down_form::ScenarioTreeMouseDown(TObject *Sender,
          getKeyNameAndValue(node->Text.c_str(), Factor_name, Factor_value);
 
          // delete old selections.
-         ValueSelectPopup->SelectedItems.erase(ValueSelectPopup->SelectedItems.begin(),
-                                               ValueSelectPopup->SelectedItems.end());
+         ValueSelectPopup = new TValueSelectPopup(this);
 
          // get a list of identifier values that the user can select from.
          string selectedScenario = node->Parent->Text.c_str();
@@ -320,6 +319,8 @@ void __fastcall TDrill_down_form::ScenarioTreeEdited(TObject *Sender,
 void __fastcall TDrill_down_form::AddInLabelClick(TObject *Sender)
    {
    scenarios->showUI();
+   scenarios->makeScenariosValid();
+   Refresh();
    }
 //---------------------------------------------------------------------------
 
@@ -378,6 +379,7 @@ void __fastcall TDrill_down_form::RestoreLabelClick(TObject *Sender)
       {
       scenarios->restore(ScenarioSelectForm->ScenarioList->Text.c_str());
       Refresh();
+      Caption = "Scenario set: " + ScenarioSelectForm->ScenarioList->Text;
       }
    }
 //---------------------------------------------------------------------------
