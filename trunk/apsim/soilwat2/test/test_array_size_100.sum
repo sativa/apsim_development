@@ -11,13 +11,13 @@
 
      Version                = 4.0
      Title                  = Soilwat2 test_array_size_100 Simulation
-     Component DLL          = c:\temp\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\temp\development\apsim\Screen\lib\Screen.dll
-     Component DLL          = c:\temp\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\temp\development\apsim\report\lib\report.dll
-     Component DLL          = c:\temp\development\apsim\Input\lib\Input.dll
-     Component DLL          = c:\temp\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\temp\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\Input\lib\Input.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -47,7 +47,7 @@
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\temp\development\apsim\met\sample\dalby.met
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:

@@ -11,16 +11,16 @@
 
      Version                = 4.0
      Title                  = Test long array reporting
-     Component DLL          = c:\temp\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\temp\development\apsim\Screen\lib\Screen.dll
-     Component DLL          = c:\temp\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\temp\development\apsim\report\lib\report.dll
-     Component DLL          = c:\temp\development\apsim\input\lib\input.dll
-     Component DLL          = c:\temp\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\temp\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\temp\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-     Component DLL          = c:\temp\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\temp\development\apsim\plant\lib\plant.dll
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -46,7 +46,7 @@
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\temp\development\apsim\met\sample\dalby.met
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
@@ -284,3 +284,16 @@
       stage 8.0 end_grain_fill
                      biomass =        1112.08 (g/m^2)   lai          =   2.920 (m^2/m^2)
                      stover N conc =     4.60 (%)    extractable sw =   82.98 (mm)
+26 April 1989(Day of year=116), lablab: 
+      stage 9.0 maturity
+                     biomass =        1112.08 (g/m^2)   lai          =   2.920 (m^2/m^2)
+                     stover N conc =     4.60 (%)    extractable sw =  206.97 (mm)
+27 April 1989(Day of year=117), lablab: 
+      stage 10.0 harvest_ripe
+                     biomass =        1112.08 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     5.70 (%)    extractable sw =  208.86 (mm)
+28 April 1989(Day of year=118), lablab: 
+     Crop failure because of total leaf senescence.
+     Plant death. standing above-ground dm = 11120.77 (kg/ha)
+26 October 1989(Day of year=299), clock: 
+     Simulation is terminating due to end criteria being met.
