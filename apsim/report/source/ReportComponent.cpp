@@ -254,6 +254,7 @@ void Field::accumulateValue(void)
 
 //  Changes:
 //    DPH 29/7/99
+//    dph 12/4/2000 Added return statement to outer else D346
 
 // ------------------------------------------------------------------
 bool Field::retrieveValue(void)
@@ -327,13 +328,14 @@ bool Field::retrieveValue(void)
 
       FunctionValues.erase(FunctionValues.begin(), FunctionValues.end());
       NumTimesAccumulated = 0;
+      return (Values.size() > 0);
       }
    return true;
    }
 
 // ------------------------------------------------------------------
 //  Short description:
-//     ForEach function that is called for every APSIM Report Variable.
+//     Callback function that is called for every APSIM Report Variable.
 //     This function will setup a list of field objects based on
 //     all variables.
 
@@ -343,13 +345,13 @@ bool Field::retrieveValue(void)
 //    DPH 29/7/99
 
 // ------------------------------------------------------------------
-class SetupFieldsFunction : public ForEachFunction<APSIMReportVariable>
+class SetupFieldsFunction : public CallbackFunction<APSIMReportVariable>
    {
    public:
       SetupFieldsFunction(list<Field>& fields, bool csvformat)
          : Fields(fields), SomeAreFunctions(false), CSVFormat(csvformat)
          {}
-      virtual void ForEach(APSIMReportVariable& Var)
+      virtual void callback(APSIMReportVariable& Var)
          {
          Field F(Var.ModuleName, Var.VariableName, Var.VariableAlias, CSVFormat);
          SomeAreFunctions = (SomeAreFunctions || F.isFunction());
@@ -366,7 +368,7 @@ class SetupFieldsFunction : public ForEachFunction<APSIMReportVariable>
 
 // ------------------------------------------------------------------
 //  Short description:
-//     ForEach function that is called for every Field.
+//     Callback function that is called for every Field.
 //     This function will setup a headings line and a units line.
 
 //  Notes:
@@ -396,7 +398,7 @@ class FieldHeadingUnitFunction
 
 // ------------------------------------------------------------------
 //  Short description:
-//     ForEach function that is called for every Field.
+//     Callback function that is called for every Field.
 //     This function will write each field to an output stream.
 
 //  Notes:
@@ -424,7 +426,7 @@ class FieldValueFunction
 
 // ------------------------------------------------------------------
 //  Short description:
-//     ForEach function that is called for every Field.
+//     Callback function that is called for every Field.
 //     This function will tell each field to go accumulate itself.
 
 //  Notes:
