@@ -137,7 +137,8 @@ object MainForm: TMainForm
     Filter = 
       'Report files (*.report)|*.report|Bitmap files (*.bmp)|*.bmp|JPEG' +
       ' files (*.jpg)|*.jpg|HTML files (*.html)|*.html|PDF files (*.pdf' +
-      ')|*.pdf'
+      ')|*.pdf|RTF files (*.rtf)|*.rtf|WMF (*.wmf)|*.wmf|EMF (*.emf)|*.' +
+      'emf'
     Left = 272
     Top = 40
   end
@@ -176,6 +177,10 @@ object MainForm: TMainForm
       end
       object Print1: TMenuItem
         Action = Print
+        Caption = '&Print all pages'
+      end
+      object Print2: TMenuItem
+        Action = PrintCurrent
       end
       object N4: TMenuItem
         Caption = '-'
@@ -1171,6 +1176,10 @@ object MainForm: TMainForm
       ImageIndex = 14
       OnExecute = RefreshActionExecute
     end
+    object PrintCurrent: TAction
+      Caption = 'Print &current page only'
+      OnExecute = PrintCurrentExecute
+    end
   end
   object FilePopupMenu: TPopupMenu
     Images = ImageList1
@@ -1189,16 +1198,6 @@ object MainForm: TMainForm
       Action = PasteFile
     end
   end
-  object SEGReport1: TSEGReport
-    zoom = 50
-    isPortrait = True
-    Left = 256
-    Top = 104
-  end
-  object SEGLibrary1: TSEGLibrary
-    Left = 288
-    Top = 104
-  end
   object MRUFileList: TdfsMRUFileList
     UseRegistry = True
     SubmenuName = 'Reopen'
@@ -1212,5 +1211,15 @@ object MainForm: TMainForm
     AutoSaveKey = 'MRU Items'
     Left = 208
     Top = 104
+  end
+  object SEGReport1: TSEGReport
+    zoom = 50
+    isPortrait = True
+    Left = 240
+    Top = 112
+  end
+  object SEGLibrary1: TSEGLibrary
+    Left = 288
+    Top = 112
   end
 end

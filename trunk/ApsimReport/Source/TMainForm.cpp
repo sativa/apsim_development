@@ -7,6 +7,7 @@
 #include "TRenameFileForm.h"
 #include "TPageSetupForm.h"
 #include <general\vcl_functions.h>
+#include <general\io_functions.h>
 #include <general\inifile.h>
 #include <general\path.h>
 #include <ApsimShared\ApsimSettings.h>
@@ -236,7 +237,12 @@ void __fastcall TMainForm::PageSetupExecute(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::PrintExecute(TObject *Sender)
    {
-   SEGReport1->print();
+   SEGReport1->print(false);
+   }
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::PrintCurrentExecute(TObject *Sender)
+   {
+   SEGReport1->print(true);
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::ZoomEditChange(TObject *Sender)
@@ -288,42 +294,63 @@ void __fastcall TMainForm::MRUFileListMRUItemClick(TObject *Sender,
    }
 //---------------------------------------------------------------------------
 // process the specified command line.
+// e.g. commandline:
+//    apsimreport test.report wmf farm1.out farm2.out ...
+// all are optional.
 //---------------------------------------------------------------------------
 void TMainForm::processCommandLine(AnsiString commandLine)
    {
    vector<string> commandWords;
    Split_string(commandLine.c_str(), " ", commandWords);
-   if (commandWords.size() == 1 || commandWords.size() == 2)
+   if (commandWords.size() >= 1)
       {
       string reportFileName = commandWords[0];
-      string outputFileName;
       open(reportFileName.c_str());
-
-      if (commandWords.size() == 2)
+      if (commandWords.size() >= 2)
          {
-         outputFileName = commandWords[1];
-
-         // get the first file reader and pass the output file to it.
-         TComponent* reportComp = getComponent<TComponent> (SEGReport1, "Report");
-         TApsimFileReader* reader = NULL;
-         for (int componentI = 0; componentI < reportComp->ComponentCount && reader == NULL; componentI++)
-            reader = dynamic_cast<TApsimFileReader*> (reportComp->Components[componentI]);
-         if (reader != NULL)
+         string outputFileName = Path(reportFileName).Get_name();
+         string extension = "." + commandWords[1];
+         if (commandWords.size() >= 3)
             {
-            TStringList* fileNames = new TStringList;
-            fileNames->Add(outputFileName.c_str());
-            reader->filenames = fileNames;
-            delete fileNames;
+            // get the first file reader and pass the output file to it.
+            TComponent* reportComp = getComponent<TComponent> (SEGReport1, "Report");
+            TApsimFileReader* reader = NULL;
+            for (int componentI = 0; componentI < reportComp->ComponentCount && reader == NULL; componentI++)
+               reader = dynamic_cast<TApsimFileReader*> (reportComp->Components[componentI]);
+            if (reader != NULL)
+               {
+               outputFileName = Path(commandWords[2]).Get_name();
+               unsigned posAsterisk = outputFileName.find('*');
+               if (posAsterisk != string::npos)
+                  outputFileName.erase(posAsterisk);
 
-            SEGReport1->refresh();
+               TStringList* fileNames = new TStringList;
+               for (unsigned i = 2; i != commandWords.size(); i++)
+                  {
+                  Path p(commandWords[i]);
+                  vector<string> files;
+                  getDirectoryListing(p.Get_directory(),
+                                      p.Get_name(),
+                                      files,
+                                      FA_NORMAL,
+                                      true);
+                  for (unsigned i = 0; i != files.size(); i++)
+                     fileNames->Add(files[i].c_str());
+                  }
+
+               reader->filenames = fileNames;
+               delete fileNames;
+
+               SEGReport1->refresh();
+               }
             }
+         Path outputPath(reportFileName);
+         outputPath.Set_name(outputFileName.c_str());
+         outputPath.Set_extension(extension.c_str());
+         save(outputPath.Get_path().c_str());
+         Close();
          }
-      else
-         outputFileName = reportFileName;
-
-      Path jpeg(outputFileName.c_str());
-      jpeg.Set_extension(".jpg");
-      save(jpeg.Get_path().c_str());
-      Close();
       }
    }
+//---------------------------------------------------------------------------
+
