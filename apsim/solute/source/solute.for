@@ -100,6 +100,9 @@
  
       else if (Action.eq.ACTION_Process) then
          call solute_get_other_variables ()
+
+      else if (Action.eq.ACTION_Create) then
+         call solute_zero_variables ()
  
       else if (Action.eq.ACTION_Get_variable) then
          call solute_Send_my_variable (Data_string)
@@ -197,6 +200,8 @@
  
       call push_routine (myname)
  
+      g%num_solutes = 0
+
       do 200 solnum = 1, max_solutes
          do 100 layer = 1, max_layer
             g%solute(solnum,layer) = 0.0
