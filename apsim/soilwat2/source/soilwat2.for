@@ -4152,20 +4152,14 @@ cjh         endif
       else
       endif
 
-      if (g_rain .gt. 0.0 .and.
-     :    g_obsrunoff_name .ne. blank) then
+      if (g_obsrunoff_name .ne. blank) then
 
          call get_real_var_optional (unknown_module, 
      :                               g_obsrunoff_name, '()',
      :                               g_obsrunoff, numvals,
      :                               0.0, 1000.0)
 
-         if (numvals .gt. 0) then
-            g_obsrunoff_found = .true.
-         else
-            g_obsrunoff = 0.0
-            g_obsrunoff_found = .false.
-         endif
+         g_obsrunoff_found = numvals .gt. 0
       endif
      
       call pop_routine (my_name)
@@ -4930,7 +4924,6 @@ cjh         endif
       g_sumes2             = 0.0
       g_t                  = 0.0
       g_obsrunoff_name     = blank
-      g_obsrunoff          = 0.0
 
       g_inf_pool           = 0.0
       g_sumes              = 0.0
@@ -5031,6 +5024,8 @@ cjh         endif
       g_infiltration       = 0.0
       g_runoff             = 0.0
       g_num_crops          = 0
+      g_obsrunoff          = 0.0
+      g_obsrunoff_found    = .false.
 
       ! initialise all solute information
 
