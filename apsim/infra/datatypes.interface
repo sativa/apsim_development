@@ -1759,6 +1759,34 @@
          <field name="seed" unit="kg/ha" kind="double" array="T" />
       </type>
 
+      <type name="buystock">
+         <field name="number"           unit=""        kind="integer4"/>
+         <field name="sex"              unit=""        kind="string"/>
+         <field name="age"              unit="months"  kind="double"/>
+         <field name="weight"           unit="kg"      kind="double"/>
+         <field name="fleece_wt"        unit="kg"      kind="double"/>
+         <field name="pregnant"         unit=""        kind="integer4"/>
+         <field name="lactating"        unit=""        kind="integer4"/>
+         <field name="no_young"         unit=""        kind="integer4"/>
+         <field name="young_wt"         unit="kg"      kind="double"/>
+         <field name="young_fleece_wt"  unit="kg"      kind="double"/>
+      </type>
+
+      <type name="removeCropDm">
+        <field name = "dm" array="T">
+          <element>
+            <field name="pool" kind="string"/>
+            <field name="part" kind="string" array="T"/>
+            <field name="dlt" kind="double" array="T"/>
+          </element>
+        </field>
+      </type>
+
+      <type name="removeResidueDm">
+         <field name="dm_type" kind="string" array="T"/>
+         <field name="dlt_residue_dm" kind="single" array="T"/>
+      </type>
+
 </types>
 
 
