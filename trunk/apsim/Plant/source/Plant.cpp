@@ -13196,7 +13196,7 @@ void Plant::get_sw_uptake(protocol::Component *system, protocol::QueryValueData 
 
 void Plant::get_cep(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    system->sendVariable(qd, fabs(g.transpiration_tot));
+    system->sendVariable(qd, (float)fabs(g.transpiration_tot));
 }
 
 
