@@ -50,7 +50,8 @@
   Module = apswim   [gmtb0]     %apsuite\apsim\apswim\apswim.ini [standard]      
   Module = grasp    [all]     [step8]     [swim]     %apsuite\apsim\grasp\grasp.ini [standard]       
   Module = residue2 [gmtb0]     residue2.ini [standard]      
-  Module = surface  [gmtb0]      
+  Module = surface  [gmtb0]
+  Module = canopy    
 
 ! EP effect on Nitrogen uptake
 [apsim.ep-on.control]  
