@@ -19,12 +19,12 @@ RESFILES =
 DEFFILE =
 RESDEPEN = $(RESFILES) TPlease_wait_form.dfm
 LIBFILES = ..\..\shared\aps\aps32.lib ..\..\shared\general\general.lib "C:\Program Files\Borland\CBuilder3\Lib\memmgr.lib"
-LIBRARIES =
-SPARELIBS = VCL35.lib
+LIBRARIES = THIRDPARTY.lib TREE1C3.lib APSUI.lib APSGeneral.lib
+SPARELIBS = VCL35.lib APSGeneral.lib VCLDB35.lib Rxctl.lib VCLX35.lib APSUI.lib TEE4C.lib \
+  TREE1C3.lib THIRDPARTY.lib
 PACKAGES = vclx35.bpi VCL35.bpi vcldb35.bpi vcldbx35.bpi bcbsmp35.bpi dclocx35.bpi \
-  Qrpt35.bpi tee35.bpi teedb35.bpi teeUI35.bpi ibsmp35.bpi NMFast35.bpi \
-  inetdb35.bpi inet35.bpi TeePro35.bpi Rxctl.bpi Rxdb.bpi APSGeneral.bpi \
-  APSData.bpi
+  Qrpt35.bpi tee4c.bpi teedb4c.bpi teeUI4c.bpi ibsmp35.bpi NMFast35.bpi \
+  inetdb35.bpi inet35.bpi TeePro4c.bpi Rxctl.bpi Rxdb.bpi
 # ---------------------------------------------------------------------------
 PATHCPP = .;
 PATHASM = .;
@@ -38,12 +38,12 @@ CFLAG2 = -D_RTLDLL;USEPACKAGES -I$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\sh
   -H=$(BCB)\lib\vcl35.csm
 CFLAG3 = -Tkh30000
 PFLAGS = -D_RTLDLL;USEPACKAGES \
-  -U"c:\program files\borland\cbuilder3\lib";..\..\shared\components\data;..\..\shared\components\general;c:\rx-30\units;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
+  -U..\..\shared\components\thirdparty;..\..\shared\components\ui;"c:\program files\borland\cbuilder3\lib";..\..\shared\components\data;..\..\shared\components\general;c:\rx-30\units;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
   -I$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared -$Y -$W -$O- -v -JPHN -M
 RFLAGS = -D_RTLDLL;USEPACKAGES -i$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
 AFLAGS = /i$(BCB)\include /i$(BCB)\include\vcl /id:\apsuite\shared /d_RTLDLL \
   /dUSEPACKAGES /mx /w2 /zd
-LFLAGS = -L"c:\program files\borland\cbuilder3\lib";..\..\shared\components\data;..\..\shared\components\general;c:\rx-30\units;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
+LFLAGS = -L..\..\shared\components\thirdparty;..\..\shared\components\ui;"c:\program files\borland\cbuilder3\lib";..\..\shared\components\data;..\..\shared\components\general;c:\rx-30\units;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
   -aa -Tpe -x -Gn -v
 IFLAGS =
 # ---------------------------------------------------------------------------
@@ -85,8 +85,10 @@ Count=1
 Item0=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
 
 [HistoryLists\hlLibraryPath]
-Count=1
-Item0=c:\program files\borland\cbuilder3\lib;..\..\shared\components\data;..\..\shared\components\general;c:\rx-30\units;$(BCB)\lib\obj;$(BCB)\lib
+Count=3
+Item0=..\..\shared\components\thirdparty;..\..\shared\components\ui;c:\program files\borland\cbuilder3\lib;..\..\shared\components\data;..\..\shared\components\general;c:\rx-30\units;$(BCB)\lib\obj;$(BCB)\lib
+Item1=..\..\shared\components\ui;c:\program files\borland\cbuilder3\lib;..\..\shared\components\data;..\..\shared\components\general;c:\rx-30\units;$(BCB)\lib\obj;$(BCB)\lib
+Item2=c:\program files\borland\cbuilder3\lib;..\..\shared\components\data;..\..\shared\components\general;c:\rx-30\units;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
