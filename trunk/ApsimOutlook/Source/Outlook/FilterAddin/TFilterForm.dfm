@@ -73,13 +73,326 @@ object FilterForm: TFilterForm
         UpdateOnLoaded = False
         ForceFilterDT = False
         WaitCursor = crSQLWait
-        AdvancedFilter = True
+        AdvancedFilter = False
         FilterOptions = []
         AddTableNames = False
         AllowedUsageIDs = '0'
         EncloseInBrackets = True
+        DefaultTemplates = False
         Fields = <>
         FieldParams = <>
+        Templates = <
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'contains'
+            Filter = ':Field LIKE :Value'
+            UsageID = 1
+            ValuePrefix = '%'
+            ValueSuffix = '%'
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'begins with'
+            Filter = ':Field LIKE :Value'
+            UsageID = 1
+            ValueSuffix = '%'
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'ends with'
+            Filter = ':Field LIKE :Value'
+            UsageID = 1
+            ValuePrefix = '%'
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is (exactly)'
+            Filter = ':Field = :Value'
+            UsageID = 1
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'doesn'#39't contain'
+            Filter = 'NOT (:Field LIKE :Value)'
+            UsageID = 1
+            ValuePrefix = '%'
+            ValueSuffix = '%'
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template'
+            CaptionID = 'is empty'
+            Filter = ':Field IS NULL'
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template'
+            CaptionID = 'is not empty'
+            Filter = ':Field <> NULL'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is (exactly)'
+            Filter = ':Field = :Value'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value1 and :Value2'
+            CaptionID = 'between'
+            Filter = '((:Field >= :Value1) and (:Field <= :Value2))'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'more than'
+            Filter = ':Field > :Value'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'less than'
+            Filter = ':Field < :Value'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'at least'
+            Filter = ':Field >= :Value'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'at most'
+            Filter = ':Field <= :Value'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is (exactly)'
+            Filter = ':Field = :Value'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'after'
+            Filter = ':Field >= :Value'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'before'
+            Filter = ':Field <= :Value'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template :Value1 and :Value2'
+            CaptionID = 'between'
+            Filter = '((:Field >= :Value1) and (:Field <= :Value2))'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template'
+            CaptionID = 'is empty'
+            Filter = ':Field IS NULL'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template'
+            CaptionID = 'is not empty'
+            Filter = ':Field <> NULL'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is ~yesterday~'
+            Filter = '((:Field >= :SYSYESTERDAY) and (:Field < :SYSTODAY))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is ~today~'
+            Filter = '((:Field >= :SYSTODAY) and (:Field < :SYSTOMORROW))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is ~tomorrow~'
+            Filter = '((:Field >= :SYSTOMORROW) and (:Field < :SYSTODP2))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is in the ~last 7 days~'
+            Filter = '((:Field < :SYSTODAY) and (:Field >= :SYSTODM7))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is in the ~next 7 days~'
+            Filter = '((:Field >= :SYSTOMORROW) and (:Field < :SYSTODP8))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is on the ~last week~'
+            Filter = '((:Field < :SYSTODAY) and (:Field >= :SYSLastWeek1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is on ~this week~'
+            Filter = '((:Field < :SYSNextWeek1) and (:Field >= :SYSThisWeek1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is on the ~next week~'
+            Filter = '((:Field < :SYSNextWeek8) and (:Field >= :SYSNextWeek1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is in ~last month~'
+            Filter = '((:Field < :SYSThisMon1) and (:Field >= :SYSLastMon1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is in ~this month~'
+            Filter = '((:Field < :SYSNextMon1) and (:Field >= :SYSThisMon1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is in the ~next month~'
+            Filter = '((:Field < :SYSNextMon32) and (:Field >= :SYSNextMon1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is ~on date~'
+            Filter = '((:Field >= DATE(:Value)) and (:Field < (DATE(:Value)+1)))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is ~on~'
+            Filter = ':Field = :Value'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is ~on or after~'
+            Filter = ':Field >= :Value'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is ~on or before~'
+            Filter = ':Field <= :Value'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template :Value1 and :Value2'
+            CaptionID = 'between'
+            Filter = '((:Field >= :Value1) and (:Field <= :Value2))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is empty'
+            Filter = ':Field IS NULL'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is not empty'
+            Filter = ':Field <> NULL'
+          end
+          item
+            Category = 'Unknown'
+            Caption = ':Field :Template'
+            CaptionID = 'is empty'
+            Filter = ':Field IS NULL'
+          end
+          item
+            Category = 'Unknown'
+            Caption = ':Field :Template'
+            CaptionID = 'is not empty'
+            Filter = ':Field <> NULL'
+          end
+          item
+            Category = 'Boolean'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'equals'
+            Filter = ':Field = :Value'
+          end
+          item
+            Category = 'Boolean'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'not equal to'
+            Filter = ':Field <> :Value'
+          end
+          item
+            Category = 'Boolean'
+            Caption = ':Field :Template'
+            CaptionID = 'is empty'
+            Filter = ':Field IS NULL'
+          end
+          item
+            Category = 'Boolean'
+            Caption = ':Field :Template'
+            CaptionID = 'is not empty'
+            Filter = ':Field <> NULL'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'equals'
+            Filter = ':Field = :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'not equal to'
+            Filter = ':Field <> :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'at most'
+            Filter = ':Field <= :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'at least'
+            Filter = ':Field >= :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'more than'
+            Filter = ':Field > :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'less than'
+            Filter = ':Field < :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value1 and :Value2'
+            CaptionID = 'between'
+            Filter = '((:Field >= :Value1) and (:Field <= :Value2))'
+          end>
         Filtered = True
         OrderByItems = <>
       end
@@ -97,6 +410,16 @@ object FilterForm: TFilterForm
     object Scenario2Sheet: TTabSheet
       Caption = 'Scenario2'
       ImageIndex = 1
+      object FilterCombo2: TComboBox
+        Left = 0
+        Top = 8
+        Width = 524
+        Height = 21
+        Style = csDropDownList
+        ItemHeight = 0
+        TabOrder = 0
+        OnChange = FilterCombo2Change
+      end
       object FilterBox2: TPSCFltBox
         Left = 0
         Top = 32
@@ -123,35 +446,348 @@ object FilterForm: TFilterForm
         DisplayDateTimeFormat.AlwaysY2k = True
         Items = <>
         OnChange = FilterBox2Change
-        TabOrder = 0
+        TabOrder = 1
         UpdateInThread = uiYesOnLoad
         UpdateOnLoaded = False
         ForceFilterDT = False
         WaitCursor = crSQLWait
-        AdvancedFilter = True
+        AdvancedFilter = False
         FilterOptions = []
         AddTableNames = False
         AllowedUsageIDs = '0'
         EncloseInBrackets = True
+        DefaultTemplates = False
         Fields = <>
         FieldParams = <>
+        Templates = <
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'contains'
+            Filter = ':Field LIKE :Value'
+            UsageID = 1
+            ValuePrefix = '%'
+            ValueSuffix = '%'
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'begins with'
+            Filter = ':Field LIKE :Value'
+            UsageID = 1
+            ValueSuffix = '%'
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'ends with'
+            Filter = ':Field LIKE :Value'
+            UsageID = 1
+            ValuePrefix = '%'
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is (exactly)'
+            Filter = ':Field = :Value'
+            UsageID = 1
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'doesn'#39't contain'
+            Filter = 'NOT (:Field LIKE :Value)'
+            UsageID = 1
+            ValuePrefix = '%'
+            ValueSuffix = '%'
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template'
+            CaptionID = 'is empty'
+            Filter = ':Field IS NULL'
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template'
+            CaptionID = 'is not empty'
+            Filter = ':Field <> NULL'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is (exactly)'
+            Filter = ':Field = :Value'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value1 and :Value2'
+            CaptionID = 'between'
+            Filter = '((:Field >= :Value1) and (:Field <= :Value2))'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'more than'
+            Filter = ':Field > :Value'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'less than'
+            Filter = ':Field < :Value'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'at least'
+            Filter = ':Field >= :Value'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'at most'
+            Filter = ':Field <= :Value'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is (exactly)'
+            Filter = ':Field = :Value'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'after'
+            Filter = ':Field >= :Value'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'before'
+            Filter = ':Field <= :Value'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template :Value1 and :Value2'
+            CaptionID = 'between'
+            Filter = '((:Field >= :Value1) and (:Field <= :Value2))'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template'
+            CaptionID = 'is empty'
+            Filter = ':Field IS NULL'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template'
+            CaptionID = 'is not empty'
+            Filter = ':Field <> NULL'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is ~yesterday~'
+            Filter = '((:Field >= :SYSYESTERDAY) and (:Field < :SYSTODAY))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is ~today~'
+            Filter = '((:Field >= :SYSTODAY) and (:Field < :SYSTOMORROW))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is ~tomorrow~'
+            Filter = '((:Field >= :SYSTOMORROW) and (:Field < :SYSTODP2))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is in the ~last 7 days~'
+            Filter = '((:Field < :SYSTODAY) and (:Field >= :SYSTODM7))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is in the ~next 7 days~'
+            Filter = '((:Field >= :SYSTOMORROW) and (:Field < :SYSTODP8))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is on the ~last week~'
+            Filter = '((:Field < :SYSTODAY) and (:Field >= :SYSLastWeek1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is on ~this week~'
+            Filter = '((:Field < :SYSNextWeek1) and (:Field >= :SYSThisWeek1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is on the ~next week~'
+            Filter = '((:Field < :SYSNextWeek8) and (:Field >= :SYSNextWeek1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is in ~last month~'
+            Filter = '((:Field < :SYSThisMon1) and (:Field >= :SYSLastMon1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is in ~this month~'
+            Filter = '((:Field < :SYSNextMon1) and (:Field >= :SYSThisMon1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is in the ~next month~'
+            Filter = '((:Field < :SYSNextMon32) and (:Field >= :SYSNextMon1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is ~on date~'
+            Filter = '((:Field >= DATE(:Value)) and (:Field < (DATE(:Value)+1)))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is ~on~'
+            Filter = ':Field = :Value'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is ~on or after~'
+            Filter = ':Field >= :Value'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is ~on or before~'
+            Filter = ':Field <= :Value'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template :Value1 and :Value2'
+            CaptionID = 'between'
+            Filter = '((:Field >= :Value1) and (:Field <= :Value2))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is empty'
+            Filter = ':Field IS NULL'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is not empty'
+            Filter = ':Field <> NULL'
+          end
+          item
+            Category = 'Unknown'
+            Caption = ':Field :Template'
+            CaptionID = 'is empty'
+            Filter = ':Field IS NULL'
+          end
+          item
+            Category = 'Unknown'
+            Caption = ':Field :Template'
+            CaptionID = 'is not empty'
+            Filter = ':Field <> NULL'
+          end
+          item
+            Category = 'Boolean'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'equals'
+            Filter = ':Field = :Value'
+          end
+          item
+            Category = 'Boolean'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'not equal to'
+            Filter = ':Field <> :Value'
+          end
+          item
+            Category = 'Boolean'
+            Caption = ':Field :Template'
+            CaptionID = 'is empty'
+            Filter = ':Field IS NULL'
+          end
+          item
+            Category = 'Boolean'
+            Caption = ':Field :Template'
+            CaptionID = 'is not empty'
+            Filter = ':Field <> NULL'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'equals'
+            Filter = ':Field = :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'not equal to'
+            Filter = ':Field <> :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'at most'
+            Filter = ':Field <= :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'at least'
+            Filter = ':Field >= :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'more than'
+            Filter = ':Field > :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'less than'
+            Filter = ':Field < :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value1 and :Value2'
+            CaptionID = 'between'
+            Filter = '((:Field >= :Value1) and (:Field <= :Value2))'
+          end>
         Filtered = True
         OrderByItems = <>
       end
-      object FilterCombo2: TComboBox
+    end
+    object Scenario3Sheet: TTabSheet
+      Caption = 'Scenario3'
+      ImageIndex = 2
+      object FilterCombo3: TComboBox
         Left = 0
         Top = 8
         Width = 524
         Height = 21
         Style = csDropDownList
         ItemHeight = 0
-        TabOrder = 1
-        OnChange = FilterCombo2Change
+        TabOrder = 0
+        OnChange = FilterCombo3Change
       end
-    end
-    object Scenario3Sheet: TTabSheet
-      Caption = 'Scenario3'
-      ImageIndex = 2
       object FilterBox3: TPSCFltBox
         Left = 0
         Top = 32
@@ -178,35 +814,348 @@ object FilterForm: TFilterForm
         DisplayDateTimeFormat.AlwaysY2k = True
         Items = <>
         OnChange = FilterBox3Change
-        TabOrder = 0
+        TabOrder = 1
         UpdateInThread = uiYesOnLoad
         UpdateOnLoaded = False
         ForceFilterDT = False
         WaitCursor = crSQLWait
-        AdvancedFilter = True
+        AdvancedFilter = False
         FilterOptions = []
         AddTableNames = False
         AllowedUsageIDs = '0'
         EncloseInBrackets = True
+        DefaultTemplates = False
         Fields = <>
         FieldParams = <>
+        Templates = <
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'contains'
+            Filter = ':Field LIKE :Value'
+            UsageID = 1
+            ValuePrefix = '%'
+            ValueSuffix = '%'
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'begins with'
+            Filter = ':Field LIKE :Value'
+            UsageID = 1
+            ValueSuffix = '%'
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'ends with'
+            Filter = ':Field LIKE :Value'
+            UsageID = 1
+            ValuePrefix = '%'
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is (exactly)'
+            Filter = ':Field = :Value'
+            UsageID = 1
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'doesn'#39't contain'
+            Filter = 'NOT (:Field LIKE :Value)'
+            UsageID = 1
+            ValuePrefix = '%'
+            ValueSuffix = '%'
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template'
+            CaptionID = 'is empty'
+            Filter = ':Field IS NULL'
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template'
+            CaptionID = 'is not empty'
+            Filter = ':Field <> NULL'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is (exactly)'
+            Filter = ':Field = :Value'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value1 and :Value2'
+            CaptionID = 'between'
+            Filter = '((:Field >= :Value1) and (:Field <= :Value2))'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'more than'
+            Filter = ':Field > :Value'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'less than'
+            Filter = ':Field < :Value'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'at least'
+            Filter = ':Field >= :Value'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'at most'
+            Filter = ':Field <= :Value'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is (exactly)'
+            Filter = ':Field = :Value'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'after'
+            Filter = ':Field >= :Value'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'before'
+            Filter = ':Field <= :Value'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template :Value1 and :Value2'
+            CaptionID = 'between'
+            Filter = '((:Field >= :Value1) and (:Field <= :Value2))'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template'
+            CaptionID = 'is empty'
+            Filter = ':Field IS NULL'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template'
+            CaptionID = 'is not empty'
+            Filter = ':Field <> NULL'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is ~yesterday~'
+            Filter = '((:Field >= :SYSYESTERDAY) and (:Field < :SYSTODAY))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is ~today~'
+            Filter = '((:Field >= :SYSTODAY) and (:Field < :SYSTOMORROW))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is ~tomorrow~'
+            Filter = '((:Field >= :SYSTOMORROW) and (:Field < :SYSTODP2))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is in the ~last 7 days~'
+            Filter = '((:Field < :SYSTODAY) and (:Field >= :SYSTODM7))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is in the ~next 7 days~'
+            Filter = '((:Field >= :SYSTOMORROW) and (:Field < :SYSTODP8))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is on the ~last week~'
+            Filter = '((:Field < :SYSTODAY) and (:Field >= :SYSLastWeek1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is on ~this week~'
+            Filter = '((:Field < :SYSNextWeek1) and (:Field >= :SYSThisWeek1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is on the ~next week~'
+            Filter = '((:Field < :SYSNextWeek8) and (:Field >= :SYSNextWeek1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is in ~last month~'
+            Filter = '((:Field < :SYSThisMon1) and (:Field >= :SYSLastMon1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is in ~this month~'
+            Filter = '((:Field < :SYSNextMon1) and (:Field >= :SYSThisMon1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is in the ~next month~'
+            Filter = '((:Field < :SYSNextMon32) and (:Field >= :SYSNextMon1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is ~on date~'
+            Filter = '((:Field >= DATE(:Value)) and (:Field < (DATE(:Value)+1)))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is ~on~'
+            Filter = ':Field = :Value'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is ~on or after~'
+            Filter = ':Field >= :Value'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is ~on or before~'
+            Filter = ':Field <= :Value'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template :Value1 and :Value2'
+            CaptionID = 'between'
+            Filter = '((:Field >= :Value1) and (:Field <= :Value2))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is empty'
+            Filter = ':Field IS NULL'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is not empty'
+            Filter = ':Field <> NULL'
+          end
+          item
+            Category = 'Unknown'
+            Caption = ':Field :Template'
+            CaptionID = 'is empty'
+            Filter = ':Field IS NULL'
+          end
+          item
+            Category = 'Unknown'
+            Caption = ':Field :Template'
+            CaptionID = 'is not empty'
+            Filter = ':Field <> NULL'
+          end
+          item
+            Category = 'Boolean'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'equals'
+            Filter = ':Field = :Value'
+          end
+          item
+            Category = 'Boolean'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'not equal to'
+            Filter = ':Field <> :Value'
+          end
+          item
+            Category = 'Boolean'
+            Caption = ':Field :Template'
+            CaptionID = 'is empty'
+            Filter = ':Field IS NULL'
+          end
+          item
+            Category = 'Boolean'
+            Caption = ':Field :Template'
+            CaptionID = 'is not empty'
+            Filter = ':Field <> NULL'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'equals'
+            Filter = ':Field = :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'not equal to'
+            Filter = ':Field <> :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'at most'
+            Filter = ':Field <= :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'at least'
+            Filter = ':Field >= :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'more than'
+            Filter = ':Field > :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'less than'
+            Filter = ':Field < :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value1 and :Value2'
+            CaptionID = 'between'
+            Filter = '((:Field >= :Value1) and (:Field <= :Value2))'
+          end>
         Filtered = True
         OrderByItems = <>
       end
-      object FilterCombo3: TComboBox
+    end
+    object Scenario4Sheet: TTabSheet
+      Caption = 'Scenario4'
+      ImageIndex = 3
+      object FilterCombo4: TComboBox
         Left = 0
         Top = 8
         Width = 524
         Height = 21
         Style = csDropDownList
         ItemHeight = 0
-        TabOrder = 1
-        OnChange = FilterCombo3Change
+        TabOrder = 0
+        OnChange = FilterCombo4Change
       end
-    end
-    object Scenario4Sheet: TTabSheet
-      Caption = 'Scenario4'
-      ImageIndex = 3
       object FilterBox4: TPSCFltBox
         Left = 0
         Top = 32
@@ -233,30 +1182,333 @@ object FilterForm: TFilterForm
         DisplayDateTimeFormat.AlwaysY2k = True
         Items = <>
         OnChange = FilterBox4Change
-        TabOrder = 0
+        TabOrder = 1
         UpdateInThread = uiYesOnLoad
         UpdateOnLoaded = False
         ForceFilterDT = False
         WaitCursor = crSQLWait
-        AdvancedFilter = True
+        AdvancedFilter = False
         FilterOptions = []
         AddTableNames = False
         AllowedUsageIDs = '0'
         EncloseInBrackets = True
+        DefaultTemplates = False
         Fields = <>
         FieldParams = <>
+        Templates = <
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'contains'
+            Filter = ':Field LIKE :Value'
+            UsageID = 1
+            ValuePrefix = '%'
+            ValueSuffix = '%'
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'begins with'
+            Filter = ':Field LIKE :Value'
+            UsageID = 1
+            ValueSuffix = '%'
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'ends with'
+            Filter = ':Field LIKE :Value'
+            UsageID = 1
+            ValuePrefix = '%'
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is (exactly)'
+            Filter = ':Field = :Value'
+            UsageID = 1
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'doesn'#39't contain'
+            Filter = 'NOT (:Field LIKE :Value)'
+            UsageID = 1
+            ValuePrefix = '%'
+            ValueSuffix = '%'
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template'
+            CaptionID = 'is empty'
+            Filter = ':Field IS NULL'
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template'
+            CaptionID = 'is not empty'
+            Filter = ':Field <> NULL'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is (exactly)'
+            Filter = ':Field = :Value'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value1 and :Value2'
+            CaptionID = 'between'
+            Filter = '((:Field >= :Value1) and (:Field <= :Value2))'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'more than'
+            Filter = ':Field > :Value'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'less than'
+            Filter = ':Field < :Value'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'at least'
+            Filter = ':Field >= :Value'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'at most'
+            Filter = ':Field <= :Value'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is (exactly)'
+            Filter = ':Field = :Value'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'after'
+            Filter = ':Field >= :Value'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'before'
+            Filter = ':Field <= :Value'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template :Value1 and :Value2'
+            CaptionID = 'between'
+            Filter = '((:Field >= :Value1) and (:Field <= :Value2))'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template'
+            CaptionID = 'is empty'
+            Filter = ':Field IS NULL'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template'
+            CaptionID = 'is not empty'
+            Filter = ':Field <> NULL'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is ~yesterday~'
+            Filter = '((:Field >= :SYSYESTERDAY) and (:Field < :SYSTODAY))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is ~today~'
+            Filter = '((:Field >= :SYSTODAY) and (:Field < :SYSTOMORROW))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is ~tomorrow~'
+            Filter = '((:Field >= :SYSTOMORROW) and (:Field < :SYSTODP2))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is in the ~last 7 days~'
+            Filter = '((:Field < :SYSTODAY) and (:Field >= :SYSTODM7))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is in the ~next 7 days~'
+            Filter = '((:Field >= :SYSTOMORROW) and (:Field < :SYSTODP8))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is on the ~last week~'
+            Filter = '((:Field < :SYSTODAY) and (:Field >= :SYSLastWeek1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is on ~this week~'
+            Filter = '((:Field < :SYSNextWeek1) and (:Field >= :SYSThisWeek1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is on the ~next week~'
+            Filter = '((:Field < :SYSNextWeek8) and (:Field >= :SYSNextWeek1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is in ~last month~'
+            Filter = '((:Field < :SYSThisMon1) and (:Field >= :SYSLastMon1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is in ~this month~'
+            Filter = '((:Field < :SYSNextMon1) and (:Field >= :SYSThisMon1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is in the ~next month~'
+            Filter = '((:Field < :SYSNextMon32) and (:Field >= :SYSNextMon1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is ~on date~'
+            Filter = '((:Field >= DATE(:Value)) and (:Field < (DATE(:Value)+1)))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is ~on~'
+            Filter = ':Field = :Value'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is ~on or after~'
+            Filter = ':Field >= :Value'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is ~on or before~'
+            Filter = ':Field <= :Value'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template :Value1 and :Value2'
+            CaptionID = 'between'
+            Filter = '((:Field >= :Value1) and (:Field <= :Value2))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is empty'
+            Filter = ':Field IS NULL'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is not empty'
+            Filter = ':Field <> NULL'
+          end
+          item
+            Category = 'Unknown'
+            Caption = ':Field :Template'
+            CaptionID = 'is empty'
+            Filter = ':Field IS NULL'
+          end
+          item
+            Category = 'Unknown'
+            Caption = ':Field :Template'
+            CaptionID = 'is not empty'
+            Filter = ':Field <> NULL'
+          end
+          item
+            Category = 'Boolean'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'equals'
+            Filter = ':Field = :Value'
+          end
+          item
+            Category = 'Boolean'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'not equal to'
+            Filter = ':Field <> :Value'
+          end
+          item
+            Category = 'Boolean'
+            Caption = ':Field :Template'
+            CaptionID = 'is empty'
+            Filter = ':Field IS NULL'
+          end
+          item
+            Category = 'Boolean'
+            Caption = ':Field :Template'
+            CaptionID = 'is not empty'
+            Filter = ':Field <> NULL'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'equals'
+            Filter = ':Field = :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'not equal to'
+            Filter = ':Field <> :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'at most'
+            Filter = ':Field <= :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'at least'
+            Filter = ':Field >= :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'more than'
+            Filter = ':Field > :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'less than'
+            Filter = ':Field < :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value1 and :Value2'
+            CaptionID = 'between'
+            Filter = '((:Field >= :Value1) and (:Field <= :Value2))'
+          end>
         Filtered = True
         OrderByItems = <>
-      end
-      object FilterCombo4: TComboBox
-        Left = 0
-        Top = 8
-        Width = 524
-        Height = 21
-        Style = csDropDownList
-        ItemHeight = 0
-        TabOrder = 1
-        OnChange = FilterCombo4Change
       end
     end
     object Scenario5Sheet: TTabSheet
@@ -303,13 +1555,326 @@ object FilterForm: TFilterForm
         UpdateOnLoaded = False
         ForceFilterDT = False
         WaitCursor = crSQLWait
-        AdvancedFilter = True
+        AdvancedFilter = False
         FilterOptions = []
         AddTableNames = False
         AllowedUsageIDs = '0'
         EncloseInBrackets = True
+        DefaultTemplates = False
         Fields = <>
         FieldParams = <>
+        Templates = <
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'contains'
+            Filter = ':Field LIKE :Value'
+            UsageID = 1
+            ValuePrefix = '%'
+            ValueSuffix = '%'
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'begins with'
+            Filter = ':Field LIKE :Value'
+            UsageID = 1
+            ValueSuffix = '%'
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'ends with'
+            Filter = ':Field LIKE :Value'
+            UsageID = 1
+            ValuePrefix = '%'
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is (exactly)'
+            Filter = ':Field = :Value'
+            UsageID = 1
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'doesn'#39't contain'
+            Filter = 'NOT (:Field LIKE :Value)'
+            UsageID = 1
+            ValuePrefix = '%'
+            ValueSuffix = '%'
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template'
+            CaptionID = 'is empty'
+            Filter = ':Field IS NULL'
+          end
+          item
+            Category = 'Memo'
+            Caption = ':Field :Template'
+            CaptionID = 'is not empty'
+            Filter = ':Field <> NULL'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is (exactly)'
+            Filter = ':Field = :Value'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value1 and :Value2'
+            CaptionID = 'between'
+            Filter = '((:Field >= :Value1) and (:Field <= :Value2))'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'more than'
+            Filter = ':Field > :Value'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'less than'
+            Filter = ':Field < :Value'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'at least'
+            Filter = ':Field >= :Value'
+          end
+          item
+            Category = 'Text'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'at most'
+            Filter = ':Field <= :Value'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is (exactly)'
+            Filter = ':Field = :Value'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'after'
+            Filter = ':Field >= :Value'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'before'
+            Filter = ':Field <= :Value'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template :Value1 and :Value2'
+            CaptionID = 'between'
+            Filter = '((:Field >= :Value1) and (:Field <= :Value2))'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template'
+            CaptionID = 'is empty'
+            Filter = ':Field IS NULL'
+          end
+          item
+            Category = 'Time'
+            Caption = ':Field :Template'
+            CaptionID = 'is not empty'
+            Filter = ':Field <> NULL'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is ~yesterday~'
+            Filter = '((:Field >= :SYSYESTERDAY) and (:Field < :SYSTODAY))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is ~today~'
+            Filter = '((:Field >= :SYSTODAY) and (:Field < :SYSTOMORROW))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is ~tomorrow~'
+            Filter = '((:Field >= :SYSTOMORROW) and (:Field < :SYSTODP2))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is in the ~last 7 days~'
+            Filter = '((:Field < :SYSTODAY) and (:Field >= :SYSTODM7))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is in the ~next 7 days~'
+            Filter = '((:Field >= :SYSTOMORROW) and (:Field < :SYSTODP8))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is on the ~last week~'
+            Filter = '((:Field < :SYSTODAY) and (:Field >= :SYSLastWeek1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is on ~this week~'
+            Filter = '((:Field < :SYSNextWeek1) and (:Field >= :SYSThisWeek1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is on the ~next week~'
+            Filter = '((:Field < :SYSNextWeek8) and (:Field >= :SYSNextWeek1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is in ~last month~'
+            Filter = '((:Field < :SYSThisMon1) and (:Field >= :SYSLastMon1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is in ~this month~'
+            Filter = '((:Field < :SYSNextMon1) and (:Field >= :SYSThisMon1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is in the ~next month~'
+            Filter = '((:Field < :SYSNextMon32) and (:Field >= :SYSNextMon1))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is ~on date~'
+            Filter = '((:Field >= DATE(:Value)) and (:Field < (DATE(:Value)+1)))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is ~on~'
+            Filter = ':Field = :Value'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is ~on or after~'
+            Filter = ':Field >= :Value'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'is ~on or before~'
+            Filter = ':Field <= :Value'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template :Value1 and :Value2'
+            CaptionID = 'between'
+            Filter = '((:Field >= :Value1) and (:Field <= :Value2))'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is empty'
+            Filter = ':Field IS NULL'
+          end
+          item
+            Category = 'Date'
+            Caption = ':Field :Template'
+            CaptionID = 'is not empty'
+            Filter = ':Field <> NULL'
+          end
+          item
+            Category = 'Unknown'
+            Caption = ':Field :Template'
+            CaptionID = 'is empty'
+            Filter = ':Field IS NULL'
+          end
+          item
+            Category = 'Unknown'
+            Caption = ':Field :Template'
+            CaptionID = 'is not empty'
+            Filter = ':Field <> NULL'
+          end
+          item
+            Category = 'Boolean'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'equals'
+            Filter = ':Field = :Value'
+          end
+          item
+            Category = 'Boolean'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'not equal to'
+            Filter = ':Field <> :Value'
+          end
+          item
+            Category = 'Boolean'
+            Caption = ':Field :Template'
+            CaptionID = 'is empty'
+            Filter = ':Field IS NULL'
+          end
+          item
+            Category = 'Boolean'
+            Caption = ':Field :Template'
+            CaptionID = 'is not empty'
+            Filter = ':Field <> NULL'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'equals'
+            Filter = ':Field = :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'not equal to'
+            Filter = ':Field <> :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'at most'
+            Filter = ':Field <= :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'at least'
+            Filter = ':Field >= :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'more than'
+            Filter = ':Field > :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value'
+            CaptionID = 'less than'
+            Filter = ':Field < :Value'
+          end
+          item
+            Category = 'Number'
+            Caption = ':Field :Template :Value1 and :Value2'
+            CaptionID = 'between'
+            Filter = '((:Field >= :Value1) and (:Field <= :Value2))'
+          end>
         Filtered = True
         OrderByItems = <>
       end
