@@ -242,6 +242,7 @@ void Coordinator::addComponent(const string& compName,
       }
    catch (const runtime_error& error)
       {
+      components.erase(childID);
       delete componentAlias;
       throw;
       }
