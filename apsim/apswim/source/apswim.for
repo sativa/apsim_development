@@ -1344,9 +1344,9 @@ cnh added as per request by Dr Val Snow
       else if (index(Variable_name,'conc_adsorb_').eq.1) then
  
          solname = Variable_name(13:)
-
+ 
          call apswim_conc_adsorb_solute (solname, conc_adsorb_solute)
-
+ 
          call respond2Get_double_array (
      :            Variable_name,
      :            '(ug/g)',
@@ -6552,7 +6552,7 @@ cnh      end if
       call push_routine (myname)
  
       ! calculate value of isotherm function and the derivative.
-
+ 
       if (Cw .gt. 0d0) then
          Ctot = th(node) * Cw + ex(solnum,node) * Cw ** fip(solnum,node)
          dCtot = th(node)
@@ -6563,7 +6563,7 @@ cnh      end if
          Ctot = 0d0
          dCtot = 0d0
       endif
-
+ 
       call pop_routine (myname)
       return
       end
@@ -6636,7 +6636,6 @@ cnh      end if
          do 100 iteration = 1,max_iterations
  
             call apswim_freundlich (node,solnum,Cw,f,dfdCw)
-
             error = f - Ctot
             if (abs(error) .lt. tolerance) then
                solved = .true.
@@ -7731,7 +7730,6 @@ c      pause
 
 *+  Changes
 *     12-06-1997 - huth - Programmed and Specified
-*     20-08-1998 - hills - added checking to make sure solute is found
 
 *+  Calls
       double precision apswim_solve_freundlich
@@ -7753,10 +7751,8 @@ c      pause
       call push_routine (myname)
  
       solnum = apswim_solute_number (solname)
-
-      if (solnum .gt. 0) then
-         ! only continue if solute exists. 
-         call get_double_array (
+ 
+      call get_double_array (
      :           unknown_module,
      :           solname,
      :           n+1,
@@ -7791,14 +7787,6 @@ c      pause
      :         //' solute that is not in the system :-'
      :         //solname)
          endif
-
-      else
-               call fatal_error (Err_User,
-     :            'You have asked apswim to use a'
-     :            //' solute that it does not know about :-'
-     :            //solname)
-      endif
-
  
       call pop_routine (myname)
       return
@@ -7831,8 +7819,6 @@ c      pause
 
 *+  Changes
 *     12-06-1997 - huth - Programmed and Specified
-*     20-08-1998 - hills - added checking to make sure solute is found
-*     21-08-1998 - hills - changed conc_adsorb calculation to be more stable
 
 *+  Calls
       double precision apswim_solve_freundlich
@@ -7857,10 +7843,8 @@ c      pause
       call push_routine (myname)
  
       solnum = apswim_solute_number (solname)
-
-      if (solnum .gt. 0) then
-         ! only continue if solute exists. 
-         call get_double_array (
+ 
+      call get_double_array (
      :           unknown_module,
      :           solname,
      :           n+1,
@@ -7873,54 +7857,34 @@ c      pause
          if (numvals.gt.0) then
  
             do 50 node=0, n
-
-               if (ex(solnum,node).eq. 0.d0) then
-                  conc_adsorb_solute(node) = 0.d0
-               else
-                  ! convert solute from kg/ha to ug/cc soil
-                  ! ug Sol    kg Sol    ug   ha(node)
-                  ! ------- = ------- * -- * -------
-                  ! cc soil   ha(node)  kg   cc soil
+               ! convert solute from kg/ha to ug/cc soil
+               ! ug Sol    kg Sol    ug   ha(node)
+               ! ------- = ------- * -- * -------
+               ! cc soil   ha(node)  kg   cc soil
  
-                  solute_n(node) = solute_n(node)
+               solute_n(node) = solute_n(node)
      :                        * 1d9             ! ug/kg
      :                        / (dx(node)*1d8)  ! cc soil/ha
  
-                  conc_water_solute = apswim_solve_freundlich
+               conc_water_solute = apswim_solve_freundlich
      :                                             (node
      :                                             ,solnum
      :                                             ,solute_n(node))
-
-!                  conc_adsorb_solute(node) =
-!     :              ddivide(solute_n(node) 
-!     :                         - conc_water_solute * th(node)
-!     :                      ,rhob(node)
-!     :                      ,0d0)
-
-                  conc_adsorb_solute(node) = 
-     :                      ex(solnum,node) 
-     :                     * conc_water_solute ** fip(solnum,node)
-
-
-               endif
+ 
+               conc_adsorb_solute(node) =
+     :           ddivide(solute_n(node) - conc_water_solute * th(node)
+     :                  ,rhob(node)
+     :                  ,0d0)
  
    50       continue
  
          else
-               call fatal_error (Err_User,
-     :            'You have asked apswim to use a '
-     :            //' solute that is not in the system :-'
-     :            //solname)
+            call fatal_error (Err_User,
+     :         'You have asked apswim to use a '
+     :         //' solute that is not in the system :-'
+     :         //solname)
          endif
  
-      else
-               call fatal_error (Err_User,
-     :            'You have asked apswim to use a'
-     :            //' solute that it does not know about :-'
-     :            //solname)
-      endif
-
-
       call pop_routine (myname)
       return
       end
