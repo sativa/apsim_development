@@ -1,4 +1,4 @@
-C     Last change:  E    19 Dec 2000    1:10 pm
+C     Last change:  E    10 Jan 2001   12:22 pm
 
 *     ===========================================================
       subroutine crop_dm_potential (current_stage,
@@ -179,10 +179,11 @@ c----------------------------------------------------------------------
 
               
              frac = divide(g_dlt_tt, tt_phase-tt_sum, 0.0)
+             slan = g_lai * frac ** 1.1
 
-             slan = g_lai_stage * frac
+c             frac = divide(tt_sum, tt_phase, 0.0)
+c             slan = g_lai_stage * frac * frac
 
-             slan = g_lai * frac
 
           else
              slan = 0.0
@@ -8531,6 +8532,7 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
       real      tot_lai
       real      slan                  ! leaf area senesced for  normal development (0-1)
       REAL      leaf_no_now
+      INTEGER   current_leafno
       integer   greenlfno
       INTEGER   istage
 
@@ -8547,13 +8549,11 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
           istage = MAX(emerg, INT(g_current_stage))
 
           leaf_no_now = sum_between (emerg, now, g_leaf_no)
-          greenlfno   = 4
+          greenlfno   = 5 !4
 
           !Attention: g_plsc unit is LA per square meter- different from plsc in nwheat (per plant)
-          g_plsc(INT(leaf_no_now)+2) = g_plsc(INT(leaf_no_now)+2)
-     :                               + g_dlt_lai
-
-
+          current_leafno = INT(leaf_no_now) + 1
+          g_plsc(current_leafno) = g_plsc(current_leafno) + g_dlt_lai
 
             !determine the lai at the start day of each stage
           if (on_day_of(flag_leaf, g_current_stage, g_days_tot) .or.
@@ -8565,24 +8565,21 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
           end if
 
 
-
-
-
           if (stage_is_between(emerg, flag_leaf, g_current_stage)) then
 
-             if (leaf_no_now .gt. greenlfno+1) then
+             if (leaf_no_now .gt. greenlfno) then
                 tot_lai = g_slai + g_lai
 
                 if (g_slai/tot_lai .gt. 0.4 .and. g_lai .lt. 6.0) then
                    slan = 0.0
                 else
-                   dyingleaf = INT(leaf_no_now) + 2 - (greenlfno+1)
+                   dyingleaf = current_leafno - greenlfno
 
                    dyingleaf = MAX(1, dyingleaf)
 
-                   !sla per sq meter. Remember g_plsc(0) = g_plsc(1) =0.0
+                   !sla per sq meter. Remember g_plsc(0) =0.0
                    slan = g_plsc(dyingleaf)*g_dlt_tt/p_phyllchron
-                   g_plsc(dyingleaf) = g_plsc (dyingleaf) - slan
+                   !g_plsc(dyingleaf) = g_plsc (dyingleaf) - slan
 
                 endif
              else
@@ -8965,6 +8962,18 @@ c         g_dlt_slai_age = 5* (1 - stress_fact) * g_dlt_slai_age
           slfn = 2.0 - g_nfact_tiller/0.8
           slfn = bound (slfn, 1.0, 2.0)
 
+          !??????????????????????????????????????????????
+          !??????????????????????????????????????????????
+
+          slfw = divide(1.0, g_swdef_photo, 10.0)
+c         slfn = divide(1.0, g_nfact_tiller, 10.0)
+
+          slfw = bound (slfw, 1.0, 10.0)
+c         slfn = bound (slfn, 1.0, 10.0)
+
+          !??????????????????????????????????????????????
+          !??????????????????????????????????????????????
+
           ! high temperature factor
           if (g_maxt .gt. 34.) then ! note that this factor is not continuous
              slft = 4. - (1.-(g_maxt - 34.)/2.)
@@ -8973,6 +8982,11 @@ c         g_dlt_slai_age = 5* (1 - stress_fact) * g_dlt_slai_age
           endif
 
           sfactor = max (slfw, slfn, slft)
+
+
+          if (stage_is_between(emerg, flag_leaf, g_current_stage) ) then
+             sfactor = 1.0
+          endif
 
           !increase slan to account for stresses
 
@@ -8983,9 +8997,9 @@ c         g_dlt_slai_age = 5* (1 - stress_fact) * g_dlt_slai_age
           !Some Housekeeping needed here.!!!!!!!!!!!
           !ew - change g_plsc on the dying leaf
 
-          greenlfno   = 4
+          greenlfno   = 5! 4
           leaf_no_now = sum_between (emerg, now, g_leaf_no)
-          dyingleaf   = MAX(1, INT(leaf_no_now)+2 -(greenlfno+1))
+          dyingleaf   = MAX(1, INT(leaf_no_now)+1 - greenlfno)
 
 
           if (dyingleaf .GE. 1  ) then
@@ -8994,12 +9008,12 @@ c         g_dlt_slai_age = 5* (1 - stress_fact) * g_dlt_slai_age
           end if
 
 
+          !if g_dlt_sla > g_plsc(dyingleaf), other leaves will die too
+          !adjust the plsc leaf area array to reflect leaf senesence
           excess_sla =  MAX(0.0, g_dlt_slai - g_plsc (dyingleaf))
 
-          !adjust the plsc leaf area array to reflect leaf senesence
- 
           if (excess_sla .gt. 0.0) then
-            do counter=1,INT(leaf_no_now)+2
+            do counter=dyingleaf+1,INT(leaf_no_now)+1
               g_plsc(counter) = g_plsc(counter)
      :                        - excess_sla/real(greenlfno)
               g_plsc(counter) = l_bound (g_plsc(counter), 0.0)

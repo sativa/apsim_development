@@ -1,4 +1,4 @@
-C     Last change:  E    20 Dec 2000   11:08 am
+C     Last change:  E    10 Jan 2001    9:54 am
 
 C      INCLUDE 'CropMod.inc'
 
@@ -3126,16 +3126,16 @@ c      endif
      :                g%dlt_slai )
 
 
-         call leaf_senescence_stressed_wheat(
-     :                g%current_stage,
-     :                g%lai,
-     :                dlt_slai_age,
-     :                g%leaf_no,
-     :                g%maxt,
-     :                g%swdef_photo,
-     :                g%nfact_photo,
-     :                g%plsc,
-     :                g%dlt_slai )
+c         call leaf_senescence_stressed_wheat(
+c     :                g%current_stage,
+c     :                g%lai,
+c     :                dlt_slai_age,
+c     :                g%leaf_no,
+c     :                g%maxt,
+c     :                g%swdef_photo,
+c     :                g%nfact_photo,
+c     :                g%plsc,
+c     :                g%dlt_slai )
 
 
       elseif (Option.eq.2) then

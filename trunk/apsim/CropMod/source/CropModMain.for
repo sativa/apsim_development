@@ -1,4 +1,4 @@
-C     Last change:  E    20 Dec 2000   11:00 am
+C     Last change:  E    17 Jan 2001    1:17 pm
 
       INCLUDE 'CropMod.inc'
 
@@ -5481,6 +5481,8 @@ c           string_to_integer_var(value_string, value, numvals)
       c%start_grainno_dm_stage = 0 !stage starting dm accumulation for grain number determination
       c%end_grainno_dm_stage   = 0 !stage ending dm accumulation for grain number determination
 
+      c%start_retrans_dm_stage = 0
+      c%end_retrans_dm_stage   = 0
 
 
 
