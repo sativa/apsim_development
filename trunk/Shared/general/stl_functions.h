@@ -111,7 +111,7 @@ template <class CT1, class CT2>
 void String2double (CT1& source, CT2& dest)
    {
    dest.erase(dest.begin(), dest.end());
-   string2double_and_store<CT2, string> convert(dest);
+   string2double_and_store<CT2, std::string> convert(dest);
    std::for_each(source.begin(), source.end(), convert);
    }
 
@@ -206,7 +206,7 @@ class PGetNameFunction
          : Container (container)
          { }
 
-      void operator () (T arg)
+      void operator () (T* arg)
          {
          Container.push_back (arg->getName());
          };
@@ -248,7 +248,7 @@ template <class T>
 class Find_by_name_predicate
    {
    private:
-      string Name;
+      std::string Name;
    public:
       Find_by_name_predicate(const char* name)
          : Name(name)
@@ -264,7 +264,7 @@ template <class T>
 class Find_by_filename_predicate
    {
    private:
-      string File_name;
+      std::string File_name;
    public:
       Find_by_filename_predicate(const char* file_name)
          : File_name(file_name)
@@ -280,9 +280,17 @@ template <class T>
 class CallbackFunction
    {
    public:
-      virtual void callback(T& x) = 0;
-
+      virtual ~CallbackFunction(void) { };
+      virtual void callback(T x) = 0;
    };
+template <class T>
+class ConstCallbackFunction
+   {
+   public:
+      virtual ~ConstCallbackFunction(void) { };
+      virtual void callback(T x) const = 0;
+   };
+
 template <class CT, class T>
 class GetNameCallback : public CallbackFunction<T>
    {
@@ -290,16 +298,25 @@ class GetNameCallback : public CallbackFunction<T>
       CT& C;
       GetNameCallback(CT& c) : C(c) { }
 
-      virtual void callback(T& t) {C.push_back(t);}
+      virtual void callback(T t) {C.push_back(t.getName());}
+   };
+template <class CT, class T>
+class PGetNameCallback : public CallbackFunction<T*>
+   {
+   public:
+      CT& C;
+      PGetNameCallback(CT& c) : C(c) { }
+
+      virtual void callback(T* t) {C.push_back(t->getName());}
    };
 
 template <class T>
 class PEqualToName
    {
    private:
-      string name;
+      std::string name;
    public:
-      PEqualToName(const string& n)
+      PEqualToName(const std::string& n)
          : name(n) {}
 
       bool operator () (T* arg)
@@ -309,9 +326,9 @@ template <class T>
 class EqualToName
    {
    private:
-      string name;
+      std::string name;
    public:
-      EqualToName(const string& n)
+      EqualToName(const std::string& n)
          : name(n) {}
 
       bool operator () (T& arg)
