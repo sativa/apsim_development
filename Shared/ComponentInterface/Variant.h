@@ -83,6 +83,13 @@ class Variant
          toMessageData << type;
          toMessageData.copyFrom(messageData.start(), messageData.totalBytes());
          }
+      unsigned getLowerBound(void)
+         {
+         if (arraySpecifier == NULL)
+            return 1;
+         else
+            return arraySpecifier->getLowerBound();
+         }
       unsigned size(void) const {return memorySize(type) + messageData.totalBytes();}
       const MessageData& getMessageData(void) const {return messageData;}
 

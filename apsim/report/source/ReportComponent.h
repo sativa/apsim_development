@@ -26,6 +26,7 @@ class Field
       unsigned int fieldWidth;
       std::vector<std::string> values;
       std::string unit;
+      unsigned arrayIndex;
 
       bool getValues(void);
       void calcFieldWidth(protocol::Variant* variant, bool ok);

@@ -79,6 +79,7 @@ bool Field::getValues(void)
       {
       variant->unpack(values);
       unit = asString(variant->getType().getUnits());
+      arrayIndex = variant->getLowerBound();
       if (unit[0] != '(')
          unit = "(" + unit + ")";
       }
@@ -111,10 +112,11 @@ void Field::writeHeadings(ostream& headingOut, ostream& unitOut)
       }
    else
       {
+      
       for (unsigned int v = 0; v < values.size(); v++)
          {
          string arrayVariableName = VariableName + "(";
-         arrayVariableName += IntToStr(v+1).c_str();
+         arrayVariableName += IntToStr(arrayIndex++).c_str();
          arrayVariableName += ")";
          writeTo(headingOut, arrayVariableName);
          writeTo(unitOut, unit);
