@@ -515,18 +515,24 @@ void CompileThread::Cleanup (APSIM_project& apf)
 // ------------------------------------------------------------------
 void CompileThread::CopySwitchesToStream (APSIM_project& apf, ostream& out)
    {
-   // get a list of all compiler switch files for this binary.
-   string SwitchesFile = APSDirectories().Get_home() +
-                             "\\apsbuild\\switches." +
-                             CompileType;
-   if (!FileExists(SwitchesFile.c_str()))
-      SwitchesFile = APSDirectories().Get_home() +
-                             "\\apsbuild\\switches.fig";
+   string extension = "." + CompileType;
+   list<string> Files;
+   GetFilesForCompiler (apf, SWITCHES_KEY, Files);
+   for (list<string>::iterator i = Files.begin();
+                               i != Files.end();
+                               i++)
+      {
+      Path switchPath(i->c_str());
+      switchPath.Set_extension(extension.c_str());
 
-   ifstream in ( SwitchesFile.c_str() );
-   string SwitchLine;
-   getline(in, SwitchLine);
-   out << SwitchLine << std::endl;
+      if (switchPath.Exists())
+         {
+         ifstream in (switchPath.Get_path().c_str() );
+         string SwitchContents;
+         getline(in, SwitchContents, '\0');
+         out << SwitchContents << std::endl;
+         }
+      }
    }
 
 // ------------------------------------------------------------------
