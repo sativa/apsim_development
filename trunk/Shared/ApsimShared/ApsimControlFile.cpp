@@ -297,7 +297,7 @@ void ApsimControlFile::changeModuleName(const std::string& oldModuleName,
    vector<string> lines;
    controlFile.getParamValues("module", lines);
 
-   // loop through all lines looking for a module = oldModuleName
+   // loop through all lines in control file looking for a module = oldModuleName
    for(vector<string>::iterator line = lines.begin();
                                 line != lines.end();
                                 line++)
@@ -316,6 +316,17 @@ void ApsimControlFile::changeModuleName(const std::string& oldModuleName,
          }
       }
    controlFile.setParamValues("module", lines);
+
+   // now go through all sections in all parameters for the module and
+   // rename the module.
+   vector<ApsimParameterFile> files;
+   getParameterFiles(oldModuleName, files);
+   for (vector<ApsimParameterFile>::iterator file = files.begin();
+                                             file != files.end();
+                                             file++)
+      {
+      file->changeModuleName(newModuleName);
+      }
    }
 // ------------------------------------------------------------------
 // Return all the parameter files for the specified section and instance.
