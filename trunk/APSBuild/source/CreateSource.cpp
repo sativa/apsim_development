@@ -64,7 +64,7 @@ std::string ddmlToCPP(const ApsimDataTypeData& dataType)
    else
       {
       st += " kind=\\\"" + dataType.getKind() + "\\\"";
-      st += "/>\n";
+      st += "/>\"\n";
       return st;
       }
 
@@ -106,7 +106,7 @@ std::string ddmlToFOR(const ApsimDataTypeData& dataType)
    else
       {
       st += " kind=\"" + dataType.getKind() + "\"";
-      st += "/>\n";
+      st += "/>'\n";
       return st;
       }
 
