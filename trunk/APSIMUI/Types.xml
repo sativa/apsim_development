@@ -1,7 +1,9 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="shared/ModuleDocumentation.xsl"?>
 <Types>
    <area>
       <UItype>area</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>c:\development\apsimui\images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -11,14 +13,29 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </area>
+   <variables>
+      <ShowInMainTree>No</ShowInMainTree>
+      <SmallIcon>Images\books_blue.png</SmallIcon>
+   </variables>
+   <variable>
+      <ShowInMainTree>No</ShowInMainTree>
+      <SmallIcon>Images\book_blue.png</SmallIcon>
+   </variable>
+   <events>
+      <ShowInMainTree>No</ShowInMainTree>
+      <SmallIcon>Images\books_green.png</SmallIcon>
+   </events>
+   <event>
+      <ShowInMainTree>No</ShowInMainTree>
+      <SmallIcon>Images\book_green.png</SmallIcon>
+   </event>
 
    <simulation>
       <UItype>area</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>c:\development\apsimui\images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -31,7 +48,7 @@
    </simulation>
    <clock>
       <UItype>generic</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>c:\development\apsimui\images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -40,13 +57,26 @@
       <drops>
          <drop name="toolbox"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
+      <variables>
+         <variable name="year" description="Year"/>
+         <variable name="day" description="Day"/>
+         <variable name="month" description="Month"/>
+         <variable name="day_of_month" description="Day of month"/>
+         <variable name="dd/mm/yyyy" description="Date (dd/mm/yyyy)"/>
+         <variable name="dd/mm" description="Date (dd/mm)"/>
+         <variable name="dd_mmm" description="Date (dd_mmm  eg '1_Dec')"/>
+         <variable name="month_str" description="Month string (eg 'Dec')"/>
+      </variables>
+      <events>
+         <event name="prepare" description="Start of daily simulation time step"/>
+         <event name="post" description="End of daily simulation time step"/>
+      </events>
    </clock>
    <summaryfile>
       <UItype>file</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>c:\development\apsimui\images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -55,13 +85,12 @@
       <drops>
          <drop name="toolbox"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </summaryfile>
    <outputfile>
       <UItype>file</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -71,13 +100,12 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </outputfile>
    <metfile>
       <UItype>met</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -87,13 +115,18 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
+      <variables>
+         <variable name="maxt" description="Maximum temperature (oC)"/>
+         <variable name="mint" description="Minimum temperature (oC)"/>
+         <variable name="rain" description="Rainfall (mm)"/>
+         <variable name="radn" description="Solar Radiation (MJ/m2/day)"/>
+      </variables>
    </metfile>
    <logic>
       <UItype>logic</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -103,13 +136,12 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </logic>
    <irrigation>
       <UItype>generic</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -119,29 +151,39 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
+      <variables>
+         <variable name="irrigation" description="Irrigation entering the profile (mm)"/>
+         <variable name="irrig_loss" description="Irrigation losses (mm)"/>
+         <variable name="irrig_tot" description="Total applied irrigation (irrigation + loss) (mm)"/>
+         <variable name="allocation" description="Remaining irrigation allocation (Ml)"/>
+         <variable name="carry_over" description="Carry-over from allocation (Ml)"/>
+         <variable name="irr_fasw" description="Irrigation fraction of available soil water (0-1)"/>
+         <variable name="irr_deficit" description="Water deficit within the critical irrigation soil depth (mm)"/>
+      </variables>
    </irrigation>
-   <log>
+   <fertiliser>
       <UItype>generic</UItype>
-      <MainTree>True</MainTree>
-      <Image>Images\wheat.jpg</Image>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
-      <LargeIcon>Images\debug32.png</LargeIcon>
-      <SmallIcon>Images\debug16.png</SmallIcon>
+      <LargeIcon>images\debug32.png</LargeIcon>
+      <SmallIcon>images\debug16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
-   </log>
+      <variables>
+         <variable name="fertilizer" description="Amount of fertilizer applied (kg/ha)"/>
+      </variables>
+   </fertiliser>
    <soil>
       <UItype>soil</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -151,13 +193,79 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
+     <variables>
+        <folder name="nitrogen">
+            <variable name="no3ppm" array="T" description="NO3 - layered (ppm)"/>
+            <variable name="no3" array="T" description="NO3 - layered (kg/ha)"/>
+            <variable name="nh4ppm" array="T" description="NH4 - layered (ppm)"/>
+            <variable name="nh4" array="T" description="NH4 - layered (kg/ha)"/>
+            <variable name="urea" array="T" description="Urea - layered (ppm)"/>
+            <variable name="fom_c" array="T" description="FOM Carbon - layered (kg/ha)"/>
+            <variable name="fom_n" array="T" description="FOM Nitrogen - layered (kg/ha)"/>
+            <variable name="hum_c" array="T" description="Humic Carbon - layered (kg/ha)"/>
+            <variable name="hum_n" array="T" description="Humic Nitrogen - layered (kg/ha)"/>
+            <variable name="biom_c" array="T" description="Biomass Carbon - layered (kg/ha)"/>
+            <variable name="biom_n" array="T" description="Biomass Nitrogen - layered (kg/ha)"/>
+            <variable name="carbon_tot" description="Total soil Carbon - total (kg/ha)"/>
+            <variable name="nit_tot" description="Total soil Nitrogen - total (kg/ha)"/>
+            <variable name="dnit" array="T" description="denitrification - layered (kg/ha)"/>
+            <variable name="dlt_n_min" array="T" description="N mineralised - layered (kg/ha)"/>
+         </folder>
+         <folder name="water">
+            <variable name="dlayer" array="T" description="Depth - layered (mm)"/>
+            <variable name="ll15" array="T" description="15 Bar Lower limit - layered (mm/mm)"/>
+            <variable name="ll15_dep" array="T" description="15 Bar Lower limit - layered (mm)"/>
+            <variable name="dul" array="T" description="Drained upper limit - layered (mm/mm)"/>
+            <variable name="dul_dep" array="T" description="Drained upper limit - layered (mm)"/>
+            <variable name="sat" array="T" description="Saturation - layered (mm/mm)"/>
+            <variable name="sat_dep" array="T" description="Saturation - layered (mm)"/>
+            <variable name="air_dry" array="T" description="Air dry - layered (mm/mm)"/>
+            <variable name="air_dry_dep" array="T" description="Air dry - layered (mm)"/>
+            <variable name="sw" array="T" description="Soil water - layered (mm/mm)"/>
+            <variable name="sw_dep" array="T" description="Soil water - layered (mm)"/>
+            <variable name="esw" array="T" description="Extractable Soil Water - all layers (mm)"/>
+            <variable name="es" description="Evaporation (mm)"/>
+            <variable name="eo" description="Potential evapotranspiration (mm)"/>
+            <variable name="eos" description="potential evaporation (mm)"/>
+            <variable name="total_cover" description="Total crop cover"/>
+            <variable name="runoff" description="Runoff (mm)"/>
+            <variable name="drain" description="Drainage (mm)"/>
+            <variable name="flow_water" array="T" description="Water flow from each layer - layered(mm)"/>
+            <variable name="flow_no3" array="T" description="N flow out of each layer - layered (kg/ha)"/>
+            <variable name="eff_rain" description="Effective rainfall (mm)"/>
+            <variable name="pond" description="Surface ponding depth (mm)"/>
+            <variable name="water_table" description="Water table depth (mm)"/>
+            <variable name="infiltration" description="Infiltration (mm)"/>
+         </folder>
+      </variables>
    </soil>
+   <soilp>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\cubes32.png</LargeIcon>
+      <SmallIcon>Images\cubes16.png</SmallIcon>
+      <drops>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables>
+         <variable name="labile_p" array="T" description="Labile Phosphorus - layered (kg/ha)"/>
+         <variable name="banded_p" array="T" description="Banded Phosphorus - layered (kg/ha)"/>
+         <variable name="rock_p" array="T" description="Rock Phosphorus - layered (kg/ha)"/>
+         <variable name="biom_p" array="T" description="Biomass Phosphorus - layered (kg/ha)"/>
+         <variable name="hum_p" array="T" description="Humic Phosphorus - layered (kg/ha)"/>
+         <variable name="fom_p" array="T" description="FOM Phosphorus - layered (kg/ha)"/>
+         <variable name="soil_test_p" array="T" description="Soil Test Phosphorus - layered (kg/ha)"/>
+      </variables>
+   </soilp>
    <swimsoil>
       <UItype>generic</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -167,13 +275,12 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </swimsoil>
    <log>
       <UItype>generic</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -183,13 +290,12 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </log>
    <micromet>
       <UItype>generic</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -199,42 +305,12 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </micromet>
-   <plant>
-      <UItype>crop</UItype>
-      <MainTree>True</MainTree>
-      <Image>Images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
-      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
-      <drops>
-         <drop name="toolbox"/>
-         <drop name="area"/>
-         <drop name="simulation"/>
-         <drop name="shared"/>
-         <drop name="folder"/>
-     </drops>
-   </plant>
-   <crops>
-      <UItype>area</UItype>
-      <MainTree>True</MainTree>
-      <Image>Images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
-      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
-      <drops>
-         <drop name="toolbox"/>
-         <drop name="folder"/>
-     </drops>
-   </crops>
    <stock>
       <UItype>generic</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -244,13 +320,12 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </stock>
    <cattle>
       <UItype>generic</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -262,7 +337,7 @@
    </cattle>
    <sheep>
       <UItype>generic</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -274,7 +349,7 @@
    </sheep>
    <outputfiledescription>
       <UItype>outputfiledescription</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -286,7 +361,7 @@
    </outputfiledescription>
    <manager>
       <UItype>area</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -296,13 +371,12 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </manager>
    <rule>
       <UItype>rule</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -314,7 +388,7 @@
    </rule>
    <vinelogic>
       <UItype>vinelogic</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -324,13 +398,12 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </vinelogic>
    <surfaceom>
       <UItype>generic</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -340,42 +413,102 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </surfaceom>
    <folder>
       <UItype>area</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\folder_closed32.png</LargeIcon>
       <SmallIcon>Images\folder_closed16.png</SmallIcon>
       <drops>
-         <drop name="toolbox"/>
-         <drop name="area"/>
-         <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </folder>
-   <shared>
-      <UItype>area</UItype>
-      <MainTree>True</MainTree>
+   <erosion>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
-      <LargeIcon>Images\folder_closed32.png</LargeIcon>
-      <SmallIcon>Images\folder_closed16.png</SmallIcon>
+      <LargeIcon>Images\cubes32.png</LargeIcon>
+      <SmallIcon>Images\cubes16.png</SmallIcon>
       <drops>
-         <drop name="simulations"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
      </drops>
-   </shared>
+      <variables>
+         <variable name="soil_loss" description="Soil loss (t/ha)"/>
+         <variable name="soil_loss_mm" description="Soil loss (mm)"/>
+         <variable name="sed_conc" description="Sediment concentration (g/l)"/>
+         <variable name="bed_depth" description="Depth to bedrock (mm)"/>
+      </variables>
+   </erosion>
+   <grasp>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\cubes32.png</LargeIcon>
+      <SmallIcon>Images\cubes16.png</SmallIcon>
+      <drops>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables>
+         <variable name="height" description="height: Sward height"/>
+         <variable name="cover_tot" description="cover_tot: Total cover"/>
+         <variable name="green_cover" description="green_cover: Green cover"/>
+         <variable name="cover_green" description="cover_green: Green cover"/>
+         <variable name="crop_type" description="crop_type: Name of crop"/>
+         <variable name="runoff_cover" description ="runoff_cover: Cover"/>
+         <variable name="radn_cover" description ="radn_cover: Cover"/>
+         <variable name="transp_cover" description ="transp_cover: Cover"/>
+         <variable name="clothesline" description ="clothesline: Clothesline effect"/>
+         <variable name="tfact" description ="tfact: Temperature index"/>
+         <variable name="nfact" description ="nfact: Nitrogen index"/>
+         <variable name="vpd_estimation" description ="vpd_estimation: What Grasp used for daily VPD"/>
+         <variable name="tsdm" description ="tsdm: Total standing dry matter"/>
+         <variable name="root_depth" description ="root_depth: depths of roots"/>
+         <variable name="green_leaf" description ="green_leaf: Green leaf pool "/>
+         <variable name="green_stem" description ="green_stem: Green stem pool"/>
+         <variable name="green_pool" description ="green_pool: Green pool"/>
+         <variable name="dead_leaf" description ="dead_leaf: Dead leaf pool"/>
+         <variable name="dead_stem" description ="dead_stem: Dead stem pool"/>
+         <variable name="dead_pool" description ="dead_pool: Dead pool"/>
+         <variable name="basal_area" description ="basal_area: Basal area of tussocks"/>
+         <variable name="acc_growth" description ="acc_growth: Accumulated growth"/>
+         <variable name="ep" description ="ep: Water uptake"/>
+         <variable name="sw_pot" description ="sw_pot: Potential uptake"/>
+         <variable name="sw_index" description ="sw_index: "/>
+         <variable name="growth" description ="growth: daily growth (or death)"/>
+         <variable name="growth_transp" description ="growth_transp: Potential growth by mass flow"/>
+         <variable name="growth_photo" description ="growth_photo: Potential growth by radiation"/>
+         <variable name="growth_regrowth" description ="growth_regrowth: Pot growth basal area"/>
+         <variable name="death" description ="death: Total death"/>
+         <variable name="death_frost" description ="death_frost: Death by frost"/>
+         <variable name="death_frost_leaf" description ="death_frost_leaf: Leaf death by frost"/>
+         <variable name="death_frost_stem" description ="death_frost_stem: Stem death by frost"/>
+         <variable name="death_water" description ="death_water; Leaf death by water stress"/>
+         <variable name="death_water_leaf" description ="death_w_leaf: Leaf death water stress"/>
+         <variable name="death_water_stem" description ="death_w_stem: Stem death by water stress"/>
+         <variable name="death_pheno" description ="death_pheno: Background death"/>
+         <variable name="death_pheno_leaf" description ="death_pheno_leaf: Background leaf death"/>
+         <variable name="death_pheno_stem" description ="death_pheno_stem: Background stem death"/>
+         <variable name="sw_demand" description ="sw_demand: SW demand"/>
+         <variable name="n_uptake" description ="n_uptake: N uptake"/>
+      </variables>
+      <events>
+      </events>
+   </grasp>
 
    <canola>
       <UItype>crop</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -385,13 +518,12 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </canola>
    <chickpea>
       <UItype>crop</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -401,13 +533,12 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </chickpea>
    <cowpea>
       <UItype>crop</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -417,13 +548,12 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </cowpea>
    <fababean>
       <UItype>crop</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -433,13 +563,12 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </fababean>
    <fieldpea>
       <UItype>crop</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -449,13 +578,12 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </fieldpea>
    <lablab>
       <UItype>crop</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -465,13 +593,13 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
+
          <drop name="folder"/>
      </drops>
    </lablab>
    <lucerne>
       <UItype>crop</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -481,13 +609,12 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </lucerne>
    <lupin>
       <UItype>crop</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -497,13 +624,12 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </lupin>
    <maize>
       <UItype>crop</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -513,13 +639,59 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
+      <variables>
+         <variable name="das" description ="Maize Days after sowing"/>
+         <variable name="stage" description ="Maize Phenological stage"/>
+         <variable name="stage_name" description ="Maize Phenological stage name"/>
+         <variable name="dlt_tt" description ="Maize Daily thermal time (oC)"/>
+         <variable name="tt_tot" array="T" description ="Maize Cum. growing degree days since sowing"/>
+         <variable name="flowering_das" description ="Maize Flowering days (days)"/>
+         <variable name="maturity_das" description ="Maize Maturity days (days)"/>
+         <variable name="flowering_date" description ="Maize Flowering date"/>
+         <variable name="maturity_date" description ="Maize Maturity_date"/>
+         <variable name="leaf_no" description ="Maize Leaf number"/>
+         <variable name="leaf_no_dead" description ="Maize Number dead leaves"/>
+         <variable name="height" description ="Maize Height of plant (mm)"/>
+         <variable name="root_depth" description ="Maize Root_depth (mm)"/>
+         <variable name="plants" description ="Maize Plant density (plants/m2)"/>
+         <variable name="grain_no" description ="Maize Grain number (g/m2)"/>
+         <variable name="grain_size" description ="Maize Grain size (g)"/>
+         <variable name="cover_green" description ="Maize Cover green"/>
+         <variable name="cover_tot" description ="Maize Cover total"/>
+         <variable name="slai" description ="Maize Senesced leaf area index"/>
+         <variable name="lai" description ="Maize Leaf area index"/>
+         <variable name="root_wt" description ="Maize Root weight (g/m2)"/>
+         <variable name="leaf_wt" description ="Maize Leaf weight (g/m2)"/>
+         <variable name="stem_wt" description ="Maize Stem weight (g/m2)"/>
+         <variable name="flower_wt" description ="Maize Flower weight (g/m2)"/>
+         <variable name="grain_wt" description ="Maize Grain weight (g/m2)"/>
+         <variable name="yield" description ="Maize Yield (kg/ha)"/>
+         <variable name="biomass" description ="Maize Biomass (kg/ha)"/>
+         <variable name="stover" description ="Maize Stover (kg/ha)"/>
+         <variable name="green_biomass" description ="Maize Green biomass (kg/ha)"/>
+         <variable name="hi" description ="Maize harvest_index"/>
+         <variable name="biomass_n" description ="Maize Total N uptake (g/m2)"/>
+         <variable name="N_conc_grain" description ="Maize grain N concentration (%)"/>
+         <variable name="n_conc_stover" description ="Maize stover N concentration  (%)"/>
+         <variable name="swdef_photo" description ="Maize soil water factor for photosynthesis"/>
+         <variable name="nfact_photo" description ="Maize Nitrogen factor for photosynthesis"/>
+         <variable name="swdef_expan" description ="Maize soil water factor for expansion"/>
+         <variable name="nfact_expan" description ="Maize Nitrogen factor for expansion"/>
+         <variable name="ep" description ="Maize Water Uptake, Ep (mm)"/>
+         <variable name="pfact_photo" description ="Maize Phosphorus factor for photosynthesis"/>
+         <variable name="pfact_pheno" description ="Maize Phosphorus factor for phenology"/>
+         <variable name="pfact_expan" description ="Maize Phosphorus factor for expansion"/>
+         <variable name="plant_p" description ="Maize Total Plant Phosphorus (g/m2)"/>
+         <variable name="biomass_p" description ="Maize Above-ground Phosphorus (g/m2)"/>
+      </variables>
+      <events>
+      </events>
    </maize>
    <mucuna>
       <UItype>crop</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -529,13 +701,12 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </mucuna>
    <mungbean>
       <UItype>crop</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -545,13 +716,12 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </mungbean>
    <navybean>
       <UItype>crop</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -561,13 +731,40 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </navybean>
+   <ozcot>
+      <UItype>crop</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\cubes32.png</LargeIcon>
+      <SmallIcon>Images\cubes16.png</SmallIcon>
+      <drops>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables>
+         <variable name="das" description ="Days after sowing"/>
+         <variable name="sites" description ="No. fruiting sites /m"/>
+         <variable name="squarz" description ="No. squares /m"/>
+         <variable name="bollz" description ="No. bolls /m"/>
+         <variable name="openz" description ="No. open bolls /m"/>
+         <variable name="alint" description ="Lint weight (kg/ha)"/>
+         <variable name="yield" description ="Yield (bales/ha)"/>
+         <variable name="dm" description ="Total biomass (kg/ha)"/>
+         <variable name="lai" description ="Leaf area index"/>
+         <variable name="totnup" description ="Total N uptake (kg/ha)"/>
+         <variable name="evap_plant" description ="Crop transpiration (mm)"/>
+      </variables>
+      <events>
+      </events>
+   </ozcot>
    <peanut>
       <UItype>crop</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -577,13 +774,12 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </peanut>
    <pigeonp>
       <UItype>crop</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -593,13 +789,30 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </pigeonp>
+   <slurp>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\cubes32.png</LargeIcon>
+      <SmallIcon>Images\cubes16.png</SmallIcon>
+      <drops>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables>
+         <variable name="lai" description="Slurp Green leaf area index"></variable>
+         <variable name="cover_green" description="Slurp Green Cover"></variable>
+         <variable name="ep" description="Slurp water use - (mm)"></variable>
+      </variables>
+   </slurp>
    <sorghum>
       <UItype>crop</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -609,13 +822,12 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </sorghum>
    <soybean>
       <UItype>crop</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -625,13 +837,12 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </soybean>
    <stylo>
       <UItype>crop</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -641,13 +852,66 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </stylo>
+   <sugar>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\cubes32.png</LargeIcon>
+      <SmallIcon>Images\cubes16.png</SmallIcon>
+      <drops>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables>
+         <variable name="stage_name" description ="Sugar Stage name"/>
+         <variable name="crop_status" description ="Sugar Crop status (dead,alive,out)"/>
+         <variable name="ratoon_no" description ="Sugar Ratoon number"/>
+         <variable name="ep" description ="Sugar daily crop water uptake (mm)"/>
+         <variable name="dm_senesced" array="T" description ="Sugar senesced plant material (trash) (g/m2)"/>
+         <variable name="n_senesced" array="T" description ="Sugar N in trash (g/m2)"/>
+         <variable name="rlv" description ="Sugar root length density for each layer (mm/mm3)"/>
+         <variable name="cep" description ="Sugar cumulative crop water uptake (mm)"/>
+         <variable name="biomass" description ="Sugar total above-ground biomass (green + trash) (g/m2)"/>
+         <variable name="green_biomass" description ="Sugar green biomass (g/m2)"/>
+         <variable name="biomass_n" description ="Sugar total N in biomass (green + trash) (g/m2)"/>
+         <variable name="cane_wt" description ="Sugar cane dry weight (g/m2)"/>
+         <variable name="canefw" description ="Sugar cane fresh weight (t/ha)"/>
+         <variable name="n_conc_cab" description ="Sugar N concentration in cabbage (g/g)"/>
+         <variable name="n_conc_cane" description ="Sugar N concentration in cane (g/g)"/>
+         <variable name="n_conc_leaf" description ="Sugar N concentration in green leaf (g/g)"/>
+         <variable name="stage" description ="Sugar current phenological stage"/>
+         <variable name="dlt_dm" description ="Sugar daily biomass production (g/m2)"/>
+         <variable name="leaf_wt" description ="Sugar leaf weight (g/m2)"/>
+         <variable name="root_wt" description ="Sugar root weight (g/m2)"/>
+         <variable name="sstem_wt" description ="Sugar structural stem weight (g/m2)"/>
+         <variable name="sucrose_wt" description ="Sugar sucrose weight (g/m2)"/>
+         <variable name="cabbage_wt" description ="Sugar cabbage weight (g/m2)"/>
+         <variable name="lai" description ="Sugar green leaf area index"/>
+         <variable name="tlai" description ="Sugar total leaf area index (green and senesced)"/>
+         <variable name="root_depth" description ="Sugar depth of roots (mm)"/>
+         <variable name="slai" description ="Sugar senesced leaf area index"/>
+         <variable name="sw_demand" description ="Sugar crop demand for water (potential uptake) (mm)"/>
+         <variable name="green_biomass_n" description ="Sugar green biomass N (g/m2)"/>
+         <variable name="n_demand" description ="Sugar nitrogen demand (g/m2)"/>
+         <variable name="nfact_photo" description ="Sugar Nitrogen stress factor on photosynthesis (0-1)"/>
+         <variable name="nfact_expan" description ="Sugar Nitrogen stress factor on cell expansion (0-1)"/>
+         <variable name="swdef_pheno" description ="Sugar water stress factor on phenology (0-1)"/>
+         <variable name="swdef_photo" description ="Sugar water stress factor on photosynthesis (0-1)"/>
+         <variable name="swdef_expan" description ="Sugar water stress factor on cell expansion (0-1)"/>
+         <variable name="das" description ="Sugar days after sowing"/>
+         <variable name="ep" description ="Sugar daily crop water uptake, Ep (mm)"/>
+      </variables>
+      <events>
+      </events>
+   </sugar>
    <sunflower>
       <UItype>crop</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -657,13 +921,58 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
+      <variables>
+         <variable name="das" description ="Sunflower days after sowing"/>
+         <variable name="plant_status" description ="Sunflower plant status"/>
+         <variable name="flowering_date" description ="Sunflower flowering date"/>
+         <variable name="maturity_date" description ="Sunflower maturity date"/>
+         <variable name="leaf_no" description ="Sunflower leaf number"/>
+         <variable name="height" description ="Sunflower height (mm)"/>
+         <variable name="grain_no" description ="Sunflower grain number"/>
+         <variable name="grain_size" description ="Sunflower grain size (g)"/>
+         <variable name="cover_green" description ="Sunflower Cover Green"/>
+         <variable name="cover_tot" description ="Sunflower Cover total"/>
+         <variable name="lai" description ="Sunflower leaf area index"/>
+         <variable name="root_depth" description ="Sunflower root depth (mm)"/>
+         <variable name="root_length" description ="Sunflower root length (mm)"/>
+         <variable name="transp_eff" description ="Sunflower transpiration efficiency"/>
+         <variable name="leaf_wt" description ="Sunflower leaf weight (g/m^2)"/>
+         <variable name="stem_wt" description ="Sunflower stem weight (g/m^2)"/>
+         <variable name="flower_wt" description ="Sunflower flower weight (g/m^2)"/>
+         <variable name="grain_wt" description ="Sunflower grain weight (g/m^2)"/>
+         <variable name="root_wt" description ="Sunflower root weight (g/m^2)"/>
+         <variable name="biomass_wt" description ="Sunflower biomass weight (g/m^2)"/>
+         <variable name="yield" description ="Sunflower yield (kg/ha)"/>
+         <variable name="biomass" description ="Sunflower biomass (kg/ha)"/>
+         <variable name="green_biomass" description ="Sunflower green biomass (kg/ha)"/>
+         <variable name="hi" description ="Sunflower harvest index"/>
+         <variable name="swdef_photo" description ="Sunflower water stress factor for photosynthesis"/>
+         <variable name="swdef_pheno" description ="Sunflower water stress factor for phenology"/>
+         <variable name="swdef_expan" description ="Sunflower water stress factor for expansion"/>
+         <variable name="esw_layer" description ="Sunflower extractable soil water - layered"/>
+         <variable name="ep" description ="Sunflower daily water uptake"/>
+         <variable name="sw_supply" description ="Sunflower water supply over all layers"/>
+         <variable name="sw_deficit" description ="Sunflower total water deficit"/>
+         <variable name="sw_demand" description ="Sunflower total crop demand for water "/>
+         <variable name="no3_demand" description ="Sunflower total no3 demand (g/m^2)"/>
+         <variable name="biomass_n" description ="Sunflower total biomass N (kg/ha)"/>
+         <variable name="green_biomass_n" description ="Sunflower total above ground biomass N (kg/ha)"/>
+         <variable name="nfact_photo" description ="Sunflower nitrogen stress factor for photosynthesis"/>
+         <variable name="nfact_pheno" description ="Sunflower nitrogen stress factor for phenology"/>
+         <variable name="nfact_expan" description ="Sunflower nitrogen stress factor for expansion"/>
+         <variable name="pfact_photo" description ="Sunflower phosphorus stress factor for photosynthesis"/>
+         <variable name="pfact_pheno" description ="Sunflower phosphorus stress factor for phenology"/>
+         <variable name="pfact_expan" description ="Sunflower phosphorus stress factor for expansion"/>
+         <variable name="biomass_p" description ="Sunflower total biomass P (kg/ha)"/>
+      </variables>
+      <events>
+      </events>
    </sunflower>
    <weed>
       <UItype>crop</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -673,13 +982,12 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
    </weed>
    <wheat>
       <UItype>crop</UItype>
-      <MainTree>True</MainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
       <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -689,9 +997,9 @@
          <drop name="toolbox"/>
          <drop name="area"/>
          <drop name="simulation"/>
-         <drop name="shared"/>
          <drop name="folder"/>
      </drops>
+      <variables link="plant.xml"/>
    </wheat>
 
 </Types>

@@ -376,7 +376,7 @@ Public Class MainUI
         Me.ToolBar1.Location = New System.Drawing.Point(0, 0)
         Me.ToolBar1.Name = "ToolBar1"
         Me.ToolBar1.ShowToolTips = True
-        Me.ToolBar1.Size = New System.Drawing.Size(1016, 36)
+        Me.ToolBar1.Size = New System.Drawing.Size(1219, 36)
         Me.ToolBar1.TabIndex = 1
         Me.ToolBar1.TextAlign = System.Windows.Forms.ToolBarTextAlign.Right
         '
@@ -411,16 +411,19 @@ Public Class MainUI
         '
         'CutButton
         '
+        Me.CutButton.Enabled = False
         Me.CutButton.ImageIndex = 3
         Me.CutButton.Text = "Cut"
         '
         'copyButton
         '
+        Me.copyButton.Enabled = False
         Me.copyButton.ImageIndex = 4
         Me.copyButton.Text = "Copy"
         '
         'PasteButton
         '
+        Me.PasteButton.Enabled = False
         Me.PasteButton.ImageIndex = 5
         Me.PasteButton.Text = "Paste"
         '
@@ -526,9 +529,9 @@ Public Class MainUI
         'HorizontalSplitter
         '
         Me.HorizontalSplitter.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.HorizontalSplitter.Location = New System.Drawing.Point(0, 282)
+        Me.HorizontalSplitter.Location = New System.Drawing.Point(0, 325)
         Me.HorizontalSplitter.Name = "HorizontalSplitter"
-        Me.HorizontalSplitter.Size = New System.Drawing.Size(1016, 6)
+        Me.HorizontalSplitter.Size = New System.Drawing.Size(1219, 7)
         Me.HorizontalSplitter.TabIndex = 10
         Me.HorizontalSplitter.TabStop = False
         '
@@ -538,9 +541,9 @@ Public Class MainUI
         Me.HelpBrowserPanel.Controls.Add(Me.HelpToolBarPanel)
         Me.HelpBrowserPanel.Controls.Add(Me.CaptionLabel)
         Me.HelpBrowserPanel.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.HelpBrowserPanel.Location = New System.Drawing.Point(0, 288)
+        Me.HelpBrowserPanel.Location = New System.Drawing.Point(0, 332)
         Me.HelpBrowserPanel.Name = "HelpBrowserPanel"
-        Me.HelpBrowserPanel.Size = New System.Drawing.Size(1016, 200)
+        Me.HelpBrowserPanel.Size = New System.Drawing.Size(1219, 231)
         Me.HelpBrowserPanel.TabIndex = 11
         '
         'HelpBrowser
@@ -548,18 +551,18 @@ Public Class MainUI
         Me.HelpBrowser.ContainingControl = Me
         Me.HelpBrowser.Dock = System.Windows.Forms.DockStyle.Fill
         Me.HelpBrowser.Enabled = True
-        Me.HelpBrowser.Location = New System.Drawing.Point(0, 48)
+        Me.HelpBrowser.Location = New System.Drawing.Point(0, 55)
         Me.HelpBrowser.OcxState = CType(resources.GetObject("HelpBrowser.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.HelpBrowser.Size = New System.Drawing.Size(1016, 152)
+        Me.HelpBrowser.Size = New System.Drawing.Size(1219, 176)
         Me.HelpBrowser.TabIndex = 8
         '
         'HelpToolBarPanel
         '
         Me.HelpToolBarPanel.Controls.Add(Me.HelpBrowsertoolBar)
         Me.HelpToolBarPanel.Dock = System.Windows.Forms.DockStyle.Top
-        Me.HelpToolBarPanel.Location = New System.Drawing.Point(0, 20)
+        Me.HelpToolBarPanel.Location = New System.Drawing.Point(0, 23)
         Me.HelpToolBarPanel.Name = "HelpToolBarPanel"
-        Me.HelpToolBarPanel.Size = New System.Drawing.Size(1016, 28)
+        Me.HelpToolBarPanel.Size = New System.Drawing.Size(1219, 32)
         Me.HelpToolBarPanel.TabIndex = 11
         '
         'HelpBrowsertoolBar
@@ -572,7 +575,7 @@ Public Class MainUI
         Me.HelpBrowsertoolBar.Location = New System.Drawing.Point(0, 0)
         Me.HelpBrowsertoolBar.Name = "HelpBrowsertoolBar"
         Me.HelpBrowsertoolBar.ShowToolTips = True
-        Me.HelpBrowsertoolBar.Size = New System.Drawing.Size(1016, 20)
+        Me.HelpBrowsertoolBar.Size = New System.Drawing.Size(1219, 23)
         Me.HelpBrowsertoolBar.TabIndex = 10
         Me.HelpBrowsertoolBar.TextAlign = System.Windows.Forms.ToolBarTextAlign.Right
         '
@@ -606,7 +609,7 @@ Public Class MainUI
         Me.CaptionLabel.ForeColor = System.Drawing.SystemColors.HighlightText
         Me.CaptionLabel.Location = New System.Drawing.Point(0, 0)
         Me.CaptionLabel.Name = "CaptionLabel"
-        Me.CaptionLabel.Size = New System.Drawing.Size(1016, 20)
+        Me.CaptionLabel.Size = New System.Drawing.Size(1219, 23)
         Me.CaptionLabel.TabIndex = 10
         Me.CaptionLabel.Text = "Help Window"
         Me.CaptionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -618,18 +621,18 @@ Public Class MainUI
         'ToolboxPanel
         '
         Me.ToolboxPanel.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.ToolboxPanel.Location = New System.Drawing.Point(0, 81)
+        Me.ToolboxPanel.Location = New System.Drawing.Point(0, 93)
         Me.ToolboxPanel.Name = "ToolboxPanel"
-        Me.ToolboxPanel.Size = New System.Drawing.Size(1016, 201)
+        Me.ToolboxPanel.Size = New System.Drawing.Size(1219, 232)
         Me.ToolboxPanel.TabIndex = 12
         Me.ToolboxPanel.Visible = False
         '
         'ToolBoxSplitter
         '
         Me.ToolBoxSplitter.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.ToolBoxSplitter.Location = New System.Drawing.Point(0, 79)
+        Me.ToolBoxSplitter.Location = New System.Drawing.Point(0, 91)
         Me.ToolBoxSplitter.Name = "ToolBoxSplitter"
-        Me.ToolBoxSplitter.Size = New System.Drawing.Size(1016, 2)
+        Me.ToolBoxSplitter.Size = New System.Drawing.Size(1219, 2)
         Me.ToolBoxSplitter.TabIndex = 13
         Me.ToolBoxSplitter.TabStop = False
         '
@@ -638,13 +641,13 @@ Public Class MainUI
         Me.SimulationPanel.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SimulationPanel.Location = New System.Drawing.Point(0, 36)
         Me.SimulationPanel.Name = "SimulationPanel"
-        Me.SimulationPanel.Size = New System.Drawing.Size(1016, 43)
+        Me.SimulationPanel.Size = New System.Drawing.Size(1219, 55)
         Me.SimulationPanel.TabIndex = 14
         '
         'MainUI
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(1016, 488)
+        Me.AutoScaleBaseSize = New System.Drawing.Size(6, 15)
+        Me.ClientSize = New System.Drawing.Size(1219, 563)
         Me.Controls.Add(Me.SimulationPanel)
         Me.Controls.Add(Me.ToolBoxSplitter)
         Me.Controls.Add(Me.ToolboxPanel)

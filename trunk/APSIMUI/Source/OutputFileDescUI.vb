@@ -154,7 +154,7 @@ Public Class OutputFileDescUI
         DataTree.Sorted = True
         DataTree.CaptionLabel.Text = "Variable and events"
         DataTree.UIManager = UIManager
-        DataTree.VisibleComponentsContext = "VariableTreeComponents"
+        DataTree.ShowAll = True
         DataTree.Data = BuildDataTree()
 
         VariablesListView.Data = MyData
@@ -167,21 +167,13 @@ Public Class OutputFileDescUI
     ' tree control
     ' ------------------------------------
     Private Function BuildDataTree() As APSIMData
+        Dim VariablesXML As String = "<components/>"
 
-        Dim Components As New ComponentDescription
-        Dim VariablesXML As String = "<components>"
-
-        ' For each of the sister components, add a set of variables.
         If mydata.Parent.Type = "outputfile" Then
-            For Each Sister As APSIMData In mydata.Parent.Parent.Children
-                Dim ComponentXML As String = Components.getDescription(Sister)
-                If ComponentXML <> "" Then
-                    VariablesXML = VariablesXML + ComponentXML
-                End If
-            Next
+            Return New APSIMData(UIManager.GetOutputFileDescriptions(mydata.Parent.Parent))
+        Else
+            Return New APSIMData("<components/>")
         End If
-        VariablesXML = VariablesXML + "</components>"
-        Return New APSIMData(VariablesXML)
     End Function
 
     Private Sub DataTree_DataSelectedEvent(ByVal sender As Object, ByVal e As VBGeneral.APSIMData) Handles DataTree.DataSelectedEvent
