@@ -277,32 +277,32 @@
    PEANUT:
        stage    5.0 floral_initiation
                            biomass =          0.6289618       lai =    0.9621032E-02
-                           stover N conc =    4.109756       extractable sw =    45.31715
+                           stover N conc =    4.068322       extractable sw =    45.31715
 29 December 1988 (Day of year=364):
    PEANUT:
        stage    6.0 flowering
                            biomass =           58.96921       lai =    0.9005039    
-                           stover N conc =    2.607475       extractable sw =    205.5345
+                           stover N conc =    2.523592       extractable sw =    205.5345
 19 January 1989 (Day of year=19):
    PEANUT:
        stage    7.0 start_grain_fill
                            biomass =           371.4569       lai =     2.969378    
-                           stover N conc =    2.499977       extractable sw =    203.8266
+                           stover N conc =    2.421297       extractable sw =    203.8266
 4 April 1989 (Day of year=94):
    PEANUT:
        stage    8.0 end_grain_fill
-                           biomass =           1013.523       lai =     4.048454    
-                           stover N conc =    1.196881       extractable sw =    100.5501
+                           biomass =           981.2728       lai =     3.914508    
+                           stover N conc =    1.194232       extractable sw =    106.5749
 10 April 1989 (Day of year=100):
    PEANUT:
        stage    9.0 maturity
-                           biomass =           1023.994       lai =     3.897198    
-                           stover N conc =    1.166170       extractable sw =    79.71542
+                           biomass =           991.6106       lai =     3.763252    
+                           stover N conc =    1.158478       extractable sw =    85.91659
 11 April 1989 (Day of year=101):
    PEANUT:
        stage   10.0 harvest_ripe
-                           biomass =           1023.994       lai =    0.7152557E-06
-                           stover N conc =    1.224315       extractable sw =    75.24185
+                           biomass =           991.6105       lai =    0.7152557E-06
+                           stover N conc =    1.213798       extractable sw =    81.49166
 12 April 1989 (Day of year=102):
    MANAGER:
            Manager sending message :- peanut harvest
@@ -310,20 +310,20 @@
       
       
       
-       flowering day  =  364                  stover (kg/ha) =    6348.8
-       maturity day        =  100             grain yield (kg/ha) =    3891.2
-       grain % water content   =   13.0       grain yield wet (kg/ha) =    4472.6
+       flowering day  =  364                  stover (kg/ha) =    6148.0
+       maturity day        =  100             grain yield (kg/ha) =    3768.1
+       grain % water content   =   13.0       grain yield wet (kg/ha) =    4331.2
        grain wt (g) =     0.000               grains/m^2   =     0.000
-       grains/head =   0.0                    maximum lai = 4.372
-       total above ground biomass (kg/ha) =   10239.9
-       live above ground biomass (kg/ha) =   10239.9
-       green above ground biomass (kg/ha) =    7640.1
-       senesced above ground biomass (kg/ha) =    2599.8
+       grains/head =   0.0                    maximum lai = 4.295
+       total above ground biomass (kg/ha) =    9916.1
+       live above ground biomass (kg/ha) =    9916.1
+       green above ground biomass (kg/ha) =    7387.9
+       senesced above ground biomass (kg/ha) =    2528.2
        dead above ground biomass (kg/ha) =       0.0
        number of leaves = 345.7
-       grain N percent =      5.00            total N content (kg/ha) =    290.28
-       grain N uptake (kg/ha) =    194.56     senesced N content (kg/ha) =     26.00
-       green N content (kg/ha) =     69.72    dead N content (kg/ha) =      0.00
+       grain N percent =      4.98            total N content (kg/ha) =    279.74
+       grain N uptake (kg/ha) =    187.65     senesced N content (kg/ha) =     25.28
+       green N content (kg/ha) =     66.81    dead N content (kg/ha) =      0.00
       
       
       
@@ -341,29 +341,29 @@
       
        stress indices for floral_initiation
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0254017
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0666116
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0926800
       
       
       
        stress indices for flowering
        water stress 1 =       0.0009652   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0023803   nitrogen stress 2 =       0.0020332
+       water stress 2 =       0.0023803   nitrogen stress 2 =       0.0380644
       
       
       
        stress indices for start_grain_fill
-       water stress 1 =       0.2632328   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.3142188   nitrogen stress 2 =       0.0000000
+       water stress 1 =       0.2039994   nitrogen stress 1 =       0.1346007
+       water stress 2 =       0.2508240   nitrogen stress 2 =       0.2822187
          
        Crop harvested.
-                                                tops residue = 6348.8 kg/ha
-                                                tops N =   95.7 kg/ha
-                                                root residue =  133.2 kg/ha
-                                                root N =    1.1 kg/ha
+                                                tops residue = 6148.0 kg/ha
+                                                tops N =   92.1 kg/ha
+                                                root residue =  130.3 kg/ha
+                                                root N =    1.0 kg/ha
       
       
-                                                tops removed = 3891.2 kg/ha
-                                                tops N removed =  194.6 kg/ha
+                                                tops removed = 3768.1 kg/ha
+                                                tops N removed =  187.6 kg/ha
                                                 root removed =    0.0 kg/ha
                                                 root N removed =    0.0 kg/ha
    MANAGER:
@@ -372,8 +372,8 @@
           Crop ended. Yield (dw) =     0.0
                                                 straw residue =    0.0 kg/ha
                                                 straw N =    0.0 kg/ha
-                                                root residue = 1338.5 kg/ha
-                                                root N =   27.4 kg/ha
+                                                root residue = 1309.5 kg/ha
+                                                root N =   26.8 kg/ha
 20 April 1989 (Day of year=110):
    CLOCK:
       Simulation is terminating due to end criteria being met.
