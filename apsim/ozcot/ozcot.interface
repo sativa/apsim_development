@@ -175,8 +175,11 @@ class APSIMOzcotExternal
     no3_min                 : APSIMRealArray        = Minimum allowable NO3 in soil in each layer, (kg/ha), GET, 0.0, 1000.0
     no3                     : APSIMRealArray        = Nitrate nitrogen in each layer, (kg/ha), GET|SET, 0.0, 1000.0
 
-   add_residue             : APSIMAddResidueMethod      = Message to report a residue decomposition
+    add_residue             : APSIMAddResidueMethod      = Message to report a residue decomposition
 
+    hail                    : APSIMEvent                 = Message for hail event
+    tick                    : APSIMClockTickEvent        = Change in the simulation system time and the duration of the new time step
+    newmet                  : APSIMNewMetEvent           = To notify all interested modules in a change in the simulation met data for the current time step
     prepare                : APSIMEvent         = System prepare stage
     process                : APSIMEvent         = System process stage
     post                   : APSIMEvent         = System post stage

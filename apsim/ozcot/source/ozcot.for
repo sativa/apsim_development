@@ -5,21 +5,21 @@
 !     ===========================================================
       use OzcotModule
       implicit none
- 
+
 !+  Sub-Program Arguments
       character InstanceName*(*)       ! (INPUT) name of instance
       integer   InstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Module instantiation routine.
- 
+
 !- Implementation Section ----------------------------------
-               
+
       allocate (Instances(InstanceNo)%gptr)
       allocate (Instances(InstanceNo)%pptr)
       allocate (Instances(InstanceNo)%cptr)
       Instances(InstanceNo)%Name = InstanceName
- 
+
       return
       end
 
@@ -28,40 +28,40 @@
 !     ===========================================================
       use OzcotModule
       implicit none
- 
+
 !+  Sub-Program Arguments
       integer anInstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Module de-instantiation routine.
- 
+
 !- Implementation Section ----------------------------------
-               
+
       deallocate (Instances(anInstanceNo)%gptr)
       deallocate (Instances(anInstanceNo)%pptr)
       deallocate (Instances(anInstanceNo)%cptr)
- 
+
       return
       end
-     
+
 !     ===========================================================
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
       use OzcotModule
       implicit none
- 
+
 !+  Sub-Program Arguments
       integer anInstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Swap an instance into the global 'g' pointer
- 
+
 !- Implementation Section ----------------------------------
-               
+
       g => Instances(anInstanceNo)%gptr
       p => Instances(anInstanceNo)%pptr
       c => Instances(anInstanceNo)%cptr
- 
+
       return
       end
 
@@ -73,6 +73,7 @@
       use OzcotModule
       implicit none
        include 'action.inc'
+       include 'event.inc'
        include 'const.inc'             ! Global constant definitions
        include 'error.pub'
 
@@ -113,6 +114,15 @@
       else if (Action .eq. ACTION_prepare) then
          call ozcot_prepare ()
 
+      elseif (action.eq.EVENT_tick) then
+         call ozcot_ONtick ()
+
+      elseif (action.eq.EVENT_NewMet) then
+         call ozcot_ONNew_Met ()
+
+!      elseif (action.eq.EVENT_Hail) then
+!         call ozcot_ONHail ()
+
       else if (Action.eq.ACTION_Process) then
          if (g%zero_variables) then
             call ozcot_zero_variables()
@@ -142,16 +152,46 @@
             ! not my type!
             call message_unused ()
          endif
- 
+
       elseif (action.eq.ACTION_harvest) then
          if (ozcot_my_type ()) then
                ! harvest crop - turn into residue
-              call ozcot_end_crop ()
+            if (g%crop_in) then
+               call ozcot_manager('harvest', ' ')
+            else
+            endif
+
          else
             ! not my type!
             call message_unused ()
          endif
- 
+
+      elseif (action.eq.ACTION_end_crop) then
+         if (ozcot_my_type ()) then
+               ! end crop - turn into residue
+            if (g%crop_in) then
+               call ozcot_end_crop ()
+            else
+            endif
+         else
+            ! not my type!
+            call message_unused ()
+         endif
+
+      elseif (action.eq.ACTION_kill_crop) then
+         if (ozcot_my_type ()) then
+               ! kill crop - die
+!            call ozcot_kill_crop
+!     :               (
+!     :                g%dm_dead
+!     :              , g%dm_green
+!     :              , g%dm_senesced
+!     :              , g%plant_status
+!     :               )
+         else
+            ! not my type!
+            call message_unused ()
+         endif
       else if (Action .eq. ACTION_End_run) then
          call ozcot_end_run ()
 
@@ -162,8 +202,8 @@
 
       else if (Action.eq.ACTION_Create) then
          call ozcot_zero_all_globals ()
-!cjh         open (100, 'out.txt')
- 
+!jh         open (100, 'out.txt')
+
       else
          ! Don't use message
          call message_unused ()
@@ -211,7 +251,7 @@
       call ozcot_read_constants ()
 !jh      call ozcot_read_param ()
       call ozcot_read_root_params ()
-!cpsc      call init()                      ! now called from o_zero_variables
+!psc      call init()                      ! now called from o_zero_variables
 !jh      call ozcot_initial()
 
       call pop_routine(myname)
@@ -228,10 +268,10 @@
 !obsolete        include 'const.inc'             ! Constant definitions
 !obsolete       include 'read.pub'
 !obsolete       include 'error.pub'
-!obsolete 
+!obsolete
 !obsolete *+  Purpose
 !obsolete *      Read in all parameters from parameter file.
-!obsolete 
+!obsolete
 !obsolete *+  Changes
 !obsolete *      psc - 09/08/93 first go
 !obsolete *      psc - 30/03/94 specified properly
@@ -241,34 +281,34 @@
 !obsolete *      jngh - 30/4/98 kept numvals of ll read as global
 !obsolete *                     made reading of ll optional with a warning error if not found
 !obsolete *                    as ll15 will then be used.
-!obsolete 
+!obsolete
 !obsolete *+  Constant Values
 !obsolete       character  myname*(*)            ! name of subroutine
 !obsolete       parameter (myname = 'ozcot_read_param')
 !obsolete       character  section_name*(*)
 !obsolete       parameter (section_name = 'parameters')
-!obsolete 
+!obsolete
 !obsolete *+  Local Variables
 !obsolete !       integer numvals
-!obsolete 
+!obsolete
 !obsolete *- Implementation Section ----------------------------------
 !obsolete       call push_routine(myname)
 !obsolete !         ! read in title from parameter file
 !obsolete !      call read_char_array (section_name
 !obsolete !     :                     , 'title', 15, '()'
 !obsolete !     :                     , title, numvals)
-!obsolete 
+!obsolete
 !obsolete !         ! read in soil temperature factor from parameter file
 !obsolete !      call read_real_var (section_name
 !obsolete !     :                    , 'asoil', '()'
 !obsolete !     :                     , asoil, numvals
 !obsolete !     :                     , 0.0, 10000.0)
-!obsolete 
+!obsolete
 !obsolete       call read_real_array_optional (section_name
 !obsolete      :                     , 'll', max_layers, '(mm/mm)'
 !obsolete      :                     , p%unul, p%num_ll_vals
 !obsolete      :                     , 0.0, 1.0)
-!obsolete 
+!obsolete
 !obsolete       if (p%num_ll_vals.ne.0) then
 !obsolete          ! LL found
 !obsolete       else
@@ -276,7 +316,7 @@
 !obsolete          call warning_error (err_user
 !obsolete      :         , ' Cotton LL not found. Using Soilwat LL15 instead.' )
 !obsolete       endif
-!obsolete 
+!obsolete
 !obsolete       call pop_routine(myname)
 !obsolete       return
 !obsolete       end
@@ -286,7 +326,7 @@
 *     ===========================================================
       use ozcotModule
       implicit none
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Purpose
 *       Zero all global variables & arrays
@@ -299,12 +339,26 @@
       parameter (my_name  = 'ozcot_zero_all_globals')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
+      g%snaplc   = 0.0
+      c%fert_crit= 0.0
+      c%fert_detect= 0.0
+      g%APPLIED_N = 0.0
+      g%TOTAL_APPLIED = 0.0
+
       g%TITLE  = ' '
+      g%plant_status = status_out
 !jh      g%DAY(:)   = 0.0
 !jh      g%HR(:)    = 0.0
+      g%HAIL_LAG = 0.0
+      g%HAIL = .false.
+      g%wli      = 0.0
+      g%F_LIMITING = 0.0
+      g%smi_row   = 0.0
+      g%smi_pre   = 0.0
+      g%USESKIP   = .false.
       g%TEMPMX   = 0.0
       g%TEMPMN   = 0.0
       g%SOLRAD   = 0.0
@@ -316,12 +370,9 @@
       g%TEMPWT   = 0.0
       g%WIND     = 0.0
       g%TEMPAV   = 0.0
-      g%tempre   = 0.0
-      g%tempyd   = 0.0
-      g%tmean3   = 0.0
       g%HUNITS   = 0.0
       g%ASOIL    = 0.0
-      g%EOS      = 0.0
+!jh v2001      g%EOS      = 0.0
       g%QA       = 0.0
       g%SOLRTO   = 0.0
       g%Q        = 0.0
@@ -332,11 +383,11 @@
       g%EP       = 0.0
       g%ET       = 0.0
       g%HO       = 0.0
-      g%G        = 0.0
+!jh v2001       g%G        = 0.0
       g%TR       = 0.0
-      g%RRIG(:) = 0.0
+!jh v2001       g%RRIG(:) = 0.0
       g%RTSW     = 0.0
-      g%DEFIRG   = 0.0
+!jh v2001      g%DEFIRG   = 0.0
 !jh      c%AMBDA    = 0.0
       g%VPD      = 0.0
       g%BPER     = 0.0
@@ -351,21 +402,25 @@
       g%sat                 = 0.0
       c%UL1                 = 0.0
       g%BULKD(:)            = 0.0
-      g%STEMP               = 0.0
-      g%TRANS(:)            = 0.0
-      g%DEF                 = 0.0
+!jh v2001       g%STEMP               = 0.0
+!jh v2001      g%TRANS(:)            = 0.0
+!jh v2001      g%DEF                 = 0.0
       g%WPWC                = 0.0
       g%WHCSUB              = 0.0
       g%ULSUB               = 0.0
       g%AVSWSM              = 0.0
-      g%TSWL(:)             = 0.0
-      g%SETLYR(:)           = 0.0
+!jh v2001      g%TSWL(:)             = 0.0
+!jh v2001      g%SETLYR(:)           = 0.0
       g%ESUM                = 0.0
       g%ALAI                = 0.0
+      g%ALAI_row            = 0.0
+      g%f_intz              = 0.0
       g%RTDEP               = 0.0
       g%RTGROW              = 0.0
       g%CRSPCE              = 0.0
       g%PPM                 = 0.0
+      g%PPM_target          = 0.0
+      g%PPM_row             = 0.0
       g%SDEPTH              = 0.0
       g%RTDEPM              = 0.0
       g%SHEDLF              = 0.0
@@ -375,6 +430,7 @@
       g%PP                  = 0.0
       g%PS                  = 0.0
       g%FLL                 = 0.0
+      g%initialN            = 0.0
       g%AVAILN              = 0.0
       g%UPTAKN              = 0.0
       g%VEGN                = 0.0
@@ -402,7 +458,7 @@
       g%OPENWT              = 0.0
       p%SQCON           = 0.0
       p%respcon         = 0.0
-      c%POPCON              = 0.0
+      p%POPCON              = 0.0
       p%flai            = 0.0
       p%fcutout         = 0.0
       g%CARCAP              = 0.0
@@ -414,7 +470,7 @@
       g%CARCAP_C            = 0.0
       g%CARCAP_N            = 0.0
       p%scboll          = 0.0
-      c%FBURR               = 0.0
+      p%FBURR               = 0.0
       g%FRUNO(:)          = 0.0
       g%FRUWT(:)          = 0.0
       g%FRMARK(:,:)       = 0.0
@@ -425,7 +481,7 @@
       g%TWATER              = 0.0
       g%ALINT               = 0.0
       g%GROSS_MARG          = 0.0
-      g%DEF_LAST            = 0.0
+!jh v2001      g%DEF_LAST            = 0.0
       g%SQZX                = 0.0
       c%OPEN_DEF            = 0.0
       g%AGRON_INP           = 0.0
@@ -438,7 +494,6 @@
       g%YIELD_OUT           = 0.0
 !jh      c%SOW_SW              = 0.0
       g%s_bed_mi            = 0.0
-      g%s_bed_sat           = 0.0
       g%delay               = 0.0
       g%bpsum(:)          = 0.0
       c%A_ROOT_LEAF         = 0.0
@@ -453,6 +508,21 @@
       g%RESERVE             = 0.0
       g%RES_CAP             = 0.0
       g%ROOT_FEEDBACK       = 0.0
+
+      g%INITIAL             = 0
+      g%NDAY_CO             = 0
+      g%NWET_CO             = 0
+      g%SUM_TMX             = 0.0
+      g%AVE_TX              = 0.0
+      g%DELAY_emerg         = 0.0
+      g%DD_EMERG            = 0.0
+      g%PPM_SOWN            = 0.0
+      g%PPM_EMERGE          = 0.0
+      g%PPM_ESTABLISH       = 0.0
+      g%FAIL_EMRG           = 0.0
+      g%F_DIE               = 0.0
+
+
       c%SPECIFIC_LW         = 0.0
       c%WT_AREA_MAX         = 0.0
 !jh      c%WT_AREA_MIN         = 0.0
@@ -477,22 +547,28 @@
       g%total_n             = 0.0
       g%dn_plant            = 0.0
       g%tsno3               = 0.0
+      g%tsnh4               = 0.0
       g%no3mn(:)            = 0.0
+      g%nh4mn(:)            = 0.0
       g%yest_tsno3          = 0.0
+      g%yest_tsn            = 0.0
+      g%yest_tsnh4          = 0.0
       g%ano3(:)             = 0.0
+      g%anh4(:)             = 0.0
       g%Last_Iday           = 0
 !jh      c%MODE                = 0
       g%IMMO                = 0
       g%IMDY                = 0
       g%IMYR                = 0
       g%JDATE               = 0
-      g%MDPY                = 0
+!jh v2001       g%MDPY                = 0
       g%NLAYR               = 0
+      g%NrtLAYR             = 0
       g%ISW                 = 0
       g%IEMRG               = 0
       g%ISOW                = 0
       g%ISQ                 = 0
-      g%IDATE               = 0
+!jh      g%IDATE               = 0
       g%ILAI                = 0
       g%IDAY                = 0
       g%LFRU(:)             = 0
@@ -510,9 +586,12 @@
       g%N_PICK              = 0
       g%N_DEF               = 0
       g%I_DEF               = 0
+      g%I_DEF2              = 0
+      g%J_DEF               = 0
       g%LAI_INP             = 0
 !jh      c%IWINDOW             = 0
       g%das                 = 0
+      g%days_since_fert     = 0
       g%iend                = 0
       g%idayx               = 0
       g%lastlf              = 0
@@ -524,69 +603,71 @@
       g%Zero_variables      = .false.
       g%sfmcat(:)           = 0.0
       g%nsince = 0
+      g%INITIAL = 0
+      g%nskip   = 0.0
+
 
       c%row_spacing_default           = 0.0
       c%elevation_default   = 0.0
 
-      c%stress_wlog                = 0.0
+      c%watlog_c                = 0.0
+      c%watlog_n                = 0.0
       c%wlog_assimilate_red        = 0.0
       c%wlog_carcap_red            = 0.0
       c%wlog_carcap_red_stress     = 0.0
       c%smi_affect_wlog            = 0.0
       c%days_relief_wlog           = 0
       c%frost_kill_immediate       = 0.0
-      c%frost_kill_immediate_das   = 0
-      c%frost_kill_delayed         = 0.0
-      c%frost_kill_delayed_das     = 0
-      c%frost_kill_delayed_days    = 0
-      c%rtdep_max                  = 0.0  
+      c%rtdep_max                  = 0.0
       c%harvest_n_frac             = 0.0
       c%cutout_smi_crit            = 0.0
-      c%cutout_smi_days            = 0  
-      c%cutout_smi_site_red        = 0.0  
-      c%epcoef1                    = 0.0  
-      c%epcoef2                    = 0.0  
-      c%epcoef_smi_crit            = 0.0  
+      c%cutout_smi_days            = 0
+      c%cutout_smi_site_red        = 0.0
+      c%epcoef1                    = 0.0
+      c%epcoef2                    = 0.0
+      c%epcoef_smi_crit            = 0.0
       c%fbwstr_low                 = 0.0
       c%fbwstr_high                = 0.0
       c%fbwstr_a                   = 0.0
-      c%fbnstr_low                 = 0.0  
-      c%fbnstr_high                = 0.0  
-      c%fbnstr_a                   = 0.0  
+      c%fbnstr_low                 = 0.0
+      c%fbnstr_high                = 0.0
+      c%fbnstr_a                   = 0.0
       c%relp_smi_crit              = 0.0
       c%relp_intercept             = 0.0
       c%relp_slope                 = 0.0
-      c%relp_low                   = 0.0  
-      c%relp_high                  = 0.0  
-      c%relp_a                     = 0.0  
-      c%vsnstr_low                 = 0.0  
-      c%vsnstr_high                = 0.0  
-      c%vsnstr_a                   = 0.0  
-      c%flfsmi_low                 = 0.0  
-      c%flfsmi_high                = 0.0  
-      c%flfsmi_a                   = 0.0  
-      c%vlnstr_low                 = 0.0  
-      c%vlnstr_high                = 0.0  
-      c%vlnstr_a                   = 0.0  
-      c%fw_low                     = 0.0  
-      c%fw_high                    = 0.0  
-      c%fw_a                       = 0.0  
-      c%adjust_low                 = 0.0  
-      c%adjust_high                = 0.0  
-      c%adjust_a                   = 0.0  
-      c%fwstrs_low                 = 0.0  
-      c%fwstrs_high                = 0.0  
+      c%relp_low                   = 0.0
+      c%relp_high                  = 0.0
+      c%relp_a                     = 0.0
+      c%vsnstr_low                 = 0.0
+      c%vsnstr_high                = 0.0
+      c%vsnstr_a                   = 0.0
+      c%flfsmi_low                 = 0.0
+      c%flfsmi_high                = 0.0
+      c%flfsmi_a                   = 0.0
+      c%vlnstr_low                 = 0.0
+      c%vlnstr_high                = 0.0
+      c%vlnstr_a                   = 0.0
+      c%fw_low                     = 0.0
+      c%fw_high                    = 0.0
+      c%fw_a                       = 0.0
+      c%adjust_low                 = 0.0
+      c%adjust_high                = 0.0
+      c%adjust_a                   = 0.0
+      c%fwstrs_low                 = 0.0
+      c%fwstrs_high                = 0.0
       c%fwstrs_a                   = 0.0
       c%smi_delay_crit               = 0.0
       c%cold_shock_delay_crit        = 0.0
       c%cold_shock_delay             = 0.0
+      p%rate_emergence               = 0.0
+      c%nskip_default                = 0.0
 
-      ! OzcotParameters                  
-                                   
-      p%UNUL(:)           = 0.0                             
+      ! OzcotParameters
+
+      p%UNUL(:)           = 0.0
       p%num_ll_vals       = 0
-                                   
-                                                                        
+
+
       call pop_routine (my_name)
       return
       end
@@ -613,12 +694,51 @@
       call push_routine(myname)
 
       call ozcot_initial()
+      g%APPLIED_N = 0.
+      g%TOTAL_APPLIED = 0.
+
       g%das = 0
       g%delay = 0.0
       g%idayx = 0
       p%num_ll_vals = 0
       g%crop_in = .false.
       g%zero_variables = .false.
+
+      g%sumdd         = 0.0
+      g%sites         = 0.0
+      g%squarz        = 0.0
+      g%bollz         = 0.0
+      g%openz         = 0.0
+      g%alint         = 0.0
+      g%bload         = 0.0
+      g%frun          = 0.0
+      g%carcap_c      = 0.0
+      g%carcap_n      = 0.0
+      g%vnstrs        = 0.0
+      g%fnstrs        = 0.0
+      g%dw_total      = 0.0
+      g%total_n       = 0.0
+      g%alint         = 0.0
+      g%alai          = 0.0
+      g%tr            = 0.0
+      g%f_intz        = 0.0
+      g%availn        = 0.0
+      g%uptakn        = 0.0
+      g%tsno3         = 0.0
+      g%yest_tsno3    = 0.0
+      g%tsnh4         = 0.0
+      g%yest_tsnh4    = 0.0
+      g%dn_plant      = 0.0
+      g%rtdep         = 0.0
+      g%s_bed_mi      = 0.0
+      g%smi           = 0.0
+      g%wli           = 0.0
+      g%ep            = 0.0
+      g%eo            = 0.0
+      g%et            = 0.0
+      g%openwt        = 0.0
+      g%sqzx          = 0.0
+      g%alaiz         = 0.0
 
       call pop_routine(myname)
       return
@@ -683,32 +803,8 @@
 
          call Write_string (Event_action)
 
-         res_dm = (g%dw_total - g%openwt / g%rs ) * 10.
-         if (res_dm.le.0.) res_dm = 0.
-         res_N = res_dm * 0.4 / 100.0
-
-         call New_postbox ()
-
-         call post_char_var('dlt_residue_type','()','cotton')
-
-         call post_real_var ('dlt_residue_wt'
-     :                        ,'(kg/ha)'
-     :                        ,res_dm)
-
-         call post_real_var ('dlt_residue_n'
-     :                        ,'(kg/ha)'
-     :                        ,res_N)
-
-         call Action_send (
-     :                              All_active_modules
-     :                            , 'add_residue'
-     :                            , Blank
-     :                            )
-
-         call Delete_postbox ()
-
-         g%crop_in = .false.
-         g%zero_variables = .true.
+         call ozcot_harvest_report ()
+         call ozcot_harvest_update ()
 
       else
          ! Don't know about this event !!!
@@ -744,7 +840,7 @@
       parameter (myname  = 'ozcot_sow')
 
 *+  Local Variables
-!cpsc      character  cv_name*20            ! name of cultivar
+!psc      character  cv_name*20            ! name of cultivar
       character  string*300            ! output string
 
 *- Implementation Section ----------------------------------
@@ -758,13 +854,14 @@
          read (myrecd,*) g%ivar,g%sdepth,g%rs,g%ppm
 
          g%isow = g%jdate
-           g%rtdep=g%sdepth
+         g%rtdep=g%sdepth
          g%ppm = g%ppm/g%rs  !  adjust for non standard rows incl skip
-           g%pp= g%ppm*g%rs
-           g%ps=(1.0/g%rs)/g%pp
-           g%s=g%ps/g%rs
-         g%rrig(sw_sowing) = g%sw               ! soil water at sowing
-         g%iend = 1
+         g%pp= g%ppm*g%rs
+         g%ps=(1.0/g%rs)/g%pp
+         g%s=g%ps/g%rs
+!jh v2001          g%rrig(sw_sowing) = g%sw               ! soil water at sowing
+         g%iend = 0
+         g%plant_status = status_alive
 
              ! report
 
@@ -782,9 +879,9 @@
 
          call write_string (blank)
 
-!cpcs                 ! get cultivar parameters
+!pcs                 ! get cultivar parameters
 
-!cpsc         call cm_cultv (cv_name)
+!psc         call cm_cultv (cv_name)
 
       else
             ! report empty sowing record
@@ -830,44 +927,24 @@
 *+  Local Variables
       logical N_in_system              ! Is there any N in system ?
       integer layer                    ! layer number
+      real    sat(max_layers)        ! saturated moisture content in layer
+      real    dul(max_layers)        ! saturated moisture content in layer
+      real    ll(max_layers)        ! saturated moisture content in layer
+      real    sat_adj(max_layers)        ! saturated moisture content in layer
+      real    ll_adj(max_layers)        ! saturated moisture content in layer
       real    no3(max_layers)        ! soil nitrate kg/ha in layer
+      real    nh4(max_layers)        ! soil ammonium kg/ha in layer
+      real    urea(max_layers)        ! soil ammonium kg/ha in layer
       integer numvals
 
 *- Implementation Section ----------------------------------
       call push_routine(myname)
 
-      call get_integer_var (unknown_module, 'day', '()'
-     :                      , g%jdate, numvals
-     :                      , 1, 366)
-      call get_integer_var (unknown_module, 'year', '()'
-     :                      , g%imyr, numvals
-     :                      , min_year, max_year)
-
-      call get_real_var (unknown_module, 'maxt', '(oC)'
-     :                                  , g%tempmx, numvals
-     :                                  , -100.0, 100.0)
-
-      call get_real_var (unknown_module, 'mint', '(oC)'
-     :                                  , g%tempmn, numvals
-     :                                  , -100.0, 100.0)
-
-
-      g%tempav = (g%tempmx + g%tempmn)/2.
-      g%tmean3 = (g%tempav+g%tempyd+g%tempre)/3. ! mean temperature for g%last 3 days
-      g%tempre = g%tempyd                 ! update previous days temp for tomorrow
-      g%tempyd = g%tempav                 ! update yesterdays temp for tomorrow
-
-      call get_real_var (unknown_module, 'radn', '(Mj/m^2)'
-     :                                  , g%solrad, numvals
-     :                                  , 0.0, 1000.0)
-
-      g%solrad = g%solrad / 0.04186            ! convert to langleys
-
-      call get_real_var (unknown_module, 'rain', '(mm)'
-     :                                  , g%rain, numvals
-     :                                  , 0.0, 1000.0)
-
-      g%rain = g%rain /10.                     ! convert to cm
+      sat(:) = 0.0
+      dul(:) = 0.0
+      ll(:) = 0.0
+      sat_adj(:) = 0.0
+      ll_adj(:) = 0.0
 
       ! Get depths of each layer
 
@@ -879,9 +956,9 @@
 
       ! Get moist bulk density
       call get_real_array (unknown_module, 'bd', max_layers
-     :                                    , '(mm)'
+     :                                    , '(g/cm3)'
      :                                    , g%bulkd, numvals
-     :                                    , 0.0, 1000.0)
+     :                                    , 0.0, 10.0)
 
       if (p%num_ll_vals .eq.0) then
          ! Get unavailable g%sw - use ll15 because crop ll is unavailable
@@ -894,41 +971,53 @@
       endif
 
       ! Get upper limit of available g%sw
-      call get_real_array (unknown_module, 'dul_dep', max_layers
-     :                                    , '(mm)'
-     :                                    , g%ullayr, numvals
-     :                                    , 0.0, 1000.0)
+      call get_real_array (unknown_module, 'dul', max_layers
+     :                                    , '(mm/mm)'
+     :                                    , dul, numvals
+     :                                    , 0.0, 1.0)
 
       ! Get upper limit of available g%sw
-      call get_real_array (unknown_module, 'sat_dep', max_layers
-     :                                    , '(mm)'
-     :                                    , g%stlayr, numvals
-     :                                    , 0.0, 1000.0)
+      call get_real_array (unknown_module, 'sat', max_layers
+     :                                    , '(mm/mm)'
+     :                                    , sat, numvals
+!jh     :                                    , g%stlayr, numvals
+     :                                    , 0.0, 1.0)
 
       ! Convert field capacity relative to wilting point.
       ! convert units to cm and cm/cm
 
       g%rtdepm=0.0
       g%ul=0.0
-!cpc
+!pc
       g%sat = 0.0
       g%wpwc=0.0
 
-!c      ullayr(j) = ullayr(j)*2.      !   simulate skip row
-!c      unul(j)   = unul(j)*2.        !          ditto
+!      ullayr(j) = ullayr(j)*2.      !   simulate skip row
+!      unul(j)   = unul(j)*2.        !          ditto
 
       do 10 Layer = 1, g%nlayr
-         p%unul(layer) = p%unul(layer) * g%dlayr(layer)
-         g%ullayr(Layer) = g%ullayr(Layer) - p%unul(Layer)
-         g%ullayr(layer) = g%ullayr(layer) / g%dlayr(layer)
-         g%stlayr(Layer) = g%stlayr(Layer) - p%unul(Layer)
-         g%stlayr(layer) = g%stlayr(layer) / g%dlayr(layer)
-         p%unul(layer) = p%unul(layer) / g%dlayr(layer)
          g%dlayr_cm(layer)=g%dlayr(layer)/10.
+!         sat_adj(layer) = sat(layer)
+!     :           - (sat(layer)-dul(layer))
+!     :           * 0.54
+!jh         p%unul(layer) = p%unul(layer) * g%dlayr_cm(layer)
+         sat_adj(Layer) = (dul(Layer)-p%unul(Layer))/0.87
+     :                 + p%unul(Layer) ! adjust to match ozcot soil characterisation
+         sat_adj(Layer) = min(sat_adj(layer), sat(layer))
+!         ll_adj(Layer) = sat(layer) - sat_adj(layer) + ll(layer)
+!jh         g%ullayr(Layer) = sat_adj(layer) - ll(layer)
+         g%ullayr(Layer) = sat_adj(layer) - p%unul(layer)
+!jh         g%ullayr(Layer) = min(g%ullayr(Layer)
+!jh     :                        , sat(Layer)-p%unul(Layer)) ! avoid going above sat
+
+!jh         g%ullayr(layer) = g%ullayr(layer) / g%dlayr(layer)
+!jh         g%stlayr(Layer) = g%stlayr(Layer) - p%unul(Layer)
+!jh         g%stlayr(layer) = g%stlayr(layer) / g%dlayr(layer)
+!jh         p%unul(layer) = p%unul(layer) / g%dlayr(layer)
 
          g%rtdepm=g%rtdepm+g%dlayr_cm(layer)       ! depth of profile
          g%ul=g%ul+g%ullayr(layer)*g%dlayr_cm(layer) ! upper limit for profile
-         g%sat=g%sat+g%stlayr(layer)*g%dlayr_cm(layer) ! saturated limit for profile
+!jh         g%sat=g%sat+g%stlayr(layer)*g%dlayr_cm(layer) ! saturated limit for profile
          g%wpwc=g%wpwc+p%unul(layer)*g%dlayr_cm(layer) ! unavailable water content
 10    continue
 
@@ -943,25 +1032,22 @@
      :                                  , 0.0, 1000.0)
 
 
-      call get_real_array (unknown_module, 'sw_dep', max_layers, '(mm)'
+      call get_real_array (unknown_module, 'sw', max_layers, '(mm/mm)'
      :                     , g%swlayr, g%nlayr
-     :                     , 0.0, 1000.0)
-
+     :                     , 0.0, 1.0)
       ! Convert water to plant available  (cm/cm)
 
       do 12 Layer = 1, g%nlayr
-        g%swlayr(Layer) = g%swlayr(Layer) / 10. / g%dlayr_cm(layer)
-     :                - p%unul(Layer)
+!jh        g%swlayr(Layer) = g%swlayr(Layer) - ll_adj(Layer)
+        g%swlayr(Layer) = g%swlayr(Layer) - p%unul(Layer)
         g%swlayr(Layer) = max(0.0, g%swlayr(Layer))
         g%sw_start(layer) = g%swlayr(Layer)
 12    continue
-
       g%s_bed_mi = g%swlayr(1)/g%ullayr(1)        ! seed bed moisture index
-      g%s_bed_sat = max(g%s_bed_sat,g%s_bed_mi)   ! top layer saturated?
 
       !   get initial estimate of available soil no3
       call get_real_array (unknown_module, 'no3_min', max_layers
-     :                                    , '(mm)'
+     :                                    , '(kg/ha)'
      :                                    , g%no3mn, numvals
      :                                    , 0.0, 1000.0)
 
@@ -969,6 +1055,24 @@
      :                                  , max_layers
      :                                  ,'(kg/ha)'
      :                                  , no3, numvals
+     :                                  , 0.0, 1000.0)
+
+      !   get initial estimate of available soil nh4
+      call get_real_array (unknown_module, 'nh4_min', max_layers
+     :                                    , '(kg/ha)'
+     :                                    , g%nh4mn, numvals
+     :                                    , 0.0, 1000.0)
+
+      call get_real_array_optional (unknown_module, 'nh4'
+     :                                  , max_layers
+     :                                  ,'(kg/ha)'
+     :                                  , nh4, numvals
+     :                                  , 0.0, 1000.0)
+
+      call get_real_array_optional (unknown_module, 'urea'
+     :                                  , max_layers
+     :                                  ,'(kg/ha)'
+     :                                  , urea, numvals
      :                                  , 0.0, 1000.0)
 
       ! Need to check for situation of no N in system.
@@ -995,18 +1099,73 @@
         g%ano3(layer) = no3(layer)-g%no3mn(layer)
         g%tsno3 = g%tsno3 + g%ano3(layer)
 20    continue
-!cpc
-         g%availn = g%tsno3
 
-      if (.not. N_in_system) then
-         g%availn = g%tsno3
+      ! Sum soil ammonimum over all layers  (kg/ha)
 
-      else if(g%yest_tsno3.ne.0.) then
-         g%availn = g%availn + g%tsno3 - g%yest_tsno3
+      g%tsnh4 = 0.
+      do 21 Layer = 1, g%nlayr
+        g%anh4(layer) = nh4(layer)-g%nh4mn(layer)
+        g%tsnh4 = g%tsnh4 + g%anh4(layer)
+21    continue
+!pc
+!jh         g%availn = g%tsno3 + g%total_n*10.0
+!jh         g%availn = g%tsno3 + g%tsnh4
 
+!jh      if (.not. N_in_system) then
+!jh         g%availn = g%tsno3
+!jh
+!jh      else if(g%yest_tsno3.ne.0.) then
+!jh         g%availn = g%availn + g%tsno3 - g%yest_tsno3
+!jh
+!jh      else
+!jh         g%availn = g%availn
+!jh      endif
+
+      if ((sum(no3(:)) + sum(nh4(:)) + sum(urea(:))
+     :   .ge. g%yest_tsn+c%fert_detect) .and. g%yest_tsn .gt. 0.0) then   ! is there a fertiliser application?
+            if (.not. g%crop_in) then
+               g%availn = g%yest_tsno3
+               g%SNAPLC = 0.0
+               g%TOTAL_APPLIED = 0.0
+               g%APPLIED_N = 0.0
+               g%days_since_fert = 0
+            else
+            endif
       else
-         g%availn = g%availn
       endif
+
+      if (.not. g%crop_in
+     :    .and. g%days_since_fert .gt. c%days_since_fert_max) then
+         g%availn = 0.0
+         g%SNAPLC = 0.0
+         g%TOTAL_APPLIED = 0.0
+         g%APPLIED_N = 0.0
+         g%days_since_fert = 0
+      else
+         g%days_since_fert = g%days_since_fert + 1
+      endif
+
+      if (g%availn .le. 0.0001 .and. g%crop_in) then
+         g%availn = g%yest_tsno3     !  There has been no fertiliser event before sowing
+      else
+      endif
+
+         !jhnote may be better to use sums from above.
+         !jhnote need to put a limit of 40 days on this before sowing.
+
+      if (g%tsno3 .gt. g%yest_tsno3 .and. g%yest_tsno3 .gt. 0.0) then
+         g%snaplc = g%tsno3 - g%yest_tsno3   ! a possible fertiliser event
+         if (g%snaplc .ge. c%fert_crit .and. g%availn .gt. 0.0) then
+            ! it is a fertiliser event or result of a fertiliser event
+         else
+            g%snaplc = 0.0       ! not a fertiliser event
+         endif
+      else
+         g%snaplc = 0.0          ! not a fertiliser event
+      endif
+
+      g%yest_tsn = sum(no3(:)) + sum(nh4(:)) + sum(urea(:))
+
       call pop_routine(myname)
       return
       end
@@ -1043,20 +1202,27 @@
 *+  Local Variables
       integer Layer                    ! Layer number
       real    sno3(max_layers)       ! available soil nitrate in layer kg/ha
+      real    snh4(max_layers)       ! available soil ammonium in layer kg/ha
+      real    dlt_no3(max_layers)    ! soil NO3 uptake in kg/ha
+      real    dlt_nh4(max_layers)    ! soil Nh4 uptake in kg/ha
       real    dlt_sw_dep(max_layers) ! soil water uptake in layer mm
-!cjh      real    sw_dep(max_layers) ! soil water uptake in layer mm
+      real    trtsno3                ! total no3 in root zone.
+      real    trtsnh4                ! total nh4 in root zone.
+!jh      real    sw_dep(max_layers) ! soil water uptake in layer mm
 
 *- Implementation Section ----------------------------------
       call push_routine(myname)
       ! Convert water from plant available  (cm/cm)
 
       dlt_sw_dep(:) = 0.0
-!cjh      sw_dep(:) = 0.0
+      dlt_no3(:)    = 0.0
+      dlt_nh4(:)    = 0.0
+!jh      sw_dep(:) = 0.0
 
       do 10 Layer = 1, g%nlayr
         dlt_sw_dep(Layer) = (g%swlayr(Layer)- g%sw_start(layer))
      :                       * g%dlayr_cm(layer)*10.0
-     :                    
+     :
         dlt_sw_dep(Layer) = min(0.0, dlt_sw_dep(Layer))
          call bound_check_real_var (dlt_sw_dep(Layer)
      :                           , -g%sw_start(layer)
@@ -1068,40 +1234,66 @@
 
       ! Send updated soil water
 
-!cjh      call set_real_array('sw_dep', swlayr, max_layers, '(mm)')
+!jh      call set_real_array('sw_dep', swlayr, max_layers, '(mm)')
       call Set_real_array (unknown_module, 'dlt_sw_dep', '(mm)'
      :                    , dlt_sw_dep, g%nlayr)
+!jh      call get_real_array (unknown_module, 'sw_dep', max_layers, '(mm)'
+!jh     :                     , sw_dep, g%nlayr
+!jh     :                     , 0.0, 1000.0)
 
-!cjh      call get_real_array (unknown_module, 'sw_dep', max_layers, '(mm)'
-!cjh     :                     , sw_dep, g%nlayr
-!cjh     :                     , 0.0, 1000.0)
-
-!cjh      do 15 Layer = 1, g%nlayr
-!cjh        g%swlayr(Layer) = (g%swlayr(Layer) + p%unul(Layer))*10.
-!cjh     :                * g%dlayr_cm(layer)
-!cjh        g%swlayr(Layer) = max(0.0, g%swlayr(Layer)) - sw_dep(layer)
-!cjh15    continue
-!cjh      write(100,*) sum(g%swlayr)
+!jh      do 15 Layer = 1, g%nlayr
+!jh        g%swlayr(Layer) = (g%swlayr(Layer) + p%unul(Layer))*10.
+!jh     :                * g%dlayr_cm(layer)
+!jh        g%swlayr(Layer) = max(0.0, g%swlayr(Layer)) - sw_dep(layer)
+!jh15    continue
+!jh      write(100,*) sum(g%swlayr)
       ! Send updated soil water
 
 !      call Set_real_array (unknown_module, 'sw_dep', '(mm)'
 !     :                    , g%swlayr, g%nlayr)
       ! extract soil NO3
 
+      trtsno3 = sum(g%ano3(1:g%nrtlayr))
+      trtsnh4 = 0.0
+!jh      trtsnh4 = sum(g%anh4(1:g%nrtlayr))
       do 20 Layer = 1, g%nlayr
-        g%ano3(Layer) = g%ano3(Layer) - (g%dn_plant*10. * g%ano3(Layer)
-     :  / g%tsno3)
-        g%ano3(Layer) = max(0.0, g%ano3(Layer))
-        sNO3(layer) = g%ano3(layer) + g%no3mn(layer)
+         if (trtsno3+ trtsnh4 .gt. 0.0 .and. Layer.le.g%nrtlayr) then
+            dlt_no3(Layer) = -g%dn_plant*10. * g%ano3(Layer)
+     :                     / (trtsno3 + trtsnh4)
+!jh            dlt_nh4(Layer) = -g%dn_plant*10. * g%anh4(Layer)
+!jh     :                     / (trtsno3 + trtsnh4)
+            dlt_no3(layer) = min(0.0, dlt_no3(layer))
+         else
+            dlt_no3(layer) = 0.0
+            dlt_nh4(layer) = 0.0
+         endif
+         g%ano3(Layer) = g%ano3(Layer) + dlt_no3(Layer)
+         g%ano3(Layer) = max(0.0, g%ano3(Layer))
+         sNO3(layer) = g%ano3(layer) + g%no3mn(layer)
+!jh         g%anh4(Layer) = g%anh4(Layer) + dlt_nh4(Layer)
+!jh         g%anh4(Layer) = max(0.0, g%anh4(Layer))
+!jh         sNh4(layer) = g%anh4(layer) + g%nh4mn(layer)
 20    continue
-      g%yest_tsno3 = g%tsno3 - (g%dn_plant*10.)
-
+!jh      if (trtsno3+ trtsnh4 .gt. 0.0) then
+!jh         g%yest_tsno3 = g%tsno3 - (g%dn_plant*10.)
+!jh     :                       * trtsno3 /(trtsno3+trtsnh4)
+!jh         g%yest_tsnh4 = g%tsnh4 - (g%dn_plant*10.)
+!jh     :                       * trtsnh4 /(trtsno3+trtsnh4)
+!jh      else
+!jh         g%yest_tsno3 = 0.0
+!jh         g%yest_tsnh4 = 0.0
+!jh       endif
+      g%yest_tsno3 = g%tsno3
       ! Send updated soil N
 
 
-!cjh      call set_real_array('no3', sno3, nlayr, '(kg/ha)' )
-      call Set_real_array (unknown_module, 'no3', '(kg/ha)'
-     :                    , sno3, g%nlayr)
+!jh      call set_real_array('no3', sno3, nlayr, '(kg/ha)' )
+!jh      call Set_real_array (unknown_module, 'no3', '(kg/ha)'
+!jh     :                    , sno3, g%nlayr)
+      call Set_real_array (unknown_module, 'dlt_no3', '(kg/ha)'
+     :                    , dlt_no3, g%nlayr)
+!jh      call Set_real_array (unknown_module, 'dlt_nh4', '(kg/ha)'
+!jh     :                    , dlt_nh4, g%nlayr)
 
       call pop_routine(myname)
       return
@@ -1141,6 +1333,7 @@
       real    dm                       ! total dry matter kg/ha
       real    totnup                   ! N uptake kg/ha
       real    d_nup                    ! daily N uptake kg/ha
+      real    bollsc
       real    cover
 
 *- Implementation Section ----------------------------------
@@ -1157,23 +1350,47 @@
 
       else if (Variable_name .eq. 'sites') then
          call respond2get_real_var (variable_name
-     :        , '()', g%sites)
+     :        , '(1/m2)', g%sites)
 
       else if (Variable_name .eq. 'squarz') then
          call respond2get_real_var (variable_name
-     :        , '()', g%squarz)
+     :        , '(1/m2)', g%squarz)
 
       else if (Variable_name .eq. 'bollz') then
          call respond2get_real_var (variable_name
-     :        , '()', g%bollz)
+     :        , '(1/m2)', g%bollz)
 
       else if (Variable_name .eq. 'openz') then
          call respond2get_real_var (variable_name
-     :        , '()', g%openz)
+     :        , '(1/m2)', g%openz)
 
       else if (Variable_name .eq. 'alint') then
          call respond2get_real_var (variable_name
-     :        , '()', g%alint)
+     :        , '(kg/ha)', g%alint)
+
+      else if (Variable_name .eq. 'bload') then
+         call respond2get_real_var (variable_name
+     :        , '()', g%bload)
+
+      else if (Variable_name .eq. 'frun') then
+         call respond2get_real_var (variable_name
+     :        , '()', g%frun)
+
+      else if (Variable_name .eq. 'carcap_c') then
+         call respond2get_real_var (variable_name
+     :        , '()', g%carcap_c)
+
+      else if (Variable_name .eq. 'carcap_n') then
+         call respond2get_real_var (variable_name
+     :        , '()', g%carcap_n)
+
+      else if (Variable_name .eq. 'vnstrs') then
+         call respond2get_real_var (variable_name
+     :        , '()', g%vnstrs)
+
+      else if (Variable_name .eq. 'fnstrs') then
+         call respond2get_real_var (variable_name
+     :        , '()', g%fnstrs)
 
       else if (Variable_name .eq. 'dm') then
          dm = g%dw_total * 10.
@@ -1195,22 +1412,22 @@
      :        , '(m^2/m^2)', g%alai)
 
       elseif (variable_name .eq. 'cover_green') then
-         cover = l_bound (1.0 - exp (-ozcot_kvalue * g%alai), 0.0)
+         cover = l_bound (1.0 - g%tr, 0.0)
 
          call respond2get_real_var (variable_name
      :                             , '()'
      :                             , cover)
 
       elseif (variable_name .eq. 'cover_tot') then
-         cover = 1.0 - exp (-ozcot_kvalue * g%alaiz)
+         cover = g%f_intz
 
          call respond2get_real_var (variable_name
      :                             , '()'
      :                             , cover)
 
       elseif (variable_name .eq. 'height') then
-!cnh this is a simple fix only due to the limited future
-!cnh for this module!!!!!
+!nh this is a simple fix only due to the limited future
+!nh for this module!!!!!
          call respond2get_real_var (variable_name
      :                             , '(mm)'
      :                             , 900.0)
@@ -1219,6 +1436,10 @@
          call respond2get_real_var (variable_name
      :        , '(kg/ha)', g%availn)
 
+      else if (Variable_name .eq. 'uptakn') then
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', g%uptakn)
+
       else if (Variable_name .eq. 'tsno3') then
          call respond2get_real_var (variable_name
      :        , '(kg/ha)', g%tsno3)
@@ -1226,6 +1447,14 @@
       else if (Variable_name .eq. 'ysno3') then
          call respond2get_real_var (variable_name
      :        , '(kg/ha)', g%yest_tsno3)
+
+      else if (Variable_name .eq. 'tsnh4') then
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', g%tsnh4)
+
+      else if (Variable_name .eq. 'ysnh4') then
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', g%yest_tsnh4)
 
       else if (Variable_name .eq. 'd_nup') then
          d_nup = g%dn_plant * 10.
@@ -1236,14 +1465,6 @@
          call respond2get_real_var (variable_name
      :        , '(cm)', g%rtdep)
 
-      else if (variable_name .eq. 'tmean3') then
-         call respond2get_real_var (variable_name
-     :        , '(oC)', g%tmean3)
-
-      else if (variable_name .eq. 's_bed_sat') then
-         call respond2get_real_var (variable_name
-     :        , '()', g%s_bed_sat)
-
       else if (variable_name .eq. 's_bed_mi') then
          call respond2get_real_var (variable_name
      :        , '()', g%s_bed_mi)
@@ -1251,6 +1472,10 @@
       else if (variable_name .eq. 'smi') then
          call respond2get_real_var (variable_name
      :        , '()', g%smi)
+
+      else if (variable_name .eq. 'wli') then
+         call respond2get_real_var (variable_name
+     :        , '()', g%wli)
 
       else if (variable_name .eq. 'evap_plant') then
          call respond2get_real_var (variable_name
@@ -1275,6 +1500,27 @@
       else if (variable_name .eq. 'ozcot_status') then
          call respond2get_integer_var (variable_name
      :        , '()', g%iend)
+
+      else if (variable_name .eq. 'bolls_sc') then
+         if (g%openz.gt.0.0) then
+            bollsc = g%openwt/g%openz
+         else
+            bollsc = 0.0
+         endif
+         call respond2get_real_var (variable_name
+     :        , '(g/boll)', bollsc)
+
+      else if (variable_name .eq. 'nuptake') then
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', g%total_n*10.0)
+
+      else if (variable_name .eq. 'squarz_max') then
+         call respond2get_real_var (variable_name
+     :        , '(1/m2)', g%sqzx)
+
+      else if (variable_name .eq. 'lai_max') then
+         call respond2get_real_var (variable_name
+     :        , '(m2/m2)', g%alaiz)
 
       else
             ! Nothing
@@ -1347,16 +1593,10 @@
       if (g%crop_in) then
 
          if(g%jdate.ne.g%isow) g%das = g%das + 1
-
-         call ozcot2 ()
-
-         if (g%iend .eq. 2) then
-            call ozcot_manager('harvest', ' ')
-         endif
-
       else
-
       endif
+
+      call ozcot2 ()
 
       call pop_routine(myname)
       return
@@ -1397,6 +1637,8 @@
 
 *- Implementation Section ----------------------------------
 
+      g%HAIL = .false.
+
       return
       end
 
@@ -1421,91 +1663,91 @@
 
 
 
-!cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-!cc                                                                cc
-!cc                                                                cc
-!cc                       program ozcot                            cc
-!cc                                                                cc
-!cc                          27/5/83                               cc
-!cc                                                                cc
-!cc                                                                cc
-!cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-!cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-!c                                                                  c
-!c     begun during a visit to  t.a.e.s. blackland research center  c
-!c     temple, texas 1981 by a.b.hearn.                             c
-!c                                                                  c
-!c     developed at nars for namoi valley cotton  1982 to 1988      c
-!c     by hearn and da roza.                                        c
-!c         components:                                              c
-!c           water balance   - ritchie model taken largely from     c
-!c                             cornf(stapper & arkin)               c
-!c           nitrogen model -  developed at nars by hearn & da roza c
-!c           fruit submodel  - taken from siratac by hearn          c
-!c                                                                  c
-!c     ozcot1 - version for retrospective simulation of specific    c
-!c              crops; runs for one season only, irrigation dates   c
-!c              given.                                              c
-!c     ozcot2 - version for predictive simulation  through many     c
-!c              seasons; irrigation dates predicted.                c
-!c     ozcot3 - version for optimising irrigation                   c
-!c     ozcot4 - version for calibration with minos5                 c
-!c     ozcot5 - version for physiological analyis                   c
-!c                                                                  c
-!c                                                                  c
-!cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-!c
-!c     structure
-!c       ozcot2  init
-!c               cinput2
-!c               newdate
-!c               metdat2 hhunc
-!c                       evap    fn satvp
-!c               decide_irg
-!c               solwat  sevap   fn watco
-!c                       swbal
-!c               sowday
-!c               emerg
-!c               snbal   n_fertilise
-!c               pltgrw  actlai
-!c                       laigen  fn senlf, fn stress
-!c                       cropn
-!c                       istsq
-!c                       fruit   bollwt  fn stress
-!c                               carrying_capacity fn stress
-!c                               overload
-!c                               actfru
-!c                               update
-!c                               fn frugen       fn stress
-!c                               fn survive
-!c               harvest
-!c               dayout2
-!c               (day_dudley    option for norm dudley)
-!c               yield
-!c               reset
-!c
-!c       note modules ozcot2, cinput2, metdat2, dayout2, decide_irg
-!c                    newdate, reset are specific to ozcot2.
-!c
-!c       ozcot.inc common blocks
-!c
-!c       input files: met.inp, soilw.inp, agron.inp - 1
-!c       output files: fruit.out, yield.out, calib.out - units = 2,3
-!c
-!c link/exe=ozcot2 ozcot2,init,cinput2,metdat2,hfunc,evap,satvp, -
-!c                 decide_irg,solwat,sevap,watco,swbal, -
-!c                 sowday,emerg,snbal,n_fertilise, -
-!c                 pltgrw,actlai,laigen,senlf,stress,cropn,istsq, -
-!c                 fruit,bollwt,carrying_capacity,overload,actfru, -
-!c                 update,frugen,survive, -
-!c                 harvest,dayout2,yield,reset
-!c
-!c
-!c                 ozcot2 - calling program
-!c                 ---------------------------
-!c
-!c
-!c      program ozcot2
+!cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+!                                                                cc
+!                                                                cc
+!                       program ozcot                            cc
+!                                                                cc
+!                          27/5/83                               cc
+!                                                                cc
+!                                                                cc
+!cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+!cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+!                                                                  c
+!     begun during a visit to  t.a.e.s. blackland research center  c
+!     temple, texas 1981 by a.b.hearn.                             c
+!                                                                  c
+!     developed at nars for namoi valley cotton  1982 to 1988      c
+!     by hearn and da roza.                                        c
+!         components:                                              c
+!           water balance   - ritchie model taken largely from     c
+!                             cornf(stapper & arkin)               c
+!           nitrogen model -  developed at nars by hearn & da roza c
+!           fruit submodel  - taken from siratac by hearn          c
+!                                                                  c
+!     ozcot1 - version for retrospective simulation of specific    c
+!              crops; runs for one season only, irrigation dates   c
+!              given.                                              c
+!     ozcot2 - version for predictive simulation  through many     c
+!              seasons; irrigation dates predicted.                c
+!     ozcot3 - version for optimising irrigation                   c
+!     ozcot4 - version for calibration with minos5                 c
+!     ozcot5 - version for physiological analyis                   c
+!                                                                  c
+!                                                                  c
+!cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+!
+!     structure
+!       ozcot2  init
+!               cinput2
+!               newdate
+!               metdat2 hhunc
+!                       evap    fn satvp
+!               decide_irg
+!               solwat  sevap   fn watco
+!                       swbal
+!               sowday
+!               emerg
+!               snbal   n_fertilise
+!               pltgrw  actlai
+!                       laigen  fn senlf, fn stress
+!                       cropn
+!                       istsq
+!                       fruit   bollwt  fn stress
+!                               carrying_capacity fn stress
+!                               overload
+!                               actfru
+!                               update
+!                               fn frugen       fn stress
+!                               fn survive
+!               harvest
+!               dayout2
+!               (day_dudley    option for norm dudley)
+!               yield
+!               reset
+!
+!       note modules ozcot2, cinput2, metdat2, dayout2, decide_irg
+!                    newdate, reset are specific to ozcot2.
+!
+!       ozcot.inc common blocks
+!
+!       input files: met.inp, soilw.inp, agron.inp - 1
+!       output files: fruit.out, yield.out, calib.out - units = 2,3
+!
+! link/exe=ozcot2 ozcot2,init,cinput2,metdat2,hfunc,evap,satvp, -
+!                 decide_irg,solwat,sevap,watco,swbal, -
+!                 sowday,emerg,snbal,n_fertilise, -
+!                 pltgrw,actlai,laigen,senlf,stress,cropn,istsq, -
+!                 fruit,bollwt,carrying_capacity,overload,actfru, -
+!                 update,frugen,survive, -
+!                 harvest,dayout2,yield,reset
+!
+!
+!                 ozcot2 - calling program
+!                 ---------------------------
+!
+!
+!      program ozcot2
 * ====================================================================
       subroutine OZCOT2
 * ====================================================================
@@ -1518,186 +1760,218 @@
 
 *- Implementation Section ----------------------------------
       call push_routine(myname)
-!c
-!c     data agron_inp/'agron.inp'/, soilw_inp/'soilw.inp'/,
-!c    *count_inp/'count.inp'/, lai_inp/'lai.inp'/,
-!c    *rain_inp/'rain.inp'/, met_inp/'met.inp'/, fcot_out/'fcot.out'/,
-!c    *frucal_out/'frucal.out'/, yield_out/'yield.out'/
-!c
-!c      data iend/0/
-!c
-!c
-!cpsc      i=i+1
 
-!c
-!c      do 10 nszn = 1,100                     ! seasonal loop
-!c          do 20 i = 1,1000                   ! daily loop through whole year
-!c             call metdat2 (i,iend)       ! get met data
-!c              if(iend.eq.1)go to 31       ! end of met data
+!     data agron_inp/'agron.inp'/, soilw_inp/'soilw.inp'/,
+!    *count_inp/'count.inp'/, lai_inp/'lai.inp'/,
+!    *rain_inp/'rain.inp'/, met_inp/'met.inp'/, fcot_out/'fcot.out'/,
+!    *frucal_out/'frucal.out'/, yield_out/'yield.out'/
+
+!      data iend/0/
+
+
+!psc      i=i+1
+
+      if (g%crop_in) then
+
+!      do 10 nszn = 1,100                     ! seasonal loop
+!          do 20 i = 1,1000                   ! daily loop through whole year
+!             call metdat2 (i,iend)       ! get met data
+!              if(iend.eq.1)go to 31       ! end of met data
               CALL ozcot_metdat2
-!c             if(defirr(2).ne.0.) call decide_irg (i)  ! irrigated crop?
-!c              call solwat (i,dayir,npre)  ! soil water
+!             if(defirr(2).ne.0.) call decide_irg (i)  ! irrigated crop?
+!              call solwat (i,dayir,npre)  ! soil water
               CALL ozcot_solwat                 ! soil water
-!c             if(defirr(2).ne.0.) call decide_irg       ! irrigated crop?
-!c             if(isow.le.0)then           ! crop sown yet?
-!c                  call sowday (i,iend)    ! sow tomorrow?
-!c                  call sowday             ! sow tomorrow?
-!c                  if(iend.ge.3) go to 32  ! passed sowing window or fallow
-!c              elseif(i.gt.isow .and. iemerg.le.0)then     ! crop emerged yet?
-              if(g%iemrg.le.0) then
-!c                  call emerg (i)          ! emerge today?
-                  CALL ozcot_emerg              ! emerge today?
-              ENDIF
-!c              call snbal(i)               ! soil n balance
-!c              call snbal                  ! soil n balance
-!c              if(isow.gt.0 .and. i.gt.isow) call pltgrw (i,iend,nszn)
-!c              if(openz.gt.0.0) call harvest(iend)
+!             if(defirr(2).ne.0.) call decide_irg       ! irrigated crop?
+!             if(isow.le.0)then           ! crop sown yet?
+!                  call sowday (i,iend)    ! sow tomorrow?
+!                  call sowday             ! sow tomorrow?
+!                  if(iend.ge.3) go to 32  ! passed sowing window or fallow
+!              elseif(i.gt.isow .and. iemerg.le.0)then     ! crop emerged yet?
+!jh v2001              if(g%iemrg.le.0) then
+!                  call emerg (i)          ! emerge today?
+!jh v2001                  CALL ozcot_emerg              ! emerge today?
+!jh v2001              ENDIF
+      else
+      endif
+!              call snbal(i)               ! soil n balance
+              call ozcot_snbal                  ! soil n balance
+!              if(isow.gt.0 .and. i.gt.isow) call pltgrw (i,iend,nszn)
+!              if(openz.gt.0.0) call harvest(iend)
+      if (g%crop_in) then
               IF(g%isow.GT.0 .AND. g%das.GT.0) CALL ozcot_pltgrw
               IF(g%openz.GT.0.0) CALL ozcot_harvest
-!c              if(iend.eq.2)  go to 32     ! end of season
-!c              if(iend.ne.2)  then
-!c                call dayout2(i)             ! daily output
-!cpsc                call dayout2             ! daily output
-!c               call day_dudley             ! output for norm dudley
-!c20             continue                           ! end of daily loop
-!c                return
-!c              endif
-!c32           continue
-!c              call yield(nszn,iend)           ! calculate yield
-!c              call reset(iend)                ! reset variables for new season
+!              if(iend.eq.2)  go to 32     ! end of season
+!              if(iend.ne.2)  then
+!                call dayout2(i)             ! daily output
+!psc                call dayout2             ! daily output
+!               call day_dudley             ! output for norm dudley
+!20             continue                           ! end of daily loop
+!                return
+!              endif
+!32           continue
+!              call yield(nszn,iend)           ! calculate yield
+!              call reset(iend)                ! reset variables for new season
               CALL ozcot_yield                      ! calculate yield
-!cpsc              call reset                      ! reset variables for new season
-!c10       continue                               ! end of seasonal loop
-!c31        continue
-!c          call exit
-!c      stop
-
+!psc              call reset                      ! reset variables for new season
+!10       continue                               ! end of seasonal loop
+!31        continue
+!          call exit
+!      stop
+         else
+         endif
+        write(*,'(1x,i4, 9f5.1)')g%das, g%frucat
        call pop_routine(myname)
        return
        END
 
-!c
+
 
 
 * ====================================================================
-!c      subroutine pltgrw (i,iend,nszn)
+!      subroutine pltgrw (i,iend,nszn)
       subroutine ozcot_pltgrw
 * ====================================================================
 
-!c-------------------------------------------------------------------
-!c      calls the various plant growing routines.  at this point    !
-!c      there are also some variable conversions to allow merging   !
-!c      of the independently derived soil and plant portions of the !
-!c      model.                                                      !
-!c-------------------------------------------------------------------
+!-------------------------------------------------------------------
+!      calls the various plant growing routines.  at this point    !
+!      there are also some variable conversions to allow merging   !
+!      of the independently derived soil and plant portions of the !
+!      model.                                                      !
+!-------------------------------------------------------------------
 
       use OzcotModule
       implicit none
       include 'error.pub'
 
  !     real percent_l
-!cpc   integer ifrost
+!pc   integer ifrost
       integer j
+      real    RTDEP2
+      character string*100
 
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_pltgrw')
 
 !      DIMENSION PERCENT_L(10)
 !      DATA PERCENT_L/0.38,0.38,0.39,0.42,0.4,5*0.0/        ! lint percent
-!c      data fburr /1.23/                       ! factor sc/boll to sc+burr/boll
-!cpc   data ifrost/0/                          ! flag for simulated frost
+!      data fburr /1.23/                       ! factor sc/boll to sc+burr/boll
+!pc   data ifrost/0/                          ! flag for simulated frost
 
-!c----- housekeeping -----------------------------------------------------------
+!----- housekeeping -----------------------------------------------------------
 *- Implementation Section ----------------------------------
       call push_routine(myname)
-!cpsc      iday=i-isow ! replaced ncrpdy throughout, 15 nov 1983
+!psc      iday=i-isow ! replaced ncrpdy throughout, 15 nov 1983
       g%iday=g%das
+      IF(g%iday.EQ.300) THEN
+          g%iend = 10                             ! terminate crop growth
+          WRITE(string,775)            ! mature bolls will be forced open.
+775       FORMAT(' *** Season > 300 days; terminate crop.')
+          call write_string (string)
+          call pop_routine(myname)
+          RETURN
+      ENDIF
+
+!---- crop development complete? ---------------------------------------------
+      IF(g%openz.GT.0.0 .AND. g%bollz.LT.1.0 .AND. g%iend.EQ.0) THEN
+          g%iend=6                               ! bolls/m < 1; end of season
+          WRITE(string,774)              ! mature bolls will be forced open.
+774       FORMAT(' *** All bolls open; crop finished.')
+          call write_string (string)
+      ENDIF
+
       g%dd=g%hunits
       g%rad=g%solrad
       g%pclint = p%percent_l             ! set lint percent for variety
 
-      IF(g%iday.EQ.1) THEN
-          g%ifrost = 0                         ! 1st g%day, reset local variable
-      ELSE
+      IF(g%iday.gt.1) THEN
           DO 10 J=1,g%iday
               g%fyzage(J)=g%fyzage(J)+g%dd     ! physiological aging
 10        continue
+      ELSE
       ENDIF
       g%sumdd=g%sumdd+g%dd
 
-!c----- increase root depth ----------------------------------------------------
+!----- increase root depth ----------------------------------------------------
 
-      IF(g%iday.LE.36)g%rtdep=g%sdepth+((20.-g%sdepth)/36.)*real(g%iday) ! W*N          !const  rtdep_das_crit, rtdep_sdepth_crit
-!cpsc        changed maximum rooting depth
-!cpsc  if(iday.ge.37.0)rtdep=122.38*(1.-2.65*exp(-.03*iday)) ! 82/8
-      IF(g%iday.GE.37)g%rtdep=c%rtdep_max
-     :                       *(1.-2.65*EXP(-.03*real(g%iday))) ! 82/8                !const
+      g%rtdep = g%sdepth+((20.-g%sdepth)/36.)*real(g%iday)   ! G da R from 82/83 expt
+      RTDEP2 = g%rtdepm*(1.-2.65*EXP(-.03*real(g%iday))) ! RTDEPM replaced 122.38 12/5/95
+      IF(RTDEP2.GT.g%rtdep) g%rtdep = RTDEP2       ! added 12/5/95
+
+!jh v2001      IF(g%iday.LE.36)g%rtdep=g%sdepth+((20.-g%sdepth)/36.)*real(g%iday) ! W*N          !const  rtdep_das_crit, rtdep_sdepth_crit
+!jh v2001!cpsc        changed maximum rooting depth
+!jh v2001!cpsc  if(iday.ge.37.0)rtdep=122.38*(1.-2.65*exp(-.03*iday)) ! 82/8
+!jh v2001      IF(g%iday.GE.37)g%rtdep=c%rtdep_max
+!jh v2001     :                       *(1.-2.65*EXP(-.03*real(g%iday))) ! 82/8                !const
       IF(g%rtdep.GT.g%rtdepm)g%rtdep=g%rtdepm
 
-!c---- check if frost terminates crop -----------------------------------------
 
-!c      if(tempmn.le.2. .and. iday.gt.120) then   ! frost? if so end of season
-      IF(g%tempmn.LE.c%frost_kill_immediate 
-     :   .AND. g%iday.GT.c%frost_kill_immediate_das) THEN ! frost? if so end of season           !const  frost_temp_kill_immediate, frost_das_kill_immediate
-          g%iend=2 ! flag for frost - g%last g%day, open bolls > 80% mature
-      ELSE IF(g%tempmn.LT.c%frost_kill_delayed
-     :   .AND. g%iday.GT.c%frost_kill_delayed_das) THEN ! frost? if so end of season     !const  frost_temp_kill_delayed, frost_das_kill_delayed
-          g%ifrost = g%ifrost+1                 ! count days to simulate frost
-          IF(g%ifrost.EQ.c%frost_kill_delayed_days) THEN                                                          !const   frost_days_kill_delayed
-              g%iend = 2                        ! frost                                  !const
+!---- check if frost terminates crop -----------------------------------------
+
+      IF(g%tempmn.LE.c%frost_kill_immediate
+     :   .and. g%iemrg .gt. 0) THEN    ! frost after emergence?
+          IF(g%bollz.EQ.0) THEN                  ! pre-fruiting?
+              g%iend=2                           ! flag for frost -
+              WRITE(string,771)
+              call write_string (string)
+          ELSE IF(g%openz.EQ.0) THEN             ! green bolls yet?
+              g%iend=2                           ! flag for frost - force open bolls > 80% mature
+              WRITE(string,772)
+              call write_string (string)
+          ELSE                                 ! open bolls yet?
+              g%iend=2                           ! flag for frost - force open bolls > 80% mature
+              WRITE(string,773)
+              call write_string (string)
           ENDIF
-      ELSE
-          g%ifrost = 0                          ! reset because sequence broken
       ENDIF
 
-!c      if(iend.eq.2) write(2,777)jdate,iday,i
-!c777        format(' frost on julian day ',i3,', ',i3,
-!c     *    'days from sowing, index=',i3,' *** end of season ***')
+771        FORMAT(' *** Crop killed by frost before fruiting.')
+772        FORMAT(' *** Crop killed by frost during fruiting.')
+773        FORMAT(' *** Crop terminated by frost.')
 
-!c----- emergence ( why not call ozcot_emerg here ------------------------------------
 
-      IF(g%das.LT.g%iemrg.OR.g%iemrg.EQ.0) GO TO 25
+!---- if hail damage do here   ----------------------------------------------
+
+!jh      IF(g%HAIL) CALL HAIL                ! hail in Karyl's expts
+
+!----- emergence ( why not call ozcot_emerg here ------------------------------------
+
+      IF(g%iemrg.LE.0) CALL ozcot_emerg    ! crop emerged yet? emerge today?
       IF(g%das.EQ.g%iemrg)  g%ddmerg=g%sumdd-g%dd
 
-!c----- increase leaf area -----------------------------------------------------
+!----- increase leaf area -----------------------------------------------------
 
-!c      if(i.le.ilai)then
-!c       call actlai(i)
-!c       call actlai
-!c      else
-!c       call laigen(i)
+!      if(i.le.ilai)then
+!       call actlai(i)
+!       call actlai
+!      else
+!       call laigen(i)
         CALL ozcot_laigen
-!c      end if
+!      end if
 
       call ozcot_dryxmatter
       call ozcot_plant_n
 
-!c----- crop nitrogen ---------------------------------------------------------
+!----- crop nitrogen ---------------------------------------------------------
 
-!c      call cropn(i)
+!      call cropn(i)
       CALL ozcot_cropn
 
-!c---- grow plant -------------------------------------------------------------
+!---- grow plant -------------------------------------------------------------
 
       IF(g%isq.EQ.0) THEN
-!c          call istsq (i,nszn)
+!          call istsq (i,nszn)
           CALL ozcot_istsq
       ELSE
-!c          if(i.gt.isq) call fruit (i,iend)
-          IF(g%das.GT.g%isq) CALL ozcot_fruit
+!          if(i.gt.isq) call fruit (i,iend)
+         IF(g%das.GT.g%isq) CALL ozcot_fruit
       ENDIF
 
-!c      if(isyr.eq.82 .and. jdate.eq.354) call hail(i) ! hail in 1982-83 experiment
-!c      if(isyr.eq.82 .and. jdate.eq.354) call hail    ! hail in 1982-83 experiment
+!      if(isyr.eq.82 .and. jdate.eq.354) call hail(i) ! hail in 1982-83 experiment
+!      if(isyr.eq.82 .and. jdate.eq.354) call hail    ! hail in 1982-83 experiment
 
 25    continue
 
-!c---- crop development complete? ---------------------------------------------
-
-      IF(g%openz.GT.0.0 .AND. g%bollz.EQ.0.0)
-     * g%iend=2                                 ! all bolls open, end of season        !const
-
-!c------ following are for use in s/r yield -----------------------------------
+!------ following are for use in s/r yield -----------------------------------
 
       IF(g%alai.GT.g%alaiz)THEN
           g%alaiz=g%alai                        ! max LAI
@@ -1711,7 +1985,7 @@
           g%isqzx = g%iday                      ! g%day of peak squares
       ENDIF
 
-!c------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
       call pop_routine(myname)
 
       RETURN
@@ -1719,25 +1993,25 @@
 
 
 * ====================================================================
-!c      subroutine bollwt(idayx,l)
-      subroutine ozcot_bollwt(das)
+!      subroutine bollwt(idayx,l)
+      subroutine ozcot_bollwt(cohort)
 * ====================================================================
 
-!c     calculates increase in weight of each days's bolls.
-!c     bollgrowth rate is driven by dd,limited by water,
-!c     n and c(incl water effects on photosynthesis) stress
+!     calculates increase in weight of each days' (cohort's) bolls.
+!     bollgrowth rate is driven by dd,limited by water,
+!     n and c(incl water effects on photosynthesis) stress
 
       use OzcotModule
       implicit none
       include 'error.pub'
 
 
-!c------stuff done on 1st call of the day - stresses & growth rate -------------
+!------stuff done on 1st call of the day - stresses & growth rate -------------
       !  functions
       real ozcot_stress
 
       ! locals (i hope!)
-      integer das
+      integer cohort
       real fbcstr
       real fbwstr
       real fbnstr
@@ -1760,7 +2034,7 @@
      :                        ,c%fbwstr_high
      :                        ,c%fbwstr_a
      :                        ,g%smi)   ! water stress on bolls         !const  sw_stress_boll_min, sw_stress_boll_max, sw_stress_boll_pwr
-        FBWSTR = 1.                          ! try no direct stress - 24/4/92
+!jh v2001 deleted        FBWSTR = 1.                          ! try no direct stress - 24/4/92
         IF(g%bollz+g%openz .LT. g%carcap_n) THEN ! final boll req < uptake
             FBNSTR = 1.0                     ! do not apply N stress
         ELSE                                 ! final boll req < uptake
@@ -1771,58 +2045,65 @@
         ENDIF
         STRSBL = AMIN1(FBCSTR,FBWSTR,FBNSTR) ! minimum of Cc, water & N stress
 
+!------- efect of temperature on final boll weight ----------------------------
+
         IF(g%tempav.LT.20.0) THEN                                                  !const   x_temp_boll   15 20 30 35
           F_TEMP = -3.0+0.2*g%tempav          ! temperature scaling factor         !const   y_stress_boll  0  1  1  0
         ELSE IF(g%tempav.GT.30.0) THEN        ! for boll weight                    !const
           F_TEMP = 7.0-0.2*g%tempav           ! derived from Hesketh and Low 1968   !const
-        ELSE
-          F_TEMP = 1.0                                                              !const
-        ENDIF
+        ELSE                                  !
+          F_TEMP = 1.0                        !  equiv to x temp 15 20 30 35                                    !const
+        ENDIF                                 !           y fac   0  1  1  0
         IF(F_TEMP.LT.0.) F_TEMP = 0.
         IF(F_TEMP.GT.1.) F_TEMP = 1.
 
-        BOLL = p%scboll*F_TEMP        ! effect of temperature
-        g%bgrvar = BOLL*g%bper                ! boll growth rate this g%day
+!jh v2001
+        g%BGRVAR = p%scboll * F_TEMP * g%bper   ! nominal boll growth rate this day
+        g%bollgr = g%bgrvar *1.3                ! potential unstressed rate - ex Constable            !const     bollgr_pot_fac
+        g%bollgr = g%bollgr*STRSBL              ! todays actual rate per boll
+!jh v2001
+!jh v2001 deleted        BOLL = p%scboll*F_TEMP        ! effect of temperature
+!jh v2001 deleted        g%bgrvar = BOLL*g%bper                ! boll growth rate this g%day
 
       ENDIF
 
-      IF(das.GT.g%lfru(cat4) .OR. g%lfru(cat4).EQ.0) then
+      IF(cohort.GT.g%lfru(Flowers) .OR. g%lfru(Flowers).EQ.0) then
          call pop_routine(myname)
          RETURN
       else
       endif
 
-!c------         increase in weight of bolls (seed cotton) ---------------------------
+!------         increase in weight of bolls (seed cotton) ---------------------------
 
-      g%bollgr = g%bgrvar*STRSBL              ! todays rate per boll
-      g%bollgr = g%bollgr *1.3                ! potential unstressed rate            !const     bollgr_pot_fac
+!jh v2001 deleted      g%bollgr = g%bgrvar*STRSBL              ! todays rate per boll
+!jh v2001 deleted      g%bollgr = g%bollgr *1.3                ! potential unstressed rate            !const     bollgr_pot_fac
       IF(g%bollgr.LT.0.) g%bollgr = 0.
-      g%fruwt(das) = g%fruwt(das)+g%fruno(das)*g%bollgr ! increase today for das g%day bolls
+      g%fruwt(cohort) = g%fruwt(cohort)+g%fruno(cohort)*g%bollgr ! increase today for cohort g%day bolls
 
-!c------ shed fruit not growing ------------------------------------------------
+!------ shed fruit not growing ------------------------------------------------
 
-      IF(das.GT.g%lfru(cat5) 
-     :   .AND. das.LE.g%lfru(cat7) 
-     :   .AND. g%fruno(das).GT.0.) THEN
-           IF(g%fruwt(das)/g%fruno(das).LT.0.1) 
-     :          g%frmark(das,age6) = g%fruno(das)
+      IF(cohort.GT.g%lfru(Small_bolls)
+     :   .AND. cohort.LE.g%lfru(Large_bolls)
+     :   .AND. g%fruno(cohort).GT.0.) THEN
+           IF(g%fruwt(cohort)/g%fruno(cohort).LT.0.1)
+     :          g%frmark(cohort,age6) = g%fruno(cohort)
       ENDIF
 
-!c------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
       call pop_routine(myname)
       RETURN
       END
 
 
 * ====================================================================
-!c      subroutine carrying_capacity(i)
+!      subroutine carrying_capacity(i)
       subroutine ozcot_carrying_capacity
 * ====================================================================
 
-!c     estimates carrying capacity of crop on basis of photosynthesis.
-!c     selects parameter for variety. adjusted for water stress.
-!c     carcap is carrying capacity, maximum number of bolls the crop
-!c     can carry, therefore the boll load that causes 100% shedding.
+!     estimates carrying capacity of crop on basis of photosynthesis.
+!     selects parameter for variety. adjusted for water stress.
+!     carcap is carrying capacity, maximum number of bolls the crop
+!     can carry, therefore the boll load that causes 100% shedding.
 
       use OzcotModule
       implicit none
@@ -1835,30 +2116,30 @@
       real p_gossym
       real pot_pn
       real pn
-      real relp
+      real rel_p
       real templf
       real rfac
       real rm
 
 
-!c      data from "siratac" - 1987-88  hearn (pers. comm.)
+!      data from "siratac" - 1987-88  hearn (pers. comm.)
 
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_carrying_capacity')
-!cpc   data istress/0/, ireliefco/0/
+!pc   data istress/0/, ireliefco/0/
 
 *- Implementation Section ----------------------------------
       call push_routine(myname)
 
-!cpsc      if(i.eq. isq+1) then
+!psc      if(i.eq. isq+1) then
       IF(g%das.EQ. g%isq+1) THEN
           g%istress = 0                 ! reset stress flag
           g%ireliefco = 0               ! reset stress relief counter
       ENDIF
 
-!cpsc      if(bload.gt.cutout .and. smi.lt.0.75) istress = 1 ! set stress cutout flag
+!psc      if(bload.gt.cutout .and. smi.lt.0.75) istress = 1 ! set stress cutout flag
 
-!cpsc      if(smi.gt.0.75 .and. istress.gt.0) then
+!psc      if(smi.gt.0.75 .and. istress.gt.0) then
 
       if(g%bload.gt.g%cutout.and.g%smi.lt.c%smi_affect_wlog) g%istress=1 ! 0.25 replaced 0.75 - ABH 5/11/96    !const  wlog_relief_smi
       if(g%smi.gt.c%smi_affect_wlog.and.g%istress.gt.0) then       ! 0.25 replaced 0.75 - ABH 5/11/96
@@ -1870,69 +2151,88 @@
           ENDIF
       ENDIF
 
-!c----photosynthetic capacity --------------------------------------------------
-!c-----light interception modified to give hedgerow effect with skip row - abh 5/11/96 ------
+!----photosynthetic capacity --------------------------------------------------
+!-----light interception modified to give hedgerow effect with skip row - abh 5/11/96 ------
 
-      g%alai = g%alai*g%rs         ! lai in hedgerow
-      ALIGHT = (1.-EXP(-ozcot_kvalue*g%alai)) ! original code  - now gives interception in
+      g%alai_row = g%alai
+      IF(g%NSKIP.GT.0) g%alai_row = g%alai*g%rs         ! lai in hedgerow
+      ALIGHT = (1.-EXP(-ozcot_kvalue*g%alai_row)) ! original code  - now gives interception in
                                                 ! hedgerow
-      ALIGHT =ALIGHT/g%rs          ! interception on ground area basis
-      g%alai = g%alai/g%rs         ! restore LAI to ground area basis
+      IF(g%NSKIP.GT.0) THEN
+         ALIGHT =ALIGHT/g%rs          ! interception on ground area basis
+!jh         g%alai = g%alai/g%rs         ! restore LAI to ground area basis
+      ENDIF
 
       RADN_watts = g%solrad*0.8942      ! convert RADN from ly to watts m**2            !const
       P_gossym = 2.391+RADN_watts*(1.374-RADN_watts*0.0005414) ! GOSSYM line1275        !const
       POT_PN = P_gossym*0.068           ! potential photosynthesis g%g/m2 CH2O          !const
       PN = POT_PN*ALIGHT                ! net photosynthesis term
-!c----- effect of water stress on photosysthesis -------------------------------
-
-      IF(g%smi .LT. c%relp_smi_crit) THEN                                                           !const    sw_stress_pn_crit  
-          RELP =c%relp_intercept+c%relp_slope*g%smi              ! effect of water stress on Pp              !const    sw_stress_pn_smi_intc, sw_stress_smi_pn_slope
-          IF(RELP.GT.1.)RELP = 1.           ! (TURNER g%et al 1986).                    !const
-          RELP = RELP -c%relp_intercept                                                             !const
-          RELP = ozcot_stress(c%relp_low,c%relp_high,c%relp_a,RELP)   ! increase severity of stress         !const   sw_stress_relp_min, sw_stress_relp_max, sw_stress_relp_pwr, 
-          RELP = RELP + c%relp_intercept                                                             !const
-          PN = PN*RELP                      ! photosynthesis adjust for water stress
+!----- effect of water stress on photosysthesis -------------------------------
+!jh v2001
+      rel_p = 1.0
+!jh v2001
+      IF(g%smi .LT. c%relp_smi_crit) THEN                                                           !const    sw_stress_pn_crit
+          rel_p =c%relp_intercept+c%relp_slope*g%smi              ! effect of water stress on Pp              !const    sw_stress_pn_smi_intc, sw_stress_smi_pn_slope
+          IF(rel_p.GT.1.)rel_p = 1.           ! (TURNER g%et al 1986).                    !const
+          rel_p = rel_p -c%relp_intercept                                                             !const
+          rel_p = ozcot_stress(c%relp_low,c%relp_high,c%relp_a,rel_p)   ! increase severity of stress         !const   sw_stress_relp_min, sw_stress_relp_max, sw_stress_relp_pwr,
+          rel_p = rel_p + c%relp_intercept                                                             !const
+          PN = PN*rel_p                      ! photosynthesis adjust for water stress
       ENDIF
 
-!c----- waterlogging effect additional to n uptake - hearn & constable 1984 eqn 4
+!----- waterlogging effect additional to n uptake - hearn & constable 1984 eqn 4
 
-!c      if(istress.gt.0) then
-!c        if(sw/ul.gt.0.87) pn = pn * 0.1 ! carrying capacity reduced
-!c      else
-!c        if(sw/ul.gt.0.87) pn = pn * 0.1 ! carrying capacity reduced
-!c      endif
+!jh v2001 deleted !c      if(istress.gt.0) then
+!jh v2001 deleted !c        if(sw/ul.gt.0.87) pn = pn * 0.1 ! carrying capacity reduced
+!jh v2001 deleted !c      else
+!jh v2001 deleted !c        if(sw/ul.gt.0.87) pn = pn * 0.1 ! carrying capacity reduced
+!jh v2001 deleted !c      endif
 
-!c---- maintenance respiration -------------------------------------------------
+!---- maintenance respiration -------------------------------------------------
 
       TEMPLF = g%tempav+5.-10.*g%smi    ! leaf temperature                             !const
       IF(TEMPLF.LT.g%tempav) TEMPLF=g%tempav
       RFAC = 2.2**((TEMPLF-35.)/10.)    ! resp temp factor, Horie(Constable)           !const
       RM = g%sites*p%respcon*RFAC ! maintenance respiration term
 
-!c----- carrying capacity carbon - photosynthesis divided by boll growth rate
+!----- carrying capacity carbon - photosynthesis divided by boll growth rate
 
       IF(g%bgrvar.GT.0.)
-     * g%carcap_c = (PN-RM)/(g%bgrvar*c%FBURR) ! carrying capacity, carbon, no stress
+     * g%carcap_c = (PN-RM)/(g%bgrvar*p%FBURR) ! carrying capacity, carbon, no stress
       IF(g%carcap_c.LT.0.) g%carcap_c = 0. ! trap
+!jh v2001
+      IF(g%carcap_c.GT.500.) g%carcap_c = 500. ! limit when low temp gives low BGR
+!jh v2001
 
-!c----- waterlogging effect additional to n uptake - hearn & constable 1984 eqn 4
+!----- waterlogging effect additional to n uptake - hearn & constable 1984 eqn 4
+!jh      print*, 'das, caracp_c, wli, rm, istress, bload, cutout,smi'
+!jh      print*,g%das,g%carcap_c,g%wli,rm,g%istress,g%bload,g%cutout,g%smi
       IF(g%istress.GT.0) THEN
-        IF(g%sw/g%ul.GT.c%stress_wlog) 
+!jh v2001 deleted         IF(g%sw/g%ul.GT.c%watlog_c)
+         IF(g%wli.GT.c%watlog_c)                              ! restore as DV - 30/5/96
      :      g%carcap_c = g%carcap_c  * c%wlog_carcap_red_stress ! carrying capacity reduced    !const   ! ? 0.01
       ELSE
-        IF(g%sw/g%ul.GT.c%stress_wlog) 
+!jh v2001 deleted         IF(g%sw/g%ul.GT.c%watlog_c)
+         IF(g%wli.GT.c%watlog_c)                      ! restore as DV - 30/5/96
      :      g%carcap_c = g%carcap_c * c%wlog_carcap_red ! carrying capacity reduced    !const
       ENDIF
-
       g%cutout = g%carcap_c*p%fcutout ! boll load for g%cutout, sq prodn stops
-!c-------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
+!jh v2001 not used      IF(g%carcap_c .GT. 0.)THEN
+!jh v2001 not used        FRUINDEX1 = 1. - g%BLOAD / g%CUTOUT
+!jh v2001 not used        FRUINDEX2 = 1. - g%BLOAD / g%carcap_c
+!jh v2001 not used      ELSE
+!jh v2001 not used        FRUINDEX1  = -1.0
+!jh v2001 not used        FRUINDEX2  = -1.0
+!jh v2001 not used      END IF
+
       call pop_routine(myname)
       RETURN
       END
 
 
 * ====================================================================
-!c      subroutine cropn(i)
+!      subroutine cropn(i)
       subroutine ozcot_cropn
 * ====================================================================
 
@@ -1942,19 +2242,21 @@
 
       real harvest_n
       real bgr
+      real UP_KG_HA
+      real VEG_N
 
-!c     assumes all n available for season (availn) from snbal
-!c     is taken up (uptakn).
-!c     computes: n harvested on basis of constable and rochester 1988
-!c               n in fruit frun
-!c               carrying capacity (carcap_n), number of bolls for which
-!c                       harvest_n is adequate
-!c                       used in frugen and survive for squares
-!c               stresses:
-!c                       vegetative (vnstrs for laigen) = f(1-harvest_n/uptakn)
-!c                               ie function of proportion of n remaining in veg
-!c                         fruit (fnstrs for bollwt) 1- frun/harvest_n
-!c                               ie function of n to be harvested not in fruit
+!     assumes all n available for season (availn) from snbal
+!     is taken up (uptakn).
+!     computes: n harvested on basis of constable and rochester 1988
+!               n in fruit frun
+!               carrying capacity (carcap_n), number of bolls for which
+!                       harvest_n is adequate
+!                       used in frugen and survive for squares
+!               stresses:
+!                       vegetative (vnstrs for laigen) = f(1-harvest_n/uptakn)
+!                               ie function of proportion of n remaining in veg
+!                         fruit (fnstrs for bollwt) 1- frun/harvest_n
+!                               ie function of n to be harvested not in fruit
 
 
       character  myname*(*)            ! name of subroutine
@@ -1963,41 +2265,66 @@
 *- Implementation Section ----------------------------------
       call push_routine(myname)
 
-!c----------------------------------------------------------------------------
-      g%uptakn = g%availn   ! potential uptake for season based on available N
+!----- potential uptake for season --------------------------------------------
+!jh v2001 changed      g%uptakn = g%availn   ! potential uptake for season based on available N
+      g%uptakn = g%availn / 10.0   ! potential uptake for season based on available N
 
-!c-----  compute potential n harvested ----------------------------------------
+!-----  compute potential n harvested ----------------------------------------
 
       HARVEST_N = g%uptakn * c%harvest_n_frac    ! harvestable N; 0.85 fromConstable & Rochester       !const
-      HARVEST_N = HARVEST_N/10.      !  kg/ha to g%g/m**2, N limiting fruit.               !const
+!jh v2001 deleted      HARVEST_N = HARVEST_N/10.      !  kg/ha to g%g/m**2, N limiting fruit.               !const
 
-!c----- compute n already in fruit -------------------------------------------
-!cpdev this is generating an underflow warning:
-!cpdev ---------------------------------vvvvvvvvvv
-      g%seed_nc = .02407+0.000147*g%uptakn-0.00000034*g%uptakn**2 ! GAC dat 3/6/88         !const
-      g%frun = (g%frudw+g%openwt)*((1.-g%pclint)*g%seed_nc+(c%FBURR-1.)*
-     :.005) ! N in frt                                                                     !const
+!----- compute n already in fruit -------------------------------------------
+!pdev this is generating an underflow warning:
+!pdev ---------------------------------vvvvvvvvvv
+!jh v2001
+      UP_KG_HA = g%uptakn*10        ! need kg/ha for next calculation
+      g%seed_nc = .02407+0.000147*UP_KG_HA-0.00000034*UP_KG_HA**2 ! GAC dat 3/6/88         !const
+!jh v2001
+      g%frun = (g%frudw+g%openwt)
+     :       * ((1.-g%pclint)*g%seed_nc + (p%FBURR-1.)* 0.005) ! N in frt                                                                     !const
 
-!c----- compute n carrying capacity --------------------------------------------
+!----- compute n carrying capacity --------------------------------------------
 
       BGR = p%scboll                ! seed coton per boll
       g%carcap_n = HARVEST_N /(BGR*0.6*0.03) ! bolls per m                                 !const
 
-!c----- compute n stresses -----------------------------------------------------
+!----- compute n stresses -----------------------------------------------------
 
-      g%vnstrs = (g%uptakn-10.)/g%uptakn ! vegetative stress 10=uptake @ 1st boll          !const
+!jh v2001 deleted      g%vnstrs = (g%uptakn-10.)/g%uptakn ! vegetative stress 10=uptake @ 1st boll          !const
+!jh v2001
 
-      IF(g%bollz.EQ.0.) THEN            ! before 1st boll
+      IF (g%bollz .EQ. 0.0) THEN        ! during veg growth, before 1st boll
+          VEG_N = g%uptakn              ! N in veg tissues before 1st boll
+      ELSE                              ! during reproductive growth
+          VEG_N = g%uptakn - g%frun     ! N in veg tissues after 1st boll
+      ENDIF
+
+      IF(VEG_N .GT. 0.0) THEN
+          g%vnstrs = (VEG_N - 1.0) / VEG_N  ! vegetative stress, 10=uptake @ 1st boll
+      ELSE
+          g%vnstrs = 0.0
+      ENDIF
+!jh v2001
+      IF(g%bollz.EQ.0.) THEN            ! during veg growth, before 1st boll
           g%fnstrs = 1.0
       ELSE
-          g%fnstrs = 1.- g%frun/HARVEST_N ! fraction of harvestable not in fruit
+!jh v2001
+        IF(HARVEST_N .GE. g%frun) THEN
+          g%fnstrs = 1.0 - g%frun/HARVEST_N ! fraction of harvestable not in fruit
+        ELSE
+          g%fnstrs = 0.0
+        ENDIF
+!jh v2001
       ENDIF
 
       IF(g%vnstrs.GT.1.0) g%vnstrs=1.0
       IF(g%vnstrs.LT.0.0) g%vnstrs=0.0
       IF(g%fnstrs.GT.1.0) g%fnstrs=1.0
       IF(g%fnstrs.LT.0.0) g%fnstrs=0.0
-!c----------------------------------------------------------------------------
+!----------------------------------------------------------------------------
+
+      g%uptakn = g%uptakn*10.              ! g/m2 to kg/ha
 
       call pop_routine(myname)
       RETURN
@@ -2005,18 +2332,43 @@
 
 
 * ====================================================================
-!c      subroutine emerg (i)
+!      subroutine emerg (i)
       subroutine ozcot_emerg
 * ====================================================================
-!c-------------------------------------------------------------------
-!c
-!c     simulates  emergence
-!c
-!c-------------------------------------------------------------------
+!------------------------------------------------------------------------------------------------
+!
+!     Simulates  emergence
+!
+!     Originally Wanjura's complex function was used.
+!     Replaced by a simple heat sum (60 DD) as an alternative, probably in 1990.
+!     Revised in Nov 1996 by ABH at APSRU in order to deal with adverse conditions.
+!     Data from Constable 1976, Anderson 1971 and Wanjura et al 1969 and 1970 were used.
+!     Wanjura's 1970 complex function was linearised to give 0.0041cm/hr/deg which gives
+!     0.1 cm per DD12, which when divided into seed depth (SDEPTH) gives DD requirement = 50
+!     for sowing at 5 cm.  5DD in soil is equivalent to  6DD air in Sept/Oct,
+!     to give 60 DD for emergence, as previously used.
+!     Anderson 's data gave values of DD requirement from 50 to 75,
+!     the variation being associated with Tmax.
+!     Consequently the DD requirement increases by 2.5 each deg C of mean Tmax over 20 deg C.
+!     All three papers, and others, show a relationship between days to emerge and % emergence.
+!     Constable's data allowed a quantitative relationship to be deleveloped.
+!     Constable's data also showed an effect of soil water; when tensiommeter readings were zero,
+!     (ie soil saturated SMI>0.87) emergence was reduced by 20%, consequently emergence
+!     was reduced by 0.03 per daywhen SMI>0.87.
+!     Wanjura 1969 contained data relating subsequent survival of seedlings to elapsed
+!     days to emergence.
+!
+!     Constable's original data will be reworked to derive relationships directly,
+!     instead of indirectly.
+!
+!------------------------------------------------------------------------------------------------
 
       use OzcotModule
       implicit none
       include 'error.pub'
+
+      real    ESTABLISH
+      character string*100
 
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_emerg')
@@ -2025,69 +2377,161 @@
       call push_routine(myname)
 
       IF(g%iemrg.GT.0) then
-         !RETURN
-      else
-!c----- simple heat sum as an alternative to wanjura's function -----
+         call pop_routine(myname)
+         return
+!jh v2001 deleted      else
+!jh v2001 deleted !c----- simple heat sum as an alternative to wanjura's function -----
 
-         IF(g%sumdd .LT. 60.) then                                            !const
-            !RETURN
-         else
-            g%iemrg = g%das
-         endif
+!jh v2001 deleted         IF(g%sumdd .LT. 60.) then                                            !const
+!jh v2001 deleted            !RETURN
+!jh v2001 deleted         else
+!jh v2001 deleted            g%iemrg = g%das
+!jh v2001 deleted         endif
       endif
+
+!--------------------------------------- ------------------------------------------------------
+
+
+      IF(g%INITIAL.EQ.1) THEN               ! first call of season
+          g%INITIAL = 0                       ! reset flag for next season
+          g%NDAY_CO = 0                       ! counter for days to emergence
+          g%NWET_CO = 0                       ! counter for wet days to mergence
+          g%SUM_TMX = 0.0
+          g%AVE_TX  = 0.0
+          g%DELAY_emerg =  0.0
+          g%DD_EMERG = (g%SDEPTH/p%rate_emergence)*(6.0/5.0) ! 0.1 is from linear increase phase of Wanjura 1970
+          g%PPM_SOWN =  0.0
+          g%PPM_EMERGE = 0.0
+          g%PPM_ESTABLISH =  0.0
+          g%FAIL_EMRG = 0.0
+          g%F_DIE =  0.0
+      ENDIF
+
+!--------------------------------------- ------------------------------------------------------
+      g%NDAY_CO = g%NDAY_CO + 1                       ! count days to emergence
+      IF(g%SMI .GT. 0.87) g%NWET_CO = g%NWET_CO + 1   ! count wet days to emergence
+      g%SUM_TMX = g%SUM_TMX + g%TEMPMX                ! sum TEMPMX
+      g%AVE_TX = g%SUM_TMX/g%NDAY_CO                    ! mean Tmax during mergence
+      IF(g%AVE_TX .GT. 20.0) g%DELAY_emerg = (g%AVE_TX - 20.0)*2.5  ! increase DD requirement - Anderson's data
+
+      IF(g%SUMDD .LT. g%DD_EMERG+g%DELAY_emerg) then
+         call pop_routine(myname)
+         RETURN   ! does not emerge today
+      endif
+
+!------ Crop emerges ---------------------------------------------------------------------------
+
+      g%iemrg = g%das
+
+!      IF(MODE.LE.1) THEN
+!         PPM = PPM_TARGET                       ! input gives established population
+!          WRITE(2,146)  JDATE,IDAY,PPM
+!  146     FORMAT(I4,I6,' *** Crop emerged with',F5.1,
+!     *                 ' plants per m sq.')
+!jh      IF(MODE.LE.2) THEN                         ! MPB setting population in management mode
+!jh          PPM = PPM_TARGET                       ! input gives established population
+!jh          WRITE(2,146)  JDATE,IDAY,PPM
+!jh 146     FORMAT(I4,I6,' *** Crop emerged with',F5.1,
+!jh     *                 ' plants per m sq.')
+!jh      ELSE                                       ! MODE=2, simulate population
+
+!------ Estimate emergence ---------------------------------------------------------------------
+
+          g%FAIL_EMRG = 0.015*real(g%NDAY_CO-7)            ! slow emergence; Constable 1976
+          g%FAIL_EMRG = g%FAIL_EMRG + 0.03*real(g%NWET_CO)   ! wet conditions; Constable 1976
+          IF(g%FAIL_EMRG .GT. 1.0) g%FAIL_EMRG = 1.0
+!jh v2001
+          IF(g%FAIL_EMRG .LT. 0.0) g%FAIL_EMRG = 0.0
+          g%PPM_SOWN = g%PPM_TARGET/0.8               ! seeds sown - assume 80% emerge
+          g%PPM_EMERGE = g%PPM_SOWN*(1.0 - g%FAIL_EMRG)   ! adjust PPM for failure to emerge
+
+!------ Estimate establishment   -----------------------------------------------------------
+
+          IF(g%NDAY_CO .GT. 8) THEN                  ! estimate proportion of seedlings
+              g%F_DIE = 0.0567*3.0 + 0.1*(g%NDAY_CO - 8) ! that fail to survive as a function
+          ELSEIF(g%NDAY_CO .GT. 5) THEN              ! of days to emerge
+              g%F_DIE = 0.0567*(g%NDAY_CO - 5)
+          ENDIF
+          IF(g%F_DIE .GT. 1.0) g%F_DIE = 1.0
+
+          g%PPM_ESTABLISH = g%PPM_EMERGE*(1.0-g%F_DIE)  ! adjust PPM for seedling death
+          g%PPM = MIN(g%PPM_TARGET,g%PPM_ESTABLISH)    ! to avoid confusion, PPM cannot exceed target
+
+!jhtemp disable establishment
+          g%PPM = g%PPM_TARGET
+
+          ESTABLISH = g%PPM*100.0/g%PPM_TARGET         ! percentage established
+
+
+              WRITE(string,147)  g%PPM,ESTABLISH, g%PPM_TARGET
+  147         FORMAT(' *** Crop emerged with',F5.1,
+     :            ' plants per m sq,',F4.0,'% of target population of '
+     :            , f5.1)
+               call write_string (string)
+
+          IF(ESTABLISH.LT.25.)THEN
+              g%IEND = 5           ! flag to terminate season
+              WRITE(string,148) g%PPM_TARGET
+  148         FORMAT(' *** Crop failed to establish;',
+     :             ' stand was less than 25% of target population of '
+     :             , f5.1)
+              call write_string (string)
+          ENDIF
+!jh      ENDIF                                      ! end of IF BLOCK for modes
 
       call pop_routine(myname)
       RETURN
       END
 
-!c-------------------------------------------------------------------
+!-------------------------------------------------------------------
 
-!c      previous version jackson/arkin
+!      previous version jackson/arkin
 
-!cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-!c      calculates hypocotle elongation leading up to emergence     c
-!c      based on the growing-degree-day concept.                    c
-!c      the elongation rate of 0.12 cm/gdd is use to a maximum rate c
-!c      of 2.04 cm/gdd at about 32 c.                               c
-!c      the gdd base temperature is set in the "init" subroutine.   c
-!c      elongation rate data are from wanjura et.al. 1970.          c
-!c                                                                  c
-!c      key variables:                                              c
-!c          sdepth = seed sowing depth                              c
-!c          stemp = soil temperature (calc. in subroutine "metdat") c
-!c          iemrg = emergence date                                  c
-!cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+!ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+!      calculates hypocotle elongation leading up to emergence     c
+!      based on the growing-degree-day concept.                    c
+!      the elongation rate of 0.12 cm/gdd is use to a maximum rate c
+!      of 2.04 cm/gdd at about 32 c.                               c
+!      the gdd base temperature is set in the "init" subroutine.   c
+!      elongation rate data are from wanjura et.al. 1970.          c
+!                                                                  c
+!      key variables:                                              c
+!          sdepth = seed sowing depth                              c
+!          stemp = soil temperature (calc. in subroutine "metdat") c
+!          iemrg = emergence date                                  c
+!ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
-!c       t = stemp                             ! soil temp
-!c       if(stemp.lt.14.44)t = 14.44+(14.44-t) ! to comput lag whenstemp < 14.44
-!c       hypoel = 0.0853-0.0057/(41.9-t)*(t-34.44)**2 ! wanjura's function
-!c       hypoel = hypoel*24.                   ! convert to daily rate
-!c       hypoel = hypoel*0.6                   ! tune to namoi valley
-!c       if(stemp.lt.14.44)hypoel = hypoel*(-0.5) ! delay below 14.44
-!c       esum = esum+hypoel
-!c
-!c      if(esum .lt. sdepth) return
-!c      iemrg = i
-!c
-!c      return
-!c      end
+!       t = stemp                             ! soil temp
+!       if(stemp.lt.14.44)t = 14.44+(14.44-t) ! to comput lag whenstemp < 14.44
+!       hypoel = 0.0853-0.0057/(41.9-t)*(t-34.44)**2 ! wanjura's function
+!       hypoel = hypoel*24.                   ! convert to daily rate
+!       hypoel = hypoel*0.6                   ! tune to namoi valley
+!       if(stemp.lt.14.44)hypoel = hypoel*(-0.5) ! delay below 14.44
+!       esum = esum+hypoel
+
+!      if(esum .lt. sdepth) return
+!      iemrg = i
+
+!      return
+!      end
 
 
 * ====================================================================
-!c      subroutine evap (i)
+!      subroutine evap (i)
       subroutine ozcot_evap
 * ====================================================================
-!cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-!c      calculates potential evapotransperation from modified pen-  c
-!c      man equation as reported by ritchie.                        c
-!c                                                                  c
-!c      key variables:                                              c
-!c          delta = slope of the water vapor/ air temp. curve       c
-!c          albedo = combined plant-soil albedo                     c
-!c          h = net radiation balance                               c
-!c          eo = potential et over bare soil                        c
-!c          eos = potential et below plant canopy                   c
-!cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+! retained to calculate EO for EP calculation.
+!ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+!      calculates potential evapotransperation from modified pen-  c
+!      man equation as reported by ritchie.                        c
+!                                                                  c
+!      key variables:                                              c
+!          delta = slope of the water vapor/ air temp. curve       c
+!          albedo = combined plant-soil albedo                     c
+!          h = net radiation balance                               c
+!          eo = potential et over bare soil                        c
+!          eos = potential et below plant canopy                   c
+!ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       use OzcotModule
       implicit none
@@ -2121,91 +2565,99 @@
 *- Implementation Section ----------------------------------
       call push_routine(myname)
 
-!c---------- calculate bowen ratio term -----------------------------------------
+!---------- calculate bowen ratio term -----------------------------------------
 
-        ELEV=c%elevation_default                                    ! ELEVATION (M)                  !const
+      ELEV=c%elevation_default                                    ! ELEVATION (M)                  !const
 !jh        ELEV=200.0                                    ! ELEVATION (M)                  !const
-        Pp=1013.0-0.105*ELEV                          ! MEAN PRESSURE(MB)              !const
-        GAMMA=6.6E-04*Pp*(1.0+0.00115*g%tempwt)    ! PSYCHROMETER CONSTANT             !const
-        TK=g%tempav+273.                                ! MEAN TEMP(DEG KELVIN)        !const
-        DELTA=(EXP(21.255-5304./TK))*(5304./(TK**2.)) !SLOPE g%sat VAP PRES CURVE      !const
-        D=DELTA/(DELTA+GAMMA)
+      Pp=1013.0-0.105*ELEV                          ! MEAN PRESSURE(MB)              !const
+      GAMMA=6.6E-04*Pp*(1.0+0.00115*g%tempwt)    ! PSYCHROMETER CONSTANT             !const
+      TK=g%tempav+273.                                ! MEAN TEMP(DEG KELVIN)        !const
+      DELTA=(EXP(21.255-5304./TK))*(5304./(TK**2.)) !SLOPE g%sat VAP PRES CURVE      !const
+      D=DELTA/(DELTA+GAMMA)
 
-!c------ calculate fraction radiation reaching surface(tr) ----------------------
-!c       culls functions(unpublished)
+!------ calculate fraction radiation reaching surface(tr) ----------------------
+!       culls functions(unpublished)
 
 
-        XN1=0.404*ALOG(g%s)+1.49                                                      !const
-!cpsc
-        g%alai = g%alai*g%rs        ! lai in hedgerow
-        IF(g%alai.LT.XN1) THEN     ! when LAI below XN1 threshold
-            g%tr=EXP(-0.6*g%alai)                                                    !const
-        ELSE                        ! when LAI above XN1 threshold
-            g%tr=EXP(-0.398*g%alai)                                                  !const
-        ENDIF
+      XN1=0.404*ALOG(g%s)+1.49                                                      !const
+!psc
+      g%alai_row = g%alai
+      IF(g%NSKIP.GT.0)g%alai_row = g%alai*g%rs        ! lai in hedgerow
+      IF(g%alai_row.LT.XN1) THEN     ! when LAI below XN1 threshold
+         g%tr=EXP(-0.6*g%alai_row)                                                    !const
+      ELSE                        ! when LAI above XN1 threshold
+         g%tr=EXP(-0.398*g%alai_row)                                                  !const
+      ENDIF
 
-!cpsc
-        F_INT = 1.0-g%tr              ! intercetion in hedgerow
-        F_INT = F_INT/g%rs          ! interception on ground area basis
-        g%tr =  1.-F_INT            ! transmission on ground area basis
-        g%alai = g%alai/g%rs        ! restore LAI to ground area basis
+!psc
+      IF(g%NSKIP.GT.0) THEN
+         F_INT = 1.0-g%tr              ! intercetion in hedgerow
+         F_INT = F_INT/g%rs          ! interception on ground area basis
+         g%tr =  1.-F_INT            ! transmission on ground area basis
+!jh         g%alai = g%alai/g%rs        ! restore LAI to ground area basis
+      else
+         F_INT = 0.0
+      ENDIF
 
-!c        if(rs.gt.1.) tr = (tr+rs-1.)/rs ! adjust for rows wider than im
+      g%f_intz = max(g%f_intz, f_int)
 
-!c-----vapor pressure deficit: mean of vpd at 9am and 3pm ,assuming atmos.
-!c     vp.(vpdry) remains constant throughout day, and tmax=t3pm-----------------
+!      if(rs.gt.1.) tr = (tr+rs-1.)/rs ! adjust for rows wider than im
 
-        SVPMAX=ozcot_satvp(g%tempmx)      ! g%sat VP AT TMAX=g%sat VP AT T3PM
-        SVPDRY=ozcot_satvp(g%tempdy)      ! g%sat VP AT 9AM TDRY
-        SVPWET=ozcot_satvp(g%tempwt)      ! g%sat VP AT 9AM TWET
+!-----vapor pressure deficit: mean of vpd at 9am and 3pm ,assuming atmos.
+!     vp.(vpdry) remains constant throughout day, and tmax=t3pm-----------------
 
-           VPDRY=SVPWET-GAMMA*(g%tempdy-g%tempwt) ! atmospheric VP
-           IF(VPDRY.LE.0.) VPDRY = 0.1         ! cannot be -ve.
-           g%vpd=((SVPDRY-VPDRY)+(SVPMAX-VPDRY))/2.
+      SVPMAX=ozcot_satvp(g%tempmx)      ! g%sat VP AT TMAX=g%sat VP AT T3PM
+      SVPDRY=ozcot_satvp(g%tempdy)      ! g%sat VP AT 9AM TDRY
+      SVPWET=ozcot_satvp(g%tempwt)      ! g%sat VP AT 9AM TWET
 
-!c------ calculate potential evaporation (eo) -----------------------------------
+      VPDRY=SVPWET-GAMMA*(g%tempdy-g%tempwt) ! atmospheric VP
+      IF(VPDRY.LE.0.) VPDRY = 0.1         ! cannot be -ve.
+      g%vpd=((SVPDRY-VPDRY)+(SVPMAX-VPDRY))/2.
 
-        SALPHA=0.09                                                                  !const
-        ALBEDO=0.3067+0.3333*SALPHA-((0.23-SALPHA)/0.75)*g%tr ! ??                   !const
+!------ calculate potential evaporation (eo) -----------------------------------
 
-!c------net longwave radiation(r6,cal/cm2)--------------------------------------
+      SALPHA=0.09                                                                  !const
+      ALBEDO=0.3067+0.3333*SALPHA-((0.23-SALPHA)/0.75)*g%tr ! ??                   !const
 
-!c      ritchie(1975)unpub.;idso & jackson(1969)j geophys res,74:5397-5403;
-!c      jensen et al(1969)proc am soc civil engin,96:61-79                             ! temple,texas
-!c        r4=1.-.261*exp(-7.77e-04*tempav**2.)        ! sky emissivity,ea
-!c        r6=(r4-.96)*1.17e-07*tk**4.*(.2+.8*solrto)  ! ((ea-es)*@*tk**4)*(-)
+!------net longwave radiation(r6,cal/cm2)--------------------------------------
 
-        R4=1.08*(1.-EXP(-VPDRY**(TK/2016.)))                                           !const
-        R6=(R4-1.)*1.*1.17E-07*TK**4.*(.2+.8*g%solrto) ! ((EA-g%es)*@*TK**4)*(-)       !const
+!      ritchie(1975)unpub.;idso & jackson(1969)j geophys res,74:5397-5403;
+!      jensen et al(1969)proc am soc civil engin,96:61-79                             ! temple,texas
+!        r4=1.-.261*exp(-7.77e-04*tempav**2.)        ! sky emissivity,ea
+!        r6=(r4-.96)*1.17e-07*tk**4.*(.2+.8*solrto)  ! ((ea-es)*@*tk**4)*(-)
+
+      R4=1.08*(1.-EXP(-VPDRY**(TK/2016.)))                                           !const
+      R6=(R4-1.)*1.*1.17E-07*TK**4.*(.2+.8*g%solrto) ! ((EA-g%es)*@*TK**4)*(-)       !const
                                                      ! g%es=EMISSIVITY OF EVAP SURFACE  !const
 
-!c-------net radiation(h,cal/cm2)----------------------------------------------
+!-------net radiation(h,cal/cm2)----------------------------------------------
 
-        H=(1.-ALBEDO )*g%solrad+R6
-        IF(H.LT.0.0) H=0.0
+      H=(1.-ALBEDO )*g%solrad+R6
+      IF(H.LT.0.0) H=0.0
 
-        g%ho=H/583.                                 ! NET RADIATION(CM)             !const
-!c       go=g/583.                                   ! soil heat flux(cm)
+      g%ho=H/583.                                 ! NET RADIATION(CM)             !const
+!       go=g/583.                                   ! soil heat flux(cm)
 
-!c-------advection or aerodynamic term ------------------------------------------
+!-------advection or aerodynamic term ------------------------------------------
 
-        IF(g%wind.NE.0..AND.g%tempwt.NE.0.) THEN
-            AT = (1.-D)*0.01*(1.+.028*g%wind)*g%vpd ! advection: g%wind & g%vpd       !const
-        ELSE IF(g%wind.EQ.0..AND.g%tempwt.NE.0.) THEN
-            AT = -11.9813+0.012*g%vpd+0.0404*TK     ! advection: g%vpd but no g%wind   !const
-        ELSE
-            AT = -20.4355+0.0697*TK                 ! advection:  no g%vpd or g%wind   !const
-        ENDIF
-        IF(AT.LT.0.0) AT = 0.0
+      IF(g%wind.NE.0..AND.g%tempwt.NE.0.) THEN
+         AT = (1.-D)*0.01*(1.+.028*g%wind)*g%vpd ! advection: g%wind & g%vpd       !const
+      ELSE IF(g%wind.EQ.0..AND.g%tempwt.NE.0.) THEN
+         AT = -11.9813+0.012*g%vpd+0.0404*TK     ! advection: g%vpd but no g%wind   !const
+      ELSE
+         AT = -20.4355+0.0697*TK                 ! advection:  no g%vpd or g%wind   !const
+      ENDIF
+      IF(AT.LT.0.0) AT = 0.0
 
-        g%eo=g%ho*D+AT                              ! GdaR Mar'85, update ABH Mar88.
+!jhnote test removing this
+      g%eo=g%ho*D+AT                              ! GdaR Mar'85, update ABH Mar88.
 
-!c------ calculate potential below canopy evaporation (eos) ---------------------
+!------ calculate potential below canopy evaporation (eos) ---------------------
 
-        RNS=g%ho*g%tr ! GdaR Mar'85
-        g%eos=D*RNS ! GdaR Mar'85
-        IF(g%eos.LT.0.0)g%eos=0.0
-        IF(g%eos.GT.g%eo)g%eos=g%eo
+!jh v2001        RNS=g%ho*g%tr ! GdaR Mar'85
+!jh v2001        g%eos=D*RNS ! GdaR Mar'85
+!jh v2001        IF(g%eos.LT.0.0)g%eos=0.0
+!jh v2001        IF(g%eos.GT.g%eo)g%eos=g%eo
 
         call pop_routine(myname)
         RETURN
@@ -2213,14 +2665,26 @@
 
 
 * ====================================================================
-!c      function frugen(i)
+!      function frugen(i)
       real FUNCTION ozcot_frugen(ndas)
 * ====================================================================
-!c
-!c     estimates generation of new fruit as function of existing
-!c     fruiting sites and bolload adjusted for nitrogen stress
+!
+!     estimates generation of new fruit as function of existing
+!     fruiting sites and bolload adjusted for nitrogen stress
 
-!c      data from "siratac" - 1987-88 hearn (pers. comm.).
+!     "Cutout" occurs in FRUGEN when squaring (fruiting site) production stops.
+!     which is caused by:
+!           boll N demand > supply  --  accounted for by FNSTRS=0, terminal
+!           boll C demand > supply  --  which occurs when
+!               (i) assimilation not reduced by water stress or waterlogging
+!                   and boll load exceeds capacity; terminal until 2nd cycle
+!                   cycle after enough bolls open to reduce load, but capacity
+!                   may be reduced by this time by reduced LAI
+!               (ii) assimilation reduced by water stress or waterloggin;
+!                   this need not be terminal if the stress ends, but the rate
+!                   of squaring will be rediced if the stress is prolonged,
+
+!      data from "siratac" - 1987-88 hearn (pers. comm.).
 
       use OzcotModule
       implicit none
@@ -2231,7 +2695,7 @@
 
       real ozcot_stress
 
-!cpc   real sites1
+!pc   real sites1
       real blr
       real dfru
       real vsnstr
@@ -2244,94 +2708,72 @@
 *- Implementation Section ----------------------------------
       call push_routine(myname)
 
-!c     psc      i=icount
-!c-----------------------------------------------------------------------------
-!c     initialise on first call for new crop
-!c-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+!     initialise on first call for new crop
+!-----------------------------------------------------------------------------
 
-!c      if(i.eq.isq+1)then           ! 1st call,ie day after 1st square
+!      if(i.eq.isq+1)then           ! 1st call,ie day after 1st square
       IF(ndas.EQ.g%isq+1)THEN         ! 1st call,ie g%day after 1st square
           g%n_cutout=0             ! flag to show g%cutout, >= 1 = not squaring
           g%sites1=0.0             ! to save current value of g%sites
-!c          alag=0.0                 ! reset lag accumulator
       ENDIF
       ozcot_frugen=0.                    ! delete y'day's value and reset to zero
-!c-----------------------------------------------------------------------------
-!c     is this 1st cycle, cutout or 2nd cycle (regrowth)?
-!c-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+!     is this 1st cycle, cutout or 2nd cycle (regrowth)?
+!     crop cuts out, either temporarily or terminaly, when boll load exceeds
+!     the value CUTOUT (from S/R CARRYING). CUTOUT is zero the day after 1st
+!     square, which is therefore treated as a special case below.
+!-----------------------------------------------------------------------------
 
-      BLR = 1.                             ! boll load ratio =1 when g%cutout=0
-!c      if(i.eq.isq+1) blr = 0.              ! except day after 1st square
-      IF(ndas.EQ.g%isq+1) BLR = 0.            ! except g%day after 1st square
-      IF(g%cutout.GT.0.) BLR=g%bload/(g%cutout) ! ratio of 0 is no boll load
-      IF(BLR.GT.1.) BLR=1.                 ! ratio of 1 is full boll load
+      IF(g%cutout.GT.0.) THEN
+          BLR=g%bload/g%cutout     ! boll load ratio
+          IF(BLR.GT.1.) BLR=1.     ! full boll load
+      ELSE                         ! ie CUTOUT = 0
+          IF(ndas.EQ.g%isq+1) THEN      ! day after 1st square ?
+              BLR = 0.             ! if so, no boll load
+          ELSE
+              BLR = 1.             ! full boll load because CUTOUT=0
+          ENDIF
+      ENDIF
 
-      IF(BLR.LT.1.0 .AND. g%n_cutout.le.0)GO TO 30 ! squaring continues
-      IF(BLR.LT.1.0 .AND. g%n_cutout.GE.1)GO TO 20 ! squaring stopped, may resume
-      IF (reals_are_equal(BLR,1.0)) then
-         if (g%n_cutout.GE.1) then 
-                 GO TO 10 ! squaring stopped, no restart
-         else
-         endif
-      else
-      endif
-      g%n_cutout=1 ! ie (BLR.EQ.1.0 .AND. g%n_cutout.EQ.0) and squaring stops today
-
-10    continue
-
-!c-----------------------------------------------------------------------------
-!c     if coutout due to water stress or full boll load ie smi < 0.75
-!c     10% of fruiting sites become inactive for frugen every day after 5 days
-!c-----------------------------------------------------------------------------
-
-      IF(g%smi.LT.c%cutout_smi_crit) g%n_cutout = g%n_cutout + 1   ! count days g%cutout                !const
-      IF(g%n_cutout.GT.c%cutout_smi_days) 
-     :                 g%sites1 = g%sites1 
+!     if cutout is caused by water stress (ie SMI < 0.25) then
+!     10% of fruiting sites become inactive for FRUGEN every day after 5 days
+!     which simulates lag in recovery after relief of stress
+!-----------------------------------------------------------------------------
+      IF (BLR.EQ.1.0 .OR. g%FNSTRS .EQ. 0.0) THEN
+          g%n_cutout = g%n_cutout + 1         ! count days cutout
+          if(g%n_cutout.GT.c%cutout_smi_days)
+     :                 g%sites1 = g%sites1
      :                          + c%cutout_smi_site_red*g%size*g%ppm ! inactive g%sites          !const
 
-      call pop_routine(myname)
-      RETURN
+         call pop_routine(myname)
+         RETURN
 
-20    continue
-      IF(g%sites1.GT.g%sites) g%sites1 = g%sites
-      g%n_cutout=0                  ! recovery complete, squaring resumes
+      ELSE IF(g%n_cutout.GE.1)THEN          ! stress finished, squaring resumes
+          IF(g%sites1.GT.g%sites) g%sites1 = g%sites
+          g%n_cutout = 0                      ! recovery complete, squaring resumes
+      ENDIF
 
-30    continue
-
-!c-----------------------------------------------------------------------------
-!c     square production for this day
-!c-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+!     square production for this day
+!-----------------------------------------------------------------------------
 
       g%size = (g%sites-g%sites1)/g%ppm ! active g%sites per plant for FRUGEN & SURVIV
       IF(g%size.LT.1.0) g%size = 1.0 ! average  plants has 1 site
       IF(g%size.LT.0.5/g%ppm) g%size = 0.5/g%ppm ! average  plants has 1 site              !const
 
-      IF(g%carcap_c.EQ.0.) THEN     ! either 1st g%day afer squaring or defoliated
-!c          if(i.eq.isq+1) then                             ! day after 1st square
-          IF(ndas.EQ.g%isq+1) THEN                           ! g%day after 1st square
-             DFRU = p%SQCON*SQRT(g%size)*g%ppm    ! g%sites per g%dd
-          ELSE
-             call pop_routine(myname)
-             RETURN                                       ! defoliated FRUGEN=0.
-          ENDIF
-      ELSE
-          DFRU = p%SQCON*SQRT(g%size)*g%ppm*(1.-g%bload/
-     :    g%cutout) ! g%sites per g%dd
-          VSNSTR = ozcot_stress(c%vsnstr_low
-     :                         ,c%vsnstr_high
-     :                         ,c%vsnstr_a
-     :                         ,g%vnstrs)                              !const
-          DFRU = DFRU * VSNSTR
-          IF((g%bollz+g%openz)/g%carcap_n .GE. 1.0) DFRU = 0. ! N limiting
-
-      ENDIF
+      DFRU = p%SQCON*SQRT(g%size)*g%ppm*(1.-BLR)   ! sites per DD
+      VSNSTR = ozcot_stress(c%vsnstr_low           ! vegetative N stress
+     :                     ,c%vsnstr_high
+     :                     ,c%vsnstr_a
+     :                     ,g%vnstrs)                              !const
+      DFRU = DFRU * VSNSTR
 
       PPM_ROW = g%ppm*g%rs               ! plants per m row for POPFAC
-      POPFAC = 1./(1.+c%POPCON*PPM_ROW)   ! plant population factor within row
+      POPFAC = 1./(1.+p%POPCON*PPM_ROW)   ! plant population factor within row
       DFRU = DFRU * POPFAC               ! adjust for plant population
       ozcot_frugen = DFRU * g%dd               ! today's squares
       IF(ozcot_frugen.LT.0.0) ozcot_frugen=0.0
-!c      if(isyr.eq.77 .and. i.lt.isq+15) ozcot_frugen=ozcot_frugen*0.1 ! delay for 77/78 season - 23/6/88
 
       call pop_routine(myname)
       RETURN
@@ -2339,15 +2781,15 @@
 
 
 * ====================================================================
-!c     subroutine fruit (i,iend)
+!     subroutine fruit (i,iend)
        subroutine ozcot_fruit
 * ====================================================================
 
-!c      ages fruit, sums fruit in categories, estimates physiological
-!c      shedding and survival of fruit.  calls s/r actfru to estimate
-!c      new squares flowers and open bolls from counts. alternatively
-!c      calls s/r ozcot_frugen to estimate new squares when counts not
-!c      available.
+!      ages fruit, sums fruit in categories, estimates physiological
+!      shedding and survival of fruit.  calls s/r actfru to estimate
+!      new squares flowers and open bolls from counts. alternatively
+!      calls s/r ozcot_frugen to estimate new squares when counts not
+!      available.
 
       use OzcotModule
       implicit none
@@ -2358,49 +2800,50 @@
 
 !jh      real frudd
 !jh      real wt
+      character string*100
       integer cat
       integer age
       integer ndayfl
 !jh      real bltme
       real surv
-      integer das 
+      integer cohort
       integer lf
       integer mm
       integer mmm
       integer nfl
       integer if
 
-!c      dimension frudd(8),wt(8),sfmcat(8),bltme(8),bpsum(300)
+!      dimension frudd(8),wt(8),sfmcat(8),bltme(8),bpsum(300)
 !jh      DIMENSION FRUDD(8),WT(8),SFMCAT(8),BLTME(8)
 !jh      DATA FRUDD/50.,180.,350.,380.,520.,660.,870.,1100./
 !jh      DATA BLTME/3*0.0,0.07,0.21,0.33,0.55,1.0/
 !jh      DATA WT/.0104,.0272,.1441,.0988,.5042,.9617,1.0,.5785/
 
-!c      data scboll /5.0,5.0,4.7,4.5,5.5,4*.0,7./  ! dp16,dp61,dp90,siok,sica
-!c      data respcon/.025, .025, .02306, .01593, .02306, 4*.0,.025/ !  ditto
-!c      data sqcon  /.021, .021, .02057, .02283, .02057, 4*.0,.021/ !   ditto
-!c      data fcutout/.4789, .4789, .4789, .5411, .4789,  4*.0,.48/ !  ditto
-!c      data flai   /1.0, 1.0, 0.87, 0.52, 0.87, 4*0.0,1./         !  ditto
-!c      data popcon /.03633/
-!c
+!      data scboll /5.0,5.0,4.7,4.5,5.5,4*.0,7./  ! dp16,dp61,dp90,siok,sica
+!      data respcon/.025, .025, .02306, .01593, .02306, 4*.0,.025/ !  ditto
+!      data sqcon  /.021, .021, .02057, .02283, .02057, 4*.0,.021/ !   ditto
+!      data fcutout/.4789, .4789, .4789, .5411, .4789,  4*.0,.48/ !  ditto
+!      data flai   /1.0, 1.0, 0.87, 0.52, 0.87, 4*0.0,1./         !  ditto
+!      data popcon /.03633/
+
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_fruit')
 
 *- Implementation Section ----------------------------------
       call push_routine(myname)
 
-!c----  re-intialise arrays and variables to zero where appropriate -------------
+!----  re-intialise arrays and variables to zero where appropriate -------------
 
-!c      if(i.eq.isq+1)then        ! 1st call of new season on day after 1st square
-!c          do 10 n=1,300
-!c              bpsum(n)=0.0
-!c10        continue
-!c          idayx = 0             ! flag to bollwt, called for 1st time this day
-!c      endif
+!      if(i.eq.isq+1)then        ! 1st call of new season on day after 1st square
+!          do 10 n=1,300
+!              bpsum(n)=0.0
+!10        continue
+!          idayx = 0             ! flag to bollwt, called for 1st time this day
+!      endif
 
-      DO 100 cat=1,Max_categories-1
-          g%frucat(cat)=0.
-          g%sfmcat(cat)=0.
+      DO 100 cat = 1,Max_categories-1
+          g%frucat(cat) = 0.0
+          g%sfmcat(cat) = 0.0
           IF(cat.GT.7)GO TO 100
           DO 20 age=1,7
               g%fmkcat(cat,age)=0.
@@ -2410,195 +2853,204 @@
       g%frudw = 0.
       NDAYFL=0
 
-!c---- compute boll period ------------------------------------------------------
+!---- compute boll period ------------------------------------------------------
 
-      g%bper = 1.0/EXP(5.385-.0512*g%tempav) ! boll period Constable                   !const
+	   g%bper = EXP(5.385-.0512*g%tempav)         ! boll period Constable
+      g%bper = g%bper*(p%FRUDD(Inedible_bolls)-p%FRUDD(Large_Sqz))/788.   ! adjust for variety
+      g%bper = 1.0/g%bper                        ! fraction for day
 
-!c-----------------------------------------------------------------------------
-!c     the next loop ( do 200 l=....) goes through the fruit arrays
-!c     starting with the element with oldest fruit and therefore the smallest
-!c     index, in order to develop or abscise fruit, and put in categories.
-!c     before entering the loop, find the oldest fruit.
-!c-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+!     the next loop ( do 200 l=....) goes through the fruit arrays
+!     starting with the element with oldest fruit and therefore the smallest
+!     index, in order to develop or abscise fruit, and put in categories.
+!     before entering the loop, find the oldest fruit.
+!-----------------------------------------------------------------------------
 
-      LF=g%lfru(cat9)    ! 1st active element in fruit array, oldest immature fruit
-!cpsc      if(lf.eq.0)lf=isq-isow-10 ! start in fruno 10 days before 1st square
+      LF=g%lfru(open_bolls)    ! 1st active element in fruit array, oldest immature fruit
+!psc      if(lf.eq.0)lf=isq-isow-10 ! start in fruno 10 days before 1st square
       IF(LF.EQ.0)LF=g%isq-10 ! start in g%fruno 10 days before 1st square             !const
 
-!cpsc      do 200 l=lf,i-isow-1 ! loop from oldest growing boll to previous day
-      DO 200 das=LF,g%das-1 ! loop from oldest growing boll to previous g%day
-          IF(das.GT.Max_das)GO TO 200
-!cpsc          call bollwt(idayx,l)
-          CALL ozcot_bollwt(das)
+!psc      do 200 l=lf,i-isow-1 ! loop from oldest growing boll to previous day
+      DO 200 cohort=LF,g%das-1 ! loop from oldest growing boll to previous g%day
+          IF(cohort.GT.Max_cohort)GO TO 200
+!psc          call bollwt(idayx,l)
+          CALL ozcot_bollwt(cohort)
 
-!c---- age & abscise marked fruit----------------------------------------
+!---- age & abscise marked fruit----------------------------------------
 
           DO 30 age = 1,max_age-1
               MM = (max_age-1)-age+1
               MMM = MM+1
-              g%frmark (das,MMM) = g%frmark(das,MM)
+              g%frmark (cohort,MMM) = g%frmark(cohort,MM)
 30        continue
-          g%frmark(das,age1)=0.                 ! CLEAR FIRST g%day
-          IF(g%fruno(das).GT.0. .AND. g%frmark(das,age7).GT.0.)THEN ! fruit shed today?
-              IF(g%frmark(das,age7).GT.g%fruno(das))THEN
-!c                  write(2,999) i,jdate,l,fruno(l),frmark(l,7)
-!c999               format
-!c     *            (' too many marked fruit on i, jdate:',3i4,2f5.1)
-!c                  frmark(l,7) = fruno(l)
+          g%frmark(cohort,age1)=0.                 ! CLEAR FIRST g%day
+          IF(g%fruno(cohort).GT.0.
+     :      .AND. g%frmark(cohort,age7).GT.0.)THEN ! fruit shed today?
+              IF(g%frmark(cohort,age7).GT.g%fruno(cohort))THEN
+                  write(string,999) cohort,g%fruno(cohort)
+     :                                    ,g%frmark(cohort,age7)
+999               format
+     :            (' too many marked fruit:',i4,2f5.1)
+                  call write_string (string)
+                  g%frmark(cohort,age7) = g%fruno(cohort)
               ENDIF
-              g%fruwt(das) = g%fruwt(das)
-     :                     * (g%fruno(das)-g%frmark(das,age7))
-     :                     / g%fruno(das) ! adjust wt sheds
-              g%fruno (das)=g%fruno(das)-g%frmark(das,age7) ! remove marked fruit
-
+              g%fruwt(cohort) = g%fruwt(cohort)
+     :                     * (g%fruno(cohort)-g%frmark(cohort,age7))
+     :                     / g%fruno(cohort) ! adjust wt sheds
+              g%fruno (cohort)=g%fruno(cohort)-g%frmark(cohort,age7) ! remove marked fruit
           ENDIF
 
-!c---- sort fruit and marked fruit into age categories  -----------------------
+!---- sort fruit and marked fruit into age categories  -----------------------
 
-          IF(g%fyzage(das).GT.c%FRUDD(cat3))
-     *    g%bpsum(das)=g%bpsum(das)+g%bper          ! develop g%day das's bolls
-          IF(g%n_def.GT.0) g%bpsum(das)=g%bpsum(das)/0.99 ! develop faster after defoliation      !const
-          IF(g%iend.EQ.2 .AND. g%bpsum(das).GE.0.9) g%bpsum(das)=1.0 ! frost opens phys mat bolls !const
+          IF(g%fyzage(cohort).GT.p%FRUDD(Large_Sqz))
+     *    g%bpsum(cohort)=g%bpsum(cohort)+g%bper          ! develop g%day cohort's bolls
+          IF(g%n_def.GT.0) g%bpsum(cohort)=g%bpsum(cohort)/0.99 ! develop faster after defoliation      !const
 
+          IF(g%iend.EQ.2 .OR. g%iend.EQ.6) THEN     ! frost or green bolls > 1
+              IF(g%bpsum(cohort).GE.0.9) g%bpsum(cohort)=1.0  ! crop finishing; opens phys mat bolls
+          ENDIF
+
+          ! determine which fruit age category this cohort is in
           DO 40 cat=1,Max_categories-1                              ! stay in loop until category found
-              IF(cat.LT.cat4)THEN                    ! if yes, squares
-                  IF(g%fyzage(das).LT.c%FRUDD(cat)) GO TO 204
+              IF(cat.LT.Flowers)THEN                    ! if yes, squares
+                  IF(g%fyzage(cohort).LT.p%FRUDD(cat)) GO TO 204
               ELSE                              ! no, therefore flowers or bolls
-                  IF(g%bpsum(das).LT.c%BLTME(cat))GO TO 204
+                  IF(g%bpsum(cohort).LT.p%BLTME(cat))GO TO 204
               ENDIF
 40        continue
 
-!c------- if last loop completed, fruit are open bolls -------------------------
+!------- if last loop completed, fruit are open bolls -------------------------
 
-          IF(das.LE.g%lfru(cat9))GO TO 200 ! this days bolls already open?
-          g%lfru(cat9)=das               ! this days bolls open today, reset marker
-!c          if(i.le.idate)go to 202   ! use actual counts or not?
-          g%openz=g%openz+g%fruno(das) ! simulated bolls open added to total
-          g%openwt=g%openwt+g%fruwt(das)
+          IF(cohort.LE.g%lfru(open_bolls))GO TO 200 ! this days bolls already open?
+          g%lfru(open_bolls)=cohort               ! this days bolls open today, reset marker
+!          if(i.le.idate)go to 202   ! use actual counts or not?
+          g%openz=g%openz+g%fruno(cohort) ! simulated bolls open added to total
+          g%openwt=g%openwt+g%fruwt(cohort)
 
-!c202       continue
+!202       continue
 
-          g%fruno(das)=0.0 ! delete open bolls from array
-          g%fruwt(das)=0.
+          g%fruno(cohort)=0.0 ! delete open bolls from array
+          g%fruwt(cohort)=0.
           GO TO 200
 
 204       continue
-          IF(das.LE.g%lfru(cat))GO TO 206 ! this days fruit in category cat  yet?
-          g%lfru(cat)=das               ! this days fruit into category cat today.
-          IF(cat.NE.cat4)GO TO 206       ! category is flowers?
+          IF(cohort.LE.g%lfru(cat))GO TO 206 ! this days fruit in category cat  yet?
+          g%lfru(cat)=cohort               ! this days fruit into category cat today.
+          IF(cat.NE.Flowers)GO TO 206       ! category is flowers?
           NDAYFL=NDAYFL+1           ! count this days flowering
-!c          if(i.gt.idate)go to 206   ! using actual counts or not?
-!c          fruno(l)=0.0              ! clear for actual counts
-!c          go to 200
+!          if(i.gt.idate)go to 206   ! using actual counts or not?
+!          fruno(l)=0.0              ! clear for actual counts
+!          go to 200
 
 206       continue
-          g%frucat(cat)=g%frucat(cat)+g%fruno(das)       ! sum fruit nos in categories
-          IF(cat.GE.cat4) g%frudw = g%frudw+g%fruwt(das)  ! sum dry wt of fruit
-          IF (cat.GT.cat7) GO TO 200
+          g%frucat(cat)=g%frucat(cat)+g%fruno(cohort)       ! sum fruit nos in categories
+          IF(cat.GE.Flowers) g%frudw = g%frudw+g%fruwt(cohort)  ! sum dry wt of fruit
+          IF (cat.GT.Large_bolls) GO TO 200
           DO 50 age=2,6                                 ! loop thro marked fruit
-              g%fmkcat(cat,age)=g%fmkcat(cat,age)+g%frmark(das,age) ! sum marked fruit
-              g%sfmcat(cat)=g%sfmcat(cat)+g%frmark(das,age)    ! sum marked fruit for g%bload
+              g%fmkcat(cat,age)=g%fmkcat(cat,age)+g%frmark(cohort,age) ! sum marked fruit
+              g%sfmcat(cat)=g%sfmcat(cat)+g%frmark(cohort,age)    ! sum marked fruit for g%bload
 50        continue
 
 200   continue
 
-!c---- total squares, green (growing) bolls, open bolls---------------------
+!---- total squares, green (growing) bolls, open bolls---------------------
 
       g%squarz=0.
       g%bollz=0.
       g%bload=0.                                     ! reset
       DO 60 cat=1,Max_categories-1
-          IF (cat.LE.cat3) g%squarz=g%squarz+g%frucat(cat)  ! total squares
-          IF (cat.GE.cat4.AND.cat.LE.cat8) g%bollz=g%bollz+g%frucat(cat) ! total bolls
-          g%bload=g%bload+(g%frucat(cat)-g%sfmcat(cat))*c%WT(cat)  !  boll load
+          IF (cat.LE.Large_Sqz) g%squarz=g%squarz+g%frucat(cat)  ! total squares
+          IF (cat.GE.Flowers.AND.cat.LE.Inedible_bolls)
+     :                                 g%bollz=g%bollz +g%frucat(cat) ! total bolls
+          g%bload=g%bload+(g%frucat(cat)-g%sfmcat(cat))*p%WT(cat)  !  boll load
 60    continue
 
-!c---- this day's production of fruit -----------------------------------------
+!---- this day's production of fruit -----------------------------------------
 
-!c      call carrying_capacity(i)
+!      call carrying_capacity(i)
       CALL ozcot_carrying_capacity
       IF(g%bload.GT.g%carcap_c .OR. g%bollz+g%openz.GT.g%carcap_n)
-     *CALL ozcot_overload                                  ! abort excess fruit
+     :   CALL ozcot_overload                                  ! abort excess fruit
 
-!c      if (i.le.idate)then                            ! use counted fruit?
-!c      if (das.le.idate)then                            ! use counted fruit?
-!c          call actfru (i)
-!c          call actfru
-!c          call update(1,1,daysqz,squarz,frudd)
-!c          if(lfru(4).ne.0..or.daysfl.ne.0.)
-!c     *        call update(4,ndayfl,daysfl,bollz,frudd)
-!c          if(lfru(9).ne.0..or.daysop.ne.0.)
-!c     *        call update(9,1,daysop,openz,frudd)
-!c      else
-!cpsc           icount = i               ! dummy parameter to use frugen
-!c          fruno(i-isow)=frugen(i)  ! frugen is function generating squares
+!      if (i.le.idate)then                            ! use counted fruit?
+!      if (das.le.idate)then                            ! use counted fruit?
+!          call actfru (i)
+!          call actfru
+!          call update(1,1,daysqz,squarz,frudd)
+!          if(lfru(4).ne.0..or.daysfl.ne.0.)
+!     *        call update(4,ndayfl,daysfl,bollz,frudd)
+!          if(lfru(9).ne.0..or.daysop.ne.0.)
+!     *        call update(9,1,daysop,openz,frudd)
+!      else
+!psc           icount = i               ! dummy parameter to use frugen
+!          fruno(i-isow)=frugen(i)  ! frugen is function generating squares
           g%fruno(g%das)=ozcot_frugen(g%das) ! ozcot_frugen is function generating squares
+!      end if
 
-!c      end if
-
-!c---- mark this day's fruit for physiological shedding      -----------------
+!---- mark this day's fruit for physiological shedding      -----------------
 
       SURV = ozcot_survive(g%carcap_c,g%bload) ! square survival rate
 
-!c      if(jdate.lt.59) surv = 0.1       ! for krs with delayed protection
-!c      surv =surv*0.33                  ! for pest damage in 1972/3 namoi
+!      if(jdate.lt.59) surv = 0.1       ! for krs with delayed protection
+!      surv =surv*0.33                  ! for pest damage in 1972/3 namoi
 
-!c      frmark(i-isow,1)=fruno(i-isow)*(1.-surv)
-!c      if(frmark(i-isow,1).lt.0.) frmark(i-isow,1)=0.0
-!c      fmkcat(1,1)=fmkcat(1,1)+frmark(i-isow,1)
+!      frmark(i-isow,1)=fruno(i-isow)*(1.-surv)
+!      if(frmark(i-isow,1).lt.0.) frmark(i-isow,1)=0.0
+!      fmkcat(1,1)=fmkcat(1,1)+frmark(i-isow,1)
       g%frmark(g%das,age1)=g%fruno(g%das)*(1.-SURV)
       IF(g%frmark(g%das,age1).LT.0.) g%frmark(g%das,age1)=0.0
-      g%fmkcat(cat1,age1)=g%fmkcat(cat1,age1)+g%frmark(g%das,age1)
+      g%fmkcat(Small_Sqz,age1)= g%fmkcat(Small_Sqz,age1)
+     :                        + g%frmark(g%das,age1)
       IF(NDAYFL.EQ.0)GO TO 501
       SURV = ozcot_survive(g%carcap_c,g%bload) ! boll survival rate
-!c      surv =surv*0.33                  ! for pest damage in 1972/3 namoi
+!      surv =surv*0.33                  ! for pest damage in 1972/3 namoi
 
       DO 70 NFL = 1,NDAYFL
-          IF = g%lfru(cat4)-NFL+1
+          IF = g%lfru(Flowers)-NFL+1
           g%frmark(IF,age1) = g%fruno(IF)*(1.-SURV)
           IF(g%frmark(IF,age1).LT.0.)g%frmark(IF,age1) = 0.0
-          g%fmkcat(cat4,age1) = g%fmkcat(cat4,age1)+g%frmark(IF,age1)
+          g%fmkcat(Flowers,age1) = g%fmkcat(Flowers,age1)
+     :                          + g%frmark(IF,age1)
 70    continue
 
-!c---- add new fruit to totals ------------------------------------------------
+!---- add new fruit to totals ------------------------------------------------
 
   501 CONTINUE
 
-!c      sites = sites+fruno(i-isow)
-!c      if(i.le.idate)return ! squarz & frucat updated in update
-!c      squarz = squarz+fruno(i-isow)
-!c      frucat(1) = frucat(1)+fruno(i-isow)
+!      sites = sites+fruno(i-isow)
+!      if(i.le.idate)return ! squarz & frucat updated in update
+!      squarz = squarz+fruno(i-isow)
+!      frucat(1) = frucat(1)+fruno(i-isow)
       g%sites = g%sites+g%fruno(g%das)
-      IF(g%das.LE.g%idate) then
+!jh      IF(g%das.LE.g%idate) then
          !RETURN ! g%squarz & g%frucat updated in UPDATE
-      else
+!jh      else
          g%squarz = g%squarz+g%fruno(g%das)
-         g%frucat(cat1) = g%frucat(cat1)+g%fruno(g%das)
-      endif
-!c-----------------------------------------------------------------------------
-
+         g%frucat(Small_Sqz) = g%frucat(Small_Sqz)+g%fruno(g%das)
+!jh      endif
+!-----------------------------------------------------------------------------
       call pop_routine(myname)
       RETURN
       END
 
 
 * ====================================================================
-!c      subroutine harvest(iend)
+!      subroutine harvest(iend)
       subroutine ozcot_harvest
 * ====================================================================
 
-!c     this subroutine simulates defoliation and picking
-!c     use n_def, n_pick and j_pick for cost of defoliation:       nb action
-!c         cost of defoliant is n_def * $25                 <-- for gross margins
-!c         cost of picking is n_pick * $?                   <-- for gross margins
-!c         cost of delay is (j_pick - 91) * $ per day       <-- for gross margins
-!c              if 1st april (day 91) is reference date.
-!c     likelihood of 2nd pick is indicated. currently 10 boll/m (bollz=10)
-!c     assumed to be worth picking, depends on price of cotton and cost of
-!c     picking, ask growers. should be part of management model.
-!c     date of 2nd pick and partition of yield between 1st and 2nd pick are
-!c     subjects for future development in a more comprehensive whole farm
-!c     management model.
+!     this subroutine simulates defoliation and picking
+!     use n_def, n_pick and j_pick for cost of defoliation:       nb action
+!         cost of defoliant is n_def * $25                 <-- for gross margins
+!         cost of picking is n_pick * $?                   <-- for gross margins
+!         cost of delay is (j_pick - 91) * $ per day       <-- for gross margins
+!              if 1st april (day 91) is reference date.
+!     likelihood of 2nd pick is indicated. currently 10 boll/m (bollz=10)
+!     assumed to be worth picking, depends on price of cotton and cost of
+!     picking, ask growers. should be part of management model.
+!     date of 2nd pick and partition of yield between 1st and 2nd pick are
+!     subjects for future development in a more comprehensive whole farm
+!     management model.
 
       use OzcotModule
       implicit none
@@ -2612,99 +3064,81 @@
 *- Implementation Section ----------------------------------
       call push_routine(myname)
 
-      IF(g%n_def.EQ.0 .AND. g%squarz/g%ppm.GT.2.) then
-         call pop_routine(myname)
-         RETURN ! too many squares
-      else
+      IF(g%openz/(g%bollz+g%openz).GT.c%OPEN_DEF/100.
+     :   .AND. g%n_def.EQ. 0) THEN
+          g%J_DEF = g%iday                           ! day OPEN_DEF% open
+          IF(g%alai .LT. 0.5) then
+          else IF(g%n_def.EQ.0) THEN
+             g%n_def = 1                               ! 1st defoliant spray     !const
+             g%i_def = g%iday                          ! g%day of 1st defol.
+             write (string, '(4x, a, i4)')
+     :                'Defoliant spray ', g%n_def
+             call write_string (string)
+          else
+          endif
+      else IF(g%n_def.EQ.1 .AND. g%iday-g%i_def.eq.10) THEN ! 10 days since 1st?
+          IF(g%alai.GT.0.2) THEN
+             g%n_def=2                             ! 2nd defoliant spray      !const
+             g%i_def2=g%iday                        ! g%day of 2nd defol
+             write (string, '(4x, a, i4)')
+     :             'Defoliant spray ', g%n_def
+             call write_string (string)
+          else
+             g%j_pick = g%jdate                    ! date of picking
+             if(g%bollz.LT.10) THEN                ! 10 bolls worth picking
+                g%n_pick = 1                       ! count picks               !const
+                write (string, '(4x, a, i4, a)')
+     :                 'First Pick '
+     :                , g%iday,' days from sowing. '
+     :               // 'There are not enough bolls for a 2nd pick.'
+                call write_string (string)
+             else                ! 10 bolls worth picking
+                g%n_pick = 2                      ! count picks                !const
+                write (string, '(4x, a, i4, a)')
+     :                 'First Pick '
+     :                , g%iday,' days from sowing. '
+     :               // 'There are enough bolls for a 2nd pick.'
+                call write_string (string)
+             ENDIF
+          endif
+      else IF(g%n_def.EQ.2 .AND. g%iday-g%i_def2.EQ.10) THEN
+          g%j_pick = g%jdate                         ! date of picking
+          IF(g%bollz.LT.10) THEN                       ! 10 bolls worth picking
+             g%n_pick = 1                               ! count picks
+             write (string, '(4x, a, i4, a)')
+     :              'First Pick '
+     :             , g%iday,' days from sowing. '
+     :            // 'There are not enough bolls for a 2nd pick.'
+             call write_string (string)
+          else
+             g%n_pick = 2                           ! count picks
+             write (string, '(4x, a, i4, a)')
+     :              'First Pick '
+     :             , g%iday,' days from sowing. '
+     :            // 'There are enough bolls for a 2nd pick.'
+             call write_string (string)
+          endif
       endif
-      IF(g%openz/(g%bollz+g%openz).GT.c%OPEN_DEF/100. .AND. g%j_pick.EQ.
-     :0) THEN
-          IF(g%n_def.EQ.0) THEN
-               g%n_def = 1                               ! 1st defoliant spray     !const
-               g%i_def = g%iday                          ! g%day of 1st defol.
-!c               write(2,100) n_def, jdate, i_def
-               write (string, '(4x, a, i4, a)') 
-     :                'First defoliant spray '
-     :               , g%iday,' days from sowing.'
-               call write_string (string)
-           ENDIF
-          IF(g%n_def.EQ.1 .AND. g%iday-g%i_def.GE.10) THEN ! 10 days since 1st?
-               IF(g%alai.GT.0.2) THEN
-                   g%n_def=2                             ! 2nd defoliant spray      !const
-                   g%i_def=g%iday                        ! g%day of 2nd defol
-!c               write(2,100) n_def, jdate, i_def
-                  write (string, '(4x, a, i4, a)') 
-     :                'Second defoliant spray '
-     :               , g%iday,' days from sowing.'
-                  call write_string (string)
-               ELSE
-                   g%j_pick = g%jdate                    ! date of picking
-                   g%n_pick = 1                          ! count picks               !const
-                   write (string, '(4x, a, i4, a)') 
-     :                'First Picking '
-     :               , g%iday,' days from sowing.'
-                  call write_string (string)
-!c                   write(2,101) j_pick
-                   IF(g%bollz.GT.10.) THEN                ! 10 bolls worth picking
-                       g%n_pick = 2                      ! count picks                !const
-!c                       write(2,102)
-                     write (string, '(4x, a)')
-     :                'There are sufficient bolls for a Second Picking.'
-                     call write_string (string)
-                   ENDIF
-               ENDIF
-          ENDIF
-          IF(g%n_def.EQ.2 .AND. g%iday-g%i_def.EQ.10) THEN
-              g%j_pick = g%jdate                         ! date of picking
-              g%n_pick = 1                               ! count picks
-!c              write(2,101) j_pick
-                  write (string, '(4x, a, i4, a)') 
-     :                'First Picking '
-     :               , g%iday,' days from sowing.'
-                  call write_string (string)
-              IF(g%bollz.GT.10.) THEN
-                  g%n_pick = 2                           ! count picks
-!c                  write(2,102)
-                     write (string, '(4x, a)')
-     :                'There are sufficient bolls for a Second Picking.'
-                     call write_string (string)
-              ENDIF
-          ENDIF
-      ENDIF
-      IF(g%j_pick.NE.0 .AND. g%bollz.LT.1.0) THEN
-              g%iend = 2                                 ! terminate crop                 !const
-!c              write(2,103) jdate, iday
-              write (string, '(4x, a)')
-     :                'Crop terminated'
-     :              //': no further boll growth, all bolls forced open.'
-              call write_string (string)
-      ENDIF
-!c
-!c100   format(' defoliant spray',i2,' on day',i4,',',
-!c     *       i4,' days from sowing.')
-!c101   format(' first pick 0n',i4)
-!c102   format(' there are sufficient bolls for a 2nd pick')
-!c103   format(' simulation terminated on day',i4,','i4,
-!c     *': no further boll growth, all bolls forced open.')
+
       call pop_routine(myname)
       RETURN
       END
 
 
 * ====================================================================
-!c      subroutine hfunc (i)
+!      subroutine hfunc (i)
       subroutine ozcot_hfunc
 * ====================================================================
-!cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-!c      calculates daily heat units based on a 12.0 deg c base      c
-!c      temperature.  the heat unit sum is based an integrated      c
-!c      diurnal sin-wave with the maximum and minimum daily temp-   c
-!c      eratures as the peak and trough, respectively.  heat units  c
-!c      are not allowed to accumulate above a cutoff of 30.0 c. Changed to 40    c
-!c      the base (baset) and cutoff (hucut) temperatures are set in c
-!c      the 'init' subroutine.                                      c
-!cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-!c
+!ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+!      calculates daily heat units based on a 12.0 deg c base      c
+!      temperature.  the heat unit sum is based an integrated      c
+!      diurnal sin-wave with the maximum and minimum daily temp-   c
+!      eratures as the peak and trough, respectively.  heat units  c
+!      are not allowed to accumulate above a cutoff of 30.0 c. Changed to 40    c
+!      the base (baset) and cutoff (hucut) temperatures are set in c
+!      the 'init' subroutine.                                      c
+!ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
       use OzcotModule
       implicit none
       include 'error.pub'
@@ -2720,9 +3154,9 @@
 *- Implementation Section ----------------------------------
       call push_routine(myname)
 
-!c
+
       PI=3.14159                                                       !const
-!c      tempav=(tempmn+tempmx)/2.
+!      tempav=(tempmn+tempmx)/2.
       AMP=g%tempmx-g%tempav
       TMAX=g%tempmx
       IF(TMAX.GE.c%HUCUT) TMAX=c%HUCUT
@@ -2743,22 +3177,22 @@
 
 
 * ====================================================================
-!c      subroutine init
+!      subroutine init
       subroutine ozcot_INITIAL()
 * ====================================================================
-!cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-!c      initializes variables in all common blocks                  c
-!c                                                                  c
-!c      key variables:                                              c
-!cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-!c
+!ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+!      initializes variables in all common blocks                  c
+!                                                                  c
+!      key variables:                                              c
+!ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
       use OzcotModule
       implicit none
       include 'error.pub'
 
-!cpc      real soltro, spi, cumep, cumes, cumet, deltsw, dal
-!cpc      real bolln, bolnc
-!cpc      integer nfert
+!pc      real soltro, spi, cumep, cumes, cumet, deltsw, dal
+!pc      real bolln, bolnc
+!pc      integer nfert
 !      integer lastiday
       integer j
 !      integer isdex
@@ -2773,9 +3207,9 @@
       call push_routine(myname)
 
 !      block data ozcot_initials
-!c
-!c
-!      g%scboll = (/5.0,5.0,4.7,4.5,5.5    
+
+
+!      g%scboll = (/5.0,5.0,4.7,4.5,5.5
 !     :            , .0, .0, .0, .0,7./) ! DP16,DP61,DP90,SIOK,SICA
 !      g%respcon= (/.025, .025, .02306, .01593, .02306
 !     :            , .0, .0, .0, .0,.025/) !  ditto
@@ -2786,83 +3220,83 @@
 !      g%flai   = (/1.0, 1.0, 0.87, 0.52, 0.87
 !     :            , .0, .0, .0, .0,1./)       !  ditto
 !jh      g%popcon =.03633
-!c
+
 !jh      g%fburr = 1.23                     ! factor sc/boll to sc+burr/boll
-!c
+
 !jh      data leaf_res_n_conc/0.02/
-!c
+
 !      end
 
-!c------------------------------------------------------------------------------
-!c      'bclim' climate parameters
-!c------------------------------------------------------------------------------
-!c
+!------------------------------------------------------------------------------
+!      'bclim' climate parameters
+!------------------------------------------------------------------------------
+
 !jh      g%mode=2 ! OZCOT1: -1=calib'n, 1=valid'n; OZCOT2: 2=full simulation
-!c
-!cpsc      nszn = 1
-!cpsc      i = 0
+
+!psc      nszn = 1
+!psc      i = 0
 
       g%iend=0
       g%iday=0
-!cpc   lastiday = 0
-!cpsc      jdate=0
-!cpsc      imet=0
+!pc   lastiday = 0
+!psc      jdate=0
+!psc      imet=0
       g%tempav=0.0
-      g%tempre=0.0
-      g%tempyd=0.0
       g%alint=0.0
       g%hunits=0.0
 !jh      g%hucut=40.0 ! ABH changed from 30 to 40 - 11/11/83
 !jh      g%baset=12.0
       g%asoil=0.0
-!cpc   soltro=0.0
-      g%stemp=0.0
-!c      eo=0.0
-!c      eos=0.0
-!cpc     spi=0.0
-!cpc     cumep=0.0
-!cpc     cumes=0.0
-!cpc     cumet=0.0
-!c
-!c      tempmx=0.0
-!c      tempmn=0.0
-!c      solrad=0.0
-!c      rain=0.0
-!c      newran= 0
-!c------------------------------------------------------------------------------
-!c     irrigation variables
-!c------------------------------------------------------------------------------
-      DO 10 J=1,Max_rrig
-!c          igday(j)=0
-          g%rrig(J)=0.0
-10    continue
-!c------------------------------------------------------------------------------
-!c      'bsoil' soil profile parameters
-!c------------------------------------------------------------------------------
+!pc   soltro=0.0
+!jh v2001       g%stemp=0.0
+!      eo=0.0
+!      eos=0.0
+!pc     spi=0.0
+!pc     cumep=0.0
+!pc     cumes=0.0
+!pc     cumet=0.0
+
+!      tempmx=0.0
+!      tempmn=0.0
+!      solrad=0.0
+!      rain=0.0
+!      newran= 0
+!------------------------------------------------------------------------------
+!     irrigation variables
+!------------------------------------------------------------------------------
+!jh v2001       DO 10 J=1,Max_rrig
+!          igday(j)=0
+!jh v2001           g%rrig(J)=0.0
+!jh v2001 10    continue
+!------------------------------------------------------------------------------
+!      'bsoil' soil profile parameters
+!------------------------------------------------------------------------------
       g%isw = 0  ! flag to initialise water balance in SOLWAT
 !jh      g%ambda=1.44 ! Priestly-Taylor  daRosa 1983
 !jh      g%ul1=1.4  ! limit for stage 1 g%es  daRosa 1983
 !jh      g%cona=0.35 ! g%es rate in stage 2  daRosa 1983
-!cpc   isdex=0.0
+!pc   isdex=0.0
       g%nlayr=0
-!c      sw=0.0
-!c      ul=0.0
-      g%def=0.0
+      g%nrtlayr=0
+!      sw=0.0
+!      ul=0.0
+!jh v2001      g%def=0.0
       g%nirr=0
       g%twater=0.
-!cpc   deltsw=0.0
+      g%ep = 0.0
+!pc   deltsw=0.0
         g%rtsw=1.0
       DO 20 J=1,6
-!c      dlayr(j)=0.0
-!c     ullayr(j)=0.0
-!c      swlayr(j)=0.0
-      g%trans(J)=0.0
+!      dlayr(j)=0.0
+!     ullayr(j)=0.0
+!      swlayr(j)=0.0
+!jh v2001      g%trans(J)=0.0
    20 CONTINUE
-!c------------------------------------------------------------------------------
-!c      'bplnt' plant parameters
-!c------------------------------------------------------------------------------
-!cpc     ncnt=0
-      g%idate=0
+!------------------------------------------------------------------------------
+!      'bplnt' plant parameters
+!------------------------------------------------------------------------------
+!pc     ncnt=0
+!jh      g%idate=0
       g%ilai=0
       g%iemrg=0
       g%isow=0
@@ -2872,29 +3306,31 @@
       g%ppm=0.0
       g%esum=0.0
       g%alai=0.0
-!cpc   dal=0.0
+      g%alai_row=0.0
+!pc   dal=0.0
       g%shedlf=0.0
       g%frudw=0.0
       g%smi=0.0
       g%sdepth=0.0
       g%rtdep=0.0
       g%rtgrow=0.0
-!c------------------------------------------------------------------------------
-!c      'bnitr' soil nitrogen transformation parameters
-!c------------------------------------------------------------------------------
-!cpc   nfert=0
+!------------------------------------------------------------------------------
+!      'bnitr' soil nitrogen transformation parameters
+!------------------------------------------------------------------------------
+!pc   nfert=0
       g%uptakn=0.0
         g%availn=0.0
+        g%initialN = 0.0
 
-!c      do 30 j=1,2
-!c      nday(j)=0
-!c      snaplc(j)=0.0
-!c   30 continue
-!c------------------------------------------------------------------------------
-!c      'fruits' parameters are numbers,weights,abscission counts
-!c      for bolls and squares.
-!c------------------------------------------------------------------------------
-!cpc   lastfr=0
+!      do 30 j=1,2
+!      nday(j)=0
+      g%snaplc=0.0
+!   30 continue
+!------------------------------------------------------------------------------
+!      'fruits' parameters are numbers,weights,abscission counts
+!      for bolls and squares.
+!------------------------------------------------------------------------------
+!pc   lastfr=0
       g%bgrvar=0.0
       g%dd=0.0
       g%ddmerg=0.0
@@ -2903,9 +3339,9 @@
       g%frucat(J)=0.0
       g%lfru(J)=0
    40 CONTINUE
-      g%lfru(cat9)=0
+      g%lfru(open_bolls)=0
 
-      DO 50 J=1,Max_das
+      DO 50 J=1,Max_cohort
       g%dlai(J)=0.0
       g%ddw_l(J) = 0.0
       g%bpsum(j) = 0.0
@@ -2917,21 +3353,21 @@
       IF(J.LT.Max_categories-1) g%fmkcat(J,K)=0.0
    50 CONTINUE
 
-!c------------------------------------------------------------------------------
-!c      'totals' counts of squares, bolls, and sites at any given time
-!c------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
+!      'totals' counts of squares, bolls, and sites at any given time
+!------------------------------------------------------------------------------
 
       g%bload=0.0
       g%bollz=0.0
       g%openz=0.0
       g%openwt=0.0
       g%sites=0.0
-!cpc
+!pc
       g%sites1 = 0.0
       g%squarz=0.0
-!c------------------------------------------------------------------------------
-!c      'index' stress and survival indices.
-!c------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
+!      'index' stress and survival indices.
+!------------------------------------------------------------------------------
       g%carcap=0.0
       g%carcap_c = 0.0
       g%carcap_n = 0.0
@@ -2940,51 +3376,51 @@
       g%fnstrs=1.0
       g%idayco = 0
       g%last_day = 0
-!c------------------------------------------------------------------------------
-!c      'counts'
-!c------------------------------------------------------------------------------
-!c      do 60 j=1,25
-!c      jco(j)=0
-!c      sqcnt(j)=0.0
-!c      blcnt(j)=0.0
-!c      opcnt(j)=0.0
-!c   60 continue
-!c------------------------------------------------------------------------------
-!c      'bpnitr' are for plant nitrogen.
-!c------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
+!      'counts'
+!------------------------------------------------------------------------------
+!      do 60 j=1,25
+!      jco(j)=0
+!      sqcnt(j)=0.0
+!      blcnt(j)=0.0
+!      opcnt(j)=0.0
+!   60 continue
+!------------------------------------------------------------------------------
+!      'bpnitr' are for plant nitrogen.
+!------------------------------------------------------------------------------
       g%uptakn=0.0
       g%vegn=0.0
-!cpc   bolln=0.0
+!pc   bolln=0.0
       g%plantn=0.0
-!cpc   bolnc=0.0
+!pc   bolnc=0.0
       g%strucn=0.0
       g%frun=0.0
-!c------------------------------------------------------------------------------
-!c     /yield/ for output with yield
-!c------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
+!     /yield/ for output with yield
+!------------------------------------------------------------------------------
       g%alaiz=0.
       g%ilaiz=0
       g%plntnz=0.
       g%iplntn=0
       g%sqzx = 0.
       g%isqzx = 0
-      g%def_last=0.
-!c------------------------------------------------------------------------------
-!c     /pick/ variables to simulated defoliation and picking
-!c------------------------------------------------------------------------------
+!jh v2001      g%def_last=0.
+!------------------------------------------------------------------------------
+!     /pick/ variables to simulated defoliation and picking
+!------------------------------------------------------------------------------
       g%j_pick=0
       g%n_pick=0
       g%n_def=0
       g%i_def=0
 !jh      c%OPEN_DEF = 60.
-!c------------------------------------------------------------------------------
-!c     /sow/
-!c------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
+!     /sow/
+!------------------------------------------------------------------------------
 !jh      g%iwindow = 60     ! width of sowing window
 !jh      g%sow_sw = 0.0     ! for subsoil water rule
-!c------------------------------------------------------------------------------
-!c     /drywt/ variables for simulation of dry weight increase
-!c------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
+!     /drywt/ variables for simulation of dry weight increase
+!------------------------------------------------------------------------------
 !jh      g%a_root_leaf = 1.01 ! allometric constant root:leaf. Huxley's data 1964
 !jh      g%a_stem_leaf = 1.25 ! allometric constant stem:leaf. Huxley's data 1964
 !jh      g%e_par = 2.5        ! g%g/MJ Charles-edwards g%et al 1986
@@ -3018,15 +3454,16 @@
 
 
 * ====================================================================
-!c      subroutine istsq (i,nszn)
+!      subroutine istsq (i,nszn)
       subroutine ozcot_istsq
 * ====================================================================
 
-!c     identifies first square event and gives initial value for
-!c     fruno(1),sites & squarz.
-!c     delayed by water stress (smi < 0.25) and cold shock (tempmn < 11)
-!c     currently sets isq=i, should be isq=iday for consistency between seasons
-!c     when convenient, change and check all refs to isq
+!     identifies first square event and gives initial value for
+!     fruno(1),sites & squarz.
+!     delayed by water stress (smi < 0.25) and cold shock (tempmn < 11)
+!     delayed
+!     currently sets isq=i, should be isq=iday for consistency between seasons
+!     when convenient, change and check all refs to isq
 
       use OzcotModule
       implicit none
@@ -3037,7 +3474,7 @@
 
 !      DIMENSION DDISQ(10)
 
-!c      data iszn/0/                         ! flag for new season
+!      data iszn/0/                         ! flag for new season
 !      DATA DDISQ/9*420.,320./ ! Constable (pers. comm. 1983), 10=Empire
 
       character  myname*(*)            ! name of subroutine
@@ -3046,54 +3483,57 @@
 *- Implementation Section ----------------------------------
       call push_routine(myname)
 
-      IF(g%idate.NE.0) GO TO 40
+!jh      IF(g%idate.NE.0) GO TO 40
 
-!c     no counts - simulate first square
+!     no counts - simulate first square
 
-!c      if(iszn.ne.nszn) then                ! is this a new season?
-!c          iszn = nszn                      ! reset flag
-!c          delay = 0.0                      ! delay in day degrees
-!c      end if
+!      if(iszn.ne.nszn) then                ! is this a new season?
+!          iszn = nszn                      ! reset flag
+!          delay = 0.0                      ! delay in day degrees
+!      end if
 
-!cpsc    add delay to common block
+!psc    add delay to common block
 
       IF(g%smi.LT.c%smi_delay_crit) THEN               ! water stress delays squaring
           g%delay = g%delay+(1.-(g%smi/c%smi_delay_crit))*g%hunits
       END IF
 
-      IF(g%tempmn.LT.c%cold_shock_delay_crit) 
+      IF(g%tempmn.LT.c%cold_shock_delay_crit)
      :                        g%delay = g%delay+c%cold_shock_delay ! cold shock Constable (pers. comm)
 
-      IF(g%sumdd.LT.p%DDISQ+g%delay)then
+      IF(g%HAIL) g%delay = g%delay + p%TIPOUT + g%HAIL_LAG    ! tipping out delay
+      IF(g%sumdd .LT. p%DDISQ + g%delay)then
          call pop_routine(myname)
          RETURN
       else
       endif
-!c      fruno(i-isow)=1.0*ppm  ! average plant has 1 square
-!c      fruno(i-isow)=0.5      ! as in 1983/84 version
+!      fruno(i-isow)=1.0*ppm  ! average plant has 1 square
+!      fruno(i-isow)=0.5      ! as in 1983/84 version
       g%fruno(g%das)=1.0*g%ppm ! average plant has 1 square
-      g%fruno(g%das)=0.5  ! as in 1983/84 version
+      g%fruno(g%das)=0.5*g%ppm ! 50% plants have 1 square
+      g%fruno(g%das)=0.5       ! as in 1983/84 version
       GO TO 43
-!c
-!c      using counts
-!c
+
+
+!      using counts
+
    40 CONTINUE
-!c      do 41 n=1,25
-!c      if(jco(n).eq.0)return !  no squares counted yet
-!c      if(i.lt.jco(n)+1)return
-!c      if(sqcnt(n+1).gt.0.)go to 42 ! when jco(n) eq i and squares at next count
-!c   41 continue
-!c      return
-!c   42 continue
-!c      fruno(i-isow)=sqcnt(n+1)/(jco(n+1)-jco(n))
-!c      next=n ! for actfru
-!c
-!c     square & site production on first day
-!c
+!      do 41 n=1,25
+!      if(jco(n).eq.0)return !  no squares counted yet
+!      if(i.lt.jco(n)+1)return
+!      if(sqcnt(n+1).gt.0.)go to 42 ! when jco(n) eq i and squares at next count
+!   41 continue
+!      return
+!   42 continue
+!      fruno(i-isow)=sqcnt(n+1)/(jco(n+1)-jco(n))
+!      next=n ! for actfru
+
+!     square & site production on first day
+
    43 CONTINUE
-!c      squarz=squarz+fruno(i-isow) ! sum squares
-!c      sites=sites+fruno(i-isow) ! sum sites
-!c      isq=i                     ! should be isq=iday see above
+!      squarz=squarz+fruno(i-isow) ! sum squares
+!      sites=sites+fruno(i-isow) ! sum sites
+!      isq=i                     ! should be isq=iday see above
       g%squarz=g%squarz+g%fruno(g%das) ! sum SQUARES
       g%sites=g%sites+g%fruno(g%das) ! sum g%sites
       g%isq=g%das                ! should be g%isq=g%iday see above
@@ -3104,18 +3544,18 @@
 
 
 * ====================================================================
-!c      subroutine laigen (i)
+!      subroutine laigen (i)
       subroutine ozcot_laigen
 * ====================================================================
-!c
-!c     estimates current lai. generates new leaves daily as a
-!c     function of dd and fruiting site production. initial area
-!c     is a function of dd to first square then a function of new
-!c     sites. relative rate of area expansion a function of dd
-!c     to 1st square, then a function of dsites .
-!c      all leaf areas are square meters per plant except alai
-!c      which is m**2/m**2 i.e. lai.
-!c
+
+!     estimates current lai. generates new leaves daily as a
+!     function of dd and fruiting site production. initial area
+!     is a function of dd to first square then a function of new
+!     sites. relative rate of area expansion a function of dd
+!     to 1st square, then a function of dsites .
+!      all leaf areas are square meters per plant except alai
+!      which is m**2/m**2 i.e. lai.
+
       use OzcotModule
       implicit none
       include 'error.pub'
@@ -3146,97 +3586,97 @@
       call push_routine(myname)
 
 
-!c------- initialise leaf area on day of emergence -----------------------------
+!------- initialise leaf area on day of emergence -----------------------------
 
-        IF(g%das.EQ.g%iemrg) THEN                    ! already emerged?
-!c           dlai(iemrg-isow)=acotyl*ppm            ! initial area
-!c           alai=dlai(iemrg-isow)
-!c           lastlf=iemrg-isow                      ! set index for oldest leaf
-            g%dlai(g%iemrg)=c%acotyl*g%ppm      ! initial area
-            g%alai=g%dlai(g%iemrg)
-            g%lastlf=g%iemrg                  ! set index for oldest leaf
-            call pop_routine(myname)
-            RETURN
-        ENDIF
+      if(g%das.EQ.g%iemrg) THEN                    ! already emerged?
+!        dlai(iemrg-isow)=acotyl*ppm            ! initial area
+!        alai=dlai(iemrg-isow)
+!        lastlf=iemrg-isow                      ! set index for oldest leaf
+         g%dlai(g%iemrg)=p%acotyl*g%ppm      ! initial area
+         g%alai=g%dlai(g%iemrg)
+         g%lastlf=g%iemrg                  ! set index for oldest leaf
+         call pop_routine(myname)
+         RETURN
+      endif
 
-!c------- calculate rate of leaf area expansion --------------------------------
+!------- calculate rate of leaf area expansion --------------------------------
 
-!jh        A  =   0.1847  !
-!jh        B1 =  -0.1165  ! constants for LAI calibration eqn
-!jh        B2 =  -0.01514 ! 29 April 1988
-!jh        B3 =   0.01984 ! expts WN8283 & 8384
+!jh      A  =   0.1847  !
+!jh      B1 =  -0.1165  ! constants for LAI calibration eqn
+!jh      B2 =  -0.01514 ! 29 April 1988
+!jh      B3 =   0.01984 ! expts WN8283 & 8384
 
-        dLdS_X = (c%a+c%b1*0.75+c%b2*g%vpd+c%b3*0.75*g%vpd) ! sqrt area/site, no water stress
-        IF(dLdS_X.LT.0.) dLdS_X = 0.
-        dLdS_X = dLdS_X**2                      ! area per site, no water stress
+      dLdS_X = (c%a+c%b1*0.75+c%b2*g%vpd+c%b3*0.75*g%vpd) ! sqrt area/site, no water stress
+      if(dLdS_X.LT.0.) dLdS_X = 0.
+      dLdS_X = dLdS_X**2                      ! area per site, no water stress
 
-        dLdS = (c%a+c%b1*g%smi+c%b2*g%vpd+c%b3*g%smi*g%vpd) ! sqrt area per site
-        IF(dLdS.LT.0.) dLdS = 0.
-        dLdS = dLdS**2                          ! area per site
+      dLdS = (c%a+c%b1*g%smi+c%b2*g%vpd+c%b3*g%smi*g%vpd) ! sqrt area per site
+      if(dLdS.LT.0.) dLdS = 0.
+      dLdS = dLdS**2                          ! area per site
+      FLFSMI = ozcot_stress(c%flfsmi_low
+     :                      ,c%flfsmi_high
+     :                      ,c%flfsmi_a
+     :                      ,g%smi) ! pre-squaring
 
-        FLFSMI = ozcot_stress(c%flfsmi_low
-     :                        ,c%flfsmi_high
-     :                        ,c%flfsmi_a
-     :                        ,g%smi) ! pre-squaring
+!-------------------------------------------------------------------------------
 
-!c-------------------------------------------------------------------------------
+      if(g%isq.EQ.0) THEN               ! crop not yet squaring
 
-        IF(g%isq.EQ.0) THEN               ! crop not yet squaring
+         ACTRGR=p%rlai                   ! actual RGR
+!jh	      ACTRGR=ACTRGR*FLFSMI          ! water stress
+         ALAIX=g%alai                  ! save previous LAI
+         INDEX=IFIX(g%dd)              ! index for DO loop below to grow leaf
 
-            ACTRGR=c%rlai                   ! actual RGR
-            ALAIX=g%alai                  ! save previous LAI
-            INDEX=IFIX(g%dd)              ! index for DO loop below to grow leaf
+         DO 10 IN=1,INDEX
+            ALAIX=ALAIX*(1.+ACTRGR)   ! grow leaf without water stress
+10       continue
+         g%dlai_pot=ALAIX-g%alai ! days increase without water stress
 
-            DO 10 IN=1,INDEX
-                ALAIX=ALAIX*(1.+ACTRGR)   ! grow leaf without water stress
-10          continue
-            g%dlai_pot=ALAIX-g%alai ! days increase without water stress
+         ACTRGR=ACTRGR*FLFSMI          ! water stress
+         ALAIX=g%alai                  ! save previous LAI again
 
-            ACTRGR=ACTRGR*FLFSMI          ! water stress
-            ALAIX=g%alai                  ! save previous LAI again
-
-            DO 11 IN=1,INDEX
-                ALAIX=ALAIX*(1.+ACTRGR)   ! grow leaf with water stress
-11          continue
-            g%dlai(g%iday)=ALAIX-g%alai   ! days increase with water
-
-        ELSE                              ! crop now squaring
-                                              ! without water stress
-            dLdS_X = dLdS_X*p%flai    ! adjust for variety, 87 MKI calib'n
-            g%dlai_pot = g%fruno(g%iday-1)*dLdS_X ! days incr in LAI
+         DO 11 IN=1,INDEX
+            ALAIX=ALAIX*(1.+ACTRGR)   ! grow leaf with water stress
+11       continue
+         g%dlai(g%iday)=ALAIX-g%alai   ! days increase with water
+      else                              ! crop now squaring
+                                             ! without water stress
+         dLdS_X = dLdS_X*p%flai    ! adjust for variety, 87 MKI calib'n
+         g%dlai_pot = g%fruno(g%iday-1)*dLdS_X ! days incr in LAI
                                               ! with water stress
-            dLdS = dLdS*p%flai        ! adjust for variety, 87 MKI calib'n
-            g%dlai(g%iday) = g%fruno(g%iday-1)*dLdS ! days incr in LAI
+         dLdS = dLdS*p%flai        ! adjust for variety, 87 MKI calib'n
+         g%dlai(g%iday) = g%fruno(g%iday-1)*dLdS ! days incr in LAI
+      endif
 
-        ENDIF
-        VLNSTR = ozcot_stress(c%vlnstr_low
-     :                        ,c%vlnstr_high
-     :                        ,c%vlnstr_a
-     :                        ,g%vnstrs)
-        g%dlai(g%iday) = g%dlai(g%iday)*VLNSTR ! adjust for N stress
-        g%dlai_pot = g%dlai_pot*VLNSTR ! adjust for N stress
-        g%alai=g%alai+g%dlai(g%iday)
+      VLNSTR = ozcot_stress(c%vlnstr_low
+     :                      ,c%vlnstr_high
+     :                      ,c%vlnstr_a
+     :                      ,g%vnstrs)
+      g%dlai(g%iday) = g%dlai(g%iday)*VLNSTR ! adjust for N stress
+      g%dlai_pot = g%dlai_pot*VLNSTR ! adjust for N stress
+      g%alai=g%alai+g%dlai(g%iday)
 
-!c*******senescence ***************************************************
+!*******senescence ***************************************************
 
-        DDLEAF=ozcot_senlf(g%bload,g%alai,g%carcap_c,g%smi)
-        IF(g%n_def.EQ.1 .AND. g%iday-g%i_def.GT.7) DDLEAF = DDLEAF*0.33 ! 1st defol'n
-        IF(g%n_def.EQ.2 .AND. g%iday-g%i_def.GT.7) DDLEAF = DDLEAF*0.0 ! 2nd defol'n
-        g%shedlf=0.
-        g%leaf_res = 0.                 ! initialise for this g%day
-        IF(g%lastlf.EQ.0)GO TO 21       ! called after measured LAI finished
-!c       do 20 l=lastlf,i-isow           ! loop thro unshed leaves
-        DO 20 L=g%lastlf,g%das         ! loop thro unshed leaves
-        IF(g%fyzage(L).LT.DDLEAF)GO TO 21 ! are this days leaves shed today?
-        g%alai=g%alai-g%dlai(L)         ! reduce LAI
-        g%shedlf=g%shedlf+g%dlai(L)     ! sum area of shed leaves
-        g%dlai(L)=0.                    ! g%day,g%s area now zero
-      g%dw_leaf = g%dw_leaf-g%ddw_l(L) ! reduce leaf dry matter
-      g%leaf_res = g%leaf_res+g%ddw_l(L) ! sum this g%day's residues
-      g%ddw_l(L) = 0.0                ! this g%day's leaf wt now zero
-      g%lastlf=L+1 ! set index for oldest remaining leaves.
-20      continue
-21      continue
+      DDLEAF=ozcot_senlf(g%bload,g%alai,g%carcap_c,g%smi)
+      if(g%n_def.EQ.1 .AND. g%iday-g%i_def.GT.7) DDLEAF = DDLEAF*0.33 ! 1st defol'n
+      if(g%n_def.EQ.2 .AND. g%iday-g%i_def.GT.7) DDLEAF = DDLEAF*0.0 ! 2nd defol'n
+      g%shedlf=0.
+      g%leaf_res = 0.                 ! initialise for this g%day
+      if(g%lastlf.EQ.0)GO TO 21       ! called after measured LAI finished
+
+!     do 20 l=lastlf,i-isow           ! loop thro unshed leaves
+      do 20 L=g%lastlf,g%das         ! loop thro unshed leaves
+         IF(g%fyzage(L).LT.DDLEAF)GO TO 21 ! are this days leaves shed today?
+         g%alai=g%alai-g%dlai(L)         ! reduce LAI
+         g%shedlf=g%shedlf+g%dlai(L)     ! sum area of shed leaves
+         g%dlai(L)=0.                    ! g%day,g%s area now zero
+         g%dw_leaf = g%dw_leaf-g%ddw_l(L) ! reduce leaf dry matter
+         g%leaf_res = g%leaf_res+g%ddw_l(L) ! sum this g%day's residues
+         g%ddw_l(L) = 0.0                ! this g%day's leaf wt now zero
+         g%lastlf=L+1 ! set index for oldest remaining leaves.
+20    continue
+21    continue
 
       g%leaf_res_n = g%leaf_res * c%leaf_res_n_conc ! N content of leaf residues
 
@@ -3246,119 +3686,119 @@
 
 
 * ====================================================================
-!c      subroutine metdat2 (i,iend)
+!      subroutine metdat2 (i,iend)
       subroutine ozcot_metdat2
 * ====================================================================
-!cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-!c      subroutine to check input climate data for missing or er-   c
-!c      roneous values.  input variable units are assumed input     c
-!c      and converted as follows:                                   c
-!c          temperature -      deg c*10 to deg c                    c
-!c          rainfall    -      mm/day*10 to cm/day                  c
-!c          rainfall    -      inches/day to cm/day                 c
-!c          solrad      -      ly/day (not converted)               c
-!c                                                                  c
-!c      unique variables:                                           c
-!c          qa = an upper boundary for solrad                       c
-!c          solrto = needed constant for net radiation in "evap"    c
-!c                                                                  c
-!c       when temperature (including wet and dry bulb) and          c
-!c       radiation are missing or not avaialble, ezstimates are     c
-!c       made as function of days since last rain.                  c
-!c       consequently a full suite of met data elements can be      c
-!c       generated from rainfall alone.                             c
-!c                                                                  c
-!cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+!ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+!      subroutine to check input climate data for missing or er-   c
+!      roneous values.  input variable units are assumed input     c
+!      and converted as follows:                                   c
+!          temperature -      deg c*10 to deg c                    c
+!          rainfall    -      mm/day*10 to cm/day                  c
+!          rainfall    -      inches/day to cm/day                 c
+!          solrad      -      ly/day (not converted)               c
+!                                                                  c
+!      unique variables:                                           c
+!          qa = an upper boundary for solrad                       c
+!          solrto = needed constant for net radiation in "evap"    c
+!                                                                  c
+!       when temperature (including wet and dry bulb) and          c
+!       radiation are missing or not avaialble, ezstimates are     c
+!       made as function of days since last rain.                  c
+!       consequently a full suite of met data elements can be      c
+!       generated from rainfall alone.                             c
+!                                                                  c
+!ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       use OzcotModule
       implicit none
       include 'data.pub'
       include 'error.pub'
 
-!cjh      integer nsince
-      integer ndate
+!jh      integer nsince
+!jh v2001       integer ndate
       real root
       real rclear
       real srad
       real wet_depress
-      real date
+!jh v2001       real date
 
-!cjh      DATA NSINCE/0/
-!c
+!jh      DATA NSINCE/0/
+
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_metdat2')
 
 *- Implementation Section ----------------------------------
       call push_routine(myname)
 
-!c         **** read met data  ***************************************
-!c
-!c       read(1,151,end=153) jdate,imyr,
-!c     *  rain,epan,tempmx,tempmn,tempdy,tempwt,wind,solrad
-!c151    format(4x,i3,5x,i4,f5.0,f4.1,2f4.0,2f4.1,f4.0,f4.0) ! new
+!         **** read met data  ***************************************
 
-!c     **** climate data now read in as part of interface. ****
+!       read(1,151,end=153) jdate,imyr,
+!     *  rain,epan,tempmx,tempmn,tempdy,tempwt,wind,solrad
+!151    format(4x,i3,5x,i4,f5.0,f4.1,2f4.0,2f4.1,f4.0,f4.0) ! new
 
-!cpsc        solrad = solrad / 0.04186
-!cpsc        rain = rain / 10.0
+!     **** climate data now read in as part of interface. ****
+
+!psc        solrad = solrad / 0.04186
+!psc        rain = rain / 10.0
         g%wind = 0.
         g%tempdy = 0.
         g%tempwt = 0.
-!cpsc        epan = 0.
-!c
-
-!cjh
-       IF(g%jdate.EQ.1) THEN               ! new year?
-         g%mdpy = 365                     ! reset days per year
-         IF((g%imyr/4*4).EQ.g%imyr) g%mdpy=366 ! leap year
-       ENDIF
+!psc        epan = 0.
 
 
-!c       if(epan.eq.0. .or. epan.eq.99.9)      epan=epanx
-!c       epanx=epan
+!jh
+!jh v2001        IF(g%jdate.EQ.1) THEN               ! new year?
+!jh v2001          g%mdpy = 365                     ! reset days per year
+!jh v2001          IF((g%imyr/4*4).EQ.g%imyr) g%mdpy=366 ! leap year
+!jh v2001        ENDIF
 
-!c       if(wind.eq.0. .or. wind.eq.999)  then
-!c           if(windx.ne.999) then
-!c               wind=windx
-!c           else
-!c               wind=0
-!c           endif
-!c       endif
-!c       windx=wind
 
-!c      go to 155
-!c153   iend=1 ! flag end of data
-!c      return
-!c
-!c155   continue
-!cpsc      epan=epan/10.
-!c
-!c         **** check and convert rainfall (cm) ****
-!c
-!c        if(rain.lt.0.0) rain=0.0
-!c       rain=rain/100.0
+!       if(epan.eq.0. .or. epan.eq.99.9)      epan=epanx
+!       epanx=epan
 
-!c  local rain data
+!       if(wind.eq.0. .or. wind.eq.999)  then
+!           if(windx.ne.999) then
+!               wind=windx
+!           else
+!               wind=0
+!           endif
+!       endif
+!       windx=wind
 
-!c       if(newran.eq.0) go to 100
-!c       if(jdate.ge.nrnsdy(1).or.jdate.le.nrnsdy(newran)) rain=0.0
-!c        do 10 j=1,newran
-!c         if(jdate.eq.nrnsdy(j)) rain=ransub(j)/10.
-!c10      continue
-!c100    continue
+!      go to 155
+!153   iend=1 ! flag end of data
+!      return
 
-!c  days since rain
+!155   continue
+!psc      epan=epan/10.
 
-      IF(g%isow.GT.0) THEN  ! from sowing to first boll
-        IF(g%bollz.EQ.0.0) THEN
-          g%rrig(rain_preboll) = g%rrig(rain_preboll)+g%rain     ! accumulate rainfall before bolling
-        ELSE IF(g%bollz.GT.0.0 .AND. g%openz/(g%openz+g%bollz).LT.0.2)
-     :  THEN ! bolling
-          g%rrig(rain_postboll) = g%rrig(rain_postboll)+g%rain     ! accumulate rainfall in bolling
-        ENDIF
-      ELSE
-          g%rrig(rain_fallow) = g%rrig(rain_fallow)+g%rain     ! accumulate rainfall in fallow
-      ENDIF
+!         **** check and convert rainfall (cm) ****
+
+!        if(rain.lt.0.0) rain=0.0
+!       rain=rain/100.0
+
+!  local rain data
+
+!       if(newran.eq.0) go to 100
+!       if(jdate.ge.nrnsdy(1).or.jdate.le.nrnsdy(newran)) rain=0.0
+!        do 10 j=1,newran
+!         if(jdate.eq.nrnsdy(j)) rain=ransub(j)/10.
+!10      continue
+!100    continue
+
+!  days since rain
+
+!jh v2001       IF(g%isow.GT.0) THEN  ! from sowing to first boll
+!jh v2001         IF(g%bollz.EQ.0.0) THEN
+!jh v2001           g%rrig(rain_preboll) = g%rrig(rain_preboll)+g%rain     ! accumulate rainfall before bolling
+!jh v2001         ELSE IF(g%bollz.GT.0.0 .AND. g%openz/(g%openz+g%bollz).LT.0.2)
+!jh v2001      :  THEN ! bolling
+!jh v2001           g%rrig(rain_postboll) = g%rrig(rain_postboll)+g%rain     ! accumulate rainfall in bolling
+!jh v2001         ENDIF
+!jh v2001       ELSE
+!jh v2001           g%rrig(rain_fallow) = g%rrig(rain_fallow)+g%rain     ! accumulate rainfall in fallow
+!jh v2001       ENDIF
 
       IF(g%rain.LE.0.1) THEN
         IF(g%NSINCE.LT.1) g%NSINCE=1
@@ -3375,79 +3815,79 @@
       IF (g%NSINCE.GT.9) g%NSINCE=9
 
 
-!c      **** check solar radiation and fill in for missing data. ****
-!c      **** please notice that in the following lines location  ****
-!c      **** specific equations are used.    (cal/cm2)           ****
+!      **** check solar radiation and fill in for missing data. ****
+!      **** please notice that in the following lines location  ****
+!      **** specific equations are used.    (cal/cm2)           ****
 
-!c  calculate extraterrestrial radiation at nars
+!  calculate extraterrestrial radiation at nars
 
-!c       xrad=(jdate+9)*(360./365.)*.0174533 ! day of year as angle in radians
-!c        qa=749.6+(302.4*sin(1.562+xrad)) ! extra terrestrial radiation(nars)
+!       xrad=(jdate+9)*(360./365.)*.0174533 ! day of year as angle in radians
+!        qa=749.6+(302.4*sin(1.562+xrad)) ! extra terrestrial radiation(nars)
 
-!c       if(solrad.lt.0.0)solrad=0.0
-!c        if(solrad.gt.0.0 .and. solrad.ne.999.) go to 30
+!       if(solrad.lt.0.0)solrad=0.0
+!        if(solrad.gt.0.0 .and. solrad.ne.999.) go to 30
 
-!c estimate missing ground measured solar radiation
+! estimate missing ground measured solar radiation
 
-!c       if(jdate.gt.135)go to 152
-!c       qqa=0.66-0.4708*exp(-0.75*nsince)        ! q/qa for days 1-135
-!c        if(nsince.le.1)qqa=0.4658-0.003485*rain
-!c        go to 160
-!c152    continue
-!c       if(jdate.ge.225)go to 154
-!c       qqa=0.5892-0.7986*exp(-1.219*nsince)     ! q/qa for days 136-225
-!c        if(nsince.le.1)qqa=0.1382+0.2777*exp(-0.04375*rain)
-!c        go to 160
-!c154    continue
-!c       qqa=0.63324-0.7693*exp(-1.0*nsince)
-!c        if(nsince.le.1)qqa=0.2148+0.2087*exp(-0.01875*rain)
-!c160    continue
-!c       solrad=qa*qqa           ! est of ground rad =f(days since rain)
-!c        solrad_min = qa*0.18      ! minimum - 0.18 from brutsart(1982)
-!c       if(solrad.lt.solrad_min)solrad=solrad_min
-!c30     continue
-!c
-!c   actual solar/clear day solar radiation ratio for longwave estimate
-!c
+!       if(jdate.gt.135)go to 152
+!       qqa=0.66-0.4708*exp(-0.75*nsince)        ! q/qa for days 1-135
+!        if(nsince.le.1)qqa=0.4658-0.003485*rain
+!        go to 160
+!152    continue
+!       if(jdate.ge.225)go to 154
+!       qqa=0.5892-0.7986*exp(-1.219*nsince)     ! q/qa for days 136-225
+!        if(nsince.le.1)qqa=0.1382+0.2777*exp(-0.04375*rain)
+!        go to 160
+!154    continue
+!       qqa=0.63324-0.7693*exp(-1.0*nsince)
+!        if(nsince.le.1)qqa=0.2148+0.2087*exp(-0.01875*rain)
+!160    continue
+!       solrad=qa*qqa           ! est of ground rad =f(days since rain)
+!        solrad_min = qa*0.18      ! minimum - 0.18 from brutsart(1982)
+!       if(solrad.lt.solrad_min)solrad=solrad_min
+!30     continue
+
+!   actual solar/clear day solar radiation ratio for longwave estimate
+
         RCLEAR=551.52+246.40*SIN(0.0172*(g%jdate+99.96)) !CLEAR g%day SOL g%rad(NARS)
         SRAD=g%solrad
         IF(SRAD.GT.RCLEAR) SRAD=RCLEAR
         g%solrto=SRAD/RCLEAR
-!c        solrad=srad
+!        solrad=srad
 
-!c       **** check and convert air temperatures (deg c) ****
-!c
-!c       tempmx=tempmx/10.0
-!c       tempmn=tempmn/10.0
+!       **** check and convert air temperatures (deg c) ****
 
-!c      if(tempmx.eq.0. .or. tempmx.eq.99.9) then
+!       tempmx=tempmx/10.0
+!       tempmn=tempmn/10.0
 
-!c  estimate missing tempmx
+!      if(tempmx.eq.0. .or. tempmx.eq.99.9) then
 
-!c       tmaxxx=26.24+8.325*sin(1.172+xrad)   ! tmax 8 or more days after rain
-!c       ftmax=1.03-0.1812*exp(-0.1953*nsince)! tmax/tmaxxx
-!c       tempmx=tmaxxx*ftmax               ! tmax=f(days since rain)
-!c       if(rain.gt.4.0)tempmx=tmaxxx*.83
-!c       if(rain.gt.5.0)tempmx=tmaxxx*.8
+!  estimate missing tempmx
 
-!c      endif
+!       tmaxxx=26.24+8.325*sin(1.172+xrad)   ! tmax 8 or more days after rain
+!       ftmax=1.03-0.1812*exp(-0.1953*nsince)! tmax/tmaxxx
+!       tempmx=tmaxxx*ftmax               ! tmax=f(days since rain)
+!       if(rain.gt.4.0)tempmx=tmaxxx*.83
+!       if(rain.gt.5.0)tempmx=tmaxxx*.8
 
-!c      if(tempmn.eq.99.9) then
+!      endif
 
-!c  estimate missing tempmn
+!      if(tempmn.eq.99.9) then
 
-!c       tminxx=11.45+8.144*sin(1.078+xrad)             ! tmin on dry days
-!c       if(nsince.le.1)tminxx=13.47+5.949*sin(1.+xrad) ! tmin on wetdays
-!c       if(nsince.eq.2)ftmin=.993                      ! first day after rain
-!c       if(nsince.gt.2)ftmin=.925+.01321*nsince
-!c       if(nsince.le.1)ftmin=1.003+.005169*rain-.0001039*rain**2
-!c       tempmn=tminxx*ftmin                         ! estimate of tmin
+!  estimate missing tempmn
 
-!c      end if
+!       tminxx=11.45+8.144*sin(1.078+xrad)             ! tmin on dry days
+!       if(nsince.le.1)tminxx=13.47+5.949*sin(1.+xrad) ! tmin on wetdays
+!       if(nsince.eq.2)ftmin=.993                      ! first day after rain
+!       if(nsince.gt.2)ftmin=.925+.01321*nsince
+!       if(nsince.le.1)ftmin=1.003+.005169*rain-.0001039*rain**2
+!       tempmn=tminxx*ftmin                         ! estimate of tmin
 
-!c       estimate wet and dry bulb when odd day missing
-!c
-      IF((reals_are_equal(g%tempdy,0.0)) .OR. 
+!      end if
+
+!       estimate wet and dry bulb when odd day missing
+
+      IF((reals_are_equal(g%tempdy,0.0)) .OR.
      :   (reals_are_equal(g%tempdy,99.9))) THEN
           g%tempdy = -.54+0.57*g%tempmx+0.40*g%tempmn
       ENDIF
@@ -3457,19 +3897,19 @@
           IF(WET_DEPRESS.LT.0.) WET_DEPRESS=0.
           g%tempwt = g%tempdy-WET_DEPRESS
       ENDIF
-!c
-!c          **** calculate soil heat flux (cal/cm2) ****
-!c
-        NDATE=g%jdate+183               ! CONVERT TO NORTHERN HEMISPHERE
-        IF(NDATE.GT.g%mdpy) NDATE=NDATE-g%mdpy
-        DATE=real(NDATE)
-        g%g=1.7+14.6*SIN(0.0172*(DATE-51.0))           ! TEMPLE,TEXAS
-        IF(g%g.LT.0.0) g%g=0.0
-!c
-!c      call hfunc (i) ! calculate heat units or daydegrees
+
+!          **** calculate soil heat flux (cal/cm2) ****
+
+!jh v2001         NDATE=g%jdate+183               ! CONVERT TO NORTHERN HEMISPHERE
+!jh v2001         IF(NDATE.GT.g%mdpy) NDATE=NDATE-g%mdpy
+!jh v2001         DATE=real(NDATE)
+!jh v2001         g%g=1.7+14.6*SIN(0.0172*(DATE-51.0))           ! TEMPLE,TEXAS
+!jh v2001         IF(g%g.LT.0.0) g%g=0.0
+
+!      call hfunc (i) ! calculate heat units or daydegrees
       CALL ozcot_hfunc
-      g%stemp=(g%tempmx+g%tempmn)/2.0*g%asoil
-!c      call evap (i) ! calculate potential evaporation
+!jh v2001       g%stemp=(g%tempmx+g%tempmn)/2.0*g%asoil
+!      call evap (i) ! calculate potential evaporation
 
       call ozcot_evap
       call pop_routine(myname)
@@ -3477,60 +3917,61 @@
       END
 
 
-!obsolete * ====================================================================
-!obsolete       SUBROUTINE ozcot_n_fertilise (APPLIED,availn,APPLIED_AVAIL)
-!obsolete * ====================================================================
-!obsolete !c
-!obsolete !c      simulates uptake of fertiliser nitrogen. assumes that there is an upper
-!obsolete !c      limit to the amount of nitrogen a crop can take up and the rate of uptake
-!obsolete !c      or recovery of fertiliser n decreases linearly from a maximum initial
-!obsolete !c      value to zero when uptake limit is reached (basinski et al 1975, cot
-!obsolete !c      gr rev). assume intial rate is 1.0 (100% recovery) and maximum uptake
-!obsolete !c      is 240 kg/ha.
-!obsolete !c
-!obsolete       implicit none
-!obsolete 
-!obsolete       real uptakn_max
-!obsolete       real rate_reducer
-!obsolete       real availnx
-!obsolete       real fraction
-!obsolete       real applied
-!obsolete       real applied_avail
-!obsolete       real availn
-!obsolete       integer n
-!obsolete       integer nkg
-!obsolete        
-!obsolete        DATA UPTAKN_MAX /240./
-!obsolete !c
-!obsolete       character  myname*(*)            ! name of subroutine
-!obsolete       parameter (myname = 'ozcot_n_fertilise')
-!obsolete 
-!obsolete *- Implementation Section ----------------------------------
-!obsolete       call push_routine(myname)
-!obsolete 
-!obsolete        NKG = IFIX(APPLIED)             !  integer of kgs, index for DO loop
-!obsolete        RATE_REDUCER = 1./UPTAKN_MAX    !  recovery decreases with uptake
-!obsolete !c
-!obsolete        AVAILNX   = availn            ! available N before application
-!obsolete        DO 1000 N=1,NKG
-!obsolete            FRACTION = 1.0-RATE_REDUCER*availn ! fraction of next kg available
-!obsolete            availn = availn + FRACTION
-!obsolete 1000  continue
-!obsolete        APPLIED_AVAIL = availn-AVAILNX ! N applied now that will be available
-!obsolete !c
-!obsolete        call pop_routine(myname)
-!obsolete        RETURN
-!obsolete        END
+* ====================================================================
+      SUBROUTINE ozcot_n_fertilise (APPLIED,availn,APPLIED_AVAIL)
+* ====================================================================
+!c
+!c      simulates uptake of fertiliser nitrogen. assumes that there is an upper
+!c      limit to the amount of nitrogen a crop can take up and the rate of uptake
+!c      or recovery of fertiliser n decreases linearly from a maximum initial
+!c      value to zero when uptake limit is reached (basinski et al 1975, cot
+!c      gr rev). assume intial rate is 1.0 (100% recovery) and maximum uptake
+!c      is 240 kg/ha.
+!c
+      implicit none
+      include 'error.pub'
+
+      real uptakn_max
+      real rate_reducer
+      real availnx
+      real fraction
+      real applied
+      real applied_avail
+      real availn
+      integer n
+      integer nkg
+
+       DATA UPTAKN_MAX /240./
+!c
+      character  myname*(*)            ! name of subroutine
+      parameter (myname = 'ozcot_n_fertilise')
+
+*- Implementation Section ----------------------------------
+      call push_routine(myname)
+
+       NKG = IFIX(APPLIED+0.5)             !  integer of kgs, index for DO loop
+       RATE_REDUCER = 1./UPTAKN_MAX    !  recovery decreases with uptake
+!c
+       AVAILNX   = availn            ! available N before application
+       DO 1000 N=1,NKG
+           FRACTION = 1.0-RATE_REDUCER*availn ! fraction of next kg available
+           availn = availn + FRACTION
+1000  continue
+       APPLIED_AVAIL = availn-AVAILNX ! N applied now that will be available
+!c
+       call pop_routine(myname)
+       RETURN
+       END
 
 
 * ====================================================================
       subroutine ozcot_overload
 * ====================================================================
 
-!c-------------------------------------------------------------------------------
-!c     simulates abscission or abortion of older fruit under extreme stress
-!c     ie when boll load exceeds carrying capacity.
-!c-------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
+!     simulates abscission or abortion of older fruit under extreme stress
+!     ie when boll load exceeds carrying capacity.
+!-------------------------------------------------------------------------------
 
       use OzcotModule
       implicit none
@@ -3543,7 +3984,7 @@
       real excess
       real available
       real abort
-      integer das
+      integer cohort
       integer icat
       integer age
 
@@ -3553,7 +3994,7 @@
 *- Implementation Section ----------------------------------
       call push_routine(myname)
 
-!c----- determine if overload called for c or n ---------------------------------
+!----- determine if overload called for c or n ---------------------------------
 
       OVER_C = 999.                           ! very large when g%carcap_c=0.
       IF(g%carcap_c .GT. 0.) OVER_C = g%bload/g%carcap_c
@@ -3568,7 +4009,7 @@
           CAPACITY = g%carcap_n               ! cpacity
       ENDIF
 
-!c----- count days fruit load exceeds capacity ---------------------------------
+!----- count days fruit load exceeds capacity ---------------------------------
 
       IF(g%iday-g%last_iday.GT.1)g%idayco = 0 ! reset for break
       IF(FLOAD.GT.CAPACITY) g%idayco = g%idayco+1 ! count days FLOAD>g%carcap
@@ -3579,36 +4020,37 @@
       else
       endif
 
-!c----- compute excess fruit and buffer effect ---------------------------------
+!----- compute excess fruit and buffer effect ---------------------------------
 
       EXCESS = FLOAD-CAPACITY                 ! bolls in excess of Cc supply
       EXCESS = EXCESS*0.1                     ! damp effect for carbon stress
 
-!c----- loop through arrays to find available fruit ----------------------------
+!----- loop through arrays to find available fruit ----------------------------
 
-      DO 2 das=g%lfru(cat5),g%lfru(cat8)-1,-1           ! loop through categories 5, 6, 7
-        IF(das.LT.1) GO TO 1                    ! no fruit to abort
-        ICAT = cat4
-        IF(das.LE.g%lfru(cat5)) ICAT = cat5
-        IF(das.LE.g%lfru(cat6)) ICAT = cat6
-        IF(das.LE.g%lfru(cat7)) ICAT = cat7
-        IF(g%fruno(das).EQ.0.)GO TO 2                    ! no fruit
-        AVAILABLE = g%fruno(das)                         ! fruit available to abort
-        DO 10 age=1,6
-            AVAILABLE = AVAILABLE-g%frmark(das,age)        ! less fruit marked
+      DO 2 cohort=g%lfru(Small_bolls),g%lfru(Inedible_bolls)-1,-1           ! loop through categories 5, 6, 7
+        IF(cohort.LT.1) GO TO 1                    ! no fruit to abort
+        ICAT = Flowers
+        IF(cohort.LE.g%lfru(Small_bolls)) ICAT = Small_bolls
+        IF(cohort.LE.g%lfru(Medium_bolls)) ICAT = Medium_bolls
+        IF(cohort.LE.g%lfru(Large_bolls)) ICAT = Large_bolls
+        IF(g%fruno(cohort).EQ.0.)GO TO 2                    ! no fruit
+        AVAILABLE = g%fruno(cohort)                         ! fruit available to abort
+        DO 10 age=age1,age6
+            AVAILABLE = AVAILABLE-g%frmark(cohort,age)      ! less fruit marked
 10      continue
 
 
-        IF(ICAT.EQ.cat7.AND.g%fruwt(das)/g%fruno(das).LT.0.1)THEN ! fruit not grown yet ?
-           g%frmark(das,6) = g%fruno(das)                  ! abort such fruit
-           AVAILABLE = AVAILABLE-g%frmark(das,6)         ! adjust fruit available
+        IF(ICAT.EQ.Large_bolls
+     :    .AND.g%fruwt(cohort)/g%fruno(cohort).LT.0.1)THEN ! fruit not grown yet ?
+           g%frmark(cohort,age6) = g%fruno(cohort)                  ! abort such fruit
+           AVAILABLE = AVAILABLE-g%frmark(cohort,age6)         ! adjust fruit available
         ENDIF
 
         IF(AVAILABLE.GT.0.)THEN
           AVAILABLE = AVAILABLE*0.1                    ! damp effect
           ABORT = AVAILABLE                            ! abort available fruit
           IF(ABORT.GT.EXCESS) ABORT=EXCESS             ! limit to requirement
-          g%frmark(das,age6) = g%frmark(das,age6)+ABORT
+          g%frmark(cohort,age6) = g%frmark(cohort,age6)+ABORT
           g%fmkcat(ICAT,age6) = g%fmkcat(ICAT,age6)+ABORT
           EXCESS = EXCESS-ABORT                        ! reduce excess no. bolls
           IF(EXCESS.LE.0.) GO TO 1                     ! excess depleted
@@ -3617,7 +4059,7 @@
 
 1     continue
 
-!c-------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 
       call pop_routine(myname)
       RETURN
@@ -3627,7 +4069,7 @@
 * ====================================================================
         real FUNCTION ozcot_satvp(Tdeg)
 * ====================================================================
-!c
+
         implicit none
       include 'error.pub'
 
@@ -3660,15 +4102,15 @@
         call pop_routine(myname)
         RETURN
         END
-!c
+
 * ====================================================================
       real FUNCTION ozcot_senlf(bload,alai,carcap_c,smi)
 * ====================================================================
-!c
-!c     estimates leaf longevity. ranges between 833 dd & 1110 dd
-!c     reduced by water stress, boll load and self shading of
-!c     canopy when lai gt 3.
-!c
+
+!     estimates leaf longevity. ranges between 833 dd & 1110 dd
+!     reduced by water stress, nitrogen stress, boll load and self shading of
+!     canopy when lai gt 3.
+
       use OzcotModule
       implicit none
       include 'error.pub'
@@ -3677,10 +4119,13 @@
 
       real fb
       real fw
+      real fn
+      real fl
       real carcap_c
       real bload
       real alai
       real smi
+      real f
 
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_senlf')
@@ -3688,86 +4133,246 @@
 *- Implementation Section ----------------------------------
       call push_routine(myname)
 
-        FB=1.
-        IF(carcap_c.GT.0.)FB=1.-bload/carcap_c ! reduce by boll load
-        IF(FB.GT.1.)FB=1.
-        IF(FB.LT.0.)FB=0.
-        FW=ozcot_stress(c%fw_low,c%fw_high,c%fw_a,smi) ! effect of water stress
-      ozcot_senlf=833.+277.*FB*FW
+      FB=1.
+      FW=1.                          ! water stress factor
+      FN=1.                          ! nitrogen stress factor
+      FL=1.                          ! LAI  factor
+      IF(carcap_c.GT.0.)FB=1.-bload/carcap_c ! reduce by boll load
+      IF(FB.GT.1.)FB=1.
+      IF(FB.LT.0.)FB=0.
+      FW=ozcot_stress(c%fw_low,c%fw_high,c%fw_a,smi) ! effect of water stress
+      ozcot_senlf=833.+277.*FB*FW*FN
+
+!     proposal 3/1/97 try when convenient ABH
+
+      FN=ozcot_stress(0.75,1.0,1.0,g%FNSTRS) ! nitrogen stress 30 Dec 1992
+      IF(g%alai.GT.3.) FL = 1.0-(g%alai-3.0)/3.0  ! effect of LAI > 3
+      IF(FL.GT.1.)FL=1.
+      IF(FL.LT.0.)FL=0.
+
+      F = MIN(FB*FW,FN,FL)
+!      SENLF=833.+277.*F
 
       call pop_routine(myname)
       RETURN
       END
 
+!jh      SUBROUTINE SNBAL(I)
+      SUBROUTINE ozcot_SNBAL
 
-!obsolete * ====================================================================
-!obsolete         subroutine ozcot_sevap(RAINSI)
-!obsolete * ====================================================================
-!obsolete !c
-!obsolete !c       ****** calculate actual es (use eos,ul1,time since ul1) ******
-!obsolete !c
-!obsolete       use OzcotModule
-!obsolete       implicit none
-!obsolete 
-!obsolete       real Td
-!obsolete       real esx
-!obsolete       real rainsi
-!obsolete !c
-!obsolete       character  myname*(*)            ! name of subroutine
-!obsolete       parameter (myname = 'ozcot_sevap')
-!obsolete 
-!obsolete *- Implementation Section ----------------------------------
-!obsolete       call push_routine(myname)
-!obsolete 
-!obsolete         IF(g%sumes1.GE.c%UL1) GO TO 180
-!obsolete         IF(RAINSI.GE.g%sumes1) GO TO 120
-!obsolete         g%sumes1=g%sumes1-RAINSI
-!obsolete         GO TO 140
-!obsolete 120     g%sumes1=0.
-!obsolete 140     g%sumes1=g%sumes1+g%eos
-!obsolete         IF(g%sumes1.LT.0.0) g%sumes1=0.0
-!obsolete         IF(g%sumes1.GT.c%UL1) GO TO 160
-!obsolete         g%es=g%eos
-!obsolete         GO TO 260
-!obsolete 160     g%es=g%eos-0.4*(g%sumes1-c%UL1)
-!obsolete         g%sumes2=0.6*(g%sumes1-c%UL1)
-!obsolete         Td=(g%sumes2/c%CONA)**2
-!obsolete         GO TO 260
-!obsolete 180     if(rainsi.lt.g%sumes2) go to 200
-!obsolete         RAINSI=RAINSI-g%sumes2
-!obsolete         g%sumes1=c%UL1-RAINSI
-!obsolete         g%sumes2=0.0
-!obsolete         Td=0.
-!obsolete         IF(RAINSI.GT.c%UL1) GO TO 120
-!obsolete         GO TO 140
-!obsolete 200     td=td+1.
-!obsolete         g%es=c%CONA*Td**0.5-g%sumes2
-!obsolete         IF(RAINSI.GT.0.) GO TO 220
-!obsolete         IF(g%es.GT.g%eos) g%es=g%eos
-!obsolete         GO TO 240
-!obsolete 220     esx=0.8*rainsi
-!obsolete         IF(ESX.LE.g%es) ESX=g%es+RAINSI
-!obsolete         IF(ESX.GT.g%eos) ESX=g%eos
-!obsolete         g%es=ESX
-!obsolete 240     g%sumes2=g%sumes2+g%es-rainsi
-!obsolete         Td=(g%sumes2/c%CONA)**2
-!obsolete 260     if(g%es.lt.0.) g%es=0.
-!obsolete 
-!obsolete         call pop_routine(myname)
-!obsolete         RETURN
-!obsolete         END
+C      This subroutine estimates potential total N uptake of the crop (AVAILN).
+C      It does not maintain a daily available N balance; this will be done in
+C      a later version.
+C      Fertiliser and non-fertiliser N is entered as input. Non-fertiliser n
+C      is immediately added to AVAILN. A fraction of fertiliser N is added on
+C      day of application in S/R N_FERTILISE, the fraction being a function of
+C      N already available. All available N is reduced by waterlogging.
+C      Fertiliser N is reduced by low available soil water content is.
+C      Day of application of N fertiliser, NDAY(J) from CINPUT2 & AGRON.INP,
+C      can be day of year (+ve) or days after sowing (-ve), assigned to local
+C      variable JNAPLC(J) on first day of season or day of sowing.
 
+      use OzcotModule
+      implicit none
+      include 'error.pub'
+
+!jh      INTEGER JNAPLC(2)                         ! local variable, day of applcn
+      real    APPLIED_AVAIL
+      real    REDUCTION
+
+      character  myname*(*)            ! name of subroutine
+      parameter (myname = 'ozcot_SNBAL')
+
+*- Implementation Section ----------------------------------
+      call push_routine(myname)
+
+C---- reset variables for new season ------------------------------------------
+
+      IF(g%das.EQ.1) THEN                           ! start of new season?
+          g%APPLIED_N = 0.                        ! reset for new season
+          g%TOTAL_APPLIED = 0.                    !       ditto
+!jh          DO J=1,NFERT
+!jh             JNAPLC(J) = 0                      ! reset
+!jh             IF(NDAY(J).GT.0) JNAPLC(J)=NDAY(J) ! day of applcn as of year
+!jh          ENDDO
+      ENDIF
+
+!jhC---- find day of N application if tied to sowing date ------------------------
+
+!jh      IF(I.EQ.ISOW) THEN                        ! sown this day?
+!jh         JSOW = ISOW+IMET-1                     ! sowing as day of year
+!jh         IF(JSOW.GT.MDPY) JSOW=JSOW-MDPY        ! JSOW next year? if so adjust
+!jh         DO J=1,NFERT
+!jh             IF(NDAY(J).LT.0 .AND. SNAPLC(J).GT.0.) THEN
+!jh                 NAFTER = -NDAY(J)              ! make +ve
+!jh                 JNAPLC(J) = JSOW+NAFTER        ! day of applcn as of year
+!jh                 IF(JNAPLC(J).GT.MDPY) JNAPLC(J)=JNAPLC(J)-MDPY ! next year?
+!jh             ENDIF
+!jh         ENDDO
+!jh      ENDIF
+
+C--- update available N if fertiliser applied ---------------------------------
+
+!jh      IF(JDATE.EQ.JNAPLC(J)) THEN               ! apply N this day?
+         if (g%snaplc.gt. 0.0) then
+          CALL ozcot_N_FERTILISE (g%SNAPLC,g%AVAILN,APPLIED_AVAIL) ! if so, do it
+          g%TOTAL_APPLIED = g%TOTAL_APPLIED+g%SNAPLC           ! total N applied
+          g%APPLIED_N = g%APPLIED_N+APPLIED_AVAIL   ! total applied N avail
+      ENDIF
+20    CONTINUE
+
+C--- adjust available N during active fruiting after Hearn & Constable 1984-----
+      IF(g%SQUARZ.GT.0.0 .AND. g%OPENZ. EQ.0.)THEN       ! active fruiting?
+
+C        IF(DEF.LT.2.5) THEN                          ! waterlogging
+!jh        IF(g%SW/g%UL.GT.c%WATLOG_N) THEN                    ! waterlogging 28/5/96
+        IF(g%wli.GT.c%WATLOG_N) THEN                    ! waterlogging 28/5/96
+            IF(g%AVAILN.GT.30.) THEN
+                g%AVAILN = g%AVAILN-0.983                ! Hearn & Constable
+            ELSE
+                g%AVAILN = g%AVAILN*0.99                 ! Hearn Constable
+            ENDIF
+        ENDIF
+
+        IF(g%SMI.LT.0.3 .AND. g%APPLIED_N.GT.0. AND. g%BOLLZ.GT.0.) THEN ! dry?
+           REDUCTION =  0.0316*g%TOTAL_APPLIED         ! reduces avail N
+           g%APPLIED_N =g%APPLIED_N-REDUCTION            ! reduce applied N avail
+           IF(g%APPLIED_N.LT.0.) g%APPLIED_N=0.
+           g%AVAILN = g%AVAILN - REDUCTION                 ! reduce available N
+           IF(g%AVAILN.LT.0.0)g%AVAILN=0.0
+        ENDIF
+      ENDIF
+
+
+      call pop_routine(myname)
+      RETURN
+      END
 
 * ====================================================================
-!c     subroutine solwat (i)
+!jh      SUBROUTINE SOLWAT (I)
       subroutine ozcot_solwat
 * ====================================================================
-!cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-!c      calculates the soil water balance as a function of soil     c
-!c      layer depth.  modified from the model of ritchie (1972).    c
-!c                                                                  c
-!c      key variables:                                              c
-!cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+!CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+!      CALCULATES THE SOIL WATER BALANCE AS A FUNCTION OF SOIL     C
+!      LAYER DEPTH.  MODIFIED FROM THE MODEL OF RITCHIE (1972).    C
+!                                                                  C
+!     Order of execution - numbers are original order:             C
+!          Initialise in 1st season                                C
+!          Reset intial SW if specified                            C
+!        1  CALL CULTIVATE                                         C
+!        4  Call SEVAP    gives ES                                 C
+!        5  CALL EVAPOTRANS uses SMI, gives EP & ET                C
+!        7  CALL SWBAL_ET   removes EP & ES from layers            C
+!        8  CALL SUM_SW - sum layers as SW gives DEF               C
+!        2  CALL IRRIGATE uses DEF adds irrig water to rainfall    C
+!        3  CALL RUNOFF   uses SW, gives Q                         C
+!        6  CALL SWBAL_ADD  adds rain & irrigation to layers       C
+!        8  CALL SUM_SW - sum layers as SW gives DEF               C
+!        9  CALL WATER_INFO information for output                 C
+!       10   CALL INDICES  SMI & WLI                               C
+!       11   CALL DRAINAGE                                         C
+!       12   CALL SKIPWATER                                        C
+!                                                                  C
+!CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+      use OzcotModule
+      implicit none
+      include 'error.pub'
+
+!-------INITIALISING -----------------------------------------------------------
+
+!?        IF(I.EQ.1) JIR = 1
+        IF(g%isw.NE.1) THEN           ! replaces INITIAL.GT.1 for OZCOT2&4 May89
+            g%isw = 1
+            g%smi=g%swlayr(1)/g%ullayr(1)
+        ENDIF
+
+!------- reset initial soil water ------------------------------------------
+
+!------ REMOVE WATER FROM LAYERS 1&2 DURING LAND PREPARATION -------------------
+
+      call ozcot_EVAPOTRANSP               ! uses SMI, gives EP & ET
+!jh      CALL SWBAL_ET(I)               ! removes EP & ES from layers
+      call ozcot_SWBAL_ET               ! removes EP & ES from layers
+      call ozcot_SUM_SW                    ! sums SW and gives DEF
+!jh      CALL IRRIGATE (RAINSI)         ! uses DEF
+!jh      CALL RUNOFF (RAINSI,RAINEF)    ! uses SW, gives Q
+!jh      CALL SWBAL_ADD (RAINEF)        ! adds rain & irrigation to layers
+!jh      CALL SUM_SW                    ! sums SW and gives DEF
+!jh      CALL WATER_INFO (I)
+      call ozcot_INDICES                   !gives SMI & WLI
+!jh      IF (g%wli.GT.WATLOG_N) call DRAINAGE
+      IF(g%nskip.GT.0) call ozcot_SKIPWATER  ! for skip row
+
+  500   CONTINUE
+
+        RETURN
+        END
+
+
+!-------------------------------------------------------------------------------
+
+      subroutine ozcot_SKIPWATER
+
+!     This subroutine deals with use of soil water in the skip row.
+!     At the start of a drying cycle water is drawn only from the plant row,
+!     and SMI calculated for the plant row, until the supply is limiting EP
+!     (shown by F_LIMITING < 1, from WATCO).
+!     With supply limiting water is drawn from skip until it is depleted
+!     to same level as plant row (shown when SMI for plant+skip =<
+!     SMI for plant row) where upon water is drawn from plant and skip rows.
+!     Until SMI for plant+skip < SMI for plant row, SMI for plant row is
+!     effective SMI. When profile rewetted and drying cycle ends, procedure
+!     starts again with water drawn from plant row until supply limited.
+!     WLI (waterlogging index) adjusted for plant row,
+!     assuming water logging is limited to plant row.
+
+      use OzcotModule
+      implicit none
+      include 'error.pub'
+
+
+      real     smi_row
+      real     smi_pre
+
+!jh      LOGICAL USESKIP/.FALSE./          ! water used from skip when TRUE
+
+!jh      SMI_IN = g%smi                    ! to write o/p in development
+
+      IF(.NOT. g%useskip) THEN
+          g%smi_row=1+(g%smi-1)*g%rs        ! SMI in plant row
+          IF(g%f_limiting.LT.1.) THEN       ! supply limiting EP?
+              g%useskip = .TRUE.            ! yes, water from skip
+              g%smi_pre = g%smi             ! save value of SMI
+!              F_SMI = g%smi_row/g%smi      ! to adjust SMI when water in skip used
+          ENDIF
+          g%smi = g%smi_row                   ! effective SMI
+      ELSE
+          IF(g%smi.GT.g%smi_pre) THEN         ! profile rewetted?
+              g%useskip = .FALSE.             ! yes, rewetting occurs
+              g%smi_row=1+(g%smi-1)*g%rs      ! SMI in plant row
+              g%smi = g%smi_row               ! effective SMI
+          ELSE
+              g%smi = MIN(g%smi,g%smi_row)    ! no, drying continues
+!              g%smi = g%smi*F_SMI            ! adjust SMI when using water in skip
+          ENDIF
+      ENDIF
+
+      g%WLI = 1-g%rs*(1-g%WLI)                ! water logging index in row
+
+!      WRITE (4,10) SMI_IN,SMI,g%f_limiting,g%smi_pre,F_SMI,g%useskip
+10    FORMAT(5F5.2,L5)
+
+      RETURN
+      END
+
+
+* ====================================================================
+      subroutine ozcot_EVAPOTRANSP
+* ====================================================================
+
+!     calculates EP, adds to ES, to get ET, limits to EO
 
       use OzcotModule
       implicit none
@@ -3775,88 +4380,26 @@
 
       real ozcot_watco
 
-      real depth
-      real rtul
-      real swi
-!c      real t, rdef
-      integer l
-!c
-!c      dimension stor(20) ,u(20)
-!c      data jir/1/ ! index for current element of igday
-!c      data initial/0/ ! flag for initial call
+      g%alai_row = g%alai
+        IF(g%nskip.GT.0) g%alai_row = g%alai*g%rs  ! lai in hedgerow - ABH 5/11/96
 
-      character  myname*(*)            ! name of subroutine
-      parameter (myname = 'ozcot_solwat')
-
-*- Implementation Section ----------------------------------
-      call push_routine(myname)
-
-!cpsc      do 99 ll=1,nlayr
-!cpsc 99       dlayr(ll)=dlayr(ll)/10.
-
-!c-------initialising -----------------------------------------------------------
-
-!c        if(i.eq.1) jir = 1            ! irrigation counter for ozcot2
-        IF(g%isw.NE.1) THEN           ! replaces INITIAL.GT.1 for OZCOT2&4 May89
-            g%isw = 1
-!c            t=0.
-            g%smi=g%swlayr(1)/g%ullayr(1)
-!c           if(smi.lt.0.9 ) then
-!c               sumes1=g%ul1
-!c               sumes2=2.5-2.78*smi
-!c           else
-!c                sumes1=10.-smi*10.
-!c               sumes2=0.
-!c            endif
-        ENDIF
-
-!c------ remove water from layers 1&2 during land preparation -------------------
-
-!c       jtest = jdate-(jdate/30)*30          ! test if 30th day
-!c       if(isow.eq.0 .and. jtest.eq.0) call cultivate (0.25,1.0)
-!c       if(jdate.eq.220) call cultivate (0.0,0.5)
-
-!c------ add irrigation water ---------------------------------------------------
-
-!c       rainsi=rain
-!c       if(jdate.eq.igday(jir))then
-!c         defirg=def
-!c         rainsi=rain+defirg
-!c         jir=jir+1
-!c       end if
-
-!c------ calculate runoff -------------------------------------------------------
-
-!c       sw=sw+rainsi
-!c       if(sw.le.ul) then
-!c           q=0.0
-!c       else
-!c           q=sw-ul
-!c        endif
-!cpsc         q=runoff
-!c        rainef=rainsi-q
-!c       call sevap(rainsi)
-
-!c------ calculate potential ep -------------------------------------------------
-!c-------light interception modified to give hedgerow effect with skip row - abh 5/11/96 ------
-!cpsc
-        g%alai = g%alai*g%rs             ! lai in hedgerow
-
-        IF(g%alai.GT.3.) THEN            !const
+        IF(g%alai_row.GT.3.) THEN
             g%ep=g%eo-g%es
-        ELSE IF(g%alai.GT.1.6)THEN
-            g%ep=(0.08+0.3066*g%alai)*g%eo ! L.Mateos 1987, ABH 1988   !const
+        ELSE IF(g%alai_row.GT.1.6)THEN
+            g%ep=(0.08+0.3066*g%alai_row)*g%eo     ! L.Mateos 1987, ABH 1988
         ELSE
-            g%ep=(1.-EXP(-0.5186*g%alai))*g%eo ! L.Mateos 1987, ABH 1988   !const
+            g%ep=(1.-EXP(-0.5186*g%alai_row))*g%eo ! L.Mateos 1987, ABH 1988
         ENDIF
 
-        IF(g%alai.EQ.0.0) g%ep=0.0
+        IF(g%alai_row.EQ.0.0) g%ep=0.0
         IF(g%ep.LT.0.) g%ep=0.
-!cpsc
-        g%ep = g%ep/g%rs                 ! g%ep on ground area basis
-        g%alai = g%alai/g%rs             ! restore LAI to ground area basis
 
-!c------ limit ep using watco(smi) stress factor --------------------------------
+        IF(g%nskip.GT.0) THEN
+            g%ep = g%ep/g%rs                   ! EP on ground area basis
+!jh            g%alai = g%alai/g%rs               ! restore LAI to ground area basis
+        ENDIF
+
+!------ LIMIT EP USING WATCO(SMI) STRESS FACTOR --------------------------------
 
         g%et=g%es+g%ep
         IF(g%eo.LT.g%et) THEN
@@ -3864,269 +4407,94 @@
             g%ep=g%et-g%es
             IF(g%ep.LT.0.0)g%ep=0.0
         ENDIF
-        g%ep=g%ep*ozcot_watco(g%smi,g%eo,0.4,0.)               !const
+        g%F_LIMITING = ozcot_watco(g%smi,g%eo,0.4,0.) ! factor when supply limiting ep
+        g%ep=g%ep*g%F_LIMITING
         g%et=g%es+g%ep
 
-        g%rrig(et_accum) = g%rrig(et_accum) + g%et ! accumulate g%et for output
 
-!c       call swbal(i,rainef)
-        CALL ozcot_swbal
+      RETURN
+      END
 
-!c------ calculate total sw before ep for sr: snbal ----------------------------
 
-!c       swwep=0.0
-!c       do 10 l=1,nlayr
-!c         swwep=swwep+swlayr(l)*dlayr(l)
-!c         sweplr(l)=swlayr(l)
-!c10      continue
+* ====================================================================
+      subroutine ozcot_INDICES
+* ====================================================================
 
-!c---- calculate soil water stress factor 'smi'  ---------------------------------
+!     calculates SMI AND WLI
 
-!c       if(i.lt.isow.or.isow.eq.0) go to 500
-        IF(g%das.le.0.OR.g%isow.EQ.0) GO TO 500
+      use OzcotModule
+      implicit none
+      include 'error.pub'
+
+      real depth
+      real rtul
+      integer L
+      real smi_rt
+      real smi_30
+
         DEPTH=0.
         g%rtsw=0.
         RTUL=0.
+        g%nrtlayr = 0.0
 
-        DO 20 L=1,g%nlayr
+        DO L=1,g%nlayr
           DEPTH=DEPTH+g%dlayr_cm(L)
+          g%nrtlayr = L
           IF(g%rtdep.LE.DEPTH) GO TO 460
           RTUL=RTUL+g%ullayr(L)*g%dlayr_cm(L)
           g%rtsw=g%rtsw+g%swlayr(L)*g%dlayr_cm(L)
-20      continue
-        GO TO 480
+        ENDDO
 
-460     g%rtsw=g%rtsw+g%swlayr(l)*(g%rtdep+g%dlayr_cm(l)-depth)
+        GO TO 470
+
+460     g%rtsw=g%rtsw+g%swlayr(L)*(g%rtdep+g%dlayr_cm(L)-DEPTH)
         RTUL=RTUL+g%ullayr(L)*(g%rtdep+g%dlayr_cm(L)-DEPTH)
-        SWI=g%swlayr(1)/g%ullayr(1)
-        IF(g%dlayr_cm(1).GE.30.) GO TO 480                                    !const
-        SWI=
-     *  (SWI*g%dlayr_cm(1)+(g%swlayr(2)/g%ullayr(2))*(30.-g%dlayr_cm(1))      !const
-     :  )/30.
-480     g%smi=amax1(g%rtsw/rtul,swi)
+470     SMI_RT=g%rtsw/RTUL                        ! SMI in root zone
+        SMI_30=g%swlayr(1)/g%ullayr(1)              ! SMI in top 30cm
+        IF(g%dlayr_cm(1).GE.30.) GO TO 480
+        SMI_30 = (SMI_30*g%dlayr_cm(1)
+     :         + (g%swlayr(2)/g%ullayr(2))*(30.-g%dlayr_cm(1)))/30.
+480     g%smi=AMAX1(SMI_RT,SMI_30)
+        g%smi = min(1.0, g%smi)
+!jh      print*, smi_rt, g%rtdep
+!jh        g%wli = g%sw/g%UL
+!jhtemp
+!jh        g%wli = SMI_RT
+        g%wli = g%smi
 
-!cpc
-        g%smi = g%rtsw/RTUL
+! correction of indices for soilwat2 water movements
+!jhtemp        g%smi = -0.107 + 1.187*g%smi
+!jhtemp        g%smi = max(0.0,min(1.0,g%smi))                        ! waterlogging index
+!jhtemp        g%wli = -0.107 + 1.187*g%wli                         ! waterlogging index
+!jhtemp        g%wli = max(0.0,min(1.0,g%wli))                        ! waterlogging index
 
-!c        if(rs.gt.1. .and. rtdep.lt.rtdepm) then  ! when rs > 1m & roots growing,
-!c            smi = 1-(1-smi)*(tr/rs+1-tr)*rs      ! adjust for lateral root
-!c            if(smi.lt.0.) smi = 0.
-!c        endif                                    ! growth, limited to 1m row
+      RETURN
+      END
 
-!c------ calculate some quantities for writing only -----------------------------
+* ====================================================================
+      subroutine ozcot_SUM_SW
+* ====================================================================
 
-!c       rtsmi=rtsw/rtul
-!c
-!c       flim=ozcot_watco(smi,eo,0.3,0.)
-!cpc     rdef=rtul-rtsw
-!c       rperd=(rdef/rtul)*100.0
+!     calculates SW in each layer & sums down profile
 
-  500 CONTINUE
+      use OzcotModule
+      implicit none
+      include 'error.pub'
 
-!c------ calculate total soil water & deficit -----------------------------------
+      integer L
 
         g%sw=0.0
-        DO 30 L=1,g%nlayr
+
+        DO L=1,g%nlayr
             g%sw=g%sw+g%swlayr(L)*g%dlayr_cm(L)
-            IF(L.LE.6)g%tswl(L)=(g%swlayr(L)+p%unul(L))*g%dlayr_cm(L)
-!cpsc
-!cpsc            swdep(l)=swlayr(l)*10.*dlayr_cm(l)+
-!cpsc     *                 (duldep(l)-ullayr(l)*10.*dlayr_cm(l))
-!cpsc
+        ENDDO
 
-30      continue
-        g%def=g%ul-g%sw
+!jh v2001        g%def = g%UL-g%sw
 
-!cpsc      do 199 ll=1,nlayr
-!cpsc 199       dlayr_cm(ll)=dlayr_cm(ll)*10.
-
-        call pop_routine(myname)
-        RETURN
-        END
+      RETURN
+      END
 
 
-* ====================================================================
-!c      subroutine cultivate (c_lyr1,c_lyr2)
-* ====================================================================
-
-!c     reduces soil water content of layers 1 and 2 in response to cultivation
-!c     to levels passed in c_lyr1 & c_lyr2. if these are 1.0, no reduction as
-!c     cultsw will be > swlayr
-
-!c      use OzcotModule
-
-!c      cultsw = ullayr(1)*c_lyr1          ! soil water content after cultivation
-!c      if(cultsw.lt.swlayr(1)) swlayr(1) = cultsw
-!c      cultsw = ullayr(2)*c_lyr2          ! soil water content after cultivation
-!c      if(cultsw.lt.swlayr(2)) swlayr(2) = cultsw
-!c      return
-!c      end
-
-
-!obsolete * ====================================================================
-!obsolete !c      subroutine sowday (i,iend)
-!obsolete        subroutine ozcot_sowday
-!obsolete * ====================================================================
-!obsolete 
-!obsolete !cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-!obsolete !c      derives a sowing date if one is not given as an initial     c
-!obsolete !c      condition.  sowing requires 3 consecutive days with soil    c
-!obsolete !c      temperatures >= 15.0c and soil moisture sumes1 >= ul1       c
-!obsolete !c      at sowing, root depth is assigned seed depth until          c
-!obsolete !c      emergence.                                                  c
-!obsolete !c                                                                  c
-!obsolete !c      key variables:                                              c
-!obsolete !c
-!obsolete !c      isow = sowing date (as day of year); if input > 0 or after
-!obsolete !c             selected in this s/r, s/r sowday not called;
-!obsolete !c             if < 0 (-ve), this s/r will not look for a owing day
-!obsolete !c             before -isow (i.e. the -ve value made +ve).
-!obsolete !c      iwindow = time window for sowing when selected in this s/r,
-!obsolete !c                starting with earliest day
-!obsolete !c      tempre = mean temp day before yesterday
-!obsolete !c      tempyd = mean temp yesterday
-!obsolete !c      tmean  = mean temperature for last three days, when > 18
-!obsolete !c               soil temp > 15 for three successive days - abh 8/8/89
-!obsolete !c      yr1_last = flag to show season started last
-!obsolete !c               year or this.
-!obsolete !c      window = logical flag to show if in sowing window
-!obsolete !c      span_nu_yr = logical flag to show if new year started in sowing window
-!obsolete !c      lastyr = needed when sowing window spans new year
-!obsolete !c               for number of days in previous year;
-!obsolete !c               acts as a flag to show if sow_this_yr to be set to 0 or 1.
-!obsolete !c      nosow  = flag to show if crop to be sown this year, mainly for
-!obsolete !c               long fallowing with dry land cropping;
-!obsolete !c               -1 for no crop, 1 for crop.
-!obsolete !c      iswitch= toggle switch to change nosow.
-!obsolete !c
-!obsolete !ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-!obsolete !c
-!obsolete       use OzcotModule
-!obsolete       implicit none
-!obsolete 
-!obsolete !c      logical window/.false./
-!obsolete !c      logical warm/.false./, wet/.false./
-!obsolete !c      logical traffic/.false./, profile/.false./
-!obsolete !c      logical span_nu_yr
-!obsolete !c      logical yr1_last
-!obsolete !c      dimension npm(12)
-!obsolete !c      data npm /0,31,59,90,120,151,181,212,243,273,304,334/
-!obsolete !c      data tempyd/0.0/,tempre/0.0/
-!obsolete !c      data initial/0/,lastyr/0/
-!obsolete 
-!obsolete       character  myname*(*)            ! name of subroutine
-!obsolete       parameter (myname = 'ozcot_sowday')
-!obsolete 
-!obsolete *- Implementation Section ----------------------------------
-!obsolete       call push_routine(myname)
-!obsolete 
-!obsolete 
-!obsolete !c      if(isow.gt.0) return
-!obsolete 
-!obsolete !c---------------- initial conditions set on first call -------------------------
-!obsolete 
-!obsolete !c      if(initial.eq.0 .and. isdy.lt.0) then  ! 1st time sowday called?
-!obsolete !c          initial = 1                        ! set flag
-!obsolete !c          jstart = npm(ismo)-isdy            ! earliest day of year for sowing
-!obsolete !c          if(jstart.gt.mdpy) jstart=jstart-mdpy ! into next year
-!obsolete !c          jstop  = jstart+iwindow            ! latest day to sow (can be >365)
-!obsolete !c         iswitch = 1                        ! crop every year
-!obsolete !c         if(isyr.lt.0) iswitch = -1         ! crop alternate years
-!obsolete !c          nosow = 1                          ! crop every yr or even yrs if alt
-!obsolete !c          if(isyr.eq.-2) nosow = -1          ! crop in odd years
-!obsolete !c          yr1_last = .true.                  ! season starts last year
-!obsolete !c      end if
-!obsolete 
-!obsolete !c-------------- reset on first call of new season ------------------------------
-!obsolete 
-!obsolete !c      if(i.eq.1) then                        ! 1st day of season? if so...
-!obsolete !c          nosow=nosow*iswitch                ! toggle nosow for fallow/crop
-!obsolete !c          window = .false.                   ! reset sowing window flag
-!obsolete !c          span_nu_yr = .false.               ! reset
-!obsolete !c          lastyr = 0                         !  reset  for next season
-!obsolete !c          tempre = 0.                        !  reset  for next season
-!obsolete !c          tempyd = 0.                        !  reset  for next season
-!obsolete !c      endif
-!obsolete 
-!obsolete 
-!obsolete !c      if(nosow.eq.-1) then                   ! if no crop this season (fallow)..
-!obsolete !c          ncount = ncount+1                  ! count days of fallow season
-!obsolete !c          if(ncount.lt.365)return            ! end of fallow season?
-!obsolete !c          iend=4                             ! yes, end of fallow season
-!obsolete !c          ncount=0                           ! reset counter
-!obsolete !c          return
-!obsolete !c      end if
-!obsolete 
-!obsolete !c---------- compute sowing conditions -----------------------------------------
-!obsolete 
-!obsolete       g%tmean3 = (g%tempav+g%tempyd+g%tempre)/3. ! mean temperature for g%last 3 days
-!obsolete 
-!obsolete       g%tempre = g%tempyd               ! update previous days temp for tomorrow
-!obsolete       g%tempyd = g%tempav               ! update yesterdays temp for tomorrow
-!obsolete 
-!obsolete !c      if(tmean.ge.18.0) then            ! check soil temperature
-!obsolete !c          warm = .true.                 ! soil warm enough to sow
-!obsolete !c      else
-!obsolete !c          warm = .false.                ! soil not warm enough to sow
-!obsolete !c      endif
-!obsolete 
-!obsolete       g%s_bed_mi = g%swlayr(1)/g%ullayr(1) ! seed bed moisture index
-!obsolete 
-!obsolete       g%s_bed_sat = max(g%s_bed_sat,g%s_bed_mi)
-!obsolete 
-!obsolete !c      if(s_bed_mi.ge.0.75) then         ! seed bed saturated?
-!obsolete !c          wet = .true.                  ! seed bed has been wetted
-!obsolete !c      else
-!obsolete !c          if(s_bed_mi.lt.0.5) wet = .false. ! seed bed has dried out
-!obsolete !c      endif
-!obsolete 
-!obsolete !c      if(s_bed_mi.le.0.67) then         ! trafficable? bridge & muchow 1982
-!obsolete !c          traffic = .true.              ! seed bed trafficable
-!obsolete !c      else
-!obsolete !c          traffic = .false.             ! seed bed not trafficable
-!obsolete !c      endif
-!obsolete 
-!obsolete !c      if(sw.ge.sow_sw) then             ! soil water content of profile
-!obsolete !c          profile = .true.              ! sufficient water in profile
-!obsolete !c      else                              ! 11cm is for 1m from fawcet 1977
-!obsolete !c          profile = .false.             ! insufficient water in profile
-!obsolete !c      endif
-!obsolete 
-!obsolete !c------------- check if sowing window open--------------------------------------
-!obsolete 
-!obsolete !c      if(.not. window) then                  ! sowing window yet?
-!obsolete !c          if(jdate.eq.1.and.i.ne.1) yr1_last=.true. ! window starts in new year
-!obsolete !c          if(jdate.eq.jstart) then           ! ....starts today?
-!obsolete !c              window = .true.                ! if so, set flag
-!obsolete !c          else                               ! if not, ....
-!obsolete !c              return                         ! ...return to avoid start in
-!obsolete !c          endif                              ! middle of window
-!obsolete !c      endif
-!obsolete 
-!obsolete !c      if(jdate.eq.1) then                    ! window spans new year?
-!obsolete !c          span_nu_yr = .true.                ! set flag
-!obsolete !c          lastyr = 365                                ! days in last year
-!obsolete !c          if((((imyr-1)/4)*4).eq.(imyr-1)) lastyr=366 ! leap year
-!obsolete !c      end if
-!obsolete !c      jtry = jdate+lastyr                    ! allows window to span new year
-!obsolete 
-!obsolete !c      if(jtry.ge.jstop) then                 ! passed the sowing window?
-!obsolete !c          iend = 3                           ! if so, set flag
-!obsolete !c          window = .false.
-!obsolete !c          return                             ! no crop this season
-!obsolete !c      end if
-!obsolete 
-!obsolete !c------------- check if sowing conditions satisfied ----------------------------
-!obsolete 
-!obsolete !c      if(warm .and. wet .and. traffic .and. profile) then ! all conditions met?
-!obsolete !c          isow=i+1                       ! sow tomorrow
-!obsolete !c          rrig(2) = sw                   ! soil water at sowing
-!obsolete !c          window = .false.
-!obsolete !c      endif
-!obsolete 
-!obsolete       call pop_routine(myname)
-!obsolete       RETURN
-!obsolete       END
 
 
 * ====================================================================
@@ -4138,14 +4506,14 @@
         real HIGH
         real A
         real STRS
-!c
-!c       computes or adjusts a factor.
-!c       input is state variable strs with upper and lower limits, high,low.
-!c       output is between 0 and 1.
-!c       a =  1 gives factor a linear fn of ratio of strs to high - low
-!c       a gt 1 accentuates effect of strs on value
-!c       a lt 1 damps effect.
-!c
+
+!       computes or adjusts a factor.
+!       input is state variable strs with upper and lower limits, high,low.
+!       output is between 0 and 1.
+!       a =  1 gives factor a linear fn of ratio of strs to high - low
+!       a gt 1 accentuates effect of strs on value
+!       a lt 1 damps effect.
+
         REAL LOW
 
       character  myname*(*)            ! name of subroutine
@@ -4154,14 +4522,18 @@
 *- Implementation Section ----------------------------------
       call push_routine(myname)
 
-        ozcot_stress=(STRS-LOW)/(HIGH-LOW)
-        IF(ozcot_stress.GT.1.)ozcot_stress=1.
-        IF(ozcot_stress.LT.0.)ozcot_stress=0.
-        ozcot_stress=(1.-(1.-ozcot_stress)**A)
+      ozcot_stress=(STRS-LOW)/(HIGH-LOW)
+      IF(ozcot_stress.GT.1.) then
+         ozcot_stress=1.
+      elseIF(ozcot_stress.LE.0.) then
+         ozcot_stress=0.
+      else
+         ozcot_stress=(1.-(1.-ozcot_stress)**A)
+      endif
 
-        call pop_routine(myname)
-        RETURN
-        END
+      call pop_routine(myname)
+      RETURN
+      END
 * ====================================================================
       real FUNCTION ozcot_survive(CAPACITY,bload)
 * ====================================================================
@@ -4172,9 +4544,9 @@
       real bload
       real a
       real b
-!c
-!c     estimates survival of fruit as function of boll load.
-!c
+
+!     estimates survival of fruit as function of boll load.
+
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_survive')
 
@@ -4200,14 +4572,14 @@
 
 
 * ====================================================================
-!c       subroutine swbal(i,rainef)
-        subroutine ozcot_swbal
+!       subroutine swbal(i,rainef)
+        subroutine ozcot_swbal_et
 * ====================================================================
 
-!c
-!c   **** soil & plant water balance including rain and soil evaporation, ****
-!c   **** beginning with the top soil layer.                      ****
-!c
+
+!   **** soil & plant water balance including rain and soil evaporation, ****
+!   **** beginning with the top soil layer.                      ****
+
       use OzcotModule
       implicit none
       include 'error.pub'
@@ -4216,7 +4588,7 @@
       real epcoef
       real uob
       real sum
-      real stran
+!jh v2001      real stran
       real depth
       real tdepth
       real epd
@@ -4230,53 +4602,53 @@
 *- Implementation Section ----------------------------------
       call push_routine(myname)
 
-!c
-!c       percol=rainef
-!c       exes=es
+
+!       percol=rainef
+!       exes=es
         UX=0.0
         IF(g%smi.GE.c%epcoef_smi_crit)EPCOEF=c%epcoef1            !  W*N                 !const
         IF(g%smi.LT.c%epcoef_smi_crit)EPCOEF=c%epcoef2            !  82/83               !const
         UOB=g%ep/(1.-EXP(-EPCOEF))
         SUM=0.0
-        STRAN=0. ! sum of g%trans(L) down profile
+!jh v2001        STRAN=0. ! sum of g%trans(L) down profile
         DEPTH=0.
         TDEPTH=0.
         EPD=0.0
-!c       w=0.
-!c
-!c***********************************************************************
-!c
+!       w=0.
+
+!***********************************************************************
+
           DO 10 L=1,g%nlayr
-!cpsc
-!cpsc          swlayr(l)=swdep(l)/10./dlayr_cm(l)
-!cpsc     *                 -(duldep(l)/10./dlayr_cm(l)-ullayr(l))
-!cpsc
-          g%trans(L)=0.
+!psc
+!psc          swlayr(l)=swdep(l)/10./dlayr_cm(l)
+!psc     *                 -(duldep(l)/10./dlayr_cm(l)-ullayr(l))
+!psc
+!jh v2001          g%trans(L)=0.
             SWLR=g%swlayr(L)*g%dlayr_cm(L)
-!c           swmax=ullayr(l)*dlayr_cm(l)
-!c           if(percol.eq.0..and.exes.eq.0.)go to 2
-!c
-!c**** rain percolates layer 'l'
-!c
-!c       swlr=swlr+percol
-!c       percol=0.
-!c       if(swlr.le.swmax)go to 1
-!c       percol=swlr-swmax ! surplus percolates to next layer
-!c       swlr=swmax        ! this layer full
-!c
-!c**** extract es from layer 'l'
-!c
-!c 1     swlr=swlr-exes    ! extract es from this layer
-!c       exes=0.
-!c       if(swlr.ge.0.)go to 2
-!c       exes=-swlr        ! es carried down to next layer
-!c       swlr=0.
-!c
-!c**** extract ep from this layer
-!c
-!c2        continue
+!           swmax=ullayr(l)*dlayr_cm(l)
+!           if(percol.eq.0..and.exes.eq.0.)go to 2
+
+!**** rain percolates layer 'l'
+
+!       swlr=swlr+percol
+!       percol=0.
+!       if(swlr.le.swmax)go to 1
+!       percol=swlr-swmax ! surplus percolates to next layer
+!       swlr=swmax        ! this layer full
+
+!**** extract es from layer 'l'
+
+! 1     swlr=swlr-exes    ! extract es from this layer
+!       exes=0.
+!       if(swlr.ge.0.)go to 2
+!       exes=-swlr        ! es carried down to next layer
+!       swlr=0.
+
+!**** extract ep from this layer
+
+!2        continue
           DEPTH=DEPTH+g%dlayr_cm(L)         ! moved here 29/6/88
-!c         if(i.lt.iemrg) depth=0.0       !       ditto
+!         if(i.lt.iemrg) depth=0.0       !       ditto
           IF(g%das.LT.g%iemrg) DEPTH=0.0   !       ditto
           IF(g%rtdep.LE.TDEPTH) GO TO 11 !       ditto
           IF(g%rtdep.LT.DEPTH) DEPTH=g%rtdep !       ditto
@@ -4286,33 +4658,34 @@
           IF(SWLR.GE.0.) GO TO 3
           EPD=SWLR
           SWLR=0.
-          DSWMX=g%dlayr_cm(L)*g%swlayr(L)
-3         g%trans(l)=dswmx
+!jh v2001          DSWMX=g%dlayr_cm(L)*g%swlayr(L)
+!jh v2001          g%trans(l)=dswmx
+3         continue
           TDEPTH=DEPTH
           UX=SUM+EPD   ! EPD CORRECTS UX IF LAYER IS DRY
           EPD=0.0
 11        continue ! moved from after next statement 29 jun 88
           g%swlayr(L)=SWLR/g%dlayr_cm(L)          ! water_uptake
-          STRAN=STRAN+g%trans(L)
-          g%setlyr(L)=g%setlyr(L)+STRAN ! cumulative transp. thro season down profile
+!jh v2001          STRAN=STRAN+g%trans(L)
+!jh v2001          g%setlyr(L)=g%setlyr(L)+STRAN ! cumulative transp. thro season down profile
 10      continue
 
         call pop_routine(myname)
         RETURN
         END
-                                                 
-!c
-!cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-!c      water stress function for root growth.                      c
-!cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-!c
+
+
+!ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+!      water stress function for root growth.                      c
+!ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
 * ====================================================================
       real FUNCTION ozcot_watco(smi,eo,X3,X1)
 * ====================================================================
-!cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-!c      water stress function for root growth.                      c
-!cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-!c
+!ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+!      water stress function for root growth.                      c
+!ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
       implicit none
       include 'error.pub'
 
@@ -4335,13 +4708,13 @@
       IF(smi.LT.X2) GO TO 20
       ozcot_watco=1.0
       GO TO 30
-!c
+
    20 CONTINUE
       SLOPE=1.0/(X2-X1)
       Y0=1.0-SLOPE*X2
       ozcot_watco=SLOPE*smi+Y0
       IF(ozcot_watco.LT.0.0) ozcot_watco=0.0
-!c
+
    30   CONTINUE
 
         call pop_routine(myname)
@@ -4350,11 +4723,11 @@
 
 
 * ====================================================================
-!c      subroutine yield(nszn,iend)
+!      subroutine yield(nszn,iend)
       subroutine ozcot_yield
 * ====================================================================
 
-!c     estimates yield and gross margin at end of season
+!     estimates yield and gross margin at end of season
 
       use OzcotModule
       implicit none
@@ -4368,141 +4741,141 @@
 *- Implementation Section ----------------------------------
       call push_routine(myname)
 
-!c     calculate yield **********************************************************
+!     calculate yield **********************************************************
 
       g%alint = g%openwt*10.*g%pclint    ! g%g sc/m to kg lint/ha
-!cpsc      alint = alint/rs                   ! adjust for row spacing 2/5/90
+!psc      alint = alint/rs                   ! adjust for row spacing 2/5/90
 
-!c      plntz = uptakn                     ! nitrogen uptake
-!cpc   bollsc = 0.
-!cpc   if(openz.gt.0.) bollsc = openwt/openz ! g sc/boll
-      g%rrig(rain_pre_post_boll) = g%rrig(rain_preboll) 
-     :                           + g%rrig(rain_postboll)  ! commulative g%rain pre + post boll
+!      plntz = uptakn                     ! nitrogen uptake
+!pc   bollsc = 0.
+!pc   if(openz.gt.0.) bollsc = openwt/openz ! g sc/boll
+!jh v2001       g%rrig(rain_pre_post_boll) = g%rrig(rain_preboll)
+!jh v2001      :                           + g%rrig(rain_postboll)  ! commulative g%rain pre + post boll
 
       call ozcot_residues                      ! to calculate stem and root residues
-!c     calculate gross margin ***************************************************
+!     calculate gross margin ***************************************************
 
-!c     currently redundant!!!!
+!     currently redundant!!!!
 
-!c      cot_price = 2.                     ! $ per kg
-!c      wat_cost = 12.                     ! $ per ml pumped
-!c      spray_cost =2.                     ! $ day of protection
+!      cot_price = 2.                     ! $ per kg
+!      wat_cost = 12.                     ! $ per ml pumped
+!      spray_cost =2.                     ! $ day of protection
 
-!c      cot_price = 2.                      ! cotton price $ per kg
-!c      gro_cost = 1200.                    ! growing costs - irrigated
-!c      gro_cost = 450.                     ! growing costs - rain grown
-!c      wat_cost  = 12.                     ! $ per ml (pumping & carges)
-!c      spray_cost = 2.                     ! $ per day of protection
-!c      cot_inc = alint*cot_price           ! cotton income
-!c      wat_exp = rrig(2)/10.*wat_cost      ! water expenditure
-!c      spray_save = (150-ilaiz)*spray_cost ! saving of spray cost
-!c      gross_marg = cot_inc - gro_cost - wat_exp -  spray_save ! gross margin
+!      cot_price = 2.                      ! cotton price $ per kg
+!      gro_cost = 1200.                    ! growing costs - irrigated
+!      gro_cost = 450.                     ! growing costs - rain grown
+!      wat_cost  = 12.                     ! $ per ml (pumping & carges)
+!      spray_cost = 2.                     ! $ per day of protection
+!      cot_inc = alint*cot_price           ! cotton income
+!      wat_exp = rrig(2)/10.*wat_cost      ! water expenditure
+!      spray_save = (150-ilaiz)*spray_cost ! saving of spray cost
+!      gross_marg = cot_inc - gro_cost - wat_exp -  spray_save ! gross margin
 
-!c     sowing date for output ***************************************************
+!     sowing date for output ***************************************************
 
-!c      jsow = isow+imet-1                  ! sowing date in j time
-!c      mdpy_prev = 365
-!c      if((imyr-1)/4*4 .eq. imyr_1) mdpy_prev = 366
-!c      if(jsow.gt.mdpy_prev) jsow = jsow - mdpy_prev
+!      jsow = isow+imet-1                  ! sowing date in j time
+!      mdpy_prev = 365
+!      if((imyr-1)/4*4 .eq. imyr_1) mdpy_prev = 366
+!      if(jsow.gt.mdpy_prev) jsow = jsow - mdpy_prev
 
-!c     this section for when crop not sown **************************************
+!     this section for when crop not sown **************************************
 
-!c      if(iend.ge.3) then
-!c          jsow = 0                        ! crop not sown, window passed or fallow
-!c          gross_marg = 0.0                ! gross margin nil
-!c      end if
+!      if(iend.ge.3) then
+!          jsow = 0                        ! crop not sown, window passed or fallow
+!          gross_marg = 0.0                ! gross margin nil
+!      end if
 
-!c     this section does stuff needed with 1st call of yield ********************
-
-
-!c      if (imyr.gt.1800) then              ! year in 10s or 100s?
-!c          imyr = imyr-1800                ! change year to 10s
-!c          if(imyr.ge.100) imyr=imyr-100   ! for 1900s
-!c      endif                               ! above done for output
-
-!c      if(nszn.eq.1) then                     ! first season
-
-!c          open(3,file='yield.out',status='unknown')
-!c          write(3,7772) title
-
-!c          if(mode.le.1) then                  ! validation or calibration
-!c              write(3,600)
-!c          else                                ! simulation for strategy etc
-!c              if(defirr(2).gt.0.) then        ! irrigated crop
-!c                  write(3,700)
-!c              else                            ! rain-fed crop
-!c                  write(3,800)
-!c              endif
-!c          endif
-
-!c          if(jdate.lt.244) then               ! last year was year of sowing
-!c              iyr1 = imyr-1                   ! year sown in first season
-!c              iyr2 = imyr                     ! year harvested first season
-!c          else                                ! this year was year of sowing,
-!c              iyr1 = imyr                     ! year of sowing
-!c              iyr2 = imyr+1                   ! year of harvest
-!c          endif
-
-!c      else                                    ! not first season
-
-!c              iyr1 = iyr1+1                   ! year of sowing of this season
-!c              iyr2 = iyr2+1                   ! year of harvest of this season
+!     this section does stuff needed with 1st call of yield ********************
 
 
-!c      endif
+!      if (imyr.gt.1800) then              ! year in 10s or 100s?
+!          imyr = imyr-1800                ! change year to 10s
+!          if(imyr.ge.100) imyr=imyr-100   ! for 1900s
+!      endif                               ! above done for output
 
-!c      if(iyr1.eq.100) iyr1 = 0                 ! new century
-!c      if(iyr2.eq.100) iyr2 = 0                 ! new century
+!      if(nszn.eq.1) then                     ! first season
 
-!c    fallow soil water *********************************************************
+!          open(3,file='yield.out',status='unknown')
+!          write(3,7772) title
+
+!          if(mode.le.1) then                  ! validation or calibration
+!              write(3,600)
+!          else                                ! simulation for strategy etc
+!              if(defirr(2).gt.0.) then        ! irrigated crop
+!                  write(3,700)
+!              else                            ! rain-fed crop
+!                  write(3,800)
+!              endif
+!          endif
+
+!          if(jdate.lt.244) then               ! last year was year of sowing
+!              iyr1 = imyr-1                   ! year sown in first season
+!              iyr2 = imyr                     ! year harvested first season
+!          else                                ! this year was year of sowing,
+!              iyr1 = imyr                     ! year of sowing
+!              iyr2 = imyr+1                   ! year of harvest
+!          endif
+
+!      else                                    ! not first season
+
+!              iyr1 = iyr1+1                   ! year of sowing of this season
+!              iyr2 = iyr2+1                   ! year of harvest of this season
 
 
-!c      if(jsow.gt.0) then    ! crop sown; deal with fallow sw gain
-!c          gain = rrig(2)-rrig(6) ! gain in sw during fallow
-!c          fraction = 0.0    ! fraction of rainfall conserved by fallow
-!c          if(rrig(5).ne.0.) fraction = gain/rrig(5)
-!c          write(4,999) iyr1,iyr2,jsow,rrig(6),rrig(2),gain,rrig(5),fraction
-!c999       format(3i4,5f8.2) ! yrs, sow d, initial sw, final sw, gain, rain, fraction
-!c          rrig(5) = 0.0     ! reset fallow rain. do not reset in reset!
-!c          rrig(6) = sw      ! initial sw for next fallow. do not reset in reset!
-!c      endif
+!      endif
 
-!c     write output *************************************************************
+!      if(iyr1.eq.100) iyr1 = 0                 ! new century
+!      if(iyr2.eq.100) iyr2 = 0                 ! new century
 
-!c      if(mode.le.1) then                  ! validation or calibration
-!c          write(3,7770) iyr1,iyr2,jsow,openz,alint,bollsc,
-!c     *    alaiz,plntz,ilaiz,sqzx,isqzx
-!c          write(2,7770) iyr1,iyr2,jsow,openz,alint,bollsc,
-!c     *    alaiz,plntz,ilaiz,sqzx,isqzx
-!c      else                                ! simulation for strategy etc
-!c          if(defirr(2).gt.0.) then        ! irrigated crop
-!c              write(3,7771) iyr1,iyr2,jsow,openz,alint,bollsc,
-!c     *        alaiz,plntz,ilaiz,ifix(rrig(1)),rrig(2),rrig(7),rrig(8)
-!c     *        alaiz,plntz,ilaiz,ifix(rrig(1)),rrig(2),rrig(7),def_last ! norn d
-!c              write(2,7771) iyr1,iyr2,jsow,openz,alint,bollsc,
-!c     *        alaiz,plntz,ilaiz,ifix(rrig(1)),rrig(2),rrig(7),rrig(8)
-!c     *        alaiz,plntz,ilaiz,ifix(rrig(1)),rrig(2),rrig(7),def_last ! norn d
-!c          else                            ! rain-fed crop
-!c              write(3,7771) iyr1,iyr2,jsow,openz,alint,bollsc,
-!c     *        alaiz,plntz,ilaiz,ifix(rrig(1)),rrig(2),rrig(3),rrig(4)
-!c              write(2,7771) iyr1,iyr2,jsow,openz,alint,bollsc,
-!c     *        alaiz,plntz,ilaiz,ifix(rrig(1)),rrig(2),rrig(3),rrig(4)
-!c          endif
-!c      endif
+!    fallow soil water *********************************************************
+
+
+!      if(jsow.gt.0) then    ! crop sown; deal with fallow sw gain
+!          gain = rrig(2)-rrig(6) ! gain in sw during fallow
+!          fraction = 0.0    ! fraction of rainfall conserved by fallow
+!          if(rrig(5).ne.0.) fraction = gain/rrig(5)
+!          write(4,999) iyr1,iyr2,jsow,rrig(6),rrig(2),gain,rrig(5),fraction
+!999       format(3i4,5f8.2) ! yrs, sow d, initial sw, final sw, gain, rain, fraction
+!          rrig(5) = 0.0     ! reset fallow rain. do not reset in reset!
+!          rrig(6) = sw      ! initial sw for next fallow. do not reset in reset!
+!      endif
+
+!     write output *************************************************************
+
+!      if(mode.le.1) then                  ! validation or calibration
+!          write(3,7770) iyr1,iyr2,jsow,openz,alint,bollsc,
+!     *    alaiz,plntz,ilaiz,sqzx,isqzx
+!          write(2,7770) iyr1,iyr2,jsow,openz,alint,bollsc,
+!     *    alaiz,plntz,ilaiz,sqzx,isqzx
+!      else                                ! simulation for strategy etc
+!          if(defirr(2).gt.0.) then        ! irrigated crop
+!              write(3,7771) iyr1,iyr2,jsow,openz,alint,bollsc,
+!     *        alaiz,plntz,ilaiz,ifix(rrig(1)),rrig(2),rrig(7),rrig(8)
+!     *        alaiz,plntz,ilaiz,ifix(rrig(1)),rrig(2),rrig(7),def_last ! norn d
+!              write(2,7771) iyr1,iyr2,jsow,openz,alint,bollsc,
+!     *        alaiz,plntz,ilaiz,ifix(rrig(1)),rrig(2),rrig(7),rrig(8)
+!     *        alaiz,plntz,ilaiz,ifix(rrig(1)),rrig(2),rrig(7),def_last ! norn d
+!          else                            ! rain-fed crop
+!              write(3,7771) iyr1,iyr2,jsow,openz,alint,bollsc,
+!     *        alaiz,plntz,ilaiz,ifix(rrig(1)),rrig(2),rrig(3),rrig(4)
+!              write(2,7771) iyr1,iyr2,jsow,openz,alint,bollsc,
+!     *        alaiz,plntz,ilaiz,ifix(rrig(1)),rrig(2),rrig(3),rrig(4)
+!          endif
+!      endif
 
       call pop_routine(myname)
       RETURN
-!c
-!c600   format(' year sown  bolls/m  lint sc/boll max_lai  n_uptk day
-!c     *   sqz day')
-!c700   format(' year sown  bolls/m  lint sc/boll max_lai  n_uptk day
-!c     * no  water  rain  cum_et')
-!c     * no  water  rain def_l')                                    ! for norm d
-!c800   format(' year sown  bolls/m  lint sc/boll max_lai  n_uptk day
-!c     * no  water rain1  rain2')
-!c7770  format(x,2i2,i4,f8.1,f8.0,2f8.2,f8.0,i4,f6.1,i4)
-!c7771  format(x,2i2,i4,f8.1,f8.0,2f8.2,f8.0,i4,i3,3f7.1)
-!c7772  format(15a4)
+
+!600   format(' year sown  bolls/m  lint sc/boll max_lai  n_uptk day
+!     *   sqz day')
+!700   format(' year sown  bolls/m  lint sc/boll max_lai  n_uptk day
+!     * no  water  rain  cum_et')
+!     * no  water  rain def_l')                                    ! for norm d
+!800   format(' year sown  bolls/m  lint sc/boll max_lai  n_uptk day
+!     * no  water rain1  rain2')
+!7770  format(x,2i2,i4,f8.1,f8.0,2f8.2,f8.0,i4,f6.1,i4)
+!7771  format(x,2i2,i4,f8.1,f8.0,2f8.2,f8.0,i4,i3,3f7.1)
+!7772  format(15a4)
 
       END
 
@@ -4510,12 +4883,12 @@
 * ====================================================================
       subroutine ozcot_plant_n
 * ====================================================================
-!c     call from pltgrw before ozcot_cropn
-!c     calculates nitrogen content of dry matter increments and sums them
-!c     adjusts n increments as soil n supply diminishes
-!c     variable ddw_leaf etc from s/r dry_matter
-!c              supply_n from system
-!c               dn_plant = daily increment of plant n to system
+!     call from pltgrw before ozcot_cropn
+!     calculates nitrogen content of dry matter increments and sums them
+!     adjusts n increments as soil n supply diminishes
+!     variable ddw_leaf etc from s/r dry_matter
+!              supply_n from system
+!               dn_plant = daily increment of plant n to system
 
       use OzcotModule
       implicit none
@@ -4534,8 +4907,10 @@
       real dn_boll
       real sup_dem
       real adjust
+      real total_n_pot
 
-      data supply_n /2.0/
+!jh      data supply_n /2.0/
+      data supply_n /1.0/
 
       DATA CONC_L /0.04/
       DATA CONC_S /0.02/
@@ -4548,7 +4923,12 @@
 *- Implementation Section ----------------------------------
       call push_routine(myname)
 
-!c      calculate daily increment for components of dry matter
+!jhadded
+      supply_n = min(1.0, min(g%uptakn/10.0-g%total_n, g%tsno3/10.0)
+     :                    /8.0)   ! max uptake of 1 g/m2. 8 days to takeup avail n.
+!      supply_n = min(1.0, g%uptakn/240.0)   ! max uptake of 240 kg/ha specified in n_fertilise
+
+!      calculate daily increment for components of dry matter
 
       dN_LEAF = g%ddw_leaf * CONC_L ! leaf nitrogen
       dN_STEM = g%ddw_stem * CONC_S ! stem nitrogen
@@ -4557,7 +4937,7 @@
 
       g%dn_plant = dN_LEAF + dN_STEM + dN_ROOT + dN_BOLL ! plant N increment
 
-!c      adjust uptake when soil supply limiting
+!      adjust uptake when soil supply limiting
 
       if (g%dn_plant.gt.0.) then
         SUP_DEM = SUPPLY_N/g%dn_plant ! supply/demand ratio
@@ -4576,24 +4956,36 @@
           g%dn_plant = dN_LEAF + dN_STEM + dN_ROOT + dN_BOLL ! plant N increment
       ENDIF
 
-      g%total_n =g%total_n + g%dn_plant ! accumulate uptake for season
+      total_n_pot =g%total_n + g%dn_plant ! accumulate uptake for season
 
-!c     compare accumulated uptake with projected uptake for season
-!c     if accumulated exceeds projected, assume requirements met by remobilisation
-!c     and set this day's increments to zero
+!     compare accumulated uptake with projected uptake for season
+!     if accumulated exceeds projected, assume requirements met by remobilisation
+!     and set this day's increments to zero
 
-      IF(g%total_n.GE.g%uptakn/10.) THEN
-          g%total_n =g%total_n - g%dn_plant ! adjust uptake for season
-          dN_LEAF = 0.0                ! leaf nitrogen adjusted
-          dN_STEM = 0.0                ! stem nitrogen adjusted
-          dN_ROOT = 0.0                ! root nitrogen adjusted
-          dN_BOLL = 0.0                ! boll nitrogen adjusted
-          g%dn_plant = 0.0             ! plant N increment
+!jh      IF(g%total_n.GE.g%uptakn/10.) THEN
+!jh          g%total_n =g%total_n - g%dn_plant ! adjust uptake for season
+!jh          dN_LEAF = 0.0                ! leaf nitrogen adjusted
+!jh          dN_STEM = 0.0                ! stem nitrogen adjusted
+!jh          dN_ROOT = 0.0                ! root nitrogen adjusted
+!jh          dN_BOLL = 0.0                ! boll nitrogen adjusted
+!jh          g%dn_plant = 0.0             ! plant N increment
+      IF(total_n_pot.GT.g%uptakn/10.) THEN
+          g%dn_plant = max(0.0, g%uptakn/10. - g%total_n)   ! plant N increment
       ENDIF
+!      if (g%das .gt. 100
+!     :    .and. g%dn_plant.lt. 0.0001
+!     :    .and. g%total_n .lt. g%uptakn/10.0)then
+!         g%dn_plant = g%uptakn/10.0 - g%total_n
+      if (g%das .gt. 150 .and. g%ddw_leaf .le. 0.0
+     :    .and. g%total_n .lt. g%uptakn/10.0)then
+         g%dn_plant = g%uptakn/10.0 - g%total_n
+      else
+      endif
 
+      g%total_n = g%total_n + g%dn_plant ! adjust uptake for season
 
-!c      write(4,222) iday,supply_n,dn_plant,total_n,uptakn,dw_total
-!c222   format(i5,5f8.3)
+!      write(4,222) iday,supply_n,dn_plant,total_n,uptakn,dw_total
+!222   format(i5,5f8.3)
 
 
       call pop_routine(myname)
@@ -4604,7 +4996,7 @@
       subroutine ozcot_residues
 * ====================================================================
 
-!c      called from s/r yield to calculate stem and root residues
+!      called from s/r yield to calculate stem and root residues
 
       use OzcotModule
       implicit none
@@ -4632,52 +5024,52 @@
 
 
 * ====================================================================
-!c     subroutine dry_matter (i)
+!     subroutine dry_matter (i)
       subroutine ozcot_dryxmatter
 * ====================================================================
 
-!c     this subroutine is for ozcot6 (version 6).
+!     this subroutine is for ozcot6 (version 6).
 
-!c     first demand for assimilate is estimated for leaf, stem, root and boll.
-!c     leaf demand is determined from potential increase in area. water stress
-!c     may reduce actual area increase, thus giving thicker leaves. inadequate
-!c     assimilate supply may reduce actal weight increase giving thinner leaves.
-!c     upper and lower limits are set by leaf weight:area ratio. if the upper
-!c     limit is exceeded, weight increase is reduced. if lower limit is not
-!c     reached, area increase is reduced. stem and root demand are determined
-!c     from potential leaf demand using allometric relationships.
+!     first demand for assimilate is estimated for leaf, stem, root and boll.
+!     leaf demand is determined from potential increase in area. water stress
+!     may reduce actual area increase, thus giving thicker leaves. inadequate
+!     assimilate supply may reduce actal weight increase giving thinner leaves.
+!     upper and lower limits are set by leaf weight:area ratio. if the upper
+!     limit is exceeded, weight increase is reduced. if lower limit is not
+!     reached, area increase is reduced. stem and root demand are determined
+!     from potential leaf demand using allometric relationships.
 
-!c     calls s/r assimilation to compute assimilate production for the day.
-!c     the supply available to meet demand is obtained from sum of the days
-!c     assimilate production and any reserves.
+!     calls s/r assimilation to compute assimilate production for the day.
+!     the supply available to meet demand is obtained from sum of the days
+!     assimilate production and any reserves.
 
-!c     supply and demand are then compared in order to partition dry matter
-!c     increase between leaf, stem, boll and root.
-!c     if supply exceeds demand, up to two days supply can be stored as reserves.
-!c     if demand exceeds supply, distribution is simulated on the basis
-!c     of proximity to the source of supply. leaf, stem and fruit are assumed to
-!c     be equidistant from the source. if supply exceeds the sum of leaf, stem
-!c     and fruit demand, their needs are met in full and the balance goes to
-!c     root. if the sum of leaf, stem and fruit demand exceeds supply,
-!c     their needs are met in proportion to the supply/demand ratio and the
-!c     root receives none. the root supply:demand ratio or a decline in root
-!c     growth provide feedback to reduce increase in root depth in s/r pltgrw.
+!     supply and demand are then compared in order to partition dry matter
+!     increase between leaf, stem, boll and root.
+!     if supply exceeds demand, up to two days supply can be stored as reserves.
+!     if demand exceeds supply, distribution is simulated on the basis
+!     of proximity to the source of supply. leaf, stem and fruit are assumed to
+!     be equidistant from the source. if supply exceeds the sum of leaf, stem
+!     and fruit demand, their needs are met in full and the balance goes to
+!     root. if the sum of leaf, stem and fruit demand exceeds supply,
+!     their needs are met in proportion to the supply/demand ratio and the
+!     root receives none. the root supply:demand ratio or a decline in root
+!     growth provide feedback to reduce increase in root depth in s/r pltgrw.
 
-!c     local variables:
-!c       assimilate new dry matter passed daily from s/r assimilation
-!c       ddw_boll   day's increase in boll dry weight
-!c       ddw_leaf   day's increase in leaf dry weight
-!c       ddw_stem   day's increase in stem dry weight
-!c       ddw_root   day's increase in root dry weight
-!c       ddw_root_max   maximum value of increase in root dry weight
-!c       demand     demand for assimilate for potential day's growth
-!c       fnstrs2    n stress for boll growth - on/off
-!c       fwstrs     water stress for boll growth
-!c       sd_ratio   supply:demand ratio for leaf, stem and boll growth
-!c       sd_root    supply:demand ratio for root growth
-!c       strsbl     stress factor for boll growth, minimum of n and water
-!c       supply     day's supply of assimilate available for potential growth
-!c       wt_area    leaf weight:area ratio
+!     local variables:
+!       assimilate new dry matter passed daily from s/r assimilation
+!       ddw_boll   day's increase in boll dry weight
+!       ddw_leaf   day's increase in leaf dry weight
+!       ddw_stem   day's increase in stem dry weight
+!       ddw_root   day's increase in root dry weight
+!       ddw_root_max   maximum value of increase in root dry weight
+!       demand     demand for assimilate for potential day's growth
+!       fnstrs2    n stress for boll growth - on/off
+!       fwstrs     water stress for boll growth
+!       sd_ratio   supply:demand ratio for leaf, stem and boll growth
+!       sd_root    supply:demand ratio for root growth
+!       strsbl     stress factor for boll growth, minimum of n and water
+!       supply     day's supply of assimilate available for potential growth
+!       wt_area    leaf weight:area ratio
 
       use OzcotModule
       implicit none
@@ -4703,9 +5095,9 @@
 *- Implementation Section ----------------------------------
       call push_routine(myname)
 
-!c------------------------------------------------------------------------------
-!c     initialise leaf, stem and root dry matter at start of new crop
-!c------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
+!     initialise leaf, stem and root dry matter at start of new crop
+!------------------------------------------------------------------------------
 
       IF(g%dw_leaf.EQ.0.) THEN              ! leaf weight initialise to zero?
           g%dw_leaf = c%EMBRYO*c%F_LEAF*g%ppm ! initial leaf dry weight per m
@@ -4713,9 +5105,9 @@
           g%dw_root = c%EMBRYO*c%F_ROOT*g%ppm ! initial root dry weight per m
       ENDIF
 
-!c------------------------------------------------------------------------------
-!c     calculate demand (potential growth) for leaf, stem and root
-!c------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
+!     calculate demand (potential growth) for leaf, stem and root
+!------------------------------------------------------------------------------
 
       g%ddw_leaf = g%dlai_pot*c%SPECIFIC_LW               ! leaf demand
       g%ddw_stem = divide (c%A_STEM_LEAF*g%ddw_leaf*g%dw_stem
@@ -4723,24 +5115,24 @@
       g%ddw_root = divide (c%A_ROOT_LEAF*g%ddw_leaf*g%dw_root
      :                  ,g%dw_leaf, 0.0)                  ! ditto for root
 
-!c------------------------------------------------------------------------------
-!c     feed back of leaf weight/area ratio
-!c------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
+!     feed back of leaf weight/area ratio
+!------------------------------------------------------------------------------
 
       IF(g%dlai(g%iday).GT.0.) THEN                       ! leaf growth today?
           WT_AREA = divide (g%ddw_leaf, g%dlai(g%iday), 0.0) ! leaf weight/are ratio
           IF(WT_AREA.GT.c%WT_AREA_MAX) THEN               ! too thick
               g%ddw_leaf = g%dlai(g%iday)*c%WT_AREA_MAX   ! reduce weight
-!c          else if(wt_area.lt.wt_area_min) then            ! too thin
-!c              dlai(iday) = ddw_leaf/wt_area_min           ! reduce area
+!          else if(wt_area.lt.wt_area_min) then            ! too thin
+!              dlai(iday) = ddw_leaf/wt_area_min           ! reduce area
           ENDIF
       ENDIF
 
-!c------------------------------------------------------------------------------
-!c     calculate demand for bolls
-!c------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
+!     calculate demand for bolls
+!------------------------------------------------------------------------------
 
-!c      if(isq.gt.0 .and. i.ge.isq+2) then        ! fruit called yet?
+!      if(isq.gt.0 .and. i.ge.isq+2) then        ! fruit called yet?
       IF(g%isq.GT.0 .AND. g%das.GE.g%isq+2) THEN  ! FRUIT called yet?             !const
           FWSTRS = ozcot_stress(c%fwstrs_low
      :                           ,c%fwstrs_high
@@ -4749,25 +5141,25 @@
           FNSTRS2 = 1.                          ! N stress for bolls off
           IF(g%fnstrs.EQ.0.) FNSTRS2 = 0.       ! N stress for bolls on
           STRSBL = AMIN1(FWSTRS,FNSTRS2)        ! minimum of water or N stress
-          g%bollgr = p%scboll*g%bper*c%FBURR ! boll gr rate this g%day
+          g%bollgr = p%scboll*g%bper*p%FBURR ! boll gr rate this g%day
           g%bollgr = g%bollgr*STRSBL            ! adjust for stress
           IF(g%bollgr.LT.0.) g%bollgr = 0.
           g%ddw_boll = g%bollz*g%bollgr         ! boll demand - potential growth
 
       ENDIF
 
-!c------------------------------------------------------------------------------
-!c   determine supply of assimilate
-!c------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
+!   determine supply of assimilate
+!------------------------------------------------------------------------------
 
-!c      call assimilation(assimilate,i)                  ! day's assimilate
+!      call assimilation(assimilate,i)                  ! day's assimilate
       CALL ozcot_assimilation(ASSIMILATE)                  ! g%day's assimilate
       SUPPLY = ASSIMILATE+g%reserve                    ! compute supply
       g%reserve = 0.                                   ! g%reserve used
 
-!c------------------------------------------------------------------------------
-!c   compare total demand with supply to partition assimilate
-!c------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
+!   compare total demand with supply to partition assimilate
+!------------------------------------------------------------------------------
 
       DEMAND = g%ddw_leaf+g%ddw_boll+g%ddw_stem+g%ddw_root ! compute total demand
 
@@ -4794,9 +5186,9 @@
          ENDIF
       ENDIF
 
-!c------------------------------------------------------------------------------
-!c     grow crop by updating dry weights for leaf, stem, bolls and roots
-!c------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
+!     grow crop by updating dry weights for leaf, stem, bolls and roots
+!------------------------------------------------------------------------------
 
       g%dw_leaf = g%dw_leaf+g%ddw_leaf                 ! total leaf dry weight
       g%dw_stem = g%dw_stem+g%ddw_stem                 ! total stem dry weight
@@ -4805,11 +5197,11 @@
       g%dw_total = g%dw_leaf+g%dw_stem+g%dw_boll+g%dw_root ! total dry weight
 
       g%ddw_l(g%iday) = g%ddw_leaf                     ! this g%day's leaf dry wt
-!c      alai = alai+dlai(iday)                           ! update lai with increase
+!      alai = alai+dlai(iday)                           ! update lai with increase
 
-!c------------------------------------------------------------------------------
-!c     feed back from root grow to root depth
-!c------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
+!     feed back from root grow to root depth
+!------------------------------------------------------------------------------
 
       IF(g%iday.EQ.1) dDW_ROOT_MAX = g%ddw_root        ! initialise max root rate
 
@@ -4827,7 +5219,7 @@
       g%root_feedback = AMIN1(g%root_feedback,SD_ROOT) ! feedback of dw on depth
       IF(g%root_feedback.GT.0.) g%root_feedback=g%root_feedback**0.333 ! cubic to linear      !const
 
-!c------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
 
       call pop_routine(myname)
       RETURN
@@ -4836,29 +5228,29 @@
 
 
 * ====================================================================
-!c      subroutine assimilation (assimilate,i)
+!      subroutine assimilation (assimilate,i)
       subroutine ozcot_assimilation (ASSIMILATE)
 * ====================================================================
 
-!c     assimilate production for the day is estimated from intercepted
-!c     photosynthetically active radiation (montieth 1977).
-!c     adjusted for effects of water stress using data of turner et al 1986
-!c     collected at narrabri ars.
-!c     effect of water logging based on observation of hearn and constable 1984
-!c     on yield and hodgson on photosynthesis.
-!c     effect of temperature, see constables thesis 1981, direct effect on
-!c     photosynthesis and respiration, using angus and wilson's 1976 expression
-!c     for a scalar and constables value for base and optimum.
-!c     carrying capacity, carcap,estimated. it is maximum number of bolls the
-!c     crop can carry, and is therefore the boll load that causes 100% shedding.
-!c     local variables:
-!c       assim_mean      3 day mean of assimilate supply
-!c       assim_1         previous day's assimilate supply
-!c       assim_2         day before previous day's supply
-!c       rad_mj          radiation in mega joules
-!c       rel_p           relative photosynthesis, scalar for water stress
-!c       par_int         intercepted photosynthetically active radiation
-!c       tf              temperature scalar for dry matter production
+!     assimilate production for the day is estimated from intercepted
+!     photosynthetically active radiation (montieth 1977).
+!     adjusted for effects of water stress using data of turner et al 1986
+!     collected at narrabri ars.
+!     effect of water logging based on observation of hearn and constable 1984
+!     on yield and hodgson on photosynthesis.
+!     effect of temperature, see constables thesis 1981, direct effect on
+!     photosynthesis and respiration, using angus and wilson's 1976 expression
+!     for a scalar and constables value for base and optimum.
+!     carrying capacity, carcap,estimated. it is maximum number of bolls the
+!     crop can carry, and is therefore the boll load that causes 100% shedding.
+!     local variables:
+!       assim_mean      3 day mean of assimilate supply
+!       assim_1         previous day's assimilate supply
+!       assim_2         day before previous day's supply
+!       rad_mj          radiation in mega joules
+!       rel_p           relative photosynthesis, scalar for water stress
+!       par_int         intercepted photosynthetically active radiation
+!       tf              temperature scalar for dry matter production
 
       use OzcotModule
       implicit none
@@ -4879,23 +5271,32 @@
 *- Implementation Section ----------------------------------
       call push_routine(myname)
 
-!c------------------------------------------------------------------------------
-!c     initialise for new season
-!c------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
+!     initialise for new season
+!------------------------------------------------------------------------------
 
-!cpc   if(iday.eq.1) then
-!cpc       assim_1 = 0.0                    ! previous day's assimilation
-!cpc       assim_2 = 0.0                    ! day before that
-!cpsc  endif
+!pc   if(iday.eq.1) then
+!pc       assim_1 = 0.0                    ! previous day's assimilation
+!pc       assim_2 = 0.0                    ! day before that
+!psc  endif
 
-!c------------------------------------------------------------------------------
-!c     photosynthesis
-!c------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
+!     photosynthesis
+!------------------------------------------------------------------------------
 
       RAD_MJ = g%rad/23.87                 ! langleys to Mjoules                  !const
-!c      par_int = rad_mj*(1.-tr)*0.5         ! intercepted par
+!      par_int = rad_mj*(1.-tr)*0.5         ! intercepted par
 
-      ALIGHT = 1.-EXP(-1.*g%alai)          ! light interception, Beer's law.
+!jh      ALIGHT = 1.-EXP(-1.*g%alai)          ! light interception, Beer's law.
+      ! jh changed to the following to accommodate skip row
+      g%alai_row = g%alai
+      IF(g%NSKIP.GT.0) g%alai_row = g%alai*g%rs         ! lai in hedgerow
+      ALIGHT = (1.-EXP(-ozcot_kvalue*g%alai_row)) ! original code  - now gives interception in
+      IF(g%NSKIP.GT.0) THEN
+         ALIGHT =ALIGHT/g%rs          ! interception on ground area basis
+!jh         g%alai = g%alai/g%rs         ! restore LAI to ground area basis
+      ENDIF
+
       PAR_INT = RAD_MJ*(ALIGHT)*0.5        ! intercepted PAR, ex old OZCOT        !const
 
       ASSIMILATE = PAR_INT*c%e_par         ! assimilation
@@ -4903,66 +5304,70 @@
           g%res_cap = ASSIMILATE*2.        ! capacity to store reserves           !const
       ENDIF
 
-!c------------------------------------------------------------------------------
-!c     effect of water stress on assimilation
-!c------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
+!     effect of water stress on assimilation
+!------------------------------------------------------------------------------
 
       REL_P =.25+.864*g%smi                ! effect of water stress on Pp          !const
       IF(REL_P.GT.1.) REL_P = 1.           ! (TURNER g%et al 1986).                !const
       ASSIMILATE = ASSIMILATE*REL_P        ! adjust for water stress
 
-!c------------------------------------------------------------------------------
-!c     effect of temperature on dry matter production
-!c------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
+!     effect of temperature on dry matter production
+!------------------------------------------------------------------------------
 
       TF = (g%tempav-c%T_BASE)/(c%T_OPT-c%T_BASE) ! temperature scalar after
       TF = 2*TF-TF**2                      ! Angus & Wilson 1976, Constable 1981     !const
       ASSIMILATE = ASSIMILATE*TF           ! adjust assimilate for temp
 
-!c------------------------------------------------------------------------------
-!c     effect of waterlogging on photosynthesis - hearn & constable 1984 eqn 4
-!c------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
+!     effect of waterlogging on photosynthesis - hearn & constable 1984 eqn 4
+!------------------------------------------------------------------------------
 
-!c      if(def.lt.2.5) then                 ! waterlogged?
-      IF(g%sw/g%ul.GT.c%stress_wlog) THEN           ! waterlogged?                            !const
+!      if(def.lt.2.5) then                 ! waterlogged?
+!jh      IF(g%sw/g%ul.GT.c%watlog_c) THEN           ! waterlogged?                            !const
+      IF(g%wli.GT.c%watlog_c) THEN           ! waterlogged?                            !const
           ASSIMILATE = ASSIMILATE*c%wlog_assimilate_red  ! adjust for water logging - old OZCOT    !const
       ENDIF
 
-!c      if(isq.eq.0 .or. i.lt.isq+2) return  ! do not proceed to carrying capacity
+!jhadded      Effect of N stress
+      Assimilate = assimilate*g%vnstrs
+
+!      if(isq.eq.0 .or. i.lt.isq+2) return  ! do not proceed to carrying capacity
       IF(g%isq.EQ.0 .OR. g%das.LT.g%isq+2) then                                       !const
          call pop_routine(myname)
          RETURN ! do not proceed to carrying capacity
       else
       endif
 
-!c------------------------------------------------------------------------------
-!c     carrying capacity - photosynthetic capacity divided by boll growth rate
-!c------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
+!     carrying capacity - photosynthetic capacity divided by boll growth rate
+!------------------------------------------------------------------------------
 
-!c      disable rest of subroutine for use with ozcot2 in apsru system
+!      disable rest of subroutine for use with ozcot2 in apsru system
 
-!c      if(assim_1.gt.0.0 .and.assim_1.gt.0.0) then      ! not 1st or 2nd crop day
-!c          assim_mean = (assimilate+assim_1+assim_2)/3. ! 3 day running mean
-!c      else                                             ! is 1st or 2nd crop day
-!c          assim_mean = assimilate
-!c      endif
+!      if(assim_1.gt.0.0 .and.assim_1.gt.0.0) then      ! not 1st or 2nd crop day
+!          assim_mean = (assimilate+assim_1+assim_2)/3. ! 3 day running mean
+!      else                                             ! is 1st or 2nd crop day
+!          assim_mean = assimilate
+!      endif
                                                    ! use mean to buffer g%carcap
-!c      assim_2 = assim_1                            ! 3rd day's for tomorrow
-!c      assim_1 = assimilate                         ! 2nd day's for tomorrow
+!      assim_2 = assim_1                            ! 3rd day's for tomorrow
+!      assim_1 = assimilate                         ! 2nd day's for tomorrow
 
-!c      if(bollgr.gt.0.0) then
-!c          carcap_c = assim_mean/bollgr             ! carrying capacity
-!c      else
-!c          carcap_c = 0.0                           ! zero when bolls not growing
-!c      endif
+!      if(bollgr.gt.0.0) then
+!          carcap_c = assim_mean/bollgr             ! carrying capacity
+!      else
+!          carcap_c = 0.0                           ! zero when bolls not growing
+!      endif
 
-!c      if(carcap_c.lt.0.) carcap_c = 0.             ! trap
-!c      carcap  = carcap_c
-!c      cutout = carcap*fcutout(ivar)                ! boll load for cutout
+!      if(carcap_c.lt.0.) carcap_c = 0.             ! trap
+!      carcap  = carcap_c
+!      cutout = carcap*fcutout(ivar)                ! boll load for cutout
 
-!c      cutout = carcap*1.00                         ! sensitivity to fcutout
+!      cutout = carcap*1.00                         ! sensitivity to fcutout
 
-!c------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
 
       call pop_routine(myname)
       RETURN
@@ -4973,8 +5378,8 @@
 *     ===========================================================
       use ozcotModule
       implicit none
-      include 'intrface.pub'                      
-      include 'error.pub'                         
+      include 'intrface.pub'
+      include 'error.pub'
 
 *+  Purpose
 *       Returns true if 'type' is equal to the crop type or is absent.
@@ -4997,16 +5402,16 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       call collect_char_var_optional ('type', '()'
      :                              , crop_type, numvals)
- 
+
       if (crop_type.eq.c%crop_type .or. numvals.eq.0) then
          ozcot_my_type = .true.
       else
          ozcot_my_type = .false.
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -5019,8 +5424,8 @@
       use ozcotModule
       implicit none
       include   'const.inc'
-      include 'read.pub'                          
-      include 'error.pub'                         
+      include 'read.pub'
+      include 'error.pub'
 
 *+  Purpose
 *       Crop initialisation - reads constants from constants file
@@ -5043,186 +5448,156 @@
       integer    numvals               ! number of values returned
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       call write_string (new_line//'    - Reading constants')
 
       call read_char_var (section_name
      :                     , 'crop_type', '()'
      :                     , c%crop_type, numvals)
 
-      call read_real_array (section_name
-     :                     , 'frudd', max_categories, '(dd)'
-     :                     , c%frudd, numvals
-     :                     , 0.0, 2000.0)
-
-      call read_real_array (section_name
-     :                     , 'wt', max_categories, '()'
-     :                     , c%wt, numvals
-     :                     , 0.0, 1.0)
-
-      call read_real_array (section_name
-     :                     , 'bltme', max_categories, '()'
-     :                     , c%bltme, numvals
-     :                     , 0.0, 1.0)
-
       call read_real_var (section_name
      :                     , 'row_spacing_default', '(m)'
      :                     , c%row_spacing_default, numvals
      :                     , 0.0, 2000.)
- 
+
       call read_real_var (section_name
-     :                     , 'popcon', '()'
-     :                     , c%popcon, numvals
-     :                     , 0.0, 1.0)
- 
-      call read_real_var (section_name
-     :                     , 'fburr', '()'
-     :                     , c%fburr, numvals
-     :                     , 0.0, 5.0)
- 
-      call read_real_var (section_name
-     :                     , 'acotyl', '()'
-     :                     , c%ACOTYL, numvals
-     :                     , 0.0, 1.0)
- 
-      call read_real_var (section_name
-     :                     , 'rlai', '()'
-     :                     , c%rlai, numvals
-     :                     , 0.0, 1.0)
- 
+     :                     , 'skiprow_default', '()'
+     :                     , c%nskip_default, numvals
+     :                     , 0.0, 2.0)
+
 !jh      call read_real_var (section_name
 !jh     :                     , 'dlds', '()'
 !jh     :                     , c%dlds, numvals
 !jh     :                     , 0.0, 1.0)
- 
+
       call read_real_var (section_name
      :                     , 'leaf_res_n_conc', '()'
      :                     , c%leaf_res_n_conc, numvals
      :                     , 0.0, 1.0)
- 
- 
+
+
       call read_real_var (section_name
      :                     , 'a', '()'
      :                     , c%a, numvals
      :                     , 0.0, 1.0)
- 
+
       call read_real_var (section_name
      :                     , 'b1', '()'
      :                     , c%b1, numvals
      :                     , -1.0, 1.0)
- 
+
       call read_real_var (section_name
      :                     , 'b2', '()'
      :                     , c%b2, numvals
      :                     , -1.0, 1.0)
- 
+
       call read_real_var (section_name
      :                     , 'b3', '()'
      :                     , c%b3, numvals
      :                     , 0.0, 1.0)
- 
+
 !jh      call read_integer_var (section_name
 !jh     :                     , 'mode', '()'
 !jh     :                     , c%mode, numvals
 !jh     :                     , -1, 2)
- 
+
       call read_real_var (section_name
      :                     , 'hucut', '()'
      :                     , c%hucut, numvals
      :                     , 0.0, 100.0)
- 
+
       call read_real_var (section_name
      :                     , 'baset', '()'
      :                     , c%baset, numvals
      :                     , 0.0, 30.0)
- 
+
 !jh      call read_real_var (section_name
 !jh     :                     , 'ambda', '()'
 !jh     :                     , c%ambda, numvals
 !jh     :                     , 0.0, 10.0)
- 
+
       call read_real_var (section_name
      :                     , 'ul1', '()'
      :                     , c%ul1, numvals
      :                     , 0.0, 10.0)
- 
+
       call read_real_var (section_name
      :                     , 'cona', '()'
      :                     , c%cona, numvals
      :                     , 0.0, 1.0)
- 
+
       call read_real_var (section_name
      :                     , 'open_def', '()'
      :                     , c%open_def, numvals
      :                     , 0.0, 100.0)
- 
+
 !jh      call read_integer_var (section_name
 !jh     :                     , 'iwindow', '()'
 !jh     :                     , c%iwindow, numvals
 !jh     :                     , 0, 100)
- 
+
 !jh      call read_real_var (section_name
 !jh     :                     , 'sow_sw', '()'
 !jh     :                     , c%sow_sw, numvals
 !jh     :                     , 0.0, 10.0)
- 
+
       call read_real_var (section_name
      :                     , 'a_root_leaf', '()'
      :                     , c%a_root_leaf, numvals
      :                     , 0.0, 10.0)
- 
+
       call read_real_var (section_name
      :                     , 'a_stem_leaf', '()'
      :                     , c%a_stem_leaf, numvals
      :                     , 0.0, 10.0)
- 
+
       call read_real_var (section_name
      :                     , 'e_par', '(g/mj)'
      :                     , c%e_par, numvals
      :                     , 0.0, 10.0)
- 
+
       call read_real_var (section_name
      :                     , 'specific_lw', '(g/m2)'
      :                     , c%specific_lw, numvals
      :                     , 0.0, 100.0)
- 
+
       call read_real_var (section_name
      :                     , 't_opt', '(oC)'
      :                     , c%t_opt, numvals
      :                     , 0.0, 50.0)
- 
+
       call read_real_var (section_name
      :                     , 't_base', '(oC)'
      :                     , c%t_base, numvals
      :                     , 0.0, 20.0)
- 
+
       call read_real_var (section_name
      :                     , 'wt_area_max', '()'
      :                     , c%wt_area_max, numvals
      :                     , 0.0, 400.0)
- 
+
 !jh      call read_real_var (section_name
 !jh     :                     , 'wt_area_min', '()'
 !jh     :                     , c%wt_area_min, numvals
 !jh     :                     , 0.0, 100.0)
- 
+
       call read_real_var (section_name
      :                     , 'embryo', '()'
      :                     , c%embryo, numvals
      :                     , 0.0, 1.0)
- 
+
       call read_real_var (section_name
      :                     , 'f_leaf', '()'
      :                     , c%f_leaf, numvals
      :                     , 0.0, 1.0)
- 
+
       call read_real_var (section_name
      :                     , 'f_stem', '()'
      :                     , c%f_stem, numvals
      :                     , 0.0, 1.0)
- 
+
       call read_real_var (section_name
      :                     , 'f_root', '()'
      :                     , c%f_root, numvals
@@ -5231,11 +5606,6 @@
      :                     , 'elevation_default', '()'
      :                     , c%elevation_default, numvals
      :                     , -100.0, 1000.0)
- 
-      call read_real_var (section_name
-     :                     , 'stress_wlog', '()'
-     :                     , c%stress_wlog, numvals
-     :                     , 0.0, 1.0)
 
       call read_real_var (section_name
      :                     , 'wlog_assimilate_red', '()'
@@ -5246,232 +5616,222 @@
      :                     , 'wlog_carcap_red', '()'
      :                     , c%wlog_carcap_red, numvals
      :                     , 0.0, 1.0)
-      
+
+      call read_real_var (section_name
+     :                     , 'watlog_c', '()'
+     :                     , c%watlog_c, numvals
+     :                     , 0.0, 1.0)
+
+      call read_real_var (section_name
+     :                     , 'watlog_n', '()'
+     :                     , c%watlog_n, numvals
+     :                     , 0.0, 1.0)
+
       call read_real_var (section_name
      :                     , 'wlog_carcap_red_stress', '()'
      :                     , c%wlog_carcap_red_stress, numvals
      :                     , 0.0, 1.0)
-      
+
       call read_real_var (section_name
      :                     , 'smi_affect_wlog', '()'
      :                     , c%smi_affect_wlog, numvals
      :                     , 0.0, 1.0)
-      
+
       call read_integer_var (section_name
      :                     , 'days_relief_wlog', '(days)'
      :                     , c%days_relief_wlog, numvals
      :                     , 0, 20)
-      
+
       call read_real_var (section_name
      :                     , 'frost_kill_immediate', '(oC)'
      :                     , c%frost_kill_immediate, numvals
      :                     , -5.0, 5.0)
-      
-      call read_integer_var (section_name
-     :                     , 'frost_kill_immediate_das', '(days)'
-     :                     , c%frost_kill_immediate_das, numvals
-     :                     , 0, 200)
-      
-      call read_real_var (section_name
-     :                     , 'frost_kill_delayed', '(oC)'
-     :                     , c%frost_kill_delayed, numvals
-     :                     , 0.0, 10.0)
-      
-      call read_integer_var (section_name
-     :                     , 'frost_kill_delayed_das', '()'
-     :                     , c%frost_kill_delayed_das, numvals
-     :                     , 0, 200)
-      
-      call read_integer_var (section_name
-     :                     , 'frost_kill_delayed_days', '()'
-     :                     , c%frost_kill_delayed_days, numvals
-     :                     , 0, 10)
-        
+
       call read_real_var (section_name
      :                     , 'rtdep_max', '(cm)'
      :                     , c%rtdep_max, numvals
      :                     , 0.0, 500.0)
-      
+
       call read_real_var (section_name
      :                     , 'harvest_n_frac', '()'
      :                     , c%harvest_n_frac, numvals
      :                     , 0.0, 1.0)
-      
+
       call read_real_var (section_name
      :                     , 'cutout_smi_crit', '()'
      :                     , c%cutout_smi_crit, numvals
      :                     , 0.0, 1.0)
-      
+
       call read_integer_var (section_name
      :                     , 'cutout_smi_days', '()'
      :                     , c%cutout_smi_days, numvals
      :                     , 0, 10)
-       
+
       call read_real_var (section_name
      :                     , 'cutout_smi_site_red', '()'
      :                     , c%cutout_smi_site_red, numvals
      :                     , 0.0, 1.0)
-        
+
       call read_real_var (section_name
      :                     , 'epcoef1', '()'
      :                     , c%epcoef1, numvals
      :                     , 0.0, 10.0)
-        
+
       call read_real_var (section_name
      :                     , 'epcoef2', '()'
      :                     , c%epcoef2, numvals
      :                     , 0.0, 10.0)
-       
+
       call read_real_var (section_name
      :                     , 'epcoef_smi_crit', '()'
      :                     , c%epcoef_smi_crit, numvals
      :                     , 0.0, 1.0)
-      
+
       call read_real_var (section_name
      :                     , 'fbwstr_low', '()'
      :                     , c%fbwstr_low, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'fbwstr_high', '()'
      :                     , c%fbwstr_high, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'fbwstr_a', '()'
      :                     , c%fbwstr_a, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'fbnstr_low', '()'
      :                     , c%fbnstr_low, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'fbnstr_high', '()'
      :                     , c%fbnstr_high, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'fbnstr_a', '()'
      :                     , c%fbnstr_a, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'relp_smi_crit', '()'
      :                     , c%relp_smi_crit, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'relp_intercept', '()'
      :                     , c%relp_intercept, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'relp_slope', '()'
      :                     , c%relp_slope, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'relp_low', '()'
      :                     , c%relp_low, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'relp_high', '()'
      :                     , c%relp_high, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'relp_a', '()'
      :                     , c%relp_a, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'vsnstr_low', '()'
      :                     , c%vsnstr_low, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'vsnstr_high', '()'
      :                     , c%vsnstr_high, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'vsnstr_a', '()'
      :                     , c%vsnstr_a, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'flfsmi_low', '()'
      :                     , c%flfsmi_low, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'flfsmi_high', '()'
      :                     , c%flfsmi_high, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'flfsmi_a', '()'
      :                     , c%flfsmi_a, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'vlnstr_low', '()'
      :                     , c%vlnstr_low, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'vlnstr_high', '()'
      :                     , c%vlnstr_high, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'vlnstr_a', '()'
      :                     , c%vlnstr_a, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'fw_low', '()'
      :                     , c%fw_low, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'fw_high', '()'
      :                     , c%fw_high, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'fw_a', '()'
      :                     , c%fw_a, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'adjust_low', '()'
      :                     , c%adjust_low, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'adjust_high', '()'
      :                     , c%adjust_high, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'adjust_a', '()'
      :                     , c%adjust_a, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'fwstrs_low', '()'
      :                     , c%fwstrs_low, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'fwstrs_high', '()'
      :                     , c%fwstrs_high, numvals
      :                     , 0.0, 10.0)
-      
+
       call read_real_var (section_name
      :                     , 'fwstrs_a', '()'
      :                     , c%fwstrs_a, numvals
@@ -5492,6 +5852,21 @@
      :                     , c%cold_shock_delay, numvals
      :                     , 0.0, 20.0)
 
+      call read_real_var (section_name
+     :                     , 'fert_crit', '()'
+     :                     , c%fert_crit, numvals
+     :                     , 0.0, 100.0)
+
+      call read_real_var (section_name
+     :                     , 'fert_detect', '()'
+     :                     , c%fert_detect, numvals
+     :                     , 0.0, 100.0)
+
+      call read_real_var (section_name
+     :                     , 'days_since_fert_max', '()'
+     :                     , c%days_since_fert_max, numvals
+     :                     , 0, 100)
+
       call pop_routine (my_name)
       return
       end
@@ -5503,8 +5878,8 @@
       use ozcotModule
       implicit none
       include   'const.inc'            ! lu_scr_sum, blank
-      include 'intrface.pub'                      
-      include 'error.pub'                         
+      include 'intrface.pub'
+      include 'error.pub'
 
 *+  Purpose
 *       Start crop using parameters specified in passed record
@@ -5522,91 +5897,104 @@
       integer    numvals               ! number of values found in array
       character  string*200            ! output string
       real       sdepth_mm             ! sowing depth in mm
-      real       rs_mm                 ! row spacing in mm
+      real       row_space_mm          ! row spacing in mm
+      real       row_space             ! row spacing in mm
 !      character  module_name*8         ! module name
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       call Write_string ( 'Sow')
- 
+
 !      call get_current_module (module_name)
 
- 
+
               ! get cultivar parameters
 
       sdepth_mm = 0.0
-      rs_mm = 0.0
- 
+      row_space_mm = 0.0
+
       call collect_char_var ('cultivar', '()'
      :                      , g%cultivar, numvals)
- 
+
       call ozcot_read_cultivar_params ()
- 
- 
+
+
               ! get other sowing criteria
- 
+
          ! variety,seed depth,rowspace,plants per m row
          ! cultivar, sowing_depth, row_spacing, plants_pm
 
 
       call collect_real_var ('plants_pm', '()'
-     :                      , g%ppm, numvals, 0.0, 1000.0)
- 
+     :                      , g%ppm_row, numvals, 0.0, 1000.0)
+
       call collect_real_var (
      :                       'sowing_depth', '(mm)'
      :                      , sdepth_mm, numvals
      :                      , 0.0, 100.0)
- 
+
       call collect_real_var_optional (
      :                         'row_spacing', '(mm)'
-     :                        , rs_mm, numvals
+     :                        , row_space_mm, numvals
      :                        , 0.0, 2000.)
       if (numvals.eq.0) then
-         g%rs = c%row_spacing_default
+         row_space = c%row_spacing_default
       else
       endif
-       
+
+      call collect_real_var_optional (
+     :                         'skiprow', '()'
+     :                        , g%nskip, numvals
+     :                        , 0.0, 2.0)
+      if (numvals.eq.0) then
+         g%nskip = c%nskip_default
+      else
+      endif
+
       g%crop_in = .true.
       g%sdepth = sdepth_mm / 10.0
-      g%rs = rs_mm /1000.0
-         g%isow = g%jdate
-           g%rtdep=g%sdepth
-         g%ppm = g%ppm/g%rs  !  adjust for non standard rows incl skip
-           g%pp= g%ppm*g%rs
-           g%ps=(1.0/g%rs)/g%pp
-           g%s=g%ps/g%rs
-         g%rrig(sw_sowing) = g%sw               ! soil water at sowing
-         g%iend = 1
+      row_space = row_space_mm /1000.0
+      g%isow = g%jdate
+      g%rtdep = g%sdepth
+      g%rs = row_space*(2.0 + g%NSKIP)/2.0  !  effective row spacing with skip
+      g%ppm_target = g%ppm_row/g%rs    !  adjust for non standard rows incl skip
+      g%pp = g%ppm_target*g%rs
+      g%ps = (1.0/g%rs)/g%pp
+      g%s=g%ps/g%rs
+!jh v2001       g%rrig(sw_sowing) = g%sw               ! soil water at sowing
+      g%iend = 0
+      g%INITIAL = 1
+      g%plant_status = status_alive
 
- 
- 
+
+
           ! report
- 
+
       call write_string (new_line//new_line)
- 
+
       string = '                 Crop Sowing Data'
       call write_string (string)
- 
+
       string = '    ------------------------------------------------'
       call write_string (string)
- 
+
       call write_string ('    Sowing  Depth Plants Spacing Cultivar')
- 
+
       call write_string ('    Day no   mm     m       mm     Name   ')
- 
+
       string = '    ------------------------------------------------'
       call write_string (string)
- 
+
       write (string, '(3x, i7, f7.1, f6.1, f9.1, 1x, a10)')
      :                g%isow, sdepth_mm
-     :              , g%pp, rs_mm, g%cultivar
+     :              , g%pp, row_space_mm, g%cultivar
       call write_string (string)
- 
+
       string = '    ------------------------------------------------'
       call write_string (string)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -5619,8 +6007,8 @@
       use ozcotModule
       implicit none
       include   'const.inc'            ! new_line, lu_scr_sum, blank
-      include 'read.pub'                          
-      include 'error.pub'                         
+      include 'read.pub'
+      include 'error.pub'
 
 *+  Purpose
 *       Get cultivar parameters for named cultivar, from crop parameter file.
@@ -5640,98 +6028,198 @@
       integer    numvals               ! number of values read
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       call write_string (new_line//'   - Reading Cultivar Parameters')
- 
- 
+
+
       call read_real_var (g%cultivar
      :                    , 'percent_l', '()'
      :                    , p%percent_l, numvals
-     :                    , 0.0, 1.0)
- 
+     :                    , 0.0, 100.0)
+
       call read_real_var (g%cultivar
      :                    , 'scboll', '()'
      :                    , p%scboll, numvals
      :                    , 0.0, 10.0)
- 
+
       call read_real_var (g%cultivar
      :                    , 'respcon', '()'
      :                    , p%respcon, numvals
      :                    , 0.0, 1.0)
- 
+
       call read_real_var (g%cultivar
      :                    , 'sqcon', '()'
      :                    , p%sqcon, numvals
      :                    , 0.0, 1.0)
- 
+
       call read_real_var (g%cultivar
      :                    , 'fcutout', '()'
      :                    , p%fcutout, numvals
      :                    , 0.0, 1.0)
- 
+
       call read_real_var (g%cultivar
      :                    , 'flai', '()'
      :                    , p%flai, numvals
      :                    , 0.0, 1.0)
- 
+
       call read_real_var (g%cultivar
      :                    , 'ddisq', '()'
      :                    , p%DDISQ, numvals
      :                    , 0.0, 1000.0)
- 
+
+      call read_real_var (g%cultivar
+     :                    , 'TIPOUT', '()'
+     :                    , p%TIPOUT, numvals
+     :                    , 0.0, 100.0)
+
+      call read_real_var (g%cultivar
+     :                     , 'popcon', '()'
+     :                     , p%POPCON, numvals
+     :                     , 0.0, 1.0)
+
+      call read_real_var (g%cultivar
+     :                     , 'acotyl', '(mm2)'
+     :                     , p%acotyl, numvals
+     :                     , 0.0, 1000.0)
+
+      call read_real_var (g%cultivar
+     :                     , 'rlai', '()'
+     :                     , p%rlai, numvals
+     :                     , 0.0, 1.0)
+
+      call read_real_array (g%cultivar
+     :                     , 'frudd', max_categories, '(dd)'
+     :                     , p%FRUDD, numvals
+     :                     , 0.0, 2000.0)
+
+      call read_real_array (g%cultivar
+     :                     , 'bltme', max_categories, '()'
+     :                     , p%BLTME, numvals
+     :                     , 0.0, 1.0)
+
+      call read_real_array (g%cultivar
+     :                     , 'wt', max_categories, '()'
+     :                     , p%WT, numvals
+     :                     , 0.0, 1.0)
+
+      call read_real_var (g%cultivar
+     :                     , 'fburr', '()'
+     :                     , p%FBURR, numvals
+     :                     , 0.0, 5.0)
+
+      call read_real_var (g%cultivar
+     :                     , 'dlds_max', '()'
+     :                     , p%dlds_max, numvals
+     :                     , 0.0, 5.0)
+
+      call read_real_var (g%cultivar
+     :                     , 'rate_emergence', '(mm/dd)'
+     :                     , p%rate_emergence, numvals
+     :                     , 0.0, 10.0)
+
+
              ! report
- 
+
       string = '    ------------------------------------------------'
       call write_string (string)
- 
+
       write (string, '(4x,2a)')
      :                'Cultivar   = ', g%cultivar
       call write_string (string)
- 
+
       write (string, '(4x, a, f7.2)')
      :                'percent_L  = '
      :               , p%percent_l
       call write_string (string)
- 
+
       write (string, '(4x, a, f7.1)')
      :                'scboll     = '
      :               , p%scboll
       call write_string (string)
- 
+
       write (string, '(4x, a, f7.3)')
      :                'respcon    = '
      :               , p%respcon
       call write_string (string)
- 
+
       write (string, '(4x, a, f7.3)')
      :                'sqcon      = '
      :               , p%sqcon
       call write_string (string)
- 
+
       write (string, '(4x, a, f7.4)')
      :                'fcutout    = '
      :               , p%fcutout
       call write_string (string)
- 
- 
+
+
       write (string, '(4x, a, f7.1)')
      :                'flai       = '
      :               , p%flai
       call write_string (string)
- 
+
       write (string, '(4x, a, f7.1)')
      :                'ddisq      = '
      :               , p%DDISQ
       call write_string (string)
- 
- 
+
+      write (string, '(4x, a, f7.1)')
+     :                'TIPOUT     = '
+     :               , p%TIPOUT
+      call write_string (string)
+
+      write (string, '(4x, a, f7.5)')
+     :                'popcon     = '
+     :               , p%popcon
+      call write_string (string)
+
+      write (string, '(4x, a, f7.0)')
+     :                'acotyl     = '
+     :               , p%acotyl
+      call write_string (string)
+
+      write (string, '(4x, a, f7.5)')
+     :                'rlai       = '
+     :               , p%rlai
+      call write_string (string)
+
+      write (string, '(4x, a, 9f7.0)')
+     :                'frudd      = '
+     :               , p%frudd
+      call write_string (string)
+
+      write (string, '(4x, a, 9f7.2)')
+     :                'bltme      = '
+     :               , p%bltme
+      call write_string (string)
+
+      write (string, '(4x, a, 9f7.4)')
+     :                'wt         = '
+     :               , p%wt
+      call write_string (string)
+
+      write (string, '(4x, a, f7.2)')
+     :                'fburr      = '
+     :               , p%fburr
+      call write_string (string)
+
+      write (string, '(4x, a, f7.2)')
+     :                'rate_emergence  = '
+     :               , p%rate_emergence
+      call write_string (string)
+
+
       string = '    ------------------------------------------------'
       call write_string (string)
- 
+
       call write_string (new_line//new_line)
- 
+
+      p%percent_l = p%percent_l / 100.0     ! convert to fraction
+      p%rate_emergence = p%rate_emergence/10.0 ! convert from mm to cm
+      p%acotyl = p%acotyl/1000000.0 ! convert from mm2 to m2
+
       call pop_routine (my_name)
       return
       end
@@ -5744,9 +6232,9 @@
       use ozcotModule
       implicit none
       include   'const.inc'            ! new_line, lu_scr_sum, blank,
-      include 'data.pub'                          
-      include 'read.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'read.pub'
+      include 'error.pub'
 
 *+  Purpose
 *       Get root profile parameters
@@ -5771,15 +6259,15 @@
       character  string*200            ! output string
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       call write_string (new_line
      :                  //'   - Reading root profile parameters')
- 
+
          !       ozcot_sw_supply
- 
- 
+
+
       call read_real_array_optional (section_name
      :                     , 'll', max_layers, '(mm/mm)'
      :                     , p%unul, p%num_ll_vals
@@ -5795,37 +6283,37 @@
 
           ! report
       call write_string (new_line//new_line)
- 
+
       write (string,'(4x, a)') '    Root Profile'
       call write_string (string)
- 
+
       string = '------------------------'
       call write_string (string)
- 
- 
+
+
       string = '     Layer       Lower '
       call write_string (string)
       string = '     Depth       Limit '
       call write_string (string)
- 
+
       string = '     (cm)      (mm/mm) '
       call write_string (string)
- 
+
       string = '------------------------'
       call write_string (string)
- 
+
       do 2000 layer = 1, p%num_ll_vals
          write (string,'(1x, f9.1,f15.3)')
      :            g%dlayr_cm(layer)
      :          , P%unul(layer)
          call write_string (string)
 2000  continue
- 
+
       string = '------------------------'
       call write_string (string)
- 
+
       call write_string (new_line//new_line)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -5839,9 +6327,9 @@
       include   'convert.inc'          ! gm2kg, sm2ha, sm2smm
       include   'action.inc'
       include   'EVENT.inc'
-      include 'intrface.pub'                      
+      include 'intrface.pub'
       include 'postbox.pub'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Purpose
 *       Report occurence of harvest and the current status of specific
@@ -5865,44 +6353,301 @@
        real    res_N                   ! Amount of N in residue (kg/ha)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (g%crop_in) then
           ! crop harvested. Report status
- 
+
          call Write_string ('End crop')
 
-         res_dm = (g%dw_total - g%openwt / g%rs ) * 10.
-         if (res_dm.le.0.) res_dm = 0.
-         res_N = res_dm * 0.4 / 100.0
-
-         call New_postbox ()
-
-         call post_char_var('dlt_residue_type','()','cotton')
-
-         call post_real_var ('dlt_residue_wt'
-     :                        ,'(kg/ha)'
-     :                        ,res_dm)
-
-         call post_real_var ('dlt_residue_n'
-     :                        ,'(kg/ha)'
-     :                        ,res_N)
-
-         call Action_send (
-     :                              All_active_modules
-     :                            , 'add_residue'
-     :                            , Blank
-     :                            )
-
-         call Delete_postbox ()
-
-         g%crop_in = .false.
-         g%zero_variables = .true.
-
+         call ozcot_harvest_report ()
+         call ozcot_harvest_update ()
       else
       endif
       call pop_routine (my_name)
       return
       end
 
+
+*     ===========================================================
+      subroutine ozcot_harvest_update ()
+*     ===========================================================
+      use ozcotModule
+      implicit none
+      include   'const.inc'            ! new_line, lu_scr_sum, blank,
+      include   'convert.inc'          ! gm2kg, sm2ha, sm2smm
+      include   'action.inc'
+      include   'EVENT.inc'
+      include 'intrface.pub'
+      include 'postbox.pub'
+      include 'error.pub'
+
+*+  Purpose
+*       Report the current status of specific
+*       variables.
+
+*+  Changes
+*     051101 jngh specified and programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'ozcot_harvest_update')
+
+*+  Local Variables
+       real    res_dm                  ! Residue dry weight (kg/ha)
+       real    res_N                   ! Amount of N in residue (kg/ha)
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+      res_dm = (g%dw_total - g%openwt / g%rs ) * 10.
+      if (res_dm.le.0.) res_dm = 0.
+      res_N = res_dm * 0.4 / 100.0
+
+      call New_postbox ()
+
+      call post_char_var('dlt_residue_type','()','cotton')
+
+      call post_real_var ('dlt_residue_wt'
+     :                   ,'(kg/ha)'
+     :                   ,res_dm)
+
+      call post_real_var ('dlt_residue_n'
+     :                   ,'(kg/ha)'
+     :                   ,res_N)
+
+      call Action_send (
+     :                    All_active_modules
+     :                  , 'add_residue'
+     :                  , Blank
+     :                  )
+
+      call Delete_postbox ()
+
+      g%crop_in = .false.
+      g%plant_status = status_out
+      g%zero_variables = .true.
+
+      call pop_routine (my_name)
+      return
+      end
+
+*     ===========================================================
+      subroutine ozcot_harvest_report ()
+*     ===========================================================
+      use ozcotModule
+      implicit none
+      include   'const.inc'            ! new_line, lu_scr_sum, blank,
+      include   'convert.inc'          ! gm2kg, sm2ha, sm2smm
+      include   'action.inc'
+      include   'EVENT.inc'
+      include 'intrface.pub'
+      include 'postbox.pub'
+      include 'error.pub'
+
+*+  Purpose
+*       Report the current status of specific
+*       variables.
+
+*+  Changes
+*     051101 jngh specified and programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'ozcot_harvest_report')
+
+*+  Local Variables
+      character  string*200            ! message
+      real       yield                 ! grain yield dry wt (kg/ha)
+      real       dm
+      real     totnup                   ! N uptake kg/ha
+      real     bollsc
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+          ! crop harvested. Report status
+
+         dm = g%dw_total * 10.
+         totnup = g%total_n * 10.
+      if(g%openz.gt.0.0) then
+         bollsc = g%openwt/g%openz ! g sc/boll
+      else
+         bollsc = 0.0
+      endif
+
+
+      call write_string (new_line//new_line)
+
+      write (string, '(a,f6.2,t40,a,f10.1)')
+     :            ' bolls/m2               = ',g%openz
+     :          , ' Lint (kg/ha)           = ',g%alint
+      call write_string (string)
+
+      write (string, '(a,f6.2,t40,a,f10.1)')
+     :            ' N uptake (kg/ha)       = ', totnup
+     :          , ' bolls sc (g/boll)      = ', bollsc
+      call write_string (string)
+
+      write (string, '(a,i6,t40,a,i6)')
+     :            ' max squares das (days) = ', g%isqzx
+     :          , ' max lai das (days)     = ', g%ilaiz
+      call write_string (string)
+
+      write (string, '(a,f6.2,t40,a,f6.3)')
+     :            ' maximum squares/m2     = ', g%sqzx
+     :          , ' maximum lai (m2/m2)    = ', g%alaiz
+      call write_string (string)
+
+      write (string, '(a,f10.1)')
+     :            ' total above ground biomass (kg/ha) = ', dm
+      call write_string (string)
+
+
+
+      call pop_routine (my_name)
+      return
+      end
+
+*     ===========================================================
+      subroutine Ozcot_ONNew_Met ()
+*     ===========================================================
+      use OzcotModule
+      implicit none
+      include 'event.inc'
+      include 'intrface.pub'
+      include 'error.pub'
+      include 'data.pub'
+
+*+  Purpose
+*     Update met data record
+
+*+  Mission Statement
+*     Update met data record
+
+*+  Changes
+*        261001 jngh
+
+*+  Local Variables
+      integer    numvals
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'Ozcot_ONNew_Met')
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+         call collect_real_var
+     :         (DATA_maxt    ! Name of Variable  (not used)
+     :        , '(oC)'       ! Units of variable (not used)
+     :        , g%tempmx     ! Variable array
+     :        , numvals      ! Number of elements returned
+     :        , -20.0        ! Lower Limit for bound checking
+     :        ,  60.0)       ! Upper Limit for bound checking
+
+         call collect_real_var
+     :         (DATA_mint    ! Name of Variable  (not used)
+     :        , '(oC)'       ! Units of variable (not used)
+     :        , g%tempmn     ! Variable array
+     :        , numvals      ! Number of elements returned
+     :        , -20.0        ! Lower Limit for bound checking
+     :        ,  60.0)       ! Upper Limit for bound checking
+
+         call collect_real_var
+     :         (DATA_radn    ! Name of Variable  (not used)
+     :        , '(MJ/m2)'    ! Units of variable (not used)
+     :        , g%solrad     ! Variable array
+     :        , numvals      ! Number of elements returned
+     :        , 0.0          ! Lower Limit for bound checking
+     :        , 1000.0)      ! Upper Limit for bound checking
+
+         call collect_real_var
+     :         (DATA_rain    ! Name of Variable  (not used)
+     :        , '(mm)'       ! Units of variable (not used)
+     :        , g%rain       ! Variable array
+     :        , numvals      ! Number of elements returned
+     :        , 0.0          ! Lower Limit for bound checking
+     :        , 1000.0)      ! Upper Limit for bound checking
+
+      g%tempav = (g%tempmx + g%tempmn)/2.
+      g%solrad = g%solrad / 0.04186            ! convert to langleys
+      g%rain = g%rain /10.                     ! convert to cm
+
+      call pop_routine (myname)
+      return
+      end
+
+*     ===========================================================
+      subroutine ozcot_ONtick ()
+*     ===========================================================
+      use ozcotModule
+      implicit none
+      include 'error.pub'
+      include 'event.pub'
+
+*+  Purpose
+*     Update internal time record and reset daily state variables.
+
+*+  Mission Statement
+*     Update internal time record and reset daily state variables.
+
+*+  Changes
+*        261001 jngh
+
+*+  Local Variables
+      character temp1*5
+      integer   temp2
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'ozcot_ONtick')
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      ! Note that time and timestep information is not required
+      ! and so dummy variables are used in their place.
+
+      call handler_ONtick(g%jdate, g%imyr, temp1, temp2)
+
+      call pop_routine (myname)
+      return
+      end
+
+*     ===========================================================
+      subroutine ozcot_ONHail ()
+*     ===========================================================
+      use ozcotModule
+      implicit none
+      include 'error.pub'
+      include 'event.pub'
+
+*+  Purpose
+*     Update internal time record and reset daily state variables.
+
+*+  Mission Statement
+*     Update internal time record and reset daily state variables.
+
+*+  Changes
+*        261001 jngh
+
+*+  Local Variables
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'ozcot_ONHail')
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      g%Hail = .true.
+
+      call pop_routine (myname)
+      return
+      end
+
+   
