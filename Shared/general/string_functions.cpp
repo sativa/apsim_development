@@ -137,7 +137,7 @@ string GENERAL_EXPORT Get_section_name (const char* line)
    string Str_line = line;
    string Section_name;
 
-   int Pos_first_non_blank = Str_line.find_first_not_of (" ");
+   unsigned int Pos_first_non_blank = Str_line.find_first_not_of (" ");
    if (Pos_first_non_blank != string::npos && Str_line[Pos_first_non_blank] == '[')
       {
       int Pos_open = Str_line.find("[");
