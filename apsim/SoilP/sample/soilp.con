@@ -1,10 +1,16 @@
-[apsim.sample_soilp]  
-  Module = clock    soilp.par [sample]      
-  Module = report   soilp.par [sample]      
-  Module = met      %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]      
-  Module = manager  soilp.par [sample]      
-  Module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth] %apsuite\apsim\soilwat2\soilwat2.ini [standard]      
-  Module = residue2 soilp.par [sample]                               %apsuite\apsim\residue2\residue2.ini [standard]      
-  Module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]      
-  Module = soilp    soilp.par [sample]                               %apsuite\apsim\soilp\soilp.ini [standard]      
-  Module = fertiliz                                                  %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+[apsim.sample_soilp]
+version=2.2
+title=soilp Sample Simulation
+summaryfile=soilp.sum
+screen_output=on
+
+module = clock    soilp.par [sample]
+module = report   soilp.par [sample]
+module = Input(Met)      %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
+module = fertiliz                                                  %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = manager  soilp.par [sample]
+module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = residue2 soilp.par [sample]                               %apsuite\apsim\residue2\residue2.ini [standard]
+module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = soilp    soilp.par [sample]                               %apsuite\apsim\soilp\soilp.ini [standard]
+
