@@ -928,6 +928,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       integer io_result
 
 !- Implementation Section ----------------------------------
+      Is_apsim_variable = (index(variable_name, '.') .gt. 0)
 
       ! Look for function first.
 
@@ -968,6 +969,25 @@ C     Last change:  P    25 Oct 2000    9:26 am
             call double_var_to_string (d_var_val, variable_value)
          end if
          valueIsReal = .true.
+
+      elseif (Is_apsim_variable) then
+         call Split_line(variable_name, Mod_name, Var_name, '.')
+         ok = component_name_to_id(Mod_name, modNameID)
+
+         if (ok) then
+            call Get_char_var
+     .           (modNameID, trim(Var_name), '()',
+     .            Variable_value, Numvals)
+            call str_to_real_var
+     .               (Variable_value, value, io_result)
+            valueIsReal = (io_result .eq. 0)
+
+         else
+            str = 'Cannot find APSIM variable: '
+     .             // Trim(variable_name)
+            call error(str, .true.)
+            Variable_value = ' '
+         endif
 
       else
          ! Try to find variable in local variable list.
