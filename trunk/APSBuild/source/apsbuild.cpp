@@ -19,7 +19,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
    static const char* MAKE_SWITCH = "-make";
    static const char* BUILD_SWITCH = "-build";
    static const char* QUIET_SWITCH = "-quiet";
-   static const char* COMPILETYPE_SWITCH = "-compiletype=";
+   static const char* COMPILERFILE_SWITCH = "-compilerfile=";
    static const char* STDOUT_SWITCH = "-stdout";
    static const char* OUT_SWITCH = "-out";
 
@@ -32,7 +32,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
       bool Do_stdout = false;
       bool getOutFile = false;
       string outFile;
-      string compileType;
+      string compilerFile;
       list<string> Files;
 
       // loop through all command line switches.
@@ -62,10 +62,10 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
          else if (strcmpi(_argv[i], OUT_SWITCH) == 0)
             getOutFile = true;
 
-         else if (strncmpi(_argv[i], COMPILETYPE_SWITCH, strlen(COMPILETYPE_SWITCH)) == 0)
+         else if (strncmpi(_argv[i], COMPILERFILE_SWITCH, strlen(COMPILERFILE_SWITCH)) == 0)
             {
-            compileType = _argv[i];
-            compileType.erase(0, strlen(COMPILETYPE_SWITCH));
+            compilerFile = _argv[i];
+            compilerFile.erase(0, strlen(COMPILERFILE_SWITCH));
             }
 
          else if (_argv[i][0] == '@')
@@ -85,20 +85,20 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
          MainForm->Debug = Do_debug;
          MainForm->Quiet = Is_quiet;
          MainForm->Stdout = Do_stdout;
-         MainForm->CompileType = compileType;
+         MainForm->CompilerFile = compilerFile;
          MainForm->OutFile = outFile;
          Application->Run();
          }
 
       else
          {
-         MessageBox(NULL, "Usage: APSBuild [-quiet] [-stdout] [-debug] [-out outputfile] [-make | -build] [-compiler=lf90 or lf95] APF_filename", "Error", MB_ICONSTOP | MB_OK);
+         MessageBox(NULL, "Usage: APSBuild [-quiet] [-stdout] [-debug] [-out outputfile] [-make | -build] [-compilerFile=xxx.compile] APF_filename", "Error", MB_ICONSTOP | MB_OK);
          return 1;
          }
       }
    else
       {
-      MessageBox(NULL, "Usage: APSBuild [-quiet] [-stdout] [-debug] [-out outputfile] [-make | -build] [-compiler=lf90 or lf95] APF_filename", "Error", MB_ICONSTOP | MB_OK);
+      MessageBox(NULL, "Usage: APSBuild [-quiet] [-stdout] [-debug] [-out outputfile] [-make | -build] [-compilerFile=xxx.compile] APF_filename", "Error", MB_ICONSTOP | MB_OK);
       return 1;
       }
    return 0;

@@ -45,7 +45,7 @@ public:		// User declarations
    bool Debug;
    bool Quiet;
    bool Stdout;
-   string CompileType;
+   string CompilerFile;
    string OutFile;
 };
 //---------------------------------------------------------------------------
