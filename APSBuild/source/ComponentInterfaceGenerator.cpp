@@ -44,6 +44,27 @@ void GetPublishedEvents(ApsimComponentData* component,
                GetNameFunction<vector<string>, ApsimRegistrationData>(eventList),
                IsOfType("event"));
    }
+//---------------------------------------------------------------------------
+// Return a list of subscribed methods to caller.
+//---------------------------------------------------------------------------
+void GetSubscribedMethods(ApsimComponentData* component,
+                          vector<string>& eventList)
+   {
+   for_each_if(component->regBegin(), component->regEnd(),
+               GetNameFunction<vector<string>, ApsimRegistrationData>(eventList),
+               IsOfType("respondToMethodCall"));
+   }
+//---------------------------------------------------------------------------
+// Return a list of published methods to caller.
+//---------------------------------------------------------------------------
+void GetPublishedMethods(ApsimComponentData* component,
+                         vector<string>& eventList)
+   {
+   for_each_if(component->regBegin(), component->regEnd(),
+               GetNameFunction<vector<string>, ApsimRegistrationData>(eventList),
+               IsOfType("methodCall"));
+   }
+
 // ------------------------------------------------------------------
 //  Short description:
 //     generate a component interface from the APSIM interface filename
@@ -86,13 +107,9 @@ void GenerateComponentInterface(const string& interfaceFileName)
       Macro* moduleMacro = AMF->getMacro("module");
       moduleMacro->setAttribute("moduleName", moduleName);
 
-      // Now to set macrovalues to be used in the
-      // macrosubstitution file
-
-      // Step One. - Set up temp data holder
       vector<string> temp;
 
-      // Step Two. - Set Subscribed Event Macro Values
+      // Set Subscribed Event Macro Values
       GetSubscribedEvents(component, temp);
       Macro* subMacro = AMF->getMacro("subevent");
       if (subMacro == NULL)
@@ -106,7 +123,7 @@ void GenerateComponentInterface(const string& interfaceFileName)
          subMacro->addValue(macroValue);
          }
 
-      // Step Three. - Set Published Event Macro Values
+      // Set Published Event Macro Values
       temp.clear();
       GetPublishedEvents(component, temp);
       Macro* pubevent = AMF->getMacro("pubevent");
@@ -119,6 +136,36 @@ void GenerateComponentInterface(const string& interfaceFileName)
          MacroValue macroValue;
          macroValue.addAttribute("name", *nameI);
          pubevent->addValue(macroValue);
+         }
+
+      // Set Subscribed Method Macro Values
+      temp.clear();
+      GetSubscribedMethods(component, temp);
+      Macro* submethod = AMF->getMacro("submethod");
+      if (submethod == NULL)
+         throw string("Cannot find a 'submethod' macro.");
+      for (vector<string>::iterator nameI = temp.begin();
+                                    nameI != temp.end();
+                                    nameI++)
+         {
+         MacroValue macroValue;
+         macroValue.addAttribute("name", *nameI);
+         submethod->addValue(macroValue);
+         }
+
+      // Set Published Method Macro Values
+      temp.clear();
+      GetPublishedMethods(component, temp);
+      Macro* pubmethod = AMF->getMacro("pubmethod");
+      if (pubmethod == NULL)
+         throw string("Cannot find a 'pubmethod' macro.");
+      for (vector<string>::iterator nameI = temp.begin();
+                                    nameI != temp.end();
+                                    nameI++)
+         {
+         MacroValue macroValue;
+         macroValue.addAttribute("name", *nameI);
+         pubmethod->addValue(macroValue);
          }
 
       //  All done - so now write out the output files
