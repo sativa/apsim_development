@@ -75,6 +75,8 @@ struct Fstructure.nameType
    structure.field.ctype structure.field.name[max_array_size];
    #elseif (structure.field.isStructure = T)
    structure.field.ctypeType structure.field.name;
+   #elseif (structure.field.ctype = FString)
+   char structure.field.name[max_array_size];
    #else
    structure.field.ctype structure.field.name;
    #endif
@@ -90,6 +92,8 @@ inline protocol::MessageData& operator<<(protocol::MessageData& messageData, con
    messageData << data.num_structure.field.name;
    for (unsigned i = 0; i != data.num_structure.field.name; i++)
       messageData << data.structure.field.name[i];
+   #elseif (structure.field.ctype = FString)
+   messageData << FString(data.structure.field.name, max_array_size, FORString);
    #else
    messageData << data.structure.field.name;
    #endif
@@ -103,6 +107,9 @@ inline protocol::MessageData& operator>>(protocol::MessageData& messageData, Fst
    messageData >> data.num_structure.field.name;
    for (unsigned i = 0; i != data.num_structure.field.name; i++)
       messageData >> data.structure.field.name[i];
+   #elseif (structure.field.ctype = FString)
+   FString structure.field.nameString(data.structure.field.name, max_array_size, FORString);
+   messageData >> structure.field.nameString;
    #else
    messageData >> data.structure.field.name;
    #endif
@@ -115,8 +122,10 @@ inline unsigned int memorySize(const Fstructure.nameType& data)
    #for_each structure.field
       #if (structure.field.array = T)
       + 4 + data.num_structure.field.name * protocol::memorySize(data.structure.field.name[0])
+      #elseif (structure.field.ctype = FString)
+      + protocol::memorySize(FString(data.structure.field.name, max_array_size, FORString))
       #else
-      + protocol::memorySize(data.structure.field.name);
+      + protocol::memorySize(data.structure.field.name)
       #endif
    #endfor;
    }
