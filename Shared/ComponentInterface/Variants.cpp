@@ -1,4 +1,4 @@
-#include <general\pch.h>
+#include <windows.h>
 #pragma hdrstop
 
 #include "Variants.h"

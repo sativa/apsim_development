@@ -3,6 +3,8 @@
 #pragma hdrstop
 
 #include "InputComponent.h"
+#include <ApsimShared\ApsimComponentData.h>
+#include <ComponentInterface\MessageDataExt.h>
 #include <general\string_functions.h>
 #include <general\stl_functions.h>
 #include <general\date_class.h>

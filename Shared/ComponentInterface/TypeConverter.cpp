@@ -1,9 +1,10 @@
-#include <general\pch.h>
+#include <windows.h>
 #pragma hdrstop
 
 #include "TypeConverter.h"
 #include "Component.h"
 #include <limits.h>
+#include <stdio.h>
 
 // turn of the warnings about "Functions containing for are not expanded inline.
 #pragma warn -inl

@@ -1,12 +1,15 @@
 //---------------------------------------------------------------------------
-#include <general\pch.h>
+#include <windows.h>
 #pragma hdrstop
 
 #include "Component.h"
 #include "RegistrationItem.h"
 #include <ApsimShared\FApsimComponentData.h>
+#include <limits.h>
 #define FARPROC void*
 using namespace protocol;
+
+#define min(a, b)  (((a) < (b)) ? (a) : (b))
 
 static const unsigned int MAX_NUM_REGISTRATIONS = 1000;
 static const char* ERROR_TYPE = "<type name=\"error\">"
@@ -456,7 +459,7 @@ void Component::error(const FString& msg, bool isFatal)
       strcat(cMessage, "                 APSIM Warning Error               \n");
    strcat(cMessage, "                 -------------------              \n");
 
-   strncat(cMessage, msg.f_str(), std::min((int)msg.length(), 399));
+   strncat(cMessage, msg.f_str(), min((int)msg.length(), 399));
    strcat(cMessage, "\nComponent name: ");
    strcat(cMessage, name);
    strcat(cMessage, "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n");

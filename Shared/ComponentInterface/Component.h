@@ -4,7 +4,7 @@
 #include "Messages.h"
 #include "Vector.h"
 #include <values.h>
-#include <ApsimShared\ApsimComponentData.h>
+class ApsimComponentData;
 namespace protocol {
 
 // forward declarations of our friends.

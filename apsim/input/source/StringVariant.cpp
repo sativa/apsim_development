@@ -3,6 +3,7 @@
 #pragma hdrstop
 
 #include "StringVariant.h"
+#include <ComponentInterface\MessageDataExt.h>
 #include <general\string_functions.h>
 #include <general\math_functions.h>
 #include <ComponentInterface\Component.h>

@@ -3,20 +3,18 @@ import   = %apsuite\apsim\infra\lib\apsimengine.imp
 include  = %apsuite\apsim\infra
 module   = .
 module   = %apsuite\apsim\infra\source
-;module   = %apsuite\apsim\infra\componentinterface
+
 library  = %apsuite\apsim\infra\lib\apsinfra.lib
 libraryPath = %apsuite\apsbuild
-object   = %apsuite\apsim\infra\ComponentInterface\FORTRANComponent.obj
-object   = %apsuite\apsim\infra\ComponentInterface\Component.obj
-object   = %apsuite\apsim\infra\ComponentInterface\TypeConverter.obj
-object   = %apsuite\apsim\infra\ComponentInterface\Vector.obj
-object   = %apsuite\apsim\infra\ComponentInterface\Message.obj
-object   = %apsuite\apsim\infra\ComponentInterface\MessageData.obj
-object   = %apsuite\apsim\infra\ComponentInterface\Type.obj
-object   = %apsuite\apsim\infra\ComponentInterface\Variant.obj
-object   = %apsuite\apsim\infra\ComponentInterface\Variants.obj
-
-;library  = %apsuite\apsim\infra\ComponentInterface\FORTRANComponentInterface.lib
+object   = %apsuite\shared\ComponentInterface\FORTRANComponent.obj
+object   = %apsuite\shared\ComponentInterface\Component.obj
+object   = %apsuite\shared\ComponentInterface\TypeConverter.obj
+object   = %apsuite\shared\ComponentInterface\Vector.obj
+object   = %apsuite\shared\ComponentInterface\Message.obj
+object   = %apsuite\shared\ComponentInterface\MessageData.obj
+object   = %apsuite\shared\ComponentInterface\Type.obj
+object   = %apsuite\shared\ComponentInterface\Variant.obj
+object   = %apsuite\shared\ComponentInterface\Variants.obj
 
 compile=@lf95 -c "%fi" -winconsole -dll -tp -nco -o0 -pca -nsav -stchk -trace -nchk -nin -ml bd -staticlink -g @compiler.rsp
 link=@lf95 @%rf -exe %ex -winconsole -dll -tp -nco -o0 -pca -nsav -stchk -trace -nchk -nin -ml bd -staticlink -g @linker.rsp
