@@ -53,6 +53,7 @@
       surfaceom tillage type = disc ()
      endif
      if day = 15 then
+      surfaceom add_surfaceom name=aaaaaa, type=manure, mass=300, cnr=50, cpr=60
      endif
      END of rules
      
@@ -228,5 +229,7 @@
      Residue removed using disc
                                              Fraction Incorporated =     0.50
                                              Incorporated Depth    =   200.00
+15 January 1988(Day of year=15), manager: 
+     Manager sending message :- surfaceom add_surfaceom  name = aaaaaa, type = manure, mass = 300, cnr = 50, cpr = 60
 30 January 1988(Day of year=30), clock: 
      Simulation is terminating due to end criteria being met.
