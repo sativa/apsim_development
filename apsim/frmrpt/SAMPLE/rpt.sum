@@ -1,6 +1,5 @@
-Output_file=rpt.out
- 
-Report - initialising,V1.5  21/7/96
+report - Output_file=rpt.out
+report - initialising,V1.6  21/8/98
 Title =
 Screen output =off
  
@@ -13,7 +12,7 @@ Variables =day,year
 latitude =  -28.0
  MET Initialised, Version: V1.4 25/11/96
 ---------------------------------------------------------
- day=   1 date=  1  1 1970 manager  - Initialising, Version : V1.30  02/10/96
+ day=   1 date=  1  1 1970 manager  - Initialising, Version : V1.40  23/04/98
  
 Manager rules
 ------- -----
@@ -52,3 +51,5 @@ endif
  Day=  10 Year =  1970     Manager sending message :- frmrpt clear test2:ramp2
  Day=  15 Year =  1970     Manager sending message :- frmrpt clear test2:manager.ramp2
 Simulation is terminating due to end criteria being met.
+ 
+======= End of APSIM simulation ==============================
