@@ -25,6 +25,30 @@ extern "C" _export void __stdcall wrapperDLL(char* wrapperDll)
    {
    strcpy(wrapperDll, "");
    }
+
+// ------------------------------------------------------------------
+// constructor
+// ------------------------------------------------------------------
+LogComponent::LogComponent(void)
+   {
+   nesting = 3;
+   previousNesting = -1;
+   }
+// ------------------------------------------------------------------
+// destructor
+// ------------------------------------------------------------------
+LogComponent::~LogComponent(void)
+   {
+   out << "\/>" << endl;
+   for (int i = previousNesting-1; i > 0; i--)
+      {
+      out.width(i*3);
+      out << ' ';
+      out << "</message" << i << '>';
+      out << endl;
+      }
+   out << "</messages>\n";
+   }
 // ------------------------------------------------------------------
 //  Short description:
 //     createComponent
@@ -55,13 +79,16 @@ void LogComponent::doInit1(const FString& sdml)
    protocol::Component::doInit1(sdml);
 
    string filename = componentData->getProperty("parameters", "logfile");
+   if (filename == "")
+      filename = "log.xml";
    out.open(filename.c_str());
    if (!out)
       {
       string msg = "Cannot open log file: " + filename;
       ::MessageBox(NULL, msg.c_str(), "Error", MB_ICONSTOP | MB_OK);
       }
-   bool doOutput = Str_i_Eq(componentData->getProperty("parameters", "debug_output"), "on");
+   string debugOutputString = componentData->getProperty("parameters", "debug_output");
+   bool doOutput = (debugOutputString == "" || Str_i_Eq(debugOutputString, "on"));
    if (doOutput)
       setMessageHook(this);
    }
@@ -78,14 +105,13 @@ void LogComponent::doInit1(const FString& sdml)
 void LogComponent::callback(const std::string& toName,
                             const protocol::Message* message)
    {
-   static int nesting = 2;
-   static int previousNesting = -1;
    static bool firstTimeThrough = true;
 
    if (firstTimeThrough)
       {
       firstTimeThrough = false;
-      out << "<messages";
+      out << "<messages>" << endl;
+      out << "   <message1 to=\"MasterPM\" msgtype=\"Init1\" ack=\"false\"";
       }
    else
       {
@@ -103,7 +129,7 @@ void LogComponent::callback(const std::string& toName,
             }
          else if (nesting == previousNesting)
             {
-            out << "\/>" << endl;
+            out << "/>" << endl;
             out.width(nesting*3);
             out << ' ';
             out << "<message" << nesting << ' ';
@@ -119,12 +145,12 @@ void LogComponent::callback(const std::string& toName,
                out << "</message" << i << '>';
                out << endl;
                }
-            previousNesting = nesting;
             out.width(nesting*3);
             out << ' ';
             out << "<message" << nesting << ' ';
             writeMessage(toName, message, out);
             }
+         previousNesting = nesting;
          out << flush;
          }
       else
@@ -146,28 +172,29 @@ void LogComponent::writeMessage(const string& toName,
                                 const protocol::Message* message,
                                 ostream& out)
    {
-   static const char* messageNames[43] =
+   static const char* messageNames[45] =
      {"ActivateComponent", "AddComponent", "Checkpoint", "Commence",
       "Complete", "DeactivateComponent", "DeleteComponent", "Deregister",
       "Event", "GetValue", "Init1", "Init2",
       "NotifyAboutToDelete", "NotifyRegistrationChange", "NotifySetValueSuccess",
       "NotifyTermination", "PauseSimulation", "PublishEvent", "QueryInfo",
-      "QueryType", "QueryValue", "Register", "ReinstateCheckpoint",
+      "QuerySetValue", "QueryValue", "Register", "ReinstateCheckpoint",
+      "ReplySetValueSuccess", "ReplyValue",
       "RequestComponentID", "RequestSetValue", "ResumeSimulation",
-      "ReturnComponentID", "ReturnInfo", "ReturnType", "ReturnValue",
-      "TerminateSimulation", "", "", "", "", "", "", "", "",
-      "QuerySetValue", "ApsimGetQuery", "ApsimSetQuery", "ApsimChangeOrder"};
+      "ReturnComponentID", "ReturnInfo", "ReturnValue",
+      "TerminateSimulation", "", "", "", "", "", "", "",
+      "ApsimGetQuery", "ApsimSetQuery", "ApsimChangeOrder"};
 
    if (message->messageType == protocol::Register)
       storeRegistration(message);
    out << "to=\"" << toName << "\"";
-   out << " type=\"" << messageNames[message->messageType-1] << "\"";
+   out << " msgtype=\"" << messageNames[message->messageType-1] << "\"";
    out << " ack=\"";
    if (message->toAcknowledge)
       out << "true\"";
    else
       out << "false\"";
-   out << " id=\"" << message->messageID << "\"";
+//   out << " id=\"" << message->messageID << "\"";
    writeMessageData(message);
    }
 
@@ -188,19 +215,13 @@ void LogComponent::writeMessageData(const protocol::Message* message)
       {
       case protocol::Register:
          {
-         static const char* RegistrationKindNames[10] =
-                      {"", "getVariableReg", "respondToGetReg",
-                           "respondToSetReg", "respondToGetSetReg",
-                           "eventReg", "respondToEventReg",
-                           "respondToMethodCallReg",
-                           "setVariableReg", "methodCallReg"};
-
          protocol::RegisterData registerData;
          messageData >> registerData;
-         out << " kind=\"" << RegistrationKindNames[registerData.kind] << "\"";
-         out << " regID=\"" << registerData.ID << "\"";
+         out << " kind=\"" << registerData.kind.asString() << "\"";
          out << " name=\"" << asString(registerData.name) << "\"";
-         out << " type=\"" << asString(registerData.type) << "\"";
+         if (registerData.destID > 0)
+            out << " directedToComponent=\"" << registerData.destID << "\"";
+         out << " type=\"" << formatType(asString(registerData.type)) << "\"";
          break;
          }
       case protocol::RequestSetValue:
@@ -219,14 +240,21 @@ void LogComponent::writeMessageData(const protocol::Message* message)
          }
       case protocol::GetValue:
          {
-         writeRegistrationData(message);
+         writeRegistrationData(message, RegistrationType::get);
+         break;
+         }
+      case protocol::ReturnValue:
+         {
+         protocol::ReturnValueData returnValueData;
+         messageData >> returnValueData;
+         out << " compid = \"" << returnValueData.fromID << "\"";
          break;
          }
       case protocol::PublishEvent:
          {
          protocol::PublishEventData eventData;
          messageData >> eventData;
-         writeRegistrationData(message);
+         writeRegistrationData(message,  RegistrationType::event);
          writeVariant(eventData.variant);
          break;
          }
@@ -243,6 +271,15 @@ void LogComponent::writeMessageData(const protocol::Message* message)
          messageData >> apsimSetQuery;
          out << " name=\"" << asString(apsimSetQuery.name) << "\"";
          writeVariant(apsimSetQuery.variant);
+         break;
+         }
+      case protocol::QueryInfo:
+         {
+         protocol::QueryInfoData queryInfo;
+         messageData >> queryInfo;
+         out << " name=\"" << asString(queryInfo.name) << "\"";
+         out << " kind=\"" << queryInfo.kind << "\"";
+         break;
          }
       }
    }
@@ -260,7 +297,7 @@ void LogComponent::storeRegistration(const Message* message)
    RegisterData registerData;
    messageData >> registerData;
    components[message->from].registrations.insert(
-      LogComponent::Registrations::value_type(registerData.ID, asString(registerData.name)));
+      LogComponent::Registrations::value_type(make_pair(registerData.ID, (unsigned)registerData.kind.type()), asString(registerData.name)));
    }
 // ------------------------------------------------------------------
 //  Short description:
@@ -270,14 +307,14 @@ void LogComponent::storeRegistration(const Message* message)
 //    dph 14/5/2001
 
 // ------------------------------------------------------------------
-void LogComponent::writeRegistrationData(const Message* message)
+void LogComponent::writeRegistrationData(const Message* message, RegistrationType kind)
    {
    MessageData messageData((Message*) message);
    unsigned int ID;
    messageData >> ID;
 
-   out << " regName=\"" << components[message->from].registrations[ID] << "\"";
-   out << " regID=\"" << ID << "\"";
+   out << " regName=\"" << components[message->from].registrations[make_pair(ID, (unsigned)kind.type())] << "\"";
+//   out << " regID=\"" << ID << "\"";
    }
 // ------------------------------------------------------------------
 //  Short description:
@@ -289,5 +326,18 @@ void LogComponent::writeRegistrationData(const Message* message)
 // ------------------------------------------------------------------
 void LogComponent::writeVariant(const protocol::Variant& variant)
    {
-   out << " type=\"" << asString(variant.getType().getTypeString()) << "\"";
+   out << " type=\"" << formatType(asString(variant.getType().getTypeString())) << "\"";
+   }
+
+// ------------------------------------------------------------------
+// Format a ddml string ready for outputting.
+// ------------------------------------------------------------------
+string LogComponent::formatType(string RegistrationTypeString)
+   {
+   replaceAll(RegistrationTypeString, "><", "   ");
+   replaceAll(RegistrationTypeString, "<", "");
+   replaceAll(RegistrationTypeString, ">", "");
+   replaceAll(RegistrationTypeString, "/", "");
+   replaceAll(RegistrationTypeString, "\"", "'");
+   return RegistrationTypeString;
    }
