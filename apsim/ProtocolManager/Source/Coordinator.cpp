@@ -720,34 +720,36 @@ void Coordinator::onApsimChangeOrderData(MessageData& messageData)
 // ------------------------------------------------------------------
 void Coordinator::reorderSubscriptions(::Registrations::Subscriptions& subs)
    {
+   ::Registrations::Subscriptions subsToMove = subs;
    ::Registrations::Subscriptions newSubs;
 
    // Loop through all the component orders and make sure the subs passed in
    // are in the same order.
-   for (::Registrations::Subscriptions::iterator sub = subs.begin();
-                                                 sub != subs.end();
-                                                 sub++)
+   while (subsToMove.size() > 0)
       {
+      ::Registrations::Subscriptions::iterator sub = subsToMove.begin();
       if (find(componentOrders.begin(), componentOrders.end(),
                sub->first) == componentOrders.end())
+         {
          newSubs.push_back(*sub);
+         subsToMove.erase(subsToMove.begin());
+         }
       else
          {
-         unsigned numFound = 0;
          for (unsigned o = 0; o != componentOrders.size(); o++)
             {
-            for (::Registrations::Subscriptions::iterator s = subs.begin();
-                                                          s != subs.end();
+            for (::Registrations::Subscriptions::iterator s = subsToMove.begin();
+                                                          s != subsToMove.end();
                                                           s++)
                {
                if (s->first == componentOrders[o])
                   {
                   newSubs.push_back(*s);
-                  numFound++;
+                  s = subsToMove.erase(s);
+                  s--;
                   }
                }
             }
-         sub += numFound-1;
          }
       }
    subs = newSubs;
