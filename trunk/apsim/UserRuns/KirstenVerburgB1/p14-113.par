@@ -784,7 +784,6 @@ endif
 350 1992 weed2 sow cultivar = early, plants = 20 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
 ! 90 1993 weed2 kill_crop
  90 1993 weed2 end_crop
- 90 1993 residue2 set pot_decomp_rate = 0.10 ()
 
 !------1993 wheat-------
 158 1993 wheat sow plants = 210, sowing_depth = 40, cultivar = janzJL
@@ -794,8 +793,7 @@ endif
 344 1993 wheat harvest
 344 1993 wheat kill_crop
 344 1993 wheat end_crop
-345 1993 residue2 tillage type = burn_95 () !removal residue
-345 1993 residue2 set pot_decomp_rate = 0.02 ()
+345 1993 surfaceom tillage type = burn_95 () !removal residue
 
 !-------1993/94 fallow-------
  42 1994 weed1 sow cultivar = early, plants = 20 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
@@ -804,7 +802,6 @@ endif
 103 1994 weed1 end_crop
 !103 1994 weed2 kill_crop
 103 1994 weed2 end_crop
-103 1994 residue2 set pot_decomp_rate = 0.10 ()
 
 !-------1994 lucerne-------
 !230 1994 lucerne sow cultivar = hunter_river, plants = 200 (/m2), sowing_depth = 30 (mm)
@@ -844,7 +841,7 @@ endif
 124 1998 fertiliz apply amount = 23.4 (kg/ha), type = nh4_n, depth = 40 (mm)
 310 1998 canola harvest
 310 1998 canola end_crop
-311 1998 residue2 tillage type = burn_95 () !removal residue
+311 1998 surfaceom tillage type = burn_95 () !removal residue
 
 !-------1999 fallow-------
 
@@ -854,7 +851,7 @@ endif
 343 1999 wheat harvest
 343 1999 wheat kill_crop
 343 1999 wheat end_crop
-344 1999 residue2 tillage type = burn_95 () !removal residue
+344 1999 surfaceom tillage type = burn_95 () !removal residue
 
 !-------2000 fallow------
 !361 1999 weed1 sow cultivar = early, plants = 20 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
@@ -869,7 +866,7 @@ endif
 131 2000 fertiliz apply amount = 14.4 (kg/ha), type = nh4_n, depth = 60 (mm)
 348 2000 lupin harvest
 348 2000 lupin end_crop
-349 2000 residue2 tillage type = burn_95 () !removal residue
+349 2000 surfaceom tillage type = burn_95 () !removal residue
 
 !-------2001 fallow------
  36 2001 weed2 sow cultivar = early, plants = 20 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
@@ -887,7 +884,7 @@ endif
 339 2001 wheat harvest
 339 2001 wheat kill_crop
 339 2001 wheat end_crop
-339 2001 residue2 tillage type = burn_95 () !removal residue
+339 2001 surfaceom tillage type = burn_95 () !removal residue
 
  35 2002 wheat sow plants = 51 (/m2), sowing_depth = 40, cultivar = H45JL
  35 2002 weed2 sow cultivar = early, plants = 80 (/m2), crop_class = winter_dicot, sowing_depth = 40 (mm)
@@ -897,7 +894,7 @@ endif
 153 2002 wheat end_crop
 153 2002 weed2 end_crop
 153 2002 weed3 end_crop
-154 2002 residue2 tillage type = burn_95 () !removal residue
+154 2002 surfaceom tillage type = burn_95 () !removal residue
 
 !-------2002 fallow------
 154 2002 wheat sow plants = 141 (/m2), sowing_depth = 40, cultivar = Janz
@@ -915,7 +912,6 @@ endif
 350 1992 weed1 sow cultivar = early, plants = 20 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
 ! 90 1993 weed1 kill_crop
  90 1993 weed1 end_crop
- 90 1993 residue2 set pot_decomp_rate = 0.10 ()
 
 !------1993 wheat-------
 158 1993 wheat sow plants = 210, sowing_depth = 40, cultivar = janzJL
@@ -925,8 +921,7 @@ endif
 344 1993 wheat harvest
 344 1993 wheat kill_crop
 344 1993 wheat end_crop
-345 1993 residue2 tillage type = burn_95 () !removal residue
-345 1993 residue2 set pot_decomp_rate = 0.02 ()
+345 1993 surfaceom tillage type = burn_95 () !removal residue
 
 !-------1993/94 fallow-------
  42 1994 weed1 sow cultivar = early, plants = 20 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
@@ -935,7 +930,6 @@ endif
 103 1994 weed1 end_crop
 !103 1994 weed2 kill_crop
 103 1994 weed2 end_crop
-103 1994 residue2 set pot_decomp_rate = 0.10 ()
 
 !-------1994 lucerne-------
 !230 1994 lucerne sow cultivar = hunter_river, plants = 200 (/m2), sowing_depth = 30 (mm)
@@ -978,7 +972,7 @@ endif
 310 1998 canola harvest
 !310 1998 canola kill_crop
 310 1998 canola end_crop
-311 1998 residue2 tillage type = burn_95 () !removal residue
+311 1998 surfaceom tillage type = burn_95 () !removal residue
 
 !-------1999 fallow-------
 !316 1998 weed1 sow cultivar = early, plants = 20 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
@@ -988,7 +982,7 @@ endif
 !136 1999 weed1 end_crop
 !136 1999 weed2 kill_crop
 104 1999 weed2 end_crop
-!140 1999 residue2 tillage type = burn_95 () !removal residue
+!140 1999 surfaceom tillage type = burn_95 () !removal residue
 
 !-------1999 triticale-------
 141 1999 wheat sow plants = 160 (/m2), sowing_depth = 40, cultivar = janz
@@ -996,7 +990,7 @@ endif
 343 1999 wheat harvest
 343 1999 wheat kill_crop
 343 1999 wheat end_crop
-344 1999 residue2 tillage type = burn_95 () !removal residue
+344 1999 surfaceom tillage type = burn_95 () !removal residue
 
 !-------2000 fallow------
 361 1999 weed1 sow cultivar = early, plants = 20 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
@@ -1012,7 +1006,7 @@ endif
 131 2000 fertiliz apply amount = 14.4 (kg/ha), type = nh4_n, depth = 60 (mm)
 348 2000 lupin harvest
 348 2000 lupin end_crop
-349 2000 residue2 tillage type = burn_95 () !removal residue
+349 2000 surfaceom tillage type = burn_95 () !removal residue
 
 !-------2001 fallow------
  36 2001 weed1 sow cultivar = early, plants = 20 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
@@ -1030,7 +1024,7 @@ endif
 339 2001 wheat harvest
 339 2001 wheat kill_crop
 339 2001 wheat end_crop
-339 2001 residue2 tillage type = burn_95 () !removal residue
+339 2001 surfaceom tillage type = burn_95 () !removal residue
 
 !-------2002 fallow------
  35 2002 wheat sow plants = 30 (/m2), sowing_depth = 40, cultivar = H45JL
@@ -1041,7 +1035,7 @@ endif
 153 2002 wheat end_crop
 153 2002 weed2 end_crop
 153 2002 weed3 end_crop
-154 2002 residue2 tillage type = burn_95 () !removal residue
+154 2002 surfaceom tillage type = burn_95 () !removal residue
 
 !-------2002 fallow------
 154 2002 wheat sow plants = 141 (/m2), sowing_depth = 40, cultivar = Janz
@@ -1055,8 +1049,8 @@ endif
 !-------1992/93 fallow-------
 !350 1992 soiln2 incorp_fom dlt_fom_wt = 500 2500 1500 1000 500 300 200 150 50 10 0 0 0 0 0 0 0 0 0 0 (kg/ha), dlt_fom_cnr = 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 ()
 350 1992 soiln2 add_roots dlt_fom_wt =  10 50 200 350 500 700 500 400 450 400 250 100 0 0 0 0 0 0 (kg/ha), dlt_fom_cnr = 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 ()
-90  1993 residue2 tillage type = burn_95 ()
-105 1993 residue2 tillage type = chisel ()
+90  1993 surfaceom tillage type = burn_95 ()
+105 1993 surfaceom tillage type = chisel ()
 
 !------1993 wheat-------
 158 1993 wheat sow plants = 210, sowing_depth = 40, cultivar = janz
@@ -1066,8 +1060,8 @@ endif
 344 1993 wheat end_crop
 
 !-------1993/94 fallow-------
-103 1994 residue2 tillage type = burn_95 ()
-118 1994 residue2 tillage type = chisel ()
+103 1994 surfaceom tillage type = burn_95 ()
+118 1994 surfaceom tillage type = chisel ()
 
 !-------1994 lucerne-------
 217 1994 lucerne sow cultivar = hunter_river, plants = 100 (/m2), sowing_depth = 30 (mm)
@@ -1076,7 +1070,7 @@ endif
 12  1995 lucerne harvest height = 50 (mm), remove = 0.95, plants = 30
 152 1995 lucerne harvest
 152 1995 lucerne end_crop
-153 1995 residue2 tillage type = graze ()
+153 1995 surfaceom tillage type = graze ()
 !N addition?
 
 !-------1995-97 lucerne-------
@@ -1093,7 +1087,7 @@ endif
 289 1997 lucerne harvest height = 50 (mm), remove = 0.95, plants = 100
 55  1998 lucerne harvest height = 50 (mm)
 55  1998 lucerne end_crop
-119 1998 residue2 tillage type = graze ()
+119 1998 surfaceom tillage type = graze ()
 !N addition?
 
 !-------1998 canola-------
@@ -1112,7 +1106,7 @@ endif
 342 1999 wheat end_crop
 
 !-------2000 fallow------
-131 2000 residue2 tillage type = Cool_burn ()
+131 2000 surfaceom tillage type = Cool_burn ()
 
 !-------2000 lupins-------
 128 2000 lupin sow plants = 48, cultivar = merrit, sowing_depth = 40
@@ -1129,7 +1123,7 @@ endif
 345 2001 wheat end_crop
 
 !-------2001-02 fallow------
-147 2002 residue2 tillage type = burn_95 () !removal residue
+147 2002 surfaceom tillage type = burn_95 () !removal residue
 
 !-------2002 triticale-------
 151 2002 wheat sow plants = 131 (/m2), sowing_depth = 40, cultivar = Janz
@@ -1823,7 +1817,7 @@ xf        =        1       1       1       1       1       1       1       1    
 !eo_crop_factor = 1.1
 
 
-!******************** Residue2 module ********************
+!******************** surfaceom module ********************
 [field.SurfaceOM.parameters]
 mass = 10800.
 cnr = 70.
