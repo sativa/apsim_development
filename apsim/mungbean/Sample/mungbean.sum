@@ -150,6 +150,7 @@
      
      
      
+           TAV and AMP supplied externally
      
      
      
@@ -196,151 +197,167 @@
          - Reading constants
 ------- Start of simulation  --------------------------------------------------
 25 November 1988 (Day of year=330):
-          Manager sending message :- mungbean sow cultivar = berken, plants = 25 (/m2), sowing_depth = 40 (mm)
-     Sow
-     
-      - Reading constants for plant
-     
-        - Reading Cultivar Parameters
-         ------------------------------------------------
-         Cultivar                 = berken
-         est_days_emerg_to_init  =      20
-         tt_emerg_to_endjuv       =   550.0
-         photoperiod      =   12.50  17.00
-         phase_tt_init      =    0.00   5.00
-         tt_flower_to_maturity    =   550.0
-         tt_init_to_flower        =    25.0
-         tt_flower_to_start_grain =   206.0
-         tt_maturity_to_ripe      =     5.0
-         hi_incr                  =     0.0
-         x_hi_max_pot_stress =    0.00   1.00
-         y_hi_max_pot        =    0.50   0.50
-         x_stem_wt      =    0.00  50.00
-         y_height      =    0.001000.00
-         ------------------------------------------------
-     
-     
-     
-     
-        - Reading root profile parameters
-     
-     
-     
-                         Root Profile
-     ---------------------------------------------------
-          Layer       Kl           Lower    Exploration
-          Depth     Factor         Limit      Factor
-          (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
-          150.0     0.080          0.230       1.000
-          150.0     0.080          0.240       1.000
-          300.0     0.080          0.240       1.000
-          300.0     0.080          0.250       1.000
-          300.0     0.050          0.260       1.000
-          300.0     0.030          0.270       1.000
-          300.0     0.010          0.280       1.000
-     ---------------------------------------------------
-     
-     
-     
-     
-     
-     
-                      Crop Sowing Data
-         ------------------------------------------------
-         Sowing  Depth Plants Spacing Cultivar
-         Day no   mm     m^2     m     Name
-         ------------------------------------------------
-            330   40.0   25.0  500.0 berken
-         ------------------------------------------------
+   MANAGER:
+           Manager sending message :- mungbean sow cultivar = berken, plants = 25 (/m2), sowing_depth = 40 (mm)
+   MUNGBEAN:
+      Sow
+      
+       - Reading constants for plant
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = berken
+          est_days_emerg_to_init  =      20
+          tt_emerg_to_endjuv       =   550.0
+          photoperiod      =   12.50  17.00
+          phase_tt_init      =    0.00   5.00
+          tt_flower_to_maturity    =   550.0
+          tt_init_to_flower        =    25.0
+          tt_flower_to_start_grain =   206.0
+          tt_maturity_to_ripe      =     5.0
+          hi_incr                  =     0.0
+          x_hi_max_pot_stress =    0.00   1.00
+          y_hi_max_pot        =    0.50   0.50
+          x_stem_wt      =    0.00  50.00
+          y_height      =    0.001000.00
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      
+      
+      
+                          Root Profile
+      ---------------------------------------------------
+           Layer       Kl           Lower    Exploration
+           Depth     Factor         Limit      Factor
+           (mm)         ()        (mm/mm)       (0-1)
+      ---------------------------------------------------
+           150.0     0.080          0.230       1.000
+           150.0     0.080          0.240       1.000
+           300.0     0.080          0.240       1.000
+           300.0     0.080          0.250       1.000
+           300.0     0.050          0.260       1.000
+           300.0     0.030          0.270       1.000
+           300.0     0.010          0.280       1.000
+      ---------------------------------------------------
+      
+      
+      
+      
+      
+      
+                       Crop Sowing Data
+          ------------------------------------------------
+          Sowing  Depth Plants Spacing Cultivar
+          Day no   mm     m^2     m     Name
+          ------------------------------------------------
+             330   40.0   25.0  500.0 berken
+          ------------------------------------------------
 26 November 1988 (Day of year=331):
-      stage    2.0 germination
+   MUNGBEAN:
+       stage    2.0 germination
 28 November 1988 (Day of year=333):
-      stage    3.0 emergence
-                          biomass =           2.500000       lai =    0.8500000e-01
-                          stover N conc =    6.000000       extractable sw =    23.25670
+   MUNGBEAN:
+       stage    3.0 emergence
+                           biomass =           2.500000       lai =    0.8500000e-01
+                           stover N conc =    6.000000       extractable sw =    23.25670
 1 January 1989 (Day of year=1):
-      stage    4.0 end_of_juvenile
-                          biomass =           205.3853       lai =     2.983889    
-                          stover N conc =    3.199889       extractable sw =    168.5540
+   MUNGBEAN:
+       stage    4.0 end_of_juvenile
+                           biomass =           205.3853       lai =     2.983889    
+                           stover N conc =    3.199889       extractable sw =    168.5540
 2 January 1989 (Day of year=2):
-      stage    5.0 floral_initiation
-                          biomass =           216.1700       lai =     3.103476    
-                          stover N conc =    3.114207       extractable sw =    165.4245
+   MUNGBEAN:
+       stage    5.0 floral_initiation
+                           biomass =           216.1700       lai =     3.103476    
+                           stover N conc =    3.114207       extractable sw =    165.4245
 3 January 1989 (Day of year=3):
-      stage    6.0 flowering
-                          biomass =           230.1203       lai =     3.235819    
-                          stover N conc =    3.005200       extractable sw =    213.0858
+   MUNGBEAN:
+       stage    6.0 flowering
+                           biomass =           230.1203       lai =     3.235819    
+                           stover N conc =    3.005200       extractable sw =    213.0858
 15 January 1989 (Day of year=15):
-      stage    7.0 start_grain_fill
-                          biomass =           438.2519       lai =     4.437761    
-                          stover N conc =    2.663944       extractable sw =    213.6198
+   MUNGBEAN:
+       stage    7.0 start_grain_fill
+                           biomass =           438.2519       lai =     4.437761    
+                           stover N conc =    2.663944       extractable sw =    213.6198
 6 February 1989 (Day of year=37):
-      stage    8.0 end_grain_fill
-                          biomass =           755.5013       lai =     3.016114    
-                          stover N conc =    2.013971       extractable sw =    122.8262
+   MUNGBEAN:
+       stage    8.0 end_grain_fill
+                           biomass =           755.5013       lai =     3.016114    
+                           stover N conc =    2.014053       extractable sw =    122.8262
 8 February 1989 (Day of year=39):
-      stage    9.0 maturity
-                          biomass =           774.7455       lai =     2.833311    
-                          stover N conc =    1.873660       extractable sw =    116.9093
+   MUNGBEAN:
+       stage    9.0 maturity
+                           biomass =           774.7455       lai =     2.833311    
+                           stover N conc =    1.873858       extractable sw =    116.9093
 9 February 1989 (Day of year=40):
-      stage   10.0 harvest_ripe
-                          biomass =           774.7455       lai =    0.0000000    
-                          stover N conc =    2.361869       extractable sw =    111.0840
+   MUNGBEAN:
+       stage   10.0 harvest_ripe
+                           biomass =           774.7455       lai =    0.0000000    
+                           stover N conc =    2.362178       extractable sw =    111.0840
 10 February 1989 (Day of year=41):
-          Manager sending message :- mungbean harvest
-     
-     
-     
-      flowering day  =    3                  stover (kg/ha) =    4983.9
-      maturity day        =   39             grain yield (kg/ha) =    2763.6
-      grain % water content   =   12.0       grain yield wet (kg/ha) =    3140.4
-      grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 4.452
-      total above ground biomass (kg/ha) =    7747.5
-      live above ground biomass (kg/ha) =    7747.5
-      green above ground biomass (kg/ha) =    5227.8
-      senesced above ground biomass (kg/ha) =    2519.6
-      dead above ground biomass (kg/ha) =       0.0
-      number of leaves =  24.7
-      grain N percent =      4.50            total N content (kg/ha) =    207.76
-      grain N uptake (kg/ha) =    124.36     senesced N content (kg/ha) =     25.20
-      green N content (kg/ha) =     58.20    dead N content (kg/ha) =      0.00
-     
-     
-     
-      stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0110323
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0274917
-     
-     
-     
-      stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for floral_initiation
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for flowering
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for start_grain_fill
-      water stress 1 =       0.0717550   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.1042105   nitrogen stress 2 =       0.0000000
-          Manager sending message :- mungbean end_crop
-         ended. Yield (dw) =     0.0
-                                               straw residue =    0.0 kg/ha
-                                               straw N =    0.0 kg/ha
-                                               root residue = 2491.8 kg/ha
-                                               root N =   37.8 kg/ha
+   MANAGER:
+           Manager sending message :- mungbean harvest
+   MUNGBEAN:
+      
+      
+      
+       flowering day  =    3                  stover (kg/ha) =    4983.9
+       maturity day        =   39             grain yield (kg/ha) =    2763.6
+       grain % water content   =   12.0       grain yield wet (kg/ha) =    3140.4
+       grain wt (g) =     0.000               grains/m^2   =     0.000
+       grains/head =   0.0                    maximum lai = 4.452
+       total above ground biomass (kg/ha) =    7747.5
+       live above ground biomass (kg/ha) =    7747.5
+       green above ground biomass (kg/ha) =    5227.8
+       senesced above ground biomass (kg/ha) =    2519.6
+       dead above ground biomass (kg/ha) =       0.0
+       number of leaves =  24.7
+       grain N percent =      4.50            total N content (kg/ha) =    207.77
+       grain N uptake (kg/ha) =    124.36     senesced N content (kg/ha) =     25.20
+       green N content (kg/ha) =     58.21    dead N content (kg/ha) =      0.00
+      
+      
+      
+       stress indices for emergence
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0110323
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0274791
+      
+      
+      
+       stress indices for end_of_juvenile
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for floral_initiation
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for flowering
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for start_grain_fill
+       water stress 1 =       0.0717550   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.1042105   nitrogen stress 2 =       0.0000000
+   MANAGER:
+           Manager sending message :- mungbean end_crop
+   MUNGBEAN:
+          ended. Yield (dw) =     0.0
+                                                straw residue =    0.0 kg/ha
+                                                straw N =    0.0 kg/ha
+                                                root residue = 2491.8 kg/ha
+                                                root N =   37.8 kg/ha
 1 March 1989 (Day of year=60):
-     Simulation is terminating due to end criteria being met.
+   CLOCK:
+      Simulation is terminating due to end criteria being met.
