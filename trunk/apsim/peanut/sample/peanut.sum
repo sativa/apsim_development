@@ -221,8 +221,8 @@
           hi_incr                  =     0.0
           x_hi_max_pot_stress =    0.00   1.00
           y_hi_max_pot        =    0.10   0.38
-          x_stem_wt      =    0.00  30.00
-          y_height      =    0.00 700.00
+          x_stem_wt      =    0.00 100.00
+          y_height      =    0.005000.00
           ------------------------------------------------
       
       
@@ -280,28 +280,28 @@
 29 December 1988 (Day of year=364):
    PEANUT:
        stage    6.0 flowering
-                           biomass =           64.50372       lai =    0.9802114    
-                           stover N conc =    2.645587       extractable sw =    203.9298
+                           biomass =           64.50372       lai =    0.9801713    
+                           stover N conc =    2.645553       extractable sw =    203.9298
 19 January 1989 (Day of year=19):
    PEANUT:
        stage    7.0 start_grain_fill
-                           biomass =           406.4899       lai =     3.268226    
-                           stover N conc =    2.385781       extractable sw =    191.6002
+                           biomass =           405.8875       lai =     3.267939    
+                           stover N conc =    2.373093       extractable sw =    191.6082
 4 April 1989 (Day of year=94):
    PEANUT:
        stage    8.0 end_grain_fill
-                           biomass =           1084.099       lai =     5.040524    
-                           stover N conc =    1.681162       extractable sw =    101.9497
+                           biomass =           991.5588       lai =     4.062135    
+                           stover N conc =    1.184852       extractable sw =    97.60459
 10 April 1989 (Day of year=100):
    PEANUT:
        stage    9.0 maturity
-                           biomass =           1096.033       lai =     4.912558    
-                           stover N conc =    1.673865       extractable sw =    80.09576
+                           biomass =           1002.145       lai =     3.914387    
+                           stover N conc =    1.180722       extractable sw =    76.75384
 11 April 1989 (Day of year=101):
    PEANUT:
        stage   10.0 harvest_ripe
-                           biomass =           1096.033       lai =    0.2384186E-05
-                           stover N conc =    2.366670       extractable sw =    75.30324
+                           biomass =           1002.145       lai =    0.2145767E-05
+                           stover N conc =    1.255922       extractable sw =    72.24066
 12 April 1989 (Day of year=102):
    MANAGER:
            Manager sending message :- peanut harvest
@@ -309,20 +309,20 @@
       
       
       
-       flowering day  =  364                  stover (kg/ha) =    6163.3
-       maturity day        =  100             grain yield (kg/ha) =    4797.0
-       grain % water content   =   13.0       grain yield wet (kg/ha) =    5513.8
+       flowering day  =  364                  stover (kg/ha) =    6213.3
+       maturity day        =  100             grain yield (kg/ha) =    3808.2
+       grain % water content   =   13.0       grain yield wet (kg/ha) =    4377.2
        grain wt (g) =     0.000               grains/m^2   =     0.000
-       grains/head =   0.0                    maximum lai = 5.274
-       total above ground biomass (kg/ha) =   10960.3
-       live above ground biomass (kg/ha) =   10960.3
-       green above ground biomass (kg/ha) =    7459.5
-       senesced above ground biomass (kg/ha) =    3500.8
+       grains/head =   0.0                    maximum lai = 4.538
+       total above ground biomass (kg/ha) =   10021.4
+       live above ground biomass (kg/ha) =   10021.4
+       green above ground biomass (kg/ha) =    7102.8
+       senesced above ground biomass (kg/ha) =    2918.6
        dead above ground biomass (kg/ha) =       0.0
        number of leaves = 345.7
-       grain N percent =      5.00            total N content (kg/ha) =    337.87
-       grain N uptake (kg/ha) =    239.85     senesced N content (kg/ha) =     35.01
-       green N content (kg/ha) =     63.01    dead N content (kg/ha) =      0.00
+       grain N percent =      5.00            total N content (kg/ha) =    284.89
+       grain N uptake (kg/ha) =    190.41     senesced N content (kg/ha) =     29.19
+       green N content (kg/ha) =     65.29    dead N content (kg/ha) =      0.00
       
       
       
@@ -345,22 +345,22 @@
       
       
        stress indices for flowering
-       water stress 1 =       0.0039285   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0101193   nitrogen stress 2 =       0.0022014
+       water stress 1 =       0.0039229   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0101137   nitrogen stress 2 =       0.0021989
       
       
       
        stress indices for start_grain_fill
-       water stress 1 =       0.2614035   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.3119923   nitrogen stress 2 =       0.0000000
+       water stress 1 =       0.2663724   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.3187045   nitrogen stress 2 =       0.0000000
    MANAGER:
            Manager sending message :- peanut end_crop
    PEANUT:
           ended. Yield (dw) =     0.0
                                                 straw residue =    0.0 kg/ha
                                                 straw N =    0.0 kg/ha
-                                                root residue = 1391.8 kg/ha
-                                                root N =   29.6 kg/ha
+                                                root residue = 1368.8 kg/ha
+                                                root N =   29.1 kg/ha
 20 April 1989 (Day of year=110):
    CLOCK:
       Simulation is terminating due to end criteria being met.
