@@ -237,6 +237,71 @@ C     Last change:  P    25 Oct 2000    9:26 am
       contains
 
 ! ====================================================================
+       subroutine Set_variable_in_other_module (modnameID
+     :                                         ,var_name
+     :                                         ,variable_value)
+! ====================================================================
+      Use Infrastructure
+      implicit none
+
+!+  Subprogram Arguments
+      integer modNameID                ! ID for module.
+      character Var_name*(*)
+      Character Variable_value*(*)
+
+!+  Purpose
+!      Set the value of a variable in another module
+
+!+  Changes
+
+
+!+  Calls
+
+!+  Constant Values
+      character This_routine*(*)       ! Name of this routine
+      parameter (This_routine='Set_variable_in_other_module')
+
+      integer max_size    ! max size of char array
+      parameter (max_size = 100)
+
+      integer max_len    ! max length of a string
+      parameter (max_len = 100)
+
+!+  Local Variables
+      integer numvals
+      character values(max_size)*(max_len)
+
+!- Implementation Section ----------------------------------
+
+      call push_routine(This_routine)
+
+      numvals = word_count(Variable_value)
+
+      if (numvals.eq.1) then
+         call set_char_var(modNameID,
+     .         trim(var_name), ' ',
+     .         trim(Variable_value) )
+      Else
+         call string_to_Char_array(Variable_value
+     :                            ,values
+     :                            ,max_size
+     :                            ,numvals)
+
+         call set_char_array(modNameID
+     :                      ,trim(var_name)
+     :                      ,' '
+     :                      ,values
+     :                      ,numvals)
+
+      endif
+
+      call pop_routine(This_routine)
+
+      return
+      end subroutine
+
+
+! ====================================================================
        subroutine Manager_Init ()
 ! ====================================================================
       Use Infrastructure
@@ -1095,8 +1160,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
       if (Is_apsim_variable) then
          call Split_line(variable_name, Mod_name, Var_name, '.')
          ok = component_name_to_id(Mod_name, modNameID)
-         call set_char_var(modNameID,
-     .         trim(var_name), ' ',
+         call set_variable_in_other_module(modNameID,
+     .         trim(var_name),
      .         trim(Variable_value) )
 
       else
@@ -1128,8 +1193,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
                call Write_string (str)
 
             else
-               call set_char_var(Unknown_module,
-     .            trim(variable_name), ' ',
+               call set_variable_in_other_module(Unknown_module,
+     .            trim(variable_name),
      .            trim(Variable_value))
                Is_apsim_variable = .true.
             endif
@@ -1247,8 +1312,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .                           Variable_name,
      .                           value)
          ok = component_name_to_id(Module_name, modNameID)
-         call set_char_var(modNameID, Variable_name,
-     .                     ' ', value)
+         call set_variable_in_other_module(modNameID, Variable_name
+     .                     , value)
 
       else if (Data_was_stored) then
          if (Module_name.eq.All_active_modules)then
