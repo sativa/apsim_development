@@ -267,7 +267,11 @@ string XMLNode::write() const
    tempFileName += "\\temp.xml";
    xmlOutputBufferPtr buf = xmlOutputBufferCreateFilename(tempFileName.c_str(), NULL, false);
    xmlNodeDumpOutput(buf, node->doc, node, 0, 1, NULL);
-   string returnString = (char*) buf->buffer->content;
+   xmlOutputBufferClose(buf);
+   ifstream in(tempFileName.c_str());
+   ostringstream out;
+   out << in.rdbuf();
+   string returnString = out.str();
    xmlFree(buf);
    return returnString;
    }
