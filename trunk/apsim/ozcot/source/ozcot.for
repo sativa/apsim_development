@@ -1698,6 +1698,10 @@
          call respond2get_integer_var (variable_name
      :        , '(days)', g%das)
 
+      else if (variable_name .eq. 'crop_type') then
+         call respond2get_char_var (variable_name
+     :        , '()', c%crop_type)
+
       else if (variable_name .eq. 'sumdd') then
          call respond2get_real_var (variable_name
      :        , '(oCd)', g%sumdd)
