@@ -38,17 +38,18 @@ class DatabaseAddIn : public AddInBase
       virtual void doCalculations(TAPSTable& data,
                                   const std::vector<Scenario*>& selectedScenarios);
    private:
-      typedef std::vector<DBSimulation> SimulationContainer;
+      typedef std::vector<DBSimulation*> SimulationContainer;
       typedef std::map<std::string, Graphics::TBitmap*> ImageMap;
       SimulationContainer simulations;
       ImageMap images;
 
 
       void askUserForMDBs(void);
+      void askUserForDataSets(void);
       void readAllDatabases(std::vector<std::string>& databaseFilenames);
       void readDatabase(const std::string& databaseFileName);
       Scenario convertSimulationToScenario(const DBSimulation& simulation,
-                                           const std::string& scenarioName) const;
+                                           const std::string& scenarioName)const;
       void readAllImages(void);
       const Graphics::TBitmap* getImageForFactor(const std::string& factorName) const;
    };

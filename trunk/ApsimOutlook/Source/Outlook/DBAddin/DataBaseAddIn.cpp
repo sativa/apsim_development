@@ -9,6 +9,8 @@
 #include <dialogs.hpp>
 #include <assert.h>
 #include <sstream>
+#include "TDirectory_select_form.h"
+
 using namespace std;
 // ------------------------------------------------------------------
 //  Short description:
@@ -30,6 +32,7 @@ extern "C" AddInBase* _export __stdcall createAddIn(const string& parameters)
 
 //  Changes:
 //    DPH 5/4/01
+//    DAH 28/5/01:   changed operator() to take a pointer argument
 
 // ------------------------------------------------------------------
 class FindClosestScenario
@@ -57,13 +60,13 @@ class FindClosestScenario
               }
            }
 
-      void operator () (const DBSimulation& simulation)
+      void operator () (const DBSimulation* simulation)
          {
-         unsigned int rank = simulation.calculateRank(factorNames, factorValues);
+         unsigned int rank = simulation->calculateRank(factorNames, factorValues);
          if (rank > closestRank)
             {
             closestRank = rank;
-            closestSimulation = &simulation;
+            closestSimulation = simulation;
             }
          };
 
@@ -93,9 +96,9 @@ class GetFactorValue
          : Container (container), factorName(factorname)
          { }
 
-      void operator () (const DBSimulation& simulation) const
+      void operator () (const DBSimulation* simulation) const
          {
-         string factorValue = simulation.getFactorValue(factorName);
+         string factorValue = simulation->getFactorValue(factorName);
          if (find(Container.begin(), Container.end(), factorValue)
              == Container.end())
             Container.push_back(factorValue);
@@ -116,20 +119,20 @@ class ReadData
    private:
       TAPSTable& data;
       TCursor savedCursor;
-      vector<DBSimulation>& simulations;
+      vector<DBSimulation*>& simulations;
    public:
-      ReadData(vector<DBSimulation>& sims, TAPSTable& d)
+      ReadData(vector<DBSimulation*>& sims, TAPSTable& d)
          : simulations(sims),
            data(d)
          {
          }
       void operator() (const Scenario* scenario)
          {
-         vector<DBSimulation>::iterator s = find(simulations.begin(),
+         vector<DBSimulation*>::iterator s = Pfind(simulations.begin(),
                                                  simulations.end(),
-                                                 *scenario);
+                                                 scenario);
          assert (s != simulations.end());
-         (*s).readData(data, scenario->getName());
+         (*s)->readData(data, scenario->getName());
          }
    };
 
@@ -147,6 +150,8 @@ DatabaseAddIn::DatabaseAddIn(const string& parameters)
    {
    if (parameters == "")
       askUserForMDBs();
+   else if (parameters.find("datasetsON") != string::npos)
+      askUserForDataSets();
    else
       {
       vector<string> filenames;
@@ -176,6 +181,9 @@ DatabaseAddIn::~DatabaseAddIn(void)
       delete bitmap;
       }
    images.erase(images.begin(), images.end());
+
+   delete_container(simulations);
+
    }
 
 // ------------------------------------------------------------------
@@ -202,6 +210,22 @@ void DatabaseAddIn::askUserForMDBs(void)
       }
    }
 
+
+
+void DatabaseAddIn::askUserForDataSets(void)
+   {
+   Directory_select_form = new TDirectory_select_form(Application->MainForm);
+   if (Directory_select_form->ShowModal() == mrOk)
+      {
+      vector<string> databaseFilenames;
+      TStrings_2_stl(Directory_select_form->SelectedMDBs, databaseFilenames);
+      readAllDatabases(databaseFilenames);
+      }
+   delete Directory_select_form;
+   }
+
+
+
 // ------------------------------------------------------------------
 //  Short description:
 //    read in all simulations for the specified databases.
@@ -215,7 +239,8 @@ void DatabaseAddIn::askUserForMDBs(void)
 // ------------------------------------------------------------------
 void DatabaseAddIn::readAllDatabases(vector<string>& databaseFilenames)
    {
-   simulations.erase(simulations.begin(), simulations.end());
+//   simulations.erase(simulations.begin(), simulations.end());
+   delete_container(simulations);
 
    for (vector<string>::iterator db = databaseFilenames.begin();
                                  db != databaseFilenames.end();
@@ -237,6 +262,7 @@ void DatabaseAddIn::readAllDatabases(vector<string>& databaseFilenames)
 // ------------------------------------------------------------------
 void DatabaseAddIn::readDatabase(const string& databaseFileName)
    {
+   ShowMessage("beginning readDatabase");
    // show hourglass.
    TCursor Saved_cursor = Screen->Cursor;
    Screen->Cursor = crHourGlass;
@@ -251,22 +277,29 @@ void DatabaseAddIn::readDatabase(const string& databaseFileName)
    db->LoginPrompt = false;
    db->Mode = cmShareExclusive;
    db->Connected = true;
+   ShowMessage("connected");
 
    // Open the index table.
    TADOTable* indexTable = new TADOTable(NULL);
    indexTable->Connection = db;
    indexTable->TableName = "[Index]";
+   indexTable->CursorLocation = clUseServer;
    indexTable->Open();
+   ShowMessage("indexTable opened");
 
+   //simulations.reserve(10000);
    // loop through all records in the index table.  For each, create a
    // simulation object, get it to read itself in and then store in list.
-   DBSimulation newSimulation;
+   DBSimulation* newSimulation;
+   ShowMessage("begin loop");
    while (!indexTable->Eof)
       {
-      newSimulation.readFromIndex(databaseFileName, indexTable);
+      newSimulation = new DBSimulation();
+      newSimulation->readFromIndex(databaseFileName, indexTable);
       simulations.push_back(newSimulation);
       indexTable->Next();
       }
+   ShowMessage("end loop");
 
    // cleanup
    delete indexTable;
@@ -274,6 +307,7 @@ void DatabaseAddIn::readDatabase(const string& databaseFileName)
 
    // show hourglass.
    Screen->Cursor = Saved_cursor;
+   ShowMessage("ending readDatabase");
    }
 
 // ------------------------------------------------------------------
@@ -289,7 +323,7 @@ void DatabaseAddIn::readDatabase(const string& databaseFileName)
 Scenario DatabaseAddIn::getDefaultScenario(void) const
    {
    if (simulations.size() > 0)
-      return convertSimulationToScenario(simulations[0], "");
+      return convertSimulationToScenario(*(simulations[0]), "");
 
    else
       {

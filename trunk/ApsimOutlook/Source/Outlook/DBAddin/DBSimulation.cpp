@@ -246,7 +246,7 @@ void DBSimulation::readData(TAPSTable& data, const string& simulationName)
       data.addField(fieldNames[f]);
    for (unsigned int f = 0; f < factorNames.size(); f++)
       {
-      data.addField(factorNames[f]);
+//      data.addField(factorNames[f]);
       data.markFieldAsAPivot(factorNames[f]);
       }
 
@@ -295,17 +295,23 @@ void DBSimulation::getFactors(std::vector<Factor>& factors) const
 
 //  Changes:
 //    DPH 5/4/01
+//    DAH 2/5/01: changed to look for a subsequence rather than the equality of
+//                the factor sequences
 
 // ------------------------------------------------------------------
 bool DBSimulation::operator!= (const Scenario& rhs) const
    {
    vector<string> rhsFactorNames;
    rhs.getFactorNames(rhsFactorNames);
-   if (rhsFactorNames == factorNames)
-      {
+   vector<string>::iterator place =
+          search(rhsFactorNames.begin(),rhsFactorNames.end(),
+                 factorNames.begin(),factorNames.end());
+   if (place != rhsFactorNames.end())
+   // factorNames is contained within rhsFactorNames
+   {
       vector<string> rhsFactorValues;
-      for (vector<string>::iterator n = rhsFactorNames.begin();
-                                    n != rhsFactorNames.end();
+      for (vector<string>::iterator n = place;
+                                    n != place + factorNames.size();
                                     n++)
          {
          string value;
