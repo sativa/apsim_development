@@ -61,11 +61,11 @@ variable_alias =  -     -
 units =        -        -   
 
 [swat.clock.parameters]  
-start_day =  1  ()   
-start_year =  1977 ()   
+simulation_start_day =  1  ()   
+simulation_start_year =  1977 ()   
 
-end_day =   365 ()   
-end_year =  1978 ()   
+simulation_end_day =   365 ()   
+simulation_end_year =  1978 ()   
 
 [swat.soilwat2.parameters]  
 cn2_bare =        80       ()   
