@@ -12,6 +12,7 @@
 class TREMS : public TSEGTable
    {
    private:
+      AnsiString reportDirectory;
       AnsiString mdbFilename;
       AnsiString experimentName;
       AnsiString treatmentName;
@@ -29,12 +30,16 @@ class TREMS : public TSEGTable
       TStrings* __fastcall getExperimentNames(void);
       TStrings* __fastcall getTreatmentNames(void);
 
+      virtual void __fastcall Loaded(void);
       virtual void createFields(void) throw(std::runtime_error);
       virtual void storeRecords(void) throw(std::runtime_error);
 
    public:
       __fastcall TREMS(TComponent* owner);
       __fastcall ~TREMS(void);
+
+      virtual void setProperty(const std::string& propertyName,
+                               const std::string& propertyValue);
 
    __published:
       __property AnsiString filename = {read=mdbFilename, write=setFilename};

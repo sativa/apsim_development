@@ -31,8 +31,9 @@ void TREMSForm::setComponent(TREMS* r)
    ExperimentCombo->Text = rems->experiment;
    TreatmentCombo->Text = rems->treatment;
    DataSourceCombo->Text = rems->datasource;
+   ExperimentCombo->Items->Assign(rems->experiments);
+   TreatmentCombo->Items->Assign(rems->treatments);
    }
-
 //---------------------------------------------------------------------------
 void __fastcall TREMSForm::FilenameEditChange(TObject *Sender)
    {
