@@ -1,4 +1,4 @@
-C     Last change:  E    29 Nov 2000   11:38 am
+C     Last change:  E    15 Dec 2000   12:33 pm
 
 C      INCLUDE 'CropMod.inc'
 
@@ -925,6 +925,7 @@ c          g%swdef_expansion = g%swdef_tiller
       call zadok_stage_decimal_code(
      .          emerg,
      .          now,
+     .          max_stage,
      .          c%zadok_stage_code_list,
      .          g%current_stage,
      .          g%phase_tt,
