@@ -121,7 +121,7 @@ module ConstantsModule
    character (len=*), parameter :: ACTION_Idle         = 'idle'
    character (len=*), parameter :: ACTION_Reset        = 'reset'
    character (len=*), parameter :: ACTION_Sum_Report   = 'sum_report'
-   character (len=*), parameter :: ACTION_Till         = 'till'
+   character (len=*), parameter :: ACTION_Till         = 'tillage'
    character (len=*), parameter :: ACTION_Sow          = 'sow'
    character (len=*), parameter :: ACTION_Harvest      = 'harvest'
    character (len=*), parameter :: ACTION_End_Crop     = 'end_crop'
