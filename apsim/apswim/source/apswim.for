@@ -118,19 +118,19 @@
 
 !- Implementation Section ----------------------------------
 
-      if (eventID.eq.Tick_id) then
+      if (eventID.eq.TickId) then
          call apswim_OnTick(variant)
 
-      elseif (eventID .eq. Solutes_Changed_id) then
+      elseif (eventID .eq. SolutesChangedId) then
          call apswim_OnSolutesChanged (variant)
 
-      else if (eventID .eq. Crop_Water_Demand_Calculated_id) then
+      else if (eventID .eq. CropWaterDemandCalculatedId) then
          call apswim_OnCropWaterDemandCalculated (fromID,variant)
 
-      else if (eventID .eq. Surface_Water_Changed_id) then
+      else if (eventID .eq. SurfaceWaterChangedId) then
          call apswim_OnSurfaceWaterChanged (variant)
 
-      else if (eventID .eq. Eos_Calculated_id) then
+      else if (eventID .eq. EosCalculatedId) then
          call apswim_OnEosCalculated (variant)
 
       else
@@ -158,16 +158,16 @@
 
 !- Implementation Section ----------------------------------
 
-      if (methodID .eq. Do_Soil_Water_Balance_id) then
+      if (methodID .eq. DoSoilWaterBalanceId) then
          call apswim_DoSoilWaterBalance ()
 
-      else if (methodID .eq. Reset_id) then
+      else if (methodID .eq. ResetId) then
          call apswim_reset ()
 
-      else if (methodID .eq. Sum_report_id) then
+      else if (methodID .eq. Sum_ReportId) then
          call apswim_sum_report ()
 
-      else if (methodID .eq. tillage_id) then
+      else if (methodID .eq. tillageId) then
          call apswim_tillage ()
 
       else
@@ -256,19 +256,19 @@
 
 *- Implementation Section ----------------------------------
 
-      if (Variable_info%id .eq. dlayer_id) then
+      if (Variable_info%id .eq. dlayerId) then
          call return_dlayer (Variable_info,
      :            g%dlayer,
      :            p%n+1)
-      else if (Variable_info%id .eq. bd_id) then
+      else if (Variable_info%id .eq. bdId) then
          call return_bd (Variable_info,
      :            p%rhob,
      :            p%n+1)
-      else if (Variable_info%id .eq. sw_id) then
+      else if (Variable_info%id .eq. swId) then
          call return_sw (Variable_info,
      :            g%th,
      :            p%n+1)
-      else if (Variable_info%id .eq. sw_dep_id) then
+      else if (Variable_info%id .eq. sw_depId) then
          do 11 node=0,p%n
             dummy(node) = g%th(node)*g%dlayer(node)
    11    continue
@@ -276,51 +276,51 @@
      :            dummy,
      :            p%n+1)
 
-      else if (Variable_info%id .eq. ll15_id) then
+      else if (Variable_info%id .eq. ll15Id) then
          call return_ll15 (Variable_info,
      :            g%LL15,
      :            p%n+1)
-      else if (Variable_info%id .eq. ll15_dep_id) then
+      else if (Variable_info%id .eq. ll15_depId) then
          do 12 node=0,p%n
             dummy(node) = g%LL15(node)*g%dlayer(node)
    12    continue
          call return_ll15_dep (Variable_info,
      :            dummy,
      :            p%n+1)
-      else if (Variable_info%id .eq. dul_id) then
+      else if (Variable_info%id .eq. dulId) then
          call return_dul (Variable_info,
      :            g%DUL,
      :            p%n+1)
-      else if (Variable_info%id .eq. dul_dep_id) then
+      else if (Variable_info%id .eq. dul_depId) then
          do 13 node=0,p%n
             dummy(node) = g%DUL(node)*g%dlayer(node)
    13    continue
          call return_dul_dep (Variable_info,
      :            dummy,
      :            p%n+1)
-      else if (Variable_info%id .eq. sat_id) then
+      else if (Variable_info%id .eq. satId) then
          call return_sat (Variable_info,
      :            g%SAT,
      :            p%n+1)
-      else if (Variable_info%id .eq. sat_dep_id) then
+      else if (Variable_info%id .eq. sat_depId) then
          do 14 node=0,p%n
             dummy(node) = g%SAT(node)*g%dlayer(node)
    14    continue
          call return_sat_dep (Variable_info,
      :            dummy,
      :            p%n+1)
-      else if (Variable_info%id .eq. wp_id) then
+      else if (Variable_info%id .eq. wpId) then
          call return_wp (Variable_info,
      :            g%wp)
-      else if (Variable_info%id .eq. p_id) then
+      else if (Variable_info%id .eq. pId) then
          call return_p (Variable_info,
      :            g%p,
      :            p%n+1)
-      else if (Variable_info%id .eq. psi_id) then
+      else if (Variable_info%id .eq. psiId) then
          call return_psi (Variable_info,
      :            g%psi,
      :            p%n+1)
-      else if ((Variable_info%id .eq. rain_id).and.
+      else if ((Variable_info%id .eq. rainId).and.
      :         (p%rainfall_source .ne. 'apsim')) then
 
          start_of_day = apswim_time (g%year,g%day,
@@ -335,11 +335,11 @@
 
          call return_daily_rain (Variable_info,
      :            daily_rain)
-      else if (Variable_info%id .eq. runoff_id) then
+      else if (Variable_info%id .eq. runoffId) then
          call return_runoff (Variable_info,
      :            g%TD_runoff)
 
-      else if (Variable_info%id .eq. infiltration_id) then
+      else if (Variable_info%id .eq. infiltrationId) then
 
          infiltration = max(0d0
      :                     ,g%TD_wflow(0) + g%TD_evap)
@@ -347,20 +347,20 @@
          call return_infiltration (Variable_info,
      :            infiltration)
 
-      else if (Variable_info%id .eq. es_id) then
+      else if (Variable_info%id .eq. esId) then
          call return_es (Variable_info,
      :            g%TD_evap)
-      else if (Variable_info%id .eq. eos_id) then
+      else if (Variable_info%id .eq. eosId) then
          call return_eos (Variable_info,
      :            g%TD_pevap)
 
-      else if (Variable_info%id .eq. drain_id) then
+      else if (Variable_info%id .eq. drainId) then
          call return_drain (Variable_info,
      :            g%TD_drain)
 
-!      else if ((Variable_info%id .eq. eo_id).and.
+!      else if ((Variable_info%id .eq. eoId).and.
 !     :         (p%evap_source .ne. 'apsim')) then
-      else if (Variable_info%id .eq. eo_id) then
+      else if (Variable_info%id .eq. eoId) then
          start_of_day = apswim_time (g%year,g%day,
      :                               apswim_time_to_mins(g%apsim_time))
          end_of_day = apswim_time (g%year
@@ -373,18 +373,18 @@
          call return_eo (Variable_info,
      :            eo)
 
-      else if (Variable_info%id.eq. flow_id) then
+      else if (Variable_info%id.eq. flowId) then
          ! Flow represents flow downward out of a layer
          ! and so start at node 1 (not 0)
          call return_flow (Variable_info,
      :            g%TD_wflow,
      :            p%n+1)
 
-      else if (Variable_info%id .eq. salb_id) then
+      else if (Variable_info%id .eq. salbId) then
          call return_salb(Variable_info,
      :            p%salb)
 
-      else if (Variable_info%id .eq. hmin_id) then
+      else if (Variable_info%id .eq. hminId) then
          if (p%isbc.eq.2) then
             hmin_mm =g%hmin * 10d0
          else
@@ -394,32 +394,32 @@
          call return_hmin (Variable_info,
      :            hmin_mm)
 
-      else if (Variable_info%id .eq. h_id) then
+      else if (Variable_info%id .eq. hId) then
          h_mm = g%h * 10.d0
          call return_h (Variable_info,
      :            h_mm)
 
-      else if (Variable_info%id .eq. scon_id) then
+      else if (Variable_info%id .eq. sconId) then
 
          call return_scon (Variable_info,
      :            g%gsurf)
 
-      else if (Variable_info%id .eq. scon_min_id) then
+      else if (Variable_info%id .eq. scon_minId) then
 
          call return_scon_min (Variable_info,
      :            p%g0)
 
-      else if (Variable_info%id .eq. scon_max_id) then
+      else if (Variable_info%id .eq. scon_maxId) then
 
          call return_scon_max (Variable_info,
      :            p%g1)
 
-      else if (Variable_info%id .eq. dr_id) then
+      else if (Variable_info%id .eq. drId) then
          dr=(apswim_crain(g%t) - apswim_crain(g%t-g%dt))*10d0
          call return_dr (Variable_info,
      :            dr)
 
-      else if (Variable_info%id .eq. dt_id) then
+      else if (Variable_info%id .eq. dtId) then
          call return_dt (Variable_info,
      :            g%dt*60d0)
 
@@ -467,17 +467,17 @@
 
 *- Implementation Section ----------------------------------
 
-      if (VariableID .eq. sw_id) then
+      if (VariableID .eq. swId) then
 
          call Unpack_sw (Variant, theta, numvals)
          call apswim_reset_water_balance (1, theta)
 
-      else if (VariableID .eq. psi_id) then
+      else if (VariableID .eq. psiId) then
 
          call Unpack_psi (Variant, suction, numvals)
          call apswim_reset_water_balance (2,suction)
 
-      elseif (VariableID .eq. scon_id) then
+      elseif (VariableID .eq. sconId) then
          call Unpack_scon (Variant, g%gsurf)
          if ((g%gsurf.gt.p%g1).or.(g%gsurf.lt.p%g0)) then
             call error(
@@ -487,7 +487,7 @@
             ! it is OK - keep going
          endif
 
-      elseif (VariableID .eq. bbc_potential_id) then
+      elseif (VariableID .eq. bbc_potentialId) then
 
          call Unpack_bbc_potential (Variant, p%constant_potential)
          if (p%ibbc.ne.1) then
@@ -496,7 +496,7 @@
      :         ('Bottom boundary condition now constant potential')
          endif
 
-      elseif (VariableID .eq. bbc_gradient_id) then
+      elseif (VariableID .eq. bbc_gradientId) then
 
          call Unpack_bbc_gradient (Variant, p%constant_gradient)
          if (p%ibbc.ne.0) then
@@ -633,8 +633,8 @@
 
 ! ------------ GET CURRENT TIME ---------------------------
 
-      found = get_day (day_id, g%day)
-      found = get_year (year_id, g%year)
+      found = get_day (dayId, g%day)
+      found = get_year (yearId, g%year)
 
       g%apsim_time = '00:00' ! assume init at start of day
 
@@ -1214,9 +1214,9 @@
 
 *- Implementation Section ----------------------------------
 
-      found = get_radn(radn_id, g%radn)
-      found = get_maxt (maxt_id,g%maxt)
-      found = get_mint (mint_id, g%mint)
+      found = get_radn(radnId, g%radn)
+      found = get_maxt (maxtId,g%maxt)
+      found = get_mint (mintId, g%mint)
 
       return
       end
@@ -3885,7 +3885,7 @@ cnh       double precision table_slscr(nsol)
 
 *+  Local Variables
 
-      type (Solute_Profiles_type), dimension(nsol) :: SoluteProfiles
+      type (SoluteProfileType), dimension(nsol) :: SoluteProfiles
       double precision Ctot
       double precision dCtot
       integer solnum                   ! solute array index counter
@@ -3952,15 +3952,15 @@ cnh       double precision table_slscr(nsol)
             endif
 
             layer = node + 1
-            SoluteProfiles(solnum)%solute_layers(layer)
+            SoluteProfiles(solnum)%layer(layer)
      :                            %thickness = g%dlayer(layer)
-            SoluteProfiles(solnum)%solute_layers(layer)%amount = Ctot
+            SoluteProfiles(solnum)%layer(layer)%amount = Ctot
    50    continue
-         SoluteProfiles(solnum)%solute_name = p%solute_names(solnum)
+         SoluteProfiles(solnum)%name = p%solute_names(solnum)
 
   100 continue
 
-      call publish_Solute_Profiles (Solute_Fluxes_Calculated_ID
+      call publish_SoluteProfile (SoluteFluxesCalculatedID
      :                                    , SoluteProfiles
      :                                    , p%num_solutes
      :                                    , .false.)
@@ -4124,7 +4124,7 @@ cnh    character string_concat*(strsize)      ! function
 *- Implementation Section ----------------------------------
 
 
-      found = get_cover_tot_sum (cover_tot_sum_id, g%crop_cover)
+      found = get_cover_tot_sum (cover_tot_sumId, g%crop_cover)
 
       return
       end
@@ -4313,14 +4313,14 @@ cnh    character string_concat*(strsize)      ! function
 
 *- Implementation Section ----------------------------------
 
-      found = get_rain (rain_id, amount)
-      found = get_rain_time (rain_time_id, time)
+      found = get_rain (rainId, amount)
+      found = get_rain_time (rain_timeId, time)
 
-      found = get_rain_durn (rain_durn_id, duration, .true.)
+      found = get_rain_durn (rain_durnId, duration, .true.)
 
       if (.not.found) then
 
-         found = get_rain_int (rain_int_id, intensity, .true.)
+         found = get_rain_int (rain_intId, intensity, .true.)
 
          if (.not.found) then
             call error (
@@ -4772,7 +4772,7 @@ cnh    character string_concat*(strsize)      ! function
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      ok = get_cover_green_sum (cover_green_sum_id, cover_green_sum)
+      ok = get_cover_green_sum (cover_green_sumId, cover_green_sum)
 
       call pop_routine (myname)
       return
@@ -4819,11 +4819,11 @@ cnh    character string_concat*(strsize)      ! function
 
          ! calculate evaporation for entire timestep
 
-         ok = get_eo_time(eo_time_id, time)
+         ok = get_eo_time(eo_timeId, time)
          time_of_day = apswim_time_to_mins (time)
          Time_mins = apswim_time (g%year,g%day,time_of_day)
 
-         ok = get_eo_durn(eo_durn_id,duration)
+         ok = get_eo_durn(eo_durnId,duration)
 
          call apswim_get_green_cover (g%cover_green_sum)
          call apswim_pot_evapotranspiration (Amount)
@@ -5680,9 +5680,9 @@ cnh      end if
 
 *- Implementation Section ----------------------------------
 
-      found = get_obs_eo (obs_eo_id, amount)
-      found = get_eo_time (eo_time_id, time)
-      found = get_eo_durn (eo_durn_id, duration)
+      found = get_obs_eo (obs_eoId, amount)
+      found = get_eo_time (eo_timeId, time)
+      found = get_eo_durn (eo_durnId, duration)
 
       time_of_day = apswim_time_to_mins (time)
       Time_mins = apswim_time (g%year,g%day,time_of_day)
@@ -6371,7 +6371,7 @@ c      pause
 *+  Sub-Program Arguments
       integer solnum
       double precision conc_water_solute(0:p%n)
-      type (Solute_Layers_type), dimension(0:M) :: solute_n_kgpha   ! solute at each node
+      real solute_n_kgpha(0:M)   ! solute at each node
       Character (len=*) :: solname   ! solute name at each node
 
 
@@ -6414,7 +6414,7 @@ c      pause
             ! ------- = ------- * -- * -------
             ! cc soil   ha(node)  kg   cc soil
 
-            solute_n(node) = solute_n_kgpha(node)%amount
+            solute_n(node) = solute_n_kgpha(node)
      :                        * 1d9             ! ug/kg
      :                        / (p%dx(node)*1d8) ! cc soil/ha
 
@@ -6710,7 +6710,7 @@ c      pause
 
 
       found = get_residue_cover (
-     :           residue_cover_id,
+     :           residue_coverId,
      :           g%residue_cover,
      :           .true.)   ! optional data
 
@@ -6820,7 +6820,7 @@ c      pause
       parameter (my_name = 'apswim_OnSolutesChanged')
 
 *+  Local Variables
-      type (Solute_Profiles_type), dimension(nsol)
+      type (SoluteProfileType), dimension(nsol)
      :                           :: SoluteProfilesChanged
       integer NumSolutesChanged
       integer solnum                   ! solute array index counter
@@ -6832,18 +6832,19 @@ c      pause
 
       call push_routine (my_name)
 
-      call unpack_Solute_Profiles (variant, SoluteProfilesChanged
+      call unpack_SoluteProfile (variant, SoluteProfilesChanged
      :                                    , NumSolutesChanged)
 
 
 
       do 100 counter = 1, NumSolutesChanged
          solnum = apswim_solute_number (SoluteProfilesChanged(counter)
-     :                                 %solute_name)
+     :                                 %name)
          call apswim_conc_water_solute
      :            (solnum
-     :            , SoluteProfilesChanged(counter)%Solute_name
-     :            , SoluteProfilesChanged(counter)%Solute_Layers
+     :            , SoluteProfilesChanged(counter)%name
+     :            , SoluteProfilesChanged(counter)
+     :                      %Layer(1:p%n+1)%amount
      :            , g%csl(solnum,0:M))
 
 
@@ -6878,13 +6879,13 @@ c      pause
       parameter (my_name = 'apswim_OnSurfaceWaterChanged')
 
 *+  Local Variables
-      type (Surface_Water_type) :: Surface_Water
+      type (SurfaceWaterType) :: Surface_Water
 
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
-      call unpack_Surface_Water (variant, Surface_Water)
+      call unpack_SurfaceWater (variant, Surface_Water)
 
       call error('Surface water changed event handler not implemented'
      :           , .true.)
@@ -6927,7 +6928,7 @@ c      pause
 
       call push_routine (my_name)
 
-      call unpack_Eos_calculated (variant, Eos_calculated)
+      call unpack_EosCalculated (variant, Eos_calculated)
 
       call error('Eos Calculated event handler not implemented'
      :           , .true.)
@@ -6969,7 +6970,7 @@ c      pause
       double precision TEMPSolAmt(SWIMLogSize)
       integer          TEMPSolNumPairs
       integer          time_mins
-      type(time_type) :: tick
+      type(TimeType) :: tick
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -7070,7 +7071,7 @@ c      pause
 
 
       found = get_interception (
-     :           interception_id,
+     :           interceptionId,
      :           intercep,
      :           .true.)    ! optional data
 
@@ -7177,7 +7178,7 @@ c      g%cropIDs(:) = emptyID
 *     <insert here>
 
 *+  Local Variables
-      type(crop_water_demands_type), dimension(max_array_size)
+      type(cropwaterdemandType), dimension(max_array_size)
      :                             :: CropWaterDemands
       character full_name*50
       integer cohort_no
@@ -7187,7 +7188,7 @@ c      g%cropIDs(:) = emptyID
 
 *- Implementation Section ----------------------------------
 
-      call unpack_crop_water_demands(variant, CropWaterDemands
+      call unpack_cropwaterdemand(variant, CropWaterDemands
      :                                      , NumCropWaterDemands)
 
       crop_module_no = position_in_integer_array(fromID
@@ -7200,18 +7201,18 @@ c      g%cropIDs(:) = emptyID
             g%num_crops = g%num_crops + 1
             g%crop_id(g%num_crops) = fromID
             g%crop_names(g%num_crops) = CropWaterDemands(cohort_no)
-     :                                  %crop_type
+     :                                  %croptype
             g%cohort_names(g%num_crops) = CropWaterDemands(cohort_no)
      :                                    %name
             num_layers = CropWaterDemands(cohort_no)
-     :                   %num_root_layers
+     :                   %numrootlayers
             g%rld(0:num_layers-1,g%num_crops) =
      :                           CropWaterDemands(cohort_no)
-     :                           %root_layers(1:num_layers)
-     :                           %root_length_density
+     :                           %rootlayer(1:num_layers)
+     :                           %rootlengthdensity
      :                           *100d0  ! to convert mm/mm3 to cm/cm3
             g%pep(g%num_crops) = CropWaterDemands(cohort_no)
-     :                           %demand
+     :                           %amount
      :                           /10d0 ! convert mm to cm
          else
             call error ('too many crops',.true.)
@@ -7239,7 +7240,7 @@ c      g%cropIDs(:) = emptyID
 *     <insert here>
 
 *+  Local variables
-      type(Crop_Water_Supplies_type), dimension(max_array_size)
+      type(CropWaterSupplyType), dimension(max_array_size)
      :                              :: CropWaterSupplies
       integer cohort_no
       integer crop_module_no
@@ -7250,15 +7251,15 @@ c      g%cropIDs(:) = emptyID
       num_layers = p%n + 1
       do cohort_no = 1, g%num_crops
          CropWaterSupplies(cohort_no)%name = g%cohort_names(cohort_no)
-         CropWaterSupplies(cohort_no)%num_supply_layers = num_layers
-         CropWaterSupplies(cohort_no)%supply_layers(1:num_layers)
+         CropWaterSupplies(cohort_no)%numlayers = num_layers
+         CropWaterSupplies(cohort_no)%layer(1:num_layers)
      :                      %thickness = g%dlayer(0:num_layers-1)
-         CropWaterSupplies(cohort_no)%supply_layers(1:num_layers)
-     :                   %supply = g%pwuptake(cohort_no,0:num_layers-1)
+         CropWaterSupplies(cohort_no)%layer(1:num_layers)
+     :                   %amount = g%pwuptake(cohort_no,0:num_layers-1)
       enddo
 
-      call publish_Crop_Water_Supplies (
-     :                                Crop_Water_Supply_Calculated_ID
+      call publish_CropWaterSupply (
+     :                                CropWaterSupplyCalculatedID
      :                              , CropWaterSupplies
      :                              , g%num_crops
      :                              , .false.)
@@ -7281,7 +7282,7 @@ c      g%cropIDs(:) = emptyID
 *     <insert here>
 
 *+  Local variables
-      type(Soil_Water_Layers_type), dimension(max_array_size)
+      type(SoilWaterLayerType), dimension(max_array_size)
      :                              :: SoilWaterLayers
       integer num_layers
 
@@ -7291,9 +7292,9 @@ c      g%cropIDs(:) = emptyID
       SoilWaterLayers(1:num_layers)
      :               %thickness = g%dlayer(0:p%n)
       SoilWaterLayers(1:num_layers)
-     :               %soil_water = g%th(0:p%n)*g%dlayer(0:p%n)
+     :               %amount = g%th(0:p%n)*g%dlayer(0:p%n)
 
-      call publish_Soil_Water_Layers (Soil_Water_Changed_ID
+      call publish_SoilWaterLayer (SoilWaterChangedID
      :                              , SoilWaterLayers
      :                              , num_layers
      :                              , .false.)
@@ -7316,7 +7317,7 @@ c      g%cropIDs(:) = emptyID
 *     <insert here>
 
 *+  Local variables
-      type(Soil_Water_Balance_type) :: SoilWaterBalance
+      type(SoilWaterBalanceType) :: SoilWaterBalance
       integer num_layers
 
 *- Implementation Section ----------------------------------
@@ -7326,12 +7327,12 @@ c      g%cropIDs(:) = emptyID
      :                                   , g%TD_wflow(0) + g%TD_evap)
       SoilWaterBalance%drainage = g%TD_drain
       SoilWaterBalance%evaporation = g%TD_evap
-      SoilWaterBalance%lateral_flow_layers(1:num_layers)
+      SoilWaterBalance%LateralFlowLayer(1:num_layers)
      :                %thickness = g%dlayer(0:num_layers-1)
-      SoilWaterBalance%lateral_flow_layers(:)%flow = 0.0
+      SoilWaterBalance%LateralFlowLayer(:)%amount = 0.0
 
-      call publish_Soil_Water_Balance (
-     :                               Soil_Water_Balance_Calculated_ID
+      call publish_SoilWaterBalance (
+     :                               SoilWaterBalanceCalculatedID
      :                              , SoilWaterBalance
      :                              , .false.)
 
@@ -7353,7 +7354,7 @@ c      g%cropIDs(:) = emptyID
 *     <insert here>
 
 *+  Local variables
-      type(Soil_Water_Profile_Layers_type), dimension(max_array_size)
+      type(SoilWaterProfileLayerType), dimension(max_array_size)
      :                                    :: SoilWaterProfileLayers
       integer num_layers
 
@@ -7361,20 +7362,20 @@ c      g%cropIDs(:) = emptyID
 
       num_layers = p%n + 1
       SoilWaterProfileLayers(1:num_layers)%thickness = g%dlayer(0:p%n)
-      SoilWaterProfileLayers(1:num_layers)%bulk_density = p%rhob(0:p%n)
+      SoilWaterProfileLayers(1:num_layers)%bulkdensity = p%rhob(0:p%n)
       SoilWaterProfileLayers(1:num_layers)
-     :                        %sat_dep = g%SAT(0:p%n)*g%dlayer(0:p%n)
+     :                        %satdepth = g%SAT(0:p%n)*g%dlayer(0:p%n)
       SoilWaterProfileLayers(1:num_layers)
-     :                        %dul_dep = g%DUL(0:p%n)*g%dlayer(0:p%n)
+     :                        %duldepth = g%DUL(0:p%n)*g%dlayer(0:p%n)
       SoilWaterProfileLayers(1:num_layers)
-     :                        %ll15_dep = g%LL15(0:p%n)*g%dlayer(0:p%n)
+     :                        %ll15depth = g%LL15(0:p%n)*g%dlayer(0:p%n)
       SoilWaterProfileLayers(1:num_layers)
-     :                        %airdry_dep = 0.0
+     :                        %airdrydepth = 0.0
       SoilWaterProfileLayers(1:num_layers)
-     :                        %sw_dep = g%th(0:p%n)*g%dlayer(0:p%n)
+     :                        %swdepth = g%th(0:p%n)*g%dlayer(0:p%n)
 
-      call publish_Soil_Water_Profile_Layers
-     :                              (Soil_Water_Profile_Changed_ID
+      call publish_SoilWaterProfileLayer
+     :                              (SoilWaterProfileChangedID
      :                              , SoilWaterProfileLayers
      :                              , num_layers
      :                              , .false.)
