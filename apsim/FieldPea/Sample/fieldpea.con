@@ -1,4 +1,4 @@
-version = 3.6
+version = 4
 
 [apsim.fieldpea_sample]
 title = fieldpea sample
@@ -9,7 +9,7 @@ module = manager         fieldpea.par[all]
 module = operatns        fieldpea.par[fieldpea_sample]
 module = fertiliz        %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = soilwat2        fieldpea.par [west7]       %apsuite\apsim\soilwat2\soilwat2.ini [standard]
-module = residue2        fieldpea.par [all]         %apsuite\apsim\residue2\residue2.ini [standard]
+module = SurfaceOM       fieldpea.par [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = soiln2          fieldpea.par [west7]       %apsuite\apsim\soiln2\soiln2.ini [standard]
 module = plant(fieldpea) fieldpea.par [west7]       %apsuite\apsim\fieldpea\fieldpea.ini[standard]
 module = SummaryFile     fieldpea.par[all]

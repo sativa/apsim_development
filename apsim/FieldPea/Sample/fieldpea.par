@@ -10,9 +10,9 @@ variable = soilwat2.es
 variable = soilwat2.eos
 variable = soilwat2.eo
 variable = met.rain
-variable = residue2.residue_wt
-variable = residue2.residue_cover
-variable = residue2.residue_n
+variable = surfaceom.surfaceom_wt
+variable = surfaceom.surfaceom_cover
+variable = surfaceom.surfaceom_n
 variable = fieldpea.das
 variable = fieldpea.stage
 variable = fieldpea.lai
@@ -42,12 +42,12 @@ screen_output = on
 [all.SummaryFile.parameters]
 summaryfile = fieldpea.sum
 
-[all.residue2.parameters]
-   residue_wt      =    0.0   ()  ! surface residues as biomass (kg/ha)
-   residue_cnr     =   10.0   ()  ! cn ratio of surface residues
-   pot_decomp_rate =    0.1   ()
-   residue_type    =  wheat
+[all.SurfaceOM.parameters]
+mass = 0.0   ()  ! surface residues as biomass (kg/ha)
+cnr = 10.0   ()  ! cn ratio of surface residues
+type = wheat
 
+name = wheat
 [all.manager.end_of_day]
 
 report do_output

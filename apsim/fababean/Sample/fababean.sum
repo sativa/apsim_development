@@ -18,7 +18,7 @@
      Component DLL          = c:\development\apsim\input\lib\input.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
 
@@ -135,30 +135,29 @@
             CONA:                     2.50 ()
            Eo from priestly-taylor
 
-------- residue2 Initialisation -----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-              2000.0    26.7     0.0  mungbean
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100    30.0     0.0       F       no
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -289,18 +288,18 @@
 18 August 1988(Day of year=231), fababean: 
       stage 7.0 start_grain_fill
                      biomass =         764.39 (g/m^2)   lai          =   5.923 (m^2/m^2)
-                     stover N conc =     2.37 (%)     extractable sw =  171.09 (mm)
+                     stover N conc =     2.37 (%)     extractable sw =  171.10 (mm)
 4 October 1988(Day of year=278), fababean: 
       stage 8.0 end_grain_fill
                      biomass =        1459.31 (g/m^2)   lai          =   3.017 (m^2/m^2)
-                     stover N conc =     1.67 (%)     extractable sw =   80.61 (mm)
+                     stover N conc =     1.67 (%)     extractable sw =   80.62 (mm)
 9 October 1988(Day of year=283), fababean: 
       stage 9.0 maturity
-                     biomass =        1500.29 (g/m^2)   lai          =   2.668 (m^2/m^2)
+                     biomass =        1500.30 (g/m^2)   lai          =   2.668 (m^2/m^2)
                      stover N conc =     1.51 (%)     extractable sw =   61.45 (mm)
 10 October 1988(Day of year=284), fababean: 
       stage 10.0 harvest_ripe
-                     biomass =        1511.35 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =        1511.36 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.55 (%)     extractable sw =   58.10 (mm)
 11 October 1988(Day of year=285), manager: 
      Manager sending message :- fababean harvest
@@ -311,9 +310,9 @@
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     8017.2
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      6.020
-      total above ground biomass (kg/ha)    =    15113.5
-      live above ground biomass (kg/ha)     =    15113.5
-      green above ground biomass (kg/ha)    =    13964.2
+      total above ground biomass (kg/ha)    =    15113.6
+      live above ground biomass (kg/ha)     =    15113.6
+      green above ground biomass (kg/ha)    =    13964.3
       senesced above ground biomass (kg/ha) =     1149.3
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =  544.7
@@ -332,11 +331,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               8098.47                    0.00
+                          DM (kg/ha) =               8098.48                    0.00
                           N  (kg/ha) =                119.25                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               7015.08                    0.00
+                          DM (kg/ha) =               7015.09                    0.00
                           N  (kg/ha) =                315.68                    0.00
      
 11 October 1988(Day of year=285), manager: 
