@@ -12,7 +12,7 @@ module = soiln2             soil.par   [sample]   %apsuite\apsim\soiln2\soiln2.i
 module = residue2         soil.par   [sample]     %apsuite\apsim\residue2\residue2.ini [standard]
 module = soilp               soil.par   [sample]  %apsuite\apsim\soilp\soilp.ini [standard]
 module = plant(mungbean)     soil.par   [sample]     mungbean.ini [standard]
-module = cSummaryFile   sample.man [mungbean]
-module = cScreen             sample.man [all]
+module = SummaryFile   sample.man [mungbean]
+module = Screen             sample.man [all]
 !module = log debug.par[debug]
 
