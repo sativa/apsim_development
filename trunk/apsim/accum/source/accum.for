@@ -7,6 +7,7 @@
       parameter (Max_days = 366)       ! accumulation
 
       type AccumGlobals
+         sequence
          integer Day                      ! Day of year.
          integer Num_variables            ! Number of variables in module
          integer Variable_sizes(Max_variables)
@@ -21,119 +22,13 @@
       end type AccumGlobals
 
       ! instance variables.
-      type (AccumGlobals), pointer :: g
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)  
-      integer MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-      type AccumDataPtr
-         type (AccumGlobals), pointer ::    gptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type AccumDataPtr
-      type (AccumDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
-      
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (AccumGlobals),pointer :: g
+
+    
       contains
 
-!     ===========================================================
-      subroutine AllocInstance (InstanceName, InstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
- 
-!+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
- 
-!+  Purpose
-!      Module instantiation routine.
- 
-!- Implementation Section ----------------------------------
-               
-      allocate (Instances(InstanceNo)%gptr)
-      Instances(InstanceNo)%Name = InstanceName
- 
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine FreeInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
- 
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
- 
-!+  Purpose
-!      Module de-instantiation routine.
- 
-!- Implementation Section ----------------------------------
-               
-      deallocate (Instances(anInstanceNo)%gptr)
- 
-      return
-      end subroutine
-     
-!     ===========================================================
-      subroutine SwapInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
- 
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
- 
-!+  Purpose
-!      Swap an instance into the global 'g' pointer
- 
-!- Implementation Section ----------------------------------
-               
-      g => Instances(anInstanceNo)%gptr
- 
-      return
-      end subroutine
-       
-* ====================================================================
-       subroutine Main (Action, Data)
-* ====================================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-       character Action*(*)            ! Message action to perform
-       character Data*(*)              ! Message data
-*
-*+  Purpose
-*      This routine is the interface between the main system and the
-*      Accum module.
-
-*+  Changes
-*     DPH 26/10/95  Added call to message_unused
-*     jngh 09/06/96 added version to presence report
-*     dph 7/5/99 removed presence if test. c186
-
-*- Implementation Section ----------------------------------
- 
-      if (Action.eq.ACTION_Init) then
-         call Accum_zero_variables ()
-         call Accum_Init ()
- 
-      else if (Action .eq. ACTION_Post) then
-         call Accum_get_other_variables()
- 
-      else if (Action.eq.ACTION_Get_variable) then
-         ! respond to request for one of our variable values
- 
-         call Accum_send_my_variable (Data)
- 
-      else
-         ! Don't use message
- 
-         call Message_unused ()
-      endif
- 
-      return
-      end subroutine
 
 
 
@@ -420,3 +315,72 @@
       end subroutine
 
       end module AccumModule
+
+
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use AccumModule
+      implicit none  
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+      else
+         deallocate(g)
+      end if
+      return
+      end subroutine
+
+
+
+* ====================================================================
+       subroutine Main (Action, Data)
+* ====================================================================
+      Use infrastructure
+      implicit none
+      ml_external Main
+
+*+  Sub-Program Arguments
+       character Action*(*)            ! Message action to perform
+       character Data*(*)              ! Message data
+*
+*+  Purpose
+*      This routine is the interface between the main system and the
+*      Accum module.
+
+*+  Changes
+*     DPH 26/10/95  Added call to message_unused
+*     jngh 09/06/96 added version to presence report
+*     dph 7/5/99 removed presence if test. c186
+
+*- Implementation Section ----------------------------------
+ 
+      if (Action.eq.ACTION_Init) then
+         call Accum_zero_variables ()
+         call Accum_Init ()
+ 
+      else if (Action .eq. ACTION_Post) then
+         call Accum_get_other_variables()
+ 
+      else if (Action.eq.ACTION_Get_variable) then
+         ! respond to request for one of our variable values
+ 
+         call Accum_send_my_variable (Data)
+ 
+      else
+         ! Don't use message
+ 
+         call Message_unused ()
+      endif
+ 
+      return
+      end subroutine
