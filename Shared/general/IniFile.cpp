@@ -65,14 +65,14 @@ void IniFile::read(const string& section, const string& key, vector<string>& val
    // to the output stream.
    ifstream in(fileName.c_str());
    bool found = false;
-   while (getline(in, line, '\n') && !found)
+   while (!found && getline(in, line, '\n'))
       found = Str_i_Eq(getSectionName(line), section);
 
    // If we've found our section then look for all keys matching ours.
    if (found)
       {
       found = false;
-      while (getline(in, line, '\n') && !found)
+      while (!found && getline(in, line, '\n'))
          {
          string iniValue = getKeyValue(line, key);
          if (iniValue != "")
@@ -105,7 +105,7 @@ void IniFile::readSection(const string& section, string& contents)
    // to the output stream.
    ifstream in(fileName.c_str());
    bool found = false;
-   while (getline(in, line, '\n') && !found)
+   while (!found && getline(in, line, '\n'))
       found = Str_i_Eq(getSectionName(line), section);
 
    // If we've found our section then copy all lines until the start
@@ -113,7 +113,7 @@ void IniFile::readSection(const string& section, string& contents)
    if (found)
       {
       found = false;
-      while (getline(in, line, '\n') && !found)
+      while (!found && getline(in, line, '\n'))
          {
          found = (getSectionName(line) != "");
          if (!found)
@@ -121,7 +121,6 @@ void IniFile::readSection(const string& section, string& contents)
             contents += line;
             contents += "\n";
             }
-         getline(in, line, '\n');
          }
 
       // remove last CR
@@ -146,7 +145,7 @@ void IniFile::writeSection(const string& section, string& contents)
    // Go find the section in the .ini file.  Echo all lines up to and including
    // the section to the output stream.
    bool found = false;
-   while (getline(in, line, '\n') && !found)
+   while (!found && getline(in, line, '\n'))
       {
       found = Str_i_Eq(getSectionName(line), section);
       out << line << endl;
@@ -157,7 +156,7 @@ void IniFile::writeSection(const string& section, string& contents)
       {
       // Skip all lines in matched section.
       found = false;
-      while (getline(in, line, '\n') && !found)
+      while (!found && getline(in, line, '\n'))
          found = (getSectionName(line) != "");
       }
 
@@ -206,7 +205,7 @@ void IniFile::write(const string& section, const string& key,
    // Go find the section in the .ini file.  Echo all lines up to and including
    // the section to the output stream.
    bool found = false;
-   while (getline(in, line, '\n') && !found)
+   while (!found && getline(in, line, '\n'))
       {
       found = Str_i_Eq(getSectionName(line), section);
       out << line << endl;
@@ -216,7 +215,7 @@ void IniFile::write(const string& section, const string& key,
 
    // Copy all lines to temp file except for ones matching our section.
    found = false;
-   while (getline(in, line, '\n') && !found)
+   while (!found && getline(in, line, '\n'))
       {
       found = (getSectionName(line) != "");
       if (getKeyValue(line, key) == "" && !found && line != "")
