@@ -47,7 +47,7 @@ void ApsimSimulationFile::run(const string& fileName, bool console)
    string commandLine = getApsimDirectory() + "\\bin\\apsim.exe ";
    if (console)
       commandLine += "/console ";
-   commandLine += fileName;
+   commandLine += "\"" + fileName + "\"";
    Exec(commandLine.c_str(), SW_SHOW, true);
    }
 // ------------------------------------------------------------------
