@@ -774,7 +774,7 @@ void ApsimControlFile::parseMoveParameter(const ApsimParameterFile& paramFile,
    Strip(parameterName, " ");
    string value = paramFile.getParamValue(parameterName);
    if (value == "")
-      throw runtime_error("Parameter: " +  parameterName + " not found.  Cannot move.");
+      return;
 
    if (!tokenizer.hasMoreTokens())
       {
