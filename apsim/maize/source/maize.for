@@ -15,7 +15,10 @@ C     Last change:  E    16 Nov 1999    3:05 pm
       integer    Option       ! (INPUT) option number
 
 *+  Purpose
-*     Get current water stress factors (0-1)
+*         Get current water stress factors (0-1)
+
+*+  Mission Statement
+*     Calulates the current water stress factors
 
 *+  Changes
 *     010994 jngh specified and programmed
@@ -85,7 +88,12 @@ C     Last change:  E    16 Nov 1999    3:05 pm
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     bio actual
+*       Takes the minimum of biomass production limited by radiation and 
+*       biomass production limited by water.
+
+*+  Mission Statement
+*     Takes the minimum of biomass production limited by radiation and 
+*     biomass production limited by water.
 
 *+  Changes
 *     5/9/96 dph
@@ -160,6 +168,9 @@ C     Last change:  E    16 Nov 1999    3:05 pm
 *       Initialise plant weights and plant weight minimums
 *       at required instances.
 
+*+  Mission Statement
+*     Initialise plant weights and plant weight minimums at required instances.
+
 *+  Changes
 *     010994 jngh specified and programmed
 *     970317 slw new template form
@@ -224,8 +235,10 @@ C     Last change:  E    16 Nov 1999    3:05 pm
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*       contains grain, partition and retrans grain routines
-*       bio grain
+*       Simulate crop grain biomass demand.
+
+*+  Mission Statement
+*     Calculate grain biomass demand
 
 *+  Changes
 *     5/9/96 dph
@@ -315,6 +328,9 @@ C     Last change:  E    16 Nov 1999    3:05 pm
 *+  Purpose
 *     Calculate heat stress on grain number for the current day.
 
+*+  Mission statement
+*     Calculate heat stress on grain number for the current day.
+
 *+  Changes
 *     250894 jngh specified and programmed
 *     970317 slw new template form
@@ -354,7 +370,11 @@ C     Last change:  E    16 Nov 1999    3:05 pm
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*      bio water
+*       Calculate taday's potential biomass production based on transpiration 
+*       and transpiration efficiency 
+
+*+  Mission Statement
+*     Calculate biomass transpiration efficiency
 
 *+  Changes
 *     5/9/96 dph
@@ -403,7 +423,10 @@ C     Last change:  E    16 Nov 1999    3:05 pm
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     bio partition
+*       Calculate Sla_min as a function of LAI and partition biomass.
+
+*+  Mission Statement
+*     Calculate biomass partitioning
 
 *+  Changes
 *     5/9/96 dph
@@ -485,6 +508,9 @@ C     Last change:  E    16 Nov 1999    3:05 pm
 
 *+  Purpose
 *     Partitions new dm (assimilate) between plant components (g/m^2)
+
+*+  Mission Statement
+*     Partitions new biomass between plant components
 
 *+  Changes
 *     010994 jngh specified and programmed
@@ -678,6 +704,9 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
 *+  Purpose
 *     Find grain demand for carbohydrate (g/m^2)
 
+*+  Mission statement
+*     Calculate the grain demand for carbohydrate (g/m^2)
+
 *+  Changes
 *     010994 jngh specified and programmed
 *     970317 slw new template form
@@ -785,6 +814,9 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
 *+  Purpose
 *       Find maximum stress on daily dm production (0-1)
 
+*+  Mission Statement
+*       Find maximum stress on daily dm production (0-1)
+
 *+  Assumptions
 *       Here we assume that the soil water stress factor has included stress
 *       factors that reduce RUE. The stress returned from here is the
@@ -849,6 +881,9 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
 *+  Purpose
 *     Maximum grain growth for available nitrogen (g/m^2)
 
+*+  Mission statement
+*     Maximum grain growth for available nitrogen (g/m^2)
+
 *+  Changes
 *     141093 jngh specified and programmed
 *     970317 slw new template form
@@ -909,7 +944,10 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     bio retrans
+*       Retranslocate biomass.
+
+*+  Mission Statement
+*     Retranslocate biomass
 
 *+  Changes
 *     5/9/96 dph
@@ -975,9 +1013,9 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
 
 *+  Purpose
 *       Simulate plant detachment.
-cscc Detachment is also a function of the environment. We've
-c noticed large diff. in detachment between wet and dry environments
-c in maize
+
+*+  Mission statement
+*       Simulate plant detachment
 
 *+  Changes
 *      091294 jngh specified and programmed
@@ -1039,7 +1077,10 @@ c in maize
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*       crop death
+*      Determine plant death in crop
+
+*+  Mission Statement
+*     Determine plant death of crop
 
 *+  Changes
 *      5/9/96 dph
@@ -1230,6 +1271,9 @@ cnh     .          dlt_plants
 *+  Purpose
 *      Determine plant death due to total leaf area senescence
 
+*+  Mission Statement
+*     Determine plant death from leaf area senescing
+
 *+  Changes
 *       290994 jngh specified and programmed
 
@@ -1286,6 +1330,9 @@ cnh     .          dlt_plants
 
 *+  Purpose
 *      Determine plant death due to water stress
+
+*+  Mission Statement
+*     Determine plant death from prolonged phenology delay
 
 *+  Changes
 *       290994 jngh specified and programmed
@@ -1354,7 +1401,10 @@ cnh     .          dlt_plants
        real dlt_plants_temp
 
 *+  Purpose
-*      Determine percentage plant failure due to high temperatures.
+*      Determine plant seedling death.
+
+*+  Mission Statement
+*     Determine plant seeding death
 
 *+  Changes
 *       290994 jngh specified and programmed
@@ -1441,6 +1491,9 @@ cnh     .          dlt_plants
 *+  Purpose
 *      Determine percentage plant failure due to water stress
 
+*+  Mission statement
+*       Determine plant death from drought
+
 *+  Changes
 *       290994 jngh specified and programmed
 
@@ -1518,6 +1571,9 @@ cnh     .          dlt_plants
 *+  Purpose
 *      Determine percent plant failure due to barreness
 
+*+   Mission statement
+*      Determine percent plant failure due to barreness
+
 *+  Changes
 *       290994 jngh specified and programmed
 
@@ -1589,7 +1645,10 @@ cnh     .          dlt_plants
       real dlt_plants
 
 *+  Purpose
-*      Kill the entire crop if necessary.
+*      Determine actual plant death.
+
+*+  Mission Statement
+*     Determine actual plant death
 
 *+  Changes
 *       290994 jngh specified and programmed
@@ -1641,6 +1700,9 @@ cnh     .          dlt_plants
 *+  Purpose
 *        Calculate fraction of plants killed by high temperature during
 *        emergence (0-1).
+
+*+  Mission Statement
+*     Calculate fraction of plants killed by high temperature during emergence
 
 *+  Changes
 *     230695 jngh specified and programmed
@@ -1701,6 +1763,9 @@ cnh     .          dlt_plants
 *+  Purpose
 *        Calculate fraction of barren heads (0-1).
 *        Allows no more than 1 head per plant.
+
+*+ Mission statement
+*        Calculate fraction of barren heads (0-1)
 
 *+  Changes
 *     010994 jngh specified and programmed
@@ -1772,6 +1837,9 @@ cSCC/JNGH changed le to lt
 *+  Purpose
 *        Check validity of grain no. parameters
 
+*+ Mission statement
+*        Check validity of grain number parameters
+
 *+  Changes
 *     010994 jngh specified and programmed
 
@@ -1829,6 +1897,9 @@ cSCC/JNGH changed le to lt
 
 *+  Purpose
 *       Kill crop
+
+*+ Mission statement
+*       Kill the crop
 
 *+  Changes
 *       290994 jngh specified and programmed
@@ -1910,6 +1981,9 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 
 *+  Purpose
 *       Return the leaf area (mm^2) of a specified leaf no.
+
+*+  Mission statement
+*      Return the leaf area (mm^2) of a specified leaf no.
 
 *+  Changes
 *       210397 nih/mjr specified and programmed
@@ -2005,6 +2079,10 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 *+  Purpose
 *       Return the potential increase in leaf area development (mm^2)
 *       calculated on an individual leaf basis.
+
+*+  Mission Statement
+*     Return the potential increase in leaf area development (%17) (mm^2)
+*     calculated on an individual leaf basis.
 
 *+  Changes
 *     210397 nih/mjr specified and programmed
@@ -2102,11 +2180,10 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 
 *+  Purpose
 *     Calculate the grains per m^2 and heads per m^2
-*     Same as maize_grain_no but with bound of grain_no_fract
-*     It seems strange to bound check the value when it is possible to
-*     get out of bounds values (-ve's) from sensible numbers.  If
-*     growth rate is small the fraction will be -ve and it is sensible
-*     to constrain this above 0.
+*     Same as maize_grain_no but with bound of grain_no_fract.
+
+*+  Mission statement
+*      Calculate the grains per m^2 and heads per m^2
 
 *+  Changes
 *     111094 jngh specified and programmed
@@ -2237,7 +2314,11 @@ c     :                           , 'grain_no_fract')
 
 *+  Purpose
 *       'Cover' by leaves (0-1) . Fraction of radiation reaching the
-*       canopy, intercepted by the leaves of the canopy.
+*       canopy, intercepted by the leaves of the canopy. Extinction
+*       coefficient is a function of row spacing.
+
+*+  Mission statement
+*       Calculate crop cover using %6
 
 *+  Changes
 *   03-11-2000  - Don Gaydon - simplified cover calculation by removing need for 
@@ -2282,7 +2363,12 @@ c     :                           , 'grain_no_fract')
       integer Option
 
 *+  Purpose
-*     <insert here>
+*      Calculate an approximate nitrogen demand for today's growth.
+*      The estimate basically = n to fill the plant up to maximum
+*      nitrogen concentration.
+
+*+  Mission Statement
+*     Calculate nitrogen demand for growth
 
 *+  Changes
 *     14-05-1997 - huth - Programmed and Specified
@@ -2380,6 +2466,9 @@ c     :                           , 'grain_no_fract')
 *        Calculate fraction of barren heads (0-1).
 *        Allows no more than 1 head per plant.
 
+*+ Mission statement
+*        Calculate fraction of barren heads (0-1)
+
 *+  Changes
 *     010994 jngh specified and programmed
 
@@ -2462,6 +2551,9 @@ c     :                           , 'grain_no_fract')
 *+  Purpose
 *      Determine percent plant failure due to barreness
 
+*+   Mission statement
+*      Determine percent plant failure due to barreness
+
 *+  Changes
 *       290994 jngh specified and programmed
 
@@ -2526,7 +2618,11 @@ c     :                           , 'grain_no_fract')
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*       biomass light
+*       Simulate actual crop leaf area development - checks that leaf area
+*       development matches DM production.
+
+*+  Mission Statement
+*     Calculate actual crop leaf area development
 
 *+  Changes
 *      5/9/96 dph
@@ -2586,6 +2682,9 @@ c     .          interp_sla_max)
 *+  Purpose
 *       Simulate potential crop leaf area development - may be limited by
 *       DM production in subsequent routine
+
+*+  Mission Statement
+*     Get the potential leaf area development
 
 *+  Changes
 *      250894 jngh specified and programmed
@@ -2668,7 +2767,11 @@ c     .          interp_sla_max)
       integer Option                   ! (INPUT) option number
 
 *+  Purpose
-*     Calculate the stressed dlt_lai from the potential dlt_lai.
+*       Simulate potential stressed crop leaf area development - may
+*       be limited by DM production in subsequent routine
+
+*+  Mission Statement
+*     Get potential stressed leaf area development
 
 *+  Changes
 *     26/2/96  sb made it up.
@@ -2734,11 +2837,12 @@ c     .          interp_sla_max)
       real       leaf_no_final    ! (OUTPUT) maximum total leaf number
 
 *+  Purpose
-*       Calculate total leaf number.  This is set at floral_initialising and
-*       is set at an approximated number at germination to allow
+*       Calculate total leaf number.  This is set at floral initiation and
+*       is set to an approximated number at germination to allow
 *       other calculations to proceed until the correct number is known.
-*       THIS IS THE SAME AS SORG LEAF NUMBER FINAL BUT WE ACTUALLY
-*       DO AS THE SHORT DESCRIPTION SAYS AND GROW LEAVES FROM GERMINATION.
+
+*+ Mission statement
+*       Calculate total leaf number.
 
 *+  Changes
 *     010994 jngh specified and programmed
@@ -2817,7 +2921,10 @@ c     .          interp_sla_max)
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*
+*       Leaf number initialisation
+
+*+  Mission Statement
+*     Initialise leaf number development
 
 *+  Changes
 *      28/4/98 igh
@@ -2864,7 +2971,10 @@ c     .          interp_sla_max)
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*
+*      Initialise plant leaf area
+
+*+  Mission Statement
+*     Initialise plant leaf area
 
 *+  Changes
 *      28/4/98 igh
@@ -2909,7 +3019,10 @@ c     .          interp_sla_max)
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*       Phenology leaf
+*       Leaf number development
+
+*+  Mission Statement
+*     Calculate leaf number development
 
 *+  Changes
 *      28/4/98 igh
@@ -3029,6 +3142,10 @@ c     .          interp_sla_max)
 *       Return the potential increase in leaf area development (mm^2)
 *       calculated on an individual leaf basis.
 
+*+  Mission Statement
+*     Return the potential increase in leaf area development (mm^2)
+*     calculated on an individual leaf basis.
+
 *+  Changes
 *     010994 jngh specified and programmed
 *     26/2/97 sb moved stressing out to Maize_leaf_area_stressed().
@@ -3111,6 +3228,9 @@ c     .          interp_sla_max)
 
 *+  Purpose
 *       Return the leaf area (mm^2) of a specified leaf no.
+
+*+  Mission statement
+*      Return the leaf area (mm^2) of a specified leaf no.
 
 *+  Changes
 *       290894 jngh specified and programmed
@@ -3199,6 +3319,10 @@ c     .          interp_sla_max)
 *       expanding leaf.
 *       Note ! this does not take account of the other younger leaves
 *       that are currently expanding
+
+*+  Mission statement
+*       Calculate the fractional increase in emergence of the oldest
+*       expanding leaf.
 
 *+  Changes
 *       031194 jngh specified and programmed
@@ -3290,7 +3414,10 @@ cSCC normal leaf app rate
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     nitrogen retranslocation
+*       Do nitrogen retranslocation.
+
+*+  Mission Statement
+*     Calculate nitrogen retranslocation
 
 *+  Changes
 *     5/9/96 dph
@@ -3377,6 +3504,9 @@ cSCC normal leaf app rate
 *+  Purpose
 *     Calculate the nitrogen retranslocation from the various plant parts
 *     to the grain.
+
+*+  Mission Statement
+*     Calculate N retranslocation from various plant parts to grain
 
 *+  Changes
 *     080994 jngh specified and programmed
@@ -3494,7 +3624,10 @@ csc  true....
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     n demand
+*       Find nitrogen demand.
+
+*+  Mission Statement
+*     Get the plant nitrogen demand
 
 *+  Changes
 *     5/9/96 dph
@@ -3564,7 +3697,10 @@ csc  true....
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     n uptake
+*       Find nitrogen uptake.
+
+*+  Mission Statement
+*     Get the plant nitrogen uptake
 
 *+  Changes
 *     5/9/96 dph
@@ -3686,6 +3822,9 @@ csc  true....
 *       These are analogous to the water concentrations
 *       of sat, dul and ll.
 
+*+  Mission statement
+*       Calculate the critical N concentration below which plant growth is affected.
+
 *+  Changes
 *     080994 jngh specified and programmed
 
@@ -3801,6 +3940,9 @@ csc  true....
 *+  Purpose
 *     Get current Nitrogen stress factors (0-1)
 
+*+  Mission Statement
+*         Gets the current Nitrogen stress factors
+
 *+  Changes
 *     010994 jngh specified and programmed
 *     970225 slw modified to split stress factors
@@ -3862,7 +4004,10 @@ csc  true....
       integer    Option                ! (INPUT) option number
 
 *+  Purpose
-*      Initialise plant nitrogen.
+*       Initialise plant nitrogen.
+
+*+  Mission Statement
+*     Initialise plant nitrogen
 
 *+  Changes
 *     250894 jngh specified and programmed
@@ -3912,7 +4057,10 @@ csc  true....
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*      n supply
+*       Get the nitrogen supply.
+
+*+  Mission Statement
+*     Get the nitrogen supply for plant
 
 *+  Changes
 *     5/9/96 dph
@@ -3978,7 +4126,10 @@ csc  true....
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     nitrogen partition
+*       Find nitrogen partitioning.
+
+*+  Mission Statement
+*     Calculate the nitrogen partitioning in the plant
 
 *+  Changes
 *     5/9/96 dph
@@ -4038,8 +4189,10 @@ csc  true....
                                        ! from NO3 in each layer (g/m^2)
 
 *+  Purpose
-*     Return actual plant nitrogen uptake to each plant part and from
-*     each soil layer.
+*       Return actual plant nitrogen uptake to each plant part.
+
+*+  Mission Statement
+*     Calculate actual plant nitrogen uptake to each plant part
 
 *+  Changes
 *      080994 jngh specified and programmed
@@ -4131,6 +4284,9 @@ csc  true....
 *     to determine when the crop begins a new growth phase.
 *     The initial daily thermal time and height are also set.
 
+*+  Mission Statement
+*     Calculate the legume growth stages
+
 *+  Changes
 *     010994 jngh specified and programmed
 cscc Needs to incorporate water stress and low N effects on phenology
@@ -4212,7 +4368,10 @@ c (how do we do this w. TPLA approach?)
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*       canopy height
+*     Canopy height.
+
+*+  Mission Statement
+*     Calculate canopy height
 
 *+  Changes
 *      5/9/96 dph
@@ -4260,7 +4419,10 @@ c (how do we do this w. TPLA approach?)
       integer option
 
 *+  Purpose
-*     Initialise crop growth stage targets
+*       Initialise Phenological Growth Stage Targets
+
+*+  Mission Statement
+*     Initialise legume growth phases
 
 *+  Changes
 *     240498 igh specified and programmed
@@ -4372,7 +4534,10 @@ c (how do we do this w. TPLA approach?)
 
 *+  Purpose
 *       Returns cumulative thermal time targets required for the
-*       individual developmental stages.
+*       individual growth stages.
+
+*+  Mission Statement
+*     Get the cumulative thermal time targets for growth phases
 
 *+  Changes
 *     010994 jngh specified and programmed
@@ -4499,7 +4664,11 @@ cjh
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     calculate dlt_slai
+*       Return the lai that would senesce on the
+*       current day.
+
+*+  Mission Statement
+*   Calculate today's leaf area senescence
 
 *+  Changes
 *     5/9/96 dph
@@ -4543,7 +4712,10 @@ cjh
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     leaf death.
+*       Return the fractional death of oldest green leaf.
+
+*+  Mission Statement
+*     Get the fractional death of oldest green leaf
 
 *+  Changes
 *     5/9/96 dph
@@ -4607,7 +4779,10 @@ cjh
                                        ! green leaf
 
 *+  Purpose
-*     Return the fractional death of oldest green leaf.
+*       Return the fractional death of oldest green leaf.
+
+*+  Mission Statement
+*     Get the fractional death of oldest green leaf
 
 *+  Changes
 *     010994 jngh specified and programmed
@@ -4668,7 +4843,10 @@ cpsc need to develop leaf senescence functions for crop
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     biomass senescence
+*       Simulate plant senescence.
+
+*+  Mission Statement
+*     Calculate plant senescence
 
 *+  Changes
 *      5/9/96 dph
@@ -4719,7 +4897,10 @@ cpsc need to develop leaf senescence functions for crop
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     biomass senescence
+*       Simulate plant nitrogen senescence.
+
+*+  Mission Statement
+*     Calculate plant nitrogen senescence
 
 *+  Changes
 *     5/9/96 dph
@@ -4765,7 +4946,10 @@ cpsc need to develop leaf senescence functions for crop
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     leaf area senesence - age
+*       Return the lai that senesces on the current day.
+
+*+  Mission Statement
+*     Calculate today's senesced leaf area index
 
 *+  Changes
 *     5/9/96 dph
@@ -5023,6 +5207,9 @@ cpsc need to develop leaf senescence functions for crop
 
 *+  Purpose
 *       Update states
+
+*+  Mission Statement
+*     Update states of variables
 
 *+  Changes
 *      250894 jngh specified and programmed
@@ -5340,6 +5527,9 @@ cglh
 *+  Purpose
 *         Check bounds of internal pools
 
+*+  Mission Statement
+*     Check bounds of internal pools
+
 *+  Changes
 *     010994 jngh specified and programmed
 
@@ -5594,6 +5784,9 @@ cglh
 *+  Purpose
 *         Collect totals of crop variables for output
 
+*+  Mission Statement
+*     Collect totals of crop variables for output
+
 *+  Changes
 *     010994 jngh specified and programmed
 
@@ -5758,6 +5951,9 @@ cpsc  add above
 *       Report occurence of event and the current status of specific
 *       variables.
 
+*+  Mission Statement
+*     Report occurence of event and the current status of specific variables
+
 *+  Changes
 *     010994 jngh specified and programmed
 
@@ -5864,6 +6060,9 @@ cpsc  add above
 *+  Purpose
 *       Distribute root material over profile
 
+*+  Mission statement
+*       Distribute root material over profile
+
 *+  Changes
 *       290994 jngh specified and programmed
 
@@ -5934,6 +6133,9 @@ cpsc  add above
       real       dlt_N_root            ! (INPUT) new root residue N (g/m^2)
 
 *+  Purpose
+*       Add root residue to root residue pool
+
+*+   Mission statement
 *       Add root residue to root residue pool
 
 *+  Changes
@@ -6018,7 +6220,10 @@ cpsc  add above
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     root distribution
+*       Plant root distribution in the soil
+
+*+  Mission Statement
+*     Calculates the plant root depth
 
 *+  Changes
 *     5/9/96 dph
@@ -6070,7 +6275,10 @@ cpsc  add above
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     Soil water supply
+*       Plant water supply
+
+*+  Mission Statement
+*     Plant water supply
 
 *+  Changes
 *     5/9/96 dph
@@ -6125,6 +6333,9 @@ cpsc  add above
 *+  Purpose
 *     Soil water demand
 
+*+  Mission Statement
+*     Calculate the plant water demand
+
 *+  Changes
 *     5/9/96 dph
 *     970312 slw - templated
@@ -6170,7 +6381,10 @@ cpsc  add above
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     Soil water uptake
+*       Plant transpiration and soil water extraction
+
+*+  Mission Statement
+*     Get the plant water uptake
 
 *+  Changes
 *     5/9/96 dph
@@ -6248,7 +6462,10 @@ cpsc  add above
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     light supply
+*     Seek the light intercepted by the leaves
+
+*+  Mission Statement
+*     Seek the light intercepted by the leaves
 
 *+  Changes
 *     5/9/96 dph
@@ -6288,9 +6505,12 @@ cpsc  add above
       integer    Option                ! (INPUT) option number
 
 *+  Purpose
-*     Calculate today's transpiration efficiency from min and max
-*     temperatures and converting mm water to g dry matter
-*     (g dm/m^2/mm water)
+*     Calculate today's transpiration efficiency from the transpiration
+*     efficiency coefficient and vapour pressure deficit, which is calculated
+*     from min and max temperatures.
+
+*+  Mission Statement
+*     Calculate today's transpiration efficiency
 
 *+  Changes
 *     5/9/96 dph
@@ -6337,7 +6557,10 @@ cpsc  add above
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     biomass light
+*     Calculate biomass production limited by radiation
+
+*+  Mission Statement
+*     Biomass radiation use efficiency
 
 *+  Changes
 *     5/9/96 dph
@@ -6386,6 +6609,9 @@ cpsc  add above
 *+  Purpose
 *     Get current temperature stress factors (0-1)
 
+*+  Mission Statement
+*     Calculate the temperature stress factors (0-1)
+
 *+  Changes
 *     010994 jngh specified and programmed
 *     970312 slw - templated
@@ -6425,7 +6651,10 @@ cpsc  add above
       integer    Option                ! (INPUT) option number
 
 *+  Purpose
-*       Simulate plant nitrogen senescence.
+*       Simulate plant root senescence.
+
+*+  Mission Statement
+*     Calculate plant root senescence
 
 *+  Changes
 *      091294 jngh specified and programmed
@@ -6474,6 +6703,9 @@ cpsc  add above
 
 *+  Purpose
 *       Plant root distribution calculations
+
+*+  Mission statement
+*       Calculate plant root distribution
 
 *+  Changes
 *      250894 jngh specified and programmed
@@ -6534,7 +6766,10 @@ cpsc  add above
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     root distribution
+*      Initialise plant root depth
+
+*+  Mission Statement
+*     Initialises the plant root depth
 
 *+  Changes
 *     5/9/96 dph
@@ -6592,7 +6827,10 @@ cpsc  add above
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     root length initialisation
+*       Plant root distribution calculations
+
+*+  Mission Statement
+*     Calculate the plant root distribution initialisation
 
 *+  Changes
 *     5/9/96 dph
@@ -6645,6 +6883,9 @@ cpsc  add above
 *+ Purpose
 *      Get P uptake from P module and convert to require units
 *      for internal use.
+
+*+  Mission statement
+*         Calcualate plant P uptake
  
 *+  Changes
 *     26-06-1997 - huth - Programmed and Specified
@@ -6723,9 +6964,13 @@ cpsc  add above
                               ! (g N/g part)
  
 *+  Purpose
-*       Calculate the critical N concentration below which plant growth
-*       is affected.  Also minimum and maximum N concentrations below
+*       Calculate the critical p concentration below which plant growth
+*       is affected.  Also minimum and maximum p concentrations below
 *       and above which it is not allowed to fall or rise.
+
+*+  Mission Statement
+*       Calculate the critical p concentration below which plant growth 
+*       is affected.
  
 *+  Changes
 *     080994 jngh specified and programmed
@@ -6815,6 +7060,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *     relative nutritional status between a critical and minimum
 *     total plant Phosphorus concentration.
  
+*+  Mission Statement
+*      Calculate P stress indicies   
  
 *+   Changes
 *     270697 nih
@@ -6866,7 +7113,10 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       integer    Option                ! (INPUT) option number
  
 *+   Purpose
-*         Get current P stress factors (0-1)
+*         Get current P stress factors for photosysnthesis(0-1)
+
+*+  Mission Statement
+*         Calculate the P stress factors for photosysnthesis(0-1)
  
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -6910,7 +7160,10 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       integer    Option                ! (INPUT) option number
  
 *+  Purpose
-*         Get current P stress factors (0-1)
+*         Get current P stress factors for phenology(0-1)
+
+*+  Mission Statement
+*         Calculate P stress factors for phenology(0-1)
  
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -6951,7 +7204,10 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       include 'error.pub'                         
  
 *+  Purpose
-*         Get current P stress factors (0-1)
+*         Get current P stress factors for cell expansion(0-1)
+
+*+  Mission Statement
+*         Calculate the P stress factors for cell expansion (0-1)
  
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -6995,6 +7251,12 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
  
       use MaizeModule
       implicit none
+
+*+  Purpose
+*         Get current P stress factors for grain(0-1)
+
+*+  Mission Statement
+*         Calculate the P stress factors for grain (0-1)
  
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -7049,7 +7311,12 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       integer Option
  
 *+  Purpose
-*      None
+*      Calculate an approximate phosphorus demand for today's growth.
+*      The estimate basically = p to fill the plant up to maximum
+*      phosphorus concentration.
+
+*+  Mission Statement
+*     Calculate p demand for growth
  
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -7100,6 +7367,12 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
+
+*+  Purpose
+*     Calculate the plant p demand
+
+*+  Mission Statement
+*     Calculate the plant p demand
   
 *+  Sub-Program Arguments
  
@@ -7170,7 +7443,10 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       integer Option
 
 *+  Purpose
-*      calculate p concentration curves
+*      Calculate p concentration curves
+
+*+  Mission Statement
+*         Calculate p concentration
  
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -7210,6 +7486,9 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       integer    Option                ! (INPUT) option number
  
 *+  Purpose
+*      Initialise plant Phosphorus
+
+*+  Mission Statement
 *      Initialise plant Phosphorus
  
 *+  Changes:
@@ -7266,6 +7545,9 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       real       g_plant_p
  
 *+  Purpose
+*     Set initial plant p
+
+*+  Mission Statement
 *     Set initial plant p
  
 *+  Changes:
