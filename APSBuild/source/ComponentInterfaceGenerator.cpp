@@ -94,8 +94,7 @@ void GenerateComponentInterface(const string& interfaceFileName)
       ApsimComponentData* component = new ApsimComponentData(contents.str());
 
       // Set up macrosubst file object using the derived file name
-      XMLDocument xml;
-      xml.setRootNode("Data");
+      XMLDocument xml("Data", XMLDocument::rootName);
 
       // Loop through all registrations and create a macro value for each.
       for (ApsimComponentData::RegIterator reg = component->regBegin();

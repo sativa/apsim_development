@@ -221,8 +221,7 @@ void CreateSource::go(const std::string& ddml,
       {
       ApsimDataTypesFile dataTypes(ddml);
 
-      XMLDocument xml;
-      xml.setRootNode("Data");
+      XMLDocument xml("Data", XMLDocument::rootName);
       XMLNode rootNode = xml.documentElement();
       for (ApsimDataTypesFile::iterator dataType = dataTypes.begin();
                                         dataType != dataTypes.end();
@@ -237,13 +236,13 @@ void CreateSource::go(const std::string& ddml,
       vector<string> filesGenerated;
       Macro macro;
       macro.go(rootNode, contents, filesGenerated);
-      
+
       cout << "Wrote:";
       for (vector<string>::iterator f = filesGenerated.begin();
-                                    f != filesGenerated.end(); 
-                                    f++) 
-         cout << *f << " ";  	
-      cout << endl;   
+                                    f != filesGenerated.end();
+                                    f++)
+         cout << *f << " ";
+      cout << endl;
       }
    catch (const runtime_error& err)
       {
