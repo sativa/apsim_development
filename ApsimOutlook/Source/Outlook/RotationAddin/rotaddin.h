@@ -49,7 +49,7 @@ class RotationAddIn : public ToolBarAddInBase
       void getCropNames(std::vector<std::string>& fieldNames);
       bool isCropVariable(const string& fieldName) const;
       bool cropWasSown(const TAPSRecord& recordI, const std::string& fieldName) const;
-      std::string dataBlockToRotationName(const std::string& dataBlockName) const;
+      bool CropHasNonZeroValue(const TAPSRecord& recordI, const std::string& crop_acronym) const;
    };
 
 #endif

@@ -6,6 +6,8 @@
 #include "TRotationForm.h"
 #include <general\math_functions.h>
 #include <general\string_functions.h>
+#include <general\ini_file.h>
+#include <general\path.h>
 #include <map>
 #pragma resource "Rotation.res"
 
@@ -232,13 +234,13 @@ bool RotationAddIn::processRotation(TAPSTable& data, TAPSTable& destData)
 
    // get a list of all fieldnames.
    vector<string> fieldNames;
-   data.getFieldNames(fieldNames);
+   data.getFieldNamesMinusPivots(fieldNames);
 
    // get the name of the year field.
    string yearFieldName = data.getYearFieldName();
 
    // get rotation name we're to process.
-   string rotationName = dataBlockToRotationName(data.getDataBlockName());
+   string rotationName = data.getDataBlockName();
 
    // go get a list of all crops (e.g. nw and so)
    getCropNames(fieldNames);
@@ -251,8 +253,7 @@ bool RotationAddIn::processRotation(TAPSTable& data, TAPSTable& destData)
    // and all fields in each record.
    unsigned int numDataBlocks = 0;
    bool ok = true;
-   while (ok &&
-          Str_i_Eq(rotationName, dataBlockToRotationName(data.getDataBlockName())))
+   while (ok)
       {
       for (vector<TAPSRecord>::const_iterator recordI = data.begin();
                                               recordI != data.end();
@@ -288,16 +289,18 @@ bool RotationAddIn::processRotation(TAPSTable& data, TAPSTable& destData)
       }
 
    // output a single data block containing all years and all averaged
-   // numerical field values.  Only consider years that have numDataBlock
-   // values in them ie. discard the first few and last few years
+   // numerical field values.  Only consider years that are covered by
+   // all datablocks.  So discard the first and last numDataBlock-1 years
    // (remember, each data block is offset by a year)
+   int firstYear = values.begin()->first + numDataBlocks - 1;
+   int lastYear = values.end()->first - numDataBlocks + 1;
    destData.beginStoringData();
    destData.clearRecords();
    for (Values::iterator valueI = values.begin();
                          valueI != values.end();
                          valueI++)
       {
-      if (valueI->second.getCount() == numDataBlocks)
+      if (valueI->first >= firstYear && valueI->first <= lastYear)
          {
          TAPSRecord newRecord;
          for (vector<string>::iterator fieldI = fieldNames.begin();
@@ -326,24 +329,40 @@ bool RotationAddIn::processRotation(TAPSTable& data, TAPSTable& destData)
 // ------------------------------------------------------------------
 //  Short description:
 //    Return a list of crop names by looking through the field names
-//    passed in.  The algorithm passes through the field names looking
-//    for a '_sowday' sufix.  It then assumes the prefix before the
-//    underscore is the name of the crop.
+//    passed in.  The algorithm uses a list of crop acronyms read in
+//    from the rotation .ini file.  If it finds one of these at the
+//    start of a field name then it is added to the list of crops.
 
 //  Changes:
 //    DPH 9/8/2001
 // ------------------------------------------------------------------
 void RotationAddIn::getCropNames(std::vector<std::string>& fieldNames)
    {
+   // get a list of all recognised crop acronyms
+   Path iniPath(Application->ExeName.c_str());
+   iniPath.Append_path("rotationaddin");
+   iniPath.Set_name("rotationaddin.ini");
+   Ini_file ini(iniPath.Get_path().c_str());
+   string crop_acronym_string;
+   ini.Read("crops", "crop_acronyms", crop_acronym_string);
+   vector<string> crop_acronyms;
+   Split_string(crop_acronym_string, " ", crop_acronyms);
+
    for (vector<string>::iterator fieldI = fieldNames.begin();
                                  fieldI != fieldNames.end();
                                  fieldI++)
       {
-      unsigned posCropSuffix = fieldI->find("_sowdate");
-      if (posCropSuffix != string::npos)
+      for (vector<string>::iterator acronymI = crop_acronyms.begin();
+                                  acronymI != crop_acronyms.end();
+                                  acronymI++)
          {
-         // found one - store the prefix.
-         cropNames.push_back(fieldI->substr(0, posCropSuffix));
+         string acronym_ = *acronymI + "_";
+         if (fieldI->find(acronym_) == 0
+             && find(cropNames.begin(), cropNames.end(), *acronymI) == cropNames.end())
+            {
+            // found one - store the acronym.
+            cropNames.push_back(*acronymI);
+            }
          }
       }
    }
@@ -369,8 +388,10 @@ bool RotationAddIn::isCropVariable(const string& fieldName) const
 
 // ------------------------------------------------------------------
 //  Short description:
-//    Return true if the specified crop in the specified field name
-//    was sown on this day.
+//    Return true if the specified crop was actually sown
+//    for the current record.  A crop is sown if:
+//       there is a least 1 non zero value in the fields for this crop OR
+//       the crop_fail field (if it exists) has a 'yes' in it.
 
 //  Changes:
 //    DPH 9/8/2001
@@ -380,22 +401,35 @@ bool RotationAddIn::cropWasSown(const TAPSRecord& recordI, const std::string& fi
    unsigned posUnderscore = fieldName.find("_");
    if (posUnderscore != string::npos)
       {
-      string sowDateFieldName = fieldName.substr(0, posUnderscore) + "_sowdate";
-      string sowDate = recordI.getFieldValue(sowDateFieldName);
-      return (sowDate.find("/") != string::npos);
+      string crop_acronym = fieldName.substr(0, posUnderscore);
+      string failedFieldName = fieldName.substr(0, posUnderscore) + "_fail";
+      string failedValue = recordI.getFieldValue(failedFieldName);
+      return (Str_i_Eq(failedValue, "yes") || CropHasNonZeroValue(recordI, crop_acronym));
       }
    else
       return false;
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//    Convert a data block name into a rotation name.
-
-//  Changes:
-//    DPH 9/8/2001
+// Return true if there is any field for the specified crop, in the
+// specified record that has a non zero value.
 // ------------------------------------------------------------------
-string RotationAddIn::dataBlockToRotationName(const std::string& dataBlockName) const
+bool RotationAddIn::CropHasNonZeroValue(const TAPSRecord& recordI,
+                                        const string& crop_acronym) const
    {
-   return dataBlockName.substr(0, dataBlockName.find_last_not_of("1234567890"));
+   vector<string> fieldNames = recordI.getFieldNames();
+   for (vector<string>::iterator fieldI = fieldNames.begin();
+                                 fieldI != fieldNames.end();
+                                 fieldI++)
+      {
+      string acronym_ = crop_acronym + "_";
+      if (fieldI->find(acronym_) == 0)
+         {
+         string Value = recordI.getFieldValue(*fieldI);
+         if (Is_numerical(Value.c_str()))
+            return (StrToFloat(Value.c_str()) != 0.0);
+         }
+      }
+   return false;
    }
+
