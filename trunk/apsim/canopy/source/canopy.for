@@ -27,7 +27,7 @@
       parameter (max_crops = 20)
 
       integer    module_name_size             ! maximum length of module name
-      parameter (module_name_size = 8)
+      parameter (module_name_size = 32)
 
 
       type CanopyGlobals
