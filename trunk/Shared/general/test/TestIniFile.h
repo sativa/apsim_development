@@ -1,17 +1,15 @@
 //---------------------------------------------------------------------------
 #ifndef TestIniFileH
 #define TestIniFileH
-#include <test\framework\testcase.h>
+#include <cppunit\testcase.h>
+#include <cppunit\extensions\HelperMacros.h>
+
 #include <string>
 #include <general\inifile.h>
 //---------------------------------------------------------------------------
-class TestIniFile : public TestCase
+class TestIniFile : public CppUnit::TestCase
    {
    public:
-      TestIniFile(const std::string& name)
-         : TestCase(name) { }
-
-      static Test* suite (void);
       virtual void setUp();
       virtual void tearDown();
 
@@ -25,6 +23,20 @@ class TestIniFile : public TestCase
       void testGetKeysInSection(void);
       void testRenameSection(void);
       void testRenameKey(void);
+
+      CPPUNIT_TEST_SUITE(TestIniFile);
+         CPPUNIT_TEST(testReadSectionNames);
+         CPPUNIT_TEST(testReadSection);
+         CPPUNIT_TEST(testRead);
+         CPPUNIT_TEST(testWriteSection);
+         CPPUNIT_TEST(testWrite);
+         CPPUNIT_TEST(testDeleteKey);
+         CPPUNIT_TEST(testDeleteSection);
+         CPPUNIT_TEST(testGetKeysInSection);
+         CPPUNIT_TEST(testRenameSection);
+         CPPUNIT_TEST(testRenameKey);
+      CPPUNIT_TEST_SUITE_END();
+
 
    private:
       IniFile ini;
