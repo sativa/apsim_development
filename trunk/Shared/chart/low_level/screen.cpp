@@ -161,31 +161,34 @@ void Chart_screen::Design (void)
 // ------------------------------------------------------------------
 void Chart_screen::Calc_chart_positions (RECT r)
    {
-   // calculate how many rows and columns of charts we need on the screen
-   // to fit all the charts.
-   int Num_chart_cols = sqrt (Chart_list.size() - 1.0) + 1.0;
-   int Num_chart_rows = Chart_list.size() * 1.0 / Num_chart_cols + 0.5;
-
-   // calculate the width of a column and height of a row.
-   int Col_width = (r.right - r.left) / Num_chart_cols;
-   int Row_height = (r.bottom - r.top) / Num_chart_rows;
-
-   // loop through all charts and position.
-   vector<Chart_base*>::iterator Iter = Chart_list.begin();
-   for (unsigned int Chart_number = 0;
-        Chart_number < Chart_list.size();
-        Chart_number++)
+   if (Chart_list.size() > 0)
       {
-      int Row_number = Chart_number / Num_chart_cols;
-      int Col_number = Chart_number - (Row_number * Num_chart_cols);
+      // calculate how many rows and columns of charts we need on the screen
+      // to fit all the charts.
+      int Num_chart_cols = sqrt (Chart_list.size() - 1.0) + 1.0;
+      int Num_chart_rows = Chart_list.size() * 1.0 / Num_chart_cols + 0.5;
 
-      (*Iter)->Position.left = Col_number * Col_width;
-      (*Iter)->Position.right = (Col_number + 1) * Col_width;
-      (*Iter)->Position.top = Row_number * Row_height;
-      (*Iter)->Position.bottom = (Row_number + 1) * Row_height;
-      (*Iter)->Update_chart_position ();
+      // calculate the width of a column and height of a row.
+      int Col_width = (r.right - r.left) / Num_chart_cols;
+      int Row_height = (r.bottom - r.top) / Num_chart_rows;
 
-      Iter++;
+      // loop through all charts and position.
+      vector<Chart_base*>::iterator Iter = Chart_list.begin();
+      for (unsigned int Chart_number = 0;
+           Chart_number < Chart_list.size();
+           Chart_number++)
+         {
+         int Row_number = Chart_number / Num_chart_cols;
+         int Col_number = Chart_number - (Row_number * Num_chart_cols);
+
+         (*Iter)->Position.left = Col_number * Col_width;
+         (*Iter)->Position.right = (Col_number + 1) * Col_width;
+         (*Iter)->Position.top = Row_number * Row_height;
+         (*Iter)->Position.bottom = (Row_number + 1) * Row_height;
+         (*Iter)->Update_chart_position ();
+
+         Iter++;
+         }
       }
    }
 // ------------------------------------------------------------------
