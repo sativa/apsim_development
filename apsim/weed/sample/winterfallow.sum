@@ -50,9 +50,6 @@
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
      
-     SECTION:- init
-     weed_in = 0
-     
      SECTION:- start_of_day
      if day = 120 and year = 1988 then
         weed sow cultivar = late, plants = 15 (/m2), crop_class = winter_dicot, sowing_depth = 40 (mm)
@@ -62,6 +59,9 @@
         weed kill_crop
         weed end_crop
      endif
+     
+     SECTION:- init
+     weed_in = 0
      
      SECTION:- end_of_day
      report do_output

@@ -124,6 +124,18 @@
         endif
      endif
      
+     SECTION:- end_of_day
+     if (fert_flag <= 80) then
+        fert_flag = fert_flag -1
+        if (fert_flag = 0) then
+           fertiliz apply amount = 43 (kg/ha), type = urea_n, depth = 10 (mm)
+           fert_flag = 100
+        endif
+     endif
+     if (end_month = 1) then
+        report do_end_day_output
+     endif
+     
      SECTION:- start_of_day
      if (today = date('15-apr')) then
         residue2 tillage type = tine ()
@@ -148,18 +160,6 @@
            nwheat harvest
            crop_in = 0
         endif
-     endif
-     
-     SECTION:- end_of_day
-     if (fert_flag <= 80) then
-        fert_flag = fert_flag -1
-        if (fert_flag = 0) then
-           fertiliz apply amount = 43 (kg/ha), type = urea_n, depth = 10 (mm)
-           fert_flag = 100
-        endif
-     endif
-     if (end_month = 1) then
-        report do_end_day_output
      endif
      END of rules
      

@@ -65,9 +65,6 @@
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
      
-     SECTION:- init
-     popn = 2.5
-     
      SECTION:- start_of_day
      if today = date('1-oct') then
         soilwat2 reset
@@ -83,6 +80,9 @@
         maize harvest
         maize end_crop
      endif
+     
+     SECTION:- init
+     popn = 2.5
      END of rules
      
      Manager creating a new local real variable : popn =     2.50000000000000
