@@ -28,4 +28,14 @@ string _export getApsimDirectory(void) throw(runtime_error)
       return path.Get_directory();
    }
 
+// ------------------------------------------------------------------
+// This routine provides a way for APSIM applications to get their
+// home directory.  Will throw a runtime error if the current
+// Application is not in the apsim directory structure.
+// ------------------------------------------------------------------
+std::string _export getAppHomeDirectory(void) throw(std::runtime_error)
+   {
+   string applicationName = Path(Application->ExeName.c_str()).Get_name_without_ext();
+   return getApsimDirectory() + "\\" + applicationName;
+   }
 
