@@ -264,6 +264,7 @@ void ReportComponent::doInit1(const FString& sdml)
    daysSinceLastReportVariableID = addRegistration(respondToGetReg,
                                                    "days_since_last_report",
                                                    daysSinceLastReportType);
+   reportedID = addRegistration(eventReg, "reported", "<type/>");
    }
 // ------------------------------------------------------------------
 //  Short description:
@@ -406,6 +407,7 @@ void ReportComponent::WriteLineOfOutput(void)
    out << endl;
 
    DaysSinceLastReport = 0;
+   publish(reportedID, "");
    }
 
 // ------------------------------------------------------------------
