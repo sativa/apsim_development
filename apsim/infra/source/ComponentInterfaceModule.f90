@@ -75,7 +75,12 @@ module ComponentInterfaceModule
       logical                          :: isOptional
       logical                          :: read_parameter
       end function
-                   
+                  
+      subroutine getApsuiteDirectory(dir) 
+      ml_external getApsuiteDirectory
+      character(len=*),intent(in out) :: dir
+      end subroutine getApsuiteDirectory
+      
       function get_componentData( )
       ml_external get_componentData
       integer :: get_componentData
