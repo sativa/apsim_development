@@ -219,7 +219,7 @@ bool IsARespondTo(const ApsimRegistrationData& registration)
    };
 bool IsAutoRegister(const ApsimRegistrationData& registration)
    {
-   return registration.doAutoRegister();
+   return !registration.isOfType("read") && registration.doAutoRegister();
    };
 
 // ------------------------------------------------------------------
