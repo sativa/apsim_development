@@ -237,6 +237,7 @@
 *- Implementation Section ----------------------------------
       call push_routine(myname)
       ! Get depths of each layer
+      dlayer(:) = 0.0
 
                                 ! get depth of each soil water layer
       call get_real_array (unknown_module, 'dlayer', max_layers
@@ -944,7 +945,7 @@ c     endif
       subroutine alloc_dealloc_instance(doAllocate)
 !     ===========================================================
       use SoilTModule
-      implicit none  
+      implicit none
       ml_external alloc_dealloc_instance
 
 !+  Sub-Program Arguments
@@ -973,7 +974,7 @@ c     endif
       Recursive
      :Subroutine Main (action, data_string)
 * ====================================================================
-      Use infrastructure 
+      Use infrastructure
       Use SoilTModule
       implicit none
       ml_external Main

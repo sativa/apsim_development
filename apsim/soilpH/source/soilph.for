@@ -2656,6 +2656,8 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+       NO3_transform_net(:) = 0.0
+       NH4_transform_net(:) = 0.0
 
       call collect_real_array (DATA_NH4_transform_net
      :                         , max_layer
@@ -2709,7 +2711,7 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
-
+      dlt_OM(:) = 0.0
 
       call collect_real_array (DATA_dlt_OM
      :                         , max_layer
@@ -2858,6 +2860,9 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+      residue_removed_action = ' '
+      dlt_residue_fraction = 0.0
+      residue_incorp_fraction(:) = 0.0
 
       call collect_char_var (DATA_residue_removed_action
      :                     , '()'
@@ -4874,7 +4879,7 @@
       subroutine alloc_dealloc_instance(doAllocate)
 !     ===========================================================
       use SoilpHModule
-      implicit none  
+      implicit none
       ml_external alloc_dealloc_instance
 
 !+  Sub-Program Arguments

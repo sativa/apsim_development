@@ -2427,7 +2427,7 @@ c      call get_real_var_optional (unknown_module, 'soil_temp', '(oC)'
 c     :                                  , soil_temp, numvals
 c     :                                  , 0.0, 80.0)
 
-
+      soil_temp = 0.0
       call get_real_var_optional (unknown_module
      :                                  , 'maxt_soil_surface'
      :                                  , '(oC)'
@@ -2447,6 +2447,7 @@ c+!!!!!!!! what to do if no waterbalance variables found
 
       !-------------------------------------------------------------------
       !soil profile
+      dlayer(:) = 0.0
       call get_real_array (unknown_module, 'dlayer', max_layer
      :                                    , '(mm)'
      :                                    , dlayer, numvals
@@ -2516,6 +2517,7 @@ c+!!!!!!!! what to do if no waterbalance variables found
      :                                    , c%sw_dep_lb, c%sw_dep_ub)
 
                                 ! soil nitrogen pools
+      NO3(:) = 0.0
       call get_real_array_optional (unknown_module, 'no3', max_layer
      :                                  ,  '(kg/ha)'
      :                                  , NO3, numvals
@@ -2538,6 +2540,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
+      NO3_min(:) = 0.0
       call get_real_array_optional (unknown_module, 'no3_min',max_layer
      :                                  ,  '(kg/ha)'
      :                                  , NO3_min, numvals
@@ -2549,6 +2552,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
 
       !cew - added this nh4 pools
+       NH4(:) = 0.0
        call get_real_array_optional (unknown_module, 'nh4', max_layer
      :                                  ,  '(kg/ha)'
      :                                  , NH4, numvals
@@ -2571,7 +2575,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
 
-
+      NH4_min(:) = 0.0
       call get_real_array_optional (unknown_module, 'nh4_min',max_layer
      :                                  ,  '(kg/ha)'
      :                                  , NH4_min, numvals
@@ -2581,6 +2585,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       end do
 
 
+       NO3(:) = 0.0
        call get_real_array_optional (unknown_module, 'no3ppm', max_layer
      :                                  ,  'ppm'
      :                                  , NO3, numvals
@@ -2591,6 +2596,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       end do
 
 
+       NH4(:) = 0.0
        call get_real_array_optional (unknown_module, 'nh4ppm', max_layer
      :                                  ,  '(kg/ha)'
      :                                  , NH4, numvals
@@ -2648,7 +2654,8 @@ c+!!!! perhaps we should get number of layers at init and keep it
          num_layers = count_of_real_vals (g%dlayer, max_layer)
 
 
-
+         dlt_NO3(:) = 0.0
+         dlt_NH4(:) = 0.0
          do layer = 1, num_layers
             dlt_NO3(layer) = g%dlt_NO3gsm(layer) * gm2kg /sm2ha
             dlt_Nh4(layer) = g%dlt_Nh4gsm(layer) * gm2kg /sm2ha
