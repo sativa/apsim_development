@@ -1,3 +1,4 @@
+Imports General
 Public Class OptionsForm
     Inherits System.Windows.Forms.Form
 

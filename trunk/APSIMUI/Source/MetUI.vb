@@ -149,7 +149,7 @@ Public Class MetUI
         Try
             If OpenFileDialog.ShowDialog() = DialogResult.OK Then
                 MetFileTextBox.Text = OpenFileDialog.FileName
-                APSIMData.Value("filename") = MetFileTextBox.Text
+                MyData.Child("filename").Value = MetFileTextBox.Text
                 Me.Refresh()
             Else
             End If
@@ -161,7 +161,7 @@ Public Class MetUI
     Private Sub MetFileTextBox_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles MetFileTextBox.Leave
         Try
             If MetFileTextBox.Visible = True Then
-                APSIMData.Value("filename") = MetFileTextBox.Text
+                MyData.Child("filename").Value = MetFileTextBox.Text
                 Me.Refresh()
             End If
         Catch ex As Exception

@@ -5,7 +5,7 @@ Imports System.xml
 Imports System.xml.XmlNodeList
 Imports System.io
 Imports System.IO.Path
-
+Imports General
 
 
 Public Class MainUI
@@ -31,6 +31,12 @@ Public Class MainUI
         MainUImanager.UIPanel = UIPanel
         MainUImanager.SimulationExplorer = SimulationExplorer
         MainUImanager.MainForm = Me
+
+        '
+
+        'Event Handlers
+        AddHandler SimulationExplorer.DataSelectedEvent, AddressOf OnDataSelected
+
 
     End Sub
 
@@ -88,9 +94,7 @@ Public Class MainUI
     Friend WithEvents copyButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents PasteButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents ToolBoxButton As System.Windows.Forms.ToolBarButton
-    Friend WithEvents SimulationExplorer As System.Windows.Forms.TreeView
     Friend WithEvents ViewMenuHelp As System.Windows.Forms.MenuItem
-    Friend WithEvents VerticalSplitter As System.Windows.Forms.Splitter
     Friend WithEvents HorizontalSplitter As System.Windows.Forms.Splitter
     Friend WithEvents toolBoxContextMenu As System.Windows.Forms.ContextMenu
     Friend WithEvents MenuItem2 As System.Windows.Forms.MenuItem
@@ -104,7 +108,14 @@ Public Class MainUI
     Friend WithEvents MenuItem5 As System.Windows.Forms.MenuItem
     Friend WithEvents SaveFileDialog1 As System.Windows.Forms.SaveFileDialog
     Friend WithEvents SaveFileDialog As System.Windows.Forms.SaveFileDialog
+    Friend WithEvents DataTree1 As DataTree
+    Friend WithEvents Splitter1 As System.Windows.Forms.Splitter
+    Friend WithEvents SimulationExplorer As DataTree
     Friend WithEvents UIPanel As System.Windows.Forms.Panel
+    Friend WithEvents EmailButton As System.Windows.Forms.ToolBarButton
+    Friend WithEvents NewsButton As System.Windows.Forms.ToolBarButton
+    Friend WithEvents SeparatorButton As System.Windows.Forms.ToolBarButton
+    Friend WithEvents SimulationMenuRun As System.Windows.Forms.MenuItem
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MainUI))
@@ -127,6 +138,7 @@ Public Class MainUI
         Me.ViewMenuOptions = New System.Windows.Forms.MenuItem
         Me.SimulationMenu = New System.Windows.Forms.MenuItem
         Me.SimulationMenuMake = New System.Windows.Forms.MenuItem
+        Me.SimulationMenuRun = New System.Windows.Forms.MenuItem
         Me.HelpMenu = New System.Windows.Forms.MenuItem
         Me.HelpMenuAbout = New System.Windows.Forms.MenuItem
         Me.StatusBar1 = New System.Windows.Forms.StatusBar
@@ -134,25 +146,26 @@ Public Class MainUI
         Me.FileNewButton = New System.Windows.Forms.ToolBarButton
         Me.FileOpenButton = New System.Windows.Forms.ToolBarButton
         Me.FileSaveButton = New System.Windows.Forms.ToolBarButton
+        Me.EmailButton = New System.Windows.Forms.ToolBarButton
         Me.Separator1 = New System.Windows.Forms.ToolBarButton
         Me.CutButton = New System.Windows.Forms.ToolBarButton
         Me.copyButton = New System.Windows.Forms.ToolBarButton
         Me.PasteButton = New System.Windows.Forms.ToolBarButton
         Me.Separator2 = New System.Windows.Forms.ToolBarButton
-        Me.RunButton = New System.Windows.Forms.ToolBarButton
-        Me.ExportButton = New System.Windows.Forms.ToolBarButton
-        Me.UIHelpButton = New System.Windows.Forms.ToolBarButton
         Me.ToolBoxButton = New System.Windows.Forms.ToolBarButton
         Me.toolBoxContextMenu = New System.Windows.Forms.ContextMenu
+        Me.RunButton = New System.Windows.Forms.ToolBarButton
+        Me.ExportButton = New System.Windows.Forms.ToolBarButton
+        Me.SeparatorButton = New System.Windows.Forms.ToolBarButton
+        Me.NewsButton = New System.Windows.Forms.ToolBarButton
+        Me.UIHelpButton = New System.Windows.Forms.ToolBarButton
         Me.ButtonImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.ImageList1 = New System.Windows.Forms.ImageList(Me.components)
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog
         Me.PageSetupDialog1 = New System.Windows.Forms.PageSetupDialog
         Me.ContextMenu1 = New System.Windows.Forms.ContextMenu
         Me.TabMenuClose = New System.Windows.Forms.MenuItem
-        Me.SimulationExplorer = New System.Windows.Forms.TreeView
         Me.ComponentImageList = New System.Windows.Forms.ImageList(Me.components)
-        Me.VerticalSplitter = New System.Windows.Forms.Splitter
         Me.HorizontalSplitter = New System.Windows.Forms.Splitter
         Me.HelpBrowserPanel = New System.Windows.Forms.Panel
         Me.HelpBrowsertoolBar = New System.Windows.Forms.ToolBar
@@ -162,6 +175,9 @@ Public Class MainUI
         Me.HelpBrowser = New AxSHDocVw.AxWebBrowser
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
         Me.SaveFileDialog = New System.Windows.Forms.SaveFileDialog
+        Me.DataTree1 = New DataTree
+        Me.SimulationExplorer = New DataTree
+        Me.Splitter1 = New System.Windows.Forms.Splitter
         Me.UIPanel = New System.Windows.Forms.Panel
         Me.HelpBrowserPanel.SuspendLayout()
         CType(Me.HelpBrowser, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -267,13 +283,19 @@ Public Class MainUI
         'SimulationMenu
         '
         Me.SimulationMenu.Index = 3
-        Me.SimulationMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.SimulationMenuMake})
+        Me.SimulationMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.SimulationMenuMake, Me.SimulationMenuRun})
         Me.SimulationMenu.Text = "&Simulation"
         '
         'SimulationMenuMake
         '
         Me.SimulationMenuMake.Index = 0
         Me.SimulationMenuMake.Text = "&Make Sim File"
+        '
+        'SimulationMenuRun
+        '
+        Me.SimulationMenuRun.Index = 1
+        Me.SimulationMenuRun.Shortcut = System.Windows.Forms.Shortcut.F5
+        Me.SimulationMenuRun.Text = "&Run"
         '
         'HelpMenu
         '
@@ -298,7 +320,7 @@ Public Class MainUI
         'ToolBar1
         '
         Me.ToolBar1.Appearance = System.Windows.Forms.ToolBarAppearance.Flat
-        Me.ToolBar1.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.FileNewButton, Me.FileOpenButton, Me.FileSaveButton, Me.Separator1, Me.CutButton, Me.copyButton, Me.PasteButton, Me.Separator2, Me.RunButton, Me.ExportButton, Me.UIHelpButton, Me.ToolBoxButton})
+        Me.ToolBar1.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.FileNewButton, Me.FileOpenButton, Me.FileSaveButton, Me.EmailButton, Me.Separator1, Me.CutButton, Me.copyButton, Me.PasteButton, Me.Separator2, Me.ToolBoxButton, Me.RunButton, Me.ExportButton, Me.SeparatorButton, Me.NewsButton, Me.UIHelpButton})
         Me.ToolBar1.DropDownArrows = True
         Me.ToolBar1.ImageList = Me.ButtonImageList
         Me.ToolBar1.Location = New System.Drawing.Point(0, 0)
@@ -326,6 +348,12 @@ Public Class MainUI
         Me.FileSaveButton.Text = "Save"
         Me.FileSaveButton.ToolTipText = "Save current simulation"
         '
+        'EmailButton
+        '
+        Me.EmailButton.ImageIndex = 12
+        Me.EmailButton.Text = "Email"
+        Me.EmailButton.ToolTipText = "Email your simulation to a friend"
+        '
         'Separator1
         '
         Me.Separator1.Style = System.Windows.Forms.ToolBarButtonStyle.Separator
@@ -349,21 +377,6 @@ Public Class MainUI
         '
         Me.Separator2.Style = System.Windows.Forms.ToolBarButtonStyle.Separator
         '
-        'RunButton
-        '
-        Me.RunButton.ImageIndex = 8
-        Me.RunButton.Text = "Run"
-        '
-        'ExportButton
-        '
-        Me.ExportButton.ImageIndex = 7
-        Me.ExportButton.Text = "Export"
-        '
-        'UIHelpButton
-        '
-        Me.UIHelpButton.ImageIndex = 6
-        Me.UIHelpButton.Text = "Help"
-        '
         'ToolBoxButton
         '
         Me.ToolBoxButton.DropDownMenu = Me.toolBoxContextMenu
@@ -371,6 +384,34 @@ Public Class MainUI
         Me.ToolBoxButton.Style = System.Windows.Forms.ToolBarButtonStyle.DropDownButton
         Me.ToolBoxButton.Text = "ToolBoxes"
         Me.ToolBoxButton.ToolTipText = "Load a modelling toolbox for use"
+        '
+        'RunButton
+        '
+        Me.RunButton.ImageIndex = 8
+        Me.RunButton.Text = "Run"
+        Me.RunButton.ToolTipText = "Run APSIM on the current simulation set"
+        '
+        'ExportButton
+        '
+        Me.ExportButton.ImageIndex = 7
+        Me.ExportButton.Text = "Export"
+        Me.ExportButton.ToolTipText = "Export the simulation set to sim file format"
+        '
+        'SeparatorButton
+        '
+        Me.SeparatorButton.Style = System.Windows.Forms.ToolBarButtonStyle.Separator
+        '
+        'NewsButton
+        '
+        Me.NewsButton.ImageIndex = 13
+        Me.NewsButton.Text = "News"
+        Me.NewsButton.ToolTipText = "Get the latest information from APSIM.info"
+        '
+        'UIHelpButton
+        '
+        Me.UIHelpButton.ImageIndex = 6
+        Me.UIHelpButton.Text = "Help"
+        Me.UIHelpButton.ToolTipText = "Get contextual help"
         '
         'ButtonImageList
         '
@@ -397,40 +438,18 @@ Public Class MainUI
         Me.TabMenuClose.Index = 0
         Me.TabMenuClose.Text = "&Close"
         '
-        'SimulationExplorer
-        '
-        Me.SimulationExplorer.AllowDrop = True
-        Me.SimulationExplorer.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.SimulationExplorer.Dock = System.Windows.Forms.DockStyle.Left
-        Me.SimulationExplorer.HideSelection = False
-        Me.SimulationExplorer.ImageList = Me.ComponentImageList
-        Me.SimulationExplorer.LabelEdit = True
-        Me.SimulationExplorer.Location = New System.Drawing.Point(0, 36)
-        Me.SimulationExplorer.Name = "SimulationExplorer"
-        Me.SimulationExplorer.PathSeparator = "/"
-        Me.SimulationExplorer.Size = New System.Drawing.Size(192, 431)
-        Me.SimulationExplorer.TabIndex = 8
-        '
         'ComponentImageList
         '
         Me.ComponentImageList.ImageSize = New System.Drawing.Size(16, 16)
         Me.ComponentImageList.ImageStream = CType(resources.GetObject("ComponentImageList.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.ComponentImageList.TransparentColor = System.Drawing.Color.Transparent
         '
-        'VerticalSplitter
-        '
-        Me.VerticalSplitter.Location = New System.Drawing.Point(192, 36)
-        Me.VerticalSplitter.Name = "VerticalSplitter"
-        Me.VerticalSplitter.Size = New System.Drawing.Size(5, 431)
-        Me.VerticalSplitter.TabIndex = 9
-        Me.VerticalSplitter.TabStop = False
-        '
         'HorizontalSplitter
         '
         Me.HorizontalSplitter.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.HorizontalSplitter.Location = New System.Drawing.Point(197, 262)
+        Me.HorizontalSplitter.Location = New System.Drawing.Point(0, 262)
         Me.HorizontalSplitter.Name = "HorizontalSplitter"
-        Me.HorizontalSplitter.Size = New System.Drawing.Size(763, 5)
+        Me.HorizontalSplitter.Size = New System.Drawing.Size(960, 5)
         Me.HorizontalSplitter.TabIndex = 10
         Me.HorizontalSplitter.TabStop = False
         '
@@ -439,9 +458,9 @@ Public Class MainUI
         Me.HelpBrowserPanel.Controls.Add(Me.HelpBrowsertoolBar)
         Me.HelpBrowserPanel.Controls.Add(Me.HelpBrowser)
         Me.HelpBrowserPanel.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.HelpBrowserPanel.Location = New System.Drawing.Point(197, 267)
+        Me.HelpBrowserPanel.Location = New System.Drawing.Point(0, 267)
         Me.HelpBrowserPanel.Name = "HelpBrowserPanel"
-        Me.HelpBrowserPanel.Size = New System.Drawing.Size(763, 200)
+        Me.HelpBrowserPanel.Size = New System.Drawing.Size(960, 200)
         Me.HelpBrowserPanel.TabIndex = 11
         '
         'HelpBrowsertoolBar
@@ -455,7 +474,7 @@ Public Class MainUI
         Me.HelpBrowsertoolBar.Location = New System.Drawing.Point(0, 0)
         Me.HelpBrowsertoolBar.Name = "HelpBrowsertoolBar"
         Me.HelpBrowsertoolBar.ShowToolTips = True
-        Me.HelpBrowsertoolBar.Size = New System.Drawing.Size(763, 20)
+        Me.HelpBrowsertoolBar.Size = New System.Drawing.Size(960, 20)
         Me.HelpBrowsertoolBar.TabIndex = 9
         Me.HelpBrowsertoolBar.TextAlign = System.Windows.Forms.ToolBarTextAlign.Right
         '
@@ -484,31 +503,56 @@ Public Class MainUI
         Me.HelpBrowser.Enabled = True
         Me.HelpBrowser.Location = New System.Drawing.Point(0, 24)
         Me.HelpBrowser.OcxState = CType(resources.GetObject("HelpBrowser.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.HelpBrowser.Size = New System.Drawing.Size(767, 180)
+        Me.HelpBrowser.Size = New System.Drawing.Size(964, 180)
         Me.HelpBrowser.TabIndex = 8
         '
         'SaveFileDialog
         '
         Me.SaveFileDialog.Filter = "XML Files|*.xml|All Files|*.*"
         '
+        'DataTree1
+        '
+        Me.DataTree1.LabelEdit = False
+        Me.DataTree1.Location = New System.Drawing.Point(0, 0)
+        Me.DataTree1.Name = "DataTree1"
+        Me.DataTree1.Size = New System.Drawing.Size(344, 488)
+        Me.DataTree1.TabIndex = 0
+        '
+        'SimulationExplorer
+        '
+        Me.SimulationExplorer.AllowDrop = True
+        Me.SimulationExplorer.Dock = System.Windows.Forms.DockStyle.Left
+        Me.SimulationExplorer.LabelEdit = True
+        Me.SimulationExplorer.Location = New System.Drawing.Point(0, 36)
+        Me.SimulationExplorer.Name = "SimulationExplorer"
+        Me.SimulationExplorer.Size = New System.Drawing.Size(240, 226)
+        Me.SimulationExplorer.TabIndex = 13
+        '
+        'Splitter1
+        '
+        Me.Splitter1.Location = New System.Drawing.Point(240, 36)
+        Me.Splitter1.Name = "Splitter1"
+        Me.Splitter1.Size = New System.Drawing.Size(5, 226)
+        Me.Splitter1.TabIndex = 14
+        Me.Splitter1.TabStop = False
+        '
         'UIPanel
         '
-        Me.UIPanel.BackColor = System.Drawing.SystemColors.Control
         Me.UIPanel.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UIPanel.Location = New System.Drawing.Point(197, 36)
+        Me.UIPanel.Location = New System.Drawing.Point(245, 36)
         Me.UIPanel.Name = "UIPanel"
-        Me.UIPanel.Size = New System.Drawing.Size(763, 226)
-        Me.UIPanel.TabIndex = 12
+        Me.UIPanel.Size = New System.Drawing.Size(715, 226)
+        Me.UIPanel.TabIndex = 15
         '
         'MainUI
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.ClientSize = New System.Drawing.Size(960, 489)
         Me.Controls.Add(Me.UIPanel)
+        Me.Controls.Add(Me.Splitter1)
+        Me.Controls.Add(Me.SimulationExplorer)
         Me.Controls.Add(Me.HorizontalSplitter)
         Me.Controls.Add(Me.HelpBrowserPanel)
-        Me.Controls.Add(Me.VerticalSplitter)
-        Me.Controls.Add(Me.SimulationExplorer)
         Me.Controls.Add(Me.ToolBar1)
         Me.Controls.Add(Me.StatusBar1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -523,43 +567,32 @@ Public Class MainUI
     End Sub
 
 #End Region
-    Sub OpenAPSimFile(ByVal Filename As String)
+
+    Sub OnDataSelected(ByVal sender As Object, ByVal e As APSIMData)
+
+        MainUImanager.ShowUI(e)
+
+    End Sub
+    Sub OpenAPSimFile(Optional ByVal filename As String = "")
         Try
-            If Not APSIMFile.Open(Filename) Then
-                MsgBox("Cannot open :" + Filename, MsgBoxStyle.Critical, "Error")
+            If filename = "" Then
+                APSIMFile.Open()
             Else
-                UpdateMainForm()
+                APSIMFile.Open(filename)
             End If
+            SimulationExplorer.Data = APSIMFile.data
+            UpdateMainForm()
 
         Catch e As Exception
             MsgBox(e.Message, MsgBoxStyle.Critical, "Cannot open APSIM file")
         End Try
 
     End Sub
-    Sub GetAndOpenAPSimFile()
-        Try
 
-            If OpenFileDialog.ShowDialog() = DialogResult.OK Then
-                OpenAPSimFile(OpenFileDialog.FileName)
-            Else
-                ' User cancelled file open operation
-            End If
-        Catch e As Exception
-            MsgBox(e.Message, MsgBoxStyle.Critical, "Cannot open APSIM file")
-        End Try
-
-    End Sub
     Sub OpenNewFile()
         Try
-            Dim inifile As New APSIMSettings
-            Dim newfile As String = inifile.GetSetting("apsimui", "newfile")
-            Dim text As String
-            Dim sr As StreamReader = New StreamReader(newfile)
-            text = sr.ReadToEnd
-            sr.Close()
-            APSIMFile.Filename = "Untitled.xml"
-            APSIMFile.contents = text
-
+            APSIMFile = New APSIMFile
+            SimulationExplorer.Data = APSIMFile.data
             UpdateMainForm()
 
         Catch e As Exception
@@ -569,33 +602,40 @@ Public Class MainUI
     Private Sub UpdateMainForm()
 
         Me.Text = APSIMFile.Filename
-        MainUImanager.FillSimulationExplorer(APSIMFile.Data)
-        SimulationExplorer.SelectedNode = SimulationExplorer.Nodes(0)
-        SimulationExplorer.SelectedNode.Expand()
+        'SimulationExplorer.DrawTree()
+        'MainUImanager.FillSimulationExplorer(APSIMFile.Data)
+        'SimulationExplorer.SelectedNode = SimulationExplorer.Nodes(0)
+        'SimulationExplorer.SelectedNode.Expand()
 
     End Sub
     Private Sub FileMenuExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileMenuExit.Click
         End
     End Sub
     Private Sub FileMenuOpen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileMenuOpen.Click
-        GetAndOpenAPSimFile()
+        OpenAPSimFile()
     End Sub
 
     Private Sub ToolBar1_ButtonClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs) Handles ToolBar1.ButtonClick
         If e.Button Is FileNewButton Then
             OpenNewFile()
         ElseIf e.Button Is FileOpenButton Then
-            GetAndOpenAPSimFile()
+            OpenAPSimFile()
         ElseIf e.Button Is FileSaveButton Then
             MainUImanager.SaveDocument(APSIMFile)
-            APSIMFile.save()
+            APSIMFile.Save()
         ElseIf e.Button Is UIHelpButton Then
             UpdateHelpBrowser()
+        ElseIf e.Button Is NewsButton Then
+            GetLatestNews()
+        ElseIf e.Button Is RunButton Then
+            RunSimFile()
+        ElseIf e.Button Is ExportButton Then
+            MakeSimFile()
         End If
     End Sub
 
 
-    Private Sub SimulationExplorer_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SimulationExplorer.DoubleClick
+    Private Sub SimulationExplorer_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
 
 
@@ -604,7 +644,7 @@ Public Class MainUI
     Private Sub FileMenuSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileMenuSave.Click
 
         MainUImanager.SaveDocument(APSIMFile)
-        APSIMFile.save()
+        APSIMFile.Save()
 
     End Sub
 
@@ -626,6 +666,8 @@ Public Class MainUI
 
         PopulateToolBoxContextMenu()
 
+        ReadWindowPosition()
+
     End Sub
 
 
@@ -643,23 +685,7 @@ Public Class MainUI
 
 
     Private Sub SimulationMenuMake_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SimulationMenuMake.Click
-        Try
-            Dim mf As New MacroFile
-            Dim inifile As New APSIMSettings
-            If File.Exists(APSIMFile.Filename) Then
-                Dim DirectoryName As String = Path.GetDirectoryName(APSIMFile.Filename)
-                Dim FileName As String = inifile.GetSetting("apsimui", "macrofile")
-                If File.Exists(FileName) Then
-                    mf.DoTransform(APSIMFile.Filename, FileName, DirectoryName)
-                Else
-                    MsgBox("Cannot find the simulation creation macro file", MsgBoxStyle.Critical, "Error")
-                End If
-            Else
-                MsgBox("Cannot make simulation until apsim file has been saved to a target location.", MsgBoxStyle.Critical, "Error")
-            End If
-        Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
-        End Try
+        MakeSimFile()
     End Sub
 
     Private Sub MenuItem6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -685,7 +711,7 @@ Public Class MainUI
         Dim filename As String = sender.text
         Dim apsimfile As New APSIMFile
         apsimfile.Open(filename)
-        MainUImanager.ShowUI(apsimfile.Data)
+        MainUImanager.ShowUI(apsimfile.data)
 
     End Sub
 
@@ -693,16 +719,23 @@ Public Class MainUI
     Private Sub ViewMenuHelp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ViewMenuHelp.Click
         ViewMenuHelp.Checked = Not ViewMenuHelp.Checked
         If ViewMenuHelp.Checked = True Then
-            HelpBrowser.Visible = True
-            HelpBrowsertoolBar.Visible = True
-            HelpBrowserPanel.Height = Me.Height / 3
-            HorizontalSplitter.Enabled = True
+            ShowHelpBrowser()
         Else
-            HelpBrowser.Visible = False
-            HelpBrowsertoolBar.Visible = False
-            HelpBrowserPanel.Height = 1
-            HorizontalSplitter.Enabled = False
+            CloseHelpBrowser()
         End If
+    End Sub
+
+    Private Sub ShowHelpBrowser()
+        HelpBrowser.Visible = True
+        HelpBrowsertoolBar.Visible = True
+        HelpBrowserPanel.Height = Me.Height / 3
+        HorizontalSplitter.Enabled = True
+    End Sub
+    Private Sub CloseHelpBrowser()
+        HelpBrowser.Visible = False
+        HelpBrowsertoolBar.Visible = False
+        HelpBrowserPanel.Height = 1
+        HorizontalSplitter.Enabled = False
     End Sub
 
     Private Sub PopulateToolBoxContextMenu()
@@ -738,42 +771,45 @@ Public Class MainUI
         'MsgBox(type)
 
     End Sub
-
-    Private Sub FindTreeNode(ByVal path As String)
-        Try
-            Dim name As String = ""
-
-            ' Get rid of starting slash
-            If InStr(path, "/") = 1 Then
-                path = Mid$(path, 2)
-            End If
-            SimulationExplorer.SelectedNode = SimulationExplorer.TopNode
-
-            ' Now loop through all steps on the path finding nodes with matching names
-            Do While Len(path) <> 0
-                If InStr(path, "/") <> 0 Then
-                    name = Microsoft.VisualBasic.Left(path, InStr(path, "/") - 1)
-                    path = Mid$(path, InStr(path, "/") + 1)
-                Else
-                    name = path
-                    path = ""
-                End If
-
-                Dim node As TreeNode
-                Dim ChildName As String
-                For Each node In SimulationExplorer.SelectedNode.Nodes
-                    ChildName = node.Text
-                    If LCase(ChildName) = LCase(name) Then
-                        SimulationExplorer.SelectedNode = node
-                        Exit For
-                    End If
-                Next
-            Loop
-        Catch e As Exception
-            MsgBox(e.Message + vbCrLf + "Data Path: " + path, MsgBoxStyle.Critical, "Error selecting data node in APSIM File")
-        End Try
-
+    Private Sub GetLatestNews()
+        HelpBrowser.Navigate("www.apsim.info")
     End Sub
+
+    'Private Sub FindTreeNode(ByVal path As String)
+    '    Try
+    '        Dim name As String = ""
+
+    '        ' Get rid of starting slash
+    '        If InStr(path, "/") = 1 Then
+    '            path = Mid$(path, 2)
+    '        End If
+    '        SimulationExplorer.SelectedNode = SimulationExplorer.TopNode
+
+    '        ' Now loop through all steps on the path finding nodes with matching names
+    '        Do While Len(path) <> 0
+    '            If InStr(path, "/") <> 0 Then
+    '                name = Microsoft.VisualBasic.Left(path, InStr(path, "/") - 1)
+    '                path = Mid$(path, InStr(path, "/") + 1)
+    '            Else
+    '                name = path
+    '                path = ""
+    '            End If
+
+    '            Dim node As TreeNode
+    '            Dim ChildName As String
+    '            For Each node In SimulationExplorer.SelectedNode.Nodes
+    '                ChildName = node.Text
+    '                If LCase(ChildName) = LCase(name) Then
+    '                    SimulationExplorer.SelectedNode = node
+    '                    Exit For
+    '                End If
+    '            Next
+    '        Loop
+    '    Catch e As Exception
+    '        MsgBox(e.Message + vbCrLf + "Data Path: " + path, MsgBoxStyle.Critical, "Error selecting data node in APSIM File")
+    '    End Try
+
+    'End Sub
 
     Private Sub ToolBar2_ButtonClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs) Handles HelpBrowsertoolBar.ButtonClick
         If e.Button Is ForwardButton Then
@@ -784,84 +820,113 @@ Public Class MainUI
 
     End Sub
 
-    Private Sub SimulationExplorer_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles SimulationExplorer.AfterSelect
-        Dim path As String = SimulationExplorer.SelectedNode.FullPath
-        Dim Data As New APSIMData
-        Data = APSIMFile.Data(path)
-        MainUImanager.ShowUI(Data)
+    'Private Sub SimulationExplorer_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs)
+    '    Dim path As String = SimulationExplorer.SelectedNode.FullPath
+    '    'If InStr(path, "|") > 0 Then
+    '    'path = Mid(path, InStr(path, "|") + 1)
+    '    MainUImanager.ShowUI(APSIMFile.data.FindChild(path))
+    '    'Else
+    '    '   MainUImanager.ShowUI(APSIMFile.data)
+    '    'End If
 
-    End Sub
+    'End Sub
 
-    Public Sub SimulationExplorer_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles SimulationExplorer.DragDrop
-        Try
-            Dim pt As Point
-            Dim DestinationNode As TreeNode
-            pt = CType(sender, TreeView).PointToClient(New Point(e.X, e.Y))
-            DestinationNode = CType(sender, TreeView).GetNodeAt(pt)
-            'MsgBox(DestinationNode.Text)
-            'MsgBox(DestinationNode.FullPath)
-            'MsgBox(e.Data.GetData(DataFormats.Text))
-            APSIMFile.Data.Child(DestinationNode.Text).Add(e.Data.GetData(DataFormats.Text))
+    'Public Sub SimulationExplorer_DragDrop(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs)
+    '    Try
+    '        Dim pt As Point
+    '        Dim DestinationNode As TreeNode
+    '        pt = CType(sender, TreeView).PointToClient(New Point(e.X, e.Y))
+    '        DestinationNode = CType(sender, TreeView).GetNodeAt(pt)
+    '        'MsgBox(DestinationNode.Text)
+    '        'MsgBox(DestinationNode.FullPath)
+    '        'MsgBox(e.Data.GetData(DataFormats.Text))
+    '        APSIMFile.Data.Child(DestinationNode.Text).Add(e.Data.GetData(DataFormats.Text))
 
 
 
-            UpdateMainForm()
+    '        UpdateMainForm()
 
-        Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
-        End Try
-    End Sub
+    '    Catch ex As Exception
+    '        MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
+    '    End Try
+    'End Sub
 
-    Private Sub TabContextMenu_Popup(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
 
     Private Sub FileMenuNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileMenuNew.Click
         OpenNewFile()
-
-
     End Sub
 
     Private Sub MenuItem5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem5.Click
-        If SaveFileDialog.ShowDialog() = DialogResult.OK Then
-            APSIMFile.Filename = SaveFileDialog.FileName
-            MainUImanager.SaveDocument(APSIMFile)
-            APSIMFile.save()
-        Else
-            ' User cancelled file open operation
-        End If
-
-
+        APSIMFile.SaveAs()
     End Sub
 
-    Private Sub OpenFileDialog_FileOk(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles OpenFileDialog.FileOk
 
-    End Sub
-
-    Private Sub SimulationExplorer_AfterLabelEdit(ByVal sender As Object, ByVal e As System.Windows.Forms.NodeLabelEditEventArgs) Handles SimulationExplorer.AfterLabelEdit
-        Dim oldname As String = SimulationExplorer.SelectedNode.Text
-        Dim newname As String = e.Label
-        'MsgBox(oldname, MsgBoxStyle.Critical, newname)
-        Dim path As String = SimulationExplorer.SelectedNode.FullPath
-        If InStr(path, "/") > 0 Then
-            path = Mid$(path, InStr(path, "/"))
-        End If
-
-        If newname Is Nothing Or Len(newname) = 0 Or e.CancelEdit Then
-            e.CancelEdit = True
-        Else
-            'APSIMFile.RenameComponent(datapath, newname)
-            If MainUImanager.RenameComponent(path, newname) = False Then
-                e.CancelEdit = True
+    Private Sub MakeSimFile()
+        Try
+            APSIMFile.Save()
+            Dim mf As New MacroFile
+            Dim inifile As New APSIMSettings
+            If File.Exists(APSIMFile.Filename) Then
+                Dim DirectoryName As String = Path.GetDirectoryName(APSIMFile.Filename)
+                Dim FileName As String = inifile.GetSetting("apsimui", "macrofile")
+                If File.Exists(FileName) Then
+                    mf.DoTransform(APSIMFile.Filename, FileName, DirectoryName)
+                Else
+                    MsgBox("Cannot find the simulation creation macro file", MsgBoxStyle.Critical, "Error")
+                End If
+            Else
+                MsgBox("Cannot make simulation until apsim file has been saved to a target location.", MsgBoxStyle.Critical, "Error")
             End If
-        End If
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
+        End Try
+
     End Sub
 
-    Private Sub SimulationExplorer_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles SimulationExplorer.DragEnter
-        e.Effect = DragDropEffects.Copy
+    Private Sub SimulationMenuRun_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SimulationMenuRun.Click
+        MakeSimFile()
+        RunSimFile()
+    End Sub
+    Private Sub RunSimFile()
+        MsgBox("somehow need to work out how to do this!")
     End Sub
 
-    Private Sub SimulationExplorer_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles SimulationExplorer.Click
+    Private Sub MainUI_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
+        WriteWindowPosition()
+    End Sub
+    Private Sub ReadWindowPosition()
+        Try
+            Dim inifile As New APSIMSettings
+            Dim windowstate As String = inifile.GetSetting("apsimui", "windowstate")
+            Dim top As String = inifile.GetSetting("apsimui", "top")
+            Dim left As String = inifile.GetSetting("apsimui", "left")
+            Dim height As String = inifile.GetSetting("apsimui", "height")
+            Dim width As String = inifile.GetSetting("apsimui", "width")
 
+            If windowstate <> "" And top <> "" And left <> "" And height <> "" And width <> "" Then
+                Me.WindowState = Val(windowstate)
+                Me.Left = Val(left)
+                Me.Top = Val(top)
+                Me.Height = Val(height)
+                Me.Width = Val(width)
+            Else
+                Me.WindowState = FormWindowState.Maximized
+            End If
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+    Private Sub WriteWindowPosition()
+        Try
+            Dim inifile As New APSIMSettings
+            inifile.SetSetting("apsimui", "windowstate", Str(Me.WindowState))
+            inifile.SetSetting("apsimui", "top", Str(Me.Top))
+            inifile.SetSetting("apsimui", "left", Str(Me.Left))
+            inifile.SetSetting("apsimui", "width", Str(Me.Width))
+            inifile.SetSetting("apsimui", "height", Str(Me.Height))
+        Catch ex As Exception
+
+        End Try
     End Sub
 End Class

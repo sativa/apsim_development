@@ -113,7 +113,7 @@ Public Class RuleUI
             MsgBox("leave")
             If LogicTextBox.Visible = True Then
                 Dim logic As String = Replace(LogicTextBox.Text, vbCrLf, "[cr]")
-                APSIMData.Value("logic") = logic
+                APSIMData.Child("logic").Value = logic
                 Me.Refresh()
             End If
         Catch ex As Exception
@@ -128,7 +128,7 @@ Public Class RuleUI
     Private Sub EventComboBox_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles EventComboBox.Leave
         Try
             If EventComboBox.Visible = True Then
-                APSIMData.Value("event") = EventComboBox.Text
+                APSIMData.Child("event").Value = EventComboBox.Text
                 Me.Refresh()
             End If
         Catch ex As Exception
