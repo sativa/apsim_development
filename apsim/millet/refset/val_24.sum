@@ -318,6 +318,7 @@
      
      
      
+           TAV and AMP supplied externally
      
      
      
@@ -389,458 +390,493 @@
          - Reading constants
 ------- Start of simulation  --------------------------------------------------
 1 July 1997 (Day of year=182):
-      Sending apply message to fertiliz
-     
-        - Reading Fertiliser Type Parameters
-       150.00 of di-ammonium phosphate (dap)
-                                              added at depth   10.00 (layer   1)
+   OPERATNS:
+       Sending apply message to fertiliz
+   FERTILIZ:
+      
+         - Reading Fertiliser Type Parameters
+        150.00 of di-ammonium phosphate (dap)
+                                               added at depth   10.00 (layer   1)
 2 July 1997 (Day of year=183):
-      Sending sow message to millet
-     Sow
-     
-     
-     
-                      Crop Sowing Data
-         ------------------------------------------------
-         Sowing  Depth Plants Spacing Cultivar
-         Day no   mm     m^2     m     Name
-         ------------------------------------------------
-            183   30.0    7.5    0.8 hhb67
-         ------------------------------------------------
-     
-        - Reading Cultivar Parameters
-         ------------------------------------------------
-         Cultivar                 = hhb67
-         est_days_emerg_to_init  =      17
-         tt_emerg_to_endjuv       =   185.0
-         pp_endjuv_to_initp       =   164.0
-         tt_flower_to_maturity    =   457.0
-         head_grain_no_max        =  2600.0
-         grain_gth_rate           =     0.6
-         tt_flag_to_flower        =    77.8
-         tt_flower_to_start_grain =    80.0
-         tt_maturity_to_ripe      =     1.0
-         ------------------------------------------------
-     
-     
-     
-     
-        - Reading root profile parameters
-     
-     
-     
-                         Root Profile
-         ------------------------------------------------
-           Layer depth  Kl factor   Lower limit
-              (mm)         ()        (mm/mm)
-         ------------------------------------------------
-             150.000       0.120       0.066
-             150.000       0.120       0.090
-             300.000       0.120       0.117
-             300.000       0.100       0.123
-             300.000       0.060       0.129
-             300.000       0.055       0.137
-             300.000       0.030       0.148
+   OPERATNS:
+       Sending sow message to millet
+   MILLET:
+      Sow
+      
+      
+      
+                       Crop Sowing Data
           ------------------------------------------------
-     
-     
-     
+          Sowing  Depth Plants Spacing Cultivar
+          Day no   mm     m^2     m     Name
+          ------------------------------------------------
+             183   30.0    7.5    0.8 hhb67
+          ------------------------------------------------
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = hhb67
+          est_days_emerg_to_init  =      17
+          tt_emerg_to_endjuv       =   185.0
+          pp_endjuv_to_initp       =   164.0
+          tt_flower_to_maturity    =   457.0
+          head_grain_no_max        =  2600.0
+          grain_gth_rate           =     0.6
+          tt_flag_to_flower        =    77.8
+          tt_flower_to_start_grain =    80.0
+          tt_maturity_to_ripe      =     1.0
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      
+      
+      
+                          Root Profile
+          ------------------------------------------------
+            Layer depth  Kl factor   Lower limit
+               (mm)         ()        (mm/mm)
+          ------------------------------------------------
+              150.000       0.120       0.066
+              150.000       0.120       0.090
+              300.000       0.120       0.117
+              300.000       0.100       0.123
+              300.000       0.060       0.129
+              300.000       0.055       0.137
+              300.000       0.030       0.148
+           ------------------------------------------------
+      
+      
+      
 3 July 1997 (Day of year=184):
-      stage    2.0 germination
+   MILLET:
+       stage    2.0 germination
 5 July 1997 (Day of year=186):
-      stage    3.0 emergence
-                          biomass =          0.5250000e-01   lai =    0.1500000e-02
-                          stover N conc =    4.399999       extractable sw =    12.68722
+   MILLET:
+       stage    3.0 emergence
+                           biomass =          0.5250000e-01   lai =    0.1500000e-02
+                           stover N conc =    4.399999       extractable sw =    12.68722
 8 July 1997 (Day of year=189):
-      Sending set message to soiln2
-      Sending set message to soiln2
-      Sending set message to soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   operatns_schedule
-                   operatns
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.235000      in layer   1
-              is above saturation of     0.216000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   operatns_schedule
-                   operatns
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.250000      in layer   2
-              is above saturation of     0.240000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   operatns_schedule
-                   operatns
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.249000      in layer   3
-              is above saturation of     0.234000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   operatns_schedule
-                   operatns
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.240000      in layer   6
-              is above saturation of     0.237000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   OPERATNS:
+       Sending set message to soiln2
+       Sending set message to soiln2
+       Sending set message to soilwat2
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    operatns_schedule
+                    operatns
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.235000      in layer   1
+               is above saturation of     0.216000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    operatns_schedule
+                    operatns
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.250000      in layer   2
+               is above saturation of     0.240000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    operatns_schedule
+                    operatns
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.249000      in layer   3
+               is above saturation of     0.234000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    operatns_schedule
+                    operatns
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.240000      in layer   6
+               is above saturation of     0.237000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 14 July 1997 (Day of year=195):
-     Initiate
-     
-     
-     
-                      Crop Initiate Data
-         ------------------------------------------------
-        Initiate   Axes   DM      N   Spacing Cultivar
-         Day no    m^2 g/plant g/plant   m      Name
-         ------------------------------------------------
-            195    7.5    0.0    0.0    0.8 hhb67
-         ------------------------------------------------
-     
-        - Reading Cultivar Parameters
-         ------------------------------------------------
-         Cultivar                 = hhb67
-         est_days_emerg_to_init  =      17
-         tt_emerg_to_endjuv       =    88.5
-         pp_endjuv_to_initp       =   164.0
-         tt_flower_to_maturity    =   457.0
-         head_grain_no_max        =  2200.0
-         grain_gth_rate           =     0.6
-         tt_flag_to_flower        =    77.8
-         tt_flower_to_start_grain =    80.0
-         tt_maturity_to_ripe      =     1.0
-         ------------------------------------------------
-     
-     
-     
-     
-        - Reading root profile parameters
-     
-     
-     
-                         Root Profile
-         ------------------------------------------------
-           Layer depth  Kl factor   Lower limit
-              (mm)         ()        (mm/mm)
-         ------------------------------------------------
-             150.000       0.120       0.066
-             150.000       0.120       0.090
-             300.000       0.120       0.117
-             300.000       0.100       0.123
-             300.000       0.060       0.129
-             300.000       0.055       0.137
-             300.000       0.030       0.148
+   MILLET1:
+      Initiate
+      
+      
+      
+                       Crop Initiate Data
           ------------------------------------------------
-     
-     
-     
+         Initiate   Axes   DM      N   Spacing Cultivar
+          Day no    m^2 g/plant g/plant   m      Name
+          ------------------------------------------------
+             195    7.5    0.0    0.0    0.8 hhb67
+          ------------------------------------------------
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = hhb67
+          est_days_emerg_to_init  =      17
+          tt_emerg_to_endjuv       =    88.5
+          pp_endjuv_to_initp       =   164.0
+          tt_flower_to_maturity    =   457.0
+          head_grain_no_max        =  2200.0
+          grain_gth_rate           =     0.6
+          tt_flag_to_flower        =    77.8
+          tt_flower_to_start_grain =    80.0
+          tt_maturity_to_ripe      =     1.0
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      
+      
+      
+                          Root Profile
+          ------------------------------------------------
+            Layer depth  Kl factor   Lower limit
+               (mm)         ()        (mm/mm)
+          ------------------------------------------------
+              150.000       0.120       0.066
+              150.000       0.120       0.090
+              300.000       0.120       0.117
+              300.000       0.100       0.123
+              300.000       0.060       0.129
+              300.000       0.055       0.137
+              300.000       0.030       0.148
+           ------------------------------------------------
+      
+      
+      
 15 July 1997 (Day of year=196):
-      stage    3.0 emergence
-                          biomass =          0.1500000e-01   lai =    0.1500000e-02
-                          stover N conc =    4.400000       extractable sw =    4.675005
+   MILLET1:
+       stage    3.0 emergence
+                           biomass =          0.1500000e-01   lai =    0.1500000e-02
+                           stover N conc =    4.400000       extractable sw =    4.675005
 16 July 1997 (Day of year=197):
-     Initiate
-     
-     
-     
-                      Crop Initiate Data
-         ------------------------------------------------
-        Initiate   Axes   DM      N   Spacing Cultivar
-         Day no    m^2 g/plant g/plant   m      Name
-         ------------------------------------------------
-            197    7.5    0.0    0.0    0.8 hhb67
-         ------------------------------------------------
-     
-        - Reading Cultivar Parameters
-         ------------------------------------------------
-         Cultivar                 = hhb67
-         est_days_emerg_to_init  =      17
-         tt_emerg_to_endjuv       =    78.5
-         pp_endjuv_to_initp       =   164.0
-         tt_flower_to_maturity    =   457.0
-         head_grain_no_max        =  2200.0
-         grain_gth_rate           =     0.6
-         tt_flag_to_flower        =    77.8
-         tt_flower_to_start_grain =    80.0
-         tt_maturity_to_ripe      =     1.0
-         ------------------------------------------------
-     
-     
-     
-     
-        - Reading root profile parameters
-     
-     
-     
-                         Root Profile
-         ------------------------------------------------
-           Layer depth  Kl factor   Lower limit
-              (mm)         ()        (mm/mm)
-         ------------------------------------------------
-             150.000       0.120       0.066
-             150.000       0.120       0.090
-             300.000       0.120       0.117
-             300.000       0.100       0.123
-             300.000       0.060       0.129
-             300.000       0.055       0.137
-             300.000       0.030       0.148
+   MILLET2:
+      Initiate
+      
+      
+      
+                       Crop Initiate Data
           ------------------------------------------------
-     
-     
-     
-      stage    4.0 end_of_juvenile
-                          biomass =           2.020844       lai =    0.3194365e-01
-                          stover N conc =    3.049318       extractable sw =    39.95520
-      stage    3.0 emergence
-                          biomass =          0.1500000e-01   lai =    0.1500000e-02
-                          stover N conc =    4.400000       extractable sw =    3.681555
+         Initiate   Axes   DM      N   Spacing Cultivar
+          Day no    m^2 g/plant g/plant   m      Name
+          ------------------------------------------------
+             197    7.5    0.0    0.0    0.8 hhb67
+          ------------------------------------------------
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = hhb67
+          est_days_emerg_to_init  =      17
+          tt_emerg_to_endjuv       =    78.5
+          pp_endjuv_to_initp       =   164.0
+          tt_flower_to_maturity    =   457.0
+          head_grain_no_max        =  2200.0
+          grain_gth_rate           =     0.6
+          tt_flag_to_flower        =    77.8
+          tt_flower_to_start_grain =    80.0
+          tt_maturity_to_ripe      =     1.0
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      
+      
+      
+                          Root Profile
+          ------------------------------------------------
+            Layer depth  Kl factor   Lower limit
+               (mm)         ()        (mm/mm)
+          ------------------------------------------------
+              150.000       0.120       0.066
+              150.000       0.120       0.090
+              300.000       0.120       0.117
+              300.000       0.100       0.123
+              300.000       0.060       0.129
+              300.000       0.055       0.137
+              300.000       0.030       0.148
+           ------------------------------------------------
+      
+      
+      
+   MILLET:
+       stage    4.0 end_of_juvenile
+                           biomass =           2.020844       lai =    0.3194365e-01
+                           stover N conc =    3.049131       extractable sw =    39.95520
+   MILLET2:
+       stage    3.0 emergence
+                           biomass =          0.1500000e-01   lai =    0.1500000e-02
+                           stover N conc =    4.400000       extractable sw =    3.681555
 18 July 1997 (Day of year=199):
-     Initiate
-     
-     
-     
-                      Crop Initiate Data
-         ------------------------------------------------
-        Initiate   Axes   DM      N   Spacing Cultivar
-         Day no    m^2 g/plant g/plant   m      Name
-         ------------------------------------------------
-            199    7.5    0.0    0.0    0.8 hhb67
-         ------------------------------------------------
-     
-        - Reading Cultivar Parameters
-         ------------------------------------------------
-         Cultivar                 = hhb67
-         est_days_emerg_to_init  =      17
-         tt_emerg_to_endjuv       =    68.5
-         pp_endjuv_to_initp       =   164.0
-         tt_flower_to_maturity    =   457.0
-         head_grain_no_max        =  2200.0
-         grain_gth_rate           =     0.6
-         tt_flag_to_flower        =    77.8
-         tt_flower_to_start_grain =    80.0
-         tt_maturity_to_ripe      =     1.0
-         ------------------------------------------------
-     
-     
-     
-     
-        - Reading root profile parameters
-     
-     
-     
-                         Root Profile
-         ------------------------------------------------
-           Layer depth  Kl factor   Lower limit
-              (mm)         ()        (mm/mm)
-         ------------------------------------------------
-             150.000       0.120       0.066
-             150.000       0.120       0.090
-             300.000       0.120       0.117
-             300.000       0.100       0.123
-             300.000       0.060       0.129
-             300.000       0.055       0.137
-             300.000       0.030       0.148
+   MILLET3:
+      Initiate
+      
+      
+      
+                       Crop Initiate Data
           ------------------------------------------------
-     
-     
-     
-      stage    3.0 emergence
-                          biomass =          0.1500000e-01   lai =    0.1500000e-02
-                          stover N conc =    4.400000       extractable sw =    1.932858
+         Initiate   Axes   DM      N   Spacing Cultivar
+          Day no    m^2 g/plant g/plant   m      Name
+          ------------------------------------------------
+             199    7.5    0.0    0.0    0.8 hhb67
+          ------------------------------------------------
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = hhb67
+          est_days_emerg_to_init  =      17
+          tt_emerg_to_endjuv       =    68.5
+          pp_endjuv_to_initp       =   164.0
+          tt_flower_to_maturity    =   457.0
+          head_grain_no_max        =  2200.0
+          grain_gth_rate           =     0.6
+          tt_flag_to_flower        =    77.8
+          tt_flower_to_start_grain =    80.0
+          tt_maturity_to_ripe      =     1.0
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      
+      
+      
+                          Root Profile
+          ------------------------------------------------
+            Layer depth  Kl factor   Lower limit
+               (mm)         ()        (mm/mm)
+          ------------------------------------------------
+              150.000       0.120       0.066
+              150.000       0.120       0.090
+              300.000       0.120       0.117
+              300.000       0.100       0.123
+              300.000       0.060       0.129
+              300.000       0.055       0.137
+              300.000       0.030       0.148
+           ------------------------------------------------
+      
+      
+      
+       stage    3.0 emergence
+                           biomass =          0.1500000e-01   lai =    0.1500000e-02
+                           stover N conc =    4.400000       extractable sw =    1.932858
 19 July 1997 (Day of year=200):
-      stage    5.0 floral_initiation
-                          biomass =           4.700346       lai =    0.7028750e-01
-                          stover N conc =    3.015888       extractable sw =    35.85452
+   MILLET:
+       stage    5.0 floral_initiation
+                           biomass =           4.700346       lai =    0.7028750e-01
+                           stover N conc =    3.015764       extractable sw =    35.85452
 20 July 1997 (Day of year=201):
-     Initiate
-     
-     
-     
-                      Crop Initiate Data
-         ------------------------------------------------
-        Initiate   Axes   DM      N   Spacing Cultivar
-         Day no    m^2 g/plant g/plant   m      Name
-         ------------------------------------------------
-            201    7.5    0.0    0.0    0.8 hhb67
-         ------------------------------------------------
-     
-        - Reading Cultivar Parameters
-         ------------------------------------------------
-         Cultivar                 = hhb67
-         est_days_emerg_to_init  =      17
-         tt_emerg_to_endjuv       =    58.5
-         pp_endjuv_to_initp       =   164.0
-         tt_flower_to_maturity    =   457.0
-         head_grain_no_max        =  2200.0
-         grain_gth_rate           =     0.6
-         tt_flag_to_flower        =    77.8
-         tt_flower_to_start_grain =    80.0
-         tt_maturity_to_ripe      =     1.0
-         ------------------------------------------------
-     
-     
-     
-     
-        - Reading root profile parameters
-     
-     
-     
-                         Root Profile
-         ------------------------------------------------
-           Layer depth  Kl factor   Lower limit
-              (mm)         ()        (mm/mm)
-         ------------------------------------------------
-             150.000       0.120       0.066
-             150.000       0.120       0.090
-             300.000       0.120       0.117
-             300.000       0.100       0.123
-             300.000       0.060       0.129
-             300.000       0.055       0.137
-             300.000       0.030       0.148
+   MILLET4:
+      Initiate
+      
+      
+      
+                       Crop Initiate Data
           ------------------------------------------------
-     
-     
-     
+         Initiate   Axes   DM      N   Spacing Cultivar
+          Day no    m^2 g/plant g/plant   m      Name
+          ------------------------------------------------
+             201    7.5    0.0    0.0    0.8 hhb67
+          ------------------------------------------------
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = hhb67
+          est_days_emerg_to_init  =      17
+          tt_emerg_to_endjuv       =    58.5
+          pp_endjuv_to_initp       =   164.0
+          tt_flower_to_maturity    =   457.0
+          head_grain_no_max        =  2200.0
+          grain_gth_rate           =     0.6
+          tt_flag_to_flower        =    77.8
+          tt_flower_to_start_grain =    80.0
+          tt_maturity_to_ripe      =     1.0
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      
+      
+      
+                          Root Profile
+          ------------------------------------------------
+            Layer depth  Kl factor   Lower limit
+               (mm)         ()        (mm/mm)
+          ------------------------------------------------
+              150.000       0.120       0.066
+              150.000       0.120       0.090
+              300.000       0.120       0.117
+              300.000       0.100       0.123
+              300.000       0.060       0.129
+              300.000       0.055       0.137
+              300.000       0.030       0.148
+           ------------------------------------------------
+      
+      
+      
 21 July 1997 (Day of year=202):
-      stage    3.0 emergence
-                          biomass =          0.1500000e-01   lai =    0.1425000e-02
-                          stover N conc =    4.400000       extractable sw =   0.0000000
-     Initiate
-     
-     
-     
-                      Crop Initiate Data
-         ------------------------------------------------
-        Initiate   Axes   DM      N   Spacing Cultivar
-         Day no    m^2 g/plant g/plant   m      Name
-         ------------------------------------------------
-            202    7.5    0.0    0.0    0.8 hhb67
-         ------------------------------------------------
-     
-        - Reading Cultivar Parameters
-         ------------------------------------------------
-         Cultivar                 = hhb67
-         est_days_emerg_to_init  =      17
-         tt_emerg_to_endjuv       =    48.5
-         pp_endjuv_to_initp       =   164.0
-         tt_flower_to_maturity    =   457.0
-         head_grain_no_max        =  2200.0
-         grain_gth_rate           =     0.6
-         tt_flag_to_flower        =    77.8
-         tt_flower_to_start_grain =    80.0
-         tt_maturity_to_ripe      =     1.0
-         ------------------------------------------------
-     
-     
-     
-     
-        - Reading root profile parameters
-     
-     
-     
-                         Root Profile
-         ------------------------------------------------
-           Layer depth  Kl factor   Lower limit
-              (mm)         ()        (mm/mm)
-         ------------------------------------------------
-             150.000       0.120       0.066
-             150.000       0.120       0.090
-             300.000       0.120       0.117
-             300.000       0.100       0.123
-             300.000       0.060       0.129
-             300.000       0.055       0.137
-             300.000       0.030       0.148
+   MILLET4:
+       stage    3.0 emergence
+                           biomass =          0.1500000e-01   lai =    0.1425000e-02
+                           stover N conc =    4.400000       extractable sw =   0.0000000
+   MILLET5:
+      Initiate
+      
+      
+      
+                       Crop Initiate Data
           ------------------------------------------------
-     
-     
-     
-      stage    4.0 end_of_juvenile
-                          biomass =          0.6865727       lai =    0.1835495e-01
-                          stover N conc =    3.409051       extractable sw =    10.52817
+         Initiate   Axes   DM      N   Spacing Cultivar
+          Day no    m^2 g/plant g/plant   m      Name
+          ------------------------------------------------
+             202    7.5    0.0    0.0    0.8 hhb67
+          ------------------------------------------------
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = hhb67
+          est_days_emerg_to_init  =      17
+          tt_emerg_to_endjuv       =    48.5
+          pp_endjuv_to_initp       =   164.0
+          tt_flower_to_maturity    =   457.0
+          head_grain_no_max        =  2200.0
+          grain_gth_rate           =     0.6
+          tt_flag_to_flower        =    77.8
+          tt_flower_to_start_grain =    80.0
+          tt_maturity_to_ripe      =     1.0
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      
+      
+      
+                          Root Profile
+          ------------------------------------------------
+            Layer depth  Kl factor   Lower limit
+               (mm)         ()        (mm/mm)
+          ------------------------------------------------
+              150.000       0.120       0.066
+              150.000       0.120       0.090
+              300.000       0.120       0.117
+              300.000       0.100       0.123
+              300.000       0.060       0.129
+              300.000       0.055       0.137
+              300.000       0.030       0.148
+           ------------------------------------------------
+      
+      
+      
+   MILLET1:
+       stage    4.0 end_of_juvenile
+                           biomass =          0.6865727       lai =    0.1835495e-01
+                           stover N conc =    3.409019       extractable sw =    10.52817
 22 July 1997 (Day of year=203):
-      stage    3.0 emergence
-                          biomass =          0.1500000e-01   lai =    0.1425000e-02
-                          stover N conc =    4.400000       extractable sw =   0.0000000
+   MILLET5:
+       stage    3.0 emergence
+                           biomass =          0.1500000e-01   lai =    0.1425000e-02
+                           stover N conc =    4.400000       extractable sw =   0.0000000
 23 July 1997 (Day of year=204):
-      stage    5.0 floral_initiation
-                          biomass =           1.496038       lai =    0.4383318e-01
-                          stover N conc =    2.595706       extractable sw =    9.720347
+   MILLET1:
+       stage    5.0 floral_initiation
+                           biomass =           1.496038       lai =    0.4383318e-01
+                           stover N conc =    2.595673       extractable sw =    9.720347
 24 July 1997 (Day of year=205):
-     plant_kill.   1% failure because of water stress.
-     plant_kill.   1% failure because of water stress.
-     plant_kill.   0% failure because of water stress.
+   MILLET2:
+      plant_kill.   1% failure because of water stress.
+   MILLET3:
+      plant_kill.   1% failure because of water stress.
+   MILLET4:
+      plant_kill.   0% failure because of water stress.
 26 July 1997 (Day of year=207):
-      stage    4.0 end_of_juvenile
-                          biomass =          0.4245906       lai =    0.1088091e-01
-                          stover N conc =    3.325481       extractable sw =    31.74632
+   MILLET2:
+       stage    4.0 end_of_juvenile
+                           biomass =          0.4245906       lai =    0.1088091e-01
+                           stover N conc =    3.325476       extractable sw =    31.74632
 27 July 1997 (Day of year=208):
-      stage    4.0 end_of_juvenile
-                          biomass =          0.1873146       lai =    0.5451369e-02
-                          stover N conc =    2.691209       extractable sw =    27.92838
-      stage    4.0 end_of_juvenile
-                          biomass =          0.1173716       lai =    0.4561952e-02
-                          stover N conc =    2.260012       extractable sw =    27.91202
+   MILLET3:
+       stage    4.0 end_of_juvenile
+                           biomass =          0.1873146       lai =    0.5451369e-02
+                           stover N conc =    2.691186       extractable sw =    27.92838
+   MILLET5:
+       stage    4.0 end_of_juvenile
+                           biomass =          0.1173716       lai =    0.4561952e-02
+                           stover N conc =    2.260010       extractable sw =    27.91202
 28 July 1997 (Day of year=209):
-      stage    4.0 end_of_juvenile
-                          biomass =          0.1745866       lai =    0.6324677e-02
-                          stover N conc =    2.175979       extractable sw =    32.11632
-      stage    5.0 floral_initiation
-                          biomass =          0.8630674       lai =    0.2491216e-01
-                          stover N conc =    2.594894       extractable sw =    31.31510
+   MILLET4:
+       stage    4.0 end_of_juvenile
+                           biomass =          0.1745866       lai =    0.6324677e-02
+                           stover N conc =    2.175977       extractable sw =    32.11632
+   MILLET2:
+       stage    5.0 floral_initiation
+                           biomass =          0.8630674       lai =    0.2491216e-01
+                           stover N conc =    2.594883       extractable sw =    31.31510
 29 July 1997 (Day of year=210):
-      stage    5.0 floral_initiation
-                          biomass =          0.2735555       lai =    0.9559837e-02
-                          stover N conc =    2.099757       extractable sw =    31.02706
+   MILLET5:
+       stage    5.0 floral_initiation
+                           biomass =          0.2735555       lai =    0.9559837e-02
+                           stover N conc =    2.099755       extractable sw =    31.02706
 30 July 1997 (Day of year=211):
-      Sending apply message to fertiliz
-     
-        - Reading Fertiliser Type Parameters
-       100.00 of urea ferilizer (urea)
-                                              added at depth   10.00 (layer   1)
-      stage    5.0 floral_initiation
-                          biomass =          0.4943838       lai =    0.1527758e-01
-                          stover N conc =    2.097789       extractable sw =    27.50027
-      stage    5.0 floral_initiation
-                          biomass =          0.3552986       lai =    0.1210746e-01
-                          stover N conc =    2.091604       extractable sw =    27.48473
+   OPERATNS:
+       Sending apply message to fertiliz
+   FERTILIZ:
+      
+         - Reading Fertiliser Type Parameters
+        100.00 of urea ferilizer (urea)
+                                               added at depth   10.00 (layer   1)
+   MILLET3:
+       stage    5.0 floral_initiation
+                           biomass =          0.4943838       lai =    0.1527758e-01
+                           stover N conc =    2.097779       extractable sw =    27.50027
+   MILLET4:
+       stage    5.0 floral_initiation
+                           biomass =          0.3552986       lai =    0.1210746e-01
+                           stover N conc =    2.091595       extractable sw =    27.48473
 31 July 1997 (Day of year=212):
-     Simulation is terminating due to end criteria being met.
+   CLOCK:
+      Simulation is terminating due to end criteria being met.

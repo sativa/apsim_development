@@ -299,6 +299,7 @@
      
      
      
+           TAV and AMP supplied externally
      
      
      
@@ -370,1760 +371,1884 @@
          - Reading constants
 ------- Start of simulation  --------------------------------------------------
 20 June 1995 (Day of year=171):
-      Sending sow message to millet
-     Sow
-     
-     
-     
-                      Crop Sowing Data
-         ------------------------------------------------
-         Sowing  Depth Plants Spacing Cultivar
-         Day no   mm     m^2     m     Name
-         ------------------------------------------------
-            171   30.0    6.7    0.8 wrajpop
-         ------------------------------------------------
-     
-        - Reading Cultivar Parameters
-         ------------------------------------------------
-         Cultivar                 = wrajpop
-         est_days_emerg_to_init  =      17
-         tt_emerg_to_endjuv       =   225.0
-         pp_endjuv_to_initp       =   164.0
-         tt_flower_to_maturity    =   457.0
-         head_grain_no_max        =  2600.0
-         grain_gth_rate           =     0.5
-         tt_flag_to_flower        =    61.0
-         tt_flower_to_start_grain =    80.0
-         tt_maturity_to_ripe      =     1.0
-         ------------------------------------------------
-     
-     
-     
-     
-        - Reading root profile parameters
-     
-     
-     
-                         Root Profile
-         ------------------------------------------------
-           Layer depth  Kl factor   Lower limit
-              (mm)         ()        (mm/mm)
-         ------------------------------------------------
-             150.000       0.120       0.146
-             150.000       0.120       0.207
-             300.000       0.120       0.244
-             300.000       0.100       0.236
-             300.000       0.060       0.218
-             300.000       0.055       0.173
-             300.000       0.030       0.173
+   OPERATNS:
+       Sending sow message to millet
+   MILLET:
+      Sow
+      
+      
+      
+                       Crop Sowing Data
           ------------------------------------------------
-     
-     
-     
+          Sowing  Depth Plants Spacing Cultivar
+          Day no   mm     m^2     m     Name
+          ------------------------------------------------
+             171   30.0    6.7    0.8 wrajpop
+          ------------------------------------------------
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = wrajpop
+          est_days_emerg_to_init  =      17
+          tt_emerg_to_endjuv       =   225.0
+          pp_endjuv_to_initp       =   164.0
+          tt_flower_to_maturity    =   457.0
+          head_grain_no_max        =  2600.0
+          grain_gth_rate           =     0.5
+          tt_flag_to_flower        =    61.0
+          tt_flower_to_start_grain =    80.0
+          tt_maturity_to_ripe      =     1.0
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      
+      
+      
+                          Root Profile
+          ------------------------------------------------
+            Layer depth  Kl factor   Lower limit
+               (mm)         ()        (mm/mm)
+          ------------------------------------------------
+              150.000       0.120       0.146
+              150.000       0.120       0.207
+              300.000       0.120       0.244
+              300.000       0.100       0.236
+              300.000       0.060       0.218
+              300.000       0.055       0.173
+              300.000       0.030       0.173
+           ------------------------------------------------
+      
+      
+      
 21 June 1995 (Day of year=172):
-      stage    2.0 germination
+   MILLET:
+       stage    2.0 germination
 23 June 1995 (Day of year=174):
-      Sending set message to soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   operatns_schedule
-                   operatns
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.226000      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      Sending set message to soiln2
-      Sending set message to soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_process
-                   soilwat2
-                   clock_timestep_loop
-                   clock_start
-     
-     Internal error:
-     
-      soil water of     0.226087      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      stage    3.0 emergence
-                          biomass =          0.4690000e-01   lai =    0.1340000e-02
-                          stover N conc =    4.399999       extractable sw =    1.240143
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.226087      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   OPERATNS:
+       Sending set message to soilwat2
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    operatns_schedule
+                    operatns
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.226000      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   OPERATNS:
+       Sending set message to soiln2
+       Sending set message to soiln2
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_process
+                    soilwat2
+                    clock_timestep_loop
+                    clock_start
+      
+      Internal error:
+      
+       soil water of     0.226087      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   MILLET:
+       stage    3.0 emergence
+                           biomass =          0.4690000e-01   lai =    0.1340000e-02
+                           stover N conc =    4.399999       extractable sw =    1.240143
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.226087      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 24 June 1995 (Day of year=175):
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_process
-                   soilwat2
-                   clock_timestep_loop
-                   clock_start
-     
-     Internal error:
-     
-      soil water of     0.226174      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.226174      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_process
+                    soilwat2
+                    clock_timestep_loop
+                    clock_start
+      
+      Internal error:
+      
+       soil water of     0.226174      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.226174      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 25 June 1995 (Day of year=176):
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_process
-                   soilwat2
-                   clock_timestep_loop
-                   clock_start
-     
-     Internal error:
-     
-      soil water of     0.226260      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.226260      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_process
+                    soilwat2
+                    clock_timestep_loop
+                    clock_start
+      
+      Internal error:
+      
+       soil water of     0.226260      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.226260      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 26 June 1995 (Day of year=177):
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_process
-                   soilwat2
-                   clock_timestep_loop
-                   clock_start
-     
-     Internal error:
-     
-      soil water of     0.226345      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.226345      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_process
+                    soilwat2
+                    clock_timestep_loop
+                    clock_start
+      
+      Internal error:
+      
+       soil water of     0.226345      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.226345      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 27 June 1995 (Day of year=178):
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_process
-                   soilwat2
-                   clock_timestep_loop
-                   clock_start
-     
-     Internal error:
-     
-      soil water of     0.226429      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.226429      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_process
+                    soilwat2
+                    clock_timestep_loop
+                    clock_start
+      
+      Internal error:
+      
+       soil water of     0.226429      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.226429      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 28 June 1995 (Day of year=179):
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_process
-                   soilwat2
-                   clock_timestep_loop
-                   clock_start
-     
-     Internal error:
-     
-      soil water of     0.226512      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.226512      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_process
+                    soilwat2
+                    clock_timestep_loop
+                    clock_start
+      
+      Internal error:
+      
+       soil water of     0.226512      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.226512      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 29 June 1995 (Day of year=180):
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_process
-                   soilwat2
-                   clock_timestep_loop
-                   clock_start
-     
-     Internal error:
-     
-      soil water of     0.226595      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.226595      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_process
+                    soilwat2
+                    clock_timestep_loop
+                    clock_start
+      
+      Internal error:
+      
+       soil water of     0.226595      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.226595      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 30 June 1995 (Day of year=181):
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_process
-                   soilwat2
-                   clock_timestep_loop
-                   clock_start
-     
-     Internal error:
-     
-      soil water of     0.226677      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.226677      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_process
+                    soilwat2
+                    clock_timestep_loop
+                    clock_start
+      
+      Internal error:
+      
+       soil water of     0.226677      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.226677      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 1 July 1995 (Day of year=182):
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_process
-                   soilwat2
-                   clock_timestep_loop
-                   clock_start
-     
-     Internal error:
-     
-      soil water of     0.226758      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.226758      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_process
+                    soilwat2
+                    clock_timestep_loop
+                    clock_start
+      
+      Internal error:
+      
+       soil water of     0.226758      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.226758      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 2 July 1995 (Day of year=183):
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_process
-                   soilwat2
-                   clock_timestep_loop
-                   clock_start
-     
-     Internal error:
-     
-      soil water of     0.226838      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.226838      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_process
+                    soilwat2
+                    clock_timestep_loop
+                    clock_start
+      
+      Internal error:
+      
+       soil water of     0.226838      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.226838      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 3 July 1995 (Day of year=184):
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_process
-                   soilwat2
-                   clock_timestep_loop
-                   clock_start
-     
-     Internal error:
-     
-      soil water of     0.226917      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     Initiate
-     
-     
-     
-                      Crop Initiate Data
-         ------------------------------------------------
-        Initiate   Axes   DM      N   Spacing Cultivar
-         Day no    m^2 g/plant g/plant   m      Name
-         ------------------------------------------------
-            184    6.7    0.0    0.0    0.8 wrajpop
-         ------------------------------------------------
-     
-        - Reading Cultivar Parameters
-         ------------------------------------------------
-         Cultivar                 = wrajpop
-         est_days_emerg_to_init  =      17
-         tt_emerg_to_endjuv       =   128.5
-         pp_endjuv_to_initp       =   164.0
-         tt_flower_to_maturity    =   457.0
-         head_grain_no_max        =  2200.0
-         grain_gth_rate           =     0.5
-         tt_flag_to_flower        =    61.0
-         tt_flower_to_start_grain =    80.0
-         tt_maturity_to_ripe      =     1.0
-         ------------------------------------------------
-     
-     
-     
-     
-        - Reading root profile parameters
-     
-     
-     
-                         Root Profile
-         ------------------------------------------------
-           Layer depth  Kl factor   Lower limit
-              (mm)         ()        (mm/mm)
-         ------------------------------------------------
-             150.000       0.120       0.146
-             150.000       0.120       0.207
-             300.000       0.120       0.244
-             300.000       0.100       0.236
-             300.000       0.060       0.218
-             300.000       0.055       0.173
-             300.000       0.030       0.173
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_process
+                    soilwat2
+                    clock_timestep_loop
+                    clock_start
+      
+      Internal error:
+      
+       soil water of     0.226917      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   MILLET1:
+      Initiate
+      
+      
+      
+                       Crop Initiate Data
           ------------------------------------------------
-     
-     
-     
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.226917      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      stage    3.0 emergence
-                          biomass =          0.1340000e-01   lai =    0.1340000e-02
-                          stover N conc =    4.400000       extractable sw =    8.314753
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.226917      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         Initiate   Axes   DM      N   Spacing Cultivar
+          Day no    m^2 g/plant g/plant   m      Name
+          ------------------------------------------------
+             184    6.7    0.0    0.0    0.8 wrajpop
+          ------------------------------------------------
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = wrajpop
+          est_days_emerg_to_init  =      17
+          tt_emerg_to_endjuv       =   128.5
+          pp_endjuv_to_initp       =   164.0
+          tt_flower_to_maturity    =   457.0
+          head_grain_no_max        =  2200.0
+          grain_gth_rate           =     0.5
+          tt_flag_to_flower        =    61.0
+          tt_flower_to_start_grain =    80.0
+          tt_maturity_to_ripe      =     1.0
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      
+      
+      
+                          Root Profile
+          ------------------------------------------------
+            Layer depth  Kl factor   Lower limit
+               (mm)         ()        (mm/mm)
+          ------------------------------------------------
+              150.000       0.120       0.146
+              150.000       0.120       0.207
+              300.000       0.120       0.244
+              300.000       0.100       0.236
+              300.000       0.060       0.218
+              300.000       0.055       0.173
+              300.000       0.030       0.173
+           ------------------------------------------------
+      
+      
+      
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.226917      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   MILLET1:
+       stage    3.0 emergence
+                           biomass =          0.1340000e-01   lai =    0.1340000e-02
+                           stover N conc =    4.400000       extractable sw =    8.314753
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.226917      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 4 July 1995 (Day of year=185):
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_process
-                   soilwat2
-                   clock_timestep_loop
-                   clock_start
-     
-     Internal error:
-     
-      soil water of     0.226996      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.226996      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.226996      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_process
+                    soilwat2
+                    clock_timestep_loop
+                    clock_start
+      
+      Internal error:
+      
+       soil water of     0.226996      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.226996      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.226996      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 5 July 1995 (Day of year=186):
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_process
-                   soilwat2
-                   clock_timestep_loop
-                   clock_start
-     
-     Internal error:
-     
-      soil water of     0.227073      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     Initiate
-     
-     
-     
-                      Crop Initiate Data
-         ------------------------------------------------
-        Initiate   Axes   DM      N   Spacing Cultivar
-         Day no    m^2 g/plant g/plant   m      Name
-         ------------------------------------------------
-            186    6.7    0.0    0.0    0.8 wrajpop
-         ------------------------------------------------
-     
-        - Reading Cultivar Parameters
-         ------------------------------------------------
-         Cultivar                 = wrajpop
-         est_days_emerg_to_init  =      17
-         tt_emerg_to_endjuv       =   118.5
-         pp_endjuv_to_initp       =   164.0
-         tt_flower_to_maturity    =   457.0
-         head_grain_no_max        =  2200.0
-         grain_gth_rate           =     0.5
-         tt_flag_to_flower        =    61.0
-         tt_flower_to_start_grain =    80.0
-         tt_maturity_to_ripe      =     1.0
-         ------------------------------------------------
-     
-     
-     
-     
-        - Reading root profile parameters
-     
-     
-     
-                         Root Profile
-         ------------------------------------------------
-           Layer depth  Kl factor   Lower limit
-              (mm)         ()        (mm/mm)
-         ------------------------------------------------
-             150.000       0.120       0.146
-             150.000       0.120       0.207
-             300.000       0.120       0.244
-             300.000       0.100       0.236
-             300.000       0.060       0.218
-             300.000       0.055       0.173
-             300.000       0.030       0.173
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_process
+                    soilwat2
+                    clock_timestep_loop
+                    clock_start
+      
+      Internal error:
+      
+       soil water of     0.227073      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   MILLET2:
+      Initiate
+      
+      
+      
+                       Crop Initiate Data
           ------------------------------------------------
-     
-     
-     
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.227073      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.227073      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      stage    3.0 emergence
-                          biomass =          0.1340000e-01   lai =    0.1340000e-02
-                          stover N conc =    4.400000       extractable sw =    4.588722
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.227073      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         Initiate   Axes   DM      N   Spacing Cultivar
+          Day no    m^2 g/plant g/plant   m      Name
+          ------------------------------------------------
+             186    6.7    0.0    0.0    0.8 wrajpop
+          ------------------------------------------------
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = wrajpop
+          est_days_emerg_to_init  =      17
+          tt_emerg_to_endjuv       =   118.5
+          pp_endjuv_to_initp       =   164.0
+          tt_flower_to_maturity    =   457.0
+          head_grain_no_max        =  2200.0
+          grain_gth_rate           =     0.5
+          tt_flag_to_flower        =    61.0
+          tt_flower_to_start_grain =    80.0
+          tt_maturity_to_ripe      =     1.0
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      
+      
+      
+                          Root Profile
+          ------------------------------------------------
+            Layer depth  Kl factor   Lower limit
+               (mm)         ()        (mm/mm)
+          ------------------------------------------------
+              150.000       0.120       0.146
+              150.000       0.120       0.207
+              300.000       0.120       0.244
+              300.000       0.100       0.236
+              300.000       0.060       0.218
+              300.000       0.055       0.173
+              300.000       0.030       0.173
+           ------------------------------------------------
+      
+      
+      
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.227073      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.227073      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   MILLET2:
+       stage    3.0 emergence
+                           biomass =          0.1340000e-01   lai =    0.1340000e-02
+                           stover N conc =    4.400000       extractable sw =    4.588724
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.227073      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 6 July 1995 (Day of year=187):
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_process
-                   soilwat2
-                   clock_timestep_loop
-                   clock_start
-     
-     Internal error:
-     
-      soil water of     0.227150      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.227150      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.227150      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.227150      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_process
+                    soilwat2
+                    clock_timestep_loop
+                    clock_start
+      
+      Internal error:
+      
+       soil water of     0.227150      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.227150      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.227150      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.227150      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 7 July 1995 (Day of year=188):
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_process
-                   soilwat2
-                   clock_timestep_loop
-                   clock_start
-     
-     Internal error:
-     
-      soil water of     0.227226      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     Initiate
-     
-     
-     
-                      Crop Initiate Data
-         ------------------------------------------------
-        Initiate   Axes   DM      N   Spacing Cultivar
-         Day no    m^2 g/plant g/plant   m      Name
-         ------------------------------------------------
-            188    6.7    0.0    0.0    0.8 wrajpop
-         ------------------------------------------------
-     
-        - Reading Cultivar Parameters
-         ------------------------------------------------
-         Cultivar                 = wrajpop
-         est_days_emerg_to_init  =      17
-         tt_emerg_to_endjuv       =   108.5
-         pp_endjuv_to_initp       =   164.0
-         tt_flower_to_maturity    =   457.0
-         head_grain_no_max        =  2200.0
-         grain_gth_rate           =     0.5
-         tt_flag_to_flower        =    61.0
-         tt_flower_to_start_grain =    80.0
-         tt_maturity_to_ripe      =     1.0
-         ------------------------------------------------
-     
-     
-     
-     
-        - Reading root profile parameters
-     
-     
-     
-                         Root Profile
-         ------------------------------------------------
-           Layer depth  Kl factor   Lower limit
-              (mm)         ()        (mm/mm)
-         ------------------------------------------------
-             150.000       0.120       0.146
-             150.000       0.120       0.207
-             300.000       0.120       0.244
-             300.000       0.100       0.236
-             300.000       0.060       0.218
-             300.000       0.055       0.173
-             300.000       0.030       0.173
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_process
+                    soilwat2
+                    clock_timestep_loop
+                    clock_start
+      
+      Internal error:
+      
+       soil water of     0.227226      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   MILLET3:
+      Initiate
+      
+      
+      
+                       Crop Initiate Data
           ------------------------------------------------
-     
-     
-     
-      stage    4.0 end_of_juvenile
-                          biomass =           3.536862       lai =    0.4715715e-01
-                          stover N conc =    1.861512       extractable sw =    9.738132
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.227226      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.227226      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.227226      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      stage    3.0 emergence
-                          biomass =          0.1340000e-01   lai =    0.1340000e-02
-                          stover N conc =    4.400000       extractable sw =    8.980392
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.227226      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         Initiate   Axes   DM      N   Spacing Cultivar
+          Day no    m^2 g/plant g/plant   m      Name
+          ------------------------------------------------
+             188    6.7    0.0    0.0    0.8 wrajpop
+          ------------------------------------------------
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = wrajpop
+          est_days_emerg_to_init  =      17
+          tt_emerg_to_endjuv       =   108.5
+          pp_endjuv_to_initp       =   164.0
+          tt_flower_to_maturity    =   457.0
+          head_grain_no_max        =  2200.0
+          grain_gth_rate           =     0.5
+          tt_flag_to_flower        =    61.0
+          tt_flower_to_start_grain =    80.0
+          tt_maturity_to_ripe      =     1.0
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      
+      
+      
+                          Root Profile
+          ------------------------------------------------
+            Layer depth  Kl factor   Lower limit
+               (mm)         ()        (mm/mm)
+          ------------------------------------------------
+              150.000       0.120       0.146
+              150.000       0.120       0.207
+              300.000       0.120       0.244
+              300.000       0.100       0.236
+              300.000       0.060       0.218
+              300.000       0.055       0.173
+              300.000       0.030       0.173
+           ------------------------------------------------
+      
+      
+      
+   MILLET:
+       stage    4.0 end_of_juvenile
+                           biomass =           3.536844       lai =    0.4715715e-01
+                           stover N conc =    1.861506       extractable sw =    9.738132
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.227226      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.227226      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.227226      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   MILLET3:
+       stage    3.0 emergence
+                           biomass =          0.1340000e-01   lai =    0.1340000e-02
+                           stover N conc =    4.400000       extractable sw =    8.980392
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.227226      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 8 July 1995 (Day of year=189):
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_process
-                   soilwat2
-                   clock_timestep_loop
-                   clock_start
-     
-     Internal error:
-     
-      soil water of     0.227597      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.227597      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.227597      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.227597      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.227597      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_process
+                    soilwat2
+                    clock_timestep_loop
+                    clock_start
+      
+      Internal error:
+      
+       soil water of     0.227597      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.227597      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.227597      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.227597      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.227597      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 9 July 1995 (Day of year=190):
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_process
-                   soilwat2
-                   clock_timestep_loop
-                   clock_start
-     
-     Internal error:
-     
-      soil water of     0.227950      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.227950      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.227950      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     Initiate
-     
-     
-     
-                      Crop Initiate Data
-         ------------------------------------------------
-        Initiate   Axes   DM      N   Spacing Cultivar
-         Day no    m^2 g/plant g/plant   m      Name
-         ------------------------------------------------
-            190    6.7    0.0    0.0    0.8 wrajpop
-         ------------------------------------------------
-     
-        - Reading Cultivar Parameters
-         ------------------------------------------------
-         Cultivar                 = wrajpop
-         est_days_emerg_to_init  =      17
-         tt_emerg_to_endjuv       =    98.5
-         pp_endjuv_to_initp       =   164.0
-         tt_flower_to_maturity    =   457.0
-         head_grain_no_max        =  2200.0
-         grain_gth_rate           =     0.5
-         tt_flag_to_flower        =    61.0
-         tt_flower_to_start_grain =    80.0
-         tt_maturity_to_ripe      =     1.0
-         ------------------------------------------------
-     
-     
-     
-     
-        - Reading root profile parameters
-     
-     
-     
-                         Root Profile
-         ------------------------------------------------
-           Layer depth  Kl factor   Lower limit
-              (mm)         ()        (mm/mm)
-         ------------------------------------------------
-             150.000       0.120       0.146
-             150.000       0.120       0.207
-             300.000       0.120       0.244
-             300.000       0.100       0.236
-             300.000       0.060       0.218
-             300.000       0.055       0.173
-             300.000       0.030       0.173
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_process
+                    soilwat2
+                    clock_timestep_loop
+                    clock_start
+      
+      Internal error:
+      
+       soil water of     0.227950      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.227950      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.227950      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   MILLET4:
+      Initiate
+      
+      
+      
+                       Crop Initiate Data
           ------------------------------------------------
-     
-     
-     
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.227950      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   millet_set_other_variables
-                   Millet_main
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.227950      in layer   3
-              is below air-dry value of     0.244000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         Initiate   Axes   DM      N   Spacing Cultivar
+          Day no    m^2 g/plant g/plant   m      Name
+          ------------------------------------------------
+             190    6.7    0.0    0.0    0.8 wrajpop
+          ------------------------------------------------
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = wrajpop
+          est_days_emerg_to_init  =      17
+          tt_emerg_to_endjuv       =    98.5
+          pp_endjuv_to_initp       =   164.0
+          tt_flower_to_maturity    =   457.0
+          head_grain_no_max        =  2200.0
+          grain_gth_rate           =     0.5
+          tt_flag_to_flower        =    61.0
+          tt_flower_to_start_grain =    80.0
+          tt_maturity_to_ripe      =     1.0
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      
+      
+      
+                          Root Profile
+          ------------------------------------------------
+            Layer depth  Kl factor   Lower limit
+               (mm)         ()        (mm/mm)
+          ------------------------------------------------
+              150.000       0.120       0.146
+              150.000       0.120       0.207
+              300.000       0.120       0.244
+              300.000       0.100       0.236
+              300.000       0.060       0.218
+              300.000       0.055       0.173
+              300.000       0.030       0.173
+           ------------------------------------------------
+      
+      
+      
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.227950      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    millet_set_other_variables
+                    Millet_main
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.227950      in layer   3
+               is below air-dry value of     0.244000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 10 July 1995 (Day of year=191):
-      stage    3.0 emergence
-                          biomass =          0.1340000e-01   lai =    0.1340000e-02
-                          stover N conc =    4.400000       extractable sw =    21.50033
-      stage    4.0 end_of_juvenile
-                          biomass =          0.9081287       lai =    0.2962127e-01
-                          stover N conc =    1.808152       extractable sw =    39.21469
+   MILLET4:
+       stage    3.0 emergence
+                           biomass =          0.1340000e-01   lai =    0.1340000e-02
+                           stover N conc =    4.400000       extractable sw =    21.50033
+   MILLET1:
+       stage    4.0 end_of_juvenile
+                           biomass =          0.9081218       lai =    0.2962109e-01
+                           stover N conc =    1.808149       extractable sw =    39.21470
 11 July 1995 (Day of year=192):
-      Sending apply message to fertiliz
-     
-        - Reading Fertiliser Type Parameters
-       100.00 of urea ferilizer (urea)
-                                              added at depth   10.00 (layer   1)
-     Initiate
-     
-     
-     
-                      Crop Initiate Data
-         ------------------------------------------------
-        Initiate   Axes   DM      N   Spacing Cultivar
-         Day no    m^2 g/plant g/plant   m      Name
-         ------------------------------------------------
-            192    6.7    0.0    0.0    0.8 wrajpop
-         ------------------------------------------------
-     
-        - Reading Cultivar Parameters
-         ------------------------------------------------
-         Cultivar                 = wrajpop
-         est_days_emerg_to_init  =      17
-         tt_emerg_to_endjuv       =    88.5
-         pp_endjuv_to_initp       =   164.0
-         tt_flower_to_maturity    =   457.0
-         head_grain_no_max        =  2200.0
-         grain_gth_rate           =     0.5
-         tt_flag_to_flower        =    61.0
-         tt_flower_to_start_grain =    80.0
-         tt_maturity_to_ripe      =     1.0
-         ------------------------------------------------
-     
-     
-     
-     
-        - Reading root profile parameters
-     
-     
-     
-                         Root Profile
-         ------------------------------------------------
-           Layer depth  Kl factor   Lower limit
-              (mm)         ()        (mm/mm)
-         ------------------------------------------------
-             150.000       0.120       0.146
-             150.000       0.120       0.207
-             300.000       0.120       0.244
-             300.000       0.100       0.236
-             300.000       0.060       0.218
-             300.000       0.055       0.173
-             300.000       0.030       0.173
+   OPERATNS:
+       Sending apply message to fertiliz
+   FERTILIZ:
+      
+         - Reading Fertiliser Type Parameters
+        100.00 of urea ferilizer (urea)
+                                               added at depth   10.00 (layer   1)
+   MILLET5:
+      Initiate
+      
+      
+      
+                       Crop Initiate Data
           ------------------------------------------------
-     
-     
-     
-      stage    5.0 floral_initiation
-                          biomass =           8.158725       lai =    0.1092614    
-                          stover N conc =    1.871954       extractable sw =    34.78783
+         Initiate   Axes   DM      N   Spacing Cultivar
+          Day no    m^2 g/plant g/plant   m      Name
+          ------------------------------------------------
+             192    6.7    0.0    0.0    0.8 wrajpop
+          ------------------------------------------------
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = wrajpop
+          est_days_emerg_to_init  =      17
+          tt_emerg_to_endjuv       =    88.5
+          pp_endjuv_to_initp       =   164.0
+          tt_flower_to_maturity    =   457.0
+          head_grain_no_max        =  2200.0
+          grain_gth_rate           =     0.5
+          tt_flag_to_flower        =    61.0
+          tt_flower_to_start_grain =    80.0
+          tt_maturity_to_ripe      =     1.0
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      
+      
+      
+                          Root Profile
+          ------------------------------------------------
+            Layer depth  Kl factor   Lower limit
+               (mm)         ()        (mm/mm)
+          ------------------------------------------------
+              150.000       0.120       0.146
+              150.000       0.120       0.207
+              300.000       0.120       0.244
+              300.000       0.100       0.236
+              300.000       0.060       0.218
+              300.000       0.055       0.173
+              300.000       0.030       0.173
+           ------------------------------------------------
+      
+      
+      
+   MILLET:
+       stage    5.0 floral_initiation
+                           biomass =           8.158689       lai =    0.1092614    
+                           stover N conc =    1.871947       extractable sw =    34.78783
 12 July 1995 (Day of year=193):
-      stage    3.0 emergence
-                          biomass =          0.1340000e-01   lai =    0.1340000e-02
-                          stover N conc =    4.400000       extractable sw =    15.93595
-     Initiate
-     
-     
-     
-                      Crop Initiate Data
-         ------------------------------------------------
-        Initiate   Axes   DM      N   Spacing Cultivar
-         Day no    m^2 g/plant g/plant   m      Name
-         ------------------------------------------------
-            193    6.7    0.0    0.0    0.8 wrajpop
-         ------------------------------------------------
-     
-        - Reading Cultivar Parameters
-         ------------------------------------------------
-         Cultivar                 = wrajpop
-         est_days_emerg_to_init  =      17
-         tt_emerg_to_endjuv       =    88.5
-         pp_endjuv_to_initp       =   164.0
-         tt_flower_to_maturity    =   457.0
-         head_grain_no_max        =  2200.0
-         grain_gth_rate           =     0.5
-         tt_flag_to_flower        =    61.0
-         tt_flower_to_start_grain =    80.0
-         tt_maturity_to_ripe      =     1.0
-         ------------------------------------------------
-     
-     
-     
-     
-        - Reading root profile parameters
-     
-     
-     
-                         Root Profile
-         ------------------------------------------------
-           Layer depth  Kl factor   Lower limit
-              (mm)         ()        (mm/mm)
-         ------------------------------------------------
-             150.000       0.120       0.146
-             150.000       0.120       0.207
-             300.000       0.120       0.244
-             300.000       0.100       0.236
-             300.000       0.060       0.218
-             300.000       0.055       0.173
-             300.000       0.030       0.173
+   MILLET5:
+       stage    3.0 emergence
+                           biomass =          0.1340000e-01   lai =    0.1340000e-02
+                           stover N conc =    4.400000       extractable sw =    15.93595
+      Initiate
+      
+      
+      
+                       Crop Initiate Data
           ------------------------------------------------
-     
-     
-     
-      stage    4.0 end_of_juvenile
-                          biomass =          0.6663852       lai =    0.2223553e-01
-                          stover N conc =    1.824547       extractable sw =    30.65029
+         Initiate   Axes   DM      N   Spacing Cultivar
+          Day no    m^2 g/plant g/plant   m      Name
+          ------------------------------------------------
+             193    6.7    0.0    0.0    0.8 wrajpop
+          ------------------------------------------------
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = wrajpop
+          est_days_emerg_to_init  =      17
+          tt_emerg_to_endjuv       =    88.5
+          pp_endjuv_to_initp       =   164.0
+          tt_flower_to_maturity    =   457.0
+          head_grain_no_max        =  2200.0
+          grain_gth_rate           =     0.5
+          tt_flag_to_flower        =    61.0
+          tt_flower_to_start_grain =    80.0
+          tt_maturity_to_ripe      =     1.0
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      
+      
+      
+                          Root Profile
+          ------------------------------------------------
+            Layer depth  Kl factor   Lower limit
+               (mm)         ()        (mm/mm)
+          ------------------------------------------------
+              150.000       0.120       0.146
+              150.000       0.120       0.207
+              300.000       0.120       0.244
+              300.000       0.100       0.236
+              300.000       0.060       0.218
+              300.000       0.055       0.173
+              300.000       0.030       0.173
+           ------------------------------------------------
+      
+      
+      
+   MILLET2:
+       stage    4.0 end_of_juvenile
+                           biomass =          0.6663808       lai =    0.2223539e-01
+                           stover N conc =    1.824532       extractable sw =    30.65030
 13 July 1995 (Day of year=194):
-      stage    4.0 end_of_juvenile
-                          biomass =          0.5003429       lai =    0.1692217e-01
-                          stover N conc =    1.844767       extractable sw =    31.30462
-      stage    3.0 emergence
-                          biomass =          0.3935006e-01   lai =    0.1340000e-02
-                          stover N conc =    1.498346       extractable sw =    17.35361
+   MILLET3:
+       stage    4.0 end_of_juvenile
+                           biomass =          0.5003345       lai =    0.1692190e-01
+                           stover N conc =    1.844741       extractable sw =    31.30463
+   MILLET5:
+       stage    3.0 emergence
+                           biomass =          0.3935006e-01   lai =    0.1340000e-02
+                           stover N conc =    1.498346       extractable sw =    17.35362
 14 July 1995 (Day of year=195):
-      stage    5.0 floral_initiation
-                          biomass =           4.556996       lai =    0.1159912    
-                          stover N conc =    1.892725       extractable sw =    37.98317
+   MILLET1:
+       stage    5.0 floral_initiation
+                           biomass =           4.556904       lai =    0.1159909    
+                           stover N conc =    1.892697       extractable sw =    37.98319
 15 July 1995 (Day of year=196):
-      stage    5.0 floral_initiation
-                          biomass =           2.244083       lai =    0.7272188e-01
-                          stover N conc =    1.881578       extractable sw =    35.48270
+   MILLET2:
+       stage    5.0 floral_initiation
+                           biomass =           2.244015       lai =    0.7271969e-01
+                           stover N conc =    1.881555       extractable sw =    35.48274
 16 July 1995 (Day of year=197):
-      stage    4.0 end_of_juvenile
-                          biomass =          0.3813066       lai =    0.1311301e-01
-                          stover N conc =    1.895869       extractable sw =    30.25460
+   MILLET4:
+       stage    4.0 end_of_juvenile
+                           biomass =          0.3813068       lai =    0.1311302e-01
+                           stover N conc =    1.895832       extractable sw =    30.25463
 17 July 1995 (Day of year=198):
-      stage    4.0 end_of_juvenile
-                          biomass =          0.1465066       lai =    0.4769010e-02
-                          stover N conc =    2.039623       extractable sw =    26.95114
-      stage    5.0 floral_initiation
-                          biomass =           2.177541       lai =    0.7059250e-01
-                          stover N conc =    1.870650       extractable sw =    35.20143
+   MILLET5:
+       stage    4.0 end_of_juvenile
+                           biomass =          0.1465067       lai =    0.4769014e-02
+                           stover N conc =    2.039582       extractable sw =    26.95116
+   MILLET3:
+       stage    5.0 floral_initiation
+                           biomass =           2.177443       lai =    0.7058936e-01
+                           stover N conc =    1.870627       extractable sw =    35.20148
 20 July 1995 (Day of year=201):
-      stage    5.0 floral_initiation
-                          biomass =          0.9394390       lai =    0.3097325e-01
-                          stover N conc =    1.938036       extractable sw =    47.74438
+   MILLET4:
+       stage    5.0 floral_initiation
+                           biomass =          0.9394340       lai =    0.3097309e-01
+                           stover N conc =    1.938029       extractable sw =    47.74442
 21 July 1995 (Day of year=202):
-      stage    5.0 floral_initiation
-                          biomass =          0.2662375       lai =    0.8600399e-02
-                          stover N conc =    2.026742       extractable sw =    41.89940
+   MILLET5:
+       stage    5.0 floral_initiation
+                           biomass =          0.2662382       lai =    0.8600419e-02
+                           stover N conc =    2.026735       extractable sw =    41.89939
 30 July 1995 (Day of year=211):
-      stage    6.0 flag_leaf
-                          biomass =           100.0458       lai =    0.5470612    
-                          stover N conc =    1.433087       extractable sw =    99.05904
+   MILLET:
+       stage    6.0 flag_leaf
+                           biomass =           100.0458       lai =    0.5470612    
+                           stover N conc =    1.433085       extractable sw =    99.05904
 31 July 1995 (Day of year=212):
-      stage    6.0 flag_leaf
-                          biomass =           71.97081       lai =    0.5663005    
-                          stover N conc =    1.447057       extractable sw =    93.62909
-      stage    6.0 flag_leaf
-                          biomass =           36.65755       lai =    0.3908300    
-                          stover N conc =    1.472936       extractable sw =    92.61882
-      stage    6.0 flag_leaf
-                          biomass =           18.76223       lai =    0.2427346    
-                          stover N conc =    1.511615       extractable sw =    60.85126
+   MILLET1:
+       stage    6.0 flag_leaf
+                           biomass =           71.97063       lai =    0.5662999    
+                           stover N conc =    1.447054       extractable sw =    93.62909
+   MILLET2:
+       stage    6.0 flag_leaf
+                           biomass =           36.65685       lai =    0.3908223    
+                           stover N conc =    1.472933       extractable sw =    92.61882
+   MILLET3:
+       stage    6.0 flag_leaf
+                           biomass =           18.76156       lai =    0.2427252    
+                           stover N conc =    1.511612       extractable sw =    60.85127
 2 August 1995 (Day of year=214):
-      stage    6.0 flag_leaf
-                          biomass =           7.213545       lai =    0.1003667    
-                          stover N conc =    1.529646       extractable sw =    54.29276
+   MILLET4:
+       stage    6.0 flag_leaf
+                           biomass =           7.213607       lai =    0.1003671    
+                           stover N conc =    1.529642       extractable sw =    54.29279
 3 August 1995 (Day of year=215):
-      stage    6.0 flag_leaf
-                          biomass =           2.153906       lai =    0.3136203e-01
-                          stover N conc =    1.546291       extractable sw =    52.43937
-      stage    7.0 flowering
-                          biomass =           138.2120       lai =    0.5223496    
-                          stover N conc =    1.384895       extractable sw =    82.61360
+   MILLET5:
+       stage    6.0 flag_leaf
+                           biomass =           2.153937       lai =    0.3136236e-01
+                           stover N conc =    1.546287       extractable sw =    52.43940
+   MILLET:
+       stage    7.0 flowering
+                           biomass =           138.2119       lai =    0.5223496    
+                           stover N conc =    1.384893       extractable sw =    82.61365
 4 August 1995 (Day of year=216):
-      stage    7.0 flowering
-                          biomass =           100.3853       lai =    0.5441030    
-                          stover N conc =    1.391528       extractable sw =    82.44091
-      stage    7.0 flowering
-                          biomass =           51.00822       lai =    0.3781490    
-                          stover N conc =    1.410184       extractable sw =    81.54505
-      stage    7.0 flowering
-                          biomass =           26.05244       lai =    0.2342137    
-                          stover N conc =    1.443532       extractable sw =    81.09096
+   MILLET1:
+       stage    7.0 flowering
+                           biomass =           100.3851       lai =    0.5441025    
+                           stover N conc =    1.391526       extractable sw =    82.44095
+   MILLET2:
+       stage    7.0 flowering
+                           biomass =           51.00727       lai =    0.3781415    
+                           stover N conc =    1.410182       extractable sw =    81.54509
+   MILLET3:
+       stage    7.0 flowering
+                           biomass =           26.05155       lai =    0.2342044    
+                           stover N conc =    1.443530       extractable sw =    81.09102
 6 August 1995 (Day of year=218):
-      stage    7.0 flowering
-                          biomass =           10.03976       lai =    0.9502859e-01
-                          stover N conc =    1.464495       extractable sw =    70.86696
+   MILLET4:
+       stage    7.0 flowering
+                           biomass =           10.03987       lai =    0.9502896e-01
+                           stover N conc =    1.464490       extractable sw =    70.86705
 7 August 1995 (Day of year=219):
-      stage    7.0 flowering
-                          biomass =           3.082545       lai =    0.2953880e-01
-                          stover N conc =    1.472384       extractable sw =    66.14807
+   MILLET5:
+       stage    7.0 flowering
+                           biomass =           3.082596       lai =    0.2953913e-01
+                           stover N conc =    1.472379       extractable sw =    66.14818
 8 August 1995 (Day of year=220):
-      stage    8.0 start_grain_fill
-                          biomass =           65.88917       lai =    0.3556275    
-                          stover N conc =    1.359341       extractable sw =    72.82130
-      stage    8.0 start_grain_fill
-                          biomass =           33.62122       lai =    0.2185635    
-                          stover N conc =    1.391457       extractable sw =    72.30771
-      stage    8.0 start_grain_fill
-                          biomass =           184.0047       lai =    0.4792672    
-                          stover N conc =    1.324921       extractable sw =    71.91797
-      stage    8.0 start_grain_fill
-                          biomass =           129.1856       lai =    0.5079865    
-                          stover N conc =    1.344919       extractable sw =    70.67387
+   MILLET2:
+       stage    8.0 start_grain_fill
+                           biomass =           65.88796       lai =    0.3556207    
+                           stover N conc =    1.359338       extractable sw =    72.82140
+   MILLET3:
+       stage    8.0 start_grain_fill
+                           biomass =           33.62008       lai =    0.2185549    
+                           stover N conc =    1.391454       extractable sw =    72.30782
+   MILLET:
+       stage    8.0 start_grain_fill
+                           biomass =           184.0046       lai =    0.4792672    
+                           stover N conc =    1.324919       extractable sw =    71.91811
+   MILLET1:
+       stage    8.0 start_grain_fill
+                           biomass =           129.1855       lai =    0.5079861    
+                           stover N conc =    1.344916       extractable sw =    70.67400
 11 August 1995 (Day of year=223):
-     plant_kill. 100% failure because of barreness.
-         millet_kill. Standing above-ground dm =   128.3 (kg/ha)
-      stage   12.0 end_crop
-          Manager sending message :- millet4 harvest
-     
-     
-     
-      flowering day  =  218                  stover (kg/ha) =     131.8
-      maturity day        =    0             grain yield (kg/ha) =       0.0
-      grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
-      grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 0.101
-      total above ground biomass (kg/ha) =     131.8
-      live above ground biomass (kg/ha) =       0.0
-      green above ground biomass (kg/ha) =       0.0
-      senesced above ground biomass (kg/ha) =       0.0
-      dead above ground biomass (kg/ha) =     131.8
-      number of leaves =   9.5
-      grain N percent =      0.00            total N content (kg/ha) =      1.79
-      grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.00
-      green N content (kg/ha) =      0.00    dead N content (kg/ha) =      1.79
-     
-     
-     
-      stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.1345280
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.2285627
-     
-     
-     
-      stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0025879
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1826793
-     
-     
-     
-      stress indices for floral_initiation
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1155873
-     
-     
-     
-      stress indices for flag_leaf
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0229242
-     
-     
-     
-      stress indices for flowering
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0037663
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0037663
-     
-     
-     
-      stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       1.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       1.0000000
-          Manager sending message :- millet4 kill_crop
-          Manager sending message :- millet4 end_crop
-         ended. Yield (dw) =     0.0
-                                               straw residue =  131.8 kg/ha
-                                               straw N =    1.8 kg/ha
-                                               root residue =   38.9 kg/ha
-                                               root N =    0.4 kg/ha
-          Manager sending message :- residue2 tillage_type = burn
+   MILLET4:
+      plant_kill. 100% failure because of barreness.
+          millet_kill. Standing above-ground dm =   128.3 (kg/ha)
+       stage   12.0 end_crop
+   MANAGER:
+           Manager sending message :- millet4 harvest
+   MILLET4:
+      
+      
+      
+       flowering day  =  218                  stover (kg/ha) =     131.8
+       maturity day        =    0             grain yield (kg/ha) =       0.0
+       grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
+       grain wt (g) =     0.000               grains/m^2   =     0.000
+       grains/head =   0.0                    maximum lai = 0.101
+       total above ground biomass (kg/ha) =     131.8
+       live above ground biomass (kg/ha) =       0.0
+       green above ground biomass (kg/ha) =       0.0
+       senesced above ground biomass (kg/ha) =       0.0
+       dead above ground biomass (kg/ha) =     131.8
+       number of leaves =   9.5
+       grain N percent =      0.00            total N content (kg/ha) =      1.79
+       grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.00
+       green N content (kg/ha) =      0.00    dead N content (kg/ha) =      1.79
+      
+      
+      
+       stress indices for emergence
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.1345280
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2285986
+      
+      
+      
+       stress indices for end_of_juvenile
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0025998
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1826993
+      
+      
+      
+       stress indices for floral_initiation
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1155914
+      
+      
+      
+       stress indices for flag_leaf
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0229258
+      
+      
+      
+       stress indices for flowering
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0037663
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0037663
+      
+      
+      
+       stress indices for start_grain_fill
+       water stress 1 =       0.0000000   nitrogen stress 1 =       1.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       1.0000000
+   MANAGER:
+           Manager sending message :- millet4 kill_crop
+           Manager sending message :- millet4 end_crop
+   MILLET4:
+          ended. Yield (dw) =     0.0
+                                                straw residue =  131.8 kg/ha
+                                                straw N =    1.8 kg/ha
+                                                root residue =   38.9 kg/ha
+                                                root N =    0.4 kg/ha
+   MANAGER:
+           Manager sending message :- residue2 tillage_type = burn
 12 August 1995 (Day of year=224):
-     plant_kill. 100% failure because of barreness.
-         millet_kill. Standing above-ground dm =    38.0 (kg/ha)
-      stage   12.0 end_crop
-          Manager sending message :- millet5 harvest
-     
-     
-     
-      flowering day  =  219                  stover (kg/ha) =      39.2
-      maturity day        =    0             grain yield (kg/ha) =       0.0
-      grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
-      grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 0.031
-      total above ground biomass (kg/ha) =      39.2
-      live above ground biomass (kg/ha) =       0.0
-      green above ground biomass (kg/ha) =       0.0
-      senesced above ground biomass (kg/ha) =       0.0
-      dead above ground biomass (kg/ha) =      39.2
-      number of leaves =   9.0
-      grain N percent =      0.00            total N content (kg/ha) =      0.53
-      grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.00
-      green N content (kg/ha) =      0.00    dead N content (kg/ha) =      0.53
-     
-     
-     
-      stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.2048448
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.2184279
-     
-     
-     
-      stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0326871
-     
-     
-     
-      stress indices for floral_initiation
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0973451
-     
-     
-     
-      stress indices for flag_leaf
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0237103
-     
-     
-     
-      stress indices for flowering
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0036169
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0036169
-     
-     
-     
-      stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       1.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       1.0000000
-          Manager sending message :- millet5 kill_crop
-          Manager sending message :- millet5 end_crop
-         ended. Yield (dw) =     0.0
-                                               straw residue =   39.2 kg/ha
-                                               straw N =    0.5 kg/ha
-                                               root residue =   11.6 kg/ha
-                                               root N =    0.1 kg/ha
-          Manager sending message :- residue2 tillage_type = burn
+   MILLET5:
+      plant_kill. 100% failure because of barreness.
+          millet_kill. Standing above-ground dm =    38.0 (kg/ha)
+       stage   12.0 end_crop
+   MANAGER:
+           Manager sending message :- millet5 harvest
+   MILLET5:
+      
+      
+      
+       flowering day  =  219                  stover (kg/ha) =      39.2
+       maturity day        =    0             grain yield (kg/ha) =       0.0
+       grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
+       grain wt (g) =     0.000               grains/m^2   =     0.000
+       grains/head =   0.0                    maximum lai = 0.031
+       total above ground biomass (kg/ha) =      39.2
+       live above ground biomass (kg/ha) =       0.0
+       green above ground biomass (kg/ha) =       0.0
+       senesced above ground biomass (kg/ha) =       0.0
+       dead above ground biomass (kg/ha) =      39.2
+       number of leaves =   9.0
+       grain N percent =      0.00            total N content (kg/ha) =      0.53
+       grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.00
+       green N content (kg/ha) =      0.00    dead N content (kg/ha) =      0.53
+      
+      
+      
+       stress indices for emergence
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.2048448
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2184351
+      
+      
+      
+       stress indices for end_of_juvenile
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0327025
+      
+      
+      
+       stress indices for floral_initiation
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0973491
+      
+      
+      
+       stress indices for flag_leaf
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0237131
+      
+      
+      
+       stress indices for flowering
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0036169
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0036169
+      
+      
+      
+       stress indices for start_grain_fill
+       water stress 1 =       0.0000000   nitrogen stress 1 =       1.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       1.0000000
+   MANAGER:
+           Manager sending message :- millet5 kill_crop
+           Manager sending message :- millet5 end_crop
+   MILLET5:
+          ended. Yield (dw) =     0.0
+                                                straw residue =   39.2 kg/ha
+                                                straw N =    0.5 kg/ha
+                                                root residue =   11.6 kg/ha
+                                                root N =    0.1 kg/ha
+   MANAGER:
+           Manager sending message :- residue2 tillage_type = burn
 29 August 1995 (Day of year=241):
-      stage    9.0 end_grain_fill
-                          biomass =           287.4451       lai =    0.2065287    
-                          stover N conc =    1.099425       extractable sw =    109.6986
+   MILLET:
+       stage    9.0 end_grain_fill
+                           biomass =           287.4448       lai =    0.2065287    
+                           stover N conc =    1.099416       extractable sw =    109.6986
 30 August 1995 (Day of year=242):
-      stage    9.0 end_grain_fill
-                          biomass =           217.7343       lai =    0.2009945    
-                          stover N conc =    1.098999       extractable sw =    115.4138
-      stage    9.0 end_grain_fill
-                          biomass =           112.9567       lai =    0.1302370    
-                          stover N conc =    1.120963       extractable sw =    115.3863
-      stage    9.0 end_grain_fill
-                          biomass =           58.46204       lai =    0.7569210e-01
-                          stover N conc =    1.134282       extractable sw =    115.3711
+   MILLET1:
+       stage    9.0 end_grain_fill
+                           biomass =           217.7341       lai =    0.2009944    
+                           stover N conc =    1.098994       extractable sw =    115.4138
+   MILLET2:
+       stage    9.0 end_grain_fill
+                           biomass =           112.9547       lai =    0.1302348    
+                           stover N conc =    1.120962       extractable sw =    115.3864
+   MILLET3:
+       stage    9.0 end_grain_fill
+                           biomass =           58.46015       lai =    0.7568966e-01
+                           stover N conc =    1.134280       extractable sw =    115.3711
 31 August 1995 (Day of year=243):
-      stage   10.0 maturity
-                          biomass =           219.0440       lai =    0.1909013    
-                          stover N conc =    1.093798       extractable sw =    108.3730
-      stage   10.0 maturity
-                          biomass =           113.6864       lai =    0.1231581    
-                          stover N conc =    1.115360       extractable sw =    108.2872
-      stage   10.0 maturity
-                          biomass =           58.84919       lai =    0.6877157e-01
-                          stover N conc =    1.130221       extractable sw =    108.2395
-      stage   10.0 maturity
-                          biomass =           289.8316       lai =    0.1873893    
-                          stover N conc =    1.093083       extractable sw =    108.2141
+   MILLET1:
+       stage   10.0 maturity
+                           biomass =           219.0438       lai =    0.1909012    
+                           stover N conc =    1.093794       extractable sw =    108.3730
+   MILLET2:
+       stage   10.0 maturity
+                           biomass =           113.6844       lai =    0.1231560    
+                           stover N conc =    1.115359       extractable sw =    108.2873
+   MILLET3:
+       stage   10.0 maturity
+                           biomass =           58.84729       lai =    0.6876935e-01
+                           stover N conc =    1.130219       extractable sw =    108.2395
+   MILLET:
+       stage   10.0 maturity
+                           biomass =           289.8314       lai =    0.1873893    
+                           stover N conc =    1.093074       extractable sw =    108.2141
 1 September 1995 (Day of year=244):
-      stage   11.0 harvest_ripe
-                          biomass =           113.6864       lai =    0.1377791e-02
-                          stover N conc =    1.154333       extractable sw =    104.1886
-      stage   11.0 harvest_ripe
-                          biomass =           58.84919       lai =    0.1365229e-02
-                          stover N conc =    1.172324       extractable sw =    104.1886
-      stage   11.0 harvest_ripe
-                          biomass =           289.8316       lai =    0.1396030e-02
-                          stover N conc =    1.126883       extractable sw =    104.1886
-      stage   11.0 harvest_ripe
-                          biomass =           219.0440       lai =    0.1393765e-02
-                          stover N conc =    1.129573       extractable sw =    104.1886
-          Manager sending message :- millet harvest
-     
-     
-     
-      flowering day  =  215                  stover (kg/ha) =    2106.1
-      maturity day        =  243             grain yield (kg/ha) =     792.2
-      grain % water content   =   15.5       grain yield wet (kg/ha) =     937.5
-      grain wt (g) =     0.008               grains/m^2   =  9451.205
-      grains/head =1410.6                    maximum lai = 0.549
-      total above ground biomass (kg/ha) =    2898.3
-      live above ground biomass (kg/ha) =    2898.3
-      green above ground biomass (kg/ha) =    2608.5
-      senesced above ground biomass (kg/ha) =     289.8
-      dead above ground biomass (kg/ha) =       0.0
-      number of leaves =  16.0
-      grain N percent =      1.45            total N content (kg/ha) =     29.69
-      grain N uptake (kg/ha) =     11.51     senesced N content (kg/ha) =      0.29
-      green N content (kg/ha) =     17.89    dead N content (kg/ha) =      0.00
-     
-     
-     
-      stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0380615
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1719901
-     
-     
-     
-      stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0105516
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.2059573
-     
-     
-     
-      stress indices for floral_initiation
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0754585
-     
-     
-     
-      stress indices for flag_leaf
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0325849
-     
-     
-     
-      stress indices for flowering
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0008667
-     
-     
-     
-      stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-          Manager sending message :- millet kill_crop
-         millet_kill. Standing above-ground dm =  2106.1 (kg/ha)
-          Manager sending message :- millet end_crop
-         ended. Yield (dw) =     0.0
-                                               straw residue = 2106.1 kg/ha
-                                               straw N =   18.2 kg/ha
-                                               root residue =  513.0 kg/ha
-                                               root N =    5.4 kg/ha
-          Manager sending message :- residue2 tillage_type = burn
-          Manager sending message :- millet1 harvest
-     
-     
-     
-      flowering day  =  216                  stover (kg/ha) =    1583.5
-      maturity day        =  243             grain yield (kg/ha) =     607.0
-      grain % water content   =   15.5       grain yield wet (kg/ha) =     718.3
-      grain wt (g) =     0.009               grains/m^2   =  6919.497
-      grains/head =1032.8                    maximum lai = 0.569
-      total above ground biomass (kg/ha) =    2190.4
-      live above ground biomass (kg/ha) =    2190.4
-      green above ground biomass (kg/ha) =    1970.9
-      senesced above ground biomass (kg/ha) =     219.5
-      dead above ground biomass (kg/ha) =       0.0
-      number of leaves =  12.0
-      grain N percent =      1.47            total N content (kg/ha) =     22.48
-      grain N uptake (kg/ha) =      8.90     senesced N content (kg/ha) =      0.22
-      green N content (kg/ha) =     13.36    dead N content (kg/ha) =      0.00
-     
-     
-     
-      stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.2218592
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.3220638
-     
-     
-     
-      stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0748687
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.2573903
-     
-     
-     
-      stress indices for floral_initiation
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1072702
-     
-     
-     
-      stress indices for flag_leaf
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0368117
-     
-     
-     
-      stress indices for flowering
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0012192
-     
-     
-     
-      stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-          Manager sending message :- millet1 kill_crop
-         millet_kill. Standing above-ground dm =  1583.5 (kg/ha)
-          Manager sending message :- millet1 end_crop
-         ended. Yield (dw) =     0.0
-                                               straw residue = 1583.5 kg/ha
-                                               straw N =   13.6 kg/ha
-                                               root residue =  355.8 kg/ha
-                                               root N =    3.8 kg/ha
-          Manager sending message :- residue2 tillage_type = burn
-          Manager sending message :- millet2 harvest
-     
-     
-     
-      flowering day  =  216                  stover (kg/ha) =     766.6
-      maturity day        =  243             grain yield (kg/ha) =     370.3
-      grain % water content   =   15.5       grain yield wet (kg/ha) =     438.2
-      grain wt (g) =     0.009               grains/m^2   =  4220.984
-      grains/head = 630.0                    maximum lai = 0.392
-      total above ground biomass (kg/ha) =    1136.9
-      live above ground biomass (kg/ha) =    1136.9
-      green above ground biomass (kg/ha) =    1010.4
-      senesced above ground biomass (kg/ha) =     126.5
-      dead above ground biomass (kg/ha) =       0.0
-      number of leaves =  11.0
-      grain N percent =      1.45            total N content (kg/ha) =     11.79
-      grain N uptake (kg/ha) =      5.37     senesced N content (kg/ha) =      0.13
-      green N content (kg/ha) =      6.30    dead N content (kg/ha) =      0.00
-     
-     
-     
-      stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.2348804
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.3283653
-     
-     
-     
-      stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0348192
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.2258669
-     
-     
-     
-      stress indices for floral_initiation
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1206514
-     
-     
-     
-      stress indices for flag_leaf
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0357176
-     
-     
-     
-      stress indices for flowering
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0007937
-     
-     
-     
-      stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-          Manager sending message :- millet2 kill_crop
-         millet_kill. Standing above-ground dm =   766.6 (kg/ha)
-          Manager sending message :- millet2 end_crop
-         ended. Yield (dw) =     0.0
-                                               straw residue =  766.6 kg/ha
-                                               straw N =    6.4 kg/ha
-                                               root residue =  180.8 kg/ha
-                                               root N =    1.9 kg/ha
-          Manager sending message :- residue2 tillage_type = burn
-          Manager sending message :- millet3 harvest
-     
-     
-     
-      flowering day  =  216                  stover (kg/ha) =     415.4
-      maturity day        =  243             grain yield (kg/ha) =     173.1
-      grain % water content   =   15.5       grain yield wet (kg/ha) =     204.9
-      grain wt (g) =     0.009               grains/m^2   =  1973.521
-      grains/head = 294.6                    maximum lai = 0.244
-      total above ground biomass (kg/ha) =     588.5
-      live above ground biomass (kg/ha) =     588.5
-      green above ground biomass (kg/ha) =     512.6
-      senesced above ground biomass (kg/ha) =      75.9
-      dead above ground biomass (kg/ha) =       0.0
-      number of leaves =  10.0
-      grain N percent =      1.47            total N content (kg/ha) =      6.09
-      grain N uptake (kg/ha) =      2.55     senesced N content (kg/ha) =      0.08
-      green N content (kg/ha) =      3.46    dead N content (kg/ha) =      0.00
-     
-     
-     
-      stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.1213736
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.2890907
-     
-     
-     
-      stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0186437
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.2149042
-     
-     
-     
-      stress indices for floral_initiation
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1201502
-     
-     
-     
-      stress indices for flag_leaf
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0262267
-     
-     
-     
-      stress indices for flowering
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-          Manager sending message :- millet3 kill_crop
-         millet_kill. Standing above-ground dm =   415.4 (kg/ha)
-          Manager sending message :- millet3 end_crop
-         ended. Yield (dw) =     0.0
-                                               straw residue =  415.4 kg/ha
-                                               straw N =    3.5 kg/ha
-                                               root residue =   96.7 kg/ha
-                                               root N =    1.0 kg/ha
-          Manager sending message :- residue2 tillage_type = burn
+   MILLET2:
+       stage   11.0 harvest_ripe
+                           biomass =           113.6844       lai =    0.1377821e-02
+                           stover N conc =    1.154333       extractable sw =    104.1886
+   MILLET3:
+       stage   11.0 harvest_ripe
+                           biomass =           58.84729       lai =    0.1365229e-02
+                           stover N conc =    1.172322       extractable sw =    104.1886
+   MILLET:
+       stage   11.0 harvest_ripe
+                           biomass =           289.8314       lai =    0.1396090e-02
+                           stover N conc =    1.126874       extractable sw =    104.1886
+   MILLET1:
+       stage   11.0 harvest_ripe
+                           biomass =           219.0438       lai =    0.1393825e-02
+                           stover N conc =    1.129568       extractable sw =    104.1886
+   MANAGER:
+           Manager sending message :- millet harvest
+   MILLET:
+      
+      
+      
+       flowering day  =  215                  stover (kg/ha) =    2106.1
+       maturity day        =  243             grain yield (kg/ha) =     792.2
+       grain % water content   =   15.5       grain yield wet (kg/ha) =     937.5
+       grain wt (g) =     0.008               grains/m^2   =  9451.200
+       grains/head =1410.6                    maximum lai = 0.549
+       total above ground biomass (kg/ha) =    2898.3
+       live above ground biomass (kg/ha) =    2898.3
+       green above ground biomass (kg/ha) =    2608.5
+       senesced above ground biomass (kg/ha) =     289.8
+       dead above ground biomass (kg/ha) =       0.0
+       number of leaves =  16.0
+       grain N percent =      1.45            total N content (kg/ha) =     29.68
+       grain N uptake (kg/ha) =     11.51     senesced N content (kg/ha) =      0.29
+       green N content (kg/ha) =     17.89    dead N content (kg/ha) =      0.00
+      
+      
+      
+       stress indices for emergence
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0380646
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1719969
+      
+      
+      
+       stress indices for end_of_juvenile
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0105552
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2059612
+      
+      
+      
+       stress indices for floral_initiation
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0754672
+      
+      
+      
+       stress indices for flag_leaf
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0325865
+      
+      
+      
+       stress indices for flowering
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0008669
+      
+      
+      
+       stress indices for start_grain_fill
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+   MANAGER:
+           Manager sending message :- millet kill_crop
+   MILLET:
+          millet_kill. Standing above-ground dm =  2106.1 (kg/ha)
+   MANAGER:
+           Manager sending message :- millet end_crop
+   MILLET:
+          ended. Yield (dw) =     0.0
+                                                straw residue = 2106.1 kg/ha
+                                                straw N =   18.2 kg/ha
+                                                root residue =  513.0 kg/ha
+                                                root N =    5.4 kg/ha
+   MANAGER:
+           Manager sending message :- residue2 tillage_type = burn
+           Manager sending message :- millet1 harvest
+   MILLET1:
+      
+      
+      
+       flowering day  =  216                  stover (kg/ha) =    1583.5
+       maturity day        =  243             grain yield (kg/ha) =     607.0
+       grain % water content   =   15.5       grain yield wet (kg/ha) =     718.3
+       grain wt (g) =     0.009               grains/m^2   =  6919.497
+       grains/head =1032.8                    maximum lai = 0.569
+       total above ground biomass (kg/ha) =    2190.4
+       live above ground biomass (kg/ha) =    2190.4
+       green above ground biomass (kg/ha) =    1970.9
+       senesced above ground biomass (kg/ha) =     219.5
+       dead above ground biomass (kg/ha) =       0.0
+       number of leaves =  12.0
+       grain N percent =      1.47            total N content (kg/ha) =     22.48
+       grain N uptake (kg/ha) =      8.90     senesced N content (kg/ha) =      0.22
+       green N content (kg/ha) =     13.36    dead N content (kg/ha) =      0.00
+      
+      
+      
+       stress indices for emergence
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.2218628
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.3220688
+      
+      
+      
+       stress indices for end_of_juvenile
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0748825
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2574048
+      
+      
+      
+       stress indices for floral_initiation
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1072800
+      
+      
+      
+       stress indices for flag_leaf
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0368139
+      
+      
+      
+       stress indices for flowering
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0012196
+      
+      
+      
+       stress indices for start_grain_fill
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+   MANAGER:
+           Manager sending message :- millet1 kill_crop
+   MILLET1:
+          millet_kill. Standing above-ground dm =  1583.5 (kg/ha)
+   MANAGER:
+           Manager sending message :- millet1 end_crop
+   MILLET1:
+          ended. Yield (dw) =     0.0
+                                                straw residue = 1583.5 kg/ha
+                                                straw N =   13.6 kg/ha
+                                                root residue =  355.8 kg/ha
+                                                root N =    3.8 kg/ha
+   MANAGER:
+           Manager sending message :- residue2 tillage_type = burn
+           Manager sending message :- millet2 harvest
+   MILLET2:
+      
+      
+      
+       flowering day  =  216                  stover (kg/ha) =     766.6
+       maturity day        =  243             grain yield (kg/ha) =     370.3
+       grain % water content   =   15.5       grain yield wet (kg/ha) =     438.2
+       grain wt (g) =     0.009               grains/m^2   =  4220.919
+       grains/head = 630.0                    maximum lai = 0.392
+       total above ground biomass (kg/ha) =    1136.8
+       live above ground biomass (kg/ha) =    1136.8
+       green above ground biomass (kg/ha) =    1010.4
+       senesced above ground biomass (kg/ha) =     126.5
+       dead above ground biomass (kg/ha) =       0.0
+       number of leaves =  11.0
+       grain N percent =      1.45            total N content (kg/ha) =     11.79
+       grain N uptake (kg/ha) =      5.37     senesced N content (kg/ha) =      0.13
+       green N content (kg/ha) =      6.30    dead N content (kg/ha) =      0.00
+      
+      
+      
+       stress indices for emergence
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.2348846
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.3283687
+      
+      
+      
+       stress indices for end_of_juvenile
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0348374
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2258869
+      
+      
+      
+       stress indices for floral_initiation
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1206597
+      
+      
+      
+       stress indices for flag_leaf
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0357196
+      
+      
+      
+       stress indices for flowering
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0007940
+      
+      
+      
+       stress indices for start_grain_fill
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+   MANAGER:
+           Manager sending message :- millet2 kill_crop
+   MILLET2:
+          millet_kill. Standing above-ground dm =   766.6 (kg/ha)
+   MANAGER:
+           Manager sending message :- millet2 end_crop
+   MILLET2:
+          ended. Yield (dw) =     0.0
+                                                straw residue =  766.6 kg/ha
+                                                straw N =    6.4 kg/ha
+                                                root residue =  180.8 kg/ha
+                                                root N =    1.9 kg/ha
+   MANAGER:
+           Manager sending message :- residue2 tillage_type = burn
+           Manager sending message :- millet3 harvest
+   MILLET3:
+      
+      
+      
+       flowering day  =  216                  stover (kg/ha) =     415.4
+       maturity day        =  243             grain yield (kg/ha) =     173.1
+       grain % water content   =   15.5       grain yield wet (kg/ha) =     204.9
+       grain wt (g) =     0.009               grains/m^2   =  1973.433
+       grains/head = 294.5                    maximum lai = 0.244
+       total above ground biomass (kg/ha) =     588.5
+       live above ground biomass (kg/ha) =     588.5
+       green above ground biomass (kg/ha) =     512.6
+       senesced above ground biomass (kg/ha) =      75.9
+       dead above ground biomass (kg/ha) =       0.0
+       number of leaves =  10.0
+       grain N percent =      1.47            total N content (kg/ha) =      6.09
+       grain N uptake (kg/ha) =      2.55     senesced N content (kg/ha) =      0.08
+       green N content (kg/ha) =      3.46    dead N content (kg/ha) =      0.00
+      
+      
+      
+       stress indices for emergence
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.1213859
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2891005
+      
+      
+      
+       stress indices for end_of_juvenile
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0186637
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2149229
+      
+      
+      
+       stress indices for floral_initiation
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1201561
+      
+      
+      
+       stress indices for flag_leaf
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0262284
+      
+      
+      
+       stress indices for flowering
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for start_grain_fill
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+   MANAGER:
+           Manager sending message :- millet3 kill_crop
+   MILLET3:
+          millet_kill. Standing above-ground dm =   415.4 (kg/ha)
+   MANAGER:
+           Manager sending message :- millet3 end_crop
+   MILLET3:
+          ended. Yield (dw) =     0.0
+                                                straw residue =  415.4 kg/ha
+                                                straw N =    3.5 kg/ha
+                                                root residue =   96.7 kg/ha
+                                                root N =    1.0 kg/ha
+   MANAGER:
+           Manager sending message :- residue2 tillage_type = burn
 6 September 1995 (Day of year=249):
-      Sending set message to soilwat2
-      Sending set message to soiln2
-      Sending set message to soiln2
+   OPERATNS:
+       Sending set message to soilwat2
+       Sending set message to soiln2
+       Sending set message to soiln2
 31 October 1995 (Day of year=304):
-     Simulation is terminating due to end criteria being met.
+   CLOCK:
+      Simulation is terminating due to end criteria being met.

@@ -151,6 +151,7 @@
      
      
      
+           TAV and AMP supplied externally
      
      
      
@@ -197,637 +198,675 @@
          - Reading constants
 ------- Start of simulation  --------------------------------------------------
 29 May 1988 (Day of year=150):
-          Manager sending message :- lucerne sow cultivar = trifecta, plants = 200 (/m2), sowing_depth = 40 (mm)
-     Sow
-     
-      - Reading constants for plant
-     
-        - Reading Cultivar Parameters
-         ------------------------------------------------
-         Cultivar                 = trifecta
-         est_days_emerg_to_init  =      30
-         tt_emerg_to_endjuv       =   700.0
-         photoperiod      =   10.70  17.00
-         phase_tt_init      =    0.00   0.00
-         tt_flower_to_maturity    = 10000.0
-         tt_init_to_flower        =   500.0
-         tt_flower_to_start_grain =   100.0
-         tt_maturity_to_ripe      =     5.0
-         hi_incr                  =     0.0
-         x_hi_max_pot_stress =    0.00   1.00
-         y_hi_max_pot        =    0.50   0.50
-         x_stem_wt      =    0.00   5.00
-         y_height      =    0.005000.00
-         ------------------------------------------------
-     
-     
-     
-     
-        - Reading root profile parameters
-     
-     
-     
-                         Root Profile
-     ---------------------------------------------------
-          Layer       Kl           Lower    Exploration
-          Depth     Factor         Limit      Factor
-          (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
-          150.0     0.080          0.230       1.000
-          150.0     0.080          0.240       1.000
-          300.0     0.080          0.240       1.000
-          300.0     0.080          0.250       1.000
-          300.0     0.050          0.260       1.000
-          300.0     0.030          0.270       1.000
-          300.0     0.010          0.280       1.000
-     ---------------------------------------------------
-     
-     
-     
-     
-     
-     
-                      Crop Sowing Data
-         ------------------------------------------------
-         Sowing  Depth Plants Spacing Cultivar
-         Day no   mm     m^2     m     Name
-         ------------------------------------------------
-            150   40.0  200.0  500.0 trifecta
-         ------------------------------------------------
+   MANAGER:
+           Manager sending message :- lucerne sow cultivar = trifecta, plants = 200 (/m2), sowing_depth = 40 (mm)
+   LUCERNE:
+      Sow
+      
+       - Reading constants for plant
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = trifecta
+          est_days_emerg_to_init  =      30
+          tt_emerg_to_endjuv       =   700.0
+          photoperiod      =   10.70  17.00
+          phase_tt_init      =    0.00   0.00
+          tt_flower_to_maturity    = 10000.0
+          tt_init_to_flower        =   500.0
+          tt_flower_to_start_grain =   100.0
+          tt_maturity_to_ripe      =     5.0
+          hi_incr                  =     0.0
+          x_hi_max_pot_stress =    0.00   1.00
+          y_hi_max_pot        =    0.50   0.50
+          x_stem_wt      =    0.00   5.00
+          y_height      =    0.005000.00
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      
+      
+      
+                          Root Profile
+      ---------------------------------------------------
+           Layer       Kl           Lower    Exploration
+           Depth     Factor         Limit      Factor
+           (mm)         ()        (mm/mm)       (0-1)
+      ---------------------------------------------------
+           150.0     0.080          0.230       1.000
+           150.0     0.080          0.240       1.000
+           300.0     0.080          0.240       1.000
+           300.0     0.080          0.250       1.000
+           300.0     0.050          0.260       1.000
+           300.0     0.030          0.270       1.000
+           300.0     0.010          0.280       1.000
+      ---------------------------------------------------
+      
+      
+      
+      
+      
+      
+                       Crop Sowing Data
+          ------------------------------------------------
+          Sowing  Depth Plants Spacing Cultivar
+          Day no   mm     m^2     m     Name
+          ------------------------------------------------
+             150   40.0  200.0  500.0 trifecta
+          ------------------------------------------------
 30 May 1988 (Day of year=151):
-      stage    2.0 germination
+   LUCERNE:
+       stage    2.0 germination
 7 June 1988 (Day of year=159):
-      stage    3.0 emergence
-                          biomass =           1.000000       lai =    0.2000000e-03
-                          stover N conc =    6.000000       extractable sw =    27.53854
+   LUCERNE:
+       stage    3.0 emergence
+                           biomass =           1.000000       lai =    0.2000000e-03
+                           stover N conc =    6.000000       extractable sw =    27.53854
 21 August 1988 (Day of year=234):
-      stage    4.0 end_of_juvenile
-                          biomass =           80.98278       lai =     1.031159    
-                          stover N conc =    6.000000       extractable sw =    136.1192
+   LUCERNE:
+       stage    4.0 end_of_juvenile
+                           biomass =           80.98278       lai =     1.031159    
+                           stover N conc =    6.000000       extractable sw =    136.1192
 22 August 1988 (Day of year=235):
-      stage    5.0 floral_initiation
-                          biomass =           84.60365       lai =     1.096081    
-                          stover N conc =    5.990149       extractable sw =    134.0056
+   LUCERNE:
+       stage    5.0 floral_initiation
+                           biomass =           84.60365       lai =     1.096081    
+                           stover N conc =    5.990149       extractable sw =    134.0056
 1 October 1988 (Day of year=275):
-      stage    6.0 flowering
-                          biomass =           487.0812       lai =     3.326593    
-                          stover N conc =    2.807164       extractable sw =    159.9659
+   LUCERNE:
+       stage    6.0 flowering
+                           biomass =           487.0812       lai =     3.326593    
+                           stover N conc =    2.807164       extractable sw =    159.9659
 2 October 1988 (Day of year=276):
-          Manager sending message :- lucerne harvest height = 50 (mm)
-     
-     
-     
-      flowering day  =  275                  stover (kg/ha) =    4870.8
-      maturity day        =    0             grain yield (kg/ha) =       0.0
-      grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
-      grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 3.327
-      total above ground biomass (kg/ha) =    4870.8
-      live above ground biomass (kg/ha) =    4870.8
-      green above ground biomass (kg/ha) =    4833.0
-      senesced above ground biomass (kg/ha) =      37.8
-      dead above ground biomass (kg/ha) =       0.0
-      number of leaves =  23.9
-      grain N percent =      0.00            total N content (kg/ha) =    136.05
-      grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.38
-      green N content (kg/ha) =    135.67    dead N content (kg/ha) =      0.00
-     
-     
-     
-      stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0075882
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0640548
-     
-     
-     
-      stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0080508
-     
-     
-     
-      stress indices for floral_initiation
-      water stress 1 =       0.0021524   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0153051   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for flowering
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-     
-      - Reading constants for regrowth
-      stage    5.0 floral_initiation
-                          biomass =           22.07100       lai =    0.3042515e-03
-                          stover N conc =    4.902769       extractable sw =    156.6243
+   MANAGER:
+           Manager sending message :- lucerne harvest height = 50 (mm)
+   LUCERNE:
+      
+      
+      
+       flowering day  =  275                  stover (kg/ha) =    4870.8
+       maturity day        =    0             grain yield (kg/ha) =       0.0
+       grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
+       grain wt (g) =     0.000               grains/m^2   =     0.000
+       grains/head =   0.0                    maximum lai = 3.327
+       total above ground biomass (kg/ha) =    4870.8
+       live above ground biomass (kg/ha) =    4870.8
+       green above ground biomass (kg/ha) =    4833.0
+       senesced above ground biomass (kg/ha) =      37.8
+       dead above ground biomass (kg/ha) =       0.0
+       number of leaves =  23.9
+       grain N percent =      0.00            total N content (kg/ha) =    136.05
+       grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.38
+       green N content (kg/ha) =    135.67    dead N content (kg/ha) =      0.00
+      
+      
+      
+       stress indices for emergence
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0075882
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0640724
+      
+      
+      
+       stress indices for end_of_juvenile
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0081120
+      
+      
+      
+       stress indices for floral_initiation
+       water stress 1 =       0.0021524   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0153051   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for flowering
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for start_grain_fill
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+      
+       - Reading constants for regrowth
+       stage    5.0 floral_initiation
+                           biomass =           22.07100       lai =    0.3042515e-03
+                           stover N conc =    4.904836       extractable sw =    156.6243
 1 November 1988 (Day of year=306):
-      stage    6.0 flowering
-                          biomass =           198.5289       lai =     1.141828    
-                          stover N conc =    3.105671       extractable sw =    103.7590
+   LUCERNE:
+       stage    6.0 flowering
+                           biomass =           198.5301       lai =     1.141822    
+                           stover N conc =    3.105688       extractable sw =    103.7584
 2 November 1988 (Day of year=307):
-          Manager sending message :- lucerne harvest height = 50 (mm)
-     
-     
-     
-      flowering day  =  306                  stover (kg/ha) =    1985.3
-      maturity day        =    0             grain yield (kg/ha) =       0.0
-      grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
-      grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 3.327
-      total above ground biomass (kg/ha) =    1985.3
-      live above ground biomass (kg/ha) =    1985.3
-      green above ground biomass (kg/ha) =    1676.5
-      senesced above ground biomass (kg/ha) =     308.7
-      dead above ground biomass (kg/ha) =       0.0
-      number of leaves =  16.3
-      grain N percent =      0.00            total N content (kg/ha) =     55.16
-      grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      3.09
-      green N content (kg/ha) =     52.07    dead N content (kg/ha) =      0.00
-     
-     
-     
-      stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0075882
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0640548
-     
-     
-     
-      stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.5642577
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.6514062
-     
-     
-     
-      stress indices for floral_initiation
-      water stress 1 =       0.0844154   nitrogen stress 1 =       0.0001401
-      water stress 2 =       0.1785137   nitrogen stress 2 =       0.0068547
-     
-     
-     
-      stress indices for flowering
-      water stress 1 =       0.1769436   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.4835311   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-      stage    5.0 floral_initiation
-                          biomass =           25.55798       lai =    0.3351260e-03
-                          stover N conc =    4.184437       extractable sw =    99.74043
+   MANAGER:
+           Manager sending message :- lucerne harvest height = 50 (mm)
+   LUCERNE:
+      
+      
+      
+       flowering day  =  306                  stover (kg/ha) =    1985.3
+       maturity day        =    0             grain yield (kg/ha) =       0.0
+       grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
+       grain wt (g) =     0.000               grains/m^2   =     0.000
+       grains/head =   0.0                    maximum lai = 3.327
+       total above ground biomass (kg/ha) =    1985.3
+       live above ground biomass (kg/ha) =    1985.3
+       green above ground biomass (kg/ha) =    1676.5
+       senesced above ground biomass (kg/ha) =     308.8
+       dead above ground biomass (kg/ha) =       0.0
+       number of leaves =  16.3
+       grain N percent =      0.00            total N content (kg/ha) =     55.16
+       grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      3.09
+       green N content (kg/ha) =     52.07    dead N content (kg/ha) =      0.00
+      
+      
+      
+       stress indices for emergence
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0075882
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0640724
+      
+      
+      
+       stress indices for end_of_juvenile
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.5642577
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.6514062
+      
+      
+      
+       stress indices for floral_initiation
+       water stress 1 =       0.0844181   nitrogen stress 1 =       0.0001223
+       water stress 2 =       0.1785173   nitrogen stress 2 =       0.0068405
+      
+      
+      
+       stress indices for flowering
+       water stress 1 =       0.1769503   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.4835359   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for start_grain_fill
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+       stage    5.0 floral_initiation
+                           biomass =           25.55806       lai =    0.3351269e-03
+                           stover N conc =    4.186351       extractable sw =    99.73983
 3 December 1988 (Day of year=338):
-      stage    6.0 flowering
-                          biomass =           129.5149       lai =    0.4842745    
-                          stover N conc =    4.182489       extractable sw =    54.64281
+   LUCERNE:
+       stage    6.0 flowering
+                           biomass =           129.5149       lai =    0.4842667    
+                           stover N conc =    4.182559       extractable sw =    54.64211
 4 December 1988 (Day of year=339):
-          Manager sending message :- lucerne harvest height = 50 (mm)
-     
-     
-     
-      flowering day  =  338                  stover (kg/ha) =    1295.1
-      maturity day        =    0             grain yield (kg/ha) =       0.0
-      grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
-      grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 3.327
-      total above ground biomass (kg/ha) =    1295.1
-      live above ground biomass (kg/ha) =    1295.1
-      green above ground biomass (kg/ha) =     793.8
-      senesced above ground biomass (kg/ha) =     501.3
-      dead above ground biomass (kg/ha) =       0.0
-      number of leaves =  16.7
-      grain N percent =      0.00            total N content (kg/ha) =     38.21
-      grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      5.01
-      green N content (kg/ha) =     33.20    dead N content (kg/ha) =      0.00
-     
-     
-     
-      stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0075882
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0640548
-     
-     
-     
-      stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.4896110
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.5916889
-     
-     
-     
-      stress indices for floral_initiation
-      water stress 1 =       0.2463406   nitrogen stress 1 =       0.0060288
-      water stress 2 =       0.3704265   nitrogen stress 2 =       0.0143264
-     
-     
-     
-      stress indices for flowering
-      water stress 1 =       0.5235863   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.7311330   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-      stage    5.0 floral_initiation
-                          biomass =           21.87271       lai =    0.4264814e-03
-                          stover N conc =    5.068811       extractable sw =    51.06042
+   MANAGER:
+           Manager sending message :- lucerne harvest height = 50 (mm)
+   LUCERNE:
+      
+      
+      
+       flowering day  =  338                  stover (kg/ha) =    1295.1
+       maturity day        =    0             grain yield (kg/ha) =       0.0
+       grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
+       grain wt (g) =     0.000               grains/m^2   =     0.000
+       grains/head =   0.0                    maximum lai = 3.327
+       total above ground biomass (kg/ha) =    1295.1
+       live above ground biomass (kg/ha) =    1295.1
+       green above ground biomass (kg/ha) =     793.8
+       senesced above ground biomass (kg/ha) =     501.3
+       dead above ground biomass (kg/ha) =       0.0
+       number of leaves =  16.7
+       grain N percent =      0.00            total N content (kg/ha) =     38.22
+       grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      5.01
+       green N content (kg/ha) =     33.20    dead N content (kg/ha) =      0.00
+      
+      
+      
+       stress indices for emergence
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0075882
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0640724
+      
+      
+      
+       stress indices for end_of_juvenile
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.4896075
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.5916860
+      
+      
+      
+       stress indices for floral_initiation
+       water stress 1 =       0.2463453   nitrogen stress 1 =       0.0060126
+       water stress 2 =       0.3704355   nitrogen stress 2 =       0.0142876
+      
+      
+      
+       stress indices for flowering
+       water stress 1 =       0.5235903   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.7311360   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for start_grain_fill
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+       stage    5.0 floral_initiation
+                           biomass =           21.87261       lai =    0.4264856e-03
+                           stover N conc =    5.069885       extractable sw =    51.05979
 31 December 1988 (Day of year=366):
-      stage    6.0 flowering
-                          biomass =           160.2012       lai =     1.278640    
-                          stover N conc =    2.898752       extractable sw =    67.03653
+   LUCERNE:
+       stage    6.0 flowering
+                           biomass =           160.2005       lai =     1.278633    
+                           stover N conc =    2.898757       extractable sw =    67.03594
 1 January 1989 (Day of year=1):
-          Manager sending message :- lucerne harvest height = 50 (mm)
-     
-     
-     
-      flowering day  =  366                  stover (kg/ha) =    1602.0
-      maturity day        =    0             grain yield (kg/ha) =       0.0
-      grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
-      grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 3.327
-      total above ground biomass (kg/ha) =    1602.0
-      live above ground biomass (kg/ha) =    1602.0
-      green above ground biomass (kg/ha) =    1384.9
-      senesced above ground biomass (kg/ha) =     217.1
-      dead above ground biomass (kg/ha) =       0.0
-      number of leaves =  16.5
-      grain N percent =      0.00            total N content (kg/ha) =     42.32
-      grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      2.17
-      green N content (kg/ha) =     40.15    dead N content (kg/ha) =      0.00
-     
-     
-     
-      stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0075882
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0640548
-     
-     
-     
-      stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.1896068
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.3516854
-     
-     
-     
-      stress indices for floral_initiation
-      water stress 1 =       0.0597741   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.1329484   nitrogen stress 2 =       0.0062457
-     
-     
-     
-      stress indices for flowering
-      water stress 1 =       0.3516315   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.6083082   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-      stage    5.0 floral_initiation
-                          biomass =           22.85361       lai =    0.3126008e-03
-                          stover N conc =    5.047242       extractable sw =    62.63300
+   MANAGER:
+           Manager sending message :- lucerne harvest height = 50 (mm)
+   LUCERNE:
+      
+      
+      
+       flowering day  =  366                  stover (kg/ha) =    1602.0
+       maturity day        =    0             grain yield (kg/ha) =       0.0
+       grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
+       grain wt (g) =     0.000               grains/m^2   =     0.000
+       grains/head =   0.0                    maximum lai = 3.327
+       total above ground biomass (kg/ha) =    1602.0
+       live above ground biomass (kg/ha) =    1602.0
+       green above ground biomass (kg/ha) =    1384.9
+       senesced above ground biomass (kg/ha) =     217.1
+       dead above ground biomass (kg/ha) =       0.0
+       number of leaves =  16.5
+       grain N percent =      0.00            total N content (kg/ha) =     42.32
+       grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      2.17
+       green N content (kg/ha) =     40.15    dead N content (kg/ha) =      0.00
+      
+      
+      
+       stress indices for emergence
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0075882
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0640724
+      
+      
+      
+       stress indices for end_of_juvenile
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.1895917
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.3516734
+      
+      
+      
+       stress indices for floral_initiation
+       water stress 1 =       0.0597752   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.1329496   nitrogen stress 2 =       0.0062374
+      
+      
+      
+       stress indices for flowering
+       water stress 1 =       0.3516359   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.6083113   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for start_grain_fill
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+       stage    5.0 floral_initiation
+                           biomass =           22.85358       lai =    0.3126010e-03
+                           stover N conc =    5.052098       extractable sw =    62.63244
 29 January 1989 (Day of year=29):
-      stage    6.0 flowering
-                          biomass =           160.8330       lai =    0.9722127    
-                          stover N conc =    3.213369       extractable sw =    44.80885
+   LUCERNE:
+       stage    6.0 flowering
+                           biomass =           160.8323       lai =    0.9722082    
+                           stover N conc =    3.213375       extractable sw =    44.80851
 30 January 1989 (Day of year=30):
-          Manager sending message :- lucerne harvest height = 50 (mm)
-     
-     
-     
-      flowering day  =   29                  stover (kg/ha) =    1608.3
-      maturity day        =    0             grain yield (kg/ha) =       0.0
-      grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
-      grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 3.327
-      total above ground biomass (kg/ha) =    1608.3
-      live above ground biomass (kg/ha) =    1608.3
-      green above ground biomass (kg/ha) =    1252.2
-      senesced above ground biomass (kg/ha) =     356.1
-      dead above ground biomass (kg/ha) =       0.0
-      number of leaves =  16.6
-      grain N percent =      0.00            total N content (kg/ha) =     43.80
-      grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      3.56
-      green N content (kg/ha) =     40.24    dead N content (kg/ha) =      0.00
-     
-     
-     
-      stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0075882
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0640548
-     
-     
-     
-      stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.5426368
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.6341094
-     
-     
-     
-      stress indices for floral_initiation
-      water stress 1 =       0.1006235   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.2046891   nitrogen stress 2 =       0.0061652
-     
-     
-     
-      stress indices for flowering
-      water stress 1 =       0.6637971   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.8312836   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-      stage    5.0 floral_initiation
-                          biomass =           22.87177       lai =    0.3507985e-03
-                          stover N conc =    4.940503       extractable sw =    42.45620
+   MANAGER:
+           Manager sending message :- lucerne harvest height = 50 (mm)
+   LUCERNE:
+      
+      
+      
+       flowering day  =   29                  stover (kg/ha) =    1608.3
+       maturity day        =    0             grain yield (kg/ha) =       0.0
+       grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
+       grain wt (g) =     0.000               grains/m^2   =     0.000
+       grains/head =   0.0                    maximum lai = 3.327
+       total above ground biomass (kg/ha) =    1608.3
+       live above ground biomass (kg/ha) =    1608.3
+       green above ground biomass (kg/ha) =    1252.2
+       senesced above ground biomass (kg/ha) =     356.1
+       dead above ground biomass (kg/ha) =       0.0
+       number of leaves =  16.6
+       grain N percent =      0.00            total N content (kg/ha) =     43.80
+       grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      3.56
+       green N content (kg/ha) =     40.24    dead N content (kg/ha) =      0.00
+      
+      
+      
+       stress indices for emergence
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0075882
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0640724
+      
+      
+      
+       stress indices for end_of_juvenile
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.5426359
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.6341087
+      
+      
+      
+       stress indices for floral_initiation
+       water stress 1 =       0.1006244   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.2046903   nitrogen stress 2 =       0.0061287
+      
+      
+      
+       stress indices for flowering
+       water stress 1 =       0.6637990   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.8312850   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for start_grain_fill
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+       stage    5.0 floral_initiation
+                           biomass =           22.87173       lai =    0.3507989e-03
+                           stover N conc =    4.942256       extractable sw =    42.45587
 28 February 1989 (Day of year=59):
-      stage    6.0 flowering
-                          biomass =           145.1185       lai =     1.284561    
-                          stover N conc =    2.665731       extractable sw =    90.93377
+   LUCERNE:
+       stage    6.0 flowering
+                           biomass =           145.1181       lai =     1.284560    
+                           stover N conc =    2.665731       extractable sw =    90.93356
 1 March 1989 (Day of year=60):
-          Manager sending message :- lucerne harvest height = 50 (mm)
-     
-     
-     
-      flowering day  =   59                  stover (kg/ha) =    1451.2
-      maturity day        =    0             grain yield (kg/ha) =       0.0
-      grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
-      grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 3.327
-      total above ground biomass (kg/ha) =    1451.2
-      live above ground biomass (kg/ha) =    1451.2
-      green above ground biomass (kg/ha) =    1355.1
-      senesced above ground biomass (kg/ha) =      96.1
-      dead above ground biomass (kg/ha) =       0.0
-      number of leaves =  16.5
-      grain N percent =      0.00            total N content (kg/ha) =     37.08
-      grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.96
-      green N content (kg/ha) =     36.12    dead N content (kg/ha) =      0.00
-     
-     
-     
-      stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0075882
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0640548
-     
-     
-     
-      stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.4614131
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.5691305
-     
-     
-     
-      stress indices for floral_initiation
-      water stress 1 =       0.1240700   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.1943273   nitrogen stress 2 =       0.0067795
-     
-     
-     
-      stress indices for flowering
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-      stage    5.0 floral_initiation
-                          biomass =           21.72725       lai =    0.2793368e-03
-                          stover N conc =    5.389832       extractable sw =    88.64080
+   MANAGER:
+           Manager sending message :- lucerne harvest height = 50 (mm)
+   LUCERNE:
+      
+      
+      
+       flowering day  =   59                  stover (kg/ha) =    1451.2
+       maturity day        =    0             grain yield (kg/ha) =       0.0
+       grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
+       grain wt (g) =     0.000               grains/m^2   =     0.000
+       grains/head =   0.0                    maximum lai = 3.327
+       total above ground biomass (kg/ha) =    1451.2
+       live above ground biomass (kg/ha) =    1451.2
+       green above ground biomass (kg/ha) =    1355.1
+       senesced above ground biomass (kg/ha) =      96.1
+       dead above ground biomass (kg/ha) =       0.0
+       number of leaves =  16.5
+       grain N percent =      0.00            total N content (kg/ha) =     37.08
+       grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.96
+       green N content (kg/ha) =     36.12    dead N content (kg/ha) =      0.00
+      
+      
+      
+       stress indices for emergence
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0075882
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0640724
+      
+      
+      
+       stress indices for end_of_juvenile
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.4614116
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.5691293
+      
+      
+      
+       stress indices for floral_initiation
+       water stress 1 =       0.1240706   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.1943278   nitrogen stress 2 =       0.0067668
+      
+      
+      
+       stress indices for flowering
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for start_grain_fill
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+       stage    5.0 floral_initiation
+                           biomass =           21.72723       lai =    0.2793368e-03
+                           stover N conc =    5.389826       extractable sw =    88.64059
 29 March 1989 (Day of year=88):
-      stage    6.0 flowering
-                          biomass =           159.0409       lai =     1.756602    
-                          stover N conc =    2.658545       extractable sw =    123.1992
+   LUCERNE:
+       stage    6.0 flowering
+                           biomass =           159.0408       lai =     1.756602    
+                           stover N conc =    2.658546       extractable sw =    123.1990
 30 March 1989 (Day of year=89):
-          Manager sending message :- lucerne harvest height = 50 (mm)
-     
-     
-     
-      flowering day  =   88                  stover (kg/ha) =    1590.4
-      maturity day        =    0             grain yield (kg/ha) =       0.0
-      grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
-      grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 3.327
-      total above ground biomass (kg/ha) =    1590.4
-      live above ground biomass (kg/ha) =    1590.4
-      green above ground biomass (kg/ha) =    1563.9
-      senesced above ground biomass (kg/ha) =      26.5
-      dead above ground biomass (kg/ha) =       0.0
-      number of leaves =  16.6
-      grain N percent =      0.00            total N content (kg/ha) =     41.84
-      grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.26
-      green N content (kg/ha) =     41.58    dead N content (kg/ha) =      0.00
-     
-     
-     
-      stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0075882
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0640548
-     
-     
-     
-      stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.5829173
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.6663339
-     
-     
-     
-      stress indices for floral_initiation
-      water stress 1 =       0.0146804   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0545929   nitrogen stress 2 =       0.0038057
-     
-     
-     
-      stress indices for flowering
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-      stage    5.0 floral_initiation
-                          biomass =           22.08481       lai =    0.2511073e-03
-                          stover N conc =    5.728328       extractable sw =    117.6416
+   MANAGER:
+           Manager sending message :- lucerne harvest height = 50 (mm)
+   LUCERNE:
+      
+      
+      
+       flowering day  =   88                  stover (kg/ha) =    1590.4
+       maturity day        =    0             grain yield (kg/ha) =       0.0
+       grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
+       grain wt (g) =     0.000               grains/m^2   =     0.000
+       grains/head =   0.0                    maximum lai = 3.327
+       total above ground biomass (kg/ha) =    1590.4
+       live above ground biomass (kg/ha) =    1590.4
+       green above ground biomass (kg/ha) =    1563.9
+       senesced above ground biomass (kg/ha) =      26.5
+       dead above ground biomass (kg/ha) =       0.0
+       number of leaves =  16.6
+       grain N percent =      0.00            total N content (kg/ha) =     41.84
+       grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.26
+       green N content (kg/ha) =     41.58    dead N content (kg/ha) =      0.00
+      
+      
+      
+       stress indices for emergence
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0075882
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0640724
+      
+      
+      
+       stress indices for end_of_juvenile
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.5829173
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.6663339
+      
+      
+      
+       stress indices for floral_initiation
+       water stress 1 =       0.0146805   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0545931   nitrogen stress 2 =       0.0038057
+      
+      
+      
+       stress indices for flowering
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for start_grain_fill
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+       stage    5.0 floral_initiation
+                           biomass =           22.08478       lai =    0.2511073e-03
+                           stover N conc =    5.728329       extractable sw =    117.6415
 1 May 1989 (Day of year=121):
-      stage    6.0 flowering
-                          biomass =           162.8662       lai =     1.743799    
-                          stover N conc =    2.661129       extractable sw =    147.0869
+   LUCERNE:
+       stage    6.0 flowering
+                           biomass =           162.8662       lai =     1.743799    
+                           stover N conc =    2.661130       extractable sw =    147.0868
 2 May 1989 (Day of year=122):
-          Manager sending message :- lucerne harvest height = 50 (mm)
-     
-     
-     
-      flowering day  =  121                  stover (kg/ha) =    1628.7
-      maturity day        =    0             grain yield (kg/ha) =       0.0
-      grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
-      grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 3.327
-      total above ground biomass (kg/ha) =    1628.7
-      live above ground biomass (kg/ha) =    1628.7
-      green above ground biomass (kg/ha) =    1627.8
-      senesced above ground biomass (kg/ha) =       0.9
-      dead above ground biomass (kg/ha) =       0.0
-      number of leaves =  16.4
-      grain N percent =      0.00            total N content (kg/ha) =     43.33
-      grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.01
-      green N content (kg/ha) =     43.32    dead N content (kg/ha) =      0.00
-     
-     
-     
-      stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0075882
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0640548
-     
-     
-     
-      stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.5863913
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.6691130
-     
-     
-     
-      stress indices for floral_initiation
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0009848
-     
-     
-     
-      stress indices for flowering
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-      stage    5.0 floral_initiation
-                          biomass =           22.14389       lai =    0.2643153e-03
-                          stover N conc =    5.999995       extractable sw =    141.0178
+   MANAGER:
+           Manager sending message :- lucerne harvest height = 50 (mm)
+   LUCERNE:
+      
+      
+      
+       flowering day  =  121                  stover (kg/ha) =    1628.7
+       maturity day        =    0             grain yield (kg/ha) =       0.0
+       grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
+       grain wt (g) =     0.000               grains/m^2   =     0.000
+       grains/head =   0.0                    maximum lai = 3.327
+       total above ground biomass (kg/ha) =    1628.7
+       live above ground biomass (kg/ha) =    1628.7
+       green above ground biomass (kg/ha) =    1627.8
+       senesced above ground biomass (kg/ha) =       0.9
+       dead above ground biomass (kg/ha) =       0.0
+       number of leaves =  16.4
+       grain N percent =      0.00            total N content (kg/ha) =     43.33
+       grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.01
+       green N content (kg/ha) =     43.32    dead N content (kg/ha) =      0.00
+      
+      
+      
+       stress indices for emergence
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0075882
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0640724
+      
+      
+      
+       stress indices for end_of_juvenile
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.5863913
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.6691130
+      
+      
+      
+       stress indices for floral_initiation
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0009848
+      
+      
+      
+       stress indices for flowering
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for start_grain_fill
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+       stage    5.0 floral_initiation
+                           biomass =           22.14389       lai =    0.2643153e-03
+                           stover N conc =    5.999992       extractable sw =    141.0177
 14 June 1989 (Day of year=165):
-      stage    6.0 flowering
-                          biomass =           187.9790       lai =     1.766681    
-                          stover N conc =    2.668840       extractable sw =    134.1280
+   LUCERNE:
+       stage    6.0 flowering
+                           biomass =           187.9790       lai =     1.766681    
+                           stover N conc =    2.668840       extractable sw =    134.1278
 15 June 1989 (Day of year=166):
-          Manager sending message :- lucerne harvest height = 50 (mm)
-     
-     
-     
-      flowering day  =  165                  stover (kg/ha) =    1879.8
-      maturity day        =    0             grain yield (kg/ha) =       0.0
-      grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
-      grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 3.327
-      total above ground biomass (kg/ha) =    1879.8
-      live above ground biomass (kg/ha) =    1879.8
-      green above ground biomass (kg/ha) =    1879.7
-      senesced above ground biomass (kg/ha) =       0.1
-      dead above ground biomass (kg/ha) =       0.0
-      number of leaves =  16.4
-      grain N percent =      0.00            total N content (kg/ha) =     50.17
-      grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.00
-      green N content (kg/ha) =     50.17    dead N content (kg/ha) =      0.00
-     
-     
-     
-      stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0075882
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0640548
-     
-     
-     
-      stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.5866513
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.6693211
-     
-     
-     
-      stress indices for floral_initiation
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for flowering
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-      stage    5.0 floral_initiation
-                          biomass =           22.68343       lai =    0.2563812e-03
-                          stover N conc =    5.860402       extractable sw =    128.9929
+   MANAGER:
+           Manager sending message :- lucerne harvest height = 50 (mm)
+   LUCERNE:
+      
+      
+      
+       flowering day  =  165                  stover (kg/ha) =    1879.8
+       maturity day        =    0             grain yield (kg/ha) =       0.0
+       grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
+       grain wt (g) =     0.000               grains/m^2   =     0.000
+       grains/head =   0.0                    maximum lai = 3.327
+       total above ground biomass (kg/ha) =    1879.8
+       live above ground biomass (kg/ha) =    1879.8
+       green above ground biomass (kg/ha) =    1879.7
+       senesced above ground biomass (kg/ha) =       0.1
+       dead above ground biomass (kg/ha) =       0.0
+       number of leaves =  16.4
+       grain N percent =      0.00            total N content (kg/ha) =     50.17
+       grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.00
+       green N content (kg/ha) =     50.17    dead N content (kg/ha) =      0.00
+      
+      
+      
+       stress indices for emergence
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0075882
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0640724
+      
+      
+      
+       stress indices for end_of_juvenile
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.5866513
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.6693211
+      
+      
+      
+       stress indices for floral_initiation
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for flowering
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for start_grain_fill
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+       stage    5.0 floral_initiation
+                           biomass =           22.68343       lai =    0.2563812e-03
+                           stover N conc =    5.860402       extractable sw =    128.9928
 19 July 1989 (Day of year=200):
-          Manager sending message :- lucerne harvest
-     
-     
-     
-      flowering day  =  165                  stover (kg/ha) =     819.6
-      maturity day        =    0             grain yield (kg/ha) =       0.0
-      grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
-      grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 3.327
-      total above ground biomass (kg/ha) =     819.6
-      live above ground biomass (kg/ha) =     819.6
-      green above ground biomass (kg/ha) =     640.7
-      senesced above ground biomass (kg/ha) =     179.0
-      dead above ground biomass (kg/ha) =       0.0
-      number of leaves =   9.1
-      grain N percent =      0.00            total N content (kg/ha) =     30.65
-      grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      1.79
-      green N content (kg/ha) =     28.86    dead N content (kg/ha) =      0.00
-     
-     
-     
-      stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0075882
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0640548
-     
-     
-     
-      stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.5879557
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.6703645
-     
-     
-     
-      stress indices for floral_initiation
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0004530
-     
-     
-     
-      stress indices for flowering
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-          Manager sending message :- lucerne end_crop
-         ended. Yield (dw) =     0.0
-                                               straw residue =   10.0 kg/ha
-                                               straw N =    0.6 kg/ha
-                                               root residue = 2497.0 kg/ha
-                                               root N =   65.2 kg/ha
+   MANAGER:
+           Manager sending message :- lucerne harvest
+   LUCERNE:
+      
+      
+      
+       flowering day  =  165                  stover (kg/ha) =     819.6
+       maturity day        =    0             grain yield (kg/ha) =       0.0
+       grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
+       grain wt (g) =     0.000               grains/m^2   =     0.000
+       grains/head =   0.0                    maximum lai = 3.327
+       total above ground biomass (kg/ha) =     819.6
+       live above ground biomass (kg/ha) =     819.6
+       green above ground biomass (kg/ha) =     640.7
+       senesced above ground biomass (kg/ha) =     179.0
+       dead above ground biomass (kg/ha) =       0.0
+       number of leaves =   9.1
+       grain N percent =      0.00            total N content (kg/ha) =     30.65
+       grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      1.79
+       green N content (kg/ha) =     28.86    dead N content (kg/ha) =      0.00
+      
+      
+      
+       stress indices for emergence
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0075882
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0640724
+      
+      
+      
+       stress indices for end_of_juvenile
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.5879557
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.6703645
+      
+      
+      
+       stress indices for floral_initiation
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0004530
+      
+      
+      
+       stress indices for flowering
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for start_grain_fill
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+   MANAGER:
+           Manager sending message :- lucerne end_crop
+   LUCERNE:
+          ended. Yield (dw) =     0.0
+                                                straw residue =   10.0 kg/ha
+                                                straw N =    0.6 kg/ha
+                                                root residue = 2497.0 kg/ha
+                                                root N =   65.2 kg/ha
 29 July 1989 (Day of year=210):
-     Simulation is terminating due to end criteria being met.
+   CLOCK:
+      Simulation is terminating due to end criteria being met.
