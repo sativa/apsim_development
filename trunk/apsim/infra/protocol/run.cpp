@@ -76,7 +76,7 @@ bool PROTOCOLRun::init (void)
    masterPM = new PROTOCOLCoordinator("main",
                                       NULL,
                                       simConfiguration->getISystem("main"));
-   masterPM->init();
+   masterPM->create();
    return true;
    }
 
