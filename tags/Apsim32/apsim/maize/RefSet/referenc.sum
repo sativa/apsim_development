@@ -1,0 +1,945 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+     Version                = 3.2
+     Title                  =
+     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\maize\lib\maize.dll
+     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
+
+------- clock Initialisation --------------------------------------------------
+     Simulation start date =  1/01/1993
+     Simulation end date   = 31/12/1994
+     Time step =           = 1440 (mins)
+
+------- report Initialisation -------------------------------------------------
+     Output variables:
+        clock.year
+        clock.day
+        soiln2.no3
+        soilwat2.sw_dep
+        maize.tt_tot()
+        maize.lai
+        maize.biomass
+        maize.root_length
+        maize.root_depth
+        tracker.avg_swdef_photo
+        tracker.avg_nfact_photo
+        maize.plant_status
+        maize.dm_dead()
+        maize.yield
+        maize.height
+        residue2.residue_wt
+        residue2.residue_n
+        soiln2.fom_c()
+        soiln2.fom_n()
+        maize.leaf_no
+     
+     Output file = referenc.out
+     Format = normal
+
+------- met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: REFERENC.MET
+
+------- fertiliz Initialisation -----------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- irrigate Initialisation -----------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                      Irrigation parameters
+          -----------------------------------------------
+           Irrigation Schedule (Disabled)
+           Automatic Irrigation Application (Disabled)
+           critical fraction of available soil water =  0.50
+           depth for calculating available soil water =     500.00
+           Irrigation Allocation Budget (Disabled)
+          -----------------------------------------------
+
+------- manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- init
+     
+     SECTION:- start_of_day
+          if year = 1993 and day = 10 then
+             maize sow cultivar = dekalb_xl82, plants = 10, sowing_depth = 50, tiller_no_fertile = 1
+             soilwat2 set sw = 0.15 0.15 0.1
+             soiln2   set no3 = 1 1 1
+             soiln2   set nh4 = 1 1 1
+             residue2 tillage type = burn
+             irrigate set crit_fr_asw = 0.9
+             irrigate set asw_depth = 900
+             irrigate set automatic_irrigation = on
+             fertiliz apply amount = 200, type = no3_n, depth = 5
+             report do_output
+          elseif year = 1993 and day = 160 then
+             maize sow cultivar = katumani, plants = 5, sowing_depth = 50, tiller_no_fertile = 1
+             soilwat2 set sw = 0.15 0.15 0.1
+             soiln2   set no3 = 1 1 1
+             soiln2   set nh4 = 1 1 1
+             residue2 tillage type = burn
+             irrigate set crit_fr_asw = 0.9
+             irrigate set asw_depth = 900
+             irrigate set automatic_irrigation = on
+             fertiliz apply amount = 100, type = no3_n, depth = 5
+             report do_output
+          elseif year = 1993 and day = 300 then
+             maize sow cultivar = dekalb_xl82, plants = 5, sowing_depth = 50, tiller_no_fertile = 1
+             soilwat2 set sw = 0.25 0.25 0.2
+             soiln2   set no3 = 10 1 1
+             soiln2   set nh4 = 1 1 1
+             residue2 tillage type = burn
+             irrigate set crit_fr_asw = 0.3
+             irrigate set asw_depth = 900
+             irrigate set automatic_irrigation = on
+             report do_output
+          elseif year = 1994 and day = 80 then
+             maize sow cultivar = dekalb_xl82, plants = 5, sowing_depth = 50, tiller_no_fertile = 1
+             soilwat2 set sw = 0.25 0.25 0.2
+             soiln2   set no3 = 1 1 1
+             soiln2   set nh4 = 1 1 1
+             residue2 tillage type = burn
+             irrigate set crit_fr_asw = 0.4
+             irrigate set asw_depth = 900
+             irrigate set automatic_irrigation = on
+             fertiliz apply amount = 50, type = no3_n, depth = 5
+             report do_output
+          endif
+     
+     SECTION:- end_of_day
+          if (maize.plant_status = 'dead') then
+             maize    end_crop
+             report do_output
+          elseif (maize.stage = 11) then
+             maize    harvest
+             maize    kill_crop
+             report do_output
+          elseif days_since_last_report = 7 then
+             report do_output
+          endif
+     END of rules
+     
+
+------- soilwat2 Initialisation -----------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  200.  0.050  0.100  0.200  0.300  0.200  1.000  0.856  0.500
+          200.-  600.  0.100  0.100  0.200  0.300  0.200  1.000  0.144  0.500
+          600.- 1000.  0.100  0.100  0.200  0.300  0.200  1.000  0.000  0.500
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  200.      20.00      20.00      20.00      20.00
+          200.-  600.      40.00      40.00      40.00      40.00
+          600.- 1000.      40.00      40.00      40.00      40.00
+          ---------------------------------------------------------
+               Totals     100.00     100.00     100.00     100.00
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   2.00        0.13       88.00       35.40
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              75.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            9.00 (mm^0.5)
+            CONA:                     2.00 ()
+           Eo from priestly-taylor
+
+------- residue2 Initialisation -----------------------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                      Residue Initial Data
+         ------------------------------------------------
+            Dry matter   N       P    Type
+             (kg/ha)  (kg/ha) (kg/ha)
+         ------------------------------------------------
+               500.0     2.5     0.0  maize
+         ------------------------------------------------
+
+------- soiln2 Initialisation -------------------------------------------------
+     
+        - Reading Constants
+     
+        - Reading Parameters
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     7.00  1.20    2.00    2.00    0.00
+             2     7.00  1.00    4.00    4.00    0.00
+             3     7.00  0.50    4.00    4.00    0.00
+          ------------------------------------------------
+           Totals               10.00   10.00    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      23580.6  1626.2   419.4    52.4   287.4     6.4
+             2      39607.8  2731.6   392.2    49.0    86.6     1.9
+             3      19999.8  1379.3     0.2     0.0    26.1     0.6
+          ---------------------------------------------------------
+           Totals   83188.2  5737.1   811.8   101.5   400.0     8.9
+          ---------------------------------------------------------
+
+------- maize Initialisation --------------------------------------------------
+      Initialising, V1.0 2000.01.21
+     
+         - Reading constants
+     
+         - Reading constants
+
+------- tracker Initialisation ------------------------------------------------
+     Tracker variables:
+        average of maize.nfact_photo since reported as avg_nfact_photo on process
+        average of maize.swdef_photo since reported as avg_swdef_photo on process
+------- Start of simulation  --------------------------------------------------
+10 January 1993(Day of year=10), manager: 
+     Manager sending message :- maize sow  cultivar = dekalb_xl82, plants = 10, sowing_depth = 50, tiller_no_fertile = 1
+10 January 1993(Day of year=10), maize: 
+     Sowing initiate
+     
+     
+     
+                      Crop Sowing Data
+         -------------------------------------------------------
+         Sowing   Depth  Plants Spacing Skiprow Cultivar    FTN
+         Day no    mm      m^2    m      code     name       no
+         -------------------------------------------------------
+             10   50.0   10.0    1.0    0.0   dekalb_xl8    1.00
+         -------------------------------------------------------
+     
+        - Reading root profile parameters
+     Uptake of NO3 and water calculated by maize
+     
+     
+     
+     
+                         Root Profile
+         ------------------------------------------------
+           Layer      Kl      Lower Exploration
+           Depth              limit   Factor
+           (mm)       ()     (mm/mm)    ()
+         ------------------------------------------------
+          200.000    0.080    0.100    1.000
+          400.000    0.050    0.100    1.000
+          400.000    0.020    0.100    0.500
+          ------------------------------------------------
+     
+     
+     
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar                 = dekalb_xl82
+         est_days_endjuv_to_init  =      20
+         tt_emerg_to_endjuv       =  211.00
+         tt_flower_to_maturity    =  983.00
+         head_grain_no_max        =  610.00
+         grain_gth_rate           =    9.17
+         tt_flag_to_flower        =  101.00
+         tt_flower_to_start_grain =  170.00
+         tt_maturity_to_ripe      =    1.00
+         x_stem_wt      =     0.0   80.0
+         y_height      =     0.0 2000.0
+         ------------------------------------------------
+     
+     
+     
+10 January 1993(Day of year=10), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.15 0.15 0.1
+     Manager sending message :- soiln2 set  no3 = 1 1 1
+     Manager sending message :- soiln2 set  nh4 = 1 1 1
+     Manager sending message :- residue2 tillage  type = burn
+10 January 1993(Day of year=10), residue2: 
+     
+         - Reading residue tillage info
+     Residue removed using burn
+                                             Fraction Incorporated =     1.00
+                                             Incorporated Depth    =     0.00
+10 January 1993(Day of year=10), manager: 
+     Manager sending message :- irrigate set  crit_fr_asw = 0.9
+     Manager sending message :- irrigate set  asw_depth = 900
+     Manager sending message :- irrigate set  automatic_irrigation = on
+     Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 5
+10 January 1993(Day of year=10), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+       200.00 of n as nitrate (no3_n)
+                                              added at depth    5.00 (layer   1)
+11 January 1993(Day of year=11), maize: 
+      stage    2.0 germination
+13 January 1993(Day of year=13), maize: 
+      stage    3.0 emergence
+                          biomass =          0.2000000       lai =    0.3800000E-02
+                          stover N conc =    4.399999       extractable sw =    15.17132
+25 January 1993(Day of year=25), maize: 
+      stage    4.0 end_of_juvenile
+                          biomass =           2.775809       lai =    0.4589706E-01
+                          stover N conc =    3.364288       extractable sw =    50.77953
+29 January 1993(Day of year=29), maize: 
+      stage    5.0 floral_initiation
+                          biomass =           6.209499       lai =    0.1032346
+                          stover N conc =    2.880184       extractable sw =    49.36780
+9 March 1993(Day of year=68), maize: 
+      stage    6.0 flag_leaf
+                          biomass =           431.5398       lai =     2.838513
+                          stover N conc =    2.495760       extractable sw =    90.24078
+16 March 1993(Day of year=75), maize: 
+      stage    7.0 flowering
+                          biomass =           582.3754       lai =     2.761965
+                          stover N conc =    2.370557       extractable sw =    96.31741
+26 March 1993(Day of year=85), maize: 
+      stage    8.0 start_grain_fill
+                          biomass =           783.6938       lai =     2.495038
+                          stover N conc =    2.319208       extractable sw =    96.53403
+29 May 1993(Day of year=149), maize: 
+      stage    9.0 end_grain_fill
+                          biomass =           1433.912       lai =    0.9153796
+                          stover N conc =    1.640262       extractable sw =    95.51852
+30 May 1993(Day of year=150), maize: 
+      stage   10.0 maturity
+                          biomass =           1437.659       lai =    0.9024488
+                          stover N conc =    1.636198       extractable sw =    94.54068
+31 May 1993(Day of year=151), maize: 
+      stage   11.0 harvest_ripe
+                          biomass =           1437.658       lai =    0.3800035E-02
+                          stover N conc =    1.668247       extractable sw =    93.30241
+31 May 1993(Day of year=151), manager: 
+     Manager sending message :- maize harvest
+31 May 1993(Day of year=151), maize: 
+     
+     
+     
+     flowering (DAS) =  66                  maturity (DAS)  = 141
+      flowering day  =   75                  stover (kg/ha) =    6619.4
+      maturity day        =  150             grain yield (kg/ha) =    7757.2
+      grain % water content   =   15.5       grain yield wet (kg/ha) =    9180.1
+      grain wt (g) =     0.444               grains/m^2   =  1745.523
+      grains/head = 174.6                    maximum lai = 2.949
+      total above ground biomass (kg/ha) =   14376.6
+      live above ground biomass (kg/ha) =   14376.6
+      green above ground biomass (kg/ha) =   13326.4
+      senesced above ground biomass (kg/ha) =    1050.2
+      dead above ground biomass (kg/ha) =       0.0
+      number of leaves =  19.8
+      grain N percent =      1.43            total N content (kg/ha) =    223.37
+      grain N uptake (kg/ha) =    110.78     senesced N content (kg/ha) =      1.05
+      green N content (kg/ha) =    111.54    dead N content (kg/ha) =      0.00
+     
+     
+     
+      stress indices for emergence
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0285746
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0285746
+     
+     
+     
+      stress indices for end_of_juvenile
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for floral_initiation
+      water stress 1 =       0.0944640   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.2245422   nitrogen stress 2 =       0.0040369
+     
+     
+     
+      stress indices for flag_leaf
+      water stress 1 =       0.0975499   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.2970783   nitrogen stress 2 =       0.0007300
+     
+     
+     
+      stress indices for flowering
+      water stress 1 =       0.0427231   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.1469615   nitrogen stress 2 =       0.0016517
+     
+     
+     
+      stress indices for start_grain_fill
+      water stress 1 =       0.0115928   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0395550   nitrogen stress 2 =       0.0000000
+31 May 1993(Day of year=151), manager: 
+     Manager sending message :- maize kill_crop
+31 May 1993(Day of year=151), maize: 
+         kill. Standing above-ground dm =  6619.4 (kg/ha)
+1 June 1993(Day of year=152), maize: 
+      stage   11.0 harvest_ripe
+                          biomass =           661.9381       lai =    0.3800035E-02
+                          stover N conc =    2.002704       extractable sw =    92.57409
+1 June 1993(Day of year=152), manager: 
+     Manager sending message :- maize end_crop
+1 June 1993(Day of year=152), maize: 
+         ended. Yield (dw) =     0.0
+                                               straw residue = 6619.4 kg/ha
+                                               straw N =  112.6 kg/ha
+                                               root residue = 1711.7 kg/ha
+                                               root N =   20.5 kg/ha
+9 June 1993(Day of year=160), manager: 
+     Manager sending message :- maize sow  cultivar = katumani, plants = 5, sowing_depth = 50, tiller_no_fertile = 1
+9 June 1993(Day of year=160), maize: 
+     Sowing initiate
+     
+     
+     
+                      Crop Sowing Data
+         -------------------------------------------------------
+         Sowing   Depth  Plants Spacing Skiprow Cultivar    FTN
+         Day no    mm      m^2    m      code     name       no
+         -------------------------------------------------------
+            160   50.0    5.0    1.0    0.0   katumani      1.00
+         -------------------------------------------------------
+     
+        - Reading root profile parameters
+     Uptake of NO3 and water calculated by maize
+     
+     
+     
+     
+                         Root Profile
+         ------------------------------------------------
+           Layer      Kl      Lower Exploration
+           Depth              limit   Factor
+           (mm)       ()     (mm/mm)    ()
+         ------------------------------------------------
+          200.000    0.080    0.100    1.000
+          400.000    0.050    0.100    1.000
+          400.000    0.020    0.100    0.500
+          ------------------------------------------------
+     
+     
+     
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar                 = katumani
+         est_days_endjuv_to_init  =      20
+         tt_emerg_to_endjuv       =  150.00
+         tt_flower_to_maturity    =  660.00
+         head_grain_no_max        =  450.00
+         grain_gth_rate           =   10.50
+         tt_flag_to_flower        =   10.00
+         tt_flower_to_start_grain =  120.00
+         tt_maturity_to_ripe      =    1.00
+         x_stem_wt      =     0.0   80.0
+         y_height      =     0.0 2000.0
+         ------------------------------------------------
+     
+     
+     
+9 June 1993(Day of year=160), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.15 0.15 0.1
+     Manager sending message :- soiln2 set  no3 = 1 1 1
+     Manager sending message :- soiln2 set  nh4 = 1 1 1
+     Manager sending message :- residue2 tillage  type = burn
+9 June 1993(Day of year=160), residue2: 
+     
+         - Reading residue tillage info
+     Residue removed using burn
+                                             Fraction Incorporated =     1.00
+                                             Incorporated Depth    =     0.00
+9 June 1993(Day of year=160), manager: 
+     Manager sending message :- irrigate set  crit_fr_asw = 0.9
+     Manager sending message :- irrigate set  asw_depth = 900
+     Manager sending message :- irrigate set  automatic_irrigation = on
+     Manager sending message :- fertiliz apply  amount = 100, type = no3_n, depth = 5
+9 June 1993(Day of year=160), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+       100.00 of n as nitrate (no3_n)
+                                              added at depth    5.00 (layer   1)
+10 June 1993(Day of year=161), maize: 
+      stage    2.0 germination
+14 June 1993(Day of year=165), maize: 
+      stage    3.0 emergence
+                          biomass =          0.9999999E-01   lai =    0.1836667E-02
+                          stover N conc =    4.474576       extractable sw =    20.65083
+28 June 1993(Day of year=179), maize: 
+      stage    4.0 end_of_juvenile
+                          biomass =           1.291406       lai =    0.2879982E-01
+                          stover N conc =    2.984171       extractable sw =    54.87965
+29 June 1993(Day of year=180), maize: 
+      stage    5.0 floral_initiation
+                          biomass =           1.487495       lai =    0.3251844E-01
+                          stover N conc =    2.978396       extractable sw =    52.43189
+16 August 1993(Day of year=228), maize: 
+      stage    6.0 flag_leaf
+                          biomass =           270.4610       lai =     1.226569
+                          stover N conc =    2.520266       extractable sw =    97.26294
+17 August 1993(Day of year=229), maize: 
+      stage    7.0 flowering
+                          biomass =           281.6905       lai =     1.226569
+                          stover N conc =    2.503737       extractable sw =    93.08746
+30 August 1993(Day of year=242), maize: 
+      stage    8.0 start_grain_fill
+                          biomass =           362.8845       lai =    0.8933510
+                          stover N conc =    2.500396       extractable sw =    94.56361
+16 October 1993(Day of year=289), maize: 
+      stage    9.0 end_grain_fill
+                          biomass =           712.3501       lai =    0.8929059
+                          stover N conc =    1.795907       extractable sw =    97.75286
+17 October 1993(Day of year=290), maize: 
+      stage   10.0 maturity
+                          biomass =           720.0809       lai =    0.8929059
+                          stover N conc =    1.780130       extractable sw =    95.03625
+18 October 1993(Day of year=291), maize: 
+      stage   11.0 harvest_ripe
+                          biomass =           720.0809       lai =    0.1900136E-02
+                          stover N conc =    1.855454       extractable sw =    90.24445
+18 October 1993(Day of year=291), manager: 
+     Manager sending message :- maize harvest
+18 October 1993(Day of year=291), maize: 
+     
+     
+     
+     flowering (DAS) =  70                  maturity (DAS)  = 131
+      flowering day  =  229                  stover (kg/ha) =    6491.7
+      maturity day        =  290             grain yield (kg/ha) =     709.1
+      grain % water content   =   15.5       grain yield wet (kg/ha) =     839.2
+      grain wt (g) =     0.387               grains/m^2   =   183.461
+      grains/head =  36.7                    maximum lai = 1.828
+      total above ground biomass (kg/ha) =    7200.8
+      live above ground biomass (kg/ha) =    7200.8
+      green above ground biomass (kg/ha) =    6538.6
+      senesced above ground biomass (kg/ha) =     662.2
+      dead above ground biomass (kg/ha) =       0.0
+      number of leaves =  14.4
+      grain N percent =      1.60            total N content (kg/ha) =    121.98
+      grain N uptake (kg/ha) =     11.35     senesced N content (kg/ha) =      0.66
+      green N content (kg/ha) =    109.97    dead N content (kg/ha) =      0.00
+     
+     
+     
+      stress indices for emergence
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0224893
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0848716
+     
+     
+     
+      stress indices for end_of_juvenile
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1368235
+     
+     
+     
+      stress indices for floral_initiation
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0622280
+     
+     
+     
+      stress indices for flag_leaf
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for flowering
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for start_grain_fill
+      water stress 1 =       0.0002092   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0038479   nitrogen stress 2 =       0.0005853
+18 October 1993(Day of year=291), manager: 
+     Manager sending message :- maize kill_crop
+18 October 1993(Day of year=291), maize: 
+         kill. Standing above-ground dm =  6491.7 (kg/ha)
+19 October 1993(Day of year=292), maize: 
+      stage   11.0 harvest_ripe
+                          biomass =           649.1695       lai =    0.1900136E-02
+                          stover N conc =    1.886528       extractable sw =    87.23029
+19 October 1993(Day of year=292), manager: 
+     Manager sending message :- maize end_crop
+19 October 1993(Day of year=292), maize: 
+         ended. Yield (dw) =     0.0
+                                               straw residue = 6491.7 kg/ha
+                                               straw N =  110.6 kg/ha
+                                               root residue =  842.2 kg/ha
+                                               root N =    9.8 kg/ha
+27 October 1993(Day of year=300), manager: 
+     Manager sending message :- maize sow  cultivar = dekalb_xl82, plants = 5, sowing_depth = 50, tiller_no_fertile = 1
+27 October 1993(Day of year=300), maize: 
+     Sowing initiate
+     
+     
+     
+                      Crop Sowing Data
+         -------------------------------------------------------
+         Sowing   Depth  Plants Spacing Skiprow Cultivar    FTN
+         Day no    mm      m^2    m      code     name       no
+         -------------------------------------------------------
+            300   50.0    5.0    1.0    0.0   dekalb_xl8    1.00
+         -------------------------------------------------------
+     
+        - Reading root profile parameters
+     Uptake of NO3 and water calculated by maize
+     
+     
+     
+     
+                         Root Profile
+         ------------------------------------------------
+           Layer      Kl      Lower Exploration
+           Depth              limit   Factor
+           (mm)       ()     (mm/mm)    ()
+         ------------------------------------------------
+          200.000    0.080    0.100    1.000
+          400.000    0.050    0.100    1.000
+          400.000    0.020    0.100    0.500
+          ------------------------------------------------
+     
+     
+     
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar                 = dekalb_xl82
+         est_days_endjuv_to_init  =      20
+         tt_emerg_to_endjuv       =  211.00
+         tt_flower_to_maturity    =  983.00
+         head_grain_no_max        =  610.00
+         grain_gth_rate           =    9.17
+         tt_flag_to_flower        =  101.00
+         tt_flower_to_start_grain =  170.00
+         tt_maturity_to_ripe      =    1.00
+         x_stem_wt      =     0.0   80.0
+         y_height      =     0.0 2000.0
+         ------------------------------------------------
+     
+     
+     
+27 October 1993(Day of year=300), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.25 0.25 0.2
+     Manager sending message :- soiln2 set  no3 = 10 1 1
+     Manager sending message :- soiln2 set  nh4 = 1 1 1
+     Manager sending message :- residue2 tillage  type = burn
+27 October 1993(Day of year=300), residue2: 
+     
+         - Reading residue tillage info
+     Residue removed using burn
+                                             Fraction Incorporated =     1.00
+                                             Incorporated Depth    =     0.00
+27 October 1993(Day of year=300), manager: 
+     Manager sending message :- irrigate set  crit_fr_asw = 0.3
+     Manager sending message :- irrigate set  asw_depth = 900
+     Manager sending message :- irrigate set  automatic_irrigation = on
+28 October 1993(Day of year=301), maize: 
+      stage    2.0 germination
+30 October 1993(Day of year=303), maize: 
+      stage    3.0 emergence
+                          biomass =          0.9999999E-01   lai =    0.1900000E-02
+                          stover N conc =    4.399999       extractable sw =    18.00698
+15 November 1993(Day of year=319), maize: 
+      stage    4.0 end_of_juvenile
+                          biomass =           1.557027       lai =    0.2418621E-01
+                          stover N conc =    2.979308       extractable sw =    52.94564
+19 November 1993(Day of year=323), maize: 
+      stage    5.0 floral_initiation
+                          biomass =           3.471427       lai =    0.4760673E-01
+                          stover N conc =    2.590037       extractable sw =    51.81224
+1 January 1994(Day of year=1), maize: 
+      stage    6.0 flag_leaf
+                          biomass =           216.3433       lai =     1.020515
+                          stover N conc =    1.494363       extractable sw =    37.10017
+7 January 1994(Day of year=7), maize: 
+      stage    7.0 flowering
+                          biomass =           243.5112       lai =    0.8967745
+                          stover N conc =    1.475775       extractable sw =    77.29819
+16 January 1994(Day of year=16), maize: 
+      stage    8.0 start_grain_fill
+                          biomass =           296.6747       lai =    0.8967745
+                          stover N conc =    1.364264       extractable sw =    58.69367
+6 March 1994(Day of year=65), maize: 
+      stage    9.0 end_grain_fill
+                          biomass =           450.1920       lai =    0.1293555
+                          stover N conc =    1.278869       extractable sw =    72.60344
+7 March 1994(Day of year=66), maize: 
+      stage   10.0 maturity
+                          biomass =           450.8592       lai =    0.1062450
+                          stover N conc =    1.288253       extractable sw =    72.26230
+8 March 1994(Day of year=67), maize: 
+      stage   11.0 harvest_ripe
+                          biomass =           450.8592       lai =    0.1899838E-02
+                          stover N conc =    1.298620       extractable sw =    71.93784
+8 March 1994(Day of year=67), manager: 
+     Manager sending message :- maize harvest
+8 March 1994(Day of year=67), maize: 
+     
+     
+     
+     flowering (DAS) =  73                  maturity (DAS)  = 132
+      flowering day  =    7                  stover (kg/ha) =    4508.6
+      maturity day        =   66             grain yield (kg/ha) =       0.0
+      grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
+      grain wt (g) =     0.000               grains/m^2   =     0.000
+      grains/head =   0.0                    maximum lai = 1.446
+      total above ground biomass (kg/ha) =    4508.6
+      live above ground biomass (kg/ha) =    4508.6
+      green above ground biomass (kg/ha) =    3974.8
+      senesced above ground biomass (kg/ha) =     533.8
+      dead above ground biomass (kg/ha) =       0.0
+      number of leaves =  19.6
+      grain N percent =      0.00            total N content (kg/ha) =     52.15
+      grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.53
+      green N content (kg/ha) =     51.62    dead N content (kg/ha) =      0.00
+     
+     
+     
+      stress indices for emergence
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0054294
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0779293
+     
+     
+     
+      stress indices for end_of_juvenile
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1027420
+     
+     
+     
+      stress indices for floral_initiation
+      water stress 1 =       0.1913203   nitrogen stress 1 =       0.0897800
+      water stress 2 =       0.3472851   nitrogen stress 2 =       0.2167718
+     
+     
+     
+      stress indices for flag_leaf
+      water stress 1 =       0.5019001   nitrogen stress 1 =       0.3186868
+      water stress 2 =       0.6926852   nitrogen stress 2 =       0.4549495
+     
+     
+     
+      stress indices for flowering
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.3229802
+      water stress 2 =       0.0000808   nitrogen stress 2 =       0.4583842
+     
+     
+     
+      stress indices for start_grain_fill
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.3430743
+      water stress 2 =       0.0032451   nitrogen stress 2 =       0.4744595
+8 March 1994(Day of year=67), manager: 
+     Manager sending message :- maize kill_crop
+8 March 1994(Day of year=67), maize: 
+         kill. Standing above-ground dm =  4508.6 (kg/ha)
+9 March 1994(Day of year=68), maize: 
+      stage   11.0 harvest_ripe
+                          biomass =           450.8592       lai =    0.1899838E-02
+                          stover N conc =    1.298620       extractable sw =    71.68591
+9 March 1994(Day of year=68), manager: 
+     Manager sending message :- maize end_crop
+9 March 1994(Day of year=68), maize: 
+         ended. Yield (dw) =     0.0
+                                               straw residue = 4508.6 kg/ha
+                                               straw N =   52.2 kg/ha
+                                               root residue =  725.6 kg/ha
+                                               root N =    6.2 kg/ha
+21 March 1994(Day of year=80), manager: 
+     Manager sending message :- maize sow  cultivar = dekalb_xl82, plants = 5, sowing_depth = 50, tiller_no_fertile = 1
+21 March 1994(Day of year=80), maize: 
+     Sowing initiate
+     
+     
+     
+                      Crop Sowing Data
+         -------------------------------------------------------
+         Sowing   Depth  Plants Spacing Skiprow Cultivar    FTN
+         Day no    mm      m^2    m      code     name       no
+         -------------------------------------------------------
+             80   50.0    5.0    1.0    0.0   dekalb_xl8    1.00
+         -------------------------------------------------------
+     
+        - Reading root profile parameters
+     Uptake of NO3 and water calculated by maize
+     
+     
+     
+     
+                         Root Profile
+         ------------------------------------------------
+           Layer      Kl      Lower Exploration
+           Depth              limit   Factor
+           (mm)       ()     (mm/mm)    ()
+         ------------------------------------------------
+          200.000    0.080    0.100    1.000
+          400.000    0.050    0.100    1.000
+          400.000    0.020    0.100    0.500
+          ------------------------------------------------
+     
+     
+     
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar                 = dekalb_xl82
+         est_days_endjuv_to_init  =      20
+         tt_emerg_to_endjuv       =  211.00
+         tt_flower_to_maturity    =  983.00
+         head_grain_no_max        =  610.00
+         grain_gth_rate           =    9.17
+         tt_flag_to_flower        =  101.00
+         tt_flower_to_start_grain =  170.00
+         tt_maturity_to_ripe      =    1.00
+         x_stem_wt      =     0.0   80.0
+         y_height      =     0.0 2000.0
+         ------------------------------------------------
+     
+     
+     
+21 March 1994(Day of year=80), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.25 0.25 0.2
+     Manager sending message :- soiln2 set  no3 = 1 1 1
+     Manager sending message :- soiln2 set  nh4 = 1 1 1
+     Manager sending message :- residue2 tillage  type = burn
+21 March 1994(Day of year=80), residue2: 
+     
+         - Reading residue tillage info
+     Residue removed using burn
+                                             Fraction Incorporated =     1.00
+                                             Incorporated Depth    =     0.00
+21 March 1994(Day of year=80), manager: 
+     Manager sending message :- irrigate set  crit_fr_asw = 0.4
+     Manager sending message :- irrigate set  asw_depth = 900
+     Manager sending message :- irrigate set  automatic_irrigation = on
+     Manager sending message :- fertiliz apply  amount = 50, type = no3_n, depth = 5
+21 March 1994(Day of year=80), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+        50.00 of n as nitrate (no3_n)
+                                              added at depth    5.00 (layer   1)
+22 March 1994(Day of year=81), maize: 
+      stage    2.0 germination
+25 March 1994(Day of year=84), maize: 
+      stage    3.0 emergence
+                          biomass =          0.9999999E-01   lai =    0.1900000E-02
+                          stover N conc =    4.399999       extractable sw =    19.96389
+9 April 1994(Day of year=99), maize: 
+      stage    4.0 end_of_juvenile
+                          biomass =           1.986160       lai =    0.4046411E-01
+                          stover N conc =    3.073196       extractable sw =    57.33579
+10 April 1994(Day of year=100), maize: 
+      stage    5.0 floral_initiation
+                          biomass =           2.394609       lai =    0.4516041E-01
+                          stover N conc =    3.074200       extractable sw =    57.13924
+1 June 1994(Day of year=152), maize: 
+      stage    6.0 flag_leaf
+                          biomass =           291.7059       lai =     1.439274
+                          stover N conc =    2.270716       extractable sw =    43.29953
+12 June 1994(Day of year=163), maize: 
+      stage    7.0 flowering
+                          biomass =           364.2261       lai =     1.439274
+                          stover N conc =    2.000880       extractable sw =    80.36801
+3 July 1994(Day of year=184), maize: 
+      stage    8.0 start_grain_fill
+                          biomass =           400.5154       lai =    0.3684568E-03
+                          stover N conc =    2.136142       extractable sw =    64.29675
+30 July 1994(Day of year=211), maize: 
+      crop failure because of total leaf senescence.
+         kill. Standing above-ground dm =  4005.3 (kg/ha)
+30 July 1994(Day of year=211), manager: 
+     Manager sending message :- maize end_crop
+30 July 1994(Day of year=211), maize: 
+         ended. Yield (dw) =     0.0
+                                               straw residue = 4005.3 kg/ha
+                                               straw N =   73.3 kg/ha
+                                               root residue = 1063.7 kg/ha
+                                               root N =   10.3 kg/ha
+31 December 1994(Day of year=365), clock: 
+     Simulation is terminating due to end criteria being met.

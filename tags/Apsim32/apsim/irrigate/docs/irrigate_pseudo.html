@@ -1,0 +1,1411 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title></title>
+</head>
+
+<body>
+
+<p><img src="..\..\..\docs\shared\apsimdocumentationbanner.jpg" width="640"
+height="73"></p>
+</body>
+</html>
+<TITLE>The APSIM Irrigate Model</TITLE>
+<FONT SIZE = 7><B><CENTER>The APSIM Irrigate Model</CENTER></B></FONT>
+<H1>TABLE OF CONTENTS</H1>
+<H2><A HREF = "#Contact Information"> Contact Information </A></H2>
+<H2><A HREF = "#Module Description"> Module Description </A></H2>
+<H2>Module Logic</H2>
+<ul><li><A HREF = "#APSIM Irrigate Module"> APSIM Irrigate Module </A>
+
+<li><A HREF = "#Structure Charts"> Structure Charts </A>
+
+</ul>
+<hr>
+<A NAME = "Module Description">  </A>
+<H2>Module Documentation</H2>
+<br>
+<A HREF = "irrigate_int.pdf"> irrigate_int.pdf </A>
+<br>
+<A HREF = "irrigate_science.pdf"> irrigate_science.pdf </A>
+<br>
+<br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "Structure Charts"> <H2>Module Structure Charts</H2> </A>
+<H2>APSIM Irrigate Module</H2>
+<ul><li><A HREF = "#main"> main </A>
+
+<ul><li><A HREF = "#irrigate_send_my_variable"> irrigate_send_my_variable </A>
+
+<ul><li><A HREF = "#irrigate_solute_number"> irrigate_solute_number </A>
+
+<li><A HREF = "#irrigate_fasw"> irrigate_fasw </A>
+
+</ul><li><A HREF = "#irrigate_zero_variables"> irrigate_zero_variables </A>
+
+<li><A HREF = "#irrigate_init"> irrigate_init </A>
+
+<ul><li><A HREF = "#irrigate_read_param"> irrigate_read_param </A>
+
+</ul><li><A HREF = "#irrigate_ontick"> irrigate_ontick </A>
+
+<li><A HREF = "#irrigate_get_other_variables"> irrigate_get_other_variables </A>
+
+<li><A HREF = "#irrigate_process"> irrigate_process </A>
+
+<ul><li><A HREF = "#irrigate_get_other_variables"> irrigate_get_other_variables </A>
+
+<li><A HREF = "#irrigate_check_variables"> irrigate_check_variables </A>
+
+<li><A HREF = "#irrigate_schedule"> irrigate_schedule </A>
+
+<li><A HREF = "#irrigate_automatic"> irrigate_automatic </A>
+
+<ul><li><A HREF = "#irrigate_fasw"> irrigate_fasw </A>
+
+<li><A HREF = "#irrigate_check_allocation"> irrigate_check_allocation </A>
+
+</ul></ul><li><A HREF = "#irrigate_irrigate"> irrigate_irrigate </A>
+
+<ul><li><A HREF = "#irrigate_check_allocation"> irrigate_check_allocation </A>
+
+</ul><li><A HREF = "#irrigate_set_my_variable"> irrigate_set_my_variable </A>
+
+<ul><li><A HREF = "#irrigate_set_amount"> irrigate_set_amount </A>
+
+<ul><li><A HREF = "#irrigate_check_allocation"> irrigate_check_allocation </A>
+
+</ul></ul><li><A HREF = "#irrigate_on_new_solute"> irrigate_on_new_solute </A>
+
+</ul></ul>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<CENTER><A NAME = "Module Pseudo Code"> <H2><BIG>Module Pseudo Code</BIG></H2> </A></CENTER>
+<hr>
+<H2><BIG><A NAME = "APSIM Irrigate Module"> APSIM Irrigate Module </A></BIG></H2>
+<A NAME = "main">  </A>
+<H2>Main</H2>
+<br>
+<H3><CENTER>This routine is the interface between the main system and the irrigate module.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (action.=.action_get_variable) then<br>
+
+<blockquote><A HREF = "#irrigate_send_my_variable"> Send Value of Requested Variable </A><br>
+
+</blockquote>else if (action.=.action_init) then<br>
+
+<blockquote><A HREF = "#irrigate_zero_variables"> Zero variables </A><br>
+
+<A HREF = "#irrigate_init"> Initialise </A><br>
+
+</blockquote>else if (action.=.event_tick) then<br>
+
+<blockquote><A HREF = "#irrigate_ontick"> Update internal time record and reset daily state variables. </A><br>
+
+</blockquote>else if (action.=.action_process) then<br>
+
+<blockquote><A HREF = "#irrigate_get_other_variables"> Get Other Variables </A><br>
+
+<A HREF = "#irrigate_process"> Perform actions for the current day </A><br>
+
+</blockquote>else if ((action.=.'irrigate').or.(action.=.'apply')) then<br>
+
+<blockquote><A HREF = "#irrigate_get_other_variables"> Get Other Variables </A><br>
+
+<A HREF = "#irrigate_irrigate"> Respond to Irrigate message </A><br>
+
+</blockquote>else if (action.=.action_set_variable) then<br>
+
+<blockquote><A HREF = "#irrigate_set_my_variable"> Set Variable as Requested </A><br>
+
+</blockquote>else if (action.=.event_new_solute) then<br>
+
+<blockquote><A HREF = "#irrigate_on_new_solute"> Add new solute information to list of system solutes </A><br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "irrigate_send_my_variable">  </A>
+<H2>Irrigate Send My Variable</H2>
+<br>
+<H3><CENTER>Return the value of one of our variables to caller   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (variable_name.=.'irrigation') then<br>
+
+<blockquote>Supply irrigation_applied to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'irrig_tot') then<br>
+
+<blockquote>Supply irrigation<SUB>(total)</SUB> to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'irrig_loss') then<br>
+
+<blockquote>Supply irrigation_loss to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'automatic_irrigation') then<br>
+
+<blockquote>Supply automatic_irrigation to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'manual_irrigation') then<br>
+
+<blockquote>Supply manual_irrigation to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'crit_fr_asw') then<br>
+
+<blockquote>Supply crit_fr_asw to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'asw_depth') then<br>
+
+<blockquote>Supply asw_depth to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'irr_fasw') then<br>
+
+<blockquote><A HREF = "#irrigate_fasw"> Calculate Fraction of available soil water and water deficit. </A><br>
+
+Supply fasw to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'irr_deficit') then<br>
+
+<blockquote><A HREF = "#irrigate_fasw"> Calculate Fraction of available soil water and water deficit. </A><br>
+
+Supply swdef to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'allocation') then<br>
+
+<blockquote>Supply (allocation/100) to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'carry_over') then<br>
+
+<blockquote>Supply (carry_over/100) to the requesting module<br>
+
+</blockquote>else if (index (variable_name, 'irrigation_').=.1) then<br>
+
+<blockquote>solnum = <A HREF = "#irrigate_solute_number"> Get the solutes number </A><br>
+
+if (solnum.&gt;.0) then<br>
+
+<blockquote>Supply irrigation_solutes (solnum) to the requesting module<br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "irrigate_solute_number">  </A>
+<H2>Irrigate Solute Number</H2>
+<br>
+<H3><CENTER>Get the solutes number  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+solnum = 0<br>
+
+For each counter from 1 to number of solutes<br>
+
+<blockquote>if (solute_names (counter).=.solname) then<br>
+
+<blockquote>solnum = counter<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+</blockquote>next<br>
+
+irrigate_solute_number = solnum<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "irrigate_fasw">  </A>
+<H2>Irrigate Fasw</H2>
+<br>
+<H3><CENTER>Calculate Fraction of available soil water and water deficit   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+nlayr = get_cumulative_index_real (asw_depth, dlayer, maximum number of layers)<br>
+
+cumdep = sum_real_array (dlayer, nlayr)<br>
+
+excess_fr = divide ((cumdep-asw_depth), dlayer (nlayr), 0 . 0)<br>
+
+avail_sw = (sum_real_array (sw<SUB>(in mm)</SUB>, nlayr)-excess_fr*sw<SUB>(in mm)</SUB> (nlayr)) - (sum_real_array (ll15<SUB>(in mm)</SUB>, nlayr)-excess_fr*ll15<SUB>(in mm)</SUB> (nlayr)) + irrigation_applied<br>
+
+pot_avail_sw = (sum_real_array (dul<SUB>(in mm)</SUB>, nlayr)-excess_fr*dul<SUB>(in mm)</SUB> (nlayr)) - (sum_real_array (ll15<SUB>(in mm)</SUB>, nlayr)-excess_fr*ll15<SUB>(in mm)</SUB> (nlayr))<br>
+
+fasw = divide (avail_sw, pot_avail_sw, 0 . 0)<br>
+
+swdef = l_bound (pot_avail_sw - avail_sw, 0 . 0)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "irrigate_zero_variables">  </A>
+<H2>Irrigate Zero Variables</H2>
+<br>
+<H3><CENTER>Set all variables in this module to zero.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+year = 0<br>
+
+day = 0<br>
+
+irrigation_applied = 0 . 0<br>
+
+allocation = 0 . 0<br>
+
+carry_over = 0 . 0<br>
+
+Fill day with 0<br>
+
+Fill year with 0<br>
+
+Fill amount with 0 . 0<br>
+
+Fill duration with 0 . 0<br>
+
+Fill time with ' '<br>
+
+Fill solute_names with ' '<br>
+
+Fill solute_owners with ' '<br>
+
+number of solutes = 0<br>
+
+irrigation_solutes_shed (:, :) = 0 . 0<br>
+
+irrigation_solutes (:) = 0 . 0<br>
+
+default_conc_solute (:) = 0 . 0<br>
+
+automatic_irrigation = 'off'<br>
+
+manual_irrigation = 'off'<br>
+
+irrigation_allocation = 'off'<br>
+
+asw_depth = - 1 . 0<br>
+
+crit_fr_asw = - 1 . 0<br>
+
+default_time = ' '<br>
+
+default_duration = 0 . 0<br>
+
+irr_pointer = 1<br>
+
+number of solutes = 0<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "irrigate_init">  </A>
+<H2>Irrigate Init</H2>
+<br>
+<H3><CENTER>Initialise irrigate module   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+event_string = ' initialising '<br>
+
+Write a string to a file<br>
+
+<A HREF = "#irrigate_read_param"> Read parameters from parameter file </A><br>
+
+num_irrigs = count_of_integer_vals (day, max_irrigs)<br>
+
+if (num_irrigs.&gt;.0) then<br>
+
+<blockquote>Write a string to a file<br>
+
+string = '                 irrigation schedule'<br>
+
+Write a string to a file<br>
+
+string = '     -----------------------------------------------'<br>
+
+Write a string to a file<br>
+
+string = '               day     year    amount (mm ))<br>
+
+Write a string to a file<br>
+
+string = '     -----------------------------------------------'<br>
+
+Write a string to a file<br>
+
+For each counter from 1 to num_irrigs<br>
+
+<blockquote>write (to string)  day (counter) , year (counter) , amount (counter)<br>
+
+Write a string to a file<br>
+
+</blockquote>next<br>
+
+string = '     -----------------------------------------------'<br>
+
+Write a string to a file<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+Write a string to a file<br>
+
+string = '                 irrigation parameters'<br>
+
+Write a string to a file<br>
+
+string = '     -----------------------------------------------'<br>
+
+Write a string to a file<br>
+
+if (manual_irrigation.=.'on') then<br>
+
+<blockquote>Write a string to a file<br>
+
+</blockquote>else<br>
+
+<blockquote>Write a string to a file<br>
+
+</blockquote>endif<br>
+
+if (automatic_irrigation.=.'on') then<br>
+
+<blockquote>Write a string to a file<br>
+
+</blockquote>else<br>
+
+<blockquote>Write a string to a file<br>
+
+</blockquote>endif<br>
+
+if (reals_are_equal (crit_fr_asw, - 1 . 0)) then<br>
+
+<blockquote>write (to string)  '      critical fraction of available soil water = ' / / ' not intialised'<br>
+
+</blockquote>else<br>
+
+<blockquote>write (to string)  '      critical fraction of available soil water = ' , crit_fr_asw<br>
+
+</blockquote>endif<br>
+
+Write a string to a file<br>
+
+if (reals_are_equal (asw_depth, - 1 . 0)) then<br>
+
+<blockquote>write (to string)  '      depth for calculating available soil water = ' / / ' not initialised'<br>
+
+</blockquote>else<br>
+
+<blockquote>write (to string)  '      depth for calculating available soil water = ' , asw_depth<br>
+
+</blockquote>endif<br>
+
+Write a string to a file<br>
+
+if (irrigation_allocation.=.'on') then<br>
+
+<blockquote>Write a string to a file<br>
+
+</blockquote>else<br>
+
+<blockquote>Write a string to a file<br>
+
+</blockquote>endif<br>
+
+string = '     -----------------------------------------------'<br>
+
+Write a string to a file<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "irrigate_read_param">  </A>
+<H2>Irrigate Read Param</H2>
+<br>
+<H3><CENTER>Read in all parameters from parameter file.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Write a string to a file<br>
+
+Read day from file (Lower Bound = numvals, Upper Bound = 1) <I>(OPTIONAL)</I><br>
+
+Read year from file (Lower Bound = numvals, Upper Bound = min_year) <I>(OPTIONAL)</I><br>
+
+Read amount from file (Lower Bound = numvals, Upper Bound = 0 . 0) <I>(OPTIONAL)</I><br>
+
+Read time from file <I>(OPTIONAL)</I><br>
+
+Read duration from file (Lower Bound = numvals, Upper Bound = 0 . 0) <I>(OPTIONAL)</I><br>
+
+Read default_time from file <I>(OPTIONAL)</I><br>
+
+if (numvals.&lt;.1) then<br>
+
+<blockquote>default_time = '00:00'<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+Read default_duration from file (Lower Bound = 0 . 0, Upper Bound = 1000 .) <I>(OPTIONAL)</I><br>
+
+if (numvals.&lt;.1) then<br>
+
+<blockquote>default_duration = 60 . * 24 .<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+Read crit_fr_asw from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0) <I>(OPTIONAL)</I><br>
+
+Read asw_depth from file (Lower Bound = 0 . 0, Upper Bound = 10000 .) <I>(OPTIONAL)</I><br>
+
+Read manual_irrigation from file <I>(OPTIONAL)</I><br>
+
+Read automatic_irrigation from file <I>(OPTIONAL)</I><br>
+
+if (automatic_irrigation.=.'on') then<br>
+
+<blockquote>if (reals_are_equal (crit_fr_asw, - 1 . 0).or.reals_are_equal (asw_depth, - 1 . 0)) then<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+if (manual_irrigation.=.'on') then<br>
+
+<blockquote>if (day (1).=.0.or.year (1).=.0.or.reals_are_equal (amount (1), 0 . 0)) then<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+Read irrigation_allocation from file <I>(OPTIONAL)</I><br>
+
+if (irrigation_allocation.=.'on') then<br>
+
+<blockquote>Read allocation from file (Lower Bound = 0 . 0, Upper Bound = 10000 .)<br>
+
+if (manual_irrigation.=.'on') then<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+</blockquote>else<br>
+
+<blockquote>allocation = 0 . 0<br>
+
+</blockquote>endif<br>
+
+Read irrigation_efficiency from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0) <I>(OPTIONAL)</I><br>
+
+if (numvals.=.0) then<br>
+
+<blockquote>irrigation_efficiency = 1 . 0<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "irrigate_ontick">  </A>
+<H2>Irrigate Ontick</H2>
+<br>
+<H3><CENTER>Update internal time record and reset daily state variables.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+handler_ontick<I><SUB> day, year, temp1, temp2</SUB></I><br>
+
+irrigation_applied = 0 . 0<br>
+
+irrigation<SUB>(total)</SUB> = 0 . 0<br>
+
+irrigation_loss = 0 . 0<br>
+
+carry_over = 0 . 0<br>
+
+irrigation_solutes (:) = 0 . 0<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "irrigate_get_other_variables">  </A>
+<H2>Irrigate Get Other Variables</H2>
+<br>
+<H3><CENTER>Get the values of variables from other modules   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get sw<SUB>(in mm)</SUB> from the system (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+Get ll15<SUB>(in mm)</SUB> from the system (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+Get dul<SUB>(in mm)</SUB> from the system (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+Get dlayer from the system (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "irrigate_process">  </A>
+<H2>Irrigate Process</H2>
+<br>
+<H3><CENTER>Perform actions for current day.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+<A HREF = "#irrigate_get_other_variables"> Get Other Variables </A><br>
+
+<A HREF = "#irrigate_check_variables"> Check the value of parameters and state variables </A><br>
+
+if (manual_irrigation.=.'on') then<br>
+
+<blockquote><A HREF = "#irrigate_schedule"> Apply Scheduled Irrigation </A><br>
+
+</blockquote>else<br>
+
+endif<br>
+
+if (automatic_irrigation.=.'on') then<br>
+
+<blockquote><A HREF = "#irrigate_automatic"> Apply Automatic irrigation </A><br>
+
+</blockquote>else<br>
+
+endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "irrigate_check_variables">  </A>
+<H2>Irrigate Check Variables</H2>
+<br>
+<H3><CENTER>Check the value of parameters or state variables for validity.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (automatic_irrigation.=.'on') then<br>
+
+<blockquote>profile_depth = sum_real_array (dlayer, maximum number of layers)<br>
+
+if (asw_depth.&gt;.profile_depth) then<br>
+
+<blockquote>write (to msg)  'asw_depth for automatic irrigation must not ' / / 'exceed profile depth.' , new_line , 'asw_depth=' , asw_depth , new_line , 'profile depth=' , profile_depth<br>
+
+Report a fatal error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+if (asw_depth.&lt;=.0.0) then<br>
+
+<blockquote>write (to msg)  'asw_depth for automatic irrigation must not ' / / 'be zero or negetive.' , new_line , 'asw_depth=' , asw_depth<br>
+
+Report a fatal error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "irrigate_schedule">  </A>
+<H2>Irrigate Schedule</H2>
+<br>
+<H3><CENTER>irrigation management. Informs manager that irrigation is required and how much.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+num_irrigations = count_of_integer_vals (day, max_irrigs)<br>
+
+if (num_irrigations.&gt;.0) then<br>
+
+<blockquote>start_irrig_no = irr_pointer<br>
+
+For each irigno from start_irrig_no to num_irrigations<br>
+
+<blockquote>if (day.=.day (irigno).and.year.=.year (irigno)) then<br>
+
+<blockquote>amount = amount (irigno)<br>
+
+if (time (irigno).=.blank) then<br>
+
+<blockquote>mytime = default_time<br>
+
+</blockquote>else<br>
+
+<blockquote>mytime = time (irigno)<br>
+
+</blockquote>endif<br>
+
+if (duration (irigno).=.0.0) then<br>
+
+<blockquote>myduration = default_duration<br>
+
+</blockquote>else<br>
+
+<blockquote>myduration = duration (irigno)<br>
+
+</blockquote>endif<br>
+
+<br>
+
+Supply amount * irrigation_efficiency to the messaging system using the name data_irrigate_amount<br>
+
+Supply myduration to the messaging system using the name data_irrigate_duration<br>
+
+Supply mytime to the messaging system using the name data_irrigate_time<br>
+
+For each solnum from 1 to number of solutes<br>
+
+<blockquote>if (reals_are_equal (irrigation_solutes_shed (solnum, irigno), 0 . 0)) then<br>
+
+<blockquote>if (default_conc_solute (solnum) . &gt; . 0 . 0) then<br>
+
+irrigation_solutes_shed (solnum, irigno) = amount (irigno) * default_conc_solute (solnum) / 100 . 0<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+irrigation_solutes (solnum) = irrigation_solutes (solnum) + irrigation_solutes_shed (solnum, irigno)<br>
+
+Supply irrigation_solutes_shed (solnum, irigno) to the messaging system using the name solute_names (solnum)<br>
+
+</blockquote>next<br>
+
+event_send<I><SUB> event_irrigated</SUB></I><br>
+
+<br>
+
+irrigation_applied = irrigation_applied + amount * irrigation_efficiency<br>
+
+irrigation<SUB>(total)</SUB> = irrigation<SUB>(total)</SUB> + amount<br>
+
+irrigation_loss = irrigation_loss + amount * (1.-irrigation_efficiency)<br>
+
+irr_pointer = irigno + 1<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+</blockquote>next<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+<br>
+
+</blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "irrigate_automatic">  </A>
+<H2>Irrigate Automatic</H2>
+<br>
+<H3><CENTER>Automatic irrigation management.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+<A HREF = "#irrigate_fasw"> Calculate Fraction of available soil water and water deficit. </A><br>
+
+if (avail_fr.&lt;.crit_fr_asw) then<br>
+
+<blockquote>amount = divide (swdef, irrigation_efficiency, 0 . 0)<br>
+
+<A HREF = "#irrigate_check_allocation"> Check amount with allocation budget </A><br>
+
+For each solnum from 1 to number of solutes<br>
+
+<blockquote>solute<I><SUB> solnum</SUB></I> = amount * default_conc_solute (solnum) / 100 . 0<br>
+
+irrigation_solutes (solnum) = irrigation_solutes (solnum) + solute<I><SUB> solnum</SUB></I><br>
+
+</blockquote>next<br>
+
+<br>
+
+Supply amount * irrigation_efficiency to the messaging system using the name data_irrigate_amount<br>
+
+Supply default_duration to the messaging system using the name data_irrigate_duration<br>
+
+Supply default_time to the messaging system using the name data_irrigate_time<br>
+
+For each solnum from 1 to number of solutes<br>
+
+<blockquote>Supply solute<I><SUB> solnum</SUB></I> to the messaging system using the name solute_names (solnum)<br>
+
+</blockquote>next<br>
+
+event_send<I><SUB> event_irrigated</SUB></I><br>
+
+<br>
+
+irrigation_applied = irrigation_applied + amount * irrigation_efficiency<br>
+
+irrigation<SUB>(total)</SUB> = irrigation<SUB>(total)</SUB> + amount<br>
+
+irrigation_loss = irrigation_loss + amount * (1.-irrigation_efficiency)<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "irrigate_check_allocation">  </A>
+<H2>Irrigate Check Allocation</H2>
+<br>
+<H3><CENTER>Check that an amount of irrigation meets allocation budget   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (irrigation_allocation.=.'on') then<br>
+
+<blockquote>if (amount.&gt;.allocation) then<br>
+
+<blockquote>write (to reportstring)  ' irrigation of ' , amount , ' mm reduced to remaining allocation of ' , allocation , ' mm'<br>
+
+Write a string to a file<br>
+
+amount = allocation<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+allocation = allocation - amount<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "irrigate_irrigate">  </A>
+<H2>Irrigate Irrigate</H2>
+<br>
+<H3><CENTER>This routine responds to an irrigate message from another module.  Gets any parameters and irrigates.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get amount from the message (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+if (numvals.&gt;.0) then<br>
+
+else<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>endif<br>
+
+<A HREF = "#irrigate_check_allocation"> Check amount with allocation budget </A><br>
+
+Get duration from the message (Lower Bound = 0 . 0, Upper Bound = 1440 . 0)<I>(OPTIONAL)</I><br>
+
+if (numvals.=.0) then<br>
+
+<blockquote>duration = default_duration<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+Get time from the message <I>(OPTIONAL)</I><br>
+
+if (numvals.=.0) then<br>
+
+<blockquote>time = default_time<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+For each solnum from 1 to number of solutes<br>
+
+<blockquote>Get solute<I><SUB> solnum</SUB></I> from the message (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<I>(OPTIONAL)</I><br>
+
+if (numvals_solute<I><SUB> solnum</SUB></I>.=.0) then<br>
+
+<blockquote>solute<I><SUB> solnum</SUB></I> = amount * default_conc_solute (solnum) / 100 . 0<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+irrigation_solutes (solnum) = irrigation_solutes (solnum) + solute<I><SUB> solnum</SUB></I><br>
+
+</blockquote>next<br>
+
+<br>
+
+Supply amount * irrigation_efficiency to the messaging system using the name data_irrigate_amount<br>
+
+Supply duration to the messaging system using the name data_irrigate_duration<br>
+
+Supply time to the messaging system using the name data_irrigate_time<br>
+
+For each solnum from 1 to number of solutes<br>
+
+<blockquote>Supply solute<I><SUB> solnum</SUB></I> to the messaging system using the name solute_names (solnum)<br>
+
+</blockquote>next<br>
+
+event_send<I><SUB> event_irrigated</SUB></I><br>
+
+<br>
+
+irrigation_applied = irrigation_applied + amount * irrigation_efficiency<br>
+
+irrigation<SUB>(total)</SUB> = irrigation<SUB>(total)</SUB> + amount<br>
+
+irrigation_loss = irrigation_loss + amount * (1.-irrigation_efficiency)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "irrigate_set_my_variable">  </A>
+<H2>Irrigate Set My Variable</H2>
+<br>
+<H3><CENTER>Set one of our variables altered by some other module   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (variable_name.=.'manual_irrigation') then<br>
+
+<blockquote>Get manual_irrigation from the message<br>
+
+if (manual_irrigation.=.'on') then<br>
+
+<blockquote>if (day (1).=.0.or.year (1).=.0.or.reals_are_equal (amount (1), 0 . 0)) then<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>elseif (irrigation_allocation.=.'on') then<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+</blockquote>elseif (variable_name.=.'automatic_irrigation') then<br>
+
+<blockquote>Get automatic_irrigation from the message<br>
+
+if (automatic_irrigation.=.'on') then<br>
+
+<blockquote>if (reals_are_equal (crit_fr_asw, - 1 . 0).or.reals_are_equal (asw_depth, - 1 . 0)) then<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+</blockquote>elseif (variable_name.=.'crit_fr_asw') then<br>
+
+<blockquote>Get crit_fr_asw from the message (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+</blockquote>elseif (variable_name.=.'asw_depth') then<br>
+
+<blockquote>Get asw_depth from the message (Lower Bound = 0 . 0, Upper Bound = 10000 .)<br>
+
+</blockquote>elseif (variable_name.=.'amount') then<br>
+
+<blockquote>Get amount from the message (Lower Bound = 0 . 0, Upper Bound = 1000 .)<br>
+
+<A HREF = "#irrigate_set_amount"> Apply Set Amount from Manager </A><br>
+
+</blockquote>elseif (variable_name.=.'irrigation_efficiency') then<br>
+
+<blockquote>Get irrigation_efficiency from the message (Lower Bound = 0 . 0, Upper Bound = 1 .)<br>
+
+</blockquote>elseif (variable_name.=.'allocation') then<br>
+
+<blockquote>if (irrigation_allocation.=.'on') then<br>
+
+<blockquote>carry_over = allocation<br>
+
+Get allocation from the message (Lower Bound = 0 . 0, Upper Bound = 10000 .)<br>
+
+</blockquote>else<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>endif<br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "irrigate_set_amount">  </A>
+<H2>Irrigate Set Amount</H2>
+<br>
+<H3><CENTER>To apply an amount of irrigation as specified by user.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (amount.&gt;=.0.) then<br>
+
+<blockquote><A HREF = "#irrigate_check_allocation"> Check amount with allocation budget </A><br>
+
+For each solnum from 1 to number of solutes<br>
+
+<blockquote>solute<I><SUB> solnum</SUB></I> = amount * default_conc_solute (solnum) / 100 . 0<br>
+
+irrigation_solutes (solnum) = irrigation_solutes (solnum) + solute<I><SUB> solnum</SUB></I><br>
+
+</blockquote>next<br>
+
+<br>
+
+Supply amount * irrigation_efficiency to the messaging system using the name data_irrigate_amount<br>
+
+Supply default_duration to the messaging system using the name data_irrigate_duration<br>
+
+Supply default_time to the messaging system using the name data_irrigate_time<br>
+
+For each solnum from 1 to number of solutes<br>
+
+<blockquote>Supply solute<I><SUB> solnum</SUB></I> to the messaging system using the name solute_names (solnum)<br>
+
+</blockquote>next<br>
+
+event_send<I><SUB> event_irrigated</SUB></I><br>
+
+<br>
+
+irrigation_applied = irrigation_applied + amount * irrigation_efficiency<br>
+
+irrigation<SUB>(total)</SUB> = irrigation<SUB>(total)</SUB> + amount<br>
+
+irrigation_loss = irrigation_loss + amount * (1.-irrigation_efficiency)<br>
+
+</blockquote>else<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "irrigate_on_new_solute">  </A>
+<H2>Irrigate On New Solute</H2>
+<br>
+<H3><CENTER>Add new solute to internal list of system solutes   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get sender from the message<br>
+
+Get names from the message<br>
+
+if (number of solutes+numvals.&gt;.maximum number of solutess) then<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>else<br>
+
+<blockquote>For each counter1 from 1 to numvals<br>
+
+<blockquote>number of solutes = number of solutes + 1<br>
+
+solute_names (number of solutes) = names<I><SUB> counter1</SUB></I><br>
+
+solute_owners (number of solutes) = sender<br>
+
+Read temp_solute from file (Lower Bound = num_irrigs, Upper Bound = 0 . 0) <I>(OPTIONAL)</I><br>
+
+dummy = 'default_' + solute_names (number of solutes)<br>
+
+default_name = dummy + '_conc'<br>
+
+Read default_conc_solute (number of solutes) from file (Lower Bound = num, Upper Bound = 0 . 0) <I>(OPTIONAL)</I><br>
+
+For each counter2 from 1 to num_irrigs<br>
+
+<blockquote>irrigation_solutes_shed (number of solutes, counter2) = temp_solute<I><SUB> counter2</SUB></I><br>
+
+</blockquote>next<br>
+
+</blockquote>next<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "Contact Information"> <H2>Contact Information</H2> </A>
+For Further Information Please Contact:
+<p>
+<A HREF = "mailto:Neil.Huth@tag.csiro.au"> Neil Huth - Module Developer </A><br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title></title>
+</head>
+
+<body>
+
+<p><img src="..\..\..\docs\shared\apsimdocumentationbanner.jpg" width="640"
+height="73"></p>
+</body>
+</html>
+Date: 11/01/2001  APseudo Version:  1. 0 Rev.  1<br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 

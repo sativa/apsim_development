@@ -1,0 +1,23 @@
+[Dependencies]
+Dependency = %licensed(irrigate)
+
+[Contents]
+Executable = lib\lib.apf
+Source = source\source.apf
+Sample = sample\sample.apf
+Documentation = docs\docs.apf
+
+[contacts]
+contact = Neil Huth - Module Developer; mailto:Neil.Huth@tag.csiro.au
+
+
+[apseudo]
+title=The APSIM Irrigate Model
+parfile=
+parshowall=yes
+inifile=
+inishowall=yes
+rddfile=
+
+heading = APSIM Irrigate Module; main
+

@@ -1,0 +1,31 @@
+[Dependencies]
+Dependency = %licensed(solute)
+
+[Contents]
+Executable = lib\lib.apf
+Source = source\source.apf
+Sample = sample\sample.apf
+Documentation = docs\docs.apf
+
+[contacts]
+contact = Neil Huth - Module Developer; mailto:Neil.Huth@tag.csiro.au
+
+
+[apseudo]
+title=The APSIM Solute Model
+parfile=
+parshowall=yes
+inifile=solute.ini
+inishowall=yes
+rddfile=
+
+heading = APSIM Solute module; main
+
+[styles]
+style = Maximum number of solutes
+style = Number of solutes
+style = Solute number
+
+Number of solutes = num_solutes; number of solutes
+Solute number = solnum; solute number
+Maximum number of solutes = max_solutes; maximum number of solutes

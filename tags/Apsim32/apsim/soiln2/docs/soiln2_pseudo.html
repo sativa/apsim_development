@@ -1,0 +1,3854 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title></title>
+</head>
+
+<body>
+
+<p><img src="..\..\..\docs\shared\apsimdocumentationbanner.jpg" width="640"
+height="73"></p>
+</body>
+</html>
+<TITLE>The APSIM SoilN2 Model</TITLE>
+<FONT SIZE = 7><B><CENTER>The APSIM SoilN2 Model</CENTER></B></FONT>
+<H1>TABLE OF CONTENTS</H1>
+<H2><A HREF = "#Contact Information"> Contact Information </A></H2>
+<H2><A HREF = "#Module Description"> Module Description </A></H2>
+<H2>User Input Files</H2>
+<ul><li>The Constants File
+
+<ul><li><A HREF = "#standard.soiln2.constants"> standard constants </A>
+
+</ul></ul>
+<H2>Module Logic</H2>
+<ul><li><A HREF = "#APSIM SoilN2 module"> APSIM SoilN2 module </A>
+
+<li><A HREF = "#Structure Charts"> Structure Charts </A>
+
+</ul>
+<hr>
+<A NAME = "Module Description">  </A>
+<H2>Module Documentation</H2>
+<br>
+<A HREF = "soiln2_int.pdf"> soiln2_int.pdf </A>
+<br>
+<A HREF = "soiln2_science.pdf"> soiln2_science.pdf </A>
+<br>
+<br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "Structure Charts"> <H2>Module Structure Charts</H2> </A>
+<H2>APSIM SoilN2 module</H2>
+<ul><li><A HREF = "#main"> main </A>
+
+<ul><li><A HREF = "#soiln2_send_my_variable"> soiln2_send_my_variable </A>
+
+<ul><li><A HREF = "#soiln2_fac"> soiln2_fac </A>
+
+<li><A HREF = "#soiln2_oc_percent"> soiln2_oc_percent </A>
+
+<ul><li><A HREF = "#soiln2_fac"> soiln2_fac </A>
+
+</ul></ul><li><A HREF = "#soiln2_set_my_variable"> soiln2_set_my_variable </A>
+
+<ul><li><A HREF = "#soiln2_fac"> soiln2_fac </A>
+
+</ul><li><A HREF = "#soiln2_ontick"> soiln2_ontick </A>
+
+<li><A HREF = "#soiln2_onnewmet"> soiln2_onnewmet </A>
+
+<li><A HREF = "#soiln2_onnew_profile"> soiln2_onnew_profile </A>
+
+<ul><li><A HREF = "#soiln2_check_profile"> soiln2_check_profile </A>
+
+<ul><li><A HREF = "#soiln2_move_layers"> soiln2_move_layers </A>
+
+<ul><li><A HREF = "#soiln2_layer_fract"> soiln2_layer_fract </A>
+
+<ul><li><A HREF = "#soiln2_fac"> soiln2_fac </A>
+
+</ul></ul></ul></ul><li><A HREF = "#soiln2_onpot_res_decomp"> soiln2_onpot_res_decomp </A>
+
+<li><A HREF = "#soiln2_get_other_variables"> soiln2_get_other_variables </A>
+
+<li><A HREF = "#soiln2_process"> soiln2_process </A>
+
+<ul><li><A HREF = "#soiln2_soil_temp"> soiln2_soil_temp </A>
+
+<ul><li><A HREF = "#soiln2_soiltemp_dt"> soiln2_soiltemp_dt </A>
+
+<ul><li><A HREF = "#soiln2_layer_temp"> soiln2_layer_temp </A>
+
+</ul><li><A HREF = "#soiln2_layer_temp"> soiln2_layer_temp </A>
+
+<li><A HREF = "#soiln2_soiltemp_dampdepth"> soiln2_soiltemp_dampdepth </A>
+
+</ul><li><A HREF = "#soiln2_min_residues"> soiln2_min_residues </A>
+
+<li><A HREF = "#soiln2_urea_hydrolysis"> soiln2_urea_hydrolysis </A>
+
+<ul><li><A HREF = "#soiln2_wf"> soiln2_wf </A>
+
+</ul><li><A HREF = "#soiln2_denitrification"> soiln2_denitrification </A>
+
+<ul><li><A HREF = "#soiln2_fac"> soiln2_fac </A>
+
+<li><A HREF = "#soiln2_wf_denit"> soiln2_wf_denit </A>
+
+</ul><li><A HREF = "#soiln2_min_humic"> soiln2_min_humic </A>
+
+<ul><li><A HREF = "#soiln2_wf"> soiln2_wf </A>
+
+<li><A HREF = "#soiln2_tf"> soiln2_tf </A>
+
+</ul><li><A HREF = "#soiln2_min_biomass"> soiln2_min_biomass </A>
+
+<ul><li><A HREF = "#soiln2_wf"> soiln2_wf </A>
+
+<li><A HREF = "#soiln2_tf"> soiln2_tf </A>
+
+</ul><li><A HREF = "#soiln2_min_fom"> soiln2_min_fom </A>
+
+<ul><li><A HREF = "#soiln2_wf"> soiln2_wf </A>
+
+<li><A HREF = "#soiln2_tf"> soiln2_tf </A>
+
+</ul><li><A HREF = "#soiln2_nitrification"> soiln2_nitrification </A>
+
+<ul><li><A HREF = "#soiln2_phf_nitrf"> soiln2_phf_nitrf </A>
+
+<li><A HREF = "#soiln2_tf"> soiln2_tf </A>
+
+<li><A HREF = "#soiln2_wf_nitrf"> soiln2_wf_nitrf </A>
+
+<li><A HREF = "#soiln2_fac"> soiln2_fac </A>
+
+</ul></ul><li><A HREF = "#soiln2_send_nbalance_event"> soiln2_send_nbalance_event </A>
+
+<li><A HREF = "#soiln2_send_cbalance_event"> soiln2_send_cbalance_event </A>
+
+<li><A HREF = "#soiln2_set_other_variables"> soiln2_set_other_variables </A>
+
+<li><A HREF = "#soiln2_incorp_fom"> soiln2_incorp_fom </A>
+
+<ul><li><A HREF = "#soiln2_incorp_min_n"> soiln2_incorp_min_n </A>
+
+</ul><li><A HREF = "#soiln2_reset"> soiln2_reset </A>
+
+<ul><li><A HREF = "#soiln2_zero_variables"> soiln2_zero_variables </A>
+
+<li><A HREF = "#soiln2_check_data_supply"> soiln2_check_data_supply </A>
+
+<li><A HREF = "#soiln2_get_site_variables"> soiln2_get_site_variables </A>
+
+<li><A HREF = "#soiln2_get_other_variables"> soiln2_get_other_variables </A>
+
+<li><A HREF = "#soiln2_read_constants"> soiln2_read_constants </A>
+
+<li><A HREF = "#soiln2_read_param"> soiln2_read_param </A>
+
+<ul><li><A HREF = "#soiln2_fac"> soiln2_fac </A>
+
+</ul><li><A HREF = "#soiln2_init_calc"> soiln2_init_calc </A>
+
+<ul><li><A HREF = "#soiln2_fac"> soiln2_fac </A>
+
+<li><A HREF = "#soiln2_soil_temp"> soiln2_soil_temp </A>
+
+<ul><li><A HREF = "#soiln2_soiltemp_dt"> soiln2_soiltemp_dt </A>
+
+<ul><li><A HREF = "#soiln2_layer_temp"> soiln2_layer_temp </A>
+
+</ul><li><A HREF = "#soiln2_layer_temp"> soiln2_layer_temp </A>
+
+<li><A HREF = "#soiln2_soiltemp_dampdepth"> soiln2_soiltemp_dampdepth </A>
+
+</ul></ul></ul><li><A HREF = "#soiln2_sum_report"> soiln2_sum_report </A>
+
+<li><A HREF = "#soiln2_notification"> soiln2_notification </A>
+
+<li><A HREF = "#soiln2_zero_all_globals"> soiln2_zero_all_globals </A>
+
+</ul></ul>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<CENTER><A NAME = "Module Pseudo Code"> <H2><BIG>Module Pseudo Code</BIG></H2> </A></CENTER>
+<hr>
+<H2><BIG><A NAME = "APSIM SoilN2 module"> APSIM SoilN2 module </A></BIG></H2>
+<A NAME = "main">  </A>
+<H2>Main</H2>
+<br>
+<H3><CENTER>This routine is the interface between the main system and the SoilN module.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (action.=.action_get_variable) then<br>
+
+<blockquote><A HREF = "#soiln2_send_my_variable"> Send Value of Requested Variable </A><br>
+
+</blockquote>else if (action.=.action_set_variable) then<br>
+
+<blockquote><A HREF = "#soiln2_set_my_variable"> Set Variable as Requested </A><br>
+
+</blockquote>elseif (action.=.event_tick) then<br>
+
+<blockquote><A HREF = "#soiln2_ontick"> Update internal time record and reset daily state variables. </A><br>
+
+</blockquote>elseif (action.=.event_newmet) then<br>
+
+<blockquote><A HREF = "#soiln2_onnewmet"> Get new met data </A><br>
+
+</blockquote>elseif (action.=.event_new_profile) then<br>
+
+<blockquote><A HREF = "#soiln2_onnew_profile"> Update internal soil layer structure with new data </A><br>
+
+</blockquote>elseif (action.=.event_pot_res_decomp) then<br>
+
+<blockquote><A HREF = "#soiln2_onpot_res_decomp"> Get information of potential residue decomposition </A><br>
+
+</blockquote>else if (action.=.action_process) then<br>
+
+<blockquote><A HREF = "#soiln2_get_other_variables"> Get Other Variables </A><br>
+
+<A HREF = "#soiln2_process"> Perform all APSIM Timestep calculations </A><br>
+
+<A HREF = "#soiln2_send_nbalance_event"> Notify other modules of completion of N balance. </A><br>
+
+<A HREF = "#soiln2_send_cbalance_event"> Notify other modules of completion of C balance. </A><br>
+
+<A HREF = "#soiln2_set_other_variables"> Set Variables in other Modules </A><br>
+
+</blockquote>else if (action.=.action_incorp_fom) then<br>
+
+<blockquote><A HREF = "#soiln2_incorp_fom"> Add roots into fom pools </A><br>
+
+</blockquote>else if ((action.=.action_reset).or.(action.=.action_user_init)) then<br>
+
+<blockquote><A HREF = "#soiln2_reset"> (Re)Initialise SoilN module </A><br>
+
+</blockquote>else if (action.=.action_sum_report) then<br>
+
+<blockquote><A HREF = "#soiln2_sum_report"> Report SoilN Module Status </A><br>
+
+</blockquote>elseif (action.=.action_init) then<br>
+
+<blockquote><A HREF = "#soiln2_reset"> (Re)Initialise SoilN module </A><br>
+
+<A HREF = "#soiln2_notification"> Notify other modules of ownership of solute information </A><br>
+
+<A HREF = "#soiln2_sum_report"> Report SoilN Module Status </A><br>
+
+</blockquote>elseif (action.=.action_create) then<br>
+
+<blockquote><A HREF = "#soiln2_zero_all_globals"> Zero all global variables and arrays </A><br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_send_my_variable">  </A>
+<H2>Soiln2 Send My Variable</H2>
+<br>
+<H3><CENTER>Return the value of one of our variables to caller   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (variable_name.=.'no3') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply no3 to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'dlt_no3_net') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply <FONT FACE = "SYMBOL">D</FONT>no3_net to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'no3ppm') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Fill no3ppm with 0 . 0<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>no3ppm<I><SUB> layer</SUB></I> = no3 (layer) * <A HREF = "#soiln2_fac"> Conversion factor (kg/ha to ppm) </A><br>
+
+</blockquote>next<br>
+
+Supply no3ppm to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'no3_min') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply no3_min to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'nh4') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply nh4 to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'dlt_nh4_net') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply <FONT FACE = "SYMBOL">D</FONT>nh4_net to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'nh4ppm') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Fill nh4ppm with 0 . 0<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>nh4ppm<I><SUB> layer</SUB></I> = nh4 (layer) * <A HREF = "#soiln2_fac"> Conversion factor (kg/ha to ppm) </A><br>
+
+</blockquote>next<br>
+
+Supply nh4ppm to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'nh4_min') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply nh4_min to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'urea') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply urea to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'dlt_rntrf') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply <FONT FACE = "SYMBOL">D</FONT>rntrf to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'dlt_urea_hydrol') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply <FONT FACE = "SYMBOL">D</FONT>urea_hydrol to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'excess_nh4') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply excess_nh4 to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'fom_n') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply fom_n to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'hum_n') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply hum_n to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'biom_n') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply biom_n to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'fom_c') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Fill fom_c with 0 . 0<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>fom_c<I><SUB> layer</SUB></I> = sum_real_array (fom_pool (1, layer), nfract)<br>
+
+</blockquote>next<br>
+
+Supply fom_c to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'hum_c') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply hum_c to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'biom_c') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply biom_c to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'carbon_tot') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Fill carbon_tot with 0 . 0<br>
+
+Fill fom_c with 0 . 0<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>fom_c<I><SUB> layer</SUB></I> = sum_real_array (fom_pool (1, layer), nfract)<br>
+
+</blockquote>next<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>carbon_tot<I><SUB> layer</SUB></I> = fom_c<I><SUB> layer</SUB></I> + hum_c (layer) + biom_c (layer)<br>
+
+</blockquote>next<br>
+
+Supply carbon_tot to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'oc%') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Fill oc_percent with 0 . 0<br>
+
+<A HREF = "#soiln2_oc_percent"> Calculate Organic Carbon Percentage </A><br>
+
+Supply oc_percent to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'nh4_transform_net') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply nh4_transform_net to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'no3_transform_net') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply no3_transform_net to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'dlt_res_nh4_min') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply <FONT FACE = "SYMBOL">D</FONT>res_nh4_min to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'dlt_fom_n_min') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply <FONT FACE = "SYMBOL">D</FONT>fom_n_min to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'dlt_biom_n_min') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply <FONT FACE = "SYMBOL">D</FONT>biom_n_min to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'dlt_hum_n_min') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply <FONT FACE = "SYMBOL">D</FONT>hum_n_min to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'dlt_res_no3_min') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply <FONT FACE = "SYMBOL">D</FONT>res_no3_min to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'dlt_no3_dnit') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply <FONT FACE = "SYMBOL">D</FONT>no3_dnit to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'nit_tot') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Fill nit_tot with 0 . 0<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>nit_tot<I><SUB> layer</SUB></I> = fom_n (layer) + hum_n (layer) + biom_n (layer) + no3 (layer) + nh4 (layer) + urea (layer)<br>
+
+</blockquote>next<br>
+
+Supply nit_tot to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'dlt_n_min') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Fill dlt_net_n_min with 0 . 0<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>dlt_net_n_min<I><SUB> layer</SUB></I> = <FONT FACE = "SYMBOL">D</FONT>hum_n_min (layer) + <FONT FACE = "SYMBOL">D</FONT>biom_n_min (layer) + <FONT FACE = "SYMBOL">D</FONT>fom_n_min (layer)<br>
+
+</blockquote>next<br>
+
+Supply dlt_net_n_min to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'dlt_n_min_res') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Fill dlt_net_n_min with 0 . 0<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>dlt_net_n_min<I><SUB> layer</SUB></I> = <FONT FACE = "SYMBOL">D</FONT>res_no3_min (layer) + <FONT FACE = "SYMBOL">D</FONT>res_nh4_min (layer)<br>
+
+</blockquote>next<br>
+
+Supply dlt_net_n_min to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'dlt_n_min_tot') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Fill dlt_net_n_min with 0 . 0<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>dlt_net_n_min<I><SUB> layer</SUB></I> = <FONT FACE = "SYMBOL">D</FONT>hum_n_min (layer) + <FONT FACE = "SYMBOL">D</FONT>biom_n_min (layer) + <FONT FACE = "SYMBOL">D</FONT>fom_n_min (layer) + <FONT FACE = "SYMBOL">D</FONT>res_no3_min (layer) + <FONT FACE = "SYMBOL">D</FONT>res_nh4_min (layer)<br>
+
+</blockquote>next<br>
+
+Supply dlt_net_n_min to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'dnit') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply <FONT FACE = "SYMBOL">D</FONT>no3_dnit to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'dlt_c_loss_in_sed') then<br>
+
+<blockquote>Supply <FONT FACE = "SYMBOL">D</FONT>c_loss_sed to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'dlt_n_loss_in_sed') then<br>
+
+<blockquote>Supply <FONT FACE = "SYMBOL">D</FONT>n_sed to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'st'.and..not.use_external_st) then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply soil_temp to the requesting module<br>
+
+</blockquote>elseif (index (variable_name, 'org_c_pool').=.1) then<br>
+
+<blockquote>Fill org_c with 0 . 0<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply org_c to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'org_n') then<br>
+
+<blockquote>Fill org_n with 0 . 0<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply org_n to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'dlt_fom_c_hum') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Fill fom_c with 0 . 0<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>fom_c<I><SUB> layer</SUB></I> = sum_real_array (<FONT FACE = "SYMBOL">D</FONT>fom_c_hum (1, layer), nfract)<br>
+
+</blockquote>next<br>
+
+Supply fom_c to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'dlt_fom_c_biom') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Fill fom_c with 0 . 0<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>fom_c<I><SUB> layer</SUB></I> = sum_real_array (<FONT FACE = "SYMBOL">D</FONT>fom_c_biom (1, layer), nfract)<br>
+
+</blockquote>next<br>
+
+Supply fom_c to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'dlt_fom_c_atm') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Fill fom_c with 0 . 0<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>fom_c<I><SUB> layer</SUB></I> = sum_real_array (<FONT FACE = "SYMBOL">D</FONT>fom_c_atm (1, layer), nfract)<br>
+
+</blockquote>next<br>
+
+Supply fom_c to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'dlt_hum_c_biom') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply <FONT FACE = "SYMBOL">D</FONT>hum_c_biom to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'dlt_hum_c_atm') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply <FONT FACE = "SYMBOL">D</FONT>hum_c_atm to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'dlt_biom_c_hum') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply <FONT FACE = "SYMBOL">D</FONT>biom_c_hum to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'dlt_biom_c_atm') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply <FONT FACE = "SYMBOL">D</FONT>biom_c_atm to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'dlt_res_c_biom') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply sum (<FONT FACE = "SYMBOL">D</FONT>res_c_biom (:, :), dim = residue_dim) to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'dlt_res_c_hum') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply sum (<FONT FACE = "SYMBOL">D</FONT>res_c_hum (:, :), dim = residue_dim) to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'dlt_res_c_atm') then<br>
+
+<blockquote>Supply sum (<FONT FACE = "SYMBOL">D</FONT>res_c_atm (:, :)) to the requesting module<br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_fac">  </A>
+<H2>Soiln2 Fac</H2>
+<br>
+<H3><CENTER>Convert kg/ha to ppm of soil in a given layer   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+soiln2_fac = divide (100 . 0, bd (layer) * dlayer (layer), 0 . 0)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_oc_percent">  </A>
+<H2>Soiln2 Oc Percent</H2>
+<br>
+<H3><CENTER>Calculate Organic Carbon Percentage   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>oc_ppm = (hum_c (layer)+biom_c (layer)) * <A HREF = "#soiln2_fac"> Conversion factor (kg/ha to ppm) </A><br>
+
+oc_percent<I><SUB> layer</SUB></I> = oc_ppm * ppm2fract * fract2pcnt<br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_set_my_variable">  </A>
+<H2>Soiln2 Set My Variable</H2>
+<br>
+<H3><CENTER>Set one of our variables altered by some other module   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (variable_name.=.'no3') then<br>
+
+<blockquote>Get no3 from the message (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+For each layer from 1 to numvals<br>
+
+<blockquote>Check that no3 (layer) lies between no3_min (layer) and no3 (layer)<br>
+
+</blockquote>next<br>
+
+</blockquote>elseif (variable_name.=.'no3ppm') then<br>
+
+<blockquote>Fill no3 with 0 . 0<br>
+
+Get no3 from the message (Lower Bound = no3ppm_min, Upper Bound = 1000 . 0)<br>
+
+For each layer from 1 to numvals<br>
+
+<blockquote>no3 (layer) = divide (no3<I><SUB> layer</SUB></I>, <A HREF = "#soiln2_fac"> Conversion factor (kg/ha to ppm) </A>, 0 . 0)<br>
+
+</blockquote>next<br>
+
+</blockquote>elseif (variable_name.=.'nh4') then<br>
+
+<blockquote>Get nh4 from the message (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+For each layer from 1 to numvals<br>
+
+<blockquote>Check that nh4 (layer) lies between nh4_min (layer) and nh4 (layer)<br>
+
+</blockquote>next<br>
+
+</blockquote>elseif (variable_name.=.'nh4ppm') then<br>
+
+<blockquote>Fill nh4 with 0 . 0<br>
+
+Get nh4 from the message (Lower Bound = nh4ppm_min, Upper Bound = 1000 . 0)<br>
+
+For each layer from 1 to numvals<br>
+
+<blockquote>nh4 (layer) = divide (nh4<I><SUB> layer</SUB></I>, <A HREF = "#soiln2_fac"> Conversion factor (kg/ha to ppm) </A>, 0 . 0)<br>
+
+</blockquote>next<br>
+
+</blockquote>elseif (variable_name.=.'urea') then<br>
+
+<blockquote>Get urea from the message (Lower Bound = g_urea_min, Upper Bound = 1000 . 0)<br>
+
+</blockquote>elseif (variable_name.=.'dlt_no3') then<br>
+
+<blockquote>Get tarray from the message (Lower Bound = - 1000 . 0, Upper Bound = 1000 . 0)<br>
+
+For each layer from 1 to numvals<br>
+
+<blockquote>no3 (layer) = no3 (layer) + tarray<I><SUB> layer</SUB></I><br>
+
+Check that no3 (layer) lies between no3_min (layer) and no3 (layer)<br>
+
+</blockquote>next<br>
+
+</blockquote>elseif (variable_name.=.'dlt_nh4') then<br>
+
+<blockquote>Get tarray from the message (Lower Bound = - 1000 . 0, Upper Bound = 1000 . 0)<br>
+
+For each layer from 1 to numvals<br>
+
+<blockquote>nh4 (layer) = nh4 (layer) + tarray<I><SUB> layer</SUB></I><br>
+
+Check that nh4 (layer) lies between nh4_min (layer) and nh4 (layer)<br>
+
+</blockquote>next<br>
+
+</blockquote>elseif (variable_name.=.'dlt_no3ppm') then<br>
+
+<blockquote>Get tarray from the message (Lower Bound = - 1000 . 0, Upper Bound = 1000 . 0)<br>
+
+For each layer from 1 to numvals<br>
+
+<blockquote>no3 (layer) = no3 (layer) + divide (tarray<I><SUB> layer</SUB></I>, <A HREF = "#soiln2_fac"> Conversion factor (kg/ha to ppm) </A>, 0 . 0)<br>
+
+Check that no3 (layer) lies between no3_min (layer) and no3 (layer)<br>
+
+</blockquote>next<br>
+
+</blockquote>elseif (variable_name.=.'dlt_nh4ppm') then<br>
+
+<blockquote>Get tarray from the message (Lower Bound = - 1000 . 0, Upper Bound = 1000 . 0)<br>
+
+For each layer from 1 to numvals<br>
+
+<blockquote>nh4 (layer) = nh4 (layer) + divide (tarray<I><SUB> layer</SUB></I>, <A HREF = "#soiln2_fac"> Conversion factor (kg/ha to ppm) </A>, 0 . 0)<br>
+
+Check that nh4 (layer) lies between nh4_min (layer) and nh4 (layer)<br>
+
+</blockquote>next<br>
+
+</blockquote>elseif (variable_name.=.'dlt_urea') then<br>
+
+<blockquote>Get tarray from the message (Lower Bound = - 1000 . 0, Upper Bound = 1000 . 0)<br>
+
+For each layer from 1 to numvals<br>
+
+<blockquote>urea (layer) = urea (layer) + tarray<I><SUB> layer</SUB></I><br>
+
+Check that urea (layer) lies between g_urea_min and urea (layer)<br>
+
+</blockquote>next<br>
+
+</blockquote>elseif (variable_name.=.'n_reduction') then<br>
+
+<blockquote>Get string from the message<br>
+
+if (string<I><SUB> 1 : 2</SUB></I>.=.'on') then<br>
+
+<blockquote>p_n_reduction = on<br>
+
+</blockquote>else<br>
+
+<blockquote>p_n_reduction = off<br>
+
+</blockquote>endif<br>
+
+</blockquote>elseif ((variable_name.=.'dlt_org_n').or.(variable_name.=.'org_n')) then<br>
+
+<blockquote>Get tarray from the message (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+For each layer from 1 to numvals<br>
+
+<blockquote>fom_n (layer) = fom_n (layer) + tarray<I><SUB> layer</SUB></I><br>
+
+</blockquote>next<br>
+
+</blockquote>elseif ((index (variable_name, 'dlt_org_c_pool').=.1).or.(index (variable_name, 'org_c_pool').=.1)) then<br>
+
+<blockquote>string_to_integer_var<I><SUB> variable_name<I><SUB> index (variable_name, 'pool') + 4 :</SUB></I>, pool_num, numvals</SUB></I><br>
+
+if (numvals.=.1) then<br>
+
+<blockquote>Get tarray from the message (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+For each layer from 1 to numvals<br>
+
+<blockquote>fom_pool (pool_num, layer) = fom_pool (pool_num, layer) + tarray<I><SUB> layer</SUB></I><br>
+
+</blockquote>next<br>
+
+</blockquote>else<br>
+
+<blockquote>write (to error_string)  'cannot read pool number from ' , variable_name<br>
+
+Report a fatal error<br>
+
+</blockquote>endif<br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_ontick">  </A>
+<H2>Soiln2 Ontick</H2>
+<br>
+<H3><CENTER>Update internal time record and reset daily state variables.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+handler_ontick<I><SUB> day_of_year, year, temp1, temp2</SUB></I><br>
+
+number of residues = 0<br>
+
+pot_c_decomp (:) = 0 . 0<br>
+
+pot_n_decomp (:) = 0 . 0<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_onnewmet">  </A>
+<H2>Soiln2 Onnewmet</H2>
+<br>
+<H3><CENTER>Get new met data   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get radn from the message (Lower Bound = 0 . 0, Upper Bound = 50 . 0)<br>
+
+Get maxt from the message (Lower Bound = 0 . 0, Upper Bound = 50 . 0)<br>
+
+Get mint from the message (Lower Bound = - 10 . 0, Upper Bound = maxt)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_onnew_profile">  </A>
+<H2>Soiln2 Onnew Profile</H2>
+<br>
+<H3><CENTER>Update internal soil layer structure with new data  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Fill new_dlayer with 0 . 0<br>
+
+Get new_dlayer from the message (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+Get ll15<SUB>(in mm)</SUB> from the message (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+Get dul<SUB>(in mm)</SUB> from the message (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+Get sat<SUB>(in mm)</SUB> from the message (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+Get sw<SUB>(in mm)</SUB> from the message (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+Get bd from the message (Lower Bound = 0 . 01, Upper Bound = 3 . 0)<br>
+
+<A HREF = "#soiln2_check_profile"> Allow for any changes in soil profile since yesterday </A><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_check_profile">  </A>
+<H2>Soiln2 Check Profile</H2>
+<br>
+<H3><CENTER>See if soil profile has changed since yesterday or whether some soil has eroded. If so, move pools around to cater for it.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+<FONT FACE = "SYMBOL">D</FONT>n_sed = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>c_loss_sed = 0 . 0<br>
+
+if (<FONT FACE = "SYMBOL">D</FONT>soil_loss.&gt;.0.0.and.p_n_reduction.=.on) then<br>
+
+<blockquote><A HREF = "#soiln2_move_layers"> Move nh4 to new_profile with a loss of loss </A><br>
+
+<FONT FACE = "SYMBOL">D</FONT>n_sed = <FONT FACE = "SYMBOL">D</FONT>n_sed + loss<br>
+
+<A HREF = "#soiln2_move_layers"> Move inert_c to new_profile with a loss of loss </A><br>
+
+<FONT FACE = "SYMBOL">D</FONT>c_loss_sed = <FONT FACE = "SYMBOL">D</FONT>c_loss_sed + loss<br>
+
+<A HREF = "#soiln2_move_layers"> Move biom_c to new_profile with a loss of loss </A><br>
+
+<FONT FACE = "SYMBOL">D</FONT>c_loss_sed = <FONT FACE = "SYMBOL">D</FONT>c_loss_sed + loss<br>
+
+<A HREF = "#soiln2_move_layers"> Move biom_n to new_profile with a loss of loss </A><br>
+
+<FONT FACE = "SYMBOL">D</FONT>n_sed = <FONT FACE = "SYMBOL">D</FONT>n_sed + loss<br>
+
+<A HREF = "#soiln2_move_layers"> Move hum_c to new_profile with a loss of loss </A><br>
+
+<FONT FACE = "SYMBOL">D</FONT>c_loss_sed = <FONT FACE = "SYMBOL">D</FONT>c_loss_sed + loss<br>
+
+<A HREF = "#soiln2_move_layers"> Move hum_n to new_profile with a loss of loss </A><br>
+
+<FONT FACE = "SYMBOL">D</FONT>n_sed = <FONT FACE = "SYMBOL">D</FONT>n_sed + loss<br>
+
+<A HREF = "#soiln2_move_layers"> Move fom_n to new_profile with a loss of loss </A><br>
+
+<FONT FACE = "SYMBOL">D</FONT>n_sed = <FONT FACE = "SYMBOL">D</FONT>n_sed + loss<br>
+
+For each pool from 1 to nfract<br>
+
+<blockquote>For each layer from 1 to maximum number of layers<br>
+
+<blockquote>fom_pool<I><SUB> layer</SUB></I> = fom_pool (pool, layer)<br>
+
+</blockquote>next<br>
+
+<A HREF = "#soiln2_move_layers"> Move fom_pool to new_profile with a loss of loss </A><br>
+
+<FONT FACE = "SYMBOL">D</FONT>c_loss_sed = <FONT FACE = "SYMBOL">D</FONT>c_loss_sed + loss<br>
+
+For each layer from 1 to maximum number of layers<br>
+
+<blockquote>fom_pool (pool, layer) = fom_pool<I><SUB> layer</SUB></I><br>
+
+</blockquote>next<br>
+
+</blockquote>next<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+For each layer from 1 to maximum number of layers<br>
+
+<blockquote>dlayer (layer) = new_profile<I><SUB> layer</SUB></I><br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_move_layers">  </A>
+<H2>Soiln2 Move Layers</H2>
+<br>
+<H3><CENTER>move a layer   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+profile_loss = 0 . 0<br>
+
+layer_loss = 0 . 0<br>
+
+layer_gain = 0 . 0<br>
+
+lowest_layer = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+new_lowest_layer = count_of_real_vals (new_profile, maximum number of layers)<br>
+
+yesterdays_n = sum_real_array (variable, lowest_layer)<br>
+
+profile_depth = sum_real_array (dlayer, lowest_layer)<br>
+
+new_profile_depth = sum_real_array (new_profile, new_lowest_layer)<br>
+
+if (reals_are_equal (profile_depth, new_profile_depth)) then<br>
+
+<blockquote>layer_loss = variable<I><SUB> lowest_layer</SUB></I> * <A HREF = "#soiln2_layer_fract"> Fraction of lowest_layer moved </A><br>
+
+</blockquote>else<br>
+
+<blockquote>layer_loss = 0 . 0<br>
+
+if (lowest_layer.&gt;.new_lowest_layer.and.lowest_layer.&gt;.1) then<br>
+
+<blockquote>For each layer from lowest_layer to new_lowest_layer stepping by 1, -1<br>
+
+<blockquote>variable<I><SUB> layer - 1</SUB></I> = variable<I><SUB> layer - 1</SUB></I> + variable<I><SUB> layer</SUB></I><br>
+
+variable<I><SUB> layer</SUB></I> = 0 . 0<br>
+
+</blockquote>next<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+</blockquote>endif<br>
+
+profile_gain = layer_loss<br>
+
+For each layer from new_lowest_layer to 1 stepping by -1<br>
+
+<blockquote>layer_gain = layer_loss<br>
+
+layer_loss = variable<I><SUB> layer</SUB></I> * <A HREF = "#soiln2_layer_fract"> Fraction of layer moved </A><br>
+
+variable<I><SUB> layer</SUB></I> = variable<I><SUB> layer</SUB></I> + layer_gain - layer_loss<br>
+
+</blockquote>next<br>
+
+enr = enr_a_coeff * (t2kg*<FONT FACE = "SYMBOL">D</FONT>soil_loss) * * (-1.0*enr_b_coeff)<br>
+
+enr = bound (enr, 1 . 0, enr_a_coeff)<br>
+
+profile_loss = layer_loss * enr<br>
+
+variable<I><SUB> 1</SUB></I> = variable<I><SUB> 1</SUB></I> + (layer_loss-profile_loss)<br>
+
+variable<I><SUB> 1</SUB></I> = l_bound (variable<I><SUB> 1</SUB></I>, 0 . 0)<br>
+
+todays_n = sum_real_array (variable, new_lowest_layer)<br>
+
+Check that yesterdays_n + profile_gain - profile_loss lies between todays_n and todays_n<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_layer_fract">  </A>
+<H2>Soiln2 Layer Fract</H2>
+<br>
+<H3><CENTER>fraction of layer moved   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+layer_fract = <FONT FACE = "SYMBOL">D</FONT>soil_loss * <A HREF = "#soiln2_fac"> Conversion factor (kg/ha to ppm) </A> / 1000 . 0<br>
+
+if (layer_fract.&gt;.1.0) then<br>
+
+<blockquote>write (to string)  'soil loss is greater than depth of layer , layer , ') by ' , layer_fract * 100 . 0 , '%.' / / new_line / / 'constrained to this layer. ' / / 're-mapping of soiln pools will be incorrect.'<br>
+
+Print a warning error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+soiln2_layer_fract = bound (layer_fract, 0 . 0, 1 . 0)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_onpot_res_decomp">  </A>
+<H2>Soiln2 Onpot Res Decomp</H2>
+<br>
+<H3><CENTER>Get information of potential residue decomposition   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+number of residues = number of residues + 1<br>
+
+if (number of residues.&lt;=.max_residues) then<br>
+
+<blockquote>Get residue_module (number of residues) from the message<br>
+
+Get pot_c_decomp (number of residues) from the message (Lower Bound = 0 . 0, Upper Bound = 0 . 1 * 20000 . 0 * c_in_fom)<br>
+
+Get pot_n_decomp (number of residues) from the message (Lower Bound = 0 . 0, Upper Bound = 0 . 1 * 20000 . 0 * c_in_fom)<br>
+
+</blockquote>else<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_get_other_variables">  </A>
+<H2>Soiln2 Get Other Variables</H2>
+<br>
+<H3><CENTER>Get the values of variables from other modules   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get sw<SUB>(in mm)</SUB> from the system (Lower Bound = 0 . 00001, Upper Bound = 1000 . 0)<br>
+
+if (p_n_reduction.=.on) then<br>
+
+<blockquote>Get <FONT FACE = "SYMBOL">D</FONT>soil_loss from the system (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<I>(OPTIONAL)</I><br>
+
+</blockquote>endif<br>
+
+if (use_external_ph) then<br>
+
+<blockquote>ph = 0 . 0<br>
+
+Get ph from the system (Lower Bound = 3 . 5, Upper Bound = 9 . 0)<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_process">  </A>
+<H2>Soiln2 Process</H2>
+<br>
+<H3><CENTER>This routine performs the soil N balance.  It calculates hydrolysis of g_urea, mineralisation of organic matter and immobilization of mineral nitrogen due to crop residue and soil organic matter decomposition, denitrification and nitrification.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+<A HREF = "#soiln2_soil_temp"> Calculate soil temperature </A><br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+<A HREF = "#soiln2_min_residues"> Calculate rate of nitrogen mineralization/immobilization </A><br>
+
+hum_c = hum_c + sum (<FONT FACE = "SYMBOL">D</FONT>res_c_hum (:, :), dim = residue_dim)<br>
+
+biom_c = biom_c + sum (<FONT FACE = "SYMBOL">D</FONT>res_c_biom (:, :), dim = residue_dim)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>hum_n (layer) = divide (hum_c (layer), soil_cn, 0 . 0)<br>
+
+biom_n (layer) = divide (biom_c (layer), mcn, 0 . 0)<br>
+
+nh4 (layer) = nh4 (layer) + <FONT FACE = "SYMBOL">D</FONT>res_nh4_min (layer)<br>
+
+no3 (layer) = no3 (layer) + <FONT FACE = "SYMBOL">D</FONT>res_no3_min (layer)<br>
+
+</blockquote>next<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote><A HREF = "#soiln2_urea_hydrolysis"> Hydrolyse urea in layer </A><br>
+
+nh4 (layer) = nh4 (layer) + dlt_urea_hydrol<br>
+
+urea (layer) = urea (layer) - dlt_urea_hydrol<br>
+
+<A HREF = "#soiln2_denitrification"> Calculate denitrification in layer </A><br>
+
+no3 (layer) = no3 (layer) - <FONT FACE = "SYMBOL">D</FONT>no3_dnit (layer)<br>
+
+<A HREF = "#soiln2_min_humic"> Calculate the humic rate of decomposition and nitrogen mineralisation </A><br>
+
+<A HREF = "#soiln2_min_biomass"> Calculate the biomass rate of decomposition and nitrogen mineralisation </A><br>
+
+<A HREF = "#soiln2_min_fom"> Calculate the fresh organic matter rate of decomposition and nitrogen mineralisation </A><br>
+
+hum_c (layer) = hum_c (layer) - <FONT FACE = "SYMBOL">D</FONT>hum_c_biom (layer) - <FONT FACE = "SYMBOL">D</FONT>hum_c_atm (layer) + <FONT FACE = "SYMBOL">D</FONT>biom_c_hum (layer) + sum_real_array (<FONT FACE = "SYMBOL">D</FONT>fom_c_hum (1, layer), nfract)<br>
+
+hum_n (layer) = divide (hum_c (layer), soil_cn, 0 . 0)<br>
+
+biom_c (layer) = biom_c (layer) - <FONT FACE = "SYMBOL">D</FONT>biom_c_hum (layer) - <FONT FACE = "SYMBOL">D</FONT>biom_c_atm (layer) + <FONT FACE = "SYMBOL">D</FONT>hum_c_biom (layer) + sum_real_array (<FONT FACE = "SYMBOL">D</FONT>fom_c_biom (1, layer), nfract)<br>
+
+biom_n (layer) = divide (biom_c (layer), mcn, 0 . 0)<br>
+
+fom_c = fom_pool (1, layer) + fom_pool (2, layer) + fom_pool (3, layer)<br>
+
+fom_cn = divide (fom_c, fom_n (layer), 0 . 0)<br>
+
+For each fract from 1 to nfract<br>
+
+<blockquote>fom_pool (fract, layer) = fom_pool (fract, layer) - <FONT FACE = "SYMBOL">D</FONT>fom_c_hum (fract, layer) - <FONT FACE = "SYMBOL">D</FONT>fom_c_biom (fract, layer) - <FONT FACE = "SYMBOL">D</FONT>fom_c_atm (fract, layer)<br>
+
+</blockquote>next<br>
+
+fom_c = fom_pool (1, layer) + fom_pool (2, layer) + fom_pool (3, layer)<br>
+
+fom_n (layer) = divide (fom_c, fom_cn, 0 . 0)<br>
+
+nh4 (layer) = nh4 (layer) + <FONT FACE = "SYMBOL">D</FONT>hum_n_min (layer) + <FONT FACE = "SYMBOL">D</FONT>biom_n_min (layer) + <FONT FACE = "SYMBOL">D</FONT>fom_n_min (layer)<br>
+
+if (nh4 (layer).&lt;.nh4_min (layer)) then<br>
+
+<blockquote>excess_nh4 = nh4_min (layer) - nh4 (layer)<br>
+
+nh4 (layer) = nh4_min (layer)<br>
+
+</blockquote>else<br>
+
+<blockquote>excess_nh4 = 0 . 0<br>
+
+</blockquote>endif<br>
+
+no3 (layer) = no3 (layer) - excess_nh4<br>
+
+no3 (layer) = l_bound (no3 (layer), no3_min (layer))<br>
+
+<A HREF = "#soiln2_nitrification"> Calculate nitrification of NH4 in layer </A><br>
+
+no3 (layer) = no3 (layer) + dlt_rntrf<br>
+
+nh4 (layer) = nh4 (layer) - dlt_rntrf<br>
+
+Check that no3 (layer) lies between no3_min (layer) and 9000 . 0<br>
+
+Check that nh4 (layer) lies between nh4_min (layer) and 9000 . 0<br>
+
+Check that urea (layer) lies between 0 . 0 and 9000 . 0<br>
+
+nh4_transform_net (layer) = <FONT FACE = "SYMBOL">D</FONT>res_nh4_min (layer) + <FONT FACE = "SYMBOL">D</FONT>fom_n_min (layer) + <FONT FACE = "SYMBOL">D</FONT>biom_n_min (layer) + <FONT FACE = "SYMBOL">D</FONT>hum_n_min (layer) - dlt_rntrf + dlt_urea_hydrol + excess_nh4<br>
+
+no3_transform_net (layer) = <FONT FACE = "SYMBOL">D</FONT>res_no3_min (layer) - <FONT FACE = "SYMBOL">D</FONT>no3_dnit (layer) + dlt_rntrf - excess_nh4<br>
+
+<FONT FACE = "SYMBOL">D</FONT>rntrf (layer) = dlt_rntrf<br>
+
+<FONT FACE = "SYMBOL">D</FONT>urea_hydrol (layer) = dlt_urea_hydrol<br>
+
+excess_nh4 (layer) = excess_nh4<br>
+
+<FONT FACE = "SYMBOL">D</FONT>nh4_net (layer) = nh4 (layer) - nh4_yesterday (layer)<br>
+
+<FONT FACE = "SYMBOL">D</FONT>no3_net (layer) = no3 (layer) - no3_yesterday (layer)<br>
+
+nh4_yesterday (layer) = nh4 (layer)<br>
+
+no3_yesterday (layer) = no3 (layer)<br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_soil_temp">  </A>
+<H2>Soiln2 Soil Temp</H2>
+<br>
+<H3><CENTER>Calculates average soil temperature at the centre of each layer based on the soil temperature model of EPIC (Williams et al 1984)   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (use_external_st) then<br>
+
+<blockquote>soil_temp = 0 . 0<br>
+
+Get soil_temp from the system (Lower Bound = - 20 . 0, Upper Bound = 80 . 0)<br>
+
+</blockquote>else<br>
+
+<blockquote>if (latitude.&gt;=.0) then<br>
+
+<blockquote>alx = ang * (offset_day_of_year (year, day_of_year, int (- nth_hot)))<br>
+
+</blockquote>else<br>
+
+<blockquote>alx = ang * (offset_day_of_year (year, day_of_year, int (- sth_hot)))<br>
+
+</blockquote>endif<br>
+
+Check that alx lies between 0 . 0 and 6 . 31<br>
+
+dlt_temp = <A HREF = "#soiln2_soiltemp_dt"> Rate of change in soil surface temperature with time </A><br>
+
+damp = <A HREF = "#soiln2_soiltemp_dampdepth"> Temperature damping depth </A><br>
+
+cum_depth = 0 . 0<br>
+
+Fill soil_temp with 0 . 0<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>cum_depth = cum_depth + dlayer (layer)<br>
+
+depth_lag = divide (cum_depth, damp, 0 . 0)<br>
+
+soil_temp<I><SUB> layer</SUB></I> = <A HREF = "#soiln2_layer_temp"> Soil temperature using depth_lag, alx, dlt_temp </A><br>
+
+Check that soil_temp<I><SUB> layer</SUB></I> lies between - 20 . 0 and 80 . 0<br>
+
+</blockquote>next<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_soiltemp_dt">  </A>
+<H2>Soiln2 Soiltemp Dt</H2>
+<br>
+<H3><CENTER>Calculates  the rate of change in soil surface temperature with time. jngh 24-12-91.  I think this is actually a correction to adjust today's normal sinusoidal soil surface temperature to the current temperature conditions.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+yesterday = offset_day_of_year (year, day_of_year, - 1)<br>
+
+ave_temp = (maxt+mint) * 0 . 5<br>
+
+surf_temp (day_of_year) = (1.0-salb) * (ave_temp+(maxt-ave_temp)*sqrt (radn * 23 . 8846 / 800 . 0)) + salb * surf_temp (yesterday)<br>
+
+For each day from 1 to ndays<br>
+
+<blockquote>day_of_year = offset_day_of_year (year, day_of_year, 1 - day)<br>
+
+temp_0<I><SUB> day</SUB></I> = surf_temp (day_of_year)<br>
+
+</blockquote>next<br>
+
+ave_temp_0 = divide (sum_real_array (temp_0, ndays), real (ndays), 0 . 0)<br>
+
+temp_a = <A HREF = "#soiln2_layer_temp"> Soil temperature using 0 . 0, alx, 0 . 0 </A><br>
+
+soiln2_soiltemp_dt = ave_temp_0 - temp_a<br>
+
+Check that soiln2_soiltemp_dt lies between - 100 . 0 and 100 . 0<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_layer_temp">  </A>
+<H2>Soiln2 Layer Temp</H2>
+<br>
+<H3><CENTER>Get subsoil temperature.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+soiln2_layer_temp = ave_temp + (amp/2.0*cos (alx - depth_lag)+dlt_temp) * <I><BIG>e</BIG></I><SUP>- depth_lag</SUP><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_soiltemp_dampdepth">  </A>
+<H2>Soiln2 Soiltemp Dampdepth</H2>
+<br>
+<H3><CENTER>Now get the temperature damping depth. This is a function of the average bulk density of the soil and the amount of water above the lower limit. I think the damping depth units are mm depth/radian of a g_year   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+bd_tot = sum_products_real_array (bd, dlayer, num_layers)<br>
+
+cum_depth = sum_real_array (dlayer, num_layers)<br>
+
+ave_bd = divide (bd_tot, cum_depth, 0 . 0)<br>
+
+favbd = divide (ave_bd, (ave_bd+686.0*<I><BIG>e</BIG></I><SUP>- 5 . 63 * ave_bd</SUP>), 0 . 0)<br>
+
+damp_depth_max = 1000 . 0 + 2500 . 0 * favbd<br>
+
+damp_depth_max = l_bound (damp_depth_max, 0 . 0)<br>
+
+ww = 0 . 356 - 0 . 144 * ave_bd<br>
+
+ww = l_bound (ww, 0 . 0)<br>
+
+ll_tot = sum_real_array (ll15<SUB>(in mm)</SUB>, num_layers)<br>
+
+sw_dep_tot = sum_real_array (sw<SUB>(in mm)</SUB>, num_layers)<br>
+
+sw_avail_tot = sw_dep_tot - ll_tot<br>
+
+sw_avail_tot = l_bound (sw_avail_tot, sw_avail_tot_min)<br>
+
+wc = divide (sw_avail_tot, (ww*cum_depth), 1 . 0)<br>
+
+wc = bound (wc, 0 . 0, 1 . 0)<br>
+
+wcf = (1.0-wc) / (1.0+wc)<br>
+
+b = <I>log</I><SUB>e</SUB>(divide (500 . 0, damp_depth_max, 1 . 0e10))<br>
+
+f = <I><BIG>e</BIG></I><SUP>b * wcf * * 2</SUP><br>
+
+soiln2_soiltemp_dampdepth = f * damp_depth_max<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_min_residues">  </A>
+<H2>Soiln2 Min Residues</H2>
+<br>
+<H3><CENTER>Test to see whether adequate mineral nitrogen is available to sustain potential rate of decomposition of surface residues and calculate net rate of nitrogen mineralization/immobilization   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+nlayrs = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+min_layer = find_layer_no (min_depth, dlayer, nlayrs)<br>
+
+if (min_layer.=.1) then<br>
+
+<blockquote>min_layer_top = 0 . 0<br>
+
+</blockquote>else<br>
+
+<blockquote>min_layer_top = sum_real_array (dlayer, min_layer - 1)<br>
+
+</blockquote>endif<br>
+
+nit_tot = 0 . 0<br>
+
+For each layer from 1 to min_layer<br>
+
+<blockquote>avail_no3<I><SUB> layer</SUB></I> = (no3 (layer)-no3_min (layer))<br>
+
+avail_no3<I><SUB> layer</SUB></I> = l_bound (avail_no3<I><SUB> layer</SUB></I>, 0 . 0)<br>
+
+avail_nh4<I><SUB> layer</SUB></I> = (nh4 (layer)-nh4_min (layer))<br>
+
+avail_nh4<I><SUB> layer</SUB></I> = l_bound (avail_nh4<I><SUB> layer</SUB></I>, 0 . 0)<br>
+
+if (layer.=.min_layer) then<br>
+
+<blockquote>fraction<I><SUB> layer</SUB></I> = divide (min_depth - min_layer_top, dlayer (layer), 0 . 0)<br>
+
+fraction<I><SUB> layer</SUB></I> = bound (fraction<I><SUB> layer</SUB></I>, 0 . 0, 1 . 0)<br>
+
+</blockquote>else<br>
+
+<blockquote>fraction<I><SUB> layer</SUB></I> = 1 . 0<br>
+
+</blockquote>endif<br>
+
+avail_no3<I><SUB> layer</SUB></I> = avail_no3<I><SUB> layer</SUB></I> * fraction<I><SUB> layer</SUB></I><br>
+
+avail_nh4<I><SUB> layer</SUB></I> = avail_nh4<I><SUB> layer</SUB></I> * fraction<I><SUB> layer</SUB></I><br>
+
+nit_tot = nit_tot + avail_no3<I><SUB> layer</SUB></I> + avail_nh4<I><SUB> layer</SUB></I><br>
+
+</blockquote>next<br>
+
+dlt_c_biom_tot<I><SUB> :</SUB></I> = pot_c_decomp (:) * ef_res * fr_res_biom<br>
+
+dlt_c_hum_tot<I><SUB> :</SUB></I> = pot_c_decomp (:) * ef_res * (1.0-fr_res_biom)<br>
+
+n_demand = divide (sum (dlt_c_biom_tot<I><SUB> :</SUB></I>), mcn, 0 . 0) + divide (sum (dlt_c_hum_tot<I><SUB> :</SUB></I>), soil_cn, 0 . 0)<br>
+
+n_avail = nit_tot + sum (pot_n_decomp (:))<br>
+
+if (n_demand.&gt;.n_avail) then<br>
+
+<blockquote>scale_of = divide (nit_tot, (n_demand-sum (pot_n_decomp (:))), 0 . 0)<br>
+
+scale_of = bound (scale_of, 0 . 0, 1 . 0)<br>
+
+</blockquote>else<br>
+
+<blockquote>scale_of = 1 . 0<br>
+
+</blockquote>endif<br>
+
+For each = from , to<br>
+
+<blockquote>part_fraction = dlayer (layer) * fraction<I><SUB> layer</SUB></I> / min_depth<br>
+
+For each = from , to<br>
+
+<blockquote>dlt_c_decomp<I><SUB> layer, residue</SUB></I> = pot_c_decomp (residue) * scale_of * part_fraction<br>
+
+dlt_n_decomp<I><SUB> layer, residue</SUB></I> = pot_n_decomp (residue) * scale_of * part_fraction<br>
+
+dlt_c_hum<I><SUB> layer, residue</SUB></I> = dlt_c_hum_tot<I><SUB> residue</SUB></I> * scale_of * part_fraction<br>
+
+dlt_c_biom<I><SUB> layer, residue</SUB></I> = dlt_c_biom_tot<I><SUB> residue</SUB></I> * scale_of * part_fraction<br>
+
+dlt_c_atm<I><SUB> layer, residue</SUB></I> = dlt_c_decomp<I><SUB> layer, residue</SUB></I> - dlt_c_hum<I><SUB> layer, residue</SUB></I> - dlt_c_biom<I><SUB> layer, residue</SUB></I><br>
+
+end do<br>
+
+end do<br>
+
+dlt_nh4_min = 0 . 0<br>
+
+dlt_n_min = sum (dlt_n_decomp<I><SUB> :, :</SUB></I>) - n_demand * scale_of<br>
+
+if (dlt_n_min.&gt;.0.0) then<br>
+
+<blockquote>For each = from , to<br>
+
+<blockquote>part_fraction = dlayer (layer) * fraction<I><SUB> layer</SUB></I> / min_depth<br>
+
+dlt_nh4_min<I><SUB> layer</SUB></I> = dlt_n_min * part_fraction<br>
+
+end do<br>
+
+</blockquote>else if (dlt_n_min.&lt;.0.0) then<br>
+
+<blockquote>For each layer from 1 to min_layer<br>
+
+<blockquote>dlt_nh4_min<I><SUB> layer</SUB></I> = - minimum of (avail_nh4<I><SUB> layer</SUB></I>, abs (dlt_n_min))<br>
+
+dlt_n_min = dlt_n_min - dlt_nh4_min<I><SUB> layer</SUB></I><br>
+
+</blockquote>next<br>
+
+For each layer from 1 to min_layer<br>
+
+<blockquote>dlt_no3_min<I><SUB> layer</SUB></I> = - minimum of (avail_no3<I><SUB> layer</SUB></I>, abs (dlt_n_min))<br>
+
+dlt_n_min = dlt_n_min - dlt_no3_min<I><SUB> layer</SUB></I><br>
+
+</blockquote>next<br>
+
+Check that dlt_n_min lies between - 0 . 001 and 0 . 001<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+<br>
+
+</blockquote></blockquote></blockquote></blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_urea_hydrolysis">  </A>
+<H2>Soiln2 Urea Hydrolysis</H2>
+<br>
+<H3><CENTER>Hydrolyse g_urea. NOTE - not tested as not in old code - from CM V2.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (urea (layer).&gt;.0.0) then<br>
+
+<blockquote>if (urea (layer).&lt;.0.1) then<br>
+
+<blockquote>dlt_urea_hydrol = urea (layer)<br>
+
+</blockquote>else<br>
+
+<blockquote>swf = <A HREF = "#soiln2_wf"> Water factor for mineralisation in layer </A> + 0 . 20<br>
+
+swf = bound (swf, 0 . 0, 1 . 0)<br>
+
+tf = (soil_temp (layer)/40.0) + 0 . 20<br>
+
+tf = bound (tf, 0 . 0, 1 . 0)<br>
+
+ak = - 1 . 12 + 1 . 31 * oc (layer) + 0 . 203 * ph (layer) - 0 . 155 * oc (layer) * ph (layer)<br>
+
+ak = bound (ak, 0 . 25, 1 . 0)<br>
+
+dlt_urea_hydrol = ak * urea (layer) * minimum of (swf, tf)<br>
+
+dlt_urea_hydrol = bound (dlt_urea_hydrol, 0 . 0, urea (layer))<br>
+
+</blockquote>endif<br>
+
+</blockquote>else<br>
+
+<blockquote>dlt_urea_hydrol = 0 . 0<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_wf">  </A>
+<H2>Soiln2 Wf</H2>
+<br>
+<H3><CENTER>Calculates a 0-1 water factor for mineralisation.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (sw<SUB>(in mm)</SUB> (layer).&gt;.dul<SUB>(in mm)</SUB> (layer)) then<br>
+
+<blockquote>wfd = 1 . 0 + divide (sw<SUB>(in mm)</SUB> (layer) - dul<SUB>(in mm)</SUB> (layer), sat<SUB>(in mm)</SUB> (layer) - dul<SUB>(in mm)</SUB> (layer), 0 . 0)<br>
+
+wfd = bound (wfd, 1 . 0, 2 . 0)<br>
+
+</blockquote>else<br>
+
+<blockquote>wfd = divide (sw<SUB>(in mm)</SUB> (layer) - ll15<SUB>(in mm)</SUB> (layer), (dul<SUB>(in mm)</SUB> (layer)-ll15<SUB>(in mm)</SUB> (layer)), 0 . 0)<br>
+
+wfd = bound (wfd, 0 . 0, 1 . 0)<br>
+
+</blockquote>endif<br>
+
+soiln2_wf = linear_interp_real (wfd, wf_min_index, wf_min_values, max_wf_values)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_denitrification">  </A>
+<H2>Soiln2 Denitrification</H2>
+<br>
+<H3><CENTER>Calculates denitrification whenever the soil water in the layer > the drained upper limit (Godwin et al., 1984), the NO3 nitrogen concentration > 1 mg N/kg soil, and the soil temperature >= a minimum temperature. NOTE denitrification routine not validated   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (no3 (layer).&gt;=.no3_min (layer)) then<br>
+
+<blockquote>hum_c_conc = hum_c (layer) * <A HREF = "#soiln2_fac"> Conversion factor (kg/ha to ppm) </A><br>
+
+fom_c_conc = sum_real_array (fom_pool (1, layer), nfract) * <A HREF = "#soiln2_fac"> Conversion factor (kg/ha to ppm) </A><br>
+
+active_c = 0 . 0031 * (fom_c_conc+hum_c_conc) + 24 . 5<br>
+
+wf = <A HREF = "#soiln2_wf_denit"> Water factor for denitrification in layer </A><br>
+
+tf = 0 . 1 * <I><BIG>e</BIG></I><SUP>0 . 046 * soil_temp (layer)</SUP><br>
+
+tf = bound (tf, 0 . 0, 1 . 0)<br>
+
+dlt_n_atm = dnit_rate_coeff * active_c * wf * tf * no3 (layer)<br>
+
+no3_avail = no3 (layer) - no3_min (layer)<br>
+
+dlt_n_atm = bound (dlt_n_atm, 0 . 0, no3_avail)<br>
+
+</blockquote>else<br>
+
+<blockquote>dlt_n_atm = 0 . 0<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_wf_denit">  </A>
+<H2>Soiln2 Wf Denit</H2>
+<br>
+<H3><CENTER>Calculates a 0-1 water factor for denitrification   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (sw<SUB>(in mm)</SUB> (layer).&gt;.dul<SUB>(in mm)</SUB> (layer)) then<br>
+
+<blockquote>wfd = divide (sw<SUB>(in mm)</SUB> (layer) - dul<SUB>(in mm)</SUB> (layer), sat<SUB>(in mm)</SUB> (layer) - dul<SUB>(in mm)</SUB> (layer), 0 . 0) * * dnit_wf_power<br>
+
+</blockquote>else<br>
+
+<blockquote>wfd = 0<br>
+
+</blockquote>endif<br>
+
+soiln2_wf_denit = bound (wfd, 0 . 0, 1 . 0)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_min_humic">  </A>
+<H2>Soiln2 Min Humic</H2>
+<br>
+<H3><CENTER>Mineralise some humic material.  Calculates the daily rate of decomposition and net nitrogen mineralisation from the humic pool.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+tf = <A HREF = "#soiln2_tf"> Nitrification and mineralisation soil temperature factor in layer </A><br>
+
+mf = <A HREF = "#soiln2_wf"> Water factor for mineralisation in layer </A><br>
+
+dlt_c_min_tot = (hum_c (layer)-inert_c (layer)) * rd_hum * tf * mf<br>
+
+dlt_n_min_tot = divide (dlt_c_min_tot, soil_cn, 0 . 0)<br>
+
+dlt_c_biom = dlt_c_min_tot * ef_hum<br>
+
+dlt_c_atm = dlt_c_min_tot * (1.0-ef_hum)<br>
+
+dlt_n_min = dlt_n_min_tot - divide (dlt_c_biom, mcn, 0 . 0)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_tf">  </A>
+<H2>Soiln2 Tf</H2>
+<br>
+<H3><CENTER>Calculate a temperature factor, based on the soil temperature of the layer, for nitrification and mineralisation   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+tf = divide (soil_temp (layer) * soil_temp (layer), opt_temp * * 2 . 0, 0 . 0)<br>
+
+tf = bound (tf, 0 . 0, 1 . 0)<br>
+
+soiln2_tf = tf<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_min_biomass">  </A>
+<H2>Soiln2 Min Biomass</H2>
+<br>
+<H3><CENTER>Mineralise some soil biomass material.  Calculates the daily rate of decomposition and net nitrogen mineralisation from the biomass pool   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+tf = <A HREF = "#soiln2_tf"> Nitrification and mineralisation soil temperature factor in layer </A><br>
+
+mf = <A HREF = "#soiln2_wf"> Water factor for mineralisation in layer </A><br>
+
+dlt_n_min_tot = biom_n (layer) * rd_biom * tf * mf<br>
+
+dlt_c_min_tot = dlt_n_min_tot * mcn<br>
+
+dlt_c_hum = dlt_c_min_tot * ef_biom * (1.0-fr_biom_biom)<br>
+
+dlt_c_atm = dlt_c_min_tot * (1.0-ef_biom)<br>
+
+dlt_n_min = dlt_n_min_tot - divide (dlt_c_hum, soil_cn, 0 . 0) - divide ((dlt_c_min_tot-dlt_c_atm-dlt_c_hum), mcn, 0 . 0)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_min_fom">  </A>
+<H2>Soiln2 Min Fom</H2>
+<br>
+<H3><CENTER>Mineralise some fresh organic matter. Calculates the daily rate of decomposition, partitions the carbon in to soil pools and loss to atmosphere, and the net nitrogen mineralisation (negative if N immobilized) from the fresh organic matter pool.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+nit_tot = (no3 (layer)-no3_min (layer)) + (nh4 (layer)-nh4_min (layer))<br>
+
+nit_tot = l_bound (nit_tot, 0 . 0)<br>
+
+fom_c = sum_real_array (fom_pool (1, layer), nfract)<br>
+
+cnr = divide (fom_c, fom_n (layer) + nit_tot, 0 . 0)<br>
+
+cnrf = <I><BIG>e</BIG></I><SUP>- cnrf_coeff * (cnr-cnrf_optcn) / cnrf_optcn</SUP><br>
+
+cnrf = bound (cnrf, 0 . 0, 1 . 0)<br>
+
+tf = <A HREF = "#soiln2_tf"> Nitrification and mineralisation soil temperature factor in layer </A><br>
+
+mf = <A HREF = "#soiln2_wf"> Water factor for mineralisation in layer </A><br>
+
+if (fom_c.&gt;=.fom_min) then<br>
+
+<blockquote>dlt_n_min_tot = 0 . 0<br>
+
+dlt_fom_c_min_tot = 0 . 0<br>
+
+fom_cn = divide (fom_c, fom_n (layer), 0 . 0)<br>
+
+For each fractn from 1 to nfract<br>
+
+<blockquote>drate = rd_fom (fractn) * cnrf * tf * mf<br>
+
+grcm = drate * fom_pool (fractn, layer)<br>
+
+grnm = divide (grcm, fom_cn, 0 . 0)<br>
+
+dlt_n_min_tot = dlt_n_min_tot + grnm<br>
+
+dlt_c_min_tot<I><SUB> fractn</SUB></I> = grcm<br>
+
+dlt_fom_c_min_tot = dlt_fom_c_min_tot + grcm<br>
+
+</blockquote>next<br>
+
+dlt_c_biom_tot = dlt_fom_c_min_tot * ef_fom * fr_fom_biom<br>
+
+dlt_c_hum_tot = dlt_fom_c_min_tot * ef_fom * (1.0-fr_fom_biom)<br>
+
+n_demand = divide (dlt_c_biom_tot, mcn, 0 . 0) + divide (dlt_c_hum_tot, soil_cn, 0 . 0)<br>
+
+n_avail = nit_tot + dlt_n_min_tot<br>
+
+if (n_demand.&gt;.n_avail) then<br>
+
+<blockquote>scale_of = divide (nit_tot, n_demand - dlt_n_min_tot, 0 . 0)<br>
+
+scale_of = bound (scale_of, 0 . 0, 1 . 0)<br>
+
+</blockquote>else<br>
+
+<blockquote>scale_of = 1 . 0<br>
+
+</blockquote>endif<br>
+
+For each fractn from 1 to nfract<br>
+
+<blockquote>dlt_c_hum<I><SUB> fractn</SUB></I> = dlt_c_min_tot<I><SUB> fractn</SUB></I> * ef_fom * (1.0-fr_fom_biom) * scale_of<br>
+
+dlt_c_biom<I><SUB> fractn</SUB></I> = dlt_c_min_tot<I><SUB> fractn</SUB></I> * ef_fom * fr_fom_biom * scale_of<br>
+
+dlt_c_atm<I><SUB> fractn</SUB></I> = dlt_c_min_tot<I><SUB> fractn</SUB></I> * (1.0-ef_fom) * scale_of<br>
+
+</blockquote>next<br>
+
+dlt_n_min = (dlt_n_min_tot-n_demand) * scale_of<br>
+
+</blockquote>else<br>
+
+<blockquote>Fill dlt_c_hum with 0 . 0<br>
+
+Fill dlt_c_biom with 0 . 0<br>
+
+Fill dlt_c_atm with 0 . 0<br>
+
+dlt_n_min = 0 . 0<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_nitrification">  </A>
+<H2>Soiln2 Nitrification</H2>
+<br>
+<H3><CENTER>Calculates nitrification of NH4 in a given soil layer.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+phf = <A HREF = "#soiln2_phf_nitrf"> Calculate pH factor for nitrification </A><br>
+
+wfd = <A HREF = "#soiln2_wf_nitrf"> Water factor for nitrification in layer </A><br>
+
+tf = <A HREF = "#soiln2_tf"> Nitrification and mineralisation soil temperature factor in layer </A><br>
+
+pni = minimum of (wfd, tf, phf)<br>
+
+nh4ppm = nh4 (layer) * <A HREF = "#soiln2_fac"> Conversion factor (kg/ha to ppm) </A><br>
+
+opt_rate_ppm = nitrification_pot * nh4ppm / (nh4ppm+nh4_at_half_pot)<br>
+
+opt_rate = opt_rate_ppm / <A HREF = "#soiln2_fac"> Conversion factor (kg/ha to ppm) </A><br>
+
+dlt_rntrf = pni * opt_rate<br>
+
+nh4_avail = l_bound (nh4 (layer) - nh4_min (layer), 0 . 0)<br>
+
+dlt_rntrf = bound (dlt_rntrf, 0 . 0, nh4_avail)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_phf_nitrf">  </A>
+<H2>Soiln2 Phf Nitrf</H2>
+<br>
+<H3><CENTER>Calculates a 0-1 pH factor for nitrification.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+soiln2_phf_nitrf = linear_interp_real (ph (layer), phf_nit_ph, phf_nit_values, max_phf_values)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_wf_nitrf">  </A>
+<H2>Soiln2 Wf Nitrf</H2>
+<br>
+<H3><CENTER>Calculates a 0-1 water factor for nitrification.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (sw<SUB>(in mm)</SUB> (layer).&gt;.dul<SUB>(in mm)</SUB> (layer)) then<br>
+
+<blockquote>wfd = 1 . 0 + divide (sw<SUB>(in mm)</SUB> (layer) - dul<SUB>(in mm)</SUB> (layer), sat<SUB>(in mm)</SUB> (layer) - dul<SUB>(in mm)</SUB> (layer), 0 . 0)<br>
+
+wfd = bound (wfd, 1 . 0, 2 . 0)<br>
+
+</blockquote>else<br>
+
+<blockquote>wfd = divide (sw<SUB>(in mm)</SUB> (layer) - ll15<SUB>(in mm)</SUB> (layer), (dul<SUB>(in mm)</SUB> (layer)-ll15<SUB>(in mm)</SUB> (layer)), 0 . 0)<br>
+
+wfd = bound (wfd, 0 . 0, 1 . 0)<br>
+
+</blockquote>endif<br>
+
+soiln2_wf_nitrf = linear_interp_real (wfd, wf_nit_index, wf_nit_values, max_wf_values)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_send_nbalance_event">  </A>
+<H2>Soiln2 Send Nbalance Event</H2>
+<br>
+<H3><CENTER>Notify other modules of completion of N balance.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply nh4_transform_net to the messaging system using the name data_nh4_transform_net<br>
+
+Supply no3_transform_net to the messaging system using the name data_no3_transform_net<br>
+
+Supply <FONT FACE = "SYMBOL">D</FONT>nh4_net to the messaging system using the name data<FONT FACE = "SYMBOL">D</FONT>nh4_net<br>
+
+Supply <FONT FACE = "SYMBOL">D</FONT>no3_net to the messaging system using the name data<FONT FACE = "SYMBOL">D</FONT>no3_net<br>
+
+event_send<I><SUB> event_n_balance</SUB></I><br>
+
+<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_send_cbalance_event">  </A>
+<H2>Soiln2 Send Cbalance Event</H2>
+<br>
+<H3><CENTER>Notify other modules of completion of C balance.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote><A HREF = "#from_fom"> c_from_fom </A> = 0 . 0<br>
+
+For each fraction from 1 to nfract<br>
+
+<blockquote><A HREF = "#from_fom"> c_from_fom </A> = <A HREF = "#from_fom"> c_from_fom </A> + <FONT FACE = "SYMBOL">D</FONT>fom_c_biom (fraction, layer) + <FONT FACE = "SYMBOL">D</FONT>fom_c_hum (fraction, layer)<br>
+
+</blockquote>next<br>
+
+<A HREF = "#from_residues"> c_from_residues </A> = 0 . 0<br>
+
+For each residue from 1 to number of residues<br>
+
+<blockquote><A HREF = "#from_residues"> c_from_residues </A> = <A HREF = "#from_residues"> c_from_residues </A> + <FONT FACE = "SYMBOL">D</FONT>res_c_biom (layer, residue) + <FONT FACE = "SYMBOL">D</FONT>res_c_hum (layer, residue)<br>
+
+</blockquote>next<br>
+
+<A HREF = "#to_atmosphere"> c_to_atmosphere </A> = <FONT FACE = "SYMBOL">D</FONT>hum_c_atm (layer) + <FONT FACE = "SYMBOL">D</FONT>biom_c_atm (layer)<br>
+
+dlt_oc<I><SUB> layer</SUB></I> = <A HREF = "#from_fom"> c_from_fom </A> + <A HREF = "#from_residues"> c_from_residues </A> - <A HREF = "#to_atmosphere"> c_to_atmosphere </A><br>
+
+dlt_om<I><SUB> layer</SUB></I> = dlt_oc<I><SUB> layer</SUB></I> * oc2om_factor<br>
+
+</blockquote>next<br>
+
+Supply dlt_oc to the messaging system using the name data<FONT FACE = "SYMBOL">D</FONT>oc<br>
+
+Supply dlt_om to the messaging system using the name data<FONT FACE = "SYMBOL">D</FONT>om<br>
+
+event_send<I><SUB> event_c_balance</SUB></I><br>
+
+<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_set_other_variables">  </A>
+<H2>Soiln2 Set Other Variables</H2>
+<br>
+<H3><CENTER>Update variables owned by other modules.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each = from , to<br>
+
+<blockquote><br>
+
+Supply <FONT FACE = "SYMBOL">D</FONT>res_c_decomp (:, residue) to the messaging system using the name 'dlt_org_c'<br>
+
+Supply <FONT FACE = "SYMBOL">D</FONT>res_n_decomp (:, residue) to the messaging system using the name 'dlt_org_n'<br>
+
+Supply <FONT FACE = "SYMBOL">D</FONT>res_c_hum (:, residue) to the messaging system using the name 'dlt_res_c_hum'<br>
+
+Supply <FONT FACE = "SYMBOL">D</FONT>res_c_biom (:, residue) to the messaging system using the name 'dlt_res_c_biom'<br>
+
+Supply <FONT FACE = "SYMBOL">D</FONT>res_c_atm (:, residue) to the messaging system using the name 'dlt_res_c_atm'<br>
+
+action_send<I><SUB> residue_module (residue), action_do_decompose, ' '</SUB></I><br>
+
+<br>
+
+end do<br>
+
+<br>
+
+</blockquote></blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_incorp_fom">  </A>
+<H2>Soiln2 Incorp Fom</H2>
+<br>
+<H3><CENTER>Add roots into fom pools   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get dlt_fom_type from the message <I>(OPTIONAL)</I><br>
+
+fom_type = find_string_in_array (dlt_fom_type, fom_types, number of fom_types)<br>
+
+if (fom_type.&lt;=.0) then<br>
+
+<blockquote>fom_type = 1<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+Get dlt_fom_incorp from the message (Lower Bound = - 100000 . 0, Upper Bound = 100000 . 0)<br>
+
+Get dlt_fom_n_incorp from the message (Lower Bound = - 10000 . 0, Upper Bound = 10000 . 0)<I>(OPTIONAL)</I><br>
+
+if (numval_n.=.0) then<br>
+
+<blockquote>Get dlt_fom_cnr_incorp from the message (Lower Bound = 0 . 0, Upper Bound = 10000 . 0)<I>(OPTIONAL)</I><br>
+
+For each layer from 1 to numval_cnr<br>
+
+<blockquote>dlt_fom_n_incorp<I><SUB> layer</SUB></I> = divide (dlt_fom_incorp<I><SUB> layer</SUB></I> * c_in_fom, dlt_fom_cnr_incorp<I><SUB> layer</SUB></I>, 0 . 0)<br>
+
+</blockquote>next<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+if (numval_n.=.0.and.numval_cnr.=.0) then<br>
+
+<blockquote>Fill dlt_fom_incorp with 0 . 0<br>
+
+Fill dlt_fom_n_incorp with 0 . 0<br>
+
+err_string = 'fom weight or fom cn ratio not specified.'<br>
+
+Print a warning error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+For each layer from 1 to numvals<br>
+
+<blockquote>fom_n (layer) = fom_n (layer) + dlt_fom_n_incorp<I><SUB> layer</SUB></I><br>
+
+For each fract from 1 to nfract<br>
+
+<blockquote>fom_pool (fract, layer) = fom_pool (fract, layer) + dlt_fom_incorp<I><SUB> layer</SUB></I> * fr_fom (fract, fom_type) * c_in_fom<br>
+
+</blockquote>next<br>
+
+</blockquote>next<br>
+
+<A HREF = "#soiln2_incorp_min_n"> Add mineral N to nitrogen and ammonium pools </A><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_incorp_min_n">  </A>
+<H2>Soiln2 Incorp Min N</H2>
+<br>
+<H3><CENTER>Add mineral N to soil nh4&no3 pools. The mineral N is due to incorporation via tillage  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get dlt_no3_incorp from the message (Lower Bound = - 10000 . 0, Upper Bound = 10000 . 0)<I>(OPTIONAL)</I><br>
+
+Get dlt_nh4_incorp from the message (Lower Bound = - 10000 . 0, Upper Bound = 10000 . 0)<I>(OPTIONAL)</I><br>
+
+if (numval_no3.=.numval_nh4) then<br>
+
+<blockquote>numvals = numval_no3<br>
+
+</blockquote>else if (numval_no3.=.0.or.numval_nh4.=.0) then<br>
+
+<blockquote>numvals = maximum of (numval_no3, numval_nh4)<br>
+
+</blockquote>else<br>
+
+<blockquote>err_string = 'depth of incorp is different for no3 & nh4.'<br>
+
+Print a warning error<br>
+
+numvals = numval_no3<br>
+
+</blockquote>endif<br>
+
+For each layer from 1 to numvals<br>
+
+<blockquote>no3 (layer) = no3 (layer) + dlt_no3_incorp<I><SUB> layer</SUB></I><br>
+
+nh4 (layer) = nh4 (layer) + dlt_nh4_incorp<I><SUB> layer</SUB></I><br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_reset">  </A>
+<H2>Soiln2 Reset</H2>
+<br>
+<H3><CENTER>Initialise SoilN module   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+<A HREF = "#soiln2_zero_variables"> Zero variables </A><br>
+
+<A HREF = "#soiln2_check_data_supply"> Check what variables are being supplied by other modules. </A><br>
+
+<A HREF = "#soiln2_get_site_variables"> Get Site-Specific Variables </A><br>
+
+<A HREF = "#soiln2_get_other_variables"> Get Other Variables </A><br>
+
+<A HREF = "#soiln2_read_constants"> Read Constants from Ini file </A><br>
+
+<A HREF = "#soiln2_read_param"> Read Parameters from par file </A><br>
+
+<A HREF = "#soiln2_init_calc"> Initialize soil nitrogen factors and variables </A><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_zero_variables">  </A>
+<H2>Soiln2 Zero Variables</H2>
+<br>
+<H3><CENTER>Zero soil nitrogen variables   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+amp = 0 . 0<br>
+
+latitude = 0 . 0<br>
+
+salb = 0 . 0<br>
+
+surf_temp = 0 . 0<br>
+
+ave_temp = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>soil_loss = 0 . 0<br>
+
+root_cn = 0 . 0<br>
+
+root_wt = 0 . 0<br>
+
+soil_cn = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>biom_c_atm = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>biom_c_hum = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>biom_n_min = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>c_decomp = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>c_incorp = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>no3_dnit = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>fom_c_atm = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>fom_c_biom = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>fom_c_hum = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>fom_n_min = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>hum_c_atm = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>hum_c_biom = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>hum_n_min = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>n_decomp = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>fom_n_incorp = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>res_c_biom = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>res_c_hum = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>res_c_atm = 0 . 0<br>
+
+pot_c_decomp = 0 . 0<br>
+
+pot_n_decomp = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>res_c_decomp = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>res_n_decomp = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>res_nh4_min = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>res_no3_min = 0 . 0<br>
+
+nh4_transform_net = 0 . 0<br>
+
+no3_transform_net = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>nh4_net = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>rntrf (:) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>urea_hydrol (:) = 0 . 0<br>
+
+excess_nh4 (:) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>no3_net = 0 . 0<br>
+
+fom_min = 0 . 0<br>
+
+no3ppm_min = 0 . 0<br>
+
+nh4ppm_min = 0 . 0<br>
+
+biom_c = 0 . 0<br>
+
+biom_n = 0 . 0<br>
+
+fom_n = 0 . 0<br>
+
+fom_pool = 0 . 0<br>
+
+hum_c = 0 . 0<br>
+
+hum_n = 0 . 0<br>
+
+inert_c = 0 . 0<br>
+
+nh4 = 0 . 0<br>
+
+no3 = 0 . 0<br>
+
+nh4_yesterday (:) = 0 . 0<br>
+
+no3_yesterday (:) = 0 . 0<br>
+
+urea = 0 . 0<br>
+
+number of residues = 0<br>
+
+fr_biom_c = 0 . 0<br>
+
+fr_inert_c = 0 . 0<br>
+
+oc = 0 . 0<br>
+
+ph = 0 . 0<br>
+
+no3_min = 0 . 0<br>
+
+nh4_min = 0 . 0<br>
+
+soil_temp = 0 . 0<br>
+
+sw<SUB>(in mm)</SUB> = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>n_sed = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>c_loss_sed = 0 . 0<br>
+
+p_n_reduction = 0<br>
+
+oc2om_factor = 0 . 0<br>
+
+cnrf_coeff = 0 . 0<br>
+
+cnrf_optcn = 0 . 0<br>
+
+fom_min = 0 . 0<br>
+
+fr_fom = 0 . 0<br>
+
+nh4ppm_min = 0 . 0<br>
+
+no3ppm_min = 0 . 0<br>
+
+opt_temp = 0 . 0<br>
+
+wf_min_index = 0 . 0<br>
+
+wf_min_values = 0 . 0<br>
+
+wf_nit_index = 0 . 0<br>
+
+wf_nit_values = 0 . 0<br>
+
+enr_a_coeff = 0 . 0<br>
+
+enr_b_coeff = 0 . 0<br>
+
+nitrification_pot = 0 . 0<br>
+
+nh4_at_half_pot = 0 . 0<br>
+
+phf_nit_ph = 0 . 0<br>
+
+phf_nit_values = 0 . 0<br>
+
+dnit_rate_coeff = 0 . 0<br>
+
+dnit_wf_power = 0 . 0<br>
+
+number of fom_types = 0<br>
+
+ef_biom = 0 . 0<br>
+
+ef_fom = 0 . 0<br>
+
+ef_hum = 0 . 0<br>
+
+ef_res = 0 . 0<br>
+
+fr_biom_biom = 0 . 0<br>
+
+fr_fom_biom = 0 . 0<br>
+
+fr_res_biom = 0 . 0<br>
+
+mcn = 0 . 0<br>
+
+min_depth = 0 . 0<br>
+
+rd_biom = 0 . 0<br>
+
+rd_fom = 0 . 0<br>
+
+rd_hum = 0 . 0<br>
+
+residue_module = ' '<br>
+
+residue_types = ' '<br>
+
+fom_types = ' '<br>
+
+use_external_st = . true .<br>
+
+use_external_ph = . false .<br>
+
+use_external_tav_amp = . false .<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_check_data_supply">  </A>
+<H2>Soiln2 Check Data Supply</H2>
+<br>
+<H3><CENTER>Check what variables are being supplied by other modules.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get temp_var from the system (Lower Bound = - 20 . 0, Upper Bound = 80 . 0)<I>(OPTIONAL)</I><br>
+
+if (numvals . &gt; . 0 . 0) then<br>
+
+use_external_st = . true .<br>
+
+</blockquote>else<br>
+
+<blockquote>use_external_st = . false .<br>
+
+</blockquote>endif<br>
+
+Get temp_var from the system (Lower Bound = 3 . 5, Upper Bound = 9 . 0)<I>(OPTIONAL)</I><br>
+
+if (numvals . &gt; . 0 . 0) then<br>
+
+use_external_ph = . true .<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_get_site_variables">  </A>
+<H2>Soiln2 Get Site Variables</H2>
+<br>
+<H3><CENTER>Get the values of site-specific variables from other modules   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get latitude from the system (Lower Bound = - 60 . 0, Upper Bound = 60 . 0)<br>
+
+Get salb from the system (Lower Bound = 0 . 00001, Upper Bound = 1 . 0)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_read_constants">  </A>
+<H2>Soiln2 Read Constants</H2>
+<br>
+<H3><CENTER>Read in all parameters from parameter file.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Write a string to a file<br>
+
+Read mcn from file (Lower Bound = 1 . 0, Upper Bound = 50 . 0)<br>
+
+Read ef_fom from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read fr_fom_biom from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read ef_biom from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read fr_biom_biom from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read ef_hum from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read rd_biom from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read rd_hum from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read ef_res from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read fr_res_biom from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read rd_fom (1) from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read rd_fom (2) from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read rd_fom (3) from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read fom_types from file<br>
+
+Read fr_fom (1, :) from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+if (numvals.=/=.number of fom_types) then<br>
+
+<blockquote>string = 'number of "fr_carb" different to "fom_type"'<br>
+
+Report a fatal error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+Read fr_fom (2, :) from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+if (numvals.=/=.number of fom_types) then<br>
+
+<blockquote>string = 'number of "fr_cell" different to "fom_type"'<br>
+
+Report a fatal error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+Read fr_fom (3, :) from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+if (numvals.=/=.number of fom_types) then<br>
+
+<blockquote>string = 'number of "fr_lign" different to "fom_type"'<br>
+
+Report a fatal error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+Read oc2om_factor from file (Lower Bound = 0 . 0, Upper Bound = 3 . 0)<br>
+
+Read fom_min from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read no3ppm_min from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read nh4ppm_min from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read min_depth from file (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+Read cnrf_coeff from file (Lower Bound = 0 . 0, Upper Bound = 10 . 0)<br>
+
+Read cnrf_optcn from file (Lower Bound = 5 . 0, Upper Bound = 100 . 0)<br>
+
+Read opt_temp from file (Lower Bound = 5 . 0, Upper Bound = 100 . 0)<br>
+
+Read wf_min_index from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+Read wf_min_values from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+Read wf_nit_index from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+Read wf_nit_values from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+Read nitrification_pot from file (Lower Bound = 0 . 0, Upper Bound = 100 . 0)<br>
+
+Read nh4_at_half_pot from file (Lower Bound = 0 . 0, Upper Bound = 200 . 0)<br>
+
+Read phf_nit_ph from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+Read phf_nit_values from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+Read dnit_rate_coeff from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read dnit_wf_power from file (Lower Bound = 0 . 0, Upper Bound = 5 . 0)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_read_param">  </A>
+<H2>Soiln2 Read Param</H2>
+<br>
+<H3><CENTER>Read in all parameters from parameter file.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Write a string to a file<br>
+
+if (.not.use_external_st) then<br>
+
+<blockquote>Get amp from the system (Lower Bound = 0 . 0, Upper Bound = 50 . 0)<I>(OPTIONAL)</I><br>
+
+if (numvals.=/=.1) then<br>
+
+<blockquote>use_external_tav_amp = . false .<br>
+
+Read amp from file (Lower Bound = 0 . 0, Upper Bound = 50 . 0)<br>
+
+</blockquote>else<br>
+
+<blockquote>use_external_tav_amp = . true .<br>
+
+</blockquote>endif<br>
+
+Get ave_temp from the system (Lower Bound = 0 . 0, Upper Bound = 50 . 0)<I>(OPTIONAL)</I><br>
+
+if (numvals.=/=.1) then<br>
+
+<blockquote>if (use_external_tav_amp) then<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+Read ave_temp from file (Lower Bound = 0 . 0, Upper Bound = 50 . 0)<br>
+
+</blockquote>else<br>
+
+<blockquote>if (use_external_tav_amp) then<br>
+
+else<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>endif<br>
+
+</blockquote>endif<br>
+
+</blockquote>endif<br>
+
+Read root_cn from file (Lower Bound = 0 . 0, Upper Bound = 500 . 0)<br>
+
+Read root_wt from file (Lower Bound = 0 . 0, Upper Bound = 100000 . 0)<br>
+
+Read soil_cn from file (Lower Bound = 5 . 0, Upper Bound = 30 . 0)<br>
+
+Read oc from file (Lower Bound = numvals, Upper Bound = 0 . 01)<br>
+
+if (.not.use_external_ph) then<br>
+
+<blockquote>Read ph from file (Lower Bound = numvals, Upper Bound = 3 . 5)<br>
+
+</blockquote>endif<br>
+
+Read fr_biom_c from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+Read fr_inert_c from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+Read no3 from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+Read nh4 from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+Read ureappm from file (Lower Bound = numvals, Upper Bound = 0 . 0) <I>(OPTIONAL)</I><br>
+
+Read enr_a_coeff from file (Lower Bound = 1 . 0, Upper Bound = 20 . 0)<br>
+
+Read enr_b_coeff from file (Lower Bound = 0 . 0, Upper Bound = 20 . 0)<br>
+
+Read string from file<br>
+
+if (string<I><SUB> 1 : 2</SUB></I>.=.'on') then<br>
+
+<blockquote>p_n_reduction = on<br>
+
+</blockquote>else<br>
+
+<blockquote>p_n_reduction = off<br>
+
+</blockquote>endif<br>
+
+For each layer from 1 to maximum number of layers<br>
+
+<blockquote>nh4 (layer) = divide (nh4<I><SUB> layer</SUB></I>, <A HREF = "#soiln2_fac"> Conversion factor (kg/ha to ppm) </A>, 0 . 0)<br>
+
+no3 (layer) = divide (no3<I><SUB> layer</SUB></I>, <A HREF = "#soiln2_fac"> Conversion factor (kg/ha to ppm) </A>, 0 . 0)<br>
+
+urea (layer) = divide (ureappm<I><SUB> layer</SUB></I>, <A HREF = "#soiln2_fac"> Conversion factor (kg/ha to ppm) </A>, 0 . 0)<br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_init_calc">  </A>
+<H2>Soiln2 Init Calc</H2>
+<br>
+<H3><CENTER>Initialize soil nitrogen factors and variables   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+ave_temp = (maxt+mint) * 0 . 5<br>
+
+Fill surf_temp with ave_temp<br>
+
+<A HREF = "#soiln2_soil_temp"> Calculate soil temperature </A><br>
+
+Fill root_distrib with 0 . 0<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+depth_max = sum_real_array (dlayer, num_layers)<br>
+
+cum_depth = 0 . 0<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>cum_depth = cum_depth + dlayer (layer)<br>
+
+root_distrib<I><SUB> layer</SUB></I> = <I><BIG>e</BIG></I><SUP>- 3 . 0 * cum_depth / depth_max</SUP><br>
+
+</blockquote>next<br>
+
+root_distrib_tot = sum_real_array (root_distrib, num_layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>nh4_min (layer) = divide (nh4ppm_min, <A HREF = "#soiln2_fac"> Conversion factor (kg/ha to ppm) </A>, 0 . 0)<br>
+
+no3_min (layer) = divide (no3ppm_min, <A HREF = "#soiln2_fac"> Conversion factor (kg/ha to ppm) </A>, 0 . 0)<br>
+
+if (no3 (layer).&lt;.no3_min (layer)) then<br>
+
+<blockquote>Print a warning error<br>
+
+no3 (layer) = no3_min (layer)<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+if (nh4 (layer).&lt;.nh4_min (layer)) then<br>
+
+<blockquote>Print a warning error<br>
+
+nh4 (layer) = nh4_min (layer)<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+oc_ppm = oc (layer) * pcnt2fract * ppm<br>
+
+carbon_tot = divide (oc_ppm, <A HREF = "#soiln2_fac"> Conversion factor (kg/ha to ppm) </A>, 0 . 0)<br>
+
+inert_c (layer) = fr_inert_c (layer) * carbon_tot<br>
+
+biom_c (layer) = divide ((carbon_tot-inert_c (layer)) * fr_biom_c (layer), (1.0+fr_biom_c (layer)), 0 . 0)<br>
+
+biom_n (layer) = divide (biom_c (layer), mcn, 0 . 0)<br>
+
+hum_c (layer) = carbon_tot - biom_c (layer)<br>
+
+hum_n (layer) = divide (hum_c (layer), soil_cn, 0 . 0)<br>
+
+fom = divide (root_wt * root_distrib<I><SUB> layer</SUB></I>, root_distrib_tot, 0 . 0)<br>
+
+fom_pool (1, layer) = fom * fr_fom (1, 1) * c_in_fom<br>
+
+fom_pool (2, layer) = fom * fr_fom (2, 1) * c_in_fom<br>
+
+fom_pool (3, layer) = fom * fr_fom (3, 1) * c_in_fom<br>
+
+fom_n (layer) = divide (fom * c_in_fom, root_cn, 0 . 0)<br>
+
+no3_yesterday (layer) = no3 (layer)<br>
+
+nh4_yesterday (layer) = nh4 (layer)<br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_sum_report">  </A>
+<H2>Soiln2 Sum Report</H2>
+<br>
+<H3><CENTER>Report SoilN Module Status   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Write a string to a file<br>
+
+if (use_external_st) then<br>
+
+<blockquote>string = '      soil temperature supplied externally'<br>
+
+Write a string to a file<br>
+
+</blockquote>endif<br>
+
+if (use_external_tav_amp) then<br>
+
+<blockquote>string = '      tav and amp supplied externally'<br>
+
+Write a string to a file<br>
+
+</blockquote>endif<br>
+
+if (use_external_ph) then<br>
+
+<blockquote>string = '      soil ph supplied externally'<br>
+
+Write a string to a file<br>
+
+</blockquote>endif<br>
+
+Write a string to a file<br>
+
+string = '                 soil profile properties'<br>
+
+Write a string to a file<br>
+
+string = '     ------------------------------------------------'<br>
+
+Write a string to a file<br>
+
+string = '      layer    ph    oc     no3     nh4    urea'<br>
+
+Write a string to a file<br>
+
+string = ' (% ) (kg/ha) (kg/ha) (kg/ha))<br>
+
+Write a string to a file<br>
+
+string = '     ------------------------------------------------'<br>
+
+Write a string to a file<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>write (to string)  layer , ph (layer) , oc (layer) , no3 (layer) , nh4 (layer) , urea (layer)<br>
+
+Write a string to a file<br>
+
+</blockquote>next<br>
+
+string = '     ------------------------------------------------'<br>
+
+Write a string to a file<br>
+
+write (to string)  sum_real_array (no3, maximum number of layers) , sum_real_array (nh4, maximum number of layers) , sum_real_array (urea, maximum number of layers)<br>
+
+Write a string to a file<br>
+
+string = '     ------------------------------------------------'<br>
+
+Write a string to a file<br>
+
+Write a string to a file<br>
+
+Write a string to a file<br>
+
+string = '             initial soil organic matter status'<br>
+
+Write a string to a file<br>
+
+string = '     ---------------------------------------------------------'<br>
+
+Write a string to a file<br>
+
+string = '      layer      hum-c   hum-n  biom-c  biom-n   fom-c   fom-n'<br>
+
+Write a string to a file<br>
+
+string = ' (kg / ha ) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha))<br>
+
+Write a string to a file<br>
+
+string = '     ---------------------------------------------------------'<br>
+
+Write a string to a file<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>write (to string)  layer , hum_c (layer) , hum_n (layer) , biom_c (layer) , biom_n (layer) , sum_real_array (fom_pool (1, layer), nfract) , fom_n (layer)<br>
+
+Write a string to a file<br>
+
+</blockquote>next<br>
+
+string = '     ---------------------------------------------------------'<br>
+
+Write a string to a file<br>
+
+total_fom_c = 0 . 0<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>total_fom_c = total_fom_c + sum_real_array (fom_pool (1, layer), nfract)<br>
+
+</blockquote>next<br>
+
+write (to string)  sum_real_array (hum_c, maximum number of layers) , sum_real_array (hum_n, maximum number of layers) , sum_real_array (biom_c, maximum number of layers) , sum_real_array (biom_n, maximum number of layers) , total_fom_c , sum_real_array (fom_n, maximum number of layers)<br>
+
+Write a string to a file<br>
+
+string = '     ---------------------------------------------------------'<br>
+
+Write a string to a file<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_notification">  </A>
+<H2>Soiln2 Notification</H2>
+<br>
+<H3><CENTER>Notify all interested modules about this module's ownership of solute information.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+<br>
+
+solute_names<I><SUB> 1</SUB></I> = 'no3'<br>
+
+solute_names<I><SUB> 2</SUB></I> = 'nh4'<br>
+
+solute_names<I><SUB> 3</SUB></I> = 'urea'<br>
+
+solute_names<I><SUB> 4</SUB></I> = 'org_c_pool1'<br>
+
+solute_names<I><SUB> 5</SUB></I> = 'org_c_pool2'<br>
+
+solute_names<I><SUB> 6</SUB></I> = 'org_c_pool3'<br>
+
+solute_names<I><SUB> 7</SUB></I> = 'org_n'<br>
+
+Supply solute_names to the messaging system using the name data_new_solute_names<br>
+
+event_send<I><SUB> event_new_solute</SUB></I><br>
+
+<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiln2_zero_all_globals">  </A>
+<H2>Soiln2 Zero All Globals</H2>
+<br>
+<H3><CENTER>Zero all global variables & arrays  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+number of fom_types = 0<br>
+
+amp = 0 . 0<br>
+
+latitude = 0 . 0<br>
+
+maxt = 0 . 0<br>
+
+mint = 0 . 0<br>
+
+radn = 0 . 0<br>
+
+salb = 0 . 0<br>
+
+surf_temp (:) = 0 . 0<br>
+
+ave_temp = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>soil_loss = 0 . 0<br>
+
+day_of_year = 0<br>
+
+year = 0<br>
+
+root_cn = 0 . 0<br>
+
+root_wt = 0 . 0<br>
+
+soil_cn = 0 . 0<br>
+
+biom_c (:) = 0 . 0<br>
+
+biom_n (:) = 0 . 0<br>
+
+fom_n (:) = 0 . 0<br>
+
+fom_pool (:, :) = 0 . 0<br>
+
+hum_c (:) = 0 . 0<br>
+
+hum_n (:) = 0 . 0<br>
+
+inert_c (:) = 0 . 0<br>
+
+nh4 (:) = 0 . 0<br>
+
+no3 (:) = 0 . 0<br>
+
+nh4_yesterday (:) = 0 . 0<br>
+
+no3_yesterday (:) = 0 . 0<br>
+
+urea (:) = 0 . 0<br>
+
+number of residues = 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>biom_c_atm (:) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>biom_c_hum (:) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>biom_n_min (:) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>c_decomp (:, :) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>c_incorp (:) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>no3_dnit (:) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>fom_c_atm (:, :) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>fom_c_biom (:, :) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>fom_c_hum (:, :) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>fom_n_min (:) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>hum_c_atm (:) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>hum_c_biom (:) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>hum_n_min (:) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>n_decomp (:) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>fom_n_incorp (:) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>res_c_atm (:, :) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>res_c_biom (:, :) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>res_c_hum (:, :) = 0 . 0<br>
+
+pot_c_decomp (:) = 0 . 0<br>
+
+pot_n_decomp (:) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>res_c_decomp (:, :) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>res_n_decomp (:, :) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>res_nh4_min (:) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>res_no3_min (:) = 0 . 0<br>
+
+no3_transform_net (:) = 0 . 0<br>
+
+nh4_transform_net (:) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>no3_net (:) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>nh4_net (:) = 0 . 0<br>
+
+bd (:) = 0 . 0<br>
+
+dlayer (:) = 0 . 0<br>
+
+dul<SUB>(in mm)</SUB> (:) = 0 . 0<br>
+
+fr_biom_c (:) = 0 . 0<br>
+
+fr_inert_c (:) = 0 . 0<br>
+
+ll15<SUB>(in mm)</SUB> (:) = 0 . 0<br>
+
+oc (:) = 0 . 0<br>
+
+ph (:) = 0 . 0<br>
+
+sat<SUB>(in mm)</SUB> (:) = 0 . 0<br>
+
+nh4_min (:) = 0 . 0<br>
+
+no3_min (:) = 0 . 0<br>
+
+soil_temp (:) = 0 . 0<br>
+
+sw<SUB>(in mm)</SUB> (:) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>n_sed = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>c_loss_sed = 0 . 0<br>
+
+p_n_reduction = 0<br>
+
+residue_module (:) = blank<br>
+
+residue_types (:) = blank<br>
+
+fom_types (:) = blank<br>
+
+use_external_st = . true .<br>
+
+use_external_tav_amp = . false .<br>
+
+use_external_ph = . false .<br>
+
+<FONT FACE = "SYMBOL">D</FONT>rntrf (:) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>urea_hydrol (:) = 0 . 0<br>
+
+excess_nh4 (:) = 0 . 0<br>
+
+cnrf_coeff = 0 . 0<br>
+
+cnrf_optcn = 0 . 0<br>
+
+fom_min = 0 . 0<br>
+
+fr_fom (:, :) = 0 . 0<br>
+
+oc2om_factor = 0 . 0<br>
+
+opt_temp = 0 . 0<br>
+
+nh4ppm_min = 0 . 0<br>
+
+no3ppm_min = 0 . 0<br>
+
+wf_min_index (:) = 0 . 0<br>
+
+wf_min_values (:) = 0 . 0<br>
+
+wf_nit_index (:) = 0 . 0<br>
+
+wf_nit_values (:) = 0 . 0<br>
+
+enr_a_coeff = 0 . 0<br>
+
+enr_b_coeff = 0 . 0<br>
+
+nitrification_pot = 0 . 0<br>
+
+nh4_at_half_pot = 0 . 0<br>
+
+phf_nit_ph (:) = 0 . 0<br>
+
+phf_nit_values (:) = 0 . 0<br>
+
+dnit_rate_coeff = 0 . 0<br>
+
+dnit_wf_power = 0 . 0<br>
+
+ef_biom = 0 . 0<br>
+
+ef_fom = 0 . 0<br>
+
+ef_hum = 0 . 0<br>
+
+ef_res = 0 . 0<br>
+
+fr_biom_biom = 0 . 0<br>
+
+fr_fom_biom = 0 . 0<br>
+
+fr_res_biom = 0 . 0<br>
+
+mcn = 0 . 0<br>
+
+min_depth = 0 . 0<br>
+
+rd_biom = 0 . 0<br>
+
+rd_fom (:) = 0 . 0<br>
+
+rd_hum = 0 . 0<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<TABLE WIDTH = 100% ALIGN=center BORDER=1><CAPTION><H1><A NAME = "standard.soiln2.constants"> Standard Constants </A></H1></CAPTION><TD><B>Parameter</B></TD><TD><B>Description</B></TD><TD><B>Specification</B></TD><TD><B>Usage</B></TD><TR><TD VALIGN=TOP><A NAME = "cnrf_coeff"> cnrf_coeff </A></TD><TD> coeff. to determine the magnitude of C:N effects on decomposition of FOM ()</TD><TD> 0.693   ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "cnrf_optcn"> cnrf_optcn </A></TD><TD> C:N above which decomposition rate of FOM declines ()</TD><TD> 25.0    ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "ef_biom"> ef_biom </A></TD><TD> fraction of biomass C mineralized retained in system (0-1)</TD><TD> 0.4        ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "ef_fom"> ef_fom </A></TD><TD> fraction of FOM C mineralized retained in system (0-1)</TD><TD> 0.4         ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "ef_hum"> ef_hum </A></TD><TD> fraction of humic C mineralized retained in system (0-1)</TD><TD> 0.4         ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "ef_res"> ef_res </A></TD><TD> fraction of residue C mineralized retained in system (0-1)</TD><TD> 0.4         ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "fom_min"> fom_min </A></TD><TD> minimum allowable FOM (kg/ha)</TD><TD> 0.5        ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "fr_biom_biom"> fr_biom_biom </A></TD><TD> fraction of retained biomass C returned to biomass (0-1)</TD><TD> 0.6   ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "fr_fom_biom"> fr_fom_biom </A></TD><TD> fraction of retained FOM C transferred to biomass (0-1)</TD><TD> 0.9    ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "fr_res_biom"> fr_res_biom </A></TD><TD> fraction of retained residue C transferred to biomass (0-1)</TD><TD> 0.9    ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "fom_type"> fom_type </A></TD><TD></TD><TD> default manure ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "fr_carb"> fr_carb </A></TD><TD> carbohydrate fraction of FOM (0-1)</TD><TD> 0.2      0.0      ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "fr_cell"> fr_cell </A></TD><TD> cellulose fraction of FOM (0-1)</TD><TD> 0.7      0.01     ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "fr_lign"> fr_lign </A></TD><TD> lignin fraction of FOM (0-1)</TD><TD> 0.1      0.99     ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "oc2om_factor"> oc2om_factor </A></TD><TD> factor to convert organic carbon to organic matter ()</TD><TD> 1.7   ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "mcn"> mcn </A></TD><TD> C:N ratio of microbes ()</TD><TD> 8.0            ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "opt_temp"> opt_temp </A></TD><TD> Soil temperature above which there is no further effect on mineralisation and nitrification (oC)</TD><TD> 32.0      ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "rd_biom"> rd_biom </A></TD><TD> potential rate of soil biomass mineralization (per day)</TD><TD> 0.0081     ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "rd_carb"> rd_carb </A></TD><TD> maximum rate constant for decomposition of FPool1 (0-1)</TD><TD> 0.2        ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "rd_cell"> rd_cell </A></TD><TD> maximum rate constant for decomposition of FPool2 (0-1)</TD><TD> 0.05       ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "rd_lign"> rd_lign </A></TD><TD> maximum rate constant for decomposition of FPool3 (0-1)</TD><TD> 0.0095     ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "rd_hum"> rd_hum </A></TD><TD> potential rate of humus mineralization (per day)</TD><TD> 0.00015     ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "nh4ppm_min"> nh4ppm_min </A></TD><TD> minimum allowable NH4 (ppm)</TD><TD> 0.0     ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "no3ppm_min"> no3ppm_min </A></TD><TD> minimum allowable NO3 (ppm)</TD><TD> 0.0     ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "min_depth"> min_depth </A></TD><TD> depth of soil from which N can be immobilised by decomposing surface residues (mm) ----------------------------------------------------------------------- Specifying the water factor for Nitrogen Transformations is by referring to water content via an indexing system and linear interpolation between specified coordinates. (see example)  1 |    ------ |   /.     \                In this example .5 |  / .      -               wf_index = 0.0 0.5 1.0 2.0 | /  .        \             wf_values= 0.0 1.0 1.0 0.25 |/   . 0 ----------------------- LL       DUL   SAT =0       =1    =2</TD><TD> 100.     ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "wfmin_index"> wfmin_index </A></TD><TD> index specifying water content for water factor for mineralization</TD><TD> 0.0 0.5 1.0 2.0   ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "wfmin_values"> wfmin_values </A></TD><TD> value of water factor function at given index values(mineralization)</TD><TD> 0.0 1.0 1.0 0.5   ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "wfnit_index"> wfnit_index </A></TD><TD> index specifying water content for water factor for nitrification</TD><TD> 0.0 .25 1.0 2.0   ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "wfnit_values"> wfnit_values </A></TD><TD> value of water factor function at given index values(nitrification) -----------------------------------------------------------------------</TD><TD> 0.0 1.0 1.0 0.0   ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "nitrification_pot"> nitrification_pot </A></TD><TD> Soil Nitrification potential (ug NH4/g soil)</TD><TD> 40.0  (ppm)</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "nh4_at_half_pot"> nh4_at_half_pot </A></TD><TD> NH4 concentration at half potential nitrification (Michaelis-Menton kinetics)</TD><TD> 90  (ppm)</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "phf_nit_ph"> phf_nit_ph </A></TD><TD> pH for specifying factor for nitrification</TD><TD> 4.5 6.0 8.0 9.0  ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "phf_nit_values"> phf_nit_values </A></TD><TD> value of pH factor for nitrification</TD><TD> 0.0 1.0 1.0 0.0  ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "dnit_rate_coeff"> dnit_rate_coeff </A></TD><TD> denitrification rate coefficient (kg soil/mg C per day)</TD><TD> 0.0006  ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "dnit_wf_power"> dnit_wf_power </A></TD><TD> power term for calculation of water factor for denitrification where wf = ((SW-DUL)/(SAT-DUL))^P</TD><TD> 1         ()</TD><TD></TD></TR>
+
+</TABLE>
+<br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<br>
+<A NAME = "Contact Information"> <H2>Contact Information</H2> </A>
+For Further Information Please Contact:
+<p>
+<A HREF = "mailto:Merv.Probert@tag.csiro.au"> Merv Probert - Module Developer </A><br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title></title>
+</head>
+
+<body>
+
+<p><img src="..\..\..\docs\shared\apsimdocumentationbanner.jpg" width="640"
+height="73"></p>
+</body>
+</html>
+Date: 10/01/2001  APseudo Version:  1. 0 Rev.  1<br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 

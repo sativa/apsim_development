@@ -1,0 +1,10 @@
+[Dependencies]
+Dependency = %licensed_source(soi)
+
+[Contents]
+Registrations.f90 = Registrations.f90
+soi.for = soi.for
+
+[APSBuild]
+binary = ..\lib\soi.dll
+compilerfile=release.compile
