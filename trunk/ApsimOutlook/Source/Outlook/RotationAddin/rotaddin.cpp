@@ -249,22 +249,29 @@ bool RotationAddIn::processRotation(TAPSTable& data, TAPSTable& destData)
    typedef map<int, YearValues> Values;
    Values values;
 
+   int firstYear = 0;
+   int lastYear = 10000;
+
    // loop through all data blocks, all records within a datablock
    // and all fields in each record.
    unsigned int numDataBlocks = 0;
    bool ok = true;
    while (ok)
       {
+      int firstDataBlockYear = StrToInt(data.begin()->getFieldValue(yearFieldName).c_str());
+      int lastDataBlockYear = 0;
       for (vector<TAPSRecord>::const_iterator recordI = data.begin();
                                               recordI != data.end();
                                               recordI++)
          {
+         int year = StrToInt(recordI->getFieldValue(yearFieldName).c_str());
+         lastDataBlockYear = max(lastDataBlockYear, year);
+
          for (vector<string>::iterator fieldI = fieldNames.begin();
                                        fieldI != fieldNames.end();
                                        fieldI++)
             {
             string value = recordI->getFieldValue(*fieldI);
-            int year = StrToInt(recordI->getFieldValue(yearFieldName).c_str());
             bool addToRecords = false;
 
             // For crop variables where the crop was sown in the
@@ -284,16 +291,17 @@ bool RotationAddIn::processRotation(TAPSTable& data, TAPSTable& destData)
                }
             }
          }
+
+      firstYear = max(firstYear, firstDataBlockYear);
+      lastYear = min(lastYear, lastDataBlockYear);
+
       numDataBlocks++;
       ok = data.next();
       }
 
    // output a single data block containing all years and all averaged
    // numerical field values.  Only consider years that are covered by
-   // all datablocks.  So discard the first and last numDataBlock-1 years
-   // (remember, each data block is offset by a year)
-   int firstYear = values.begin()->first + numDataBlocks - 1;
-   int lastYear = values.end()->first - numDataBlocks + 1;
+   // all datablocks (remember, each data block is offset by a year).
    destData.beginStoringData();
    destData.clearRecords();
    for (Values::iterator valueI = values.begin();
