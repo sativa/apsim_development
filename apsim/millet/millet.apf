@@ -7,6 +7,7 @@ binary=millet
 [millet]
 compiler_switches = %apsuite\apsim\infra\lf90.fig
 source  = source\millet.for
+source  = source\millet_i.for
 target  = lib\millet.dll
 include = %apsuite\apsim\infra\
 

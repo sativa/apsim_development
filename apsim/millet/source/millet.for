@@ -1,90 +1,800 @@
+
+!  This is an instantiating version of millet.  It is used to allow multiple
+!  instantiations of this module.  One for the main stem and one for each
+!  of the 5 tillers.  It that uses some features of FORTRAN 90 as
+!  opposed to only FORTRAN 77 features.
+!  
+!  Changes include:- 
+!  
+!  *  This APSIM module has been made into a FORTRAN 90 module,
+!     "millet_m".  Named constants and variables can have global scope,
+!     and common blocks are therefore no longer needed.  The
+!     terminating "end" statement that was used to terminate FORTRAN 77
+!     subprograms has now been replaced with "end subroutine" or "end
+!     function" as appropriate.  
+!  
+!  *  Some FORTRAN 90 types have been defined:-
+!     *  constant_t for holding all the constants (ini file parameters held
+!        in FORTRAN variables).  All the c_??? variables common block
+!        variables that used to exist have now been replaced by a member in
+!        this type and their names will not include the leading two characters
+!        "c_".
+!  
+!     *  parameter_t for holding all the other parameters.  All the
+!        p_??? variables common block variables that used to exist have
+!        now been replaced by a member in this type and their names
+!        will not include the leading two characters "p_".
+!     
+!     *  global_t for holding all the variables not local to a
+!        subprogram.  All the g_??? variables common block variables
+!        that used to exist have now been replaced by a member in this
+!        type and their names will not include the leading two
+!        characters "g_".  
+!  
+!     *  millet_t, which contains (pointers to) constant_t, parameter_t and
+!        global_t.
+!  
+!  *  There are only three global variables now:-
+!     *  c, of type constant_t.  (pointer to)
+!     *  p, of type parameter_t.  (pointer to)
+!     *  g, of type global_t.  (pointer to)
+!  
+!  *  In the subprograms, all references to common block variables have
+!     been replaced with references to the corresponding members of c, p,
+!     or g, i.e. a global search and replace has been performed so that all
+!     "c_???" is now c%???, all "p_???" is now "p%???" and all "g_???" is
+!     now "g_???".
+!  
+!  *  The variables 'c', 'g' and 'p' are really only
+!     pointers to constant_t, parameter_t and global_t, not the actual
+!     variables.  When this module is being the main stem, g, c, and p
+!     point to the actual variables for the main stem.  When this module is
+!     being a tiller, g, c, and p point to the actual variables for that
+!     tiller.  
+!  
+!  *  The only public routines that this module has are millet(),
+!     millet_alloc() and millet_free():-
+!     
+!     *  millet() is the normal entry point for the APSIM millet
+!        module.  It first argument, "this" of type millet_t, is new. 
+!        It holds pointers to the actual variables for this module instance. 
+!        
+!        The first thing that millet() does is make assignments to c, p and
+!        g, so that these global variables now point to the actual
+!        variables for this module instance.
+!        
+!        APSIM modules are recursive.  They may be called upon to give the
+!        values of variables even when it is doing is days processing.
+!        Apsim modules that have multiple instantiations are a bit more
+!        recursive than usual.  The main stem may be providing a variable
+!        value for a tiller, for example.  In this environment, global
+!        variables are a bad idea in general.
+!  
+!        The last thing that millet() does is restore its three global
+!        variables to their former values so that if this there are other
+!        calls of millet active, their variables will be restored when this
+!        call of millet() returns.
+!  
+!     *  milet_alloc() is called for each module instantiation of millet
+!        before using it.  It allocates the actual variables for the
+!        module.  It allocates its only parameter "this" and then
+!        allocated the three mebers of "this", "c", P", and "g".  
+!  
+!     *  milet_after() is called for each module instantiation of millet
+!        after using it in order to free th memory allocated by
+!        millet_alloc().  It frees the three members of its only argument,
+!        "this", and then frees "this".
+!  
+!  *  This APSIM millet module is encapsulated in a dll.  In millet_i.for
+!     there are the three dll exported routines, APSIM_millet(),
+!     APSIM_millet_alloc() and APSIM_millet_free().  These are merely
+!     pipelines that do nothing but pass their arguments onto routines that
+!     may not be dll exported, millet(), millet_alloc() and millet_free().
+
+
+
+   ! This is a FORTRAN 90 module.
+      module millet_m
+      implicit none
+      private
+ 
+   ! Only these things can be known outside of the module.
+      public millet_t
+      public millet
+      public millet_alloc
+      public millet_free
+ 
+   ! Constants here are known throughout the module.
+      include 'const.inc'
+
+
+*     ================================================================
+*      millet_array_sizes
+*     ================================================================
+ 
+*   Short description:
+*      array size_of settings
+ 
+*   Changes:
+*      290393 jngh
+ 
+      integer    max_leaf              ! maximum number of plant leaves
+      parameter (max_leaf = 30)
+ 
+      integer    max_layer             ! Maximum number of layers in soil
+      parameter (max_layer = 11)
+ 
+      integer    max_table             ! Maximum size_of of tables
+      parameter (max_table = 10)
+ 
+ 
+*     ================================================================
+*      millet_crop status
+*     ================================================================
+ 
+*   Short description:
+*      crop status names
+ 
+*   Changes:
+*      290393 jngh
+ 
+         ! crop status
+ 
+      character  status_alive*(*)
+      parameter (status_alive = 'alive')
+ 
+      character  status_dead*(*)
+      parameter (status_dead = 'dead')
+ 
+      character  status_out*(*)
+      parameter (status_out = 'out')
+ 
+      character  class_main*(*)
+      parameter (class_main = 'main')
+ 
+      character  class_tiller*(*)
+      parameter (class_tiller = 'tiller')
+ 
+      character  name_main*(*)
+      parameter (name_main = 'millet')
+ 
+*     ================================================================
+*      millet_processes_for_stress
+*     ================================================================
+ 
+*   Short description:
+*      Process names used for stress
+ 
+*   Changes:
+*      290393 jngh
+ 
+      integer    photo                 ! photosynthesis flag
+      parameter (photo = 1)
+ 
+      integer    expansion             ! cell expansion flag
+      parameter (expansion = 2)
+ 
+      integer    pheno                 ! phenological flag
+      parameter (pheno = 3)
+ 
+      integer    grain_conc            ! grain concentration flag
+      parameter (grain_conc = 4)
+ 
+      integer    fixation              ! N fixation flag
+      parameter (fixation = 5)
+ 
+*     ================================================================
+*      millet_ plant parts
+*     ================================================================
+ 
+*   Short description:
+*      plant part names
+ 
+*   Changes:
+*      290393 jngh
+ 
+      integer    root                  ! root
+      parameter (root = 1)
+ 
+      integer    leaf                  ! leaf
+      parameter (leaf = 2)
+ 
+      integer    stem                  ! stem
+      parameter (stem = 3)
+ 
+      integer    tiller                ! tiller
+      parameter (tiller = 4)
+ 
+      integer    flower                ! flower
+      parameter (flower = 5)
+ 
+      integer    grain                 ! grain
+      parameter (grain = 6)
+ 
+      integer    max_part              ! number of plant parts
+      parameter (max_part = 6)
+ 
+*     ================================================================
+*     millet_phenological_names
+*     ================================================================
+ 
+*   Short description:
+*      Define crop phenological stage and phase names
+ 
+*   Changes:
+*      290393 jngh
+ 
+            ! administration
+ 
+      integer    max_stage             ! number of growth stages
+      parameter (max_stage = 12)
+ 
+      integer    now                   ! at this point in time ()
+      parameter (now = max_stage+1)
+ 
+            ! mechanical operations
+ 
+      integer    plant_end              ! plant_end stage
+      parameter (plant_end = 12)
+      integer    fallow                ! fallow phase
+      parameter (fallow = plant_end)
+ 
+      integer    sowing                ! Sowing stage
+      parameter (sowing = 1)
+      integer    sow_to_germ           ! seed sow_to_germ phase
+      parameter (sow_to_germ = sowing)
+ 
+      integer    germ                  ! Germination stage
+      parameter (germ = 2)
+      integer    germ_to_emerg         ! germ_to_emerg elongation phase
+      parameter (germ_to_emerg = germ)
+ 
+      integer    emerg                 ! Emergence stage
+      parameter (emerg = 3)
+      integer    emerg_to_endjuv       ! basic vegetative phase
+      parameter (emerg_to_endjuv = emerg)
+ 
+      integer    endjuv                ! End of emerg_to_endjuv stage
+      parameter (endjuv = 4)
+      integer    endjuv_to_init        ! Photoperiod sensitive phase
+      parameter (endjuv_to_init = endjuv)
+ 
+      integer    floral_init           ! Floral (Tassel) initiation stage
+      parameter (floral_init = 5)
+      integer    init_to_flag          ! flower development phase
+      parameter (init_to_flag = floral_init)
+ 
+      integer    flag_leaf             ! end of leaf appearance stage
+      parameter (flag_leaf = 6)
+      integer    flag_to_flower        ! head (tassel) emergence phase
+      parameter (flag_to_flower = flag_leaf)
+ 
+      integer    flowering             ! flowering (Silking) stage
+      parameter (flowering = 7)
+      integer    flower_to_start_grain ! grain development phase
+      parameter (flower_to_start_grain = flowering)
+ 
+      integer    start_grain_fill      ! start of linear grain filling stage
+      parameter (start_grain_fill = 8)
+      integer    start_to_end_grain    ! linear grain filling phase
+      parameter (start_to_end_grain = start_grain_fill)
+ 
+      integer    end_grain_fill        ! End of linear (effective) grain filling
+                                       ! stage
+      parameter (end_grain_fill = 9)
+      integer    end_grain_to_maturity ! End of effective grain filling
+      parameter (end_grain_to_maturity = end_grain_fill)
+ 
+      integer    maturity              ! physiological maturity (black layer)
+                                       ! stage
+      parameter (maturity = 10)
+      integer    maturity_to_ripe      ! grain dry down phase
+      parameter (maturity_to_ripe = maturity)
+ 
+      integer    harvest_ripe          ! harvest ripe stage
+      parameter (harvest_ripe = 11)
+      integer    ripe_to_harvest       ! harvest ready phase (waiting for
+                                       ! harvest
+      parameter (ripe_to_harvest = harvest_ripe) ! by manager)
+
+
+
+      type constant_t
+         sequence
+         real       a_const             ! leaf area breadth intercept
+         real       a_slope1            ! leaf area breadth slope1
+         real       a_slope2            ! leaf area breadth slope2
+         real       amax                    ! Maximum temperature to flowering
+         real       amin                    ! Base temperature to flowering
+         real       aopt                    ! Optimum temperature to flowering
+         real       aoptr                   ! Optimum rate to flowering
+         real       b_const             ! leaf area skewness intercept
+         real       b_slope1            ! leaf area skewness slope1
+         real       b_slope2            ! leaf area skewness slope2
+         real       barren_crit         ! fraction of maximum grains per plant below which barrenness occurs (0-1)
+         character  crop_type*50        ! crop type
+         real       days_germ_limit     ! maximum days allowed after sowing for germination to take place (days)
+         real       dead_detach_frac(max_part) ! fraction of dead plant parts detaching each day (0-1)
+         real    dlayer_lb              ! lower limit of layer depth (mm)
+         real    dlayer_ub              ! upper limit of layer depth (mm)
+         real       dm_leaf_detach_frac  ! fraction of senesced leaf dry matter detaching from live plant each day (0-1)
+         real       dm_leaf_init        ! leaf growth before emergence (g/plant)
+         real       dm_leaf_sen_frac    ! fraction of senescing leaf dry matter remaining in leaf (0-1)
+         real       dm_root_init        ! root growth before emergence (g/plant)
+         real       dm_root_sen_frac    ! fraction of root dry matter senescing each day (0-1)
+         real       dm_stem_init        ! stem growth before emergence (g/plant)
+         real       dm_tiller_crit      ! critical dry matter required for a new tiller to become independent
+         real    dul_dep_lb             ! lower limit of dul (mm)
+         real    dul_dep_ub             ! upper limit of dul (mm)
+         real       extinction_coef     ! radiation extinction coefficient ()
+         real       extinction_coef_change ! (=X) effect of row spacing on extinction coef i.e. k=exp(X*RS)
+         real       extinction_coef_dead ! radiation extinction coefficient () of dead leaves
+         real frac_flower2grain         ! fraction of dm allocated to flower relative to grain                            
+         real frac_leaf_post_flower     ! fraction of dm allocated to leaves after flowering
+         real frac_leaf_pre_flower      ! fraction of dm allocated to leaves prior to flowering
+         real frac_stem2flower          ! fraction of dm allocated_z to stem that goes to developing head
+         real       frost_kill          ! temperature threshold for leaf death (oC)
+         real       grain_gth_rate_ub             ! upper limit
+         real       grain_N_conc_min    ! minimum nitrogen concentration of grain
+         real grn_water_cont            ! water content of grain g/g
+         real       growth_rate_crit    ! threshold  rate of photosynthesis below which heat stress has no effect (g/plant).  This is also the rate at which the grains/plant is half of the maximum grains.
+         real       growth_rate_min     ! minimum rate of photosynthesis below which there is no grain produced (g/plant)
+         real       head_grain_no_crit  ! grains per plant minimum which all heads are barren
+         real       head_grain_no_max_ub          ! upper limit
+         real       height_max          ! maximum canopy height (mm)
+         real       height_stem_slope   ! rate of height growth (mm/g/stem)
+         real       hi_min              ! minimum harvest index (g grain/ g biomass)
+         real htstress_coeff            ! coeff for conversion of heat stress during flowering to heat stress factor on grain number development.
+         real       imax                    ! Maximum temperature to fl_init
+         real       imin                    ! Base temperature   to fl_init
+         real       initial_root_depth  ! initial depth of roots (mm)
+         real       initial_tpla        ! initial plant leaf area (mm^2)
+         real       iopt                    ! Optimum temperature to fl_init
+         real       ioptr                   ! Optimum rate  to fl_init
+         real       kl_ub               ! upper limit of water uptake factor
+         real       lai_sen_light       ! critical lai above which light
+         real    latitude_lb            ! lower limit of latitude for model(oL)
+         real    latitude_ub            ! upper limit of latitude for model (oL)
+         real       leaf_app_rate1      ! thermal time required to develop a leaf ligule for first leaves (deg day).
+         real       leaf_app_rate2      ! thermal time required to develop a leaf ligule for later leaves (deg day).
+         real       leaf_init_rate      ! growing degree days to initiate each le primordium until fl_initling (deg day)
+         real       leaf_no_at_emerg    ! leaf number at emergence ()
+         real       leaf_no_correction  ! corrects for other growing leaves
+         real       leaf_no_crit        ! critical number of leaves below which portion of the crop may die due to water stress
+         real leaf_no_dead_const        ! dead leaf no intercept
+         real leaf_no_dead_slope        ! dead leaf no slope
+         real leaf_no_dead_slope1       ! dead leaf no slope
+         real leaf_no_dead_slope2       ! dead leaf no slope
+         real       leaf_no_diff        ! GD
+         real       leaf_no_max         ! upper limit of leaf number ()
+         real       leaf_no_min         ! lower limit of leaf number ()
+         real       leaf_no_rate_change ! leaf no at which change from rate1 to rate2 for leaf appearance
+         real       leaf_no_seed        ! number of leaf primordia present in seed
+         real       leaf_size_average   ! average leaf size (mm2)
+         real       leaf_size_endjuv    ! early leaf size (mm2)
+         real leaf_trans_frac           ! fraction of leaf used in translocat to grain
+         real       ll_ub               ! upper limit of lower limit (mm/mm)
+         real       main_stem_coef      ! exponent_of for determining leaf area on main culm
+         real    maxt_lb                ! lower limit of maximum temperature (oC)
+         real    maxt_ub                ! upper limit of maximum temperature (oC)
+         real       minsw               ! lowest acceptable value for ll
+         real    mint_lb                ! lower limit of minimum temperature (oC)
+         real    mint_ub                ! upper limit of minimum temperature (oC)
+         real       N_conc_crit_grain    ! critical N concentration of grain (g N/g biomass)
+         real       N_conc_crit_root     ! critical N concentration of root (g N/g biomass)
+         real       N_conc_max_grain     ! maximum N concentration of grain (g N/g biomass)
+         real       N_conc_max_root      ! maximum N concentration of root (g N/g biomass)
+         real       N_conc_min_grain     ! minimum N concentration of grain (g N/g biomass)
+         real       N_conc_min_root      ! minimum N concentration of root (g N/g biomass)
+         real       N_fact_pheno         ! multipler for N deficit effect on     phenology       
+         real       N_fact_photo         ! multipler for N deficit effect on photosynthesis
+         real       N_fix_rate          ! potential rate of N fixation (g N fixed per g above ground biomass
+         real       N_leaf_init_conc     ! initial leaf N concentration (gN/gdm)
+         real       N_leaf_sen_conc      ! N concentration of senesced leaf (gN/gdm)
+         real       N_root_init_conc     ! initial root N concentration (gN/gdm)
+         real       N_root_sen_conc      ! N concentration of senesced root (gN/gdm)
+         real       N_stem_init_conc     ! initial stem N concentration (gN/gdm)
+         real       NO3_diffn_const     ! time constant for uptake by diffusion (days). H van Keulen & NG Seligman. Purdoe 1987. This is the time it would take to take up by diffusion the current amount of N if it wasn't depleted between time steps
+         real       NO3_lb              ! lower limit of soil NO3 (kg/ha)
+         real       NO3_min_lb          ! lower limit of minimum soil NO3 (kg/ha)
+         real       NO3_min_ub          ! upper limit of minimum soil NO3 (kg/ha)
+         real       NO3_ub              ! upper limit of soil NO3 (kg/ha)
+         integer    num_ave_temp           ! size_of critical temperature table
+         integer    num_factors            ! size_of table
+         integer    num_lai
+         integer    num_lai_ratio             ! number of ratios in table ()
+         integer    num_N_conc_stage     ! no of values in stage table
+         integer    num_row_spacing      ! no of values
+         integer    num_sw_avail_fix
+         integer    num_sw_avail_ratio
+         integer    num_sw_demand_ratio
+         integer    num_sw_ratio
+         integer    num_temp               ! size_of table
+         integer    num_temp_grain         ! size_of table
+         integer    num_temp_other         !
+         integer    num_temp_senescence ! number of temperatures in senescence table
+         integer    num_tiller_no_next  ! number in table ()
+         integer    num_weighted_temp      ! size of table 
+         real partition_rate_leaf       ! rate coefficient of sigmoidal function between leaf partition fraction and internode no**2 (0-1)
+         real       pesw_germ           ! plant extractable soil water in seedling layer inadequate for germination (mm/mm)
+         real       photo_tiller_crit   ! critical daylength (h) to amend c%y_tiller_tt
+         real       photoperiod_base    ! lower threshold of hours of light (hours)
+         real       photoperiod_crit    ! critical threshold of hours of light (hours)
+         real       pp_endjuv_to_init_ub           ! upper limit
+         real    radn_lb                ! lower limit of solar radiation (Mj/M^2)
+         real    radn_ub                ! upper limit of solar radiation (Mj/m^2)
+         real       ratio_root_shoot(max_stage) ! root:shoot ratio of new dm ()
+         real       root_depth_rate(max_stage) ! root growth rate potential (mm depth/day)
+         real       root_extinction        ! extinction coef to distribute roots down profile
+         real       row_spacing_default ! default row spacing for calculating k (m)
+         real       rue(max_stage)      ! radiation use efficiency (g dm/mj)
+         real       seed_wt_min         ! minimum grain weight (g/kernel)
+         real       sen_light_slope     ! slope of linear relationship between lai and light competition factor for determining leaf senesence rate.
+         real       sen_light_time_const ! delay factor for light senescence
+         real       sen_radn_crit       ! radiation level for onset of light senescence
+         real       sen_rate_water      ! slope in linear eqn relating soil water stress during photosynthesis to leaf senesense rate
+         real       sen_threshold       ! supply:demand ratio for onset of water senescence
+         real       sen_water_time_const ! delay factor for water senescence
+         real       sfac_slope          ! soil water stress factor slope
+         real       shoot_lag           ! minimum growing degree days for germination (deg days)
+         real       shoot_rate          ! growing deg day increase with depth for germination (deg day/mm depth)
+         real       sla_max             ! maximum specific leaf area for new leaf area (mm^2/g)
+         real       sla_min             ! minimum specific leaf area for new leaf area (mm^2/g)
+         real       spla_slope          ! regression slope for calculating inflection point for leaf senescence
+         real       stage_code_list(max_stage) ! list of stage numbers
+         character  stage_names(max_stage)*32 ! full names of stages for reporting
+         real stem_trans_frac           ! fraction of stem used in translocat to grain
+         real       svp_fract           ! fraction of distance between svp at min temp and svp at max temp where average svp during transpiration lies. (0-1)
+         real       sw_dep_lb           ! lower limit of soilwater depth (mm)
+         real       sw_dep_ub           ! upper limit of soilwater depth (mm)
+         real       sw_fac_max          ! soil water stress factor maximum
+         real       swdf_grain_min      ! minimum of water stress factor
+         real       swdf_pheno_limit    ! critical cumulative phenology water stress above which the crop fails (unitless)
+         real       swdf_photo_limit    ! critical cumulative photosynthesis water stress above which the crop partly fails (unitless)
+         real       swdf_photo_rate     ! rate of plant reduction with photosynthesis water stress
+         real       temp_fac_min        ! temperature stress factor minimum optimum temp
+         real temp_grain_crit_stress    ! temperature above which heat stress occurs
+         real       tfac_slope          ! temperature stress factor slope
+         character  tiller_appearance*2 ! method of tiller appearance
+         real       tiller_appearance_slope     ! relationship between tiller appearance and plant density
+         real       tiller_coef         ! exponent_of for determining leaf area on each additional tiller
+         integer    tiller_no_pot       ! potential number of tillers ()
+         real       transp_eff_cf       ! transpiration efficiency coefficient to convert vpd to transpiration efficiency (kpa) although this is expressed as a pressure it is really in the form kpa*g carbo per m^2 / g water per m^2 and this can be converted to kpa*g carbo per m^2 / mm water because 1g water = 1 cm^3 water
+         real       tt_emerg_limit      ! maximum degree days allowed for emergence to take place (deg day)
+         real       tt_emerg_to_endjuv_ub         ! upper limit
+         real       tt_flag_to_flower_ub          ! upper limit
+         real       tt_flower_to_maturity_ub      ! upper limit
+         real       tt_flower_to_start_grain_ub   ! upper limit
+         real       tt_maturity_to_ripe_ub        ! upper limit
+         real       twilight            ! twilight in angular distance between sunset and end of twilight - altitude of sun. (deg)
+         real       x0_const            ! largest leaf no intercept
+         real       x0_slope            ! largest leaf no slope
+         real       x_ave_temp(max_table)  ! critical temperatures for photosynthesis (oC)
+         real       x_lai(max_table)     ! LAI for interpolating SLA_max
+         real       x_lai_ratio(max_table)    ! ratio table for critical leaf size below which leaf number is reduced ()
+         real       x_row_spacing(max_table)       ! row spacing for interpolating k (m)
+         real       x_stage_code(max_stage) ! stage table for N concentrations (g N/g biomass)
+         real       x_sw_avail_fix (max_table)
+         real       x_sw_avail_ratio (max_table)
+         real       x_sw_demand_ratio (max_table)
+         real       x_sw_ratio (max_table)
+         real       x_temp(max_table)      ! temperature table for photosynthesis degree days
+         real       x_temp_grain(max_table) ! critical temperatures controlling grain fill rates (oC)
+         real       x_temp_other(max_table) !
+         real       x_temp_senescence(max_table) ! temperature senescence table (oC)
+         real       x_tiller_no_next(max_table) ! tiller table for determining tt for tiller appearance rate ()
+         real       x_weighted_temp(max_table) ! temperature table for poor establishment
+         real       y_extinct_coef(max_table)      ! interpolated k
+         real       y_extinct_coef_dead(max_table) ! interpolated k
+         real       y_grain_rate(max_table) ! Relative grain fill rates for critical temperatures (0-1)
+         real       y_leaf_no_frac(max_table) ! reduction in leaf appearance ()
+         real       y_n_conc_crit_flower(max_stage) ! critical N concentration of flower(g N/g biomass)
+         real       y_n_conc_crit_leaf(max_stage) ! critical N concentration of leaf (g N/g biomass)
+         real       y_n_conc_crit_stem(max_stage) ! critical N concentration of stem (g N/g biomass)
+         real       y_n_conc_max_flower(max_stage) ! maximum N concentration of flower (g N/g biomass)
+         real       y_n_conc_max_leaf(max_stage) ! maximum N concentration of leaf (g N/g biomass)
+         real       y_n_conc_max_stem(max_stage) ! maximum N concentration of stem (g N/g biomass)
+         real       y_n_conc_min_flower(max_stage) ! minimum N concentration of flower (g N/g biomass)
+         real       y_n_conc_min_leaf(max_stage) ! minimum N concentration of leaf (g N/g biomass)
+         real       y_n_conc_min_stem(max_stage) ! minimum N concentration of stem (g N/g biomass)
+         real       y_plant_death(max_table)   ! index of plant death
+         real       y_senescence_fac(max_table)  ! temperature factor senescence table (0-1)
+         real       y_sla_max(max_table) ! interpolated SLA_max (mm2/g)
+         real       y_stress_photo(max_table) ! Factors for critical temperatures (0-1)
+         real       y_sw_fac_root (max_table)
+         real       y_swdef_fix (max_table)
+         real       y_swdef_leaf (max_table)
+         real       y_swdef_pheno (max_table)
+         real       y_tiller_tt(max_table)      ! thermal time for theoretical  tiller appearance rate (oCd) at plant density = 0
+         real       y_tt(max_table)        ! degree days
+         real       y_tt_other(max_table)   !
+         integer year_lb                ! lower limit of year ()
+         integer year_ub                ! upper limit of year ()
+      end type constant_t
+ 
+ 
+      type global_t
+         sequence
+         real       canopy_height       ! canopy height (mm)
+         real       cnd_grain_conc (max_stage) ! cumulative nitrogen stress type 2
+         real       cnd_photo (max_stage)      ! cumulative nitrogen stress type 1
+         real       cover_dead          ! fraction of radiation reaching the canopy that is intercepted by the dead leaves of the dead canopy (0-1)
+         real       cover_green         ! fraction of radiation reaching the canopy that is intercepted by the green leaves of the canopy (0-1)
+         real       cover_green_sum     ! summation of green cover from all modules
+         real       cover_sen           ! fraction of radiation reaching the canopy that is intercepted by the senesced leaves of the canopy (0-1)
+         real       cswd_expansion (max_stage) ! cumulative water stress type 2
+         real       cswd_pheno (max_stage)     ! cumulative water stress type 3
+         real       cswd_photo (max_stage)     ! cumulative water stress type 1
+         character  cultivar*20         ! name of cultivar
+         real       current_stage       ! current phenological stage
+         integer    day_of_year         ! day of year
+         real       daylength_at_emerg  ! daylength at emergence (h)
+         real       days_tot (max_stage) ! duration of each phase (days)
+         real       dlayer (max_layer)    ! thickness of soil layer I (mm)
+         real       dlt_canopy_height   ! change in canopy height (mm)
+         real       dlt_dm              ! the daily biomass production (g/m^2)
+         real       dlt_dm_dead_detached(max_part) ! plant biomass detached from dead plant (g/m^2)
+         real       dlt_dm_detached(max_part) ! plant biomass detached (g/m^2)
+         real       dlt_dm_grain_demand ! grain dm demand (g/m^2)
+         real       dlt_dm_green(max_part) ! plant biomass growth (g/m^2)
+         real       dlt_dm_green_retrans(max_part) ! plant biomass retranslocated (g/m^2)
+         real       dlt_dm_senesced(max_part) ! plant biomass senescence (g/m^2)
+         real       dlt_dm_stress_max   ! maximum daily stress on dm production (0-1)
+         real       dlt_heat_stress_tt  ! change in heat stress accumulation
+         real       dlt_lai             ! actual change in live plant lai
+         real       dlt_lai_pot         ! potential change in live plant lai
+         real       dlt_leaf_no         ! actual fraction of oldest leaf expanded ()
+         real       dlt_leaf_no_dead    ! fraction of oldest green leaf senesced ()
+         real       dlt_leaf_no_pot     ! potential fraction of oldest leaf expanded ()
+         real       dlt_N_dead_detached(max_part) ! actual N loss with detached dead plant (g/m^2)
+         real       dlt_N_detached(max_part) ! actual N loss with detached plant (g/m^2)
+         real       dlt_N_green(max_part) ! actual N uptake into plant (g/m^2)
+         real       dlt_N_retrans(max_part) ! nitrogen retranslocated out from parts to grain (g/m^2)
+         real       dlt_N_senesced(max_part) ! actual N loss with senesced plant (g/m^2)
+         real       dlt_NO3gsm(max_layer) ! actual NO3 uptake from soil (g/m^2)
+         real       dlt_plants          ! change in Plant density (plants/m^2)
+         real       dlt_root_depth      ! increase in root depth (mm)
+         real       dlt_slai            ! area of leaf that senesces from plant
+         real       dlt_slai_detached      ! plant senesced lai detached
+         real       dlt_stage           ! change in stage number
+         real       dlt_sw_dep(max_layer) ! water uptake in each layer (mm water)
+         real       dlt_tiller_no       ! fraction of new tiller ()
+         real       dlt_tlai_dead_detached ! plant lai detached from dead plant
+         real       dlt_tt              ! daily thermal time (growing deg day)
+         real       dlt_tt_curv         ! daily thermal time (growing deg day)
+         real       dlt_tt_other        ! daily thermal time (growing deg day)
+         real       dm_dead(max_part)   ! dry wt of dead plants (g/m^2)
+         real       dm_green(max_part)  ! live plant dry weight (biomass) (g/m^2)
+         real       dm_green_demand(max_part) ! biomass demand of the plant parts (g/m^2)
+         real       dm_plant_min(max_part) ! minimum weight of each plant part (g/plant)
+         real       dm_plant_top_tot(max_stage) ! total carbohydrate production in tops per stage (g/plant)
+         real       dm_senesced(max_part) ! senesced plant dry wt (g/m^2)
+         real       dm_stress_max(max_stage) ! sum of maximum daily stress on dm production per phase
+         real       dm_tiller_independence ! new tiller DM (g/m^2)
+         real       dul_dep (max_layer)   ! drained upper limit soil water content for soil layer L (mm water)
+         real       fr_intc_radn        ! fraction of radiation intercepted by canopy
+         real       grain_no            ! grain number (grains/plant)
+         real       heat_stress_tt(max_stage) ! heat stress cumulation in each phase
+         integer      isdate                 ! flowering day number
+         real       lai                 ! live plant green lai
+         real       lai_equilib_light(366) ! lai threshold for light senescence
+         real       lai_equilib_water(366) ! lai threshold for water senescence
+         real         lai_max                ! maximum lai - occurs at flowering
+         real       latitude            ! latitude (degrees, negative for southern hemisphere)
+         real       leaf_area(max_leaf) ! leaf area of each leaf (mm^2)
+         real       leaf_no(max_stage)  ! number of fully expanded leaves ()
+         real       leaf_no_dead(max_stage) ! no of dead leaves ()
+         real       leaf_no_dead_const2 ! intercept for second slope of seneced leaf number (after flag leaf stage)
+         real       leaf_no_effective   ! number of leaves the plant produced # fully expanded leaves plus corr. factor
+         real       leaf_no_final       ! total number of leaves the plant produces
+         real       leaf_no_ref         ! total no of leaves the main shoot produces GD
+         real       leaf_no_total       ! gd
+         real       lf_no_dead_at_flaglf ! senesced leaf number at flag leaf
+         real       maxt                ! maximum air temperature (oC)
+         integer      mdate                  ! maturity day number
+         real       mint                ! minimum air temperature (oC)
+         real         N_conc_act_stover_tot  ! sum of tops actual N concentration (g N/g biomass)
+         real       N_conc_crit(max_part) ! critical N concentration (g N/g biomass)
+         real         N_conc_crit_stover_tot ! sum of tops critical N concentration (g N/g biomass)
+         real       N_conc_max(max_part)  ! maximum N concentration (g N/g biomass)
+         real       N_conc_min(max_part) ! minimum N concentration (g N/g biomass)
+         real       N_dead(max_part)      ! plant N content of dead plants (g N/m^2)
+         real       N_demand (max_part)   ! critical plant nitrogen demand (g/m^2)
+         real         N_demand_tot      ! sum of N demand since last output (g/m^2)
+         real       N_green(max_part)     ! plant nitrogen content (g N/m^2)
+         real       N_max (max_part)      ! maximum plant nitrogen demand (g/m^2)
+         real       N_senesced(max_part)  ! plant N content of senesced plant (g N/m^2)
+         real       N_tiller_independence  ! new tiller N (g/m^2)
+         real         N_uptake_grain_tot     ! sum of grain N uptake (g N/m^2)
+         real         N_uptake_stover_tot    ! sum of tops N uptake (g N/m^2)
+         real         N_uptake_tot      ! cumulative total N uptake (g/m^2)
+         real       NO3gsm (max_layer)  ! nitrate nitrogen in layer L (g N/m^2)
+         real       NO3gsm_min(max_layer) ! minimum allowable NO3 in soil (g/m^2)
+         integer    num_layers            ! number of layers in profile ()
+         real       phase_tt(max_stage) ! Cumulative growing degree days required for each stage (deg days)
+         real       phase_tt_curv(max_stage) ! Cumulative growing degree days required for each stage (deg days)
+         real       phase_tt_other(max_stage) ! Cumulative growing degree days required for each stage (deg days)
+         character  plant_status*5      ! status of crop
+         real       plants              ! Plant density (plants/m^2)
+         real       previous_stage      ! previous phenological stage
+         real       radn                ! solar radiation (Mj/m^2/day)
+         real       root_depth          ! depth of roots (mm)
+         real       row_spacing         ! row spacing (m) [optional]
+         real       slai                ! area of leaf that senesces from plant
+         real       soil_temp(366)      ! soil surface temperature (oC)
+         real       sowing_depth        ! sowing depth (mm)
+         character  stem_class*10       ! main stem or tiller
+!           character  last_mdl_name*10 ! last name of THIS data for debugging.
+         real       sw_avail(max_layer)   ! actual extractable soil water (mm)
+         real       sw_avail_pot(max_layer) ! potential extractable soil water (mm)
+         real       sw_demand             ! total crop demand for water (mm)
+         real       sw_dep (max_layer)    ! soil water content of layer L (mm)
+         real       sw_supply (max_layer) ! potential water to take up (supply) from current soil water (mm)
+         integer    tiller_independence ! tiller ready to become independent (0/1)
+         real       tiller_no(max_stage)  ! number of tillers ()
+         real       tlai_dead              ! total lai of dead plants
+         real         transpiration_tot ! cumulative transpiration (mm)
+         real       tt_curv_tot(max_stage)  ! the sum of growing degree days for a phenological stage (oC d)
+         real       tt_other_tot(max_stage)  ! the sum of growing degree days for a phenological stage (oC d)
+         real       tt_tot(max_stage)   ! the sum of growing degree days for a phenological stage (oC d)
+         real       y_tiller_tt_adj(max_table)  ! thermal time for tiller appearance rate (oCd)
+         integer    year                ! year
+      end type global_t
+ 
+ 
+      type parameter_t
+         sequence
+         integer    est_days_emerg_to_init ! estimated days from emergence to floral initiation
+         real       grain_gth_rate      ! potential grain growth rate (G3) (mg/grain/day)
+         real       head_grain_no_max   ! maximum kernel number (was G2) (grains/plant)
+         real       hi_incr             ! harvest index increment per day ()
+         real       hi_max_pot          ! maximum harvest index (g grain/ g biomass)
+         real       kl(max_layer)         ! root length density factor for water
+         real       ll_dep(max_layer)     ! lower limit of plant-extractable soil water for soil layer L (mm)
+         real       pp_endjuv_to_init   ! Photoperiod sensitivity coefficient (dtt/hr)
+         real       spla_intercept      ! intercept of regression for calculating inflection point of senescence function (oC)
+         real       spla_prod_coef      ! curvature coefficient for leaf area senescence function (1/oC)
+         real       tiller_no_fertile   ! no of tillers that produce a head  ()
+         real       tpla_inflection     ! inflection point of leaf area production function (oC)
+         real       tpla_prod_coef      ! curvature coefficient for leaf area production function (1/oC)
+         real       tt_emerg_to_endjuv  ! Growing degree days to complete emerg_to_endjuv stage (emergence to end of emerg_to_endjuv) (deg day)
+         real       tt_flag_to_flower   ! growing deg days for head emergence phase (deg day).
+         real       tt_flower_to_maturity ! Growing degree days to complete grainfill (silking to maturity) (deg day)
+         real       tt_flower_to_start_grain ! growing degree-days for flower_to_start_grain
+         real       tt_maturity_to_ripe ! growing deg day required to for grain dry down (deg day)
+         real       y0_const            ! largest leaf area intercept
+         real       y0_slope            ! largest leaf area slope
+      end type parameter_t
+ 
+
+! "this" will be of type ponter to millet_t.  millet_t has been
+!  declared public at the beginning of its module, but outsiders neen
+!  not know about what is inside, so its members are private.  
+      type millet_t
+         private   
+         sequence
+         type(constant_t), pointer :: c
+         type(global_t), pointer :: g
+         type(parameter_t), pointer :: p
+      end type millet_t
+ 
+ 
+! Here are the global variables.
+      type(constant_t), pointer :: c
+      type(global_t), pointer :: g
+      type(parameter_t), pointer :: p
+ 
+ 
+      contains
+
+
+
+
 *     ===========================================================
-      character*(*) function millet_version ()
+      subroutine millet_alloc (this)
 *     ===========================================================
       implicit none
-      include 'error.pub'                         
-
+ 
+*+  Sub-Program Arguments
+      type(millet_t), pointer :: this
+ 
 *+  Purpose
-*       Returns version number of crop module
-
-*+  Notes
-*
-****    Rev 2.00   26 Oct 1997
-*
-
-*+  Changes
-*       011092 jngh specified and programmed
-*       220696 jngh removed PVCS revision numbering
-!*       280497 ejvo made breadth, skewness linear function of leafnumber
-*       140797 gd made changes to use with new util
-*       261097 gol corrected tiller appearance & update to version 2.00
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'millet_version')
-*
-      character  version_number*(*)    ! version number of module
-*
-      parameter (version_number = 'V2.01 150698')
-
+*      Module instantiation routine.
+ 
 *- Implementation Section ----------------------------------
  
-      call push_routine (my_name)
+      allocate(this)
+      allocate(this%c)
+      allocate(this%g)
+      allocate(this%p)
  
-      millet_version = version_number
-*
-****     Rev 2.00   26 Oct 1997
-*
-      call pop_routine (my_name)
       return
-      end
+      end subroutine
+
+
+
+*     ===========================================================
+      subroutine millet_free (this)
+*     ===========================================================
+      implicit none
+ 
+*+  Sub-Program Arguments
+      type(millet_t), pointer :: this
+ 
+*+  Purpose
+*      Module instantiations routine.
+ 
+*- Implementation Section ----------------------------------
+ 
+      deallocate(this%c)
+      deallocate(this%g)
+      deallocate(this%p)
+      deallocate(this)
+ 
+      return
+      end subroutine
 
 
 
 *     ================================================================
-      subroutine APSIM_millet (action, data_string)
+      subroutine millet (this, action, data_string)
 *     ================================================================
       implicit none
-      dll_export apsim_millet
-      include   'millet.inc'            !
-      include   'const.inc'            ! mes_presence, mes_init, mes_process
       include 'string.pub'                        
       include 'engine.pub'                        
       include 'error.pub'                         
-
+      include 'write.pub'                         
+ 
 *+  Sub-Program Arguments
+      type(millet_t), pointer :: this  ! (IN-OUT)  The module instance.
       character  action*(*)            ! (INPUT) Message action to perform
       character  data_string*(*)       ! (INPUT) Message data
-
+ 
 *+  Purpose
 *      This module performs crop crop growth
 *       simulates root, leaf, head, stem and grain development. Water and
 *       nitrogen uptake, photosynhesis, and leaf and root senescense.
-
+ 
 *+  Changes
 *      250894 jngh specified and programmed
 *      220696 jngh added message_unused to else
-
+ 
 *+  Calls
-                                       ! mes_report
-*
-      logical    millet_my_type         ! function
-      character  millet_version*52     ! function
-
+ 
 *+  Constant Values
       character  my_name*(*)           ! name of this procedure
       parameter (my_name='millet')
-
+ 
 *+  Local Variables
       character  module_name*8         ! module name
-
+ 
+   ! Global variables from previous recursion held in local variabls
+   ! for restoration before returning.
+      type(constant_t), pointer :: orig_c
+      type(global_t), pointer :: orig_g
+      type(parameter_t), pointer :: orig_p
+ 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+ 
+   ! Save away the globals from previous recursion for restoration before return.
+      orig_c=>c
+      orig_g=>g
+      orig_p=>p
+ 
+   ! Assign the globals for this APSIM module instantiation.
+      c=>this%c
+      g=>this%g
+      p=>this%p
  
          ! initialise error flags
       call set_warning_off ()
  
       call get_current_module (module_name)
+ 
+!        call write_string(LU_scr_sum,'millet('// module_name // ' '
+!       :         // g%last_mdl_name //' ' //g%stem_class//action)
+!        g%last_mdl_name = module_name
       
       if (action.eq.mes_presence) then      ! report presence
          write(*, *) 'module_name = '
@@ -116,7 +826,7 @@
  
          if (millet_my_type ()) then
  
-            if (g_stem_class .eq. class_tiller) then
+            if (g%stem_class .eq. class_tiller) then
                call fatal_error (err_user,
      :                      'Cannot sow initiated tiller!')
             else
@@ -135,7 +845,7 @@
  
          if (millet_my_type ()) then
  
-            if (g_stem_class .eq. class_main) then
+            if (g%stem_class .eq. class_main) then
                call fatal_error (err_user,
      :                      'Cannot initiate main tiller!')
             else
@@ -151,7 +861,7 @@
          endif
  
       elseif (action.eq.mes_process) then
-         if (g_plant_status.ne.status_out) then
+         if (g%plant_status.ne.status_out) then
             call millet_zero_daily_variables ()
                ! request and receive variables from owner-modules
             call millet_get_other_variables ()
@@ -196,9 +906,59 @@
          call message_unused ()
       endif
  
+! Restore the globals from previous recursion.
+      c=>orig_c
+      g=>orig_g
+      p=>orig_p
+ 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
+
+
+
+*     ===========================================================
+      character*(20) function millet_version ()
+*     ===========================================================
+      implicit none
+      include 'error.pub'                         
+ 
+*+  Purpose
+*       Returns version number of crop module
+ 
+*+  Notes
+*
+****    Rev 2.00   26 Oct 1997
+*
+ 
+*+  Changes
+*       011092 jngh specified and programmed
+*       220696 jngh removed PVCS revision numbering
+!*       280497 ejvo made breadth, skewness linear function of leafnumber
+*       140797 gd made changes to use with new util
+*       261097 gol corrected tiller appearance & update to version 2.00
+ 
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'millet_version')
+*
+      character  version_number*(*)    ! version number of module
+*
+      parameter (version_number = 'V2.01 150698')
+ 
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+      millet_version = version_number
+*
+****     Rev 2.00   26 Oct 1997
+*
+      call pop_routine (my_name)
+      return
+      end function
+
+
 
 
 
@@ -208,19 +968,19 @@
       implicit none
       include   'millet.inc'
       include 'error.pub'                         
-
+ 
 *+  Purpose
 *       Simulate crop processes.  These include biomass production,
 *       phenological stages, plant component development,
 *       water uptake and nitrogen uptake, and plant senescense.
-
+ 
 *+  Changes
 *      250894 jngh specified and programmed
-
+ 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'millet_process')
-
+ 
 *- Implementation Section ----------------------------------
 c+!!!!!!!!! check order dependency of deltas
       call push_routine (my_name)
@@ -228,7 +988,7 @@ c+!!!!!!!!! check order dependency of deltas
       call millet_transpiration ()
       call millet_phenology ()
  
-      if (g_plant_status.eq.status_alive) then
+      if (g%plant_status.eq.status_alive) then
  
          call millet_leaf_area_potential ()
          call millet_biomass ()
@@ -242,7 +1002,7 @@ c+!!!!!!!!! check order dependency of deltas
          ! crop is dead
       endif
  
-      if (g_plant_status.eq.status_dead) then
+      if (g%plant_status.eq.status_dead) then
             ! crop is dead
 !cjngh         call millet_zero_globals ()
          call millet_dead ()
@@ -259,7 +1019,7 @@ c+!!!!!!!!! check order dependency of deltas
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -283,11 +1043,11 @@ c+!!!!!!!!! check order dependency of deltas
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      g_current_stage   = real (plant_end)
+      g%current_stage   = real (plant_end)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -295,7 +1055,6 @@ c+!!!!!!!!! check order dependency of deltas
       subroutine millet_harvest ()
 *     ===========================================================
       implicit none
-      include   'const.inc'            ! new_line, lu_scr_sum, blank,
       include   'convert.inc'          ! gm2kg, sm2ha, sm2smm
       include   'millet.inc'
       include 'data.pub'                          
@@ -310,7 +1069,6 @@ c+!!!!!!!!! check order dependency of deltas
 *     010994 jngh specified and programmed
 
 *+  Calls
-                                       ! lu_scr_sum
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -349,54 +1107,54 @@ c+!!!!!!!!! check order dependency of deltas
  
           ! crop harvested. Report status
  
-      yield = (g_dm_green(grain) + g_dm_dead(grain))
+      yield = (g%dm_green(grain) + g%dm_dead(grain))
      :      * gm2kg / sm2ha
  
           ! include the grain water content
-      yield_wet = yield / (1.0 - c_grn_water_cont)
+      yield_wet = yield / (1.0 - c%grn_water_cont)
  
-      grain_wt = divide (g_dm_green(grain) + g_dm_dead(grain)
-     :                 , g_grain_no, 0.0)
+      grain_wt = divide (g%dm_green(grain) + g%dm_dead(grain)
+     :                 , g%grain_no, 0.0)
 !cpsc
-      head_grain_no = divide (g_grain_no, g_plants, 0.0)
+      head_grain_no = divide (g%grain_no, g%plants, 0.0)
  
-      biomass_green = (sum_real_array (g_dm_green, max_part)
-     :              - g_dm_green(root))
+      biomass_green = (sum_real_array (g%dm_green, max_part)
+     :              - g%dm_green(root))
      :              * gm2kg / sm2ha
  
-      biomass_senesced = (sum_real_array (g_dm_senesced, max_part)
-     :                 - g_dm_senesced(root))
+      biomass_senesced = (sum_real_array (g%dm_senesced, max_part)
+     :                 - g%dm_senesced(root))
      :                 * gm2kg / sm2ha
  
-      biomass_dead = (sum_real_array (g_dm_dead, max_part)
-     :             - g_dm_dead(root))
+      biomass_dead = (sum_real_array (g%dm_dead, max_part)
+     :             - g%dm_dead(root))
      :             * gm2kg / sm2ha
  
       dm = (biomass_green + biomass_senesced + biomass_dead)
  
       stover = dm - yield
  
-      g_leaf_no_total = sum_between (emerg, harvest_ripe, g_leaf_no)
-      leaf_no = sum_between (emerg, harvest_ripe, g_leaf_no)
-cejvo      leaf_no = sum_between (germ, harvest_ripe, g_leaf_no)
-      N_grain_conc_percent = divide (g_N_green(grain) + g_N_dead(grain)
-     :                            , g_dm_green(grain) + g_dm_dead(grain)
+      g%leaf_no_total = sum_between (emerg, harvest_ripe, g%leaf_no)
+      leaf_no = sum_between (emerg, harvest_ripe, g%leaf_no)
+cejvo      leaf_no = sum_between (germ, harvest_ripe, g%leaf_no)
+      N_grain_conc_percent = divide (g%N_green(grain) + g%N_dead(grain)
+     :                            , g%dm_green(grain) + g%dm_dead(grain)
      :                            , 0.0)
      :                     * fract2pcnt
  
-      N_grain = (g_N_green(grain) + g_N_dead(grain))
+      N_grain = (g%N_green(grain) + g%N_dead(grain))
      :        * gm2kg/sm2ha
  
-      N_green = (sum_real_array (g_N_green, max_part)
-     :        - g_N_green(root) - g_N_green(grain))
+      N_green = (sum_real_array (g%N_green, max_part)
+     :        - g%N_green(root) - g%N_green(grain))
      :        * gm2kg / sm2ha
  
-      N_senesced = (sum_real_array (g_N_senesced, max_part)
-     :           - g_N_senesced(root) - g_N_senesced(grain))
+      N_senesced = (sum_real_array (g%N_senesced, max_part)
+     :           - g%N_senesced(root) - g%N_senesced(grain))
      :           * gm2kg / sm2ha
  
-      N_dead = (sum_real_array (g_N_dead, max_part)
-     :       - g_N_dead(root) - g_N_dead(grain))
+      N_dead = (sum_real_array (g%N_dead, max_part)
+     :       - g%N_dead(root) - g%N_dead(grain))
      :       * gm2kg / sm2ha
  
       N_stover = N_green + N_senesced + N_dead
@@ -406,29 +1164,29 @@ cejvo      leaf_no = sum_between (germ, harvest_ripe, g_leaf_no)
       call write_string (lu_scr_sum, new_line//new_line)
  
       write (string, '(a,i4,t40,a,f10.1)')
-     :            ' flowering day  = ',g_isdate
+     :            ' flowering day  = ',g%isdate
      :          , ' stover (kg/ha) =',stover
       call write_string (lu_scr_sum, string)
  
       write (string, '(a,i4,t40,a,f10.1)')
-     :            ' maturity day        = ', g_mdate
+     :            ' maturity day        = ', g%mdate
      :          , ' grain yield (kg/ha) =', yield
       call write_string (lu_scr_sum, string)
  
       write (string, '(a,f6.1,t40,a,f10.1)')
-     :            ' grain % water content   = ', c_grn_water_cont
+     :            ' grain % water content   = ', c%grn_water_cont
      :                                         * fract2pcnt
      :          , ' grain yield wet (kg/ha) =', yield_wet
       call write_string (lu_scr_sum, string)
  
       write (string, '(a,f10.3,t40,a,f10.3)')
      :            ' grain wt (g) =', grain_wt
-     :          , ' grains/m^2   =', g_grain_no
+     :          , ' grains/m^2   =', g%grain_no
       call write_string (lu_scr_sum, string)
  
       write (string, '(a,f6.1,t40,a,f6.3)')
      :            ' grains/head =', head_grain_no
-     :          , ' maximum lai =', g_lai_max
+     :          , ' maximum lai =', g%lai_max
       call write_string (lu_scr_sum, string)
  
       write (string, '(a,f10.1)')
@@ -473,19 +1231,19 @@ cejvo      leaf_no = sum_between (germ, harvest_ripe, g_leaf_no)
       call write_string (lu_scr_sum, string)
  
       do 2000 phase = emerg_to_endjuv, start_to_end_grain
-         si1 = divide (g_cswd_photo(phase)
-     :               , g_days_tot(phase), 0.0)
-         si2 = divide (g_cswd_expansion(phase)
-     :               , g_days_tot(phase), 0.0)
-         si4 = divide (g_cnd_photo(phase)
-     :               , g_days_tot(phase), 0.0)
-         si5 = divide (g_cnd_grain_conc(phase)
-     :               , g_days_tot(phase), 0.0)
+         si1 = divide (g%cswd_photo(phase)
+     :               , g%days_tot(phase), 0.0)
+         si2 = divide (g%cswd_expansion(phase)
+     :               , g%days_tot(phase), 0.0)
+         si4 = divide (g%cnd_photo(phase)
+     :               , g%days_tot(phase), 0.0)
+         si5 = divide (g%cnd_grain_conc(phase)
+     :               , g%days_tot(phase), 0.0)
  
          call write_string (lu_scr_sum, new_line//new_line)
  
          write (string,'(2a)')
-     :         ' stress indices for ', c_stage_names(phase)
+     :         ' stress indices for ', c%stage_names(phase)
          call write_string (lu_scr_sum, string)
  
          write (string,'(2(a, f16.7))')
@@ -499,15 +1257,15 @@ cejvo      leaf_no = sum_between (germ, harvest_ripe, g_leaf_no)
          call write_string (lu_scr_sum, string)
 2000  continue
  
-      g_dm_green(grain) = 0.0
-      g_N_green(grain) = 0.0
+      g%dm_green(grain) = 0.0
+      g%N_green(grain) = 0.0
  
-      g_dm_dead(grain) = 0.0
-      g_N_dead(grain) = 0.0
+      g%dm_dead(grain) = 0.0
+      g%N_dead(grain) = 0.0
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -516,7 +1274,6 @@ cejvo      leaf_no = sum_between (germ, harvest_ripe, g_leaf_no)
 *     ===========================================================
       implicit none
       include   'millet.inc'
-      include   'const.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -539,83 +1296,83 @@ cejvo      leaf_no = sum_between (germ, harvest_ripe, g_leaf_no)
  
       call millet_zero_daily_variables ()
  
-      call fill_real_array (g_cnd_grain_conc, 0.0, max_stage)
-      call fill_real_array (g_cnd_photo, 0.0, max_stage)
-      call fill_real_array (g_cswd_expansion, 0.0, max_stage)
-      call fill_real_array (g_cswd_pheno, 0.0, max_stage)
-      call fill_real_array (g_cswd_photo, 0.0, max_stage)
-      call fill_real_array (g_days_tot, 0.0, max_stage)
-      call fill_real_array (g_dm_dead, 0.0, max_part)
-      call fill_real_array (g_dm_green, 0.0, max_part)
-      call fill_real_array (g_dm_plant_min, 0.0, max_part)
-      call fill_real_array (g_dm_plant_top_tot, 0.0, max_stage)
-      call fill_real_array (g_heat_stress_tt, 0.0, max_stage)
-      call fill_real_array (g_leaf_area, 0.0, max_leaf)
-      call fill_real_array (g_leaf_area, 0.0, max_leaf)
-      call fill_real_array (g_leaf_no, 0.0, max_stage)
-      call fill_real_array (g_tiller_no, 0.0, max_stage)
+      call fill_real_array (g%cnd_grain_conc, 0.0, max_stage)
+      call fill_real_array (g%cnd_photo, 0.0, max_stage)
+      call fill_real_array (g%cswd_expansion, 0.0, max_stage)
+      call fill_real_array (g%cswd_pheno, 0.0, max_stage)
+      call fill_real_array (g%cswd_photo, 0.0, max_stage)
+      call fill_real_array (g%days_tot, 0.0, max_stage)
+      call fill_real_array (g%dm_dead, 0.0, max_part)
+      call fill_real_array (g%dm_green, 0.0, max_part)
+      call fill_real_array (g%dm_plant_min, 0.0, max_part)
+      call fill_real_array (g%dm_plant_top_tot, 0.0, max_stage)
+      call fill_real_array (g%heat_stress_tt, 0.0, max_stage)
+      call fill_real_array (g%leaf_area, 0.0, max_leaf)
+      call fill_real_array (g%leaf_area, 0.0, max_leaf)
+      call fill_real_array (g%leaf_no, 0.0, max_stage)
+      call fill_real_array (g%tiller_no, 0.0, max_stage)
 cejvo
-      call fill_real_array (g_y_tiller_tt_adj, 0.0, max_table)
-      call fill_real_array (g_leaf_no_dead, 0.0, max_stage)
-      call fill_real_array (p_ll_dep, 0.0, max_layer)
-      call fill_real_array (g_N_conc_crit, 0.0, max_part)
-      call fill_real_array (g_N_conc_min, 0.0, max_part)
-      call fill_real_array (g_N_green, 0.0, max_part)
-      call fill_real_array (g_phase_tt, 0.0, max_stage)
-      call fill_real_array (g_tt_tot, 0.0, max_stage)
-      call fill_real_array (g_phase_tt_curv, 0.0, max_stage)
-      call fill_real_array (g_tt_curv_tot, 0.0, max_stage)
-      call fill_real_array (g_phase_tt_other, 0.0, max_stage)
-      call fill_real_array (g_tt_other_tot, 0.0, max_stage)
-      call fill_real_array (g_lai_equilib_light, 0.0, 366)
-      call fill_real_array (g_lai_equilib_water, 0.0, 366)
-      call fill_real_array (g_soil_temp, 0.0, 366)
+      call fill_real_array (g%y_tiller_tt_adj, 0.0, max_table)
+      call fill_real_array (g%leaf_no_dead, 0.0, max_stage)
+      call fill_real_array (p%ll_dep, 0.0, max_layer)
+      call fill_real_array (g%N_conc_crit, 0.0, max_part)
+      call fill_real_array (g%N_conc_min, 0.0, max_part)
+      call fill_real_array (g%N_green, 0.0, max_part)
+      call fill_real_array (g%phase_tt, 0.0, max_stage)
+      call fill_real_array (g%tt_tot, 0.0, max_stage)
+      call fill_real_array (g%phase_tt_curv, 0.0, max_stage)
+      call fill_real_array (g%tt_curv_tot, 0.0, max_stage)
+      call fill_real_array (g%phase_tt_other, 0.0, max_stage)
+      call fill_real_array (g%tt_other_tot, 0.0, max_stage)
+      call fill_real_array (g%lai_equilib_light, 0.0, 366)
+      call fill_real_array (g%lai_equilib_water, 0.0, 366)
+      call fill_real_array (g%soil_temp, 0.0, 366)
  
-      call fill_real_array (g_dm_senesced, 0.0, max_part)
-      call fill_real_array (g_dm_stress_max, 0.0, max_stage)
-      call fill_real_array (g_N_dead, 0.0, max_part)
-      call fill_real_array (g_N_senesced, 0.0, max_part)
+      call fill_real_array (g%dm_senesced, 0.0, max_part)
+      call fill_real_array (g%dm_stress_max, 0.0, max_stage)
+      call fill_real_array (g%N_dead, 0.0, max_part)
+      call fill_real_array (g%N_senesced, 0.0, max_part)
  
  
-      g_num_layers = 0
-      g_canopy_height = 0.0
-      g_grain_no = 0.0
-      g_isdate = 0
-      g_mdate = 0
-      g_leaf_no_final = 0.0
+      g%num_layers = 0
+      g%canopy_height = 0.0
+      g%grain_no = 0.0
+      g%isdate = 0
+      g%mdate = 0
+      g%leaf_no_final = 0.0
 !cejvo
-      g_leaf_no_effective = 0.0
-      g_leaf_no_ref = 0.0
-      g_leaf_no_dead_const2 = 0.0
-      g_lf_no_dead_at_flaglf = 0.0
-      g_lai_max = 0.0
-      g_N_conc_act_stover_tot = 0.0
-      g_N_conc_crit_stover_tot = 0.0
-      g_N_demand_tot = 0.0
-      g_N_uptake_grain_tot = 0.0
-      g_N_uptake_stover_tot = 0.0
-      g_N_uptake_tot = 0.0
-      g_plants = 0.0
-      g_root_depth = 0.0
-      g_sowing_depth = 0.0
+      g%leaf_no_effective = 0.0
+      g%leaf_no_ref = 0.0
+      g%leaf_no_dead_const2 = 0.0
+      g%lf_no_dead_at_flaglf = 0.0
+      g%lai_max = 0.0
+      g%N_conc_act_stover_tot = 0.0
+      g%N_conc_crit_stover_tot = 0.0
+      g%N_demand_tot = 0.0
+      g%N_uptake_grain_tot = 0.0
+      g%N_uptake_stover_tot = 0.0
+      g%N_uptake_tot = 0.0
+      g%plants = 0.0
+      g%root_depth = 0.0
+      g%sowing_depth = 0.0
 !cpsc
-      g_row_spacing = 0.0
+      g%row_spacing = 0.0
 cjh
-      g_cover_green = 0.0
-      g_cover_sen   = 0.0
-      g_cover_dead  = 0.0
+      g%cover_green = 0.0
+      g%cover_sen   = 0.0
+      g%cover_dead  = 0.0
 !cpsc
-      g_slai = 0.0
-      g_lai = 0.0
-      g_tlai_dead = 0.0
-      g_transpiration_tot = 0.0
-      g_previous_stage = 0.0
+      g%slai = 0.0
+      g%lai = 0.0
+      g%tlai_dead = 0.0
+      g%transpiration_tot = 0.0
+      g%previous_stage = 0.0
  
-      g_stem_class = blank
+      g%stem_class = blank
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -643,53 +1400,53 @@ cjh
  
           ! zero pools etc.
  
-      call fill_real_array (g_dlt_dm_green, 0.0, max_part)
-      call fill_real_array (g_dlt_dm_green_retrans, 0.0, max_part)
-      call fill_real_array (g_dlt_N_green, 0.0, max_part)
-      call fill_real_array (g_dlt_N_retrans, 0.0, max_part)
-      call fill_real_array (g_dlt_NO3gsm, 0.0, max_layer)
-      call fill_real_array (g_dlt_sw_dep, 0.0, max_layer)
-      call fill_real_array (g_dm_green_demand, 0.0, max_part)
-      call fill_real_array (g_N_demand, 0.0, max_part)
+      call fill_real_array (g%dlt_dm_green, 0.0, max_part)
+      call fill_real_array (g%dlt_dm_green_retrans, 0.0, max_part)
+      call fill_real_array (g%dlt_N_green, 0.0, max_part)
+      call fill_real_array (g%dlt_N_retrans, 0.0, max_part)
+      call fill_real_array (g%dlt_NO3gsm, 0.0, max_layer)
+      call fill_real_array (g%dlt_sw_dep, 0.0, max_layer)
+      call fill_real_array (g%dm_green_demand, 0.0, max_part)
+      call fill_real_array (g%N_demand, 0.0, max_part)
  
-      call fill_real_array (g_dlt_dm_dead_detached, 0.0, max_part)
-      call fill_real_array (g_dlt_dm_detached, 0.0, max_part)
-      call fill_real_array (g_dlt_dm_senesced, 0.0, max_part)
-      call fill_real_array (g_dlt_N_dead_detached, 0.0, max_part)
-      call fill_real_array (g_dlt_N_detached, 0.0, max_part)
-      call fill_real_array (g_dlt_N_senesced, 0.0, max_part)
-      call fill_real_array (g_sw_avail, 0.0, max_layer)
-      call fill_real_array (g_sw_avail_pot, 0.0, max_layer)
-      call fill_real_array (g_sw_supply, 0.0, max_layer)
+      call fill_real_array (g%dlt_dm_dead_detached, 0.0, max_part)
+      call fill_real_array (g%dlt_dm_detached, 0.0, max_part)
+      call fill_real_array (g%dlt_dm_senesced, 0.0, max_part)
+      call fill_real_array (g%dlt_N_dead_detached, 0.0, max_part)
+      call fill_real_array (g%dlt_N_detached, 0.0, max_part)
+      call fill_real_array (g%dlt_N_senesced, 0.0, max_part)
+      call fill_real_array (g%sw_avail, 0.0, max_layer)
+      call fill_real_array (g%sw_avail_pot, 0.0, max_layer)
+      call fill_real_array (g%sw_supply, 0.0, max_layer)
  
-      g_dlt_tiller_no = 0.0
-      g_dm_tiller_independence = 0.0
-      g_N_tiller_independence = 0.0
-      g_tiller_independence = 0
+      g%dlt_tiller_no = 0.0
+      g%dm_tiller_independence = 0.0
+      g%N_tiller_independence = 0.0
+      g%tiller_independence = 0
  
-      g_dlt_tlai_dead_detached = 0.0
-      g_dlt_slai_detached = 0.0
-      g_dlt_canopy_height = 0.0
-      g_dlt_dm = 0.0
-      g_dlt_dm_grain_demand = 0.0
-      g_dlt_dm_stress_max = 0.0
-      g_dlt_heat_stress_tt = 0.0
-      g_dlt_leaf_no = 0.0
-      g_dlt_leaf_no_pot = 0.0
-      g_dlt_leaf_no_dead = 0.0
-      g_dlt_plants = 0.0
-      g_dlt_root_depth = 0.0
-      g_dlt_slai = 0.0
-      g_dlt_stage = 0.0
-      g_dlt_lai = 0.0
-      g_dlt_tt = 0.0
-      g_dlt_tt_curv = 0.0
-      g_dlt_tt_other = 0.0
-      g_sw_demand = 0.0
+      g%dlt_tlai_dead_detached = 0.0
+      g%dlt_slai_detached = 0.0
+      g%dlt_canopy_height = 0.0
+      g%dlt_dm = 0.0
+      g%dlt_dm_grain_demand = 0.0
+      g%dlt_dm_stress_max = 0.0
+      g%dlt_heat_stress_tt = 0.0
+      g%dlt_leaf_no = 0.0
+      g%dlt_leaf_no_pot = 0.0
+      g%dlt_leaf_no_dead = 0.0
+      g%dlt_plants = 0.0
+      g%dlt_root_depth = 0.0
+      g%dlt_slai = 0.0
+      g%dlt_stage = 0.0
+      g%dlt_lai = 0.0
+      g%dlt_tt = 0.0
+      g%dlt_tt_curv = 0.0
+      g%dlt_tt_other = 0.0
+      g%sw_demand = 0.0
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -708,7 +1465,6 @@ cjh
 *     010994 jngh specified and programmed
 
 *+  Calls
-      character  millet_version*52      ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -725,12 +1481,12 @@ cjh
  
       call millet_read_constants ()
  
-      g_current_stage = real (plant_end)
-      g_plant_status = status_out
+      g%current_stage = real (plant_end)
+      g%plant_status = status_out
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -738,7 +1494,6 @@ cjh
       subroutine millet_start_crop ()
 *     ===========================================================
       implicit none
-      include   'const.inc'            ! lu_scr_sum, blank
       include   'millet.inc'
       include 'intrface.pub'                      
       include 'write.pub'                         
@@ -753,7 +1508,6 @@ cjh
 *     220696 jngh changed extract to collect
 
 *+  Calls
-!
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -775,24 +1529,24 @@ cjh
 cjh      if (data_record.ne.blank) then
  
          call collect_real_var ('plants', '()'
-     :                        , g_plants, numvals, 0.0, 100.0)
+     :                        , g%plants, numvals, 0.0, 100.0)
 !cpsc
          call collect_real_var_optional (
      :                          'row_spacing', '(m)'
-     :                        , g_row_spacing, numvals
+     :                        , g%row_spacing, numvals
      :                        , 0.0, 2.0)
  
-         if (g_row_spacing .eq. 0.0) then
-           g_row_spacing = c_row_spacing_default
+         if (g%row_spacing .eq. 0.0) then
+           g%row_spacing = c%row_spacing_default
          endif
  
          call collect_real_var (
      :                          'sowing_depth', '(mm)'
-     :                        , g_sowing_depth, numvals
+     :                        , g%sowing_depth, numvals
      :                        , 0.0, 100.0)
  
          call collect_char_var ('cultivar', '()'
-     :                        , g_cultivar, numvals)
+     :                        , g%cultivar, numvals)
  
              ! report
  
@@ -814,8 +1568,8 @@ cjh      if (data_record.ne.blank) then
          call write_string (lu_scr_sum, string)
 !cpsc
          write (string, '(3x, i7, 3f7.1, 1x, a10)')
-     :                   g_day_of_year, g_sowing_depth
-     :                 , g_plants, g_row_spacing, g_cultivar
+     :                   g%day_of_year, g%sowing_depth
+     :                 , g%plants, g%row_spacing, g%cultivar
          call write_string (lu_scr_sum, string)
  
          string = '    ------------------------------------------------'
@@ -829,8 +1583,8 @@ cjh      if (data_record.ne.blank) then
  
          call millet_read_root_params ()
  
-         g_current_stage = real (sowing)
-         g_plant_status = status_alive
+         g%current_stage = real (sowing)
+         g%plant_status = status_alive
  
 cjh      else
             ! report empty sowing record
@@ -839,7 +1593,7 @@ cjh      endif
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -847,7 +1601,6 @@ cjh      endif
       subroutine millet_initiate ()
 *     ===========================================================
       implicit none
-      include   'const.inc'            ! lu_scr_sum, blank
       include   'millet.inc'
       include 'data.pub'                          
       include 'intrface.pub'                      
@@ -880,11 +1633,11 @@ cjh      endif
 cjh      if (data_record.ne.blank) then
  
          call collect_real_var ('plants', '()'
-     :                        , g_plants, numvals, 0.0, 100.0)
+     :                        , g%plants, numvals, 0.0, 100.0)
  
          call collect_real_var_optional (
      :                          'dm_tiller_plant', '(g/plant)'
-     :                        , c_dm_leaf_init, numvals
+     :                        , c%dm_leaf_init, numvals
      :                        , 0.0, 100.0)
  
          call collect_real_var_optional (
@@ -894,16 +1647,16 @@ cjh      if (data_record.ne.blank) then
  
          call collect_real_var_optional (
      :                          'row_spacing', '(m)'
-     :                        , g_row_spacing, numvals
+     :                        , g%row_spacing, numvals
      :                        , 0.0, 2.0)
  
-         if (g_row_spacing .eq. 0.0) then
-           g_row_spacing = c_row_spacing_default
+         if (g%row_spacing .eq. 0.0) then
+           g%row_spacing = c%row_spacing_default
          endif
  
  
          call collect_char_var ('cultivar', '()'
-     :                        , g_cultivar, numvals)
+     :                        , g%cultivar, numvals)
  
              ! report
  
@@ -922,9 +1675,9 @@ cjh      if (data_record.ne.blank) then
          string = '    ------------------------------------------------'
          call write_string (lu_scr_sum, string)
          write (string, '(3x, i7, 4f7.1, 1x, a10)')
-     :                   g_day_of_year
-     :                 , g_plants, c_dm_leaf_init, N_tiller_plant
-     :                 , g_row_spacing, g_cultivar
+     :                   g%day_of_year
+     :                 , g%plants, c%dm_leaf_init, N_tiller_plant
+     :                 , g%row_spacing, g%cultivar
          call write_string (lu_scr_sum, string)
  
          string = '    ------------------------------------------------'
@@ -938,18 +1691,18 @@ cjh      if (data_record.ne.blank) then
  
          call millet_read_root_params ()
  
-         c_N_leaf_init_conc = divide (N_tiller_plant
-     :                              , c_dm_leaf_init, 0.0)
-         c_dm_root_init = c_dm_leaf_init
+         c%N_leaf_init_conc = divide (N_tiller_plant
+     :                              , c%dm_leaf_init, 0.0)
+         c%dm_root_init = c%dm_leaf_init
  
 cjh            this need to be changed back to emergence again. A temporary
 cjh            fix to overcome problems of variables being calculated between
 cjh            germ and emerg (leaf_no_final and phase_tt(germ_to emerg &
 cjh            emerg_to_endjuv).
-cjh         g_current_stage = real (emerg)
+cjh         g%current_stage = real (emerg)
  
-         g_current_stage = real (germ)
-         g_plant_status = status_alive
+         g%current_stage = real (germ)
+         g%plant_status = status_alive
  
 cjh      else
             ! report empty sowing record
@@ -958,7 +1711,7 @@ cjh      endif
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -966,7 +1719,6 @@ cjh      endif
       subroutine millet_read_cultivar_params ()
 *     ===========================================================
       implicit none
-      include   'const.inc'            ! new_line, lu_scr_sum, blank
       include   'millet.inc'
       include 'read.pub'                          
       include 'write.pub'                         
@@ -979,7 +1731,6 @@ cjh      endif
 *       090994 jngh specified and programmed
 
 *+  Calls
-                                       ! lu_src_sum
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -999,110 +1750,110 @@ cjh      endif
          ! TEMPLATE OPTION
          !   millet_leaf_area_devel_plant
  
-      ! call read_real_var (g_cultivar
+      ! call read_real_var (g%cultivar
       !:                    , 'tpla_prod_coef', '(????)'
-      !:                    , p_tpla_prod_coef, numvals
+      !:                    , p%tpla_prod_coef, numvals
       !:                    , 0.0, 10.0)
  
-      ! call read_real_var (g_cultivar
+      ! call read_real_var (g%cultivar
       !:                    , 'tpla_inflection', '(????)'
-      !:                    , p_tpla_inflection, numvals
+      !:                    , p%tpla_inflection, numvals
       !:                    , 0.0, 10.0)
  
-      ! call read_real_var (g_cultivar
+      ! call read_real_var (g%cultivar
       !:                    , 'tiller_no_fertile', '(????)'
-      !:                    , p_tiller_no_fertile, numvals
+      !:                    , p%tiller_no_fertile, numvals
       !:                    , 0.0, 100.0)
  
          ! TEMPLATE OPTION
          !   millet_leaf_area_sen_age1
  
-      ! call read_real_var (g_cultivar
+      ! call read_real_var (g%cultivar
       !:                    , 'spla_prod_coef', '(????)'
-      !:                    , p_spla_prod_coef, numvals
+      !:                    , p%spla_prod_coef, numvals
       !:                    , 0.0, 100.0)
  
-      ! call read_real_var (g_cultivar
+      ! call read_real_var (g%cultivar
       !:                    , 'spla_intercept', '(????)'
-      !:                    , p_spla_intercept, numvals
+      !:                    , p%spla_intercept, numvals
       !:                    , 0.0, 100.0)
  
          ! TEMPLATE OPTION
          !       millet_dm_grain_hi
  
-      ! call read_real_var (g_cultivar
+      ! call read_real_var (g%cultivar
       !:                    , 'hi_incr', '()'
-      !:                    , p_hi_incr, numvals
+      !:                    , p%hi_incr, numvals
       !:                    , 0.0, 1.0)
  
-      call read_real_var (g_cultivar
+      call read_real_var (g%cultivar
      :                    , 'hi_max_pot', '()'
-     :                    , p_hi_max_pot, numvals
+     :                    , p%hi_max_pot, numvals
      :                    , 0.0, 1.0)
  
          ! TEMPLATE OPTION
          !   millet_check_grain_no  millet_grain_no
  
-      call read_real_var (g_cultivar
+      call read_real_var (g%cultivar
      :                    , 'head_grain_no_max', '()'
-     :                    , p_head_grain_no_max, numvals
-     :                    , 0.0, c_head_grain_no_max_ub)
+     :                    , p%head_grain_no_max, numvals
+     :                    , 0.0, c%head_grain_no_max_ub)
  
          ! TEMPLATE OPTION
          !   millet_dm_grain
  
-      call read_real_var (g_cultivar
+      call read_real_var (g%cultivar
      :                    , 'grain_gth_rate', '()'
-     :                    , p_grain_gth_rate, numvals
-     :                    , 0.0, c_grain_gth_rate_ub)
+     :                    , p%grain_gth_rate, numvals
+     :                    , 0.0, c%grain_gth_rate_ub)
  
          !   millet_phenology_init
  
-      call read_real_var (g_cultivar
+      call read_real_var (g%cultivar
      :                    , 'tt_emerg_to_endjuv', '()'
-     :                    , p_tt_emerg_to_endjuv, numvals
-     :                    , 0.0, c_tt_emerg_to_endjuv_ub)
+     :                    , p%tt_emerg_to_endjuv, numvals
+     :                    , 0.0, c%tt_emerg_to_endjuv_ub)
  
-      call read_integer_var (g_cultivar
+      call read_integer_var (g%cultivar
      :                    , 'est_days_emerg_to_init', '()'
-     :                    , p_est_days_emerg_to_init, numvals
+     :                    , p%est_days_emerg_to_init, numvals
      :                    , 0, 100)
  
-      call read_real_var (g_cultivar
+      call read_real_var (g%cultivar
      :                    , 'pp_endjuv_to_init', '()'
-     :                    , p_pp_endjuv_to_init, numvals
-     :                    , 0.0, c_pp_endjuv_to_init_ub)
+     :                    , p%pp_endjuv_to_init, numvals
+     :                    , 0.0, c%pp_endjuv_to_init_ub)
  
-      call read_real_var (g_cultivar
+      call read_real_var (g%cultivar
      :                    , 'tt_flower_to_maturity', '()'
-     :                    , p_tt_flower_to_maturity, numvals
-     :                    , 0.0, c_tt_flower_to_maturity_ub)
+     :                    , p%tt_flower_to_maturity, numvals
+     :                    , 0.0, c%tt_flower_to_maturity_ub)
  
-      call read_real_var (g_cultivar
+      call read_real_var (g%cultivar
      :                    , 'tt_flag_to_flower', '()'
-     :                    , p_tt_flag_to_flower, numvals
-     :                    , 0.0, c_tt_flag_to_flower_ub)
+     :                    , p%tt_flag_to_flower, numvals
+     :                    , 0.0, c%tt_flag_to_flower_ub)
  
-      call read_real_var (g_cultivar
+      call read_real_var (g%cultivar
      :                    , 'tt_flower_to_start_grain', '()'
-     :                    , p_tt_flower_to_start_grain, numvals
-     :                    , 0.0, c_tt_flower_to_start_grain_ub)
+     :                    , p%tt_flower_to_start_grain, numvals
+     :                    , 0.0, c%tt_flower_to_start_grain_ub)
  
  
-      call read_real_var (g_cultivar
+      call read_real_var (g%cultivar
      :                    , 'tt_maturity_to_ripe', '()'
-     :                    , p_tt_maturity_to_ripe, numvals
-     :                    , 0.0, c_tt_maturity_to_ripe_ub)
+     :                    , p%tt_maturity_to_ripe, numvals
+     :                    , 0.0, c%tt_maturity_to_ripe_ub)
  
 cgd   Eriks modifications for Leaf Area
-      call read_real_var (g_cultivar
+      call read_real_var (g%cultivar
      :                    , 'y0_const', '()'
-     :                    , p_y0_const, numvals
+     :                    , p%y0_const, numvals
      :                    , -40000.0, 100000.0)
  
-      call read_real_var (g_cultivar
+      call read_real_var (g%cultivar
      :                    , 'y0_slope', '()'
-     :                    , p_y0_slope, numvals
+     :                    , p%y0_slope, numvals
      :                    , 0.0, 10000.0)
              ! report
  
@@ -1110,94 +1861,94 @@ cgd   Eriks modifications for Leaf Area
       call write_string (lu_scr_sum, string)
  
       write (string, '(4x,2a)')
-     :                'Cultivar                 = ', g_cultivar
+     :                'Cultivar                 = ', g%cultivar
       call write_string (lu_scr_sum, string)
  
       write (string, '(4x, a, i7)')
      :                'est_days_emerg_to_init  = '
-     :               , p_est_days_emerg_to_init
+     :               , p%est_days_emerg_to_init
       call write_string (lu_scr_sum, string)
  
       write (string, '(4x, a, f7.1)')
      :                'tt_emerg_to_endjuv       = '
-     :               , p_tt_emerg_to_endjuv
+     :               , p%tt_emerg_to_endjuv
       call write_string (lu_scr_sum, string)
  
       write (string, '(4x, a, f7.1)')
      :                'pp_endjuv_to_initp       = '
-     :               , p_pp_endjuv_to_init
+     :               , p%pp_endjuv_to_init
       call write_string (lu_scr_sum, string)
  
       write (string, '(4x, a, f7.1)')
      :                'tt_flower_to_maturity    = '
-     :               , p_tt_flower_to_maturity
+     :               , p%tt_flower_to_maturity
       call write_string (lu_scr_sum, string)
  
       write (string, '(4x, a, f7.1)')
      :                'head_grain_no_max        = '
-     :               , p_head_grain_no_max
+     :               , p%head_grain_no_max
       call write_string (lu_scr_sum, string)
  
       write (string, '(4x, a, f7.1)')
      :                'grain_gth_rate           = '
-     :               , p_grain_gth_rate
+     :               , p%grain_gth_rate
       call write_string (lu_scr_sum, string)
  
       write (string, '(4x, a, f7.1)')
      :                'tt_flag_to_flower        = '
-     :               , p_tt_flag_to_flower
+     :               , p%tt_flag_to_flower
       call write_string (lu_scr_sum, string)
  
       write (string, '(4x, a, f7.1)')
      :                'tt_flower_to_start_grain = '
-     :               , p_tt_flower_to_start_grain
+     :               , p%tt_flower_to_start_grain
       call write_string (lu_scr_sum, string)
  
       write (string, '(4x, a, f7.1)')
      :                'tt_maturity_to_ripe      = '
-     :               , p_tt_maturity_to_ripe
+     :               , p%tt_maturity_to_ripe
       call write_string (lu_scr_sum, string)
  
          ! TEMPLATE OPTION
       ! write (string, '(4x, a, f7.1)')
       !:                'hi_incr                  = '
-      !:               , p_hi_incr
+      !:               , p%hi_incr
       ! call write_string (lu_scr_sum, string)
  
          ! TEMPLATE OPTION
       ! write (string, '(4x, a, f7.1)')
       !:                'hi_max_pot                   = '
-      !:               , p_hi_max_pot
+      !:               , p%hi_max_pot
       ! call write_string (lu_scr_sum, string)
  
          ! TEMPLATE OPTION
       ! write (string, '(4x, a, f7.1)')
       !:                'tpla_prod_coef           = '
-      !:               , p_tpla_prod_coef
+      !:               , p%tpla_prod_coef
       ! call write_string (lu_scr_sum, string)
  
          ! TEMPLATE OPTION
       ! write (string, '(4x, a, f7.1)')
       !:                'tpla_inflection          = '
-      !:               , p_tpla_inflection
+      !:               , p%tpla_inflection
       ! call write_string (lu_scr_sum, string)
  
          ! TEMPLATE OPTION
       ! write (string, '(4x, a, f7.1)')
       !:                'tiller_no_fertile        = '
-      !:               , p_tiller_no_fertile
+      !:               , p%tiller_no_fertile
       ! call write_string (lu_scr_sum, string)
  
          ! TEMPLATE OPTION
       ! write (string, '(4x, a, f7.1)')
       !:                'spla_prod_coef           = '
-      !:               , p_spla_prod_coef
+      !:               , p%spla_prod_coef
       ! call write_string (lu_scr_sum, string)
  
          ! TEMPLATE OPTION
       ! write (string, '(4x, a, f7.1)')
       !:                'spla_intercept           = '
-      !:               , p_spla_intercept
+      !:               , p%spla_intercept
       ! call write_string (lu_scr_sum, string)
  
       string = '    ------------------------------------------------'
@@ -1207,7 +1958,7 @@ cgd   Eriks modifications for Leaf Area
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1215,7 +1966,6 @@ cgd   Eriks modifications for Leaf Area
       subroutine millet_read_root_params ()
 *     ===========================================================
       implicit none
-      include   'const.inc'            ! new_line, lu_scr_sum, blank,
       include   'millet.inc'            ! dlayer(max_layer)
       include 'data.pub'                          
       include 'read.pub'                          
@@ -1230,7 +1980,6 @@ cgd   Eriks modifications for Leaf Area
 *     210395 jngh changed from millet_section to a parameters section
 
 *+  Calls
-                                       ! lu_scr_sum
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -1261,17 +2010,17 @@ cgd   Eriks modifications for Leaf Area
       call read_real_array (section_name
      :                     , 'll', max_layer, '()'
      :                     , ll, num_layers
-     :                     , 0.0, c_ll_ub)
+     :                     , 0.0, c%ll_ub)
  
-      call fill_real_array (p_ll_dep, 0.0, max_layer)
+      call fill_real_array (p%ll_dep, 0.0, max_layer)
       do 1000 layer = 1, num_layers
-         p_ll_dep(layer) = ll(layer)*g_dlayer(layer)
+         p%ll_dep(layer) = ll(layer)*g%dlayer(layer)
 1000  continue
  
       call read_real_array (section_name
      :                     , 'kl', max_layer, '()'
-     :                     , p_kl, num_layers
-     :                     , 0.0, c_kl_ub)
+     :                     , p%kl, num_layers
+     :                     , 0.0, c%kl_ub)
  
  
  
@@ -1295,8 +2044,8 @@ cgd   Eriks modifications for Leaf Area
  
       do 2000 layer = 1, num_layers
          write (string,'(3x, 3f12.3)')
-     :            g_dlayer(layer)
-     :          , p_kl(layer)
+     :            g%dlayer(layer)
+     :          , p%kl(layer)
      :          , ll(layer)
          call write_string (lu_scr_sum, string)
 2000  continue
@@ -1308,7 +2057,7 @@ cgd   Eriks modifications for Leaf Area
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1316,7 +2065,6 @@ cgd   Eriks modifications for Leaf Area
       subroutine millet_end_crop ()
 *     ===========================================================
       implicit none
-      include   'const.inc'            ! new_line, lu_scr_sum
       include   'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc
       include   'millet.inc'
       include 'data.pub'                          
@@ -1345,48 +2093,48 @@ cgd   Eriks modifications for Leaf Area
  
       call push_routine (my_name)
  
-      if (g_plant_status.ne.status_out) then
-         g_plant_status = status_out
-         g_current_stage = real (plant_end)
+      if (g%plant_status.ne.status_out) then
+         g%plant_status = status_out
+         g%current_stage = real (plant_end)
  
                 ! report
  
-         yield = (g_dm_green(grain) + g_dm_dead(grain)) *gm2kg /sm2ha
+         yield = (g%dm_green(grain) + g%dm_dead(grain)) *gm2kg /sm2ha
          write (string, '(3x, a, f7.1)')
      :                  ' ended. Yield (dw) = ', yield
          call report_event (string)
  
              ! now do post harvest processes
  
-         dm_root = g_dm_green(root)
-     :           + g_dm_dead(root)
-     :           + g_dm_senesced(root)
+         dm_root = g%dm_green(root)
+     :           + g%dm_dead(root)
+     :           + g%dm_senesced(root)
  
-         N_root  = g_N_green(root)
-     :           + g_N_dead(root)
-     :           + g_N_senesced(root)
+         N_root  = g%N_green(root)
+     :           + g%N_dead(root)
+     :           + g%N_senesced(root)
  
          call millet_root_incorp (dm_root, N_root)
  
              ! put stover into surface residue
  
-         dm_residue = (sum_real_array (g_dm_green, max_part)
-     :              - g_dm_green(root) - g_dm_green(grain))
+         dm_residue = (sum_real_array (g%dm_green, max_part)
+     :              - g%dm_green(root) - g%dm_green(grain))
  
-     :              + (sum_real_array (g_dm_senesced, max_part)
-     :              - g_dm_senesced(root) - g_dm_senesced(grain))
+     :              + (sum_real_array (g%dm_senesced, max_part)
+     :              - g%dm_senesced(root) - g%dm_senesced(grain))
  
-     :              + (sum_real_array (g_dm_dead, max_part)
-     :              - g_dm_dead(root) - g_dm_dead(grain))
+     :              + (sum_real_array (g%dm_dead, max_part)
+     :              - g%dm_dead(root) - g%dm_dead(grain))
  
-         N_residue = (sum_real_array (g_N_green, max_part)
-     :             - g_N_green(root) - g_N_green(grain))
+         N_residue = (sum_real_array (g%N_green, max_part)
+     :             - g%N_green(root) - g%N_green(grain))
  
-     :             + (sum_real_array (g_N_senesced, max_part)
-     :             - g_N_senesced(root) - g_N_senesced(grain))
+     :             + (sum_real_array (g%N_senesced, max_part)
+     :             - g%N_senesced(root) - g%N_senesced(grain))
  
-     :             + (sum_real_array (g_N_dead, max_part)
-     :             - g_N_dead(root) - g_N_dead(grain))
+     :             + (sum_real_array (g%N_dead, max_part)
+     :             - g%N_dead(root) - g%N_dead(grain))
  
          call millet_top_residue (dm_residue, N_residue)
  
@@ -1411,7 +2159,7 @@ cgd   Eriks modifications for Leaf Area
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1441,17 +2189,17 @@ cgd   Eriks modifications for Leaf Area
  
       call push_routine (my_name)
  
-      array(g_day_of_year) = value
+      array(g%day_of_year) = value
  
-      if (g_day_of_year.eq.365
-     :   .and. leap_year (g_year - 1)) then
+      if (g%day_of_year.eq.365
+     :   .and. leap_year (g%year - 1)) then
          array(366) = 0.0
       else
       endif
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1459,7 +2207,6 @@ cgd   Eriks modifications for Leaf Area
       subroutine millet_get_other_variables ()
 *     ================================================================
       implicit none
-      include   'const.inc'
       include   'convert.inc'
       include   'millet.inc'
       include 'data.pub'                          
@@ -1499,29 +2246,29 @@ cgd   Eriks modifications for Leaf Area
             ! date
  
       call get_integer_var (unknown_module, 'day', '()'
-     :                                    , g_day_of_year, numvals
+     :                                    , g%day_of_year, numvals
      :                                    , 1, 366)
  
       call get_integer_var (unknown_module, 'year', '()'
-     :                                    , g_year, numvals
-     :                                    , c_year_lb, c_year_ub)
+     :                                    , g%year, numvals
+     :                                    , c%year_lb, c%year_ub)
  
                                ! canopy
       call get_current_module (module_name)
       call get_real_var_optional (unknown_module
      :                           , 'fr_intc_radn_'//module_name
      :                           , '()'
-     :                           , g_fr_intc_radn
+     :                           , g%fr_intc_radn
      :                           , numvals
      :                           , 0.0
      :                           , 1.0)
  
  
-      if (g_stem_class .eq. class_tiller) then
+      if (g%stem_class .eq. class_tiller) then
  
 cgd leaf_no_ref is the final leaf no for the main shoot needed by tillers
         call get_real_var  (unknown_module, 'leaf_no_ref', '()'
-     :                             , g_leaf_no_ref,numvals
+     :                             , g%leaf_no_ref,numvals
      :                             , 0.0, 100.0)
  
       else
@@ -1529,20 +2276,20 @@ cgd leaf_no_ref is the final leaf no for the main shoot needed by tillers
       endif
                                 ! climate
       call get_real_var (unknown_module, 'latitude', '(oL)'
-     :                                  , g_latitude, numvals
-     :                                  , c_latitude_lb, c_latitude_ub)
+     :                                  , g%latitude, numvals
+     :                                  , c%latitude_lb, c%latitude_ub)
  
       call get_real_var (unknown_module, 'maxt', '(oC)'
-     :                                  , g_maxt, numvals
-     :                                  , c_maxt_lb, c_maxt_ub)
+     :                                  , g%maxt, numvals
+     :                                  , c%maxt_lb, c%maxt_ub)
  
       call get_real_var (unknown_module, 'mint', '(oC)'
-     :                                  , g_mint, numvals
-     :                                  , c_mint_lb, c_mint_ub)
+     :                                  , g%mint, numvals
+     :                                  , c%mint_lb, c%mint_ub)
  
       call get_real_var (unknown_module, 'radn', '(Mj/m^2)'
-     :                                  , g_radn, numvals
-     :                                  , c_radn_lb, c_radn_ub)
+     :                                  , g%radn, numvals
+     :                                  , c%radn_lb, c%radn_ub)
 !cpsc
       call get_real_var_optional (unknown_module, 'soil_temp', '(oC)'
      :                                  , soil_temp, numvals
@@ -1551,16 +2298,16 @@ cgd leaf_no_ref is the final leaf no for the main shoot needed by tillers
       if (numvals.eq.0) then
          ! soil temp not supplied
       else
-         call millet_store_value (g_soil_temp, soil_temp)
+         call millet_store_value (g%soil_temp, soil_temp)
       endif
  
                                ! canopy
 cpsc      call get_real_var_optional (unknown_module, 'fr_intc_radn', '()'
-cpsc     :                                  , g_fr_intc_radn, numvals
+cpsc     :                                  , g%fr_intc_radn, numvals
 cpsc     :                                  , 0.0, 1.0)
  
       call get_real_var_optional (unknown_module, 'cover_green_sum','()'
-     :                                  , g_cover_green_sum, numvals
+     :                                  , g%cover_green_sum, numvals
      :                                  , 0.0, 1.0)
 c+!!!!!!!! what to do if no waterbalance variables found
             ! soil profile and soil water
@@ -1568,61 +2315,61 @@ c+!!!!!!!! what to do if no waterbalance variables found
       call get_real_array (unknown_module, 'dlayer', max_layer
      :                                    , '(mm)'
      :                                    , dlayer, numvals
-     :                                    , c_dlayer_lb, c_dlayer_ub)
+     :                                    , c%dlayer_lb, c%dlayer_ub)
  
-      if (g_num_layers.eq.0) then
+      if (g%num_layers.eq.0) then
             ! we assume dlayer hasn't been initialised yet.
-         call add_real_array (dlayer, g_dlayer, numvals)
-         g_num_layers = numvals
+         call add_real_array (dlayer, g%dlayer, numvals)
+         g%num_layers = numvals
  
       else
             ! dlayer may be changed from its last setting
          do 1000 layer = 1, numvals
-            p_ll_dep(layer) = divide (p_ll_dep(layer)
-     :                              , g_dlayer(layer), 0.0)
+            p%ll_dep(layer) = divide (p%ll_dep(layer)
+     :                              , g%dlayer(layer), 0.0)
      :                      * dlayer(layer)
  
-            g_dlayer(layer) = dlayer(layer)
+            g%dlayer(layer) = dlayer(layer)
 1000     continue
-         g_num_layers = numvals
+         g%num_layers = numvals
       endif
  
       call get_real_array (unknown_module, 'dul_dep', max_layer
      :                                    , '(mm)'
-     :                                    , g_dul_dep, numvals
-     :                                    , c_dul_dep_lb, c_dul_dep_ub)
+     :                                    , g%dul_dep, numvals
+     :                                    , c%dul_dep_lb, c%dul_dep_ub)
  
       call get_real_array (unknown_module, 'sw_dep', max_layer
      :                                    , '(mm)'
-     :                                    , g_sw_dep, numvals
-     :                                    , c_sw_dep_lb, c_sw_dep_ub)
+     :                                    , g%sw_dep, numvals
+     :                                    , c%sw_dep_lb, c%sw_dep_ub)
  
                                 ! soil nitrogen pools
       call get_real_array_optional (unknown_module, 'no3', max_layer
      :                                  ,  '(kg/ha)'
      :                                  , NO3, numvals
-     :                                  , c_NO3_lb, c_NO3_ub)
+     :                                  , c%NO3_lb, c%NO3_ub)
       if (numvals.eq.0) then
             ! we have no N supply - make non-limiting.
-         call fill_real_array (NO3, 10000.0, g_num_layers)
+         call fill_real_array (NO3, 10000.0, g%num_layers)
       else
       endif
-      do 2000 layer = 1, g_num_layers
-         g_NO3gsm(layer) = NO3(layer) * kg2gm /ha2sm
+      do 2000 layer = 1, g%num_layers
+         g%NO3gsm(layer) = NO3(layer) * kg2gm /ha2sm
 2000  continue
  
  
       call get_real_array_optional (unknown_module, 'no3_min',max_layer
      :                                  ,  '(kg/ha)'
      :                                  , NO3_min, numvals
-     :                                  , c_NO3_min_lb, c_NO3_min_ub)
-      do 3000 layer = 1, g_num_layers
-         g_NO3gsm_min(layer) = NO3_min(layer) * kg2gm /ha2sm
+     :                                  , c%NO3_min_lb, c%NO3_min_ub)
+      do 3000 layer = 1, g%num_layers
+         g%NO3gsm_min(layer) = NO3_min(layer) * kg2gm /ha2sm
 3000  continue
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1630,7 +2377,6 @@ c+!!!!!!!! what to do if no waterbalance variables found
       subroutine millet_set_other_variables ()
 *     ================================================================
       implicit none
-      include   'const.inc'
       include   'convert.inc'
       include   'millet.inc'
       include 'data.pub'                          
@@ -1663,10 +2409,10 @@ c+!!!!!!!! what to do if no waterbalance variables found
       call push_routine (my_name)
  
 c+!!!! perhaps we should get number of layers at init and keep it
-      num_layers = count_of_real_vals (g_dlayer, max_layer)
+      num_layers = count_of_real_vals (g%dlayer, max_layer)
  
       do 1000 layer = 1, num_layers
-         dlt_NO3(layer) = g_dlt_NO3gsm(layer) * gm2kg /sm2ha
+         dlt_NO3(layer) = g%dlt_NO3gsm(layer) * gm2kg /sm2ha
 1000  continue
  
       call new_postbox()
@@ -1674,7 +2420,7 @@ c+!!!! perhaps we should get number of layers at init and keep it
      :                    , dlt_NO3, num_layers)
  
       call post_real_array ('dlt_sw_dep', '(mm)'
-     :                    , g_dlt_sw_dep, num_layers)
+     :                    , g%dlt_sw_dep, num_layers)
  
       call message_send_immediate (unknown_module
      :                               ,Mes_set_variable
@@ -1686,7 +2432,7 @@ c+!!!! perhaps we should get number of layers at init and keep it
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1733,13 +2479,13 @@ cused for validation of leaf area model only
       if (variable_name .eq. 'leaf_no_final') then
          call collect_real_var (variable_name
      :                              , '()'
-     :                              , g_leaf_no_final, numvals
+     :                              , g%leaf_no_final, numvals
      :                              , 0.0, 40.0)
  
       elseif (variable_name .eq. 'dlt_leaf_no_pot') then
          call collect_real_var (variable_name
      :                              , '()'
-     :                              , g_dlt_leaf_no_pot, numvals
+     :                              , g%dlt_leaf_no_pot, numvals
      :                              , 0.0, 40.0)
  
       else
@@ -1749,7 +2495,7 @@ cused for validation of leaf area model only
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1778,9 +2524,6 @@ cused for validation of leaf area model only
 *      220696 jngh added message_unused to else
 
 *+  Calls
-      real       millet_swdef          ! function
-      real       millet_nfact          ! function
-      real       millet_N_fixation     ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -1821,180 +2564,180 @@ cjh
       if (variable_name .eq. 'plant_status') then
          call respond2get_char_var (variable_name
      :                             , '()'
-     :                             , g_plant_status)
+     :                             , g%plant_status)
  
       elseif (variable_name .eq. 'stage') then
          call respond2get_real_var (variable_name
      :                             , '()'
-     :                             , g_current_stage)
+     :                             , g%current_stage)
  
       elseif (variable_name .eq. 'stage_code') then
-         stage_no = int (g_current_stage)
+         stage_no = int (g%current_stage)
          call respond2get_real_var (variable_name
      :                             , '()'
-     :                             , c_stage_code_list(stage_no))
+     :                             , c%stage_code_list(stage_no))
  
       elseif (variable_name .eq. 'stage_name') then
-         stage_no = int (g_current_stage)
+         stage_no = int (g%current_stage)
          call respond2get_char_var (variable_name
      :                             , '()'
-     :                             , c_stage_names(stage_no))
+     :                             , c%stage_names(stage_no))
  
       elseif (variable_name .eq. 'crop_type') then
          call respond2get_char_var (variable_name
      :                             , '()'
-     :                             , c_crop_type)
+     :                             , c%crop_type)
  
       elseif (variable_name .eq. 'dlt_tt') then
          call respond2get_real_var (variable_name
      :                             , '(oCd)'
-     :                             , g_dlt_tt)
+     :                             , g%dlt_tt)
  
       elseif (variable_name .eq. 'phase_tt') then
          call respond2get_real_array (variable_name
      :                             , '(oC)'
-     :                             , g_phase_tt
+     :                             , g%phase_tt
      :                             , max_stage)
  
       elseif (variable_name .eq. 'tt_tot') then
          call respond2get_real_array (variable_name
      :                             , '(oC)'
-     :                             , g_tt_tot
+     :                             , g%tt_tot
      :                             , max_stage)
  
       elseif (variable_name .eq. 'dlt_tt_curv') then
          call respond2get_real_var (variable_name
      :                             , '(oCd)'
-     :                             , g_dlt_tt_curv)
+     :                             , g%dlt_tt_curv)
  
       elseif (variable_name .eq. 'phase_tt_curv') then
          call respond2get_real_array (variable_name
      :                             , '(oC)'
-     :                             , g_phase_tt_curv
+     :                             , g%phase_tt_curv
      :                             , max_stage)
  
       elseif (variable_name .eq. 'tt_curv_tot') then
          call respond2get_real_array (variable_name
      :                             , '(oC)'
-     :                             , g_tt_curv_tot
+     :                             , g%tt_curv_tot
      :                             , max_stage)
  
       elseif (variable_name .eq. 'dlt_tt_other') then
          call respond2get_real_var (variable_name
      :                             , '(oCd)'
-     :                             , g_dlt_tt_other)
+     :                             , g%dlt_tt_other)
 cgd
       elseif (variable_name .eq. 'dlt_tiller_no') then
          call respond2get_real_var (variable_name
      :                             , '()'
-     :                             , g_dlt_tiller_no)
+     :                             , g%dlt_tiller_no)
  
       elseif (variable_name .eq. 'phase_tt_other') then
          call respond2get_real_array (variable_name
      :                             , '(oC)'
-     :                             , g_phase_tt_other
+     :                             , g%phase_tt_other
      :                             , max_stage)
  
       elseif (variable_name .eq. 'tt_other_tot') then
          call respond2get_real_array (variable_name
      :                             , '(oC)'
-     :                             , g_tt_other_tot
+     :                             , g%tt_other_tot
      :                             , max_stage)
  
       elseif (variable_name .eq. 'days_tot') then
          call respond2get_real_array (variable_name
      :                             , '()'
-     :                             , g_days_tot
+     :                             , g%days_tot
      :                             , max_stage)
 cgd
       elseif (variable_name .eq. 'tiller_no') then
          call respond2get_real_array (variable_name
      :                              , '()'
-     :                              , g_tiller_no
+     :                              , g%tiller_no
      :                              , max_stage)
  
       elseif (variable_name .eq. 'leaf_no') then
          call respond2get_real_array (variable_name
      :                              , '()'
-     :                              , g_leaf_no
+     :                              , g%leaf_no
      :                              , max_stage)
  
 cgd
       elseif (variable_name .eq. 'leaf_no_final') then
          call respond2get_real_var (variable_name
      :                              , '()'
-     :                              , g_leaf_no_final)
+     :                              , g%leaf_no_final)
 cgd
       elseif (variable_name .eq. 'leaf_no_total') then
          call respond2get_real_var (variable_name
      :                              , '()'
-     :                              , g_leaf_no_total)
+     :                              , g%leaf_no_total)
 cejvo
       elseif (variable_name .eq. 'leaf_no_effective') then
          call respond2get_real_var (variable_name
      :                              , '()'
-     :                              , g_leaf_no_effective)
+     :                              , g%leaf_no_effective)
  
       elseif (variable_name .eq. 'leaf_no_dead_const2') then
          call respond2get_real_var (variable_name
      :                              , '()'
-     :                              , g_leaf_no_dead_const2)
+     :                              , g%leaf_no_dead_const2)
  
       elseif (variable_name .eq. 'lf_no_dead_at_flaglf') then
          call respond2get_real_var (variable_name
      :                              , '()'
-     :                              , g_lf_no_dead_at_flaglf)
+     :                              , g%lf_no_dead_at_flaglf)
  
       elseif (variable_name .eq. 'leaf_no_dead') then
          call respond2get_real_array (variable_name
      :                              , '()'
-     :                              , g_leaf_no_dead
+     :                              , g%leaf_no_dead
      :                              , max_stage)
  
       elseif ((variable_name .eq. 'leaf_no_ref') .and.
-     :   (g_stem_class .eq. class_main)) then
+     :   (g%stem_class .eq. class_main)) then
  
          ! only the main stem can respond
  
          call respond2get_real_var (variable_name
      :                              , '()'
-     :                              , g_leaf_no_ref)
+     :                              , g%leaf_no_ref)
  
       elseif (variable_name .eq. 'leaf_area') then
          call respond2get_real_array (variable_name
      :                              , '()'
-     :                              , g_leaf_area
+     :                              , g%leaf_area
      :                              , max_leaf)
 cejvo
       elseif (variable_name .eq. 'y_tiller_tt_adj') then
          call respond2get_real_array (variable_name
      :                              , '()'
-     :                              , g_y_tiller_tt_adj
+     :                              , g%y_tiller_tt_adj
      :                              , max_table)
  
       elseif (variable_name .eq. 'height') then
          call respond2get_real_var (variable_name
      :                             , '(mm)'
-     :                             , g_canopy_height)
+     :                             , g%canopy_height)
  
       elseif (variable_name .eq. 'root_depth') then
          call respond2get_real_var (variable_name
      :                             , '(mm)'
-     :                             , g_root_depth)
+     :                             , g%root_depth)
  
       elseif (variable_name .eq. 'plants') then
          call respond2get_real_var (variable_name
      :                             , '()'
-     :                             , g_plants)
+     :                             , g%plants)
  
       elseif (variable_name .eq. 'grain_no') then
          call respond2get_real_var (variable_name
      :                             , '()'
-     :                             , g_grain_no)
+     :                             , g%grain_no)
  
       elseif (variable_name .eq. 'grain_size') then
-         grain_size = divide (g_dm_green(grain) + g_dm_dead(grain)
-     :                      , g_grain_no, 0.0)
+         grain_size = divide (g%dm_green(grain) + g%dm_dead(grain)
+     :                      , g%grain_no, 0.0)
          call respond2get_real_var (variable_name
      :                             , '(g)'
      :                             , grain_size)
@@ -2003,20 +2746,20 @@ cejvo
       elseif (variable_name .eq. 'cover_green') then
          call respond2get_real_var (variable_name
      :                             , '()'
-     :                             , g_cover_green)
+     :                             , g%cover_green)
  
       elseif (variable_name .eq. 'cover_tot') then
          cover_tot = 1.0
-     :             - (1.0 - g_cover_green)
-     :             * (1.0 - g_cover_sen)
-     :             * (1.0 - g_cover_dead)
+     :             - (1.0 - g%cover_green)
+     :             * (1.0 - g%cover_sen)
+     :             * (1.0 - g%cover_dead)
  
          call respond2get_real_var (variable_name
      :                             , '()'
      :                             , cover_tot)
  
       elseif (variable_name .eq. 'lai_sum') then
-         lai_sum = g_lai + g_slai + g_tlai_dead
+         lai_sum = g%lai + g%slai + g%tlai_dead
          call respond2get_real_var (variable_name
      :                             , '()'
      :                             , lai_sum)
@@ -2024,82 +2767,82 @@ cejvo
       elseif (variable_name .eq. 'tlai') then
          call respond2get_real_var (variable_name
      :                             , '()'
-     :                             , g_lai + g_slai)
+     :                             , g%lai + g%slai)
  
       elseif (variable_name .eq. 'slai') then
          call respond2get_real_var (variable_name
      :                             , '()'
-     :                             , g_slai)
+     :                             , g%slai)
  
       elseif (variable_name .eq. 'lai') then
          call respond2get_real_var (variable_name
      :                             , '(m^2/m^2)'
-     :                             , g_lai)
+     :                             , g%lai)
  
       elseif (variable_name .eq. 'tlai_dead') then
          call respond2get_real_var (variable_name
      :                             , '(m^2/m^2)'
-     :                             , g_tlai_dead)
+     :                             , g%tlai_dead)
  
             ! plant biomass
  
       elseif (variable_name .eq. 'root_wt') then
          call respond2get_real_var (variable_name
      :                             , '(g/m^2)'
-     :                             , g_dm_green(root))
+     :                             , g%dm_green(root))
  
       elseif (variable_name .eq. 'leaf_wt') then
          call respond2get_real_var (variable_name
      :                             , '(g/m^2)'
-     :                             , g_dm_green(leaf))
+     :                             , g%dm_green(leaf))
  
       elseif (variable_name .eq. 'stem_wt') then
          call respond2get_real_var (variable_name
      :                             , '(g/m^2)'
-     :                             , g_dm_green(stem))
+     :                             , g%dm_green(stem))
  
       elseif (variable_name .eq. 'flower_wt') then
          call respond2get_real_var (variable_name
      :                             , '(g/m^2)'
-     :                             , g_dm_green(flower))
+     :                             , g%dm_green(flower))
  
       elseif (variable_name .eq. 'grain_wt') then
          call respond2get_real_var (variable_name
      :                             , '(g/m^2)'
-     :                             , g_dm_green(grain))
+     :                             , g%dm_green(grain))
  
       elseif (variable_name .eq. 'dm_green') then
          call respond2get_real_array (variable_name
      :                             , '(g/m^2)'
-     :                             , g_dm_green
+     :                             , g%dm_green
      :                             , max_part)
  
       elseif (variable_name .eq. 'dm_senesced') then
          call respond2get_real_array (variable_name
      :                             , '(g/m^2)'
-     :                             , g_dm_senesced
+     :                             , g%dm_senesced
      :                             , max_part)
  
       elseif (variable_name .eq. 'dm_dead') then
          call respond2get_real_array (variable_name
      :                             , '(g/m^2)'
-     :                             , g_dm_dead
+     :                             , g%dm_dead
      :                             , max_part)
  
       elseif (variable_name .eq. 'yield') then
-         yield = (g_dm_green(grain) + g_dm_dead(grain))
+         yield = (g%dm_green(grain) + g%dm_dead(grain))
      :           * gm2kg / sm2ha
          call respond2get_real_var (variable_name
      :                             , '(kg/ha)'
      :                             , yield)
  
       elseif (variable_name .eq. 'biomass') then
-         biomass = (sum_real_array (g_dm_green, max_part)
-     :           - g_dm_green(root)
-     :           + sum_real_array (g_dm_senesced, max_part)
-     :           - g_dm_senesced(root)
-     :           + sum_real_array (g_dm_dead, max_part)
-     :           - g_dm_dead(root))
+         biomass = (sum_real_array (g%dm_green, max_part)
+     :           - g%dm_green(root)
+     :           + sum_real_array (g%dm_senesced, max_part)
+     :           - g%dm_senesced(root)
+     :           + sum_real_array (g%dm_dead, max_part)
+     :           - g%dm_dead(root))
      :           * gm2kg / sm2ha
          call respond2get_real_var (variable_name
      :                             , '(kg/ha)'
@@ -2108,72 +2851,72 @@ cejvo
       elseif (variable_name .eq. 'dlt_dm') then
          call respond2get_real_var (variable_name
      :                             , '(g/m^2)'
-     :                             , g_dlt_dm)
+     :                             , g%dlt_dm)
  
       elseif (variable_name .eq. 'dlt_dm_green') then
          call respond2get_real_array (variable_name
      :                             , '(g/m^2)'
-     :                             , g_dlt_dm_green
+     :                             , g%dlt_dm_green
      :                             , max_part)
  
       elseif (variable_name .eq. 'dlt_dm_green_retrans') then
          call respond2get_real_array (variable_name
      :                             , '(g/m^2)'
-     :                             , g_dlt_dm_green_retrans
+     :                             , g%dlt_dm_green_retrans
      :                             , max_part)
  
       elseif (variable_name .eq. 'dlt_dm_detached') then
          call respond2get_real_array (variable_name
      :                             , '(g/m^2)'
-     :                             , g_dlt_dm_detached
+     :                             , g%dlt_dm_detached
      :                             , max_part)
  
       elseif (variable_name .eq. 'dlt_dm_dead_detached') then
          call respond2get_real_array (variable_name
      :                             , '(g/m^2)'
-     :                             , g_dlt_dm_dead_detached
+     :                             , g%dlt_dm_dead_detached
      :                             , max_part)
  
       elseif (variable_name .eq. 'n_green') then
          call respond2get_real_array (variable_name
      :                             , '(g/m^2)'
-     :                             , g_N_green
+     :                             , g%N_green
      :                             , max_part)
  
       elseif (variable_name .eq. 'n_senesced') then
          call respond2get_real_array (variable_name
      :                             , '(g/m^2)'
-     :                             , g_N_senesced
+     :                             , g%N_senesced
      :                             , max_part)
  
       elseif (variable_name .eq. 'n_dead') then
          call respond2get_real_array (variable_name
      :                             , '(g/m^2)'
-     :                             , g_N_dead
+     :                             , g%N_dead
      :                             , max_part)
  
       elseif (variable_name .eq. 'dlt_n_green') then
          call respond2get_real_array (variable_name
      :                             , '(g/m^2)'
-     :                             , g_dlt_N_green
+     :                             , g%dlt_N_green
      :                             , max_part)
  
       elseif (variable_name .eq. 'dlt_n_retrans') then
          call respond2get_real_array (variable_name
      :                             , '(g/m^2)'
-     :                             , g_dlt_N_retrans
+     :                             , g%dlt_N_retrans
      :                             , max_part)
  
       elseif (variable_name .eq. 'dlt_n_detached') then
          call respond2get_real_array (variable_name
      :                             , '(g/m^2)'
-     :                             , g_dlt_N_detached
+     :                             , g%dlt_N_detached
      :                             , max_part)
  
       elseif (variable_name .eq. 'dlt_n_dead_detached') then
          call respond2get_real_array (variable_name
      :                             , '(g/m^2)'
-     :                             , g_dlt_N_dead_detached
+     :                             , g%dlt_N_dead_detached
      :                             , max_part)
  
       elseif (variable_name .eq. 'swdef_pheno') then
@@ -2192,35 +2935,35 @@ cejvo
      :                             , millet_swdef (expansion))
  
       elseif (variable_name .eq. 'ep') then
-         num_layers = count_of_real_vals (g_dlayer, max_layer)
+         num_layers = count_of_real_vals (g%dlayer, max_layer)
          call respond2get_real_array (variable_name
      :                               , '(mm)'
-     :                               , g_dlt_sw_dep
+     :                               , g%dlt_sw_dep
      :                               , num_layers)
  
       elseif (variable_name .eq. 'cep') then
          call respond2get_real_var (variable_name
      :                             , '(mm)'
-     :                             , - g_transpiration_tot)
+     :                             , - g%transpiration_tot)
  
       elseif (variable_name .eq. 'sw_demand') then
          call respond2get_real_var (variable_name
      :                             , '(mm)'
-     :                             , g_sw_demand)
+     :                             , g%sw_demand)
  
       elseif (variable_name .eq. 'sw_supply') then
-         deepest_layer = find_layer_no (g_root_depth, g_dlayer
+         deepest_layer = find_layer_no (g%root_depth, g%dlayer
      :                                , max_layer)
-         sw_supply_sum = sum_real_array (g_sw_supply, deepest_layer)
+         sw_supply_sum = sum_real_array (g%sw_supply, deepest_layer)
          call respond2get_real_var (variable_name
      :                             , '(mm)'
      :                             , sw_supply_sum)
  
       elseif (variable_name .eq. 'esw_layr') then
  
-         num_layers = count_of_real_vals (g_dlayer, max_layer)
+         num_layers = count_of_real_vals (g%dlayer, max_layer)
          do 1000 layer = 1, num_layers
-            esw_layr(layer) = l_bound (g_sw_dep(layer) - p_ll_dep(layer)
+            esw_layr(layer) = l_bound (g%sw_dep(layer) - p%ll_dep(layer)
      :                        , 0.0)
 1000     continue
          call respond2get_real_array (variable_name
@@ -2232,23 +2975,23 @@ cejvo
          call respond2get_real_var (variable_name
      :                             , '(days)'
      :                             , sum_between (sowing, now
-     :                                          , g_days_tot))
+     :                                          , g%days_tot))
  
             ! plant nitrogen
  
       elseif (variable_name .eq. 'n_conc_stover') then
          call respond2get_real_var (variable_name
      :                             , '(%)'
-     :                             , g_N_conc_act_stover_tot)
+     :                             , g%N_conc_act_stover_tot)
  
       elseif (variable_name .eq. 'n_conc_crit') then
          call respond2get_real_var (variable_name
      :                             , '(%)'
-     :                             , g_N_conc_crit_stover_tot)
+     :                             , g%N_conc_crit_stover_tot)
  
       elseif (variable_name .eq. 'n_grain_pcnt') then
-         grain_N_pcnt = divide (g_N_green(grain)
-     :                        , g_dm_green(grain), 0.0)
+         grain_N_pcnt = divide (g%N_green(grain)
+     :                        , g%dm_green(grain), 0.0)
      :                        * fract2pcnt
          call respond2get_real_var (variable_name
      :                             , '(%)'
@@ -2256,51 +2999,51 @@ cejvo
  
  
       elseif (variable_name .eq. 'n_uptake_grain') then
-         ag_N_up = g_N_uptake_grain_tot*gm2kg /sm2ha
+         ag_N_up = g%N_uptake_grain_tot*gm2kg /sm2ha
          call respond2get_real_var (variable_name
      :                             , '(kg/ha)'
      :                             , ag_N_up)
  
  
       elseif (variable_name .eq. 'n_uptake') then
-         act_N_up = g_N_uptake_tot*gm2kg /sm2ha
+         act_N_up = g%N_uptake_tot*gm2kg /sm2ha
          call respond2get_real_var (variable_name
      :                             , '(kg/ha)'
      :                             , act_N_up)
  
  
       elseif (variable_name .eq. 'n_uptake_stover') then
-         apt_N_up = g_N_uptake_stover_tot*gm2kg /sm2ha
+         apt_N_up = g%N_uptake_stover_tot*gm2kg /sm2ha
          call respond2get_real_var (variable_name
      :                             , '(kg/ha)'
      :                             , apt_N_up)
  
       elseif (variable_name .eq. 'no3_tot') then
-         deepest_layer = find_layer_no (g_root_depth, g_dlayer
+         deepest_layer = find_layer_no (g%root_depth, g%dlayer
      :                                , max_layer)
-         NO3gsm_tot = sum_real_array (g_NO3gsm, deepest_layer)
+         NO3gsm_tot = sum_real_array (g%NO3gsm, deepest_layer)
          call respond2get_real_var (variable_name
      :                             , '(g/m^2)'
      :                             , NO3gsm_tot)
  
       elseif (variable_name .eq. 'n_demand') then
-         N_demand = sum_real_array (g_N_demand, max_part)
+         N_demand = sum_real_array (g%N_demand, max_part)
          call respond2get_real_var (variable_name
      :                             , '(g/m^2)'
      :                             , N_demand)
  
       elseif (variable_name .eq. 'n_supply') then
-         N_supply = sum_real_array ( g_dlt_N_green, max_part)
-     :            - g_dlt_N_green(grain)
-     :            - g_dlt_N_green(flower)
-     :            - g_dlt_N_green(root)
+         N_supply = sum_real_array ( g%dlt_N_green, max_part)
+     :            - g%dlt_N_green(grain)
+     :            - g%dlt_N_green(flower)
+     :            - g%dlt_N_green(root)
          call respond2get_real_var (variable_name
      :                             , '(g/m^2)'
      :                             , N_supply)
  
       elseif (variable_name .eq. 'n_supply_soil') then
-         deepest_layer = find_layer_no (g_root_depth,g_dlayer,max_layer)
-         N_uptake_sum = - sum_real_array (g_dlt_NO3gsm, deepest_layer)
+         deepest_layer = find_layer_no (g%root_depth,g%dlayer,max_layer)
+         N_uptake_sum = - sum_real_array (g%dlt_NO3gsm, deepest_layer)
          call respond2get_real_var (variable_name
      :                             , '(g/m^2)'
      :                             , N_uptake_sum)
@@ -2322,8 +3065,8 @@ cejvo
       elseif (variable_name .eq. 'photoperiod') then
          call respond2get_real_var (variable_name
      :                             , '()'
-     :                             , day_length (g_day_of_year
-     :                             , g_latitude, c_twilight))
+     :                             , day_length (g%day_of_year
+     :                             , g%latitude, c%twilight))
  
       else
          ! not my variable
@@ -2333,7 +3076,7 @@ cejvo
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -2370,7 +3113,7 @@ cejvo
       call collect_char_var_optional ('type', '()'
      :                              , crop_type, numvals)
  
-      if (crop_type.eq.c_crop_type .or. numvals.eq.0) then
+      if (crop_type.eq.c%crop_type .or. numvals.eq.0) then
          millet_my_type = .true.
       else
          millet_my_type = .false.
@@ -2378,7 +3121,7 @@ cejvo
  
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
@@ -2386,7 +3129,6 @@ cejvo
       subroutine millet_read_constants ()
 *     ===========================================================
       implicit none
-      include   'const.inc'
       include   'millet.inc'
       include 'read.pub'                          
       include 'write.pub'                         
@@ -2399,7 +3141,7 @@ cejvo
 *     010994 jngh specified and programmed
 *     070495 psc added extra constants (leaf_app etc.)
 *     110695 psc added soil temp effects on plant establishment
-*     261097 gol added constant 'c_photo_tiller_crit'
+*     261097 gol added constant 'c%photo_tiller_crit'
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -2420,105 +3162,105 @@ cejvo
  
       call read_char_var (section_name
      :                     , 'crop_type', '()'
-     :                     , c_crop_type, numvals)
+     :                     , c%crop_type, numvals)
  
       call read_char_array (section_name
      :                     , 'stage_names', max_stage, '()'
-     :                     , c_stage_names, numvals)
+     :                     , c%stage_names, numvals)
  
       call read_real_array (section_name
      :                     , 'stage_code', max_stage, '()'
-     :                     , c_stage_code_list, numvals
+     :                     , c%stage_code_list, numvals
      :                     , 0.0, 1000.0)
  
       call read_real_array (section_name
      :                     , 'rue', max_stage, '(g dm/mj)'
-     :                     , c_rue, numvals
+     :                     , c%rue, numvals
      :                     , 0.0, 1000.0)
  
       call read_real_array (section_name
      :                     , 'root_depth_rate', max_stage, '(mm)'
-     :                     , c_root_depth_rate, numvals
+     :                     , c%root_depth_rate, numvals
      :                     , 0.0, 1000.0)
  
       call read_real_array (section_name
      :                     , 'ratio_root_shoot', max_stage, '()'
-     :                     , c_ratio_root_shoot, numvals
+     :                     , c%ratio_root_shoot, numvals
      :                     , 0.0, 1000.0)
  
 !     call read_real_var (section_name
 !    :                    , 'extinction_coef', '()'
-!    :                    , c_extinction_coef, numvals
+!    :                    , c%extinction_coef, numvals
 !    :                    , 0.0, 10.0)
  
 !     call read_real_var (section_name
 !    :                    , 'extinction_coef_dead', '()'
-!    :                    , c_extinction_coef_dead, numvals
+!    :                    , c%extinction_coef_dead, numvals
 !    :                    , 0.0, 10.0)
 !cpsc
 !     call read_real_var (section_name
 !    :                    , 'extinction_coef_change', '()'
-!    :                    , c_extinction_coef_change, numvals
+!    :                    , c%extinction_coef_change, numvals
 !    :                    , 0.0, 10.0)
  
 cejvo
       call read_real_var (section_name
      :                    , 'row_spacing_default', '()'
-     :                    , c_row_spacing_default, numvals
+     :                    , c%row_spacing_default, numvals
      :                    , 0.0, 2.0)
  
       call read_real_array (section_name
      :                    , 'x_row_spacing', max_table, '(m)'
-     :                    , c_x_row_spacing, c_num_row_spacing
+     :                    , c%x_row_spacing, c%num_row_spacing
      :                    , 0.0, 2.0)
  
       call read_real_array (section_name
      :                    , 'y_extinct_coef', max_table, '()'
-     :                    , c_y_extinct_coef, c_num_row_spacing
+     :                    , c%y_extinct_coef, c%num_row_spacing
      :                    , 0.0, 1.0)
  
       call read_real_array (section_name
      :                    , 'y_extinct_coef_dead', max_table, '()'
-     :                    , c_y_extinct_coef_dead, c_num_row_spacing
+     :                    , c%y_extinct_coef_dead, c%num_row_spacing
      :                    , 0.0, 1.0)
  
           ! millet_root_distrib
  
       call read_real_var (section_name
      :                    , 'root_extinction', '()'
-     :                    , c_root_extinction, numvals
+     :                    , c%root_extinction, numvals
      :                    , 0.0, 10.0)
  
          ! crop failure
  
       call read_real_var (section_name
      :                    , 'leaf_no_crit', '()'
-     :                    , c_leaf_no_crit, numvals
+     :                    , c%leaf_no_crit, numvals
      :                    , 0.0, 100.0)
  
       call read_real_var (section_name
      :                    , 'tt_emerg_limit', '(oC)'
-     :                    , c_tt_emerg_limit, numvals
+     :                    , c%tt_emerg_limit, numvals
      :                    , 0.0, 365.0)
  
       call read_real_var (section_name
      :                    , 'days_germ_limit', '(days)'
-     :                    , c_days_germ_limit, numvals
+     :                    , c%days_germ_limit, numvals
      :                    , 0.0, 365.0)
  
       call read_real_var (section_name
      :                    , 'swdf_pheno_limit', '()'
-     :                    , c_swdf_pheno_limit, numvals
+     :                    , c%swdf_pheno_limit, numvals
      :                    , 0.0, 100.0)
  
       call read_real_var (section_name
      :                    , 'swdf_photo_limit', '()'
-     :                    , c_swdf_photo_limit, numvals
+     :                    , c%swdf_photo_limit, numvals
      :                    , 0.0, 100.0)
  
       call read_real_var (section_name
      :                    , 'swdf_photo_rate', '()'
-     :                    , c_swdf_photo_rate, numvals
+     :                    , c%swdf_photo_rate, numvals
      :                    , 0.0, 1.0)
  
  
@@ -2526,24 +3268,24 @@ cejvo
  
       call read_real_var (section_name
      :                    , 'initial_root_depth', '(mm)'
-     :                    , c_initial_root_depth, numvals
+     :                    , c%initial_root_depth, numvals
      :                    , 0.0, 1000.0)
  
 cglh      call read_real_var (section_name
 cglh     :                    , 'root_depth_lag_start', '(days)'
-cglh     :                    , c_root_depth_lag_start, numvals
+cglh     :                    , c%root_depth_lag_start, numvals
 cglh     :                    , 0.0, 365.0)
  
 cglh      call read_real_var (section_name
 cglh     :                    , 'root_depth_lag_end', '(days)'
-cglh     :                    , c_root_depth_lag_end, numvals
+cglh     :                    , c%root_depth_lag_end, numvals
 cglh     :                    , 0.0, 365.0)
  
          !    millet_leaf_area_init
  
       call read_real_var (section_name
      :                    , 'initial_tpla', '(mm^2)'
-     :                    , c_initial_tpla, numvals
+     :                    , c%initial_tpla, numvals
      :                    , 0.0, 100000.0)
  
          ! TEMPLATE OPTION
@@ -2553,27 +3295,27 @@ cejvo             linear interpolate SLA_max
  
       call read_real_array (section_name
      :                    , 'x_lai', max_table, '(mm2/mm2)'
-     :                    , c_x_lai, c_num_lai
+     :                    , c%x_lai, c%num_lai
      :                    , 0.0, 15.0)
  
       call read_real_array (section_name
      :                    , 'y_sla_max', max_table, '(mm2/g)'
-     :                    , c_y_sla_max, c_num_lai
+     :                    , c%y_sla_max, c%num_lai
      :                    , 0.0, 1000000.0)
  
 !      call read_real_var (section_name
 !     :                    , 'sla_max', '(mm^2/g)'
-!     :                    , c_sla_max, numvals
+!     :                    , c%sla_max, numvals
 !     :                    , 0.0, 100000.0)
  
       call read_real_array (section_name
      :                    , 'x_lai_ratio', max_table, '()'
-     :                    , c_x_lai_ratio, c_num_lai_ratio
+     :                    , c%x_lai_ratio, c%num_lai_ratio
      :                    , 0.0, 1.0)
  
       call read_real_array (section_name
      :                    , 'y_leaf_no_frac', max_table, '()'
-     :                    , c_y_leaf_no_frac, c_num_lai_ratio
+     :                    , c%y_leaf_no_frac, c%num_lai_ratio
      :                    , 0.0, 1.0)
  
          ! TEMPLATE OPTION
@@ -2581,78 +3323,78 @@ cejvo             linear interpolate SLA_max
  
       ! call read_real_var (section_name
       !:                    , 'tiller_coef', '()'
-      !:                    , c_tiller_coef , numvals
+      !:                    , c%tiller_coef , numvals
       !:                    , 0.0, 10.0)
  
       ! call read_real_var (section_name
       !:                    , 'main_stem_coef', '()'
-      !:                    , c_main_stem_coef, numvals
+      !:                    , c%main_stem_coef, numvals
       !:                    , 0.0, 10.0)
  
          !    millet_height
  
       call read_real_var (section_name
      :                    , 'height_max', '(mm)'
-     :                    , c_height_max, numvals
+     :                    , c%height_max, numvals
      :                    , 0.0, 10000.0)
  
       call read_real_var (section_name
      :                    , 'height_stem_slope', '(mm/g/stem)'
-     :                    , c_height_stem_slope, numvals
+     :                    , c%height_stem_slope, numvals
      :                    , 0.0, 1000.0)
  
          !    millet_get_cultivar_params
  
       call read_real_var (section_name
      :                    , 'head_grain_no_max_ub', '()'
-     :                    , c_head_grain_no_max_ub, numvals
+     :                    , c%head_grain_no_max_ub, numvals
      :                    , 0.0, 10000.0)
  
       call read_real_var (section_name
      :                    , 'grain_gth_rate_ub', '()'
-     :                    , c_grain_gth_rate_ub, numvals
+     :                    , c%grain_gth_rate_ub, numvals
      :                    , 0.0, 1000.0)
  
       call read_real_var (section_name
      :                    , 'tt_emerg_to_endjuv_ub', '()'
-     :                    , c_tt_emerg_to_endjuv_ub, numvals
+     :                    , c%tt_emerg_to_endjuv_ub, numvals
      :                    , 0.0, 1000.0)
  
       call read_real_var (section_name
      :                    , 'pp_endjuv_to_init_ub', '()'
-     :                    , c_pp_endjuv_to_init_ub, numvals
+     :                    , c%pp_endjuv_to_init_ub, numvals
      :                    , 0.0, 1000.0)
  
       call read_real_var (section_name
      :                    , 'tt_flower_to_maturity_ub', '()'
-     :                    , c_tt_flower_to_maturity_ub, numvals
+     :                    , c%tt_flower_to_maturity_ub, numvals
      :                    , 0.0, 2000.0)
  
       call read_real_var (section_name
      :                    , 'tt_maturity_to_ripe_ub', '()'
-     :                    , c_tt_maturity_to_ripe_ub, numvals
+     :                    , c%tt_maturity_to_ripe_ub, numvals
      :                    , 0.0, 1000.0)
  
       call read_real_var (section_name
      :                    , 'tt_flower_to_start_grain_ub', '()'
-     :                    , c_tt_flower_to_start_grain_ub, numvals
+     :                    , c%tt_flower_to_start_grain_ub, numvals
      :                    , 0.0, 1000.0)
  
       call read_real_var (section_name
      :                    , 'tt_flag_to_flower_ub', '()'
-     :                    , c_tt_flag_to_flower_ub, numvals
+     :                    , c%tt_flag_to_flower_ub, numvals
      :                    , 0.0, 1000.0)
  
          !    millet_transp_eff
  
       call read_real_var (section_name
      :                    , 'svp_fract', '()'
-     :                    , c_svp_fract, numvals
+     :                    , c%svp_fract, numvals
      :                    , 0.0, 1.0)
  
       call read_real_var (section_name
      :                    , 'transp_eff_cf', '(kpa)'
-     :                    , c_transp_eff_cf, numvals
+     :                    , c%transp_eff_cf, numvals
      :                    , 0.0, 1.0)
  
          ! TEMPLATE OPTION
@@ -2660,21 +3402,21 @@ cejvo             linear interpolate SLA_max
  
       call read_real_var (section_name
      :                    , 'head_grain_no_crit', '()'
-     :                    , c_head_grain_no_crit, numvals
+     :                    , c%head_grain_no_crit, numvals
      :                    , 0.0, 1000.0)
  
          !    millet_plants_barren
  
       call read_real_var (section_name
      :                    , 'barren_crit', '()'
-     :                    , c_barren_crit, numvals
+     :                    , c%barren_crit, numvals
      :                    , 0.0, 1.0)
  
          !    millet_germination
  
       call read_real_var (section_name
      :                    , 'pesw_germ', '(mm/mm)'
-     :                    , c_pesw_germ, numvals
+     :                    , c%pesw_germ, numvals
      :                    , 0.0, 1.0)
  
          ! TEMPLATE OPTION
@@ -2682,167 +3424,167 @@ cejvo             linear interpolate SLA_max
  
       call read_real_var (section_name
      :                    , 'grain_n_conc_min', '()'
-     :                    , c_grain_N_conc_min, numvals
+     :                    , c%grain_N_conc_min, numvals
      :                    , 0.0, 100.0)
  
       call read_real_var (section_name
      :                    , 'seed_wt_min', '(g/seed)'
-     :                    , c_seed_wt_min, numvals
+     :                    , c%seed_wt_min, numvals
      :                    , 0.0, 100.0)
  
       call read_real_var (section_name
      :                    , 'growth_rate_min', '(g/plant)'
-     :                    , c_growth_rate_min, numvals
+     :                    , c%growth_rate_min, numvals
      :                    , 0.0, 1000.0)
  
       call read_real_var (section_name
      :                    , 'growth_rate_crit', '(g/plant)'
-     :                    , c_growth_rate_crit, numvals
+     :                    , c%growth_rate_crit, numvals
      :                    , 0.0, 1000.0)
  
          !    millet_leaf_appearance
  
       call read_real_var (section_name
      :                    , 'leaf_no_at_emerg', '()'
-     :                    , c_leaf_no_at_emerg, numvals
+     :                    , c%leaf_no_at_emerg, numvals
      :                    , 0.0, 100.0)
  
          !    millet_N_uptake
  
       call read_real_var (section_name
      :                    , 'no3_diffn_const', '(days)'
-     :                    , c_NO3_diffn_const, numvals
+     :                    , c%NO3_diffn_const, numvals
      :                    , 0.0, 100.0)
  
          !    millet_N_fixation
  
       call read_real_var (section_name
      :                    , 'N_fix_rate', '(g N/g plant)'
-     :                    , c_N_fix_rate, numvals
+     :                    , c%N_fix_rate, numvals
      :                    , 0.0, 1.0)
  
          !    millet_phenology_init
  
       call read_real_var (section_name
      :                    , 'shoot_lag', '(oC)'
-     :                    , c_shoot_lag, numvals
+     :                    , c%shoot_lag, numvals
      :                    , 0.0, 100.0)
  
       call read_real_var (section_name
      :                    , 'shoot_rate', '(oC/mm)'
-     :                    , c_shoot_rate, numvals
+     :                    , c%shoot_rate, numvals
      :                    , 0.0, 100.0)
  
       call read_real_var (section_name
      :                    , 'photoperiod_base', '(hr)'
-     :                    , c_photoperiod_base, numvals
+     :                    , c%photoperiod_base, numvals
      :                    , 0.0, 24.0)
  
       call read_real_var (section_name
      :                    , 'photoperiod_crit', '(hr)'
-     :                    , c_photoperiod_crit, numvals
+     :                    , c%photoperiod_crit, numvals
      :                    , 0.0, 24.0)
  
-cgol added new constant "c_photo_tiller_crit" to read from ini file
+cgol added new constant "c%photo_tiller_crit" to read from ini file
       call read_real_var (section_name
      :                    , 'photo_tiller_crit', '(hr)'
-     :                    , c_photo_tiller_crit, numvals
+     :                    , c%photo_tiller_crit, numvals
      :                    , 0.0, 24.0)
  
       call read_real_var (section_name
      :                    , 'leaf_app_rate1', '(oC)'
-     :                    , c_leaf_app_rate1, numvals
+     :                    , c%leaf_app_rate1, numvals
      :                    , 0.0, 100.0)
  
       call read_real_var (section_name
      :                    , 'leaf_app_rate2', '(oC)'
-     :                    , c_leaf_app_rate2, numvals
+     :                    , c%leaf_app_rate2, numvals
      :                    , 0.0, 100.0)
  
       call read_real_var (section_name
      :                    , 'leaf_no_rate_change', '()'
-     :                    , c_leaf_no_rate_change, numvals
+     :                    , c%leaf_no_rate_change, numvals
      :                    , 0.0, 30.0)
  
          !    millet_dm_init
  
       call read_real_var (section_name
      :                    , 'dm_leaf_init', '(g/plant)'
-     :                    , c_dm_leaf_init, numvals
+     :                    , c%dm_leaf_init, numvals
      :                    , 0.0, 1000.0)
  
       call read_real_var (section_name
      :                    , 'dm_root_init', '(g/plant)'
-     :                    , c_dm_root_init, numvals
+     :                    , c%dm_root_init, numvals
      :                    , 0.0, 1000.0)
  
       call read_real_var (section_name
      :                    , 'dm_stem_init', '(g/plant)'
-     :                    , c_dm_stem_init, numvals
+     :                    , c%dm_stem_init, numvals
      :                    , 0.0, 1000.0)
  
          !    millet_get_root_params
  
       call read_real_var (section_name
      :                    , 'll_ub', '()'
-     :                    , c_ll_ub, numvals
+     :                    , c%ll_ub, numvals
      :                    , 0.0, 1000.0)
  
       call read_real_var (section_name
      :                    , 'kl_ub', '()'
-     :                    , c_kl_ub, numvals
+     :                    , c%kl_ub, numvals
      :                    , 0.0, 1000.0)
  
          !    millet_leaf_no_final
  
       call read_real_var (section_name
      :                    , 'leaf_init_rate', '(oC)'
-     :                    , c_leaf_init_rate, numvals
+     :                    , c%leaf_init_rate, numvals
      :                    , 0.0, 100.0)
  
       call read_real_var (section_name
      :                    , 'leaf_no_seed', '(leaves)'
-     :                    , c_leaf_no_seed, numvals
+     :                    , c%leaf_no_seed, numvals
      :                    , 0.0, 100.0)
  
 cglh      call read_real_var (section_name
 cglh     :                    , 'floral_init_error', '(oc)'
-cglh     :                    , c_floral_init_error, numvals
+cglh     :                    , c%floral_init_error, numvals
 cglh     :                    , 0.0, 100.0)
  
       call read_real_var (section_name
      :                   , 'leaf_no_min', '()'
-     :                   , c_leaf_no_min, numvals
+     :                   , c%leaf_no_min, numvals
      :                   , 0.0, 100.0)
  
       call read_real_var (section_name
      :                   , 'leaf_no_max', '()'
-     :                   , c_leaf_no_max, numvals
+     :                   , c%leaf_no_max, numvals
      :                   , 0.0, 100.0)
  
 cgd
       call read_real_var (section_name
      :                   , 'leaf_no_diff', '()'
-     :                   , c_leaf_no_diff, numvals
+     :                   , c%leaf_no_diff, numvals
      :                   , 0.0, 10.0)
  
          !    millet_retranslocate
  
       call read_real_var (section_name
      :                    , 'stem_trans_frac', '()'
-     :                    , c_stem_trans_frac, numvals
+     :                    , c%stem_trans_frac, numvals
      :                    , 0.0, 1.0)
  
       call read_real_var (section_name
      :                    , 'leaf_trans_frac', '()'
-     :                    , c_leaf_trans_frac, numvals
+     :                    , c%leaf_trans_frac, numvals
      :                    , 0.0, 1.0)
  
          !    millet_watck
  
       call read_real_var (section_name
      :                    , 'minsw', '()'
-     :                    , c_minsw, numvals
+     :                    , c%minsw, numvals
      :                    , 0.0, 1000.0)
  
          ! TEMPLATE OPTION
@@ -2850,7 +3592,7 @@ cgd
  
       call read_real_var (section_name
      :                    , 'swdf_grain_min', '()'
-     :                    , c_swdf_grain_min, numvals
+     :                    , c%swdf_grain_min, numvals
      :                    , 0.0, 100.0)
  
          ! TEMPLATE OPTION
@@ -2858,51 +3600,51 @@ cgd
  
       ! call read_real_var (section_name
       !:                    , 'hi_min', '()'
-      !:                    , c_hi_min, numvals
+      !:                    , c%hi_min, numvals
       !:                    , 0.0, 100.0)
  
          !    millet_N_dlt_grain_conc
  
       call read_real_var (section_name
      :                    , 'sw_fac_max', '()'
-     :                    , c_sw_fac_max, numvals
+     :                    , c%sw_fac_max, numvals
      :                    , 0.0, 100.0)
  
       call read_real_var (section_name
      :                    , 'temp_fac_min', '()'
-     :                    , c_temp_fac_min, numvals
+     :                    , c%temp_fac_min, numvals
      :                    , 0.0, 100.0)
  
       call read_real_var (section_name
      :                    , 'sfac_slope', '()'
-     :                    , c_sfac_slope, numvals
+     :                    , c%sfac_slope, numvals
      :                    , -10.0, 10.0)
  
       call read_real_var (section_name
      :                    , 'tfac_slope', '()'
-     :                    , c_tfac_slope, numvals
+     :                    , c%tfac_slope, numvals
      :                    , 0.0, 100.0)
  
          !    millet_leaf_death
  
       call read_real_var (section_name
      :                    , 'leaf_no_dead_const', '()'
-     :                    , c_leaf_no_dead_const, numvals
+     :                    , c%leaf_no_dead_const, numvals
      :                    , -9.0, 100.0)
 cejvo
        call read_real_var (section_name
      :                    , 'leaf_no_dead_slope', '()'
-     :                    , c_leaf_no_dead_slope, numvals
+     :                    , c%leaf_no_dead_slope, numvals
      :                    , 0.0, 100.0)
  
       call read_real_var (section_name
      :                    , 'leaf_no_dead_slope1', '()'
-     :                    , c_leaf_no_dead_slope1, numvals
+     :                    , c%leaf_no_dead_slope1, numvals
      :                    , 0.0, 100.0)
  
       call read_real_var (section_name
      :                    , 'leaf_no_dead_slope2', '()'
-     :                    , c_leaf_no_dead_slope2, numvals
+     :                    , c%leaf_no_dead_slope2, numvals
      :                    , 0.0, 100.0)
  
          !    millet_get_other_variables
@@ -2910,142 +3652,142 @@ cejvo
          ! checking the bounds of the bounds..
       call read_integer_var (section_name
      :                    , 'year_ub', '()'
-     :                    , c_year_ub, numvals
+     :                    , c%year_ub, numvals
      :                    , 1, 5000)
  
       call read_integer_var (section_name
      :                    , 'year_lb', '()'
-     :                    , c_year_lb, numvals
+     :                    , c%year_lb, numvals
      :                    , 1, 5000)
  
       call read_real_var (section_name
      :                    , 'latitude_ub', '(oL)'
-     :                    , c_latitude_ub, numvals
+     :                    , c%latitude_ub, numvals
      :                    , -90.0, 90.0)
  
       call read_real_var (section_name
      :                    , 'latitude_lb', '(oL)'
-     :                    , c_latitude_lb, numvals
+     :                    , c%latitude_lb, numvals
      :                    , -90.0, 90.0)
  
       call read_real_var (section_name
      :                    , 'maxt_ub', '(oC)'
-     :                    , c_maxt_ub, numvals
+     :                    , c%maxt_ub, numvals
      :                    , 0.0, 60.0)
  
       call read_real_var (section_name
      :                    , 'maxt_lb', '(oC)'
-     :                    , c_maxt_lb, numvals
+     :                    , c%maxt_lb, numvals
      :                    , 0.0, 60.0)
  
       call read_real_var (section_name
      :                    , 'mint_ub', '(oC)'
-     :                    , c_mint_ub, numvals
+     :                    , c%mint_ub, numvals
      :                    , 0.0, 40.0)
  
       call read_real_var (section_name
      :                    , 'mint_lb', '(oC)'
-     :                    , c_mint_lb, numvals
+     :                    , c%mint_lb, numvals
      :                    , -100.0, 100.0)
  
       call read_real_var (section_name
      :                    , 'radn_ub', '(MJ/m^2)'
-     :                    , c_radn_ub, numvals
+     :                    , c%radn_ub, numvals
      :                    , 0.0, 100.0)
  
       call read_real_var (section_name
      :                    , 'radn_lb', '(MJ/m^2)'
-     :                    , c_radn_lb, numvals
+     :                    , c%radn_lb, numvals
      :                    , 0.0, 100.0)
  
       call read_real_var (section_name
      :                    , 'dlayer_ub', '(mm)'
-     :                    , c_dlayer_ub, numvals
+     :                    , c%dlayer_ub, numvals
      :                    , 0.0, 10000.0)
  
       call read_real_var (section_name
      :                    , 'dlayer_lb', '(mm)'
-     :                    , c_dlayer_lb, numvals
+     :                    , c%dlayer_lb, numvals
      :                    , 0.0, 10000.0)
  
       call read_real_var (section_name
      :                    , 'dul_dep_ub', '(mm)'
-     :                    , c_dul_dep_ub, numvals
+     :                    , c%dul_dep_ub, numvals
      :                    , 0.0, 10000.0)
  
       call read_real_var (section_name
      :                    , 'dul_dep_lb', '(mm)'
-     :                    , c_dul_dep_lb, numvals
+     :                    , c%dul_dep_lb, numvals
      :                    , 0.0, 10000.0)
  
                                 ! 8th block
       call read_real_var (section_name
      :                    , 'sw_dep_ub', '(mm)'
-     :                    , c_sw_dep_ub, numvals
+     :                    , c%sw_dep_ub, numvals
      :                    , 0.0, 10000.0)
  
       call read_real_var (section_name
      :                    , 'sw_dep_lb', '(mm)'
-     :                    , c_sw_dep_lb, numvals
+     :                    , c%sw_dep_lb, numvals
      :                    , 0.0, 10000.0)
  
       call read_real_var (section_name
      :                    , 'no3_ub', '(kg/ha)'
-     :                    , c_NO3_ub, numvals
+     :                    , c%NO3_ub, numvals
      :                    , 0.0, 100000.0)
  
       call read_real_var (section_name
      :                    , 'no3_lb', '(kg/ha)'
-     :                    , c_NO3_lb, numvals
+     :                    , c%NO3_lb, numvals
      :                    , 0.0, 100000.0)
  
       call read_real_var (section_name
      :                    , 'no3_min_ub', '(kg/ha)'
-     :                    , c_NO3_min_ub, numvals
+     :                    , c%NO3_min_ub, numvals
      :                    , 0.0, 100000.0)
  
       call read_real_var (section_name
      :                    , 'no3_min_lb', '(kg/ha)'
-     :                    , c_NO3_min_lb, numvals
+     :                    , c%NO3_min_lb, numvals
      :                    , 0.0, 100000.0)
  
          !    millet_event
  
       call read_real_var (section_name
      :                    , 'grn_water_cont', '(g/g)'
-     :                    , c_grn_water_cont, numvals
+     :                    , c%grn_water_cont, numvals
      :                    , 0.0, 1.0)
  
          !    millet_dm_partition
  
       call read_real_var (section_name
      :                    , 'sla_min', '(mm^2/g)'
-     :                    , c_sla_min, numvals
+     :                    , c%sla_min, numvals
      :                    , 0.0, 100000.0)
  
       call read_real_var (section_name
      :                    , 'partition_rate_leaf', '()'
-     :                    , c_partition_rate_leaf, numvals
+     :                    , c%partition_rate_leaf, numvals
      :                    , 0.0, 1.0)
  
       call read_real_var (section_name
      :                    , 'frac_leaf_pre_flower', '()'
-     :                    , c_frac_leaf_pre_flower, numvals
+     :                    , c%frac_leaf_pre_flower, numvals
      :                    , 0.0, 1.0)
  
       call read_real_var (section_name
      :                    , 'frac_leaf_post_flower', '()'
-     :                    , c_frac_leaf_post_flower, numvals
+     :                    , c%frac_leaf_post_flower, numvals
      :                    , 0.0, 1.0)
  
       call read_real_var (section_name
      :                    , 'frac_stem2flower', '()'
-     :                    , c_frac_stem2flower, numvals
+     :                    , c%frac_stem2flower, numvals
      :                    , 0.0, 1.0)
  
       call read_real_var (section_name
      :                    , 'frac_flower2grain', '()'
-     :                    , c_frac_flower2grain, numvals
+     :                    , c%frac_flower2grain, numvals
      :                    , 0.0, 1.0)
  
          ! TEMPLATE OPTION
@@ -3053,31 +3795,31 @@ cejvo
  
       call read_real_var (section_name
      :                    , 'htstress_coeff', '()'
-     :                    , c_htstress_coeff, numvals
+     :                    , c%htstress_coeff, numvals
      :                    , 0.0, 1.0)
  
          !    millet_dm_senescence
  
       call read_real_var (section_name
      :                    , 'dm_root_sen_frac', '()'
-     :                    , c_dm_root_sen_frac, numvals
+     :                    , c%dm_root_sen_frac, numvals
      :                    , 0.0, 1.0)
  
       call read_real_var (section_name
      :                    , 'dm_leaf_sen_frac', '()'
-     :                    , c_dm_leaf_sen_frac, numvals
+     :                    , c%dm_leaf_sen_frac, numvals
      :                    , 0.0, 1.0)
  
          !    millet_dm_dead_detachment
  
       call read_real_array (section_name
      :                    , 'dead_detach_frac', max_part, '()'
-     :                    , c_dead_detach_frac, numvals
+     :                    , c%dead_detach_frac, numvals
      :                    , 0.0, 1.0)
  
       call read_real_var (section_name
      :                    , 'dm_leaf_detach_frac', '()'
-     :                    , c_dm_leaf_detach_frac, numvals
+     :                    , c%dm_leaf_detach_frac, numvals
      :                    , 0.0, 1.0)
  
          ! TEMPLATE OPTION
@@ -3085,17 +3827,17 @@ cejvo
  
       call read_real_var (section_name
      :                    , 'leaf_no_correction', '()'
-     :                    , c_leaf_no_correction, numvals
+     :                    , c%leaf_no_correction, numvals
      :                    , 0.0, 100.0)
  
       call read_real_var (section_name
      :                    , 'leaf_size_average', '()'
-     :                    , c_leaf_size_average, numvals
+     :                    , c%leaf_size_average, numvals
      :                    , 0.0, 10000.0)
  
       call read_real_var (section_name
      :                    , 'leaf_size_endjuv', '()'
-     :                    , c_leaf_size_endjuv, numvals
+     :                    , c%leaf_size_endjuv, numvals
      :                    , 0.0, 10000.0)
  
          ! TEMPLATE OPTION
@@ -3103,43 +3845,43 @@ cejvo
  
       call read_real_var (section_name
      :                    , 'x0_const', '()'
-     :                    , c_x0_const, numvals
+     :                    , c%x0_const, numvals
      :                    , -10.0, 100.0)
  
       call read_real_var (section_name
      :                    ,'x0_slope', '()'
-     :                    , c_x0_slope, numvals
+     :                    , c%x0_slope, numvals
      :                    , 0.0, 100.0)
  
 cgol lower and upper bounds amended to accept ejvo's leaf area parameters
       call read_real_var (section_name
      :                    , 'a_const', '()'
-     :                    , c_a_const, numvals
+     :                    , c%a_const, numvals
      :                    , -1000.0, 1000.0)
  
       call read_real_var (section_name
      :                    , 'a_slope1', '()'
-     :                    , c_a_slope1, numvals
+     :                    , c%a_slope1, numvals
      :                    , -1000.0, 1000.0)
  
       call read_real_var (section_name
      :                    , 'a_slope2', '()'
-     :                    , c_a_slope2, numvals
+     :                    , c%a_slope2, numvals
      :                    , -1000.0, 1000.0)
  
       call read_real_var (section_name
      :                    , 'b_const', '()'
-     :                    , c_b_const, numvals
+     :                    , c%b_const, numvals
      :                    , -1000.0, 1000.0)
  
       call read_real_var (section_name
      :                    , 'b_slope1', '()'
-     :                    , c_b_slope1, numvals
+     :                    , c%b_slope1, numvals
      :                    , -1000.0, 1000.0)
  
       call read_real_var (section_name
      :                    , 'b_slope2', '()'
-     :                    , c_b_slope2, numvals
+     :                    , c%b_slope2, numvals
      :                    , -1000.0, 1000.0)
  
          !    millet_tiller
@@ -3148,33 +3890,33 @@ cgol set maximum tiller number to 5
  
       call read_integer_var (section_name
      :                       , 'tiller_no_pot', '()'
-     :                       , c_tiller_no_pot, numvals
+     :                       , c%tiller_no_pot, numvals
      :                       , 0, 5)
  
       call read_char_var (section_name
      :                     , 'tiller_appearance', '()'
-     :                     , c_tiller_appearance, numvals)
+     :                     , c%tiller_appearance, numvals)
  
 cgol set maximum next tiller number to 6.0
  
       call read_real_array (section_name
      :                     , 'x_tiller_no_next', max_table, '()'
-     :                     , c_x_tiller_no_next, c_num_tiller_no_next
+     :                     , c%x_tiller_no_next, c%num_tiller_no_next
      :                     , 0.0, 6.0)
  
       call read_real_array (section_name
      :                     , 'y_tiller_tt', max_table, '(oCd)'
-     :                     , c_y_tiller_tt, c_num_tiller_no_next
+     :                     , c%y_tiller_tt, c%num_tiller_no_next
      :                     , 0.0, 2000.0)
  
       call read_real_var (section_name
      :                     , 'tiller_appearance_slope', '()'
-     :                     , c_tiller_appearance_slope, numvals
+     :                     , c%tiller_appearance_slope, numvals
      :                     , 0.0, 5.0)
  
       call read_real_var (section_name
      :                   , 'dm_tiller_crit', '(g/plant)'
-     :                   , c_dm_tiller_crit, numvals
+     :                   , c%dm_tiller_crit, numvals
      :                   , 0.0, 100.0)
  
          ! TEMPLATE OPTION
@@ -3182,12 +3924,12 @@ cgol set maximum next tiller number to 6.0
  
       call read_real_var (section_name
      :                   , 'lai_sen_light', '(m^2/m^2)'
-     :                   , c_lai_sen_light, numvals
+     :                   , c%lai_sen_light, numvals
      :                   , 3.0, 20.0)
  
       call read_real_var (section_name
      :                    , 'sen_light_slope', '()'
-     :                    , c_sen_light_slope, numvals
+     :                    , c%sen_light_slope, numvals
      :                    , 0.0, 100.0)
  
  
@@ -3196,12 +3938,12 @@ cgol set maximum next tiller number to 6.0
  
       call read_real_array (section_name
      :                   , 'x_temp_senescence', max_table, '(oC)'
-     :                   , c_x_temp_senescence, c_num_temp_senescence
+     :                   , c%x_temp_senescence, c%num_temp_senescence
      :                   , -20.0, 20.0)
  
       call read_real_array (section_name
      :                   , 'y_senescence_fac', max_table, '()'
-     :                   , c_y_senescence_fac, c_num_temp_senescence
+     :                   , c%y_senescence_fac, c%num_temp_senescence
      :                   , 0.0, 1.0)
  
          ! TEMPLATE OPTION
@@ -3209,7 +3951,7 @@ cgol set maximum next tiller number to 6.0
  
       call read_real_var (section_name
      :                    , 'sen_rate_water', '()'
-     :                    , c_sen_rate_water, numvals
+     :                    , c%sen_rate_water, numvals
      :                    , 0.0, 100.0)
  
          ! TEMPLATE OPTION
@@ -3217,12 +3959,12 @@ cgol set maximum next tiller number to 6.0
  
       ! call read_real_var (section_name
       !:                    , 'sen_light_time_const', '(days)'
-      !:                    , c_sen_light_time_const, numvals
+      !:                    , c%sen_light_time_const, numvals
       !:                    , 0.0, 50.0)
  
       ! call read_real_var (section_name
       !:                    , 'sen_radn_crit', '(Mj/m^2)'
-      !:                    , c_sen_radn_crit, numvals
+      !:                    , c%sen_radn_crit, numvals
       !:                    , 0.0, 10.0)
  
          ! TEMPLATE OPTION
@@ -3230,7 +3972,7 @@ cgol set maximum next tiller number to 6.0
  
       ! call read_real_var (section_name
       !:                    , 'frost_kill', '(oC)'
-      !:                    , c_frost_kill, numvals
+      !:                    , c%frost_kill, numvals
       !:                    , -6.0, 6.0)
  
          ! TEMPLATE OPTION
@@ -3238,12 +3980,12 @@ cgol set maximum next tiller number to 6.0
  
       ! call read_real_var (section_name
       !:                    , 'sen_water_time_const', '(days)'
-      !:                    , c_sen_water_time_const, numvals
+      !:                    , c%sen_water_time_const, numvals
       !:                    , 0.0, 50.0)
  
       ! call read_real_var (section_name
       !:                    , 'sen_threshold', '()'
-      !:                    , c_sen_threshold, numvals
+      !:                    , c%sen_threshold, numvals
       !:                    , 0.0, 10.0)
  
          ! TEMPLATE OPTION
@@ -3251,14 +3993,14 @@ cgol set maximum next tiller number to 6.0
  
       ! call read_real_var (section_name
       !:                    , 'spla_slope', '(oC/leaf)'
-      !:                    , c_spla_slope, numvals
+      !:                    , c%spla_slope, numvals
       !:                    , 0.0, 6.0)
  
          !    millet_phenology_init
  
       call read_real_var (section_name
      :                   , 'twilight', '(o)'
-     :                   , c_twilight, numvals
+     :                   , c%twilight, numvals
      :                   , -90.0, 90.0)
  
          ! TEMPLATE OPTION
@@ -3266,143 +4008,143 @@ cgol set maximum next tiller number to 6.0
  
       call read_real_var (section_name
      :                   , 'temp_grain_crit_stress', '(oC)'
-     :                   , c_temp_grain_crit_stress, numvals
+     :                   , c%temp_grain_crit_stress, numvals
      :                   , 20.0, 50.0)
  
          !    millet_N_conc_limits
  
       call read_real_array (section_name
      :                     , 'x_stage_code', max_stage, '()'
-     :                     , c_x_stage_code, c_num_N_conc_stage
+     :                     , c%x_stage_code, c%num_N_conc_stage
      :                     , 0.0, 100.0)
  
       call read_real_array (section_name
      :                     , 'y_n_conc_crit_leaf', max_stage, '()'
-     :                     , c_y_N_conc_crit_leaf, c_num_N_conc_stage
+     :                     , c%y_N_conc_crit_leaf, c%num_N_conc_stage
      :                     , 0.0, 100.0)
  
       call read_real_array (section_name
      :                     , 'y_n_conc_max_leaf', max_stage, '()'
-     :                     , c_y_N_conc_max_leaf, c_num_N_conc_stage
+     :                     , c%y_N_conc_max_leaf, c%num_N_conc_stage
      :                     , 0.0, 100.0)
  
       call read_real_array (section_name
      :                     , 'y_n_conc_min_leaf', max_stage, '()'
-     :                     , c_y_N_conc_min_leaf, c_num_N_conc_stage
+     :                     , c%y_N_conc_min_leaf, c%num_N_conc_stage
      :                     , 0.0, 100.0)
  
       call read_real_array (section_name
      :                     , 'y_n_conc_crit_stem', max_stage, '()'
-     :                     , c_y_N_conc_crit_stem, c_num_N_conc_stage
+     :                     , c%y_N_conc_crit_stem, c%num_N_conc_stage
      :                     , 0.0, 100.0)
  
       call read_real_array (section_name
      :                     , 'y_n_conc_max_stem', max_stage, '()'
-     :                     , c_y_N_conc_max_stem, c_num_N_conc_stage
+     :                     , c%y_N_conc_max_stem, c%num_N_conc_stage
      :                     , 0.0, 100.0)
  
       call read_real_array (section_name
      :                     , 'y_n_conc_min_stem', max_stage, '()'
-     :                     , c_y_N_conc_min_stem, c_num_N_conc_stage
+     :                     , c%y_N_conc_min_stem, c%num_N_conc_stage
      :                     , 0.0, 100.0)
  
       call read_real_array (section_name
      :                     , 'y_n_conc_crit_flower', max_stage, '()'
-     :                     , c_y_N_conc_crit_flower, c_num_N_conc_stage
+     :                     , c%y_N_conc_crit_flower, c%num_N_conc_stage
      :                     , 0.0, 100.0)
  
       call read_real_array (section_name
      :                     , 'y_n_conc_max_flower', max_stage, '()'
-     :                     , c_y_N_conc_max_flower, c_num_N_conc_stage
+     :                     , c%y_N_conc_max_flower, c%num_N_conc_stage
      :                     , 0.0, 100.0)
  
       call read_real_array (section_name
      :                     , 'y_n_conc_min_flower', max_stage, '()'
-     :                     , c_y_N_conc_min_flower, c_num_N_conc_stage
+     :                     , c%y_N_conc_min_flower, c%num_N_conc_stage
      :                     , 0.0, 100.0)
  
       call read_real_var (section_name
      :                   , 'n_conc_crit_grain', '()'
-     :                   , c_N_conc_crit_grain, numvals
+     :                   , c%N_conc_crit_grain, numvals
      :                   , 0.0, 100.0)
  
       call read_real_var (section_name
      :                   , 'n_conc_max_grain', '()'
-     :                   , c_N_conc_max_grain, numvals
+     :                   , c%N_conc_max_grain, numvals
      :                   , 0.0, 100.0)
  
       call read_real_var (section_name
      :                   , 'n_conc_min_grain', '()'
-     :                   , c_N_conc_min_grain, numvals
+     :                   , c%N_conc_min_grain, numvals
      :                   , 0.0, 100.0)
  
       call read_real_var (section_name
      :                   , 'n_conc_crit_root', '()'
-     :                   , c_N_conc_crit_root, numvals
+     :                   , c%N_conc_crit_root, numvals
      :                   , 0.0, 100.0)
  
       call read_real_var (section_name
      :                   , 'n_conc_max_root', '()'
-     :                   , c_N_conc_max_root, numvals
+     :                   , c%N_conc_max_root, numvals
      :                   , 0.0, 100.0)
  
       call read_real_var (section_name
      :                   , 'n_conc_min_root', '()'
-     :                   , c_N_conc_min_root, numvals
+     :                   , c%N_conc_min_root, numvals
      :                   , 0.0, 100.0)
  
          !    millet_N_init
  
       call read_real_var (section_name
      :                   , 'n_leaf_init_conc', '()'
-     :                   , c_N_leaf_init_conc, numvals
+     :                   , c%N_leaf_init_conc, numvals
      :                   , 0.0, 100.0)
  
       call read_real_var (section_name
      :                   , 'n_root_init_conc', '()'
-     :                   , c_N_root_init_conc, numvals
+     :                   , c%N_root_init_conc, numvals
      :                   , 0.0, 100.0)
  
       call read_real_var (section_name
      :                   , 'n_stem_init_conc', '()'
-     :                   , c_N_stem_init_conc, numvals
+     :                   , c%N_stem_init_conc, numvals
      :                   , 0.0, 100.0)
  
          !    millet_N_senescence
  
       call read_real_var (section_name
      :                   , 'n_leaf_sen_conc', '()'
-     :                   , c_N_leaf_sen_conc, numvals
+     :                   , c%N_leaf_sen_conc, numvals
      :                   , 0.0, 100.0)
  
       call read_real_var (section_name
      :                   , 'n_root_sen_conc', '()'
-     :                   , c_N_root_sen_conc, numvals
+     :                   , c%N_root_sen_conc, numvals
      :                   , 0.0, 100.0)
  
          !    millet_nfact
  
       call read_real_var (section_name
      :                   , 'N_fact_photo', '()'
-     :                   , c_N_fact_photo, numvals
+     :                   , c%N_fact_photo, numvals
      :                   , 0.0, 100.0)
  
       call read_real_var (section_name
      :                   , 'N_fact_pheno', '()'
-     :                   , c_N_fact_pheno, numvals
+     :                   , c%N_fact_pheno, numvals
      :                   , 0.0, 100.0)
  
          !    millet_rue_reduction
  
       call read_real_array (section_name
      :                     , 'x_ave_temp', max_table, '(oC)'
-     :                     , c_x_ave_temp, c_num_ave_temp
+     :                     , c%x_ave_temp, c%num_ave_temp
      :                     , 0.0, 100.0)
  
  
       call read_real_array (section_name
      :                     , 'y_stress_photo', max_table, '()'
-     :                     , c_y_stress_photo, c_num_factors
+     :                     , c%y_stress_photo, c%num_factors
      :                     , 0.0, 1.0)
  
          ! TEMPLATE OPTION
@@ -3410,34 +4152,34 @@ cgol set maximum next tiller number to 6.0
  
       call read_real_array (section_name
      :                     , 'x_temp_grain', max_table, '(oC)'
-     :                     , c_x_temp_grain, c_num_temp_grain
+     :                     , c%x_temp_grain, c%num_temp_grain
      :                     , 0.0, 100.0)
  
       call read_real_array (section_name
      :                     , 'y_grain_rate', max_table, '()'
-     :                     , c_y_grain_rate, c_num_temp_grain
+     :                     , c%y_grain_rate, c%num_temp_grain
      :                     , 0.0, 1.0)
  
          !    millet_tt
  
       call read_real_array (section_name
      :                     , 'x_temp', max_table, '(oC)'
-     :                     , c_x_temp, c_num_temp
+     :                     , c%x_temp, c%num_temp
      :                     , 0.0, 100.0)
  
       call read_real_array (section_name
      :                     , 'y_tt', max_table, '(oC)'
-     :                     , c_y_tt, c_num_temp
+     :                     , c%y_tt, c%num_temp
      :                     , 0.0, 100.0)
 cpsc
       call read_real_array (section_name
      :                     , 'x_weighted_temp', max_table, '(oC)'
-     :                     , c_x_weighted_temp, c_num_weighted_temp
+     :                     , c%x_weighted_temp, c%num_weighted_temp
      :                     , 0.0, 100.0)
  
       call read_real_array (section_name
      :                     , 'y_plant_death', max_table, '(oC)'
-     :                     , c_y_plant_death, c_num_weighted_temp
+     :                     , c%y_plant_death, c%num_weighted_temp
      :                     , 0.0, 100.0)
  
          ! TEMPLATE OPTION
@@ -3445,12 +4187,12 @@ cpsc
  
       ! call read_real_array (section_name
       !:                     , 'x_temp_other', max_table, '(oC)'
-      !:                     , c_x_temp_other, c_num_temp_other
+      !:                     , c%x_temp_other, c%num_temp_other
       !:                     , 0.0, 100.0)
  
       ! call read_real_array (section_name
       !:                     , 'y_tt_other', max_table, '(oC)'
-      !:                     , c_y_tt_other, c_num_temp_other
+      !:                     , c%y_tt_other, c%num_temp_other
       !:                     , 0.0, 100.0)
  
          ! TEMPLATE OPTION
@@ -3458,89 +4200,89 @@ cpsc
  
       ! call read_real_var (section_name
       !:                    , 'imin', '()'
-      !:                    , c_imin, numvals
+      !:                    , c%imin, numvals
       !:                    , 0.0, 100.0)
  
       ! call read_real_var (section_name
       !:                    , 'iopt', '()'
-      !:                    , c_iopt, numvals
+      !:                    , c%iopt, numvals
       !:                    , 0.0, 100.0)
  
       ! call read_real_var (section_name
       !:                    , 'imax', '()'
-      !:                    , c_imax, numvals
+      !:                    , c%imax, numvals
       !:                    , 0.0, 100.0)
  
       ! call read_real_var (section_name
       !:                    , 'ioptr', '()'
-      !:                    , c_ioptr, numvals
+      !:                    , c%ioptr, numvals
       !:                    , 0.0, 100.0)
  
       ! call read_real_var (section_name
       !:                    , 'amin', '()'
-      !:                    , c_amin, numvals
+      !:                    , c%amin, numvals
       !:                    , 0.0, 100.0)
  
       ! call read_real_var (section_name
       !:                    , 'aopt', '()'
-      !:                    , c_aopt, numvals
+      !:                    , c%aopt, numvals
       !:                    , 0.0, 100.0)
  
       ! call read_real_var (section_name
       !:                    , 'amax', '()'
-      !:                    , c_amax, numvals
+      !:                    , c%amax, numvals
       !:                    , 0.0, 100.0)
  
       ! call read_real_var (section_name
       !:                    , 'aoptr', '()'
-      !:                    , c_aoptr, numvals
+      !:                    , c%aoptr, numvals
       !:                    , 0.0, 100.0)
  
          !    millet_swdef
  
       call read_real_array (section_name
      :                     , 'x_sw_demand_ratio', max_table, '()'
-     :                     , c_x_sw_demand_ratio, c_num_sw_demand_ratio
+     :                     , c%x_sw_demand_ratio, c%num_sw_demand_ratio
      :                     , 0.0, 100.0)
  
       call read_real_array (section_name
      :                     , 'y_swdef_leaf', max_table, '()'
-     :                     , c_y_swdef_leaf, c_num_sw_demand_ratio
+     :                     , c%y_swdef_leaf, c%num_sw_demand_ratio
      :                     , 0.0, 100.0)
  
       call read_real_array (section_name
      :                     , 'x_sw_avail_ratio', max_table, '()'
-     :                     , c_x_sw_avail_ratio, c_num_sw_avail_ratio
+     :                     , c%x_sw_avail_ratio, c%num_sw_avail_ratio
      :                     , 0.0, 100.0)
  
       call read_real_array (section_name
      :                     , 'y_swdef_pheno', max_table, '()'
-     :                     , c_y_swdef_pheno, c_num_sw_avail_ratio
+     :                     , c%y_swdef_pheno, c%num_sw_avail_ratio
      :                     , 0.0, 100.0)
  
       call read_real_array (section_name
      :                     , 'x_sw_ratio', max_table, '()'
-     :                     , c_x_sw_ratio, c_num_sw_ratio
+     :                     , c%x_sw_ratio, c%num_sw_ratio
      :                     , 0.0, 100.0)
  
       call read_real_array (section_name
      :                     , 'y_sw_fac_root', max_table, '()'
-     :                     , c_y_sw_fac_root, c_num_sw_ratio
+     :                     , c%y_sw_fac_root, c%num_sw_ratio
      :                     , 0.0, 100.0)
  
       call read_real_array (section_name
      :                     , 'x_sw_avail_fix', max_table, '()'
-     :                     , c_x_sw_avail_fix, c_num_sw_avail_fix
+     :                     , c%x_sw_avail_fix, c%num_sw_avail_fix
      :                     , 0.0, 100.0)
  
       call read_real_array (section_name
      :                     , 'y_swdef_fix', max_table, '()'
-     :                     , c_y_swdef_fix, c_num_sw_avail_fix
+     :                     , c%y_swdef_fix, c%num_sw_avail_fix
      :                     , 0.0, 100.0)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -3548,7 +4290,6 @@ cpsc
       real function millet_swdef (type)
 *     ===========================================================
       implicit none
-      include   'const.inc'
       include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
@@ -3581,52 +4322,52 @@ cpsc
 *- Implementation Section ----------------------------------
  
       call push_routine (my_name)
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
+      deepest_layer = find_layer_no (g%root_depth, g%dlayer, max_layer)
  
       if (type.eq.pheno) then
-         sw_avail_pot_sum = sum_real_array (g_sw_avail_pot
+         sw_avail_pot_sum = sum_real_array (g%sw_avail_pot
      :                                    , deepest_layer)
-         sw_avail_sum = sum_real_array (g_sw_avail, deepest_layer)
+         sw_avail_sum = sum_real_array (g%sw_avail, deepest_layer)
  
          sw_avail_ratio = divide (sw_avail_sum
      :                          , sw_avail_pot_sum, 1.0) !???
          sw_avail_ratio = bound (sw_avail_ratio , 0.0, 1.0)
  
          millet_swdef = linear_interp_real (sw_avail_ratio
-     :                       , c_x_sw_avail_ratio, c_y_swdef_pheno
-     :                       , c_num_sw_avail_ratio)
+     :                       , c%x_sw_avail_ratio, c%y_swdef_pheno
+     :                       , c%num_sw_avail_ratio)
  
       elseif (type.eq.photo) then
             ! get potential water that can be taken up when profile is full
  
-         sw_supply_sum = sum_real_array (g_sw_supply, deepest_layer)
-         sw_demand_ratio = divide (sw_supply_sum, g_sw_demand, 1.0)
+         sw_supply_sum = sum_real_array (g%sw_supply, deepest_layer)
+         sw_demand_ratio = divide (sw_supply_sum, g%sw_demand, 1.0)
          millet_swdef = bound (sw_demand_ratio , 0.0, 1.0)
  
       elseif (type.eq.expansion) then
             ! get potential water that can be taken up when profile is full
  
-         sw_supply_sum = sum_real_array (g_sw_supply, deepest_layer)
-         sw_demand_ratio = divide (sw_supply_sum, g_sw_demand, 10.0)
+         sw_supply_sum = sum_real_array (g%sw_supply, deepest_layer)
+         sw_demand_ratio = divide (sw_supply_sum, g%sw_demand, 10.0)
  
          millet_swdef = linear_interp_real (sw_demand_ratio
-     :                       , c_x_sw_demand_ratio, c_y_swdef_leaf
-     :                       , c_num_sw_demand_ratio)
+     :                       , c%x_sw_demand_ratio, c%y_swdef_leaf
+     :                       , c%num_sw_demand_ratio)
  
       elseif (type.eq.fixation) then
             ! get potential water that can be taken up when profile is full
  
-         sw_avail_pot_sum = sum_real_array (g_sw_avail_pot
+         sw_avail_pot_sum = sum_real_array (g%sw_avail_pot
      :                                    , deepest_layer)
-         sw_avail_sum = sum_real_array (g_sw_avail, deepest_layer)
+         sw_avail_sum = sum_real_array (g%sw_avail, deepest_layer)
  
          sw_avail_ratio = divide (sw_avail_sum
      :                          , sw_avail_pot_sum, 1.0) !???
          sw_avail_ratio = bound (sw_avail_ratio , 0.0, 1.0)
  
          millet_swdef = linear_interp_real (sw_avail_ratio
-     :                       , c_x_sw_avail_fix, c_y_swdef_fix
-     :                       , c_num_sw_avail_fix)
+     :                       , c%x_sw_avail_fix, c%y_swdef_fix
+     :                       , c%num_sw_avail_fix)
  
       else
          ! we have an unknown type
@@ -3638,7 +4379,7 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
@@ -3661,10 +4402,10 @@ cpsc
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
-      call millet_dm_init (g_dm_green, g_dm_plant_min)
+      call millet_dm_init (g%dm_green, g%dm_plant_min)
  
             ! drymatter production
-      call millet_dm_production (g_dlt_dm)
+      call millet_dm_production (g%dlt_dm)
  
          ! NOTE comment out for hi approach
             ! NOTE comment out the unwanted dm_grain call
@@ -3675,21 +4416,21 @@ cpsc
          ! TEMPLATE OPTION
          ! Standard routines (4) simulate grain no approach (Ceres)
          ! Alternative routines (3) simulate harvest index approach (GLH)
-      call millet_heat_stress (g_dlt_heat_stress_tt) ! high temperature stress
-      call millet_grain_no (g_grain_no)              ! set grain number
-      call millet_dm_grain (g_dlt_dm_grain_demand)
+      call millet_heat_stress (g%dlt_heat_stress_tt) ! high temperature stress
+      call millet_grain_no (g%grain_no)              ! set grain number
+      call millet_dm_grain (g%dlt_dm_grain_demand)
  
          ! TEMPLATE OPTION or
-      ! call millet_dm_stress_max (g_dlt_dm_stress_max)
-      ! call millet_dm_grain_hi (g_dlt_dm_grain_demand)
+      ! call millet_dm_stress_max (g%dlt_dm_stress_max)
+      ! call millet_dm_grain_hi (g%dlt_dm_grain_demand)
  
-      call millet_dm_partition (g_dlt_dm_green)
-      ! call millet_dm_partition_leg (g_dlt_dm_green)
-      call millet_dm_retranslocate (g_dlt_dm_green_retrans)
+      call millet_dm_partition (g%dlt_dm_green)
+      ! call millet_dm_partition_leg (g%dlt_dm_green)
+      call millet_dm_retranslocate (g%dlt_dm_green_retrans)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -3731,40 +4472,40 @@ cpsc
          ! initialisations - set up dry matter for leaf, stem, flower, grain
          ! and root
  
-      if (on_day_of (emerg, g_current_stage, g_days_tot)) then
+      if (on_day_of (emerg, g%current_stage, g%days_tot)) then
              ! seedling has just emerged.
  
              ! initialise root, stem and leaf.
  
-         dm_green(root) = c_dm_root_init * g_plants
-         dm_green(stem) = c_dm_stem_init * g_plants
-         dm_green(leaf) = c_dm_leaf_init * g_plants
+         dm_green(root) = c%dm_root_init * g%plants
+         dm_green(stem) = c%dm_stem_init * g%plants
+         dm_green(leaf) = c%dm_leaf_init * g%plants
          dm_green(tiller) = 0.0
          dm_green(grain) = 0.0
          dm_green(flower) = 0.0
  
-      elseif (on_day_of (flowering, g_current_stage, g_days_tot)) then
+      elseif (on_day_of (flowering, g%current_stage, g%days_tot)) then
              ! we are at first day of flowering
              ! set the minimum weight of stem; used for retranslocation to grain
  
-         dm_plant_stem = divide (dm_green(stem), g_plants, 0.0)
-         dm_plant_min(stem) = dm_plant_stem * (1.0 - c_stem_trans_frac)
+         dm_plant_stem = divide (dm_green(stem), g%plants, 0.0)
+         dm_plant_min(stem) = dm_plant_stem * (1.0 - c%stem_trans_frac)
  
       elseif (on_day_of (start_grain_fill
-     :                 , g_current_stage, g_days_tot)) then
+     :                 , g%current_stage, g%days_tot)) then
  
              ! we are at first day of grainfill.
              ! set the minimum weight of leaf; used for translocation to grain
  
-         dm_plant_leaf = divide (dm_green(leaf), g_plants, 0.0)
-         dm_plant_min(leaf) = dm_plant_leaf * (1.0 - c_leaf_trans_frac)
+         dm_plant_leaf = divide (dm_green(leaf), g%plants, 0.0)
+         dm_plant_min(leaf) = dm_plant_leaf * (1.0 - c%leaf_trans_frac)
  
       else   ! no changes
       endif
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -3814,7 +4555,7 @@ cpsc
          ! ------------- find actual grain uptake ---------------
  
       if (on_day_of (start_grain_fill
-     :             , g_current_stage, g_days_tot)) then
+     :             , g%current_stage, g%days_tot)) then
  
             ! calculate number of grains/plant
             ! Grains/plant is calculated from a genotype-specific
@@ -3823,30 +4564,30 @@ cpsc
             ! used to predict grains/plant is derived from Edmeades and
             ! Daynard (1979).
  
-         dm_plant = sum_between (flag_leaf, now, g_dm_plant_top_tot)
+         dm_plant = sum_between (flag_leaf, now, g%dm_plant_top_tot)
          growth_rate = divide (
      :                   dm_plant
-     :                 , sum_between (flag_leaf, now, g_days_tot)
+     :                 , sum_between (flag_leaf, now, g%days_tot)
      :                 , 0.0)
  
             ! note - this function will never reach 1. Thus head_grain_no_max
             ! will never be achieved.
  
-         grain_no_fract = divide ((growth_rate - c_growth_rate_min)
-     :                          , (c_growth_rate_crit
-     :                             + (growth_rate - c_growth_rate_min))
+         grain_no_fract = divide ((growth_rate - c%growth_rate_min)
+     :                          , (c%growth_rate_crit
+     :                             + (growth_rate - c%growth_rate_min))
      :                          , 0.0)
  
          grain_no_fract = bound (grain_no_fract, 0.0, 1.0)
  
-         head_grain_no_optimum = p_head_grain_no_max * grain_no_fract
+         head_grain_no_optimum = p%head_grain_no_max * grain_no_fract
  
  
             ! grain numbers are reduced by heat stress during flowering.
  
          temp_fac = 1.0
-     :            - sum_between (flag_leaf, now, g_heat_stress_tt)
-     :            * c_htstress_coeff
+     :            - sum_between (flag_leaf, now, g%heat_stress_tt)
+     :            * c%htstress_coeff
  
          temp_fac = bound (temp_fac, 0.0, 1.0)
  
@@ -3861,19 +4602,19 @@ cpsc
  
          call millet_N_retrans_avail (N_avail)
          N_avail_plant_sum  = divide (sum_real_array (N_avail, max_part)
-     :                              , g_plants, 0.0)
+     :                              , g%plants, 0.0)
          head_grain_no_max = divide (N_avail_plant_sum
-     :                      , (c_seed_wt_min * c_grain_N_conc_min), 0.0)
+     :                      , (c%seed_wt_min * c%grain_N_conc_min), 0.0)
  
          head_grain_no = head_grain_no_optimum * temp_fac
  
          grain_no  =  u_bound (head_grain_no
      :                       , head_grain_no_max)
-     :             * g_plants
+     :             * g%plants
  
 !      print *,'2', grain_no,head_grain_no,head_grain_no_max,
 !     :           head_grain_no_optimum,temp_fac,N_avail_plant_sum
-!     :          ,c_seed_wt_min,c_grain_N_conc_min
+!     :          ,c%seed_wt_min,c%grain_N_conc_min
  
       else
             ! do nothing
@@ -3882,7 +4623,7 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -3912,15 +4653,15 @@ cpsc
  
             ! high temperature stress reduces grain no via 'htsf'
  
-      if (g_maxt.gt.c_temp_grain_crit_stress) then
-         dlt_tt_heat_stress = g_maxt - c_temp_grain_crit_stress
+      if (g%maxt.gt.c%temp_grain_crit_stress) then
+         dlt_tt_heat_stress = g%maxt - c%temp_grain_crit_stress
       else
          dlt_tt_heat_stress = 0.0
       endif
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -3944,7 +4685,6 @@ cpsc
 *       090994 jngh specified and programmed
 
 *+  Calls
-      real       millet_transp_eff      ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -3965,8 +4705,8 @@ cpsc
  
          ! potential (supply) by transpiration
  
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
-      sw_supply_sum = sum_real_array (g_sw_supply, deepest_layer)
+      deepest_layer = find_layer_no (g%root_depth, g%dlayer, max_layer)
+      sw_supply_sum = sum_real_array (g%sw_supply, deepest_layer)
       dlt_dm_transp = sw_supply_sum*millet_transp_eff ()
  
          ! potential by photosynthesis
@@ -3978,7 +4718,7 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -4038,20 +4778,20 @@ cpsc
          ! now we get the root delta for all stages - partition scheme
          ! specified in coeff file
  
-      current_phase = int (g_current_stage)
-      dlt_dm_green(root) = c_ratio_root_shoot(current_phase)*g_dlt_dm
+      current_phase = int (g%current_stage)
+      dlt_dm_green(root) = c%ratio_root_shoot(current_phase)*g%dlt_dm
  
-      if (stage_is_between (emerg, floral_init, g_current_stage)) then
+      if (stage_is_between (emerg, floral_init, g%current_stage)) then
             ! we have leaf development only
-         dlt_dm_green(leaf) = g_dlt_dm
+         dlt_dm_green(leaf) = g%dlt_dm
  
-         if (c_tiller_no_pot.gt.0) then
+         if (c%tiller_no_pot.gt.0) then
  
-            dlt_dm_leaf_max = divide (g_dlt_lai_pot
-     :                              , c_sla_min * smm2sm, 0.0)
+            dlt_dm_leaf_max = divide (g%dlt_lai_pot
+     :                              , c%sla_min * smm2sm, 0.0)
             dlt_dm_green(leaf) = u_bound (dlt_dm_green(leaf)
      :                                  , dlt_dm_leaf_max)
-            dlt_dm_green(tiller) = g_dlt_dm - dlt_dm_green(leaf)
+            dlt_dm_green(tiller) = g%dlt_dm - dlt_dm_green(leaf)
  
             dlt_dm_green(tiller) = l_bound (dlt_dm_green(tiller), 0.0)
  
@@ -4061,40 +4801,40 @@ cpsc
          endif
  
       elseif (stage_is_between (floral_init, flag_leaf
-     :                        , g_current_stage)) then
+     :                        , g%current_stage)) then
  
             ! stem elongation and flower development start
             ! Each new leaf demands an increasing proportion of dry matter
             ! partitioned to stem and flower
  
-         internode_no = sum_between (floral_init, now, g_leaf_no)
+         internode_no = sum_between (floral_init, now, g%leaf_no)
          partition_coef_leaf = 1.0
-     :            /(1.0 + c_partition_rate_leaf * internode_no**2)
+     :            /(1.0 + c%partition_rate_leaf * internode_no**2)
  
-         dlt_dm_green(leaf) = partition_coef_leaf * g_dlt_dm
+         dlt_dm_green(leaf) = partition_coef_leaf * g%dlt_dm
              ! limit the delta leaf area to maximum
-         dlt_dm_leaf_max = divide (g_dlt_lai_pot
-     :                           , c_sla_min * smm2sm, 0.0)
+         dlt_dm_leaf_max = divide (g%dlt_lai_pot
+     :                           , c%sla_min * smm2sm, 0.0)
          dlt_dm_green(leaf) = u_bound (dlt_dm_green(leaf)
      :                               , dlt_dm_leaf_max)
  
-         if (c_tiller_no_pot.gt.0) then
+         if (c%tiller_no_pot.gt.0) then
  
             dlt_dm_axis = divide (dlt_dm_green(leaf)
-     :                          , partition_coef_leaf, g_dlt_dm)
+     :                          , partition_coef_leaf, g%dlt_dm)
  
-            dlt_dm_green(tiller) = g_dlt_dm - dlt_dm_axis
+            dlt_dm_green(tiller) = g%dlt_dm - dlt_dm_axis
  
             dlt_dm_green(tiller) = l_bound (dlt_dm_green(tiller), 0.0)
  
          else
-            dlt_dm_axis = g_dlt_dm
+            dlt_dm_axis = g%dlt_dm
             dlt_dm_green(tiller) = 0.0
  
          endif
  
          dlt_dm_green(flower) = (dlt_dm_axis - dlt_dm_green(leaf))
-     :                        * c_frac_stem2flower
+     :                        * c%frac_stem2flower
  
          dlt_dm_green(stem) = dlt_dm_axis
      :                      - (dlt_dm_green(flower)
@@ -4105,45 +4845,45 @@ cpsc
  
  
       elseif (stage_is_between (flag_leaf, start_grain_fill
-     :                        , g_current_stage)) then
+     :                        , g%current_stage)) then
  
             ! we only have flower and stem growth here
-         dlt_dm_green(flower) = g_dlt_dm*c_frac_stem2flower
-         dlt_dm_green(stem) = g_dlt_dm - dlt_dm_green(flower)
+         dlt_dm_green(flower) = g%dlt_dm*c%frac_stem2flower
+         dlt_dm_green(stem) = g%dlt_dm - dlt_dm_green(flower)
          dlt_dm_green(stem) = l_bound (dlt_dm_green(stem), 0.0)
  
       elseif (stage_is_between (start_grain_fill, maturity
-     :                        , g_current_stage)) then
+     :                        , g%current_stage)) then
  
             ! grain filling starts - stem continues when it can
  
 !cpsc  bound HI to a maximum value
-         dm_tops = sum_real_array (g_dm_green, max_part)
-     :           - g_dm_green(root)
-     :           + sum_real_array (g_dm_senesced, max_part)
-     :           - g_dm_senesced(root)
+         dm_tops = sum_real_array (g%dm_green, max_part)
+     :           - g%dm_green(root)
+     :           + sum_real_array (g%dm_senesced, max_part)
+     :           - g%dm_senesced(root)
  
-         dm_grain_max = (dm_tops + g_dlt_dm) * p_hi_max_pot
-         dlt_dm_grain_max = bound (dm_grain_max - g_dm_green(grain)
-     :                           , 0.0, g_dlt_dm)
+         dm_grain_max = (dm_tops + g%dlt_dm) * p%hi_max_pot
+         dlt_dm_grain_max = bound (dm_grain_max - g%dm_green(grain)
+     :                           , 0.0, g%dlt_dm)
  
-         dlt_dm_green(grain) = bound (g_dlt_dm_grain_demand
+         dlt_dm_green(grain) = bound (g%dlt_dm_grain_demand
      :                              , 0.0, dlt_dm_grain_max)
  
 !cpsc
-!         dlt_dm_green(grain) = bound (g_dlt_dm_grain_demand
-!     :                              , 0.0, g_dlt_dm)
+!         dlt_dm_green(grain) = bound (g%dlt_dm_grain_demand
+!     :                              , 0.0, g%dlt_dm)
  
-         dlt_dm_green(stem) = g_dlt_dm - dlt_dm_green(grain)
+         dlt_dm_green(stem) = g%dlt_dm - dlt_dm_green(grain)
  
          dlt_dm_green(stem) = l_bound (dlt_dm_green(stem), 0.0)
  
  
       elseif (stage_is_between (maturity, plant_end
-     :                        , g_current_stage)) then
+     :                        , g%current_stage)) then
  
             ! put into stem
-         dlt_dm_green(stem) = g_dlt_dm
+         dlt_dm_green(stem) = g%dlt_dm
  
       else
             ! no partitioning
@@ -4152,17 +4892,17 @@ cpsc
          ! do mass balance check - roots are not included
       dlt_dm_green_tot = sum_real_array (dlt_dm_green, max_part)
      :                 - dlt_dm_green(root)
-      call bound_check_real_var (dlt_dm_green_tot, g_dlt_dm, g_dlt_dm
+      call bound_check_real_var (dlt_dm_green_tot, g%dlt_dm, g%dlt_dm
      :                        , 'dlt_dm_green_tot mass balance')
  
          ! check that deltas are in legal range
  
-      call bound_check_real_array (dlt_dm_green, 0.0, g_dlt_dm
+      call bound_check_real_array (dlt_dm_green, 0.0, g%dlt_dm
      :                          , 'dlt_dm_green', max_part)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -4215,65 +4955,65 @@ cpsc
          ! now we get the root delta for all stages - partition scheme
          ! specified in coeff file
  
-      current_phase = int (g_current_stage)
-      dlt_dm_green(root) = c_ratio_root_shoot(current_phase)*g_dlt_dm
+      current_phase = int (g%current_stage)
+      dlt_dm_green(root) = c%ratio_root_shoot(current_phase)*g%dlt_dm
  
-      if (stage_is_between (emerg, flowering, g_current_stage)) then
+      if (stage_is_between (emerg, flowering, g%current_stage)) then
  
-         dlt_dm_green(leaf) = c_frac_leaf_pre_flower * g_dlt_dm
+         dlt_dm_green(leaf) = c%frac_leaf_pre_flower * g%dlt_dm
  
              ! limit the delta leaf area to maximum
-         dlt_dm_leaf_max = divide (g_dlt_lai_pot
-     :                           , c_sla_min * smm2sm, 0.0)
+         dlt_dm_leaf_max = divide (g%dlt_lai_pot
+     :                           , c%sla_min * smm2sm, 0.0)
          dlt_dm_green(leaf) = u_bound (dlt_dm_green(leaf)
      :                               , dlt_dm_leaf_max)
  
-         dlt_dm_green(stem) = g_dlt_dm - dlt_dm_green(leaf)
+         dlt_dm_green(stem) = g%dlt_dm - dlt_dm_green(leaf)
  
       elseif (stage_is_between (flowering, start_grain_fill
-     :                        , g_current_stage)) then
+     :                        , g%current_stage)) then
  
             ! we now have leaf growth during this period as well as
             ! flower and stem growth. jet.
  
-         dlt_dm_green(leaf) = c_frac_leaf_post_flower * g_dlt_dm
+         dlt_dm_green(leaf) = c%frac_leaf_post_flower * g%dlt_dm
  
              ! limit the delta leaf area to maximum
-         dlt_dm_leaf_max = divide (g_dlt_lai_pot
-     :                           , c_sla_min * smm2sm, 0.0)
+         dlt_dm_leaf_max = divide (g%dlt_lai_pot
+     :                           , c%sla_min * smm2sm, 0.0)
          dlt_dm_green(leaf) = u_bound (dlt_dm_green(leaf)
      :                               , dlt_dm_leaf_max)
  
-         dm_remaining = g_dlt_dm - dlt_dm_green(leaf)
-         dlt_dm_green(flower) = dm_remaining * c_frac_stem2flower
-         dlt_dm_green(stem) = g_dlt_dm - (dlt_dm_green(flower)
+         dm_remaining = g%dlt_dm - dlt_dm_green(leaf)
+         dlt_dm_green(flower) = dm_remaining * c%frac_stem2flower
+         dlt_dm_green(stem) = g%dlt_dm - (dlt_dm_green(flower)
      :                                   + dlt_dm_green(leaf))
  
       elseif (stage_is_between (start_grain_fill, maturity
-     :                        , g_current_stage)) then
+     :                        , g%current_stage)) then
  
             ! grain filling starts - stem continues when it can
  
-         partition_grain = 1.0 - divide (c_frac_flower2grain,
-     :                                  c_frac_flower2grain + 1.0, 0.0)
-         dlt_dm_green(grain) = bound (g_dlt_dm_grain_demand, 0.0,
-     :                              g_dlt_dm * partition_grain)
+         partition_grain = 1.0 - divide (c%frac_flower2grain,
+     :                                  c%frac_flower2grain + 1.0, 0.0)
+         dlt_dm_green(grain) = bound (g%dlt_dm_grain_demand, 0.0,
+     :                              g%dlt_dm * partition_grain)
          dlt_dm_green(flower) = dlt_dm_green(grain)
-     :                        * c_frac_flower2grain
+     :                        * c%frac_flower2grain
  
-         if (dlt_dm_green(flower)+dlt_dm_green(grain).ge.g_dlt_dm) then
-            dlt_dm_green(flower) = g_dlt_dm - dlt_dm_green(grain)
+         if (dlt_dm_green(flower)+dlt_dm_green(grain).ge.g%dlt_dm) then
+            dlt_dm_green(flower) = g%dlt_dm - dlt_dm_green(grain)
             dlt_dm_green(stem) = 0.0
          else
-            dlt_dm_green(stem) = g_dlt_dm
+            dlt_dm_green(stem) = g%dlt_dm
      :                    - (dlt_dm_green(grain)+dlt_dm_green(flower))
          endif
  
       elseif (stage_is_between (maturity, plant_end
-     :                        , g_current_stage)) then
+     :                        , g%current_stage)) then
  
             ! put into stem
-         dlt_dm_green(stem) = g_dlt_dm
+         dlt_dm_green(stem) = g%dlt_dm
  
       else
             ! no partitioning
@@ -4283,17 +5023,17 @@ cpsc
       dlt_dm_green_tot = sum_real_array (dlt_dm_green, max_part)
      :                 - dlt_dm_green(root)
  
-      call bound_check_real_var (dlt_dm_green_tot, g_dlt_dm, g_dlt_dm
+      call bound_check_real_var (dlt_dm_green_tot, g%dlt_dm, g%dlt_dm
      :                        , 'dlt_dm_green_tot mass balance')
  
          ! check that deltas are in legal range
  
-      call bound_check_real_array (dlt_dm_green, 0.0, g_dlt_dm
+      call bound_check_real_array (dlt_dm_green, 0.0, g%dlt_dm
      :                          , 'dlt_dm_green', max_part)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -4318,8 +5058,6 @@ cpsc
 *     010994 jngh specified and programmed
 
 *+  Calls
-      real       millet_dm_grain_max    ! function
-      real       millet_swdef           ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -4340,7 +5078,7 @@ cpsc
       call push_routine (my_name)
  
       if (stage_is_between (start_grain_fill, end_grain_fill
-     :                    , g_current_stage)) then
+     :                    , g%current_stage)) then
  
             ! effective grain filling period
  
@@ -4355,20 +5093,20 @@ cpsc
             ! being 17.57-42.43, still a quadratic.
             ! It now has a range 3.68 - 56.32 and is stepwise linear
  
-         rgfill = linint_3hrly_temp (g_maxt, g_mint
-     :                             , c_x_temp_grain, c_y_grain_rate
-     :                             , c_num_temp_grain)
+         rgfill = linint_3hrly_temp (g%maxt, g%mint
+     :                             , c%x_temp_grain, c%y_grain_rate
+     :                             , c%num_temp_grain)
  
  
             ! get water stress factor
  
-         sw_def_fac = (c_swdf_grain_min
-     :              + (1.0 - c_swdf_grain_min) * millet_swdef(photo))
+         sw_def_fac = (c%swdf_grain_min
+     :              + (1.0 - c%swdf_grain_min) * millet_swdef(photo))
          fract_of_optimum = rgfill * sw_def_fac
  
             ! now calculate the grain growth demand for the day in g/m^2
  
-         dlt_dm_grain_optm = g_grain_no * (p_grain_gth_rate * mg2gm)
+         dlt_dm_grain_optm = g%grain_no * (p%grain_gth_rate * mg2gm)
          dlt_dm_grain = bound (dlt_dm_grain_optm * fract_of_optimum
      :                       , 0.0, millet_dm_grain_max ())
  
@@ -4382,7 +5120,7 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -4427,28 +5165,28 @@ cpsc
       call push_routine (my_name)
  
       if (stage_is_between (start_grain_fill, maturity
-     :                    , g_current_stage)) then
+     :                    , g%current_stage)) then
  
             ! effective grain filling period
  
          stress_sum = sum_between (flag_leaf, start_grain_fill
-     :                            , g_dm_stress_max)
+     :                            , g%dm_stress_max)
          days_sum = sum_between (flag_leaf, start_grain_fill
-     :                         , g_days_tot)
+     :                         , g%days_tot)
          ave_stress = divide (stress_sum, days_sum, 1.0)
-         hi_max = c_hi_min + (p_hi_max_pot - c_hi_min) * ave_stress
+         hi_max = c%hi_min + (p%hi_max_pot - c%hi_min) * ave_stress
  
-         dm_tops = sum_real_array (g_dm_green, max_part)
-     :           - g_dm_green(root)
-     :           + sum_real_array (g_dm_senesced, max_part)
-     :           - g_dm_senesced(root)
-         harvest_index = divide (g_dm_green(grain), dm_tops, 0.0)
-         dm_tops_new = dm_tops + g_dlt_dm
+         dm_tops = sum_real_array (g%dm_green, max_part)
+     :           - g%dm_green(root)
+     :           + sum_real_array (g%dm_senesced, max_part)
+     :           - g%dm_senesced(root)
+         harvest_index = divide (g%dm_green(grain), dm_tops, 0.0)
+         dm_tops_new = dm_tops + g%dlt_dm
  
-         harvest_index_new = u_bound (harvest_index + p_hi_incr, hi_max)
+         harvest_index_new = u_bound (harvest_index + p%hi_incr, hi_max)
  
          dm_grain_new = dm_tops_new * harvest_index_new
-         dlt_dm_grain = dm_grain_new - g_dm_green(grain)
+         dlt_dm_grain = dm_grain_new - g%dm_green(grain)
          dlt_dm_grain = bound (dlt_dm_grain, 0.0, dm_grain_new)
  
       else
@@ -4461,7 +5199,7 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -4487,8 +5225,6 @@ cpsc
 *     010994 jngh specified and programmed
 
 *+  Calls
-      real       millet_rue_reduction   ! function
-      real       millet_swdef           ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -4503,7 +5239,7 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -4522,7 +5258,6 @@ cpsc
 *       141093 jngh specified and programmed
 
 *+  Calls
-      real       millet_N_dlt_grain_conc ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -4547,7 +5282,7 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
@@ -4597,23 +5332,23 @@ cpsc
       call fill_real_array (dm_retranslocate, 0.0, max_part)
  
       if (stage_is_between (start_grain_fill, maturity
-     :                    , g_current_stage)) then
+     :                    , g%current_stage)) then
  
-         if (g_dlt_dm_grain_demand .gt. g_dlt_dm_green(grain)) then
+         if (g%dlt_dm_grain_demand .gt. g%dlt_dm_green(grain)) then
                ! we can translocate stem and leaf carbohydrate
                ! to grain if needed
  
-            dm_grain_differential = g_dlt_dm_grain_demand
-     :                            - g_dlt_dm_green(grain)
+            dm_grain_differential = g%dlt_dm_grain_demand
+     :                            - g%dlt_dm_green(grain)
  
                ! get available carbohydrate in stem and leaf for transfer
  
-            dm_stem_pot = g_dm_green(stem) + g_dlt_dm_green(stem)
-            dm_stem_avail = dm_stem_pot - g_dm_plant_min(stem)*g_plants
+            dm_stem_pot = g%dm_green(stem) + g%dlt_dm_green(stem)
+            dm_stem_avail = dm_stem_pot - g%dm_plant_min(stem)*g%plants
             dm_stem_avail = l_bound (dm_stem_avail, 0.0)
  
-            dm_leaf_pot = g_dm_green(leaf) + g_dlt_dm_green(leaf)
-            dm_leaf_avail = dm_leaf_pot - g_dm_plant_min(leaf)*g_plants
+            dm_leaf_pot = g%dm_green(leaf) + g%dlt_dm_green(leaf)
+            dm_leaf_avail = dm_leaf_pot - g%dm_plant_min(leaf)*g%plants
             dm_leaf_avail = l_bound (dm_leaf_avail, 0.0)
  
                ! now find out how much to translocate.
@@ -4660,7 +5395,7 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -4684,17 +5419,17 @@ cpsc
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      call millet_dm_detachment (g_dlt_dm_detached)
-      call millet_slai_detachment (g_dlt_slai_detached)
-      call millet_N_detachment (g_dlt_N_detached)
+      call millet_dm_detachment (g%dlt_dm_detached)
+      call millet_slai_detachment (g%dlt_slai_detached)
+      call millet_N_detachment (g%dlt_N_detached)
  
-      call millet_dm_dead_detachment (g_dlt_dm_dead_detached)
-      call millet_tlai_dead_detachment (g_dlt_tlai_dead_detached)
-      call millet_N_dead_detachment (g_dlt_N_dead_detached)
+      call millet_dm_dead_detachment (g%dlt_dm_dead_detached)
+      call millet_tlai_dead_detachment (g%dlt_tlai_dead_detached)
+      call millet_N_dead_detachment (g%dlt_N_dead_detached)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -4728,13 +5463,13 @@ cpsc
  
       call fill_real_array (dlt_dm_detached, 0.0, max_part)
  
-      dlt_dm_detached(leaf) = g_dm_senesced(leaf)
-     :                      * c_dm_leaf_detach_frac
-      dlt_dm_detached(root) = g_dlt_dm_senesced(root)
+      dlt_dm_detached(leaf) = g%dm_senesced(leaf)
+     :                      * c%dm_leaf_detach_frac
+      dlt_dm_detached(root) = g%dlt_dm_senesced(root)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -4763,11 +5498,11 @@ cpsc
  
       call push_routine (my_name)
  
-      dlt_slai_detached = g_slai * c_dm_leaf_detach_frac
+      dlt_slai_detached = g%slai * c%dm_leaf_detach_frac
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -4801,13 +5536,13 @@ cpsc
  
       call fill_real_array (dlt_N_detached, 0.0, max_part)
  
-      dlt_N_detached(leaf) = g_dlt_N_senesced(leaf)
-     :                     * c_dm_leaf_detach_frac
-      dlt_N_detached(root) = g_dlt_N_senesced(root)
+      dlt_N_detached(leaf) = g%dlt_N_senesced(leaf)
+     :                     * c%dm_leaf_detach_frac
+      dlt_N_detached(root) = g%dlt_N_senesced(root)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -4832,11 +5567,11 @@ cpsc
  
       call push_routine (my_name)
  
-      call millet_plants (g_dlt_plants)
+      call millet_plants (g%dlt_plants)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -4844,7 +5579,6 @@ cpsc
       subroutine millet_plants (dlt_plants)
 *     ===========================================================
       implicit none
-      include   'const.inc'            ! new_line
       include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
@@ -4863,7 +5597,6 @@ cpsc
 *       100795 jngh moved millet_kill crop to end of routine
 
 *+  Calls
-      real       millet_swdef           ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -4885,48 +5618,48 @@ cpsc
  
       call push_routine (my_name)
  
-      cswd_pheno = sum_between (emerg, flag_leaf, g_cswd_pheno)
-      cswd_photo = sum_between (emerg, flag_leaf, g_cswd_photo)
-      leaf_no = sum_between (emerg, now, g_leaf_no)
+      cswd_pheno = sum_between (emerg, flag_leaf, g%cswd_pheno)
+      cswd_photo = sum_between (emerg, flag_leaf, g%cswd_photo)
+      leaf_no = sum_between (emerg, now, g%leaf_no)
  
-      if (stage_is_between (sowing, germ, g_current_stage)
-     :   .and. sum_between (sowing, now, g_days_tot)
-     :         .ge.c_days_germ_limit) then
+      if (stage_is_between (sowing, germ, g%current_stage)
+     :   .and. sum_between (sowing, now, g%days_tot)
+     :         .ge.c%days_germ_limit) then
  
-         dlt_plants_all = - g_plants
+         dlt_plants_all = - g%plants
  
          write (string, '(3a, i4, a)')
      :                 ' crop failure because of lack of'
      :                  ,new_line
      :                  ,'         germination within'
-     :                  , c_days_germ_limit
+     :                  , c%days_germ_limit
      :                  , ' days of sowing'
          call write_string (lu_scr_sum, string)
  
-      elseif (stage_is_between (germ, emerg, g_current_stage)
-     :       .and. sum_between (germ, now, g_tt_tot)
-     :       .gt.c_tt_emerg_limit) then
+      elseif (stage_is_between (germ, emerg, g%current_stage)
+     :       .and. sum_between (germ, now, g%tt_tot)
+     :       .gt.c%tt_emerg_limit) then
  
-         dlt_plants_all = - g_plants
+         dlt_plants_all = - g%plants
  
          write (string, '(a)')
      :                 ' failed emergence due to deep planting'
          call write_string (lu_scr_sum, string)
  
-      elseif (reals_are_equal (g_lai, 0.0)
+      elseif (reals_are_equal (g%lai, 0.0)
      :       .and. stage_is_between (floral_init, plant_end
-     :                             , g_current_stage)) then
+     :                             , g%current_stage)) then
  
-         dlt_plants_all = - g_plants
+         dlt_plants_all = - g%plants
  
          write (string, '(3a)')
      :                ' crop failure because of total leaf senescence.'
          call write_string (lu_scr_sum, string)
  
-      elseif (stage_is_between (emerg, flag_leaf, g_current_stage)
-     :       .and. cswd_pheno.ge.c_swdf_pheno_limit) then
+      elseif (stage_is_between (emerg, flag_leaf, g%current_stage)
+     :       .and. cswd_pheno.ge.c%swdf_pheno_limit) then
  
-         dlt_plants_all = - g_plants
+         dlt_plants_all = - g%plants
  
          write (string, '(3a)')
      :                 '         crop failure because of prolonged'
@@ -4941,11 +5674,11 @@ cpsc
  
 !cpsc  add code to kill plants for high soil surface temperatures
 cjh
-      days_after_emerg = int (sum_between (emerg, now, g_days_tot)) - 1
+      days_after_emerg = int (sum_between (emerg, now, g%days_tot)) - 1
       if (days_after_emerg .eq. 1) then
  
          call millet_plants_temp (killfr)
-         dlt_plants_temp = - g_plants*killfr
+         dlt_plants_temp = - g%plants*killfr
  
          if (killfr .gt. 0.0) then
             write (string, '(a, i4, a)')
@@ -4964,13 +5697,13 @@ cjh
  
       endif
  
-      if (leaf_no.lt.c_leaf_no_crit
-     :       .and. cswd_photo.gt.c_swdf_photo_limit
+      if (leaf_no.lt.c%leaf_no_crit
+     :       .and. cswd_photo.gt.c%swdf_photo_limit
      :       .and. millet_swdef(photo).lt.1.0) then
  
-         killfr = c_swdf_photo_rate* (cswd_photo - c_swdf_photo_limit)
+         killfr = c%swdf_photo_rate* (cswd_photo - c%swdf_photo_limit)
          killfr = bound (killfr, 0.0, 1.0)
-         dlt_plants_water = - g_plants*killfr
+         dlt_plants_water = - g%plants*killfr
  
          write (string, '(a, i4, a)')
      :          'plant_kill.'
@@ -4985,9 +5718,9 @@ cjh
       endif
  
       if (on_day_of (start_grain_fill
-     :             , g_current_stage, g_days_tot)) then
+     :             , g%current_stage, g%days_tot)) then
          call millet_plants_barren (killfr)
-         dlt_plants_barren = - g_plants*killfr
+         dlt_plants_barren = - g%plants*killfr
  
          if (killfr .gt. 0.0) then
             write (string, '(a, i4, a)')
@@ -5002,9 +5735,9 @@ cjh
          endif
  
  
-      elseif (g_plant_status .eq. status_dead) then
+      elseif (g%plant_status .eq. status_dead) then
  
-         dlt_plants = - g_plants
+         dlt_plants = - g%plants
  
          write (string, '(3a)')
      :                ' crop killed because of external action.'
@@ -5020,14 +5753,14 @@ cjh
      :                , dlt_plants_water
      :                , dlt_plants_barren)
  
-      if (reals_are_equal (dlt_plants + g_plants, 0.0)) then
+      if (reals_are_equal (dlt_plants + g%plants, 0.0)) then
          call millet_kill_crop ()
       else
       endif
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5063,21 +5796,21 @@ cjh
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      yesterday = offset_day_of_year (g_year, g_day_of_year, - 1)
-      day_before = offset_day_of_year (g_year, g_day_of_year, - 2)
+      yesterday = offset_day_of_year (g%year, g%day_of_year, - 1)
+      day_before = offset_day_of_year (g%year, g%day_of_year, - 2)
  
-      weighted_temp = 0.25 * g_soil_temp(day_before)
-     :              + 0.50 * g_soil_temp(yesterday)
-     :              + 0.25 * g_soil_temp(g_day_of_year)
+      weighted_temp = 0.25 * g%soil_temp(day_before)
+     :              + 0.50 * g%soil_temp(yesterday)
+     :              + 0.25 * g%soil_temp(g%day_of_year)
  
       killfr = linear_interp_real (weighted_temp
-     :                           , c_x_weighted_temp
-     :                           , c_y_plant_death
-     :                           , c_num_weighted_temp)
+     :                           , c%x_weighted_temp
+     :                           , c%y_plant_death
+     :                           , c%num_weighted_temp)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5117,17 +5850,17 @@ cjh
  
          ! determine barrenness
  
-      head_grain_no = divide (g_grain_no, g_plants, 0.0)
+      head_grain_no = divide (g%grain_no, g%plants, 0.0)
  
-      if (head_grain_no.le.c_head_grain_no_crit) then
+      if (head_grain_no.le.c%head_grain_no_crit) then
             ! all heads barren
          fract_of_optimum = 0.0
  
-      elseif (head_grain_no.lt.p_head_grain_no_max * c_barren_crit) then
+      elseif (head_grain_no.lt.p%head_grain_no_max * c%barren_crit) then
             ! we have some barren heads
          fract_of_optimum =
-     :              (divide (head_grain_no - c_head_grain_no_crit
-     :                     , p_head_grain_no_max - c_head_grain_no_crit
+     :              (divide (head_grain_no - c%head_grain_no_crit
+     :                     , p%head_grain_no_max - c%head_grain_no_crit
      :                     , 0.0))
      :              **0.33
  
@@ -5141,7 +5874,7 @@ cjh
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5149,7 +5882,6 @@ cjh
       subroutine millet_check_grain_no ()
 *     ===========================================================
       implicit none
-      include   'const.inc'            ! err_user
       include   'millet.inc'
       include 'error.pub'                         
 
@@ -5169,17 +5901,17 @@ cjh
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      if (c_head_grain_no_crit.gt.p_head_grain_no_max*c_barren_crit
-     :   .and. p_head_grain_no_max.gt.0.0) then
+      if (c%head_grain_no_crit.gt.p%head_grain_no_max*c%barren_crit
+     :   .and. p%head_grain_no_max.gt.0.0) then
          write (err_messg,'(a, g16.7e2, a, g16.7e2, 3a, g16.7e2, a)')
      :               'critical grain no. ('
-     :              , c_head_grain_no_crit
+     :              , c%head_grain_no_crit
      :              ,') exceeds  ('
-     :              , p_head_grain_no_max*c_barren_crit
+     :              , p%head_grain_no_max*c%barren_crit
      :              ,')'
      :              ,new_line
      :              ,'        which is '
-     :              , c_barren_crit
+     :              , c%barren_crit
      :              ,' of potential.'
          call warning_error (err_user, err_messg)
  
@@ -5188,7 +5920,7 @@ cjh
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5221,13 +5953,13 @@ cjh
       call push_routine (my_name)
  
       do 1000 part = 1, max_part
-         dlt_dm_dead_detached(part) = g_dm_dead(part)
-     :                              * c_dead_detach_frac(part)
+         dlt_dm_dead_detached(part) = g%dm_dead(part)
+     :                              * c%dead_detach_frac(part)
 1000  continue
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5256,11 +5988,11 @@ cjh
  
       call push_routine (my_name)
  
-      dlt_tlai_dead_detached = g_tlai_dead * c_dead_detach_frac(leaf)
+      dlt_tlai_dead_detached = g%tlai_dead * c%dead_detach_frac(leaf)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5293,13 +6025,13 @@ cjh
       call push_routine (my_name)
  
       do 1000 part = 1, max_part
-         dlt_N_dead_detached(part) = g_N_dead(part)
-     :                             * c_dead_detach_frac(part)
+         dlt_N_dead_detached(part) = g%N_dead(part)
+     :                             * c%dead_detach_frac(part)
 1000  continue
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5332,17 +6064,17 @@ cjh
 c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero deltas
       call push_routine (my_name)
  
-      if (g_plant_status.eq.status_alive) then
-         g_plant_status = status_dead
+      if (g%plant_status.eq.status_alive) then
+         g%plant_status = status_dead
  
-         biomass = (sum_real_array (g_dm_green, max_part)
-     :           - g_dm_green(root)) * gm2kg /sm2ha
+         biomass = (sum_real_array (g%dm_green, max_part)
+     :           - g%dm_green(root)) * gm2kg /sm2ha
  
-     :           + (sum_real_array (g_dm_senesced, max_part)
-     :           - g_dm_senesced(root)) * gm2kg /sm2ha
+     :           + (sum_real_array (g%dm_senesced, max_part)
+     :           - g%dm_senesced(root)) * gm2kg /sm2ha
  
-     :           + (sum_real_array (g_dm_dead, max_part)
-     :           - g_dm_dead(root)) * gm2kg /sm2ha
+     :           + (sum_real_array (g%dm_dead, max_part)
+     :           - g%dm_dead(root)) * gm2kg /sm2ha
  
  
                 ! report
@@ -5357,7 +6089,7 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero 
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5384,20 +6116,20 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero 
  
             ! Plant leaf development
             ! initialise total leaf number
-      call millet_leaf_area_init (g_lai)
-      call millet_leaf_no_final (g_leaf_no_final)
-      call millet_leaf_no_init(g_leaf_no)
-      call millet_leaf_appearance (g_dlt_leaf_no_pot) ! fraction of leaf emerged
+      call millet_leaf_area_init (g%lai)
+      call millet_leaf_no_final (g%leaf_no_final)
+      call millet_leaf_no_init(g%leaf_no)
+      call millet_leaf_appearance (g%dlt_leaf_no_pot) ! fraction of leaf emerged
          ! TEMPLATE OPTION
          ! Two alternative leaf area routines
-      call millet_leaf_area_devel (g_dlt_lai_pot) ! individual leaf approach
+      call millet_leaf_area_devel (g%dlt_lai_pot) ! individual leaf approach
          ! TEMPLATE OPTION or
-      ! call millet_leaf_area_devel_leg (g_dlt_lai_pot) ! individual leaf approach
-      ! call millet_leaf_area_devel_plant (g_dlt_lai_pot) ! whole plant approach
+      ! call millet_leaf_area_devel_leg (g%dlt_lai_pot) ! individual leaf approach
+      ! call millet_leaf_area_devel_plant (g%dlt_lai_pot) ! whole plant approach
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5427,14 +6159,14 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero 
  
       call push_routine (my_name)
  
-      if (on_day_of (emerg, g_current_stage, g_days_tot)) then
-         lai = c_initial_tpla * smm2sm * g_plants
+      if (on_day_of (emerg, g%current_stage, g%days_tot)) then
+         lai = c%initial_tpla * smm2sm * g%plants
       else
       endif
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5474,69 +6206,69 @@ cglh      real       tt_cum                ! cumulative dtt from sowing (deg day
  
           ! set total leaf number
  
-      if (on_day_of (emerg, g_current_stage, g_days_tot)) then
+      if (on_day_of (emerg, g%current_stage, g%days_tot)) then
  
                ! estimate the final leaf no from an approximated thermal
                ! time for the period from emergence to floral initiation.
  
-         tt_floral_init = sum_between (germ, floral_init, g_phase_tt)
-cglh         tt_cum = sum_between (emerg, floral_init, g_phase_tt)
-cglh         tt_floral_init = tt_cum - c_floral_init_error
+         tt_floral_init = sum_between (germ, floral_init, g%phase_tt)
+cglh         tt_cum = sum_between (emerg, floral_init, g%phase_tt)
+cglh         tt_floral_init = tt_cum - c%floral_init_error
  
             ! just check that maths is ok.
 cglh         call bound_check_real_var (tt_floral_init, 0.0, tt_cum
 cglh     :                             , 'tt_floral_init')
          leaf_no_final = divide (tt_floral_init
-     :                         , c_leaf_init_rate, 0.0)
-     :                 + c_leaf_no_seed
+     :                         , c%leaf_init_rate, 0.0)
+     :                 + c%leaf_no_seed
  
          call bound_check_real_var (leaf_no_final
-     :                            , c_leaf_no_min, c_leaf_no_max
+     :                            , c%leaf_no_min, c%leaf_no_max
      :                            , 'leaf_no_final')
  
-      elseif (on_day_of (floral_init, g_current_stage, g_days_tot)) then
+      elseif (on_day_of (floral_init, g%current_stage, g%days_tot)) then
  
                ! now we know the thermal time, get the actual final leaf no.
  
-         tt_floral_init = sum_between (germ, floral_init, g_tt_tot)
+         tt_floral_init = sum_between (germ, floral_init, g%tt_tot)
  
-cglh         tt_cum = sum_between (emerg, floral_init, g_tt_tot)
-cglh         tt_floral_init = tt_cum - c_floral_init_error
+cglh         tt_cum = sum_between (emerg, floral_init, g%tt_tot)
+cglh         tt_floral_init = tt_cum - c%floral_init_error
  
             ! just check that maths is ok.
 cglh         call bound_check_real_var (tt_floral_init, 0.0, tt_cum
 cglh     :                             , 'tt_floral_init')
  
-         if (g_stem_class .eq. class_main) then
+         if (g%stem_class .eq. class_main) then
  
             ! calculate main stem final leaf no.
  
             leaf_no_final = divide (tt_floral_init
-     :                         , c_leaf_init_rate, 0.0)
-     :                 + c_leaf_no_seed
+     :                         , c%leaf_init_rate, 0.0)
+     :                 + c%leaf_no_seed
  
 cgd
-            g_leaf_no_ref = leaf_no_final
+            g%leaf_no_ref = leaf_no_final
  
          else
             ! tillers use main stem leaf no final
          endif
  
  
-         leaf_no_final = g_leaf_no_ref - c_leaf_no_diff
+         leaf_no_final = g%leaf_no_ref - c%leaf_no_diff
  
-!         write (*,*) leaf_no_final,g_leaf_no_ref,c_leaf_no_diff
+!         write (*,*) leaf_no_final,g%leaf_no_ref,c%leaf_no_diff
 !         write (*,*) 'fln',leaf_no_final
 !
-!         write (*,*) g_leaf_no_ref,leaf_no_final
+!         write (*,*) g%leaf_no_ref,leaf_no_final
 !
-!         write (*,*) g_current_stage
-!         write (*,*) leaf_no_final,tt_floral_init,c_leaf_init_rate
+!         write (*,*) g%current_stage
+!         write (*,*) leaf_no_final,tt_floral_init,c%leaf_init_rate
          call bound_check_real_var (leaf_no_final
-     :                            , c_leaf_no_min, c_leaf_no_max
+     :                            , c%leaf_no_min, c%leaf_no_max
      :                            , 'leaf_no_final')
  
-      elseif (on_day_of (plant_end, g_current_stage, g_days_tot)) then
+      elseif (on_day_of (plant_end, g%current_stage, g%days_tot)) then
          leaf_no_final = 0.0
  
       else
@@ -5545,7 +6277,7 @@ cgd
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5586,20 +6318,20 @@ cgd
  
       call push_routine (my_name)
  
-      leaf_no_now = sum_between (emerg, now, g_leaf_no)
-      leaf_no_remaining = g_leaf_no_final - leaf_no_now
+      leaf_no_now = sum_between (emerg, now, g%leaf_no)
+      leaf_no_remaining = g%leaf_no_final - leaf_no_now
  
-      if (leaf_no_now .le. c_leaf_no_rate_change) then
+      if (leaf_no_now .le. c%leaf_no_rate_change) then
  
-         leaf_app_rate = c_leaf_app_rate1
+         leaf_app_rate = c%leaf_app_rate1
  
       else
  
-         leaf_app_rate = c_leaf_app_rate2
+         leaf_app_rate = c%leaf_app_rate2
  
       endif
  
-      if (on_day_of (emerg, g_current_stage, g_days_tot)) then
+      if (on_day_of (emerg, g%current_stage, g%days_tot)) then
  
              ! no leaf growth on first day because initialised elsewhere ???
  
@@ -5613,7 +6345,7 @@ cgd
              ! phyllochrons or fully expanded leaves is calculated from
              ! daily thermal time for the day.
  
-         dlt_leaf_no_pot = divide (g_dlt_tt, leaf_app_rate, 0.0)
+         dlt_leaf_no_pot = divide (g%dlt_tt, leaf_app_rate, 0.0)
          dlt_leaf_no_pot = bound (dlt_leaf_no_pot, 0.0
      :                          , leaf_no_remaining)
  
@@ -5625,7 +6357,7 @@ cgd
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5649,8 +6381,6 @@ cgd
 *     010994 jngh specified and programmed
 
 *+  Calls
-      real       millet_leaf_size       ! function
-      real       millet_swdef           ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -5671,16 +6401,16 @@ cgd
            ! once leaf no is calculated leaf area of largest expanding leaf
            ! is determined
  
-      g_leaf_no_effective = sum_between (emerg, now, g_leaf_no)
-     :                  + c_leaf_no_correction
-      area = millet_leaf_size (g_leaf_no_effective)
+      g%leaf_no_effective = sum_between (emerg, now, g%leaf_no)
+     :                  + c%leaf_no_correction
+      area = millet_leaf_size (g%leaf_no_effective)
  
-      dlt_lai_pot = g_dlt_leaf_no_pot * area * smm2sm * g_plants
+      dlt_lai_pot = g%dlt_leaf_no_pot * area * smm2sm * g%plants
      :            * millet_swdef (expansion)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5704,12 +6434,6 @@ cgd
 *     010994 jngh specified and programmed
 
 *+  Calls
-!      real       millet_leaf_size       ! function
-      real       millet_swdef           ! function
-!      real       sum_between           ! function
-!      real       leaf_no_effective     ! effective leaf no - includes
-                                       ! younger leaves that have emerged
-                                       ! after the current one
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -5724,22 +6448,22 @@ cgd
  
       call push_routine (my_name)
  
-      if (stage_is_between (emerg, endjuv, g_current_stage)) then
+      if (stage_is_between (emerg, endjuv, g%current_stage)) then
  
-        dlt_lai_pot = g_dlt_leaf_no * c_leaf_size_endjuv * smm2sm
-     :            * g_plants * millet_swdef (expansion)
+        dlt_lai_pot = g%dlt_leaf_no * c%leaf_size_endjuv * smm2sm
+     :            * g%plants * millet_swdef (expansion)
  
       else
  
-        dlt_lai_pot = g_dlt_leaf_no * c_leaf_size_average * smm2sm
-     :            * g_plants * millet_swdef (expansion)
+        dlt_lai_pot = g%dlt_leaf_no * c%leaf_size_average * smm2sm
+     :            * g%plants * millet_swdef (expansion)
  
       endif
  
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5780,22 +6504,22 @@ cgd
            ! is determined with quadratic relationship. Coefficients for this
            ! curve are functions of total leaf no.
  
-      largest_leaf = c_x0_const + (c_x0_slope * g_leaf_no_final)
-      area_max     = p_y0_const + (p_y0_slope * g_leaf_no_final)
+      largest_leaf = c%x0_const + (c%x0_slope * g%leaf_no_final)
+      area_max     = p%y0_const + (p%y0_slope * g%leaf_no_final)
  
 !cejvo made breadth and skewness linear functions of leafnumber
  
-!      breadth  = c_a_const + (c_a_slope1 * g_leaf_no_final)
-!      skewness = c_b_const + (c_b_slope1 * g_leaf_no_final)
+!      breadth  = c%a_const + (c%a_slope1 * g%leaf_no_final)
+!      skewness = c%b_const + (c%b_slope1 * g%leaf_no_final)
  
-      breadth  = c_a_const
-     :         + divide (c_a_slope1
-     :                , 1.0 + c_a_slope2 * g_leaf_no_final
+      breadth  = c%a_const
+     :         + divide (c%a_slope1
+     :                , 1.0 + c%a_slope2 * g%leaf_no_final
      :                , 0.0)
  
-      skewness = c_b_const
-     :         + divide (c_b_slope1
-     :                , 1.0 + c_b_slope2 * g_leaf_no_final
+      skewness = c%b_const
+     :         + divide (c%b_slope1
+     :                , 1.0 + c%b_slope2 * g%leaf_no_final
      :                , 0.0)
  
       area = area_max * exp (breadth * (leaf_no - largest_leaf)**2
@@ -5804,7 +6528,7 @@ cgd
  
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
@@ -5829,7 +6553,6 @@ cgd
 *     010994 jngh specified and programmed
 
 *+  Calls
-      real       millet_swdef           ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -5847,21 +6570,21 @@ cgd
  
            ! once leaf no is calculated maximum plant leaf area
            ! is determined
-      if (stage_is_between (emerg, flowering, g_current_stage)) then
+      if (stage_is_between (emerg, flowering, g%current_stage)) then
  
-         tpla_max = (((p_tiller_no_fertile + 1.0) ** c_tiller_coef)
-     :            * g_leaf_no_final ** c_main_stem_coef) * scm2smm
+         tpla_max = (((p%tiller_no_fertile + 1.0) ** c%tiller_coef)
+     :            * g%leaf_no_final ** c%main_stem_coef) * scm2smm
  
-         tt_since_emerg = sum_between (emerg, now, g_tt_tot)
+         tt_since_emerg = sum_between (emerg, now, g%tt_tot)
          tpla_today = divide (tpla_max
-     :              , (1.0 + exp(-p_tpla_prod_coef
-     :                        * (tt_since_Emerg - p_tpla_inflection)))
+     :              , (1.0 + exp(-p%tpla_prod_coef
+     :                        * (tt_since_Emerg - p%tpla_inflection)))
      :              , 0.0)
  
-         tlai_today = Tpla_today * smm2sm * g_plants
+         tlai_today = Tpla_today * smm2sm * g%plants
  
             ! limit delta leaf area by water stress
-         dlt_lai_pot = (tlai_today - (g_lai + g_slai))
+         dlt_lai_pot = (tlai_today - (g%lai + g%slai))
      :               * millet_swdef (expansion)
  
       else
@@ -5870,7 +6593,7 @@ cgd
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5911,51 +6634,51 @@ cejvo
  
          ! limit the delta leaf area by carbon supply
 cejvo
-      if (g_fr_intc_radn .gt. 0.0) then
+      if (g%fr_intc_radn .gt. 0.0) then
  
-         extinct_coef = linear_interp_real (g_row_spacing
-     :                        , c_x_row_spacing, c_y_extinct_coef
-     :                        , c_num_row_spacing)
+         extinct_coef = linear_interp_real (g%row_spacing
+     :                        , c%x_row_spacing, c%y_extinct_coef
+     :                        , c%num_row_spacing)
  
-!         lai_sum = g_lai +
-!     :             divide (-alog(1.0 - g_fr_intc_radn),extinct_coef,0.0)
+!         lai_sum = g%lai +
+!     :             divide (-alog(1.0 - g%fr_intc_radn),extinct_coef,0.0)
  
-         lai_sum =  divide (-alog(1.0 - g_cover_green_sum)
+         lai_sum =  divide (-alog(1.0 - g%cover_green_sum)
      :                           ,extinct_coef,0.0)
  
-!      write (*,*) g_lai,lai_sum,g_cover_green_sum,extinct_coef
-!     :                        , g_fr_intc_radn
+!      write (*,*) g%lai,lai_sum,g%cover_green_sum,extinct_coef
+!     :                        , g%fr_intc_radn
  
  
       else
  
-         lai_sum = g_lai
+         lai_sum = g%lai
  
       endif
  
       sla = linear_interp_real (lai_sum
-     :                        , c_x_lai, c_y_sla_max
-     :                        , c_num_lai)
+     :                        , c%x_lai, c%y_sla_max
+     :                        , c%num_lai)
  
-      g_dlt_lai = u_bound (g_dlt_lai_pot
-     :                   , g_dlt_dm_green(leaf) * sla * smm2sm)
+      g%dlt_lai = u_bound (g%dlt_lai_pot
+     :                   , g%dlt_dm_green(leaf) * sla * smm2sm)
  
-!      g_dlt_lai = u_bound (g_dlt_lai_pot
-!     :                   , g_dlt_dm_green(leaf)*c_sla_max * smm2sm)
+!      g%dlt_lai = u_bound (g%dlt_lai_pot
+!     :                   , g%dlt_dm_green(leaf)*c%sla_max * smm2sm)
  
-      lai_ratio = divide (g_dlt_lai, g_dlt_lai_pot, 0.0)
+      lai_ratio = divide (g%dlt_lai, g%dlt_lai_pot, 0.0)
  
       leaf_no_frac= linear_interp_real (lai_ratio
-     :                        , c_x_lai_ratio, c_y_leaf_no_frac
-     :                        , c_num_lai_ratio)
+     :                        , c%x_lai_ratio, c%y_leaf_no_frac
+     :                        , c%num_lai_ratio)
 !cgd
-!      write (*,*)lai_ratio, c_x_lai_ratio, c_y_leaf_no_frac,
-!     :c_num_lai_ratio,leaf_no_frac
-      g_dlt_leaf_no = g_dlt_leaf_no_pot * leaf_no_frac
+!      write (*,*)lai_ratio, c%x_lai_ratio, c%y_leaf_no_frac,
+!     :c%num_lai_ratio,leaf_no_frac
+      g%dlt_leaf_no = g%dlt_leaf_no_pot * leaf_no_frac
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5985,18 +6708,18 @@ cejvo
       call push_routine (my_name)
  
  
-      if (on_day_of (emerg, g_current_stage, g_days_tot)) then
+      if (on_day_of (emerg, g%current_stage, g%days_tot)) then
  
              ! initialise first leaves
  
-         leaf_no(emerg) = c_leaf_no_at_emerg
+         leaf_no(emerg) = c%leaf_no_at_emerg
       else
          ! no inital leaf no
       endif
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -6020,14 +6743,14 @@ cejvo
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      call millet_N_init (g_N_green)
-      call millet_N_retranslocate (g_dlt_N_retrans)
-      call millet_N_demand (g_N_demand, g_N_max)
-      call millet_N_uptake (g_dlt_NO3gsm, g_dlt_N_green)
+      call millet_N_init (g%N_green)
+      call millet_N_retranslocate (g%dlt_N_retrans)
+      call millet_N_demand (g%N_demand, g%N_max)
+      call millet_N_uptake (g%dlt_NO3gsm, g%dlt_N_green)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -6051,7 +6774,6 @@ cejvo
 *       080994 jngh specified and programmed
 
 *+  Calls
-      real       millet_N_dlt_grain_conc ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -6070,14 +6792,14 @@ cejvo
  
       call push_routine (my_name)
  
-      grain_N_demand = g_dlt_dm_green(grain)
+      grain_N_demand = g%dlt_dm_green(grain)
      :                 * millet_N_dlt_grain_conc ()
  
-      N_potential  = (g_dm_green(grain) + g_dlt_dm_green(grain))
-     :             * g_N_conc_max(grain)
+      N_potential  = (g%dm_green(grain) + g%dlt_dm_green(grain))
+     :             * g%N_conc_max(grain)
  
       grain_N_demand = u_bound (grain_N_demand
-     :                        , N_potential - g_N_green(grain))
+     :                        , N_potential - g%N_green(grain))
  
       call millet_N_retrans_avail (N_avail)  ! grain N potential (supply)
  
@@ -6137,7 +6859,7 @@ cgol correct N retranslocation rounding error
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -6183,8 +6905,8 @@ cgol correct N retranslocation rounding error
          ! now find the available N of each part.
  
       do 1000 part = 1, max_part
-         N_min = g_N_conc_min(part) * g_dm_green(part)
-         N_avail(part) = l_bound (g_N_green(part) - N_min, 0.0)
+         N_min = g%N_conc_min(part) * g%dm_green(part)
+         N_avail(part) = l_bound (g%N_green(part) - N_min, 0.0)
 1000  continue
  
       N_avail(grain) = 0.0
@@ -6192,7 +6914,7 @@ cgol correct N retranslocation rounding error
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -6223,8 +6945,6 @@ cgol correct N retranslocation rounding error
 *       090994 jngh specified and programmed
 
 *+  Calls
-      real       millet_nfact           ! function
-      real       millet_swdef           ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -6243,17 +6963,17 @@ cgol correct N retranslocation rounding error
  
       call push_routine (my_name)
  
-      ave_temp = (g_maxt + g_mint) /2.0
+      ave_temp = (g%maxt + g%mint) /2.0
  
 c+!!!!!!!!!! return to orig cm
-      N_grain_temp_fac = c_temp_fac_min + c_tfac_slope* ave_temp
-      N_grain_sw_fac = c_sw_fac_max
-     :               - c_sfac_slope * millet_swdef(expansion)
+      N_grain_temp_fac = c%temp_fac_min + c%tfac_slope* ave_temp
+      N_grain_sw_fac = c%sw_fac_max
+     :               - c%sfac_slope * millet_swdef(expansion)
  
             ! N stress reduces grain N concentration below critical
  
-      N_conc_pot = g_N_conc_min(grain)
-     :           + (g_N_conc_crit(grain) - g_N_conc_min(grain))
+      N_conc_pot = g%N_conc_min(grain)
+     :           + (g%N_conc_crit(grain) - g%N_conc_min(grain))
      :           * millet_nfact(grain_conc)
  
             ! Temperature and water stresses can decrease/increase grain
@@ -6267,7 +6987,7 @@ cjh   the crit and thus the N conc of the grain can exceed N critical.
  
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
@@ -6331,31 +7051,31 @@ cjh   the crit and thus the N conc of the grain can exceed N critical.
  
          ! calculate potential new shoot and root growth
  
-      current_phase = int (g_current_stage)
+      current_phase = int (g%current_stage)
  
             ! need to calculate dm using potential rue not affected by
             ! N and temperature
  
       call millet_radn_int (radn_int)
-      dlt_dm_pot_radn = c_rue(current_phase)*radn_int
+      dlt_dm_pot_radn = c%rue(current_phase)*radn_int
  
       do 500 part = 1, max_part
  
-         part_fract = divide (g_dlt_dm_green(part), g_dlt_dm, 0.0)
+         part_fract = divide (g%dlt_dm_green(part), g%dlt_dm, 0.0)
          dlt_dm_pot(part) = dlt_dm_pot_radn * part_fract
          dlt_dm_pot(part) = bound (dlt_dm_pot(part)
      :                           , 0.0, dlt_dm_pot_radn)
-cjhtest         dlt_dm_pot(part) = g_dlt_dm_green(part)
+cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
 500   continue
  
             ! recalculate roots because today's drymatter production
             ! does not include roots
  
       dlt_dm_pot(root) = dlt_dm_pot_radn
-     :                 * c_ratio_root_shoot(current_phase)
+     :                 * c%ratio_root_shoot(current_phase)
  
  
-         ! g_dlt_dm_pot is above ground biomass only so leave roots
+         ! g%dlt_dm_pot is above ground biomass only so leave roots
          ! out of comparison
  
       call bound_check_real_var (
@@ -6366,26 +7086,26 @@ cjhtest         dlt_dm_pot(part) = g_dlt_dm_green(part)
  
  
       do 1000 part = 1, max_part
-         if (g_dm_green(part).gt.0.0) then
+         if (g%dm_green(part).gt.0.0) then
  
                ! get N demands due to difference between actual N concentrations
                ! and critical N concentrations of tops (stover) and roots.
  
-            N_crit       = g_dm_green(part) * g_N_conc_crit(part)
-            N_potential  = g_dm_green(part) * g_N_conc_max(part)
+            N_crit       = g%dm_green(part) * g%N_conc_crit(part)
+            N_potential  = g%dm_green(part) * g%N_conc_max(part)
  
                ! retranslocation is -ve for outflows
  
             N_demand_old = N_crit
-     :                   - (g_N_green(part) + g_dlt_N_retrans(part))
+     :                   - (g%N_green(part) + g%dlt_N_retrans(part))
             N_max_old    = N_potential
-     :                   - (g_N_green(part) + g_dlt_N_retrans(part))
+     :                   - (g%N_green(part) + g%dlt_N_retrans(part))
  
  
                ! get potential N demand (critical N) of potential growth
  
-            N_demand_new = dlt_dm_pot(part) * g_N_conc_crit(part)
-            N_max_new    = dlt_dm_pot(part) * g_N_conc_max(part)
+            N_demand_new = dlt_dm_pot(part) * g%N_conc_crit(part)
+            N_max_new    = dlt_dm_pot(part) * g%N_conc_max(part)
  
             N_demand(part) = N_demand_old + N_demand_new
             N_max(part)    = N_max_old    + N_max_new
@@ -6411,7 +7131,7 @@ cjhtest         dlt_dm_pot(part) = g_dlt_dm_green(part)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -6440,9 +7160,6 @@ cjhtest         dlt_dm_pot(part) = g_dlt_dm_green(part)
 *       150995 psc  milletpea + fixation
 
 *+  Calls
-cjh      include   'convert.inc'          ! gm2kg, sm2ha
-*
-      real       millet_N_fixation      ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -6497,7 +7214,7 @@ cjh      include   'convert.inc'          ! gm2kg, sm2ha
       call millet_N_mass_flow (NO3gsm_mflow_avail)
       call millet_N_diffusion (NO3gsm_diffn_avail)
  
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
+      deepest_layer = find_layer_no (g%root_depth, g%dlayer, max_layer)
       do 1000 layer = 1, deepest_layer
          NO3gsm_diffn_avail(layer) = NO3gsm_diffn_avail(layer)
      :                             - NO3gsm_mflow_avail(layer)
@@ -6517,8 +7234,8 @@ cjh      include   'convert.inc'          ! gm2kg, sm2ha
             ! If demand is not satisfied by mass flow, then use diffusion.
             ! N uptake above N critical can only happen via mass flow.
  
-      N_demand = sum_real_array (g_N_demand, max_part)
-      N_max    = sum_real_array (g_N_max, max_part)
+      N_demand = sum_real_array (g%N_demand, max_part)
+      N_max    = sum_real_array (g%N_max, max_part)
  
       if (NO3gsm_mflow_supply.ge.N_demand) then
          NO3gsm_mflow = NO3gsm_mflow_supply
@@ -6529,7 +7246,7 @@ cjh      include   'convert.inc'          ! gm2kg, sm2ha
          NO3gsm_mflow = NO3gsm_mflow_supply
          NO3gsm_diffn = bound (N_demand - NO3gsm_mflow, 0.0
      :                        , NO3gsm_diffn_supply)
-         NO3gsm_diffn = divide (NO3gsm_diffn, c_NO3_diffn_const, 0.0)
+         NO3gsm_diffn = divide (NO3gsm_diffn, c%NO3_diffn_const, 0.0)
  
       endif
  
@@ -6569,7 +7286,7 @@ cjh      include   'convert.inc'          ! gm2kg, sm2ha
  
       if (N_excess.gt.0.0) then
          do 1200 part = 1, max_part
-            N_capacity(part) = g_N_max(part) - g_N_demand(part)
+            N_capacity(part) = g%N_max(part) - g%N_demand(part)
 1200     continue
          N_capacity(grain) = 0.0
       else
@@ -6583,10 +7300,10 @@ cjh      include   'convert.inc'          ! gm2kg, sm2ha
          if (N_excess.gt.0.0) then
             plant_part_fract = divide (N_capacity(part)
      :                               , N_capacity_sum, 0.0)
-            dlt_N_green(part) = g_N_demand(part)
+            dlt_N_green(part) = g%N_demand(part)
      :                        + N_excess * plant_part_fract
           else
-            plant_part_fract = divide (g_N_demand(part)
+            plant_part_fract = divide (g%N_demand(part)
      :                            , N_demand, 0.0)
             dlt_N_green(part) = N_uptake_sum * plant_part_fract
           endif
@@ -6609,7 +7326,7 @@ cjh      include   'convert.inc'          ! gm2kg, sm2ha
       N_fix_uptake = bound (N_fix, 0.0, N_fix_demand_tot)
  
       do  1400 part = 1, max_part
-         fix_demand = l_bound (g_N_demand(part) - dlt_N_green(part)
+         fix_demand = l_bound (g%N_demand(part) - dlt_N_green(part)
      :                        , 0.0)
          fix_part_fract = divide (fix_demand, N_fix_demand_tot, 0.0)
          dlt_N_green(part) = dlt_N_green(part)
@@ -6618,7 +7335,7 @@ cjh      include   'convert.inc'          ! gm2kg, sm2ha
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -6644,7 +7361,6 @@ cjh      include   'convert.inc'          ! gm2kg, sm2ha
 *       090994 jngh specified and programmed
 
 *+  Calls
-cjh      include   'convert.inc'          ! ha2sm, kg2gm
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -6665,25 +7381,25 @@ cjh      include   'convert.inc'          ! ha2sm, kg2gm
  
          ! only take the layers in which roots occur
  
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
+      deepest_layer = find_layer_no (g%root_depth, g%dlayer, max_layer)
       do 1000 layer = 1, deepest_layer
  
             ! get  NO3 concentration
  
-         NO3_conc = divide (g_NO3gsm(layer)
-     :                    , g_sw_dep(layer), 0.0)
+         NO3_conc = divide (g%NO3gsm(layer)
+     :                    , g%sw_dep(layer), 0.0)
  
             ! get potential uptake by mass flow
  
-         NO3gsm_mflow = NO3_conc * (-g_dlt_sw_dep(layer))
+         NO3gsm_mflow = NO3_conc * (-g%dlt_sw_dep(layer))
          NO3gsm_mflow_pot(layer) = u_bound (NO3gsm_mflow,
-     :                            g_NO3gsm(layer) - g_NO3gsm_min(layer))
+     :                            g%NO3gsm(layer) - g%NO3gsm_min(layer))
  
 1000  continue
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -6709,7 +7425,6 @@ cjh      include   'convert.inc'          ! ha2sm, kg2gm
 *       090994 jngh specified and programmed
 
 *+  Calls
-cjh      include   'convert.inc'          ! ha2sm, kg2gm
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -6730,26 +7445,26 @@ cjh      include   'convert.inc'          ! ha2sm, kg2gm
  
       call fill_real_array (NO3gsm_diffn_pot, 0.0, max_layer)
  
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
+      deepest_layer = find_layer_no (g%root_depth, g%dlayer, max_layer)
       do 1000 layer = 1, deepest_layer
  
-         sw_avail_fract = divide (g_sw_avail(layer)
-     :                  , g_sw_dep(layer), 0.0)
+         sw_avail_fract = divide (g%sw_avail(layer)
+     :                  , g%sw_dep(layer), 0.0)
          sw_avail_fract = bound (sw_avail_fract, 0.0, 1.0)
  
             ! get extractable NO3
             ! restricts NO3 available for diffusion to NO3 in plant
             ! available water range
  
-         NO3gsm_diffn = sw_avail_fract * g_NO3gsm(layer)
+         NO3gsm_diffn = sw_avail_fract * g%NO3gsm(layer)
          NO3gsm_diffn_pot(layer) = u_bound (NO3gsm_diffn,
-     :                           g_NO3gsm(layer) - g_NO3gsm_min(layer))
+     :                           g%NO3gsm(layer) - g%NO3gsm_min(layer))
  
 1000  continue
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -6769,7 +7484,6 @@ cjh      include   'convert.inc'          ! ha2sm, kg2gm
 *       240595  psc   specified
 
 *+  Calls
-      real       millet_swdef                ! function
 
 *+  Constant Values
       character  my_name*(*)                 ! name of subroutine
@@ -6782,16 +7496,16 @@ cjh      include   'convert.inc'          ! ha2sm, kg2gm
  
       call push_routine (my_name)
  
-      biomass = (sum_real_array (g_dm_green, max_part)
-     :           - g_dm_green(root))
-     :           + g_dlt_dm
+      biomass = (sum_real_array (g%dm_green, max_part)
+     :           - g%dm_green(root))
+     :           + g%dlt_dm
  
-      millet_N_fixation = c_N_fix_rate * biomass
+      millet_N_fixation = c%N_fix_rate * biomass
      :                  * millet_swdef(fixation)
  
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
@@ -6825,7 +7539,6 @@ cjh      include   'convert.inc'          ! ha2sm, kg2gm
 *       080994 jngh specified and programmed
 
 *+  Calls
-      real       millet_stage_code      ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -6842,69 +7555,69 @@ cjh      include   'convert.inc'          ! ha2sm, kg2gm
       call fill_real_array (N_conc_crit, 0.0, max_part)
       call fill_real_array (N_conc_min, 0.0, max_part)
  
-      if (stage_is_between (emerg, maturity, g_current_stage)) then
-         N_conc_crit(grain) = c_N_conc_crit_grain
-         N_conc_max(grain) = c_N_conc_max_grain
-         N_conc_min(grain) = c_N_conc_min_grain
+      if (stage_is_between (emerg, maturity, g%current_stage)) then
+         N_conc_crit(grain) = c%N_conc_crit_grain
+         N_conc_max(grain) = c%N_conc_max_grain
+         N_conc_min(grain) = c%N_conc_min_grain
  
-         N_conc_crit(root) = c_N_conc_crit_root
-         N_conc_max(root) = c_N_conc_max_root
-         N_conc_min(root) = c_N_conc_min_root
+         N_conc_crit(root) = c%N_conc_crit_root
+         N_conc_max(root) = c%N_conc_max_root
+         N_conc_min(root) = c%N_conc_min_root
  
              ! the tops critical N percentage concentration is the stover
              ! (non-grain shoot) concentration below which N concentration
              ! begins to affect plant growth.
  
-         numvals = count_of_real_vals (c_x_stage_code, max_stage)
-         stage_code = millet_stage_code (g_current_stage
-     :                                , c_x_stage_code, numvals)
+         numvals = count_of_real_vals (c%x_stage_code, max_stage)
+         stage_code = millet_stage_code (g%current_stage
+     :                                , c%x_stage_code, numvals)
          N_conc_crit(stem) = linear_interp_real (stage_code
-     :                             , c_x_stage_code
-     :                             , c_y_N_conc_crit_stem
+     :                             , c%x_stage_code
+     :                             , c%y_N_conc_crit_stem
      :                             , numvals)
          N_conc_crit(leaf) = linear_interp_real (stage_code
-     :                             , c_x_stage_code
-     :                             , c_y_N_conc_crit_leaf
+     :                             , c%x_stage_code
+     :                             , c%y_N_conc_crit_leaf
      :                             , numvals)
          N_conc_crit(flower) = linear_interp_real (stage_code
-     :                             , c_x_stage_code
-     :                             , c_y_N_conc_crit_flower
+     :                             , c%x_stage_code
+     :                             , c%y_N_conc_crit_flower
      :                             , numvals)
  
              ! the  minimum N concentration is the N concentration
              ! below which N does not fall.
  
          N_conc_min(stem) = linear_interp_real (stage_code
-     :                             , c_x_stage_code
-     :                             , c_y_N_conc_min_stem
+     :                             , c%x_stage_code
+     :                             , c%y_N_conc_min_stem
      :                             , numvals)
  
          N_conc_min(leaf) = linear_interp_real (stage_code
-     :                             , c_x_stage_code
-     :                             , c_y_N_conc_min_leaf
+     :                             , c%x_stage_code
+     :                             , c%y_N_conc_min_leaf
      :                             , numvals)
  
          N_conc_min(flower) = linear_interp_real (stage_code
-     :                             , c_x_stage_code
-     :                             , c_y_N_conc_min_flower
+     :                             , c%x_stage_code
+     :                             , c%y_N_conc_min_flower
      :                             , numvals)
  
              ! the  maximum N concentration is the N concentration
              ! above which N does not rise.
  
          N_conc_max(stem) = linear_interp_real (stage_code
-     :                             , c_x_stage_code
-     :                             , c_y_N_conc_max_stem
+     :                             , c%x_stage_code
+     :                             , c%y_N_conc_max_stem
      :                             , numvals)
  
          N_conc_max(leaf) = linear_interp_real (stage_code
-     :                             , c_x_stage_code
-     :                             , c_y_N_conc_max_leaf
+     :                             , c%x_stage_code
+     :                             , c%y_N_conc_max_leaf
      :                             , numvals)
  
          N_conc_max(flower) = linear_interp_real (stage_code
-     :                             , c_x_stage_code
-     :                             , c_y_N_conc_max_flower
+     :                             , c%x_stage_code
+     :                             , c%y_N_conc_max_flower
      :                             , numvals)
  
       else
@@ -6912,7 +7625,7 @@ cjh      include   'convert.inc'          ! ha2sm, kg2gm
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -6920,7 +7633,6 @@ cjh      include   'convert.inc'          ! ha2sm, kg2gm
       real function millet_nfact (type)
 *     ===========================================================
       implicit none
-      include   'const.inc'
       include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
@@ -6979,23 +7691,23 @@ cjh      include   'convert.inc'          ! ha2sm, kg2gm
  
          ! calculate actual N concentrations
  
-      dm_stover = g_dm_green(leaf) + g_dm_green(stem)
-      N_stover = g_N_green(leaf) + g_N_green(stem)
+      dm_stover = g%dm_green(leaf) + g%dm_green(stem)
+      N_stover = g%N_green(leaf) + g%N_green(stem)
  
       N_conc_stover = divide (N_stover, dm_stover, 0.0)
  
          ! calculate critical N concentrations
  
-      N_leaf_crit = g_N_conc_crit(leaf) * g_dm_green(leaf)
-      N_stem_crit = g_N_conc_crit(stem) * g_dm_green(stem)
+      N_leaf_crit = g%N_conc_crit(leaf) * g%dm_green(leaf)
+      N_stem_crit = g%N_conc_crit(stem) * g%dm_green(stem)
       N_stover_crit = N_leaf_crit + N_stem_crit
  
       N_conc_stover_crit = divide (N_stover_crit, dm_stover, 0.0)
  
          ! calculate minimum N concentrations
  
-      N_leaf_min = g_N_conc_min(leaf) * g_dm_green(leaf)
-      N_stem_min = g_N_conc_min(stem) * g_dm_green(stem)
+      N_leaf_min = g%N_conc_min(leaf) * g%dm_green(leaf)
+      N_stem_min = g%N_conc_min(stem) * g%dm_green(stem)
       N_stover_min = N_leaf_min + N_stem_min
  
       N_conc_stover_min = divide (N_stover_min, dm_stover, 0.0)
@@ -7008,7 +7720,7 @@ cjh      include   'convert.inc'          ! ha2sm, kg2gm
          ! calculate 0-1 N deficiency factors
  
       if (type.eq.photo) then
-         N_def = c_N_fact_photo * N_conc_ratio
+         N_def = c%N_fact_photo * N_conc_ratio
          millet_nfact = bound (N_def, 0.0, 1.0)
  
       elseif (type.eq.grain_conc) then
@@ -7016,7 +7728,7 @@ cjh      include   'convert.inc'          ! ha2sm, kg2gm
          millet_nfact = bound (N_def, 0.0, 1.0)
  
       elseif (type.eq.pheno) then
-         N_def = c_N_fact_pheno * N_conc_ratio
+         N_def = c%N_fact_pheno * N_conc_ratio
          millet_nfact = bound (N_def, 0.0, 1.0)
  
       else
@@ -7029,7 +7741,7 @@ cjh      include   'convert.inc'          ! ha2sm, kg2gm
  
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
@@ -7058,10 +7770,10 @@ cjh      include   'convert.inc'          ! ha2sm, kg2gm
  
       call push_routine (my_name)
  
-      if (on_day_of (emerg, g_current_stage, g_days_tot)) then
-         N_green(root) = c_N_root_init_conc*g_dm_green(root)
-         N_green(stem) = c_N_stem_init_conc*g_dm_green(stem)
-         N_green(leaf) = c_N_leaf_init_conc*g_dm_green(leaf)
+      if (on_day_of (emerg, g%current_stage, g%days_tot)) then
+         N_green(root) = c%N_root_init_conc*g%dm_green(root)
+         N_green(stem) = c%N_stem_init_conc*g%dm_green(stem)
+         N_green(leaf) = c%N_leaf_init_conc*g%dm_green(leaf)
          N_green(flower) = 0.0
          N_green(grain) = 0.0
  
@@ -7070,7 +7782,7 @@ cjh      include   'convert.inc'          ! ha2sm, kg2gm
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -7098,47 +7810,47 @@ cjh      include   'convert.inc'          ! ha2sm, kg2gm
  
       call push_routine (my_name)
  
-      g_previous_stage = g_current_stage
+      g%previous_stage = g%current_stage
  
          ! get thermal times
  
          ! TEMPLATE OPTION
          ! Three options for calc thermal time provided. Must have
-         ! at least one returning g_dlt_tt as argument.
+         ! at least one returning g%dlt_tt as argument.
  
-      call millet_tt (g_dlt_tt)
+      call millet_tt (g%dlt_tt)
          ! TEMPLATE OPTION and/or
-      ! call millet_tt_curv (g_dlt_tt_curv)
+      ! call millet_tt_curv (g%dlt_tt_curv)
          ! TEMPLATE OPTION and/or
-      ! call millet_tt_other (g_dlt_tt_other)
+      ! call millet_tt_other (g%dlt_tt_other)
  
          ! initialise phenology phase targets
  
-      call millet_phenology_init (g_phase_tt)
-      call millet_devel (g_dlt_stage, g_current_stage)
+      call millet_phenology_init (g%phase_tt)
+      call millet_devel (g%dlt_stage, g%current_stage)
  
          ! update thermal time states and day count
  
-      call accumulate (g_dlt_tt, g_tt_tot
-     :               , g_previous_stage, g_dlt_stage)
+      call accumulate (g%dlt_tt, g%tt_tot
+     :               , g%previous_stage, g%dlt_stage)
  
          ! TEMPLATE OPTION and/or
-      ! call accumulate (g_dlt_tt_curv, g_tt_curv_tot
-      !:               , g_previous_stage, g_dlt_stage)
+      ! call accumulate (g%dlt_tt_curv, g%tt_curv_tot
+      !:               , g%previous_stage, g%dlt_stage)
          ! TEMPLATE OPTION and/or
-      ! call accumulate (g_dlt_tt_other, g_tt_other_tot
-      !:               , g_previous_stage, g_dlt_stage)
+      ! call accumulate (g%dlt_tt_other, g%tt_other_tot
+      !:               , g%previous_stage, g%dlt_stage)
  
-      call accumulate (1.0, g_days_tot
-     :               , g_previous_stage, g_dlt_stage)
+      call accumulate (1.0, g%days_tot
+     :               , g%previous_stage, g%dlt_stage)
  
           ! canopy height
  
-      call millet_canopy_height (g_dlt_canopy_height)
+      call millet_canopy_height (g%dlt_canopy_height)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -7169,8 +7881,6 @@ cjh      include   'convert.inc'          ! ha2sm, kg2gm
 *       090695 psc  added N_fact for phenology stress
 
 *+  Calls
-      real       millet_swdef           ! function
-      real       millet_nfact           ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -7182,11 +7892,11 @@ cjh      include   'convert.inc'          ! ha2sm, kg2gm
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      dly_therm_time = linint_3hrly_temp (g_maxt, g_mint
-     :                 , c_x_temp, c_y_tt
-     :                 , c_num_temp)
+      dly_therm_time = linint_3hrly_temp (g%maxt, g%mint
+     :                 , c%x_temp, c%y_tt
+     :                 , c%num_temp)
  
-      if (stage_is_between (emerg, flag_leaf, g_current_stage)) then
+      if (stage_is_between (emerg, flag_leaf, g%current_stage)) then
  
 !cpsc
          dlt_tt = dly_therm_time *
@@ -7199,7 +7909,7 @@ cjh      include   'convert.inc'          ! ha2sm, kg2gm
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -7226,7 +7936,6 @@ cjh      include   'convert.inc'          ! ha2sm, kg2gm
 *       150994 glh specified and programmed
 
 *+  Calls
-      real       millet_swdef           ! function
 
 *+  Constant Values
       character  myname*(*)            ! name of subroutine
@@ -7238,22 +7947,22 @@ cjh      include   'convert.inc'          ! ha2sm, kg2gm
 *- Implementation Section ----------------------------------
       call push_routine (myname)
  
-      ave_temp = (g_maxt + g_mint) * 0.5
+      ave_temp = (g%maxt + g%mint) * 0.5
  
       if (stage_is_between (emerg, floral_init
-     :                     , g_current_stage)) then
-         dlt_tt_curv = Curvilinear (c_imin, c_iopt, c_imax
-     :                            , c_ioptr, Ave_temp)
+     :                     , g%current_stage)) then
+         dlt_tt_curv = Curvilinear (c%imin, c%iopt, c%imax
+     :                            , c%ioptr, Ave_temp)
      :               * millet_swdef (pheno)
  
       elseif (stage_is_between (floral_init, flowering
-     :                         , g_current_stage)) then
-         dlt_tt_curv = Curvilinear (c_amin, c_aopt, c_amax
-     :                            , c_aoptr, Ave_temp)
+     :                         , g%current_stage)) then
+         dlt_tt_curv = Curvilinear (c%amin, c%aopt, c%amax
+     :                            , c%aoptr, Ave_temp)
      :               * millet_swdef (pheno)
  
       elseif (stage_is_between (flowering, maturity
-     :                         , g_current_stage)) then
+     :                         , g%current_stage)) then
          dlt_tt_curv = l_bound((u_bound(ave_temp, 23.5) - 5.7), 0.0)
  
       else
@@ -7263,7 +7972,7 @@ cjh      include   'convert.inc'          ! ha2sm, kg2gm
  
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -7295,18 +8004,18 @@ cjh      include   'convert.inc'          ! ha2sm, kg2gm
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      ave_temp = (g_maxt + g_mint) * 0.5
+      ave_temp = (g%maxt + g%mint) * 0.5
       dly_therm_time = linear_interp_real (ave_temp
-     :                        , c_x_temp_other, c_y_tt_other
-     :                        , c_num_temp_other)
+     :                        , c%x_temp_other, c%y_tt_other
+     :                        , c%num_temp_other)
 !cgd
-!      write (*,*) 'gd',ave_temp,c_x_temp_other,c_y_tt_other,
-!     :c_num_temp_other,dly_therm_time
+!      write (*,*) 'gd',ave_temp,c%x_temp_other,c%y_tt_other,
+!     :c%num_temp_other,dly_therm_time
       dlt_tt_other = dly_therm_time
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -7354,71 +8063,71 @@ cjh      include   'convert.inc'          ! ha2sm, kg2gm
  
       call push_routine (my_name)
  
-      if (on_day_of (germ, g_current_stage, g_days_tot)) then
-         phase_tt(germ_to_emerg) = c_shoot_lag
-     :                           + g_sowing_depth*c_shoot_rate
-         phase_tt(emerg_to_endjuv) = p_tt_emerg_to_endjuv
+      if (on_day_of (germ, g%current_stage, g%days_tot)) then
+         phase_tt(germ_to_emerg) = c%shoot_lag
+     :                           + g%sowing_depth*c%shoot_rate
+         phase_tt(emerg_to_endjuv) = p%tt_emerg_to_endjuv
  
-      elseif (on_day_of (emerg, g_current_stage, g_days_tot)) then
+      elseif (on_day_of (emerg, g%current_stage, g%days_tot)) then
  
-         est_day_of_floral_init = offset_day_of_year (g_year
-     :                                  , g_day_of_year
-     :                                  , p_est_days_emerg_to_init)
+         est_day_of_floral_init = offset_day_of_year (g%year
+     :                                  , g%day_of_year
+     :                                  , p%est_days_emerg_to_init)
      :
          photoperiod = day_length (est_day_of_floral_init
-     :                           , g_latitude, c_twilight)
+     :                           , g%latitude, c%twilight)
  
-         photoperiod_active = photoperiod - c_photoperiod_base
+         photoperiod_active = photoperiod - c%photoperiod_base
          photoperiod_active = bound (photoperiod_active, 0.0, 24.0)
 !cpsc                          need below to exert stage when phase_tt = 0
-cjh         phase_tt(endjuv_to_init) = l_bound (p_pp_endjuv_to_init
+cjh         phase_tt(endjuv_to_init) = l_bound (p%pp_endjuv_to_init
 cjh     :                            * photoperiod_active, 0.1)
-         phase_tt(endjuv_to_init) = p_pp_endjuv_to_init
+         phase_tt(endjuv_to_init) = p%pp_endjuv_to_init
      :                            * photoperiod_active
  
       elseif (stage_is_between (endjuv, floral_init
-     :                        , g_current_stage)) then
-         photoperiod = day_length (g_day_of_year, g_latitude
-     :                           , c_twilight)
-         photoperiod_active = photoperiod - c_photoperiod_base
+     :                        , g%current_stage)) then
+         photoperiod = day_length (g%day_of_year, g%latitude
+     :                           , c%twilight)
+         photoperiod_active = photoperiod - c%photoperiod_base
          photoperiod_active = bound (photoperiod_active, 0.0, 24.0)
 !cpsc                          need below to exert stage when phase_tt = 0
-cjh         phase_tt(endjuv_to_init) = l_bound (p_pp_endjuv_to_init
+cjh         phase_tt(endjuv_to_init) = l_bound (p%pp_endjuv_to_init
 cjh     :                            * photoperiod_active, 0.1)
-         phase_tt(endjuv_to_init) = p_pp_endjuv_to_init
+         phase_tt(endjuv_to_init) = p%pp_endjuv_to_init
      :                            * photoperiod_active
  
-      elseif (on_day_of (floral_init, g_current_stage
-     :                 , g_days_tot)) then
+      elseif (on_day_of (floral_init, g%current_stage
+     :                 , g%days_tot)) then
 cpsc
-         leaf_no = max (c_leaf_no_rate_change, c_leaf_no_at_emerg)
+         leaf_no = max (c%leaf_no_rate_change, c%leaf_no_at_emerg)
 cjh
-         leaf_no = min (leaf_no, g_leaf_no_final)
-         tt_emerg_to_flag_leaf = (leaf_no - c_leaf_no_at_emerg)
-     :                         * c_leaf_app_rate1
-     :                         + (g_leaf_no_final - leaf_no)
-     :                         * c_leaf_app_rate2
+         leaf_no = min (leaf_no, g%leaf_no_final)
+         tt_emerg_to_flag_leaf = (leaf_no - c%leaf_no_at_emerg)
+     :                         * c%leaf_app_rate1
+     :                         + (g%leaf_no_final - leaf_no)
+     :                         * c%leaf_app_rate2
          phase_tt(init_to_flag) = tt_emerg_to_flag_leaf
      :                          - sum_between (emerg, floral_init
-     :                                       , g_tt_tot)
+     :                                       , g%tt_tot)
  
-         phase_tt(flag_to_flower) = p_tt_flag_to_flower
+         phase_tt(flag_to_flower) = p%tt_flag_to_flower
  
-         phase_tt(flower_to_start_grain) = p_tt_flower_to_start_grain
+         phase_tt(flower_to_start_grain) = p%tt_flower_to_start_grain
  
-         phase_tt(end_grain_to_maturity) = 0.05*p_tt_flower_to_maturity
+         phase_tt(end_grain_to_maturity) = 0.05*p%tt_flower_to_maturity
  
-         phase_tt(start_to_end_grain) = p_tt_flower_to_maturity
+         phase_tt(start_to_end_grain) = p%tt_flower_to_maturity
      :                                - phase_tt(flower_to_start_grain)
      :                                - phase_tt(end_grain_to_maturity)
-         phase_tt(maturity_to_ripe) = p_tt_maturity_to_ripe
+         phase_tt(maturity_to_ripe) = p%tt_maturity_to_ripe
  
       else
       endif
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -7457,9 +8166,9 @@ cjh
          ! now calculate the new delta and the new stage
  
       call millet_phase_devel (phase_devel)
-      new_stage = aint (g_current_stage) + phase_devel
-cjh      dlt_stage = l_bound(new_stage - g_current_stage,0.0)
-      dlt_stage = new_stage - g_current_stage
+      new_stage = aint (g%current_stage) + phase_devel
+cjh      dlt_stage = l_bound(new_stage - g%current_stage,0.0)
+      dlt_stage = new_stage - g%current_stage
  
       if (phase_devel.ge.1.0) then
          current_stage = aint (current_stage + 1.0)
@@ -7475,7 +8184,7 @@ cjh      dlt_stage = l_bound(new_stage - g_current_stage,0.0)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -7498,8 +8207,6 @@ cjh      dlt_stage = l_bound(new_stage - g_current_stage,0.0)
 *     010994 jngh specified and programmed
 
 *+  Calls
-      real       millet_germination     ! function
-      real       millet_phase_tt        ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -7509,23 +8216,23 @@ cjh      dlt_stage = l_bound(new_stage - g_current_stage,0.0)
  
       call push_routine (my_name)
  
-      if (stage_is_between (sowing, germ, g_current_stage)) then
-         phase_devel = millet_germination (g_current_stage)
+      if (stage_is_between (sowing, germ, g%current_stage)) then
+         phase_devel = millet_germination (g%current_stage)
  
       elseif (stage_is_between (germ, harvest_ripe
-     :                        , g_current_stage)) then
+     :                        , g%current_stage)) then
  
-         phase_devel =  millet_phase_tt (g_current_stage)
+         phase_devel =  millet_phase_tt (g%current_stage)
  
       else
 cjh         phase_devel = 0.0
-         phase_devel = mod(g_current_stage, 1.0)
+         phase_devel = mod(g%current_stage, 1.0)
  
       endif
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -7566,21 +8273,21 @@ cjh         phase_devel = 0.0
  
       if (stage_is_between (sowing, germ, current_stage)) then
  
-         layer_no_seed = find_layer_no (g_sowing_depth, g_dlayer
+         layer_no_seed = find_layer_no (g%sowing_depth, g%dlayer
      :                                , max_layer)
-         pesw_seed = divide (g_sw_dep(layer_no_seed)
-     :                     - p_ll_dep(layer_no_seed)
-     :                     , g_dlayer(layer_no_seed), 0.0)
+         pesw_seed = divide (g%sw_dep(layer_no_seed)
+     :                     - p%ll_dep(layer_no_seed)
+     :                     , g%dlayer(layer_no_seed), 0.0)
  
             ! can't germinate on same day as sowing, because miss out on
             ! day of sowing else_where
  
-         if (pesw_seed.gt.c_pesw_germ
+         if (pesw_seed.gt.c%pesw_germ
      :   .and.
-     :   .not. on_day_of (sowing, g_current_stage, g_days_tot)) then
+     :   .not. on_day_of (sowing, g%current_stage, g%days_tot)) then
                ! we have germination
                ! set the current stage so it is on the point of germination
-            millet_germination = 1.0 + mod (g_current_stage, 1.0)
+            millet_germination = 1.0 + mod (g%current_stage, 1.0)
  
          else
                 ! no germination yet but indicate that we are on the way.
@@ -7593,7 +8300,7 @@ cjh         phase_devel = 0.0
  
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
@@ -7628,11 +8335,11 @@ cjh         phase_devel = 0.0
  
       phase = int (stage_no)
 cjh  changed 0.0 to 1.0
-      millet_phase_tt = divide (g_tt_tot(phase) + g_dlt_tt
-     :                       , g_phase_tt(phase), 1.0)
+      millet_phase_tt = divide (g%tt_tot(phase) + g%dlt_tt
+     :                       , g%phase_tt(phase), 1.0)
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
@@ -7666,13 +8373,13 @@ cjh  changed 0.0 to 1.0
       call push_routine (my_name)
  
       phase = int (stage_no)
-      millet_phase_tt_curv = divide (g_tt_curv_tot(phase)
-     :                             , g_phase_tt_curv(phase), 0.0)
+      millet_phase_tt_curv = divide (g%tt_curv_tot(phase)
+     :                             , g%phase_tt_curv(phase), 0.0)
       millet_phase_tt_curv = bound (millet_phase_tt_curv, 0.0, 1.999)
  
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
@@ -7706,13 +8413,13 @@ cjh  changed 0.0 to 1.0
       call push_routine (my_name)
  
       phase = int (stage_no)
-      millet_phase_tt_other = divide (g_tt_other_tot(phase)
-     :                             , g_phase_tt_other(phase), 0.0)
+      millet_phase_tt_other = divide (g%tt_other_tot(phase)
+     :                             , g%phase_tt_other(phase), 0.0)
       millet_phase_tt_other = bound (millet_phase_tt_other, 0.0, 1.99)
  
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
@@ -7747,12 +8454,12 @@ cjh  changed 0.0 to 1.0
       call push_routine (my_name)
  
       if (stage_is_between (emerg, flag_leaf
-     :                    , g_current_stage)) then
+     :                    , g%current_stage)) then
  
-         dm_stem_plant = divide (g_dm_green(stem), g_plants, 0.0)
-         pot_height = c_height_stem_slope * dm_stem_plant
-         pot_height = bound (pot_height, 0.0, c_height_max)
-         dlt_canopy_height = pot_height - g_canopy_height
+         dm_stem_plant = divide (g%dm_green(stem), g%plants, 0.0)
+         pot_height = c%height_stem_slope * dm_stem_plant
+         pot_height = bound (pot_height, 0.0, c%height_max)
+         dlt_canopy_height = pot_height - g%canopy_height
  
       else
          dlt_canopy_height = 0.0
@@ -7761,7 +8468,7 @@ cjh  changed 0.0 to 1.0
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -7785,23 +8492,23 @@ cjh  changed 0.0 to 1.0
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      call millet_leaf_death (g_dlt_leaf_no_dead)
-      ! call millet_leaf_death_leg (g_dlt_leaf_no_dead)
+      call millet_leaf_death (g%dlt_leaf_no_dead)
+      ! call millet_leaf_death_leg (g%dlt_leaf_no_dead)
  
          ! TEMPLATE OPTION
          ! Two routines return lai equilibria for alternative senescence
          ! routines for leaf area (millet_leaf_area_sen_water1 and millet_light1)
-      ! call millet_lai_equilib_water (g_lai_equilib_water)
-      ! call millet_lai_equilib_light (g_lai_equilib_light)
+      ! call millet_lai_equilib_water (g%lai_equilib_water)
+      ! call millet_lai_equilib_light (g%lai_equilib_light)
  
-      call millet_leaf_area_sen (g_dlt_slai)
+      call millet_leaf_area_sen (g%dlt_slai)
  
-      call millet_dm_senescence (g_dlt_dm_senesced)
-      call millet_N_senescence (g_dlt_N_senesced)
+      call millet_dm_senescence (g%dlt_dm_senesced)
+      call millet_N_senescence (g%dlt_N_senesced)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -7825,7 +8532,6 @@ cjh  changed 0.0 to 1.0
 *     010994 jngh specified and programmed
 
 *+  Calls
-!      real       bound                 ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -7848,69 +8554,69 @@ cejvo
  
 cpsc need to develop leaf senescence functions for crop
  
-      leaf_no_dead_yesterday = sum_between (emerg, now, g_leaf_no_dead)
+      leaf_no_dead_yesterday = sum_between (emerg, now, g%leaf_no_dead)
  
 cejvo made it absolute leafnumber and added second slope
  
-      if ((stage_is_between (emerg, harvest_ripe, g_current_stage))
-     : .and. (g_leaf_no_effective .lt. g_leaf_no_final)) then
+      if ((stage_is_between (emerg, harvest_ripe, g%current_stage))
+     : .and. (g%leaf_no_effective .lt. g%leaf_no_final)) then
  
 cgol added upper and lower bounds
 !         leaf_no_dead_today = amax1(leaf_no_dead_yesterday,
-!     :    amin1((c_leaf_no_dead_const + c_leaf_no_dead_slope1
-!     :          * sum_between (emerg, now, g_tt_tot))
-!     :          , g_leaf_no_final))
+!     :    amin1((c%leaf_no_dead_const + c%leaf_no_dead_slope1
+!     :          * sum_between (emerg, now, g%tt_tot))
+!     :          , g%leaf_no_final))
 cgd
-      ttsum= sum_between (emerg, now, g_tt_tot)
-      leaf_no_dead_now = c_leaf_no_dead_const + c_leaf_no_dead_slope1
+      ttsum= sum_between (emerg, now, g%tt_tot)
+      leaf_no_dead_now = c%leaf_no_dead_const + c%leaf_no_dead_slope1
      :                   * ttsum
-      leaf_no_dead_now = u_bound (leaf_no_dead_now,g_leaf_no_final)
+      leaf_no_dead_now = u_bound (leaf_no_dead_now,g%leaf_no_final)
       leaf_no_dead_today = l_bound (leaf_no_dead_yesterday
      :                             , leaf_no_dead_now)
  
-      g_lf_no_dead_at_flaglf = leaf_no_dead_today
-!      ttsum= sum_between (emerg, now, g_tt_tot)
+      g%lf_no_dead_at_flaglf = leaf_no_dead_today
+!      ttsum= sum_between (emerg, now, g%tt_tot)
  
-      elseif ((stage_is_between (emerg, harvest_ripe, g_current_stage))
-     :   .and. (g_leaf_no_effective .ge. g_leaf_no_final) .and.
-     :   (g_leaf_no_dead_const2 .eq. 0.0)) then
+      elseif ((stage_is_between (emerg, harvest_ripe, g%current_stage))
+     :   .and. (g%leaf_no_effective .ge. g%leaf_no_final) .and.
+     :   (g%leaf_no_dead_const2 .eq. 0.0)) then
  
 !         leaf_no_dead_today = amax1(leaf_no_dead_yesterday,
-!     :    amin1((c_leaf_no_dead_const + c_leaf_no_dead_slope1
-!     :          * sum_between (emerg, now, g_tt_tot))
-!     :          , g_leaf_no_final))
+!     :    amin1((c%leaf_no_dead_const + c%leaf_no_dead_slope1
+!     :          * sum_between (emerg, now, g%tt_tot))
+!     :          , g%leaf_no_final))
  
-      ttsum= sum_between (emerg, now, g_tt_tot)
-      leaf_no_dead_now = c_leaf_no_dead_const + c_leaf_no_dead_slope1
+      ttsum= sum_between (emerg, now, g%tt_tot)
+      leaf_no_dead_now = c%leaf_no_dead_const + c%leaf_no_dead_slope1
      :                   * ttsum
-      leaf_no_dead_now = u_bound (leaf_no_dead_now,g_leaf_no_final)
+      leaf_no_dead_now = u_bound (leaf_no_dead_now,g%leaf_no_final)
       leaf_no_dead_today = l_bound (leaf_no_dead_yesterday
      :                             , leaf_no_dead_now)
  
-      temp = g_lf_no_dead_at_flaglf - (c_leaf_no_dead_slope2
-     :         * sum_between (emerg, now, g_tt_tot))
-      g_leaf_no_dead_const2 = temp
-!      ttsum= sum_between (emerg, now, g_tt_tot)
+      temp = g%lf_no_dead_at_flaglf - (c%leaf_no_dead_slope2
+     :         * sum_between (emerg, now, g%tt_tot))
+      g%leaf_no_dead_const2 = temp
+!      ttsum= sum_between (emerg, now, g%tt_tot)
  
-      elseif((stage_is_between (emerg, harvest_ripe, g_current_stage))
-     :   .and. (g_leaf_no_effective .ge. g_leaf_no_final) .and.
-     :   (g_leaf_no_dead_const2 .ne. 0.0)) then
+      elseif((stage_is_between (emerg, harvest_ripe, g%current_stage))
+     :   .and. (g%leaf_no_effective .ge. g%leaf_no_final) .and.
+     :   (g%leaf_no_dead_const2 .ne. 0.0)) then
  
 !         leaf_no_dead_today = amax1(leaf_no_dead_yesterday,
-!     :    amin1((g_leaf_no_dead_const2 + c_leaf_no_dead_slope2
-!     :          * sum_between (emerg, now, g_tt_tot))
-!     :          , g_leaf_no_final))
+!     :    amin1((g%leaf_no_dead_const2 + c%leaf_no_dead_slope2
+!     :          * sum_between (emerg, now, g%tt_tot))
+!     :          , g%leaf_no_final))
  
-      ttsum= sum_between (emerg, now, g_tt_tot)
-      leaf_no_dead_now = g_leaf_no_dead_const2 + c_leaf_no_dead_slope2
+      ttsum= sum_between (emerg, now, g%tt_tot)
+      leaf_no_dead_now = g%leaf_no_dead_const2 + c%leaf_no_dead_slope2
      :                   * ttsum
-      leaf_no_dead_now = u_bound (leaf_no_dead_now,g_leaf_no_final)
+      leaf_no_dead_now = u_bound (leaf_no_dead_now,g%leaf_no_final)
       leaf_no_dead_today = l_bound (leaf_no_dead_yesterday
      :                             , leaf_no_dead_now)
  
       elseif (on_day_of (harvest_ripe
-     :                 , g_current_stage, g_days_tot)) then
-         leaf_no_dead_today = g_leaf_no_final
+     :                 , g%current_stage, g%days_tot)) then
+         leaf_no_dead_today = g%leaf_no_final
  
       else
       leaf_no_dead_today = 0.0
@@ -7920,7 +8626,7 @@ cgd
 cgol removed bound check
 !      leaf_no_dead_today = bound (leaf_no_dead_today
 !     :                           , leaf_no_dead_yesterday
-!     :                           , g_leaf_no_final)
+!     :                           , g%leaf_no_final)
 !
 cgol added lower bound of zero
 !      dlt_leaf_no_dead = amax1(0.0, leaf_no_dead_today -
@@ -7929,17 +8635,17 @@ cgol added lower bound of zero
      : leaf_no_dead_yesterday)
  
 cccc
-!     write (*,*) 'fln',g_leaf_no_final,'slno',leaf_no_dead_today
-!     write (*,*) 'efln',g_leaf_no_effective
-!     write (*,*) 'slnfl',g_lf_no_dead_at_flaglf
+!     write (*,*) 'fln',g%leaf_no_final,'slno',leaf_no_dead_today
+!     write (*,*) 'efln',g%leaf_no_effective
+!     write (*,*) 'slnfl',g%lf_no_dead_at_flaglf
 !     write (*,*) 'temp',temp,'ttsum',ttsum
-!     write (*,*) 'int2',g_leaf_no_dead_const2
+!     write (*,*) 'int2',g%leaf_no_dead_const2
 cccc
  
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -7977,19 +8683,19 @@ cccc
  
       call push_routine (my_name)
  
-        leaf_death_rate = divide (c_leaf_no_dead_slope
-     :                         , c_leaf_no_dead_const, 0.0)
+        leaf_death_rate = divide (c%leaf_no_dead_slope
+     :                         , c%leaf_no_dead_const, 0.0)
  
       if (stage_is_between (flowering, harvest_ripe
-     :                           , g_current_stage)) then
+     :                           , g%current_stage)) then
  
-         dlt_leaf_no_dead = divide (g_dlt_tt, leaf_death_rate, 0.0)
+         dlt_leaf_no_dead = divide (g%dlt_tt, leaf_death_rate, 0.0)
  
       elseif (on_day_of (harvest_ripe
-     :                 , g_current_stage, g_days_tot)) then
+     :                 , g%current_stage, g%days_tot)) then
  
-         leaf_no_now = sum_between (emerg, now, g_leaf_no)
-         leaf_no_dead_now = sum_between (emerg, now, g_leaf_no_dead)
+         leaf_no_now = sum_between (emerg, now, g%leaf_no)
+         leaf_no_dead_now = sum_between (emerg, now, g%leaf_no_dead)
          dlt_leaf_no_dead = l_bound (leaf_no_now - leaf_no_dead_now,0.0)
  
       else
@@ -7998,7 +8704,7 @@ cccc
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -8024,8 +8730,6 @@ cccc
 *     040895 jngh corrected for intercropping
 
 *+  Calls
-      real       millet_rue_reduction   ! function
-      real       millet_transp_eff      ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -8050,30 +8754,30 @@ cccc
  
       call push_routine (my_name)
  
-      stage_no = int (g_current_stage)
+      stage_no = int (g%current_stage)
  
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer
+      deepest_layer = find_layer_no (g%root_depth, g%dlayer
      :                             , max_layer)
-      sw_supply_sum = sum_real_array (g_sw_supply, deepest_layer)
+      sw_supply_sum = sum_real_array (g%sw_supply, deepest_layer)
  
       dlt_dm_transp = sw_supply_sum * millet_transp_eff ()
-      rue = c_rue(stage_no) * millet_rue_reduction ()
+      rue = c%rue(stage_no) * millet_rue_reduction ()
  
-      call bound_check_real_var (rue, 0.0, c_rue(stage_no)
+      call bound_check_real_var (rue, 0.0, c%rue(stage_no)
      :                           , 'rue')
  
       call millet_radn_int (radn_int)
-      radn_canopy = divide (radn_int, g_cover_green, g_radn)
+      radn_canopy = divide (radn_int, g%cover_green, g%radn)
       sen_radn_crit = divide (dlt_dm_transp, rue, radn_canopy)
       intc_crit = divide (sen_radn_crit, radn_canopy, 1.0)
  
       if (intc_crit.lt.1.0) then
             ! needs rework for row spacing
          lai_equilib_water_today = -log (1.0 - intc_crit)
-     :                           / c_extinction_coef
+     :                           / c%extinction_coef
  
       else
-         lai_equilib_water_today =  g_lai
+         lai_equilib_water_today =  g%lai
       endif
  
       call millet_store_value (lai_equilib_water
@@ -8081,7 +8785,7 @@ cccc
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -8120,15 +8824,15 @@ cccc
       call push_routine (my_name)
  
       call millet_radn_int (radn_int)
-      radn_canopy = divide (radn_int, g_cover_green, 0.0)
-      trans_crit = divide (c_sen_radn_crit, radn_canopy, 0.0)
+      radn_canopy = divide (radn_int, g%cover_green, 0.0)
+      trans_crit = divide (c%sen_radn_crit, radn_canopy, 0.0)
  
       if (trans_crit.gt.0.0) then
             ! needs rework for row spacing
-         lai_equilib_light_today = -log (trans_crit)/c_extinction_coef
+         lai_equilib_light_today = -log (trans_crit)/c%extinction_coef
  
       else
-         lai_equilib_light_today = g_lai
+         lai_equilib_light_today = g%lai
       endif
  
       call millet_store_value (lai_equilib_light
@@ -8136,7 +8840,7 @@ cccc
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -8204,7 +8908,7 @@ cccc
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -8249,25 +8953,25 @@ cccc
          ! get highest leaf no. senescing today
  
  
-      leaf_no_dead = sum_between (emerg, now, g_leaf_no_dead)
-     :             + g_dlt_leaf_no_dead
+      leaf_no_dead = sum_between (emerg, now, g%leaf_no_dead)
+     :             + g%dlt_leaf_no_dead
  
       dying_leaf = int (1.0 + leaf_no_dead)
  
          ! get area senesced from highest leaf no.
  
       area_sen_dying_leaf = mod (leaf_no_dead, 1.0)
-     :                    * g_leaf_area(dying_leaf)
+     :                    * g%leaf_area(dying_leaf)
  
-      slai_age = (sum_real_array (g_leaf_area, dying_leaf - 1)
+      slai_age = (sum_real_array (g%leaf_area, dying_leaf - 1)
      :         + area_sen_dying_leaf)
-     :         * smm2sm * g_plants
+     :         * smm2sm * g%plants
  
-      dlt_slai_age = bound (slai_age - g_slai, 0.0, g_lai)
+      dlt_slai_age = bound (slai_age - g%slai, 0.0, g%lai)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -8311,25 +9015,25 @@ cccc
  
          ! get highest leaf no. senescing today
  
-      leaf_no_dead = sum_between (emerg, now, g_leaf_no_dead)
-     :             + g_dlt_leaf_no_dead
+      leaf_no_dead = sum_between (emerg, now, g%leaf_no_dead)
+     :             + g%dlt_leaf_no_dead
  
       dying_leaf = int (1.0 + leaf_no_dead)
  
          ! get area senesced from highest leaf no.
  
       area_sen_dying_leaf = mod (leaf_no_dead, 1.0)
-     :            * c_leaf_size_average
+     :            * c%leaf_size_average
  
-      slai_age = (sum_real_array (g_leaf_area, dying_leaf - 1)
+      slai_age = (sum_real_array (g%leaf_area, dying_leaf - 1)
      :         + area_sen_dying_leaf)
-     :         * smm2sm * g_plants
+     :         * smm2sm * g%plants
  
-      dlt_slai_age = bound (slai_age - g_slai, 0.0, g_lai)
+      dlt_slai_age = bound (slai_age - g%slai, 0.0, g%lai)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -8368,32 +9072,32 @@ cccc
          ! calculate senescence due to ageing
  
       if (stage_is_between (floral_init, harvest_ripe
-     :                     , g_current_stage)) then
+     :                     , g%current_stage)) then
  
-         tt_since_emerg = sum_between (emerg, now, g_tt_tot)
-         spla_inflection = p_spla_intercept
-     :                   + c_spla_slope * g_leaf_no_final
-         slai_today = divide ((g_lai + g_slai)
-     :              , (1.0 + exp(-p_spla_prod_coef
+         tt_since_emerg = sum_between (emerg, now, g%tt_tot)
+         spla_inflection = p%spla_intercept
+     :                   + c%spla_slope * g%leaf_no_final
+         slai_today = divide ((g%lai + g%slai)
+     :              , (1.0 + exp(-p%spla_prod_coef
      :                        * (tt_since_emerg - spla_inflection)))
      :              , 0.0)
  
-         dlt_slai_age = l_bound (slai_today - g_slai, 0.0)
+         dlt_slai_age = l_bound (slai_today - g%slai, 0.0)
  
          ! all leaves senesce at harvest ripe
       elseif (on_day_of (harvest_ripe
-     :                 , g_current_stage, g_days_tot)) then
-          dlt_slai_age = g_lai + g_dlt_lai
+     :                 , g%current_stage, g%days_tot)) then
+          dlt_slai_age = g%lai + g%dlt_lai
  
       else
          dlt_slai_age = 0.0
       endif
  
-      dlt_slai_age = bound (dlt_slai_age, 0.0, g_lai)
+      dlt_slai_age = bound (dlt_slai_age, 0.0, g%lai)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -8416,7 +9120,6 @@ cccc
 *     010994 jngh specified and programmed
 
 *+  Calls
-      real       millet_swdef           ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -8436,14 +9139,14 @@ cccc
  
          ! drought stress factor
  
-      slai_water_fac = c_sen_rate_water* (1.0 - millet_swdef (photo))
+      slai_water_fac = c%sen_rate_water* (1.0 - millet_swdef (photo))
  
-      dlt_slai_water = g_lai * slai_water_fac
-      dlt_slai_water = bound (dlt_slai_water, 0.0, g_lai)
+      dlt_slai_water = g%lai * slai_water_fac
+      dlt_slai_water = bound (dlt_slai_water, 0.0, g%lai)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -8467,7 +9170,6 @@ cccc
 *     010994 jngh specified and programmed
 
 *+  Calls
-      real       millet_running_ave     ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -8489,17 +9191,17 @@ cccc
  
          ! NOTE needs rework for multiple crops
  
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
-      sw_supply_sum = sum_real_array (g_sw_supply, deepest_layer)
-      sw_demand_ratio = divide (sw_supply_sum, g_sw_demand, 1.0)
+      deepest_layer = find_layer_no (g%root_depth, g%dlayer, max_layer)
+      sw_supply_sum = sum_real_array (g%sw_supply, deepest_layer)
+      sw_demand_ratio = divide (sw_supply_sum, g%sw_demand, 1.0)
  
-      if (sw_demand_ratio.lt.c_sen_threshold) then
+      if (sw_demand_ratio.lt.c%sen_threshold) then
  
          ave_lai_equilib_water = millet_running_ave
-     :                           (g_lai_equilib_water, 10)
+     :                           (g%lai_equilib_water, 10)
  
-         dlt_slai_water = (g_lai - ave_lai_equilib_water)
-     :                  / c_sen_water_time_const
+         dlt_slai_water = (g%lai - ave_lai_equilib_water)
+     :                  / c%sen_water_time_const
  
          dlt_slai_water = l_bound (dlt_slai_water, 0.0)
  
@@ -8508,11 +9210,11 @@ cccc
  
       endif
  
-      dlt_slai_water = bound (dlt_slai_water, 0.0, g_lai)
+      dlt_slai_water = bound (dlt_slai_water, 0.0, g%lai)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -8552,18 +9254,18 @@ c+!!!!!!!! this doesnt account for other growing crops
 c+!!!!!!!! should be based on reduction of intercepted light and k*lai
          ! competition for light factor
  
-      if (g_lai.gt.c_lai_sen_light) then
-         slai_light_fac = c_sen_light_slope * (g_lai - c_lai_sen_light)
+      if (g%lai.gt.c%lai_sen_light) then
+         slai_light_fac = c%sen_light_slope * (g%lai - c%lai_sen_light)
       else
          slai_light_fac = 0.0
       endif
  
-      dlt_slai_light = g_lai * slai_light_fac
-      dlt_slai_light = bound (dlt_slai_light, 0.0, g_lai)
+      dlt_slai_light = g%lai * slai_light_fac
+      dlt_slai_light = bound (dlt_slai_light, 0.0, g%lai)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -8586,7 +9288,6 @@ c+!!!!!!!! should be based on reduction of intercepted light and k*lai
 *     010994 jngh specified and programmed
 
 *+  Calls
-      real       millet_running_ave     ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -8611,15 +9312,15 @@ c+!!!!!!!!
              ! calculate senescence due to low light
  
       call millet_radn_int (radn_int)
-      radn_transmitted = g_radn - radn_int
+      radn_transmitted = g%radn - radn_int
  
-      if (radn_transmitted.lt.c_sen_radn_crit) then
+      if (radn_transmitted.lt.c%sen_radn_crit) then
  
          ave_lai_equilib_light = millet_running_ave
-     :                           (g_lai_equilib_light, 10)
+     :                           (g%lai_equilib_light, 10)
  
-         dlt_slai_light = divide (g_lai - ave_lai_equilib_light
-     :                          , c_sen_light_time_const , 0.0)
+         dlt_slai_light = divide (g%lai - ave_lai_equilib_light
+     :                          , c%sen_light_time_const , 0.0)
  
          dlt_slai_light = l_bound (dlt_slai_light, 0.0)
  
@@ -8628,11 +9329,11 @@ c+!!!!!!!!
  
       endif
  
-      dlt_slai_light = bound (dlt_slai_light, 0.0, g_lai)
+      dlt_slai_light = bound (dlt_slai_light, 0.0, g%lai)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -8670,17 +9371,17 @@ c+!!!!!!!!
  
          ! calculate 0-1 factors for leaf senescence due to  low temperature.
  
-      sen_fac_temp = linear_interp_real (g_mint
-     :                                 , c_x_temp_senescence
-     :                                 , c_y_senescence_fac
-     :                                 , c_num_temp_senescence)
+      sen_fac_temp = linear_interp_real (g%mint
+     :                                 , c%x_temp_senescence
+     :                                 , c%y_senescence_fac
+     :                                 , c%num_temp_senescence)
  
-      dlt_slai_frost = sen_fac_temp * g_lai
-      dlt_slai_frost = bound (dlt_slai_frost, 0.0, g_lai)
+      dlt_slai_frost = sen_fac_temp * g%lai
+      dlt_slai_frost = bound (dlt_slai_frost, 0.0, g%lai)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -8712,18 +9413,18 @@ c+!!!!!!!!
  
           ! calculate senecence due to frost
  
-      if (g_mint.le.c_frost_kill) then
-         dlt_slai_frost = g_lai
+      if (g%mint.le.c%frost_kill) then
+         dlt_slai_frost = g%lai
  
       else
          dlt_slai_frost = 0.0
       endif
  
-      dlt_slai_frost = bound (dlt_slai_frost, 0.0, g_lai)
+      dlt_slai_frost = bound (dlt_slai_frost, 0.0, g%lai)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -8760,17 +9461,17 @@ c+!!!!!!!!
  
       call push_routine (my_name)
  
-      start_day = offset_day_of_year (g_year
-     :                              , g_day_of_year, - number_of_days)
+      start_day = offset_day_of_year (g%year
+     :                              , g%day_of_year, - number_of_days)
  
       millet_running_ave = divide (sum_part_of_real (array
      :                                            , start_day
-     :                                            , g_day_of_year, 366)
+     :                                            , g%day_of_year, 366)
      :                          , real (abs (number_of_days)), 0.0)
  
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
@@ -8810,33 +9511,33 @@ c+!!!!!!!!
  
       call fill_real_array (dlt_dm_senesced, 0.0, max_part)
  
-      lai_today = g_lai + g_dlt_lai
+      lai_today = g%lai + g%dlt_lai
  
-      if (g_dlt_slai .lt. lai_today) then
-         dm_green_leaf_today = g_dm_green(leaf)
-     :                       + g_dlt_dm_green(leaf)
-     :                       + g_dlt_dm_green_retrans(leaf) ! -ve outflow
+      if (g%dlt_slai .lt. lai_today) then
+         dm_green_leaf_today = g%dm_green(leaf)
+     :                       + g%dlt_dm_green(leaf)
+     :                       + g%dlt_dm_green_retrans(leaf) ! -ve outflow
          sla_today = divide (lai_today, dm_green_leaf_today, 0.0)
  
-         dlt_dm_senescing = divide (g_dlt_slai, sla_today, 0.0)
+         dlt_dm_senescing = divide (g%dlt_slai, sla_today, 0.0)
  
       else
-         dlt_dm_senescing = g_dm_green(leaf)
-     :                   + g_dlt_dm_green(leaf)
+         dlt_dm_senescing = g%dm_green(leaf)
+     :                   + g%dlt_dm_green(leaf)
       endif
  
          ! a proportion of senesced leaf dry matter may be retranslocated to
          ! the stem
  
-      dlt_dm_senesced(leaf) = dlt_dm_senescing * c_dm_leaf_sen_frac
+      dlt_dm_senesced(leaf) = dlt_dm_senescing * c%dm_leaf_sen_frac
       dlt_dm_senesced(stem) = - (dlt_dm_senescing
      :                         - dlt_dm_senesced(leaf))
  
-      dlt_dm_senesced(root) = g_dm_green(root) * c_dm_root_sen_frac
+      dlt_dm_senesced(root) = g%dm_green(root) * c%dm_root_sen_frac
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -8870,14 +9571,14 @@ c+!!!!!!!!
  
       call fill_real_array (dlt_N_senesced, 0.0, max_part)
  
-      dlt_N_senesced(leaf) = g_dlt_dm_senesced(leaf)
-     :                     * c_N_leaf_sen_conc
-      dlt_N_senesced(root) = g_dlt_dm_senesced(root)
-     :                     * c_N_root_sen_conc
+      dlt_N_senesced(leaf) = g%dlt_dm_senesced(leaf)
+     :                     * c%N_leaf_sen_conc
+      dlt_N_senesced(root) = g%dlt_dm_senesced(root)
+     :                     * c%N_root_sen_conc
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -8898,8 +9599,6 @@ c+!!!!!!!!
 *      250894 jngh specified and programmed
 
 *+  Calls
-      real       millet_nfact           ! function
-      real       millet_swdef           ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -8957,191 +9656,191 @@ c+!!!!!!!!
  
          ! transfer N
  
-      call subtract_real_array (g_dlt_N_dead_detached, g_N_dead
+      call subtract_real_array (g%dlt_N_dead_detached, g%N_dead
      :                        , max_part)
  
-      call add_real_array (g_dlt_N_green, g_N_green, max_part)
-      call add_real_array (g_dlt_N_retrans, g_N_green, max_part)
-      call subtract_real_array (g_dlt_N_senesced, g_N_green
+      call add_real_array (g%dlt_N_green, g%N_green, max_part)
+      call add_real_array (g%dlt_N_retrans, g%N_green, max_part)
+      call subtract_real_array (g%dlt_N_senesced, g%N_green
      :                        , max_part)
-      g_N_green(tiller) = g_N_green(tiller) - g_N_tiller_independence
+      g%N_green(tiller) = g%N_green(tiller) - g%N_tiller_independence
  
-      call add_real_array (g_dlt_N_senesced, g_N_senesced
+      call add_real_array (g%dlt_N_senesced, g%N_senesced
      :                   , max_part)
-      call subtract_real_array (g_dlt_N_detached, g_N_senesced
+      call subtract_real_array (g%dlt_N_detached, g%N_senesced
      :                        , max_part)
  
-      dying_fract = divide (-g_dlt_plants, g_plants, 0.0)
+      dying_fract = divide (-g%dlt_plants, g%plants, 0.0)
       dying_fract = bound (dying_fract, 0.0, 1.0)
  
       do 1000 part = 1, max_part
-         dlt_N_green_dead = g_N_green(part) * dying_fract
-         g_N_green(part) = g_N_green(part) - dlt_N_green_dead
-         g_N_dead(part) = g_N_dead(part) + dlt_N_green_dead
+         dlt_N_green_dead = g%N_green(part) * dying_fract
+         g%N_green(part) = g%N_green(part) - dlt_N_green_dead
+         g%N_dead(part) = g%N_dead(part) + dlt_N_green_dead
  
-         dlt_N_senesced_dead = g_N_senesced(part) * dying_fract
-         g_N_senesced(part) = g_N_senesced(part) - dlt_N_senesced_dead
-         g_N_dead(part) = g_N_dead(part) + dlt_N_senesced_dead
+         dlt_N_senesced_dead = g%N_senesced(part) * dying_fract
+         g%N_senesced(part) = g%N_senesced(part) - dlt_N_senesced_dead
+         g%N_dead(part) = g%N_dead(part) + dlt_N_senesced_dead
 1000  continue
  
          ! Transfer plant dry matter
  
-      dlt_dm_plant = divide (g_dlt_dm, g_plants, 0.0)
+      dlt_dm_plant = divide (g%dlt_dm, g%plants, 0.0)
  
-      call accumulate (dlt_dm_plant, g_dm_plant_top_tot
-     :               , g_previous_stage, g_dlt_stage)
+      call accumulate (dlt_dm_plant, g%dm_plant_top_tot
+     :               , g%previous_stage, g%dlt_stage)
  
-      call subtract_real_array (g_dlt_dm_dead_detached, g_dm_dead
+      call subtract_real_array (g%dlt_dm_dead_detached, g%dm_dead
      :                        , max_part)
  
-      call add_real_array (g_dlt_dm_green, g_dm_green, max_part)
-      call add_real_array (g_dlt_dm_green_retrans, g_dm_green, max_part)
-      call subtract_real_array (g_dlt_dm_senesced, g_dm_green
+      call add_real_array (g%dlt_dm_green, g%dm_green, max_part)
+      call add_real_array (g%dlt_dm_green_retrans, g%dm_green, max_part)
+      call subtract_real_array (g%dlt_dm_senesced, g%dm_green
      :                        , max_part)
-      g_dm_green(tiller) = g_dm_green(tiller) - g_dm_tiller_independence
+      g%dm_green(tiller) = g%dm_green(tiller) - g%dm_tiller_independence
  
-      call add_real_array (g_dlt_dm_senesced, g_dm_senesced
+      call add_real_array (g%dlt_dm_senesced, g%dm_senesced
      :                   , max_part)
-      call subtract_real_array (g_dlt_dm_detached, g_dm_senesced
+      call subtract_real_array (g%dlt_dm_detached, g%dm_senesced
      :                        , max_part)
  
       do 2000 part = 1, max_part
-         dlt_dm_green_dead = g_dm_green(part) * dying_fract
-         g_dm_green(part) = g_dm_green(part) - dlt_dm_green_dead
-         g_dm_dead(part) = g_dm_dead(part) + dlt_dm_green_dead
+         dlt_dm_green_dead = g%dm_green(part) * dying_fract
+         g%dm_green(part) = g%dm_green(part) - dlt_dm_green_dead
+         g%dm_dead(part) = g%dm_dead(part) + dlt_dm_green_dead
  
-         dlt_dm_senesced_dead = g_dm_senesced(part) * dying_fract
-         g_dm_senesced(part) = g_dm_senesced(part)
+         dlt_dm_senesced_dead = g%dm_senesced(part) * dying_fract
+         g%dm_senesced(part) = g%dm_senesced(part)
      :                       - dlt_dm_senesced_dead
-         g_dm_dead(part) = g_dm_dead(part) + dlt_dm_senesced_dead
+         g%dm_dead(part) = g%dm_dead(part) + dlt_dm_senesced_dead
 2000  continue
  
          ! initiate new tiller and transfer any DM and N content.
  
-      call millet_tiller_initiate (g_dm_tiller_independence
-     :                          , g_N_tiller_independence)
+      call millet_tiller_initiate (g%dm_tiller_independence
+     :                          , g%N_tiller_independence)
  
          ! dispose of detached material from senesced parts in
          ! live population
  
-      dm_residue = (sum_real_array (g_dlt_dm_detached, max_part)
-     :           - g_dlt_dm_detached(root))
-      N_residue = (sum_real_array (g_dlt_N_detached, max_part)
-     :          - g_dlt_N_detached(root))
+      dm_residue = (sum_real_array (g%dlt_dm_detached, max_part)
+     :           - g%dlt_dm_detached(root))
+      N_residue = (sum_real_array (g%dlt_N_detached, max_part)
+     :          - g%dlt_N_detached(root))
  
       call millet_top_residue (dm_residue, N_residue)
  
          ! put roots into root residue
  
-      call millet_root_incorp (g_dlt_dm_detached(root)
-     :                    , g_dlt_N_detached(root))
+      call millet_root_incorp (g%dlt_dm_detached(root)
+     :                    , g%dlt_N_detached(root))
  
          ! now dispose of dead population detachments
  
-      dm_residue = (sum_real_array (g_dlt_dm_dead_detached, max_part)
-     :           - g_dlt_dm_dead_detached(root))
-      N_residue = (sum_real_array (g_dlt_N_dead_detached, max_part)
-     :          - g_dlt_N_dead_detached(root))
+      dm_residue = (sum_real_array (g%dlt_dm_dead_detached, max_part)
+     :           - g%dlt_dm_dead_detached(root))
+      N_residue = (sum_real_array (g%dlt_N_dead_detached, max_part)
+     :          - g%dlt_N_dead_detached(root))
  
       call millet_top_residue (dm_residue, N_residue)
  
          ! put roots into root residue
  
-      call millet_root_incorp (g_dlt_dm_dead_detached(root)
-     :                      , g_dlt_N_dead_detached(root))
+      call millet_root_incorp (g%dlt_dm_dead_detached(root)
+     :                      , g%dlt_N_dead_detached(root))
  
          ! tiller development
-      call accumulate (g_dlt_tiller_no, g_tiller_no
-     :               , g_previous_stage, g_dlt_stage)
+      call accumulate (g%dlt_tiller_no, g%tiller_no
+     :               , g%previous_stage, g%dlt_stage)
  
 !         call get_current_module (module_name)
 !
 ! gd
 !      write (*,*) 'module name', module_name
-!      write (*,*) 'dlt_tiller_no = ',g_dlt_tiller_no
-!      write (*,*) 'tiller_no = ', g_tiller_no
-!      write (*,*) 'previous_stage = ', g_previous_stage
-!      write (*,*) 'dlt_stage = ', g_dlt_stage
+!      write (*,*) 'dlt_tiller_no = ',g%dlt_tiller_no
+!      write (*,*) 'tiller_no = ', g%tiller_no
+!      write (*,*) 'previous_stage = ', g%previous_stage
+!      write (*,*) 'dlt_stage = ', g%dlt_stage
 cjh
          ! transfer plant grain no.
-      dlt_grain_no_lost  = g_grain_no * dying_fract
-      g_grain_no = g_grain_no - dlt_grain_no_lost
+      dlt_grain_no_lost  = g%grain_no * dying_fract
+      g%grain_no = g%grain_no - dlt_grain_no_lost
  
          ! transfer plant leaf area
  
-      g_lai = g_lai + g_dlt_lai - g_dlt_slai
-      g_slai = g_slai + g_dlt_slai - g_dlt_slai_detached
+      g%lai = g%lai + g%dlt_lai - g%dlt_slai
+      g%slai = g%slai + g%dlt_slai - g%dlt_slai_detached
  
-      dlt_lai_dead  = g_lai  * dying_fract
-      dlt_slai_dead = g_slai * dying_fract
+      dlt_lai_dead  = g%lai  * dying_fract
+      dlt_slai_dead = g%slai * dying_fract
  
-      g_lai = g_lai - dlt_lai_dead
-      g_slai = g_slai - dlt_slai_dead
-      g_tlai_dead = g_tlai_dead + dlt_lai_dead + dlt_slai_dead
-     :            - g_dlt_tlai_dead_detached
+      g%lai = g%lai - dlt_lai_dead
+      g%slai = g%slai - dlt_slai_dead
+      g%tlai_dead = g%tlai_dead + dlt_lai_dead + dlt_slai_dead
+     :            - g%dlt_tlai_dead_detached
  
          ! now update new canopy covers
 ! ejvo
-      extinct_coef = linear_interp_real (g_row_spacing
-     :                        , c_x_row_spacing, c_y_extinct_coef
-     :                        , c_num_row_spacing)
+      extinct_coef = linear_interp_real (g%row_spacing
+     :                        , c%x_row_spacing, c%y_extinct_coef
+     :                        , c%num_row_spacing)
  
-      extinct_coef_dead = linear_interp_real (g_row_spacing
-     :                        , c_x_row_spacing, c_y_extinct_coef_dead
-     :                        , c_num_row_spacing)
+      extinct_coef_dead = linear_interp_real (g%row_spacing
+     :                        , c%x_row_spacing, c%y_extinct_coef_dead
+     :                        , c%num_row_spacing)
  
-      call millet_cover (g_cover_green, extinct_coef, g_lai)
-      call millet_cover (g_cover_sen, extinct_coef_dead, g_slai)
-      call millet_cover (g_cover_dead, extinct_coef_dead
-     :                 , g_tlai_dead)
+      call millet_cover (g%cover_green, extinct_coef, g%lai)
+      call millet_cover (g%cover_sen, extinct_coef_dead, g%slai)
+      call millet_cover (g%cover_dead, extinct_coef_dead
+     :                 , g%tlai_dead)
  
  
          ! plant leaf development
          ! need to account for truncation of partially developed leaf (add 1)
-      leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
-      dlt_leaf_area = divide (g_dlt_lai, g_plants, 0.0) * sm2smm
-      call accumulate (dlt_leaf_area, g_leaf_area
-     :               , leaf_no, g_dlt_leaf_no)
+      leaf_no = 1.0 + sum_between (emerg, now, g%leaf_no)
+      dlt_leaf_area = divide (g%dlt_lai, g%plants, 0.0) * sm2smm
+      call accumulate (dlt_leaf_area, g%leaf_area
+     :               , leaf_no, g%dlt_leaf_no)
  
-      call accumulate (g_dlt_leaf_no, g_leaf_no
-     :               , g_previous_stage, g_dlt_stage)
+      call accumulate (g%dlt_leaf_no, g%leaf_no
+     :               , g%previous_stage, g%dlt_stage)
  
-      call accumulate (g_dlt_leaf_no_dead, g_leaf_no_dead
-     :               , g_previous_stage, g_dlt_stage)
+      call accumulate (g%dlt_leaf_no_dead, g%leaf_no_dead
+     :               , g%previous_stage, g%dlt_stage)
  
          ! plant stress
  
-      call accumulate (g_dlt_heat_stress_tt, g_heat_stress_tt
-     :               , g_previous_stage, g_dlt_stage)
+      call accumulate (g%dlt_heat_stress_tt, g%heat_stress_tt
+     :               , g%previous_stage, g%dlt_stage)
  
-      call accumulate (g_dlt_dm_stress_max, g_dm_stress_max
-     :               , g_current_stage, g_dlt_stage)
+      call accumulate (g%dlt_dm_stress_max, g%dm_stress_max
+     :               , g%current_stage, g%dlt_stage)
  
-      call accumulate (1.0 - millet_swdef(photo), g_cswd_photo
-     :               , g_previous_stage, g_dlt_stage)
-      call accumulate (1.0 - millet_swdef(expansion), g_cswd_expansion
-     :               , g_previous_stage, g_dlt_stage)
-      call accumulate (1.0 - millet_swdef(pheno), g_cswd_pheno
-     :               , g_previous_stage, g_dlt_stage)
+      call accumulate (1.0 - millet_swdef(photo), g%cswd_photo
+     :               , g%previous_stage, g%dlt_stage)
+      call accumulate (1.0 - millet_swdef(expansion), g%cswd_expansion
+     :               , g%previous_stage, g%dlt_stage)
+      call accumulate (1.0 - millet_swdef(pheno), g%cswd_pheno
+     :               , g%previous_stage, g%dlt_stage)
  
-      call accumulate (1.0 - millet_nfact(photo), g_cnd_photo
-     :               , g_previous_stage, g_dlt_stage)
-      call accumulate (1.0 - millet_nfact(grain_conc), g_cnd_grain_conc
-     :               , g_previous_stage, g_dlt_stage)
+      call accumulate (1.0 - millet_nfact(photo), g%cnd_photo
+     :               , g%previous_stage, g%dlt_stage)
+      call accumulate (1.0 - millet_nfact(grain_conc), g%cnd_grain_conc
+     :               , g%previous_stage, g%dlt_stage)
  
          ! other plant states
  
-      g_canopy_height = g_canopy_height + g_dlt_canopy_height
-      g_plants = g_plants + g_dlt_plants
-      g_root_depth = g_root_depth + g_dlt_root_depth
+      g%canopy_height = g%canopy_height + g%dlt_canopy_height
+      g%plants = g%plants + g%dlt_plants
+      g%root_depth = g%root_depth + g%dlt_root_depth
  
-      call millet_N_conc_limits (g_N_conc_crit
-     :                        , g_N_conc_max
-     :                        , g_N_conc_min)  ! plant N concentr
+      call millet_N_conc_limits (g%N_conc_crit
+     :                        , g%N_conc_max
+     :                        , g%N_conc_min)  ! plant N concentr
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -9172,181 +9871,181 @@ cjh
       call push_routine (my_name)
  
       call bound_check_real_var
-     :           (sum_real_array (g_leaf_no, max_stage)
+     :           (sum_real_array (g%leaf_no, max_stage)
      :          , 0.0
      :          , real (max_leaf)
      :          , 'leaf_no')
  
       call bound_check_real_var
-     :           (sum_real_array (g_leaf_no_dead, max_stage)
+     :           (sum_real_array (g%leaf_no_dead, max_stage)
      :          , 0.0
      :          , real (max_leaf)
      :          , 'leaf_no_dead')
  
       call bound_check_real_var
-     :           (g_root_depth
+     :           (g%root_depth
      :          , 0.0
-     :          , sum_real_array (g_dlayer, max_layer)
+     :          , sum_real_array (g%dlayer, max_layer)
      :          , 'root_depth')
  
       call bound_check_real_var
-     :           (g_grain_no
+     :           (g%grain_no
      :          , 0.0
-     :          , p_head_grain_no_max * g_plants
+     :          , p%head_grain_no_max * g%plants
      :          , 'grain_no')
  
       call bound_check_real_var
-     :           (g_current_stage
+     :           (g%current_stage
      :          , 0.0
      :          , real (max_stage)
      :          , 'current_stage')
  
       call bound_check_real_var
-     :           (sum_real_array (g_phase_tt, max_stage)
+     :           (sum_real_array (g%phase_tt, max_stage)
      :          , 0.0
      :          , 1000000.0
      :          , 'phase_tt')
  
       call bound_check_real_var
-     :           (sum_real_array (g_days_tot, max_stage)
+     :           (sum_real_array (g%days_tot, max_stage)
      :          , 0.0
      :          , 40000.0
      :          , 'days_tot')
  
       call bound_check_real_var
-     :           (sum_real_array (g_tt_tot, max_stage)
+     :           (sum_real_array (g%tt_tot, max_stage)
      :          , 0.0
      :          , 40000.0
      :          , 'tt_tot')
  
       call bound_check_real_var
-     :           (g_plants
+     :           (g%plants
      :          , 0.0
      :          , 10000.0
      :          , 'plants')
  
       call bound_check_real_var
-     :           (g_canopy_height
+     :           (g%canopy_height
      :          , 0.0
-     :          , c_height_max
+     :          , c%height_max
      :          , 'canopy_height')
  
       call bound_check_real_var
-     :           (g_lai
+     :           (g%lai
      :          , 0.0
-     :          , 30.0 - g_slai - g_tlai_dead
+     :          , 30.0 - g%slai - g%tlai_dead
      :          , 'lai')
  
       call bound_check_real_var
-     :           (g_slai
+     :           (g%slai
      :          , 0.0
-     :          , 30.0 - g_lai - g_tlai_dead
+     :          , 30.0 - g%lai - g%tlai_dead
      :          , 'slai')
  
       call bound_check_real_var
-     :           (g_tlai_dead
+     :           (g%tlai_dead
      :          , 0.0
-     :          , 30.0 - g_slai - g_lai
+     :          , 30.0 - g%slai - g%lai
      :          , 'tlai_dead')
  
       call bound_check_real_var
-     :           (g_cover_green
+     :           (g%cover_green
      :          , 0.0
      :          , 1.0
      :          , 'cover_green')
  
       call bound_check_real_var
-     :           (g_cover_sen
+     :           (g%cover_sen
      :          , 0.0
      :          , 1.0
      :          , 'cover_sen')
  
       call bound_check_real_var
-     :           (g_cover_dead
+     :           (g%cover_dead
      :          , 0.0
      :          , 1.0
      :          , 'cover_dead')
  
       call bound_check_real_var
-     :           (sum_real_array (g_leaf_area, max_leaf)
+     :           (sum_real_array (g%leaf_area, max_leaf)
      :          , 0.0
      :          , 10000000.0
      :          , 'leaf_area')
  
       call bound_check_real_var
-     :           (sum_real_array (g_heat_stress_tt, max_stage)
+     :           (sum_real_array (g%heat_stress_tt, max_stage)
      :          , 0.0
      :          , 1000000.0
      :          , 'heat_stress_tt')
       call bound_check_real_var
-     :           (sum_real_array (g_dm_stress_max, max_stage)
+     :           (sum_real_array (g%dm_stress_max, max_stage)
      :          , 0.0
      :          , 1000000.0
      :          , 'dm_stress_max')
  
       call bound_check_real_var
-     :           (sum_real_array (g_N_conc_crit, max_part)
-     :          , sum_real_array (g_N_conc_min, max_part)
-     :          , sum_real_array (g_N_conc_max, max_part)
+     :           (sum_real_array (g%N_conc_crit, max_part)
+     :          , sum_real_array (g%N_conc_min, max_part)
+     :          , sum_real_array (g%N_conc_max, max_part)
      :          , 'N_conc_crit')
  
       call bound_check_real_var
-     :           (sum_real_array (g_N_conc_max, max_part)
-     :          , sum_real_array (g_N_conc_crit, max_part)
+     :           (sum_real_array (g%N_conc_max, max_part)
+     :          , sum_real_array (g%N_conc_crit, max_part)
      :          , 1.0
      :          , 'N_conc_max')
  
       call bound_check_real_var
-     :           (sum_real_array (g_N_conc_min, max_part)
+     :           (sum_real_array (g%N_conc_min, max_part)
      :          , 0.0
-     :          , sum_real_array (g_N_conc_crit, max_part)
+     :          , sum_real_array (g%N_conc_crit, max_part)
      :          , 'N_conc_min')
  
       call bound_check_real_var
-     :           (sum_real_array (g_N_dead, max_part)
+     :           (sum_real_array (g%N_dead, max_part)
      :          , 0.0
-     :          , 10000.0 - sum_real_array (g_N_green, max_part)
-     :                    - sum_real_array (g_N_senesced, max_part)
+     :          , 10000.0 - sum_real_array (g%N_green, max_part)
+     :                    - sum_real_array (g%N_senesced, max_part)
      :          , 'N_dead')
  
       call bound_check_real_var
-     :           (sum_real_array (g_N_green, max_part)
+     :           (sum_real_array (g%N_green, max_part)
      :          , 0.0
-     :          , 10000.0 - sum_real_array (g_N_dead, max_part)
-     :                    - sum_real_array (g_N_senesced, max_part)
+     :          , 10000.0 - sum_real_array (g%N_dead, max_part)
+     :                    - sum_real_array (g%N_senesced, max_part)
      :          , 'N_green')
  
       call bound_check_real_var
-     :           (sum_real_array (g_N_senesced, max_part)
+     :           (sum_real_array (g%N_senesced, max_part)
      :          , 0.0
-     :          , 10000.0 - sum_real_array (g_N_green, max_part)
-     :                    - sum_real_array (g_N_dead, max_part)
+     :          , 10000.0 - sum_real_array (g%N_green, max_part)
+     :                    - sum_real_array (g%N_dead, max_part)
      :          , 'N_senesced')
  
       call bound_check_real_var
-     :           (sum_real_array (g_dm_dead, max_part)
+     :           (sum_real_array (g%dm_dead, max_part)
      :          , 0.0
-     :          , 10000.0 - sum_real_array (g_dm_green, max_part)
-     :                    - sum_real_array (g_dm_senesced, max_part)
+     :          , 10000.0 - sum_real_array (g%dm_green, max_part)
+     :                    - sum_real_array (g%dm_senesced, max_part)
      :          , 'dm_dead')
  
       call bound_check_real_var
-     :           (sum_real_array (g_dm_green, max_part)
+     :           (sum_real_array (g%dm_green, max_part)
      :          , 0.0
-     :          , 10000.0 - sum_real_array (g_dm_dead, max_part)
-     :                    - sum_real_array (g_dm_senesced, max_part)
+     :          , 10000.0 - sum_real_array (g%dm_dead, max_part)
+     :                    - sum_real_array (g%dm_senesced, max_part)
      :          , 'dm_green')
  
       call bound_check_real_var
-     :           (sum_real_array (g_dm_senesced, max_part)
+     :           (sum_real_array (g%dm_senesced, max_part)
      :          , 0.0
-     :          , 10000.0 - sum_real_array (g_dm_green, max_part)
-     :                    - sum_real_array (g_dm_dead, max_part)
+     :          , 10000.0 - sum_real_array (g%dm_green, max_part)
+     :                    - sum_real_array (g%dm_dead, max_part)
      :          , 'dm_senesced')
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -9366,8 +10065,6 @@ cjh
 *     010994 jngh specified and programmed
 
 *+  Calls
-cpsc  add below
-cjh      include   'convert.inc'          ! gm2kg, sm2ha, sm2smm
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -9397,86 +10094,86 @@ cpsc add below
       call push_routine (my_name)
  
              ! get totals
-      N_conc_stover = divide ((g_N_green(leaf)
-     :                       + g_N_green(stem)
-     :                       + g_N_green(flower))
+      N_conc_stover = divide ((g%N_green(leaf)
+     :                       + g%N_green(stem)
+     :                       + g%N_green(flower))
  
-     :                      , (g_dm_green(leaf)
-     :                       + g_dm_green(stem)
-     :                       + g_dm_green(flower))
+     :                      , (g%dm_green(leaf)
+     :                       + g%dm_green(stem)
+     :                       + g%dm_green(flower))
      :                       , 0.0)
  
-      N_uptake = sum_real_array (g_dlt_N_retrans, max_part)
-      N_uptake_stover =  g_dlt_N_retrans(leaf) + g_dlt_N_retrans(stem)
+      N_uptake = sum_real_array (g%dlt_N_retrans, max_part)
+      N_uptake_stover =  g%dlt_N_retrans(leaf) + g%dlt_N_retrans(stem)
  
-          ! note - g_N_conc_crit should be done before the stages change
+          ! note - g%N_conc_crit should be done before the stages change
  
-      N_conc_stover_crit = (g_N_conc_crit(leaf) + g_N_conc_crit(stem))
+      N_conc_stover_crit = (g%N_conc_crit(leaf) + g%N_conc_crit(stem))
      :                   * 0.5
-      N_green_demand = sum_real_array (g_N_demand, max_part)
+      N_green_demand = sum_real_array (g%N_demand, max_part)
  
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
+      deepest_layer = find_layer_no (g%root_depth, g%dlayer, max_layer)
  
-      if (on_day_of (sowing, g_current_stage, g_days_tot)) then
-         g_N_uptake_tot = N_uptake
-         g_transpiration_tot =
-     :           - sum_real_array (g_dlt_sw_dep, deepest_layer)
-         g_N_conc_act_stover_tot = N_conc_stover
-         g_N_conc_crit_stover_tot = N_conc_stover_crit
-         g_N_demand_tot = N_green_demand
-         g_N_uptake_stover_tot = N_uptake_stover
-         g_N_uptake_grain_tot = sum_real_array (g_dlt_N_retrans
+      if (on_day_of (sowing, g%current_stage, g%days_tot)) then
+         g%N_uptake_tot = N_uptake
+         g%transpiration_tot =
+     :           - sum_real_array (g%dlt_sw_dep, deepest_layer)
+         g%N_conc_act_stover_tot = N_conc_stover
+         g%N_conc_crit_stover_tot = N_conc_stover_crit
+         g%N_demand_tot = N_green_demand
+         g%N_uptake_stover_tot = N_uptake_stover
+         g%N_uptake_grain_tot = sum_real_array (g%dlt_N_retrans
      :                                        , max_part)
  
       else
-         g_N_uptake_tot = g_N_uptake_tot + N_uptake
-         g_transpiration_tot = g_transpiration_tot
-     :                       + (-sum_real_array (g_dlt_sw_dep
+         g%N_uptake_tot = g%N_uptake_tot + N_uptake
+         g%transpiration_tot = g%transpiration_tot
+     :                       + (-sum_real_array (g%dlt_sw_dep
      :                                         , deepest_layer))
-         g_N_conc_act_stover_tot = N_conc_stover
-         g_N_conc_crit_stover_tot = N_conc_stover_crit
-         g_N_demand_tot = g_N_demand_tot + N_green_demand
-         g_N_uptake_stover_tot = g_N_uptake_stover_tot
+         g%N_conc_act_stover_tot = N_conc_stover
+         g%N_conc_crit_stover_tot = N_conc_stover_crit
+         g%N_demand_tot = g%N_demand_tot + N_green_demand
+         g%N_uptake_stover_tot = g%N_uptake_stover_tot
      :                         + N_uptake_stover
-         g_N_uptake_grain_tot = g_N_uptake_grain_tot
-     :                        + sum_real_array (g_dlt_N_retrans
+         g%N_uptake_grain_tot = g%N_uptake_grain_tot
+     :                        + sum_real_array (g%dlt_N_retrans
      :                                        , max_part)
  
       endif
  
-      g_lai_max = max (g_lai_max, g_lai)
-      if (on_day_of (flowering, g_current_stage, g_days_tot)) then
-         g_isdate = g_day_of_year
-      else if (on_day_of (maturity, g_current_stage, g_days_tot)) then
-         g_mdate = g_day_of_year
+      g%lai_max = max (g%lai_max, g%lai)
+      if (on_day_of (flowering, g%current_stage, g%days_tot)) then
+         g%isdate = g%day_of_year
+      else if (on_day_of (maturity, g%current_stage, g%days_tot)) then
+         g%mdate = g%day_of_year
       else
       endif
  
 cpsc add below 07/04/95
  
-      N_grain = (g_N_green(grain) + g_N_dead(grain))
+      N_grain = (g%N_green(grain) + g%N_dead(grain))
  
-      N_green = (sum_real_array (g_N_green, max_part)
-     :        - g_N_green(root) - g_N_green(grain))
+      N_green = (sum_real_array (g%N_green, max_part)
+     :        - g%N_green(root) - g%N_green(grain))
  
-      N_senesced = (sum_real_array (g_N_senesced, max_part)
-     :           - g_N_senesced(root) - g_N_senesced(grain))
+      N_senesced = (sum_real_array (g%N_senesced, max_part)
+     :           - g%N_senesced(root) - g%N_senesced(grain))
  
-      N_dead = (sum_real_array (g_N_dead, max_part)
-     :       - g_N_dead(root) - g_N_dead(grain))
+      N_dead = (sum_real_array (g%N_dead, max_part)
+     :       - g%N_dead(root) - g%N_dead(grain))
  
       N_stover = N_green + N_senesced + N_dead
  
-      g_N_uptake_grain_tot = N_grain
-      g_N_uptake_stover_tot = N_stover
-      g_N_uptake_tot = N_grain + N_stover
+      g%N_uptake_grain_tot = N_grain
+      g%N_uptake_stover_tot = N_stover
+      g%N_uptake_tot = N_grain + N_stover
  
 cpsc  add above
  
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -9484,7 +10181,6 @@ cpsc  add above
       subroutine millet_event ()
 *     ===========================================================
       implicit none
-      include   'const.inc'            ! new_line, lu_scr_sum, blank,
       include   'convert.inc'
       include   'millet.inc'
       include 'science.pub'                       
@@ -9500,7 +10196,6 @@ cpsc  add above
 *     010994 jngh specified and programmed
 
 *+  Calls
-                                       ! lu_scr_sum
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -9524,47 +10219,47 @@ cpsc  add above
  
       call push_routine (my_name)
  
-      stage_no = int (g_current_stage)
+      stage_no = int (g%current_stage)
  
-      if (on_day_of (stage_no, g_current_stage, g_days_tot)) then
+      if (on_day_of (stage_no, g%current_stage, g%days_tot)) then
              ! new phase has begun.
          write (string, '(a, f6.1, 1x, a)')
      :                   ' stage '
-     :                  , c_stage_code_list(stage_no)
-     :                  , c_stage_names(stage_no)
+     :                  , c%stage_code_list(stage_no)
+     :                  , c%stage_names(stage_no)
          call report_event (string)
  
-         biomass = sum_real_array (g_dm_green, max_part)
-     :           - g_dm_green(root)
+         biomass = sum_real_array (g%dm_green, max_part)
+     :           - g%dm_green(root)
  
-     :           + sum_real_array (g_dm_senesced, max_part)
-     :           - g_dm_senesced(root)
+     :           + sum_real_array (g%dm_senesced, max_part)
+     :           - g%dm_senesced(root)
  
-     :           + sum_real_array (g_dm_dead, max_part)
-     :           - g_dm_dead(root)
+     :           + sum_real_array (g%dm_dead, max_part)
+     :           - g%dm_dead(root)
  
-         dm_green = sum_real_array (g_dm_green, max_part)
-     :            - g_dm_green(root)
-         N_green = sum_real_array (g_N_green, max_part)
-     :           - g_N_green(root)
+         dm_green = sum_real_array (g%dm_green, max_part)
+     :            - g%dm_green(root)
+         N_green = sum_real_array (g%N_green, max_part)
+     :           - g%N_green(root)
  
          N_green_conc_percent = divide (N_green, dm_green, 0.0)
      :                        * fract2pcnt
  
-         deepest_layer = find_layer_no (g_root_depth, g_dlayer
+         deepest_layer = find_layer_no (g%root_depth, g%dlayer
      :                                , max_layer)
          do 1000 layer = 1, deepest_layer
-            pesw(layer) = g_sw_dep(layer) - p_ll_dep(layer)
+            pesw(layer) = g%sw_dep(layer) - p%ll_dep(layer)
             pesw(layer) = l_bound (pesw(layer), 0.0)
 1000     continue
          pesw_tot = sum_real_array (pesw, deepest_layer)
  
-         if (stage_is_between (emerg, plant_end, g_current_stage)) then
+         if (stage_is_between (emerg, plant_end, g%current_stage)) then
             write (string, '(2(a, g16.7e2), a, 2(a, g16.7e2))')
      :              '                     biomass =       '
      :            , biomass
      :            , '   lai = '
-     :            , g_lai
+     :            , g%lai
      :            , new_line
      :            ,'                     stover N conc ='
      :            , N_green_conc_percent
@@ -9579,7 +10274,7 @@ cpsc  add above
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -9617,10 +10312,10 @@ cpsc  add above
          ! this equation implies that leaf interception of
          ! solar radiation obeys Beer's law
  
-!     if (g_row_spacing .gt. 0.0) then
-!        k_coef = exp (-c_extinction_coef_change
+!     if (g%row_spacing .gt. 0.0) then
+!        k_coef = exp (-c%extinction_coef_change
 !    :                * extinction_coef
-!    :                * g_row_spacing)
+!    :                * g%row_spacing)
 !     else
 !        k_coef = extinction_coef
 !     endif
@@ -9629,7 +10324,7 @@ cpsc  add above
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -9673,14 +10368,14 @@ cpsc  add above
       call fill_real_array (root_array, 0.0, max_layer)
       call fill_real_array (root_distrb, 0.0, max_layer)
  
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer
+      deepest_layer = find_layer_no (g%root_depth, g%dlayer
      :                                , max_layer)
       cum_depth = 0.0
       do 1000 layer = 1, deepest_layer
-         cum_depth = cum_depth + g_dlayer(layer)
-         cum_depth = u_bound (cum_depth, g_root_depth)
-         root_distrb(layer) = exp (-c_root_extinction
-     :                      * divide (cum_depth, g_root_depth, 0.0))
+         cum_depth = cum_depth + g%dlayer(layer)
+         cum_depth = u_bound (cum_depth, g%root_depth)
+         root_distrb(layer) = exp (-c%root_extinction
+     :                      * divide (cum_depth, g%root_depth, 0.0))
 1000  continue
  
       root_distrb_sum = sum_real_array (root_distrb, deepest_layer)
@@ -9692,7 +10387,7 @@ cpsc  add above
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -9700,7 +10395,6 @@ cpsc  add above
       subroutine millet_top_residue (dlt_residue_weight, dlt_residue_N)
 *     ===========================================================
       implicit none
-      include   'const.inc'            ! all_active_modules
       include   'convert.inc'
       include   'millet.inc'
       include 'engine.pub'                        
@@ -9734,7 +10428,7 @@ cjh      character  string*200            ! output string
             ! send out surface residue
  
 cjh         write(string, '(2a, 2(a, g16.7e3, a))' )
-cjh     :           'dlt_residue_type = ', c_crop_type
+cjh     :           'dlt_residue_type = ', c%crop_type
 cjh     :         , ', dlt_residue_wt = '
  
 cjh     :         , dlt_residue_weight * gm2kg /sm2ha, '(kg/ha)'
@@ -9747,7 +10441,7 @@ cjh     :                               , string)
  
          call New_postbox ()
  
-         call post_char_var('dlt_residue_type','()',c_crop_type)
+         call post_char_var('dlt_residue_type','()',c%crop_type)
  
          call post_real_var ('dlt_residue_wt'
      :                        ,'(kg/ha)'
@@ -9771,7 +10465,7 @@ cjh     :                               , string)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -9779,7 +10473,6 @@ cjh     :                               , string)
       subroutine millet_root_incorp (dlt_dm_root, dlt_N_root)
 *     ===========================================================
       implicit none
-      include   'const.inc'            ! all_active_modules
       include   'convert.inc'
       include   'millet.inc'
       include 'science.pub'                       
@@ -9800,8 +10493,6 @@ cjh     :                               , string)
 *       220696 jngh changed to post_ construct
 
 *+  Calls
-cjh      integer    lastnb                ! function
-cjh      character  string_concat*(mes_data_size) ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -9829,10 +10520,10 @@ cjh      character  string*(mes_data_size) ! output string
          call millet_root_distrib (dlt_N_incorp
      :                          , dlt_N_root * gm2kg /sm2ha)
  
-         deepest_layer = find_layer_no (g_root_depth, g_dlayer
+         deepest_layer = find_layer_no (g%root_depth, g%dlayer
      :                                , max_layer)
  
-cjh         string = 'dlt_fom_type='// c_crop_type
+cjh         string = 'dlt_fom_type='// c%crop_type
  
 cjh         write (string(lastnb(string)+1:), '(a, 20g16.7e3)' )
 cjh     :              ', dlt_fom_wt = '
@@ -9850,7 +10541,7 @@ cjh     :                               , string)
  
          call New_postbox ()
  
-         call post_char_var ('dlt_fom_type=','()',c_crop_type)
+         call post_char_var ('dlt_fom_type=','()',c%crop_type)
  
          call post_real_array ('dlt_fom_wt'
      :                        ,'(kg/ha)'
@@ -9876,7 +10567,7 @@ cjh     :                               , string)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -9884,7 +10575,6 @@ cjh     :                               , string)
       real function millet_stage_code (stage_no, stage_table, numvals)
 *     ===========================================================
       implicit none
-      include   'const.inc'            ! err_user
       include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
@@ -9926,18 +10616,18 @@ cjh     :                               , string)
       if (numvals.ge.2) then
             ! we have a valid table
          this_stage = stage_no_of (stage_table(1)
-     :                           , c_stage_code_list, max_stage)
+     :                           , c%stage_code_list, max_stage)
  
          do 1000 i = 2, numvals
             next_stage = stage_no_of (stage_table(i)
-     :                              , c_stage_code_list, max_stage)
+     :                              , c%stage_code_list, max_stage)
  
             if (stage_is_between (this_stage, next_stage, stage_no))
      :         then
                   ! we have found its place
-               tt_tot = sum_between (this_stage, next_stage, g_tt_tot)
+               tt_tot = sum_between (this_stage, next_stage, g%tt_tot)
                phase_tt = sum_between (this_stage, next_stage
-     :                               , g_phase_tt)
+     :                               , g%phase_tt)
                fraction_of = divide (tt_tot, phase_tt, 0.0)
                x_stage_code = stage_table(i-1)
      :                      + (stage_table(i) - stage_table(i-1))
@@ -9967,7 +10657,7 @@ cjh     :                               , string)
       call pop_routine (my_name)
  
       return
-      end
+      end function
 
 
 
@@ -9975,7 +10665,6 @@ cjh     :                               , string)
       subroutine millet_tillering ()
 *     ===========================================================
       implicit none
-      include   'const.inc'
       include   'millet.inc'
       include 'error.pub'                         
 
@@ -9993,22 +10682,22 @@ cjh     :                               , string)
  
       call push_routine (my_name)
  
-      if (c_tiller_no_pot.gt.0) then
+      if (c%tiller_no_pot.gt.0) then
  
-         if (c_tiller_appearance.eq.'tt') then
-            call millet_tiller_appearance_tt (g_dlt_tiller_no)
+         if (c%tiller_appearance.eq.'tt') then
+            call millet_tiller_appearance_tt (g%dlt_tiller_no)
  
-         elseif (c_tiller_appearance.eq.'dm') then
-            call millet_tiller_appearance_dm (g_dlt_tiller_no)
+         elseif (c%tiller_appearance.eq.'dm') then
+            call millet_tiller_appearance_dm (g%dlt_tiller_no)
  
          else
             ! no tillers simulated
             call fatal_error (err_user
      :                     , 'No tiller appearance method supplied')
          endif
-         call millet_tiller_independence (g_tiller_independence
-     :                                 , g_dm_tiller_independence
-     :                                 , g_N_tiller_independence)
+         call millet_tiller_independence (g%tiller_independence
+     :                                 , g%dm_tiller_independence
+     :                                 , g%N_tiller_independence)
  
       else
          ! no tillers simulated
@@ -10016,7 +10705,7 @@ cjh     :                               , string)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -10039,8 +10728,8 @@ cjh     :                               , string)
 
 *+  Changes
 *       091095 jngh specified and programmed
-*       261097 gol added global variable 'g_daylength_at_emerg' and global
-*                  constant 'c_photo_tiller_crit' and new section to amend
+*       261097 gol added global variable 'g%daylength_at_emerg' and global
+*                  constant 'c%photo_tiller_crit' and new section to amend
 *                  tiller initiation thermal time
 
 *+  Constant Values
@@ -10048,9 +10737,9 @@ cjh     :                               , string)
       parameter (my_name = 'millet_tiller_appearance_tt')
 
 *+  Local Variables
-c gol added 'g_daylength_at_emerg (h)' and 'c_photo_tiller_crit (h)' to constants
-c (millet.inc). 'c_photo_tiller_crit' is the critical photoperiod above which
-c the thermal time for first tiller initiation (global constant 'c_y_tiller_tt')
+c gol added 'g%daylength_at_emerg (h)' and 'c%photo_tiller_crit (h)' to constants
+c (millet.inc). 'c%photo_tiller_crit' is the critical photoperiod above which
+c the thermal time for first tiller initiation (global constant 'c%y_tiller_tt')
 c is increased in a one-step process
 *
       real       tiller_no_remaining   ! number of tillers to go before
@@ -10065,72 +10754,72 @@ c is increased in a one-step process
       call push_routine (my_name)
  
 cejvo made leaf appearance function of plant density
-      g_y_tiller_tt_adj(2) = c_y_tiller_tt(2)
-     :                       + c_tiller_appearance_slope
-     :                       * g_plants
+      g%y_tiller_tt_adj(2) = c%y_tiller_tt(2)
+     :                       + c%tiller_appearance_slope
+     :                       * g%plants
  
 cgol added tiller initiation adjustment for daylength
  
-      if (on_day_of (emerg, g_current_stage, g_days_tot)) then
+      if (on_day_of (emerg, g%current_stage, g%days_tot)) then
  
-         g_daylength_at_emerg = day_length (g_day_of_year, g_latitude,
-     :                                      c_twilight)
+         g%daylength_at_emerg = day_length (g%day_of_year, g%latitude,
+     :                                      c%twilight)
  
-         if (g_daylength_at_emerg.gt.c_photo_tiller_crit) then
+         if (g%daylength_at_emerg.gt.c%photo_tiller_crit) then
  
-            g_y_tiller_tt_adj(1) = c_y_tiller_tt(1)
-     :                             + g_y_tiller_tt_adj(2)
+            g%y_tiller_tt_adj(1) = c%y_tiller_tt(1)
+     :                             + g%y_tiller_tt_adj(2)
  
          else
  
-             g_y_tiller_tt_adj(1) = c_y_tiller_tt(1)
+             g%y_tiller_tt_adj(1) = c%y_tiller_tt(1)
  
          endif
  
       endif
  
 cgol check calculations (now turned off)
-!      write (*,*) g_day_of_year, g_latitude, c_twilight,
-!     : g_daylength_at_emerg, c_photo_tiller_crit, g_y_tiller_tt_adj(1),
-!     : c_y_tiller_tt(2)
-!     : g_y_tiller_tt_adj(2)
+!      write (*,*) g%day_of_year, g%latitude, c%twilight,
+!     : g%daylength_at_emerg, c%photo_tiller_crit, g%y_tiller_tt_adj(1),
+!     : c%y_tiller_tt(2)
+!     : g%y_tiller_tt_adj(2)
  
-      if (stage_is_between (emerg, flag_leaf, g_current_stage)) then
+      if (stage_is_between (emerg, flag_leaf, g%current_stage)) then
  
 cgol bounds added to tiller number determination
 !     for tiller_no_now and tiller_no_remaining to stop model initating
 !     tillers beyond the potential tiller number (set previously to 5)
  
 !         tiller_no_now = amin1(amax1(0.0, sum_between (emerg, now,
-!     :                         g_tiller_no)), c_tiller_no_pot)
-!         tiller_no_remaining = amax1(0.0, (real (c_tiller_no_pot) -
+!     :                         g%tiller_no)), c%tiller_no_pot)
+!         tiller_no_remaining = amax1(0.0, (real (c%tiller_no_pot) -
 !     :                               tiller_no_now))
  
-         tiller_no_now = sum_between (emerg, now, g_tiller_no)
+         tiller_no_now = sum_between (emerg, now, g%tiller_no)
  
          tiller_no_now = l_bound (0.0, tiller_no_now)
  
-         tiller_no_now = u_bound (tiller_no_now, real(c_tiller_no_pot))
+         tiller_no_now = u_bound (tiller_no_now, real(c%tiller_no_pot))
  
-         tiller_no_remaining = l_bound(0.0, real(c_tiller_no_pot
+         tiller_no_remaining = l_bound(0.0, real(c%tiller_no_pot
      :                                       - tiller_no_now))
  
          tiller_no_next = aint (tiller_no_now) + 1.0
  
 !gd
-!      write (*,*) g_current_stage,
+!      write (*,*) g%current_stage,
 !     : tiller_no_now,tiller_no_next,tiller_no_remaining
-!       write (*,*) 'ttsum',ttsum, 'yt',g_y_tiller_tt_adj
-!     : c_num_tiller_no_next
-!      write (*,*) c_x_tiller_no_next, c_y_tiller_tt,c_num_tiller_no_next
+!       write (*,*) 'ttsum',ttsum, 'yt',g%y_tiller_tt_adj
+!     : c%num_tiller_no_next
+!      write (*,*) c%x_tiller_no_next, c%y_tiller_tt,c%num_tiller_no_next
  
          tiller_app_rate = linear_interp_real (tiller_no_next
-     :                       , c_x_tiller_no_next, g_y_tiller_tt_adj
-     :                       , c_num_tiller_no_next)
+     :                       , c%x_tiller_no_next, g%y_tiller_tt_adj
+     :                       , c%num_tiller_no_next)
 !
 !      write (*,*) tiller_app_rate
 !
-         dlt_tiller_no = divide (g_dlt_tt, tiller_app_rate, 0.0)
+         dlt_tiller_no = divide (g%dlt_tt, tiller_app_rate, 0.0)
          dlt_tiller_no = bound (dlt_tiller_no, 0.0, tiller_no_remaining)
  
       else
@@ -10141,7 +10830,7 @@ cgol bounds added to tiller number determination
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -10178,12 +10867,12 @@ cgol bounds added to tiller number determination
  
       call push_routine (my_name)
  
-      if (stage_is_between (emerg, flag_leaf, g_current_stage)) then
+      if (stage_is_between (emerg, flag_leaf, g%current_stage)) then
  
-         tiller_no_now = sum_between (emerg, now, g_tiller_no)
-         tiller_no_remaining = real (c_tiller_no_pot) - tiller_no_now
-         dlt_tiller_no = divide (g_dm_green(tiller)
-     :                         , c_dm_tiller_crit*g_plants, 0.0)
+         tiller_no_now = sum_between (emerg, now, g%tiller_no)
+         tiller_no_remaining = real (c%tiller_no_pot) - tiller_no_now
+         dlt_tiller_no = divide (g%dm_green(tiller)
+     :                         , c%dm_tiller_crit*g%plants, 0.0)
  
          dlt_tiller_no = bound (dlt_tiller_no, 0.0, tiller_no_remaining)
  
@@ -10195,7 +10884,7 @@ cgol bounds added to tiller number determination
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -10205,7 +10894,6 @@ cgol bounds added to tiller number determination
      :                                    , N_tiller_independence)
 *     ===========================================================
       implicit none
-      include   'const.inc'            ! all_active_modules
       include   'convert.inc'
       include   'millet.inc'
       include 'data.pub'                          
@@ -10235,16 +10923,16 @@ cgol bounds added to tiller number determination
  
       call push_routine (my_name)
  
-      tiller_no = sum_between (emerg, now, g_tiller_no)
-      if (aint (tiller_no + g_dlt_tiller_no) .gt. tiller_no) then
+      tiller_no = sum_between (emerg, now, g%tiller_no)
+      if (aint (tiller_no + g%dlt_tiller_no) .gt. tiller_no) then
             ! tiller is independent
  
          tiller_independence = 1
-         if (c_tiller_appearance.eq.'dm') then
-            dm_tiller_independence = c_dm_tiller_crit * g_plants
+         if (c%tiller_appearance.eq.'dm') then
+            dm_tiller_independence = c%dm_tiller_crit * g%plants
             dm_tiller_fract = divide (dm_tiller_independence
-     :                              , g_dm_green(tiller), 0.0)
-            N_tiller_independence = g_N_green(tiller) * dm_tiller_fract
+     :                              , g%dm_green(tiller), 0.0)
+            N_tiller_independence = g%N_green(tiller) * dm_tiller_fract
  
          else
                ! tiller not collecting DM or N
@@ -10262,7 +10950,7 @@ cgol bounds added to tiller number determination
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -10271,7 +10959,6 @@ cgol bounds added to tiller number determination
      :                                , N_tiller_independence)
 *     ===========================================================
       implicit none
-      include   'const.inc'            ! all_active_modules
       include   'millet.inc'
       include 'string.pub'                        
       include 'data.pub'                          
@@ -10309,10 +10996,10 @@ cjh      character  string*200            ! output string
  
       call push_routine (my_name)
  
-      if (g_tiller_independence.gt.0) then
+      if (g%tiller_independence.gt.0) then
             ! send out new tiller
  
-         tiller_no = int (sum_between (emerg, now, g_tiller_no)) + 1
+         tiller_no = int (sum_between (emerg, now, g%tiller_no)) + 1
  
 !         write (*,*) 'tiller_no(int(sum(emerg,now))) = ', tiller_no
  
@@ -10328,16 +11015,16 @@ cjh      character  string*200            ! output string
          if (lastnb (tiller_module).le.8) then
  
             dm_tiller_plant = divide (dm_tiller_independence
-     :                              , g_plants, 0.0)
+     :                              , g%plants, 0.0)
             N_tiller_plant = divide (N_tiller_independence
-     :                             , g_plants, 0.0)
+     :                             , g%plants, 0.0)
  
 cjh            write(string, '(4(a, g16.7e3, a), 2a)' )
-cjh     :           'plants = '       , g_plants        , '(plants/m2)'
+cjh     :           'plants = '       , g%plants        , '(plants/m2)'
 cjh     :         , ',tiller_wt = '   , dm_tiller_plant , '(g/plant)'
 cjh     :         , ',tiller_N = '    , N_tiller_plant  , '(g/plant)'
-cjh     :         , ', row_spacing = ', g_row_spacing   , '(m)'
-cjh     :         , ', cultivar = '   , g_cultivar
+cjh     :         , ', row_spacing = ', g%row_spacing   , '(m)'
+cjh     :         , ', cultivar = '   , g%cultivar
  
 cjh            call message_pass_to_module (tiller_module
 cjh     :                                  , Mes_initiate_crop
@@ -10347,7 +11034,7 @@ cjh     :                                  , string)
  
             call post_real_var ('plants'
      :                         ,'(plants/m2)'
-     :                         ,g_plants)
+     :                         ,g%plants)
  
             call post_real_var ('tiller_wt'
      :                        ,'(g/plant)'
@@ -10359,11 +11046,11 @@ cjh     :                                  , string)
  
             call post_real_var ('row_spacing'
      :                        ,'(m)'
-     :                        ,g_row_spacing)
+     :                        ,g%row_spacing)
  
             call post_char_var ('cultivar'
      :                        ,'()'
-     :                        ,g_cultivar)
+     :                        ,g%cultivar)
  
             call message_send_immediate (
      :                              tiller_module
@@ -10386,7 +11073,7 @@ cjh     :                                  , string)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -10411,20 +11098,20 @@ cjh     :                                  , string)
 c+!!!!!!!!! check order dependency of deltas
       call push_routine (my_name)
  
-      call millet_root_depth (g_dlt_root_depth)   ! increase in root depth
-      call millet_root_depth_init (g_root_depth)  ! initial root depth
+      call millet_root_depth (g%dlt_root_depth)   ! increase in root depth
+      call millet_root_depth_init (g%root_depth)  ! initial root depth
  
             ! WATER UPTAKE
       call millet_check_sw ()
-      call millet_sw_avail_pot (g_sw_avail_pot) ! potential extractable sw (dul-l
-      call millet_sw_avail (g_sw_avail)       ! actual extractable sw (sw-ll)
-      call millet_sw_demand (g_sw_demand)
-      call millet_sw_supply (g_sw_supply)
-      call millet_sw_uptake (g_dlt_sw_dep)
+      call millet_sw_avail_pot (g%sw_avail_pot) ! potential extractable sw (dul-l
+      call millet_sw_avail (g%sw_avail)       ! actual extractable sw (sw-ll)
+      call millet_sw_demand (g%sw_demand)
+      call millet_sw_supply (g%sw_supply)
+      call millet_sw_uptake (g%dlt_sw_dep)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -10451,8 +11138,6 @@ c+!!!!!!!!! check order dependency of deltas
 *      250894 jngh specified and programmed
 
 *+  Calls
-      real       millet_sw_avail_fac    ! function
-cglh      real       sum_between           ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -10471,10 +11156,10 @@ cglh      real       days_after_flowering  ! elapsed time since flowering (days)
  
       call push_routine (my_name)
  
-cglh      days_after_sowing = sum_between (sowing, now, g_days_tot)
-cglh      days_after_flowering = sum_between (flowering, now, g_days_tot)
+cglh      days_after_sowing = sum_between (sowing, now, g%days_tot)
+cglh      days_after_flowering = sum_between (flowering, now, g%days_tot)
  
-      if (on_day_of (germ, g_current_stage, g_days_tot)) then
+      if (on_day_of (germ, g%current_stage, g%days_tot)) then
  
              ! initialise root depth has been done elsewhere,
              ! so no root growth today ????
@@ -10482,27 +11167,27 @@ cglh      days_after_flowering = sum_between (flowering, now, g_days_tot)
          dlt_root_depth = 0.0
  
       elseif (stage_is_between (emerg, start_grain_fill
-     :                        , g_current_stage)) then
-cglh      elseif (days_after_sowing.gt.c_root_depth_lag_start
-cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
+     :                        , g%current_stage)) then
+cglh      elseif (days_after_sowing.gt.c%root_depth_lag_start
+cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
             ! we have root growth (in a vegetative phase)
  
             ! this equation allows soil water in the deepest
             ! layer in which roots are growing
             ! to affect the daily increase in rooting depth.
  
-         deepest_layer = find_layer_no (g_root_depth, g_dlayer
+         deepest_layer = find_layer_no (g%root_depth, g%dlayer
      :                                , max_layer)
-         current_phase = int (g_current_stage)
-         dlt_root_depth  = c_root_depth_rate(current_phase)
+         current_phase = int (g%current_stage)
+         dlt_root_depth  = c%root_depth_rate(current_phase)
      :                   * millet_sw_avail_fac (deepest_layer)
  
             ! constrain it by the maximum
             ! depth that roots are allowed to grow.
  
-         root_depth_max = sum_real_array (g_dlayer, g_num_layers)
+         root_depth_max = sum_real_array (g%dlayer, g%num_layers)
          dlt_root_depth = u_bound (dlt_root_depth
-     :                           , root_depth_max - g_root_depth)
+     :                           , root_depth_max - g%root_depth)
  
       else  ! we have no root growth
  
@@ -10511,7 +11196,7 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -10550,17 +11235,17 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
  
       call push_routine (my_name)
  
-      pesw = g_sw_dep(layer) - p_ll_dep(layer)
-      pesw_capacity = g_dul_dep(layer) - p_ll_dep(layer)
+      pesw = g%sw_dep(layer) - p%ll_dep(layer)
+      pesw_capacity = g%dul_dep(layer) - p%ll_dep(layer)
  
       sw_avail_ratio = divide (pesw, pesw_capacity, 10.0)
       millet_sw_avail_fac = linear_interp_real (sw_avail_ratio
-     :                           , c_x_sw_ratio, c_y_sw_fac_root
-     :                           , c_num_sw_ratio)
+     :                           , c%x_sw_ratio, c%y_sw_fac_root
+     :                           , c%num_sw_ratio)
  
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
@@ -10604,21 +11289,21 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
  
       call fill_real_array (sw_avail_pot, 0.0, max_layer)
  
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
+      deepest_layer = find_layer_no (g%root_depth, g%dlayer, max_layer)
       do 1000 layer = 1, deepest_layer
-         sw_avail_pot(layer) = g_dul_dep(layer) - p_ll_dep(layer)
+         sw_avail_pot(layer) = g%dul_dep(layer) - p%ll_dep(layer)
 1000  continue
  
             ! correct bottom layer for actual root penetration
       sw_avail_pot(deepest_layer) = sw_avail_pot(deepest_layer)
      :                            * root_proportion
      :                            (deepest_layer
-     :                           , g_dlayer
-     :                           , g_root_depth)
+     :                           , g%dlayer
+     :                           , g%root_depth)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -10662,20 +11347,20 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
  
       call fill_real_array (sw_avail, 0.0, max_layer)
  
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
+      deepest_layer = find_layer_no (g%root_depth, g%dlayer, max_layer)
       do 1000 layer = 1, deepest_layer
-         sw_avail(layer) = g_sw_dep(layer) - p_ll_dep(layer)
+         sw_avail(layer) = g%sw_dep(layer) - p%ll_dep(layer)
          sw_avail(layer) = l_bound (sw_avail(layer), 0.0)
 1000  continue
  
             ! correct bottom layer for actual root penetration
       sw_avail(deepest_layer) = sw_avail(deepest_layer)
      :                        * root_proportion
-     :                         (deepest_layer, g_dlayer, g_root_depth)
+     :                         (deepest_layer, g%dlayer, g%root_depth)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -10697,7 +11382,6 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
 *       010994 jngh specified and programmed
 
 *+  Calls
-      real       millet_transp_eff      ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -10721,7 +11405,7 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -10744,7 +11428,6 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
 *       090994 jngh specified and programmed
 
 *+  Calls
-      real       millet_rue_reduction   ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -10760,8 +11443,8 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
  
       call push_routine (my_name)
  
-      current_phase = int (g_current_stage)
-      rue = c_rue(current_phase) * millet_rue_reduction ()
+      current_phase = int (g%current_stage)
+      rue = c%rue(current_phase) * millet_rue_reduction ()
  
          ! potential dry matter production with temperature
          ! and N content stresses is calculated.
@@ -10773,7 +11456,7 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -10793,7 +11476,6 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
 *       090994 jngh specified and programmed
 
 *+  Calls
-      real       millet_nfact           ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -10811,11 +11493,11 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
          ! now get the temperature stress factor that reduces
          ! photosynthesis (0-1)
  
-      ave_temp = (g_maxt + g_mint) /2.0
+      ave_temp = (g%maxt + g%mint) /2.0
  
       temp_stress_photo = linear_interp_real (ave_temp
-     :                          , c_x_ave_temp, c_y_stress_photo
-     :                          , c_num_ave_temp)
+     :                          , c%x_ave_temp, c%y_stress_photo
+     :                          , c%num_ave_temp)
       temp_stress_photo = bound (temp_stress_photo, 0.0, 1.0)
  
       millet_rue_reduction = min (temp_stress_photo
@@ -10824,7 +11506,7 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
  
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
@@ -10855,19 +11537,19 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
  
       call push_routine (my_name)
  
-      if (reals_are_equal (g_fr_intc_radn, 0.0)) then
+      if (reals_are_equal (g%fr_intc_radn, 0.0)) then
             ! we need to calculate our own interception
  
-         radn_int = g_cover_green * g_radn
+         radn_int = g%cover_green * g%radn
  
       else
             ! interception has already been calculated for us
-         radn_int = g_fr_intc_radn * g_radn
+         radn_int = g%fr_intc_radn * g%radn
       endif
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -10924,12 +11606,12 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
  
             ! get vapour pressure deficit when net radiation is positive.
  
-      vpd = c_svp_fract* (svp (g_maxt) - svp (g_mint))
-      millet_transp_eff = divide (c_transp_eff_cf, vpd, 0.0) /g2mm
+      vpd = c%svp_fract* (svp (g%maxt) - svp (g%mint))
+      millet_transp_eff = divide (c%transp_eff_cf, vpd, 0.0) /g2mm
  
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
@@ -10976,10 +11658,10 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
  
       call fill_real_array (sw_supply, 0.0, max_layer)
  
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
+      deepest_layer = find_layer_no (g%root_depth, g%dlayer, max_layer)
       do 1000 layer = 1, deepest_layer
-         sw_avail = (g_sw_dep(layer) - p_ll_dep(layer))
-         sw_supply(layer) = sw_avail * p_kl(layer)
+         sw_avail = (g%sw_dep(layer) - p%ll_dep(layer))
+         sw_supply(layer) = sw_avail * p%kl(layer)
          sw_supply(layer) = l_bound (sw_supply(layer), 0.0)
  
 1000  continue
@@ -10987,11 +11669,11 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
             ! now adjust bottom layer for depth of root
       sw_supply(deepest_layer) = sw_supply(deepest_layer)
      :                         * root_proportion
-     :                          (deepest_layer, g_dlayer, g_root_depth)
+     :                          (deepest_layer, g%dlayer, g%root_depth)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -11031,10 +11713,10 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
  
             ! find total root water potential uptake as sum of all layers
  
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
-      sw_supply_sum = sum_real_array (g_sw_supply, deepest_layer)
+      deepest_layer = find_layer_no (g%root_depth, g%dlayer, max_layer)
+      sw_supply_sum = sum_real_array (g%sw_supply, deepest_layer)
  
-      if (sw_supply_sum.le.0.0 .or. g_sw_demand.le.0.0) then
+      if (sw_supply_sum.le.0.0 .or. g%sw_demand.le.0.0) then
             ! we have no uptake - there is no demand or potential
  
          call fill_real_array (dlt_sw_dep, 0.0, max_layer)
@@ -11044,16 +11726,16 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
  
          call fill_real_array (dlt_sw_dep, 0.0, max_layer)
  
-         if (g_sw_demand.lt.sw_supply_sum) then
+         if (g%sw_demand.lt.sw_supply_sum) then
  
                ! demand is less than what roots could take up.
                ! water is non-limiting.
                ! distribute demand proportionately in all layers.
  
             do 1000 layer = 1, deepest_layer
-               dlt_sw_dep(layer) = - divide (g_sw_supply(layer)
+               dlt_sw_dep(layer) = - divide (g%sw_supply(layer)
      :                                    , sw_supply_sum, 0.0)
-     :                            * g_sw_demand
+     :                            * g%sw_demand
  
 1000        continue
  
@@ -11062,7 +11744,7 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
                 ! what is available (potential)
  
             do 1100 layer = 1, deepest_layer
-               dlt_sw_dep(layer) = - g_sw_supply(layer)
+               dlt_sw_dep(layer) = - g%sw_supply(layer)
  
 1100        continue
  
@@ -11071,7 +11753,7 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -11079,7 +11761,6 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
       subroutine millet_check_sw ()
 *     ===========================================================
       implicit none
-      include   'const.inc'            ! err_internal
       include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
@@ -11090,8 +11771,8 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
 *+  Notes
 *           Reports an error if
 *           - ll_dep and dul_dep are not in ascending order
-*           - ll is below c_minsw
-*           - sw < c_minsw
+*           - ll is below c%minsw
+*           - sw < c%minsw
 
 *+  Changes
 *     010994 jngh specified and programmed
@@ -11114,18 +11795,18 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
  
       call push_routine (my_name)
  
-      do 2000 layer = 1, g_num_layers
+      do 2000 layer = 1, g%num_layers
  
-         sw = divide (g_sw_dep(layer), g_dlayer(layer), 0.0)
-         dul = divide (g_dul_dep(layer), g_dlayer(layer), 0.0)
-         ll = divide (p_ll_dep(layer), g_dlayer(layer), 0.0)
+         sw = divide (g%sw_dep(layer), g%dlayer(layer), 0.0)
+         dul = divide (g%dul_dep(layer), g%dlayer(layer), 0.0)
+         ll = divide (p%ll_dep(layer), g%dlayer(layer), 0.0)
  
-         if (ll.lt.c_minsw) then
+         if (ll.lt.c%minsw) then
             write (err_messg, '(a,f8.2,a,i3,2a,f8.2)')
      :           ' lower limit of ', ll
      :          ,' in layer ', layer
      :          , new_line
-     :          ,'         is below acceptable value of ', c_minsw
+     :          ,'         is below acceptable value of ', c%minsw
             call warning_error (err_internal, err_messg)
          else
          endif
@@ -11140,12 +11821,12 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
          else
          endif
  
-         if (sw.lt.c_minsw) then
+         if (sw.lt.c%minsw) then
             write (err_messg, '(a,f8.2,a,i3,2a,f8.2)')
      :            ' Soil water of ', sw
      :           ,' in layer ', layer
      :           ,new_line
-     :           ,'         is below acceptable value of ', c_minsw
+     :           ,'         is below acceptable value of ', c%minsw
             call warning_error (err_internal, err_messg)
  
          else
@@ -11154,7 +11835,7 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -11183,12 +11864,12 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
  
       call push_routine (my_name)
  
-      if (on_day_of (germ, g_current_stage, g_days_tot)) then
+      if (on_day_of (germ, g%current_stage, g%days_tot)) then
  
              ! initialise root depth
              ! this version (cmsat) does not take account of sowing depth.
  
-         root_depth = c_initial_root_depth
+         root_depth = c%initial_root_depth
  
       else  ! we have no initial root
  
@@ -11196,7 +11877,7 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -11225,14 +11906,16 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
       call push_routine (my_name)
  
       If (module_name .eq. name_main) then
-         g_stem_class = class_main
+         g%stem_class = class_main
       else
-         g_stem_class = class_tiller
+         g%stem_class = class_tiller
       endif
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
+!  This is a FORTRAN 90 module.
+      end module
 
