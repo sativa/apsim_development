@@ -45,7 +45,7 @@
       parameter (myname = 'Eo_version')
 
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V0.03 09/08/96')
+      parameter (version_number = 'V0.04 29/10/96')
 
 *   Initial data values
 *       none
@@ -475,11 +475,11 @@
       call read_real_var (
      :           section_name   
      :          ,'default_wind'       
-     :          ,'(km/hr)'          
+     :          ,'(km/day)'          
      :          ,p_default_wind       
      :          ,numvals        
      :          ,0.0            
-     :          ,360.0)           
+     :          ,1000.0)           
 
          ! default pa
       call read_real_var (
@@ -495,11 +495,11 @@
       call read_real_var (
      :           section_name   
      :          ,'default_instrum_height'       
-     :          ,'(m)'          
+     :          ,'(mm)'          
      :          ,p_default_instrum_height
      :          ,numvals        
      :          ,0.0            
-     :          ,100.0)           
+     :          ,500000.0)           
 
          ! now report out what we have read in
 
@@ -518,7 +518,7 @@
       call write_string (lu_scr_sum, line)
 
       line =
-     :'       (-)       (m)    (km/hr)    (hpa)      (m)'
+     :'       (-)       (m)    (km/day)   (hpa)      (mm)'
       call write_string (lu_scr_sum, line)
 
       line =
@@ -650,7 +650,7 @@
       integer    numvals               ! number of values returned
       character  string*80             ! temporary string
       real       pa                    ! atmospheric pressure (mb)
-      real       wind                  ! wind speed (km/hr) 
+      real       wind                  ! wind speed (km/day) 
 
 *   Constant values
       character  myname*(*)            ! Name of this procedure
@@ -676,18 +676,18 @@
       call get_real_var_optional (
      :           unknown_module     
      :          ,'instrum_height'   
-     :          ,'(m)'             
+     :          ,'(mm)'             
      :          ,g_instrum_height   
      :          ,numvals            
      :          ,0.0                
-     :          ,100.0)             
+     :          ,50000.0)             
 
       if (numvals.eq.0) then
          g_instrum_height = p_default_instrum_height
          
-         write (string, '(a, f5.1, a)') 
+         write (string, '(a, f10.0, a)') 
      :                        '     Default instrument height used = '
-     :                        , p_default_instrum_height, ' (m)'
+     :                        , p_default_instrum_height, ' (mm)'
 
          call write_string (lu_scr_sum, string)
 
@@ -771,16 +771,16 @@
       call get_real_var_optional (
      :      unknown_module
      :     ,'wind'        
-     :     ,'(km/hr)'       
+     :     ,'(km/day)'       
      :     ,wind        
      :     ,numvals       
      :     ,0.0           
-     :     ,100.0)        
+     :     ,1000.0)        
 
       if (numvals.eq.0) then
          write (string, '(a, f8.1, a)') 
      :         '     Default wind used = '
-     :         , p_default_wind, ' (km/hr)'
+     :         , p_default_wind, ' (km/day)'
          call write_string (lu_scr_sum, string)
       else
          ! wind returned ok
@@ -924,9 +924,9 @@
       include   'Eo.inc'               ! Eo common block
 
 *   Internal variables
-      real       canopy_height_mm      ! height of canopy (mm)              
+      real       canopy_height         ! height of canopy (mm)              
       integer    numvals               ! number of values returned
-      real       wind                  ! wind (km/hr)
+      real       wind                  ! wind (km/day)
 
 *   Constant values
       character  myname*(*)            ! Name of this procedure
@@ -1069,7 +1069,7 @@ cjh   crop type.
      :      unknown_module
      :     ,'canopy_height'        
      :     ,'(mm)'       
-     :     ,canopy_height_mm      
+     :     ,canopy_height      
      :     ,numvals       
      :     ,0.0           
      :     ,20000.0)        
@@ -1078,24 +1078,24 @@ cjh   crop type.
          g_canopy_height = 0.0
       else
             ! canopy height returned ok
-         g_canopy_height =  canopy_height_mm*mm2m
+         g_canopy_height =  canopy_height
       endif     
 
          !wind
       call get_real_var_optional (
      :      unknown_module
      :     ,'wind'        
-     :     ,'(km/hr)'       
+     :     ,'(km/day)'       
      :     ,wind        
      :     ,numvals       
      :     ,0.0           
-     :     ,100.0)        
+     :     ,1000.0)        
 
       if (numvals.eq.0) then
-         g_wind_ms = p_default_wind*km2m/hr2s
+         g_wind_ms = p_default_wind*km2m/(day2hr*hr2s)
       else
          ! wind returned ok
-         g_wind_ms = wind*km2m/hr2s
+         g_wind_ms = wind*km2m/(day2hr*hr2s)
       endif     
 
 
@@ -1592,6 +1592,7 @@ cjh   crop type.
 
 *   Global variables
       include   'Eo.inc'               ! Eo common block
+      include   'convert.inc'
       
       real       divide                ! function
       real       u_bound               ! function
@@ -1655,13 +1656,13 @@ c     *           usuhm = 1.0,          ! (max of us/uh)
                ! when lai < 0.5076, dh becomes -ve
             xx = sqrt (ccd * g_lai)
             dh = 1.0 - divide (1.0 - exp (-xx), xx, 0.0)
-            disp  = dh * g_canopy_height
+            disp  = dh * g_canopy_height*mm2m
       
                ! find z0h and z0:
                ! Note: when usuh < usuhm, z0h curve becomes quite different.
             psih = log (ccw) - 1.0 + 1.0/ccw
             z0h = (1.0 - dh) * exp (psih - divide (von_k, usuh, 1.0e20))
-            z0 = z0h * g_canopy_height
+            z0 = z0h * g_canopy_height*mm2m
       
    !            z0he = z0/5.0
          else
@@ -1675,7 +1676,7 @@ c     *           usuhm = 1.0,          ! (max of us/uh)
          ! this stage 
    
 !            ra  = log ((d_za - disp) /z0)*log ((za - disp) /z0he) / ((von_k**2)*ua)   
-         ra  = log ((g_instrum_height - disp) /z0)**2 
+         ra  = log ((g_instrum_height*mm2m - disp) /z0)**2 
      :       / ((von_k**2)*g_wind_ms)
          
       else
@@ -1959,6 +1960,12 @@ c     *           usuhm = 1.0,          ! (max of us/uh)
      :               variable_name
      :              ,'(mm)'         
      :              ,g_Eo_pm)
+     
+      else if (variable_name .eq. 'g_canopy_height') then
+         call respond2get_real_var (
+     :               variable_name
+     :              ,'(mm)'         
+     :              ,g_canopy_height)
      
       else
          call Message_unused ()
