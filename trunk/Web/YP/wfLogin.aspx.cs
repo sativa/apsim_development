@@ -68,22 +68,29 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void LogUserIn()
 			{
-			if(DataAccessClass.AuthenticateUser(InputValidationClass.ValidateString(edtUserName.Text),
-				InputValidationClass.ValidateString(edtPassword.Text)) == true)
+			try
 				{
-				DataTable dtUserDetails = DataAccessClass.GetDetailsOfUser(InputValidationClass.ValidateString(edtUserName.Text));
-				Session["UserName"] = dtUserDetails.Rows[0]["UserName"];
-				if(ReportClass.DoesUsersReportDirectoryExisit(Session["UserName"].ToString(), DateTime.Today.Year) == false)
+				if(DataAccessClass.AuthenticateUser(InputValidationClass.ValidateString(edtUserName.Text),
+					InputValidationClass.ValidateString(edtPassword.Text)) == true)
 					{
-					ReportClass.CreateUsersReportDirectory(Session["UserName"].ToString(), DateTime.Today.Year); 
+					DataTable dtUserDetails = DataAccessClass.GetDetailsOfUser(InputValidationClass.ValidateString(edtUserName.Text));
+					Session["UserName"] = dtUserDetails.Rows[0]["UserName"];
+					if(ReportClass.DoesUsersReportDirectoryExisit(Session["UserName"].ToString(), DateTime.Today.Year) == false)
+						{
+						ReportClass.CreateUsersReportDirectory(Session["UserName"].ToString(), DateTime.Today.Year); 
+						}
+					Response.Redirect("YieldProphet.htm");	
 					}
-				Response.Redirect("YieldProphet.htm");	
+				else
+					{
+					FunctionsClass.DisplayMessage(Page,"Incorrect Login Details.  All login details are case sensitive");
+					ClearFormInformation();
+					}	
 				}
-			else
+			catch(Exception E)
 				{
-				FunctionsClass.DisplayMessage(Page,"Incorrect Login Details.  All login details are case sensitive");
-				ClearFormInformation();
-				}	
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
 			}
 		//---------------------------------------------------------------------
 		//Clears the text from the two textboxes that contain the user's

@@ -145,47 +145,54 @@ namespace YieldProphet
 				//that will stop a file from being created.
 				if(InputValidationClass.IsInputAValidFileLocationString(edtName.Text) == true)
 					{
-					//Checks to ensure the user name isn't already in use
-					if(DataAccessClass.IsUserNameAvailable(InputValidationClass.ValidateString(edtUserName.Text)) == true)
+					try
 						{
-						//If the new user is a grower then assign them to a consultant
-						if(cboAccessType.SelectedItem.Text == FunctionsClass.szGrower)
+						//Checks to ensure the user name isn't already in use
+						if(DataAccessClass.IsUserNameAvailable(InputValidationClass.ValidateString(edtUserName.Text)) == true)
 							{
-							if(cboConsultant.SelectedItem.Text != "")
+							//If the new user is a grower then assign them to a consultant
+							if(cboAccessType.SelectedItem.Text == FunctionsClass.szGrower)
 								{
-								DataAccessClass.InsertGrower(InputValidationClass.ValidateString(edtName.Text), 
-									InputValidationClass.ValidateString(edtEmail.Text), 
-									InputValidationClass.ValidateString(edtUserName.Text), 
-									InputValidationClass.ValidateString(edtPassword.Text), 
-									cboConsultant.SelectedItem.Text);
+								if(cboConsultant.SelectedItem.Text != "")
+									{
+									DataAccessClass.InsertGrower(InputValidationClass.ValidateString(edtName.Text), 
+										InputValidationClass.ValidateString(edtEmail.Text), 
+										InputValidationClass.ValidateString(edtUserName.Text), 
+										InputValidationClass.ValidateString(edtPassword.Text), 
+										cboConsultant.SelectedItem.Text);
+									}
+								else
+									{
+									FunctionsClass.DisplayMessage(Page, "Please select a consultant");	
+									}
 								}
+							//If the new user isn't a grower then just insert them into the db
 							else
 								{
-								FunctionsClass.DisplayMessage(Page, "Please select a consultant");	
+								if(cboAccessType.SelectedValue != "")
+									{
+									DataAccessClass.InsertUser(InputValidationClass.ValidateString(edtName.Text), 
+										InputValidationClass.ValidateString(edtEmail.Text), 
+										InputValidationClass.ValidateString(edtUserName.Text),
+										InputValidationClass.ValidateString(edtPassword.Text), 
+										cboAccessType.SelectedItem.Text);
+									}
+								else
+									{
+									FunctionsClass.DisplayMessage(Page, "Please select an access type");	
+									}
 								}
+							ReportClass.CreateUsersReportDirectory(InputValidationClass.ValidateString(edtUserName.Text));
+							Server.Transfer("wfAddUser.aspx");
 							}
-						//If the new user isn't a grower then just insert them into the db
 						else
 							{
-							if(cboAccessType.SelectedValue != "")
-								{
-								DataAccessClass.InsertUser(InputValidationClass.ValidateString(edtName.Text), 
-									InputValidationClass.ValidateString(edtEmail.Text), 
-									InputValidationClass.ValidateString(edtUserName.Text),
-									InputValidationClass.ValidateString(edtPassword.Text), 
-									cboAccessType.SelectedItem.Text);
-								}
-							else
-								{
-								FunctionsClass.DisplayMessage(Page, "Please select an access type");	
-								}
+							FunctionsClass.DisplayMessage(Page, "Username is already being used");
 							}
-						ReportClass.CreateUsersReportDirectory(InputValidationClass.ValidateString(edtUserName.Text));
-						Server.Transfer("wfAddUser.aspx");
 						}
-					else
+					catch(Exception E)
 						{
-						FunctionsClass.DisplayMessage(Page, "Username is already being used");
+						FunctionsClass.DisplayMessage(Page, E.Message);
 						}
 					}
 				else

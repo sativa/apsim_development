@@ -371,7 +371,7 @@ namespace CSGeneral
 			else if (Macro == "innerxml")
 			   Value = Child.InnerXML;
 			else
-				Value = Child.Child(Macro).Value;
+				Value = Child.Child(Macro).InnerXML;
 
 			return Value;
 			}

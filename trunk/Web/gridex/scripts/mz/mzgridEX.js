@@ -35,6 +35,7 @@ var rightover = null;
 var bottomover = null;
 var topover = null; 
 var divtt = null;
+var isDefaultView = (document.defaultView != null && document.defaultView.getComputedStyle != null); 
 function Point(x, y)
 {
 	var x = x;
@@ -196,6 +197,7 @@ function selectionChanged(row, rowID, tableID, gridexID)
 	}
 	if(_row != null)
 	{
+		_gridex.setCurrentRow(_row, true); 
 		_gridex.setHitTestArea(0); 
 		_gridex.FireEvent("Click", [_gridex, (window.event.type != null && window.event.type == "contextmenu") ? 2 : 1,window.event.clientX, window.event.clientY]);
 		_gridex.FireEvent("SelectionChanged", [_row]); 
@@ -231,6 +233,8 @@ function row_ondblclick(row, tableID, gridexID)
 		onSelectRow(row, _gridex, _gridextable); 
 		_gridex.setHitTestArea(0); 
 		_gridex.FireEvent("DoubleClick", [_gridex, window.event.clientX, window.event.clientY]); 
+		if(_gridex.dcpb)
+			_gridex.DoPostBack(null, "DoubleClick"); 
 	}
 }
 function clickRowPreviewCore(_gridex, previewRow, tableID)
@@ -482,7 +486,7 @@ function drag_onmousemove()
 			_result = currheader.getGridEXTable().HitTestColumnHeaders(window.event.clientX, window.event.clientY);			
 			if(_result != null && _result[0] != null && _result[0].id != currcolumn.id)
 			{
-				droptarget = 1;
+				droptarget = 1;			
 				_result[1].ShowColumnForDrop(window.event.clientX, _result[0]); 
 				currheader = _result[1]; 
 			}
@@ -498,7 +502,7 @@ function drag_onmousemove()
 						currgroupbybox.ShowColumnForDrop(window.event.clientX, _result[0], _result[1], _result[2]); 
 					}
 				}
-			}			
+			}
 			if(_result == null)								
 				hideColumnForDrop();				
 		}
@@ -544,7 +548,7 @@ function drag_onmousemove()
 			}
 			if(_result == null)
 				hideColumnForDrop(); 
-		}
+		}		
 	}
 }
 function drag_onmouseup()
@@ -629,10 +633,22 @@ function showColumnHeaderDrag()
 		if(currcolumn == null)
 			return;
 			
-		var currstyle = document.defaultView.getComputedStyle(currcolumn, ''); 				
-		dragcolumn.style.backgroundColor = currstyle.getPropertyValue("background-color"); 
-		dragcolumn.style.backgroundImage = currstyle.getPropertyValue("background-image"); 
-		dragcolumn.style.color = currstyle.getPropertyValue("color"); 
+		var currstyle = null;
+		if(isDefaultView)
+			currstyle = document.defaultView.getComputedStyle(currcolumn, '');
+		
+		if(currstyle != null)
+		{
+			dragcolumn.style.backgroundColor = currstyle.getPropertyValue("background-color"); 
+			dragcolumn.style.backgroundImage = currstyle.getPropertyValue("background-image"); 
+			dragcolumn.style.color = currstyle.getPropertyValue("color"); 
+		}
+		else
+		{			
+			dragcolumn.style.backgroundColor = currcolumn.style.backgroundColor;
+			dragcolumn.style.backgroundImage = currcolumn.style.backgroundImage; 
+			dragcolumn.style.color = currcolumn.style.color;
+		}
 		var _colpressed = document.getElementById("colpressed"); 
 		if(_colpressed != null)
 		{				
@@ -643,28 +659,56 @@ function showColumnHeaderDrag()
 		}
 		else
 		{				
-			dragcolumn.style.borderBottom = currstyle.getPropertyValue("border-bottom"); 
-			dragcolumn.style.borderRight = currstyle.getPropertyValue("border-right"); 
-			dragcolumn.style.borderTop = currstyle.getPropertyValue("border-top"); 
-			dragcolumn.style.borderLeft = currstyle.getPropertyValue("border-left"); 
+			if(currstyle != null)
+			{
+				dragcolumn.style.borderBottom = currstyle.getPropertyValue("border-bottom"); 
+				dragcolumn.style.borderRight = currstyle.getPropertyValue("border-right"); 
+				dragcolumn.style.borderTop = currstyle.getPropertyValue("border-top"); 
+				dragcolumn.style.borderLeft = currstyle.getPropertyValue("border-left"); 
+			}
+			else
+			{
+				dragcolumn.style.borderBottom = currcolumn.style.borderBottom;
+				dragcolumn.style.borderRight = currstyle.style.borderRight;
+				dragcolumn.style.borderTop = currstyle.style.borderTop;
+				dragcolumn.style.borderLeft = currstyle.style.borderLeft;
+			}
 		}		
-		dragcolumn.style.padding = currstyle.getPropertyValue("padding");		
+		if(currstyle != null)
+			dragcolumn.style.padding = currstyle.getPropertyValue("padding");		
+		else
+			dragcolumn.style.padding = currcolumn.style.padding; 
 		if(currcolumn.font != null && currcolumn.font != "") 
 			dragcolumn.style.font = currcolumn.font;
 
-		dragcolumn.style.fontFamily = currstyle.getPropertyValue("font-family");
-		dragcolumn.style.fontSize = currstyle.getPropertyValue("font-size");
-		dragcolumn.style.fontStyle = currstyle.getPropertyValue("font-style");
-		dragcolumn.style.fontVariant = currstyle.getPropertyValue("font-variant");
-		dragcolumn.style.fontWeight = currstyle.getPropertyValue("font-weight");
-		dragcolumn.style.textAlign = currstyle.getPropertyValue("text-align"); 
+		if(currstyle != null)
+		{
+			dragcolumn.style.fontFamily = currstyle.getPropertyValue("font-family");
+			dragcolumn.style.fontSize = currstyle.getPropertyValue("font-size");
+			dragcolumn.style.fontStyle = currstyle.getPropertyValue("font-style");
+			dragcolumn.style.fontVariant = currstyle.getPropertyValue("font-variant");
+			dragcolumn.style.fontWeight = currstyle.getPropertyValue("font-weight");
+			dragcolumn.style.textAlign = currstyle.getPropertyValue("text-align"); 
+		}
+		else
+		{
+			dragcolumn.style.fontFamily = currcolumn.style.fontFamily;
+			dragcolumn.style.fontSize = currcolumn.style.fontSize;
+			dragcolumn.style.fontStyle = currcolumn.style.fontStyle;
+			dragcolumn.style.fontVariant = currcolumn.style.fontVariant;
+			dragcolumn.style.fontWeight = currcolumn.style.fontWeight;
+			dragcolumn.style.textAlign = currcolumn.style.textAlign;
+		}
 	}	
 	if(dragcolumn.style.visibility == "hidden")
 	{				
 		dragcolumn.style.width =  (currcolumn.offsetWidth) + "px"; 
 		dragcolumn.style.height = (currcolumn.offsetHeight) + "px"; 
 		dragcolumn.innerHTML =  currcolumn.childNodes[0].innerHTML; 
-		dragcolumn.childNodes[1].style.padding = document.defaultView.getComputedStyle(currcolumn, '').getPropertyValue("padding"); 
+		if(isDefaultView)
+			dragcolumn.childNodes[1].style.padding = document.defaultView.getComputedStyle(currcolumn, '').getPropertyValue("padding"); 
+		else
+			dragcolumn.childNodes[1].style.padding 
 		var _spanpressed = _colpressed.childNodes[0];		
 		var _child = dragcolumn.childNodes[1];		
 		_child.style.borderLeft = _spanpressed.style.borderLeft;
@@ -718,7 +762,7 @@ function showColumnHeaderDrag()
 		dragcolumn.style.top = (window.event.clientY - dragcolumn.getAttribute("varY")) + "px"; 
 	}	
 	dragcolumn.style.display = "";
-	dragcolumn.style.visibility = "visible";	
+	dragcolumn.style.visibility = "visible";
 }
 function showColumnGroupDrag()
 {	
@@ -734,12 +778,23 @@ function showColumnGroupDrag()
 		if(currcolumn.style.font != null && currcolumn.style.font != "") 
 			dragcolumn.style.font = currcolumn.style.font;
 			
-		var _computedstyle = document.defaultView.getComputedStyle(currcolumn, null); 			
-		dragcolumn.style.fontFamily = _computedstyle.getPropertyValue("font-family"); 
-		dragcolumn.style.fontSize = _computedstyle.getPropertyValue("font-size"); 
-		dragcolumn.style.fontStyle = _computedstyle.getPropertyValue("font-style"); 
-		dragcolumn.style.fontVariant = _computedstyle.getPropertyValue("font-variant"); 
-		dragcolumn.style.fontWeight = _computedstyle.getPropertyValue("font-weight"); 
+		if(isDefaultView)
+		{
+			var _computedstyle = document.defaultView.getComputedStyle(currcolumn, null); 			
+			dragcolumn.style.fontFamily = _computedstyle.getPropertyValue("font-family"); 
+			dragcolumn.style.fontSize = _computedstyle.getPropertyValue("font-size"); 
+			dragcolumn.style.fontStyle = _computedstyle.getPropertyValue("font-style"); 
+			dragcolumn.style.fontVariant = _computedstyle.getPropertyValue("font-variant"); 
+			dragcolumn.style.fontWeight = _computedstyle.getPropertyValue("font-weight"); 			
+		}
+		else
+		{			
+			dragcolumn.style.fontFamily = _colstyle.fontFamily; 
+			dragcolumn.style.fontSize = _colstyle.fontSize; 
+			dragcolumn.style.fontStyle = _colstyle.fontStyle; 
+			dragcolumn.style.fontVariant = _colstyle.fontVariant; 
+			dragcolumn.style.fontWeight = _colstyle.fontWeight; 			
+		}
 		dragcolumn.style.textAlign = _colstyle.textAlign;		
 	}	
 	if(dragcolumn.style.visibility == "hidden")
@@ -886,8 +941,16 @@ function getClassName(row)
 function getRealCellWidth(_spancell, cell, gridexID)
 {		    
 	var _innerspan = getInnerSpan(cell.childNodes[0]);
-	_spancell.style.paddingLeft =  document.defaultView.getComputedStyle(_innerspan, null).getPropertyValue("padding-left");   
-	_spancell.style.paddingRight = document.defaultView.getComputedStyle(_innerspan, null).getPropertyValue("padding-right");  
+	if(isDefaultView)
+	{
+		_spancell.style.paddingLeft =  document.defaultView.getComputedStyle(_innerspan, null).getPropertyValue("padding-left");   
+		_spancell.style.paddingRight = document.defaultView.getComputedStyle(_innerspan, null).getPropertyValue("padding-right");  
+	}
+	else
+	{
+		_spancell.style.paddingLeft = _innerspan.style.paddingLeft;
+		_spancell.style.paddingRight = _innerspan.style.paddingRight; 
+	}
 	var _childlength = cell.childNodes.length; 
 	var _array = new Array(_childlength); 
 	for(var _ichild = 0; _ichild < _childlength; _ichild++)
@@ -1433,11 +1496,21 @@ function ShowColumnPressed(column, pressed)
 	}
 	else
 	{					
-		var _computedstyle = document.defaultView.getComputedStyle(column, null); 
-		_colpressed.style.borderLeft = _computedstyle.getPropertyValue("border-left-width") + " " + _computedstyle.getPropertyValue("border-left-style") + " " + _computedstyle.getPropertyValue("border-left-color"); 
-		_colpressed.style.borderRight = _computedstyle.getPropertyValue("border-right-width") + " " + _computedstyle.getPropertyValue("border-right-style") + " " + _computedstyle.getPropertyValue("border-right-color");
-		_colpressed.style.borderTop = _computedstyle.getPropertyValue("border-top-width") + " " + _computedstyle.getPropertyValue("border-top-style") + " " + _computedstyle.getPropertyValue("border-top-color"); 
-		_colpressed.style.borderBottom = _computedstyle.getPropertyValue("border-bottom-width") + " " + _computedstyle.getPropertyValue("border-bottom-style") + " " + _computedstyle.getPropertyValue("border-bottom-color");
+		if(isDefaultView)
+		{
+			var _computedstyle = document.defaultView.getComputedStyle(column, null); 
+			_colpressed.style.borderLeft = _computedstyle.getPropertyValue("border-left-width") + " " + _computedstyle.getPropertyValue("border-left-style") + " " + _computedstyle.getPropertyValue("border-left-color"); 
+			_colpressed.style.borderRight = _computedstyle.getPropertyValue("border-right-width") + " " + _computedstyle.getPropertyValue("border-right-style") + " " + _computedstyle.getPropertyValue("border-right-color");
+			_colpressed.style.borderTop = _computedstyle.getPropertyValue("border-top-width") + " " + _computedstyle.getPropertyValue("border-top-style") + " " + _computedstyle.getPropertyValue("border-top-color"); 
+			_colpressed.style.borderBottom = _computedstyle.getPropertyValue("border-bottom-width") + " " + _computedstyle.getPropertyValue("border-bottom-style") + " " + _computedstyle.getPropertyValue("border-bottom-color");
+		}
+		else
+		{
+			_colpressed.style.borderLeft = column.style.borderLeft;
+			_colpressed.style.borderRight = column.style.borderRight;
+			_colpressed.style.borderTop = column.style.borderTop; 
+			_colpressed.style.borderBottom = column.style.borderBottom; 
+		}
 	}		
 	var _colspan = column.childNodes[0];	
 	var _colspanpressed = _colpressed.childNodes[0];	
@@ -1449,10 +1522,20 @@ function ShowColumnPressed(column, pressed)
 	column.style.borderRightColor = "graytext";
 	column.style.borderTopColor = "graytext";
 	column.style.borderBottomColor = "graytext";		
-	_colspan.style.borderLeftColor = document.defaultView.getComputedStyle(column.offsetParent, '').getPropertyValue("background-color"); 
-	_colspan.style.borderRightColor = document.defaultView.getComputedStyle(column.offsetParent, '').getPropertyValue("background-color"); 
-	_colspan.style.borderTopColor = document.defaultView.getComputedStyle(column.offsetParent, '').getPropertyValue("background-color"); 
-	_colspan.style.borderBottomColor = document.defaultView.getComputedStyle(column.offsetParent, '').getPropertyValue("background-color"); 
+	if(isDefaultView)
+	{
+		_colspan.style.borderLeftColor = document.defaultView.getComputedStyle(column.offsetParent, '').getPropertyValue("background-color"); 
+		_colspan.style.borderRightColor = document.defaultView.getComputedStyle(column.offsetParent, '').getPropertyValue("background-color"); 
+		_colspan.style.borderTopColor = document.defaultView.getComputedStyle(column.offsetParent, '').getPropertyValue("background-color"); 
+		_colspan.style.borderBottomColor = document.defaultView.getComputedStyle(column.offsetParent, '').getPropertyValue("background-color"); 
+	}
+	else
+	{
+		_colspan.style.borderLeftColor = column.offsetParent.style.borderLeftColor;		
+		_colspan.style.borderRightColor = column.offsetParent.style.borderRightColor;
+		_colspan.style.borderTopColor = column.offsetParent.style.borderTopColor;
+		_colspan.style.borderBottomColor = column.offsetParent.style.borderBottomColor;
+	}
 	currpressedcolumn = column; 
 }	
 function ShowColumnUnPressed()
@@ -1551,10 +1634,12 @@ function getPaddingBottom(item)
 	if(_style.paddingBottom != "")
 		return getPadding(_style.paddingBottom);	
 		
-	_style = document.defaultView.getComputedStyle(item, null); 
-	if(_style.getPropertyValue("padding-bottom") != "")
-		return getPadding(_style.getPropertyValue("padding-bottom"));
-		
+	if(isDefaultView)
+	{
+		_style = document.defaultView.getComputedStyle(item, null); 
+		if(_style.getPropertyValue("padding-bottom") != "")
+			return getPadding(_style.getPropertyValue("padding-bottom"));
+	}		
 	return 0;
 }
 function getPaddingTop(item)
@@ -1566,11 +1651,13 @@ function getPaddingTop(item)
 	_style = item.style; 
 	if(_style.paddingTop != "")
 		return getPadding(_style.paddingTop);	
-		
-	_style = document.defaultView.getComputedStyle(item, null);
-	if(_style.getPropertyValue("padding-top") != "")
-		return getPadding(_style.getPropertyValue("padding-top"));
-		
+	
+	if(isDefaultView)
+	{	
+		_style = document.defaultView.getComputedStyle(item, null);
+		if(_style.getPropertyValue("padding-top") != "")
+			return getPadding(_style.getPropertyValue("padding-top"));
+	}		
 	return 0;	
 }
 function getPaddingLeft(item)
@@ -1583,10 +1670,12 @@ function getPaddingLeft(item)
 	if(_style.paddingLeft != "")
 		return getPadding(_style.paddingLeft);	
 	
-	_style = document.defaultView.getComputedStyle(item, null); 
-	if(_style.getPropertyValue("padding-left") != "")
-		return getPadding(_style.getPropertyValue("padding-left")); 	
-		
+	if(isDefaultView)
+	{
+		_style = document.defaultView.getComputedStyle(item, null); 
+		if(_style.getPropertyValue("padding-left") != "")
+			return getPadding(_style.getPropertyValue("padding-left"));
+	}		
 	return 0;
 }
 function getStylePaddingLeft(style)
@@ -1603,10 +1692,12 @@ function getPaddingRight(item)
 	if(_style.paddingRight != "")
 		return  getPadding(_style.paddingRight);	
 		
-	_style = document.defaultView.getComputedStyle(item, null); 
-	if(_style.getPropertyValue("padding-right") != "")
-		return getPadding(_style.getPropertyValue("padding-right")); 		
-	
+	if(isDefaultView)
+	{
+		_style = document.defaultView.getComputedStyle(item, null); 
+		if(_style.getPropertyValue("padding-right") != "")
+			return getPadding(_style.getPropertyValue("padding-right")); 		
+	}
 	return 0;
 }
 function getStylePaddingRight(style)
@@ -1673,15 +1764,15 @@ function getBorderWidth(td)
 {
 	var width = 0;		
 	if(td.style.borderLeftWidth != "")
-		width += getPixelValue(td.style.borderLeftWidth); 		 
-	else if(document.defaultView.getComputedStyle(td, null).getPropertyValue("border-left-width") != "")
+		width += getPixelValue(td.style.borderLeftWidth); 		 	
+	else if(isDefaultView && document.defaultView.getComputedStyle(td, null).getPropertyValue("border-left-width") != "")
 	{
 		var _borderwidth = document.defaultView.getComputedStyle(td, null).getPropertyValue("border-left-width");
 		width += getPixelValue(_borderwidth); 		
 	}	
 	if(td.style.borderRightWidth != "")
 		width += getPixelValue(td.style.borderRightWidth); 		
-	else if(document.defaultView.getComputedStyle(td, null).getPropertyValue("border-right-width") != "")
+	else if(isDefaultView && document.defaultView.getComputedStyle(td, null).getPropertyValue("border-right-width") != "")
 	{
 		var _borderwidth = document.defaultView.getComputedStyle(td, null).getPropertyValue("border-right-width"); 
 		width += getPixelValue(_borderwidth); 		
@@ -1829,8 +1920,8 @@ function getPixelTop(element)
 		top += element.offsetTop;
 		if(element.tagName == "BODY" && element.style.overflow == "hidden")
 		{
-			if(rv == null || rv >= 1.6)
-				top += getTopOffset(element);
+			//if(rv == null || rv >= 1.6)
+			//	top += getTopOffset(element);
 		}
 		element = element.offsetParent; 		
 	}	
@@ -1839,20 +1930,28 @@ function getPixelTop(element)
 function getBottomOffset(element)
 {
 	var offset = 0; 
-	offset += getPixelWidth(document.defaultView.getComputedStyle(element, null).getPropertyValue("margin-bottom")); 
+	if(isDefaultView)
+		offset += getPixelWidth(document.defaultView.getComputedStyle(element, null).getPropertyValue("margin-bottom")); 
+	else
+		offset += getPixelWidth(element.style.marginBottom); 
 	return offset; 
 }
 function getTopOffset(element)
 {
 	var offset = 0; 
-	offset += getPixelWidth(document.defaultView.getComputedStyle(element, null).getPropertyValue("margin-top")); 
+	if(isDefaultView)
+		offset += getPixelWidth(document.defaultView.getComputedStyle(element, null).getPropertyValue("margin-top")); 
+	else
+		offset += getPixelWidth(element.style.marginTop);
 	return offset; 	
 }
 function getOffsetTopForEdit(gridEXHtml)
 {
-	var offset = 0; 
-	var _style = document.defaultView.getComputedStyle(gridEXHtml, null); 
-	if(_style.getPropertyValue("position") == "relative")
+	var offset = 0; 	
+	var _style = null; 
+	if(isDefaultView)
+		_style = document.defaultView.getComputedStyle(gridEXHtml, null); 
+	if((_style == null && gridEXHtml.style.position == "relative") || (_style != null && _style.getPropertyValue("position") == "relative"))
 	{
 		var _offsetParent = getGridEXOffsetParent(gridEXHtml); 
 		if(_offsetParent.tagName != "BODY")					
@@ -1863,8 +1962,10 @@ function getOffsetTopForEdit(gridEXHtml)
 function getOffsetLeftForEdit(gridEXHtml)
 {
 	var offset = 0; 
-	var _style = document.defaultView.getComputedStyle(gridEXHtml, null); 
-	if(_style.getPropertyValue("position") == "relative")
+	var _style = null; 
+	if(isDefaultView)
+		_style = document.defaultView.getComputedStyle(gridEXHtml, null); 
+	if((_style == null && gridEXHtml.style.position == "relative") || (_style != null && _style.getPropertyValue("position") == "relative"))
 	{
 		var _offsetParent = getGridEXOffsetParent(gridEXHtml); 
 		if(_offsetParent.tagName != "BODY")
@@ -1876,18 +1977,20 @@ function getPixelLeft(element)
 {
 	var left = 0; 
 	while(element != null)
-	{			
+	{		
+		/*	
 		if(rv >= 1.6)		
 		{			
 			if(element.style.overflow != "hidden")
 				left += element.offsetLeft; 
 		}
 		else
+		*/
 			left += element.offsetLeft;		
 		if(element.tagName == "BODY" && element.style.overflow == "hidden")
 		{			
-			if(rv == null || rv >= 1.6)
-				left += getPixelWidth(document.defaultView.getComputedStyle(element, null).getPropertyValue("margin-left"));
+			//if(rv == null || rv >= 1.6)
+			//	left += getPixelWidth(document.defaultView.getComputedStyle(element, null).getPropertyValue("margin-left"));
 		}
 		element = element.offsetParent; 
 	}
@@ -1924,15 +2027,6 @@ function getHierarchicalRowTop(element)
 {	
 	element = getHierarchicalRow(element); 		
 	return element.offsetTop;	
-}
-function getPositionOfCell(cellindex, cells)
-{
-	for(var index = 0; index < cells.length; index = index + 2)
-	{
-		if(cells[index] == cellindex) 
-			return index;
-	}		
-	return -1; 
 }
 function getSortWidth(column)
 {			

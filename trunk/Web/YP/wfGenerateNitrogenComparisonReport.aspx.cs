@@ -149,7 +149,7 @@ namespace YieldProphet
 					if(EmailClass.SendReportEmail(edtReportName.Text, 
 						ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], dtOtherValues) == true)
 						{
-						Server.Transfer("wfEditPaddock.aspx");
+						Server.Transfer("wfReportGenerated.aspx");
 						}
 					else
 						{

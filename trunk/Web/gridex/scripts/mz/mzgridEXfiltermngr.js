@@ -333,10 +333,7 @@ function GridEXFilterListManager(cell, actAsEdit)
 	this.ValueChanged = ValueChanged;
 	this.ResetFilter = ResetFilter; 
 	this.Show = Show; 	
-	function getCell()
-	{
-		return gridEXCell;
-	}	
+	function getCell() { return gridEXCell;}	
 	function Hide()
 	{
 		valueList.Hide(); 
@@ -354,16 +351,16 @@ function GridEXFilterListManager(cell, actAsEdit)
 		var _top = getPixelTop(_innerCell) + getPaddingTop(_innerSpan);		
 		_top -= getOffsetTopForEdit(gridEXCell.getGridEX().getHtmlGridEX()); 
 		var _width = _innerCell.offsetWidth - resetCommand.getInnerHtml().offsetWidth - 1; 
-		var _height = _innerSpan.offsetHeight;
-		originalValue = gridEXCell.getValue(); 
+		var _height = _innerCell.offsetHeight; // _innerSpan.offsetHeight;
+		originalValue = gridEXCell.getValue(); 		
 		valueList.setOwner(filterManager); 			
 		valueList.setLeft(_left);
 		valueList.setTop(_top); 
-		valueList.setWidth(_width); 
+		valueList.setWidth(_width); 		
 		valueList.setHeight(_height);	
 		valueList.setItemCSS(gridEXCell.getRow().getTable().getRowCss(0)); 
 		valueList.setSelectedItemCSS(gridEXCell.getRow().getTable().getRowCss(1)); 
-		valueList.Show();
+		valueList.Show();		
 		resetCommand.Show(_left+_width + 1, _top, _height); 
 		valueList.Focus(); 		
 	}
@@ -634,10 +631,7 @@ function GridEXFilterComboDropDownManager(cell)
 	this.ValueChanged = ValueChanged; 
 	this.ResetFilter = ResetFilter; 
 	this.Show = Show;		
-	function getCell()
-	{
-		return gridEXCell; 
-	}
+	function getCell() { return gridEXCell; }
 	function DropDown()
 	{		
 		if(gridEXCell.getGridEX().ddpb)
@@ -667,10 +661,7 @@ function GridEXFilterComboDropDownManager(cell)
 		else if(window.event.keyCode == 27)
 			EscKeyDown(); 
 	}
-	function KeyUp()
-	{
-		gridEXCell.getGridEX().FireEvent("EditingKeyUp", [gridEXCell, window.event.keyCode]); 
-	}
+	function KeyUp() { gridEXCell.getGridEX().FireEvent("EditingKeyUp", [gridEXCell, window.event.keyCode]); }
 	function Leaving()
 	{		
 		if(resetCommand != null && resetCommand.getManager() == filterManager)
@@ -801,9 +792,9 @@ function GridEXFilterComboDropDownManager(cell)
 			dropdown.setValue(null, gridEXCell.getInnerCell().getAttribute("niv")); 
 		else
 			dropdown.setValue(gridEXCell.getValue());		
-		resetCommand.Show(_left+_width+1, _top, _height); 
+		resetCommand.Show(_left+_width+1, _top, _height);
 		dropdown.Show();
-		dropdown.Focus(); 
+		// dropdown.Focus(); 
 	}
 	var filterManager = this;
 	return this; 
@@ -946,14 +937,12 @@ function GridEXFilterCalendarDropDownManager(cell)
 	var resetCommand = null; 
 	this.getCell = getCell; 
 	this.KeyDown = KeyDown; 
+	this.Leaving = Leaving; 
 	this.ResetFilter = ResetFilter; 
 	this.ValueChanged = ValueChanged; 	
 	this.Show = Show;
 	this.Hide = Hide;
-	function getCell()
-	{
-		return gridEXCell;
-	}
+	function getCell() { return gridEXCell; }
 	function KeyDown()
 	{
 		if(window.event.keyCode == 13)
@@ -978,16 +967,10 @@ function GridEXFilterCalendarDropDownManager(cell)
 		else if(_element.childNodes.length == 0)
 			_element.appendChild(document.createTextNode(' ' + display));			
 	}	
-	function EnterKeyDown()
-	{		
-		gridEXCell.ResumeFilter(); 
-	}	
-	function EscKeyDown()
-	{
-		Hide();  
-	}	
+	function EnterKeyDown() { gridEXCell.ResumeFilter(); }	
+	function EscKeyDown() { Hide();  }	
 	function Hide()
-	{
+	{		
 		calendar.Hide(); 
 		if(resetCommand != null)
 			resetCommand.Hide(); 
@@ -1002,7 +985,7 @@ function GridEXFilterCalendarDropDownManager(cell)
 		var _left = getPixelLeft(_innerSpan) + getPaddingLeft(_innerSpan);		
 		var _top = getPixelTop(_innerCell) + getPaddingTop(_innerSpan);		
 		var _width = _innerCell.offsetWidth - resetCommand.getInnerHtml().offsetWidth - 1; 
-		var _height = _innerSpan.offsetHeight - getPaddingBottom(_innerSpan);
+		var _height = _innerCell.offsetHeight  - getPaddingBottom(_innerSpan);
 		originalValue = gridEXCell.getValue(); 
 		calendar.setLeft(_left); 
 		calendar.setTop(_top); 
@@ -1049,6 +1032,15 @@ function GridEXFilterCalendarDropDownManager(cell)
 			gridEXCell.ResumeFilter(); 
 			Hide(); 
 		}
+	}
+	function Leaving()
+	{
+		if(resetCommand != null && resetCommand.getManager() == filterManager)
+		{			
+			if(document.activeElement == resetCommand.getInnerHtml() || resetCommand.getInnerHtml().contains(document.activeElement))
+				return true; 
+		}		
+		Hide(); 
 	}
 	var filterManager = this; 
 	return this; 

@@ -62,12 +62,18 @@ void PatchInputComponent::readPatchDates(void)
       {
       try
          {
+         date patchDate(1800, 1, 1);
+         ApsimDataFile::iterator i = find(data.constantsBegin(), data.constantsEnd(), "start_patching_from");
+         if (i != data.constantsEnd())
+            patchDate = date(from_string(i->values[0]));
+
          currentRecord = 1;
          minYear = data.getDate().year();
          maxYear = minYear;
          while (!data.eof())
             {
-            patchDates.insert(make_pair(data.getDate().julian_day(), currentRecord));
+            if (data.getDate().julian_day() >= patchDate)
+               patchDates.insert(make_pair(data.getDate().julian_day(), currentRecord));
             currentRecord++;
             maxYear = max(maxYear , data.getDate().year());
             data.next();
@@ -189,6 +195,7 @@ void PatchInputComponent::respondToEvent(unsigned int& fromID, unsigned int& eve
                 stristr(var->getName().c_str(), "month") == NULL &&
                 stristr(var->getName().c_str(), "year") == NULL &&
                 stristr(var->getName().c_str(), "allow_sparse_data") == NULL &&
+                stristr(var->getName().c_str(), "start_patching_from") == NULL &&
                 stristr(var->getName().c_str(), "patch_variables_long_term") == NULL)
                {
                string foreignName = var->getName();

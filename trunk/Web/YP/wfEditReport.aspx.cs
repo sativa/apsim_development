@@ -92,25 +92,32 @@ namespace YieldProphet
 			//the database
 			if(edtReportName.Text != "")
 				{
-				//As the user name is used in the file name of any reports generated
-				//a check is run to ensure it doesn't have any characters in it
-				//that will stop a file from being created.
-				if(InputValidationClass.IsInputAValidFileLocationString(edtReportName.Text) == true)
+				try
 					{
-					if(ReportClass.RenameReport(ViewState["ReportName"].ToString(), 
-						InputValidationClass.ValidateString(edtReportName.Text), FunctionsClass.GetActiveUserName(), 
-						Convert.ToInt32(ViewState["ReportYear"].ToString())) == false)
+					//As the user name is used in the file name of any reports generated
+					//a check is run to ensure it doesn't have any characters in it
+					//that will stop a file from being created.
+					if(InputValidationClass.IsInputAValidFileLocationString(edtReportName.Text) == true)
 						{
-						FunctionsClass.DisplayMessage(Page, "Report name already exists");
+						if(ReportClass.RenameReport(ViewState["ReportName"].ToString(), 
+							InputValidationClass.ValidateString(edtReportName.Text), FunctionsClass.GetActiveUserName(), 
+							Convert.ToInt32(ViewState["ReportYear"].ToString())) == false)
+							{
+							FunctionsClass.DisplayMessage(Page, "Report name already exists");
+							}
+						else
+							{
+							Server.Transfer("wfViewReports.aspx");
+							}
 						}
 					else
 						{
-						Server.Transfer("wfViewReports.aspx");
+						FunctionsClass.DisplayMessage(Page, "New report name contains invalid characters. Please remove any of the following characters \\\\ / : * ? \" < > |");
 						}
 					}
-				else
+				catch(Exception E)
 					{
-					FunctionsClass.DisplayMessage(Page, "New report name contains invalid characters. Please remove any of the following characters \\\\ / : * ? \" < > |");
+					FunctionsClass.DisplayMessage(Page, E.Message);
 					}
 				}
 			//If the report name is empty, then an error message is displayed to the user
