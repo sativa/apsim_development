@@ -521,6 +521,76 @@ void __stdcall RespondToEventCallback(const unsigned* arg, char* messageBytes)
 		}
 	}	
 
+
+// ----------------------------------------------------
+// Test that a component can get an array of structures
+// ----------------------------------------------------
+__gc class GetArrayOfStructuresComponentStub : public ::IComponent
+	{
+	public:
+		static ::IComponent* comp;
+		static bool ok = false;;
+		
+		virtual	void init1(String* name, String __gc * sdml, IComms* comms, ApsimEvents* events)
+			{
+			comp = this;
+			SoilWaterProfileLayer* profiles = new SoilWaterProfileLayer;
+            String* from = comms->getProperty("profiles", *profiles);
+			Assert::AreEqual(profiles->Count, 2);
+			Assert::AreEqual(profiles->value[0]->thickness, 100);
+			Assert::AreEqual(profiles->value[1]->thickness, 200);
+			ok = true;
+			}
+		virtual void init2() { }
+	};
+	
+void __stdcall GetArrayOfStructuresCallback(const unsigned* arg, char* messageBytes)
+	{
+	Message message(messageBytes);
+	ComponentInterface* componentInterface = (ComponentInterface*) arg;
+	static unsigned id;
+	if (message.type() == MessageType::Register)
+		{
+		Register reg;
+		reg.unpack(message);
+		if (reg.kind == 1)	 // get
+			id = reg.id;
+		}
+	else if (message.type() == MessageType::GetValue)
+		{
+
+		MessageFactory messageFactory;
+		Message returnValueMessage = messageFactory.create(MessageType::ReturnValue);
+		ReturnValue returnValue;
+		returnValue.compID = 15;
+		returnValue.id = id;
+		returnValue.type = "";
+		returnValue.pack(returnValueMessage);
+		SoilWaterProfileLayer* profiles = new SoilWaterProfileLayer(2);
+		SoilWaterProfileLayer::Value* value1 = new SoilWaterProfileLayer::Value;
+		SoilWaterProfileLayer::Value* value2 = new SoilWaterProfileLayer::Value;
+		value1->thickness = 100;		
+		value2->thickness = 200;
+        profiles->value[0] = value1;
+        profiles->value[1] = value2;
+		profiles->pack(returnValueMessage);
+
+		componentInterface->messageToLogic(GetPropertyComponentStub::comp, returnValueMessage.byteStream());
+		}
+	else if (message.type() == MessageType::QueryInfo)
+		{
+		MessageFactory messageFactory;
+		Message returnInfoMessage = messageFactory.create(MessageType::ReturnInfo);
+		ReturnInfo returnInfo;
+		returnInfo.queryID = 1;
+		returnInfo.compID = 15;
+		returnInfo.id = 15;
+		returnInfo.name = "ComponentStub2";
+		returnInfo.pack(returnInfoMessage);
+		componentInterface->messageToLogic(GetPropertyComponentStub::comp, returnInfoMessage.byteStream());
+		}
+	}	
+
 //------------------------------------
 // Class for testing the Message class
 //------------------------------------
@@ -664,6 +734,16 @@ __gc public class TestComponentInterface
 			{
 			runTest(new RespondToEventComponentStub, &RespondToEventCallback);
 			Assert::IsTrue(RespondToEventComponentStub::ok);
+			}			
+			
+		// ----------------------------------------------------------------
+		// Test that a component can get an array of structures.
+		// ----------------------------------------------------------------
+		[Test]
+		void TestGetArrayOfStructures() 
+			{
+			runTest(new GetArrayOfStructuresComponentStub, &GetArrayOfStructuresCallback);
+			Assert::IsTrue(GetArrayOfStructuresComponentStub::ok);
 			}			
 				 
 		};
