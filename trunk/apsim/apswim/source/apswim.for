@@ -3184,7 +3184,7 @@ c         print*,g%t
                qmax=max(qmax,g%res)
                do 15 i=0,p%n
                   qmax=max(qmax,g%qex(i))
-                  qmax=max(qmax,g%qexpot(i)) ! this to make steps small when pot is large therefore to
+                  !qmax=max(qmax,g%qexpot(i)) ! this to make steps small when pot is large therefore to
                                              ! provide accurate pot supply back to crops
                   qmax=max(qmax,abs(g%qs(i)))
                   qmax=max(qmax,abs(g%qssif(i)))
