@@ -11,16 +11,16 @@
 
      Version                = 2.2
      Title                  = Grass growth.
-     Component DLL          = c:\Program Files\apsim22\apsim\summaryfile\lib\summaryfile.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\screen\lib\screen.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\clock\lib\clock.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\report\lib\report.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\input\lib\input.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\manager\lib\manager.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\residue2\lib\residue2.dll
-     Component DLL          = c:\apswork\apsim\grasp\lib\grasp.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\development\apsim\screen\lib\screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\grasp\lib\grasp.dll
+     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
      Simulation start date =  1/01/1988
@@ -57,7 +57,7 @@
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\progra~1\apsim22\apsim\met\sample\dalby.met
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:

@@ -11,16 +11,16 @@
 
      Version                = 2.2
      Title                  = WHEAT SAMPLE Simulation
-     Component DLL          = c:\Program Files\apsim22\apsim\screen\lib\screen.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\log\lib\log.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\summaryfile\lib\summaryfile.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\clock\lib\clock.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\report\lib\report.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\input\lib\input.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\manager\lib\manager.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = C:\Program Files\apsim22\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\apswork\apsim\cropmod\lib\cropmod.dll
+     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\development\apsim\screen\lib\screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\cropmod\lib\cropmod.dll
+     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
      Simulation start date = 14/06/1988
@@ -52,7 +52,7 @@
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\progra~1\apsim22\apsim\met\sample\dalby.met
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
@@ -192,6 +192,9 @@
       Initialising, V1.0 2000.01.21
      
          - Reading constants
+
+------- tracker Initialisation ------------------------------------------------
+     Tracker variables:
 ------- Start of simulation  --------------------------------------------------
 17 June 1988(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
@@ -259,32 +262,32 @@
                           stover N conc =    4.775293       extractable sw =    40.92303
 16 August 1988(Day of year=229), wheat: 
       stage    5.0 floral_initiation
-                          biomass =           285.7638       lai =     3.746808
-                          stover N conc =    2.267441       extractable sw =    222.0244
+                          biomass =           285.2464       lai =     3.737619
+                          stover N conc =    2.265193       extractable sw =    222.1046
 3 September 1988(Day of year=247), wheat: 
       stage    6.0 flag_leaf
-                          biomass =           505.8586       lai =     3.613908
-                          stover N conc =    1.579548       extractable sw =    211.5932
+                          biomass =           504.9725       lai =     3.603004
+                          stover N conc =    1.578861       extractable sw =    211.7514
 19 September 1988(Day of year=263), wheat: 
       stage    7.0 flowering
-                          biomass =           765.9113       lai =     3.222073
-                          stover N conc =    1.026335       extractable sw =    186.1158
+                          biomass =           764.6710       lai =     3.212313
+                          stover N conc =    1.025623       extractable sw =    186.3482
 26 September 1988(Day of year=270), wheat: 
       stage    8.0 start_grain_fill
-                          biomass =           909.7186       lai =     2.976556
-                          stover N conc =   0.8658649       extractable sw =    138.4445
+                          biomass =           908.2666       lai =     2.967539
+                          stover N conc =   0.8652228       extractable sw =    138.7419
 27 October 1988(Day of year=301), wheat: 
       stage    9.0 end_grain_fill
-                          biomass =           1056.692       lai =     0.000000
-                          stover N conc =   0.8494839       extractable sw =    67.52556
+                          biomass =           1054.956       lai =     0.000000
+                          stover N conc =   0.8489491       extractable sw =    67.92612
 29 October 1988(Day of year=303), wheat: 
       stage   10.0 maturity
-                          biomass =           1056.692       lai =     0.000000
-                          stover N conc =   0.8500655       extractable sw =    67.28067
+                          biomass =           1054.956       lai =     0.000000
+                          stover N conc =   0.8495414       extractable sw =    67.63950
 30 October 1988(Day of year=304), wheat: 
       stage   11.0 harvest_ripe
-                          biomass =           1056.692       lai =     0.000000
-                          stover N conc =   0.8500656       extractable sw =    67.23328
+                          biomass =           1054.956       lai =     0.000000
+                          stover N conc =   0.8495413       extractable sw =    67.59201
 31 October 1988(Day of year=305), manager: 
      Manager sending message :- wheat harvest
 31 October 1988(Day of year=305), wheat: 
@@ -292,19 +295,19 @@
      
      
      flowering (DAS) =  95                  maturity (DAS)  = 135
-      flowering day  =  263                  stover (kg/ha) =    7101.8
-      maturity day        =  303             grain yield (kg/ha) =    3465.1
-      grain % water content   =   13.0       grain yield wet (kg/ha) =    3982.9
-      grain wt (g) =     0.026               grains/m^2   = 13288.222
-      grains/head = 110.7                    maximum lai = 4.124
-      total above ground biomass (kg/ha) =   10566.9
-      live above ground biomass (kg/ha) =   10566.9
-      green above ground biomass (kg/ha) =    8199.4
-      senesced above ground biomass (kg/ha) =    2367.5
+      flowering day  =  263                  stover (kg/ha) =    7092.4
+      maturity day        =  303             grain yield (kg/ha) =    3457.2
+      grain % water content   =   13.0       grain yield wet (kg/ha) =    3973.8
+      grain wt (g) =     0.026               grains/m^2   = 13269.757
+      grains/head = 110.6                    maximum lai = 4.113
+      total above ground biomass (kg/ha) =   10549.6
+      live above ground biomass (kg/ha) =   10549.6
+      green above ground biomass (kg/ha) =    8187.0
+      senesced above ground biomass (kg/ha) =    2362.5
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  17.4
-      grain N percent =      1.70            total N content (kg/ha) =     74.44
-      grain N uptake (kg/ha) =     59.08     senesced N content (kg/ha) =      4.74
+      grain N percent =      1.70            total N content (kg/ha) =     74.28
+      grain N uptake (kg/ha) =     58.94     senesced N content (kg/ha) =      4.73
       green N content (kg/ha) =     10.62    dead N content (kg/ha) =      0.00
      
      
@@ -316,20 +319,20 @@
      
      
       stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.1048270
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.2560481
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.1048051
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.2563508
      
      
      
       stress indices for floral_initiation
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.2074454
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.4598007
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.2078958
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.4601157
      
      
      
       stress indices for flag_leaf
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0767592
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0769891
      
      
      
@@ -340,15 +343,15 @@
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.0142601   nitrogen stress 1 =       0.5322696
-      water stress 2 =       0.0347280   nitrogen stress 2 =       0.6777910
+      water stress 1 =       0.0139065   nitrogen stress 1 =       0.5327300
+      water stress 2 =       0.0341386   nitrogen stress 2 =       0.6781768
 31 October 1988(Day of year=305), manager: 
      Manager sending message :- wheat end_crop
 31 October 1988(Day of year=305), wheat: 
          ended. Yield (dw) =     0.0
-                                               straw residue = 7101.8 kg/ha
-                                               straw N =   15.4 kg/ha
-                                               root residue = 4955.2 kg/ha
-                                               root N =   39.1 kg/ha
+                                               straw residue = 7092.4 kg/ha
+                                               straw N =   15.3 kg/ha
+                                               root residue = 4949.9 kg/ha
+                                               root N =   39.0 kg/ha
 17 November 1988(Day of year=322), clock: 
      Simulation is terminating due to end criteria being met.
