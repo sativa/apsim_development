@@ -292,7 +292,14 @@
      :               variable_name     ! variable name
      :              ,'(oC)'            ! variable units
      :              ,g%amp)      ! variable
+
+      elseif (variable_name .eq. 'radn') then
  
+         call respond2get_real_var (
+     :               variable_name     ! variable name
+     :              ,'(MJ/m2)'            ! variable units
+     :              ,g%radn)               ! variable
+
       elseif (variable_name .eq. 'maxt') then
  
          call respond2get_real_var (
