@@ -10,8 +10,8 @@ DCC = $(ROOT)\bin\dcc32.exe $**
 BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
 PROJECTS = general.lib ApsimShared.dll ComponentInterface.lib Protocol.dll \
-  GrossMarginCalculator.dll Soil.dll APSGeneral.bpl apsdata.bpl data.dll \
-  chart.dll Test.dll SEGReport.dll ApsimReport.exe ApsimContextMenu.dll \
+  GrossMarginCalculator.dll SEGReport.dll Soil.dll APSGeneral.bpl apsdata.bpl data.dll \
+  chart.dll Test.dll ApsimReport.exe ApsimContextMenu.dll \
   APSBuild.exe CreateComponentInterfaceSource.exe APSRun.exe apsim.exe \
   ProtocolManager.dll Log.dll SummaryFile.dll Input.dll report.dll Screen.dll \
   Tracker.dll VenLink.dll ApsimOutlook.exe dbaddin.dll FilterAddIn.dll \
