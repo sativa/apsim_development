@@ -3026,7 +3026,7 @@ c       be set to '1' in all layers by default
  
 1000     continue
       elseif (g%numvals_wet_soil_depth .gt. 0) then
-            ! profile_field capacity_depth parameter set - distribute top down
+            ! wet_soil_depth parameter set - distribute top down
          g%sw_dep(:) = 0.0
          num_layers = count_of_real_vals (p%dlayer, max_layer)
          g%sw_dep(1:num_layers) = g%ll15_dep(1:num_layers)
@@ -3064,7 +3064,7 @@ c       be set to '1' in all layers by default
          endif
 
       elseif (g%numvals_profile_fesw .gt. 0) then
-            ! profile_field capacity_depth parameter set - distribute top down
+            ! profile_fesw parameter set - distribute top down
          g%sw_dep(:) = 0.0
          num_layers = count_of_real_vals (p%dlayer, max_layer)
          g%sw_dep(1:num_layers) = g%ll15_dep(1:num_layers)
