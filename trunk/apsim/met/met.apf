@@ -1,0 +1,12 @@
+[general]
+name = MET module
+
+[Binaries]
+binary=met
+
+[met]
+compiler_switches = %apsuite\apsim\infra\lf90.fig
+source  = source\met.for
+target  = lib\apsmet.dll
+include = %apsuite\apsim\infra\
+import  = %apsuite\apsim\infra\lib\APSinfra.imp
