@@ -555,6 +555,15 @@ module ComponentInterfaceModule
        integer, intent(in out)          :: numvals
        end subroutine collect_char_array
 
+       subroutine collect_char_array_optional(variableName, arraySize, units, value, numvals)
+       ml_external collect_char_array_optional
+       character(len=*), intent(in)     :: variableName
+       integer, intent(in)              :: arraySize
+       character(len=*), intent(in)     :: units
+       character(len=*), intent(in out) :: value(*)
+       integer, intent(in out)          :: numvals
+       end subroutine collect_char_array_optional
+
        subroutine collect_real_var(variableName, units, value, numvals, lower, upper)
        ml_external collect_real_var
        character(len=*), intent(in)     :: variableName
