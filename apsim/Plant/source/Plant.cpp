@@ -549,6 +549,22 @@ void Plant::doRegistrations(void)
    setupGetVar("oxdef_photo", protocol::DTsingle, 1,
                &g.oxdef_photo, "", "Oxygen deficit in photosynthesis");
 
+   setupGetFunction("swstress_pheno", protocol::DTsingle, 1,
+                         &Plant::get_swstress_pheno,
+                          "","Soil water stress for phenological development");
+
+   setupGetFunction("swstress_photo", protocol::DTsingle, 1,
+                         &Plant::get_swstress_photo,
+                          "","Soil water stress for photosynthesis");
+
+   setupGetFunction("swstress_expan", protocol::DTsingle, 1,
+                         &Plant::get_swstress_expan,
+                          "","Soil water stress for leaf expansion");
+
+   setupGetFunction("swstress_fixation", protocol::DTsingle, 1,
+                         &Plant::get_swstress_fixation,
+                          "","Soil water stress for N fixation");
+
    setupGetVar("transp_eff", protocol::DTsingle, 1,
                &g.transp_eff, "g/m2/mm", "Transpiration Efficiency");
 
@@ -656,7 +672,7 @@ void Plant::doRegistrations(void)
                           "", "N factor for photosynthesis");
 
    setupGetVar("nfact_pheno", protocol::DTsingle, 1,
-                          &g.nfact_photo,
+                          &g.nfact_pheno,
                           "", "N factor for phenology");
 
    setupGetVar("nfact_expan", protocol::DTsingle, 1,
@@ -670,6 +686,22 @@ void Plant::doRegistrations(void)
    setupGetVar("nfact_grain_tot", protocol::DTsingle, max_stage,
                           &g.cnd_grain_conc,
                           "", "N factor for ??");
+
+   setupGetFunction("nstress_photo", protocol::DTsingle, 1,
+                         &Plant::get_nstress_photo,
+                          "","N stress for photosyntesis");
+
+   setupGetFunction("nstress_pheno", protocol::DTsingle, 1,
+                         &Plant::get_nstress_pheno,
+                          "","N stress for phenology");
+
+   setupGetFunction("nstress_expan", protocol::DTsingle, 1,
+                         &Plant::get_nstress_expan,
+                          "","N stress for leaf expansion");
+
+   setupGetFunction("nstress_grain", protocol::DTsingle, 1,
+                         &Plant::get_nstress_grain,
+                          "","N stress for grain filling");
 
    setupGetFunction("rlv", protocol::DTsingle, 2,
                     &Plant::get_rlv, "mm/mm^3", "Root length density");
@@ -13460,7 +13492,7 @@ void Plant::plant_harvest_report ()
 
     parent->writeString ("");
 
-    sprintf (msg,"%s", " Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc");
+    sprintf (msg,"%s", " Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc");
     parent->writeString (msg);
 
     for (phase = emerg_to_endjuv; phase <= start_to_end_grain; phase++)
@@ -14264,6 +14296,87 @@ void Plant::get_no3_uptake(protocol::Component *system, protocol::QueryValueData
     }
     system->sendVariable(qd, protocol::vector<float>(no3_uptake, no3_uptake+num_layers));
 }
+
+void Plant::get_swstress_pheno(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+    float swstress_pheno;
+    if (g.swdef_pheno > 0.0)
+       swstress_pheno = 1.0 - g.swdef_pheno;
+    else
+       swstress_pheno = 0.0;
+    systemInterface->sendVariable(qd, swstress_pheno);  //()
+}
+
+void Plant::get_swstress_photo(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+    float swstress_photo;
+    if (g.swdef_photo > 0.0)
+       swstress_photo = 1.0 - g.swdef_photo;
+    else
+       swstress_photo = 0.0;
+    systemInterface->sendVariable(qd, swstress_photo);  //()
+}
+
+void Plant::get_swstress_expan(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+    float swstress_expan;
+    if (g.swdef_expansion > 0.0)
+       swstress_expan = 1.0 - g.swdef_expansion;
+    else
+       swstress_expan = 0.0;
+    systemInterface->sendVariable(qd, swstress_expan);  //()
+}
+
+void Plant::get_swstress_fixation(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+    float swstress_fixation;
+    if (g.swdef_fixation > 0.0)
+       swstress_fixation = 1.0 - g.swdef_fixation;
+    else
+       swstress_fixation = 0.0;
+    systemInterface->sendVariable(qd, swstress_fixation);  //()
+}
+
+void Plant::get_nstress_pheno(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+    float nstress_pheno;
+    if (g.nfact_pheno > 0.0)
+       nstress_pheno = 1.0 - g.nfact_pheno;
+    else
+       nstress_pheno = 0.0;
+    systemInterface->sendVariable(qd, nstress_pheno);  //()
+}
+
+void Plant::get_nstress_photo(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+    float nstress_photo;
+    if (g.nfact_photo > 0.0)
+       nstress_photo = 1.0 - g.nfact_photo;
+    else
+       nstress_photo = 0.0;
+    systemInterface->sendVariable(qd, nstress_photo);  //()
+}
+
+void Plant::get_nstress_expan(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+    float nstress_expan;
+    if (g.nfact_expansion > 0.0)
+       nstress_expan = 1.0 - g.nfact_expansion;
+    else
+       nstress_expan = 0.0;
+    systemInterface->sendVariable(qd, nstress_expan);  //()
+}
+
+void Plant::get_nstress_grain(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+    float nstress_grain;
+    if (g.nfact_grain_conc > 0.0)
+       nstress_grain = 1.0 - g.nfact_grain_conc;
+    else
+       nstress_grain = 0.0;
+    systemInterface->sendVariable(qd, nstress_grain);  //()
+}
+
 
 void Plant::get_parasite_c_gain(protocol::Component *system, protocol::QueryValueData &qd)
 {
