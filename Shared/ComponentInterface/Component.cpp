@@ -325,10 +325,11 @@ unsigned Component::addRegistration(RegistrationType kind,
                                     const FString& alias,
                                     const FString& componentNameOrID)
    {
-   RegistrationItem* reg = addRegistrationToList(kind, name, type, componentNameOrID);
-   unsigned id = (unsigned) reg;
-   if (id != 0)
+   RegistrationItem* reg = registrations->find(kind, name, componentNameOrID);
+   if (reg == NULL)
       {
+      reg = registrations->add(kind, name, type, componentNameOrID);
+      unsigned id = (unsigned) reg;
       int destID = reg->getComponentID();
       if (destID == -1) destID = 0;
       char fqn[100];
@@ -343,7 +344,7 @@ unsigned Component::addRegistration(RegistrationType kind,
                                      fqn,
                                      reg->getType()));
       }
-   return id;
+   return (unsigned) reg;
    }
 // ------------------------------------------------------------------
 // delete the specified registration.
