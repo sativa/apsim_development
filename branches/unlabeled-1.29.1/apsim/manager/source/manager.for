@@ -340,6 +340,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
  
       if (action .eq. ACTION_get_variable) then
          call manager_send_my_variable (Data_string)
+
+      else if (action .eq. ACTION_set_variable) then
+         call manager_set_my_variable (Data_string)
  
       else if (Action.eq.ACTION_Init) then
          call Manager_zero_variables ()
@@ -820,8 +823,53 @@ C     Last change:  P    25 Oct 2000    9:26 am
       call pop_routine (my_name)
       return
       end
+          
+* ====================================================================
+       subroutine manager_set_my_variable (Variable_name)
+* ====================================================================
+      use ManagerModule
+      implicit none
+      include 'const.inc'
+      include 'error.pub'
+      include 'intrface.pub'
+      include 'datastr.pub'                       
+      include 'string.pub'
 
+*+  Sub-Program Arguments
+      character Variable_name*(*) ! (INPUT) Variable name to search for
 
+*+  Purpose
+*     Set one of our local variables altered by some other module
+
+*+  Local Variables
+      integer variableIndex
+      character value*(Max_variable_value_size)
+      integer numvals
+
+*- Implementation Section ----------------------------------
+
+      ! Try to find variable in local variable list.
+ 
+      variableIndex = find_string_in_array(Variable_name, 
+     .                                     g%local_variable_names, 
+     .                                     g%num_local_variables)
+ 
+      if (variableIndex .gt. 0) then 
+         call Collect_char_var (Variable_name, 
+     .                          ' ',
+     .                          value, 
+     .                          numvals)
+      
+         call assign_string (g%local_variable_values(variableIndex), 
+     .                       value)
+      else
+         ! not our variable
+ 
+         call Message_unused ()
+      endif
+
+      return
+      end
 
 ! ====================================================================
        subroutine Parse_read_line(Line, EOF_flag)
@@ -1307,19 +1355,10 @@ C     Last change:  P    25 Oct 2000    9:26 am
       character Variable_name*(Max_manager_var_name_size)
                                        ! variable name in set actions.
       integer Numvals                  ! Number of values returned
-      character Err*200                ! Error message
+      character msg*500                ! Error message
       logical Data_was_stored          ! Was data stored in postbox?
 
 !- Implementation Section ----------------------------------
- 
-      if (index(Action_string, 'do_output') .eq. 0 .and.
-     .    index(Action_string, 'do_end_day_output') .eq. 0) then
- 
-         write (Data_string, '(2a)' )
-     .      '     Manager sending message :- ', Action_string
- 
-         call Write_string(Data_string)
-      endif
  
       call split_line (Action_string, Module_name, Data_string, Blank)
       Data_string = adjustl(Data_string)
@@ -1330,14 +1369,32 @@ C     Last change:  P    25 Oct 2000    9:26 am
  
       if (Action .eq. 'set') then
          if (index(Data_string, '=') .eq. 0) then
-            write (Err, '(50a)' )
+            write (msg, '(50a)' )
      .         'Your manager file has a set command that does not have',
      .         new_line,
      .         'have a equals sign in it.  Please correct problem.'
-            call Fatal_error(ERR_user, Err)
+            call Fatal_error(ERR_user, msg)
          endif
       endif
+
+      ! Look for local variable names on the data string.  Replace any found
+      ! with their values.
+      call Replace_local_variables(Data_string)
+
+      if (index(Action_string, 'do_output') .eq. 0 .and.
+     .    index(Action_string, 'do_end_day_output') .eq. 0) then
  
+         write (msg, '(6a)' )
+     .      'Manager sending message :- ', 
+     .      Trim(Module_name), 
+     .      ' ',
+     .      Trim(Action),     
+     .      ' ',
+     .      Trim(Data_string)
+ 
+         call Write_string(msg)
+      endif
+                        
       ! Add code to check for a keyword of QUEUE.
  
       call New_postbox ()
@@ -1357,6 +1414,77 @@ C     Last change:  P    25 Oct 2000    9:26 am
       call Action_send (Module_name, Action, Data_string)
       call Delete_postbox ()
  
+      return
+      end
+
+! ====================================================================
+! Replace all local variables names in the specified string with the
+! variable values.
+! ====================================================================
+      subroutine Replace_local_variables(st)
+      use ManagerModule
+      implicit none
+      include 'const.inc'
+      include 'datastr.pub'
+      include 'string.pub'
+      include 'error.pub'
+      
+      character st*(*)
+      character key*(100)
+      character value*(100)
+      character newString*(2000)
+      character units*(100)
+      character No_leading_spaces*100
+      integer localIndex
+      integer posQuote
+      newString = ' '
+      
+      ! string will look like: 
+      !   cultivar = hartog, plants = 121.61, sowing_depth = 30 (mm)
+      ! We need to parse this looking for values that match a local
+      ! manager variable.  Make sure we honour double quotes ie don't
+      ! substitute local variable values.
+      call get_next_variable(st, key, value)
+      do while (key <> ' ')
+         call split_off_units (value, units)
+         value = No_leading_spaces(value)
+         if (value(1:1) <> '"' .and. value(1:1) <> '''') then
+
+            localIndex = find_string_in_array(value, 
+     .                                        g%local_variable_names,
+     .                                        g%num_local_variables)
+            if (localIndex > 0) then
+               value = g%local_variable_values(localIndex)
+            endif
+         else
+            value = value(2:)
+            posQuote = index(value, '"')
+            if (posQuote <= 0) then
+               posQuote = index(value, '''')
+            endif
+            if (posQuote <= 0) then
+               call Fatal_error(ERR_user, 
+     .             'Missing closing quote on action line in manager.')
+            else
+               value(posQuote:) = ' '
+            endif
+         endif    
+         
+         ! append all the bits for the current key to a new string.
+         if (newString <> ' ') then
+            call append_string(newString, ',')
+         endif
+         call append_string(newString, ' ' // key)
+         call append_string(newString, ' =')
+         call append_string(newString, ' ' // No_leading_spaces(value))
+         if (units <> '()') then
+            call append_string(newString, ' ' // units)
+         endif 
+
+      call get_next_variable(st, key, value)
+      end do
+      st = newString
+
       return
       end
 
