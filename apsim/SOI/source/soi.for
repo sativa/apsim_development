@@ -126,7 +126,6 @@
       character this_routine*(*)       ! name of this routine
       parameter (this_routine='SOI_init')
 *+  Calls
-      character Get_current_module*(10)   ! function
 
 *+  Local Variables
       character Table_name*100         ! name of table to open
@@ -141,7 +140,8 @@
 
       ! create an external table object and open it
       call ExternalTable_Create(g%LU_SOI)
-      Table_name = Trim(Get_current_module()) // '.soi.default'
+      call Get_current_module (Table_name)
+      Table_name = Trim(Table_name) // '.soi.default'
 
       ok = ApsimSystem_Data_get(Table_name, g%LU_SOI)
       if (ok) then
