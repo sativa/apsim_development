@@ -426,11 +426,8 @@
       character  nit_tot*30
       parameter (nit_tot = 'nit_tot()')
 
-      character  residue_n*30
-      parameter (residue_n = 'residue_n')
-
-      character  manure_n*30
-      parameter (manure_n = 'manure_n')
+      character  surfaceom_n*30
+      parameter (surfaceom_n = 'surfaceom_n')
 
       character  dlt_no3_dnit*30
       parameter (dlt_no3_dnit = 'dlt_no3_dnit()')
@@ -462,8 +459,7 @@
      :    + sysbal_get_variable(n_dead, gm2) * gm2kg/sm2ha
 
       state_soil = sysbal_get_variable(nit_tot, kgha)
-      state_surface = sysbal_get_variable(residue_n, kgha)
-     :              + sysbal_get_variable(manure_n, kgha)
+      state_surface = sysbal_get_variable(surfaceom_n, kgha)
 
   ! define system losses
   !--------------
@@ -556,11 +552,8 @@
       character  labile_p*30
       parameter (labile_p = 'labile_p()')
 
-      character  residue_p*30
-      parameter (residue_p = 'residue_p')
-
-      character  manure_p*30
-      parameter (manure_p = 'manure_p')
+      character  surfaceom_p*30
+      parameter (surfaceom_p = 'surfaceom_p')
 
 *+  Local Variables
 
@@ -582,8 +575,7 @@
      :           + sysbal_get_variable(rock_p, kgha)
      :           + sysbal_get_variable(unavail_p, kgha)
      :           + sysbal_get_variable(labile_p, kgha)
-      state_surface = sysbal_get_variable(residue_p, kgha)
-     :              + sysbal_get_variable(manure_p, kgha)
+      state_surface = sysbal_get_variable(surfaceom_p, kgha)
 
   ! define system losses
   !--------------
@@ -658,11 +650,8 @@
       character  carbon_tot*30
       parameter (carbon_tot = 'carbon_tot()')
 
-      character  residue_wt*30
-      parameter (residue_wt = 'residue_wt')
-
-      character  manure_wt*30
-      parameter (manure_wt = 'manure_wt')
+      character  surfaceom_c*30
+      parameter (surfaceom_c = 'surfaceom_c')
 
       character  dlt_fom_c_atm*30
       parameter (dlt_fom_c_atm = 'dlt_fom_c_atm()')
@@ -699,8 +688,7 @@
      :       + sysbal_get_variable(dm_dead, gm2) * gm2kg/sm2ha * 0.4
 
       state_soil = sysbal_get_variable(carbon_tot, kgha)
-      state_surface = sysbal_get_variable(residue_wt, kgha) * 0.4
-     :              + sysbal_get_variable(manure_wt, kgha) * 0.4
+      state_surface = sysbal_get_variable(surfaceom_c, kgha)
 
   ! define system losses
   !--------------
@@ -783,11 +771,8 @@
       character  carbon_tot*30
       parameter (carbon_tot = 'carbon_tot()')
 
-      character  residue_wt*30
-      parameter (residue_wt = 'residue_wt')
-
-      character  manure_wt*30
-      parameter (manure_wt = 'manure_wt')
+      character  surfaceom_wt*30
+      parameter (surfaceom_wt = 'surfaceom_wt')
 
       character  dlt_fom_c_atm*30
       parameter (dlt_fom_c_atm = 'dlt_fom_c_atm()')
@@ -824,8 +809,7 @@
      :           + sysbal_get_variable(dm_dead, gm2) * gm2kg/sm2ha
 
       state_soil = sysbal_get_variable(carbon_tot, kgha) / 0.4
-      state_surface = sysbal_get_variable(residue_wt, kgha)
-     :              + sysbal_get_variable(manure_wt, kgha)
+      state_surface = sysbal_get_variable(surfaceom_wt, kgha)
 
   ! define system losses
   !--------------
