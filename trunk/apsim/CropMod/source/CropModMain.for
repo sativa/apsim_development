@@ -1,4 +1,4 @@
-C     Last change:  E    31 Jul 2001   11:42 am
+C     Last change:  E     1 Aug 2001   12:18 pm
 
       INCLUDE 'CropMod.inc'
 
@@ -685,6 +685,18 @@ cjh      endif
       end if
 
 
+      if (c%crop_type .eq. 'sorghum') then
+          c%wat_switch    = '111111111'
+          c%phen_switch   = '511141111'
+          c%leafno_switch = '151511111'
+          c%carb_switch   = '111111111'
+          c%part_switch   = '455111111'
+          c%tiller_switch = '000000000'
+          c%can_switch    = '054111111'
+          c%root_switch   = '111111111'
+          c%sen_switch    = '511511111'
+          c%nit_switch    = '515550551'
+      end if
  
       !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       ! READ MODULE SWITCHES

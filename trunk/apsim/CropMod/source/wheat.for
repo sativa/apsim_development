@@ -1,4 +1,4 @@
-C     Last change:  E    14 Feb 2001    2:21 pm
+C     Last change:  E     3 Jul 2001   10:10 am
 
 *     ===========================================================
       subroutine Read_Constants_Wheat ()
@@ -5329,6 +5329,7 @@ c         NO3gsm_diffn = divide (NO3gsm_diffn, c_NO3_diffn_const, 0.0)
 
 
       N_demand     = sum_real_array (g_N_demand, max_part)
+     :              - g_N_demand(grain)
  
       N_excess = dlt_N_uptake_sum - N_demand
       N_excess = l_bound (N_excess, 0.0)
@@ -7064,7 +7065,7 @@ c     stage = int(g_current_stage)
          else
             rgfill = 0.065 * temp
          endif
- 
+
          rgfill = bound (rgfill, 0.0, 1.0)
 
 
@@ -7083,6 +7084,19 @@ c ======================================================================
      :               ,0.0
      :               ,max(0.0,  c_max_kernel_weight * mg2gm * g_grain_no
      :                          -g_dm_green(grain)))
+
+
+
+c       PRINT *, '+++++++++++++++++demand part+++++++++++'
+
+c       PRINT *, 'dlt_dm_yield     =', dlt_dm_yield
+c       PRINT *, 'dlt_dm_yield_max =', max(0.0,  c_max_kernel_weight
+c     :                               * mg2gm * g_grain_no
+c     :                               -g_dm_green(grain))
+
+
+
+      if (dlt_dm_yield .gt. 0.0) then
 
       !This part makes sure that grain N:C ratio does not go below that according to an estimate of N demand.
        call grain_n_demand_nw(
@@ -7114,7 +7128,11 @@ c ======================================================================
         grain_nc_ratio = l_bound(grain_nc_ratio
      :                           ,c_min_grain_nc_ratio)
 
+c        grain_nc_ratio = max(grain_nc_ratio
+c     :                           ,c_min_grain_nc_ratio)
+
        dlt_dm_yield = divide (nflow,grain_nc_ratio,0.0)
+      end if
 
 c ======================================================================
 
@@ -7122,6 +7140,8 @@ c ======================================================================
           ! we are out of grain fill period
           dlt_dm_yield = 0.0
       endif
+
+c      PRINT *, 'dlt_dm_yield     =', dlt_dm_yield
 
       dlt_dm_yieldpart_demand = dlt_dm_yield
  
@@ -8573,19 +8593,11 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
 
 *==================================================================
       subroutine cproc_N_retranslocate_nw (  !for nwheat
-     .          g_current_stage, 
-     .          g_dlt_dm_green,
-     .          g_dlt_dm_green_retrans,
-     .          c_max_grain_nc_ratio,
+     .          grain_n_demand,
      .          g_N_conc_min,
      .          g_N_conc_crit,
      .          g_N_conc_max,
-     .          c_N_conc_max_grain,     
      :          g_nfact_expansion,
-     :          g_maxt,
-     :          g_mint,
-     :          g_dlt_tt,
-     :          g_grain_num,
      .          g_dm_green,
      .          g_N_green,
      .          g_N_senesced,
@@ -8598,19 +8610,11 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
-       real g_current_stage        ! (INPUT)  current stage
-       real g_dlt_dm_green(*)      ! (INPUT)  organ biomass growth rate (g/m2)
-       real g_dlt_dm_green_retrans(*)
-       real c_max_grain_nc_ratio
+       real grain_N_demand         ! (INPUT)  grain n demand (g/m2)
        real g_N_conc_min(*)        ! (INPUT)  minimum n concentration each organ (g/g)
        real g_N_conc_crit(*)       ! (INPUT)  critical n concentration each organ (g/g)
        real g_N_conc_max(*)        ! (INPUT)  maximum n concentration each organ (g/g)
-       real c_N_conc_max_grain     ! (INPUT)  maximum grain n concentration each organ (g/g)
        real g_nfact_expansion      ! (INPUT)  n stress factor for expansion
-       real g_maxt                 ! (INPUT)  daily max temp (C)
-       real g_mint                 ! (INPUT)  daily min temp (C)
-       real g_dlt_tt               ! (INPUT)  daily thermal time (Cd)
-       real g_grain_num            ! (INPUT)  grain number per square meter
        real g_dm_green(*)          ! (INPUT)  green biomass each organ (g/m^2)
        real g_N_green(*)           ! (INPUT)  N content green organs (g/m^2)
        real g_N_senesced(*)        ! (INPUT)  n content senesced organs (g/m^2)
@@ -8632,10 +8636,8 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
       parameter (my_name = 'cproc_N_retranslocate_nw')
 
 *+  Local Variables
-      real       grain_N_demand        ! grain N demand (g/m^2)
       real       N_avail(max_part)     ! N available for transfer to grain (g/m^2)
       real       N_avail_stover        ! total N available in stover(g/m^2)
-      real       N_potential           ! maximum grain N demand (g/m^2)
       integer    part                  ! plant part number
 
       REAL delta_grainC
@@ -8646,53 +8648,14 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
       call push_routine (my_name)
       
 
-      ! The grain nitrogen demand
-       call  grain_n_demand_nw(
-     :                  g_current_stage, 
-     :                  g_maxt,
-     :                  g_mint,
-     :                  g_dlt_tt,
-     :                  g_grain_num,
-     :                  grain_n_demand)
-      
-
-
-      !=========================================================
-      !RESTRICT GRAIN N DEMAND USING MAX_GRAIN_NC_RATIO
-
-      ! delta_grainc is the daily increment in grain weight (after stress)
-      ! check to see if the ratio of delta n /delta c is too high
-      ! that is, c stops but n continues. set max limit of 0.10
-
-       delta_grainC = g_dlt_dm_green(grain)
-     :              + g_dlt_dm_green_retrans(grain)
- 
-       delta_N_fraction = divide (grain_n_demand,delta_grainC,0.0)
-       delta_N_fraction = u_bound (delta_N_fraction
-     :                            ,c_max_grain_nc_ratio)
-
-       grain_n_demand = delta_N_fraction * delta_grainC
- 
-
-
-
-
-      !The following two statements might be useless
-      N_potential  = (g_dm_green(grain) + g_dlt_dm_green(grain))
-     :             * g_N_conc_max(grain)
- 
-      grain_N_demand = u_bound (grain_N_demand
-     :                        , N_potential - g_N_green(grain))
- 
-
-      call crop_n_retrans_avail_nw(      max_part, 
-     :                                   root, 
-     :                                   grain,
-     :                                   g_nfact_expansion,
-     :                                   g_N_conc_min,
-     :                                   g_dm_green,
-     :                                   g_N_green, 
-     :                                   N_avail)
+      call crop_n_retrans_avail_nw(max_part,
+     :                             root,
+     :                             grain,
+     :                             g_nfact_expansion,
+     :                             g_N_conc_min,
+     :                             g_dm_green,
+     :                             g_N_green,
+     :                             N_avail)
 
 
       ! available N does not include roots or grain
@@ -8754,6 +8717,100 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
 
 
 
+*==================================================================
+      subroutine grain_n_demand_nwheat (  !for nwheat
+     .           g_current_stage,
+     :           g_mint,
+     :           g_maxt,
+     :           g_dlt_tt,
+     :           g_grain_num,
+     .           g_dm_green,
+     .           g_dlt_dm_green,
+     .           g_dlt_dm_green_retrans,
+     .           g_N_green,
+     .           c_max_grain_nc_ratio,
+     .           c_N_conc_max_grain,
+     .           n_demand_grain)
+*====================================================================
+      implicit none
+      include 'CropDefCons.inc'
+      include 'data.pub'
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+       real g_current_stage        ! (INPUT)  current stage
+       real g_mint                 ! (INPUT)  daily min temp (C)
+       real g_maxt                 ! (INPUT)  daily max temp (C)
+       real g_dlt_tt               ! (INPUT)  daily thermal time (Cd)
+       real g_grain_num            ! (INPUT)  grain number per square meter
+       real g_dm_green(*)          ! (INPUT)  green biomass each organ (g/m^2)
+       real g_dlt_dm_green(*)      ! (INPUT)  organ biomass growth rate (g/m2)
+       real g_dlt_dm_green_retrans(*)
+       real g_N_green(*)           ! (INPUT)  N content green organs (g/m^2)
+       real c_max_grain_nc_ratio
+       real c_N_conc_max_grain     ! (INPUT)  maximum grain n concentration each organ (g/g)
+       real n_demand_grain         ! (OUTPUT) plant N taken out from plant parts (g N/m^2)
+
+*+  Purpose
+
+*+  Changes
+*     Jan. 99 EW programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'grain_n_demand_nwheat')
+
+*+  Local Variables
+      real grain_N_demand        ! grain N demand (g/m^2)
+      real N_potential           ! maximum grain N demand (g/m^2)
+      REAL delta_grainC
+      REAL delta_n_fraction
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+      
+
+      ! The grain nitrogen demand
+       call  grain_n_demand_nw(
+     :                  g_current_stage, 
+     :                  g_maxt,
+     :                  g_mint,
+     :                  g_dlt_tt,
+     :                  g_grain_num,
+     :                  n_demand_grain)
+      
+
+      !=========================================================
+      !RESTRICT GRAIN N DEMAND USING MAX_GRAIN_NC_RATIO
+
+      ! delta_grainc is the daily increment in grain weight (after stress)
+      ! check to see if the ratio of delta n /delta c is too high
+      ! that is, c stops but n continues. set max limit of 0.10
+
+       delta_grainC = g_dlt_dm_green(grain)
+     :              + g_dlt_dm_green_retrans(grain)
+ 
+       delta_N_fraction = divide (n_demand_grain,delta_grainC,0.0)
+       delta_N_fraction = u_bound (delta_N_fraction
+     :                            ,c_max_grain_nc_ratio)
+
+       n_demand_grain = delta_N_fraction * delta_grainC
+
+
+      !The following two statements might be useless
+      N_potential  = (g_dm_green(grain) + g_dlt_dm_green(grain))
+     :             * c_N_conc_max_grain
+ 
+      n_demand_grain = u_bound (n_demand_grain
+     :                        , N_potential - g_N_green(grain))
+
+
+      call pop_routine (my_name)
+      return
+      end
+
+
 *     ===========================================================
       subroutine grain_n_demand_nw(
      :                  g_current_stage, 
@@ -8799,6 +8856,16 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
       real rgnfil
       real temp
 
+      INTEGER L
+
+*+  Calls
+c      dll_import Temperature_Response_Curvilinear
+c      REAL       Temperature_Response_Curvilinear
+
+c      dll_import Temperature_Response_Linear
+c      REAL       Temperature_Response_Linear
+c      REAL    linear
+
 *- Implementation Section ----------------------------------
  
       call push_routine (myname)
@@ -8815,9 +8882,9 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
      :               + 0.2503*(g_maxt-g_mint)
      :               + 4.3067 * temp
          else
-            rgnfil = 0.49 * temp
+           !rgnfil = 0.49 * temp
+            rgnfil = 1.49 * temp !Ew changed because of the discontinuouty
          endif
-
 
          rgnfil = l_bound (rgnfil, 0.0)
  
@@ -8830,6 +8897,21 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
  
       endif
 
+
+
+c      !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+c      !File testing
+c      !
+c      open (1, FILE='test.dat')
+c      do L = -5, 50
+c         temp = 1.0*L
+c         rgnfil= Temperature_Response_Curvilinear(temp, 0.0, 25.0, 35.0)
+c         linear= Temperature_Response_Linear(temp, 0.0, 25.0, 35.0)
+c         WRITE(1, FMT="(f5.1,10x,f5.3,10x,f5.3)") temp, rgnfil,linear
+c      end do
+c         close (1)
+c      pause
+      !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
       call pop_routine (myname)
@@ -10676,6 +10758,7 @@ c     :                        * g_tiller_no
 
 *     ===========================================================
       subroutine cproc_leaf_area_pot_iw_new (
+     .          tiller_stop_stage,
      .          g_plants,
      .          g_current_stage,
      .          phint,
@@ -10716,6 +10799,7 @@ c     :                        * g_tiller_no
       real tpla_dlt_today
 
 *+  Arguments
+      real tiller_stop_stage
       real g_plants
       real g_current_stage
       real phint
@@ -10745,6 +10829,7 @@ c     :                        * g_tiller_no
        
 
        call iw_tiller_area_pot_new  (
+     .                               tiller_stop_stage,
      .                               g_plants,
      .                               phint,
      .                               g_dlt_tt,
@@ -10782,6 +10867,7 @@ c     :                        * g_tiller_no
 
 *==================================================================
       subroutine iw_tiller_area_pot_new (
+     .                               tiller_stop_stage,
      .                               g_plants,
      .                               phint,
      .                               dly_therm_time,
@@ -10813,6 +10899,7 @@ c     :                        * g_tiller_no
       include 'data.pub'                         
 
 *+  Function arguments
+      real tiller_stop_stage
       real g_plants
       real phint
       real dly_therm_time
@@ -10924,7 +11011,8 @@ c      elseif (stage_is_between(emerg,flowering,g_current_stage)) then !original
 
 
        !Tillering stops after floral initiation
-       if (stage_is_between(floral_init,flag_leaf,g_current_stage)) then !originally in i_wheat is flowering
+c       if (stage_is_between(floral_init,flag_leaf,g_current_stage)) then !originally in i_wheat is flowering
+       if (g_current_stage.ge.tiller_stop_stage) then !originally in i_wheat is flowering
 
          do n = 1, max_leaf
 

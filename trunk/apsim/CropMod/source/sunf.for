@@ -1,4 +1,4 @@
-C     Last change:  E    14 Feb 2001    3:50 pm
+C     Last change:  E     1 Aug 2001   11:43 am
 
 
 ***************************************************************************
@@ -351,199 +351,7 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
 
 
 
-C     Last change:  D     9 Sep 1998    2:22 pm
-*     ===========================================================
-      subroutine sunf_dm_init (
-     .          g_current_stage,
-     .          g_days_tot,
-     .          c_dm_root_init,
-     .          g_plants,
-     .          c_dm_stem_init,
-     .          c_dm_leaf_init,
-     :          c_flower_trans_frac,
-     .          c_stem_trans_frac,
-     .          c_leaf_trans_frac,
-     .           dm_green, dm_plant_min)
-*     ===========================================================
-      implicit none
-      include   'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'                          
-      include 'error.pub'                         
 
-*+  Sub-Program Arguments
-       real g_current_stage
-       real g_days_tot(*)
-       real c_dm_root_init
-       real g_plants
-       real c_dm_stem_init
-       real c_dm_leaf_init
-       real c_flower_trans_frac
-       real c_stem_trans_frac
-       real c_leaf_trans_frac
-       real dm_green(*)           ! (INPUT/OUTPUT) plant part weights
-                                       ! (g/m^2)
-      real  dm_plant_min(*)       ! (OUTPUT) minimum weight of each
-                                       ! plant part (g/plant)
-
-*+  Purpose
-*       Initialise plant weights and plant weight minimums
-*       at required instances.
-
-*+  Changes
-*     010994 jngh specified and programmed
-*     970317 slw new template form
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sunf_dm_init')
-
-*+  Local Variables
-      real       dm_plant_leaf         ! dry matter in leaves (g/plant)
-      real       dm_plant_stem         ! dry matter in stems (g/plant)
-      real       dm_plant_flower       ! dry matter in flowers (g/plant) !!added for sunflower
-       
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-         ! initialise plant weight
-         ! initialisations - set up dry matter for leaf, stem, flower, grain
-         ! and root
- 
-      if (on_day_of (emerg, g_current_stage, g_days_tot)) then
-             ! seedling has just emerged.
- 
-             ! initialise root, stem and leaf.
- 
-         dm_green(root) = c_dm_root_init * g_plants
-         dm_green(stem) = c_dm_stem_init * g_plants
-         dm_green(leaf) = c_dm_leaf_init * g_plants
-         dm_green(grain) = 0.0
-         dm_green(flower) = 0.0
- 
-!changed from start_grain_fill
- 
-      elseif (on_day_of (flowering
-     :                 , g_current_stage, g_days_tot)) then
- 
-             ! we are at first day of grainfill.
-             ! set the minimum weight of leaf; used for translocation to grain
-             ! and stem!
- 
-         dm_plant_leaf = divide (dm_green(leaf), g_plants, 0.0)
-         dm_plant_min(leaf) = dm_plant_leaf * (1.0 - c_leaf_trans_frac)
-         dm_plant_stem = divide (dm_green(stem), g_plants, 0.0)
-         dm_plant_min(stem) = dm_plant_stem * (1.0 - c_stem_trans_frac)
-!For sunflower had to make the head (flower) available for retrans to grain
-         dm_plant_flower = divide (dm_green(flower), g_plants, 0.0)
-         dm_plant_min(flower) = dm_plant_flower 
-     :                       * (1.0 - c_flower_trans_frac)
- 
-      else   ! no changes
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine srop_leaf_area_lai_max_possible (
-     .          start_stage_SPLA,
-     .          end_stage_TPLA,
-     .          end_stage_SPLA,
-     .          g_current_stage,
-     .          g_swdef_lai_loss,
-     .          g_lai_max_possible,
-     .          g_lai,
-     .          g_slai,
-     .          g_dlt_lai_pot,
-     .          g_dlt_lai_stressed)
- 
-*     ===========================================================
-      implicit none
-      include 'error.pub'                         
-      include 'science.pub'                         
-
-*+  Sub-Program Arguments
-      integer    start_stage_SPLA
-      integer    end_stage_TPLA
-      integer    end_stage_SPLA
-      real       g_current_stage
-      real       g_swdef_lai_loss
-      real       g_lai_max_possible
-      real       g_lai
-      real       g_slai
-      real       g_dlt_lai_pot           !lai potential from TT
-      real       g_dlt_lai_stressed      !g_dlt_lai_pot limited by stress
-
-*+  Purpose
-*     Calculate the stressed dlt_lai from the potential dlt_lai.
-*     Returns both as well as an upper limit on potential lai
-*     due to irretrivable stress losses
-*
-*   Called by srop_leaf_area_potential(2) in croptree.for
-
-*+  Changes
-*     26/2/96  sb made it up.
-*     27/5/97 scc tried to fix it.
-
-*+  Calls
-*      include   'CropDefCons.inc'
-*      include 'const.inc'
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'srop_leaf_area_lai_max_possible')
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
- 
-cscc/glh Need a proper target for SPLA. Although I think that we should
-c not have a target at all, but rather a 'longevity' approach. This makes
-c it easier to implement N stress also
- 
-c (Trying to..) calculate LAI that is (irretreivably) lost due to stress
- 
-      if (stage_is_between (start_stage_SPLA, end_stage_SPLA
-     :                     , g_current_stage)) then
- 
-!replace following g_dlt_lai_stressed w. g_dlt_lai_actual
-         g_swdef_lai_loss = g_swdef_lai_loss
-     :      + g_dlt_lai_pot - g_dlt_lai_stressed
- 
-c Calculate max. LAI possible, accounting for losses due to stress
-c Unfortunately, this sometimes goes negative! Need to have another
-c look at its calculation. Not used at present.
- 
-         g_lai_max_possible = g_lai + g_slai - g_swdef_lai_loss
- 
-!scc after flag leaf, tplamax for senescence is set to the tpla reached
- 
-         if (stage_is_between (end_stage_TPLA, end_stage_SPLA
-     :                     , g_current_stage)) then
-            g_lai_max_possible = g_lai + g_slai
-         else
-            ! do nothing
-         endif
-
-
-!This is the cheap version
-
-            g_lai_max_possible = g_lai + g_slai
- 
-      else
-      ! Before floral initiation
- 
-         g_lai_max_possible = 0.0
- 
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
 
 
 *     ===========================================================
@@ -760,661 +568,6 @@ c look at its calculation. Not used at present.
 
 
 
-*     ===========================================================
-      subroutine sunf_phenology2 (
-     .       g_previous_stage,
-     .       g_current_stage,
- 
-     .       g_maxt, g_mint,
-     .       c_x_temp, c_y_tt,
-     .       c_num_temp, g_dlt_tt,
- 
-     :       C_num_sw_avail_ratio,
-     :       C_x_sw_avail_ratio, C_y_swdef_pheno, G_dlayer,
-     :       g_root_depth, g_sw_avail, g_sw_avail_pot, g_swdef_pheno,
- 
-     .       g_dm_green,
-     .       g_N_conc_crit, g_N_conc_min, g_N_green,
-     .       c_N_fact_pheno, g_nfact_pheno,
- 
-     .          g_days_tot,
-     .          g_sowing_depth,
-     .          g_tt_tot,
-     .          g_phase_tt,
- 
-     .          g_sw_dep,
-     .          p_ll_dep,
-     .          c_pesw_germ,
- 
-     .          g_dlt_stage,
- 
-     .          c_tt_base,
-     .          c_tt_opt,
-     .          g_tt_tot_fm,
-     .          g_dlt_tt_fm,
-     .          g_sw_supply_demand_ratio,
-     .          p_tt_switch_stage)                                   !<------------- Enli added the switch
- 
- 
-*     ===========================================================
-      implicit none
-      include 'CropDefCons.inc'
-      include 'const.inc'
-c     include 'stress.inc' !to set value of photo - not sure if correct way
-      include 'science.pub'                       
-      include 'error.pub'                         
-
-*+  Purpose
-*     Use temperature, photoperiod and genetic characteristics
-*     to determine when the crop begins a new growth phase.
-*     The initial daily thermal time and height are also set.
-*     Has a different thermal time during grain filling....
-*
-*   Called by _process
-*
-*   Number of options: 1
-*   Option 1:
-*     Designed for cereals...???
-*   Calls srop_pheno_swdef_fact1, srop_pheno_n_fact1
-*         srop_thermal_time1,
-*         srop_phenology_init1, srop_phase_devel1, srop_devel1 in crop.for
-
-*+  Notes
-cscc 030997 HAVE to generalise this routine. Could do so by being able to
-c specify init routine and stages to apply water and N stress
-cscc Needs to incorporate water stress and low N effects on phenology
-c usually by slowing down leaf appearance in vegetative phase
-c and often hastening leaf senescence in grainfilling phase
-c Water stress effect during grainfilling is partly because the canopy heats up
-c more than it would if it were irrigated. Really need to predict canopy temp.
-c somehow ...
-c But if slow down leaf appearance etc. need to relate that to the leaf area mod
-c (how do we do this w. TPLA approach?)
-
-*+  Changes
-*     010994 jngh specified and programmed
-
-*+  Calls
-      real       g_maxt
-      real       g_mint
-      real       c_x_temp(*)
-      real       c_y_tt(*)
-      integer    c_num_temp
-      real       g_dlt_tt                ! (OUTPUT) daily thermal time (oC)
-*
-      INTEGER c_num_sw_avail_ratio  ! (INPUT)
-      REAL    c_x_sw_avail_ratio(*) ! (INPUT)
-      REAL    c_y_swdef_pheno(*)    ! (INPUT)
-      REAL    g_dlayer(max_layer)           ! (INPUT)  thickness of soil layer I (mm)
-      REAL    g_root_depth          ! (INPUT)  depth of roots (mm)
-      REAL    g_sw_avail(max_layer)         ! (INPUT)  actual extractable soil water (mm
-      REAL    g_sw_avail_pot(max_layer)     ! (INPUT)  potential extractable soil water
-      REAL    G_swdef_pheno         ! (OUTPUT) sw stress factor (0-1)
-      REAL    G_nfact_pheno         ! (OUTPUT) sw stress factor (0-1)
-*
-      REAL       g_dm_green(max_part)         ! (INPUT)  live plant dry weight (biomass
-      REAL       g_n_conc_crit(max_part)      ! (INPUT)  critical N concentration (g N/
-      REAL       g_n_conc_min(max_part)       ! (INPUT)  minimum N concentration (g N/g
-      REAL       g_n_green(max_part)          ! (INPUT)  plant nitrogen content (g N/m^
-      REAL       c_n_fact_pheno        ! (INPUT)  multipler for N deficit effect
-*
-      real      g_days_tot(*)
-!      real      c_shoot_lag
-      real      g_sowing_depth
-!      real      c_shoot_rate
-!      real      p_tt_emerg_to_endjuv
-!      real      p_tt_endjuv_to_init
-!      integer   g_day_of_year
-!      real      g_latitude
-!      real      c_twilight
-!      real      p_photoperiod_crit1
-!      real      p_photoperiod_crit2
-!      real      p_photoperiod_slope
-!      real      g_leaf_no_final
-!      real      c_leaf_no_rate_change
-!      real      c_leaf_no_at_emerg
-!      real      c_leaf_app_rate1
-!      real      c_leaf_app_rate2
-      real      g_tt_tot(*)
-!      real      p_tt_flag_to_flower
-!      real      p_tt_flower_to_start_grain
-!      real      p_tt_flower_to_maturity
-!      real      p_tt_maturity_to_ripe
-      real      G_phase_tt (*) ! (INPUT/OUTPUT) cumulative growing
-                               ! degree days required for stage (deg days)
-*
-      real       g_sw_dep(max_layer)
-      real       p_ll_dep(max_layer)
-      real       c_pesw_germ
-      real       G_phase_dvl           ! (OUTPUT) fraction of current phase elap
-*
-      real       g_dlt_stage             ! (OUTPUT) change in growth stage
-      real       g_current_stage         ! (OUTPUT) new stage no.
-      real       g_previous_stage         ! (OUTPUT) new stage no.
-*
-      real       c_tt_base      !variables used in thermal time for GF
-      real       c_tt_opt       !variables used in thermal time for GF
-      real       g_tt_tot_fm    !variables used in thermal time for GF
-      real       g_dlt_tt_fm    !variables used in thermal time for GF
-      real       g_sw_supply_demand_ratio
-      integer    p_tt_switch_stage                                    !<------------- Enli added the switch
-      
-      
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sproc_phenology2')
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
- 
-!alternative option for thermal time during grain_fill
-!has 2 extra variables -
-!     .          g_tt_tot_fm,
-!     .          g_dlt_tt_fm,
- 
-         g_previous_stage = g_current_stage
- 
-         call srop_thermal_time1 (
-     .          g_maxt, g_mint,
-     .          c_x_temp, c_y_tt,
-     .          c_num_temp, g_dlt_tt)
- 
-         call srop_thermal_time2 (
-     .          g_maxt, g_mint,
-     .          c_tt_base, c_tt_opt,
-     .          g_dlt_tt_fm)
- 
-            !Modify g_dlt_tt by stress factors
- 
-       if (stage_is_between(sowing, flowering, g_current_stage)) then
- 
-!       g_swdef_pheno left alone
- 
-         if (stage_is_between(sowing, endjuv, g_current_stage))
-     :          g_nfact_pheno = 1.0
-         if (g_nfact_pheno .lt. 0.5) g_nfact_pheno = 0.5
- 
-          g_dlt_tt = g_dlt_tt *
-     :             min (g_swdef_pheno, g_nfact_pheno)
- 
-         else
- 
-            g_dlt_tt = g_dlt_tt
- 
-         endif
- 
-         ! initialise phenology phase targets
- 
-!Determine fraction of phase that has elapsed
-!    If stage is between flowering and maturity, use this function to calc
-!       daily thermal time for phenology decisions only
- 
- 
-        ! if (stage_is_between(flowering, maturity,    
-         if (stage_is_between(p_tt_switch_stage, maturity, !<------------- Enli added the switch
-     .                g_current_stage)) then
-            call srop_phase_devel1(
-     .          g_current_stage,
-     .          g_sowing_depth,
-     .          g_dlayer,
-     .          g_sw_dep,
-     .          p_ll_dep,
-     .          c_pesw_germ,
-     .          g_days_tot,
-     .          g_tt_tot_fm,
-     .          g_dlt_tt_fm,
-     .          g_phase_tt,
-     .          g_phase_dvl)
-        else
-           call srop_phase_devel1(
-     .          g_current_stage,
-     .          g_sowing_depth,
-     .          g_dlayer,
-     .          g_sw_dep,
-     .          p_ll_dep,
-     .          c_pesw_germ,
-     .          g_days_tot,
-     .          g_tt_tot,
-     .          g_dlt_tt,
-     .          g_phase_tt,
-     .          g_phase_dvl)
-        endif
- 
-! calculate new delta and the new stage
- 
-         call srop_devel1 (
-     .          g_dlt_stage,
-     .          g_current_stage,
-     .          g_phase_dvl,
-     .          max_stage)
- 
-         call accumulate (g_dlt_tt, g_tt_tot
-     :               , g_previous_stage, g_dlt_stage)
- 
-         call accumulate (1.0, g_days_tot
-     :               , g_previous_stage, g_dlt_stage)
- 
-         call accumulate (g_dlt_tt_fm, g_tt_tot_fm
-     :               , g_previous_stage, g_dlt_stage)
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-
-
-
-
-*     ===========================================================
-*     Routines from CropLib and CropProc ========================
-*     CropLib Routines ==========================================
-*     ===========================================================
-      subroutine srop_phase_devel1 (
-     .          g_current_stage,
-     .          g_sowing_depth,
-     .          g_dlayer,
-     .          g_sw_dep,
-     .          p_ll_dep,
-     .          c_pesw_germ,
-     .          g_days_tot,
-     .          g_tt_tot,
-     .          g_dlt_tt,
-     .          g_phase_tt,
-     .          phase_dvl)
-*     ===========================================================
-      implicit none
-      include   'CropDefCons.inc'
-      include 'science.pub'
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      real       g_current_stage
-      real       g_sowing_depth
-      real       g_dlayer(*)
-      real       g_sw_dep(*)
-      real       p_ll_dep(*)
-      real       c_pesw_germ
-      real       g_days_tot(*)
-      real       g_tt_tot(*)
-      real       g_dlt_tt
-      real       g_phase_tt(*)
-      real       phase_dvl           ! (OUTPUT) fraction of current phase elap
-
-*+  Purpose
-*     Determine the fraction of current phase elapsed ().
-*
-*   Called by srop_phenology(1) in croptree.for
-*   Calls srop_germination and srop_phase_tt in crop.for
-
-*+  Changes
-*     010994 jngh specified and programmed
-
-*+  Calls
-      real       srop_germination     ! function
-      real       srop_phase_tt        ! function
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'srop_phase_devel1')
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-      if (stage_is_between (sowing, germ, g_current_stage)) then
-         phase_dvl = srop_germination (
-     .          g_sowing_depth,
-     .          g_dlayer,
-     .          g_sw_dep,
-     .          p_ll_dep,
-     .          c_pesw_germ,
-     .          g_current_stage,
-     .          g_days_tot)
- 
-      elseif (stage_is_between (germ, harvest_ripe
-     :                        , g_current_stage)) then
- 
-         phase_dvl =  srop_phase_tt (
-     .          g_current_stage,
-     .          g_tt_tot,
-     .          g_dlt_tt,
-     .          g_phase_tt)
- 
-      else
-         phase_dvl = mod(g_current_stage, 1.0)
- 
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-*     ===========================================================
-      real function srop_phase_tt (
-     .          g_current_stage,
-     .          g_tt_tot,
-     .          g_dlt_tt,
-     .          g_phase_tt)
-*     ===========================================================
-      implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      real       g_current_stage              ! (INPUT) stage number
-      real       g_tt_tot(*)
-      real       g_dlt_tt
-      real       g_phase_tt(*)
-
-*+  Purpose
-*       Return fraction of thermal time we are through the current
-*       phenological phase (0-1)
-*
-*   Called by srop_phase_devel1 in cropopt.for
-
-*+  Changes
-*     010994 jngh specified and programmed
-*     970518 scc modified, according to JNGH phen bug fix
-
-*+  Calls
-!      real       bound                 ! function
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'srop_phase_tt')
-
-*+  Local Variables
-      integer    phase                 ! phase number containing stage
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-      phase = int (g_current_stage)
-cjh  changed 0.0 to 1.0
-      srop_phase_tt = divide (g_tt_tot(phase) + g_dlt_tt
-     :                       , g_phase_tt(phase), 1.0)
-!      srop_phase_tt = bound (srop_phase_tt, 0.0, 1.999999)
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      real function srop_germination (
-     .          g_sowing_depth,
-     .          g_dlayer,
-     .          g_sw_dep,
-     .          p_ll_dep,
-     .          c_pesw_germ,
-     .          g_current_stage,
-     .          g_days_tot)
-*     ===========================================================
-      implicit none
-      include   'CropDefCons.inc'
-      include 'data.pub'
-      include 'science.pub'                       
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      real       g_sowing_depth
-      real       g_dlayer(*)
-      real       g_sw_dep(*)
-      real       p_ll_dep(*)
-      real       c_pesw_germ
-      real       g_current_stage
-      real       g_days_tot(*)
-
-*+  Purpose
-*      Determine germination based on soil water availability
-*
-*   Called by srop_phase_devel1 in cropopt.for
-*
-*   Returns srop_germination as a fraction of current phase elapsed
-
-*+  Changes
-*     010994 jngh specified and programmed
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'srop_germination')
-
-*+  Local Variables
-      integer    layer_no_seed         ! seedling layer number
-      real       pesw_seed             ! plant extractable soil water in
-                                       ! seedling layer available for
-                                       ! germination ( mm/mm)
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
- 
-         ! determine if soil water content is sufficient to allow germination.
-         ! Soil water content of the seeded layer must be > the
-         ! lower limit to be adequate for germination.
- 
-      if (stage_is_between (sowing, germ, g_current_stage)) then
- 
-         layer_no_seed = find_layer_no (g_sowing_depth, g_dlayer
-     :                                             , max_layer)
-         pesw_seed = divide (g_sw_dep(layer_no_seed)
-     :                     - p_ll_dep(layer_no_seed)
-     :                     , g_dlayer(layer_no_seed), 0.0)
- 
-            ! can't germinate on same day as sowing, because miss out on
-            ! day of sowing else_where
- 
-         if (pesw_seed.gt.c_pesw_germ
-     :   .and.
-     :   .not. on_day_of (sowing, g_current_stage, g_days_tot)) then
-               ! we have germination
-               ! set the fraction of the current phase
-               ! so it is on the point of germination
-            srop_germination = 1.0 + mod (g_current_stage, 1.0)
-         else
-                ! no germination yet but indicate that we are on the way.
-            srop_germination = 0.999
-         endif
-      else
-             ! no sowing yet
-         srop_germination = 0.0
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine srop_thermal_time1 (
-     .          g_maxt,
-     .          g_mint,
-     .          c_x_temp,
-     .          c_y_tt,
-     .          c_num_temp,
-     .          g_dlt_tt)
-*     ===========================================================
-      implicit none
-      include    'CropDefCons.inc'
-      include 'science.pub'
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      real       g_maxt
-      real       g_mint
-      real       c_x_temp(*)
-      real       c_y_tt(*)
-      integer    c_num_temp
-      real       g_dlt_tt                ! (OUTPUT) daily thermal time (oC)
-
-*+  Purpose
-*     Growing degree day (thermal time) is calculated.
-*
-*   Called by srop_phenology(1) in croptree.for
-
-*+  Notes
-*     Eight interpolations of the air temperature are
-*     calculated using a three-hour correction factor.
-*     For each air three-hour air temperature, a value of growing
-*     degree day is calculated.  The eight three-hour estimates
-*     are then averaged to obtain the daily value of growing degree
-*     days.
-
-*+  Changes
-*     140994 jngh specified and programmed
-*     090695 psc  added N_fact for phenology stress
-*     030997 scc  removed all stress factors - they belong in CROPTREE!
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'srop_thermal_time1')
-
-*+  Local Variables
-      real       dly_therm_time        ! thermal time for the day (deg day)
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
- 
-      dly_therm_time = linint_3hrly_temp (g_maxt, g_mint
-     :                 , c_x_temp, c_y_tt
-     :                 , c_num_temp)
- 
-      g_dlt_tt = dly_therm_time
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine srop_thermal_time2 (
-     .          g_maxt,
-     .          g_mint,
-     .          c_tt_base,
-     .          c_tt_opt,
-     .          g_dlt_tt_fm)
-*     ===========================================================
-      implicit none
-      include    'CropDefCons.inc'
-      include 'error.pub'
-
-*+  Sub-Program Arguments
-      real       g_maxt
-      real       g_mint
-      real       c_tt_base
-      real       c_tt_opt
-      real       g_dlt_tt_fm                ! (OUTPUT) daily thermal time (oC)
-
-*+  Purpose
-*     Growing degree day (thermal time) is calculated.
-*
-*     This function used between flowering and maturity
-*
-*   Called by srop_phenology(1) in croptree.for
-
-*+  Notes
-*   G_dlt_tt = 0                  { av_temp <= tt_base oC
-*            = av_temp - tt_base  { tt_base < av_temp < tt_opt
-*            = tt_opt             { av_temp >= tt_opt
-*
-*   default values for tt_base = 5.7 and tt_opt = 23.5
-*
-
-*+  Changes
-*     190997 gmc programmed
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'srop_thermal_time2')
-
-*+  Local Variables
-      real       av_temp               ! average daily temp
-      real       dly_therm_time        ! thermal time for the day (deg day)
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
- 
-      av_temp = (g_maxt + g_mint) / 2.0
- 
-      if(av_temp .le. c_tt_base) then
-         dly_therm_time = 0.0
-      else if(av_temp .le. c_tt_opt) then
-         dly_therm_time = av_temp - c_tt_base
-      else
-         dly_therm_time = c_tt_opt - c_tt_base
-      endif
- 
-      g_dlt_tt_fm = dly_therm_time
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine srop_devel1 (
-     .          g_dlt_stage,
-     .          g_current_stage,
-     .          phase_devel,
-     .          max_stage)
-*     ===========================================================
-      implicit none
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      real       g_dlt_stage             ! (OUTPUT) change in growth stage
-      real       g_current_stage         ! (OUTPUT) new stage no.
-      real       phase_devel
-
-*+  Purpose
-*     Determine the current stage of development.
-*
-*   Called by srop_phenology(1) in croptree.for
-
-*+  Changes
-*     010994 jngh specified and programmed
-*     070495 psc add l_bound to dlt-stage
-*     970518 scc Fixed Phen bug (JNH notes)
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'srop_devel1')
-
-*+  Local Variables
-      real       new_stage             ! new stage number
-      integer    max_stage              !New code
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-      ! calculate the new delta and the new stage
- 
-      new_stage = aint (g_current_stage) + phase_devel
-      g_dlt_stage = new_stage - g_current_stage
- 
- 
-      if (phase_devel.ge.1.0) then
-         g_current_stage = aint (g_current_stage + 1.0)
-         if (int(g_current_stage).eq.max_stage) then
-            g_current_stage = 1.0
-         endif
-      else
-         g_current_stage = new_stage
- 
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
 
 
 *     ===========================================================
@@ -1466,6 +619,7 @@ cjh  changed 0.0 to 1.0
 *set the lai_max_possible for input to SPLA routines
  
            call srop_leaf_area_lai_max_possible (
+     .          c%crop_type,
      .          floral_init,
      .          flag_leaf,
      .          harvest_ripe,
@@ -1479,7 +633,7 @@ cjh  changed 0.0 to 1.0
  
 !sunf - modifying the next one
 
-           call srop_leaf_area_sen_age2 (
+           call sunf_leaf_area_sen_age2 (
      .          g%current_stage,
      .          g%tt_tot,
      .          p%spla_intercept,
@@ -1567,56 +721,7 @@ cjh  changed 0.0 to 1.0
 
 
 *     ===========================================================
-      subroutine srop_leaf_area_sen_frost2(
-     .          c_frost_kill,
-     .          g_lai,
-     .          g_mint,
-     .          g_dlt_slai_frost)
-*     ===========================================================
-      implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      REAL c_frost_kill        ! (INPUT)  temperature threshold for leaf death (oC
-      REAL g_lai               ! (INPUT)  live plant green lai
-      REAL g_mint              ! (INPUT)  minimum air temperature (oC)
-      real g_dlt_slai_frost    ! (OUTPUT) lai frosted today
-
-*+  Purpose
-*+      Return the lai that would senesce on the
-*       current day from frosting
-*
-*   Called from srop_leaf_area_sen(2) in croptree.for
-
-*+  Changes
-*     010994 jngh specified and programmed
-*     970317 slw templated
-
-*+  Constant Values
-      character  my_name*(*) ! name of procedure
-      parameter (my_name = 'srop_leaf_area_sen_frost2')
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-          ! calculate senecence due to frost
-      if (g_mint.le.c_frost_kill) then
-         g_dlt_slai_frost = g_lai
-      else
-         g_dlt_slai_frost = 0.0
-      endif
-      g_dlt_slai_frost = bound (g_dlt_slai_frost, 0.0, g_lai)
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine srop_leaf_area_sen_age2 (
+      subroutine sunf_leaf_area_sen_age2 (
      .          g_current_stage,
      .          g_tt_tot,
      .          p_spla_intercept,
@@ -1757,180 +862,6 @@ c What if you harvest the crop and leave it to rattoon?
 
 
 
-*     ===========================================================
-      subroutine srop_leaf_area_sen_water2(
-     .          g_day_of_year,
-     .          g_year,
-     .          c_sen_threshold,
-     .          c_sen_water_time_const,
-     .          num_layer,
-     .          g_dlayer,
-     .          g_lai,
-     .          g_lai_equilib_water,
-     .          g_root_depth,
-     .          g_sw_demand,
-     .          g_sw_supply,
-     .          g_dlt_slai_water)
-*     ===========================================================
-      implicit none
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      INTEGER g_day_of_year              ! (INPUT)  day of year
-      INTEGER g_year                     ! (INPUT)  year
-      REAL    c_sen_threshold            ! (INPUT)  supply:demand ratio for onset
-      REAL    c_sen_water_time_const     ! (INPUT)  delay factor for water senesce
-      INTEGER num_layer                ! (INPUT)  number of layers in profile
-      REAL    g_dlayer(*)                ! (INPUT)  thickness of soil layer I (mm)
-      REAL    g_lai                      ! (INPUT)  live plant green lai
-      REAL    g_lai_equilib_water(*)     ! (INPUT)  lai threshold for water senesc
-      REAL    g_root_depth               ! (INPUT)  depth of roots (mm)
-      REAL    g_sw_demand                ! (INPUT)  total crop demand for water (m
-      REAL    g_sw_supply(*)             ! (INPUT)  potential water to take up (su
-      REAL    g_dlt_slai_water           ! (OUTPUT) water stress senescense
-
-*+  Purpose
-*       Return the lai that would senesce on the
-*       current day from water stress
-*
-*   Called from srop_leaf_area_sen(2) in croptree.for
-*   Calls srop_running_ave in  crop.for
-
-*+  Changes
-*     010994 jngh specified and programmed
-*     970216 slw generalised to avoid common blocks , added num_layer parameter
-
-*+  Calls
-      real    srop_running_ave        ! function
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'srop_leaf_area_sen_water2')
-
-*+  Local Variables
-      real    ave_lai_equilib_water    ! running mean lai threshold for water se
-      integer deepest_layer            ! deepest layer in which the roots are gr
-      real    sw_demand_ratio          ! water supply:demand ratio
-      real    sw_supply_sum            ! total supply over profile (mm)
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
-         ! calculate senescense from water stress
-         ! NOTE needs rework for multiple crops
- 
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer, num_layer)
-      sw_supply_sum = sum_real_array (g_sw_supply, deepest_layer)
-      sw_demand_ratio = divide (sw_supply_sum, g_sw_demand, 1.0)
- 
-      if (sw_demand_ratio.lt.c_sen_threshold) then
-         ave_lai_equilib_water = srop_running_ave(g_day_of_year,
-     :                            g_year, g_lai_equilib_water, 10)
- 
-         g_dlt_slai_water = (g_lai - ave_lai_equilib_water)
-     :                  / c_sen_water_time_const
- 
-         g_dlt_slai_water = l_bound (g_dlt_slai_water, 0.0)
- 
-      else
-         g_dlt_slai_water = 0.0
- 
-      endif
-      g_dlt_slai_water = bound (g_dlt_slai_water, 0.0, g_lai)
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine srop_leaf_area_sen_light2 (
-     .          g_radn_int,
-     .          g_radn,
-     .          c_sen_radn_crit,
-     .          g_year,
-     .          g_day_of_year,
-     .          g_lai_equilib_light,
-     .          g_lai,
-     .          c_sen_light_time_const,
-     .          g_dlt_slai_light)
-*     ===========================================================
-      implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-       real g_radn_int
-       real g_radn
-       real c_sen_radn_crit
-       integer g_year
-       integer g_day_of_year
-       real g_lai_equilib_light(*)
-       real g_lai
-       real c_sen_light_time_const
-       real g_dlt_slai_light        ! (OUTPUT) lai senesced by low light
-
-*+  Purpose
-*       Return the lai that would senesce on the
-*       current day from low light
-*
-*   Called from srop_leaf_area_sen(2) in croptree.for
-*   Calls srop_running_ave in  crop.for
-
-*+  Changes
-*     010994 jngh specified and programmed
-*     970317 slw templated
-
-*+  Calls
-      real       srop_running_ave     ! function
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'srop_leaf_area_sen_light2')
-
-*+  Local Variables
-      real       ave_lai_equilib_light ! running mean lai threshold for light
-                                       ! senescence ()
-      real       radn_transmitted      ! radn transmitted through canopy
-                                       ! (mj/m^2)
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-         ! calculate senescense from water stress
- 
-c+!!!!!!!! this doesnt account for other growing crops
-c+!!!!!!!! should be based on reduction of intercepted light and k*lai
-c+!!!!!!!!
-             ! calculate senescence due to low light
-cglh - This works out se. based on when light drops below ps compensation point
-c the leaf can't sustain itself.
- 
-      radn_transmitted = g_radn - g_radn_int
- 
-      if (radn_transmitted.lt.c_sen_radn_crit) then
- 
-         ave_lai_equilib_light = srop_running_ave
-     .         (g_day_of_year, g_year, g_lai_equilib_light, 10)
-         g_dlt_slai_light = divide (g_lai - ave_lai_equilib_light
-     :                          , c_sen_light_time_const , 0.0)
-         g_dlt_slai_light = l_bound (g_dlt_slai_light, 0.0)
-      else
-         g_dlt_slai_light = 0.0
-      endif
- 
-      g_dlt_slai_light = bound (g_dlt_slai_light, 0.0, g_lai)
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
 
 *     ===========================================================
       subroutine srop_failure_emergence1(
@@ -2050,104 +981,6 @@ c the leaf can't sustain itself.
 
 
 
-*     ===========================================================
-      subroutine srop_lai_equilib_water(
-     .           g_day_of_year,
-     .           g_year,
-     .           c_rue,
-     .           g_cover_green,
-     .           g_current_stage,
-     .           g_lai,
-     .           g_nfact_photo,
-     .           g_radn,
-     .           g_radn_int,
-     .           g_sw_supply_sum,
-     .           g_temp_stress_photo,
-     .           g_transp_eff,
-     .           g_lai_equilib_water)
-*     ===========================================================
-      implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      INTEGER g_day_of_year          ! (INPUT)  day of year
-      INTEGER g_year                 ! (INPUT)  year
-      REAL    c_extinction_coef      ! (INPUT)  radiation extinction coefficient
-      REAL    c_rue(*)               ! (INPUT)  radiation use efficiency (g dm/m
-      REAL    g_cover_green          ! (INPUT)  fraction of radiation reaching t
-      REAL    g_current_stage        ! (INPUT)  current phenological stage
-      REAL    g_lai                  ! (INPUT)  live plant green lai
-      REAL    g_nfact_photo          ! (INPUT)
-      REAL    g_radn                 ! (INPUT)  solar radiation (Mj/m^2/day)
-      REAL    g_radn_int             ! (INPUT)  g_radn intercepted by leaves (mj
-      REAL    g_sw_supply_sum        ! (INPUT)  potential water to take up (supp
-      REAL    g_temp_stress_photo    ! (INPUT)
-      REAL    g_transp_eff           ! (INPUT)  transpiration efficiency (g dm/m
-      real    g_lai_equilib_water(*) ! (INPUT/OUTPUT) lai threshold for water se
-
-*+  Purpose
-*       Return the lai equilibrium water.
-*
-*   Called from srop_leaf_area_sen(2) in croptree.for
-*   Calls srop_store_value in crop.for
-
-*+  Changes
-*     010994 jngh specified and programmed
-*     070795 jngh corrected for case of rue = 0
-*     040895 jngh corrected for intercropping
-*     970216 slw generalised to avoid common blocks , added num_layer parameter
-
-*+  Constant Values
-      character  my_name*(*)       ! name of procedure
-      parameter (my_name = 'srop_lai_equilib_water')
-
-*+  Local Variables
-      real       dlt_dm_transp     ! potential dry matter production
-                                   ! by transpiration (g/m^2)
-      real       lai_equilib_water_today ! lai threshold for water senescence
-      real       lrue              ! radiation use efficiency (g dm/mj)
-      real       rue_reduction     ! Effect of non-optimal N and Temp
-                                   ! conditions on RUE (0-1)
-      integer    stage_no          ! current stage no.
-      real       intc_crit         ! critical interception (0-1)
-      real       radn_canopy       ! radiation reaching canopy mj/m^2)
-      real       sen_radn_crit     ! critical radiation (mj/m^2)
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-      c_extinction_coef = 0.4
- 
-      stage_no = int (g_current_stage)
- 
-      dlt_dm_transp = g_sw_supply_sum * g_transp_eff
-      rue_reduction = min (g_temp_stress_photo, g_nfact_photo)
-      lrue = c_rue(stage_no) * rue_reduction
- 
-      call bound_check_real_var (lrue, 0.0, c_rue(stage_no), 'c_rue')
- 
-      radn_canopy = divide (g_radn_int, g_cover_green, g_radn)
-      sen_radn_crit = divide (dlt_dm_transp, lrue, radn_canopy)
-      intc_crit = divide (sen_radn_crit, radn_canopy, 1.0)
- 
-      if (intc_crit.lt.1.0) then
-            ! needs rework for row spacing
-         lai_equilib_water_today = -log (1.0 - intc_crit)
-     :                           / c_extinction_coef
- 
-      else
-         lai_equilib_water_today =  g_lai
-      endif
- 
-      call srop_store_value(g_day_of_year, g_year,
-     :          g_lai_equilib_water, lai_equilib_water_today)
- 
-      call pop_routine (my_name)
-      return
-      end
-
 
 
 *     ===========================================================
@@ -2198,84 +1031,11 @@ c the leaf can't sustain itself.
 
 
 
-*     ===========================================================
-      subroutine srop_lai_equilib_light (
-     .          g_radn_int,
-     .          g_cover_green,
-     .          c_sen_radn_crit,
-     .          c_extinction_coef,
-     .          g_lai,
-     .          g_day_of_year,
-     .          g_year,
-     .          g_lai_eqlb_light)
-*     ===========================================================
-      implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-       real g_radn_int
-       real g_cover_green
-       real c_sen_radn_crit
-       real c_extinction_coef
-       real g_lai
-       integer g_day_of_year
-       integer g_year
-       real g_lai_eqlb_light(*)  ! (IN/OUT) lai threshold for light senescence
-
-*+  Purpose
-*       Return the lai equilibrium light
-*
-*   Called from srop_leaf_area_sen(2) in croptree.for
-*   Calls srop_store_value
-
-*+  Changes
-*     010994 jngh specified and programmed
-*     040895 jngh corrected for intercropping
-*     970317 slw templated
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'srop_lai_equilib_light')
-
-*+  Local Variables
-      real       lai_eqlb_light_today ! lai threshold for light senescence
-      real       radn_canopy           ! radiation reaching canopy mj/m^2)
-      real       trans_crit            ! critical transmission (0-1)
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-      radn_canopy = divide (g_radn_int, g_cover_green, 0.0)
-      trans_crit = divide (c_sen_radn_crit, radn_canopy, 0.0)
- 
-      c_extinction_coef = 0.4
- 
-      if (trans_crit.gt.0.0) then
-            ! needs rework for row spacing
-         lai_eqlb_light_today = -log (trans_crit)/c_extinction_coef
-      else
-         lai_eqlb_light_today = g_lai
-      endif
- 
-      call srop_store_value (
-     .          g_day_of_year,
-     .          g_year,
-     .          g_lai_eqlb_light,
-     .          lai_eqlb_light_today)
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
 
 
 
 *     ===========================================================
       real function srop_N_dlt_grain_conc(
-     .              grain,
      .              c_sfac_slope,
      .              c_sw_fac_max,
      .              c_temp_fac_min,
@@ -2283,15 +1043,14 @@ c the leaf can't sustain itself.
      .              g_maxt,
      .              g_mint,
      .              g_nfact_grain_conc,
-     .              g_n_conc_crit,
-     .              g_n_conc_min,
+     .              g_n_conc_crit_grain,
+     .              g_n_conc_min_grain,
      .              g_swdef_expansion)
 *     ===========================================================
       implicit none
       include 'error.pub'
 
 *+  Sub-Program Arguments
-      integer    grain
       REAL       c_sfac_slope          ! (INPUT)  soil water stress factor slope
       REAL       c_sw_fac_max          ! (INPUT)  soil water stress factor maximum
       REAL       c_temp_fac_min        ! (INPUT)  temperature stress factor minimu
@@ -2299,8 +1058,8 @@ c the leaf can't sustain itself.
       REAL       g_maxt                ! (INPUT)  maximum air temperature (oC)
       REAL       g_mint                ! (INPUT)  minimum air temperature (oC)
       REAL       g_nfact_grain_conc    ! (INPUT)
-      REAL       g_n_conc_crit(*)      ! (INPUT)  critical N concentration (g N/g
-      REAL       g_n_conc_min(*)       ! (INPUT)  minimum N concentration (g N/g b
+      REAL       g_n_conc_crit_grain   ! (INPUT)  critical N concentration (g N/g
+      REAL       g_n_conc_min_grain    ! (INPUT)  minimum N concentration (g N/g b
       REAL       g_swdef_expansion     ! (INPUT)
 
 *+  Purpose
@@ -2350,8 +1109,8 @@ c+!!!!!!!!!! return to orig cm
  
             ! N stress reduces grain N concentration below critical
  
-      N_conc_pot = g_n_conc_min(grain)
-     :           + (g_n_conc_crit(grain) - g_n_conc_min(grain))
+      N_conc_pot = g_n_conc_min_grain
+     :           + (g_n_conc_crit_grain - g_n_conc_min_grain)
      :           * g_nfact_grain_conc
  
             ! Temperature and water stresses can decrease/increase grain
@@ -2744,21 +1503,11 @@ c+!!!!!!!!!! return to orig cm
 
 *     ===========================================================
       subroutine sproc_N_retranslocate1 (
-     .          g_dlt_dm_green,
-     .          g_maxt,
-     .          g_mint,
-     .          c_temp_fac_min,
-     .          c_tfac_slope,
-     .          c_sw_fac_max,
-     .          c_sfac_slope,
-     .          g_N_conc_min,
-     .          g_N_conc_crit,
-     .          g_dm_green,
-     .          g_N_green,
-     .          g_N_conc_max,
-     .          g_swdef_expansion,
-     .          g_nfact_grain_conc,
-     .          o_dlt_N_retrans)
+     .            grain_n_demand,
+     .            g_N_conc_min,
+     .            g_dm_green,
+     .            g_N_green,
+     .            o_dlt_N_retrans)
 *     ===========================================================
       implicit none
       include   'CropDefCons.inc'
@@ -2766,20 +1515,10 @@ c+!!!!!!!!!! return to orig cm
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
-       real g_dlt_dm_green(*)
-       real g_maxt
-       real g_mint
-       real c_temp_fac_min
-       real c_tfac_slope
-       real c_sw_fac_max
-       real c_sfac_slope
+       real grain_n_demand
        real g_N_conc_min(*)
-       real g_N_conc_crit(*)
        real g_dm_green(*)
        real g_N_green(*)
-       real g_N_conc_max(*)
-       real g_swdef_expansion
-       real g_nfact_grain_conc
        real o_dlt_N_retrans (*)     ! (OUTPUT) plant N taken out from
                                        ! plant parts (g N/m^2)
 
@@ -2801,37 +1540,15 @@ c+!!!!!!!!!! return to orig cm
       parameter (my_name = 'sproc_N_retranslocate1')
 
 *+  Local Variables
-      real       grain_N_demand        ! grain N demand (g/m^2)
-      real       N_avail(max_part)     ! N available for transfer to grain
-                                       ! (g/m^2)
-      real       N_avail_stover        ! total N available in stover
-                                       ! (g/m^2)
-      real       N_potential           ! maximum grain N demand (g/m^2)
+      real       N_avail(max_part)     ! N available for transfer to grain  (g/m^2)
+      real       N_avail_stover        ! total N available in stover! (g/m^2)
       integer    part                  ! plant part number
 
 *- Implementation Section ----------------------------------
  
       call push_routine (my_name)
  
-      grain_N_demand = g_dlt_dm_green(grain) * srop_N_dlt_grain_conc(
-     :          grain,
-     .          c_sfac_slope,
-     .          c_sw_fac_max,
-     .          c_temp_fac_min,
-     .          c_tfac_slope,
-     .          g_maxt,
-     .          g_mint,
-     .          g_nfact_grain_conc,
-     .          g_N_conc_crit,
-     .          g_N_conc_min,
-     .          g_swdef_expansion)
- 
-      N_potential  = (g_dm_green(grain) + g_dlt_dm_green(grain))
-     :             * g_N_conc_max(grain)
- 
-      grain_N_demand = u_bound (grain_N_demand
-     :                        , N_potential - g_N_green(grain))
- 
+
       call srop_N_retrans_avail (max_part, root, grain,
      .          g_N_conc_min,
      .          g_dm_green,
@@ -2890,6 +1607,87 @@ csc  true....
       return
       end
 
+
+*     ===========================================================
+      subroutine sproc_grain_N_demand (
+     .           g_dm_grain,
+     .           g_dlt_dm_grain,
+     .           g_maxt,
+     .           g_mint,
+     .           c_temp_fac_min,
+     .           c_tfac_slope,
+     .           c_sw_fac_max,
+     .           c_sfac_slope,
+     .           g_N_grain,
+     .           g_N_conc_min_grain,
+     .           g_N_conc_crit_grain,
+     .           g_N_conc_max_grain,
+     .           g_swdef_expansion,
+     .           g_nfact_grain_conc,
+     .           grain_n_demand)
+*     ===========================================================
+      implicit none
+      include   'CropDefCons.inc'
+      include 'data.pub'
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+       real g_dm_grain
+       real g_dlt_dm_grain
+       real g_maxt
+       real g_mint
+       real c_temp_fac_min
+       real c_tfac_slope
+       real c_sw_fac_max
+       real c_sfac_slope
+       real g_N_grain
+       real g_N_conc_min_grain
+       real g_N_conc_crit_grain
+       real g_N_conc_max_grain
+       real g_swdef_expansion
+       real g_nfact_grain_conc
+       real grain_n_demand       ! (OUTPUT) plant N taken out from plant parts (g N/m^2)
+
+*+  Purpose
+*+  Changes
+
+*+  Calls
+      real       srop_N_dlt_grain_conc ! function
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'sproc_grain_N_demand')
+
+*+  Local Variables
+      real       N_potential           ! maximum grain N demand (g/m^2)
+      integer    part                  ! plant part number
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+      grain_N_demand = g_dlt_dm_grain * srop_N_dlt_grain_conc(
+     .                                      c_sfac_slope,
+     .                                      c_sw_fac_max,
+     .                                      c_temp_fac_min,
+     .                                      c_tfac_slope,
+     .                                      g_maxt,
+     .                                      g_mint,
+     .                                      g_nfact_grain_conc,
+     .                                      g_N_conc_crit_grain,
+     .                                      g_N_conc_min_grain,
+     .                                      g_swdef_expansion)
+                                        
+      N_potential  = (g_dm_grain + g_dlt_dm_grain)
+     :             * g_N_conc_max_grain
+ 
+      grain_N_demand = u_bound (grain_N_demand
+     :                        , N_potential - g_N_grain)
+ 
+
+      call pop_routine (my_name)
+      return
+      end
 
 
 *     ===========================================================
@@ -3101,72 +1899,6 @@ csc  true....
                g_dlt_plants_dead = -g_plants
             endif
          endif
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine sproc_leaf_area_actual1 (
-     .          g_current_stage,
-     .          g_dlt_lai,
-     .          g_dlt_lai_stressed,
-     .          g_dlt_dm_green,
-     .          c_sla_max
-     .          )
-*     ===========================================================
-      implicit none
-      include   'convert.inc'
-      include   'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'                          
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      real       g_current_stage
-      real       g_dlt_lai
-      real       g_dlt_lai_stressed
-      real       g_dlt_dm_green(*)
-      real       c_sla_max
-
-*+  Purpose
-*       Simulate actual crop leaf area development - checks that leaf area
-*       development matches DM production and calculates tiller production.
-*       Requires g_dlt_lai_stressed from srop_leaf_area_stressed1 after
-*       dlt_lai_pot has been calculated by srop_leaf_area_devel_plant1
-
-*+  Changes
-*      250894 jngh specified and programmed
-*      240596 glh  added tillering
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sproc_leaf_area_actual1')
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
- 
-         ! limit the delta leaf area by carbon supply
-!glh/scc but don't do when crop small - results in many errors
- 
-      if (stage_is_between (emerg, endjuv
-     :                        , g_current_stage))  then
- 
-           g_dlt_lai = g_dlt_lai_stressed
- 
-      elseif (stage_is_between (endjuv, maturity
-     :      , g_current_stage))  then
- 
-            g_dlt_lai = u_bound (g_dlt_lai_stressed
-     :                   , g_dlt_dm_green(leaf)*c_sla_max * smm2sm)
- 
-      else
- 
-           g_dlt_lai = g_dlt_lai_stressed
- 
-      endif
  
       call pop_routine (my_name)
       return
