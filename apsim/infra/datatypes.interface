@@ -594,7 +594,7 @@
    </type>
 
 !  dsg 030702  array sized for number of crops
-!       
+!
    <type name="cropnitrogensupply" array = "T">
       <element>
       <field name="name" kind="string" description="crop type + instance name"/>
@@ -606,6 +606,7 @@
                    <field name="NH4"    kind="single" unit="kg/ha" />
                    <field name="NO3"    kind="single" unit="kg/ha" />
               </element>
+         </field>
          </element>
       </field>
       </element>
@@ -680,7 +681,7 @@
 ! dsg 040702  ****** note: below is the 'SurfaceOrganicMatter' data structure with 'cover' added *******
       <field name="name" kind="string"/>
       <field name="type" kind="string"/>
-      <field name="OrganicMatterFraction"array="T">
+      <field name="OrganicMatterFraction" array="T">
          <element>
          <field name="amount"  kind="single" units="kg/ha"/>
          <field name="C"       kind="single" units="kg/ha"/>
@@ -688,7 +689,7 @@
          <field name="P"       kind="single" units="kg/ha"/>
          <field name="AshAlk"  kind="single" units="kg/ha"/>
          </element>
-      </field>         
+      </field>
       <field name="Cover"  kind="single" units=""/>
       </element>
    </type>
@@ -736,7 +737,7 @@
     !!!! ORGANIC MATTER Types !!!!!!
 
 
-! dsg040702  this individual structure is currently part of several other structures, and can be used when inheritance is implemented 
+! dsg040702  this individual structure is currently part of several other structures, and can be used when inheritance is implemented
 !            It's currently redundant
 !   <type name="OrganicMatterFraction" array="T" >
 !      <field name="amount"  kind="single" units="kg/ha"/>
@@ -768,7 +769,7 @@
    <type name="SurfaceOrganicMatter">
       <field name="name" kind="string"/>
       <field name="type" kind="string"/>
-      <field name="OrganicMatterFraction"array="T">
+      <field name="OrganicMatterFraction" array="T">
          <element>
          <field name="amount"  kind="single" units="kg/ha"/>
          <field name="C"       kind="single" units="kg/ha"/>
@@ -776,7 +777,7 @@
          <field name="P"       kind="single" units="kg/ha"/>
          <field name="AshAlk"  kind="single" units="kg/ha"/>
          </element>
-      </field>         
+      </field>
    </type>
 
 !dsg 030702
@@ -784,7 +785,7 @@
       <field name="type" kind="string"/>
       <field name="layer" array = "T">
           <element>
-          <field name="OrganicMatterFraction"array="T">
+          <field name="OrganicMatterFraction" array="T">
              <element>
              <field name="amount"  kind="single" units="kg/ha"/>
              <field name="C"       kind="single" units="kg/ha"/>
@@ -792,8 +793,9 @@
              <field name="P"       kind="single" units="kg/ha"/>
              <field name="AshAlk"  kind="single" units="kg/ha"/>
              </element>
-          </element>   
-      </field>         
+          </field>
+          </element>
+      </field>
    </type>
 
 
