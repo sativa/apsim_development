@@ -82,19 +82,25 @@ wet_soil_depth = 1500
 !   ll   =  0.220  0.220   0.310   0.330  0.370   0.420  0.470       !Database values
 ! Assume similar to chickpea but shallower root system
    ll   =  0.220  0.220   0.370   0.380  0.400   0.400  0.410       !Database values
-   kl   =  0.080  0.080   0.080   0.060  0.000   0.000  0.000  ()   !
-   xf   =  1.000  1.000   1.000   1.000  0.000   0.000  0.000  ()   !root exploration factor
+   kl   =  0.080  0.080   0.080   0.060  0.060   0.060  0.000  ()   !
+   xf   =  1.000  1.000   1.000   1.000  1.000   1.000  0.000  ()   !root exploration factor
 
 [waco.fababean.parameters]
 ! LL assumed to be similar as wheat
 !   ll   =  0.220  0.220   0.310   0.330  0.370   0.420  0.470       !Database values
 ! Assume similar to chickpea
    ll   =  0.220  0.220   0.370   0.380  0.400   0.400  0.410       !Database values
-   kl   =  0.080  0.080   0.080   0.060  0.040   0.020  0.010  ()   !
-   xf   =  1.000  1.000   1.000   1.000  1.000   1.000  1.000  ()   !root exploration factor
+   kl   =  0.080  0.080   0.080   0.060  0.040   0.000  0.000  ()   !
+   xf   =  1.000  1.000   1.000   1.000  0.200   0.000  0.000  ()   !root exploration factor
 
 [waco.maize.parameters]
 ! Assume similar to chickpea
    ll   =  0.220  0.220   0.370   0.380  0.400   0.400  0.410       !Database values
    kl   =  0.120  0.120   0.120   0.120  0.100   0.080  0.040  ()   !
-   xf   =  1.000  1.000   1.000   1.000  1.000   1.000  1.000  ()   !root exploration factor   
+   xf   =  1.000  1.000   1.000   1.000  1.000   1.000  1.000  ()   !root exploration factor
+
+[waco.sorghum.parameters]
+! Assume similar to maize
+   ll   =  0.220  0.220   0.370   0.380  0.400   0.400  0.410       !Database values
+   kl   =  0.120  0.120   0.120   0.120  0.100   0.080  0.040  ()   !
+   xf   =  1.000  1.000   1.000   1.000  1.000   1.000  1.000  ()   !root exploration factor      
