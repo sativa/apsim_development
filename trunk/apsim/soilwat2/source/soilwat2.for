@@ -81,7 +81,7 @@
 * jpd V1.1 includes selected changes from PhilV1.0 30/9/94
 
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V2.12 270897')
+      parameter (version_number = 'V2.13 010598')
 
 *   Initial data values
 *       none
@@ -3183,18 +3183,23 @@ cjh
                  ! get sw properties
 
       call read_real_array (section_name
-     :                     , 'air_dry', max_layer, '()'
-     :                     , air_dry, numvals
-     :                     , 0.0, 10.0)
-
-      call read_real_array (section_name
      :                     , 'dlayer', max_layer, '(mm)'
      :                     , p_dlayer, numvals
      :                     , 0.0, 10000.0)
 
       call read_real_array (section_name
+     :                     , 'sat', max_layer, '()'
+     :                     , sat, numvals
+     :                     , 0.0, 1000.0)
+
+      call read_real_array (section_name
      :                     , 'dul', max_layer, '()'
      :                     , dul, numvals
+     :                     , 0.0, 1000.0)
+
+      call read_real_array (section_name
+     :                     , 'sw', max_layer, '()'
+     :                     , sw, numvals
      :                     , 0.0, 1000.0)
 
       call read_real_array (section_name
@@ -3203,14 +3208,9 @@ cjh
      :                     , 0.0, 1000.0)
 
       call read_real_array (section_name
-     :                     , 'sat', max_layer, '()'
-     :                     , sat, numvals
-     :                     , 0.0, 1000.0)
-
-      call read_real_array (section_name
-     :                     , 'sw', max_layer, '()'
-     :                     , sw, numvals
-     :                     , 0.0, 1000.0)
+     :                     , 'air_dry', max_layer, '()'
+     :                     , air_dry, numvals
+     :                     , 0.0, 10.0)
 
       call read_real_array (section_name
      :                     , 'swcon', max_layer, '()'
