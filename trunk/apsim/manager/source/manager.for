@@ -519,6 +519,7 @@
       include 'const.inc'              ! constant definitions
       include 'error.pub'                         
       include 'apsimengine.pub'
+      include 'data.pub'
 
 !+  Purpose
 !     Read in all criterias one word at a time and pass it to a processing
@@ -541,7 +542,6 @@
 !- Implementation Section ----------------------------------
  
       call push_routine (Routine_name)
- 
       ! Set the read flag so that the next call to manager_read_line
       ! will restart the reading routine.
  
@@ -558,7 +558,6 @@
       g%line_number = 0
       call Tokenize (g%token_array, g%token_array2, max_tokens)
       call Memo_Free (g%lines)
- 
       g%start_token = g%last_token + 2
       g%prepare_index = g%start_token
       g%current_section = 'prepare'
