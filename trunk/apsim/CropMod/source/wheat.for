@@ -1,4 +1,4 @@
-C     Last change:  E    16 Aug 2001    1:31 pm
+C     Last change:  E    27 Aug 2001    4:55 pm
 
 *     ===========================================================
       subroutine Read_Constants_Wheat ()
@@ -11009,10 +11009,9 @@ c      PRINT *, 'leaf_size     =', leaf_size(1:14)
           end do
 
 
-          if (istage.lt.germ) then
-c         if (istage.lt.emerg) then
-                g_tiller_tt_tot = 0.0   ! in original i_wheat tt accumulated from germination - ew
-          endif
+c          if (istage.lt.germ) then
+c                g_tiller_tt_tot = 0.0   ! in original i_wheat tt accumulated from germination - ew
+c          endif
  
 
        !=====================================================================

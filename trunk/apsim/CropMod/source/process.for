@@ -1,4 +1,4 @@
-C     Last change:  E    16 Aug 2001    1:43 pm
+C     Last change:  E    27 Aug 2001    4:21 pm
 
 
 
@@ -1244,7 +1244,6 @@ c     :  leaf_no_now
          else
              g_extinction_coeff = c_extinct_coeff_post_anthesis   !0.42
          end if
-
 
 
       !SUNFLOWER CROP

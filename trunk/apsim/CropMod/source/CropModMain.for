@@ -1,4 +1,4 @@
-C     Last change:  E    24 Aug 2001    3:51 pm
+C     Last change:  E    28 Aug 2001    4:11 pm
 
       INCLUDE 'CropMod.inc'
 
@@ -979,6 +979,9 @@ cjh      endif
       REAL       pconc
       REAL       value
 
+      REAL       no3_uptake(max_layer)
+      REAL       nh4_uptake(max_layer)
+
 
 *- Implementation Section ----------------------------------
  
@@ -1844,6 +1847,7 @@ cjh      endif
 
       !nitrogen uptake
 
+
       elseif (variable_name .eq. 'n_massflow_uptake') then
          deepest_layer = find_layer_no (g%root_depth,g%dlayer,max_layer)
          N_uptake_sum = - sum_real_array (g%dlt_NO3gsm_massflow,
@@ -1930,6 +1934,33 @@ cjh      endif
      :                             , '(g/m2)'
      :                             , biomass_n)
 
+
+      !--------------------------------------------------------
+      !NEED THE FOLLOWING TO WORK WITH SOILPH
+
+      else if (Variable_name .eq. 'no3_uptake') then
+
+         num_layers = count_of_real_vals (g%dlayer, max_layer)
+
+         call fill_real_array(no3_uptake,0.0, max_layer)
+
+         no3_uptake(:) =  g%dlt_NO3gsm(:) * gm2kg/sm2ha
+
+         call respond2get_real_array (variable_name, '(kg/ha)'
+     :                               , no3_uptake, num_layers)
+ 
+
+      else if (Variable_name .eq. 'nh4_uptake') then
+
+         num_layers = count_of_real_vals (g%dlayer, max_layer)
+
+         call fill_real_array(nh4_uptake,0.0, max_layer)
+
+         nh4_uptake(:) =  g%dlt_Nh4gsm(:) * gm2kg/sm2ha
+
+         call respond2get_real_array (variable_name, '(kg/ha)'
+     :                               , nh4_uptake, num_layers)
+      !--------------------------------------------------------
 
       !soil N amount
 
@@ -2956,112 +2987,76 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 *     ===========================================================
       use CropModModule
       implicit none
-      include   'convert.inc'
-      include 'error.pub'
+      include 'componentInterface.inc'
+      include 'convert.inc'
+      include 'data.pub'                          
+      include 'crp_comm.pub'                      
+      include 'error.pub'                         
+
 
 *+  Purpose
 *       Update other module states
 
 *+  Changes
 *      250894 jngh specified and programmed
+*      191099 jngh changed to legume_Send_Crop_Chopped_Event
+*      280801 ew   generalised
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Update_Other_Variables')
 
+
+*+  Local Variables
+      real       dm_residue(max_part)            ! dry matter added to residue (kg/ha)
+      real       N_residue(max_part)             ! nitrogen added to residue (kg/ha)
+      real       fraction_to_Residue(max_part)   ! fraction sent to residue (0-1)
+
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      call Daily_Top_Residue (1)
-      call Daily_Root_Incorp (1)
+      ! dispose of detached material from senesced parts in
+      ! live population
+
+      fraction_to_Residue(:)    = 1.0
+      fraction_to_Residue(root) = 0.0
  
-      call pop_routine (my_name)
-      return
-      end
-
-
-* ====================================================================
-       subroutine Daily_Top_Residue (option)
-* ====================================================================
-      use CropModModule
-      implicit none
-      include 'const.inc'
-      include 'data.pub'
-      include 'crp_comm.pub'                      
-      include 'error.pub'
-      include 'componentinterface.inc'
-
-*+  Sub-Program Arguments
-       integer option
-
-*+  Purpose
-*     <insert here>
-
-*+  Changes
-*     02-05-1997 - huth - Programmed and Specified
-*     08-11-2000 - dph  - added EventInterface param to call to crop_top_residue
-
-*+  Constant Values
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'Daily_Top_Residue')
-
-*+  Local Variables
-      real       dm_residue            ! dry matter added to residue (g/m^2)
-      real       N_residue             ! nitrogen added to residue (g/m^2)
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
- 
-      if (Option .eq. 1) then
-         dm_residue = (sum_real_array (g%dlt_dm_detached, max_part)
-     :              - g%dlt_dm_detached(root))
-         N_residue = (sum_real_array (g%dlt_N_detached, max_part)
-     :             - g%dlt_N_detached(root))
- 
-         call crop_top_residue (
-     .                          c%crop_type
-     .                         ,dm_residue
-     .                         ,N_residue
-     .                         ,EventInterface)
- 
+      dm_residue(:) = g%dlt_dm_detached(:) * gm2kg/sm2ha
+      N_residue (:) = g%dlt_N_detached (:) * gm2kg/sm2ha
+      
+      if (sum(dm_residue) .gt. 0.0) then
+            call Send_Crop_Chopped_Event
+     :                (c%crop_type
+     :               , part_name
+     :               , dm_residue
+     :               , N_residue                                                       
+     :               , fraction_to_Residue
+     :               , max_part)
       else
-         call Fatal_error (ERR_internal, 'Invalid template option')
+      ! no surface residue
       endif
+
+      ! now dispose of dead population detachments
  
-      call pop_routine (myname)
-      return
-      end
+      dm_residue(:) = g%dlt_dm_dead_detached(:) * gm2kg/sm2ha
+      N_residue (:) = g%dlt_N_dead_detached (:) * gm2kg/sm2ha
+      
+      if (sum(dm_residue) .gt. 0.0) then
+            call Send_Crop_Chopped_Event
+     :                (c%crop_type
+     :               , part_name
+     :               , dm_residue
+     :               , N_residue                                                       
+     :               , fraction_to_Residue
+     :               , max_part)
+      else
+      ! no surface residue
+      endif
 
 
+      ! put roots into root residue
 
-* ====================================================================
-       subroutine Daily_Root_Incorp (option)
-* ====================================================================
-      use CropModModule
-      implicit none
-      include 'const.inc'
-      include 'crp_comm.pub'
-      include 'error.pub'
-      include 'componentInterface.inc'
-
-*+  Sub-Program Arguments
-       integer option
-
-*+  Purpose
-*     <insert here>
-
-*+  Changes
-*     02-05-1997 - huth - Programmed and Specified
-*     08-11-2000 - dph  - added EventInterface param to call to crop_root_incorp
-
-*+  Constant Values
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'Daily_Root_Incorp')
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
- 
-      if (Option .eq. 1) then
+      if (g%dlt_dm_detached(root).gt.0.0) then
 
          call crop_root_incorp (
      .          g%dlt_dm_detached(root)
@@ -3072,15 +3067,27 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
      :         ,c%crop_type
      :         ,max_layer
      :         ,EventInterface)
+
+      end if
+
+      if (g%dlt_dm_dead_detached(root).gt.0.0) then
+
+         call crop_root_incorp (
+     .          g%dlt_dm_dead_detached(root)
+     :         ,g%dlt_N_dead_detached(root)
+     :         ,g%dlayer
+     :         ,g%root_length
+     :         ,g%root_depth
+     :         ,c%crop_type
+     :         ,max_layer
+     :         ,EventInterface)
+
+      end if
+
  
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
- 
-      call pop_routine (myname)
+      call pop_routine (my_name)
       return
       end
-
 
 
 
@@ -3354,16 +3361,19 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 *     ===========================================================
       use CropModModule
       implicit none
-      include   'const.inc'            ! new_line, lu_scr_sum
-      include   'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc
+      include 'componentinterface.inc'
+      include 'const.inc'            ! new_line, lu_scr_sum
+      include 'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc
       include 'data.pub'
-      include 'error.pub'                         
+      include 'crp_comm.pub'
+      include 'error.pub'
 
 *+  Purpose
 *       End crop
 
 *+  Changes
-*       290994 sc   specified and programmed
+*      191099 jngh changed to millet_Send_Crop_Chopped_Event
+*      280801 ew   generalised
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -3376,6 +3386,9 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       real       N_root                ! nitrogen added to soil (g/m^2)
       character  string*400            ! output string
       real       yield                 ! grain wt (kg/ha)
+      real       fraction_to_Residue(max_part)   ! fraction sent to residue (0-1)
+      real       dlt_dm_crop(max_part) ! change in dry matter of crop (kg/ha)
+      real       dlt_dm_N(max_part)    ! N content of changeed dry matter (kg/ha)
 
 *- Implementation Section ----------------------------------
  
@@ -3384,22 +3397,16 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       if (g%plant_status.ne.status_out) then
          g%plant_status = status_out
          g%current_stage = real (plant_end)
- 
 
 
-         !cnh inserted options here
-         call Harvest_Root_Incorp(1) ! 1 uses exp function for rtdp
-                                           ! 2 uses calc root length dist
-         call Harvest_Top_Residue(1)
- 
-
-         ! report
+        !Report the crop yield
          yield = (g%dm_green(grain) + g%dm_dead(grain)) *gm2kg /sm2ha
          write (string, '(3x, a, f7.1)')
      :                  ' ended. Yield (dw) = ', yield
          call Write_string (string)
  
-             ! now do post harvest processes
+
+       !Root residue incorporation
  
          dm_root = g%dm_green(root)
      :           + g%dm_dead(root)
@@ -3410,26 +3417,75 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
      :           + g%N_senesced(root)
  
  
-             ! put stover into surface residue
- 
+      if (dm_root.gt.0.0) then
+
+         call crop_root_incorp (
+     :          dm_root
+     :         ,N_root
+     :         ,g%dlayer
+     :         ,g%root_length
+     :         ,g%root_depth
+     :         ,c%crop_type
+     :         ,max_layer
+     :         ,EventInterface)
+
+      endif
+
+
+      !Top residue - put stover into surface residue
          dm_residue = (sum_real_array (g%dm_green, max_part)
-     :              - g%dm_green(root) - g%dm_green(grain))
+     :              - g%dm_green(root))
+c    :              - g%dm_green(root) - g%dm_green(grain))
  
      :              + (sum_real_array (g%dm_senesced, max_part)
-     :              - g%dm_senesced(root) - g%dm_senesced(grain))
+     :              - g%dm_senesced(root))
+C    :              - g%dm_senesced(root) - g%dm_senesced(grain))
  
      :              + (sum_real_array (g%dm_dead, max_part)
-     :              - g%dm_dead(root) - g%dm_dead(grain))
+     :              - g%dm_dead(root))
+c    :              - g%dm_dead(root) - g%dm_dead(grain))
  
          N_residue = (sum_real_array (g%N_green, max_part)
-     :             - g%N_green(root) - g%N_green(grain))
+     :             - g%N_green(root) )
+c    :             - g%N_green(root) - g%N_green(grain))
  
      :             + (sum_real_array (g%N_senesced, max_part)
-     :             - g%N_senesced(root) - g%N_senesced(grain))
+     :             - g%N_senesced(root))
+c    :             - g%N_senesced(root) - g%N_senesced(grain))
  
      :             + (sum_real_array (g%N_dead, max_part)
-     :             - g%N_dead(root) - g%N_dead(grain))
- 
+     :             - g%N_dead(root))
+c    :             - g%N_dead(root) - g%N_dead(grain))
+
+         dlt_dm_crop(:) = (g%dm_green(:)
+     :                  + g%dm_senesced(:)
+     :                  + g%dm_dead(:))
+     :                  * gm2kg/sm2ha
+
+         dlt_dm_N   (:) = (g%N_green(:)
+     :                  + g%N_senesced(:)
+     :                  + g%N_dead(:))
+     :                  * gm2kg/sm2ha
+                    
+
+         fraction_to_residue(:)    = 1.0
+         fraction_to_Residue(root) = 0.0
+
+         if (sum(dlt_dm_crop) .gt. 0.0) then
+
+            call Send_Crop_Chopped_Event
+     :                (c%crop_type
+     :               , part_name
+     :               , dlt_dm_crop
+     :               , dlt_dm_N
+     :               , fraction_to_Residue
+     :               , max_part)
+
+         else
+            ! no surface residue
+         endif
+
+
          write (string, '(40x, a, f7.1, a, 3(a, 40x, a, f6.1, a))')
      :                  '  straw residue ='
      :                  , dm_residue * gm2kg /sm2ha, ' kg/ha'
@@ -3453,129 +3509,77 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       return
       end
 
-
 * ====================================================================
-       subroutine Harvest_Root_Incorp (option)
+      Recursive
+     :subroutine Send_Crop_Chopped_Event (crop_type
+     :                                    , dm_type
+     :                                    , dlt_crop_dm
+     :                                    , dlt_dm_n
+     :                                    , fraction_to_Residue
+     :                                    , max_part)
 * ====================================================================
-      use CropModModule
       implicit none
       include 'const.inc'
-      include 'crp_comm.pub'
+      include 'event.inc'
+      include 'intrface.pub'
       include 'error.pub'
-      include 'componentinterface.inc'
-
-*+  Sub-Program Arguments
-       integer option
-
-*+  Purpose
-*     <insert here>
-
-*+  Changes
-*     02-05-1997 - huth - Programmed and Specified
-*     08-11-2000 - dph  - added EventInterface param to call to crop_root_incorp
-
-*+  Constant Values
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'Harvest_Root_Incorp')
-
-*+  Local Variables
-      real       dm_root               ! dry matter added to soil (g/m^2)
-      real       N_root                ! nitrogen added to soil (g/m^2)
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
- 
-      if (Option .eq. 1) then
-
-         dm_root = g%dm_green(root)
-     :           + g%dm_dead(root)
-     :           + g%dm_senesced(root)
- 
-         N_root  = g%N_green(root)
-     :           + g%N_dead(root)
-     :           + g%N_senesced(root)
- 
-         call crop_root_incorp (
-     :          dm_root
-     :         ,N_root
-     :         ,g%dlayer
-     :         ,g%root_length
-     :         ,g%root_depth
-     :         ,c%crop_type
-     :         ,max_layer
-     :         ,EventInterface)
- 
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
- 
-      call pop_routine (myname)
-      return
-      end
-
-
-
-* ====================================================================
-       subroutine Harvest_Top_Residue (option)
-* ====================================================================
-      use CropModModule
-      implicit none
-      include 'const.inc'
       include 'data.pub'
-      include 'crp_comm.pub'                      
-      include 'error.pub'
-      include 'componentinterface.inc'
+      include 'postbox.pub'
 
 *+  Sub-Program Arguments
-       integer option
-
+      character  crop_type*(*)              ! (INPUT) crop type
+      character  dm_type(*)*(*)             ! (INPUT) residue type
+      real  dlt_crop_dm(*)                  ! (INPUT) residue weight (kg/ha)
+      real  dlt_dm_n(*)                     ! (INPUT) residue N weight (kg/ha)
+      real  fraction_to_Residue(*)          ! (INPUT) residue fraction to residue (0-1)
+      integer max_part                      ! (INPUT) number of residue types
 *+  Purpose
-*     <insert here>
+*     Notify other modules of crop chopped.
+
+*+  Mission Statement
+*     Notify other modules of crop chopped.
 
 *+  Changes
-*     02-05-1997 - huth - Programmed and Specified
-*     08-11-2000 - dph  - added EventInterface param to call to crop_top_residue
+*   070999 jngh - Programmed and Specified
+*   110700 jngh - Changed dm_tyoe to array.
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
-      parameter (myname = 'Harvest_Top_Residue')
-
-*+  Local Variables
-      real       dm_residue            ! dry matter added to residue (g/m^2)
-      real       N_residue             ! nitrogen added to residue (g/m^2)
+      parameter (myname = 'Send_Crop_Chopped_Event')
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
-      if (Option .eq. 1) then
-         dm_residue = (sum_real_array (g%dm_green, max_part)
-     :              - g%dm_green(root) - g%dm_green(grain))
- 
-     :              + (sum_real_array (g%dm_senesced, max_part)
-     :              - g%dm_senesced(root) - g%dm_senesced(grain))
- 
-     :              + (sum_real_array (g%dm_dead, max_part)
-     :              - g%dm_dead(root) - g%dm_dead(grain))
- 
-         N_residue = (sum_real_array (g%N_green, max_part)
-     :             - g%N_green(root) - g%N_green(grain))
- 
-     :             + (sum_real_array (g%N_senesced, max_part)
-     :             - g%N_senesced(root) - g%N_senesced(grain))
- 
-     :             + (sum_real_array (g%N_dead, max_part)
-     :             - g%N_dead(root) - g%N_dead(grain))
- 
-         call crop_top_residue (
-     .                          c%crop_type
-     .                         ,dm_residue
-     .                         ,N_residue
-     .                         ,EventInterface)
- 
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
- 
+
+      call new_postbox ()
+
+         ! send message regardless of fatal error - will stop anyway
+
+
+      call post_char_var   (DATA_crop_type
+     :                        ,'()'
+     :                        , crop_type)
+      call post_char_array (DATA_dm_type
+     :                        ,'()'
+     :                        , dm_type
+     :                        , max_part)
+      call post_real_array (DATA_dlt_crop_dm
+     :                        ,'(kg/ha)'
+     :                        , dlt_crop_dm
+     :                        , max_part)
+      call post_real_array (DATA_dlt_dm_n
+     :                        ,'(kg/ha)'
+     :                        , dlt_dm_n
+     :                        , max_part)
+      call post_real_array (DATA_fraction_to_Residue
+     :                        ,'()'
+     :                        , fraction_to_Residue
+     :                        , max_part)
+
+      call event_send (EVENT_Crop_Chopped)
+
+      call delete_postbox ()
+
+
       call pop_routine (myname)
       return
       end
@@ -4105,6 +4109,13 @@ c=======================================================================
        g%tiller_tt_tot = g%tiller_tt_tot + g%dlt_tt
 c     :  * MIN(g%nfact_tiller, g%swdef_tiller)
 c     : *MIN(g%nfact_expansion,g%swdef_expansion)
+
+          if (g%current_stage.lt.germ) then
+c         if (istage.lt.emerg) then
+                g%tiller_tt_tot = 0.0   ! in original i_wheat tt accumulated from germination - ew
+          endif
+
+
 
        call add_real_array (g%dlt_tiller_area_pot,
      :                      g%tiller_area_pot, max_leaf)
