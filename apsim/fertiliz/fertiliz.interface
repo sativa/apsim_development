@@ -1,41 +1,14 @@
-include base.interface
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/apsim.xsl"?>
 
-; -----------------------------------------------------------
-; Fertiliz's public interface which other components may
-; use.  Contains:
-;    Properties which other components may get or set
-;    Methods which other components may call
-;    Events which other components may trap (or subscribe to)
-; -----------------------------------------------------------
-class APSIMFertilizPublic
-
-   create                  : APSIMMethod                = System message to create
-   sysinit                 : APSIMMethod                = System initialise
-   apply                   : APSIMApplyMethod           = Message from manager to module
-   fertilize               : APSIMFertilizeMethod       = Message from manager to module fertiliz
-
-
-end
-
-; -----------------------------------------------------------
-; Fertiliz's external interface which documents things in other 
-; components that this component uses.
-; Contains:
-;    Properties used in other components
-;    Methods called in other components
-;    Events from other components that this component uses.
-; -----------------------------------------------------------
-
-class APSIMFertilizExternal
-
-   tick                    : APSIMClockTickEvent        = Change in the simulation system time and the duration of the new time step
-   new_profile             : APSIMNewProfileEvent       = To notify all interested modules of the change in soil water profile characteristic information
-   process                 : APSIMEvent                 = Message to process
-
-end
-
-class APSIMFertiliz
-   dll       : string
-   public    : APSIMFertilizPublic
-   External  : APSIMFertilizExternal
-end
+<component name="fertiliz">
+   <registrations>
+      <respondToMethodCallReg name="create" type="create"/>
+      <respondToMethodCallReg name="sysinit" type="sysinit"/>
+      <respondToMethodCallReg name="apply" type="apply"/>
+      <respondToMethodCallReg name="fertilize" type="fertilize"/>
+      <respondToEventReg name="tick" type="tick"/>
+      <respondToEventReg name="new_profile" type="new_profile"/>
+      <respondToEventReg name="process" type="process"/>
+   </registrations>
+</component>
