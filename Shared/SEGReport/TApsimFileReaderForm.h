@@ -18,6 +18,7 @@
 #include <Grids.hpp>
 #include "TApsimFileReader.h"
 #include <DB.hpp>
+#include "DBAdvGrd.hpp"
 //---------------------------------------------------------------------------
 class TApsimFileReaderForm : public TSEGTableForm
 {

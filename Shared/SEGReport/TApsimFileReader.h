@@ -13,6 +13,7 @@ class TApsimFileReader : public TSEGTable
    private:
       TStrings* files;
       std::vector<std::string> titles;
+      AnsiString reportDirectory;
 
       void __fastcall setFileNames(TStrings* apsimFiles);
       virtual void createFields(void) throw(std::runtime_error);
@@ -28,10 +29,17 @@ class TApsimFileReader : public TSEGTable
       void splitTitleIntoFactors(const std::string& title,
                                  std::vector<std::string>& factorNames,
                                  std::vector<std::string>& factorValues);
+      void relativeToAbsoluteFiles(void);
+      void absoluteToRelativeFiles(void);
+      virtual void __fastcall Loaded(void);
 
    public:
       __fastcall TApsimFileReader(TComponent* owner);
       __fastcall ~TApsimFileReader(void);
+
+      // Called by SEGReport to give components a chance to know the current
+      // report directory.  Used by ApsimFileReader to use relative paths.
+      virtual void setReportDirectory(AnsiString reportDir);
 
    __published:
       __property TStrings* filenames = {read=files, write=setFileNames};

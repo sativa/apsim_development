@@ -10,6 +10,7 @@
 #pragma link "BaseGrid"
 #pragma link "dbadvgrd"
 #pragma link "TSEGTableForm"
+#pragma link "DBAdvGrd"
 #pragma resource "*.dfm"
 TApsimFileReaderForm *ApsimFileReaderForm;
 //---------------------------------------------------------------------------
@@ -35,6 +36,7 @@ void __fastcall TApsimFileReaderForm::BrowseButtonClick(TObject *Sender)
       {
       FilesList->Items->Assign(OpenDialog->Files);
       apsimFileReader->filenames = FilesList->Items;
+      FilesList->Items->Assign(apsimFileReader->filenames);
       }
    }
 //---------------------------------------------------------------------------
