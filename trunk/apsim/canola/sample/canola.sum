@@ -20,7 +20,7 @@
      Title                  = canola Sample Simulation
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\met\lib\met.dll(met) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\fertiliz\lib\fertiliz.dll(fertiliz) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\soilwat2\lib\soilwat2.dll(soilwat2) - Licensed
@@ -284,13 +284,13 @@
 22 May 1988 (Day of year=143):
    CANOLA:
        stage    3.0 emergence
-                           biomass =           1.200000       lai =    0.3200000e-01
+                           biomass =           1.200000       lai =    0.3200000E-01
                            stover N conc =    6.500000       extractable sw =    25.70317
 4 June 1988 (Day of year=156):
    CANOLA:
        stage    4.0 end_of_juvenile
-                           biomass =           7.807205       lai =    0.2057866    
-                           stover N conc =    5.670728       extractable sw =    92.25346
+                           biomass =           7.807206       lai =    0.2057866    
+                           stover N conc =    5.670728       extractable sw =    92.25345
 7 July 1988 (Day of year=189):
    CANOLA:
        stage    5.0 floral_initiation
@@ -299,28 +299,28 @@
 27 July 1988 (Day of year=209):
    CANOLA:
        stage    6.0 flowering
-                           biomass =           444.4702       lai =     5.720972    
-                           stover N conc =    3.665466       extractable sw =    254.3963
+                           biomass =           444.4701       lai =     5.720972    
+                           stover N conc =    3.665467       extractable sw =    254.3962
 12 August 1988 (Day of year=225):
    CANOLA:
        stage    7.0 start_grain_fill
-                           biomass =           663.9801       lai =     5.357063    
-                           stover N conc =    2.553397       extractable sw =    199.1638
+                           biomass =           663.9799       lai =     5.357063    
+                           stover N conc =    2.553398       extractable sw =    199.1637
 11 October 1988 (Day of year=285):
    CANOLA:
        stage    8.0 end_grain_fill
-                           biomass =           997.3954       lai =     2.381548    
-                           stover N conc =   0.7532876       extractable sw =    152.1479
+                           biomass =           997.3953       lai =     2.381545    
+                           stover N conc =   0.7532879       extractable sw =    152.1479
 15 October 1988 (Day of year=289):
    CANOLA:
        stage    9.0 maturity
-                           biomass =           1002.466       lai =     2.234282    
+                           biomass =           1002.466       lai =     2.234278    
                            stover N conc =   0.7444426       extractable sw =    142.6675
 19 October 1988 (Day of year=293):
    CANOLA:
        stage   10.0 harvest_ripe
-                           biomass =           1002.466       lai =    0.2000093e-02
-                           stover N conc =   0.6199898       extractable sw =    141.4603
+                           biomass =           1002.466       lai =    0.2000093E-02
+                           stover N conc =   0.6199901       extractable sw =    141.4603
 20 October 1988 (Day of year=294):
    MANAGER:
            Manager sending message :- canola harvest
@@ -358,20 +358,20 @@
       
       
        stress indices for floral_initiation
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0002045
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0796807
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0002046
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0796810
       
       
       
        stress indices for flowering
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.1479325
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.3183460
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.1479331
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.3183464
       
       
       
        stress indices for start_grain_fill
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.5740913
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.6592730
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.5740917
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.6592734
    MANAGER:
            Manager sending message :- canola end_crop
    CANOLA:
