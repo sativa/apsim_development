@@ -1831,7 +1831,7 @@ c I removed this NIH
          call respond2get_real_var (variable_name
      :                             , '(g/m^2)'
      :                             , g_dm_green(sstem)
-     :                              +g_dm_green(sstem))
+     :                              +g_dm_dead(sstem))
  
       elseif (variable_name .eq. 'canefw') then
          ! Add dead pool for lodged crops
