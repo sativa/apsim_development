@@ -35,17 +35,17 @@ C     Last change:  E    24 Aug 2001    1:02 pm
       real      SLN
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
 cew   SLN = n_green(leaf)/lai
       SLN = divide(n_green(leaf), lai, 0.0) !3.0)
 
 
       nfact = (1.0/0.7) * SLN - (3.0/7.0)
-      
+
       nfact = bound (nfact, 0.0, 1.0)
- 
+
 
 
 
@@ -85,7 +85,7 @@ cew   SLN = n_green(leaf)/lai
 *       Derives seneseced plant nitrogen (g N/m^2)
 
 *+  Mission Statement
-*   Calculate change in senesced plant Nitrogen 
+*   Calculate change in senesced plant Nitrogen
 
 *+  Changes
 *       121297 nih specified and programmed
@@ -110,13 +110,13 @@ cew   SLN = n_green(leaf)/lai
 !       to climb to g_n_green(part)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! first we zero all plant component deltas
- 
+
       do 100 part = 1, num_part
- 
+
          green_n_conc = divide (g_n_green(part)
      :                         ,g_dm_green(part)
      :                         ,0.0)
@@ -127,13 +127,13 @@ cew   SLN = n_green(leaf)/lai
  !           sen_n_conc = min (c_N_sen_conc(part), green_n_conc)
  !        endif
          sen_n_conc = green_n_conc * min(g_nfact_expansion,1.0) *0.75
- 
+
          dlt_N_senesced(part) = g_dlt_dm_senesced(part)
      :                        * sen_n_conc
- 
+
          dlt_N_senesced(part) = u_bound (dlt_N_senesced(part)
      :                                  ,g_n_green(part))
- 
+
   100 continue
       call pop_routine (my_name)
       return
@@ -167,7 +167,7 @@ cew   SLN = n_green(leaf)/lai
 *   Initialise plant Nitrogen pools
 
 *+  Mission Statement
-*   Initialise plant Nitrogen pools 
+*   Initialise plant Nitrogen pools
 
 *+  Changes
 *     210498 nih specified and programmed
@@ -181,10 +181,10 @@ cew   SLN = n_green(leaf)/lai
       integer part
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
 
-      
+
       leafarea = g_lai * 10000 / g_plants
       if(leafarea .lt. 4.0)then
          do 100 part = 1, max_part
@@ -192,7 +192,7 @@ cew   SLN = n_green(leaf)/lai
   100    continue
          N_green(2) = c_N_init_conc(2) * g_lai
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -224,6 +224,7 @@ cew   SLN = n_green(leaf)/lai
      :               )
 *     ===========================================================
       Use infrastructure
+      Use CropDefCons
       implicit none
 
 
@@ -236,7 +237,7 @@ cew   SLN = n_green(leaf)/lai
       REAL       G_current_stage       ! (INPUT)  current phenological stage
       real       g_plants
       real       N_demand (*)          ! (OUTPUT) critical plant nitrogen demand
-      real       g_tt_tot_fm (*) 
+      real       g_tt_tot_fm (*)
       real       g_dlt_tt_fm
       real       g_dlt_tt
       real       g_phase_tt (*)
@@ -261,7 +262,7 @@ cew   SLN = n_green(leaf)/lai
 *+  Local Variables
 *      integer root,leaf,stem,flower,grain
 *      integer start_grain_fill
- 
+
 
 
 
@@ -275,17 +276,17 @@ c     save SLN
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
- 
+
+
       call fill_real_array (n_demand, 0.0, max_part)
 
 
 !   ROOT demand to keep root [N] at 0.2%
-!   get root + delta root 
+!   get root + delta root
 !   and calculate rootN  needed to keep [N] above 0.2%
 !   root Ndemand = rootNrequired - rootN
-      
-      N_required = (G_dlt_dm_green(root) + G_dm_green(root)) 
+
+      N_required = (G_dlt_dm_green(root) + G_dm_green(root))
      .         * c_n_target_conc(root)
       N_demand(root) = max(0.0, N_required - G_n_green(root))
 
@@ -298,7 +299,7 @@ c     save SLN
      :                             , c_x_stage_code
      :                             , c_y_N_conc_crit_stem
      :                             , numvals)
-      
+
          N_required = (G_dlt_dm_green(stem) + G_dm_green(stem)) *
      .                  NTargetStem
          N_demand(stem) = max(0.0, N_required - G_n_green(stem))
@@ -338,11 +339,11 @@ cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
 
        N_demand(leaf) = max(0.0, N_required - G_n_green(leaf))
 
-      
+
 ! GRAIN demand to keep grain N filling rate at 0.001mg/grain/dd
 !       where dd is degree days from start_grain_fill
 !
-!       g_grain_no is the final grain number. 
+!       g_grain_no is the final grain number.
 !       Ramp grain number from 0 at StartGrainFill to g_grain_no at SGF + 200dd
 
 
@@ -367,20 +368,20 @@ cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
      .                     c_n_target_conc(grain) / 1000
          N_demand(grain) = max(0.0, N_required )
 
-  
+
       endif
 
-      
+
 !         open(8,FILE='c:\apswork\nitrogen\hermitage\ndemand.txt',
 !     .        ACCESS='APPEND')
-         
+
 !         write(8,*) (n_demand(i),i=1,5),NFillFact
 !         write(8,*) (g_phase_tt(i),i=1,12)
 !         write(8,*) gf_tt_now,gf_tt,NFillFact
 !         close(8)
 
-        
- 
+
+
       call pop_routine (my_name)
       return
       end
@@ -405,6 +406,7 @@ cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
      :               )
 *     ===========================================================
       Use infrastructure
+      Use CropDefCons
       implicit none
 !      dll_export sorg_N_uptake2
 
@@ -458,12 +460,12 @@ cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
       real       NO3gsm_uptake         ! plant NO3 uptake from layer (g/m^2)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
             ! get potential N uptake (supply) from the root profile.
             ! get totals for diffusion and mass flow.
- 
+
       deepest_layer = find_layer_no (g_root_depth
      :                              ,g_dlayer
      :                              ,max_layer)
@@ -477,57 +479,57 @@ cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
      :                                     , deepest_layer)
       NO3gsm_diffn_supply = sum_real_array (NO3gsm_diffn_avail
      :                                     , deepest_layer)
- 
+
             ! get actual total nitrogen uptake for diffusion and mass flow.
             ! If demand is not satisfied by mass flow, then use diffusion.
             ! N uptake above N critical can only happen via mass flow.
- 
-      N_demand = sum_real_array (g_N_demand, max_part) 
+
+      N_demand = sum_real_array (g_N_demand, max_part)
      :    - g_N_demand(grain)
- 
+
       if (NO3gsm_mflow_supply.ge.N_demand) then
          NO3gsm_mflow = NO3gsm_mflow_supply
          NO3gsm_diffn = 0.0
-!+++++++++++++==                        need to do something with excess N 
+!+++++++++++++==                        need to do something with excess N
       else
- 
+
          NO3gsm_mflow = NO3gsm_mflow_supply
- 
+
          if (c_n_supply_preference.eq.'active') then
             NO3gsm_diffn = bound (N_demand - NO3gsm_mflow, 0.0
      :                        , NO3gsm_diffn_supply)
- 
+
          elseif (c_n_supply_preference.eq.'fixation') then
             NO3gsm_diffn = bound (N_demand - NO3gsm_mflow - g_N_fix_pot
      :                        , 0.0
      :                        , NO3gsm_diffn_supply)
- 
+
          else
             call fatal_error (ERR_USER, 'bad n supply preference')
          endif
          NO3gsm_diffn = divide (NO3gsm_diffn, c_NO3_diffn_const, 0.0)
       endif
- 
+
             ! get actual change in N contents
- 
+
       call fill_real_array (dlt_NO3gsm, 0.0, max_layer)
 
- 
+
       do 1100 layer = 1,deepest_layer
- 
+
                ! allocate nitrate
                ! Find proportion of nitrate uptake to be taken from layer
                ! by diffusion and mass flow
- 
+
          mflow_fract = divide (g_NO3gsm_mflow_avail(layer)
      :                       , NO3gsm_mflow_supply, 0.0)
- 
+
          diffn_fract = divide (NO3gsm_diffn_avail(layer)
      :                       , NO3gsm_diffn_supply, 0.0)
- 
+
                ! now find how much nitrate the plant removes from
                ! the layer by both processes
- 
+
          NO3gsm_uptake = NO3gsm_mflow * mflow_fract
      :                 + NO3gsm_diffn * diffn_fract
          dlt_NO3gsm(layer) = - NO3gsm_uptake
@@ -538,8 +540,8 @@ cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
       else
          NFract = 0.0
       endif
- 
- 
+
+
       call pop_routine (my_name)
       return
       end
@@ -566,6 +568,7 @@ cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
 
 *     ===========================================================
       Use infrastructure
+      Use CropDefCons
       implicit none
       dll_export sorg_N_partition1
 
@@ -592,10 +595,10 @@ cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
-     
- 
- 
+
+
+
+
       do 1300 part = 1, max_part - 1
         dlt_N_green(part) = g_N_demand(part) * NFract
 1300  continue
@@ -635,6 +638,7 @@ cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
 
 *     ===========================================================
       Use infrastructure
+      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -644,13 +648,13 @@ cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
       real NFract ! Demand/Supply ratio of available N
       real       g_lai,g_dlt_lai,g_dlt_slai
       REAL       G_n_green(*)          ! (INPUT)  plant nitrogen content (g N/m^
-      REAL       dlt_n_green(*)          
+      REAL       dlt_n_green(*)
       real      G_phase_tt (*) ! (INPUT/OUTPUT) cumulative growing
       real       g_dlt_tt_fm
       real      g_nfact_expansion
       real       g_tt_tot_fm(*)
       real       g_current_stage
-      
+
       real g_dlt_N_retrans (*)     ! (OUTPUT) plant N taken out from
                                        ! plant parts (g N/m^2)
 
@@ -675,21 +679,21 @@ cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
       real SLN,lai
       real dd,NAvail,NRequired
 
-      real StemNRequired,LeafNRequired,StemNAvail,FlowerNAvail 
+      real StemNRequired,LeafNRequired,StemNAvail,FlowerNAvail
       real ddGF,ddGFNow
       real LeafN,LeafN100,LeafN50,reduct,NReq
       real LowNStem,LowNHead,StemHeadNAvail,LeafNAvail
- 
+
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
 
       call fill_real_array (g_dlt_N_retrans, 0.0, max_part)
 
 !-------------------------------------------------------------------
 !
-!   Note: New leaf growth SLN is 1.0   
-!   during vegative stage (when there is leaf N demand) 
+!   Note: New leaf growth SLN is 1.0
+!   during vegative stage (when there is leaf N demand)
 !       no retrans after flag
 !   if N(leaf) demand > N(leaf) supply
 !      a)   reduce SLN to 1 (this happens by itself as LeafN reduces)
@@ -712,7 +716,7 @@ cew   SLN = LeafN/lai
       if(g_N_demand(leaf).gt. 0.0)then
          if(SLN .lt. 1.0)then
 !             b)   reduce SLN to 0.5 while reducing dlt_lai from 100% to 50%
-!             Note: New leaf growth SLN is 1.0   
+!             Note: New leaf growth SLN is 1.0
             LeafN50 = 0.5 *g_dlt_lai *1.0 +(g_lai - g_dlt_slai)* 0.5
             if(LeafN .ge. LeafN50)then
                LeafN100 = lai * 1.0
@@ -721,21 +725,21 @@ cew   SLN = LeafN/lai
                NReq = LeafN50 - LeafN
 !              get this from killing leaf (SLN = 0.2)
                g_dlt_slai = g_dlt_slai + NReq / 0.3
-! Stop LAI going negative               
+! Stop LAI going negative
                g_dlt_slai = min(g_dlt_slai,g_lai + g_dlt_lai)
-               reduct = 0.5               
+               reduct = 0.5
             endif
-            g_nfact_expansion = reduct            
+            g_nfact_expansion = reduct
          endif
       endif
- 
+
 !-------------------------------------------------------------------
-!     
+!
 !   in reproductive stage, if n_demand(grain) > supply
 !      calc Daily N supply as total retranslocatable N /
 !         degree days to maturity
 !            SLN to 0.2, Stem and Flower to 0.15%
-!         
+!
 
       ddGF =  sum_between(start_grain_fill,maturity,G_phase_tt)
       ddGFNow = sum_between(start_grain_fill,now,g_tt_tot_fm)
@@ -766,10 +770,10 @@ cew   SLN = LeafN/lai
             NRequired = min(NAvail,g_N_demand(grain))
          endif
 
-         
+
 !         open(8,FILE='c:\apswork\nitrogen\hermitage\ngrain.txt',
 !     .        ACCESS='APPEND')
-         
+
 !         write(8,*)NRequired,NAvail,g_N_demand(grain),ddGF
 !         close(8)
 
@@ -777,15 +781,15 @@ cew   SLN = LeafN/lai
 !        g_N_demand(grain) = NSupply + dlt_N_green(grain)
 !        g_N_demand(grain) = NAvail
          g_dlt_N_retrans(grain) = NRequired
-!      
+!
 
 !        Take from stem and leaf in the ratio 1.5:1
 !        a)   until Stem [N] = 0.15%
-!        b)   until SLN = 1, then increase dlt_slai 
+!        b)   until SLN = 1, then increase dlt_slai
 
          StemNRequired = NRequired * 0.6
          StemHeadNAvail = (StemNAvail + FlowerNAvail)
-         
+
 
 
          if(StemHeadNAvail .ge. StemNRequired)then
@@ -805,13 +809,13 @@ cew   SLN = LeafN/lai
          g_dlt_N_retrans(leaf) = -LeafNRequired
       endif
              ! just check that we got the maths right.
- 
+
 !      do 1000 part = root, flower
 !         call bound_check_real_var (abs (o_dlt_N_retrans(part))
 !     :                            , 0.0, N_avail(part)
 !     :                            , 'o_dlt_N_retrans(part)')
 !1000  continue
- 
+
       call pop_routine (my_name)
       return
       end
