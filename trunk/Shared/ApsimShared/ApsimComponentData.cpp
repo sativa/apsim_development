@@ -216,14 +216,8 @@ void ApsimComponentData::addVariable(const string& name)
    {
    XMLNode initData = getInitData();
    XMLNode group = initData.appendChild("variables");
-   XMLNode::iterator variable = find_if(group.begin(),
-                                        group.end(),
-                                        ValueEquals<XMLNode>(name));
-   if (variable == group.end())
-      {
-      XMLNode child = group.appendChild("variable", true);
-      child.setValue(name);
-      }
+   XMLNode child = group.appendChild("variable", true);
+   child.setValue(name);
    }
 // ------------------------------------------------------------------
 // Clear all rules
