@@ -23,3 +23,18 @@ module = apswim   test2.par [sample]     %apsuite\apsim\apswim\apswim.ini [stand
 module = solute   test2.par [sample]     %apsuite\apsim\solute\solute.ini [standard]
 module = SummaryFile  test2.par[sample]
 module = Screen  test2.par[sample]
+
+[apsim.Test3]
+
+title=APSwim Test 3
+module = clock    test3.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   test3.par [sample]
+module = input(met)      Sample2.MET [sample]
+module = micromet test3.par [sample]     %apsuite\apsim\micromet\micromet.ini [standard]
+module = manager  test3.par [sample]
+module = apswim   test3.par [sample]     %apsuite\apsim\apswim\apswim.ini [standard]
+module = solute   test3.par [sample]     %apsuite\apsim\solute\solute.ini [standard]
+module = slurp    test3.par [sample]
+module = SummaryFile  test3.par[sample]
+module = Screen  test3.par[sample]
+
