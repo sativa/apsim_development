@@ -101,14 +101,6 @@ void TSEGTable::forceRefresh(bool displayError)
 
             // Go load all records.
             storeRecords();
-
-            // Create an index so that the range methods work.
-            if (IndexDefs->Count == 0)
-               {
-               AnsiString indexFields = AnsiString(SERIES_FIELD_NAME);
-               AddIndex("mainIndex", indexFields, TIndexOptions());
-               IndexFieldNames = indexFields;
-               }
             }
          else
             Active = true;
@@ -133,22 +125,6 @@ void TSEGTable::forceRefresh(bool displayError)
 
       EnableControls();
 
-      // force children to update themselves.  Without this the chart series
-      // don't draw for some reason.
-      if (Active)
-         {
-         try
-            {
-            First();
-            Edit();
-            Post();
-            }
-         catch (Exception& error)
-            {
-
-            }
-         }
-
       Screen->Cursor = savedCursor;
       if (displayError && errorMessage != "")
          {
@@ -162,11 +138,16 @@ void TSEGTable::forceRefresh(bool displayError)
 // ------------------------------------------------------------------
 void TSEGTable::refreshLinkedComponents()
    {
-   if (sortFields != "")
+   // Create an index so that the range methods work.
+   if (IndexDefs->Count == 0)
       {
-      SortFields = AnsiString(SERIES_FIELD_NAME) + ";" + sortFields;
-      Sort(TkbmMemTableCompareOptions());
+      AnsiString indexFields = AnsiString(SERIES_FIELD_NAME);
+      if (sortFields != "")
+         indexFields += ";" + AnsiString(sortFields.c_str());
+      AddIndex("mainIndex", indexFields, TIndexOptions());
+      IndexFieldNames = indexFields;
       }
+
    for (unsigned i = 0; i != subscriptionEvents.size(); i++)
       {
       if (subscriptionEvents[i] != NULL)
@@ -313,7 +294,7 @@ void TSEGTable::addDataChangeSubscription(AnsiString eventName)
    int index = subscriptionComponents->IndexOf(eventName);
    if (index == -1)
       index = subscriptionComponents->Add(eventName);
-   while (index >= subscriptionEvents.size())
+   while (index >= (int)subscriptionEvents.size())
       subscriptionEvents.push_back((TDataSetNotifyEvent)NULL);
 
    union
