@@ -32,6 +32,7 @@ void TApsimFileReaderForm::setComponent(TComponent* comp)
       TListItem* newItem = FilesList->Items->Add();
       newItem->Caption = apsimFileReader->filenames->Strings[f];
       }
+   InterpretCheckBox->Checked = apsimFileReader->interpretTitles;
    }
 //---------------------------------------------------------------------------
 // User has clicked the edit button.
@@ -43,6 +44,14 @@ void __fastcall TApsimFileReaderForm::BrowseButtonClick(TObject *Sender)
       apsimFileReader->filenames = OpenDialog->Files;
       setComponent(apsimFileReader);
       }
+   }
+//---------------------------------------------------------------------------
+// User has changed the interpret title checkbox.
+//---------------------------------------------------------------------------
+void __fastcall TApsimFileReaderForm::InterpretCheckBoxClick(
+      TObject *Sender)
+   {
+   apsimFileReader->interpretTitles = InterpretCheckBox->Checked;
    }
 //---------------------------------------------------------------------------
 

@@ -14,6 +14,7 @@ class TApsimFileReader : public TSEGTable
       TStrings* files;
       std::vector<std::string> titles;
       AnsiString reportDirectory;
+      bool doInterpretTitles;
 
       void __fastcall setFileNames(TStrings* apsimFiles);
       virtual bool createFields(void) throw(std::runtime_error);
@@ -46,5 +47,6 @@ class TApsimFileReader : public TSEGTable
 
    __published:
       __property TStrings* filenames = {read=files, write=setFileNames};
+      __property bool interpretTitles = {read=doInterpretTitles, write=doInterpretTitles};
    };
 #endif
