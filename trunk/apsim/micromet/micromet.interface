@@ -30,6 +30,7 @@
       <respondToEventReg name="new_canopy" type="new_canopy"/>
       <respondToEventReg name="new_pot_growth" type="new_pot_growth"/>
       <respondToMethodCallReg name="sys_init" type="sys_init"/>
+      <respondToMethodCallReg name="create" type="createType"/>
 
       <eventReg name="canopy_energy_balance" type="canopy_energy_balance"/>
       <eventReg name="canopy_water_balance" type="canopy_water_balance"/>
