@@ -159,9 +159,12 @@ date InputComponent::advanceToTodaysData(void)
    {
    try
       {
-      while (data.getDate() < todaysDate && !data.eof())
+      while (!data.eof() && data.getDate() < todaysDate)
          data.next();
-      return data.getDate();
+      if (data.eof())
+         return date(pos_infin);
+      else
+         return data.getDate();
       }
    catch (const exception& err)
       {
