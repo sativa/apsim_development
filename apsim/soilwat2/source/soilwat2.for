@@ -9,11 +9,6 @@
 *       none
 
 *   Notes:
-*   $Log$
-*   Revision 1.5  1997/01/10 20:24:55  SidWright
-*   Patch 8
-*r  $
-*      
 *         Rev 1.5   12 Oct 1995 17:08:26   PVCSUSER
 *      solute getting fixed
 *      
@@ -92,7 +87,7 @@
       call push_routine (my_name)
 
 cnh      soilwat2_version =
-cnh     :  '$Revision$$Date$'
+cnh     :  'Revision:   1.6  Date:   7 Jun 1996 17:08:26  '
 
       soilwat2_version = version_number
 
