@@ -1,13 +1,10 @@
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
-
+#include <stdlib.h>
+#include <fstream>
 #include "xml.h"
 #include "msxml2_ocx.h"
 #include "msxml2_tlb.h"
 #include <general\stl_functions.h>
 #include <general\string_functions.h>
-#pragma package(smart_init)
 
 //---------------------------------------------------------------------------
 // Conversion function - from string to variant.

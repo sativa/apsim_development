@@ -1,13 +1,11 @@
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
-
-#include "path.h"
+#include <stdlib.h>
 #include <windows.h>
 #include <dir.h>
 #include <io.h>
 #include <fcntl.h>
 #include <direct.h>
+#include "path.h"
+
 using namespace std;
 // ------------------------------------------------------------------
 //  Short description:
@@ -23,7 +21,7 @@ using namespace std;
 string Path::Get_drive(void)
    {
    return Drive;
-   }                                    
+   }
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -92,11 +90,11 @@ string Path::Get_name_without_ext(void)
 // ------------------------------------------------------------------
 string Path::Get_extension(void)
 	{
-   size_t Start_pos = Name.find(".");
+   size_t Start_pos = Name.find("."); //XXX??WRONG - search from end
    if (Start_pos != string::npos)
       return Name.substr(Start_pos);
    else
-   	return "";
+      return "";
    }
 
 // ------------------------------------------------------------------
@@ -136,10 +134,10 @@ string Path::Get_path(void)
 
 // ------------------------------------------------------------------
 string Path::Get_full_path(void)
-	{
-	string Return_string;
+   {
+   string Return_string;
    if (!Is_empty())
-   	{
+      {
       Path Full_path = getCurrentFolder();
 
       if (Drive.length() > 0)

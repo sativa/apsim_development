@@ -1,13 +1,10 @@
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
+#include <stdlib.h>
+#include <time.h>
+#include <sstream>
 
 #include <general\date_class.h>
-
-#include <dos.h>
 #include <general\stream_functions.h>
 #include <general\string_functions.h>
-#include <stdio.h>
 
 #define NO_YEAR  2200
 #define NO_YEAR_STRING "2200"
@@ -19,7 +16,7 @@ static const unsigned int Acc_days_in_month[13] =
    {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365};
 
 // *******************************************************************
-        GDate::GDate(void)  {
+GDate::GDate(void)  {
 // *******************************************************************
 
 //  Short description:
@@ -43,7 +40,7 @@ static const unsigned int Acc_days_in_month[13] =
    }
 
 // *******************************************************************
-       GDate::GDate(unsigned int Day, unsigned int Month, unsigned int Year)  {
+GDate::GDate(unsigned int Day, unsigned int Month, unsigned int Year)  {
 // *******************************************************************
 
 //  Short description:
@@ -67,7 +64,7 @@ static const unsigned int Acc_days_in_month[13] =
    }
 
 // *******************************************************************
-       void GDate::Read(const char *Str)  {
+void GDate::Read(const char *Str)  {
 // *******************************************************************
 
 //  Short description:
@@ -562,10 +559,14 @@ int Month_string_2_integer (string& Month_string)
 // -------------------- Executable code section ----------------------
 
    // get todays date.
-   struct date d;
-   getdate(&d);
+   time_t t;
+   t = time(NULL);
 
-   Set(d.da_day, d.da_mon, d.da_year);
+   // Cvt to struct
+   struct tm *ts = localtime(&t);
+
+
+   Set(ts->tm_mday, ts->tm_mon, ts->tm_year);
    }
 
 // *******************************************************************
@@ -702,27 +703,4 @@ int Month_string_2_integer (string& Month_string)
 
    }
 
-// ------------------------------------------------------------------
-//  Short description:
-//      Get a TDateTime from the specified file.
-
-//  Notes:
-
-//  Changes:
-//    DPH 3/2/98
-
-// ------------------------------------------------------------------
-TDateTime Get_file_date_time (const char* File_name)
-   {
-   TDateTime Date_time;
-   int Handle = FileOpen(File_name, fmOpenRead);
-   if (Handle >= 0)
-      {
-      int File_date = FileGetDate(Handle);
-
-      Date_time = TDateTime::FileDateToDateTime(File_date);
-      FileClose(Handle);
-      }
-   return Date_time;
-   }
 

@@ -1,9 +1,5 @@
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
-
+#include <stdlib.h>
 #include "stristr.h"
-
 #include <stdio.h>
 #include <cstring.h>
 #include <ctype.h>

@@ -1,11 +1,6 @@
 //---------------------------------------------------------------------------
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
-
+#include <stdlib.h>
 #include "StringTokenizer.h"
-
-#pragma package(smart_init)
 using namespace std;
 // ------------------------------------------------------------------
 //  Short description:

@@ -1,9 +1,7 @@
-#include <general\pch.h>
-#pragma hdrstop
-
+#include <stdlib.h>
 #include <general\string_functions.h>
 #include <tchar.h>
-#include <strstream>
+#include <sstream>
 #include <iomanip>
 #include "stristr.h"
 using namespace std;

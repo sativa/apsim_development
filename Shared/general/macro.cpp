@@ -1,14 +1,13 @@
 //---------------------------------------------------------------------------
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
-
+#include <stdlib.h>
+#include <fstream>
 #include "Macro.h"
 #include <general\xml.h>
 #include <general\string_functions.h>
+#include <general\io_functions.h>
 #include <general\stl_functions.h>
 #include <general\stringtokenizer.h>
-//#include <ApsimShared\ApsimDirectories.h>
+
 using namespace std;
 // ------------------------------------------------------------------
 // Constructor
@@ -60,9 +59,10 @@ string replaceMacros(const string& originalContents,
    unsigned counter = 0;
    for (XMLNode::iterator i = node.begin(); i != node.end(); i++)
       {
+      char buf[40];
       counter++;
       stringToReplace = parentName + ".counter";
-      replaceAll(contents, stringToReplace, IntToStr(counter).c_str());
+      replaceAll(contents, stringToReplace, itoa(counter,buf,10));
 
       stringToReplace = parentName + "." + i->getName();
       replaceAll(contents, stringToReplace, i->getValue());
@@ -262,8 +262,10 @@ void Macro::replaceGlobalCounter(string& contents) const
          globalCounter++;
          }
       else
-         contents.replace(posCounter, strlen("global.counter"), IntToStr(globalCounter).c_str());
-
+         {
+         char buf[40];
+         contents.replace(posCounter, strlen("global.counter"), itoa(globalCounter,buf,10));
+         }
       posGlobalCounter = stristr(contents.c_str(), "global.counter");
       }
    }
@@ -351,8 +353,8 @@ bool Macro::evaluateIf(const string& conditionLine) const
       return !Str_i_Eq(lhs, rhs);
    else
       {
-      double lhsValue = StrToFloatDef(lhs.c_str(), 0.0);
-      double rhsValue = StrToFloatDef(rhs.c_str(), 0.0);
+      double lhsValue = atof(lhs.c_str());
+      double rhsValue = atof(rhs.c_str());
       if (op == "<")
          return (lhsValue < rhsValue);
       else if (op == "<=")

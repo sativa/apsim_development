@@ -49,8 +49,8 @@ class Stream_processor
       void Add_processor (Line_processor* Processor)
          {Processors.push_back (Processor);}
 
-      void Go (istream& In_stream,
-               ostream& Out_stream);
+      void Go (std::istream& In_stream,
+               std::ostream& Out_stream);
 
    private:
       std::list<Line_processor*> Processors;
