@@ -3,10 +3,8 @@ Dependency = %licensed_source(sugar)
 
 [Contents]
 sgr_main.for = sgr_main.for
-ComponentInterface.for = ComponentInterface.for
-
-
+ComponentInterface.f90 = ComponentInterface.f90
 
 [APSBuild]
 binary = ..\lib\sugar.dll
-moduletype=croptemplate
+compilerfile=release.compile

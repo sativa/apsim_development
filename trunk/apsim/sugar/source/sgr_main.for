@@ -1119,9 +1119,7 @@
      :                      ,g%root_length
      :                      ,g%root_depth
      :                      ,c%crop_type
-     :                      ,max_layer
-     :                      ,EventInterface
-     :                      )
+     :                      ,max_layer)
 
 !         call crop_top_residue (c%crop_type, dm_residue, N_residue)
          fraction_to_residue(:) = 1.0
@@ -2272,9 +2270,7 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
      :                      ,g%root_length
      :                      ,g%root_depth
      :                      ,c%crop_type
-     :                      ,max_layer
-     :                      ,EventInterface
-     :                      )
+     :                      ,max_layer)
 
 
              ! put stover into surface residue
@@ -2397,7 +2393,7 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
      :                                  , 0.0, 20.)
       ! Canopy Module
       ! -------------
-      call get_current_module (mod_name)
+      call get_name (mod_name)
       call get_real_var_optional (unknown_module
      :                           , 'fr_intc_radn_'//mod_name
      :                           , '()'
@@ -4458,9 +4454,7 @@ cnh      c%crop_type = ' '
      :                      ,g%root_length
      :                      ,g%root_depth
      :                      ,c%crop_type
-     :                      ,max_layer
-     :                      ,EventInterface
-     :                      )
+     :                      ,max_layer)
 
       call pop_routine (my_name)
       return
@@ -4550,10 +4544,7 @@ cnh      c%crop_type = ' '
      :                           ,fon
      :                           ,1)
 
-            call Action_send (all_active_modules
-     :                            ,ACTION_incorp_fom
-     :                            ,blank)
-
+            call event_send(ACTION_incorp_fom)
 
             call Delete_postbox ()
 
@@ -4817,7 +4808,6 @@ cnh      c%crop_type = ' '
 *      060599 sdb  removed version reference and presence action
 
 *+  Calls
-      logical crop_my_type
 
 *+  Constant Values
       character  my_name*(*)           ! name of this procedure
