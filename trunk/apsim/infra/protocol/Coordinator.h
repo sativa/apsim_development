@@ -7,9 +7,11 @@
 #include <map>
 #include <vector>
 class EventRegistration;
+class VariableRegistration;
 
 typedef std::list<PROTOCOLComponent*> ComponentList;
 typedef std::map<string, EventRegistration*> EventRegistrationList;
+typedef std::map<string, VariableRegistration*> VariableRegistrationList;
 // ------------------------------------------------------------------
 //  Short description:
 //    This unit provides the functionality to manage a "system".
@@ -31,6 +33,9 @@ class PROTOCOL_EXPORT PROTOCOLCoordinator : public PROTOCOLComponent,
                           ICoordinator* aParent,
                           ISystemConfiguration* sysConfiguration);
       ~PROTOCOLCoordinator(void);
+
+      // initialise this coordinator given the specified configuration.
+      virtual void create(void);
 
       // initialise this coordinator given the specified configuration.
       virtual void init(void);
@@ -71,6 +76,15 @@ class PROTOCOL_EXPORT PROTOCOLCoordinator : public PROTOCOLComponent,
       virtual void enumerateComponents
          (ConstCallbackFunction<const IComponent*>& f) const;
 
+      // event comming in from another system.
+      virtual void inEvent(PROTOCOLEvent& Event)
+         {
+         publishEvent(Event);
+         }
+      // retrieve a variable from system.
+      virtual bool getVariable(const FString& variableName);
+
+
    private:
       ComponentList components;
       ICoordinator* parent;
@@ -79,6 +93,7 @@ class PROTOCOL_EXPORT PROTOCOLCoordinator : public PROTOCOLComponent,
       ComponentList::iterator previousComponent;
 
       EventRegistrationList eventRegistrations;
+      VariableRegistrationList variableRegistrations;
 
       void getComponentInfo(const string& name);
       void getComponentList(list<string>& names);
@@ -91,6 +106,11 @@ class PROTOCOL_EXPORT PROTOCOLCoordinator : public PROTOCOLComponent,
                                         ISystemConfiguration* sysConfiguration);
       void deleteComponent(const string& name);
       PROTOCOLTransportAddress componentNameToAddress(const FString& componentName) const;
+      void readEventRegistrations(void);
+      void readVariableRegistrations(void);
+      virtual void addVariableExport(const string& variableName,
+                                     PROTOCOLCoordinator* component);
+      virtual void addVariableImport(const string& variableName);
 
    };
 #endif
