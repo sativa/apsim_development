@@ -1,66 +1,40 @@
 ! Derived from McKeon's 7 steps.
 ! See http://apsru.sth.dpi.qld.gov.au/~devoilp/grasp for a detailed explanation
 
-! All off.
 version = 2.2
-[APSIM.step1.control]
 
-! Add basal area
+! All off.
+[APSIM.step1.control]
 title=Step 1. All off.
 module = clock refdata.par[all]
 module = report refdata.par[all] refdata.par[step1]
 module = input(met) narayen.met[weather]
 module = manager refdata.par[all]
-module = soilwat2 refdata.par[all] soilwat2.ini[standard]
-module = tree refdata.par[all] refdata.par[step1] refdata.par[soilwat] ..\tree.ini[standard]
+module = soilwat2 refdata.par[all] %apsuite/apsim/soilwat2/soilwat2.ini[standard]
+module = tree refdata.par[all] refdata.par[step1] refdata.par[soilwat] %apsuite/apsim/tree/tree.ini[standard]
 module = SummaryFile  refdata.par[step1]
 module = Screen  refdata.par[all]
 
+! Transpiration
 [APSIM.step2.control]
-
-! SWIM interface.
 title=Step 2. Transpiring
 module = clock refdata.par[all]
 module = report refdata.par[all] refdata.par[step2]
 module = input(met) narayen.met[weather]
 module = manager refdata.par[all]
-module = soilwat2 refdata.par[all] soilwat2.ini[standard]
-module = tree refdata.par[all] refdata.par[step2] refdata.par[soilwat] ..\tree.ini[standard]
+module = soilwat2 refdata.par[all] %apsuite/apsim/soilwat2/soilwat2.ini[standard]
+module = tree refdata.par[all] refdata.par[step2] refdata.par[soilwat] %apsuite/apsim/tree/tree.ini[standard]
 module = SummaryFile  refdata.par[step2]
 module = Screen  refdata.par[all]
 
+! SWIM interface.
 [APSIM.step3.control]
-!module=surface  [gmtb0]
-
 title=Step 3. swim
 module = clock refdata.par[gmtb0]
 module = report refdata.par[gmtb0]
 module = input(met) refdata.par[gmtb0] gmtapsim.dat[weather]
 module = manager refdata.par[all]
-module = apswim refdata.par[gmtb0] %apsuite\apsim\apswim\apswim.ini[standard]
-module = tree refdata.par[all] refdata.par[step3] refdata.par[swim] ..\tree.ini[standard]
+module = apswim refdata.par[gmtb0] %apsuite/apsim/apswim/apswim.ini[standard]
+module = tree refdata.par[all] refdata.par[step3] refdata.par[swim] %apsuite/apsim/tree/tree.ini[standard]
 module = SummaryFile  refdata.par[gmtb0]
 module = Screen  refdata.par[gmtb0]
-
-[gmt.surface.parameters]
-model_no = 2
-precip_const = 2
-effpar = 0.184
-seal_decay_rate = 0.0036
-rr_decay_rate = 0.015
-rr_max =  3.99
-rr_min =  0.49
-
-
-! -------------------------- bypass flow ---------------------------
-
-
-[gmtb0.surface.parameters]
-model_no = 2
-precip_const = 2
-effpar = 0.184
-seal_decay_rate = 0.0036
-rr_decay_rate = 0.015
-rr_max =  3.99
-rr_min =  0.49
-

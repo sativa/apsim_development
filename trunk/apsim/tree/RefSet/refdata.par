@@ -4,19 +4,16 @@ end_date=1/1/1958
 
 [all.report.parameters]
 
-
-!                [profile.root_depth] [dul.sw_index]
-!                                     [soil_moisture.sw_index]
-
-!               [pan.ep]         [reset_sw.sw_dep]
-!               [basal_area.ep]
-
-
 variable = clock.today.dd/mm/yyyy as date
+!                [profile.root_depth]
 variable = tree.root_depth
+!           [dul.sw_index] [soil_moisture.sw_index]
 variable = tree.sw_index
+!               [pan.ep]         [reset_sw.sw_dep]
 variable = manager.transpiration
+!               [basal_area.ep]
 variable = soilwat2.sw_dep()
+
 [step1.report.parameters]
 outputfile =step1.out
 
@@ -26,8 +23,8 @@ report do_output
 
 [all.soilwat2.parameters]
 eo_source   = pan
-max_evap    = 6         (mm/day)
-insoil      = 0.9       ()
+cona = 3.5
+u = 6
 cn2_bare        = 95        ()                                   !
 cn_red          = 42        ()
 cn_cov          = 0.8       ()
@@ -79,29 +76,18 @@ basal_area_init = 3.0
 summaryfile=step2.sum
 [gmtb0.clock.parameters]
 start_date=1/1/1976
-end_date=28/2/1993
-
+end_date=1/1/1977
 
 
 
 [gmtb0.report.parameters]
 outputfile =step3.out
-
-
-
-
-!              [soil_moisture.sw_dep], [water_uptake.ep]
-
-
-
-
-
-
-
-
 variable = clock.today.dd/mm/yyyy as date
+!               [soil_moisture.sw_dep]
 variable = apswim.sw_dep()
+!               [water_uptake.ep]
 variable = manager.transpiration
+
 [gmtb0.apswim.init]
 ! -------------------- initial layer information ----------------------
 
@@ -131,9 +117,7 @@ bottom_boundary_condition = 0 ! Bottom Flag  - 0) constant gradient
 vapour_conductivity = off     ! Vapour Conductivity flag (0=off, 1=on)
                               ! ------------------------
 
-run_solutes =
-
-!!no3 nh4       ! solutes to be moved by SWIM during simulation
+run_solutes =  none
 
 extra_solute_supply = off
 solute_exclusion = off
@@ -410,7 +394,7 @@ kl2rlv           = 1.5
 
 
 
- 
+
 
 
 

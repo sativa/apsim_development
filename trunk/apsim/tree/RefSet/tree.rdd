@@ -1,7 +1,7 @@
 [main]
 module =  tree
 owner =   Mark Silburn
-contact = silburm@prose.dpi.qld.gov.au, devoil@usq.edu.au
+contact = mark.silburn@nrm.qld.gov.au, peter.devoil@dpi.qld.gov.au
 Notes =   Use SLURP unless there's a good reason, eg existing GRASP simulation.
 
 ; Inward State Stimuli
@@ -38,7 +38,7 @@ indicators=   sw_index
 name = Soil water content
 direction = inward
 type = state
-description = Soil water supply 
+description = Soil water supply
 apsimname = sw_dep
 internalname= g_sw_dep
 indicators= swi, sw_index
