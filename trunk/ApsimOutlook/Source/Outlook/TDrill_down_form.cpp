@@ -189,7 +189,11 @@ void __fastcall TDrill_down_form::ClearButtonClick(TObject *Sender)
 void __fastcall TDrill_down_form::popupClose(System::TObject* Sender, TCloseAction &Action)
    {
    ValueSelectPopup->FormClose(Sender, Action);
-   string selectedScenario = ScenarioTree->Selected->Parent->Text.c_str();
+   string selectedScenario;
+   if (ScenarioTree->Selected->Parent == NULL)
+      selectedScenario = ScenarioTree->Selected->Text.c_str();
+   else
+      selectedScenario = ScenarioTree->Selected->Parent->Text.c_str();
    if (ValueSelectPopup->applied)
       {
       ValueSelectPopup->applied = false; //flag has been used- turn it off
