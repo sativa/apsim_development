@@ -33,8 +33,7 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FormShow(TObject *Sender)
    {
-//   report.clear();
-   report.createPage("Page1");
+   report.createPage();
    report.setObjectInspectorForm(ObjectInspectorForm, DataPreviewForm->DataSource);
    ZoomUpDown->Position = report.getZoom();
    report.getPageNames(TabControl->Tabs);
@@ -600,5 +599,112 @@ void __fastcall TMainForm::OnObjectInspectorShow(TObject* sender)
    loadFormPosition(ObjectInspectorForm);
    }
 //---------------------------------------------------------------------------
+// User has clicked add menu item
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::addMenuItemClick(TObject* sender)
+   {
+   AnsiString newPageName = report.createPage();
+   TabControl->Tabs->Add(newPageName);
+   TabControl->TabIndex = TabControl->Tabs->Count-1;
+   }
+//---------------------------------------------------------------------------
+// User has clicked delete menu item
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::deleteMenuItemClick(TObject* sender)
+   {
+   if (TabControl->Tabs->Count > 1 &&
+       Application->MessageBox("Are you sure you want to delete this page",
+                               "Question", MB_ICONQUESTION | MB_YESNO) == IDYES)
+      {
+      report.deletePage(TabControl->TabIndex);
+      TabControl->Tabs->Delete(TabControl->TabIndex);
+      }
+   }
+//---------------------------------------------------------------------------
+// User has clicked rename menu item
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::renameMenuItemClick(TObject* sender)
+   {
+   int currentTab = TabControl->TabIndex;
+   AnsiString pageName = TabControl->Tabs->Strings[currentTab];
+   if (InputQuery("Rename page", "Enter new page name", pageName))
+      {
+      report.renamePage(TabControl->Tabs->Strings[currentTab], pageName);
+      TabControl->Tabs->Strings[currentTab] = pageName;
+      }
+   }
+//---------------------------------------------------------------------------
+// given a page control and an x/y coordinate - returns the tab index.
+//---------------------------------------------------------------------------
+int PCDetectTab(TTabControl* tabControl, int x, int y)
+   {
+   TTCHitTestInfo hitInfo;
+   hitInfo.pt.x = x;
+   hitInfo.pt.y = y;
+   hitInfo.flags = 0;
+   return tabControl->Perform(TCM_HITTEST, 0, (int)&hitInfo);
+   }
+//---------------------------------------------------------------------------
+// User has begun to drag something - if it is a tab then allow the drag
+// to continue.
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::onMouseDown(TObject* sender, TMouseButton button,
+                                       TShiftState state, int x, int y)
+   {
+   int tab = PCDetectTab(TabControl, x, y);
+   if (tab >= 0)
+      {
+      draggedTab = tab;
+      TabControl->BeginDrag(true);
+      }
+   }
+//---------------------------------------------------------------------------
+// User has begun to drag something - if it is a tab then allow the drag
+// to continue.
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::onDragOver(TObject* sender, TObject* source,
+                                      int x, int y, TDragState state,
+                                      bool &accept)
+   {
+   int tab = PCDetectTab(TabControl, x, y);
+   accept = (source == sender && tab >= 0 && tab != draggedTab);
 
+   static int lastTab = -1;
+   static int lastLeft;
+   if (accept && tab != lastTab)
+      {
+      TRect r;
+      SendMessage(TabControl->Handle, TCM_GETITEMRECT, tab, (int) &r);
+      int aleft;
+      if (tab > draggedTab)
+         aleft = r.right - 3;
+      else
+         aleft = r.left + 3;
+      TabControl->Canvas->Pen->Mode = pmNotXor;
+      TabControl->Canvas->Pen->Width = 4;
+      TabControl->Canvas->Pen->Color = clRed;
+      if (lastTab >= 0)
+         {
+         TabControl->Canvas->MoveTo(lastLeft, r.top+2);
+         TabControl->Canvas->LineTo(lastLeft, r.bottom-1);
+         }
+      lastLeft = aleft;
+      TabControl->Canvas->MoveTo(aleft, r.top+2);
+      TabControl->Canvas->LineTo(aleft, r.bottom-1);
+      lastTab = tab;
+      }
+   }
+//---------------------------------------------------------------------------
+// User has dropped a tab.
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::onDragDrop(TObject* sender, TObject* source,
+                                      int x, int y)
+   {
+   int tab = PCDetectTab(TabControl, x, y);
+   if (tab >= 0)
+      {
+      TabControl->Tabs->Move(draggedTab, tab);
+      report.movePage(draggedTab, tab);
+      }
+   }
 

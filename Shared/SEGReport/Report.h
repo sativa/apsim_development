@@ -43,7 +43,7 @@ class __declspec(dllexport) Report
       //---------------------------------------------------------------------------
       // Page methods.
       //---------------------------------------------------------------------------
-      void createPage(AnsiString pageName);
+      AnsiString createPage(void);
       void getPageNames(TStrings* pageNames);
       void showPage(unsigned pageIndex);
       void showDataPage(bool showData);

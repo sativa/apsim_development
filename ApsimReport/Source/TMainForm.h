@@ -42,11 +42,6 @@ __published:	// IDE-managed Components
    TAction *SaveAsAction;
    TAction *ExitAction;
    TAction *CopyToClipboardAction;
-   TPopupMenu *FilePopupMenu;
-   TMenuItem *Rename1;
-   TMenuItem *Delete1;
-   TMenuItem *Copy1;
-   TMenuItem *Paste1;
    TControlBar *ControlBar1;
    TToolBar *Standard;
    TToolButton *ToolButton1;
@@ -86,6 +81,10 @@ __published:	// IDE-managed Components
    TSplitter *RightSplitter;
    TToolBar *ReportToolBar;
    TTabControl *TabControl;
+   TPopupMenu *PagePopupMenu;
+   TMenuItem *Addanewpage1;
+   TMenuItem *Deletecurrentpage1;
+   TMenuItem *Renamecurrentpage1;
    void __fastcall FormShow(TObject *Sender);
    void __fastcall ExitActionExecute(TObject *Sender);
    void __fastcall OpenActionExecute(TObject *Sender);
@@ -118,11 +117,23 @@ __published:	// IDE-managed Components
    void __fastcall pageChanged(TObject* sender);
 
    void __fastcall OnObjectInspectorShow(TObject* sender);
+   void __fastcall addMenuItemClick(TObject* sender);
+   void __fastcall deleteMenuItemClick(TObject* sender);
+   void __fastcall renameMenuItemClick(TObject* sender);
+   void __fastcall onMouseDown(TObject* sender, TMouseButton button,
+                               TShiftState state, int x, int y);
+   void __fastcall onDragOver(TObject* sender, TObject* source,
+                              int x, int y, TDragState state,
+                              bool &accept);
+   void __fastcall onDragDrop(TObject* sender, TObject* source,
+                              int x, int y);
+
 
 private:	// User declarations
    AnsiString filename;
    AnsiString fileThatWasCopied;
    Report report;
+   int draggedTab;
 
    //---------------------------------------------------------------------------
    // Tell report to go into edit mode.
