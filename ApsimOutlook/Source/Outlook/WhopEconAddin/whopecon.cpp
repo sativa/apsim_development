@@ -13,6 +13,7 @@
 #include <general\path.h>
 #include <general\ini_file.h>
 #include <general\stl_functions.h>
+#include <general\string_functions.h>
 
 //---------------------------------------------------------------------------
 
@@ -24,6 +25,12 @@
 #define ECON_DB_NAME "Econ Database"
 #define BITMAP_NAME_KEY "bitmap"
 #define SIMULATION_FACTOR_NAME "Simulation"
+#define WHOPECON_FIELDS "Econ Fields"
+#define CROPID "Crop"
+#define PROTEINID "Protein"
+#define YIELDID "Yield"
+#define NRATEID "NRate"
+#define PLANTRATEID "PlantRate"
 
 // static member variable declarations:
 int WhopEcon::numObjects;
@@ -175,6 +182,17 @@ void WhopEcon::Read_inifile_settings (void)
    ini.Read (WHOPECON_SECTION, ECON_DB_NAME, st);
    Econ_DB_name = p.Get_directory() +  "\\"  +  st;
    EconForm->DBFileName = Econ_DB_name.c_str();
+
+   ini.Read(WHOPECON_FIELDS, CROPID, st);
+   CropID = st;
+   ini.Read(WHOPECON_FIELDS, PROTEINID, st);
+   ProteinID = st;
+   ini.Read(WHOPECON_FIELDS, YIELDID, st);
+   YieldID = st;
+   ini.Read(WHOPECON_FIELDS, NRATEID, st);
+   NRateID = st;
+   ini.Read(WHOPECON_FIELDS, PLANTRATEID, st);
+   PlantRateID = st;
 }
 
 
@@ -247,10 +265,12 @@ void WhopEcon::doCalculations(TAPSTable& data,
       float SeedWt;
       for (record = data.begin(); record != data.end(); record++)
       {
-         AnsiString Crop = record->getFieldValue("Crop").c_str();
+         //AnsiString Crop = record->getFieldValue("Crop").c_str();
+         AnsiString Crop = getStringFromRecord(*record, CropID).c_str();
          // wheat price has to be recalculated for every simulation (protein)
          if(Crop == "Wheat"){
-            float Protein = StrToFloat(record->getFieldValue("Protein").c_str());
+            //float Protein = StrToFloat(record->getFieldValue("Protein").c_str());
+            float Protein = getFloatFromRecord(*record, ProteinID);
             Price = GetPrice(ConfigIndex,Crop,&HarvestLoss,Protein);   // price in $/t
             // if price < 0 then no crop of this name in this scenario
             //if(Price < 0){
@@ -275,11 +295,12 @@ void WhopEcon::doCalculations(TAPSTable& data,
          CropCost = CalcCropCost();
          LastCrop = Crop;
 
-         float Yield = StrToFloat(record->getFieldValue("Yield (kg/ha)").c_str()) * (1 - HarvestLoss/100);
+         //float Yield = StrToFloat(record->getFieldValue("Yield (kg/ha)").c_str()) * (1 - HarvestLoss/100);
+         float Yield = getFloatFromRecord(*record, YieldID);
          float Return = Price * Yield / 1000.0;   // in $/ha
-         float NRate = 0; //StrToFloat(record->getFieldValue("Applied NO3").c_str());
-         float PlantingRate = 0; //StrToFloat(record->getFieldValue("PlantingRate").c_str());
-         float UnitCost = 0; //CalcUnitCost(NRate,SeedWt,PlantingRate);
+         float NRate = getFloatFromRecord(*record, NRateID);
+         float PlantingRate = getFloatFromRecord(*record, PlantRateID);
+         float UnitCost = CalcUnitCost(NRate,SeedWt,PlantingRate);
          float Cost = AreaCost + UnitCost + CropCost;
 
          vCost.push_back(Cost);
@@ -299,6 +320,42 @@ void WhopEcon::doCalculations(TAPSTable& data,
    Screen->Cursor = savedCursor;
 }
 
+float WhopEcon::getFloatFromRecord(TAPSRecord& record, string ID)
+{
+   string temp = getStringFromRecord(record, ID);
+   if (temp == "")
+      return 0.0;
+   else
+   {
+      char *endptr;
+      strtod(temp.c_str(), &endptr);
+      if (*endptr == '\0')
+         return StrToFloat(temp.c_str());
+      else if (*endptr == *(temp.begin())) {  //then this is a non-floating pt field
+         ShowMessage("An entry in field " + AnsiString(ID.c_str()) +
+                     " of your current dataset was not a valid" +
+                     " floating point number. Using" +
+                     " the value 0 in its place.");
+         return 0.0;
+      }
+      else { // strip off non-float bits of string
+         Replace_all(temp, endptr, "");
+         return StrToFloat(temp.c_str());
+      }
+
+   }
+}
+
+string WhopEcon::getStringFromRecord(TAPSRecord& record, string ID)
+{
+   string temp = record.getFieldValue(ID);
+   if (temp == "")
+      ShowMessage("The field " + AnsiString(ID.c_str()) + " was not found in the"
+                  + " current dataset. Please update your *.ini file in the field_ID"
+                  + " section to include "
+                  + " a field name that is present in your current dataset.");
+   return temp;
+}
 
 //---------------------------------------------------------------------------
 int GetScenarioIndex(AnsiString Scenario)
