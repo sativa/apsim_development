@@ -1,6 +1,6 @@
 inherited ValueSelectPopup: TValueSelectPopup
-  Left = 320
-  Top = 255
+  Left = 322
+  Top = 256
   Caption = 'ValueSelectPopup'
   ClientHeight = 237
   ClientWidth = 203
@@ -20,12 +20,13 @@ inherited ValueSelectPopup: TValueSelectPopup
     Columns = <
       item
         AutoSize = True
+        Caption = 'A caption'
       end>
+    ColumnClick = False
     FlatScrollBars = True
     Items.Data = {
       3C0000000200000000000000FFFFFFFFFFFFFFFF00000000000000000568656C
       6C6F00000000FFFFFFFFFFFFFFFF000000000000000005776F726C64}
-    ShowColumnHeaders = False
     TabOrder = 0
     ViewStyle = vsReport
     OnChange = ListViewChange

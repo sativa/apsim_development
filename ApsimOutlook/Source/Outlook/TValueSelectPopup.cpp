@@ -83,7 +83,6 @@ void __fastcall TValueSelectPopup::FormShow(TObject *Sender)
       Image->Picture->Assign(&TPicture());
    else
       Image->Picture->LoadFromFile(fileName.c_str());
-
 }
 //---------------------------------------------------------------------------
 
