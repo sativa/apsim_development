@@ -301,6 +301,7 @@ c      endif
 
 *   Changes:
 *     060495 nih taken from template
+*     030498 igh changed g_ratoon_no to integer
 
 *   Calls:
 *     bound
@@ -322,7 +323,7 @@ c      endif
       REAL       G_current_stage       ! (INPUT)  current phenological stage
       REAL       G_days_tot(*)         ! (INPUT)  duration of each phase (days)
       REAL       G_sowing_depth        ! (INPUT)  sowing depth (mm)
-      REAL       G_Ratoon_no           ! (INPUT)  ratoon no (mm)
+      INTEGER    G_Ratoon_no           ! (INPUT)  ratoon no (mm)
       REAL       P_tt_begcane_to_flowering ! (INPUT)
       REAL       P_tt_emerg_to_begcane ! (INPUT)
       REAL       P_tt_flowering_to_crop_end ! (INPUT)
@@ -497,6 +498,7 @@ cnh         current_stage = aint (new_stage)
 
 *   Changes:
 *     060495 nih taken from template
+*     030498 igh  changed c_num_fasw_emerg to integer
 
 *   Calls:
 *     pop_routine
@@ -514,7 +516,7 @@ cnh         current_stage = aint (new_stage)
       REAL       C_pesw_germ           ! (INPUT)  plant extractable soil water i
       REAL       C_fasw_emerg(*)       ! (INPUT)  plant extractable soil water i
       REAL       c_rel_emerg_rate(*)   ! (INPUT)
-      REAL       c_num_fasw_emerg      ! (INPUT)
+      INTEGER    c_num_fasw_emerg      ! (INPUT)
       REAL       G_days_tot(*)         ! (INPUT)  duration of each phase (days)
       REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
       REAL       G_sowing_depth        ! (INPUT)  sowing depth (mm)
@@ -4708,6 +4710,7 @@ cnh            NO3gsm_mflow = NO3gsm_mflow_supply
 *   Changes:
 *      070495 nih taken from template
 *      030996 nih added detachment accounting
+*      030498 igh added bound checking to leaf_no
 
 *   Calls:
 *     accumulate
@@ -4722,6 +4725,7 @@ cnh            NO3gsm_mflow = NO3gsm_mflow_supply
 *     sugar_swdef
 *     sum_between
 *     sum_real_array
+*     l_bound
 
 * ----------------------- Declaration section ------------------------
 
@@ -4809,6 +4813,7 @@ cnh            NO3gsm_mflow = NO3gsm_mflow_supply
       integer    count_of_Real_vals    ! function
       real       divide                ! function
       real       sum_between           ! function
+      real       l_bound               ! function
 
 *   Internal variables
       real       dlt_dm_plant          ! dry matter increase (g/plant)
@@ -4971,6 +4976,8 @@ c      leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
       leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
      :              - g_leaf_no_detached
      :              - c_leaf_no_at_emerg
+
+      leaf_no = l_bound(leaf_no, 1.0)
 
       dlt_leaf_area = divide (g_dlt_lai, g_plants, 0.0) * sm2smm
       call accumulate (dlt_leaf_area, g_leaf_area
@@ -6917,9 +6924,7 @@ cnh            sugar_sprouting = 0.0001
 
 *   Global variables
        include 'crop3.inc'
-       real      bound                   ! function
        real      divide                  ! function
-       real      l_bound                 ! function
        real      linear_interp_real      ! function
        real      sum_between             ! function
 
@@ -6930,11 +6935,6 @@ cnh            sugar_sprouting = 0.0001
        real cane_dmf_min        ! min dm fraction in
                                 ! cane(sstem+sucrose)
        real cane_dmf
-       real cane_dmf_new
-       real deficit
-       real fr_dmf
-       real new_fr_dmf
-       real new_plant_wc
        real stress_factor_min
        real sucrose_fraction
 
@@ -7116,7 +7116,6 @@ cnh            sugar_sprouting = 0.0001
       include   'convert.inc'          ! smm2sm
       include   'sugar.inc'
 
-      real       sum_between           ! function
       real       sugar_leaf_no_from_lai! function
 
 *   Internal variables
@@ -13130,11 +13129,11 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
 *                       implicit none
 
 *   Changes:
+*     030498 igh  changed c_num_fasw_emerg to integer
 
 *   Calls:
 *     divide
 *     find_layer_no
-*     on_day_of
 *     pop_routine
 *     push_routine
 *     stage_is_between
@@ -13146,7 +13145,7 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
 *   Subroutine arguments
       REAL       C_fasw_emerg(*)       ! (INPUT)  plant extractable soil water i
       REAL       c_rel_emerg_rate(*)   ! (INPUT)
-      REAL       c_num_fasw_emerg      ! (INPUT)
+      INTEGER    c_num_fasw_emerg      ! (INPUT)
       REAL       G_current_stage       ! (INPUT)  current phenological stage
       REAL       G_days_tot(*)         ! (INPUT)  duration of each phase (days)
       REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
@@ -13162,13 +13161,12 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
       real       bound                 ! function
       integer    find_layer_no         ! function
       real       divide                ! function
-      logical    on_day_of             ! function
       logical    stage_is_between      ! function
       real       linear_interp_real    ! function
       
 *   Internal variables
       integer    layer_no_seed         ! seedling layer number
-      real       pesw_seed             ! plant extractable soil water in
+*      real       pesw_seed             ! plant extractable soil water in
                                        ! seedling layer available for
                                        ! germination ( mm/mm)
       real       fasw_seed
@@ -13188,7 +13186,7 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
 
          layer_no_seed = find_layer_no (g_sowing_depth, g_dlayer
      :                                , max_layer)
-         pesw_seed = g_sw_dep(layer_no_seed)-p_ll_dep(layer_no_seed)
+*         pesw_seed = g_sw_dep(layer_no_seed)-p_ll_dep(layer_no_seed)
          fasw_seed = divide (
      :               g_sw_dep(layer_no_seed)-p_ll_dep(layer_no_seed)
      :              ,g_dul_dep(layer_no_seed)-p_ll_dep(layer_no_seed)
