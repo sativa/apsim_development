@@ -3,7 +3,8 @@
 #define xmlH
 #include <string>
 #include <stdexcept>
-#include <general\treenodeiterator.h>
+#include <general\VCLAdaptors.h>
+#include <general\stl_functions.h>
 class XMLNode;
 
 namespace Msxml2_tlb
@@ -41,6 +42,10 @@ class XMLDocument
 class XMLNode
    {
    public:
+      typedef TreeNodeIterator<XMLNode> iterator;
+      iterator begin() const;
+      iterator end() const;
+
       XMLNode(XMLDocument* doc, Msxml2_tlb::IXMLDOMNode* n)
          : parent(doc), node(n) { }
 
@@ -51,11 +56,8 @@ class XMLNode
                         const std::string& attributeValue);
       void setValue(const std::string& value, bool asCData = false);
       XMLNode appendChild(const std::string& nodeName, bool alwaysAppend = false);
-      void deleteChild(const std::string& childName);
+      XMLNode::iterator erase(XMLNode::iterator& nodeIterator);
 
-      typedef TreeNodeIterator<XMLNode> iterator;
-      iterator begin() const;
-      iterator end() const;
 
       void writeXML(std::string& xml) const;
 
@@ -86,6 +88,38 @@ class NodeEquals
       bool operator () (T& arg)
          {return (strcmpi(arg.getName().c_str(), nodeName.c_str()) == 0 &&
                   strcmpi(arg.getAttribute("name").c_str(), nameAttribute.c_str()) == 0);};
+   };
+//---------------------------------------------------------------------------
+// Handy predicate that can help find a node that has the specified name
+// and attribute values.
+// e.g. can be used with find_if
+//---------------------------------------------------------------------------
+template <class T>
+class NodeAttributesEquals
+   {
+   private:
+      std::string nodeName;
+      std::string attribute1Name;
+      std::string attribute1Value;
+      std::string attribute2Name;
+      std::string attribute2Value;
+   public:
+      NodeAttributesEquals(const std::string& nodename,
+                           const std::string& attribute1name,
+                           const std::string& attribute1value,
+                           const std::string& attribute2name,
+                           const std::string& attribute2value)
+         : nodeName(nodename),
+           attribute1Name(attribute1name),
+           attribute1Value(attribute1value),
+           attribute2Name(attribute2name),
+           attribute2Value(attribute2value)
+            {}
+
+      bool operator () (T& arg)
+         {return (strcmpi(arg.getName().c_str(), nodeName.c_str()) == 0 &&
+                  strcmpi(arg.getAttribute(attribute1Name).c_str(), attribute1Value.c_str()) == 0 &&
+                  strcmpi(arg.getAttribute(attribute2Name).c_str(), attribute2Value.c_str()) == 0);}
    };
 //---------------------------------------------------------------------------
 // Handy predicate that can help find a node with a particular value.
@@ -159,5 +193,22 @@ XMLNode appendChildIfNotExist(XMLNode& node,
       return child;
       }
    }
+// ------------------------------------------------------------------
+// Handy function that will delete all nodes with the specified name.
+// ------------------------------------------------------------------
+void eraseNodes(XMLNode& node, const std::string& name)
+   {
+   XMLNode::iterator i = find_if(node.begin(),
+                                 node.end(),
+                                 EqualToName<XMLNode>(name));
+   while (i != node.end())
+      {
+      node.erase(i);
+      i = find_if(node.begin(),
+                  node.end(),
+                  EqualToName<XMLNode>(name));
+      }
+   }
+
 
 #endif
