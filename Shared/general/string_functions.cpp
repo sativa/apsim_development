@@ -9,21 +9,25 @@
 
 //  Changes:
 //    DPH 17/4/1997
+//    dph 14/10/97 work around bug in Borland string class in routine
+//                 find_last_not_of.  Doesn't work with 2 character string !!
 
 // ------------------------------------------------------------------
 void Strip (string& text, const char* separators)
    {
-   unsigned int Pos;
+   size_t Pos;
 
    // remove leading spaces
    Pos = text.find_first_not_of(separators);
    if (Pos > 0)
       text.remove (0, Pos);
 
-   // remove trailing spaces
+   // remove trailing spaces  strrchr
+   text.prepend ("`");
    Pos = text.find_last_not_of(separators);
    if (Pos < text.length())
       text.remove (Pos+1);
+   text.remove (0, 1);
    }
 
 // ------------------------------------------------------------------
@@ -174,4 +178,5 @@ void To_lower (string& St)
    St = buffer;
    delete buffer;
    }
+
 
