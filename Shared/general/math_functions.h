@@ -289,6 +289,21 @@ double linear_interp_real (double x,
                            vector<double>& y_cord,
                            bool& Did_interpolate);
 
+// ------------------------------------------------------------------
+//  Short description:
+//       Calculates a set of probability values from a given set
+//       of XValues.
+
+//  Notes:
+
+//  Changes:
+//    DPH 16/1/95
+
+// ------------------------------------------------------------------
+void Calculate_prob_dist(vector<double>& X,
+                         bool Prob_exceed,
+                         vector<double>& Prob_values);
+
 #endif
 
 
