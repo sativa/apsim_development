@@ -161,6 +161,7 @@
      
      
      
+           TAV and AMP supplied externally
      
      
      
@@ -202,19 +203,27 @@
           ---------------------------------------------------------
 ------- Start of simulation  --------------------------------------------------
 1 January 1988 (Day of year=1):
-      Sending do_output message to report
+   OPERATNS:
+       Sending do_output message to report
 5 January 1988 (Day of year=5):
-      Sending apply message to fertiliz
-     
-        - Reading Fertiliser Type Parameters
-       100.00 of n as nitrate (no3_n)
-                                              added at depth   10.00 (layer   1)
+   OPERATNS:
+       Sending apply message to fertiliz
+   FERTILIZ:
+      
+         - Reading Fertiliser Type Parameters
+        100.00 of n as nitrate (no3_n)
+                                               added at depth   10.00 (layer   1)
 10 January 1988 (Day of year=10):
-      Sending do_output message to report
+   OPERATNS:
+       Sending do_output message to report
 15 January 1988 (Day of year=15):
-      Sending apply message to irrigate
+   OPERATNS:
+       Sending apply message to irrigate
 20 January 1988 (Day of year=20):
-      Sending do_output message to report
+   OPERATNS:
+       Sending do_output message to report
 30 January 1988 (Day of year=30):
-      Sending do_output message to report
-     Simulation is terminating due to end criteria being met.
+   OPERATNS:
+       Sending do_output message to report
+   CLOCK:
+      Simulation is terminating due to end criteria being met.

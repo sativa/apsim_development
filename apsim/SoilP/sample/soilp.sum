@@ -165,6 +165,7 @@
      
      
      
+           TAV and AMP supplied externally
      
      
      
@@ -236,35 +237,46 @@
            Root C:P :                    200.0
 ------- Start of simulation  --------------------------------------------------
 5 January 1988 (Day of year=5):
-          Manager sending message :- fertiliz apply amount = 30 (kg/ha), depth = 20 (mm), type = rock_p
-     
-        - Reading Fertiliser Type Parameters
-        30.00 of rock phosphorus (rock_p)
-                                              added at depth   20.00 (layer   1)
+   MANAGER:
+           Manager sending message :- fertiliz apply amount = 30 (kg/ha), depth = 20 (mm), type = rock_p
+   FERTILIZ:
+      
+         - Reading Fertiliser Type Parameters
+         30.00 of rock phosphorus (rock_p)
+                                               added at depth   20.00 (layer   1)
 10 January 1988 (Day of year=10):
-          Manager sending message :- fertiliz apply amount = 15 (kg/ha), depth = 20 (mm), type = broadcast_p
-     
-        - Reading Fertiliser Type Parameters
-        15.00 of broadcast phosporus (broadcast_p)
-                                              added at depth   20.00 (layer   1)
+   MANAGER:
+           Manager sending message :- fertiliz apply amount = 15 (kg/ha), depth = 20 (mm), type = broadcast_p
+   FERTILIZ:
+      
+         - Reading Fertiliser Type Parameters
+         15.00 of broadcast phosporus (broadcast_p)
+                                               added at depth   20.00 (layer   1)
 15 January 1988 (Day of year=15):
-          Manager sending message :- fertiliz apply amount = 20 (kg/ha), depth = 35 (mm), type = banded_p
-     
-        - Reading Fertiliser Type Parameters
-        20.00 of banded phosphorus (banded_p)
-                                              added at depth   35.00 (layer   1)
+   MANAGER:
+           Manager sending message :- fertiliz apply amount = 20 (kg/ha), depth = 35 (mm), type = banded_p
+   FERTILIZ:
+      
+         - Reading Fertiliser Type Parameters
+         20.00 of banded phosphorus (banded_p)
+                                               added at depth   35.00 (layer   1)
 20 January 1988 (Day of year=20):
-          Manager sending message :- act_mods tillage type = disc ()
-     
-         - Reading tillage CN info
-     Soil tilled using disc                          
-                                             CN reduction =     0.00
-                                             Acc rain     =     0.00
-     
-         - Reading residue tillage info
-     Residue removed using disc                          
-                                             Fraction Incorporated =     0.50
-                                             Incorporated Depth    =   200.00
-     Banded P destroyed
+   MANAGER:
+           Manager sending message :- act_mods tillage type = disc ()
+   SOILWAT2:
+      
+          - Reading tillage CN info
+      Soil tilled using disc                          
+                                              CN reduction =     0.00
+                                              Acc rain     =     0.00
+   RESIDUE2:
+      
+          - Reading residue tillage info
+      Residue removed using disc                          
+                                              Fraction Incorporated =     0.50
+                                              Incorporated Depth    =   200.00
+   SOILP:
+      Banded P destroyed
 30 January 1988 (Day of year=30):
-     Simulation is terminating due to end criteria being met.
+   CLOCK:
+      Simulation is terminating due to end criteria being met.

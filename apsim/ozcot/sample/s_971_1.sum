@@ -21,7 +21,6 @@
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\met\lib\met.dll(met) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\accum\lib\accum.dll(accum) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\fertiliz\lib\fertiliz.dll(fertiliz) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\soilwat2\lib\soilwat2.dll(soilwat2) - Licensed
@@ -37,17 +36,14 @@
 ------- REPORT Initialisation ------------------------------------------------
      Output file = o_971_1.out
      Format = normal
-     Module_names = clock clock manager ozcot ozcot ozcot manager ozcot ozcot ozcot ozcot ozcot ozcot soilwat2 soilwat2 soiln2 manager manager 
-     Variable_names = year day yield_acre evap_plant lai yield yield_acre dm sites squarz bollz openz totnup es esw no3() cum_rain no_rain 
-     Variable_alias = - - yld/acre c_ep c_lai c_yield c_yld/acre biomass - - - - c_nuptake - pesw - - - 
-     Units = - - - - - - - - - - - - - - - - - - 
+     Module_names = clock clock manager ozcot ozcot ozcot manager ozcot ozcot ozcot ozcot ozcot ozcot soilwat2 soilwat2 soiln2 
+     Variable_names = year day yield_acre evap_plant lai yield yield_acre dm sites squarz bollz openz totnup es esw no3() 
+     Variable_alias = - - yld/acre c_ep c_lai c_yield c_yld/acre biomass - - - - c_nuptake - pesw - 
+     Units = - - - - - - - - - - - - - - - - 
      
 
 ------- MET Initialisation ---------------------------------------------------
      File name = c:\regr\apsim\ozcot\sample\hunter.aps
-
-------- ACCUM Initialisation -------------------------------------------------
-     Initialising
 
 ------- FERTILIZ Initialisation ----------------------------------------------
       Initialising
@@ -178,6 +174,7 @@
      
      
      
+           TAV and AMP supplied externally
      
      
      
@@ -222,14 +219,18 @@
      Initialising
 ------- Start of simulation  --------------------------------------------------
 22 September 1995 (Day of year=265):
-     Manager creating a new local variable : yield_acre =    0.000000000000000
+   MANAGER:
+      Manager creating a new local variable : yield_acre =    0.000000000000000
 7 October 1995 (Day of year=280):
-          Manager sending message :- ozcot sow 4 5 2.0 12.0
-     sow
-      sowing  depth plants row sp
-      g%day no   mm     m^2    m
-         280    5.0   12.0    2.0
-     
-     sow
+   MANAGER:
+           Manager sending message :- ozcot sow 4 5 2.0 12.0
+   OZCOT:
+      sow
+       sowing  depth plants row sp
+       g%day no   mm     m^2    m
+          280    5.0   12.0    2.0
+      
+      sow
 19 May 1996 (Day of year=140):
-     Simulation is terminating due to end criteria being met.
+   CLOCK:
+      Simulation is terminating due to end criteria being met.

@@ -144,6 +144,7 @@
      
      
      
+           TAV and AMP supplied externally
      
      
      
@@ -188,18 +189,24 @@
      Initialising:
 ------- Start of simulation  --------------------------------------------------
 1 January 1988 (Day of year=1):
-          Manager sending message :- fertiliz apply amount = 100 (), type = nh4no3 ()
-     
-        - Reading Fertiliser Type Parameters
-       100.00 of ammonium nitrate (nh4no3)
-                                              added at depth    0.00 (layer   1)
+   MANAGER:
+           Manager sending message :- fertiliz apply amount = 100 (), type = nh4no3 ()
+   FERTILIZ:
+      
+         - Reading Fertiliser Type Parameters
+        100.00 of ammonium nitrate (nh4no3)
+                                               added at depth    0.00 (layer   1)
 10 January 1988 (Day of year=10):
-          Manager sending message :- slurp set eo_fraction = 0.75 ()
+   MANAGER:
+           Manager sending message :- slurp set eo_fraction = 0.75 ()
 15 January 1988 (Day of year=15):
-          Manager sending message :- fertiliz apply amount = 100 (), type = nh4no3 ()
-     
-        - Reading Fertiliser Type Parameters
-       100.00 of ammonium nitrate (nh4no3)
-                                              added at depth    0.00 (layer   1)
+   MANAGER:
+           Manager sending message :- fertiliz apply amount = 100 (), type = nh4no3 ()
+   FERTILIZ:
+      
+         - Reading Fertiliser Type Parameters
+        100.00 of ammonium nitrate (nh4no3)
+                                               added at depth    0.00 (layer   1)
 30 January 1988 (Day of year=30):
-     Simulation is terminating due to end criteria being met.
+   CLOCK:
+      Simulation is terminating due to end criteria being met.
