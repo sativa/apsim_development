@@ -1,9 +1,0 @@
-[test.eo.parameters]
-albedo = 0.13 ()                 ! canopy/soil albedo (0-1)
-z0soil = 0.005 ()                ! soil z0 (used when rlai=0) (m)
-e_method = pen_mon               ! method used for evaportranspiration
-default_wind = 5.0  (km/hr)      ! default wind speed (km/ha)          
-default_pa   = 1000 (hpa)        ! default atmospheric pressure (hPa)
-default_instrum_height = 2 (m)   ! default instrument height (m)     
-
-
