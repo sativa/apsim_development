@@ -6,7 +6,7 @@ Imports System.xml.XmlNodeList
 Imports System.io
 Imports System.IO.Path
 Imports VBGeneral
-
+Imports CSGeneral
 
 Public Class MainUI
     Inherits System.Windows.Forms.Form
@@ -629,9 +629,9 @@ Public Class MainUI
         ElseIf e.Button Is NewsButton Then
             GetLatestNews()
         ElseIf e.Button Is RunButton Then
-            RunSimFile()
+            RunSimulations()
         ElseIf e.Button Is ExportButton Then
-            MakeSimFile()
+            MakeSimulations()
         End If
     End Sub
 
@@ -686,7 +686,7 @@ Public Class MainUI
 
 
     Private Sub SimulationMenuMake_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SimulationMenuMake.Click
-        MakeSimFile()
+        MakeSimulations()
     End Sub
 
     Private Sub MenuItem6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -861,17 +861,24 @@ Public Class MainUI
         APSIMFile.SaveAs()
     End Sub
 
-
-    Private Sub MakeSimFile()
+    Private Sub MakeSimulations()
+        Dim SimFiles As New StringCollection
+        MakeSimFile(SimFiles)
+    End Sub
+    Private Sub MakeSimFile(ByRef SimFiles As StringCollection)
         Try
             APSIMFile.Save()
-            Dim mf As New MacroFile
+            Dim M As New Macro
             Dim inifile As New APSIMSettings
             If File.Exists(APSIMFile.Filename) Then
                 Dim DirectoryName As String = Path.GetDirectoryName(APSIMFile.Filename)
                 Dim FileName As String = inifile.GetSetting("apsimui", "macrofile")
                 If File.Exists(FileName) Then
-                    mf.DoTransform(APSIMFile.Filename, FileName, DirectoryName)
+                    Dim sr As New StreamReader(FileName)
+                    Dim MacroContents As String = sr.ReadToEnd
+                    sr.Close()
+
+                    SimFiles = M.Go(APSIMFile.data, MacroContents, DirectoryName)
                 Else
                     MsgBox("Cannot find the simulation creation macro file", MsgBoxStyle.Critical, "Error")
                 End If
@@ -885,11 +892,19 @@ Public Class MainUI
     End Sub
 
     Private Sub SimulationMenuRun_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SimulationMenuRun.Click
-        MakeSimFile()
-        RunSimFile()
+        RunSimulations()
     End Sub
-    Private Sub RunSimFile()
-        MsgBox("somehow need to work out how to do this!")
+    Private Sub RunSimulations()
+        Dim SimFiles As New StringCollection
+        MakeSimFile(SimFiles)
+        For Each simfile As String In SimFiles
+            RunSimFile(simfile)
+        Next
+
+    End Sub
+    Private Sub RunSimFile(ByVal Simfile As String)
+
+        Dim ID As Integer = Shell("apsim.exe """ + Simfile + """")
     End Sub
 
     Private Sub MainUI_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
