@@ -1,0 +1,13 @@
+[general]
+name = peanut module
+
+[Binaries]
+binary=peanut
+
+[peanut]
+compiler_switches = %apsuite\apsim\infra\lf90.fig
+source  = source\peanut.for
+target  = lib\peanut.dll
+include = %apsuite\apsim\infra\
+
+import  = %apsuite\apsim\infra\lib\APSinfra.imp

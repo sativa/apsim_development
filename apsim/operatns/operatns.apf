@@ -1,0 +1,13 @@
+[general]
+name = operatns module
+
+[Binaries]
+binary=operatns
+
+[operatns]
+compiler_switches = %apsuite\apsim\infra\lf90.fig
+source  = source\operatns.for
+target  = lib\operatns.dll
+include = %apsuite\apsim\infra\
+
+import  = %apsuite\apsim\infra\lib\APSinfra.imp

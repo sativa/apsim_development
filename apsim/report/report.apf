@@ -1,0 +1,12 @@
+[general]
+name = report module
+
+[Binaries]
+binary=report
+
+[report]
+compiler_switches = %apsuite\apsim\infra\lf90.fig
+source  = source\report.for
+target  = lib\apsreport.dll
+include = %apsuite\apsim\infra\
+import  = %apsuite\apsim\infra\lib\apsinfra.imp

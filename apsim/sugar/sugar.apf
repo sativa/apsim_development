@@ -1,0 +1,19 @@
+[general]
+name = sugar module
+
+[Binaries]
+binary=sugar
+
+[sugar]
+compiler_switches = %apsuite\apsim\infra\lf90.fig
+
+source  = source\sugar.for
+source  = source\sgr_main.for
+
+target  = lib\sugar.dll
+
+include = %apsuite\apsim\infra\
+include = %apsuite\apsim\croptemp\
+
+import  = %apsuite\apsim\infra\lib\APSinfra.imp
+import  = %apsuite\apsim\croptemp\lib\croptemp.imp
