@@ -1,25 +1,22 @@
 [sample.report.parameters]  
-title =  Maize Sample Simulation   
-screen_output =  on   
-outputfile =  maize.out /overwrite   
-summaryfile =  maize.sum /overwrite   
-
-module_names =   clock clock   
-variable_names =  day year   
-variable_alias =  -    -   
-
-module_names =   maize    maize    maize   maize       maize         maize         maize
-variable_names =  lai     biomass  yield   biomass_n   swdef_expan   nfact_expan   das
-variable_alias =  -       -        -       -           -             -              -
-units =          -        -        -       -           -             -              -
+outputfile =maize.out   
 
 
+
+
+variable = clock.day
+variable = clock.year
+variable = maize.lai
+variable = maize.biomass
+variable = maize.yield
+variable = maize.biomass_n
+variable = maize.swdef_expan
+variable = maize.nfact_expan
+variable = maize.das
 [sample.clock.parameters]  
 ! Start and end date of run (day number of year and year)
-simulation_start_day =  300   
-simulation_start_year =  1989   
-simulation_end_day =  120   
-simulation_end_year =  1990   
+start_date=27/10/1989     ! dd/mm/yyyy
+end_date=30/4/1990     ! dd/mm/yyyy
 
 [sample.manager.start_of_day]  
 
