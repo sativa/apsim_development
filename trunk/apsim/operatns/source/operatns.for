@@ -1,4 +1,5 @@
       module OperatnsModule
+      use Registrations
 !     ================================================================
 !     operatns module
 !     ================================================================
@@ -53,6 +54,7 @@
       common /InstancePointers/ ID,g,p,c
       save InstancePointers
       type (OperatnsGlobals),pointer :: g
+      type (IDsType), pointer :: id
 
       contains
 
@@ -868,8 +870,10 @@
 
       if (doAllocate) then
          allocate(g)
+         allocate(id)
       else
          deallocate(g)
+         deallocate(id)
       end if
       return
       end subroutine
@@ -911,6 +915,9 @@
          call operatns_zero_variables ()
          call operatns_Init ()
 
+      else if (Action.eq.ACTION_Create) then
+         call doRegistrations(id)
+
       else if (Action.eq.ACTION_Prepare) then
          call operatns_Get_Other_Variables ()
          call operatns_schedule (Prepare_Phase)
@@ -934,3 +941,17 @@
       return
       end subroutine
 
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      Use infrastructure
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+      
+      return
+      end subroutine respondToEvent

@@ -1,5 +1,6 @@
 *     ========================================
       module demoModule
+      use Registrations
 !     ========================================
       
 !     ========================================
@@ -23,7 +24,7 @@
       common /InstancePointers/ ID,g,p,c
       save InstancePointers
       type (demoGlobals),pointer :: g
-!      type (IDsType), pointer :: ID
+      type (IDsType), pointer :: ID
                
       contains
 
@@ -446,10 +447,10 @@
 
       if (doAllocate) then
          allocate(g)
-!         allocate(ID)
+         allocate(ID)
       else
          deallocate(g)
-!         deallocate(ID)
+         deallocate(ID)
       end if
       return
       end subroutine
@@ -487,6 +488,9 @@
       if (Action.eq.ACTION_Init) then
          call demo_Init ()
 
+      else if (Action.eq.ACTION_Create) then
+         call doRegistrations(id)
+
       else if (Action.eq.ACTION_Prepare) then
          call demo_read_todays_data()
 
@@ -505,3 +509,17 @@
       return
       end
 
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      Use infrastructure
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+      
+      return
+      end subroutine respondToEvent

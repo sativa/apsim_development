@@ -5,6 +5,7 @@
 #include "ScreenComponent.h"
 #include <ComponentInterface\MessageDataExt.h>
 #include <ComponentInterface\ApsimVariant.h>
+#include <ComponentInterface\datatypes.h>
 #include <ApsimShared\FStringExt.h>
 #include <ApsimShared\ApsimComponentData.h>
 #include <general\math_functions.h>
@@ -61,7 +62,7 @@ void ScreenComponent::doInit1(const FString& sdml)
    static const char* doubleDDML = "<type kind=\"double\"\\>";
    static const char* stringDDML = "<type kind=\"string\"\\>";
 
-   tickID = addRegistration(respondToEventReg, "tick", "");
+   tickID = addRegistration(respondToEventReg, "tick", timeTypeDDML);
    prepareID = addRegistration(respondToEventReg, "prepare", "");
    titleID = addRegistration(getVariableReg, "title", stringDDML);
    externalErrorID = addRegistration(respondToEventReg, "error", "");
@@ -135,10 +136,9 @@ void ScreenComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID
          ScreenForm->ProgressBar->Max = (endDateJDay - startDateJDay) / updateInterval;
          }
 
-      protocol::ApsimVariant apsimVariant(this, variant);
-      double jday;
-      apsimVariant.get("jday", protocol::DTdouble, false, jday);
-      currentDate = jday;
+      timeType tick;
+      variant.unpack(tick);
+      currentDate = tick.startday;
       static int interval = 0;
       interval++;
       if (interval == updateInterval || currentDate == endDateJDay)

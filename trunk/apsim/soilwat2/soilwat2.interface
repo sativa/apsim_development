@@ -98,7 +98,7 @@
       <getVariableReg name="run_on" type="run_on"/>
       <getVariableReg name="inflow_lat" type="inflow_lat"/>
       <setVariableReg name="dlt_nnnn" type="dlt_nnnn"/>
-      <respondToEventReg name="tick" type="tick"/>
+      <respondToEventReg name="tick" type="time"/>
       <respondToEventReg name="newmet" type="newmet"/>
       <respondToEventReg name="irrigated" type="irrigated"/>
       <respondToEventReg name="new_solute" type="new_solute"/>

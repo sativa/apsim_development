@@ -1,4 +1,5 @@
-      Module APSwimModule
+      Module APSwimModule  
+      use Registrations
 
       character calc_section*(*)
       parameter (calc_section = 'calc')
@@ -393,6 +394,7 @@
       type (APSwimGlobals),pointer :: g
       type (APSwimParameters),pointer :: p
       type (APSwimConstants),pointer :: c
+      type (IDsType),pointer :: id
 
 
 
@@ -8622,11 +8624,12 @@ c      pause
 
 
 *     ===========================================================
-      subroutine apswim_ONtick ()
+      subroutine apswim_ONtick (variant)
 *     ===========================================================
-            use Infrastructure
       Use infrastructure
       implicit none
+      
+      integer, intent(in) :: variant
 
 *+  Purpose
 *     Update internal time record and reset daily state variables.
@@ -8648,6 +8651,7 @@ c      pause
       double precision TEMPSolAmt(SWIMLogSize)
       integer          TEMPSolNumPairs
       integer          time_mins
+      type(timeType) :: tick
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -8655,9 +8659,13 @@ c      pause
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
-
-      call handler_ONtick(g%day, g%year, g%apsim_time ,intTimestep)
-      g%apsim_timestep = intTimestep
+                                    
+      call unpack_time(variant, tick)
+      call jday_to_day_of_year(dble(tick%startday), g%day, g%year)
+      
+      ! dph - need to setup g%apsim_time and g%apsim_timestep
+      !call handler_ONtick(g%day, g%year, g%apsim_time ,intTimestep)
+      !g%apsim_timestep = intTimestep
 
       ! Started new timestep so purge all old timecourse information
       ! ============================================================
@@ -8881,10 +8889,12 @@ c      pause
          allocate(g)
          allocate(p)
          allocate(c)
+         allocate(id)
       else
          deallocate(g)
          deallocate(p)
          deallocate(c)
+         deallocate(id)
       end if
       return
       end subroutine
@@ -8925,6 +8935,7 @@ c      pause
          call apswim_Send_my_variable (Data_string)
 
       else if (Action.eq.ACTION_Create) then
+         call doRegistrations(id)
          call apswim_zero_module_links()
          call apswim_zero_variables()
 
@@ -8939,9 +8950,6 @@ c      pause
 
       else if (action.eq.ACTION_sum_report) then
          call apswim_sum_report ()
-
-      else if (action.eq.EVENT_tick) then
-         call apswim_ONtick ()
 
       else if (Action .eq. ACTION_Prepare) then
          call apswim_prepare ()
@@ -8980,3 +8988,21 @@ c      pause
       call pop_routine (myname)
       return
       end subroutine
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      Use infrastructure
+      Use ApswimModule
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+
+      if (eventID .eq. id%tick) then
+         call apswim_ONtick (variant)
+      endif
+      return
+      end subroutine respondToEvent

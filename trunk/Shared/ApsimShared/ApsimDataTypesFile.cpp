@@ -18,6 +18,13 @@ ApsimDataTypesFile::ApsimDataTypesFile(void) throw(runtime_error)
       throw runtime_error("Cannot find file: " + fileName);
    }
 //---------------------------------------------------------------------------
+// constructor.
+//---------------------------------------------------------------------------
+ApsimDataTypesFile::ApsimDataTypesFile(const string& ddml) throw(runtime_error)
+   : xmlDoc(ddml, true)
+   {
+   }
+//---------------------------------------------------------------------------
 // Return a specific data type to caller.  Will throw if that type doesn't
 // exist.
 //---------------------------------------------------------------------------
@@ -31,5 +38,19 @@ ApsimDataTypeData ApsimDataTypesFile::getDataType(const string& name) throw(runt
 
    throw runtime_error("Cannot find a data type: " + name
                        + " in file: " + fileName);
+   }
+//---------------------------------------------------------------------------
+// return iterator to first data type.
+//---------------------------------------------------------------------------
+ApsimDataTypesFile::iterator ApsimDataTypesFile::begin() const
+   {
+   return xmlDoc.documentElement().begin();
+   }
+//---------------------------------------------------------------------------
+// return iterator to last data type.
+//---------------------------------------------------------------------------
+ApsimDataTypesFile::iterator ApsimDataTypesFile::end() const
+   {
+   return xmlDoc.documentElement().end();
    }
 

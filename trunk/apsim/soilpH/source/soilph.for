@@ -1,4 +1,5 @@
       module SoilpHModule
+      use Registrations
 
 !      real       NO3_valency              ! NO3 valency
 !      parameter (NO3_valency = -1.0)
@@ -397,6 +398,7 @@
       type (soilpHParameters),pointer :: p
       type (soilpHConstants),pointer :: c
       type (soilpHExternals),pointer :: e
+      type (IDsType), pointer :: id
 
 
       contains
@@ -4895,11 +4897,13 @@
          allocate(p)
          allocate(e)
          allocate(c)
+         allocate(Id)
       else
          deallocate(g)
          deallocate(p)
          deallocate(e)
          deallocate(c)
+         deallocate(id)
       end if
       return
       end subroutine
@@ -4986,6 +4990,7 @@
          call SoilpH_sum_report ()
 
       elseif (Action.eq.ACTION_Create) then
+         call doRegistrations(id)
          call soilpH_zero_all_globals ()
 
       elseif (action.eq.ACTION_end_run) then
@@ -5001,3 +5006,17 @@
       return
       end subroutine
 
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      Use infrastructure
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+      
+      return
+      end subroutine respondToEvent

@@ -168,6 +168,7 @@
       <respondToMethodCallReg name="tillage" type="tillageType"/>
       <respondToMethodCallReg name="end_run" type="end_runType"/>
 
+      <respondToEventReg name="tick" type="time"/>
       <EventReg name="swim_timestep_preparation" type="swim_timestep_preparationType"/>
       <EventReg name="pre_swim_timestep" type="pre_swim_timestepType"/>
       <EventReg name="post_swim_timestep" type="post_swim_timestepType"/>

@@ -4,9 +4,9 @@
 #include <ComponentInterface\interfaces.h>
 #include <stdexcept>
 
+
 namespace protocol {
 typedef _stdcall void (CallbackType)(const unsigned int *compInst, Message *message);
-
 // ------------------------------------------------------------------
 //  Short description:
 //    Encapsulates a component "computation".  A computation is a

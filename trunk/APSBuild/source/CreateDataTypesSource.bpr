@@ -4,7 +4,7 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\..\Bin\CreateDataTypesSource.exe"/>
-    <OBJFILES value="CreateDataTypesSource.obj CreateDataTypesF90.obj"/>
+    <OBJFILES value="CreateDataTypesSource.obj CreateSource.obj"/>
     <RESFILES value="CreateDataTypesSource.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -49,8 +49,8 @@
   <FILELIST>
       <FILE FILENAME="CreateDataTypesSource.res" FORMNAME="" UNITNAME="CreateDataTypesSource.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="CreateDataTypesSource.cpp" FORMNAME="" UNITNAME="CreateDataTypesSource" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="CreateDataTypesF90.cpp" FORMNAME="" UNITNAME="CreateDataTypesF90" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="CreateSource.cpp" FORMNAME="" UNITNAME="CreateSource" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
@@ -85,7 +85,8 @@ ProductVersion=1.0.0.0
 Comments=
 
 [Excluded Packages]
-C:\MyData\development\Bin\APSData.bpl=APSuite data components
+C:\WINDOWS\System32\PsQRC60.bpl=Pragnaan QuickReport Export Filters
+C:\Program Files\Borland\CBuilder6\Projects\Bpl\FilterBarPackage.bpl=FilterBarPackage
 
 [HistoryLists\hlIncludePath]
 Count=2
@@ -105,10 +106,11 @@ Count=1
 Item0=_DEBUG
 
 [HistoryLists\hlFinalOutputDir]
-Count=3
-Item0=..\..\Bin
-Item1=..\
-Item2=..
+Count=4
+Item0=..\..\Bin\
+Item1=..\..\Bin
+Item2=..\
+Item3=..
 
 [HistoryLists\hIBPIOutputDir]
 Count=1

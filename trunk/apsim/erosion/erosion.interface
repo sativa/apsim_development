@@ -31,8 +31,8 @@
       <read name="eros_rose_b2_bed" type="eros_rose_b2_bedType" readable="T"/>
       <read name="entrain_eff_susp" type="entrain_eff_suspType" readable="T"/>
       <read name="eros_rose_b2_susp" type="eros_rose_b2_suspType" readable="T"/>
-      <respondToMethodCallReg name="sysinit" type="sysinitType"/>
-      <respondToMethodCallReg name="end_run" type="end_runType"/>
+      <respondToMethodCallReg name="sysinit" type="null"/>
+      <respondToMethodCallReg name="end_run" type="null"/>
       <getVariableReg name="year" type="yearType"/>
       <getVariableReg name="day" type="dayType"/>
       <getVariableReg name="runoff" type="runoffType"/>

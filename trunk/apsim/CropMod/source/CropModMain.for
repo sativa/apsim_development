@@ -17,10 +17,12 @@
          allocate(g)
          allocate(p)
          allocate(c)
+         allocate(id)
       else
          deallocate(g)
          deallocate(p)
          deallocate(c)
+         deallocate(id)
       end if
       return
       end subroutine
@@ -99,6 +101,9 @@ c
 c         if (TestTrue) open (1, FILE='test.dat')
          !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+      else if (Action.eq.ACTION_Create) then
+         call doRegistrations(id)
 
       elseif (action.eq.ACTION_set_variable) then
 
@@ -312,3 +317,17 @@ c        if (TestTrue)   close (1)
       end subroutine
 
 
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      Use infrastructure
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+      
+      return
+      end subroutine respondToEvent

@@ -9,10 +9,10 @@
       <read name="escape_char" type="escape_charType" readable="T"/>
       <read name="report_days" type="report_daysType" readable="T"/>
       <read name="report_start" type="report_startType" readable="T"/>
-      <respondToMethodCallReg name="sysinit" type="sysinitType"/>
-      <respondToMethodCallReg name="end_run" type="end_runType"/>
-      <respondToMethodCallReg name="do_output" type="do_outputType"/>
-      <respondToMethodCallReg name="clear" type="clearType"/>
-      <respondToEventReg name="process" type="processType"/>
+      <respondToMethodCallReg name="sysinit" type="null"/>
+      <respondToMethodCallReg name="end_run" type="null"/>
+      <respondToMethodCallReg name="do_output" type="null"/>
+      <respondToMethodCallReg name="clear" type="null"/>
+      <respondToEventReg name="process" type="null"/>
    </registrations>
 </component>

@@ -31,6 +31,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 ! ----------------------- Declaration section ------------------------
       module ManagerModule
+      use Registrations
 
 !  Constant variables
       integer Max_local_variables      ! Maximum number of local vars.
@@ -234,6 +235,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       common /InstancePointers/ ID,g,p,c
       save InstancePointers
       type (ManagerData),pointer :: g
+      type (IDsType), pointer :: id
 
       contains
 
@@ -3698,8 +3700,10 @@ c      end subroutine
 
       if (doAllocate) then
          allocate(g)
+         allocate(id)
       else
          deallocate(g)
+         deallocate(id)
       end if
       return
       end subroutine
@@ -3751,6 +3755,9 @@ c      end subroutine
          call Manager_zero_variables ()
          call Manager_Init ()
 
+      else if (Action.eq.ACTION_Create) then
+         call doRegistrations(id)
+
       else if (Action.eq.ACTION_Prepare) then
          call Manager_Prepare ()
 
@@ -3770,4 +3777,18 @@ c      end subroutine
       return
       end subroutine
 
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      Use infrastructure
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+      
+      return
+      end subroutine respondToEvent
       

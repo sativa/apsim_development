@@ -1,5 +1,6 @@
       module AccumModule
-
+      use Registrations
+      
       integer Max_variables            ! Maximum number of variables.
       parameter (Max_variables=50)
 
@@ -25,6 +26,7 @@
       common /InstancePointers/ ID,g,p,c
       save InstancePointers
       type (AccumGlobals),pointer :: g
+      type (IDsType),pointer :: ID
 
 
       contains
@@ -334,8 +336,10 @@
 
       if (doAllocate) then
          allocate(g)
+         allocate(id)
       else
          deallocate(g)
+         deallocate(id)
       end if
       return
       end subroutine
@@ -369,6 +373,9 @@
          call Accum_zero_variables ()
          call Accum_Init ()
 
+      else if (Action.eq.ACTION_Create) then
+         call doRegistrations(id)
+
       else if (Action .eq. ACTION_Post) then
          call Accum_get_other_variables()
 
@@ -385,3 +392,18 @@
 
       return
       end subroutine
+      
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      Use infrastructure
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+      
+      return
+      end subroutine respondToEvent

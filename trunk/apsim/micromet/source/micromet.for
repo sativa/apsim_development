@@ -1,7 +1,8 @@
 *     ========================================
       module MicrometModule
 *     ========================================
-
+      use Registrations
+      
       real       svp_A
       parameter (svp_A = 6.106)            ! Teten coefficients
 
@@ -150,6 +151,7 @@
       type (MicrometGlobals),pointer :: g
       type (MicrometParameters),pointer :: p
       type (MicrometConstants),pointer :: c
+      type (IDsType), pointer :: id
 
 
       contains
@@ -1357,11 +1359,13 @@
 
 
 *     ===========================================================
-      subroutine Micromet_OnNewMet ()
+      subroutine Micromet_OnNewMet (variant)
 *     ===========================================================
 
       Use Infrastructure
       implicit none
+
+      integer, intent(in) :: variant
 
 *+  Purpose
 *       Obtain all relevant met data
@@ -1380,15 +1384,19 @@
       parameter (myname = 'Micromet_OnNewMet')
 
 *+  Local Variables
+      type(newmetType) :: newmet
 
 
 *- Implementation Section ----------------------------------
 
       call push_routine (myname)
 
-      call handler_ONnewmet(g%radn, g%maxt, g%mint, g%rain, g%vp)
-
-
+      call unpack_newmet(variant, newmet)
+      g%radn = newmet%radn
+      g%maxt = newmet%maxt
+      g%mint = newmet%mint
+      g%rain = newmet%rain
+      g%vp   = newmet%vp
 
       call pop_routine (myname)
       return
@@ -1577,12 +1585,14 @@
       end subroutine
 
 *     ===========================================================
-      subroutine micromet_ONtick ()
+      subroutine micromet_ONtick (variant)
 *     ===========================================================
 
       Use Infrastructure
       implicit none
-
+                                         
+      integer, intent(in) :: variant
+                                         
 *+  Purpose
 *     Update internal time record and reset daily state variables.
 
@@ -1593,8 +1603,7 @@
 *        140400 nih
 
 *+  Local Variables
-      character temp1*5
-      integer   temp2
+      type(timeType) :: tick
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -1603,10 +1612,8 @@
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      ! Note that time and timestep information is not required
-      ! and so dummy variables are used in their place.
-
-      call handler_ONtick(g%day, g%year, temp1, temp2)
+      call unpack_time(variant, tick)                                                 
+      call jday_to_day_of_year(dble(tick%startday), g%day, g%year)
 
       call pop_routine (myname)
       return
@@ -2628,10 +2635,12 @@
          allocate(g)
          allocate(p)
          allocate(c)
+         allocate(id)
       else
          deallocate(g)
          deallocate(p)
          deallocate(c)
+         deallocate(id)
       end if
       return
       end subroutine
@@ -2673,16 +2682,11 @@
          call Micromet_Init ()
 
       elseif (Action.eq.ACTION_Create) then
+         call doRegistrations(id)
          call Micromet_Create ()
 
       elseif (Action.eq.ACTION_Prepare) then
          call Micromet_Prepare ()
-
-      elseif (Action.eq.Event_Tick) then
-         call Micromet_OnTick ()
-
-      elseif (Action.eq.Event_NewMet) then
-         call Micromet_OnNewMet ()
 
       elseif (Action.eq.ACTION_Process) then
          call Micromet_Process ()
@@ -2734,4 +2738,25 @@
       call pop_routine (myname)
       return
       end
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      use MicroMetModule
+      Use infrastructure
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+
+      if (eventID .eq. id%tick) then
+         call MicroMet_ONtick(variant)
+      else if (eventID .eq. id%newmet) then
+         call MicroMet_ONnewmet(variant)
+      endif
+      return
+      end subroutine respondToEvent
+                                   
       

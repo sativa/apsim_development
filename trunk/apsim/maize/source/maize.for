@@ -2,6 +2,7 @@ C     Last change:  E    31 Jul 2001    1:26 pm
       module maizemodule
       use cropmoddata
       use croplibrary
+      use Registrations
 
       contains
 
@@ -6789,6 +6790,9 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
          !Request and receive variables from owner-modules
          call Get_Other_Variables ()
 
+      else if (Action.eq.ACTION_Create) then
+         call doRegistrations(id)
+
       elseif (action.eq.ACTION_set_variable) then
 
          ! Respond to request to reset variable values of variables from other modules
@@ -6951,11 +6955,27 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       if (doAllocate) then
          allocate(g)
          allocate(p)
-         allocate(c)
+         allocate(c)   
+         allocate(id)
       else
          deallocate(g)
          deallocate(p)
          deallocate(c)
+         deallocate(id)
       end if
       return
       end subroutine
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      Use infrastructure
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+      
+      return
+      end subroutine respondToEvent

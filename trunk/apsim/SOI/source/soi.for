@@ -1,4 +1,5 @@
       module SOIModule
+      use Registrations
 ! ========================================================================
 !     SOI constants
 ! ========================================================================
@@ -35,6 +36,7 @@
       common /InstancePointers/ ID,g,p,c
       save InstancePointers
       type (SOIGlobals),pointer :: g
+      type (IDsType), pointer :: id
 
 
       contains
@@ -401,8 +403,10 @@
 
       if (doAllocate) then
          allocate(g)
+         allocate(id)
       else
          deallocate(g)
+         deallocate(id)
       end if
       return
       end subroutine
@@ -439,6 +443,9 @@
 
          call SOI_init ()
 
+      else if (Action.eq.ACTION_Create) then
+         call doRegistrations(id)
+
       else if (action .eq. ACTION_get_variable) then
 
          ! return one of our variables to calling module
@@ -455,3 +462,17 @@
       end subroutine
 
 
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      Use infrastructure
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+      
+      return
+      end subroutine respondToEvent

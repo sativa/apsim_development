@@ -1,6 +1,7 @@
 !     ========================================
       module SoluteModule
 !     ========================================
+      use Registrations
       integer max_layer
       parameter (max_layer = 100)
 
@@ -32,6 +33,7 @@
       type (SoluteGlobals),pointer :: g
       type (SoluteParameters),pointer :: p
       type (SoluteConstants),pointer :: c
+      type (IDsType), pointer :: id
 
       contains
 
@@ -547,10 +549,12 @@
          allocate(g)
          allocate(p)
          allocate(c)
+         allocate(id)
       else
          deallocate(g)
          deallocate(p)
          deallocate(c)
+         deallocate(id)
       end if
       return
       end subroutine
@@ -593,6 +597,7 @@
          call solute_get_other_variables ()
 
       else if (Action.eq.ACTION_Create) then
+         call doRegistrations(id)
          call solute_zero_variables ()
 
       else if (Action.eq.ACTION_Get_variable) then
@@ -611,3 +616,17 @@
       end subroutine
 
 
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      Use infrastructure
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+      
+      return
+      end subroutine respondToEvent

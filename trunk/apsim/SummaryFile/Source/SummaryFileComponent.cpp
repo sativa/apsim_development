@@ -5,6 +5,7 @@
 #include "SummaryFileComponent.h"
 #include <ComponentInterface\ApsimVariant.h>
 #include <ComponentInterface\MessageDataExt.h>
+#include <ComponentInterface\DataTypes.h>
 #include <ApsimShared\FStringExt.h>
 #include <ApsimShared\ApsimComponentData.h>
 #include <ApsimShared\ApsimVersion.h>
@@ -60,7 +61,7 @@ void SummaryFileComponent::doInit1(const FString& sdml)
    static const char* stringDDML = "<type kind=\"string\"\\>";
    static const char* stringArrayDDML = "<type kind=\"string\" array=\"T\"\\>";   
    summaryFileWriteID = addRegistration(respondToEventReg, "summaryFileWrite", "");
-   tickID = addRegistration(respondToEventReg, "tick", "");
+   tickID = addRegistration(respondToEventReg, "tick", timeTypeDDML);
    prepareID = addRegistration(respondToEventReg, "prepare", "");
    externalErrorID = addRegistration(respondToEventReg, "error", "");
    summaryFileID = addRegistration(respondToGetReg, "summaryFile", stringDDML);
@@ -134,12 +135,9 @@ void SummaryFileComponent::respondToEvent(unsigned int& fromID, unsigned int& ev
    {
    if (eventID == tickID)
       {
-      protocol::ApsimVariant apsimVariant(this, variant);
-      double jday;
-      apsimVariant.get("jday", protocol::DTdouble, false, jday);
-//      unsigned jday;
-//      variant.unpack(jday);
-      currentDate = jday;
+      timeType tick;
+      variant.unpack(tick);
+      currentDate = tick.startday;
       }
    else if (eventID == prepareID && !inDiaryState)
       {

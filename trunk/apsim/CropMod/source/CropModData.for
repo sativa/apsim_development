@@ -1,4 +1,5 @@
       module CropModData
+      use Registrations
 ! ----------------------- Declaration section ------------------------
 
 !   Constant values
@@ -1605,5 +1606,6 @@
       type (CropModGlobals),pointer :: g
       type (CropModParameters),pointer :: p
       type (CropModConstants),pointer :: c
+      type (IDsType), pointer :: id
 
       end module

@@ -1,4 +1,5 @@
       module OzcotModule
+      use Registrations
 
 ! ====================================================================
 !      ozcot parameters
@@ -534,6 +535,7 @@
       type (OzcotGlobals),pointer :: g
       type (OzcotParameters),pointer :: p
       type (OzcotConstants),pointer :: c
+      type (IDsType), pointer :: id
 
       contains
 
@@ -6898,11 +6900,13 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       end subroutine
 
 *     ===========================================================
-      subroutine Ozcot_ONNew_Met ()
+      subroutine Ozcot_ONNew_Met (variant)
 *     ===========================================================
       Use Infrastructure
       implicit none
-
+                                         
+      integer, intent(in) :: variant
+                                               
 *+  Purpose
 *     Update met data record
 
@@ -6914,6 +6918,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
 *+  Local Variables
       integer    numvals
+      type(newmetType) :: newmet
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -6922,37 +6927,11 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-         call collect_real_var
-     :         (DATA_maxt    ! Name of Variable  (not used)
-     :        , '(oC)'       ! Units of variable (not used)
-     :        , g%tempmx     ! Variable array
-     :        , numvals      ! Number of elements returned
-     :        , -20.0        ! Lower Limit for bound checking
-     :        ,  60.0)       ! Upper Limit for bound checking
-
-         call collect_real_var
-     :         (DATA_mint    ! Name of Variable  (not used)
-     :        , '(oC)'       ! Units of variable (not used)
-     :        , g%tempmn     ! Variable array
-     :        , numvals      ! Number of elements returned
-     :        , -20.0        ! Lower Limit for bound checking
-     :        ,  60.0)       ! Upper Limit for bound checking
-
-         call collect_real_var
-     :         (DATA_radn    ! Name of Variable  (not used)
-     :        , '(MJ/m2)'    ! Units of variable (not used)
-     :        , g%solrad     ! Variable array
-     :        , numvals      ! Number of elements returned
-     :        , 0.0          ! Lower Limit for bound checking
-     :        , 1000.0)      ! Upper Limit for bound checking
-
-         call collect_real_var
-     :         (DATA_rain    ! Name of Variable  (not used)
-     :        , '(mm)'       ! Units of variable (not used)
-     :        , g%rain       ! Variable array
-     :        , numvals      ! Number of elements returned
-     :        , 0.0          ! Lower Limit for bound checking
-     :        , 1000.0)      ! Upper Limit for bound checking
+      call unpack_newmet(variant, newmet)
+      g%solrad = newmet%radn
+      g%tempmx = newmet%maxt
+      g%tempmn = newmet%mint
+      g%rain = newmet%rain
 
       g%tempav = (g%tempmx + g%tempmn)/2.
       g%solrad = g%solrad / 0.04186            ! convert to langleys
@@ -6963,10 +6942,12 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       end subroutine
 
 *     ===========================================================
-      subroutine ozcot_ONtick ()
+      subroutine ozcot_ONtick (variant)
 *     ===========================================================
       Use Infrastructure
-      implicit none
+      implicit none                   
+      
+      integer, intent(in) :: variant
 
 *+  Purpose
 *     Update internal time record and reset daily state variables.
@@ -6978,8 +6959,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 *        261001 jngh
 
 *+  Local Variables
-      character temp1*5
-      integer   temp2
+      type(timeType) :: tick
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -6988,10 +6968,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      ! Note that time and timestep information is not required
-      ! and so dummy variables are used in their place.
-
-      call handler_ONtick(g%jdate, g%imyr, temp1, temp2)
+      call unpack_time(variant, tick)                                                 
+      call jday_to_day_of_year(dble(tick%startday), g%jdate, g%imyr)
 
       call pop_routine (myname)
       return
@@ -7050,10 +7028,12 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
          allocate(g)
          allocate(p)
          allocate(c)
+         allocate(id)
       else
          deallocate(g)
          deallocate(p)
          deallocate(c)
+         deallocate(id)
       end if
       return
       end subroutine
@@ -7104,12 +7084,6 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
       else if (Action .eq. ACTION_prepare) then
          call ozcot_prepare ()
-
-      elseif (action.eq.EVENT_tick) then
-         call ozcot_ONtick ()
-
-      elseif (action.eq.EVENT_NewMet) then
-         call ozcot_ONNew_Met ()
 
 !      elseif (action.eq.EVENT_Hail) then
 !         call ozcot_ONHail ()
@@ -7199,6 +7173,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
          call ozcot_Init ()
 
       else if (Action.eq.ACTION_Create) then
+         call doRegistrations(id)
          call ozcot_zero_all_globals ()
 !jh         open (100, 'out.txt')
 
@@ -7213,4 +7188,25 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       end subroutine
 
 
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      use OzcotModule
+      Use infrastructure
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+
+      if (eventID .eq. id%tick) then
+         call Ozcot_ONtick(variant)
+      else if (eventID .eq. id%newmet) then
+         call Ozcot_ONNew_Met(variant)
+      endif
+      return
+      end subroutine respondToEvent
+                                   
       

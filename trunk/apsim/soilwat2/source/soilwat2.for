@@ -2,6 +2,7 @@
       use ComponentInterfaceModule
       use LateralModule
       use EvapModule
+      use Registrations
 
 ! ====================================================================
 !     soilwat2 constants
@@ -263,6 +264,7 @@
       type (Soilwat2Constants),pointer :: c          
       type (LateralData),pointer :: lateral
       type (EvapData), pointer :: evap
+      type (IDsType), pointer :: ID
 
 
       contains
@@ -6244,10 +6246,12 @@ c dsg 070302 added runon
       end subroutine
 
 *     ===========================================================
-      subroutine soilwat2_ONtick ()
+      subroutine soilwat2_ONtick (variant)
 *     ===========================================================
       Use Infrastructure
       implicit none
+      
+      integer, intent(in) :: variant
 
 *+  Purpose
 *     Update internal time record and reset daily state variables.
@@ -6259,8 +6263,7 @@ c dsg 070302 added runon
 *        260899 nih
 
 *+  Local Variables
-      character temp1*5
-      integer   temp2
+      type(timeType) :: tick
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -6269,19 +6272,19 @@ c dsg 070302 added runon
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      ! Note that time and timestep information is not required
-      ! and so dummy variables are used in their place.
-
-      call handler_ONtick(g%day, g%year, temp1, temp2)
+      call unpack_time(variant, tick)                                                 
+      call jday_to_day_of_year(dble(tick%startday), g%day, g%year)
 
       call pop_routine (myname)
       return
       end subroutine
 *     ===========================================================
-      subroutine soilwat2_ONnewmet ()
+      subroutine soilwat2_ONnewmet (variant)
 *     ===========================================================
       Use Infrastructure
       implicit none
+      
+      integer, intent(in) :: variant
 *+  Purpose
 *     Get new met data
 
@@ -6292,7 +6295,7 @@ c dsg 070302 added runon
 *        270899 nih
 
 *+  Local Variables
-cnh      real   temp1
+      type(newmetType) :: newmet
       integer numvals
 
 *+  Constant Values
@@ -6302,40 +6305,11 @@ cnh      real   temp1
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-cnh      ! Note that vp is not needed
-cnh      ! and so a dummy variable is used in its place.
-cnh
-cnh      call handler_ONnewmet(g%radn, g%maxt, g%mint, g%rain, temp1)
-
-      ! only collect that which is needed to save execution time
-
-      call collect_real_var (DATA_radn
-     :                      ,'(MJ)'
-     :                      ,g%radn
-     :                      ,numvals
-     :                      ,0.0
-     :                      ,50.0)
-
-      call collect_real_var (DATA_maxt
-     :                      ,'(oC)'
-     :                      ,g%maxt
-     :                      ,numvals
-     :                      ,0.0
-     :                      ,50.0)
-
-      call collect_real_var (DATA_mint
-     :                      ,'(oC)'
-     :                      ,g%mint
-     :                      ,numvals
-     :                      ,-10.0
-     :                      ,g%maxt)
-
-      call collect_real_var (DATA_rain
-     :                      ,'(mm)'
-     :                      ,g%rain
-     :                      ,numvals
-     :                      ,0.0
-     :                      ,500.0)
+      call unpack_newmet(variant, newmet)
+      g%radn = newmet%radn
+      g%maxt = newmet%maxt
+      g%mint = newmet%mint
+      g%rain = newmet%rain
 
       call pop_routine (myname)
       return
@@ -6526,7 +6500,9 @@ c dsg 150302  saturated layer = layer, layer above not over dul
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
-
+                    
+      call doRegistrations(id)
+      
       call Evap_create(evap)
 
       call soilwat2_zero_variables ()
@@ -6555,12 +6531,14 @@ c dsg 150302  saturated layer = layer, layer above not over dul
 !- Implementation Section ----------------------------------
 
       if (doAllocate) then
+         allocate(id)
          allocate(g)
          allocate(p)
          allocate(c)
          allocate(lateral)
          allocate(evap)
       else
+         deallocate(id)
          deallocate(g)
          deallocate(p)
          deallocate(c) 
@@ -6652,12 +6630,6 @@ c dsg 150302  saturated layer = layer, layer above not over dul
                ! respond to request for variable values - from modules
          call soilwat2_send_my_variable (Data_string)
 
-      else if (action.eq.EVENT_tick) then
-         call soilwat2_ONtick()
-
-      else if (action.eq.EVENT_newmet) then
-         call soilwat2_ONnewmet()
-
       else if (action.eq.ACTION_process) then
          call soilwat2_zero_daily_variables ()
                ! request and receive variables from owner-modules
@@ -6699,6 +6671,7 @@ c dsg 150302  saturated layer = layer, layer above not over dul
       else if (action.eq.ACTION_post) then
 
       else if (action.eq.ACTION_create) then
+         call doRegistrations(id)
          call soilwat2_create()
 
       else if (action.eq.'evap_init') then
@@ -6714,3 +6687,24 @@ c dsg 150302  saturated layer = layer, layer above not over dul
       return
       end subroutine
 
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      use SoilWat2Module
+      Use infrastructure
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+
+      if (eventID .eq. id%tick) then
+         call soilwat2_ONtick(variant)
+      else if (eventID .eq. id%newmet) then
+         call soilwat2_ONnewmet(variant)
+      endif
+      return
+      end subroutine respondToEvent
+                                   

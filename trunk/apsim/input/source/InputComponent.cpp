@@ -6,6 +6,7 @@
 #include <ApsimShared\ApsimComponentData.h>
 #include <ComponentInterface\MessageDataExt.h>
 #include <ComponentInterface\ApsimVariant.h>
+#include <ComponentInterface\datatypes.h>
 #include <general\string_functions.h>
 #include <general\stl_functions.h>
 #include <general\date_class.h>
@@ -14,15 +15,6 @@
 #include <math.h>
 
 using namespace std;
-
-static const char* newmetType =
-   "<type name=\"newmet\">"
-   "   <field name=\"radn\"  kind=\"single\" units=\"MJ/m2/d\">"
-   "   <field name=\"maxt\"  kind=\"single\" units=\"mm/d\">"
-   "   <field name=\"mint\"  kind=\"single\" units=\"mm/d\">"
-   "   <field name=\"rain\"  kind=\"single\" units=\"mm/d\">"
-   "   <field name=\"vp\"    kind=\"single\" units=\"????\">"
-   "</type>";
 
 static const char* dayLengthType =
    "<type name=\"daylength\" kind=\"single\" units=\"hours\"/>";
@@ -62,8 +54,8 @@ void InputComponent::doInit1(const FString& sdml)
    protocol::Component::doInit1(sdml);
 
    // register a few things.
-   tickID = addRegistration(protocol::respondToEventReg, "tick", "");
-   newmetID = addRegistration(protocol::eventReg, "newmet", "");
+   tickID = addRegistration(protocol::respondToEventReg, "tick", timeTypeDDML);
+   newmetID = addRegistration(protocol::eventReg, "newmet", newmetTypeDDML);
    iAmMet = (stricmp(name, "met") == 0);
    if (iAmMet)
       daylengthID = addRegistration(protocol::respondToGetReg, "day_length", dayLengthType);
@@ -393,11 +385,8 @@ void InputComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID,
    {
    if (eventID == tickID)
       {
-      protocol::ApsimVariant apsimVariant(this, variant);
-      double jday;
-      apsimVariant.get("jday", protocol::DTdouble, false, jday);
-
-      todaysDate = jday;
+      protocol::timeType tick;
+      todaysDate = tick.startday;
       if (!advanceToTodaysData() && !allowSparseData)
          {
          GDate errorDate;
@@ -455,51 +444,23 @@ float calcVP(float temp_arg)
    {
    return 6.1078 * exp(17.269*temp_arg / (237.3 + temp_arg));
    }
-
 // ------------------------------------------------------------------
-// Publish a tick event.
+// Publish a newmet event.
 // ------------------------------------------------------------------
-namespace protocol {
-struct NewMet
-   {
-   float radn;
-   float maxt;
-   float mint;
-   float rain;
-   float vp;
-   };
-inline protocol::MessageData& operator<<(protocol::MessageData& messageData, const NewMet& newmet)
-   {
-   messageData << newmet.radn << newmet.maxt << newmet.mint << newmet.rain << newmet.vp;
-   return messageData;
-   }
-inline unsigned int memorySize(const NewMet& newmet)
-   {
-   return protocol::memorySize(newmet.maxt) * 5;
-   }
-}; // protocol
 void InputComponent::publishNewMetEvent(void)
    {
    if (iAmMet)
       {
-      protocol::ApsimVariant variant(this);
-      float maxt, mint, radn, rain, vp;
-      getVariableValue("maxt", maxt);
-      getVariableValue("mint", mint);
-      getVariableValue("radn", radn);
-      getVariableValue("rain", rain);
-      if (!getVariableValue("vp", vp))
-         vp = calcVP(mint);
-
-      variant.store("maxt", protocol::DTsingle, false, maxt);
-      variant.store("mint", protocol::DTsingle, false, mint);
-      variant.store("radn", protocol::DTsingle, false, radn);
-      variant.store("rain", protocol::DTsingle, false, rain);
-      variant.store("vp", protocol::DTsingle, false, vp);
-      publish(newmetID, variant);
+      protocol::newmetType newmet;
+      getVariableValue("maxt", newmet.maxt);
+      getVariableValue("mint", newmet.mint);
+      getVariableValue("radn", newmet.radn);
+      getVariableValue("rain", newmet.rain);
+      if (!getVariableValue("vp", newmet.vp))
+         newmet.vp = calcVP(newmet.mint);
+      publish(newmetID, newmet);
       }
    }
-
 // ------------------------------------------------------------------
 // Transfer of sign - from FORTRAN.
 // The result is of the same type and kind as a. Its value is the abs(a) of a,

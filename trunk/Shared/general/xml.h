@@ -33,6 +33,9 @@ class XMLDocument
 
       void setDirty(bool d) {dirty = d;}
       bool isDirty(void) const {return dirty;}
+
+      std::string transformUsingStyleSheet(const std::string& stylesheetFileName) const;
+
    private:
       XMLDocumentImpl* docImpl;
       mutable bool dirty;

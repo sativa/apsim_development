@@ -1,4 +1,5 @@
       module Tamet2Module
+      use Registrations
 
 !     ================================================================
 !      tamet2 constants
@@ -86,6 +87,7 @@
       type (Tamet2Globals),pointer :: g
       type (Tamet2Parameters),pointer :: p
       type (Tamet2Constants),pointer :: c
+      type (IDsType), pointer :: id
 
       contains
 
@@ -1703,10 +1705,12 @@
          allocate(g)
          allocate(p)
          allocate(c)
+         allocate(id)
       else
          deallocate(g)
          deallocate(p)
          deallocate(c)
+         deallocate(id)
       end if
       return
       end subroutine
@@ -1751,6 +1755,9 @@
          call tamet2_get_other_variables_init ()
          call tamet2_init ()
 
+      else if (Action.eq.ACTION_Create) then
+         call doRegistrations(id)
+
       elseif (Action.eq.ACTION_Prepare) then
          call tamet2_prepare ()
 
@@ -1773,3 +1780,17 @@
       call pop_routine (myname)
       return
       end subroutine
+! ====================================================================
+! This routine is the event handler for all events
+! ====================================================================
+      subroutine respondToEvent(fromID, eventID, variant)
+      Use infrastructure
+      implicit none
+      ml_external respondToEvent
+      
+      integer, intent(in) :: fromID
+      integer, intent(in) :: eventID
+      integer, intent(in) :: variant
+      
+      return
+      end subroutine respondToEvent
