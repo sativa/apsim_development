@@ -4,7 +4,6 @@ USELIB("..\DBAddin\general.lib");
 USEUNIT("..\Scenario.cpp");
 USEUNIT("FieldValues.cpp");
 USEFORM("TFilterForm.cpp", FilterForm);
-USELIB("C:\Program Files\Borland\CBuilder5\Projects\Lib\thirdparty.lib");
 //---------------------------------------------------------------------------
 This file is used by the project manager only and should be treated like the project file
 
