@@ -5,6 +5,7 @@
 #pragma hdrstop
 
 #include <ComponentInterface/MessageDataExt.h>
+#include <ComponentInterface/ApsimVariant.h>
 #include <ApsimShared/FStringExt.h>
 #include <ApsimShared/ApsimComponentData.h>
 #include <general/string_functions.h>
@@ -28,6 +29,8 @@ static int InterpRefCnt = 0;
 #define intStringArray "<type kind=\"integer4\" array=\"T\"/>"
 #define fltString      "<type kind=\"single\" array=\"F\"/>"
 #define fltStringArray "<type kind=\"single\" array=\"T\"/>"
+#define dblString      "<type kind=\"double\" array=\"F\"/>"
+#define dblStringArray "<type kind=\"double\" array=\"T\"/>"
 #define strString      "<type kind=\"string\" array=\"F\"/>"
 #define strStringArray "<type kind=\"string\" array=\"T\"/>"
 
@@ -286,6 +289,32 @@ int TclComponent::apsimGet(Tcl_Interp *interp, const string &varname)
                 }
              /* notreached */
              }  
+         case DTdouble:                       /* floats */
+      	   {
+            variant->setTypeConverter( NULL ); /* undo the typeconverter created above */
+            if (variant->getType().isArray())
+      	       {
+                std::vector<double> scratch;
+                variant->unpack(scratch);
+                Tcl_Obj *result = Tcl_GetObjResult(interp);
+                Tcl_SetListObj(result, 0, NULL);
+                for (std::vector<double>::iterator p = scratch.begin(); p != scratch.end(); p++) 
+                   {
+                   Tcl_ListObjAppendElement(interp, result, Tcl_NewDoubleObj(*p));
+                   }
+                return TCL_OK;
+                } 
+             else 
+                {
+                double scratch = 0.0;
+                variant->unpack(scratch);
+                Tcl_Obj *result = Tcl_GetObjResult(interp);
+                Tcl_SetDoubleObj(result, scratch);
+                return TCL_OK;
+                }
+             /* notreached */
+             }  
+
         default:
              {
              Tcl_Obj *result = Tcl_GetObjResult(interp);
@@ -479,16 +508,56 @@ int apsimRegisterGetSetProc(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj
    }
 
 // Called from TCL script. Send a message to the system, eg:
-// apsimSendEvent wheat sow plants=100 depth=20 
-int apsimSendEventProc(ClientData /*cd*/, Tcl_Interp *interp, int objc, Tcl_Obj * CONST objv[])
+// apsimSendMessage wheat sow {plants 100} {depth 20} 
+int apsimSendMessageProc(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * CONST objv[])
    {
+      TclComponent *component = (TclComponent *) cd;
+
       if (objc < 3) 
          {
-         Tcl_SetResult(interp,"Wrong num args: apsimSendEvent <moduleName> <message> [<name value> ...]", NULL);
+         Tcl_SetResult(interp,"Wrong num args: apsimSendEvent <moduleName> <message> {<name> <value>} ...]", NULL);
          return TCL_ERROR;
          }
+
+      // 1. destination
       string moduleName = Tcl_GetStringFromObj(objv[1], NULL);
-      string message = Tcl_GetStringFromObj(objv[2], NULL);
-      
+      string actionName = Tcl_GetStringFromObj(objv[2], NULL);
+
+      // 2. build variant
+      protocol::ApsimVariant outgoingApsimVariant(component);
+      for (int i = 3; i < objc; i++) 
+         {
+         Tcl_Obj *firstListElement, *secondListElement;
+         if (Tcl_ListObjIndex(interp, objv[i], 0, &firstListElement) != TCL_OK &&
+             Tcl_ListObjIndex(interp, objv[i], 1, &secondListElement) != TCL_OK)
+            {
+            Tcl_SetStringObj(Tcl_GetObjResult(interp), "Can't extract value from list ", -1);
+            return TCL_ERROR;
+            }
+         if (firstListElement==NULL || secondListElement==NULL)
+            {
+            Tcl_SetStringObj(Tcl_GetObjResult(interp), "LE is NULL??? ", -1);
+            return TCL_ERROR;
+            }
+         FString variableName = FString(Tcl_GetStringFromObj(firstListElement, NULL));
+         FString variableValue = FString(Tcl_GetStringFromObj(secondListElement, NULL));
+         bool isArray = false;    // XX wrong.. Should test secondListElement and be sure..
+
+         outgoingApsimVariant.store(variableName, protocol::DTstring, isArray, variableValue);
+         }
+
+      // Send it
+      component->sendMessage(moduleName, actionName, outgoingApsimVariant);
       return TCL_OK;   
+   }
+
+void TclComponent::sendMessage(const string &moduleName, const string &actionName,
+                               protocol::ApsimVariant &outgoingApsimVariant) 
+   {
+   unsigned actionID = protocol::Component::addRegistration(protocol::methodCallReg, 
+                                                            actionName.c_str(), 
+                                                            "<type\>",
+                                                            "", 
+                                                            moduleName.c_str());
+   publish(actionID, outgoingApsimVariant);   
    }
