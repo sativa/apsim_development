@@ -1,9 +1,14 @@
 Imports VBGeneral
 Imports scpl
 Imports System.Math
+Imports CSGeneral
 Public Class MetGraphControl
-    Inherits System.Windows.Forms.UserControl
-    Protected MyData As APSIMData
+    Inherits BaseDataControl
+
+    Protected Metfile As New APSIMInputFile
+    Private StartDate As DateTime
+    Private EndDate As DateTime
+
 #Region " Windows Form Designer generated code "
 
     Public Sub New()
@@ -14,7 +19,7 @@ Public Class MetGraphControl
 
         'Add any initialization after the InitializeComponent() call
         FillListBar()
-        fill()
+        'fill()
     End Sub
 
     'UserControl overrides dispose to clean up the component list.
@@ -134,20 +139,18 @@ Public Class MetGraphControl
     End Sub
 
 #End Region
-    WriteOnly Property Data() As APSIMData
-        Set(ByVal Value As APSIMData)
-            Try
-                MyData = Value
-                fill()
-            Catch e As Exception
-                MsgBox(e.Message, MsgBoxStyle.Critical, "Error Setting Tree Data")
-            End Try
-        End Set
-    End Property
-    Public Overridable Sub fill()
+
+    Public Overrides Sub fill()
+        Metfile.ReadFromFile(MyData.Child("filename").Value)
+        Dim FirstRow As DataRow = Metfile.Data.Rows(0)
+        Dim LastRow As DataRow = Metfile.Data.Rows(Metfile.Data.Rows.Count - 1)
+        Dim DateColumn As DataColumn = Metfile.Data.Columns("Date")
+        StartDate = FirstRow(DateColumn)
+        EndDate = LastRow(DateColumn)
+
         With ScrollBar
-            .Minimum = 1990
-            .Maximum = 2004
+            .Minimum = StartDate.Year
+            .Maximum = EndDate.Year
             .SmallChange = 1
             .LargeChange = 1
         End With
@@ -272,7 +275,7 @@ Public Class MetGraphControl
         With Graph
             .Clear()
             'Create a new line plot from array data via the ArrayAdapter class.
-            Dim lp As New HistogramPlot(New ArrayAdapter(makeRain))
+            Dim lp As New HistogramPlot(New ArrayAdapter(ReadAnnualData("rain")))
             lp.Color = Color.Blue
 
             .Add(lp)
@@ -288,10 +291,26 @@ Public Class MetGraphControl
             .Clear()
             Dim r(12) As Single
             Dim e(12) As Single
-            For i As Integer = 1 To 12
-                r(i) = 100 * Rnd()
-                e(i) = (150 + 45) / 2 + Sin((i + 1) / 12 * 2 * PI) * (150 - 45) / 2 + (Rnd() * 10 * 2 - 10)
+
+            Dim DailyData As New DataTable
+            DailyData = ReadAnnualDataTable()
+            Dim DateColumn As New DataColumn
+            DateColumn = DailyData.Columns("date")
+            Dim RainColumn As New DataColumn
+            RainColumn = DailyData.Columns("rain")
+            Dim EvapColumn As New DataColumn
+            EvapColumn = DailyData.Columns("evap")
+
+            For Each row As DataRow In DailyData.Rows
+                Today = row(DateColumn)
+                If Not IsNothing(RainColumn) Then
+                    r(Today.Month) = r(Today.Month) + row(RainColumn)
+                End If
+                If Not IsNothing(EvapColumn) Then
+                    e(Today.Month) = e(Today.Month) + row(EvapColumn)
+                End If
             Next
+
             Dim rain As New HistogramPlot(New ArrayAdapter(r))
             rain.Color = Color.Blue
             .Add(rain)
@@ -312,11 +331,11 @@ Public Class MetGraphControl
         With Graph
             .Clear()
             'Create a new line plot from array data via the ArrayAdapter class.
-            Dim maxt As New LinePlot(New ArrayAdapter(MakeTemp(20, 30, 5)))
+            Dim maxt As New LinePlot(New ArrayAdapter(ReadAnnualData("maxt")))
             maxt.Color = Color.Red
             .Add(maxt)
 
-            Dim mint As New LinePlot(New ArrayAdapter(MakeTemp(10, 20, 10)))
+            Dim mint As New LinePlot(New ArrayAdapter(ReadAnnualData("mint")))
             mint.Color = Color.Blue
             .Add(mint)
 
@@ -331,17 +350,17 @@ Public Class MetGraphControl
         With Graph
             .Clear()
             'Create a new line plot from array data via the ArrayAdapter class.
-            Dim Radn As New LinePlot(New ArrayAdapter(MakeTemp(10, 25, 10)))
+            Dim Radn As New LinePlot(New ArrayAdapter(ReadAnnualData("radn")))
             Radn.Color = Color.Red
             Radn.Label = "Radn"
             .Add(Radn)
 
-            Dim RadnMax As New LinePlot(New ArrayAdapter(MakeTemp(15, 30, 0)))
+            Dim RadnMax As New LinePlot(New ArrayAdapter(ReadAnnualData("radn")))
             RadnMax.Color = Color.Blue
             RadnMax.Label = "Max Radn"
             .Add(RadnMax)
 
-            Dim Vp As New LinePlot(New ArrayAdapter(MakeTemp(2, 5, 1)))
+            Dim Vp As New LinePlot(New ArrayAdapter(ReadAnnualData("radn")))
             Vp.Color = Color.Green
             Vp.Label = "VP"
             .Add(Vp)
@@ -357,14 +376,29 @@ Public Class MetGraphControl
 
         End With
     End Sub
-    Private Function MakeTemp(ByVal t1 As Single, ByVal t2 As Single, ByVal noise As Single) As Single()
+    Private Function ReadAnnualData(ByVal ColumnName As String) As Single()
         Dim temp(366) As Single
-        For i As Integer = 1 To 366
-            temp(i) = (t2 + t1) / 2 + Sin((i + 100) / 366 * 2 * PI) * (t2 - t1) / 2 + (Rnd() * noise * 2 - noise)
+
+        Metfile.ReadFromFile(MyData.Child("filename").Value, New Date(ScrollBar.Value, 1, 1), New Date(ScrollBar.Value, 12, 31))
+
+        Dim data As New DataTable
+        data = Metfile.Data
+        Dim TempColumn As DataColumn
+        TempColumn = data.Columns(ColumnName)
+
+        For i As Integer = 1 To data.Rows.Count
+            temp(i) = data.Rows(i - 1)(TempColumn)
         Next
+
         Return temp
     End Function
+    Private Function ReadAnnualDataTable() As DataTable
+        Dim Data As New DataTable
 
+        Metfile.ReadFromFile(MyData.Child("filename").Value, New Date(ScrollBar.Value, 1, 1), New Date(ScrollBar.Value, 12, 31))
+        Return Metfile.Data
+
+    End Function
     Private Function makeRain() As Single()
         Dim Rain(366) As Single
         Rain(Int(Rnd() * 366)) = Rnd() * 100

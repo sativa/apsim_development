@@ -152,6 +152,7 @@ namespace CSGeneral
 		// ----------------------------------
 		void ReadAllData(StreamReader In, DateTime StartDate, DateTime EndDate)
 			{
+			data.Rows.Clear();
 			string Line;
 			Line = In.ReadLine();
 			while (Line != null)
