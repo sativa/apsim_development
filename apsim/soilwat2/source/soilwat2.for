@@ -74,6 +74,9 @@
       if (action.eq.mes_get_variable) then
                ! respond to request for variable values - from modules
          call soilwat2_send_my_variable (Data_string)
+
+      else if (action.eq.EVENT_tick) then
+         call soilwat2_ONtick()
   
       else if (action.eq.mes_init) then
          call soilwat2_zero_variables ()
@@ -5641,4 +5644,41 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       return
       end
  
+ 
+*     ===========================================================
+      subroutine soilwat2_ONtick ()
+*     ===========================================================
+      implicit none
+      include   'soilwat2.inc'
+      include 'error.pub'
+      include 'event.pub'
+ 
+*+  Purpose
+*     Update internal time record and reset daily state variables.
+ 
+*+  Mission Statement
+*     Update internal time record and reset daily state variables.
+ 
+*+  Changes
+*        260899 nih 
+
+*+  Local Variables
+      character temp1*5
+      integer   temp2
+ 
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'soilwat2_ONtick')
+ 
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      ! Note that time and timestep information is not required
+      ! and so dummy variables are used in their place.
+
+      call handler_ONtick(g_day, g_year, temp1, temp2)
+
+      call pop_routine (myname)
+      return
+      end
  
