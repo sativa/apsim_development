@@ -470,6 +470,8 @@ void ApsimControlFile::createSIM(const string& configurationFile,
    string dllFileName = configuration.getDllForComponent("protocolmanager");
    if (dllFileName == "")
       throw runtime_error("Cannot find a DLL filename in configuration file for module: protocolmanager");
+   else if (!FileExists(dllFileName.c_str()))
+      throw runtime_error("Cannot find DLL: " + dllFileName);
 
    simulation.setExecutableFileName(dllFileName);
    simulation.setTitle(getTitle());
@@ -487,6 +489,8 @@ void ApsimControlFile::createSIM(const string& configurationFile,
       if (dllFileName == "")
          throw runtime_error("Cannot find a DLL filename in configuration file for module: "
                       + m->moduleName);
+      else if (!FileExists(dllFileName.c_str()))
+         throw runtime_error("Cannot find DLL: " + dllFileName);
       }
 
    // Get a complete list of files and sections we're to convert.
