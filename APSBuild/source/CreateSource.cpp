@@ -23,8 +23,8 @@ std::string ddmlKindToCPP(const std::string& kind)
       return "bool";
    else if (Str_i_Eq(kind, "char"))
       return "char";
-//   else if (Str_i_Eq(kind, "string"))
-//      return "string";
+   else if (Str_i_Eq(kind, "string"))
+      return "string";
    else
       return "????";
    }
@@ -43,8 +43,8 @@ std::string ddmlKindToFOR(const std::string& kind)
       return "logical";
    else if (Str_i_Eq(kind, "char"))
       return "character(len=1)";
-//   else if (Str_i_Eq(kind, "string"))
-//      return "string";
+   else if (Str_i_Eq(kind, "string"))
+      return "string";
    else
       return "????";
    }
@@ -90,7 +90,10 @@ void CreateSource::go(const std::string& ddml,
                                           field++)
             {
             hpp << "   \"   <field name=\\\"" << field->getName()
-                << "\\\" kind=\\\"" << field->getKind() << "\\\"/>\" \\" << endl;
+                << "\\\" kind=\\\"" << field->getKind() << "\\\"";
+            if (field->isArray())
+               hpp << " array=\"T\"";
+            hpp << "/>\" \\" << endl;
             }
          hpp << "   \"</type>\"" << endl;
 
@@ -104,7 +107,11 @@ void CreateSource::go(const std::string& ddml,
             {
             string cDataType = ddmlKindToCPP(field->getKind());
             if (cDataType != "????")
+               {
+               if (field->isArray())
+                  cDataType = "std::vector<" + cDataType + ">";
                hpp << "   " << cDataType << ' ' << field->getName() << ';' << endl;
+               }
             else
                hpp << "   // unknown data type: " << field->getKind() << endl;
             }

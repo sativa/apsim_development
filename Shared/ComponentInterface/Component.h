@@ -61,6 +61,83 @@ class Component
                        Variant*& value,
                        bool optional = false);
 
+      template <class T>
+      bool getVariable(int variableID,
+                       vector<T>& values,
+                       double lower,
+                       double upper,
+                       bool isOptional = false)
+         {
+         protocol::Variant* variant;
+         if (getVariable(regId, variant, isOptional))
+            {
+            bool ok = variant->unpack(values);
+            if (!ok)
+               {
+               char buffer[100];
+               strcpy(buffer, "Cannot use array notation on a scalar variable.\n"
+                              "VariableName:");
+               strncat(buffer, variableName.f_str(), variableName.length());
+               error(buffer, true);
+               return false;
+               }
+            for (unsigned layer = 0; layer != values.size(); layer++)
+               {
+               if (values[layer] < lower || values[layer] > upper)
+                  {
+                  char buffer[100];
+                  strcpy(buffer, "Bound check error while getting variable.\n"
+                                 "Variable :");
+                  strncat(buffer, variableName.f_str(), variableName.length());
+                  error(buffer, true);
+                  return false;
+                  }
+               }
+            }
+         else
+            return false;
+
+         return true;
+         }
+      template <class T>
+      bool getVariable(int regId,
+                       T& value,
+                       double lower,
+                       double upper,
+                       bool isOptional = false)
+         {
+         protocol::Variant* variant;
+         if (getVariable(regId, variant, isOptional))
+            {
+            bool ok = variant->unpack(value);
+            if (!ok)
+               {
+               char buffer[100];
+               strcpy(buffer, "Cannot use array notation on a scalar variable.\n"
+                              "VariableName:");
+
+               FString variableName = getRegistrationName(regId);
+               strncat(buffer, variableName.f_str(), variableName.length());
+               error(buffer, true);
+               return false;
+               }
+/*            if (value < lower || value > upper)
+               {
+               char buffer[100];
+               strcpy(buffer, "Bound check error while getting variable.\n"
+                              "Variable :");
+               FString variableName = getRegistrationName(regId);
+               strncat(buffer, variableName.f_str(), variableName.length());
+               error(buffer, true);
+               return false;
+               }
+*/            }
+         else
+            return false;
+
+         return true;
+         }
+
       // Get the multiple values of a specific variable.  Return true
       // if some values are returned.
       bool getVariables(unsigned int variableID, Variants*& values);
@@ -120,6 +197,7 @@ class Component
          sendMessage(newApsimChangeOrderMessage(componentID, parentID, names));
          }
       void setRegistrationType(unsigned int regID, const Type& type);
+      std::string getName(void) {return name;}
 
    protected:
       unsigned int componentID;

@@ -376,6 +376,17 @@ bool Component::readParameter
                                       variableName,
                                       variableValue))
       return true;
+   FString baseSection;
+   if (ApsimComponentData_getProperty(componentData,
+                                      sectionName,
+                                      "derived_from",
+                                      baseSection))
+      {
+      return readParameter(baseSection, variableName, variableValue, optional))
+         return true;
+
+      }
+
    if (!optional)
       {
       char msg[200];
