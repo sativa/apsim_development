@@ -290,6 +290,7 @@ void __fastcall TMainForm::CreateDefaultDatabase(TStrings* files)
       CreateMDIChild("Chart" + IntToStr(MDIChildCount + 1));
 
       // now remove our modification to the .ini file.
+      settings.refresh();
       settings.writeSection("Outlook addins", originalContents);
       }
    else
