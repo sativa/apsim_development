@@ -46,7 +46,7 @@
 *   Constant values
 
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V3.28  090696' )
+      parameter (version_number = 'V3.29  250996' )
 
 *   Initial data values
 *       none
@@ -88,7 +88,7 @@
 *                    when a process message is received.
 *      PdeV  16/3/95 New engine interface
 *      jngh  170895  changed manager action to react to sow and harvest actions
-*      jngh  090696  added version to presence report
+*      jngh  250996  added version to presence report
 *                    added message_unused call
 
 *   Calls:
@@ -114,11 +114,11 @@
       character Action*(*)            ! Message action to perform
       character data_string*(*)
 
-      character  ozcot_version*15     ! function
-
 *   Global variables
-       include 'const.inc'            ! Global constant definitions
        include 'ozcot.inc'            ! ozcot common block
+       include 'const.inc'             ! Global constant definitions
+
+      character  ozcot_version*15     ! function
 
 *   Internal variables
 *     none
@@ -167,7 +167,7 @@
          call ozcot_set_my_variable (data_string)
 
       else if (Action .eq. 'sow' .or. action .eq. 'harvest') then
-         call ozcot_manager (Action, Data_string)
+         call ozcot_manager (Action, data_string)
 
       else if (Action .eq. MES_End_run) then
          call ozcot_end_run ()
@@ -206,6 +206,7 @@
 
 *   Changes:
 *      psc - 9/08/93
+*      250996 jngh removed unused includes
 
 *   Calls:
 *     ozcot_version
@@ -220,8 +221,6 @@
 *      none
 
 *   Global variables
-       include 'const.inc'             ! Constant definitions
-       include 'ozcot.inc'            ! ozcot model common
        character ozcot_version*15   ! function
 
 *   Internal variables
@@ -383,7 +382,7 @@ cpsc      call Init()                      ! now called from o_zero_variables
       end
 
 * ====================================================================
-       subroutine ozcot_manager (Event_action, Event_data)
+       subroutine ozcot_manager (Event_action, event_data)
 * ====================================================================
 
 *   Short description:
@@ -409,12 +408,12 @@ cpsc      call Init()                      ! now called from o_zero_variables
 *      psc - 9/08/93
 *      07/07/94 - jngh changed residue module reference to global_active
 *      170895 jngh changed message send to message pass to module
-*      100696 jngh changed to post_ construct
+*      250996 jngh changed to post_ construct
 
 *   Calls:
 *     rep_evnt
 *     ozcot_sow
-*     message_send_immediate
+*     message_pass_to_module
 
 * ----------------------- Declaration section ------------------------
 
@@ -429,7 +428,6 @@ cpsc      call Init()                      ! now called from o_zero_variables
       include 'ozcot.inc'              ! ozcot common block
 
 *   Internal variables
-cjh       character Data_string*200       ! Data string to send to residue module
        real    res_dm                  ! Residue dry weight (kg/ha)
        real    res_N                   ! Amount of N in residue (kg/ha)
 
@@ -465,18 +463,6 @@ cjh       character Data_string*200       ! Data string to send to residue modul
          if (res_dm.le.0.) res_dm = 0.
          res_N = res_dm * 0.4 / 100.0
 
-cjh         write(data_string, '(2a, 2(a, g16.7e3, a))' )
-cjh     :           'dlt_residue_type = ', 'cotton'
-cjh     :         , ', dlt_residue_wt = '
-
-cjh     :         , res_dm, '(kg/ha)'
-cjh     :         , ', dlt_residue_n = '
-cjh     :         , res_N, '(kg/ha)'
-
-cjh         call message_pass_to_module (all_active_modules
-cjh     :                               , 'add_residue'
-cjh     :                               , Data_string)
-
          call New_postbox ()
 
          call post_char_var('dlt_residue_type','()','cotton')
@@ -496,6 +482,7 @@ cjh     :                               , Data_string)
      :                            )
      
          call Delete_postbox ()
+
          Crop_in = .false.
          Zero_variables = .true.
 
@@ -536,6 +523,7 @@ cjh     :                               , Data_string)
 *   Changes:
 *       300394 psc  taken from cm_sat module
 
+
 *   Calls:
 *       pop_routine
 *       push_routine
@@ -568,12 +556,12 @@ cpsc      character  cv_name*20            ! name of cultivar
 
       call push_routine (myname)
 
-      if (myrecd.ne.' ') then
+      if (myrecd.ne.blank) then
 
          ! variety,seed depth,rowspace,plants per m row
 
          read (myrecd,*) ivar,sdepth,rs,ppm
-
+   
          isow = jdate
            RTDEP=SDEPTH
          PPM = PPM/RS        !  adjust for non standard rows incl skip
@@ -581,21 +569,22 @@ cpsc      character  cv_name*20            ! name of cultivar
            PS=(1.0/RS)/PP
            S=PS/RS
          RRIG(2) = SW                   ! soil water at sowing
-
+         iend = 1
+   
              ! report
-
+   
          write (string, '(a)')
      :                  ' sowing  depth plants row sp'
          call write_string (lu_summary_file, string)
-
+   
          write (string, '(a)')
      :                  ' day no   mm     m^2    m  '
          call write_string (lu_summary_file, string)
-
+   
          write (string, '(i7, 3f7.1, 1x, a10)')
      :                   isow, sdepth, pp, rs
          call write_string (lu_summary_file, string)
-
+   
          call write_string (lu_summary_file, blank)
 
 cpcs                 ! get cultivar parameters
@@ -603,6 +592,9 @@ cpcs                 ! get cultivar parameters
 cpsc         call cm_cultv (cv_name)
 
       else
+            ! report empty sowing record
+         call fatal_error (err_user, 'No sowing criteria supplied')
+      
       endif
 
       call pop_routine (myname)
@@ -639,7 +631,6 @@ cpsc         call cm_cultv (cv_name)
 *                   exist then seed no3ppm with some high values.
 *      DPH - 11/7/94   Fixed bug in detection of existence of N module.
 *      JNGH - 12/7/94 Changed dlayer in cm to dlayr_cm
-*      jngh - 09/06/96 optimised order of gets
 
 *   Calls:
 *     get_variable_value
@@ -874,7 +865,6 @@ cpc
 *                    Set_real_array
 *      JNGH 18/7/94 Corrected conversion of min no3 from ppm to kg/ha
 *      JNGH - 12/7/94 Changed dlayer in cm to dlayr_cm
-*      jngh - 09/06/96  changed set calls to post_ constructs
 
 *   Calls:
 *     divide
@@ -915,13 +905,9 @@ cpc
 
       ! Send updated soil water
 
-      call new_postbox()
-      call post_real_array ('sw_dep', '(mm)'
+cjh      call Set_real_array('sw_dep', swlayr, Max_layers, '(mm)')
+      call Set_real_array (unknown_module, 'sw_dep', '(mm)'
      :                    , swlayr, nlayr)
-
-      call message_send_immediate (unknown_module
-     :                               ,MES_set_variable
-     :                               ,'sw_dep')
 
       ! extract soil NO3
 
@@ -934,13 +920,10 @@ cpc
 
       ! Send updated soil N
 
-      call post_real_array ('no3', '(kg/ha)' 
-     :                    , sno3, nlayr)
 
-      call message_send_immediate (unknown_module
-     :                               ,MES_set_variable
-     :                               ,'no3')
-      call delete_postbox()
+cjh      call Set_real_array('no3', sno3, nlayr, '(kg/ha)' )
+      call Set_real_array (unknown_module, 'no3', '(kg/ha)' 
+     :                    , sno3, nlayr)
 
       call pop_routine(myname)
       return
@@ -972,7 +955,9 @@ cpc
 *   Changes:
 *      psc - 9/08/93
 *      DPH 7/7/94 Changed crop_in variable to ozcot_crop_in.
-*      jngh 09/06/96 added message_unused to else block
+*      250996 jngh added message_unused to else block
+*                  replaced litteral names to variable (in arguments)
+*                  removed unused include
 
 *   Calls:
 *       none
@@ -985,7 +970,6 @@ cpc
        character Variable_name*(*)     ! (INPUT) Variable name to search for
 
 *   Global variables
-       include 'const.inc'             ! constant definitions
        include 'ozcot.inc'           ! ozcot Common block
 
 *   Internal variables
@@ -1127,8 +1111,12 @@ cpc
          call respond2get_logical_var (variable_name
      :        , '()', crop_in)
 
+      else if (variable_name .eq. 'ozcot_status') then
+         call respond2get_integer_var (variable_name
+     :        , '()', iend)
+
       else
-         ! Nothing
+            ! Nothing
          call message_unused ()
       endif
 
@@ -1160,6 +1148,7 @@ cpc
 
 *   Changes:
 *      psc - 9/08/93
+*      250996 jngh updated interface
 
 *   Calls:
 *       none
@@ -1184,13 +1173,16 @@ cpc
 
 * --------------------- Executable code section ----------------------
 
-c     if (Variable_name .eq. '????') then
-c        read(Values_str, *, iostat=Read_code) ????
+*      if (variable_name .eq. '????') then
+*         call collect_real_array (variable_name, '()', max_layer
+*     :                               , ????, numvals
+*     :                               , 0.0, 1.0)
 
-c     else
-         ! Don't know this variable name
-         call message_unused ()
-c     endif
+*      else
+            ! Don't know this variable name
+         call Message_unused ()
+*      endif
+
 
       return
       end
@@ -1219,6 +1211,7 @@ c     endif
 
 *   Changes:
 *      psc - 9/08/93
+*      250996 jngh removed unused include 
 
 *   Calls:
 *      growth_grow_crop
@@ -1231,7 +1224,6 @@ c     endif
 *      none
 
 *   Global variables
-       include 'const.inc'             ! Constant definitions
        include 'ozcot.inc'
 
 *   Internal variables
@@ -1560,13 +1552,13 @@ C               CALL DAY_DUDLEY             ! output for Norm Dudley
 c20             continue                           ! end of daily loop
 c                return
 c              endif
-32           CONTINUE
+c32           CONTINUE
 c              CALL YIELD(NSZN,IEND)           ! calculate yield
 c              CALL RESET(IEND)                ! reset variables for new season
               CALL ozcot_yield                      ! calculate yield
 cpsc              CALL RESET                      ! reset variables for new season
 c10       continue                               ! end of seasonal loop
-31        CONTINUE
+c31        CONTINUE
 c          CALL EXIT
 c      STOP
 
@@ -1634,7 +1626,7 @@ cpsc      IDAY=I-ISOW ! replaced NCRPDY throughout, 15 Nov 1983
 
 C----- increase root depth ----------------------------------------------------
 
-      IF(IDAY.LE.36.0)RTDEP=SDEPTH+((20.-SDEPTH)/36.)*IDAY  ! W*N
+      IF(IDAY.LE.36)RTDEP=SDEPTH+((20.-SDEPTH)/36.)*real(IDAY)  ! W*N
 cpsc        changed maximum rooting depth
 cpsc  IF(IDAY.GE.37.0)RTDEP=122.38*(1.-2.65*EXP(-.03*IDAY)) ! 82/8
       IF(IDAY.GE.37.0)RTDEP=182.38*(1.-2.65*EXP(-.03*IDAY)) ! 82/8
@@ -1888,11 +1880,9 @@ C----- carrying capacity carbon - photosynthesis divided by boll growth rate
 
 C----- waterlogging effect additional to N uptake - Hearn & Constable 1984 eqn 4
       IF(ISTRESS.GT.0) THEN
-cpc        IF(SW/UL.GT.0.87) CARCAP_C = CARCAP_C * 0.0 ! carrying capacity reduced
-        IF(sw/sat.GT.0.87) CARCAP_C = CARCAP_C * 0.0 ! carrying capacity reduced
+        IF(SW/UL.GT.0.87) CARCAP_C = CARCAP_C * 0.0 ! carrying capacity reduced
       ELSE
-cpc        IF(SW/UL.GT.0.87) CARCAP_C = CARCAP_C * 0.2 ! carrying capacity reduced
-        IF(sw/sat.GT.0.87) CARCAP_C = CARCAP_C * 0.2 ! carrying capacity reduced
+        IF(SW/UL.GT.0.87) CARCAP_C = CARCAP_C * 0.2 ! carrying capacity reduced
       ENDIF
 
       CUTOUT = CARCAP_C*FCUTOUT(IVAR)     ! boll load for cutout, sq prodn stops
@@ -1976,7 +1966,7 @@ C-------------------------------------------------------------------
 
 C----- Simple heat sum as an alternative to Wanjura's function -----
 
-       IF(SUMDD .LT. 60) RETURN
+       IF(SUMDD .LT. 60.) RETURN
        IEMRG = das
        RETURN
        END
@@ -2127,7 +2117,7 @@ C------ CALCULATE POTENTIAL BELOW CANOPY EVAPORATION (EOS) ---------------------
         IF(EOS.LT.0.0)EOS=0.0
         IF(EOS.GT.EO)EOS=EO
 
-40      RETURN
+        RETURN
         END
 
 
@@ -2144,7 +2134,7 @@ C      DATA FROM "SIRATAC" - 1987-88 HEARN (PERS. COMM.).
 
       real ozcot_stress
 
-      real sites1
+cpc   real sites1
       real blr
       real dfru
       real vsnstr
@@ -2172,7 +2162,6 @@ c      IF(I.EQ.ISQ+1) BLR = 0.              ! except day after 1st square
       IF(ndas.EQ.ISQ+1) BLR = 0.              ! except day after 1st square
       IF(CUTOUT.GT.0.) BLR=BLOAD/(CUTOUT)  ! ratio of 0 is no boll load
       IF(BLR.GT.1.) BLR=1.                 ! ratio of 1 is full boll load
-
 
       IF(BLR.LT.1.0 .AND. N_CUTOUT.le.0)GO TO 30 ! squaring continues
       IF(BLR.LT.1.0 .AND. N_CUTOUT.GE.1)GO TO 20 ! squaring stopped, may resume
@@ -2214,14 +2203,15 @@ c          IF(I.EQ.ISQ+1) THEN                             ! day after 1st squar
              RETURN                                       ! defoliated FRUGEN=0.
           ENDIF
       ELSE
-          DFRU = SQCON(IVAR)*SQRT(SIZE)*PPM*(1-BLOAD/CUTOUT) ! sites per DD
+          DFRU = SQCON(IVAR)*SQRT(SIZE)*PPM*(1.-BLOAD/CUTOUT) ! sites per DD
           VSNSTR = ozcot_stress(0.0,0.9,1.0,VNSTRS)
           DFRU = DFRU * VSNSTR
           IF((BOLLZ+OPENZ)/CARCAP_N .GE. 1.0) DFRU = 0.      ! N limiting
+          
       ENDIF
 
       PPM_ROW = PPM*RS                   ! plants per m row for POPFAC
-      POPFAC = 1./(1+POPCON*PPM_ROW)     ! plant population factor within row
+      POPFAC = 1./(1.+POPCON*PPM_ROW)     ! plant population factor within row
       DFRU = DFRU * POPFAC               ! adjust for plant population
       ozcot_frugen = DFRU * DD                 ! today's squares
       IF(ozcot_frugen.LT.0.0) ozcot_frugen=0.0
@@ -2346,7 +2336,7 @@ c          IF(I.LE.IDATE)GO TO 202   ! use actual counts or not?
           OPENZ=OPENZ+FRUNO(L)      ! simulated bolls open added to total
           OPENWT=OPENWT+FRUWT(L)
 
-202       CONTINUE
+c202       CONTINUE
 
           FRUNO(L)=0.0 ! delete open bolls from array
           FRUWT(L)=0.
@@ -2483,7 +2473,7 @@ c               WRITE(2,100) N_DEF, JDATE, I_DEF
                    J_PICK = JDATE                        ! date of picking
                    N_PICK = 1                            ! count picks
 c                   WRITE(2,101) J_PICK
-                   IF(BOLLZ.GT.10) THEN                  ! 10 bolls worth picking
+                   IF(BOLLZ.GT.10.) THEN                  ! 10 bolls worth picking
                        N_PICK = 2                        ! count picks
 c                       WRITE(2,102)
                    ENDIF
@@ -2493,7 +2483,7 @@ c                       WRITE(2,102)
               J_PICK = JDATE                             ! date of picking
               N_PICK = 1                                 ! count picks
 c              WRITE(2,101) J_PICK
-              IF(BOLLZ.GT.10) THEN
+              IF(BOLLZ.GT.10.) THEN
                   N_PICK = 2                             ! count picks
 c                  WRITE(2,102)
               ENDIF
@@ -2701,6 +2691,8 @@ C------------------------------------------------------------------------------
       OPENZ=0.0
       OPENWT=0.0
       SITES=0.0
+cpc
+      sites1 = 0.0
       SQUARZ=0.0
 C------------------------------------------------------------------------------
 C      'INDEX' STRESS AND SURVIVAL INDICES.
@@ -3015,10 +3007,11 @@ cpsc        rain = rain / 10.0
 cpsc        epan = 0.
 c
 
-c       IF(JDATE.EQ.1) THEN                 ! new year?
-c         MDPY = 365                       ! reset days per year
-c         IF((IMYR/4*4).EQ.IMYR) MDPY=366  ! leap year
-c       ENDIF
+cjh
+       IF(JDATE.EQ.1) THEN                 ! new year?
+         MDPY = 365                       ! reset days per year
+         IF((IMYR/4*4).EQ.IMYR) MDPY=366  ! leap year
+       ENDIF
 
 
 c       IF(EPAN.EQ.0. .OR. EPAN.EQ.99.9)      EPAN=EPANX
@@ -3076,7 +3069,7 @@ C  DAYS SINCE RAIN
         NSINCE = 0                  ! rain period
       ENDIF
       ROOT =FLOAT(NSINCE)
-      IF(ROOT.GT.5) ROOT=5
+      IF(ROOT.GT.5.) ROOT=5.
       IF(ROOT.GT.0.) ROOT = SQRT(ROOT)
       IF (NSINCE.GT.9) NSINCE=9
 
@@ -3166,7 +3159,7 @@ C          **** CALCULATE SOIL HEAT FLUX (CAL/CM2) ****
 C
         NDATE=JDATE+183                 ! CONVERT TO NORTHERN HEMISPHERE
         IF(NDATE.GT.MDPY) NDATE=NDATE-MDPY
-        DATE=NDATE
+        DATE=real(NDATE)
         G=1.7+14.6*SIN(0.0172*(DATE-51.0))             ! TEMPLE,TEXAS
         IF(G.LT.0.0) G=0.0
 c
@@ -3197,10 +3190,10 @@ C
        RATE_REDUCER = 1./UPTAKN_MAX    !  recovery decreases with uptake
 C
        AVAILNX   = AVAILN              ! available N before application
-       DO N=1,NKG
+       DO 1000 N=1,NKG
            FRACTION = 1.0-RATE_REDUCER*AVAILN ! fraction of next kg available
            AVAILN = AVAILN + FRACTION
-       ENDDO
+1000  continue
        APPLIED_AVAIL = AVAILN-AVAILNX  ! N applied now that will be available
 C
        RETURN
@@ -3293,8 +3286,8 @@ C
         TABS=T+273.16
         TR=373.16/TABS
         TRLOG=ALOG10(TR)
-        TR=TR-1
-        TS=(10.**(11.344*(1-TABS/373.16))-1.)/10.**7.
+        TR=TR-1.
+        TS=(10.**(11.344*(1.-TABS/373.16))-1.)/10.**7.
         TT=(10.**(-3.49149*TR)-1.)/10.**3.
         EWSLOG=ALOG10(1013.246)
         EW=-7.90298*TR+5.02808*TRLOG-1.3816*TS+8.1328*TT+EWSLOG
@@ -3376,7 +3369,8 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
       INCLUDE 'ozcot.inc'
       real ozcot_watco
-      real depth, rtul, swi, rdef
+      real depth, rtul, swi
+c      real t, rdef
       integer l
 c
 c      DIMENSION STOR(20) ,U(20)
@@ -3389,8 +3383,8 @@ cpsc 99       dlayr(ll)=dlayr(ll)/10.
 C-------INITIALISING -----------------------------------------------------------
 
 c        IF(I.EQ.1) JIR = 1            ! irrigation counter for OZCOT2
-c        IF(ISW.NE.1) THEN             ! replaces INITIAL.GT.1 for OZCOT2&4 May89
-c            ISW = 1
+        IF(ISW.NE.1) THEN             ! replaces INITIAL.GT.1 for OZCOT2&4 May89
+            ISW = 1
 c            T=0.
             SMI=SWLAYR(1)/ULLAYR(1)
 c           IF(SMI.LT.0.9 ) THEN
@@ -3400,7 +3394,7 @@ c           ELSE
 c                SUMES1=10.-SMI*10.
 c               SUMES2=0.
 c            ENDIF
-c       ENDIF
+        ENDIF
 
 C------ REMOVE WATER FROM LAYERS 1&2 DURING LAND PREPARATION -------------------
 
@@ -3489,6 +3483,10 @@ c       IF(I.LT.ISOW.OR.ISOW.EQ.0) GO TO 500
         SWI=
      *  (SWI*dlayr_cm(1)+(SWLAYR(2)/ULLAYR(2))*(30.-dlayr_cm(1)))/30.
 480     SMI=AMAX1(RTSW/RTUL,SWI)
+
+cpc
+        smi = RTSW/RTUL
+
 C        IF(RS.GT.1. .AND. RTDEP.LT.RTDEPM) THEN  ! when RS > 1m & roots growing,
 C            SMI = 1-(1-SMI)*(TR/RS+1-TR)*RS      ! adjust for lateral root
 C            IF(SMI.LT.0.) SMI = 0.
