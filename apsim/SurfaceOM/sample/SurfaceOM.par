@@ -17,11 +17,11 @@ if day = 15 then
 endif
 
 if day = 15 then
-! SurfaceOM add_surfaceom name = aaaaaa, type = manure, mass=300, cnr=50, cpr=60
+ SurfaceOM add_surfaceom name=aaaaaa, type=manure, mass=300, cnr=50, cpr=60
 endif
 [sample.surfaceom.parameters]  
 
-name =            aaaaaa       bbbbbb
+name = manure       lucerne
 type =            manure       lucerne
 mass =             2000        4000
 cnr  =             200          50
