@@ -1,0 +1,103 @@
+<HTML>
+<HEAD>
+   <TITLE> Changes to soilwat2</TITLE>
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0Gold (X11; I; Linux 2.0.21 i486) [Netscape]">
+</HEAD>
+<BODY>
+
+<H1>Changes to soilwat2 </H1>
+<ol>
+<li> Changes to <a href="params.htm"> parameter and ini</a> files</li>
+<li> Using <a href="#observed">observed runoff</a> in calibration studies</li>
+<li> More variables <a href="#man">changable</a> by manager </li>
+<li> <a href="#eo"> Potential </a> soil evaporation  (eo)</li>
+<li> <a href="#sevap"> Actual </a> soil evaporation models (es)</li>
+<li> <a href="#process"> soilwat2_process() </a> cleaned up.</li>
+</ol>
+
+<HR width="80%"><A NAME="observed"></A></P>
+<H3> Using observed runoff in calibration studies </H3>
+Watballers using observed runoff data in soilwat now have to use the
+input module to read the observed data. This means your file of observed data has to be in a format understandable by input. See this <a href="observed.htm"> example</a> run for specifics.
+
+<p>The old "runoff_filename" in the parameter file has been removed. It is replaced by the optional "observed_runoff" - which is the system name of your data. 
+
+<HR width="80%"><A NAME="man"></A></P>
+<H3> Variables changable by manager </H3>
+cn_red, cn_cov can now be changed during a run from the manager.
+
+<HR width="80%"><A NAME="eo"></A></P>
+<H3>Potential soil evaporation </H3>
+There is now a method allowing another module to supply potential 
+soil evaporation (eo) to soilwat2. To enable it, add the optional
+parameter <tt>eo_source</tt> to your parameter file. This is the 
+system name of your eo variable.
+<p>
+Eo will be looked for <it>every day</it>, and used in that day's 
+calculations. 
+
+<p>
+If <tt>eo_source</tt> is not defined in your parameter file, then the existing priestly - taylor method will be used.
+<p>
+For example, say that our met file contains pan evaporation as 
+&quot;pan&quot;. Place the following line in the parameter file:
+<pre>...
+eo_source = pan
+...
+</pre>
+Every day, soilwat will make a <tt>get_real_var</tt> 
+call looking for &quot;pan&quot;. 
+
+<HR width="80%"><A NAME="sevap"></A></P>
+<H3>New soil evaporation models within soilwat2 </H3>
+
+<P>There are now <B>5</B> different soil evaporation models within soilwat2
+that result from work commenced by Andy Smith, John Dimes and Mark Silburn.
+I assume the intent is to evaluate these submodels with a view to choosing
+&quot;The Best&quot;, if there is such a thing. </P>
+
+<p> Here is a page of <a href="setheory.htm"> background soil evaporation theory</a>.</p>
+
+<P>The submodels cover: </P>
+
+<UL>
+<LI>The original <A HREF="ritchie.htm">Ritchie </A>model used until now,</LI>
+
+<LI>3 Boesten and Stroosnijder <A HREF="b_and_s.htm"> (B&amp;S) 
+</A> variants,</LI>
+
+<LI>A <A HREF="rickert.htm">Rickert </A>model from GRASP. </LI>
+</UL>
+
+<P>To the ordinary user, there are no visible changes to soilwat2 parameters, although there is a new value in the coefficients file that needs to be defined. The original ritchie submodel is used by default. However, soilwat &quot;hackers&quot;
+may notice the disappearance of <TT>g_es</TT>, which has been replaced
+by a vector <TT>g_es_layers,</TT> that represents evaporation from each
+layer in the profile. This was needed to implement the rickert submodel.
+The structure of the evaporation routines has changed, with each submodel
+being called from a single switch statement. </P>
+
+<P>As a rough guide as to the usefulness of each model, John Dimes' quick
+summary goes like: </P>
+
+<UL>
+<LI>B&amp;S option A - ok, </LI>
+<LI>B&amp;S option B - ridiculous, needing further work,</LI>
+<LI>Andy's B&amp;S option B - reasonable, given the limited size of available data, </LI>
+<LI>Rickert - unknown. </LI>
+</UL>
+
+<P>A more <A HREF="testing.htm">detailed test </A> is available, that
+      shows both short and long term evaporation for each of the
+      submodels, and some observed data from a tor st lysimeter that
+      performs surprisingly well.
+</P>
+
+<P>There are changes to the <a href="params.htm"> parameter and ini files</a>. 
+</P>
+<HR width="80%"><A NAME="process"></A></P>
+<H3>soilwat2_process() changes </H3>
+In an attempt to make sense of the process, runoff and soil_evaporation routines, PdeV split them up into smaller subroutines. One day, soilwat will become a little more structured, conforming to modern SE standards...
+<p>
+As this moved some of the solute code around, a <a href="./test/solute"> solute run</a> is included to make sure it behaves as before.
+</BODY>
+</HTML>
