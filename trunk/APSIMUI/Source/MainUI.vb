@@ -906,8 +906,7 @@ Public Class MainUI
         End Try
 
     End Sub
-    Private Sub HelpBrowserToolbar2_ButtonClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs)
-    End Sub
+
     Private Sub FileMenuNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileMenuNew.Click
         OpenNewFile()
     End Sub
