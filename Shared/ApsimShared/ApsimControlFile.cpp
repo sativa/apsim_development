@@ -8,6 +8,7 @@
 #include <ApsimShared\ApsimConfigurationFile.h>
 #include "ApsimSimulationFile.h"
 #include "TControlFileConversionForm.h"
+#include "ApsimVersion.h"
 
 #include <general\string_functions.h>
 #include <general\stristr.h>
@@ -261,8 +262,12 @@ void ApsimControlFile::run(const string& configurationFile,
    {
    try
       {
-      ApsimSimulationFile simulation(createSIM(configurationFile));
-      simulation.run(quiet);
+      string simFileName;
+      if (createSIM(configurationFile, simFileName))
+         {
+         ApsimSimulationFile simulation(simFileName);
+         simulation.run(quiet);
+         }
       }
    catch (const runtime_error& error)
       {
@@ -415,45 +420,50 @@ string ApsimControlFile::getParameterValue(const string& moduleName,
    }
 // ------------------------------------------------------------------
 // Create a SIM file for the specified section and return its filename.
+// Return true if sim file was created.
 // ------------------------------------------------------------------
-std::string ApsimControlFile::createSIM(const string& configurationFile) const throw(runtime_error)
+bool ApsimControlFile::createSIM(const string& configurationFile,
+                                 string& simulationFileName) const throw(runtime_error)
    {
-   convertControlFile();
-
-   string simulationFileName = ChangeFileExt(fileName.c_str(), ".sim").c_str();
-   ApsimSimulationFile simulation;
-   simulation.setFileName(simulationFileName);
-   ApsimConfigurationFile configuration(configurationFile);
-   simulation.setExecutableFileName
-         (configuration.getDllForComponent("protocolmanager"));
-
-   createServices(simulation, configuration);
-
-   vector<ParamFile> modules;
-   parseControlSection(fileName, section, modules);
-   for (vector<ParamFile>::iterator m = modules.begin();
-                                    m != modules.end();
-                                    m++)
+   if (convertControlFile())
       {
-      ApsimComponentData component = simulation.addComponent(m->instanceName);
-      component.setExecutableFileName
-         (configuration.getDllForComponent(m->moduleName));
-      }
+      simulationFileName = ChangeFileExt(fileName.c_str(), ".sim").c_str();
 
-   // Get a complete list of files and sections we're to convert.
-   vector<ApsimParameterFile> paramFiles;
-   getParameterFiles("", paramFiles);
-   getParameterFiles("", paramFiles, false, true);
+      ApsimSimulationFile simulation;
+      simulation.setFileName(simulationFileName);
+      ApsimConfigurationFile configuration(configurationFile);
+      simulation.setExecutableFileName
+            (configuration.getDllForComponent("protocolmanager"));
 
-   // Loop through all files | sections and parse each.
-    for (vector<ApsimParameterFile>::iterator paramFile = paramFiles.begin();
-                                             paramFile != paramFiles.end();
-                                             paramFile++)
-      {
-      paramFile->importIntoSIM(simulation);
+      createServices(simulation, configuration);
+
+      vector<ParamFile> modules;
+      parseControlSection(fileName, section, modules);
+      for (vector<ParamFile>::iterator m = modules.begin();
+                                       m != modules.end();
+                                       m++)
+         {
+         ApsimComponentData component = simulation.addComponent(m->instanceName);
+         component.setExecutableFileName
+            (configuration.getDllForComponent(m->moduleName));
+         }
+
+      // Get a complete list of files and sections we're to convert.
+      vector<ApsimParameterFile> paramFiles;
+      getParameterFiles("", paramFiles);
+      getParameterFiles("", paramFiles, false, true);
+
+      // Loop through all files | sections and parse each.
+       for (vector<ApsimParameterFile>::iterator paramFile = paramFiles.begin();
+                                                paramFile != paramFiles.end();
+                                                paramFile++)
+         {
+         paramFile->importIntoSIM(simulation);
+         }
+      simulation.write();
+      return true;
       }
-   simulation.write();
-   return simulationFileName;
+   return false;
    }
 
 // ------------------------------------------------------------------
@@ -491,15 +501,16 @@ void ApsimControlFile::createServices(ApsimSimulationFile& simulation,
    summaryfile.setProperty("filename", summaryfilename);
    }
 // ------------------------------------------------------------------
-// Convert the control / parameter file.
+// Convert the control / parameter file.  Return true if user pressed ok
+// and conversion was performed.
 // ------------------------------------------------------------------
 bool ApsimControlFile::convertControlFile(void) const throw(runtime_error)
    {
+   string version = getApsimVersion();
    ApsimParameterFile controlFile(fileName, "", "", section);
-   string version = controlFile.getParamValue("version");
-   if (version != "apsim3")
+   string controlFileVersion = controlFile.getParamValue("version");
+   if (controlFileVersion != version)
       {
-      controlFile.setParamValue("version", "apsim3");
       string logFileName = section;
       Replace_all(logFileName, ".", "_");
       Path logPath(fileName);
@@ -507,14 +518,17 @@ bool ApsimControlFile::convertControlFile(void) const throw(runtime_error)
       logPath.Set_extension(".conversions");
       ofstream log(logPath.Get_path().c_str());
 
-      bool isError = false;
+      string scriptFileName = getAppHomeDirectory() + "\\conversion.script";
 
       TControlFileConversionForm* form = new TControlFileConversionForm(Application);
       form->Show();
-      form->waitForOkButton();
+      putDescriptionsInForm(scriptFileName, form);
+      if (!form->waitForOkButton())
+         return false;
+      form->clearStatusStrings();
 
-      string scriptFileName = getAppHomeDirectory() + "\\conversion.script";
       ifstream in(scriptFileName.c_str());
+      controlFile.setParamValue("version", version);
 
       unsigned statusIndex = -1;
       string description;
@@ -589,22 +603,36 @@ bool ApsimControlFile::convertControlFile(void) const throw(runtime_error)
                {
                msg = "<IMG \"idx:1\">" + description + ".<BR>Warning: " + error.what();
                logmsg = "WARNING: " + description + "  " + error.what();
-               isError = true;
-               form->displayErrorButton();
                }
             }
-         form->StatusList->Items->Strings[statusIndex] = msg.c_str();
+         form->addStatusString(msg.c_str());
          Application->ProcessMessages();
          }
 
       // write out last log message.
       log << logmsg << endl;
       string logCaption = "Log file: " + logPath.Get_path() + " has been writen.";
-      form->LogLabel->Caption = logCaption.c_str();
+      form->addStatusString(logCaption.c_str());
 
       form->waitForOkButton();
       delete form;
-      return isError;
+      }
+   return true;
+   }
+
+// ------------------------------------------------------------------
+// Get all descriptions from the specified script file and send to form.
+// ------------------------------------------------------------------
+void ApsimControlFile::putDescriptionsInForm(const std::string& scriptFileName,
+                                             TControlFileConversionForm* form) const
+   {
+   ifstream in(scriptFileName.c_str());
+   string line;
+   while (getline(in, line))
+      {
+      unsigned posDescription = line.find("description ");
+      if (posDescription != string::npos)
+         form->addStatusString(line.substr(posDescription+strlen("description ")).c_str());
       }
    }
 // ------------------------------------------------------------------
