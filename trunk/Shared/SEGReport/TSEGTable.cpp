@@ -75,11 +75,14 @@ void TSEGTable::forceRefresh(bool displayError)
 
          if (createFields())
             {
-            TFieldDef *fieldDef = FieldDefs->AddFieldDef();
-            fieldDef->Name = SERIES_FIELD_NAME;
-            fieldDef->DataType = ftString;
-            fieldDef->Size = 200;
-            fieldDef->FieldNo = 1;
+            if (FieldDefs->IndexOf(SERIES_FIELD_NAME) == -1)
+               {
+               TFieldDef *fieldDef = FieldDefs->AddFieldDef();
+               fieldDef->Name = SERIES_FIELD_NAME;
+               fieldDef->DataType = ftString;
+               fieldDef->Size = 200;
+               fieldDef->FieldNo = 1;
+               }
 
             SortFields = "";
 
@@ -117,13 +120,20 @@ void TSEGTable::forceRefresh(bool displayError)
             errorMessage = error.Message.c_str();
          Active = false;
          }
+      catch (...)
+         {
+         Active = false;
+         }
       EnableControls();
 
       // force children to update themselves.  Without this the chart series
       // don't draw for some reason.
-      First();
-      Edit();
-      Post();
+      if (Active)
+         {
+         First();
+         Edit();
+         Post();
+         }
 
       Screen->Cursor = savedCursor;
       if (displayError && errorMessage != "")
