@@ -258,63 +258,63 @@
 
       if (Variable_info%id .eq. dlayerId) then
          call return_dlayer (Variable_info,
-     :            g%dlayer,
+     :            real(g%dlayer),
      :            p%n+1)
       else if (Variable_info%id .eq. bdId) then
          call return_bd (Variable_info,
-     :            p%rhob,
+     :            real(p%rhob),
      :            p%n+1)
       else if (Variable_info%id .eq. swId) then
          call return_sw (Variable_info,
-     :            g%th,
+     :            real(g%th),
      :            p%n+1)
       else if (Variable_info%id .eq. sw_depId) then
          do 11 node=0,p%n
             dummy(node) = g%th(node)*g%dlayer(node)
    11    continue
          call return_sw_dep (Variable_info,
-     :            dummy,
+     :            real(dummy),
      :            p%n+1)
 
       else if (Variable_info%id .eq. ll15Id) then
          call return_ll15 (Variable_info,
-     :            g%LL15,
+     :            real(g%LL15),
      :            p%n+1)
       else if (Variable_info%id .eq. ll15_depId) then
          do 12 node=0,p%n
             dummy(node) = g%LL15(node)*g%dlayer(node)
    12    continue
          call return_ll15_dep (Variable_info,
-     :            dummy,
+     :            real(dummy),
      :            p%n+1)
       else if (Variable_info%id .eq. dulId) then
          call return_dul (Variable_info,
-     :            g%DUL,
+     :            real(g%DUL),
      :            p%n+1)
       else if (Variable_info%id .eq. dul_depId) then
          do 13 node=0,p%n
             dummy(node) = g%DUL(node)*g%dlayer(node)
    13    continue
          call return_dul_dep (Variable_info,
-     :            dummy,
+     :            real(dummy),
      :            p%n+1)
       else if (Variable_info%id .eq. satId) then
          call return_sat (Variable_info,
-     :            g%SAT,
+     :            real(g%SAT),
      :            p%n+1)
       else if (Variable_info%id .eq. sat_depId) then
          do 14 node=0,p%n
             dummy(node) = g%SAT(node)*g%dlayer(node)
    14    continue
          call return_sat_dep (Variable_info,
-     :            dummy,
+     :            real(dummy),
      :            p%n+1)
       else if (Variable_info%id .eq. wpId) then
          call return_wp (Variable_info,
-     :            g%wp)
+     :            real(g%wp))
       else if (Variable_info%id .eq. pId) then
          call return_p (Variable_info,
-     :            g%p,
+     :            real(g%p),
      :            p%n+1)
       else if (Variable_info%id .eq. psiId) then
          call return_psi (Variable_info,
@@ -334,10 +334,10 @@
      :                     apswim_crain(start_of_day))*10d0
 
          call return_daily_rain (Variable_info,
-     :            daily_rain)
+     :            real(daily_rain))
       else if (Variable_info%id .eq. runoffId) then
          call return_runoff (Variable_info,
-     :            g%TD_runoff)
+     :            real(g%TD_runoff))
 
       else if (Variable_info%id .eq. infiltrationId) then
 
@@ -345,18 +345,18 @@
      :                     ,g%TD_wflow(0) + g%TD_evap)
 
          call return_infiltration (Variable_info,
-     :            infiltration)
+     :            real(infiltration))
 
       else if (Variable_info%id .eq. esId) then
          call return_es (Variable_info,
-     :            g%TD_evap)
+     :            real(g%TD_evap))
       else if (Variable_info%id .eq. eosId) then
          call return_eos (Variable_info,
-     :            g%TD_pevap)
+     :            real(g%TD_pevap))
 
       else if (Variable_info%id .eq. drainId) then
          call return_drain (Variable_info,
-     :            g%TD_drain)
+     :            real(g%TD_drain))
 
 !      else if ((Variable_info%id .eq. eoId).and.
 !     :         (p%evap_source .ne. 'apsim')) then
@@ -371,13 +371,13 @@
          eo = (apswim_cevap(end_of_day)-apswim_cevap(start_of_day))*10d0
 
          call return_eo (Variable_info,
-     :            eo)
+     :            real(eo))
 
       else if (Variable_info%id.eq. flowId) then
          ! Flow represents flow downward out of a layer
          ! and so start at node 1 (not 0)
          call return_flow (Variable_info,
-     :            g%TD_wflow,
+     :            real(g%TD_wflow),
      :            p%n+1)
 
       else if (Variable_info%id .eq. salbId) then
@@ -392,38 +392,38 @@
          endif
 
          call return_hmin (Variable_info,
-     :            hmin_mm)
+     :            real(hmin_mm))
 
       else if (Variable_info%id .eq. hId) then
          h_mm = g%h * 10.d0
          call return_h (Variable_info,
-     :            h_mm)
+     :            real(h_mm))
 
       else if (Variable_info%id .eq. sconId) then
 
          call return_scon (Variable_info,
-     :            g%gsurf)
+     :            real(g%gsurf))
 
       else if (Variable_info%id .eq. scon_minId) then
 
          call return_scon_min (Variable_info,
-     :            p%g0)
+     :            real(p%g0))
 
       else if (Variable_info%id .eq. scon_maxId) then
 
          call return_scon_max (Variable_info,
-     :            p%g1)
+     :            real(p%g1))
 
       else if (Variable_info%id .eq. drId) then
          dr=(apswim_crain(g%t) - apswim_crain(g%t-g%dt))*10d0
          call return_dr (Variable_info,
-     :            dr)
+     :            real(dr))
 
       else if (Variable_info%id .eq. dtId) then
          call return_dt (Variable_info,
-     :            g%dt*60d0)
+     :            real(g%dt*60d0))
 
-      else if (apswim_solute_output(Variable_info%id)) then
+      else if (apswim_solute_output(Variable_info)) then
          ! this ID matches one of our solute output IDs
       else
          ! No matching ID
@@ -459,7 +459,8 @@
 *+  Local Variables
       integer          node
       integer          numvals
-      double precision theta(0:M)
+      real theta(0:M)
+      real temp
       double precision suction(0:M)
       integer solnum
       double precision sol_exco(0:M)  ! solute exchange coefficient
@@ -470,7 +471,7 @@
       if (VariableID .eq. swId) then
 
          call Unpack_sw (Variant, theta, numvals)
-         call apswim_reset_water_balance (1, theta)
+         call apswim_reset_water_balance (1, dble(theta))
 
       else if (VariableID .eq. psiId) then
 
@@ -478,7 +479,8 @@
          call apswim_reset_water_balance (2,suction)
 
       elseif (VariableID .eq. sconId) then
-         call Unpack_scon (Variant, g%gsurf)
+         call Unpack_scon (Variant, temp)
+         g%gsurf = temp
          if ((g%gsurf.gt.p%g1).or.(g%gsurf.lt.p%g0)) then
             call error(
      :         'Scon set to a value outside of specified decay curve',
@@ -1349,7 +1351,7 @@
 
       p%constant_potential = 0.d0
       p%constant_gradient = 0.d0
-      g%crop_cover = 0.0d0
+      g%crop_cover = 0.0
 
 * =====================================================================
 *      common/time/g%t,g%dt,t0,tfin,tcycle
@@ -4343,10 +4345,10 @@ cnh    character string_concat*(strsize)      ! function
 
 *+  Local Variables
       integer numvals                  ! number of values returned
-      double precision amount          ! amount of rainfall (mm)
+      real             amount          ! amount of rainfall (mm)
       character time*6                 ! time of rainfall (hh:mm)
-      double precision duration        ! duration of rainfall (min)
-      double precision intensity       ! intensity of rainfall (mm/g%h)
+      real    duration                 ! duration of rainfall (min)
+      real    intensity                ! intensity of rainfall (mm/g%h)
       integer time_of_day              ! time of g%day (min)
       double precision time_mins       ! time of rainfall (min)
       character owner_module*(strsize)   ! name of module providing info.
@@ -4369,7 +4371,7 @@ cnh    character string_concat*(strsize)      ! function
      :         'Failure to supply rainfall duration or intensity data'
      ;         , .true.)
          else
-            Duration = ddivide (amount,intensity,0.d0) * 60.d0
+            Duration = divide (amount,intensity,0.0) * 60.d0
          endif                                    !      /
                                                   ! hrs->mins
       else
@@ -4795,7 +4797,7 @@ cnh    character string_concat*(strsize)      ! function
       implicit none
 
 *+  Sub-Program Arguments
-       double precision cover_green_sum
+       real cover_green_sum
 
 *+  Purpose
 *     <insert here>
@@ -4846,7 +4848,7 @@ cnh    character string_concat*(strsize)      ! function
 
 *+  Local Variables
       real amount
-      double precision duration
+      real duration
       integer numvals
       character time*10
       integer time_of_day
@@ -4872,7 +4874,7 @@ cnh    character string_concat*(strsize)      ! function
 
          call apswim_insert_loginfo (time_mins
      :                              ,duration
-     :                              ,dble(amount)
+     :                              ,amount
      :                              ,g%SWIMEvapTime
      :                              ,g%SWIMEvapAmt
      :                              ,g%SWIMEvapNumPairs
@@ -5711,9 +5713,9 @@ cnh      end if
 
 *+  Local Variables
       integer numvals                  ! number of values returned
-      double precision amount          ! amount of evaporation (mm)
+      real    amount                   ! amount of evaporation (mm)
       character time*6                 ! time of evaporation (hh:mm)
-      double precision duration        ! duration of evaporation (min)
+      real duration                    ! duration of evaporation (min)
       integer time_of_day              ! time of g%day (min)
       double precision time_mins       ! time of evaporation (min)
       character owner_module*(strsize)   ! name of module providing info.
@@ -6105,7 +6107,7 @@ c      pause
        integer fileday,fileyear
        integer file_time_of_day
        double precision file_time
-       double precision fileamt,filedurn
+       real fileamt,filedurn
        integer apsim_time_of_day
        double precision apsim_time
 
@@ -6199,8 +6201,8 @@ c      pause
       implicit none
 
 *+  Sub-Program Arguments
-       double precision amount          ! (mm)
-       double precision duration        ! (min)
+       real amount          ! (mm)
+       real duration        ! (min)
        double precision time            ! (min since start)
        integer          SWIMArraySize
        double precision SWIMtime(SWIMArraySize)
@@ -6518,7 +6520,7 @@ c      pause
 
 *+  Local Variables
       integer          node
-      double precision solute_n(0:M) ! solute at each node
+      real             solute_n(0:M) ! solute at each node
       integer          solnum
       integer          numvals
       double precision conc_water_solute ! (ug/g water)
@@ -6555,9 +6557,9 @@ c      pause
      :                        / (p%dx(node)*1d8) ! cc soil/ha
 
                   conc_water_solute = apswim_solve_freundlich
-     :                                             (node
-     :                                             ,solnum
-     :                                             ,solute_n(node))
+     :                                       (node
+     :                                       ,solnum
+     :                                       ,dble(solute_n(node)))
 
  !                  conc_adsorb_solute(node) =
  !     :              ddivide(solute_n(node)
@@ -7103,7 +7105,7 @@ c      pause
       integer numvals                  ! number of values returned
       integer counter
       integer start                ! record for start of interception
-      double precision intercep
+      real             intercep
       double precision tot_rain
       double precision fraction
       double precision start_timestep
@@ -7148,7 +7150,7 @@ c      pause
          tot_rain = g%SWIMRainAmt(g%SWIMRainNumPairs)
      :            - g%SWIMRainAmt(start)
 
-         fraction = ddivide(intercep,tot_rain,1d6)
+         fraction = ddivide(dble(intercep),tot_rain,1d6)
          if (fraction.gt.1d0) then
             call error('Interception > Rainfall', .true.)
          else
@@ -7455,12 +7457,12 @@ c      g%cropIDs(:) = emptyID
                flow_array(node) = g%TD_sflow(i,node)
             end do
             call return_solute_n_flow (Variable_info,
-     :            flow_array,
+     :            real(flow_array),
      :            p%n+1)
 
          elseif (Variable_info%ID.eq.g%soluteIDs(i)%leach) then
             call return_solute_n_leach (Variable_info
-     :                         ,g%TD_soldrain(i))
+     :                         ,real(g%TD_soldrain(i)))
 
          elseif (Variable_info%ID.eq.g%soluteIDs(i)%conc_water) then
             call error ('conc water output not operational',.true.)
