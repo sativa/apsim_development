@@ -567,12 +567,12 @@ string CompileThread::getCompileLineForSourceFile(ApsimProject& apf, const strin
 // ------------------------------------------------------------------
 void CompileThread::runExternalProgram(ApsimProject& apf)
    {
-   string program = getCompilerSetting(apf, "Program");
-   if (program != "")
+   CommandLineToExecute = getCompilerSetting(apf, "Program");
+   if (CommandLineToExecute != "")
       {
-      Replace_all(program, "%apsuite", getApsimDirectory().c_str());
-      program += " " + apf.getFileName() + " " + Compiler_output_filename;
-      Exec(program.c_str(), SW_SHOW, true);
+      Replace_all(CommandLineToExecute, "%apsuite", getApsimDirectory().c_str());
+      CommandLineToExecute += " " + apf.getFileName() + " " + Compiler_output_filename;
+      Synchronize(runCommandLine);
       }
    }
 // ------------------------------------------------------------------
