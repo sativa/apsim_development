@@ -594,16 +594,16 @@ c      character  line*80               ! output string
       string = blank
       write (string, '(10x, 100a7)') (g_name_found(i), i=1,g_numvars)
       call write_string (lu_scr_sum, string)
-      write (1000, *) string(1:lastnb(string))
+      write (1000, *) trim(string)
       do i=1,g_numvars
          write (string, '(1x, a7)') g_name_found(i)
          call write_string (lu_scr_sum, string)
-         write (1000, *) string(1:lastnb(string))
+         write (1000, *) trim(string)
          do k = 1,p_offset*2+1
             write (string, '(2x, a3, sp, i2, ss, 700f7.2)')
      :            'day',k-(p_offset+1), (cor(i,j,k), j=1,g_numvars)
             call write_string (lu_scr_sum, string)
-            write (1000, *) string(1:lastnb(string))
+            write (1000, *) trim(string)
          end do
       end do
  

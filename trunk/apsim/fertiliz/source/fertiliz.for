@@ -78,7 +78,7 @@
       if (Action.eq.MES_Presence) then
          call get_current_module (Module_name)
          write(*, *) 'module_name = '
-     :              , module_name(:lastnb (module_name))
+     :              , trim(module_name)
      :              // blank
      :              // fertiliz_version ()
  
@@ -318,8 +318,8 @@
      :    , '()'            ! Units                (Not Used)
      :    , g_year          ! Variable
      :    , numvals         ! Number of values returned
-     :    , 1800            ! Lower Limit for bound checking
-     :    , 2000)           ! Upper Limit for bound checking
+     :    , min_year            ! Lower Limit for bound checking
+     :    , max_year)       ! Upper Limit for bound checking
  
       call Get_integer_var (
      :      unknown_module  ! Module that responds (Not Used)
@@ -527,9 +527,9 @@
          write (string, '(1x, f7.2, 6a, 41x, a, f7.2, a, i3, a)')
      :             amount,
      :             ' of ',
-     :             Full_name(:max (1, lastnb (full_name))),
+     :             trim(full_name),
      :             ' (',
-     :             type(:max (1, lastnb (type))),
+     :             trim(type),
      :             ')',
      :             new_line,
      :             'added at depth ',

@@ -566,7 +566,7 @@
       read(frm_file_unt, '(A)', iostat=err_ret) in_line
       if (err_ret .ne. 0) goto 140
  
-         ch_end = lastnb(in_line)
+         ch_end = len_trim(in_line)
          ch_pos = 1
  
 120      continue   ! WHILE there are more chars in the line.

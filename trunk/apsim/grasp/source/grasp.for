@@ -99,7 +99,7 @@
       if (action.eq.mes_presence) then ! report presence
          call get_current_module (module_name)
          write(*, *) 'module_name = '
-     :              , module_name(:lastnb(module_name))
+     :              , trim(module_name)
      :              // blank
      :              // grasp_version ()
  
@@ -4446,7 +4446,7 @@ c     :                    , 0.0, 10000.0)
          call get_posting_module (owner_module)
          write (string, '(a, a, a)')
      :        '  Using vpd from ',
-     :        owner_module(:lastnb(owner_module)), ' module.'
+     :        trim(owner_module), ' module.'
       endif
       call write_string (lu_scr_sum, string)
  
@@ -4459,13 +4459,13 @@ c     :                    , 0.0, 10000.0)
          call get_posting_module (owner_module)
          write (string, '(a,a,a)')
      :        '  NB. Pan evap approximated by ',
-     :        owner_module(:lastnb(owner_module)),
+     :        trim(owner_module),
      :        '.eo'
       else
          call get_posting_module (owner_module)
          write (string, '(a, a, a)')
      :        '  Using Pan evap from ',
-     :        owner_module(:lastnb(owner_module)), ' module.'
+     :        trim(owner_module), ' module.'
       endif
       call write_string (lu_scr_sum, string)
  

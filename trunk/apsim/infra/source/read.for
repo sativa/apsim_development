@@ -1369,11 +1369,8 @@
       dll_import no_spaces
       dll_import assign_string
       dll_import get_next_variable
-      dll_import no_leading_spaces
        character Lower_case*30         ! function
        character No_spaces*30          ! function
-       character No_leading_spaces*(Function_string_len)
-                                       ! function
  
 *+ Local Variables
        character Char_string_lower
@@ -1397,7 +1394,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
       if (Key .eq. Key_name_lower) then
          call assign_string (Get_data_string
-     :                      , No_leading_spaces (Parameters))
+     :                      , adjustl(Parameters))
  
       else if (Key .eq. Blank) then
          Get_data_string = Blank
@@ -1453,11 +1450,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       dll_import split_line
       dll_import assign_string
       dll_import no_spaces
-      dll_import no_leading_spaces
        character No_spaces*(Function_string_len)
-                                       ! function
-       character No_leading_spaces*(Function_string_len)
-                                       ! function
  
 *+ Constant Values
       character Delimiter*(*)          ! Delimiter to use to separate variables.
@@ -1490,7 +1483,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       endif
  
       Var_name = No_spaces(Var_name)
-      Values_str = No_leading_spaces(Values_str)
+      Values_str = adjustl(Values_str)
  
       return
       end
@@ -1532,11 +1525,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
 *+ Calls
       dll_import lower_case
-      dll_import no_leading_spaces
-       character Lower_case
-     .    *(Function_string_len)       ! function
-       character No_leading_spaces     ! function
-     .    *(Function_string_len)       ! function
+       character lower_case*(Function_string_len)
  
 *+ Constant Values
        character Comment*(*)           ! Comment specifier
@@ -1586,7 +1575,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       if (Read_status .eq. Ok_status) then
  
          Line = Lower_case(Line)
-         Line = No_leading_spaces(Line)
+         Line = adjustl(Line)
  
          if (Line.eq.End_run) then
             IOStatus = End_run_status
@@ -1721,15 +1710,11 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
 *+ Calls
       dll_import push_routine
-      dll_import no_leading_spaces
       dll_import assign_string
       dll_import lower_case
       dll_import warning_error
       dll_import pop_routine
-      character  No_Leading_spaces*(Function_string_len)
-                                       ! function
-      character  Lower_Case*(Function_string_len)
-                                       ! function
+      character  lower_case*(Function_string_len)
  
 *+ Local Variables
       logical    Section_found         ! legal section has  been found
@@ -1764,7 +1749,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       else
          ! OK we could have a section name - find out.
  
-         TempRecord= No_Leading_Spaces (Record)
+         TempRecord= adjustl(Record)
          Left_delimiter_Pos = index (TempRecord, open_delimiter)
          Right_delimiter_Pos = index (TempRecord, close_delimiter)
  
@@ -1777,7 +1762,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
             If (Right_delimiter_Pos .ge. 3) then
                call assign_string (Section, TempRecord
      :                     (left_delimiter_pos+1:Right_delimiter_Pos-1))
-               Section = No_Leading_Spaces (Lower_case (Section))
+               Section = adjustl(Lower_case (Section))
  
             Else
                   ! This is an empty section heading
@@ -3323,12 +3308,10 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       dll_import append_string
       dll_import find_section_name
       dll_import close_unit
-      dll_import lastnb
       dll_import fatal_error
       dll_import pop_routine
       integer Open_File
       logical Find_section_name
-      integer LastNB
  
 *+ Constant Values
       character*(*) myname               ! name of current procedure
@@ -3374,8 +3357,8 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
           else if (Section_suffix .eq. Blank) then
 *DPH             e_message =
-*DPH     :            'Cannot find section '//Section(:lastnb(Section))
-*DPH     :          //' in file:- '//File(:LastNB(File))
+*DPH     :            'Cannot find section '//trim(Section)
+*DPH     :          //' in file:- '//trim(File)
 *DPH             call Fatal_error (Err_Internal, e_message)
              if (LUN .ne. LU_Control_file2) then
                 call close_unit (LUN)
@@ -3390,7 +3373,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
           endif
  
        else
-          e_message = 'Cannot open file:- '//File(:LastNB(File))
+          e_message = 'Cannot open file:- '//trim(file)
           call Fatal_error (Err_Internal, e_message)
        endif
  

@@ -106,7 +106,6 @@
 *     set_warning_off
  
 * ----------------------- Declaration section ------------------------
- 
       implicit none
       dll_export apsim_erosion
  
@@ -119,8 +118,6 @@
       include   'erosion.inc'          ! module_name
  
       character  erosion_version*20    ! function
-      integer    lastnb                ! function
-      dll_import lastnb
  
       dll_import pop_routine                      
       dll_import message_unused                   
@@ -148,7 +145,7 @@
       if (action.eq.MES_presence) then      ! report presence
          call get_current_module (module_name)
          write(*, *) 'module_name = '
-     :              , module_name(:lastnb (module_name))
+     :              , trim(module_name)
      :              // blank
      :              // erosion_version ()
  
@@ -960,8 +957,8 @@ c      real       visible_contact_cover
      :   , '()'                 ! Units                (Not Used)
      :   , g_year               ! Variable
      :   , numvals              ! Number of values returned
-     :   , 0                    ! Lower Limit for bound checking
-     :   , 2000  )              ! Upper Limit for bound checking
+     :   , min_year             ! Lower Limit for bound checking
+     :   , max_year  )          ! Upper Limit for bound checking
  
       call get_integer_var(
      :     unknown_module       ! Module that responds (Not Used)
