@@ -18,9 +18,9 @@ LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\general\general.lib \
 	$(APSROOT)\Shared\Protocol\Protocol.lib
 
-USERDEFINES = 
+USERDEFINES =
 SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
-INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface
+INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface;$(BCB)\components\boost
 LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface
 
 
@@ -53,7 +53,7 @@ $(PROJECT): $(OBJFILES) $(DEFFILE)
 
 
 ####
-Screen.obj: Screen.cpp 
+Screen.obj: Screen.cpp
 ScreenComponent.obj: ScreenComponent.cpp ScreenComponent.h
 
 clean:
