@@ -1,4 +1,4 @@
-      Module APSwimModule  
+      Module APSwimModule
       use Registrations
 
       character calc_section*(*)
@@ -8628,7 +8628,7 @@ c      pause
 *     ===========================================================
       Use infrastructure
       implicit none
-      
+
       integer, intent(in) :: variant
 
 *+  Purpose
@@ -8659,16 +8659,23 @@ c      pause
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
-                                    
+
       call unpack_time(variant, tick)
       call jday_to_day_of_year(dble(tick%startday), g%day, g%year)
-      
+
       ! dph - need to setup g%apsim_time and g%apsim_timestep
       !call handler_ONtick(g%day, g%year, g%apsim_time ,intTimestep)
       !g%apsim_timestep = intTimestep
 
+      ! NIH - assume daily time step for now until someone needs to
+      !       do otherwise.
+      g%apsim_time = '00:00'
+      g%apsim_timestep = 1440
+
       ! Started new timestep so purge all old timecourse information
       ! ============================================================
+
+
 
       time_mins = apswim_time_to_mins (g%apsim_time)
       start_timestep = apswim_time (g%year,g%day,time_mins)
@@ -8996,7 +9003,7 @@ c      pause
       Use ApswimModule
       implicit none
       ml_external respondToEvent
-      
+
       integer, intent(in) :: fromID
       integer, intent(in) :: eventID
       integer, intent(in) :: variant
