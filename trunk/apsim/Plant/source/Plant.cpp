@@ -1037,25 +1037,26 @@ void Plant::plant_bio_grain_demand (int option /* (INPUT) option number */)
 
     if (option == 1)
         {
-        fruit->legnew_bio_yieldpart_demand1(c.twilight
-                                          , g.day_of_year
-                                          , g.latitude
-                                          , yield_parts
-                                          , num_yield_parts
-                                          , root
-                                          , max_part
-                                          , g.dlt_dm
-                                          , g.dm_green
-                                          , g.dm_senesced
-                                          , g.dm_stress_max.getAverage()
-                                          , p.x_pp_hi_incr
-                                          , p.y_hi_incr
-                                          , p.num_pp_hi_incr
-                                          , p.x_hi_max_pot_stress
-                                          , p.y_hi_max_pot
-                                          , p.num_hi_max_pot
-                                          , g.grain_energy
-                                          , &g.dlt_dm_grain_demand);
+        fruit->bio_yieldpart_demand1(c.twilight
+                                   , g.day_of_year
+                                   , g.latitude
+                                   , yield_parts
+                                   , num_yield_parts
+                                   , root
+                                   , max_part
+                                   , g.dlt_dm
+                                   , g.dm_green
+                                   , g.dm_senesced
+                                   , g.dm_stress_max.getAverage()
+                                   , p.x_pp_hi_incr
+                                   , p.y_hi_incr
+                                   , p.num_pp_hi_incr
+                                   , p.x_hi_max_pot_stress
+                                   , p.y_hi_max_pot
+                                   , p.num_hi_max_pot
+                                   , g.grain_energy
+                                   , &g.dlt_dm_grain_demand
+                                   );
 
         }
     else if (option == 2)
@@ -1133,10 +1134,9 @@ void Plant::plant_bio_grain_oil (int option /* (INPUT) option number */)
 
     if (option == 1)
         {
-        fruit->legnew_bio_grain_oil (
-                                    c.grain_oil_conc
-                                    , c.carbo_oil_conv_ratio
-                                    , &g.grain_energy);
+        fruit->bio_grain_oil (c.grain_oil_conc
+                            , c.carbo_oil_conv_ratio
+                            , &g.grain_energy);
         }
     else
         {
@@ -1429,7 +1429,7 @@ void Plant::plant_bio_distribute (int option /* (INPUT) option number */)
 
         float dlt_dm_green_retrans_fruit[max_part];
 
-        fruit->legnew_dm_retranslocate1(c.frac_pod[(int) phenology->stageNumber()-1]
+        fruit->dm_retranslocate1(c.frac_pod[(int) phenology->stageNumber()-1]
                                  , g.grain_energy
                                  , c.grain_oil_conc
                                  , pod
@@ -1762,12 +1762,16 @@ void Plant::plant_retrans_init (int option)
         {
         legnew_retrans_init
             (
-            c.leaf_trans_frac
+              c.leaf_trans_frac
             , c.stem_trans_frac
-            , c.pod_trans_frac
             , g.plants
             , g.dm_green, g.dm_plant_min
             );
+
+        fruit->retrans_init (c.pod_trans_frac
+                           , g.plants
+                           , g.dm_green, g.dm_plant_min
+                           );
         }
     else
         {
@@ -2457,7 +2461,7 @@ void Plant::plant_leaf_area_actual (int option /* (INPUT) option number*/)
 
 //+  Changes
 //     280199 nih specified and programmed
-void Plant::plant_pod_area (int option /* (INPUT) option number*/)
+void Plant::plant_pod_area (int option /* (INPUT) option number*/)     // FIXME - remove this when fruit becomes proper class
     {
 //+  Constant Values
     const char*  my_name = "plant_pod_area" ;
@@ -2601,7 +2605,7 @@ void Plant::plant_nit_init (int option /* (INPUT) option number*/)
     if (option == 1)
         {
         if (phenology->inPhase("grainfill"))
-        plant_n_conc_grain_limits(c.n_conc_crit_grain
+        fruit->n_conc_grain_limits(c.n_conc_crit_grain
                                   , c.n_conc_max_grain
                                   , c.n_conc_min_grain
                                   , g.dlt_dm_green_retrans
@@ -2610,6 +2614,7 @@ void Plant::plant_nit_init (int option /* (INPUT) option number*/)
                                   , g.n_conc_crit
                                   , g.n_conc_max
                                   , g.n_conc_min);
+
         if (phenology->on_day_of("emergence"))
         cproc_n_init1(c.n_init_conc
                      , max_part
@@ -2790,22 +2795,22 @@ void Plant::plant_nit_grain_demand (int Option)
    {
    if (Option == 1)
       {
-      fruit->plant_grain_n_demand1(c.sfac_slope
-                            , c.sw_fac_max
-                            , c.temp_fac_min
-                            , c.tfac_slope
-                            , g.maxt
-                            , g.mint
-                            , g.nfact_grain_conc
-                            , g.n_conc_crit
-                            , g.swdef_expansion
-                            , g.n_conc_min
-                            , g.dlt_dm_green
-                            , g.dlt_dm_green_retrans
-                            , g.dm_green
-                            , g.n_conc_max
-                            , g.n_green
-                            , &g.grain_n_demand);
+      fruit->grain_n_demand1(c.sfac_slope
+                           , c.sw_fac_max
+                           , c.temp_fac_min
+                           , c.tfac_slope
+                           , g.maxt
+                           , g.mint
+                           , g.nfact_grain_conc
+                           , g.n_conc_crit
+                           , g.swdef_expansion
+                           , g.n_conc_min
+                           , g.dlt_dm_green
+                           , g.dlt_dm_green_retrans
+                           , g.dm_green
+                           , g.n_conc_max
+                           , g.n_green
+                           , &g.grain_n_demand);
       }
    else if (Option == 2)
       {
@@ -3332,6 +3337,18 @@ void Plant::plant_sen_bio (int dm_senescence_option)
                               , g.dlt_dm_green
                               , g.dlt_dm_green_retrans
                               , g.dlt_dm_senesced);
+
+//        fruit->dm_senescence1 (max_part                //FIXME when fruit becomes proper class
+//                              , max_table
+//                              , canopy_sen_fr
+//                              , c.x_dm_sen_frac
+//                              , c.y_dm_sen_frac
+//                              , c.num_dm_sen_frac
+//                              , g.dm_green
+//                              , g.dlt_dm_green
+//                              , g.dlt_dm_green_retrans
+//                              , g.dlt_dm_senesced);
+
          }
     else if (dm_senescence_option == 2)
          {
@@ -3397,6 +3414,14 @@ void Plant::plant_sen_nit (int   option/*(INPUT) option number*/)
                             , g.dm_green
                             , g.dlt_n_senesced_trans
                             , g.dlt_n_senesced);
+
+//        fruit->n_senescence1 (max_part             //FIXME when fruit becomes proper class
+//                            , c.n_sen_conc
+//                            , g.dlt_dm_senesced
+//                            , g.n_green
+//                            , g.dm_green
+//                            , g.dlt_n_senesced_trans
+//                            , g.dlt_n_senesced);
         }
     else if (option == 2)
         {
@@ -5527,59 +5552,6 @@ void Plant::plant_n_conc_limits
     }
 
 
-//+  Purpose
-//       Calculate the critical N concentration for grain below which plant growth
-//       is affected.  Also minimum and maximum N concentrations below
-//       and above which it is not allowed to fall or rise.
-//       These are analogous to the water concentrations
-//       of sat, dul and ll.
-
-//+  Mission statement
-//       Calculate the critical N concentration for grain
-
-//+  Changes
-//       241100 jngh specified and programmed
-void Plant::plant_n_conc_grain_limits
-    (
-     float  c_n_conc_crit_grain             // (INPUT)  critical N concentration of gr
-    ,float  c_n_conc_max_grain              // (INPUT)  maximum N concentration of gra
-    ,float  c_n_conc_min_grain              // (INPUT)  minimum N concentration of gra
-    ,float  *g_dlt_dm_green_retrans         // (INPUT)  plant biomass growth (g/m^2)
-    ,float  *g_dlt_dm_green                 // (INPUT)  plant biomass growth (g/m^2)
-    ,float  *g_dm_green                     // (INPUT)  plant biomass (g/m^2)
-    ,float  *n_conc_crit                    // (OUTPUT) critical N concentration (g N/g part)
-    ,float  *n_conc_max                     // (OUTPUT) maximum N concentration (g N/g part)
-    ,float  *n_conc_min                     // (OUTPUT) minimum N concentration (g N/g part)
-    ) {
-//+  Local Variables
-    float dm_oil;                                 // oil mass (g/m2)
-    float dm_meal;                                // meal mass (g/m2)
-    float dm_grain;                               // grain mass (g/m2)
-    float n_crit_grain;                           // critial mass of grain N (g/m2)
-    float n_max_grain;                            // maximum mass of grain N (g/m2)
-    float n_min_grain;                            // minimum mass of grain N (g/m2)
-
-//- Implementation Section ----------------------------------
-    if (phenology->inPhase ("grainfill"))
-        {
-        dm_oil = g_dm_green[oil]
-                     + g_dlt_dm_green[oil]
-                     + g_dlt_dm_green_retrans[oil];
-        dm_meal = g_dm_green[meal]
-                     + g_dlt_dm_green[meal]
-                     + g_dlt_dm_green_retrans[meal];
-        dm_grain = dm_oil + dm_meal;
-
-        n_crit_grain = c_n_conc_crit_grain * dm_grain;
-        n_max_grain = c_n_conc_max_grain * dm_grain;
-        n_min_grain = c_n_conc_min_grain * dm_grain;
-
-        n_conc_crit[meal] = divide (n_crit_grain, dm_meal, 0.0);
-        n_conc_max[meal] = divide (n_max_grain, dm_meal, 0.0);
-        n_conc_min[meal] = divide (n_min_grain, dm_meal, 0.0);
-        }
-    }
-
 #if 0
 XXX this is never called?????????
 //+  Purpose
@@ -7452,7 +7424,6 @@ void Plant::legnew_retrans_init
     (
      float c_leaf_trans_frac                      // (INPUT)  fraction of leaf used in trans
     ,float c_stem_trans_frac                      // (INPUT)  fraction of stem used in trans
-    ,float  c_pod_trans_frac                      // (INPUT)  fraction of pod used in trans
     ,float  g_plants                              // (INPUT)  Plant density (plants/m^2)
     ,float *dm_green                              // (INPUT/OUTPUT) plant part weights (g/m^2)
     ,float *dm_plant_min                          // (OUTPUT) minimum weight of each plant part (g/plant)
@@ -7463,7 +7434,6 @@ void Plant::legnew_retrans_init
 //+  Local Variables
     float dm_plant_leaf;                          // dry matter in leaves (g/plant)
     float dm_plant_stem;                          // dry matter in stems (g/plant)
-    float dm_plant_pod;                           // dry matter in pods (g/plant)
 
 //- Implementation Section ----------------------------------
 
@@ -7482,16 +7452,10 @@ void Plant::legnew_retrans_init
         dm_plant_min[stem] = dm_plant_stem * (1.0 - c_stem_trans_frac);
         dm_plant_leaf = divide (dm_green[leaf], g_plants, 0.0);
         dm_plant_min[leaf] = dm_plant_leaf * (1.0 - c_leaf_trans_frac);
-        dm_plant_min[pod] = 0.0;
         }                                             // no changes
     else
         {
         }
-
-
-    dm_plant_pod = divide (dm_green[pod], g_plants, 0.0);
-    dm_plant_min[pod] = max (dm_plant_pod * (1.0 - c_pod_trans_frac), dm_plant_min[pod]);
-
     pop_routine (my_name);
     }
 

@@ -306,6 +306,22 @@ float PlantFruit::calcCover (
 }
 
 //===========================================================================
+void PlantFruit::pod_area (int option /* (INPUT) option number*/)
+//===========================================================================
+{
+//- Implementation Section ----------------------------------
+
+    if (option == 1)
+    {
+//        g.dlt_pai = g.dlt_dm_green[pod] * c.spec_pod_area * smm2sm;  //FIXME when these data members are put in
+    }
+    else
+    {
+        throw std::invalid_argument ("invalid template option");
+    }
+}
+
+//===========================================================================
 float PlantFruit::interceptRadiation (
                                       float radiation    // incident radiation on pods
                                      )
@@ -486,7 +502,7 @@ void PlantFruit::bio_water1 (float sw_supply        //(INPUT)  potential water t
 }
 
 //===========================================================================
-void PlantFruit::legnew_bio_grain_oil (
+void PlantFruit::bio_grain_oil (
                                    float  c_grain_oil_conc          // (INPUT) fractional oil content of grain (0-1)
                                   ,float  c_carbo_oil_conv_ratio    // (INPUT) Carbohydrate:oil conversion ratio (>= 1.0)
                                   ,float  *grain_energy              // (OUTPUT) multiplier of grain weight to account
@@ -503,30 +519,58 @@ void PlantFruit::legnew_bio_grain_oil (
 
     *grain_energy = 1.0 + c_grain_oil_conc * (c_carbo_oil_conv_ratio - 1.0);
     bound_check_real_var (parentPlant, *grain_energy, 1.0, 2.0, "grain_energy");
-    }
+}
 
 //===========================================================================
-void PlantFruit::legnew_bio_yieldpart_demand1(
-                                         float c_twilight                          // (INPUT)  twilight in angular distance b
-                                        ,int   g_day_of_year                       // (INPUT)  day of year
-                                        ,float g_latitude                          // (INPUT)  latitude (degrees, negative fo
-                                        ,int  *yield_parts                         // (INPUT)
-                                        ,int   num_yield_parts                     // (INPUT)
-                                        ,int   root_part                           // (INPUT)
-                                        ,int   max_part                            // (INPUT)
-                                        ,float g_dlt_dm                            // (INPUT)  the daily biomass production (
-                                        ,float *g_dm_green                         // (INPUT)  live plant dry weight (biomass
-                                        ,float *g_dm_senesced                      // (INPUT)  senesced plant dry wt (g/m^2)
-                                        ,float g_dm_stress_average
-                                        ,float *p_x_pp_hi_incr                     // (INPUT)
-                                        ,float *p_y_hi_incr                        // (INPUT)  harvest index increment per da
-                                        ,int   p_num_pp_hi_incr                    // (INPUT)
-                                        ,float *p_x_hi_max_pot_stress              // (INPUT) Potential Max HI Stress dete
-                                        ,float *p_y_hi_max_pot                     // (INPUT) Potential Max HI
-                                        ,int   p_num_hi_max_pot                    // (INPUT) Number of lookup pairs
-                                        ,float g_grain_energy                      // (INPUT)
-                                        ,float *dlt_dm_yieldpart_demand             // (OUTPUT) grain dry matter potential (g/m^2)
-                                        )
+void Plant::plant_bio_actual (int option /* (INPUT) option number*/)
+//===========================================================================
+{
+//+  Purpose
+//       Takes the minimum of biomass production limited by radiation and
+//       biomass production limited by water.
+
+//+  Mission Statement
+//     Takes the minimum of biomass production limited by radiation and
+//     biomass production limited by water.
+
+//+  Changes
+//      250894 jngh specified and programmed
+
+//- Implementation Section ----------------------------------
+
+    if (option == 1)
+    {
+        // use whichever is limiting
+//        g.dlt_dm = min (g.dlt_dm_pot_rue, g.dlt_dm_pot_te);   //FIXME when these data members are put in
+    }
+    else
+    {
+        throw std::invalid_argument("invalid template option in plant_bio_actual");
+    }
+
+}
+
+//===========================================================================
+void PlantFruit::bio_yieldpart_demand1( float c_twilight                          // (INPUT)  twilight in angular distance b
+                                      , int   g_day_of_year                       // (INPUT)  day of year
+                                      , float g_latitude                          // (INPUT)  latitude (degrees, negative fo
+                                      , int  *yield_parts                         // (INPUT)
+                                      , int   num_yield_parts                     // (INPUT)
+                                      , int   root_part                           // (INPUT)
+                                      , int   max_part                            // (INPUT)
+                                      , float g_dlt_dm                            // (INPUT)  the daily biomass production (
+                                      , float *g_dm_green                         // (INPUT)  live plant dry weight (biomass
+                                      , float *g_dm_senesced                      // (INPUT)  senesced plant dry wt (g/m^2)
+                                      , float g_dm_stress_average
+                                      , float *p_x_pp_hi_incr                     // (INPUT)
+                                      , float *p_y_hi_incr                        // (INPUT)  harvest index increment per da
+                                      , int   p_num_pp_hi_incr                    // (INPUT)
+                                      , float *p_x_hi_max_pot_stress              // (INPUT) Potential Max HI Stress dete
+                                      , float *p_y_hi_max_pot                     // (INPUT) Potential Max HI
+                                      , int   p_num_hi_max_pot                    // (INPUT) Number of lookup pairs
+                                      , float g_grain_energy                      // (INPUT)
+                                      , float *dlt_dm_yieldpart_demand             // (OUTPUT) grain dry matter potential (g/m^2)
+                                      )
 //===========================================================================
 {
 //+  Purpose
@@ -620,22 +664,22 @@ void PlantFruit::legnew_bio_yieldpart_demand1(
     }
 
 //===========================================================================
-void PlantFruit::plant_grain_n_demand1(float c_sfac_slope            //   (INPUT)  soil water stress factor slope
-                                      , float c_sw_fac_max            //   (INPUT)  soil water stress factor maxim
-                                      , float c_temp_fac_min          //   (INPUT)  temperature stress factor mini
-                                      , float c_tfac_slope            //   (INPUT)  temperature stress factor slop
-                                      , float g_maxt                  //   (INPUT)  maximum air temperature (oC)
-                                      , float g_mint                  //   (INPUT)  minimum air temperature (oC)
-                                      , float g_nfact_grain_conc      //   (INPUT)
-                                      , float *g_n_conc_crit          //   (INPUT)  critical N concentration (g N/
-                                      , float g_swdef_expansion       //   (INPUT)
-                                      , float *g_n_conc_min           //   (INPUT)  minimum N concentration (g N/g
-                                      , float *g_dlt_dm_green         //   (INPUT)  plant biomass growth (g/m^2)
-                                      , float *g_dlt_dm_green_retrans //   (INPUT)  plant biomass growth (g/m^2)
-                                      , float *g_dm_green             //   (INPUT)  live plant dry weight (biomass
-                                      , float *g_n_conc_max           //   (INPUT)  maximum N concentration (g N/g
-                                      , float *g_n_green              //   (INPUT)  plant nitrogen content (g N/m^
-                                      , float *grain_n_demand)        //   grain N demand (g/m^2)
+void PlantFruit::grain_n_demand1(float c_sfac_slope            //   (INPUT)  soil water stress factor slope
+                               , float c_sw_fac_max            //   (INPUT)  soil water stress factor maxim
+                               , float c_temp_fac_min          //   (INPUT)  temperature stress factor mini
+                               , float c_tfac_slope            //   (INPUT)  temperature stress factor slop
+                               , float g_maxt                  //   (INPUT)  maximum air temperature (oC)
+                               , float g_mint                  //   (INPUT)  minimum air temperature (oC)
+                               , float g_nfact_grain_conc      //   (INPUT)
+                               , float *g_n_conc_crit          //   (INPUT)  critical N concentration (g N/
+                               , float g_swdef_expansion       //   (INPUT)
+                               , float *g_n_conc_min           //   (INPUT)  minimum N concentration (g N/g
+                               , float *g_dlt_dm_green         //   (INPUT)  plant biomass growth (g/m^2)
+                               , float *g_dlt_dm_green_retrans //   (INPUT)  plant biomass growth (g/m^2)
+                               , float *g_dm_green             //   (INPUT)  live plant dry weight (biomass
+                               , float *g_n_conc_max           //   (INPUT)  maximum N concentration (g N/g
+                               , float *g_n_green              //   (INPUT)  plant nitrogen content (g N/m^
+                               , float *grain_n_demand)        //   grain N demand (g/m^2)
 //===========================================================================
   {
 //  Purpose
@@ -839,27 +883,25 @@ void PlantFruit::yieldpart_demand_stress1 (float nutrientFactPhoto
 
 
 //     ===========================================================
-void PlantFruit::legnew_dm_retranslocate1
-    (
-     float  c_frac_pod                    // (INPUT) fraction of remaining dm allocated to pod
-    ,float  g_grain_energy                // (INPUT) multiplier of grain weight to account for energy used in oil conversion.
-    ,float  c_grain_oil_conc              // (INPUT) fraction of grain that is oil
-    ,int    pod                           // (INPUT)
-    ,int    meal                          // (INPUT)
-    ,int    oil                           // (INPUT)
-    ,int    max_part                      // (INPUT)
-    ,float  g_dlt_dm_retrans_to_fruit     // (INPUT)
-    ,int    *supply_pools                 // (INPUT)
-    ,int    num_supply_pools              // (INPUT)
-    ,float  g_dlt_dm_grain_demand         // (INPUT)  grain dm demand (g/m^2)
-    ,float  g_dlt_dm_oil_conv             // (INPUT)  dm used in oil conversion (g/m^2)
-    ,float  *g_dlt_dm_green               // (INPUT)  plant biomass growth (g/m^2)
-    ,float  *g_dm_green                   // (INPUT)  live plant dry weight (biomass
-    ,float  *g_dm_plant_min               // (INPUT)  minimum weight of each plant p
-    ,float  g_plants                      // (INPUT)  Plant density (plants/m^2)
-    ,float  *dm_oil_conv_retranslocate    // (OUTPUT) assimilate used for oil conversion - energy (g/m^2)
-    ,float  *dm_retranslocate             // (OUTPUT) actual change in plant part weights due to translocation (g/m^2)
-    )
+void PlantFruit::dm_retranslocate1(float  c_frac_pod                    // (INPUT) fraction of remaining dm allocated to pod
+                                  , float  g_grain_energy                // (INPUT) multiplier of grain weight to account for energy used in oil conversion.
+                                  , float  c_grain_oil_conc              // (INPUT) fraction of grain that is oil
+                                  , int    pod                           // (INPUT)
+                                  , int    meal                          // (INPUT)
+                                  , int    oil                           // (INPUT)
+                                  , int    max_part                      // (INPUT)
+                                  , float  g_dlt_dm_retrans_to_fruit     // (INPUT)
+                                  , int    *supply_pools                 // (INPUT)
+                                  , int    num_supply_pools              // (INPUT)
+                                  , float  g_dlt_dm_grain_demand         // (INPUT)  grain dm demand (g/m^2)
+                                  , float  g_dlt_dm_oil_conv             // (INPUT)  dm used in oil conversion (g/m^2)
+                                  , float  *g_dlt_dm_green               // (INPUT)  plant biomass growth (g/m^2)
+                                  , float  *g_dm_green                   // (INPUT)  live plant dry weight (biomass
+                                  , float  *g_dm_plant_min               // (INPUT)  minimum weight of each plant p
+                                  , float  g_plants                      // (INPUT)  Plant density (plants/m^2)
+                                  , float  *dm_oil_conv_retranslocate    // (OUTPUT) assimilate used for oil conversion - energy (g/m^2)
+                                  , float  *dm_retranslocate             // (OUTPUT) actual change in plant part weights due to translocation (g/m^2)
+                                  )
 //     ===========================================================
 {
 
@@ -986,6 +1028,189 @@ void PlantFruit::legnew_dm_retranslocate1
 //            g.dm_green[root], g.dm_green[leaf],g.dm_green[stem]);
 }
 
+//============================================================================
+void PlantFruit::dm_senescence1 (const int num_part           //(INPUT)  number of plant parts
+                               , const int max_table          //(INPUT)  max lookup length
+                               , float independant_variable   //(INPUT)  independant variable which
+                               , float **c_x_dm_sen_frac      //(INPUT)  lookup for independant variabl   is said to drive senescence.
+                               , float **c_y_dm_sen_frac      // (INPUT)  fraction of  material senescin
+                               , int   *c_num_dm_sen_frac     // (INPUT)  fraction of  material sene
+                               , float *g_dm_green            // (INPUT)  live plant dry weight (biomass
+                               , float *g_dlt_dm_green        // (INPUT)  plant biomass growth (g/m^2)
+                               , float *g_dlt_dm_green_retrans// (INPUT)  plant biomass retranslocat
+                               , float *dlt_dm_senesced)       // (OUTPUT) actual biomass senesced from plant parts (g/m^2)
+//============================================================================
+{
+// Purpose
+//   Derives seneseced plant dry matter (g/m^2) for the day
+
+// Implementation Section ----------------------------------
+
+   for (int part = 0; part < num_part; part++)
+   {
+      float fraction_senescing = linear_interp_real (independant_variable
+                                             , c_x_dm_sen_frac[part]
+                                             , c_y_dm_sen_frac[part]
+                                             , c_num_dm_sen_frac[part]
+                                             );
+
+      fraction_senescing = bound (fraction_senescing, 0.0, 1.0);
+      dlt_dm_senesced[part] = (g_dm_green[part] + g_dlt_dm_green[part] + g_dlt_dm_green_retrans[part])
+                            * fraction_senescing;
+   }
+}
+
+//============================================================================
+void PlantFruit::retrans_init (float  c_pod_trans_frac                      // (INPUT)  fraction of pod used in trans
+                             , float  g_plants                              // (INPUT)  Plant density (plants/m^2)
+                             , float *dm_green                              // (INPUT/OUTPUT) plant part weights (g/m^2)
+                             , float *dm_plant_min                          // (OUTPUT) minimum weight of each plant part (g/plant)
+                             )
+//============================================================================
+{
+//+  Purpose
+//       Initialise pod weight minimum
+//       at required instances.
+
+//+  Mission Statement
+//     Initialise pod weight minimums at required instances.
+
+//+  Changes
+//     010994 jngh specified and programmed
+
+//+  Local Variables
+    float dm_plant_pod;                           // dry matter in pods (g/plant)
+
+//- Implementation Section ----------------------------------
+
+    // initialise pod weight minimum
+
+    dm_plant_pod = divide (dm_green[pod], g_plants, 0.0);
+    dm_plant_min[pod] = max (dm_plant_pod * (1.0 - c_pod_trans_frac), dm_plant_min[pod]);
+}
+
+//============================================================================
+void PlantFruit::n_senescence1 (int   num_part               // (INPUT) number of plant part
+                             , float  *c_n_sen_conc          // (INPUT)  N concentration of senesced materia  (g/m^2)
+                             , float  *g_dlt_dm_senesced     // (INPUT)  plant biomass senescence (g/m^2)
+                             , float  *g_n_green             // (INPUT) nitrogen in plant material (g/m^2)
+                             , float  *g_dm_green            // (INPUT) plant material (g/m^2)
+                             , float  *dlt_n_senesced_trans  // (OUTPUT)  plant N senescence (g/m^2)
+                             , float  *dlt_n_senesced        // (OUTPUT) actual nitrogen senesced from plant parts (g/m^2)
+                             )
+//============================================================================
+{
+
+//+  Purpose
+//       Derives seneseced plant nitrogen (g N/m^2)
+
+//+  Mission Statement
+//   Calculate change in senesced plant Nitrogen
+
+//+  Changes
+//       121297 nih specified and programmed
+
+//- Implementation Section ----------------------------------
+
+    for (int part = 0; part < num_part; part++)
+    {
+       float green_n_conc = divide (g_n_green[part], g_dm_green[part], 0.0);  // N conc of green material (g/g)
+       float sen_n_conc = min (c_n_sen_conc[part], green_n_conc);             // N conc of senescing material (g/g)
+
+       dlt_n_senesced[part] = g_dlt_dm_senesced[part] * sen_n_conc;
+       dlt_n_senesced[part] = u_bound (dlt_n_senesced[part], g_n_green[part]);
+
+       float dlt_n_in_senescing_part = g_dlt_dm_senesced[part] * green_n_conc;
+       dlt_n_senesced_trans[part] = dlt_n_in_senescing_part - dlt_n_senesced[part];
+       dlt_n_senesced_trans[part] = l_bound(dlt_n_senesced_trans[part], 0.0);
+    }
+}
+
+//============================================================================
+void PlantFruit::nit_init (void)
+//============================================================================
+{
+//+  Purpose
+//       Initialise plant nitrogen.
+
+//+  Mission Statement
+//     Initialise plant nitrogen
+
+//+  Changes
+//      250894 jngh specified and programmed
+
+//- Implementation Section ----------------------------------
+
+
+//   if (phenology->inPhase("grainfill"))            //FIXME when these data members are put in
+//      n_conc_grain_limits(c.n_conc_crit_grain
+//                        , c.n_conc_max_grain
+//                        , c.n_conc_min_grain
+//                        , g.dlt_dm_green_retrans
+//                        , g.dlt_dm_green
+//                        , g.dm_green
+//                        , g.n_conc_crit
+//                        , g.n_conc_max
+//                        , g.n_conc_min);
+
+}
+
+//============================================================================
+void PlantFruit::n_conc_grain_limits (float  c_n_conc_crit_grain             // (INPUT)  critical N concentration of gr
+                                          , float  c_n_conc_max_grain              // (INPUT)  maximum N concentration of gra
+                                          , float  c_n_conc_min_grain              // (INPUT)  minimum N concentration of gra
+                                          , float  *g_dlt_dm_green_retrans         // (INPUT)  plant biomass growth (g/m^2)
+                                          , float  *g_dlt_dm_green                 // (INPUT)  plant biomass growth (g/m^2)
+                                          , float  *g_dm_green                     // (INPUT)  plant biomass (g/m^2)
+                                          , float  *n_conc_crit                    // (OUTPUT) critical N concentration (g N/g part)
+                                          , float  *n_conc_max                     // (OUTPUT) maximum N concentration (g N/g part)
+                                          , float  *n_conc_min                     // (OUTPUT) minimum N concentration (g N/g part)
+                                          )
+//============================================================================
+{
+//+  Purpose
+//       Calculate the critical N concentration for grain below which plant growth
+//       is affected.  Also minimum and maximum N concentrations below
+//       and above which it is not allowed to fall or rise.
+//       These are analogous to the water concentrations
+//       of sat, dul and ll.
+
+//+  Mission statement
+//       Calculate the critical N concentration for grain
+
+//+  Changes
+//       241100 jngh specified and programmed
+
+//+  Local Variables
+    float dm_oil;                                 // oil mass (g/m2)
+    float dm_meal;                                // meal mass (g/m2)
+    float dm_grain;                               // grain mass (g/m2)
+    float n_crit_grain;                           // critial mass of grain N (g/m2)
+    float n_max_grain;                            // maximum mass of grain N (g/m2)
+    float n_min_grain;                            // minimum mass of grain N (g/m2)
+
+//- Implementation Section ----------------------------------
+    if (phenology->inPhase ("grainfill"))
+        {
+        dm_oil = g_dm_green[oil]
+                     + g_dlt_dm_green[oil]
+                     + g_dlt_dm_green_retrans[oil];
+        dm_meal = g_dm_green[meal]
+                     + g_dlt_dm_green[meal]
+                     + g_dlt_dm_green_retrans[meal];
+        dm_grain = dm_oil + dm_meal;
+
+        n_crit_grain = c_n_conc_crit_grain * dm_grain;
+        n_max_grain = c_n_conc_max_grain * dm_grain;
+        n_min_grain = c_n_conc_min_grain * dm_grain;
+
+        n_conc_crit[meal] = divide (n_crit_grain, dm_meal, 0.0);
+        n_conc_max[meal] = divide (n_max_grain, dm_meal, 0.0);
+        n_conc_min[meal] = divide (n_min_grain, dm_meal, 0.0);
+        }
+    }
+
+//============================================================================
 
 #if TEST_PlantFruit							// build unit test?
 

@@ -50,6 +50,8 @@ class PlantFruit
 
             float divide (float dividend, float divisor, float default_value) const;  // Command
 
+            void pod_area (int option /* (INPUT) option number*/);
+
             void dm_pot_rue (float  rue_pod
                            , double  radn_int_pod
                            , double  stress_factor
@@ -81,50 +83,50 @@ class PlantFruit
                           , float transp_eff       //(INPUT)  transpiration efficiency (g dm/m^2/m
                           , float *dlt_dm_pot_te); //(OUTPUT) potential dry matter production
                                                    //         by transpiration (g/m^2)
-            void legnew_bio_grain_oil (
-                                        float  c_grain_oil_conc
-                                       ,float  c_carbo_oil_conv_ratio
-                                       ,float  *grain_energy
-                                      );
+            void bio_grain_oil (
+                                float  c_grain_oil_conc
+                               , float  c_carbo_oil_conv_ratio
+                               , float  *grain_energy
+                               );
 
-            void legnew_bio_yieldpart_demand1 (float c_twilight
-                                              ,int   g_day_of_year
-                                              ,float g_latitude
-                                              ,int  *yield_parts
-                                              ,int   num_yield_parts
-                                              ,int   root_part
-                                              ,int   max_part
-                                              ,float g_dlt_dm
-                                              ,float *g_dm_green
-                                              ,float *g_dm_senesced
-                                              ,float g_dm_stress_average
-                                              ,float *p_x_pp_hi_incr
-                                              ,float *p_y_hi_incr
-                                              ,int   p_num_pp_hi_incr
-                                              ,float *p_x_hi_max_pot_stress
-                                              ,float *p_y_hi_max_pot
-                                              ,int   p_num_hi_max_pot
-                                              ,float g_grain_energy
-                                              ,float *dlt_dm_yieldpart_demand
-                                              ) ;
+            void bio_yieldpart_demand1 (float c_twilight
+                                      , int   g_day_of_year
+                                      , float g_latitude
+                                      , int  *yield_parts
+                                      , int   num_yield_parts
+                                      , int   root_part
+                                      , int   max_part
+                                      , float g_dlt_dm
+                                      , float *g_dm_green
+                                      , float *g_dm_senesced
+                                      , float g_dm_stress_average
+                                      , float *p_x_pp_hi_incr
+                                      , float *p_y_hi_incr
+                                      , int   p_num_pp_hi_incr
+                                      , float *p_x_hi_max_pot_stress
+                                      , float *p_y_hi_max_pot
+                                      , int   p_num_hi_max_pot
+                                      , float g_grain_energy
+                                      , float *dlt_dm_yieldpart_demand
+                                      ) ;
 
-            void plant_grain_n_demand1(float C_sfac_slope
-                                       , float C_sw_fac_max
-                                       , float C_temp_fac_min
-                                       , float C_tfac_slope
-                                       , float G_maxt
-                                       , float G_mint
-                                       , float G_nfact_grain_conc
-                                       , float *G_n_conc_crit
-                                       , float G_swdef_expansion
-                                       , float *G_n_conc_min
-                                       , float *G_dlt_dm_green
-                                       , float *G_dlt_dm_green_retrans
-                                       , float *G_dm_green
-                                       , float *G_n_conc_max
-                                       , float *G_n_green
-                                       , float *grain_n_demand
-                                       );
+            void grain_n_demand1(float C_sfac_slope
+                               , float C_sw_fac_max
+                               , float C_temp_fac_min
+                               , float C_tfac_slope
+                               , float G_maxt
+                               , float G_mint
+                               , float G_nfact_grain_conc
+                               , float *G_n_conc_crit
+                               , float G_swdef_expansion
+                               , float *G_n_conc_min
+                               , float *G_dlt_dm_green
+                               , float *G_dlt_dm_green_retrans
+                               , float *G_dm_green
+                               , float *G_n_conc_max
+                               , float *G_n_green
+                               , float *grain_n_demand
+                               );
 
             float dm_yield_demand ( float  c_frac_pod
                                   , float  g_grain_energy
@@ -148,28 +150,65 @@ class PlantFruit
                                ,float  *dlt_dm_green
                                );
 
-  void legnew_dm_retranslocate1
-    (
-     float  c_frac_pod
-    ,float  g_grain_energy
-    ,float  c_grain_oil_conc
-    ,int    pod
-    ,int    meal
-    ,int    oil
-    ,int    max_part
-    ,float  g_dlt_dm_retrans_to_fruit
-    ,int    *supply_pools
-    ,int    num_supply_pools
-    ,float  g_dlt_dm_grain_demand
-    ,float  g_dlt_dm_oil_conv
-    ,float  *g_dlt_dm_green
-    ,float  *g_dm_green
-    ,float  *g_dm_plant_min
-    ,float  g_plants
-    ,float  *dm_oil_conv_retranslocate
-    ,float  *dm_retranslocate
-    ) ;
+           void dm_retranslocate1(float  c_frac_pod
+                                , float  g_grain_energy
+                                , float  c_grain_oil_conc
+                                , int    pod
+                                , int    meal
+                                , int    oil
+                                , int    max_part
+                                , float  g_dlt_dm_retrans_to_fruit
+                                , int    *supply_pools
+                                , int    num_supply_pools
+                                , float  g_dlt_dm_grain_demand
+                                , float  g_dlt_dm_oil_conv
+                                , float  *g_dlt_dm_green
+                                , float  *g_dm_green
+                                , float  *g_dm_plant_min
+                                , float  g_plants
+                                , float  *dm_oil_conv_retranslocate
+                                , float  *dm_retranslocate
+                                ) ;
 
+            void bio_actual (int option /* (INPUT) option number*/);
+
+            void dm_senescence1 (const int num_part
+                               , const int max_table
+                               , float independant_variable
+                               , float **c_x_dm_sen_frac
+                               , float **c_y_dm_sen_frac
+                               , int   *c_num_dm_sen_frac
+                               , float *g_dm_green
+                               , float *g_dlt_dm_green
+                               , float *g_dlt_dm_green_retrans
+                               , float *dlt_dm_senesced);       // (OUTPUT) actual biomass senesced from plant parts (g/m^2)
+
+               void retrans_init(float  c_pod_trans_frac
+                               , float  g_plants
+                               , float *dm_green
+                               , float *dm_plant_min
+                               );
+
+               void n_senescence1(int num_part
+                                , float  *c_n_sen_conc
+                                , float  *g_dlt_dm_senesced
+                                , float  *g_n_green
+                                , float  *g_dm_green
+                                , float  *dlt_n_senesced_trans
+                                , float  *dlt_n_senesced
+                                ) ;
+
+               void n_conc_grain_limits(float  c_n_conc_crit_grain
+            				  , float  c_n_conc_max_grain
+            				  , float  c_n_conc_min_grain
+            				  , float  *g_dlt_dm_green_retrans
+            				  , float  *g_dlt_dm_green
+            				  , float  *g_dm_green
+            				  , float  *n_conc_crit
+            				  , float  *n_conc_max
+            				  , float  *n_conc_min) ;
+
+               void nit_init (void);
 
 #if TEST_PlantFruit
 		virtual ~PlantFruit();							// destructor
