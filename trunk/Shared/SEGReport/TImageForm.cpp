@@ -28,7 +28,6 @@ void TImageForm::setComponent(TComponent* component)
    CentreCheckBox->Checked = image->Center;
    StretchCheckBox->Checked = image->Stretch;
    NameEdit->Text = image->Name;
-   image->Zoom = 100;
    }
 //---------------------------------------------------------------------------
 void __fastcall TImageForm::AutoSizeCheckBoxClick(TObject *Sender)
