@@ -15,16 +15,8 @@ contact = Merv Probert - Module Developer; mailto:Merv.Probert@tag.csiro.au
 title=The APSIM SoilP Model
 parfile=
 parshowall=yes
-inifile=%thispath\soilp.ini
+inifile=soilp.ini
 inishowall=yes
 rddfile=
 
-heading = SoilP timestep calculations; soilp_process
-heading = Decompose residues; soilp_min_residues
-heading = Incorporate fresh organic matter; soilp_incorp_residues
-heading = Tillage; soilp_tillage
-
-
-
-
-
+heading = APSIM Soilp Module; main
