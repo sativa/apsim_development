@@ -978,7 +978,7 @@ bool plant_germination(float pesw_germ,         //(INPUT)  plant extractable soi
 // NB. "5.2" is half way between FI and flag leaf in wheat
 void WheatPhenology::get_zadok_stage(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    float sowing = 1.0, emerg = 2.0;
+    float sowing = 1.0, emerg = 3.0;
     float zadok_stage = 0.0;
     if (currentStage >= sowing &&
         currentStage <= emerg)
