@@ -4755,6 +4755,7 @@ c         g%crop_module(:) = ' '               ! list of modules
 *       250893 jngh corrected adjustment of soil water for previous movement
 *       170895 nih  renamed to generic solute name
 *       200896 jngh renamed n, nut and nutrient references to solute
+*       151200 jngh added round_to_zero
  
 *+  Constant Values
       character  my_name*(*)           ! name of subroutine
@@ -4884,6 +4885,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
  
                 ! don't allow the n to be reduced below a minimum level
  
+            out_solute = round_to_zero (out_solute)
             out_solute = bound (out_solute
      :                         , 0.0
      :                         , solute_kg_layer - solute_min(layer))
