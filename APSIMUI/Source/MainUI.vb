@@ -131,6 +131,7 @@ Public Class MainUI
         Me.EditMenuCopy = New System.Windows.Forms.MenuItem
         Me.EditMenuPaste = New System.Windows.Forms.MenuItem
         Me.MenuItem1 = New System.Windows.Forms.MenuItem
+        Me.ToolboxMenuItem = New System.Windows.Forms.MenuItem
         Me.ViewMenuHelp = New System.Windows.Forms.MenuItem
         Me.MenuItem2 = New System.Windows.Forms.MenuItem
         Me.ViewMenuOptions = New System.Windows.Forms.MenuItem
@@ -186,7 +187,6 @@ Public Class MainUI
         Me.ToolboxPanel = New System.Windows.Forms.Panel
         Me.Splitter1 = New System.Windows.Forms.Splitter
         Me.SimulationPanel = New System.Windows.Forms.Panel
-        Me.ToolboxMenuItem = New System.Windows.Forms.MenuItem
         Me.HelpBrowserPanel.SuspendLayout()
         CType(Me.HelpBrowser, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -266,6 +266,11 @@ Public Class MainUI
         Me.MenuItem1.Index = 2
         Me.MenuItem1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.ToolboxMenuItem, Me.ViewMenuHelp, Me.MenuItem2, Me.ViewMenuOptions})
         Me.MenuItem1.Text = "&View"
+        '
+        'ToolboxMenuItem
+        '
+        Me.ToolboxMenuItem.Index = 0
+        Me.ToolboxMenuItem.Text = "Toolbox Window"
         '
         'ViewMenuHelp
         '
@@ -568,15 +573,15 @@ Public Class MainUI
         'ToolboxPanel
         '
         Me.ToolboxPanel.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.ToolboxPanel.Location = New System.Drawing.Point(0, 190)
+        Me.ToolboxPanel.Location = New System.Drawing.Point(0, 70)
         Me.ToolboxPanel.Name = "ToolboxPanel"
-        Me.ToolboxPanel.Size = New System.Drawing.Size(1152, 112)
+        Me.ToolboxPanel.Size = New System.Drawing.Size(1152, 232)
         Me.ToolboxPanel.TabIndex = 12
         '
         'Splitter1
         '
         Me.Splitter1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Splitter1.Location = New System.Drawing.Point(0, 187)
+        Me.Splitter1.Location = New System.Drawing.Point(0, 67)
         Me.Splitter1.Name = "Splitter1"
         Me.Splitter1.Size = New System.Drawing.Size(1152, 3)
         Me.Splitter1.TabIndex = 13
@@ -587,13 +592,8 @@ Public Class MainUI
         Me.SimulationPanel.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SimulationPanel.Location = New System.Drawing.Point(0, 36)
         Me.SimulationPanel.Name = "SimulationPanel"
-        Me.SimulationPanel.Size = New System.Drawing.Size(1152, 151)
+        Me.SimulationPanel.Size = New System.Drawing.Size(1152, 31)
         Me.SimulationPanel.TabIndex = 14
-        '
-        'ToolboxMenuItem
-        '
-        Me.ToolboxMenuItem.Index = 0
-        Me.ToolboxMenuItem.Text = "Toolbox Window"
         '
         'MainUI
         '
