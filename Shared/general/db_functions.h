@@ -110,4 +110,9 @@ void executeQuery(Adodb::TADOConnection* connection, const string& sql);
 // ------------------------------------------------------------------
 TDataSet* runQuery(Adodb::TADOConnection* connection, const string& sql);
 
+// ------------------------------------------------------------------
+// Fill dataset from the contents of the specified grid.
+// ------------------------------------------------------------------
+void fillDataSetFromGrid(TDataSet* data, TStringGrid* grid, const string& seriesName = "");
+
 #endif
