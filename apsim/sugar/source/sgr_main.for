@@ -1344,8 +1344,7 @@ cnh         call report_event (string)
  
       if (g_num_layers.eq.0) then
             ! we assume dlayer hasn't been initialised yet.
-cnh why do we keep incrementing dlayer??????????
-cnh         call add_real_array (dlayer, g_dlayer, numvals)
+         g_dlayer = 0.0
          do 999 layer = 1,numvals
             g_dlayer(layer) = dlayer(layer)
   999    continue
@@ -1353,6 +1352,7 @@ cnh         call add_real_array (dlayer, g_dlayer, numvals)
  
       else
             ! dlayer may be changed from its last setting
+         g_dlayer = 0.0
          do 1000 layer = 1, numvals
             p_ll_dep(layer) = divide (p_ll_dep(layer)
      :                              , g_dlayer(layer), 0.0)
@@ -1362,6 +1362,7 @@ cnh         call add_real_array (dlayer, g_dlayer, numvals)
 1000     continue
          g_num_layers = numvals
       endif
+
       call get_real_array (unknown_module, 'dul_dep', max_layer
      :                                    , '(mm)'
      :                                    , g_dul_dep, numvals
