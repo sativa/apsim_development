@@ -454,7 +454,7 @@ void loadComponents(istream& in, vector<TComponent*>& components)
    reader->BeginReferences();
    for (unsigned c = 0; c != components.size(); c++)
       {
-      if (components[c]->Owner == NULL)
+      if (dynamic_cast<TForm*>(components[c]) != NULL)
          reader->Root = components[c];
       else
          reader->Root = components[c]->Owner;
@@ -487,7 +487,7 @@ void saveComponent(ostream& out, TComponent* component)
       TWriter* writer = new TWriter(binaryStream, 4096);
       try
          {
-         if (component->Owner == NULL)
+         if (dynamic_cast<TForm*>(component) != NULL)
             writer->Root = component;
          else
             writer->Root = component->Owner;
