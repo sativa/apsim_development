@@ -44,6 +44,9 @@ CompileThread::CompileThread (const char* File_name)
    Compiler_output_filename = APSDirectories().Get_working() + "\\" + COMPILER_OUTPUT_FILENAME;
    InitialFilename = File_name;
    DisplayMessage = NULL;
+   APSConfig().Read("apsuite", "apsuite", "F90Compiler", F90Compiler);
+   if (F90Compiler == "")
+      F90Compiler = "lf90";
    }
 
 // ------------------------------------------------------------------
@@ -215,9 +218,15 @@ void CompileThread::CreateAutoMakeFile (APSIM_project& apf, Path& BinaryFile)
    ofstream out (AutomakeFilename.c_str());
 
    // write lf90 lines to automake file.
-   out << "COMPILE = @lf90 @" << COMPILER_RESPONSE_FILENAME << " -c %sf%se -i %id >> " << Compiler_output_filename << std::endl;
-   out << "LINK = @lf90 @%rf -out %ex @" << LINKER_RESPONSE_FILENAME;
-   out                            << " >> " << Compiler_output_filename << std::endl;
+   out << "COMPILE = @" << F90Compiler << " @" << COMPILER_RESPONSE_FILENAME << " -c %sf%se -i %id >> " << Compiler_output_filename << std::endl;
+   if (BinaryFile.Get_extension() != ".obj")
+      {
+      out << "LINK = @" << F90Compiler << " @%rf -out %ex @" << LINKER_RESPONSE_FILENAME;
+      out                            << " >> " << Compiler_output_filename << std::endl;
+
+      // write out target name.
+      out << "TARGET=" << BinaryFile.Get_path() << std::endl;
+      }
 
    // get an include directory string.
    list<string> IncludeDirectories;
@@ -227,9 +236,6 @@ void CompileThread::CreateAutoMakeFile (APSIM_project& apf, Path& BinaryFile)
 
    // write out include directory string.
    out << "INCLUDE=" << IncludeString << std::endl;
-
-   // write out target name.
-   out << "TARGET=" << BinaryFile.Get_path() << std::endl;
 
    // get a list of all source files.
    list<string> SourceFiles;
@@ -345,6 +351,9 @@ void CompileThread::CopyImportFiles (APSIM_project& apf)
       NewImportFile.Set_directory (GetSourceDirectory(apf).c_str());
       NewImportFile.Set_name (ExistingImportFile.Get_name().c_str());
       CopyFile (ExistingImportFile.Get_path().c_str(), NewImportFile.Get_path().c_str(), FALSE);
+
+      // make sure file is not readonly.
+      SetFileAttributes( NewImportFile.Get_path().c_str(), FILE_ATTRIBUTE_NORMAL);
       }
    }
 
@@ -490,20 +499,23 @@ string CompileThread::GetSourceDirectory (APSIM_project& apf)
 
 //  Changes:
 //    DPH 18/3/99
+//    DPH 5/6/2000 added support for LF95
 
 // ------------------------------------------------------------------
 void CompileThread::GetFilesForCompiler (APSIM_project& apf, const char* Key, list<string>& Files)
    {
    // get name of compiler file.
-   string lf90file;
-   apf.Get(LF90FILE_KEY, lf90file, APSBUILD_SECTION, true);
+   string compilerFile;
+   string compilerKey = F90Compiler + "file";
+   apf.Get(compilerKey.c_str(), compilerFile, APSBUILD_SECTION, true);
 
    // open compiler file and return requested information.
    APSuite_ini Ini;
-   Ini.Set_file_name (lf90file.c_str());
+   Ini.Set_file_name (compilerFile.c_str());
    string Key_values[MAX_NUM_KEYS];
    int Num_keys;
-   Ini.Read_list (LF90FILE_SECTION, Key, Key_values, Num_keys);
+   string compilerSection = F90Compiler + "files";
+   Ini.Read_list (compilerSection.c_str(), Key, Key_values, Num_keys);
    for (int i = 0; i < Num_keys; i++)
       Files.push_back (Key_values[i]);
    }
@@ -525,6 +537,8 @@ void CompileThread::DeleteFiles (APSIM_project& apf, const char* Filespec)
    for (list<string>::iterator i = Files.begin();
                                i != Files.end();
                                i++)
+      {
       DeleteFile( (*i).c_str() );
+      }
    }
 
