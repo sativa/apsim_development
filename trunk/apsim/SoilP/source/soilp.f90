@@ -458,13 +458,13 @@ subroutine soilp_read_param ()
 
    call write_string ( new_line//'   - Reading Parameters')
 
-   call read_real_array (section_name,'labile_p',max_layer,'(ppm)',lab_p,numvals,c%lb_labile_p,c%ub_labile_p)         
+   call read_real_array (section_name,'labile_p',max_layer,'(ppm)',lab_p,numvals,c%lb_labile_p,c%ub_labile_p)
    ! convert ppm to kg/ha
    do layer=1, max_layer
       g%labile_p (layer) = divide (lab_p (layer),soilp_fac (layer), 0.0)
    end do
 
-   call read_real_array_optional (section_name,'unavail_p',max_layer,'(kg/ha)',g%unavail_p,numvals,c%lb_unavail_p,c%ub_unavail_p)        
+   call read_real_array_optional (section_name,'unavail_p',max_layer,'(kg/ha)',g%unavail_p,numvals,c%lb_unavail_p,c%ub_unavail_p)
    if (numvals .eq. 0.0) then
       ! default unavailable P to steady state ratio of available P
       do layer = 1, max_layer
@@ -473,27 +473,27 @@ subroutine soilp_read_param ()
    else
    endif
 
-   call read_real_array_optional (section_name,'banded_p',max_layer,'(kg/ha)',g%banded_p,numvals,c%lb_banded_p,c%ub_banded_p)         
+   call read_real_array_optional (section_name,'banded_p',max_layer,'(kg/ha)',g%banded_p,numvals,c%lb_banded_p,c%ub_banded_p)
    if (numvals .eq. 0.0) then
       ! default banded P to zero
       call fill_real_array (g%banded_p, 0.0, max_layer)
    else
    endif
 
-   call read_real_array_optional (section_name,'rock_p',max_layer,'(kg/ha)',g%rock_p,numvals,c%lb_rock_p,c%ub_rock_p)           
+   call read_real_array_optional (section_name,'rock_p',max_layer,'(kg/ha)',g%rock_p,numvals,c%lb_rock_p,c%ub_rock_p)
    if (numvals .eq. 0.0) then
       ! default rock P to zero
       call fill_real_array (g%rock_p, 0.0, max_layer)
    else
    endif
 
-   call read_real_array (section_name,'sorption',max_layer,'()',p%sorption,numvals,0.0,10000.0)               
+   call read_real_array (section_name,'sorption',max_layer,'()',p%sorption,numvals,0.0,10000.0)
 
-   call read_real_var (section_name,'root_cp','()',p%root_cp,numvals,0.0,300.0)                 
+   call read_real_var (section_name,'root_cp','()',p%root_cp,numvals,0.0,300.0)
 
 
    ! Read in CP ratio in each of the fractions
-   call read_real_array_optional (section_name, 'root_cp_pool', 3, '()', p%root_cp_pool, numvals, 0.0, 1000.0)             
+   call read_real_array_optional (section_name, 'root_cp_pool', 3, '()', p%root_cp_pool, numvals, 0.0, 1000.0)
    ! Check if all values supplied.  If not use average C:P ratio in all pools
    if (numvals.lt.3) then
      do i = 1,3
@@ -501,7 +501,7 @@ subroutine soilp_read_param ()
      end do
    endif
 
-   call read_real_var (section_name,'rate_dissol_rock_p','()',p%rate_dissol_rock_p,numvals,0.0,1.0)                   
+   call read_real_var (section_name,'rate_dissol_rock_p','()',p%rate_dissol_rock_p,numvals,0.0,1.0)
    ! Now change rate coefficient from fraction per
    ! year to fraction per day
    p%rate_dissol_rock_P = - alog (1 - p%rate_dissol_rock_p) / 365.0
@@ -540,26 +540,26 @@ subroutine soilp_set_my_variable (Variable_name)
    call push_routine (myname)
    if (Variable_name .eq. 'labile_p') then
 
-      call collect_real_array(variable_name, max_layer, '(kg/ha)', g%labile_p, Numvals, 0.0, 1000.0)       
+      call collect_real_array(variable_name, max_layer, '(kg/ha)', g%labile_p, Numvals, 0.0, 1000.0)
 
    elseif (Variable_name .eq. 'banded_p') then
 
-      call collect_real_array(variable_name, max_layer, '(kg/ha)', g%banded_p, Numvals, 0.0, 1000.0)       
+      call collect_real_array(variable_name, max_layer, '(kg/ha)', g%banded_p, Numvals, 0.0, 1000.0)
 
    elseif (Variable_name .eq. 'rock_p') then
 
-      call collect_real_array(variable_name, max_layer, '(ppm)', g%rock_p, Numvals, 0.0, 1000.0)       
+      call collect_real_array(variable_name, max_layer, '(ppm)', g%rock_p, Numvals, 0.0, 1000.0)
 
    elseif (Variable_name .eq. 'dlt_labile_p') then
 
-      call collect_real_array(variable_name, max_layer, '(kg/ha)', Tarray, Numvals,-1000.0, 1000.0)       
+      call collect_real_array(variable_name, max_layer, '(kg/ha)', Tarray, Numvals,-1000.0, 1000.0)
 
       call add_real_array (Tarray, g%labile_p, Numvals)
       call bound_check_real_array (g%labile_p, 0.0, 1000.0, 'g%labile_p', Numvals)
 
    elseif (Variable_name .eq. 'dlt_banded_p') then
 
-      call collect_real_array(variable_name, max_layer, '(kg/ha)', Tarray, Numvals,-1000.0, 1000.0)       
+      call collect_real_array(variable_name, max_layer, '(kg/ha)', Tarray, Numvals,-1000.0, 1000.0)
 
       call add_real_array (Tarray, g%banded_p, Numvals)
       call bound_check_real_array (g%banded_p, 0.0, 1000.0, 'g%banded_p', Numvals)
@@ -567,7 +567,7 @@ subroutine soilp_set_my_variable (Variable_name)
    elseif (Variable_name .eq. 'dlt_rock_p') then
 
       call collect_real_array &
-            (variable_name, max_layer, '(kg/ha)', Tarray, Numvals,-1000.0, 1000.0)       
+            (variable_name, max_layer, '(kg/ha)', Tarray, Numvals,-1000.0, 1000.0)
 
       call add_real_array (Tarray, g%rock_p, Numvals)
       call bound_check_real_array (g%rock_p, 0.0, 1000.0, 'g%rock_p', Numvals)
@@ -610,24 +610,24 @@ subroutine soilp_read_constants ()
 
    call write_string (new_line//'   - Reading Constants')
 
-   call read_real_var (section_name, 'rate_loss_avail_p', '()', c%rate_loss_avail_p, numvals, 0.0, 1.0)                 
+   call read_real_var (section_name, 'rate_loss_avail_p', '()', c%rate_loss_avail_p, numvals, 0.0, 1.0)
 
-   call read_real_var (section_name, 'act_energy_loss_avail_p', '()', c%act_energy_loss_avail_p, numvals, 0.0, 100.0)                 
+   call read_real_var (section_name, 'act_energy_loss_avail_p', '()', c%act_energy_loss_avail_p, numvals, 0.0, 100.0)
 
-   call read_real_var (section_name, 'availp_ratio', '()', c%availp_ratio, numvals, 0.01, 0.25)                  
+   call read_real_var (section_name, 'availp_ratio', '()', c%availp_ratio, numvals, 0.01, 0.25)
 
 
-   call read_real_var (section_name, 'rate_decr_placement', '()', c%rate_decr_placement, numvals, 0.0, 1.0)                   
+   call read_real_var (section_name, 'rate_decr_placement', '()', c%rate_decr_placement, numvals, 0.0, 1.0)
 
-   call read_real_var (section_name, 'eff_band', '()', c%eff_band, numvals, 0.0, 100.0)                 
+   call read_real_var (section_name, 'eff_band', '()', c%eff_band, numvals, 0.0, 100.0)
 
-   call read_real_var (section_name, 'biom_cp', '()', c%biom_cp, numvals, 0.0, 100.0)                 
+   call read_real_var (section_name, 'biom_cp', '()', c%biom_cp, numvals, 0.0, 100.0)
 
-   call read_real_var (section_name, 'hum_cp', '()', c%hum_cp, numvals, 0.0, 100.0)                 
+   call read_real_var (section_name, 'hum_cp', '()', c%hum_cp, numvals, 0.0, 100.0)
 
-   call read_real_array (section_name, 'wf_loss_index', max_wf_values, '()', c%wf_loss_index, numvals, 0.0, 2.0)                   
+   call read_real_array (section_name, 'wf_loss_index', max_wf_values, '()', c%wf_loss_index, numvals, 0.0, 2.0)
 
-   call read_real_array (section_name,  'wf_loss_values',  max_wf_values,  '()',  c%wf_loss_values,  numvals,  0.0,  1.0)                  
+   call read_real_array (section_name,  'wf_loss_values',  max_wf_values,  '()',  c%wf_loss_values,  numvals,  0.0,  1.0)
 
 
    ! Now change rate coefficients from fraction per year to fraction per day
@@ -635,30 +635,30 @@ subroutine soilp_read_constants ()
    c%rate_decr_placement = - alog (1 - c%rate_decr_placement) / 365.0
 
    !  read crop constants
-   call read_real_var (section_name,'sorption_coeff','()',c%sorption_coeff,numvals,0.0,2.0)                    
+   call read_real_var (section_name,'sorption_coeff','()',c%sorption_coeff,numvals,0.0,2.0)
 
    call Read_char_array(section_name,'crop_name',max_crops,'()',c%crop_table_name,numvals)
 
-   call read_real_array (section_name,'p_supply_factor',max_crops,'()',c%p_supply_factor,numvals,0.0,10.0)                  
+   call read_real_array (section_name,'p_supply_factor',max_crops,'()',c%p_supply_factor,numvals,0.0,10.0)
 
-   call read_real_array (section_name,'crit_p_rlv',max_crops,'()',c%crit_p_rlv,numvals,0.0,100.0)                 
+   call read_real_array (section_name,'crit_p_rlv',max_crops,'()',c%crit_p_rlv,numvals,0.0,100.0)
 
    ! read P pool bounds
-   call read_real_var (section_name,'lb_labile_p','(ppm)',c%lb_labile_p,numvals,0.0,100.0)                  
+   call read_real_var (section_name,'lb_labile_p','(ppm)',c%lb_labile_p,numvals,0.0,100.0)
 
-   call read_real_var (section_name,'ub_labile_p','(ppm)',c%ub_labile_p,numvals,0.0,1000.0)                 
+   call read_real_var (section_name,'ub_labile_p','(ppm)',c%ub_labile_p,numvals,0.0,1000.0)
 
-   call read_real_var (section_name,'lb_unavail_p','(kg/ha)',c%lb_unavail_p,numvals,0.0,100.0)                  
+   call read_real_var (section_name,'lb_unavail_p','(kg/ha)',c%lb_unavail_p,numvals,0.0,100.0)
 
-   call read_real_var (section_name,'ub_unavail_p','(kg/ha)',c%ub_unavail_p,numvals,0.0,10000.0)                
+   call read_real_var (section_name,'ub_unavail_p','(kg/ha)',c%ub_unavail_p,numvals,0.0,10000.0)
 
-   call read_real_var (section_name,'lb_banded_p','(kg/ha)',c%lb_banded_p,numvals,0.0,100.0)                  
+   call read_real_var (section_name,'lb_banded_p','(kg/ha)',c%lb_banded_p,numvals,0.0,100.0)
 
-   call read_real_var (section_name,'ub_banded_p','(kg/ha)',c%ub_banded_p,numvals,0.0,1000.0)                 
+   call read_real_var (section_name,'ub_banded_p','(kg/ha)',c%ub_banded_p,numvals,0.0,1000.0)
 
-   call read_real_var (section_name,'lb_rock_p','(kg/ha)',c%lb_rock_p,numvals,0.0,100.0)                  
+   call read_real_var (section_name,'lb_rock_p','(kg/ha)',c%lb_rock_p,numvals,0.0,100.0)
 
-   call read_real_var (section_name,'ub_rock_p','(kg/ha)',c%ub_rock_p,numvals,0.0,1000.0)                 
+   call read_real_var (section_name,'ub_rock_p','(kg/ha)',c%ub_rock_p,numvals,0.0,1000.0)
 
 
    call pop_routine (myname)
@@ -691,39 +691,39 @@ subroutine soilp_get_other_variables ()
 
    call push_routine (myname)
 
-   call Get_real_array (unknown_module,'dlayer',max_layer,'(mm)',g%dlayer,numvals,0.0,1000.0)          
+   call Get_real_array (unknown_module,'dlayer',max_layer,'(mm)',g%dlayer,numvals,0.0,1000.0)
 
-   call Get_real_array (unknown_module,'st',max_layer,'()',g%soil_t,numvals,-20.0,50.0)            
+   call Get_real_array (unknown_module,'st',max_layer,'()',g%soil_t,numvals,-20.0,50.0)
 
-   call Get_real_array (unknown_module,'sw_dep',max_layer,'(mm)',g%sw_dep,numvals,0.00001,1000.0)          
+   call Get_real_array (unknown_module,'sw_dep',max_layer,'(mm)',g%sw_dep,numvals,0.00001,1000.0)
 
-   call Get_real_array (unknown_module,'ll15_dep',max_layer,'(mm)',g%ll15_dep,numvals,0.00001,1000.0)          
+   call Get_real_array (unknown_module,'ll15_dep',max_layer,'(mm)',g%ll15_dep,numvals,0.00001,1000.0)
 
-   call Get_real_array (unknown_module,'dul_dep',max_layer,'(mm)',g%dul_dep,numvals,0.00001,1000.0)          
+   call Get_real_array (unknown_module,'dul_dep',max_layer,'(mm)',g%dul_dep,numvals,0.00001,1000.0)
 
-   call Get_real_array (unknown_module,'sat_dep',max_layer,'(mm)',g%sat_dep,numvals,0.00001,1000.0)          
+   call Get_real_array (unknown_module,'sat_dep',max_layer,'(mm)',g%sat_dep,numvals,0.00001,1000.0)
 
-   call Get_real_array (unknown_module,'bd',max_layer,'(g/cc)',g%bd,numvals,0.01,3.0)             
+   call Get_real_array (unknown_module,'bd',max_layer,'(g/cc)',g%bd,numvals,0.01,3.0)
 
-   call Get_real_array (unknown_module,'dlt_fom_c_hum',max_layer,'()',g%dlt_fom_c_hum,numvals,0.0,1000.)           
+   call Get_real_array (unknown_module,'dlt_fom_c_hum',max_layer,'()',g%dlt_fom_c_hum,numvals,0.0,1000.)
 
-   call Get_real_array (unknown_module,'dlt_fom_c_biom',max_layer,'()',g%dlt_fom_c_biom,numvals,0.0,1000.)           
+   call Get_real_array (unknown_module,'dlt_fom_c_biom',max_layer,'()',g%dlt_fom_c_biom,numvals,0.0,1000.)
 
-   call Get_real_array (unknown_module,'dlt_fom_c_atm',max_layer,'()',g%dlt_fom_c_atm,numvals,0.0,1000.)           
+   call Get_real_array (unknown_module,'dlt_fom_c_atm',max_layer,'()',g%dlt_fom_c_atm,numvals,0.0,1000.)
 
-   call Get_real_array (unknown_module,'dlt_hum_c_biom',max_layer,'()',g%dlt_hum_c_biom,numvals,0.0,1000.)           
+   call Get_real_array (unknown_module,'dlt_hum_c_biom',max_layer,'()',g%dlt_hum_c_biom,numvals,0.0,1000.)
 
-   call Get_real_array (unknown_module,'dlt_hum_c_atm',max_layer,'()',g%dlt_hum_c_atm,numvals,0.0,1000.)           
+   call Get_real_array (unknown_module,'dlt_hum_c_atm',max_layer,'()',g%dlt_hum_c_atm,numvals,0.0,1000.)
 
-   call Get_real_array (unknown_module,'dlt_biom_c_hum',max_layer,'()',g%dlt_biom_c_hum,numvals,0.0,1000.)           
+   call Get_real_array (unknown_module,'dlt_biom_c_hum',max_layer,'()',g%dlt_biom_c_hum,numvals,0.0,1000.)
 
-   call Get_real_array (unknown_module,'dlt_biom_c_atm',max_layer,'()',g%dlt_biom_c_atm,numvals,0.0,1000.)           
+   call Get_real_array (unknown_module,'dlt_biom_c_atm',max_layer,'()',g%dlt_biom_c_atm,numvals,0.0,1000.)
 
-   call Get_real_array (unknown_module,'dlt_fom_c_pool1',max_layer,'()',g%dlt_fom_c_pool1,numvals,0.0,5000.)           
+   call Get_real_array (unknown_module,'dlt_fom_c_pool1',max_layer,'()',g%dlt_fom_c_pool1,numvals,0.0,5000.)
 
-   call Get_real_array (unknown_module,'dlt_fom_c_pool2',max_layer,'()',g%dlt_fom_c_pool2,numvals,0.0,5000.)           
+   call Get_real_array (unknown_module,'dlt_fom_c_pool2',max_layer,'()',g%dlt_fom_c_pool2,numvals,0.0,5000.)
 
-   call Get_real_array (unknown_module,'dlt_fom_c_pool3',max_layer,'()',g%dlt_fom_c_pool3,numvals,0.0,5000.)           
+   call Get_real_array (unknown_module,'dlt_fom_c_pool3',max_layer,'()',g%dlt_fom_c_pool3,numvals,0.0,5000.)
 
 
    call pop_routine (myname)
@@ -1110,7 +1110,8 @@ subroutine soilp_get_crop_variables ()
          endif
 
 
-         call get_real_var (g%crop_owners(vegnum),'p_demand','(kg/ha)',g%crop_p_demand (vegnum),numvals,0.0,20.0)
+         call get_real_var (g%crop_owners(vegnum),'p_demand','(g/m2)',g%crop_p_demand (vegnum),numvals,0.0,2.0)
+         g%crop_p_demand = g%crop_p_demand * gm2kg/sm2ha
 
          if (numvals .eq. 0) then
             call fatal_error (Err_Internal,'no p demand returned from '//g%crop_names(vegnum))
@@ -1564,21 +1565,21 @@ subroutine soilp_get_other_init_variables ()
    temp_c2(:) = 0.0
    temp_c3(:) = 0.0
 
-   call Get_real_array (unknown_module,'biom_c',max_layer,'()',temp_c,numvals,0.0,10000.0)         
+   call Get_real_array (unknown_module,'biom_c',max_layer,'()',temp_c,numvals,0.0,10000.0)
 
    do layer = 1, max_layer
       g%biom_p (layer) = temp_c (layer) / c%biom_cp
    end do
 
-   call Get_real_array (unknown_module,'hum_c',max_layer,'()',temp_c,numvals,0.0,100000.0)        
+   call Get_real_array (unknown_module,'hum_c',max_layer,'()',temp_c,numvals,0.0,100000.0)
 
    do layer = 1, max_layer
       g%hum_p  (layer) = temp_c  (layer) / c%hum_cp
    end do
 
-   call Get_real_array (unknown_module,'fom_c_pool1',max_layer,'()',temp_c1,numvals,0.0,5000.0)         
-   call Get_real_array (unknown_module,'fom_c_pool2',max_layer,'()',temp_c2,numvals,0.0,5000.0)         
-   call Get_real_array (unknown_module,'fom_c_pool3',max_layer,'()',temp_c3,numvals,0.0,5000.0)         
+   call Get_real_array (unknown_module,'fom_c_pool1',max_layer,'()',temp_c1,numvals,0.0,5000.0)
+   call Get_real_array (unknown_module,'fom_c_pool2',max_layer,'()',temp_c2,numvals,0.0,5000.0)
+   call Get_real_array (unknown_module,'fom_c_pool3',max_layer,'()',temp_c3,numvals,0.0,5000.0)
 
    num_layers = count_of_real_vals (g%dlayer, max_layer)
 
@@ -1800,10 +1801,10 @@ subroutine soilp_min_residues ()
    dlt_res_c_biom = 0.0
    dlt_org_p = 0.0
 
-   call collect_real_array ('dlt_res_c_atm',  max_layer,  '()',  dlt_res_c_atm,  numvals,  0.0,  1000.0)        
-   call collect_real_array ('dlt_res_c_hum',  max_layer,  '()',  dlt_res_c_hum,  numvals,  0.0,  1000.0)        
-   call collect_real_array ('dlt_res_c_biom',  max_layer,  '()',  dlt_res_c_biom,  numvals,  0.0,  1000.0)        
-   call collect_real_array ('dlt_org_p',  max_layer,  '()',  dlt_org_p,  numvals,  0.0,  1000.0)        
+   call collect_real_array ('dlt_res_c_atm',  max_layer,  '()',  dlt_res_c_atm,  numvals,  0.0,  1000.0)
+   call collect_real_array ('dlt_res_c_hum',  max_layer,  '()',  dlt_res_c_hum,  numvals,  0.0,  1000.0)
+   call collect_real_array ('dlt_res_c_biom',  max_layer,  '()',  dlt_res_c_biom,  numvals,  0.0,  1000.0)
+   call collect_real_array ('dlt_org_p',  max_layer,  '()',  dlt_org_p,  numvals,  0.0,  1000.0)
 
    num_layers = count_of_real_vals (dlt_res_c_biom , max_layer)
 
@@ -1899,7 +1900,7 @@ subroutine soilp_incorp_residues ()
    !     that the CP ratios of all fractions are equal
 
 
-   !dsg start of big loop 
+   !dsg start of big loop
    if(numvals.eq.0) then
 
       call collect_real_array ('dlt_fom_wt', max_layer, '(kg/ha)', dlt_fom_incorp, numval_fom, 0.0, 10000.0)
@@ -1935,10 +1936,10 @@ subroutine soilp_incorp_residues ()
       ! dsg get fraction info from soiln2 as a function of fom_type
       ! NIH fractions now scalar (as sent from soiln2)  fractions will eventually
       ! be sent with data on flow of OM (ie we send amount and fractions together in an event)
-      call Get_Integer_var(unknown_module, 'num_fom_types', '()',  g%num_fom_types, numvals, 0, 100)         
-      call Get_real_var (unknown_module,'fr_carb','()',c%fr_carb,numvals,0.0,1000.)          
-      call Get_real_var (unknown_module,'fr_cell','()',c%fr_cell,numvals,0.0,1000.)          
-      call Get_real_var (unknown_module,'fr_lign','()',c%fr_lign,numvals,0.0,1000.)          
+      call Get_Integer_var(unknown_module, 'num_fom_types', '()',  g%num_fom_types, numvals, 0, 100)
+      call Get_real_var (unknown_module,'fr_carb','()',c%fr_carb,numvals,0.0,1000.)
+      call Get_real_var (unknown_module,'fr_cell','()',c%fr_cell,numvals,0.0,1000.)
+      call Get_real_var (unknown_module,'fr_lign','()',c%fr_lign,numvals,0.0,1000.)
 
       do layer = 1, numval_fom
          ! dsg  break into pools assuming default fom_type (1).  The facility
@@ -1949,13 +1950,13 @@ subroutine soilp_incorp_residues ()
          dlt_fom_p_pool3(layer)=dlt_fom_p_incorp(layer)*c%fr_lign
       end do
 
-   !dsg  end of big loop 
+   !dsg  end of big loop
    endif
 
    !dsg need to get g%fom_c_pools from soiln2 to calculate cp ratios
-   call Get_real_array (unknown_module,'fom_c_pool1',max_layer,'()',fom_c_pool1,numvals,0.0,5000.)          
-   call Get_real_array (unknown_module,'fom_c_pool2',max_layer,'()',fom_c_pool2,numvals,0.0,5000.)          
-   call Get_real_array (unknown_module,'fom_c_pool3',max_layer,'()',fom_c_pool3,numvals,0.0,5000.)          
+   call Get_real_array (unknown_module,'fom_c_pool1',max_layer,'()',fom_c_pool1,numvals,0.0,5000.)
+   call Get_real_array (unknown_module,'fom_c_pool2',max_layer,'()',fom_c_pool2,numvals,0.0,5000.)
+   call Get_real_array (unknown_module,'fom_c_pool3',max_layer,'()',fom_c_pool3,numvals,0.0,5000.)
    num_layers = count_of_real_vals(g%dlayer,max_layer)
 
    do layer = 1, num_layers
@@ -2111,10 +2112,10 @@ subroutine soilp_incorp_residue_P ()
 
    if(numvals.eq.0) then
       call collect_real_array ('dlt_fom_p', max_layer, '(kg/ha)', dlt_fom_p_incorp, numval_p, 0.0, 10000.0)
-      call Get_integer_var(unknown_module, 'num_fom_types', '()',  g%num_fom_types, numvals, 0, 100)         
-      call Get_real_var (unknown_module,'fr_carb','()',c%fr_carb,numvals,0.0,1000.)           
-      call Get_real_var (unknown_module,'fr_cell','()',c%fr_cell,numvals,0.0,1000.)           
-      call Get_real_var (unknown_module,'fr_lign','()',c%fr_lign,numvals,0.0,1000.)           
+      call Get_integer_var(unknown_module, 'num_fom_types', '()',  g%num_fom_types, numvals, 0, 100)
+      call Get_real_var (unknown_module,'fr_carb','()',c%fr_carb,numvals,0.0,1000.)
+      call Get_real_var (unknown_module,'fr_cell','()',c%fr_cell,numvals,0.0,1000.)
+      call Get_real_var (unknown_module,'fr_lign','()',c%fr_lign,numvals,0.0,1000.)
 
       do layer = 1, numval_p
          dlt_fom_p_pool1(layer)=dlt_fom_p_incorp(layer)*c%fr_carb
@@ -2125,9 +2126,9 @@ subroutine soilp_incorp_residue_P ()
    endif
 
 
-   call Get_real_array (unknown_module,'fom_c_pool1',max_layer,'()',fom_c_pool1,numvals,0.0,5000.)           
-   call Get_real_array (unknown_module,'fom_c_pool2',max_layer,'()',fom_c_pool2,numvals,0.0,5000.)           
-   call Get_real_array (unknown_module,'fom_c_pool3',max_layer,'()',fom_c_pool3,numvals,0.0,5000.)           
+   call Get_real_array (unknown_module,'fom_c_pool1',max_layer,'()',fom_c_pool1,numvals,0.0,5000.)
+   call Get_real_array (unknown_module,'fom_c_pool2',max_layer,'()',fom_c_pool2,numvals,0.0,5000.)
+   call Get_real_array (unknown_module,'fom_c_pool3',max_layer,'()',fom_c_pool3,numvals,0.0,5000.)
 
    do layer = 1, max_layer
       g%fom_p_pool(1,layer) = g%fom_p_pool(1,layer) +dlt_fom_p_pool1(layer)
