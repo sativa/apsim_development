@@ -274,7 +274,6 @@
       <respondToMethodCallReg name="initiate_crop" type="initiate_crop"/>
       <respondToMethodCallReg name="kill_crop" type="kill_crop"/>
       <respondToMethodCallReg name="stop_growth" type="stop_growth"/>
-      <eventReg name="crop_chopped" type="crop_chopped"/>
       <getVariableReg name="day" type="day"/>
       <getVariableReg name="year" type="year"/>
       <getVariableReg name="fr_intc_radn_[module_name]" type="fr_intc_radn_[module_name]"/>
@@ -292,8 +291,9 @@
       <getVariableReg name="no3" type="no3"/>
       <setVariableReg name="dlt_sw_dep" type="dlt_sw_dep"/>
       <setVariableReg name="dlt_no3" type="dlt_no3"/>
-      <methodCallReg name="incorp_fom" type="incorp_fom"/>
-      <methodCallReg name="add_residue" type="add_residue"/>
+      <eventReg name="add_residue" type="add_residue"/>
+      <eventReg name="incorp_fom" type="incorp_fom"/>
+      <eventReg name="crop_chopped" type="crop_chopped"/>
       <methodCallReg name="initiate_crop" type="initiate_crop"/>
       <respondToEventReg name="tick" type="tick"/>
       <respondToEventReg name="newmet" type="newmet"/>
