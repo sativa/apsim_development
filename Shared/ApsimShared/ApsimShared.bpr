@@ -16,14 +16,15 @@
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TAboutForm.dfm TSplashForm.dfm TMoveParametersForm.dfm"/>
     <LIBFILES value="..\general\general.lib"/>
-    <LIBRARIES value="xmlrtl.lib TMSC6.lib"/>
+    <LIBRARIES value="xmlrtl.lib Tee.lib TMSC6.lib"/>
     <SPARELIBS value="vcl.lib rtl.lib TMSC6.lib vclx.lib dbrtl.lib vcldb.lib Tee.lib xmlrtl.lib"/>
     <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi adortl.bpi vcldb.bpi 
       vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi ibxpress.bpi visualclx.bpi 
       visualdbclx.bpi vclie.bpi inet.bpi inetdbbde.bpi inetdbxpress.bpi 
       inetdb.bpi nmfast.bpi bcbie.bpi soaprtl.bpi dclocx.bpi dbexpress.bpi 
-      dbxcds.bpi indy.bpi bcb2kaxserver.bpi TeeDB.bpi Tee.bpi TeeUI.bpi 
-      TeeLanguage.bpi TeePro.bpi TeeGL.bpi TeeQR.bpi"/>
+      dbxcds.bpi indy.bpi bcb2kaxserver.bpi bdertl.bpi Tee6C6.bpi TeeUI6C6.bpi 
+      TeeDB6C6.bpi TeeGL6C6.bpi qrpt60.bpi TeeQR6C6.bpi TeeLanguage6C6.bpi 
+      TeePro6C6.bpi TeeImage6C6.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -35,7 +36,7 @@
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="ApsimShared.bpf"/>
     <INCLUDEPATH value="..\..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)"/>
-    <LIBPATH value="..\..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms"/>
+    <LIBPATH value="&quot;C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Lib&quot;;..\..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -113,7 +114,7 @@ ProductVersion=1.0.0.0
 Comments=
 
 [Excluded Packages]
-C:\WINDOWS\System32\PsQRC60.bpl=Pragnaan QuickReport Export Filters
+C:\Program Files\Borland\CBuilder6\Projects\Bpl\FilterBarPackage.bpl=FilterBarPackage
 
 [HistoryLists\hlIncludePath]
 Count=6
