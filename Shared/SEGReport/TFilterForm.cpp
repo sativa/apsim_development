@@ -9,22 +9,23 @@
 #pragma link "AdvGrid"
 #pragma link "BaseGrid"
 #pragma link "dbadvgrd"
-#pragma link "TSEGTableForm"
+#pragma link "TPropertyForm"
 #pragma link "DBAdvGrd"
 #pragma resource "*.dfm"
 TFilterForm *FilterForm;
 //---------------------------------------------------------------------------
 __fastcall TFilterForm::TFilterForm(TComponent* Owner)
-   : TSEGTableForm(Owner)
+   : TPropertyForm(Owner)
 {
 }
 //---------------------------------------------------------------------------
 // This is the component we're to modify.
 //---------------------------------------------------------------------------
-void TFilterForm::setComponent(::TFilter* f)
+void TFilterForm::setComponent(TComponent* component)
    {
-   filter = f;
-   TSEGTableForm::setComponent(filter);
+   TPropertyForm::setComponent(component);
+
+   filter = dynamic_cast< ::TFilter*>(component);
    FilterEdit->Text = filter->filter;
    }
 //---------------------------------------------------------------------------

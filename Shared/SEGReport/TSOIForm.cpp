@@ -9,23 +9,24 @@
 #pragma link "AdvGrid"
 #pragma link "BaseGrid"
 #pragma link "dbadvgrd"
-#pragma link "TSEGTableForm"
+#pragma link "TPropertyForm"
 #pragma link "DBAdvGrd"
 #pragma resource "*.dfm"
 TSOIForm *SOIForm;
 //---------------------------------------------------------------------------
 __fastcall TSOIForm::TSOIForm(TComponent* Owner)
-   : TSEGTableForm(Owner)
+   : TPropertyForm(Owner)
 {
 }
 //---------------------------------------------------------------------------
 // This is the component we're to modify.
 //---------------------------------------------------------------------------
-void TSOIForm::setComponent(TSOI* s)
+void TSOIForm::setComponent(TComponent* component)
    {
-   soi = s;
-   TSEGTableForm::setComponent(soi);
-   SOIList->ItemIndex = SOIList->Items->IndexOf(soi->month);
+   TPropertyForm::setComponent(component);
+
+   soi = dynamic_cast<TSOI*> (component);
+   MonthCombo->ItemIndex = MonthCombo->Items->IndexOf(soi->month);
    NegativeCheckBox->Checked = soi->negative;
    PositiveCheckBox->Checked = soi->positive;
    FallingCheckBox->Checked = soi->falling;
@@ -33,9 +34,9 @@ void TSOIForm::setComponent(TSOI* s)
    ZeroCheckBox->Checked = soi->zero;
    }
 //---------------------------------------------------------------------------
-void __fastcall TSOIForm::SOIListClick(TObject *Sender)
+void __fastcall TSOIForm::MonthComboClick(TObject *Sender)
    {
-   soi->month = SOIList->Items->Strings[SOIList->ItemIndex];
+   soi->month = MonthCombo->Text;
    }
 //---------------------------------------------------------------------------
 void __fastcall TSOIForm::NegativeCheckBoxClick(TObject *Sender)

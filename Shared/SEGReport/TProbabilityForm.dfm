@@ -1,56 +1,49 @@
 inherited ProbabilityForm: TProbabilityForm
+  Width = 233
   Caption = 'ProbabilityForm'
   OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
-  inherited PageControl1: TPageControl
-    inherited PropertiesSheet: TTabSheet
-      OnShow = PropertiesSheetShow
-      object Label3: TLabel
-        Left = 8
-        Top = 16
-        Width = 54
-        Height = 13
-        Caption = 'Field name:'
-      end
-      object GroupBox1: TGroupBox
-        Left = 32
-        Top = 72
-        Width = 129
-        Height = 81
-        Caption = 'Probability type:'
-        TabOrder = 0
-        object ExceedenceRadio: TRadioButton
-          Left = 8
-          Top = 24
-          Width = 113
-          Height = 17
-          Caption = 'Exceedence'
-          Checked = True
-          TabOrder = 0
-          TabStop = True
-          OnClick = ExceedenceRadioClick
-        end
-        object CumulativeRadio: TRadioButton
-          Left = 8
-          Top = 48
-          Width = 113
-          Height = 17
-          Caption = 'Cumulative'
-          TabOrder = 1
-          OnClick = CumulativeRadioClick
-        end
-      end
-      object FieldNameCombo: TComboBox
-        Left = 8
-        Top = 32
-        Width = 209
-        Height = 21
-        Anchors = [akLeft, akTop, akRight]
-        ItemHeight = 13
-        TabOrder = 1
-        OnChange = FieldNameComboChange
-      end
-    end
+  object Label3: TLabel [2]
+    Left = 9
+    Top = 80
+    Width = 54
+    Height = 13
+    Caption = 'Field name:'
+  end
+  object Label4: TLabel [4]
+    Left = 18
+    Top = 104
+    Width = 45
+    Height = 13
+    Caption = 'Exceed?:'
+  end
+  inherited SourceCombo: TComboBox
+    Width = 141
+  end
+  inherited NameEdit: TEdit
+    Width = 141
+  end
+  inherited ToolbarCheckBox: TCheckBox
+    TabOrder = 4
+  end
+  object FieldNameCombo: TComboBox
+    Left = 72
+    Top = 80
+    Width = 142
+    Height = 21
+    BevelKind = bkSoft
+    Anchors = [akLeft, akTop, akRight]
+    ItemHeight = 13
+    TabOrder = 2
+    OnChange = FieldNameComboChange
+  end
+  object ExceedenceCheckBox: TCheckBox
+    Left = 72
+    Top = 104
+    Width = 97
+    Height = 17
+    TabOrder = 3
+    OnClick = ExceedenceCheckBoxClick
   end
 end

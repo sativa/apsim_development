@@ -10,7 +10,7 @@
 #include "AdvGrid.hpp"
 #include "BaseGrid.hpp"
 #include "dbadvgrd.hpp"
-#include "TSEGTableForm.h"
+#include "TPropertyForm.h"
 #include <Buttons.hpp>
 #include <ComCtrls.hpp>
 #include <Db.hpp>
@@ -20,19 +20,21 @@
 #include <DB.hpp>
 #include "DBAdvGrd.hpp"
 //---------------------------------------------------------------------------
-class TApsimFileReaderForm : public TSEGTableForm
+class TApsimFileReaderForm : public TPropertyForm
 {
 __published:	// IDE-managed Components
-   TLabel *Label3;
-   TListBox *FilesList;
-   TSpeedButton *BrowseButton;
    TOpenDialog *OpenDialog;
+   TLabel *Label3;
+   TSpeedButton *BrowseButton;
+   TListView *FilesList;
+   TLabel *Label4;
    void __fastcall BrowseButtonClick(TObject *Sender);
 private:	// User declarations
    TApsimFileReader* apsimFileReader;
 public:		// User declarations
    __fastcall TApsimFileReaderForm(TComponent* Owner);
-   void setComponent(TApsimFileReader* apsimFileReader);
+   virtual void setComponent(TComponent* component);
+
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TApsimFileReaderForm *ApsimFileReaderForm;

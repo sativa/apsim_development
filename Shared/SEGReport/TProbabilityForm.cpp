@@ -9,44 +9,34 @@
 #pragma link "AdvGrid"
 #pragma link "BaseGrid"
 #pragma link "dbadvgrd"
-#pragma link "TSEGTableForm"
+#pragma link "TPropertyForm"
 #pragma resource "*.dfm"
 TProbabilityForm *ProbabilityForm;
 //---------------------------------------------------------------------------
 __fastcall TProbabilityForm::TProbabilityForm(TComponent* Owner)
-   : TSEGTableForm(Owner)
+   : TPropertyForm(Owner)
 {
 }
 //---------------------------------------------------------------------------
 // This is the component we're to modify.
 //---------------------------------------------------------------------------
-void TProbabilityForm::setComponent(TProbability* prob)
+void TProbabilityForm::setComponent(TComponent* component)
    {
-   probability = prob;
-   TSEGTableForm::setComponent(probability);
-   }
-//---------------------------------------------------------------------------
-void __fastcall TProbabilityForm::PropertiesSheetShow(TObject *Sender)
-   {
+   TPropertyForm::setComponent(component);
+
+   probability = dynamic_cast<TProbability*> (component);
+
    if (probability->source != NULL)
       {
       FieldNameCombo->Items->Assign(probability->source->FieldList);
       FieldNameCombo->Text = probability->fieldName;
       }
-   if (probability->exceedence)
-      ExceedenceRadio->Checked = true;
-   else
-      CumulativeRadio->Checked = true;
+   ExceedenceCheckBox->Checked = probability->exceedence;
    }
 //---------------------------------------------------------------------------
-void __fastcall TProbabilityForm::ExceedenceRadioClick(TObject *Sender)
+void __fastcall TProbabilityForm::ExceedenceCheckBoxClick(TObject *Sender)
    {
-   probability->exceedence = true;
-   }
-//---------------------------------------------------------------------------
-void __fastcall TProbabilityForm::CumulativeRadioClick(TObject *Sender)
-   {
-   probability->exceedence = false;
+   probability->exceedence = ExceedenceCheckBox->Checked;
    }
 //---------------------------------------------------------------------------
 void __fastcall TProbabilityForm::FieldNameComboChange(TObject *Sender)

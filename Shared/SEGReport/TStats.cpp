@@ -36,8 +36,7 @@ void __fastcall TStats::setFieldName(AnsiString fieldName)
    if (fieldNameToAnalyse != fieldName)
       {
       fieldNameToAnalyse = fieldName;
-      Active = false;
-      Active = true;
+      forceRefresh();
       }
    }
 //---------------------------------------------------------------------------
@@ -48,8 +47,7 @@ void __fastcall TStats::setStats(StatSet stats)
    if (statsToCalc != stats)
       {
       statsToCalc = stats;
-      Active = false;
-      Active = true;
+      forceRefresh();
       }
    }
 //---------------------------------------------------------------------------
@@ -103,7 +101,16 @@ void TStats::storeRecords(void) throw(runtime_error)
          string seriesName = source->getSeriesName();
 
          vector<double> values;
-         getDBFieldValues(source, fieldNameToAnalyse.c_str(), values);
+         while (!source->Eof)
+            {
+            try
+               {
+               values.push_back( StrToFloat(source->FieldValues[fieldNameToAnalyse.c_str()]) );
+               }
+            catch (const Exception& err)
+               { }
+            source->Next();
+            }
 
          Append();
          if (stats.Contains(statMean))

@@ -5,15 +5,14 @@
 USEFORM("TDirectorySelectForm.cpp", DirectorySelectForm);
 USEFORM("TLibraryForm.cpp", LibraryForm);
 USEFORM("TStringsForm.cpp", StringsForm);
-USEFORM("TChartForm.cpp", ChartForm);
-USEFORM("TImageForm.cpp", ImageForm);
-USEFORM("TObjectInspectorForm.cpp", Form1);
-USEFORM("TTextForm.cpp", TextForm);
-USEFORM("TSEGTableForm.cpp", SEGTableForm);
+USEFORM("TPropertyForm.cpp", PropertyForm);
 USEFORM("TFilterForm.cpp", FilterForm);
 USEFORM("TSOIForm.cpp", SOIForm);
 USEFORM("TStatsForm.cpp", StatsForm);
+USEFORM("TChartForm.cpp", ChartForm);
+USEFORM("TImageForm.cpp", ImageForm);
 USEFORM("TShapeForm.cpp", ShapeForm);
+USEFORM("TTextForm.cpp", TextForm);
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 HINSTANCE instanceHandle;

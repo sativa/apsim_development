@@ -62,8 +62,7 @@ void __fastcall TSOI::setMonth(AnsiString month)
       else
          {
          soiMonth++;
-         Active = false;
-         Active = true;
+         forceRefresh();
          }
       }
    }
@@ -83,8 +82,7 @@ void __fastcall TSOI::setFilename(AnsiString filename)
    if (soiFilename != filename)
       {
       soiFilename = filename;
-      Active = false;
-      Active = true;
+      forceRefresh();
       }
    }
 //---------------------------------------------------------------------------
@@ -95,8 +93,7 @@ void __fastcall TSOI::setNegativePhase(bool neg)
    if (negativePhase != neg)
       {
       negativePhase = neg;
-      Active = false;
-      Active = true;
+      forceRefresh();
       }
    }
 //---------------------------------------------------------------------------
@@ -107,8 +104,7 @@ void __fastcall TSOI::setPositivePhase(bool pos)
    if (positivePhase != pos)
       {
       positivePhase = pos;
-      Active = false;
-      Active = true;
+      forceRefresh();
       }
    }
 //---------------------------------------------------------------------------
@@ -119,8 +115,7 @@ void __fastcall TSOI::setFallingPhase(bool fall)
    if (fallingPhase != fall)
       {
       fallingPhase = fall;
-      Active = false;
-      Active = true;
+      forceRefresh();
       }
    }
 //---------------------------------------------------------------------------
@@ -131,8 +126,7 @@ void __fastcall TSOI::setRisingPhase(bool ris)
    if (risingPhase != ris)
       {
       risingPhase = ris;
-      Active = false;
-      Active = true;
+      forceRefresh();
       }
    }
 //---------------------------------------------------------------------------
@@ -143,8 +137,7 @@ void __fastcall TSOI::setZeroPhase(bool zer)
    if (zeroPhase != zer)
       {
       zeroPhase = zer;
-      Active = false;
-      Active = true;
+      forceRefresh();
       }
    }
 //---------------------------------------------------------------------------

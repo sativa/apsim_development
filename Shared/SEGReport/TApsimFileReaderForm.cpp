@@ -9,23 +9,28 @@
 #pragma link "AdvGrid"
 #pragma link "BaseGrid"
 #pragma link "dbadvgrd"
-#pragma link "TSEGTableForm"
+#pragma link "TPropertyForm"
 #pragma link "DBAdvGrd"
 #pragma resource "*.dfm"
 TApsimFileReaderForm *ApsimFileReaderForm;
 //---------------------------------------------------------------------------
 __fastcall TApsimFileReaderForm::TApsimFileReaderForm(TComponent* Owner)
-   : TSEGTableForm(Owner)
+   : TPropertyForm(Owner)
 {
 }
 //---------------------------------------------------------------------------
 // Set the component which we are to edit.
 //---------------------------------------------------------------------------
-void TApsimFileReaderForm::setComponent(TApsimFileReader* apsimfilereader)
+void TApsimFileReaderForm::setComponent(TComponent* comp)
    {
-   apsimFileReader = apsimfilereader;
-   TSEGTableForm::setComponent(apsimFileReader);
-   FilesList->Items->Assign(apsimFileReader->filenames);
+   TPropertyForm::setComponent(comp);
+
+   apsimFileReader = dynamic_cast<TApsimFileReader*>(comp);
+   for (int f = 0; f != apsimFileReader->filenames->Count; f++)
+      {
+      TListItem* newItem = FilesList->Items->Add();
+      newItem->Caption = apsimFileReader->filenames->Strings[f];
+      }
    }
 //---------------------------------------------------------------------------
 // User has clicked the edit button.
@@ -34,9 +39,8 @@ void __fastcall TApsimFileReaderForm::BrowseButtonClick(TObject *Sender)
    {
    if (OpenDialog->Execute())
       {
-      FilesList->Items->Assign(OpenDialog->Files);
-      apsimFileReader->filenames = FilesList->Items;
-      FilesList->Items->Assign(apsimFileReader->filenames);
+      apsimFileReader->filenames = OpenDialog->Files;
+      setComponent(apsimFileReader);
       }
    }
 //---------------------------------------------------------------------------

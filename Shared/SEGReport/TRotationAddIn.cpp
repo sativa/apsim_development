@@ -40,8 +40,7 @@ __fastcall TRotationAddIn::~TRotationAddIn()
 void __fastcall TRotationAddIn::setCropNames(TStrings* cropNames)
    {
    recognisedCropNames->Assign(cropNames);
-   Active = false;
-   Active = true;
+   forceRefresh();
    }
 //---------------------------------------------------------------------------
 // set the 'averagedFields' property and refresh all data.
@@ -49,8 +48,7 @@ void __fastcall TRotationAddIn::setCropNames(TStrings* cropNames)
 void __fastcall TRotationAddIn::setAveragedFields(TStrings* averagedFields)
    {
    fieldsToAverage->Assign(averagedFields);
-   Active = false;
-   Active = true;
+   forceRefresh();
    }
 
 // ------------------------------------------------------------------

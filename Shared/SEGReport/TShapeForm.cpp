@@ -1,25 +1,30 @@
+//---------------------------------------------------------------------------
 #include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 
 #include "TShapeForm.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma link "TPropertyForm"
+#pragma resource "*.dfm"
+TShapeForm *ShapeForm;
+
 TColor colours[16] =
    {clBlack, clMaroon, clGreen, clOlive, clNavy, clPurple, clTeal, clGray,
     clSilver, clRed, clLime, clYellow, clBlue, clFuchsia, clAqua, clWhite};
-//---------------------------------------------------------------------------
-#pragma package(smart_init)
-#pragma resource "*.dfm"
-#pragma link "asgcombo"
-TShapeForm *ShapeForm;
+
 //---------------------------------------------------------------------------
 __fastcall TShapeForm::TShapeForm(TComponent* Owner)
-   : TForm(Owner)
-   {
-   }
+   : TPropertyForm(Owner)
+{
+}
 //---------------------------------------------------------------------------
-void TShapeForm::setComponent(::TShape* s)
+void TShapeForm::setComponent(TComponent* component)
    {
-   shape = s;
+   TPropertyForm::setComponent(component);
+   shape = dynamic_cast< ::TShape*>(component);
+   
    ShapeCombo->ItemIndex = shape->Shape;
    for (int i = 0; i != sizeof(colours); i++)
       {

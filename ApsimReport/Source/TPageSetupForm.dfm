@@ -1,8 +1,8 @@
 object PageSetupForm: TPageSetupForm
-  Left = 250
-  Top = 114
-  Width = 305
-  Height = 298
+  Left = 401
+  Top = 164
+  Width = 204
+  Height = 179
   Caption = 'Page Setup'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -13,63 +13,9 @@ object PageSetupForm: TPageSetupForm
   OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
-    Left = 8
-    Top = 18
-    Width = 37
-    Height = 13
-    Caption = 'Margins'
-  end
-  object Bevel1: TBevel
-    Left = 50
-    Top = 25
-    Width = 241
-    Height = 2
-  end
-  object Label2: TLabel
-    Left = 24
-    Top = 40
-    Width = 22
-    Height = 13
-    Caption = 'Top:'
-  end
-  object Label3: TLabel
-    Left = 25
-    Top = 67
-    Width = 21
-    Height = 13
-    Caption = 'Left:'
-  end
-  object Label4: TLabel
-    Left = 144
-    Top = 40
-    Width = 36
-    Height = 13
-    Caption = 'Bottom:'
-  end
-  object Label5: TLabel
-    Left = 152
-    Top = 67
-    Width = 28
-    Height = 13
-    Caption = 'Right:'
-  end
-  object Label6: TLabel
-    Left = 8
-    Top = 106
-    Width = 51
-    Height = 13
-    Caption = 'Orientation'
-  end
-  object Bevel2: TBevel
-    Left = 64
-    Top = 113
-    Width = 225
-    Height = 2
-  end
   object PortraitButton: TSpeedButton
-    Left = 72
-    Top = 128
+    Left = 24
+    Top = 16
     Width = 60
     Height = 73
     GroupIndex = 1
@@ -129,8 +75,8 @@ object PageSetupForm: TPageSetupForm
     Layout = blGlyphTop
   end
   object LandscapeButton: TSpeedButton
-    Left = 160
-    Top = 128
+    Left = 112
+    Top = 16
     Width = 60
     Height = 73
     GroupIndex = 1
@@ -189,48 +135,20 @@ object PageSetupForm: TPageSetupForm
       7777777777777777777777777777777777777777777777000000}
     Layout = blGlyphTop
   end
-  object TopEdit: TEdit
-    Left = 64
-    Top = 40
-    Width = 57
-    Height = 21
-    TabOrder = 0
-  end
-  object LeftEdit: TEdit
-    Left = 64
-    Top = 64
-    Width = 57
-    Height = 21
-    TabOrder = 1
-  end
-  object BottomEdit: TEdit
-    Left = 200
-    Top = 40
-    Width = 57
-    Height = 21
-    TabOrder = 2
-  end
-  object RightEdit: TEdit
-    Left = 200
-    Top = 64
-    Width = 57
-    Height = 21
-    TabOrder = 3
-  end
   object BitBtn1: TBitBtn
-    Left = 64
-    Top = 224
+    Left = 16
+    Top = 112
     Width = 75
     Height = 25
-    TabOrder = 4
+    TabOrder = 0
     Kind = bkOK
   end
   object BitBtn2: TBitBtn
-    Left = 144
-    Top = 224
+    Left = 96
+    Top = 112
     Width = 75
     Height = 25
-    TabOrder = 5
+    TabOrder = 1
     Kind = bkCancel
   end
 end

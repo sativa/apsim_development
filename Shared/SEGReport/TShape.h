@@ -7,7 +7,7 @@
 #include <Controls.hpp>
 #include <Classes.hpp>
 #include <Forms.hpp>
-#include <Qrctrls.hpp>
+#include <gtQrCtrls.hpp>
 #include <QuickRpt.hpp>
 #include <vector>
 #include <string>
@@ -17,7 +17,7 @@
 // This class encapsulates a regular TQRShape - just providing a
 // different name instead of TQRShape.
 //---------------------------------------------------------------------------
-class PACKAGE TShape : public TQRShape
+class PACKAGE TShape : public TgtQRShape
    {
    private:
    protected:

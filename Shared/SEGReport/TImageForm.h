@@ -7,39 +7,37 @@
 #include <Controls.hpp>
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
-#include <QRCTRLS.hpp>
 #include "AdvEdBtn.hpp"
 #include "AdvEdit.hpp"
-#include <ComCtrls.hpp>
+#include "TPropertyForm.h"
+#include "TImage.h"
 #include <Dialogs.hpp>
 #include <ExtDlgs.hpp>
 //---------------------------------------------------------------------------
-class TImageForm : public TForm
+class TImageForm : public TPropertyForm
 {
 __published:	// IDE-managed Components
-   TPageControl *PageControl1;
-   TTabSheet *Properties;
-   TLabel *Label1;
-   TCheckBox *StretchCheckBox;
-   TCheckBox *CentreCheckBox;
-   TCheckBox *AutoSizeCheckBox;
    TAdvEditBtn *ImageFileEdit;
-   TTabSheet *TabSheet1;
-   TLabel *Label2;
-   TEdit *NameEdit;
+   TCheckBox *AutoSizeCheckBox;
+   TCheckBox *CentreCheckBox;
+   TCheckBox *StretchCheckBox;
+   TLabel *Label3;
+   TLabel *Label4;
+   TLabel *Label5;
    TOpenPictureDialog *OpenPictureDialog;
-   void __fastcall AdvEditBtn1Click(TObject *Sender);
+   TLabel *Label6;
    void __fastcall AutoSizeCheckBoxClick(TObject *Sender);
    void __fastcall CentreCheckBoxClick(TObject *Sender);
    void __fastcall StretchCheckBoxClick(TObject *Sender);
-   void __fastcall NameEditExit(TObject *Sender);
+   void __fastcall ImageFileEditClickBtn(TObject *Sender);
 private:	// User declarations
-   TQRImage* image;
+   ::TImage* image;
+
 public:		// User declarations
    __fastcall TImageForm(TComponent* Owner);
-public:		// User declarations
-   void setComponent(TQRImage* image);
-};
+   virtual void setComponent(TComponent* comp);
+
+   };
 //---------------------------------------------------------------------------
 extern PACKAGE TImageForm *ImageForm;
 //---------------------------------------------------------------------------

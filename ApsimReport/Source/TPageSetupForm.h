@@ -13,18 +13,6 @@
 class TPageSetupForm : public TForm
 {
 __published:	// IDE-managed Components
-   TLabel *Label1;
-   TBevel *Bevel1;
-   TLabel *Label2;
-   TLabel *Label3;
-   TLabel *Label4;
-   TLabel *Label5;
-   TEdit *TopEdit;
-   TEdit *LeftEdit;
-   TEdit *BottomEdit;
-   TEdit *RightEdit;
-   TLabel *Label6;
-   TBevel *Bevel2;
    TSpeedButton *PortraitButton;
    TSpeedButton *LandscapeButton;
    TBitBtn *BitBtn1;

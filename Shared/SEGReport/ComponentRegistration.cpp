@@ -4,7 +4,6 @@
 #pragma hdrstop
 
 #include "ComponentRegistration.h"
-#include "TTextForm.h"
 #include "TImageForm.h"
 #include "TApsimFileReaderForm.h"
 #include "TSOIForm.h"
@@ -17,6 +16,7 @@
 #include "TeeEditPro.hpp"
 #include "TDecileFunction.h"
 #include "TShapeForm.h"
+#include "TTextForm.h"
 //---------------------------------------------------------------------------
 #pragma resource "*.res"
 #pragma package(smart_init)
@@ -31,18 +31,19 @@ AnsiString DecileDescription = "Decile function";
 void RegisterComponents(void)
    {
    RegisterTeeBasicFunction(__classid(TDecileFunction), &DecileDescription);
-   TComponentClass classes[11] = {__classid(TText),
+   TComponentClass standardClasses[4] = {__classid(TText),
                                   __classid(::TShape),
-                                  __classid(TQRImage),
-                                  __classid(TApsimFileReader),
+                                  __classid(::TImage),
+                                  __classid(::TGraph)};
+   RegisterComponents("Standard", standardClasses, 3);
+   TComponentClass dataClasses[7] = {__classid(TApsimFileReader),
                                   __classid(TSOI),
-                                  __classid(TSEGChart),
                                   __classid(TProbability),
                                   __classid(TREMS),
                                   __classid(TExcel),
                                   __classid(::TFilter),
                                   __classid(TStats)};
-   RegisterComponents("Standard", classes, 10);
+   RegisterComponents("Data", dataClasses, 6);
    }
 
 //---------------------------------------------------------------------------
@@ -68,13 +69,12 @@ TForm* createComponentUI(TComponent* component, TWinControl* parent)
       shape->Frame->Style = psClear;
       return form;
       }
-   else if (component->ClassNameIs("TQRImage"))
+   else if (component->ClassNameIs("TImage"))
       {
       TImageForm* frame = new TImageForm(parent);
       frame->Parent = parent;
-      TQRImage* image = dynamic_cast<TQRImage*> (component);
+      ::TImage* image = dynamic_cast< ::TImage*> (component);
       frame->setComponent(image);
-      image->Frame->Style = psClear;
       return frame;
       }
    else if (component->ClassType() == __classid(TApsimFileReader))
@@ -91,11 +91,11 @@ TForm* createComponentUI(TComponent* component, TWinControl* parent)
       form->setComponent(dynamic_cast<TSOI*> (component));
       return form;
       }
-   else if (component->ClassType() == __classid(TSEGChart))
+   else if (component->ClassType() == __classid(::TGraph))
       {
       TChartForm* form = new TChartForm(parent);
       form->Parent = parent;
-      form->setComponent(dynamic_cast<TSEGChart*> (component));
+      form->setComponent(dynamic_cast< ::TGraph*> (component));
       return form;
       }
    else if (component->ClassType() == __classid(TProbability))
