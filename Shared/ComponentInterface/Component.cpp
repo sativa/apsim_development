@@ -27,6 +27,7 @@ enum ProtocolRegistrationType {drivingProperty=1, readableProperty=2,
                        publishedEvent=5, subscribedEvent=6,
                        methodHandler=7};
 
+Component* component;
 // ------------------------------------------------------------------
 //  Short description:
 //     destructor
@@ -44,6 +45,7 @@ Component::Component(void)
    name = NULL;
    beforeInit2 = true;
    initMessages();
+   component = this;
    }
 
 // ------------------------------------------------------------------
@@ -873,3 +875,7 @@ extern "C" _export void __stdcall wrapperDLL(char* wrapperDll)
    strcpy(wrapperDll, "");
    }
 
+void fatalError(const FString& st)
+   {
+   component->error(st, true);
+   }
