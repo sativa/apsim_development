@@ -53,6 +53,7 @@ Scatter_format::Scatter_format (Scatter_type_enum Type)
 
 //  Changes:
 //    DPH 18/4/1997
+//    dph 23/11/99 removed a -1 on all Cycle lines
 
 // ------------------------------------------------------------------
 Series_base* Scatter_format::Create_series (int Num_plots_so_far)
@@ -65,16 +66,16 @@ Series_base* Scatter_format::Create_series (int Num_plots_so_far)
    int Num_series_so_far = Num_plots_so_far - Num_plots_to_subtract;
 
    // set the xy_series pen colour
-   TColor colour = Colour_list[Cycle(Num_series_so_far, Num_colours)-1];
+   TColor colour = Colour_list[Cycle(Num_series_so_far, Num_colours)];
    XY_series_ptr->Outline.Colour = colour;
 
    // format series.
    switch (Scatter_type)
       {
-      case Markers : XY_series_ptr->Marker_style = Marker_style_list[Cycle(Num_series_so_far, Num_markers)-1] + 1;
+      case Markers : XY_series_ptr->Marker_style = Marker_style_list[Cycle(Num_series_so_far, Num_markers)] + 1;
                      XY_series_ptr->Lines_visible = false;
                      break;
-      case Markers_lines : XY_series_ptr->Marker_style = Marker_style_list[Cycle(Num_series_so_far, Num_markers)-1] + 1;
+      case Markers_lines : XY_series_ptr->Marker_style = Marker_style_list[Cycle(Num_series_so_far, Num_markers)] + 1;
                            XY_series_ptr->Lines_visible = true;
                            XY_series_ptr->Outline.Style = Pen::Solid;
                            break;
