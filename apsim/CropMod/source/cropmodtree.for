@@ -1,4 +1,4 @@
-C     Last change:  E    10 Jan 2001    9:54 am
+C     Last change:  E    18 Jan 2001    4:31 pm
 
 C      INCLUDE 'CropMod.inc'
 
@@ -1423,7 +1423,8 @@ c        PRINT *,'biomass CF  =', co2_modifier
      .          g%obs_grain_no_psm,
      .          g%dm_green_grainno,
      ,          p%head_grain_no_max,
-     .          g%grain_no)
+     .          g%grain_no,
+     .          g%dm_green_retrans_pool)
 
 
 
@@ -1782,7 +1783,10 @@ c      REAL nw_sla
      :                  g%dlt_dm_green,
      :                  c%start_grainno_dm_stage,
      :                  c%end_grainno_dm_stage,
-     :                  g%dlt_dm_green_grainno)
+     :                  g%dlt_dm_green_grainno,
+     :                  c%start_retrans_dm_stage,
+     :                  c%end_retrans_dm_stage,
+     :                  g%dlt_dm_green_retrans_pool)
      
 
 
@@ -2393,12 +2397,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
-      !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN THE FUTURE
-      if (Option.eq.1) Option = 3 !force to use the nwheat original phenology
-      !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN THE FUTURE
 
-      if ((Option .eq. 1).or.(Option .eq. 9)) then
+      if (Option .eq. 1) then
 
 
              call tillering_Wang (
@@ -2546,7 +2546,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 *- Implementation Section ----------------------------------
       call push_routine (myname)
  
-      if ((Option.eq.1).or.(Option.eq.9)) then
+      if (Option.eq.1) then
 
           call cproc_leaf_area_pot_iw_new (
      .          g%plants,
@@ -3097,7 +3097,7 @@ c      endif
  
 
 
-      if ((Option.eq.1).or.(Option.eq.9)) then
+      if (Option.eq.1) then
 
         call leaf_senescence_age_nw(
      :                   g%current_stage,
