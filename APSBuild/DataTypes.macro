@@ -13,28 +13,28 @@ structure.cddml
 struct structure.nameType
    {
    #for_each structure.field
-   #if (structure.field.isArrayAndStructure = T)
-   protocol::vector<structure.field.ctypeType> structure.field.name;
-   #elseif (structure.field.array = T)
-   protocol::vector<structure.field.ctype> structure.field.name;
-   #elseif (structure.field.isStructure = T)
-   structure.field.ctype structure.field.name;
+   #if (field.isArrayAndStructure = T)
+   protocol::vector<field.ctypeType> field.name;
+   #elseif (field.array = T)
+   protocol::vector<field.ctype> field.name;
+   #elseif (field.isStructure = T)
+   field.ctype field.name;
    #else
-   structure.field.ctype structure.field.name;
+   field.ctype field.name;
    #endif
    #endfor
    };
 inline protocol::MessageData& operator<<(protocol::MessageData& messageData, const structure.nameType& data)
    {
    #for_each structure.field
-   messageData << data.structure.field.name;
+   messageData << data.field.name;
    #endfor
    return messageData;
    }
 inline protocol::MessageData& operator>>(protocol::MessageData& messageData, structure.nameType& data)
    {
    #for_each structure.field
-   messageData >> data.structure.field.name;
+   messageData >> data.field.name;
    #endfor
    return messageData;
    }
@@ -42,7 +42,7 @@ inline unsigned int memorySize(const structure.nameType& data)
    {
    return 0
    #for_each structure.field
-      + protocol::memorySize(data.structure.field.name)
+      + protocol::memorySize(data.field.name)
    #endfor;
    }
 
@@ -69,33 +69,33 @@ namespace protocol {
 struct Fstructure.nameType
    {
    #for_each structure.field
-   #if (structure.field.isArrayAndStructure = T)
-   structure.field.ctypeType structure.field.name[max_array_size];
-   #elseif (structure.field.array = T)
-   structure.field.ctype structure.field.name[max_array_size];
-   #elseif (structure.field.isStructure = T)
-   structure.field.ctypeType structure.field.name;
-   #elseif (structure.field.ctype = FString)
-   char structure.field.name[max_array_size];
+   #if (field.isArrayAndStructure = T)
+   field.ctypeType field.name[max_array_size];
+   #elseif (field.array = T)
+   field.ctype field.name[max_array_size];
+   #elseif (field.isStructure = T)
+   field.ctypeType field.name;
+   #elseif (field.ctype = FString)
+   char field.name[max_array_size];
    #else
-   structure.field.ctype structure.field.name;
+   field.ctype field.name;
    #endif
-   #if (structure.field.array = T)
-   unsigned num_structure.field.name;
+   #if (field.array = T)
+   unsigned num_field.name;
    #endif
    #endfor
    };
 inline protocol::MessageData& operator<<(protocol::MessageData& messageData, const Fstructure.nameType& data)
    {
    #for_each structure.field
-   #if (structure.field.array = T)
-   messageData << data.num_structure.field.name;
-   for (unsigned i = 0; i != data.num_structure.field.name; i++)
-      messageData << data.structure.field.name[i];
-   #elseif (structure.field.ctype = FString)
-   messageData << FString(data.structure.field.name, max_array_size, FORString);
+   #if (field.array = T)
+   messageData << data.num_field.name;
+   for (unsigned i = 0; i != data.num_field.name; i++)
+      messageData << data.field.name[i];
+   #elseif (field.ctype = FString)
+   messageData << FString(data.field.name, max_array_size, FORString);
    #else
-   messageData << data.structure.field.name;
+   messageData << data.field.name;
    #endif
    #endfor
    return messageData;
@@ -103,15 +103,15 @@ inline protocol::MessageData& operator<<(protocol::MessageData& messageData, con
 inline protocol::MessageData& operator>>(protocol::MessageData& messageData, Fstructure.nameType& data)
    {
    #for_each structure.field
-   #if (structure.field.array = T)
-   messageData >> data.num_structure.field.name;
-   for (unsigned i = 0; i != data.num_structure.field.name; i++)
-      messageData >> data.structure.field.name[i];
-   #elseif (structure.field.ctype = FString)
-   FString structure.field.nameString(data.structure.field.name, max_array_size, FORString);
-   messageData >> structure.field.nameString;
+   #if (field.array = T)
+   messageData >> data.num_field.name;
+   for (unsigned i = 0; i != data.num_field.name; i++)
+      messageData >> data.field.name[i];
+   #elseif (field.ctype = FString)
+   FString field.nameString(data.field.name, max_array_size, FORString);
+   messageData >> field.nameString;
    #else
-   messageData >> data.structure.field.name;
+   messageData >> data.field.name;
    #endif
    #endfor
    return messageData;
@@ -120,12 +120,12 @@ inline unsigned int memorySize(const Fstructure.nameType& data)
    {
    return 0
    #for_each structure.field
-      #if (structure.field.array = T)
-      + 4 + data.num_structure.field.name * protocol::memorySize(data.structure.field.name[0])
-      #elseif (structure.field.ctype = FString)
-      + protocol::memorySize(FString(data.structure.field.name, max_array_size, FORString))
+      #if (field.array = T)
+      + 4 + data.num_field.name * protocol::memorySize(data.field.name[0])
+      #elseif (field.ctype = FString)
+      + protocol::memorySize(FString(data.field.name, max_array_size, FORString))
       #else
-      + protocol::memorySize(data.structure.field.name)
+      + protocol::memorySize(data.field.name)
       #endif
    #endfor;
    }
@@ -170,17 +170,17 @@ structure.forddml
    type structure.nameType
       sequence
       #for_each structure.field
-      #if (structure.field.isStructure = T)
-      type(structure.field.forTypeType) :: structure.field.name
-      #elseif (structure.field.array = T)
-      structure.field.fortype :: structure.field.name(max_array_size)
-      #elseif (structure.field.isArrayAndStructure = T)
-      type(structure.field.forTypeType) :: structure.field.name(max_array_size)
+      #if (field.isStructure = T)
+      type(field.forTypeType) :: field.name
+      #elseif (field.array = T)
+      field.fortype :: field.name(max_array_size)
+      #elseif (field.isArrayAndStructure = T)
+      type(field.forTypeType) :: field.name(max_array_size)
       #else
-      structure.field.fortype :: structure.field.name
+      field.fortype :: field.name
       #endif
-      #if (structure.field.array = T)
-      integer :: num_structure.field.name
+      #if (field.array = T)
+      integer :: num_field.name
       #endif
       #endfor
    end type structure.nameType
