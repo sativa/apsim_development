@@ -5,6 +5,7 @@
 #include <fstream>
 #include <general\path.h>
 #include <general\stream_functions.h>
+#include "ApsimCommands.h"
 #pragma package(smart_init)
 
 extern ULONG g_DllRefCount;
@@ -133,7 +134,9 @@ STDMETHODIMP CContextMenuHandler::InvokeCommand(LPCMINVOKECOMMANDINFO lpici)
       {
       // code here for executing actions when menus are clicked
       unsigned idCmd = (unsigned) lpici->lpVerb;
-      menus[idCmd].handler();
+      string files;
+      Build_string(fileNames, ",", files);
+      menus[idCmd].handler(files.c_str());
       }
 
    return S_OK;
@@ -232,17 +235,17 @@ void CContextMenuHandler::createMenus(string& subMenuName,
                MenuDescription("Send to &Excel",
                                "Send all data in the selected files to Microsoft EXCEL",
                                "excel",
-                               &excel));
+                               &excelFiles));
             menuDescriptions.push_back(
                MenuDescription("&Graph using ApsVis",
                                "Graph the selected files using ApsVis",
                                "apsvis",
-                               &apsvis));
+                               &apsvisFiles));
             menuDescriptions.push_back(
                MenuDescription("&Graph using ApsimOutlook",
                                "Graph the selected files using ApsimOutlook",
                                "apsimoutlook",
-                               &apsimoutlook));
+                               &apsimoutlookFiles));
             }
          else if (strcmpi(extension.c_str(), ".con") == 0)
             {
@@ -250,12 +253,12 @@ void CContextMenuHandler::createMenus(string& subMenuName,
                MenuDescription("&Run Apsim",
                                "Run Apsim",
                                "run",
-                               &run));
+                               &runFiles));
             menuDescriptions.push_back(
                MenuDescription("&Convert to SIM",
                                "Convert the specified control file to a SIM file",
                                "sim",
-                               &sim));
+                               &createSimFiles));
             }
          else if (strcmpi(extension.c_str(), ".apf") == 0)
             {
@@ -263,12 +266,12 @@ void CContextMenuHandler::createMenus(string& subMenuName,
                MenuDescription("&Compile (make)",
                                "Compile the specified project file",
                                "make",
-                               &make));
+                               &makeFiles));
             menuDescriptions.push_back(
                MenuDescription("Compile &all (build)",
                                "Build the specified project file from scratch",
                                "build",
-                               &build));
+                               &buildFiles));
             }
          else if (strcmpi(extension.c_str(), ".run") == 0)
             {
@@ -276,7 +279,7 @@ void CContextMenuHandler::createMenus(string& subMenuName,
                MenuDescription("&Run Apsim",
                                "Run Apsim",
                                "run",
-                               &run));
+                               &runFiles));
             }
          else if (strcmpi(extension.c_str(), ".sim") == 0)
             {
@@ -284,109 +287,10 @@ void CContextMenuHandler::createMenus(string& subMenuName,
                MenuDescription("&Run Apsim",
                                "Run Apsim",
                                "run",
-                               &run));
+                               &runFiles));
             }
          }
       }
    }
 
-//---------------------------------------------------------------------------
-// Send all files to EXCEL.
-//---------------------------------------------------------------------------
-void __fastcall CContextMenuHandler::excel(void)
-   {
-   for (unsigned int file = 0; file != fileNames.size(); file++)
-      {
-      // open input stream
-      ifstream in (fileNames[file].c_str());
-
-      // output output stream.
-      Path OutPath (fileNames[file]);
-      OutPath.Set_extension (".csv");
-      ofstream out (OutPath.Get_path().c_str());
-
-      // copy first two lines as is.
-      string Line;
-      getline (in, Line);
-      out << Line << endl;
-      getline (in, Line);
-      out << Line << endl;
-
-      // convert file.
-      Convert_2_CSV(in, out);
-
-      // close files.
-      in.close();
-      out.close();
-
-      // give output file to EXCEL.
-      ShellExecute (NULL, "open", OutPath.Get_path().c_str(), NULL, "", SW_SHOW);
-      }
-   }
-//---------------------------------------------------------------------------
-// Send all files to APSVis.
-//---------------------------------------------------------------------------
-void __fastcall CContextMenuHandler::apsvis(void)
-   {
-
-   }
-//---------------------------------------------------------------------------
-// Send all files to Apsim Outlook.
-//---------------------------------------------------------------------------
-void __fastcall CContextMenuHandler::apsimoutlook(void)
-   {
-
-   }
-//---------------------------------------------------------------------------
-// Send all files to Apsim.
-//---------------------------------------------------------------------------
-void __fastcall CContextMenuHandler::run(void)
-   {
-   for (unsigned int file = 0; file != fileNames.size(); file++)
-      {
-      string command = "\"" + getApsimDirectory() + "\\bin\\apsrun\" \"" + fileNames[file] + "\"";
-
-      // run command
-      WinExec(command.c_str(), SW_SHOW);
-      }
-   }
-//---------------------------------------------------------------------------
-// Convert all files to SIM format.
-//---------------------------------------------------------------------------
-void __fastcall CContextMenuHandler::sim(void)
-   {
-   for (unsigned int file = 0; file != fileNames.size(); file++)
-      {
-      string command = "\"" + getApsimDirectory() + "\\bin\\apsrun\" /CreateSIM \"" + fileNames[file] + "\"";
-
-      // run command
-      WinExec(command.c_str(), SW_SHOW);
-      }
-   }
-//---------------------------------------------------------------------------
-// Compile all files
-//---------------------------------------------------------------------------
-void __fastcall CContextMenuHandler::make(void)
-   {
-   for (unsigned int file = 0; file != fileNames.size(); file++)
-      {
-      string command = "\"" + getApsimDirectory() + "\\bin\\apsbuild -make \"" + fileNames[file] + "\"";
-
-      // run command
-      WinExec(command.c_str(), SW_SHOW);
-      }
-   }
-//---------------------------------------------------------------------------
-// Build all files.
-//---------------------------------------------------------------------------
-void __fastcall CContextMenuHandler::build(void)
-   {
-   for (unsigned int file = 0; file != fileNames.size(); file++)
-      {
-      string command = "\"" + getApsimDirectory() + "\\bin\\apsbuild -build \"" + fileNames[file] + "\"";
-
-      // run command
-      WinExec(command.c_str(), SW_SHOW);
-      }
-   }
 

@@ -4,7 +4,7 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\..\Bin\ApsimContextMenu.dll"/>
-    <OBJFILES value="ApsimContextMenu.obj ContextHandler.obj ClsFact.obj"/>
+    <OBJFILES value="ApsimContextMenu.obj ContextHandler.obj ClsFact.obj ApsimCommands.obj"/>
     <RESFILES value="ApsimContextMenu.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -26,8 +26,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="ApsimContextMenu.bpf"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(SHARED)"/>
-    <LIBPATH value="$(BCB)\lib\obj;$(BCB)\lib"/>
+    <INCLUDEPATH value="&quot;C:\Program Files\Borland\CBuilder6\Projects&quot;;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)"/>
+    <LIBPATH value="&quot;C:\Program Files\Borland\CBuilder6\Projects&quot;;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -53,6 +53,7 @@
       <FILE FILENAME="ContextHandler.cpp" FORMNAME="" UNITNAME="ContextHandler.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ClsFact.cpp" FORMNAME="" UNITNAME="ClsFact.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ApsimCommands.cpp" FORMNAME="" UNITNAME="ApsimCommands" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
