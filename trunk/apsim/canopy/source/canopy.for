@@ -132,6 +132,9 @@
       else if (eventID .eq. id%CanopyChanged) then
          call on_canopy_changed(variant)
 
+      else if (eventID .eq. id%ResidueChanged) then
+         call OnResidueChanged(variant)
+         
       else if (eventID .eq. id%Tick) then
          call on_tick(variant)
 
@@ -549,6 +552,7 @@ c      g%ComponentFrgr(:) = 0.0
      :         , 0.0                  ! Lower Limit for bound checking
      :         , 50.)                 ! Upper Limit for bound checking
 
+          
       call pop_routine (myname)
       return
       end
@@ -660,7 +664,6 @@ c      g%ComponentFrgr(:) = 0.0
       call Canopy_Canopy_Compartments ()
       call Canopy_Canopy_Energy_Balance ()
       call Canopy_Reference_Et()
-
 
       call Canopy_Energy_Balance_Event()
       call Canopy_Water_Balance_Event()
@@ -2466,6 +2469,101 @@ c      g%ComponentFrgr(:) = 0.0
          if(again)go to 10
 20    continue
 
+      return
+      end
+      
+*     ================================================================
+      subroutine OnResidueChanged (variant)
+*     ================================================================
+      use CanopyModule
+      use ComponentInterfaceModule
+      implicit none
+
+!+  Sub-Program Arguments
+      integer, intent(in out) :: variant
+
+*+  Purpose
+*     Obtain new residue information
+
+*+  Mission Statement
+*     Obtain new residue information
+
+*+  Changes
+*     <insert here>
+
+*+  Calls
+      integer Get_Residue_Number
+
+*+  Constant Values
+      character*(*) my_name
+      parameter (my_name = 'OnResidueChanged')
+
+*+  Local Variables
+      type (residuetype) :: Residues(max_residues)
+      integer num_Residues
+      integer Counter
+      integer Residue_number
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+      call unpack_residue (variant, Residues, num_residues)
+
+      do 100 counter = 1, num_residues
+         residue_number = get_residue_number(Residues(counter)%name)
+
+         if (residue_number.ne.0) then
+            g%residues(residue_number) = Residues(counter)
+         else
+            g%num_residues = g%num_residues + 1
+            g%residues(g%num_residues) = Residues(counter)
+         endif
+
+  100 continue
+
+      call pop_routine (my_name)
+      return
+      end
+
+*     ================================================================
+      integer function Get_Residue_number (name)
+*     ================================================================
+      use CanopyModule
+      use ComponentInterfaceModule
+      implicit none
+
+!+  Sub-Program Arguments
+      character name*(*)
+
+*+  Purpose
+*     Find record number for a given residue name
+
+*+  Mission Statement
+*     Find record number for a given residue name
+
+*+  Changes
+*     <insert here>
+
+*+  Constant Values
+      character*(*) my_name
+      parameter (my_name = 'Get_Residue_number')
+
+*+  Local Variables
+      integer counter
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+      Get_Residue_number = 0
+
+      do 100 counter = 1, g%num_residues
+         if (g%residues(counter)%name.eq.name) then
+            Get_Residue_number = counter
+         else
+         endif
+  100 continue
+
+      call pop_routine (my_name)
       return
       end
       
