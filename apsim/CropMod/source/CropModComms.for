@@ -3068,6 +3068,11 @@ c        end if
       real       fraction_to_residue(max_part) ! fraction of dm 'chopped' that
                                        ! ends up in residue pool
       real       chop_fr(max_part)     ! fraction of dm pool 'chopped'
+      real       dm_removed_tops
+      real       dm_removed_root
+      real       n_removed_tops
+      real       n_removed_root
+
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
@@ -3129,33 +3134,33 @@ c        end if
 
       call write_string ( new_line//new_line)
 
-      write (string, '(a,i4,t40,a,i4)')
+      write (string, '(a, i5, t55, a, i8)')
      :            'flowering (DAS) =', g_flowering_das
      :            ,'maturity (DAS)  =', g_maturity_das
       call write_string ( string)
 
-      write (string, '(a,i4,t40,a,f10.1)')
+      write (string, '(a, i4, t55, a, f10.1)')
      :            ' flowering day  = ',g_flowering_date
      :          , ' stover (kg/ha) =',stover
       call write_string ( string)
 
-      write (string, '(a,i4,t40,a,f10.1)')
+      write (string, '(a,i4,t55,a,f10.1)')
      :            ' maturity day        = ', g_maturity_date
      :          , ' grain yield (kg/ha) =', yield
       call write_string ( string)
 
-      write (string, '(a,f6.1,t40,a,f10.1)')
+      write (string, '(a,f6.1,t55,a,f10.1)')
      :            ' grain % water content   = ', c_grn_water_cont
      :                                         * fract2pcnt
      :          , ' grain yield wet (kg/ha) =', yield_wet
       call write_string ( string)
 
-      write (string, '(a,f10.3,t40,a,f10.3)')
+      write (string, '(a,f10.3,t55,a,f10.3)')
      :            ' grain wt (g) =', grain_wt
      :          , ' grains/m^2   =', g_grain_no
       call write_string ( string)
 
-      write (string, '(a,f6.1,t40,a,f6.3)')
+      write (string, '(a,f6.1,t55,a,f6.3)')
      :            ' grains/head =', head_grain_no
      :          , ' maximum lai =', g_lai_max
       call write_string ( string)
@@ -3185,23 +3190,29 @@ c        end if
      :            ' number of leaves =', leaf_no
       call write_string ( string)
 
-      write (string, '(a,f10.2,t40,a,f10.2)')
+      write (string, '(a,f10.2,t55,a,f10.2)')
      :            ' grain N percent =', N_grain_conc_percent
      :          , ' total N content (kg/ha) =', N_total
       call write_string ( string)
 
-      write (string, '(a,f10.2,t40,a,f10.2)')
+      write (string, '(a,f10.2,t55,a,f10.2)')
      :            ' grain N uptake (kg/ha) =', N_grain
      :          , ' senesced N content (kg/ha) =', N_senesced
 
       call write_string ( string)
 
-      write (string, '(a,f10.2,t40,a,f10.2)')
+      write (string, '(a,f10.2,t55,a,f10.2)')
      :            ' green N content (kg/ha) =', N_green
      :          , ' dead N content (kg/ha) =', N_dead
       call write_string ( string)
 
       call PlantP_summary ()
+
+      call write_string (new_line)
+      write (string, '(a)') ' Average Stress Indices:                 '
+     :                    //'         Water Photo  Water Expan'
+     :                    //'  N Photo      N grain conc'
+      call write_string ( string)
 
       do 2000 phase = emerg_to_endjuv, start_to_end_grain
          si1 = divide (g_cswd_photo(phase)
@@ -3213,22 +3224,36 @@ c        end if
          si5 = divide (g_cnd_grain_conc(phase)
      :               , g_days_tot(phase), 0.0)
 
-         call write_string ( new_line//new_line)
-
-         write (string,'(2a)')
-     :         ' stress indices for ', c_stage_names(phase)
+         write (string,'(4x, a20, a, a23, f6.3, 3f13.3)')
+     :         c%stage_names(phase), 'to ', c%stage_names(phase+1)
+     :         , si1, si2, si4, si5
          call write_string ( string)
 
-         write (string,'(2(a, f16.7))')
-     :         ' water stress 1 =', si1
-     :         , '   nitrogen stress 1 =', si4
-         call write_string ( string)
-
-         write (string,'(2(a, f16.7))')
-     :         ' water stress 2 =', si2
-     :         , '   nitrogen stress 2 =', si5
-         call write_string ( string)
 2000  continue
+
+      call write_string (new_line//'Crop harvested.')
+
+      dm_removed_tops = (g_dm_green(grain) + g_dm_dead(grain))
+     :                * gm2kg/sm2ha
+      dm_removed_root = 0.0
+
+      n_removed_tops = (g_N_green(grain) + g_N_dead(grain))
+     :               * gm2kg/sm2ha
+      n_removed_root = 0.0
+
+      call write_string ('    Organic matter removed from system:-'
+     :                 //'      From Tops               From Roots')
+
+      write (string,'(a48, f7.2, f24.2)')
+     :     'DM (kg/ha) =               '
+     :    , dm_removed_tops, dm_removed_root
+         call write_string ( string)
+
+      write (string,'(a48, f7.2, f24.2)')
+     :   'N  (kg/ha) =               '
+     :  , n_removed_tops, n_removed_root
+         call write_string ( string)
+      call write_string (' ')
 
       g_dm_green(grain) = 0.0
       g_N_green(grain) = 0.0
@@ -3303,7 +3328,7 @@ c        end if
         !Report the crop yield
          yield = (g%dm_green(grain) + g%dm_dead(grain)) *gm2kg /sm2ha
          write (string, '(3x, a, f7.1)')
-     :                  ' ended. Yield (dw) = ', yield
+     :                  ' Crop ended. Yield (dw) = ', yield
          call Write_string (string)
 
 
@@ -3415,27 +3440,29 @@ c    :             - g%N_dead(root) - g%N_dead(grain))
 !     :                           ,fraction_to_residue
 !     :                           )
 
-         write (string, '(40x, a, f7.1, a, 5(a, 40x, a, f6.1, a))')
-     :                  '  straw residue ='
-     :                  , dm_residue * gm2kg /sm2ha, ' kg/ha'
-     :                  , new_line
-     :                  , '  straw N = '
-     :                  , N_residue * gm2kg /sm2ha, ' kg/ha'
-     :                  , new_line
-     :                  , '  straw P = '
-     :                  , P_residue * gm2kg /sm2ha, ' kg/ha'
+         call write_string ('    Organic matter from crop:-      '
+     :                 //'Tops to surface residue     '
+     :                 //'Roots to soil FOM')
 
-     :                  , new_line
-     :                  , '  root residue = '
-     :                  , dm_root * gm2kg /sm2ha, ' kg/ha'
-     :                  , new_line
-     :                  , '  root N = '
-     :                  , N_root * gm2kg /sm2ha, ' kg/ha'
-     :                  , new_line
-     :                  , '  root P = '
-     :                  , P_root * gm2kg /sm2ha, ' kg/ha'
-
+         write (string,'(a48, f7.2, f24.2)')
+     :                  'DM (kg/ha) =               '
+     :                  , dm_residue * gm2kg /sm2ha
+     :                  , dm_root * gm2kg /sm2ha
          call write_string ( string)
+
+         write (string,'(a48, f7.2, f24.2)')
+     :                  'N  (kg/ha) =               '
+     :                  , N_residue * gm2kg /sm2ha
+     :                  , N_root * gm2kg /sm2ha
+         call write_string ( string)
+
+         write (string,'(a48, f7.2, f24.2)')
+     :                  'P  (kg/ha) =               '
+     :                  , P_residue * gm2kg /sm2ha
+     :                  , P_root * gm2kg /sm2ha
+         call write_string ( string)
+         call write_string (' ')
+
 
       else
          ! crop is already out
