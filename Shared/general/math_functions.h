@@ -471,7 +471,28 @@ void DoubleContainerToStringContainer (container1& DoubleContainer,
    for (container1::iterator i = DoubleContainer.begin();
                              i != DoubleContainer.end();
                              i++)
-      DoubleContainer.push_back (ftoa(*i, 3));
+      StringContainer.push_back (ftoa(*i, 3));
+   }
+// ------------------------------------------------------------------
+//  Short description:
+//    convert a container of integers to a container of strings.
+
+//  Changes:
+//    DPH 15/8/2001
+// ------------------------------------------------------------------
+template <class container1, class container2>
+void IntegerContainerToStringContainer (container1& IntegerContainer,
+                                        container2& StringContainer)
+   {
+   StringContainer.erase(StringContainer.begin(), StringContainer.end());
+   for (container1::iterator i = IntegerContainer.begin();
+                             i != IntegerContainer.end();
+                             i++)
+      {
+      char buffer[100];
+      itoa(*i, buffer, 10);
+      StringContainer.push_back(buffer);
+      }
    }
 
 #endif
