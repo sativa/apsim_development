@@ -1,0 +1,13 @@
+See ./index.htm for documentation.
+
+There is lots of old source code under oldsrc/. 
+
+For a quick and dirty upgrade path, add "act_evap_method = ritchie" to the end of your soilwat2.ini. No changes to parameter files are necessary with this option.
+
+Still to do:
+- thoroughly examine runoff, comparing against PERFECT.
+- add CN reduction due to tillage for rdc.
+- calculate overflow (infiltration that wont fit into PAWC during initial redistribution
+
+
+PdeV 28/8/97
