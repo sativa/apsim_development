@@ -568,17 +568,19 @@ bool ControlFileConverter::executeRemoveSumAvgToTracker(const std::string& argum
                         StringTokenizer tokenizer(variables[variableI], ".@");
                         string moduleName = tokenizer.nextToken();
                         string functionName = tokenizer.nextToken();
-                        string variableName = tokenizer.nextToken();
-                        Replace_all(variableName, "(", "[");
-                        Replace_all(variableName, ")", "]");
+                        string realVariableName = tokenizer.nextToken();
 
                         string alias;
-                        unsigned posAlias = variableName.find(" as ");
+                        unsigned posAlias = realVariableName.find(" as ");
                         if (posAlias != string::npos)
                            {
-                           alias = variableName.substr(posAlias+4);
-                           variableName.erase(posAlias);
+                           alias = realVariableName.substr(posAlias+4);
+                           realVariableName.erase(posAlias);
                            }
+
+                        string variableName = realVariableName;
+                        Replace_all(variableName, "(", "[");
+                        Replace_all(variableName, ")", "]");
 
                         string trackerFunctionName = functionName;
                         if (Str_i_Eq(trackerFunctionName, "avg"))
@@ -594,7 +596,7 @@ bool ControlFileConverter::executeRemoveSumAvgToTracker(const std::string& argum
 
                         // set the tracker variable.
                         string trackerVariable = trackerFunctionName + " of " + moduleName + "."
-                               + variableName + " since " + paramFiles[par].getInstanceName()
+                               + realVariableName + " since " + paramFiles[par].getInstanceName()
                                + ".reported as ";
                         trackerVariable += functionName + "@" + moduleName + "." + variableName;
                         trackerVariables.push_back(trackerVariable);
