@@ -65,7 +65,7 @@
          soiln set no3 = 13.000  20.000  37.000  33.000  14.000  19.000  29.000
        endif
        if (day = 280) then
-           ozcot sow cultivar = siok, sowing_depth = 5 (mm), row_spacing = 2.0 (m), plants_pm = 12.0 ()
+           ozcot sow cultivar = siok, sowing_depth = 50 (mm), row_spacing = 2000 (mm), plants_pm = 12.0 ()
        endif
         report do_output
         if (day = 1 and year = 1995) then
@@ -247,7 +247,7 @@
       Manager creating a new local variable : yield_acre =     0.00000000000000
 7 October 1995 (Day of year=280):
    MANAGER:
-           Manager sending message :- ozcot sow cultivar = siok, sowing_depth = 5 (mm), row_spacing = 2.0 (m), plants_pm = 12.0 ()
+           Manager sending message :- ozcot sow cultivar = siok, sowing_depth = 50 (mm), row_spacing = 2000 (mm), plants_pm = 12.0 ()
    OZCOT:
       Sow
       
@@ -271,9 +271,9 @@
                        Crop Sowing Data
           ------------------------------------------------
           Sowing  Depth Plants Spacing Cultivar
-          Day no   mm     m       m     Name
+          Day no   mm     m       mm     Name
           ------------------------------------------------
-             280    5.0   12.0    2.0 siok
+             280   50.0  12.0   2000.0 siok
           ------------------------------------------------
 25 April 1996 (Day of year=116):
    OZCOT:
