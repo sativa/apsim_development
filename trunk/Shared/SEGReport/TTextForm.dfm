@@ -1,0 +1,156 @@
+object TextForm: TTextForm
+  Left = 250
+  Top = 114
+  Width = 260
+  Height = 361
+  Caption = 'TextForm'
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object PageControl1: TPageControl
+    Left = 0
+    Top = 0
+    Width = 252
+    Height = 327
+    ActivePage = Properties
+    Align = alClient
+    TabIndex = 0
+    TabOrder = 0
+    object Properties: TTabSheet
+      Caption = 'Properties'
+      DesignSize = (
+        244
+        299)
+      object Label1: TLabel
+        Left = 8
+        Top = 40
+        Width = 24
+        Height = 13
+        Caption = 'Text:'
+      end
+      object Label4: TLabel
+        Left = 24
+        Top = 283
+        Width = 203
+        Height = 13
+        Anchors = [akLeft, akBottom]
+        Caption = '$precision(component.property, decplaces)'
+      end
+      object Label2: TLabel
+        Left = 24
+        Top = 267
+        Width = 144
+        Height = 13
+        Anchors = [akLeft, akBottom]
+        Caption = '$property(component.property)'
+      end
+      object Label5: TLabel
+        Left = 8
+        Top = 250
+        Width = 56
+        Height = 13
+        Anchors = [akLeft, akBottom]
+        Caption = 'E.g macros:'
+      end
+      object TextEdit: TRichEdit
+        Left = 8
+        Top = 56
+        Width = 228
+        Height = 189
+        Anchors = [akLeft, akTop, akRight, akBottom]
+        BevelInner = bvNone
+        BevelOuter = bvRaised
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        ScrollBars = ssBoth
+        TabOrder = 0
+        WordWrap = False
+        OnExit = TextEditExit
+      end
+      object FontButton: TBitBtn
+        Left = 8
+        Top = 8
+        Width = 75
+        Height = 25
+        Caption = '&Font'
+        TabOrder = 1
+        OnClick = FontButtonClick
+        Glyph.Data = {
+          B6040000424DB604000000000000360000002800000012000000100000000100
+          2000000000008004000000000000000000000000000000000000C0C0C000C0C0
+          C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
+          C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
+          C000C0C0C000C0C0C0008000000080000000C0C0C000C0C0C000C0C0C000C0C0
+          C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
+          C000C0C0C000C0C0C000C0C0C000C0C0C0008000000080000000C0C0C000C0C0
+          C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
+          C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000800000008000
+          0000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
+          C000C0C0C000C0C0C00000008000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
+          C000800000008000000080000000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
+          C000C0C0C000C0C0C000C0C0C000C0C0C00000008000C0C0C000C0C0C000C0C0
+          C000C0C0C000C0C0C0008000000080000000C0C0C000C0C0C000C0C0C000C0C0
+          C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C00000008000C0C0
+          C000C0C0C000C0C0C000C0C0C000C0C0C0008000000080000000C0C0C000C0C0
+          C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
+          C000000080000000800000008000C0C0C000C0C0C000C0C0C000800000008000
+          00008000000080000000C0C0C000C0C0C0008000800080008000C0C0C000C0C0
+          C000C0C0C000C0C0C00000008000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
+          C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
+          C00080008000C0C0C000C0C0C000C0C0C00000008000C0C0C000C0C0C000C0C0
+          C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
+          C000C0C0C000C0C0C00080008000C0C0C000C0C0C000C0C0C000000080000000
+          80000000800000008000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
+          C000C0C0C000C0C0C000C0C0C000C0C0C00080008000C0C0C000C0C0C000C0C0
+          C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
+          C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C00080008000800080008000
+          8000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
+          C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
+          C00080008000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
+          C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
+          C000C0C0C000C0C0C00080008000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
+          C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
+          C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C0008000800080008000C0C0
+          C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
+          C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
+          C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000}
+      end
+    end
+    object TabSheet1: TTabSheet
+      Caption = 'Advanced'
+      ImageIndex = 1
+      object Label3: TLabel
+        Left = 8
+        Top = 8
+        Width = 31
+        Height = 13
+        Caption = 'Name:'
+      end
+      object NameEdit: TEdit
+        Left = 40
+        Top = 8
+        Width = 121
+        Height = 21
+        TabOrder = 0
+        OnExit = NameEditExit
+      end
+    end
+  end
+  object FontDialog: TFontDialog
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    MinFontSize = 0
+    MaxFontSize = 0
+    Left = 144
+    Top = 120
+  end
+end
