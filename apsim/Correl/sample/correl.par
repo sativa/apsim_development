@@ -8,3 +8,14 @@ radn =   0     1    -1   -1   1    1
 rain =   0     0     0    0  -1    0
 evap =   0     0     0    0   0    0
 wind =   0     0     0    0   0    1
+[Correl_gatton.clock.parameters]
+start_date=26/4/1975
+end_date=30/5/1997
+[sample.report.parameters]
+outputfile =dummy.out
+variable = clock.year
+variable = clock.day
+[Correl_gatton.SummaryFile.parameters]
+summaryfile=correl.sum
+[Correl_gatton.Screen.parameters]
+screen_output=on
