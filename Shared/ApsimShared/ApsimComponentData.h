@@ -14,9 +14,12 @@
 class __declspec(dllexport) ApsimComponentData
    {
    public:
+      ApsimComponentData(void);
       ApsimComponentData(const std::string& xml);
       ApsimComponentData(const XMLNode& n);
       ~ApsimComponentData(void);
+
+      void copyAllFrom(ApsimComponentData& from);
 
       std::string getName(void) const;
       std::string getExecutableFileName(void) const;
