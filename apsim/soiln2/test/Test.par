@@ -71,7 +71,7 @@ summaryfile = test1.sum
 outputfile =test1.out
 variable = clock.day
 variable = clock.year
-variable = residue2.residue_wt
+variable = surfaceom.surfaceom_wt
 variable = soiln2.fom_c()
 variable = soiln2.fom_n()
 variable = soiln2.fom_c_pool1
@@ -83,10 +83,10 @@ variable = soiln2.fom_n_pool3
 
 [test1.manager.start_of_day]
 if day = 10 then
-   residue2 tillage type = disc, f_incorp = 0.5, tillage_depth = 300.
+   surfaceom tillage type = disc, f_incorp = 0.5, tillage_depth = 300.
 endif
 if day = 15 then
-   residue2 tillage type = disc, f_incorp = 0.5, tillage_depth = 0.
+   surfaceom tillage type = disc, f_incorp = 0.5, tillage_depth = 0.
 endif
 
 
@@ -96,16 +96,16 @@ report do_output
 debug_output = on
 logfile = test1.log
 
-[test1.residue2.parameters]
-pot_decomp_rate = 0.1
+[test1.SurfaceOM.parameters]
 residue_name =     residue1
-residue_type =     lucerne
-residue_wt     =    4000
-residue_cnr    =    20
+type = lucerne
+mass = 4000
+cnr = 20
 standing_fraction = .0
 
 ! ================ TEST 2 ===============================
 ! Tillage to depth of 600 mm
+name = lucerne
 [test2.SummaryFile.parameters]
 summaryfile = test2.sum
 
@@ -113,7 +113,7 @@ summaryfile = test2.sum
 outputfile =test2.out
 variable = clock.day
 variable = clock.year
-variable = residue2.residue_wt
+variable = surfaceom.surfaceom_wt
 variable = soiln2.fom_c()
 variable = soiln2.fom_n()
 variable = soiln2.fom_c_pool1
@@ -125,10 +125,10 @@ variable = soiln2.fom_n_pool3
 
 [test2.manager.start_of_day]
 if day = 10 then
-   residue2 tillage type = disc, f_incorp = 0.5, tillage_depth = 600.
+   surfaceom tillage type = disc, f_incorp = 0.5, tillage_depth = 600.
 endif
 if day = 15 then
-   residue2 tillage type = disc, f_incorp = 0.5, tillage_depth = 0.
+   surfaceom tillage type = disc, f_incorp = 0.5, tillage_depth = 0.
 endif
 
 
@@ -138,16 +138,16 @@ report do_output
 debug_output = on
 logfile = test2.log
 
-[test2.residue2.parameters]
-pot_decomp_rate = 0.1
+[test2.SurfaceOM.parameters]
 residue_name =     residue1
-residue_type =     lucerne
-residue_wt     =    4000
-residue_cnr    =    20
+type = lucerne
+mass = 4000
+cnr = 20
 standing_fraction = .0
 
 ! ================ TEST 3 ===============================
 ! Tillage to depth of 900 mm
+name = lucerne
 [test3.SummaryFile.parameters]
 summaryfile = test3.sum
 
@@ -155,7 +155,7 @@ summaryfile = test3.sum
 outputfile =test3.out
 variable = clock.day
 variable = clock.year
-variable = residue2.residue_wt
+variable = surfaceom.surfaceom_wt
 variable = soiln2.fom_c()
 variable = soiln2.fom_n()
 variable = soiln2.fom_c_pool1
@@ -166,10 +166,10 @@ variable = soiln2.fom_n_pool2
 variable = soiln2.fom_n_pool3
 [test3.manager.start_of_day]
 if day = 10 then
-   residue2 tillage type = disc, f_incorp = 0.5, tillage_depth = 900.
+   surfaceom tillage type = disc, f_incorp = 0.5, tillage_depth = 900.
 endif
 if day = 15 then
-   residue2 tillage type = disc, f_incorp = 0.5, tillage_depth = 0.
+   surfaceom tillage type = disc, f_incorp = 0.5, tillage_depth = 0.
 endif
 
 
@@ -180,16 +180,16 @@ report do_output
 debug_output = on
 logfile = test3.log
 
-[test3.residue2.parameters]
-pot_decomp_rate = 0.1
+[test3.SurfaceOM.parameters]
 residue_name =     residue1
-residue_type =     lucerne
-residue_wt     =    4000
-residue_cnr    =    20
+type = lucerne
+mass = 4000
+cnr = 20
 standing_fraction = .0
 
 ! ================ TEST 4 ===============================
 ! same as test 1 but use 'dry' met file
+name = lucerne
 [test4.SummaryFile.parameters]
 summaryfile = test4.sum
 
@@ -197,7 +197,7 @@ summaryfile = test4.sum
 outputfile =test4.out
 variable = clock.day
 variable = clock.year
-variable = residue2.residue_wt
+variable = surfaceom.surfaceom_wt
 variable = soiln2.fom_c()
 variable = soiln2.fom_n()
 variable = soiln2.fom_c_pool1
@@ -214,17 +214,17 @@ debug_output = on
 logfile = test4.log
 
 
-[test4.residue2.parameters]
-pot_decomp_rate = 0.1
+[test4.SurfaceOM.parameters]
 residue_name =     residue1
-residue_type =     lucerne
-residue_wt     =    4000
-residue_cnr    =    20
+type = lucerne
+mass = 4000
+cnr = 20
 standing_fraction = .0
 
 ! ================ TEST 5 ===============================
 ! Use the add_roots method call
 
+name = lucerne
 [test5.SummaryFile.parameters]
 summaryfile = test5.sum
 
@@ -232,7 +232,7 @@ summaryfile = test5.sum
 outputfile =test5.out
 variable = clock.day
 variable = clock.year
-variable = residue2.residue_wt
+variable = surfaceom.surfaceom_wt
 variable = soiln2.fom_c()
 variable = soiln2.fom_n()
 variable = soiln2.fom_c_pool1
@@ -250,14 +250,14 @@ endif
 [test5.manager.end_of_day]
 report do_output
 
-[test5.residue2.parameters]
+[test5.SurfaceOM.parameters]
 
-pot_decomp_rate = 0.1
-residue_type =     lucerne
-residue_wt     =    4000
-residue_cnr    =    20
+type = lucerne
+mass = 4000
+cnr = 20
 standing_fraction = .0
 
+name = lucerne
 [test5.log.parameters]
 debug_output = on
 logfile = test5.log
@@ -271,7 +271,7 @@ summaryfile = test6.sum
 outputfile =test6.out
 variable = clock.day
 variable = clock.year
-variable = residue2.residue_wt
+variable = surfaceom.surfaceom_wt
 variable = soiln2.no3
 variable = soiln2.nh4
 variable = soiln2.fom_c()
@@ -296,10 +296,10 @@ report do_output
 debug_output = on
 logfile = test6.log
 
-[test6.residue2.parameters]
-pot_decomp_rate = 0.1
+[test6.SurfaceOM.parameters]
 residue_name =     residue1
-residue_type =     lucerne
-residue_wt     =    4000
-residue_cnr    =    100
+type = lucerne
+mass = 4000
+cnr = 100
 standing_fraction = .0
+name = lucerne
