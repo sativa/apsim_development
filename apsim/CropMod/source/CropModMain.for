@@ -1,4 +1,4 @@
-C     Last change:  E    14 Feb 2001    3:17 pm
+C     Last change:  E    21 Feb 2001    6:33 pm
 
       INCLUDE 'CropMod.inc'
 
@@ -76,6 +76,7 @@ C     Last change:  E    14 Feb 2001    3:17 pm
 
          else
             ! Crop not in the field, do nothing
+            !call Zero_Variables (.false.)
          endif
 
       elseif (action.eq.ACTION_process) then
@@ -4968,8 +4969,8 @@ c           string_to_integer_var(value_string, value, numvals)
 
       g%row_spacing         = 0.0
       g%sowing_depth        = 0.0
-      g%year                = 0
-      g%day_of_year         = 0
+c      g%year                = 0
+c      g%day_of_year         = 0
       g%swdef_expansion     = 0.0
       g%swdef_photo         = 0.0
       g%swdef_pheno         = 0.0
@@ -4980,14 +4981,15 @@ c           string_to_integer_var(value_string, value, numvals)
       g%temp_stress_photo   = 0.0
       g%swdef_fixation      = 0.0
 
-      !climate
-      g%fr_intc_radn        = 0.0
-      g%latitude            = 0.0
-      g%radn                = 0.0
-      g%mint                = 0.0
-      g%maxt                = 0.0
 
-      CALL fill_real_array(g%soil_temp,0.0, 366)
+      !climate
+c      g%fr_intc_radn        = 0.0
+c      g%latitude            = 0.0
+c      g%radn                = 0.0
+c      g%mint                = 0.0
+c      g%maxt                = 0.0
+
+c     CALL fill_real_array(g%soil_temp,0.0, 366)
 
       g%vpd                 = 0.0
       g%eo                  = 0.0
@@ -5096,17 +5098,8 @@ c           string_to_integer_var(value_string, value, numvals)
       call fill_real_array(g%N_conc_max, 0.0,max_part)
       call fill_real_array(g%N_conc_min, 0.0,max_part)
 
-      call fill_real_array(g%NO3gsm_diffn_pot,  0.0,max_layer)
-      call fill_real_array(g%NO3gsm_mflow_avail,0.0,max_layer)
-      call fill_real_array(g%NO3gsm,            0.0,max_layer)
-      call fill_real_array(g%NO3gsm_min,        0.0,max_layer)
-
 
       g%no3_diffn_const = 0.0
-
-
-
-
 
 
       !root_profile
@@ -5116,9 +5109,10 @@ c           string_to_integer_var(value_string, value, numvals)
       g%sw_supply_sum         =0.0
       g%sw_supply_demand_ratio=0.0
 
-      call fill_real_array(g%dlayer,       0.0,max_layer)
-      call fill_real_array(g%dul_dep,      0.0,max_layer)
-      call fill_real_array(g%sw_dep,       0.0,max_layer)
+c      call fill_real_array(g%dlayer,       0.0,max_layer)
+c      call fill_real_array(g%dul_dep,      0.0,max_layer)
+c      call fill_real_array(g%sat_dep,              0.0, max_layer)
+c      call fill_real_array(g%sw_dep,       0.0,max_layer)
       call fill_real_array(g%sw_avail_pot, 0.0,max_layer)
       call fill_real_array(g%sw_avail,     0.0,max_layer)
       call fill_real_array(g%sw_supply,    0.0,max_layer)
@@ -5176,13 +5170,18 @@ c           string_to_integer_var(value_string, value, numvals)
       g%tiller_tt_tot    =0.0
 
       call fill_real_array(g%plsc,                 0.0, max_leaf)
-      call fill_real_array(g%NH4gsm,               0.0, max_layer)
-      call fill_real_array(g%NH4gsm_min,           0.0, max_layer)
+
+
+c      call fill_real_array(g%NO3gsm,            0.0,max_layer)
+c      call fill_real_array(g%NO3gsm_min,        0.0,max_layer)
+c      call fill_real_array(g%NH4gsm,               0.0, max_layer)
+c      call fill_real_array(g%NH4gsm_min,           0.0, max_layer)
+c      call fill_real_array(g%NO3ppm,               0.0, max_layer)
+c      call fill_real_array(g%NH4ppm,               0.0, max_layer)
+      call fill_real_array(g%NO3gsm_diffn_pot,  0.0,max_layer)
+      call fill_real_array(g%NO3gsm_mflow_avail,0.0,max_layer)
       call fill_real_array(g%NH4gsm_diffn_pot,     0.0, max_layer)
       call fill_real_array(g%NH4gsm_mflow_avail,   0.0, max_layer)
-      call fill_real_array(g%NO3ppm,               0.0, max_layer)
-      call fill_real_array(g%NH4ppm,               0.0, max_layer)
-      call fill_real_array(g%sat_dep,              0.0, max_layer)
       call fill_real_array(g%pot_extract_NO3gsm,   0.0, max_layer)
       call fill_real_array(g%pot_extract_NH4gsm,   0.0, max_layer)
 
@@ -5232,7 +5231,40 @@ c           string_to_integer_var(value_string, value, numvals)
 
 
 
+
+*==================== Varaibles from other module need not to be kept  ==============
+
+
+      CALL fill_real_array(g%soil_temp,    0.0, 366)
+
+
       if (param_init) then
+
+
+*==================== Varaibles from other module need to be kept  ==================
+
+      g%year                = 0
+      g%day_of_year         = 0
+
+      g%latitude            = 0.0
+      g%radn                = 0.0
+      g%mint                = 0.0
+      g%maxt                = 0.0
+
+      g%fr_intc_radn        = 0.0
+
+      call fill_real_array(g%dlayer,       0.0, max_layer)
+      call fill_real_array(g%dul_dep,      0.0, max_layer)
+      call fill_real_array(g%sat_dep,      0.0, max_layer)
+
+      call fill_real_array(g%NO3gsm_min,   0.0, max_layer)
+      call fill_real_array(g%NH4gsm_min,   0.0, max_layer)
+
+      call fill_real_array(g%sw_dep,       0.0, max_layer)
+      call fill_real_array(g%NH4gsm,       0.0, max_layer)
+      call fill_real_array(g%NO3ppm,       0.0, max_layer)
+      call fill_real_array(g%NH4ppm,       0.0, max_layer)
+      call fill_real_array(g%NO3gsm,       0.0, max_layer)
 
 *==================== PARAMETERS ======================================================
 
