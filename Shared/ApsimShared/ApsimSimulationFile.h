@@ -47,6 +47,9 @@ class __declspec(dllexport) ApsimSimulationFile
 
       // run apsim
       void run(bool quiet = false) const;
+
+      // return true if simulation is dirty.
+      bool isDirty(void) const {return xmlDoc->isDirty();}
    protected:
       XMLDocument* xmlDoc;
       std::string fileName;
