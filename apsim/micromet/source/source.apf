@@ -2,11 +2,10 @@
 Dependency = %licensed_source(micromet)
 
 [Contents]
+ComponentInterface.f90 = ComponentInterface.f90
 micromet.for = micromet.for
-microscience.for = microscience.for
-
 
 [APSBuild]
 binary = ..\lib\micromet.dll
-moduletype=croptemplate
+compilerfile=release.compile
 

@@ -1,231 +1,212 @@
-      include 'Micromet.inc'
-!     ===========================================================
-      subroutine AllocInstance (InstanceName, InstanceNo)
-!     ===========================================================
-      use MicrometModule
-      implicit none
- 
-!+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
- 
-!+  Purpose
-!      Module instantiation routine.
- 
-!- Implementation Section ----------------------------------
-               
-      allocate (Instances(InstanceNo)%gptr)
-      allocate (Instances(InstanceNo)%pptr)
-      allocate (Instances(InstanceNo)%cptr)
-      Instances(InstanceNo)%Name = InstanceName
- 
-      return
-      end
+*     ========================================
+      module MicrometModule
+*     ========================================
 
-!     ===========================================================
-      subroutine FreeInstance (anInstanceNo)
-!     ===========================================================
-      use MicrometModule
-      implicit none
- 
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
- 
-!+  Purpose
-!      Module de-instantiation routine.
- 
-!- Implementation Section ----------------------------------
-               
-      deallocate (Instances(anInstanceNo)%gptr)
-      deallocate (Instances(anInstanceNo)%pptr)
-      deallocate (Instances(anInstanceNo)%cptr)
- 
-      return
-      end
-     
-!     ===========================================================
-      subroutine SwapInstance (anInstanceNo)
-!     ===========================================================
-      use MicrometModule
-      implicit none
- 
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
- 
-!+  Purpose
-!      Swap an instance into the global 'g' pointer
- 
-!- Implementation Section ----------------------------------
-               
-      g => Instances(anInstanceNo)%gptr
-      p => Instances(anInstanceNo)%pptr
-      c => Instances(anInstanceNo)%cptr
- 
-      return
-      end
+      real       svp_A
+      parameter (svp_A = 6.106)            ! Teten coefficients
 
-* ====================================================================
-       subroutine Main (Action, Data_string)
-* ====================================================================
-      use MicrometModule
-      implicit none
-      include 'const.inc'             ! Global constant definitions
-      include 'action.inc'
-      include 'event.inc'
-      include 'error.pub'
- 
-*+  Sub-Program Arguments
-       character Action*(*)            ! Message action to perform
-       character Data_string*(*)       ! Message data
- 
-*+  Purpose
-*      This routine is the interface between the main system and the
-*      Micromet module.
- 
-*+  Mission Statement
-*     Apsim Micromet
- 
-*+  Changes
-*     NIH 28/3/00 Specified
- 
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'Micromet Main')
- 
-*- Implementation Section ----------------------------------
- 
-      call push_routine (myname)
- 
-      if (Action.eq.ACTION_Init) then
-         call Micromet_Init ()
+      real       svp_B
+      parameter (svp_B = 17.27)            ! Teten coefficients
 
-      elseif (Action.eq.ACTION_Prepare) then
-         call Micromet_Prepare ()
+      real       svp_C
+      parameter (svp_C = 237.3)            ! Teten coefficients
 
-      elseif (Action.eq.Event_Tick) then
-         call Micromet_OnTick ()
+      real       abs_temp              ! 0 C in Kelvin (g_k)
+      parameter (abs_temp = 273.16)
 
-      elseif (Action.eq.Event_NewMet) then
-         call Micromet_OnNewMet ()
+      real       r_gas                 ! universal gas constant (J/mol/K)
+      parameter (r_gas = 8.3143)
 
-      elseif (Action.eq.ACTION_Process) then
-         call Micromet_Process ()
- 
-      else if (Action.eq.'new_crop') then
-         call Micromet_OnNewCrop ()
+      real       mwh2o                 ! molecular weight water (kg/mol)
+      parameter (mwh2o = 0.018016)
 
-      else if (Action.eq.'new_canopy') then
-         call Micromet_OnNewCanopy ()
+      real       mwair                 ! molecular weight air (kg/mol)
+      parameter (mwair = 0.02897)
 
-      else if (Action.eq.'new_pot_growth') then
-         call Micromet_OnNewPotGrowth ()
- 
-      else if (Action.eq.ACTION_Get_variable) then
-         call Micromet_Send_my_variable (Data_string)
+      real       molef                 ! molecular fraction of water to air ()
+      parameter (molef = mwh2o/mwair)
 
-      else if (Action.eq.'lai_table') then
-         call Micromet_table ('LAI',g%LAI)
-      else if (Action.eq.'f_table') then
-         call Micromet_table ('F',g%F)
-      else if (Action.eq.'rs_table') then
-         call Micromet_table ('Rs',g%Rs)
-      else if (Action.eq.'rl_table') then
-         call Micromet_table ('Rl',g%Rl)
-      else if (Action.eq.'gc_table') then
-         call Micromet_table ('Gc',g%Gc)
-      else if (Action.eq.'ga_table') then
-         call Micromet_table ('Ga',g%Ga)
-      else if (Action.eq.'pet_table') then
-         call Micromet_table ('PET',g%PET)
-      else if (Action.eq.'petr_table') then
-         call Micromet_table ('PETr',g%PETr)
-      else if (Action.eq.'peta_table') then
-         call Micromet_table ('PETa',g%PETa)
-      else if (Action.eq.'omega_table') then
-         call Micromet_table ('Omega',g%Omega)
-         
-      else
-         ! Don't use message
-         call Message_Unused ()
-      endif
- 
-      call pop_routine (myname)
-      return
-      end
- 
- 
- 
+      real       Cp                    ! Specific heat of air at constant pressure
+      parameter (Cp = 1010.0)          ! (J/kg/K)
+
+      real        stef_boltz              !Stefan-Boltzman constant
+      parameter   (stef_boltz = 5.67e-8)
+
+      real        pi                   !value of pi
+      parameter   (pi = 3.1459)
+
+      real        c_cloud              !constant for cloud effect on longwave radiation
+      parameter   (c_cloud = 0.1)
+
+      real        Deg2Rad              !convert degrees to radians
+      parameter   (Deg2Rad = 3.1458 / 180.)
+
+      real RhoW
+      parameter (RhoW = 998.0) !kg/m3
+
+      real svp_fract                   !weights vpd towards vpd at maximum temperature
+      parameter (svp_fract =  0.75)
+
+      integer max_components
+      parameter (max_components = 10)
+
+      integer max_layer
+      parameter (max_layer = 2*max_components - 1)
+
+      integer max_table
+      parameter (max_table = 10)
+
+*     ========================================
+      Type MicrometGlobals
+         sequence
+         integer NumComponents
+         character ComponentName(max_components)*32
+         character ComponentType(max_components)*32
+         real      ComponentLAI(max_components)
+         real      ComponentCover(max_components)
+         real      ComponentK(max_components)
+         real      ComponentHeight(max_components)
+         real      ComponentDepth(max_components)
+         real      ComponentAlbedo(max_components)
+         real      ComponentEmissivity(max_components)
+         real      ComponentGsmax(max_components)
+         real      ComponentR50(max_components)
+         real      ComponentFrgr(max_components)
+
+         real      DeltaZ(max_layer)
+         integer   NumLayers
+
+         real      LayerK(max_layer)
+
+         real      LAI(max_layer,max_components)
+         real      F(max_layer,max_components)
+         real      Rs(max_layer,max_components)
+         real      Rl(max_layer,max_components)
+         real      Gc(max_layer,max_components)
+         real      Ga(max_layer,max_components)
+         real      PET(max_layer,max_components)
+         real      PETr(max_layer,max_components)
+         real      PETa(max_layer,max_components)
+         real      Omega(max_layer,max_components)
+         real      Interception(max_layer,max_components)
+         real      albedo
+         real      Emissivity
+
+
+         real      radn
+         real      maxt
+         real      mint
+         real      rain
+         real      vp
+
+         integer   day
+         integer   year
+         real      latitude
+         real      AverageT
+         real      SunshineHours
+         real      DayLength
+
+      end type MicrometGlobals
+*     ========================================
+      Type MicrometParameters
+         sequence
+         real      soil_albedo
+         real      layer_ga
+         real      A_interception
+         real      B_interception
+         real      C_interception
+         real      D_interception
+      end type MicrometParameters
+*     ========================================
+      Type MicrometConstants
+         sequence
+         real air_pressure
+         real soil_emissivity
+      end type MicrometConstants
+*     ========================================
+      ! instance variables.
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (MicrometGlobals),pointer :: g
+      type (MicrometParameters),pointer :: p
+      type (MicrometConstants),pointer :: c
+
+
+      contains
+
+
+
 * ====================================================================
        subroutine Micromet_Init ()
 * ====================================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'const.inc'             ! Constant definitions
-      include 'error.pub'
- 
+
+
 *+  Purpose
 *      Initialise Micromet module
- 
+
 *+  Mission Statement
 *     Initialise all internal state variables
- 
+
 *+  Changes
 *     NIH 28/3/00 Specified
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_init')
- 
+
 *+  Local Variables
        character Event_string*40       ! String to output
- 
+
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
- 
+
       call Micromet_zero_variables ()
- 
+
       ! Notify system that we have initialised
- 
+
       Event_string = 'Initialising'
       call Write_string (Event_string)
- 
+
       ! Get all parameters from parameter file
- 
+
       call Micromet_read_constants ()
- 
+
       call Micromet_read_param ()
 
       call pop_routine (myname)
       return
-      end
- 
- 
- 
+      end subroutine
+
+
+
 * ====================================================================
        subroutine Micromet_zero_variables ()
 * ====================================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'error.pub'
- 
+
 *+  Purpose
 *     Set all variables to initial state.  i.e. zero or blank.
- 
+
 *+  Mission Statement
 *     Set internal state variables to zero
- 
+
 *+  Changes
 *     NIH 28/3/00 Specified
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_zero_variables')
- 
+
 *+  Local Variables
- 
+
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
       g%NumComponents = 0
@@ -287,51 +268,48 @@
 
       call pop_routine (myname)
       return
-      end
- 
+      end subroutine
+
 * ====================================================================
        subroutine Micromet_Send_my_variable (Variable_name)
 * ====================================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'const.inc'             ! constant definitions
-      include 'data.pub'
-      include 'intrface.pub'
-      include 'error.pub'
- 
+
 *+  Sub-Program Arguments
        character Variable_name*(*)     ! (INPUT) Variable name to search for
- 
+
 *+  Purpose
-*       Return the value of one of our variables to caller. 
- 
+*       Return the value of one of our variables to caller.
+
 *+  Mission Statement
 *     Supply information to requesting module
- 
+
 *+  Changes
 *     NIH 28/3/00 Specified
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_send_my_variable')
- 
+
 *+  Local Variables
       real total_lai
       real total_interception
       integer i
       integer j
- 
+
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
- 
+
       if (Variable_name.eq.'interception') then
 
       Total_Interception = 0.0
 
       do 200 i = 1, g%NumLayers
          do 100 j = 1, g%NumComponents
-            Total_Interception = Total_Interception 
+            Total_Interception = Total_Interception
      :                         + g%Interception(i,j)
   100    continue
   200 continue
@@ -348,7 +326,7 @@
 !     :                      ,sender
 !     :                      ,numvals)
 !
-!      ComponentNo = position_in_char_array 
+!      ComponentNo = position_in_char_array
 !     :                   (sender
 !     :                   ,g%ComponentName
 !     :                   ,g%NumComponents)
@@ -363,48 +341,46 @@
       else
          call Message_Unused ()
       endif
- 
+
       call pop_routine (myname)
       return
-      end
- 
- 
- 
+      end subroutine
+
+
+
 *     ===========================================================
       subroutine Micromet_read_param ()
 *     ===========================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'const.inc'              ! new_line, lu_scr_sum, blank
-      include 'read.pub'
-      include 'error.pub'
- 
+
 *+  Purpose
-*       Read in all parameters from parameter file.  
- 
+*       Read in all parameters from parameter file.
+
 *+  Mission Statement
 *     Read parameters from parameter file
- 
+
 *+  Changes
 *     NIH 28/3/00 Specified
- 
+
 *+  Calls
 
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_read_param')
 *
       character section_name*(*)
       parameter (section_name = 'parameters')
- 
+
 *+  Local Variables
       integer    numvals               ! number of values read
- 
+
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
- 
+
       call write_string (new_line//'   - Reading Parameters')
 
       call read_real_var (
@@ -415,7 +391,7 @@
      :        numvals,               ! Number of values returned
      :        0.0,                   ! Lower Limit for bound checking
      :        1.0)                   ! Upper Limit for bound checking
- 
+
       call read_real_var (
      :        section_name,          ! Section header
      :        'layer_ga',            ! Keyword
@@ -436,7 +412,7 @@
       if(numvals.eq.0) then
          p%a_interception = 0.0
       else
-      endif 
+      endif
 
       call read_real_var_optional (
      :        section_name,          ! Section header
@@ -449,7 +425,7 @@
       if(numvals.eq.0) then
          p%b_interception = 1.0
       else
-      endif 
+      endif
 
       call read_real_var_optional (
      :        section_name,          ! Section header
@@ -462,7 +438,7 @@
       if(numvals.eq.0) then
          p%c_interception = 0.0
       else
-      endif 
+      endif
 
       call read_real_var_optional (
      :        section_name,          ! Section header
@@ -475,47 +451,45 @@
       if(numvals.eq.0) then
          p%d_interception = 0.0
       else
-      endif 
+      endif
 
       call pop_routine (myname)
       return
-      end
- 
- 
- 
+      end subroutine
+
+
+
 * ====================================================================
        subroutine Micromet_read_constants ()
 * ====================================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'const.inc'
-      include 'read.pub'
-      include 'error.pub'
- 
+
 *+  Purpose
 *      Read in all constants from ini file.
- 
+
 *+  Mission Statement
 *     Read constants from ini file
- 
+
 *+  Changes
 *     NIH 28/3/00 Specified
- 
+
 *+  Constant Values
       character*(*) section_name
       parameter (section_name = 'constants')
 *
       character*(*) myname               ! name of current procedure
       parameter (myname = 'Micromet_read_constants')
- 
+
 *+  Local Variables
       integer    numvals               ! number of values read from file
- 
+
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       call write_string (new_line//'   - Reading Constants')
-  
+
       call read_real_var (
      :           section_name         ! Section header
      :         , 'air_pressure'       ! Keyword
@@ -533,47 +507,44 @@
      :         , numvals              ! Number of values returned
      :         , 0.9                  ! Lower Limit for bound checking
      :         , 1.0)                 ! Upper Limit for bound checking
- 
+
       call pop_routine (myname)
       return
-      end
- 
- 
+      end subroutine
+
+
 *     ===========================================================
       subroutine Micromet_OnNewCrop ()
 *     ===========================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'const.inc'
-      include 'event.inc'
-      include 'error.pub'
-      include 'intrface.pub'
- 
+
 *+  Purpose
 *       Register presence of a new crop
- 
+
 *+  Mission Statement
 *       Register presence of a new crop
- 
+
 *+  Changes
 *     NIH 30/3/00 Specified
- 
+
 *+  Calls
 
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_OnNewCrop')
- 
+
 *+  Local Variables
       integer    numvals               ! number of values read
- 
+
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
       g%NumComponents = g%NumComponents + 1
- 
+
       if (g%NumComponents.gt.max_components) then
          call fatal_Error(ERR_Internal
      :                   ,'Too many canopy components in system')
@@ -589,51 +560,47 @@
      :                         ,'()'
      :                         ,g%ComponentType(g%NumComponents)
      :                         ,numvals)
- 
-         ! Read Component Specific Constants 
+
+         ! Read Component Specific Constants
          ! ---------------------------------
          call micromet_component_constants(g%NumComponents)
-    
+
       endif
- 
+
       call pop_routine (myname)
       return
-      end
- 
+      end subroutine
+
 *     ===========================================================
       subroutine Micromet_OnNewCanopy ()
 *     ===========================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'const.inc'
-      include 'event.inc'
-      include 'error.pub'
-      include 'intrface.pub'
-      include 'Data.pub'
- 
+
 *+  Purpose
 *       Obtain updated information about a plant canopy
- 
+
 *+  Mission Statement
 *       Obtain updated information about a plant canopy
- 
+
 *+  Changes
 *     NIH 30/3/00 Specified
- 
+
 *+  Calls
 
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_OnNewCanopy')
- 
+
 *+  Local Variables
       integer    numvals               ! number of values read
       character  sender*32
       integer    ComponentNo
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
       call collect_char_var (DATA_sender
@@ -641,7 +608,7 @@
      :                      ,sender
      :                      ,numvals)
 
-      ComponentNo = position_in_char_array 
+      ComponentNo = position_in_char_array
      :                   (sender
      :                   ,g%ComponentName
      :                   ,g%NumComponents)
@@ -681,38 +648,38 @@
      :                         ,100000.0)
 
       endif
- 
+
       call pop_routine (myname)
       return
-      end
- 
+      end subroutine
+
 *     ===========================================================
       subroutine Micromet_Prepare ()
 *     ===========================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'error.pub'
- 
+
 *+  Purpose
 *       Perform Prepare Phase Calculations
- 
+
 *+  Mission Statement
 *       Perform Prepare Phase Calculations
- 
+
 *+  Changes
 *     NIH 30/3/00 Specified
- 
+
 *+  Calls
 
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_Prepare')
- 
+
 *+  Local Variables
- 
+
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
       call Micromet_Met_Variables ()
@@ -721,35 +688,35 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine Micromet_Process ()
 *     ===========================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'error.pub'
- 
+
 *+  Purpose
 *       Perform Process Phase Calculations
- 
+
 *+  Mission Statement
 *       Perform Process Phase Calculations
- 
+
 *+  Changes
 *     NIH 30/3/00 Specified
- 
+
 *+  Calls
 
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_Process')
- 
+
 *+  Local Variables
- 
+
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
       call Micromet_Calculate_Gc ()
@@ -764,35 +731,35 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine Micromet_Canopy_Compartments ()
 *     ===========================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'error.pub'
- 
+
 *+  Purpose
 *       Break the combined Canopy into functional compartments
- 
+
 *+  Mission Statement
 *       Break the combined Canopy into functional compartments
- 
+
 *+  Changes
 *     NIH 30/3/00 Specified
- 
+
 *+  Calls
 
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_Canopy_Compartments')
- 
+
 *+  Local Variables
- 
+
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
       Call Micromet_Define_Layers ()
@@ -803,43 +770,41 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine Micromet_Define_Layers ()
 *     ===========================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'error.pub'
-      include 'data.pub'
-      include 'science.pub'
- 
+
 *+  Purpose
 *       Break the combined Canopy into layers
- 
+
 *+  Mission Statement
 *       Break the combined Canopy into layers
 
 *+  Changes
 *     NIH 30/3/00 Specified
- 
+
 *+  Calls
 
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_Define_Layers')
- 
+
 *+  Local Variables
-      real nodes(2*max_components - 1) 
+      real nodes(2*max_components - 1)
       integer NumNodes
       integer ComponentNo
       integer Node
       real    CanopyBase
-      integer key(2*max_components - 1) 
+      integer key(2*max_components - 1)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
       nodes(:) = 0.0
@@ -855,7 +820,7 @@
 
          else
             ! it is already there - ignore it
-         endif      
+         endif
 
          CanopyBase = g%ComponentHeight(ComponentNo)
      :              - g%ComponentDepth(ComponentNo)
@@ -868,8 +833,8 @@
             Nodes(NumNodes) = CanopyBase
          else
             ! it is already there - ignore it
-         endif      
-      
+         endif
+
   100 continue
 
       ! Sort into Ascending order
@@ -883,34 +848,32 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine Micromet_Divide_Components ()
 *     ===========================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'error.pub'
-      include 'data.pub'
-      include 'science.pub'
- 
+
 *+  Purpose
 *       Break the components into layers
- 
+
 *+  Mission Statement
 *       Break the components into layers
 
 *+  Changes
 *     NIH 30/3/00 Specified
- 
+
 *+  Calls
 
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_Divide_Components')
- 
+
 *+  Local Variables
       real Ld (max_components)
       real top
@@ -919,7 +882,7 @@
       integer j
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
       g%LAI(:,:) = 0.0
@@ -963,37 +926,35 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine Micromet_Table (Title,Array)
 *     ===========================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'error.pub'
-      include 'data.pub'
-      include 'science.pub'
 
 *+  Sub-Program Arguments
       character Title*(*)
       real      Array(1:max_layer,1:max_components)
- 
+
 *+  Purpose
 *       Print out a 2-Dimensional table for a given state variable
- 
+
 *+  Mission Statement
 *       Print out a 2-Dimensional table for a given state variable
 
 *+  Changes
 *     NIH 30/3/00 Specified
- 
+
 *+  Calls
 
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_Table')
- 
+
 *+  Local Variables
       integer i
       integer j
@@ -1003,7 +964,7 @@
       real      bottom
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
       write(line_rule,'(5x,70(''-''))')
@@ -1051,39 +1012,37 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine Micromet_Light_Extinction ()
 *     ===========================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'error.pub'
-      include 'data.pub'
-      include 'science.pub'
- 
+
 *+  Purpose
 *       Calculate light extinction parameters
- 
+
 *+  Mission Statement
 *       Calculate light extinction parameters
 
 *+  Changes
 *     NIH 30/3/00 Specified
- 
+
 *+  Calls
 
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_Light_Extinction')
- 
+
 *+  Local Variables
       integer i
       integer j
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
          ! Calculate effective K from LAI and Cover
@@ -1111,35 +1070,35 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine Micromet_Canopy_Energy_Balance ()
 *     ===========================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'error.pub'
- 
+
 *+  Purpose
-*       Perform the Overall Canopy Energy Balance 
+*       Perform the Overall Canopy Energy Balance
 
 *+  Mission Statement
-*       Perform the Overall Canopy Energy Balance 
- 
+*       Perform the Overall Canopy Energy Balance
+
 *+  Changes
 *     NIH 30/3/00 Specified
- 
+
 *+  Calls
 
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_Canopy_Energy_Balance')
- 
+
 *+  Local Variables
- 
+
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
       Call Micromet_short_wave_radiation ()
@@ -1148,40 +1107,38 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine Micromet_short_wave_radiation ()
 *     ===========================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'error.pub'
-      include 'data.pub'
-      include 'science.pub'
- 
+
 *+  Purpose
-*       Calculate interception of short wave by canopy compartments 
+*       Calculate interception of short wave by canopy compartments
 
 *+  Mission Statement
 *       Calculate interception of short wave by canopy compartments
 
 *+  Changes
 *     NIH 30/3/00 Specified
- 
+
 *+  Calls
 
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_short_wave_radiation')
- 
+
 *+  Local Variables
       integer i
       integer j
       real    Rin
       real    Rint
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
          ! Perform Top-Down Light Balance
@@ -1191,12 +1148,12 @@
 
       do 200 i = g%NumLayers,1,-1
 
-         Rint = Rin 
+         Rint = Rin
      :        * (1. - exp(-g%LayerK(i)
      :                    *sum(g%LAI(i,1:g%NumComponents))))
 
          do 100 j = 1, g%NumComponents
-            g%Rs(i,j) = Rint 
+            g%Rs(i,j) = Rint
      :                * divide(g%F(i,j)*g%ComponentK(j)
      :                        ,g%LayerK(i)
      :                        ,0.0)
@@ -1208,72 +1165,67 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine Micromet_OnNewMet ()
 *     ===========================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'error.pub'
-      include 'event.inc'
-      include 'event.pub'
- 
+
 *+  Purpose
 *       Obtain all relevant met data
 
 *+  Mission Statement
 *       Obtain all relevant met data
- 
+
 *+  Changes
 *     NIH 30/3/00 Specified
- 
+
 *+  Calls
 
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_OnNewMet')
- 
+
 *+  Local Variables
- 
+
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
       call handler_ONnewmet(g%radn, g%maxt, g%mint, g%rain, g%vp)
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine Micromet_Long_Wave_Radiation ()
 *     ===========================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'error.pub'
-      include 'micromet.pub'
-      include 'data.pub'
-      include 'convert.inc'
- 
+
 *+  Purpose
-*       Calculate Net Long Wave Radiation Balance 
+*       Calculate Net Long Wave Radiation Balance
 
 *+  Mission Statement
 *       Calculate Net Long Wave Radiation Balance
 
 *+  Changes
 *     NIH 30/3/00 Specified
- 
+
 *+  Calls
 
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_Long_Wave_Radiation')
- 
+
 *+  Local Variables
       integer i
       integer j
@@ -1281,7 +1233,7 @@
       real    FractionClearSky
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
       FractionClearSky = divide(g%SunshineHours
@@ -1312,17 +1264,15 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine Micromet_Met_Variables ()
 *     ===========================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'error.pub'
-      include 'micromet.pub'
-      include 'data.pub'
- 
+
 *+  Purpose
 *       Calculate Daily Met Variables
 
@@ -1331,18 +1281,18 @@
 
 *+  Changes
 *     NIH 30/3/00 Specified
- 
+
 *+  Calls
 
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_Met_Variables')
- 
+
 *+  Local Variables
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
 
@@ -1357,33 +1307,32 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine micromet_ONtick ()
 *     ===========================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'error.pub'
-      include 'event.pub'
- 
+
 *+  Purpose
 *     Update internal time record and reset daily state variables.
- 
+
 *+  Mission Statement
 *     Update internal time record and reset daily state variables.
- 
+
 *+  Changes
-*        140400 nih 
+*        140400 nih
 
 *+  Local Variables
       character temp1*5
       integer   temp2
- 
+
 *+  Constant Values
       character*(*) myname               ! name of current procedure
       parameter (myname = 'micromet_ONtick')
- 
+
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
@@ -1394,17 +1343,15 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine Micromet_Energy_Terms ()
 *     ===========================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'error.pub'
-      include 'data.pub'
-      include 'convert.inc'
- 
+
 *+  Purpose
 *       Calculate the overall system energy terms
 
@@ -1413,20 +1360,20 @@
 
 *+  Changes
 *     NIH 14/4/00 Specified
- 
+
 *+  Calls
 
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_Energy_Terms')
- 
+
 *+  Local Variables
       integer i
       integer j
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
       ! Each term is a radiation weighted average of component terms
@@ -1438,7 +1385,7 @@
       do 200 i = g%NumLayers,1,-1
 
          do 100 j = 1, g%NumComponents
-            g%albedo = g%albedo 
+            g%albedo = g%albedo
      :               + divide(g%Rs(i,j)
      :                       ,g%Radn
      :                       ,0.0)
@@ -1453,7 +1400,7 @@
 
   200 continue
 
-      g%albedo = g%albedo 
+      g%albedo = g%albedo
      :         + (1. - divide(sum(g%Rs(:,:))
      :                       ,g%Radn
      :                       ,0.0))
@@ -1467,46 +1414,41 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine Micromet_component_constants (Cno)
 *     ===========================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'const.inc'
-      include 'event.inc'
-      include 'error.pub'
-      include 'intrface.pub'
-      include 'read.pub'
-      include 'crp_util.pub'  
 
 *+  Sub-Program Arguments
       integer Cno ! Component Number
- 
+
 *+  Purpose
 *       Read constants for a given canopy component
- 
+
 *+  Mission Statement
 *       Read constants for a given canopy component
- 
+
 *+  Changes
 *     NIH 30/3/00 Specified
- 
+
 *+  Calls
 
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_component_constants')
- 
+
 *+  Local Variables
       integer    numvals               ! number of values read
       character  search_order(max_table)*32 ! sections to search
       integer    num_sections          ! number of sections to search
- 
+
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
       ! Find search order for component constants
@@ -1518,9 +1460,9 @@
      :                     , '()'
      :                     , search_order
      :                     , num_sections)
- 
 
-         ! Read Component Specific Constants 
+
+         ! Read Component Specific Constants
          ! ---------------------------------
          ! (should be in dedicated routine)
 
@@ -1553,7 +1495,7 @@
      :         , numvals              ! Number of values returned
      :         , 0.0                  ! Lower Limit for bound checking
      :         , 1.0)                 ! Upper Limit for bound checking
-    
+
          call search_read_real_var (
      :           search_order
      :         , num_sections
@@ -1564,21 +1506,18 @@
      :         , 0.0                  ! Lower Limit for bound checking
      :         , 1e3)                 ! Upper Limit for bound checking
 
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine Micromet_Calculate_Gc ()
 *     ===========================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'error.pub'
-      include 'data.pub'
-      include 'convert.inc'
-      include 'micromet.pub'
- 
+
 *+  Purpose
 *       Calculate the canopy conductance for system compartments
 
@@ -1587,14 +1526,14 @@
 
 *+  Changes
 *     NIH 19/4/00 Specified
- 
+
 *+  Calls
 
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_Calculate_Gc')
- 
+
 *+  Local Variables
       integer i
       integer j
@@ -1604,7 +1543,7 @@
       real    Rflux
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
       Rin = g%Radn
@@ -1635,18 +1574,15 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine Micromet_Calculate_Ga ()
 *     ===========================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'error.pub'
-      include 'data.pub'
-      include 'convert.inc'
-      include 'micromet.pub'
- 
+
 *+  Purpose
 *       Calculate the aerodynamic conductance for system compartments
 
@@ -1655,29 +1591,24 @@
 
 *+  Changes
 *     NIH 30/5/00 Specified
- 
+
 *+  Calls
 
-      real       micromet_AerodynamicCondNew          ! function
-      dll_import micromet_AerodynamicCondNew
- 
-      real       micromet_AerodynamicCondSub          ! function
-      dll_import micromet_AerodynamicCondSub
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_Calculate_Ga')
- 
+
       real       WindSpeed
       parameter (WindSpeed = 3.0)
- 
+
 *+  Local Variables
       integer i
       integer j
       real layer_ga
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
       do 200 i = 1, g%NumLayers
@@ -1715,16 +1646,15 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine Micromet_Calculate_Interception ()
 *     ===========================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'error.pub'
-      include   'data.pub'                         
- 
+
 *+  Purpose
 *       Calculate the interception loss of water from the canopy
 
@@ -1733,14 +1663,14 @@
 
 *+  Changes
 *     NIH 23/8/00 Specified
- 
+
 *+  Calls
 
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_Calculate_Interception')
- 
+
 *+  Local Variables
       real Total_LAI
       real Total_Interception
@@ -1748,7 +1678,7 @@
       integer j
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
       Total_LAI = sum(g%LAI(:,:))
@@ -1771,17 +1701,16 @@
   200 continue
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine Micromet_Calculate_Omega ()
 *     ===========================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'error.pub'
-      include 'micromet.pub'
- 
+
 *+  Purpose
 *       Calculate the aerodynamic decoupling for system compartments
 
@@ -1790,20 +1719,20 @@
 
 *+  Changes
 *     NIH 30/5/00 Specified
- 
+
 *+  Calls
 
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_Calculate_Omega')
- 
+
 *+  Local Variables
       integer i
       integer j
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
       do 200 i = 1, g%NumLayers
@@ -1822,18 +1751,14 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *====================================================================
       subroutine micromet_calculate_PM ()
 *====================================================================
-      Use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include   'const.inc'
-      include   'data.pub'                         
-      include   'science.pub'
-      include   'error.pub'                         
-      include   'micromet.pub'
 
 *+  Sub-Program Arguments
 
@@ -1846,9 +1771,7 @@
 *       270500 - NIH specified and programmed
 
 *+  Calls
-      REAL micromet_PETa
-      REAL micromet_PETr
-      REAL micromet_Penman_Monteith
+
 
 *+  Local Variables
       REAL AverageT
@@ -1866,13 +1789,13 @@
       parameter (myname = 'micromet_calculate_PM')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
       NetRadiation = ((1. - g%Albedo) * sum(g%Rs(:,:))+ sum(g%Rl(:,:)))
      :             * 1e6        ! MJ/J
 
-      Free_Evap_Ga = p%layer_ga 
+      Free_Evap_Ga = p%layer_ga
       Free_Evap_Gc = Free_Evap_Ga * 1e6  !=infinite surface conductance
 
       Free_Evap = micromet_Penman_Monteith
@@ -1936,7 +1859,7 @@
       call pop_routine (myname)
 
       return
-      end
+      end subroutine
 
 *====================================================================
       real function micromet_Penman_Monteith
@@ -1951,11 +1874,9 @@
      :              ,Gc
      :              )
 *====================================================================
-      Use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include   'data.pub'                         
-      include   'science.pub'
-      include   'error.pub'                         
 
 *+  Sub-Program Arguments
       real Rn
@@ -1977,17 +1898,6 @@
 
 *+  Calls
 
-      real       micromet_Non_dQs_dT       ! function
-      dll_import micromet_Non_dQs_dT
-
-      real       micromet_Lambda       ! function
-      dll_import micromet_Lambda
-
-      real       micromet_SpecificVPD
-      dll_import micromet_SpecificVPD
-
-      real       micromet_RhoA
-      dll_import micromet_RhoA
 
 *+  Local Variables
       REAL Non_dQs_dT
@@ -2004,7 +1914,7 @@
       parameter (myname = 'micromet_Penman_Monteith')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
       averageT = (mint + maxt)/2.0
@@ -2028,8 +1938,8 @@
      :             / RhoW                   ! kg/m3
 
 
-      PETa = Divide( RhoA * SpecificVPD * Ga 
-     :             , Denominator, 0.0)      ! kg/m3.kg/kg.m/s = 
+      PETa = Divide( RhoA * SpecificVPD * Ga
+     :             , Denominator, 0.0)      ! kg/m3.kg/kg.m/s =
      :             * 1000.0                 ! m to mm ?
      :             * (DayLength *3600.0)    ! s
      :             / RhoW                   ! kg/m3
@@ -2038,7 +1948,7 @@
 
       call pop_routine (myname)
       return
-      end
+      end function
 
 *====================================================================
       real function micromet_PETr
@@ -2051,11 +1961,9 @@
      :              ,Gc
      :              )
 *====================================================================
-      Use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include   'data.pub'                         
-      include   'science.pub'
-      include   'error.pub'                         
 
 *+  Sub-Program Arguments
       real Rn
@@ -2066,7 +1974,7 @@
       real Gc
 
 *+  Purpose
-*     Calculate the radiation-driven term for the Penman-Monteith 
+*     Calculate the radiation-driven term for the Penman-Monteith
 *     water demand
 
 *+  Notes
@@ -2076,11 +1984,7 @@
 
 *+  Calls
 
-      real       micromet_Non_dQs_dT       ! function
-      dll_import micromet_Non_dQs_dT
 
-      real       micromet_Lambda       ! function
-      dll_import micromet_Lambda
 
 *+  Local Variables
       REAL AverageT
@@ -2093,7 +1997,7 @@
       parameter (myname = 'micromet_PETr')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
       averageT = (mint + maxt)/2.0
@@ -2115,7 +2019,7 @@
       call pop_routine (myname)
 
       return
-      end
+      end function
 
 *====================================================================
       real function micromet_PETa
@@ -2129,11 +2033,9 @@
      :              ,Gc
      :              )
 *====================================================================
-      Use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include   'data.pub'                         
-      include   'science.pub'
-      include   'error.pub'                         
 
 *+  Sub-Program Arguments
       real mint
@@ -2145,7 +2047,7 @@
       real Gc
 
 *+  Purpose
-*     Calculate the aerodynamically-driven term for the Penman-Monteith 
+*     Calculate the aerodynamically-driven term for the Penman-Monteith
 *     water demand
 
 *+  Notes
@@ -2155,17 +2057,7 @@
 
 *+  Calls
 
-      real       micromet_Non_dQs_dT       ! function
-      dll_import micromet_Non_dQs_dT
 
-      real       micromet_Lambda       ! function
-      dll_import micromet_Lambda
-
-      real       micromet_SpecificVPD
-      dll_import micromet_SpecificVPD
-
-      real       micromet_RhoA
-      dll_import micromet_RhoA
 
 *+  Local Variables
       REAL Non_dQs_dT
@@ -2180,7 +2072,7 @@
       parameter (myname = 'micromet_PETa')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
       averageT = (mint + maxt)/2.0
@@ -2197,8 +2089,8 @@
      :            + Divide( Ga, Gc, 0.0)
      :            + 1.0                        ! unitless
 
-      micromet_PETa = Divide( RhoA * SpecificVPD * Ga 
-     :                      , Denominator, 0.0)      ! kg/m3.kg/kg.m/s = 
+      micromet_PETa = Divide( RhoA * SpecificVPD * Ga
+     :                      , Denominator, 0.0)      ! kg/m3.kg/kg.m/s =
      :                      * 1000.0                 ! m to mm ?
      :                      * (DayLength *3600.0)    ! s
      :                      / RhoW                   ! kg/m3
@@ -2206,37 +2098,34 @@
       call pop_routine (myname)
 
       return
-      end
+      end function
 
 *     ===========================================================
       subroutine Micromet_Energy_Balance_Event ()
 *     ===========================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'
-      include 'postbox.pub'
-      include 'intrface.pub'
- 
+
 *+  Purpose
 *       Send an energy balance event
- 
+
 *+  Mission Statement
 *       Send an energy balance event
- 
+
 *+  Changes
 *     NIH 30/5/00 Specified
- 
+
 *+  Calls
 
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_Energy_Balance_Event')
- 
+
 *+  Local Variables
       integer j
- 
+
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
@@ -2252,41 +2141,38 @@
 
       call event_send ('canopy_energy_balance')
 
-      call delete_postbox() 
+      call delete_postbox()
 
       call pop_routine (myname)
       return
-      end
- 
+      end subroutine
+
 *     ===========================================================
       subroutine Micromet_Water_Balance_Event ()
 *     ===========================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'
-      include 'postbox.pub'
-      include 'intrface.pub'
- 
+
 *+  Purpose
 *       Send a canopy water balance event
- 
+
 *+  Mission Statement
 *       Send a canopy water balance event
- 
+
 *+  Changes
 *     NIH 30/5/00 Specified
- 
+
 *+  Calls
 
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_Water_Balance_Event')
- 
+
 *+  Local Variables
       integer j
- 
+
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
@@ -2306,46 +2192,42 @@
 
       call event_send ('canopy_water_balance')
 
-      call delete_postbox() 
+      call delete_postbox()
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine Micromet_OnNewPotGrowth ()
 *     ===========================================================
-      use MicrometModule
+
+      Use Infrastructure
       implicit none
-      include 'const.inc'
-      include 'event.inc'
-      include 'error.pub'
-      include 'intrface.pub'
-      include 'Data.pub'
- 
+
 *+  Purpose
 *       Obtain updated information about a plant's growth capacity
- 
+
 *+  Mission Statement
 *       Obtain updated information about a plant's growth capacity
- 
+
 *+  Changes
 *     NIH 1/6/00 Specified
- 
+
 *+  Calls
 
- 
+
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_OnNewPotGrowth')
- 
+
 *+  Local Variables
       integer    numvals               ! number of values read
       character  sender*32
       integer    ComponentNo
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
       call collect_char_var (DATA_sender
@@ -2353,7 +2235,7 @@
      :                      ,sender
      :                      ,numvals)
 
-      ComponentNo = position_in_char_array 
+      ComponentNo = position_in_char_array
      :                   (sender
      :                   ,g%ComponentName
      :                   ,g%NumComponents)
@@ -2370,9 +2252,134 @@
      :                         ,numvals
      :                         ,0.0
      :                         ,1.0)
-     
+
       endif
- 
+
+      call pop_routine (myname)
+      return
+      end subroutine
+
+
+      include 'microscience.for'
+
+      end module MicrometModule
+
+
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      Use MicrometModule
+      Use Infrastructure
+      implicit none
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+         allocate(p)
+         allocate(c)
+      else
+         deallocate(g)
+         deallocate(p)
+         deallocate(c)
+      end if
+      return
+      end subroutine
+
+
+* ====================================================================
+       subroutine Main (Action, Data_string)
+* ====================================================================
+      Use MicrometModule
+      Use Infrastructure
+      implicit none
+      ml_external Main
+
+
+
+*+  Sub-Program Arguments
+       character Action*(*)            ! Message action to perform
+       character Data_string*(*)       ! Message data
+
+*+  Purpose
+*      This routine is the interface between the main system and the
+*      Micromet module.
+
+*+  Mission Statement
+*     Apsim Micromet
+
+*+  Changes
+*     NIH 28/3/00 Specified
+
+*+  Constant Values
+      character  myname*(*)            ! name of this procedure
+      parameter (myname = 'Micromet Main')
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (myname)
+
+      if (Action.eq.ACTION_Init) then
+         call Micromet_Init ()
+
+      elseif (Action.eq.ACTION_Prepare) then
+         call Micromet_Prepare ()
+
+      elseif (Action.eq.Event_Tick) then
+         call Micromet_OnTick ()
+
+      elseif (Action.eq.Event_NewMet) then
+         call Micromet_OnNewMet ()
+
+      elseif (Action.eq.ACTION_Process) then
+         call Micromet_Process ()
+
+      else if (Action.eq.'new_crop') then
+         call Micromet_OnNewCrop ()
+
+      else if (Action.eq.'new_canopy') then
+         call Micromet_OnNewCanopy ()
+
+      else if (Action.eq.'new_pot_growth') then
+         call Micromet_OnNewPotGrowth ()
+
+      else if (Action.eq.ACTION_Get_variable) then
+         call Micromet_Send_my_variable (Data_string)
+
+      else if (Action.eq.'lai_table') then
+         call Micromet_table ('LAI',g%LAI)
+      else if (Action.eq.'f_table') then
+         call Micromet_table ('F',g%F)
+      else if (Action.eq.'rs_table') then
+         call Micromet_table ('Rs',g%Rs)
+      else if (Action.eq.'rl_table') then
+         call Micromet_table ('Rl',g%Rl)
+      else if (Action.eq.'gc_table') then
+         call Micromet_table ('Gc',g%Gc)
+      else if (Action.eq.'ga_table') then
+         call Micromet_table ('Ga',g%Ga)
+      else if (Action.eq.'pet_table') then
+         call Micromet_table ('PET',g%PET)
+      else if (Action.eq.'petr_table') then
+         call Micromet_table ('PETr',g%PETr)
+      else if (Action.eq.'peta_table') then
+         call Micromet_table ('PETa',g%PETa)
+      else if (Action.eq.'omega_table') then
+         call Micromet_table ('Omega',g%Omega)
+
+      else
+         ! Don't use message
+         call Message_Unused ()
+      endif
+
       call pop_routine (myname)
       return
       end
+      

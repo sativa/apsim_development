@@ -1,54 +1,38 @@
-include base.interface
+<component name="micromet">
 
-; -----------------------------------------------------------
-; Micromet's public interface which other components may
-; use.  Contains:
-;    Properties which other components may get or set
-;    Methods which other components may call
-;    Events which other components may trap (or subscribe to)
-; -----------------------------------------------------------
-class APSIMMicrometPublic
+   <registrations>
 
-   sysinit                 : APSIMMethod                = System initialise
-   lai_table               : APSIMMethod
-   f_table                 : APSIMMethod
-   rs_table                : APSIMMethod
-   rl_table                : APSIMMethod
-   gc_table                : APSIMMethod
-   ga_table                : APSIMMethod
-   pet_table               : APSIMMethod
-   petr_table              : APSIMMethod
-   peta_table              : APSIMMethod
-   omega_table             : APSIMMethod
+      <respondToMethodCallReg name="lai_table" type="null"/>
+      <respondToMethodCallReg name="f_table" type="null"/>
+      <respondToMethodCallReg name="rs_table" type="null"/>
+      <respondToMethodCallReg name="rl_table" type="null"/>
+      <respondToMethodCallReg name="gc_table" type="null"/>
+      <respondToMethodCallReg name="ga_table" type="null"/>
+      <respondToMethodCallReg name="pet_table" type="null"/>
+      <respondToMethodCallReg name="petr_table" type="null"/>
+      <respondToMethodCallReg name="peta_table" type="null"/>
+      <respondToMethodCallReg name="omega_table" type="null"/>
 
-   canopy_energy_balance   : APSIMEvent
-   canopy_water_balance    : APSIMEvent   
+      <respondToEventReg name="tick" type="time"/>
+      <respondToEventReg name="newmet" type="newmet"/>
+      <respondToEventReg name="canopychanged" type="canopy"/>
+      <respondToEventReg name="domicromet" type="null"/>
+      <respondToGetReg name="interception" type="interception"/>
+      <eventReg name="lightprofilecalculated" type="lightprofile"/>
+      <eventReg name="CanopyWaterBalanceCalculated" type="canopywaterbalance"/>
 
-end
+      <getVariableReg name="eo" type="eo" autoregister = "F"/>
 
-; -----------------------------------------------------------
-; Micromet's external interface which documents things in other 
-; components that this component uses.
-; Contains:
-;    Properties used in other components
-;    Methods called in other components
-;    Events from other components that this component uses.
-; -----------------------------------------------------------
 
-class APSIMMicrometExternal
+      <respondToEventReg name="process" type="process"/>
+      <respondToEventReg name="prepare" type="prepare"/>
+      <respondToEventReg name="new_crop" type="new_crop"/>
+      <respondToEventReg name="new_canopy" type="new_canopy"/>
+      <respondToEventReg name="new_pot_growth" type="new_pot_growth"/>
+      <respondToMethodCallReg name="sys_init" type="sys_init"/>
 
-   tick                    : APSIMClockTickEvent        = Change in the simulation system time and the duration of the new time step
-   prepare                 : APSIMEvent                 = Message to prepare for process
-   process                 : APSIMEvent                 = Message to process
-   newmet                  : APSIMNewMetEvent           = To notify all interested modules in a change in the simulation met data for the current time step
-   new_crop                : APSIMEvent
-   new_canopy              : APSIMEvent
-   new_pot_growth          : APSIMEvent
+      <eventReg name="canopy_energy_balance" type="canopy_energy_balance"/>
+      <eventReg name="canopy_water_balance" type="canopy_water_balance"/>
 
-end
-
-class APSIMMicromet
-   dll       : string
-   public    : APSIMMicrometPublic
-   External  : APSIMMicrometExternal
-end
+   </registrations>
+</component>
