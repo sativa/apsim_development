@@ -2704,6 +2704,7 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
       include 'crp_comm.pub'                      
       include 'intrface.pub'                      
       include 'error.pub'                         
+      include 'componentinterface.inc'
 
 *+  Purpose
 *       remove part of the green material as if grazed
@@ -2713,6 +2714,7 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 
 *+  Changes
 *     050996 nih specified and programmed
+*     271100 dph added eventInterface to call to crop_top_residue
 
 *+  Calls
       real       sugar_leaf_no_from_lai! function
@@ -2841,7 +2843,8 @@ c      call sugar_get_other_variables ()
       endif
                                       
       ! now add the dung    (manure module?)
-      call crop_top_residue (c%crop_type, dm_residue, n_residue)
+      call crop_top_residue (c%crop_type, dm_residue, n_residue, 
+     .                       eventInterface)
 
  
       ! Now we need to update the leaf tracking info
