@@ -73,6 +73,10 @@ class __declspec(dllexport) ApsimControlFile
       void getInstances(const std::string& moduleName,
                         std::vector<std::string>& instanceNames) const;
 
+      // change the name of a module in the control file.
+      void changeModuleName(const std::string& oldModuleName,
+                            const std::string& newModuleName) const;
+
       // Create default services in specified simulation
       void createServices(ApsimSimulationFile& simulation,
                           ApsimConfigurationFile& configuration) const;
@@ -86,14 +90,17 @@ class __declspec(dllexport) ApsimControlFile
       std::string parseDate(const ApsimParameterFile& paramFile,
                             StringTokenizer& tokenizer) const;
       void parseCreateParameter(const ApsimParameterFile& paramFile,
-                                StringTokenizer& tokenizer) const throw(std::runtime_error);
+                                const std::string& line) const throw(std::runtime_error);
       void parseDeleteParameter(const ApsimParameterFile& paramFile,
-                                StringTokenizer& tokenizer) const throw(std::runtime_error);
+                                const std::string& line) const throw(std::runtime_error);
       void parseMoveParameter(const ApsimParameterFile& paramFile,
-                              StringTokenizer& tokenizer) const throw(std::runtime_error);
+                              const std::string& line) const throw(std::runtime_error);
       void parseNewFormatReportVariables(const ApsimParameterFile& paramFile,
-                                         StringTokenizer& tokenizer) const throw(std::runtime_error);
+                                         const std::string& line) const throw(std::runtime_error);
       void parseRemoveReportOutputSwitch(const ApsimParameterFile& paramFile,
-                                         StringTokenizer& tokenizer) const throw(std::runtime_error);
+                                         const std::string& line) const throw(std::runtime_error);
+      void parseChangeModuleName(const std::string& line) const throw(std::runtime_error);
+
+
    };
 #endif

@@ -61,7 +61,7 @@ Component::~Component(void)
 
    // free the somcomponent
    if (componentData != NULL)
-      delete componentData;
+      deleteApsimComponentData(componentData);
 
    for (unsigned int i = 0; i < registrations.size(); i++)
       delete registrations[i];
@@ -419,10 +419,8 @@ bool Component::readParameter
     FString& variableValue, bool optional)
    {
    if (ApsimComponentData_getProperty(componentData,
-                                      variableName.f_str(),
-                                      (char*)variableValue.f_str(),
-                                      variableName.length(),
-                                      variableValue.length()))
+                                      variableName,
+                                      variableValue))
       return true;
    if (!optional)
       {

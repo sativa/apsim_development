@@ -85,6 +85,7 @@ class FString
                {
                memcpy(text, rhs.f_str(), rhsLength);
                memset(&text[rhsLength], ' ', len - rhsLength);
+               realLen = rhsLength;
                }
             }
          else

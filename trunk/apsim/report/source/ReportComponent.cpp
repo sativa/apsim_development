@@ -35,18 +35,26 @@ Field::Field (protocol::Component* p,
    CSVFormat = csvformat;
    fieldWidth = 0;
 
-   StringTokenizer tokenizer(variable, ".()");
-   ModuleName = tokenizer.nextToken();
-   VariableName = tokenizer.nextToken();
-   if (tokenizer.hasMoreTokens())
-      VariableAlias = tokenizer.nextToken();
+   unsigned posPeriod = variable.find('.');
+   if (posPeriod != string::npos)
+      {
+      ModuleName = variable.substr(0, posPeriod);
+      VariableName = variable.substr(posPeriod+1);
+      unsigned posAlias = VariableName.find('(');
+      if (posAlias != string::npos)
+         {
+         VariableAlias = VariableName.substr(posAlias+1);
+         VariableAlias.erase(VariableAlias.length()-1, 1);
+         VariableName = VariableName.substr(0, posAlias);
+         }
 
-   // at this stage simply register an interest in the variable.
-   variableID = parent->addRegistration(protocol::getVariableReg,
-                                        VariableName.c_str(),
-                                        stringArrayType,
-                                        "",
-                                        ModuleName.c_str());
+      // at this stage simply register an interest in the variable.
+      variableID = parent->addRegistration(protocol::getVariableReg,
+                                           VariableName.c_str(),
+                                           stringArrayType,
+                                           "",
+                                           ModuleName.c_str());
+      }
    }
 
 // ------------------------------------------------------------------
@@ -249,7 +257,7 @@ void ReportComponent::doInit1(const FString& sdml)
       daysSinceLastReportVariableID = addRegistration(respondToGetReg,
                                                       "days_since_last_report",
                                                       daysSinceLastReportType);
-      string fileName = componentData->getProperty("filename");
+      string fileName = componentData->getProperty("outputfile");
       if (fileName == "")
          throw runtime_error("Cannot find name of output file in parameter file. ");
 
@@ -397,11 +405,11 @@ void ReportComponent::writeHeadings(void)
    headingLine << ends;
    unitLine << ends;
    out << endl << endl;
-   out << headingLine;
-   out << unitLine;
+   out << headingLine.str() << endl;
+   out << unitLine.str() << endl;
    }
 
 void ReportComponent::doInit2(void)
    {
    }
-   
+

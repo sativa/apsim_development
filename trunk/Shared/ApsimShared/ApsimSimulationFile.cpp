@@ -22,7 +22,15 @@ ApsimSimulationFile::ApsimSimulationFile(const string& filename) throw (std::run
    : fileName(filename)
    {
    xmlDoc = new XMLDocument;
-   read();
+   try
+      {
+      read();
+      }
+   catch (...)
+      {
+      delete xmlDoc;
+      throw;
+      }
    }
 // ------------------------------------------------------------------
 // Destructor
