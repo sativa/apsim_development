@@ -134,7 +134,7 @@ void LogComponent::writeMessage(const string& toName,
                                 const protocol::Message* message,
                                 ostream& out)
    {
-   static const char* messageNames[42] =
+   static const char* messageNames[43] =
      {"ActivateComponent", "AddComponent", "Checkpoint", "Commence",
       "Complete", "DeactivateComponent", "DeleteComponent", "Deregister",
       "Event", "GetValue", "Init1", "Init2",
@@ -144,7 +144,7 @@ void LogComponent::writeMessage(const string& toName,
       "RequestComponentID", "RequestSetValue", "ResumeSimulation",
       "ReturnComponentID", "ReturnInfo", "ReturnType", "ReturnValue",
       "TerminateSimulation", "", "", "", "", "", "", "", "",
-      "QuerySetValue", "ApsimGetQuery", "ApsimSetQuery"};
+      "QuerySetValue", "ApsimGetQuery", "ApsimSetQuery", "ApsimChangeOrder"};
 
    if (message->messageType == protocol::Register)
       storeRegistration(message);
