@@ -1,3 +1,4 @@
+C     Last change:  P     9 Nov 2000   10:29 am
 * ====================================================================
        logical function postbox_init ()
 * ====================================================================
@@ -24,6 +25,7 @@
       g_Empty_double_slot = 1
       g_Empty_char_slot = 1
       g_Empty_variable_slot = 1
+      EventInterface = 0
  
       postbox_init = .true.
       return
@@ -94,6 +96,7 @@
       ! array to point to new slots in variable arrays.
  
       g_Current_message = g_Current_message + 1
+
       if (g_Current_message .gt. MAX_POSTBOXES - 1) then
          write (msg, '(3a, i4)' )
      .      'Too many postboxes have been created.  ',
@@ -1093,6 +1096,7 @@
      .         ' elements.  Variable = ',
      .         g_Variable_name(Variable_ptr)
          call Fatal_error(ERR_user, Msg)
+         Num_elements = 0
          Check_num_elements = .false.
       else
          Check_num_elements = .true.      
@@ -1146,7 +1150,7 @@
  
  
 * ====================================================================
-       subroutine Deliver_get_message
+       recursive subroutine Deliver_get_message
      .     (module_name, variable_name, optional)
 * ====================================================================
       implicit none
@@ -1154,6 +1158,8 @@
       include 'const.inc'
       include 'action.inc'
       include 'error.pub'
+      include 'apsimengine.pub'
+      include 'postbox.inc'
  
 *+ Sub-Program Arguments
       character Module_name*(*)        ! (INPUT) module to deliver message to.
@@ -1168,16 +1174,10 @@
  
 *+ Changes
 *     DPH 17/5/96
-*     dph 13/6/00 Fixed defect - added ok=.true.
  
 *+ Calls
       dll_import assign_string
       dll_import remove_array_spec
-      dll_import loader_sendaction
-      dll_import loader_sendactiontofirstcomp
-      dll_import loader_sendactiontoallcomps
-      logical loader_sendaction
-      logical loader_sendactiontofirstcomp
  
 *+ Local Variables
       character our_variable_name*(Max_variable_name_size)
@@ -1193,17 +1193,19 @@
       call Remove_array_spec (our_variable_name)
  
       if (Module_name .eq. First_active_module) then
-         ok = Loader_SendActionToFirstComp (ACTION_Get_variable, 
-     .                                      Our_variable_name)
+         ok = EI_GetVariable(EventInterface, Our_variable_name)
       else if (Module_name .eq. All_active_modules) then
-        call Loader_SendActionToAllComps (ACTION_Get_variable, 
-     .                                    Our_variable_name)
-        ok = .true.
-         
-      else
-         ok = Loader_SendAction (Module_name, 
+         call EI_BroadcastAction(EventInterface,
      .                           ACTION_Get_variable, 
      .                           Our_variable_name)
+         ok = .true.
+         
+      else
+         call EI_SendAction (EventInterface,
+     .                       Module_name, 
+     .                       ACTION_Get_variable, 
+     .                       Our_variable_name)
+         ok = EI_ComponentResponded(EventInterface)
       endif
       if (.not. ok .and. .not. optional) then
          call Fatal_error (ERR_User,
@@ -1217,7 +1219,7 @@
       end
  
 * ====================================================================
-       subroutine Deliver_set_message
+       recursive subroutine Deliver_set_message
      .     (module_name, variable_name)
 * ====================================================================
       implicit none
@@ -1225,6 +1227,8 @@
       include 'const.inc'
       include 'action.inc'
       include 'error.pub'
+      include 'apsimengine.pub'
+      include 'postbox.inc'
  
 *+ Sub-Program Arguments
       character Module_name*(*)        ! (INPUT) module to deliver message to.
@@ -1240,11 +1244,6 @@
 *     DPH 26/7/99
  
 *+ Calls
-      dll_import loader_sendaction
-      dll_import loader_sendactiontofirstcomp
-      dll_import loader_sendactiontoallcomps
-      logical loader_sendaction
-      logical loader_sendactiontofirstcomp
  
 *+ Local Variables
       logical ok                                
@@ -1252,16 +1251,18 @@
 *- Implementation Section ----------------------------------
  
       if (Module_name .eq. First_active_module) then
-         ok = Loader_SendActionToFirstComp (ACTION_Set_variable, 
-     .                                      Variable_name)
+         ok = EI_SetVariable (EventInterface, Variable_name)
       else if (Module_name .eq. All_active_modules) then
-        call Loader_SendActionToAllComps (ACTION_Set_variable, 
-     .                                    Variable_name)
-        ok = .true.
-      else
-         ok = Loader_SendAction (Module_name, 
+        call EI_BroadcastAction (EventInterface,
      .                           ACTION_Set_variable, 
      .                           Variable_name)
+        ok = .true.
+      else
+         call EI_SendAction (EventInterface,
+     .                       Module_name, 
+     .                       ACTION_Set_variable, 
+     .                       Variable_name)
+         ok = .true.
       endif
       if (.not. ok) then
          call Fatal_error (ERR_User,
@@ -1543,6 +1544,7 @@
       include 'const.inc'              ! constant definitions
       include 'postbox.inc'
       include 'string.pub'
+      include 'apsimengine.pub'
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name
@@ -1566,7 +1568,6 @@
  
 *+ Calls
       dll_import push_routine
-      dll_import loader_getcurrentcomponent
       dll_import fatal_error
       dll_import pop_routine
       character Lower_case*(MAX_VARIABLE_NAME_SIZE)
@@ -1607,8 +1608,8 @@
       g_Postbox_end(g_Empty_variable_slot) =
      .   g_Postbox_start(g_Empty_variable_slot) + Num_elements - 1
       g_Postbox_type(g_Empty_variable_slot) = Data_type
-      call Loader_GetCurrentComponent(
-     .       g_variable_owners(g_empty_variable_slot))
+      call EI_GetName(EventInterface, 
+     .                g_variable_owners(g_empty_variable_slot))
 
       Error = .false.
  
@@ -1616,7 +1617,7 @@
  
       g_Variable_start(g_Current_message + 1) =
      .   g_Variable_start(g_Current_message + 1) + 1
- 
+
       g_Empty_variable_slot = g_Empty_variable_slot + 1
       if (g_Empty_variable_slot .gt. MAX_VARIABLES) then
          write(Msg, '(3a, i6)' )
@@ -2036,7 +2037,7 @@
 *- Implementation Section ----------------------------------
  
       call Push_routine(This_routine)
- 
+
       ! Make a copy of the variable and work on the copy - not the original.
  
       call Assign_string(Our_variable, Variable_name)
@@ -2831,6 +2832,59 @@
       g_Last_respond_type = Data_type
       return
       end
+
+* ====================================================================
+      integer function Get_EI ( )
+* ====================================================================
+      implicit none
+      dll_export get_ei
+      include 'const.inc'              ! constant definitions
+      include 'postbox.inc'
  
+*+ Sub-Program Arguments
  
+*+ Purpose
+*     Set the variable type of from the previous repond call
  
+*+  Mission Statement
+*      
+ 
+*+ Changes
+*     DPH 4/7/00
+ 
+*+ Calls
+ 
+*- Implementation Section ----------------------------------
+ 
+      Get_EI = EventInterface
+      return 
+      end
+      
+* ====================================================================
+      subroutine Set_EI (EI)
+* ====================================================================
+      implicit none
+      dll_export set_ei
+      include 'const.inc'              ! constant definitions
+      include 'postbox.inc'
+ 
+*+ Sub-Program Arguments
+      integer EI                       ! (INPUT) event interface
+ 
+*+ Purpose
+*     Set the variable type of from the previous repond call
+ 
+*+  Mission Statement
+*      
+ 
+*+ Changes
+*     DPH 4/7/00
+ 
+*+ Calls
+ 
+*- Implementation Section ----------------------------------
+ 
+      EventInterface = EI
+      
+      return 
+      end

@@ -107,7 +107,8 @@
      .   g_Empty_double_slot,
      .   g_Empty_char_slot,
      .   g_Empty_variable_slot,
-     .   g_Last_respond_type
+     .   g_Last_respond_type,
+     .   EventInterface
      
 * ====================================================================
  
@@ -141,4 +142,4 @@
       integer g_Empty_char_slot        ! Pointer to first empty slot in Postbox_char array
       integer g_Empty_variable_slot    ! Pointer to first empty slot in variable arrays
       integer g_Last_respond_type      ! Data type of last variable respond.
-      
+      integer EventInterface
