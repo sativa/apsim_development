@@ -19,9 +19,9 @@
      Component DLL          = c:\Program Files\apsim22\apsim\input\lib\input.dll
      Component DLL          = c:\Program Files\apsim22\apsim\manager\lib\manager.dll
      Component DLL          = C:\Program Files\apsim22\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\soilt\lib\soilt.dll
      Component DLL          = c:\Program Files\apsim22\apsim\residue2\lib\residue2.dll
      Component DLL          = C:\Program Files\apsim22\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\soilt\lib\soilt.dll
 
 ------- clock Initialisation --------------------------------------------------
      Simulation start date =  1/01/1988
@@ -30,7 +30,7 @@
 
 ------- report Initialisation -------------------------------------------------
      Output variables:
-        clock.today.dd/mm/yyyy(Date)
+        clock.today.dd/mm/yyyy as Date
         soilt.soil_temp
         met.maxt
         met.mint
@@ -120,6 +120,9 @@
             CONA:                     2.50 ()
            Eo from priestly-taylor
 
+------- soilt Initialisation --------------------------------------------------
+     Initialising:
+
 ------- residue2 Initialisation -----------------------------------------------
      
          - Reading constants
@@ -184,9 +187,6 @@
           ---------------------------------------------------------
            Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
           ---------------------------------------------------------
-
-------- soilt Initialisation --------------------------------------------------
-     Initialising:
 ------- Start of simulation  --------------------------------------------------
 30 April 1990(Day of year=120), clock: 
      Simulation is terminating due to end criteria being met.
