@@ -53,8 +53,11 @@ void __fastcall TSEGTable::setSubComponentNames(TStringList* compNames)
 // ------------------------------------------------------------------
 void __fastcall TSEGTable::setSortFieldNames(AnsiString sortFields)
    {
-   sortFieldNames = sortFields;
-   forceRefresh();
+   if (sortFieldNames != sortFields)
+      {
+      sortFieldNames = sortFields;
+      forceRefresh();
+      }
    }
 // ------------------------------------------------------------------
 // refresh the control only if it is active.
