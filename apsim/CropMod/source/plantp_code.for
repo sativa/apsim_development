@@ -161,8 +161,8 @@ c     :     ,1000.)          ! Upper Limit for bound checking
       elseif (variable_name .eq. 'p_demand') then
           call respond2get_real_var (
      :               variable_name     ! variable name
-     :              ,'(kg/ha)'         ! variable units
-     :              ,sum(g%part_demand)*gm2kg/sm2ha) ! variable
+     :              ,'(g/m^2)'         ! variable units
+     :              ,sum(g%part_demand)) ! variable
 
       elseif (variable_name .eq. 'pfact_photo') then
           call respond2get_real_var (

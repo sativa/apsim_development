@@ -3866,8 +3866,8 @@ cejvo
       elseif (variable_name .eq. 'p%demand') then
          ! really ought to do this properly
          call respond2get_real_var (variable_name
-     :                             , '(kg/ha)'
-     :                             , g%p_demand*10.)
+     :                             , '(g/m2)'
+     :                             , g%p_demand)
 
       elseif (variable_name .eq. 'plant_p') then
          call respond2get_real_var (variable_name
