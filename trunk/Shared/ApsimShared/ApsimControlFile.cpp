@@ -352,10 +352,22 @@ void ApsimControlFile::getParameterFiles(const string& instanceName,
          for (vector<string>::iterator section = sections.begin();
                                        section != sections.end();
                                        section++)
-            paramFiles.push_back(ApsimParameterFile(paramFile->fileName,
-                                                    paramFile->moduleName,
-                                                    paramFile->instanceName,
-                                                    *section));
+            {
+            ApsimParameterFile newParamFile(paramFile->fileName,
+                                            paramFile->moduleName,
+                                            paramFile->instanceName,
+                                            *section);
+            if (find(paramFiles.begin(), paramFiles.end(),
+                     newParamFile) == paramFiles.end())
+               paramFiles.push_back(newParamFile);
+            else
+               {
+               string msg = "APSIM 3 no longer supports multiple sections in parameter files "
+                            "with the same name.  File name: " + paramFile->fileName +
+                            ". Section name: " + *section;
+               throw runtime_error(msg);
+               }
+            }
          instancesSoFar.push_back(paramFile->instanceName);
          }
       }
