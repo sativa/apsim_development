@@ -45,7 +45,7 @@
       parameter (RhoW = 998.0) !kg/m3
 
       real svp_fract                   !weights vpd towards vpd at maximum temperature
-      parameter (svp_fract =  0.75)
+      parameter (svp_fract =  0.66)
 
       integer max_components
       parameter (max_components = 10)
@@ -56,6 +56,9 @@
       integer max_table
       parameter (max_table = 10)
 
+      real SunSetAngle
+      parameter (SunSetAngle = 0.0)
+
 *     ========================================
       Type MicrometGlobals
          sequence
@@ -63,7 +66,10 @@
          character ComponentName(max_components)*32
          character ComponentType(max_components)*32
          real      ComponentLAI(max_components)
-         real      ComponentCover(max_components)
+         real      ComponentLAItot(max_components)
+         real      ComponentCoverGreen(max_components)
+         real      ComponentCoverTot(max_components)
+         real      ComponentKtot(max_components)
          real      ComponentK(max_components)
          real      ComponentHeight(max_components)
          real      ComponentDepth(max_components)
@@ -76,12 +82,15 @@
          real      DeltaZ(max_layer)
          integer   NumLayers
 
-         real      LayerK(max_layer)
+         real      LayerKtot(max_layer)
 
          real      LAI(max_layer,max_components)
-         real      F(max_layer,max_components)
+         real      LAItot(max_layer,max_components)
+         real      Ftot(max_layer,max_components)
+         real      Fgreen(max_layer,max_components)
          real      Rs(max_layer,max_components)
          real      Rl(max_layer,max_components)
+         real      Rsoil(max_layer,max_components)
          real      Gc(max_layer,max_components)
          real      Ga(max_layer,max_components)
          real      PET(max_layer,max_components)
@@ -98,13 +107,19 @@
          real      mint
          real      rain
          real      vp
+         real      windspeed
 
          integer   day
          integer   year
          real      latitude
          real      AverageT
          real      SunshineHours
+         real    FractionClearSky
          real      DayLength
+         real      DayLengthLight
+         real    Net_Long_Wave
+         real    SoilHeat
+         real    DryLeafFraction
 
       end type MicrometGlobals
 *     ========================================
@@ -122,6 +137,10 @@
          sequence
          real air_pressure
          real soil_emissivity
+         real sun_angle
+         real soil_heat_flux_fraction
+         real night_interception_fraction
+
       end type MicrometConstants
 *     ========================================
       ! instance variables.
@@ -244,7 +263,8 @@
       g%ComponentName(:) = ' '
       g%ComponentType(:) = ' '
       g%ComponentLAI(:) = 0.0
-      g%ComponentCover(:) = 0.0
+      g%ComponentCoverGreen(:) = 0.0
+      g%ComponentCoverTot(:) = 0.0
       g%ComponentK(:) = 0.0
       g%ComponentHeight(:) = 0.0
       g%ComponentDepth(:) = 0.0
@@ -257,12 +277,15 @@
       g%DeltaZ(:) = 0.0
       g%NumLayers = 0
 
-      g%LayerK(:) = 0.0
+      g%LayerKtot(:) = 0.0
 
       g%LAI(:,:) = 0.0
-      g%F(:,:) = 0.0
+      g%LAItot(:,:) = 0.0
+      g%Ftot(:,:) = 0.0
+      g%Fgreen(:,:) = 0.0
       g%Rs(:,:) = 0.0
       g%Rl(:,:) = 0.0
+      g%Rsoil(:,:) = 0.0
       g%Gc(:,:) = 0.0
       g%Ga(:,:) = 0.0
       g%PET(:,:) = 0.0
@@ -272,6 +295,7 @@
       g%Interception(:,:) = 0.0
       g%albedo = 0.0
       g%Emissivity = 0.0
+      g%Net_Long_Wave = 0.0
 
       g%radn = 0.0
       g%maxt = 0.0
@@ -285,6 +309,8 @@
       g%AverageT = 0.0
       g%SunshineHours = 0.0
       g%DayLength = 0.0
+      g%DryLeafFraction = 0.0
+
 
       c%air_pressure = 0.0
       c%soil_emissivity = 0.0
@@ -328,6 +354,7 @@
       real total_interception
       integer i
       integer j
+      real    net_radn
 
 *- Implementation Section ----------------------------------
 
@@ -366,7 +393,75 @@
 !     :                   ,'Unknown Canopy Component: '//sender)
 !
 
+      elseif (Variable_name.eq.'gc') then
 
+         call respond2get_real_var (
+     :               variable_name       ! variable name
+     :              ,'()'              ! variable units
+     :              ,g%gc(1,1)) ! variable
+
+      elseif (Variable_name.eq.'ga') then
+
+         call respond2get_real_var (
+     :               variable_name       ! variable name
+     :              ,'()'              ! variable units
+     :              ,g%ga(1,1)) ! variable
+
+      elseif (Variable_name.eq.'petr') then
+
+         call respond2get_real_var (
+     :               variable_name       ! variable name
+     :              ,'()'              ! variable units
+     :              ,g%petr(1,1)) ! variable
+
+      elseif (Variable_name.eq.'peta') then
+
+         call respond2get_real_var (
+     :               variable_name       ! variable name
+     :              ,'()'              ! variable units
+     :              ,g%peta(1,1)) ! variable
+
+      elseif (Variable_name.eq.'net_radn') then
+
+         net_radn = g%radn * (1.0 - g%albedo)
+     :            + g%Net_Long_Wave
+
+         call respond2get_real_var (
+     :               variable_name       ! variable name
+     :              ,'()'              ! variable units
+     :              ,net_radn) ! variable
+
+      elseif (Variable_name.eq.'net_rs') then
+
+         net_radn = g%radn * (1.0 - g%albedo)
+
+         call respond2get_real_var (
+     :               variable_name       ! variable name
+     :              ,'()'              ! variable units
+     :              ,net_radn) ! variable
+
+      elseif (Variable_name.eq.'net_rl') then
+
+         net_radn = g%Net_Long_Wave
+
+         call respond2get_real_var (
+     :               variable_name       ! variable name
+     :              ,'()'              ! variable units
+     :              ,net_radn) ! variable
+
+      elseif (Variable_name.eq.'soil_heat') then
+
+         call respond2get_real_var (
+     :               variable_name     ! variable name
+     :              ,'()'              ! variable units
+     :              ,g%SoilHeat)       ! variable
+
+      elseif (Variable_name.eq.'dryleaffraction') then
+
+         call respond2get_real_var (
+     :               variable_name     ! variable name
+     :              ,'()'              ! variable units
+     :              ,g%DryLeafFraction)       ! variable
 
       else
          call Message_Unused ()
@@ -538,6 +633,33 @@
      :         , 0.9                  ! Lower Limit for bound checking
      :         , 1.0)                 ! Upper Limit for bound checking
 
+      call read_real_var (
+     :           section_name         ! Section header
+     :         , 'sun_angle'    ! Keyword
+     :         , '()'                 ! Units
+     :         , c%sun_angle    ! Variable
+     :         , numvals              ! Number of values returned
+     :         , -10.0                  ! Lower Limit for bound checking
+     :         , 0.0)                ! Upper Limit for bound checking
+
+      call read_real_var (
+     :           section_name         ! Section header
+     :         , 'soil_heat_flux_fraction'    ! Keyword
+     :         , '()'                 ! Units
+     :         , c%soil_heat_flux_fraction    ! Variable
+     :         , numvals              ! Number of values returned
+     :         , 0.0                  ! Lower Limit for bound checking
+     :         , 1.0)                ! Upper Limit for bound checking
+
+      call read_real_var (
+     :           section_name         ! Section header
+     :         , 'night_interception_fraction'    ! Keyword
+     :         , '()'                 ! Units
+     :         , c%night_interception_fraction    ! Variable
+     :         , numvals              ! Number of values returned
+     :         , 0.0                  ! Lower Limit for bound checking
+     :         , 1.0)                ! Upper Limit for bound checking
+
       call pop_routine (myname)
       return
       end subroutine
@@ -656,9 +778,23 @@
      :                         ,0.0
      :                         ,20.0)
 
-         call collect_real_var ('cover'
+         call collect_real_var ('lai_tot'
      :                         ,'()'
-     :                         ,g%ComponentCover(ComponentNo)
+     :                         ,g%ComponentLAItot(ComponentNo)
+     :                         ,numvals
+     :                         ,0.0
+     :                         ,20.0)
+
+         call collect_real_var ('cover_green'
+     :                         ,'()'
+     :                         ,g%ComponentCoverGreen(ComponentNo)
+     :                         ,numvals
+     :                         ,0.0
+     :                         ,1.0)
+
+         call collect_real_var ('cover_tot'
+     :                         ,'()'
+     :                         ,g%ComponentCoverTot(ComponentNo)
      :                         ,numvals
      :                         ,0.0
      :                         ,1.0)
@@ -670,12 +806,18 @@
      :                         ,0.0
      :                         ,100000.0)
 
+         g%ComponentHeight(ComponentNo) = g%ComponentHeight(ComponentNo)
+     :                         / 1000.  ! to convert from mm to m
+
          call collect_real_var ('depth'
      :                         ,'()'
      :                         ,g%ComponentDepth(ComponentNo)
      :                         ,numvals
      :                         ,0.0
      :                         ,100000.0)
+
+         g%ComponentDepth(ComponentNo) = g%ComponentDepth(ComponentNo)
+     :                         / 1000.  ! to convert from mm to m
 
       endif
 
@@ -916,9 +1058,10 @@
       call push_routine (myname)
 
       g%LAI(:,:) = 0.0
+      g%LAItot(:,:) = 0.0
 
       do 100 j = 1, g%NumComponents
-         Ld(j) = divide(g%ComponentLAI(j)
+         Ld(j) = divide(g%ComponentLAItot(j)
      :                 ,g%ComponentDepth(j)
      :                 ,0.0)
   100 continue
@@ -936,7 +1079,11 @@
             if ((g%ComponentHeight(j).gt.bottom)
      :                 .and.
      :          (g%ComponentHeight(j)-g%ComponentDepth(j).lt.top))then
-               g%LAI(i,j) = Ld(j) * g%DeltaZ(i)
+               g%LAItot(i,j) = Ld(j) * g%DeltaZ(i)
+               g%LAI(i,j) = g%LAItot(i,j)
+     :             * divide(g%ComponentLAI(j)
+     :                     ,g%ComponentLAItot(j)
+     :                     ,0.0)
             else
                ! This component is not in this layer
             endif
@@ -947,8 +1094,12 @@
          ! =============================================================
 
          do 250 j = 1, g%NumComponents
-            g%F(i,j) = divide(g%LAI(i,j)
-     :                       ,sum(g%LAI(i,1:g%NumComponents))
+            g%Ftot(i,j) = divide(g%LAItot(i,j)
+     :                       ,sum(g%LAItot(i,1:g%NumComponents))
+     :                       ,0.0)
+            ! Note: Sum of Fgreen will be < 1 as it is green over total
+            g%Fgreen(i,j) = divide(g%LAI(i,j)
+     :                       ,sum(g%LAItot(i,1:g%NumComponents))
      :                       ,0.0)
   250    continue
 
@@ -1081,10 +1232,12 @@
 
       do 100 j = 1, g%NumComponents
 
-         g%ComponentK(j) = divide(-log(1.-g%ComponentCover(j))
+         g%ComponentK(j) = divide(-log(1.-g%ComponentCoverGreen(j))
      :                           ,g%ComponentLAI(j)
      :                           ,0.0)
-
+         g%ComponentKtot(j) = divide(-log(1.-g%ComponentCoverTot(j))
+     :                           ,g%ComponentLAItot(j)
+     :                           ,0.0)
   100 continue
 
          ! Calculate extinction for individual layers
@@ -1093,8 +1246,8 @@
 
       do 200 i = 1, g%NumLayers
 
-         g%LayerK(i) = Sum(g%F(i,1:g%NumComponents)
-     :                     * g%ComponentK(1:g%NumComponents))
+         g%LayerKtot(i) = Sum(g%Ftot(i,1:g%NumComponents)
+     :                     * g%ComponentKtot(1:g%NumComponents))
 
   200 continue
 
@@ -1134,6 +1287,7 @@
       Call Micromet_short_wave_radiation ()
       Call Micromet_Energy_Terms ()
       Call Micromet_Long_Wave_Radiation ()
+      Call Micromet_SoilHeat_radiation ()
 
       call pop_routine (myname)
       return
@@ -1179,13 +1333,13 @@
       do 200 i = g%NumLayers,1,-1
 
          Rint = Rin
-     :        * (1. - exp(-g%LayerK(i)
-     :                    *sum(g%LAI(i,1:g%NumComponents))))
+     :        * (1. - exp(-g%LayerKtot(i)
+     :                    *sum(g%LAItot(i,1:g%NumComponents))))
 
          do 100 j = 1, g%NumComponents
             g%Rs(i,j) = Rint
-     :                * divide(g%F(i,j)*g%ComponentK(j)
-     :                        ,g%LayerK(i)
+     :                * divide(g%Ftot(i,j)*g%ComponentKtot(j)
+     :                        ,g%LayerKtot(i)
      :                        ,0.0)
   100    continue
 
@@ -1224,11 +1378,14 @@
 
 *+  Local Variables
 
+
 *- Implementation Section ----------------------------------
 
       call push_routine (myname)
 
       call handler_ONnewmet(g%radn, g%maxt, g%mint, g%rain, g%vp)
+
+
 
       call pop_routine (myname)
       return
@@ -1260,21 +1417,18 @@
 *+  Local Variables
       integer i
       integer j
-      real    Net_Long_Wave
-      real    FractionClearSky
+
 
 *- Implementation Section ----------------------------------
 
       call push_routine (myname)
 
-      FractionClearSky = divide(g%SunshineHours
-     :                         ,g%DayLength
-     :                         ,0.0)
 
-      Net_Long_Wave = micromet_longwave(g%AverageT
-     :                                  ,FractionClearSky
-     :                                  ,g%Emissivity)
-     :              * day2hr * hr2s / 1.0e6  ! W to MJ
+
+      g%Net_Long_Wave = micromet_longwave(g%AverageT
+     :                                   ,g%FractionClearSky
+     :                                   ,g%Emissivity)
+     :              * g%DayLength * hr2s / 1.0e6  ! W to MJ
 
 
          ! Long Wave Balance Proportional to Short Wave Balance
@@ -1287,7 +1441,69 @@
             g%Rl(i,j) = divide(g%Rs(i,j)
      :                        ,g%Radn
      :                        ,0.0)
-     :                * Net_Long_Wave
+     :                * g%Net_Long_Wave
+  100    continue
+
+
+  200 continue
+
+      call pop_routine (myname)
+      return
+      end subroutine
+
+*     ===========================================================
+      subroutine Micromet_SoilHeat_Radiation ()
+*     ===========================================================
+
+      Use Infrastructure
+      implicit none
+
+*+  Purpose
+*       Calculate Radiation loss to soil heating
+
+*+  Mission Statement
+*       Calculate Radiation loss to soil heating
+
+*+  Changes
+*     NIH 30/3/00 Specified
+
+*+  Calls
+
+
+*+  Constant Values
+      character  myname*(*)            ! name of this procedure
+      parameter (myname = 'Micromet_SoilHeat_Radiation')
+
+*+  Local Variables
+      integer i
+      integer j
+
+      real radnint ! Intercepted SW radiation
+*- Implementation Section ----------------------------------
+
+      call push_routine (myname)
+
+      RadnInt = sum(g%Rs(:,:))
+
+      g%SoilHeat = micromet_Soil_Heat_Flux(g%radn
+     :                                  ,RadnInt
+     :                                  ,c%soil_heat_flux_fraction)
+
+!      g%SoilHeat = -0.1
+!     :           * ((1. - g%Albedo) * g%Radn
+!     :               + g%Net_Long_Wave)
+
+         ! SoilHeat Balance Proportional to Short Wave Balance
+         ! ====================================================
+
+      do 200 i = g%NumLayers,1,-1
+
+
+         do 100 j = 1, g%NumComponents
+            g%Rsoil(i,j) = divide(g%Rs(i,j)
+     :                          ,g%Radn
+     :                          ,0.0)
+     :                * g%SoilHeat
   100    continue
 
 
@@ -1320,21 +1536,38 @@
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_Met_Variables')
 
+
 *+  Local Variables
+      real DayLengthLight
 
 *- Implementation Section ----------------------------------
 
       call push_routine (myname)
 
+      !g%AverageT = (g%maxt + g%mint)/2.0
+      g%AverageT = micromet_AverageT(g%mint,g%maxt)
 
-      g%Daylength = Micromet_DayLength(g%latitude,g%day)
+      ! This is the length of time within the day during which
+      ! Evaporation will take place
+      g%Daylength = Micromet_DayLength(g%latitude,g%day,c%Sun_Angle)
 
-      g%AverageT = (g%maxt + g%mint)/2.0
+
+
+      ! This is the length of time within the day during which
+      ! the sun is above the horizon
+      g%DaylengthLight
+     :         = Micromet_DayLength(g%latitude,g%day,SunSetAngle)
+
 
       g%SunshineHours = Micromet_Sunshine_Hours(g%Radn
+     :                                         ,g%DayLengthLight
      :                                         ,g%latitude
      :                                         ,g%day)
 
+
+      g%FractionClearSky = divide(g%SunshineHours
+     :                         ,g%DayLengthLight
+     :                         ,0.0)
 
       call pop_routine (myname)
       return
@@ -1442,6 +1675,7 @@
      :                       ,g%Radn
      :                       ,0.0))
      :             * c%Soil_Emissivity
+
 
       call pop_routine (myname)
       return
@@ -1568,7 +1802,7 @@
 *+  Local Variables
       integer i
       integer j
-      real    layerLAI
+      real    layerLAItot
       real    Rin
       real    Rint
       real    Rflux
@@ -1580,7 +1814,7 @@
       Rin = g%Radn
 
       do 200 i = g%NumLayers,1,-1
-         LayerLAI = sum(g%LAI(i,:))
+         LayerLAItot = sum(g%LAItot(i,:))
 
          Rflux = Rin * 10**6 / (g%DayLength *3600.0) ! should use convert.inc
      :         * (1. - g%albedo)
@@ -1590,9 +1824,9 @@
      :                    (g%ComponentGsmax(j)
      :                    ,g%ComponentR50(j)
      :                    ,g%ComponentFrgr(j)
-     :                    ,g%F(i,j)
-     :                    ,g%LayerK(i)
-     :                    ,LayerLAI
+     :                    ,g%Fgreen(i,j)
+     :                    ,g%LayerKtot(i)
+     :                    ,LayerLAItot
      :                    ,Rflux)
 
   100    continue
@@ -1630,46 +1864,35 @@
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'Micromet_Calculate_Ga')
 
-      real       WindSpeed
-      parameter (WindSpeed = 3.0)
-
 *+  Local Variables
       integer i
       integer j
-      real layer_ga
+      real    TotalGa
+      integer numvals
 
 *- Implementation Section ----------------------------------
 
       call push_routine (myname)
 
+      call get_real_var (unknown_module, 'windspeed'
+     :                                    , '(mm)'
+     :                                    , g%windspeed, numvals
+     :                                    , 0.0, 100.)
+
+
+      TotalGa = micromet_AerodynamicConductanceFAO(
+     :                         g%WindSpeed          !windspeed
+     :                       , sum(g%DeltaZ(:))     !Top Height
+     :                       , sum(g%LAItot(:,:)) ) ! Total LAI
+
+
       do 200 i = 1, g%NumLayers
 
-         if (i .eq. 1) then
-!            layer_ga = micromet_AerodynamicCondNew (
-!     :                         WindSpeed
-!     :                       , MetHeight
-!     :                       , CropHeight
-!     :                       , CropLAI
-!     :                       , Meas_ZeroPlane)
-            layer_ga = p%layer_ga
-         else
-!            layer_ga = micromet_AerodynamicCondSub (
-!     :                                        WindSpeed
-!     :                                      , WindAttenuation
-!     :                                      , MetHeight
-!     :                                      , CropLAI
-!     :                                      , CropHeight
-!     :                                      , SourceTop
-!     :                                      , SourceSub
-!     :                                      , Meas_ZeroPlane)
-            layer_ga = p%layer_ga
-         endif
-
-
          do 100 j = 1, g%NumComponents
-
-            g%Ga(i,j) = layer_ga
-     :                * g%F(i,j)
+            g%Ga(i,j) = TotalGa
+     :                * divide(g%Rs(i,j)
+     :                        ,sum(g%Rs(:,:))
+     :                        ,0.0)
 
   100    continue
 
@@ -1712,7 +1935,7 @@
 
       call push_routine (myname)
 
-      Total_LAI = sum(g%LAI(:,:))
+      Total_LAI = sum(g%LAItot(:,:))
 
       Total_Interception = p%A_interception * g%rain**p%B_interception
      :               + p%C_interception * Total_LAI
@@ -1805,15 +2028,14 @@
 
 
 *+  Local Variables
-      REAL AverageT
-      REAL Lambda
+ !     REAL AverageT
+ !     REAL Lambda
       REAL NetRadiation       ! J
       INTEGER i
       INTEGER j
       REAL Free_Evap
       REAL Free_Evap_Ga
       REAL Free_Evap_Gc
-      REAL Dry_Leaf_Fraction
 
 *+  Constant Values
       character  myname*(*)            ! name of procedure
@@ -1823,10 +2045,14 @@
 
       call push_routine (myname)
 
-      NetRadiation = ((1. - g%Albedo) * sum(g%Rs(:,:))+ sum(g%Rl(:,:)))
+      NetRadiation = ((1. - g%Albedo) * sum(g%Rs(:,:))
+     :             + sum(g%Rl(:,:))
+     :             + sum(g%Rsoil(:,:)))
      :             * 1e6        ! MJ/J
+      NetRadiation = l_bound(NetRadiation, 0.0)
 
-      Free_Evap_Ga = p%layer_ga
+
+      Free_Evap_Ga = sum(g%Ga(:,:))
       Free_Evap_Gc = Free_Evap_Ga * 1e6  !=infinite surface conductance
 
       Free_Evap = micromet_Penman_Monteith
@@ -1841,29 +2067,50 @@
      :              ,Free_Evap_Gc
      :              )
 
-      Dry_Leaf_Fraction = 1.0 -  divide (sum(g%Interception(:,:))
-     :                                  ,Free_Evap
-     :                                  ,0.0)
 
-      if (Dry_Leaf_Fraction.lt.0.0) then
+      g%DryLeafFraction = 1.0
+     :                  -  divide (sum(g%Interception(:,:))
+     :                             *(1.0-c%night_interception_fraction)
+     :                             ,Free_Evap
+     :                             ,0.0)
+
+!      if (g%rain.gt.0) then
+!        print*,
+!     :               NetRadiation
+!     :              ,g%mint
+!     :              ,g%maxt
+!     :              ,g%vp
+!     :              ,c%Air_Pressure
+!     :              ,g%daylength
+!     :              ,Free_Evap_Ga
+!     :              ,Free_Evap_Gc
+!
+!      print*,dry_leaf_fraction, Free_evap,c%night_interception_fraction
+!      pause
+!      endif
+
+      if (g%DryLeafFraction.lt.0.0) then
 !         call Warning_Error(Err_User,
 !     :            'Interception volume > max free water evaporation')
-         Dry_Leaf_Fraction = 0.0
+         g%DryLeafFraction = 0.0
       else
       endif
 
-      averageT = (g%mint + g%maxt)/2.0
-      Lambda = micromet_Lambda (AverageT)
+!      averageT = (g%mint + g%maxt)/2.0
+!      Lambda = micromet_Lambda (AverageT)
 
       do 200 i = 1, g%NumLayers
          do 100 j = 1, g%NumComponents
 
-            NetRadiation = ((1. - g%Albedo) * g%Rs(i,j)+ g%Rl(i,j))
+            NetRadiation = ((1. - g%Albedo) * g%Rs(i,j)
+     :                   + g%Rl(i,j)
+     :                   + g%Rsoil(i,j))
      :             * 1e6        ! MJ/J
+            NetRadiation = l_bound(NetRadiation, 0.0)
 
             g%PETr(i,j) = micromet_PETr
      :              (
-     :               NetRadiation * Dry_Leaf_Fraction
+     :               NetRadiation * g%DryLeafFraction
      :              ,g%mint
      :              ,g%maxt
      :              ,c%Air_Pressure
@@ -1877,7 +2124,7 @@
      :                 ,g%maxt
      :                 ,g%vp
      :                 ,c%Air_Pressure
-     :                 ,g%daylength * Dry_Leaf_Fraction
+     :                 ,g%daylength * g%DryLeafFraction
      :                 ,g%Ga(i,j)
      :                 ,g%Gc(i,j)
      :                 )
@@ -1948,7 +2195,7 @@
 
       call push_routine (myname)
 
-      averageT = (mint + maxt)/2.0
+      averageT = Micromet_AverageT(mint,maxt)
       Non_dQs_dT = micromet_Non_dQs_dT (averageT ,Air_Pressure)
       RhoA = micromet_RhoA (averageT, Air_Pressure)
       Lambda = micromet_Lambda (AverageT)
@@ -2031,7 +2278,7 @@
 
       call push_routine (myname)
 
-      averageT = (mint + maxt)/2.0
+      averageT = micromet_averageT(mint,maxt)
 
       Non_dQs_dT = micromet_Non_dQs_dT (averageT ,Air_Pressure)
 
@@ -2106,7 +2353,7 @@
 
       call push_routine (myname)
 
-      averageT = (mint + maxt)/2.0
+      averageT = Micromet_AverageT(mint,maxt)
       Non_dQs_dT = micromet_Non_dQs_dT (averageT ,Air_Pressure)
       RhoA = micromet_RhoA (averageT, Air_Pressure)
       Lambda = micromet_Lambda (AverageT)
@@ -2115,6 +2362,8 @@
      :                                   , mint
      :                                   , maxt
      :                                   , Air_Pressure)
+
+
 
       Denominator = Non_dQs_dT
      :            + Divide( Ga, Gc, 0.0)
@@ -2125,6 +2374,11 @@
      :                      * 1000.0                 ! m to mm ?
      :                      * (DayLength *3600.0)    ! s
      :                      / RhoW                   ! kg/m3
+
+!      print*,SpecificVPD, Ga, Gc, RhoA,Daylength, RhoW
+!      print*,Denominator, Non_dQs_dT,vp,air_pressure
+!      print*,'spec hum of 3kpa=', micromet_specifichumidity(3.0,101.0)
+!      pause
 
       call pop_routine (myname)
 
@@ -2156,6 +2410,8 @@
 
 *+  Local Variables
       integer j
+      real int_radn_tot
+      real int_radn_green
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
@@ -2164,9 +2420,13 @@
 
       do 100 j=1,g%NumComponents
 
+         int_radn_tot = sum(g%Rs(1:g%NumLayers,j))
+         int_radn_green = Micromet_radn_green_fraction(j)
+     :                  * int_radn_tot
+
          call post_real_var ('int_radn_'//Trim(g%ComponentName(j))
      :                      , '(MJ)'
-     :                      , sum(g%Rs(1:g%NumLayers,j)))
+     :                      , int_radn_green)
 
   100 continue
 
@@ -2177,6 +2437,51 @@
       call pop_routine (myname)
       return
       end subroutine
+
+*     ===========================================================
+      real function Micromet_radn_green_fraction (j)
+*     ===========================================================
+
+      Use Infrastructure
+      implicit none
+*+  Sub-Program Arguments
+      integer j
+
+*+  Purpose
+*       Calculate the proportion of light intercepted by
+*       a given component that corresponds to green leaf
+
+*+  Mission Statement
+*       Calculate the proportion of light intercepted by
+*       a given component that corresponds to green leaf
+
+*+  Changes
+*
+
+*+  Calls
+
+
+*+  Constant Values
+      character  myname*(*)            ! name of this procedure
+      parameter (myname = 'Micromet_Radn_Green_fraction')
+
+*+  Local Variables
+      real kl_green
+      real kl_tot
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      kl_green = -log(1.0-g%ComponentCoverGreen(j))
+      kl_tot = -log(1.0-g%ComponentCoverTot(j))
+
+      Micromet_radn_green_fraction =
+     :             divide (kl_green,kl_tot,0.0)
+
+      call pop_routine (myname)
+      return
+      end function
+
 
 *     ===========================================================
       subroutine Micromet_Water_Balance_Event ()
@@ -2389,10 +2694,16 @@
 
       else if (Action.eq.'lai_table') then
          call Micromet_table ('LAI',g%LAI)
-      else if (Action.eq.'f_table') then
-         call Micromet_table ('F',g%F)
+
+      else if (Action.eq.'ftot_table') then
+         call Micromet_table ('Ftot',g%Ftot)
+
+      else if (Action.eq.'Fgreen_table') then
+         call Micromet_table ('Fgreen',g%Fgreen)
+
       else if (Action.eq.'rs_table') then
          call Micromet_table ('Rs',g%Rs)
+
       else if (Action.eq.'rl_table') then
          call Micromet_table ('Rl',g%Rl)
       else if (Action.eq.'gc_table') then
