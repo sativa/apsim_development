@@ -1,43 +1,40 @@
 inherited ImageForm: TImageForm
   Caption = 'ImageForm'
   OldCreateOrder = True
-  PixelsPerInch = 96
-  TextHeight = 13
-  object Label3: TLabel [2]
-    Left = 20
-    Top = 104
-    Width = 43
-    Height = 13
+  PixelsPerInch = 120
+  TextHeight = 16
+  object AutosizeLabel: TLabel [2]
+    Left = 25
+    Top = 160
+    Width = 54
+    Height = 16
     Caption = 'Autosize:'
   end
-  object Label4: TLabel [3]
-    Left = 29
-    Top = 128
-    Width = 34
-    Height = 13
+  object CenterLabel: TLabel [3]
+    Left = 36
+    Top = 190
+    Width = 42
+    Height = 16
     Caption = 'Centre:'
   end
-  object Label5: TLabel [4]
-    Left = 26
-    Top = 152
-    Width = 37
-    Height = 13
+  object StretchLabel: TLabel [4]
+    Left = 32
+    Top = 219
+    Width = 44
+    Height = 16
     Caption = 'Stretch:'
   end
-  object Label6: TLabel [6]
-    Left = 18
-    Top = 80
-    Width = 45
-    Height = 13
+  object FilenameLabel: TLabel [6]
+    Left = 22
+    Top = 129
+    Width = 59
+    Height = 16
     Caption = 'Filename:'
   end
-  inherited ToolbarCheckBox: TCheckBox
-    TabOrder = 6
-  end
   object ImageFileEdit: TAdvEditBtn
-    Left = 72
-    Top = 80
-    Width = 145
+    Left = 89
+    Top = 129
+    Width = 178
     Height = 21
     AutoFocus = False
     EditAlign = eaLeft
@@ -88,7 +85,7 @@ inherited ImageForm: TImageForm
     OleDropTarget = False
     OleDropSource = False
     Signed = False
-    TabOrder = 2
+    TabOrder = 4
     Transparent = False
     Visible = True
     ButtonWidth = 18
@@ -124,31 +121,31 @@ inherited ImageForm: TImageForm
     OnClickBtn = ImageFileEditClickBtn
   end
   object AutoSizeCheckBox: TCheckBox
-    Left = 72
-    Top = 104
-    Width = 97
-    Height = 17
-    TabOrder = 3
+    Left = 89
+    Top = 160
+    Width = 119
+    Height = 21
+    TabOrder = 5
     OnClick = AutoSizeCheckBoxClick
   end
   object CentreCheckBox: TCheckBox
-    Left = 72
-    Top = 128
-    Width = 97
-    Height = 17
-    TabOrder = 4
+    Left = 89
+    Top = 190
+    Width = 119
+    Height = 20
+    TabOrder = 6
     OnClick = CentreCheckBoxClick
   end
   object StretchCheckBox: TCheckBox
-    Left = 72
-    Top = 152
-    Width = 97
-    Height = 17
-    TabOrder = 5
+    Left = 89
+    Top = 219
+    Width = 119
+    Height = 21
+    TabOrder = 7
     OnClick = StretchCheckBoxClick
   end
   object OpenPictureDialog: TOpenPictureDialog
     Left = 88
-    Top = 168
+    Top = 200
   end
 end

@@ -36,6 +36,7 @@ void TPropertyForm::setComponent(TComponent* comp)
       getComponentNames<TSEGTable>(segTable->Owner, SourceCombo->Items);
       if (segTable->source != NULL)
          SourceCombo->Text = segTable->source->Name;
+      SortFieldsEdit->Text = segTable->sortFields;
       }
    else
       {
@@ -43,6 +44,9 @@ void TPropertyForm::setComponent(TComponent* comp)
       ToolbarCheckBox->Visible = false;
       SourceLabel->Visible = false;
       SourceCombo->Visible = false;
+      SortFieldsLabel->Visible = false;
+      SortFieldsEdit->Visible = false;
+
       }
    }
 //---------------------------------------------------------------------------
@@ -62,6 +66,12 @@ void __fastcall TPropertyForm::ToolbarCheckBoxClick(TObject *Sender)
    {
    TSEGTable* segTable = dynamic_cast<TSEGTable*>(component);
    segTable->addToToolBar = ToolbarCheckBox->Checked;
+   }
+//---------------------------------------------------------------------------
+void __fastcall TPropertyForm::SortFieldsEditChange(TObject *Sender)
+   {
+   TSEGTable* segTable = dynamic_cast<TSEGTable*>(component);
+   segTable->sortFields = SortFieldsEdit->Text;
    }
 //---------------------------------------------------------------------------
 

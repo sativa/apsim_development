@@ -1,21 +1,21 @@
 inherited ApsimFileReaderForm: TApsimFileReaderForm
-  Height = 429
   Caption = 'ApsimFileReaderForm'
   OldCreateOrder = True
-  PixelsPerInch = 96
-  TextHeight = 13
+  PixelsPerInch = 120
+  TextHeight = 16
   object Label3: TLabel [0]
-    Left = 8
-    Top = 56
-    Width = 50
-    Height = 13
+    Left = 10
+    Top = 69
+    Width = 66
+    Height = 16
     Caption = 'Filenames:'
   end
   object BrowseButton: TSpeedButton [1]
-    Left = 24
-    Top = 99
-    Width = 39
-    Height = 26
+    Left = 164
+    Top = 154
+    Width = 99
+    Height = 24
+    Caption = '&Browse'
     Flat = True
     Glyph.Data = {
       EE030000424DEE030000000000003600000028000000110000000E0000000100
@@ -53,34 +53,31 @@ inherited ApsimFileReaderForm: TApsimFileReaderForm
     OnClick = BrowseButtonClick
   end
   object Label4: TLabel [5]
-    Left = 13
-    Top = 80
-    Width = 50
-    Height = 13
+    Left = 8
+    Top = 160
+    Width = 66
+    Height = 16
     Caption = 'Filenames:'
   end
-  inherited ToolbarCheckBox: TCheckBox
-    TabOrder = 3
-  end
   object FilesList: TListView
-    Left = 72
-    Top = 80
-    Width = 142
-    Height = 281
+    Left = 8
+    Top = 176
+    Width = 255
+    Height = 216
     Anchors = [akLeft, akTop, akRight, akBottom]
     BevelInner = bvLowered
     BevelOuter = bvRaised
     BevelKind = bkSoft
     BorderStyle = bsNone
     Columns = <>
-    TabOrder = 2
+    TabOrder = 4
     ViewStyle = vsList
   end
   object OpenDialog: TOpenDialog
     DefaultExt = 'out'
     Filter = 'Output files (*.out)|*.out|All files (*.*)|*.*'
     Options = [ofHideReadOnly, ofAllowMultiSelect, ofEnableSizing]
-    Left = 76
-    Top = 112
+    Left = 220
+    Top = 184
   end
 end

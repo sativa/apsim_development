@@ -1,43 +1,40 @@
 inherited REMSForm: TREMSForm
   Caption = 'REMSForm'
   OldCreateOrder = True
-  PixelsPerInch = 96
-  TextHeight = 13
+  PixelsPerInch = 120
+  TextHeight = 16
   object Label3: TLabel [2]
-    Left = 18
-    Top = 80
-    Width = 45
-    Height = 13
+    Left = 22
+    Top = 132
+    Width = 59
+    Height = 16
     Caption = 'Filename:'
   end
   object Label4: TLabel [3]
-    Left = 8
-    Top = 104
-    Width = 55
-    Height = 13
+    Left = 10
+    Top = 160
+    Width = 70
+    Height = 16
     Caption = 'Experiment:'
   end
   object Label5: TLabel [4]
-    Left = 12
-    Top = 128
-    Width = 51
-    Height = 13
+    Left = 15
+    Top = 190
+    Width = 64
+    Height = 16
     Caption = 'Treatment:'
   end
   object Label6: TLabel [5]
     Left = 0
-    Top = 152
-    Width = 63
-    Height = 13
+    Top = 219
+    Width = 78
+    Height = 16
     Caption = 'Data Source:'
   end
-  inherited ToolbarCheckBox: TCheckBox
-    TabOrder = 6
-  end
   object FilenameEdit: TAdvFileNameEdit
-    Left = 72
-    Top = 80
-    Width = 145
+    Left = 89
+    Top = 130
+    Width = 178
     Height = 21
     AutoFocus = False
     ErrorMarkerPos = 0
@@ -82,7 +79,7 @@ inherited REMSForm: TREMSForm
     HintShowLargeText = False
     OleDropTarget = False
     OleDropSource = False
-    TabOrder = 2
+    TabOrder = 4
     Transparent = False
     Visible = True
     OnChange = FilenameEditChange
@@ -103,36 +100,36 @@ inherited REMSForm: TREMSForm
     DialogKind = fdOpen
   end
   object ExperimentCombo: TComboBox
-    Left = 72
-    Top = 104
-    Width = 145
-    Height = 21
+    Left = 89
+    Top = 160
+    Width = 178
+    Height = 24
     BevelKind = bkSoft
     Anchors = [akLeft, akTop, akRight]
-    ItemHeight = 13
-    TabOrder = 3
+    ItemHeight = 16
+    TabOrder = 5
     OnChange = ExperimentComboChange
   end
   object TreatmentCombo: TComboBox
-    Left = 72
-    Top = 128
-    Width = 144
-    Height = 21
+    Left = 89
+    Top = 190
+    Width = 177
+    Height = 24
     BevelKind = bkSoft
     Anchors = [akLeft, akTop, akRight]
-    ItemHeight = 13
-    TabOrder = 4
+    ItemHeight = 16
+    TabOrder = 6
     OnChange = TreatmentComboChange
   end
   object DataSourceCombo: TComboBox
-    Left = 72
-    Top = 152
-    Width = 144
-    Height = 21
+    Left = 89
+    Top = 219
+    Width = 177
+    Height = 24
     BevelKind = bkSoft
     Anchors = [akLeft, akTop, akRight]
-    ItemHeight = 13
-    TabOrder = 5
+    ItemHeight = 16
+    TabOrder = 7
     Text = 'Crop'
     OnChange = DataSourceComboChange
     Items.Strings = (

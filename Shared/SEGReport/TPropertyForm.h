@@ -26,9 +26,12 @@ __published:	// IDE-managed Components
    TLabel *Label2;
    TLabel *ToolbarLabel;
    TCheckBox *ToolbarCheckBox;
+   TEdit *SortFieldsEdit;
+   TLabel *SortFieldsLabel;
    void __fastcall NameEditExit(TObject *Sender);
    void __fastcall SourceComboChange(TObject *Sender);
    void __fastcall ToolbarCheckBoxClick(TObject *Sender);
+   void __fastcall SortFieldsEditChange(TObject *Sender);
 private:	// User declarations
    TComponent* component;
 protected:

@@ -95,7 +95,7 @@ void TProbability::storeRecords(void) throw(runtime_error)
          source->nextSeries();
          }
       source->cancelSeries();
-      SortFields = PROBABILITY_FIELD_NAME;
+      sortFields = PROBABILITY_FIELD_NAME;
       }
    }
 // ------------------------------------------------------------------

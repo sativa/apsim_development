@@ -1,36 +1,32 @@
 inherited ExcelForm: TExcelForm
-  Width = 235
   Caption = 'ExcelForm'
   OldCreateOrder = True
-  PixelsPerInch = 96
-  TextHeight = 13
+  PixelsPerInch = 120
+  TextHeight = 16
   object Label3: TLabel [2]
-    Left = 18
-    Top = 80
-    Width = 45
-    Height = 13
+    Left = 22
+    Top = 126
+    Width = 59
+    Height = 16
     Caption = 'Filename:'
   end
   object Label4: TLabel [3]
-    Left = 8
-    Top = 104
-    Width = 55
-    Height = 13
-    Caption = 'Experiment:'
+    Left = 10
+    Top = 152
+    Width = 72
+    Height = 16
+    Caption = 'Sheetname:'
   end
   inherited SourceCombo: TComboBox
-    Width = 143
+    Width = 176
   end
   inherited NameEdit: TEdit
-    Width = 143
-  end
-  inherited ToolbarCheckBox: TCheckBox
-    TabOrder = 4
+    Width = 176
   end
   object FilenameEdit: TAdvFileNameEdit
-    Left = 72
-    Top = 80
-    Width = 144
+    Left = 89
+    Top = 127
+    Width = 177
     Height = 21
     AutoFocus = False
     ErrorMarkerPos = 0
@@ -75,7 +71,7 @@ inherited ExcelForm: TExcelForm
     HintShowLargeText = False
     OleDropTarget = False
     OleDropSource = False
-    TabOrder = 2
+    TabOrder = 4
     Transparent = False
     Visible = True
     OnChange = FilenameEditChange
@@ -96,14 +92,14 @@ inherited ExcelForm: TExcelForm
     DialogKind = fdOpen
   end
   object PageCombo: TComboBox
-    Left = 72
-    Top = 104
-    Width = 144
-    Height = 21
+    Left = 89
+    Top = 152
+    Width = 177
+    Height = 24
     BevelKind = bkSoft
     Anchors = [akLeft, akTop, akRight]
-    ItemHeight = 13
-    TabOrder = 3
+    ItemHeight = 16
+    TabOrder = 5
     OnChange = PageComboChange
   end
 end

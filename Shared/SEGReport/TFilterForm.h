@@ -21,7 +21,7 @@
 class TFilterForm : public TPropertyForm
    {
    __published:	// IDE-managed Components
-   TLabel *Label3;
+   TLabel *FilterLabel;
    TEdit *FilterEdit;
    void __fastcall FilterEditExit(TObject *Sender);
    private:	// User declarations

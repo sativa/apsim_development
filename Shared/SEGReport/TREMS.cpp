@@ -189,7 +189,7 @@ void TREMS::storeRecords(void) throw(runtime_error)
          query->Next();
          }
 
-      SortFields = "Date";
+      sortFields = "Date";
       delete query;
       }
    }

@@ -1,39 +1,38 @@
 inherited TextForm: TTextForm
-  Width = 239
   Caption = 'TextForm'
   OldCreateOrder = True
-  PixelsPerInch = 96
-  TextHeight = 13
+  PixelsPerInch = 120
+  TextHeight = 16
   object Label5: TLabel [3]
-    Left = 8
-    Top = 338
-    Width = 56
-    Height = 13
+    Left = 10
+    Top = 330
+    Width = 71
+    Height = 16
     Anchors = [akLeft, akBottom]
     Caption = 'E.g macros:'
   end
   object Label3: TLabel [4]
-    Left = 24
-    Top = 355
-    Width = 144
-    Height = 13
+    Left = 30
+    Top = 345
+    Width = 185
+    Height = 16
     Anchors = [akLeft, akBottom]
     Caption = '$property(component.property)'
   end
   object Label4: TLabel [5]
-    Left = 24
-    Top = 371
-    Width = 154
-    Height = 26
+    Left = 30
+    Top = 363
+    Width = 189
+    Height = 32
     Anchors = [akLeft, akBottom]
     Caption = '$precision(component.property,                    decplaces)'
     WordWrap = True
   end
   object FontButton: TSpeedButton [6]
-    Left = 72
-    Top = 99
-    Width = 71
-    Height = 26
+    Left = 89
+    Top = 184
+    Width = 87
+    Height = 24
     Caption = '&Font'
     Flat = True
     Glyph.Data = {
@@ -75,60 +74,69 @@ inherited TextForm: TTextForm
       C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
       C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
       C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000}
+    Transparent = False
     OnClick = FontButtonClick
   end
   object Label6: TLabel [7]
-    Left = 7
-    Top = 120
-    Width = 24
-    Height = 13
+    Left = 9
+    Top = 188
+    Width = 29
+    Height = 16
     Caption = 'Text:'
   end
-  object Label1: TLabel [8]
-    Left = 14
-    Top = 80
-    Width = 49
-    Height = 13
+  object Label7: TLabel [9]
+    Left = 15
+    Top = 130
+    Width = 62
+    Height = 16
     Caption = 'Alignment:'
   end
-  inherited SourceCombo: TComboBox
-    Width = 147
-  end
-  inherited NameEdit: TEdit
-    Width = 147
-  end
-  inherited ToolbarCheckBox: TCheckBox
-    TabOrder = 3
+  object Label1: TLabel [10]
+    Left = 18
+    Top = 157
+    Width = 58
+    Height = 16
+    Caption = 'Autosize?'
   end
   object TextEdit: TRichEdit
     Left = 8
-    Top = 136
-    Width = 212
-    Height = 193
+    Top = 208
+    Width = 257
+    Height = 121
     Anchors = [akLeft, akTop, akRight, akBottom]
     BevelInner = bvNone
     BevelOuter = bvRaised
     BevelKind = bkFlat
     BorderStyle = bsNone
     ScrollBars = ssBoth
-    TabOrder = 2
+    TabOrder = 5
     WordWrap = False
     OnExit = TextEditExit
   end
   object AlignmentCombo: TComboBox
-    Left = 72
-    Top = 80
-    Width = 147
-    Height = 21
+    Left = 88
+    Top = 127
+    Width = 177
+    Height = 24
     BevelKind = bkSoft
     Anchors = [akLeft, akTop, akRight]
-    ItemHeight = 13
+    ItemHeight = 16
     TabOrder = 4
     OnChange = AlignmentComboChange
     Items.Strings = (
       'Left'
       'Centre'
       'Right')
+  end
+  object AutosizeCheckBox: TCheckBox
+    Left = 89
+    Top = 157
+    Width = 119
+    Height = 21
+    Ctl3D = True
+    ParentCtl3D = False
+    TabOrder = 6
+    OnClick = ToolbarCheckBoxClick
   end
   object FontDialog: TFontDialog
     Font.Charset = DEFAULT_CHARSET

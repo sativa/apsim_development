@@ -1,62 +1,59 @@
 inherited ShapeForm: TShapeForm
   Caption = 'ShapeForm'
   OldCreateOrder = True
-  PixelsPerInch = 96
-  TextHeight = 13
+  PixelsPerInch = 120
+  TextHeight = 16
   object Label3: TLabel [3]
-    Left = 9
-    Top = 104
-    Width = 54
-    Height = 13
+    Left = 11
+    Top = 160
+    Width = 67
+    Height = 16
     Caption = 'Pen colour:'
   end
   object Label4: TLabel [4]
     Left = 1
-    Top = 128
-    Width = 62
-    Height = 13
+    Top = 190
+    Width = 77
+    Height = 16
     Caption = 'Brush colour:'
   end
   object Label5: TLabel [5]
-    Left = 29
-    Top = 80
-    Width = 34
-    Height = 13
+    Left = 36
+    Top = 130
+    Width = 43
+    Height = 16
     Caption = 'Shape:'
   end
-  inherited ToolbarCheckBox: TCheckBox
-    TabOrder = 5
-  end
   object BrushColourCombo: TColorBox
-    Left = 72
-    Top = 128
-    Width = 145
+    Left = 89
+    Top = 190
+    Width = 178
     Height = 22
     Anchors = [akLeft, akTop, akRight]
     BevelKind = bkSoft
     ItemHeight = 16
-    TabOrder = 2
+    TabOrder = 6
     OnChange = BrushColourComboChange
   end
   object PenColourCombo: TColorBox
-    Left = 72
-    Top = 104
-    Width = 145
+    Left = 89
+    Top = 160
+    Width = 178
     Height = 22
     Anchors = [akLeft, akTop, akRight]
     BevelKind = bkSoft
     ItemHeight = 16
-    TabOrder = 3
+    TabOrder = 5
     OnChange = PenColourComboChange
   end
   object ShapeCombo: TComboBox
-    Left = 72
-    Top = 80
-    Width = 145
-    Height = 21
+    Left = 89
+    Top = 130
+    Width = 178
+    Height = 24
     BevelKind = bkSoft
     Anchors = [akLeft, akTop, akRight]
-    ItemHeight = 13
+    ItemHeight = 16
     TabOrder = 4
     Text = 'Rectangle'
     OnChange = ShapeComboChange

@@ -24,10 +24,13 @@ __published:	// IDE-managed Components
    TSpeedButton *FontButton;
    TLabel *Label6;
    TComboBox *AlignmentCombo;
+   TLabel *Label7;
+   TCheckBox *AutosizeCheckBox;
    TLabel *Label1;
    void __fastcall TextEditExit(TObject *Sender);
    void __fastcall FontButtonClick(TObject *Sender);
    void __fastcall AlignmentComboChange(TObject *Sender);
+   void __fastcall ToolbarCheckBoxClick(TObject *Sender);
 private:	// User declarations
       TText* text;
 public:		// User declarations
