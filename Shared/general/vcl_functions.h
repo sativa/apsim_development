@@ -130,11 +130,14 @@ TComponent* Locate_component(TComponent* component, const char* Component_name);
 template <class T>
 T* getComponent(TComponent* owner, const AnsiString& componentName)
    {
-   // loop through all components owned by owner.
-   for (int componentI = 0; componentI < owner->ComponentCount; componentI++)
+   if (owner != NULL)
       {
-      if (owner->Components[componentI]->Name.AnsiCompareIC(componentName) == 0)
-         return dynamic_cast<T*> (owner->Components[componentI]);
+      // loop through all components owned by owner.
+      for (int componentI = 0; componentI < owner->ComponentCount; componentI++)
+         {
+         if (owner->Components[componentI]->Name.AnsiCompareIC(componentName) == 0)
+            return dynamic_cast<T*> (owner->Components[componentI]);
+         }
       }
    return NULL;
    }
@@ -146,12 +149,15 @@ T* getComponent(TComponent* owner, const AnsiString& componentName)
 template <class T>
 T* getComponentOfType(TComponent* owner)
    {
-   // loop through all components owned by owner
-   for (int componentI = 0; componentI < owner->ComponentCount; componentI++)
+   if (owner != NULL)
       {
-      T* comp = dynamic_cast<T*> (owner->Components[componentI]);
-      if (comp != NULL)
-         return comp;
+      // loop through all components owned by owner
+      for (int componentI = 0; componentI < owner->ComponentCount; componentI++)
+         {
+         T* comp = dynamic_cast<T*> (owner->Components[componentI]);
+         if (comp != NULL)
+            return comp;
+         }
       }
    return NULL;
    }
@@ -163,11 +169,14 @@ T* getComponentOfType(TComponent* owner)
 template <class T>
 T* getControl(TWinControl* parent, const AnsiString& controlName)
    {
-   // loop through all controls in parent
-   for (int i= 0; i < parent->ControlCount; i++)
+   if (parent != NULL)
       {
-      if (parent->Controls[i]->Name.AnsiCompareIC(controlName) == 0)
-         return dynamic_cast<T*> (parent->Controls[i]);
+      // loop through all controls in parent
+      for (int i= 0; i < parent->ControlCount; i++)
+         {
+         if (parent->Controls[i]->Name.AnsiCompareIC(controlName) == 0)
+            return dynamic_cast<T*> (parent->Controls[i]);
+         }
       }
    return NULL;
    }
@@ -178,12 +187,15 @@ T* getControl(TWinControl* parent, const AnsiString& controlName)
 template <class T>
 T* getControlOfType(TWinControl* parent)
    {
-   // loop through all components owned by owner
-   for (int i = 0; i < parent->ControlCount; i++)
+   if (parent != NULL)
       {
-      T* control = dynamic_cast<T*> (parent->Controls[i]);
-      if (control != NULL)
-         return control;
+      // loop through all components owned by owner
+      for (int i = 0; i < parent->ControlCount; i++)
+         {
+         T* control = dynamic_cast<T*> (parent->Controls[i]);
+         if (control != NULL)
+            return control;
+         }
       }
    return NULL;
    }
@@ -196,12 +208,15 @@ T* getControlOfType(TWinControl* parent)
 template <class T>
 void getComponentNames(TComponent* owner, TStrings* componentNames)
    {
-   // loop through all components in parent form.
-   for (int componentI = 0; componentI < owner->ComponentCount; componentI++)
+   if (owner != NULL)
       {
-      TComponent* component = dynamic_cast<T*>(owner->Components[componentI]);
-      if (component != NULL)
-         componentNames->Add(component->Name);
+      // loop through all components in parent form.
+      for (int componentI = 0; componentI < owner->ComponentCount; componentI++)
+         {
+         TComponent* component = dynamic_cast<T*>(owner->Components[componentI]);
+         if (component != NULL)
+            componentNames->Add(component->Name);
+         }
       }
    }
 
