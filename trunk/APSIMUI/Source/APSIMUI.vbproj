@@ -7,7 +7,7 @@
     >
         <Build>
             <Settings
-                ApplicationIcon = ""
+                ApplicationIcon = "APSIM.ico"
                 AssemblyKeyContainerName = ""
                 AssemblyName = "APSIMUI"
                 AssemblyOriginatorKeyFile = ""
@@ -207,6 +207,10 @@
         </Build>
         <Files>
             <Include>
+                <File
+                    RelPath = "APSIM.ico"
+                    BuildAction = "Content"
+                />
                 <File
                     RelPath = "AreaUI.vb"
                     SubType = "Form"
