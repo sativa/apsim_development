@@ -130,8 +130,6 @@
 
 *+  Changes
 *     dph 10/5/99 removed version and presence reports c186
-*     dph 15/12/00 added properties back in.
-*     dph 18/1/01  changed properties to parameters - mistake
 
 *+  Calls
 
@@ -150,13 +148,13 @@
      :     access='direct', recl= record_length, iostat=iostatus)
  
       if (iostatus.eq.0) then
-         call operatns_read_section ('start_of_day',prepare_phase)
-         call operatns_read_section ('parameters',prepare_phase)
+         call operatns_read_section ('prepare',prepare_phase)
          call operatns_read_section ('process',process_phase)
-         call operatns_read_section ('end_of_day',post_phase)
+         call operatns_read_section ('post',post_phase)
          call operatns_sort_data ()
          call operatns_list ()
  
+         rewind (g%oplun)
       else
          call fatal_error (Err_User, 'Cannot open scratch file.')
       endif
@@ -310,9 +308,7 @@
       include   'const.inc'
       include   'error.pub'
       include   'read.pub'
-      include   'string.pub'
       include   'apsimengine.pub'
-      include   'componentinterface.inc'
 
 *+  Sub-Program Arguments
       character  section*(*)           ! section names
@@ -325,90 +321,63 @@
 *     240395 jngh changed to read from section
 *     050895 nih  upgraded to allow operations to be assigned to phase.
 *                 Routine used to be called operatns_concat_files.
-*     101100 dph  changed to use text object instead of memo object
 
 *+  Constant Values
       character*(*) my_name            ! name of current procedure
       parameter (my_name = 'operatns_read_section')
 
-       INTEGER MAX_RULE_NAME_SIZE
-       parameter (MAX_RULE_NAME_SIZE=100)
-       INTEGER MAX_RULES
-       PARAMETER (MAX_RULES=100)
-       INTEGER MAX_CONDITION_SIZE
-       parameter (MAX_CONDITION_SIZE=20)
-
-*+  Calls
-      character lower_case*(MAX_CONDITION_SIZE)
-
 *+  Local Variables
       character  Line*(record_length) ! line from an operations file
 *      integer    recno                ! record number for direct
                                       ! access file
-      integer rule_object             ! C++ rule object
+      integer memo_object             ! C++ memo object
       logical ok                      ! created object ok?
       integer Line_number             ! line number
+      character module_name*50        ! name of module
       integer num_lines               ! number of lines in memo
-      CHARACTER Rule_names(MAX_RULES)*(MAX_RULE_NAME_SIZE)
-                                       ! rule names user has defined
-       INTEGER Num_rules               ! number of rules user has defined
-       integer Rule_Type               ! index into rules list
-       CHARACTER condition*(MAX_CONDITION_SIZE)
-                                       ! condition of each rule
-       integer rule_index
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
-      ! get a list of all rule names that user has defined.
-      call somcomponent_getpropertynames(componentData,
-     .                                   Rule_names,
-     .                                   'rule',
-     .                                   MAX_RULES,
-     .                                   Num_rules)
-      ! loop through all rules looking for ones that match our section
-      do Rule_Index = 1, Num_rules
-         rule_object = component_getrule(ComponentData,
-     .                                   Rule_names(Rule_index),
-     .                                   ' ')
-         if (rule_object .ne. 0) then
-            call rule_getcondition(rule_object, condition)
-            condition = lower_case(condition)
-            if (condition .eq. section) then
-               num_lines = rule_getActionLineCount(rule_object)
+      call Get_current_module (module_name)
 
-               do 100 Line_number = 0, num_lines-1
-                  call rule_getActionLine(rule_object,
-     .                                    Line_number, Line)
-
-                  ! remove any comments
-                  if (index(Line, '!') .gt. 0) then
-                     Line(index(Line, '!'):) = Blank
-                  endif
-
-                  if (line .ne. blank) then
-                     if (g%last_record .lt. max_ops) then
-                        g%last_record = g%last_record + 1
-                        call operatns_extract_date (line
-     :                               , g%op_days(g%last_record)
-     :                               , g%op_years(g%last_record))
-                        write (g%oplun, '(A)', rec=g%last_record) line
-                        g%op_order(g%last_record) = g%last_record
-                        g%op_phase(g%last_record) = phase_no
-
-                     else
-                        call fatal_error (Err_User,
-     :                     'Too many operations file to deal with')
-                        goto 200
-                     endif
-                  endif
-100            continue
-200            continue
+      call Memo_Create(memo_object)
+      ok = ApsimSystem_Data_Get(
+     .    Trim(module_name) // '.' // section, memo_object)
+ 
+      if (ok) then
+         num_lines = Memo_GetLineCount(memo_object)
+         do 100 Line_number = 0, num_lines-1
+            call Memo_GetLine(memo_object, line_number, Line)
+         
+            ! remove any comments
+            if (index(Line, '!') .gt. 0) then
+               Line(index(Line, '!'):) = Blank
             endif
-            call component_freerule(rule_object) 
-         endif
-      end do
+         
+            if (line .ne. blank) then
+               if (g%last_record .lt. max_ops) then
+                  g%last_record = g%last_record + 1
+                  call operatns_extract_date (line
+     :                                    , g%op_days(g%last_record)
+     :                                    , g%op_years(g%last_record))
+                  write (g%oplun, '(A)', rec=g%last_record) line
+                  g%op_order(g%last_record) = g%last_record
+                  g%op_phase(g%last_record) = phase_no
+                
+               else
+                  call fatal_error (Err_User,
+     :                          'Too many operations file to deal with')
+                  goto 200
+               endif
+            endif   
+100      continue      
+200      continue      
+      else
+      endif
 
+      call Memo_Free (memo_object)
+ 
       call pop_routine (my_name)
       return
       end
@@ -430,6 +399,8 @@
 *+  Changes
 *    050895 - NIH - created from operatns_sort_file to include sorting
 *                   of data into phases.
+*    060201 - DSG - reoved the shell sort and replaced with a bubble
+*                   sort (reference d-415)
 
 *+  Constant Values
       character*(*) my_name            ! name of current procedure
@@ -444,25 +415,20 @@
       integer    year1
       integer    year2
       integer    recno
-      integer    step
-      logical    swapped
+      integer    i
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
-      step = g%last_record
-  100 continue
-         step = step/2
-  150    continue
-            swapped = .false.
-            do 200 recno = 1, g%last_record - step
+
+        do 250 i = 1, g%last_record 
+            do 200 recno = 1, (g%last_record-1)
  
                day1 = g%op_days(g%op_order(recno))
-               day2 = g%op_days(g%op_order(recno+step))
+               day2 = g%op_days(g%op_order(recno+1))
                year1 = g%op_years(g%op_order(recno))
-               year2 = g%op_years(g%op_order(recno+step))
+               year2 = g%op_years(g%op_order(recno+1))
                phase1 = g%op_phase(g%op_order(recno))
-               phase2 = g%op_phase(g%op_order(recno+step))
+               phase2 = g%op_phase(g%op_order(recno+1))
  
  
                if (((day1.gt.day2) .and. (year1.eq.year2))
@@ -471,37 +437,28 @@
      :                            then
  
          ! These records need to be swapped to be in chronological order
-                  temp = g%op_order(recno+step)
-                  g%op_order(recno+step) = g%op_order(recno)
+                  temp = g%op_order(recno+1)
+                  g%op_order(recno+1) = g%op_order(recno)
                   g%op_order(recno) = temp
  
-                  swapped = .true.
  
                else if (((day1.eq.day2) .and. (year1.eq.year2))
      :                            .and.
      :                      (phase1.gt.phase2))
      :                            then
          ! These records need to be swapped to be in phase order
-                  temp = g%op_order(recno+step)
-                  g%op_order(recno+step) = g%op_order(recno)
+                  temp = g%op_order(recno+1)
+                  g%op_order(recno+1) = g%op_order(recno)
                   g%op_order(recno) = temp
  
-                  swapped = .true.
  
                else
                endif
   200       continue
+  250       continue
  
-            if (.not.swapped) goto 250
-         goto 150
- 
-  250    continue
- 
-         if (step .le. 1) goto 300
- 
-      goto 100
- 
-  300 continue  ! finished sorting
+
+ ! finished sorting
  
       call pop_routine (my_name)
       return
