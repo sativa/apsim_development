@@ -1,9 +1,0 @@
-[Dependencies]
-Dependency = %licensed_source(ozcot)
-
-[Contents]
-ozcot.for = ozcot.for
-
-[APSBuild]
-binary = ..\lib\ozcot.dll
-lf90file = %apsuite\apsbuild\module.lf90
