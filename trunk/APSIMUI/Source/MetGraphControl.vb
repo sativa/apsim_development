@@ -24,9 +24,8 @@ Public Class MetGraphControl
         InitializeComponent()
 
         'Add any initialization after the InitializeComponent() call
-        '        FillListBar()
-        Xceed.SmartUI.Licenser.LicenseKey = "SUN31-0ZAGD-YB7LN-1ABA"
-        GraphType = "Rainfall Chart"
+        
+        GraphType = RainfallChart
     End Sub
 
     'UserControl overrides dispose to clean up the component list.
