@@ -38,15 +38,15 @@ profile_reduction = on               ! (on|off) whether to remap N+C if
 
    enr_b_coeff    = 0.2  ()          ! 1.0 to 20.0 enrichment equation coefficients
 
-!******************** Residue2 Parameters ****************
-[sand.residue2.parameters]
-pot_decomp_rate =  0.10 ()    ! Potential decomposition rate
-residue_wt =  1500. (kg/ha)   ! Initial surface residue
-residue_cnr =  70.0 ()        ! C:N ration of initial residue
-residue_type =  wheat         ! Type if initial residue
+!******************** SurfaceOM Parameters ****************
+[sand.SurfaceOM.parameters]
+mass = 1500. (kg/ha)   ! Initial surface residue
+cnr = 70.0 ()        ! C:N ration of initial residue
+type = wheat         ! Type if initial residue
 
 
 !******************** Soilwat2 Parameters ****************
+name = wheat
 [sand.soilwat2.parameters]
 insoil = 0.1   ! indicator for initial soil water ! assuming profile close to ll15 on 1.5.
                ! 0 to 1 is fraction of avail soil water (0=ll15, 1 = dul,
