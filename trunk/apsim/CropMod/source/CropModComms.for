@@ -5204,6 +5204,7 @@ c           string_to_integer_var(value_string, value, numvals)
 
       ! zero pools etc.
 
+      call PlantP_zero_variables()
       call Zero_Daily_Variables ()
 
 
