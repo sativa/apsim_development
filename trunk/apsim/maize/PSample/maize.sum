@@ -9,21 +9,21 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.4
+     Version                = 3.5
      Title                  =
-     Component DLL          = c:\program files\apsim34\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\program files\apsim34\apsim\Screen\lib\Screen.dll
-     Component DLL          = c:\program files\apsim34\apsim\clock\lib\clock.dll
-     Component DLL          = c:\program files\apsim34\apsim\report\lib\report.dll
-     Component DLL          = c:\program files\apsim34\apsim\input\lib\input.dll
-     Component DLL          = c:\program files\apsim34\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\program files\apsim34\apsim\irrigate\lib\irrigate.dll
-     Component DLL          = c:\program files\apsim34\apsim\manager\lib\manager.dll
-     Component DLL          = c:\program files\apsim34\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\program files\apsim34\apsim\residue2\lib\residue2.dll
-     Component DLL          = c:\program files\apsim34\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\program files\apsim34\apsim\soilp\lib\soilp.dll
-     Component DLL          = c:\program files\apsim34\apsim\maize\lib\maize.dll
+     Component DLL          = c:\temp\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\temp\development\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\temp\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\temp\development\apsim\report\lib\report.dll
+     Component DLL          = c:\temp\development\apsim\input\lib\input.dll
+     Component DLL          = c:\temp\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\temp\development\apsim\irrigate\lib\irrigate.dll
+     Component DLL          = c:\temp\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\temp\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\temp\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\temp\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\temp\development\apsim\soilp\lib\soilp.dll
+     Component DLL          = c:\temp\development\apsim\maize\lib\maize.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -236,6 +236,8 @@
 
 ------- residue2 Initialisation -----------------------------------------------
      
+         - Module is set Phosphorous aware
+     
          - Reading constants
      
          - Reading parameters
@@ -248,6 +250,15 @@
              (kg/ha)  (kg/ha) (kg/ha)
          ------------------------------------------------
                500.0     2.6     1.0  sorghum
+         ------------------------------------------------
+     
+     
+                      Residue Initial Parameters
+         ------------------------------------------------
+           Pot Decomp Rate  C:N     C:P  Phosphorous  Report
+           (fraction/day) (ratio) (ratio)  aware      additions
+         ------------------------------------------------
+                  0.050    76.0   200.0       T       no
          ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
@@ -402,35 +413,35 @@
 18 November 1992(Day of year=323), maize: 
       stage    4.0 end_of_juvenile
                           biomass =           2.087643       lai =    0.4315289E-01
-                          stover N conc =    3.387397       extractable sw =    57.61484
+                          stover N conc =    3.387247       extractable sw =    57.61484
 23 November 1992(Day of year=328), maize: 
       stage    5.0 floral_initiation
                           biomass =           4.882563       lai =    0.1078259
-                          stover N conc =    3.117457       extractable sw =    114.4948
+                          stover N conc =    3.117896       extractable sw =    114.4948
 4 January 1993(Day of year=4), maize: 
       stage    6.0 flag_leaf
-                          biomass =           499.6989       lai =     3.619865
-                          stover N conc =    2.331249       extractable sw =    209.9717
+                          biomass =           498.6790       lai =     3.616350
+                          stover N conc =    2.345992       extractable sw =    210.2076
 9 January 1993(Day of year=9), maize: 
       stage    7.0 flowering
-                          biomass =           598.8635       lai =     3.498556
-                          stover N conc =    2.155697       extractable sw =    245.3106
+                          biomass =           597.4402       lai =     3.495037
+                          stover N conc =    2.177450       extractable sw =    245.6115
 19 January 1993(Day of year=19), maize: 
       stage    8.0 start_grain_fill
-                          biomass =           831.1049       lai =     3.174282
-                          stover N conc =    1.671508       extractable sw =    196.4556
+                          biomass =           830.4147       lai =     3.170716
+                          stover N conc =    1.687165       extractable sw =    196.6493
 6 March 1993(Day of year=65), maize: 
       stage    9.0 end_grain_fill
-                          biomass =           1135.863       lai =     1.286127
-                          stover N conc =    1.426804       extractable sw =    110.3791
+                          biomass =           1133.635       lai =     1.282535
+                          stover N conc =    1.438441       extractable sw =    110.7019
 7 March 1993(Day of year=66), maize: 
       stage   10.0 maturity
-                          biomass =           1137.744       lai =     1.246932
-                          stover N conc =    1.427314       extractable sw =    109.6030
+                          biomass =           1135.491       lai =     1.243423
+                          stover N conc =    1.438977       extractable sw =    109.9314
 8 March 1993(Day of year=67), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           1137.744       lai =    0.1050138E-01
-                          stover N conc =    1.474002       extractable sw =    108.8566
+                          biomass =           1135.491       lai =    0.1049900E-01
+                          stover N conc =    1.486022       extractable sw =    109.1901
 9 March 1993(Day of year=68), manager: 
      Manager sending message :- maize harvest
 9 March 1993(Day of year=68), maize: 
@@ -438,22 +449,22 @@
      
      
      flowering (DAS) =  71                  maturity (DAS)  = 128
-      flowering day  =    9                  stover (kg/ha) =    6974.7
-      maturity day        =   66             grain yield (kg/ha) =    4402.8
-      grain % water content   =   15.5       grain yield wet (kg/ha) =    5210.4
-      grain wt (g) =     0.225               grains/m^2   =  1955.168
-      grains/head = 195.5                    maximum lai = 3.657
-      total above ground biomass (kg/ha) =   11377.4
-      live above ground biomass (kg/ha) =   11377.4
-      green above ground biomass (kg/ha) =   10230.2
-      senesced above ground biomass (kg/ha) =    1147.3
+      flowering day  =    9                  stover (kg/ha) =    6966.0
+      maturity day        =   66             grain yield (kg/ha) =    4388.9
+      grain % water content   =   15.5       grain yield wet (kg/ha) =    5194.0
+      grain wt (g) =     0.224               grains/m^2   =  1955.137
+      grains/head = 195.5                    maximum lai = 3.653
+      total above ground biomass (kg/ha) =   11354.9
+      live above ground biomass (kg/ha) =   11354.9
+      green above ground biomass (kg/ha) =   10209.0
+      senesced above ground biomass (kg/ha) =    1145.9
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  19.4
-      grain N percent =      1.14            total N content (kg/ha) =    151.94
-      grain N uptake (kg/ha) =     50.40     senesced N content (kg/ha) =      1.15
-      green N content (kg/ha) =    100.39    dead N content (kg/ha) =      0.00
-      grain P percent =      0.19            total P content (kg/ha) =     10.08
-      grain P uptake (kg/ha) =      8.29     senesced P content (kg/ha) =      0.57
+      grain N percent =      1.14            total N content (kg/ha) =    152.85
+      grain N uptake (kg/ha) =     50.19     senesced N content (kg/ha) =      1.15
+      green N content (kg/ha) =    101.52    dead N content (kg/ha) =      0.00
+      grain P percent =      0.19            total P content (kg/ha) =     10.03
+      grain P uptake (kg/ha) =      8.25     senesced P content (kg/ha) =      0.57
       green P content (kg/ha) =      1.21    dead P content (kg/ha) =      0.00
      
      
@@ -472,34 +483,34 @@
      
       stress indices for floral_initiation
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0281031
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0277417
      
      
      
       stress indices for flag_leaf
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0645191
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0560019
      
      
      
       stress indices for flowering
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0328531
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1952076
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0273876
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1845753
      
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0786525
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.2260731
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0736556
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.2155193
 9 March 1993(Day of year=68), manager: 
      Manager sending message :- maize end_crop
 9 March 1993(Day of year=68), maize: 
          ended. Yield (dw) =     0.0
-                                               straw residue = 6974.7 kg/ha
-                                               straw N =  101.5 kg/ha
-                                               straw P =   17.9 kg/ha
-                                               root residue = 1845.2 kg/ha
-                                               root N =   19.2 kg/ha
-                                               root P =   25.8 kg/ha
+                                               straw residue = 6966.0 kg/ha
+                                               straw N =  102.7 kg/ha
+                                               straw P =   17.8 kg/ha
+                                               root residue = 1841.7 kg/ha
+                                               root N =   19.3 kg/ha
+                                               root P =   25.7 kg/ha
 30 December 1993(Day of year=364), clock: 
      Simulation is terminating due to end criteria being met.
