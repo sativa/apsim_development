@@ -10,7 +10,7 @@
              Copyright(c) APSRU               
 
      Version                = 3.4
-     Title                  = oryza Sample Simulation
+     Title                  = oryza Sample Simulation - water and N limited
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
      Component DLL          = c:\development\apsim\clock\lib\clock.dll
@@ -29,7 +29,7 @@
         process
         post
         report
-     Simulation start date = 15/01/1992
+     Simulation start date =  1/01/1992
      Simulation end date   = 31/12/1992
      Time step =           = 1440 (mins)
 
@@ -77,7 +77,7 @@
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\MET\SAMPLE\bundabrg.MET
+     INPUT File name: c:\development\apsim\MET\SAMPLE\LosBanos.met
 
 ------- micromet Initialisation -----------------------------------------------
      Initialising
@@ -90,7 +90,7 @@
      Manager rules:
      
      SECTION:- start_of_day
-     if (day = 15) then
+     if (day = 4) then
        oryza sow cultivar = ir72, establishment_section = transplanted
      endif
      if (day = 165) then
@@ -130,7 +130,6 @@
           Default instrument height used =      2000. (mm)
           Source of VPD is mint
           Default atmospheric pressure used =   1000.0 (mb)
-          Default wind used =     60.0 (km/day)
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -212,7 +211,6 @@
      
      
      
-           TAV and AMP supplied externally
      
      
      
@@ -256,37 +254,37 @@
 ------- oryza Initialisation --------------------------------------------------
         - Initialising
 ------- Start of simulation  --------------------------------------------------
-15 January 1992(Day of year=15), manager: 
+4 January 1992(Day of year=4), manager: 
      Manager sending message :- oryza sow  cultivar = ir72, establishment_section = transplanted
-15 January 1992(Day of year=15), oryza: 
+4 January 1992(Day of year=4), oryza: 
         - Reading Parameters
         - Reading Cultivar Parameters
         - Reading Establishment Parameters
-16 May 1992(Day of year=137), oryza: 
+22 April 1992(Day of year=113), oryza: 
      Maturity
-16 May 1992(Day of year=137), manager: 
+22 April 1992(Day of year=113), manager: 
      Manager sending message :- oryza end_crop
-16 May 1992(Day of year=137), oryza: 
-         Crop ended. Rough Rice Yield (dw) =  4457.2 (kg/ha)
-                             straw residue =  5459.9 (kg/ha)
-                             straw N       =    21.1 (kg/ha)
-                             root residue  =  1289.7 (kg/ha)
-                             root N        =     5.2 (kg/ha)
+22 April 1992(Day of year=113), oryza: 
+         Crop ended. Rough Rice Yield (dw) =  1432.6 (kg/ha)
+                             straw residue =  1546.6 (kg/ha)
+                             straw N       =    32.9 (kg/ha)
+                             root residue  =   753.8 (kg/ha)
+                             root N        =    12.3 (kg/ha)
 13 June 1992(Day of year=165), manager: 
      Manager sending message :- oryza sow  cultivar = ir72, establishment_section = transplanted
 13 June 1992(Day of year=165), oryza: 
         - Reading Parameters
         - Reading Cultivar Parameters
         - Reading Establishment Parameters
-1 December 1992(Day of year=336), oryza: 
+24 September 1992(Day of year=268), oryza: 
      Maturity
-1 December 1992(Day of year=336), manager: 
+24 September 1992(Day of year=268), manager: 
      Manager sending message :- oryza end_crop
-1 December 1992(Day of year=336), oryza: 
-         Crop ended. Rough Rice Yield (dw) =  1410.5 (kg/ha)
-                             straw residue =  3113.9 (kg/ha)
-                             straw N       =    13.3 (kg/ha)
-                             root residue  =  1093.9 (kg/ha)
-                             root N        =     4.8 (kg/ha)
+24 September 1992(Day of year=268), oryza: 
+         Crop ended. Rough Rice Yield (dw) =  4604.7 (kg/ha)
+                             straw residue =  4238.4 (kg/ha)
+                             straw N       =    16.4 (kg/ha)
+                             root residue  =  1145.7 (kg/ha)
+                             root N        =     4.3 (kg/ha)
 31 December 1992(Day of year=366), clock: 
      Simulation is terminating due to end criteria being met.

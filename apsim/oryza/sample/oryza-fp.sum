@@ -10,7 +10,7 @@
              Copyright(c) APSRU               
 
      Version                = 3.4
-     Title                  = oryza Sample Simulation
+     Title                  = oryza Sample Simulation - potential
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
      Component DLL          = c:\development\apsim\clock\lib\clock.dll
@@ -27,7 +27,7 @@
         process
         post
         report
-     Simulation start date = 15/01/1992
+     Simulation start date =  1/01/1992
      Simulation end date   = 31/12/1992
      Time step =           = 1440 (mins)
 
@@ -75,7 +75,7 @@
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\MET\SAMPLE\bundabrg.MET
+     INPUT File name: c:\development\apsim\MET\SAMPLE\LosBanos.met
 
 ------- micromet Initialisation -----------------------------------------------
      Initialising
@@ -88,7 +88,7 @@
      Manager rules:
      
      SECTION:- start_of_day
-     if (day = 15) then
+     if (day = 4) then
        oryza sow cultivar = ir72, establishment_section = transplanted
      endif
      if (day = 165) then
@@ -128,28 +128,27 @@
           Default instrument height used =      2000. (mm)
           Source of VPD is mint
           Default atmospheric pressure used =   1000.0 (mb)
-          Default wind used =     60.0 (km/day)
 
 ------- oryza Initialisation --------------------------------------------------
         - Initialising
      Non - limiting Soil Water conditions
      Non - limiting Soil Nitrogen conditions
 ------- Start of simulation  --------------------------------------------------
-15 January 1992(Day of year=15), manager: 
+4 January 1992(Day of year=4), manager: 
      Manager sending message :- oryza sow  cultivar = ir72, establishment_section = transplanted
-15 January 1992(Day of year=15), oryza: 
+4 January 1992(Day of year=4), oryza: 
         - Reading Parameters
         - Reading Cultivar Parameters
         - Reading Establishment Parameters
-16 May 1992(Day of year=137), oryza: 
+22 April 1992(Day of year=113), oryza: 
      Maturity
-16 May 1992(Day of year=137), manager: 
+22 April 1992(Day of year=113), manager: 
      Manager sending message :- oryza end_crop
-16 May 1992(Day of year=137), oryza: 
-         Crop ended. Rough Rice Yield (dw) =  8961.0 (kg/ha)
-                             straw residue =  8153.2 (kg/ha)
+22 April 1992(Day of year=113), oryza: 
+         Crop ended. Rough Rice Yield (dw) =  8881.2 (kg/ha)
+                             straw residue =  8043.9 (kg/ha)
                              straw N       =     0.0 (kg/ha)
-                             root residue  =  1482.5 (kg/ha)
+                             root residue  =  1473.8 (kg/ha)
                              root N        =     0.0 (kg/ha)
      Non - limiting Soil Water conditions
      Non - limiting Soil Nitrogen conditions
@@ -159,15 +158,15 @@
         - Reading Parameters
         - Reading Cultivar Parameters
         - Reading Establishment Parameters
-1 December 1992(Day of year=336), oryza: 
+24 September 1992(Day of year=268), oryza: 
      Maturity
-1 December 1992(Day of year=336), manager: 
+24 September 1992(Day of year=268), manager: 
      Manager sending message :- oryza end_crop
-1 December 1992(Day of year=336), oryza: 
-         Crop ended. Rough Rice Yield (dw) = 13618.0 (kg/ha)
-                             straw residue = 16135.5 (kg/ha)
+24 September 1992(Day of year=268), oryza: 
+         Crop ended. Rough Rice Yield (dw) =  6243.1 (kg/ha)
+                             straw residue =  5866.0 (kg/ha)
                              straw N       =     0.0 (kg/ha)
-                             root residue  =  3131.9 (kg/ha)
+                             root residue  =  1161.2 (kg/ha)
                              root N        =     0.0 (kg/ha)
      Non - limiting Soil Water conditions
      Non - limiting Soil Nitrogen conditions

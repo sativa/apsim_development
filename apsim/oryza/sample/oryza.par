@@ -58,11 +58,11 @@ variable = oryza.trc             ! Potential transpiration rate of crop with giv
 
 [sample.clock.parameters]
 ! Start and end date of run (day number of year and year)
-start_date=15/1/1992
+start_date=1/1/1992
 end_date=31/12/1992
 
 [sample.manager.start_of_day]
-if (day = 15) then
+if (day = 4) then
   oryza sow cultivar = IR72, establishment_section = transplanted
 endif
 
