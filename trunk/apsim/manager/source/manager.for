@@ -129,7 +129,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       integer        C_ELSE
       parameter      (C_ELSE = 25)
 
-      integer        C_end subroutine
+      integer        C_end
       parameter      (C_END = 26)
 
       integer        C_SPACE
@@ -588,7 +588,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       if (g%start_token .gt. 0) then
          call Parse (g%token_array, g%token_array2)
       end if
-      
+
 
       call pop_routine (my_name)
       return
@@ -1274,7 +1274,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       character msg*500                ! Error message
       logical Data_was_stored          ! Was data stored in postbox?
       integer modNameID                ! ID for module.
-      logical ok  
+      logical ok
       integer regID
 
 !- Implementation Section ----------------------------------
@@ -1757,7 +1757,7 @@ c      end subroutine
               call   Get_next_token(Token_array, Token_array2)
               goto 10
        endif
-       g%expression_array2(g%number_expressions+1) = C_end subroutine
+       g%expression_array2(g%number_expressions+1) = C_end
 
        call   Process_expression
 
@@ -1940,7 +1940,7 @@ c      end subroutine
           g%expression_array2(ind) = g%and_or_array2(ind)
 20     continue
 
-       g%expression_array2(g%number_and_or+2) = C_end subroutine
+       g%expression_array2(g%number_and_or+2) = C_end
        g%number_expressions = g%number_and_or
        g%number_and_or = 0
 
