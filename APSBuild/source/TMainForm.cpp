@@ -22,7 +22,7 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
    // load the onTop property from the .ini file.
    ApsimSettings settings;
    string onTop;
-   settings.read("ApsBuild|on_top", onTop);
+   settings.read("ApsBuild Pos|on_top", onTop);
    OnTopRadio->Checked = !Str_i_Eq(onTop, "no");
    OnTopRadioClick(NULL);
    Thread = NULL;
@@ -144,9 +144,9 @@ void __fastcall TMainForm::FormClose(TObject *Sender, TCloseAction &Action)
       onTop = "no";
 
    ApsimSettings settings;
-   settings.write("ApsBuild|left", left);
-   settings.write("ApsBuild|top", top);
-   settings.write("ApsBuild|on_top", onTop);
+   settings.write("ApsBuild Pos|left", left);
+   settings.write("ApsBuild Pos|top", top);
+   settings.write("ApsBuild Pos|on_top", onTop);
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::OnTopRadioClick(TObject *Sender)
@@ -167,8 +167,8 @@ void __fastcall TMainForm::FormShow(TObject *Sender)
       // load the Left, Top properties from the .ini file.
       ApsimSettings settings;
       string left, top;
-      settings.read("ApsBuild|left", left);
-      settings.read("ApsBuild|top", top);
+      settings.read("ApsBuild Pos|left", left);
+      settings.read("ApsBuild Pos|top", top);
       if (left != "" && top != "")
          {
          Left = StrToInt(left.c_str());
@@ -187,7 +187,7 @@ void TMainForm::displayCompilerOutput(void)
       {
       ApsimSettings settings;
       string st;
-      settings.read("ApsBuild|height", st);
+      settings.read("ApsBuild Pos|height", st);
       if (st == "")
          Height = 400;
       else
@@ -196,7 +196,7 @@ void TMainForm::displayCompilerOutput(void)
       CloseButton->Caption = "Close";
       while (ModalResult == mrNone)
          Application->ProcessMessages();
-      settings.write("ApsBuild|height", IntToStr(Height).c_str());
+      settings.write("ApsBuild Pos|height", IntToStr(Height).c_str());
       }
    Close();
    }
