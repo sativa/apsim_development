@@ -5,6 +5,8 @@
 
 #include "ApsimDirectories.h"
 #include <general\path.h>
+#pragma package(smart_init)
+
 using namespace std;
 // ------------------------------------------------------------------
 // This routine provides a way for APSIM applications to get the
