@@ -1439,6 +1439,7 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
   void get_no3_uptake(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_fruit_flower_no(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm_fruit_abort(protocol::Component *, protocol::QueryValueData &);
+  void get_zadok_stage(protocol::Component *, protocol::QueryValueData &);
 
   void error(const char *str, int code) {parent->error(str, code);}
   void write_string(const char *str) {parent->writeString(str);}
