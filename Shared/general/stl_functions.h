@@ -401,4 +401,11 @@ class PrefixCallback
       void operator() (T t) {C.push_back(prefix + t);}
    };
 
+template <class T>
+struct Pless : public std::binary_function<T*, T*, bool>
+   {
+   bool operator() (const T* x, const T* y) const { return *x < *y; }
+   };
+
+
 #endif
