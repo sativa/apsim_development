@@ -2,6 +2,7 @@
 
    <registrations>
       <respondToMethodCallReg name="lai_table" type="null"/>
+      <respondToMethodCallReg name="cover_table" type="null"/>
       <respondToMethodCallReg name="f_table" type="null"/>
       <respondToMethodCallReg name="rs_table" type="null"/>
       <respondToMethodCallReg name="rl_table" type="null"/>
@@ -22,6 +23,7 @@
       <eventReg name="CanopyWaterBalanceCalculated" type="canopywaterbalance"/>
       
       <getVariableReg name="eo" type="eo" autoregister = "F"/>      
+      <respondToGetReg name="eo" type="eo"/>
       
    </registrations>
 </component>
