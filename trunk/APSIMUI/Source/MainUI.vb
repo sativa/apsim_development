@@ -623,6 +623,7 @@ Public Class MainUI
         Try
             If filename = "" Then
                 SimulationFile.Open()
+                filename = SimulationFile.Filename
             Else
                 SimulationFile.Open(filename)
             End If
