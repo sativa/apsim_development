@@ -179,7 +179,7 @@ void __fastcall TMDIChild::SelectSimulations(TObject *Sender)
    if (ok)
       {
       scenarios->getAllData(AllData);
-      Force_refresh();
+      Try_refresh();
       Display_settings();
       }
    }
@@ -228,29 +228,20 @@ bool TMDIChild::Edit_panel()
 
 
 //---------------------------------------------------------------------------
-void TMDIChild::Force_refresh()
+void TMDIChild::Try_refresh()
 {
-   working->storeData(*AllData);
-
    for (vector<ToolBarAddInBase*>::iterator t = addIns.begin();
          t != addIns.end(); t++)
    {
-      (*t)->doCalculations(*working);
+         (*t)->youNeedUpdating();
    }
+   Refresh_if_needed();
 
-   if (Analysis_panel != NULL)
-   {
-      Analysis_panel->Refresh();
-      APSTable_2_TDataSet->APSTable =  Analysis_panel->Destination_data;
-   }
-   else
-      APSTable_2_TDataSet->APSTable =  working;
-
-   APSTable_2_TDataSet->Refresh();
 }
 
+
 //---------------------------------------------------------------------------
-bool TMDIChild::Refresh_is_needed()
+void TMDIChild::Refresh_if_needed()
 {
    // if any addin needs updating, need to update all addIns, otherwise do nothing
    bool update_necessary = false;
@@ -259,9 +250,31 @@ bool TMDIChild::Refresh_is_needed()
    {
       update_necessary = update_necessary || (*t)->needsUpdate();
    }
-   return update_necessary;
+
+   if (update_necessary)
+   {
+      working->storeData(*AllData);
+      for (vector<ToolBarAddInBase*>::iterator t = addIns.begin();
+            t != addIns.end(); t++)
+      {
+         (*t)->doCalculations(*working);
+      }
+
+      if (Analysis_panel != NULL)
+      {
+         Analysis_panel->Refresh();
+         APSTable_2_TDataSet->APSTable =  Analysis_panel->Destination_data;
+      }
+      else
+         APSTable_2_TDataSet->APSTable =  working;
+
+      APSTable_2_TDataSet->Refresh();
+   }
 }
-//---------------------------------------------------------------------------
+
+
+
+
 void TMDIChild::Hook_panel_to_this_form (void)
    {
    if (Analysis_panel != NULL)
@@ -405,7 +418,8 @@ void __fastcall TMDIChild::EditCopyWithout(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::OptionsPreferences(TObject *Sender)
    {
-   Preferences_form->ShowModal();
+   if (Preferences_form->ShowModal() == mrOk)
+      Refresh_if_needed();
    }
 //---------------------------------------------------------------------------
 void TMDIChild::Set_toolbar (TToolBar* toolbar)
@@ -523,7 +537,7 @@ void TMDIChild::decorateWithAddins()
 
 void TMDIChild::buildToolbarEvents()
 {
-   for (unsigned int j = 0; j < vHow_many_precede.size(); j++)
+   for (int j = 0; j < vHow_many_precede.size(); j++)
    {
       int how_many_controls = vHow_many_precede[j];
       int how_many_new_controls = vHow_many_this_addin[j];
@@ -541,7 +555,7 @@ void TMDIChild::buildToolbarEvents()
 
 void TMDIChild::pointToolBarToThisInstance()
 {
-   for (unsigned int j = 0; j < vHow_many_precede.size(); j++)
+   for (int j = 0; j < vHow_many_precede.size(); j++)
    {
       int how_many_controls = vHow_many_precede[j];
       int how_many_new_controls = vHow_many_this_addin[j];
@@ -565,12 +579,11 @@ void __fastcall  TMDIChild::ToolBarAddInButtonClick(TObject* Sender)
    if (i != Toolbar_events.end())
    {
       ToolBarAddInBase* addin = (*i).getToolBarAddIn();
-      addin->setWorkingData(scenarios, working);
+      addin->setScenarios(scenarios);
       TNotifyEvent trueOnClick = (*i).getEvent();
       trueOnClick(Sender);
    }
-   if (Refresh_is_needed())
-      Force_refresh();
+   Refresh_if_needed();
 }
 
 void __fastcall TMDIChild::FormActivate(TObject *Sender)

@@ -115,8 +115,8 @@ private:
    TToolButton* Get_button (const char* Button_name);
    void loadAllToolbarAddIns(void);
    void decorateWithAddins(void);
-   void Force_refresh();
-   bool Refresh_is_needed();
+   void Try_refresh();
+   void Refresh_if_needed();
 
    bool Edit_panel();
 

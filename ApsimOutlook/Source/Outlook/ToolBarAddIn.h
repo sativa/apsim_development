@@ -52,14 +52,11 @@ class ToolBarAddInBase
       virtual void youNeedUpdating() = 0;
 
 
-      void setWorkingData(Scenarios* current, TAPSTable* data)
-         {  scenarios = current;
-            working = data;
-         };
+      void setScenarios(Scenarios* current)
+         {  scenarios = current;   };
 
    protected:
       Scenarios* scenarios;
-      TAPSTable* working;
 
    };
 

@@ -29,7 +29,7 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="DBAddIn.bpf"/>
-    <INCLUDEPATH value="..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;&quot;J:\RX\Units\&quot;"/>
+    <INCLUDEPATH value="..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;&quot;k:\components\general\&quot;"/>
     <LIBPATH value="..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;&quot;k:\general\&quot;"/>
     <WARNINGS value="-w-par"/>
   </MACROS>
@@ -76,9 +76,9 @@ Comments=
 
 [HistoryLists\hlIncludePath]
 Count=11
-Item0=..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;J:\RX\Units
-Item1=..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
-Item2=..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\
+Item0=..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
+Item1=..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\
+Item2=..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units
 Item3=..\;$(BCB)\include;$(BCB)\include\vcl;k:\;..;k:\components\data\;k:\components\general\
 Item4=$(BCB)\include;$(BCB)\include\vcl;k:\;..;k:\components\data\;k:\components\general\
 Item5=$(BCB)\include;$(BCB)\include\vcl;k:\;..;k:\components\data\;k:\components\general
@@ -118,10 +118,5 @@ RemoteDebug=0
 ShowInfoMsgs=0
 LinkDebugVcl=0
 LinkCGLIB=0
-
-[Language]
-ActiveLang=
-ProjectLang=
-RootDir=
   </IDEOPTIONS>
 </PROJECT>

@@ -129,8 +129,8 @@ class ReadData
       void operator() (const Scenario* scenario)
          {
          vector<DBSimulation*>::iterator s = Pfind(simulations.begin(),
-                                                   simulations.end(),
-                                                   *scenario);
+                                                 simulations.end(),
+                                                 scenario);
          assert (s != simulations.end());
          (*s)->readData(data, scenario->getName());
          }

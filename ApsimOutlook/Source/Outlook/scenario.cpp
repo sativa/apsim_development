@@ -6,7 +6,7 @@
 #include "Scenario.h"
 #include "AddIn.h"
 #include <general\stl_functions.h>
-using namespace std;
+
 //---------------------------------------------------------------------------
 
 #pragma package(smart_init)
