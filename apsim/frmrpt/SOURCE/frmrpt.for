@@ -2,7 +2,17 @@
       character*(*) function frmrpt_version ()
 *     ===========================================================
       implicit none
-      include 'infra.pub'
+      include 'data.pub'
+      include 'datastr.pub'
+      include 'date.pub'
+      include 'engine.pub'
+      include 'error.pub'
+      include 'intrface.pub'
+      include 'license.pub'
+      include 'read.pub'
+      include 'science.pub'
+      include 'string.pub'
+      include 'write.pub'
 
 *+  Purpose
 *       return version number of FrmRpt module
@@ -30,7 +40,17 @@
       dll_export apsim_frmrpt
       include 'const.inc'             ! Global common block
       include 'frmrpt.inc'               ! input common
-      include 'infra.pub'
+      include 'data.pub'
+      include 'datastr.pub'
+      include 'date.pub'
+      include 'engine.pub'
+      include 'error.pub'
+      include 'intrface.pub'
+      include 'license.pub'
+      include 'read.pub'
+      include 'science.pub'
+      include 'string.pub'
+      include 'write.pub'
 
 *+  Sub-Program Arguments
        character Action*(*)            ! Message action to perform
@@ -84,7 +104,17 @@
 *     ===========================================================
       implicit none
       include 'frmrpt.inc'
-      include 'infra.pub'
+      include 'data.pub'
+      include 'datastr.pub'
+      include 'date.pub'
+      include 'engine.pub'
+      include 'error.pub'
+      include 'intrface.pub'
+      include 'license.pub'
+      include 'read.pub'
+      include 'science.pub'
+      include 'string.pub'
+      include 'write.pub'
 
 *+  Purpose
 *     Frees resources at end of run.
@@ -117,7 +147,17 @@
 * ====================================================================
       implicit none
        include 'frmrpt.inc'             ! input common block
-      include 'infra.pub'
+      include 'data.pub'
+      include 'datastr.pub'
+      include 'date.pub'
+      include 'engine.pub'
+      include 'error.pub'
+      include 'intrface.pub'
+      include 'license.pub'
+      include 'read.pub'
+      include 'science.pub'
+      include 'string.pub'
+      include 'write.pub'
 
 *+  Purpose
 *      Initialise FrmRpt module.
@@ -192,7 +232,17 @@
       include   'const.inc'
       include   'convert.inc'
       include   'frmrpt.inc'            ! soilph model common block
-      include 'infra.pub'
+      include 'data.pub'
+      include 'datastr.pub'
+      include 'date.pub'
+      include 'engine.pub'
+      include 'error.pub'
+      include 'intrface.pub'
+      include 'license.pub'
+      include 'read.pub'
+      include 'science.pub'
+      include 'string.pub'
+      include 'write.pub'
 
 *+  Purpose
 *      Read in all parameters from parameter file.
@@ -273,7 +323,17 @@
 *     ===========================================================
       implicit none
       include 'frmrpt.inc'
-      include 'infra.pub'
+      include 'data.pub'
+      include 'datastr.pub'
+      include 'date.pub'
+      include 'engine.pub'
+      include 'error.pub'
+      include 'intrface.pub'
+      include 'license.pub'
+      include 'read.pub'
+      include 'science.pub'
+      include 'string.pub'
+      include 'write.pub'
 
 *+  Purpose
 *     Look at days past for given forms and report if it is time.
@@ -331,7 +391,17 @@
 *     ===========================================================
       implicit none
       include 'frmrpt.inc'
-      include 'infra.pub'
+      include 'data.pub'
+      include 'datastr.pub'
+      include 'date.pub'
+      include 'engine.pub'
+      include 'error.pub'
+      include 'intrface.pub'
+      include 'license.pub'
+      include 'read.pub'
+      include 'science.pub'
+      include 'string.pub'
+      include 'write.pub'
 
 *+  Sub-Program Arguments
       character*(*) handle
@@ -393,7 +463,17 @@
       implicit none
       include   'const.inc'
       include   'frmrpt.inc'            ! soilph common block
-      include 'infra.pub'
+      include 'data.pub'
+      include 'datastr.pub'
+      include 'date.pub'
+      include 'engine.pub'
+      include 'error.pub'
+      include 'intrface.pub'
+      include 'license.pub'
+      include 'read.pub'
+      include 'science.pub'
+      include 'string.pub'
+      include 'write.pub'
 
 *+  Purpose
 *     Get the values of variables to be summed from other modules.
@@ -439,7 +519,17 @@
       implicit none
       include 'frmrpt.inc'
       include 'const.inc'
-      include 'infra.pub'
+      include 'data.pub'
+      include 'datastr.pub'
+      include 'date.pub'
+      include 'engine.pub'
+      include 'error.pub'
+      include 'intrface.pub'
+      include 'license.pub'
+      include 'read.pub'
+      include 'science.pub'
+      include 'string.pub'
+      include 'write.pub'
 
 *+  Sub-Program Arguments
       integer frm_file_unt  ! The current form file.
@@ -536,7 +626,17 @@
       implicit none
       include 'frmrpt.inc'
       include 'const.inc'
-      include 'infra.pub'
+      include 'data.pub'
+      include 'datastr.pub'
+      include 'date.pub'
+      include 'engine.pub'
+      include 'error.pub'
+      include 'intrface.pub'
+      include 'license.pub'
+      include 'read.pub'
+      include 'science.pub'
+      include 'string.pub'
+      include 'write.pub'
 
 *+  Sub-Program Arguments
       integer out_file_unt  ! The unit for output for the current form file.
@@ -601,7 +701,17 @@
 *     ===========================================================
       implicit none
       include 'frmrpt.inc'
-      include 'infra.pub'
+      include 'data.pub'
+      include 'datastr.pub'
+      include 'date.pub'
+      include 'engine.pub'
+      include 'error.pub'
+      include 'intrface.pub'
+      include 'license.pub'
+      include 'read.pub'
+      include 'science.pub'
+      include 'string.pub'
+      include 'write.pub'
 
 *+  Sub-Program Arguments
       integer out_file_unt  ! The unit for output for the current form file.
@@ -647,7 +757,17 @@
 *     ===========================================================
       implicit none
       include 'const.inc'
-      include 'infra.pub'
+      include 'data.pub'
+      include 'datastr.pub'
+      include 'date.pub'
+      include 'engine.pub'
+      include 'error.pub'
+      include 'intrface.pub'
+      include 'license.pub'
+      include 'read.pub'
+      include 'science.pub'
+      include 'string.pub'
+      include 'write.pub'
 
 *+  Sub-Program Arguments
       character*(*) var
@@ -683,7 +803,17 @@
 *     ===========================================================
       implicit none
       include 'frmrpt.inc'
-      include 'infra.pub'
+      include 'data.pub'
+      include 'datastr.pub'
+      include 'date.pub'
+      include 'engine.pub'
+      include 'error.pub'
+      include 'intrface.pub'
+      include 'license.pub'
+      include 'read.pub'
+      include 'science.pub'
+      include 'string.pub'
+      include 'write.pub'
 
 *+  Sub-Program Arguments
       integer out_file_unt  ! The unit for output for the current form file.
@@ -725,7 +855,17 @@
       implicit none
       include 'frmrpt.inc'
       include 'const.inc'
-      include 'infra.pub'
+      include 'data.pub'
+      include 'datastr.pub'
+      include 'date.pub'
+      include 'engine.pub'
+      include 'error.pub'
+      include 'intrface.pub'
+      include 'license.pub'
+      include 'read.pub'
+      include 'science.pub'
+      include 'string.pub'
+      include 'write.pub'
 
 *+  Sub-Program Arguments
       character*(*) mdl
@@ -785,7 +925,17 @@
       implicit none
       include 'frmrpt.inc'
       include 'const.inc'
-      include 'infra.pub'
+      include 'data.pub'
+      include 'datastr.pub'
+      include 'date.pub'
+      include 'engine.pub'
+      include 'error.pub'
+      include 'intrface.pub'
+      include 'license.pub'
+      include 'read.pub'
+      include 'science.pub'
+      include 'string.pub'
+      include 'write.pub'
 
 *+  Sub-Program Arguments
       character*(*) func
@@ -853,7 +1003,17 @@
       implicit none
       include 'frmrpt.inc'
       include 'const.inc'
-      include 'infra.pub'
+      include 'data.pub'
+      include 'datastr.pub'
+      include 'date.pub'
+      include 'engine.pub'
+      include 'error.pub'
+      include 'intrface.pub'
+      include 'license.pub'
+      include 'read.pub'
+      include 'science.pub'
+      include 'string.pub'
+      include 'write.pub'
 
 *+  Sub-Program Arguments
       character*(*) data
@@ -921,7 +1081,17 @@
 *     ===========================================================
       implicit none
       include 'frmrpt.inc'
-      include 'infra.pub'
+      include 'data.pub'
+      include 'datastr.pub'
+      include 'date.pub'
+      include 'engine.pub'
+      include 'error.pub'
+      include 'intrface.pub'
+      include 'license.pub'
+      include 'read.pub'
+      include 'science.pub'
+      include 'string.pub'
+      include 'write.pub'
 
 *+  Sub-Program Arguments
       integer var_ndx
@@ -955,7 +1125,17 @@
       implicit none
       include 'frmrpt.inc'
       include 'const.inc'
-      include 'infra.pub'
+      include 'data.pub'
+      include 'datastr.pub'
+      include 'date.pub'
+      include 'engine.pub'
+      include 'error.pub'
+      include 'intrface.pub'
+      include 'license.pub'
+      include 'read.pub'
+      include 'science.pub'
+      include 'string.pub'
+      include 'write.pub'
 
 *+  Sub-Program Arguments
       character*(*) handle    ! (OUT) output file handle.
@@ -1016,7 +1196,17 @@
       subroutine frmrpt_prtrv(unt, vec, nvars)
 *     ===========================================================
       implicit none
-      include 'infra.pub'
+      include 'data.pub'
+      include 'datastr.pub'
+      include 'date.pub'
+      include 'engine.pub'
+      include 'error.pub'
+      include 'intrface.pub'
+      include 'license.pub'
+      include 'read.pub'
+      include 'science.pub'
+      include 'string.pub'
+      include 'write.pub'
 
 *+  Sub-Program Arguments
       integer unt, nvars
@@ -1069,7 +1259,17 @@
 *     ===========================================================
       implicit none
       include 'const.inc'              ! ERR_internal
-      include 'infra.pub'
+      include 'data.pub'
+      include 'datastr.pub'
+      include 'date.pub'
+      include 'engine.pub'
+      include 'error.pub'
+      include 'intrface.pub'
+      include 'license.pub'
+      include 'read.pub'
+      include 'science.pub'
+      include 'string.pub'
+      include 'write.pub'
 
 *+  Sub-Program Arguments
       character  WhatChkd*(*)     ! What test did pass or fail.
@@ -1103,7 +1303,17 @@
       subroutine frmrpt_copy_real_arr(dest, src, n)
 *     ===========================================================
       implicit none
-      include 'infra.pub'
+      include 'data.pub'
+      include 'datastr.pub'
+      include 'date.pub'
+      include 'engine.pub'
+      include 'error.pub'
+      include 'intrface.pub'
+      include 'license.pub'
+      include 'read.pub'
+      include 'science.pub'
+      include 'string.pub'
+      include 'write.pub'
 
 *+  Sub-Program Arguments
       integer n      ! (IN) Size of 'dest' and 'src'.
@@ -1140,7 +1350,17 @@
       subroutine frmrpt_vec_scalar_mul(vec, n, mul)
 *     ===========================================================
       implicit none
-      include 'infra.pub'
+      include 'data.pub'
+      include 'datastr.pub'
+      include 'date.pub'
+      include 'engine.pub'
+      include 'error.pub'
+      include 'intrface.pub'
+      include 'license.pub'
+      include 'read.pub'
+      include 'science.pub'
+      include 'string.pub'
+      include 'write.pub'
 
 *+  Sub-Program Arguments
       integer n      ! (IN) Size of 'vec'.
