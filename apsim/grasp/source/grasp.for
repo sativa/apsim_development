@@ -4384,13 +4384,16 @@ c     :                    , 0.0, 365.0)
           enddo
       else
           call get_real_array_optional (unknown_module 
-     :                                  , 'll15_dep' 
+     :                                  , 'll15' 
      :                                  , max_layer, '()'
-     :                                  , g%ll_dep, num_layers
+     :                                  , ll, num_layers
      :                                  , 0.0, c%ll_ub)
           if (num_layers .gt. 0) then
+             do layer = 1, num_layers
+                g%ll_dep(layer) = ll(layer)*g%dlayer(layer)
+             enddo
              call Write_String(
-     :            'Using externally supplied Lower Limit (ll15_dep)')
+     :            'Using externally supplied Lower Limit (ll15)')
           else
              call Fatal_error (ERR_internal, 
      :                         'No Crop Lower Limit found')
