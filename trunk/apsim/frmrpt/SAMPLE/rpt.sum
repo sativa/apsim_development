@@ -24,8 +24,8 @@
         prepare
         process
         post
-     Simulation start date =  1/01/1970
-     Simulation end date   = 21/01/1970
+     Simulation start date =  1/01/1988
+     Simulation end date   = 21/01/1988
      Time step =           = 1440 (mins)
 
 ------- report Initialisation -------------------------------------------------
@@ -46,7 +46,7 @@
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: TEST.MET
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
@@ -88,11 +88,11 @@
      Manager creating a new local real variable : wert =     500.670013000000
      Manager creating a new local real variable : fay =     72.0000000000000
 ------- Start of simulation  --------------------------------------------------
-5 January 1970(Day of year=5), manager: 
+5 January 1988(Day of year=5), manager: 
      Manager sending message :- frmrpt clear  name = test2
-10 January 1970(Day of year=10), manager: 
+10 January 1988(Day of year=10), manager: 
      Manager sending message :- frmrpt clear  name = test2:ramp2
-15 January 1970(Day of year=15), manager: 
+15 January 1988(Day of year=15), manager: 
      Manager sending message :- frmrpt clear  name = test2:manager.ramp2
-21 January 1970(Day of year=21), clock: 
+21 January 1988(Day of year=21), clock: 
      Simulation is terminating due to end criteria being met.
