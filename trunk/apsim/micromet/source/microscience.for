@@ -1226,12 +1226,19 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!!! Calculate conductance
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      mterm = divide (von_karman
-     :               ,log((Zm-d)/Z0m)
-     :               ,0.0)
-      hterm = divide (von_karman
-     :               ,log((Zh-d)/Z0h)
-     :               ,0.0)
+
+      if ((Z0m.ne.0).and.(Z0h.ne.0)) then
+
+         mterm = divide (von_karman
+     :                  ,log(divide(Zm-d,Z0m,0.0))
+     :                  ,0.0)
+         hterm = divide (von_karman
+     :                  ,log(divide(Zh-d,Z0h,0.0))
+     :                  ,0.0)
+      else
+         mterm = 0.0
+         hterm = 0.0
+      endif
 
       micromet_AerodynamicConductanceFAO =
      :        WindSpeed*mterm*hterm
