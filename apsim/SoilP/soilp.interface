@@ -46,12 +46,13 @@ class APSIMSoilpPublic
   dlt_labile_p            : APSIMRealArray      = dlt_labile_p, (kg/ha), SET, -1000.0, 1000.0
   dlt_banded_p            : APSIMRealArray      = dlt_banded_p, (kg/ha), SET, -1000.0, 1000.0
   dlt_rock_p              : APSIMRealArray      = dlt_rock_p, (kg/ha), SET, -1000.0, 1000.0
-  init                    : APSIMMethod         = Initialise
-  sum_report              : APSIMMethod         = Output P module summary details
-  process                 : APSIMMethod         = Timestep calculations in soil P
-  till                    : APSIMMethod         = Tillage
-  incorp_fom              : APSIMMethod         = Incorporate fresh organic matter 
-  decomposed              : APSIMMethod         = Decompose
+
+   sysinit                 : APSIMMethod                = System initialise
+   sum_report              : APSIMSumReportMethod       = Report SoilWat module summary details
+   process                 : APSIMMethod                = Message to process
+   tillage                 : APSIMSoilwat2TillageMethod = Set up for CN reduction after tillage operation
+   incorp_fom              : APSIMIncorporateFOMMethod  = Message to report a residue decomposition
+   decomposed              : APSIMDecomposedMethod      = Message to report a residue decomposition
 
 end
 

@@ -118,10 +118,13 @@ class APSIMsoiln2Public
    reset                   : APSIMMethod                = System reset stage
    process                 : APSIMMethod                = System process stage
    sum_report              : APSIMMethod                = Report SoilN2 module summary details
-   post                    : APSIMMethod                = System post stage
    create                  : APSIMMethod                = System create stage
    incorp_fom              : APSIMIncorporateFOMMethod  = Incorporate fresh organic matter
+
    new_solute              : APSIMNewSoluteEvent        = New solute event
+   n_balance               : APSIMNitrogenBalanceEvent  = To notify all interested modules in the completion of the soil N calculations, including all N transformation processes for soil organic and inorganic pools
+   c_balance               : APSIMCarbonBalanceEvent    = To notify all interested modules in the completion of the soil C calculations, including all C transformation processes for soil organic pools
+
 end
 
 ; -----------------------------------------------------------
@@ -144,10 +147,13 @@ class APSIMSoiln2External
    dlayer                   : APSIMRealArray                          = dlayer, (mm), GET, 0.00001, 5000.0
    soil_loss                : APSIMRealArray                          = Soil loss, (t/ha), GET, 0.0, 1000.0
    ph                       : APSIMRealArray                          = Soil ph, (), GET, 3.5, 9.0
+
    do_decompose             : APSIMDecomposeResidueMethod             = Decompose residue method
+
    tick                     : APSIMClockTickEvent                     = Clock tick event
    newmet                   : APSIMNewMetEvent                        = New met event
-   Pot_Res_Decomp           : APSIMPotentialResidueDecompositionEvent = Potential decomposition of residue event
+   pot_decomp               : APSIMPotentialResidueDecompositionEvent = Potential decomposition of residue event
+   new_profile             : APSIMNewProfileEvent       = To notify all interested modules of the change in soil water profile characteristic information
    
 end
 

@@ -32,10 +32,12 @@ class APSIMSoilTempPublic
     heat_store              : APSIMRealArray      = Volumetric specific heat for each layer, (J/m3/K/s), GET
 
 ; Main actions
+
     create                 : APSIMMethod         = System create stage
     sysinit                : APSIMMethod         = System initialise
     prepare                : APSIMMethod         = System prepare stage
-    post                   : APSIMMethod         = System post stage
+    process                : APSIMMethod         = Message to process 
+
 end
 ; -----------------------------------------------------------
 ; SoilTemps External interface which documents things in other 
