@@ -197,6 +197,7 @@ void DBSimulation::close (void)
 
 //  Changes:
 //    DPH 13/1/98
+//    DAH 11/4/02: Replaced Get_field_list call with new method from db_functions.h
 
 // ------------------------------------------------------------------
 void DBSimulation::getFieldNames (TADOConnection* db, vector<string>& fieldNames)
@@ -208,13 +209,16 @@ void DBSimulation::getFieldNames (TADOConnection* db, vector<string>& fieldNames
    dataTable->CursorLocation = clUseServer;
    dataTable->Open();
 
-   TStringList* TFieldNames = new TStringList;
-   Get_field_list (dataTable, TFieldNames);
+   getDBFieldNames(dataTable, fieldNames);
+//   TStringList* TFieldNames = new TStringList;
+//   Get_field_list (dataTable, TFieldNames);
 
    // remove the simulation_id field from the list.  Assume it is first field.
-   TFieldNames->Delete(0);
-   TStrings_2_stl (TFieldNames, fieldNames);
-   delete TFieldNames;
+   fieldNames.erase(fieldNames.begin());
+
+//   TFieldNames->Delete(0);
+//   TStrings_2_stl (TFieldNames, fieldNames);
+//   delete TFieldNames;
    dataTable->Close();
    delete dataTable;
    }
@@ -228,6 +232,8 @@ void DBSimulation::getFieldNames (TADOConnection* db, vector<string>& fieldNames
 
 //  Changes:
 //    DPH 5/2/98
+//    DAH 13/4/02: replaced the call Get_field_list to the new equivalent from
+//                 db_functions.h
 
 // ------------------------------------------------------------------
 void DBSimulation::readData(TAPSTable& data, const string& simulationName)
@@ -238,11 +244,13 @@ void DBSimulation::readData(TAPSTable& data, const string& simulationName)
    open();
 
    // get a list of field names from our open dataset.
-   TStringList* TFieldNames = new TStringList;
-   Get_field_list (dataset, TFieldNames);
+//   TStringList* TFieldNames = new TStringList;
+//   Get_field_list (dataset, TFieldNames);
    vector<string> fieldNames, dummy;
-   TStrings_2_stl (TFieldNames, fieldNames);
-   delete TFieldNames;
+//   TStrings_2_stl (TFieldNames, fieldNames);
+//   delete TFieldNames;
+   getDBFieldNames(dataset, fieldNames);
+
 
    // give all field names to the data object.
    data.addField(SIMULATION_FIELD_NAME);
