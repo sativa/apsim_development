@@ -267,7 +267,7 @@ void GENERAL_EXPORT Strings_to_olevariant (std::vector<std::string>& StlArray, V
 void GENERAL_EXPORT loadComponent(AnsiString filename, TComponent*& component);
 
 // ------------------------------------------------------------------
-// Save a component to a stream.  Works best saving an entire form. 
+// Save a component to a stream.  Works best saving an entire form.
 // ------------------------------------------------------------------
 void GENERAL_EXPORT saveComponent(AnsiString filename, TComponent* component);
 
@@ -278,5 +278,10 @@ void GENERAL_EXPORT saveComponent(AnsiString filename, TComponent* component);
 //---------------------------------------------------------------------------
 AnsiString GENERAL_EXPORT replaceComponentPropertyMacros
       (TComponent* owner, AnsiString text);
+
+//---------------------------------------------------------------------------
+// Return a list of component names in the macros in the specified string.
+//---------------------------------------------------------------------------
+void GENERAL_EXPORT getComponentNamesFromMacros(AnsiString st, TStrings* componentNames);
 
 #endif

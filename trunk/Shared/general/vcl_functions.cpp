@@ -458,4 +458,26 @@ AnsiString replaceComponentPropertyMacros(TComponent* owner, AnsiString text)
       }
    return newText.c_str();
    }
+//---------------------------------------------------------------------------
+// Return a list of component names in the macros in the specified string.
+//---------------------------------------------------------------------------
+void GENERAL_EXPORT getComponentNamesFromMacros(AnsiString text, TStrings* componentNames)
+   {
+   string newText = text.c_str();
+   unsigned posStartMacro = newText.find("$");
+   while (posStartMacro != string::npos)
+      {
+      StringTokenizer tokenizer(newText.substr(posStartMacro+1), " .$", true);
+      string componentName = tokenizer.nextToken();
+      string delimiter = tokenizer.nextToken();
+      if (delimiter == ".")
+         {
+         string propertyName = tokenizer.nextToken();
+         string macroChar = tokenizer.nextToken();
+         if (macroChar == "$" && componentNames->IndexOf(componentName.c_str()) == -1)
+            componentNames->Add(componentName.c_str());
+         }
+      posStartMacro = newText.find("$", posStartMacro+1);
+      }
+   }
 
