@@ -1,32 +1,55 @@
-report - Output_file=manager.out
-report - initialising
-Title =accum dalby
-Screen output =off
- 
-Variable list
--------------
- 
-Module = clock
-Variables =year,day
- 
-Module = manager
-Variables =avtemp
----------------------------------------------------------
- INPUT (met) Initialising:
----------------------------------------------------------
- day=   1 date=  1  1 1988 manager  - Initialising
- 
-Manager rules
-------- -----
-avtemp = (mint + maxt) / 2
-if (days_since_last_report = 3) then
-report do_output
-endif
- 
------------------------------------------------------------
- 
-======= Start of APSIM simulation ============================
- day=   1 date=  1  1 1988 manager  - Manager creating a new local variable : avtemp =     25.1999988500000
-Simulation is terminating due to end criteria being met.
- 
-======= End of APSIM simulation ==============================
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+
+     Licensed name          = User SEG
+     Licensed organisation  = CSIRO
+     Version                = 1_55
+     Control filename       = C:\APSuite\apsim\manager\sample\manager.con
+     Configuration filename = c:\apsuite\apsim\standard apsim release.config
+     Title                  = accum dalby
+     Instantiated DLL       = c:\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
+     Instantiated DLL       = c:\apsuite\apsim\report\lib\report.dll(report) - Licensed
+     Instantiated DLL       = c:\apsuite\apsim\met\lib\met.dll(met) - Licensed
+     Instantiated DLL       = c:\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
+
+------- CLOCK Initialisation -------------------------------------------------
+     Simulation start date =  1/01/1988
+     Simulation end date   =  8/04/1988
+     Time step =           = 1440 (mins)
+
+------- REPORT Initialisation ------------------------------------------------
+     Output file = manager.out
+     Format = normal
+     Module_names = clock clock manager manager manager 
+     Variable_names = year day avtemp avtempi feb_or_not 
+     Variable_alias = - - - - - 
+     Units = - - - - - 
+     
+
+------- MET Initialisation ---------------------------------------------------
+     File name = c:\apsuite\apsim\met\sample\dalby.met
+
+------- MANAGER Initialisation -----------------------------------------------
+     Manager rules:
+     avtemp = (mint + maxt) / 2
+     avtempi=nearest_int(avtemp)
+     feb_or_not=date_within('1-feb,28-feb')
+     if (report.days_since_last_report = 3) then
+        report do_output
+     endif
+------- Start of simulation  --------------------------------------------------
+1 January 1988 (Day of year=1):
+     Manager creating a new local variable : avtemp =     25.1999988500000
+     Manager creating a new local variable : avtempi =     25.0000000000000
+     Manager creating a new local variable : feb_or_not =    0.000000000000000
+8 April 1988 (Day of year=99):
+     Simulation is terminating due to end criteria being met.
