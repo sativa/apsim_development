@@ -12,11 +12,11 @@ BRCC = $(ROOT)\bin\brcc32.exe $**
 PROJECTS = general.lib ApsimShared.dll SEGReport.bpl ApsimReport.exe \
   ApsimContextMenu.dll APSBuild.exe CreateComponentInterfaceSource.exe APSRun.exe \
   ComponentInterface.lib Protocol.dll apsim.exe ProtocolManager.dll Log.dll \
-  SummaryFile.dll Input.dll report.dll Screen.dll Tracker.dll APSGeneral.bpl \
-  apsdata.bpl ApsimOutlook.exe dbaddin.dll FilterAddIn.dll RotationAddIn.dll \
-  soiaddin.dll WhopEconAddin.dll OutlookManager.exe FilterBarPackage.bpl \
-  SoilAPI.dll import.exe apsoil.exe Test.dll icons.dll Misc.dll SoilWater.dll \
-  TemplatePacks.dll data.dll chart.dll apsvis.exe
+  SummaryFile.dll Input.dll report.dll Screen.dll Tracker.dll VenLink.dll \
+  APSGeneral.bpl apsdata.bpl ApsimOutlook.exe dbaddin.dll FilterAddIn.dll \
+  RotationAddIn.dll soiaddin.dll WhopEconAddin.dll OutlookManager.exe \
+  FilterBarPackage.bpl SoilAPI.dll import.exe apsoil.exe Test.dll icons.dll \
+  Misc.dll SoilWater.dll TemplatePacks.dll data.dll chart.dll apsvis.exe
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
 #------------------------------------------------------------------------------
@@ -174,6 +174,10 @@ chart.dll: Shared\chart\chart.bpr
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
 apsvis.exe: apsvis\source\apsvis.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+VenLink.dll: apsim\VenLink\Source\VenLink.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
