@@ -395,6 +395,14 @@
      :                     , numvals
      :                     , 2.0, 10.0)
 
+         ! ionic strength of rain water.
+      call read_real_var (section
+     :                     , 'ionic_strength_rain'
+     :                     , '()'
+     :                     ,  p%ionic_strength_rain
+     :                     , numvals
+     :                     , 0.001, 0.1)
+
          ! Uptakes of each element in percent dry matter of crop growth.
       call read_real_var (section
      :                     , 'ca_dm_percent'
@@ -454,6 +462,17 @@
       p%lime_pool_init(:) = p%lime_pool_init(:) * CaCO3_kg2mol
 !      call SoilpH_vec_scalar_mul (p%lime_pool_init, e%num_layers
 !     :                           , CaCO3_kg2mol)
+
+         ! Initial ionic strength of layer.
+      call read_real_array (section
+     :                     , 'ionic_strength_initial'
+     :                     , max_layer
+     :                     , '()'
+     :                     , p%ionic_strength_initial
+     :                     , numvals
+     :                     , 0.001, 0.1)
+      call SoilpH_assert (numvals .ge. e%num_layers
+     :            , 'ionic_strength_initial: numvals .ge. e%num_layers')
 
          ! Initial pHCa of layer.
       call read_real_array (section
@@ -753,7 +772,8 @@
                                          
          ! Parameters                    
 
-      p%pH_rain                 = 0.0     
+      p%pH_rain                 = 0.0
+      p%ionic_strength_rain   = 0.0
       p%pHBC_method          = blank
       p%report_additions     = blank
       p%sAls_supplied_use_flag(:) = .false.
@@ -770,7 +790,8 @@
       p%Na_dm_percent          = 0.0     
       p%P_dm_percent           = 0.0     
       p%S_dm_percent           = 0.0     
-      p%Cl_dm_percent          = 0.0     
+      p%Cl_dm_percent          = 0.0
+      p%ionic_strength_initial(:) = 0.0
       p%pHCa_initial(:)        = 0.0
       p%CO2_pressure_soil(:)   = 0.0
       c%CO2_pressure_atm       = 0.0
@@ -889,6 +910,7 @@
       p%report_additions   = blank
       p%pHBC_method        = blank
       p%pH_rain            = 0.0
+      p%ionic_strength_rain = 0.0
       p%Ca_dm_percent      = 0.0
       p%Mg_dm_percent      = 0.0
       p%K_dm_percent       = 0.0
@@ -898,23 +920,24 @@
       p%Cl_dm_percent      = 0.0
       p%sAls_supplied_use_flag(:) = .false.
       p%Ca_avail(:)       = 0.0
-      call fill_real_array (p%Mg_avail       , 0.0, max_layer)
-      call fill_real_array (p%K_avail        , 0.0, max_layer)
-      call fill_real_array (p%Na_avail       , 0.0, max_layer)
-      call fill_real_array (p%P_avail        , 0.0, max_layer)
-      call fill_real_array (p%S_avail        , 0.0, max_layer)
-      call fill_real_array (p%Cl_avail       , 0.0, max_layer)
-      call fill_real_array (p%pHCa_initial   , 0.0, max_layer)
-      call fill_real_array (p%pHBC           , 0.0, max_layer)
-      call fill_real_array (p%CO2_pressure_soil, 0.0, max_layer)
-      call fill_real_array (p%lime_pool_init , 0.0, max_layer)
-      call fill_real_array (p%Al_conc_init   , 0.0, max_layer)
-      call fill_real_array (p%sAls_supplied  , 0.0, max_layer)
-      call fill_real_array (p%ecec_init      , 0.0, max_layer)
-      call fill_real_array (p%hum_acid_slope , 0.0, max_layer)
-      call fill_real_array (p%hum_acid_pHCa_offset, 0.0, max_layer)
-      call fill_real_array (p%pAl_pHca_slope , 0.0, max_layer)
-      call fill_real_array (p%pAl_pHCa_intercept, 0.0, max_layer)
+      p%Mg_avail(:)       = 0.0
+      p%K_avail(:)        = 0.0
+      p%Na_avail(:)       = 0.0
+      p%P_avail(:)        = 0.0
+      p%S_avail(:)        = 0.0
+      p%Cl_avail(:)       = 0.0
+      p%ionic_strength_initial(:) = 0.0
+      p%pHCa_initial(:)   = 0.0
+      p%pHBC(:)           = 0.0
+      p%CO2_pressure_soil(:)= 0.0
+      p%lime_pool_init(:) = 0.0
+      p%Al_conc_init(:)   = 0.0
+      p%sAls_supplied(:)  = 0.0
+      p%ecec_init(:)      = 0.0
+      p%hum_acid_slope(:) = 0.0
+      p%hum_acid_pHCa_offset(:) = 0.0
+      p%pAl_pHca_slope(:) = 0.0
+      p%pAl_pHCa_intercept(:)= 0.0
 
          !  External variables.
  !cjh      e%day = 0
@@ -922,71 +945,67 @@
       e%infiltration_mm    = 0.0
       e%crop_ash_alk_wt    = 0.0
 
-      call fill_real_array (e%dlayer            , 0.0, max_layer)
-      call fill_real_array (e%flow_water        , 0.0, max_layer)
-      call fill_real_array (e%org_C_fract       , 0.0, max_layer)
-      call fill_real_array (e%dlt_lime_added    , 0.0, max_layer)
-      call fill_real_array (e%ash_alk_wt_incorp , 0.0, max_layer)
-      call fill_real_array (e%dlt_OM            , 0.0, max_layer)
-      call fill_real_array (e%NH4_transform_net_mol, 0.0, max_layer)
-      call fill_real_array (e%NO3_transform_net_mol, 0.0, max_layer)
-      call fill_real_array (e%NO3_uptake_equiv   , 0.0, max_layer)
-      call fill_real_array (e%NH4_uptake_equiv   , 0.0, max_layer)
-      call fill_real_array (e%Ca_uptake_equiv    , 0.0, max_layer)
-      call fill_real_array (e%Mg_uptake_equiv    , 0.0, max_layer)
-      call fill_real_array (e%K_uptake_equiv     , 0.0, max_layer)
-      call fill_real_array (e%Na_uptake_equiv    , 0.0, max_layer)
-      call fill_real_array (e%P_uptake_equiv     , 0.0, max_layer)
-      call fill_real_array (e%S_uptake_equiv     , 0.0, max_layer)
-      call fill_real_array (e%Cl_uptake_equiv    , 0.0, max_layer)
-      call fill_real_array (e%ash_alk_wt_incorp_last   , 0.0, max_layer)
-      call fill_real_array (e%NH4_transform_net_mol_last, 0.0
-     :                     , max_layer)
-      call fill_real_array (e%NO3_transform_net_mol_last, 0.0
-     :                     , max_layer)
-      call fill_real_array (e%dlt_OM_last          , 0.0, max_layer)
-      call fill_real_array (e%Ca_uptake_equiv_last  , 0.0, max_layer)
-      call fill_real_array (e%Mg_uptake_equiv_last  , 0.0, max_layer)
-      call fill_real_array (e%K_uptake_equiv_last   , 0.0, max_layer)
-      call fill_real_array (e%Na_uptake_equiv_last  , 0.0, max_layer)
-      call fill_real_array (e%P_uptake_equiv_last   , 0.0, max_layer)
-      call fill_real_array (e%S_uptake_equiv_last   , 0.0, max_layer)
-      call fill_real_array (e%Cl_uptake_equiv_last  , 0.0, max_layer)
+      e%dlayer(:)            = 0.0
+      e%flow_water(:)        = 0.0
+      e%org_C_fract(:)       = 0.0
+      e%dlt_lime_added(:)    = 0.0
+      e%ash_alk_wt_incorp(:) = 0.0
+      e%dlt_OM(:)            = 0.0
+      e%NH4_transform_net_mol(:)= 0.0
+      e%NO3_transform_net_mol(:)= 0.0
+      e%NO3_uptake_equiv(:)   = 0.0
+      e%NH4_uptake_equiv(:)   = 0.0
+      e%Ca_uptake_equiv(:)    = 0.0
+      e%Mg_uptake_equiv(:)    = 0.0
+      e%K_uptake_equiv(:)     = 0.0
+      e%Na_uptake_equiv(:)    = 0.0
+      e%P_uptake_equiv(:)     = 0.0
+      e%S_uptake_equiv(:)     = 0.0
+      e%Cl_uptake_equiv(:)    = 0.0
+      e%ash_alk_wt_incorp_last(:)   = 0.0
+      e%NH4_transform_net_mol_last(:)= 0.0
+      e%NO3_transform_net_mol_last(:)= 0.0
+      e%dlt_OM_last(:)          = 0.0
+      e%Ca_uptake_equiv_last(:)  = 0.0
+      e%Mg_uptake_equiv_last(:)  = 0.0
+      e%K_uptake_equiv_last(:)   = 0.0
+      e%Na_uptake_equiv_last(:)  = 0.0
+      e%P_uptake_equiv_last(:)   = 0.0
+      e%S_uptake_equiv_last(:)   = 0.0
+      e%Cl_uptake_equiv_last(:)  = 0.0
 
 
 
          !  Calculated variables.
       g%H_equiv_infiltration   = 0.0
       g%residue_ash_alk_wt = 0.0
-      call fill_real_array (g%pHBC              , 0.0, max_layer)
-      call fill_real_array (g%pHCa              , 0.0, max_layer)
-      call fill_real_array (g%pHca_old          , 0.0, max_layer)
-      call fill_real_array (g%dlt_pHCa          , 0.0, max_layer)
-      call fill_real_array (g%dlt_pHCa_tot      , 0.0, max_layer)
-      call fill_real_array (g%lime_pool         , 0.0, max_layer)
-      call fill_real_array (g%dlt_lime_pool     , 0.0, max_layer)
-      call fill_real_array (g%H_equiv_mass_flow , 0.0, max_layer)
-      call fill_real_array (g%H_equiv_mass_flow_tot , 0.0, max_layer)
-      call fill_real_array (g%H_equiv_flow_net  , 0.0, max_layer)
-      call fill_real_array (g%H_equiv_flow_net_tot  , 0.0, max_layer)
-      call fill_real_array (g%dlt_lime_dissl    , 0.0, max_layer)
-      call fill_real_array (g%acid_excretion_root, 0.0, max_layer)
-      call fill_real_array (g%tec_init          , 0.0, max_layer)
-      call fill_real_array (g%tec               , 0.0, max_layer)
-      call fill_real_array (g%Al_exchangable    , 0.0, max_layer)
-      call fill_real_array (g%sAls_calc         , 0.0, max_layer)
-      call fill_real_array (g%sAls              , 0.0, max_layer)
-      call fill_real_array (g%dlt_acid_N_cycle  , 0.0, max_layer)
-      call fill_real_array (g%dlt_acid_org_C_cycle, 0.0, max_layer)
-      call fill_real_array (g%pH                , 0.0, max_layer)
+      g%pHBC(:)              = 0.0
+      g%pHCa(:)              = 0.0
+      g%pHca_old(:)          = 0.0
+      g%dlt_pHCa(:)          = 0.0
+      g%dlt_pHCa_tot(:)      = 0.0
+      g%lime_pool(:)         = 0.0
+      g%dlt_lime_pool(:)     = 0.0
+      g%H_equiv_mass_flow(:) = 0.0
+      g%H_equiv_mass_flow_tot(:) = 0.0
+      g%H_equiv_flow_net(:)  = 0.0
+      g%H_equiv_flow_net_tot(:)  = 0.0
+      g%dlt_lime_dissl(:)    = 0.0
+      g%acid_excretion_root(:)= 0.0
+      g%tec_init(:)          = 0.0
+      g%tec(:)               = 0.0
+      g%Al_exchangable(:)    = 0.0
+      g%sAls_calc(:)         = 0.0
+      g%sAls(:)              = 0.0
+      g%dlt_acid_N_cycle(:)  = 0.0
+      g%dlt_acid_org_C_cycle(:)= 0.0
+      g%pH(:)                = 0.0
       c%pHCa2pH_tbl_size = 0
-      call fill_real_array (c%pHCa2pH_tbl_pHca
-     .                          , 0.0, pHCa2pH_tbl_size_max)
-      call fill_real_array (c%pHCa2pH_tbl_pH
-     .                          , 0.0, pHCa2pH_tbl_size_max)
+      c%pHCa2pH_tbl_pHca(:) = 0.0
+      c%pHCa2pH_tbl_pH(:) = 0.0
 
          !   The following really do need to be zeroed for soilpH to work.
-      call fill_real_array (e%dlt_lime_added    , 0.0, e%num_layers)
+      e%dlt_lime_added(:)    = 0.0
 
       call pop_routine (my_name)
       return
@@ -1028,17 +1047,17 @@
       e%S_uptake_equiv_last(:)          = e%S_uptake_equiv(:)
       e%Cl_uptake_equiv_last(:)         = e%Cl_uptake_equiv(:)
 
-      call fill_real_array (e%ash_alk_wt_incorp    , 0.0, max_layer)
-      call fill_real_array (e%NH4_transform_net_mol, 0.0, max_layer)
-      call fill_real_array (e%NO3_transform_net_mol, 0.0, max_layer)
-      call fill_real_array (e%dlt_OM               , 0.0, max_layer)
-      call fill_real_array (e%Ca_uptake_equiv       , 0.0, max_layer)
-      call fill_real_array (e%Mg_uptake_equiv       , 0.0, max_layer)
-      call fill_real_array (e%K_uptake_equiv        , 0.0, max_layer)
-      call fill_real_array (e%Na_uptake_equiv       , 0.0, max_layer)
-      call fill_real_array (e%P_uptake_equiv        , 0.0, max_layer)
-      call fill_real_array (e%S_uptake_equiv        , 0.0, max_layer)
-      call fill_real_array (e%Cl_uptake_equiv       , 0.0, max_layer)
+      e%ash_alk_wt_incorp(:)    = 0.0
+      e%NH4_transform_net_mol(:)= 0.0
+      e%NO3_transform_net_mol(:)= 0.0
+      e%dlt_OM(:)               = 0.0
+      e%Ca_uptake_equiv(:)       = 0.0
+      e%Mg_uptake_equiv(:)       = 0.0
+      e%K_uptake_equiv(:)        = 0.0
+      e%Na_uptake_equiv(:)       = 0.0
+      e%P_uptake_equiv(:)        = 0.0
+      e%S_uptake_equiv(:)        = 0.0
+      e%Cl_uptake_equiv(:)       = 0.0
 
       e%crop_ash_alk_wt    = 0.0
 
@@ -3186,7 +3205,8 @@
      :                             , e%infiltration_mm
      :                             , c%CO2_pressure_atm
      :                             , 0.0
-     :                             , 0.0)
+     :                             , 0.0
+     :                             , p%ionic_strength_rain)
 
       g%H_equiv_mass_flow(:) = 0.0
       g%H_equiv_mass_flow_tot(:) = 0.0
@@ -3203,7 +3223,8 @@
      :                                  , e%flow_water(layer-1)
      :                                  , p%CO2_pressure_soil(layer)
      :                                  , p%pAl_pHca_slope(layer)
-     :                                  , p%pAl_pHCa_intercept(layer))
+     :                                  , p%pAl_pHCa_intercept(layer)
+     :                                , p%ionic_strength_initial(layer))
          else
             g%H_equiv_mass_flow(layer-1) = 0.0
          endif
@@ -3254,7 +3275,8 @@
      :                                    , e%flow_water(layer)
      :                                    , p%CO2_pressure_soil(layer)
      :                                    , p%pAl_pHca_slope(layer)
-     :                                    , p%pAl_pHCa_intercept(layer))
+     :                                    , p%pAl_pHCa_intercept(layer)
+     :                               , p%ionic_strength_initial(layer))
          else
             g%H_equiv_mass_flow(layer) = 0.0
          endif
@@ -3786,7 +3808,8 @@
      :                                    , H20_mass_flow_mm
      :                                    , CO2_pressure
      :                                    , pAl_pHca_slope
-     :                                    , pAl_pHCa_intercept)
+     :                                    , pAl_pHCa_intercept
+     :                                    , ionic_strength)
 *     ===========================================================
       use soilpHModule
       implicit none
@@ -3801,6 +3824,7 @@
       real CO2_pressure       ! (IN) Air CO2 partial pressure (atm)
       real pAl_pHca_slope     ! (IN) User supplied slope of -log(labile Al) vs pHCa.
       real pAl_pHCa_intercept ! (IN) supplied intercept of -log(labile Al) vs pHCa.
+      real ionic_strength     ! (IN) ionic strength of soil layer ()
 
 *+  Purpose
 *       Calculate equivalent H+ flow out of the layer.
@@ -3832,7 +3856,9 @@
       real H_mass_flow        ! Mass flow of H+  (Mol/ha)
       real pCO3
       real CO3_conc           ! HCO3_conc (Mol/L)
-      real pCO2               ! Ionic activity of CO2 
+      real pCO2               ! Ionic activity of CO2
+
+      real soilpH_ionic_conc  ! function
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -3843,23 +3869,34 @@
          ! HCO3_conc (moles/L).
       pCO2      = - log10 (CO2_pressure)
       pHCO3     = pCO2 - pH + pKa_CO2
-      HCO3_conc = 10.0 ** (-pHCO3)
-
+      HCO3_conc = soilpH_ionic_conc (pHCO3
+     :                              , HCO3_valency
+     :                              , ionic_strength)
+                                                                  
          ! Mass flow HCO3_conc- (mol/ha).
       HCO3_mass_flow = HCO3_conc * H2O_mass_flow
 
          ! Actual mass flow of CO3_conc-  (mol/ha).
       pCO3          = pHCO3 - pH + pKa_HCO3
-      CO3_conc      = 10.0 ** (-pCO3) ! CO3_conc- concentration.
+      CO3_conc      = soilpH_ionic_conc (pCO3
+     :                                  , CO3_valency
+     :                                  , ionic_strength)
+
       CO3_mass_flow = CO3_conc * H2O_mass_flow
 
          ! Mass flow of OH- (hydroxide ions) (mol/ha).
       pOH          = pKc_water - pH
-      OH_conc      = 10.0 **(-pOH)
+      OH_conc      = soilpH_ionic_conc (pOH
+     :                                 , OH_valency
+     :                                 , ionic_strength)
+
       OH_mass_flow = OH_conc * H2O_mass_flow
 
          ! Mass flow of H+ (hydrogen ions) (mol/ha).
-      H_conc       = 10.0 ** (-pH)
+      H_conc       = soilpH_ionic_conc (pH
+     :                                 , H_valency
+     :                                 , ionic_strength)
+
       H_mass_flow  = H_conc * H2O_mass_flow
 
          ! pAl as a function of soil pHCa (-ve log of [al] in soln) (moles/L).
@@ -3873,7 +3910,10 @@
 
          ! Mass flow of Al (mol/ha).
       if (pAl .gt. 0.0) then
-         Al_conc       = 10.0 ** (-pAl) 
+         Al_conc       = soilpH_ionic_conc (pAl
+     :                                     , Al_valency
+     :                                     , ionic_strength)
+ 
          Al_mass_flow  = Al_conc * H2O_mass_flow
       else
          Al_mass_flow = 0.0
@@ -3898,6 +3938,60 @@
 !     :                  , - CO3_mass_flow 
 !     :                  , + Al_equiv_mass_flow
 
+      call pop_routine (my_name)
+      return
+      end
+
+*     ===========================================================
+      real function soilpH_ionic_conc ( pIon
+     :                                , valency
+     :                                , ionic_strength)
+*     ===========================================================
+      use soilpHModule
+      implicit none
+      include   'error.pub'
+
+*+  Sub-Program Arguments
+      real    pIon         ! (IN) -ve log of [ion] in solution (mol/L)
+      real    valency      ! (IN) valency of ion
+      real    ionic_strength ! (IN) ionic strength of soil
+
+*+  Purpose
+*       Calculate ionic concentration.
+
+*+  Mission Statement
+*       Calculate ionic concentration.
+
+*+  Changes
+*     210499 jngh   created
+
+*+  Notes
+*     Extended Debye-Hückel equation simplified. Based on experimental data 
+*     suggested by Davies (1962)
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'soilpH_ionic_conc')
+
+      real       A         ! corfficient for water at 25ºC
+      parameter (A = 0.509)
+
+*+  Local Variables
+      real conc               !  conc (Mol/L)
+      real ionic_activity     !  ionic activity ()
+      real ionic_activity_coef ! ionic activity coefficient ()
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+      ionic_activity = 10.0 ** (-pIon)
+      ionic_activity_coef = 10**(-A * valency**2
+     :                    * (ionic_strength**0.5 
+     :                      / (1 + ionic_strength**0.5)
+     :                      - 0.3*ionic_strength))
+      conc = ionic_activity / ionic_activity_coef
+      soilpH_ionic_conc = conc
+                                                                  
       call pop_routine (my_name)
       return
       end
