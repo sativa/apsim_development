@@ -1273,34 +1273,12 @@ C     Last change:  P     8 Nov 2000   12:19 pm
  
       call push_routine(myname)
 
-      ! If the section name is 'parameters' or 'weather' then go get a
-      ! property.  If the section name is 'constants' then go get a
-      ! constant.  If the section name is anything else then we have
-      ! a user defined type so go get a generic.
-
-      if (section_name .eq. 'parameters' .or.
-     .    section_name .eq. 'weather' .or.
-     .    section_name .eq. 'data') then
-         property = component_getproperty(ComponentData,Parameter_name)
-         if (property .ne. 0) then
-            call property_getvalue(property, parameter_value)
-         end if
-
-      elseif (section_name .eq. 'constants') then
-         property = component_getconstant(ComponentData,Parameter_name)
-         if (property .ne. 0) then
-            call constant_getvalue(property, parameter_value)
-         end if
-      else
-         property = component_getgeneric(ComponentData, section_name)
-         if (property .ne. 0) then
-            call generic_getfieldvalue(property, Parameter_name,
-     .                                 Parameter_value)
-            if (Parameter_value .eq. ' ') then
-               property = 0
-            end if
-         end if
-
+      ! Get property value.
+      property = component_getproperty(ComponentData,
+     .                                 Parameter_name,
+     .                                 section_name)
+      if (property .ne. 0) then
+         call property_getvalue(property, parameter_value)
       end if
 
       ! If we got a property, convert value to lower_case.
