@@ -4,26 +4,20 @@
 #pragma hdrstop
 
 #include "WhopEcon.h"
-#include "About.h"
-#include "Crop.h"
-#include "DataForm.h"
-#include "Econ.h"
-#include "WheatMatrix.h"
 #include <general\path.h>
 #include <general\stl_functions.h>
 #include <general\string_functions.h>
 #include <sstream>
-#include "SeedWeight.h"
 #include "CropFields.h"
-#include "EconConfigData.h"
 #include <iterator>
 #include <ApsimShared\ApsimDirectories.h>
+#include <ApsimShared\ApsimSettings.h>
 #include <general\db_functions.h>
 //---------------------------------------------------------------------------
 
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
-#define WHOPECON_SECTION "WhopEcon"
+#define MDB_KEY "WhopEcon|Econ Database"
 #define WHOPECON_FACTOR_NAME "Econ Config"
 #define BITMAP_NAME_KEY "WhopEcon|bitmap"
 #define SIMULATION_FACTOR_NAME "Simulation"
@@ -49,28 +43,24 @@ extern "C" void _export __stdcall deleteAddIn(AddInBase* addin)
 // ------------------------------------------------------------------
 void WhopEcon::setStartupParameters(const std::string& parameters)
    {
-   static bool firstTime = true;
-   if (firstTime)
-      {
-      DATA = new TDATA(Application->MainForm);
-      EconForm = new TEconForm(Application->MainForm);
-      CropForm = new TCropForm(Application->MainForm);
-      AboutBox = new TAboutBox(Application->MainForm);
-      WheatMatrixForm = new TWheatMatrixForm(Application->MainForm);
-      SeedWeightsForm = new TSeedWeightsForm(Application->MainForm);
-      firstTime = false;
-      }
+   SetCurrentDir(getAppHomeDirectory().c_str());
+   
+   // open the last economics data base.
+   ApsimSettings settings;
+   settings.read(MDB_KEY, econMDB);
+   gm.open(econMDB);
 
    // get a default econ config name
-   AnsiString default_config_name;
-   DATA->Scenario->First();
-   if (!DATA->Scenario->Eof)
-      default_config_name =  DATA->Scenario->FieldValues["ScenarioName"];
+   vector<string> scenarioNames;
+   gm.getScenarioNames(scenarioNames);
+   string defaultScenarioName;
+   if (scenarioNames.size() > 0)
+      defaultScenarioName =  scenarioNames[0];
    else
-      default_config_name = "Empty";
+      defaultScenarioName = "Empty";
 
    // create a factor with the default name
-   Factor econ(WHOPECON_FACTOR_NAME,default_config_name.c_str());
+   Factor econ(WHOPECON_FACTOR_NAME, defaultScenarioName.c_str());
    factors.push_back(econ);
    }
 // ------------------------------------------------------------------
@@ -78,12 +68,8 @@ void WhopEcon::setStartupParameters(const std::string& parameters)
 // ------------------------------------------------------------------
 WhopEcon::~WhopEcon(void)
    {
-   delete DATA;
-   delete EconForm;
-   delete CropForm;
-   delete AboutBox;
-   delete WheatMatrixForm;
-   delete SeedWeightsForm;
+   ApsimSettings settings;
+   settings.write(MDB_KEY, econMDB);
    }
 // ------------------------------------------------------------------
 // return true if the simulation is valid.  False otherwise.
@@ -92,15 +78,9 @@ bool WhopEcon::isScenarioValid(Scenario& scenario) const
    {
    string econName = scenario.getFactorValue(WHOPECON_FACTOR_NAME);
 
-   DATA->Scenario->First();
-   bool found = false;
-   while (!DATA->Scenario->Eof && !found)
-      {
-      AnsiString name = DATA->Scenario->FieldValues["ScenarioName"];
-      found = (name == econName.c_str());
-      DATA->Scenario->Next();
-      }
-   return found;
+   vector<string> scenarioNames;
+   gm.getScenarioNames(scenarioNames);
+   return (find(scenarioNames.begin(), scenarioNames.end(), econName) != scenarioNames.end());
    }
 // ------------------------------------------------------------------
 // Make the specified scenario valid.
@@ -124,23 +104,16 @@ void WhopEcon::getFactorValues(const Scenario& scenario,
                                    std::vector<std::string>& factorValues) const
    {
    if (factorName == WHOPECON_FACTOR_NAME)
-      {
-      TListItems* config_names;
-      DATA->Scenario->First();
-      while (!DATA->Scenario->Eof)
-         {
-         AnsiString name = DATA->Scenario->FieldValues["ScenarioName"];
-         factorValues.push_back(name.c_str());
-         DATA->Scenario->Next();
-         }
-      }
+      gm.getScenarioNames(factorValues);
    }
 // ------------------------------------------------------------------
 // display our form.
 // ------------------------------------------------------------------
 void WhopEcon::showUI(void)
    {
-   EconForm->ShowModal();
+   gm.close();
+   showEconomicScenariosUI(econMDB);
+   gm.open(econMDB);
    }
 // ------------------------------------------------------------------
 // calculate and store all records in memory table.
@@ -157,13 +130,6 @@ void WhopEcon::doCalculations(TAPSTable& data, const Scenario& scenario)
    // go thru the table 'data' and add a new factor field to reflect the
    // economic configuration
    data.markFieldAsAPivot(WHOPECON_FACTOR_NAME);
-
-   // create an instance of our economic configuration class.
-   EconConfigData econConfig;
-
-   // open the relevant tables and convert the economic configuration name
-   // into an index.
-   DATA->CropList->Open();
 
    bool ok = data.first();
 
@@ -213,8 +179,7 @@ void WhopEcon::doCalculations(TAPSTable& data, const Scenario& scenario)
             if (cropFields.cropWasSownByAcronym(*record, *cropAcronymI))
                {
                string cropName = cropFields.realCropName(*cropAcronymI).c_str();
-               EconConfigCropData* cropData;
-               if (econConfig.getCropData(econConfigName, cropName, cropData))
+               try
                   {
                   // if crop is wheat then get protein.
                   float protein = 0.0;
@@ -232,15 +197,16 @@ void WhopEcon::doCalculations(TAPSTable& data, const Scenario& scenario)
                      (*record, "yield", *cropAcronymI);
                   string wetYieldFieldName = yieldFieldName + "WET";
 
-                  float yield = 0.0;
-                  if (!cropFields.getCropValue(*record, "yield", *cropAcronymI, yield))
+                  float dryYield = 0.0;
+                  if (!cropFields.getCropValue(*record, "yield", *cropAcronymI, dryYield))
                      addWarning("Cannot find a yield column for crop: " + cropName);
-                  yield = cropData->calculateDryYield(yield);
-                  record->setFieldValue(wetYieldFieldName, FloatToStr(yield).c_str());
+                  gm.adjustYieldForHarvestLoss(econConfigName, cropName, dryYield);
+                  float wetYield = gm.calculateWetYield(econConfigName, cropName, dryYield);
+                  record->setFieldValue(wetYieldFieldName, FloatToStr(wetYield).c_str());
 
                   // Calculate a return for this crop and store it as a new field
                   // for this crop.
-                  float ret = cropData->calculateReturn(yield, protein);
+                  float ret = gm.calculateReturn(econConfigName, cropName, wetYield, protein);
                   string returnFieldName = *cropAcronymI + "_Return($ per ha)";
                   record->setFieldValue(returnFieldName, FloatToStr(ret).c_str());
                   gmReturn += ret;
@@ -253,15 +219,15 @@ void WhopEcon::doCalculations(TAPSTable& data, const Scenario& scenario)
                   if (!cropFields.getCropValue(*record, "PlantRate", *cropAcronymI, plantingRate))
                      addWarning("Cannot find a planting rate column for crop: " + cropName);
 
-                  gmCost += cropData->calculateCost(nitrogenRate, plantingRate);
+                  gmCost += gm.calculateCost(econConfigName, cropName, nitrogenRate, plantingRate, wetYield);
 
                   // tell 'data' about the new crop fields.
                   data.addField(wetYieldFieldName);
                   data.addField(returnFieldName);
                   }
-               else
+               catch (const runtime_error& err)
                   {
-                  addWarning("No gross margin information has been specified for crop: " + cropName);
+                  addWarning(err.what());
                   continue;
                   }
                }
