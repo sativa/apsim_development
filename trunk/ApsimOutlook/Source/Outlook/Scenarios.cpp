@@ -241,7 +241,7 @@ void Scenarios::createMultipleScenariosFrom(const Scenario& scenario,
             newName = *v;
          else
             {
-            string newName = newScenario->getName();
+            newName = newScenario->getName();
             if (Str_i_Eq(newName, "default"))
                newName = "";
             else

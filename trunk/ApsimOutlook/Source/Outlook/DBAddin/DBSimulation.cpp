@@ -245,7 +245,6 @@ void DBSimulation::readData(TAPSTable& data, const string& simulationName)
    delete TFieldNames;
 
    // give all field names to the data object.
-   data.clearFields();
    data.addField(SIMULATION_FIELD_NAME);
    for (unsigned int f = 0; f < fieldNames.size(); f++)
       data.addField(fieldNames[f]);
@@ -315,7 +314,10 @@ unsigned int DBSimulation::calculateRank
       pos1++;
       pos2++;
       }
-   return pos1 - title;
+   if (*pos1 == 0 && *pos2 == 0)
+      return 100000;
+   else
+      return pos1 - title;
    }
 
 // ------------------------------------------------------------------
