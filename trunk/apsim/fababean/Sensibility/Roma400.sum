@@ -18,7 +18,7 @@
      Component DLL          = c:\development\apsim\input\lib\input.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
      Component DLL          = c:\development\apsim\Tracker\lib\Tracker.dll
@@ -55,7 +55,7 @@
      if today = date('15-may') then
         soilwat2 reset
         soiln2 reset
-        residue2 reset
+        surfaceom reset
         fababean sow cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
      endif
      
@@ -136,30 +136,29 @@
             CONA:                     3.50 ()
            Eo from priestly-taylor
 
-------- residue2 Initialisation -----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-              2000.0    26.7     0.0  mungbean
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100    30.0     0.0       F       no
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -231,12 +230,30 @@
      
         - Reading Parameters
 15 May 1957(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1957(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1957(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1957(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1957(Day of year=135), Fababean: 
@@ -389,12 +406,30 @@
      
         - Reading Parameters
 15 May 1958(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1958(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1958(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1958(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1958(Day of year=135), Fababean: 
@@ -477,29 +512,29 @@
                      stover N conc =     2.39 (%)     extractable sw =   22.74 (mm)
 12 October 1958(Day of year=285), Fababean: 
       stage 9.0 maturity
-                     biomass =         527.60 (g/m^2)   lai          =   0.372 (m^2/m^2)
+                     biomass =         527.59 (g/m^2)   lai          =   0.372 (m^2/m^2)
                      stover N conc =     2.26 (%)     extractable sw =   22.77 (mm)
 13 October 1958(Day of year=286), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         533.66 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         533.65 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.27 (%)     extractable sw =   19.11 (mm)
 13 October 1958(Day of year=286), manager: 
      Manager sending message :- fababean harvest
 13 October 1958(Day of year=286), Fababean: 
      
       flowering day          =  198                           stover (kg/ha)         =     3608.8
-      maturity day           =  285                           grain yield (kg/ha)    =     1727.8
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1974.6
+      maturity day           =  285                           grain yield (kg/ha)    =     1727.7
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1974.5
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      4.547
-      total above ground biomass (kg/ha)    =     5336.6
-      live above ground biomass (kg/ha)     =     5336.6
-      green above ground biomass (kg/ha)    =     5139.7
+      total above ground biomass (kg/ha)    =     5336.5
+      live above ground biomass (kg/ha)     =     5336.5
+      green above ground biomass (kg/ha)    =     5139.6
       senesced above ground biomass (kg/ha) =      196.9
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =  512.9
       DM Root:Shoot ratio    =    0.373                       Harvest Index          =      0.324
-      Stover C:N ratio       =   18.151                       Root C:N ratio         =     14.670
+      Stover C:N ratio       =   18.150                       Root C:N ratio         =     14.670
       grain N percent        =       4.50                     total N content (kg/ha)=     157.28
       grain N uptake (kg/ha) =      77.75                     senesced N content (kg/ha)=    1.97
       green N content (kg/ha)=      77.56                     dead N content (kg/ha) =       0.00
@@ -513,11 +548,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3608.83                    0.00
+                          DM (kg/ha) =               3608.81                    0.00
                           N  (kg/ha) =                 79.53                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1727.76                    0.00
+                          DM (kg/ha) =               1727.72                    0.00
                           N  (kg/ha) =                 77.75                    0.00
      
 13 October 1958(Day of year=286), manager: 
@@ -525,7 +560,7 @@
 13 October 1958(Day of year=286), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 1993.16
+                          DM (kg/ha) =                  0.00                 1993.15
                           N  (kg/ha) =                  0.00                   54.35
                           P  (kg/ha) =                                          0.00
      
@@ -547,12 +582,30 @@
      
         - Reading Parameters
 15 May 1959(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1959(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1959(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1959(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1959(Day of year=135), Fababean: 
@@ -705,12 +758,30 @@
      
         - Reading Parameters
 15 May 1960(Day of year=136), manager: 
-     Manager sending message :- residue2 reset
-15 May 1960(Day of year=136), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1960(Day of year=136), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1960(Day of year=136), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1960(Day of year=136), Fababean: 
@@ -863,12 +934,30 @@
      
         - Reading Parameters
 15 May 1961(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1961(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1961(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1961(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1961(Day of year=135), Fababean: 
@@ -943,39 +1032,39 @@
                      stover N conc =     3.12 (%)     extractable sw =   22.54 (mm)
 31 August 1961(Day of year=243), Fababean: 
       stage 7.0 start_grain_fill
-                     biomass =         521.26 (g/m^2)   lai          =   1.704 (m^2/m^2)
+                     biomass =         521.25 (g/m^2)   lai          =   1.704 (m^2/m^2)
                      stover N conc =     2.46 (%)     extractable sw =    2.16 (mm)
 10 October 1961(Day of year=283), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         451.44 (g/m^2)   lai          =   0.291 (m^2/m^2)
+                     biomass =         451.43 (g/m^2)   lai          =   0.291 (m^2/m^2)
                      stover N conc =     2.04 (%)     extractable sw =   51.24 (mm)
 16 October 1961(Day of year=289), Fababean: 
       stage 9.0 maturity
-                     biomass =         461.59 (g/m^2)   lai          =   0.291 (m^2/m^2)
+                     biomass =         461.58 (g/m^2)   lai          =   0.291 (m^2/m^2)
                      stover N conc =     1.86 (%)     extractable sw =   37.59 (mm)
 17 October 1961(Day of year=290), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         463.64 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         463.63 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.88 (%)     extractable sw =   37.80 (mm)
 17 October 1961(Day of year=290), manager: 
      Manager sending message :- fababean harvest
 17 October 1961(Day of year=290), Fababean: 
      
-      flowering day          =  204                           stover (kg/ha)         =     3313.2
+      flowering day          =  204                           stover (kg/ha)         =     3313.1
       maturity day           =  289                           grain yield (kg/ha)    =     1323.2
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1512.3
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1512.2
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      3.091
-      total above ground biomass (kg/ha)    =     4636.4
-      live above ground biomass (kg/ha)     =     4636.4
-      green above ground biomass (kg/ha)    =     4476.1
+      total above ground biomass (kg/ha)    =     4636.3
+      live above ground biomass (kg/ha)     =     4636.3
+      green above ground biomass (kg/ha)    =     4476.0
       senesced above ground biomass (kg/ha) =      160.3
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =  496.7
       DM Root:Shoot ratio    =    0.383                       Harvest Index          =      0.285
       Stover C:N ratio       =   21.802                       Root C:N ratio         =     13.853
       grain N percent        =       4.50                     total N content (kg/ha)=     120.33
-      grain N uptake (kg/ha) =      59.55                     senesced N content (kg/ha)=    1.60
+      grain N uptake (kg/ha) =      59.54                     senesced N content (kg/ha)=    1.60
       green N content (kg/ha)=      59.18                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -987,19 +1076,19 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3313.17                    0.00
+                          DM (kg/ha) =               3313.10                    0.00
                           N  (kg/ha) =                 60.79                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1323.23                    0.00
-                          N  (kg/ha) =                 59.55                    0.00
+                          DM (kg/ha) =               1323.19                    0.00
+                          N  (kg/ha) =                 59.54                    0.00
      
 17 October 1961(Day of year=290), manager: 
      Manager sending message :- fababean end_crop
 17 October 1961(Day of year=290), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 1776.98
+                          DM (kg/ha) =                  0.00                 1776.94
                           N  (kg/ha) =                  0.00                   51.31
                           P  (kg/ha) =                                          0.00
      
@@ -1021,12 +1110,30 @@
      
         - Reading Parameters
 15 May 1962(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1962(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1962(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1962(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1962(Day of year=135), Fababean: 
@@ -1101,11 +1208,11 @@
                      stover N conc =     3.19 (%)     extractable sw =   31.07 (mm)
 27 August 1962(Day of year=239), Fababean: 
       stage 7.0 start_grain_fill
-                     biomass =         395.93 (g/m^2)   lai          =   1.348 (m^2/m^2)
+                     biomass =         395.92 (g/m^2)   lai          =   1.348 (m^2/m^2)
                      stover N conc =     2.70 (%)     extractable sw =    1.24 (mm)
 10 October 1962(Day of year=283), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         335.89 (g/m^2)   lai          =   0.153 (m^2/m^2)
+                     biomass =         335.88 (g/m^2)   lai          =   0.153 (m^2/m^2)
                      stover N conc =     2.63 (%)     extractable sw =    0.00 (mm)
 14 October 1962(Day of year=287), Fababean: 
       stage 9.0 maturity
@@ -1113,7 +1220,7 @@
                      stover N conc =     2.64 (%)     extractable sw =    0.00 (mm)
 15 October 1962(Day of year=288), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         333.08 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         333.07 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.68 (%)     extractable sw =    0.00 (mm)
 15 October 1962(Day of year=288), manager: 
      Manager sending message :- fababean harvest
@@ -1124,8 +1231,8 @@
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      982.6
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      3.035
-      total above ground biomass (kg/ha)    =     3330.8
-      live above ground biomass (kg/ha)     =     3330.8
+      total above ground biomass (kg/ha)    =     3330.7
+      live above ground biomass (kg/ha)     =     3330.7
       green above ground biomass (kg/ha)    =     3229.8
       senesced above ground biomass (kg/ha) =      101.0
       dead above ground biomass (kg/ha)     =        0.0
@@ -1145,11 +1252,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               2470.99                    0.00
+                          DM (kg/ha) =               2470.96                    0.00
                           N  (kg/ha) =                 64.43                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                859.81                    0.00
+                          DM (kg/ha) =                859.79                    0.00
                           N  (kg/ha) =                 38.69                    0.00
      
 15 October 1962(Day of year=288), manager: 
@@ -1157,7 +1264,7 @@
 15 October 1962(Day of year=288), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 1366.66
+                          DM (kg/ha) =                  0.00                 1366.64
                           N  (kg/ha) =                  0.00                   40.48
                           P  (kg/ha) =                                          0.00
      
@@ -1179,12 +1286,30 @@
      
         - Reading Parameters
 15 May 1963(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1963(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1963(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1963(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1963(Day of year=135), Fababean: 
@@ -1259,40 +1384,40 @@
                      stover N conc =     3.44 (%)     extractable sw =   19.37 (mm)
 29 August 1963(Day of year=241), Fababean: 
       stage 7.0 start_grain_fill
-                     biomass =         438.29 (g/m^2)   lai          =   1.647 (m^2/m^2)
+                     biomass =         438.28 (g/m^2)   lai          =   1.647 (m^2/m^2)
                      stover N conc =     2.67 (%)     extractable sw =   11.82 (mm)
 10 October 1963(Day of year=283), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         388.16 (g/m^2)   lai          =   0.210 (m^2/m^2)
+                     biomass =         388.15 (g/m^2)   lai          =   0.210 (m^2/m^2)
                      stover N conc =     2.46 (%)     extractable sw =    0.17 (mm)
 14 October 1963(Day of year=287), Fababean: 
       stage 9.0 maturity
-                     biomass =         385.42 (g/m^2)   lai          =   0.171 (m^2/m^2)
+                     biomass =         385.40 (g/m^2)   lai          =   0.171 (m^2/m^2)
                      stover N conc =     2.47 (%)     extractable sw =    0.13 (mm)
 15 October 1963(Day of year=288), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         384.81 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         384.80 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.51 (%)     extractable sw =    0.12 (mm)
 15 October 1963(Day of year=288), manager: 
      Manager sending message :- fababean harvest
 15 October 1963(Day of year=288), Fababean: 
      
       flowering day          =  205                           stover (kg/ha)         =     2762.9
-      maturity day           =  287                           grain yield (kg/ha)    =     1085.2
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1240.2
+      maturity day           =  287                           grain yield (kg/ha)    =     1085.1
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1240.1
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      3.589
-      total above ground biomass (kg/ha)    =     3848.1
-      live above ground biomass (kg/ha)     =     3848.1
-      green above ground biomass (kg/ha)    =     3722.0
+      total above ground biomass (kg/ha)    =     3848.0
+      live above ground biomass (kg/ha)     =     3848.0
+      green above ground biomass (kg/ha)    =     3721.8
       senesced above ground biomass (kg/ha) =      126.1
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =  495.7
       DM Root:Shoot ratio    =    0.417                       Harvest Index          =      0.282
-      Stover C:N ratio       =   16.410                       Root C:N ratio         =     13.825
+      Stover C:N ratio       =   16.409                       Root C:N ratio         =     13.825
       grain N percent        =       4.50                     total N content (kg/ha)=     116.18
       grain N uptake (kg/ha) =      48.83                     senesced N content (kg/ha)=    1.26
-      green N content (kg/ha)=      66.08                     dead N content (kg/ha) =       0.00
+      green N content (kg/ha)=      66.09                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.048        0.008        0.069
@@ -1303,11 +1428,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               2762.92                    0.00
+                          DM (kg/ha) =               2762.87                    0.00
                           N  (kg/ha) =                 67.35                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1085.18                    0.00
+                          DM (kg/ha) =               1085.09                    0.00
                           N  (kg/ha) =                 48.83                    0.00
      
 15 October 1963(Day of year=288), manager: 
@@ -1315,7 +1440,7 @@
 15 October 1963(Day of year=288), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 1604.33
+                          DM (kg/ha) =                  0.00                 1604.29
                           N  (kg/ha) =                  0.00                   46.42
                           P  (kg/ha) =                                          0.00
      
@@ -1337,12 +1462,30 @@
      
         - Reading Parameters
 15 May 1964(Day of year=136), manager: 
-     Manager sending message :- residue2 reset
-15 May 1964(Day of year=136), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1964(Day of year=136), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1964(Day of year=136), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1964(Day of year=136), Fababean: 
@@ -1429,19 +1572,19 @@
                      stover N conc =     1.80 (%)     extractable sw =   40.21 (mm)
 13 October 1964(Day of year=287), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         445.80 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         445.79 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.81 (%)     extractable sw =   37.84 (mm)
 13 October 1964(Day of year=287), manager: 
      Manager sending message :- fababean harvest
 13 October 1964(Day of year=287), Fababean: 
      
       flowering day          =  201                           stover (kg/ha)         =     2695.8
-      maturity day           =  286                           grain yield (kg/ha)    =     1762.2
+      maturity day           =  286                           grain yield (kg/ha)    =     1762.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2013.9
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      3.462
-      total above ground biomass (kg/ha)    =     4458.0
-      live above ground biomass (kg/ha)     =     4458.0
+      total above ground biomass (kg/ha)    =     4457.9
+      live above ground biomass (kg/ha)     =     4457.9
       green above ground biomass (kg/ha)    =     4308.0
       senesced above ground biomass (kg/ha) =      150.0
       dead above ground biomass (kg/ha)     =        0.0
@@ -1461,11 +1604,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               2695.81                    0.00
+                          DM (kg/ha) =               2695.80                    0.00
                           N  (kg/ha) =                 47.49                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1762.16                    0.00
+                          DM (kg/ha) =               1762.15                    0.00
                           N  (kg/ha) =                 79.30                    0.00
      
 13 October 1964(Day of year=287), manager: 
@@ -1473,7 +1616,7 @@
 13 October 1964(Day of year=287), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 1733.02
+                          DM (kg/ha) =                  0.00                 1733.01
                           N  (kg/ha) =                  0.00                   43.48
                           P  (kg/ha) =                                          0.00
      
@@ -1495,12 +1638,30 @@
      
         - Reading Parameters
 15 May 1965(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1965(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1965(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1965(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1965(Day of year=135), Fababean: 
@@ -1575,37 +1736,37 @@
                      stover N conc =     2.98 (%)     extractable sw =   39.94 (mm)
 30 August 1965(Day of year=242), Fababean: 
       stage 7.0 start_grain_fill
-                     biomass =         372.06 (g/m^2)   lai          =   1.100 (m^2/m^2)
+                     biomass =         372.05 (g/m^2)   lai          =   1.100 (m^2/m^2)
                      stover N conc =     2.83 (%)     extractable sw =    1.05 (mm)
 10 October 1965(Day of year=283), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         409.75 (g/m^2)   lai          =   0.210 (m^2/m^2)
+                     biomass =         409.73 (g/m^2)   lai          =   0.210 (m^2/m^2)
                      stover N conc =     2.06 (%)     extractable sw =    5.88 (mm)
 13 October 1965(Day of year=286), Fababean: 
       stage 9.0 maturity
-                     biomass =         408.35 (g/m^2)   lai          =   0.153 (m^2/m^2)
+                     biomass =         408.33 (g/m^2)   lai          =   0.153 (m^2/m^2)
                      stover N conc =     2.04 (%)     extractable sw =    0.09 (mm)
 14 October 1965(Day of year=287), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         407.56 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         407.54 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.07 (%)     extractable sw =    0.07 (mm)
 14 October 1965(Day of year=287), manager: 
      Manager sending message :- fababean harvest
 14 October 1965(Day of year=287), Fababean: 
      
       flowering day          =  203                           stover (kg/ha)         =     2589.1
-      maturity day           =  286                           grain yield (kg/ha)    =     1486.4
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1698.8
+      maturity day           =  286                           grain yield (kg/ha)    =     1486.3
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1698.7
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      3.071
-      total above ground biomass (kg/ha)    =     4075.6
-      live above ground biomass (kg/ha)     =     4075.6
-      green above ground biomass (kg/ha)    =     3936.2
+      total above ground biomass (kg/ha)    =     4075.4
+      live above ground biomass (kg/ha)     =     4075.4
+      green above ground biomass (kg/ha)    =     3936.1
       senesced above ground biomass (kg/ha) =      139.3
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =  501.5
       DM Root:Shoot ratio    =    0.379                       Harvest Index          =      0.365
-      Stover C:N ratio       =   19.881                       Root C:N ratio         =     14.943
+      Stover C:N ratio       =   19.880                       Root C:N ratio         =     14.943
       grain N percent        =       4.50                     total N content (kg/ha)=     118.98
       grain N uptake (kg/ha) =      66.89                     senesced N content (kg/ha)=    1.39
       green N content (kg/ha)=      50.70                     dead N content (kg/ha) =       0.00
@@ -1619,11 +1780,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               2589.14                    0.00
+                          DM (kg/ha) =               2589.07                    0.00
                           N  (kg/ha) =                 52.09                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1486.42                    0.00
+                          DM (kg/ha) =               1486.34                    0.00
                           N  (kg/ha) =                 66.89                    0.00
      
 14 October 1965(Day of year=287), manager: 
@@ -1631,7 +1792,7 @@
 14 October 1965(Day of year=287), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 1542.80
+                          DM (kg/ha) =                  0.00                 1542.77
                           N  (kg/ha) =                  0.00                   41.30
                           P  (kg/ha) =                                          0.00
      
@@ -1653,12 +1814,30 @@
      
         - Reading Parameters
 15 May 1966(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1966(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1966(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1966(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1966(Day of year=135), Fababean: 
@@ -1737,35 +1916,35 @@
                      stover N conc =     2.31 (%)     extractable sw =   26.66 (mm)
 9 October 1966(Day of year=282), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         713.37 (g/m^2)   lai          =   0.896 (m^2/m^2)
-                     stover N conc =     1.44 (%)     extractable sw =    2.36 (mm)
+                     biomass =         713.33 (g/m^2)   lai          =   0.896 (m^2/m^2)
+                     stover N conc =     1.44 (%)     extractable sw =    2.37 (mm)
 14 October 1966(Day of year=287), Fababean: 
       stage 9.0 maturity
-                     biomass =         706.78 (g/m^2)   lai          =   0.704 (m^2/m^2)
+                     biomass =         706.75 (g/m^2)   lai          =   0.704 (m^2/m^2)
                      stover N conc =     1.41 (%)     extractable sw =    0.93 (mm)
 15 October 1966(Day of year=288), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         705.34 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         705.30 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.44 (%)     extractable sw =    0.82 (mm)
 15 October 1966(Day of year=288), manager: 
      Manager sending message :- fababean harvest
 15 October 1966(Day of year=288), Fababean: 
      
       flowering day          =  201                           stover (kg/ha)         =     3806.1
-      maturity day           =  287                           grain yield (kg/ha)    =     3247.2
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3711.1
+      maturity day           =  287                           grain yield (kg/ha)    =     3246.9
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3710.8
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      3.443
-      total above ground biomass (kg/ha)    =     7053.4
-      live above ground biomass (kg/ha)     =     7053.4
-      green above ground biomass (kg/ha)    =     6627.0
+      total above ground biomass (kg/ha)    =     7053.0
+      live above ground biomass (kg/ha)     =     7053.0
+      green above ground biomass (kg/ha)    =     6626.7
       senesced above ground biomass (kg/ha) =      426.3
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =  508.6
       DM Root:Shoot ratio    =    0.349                       Harvest Index          =      0.460
-      Stover C:N ratio       =   28.710                       Root C:N ratio         =     15.460
-      grain N percent        =       4.50                     total N content (kg/ha)=     199.15
-      grain N uptake (kg/ha) =     146.13                     senesced N content (kg/ha)=    4.26
+      Stover C:N ratio       =   28.709                       Root C:N ratio         =     15.460
+      grain N percent        =       4.50                     total N content (kg/ha)=     199.14
+      grain N uptake (kg/ha) =     146.11                     senesced N content (kg/ha)=    4.26
       green N content (kg/ha)=      48.77                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -1777,19 +1956,19 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3806.13                    0.00
+                          DM (kg/ha) =               3806.07                    0.00
                           N  (kg/ha) =                 53.03                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               3247.23                    0.00
-                          N  (kg/ha) =                146.13                    0.00
+                          DM (kg/ha) =               3246.92                    0.00
+                          N  (kg/ha) =                146.11                    0.00
      
 15 October 1966(Day of year=288), manager: 
      Manager sending message :- fababean end_crop
 15 October 1966(Day of year=288), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 2459.22
+                          DM (kg/ha) =                  0.00                 2459.13
                           N  (kg/ha) =                  0.00                   63.63
                           P  (kg/ha) =                                          0.00
      
@@ -1811,12 +1990,30 @@
      
         - Reading Parameters
 15 May 1967(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1967(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1967(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1967(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1967(Day of year=135), Fababean: 
@@ -1910,7 +2107,7 @@
 16 October 1967(Day of year=289), Fababean: 
      
       flowering day          =  199                           stover (kg/ha)         =     3646.7
-      maturity day           =  288                           grain yield (kg/ha)    =     1495.7
+      maturity day           =  288                           grain yield (kg/ha)    =     1495.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1709.3
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      4.438
@@ -1921,7 +2118,7 @@
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =  501.1
       DM Root:Shoot ratio    =    0.376                       Harvest Index          =      0.291
-      Stover C:N ratio       =   17.056                       Root C:N ratio         =     14.022
+      Stover C:N ratio       =   17.055                       Root C:N ratio         =     14.022
       grain N percent        =       4.50                     total N content (kg/ha)=     152.83
       grain N uptake (kg/ha) =      67.30                     senesced N content (kg/ha)=    1.81
       green N content (kg/ha)=      83.71                     dead N content (kg/ha) =       0.00
@@ -1939,7 +2136,7 @@
                           N  (kg/ha) =                 85.52                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1495.66                    0.00
+                          DM (kg/ha) =               1495.65                    0.00
                           N  (kg/ha) =                 67.30                    0.00
      
 16 October 1967(Day of year=289), manager: 
@@ -1947,7 +2144,7 @@
 16 October 1967(Day of year=289), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 1935.99
+                          DM (kg/ha) =                  0.00                 1935.98
                           N  (kg/ha) =                  0.00                   55.23
                           P  (kg/ha) =                                          0.00
      
@@ -1969,12 +2166,30 @@
      
         - Reading Parameters
 15 May 1968(Day of year=136), manager: 
-     Manager sending message :- residue2 reset
-15 May 1968(Day of year=136), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1968(Day of year=136), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1968(Day of year=136), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1968(Day of year=136), Fababean: 
@@ -2053,28 +2268,28 @@
                      stover N conc =     2.55 (%)     extractable sw =    7.39 (mm)
 11 October 1968(Day of year=285), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         601.45 (g/m^2)   lai          =   0.555 (m^2/m^2)
+                     biomass =         601.44 (g/m^2)   lai          =   0.555 (m^2/m^2)
                      stover N conc =     2.23 (%)     extractable sw =    0.14 (mm)
 15 October 1968(Day of year=289), Fababean: 
       stage 9.0 maturity
-                     biomass =         594.79 (g/m^2)   lai          =   0.453 (m^2/m^2)
+                     biomass =         594.78 (g/m^2)   lai          =   0.453 (m^2/m^2)
                      stover N conc =     2.24 (%)     extractable sw =    0.09 (mm)
 16 October 1968(Day of year=290), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         593.29 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         593.28 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.29 (%)     extractable sw =    0.08 (mm)
 16 October 1968(Day of year=290), manager: 
      Manager sending message :- fababean harvest
 16 October 1968(Day of year=290), Fababean: 
      
-      flowering day          =  207                           stover (kg/ha)         =     4120.7
-      maturity day           =  289                           grain yield (kg/ha)    =     1812.3
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2071.2
+      flowering day          =  207                           stover (kg/ha)         =     4120.6
+      maturity day           =  289                           grain yield (kg/ha)    =     1812.2
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2071.1
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      4.944
-      total above ground biomass (kg/ha)    =     5932.9
-      live above ground biomass (kg/ha)     =     5932.9
-      green above ground biomass (kg/ha)    =     5623.6
+      total above ground biomass (kg/ha)    =     5932.8
+      live above ground biomass (kg/ha)     =     5932.8
+      green above ground biomass (kg/ha)    =     5623.5
       senesced above ground biomass (kg/ha) =      309.3
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =  483.4
@@ -2093,11 +2308,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4120.65                    0.00
+                          DM (kg/ha) =               4120.62                    0.00
                           N  (kg/ha) =                 90.53                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1812.29                    0.00
+                          DM (kg/ha) =               1812.22                    0.00
                           N  (kg/ha) =                 81.55                    0.00
      
 16 October 1968(Day of year=290), manager: 
@@ -2105,7 +2320,7 @@
 16 October 1968(Day of year=290), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 2286.03
+                          DM (kg/ha) =                  0.00                 2286.00
                           N  (kg/ha) =                  0.00                   63.94
                           P  (kg/ha) =                                          0.00
      
@@ -2127,12 +2342,30 @@
      
         - Reading Parameters
 15 May 1969(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1969(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1969(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1969(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1969(Day of year=135), Fababean: 
@@ -2251,7 +2484,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3131.28                    0.00
+                          DM (kg/ha) =               3131.27                    0.00
                           N  (kg/ha) =                 89.89                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -2285,12 +2518,30 @@
      
         - Reading Parameters
 15 May 1970(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1970(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1970(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1970(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1970(Day of year=135), Fababean: 
@@ -2434,12 +2685,30 @@
      
         - Reading Parameters
 15 May 1971(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1971(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1971(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1971(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1971(Day of year=135), Fababean: 
@@ -2515,38 +2784,38 @@
 28 August 1971(Day of year=240), Fababean: 
       stage 7.0 start_grain_fill
                      biomass =         452.90 (g/m^2)   lai          =   1.734 (m^2/m^2)
-                     stover N conc =     2.61 (%)     extractable sw =   12.09 (mm)
+                     stover N conc =     2.61 (%)     extractable sw =   12.08 (mm)
 11 October 1971(Day of year=284), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         537.63 (g/m^2)   lai          =   0.489 (m^2/m^2)
+                     biomass =         537.60 (g/m^2)   lai          =   0.489 (m^2/m^2)
                      stover N conc =     1.61 (%)     extractable sw =    2.92 (mm)
 14 October 1971(Day of year=287), Fababean: 
       stage 9.0 maturity
-                     biomass =         546.92 (g/m^2)   lai          =   0.484 (m^2/m^2)
+                     biomass =         546.89 (g/m^2)   lai          =   0.484 (m^2/m^2)
                      stover N conc =     1.48 (%)     extractable sw =   21.59 (mm)
 15 October 1971(Day of year=288), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         548.37 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         548.34 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.51 (%)     extractable sw =   19.09 (mm)
 15 October 1971(Day of year=288), manager: 
      Manager sending message :- fababean harvest
 15 October 1971(Day of year=288), Fababean: 
      
-      flowering day          =  204                           stover (kg/ha)         =     3250.6
-      maturity day           =  287                           grain yield (kg/ha)    =     2233.1
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2552.1
+      flowering day          =  204                           stover (kg/ha)         =     3250.4
+      maturity day           =  287                           grain yield (kg/ha)    =     2232.9
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2551.9
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      2.713
-      total above ground biomass (kg/ha)    =     5483.7
-      live above ground biomass (kg/ha)     =     5483.7
-      green above ground biomass (kg/ha)    =     5198.7
+      total above ground biomass (kg/ha)    =     5483.4
+      live above ground biomass (kg/ha)     =     5483.4
+      green above ground biomass (kg/ha)    =     5198.5
       senesced above ground biomass (kg/ha) =      284.9
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =  497.0
       DM Root:Shoot ratio    =    0.362                       Harvest Index          =      0.407
-      Stover C:N ratio       =   27.322                       Root C:N ratio         =     15.614
-      grain N percent        =       4.50                     total N content (kg/ha)=     148.08
-      grain N uptake (kg/ha) =     100.49                     senesced N content (kg/ha)=    2.85
+      Stover C:N ratio       =   27.321                       Root C:N ratio         =     15.614
+      grain N percent        =       4.50                     total N content (kg/ha)=     148.07
+      grain N uptake (kg/ha) =     100.48                     senesced N content (kg/ha)=    2.85
       green N content (kg/ha)=      44.74                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -2558,19 +2827,19 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3250.57                    0.00
+                          DM (kg/ha) =               3250.44                    0.00
                           N  (kg/ha) =                 47.59                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2233.08                    0.00
-                          N  (kg/ha) =                100.49                    0.00
+                          DM (kg/ha) =               2232.93                    0.00
+                          N  (kg/ha) =                100.48                    0.00
      
 15 October 1971(Day of year=288), manager: 
      Manager sending message :- fababean end_crop
 15 October 1971(Day of year=288), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 1983.54
+                          DM (kg/ha) =                  0.00                 1983.47
                           N  (kg/ha) =                  0.00                   50.81
                           P  (kg/ha) =                                          0.00
      
@@ -2592,12 +2861,30 @@
      
         - Reading Parameters
 15 May 1972(Day of year=136), manager: 
-     Manager sending message :- residue2 reset
-15 May 1972(Day of year=136), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1972(Day of year=136), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1972(Day of year=136), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1972(Day of year=136), Fababean: 
@@ -2703,8 +2990,8 @@
       number of leaves       =  499.4
       DM Root:Shoot ratio    =    0.432                       Harvest Index          =      0.291
       Stover C:N ratio       =   16.393                       Root C:N ratio         =     13.982
-      grain N percent        =       4.50                     total N content (kg/ha)=      49.53
-      grain N uptake (kg/ha) =      21.36                     senesced N content (kg/ha)=    0.29
+      grain N percent        =       4.50                     total N content (kg/ha)=      49.52
+      grain N uptake (kg/ha) =      21.36                     senesced N content (kg/ha)=    0.28
       green N content (kg/ha)=      27.88                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -2716,11 +3003,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               1154.25                    0.00
+                          DM (kg/ha) =               1154.26                    0.00
                           N  (kg/ha) =                 28.16                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                474.70                    0.00
+                          DM (kg/ha) =                474.68                    0.00
                           N  (kg/ha) =                 21.36                    0.00
      
 15 October 1972(Day of year=289), manager: 
@@ -2728,7 +3015,7 @@
 15 October 1972(Day of year=289), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                  703.33
+                          DM (kg/ha) =                  0.00                  703.32
                           N  (kg/ha) =                  0.00                   20.12
                           P  (kg/ha) =                                          0.00
      
@@ -2750,12 +3037,30 @@
      
         - Reading Parameters
 15 May 1973(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1973(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1973(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1973(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1973(Day of year=135), Fababean: 
@@ -2834,35 +3139,35 @@
                      stover N conc =     2.40 (%)     extractable sw =  123.89 (mm)
 5 October 1973(Day of year=278), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =        1308.80 (g/m^2)   lai          =   2.249 (m^2/m^2)
+                     biomass =        1308.77 (g/m^2)   lai          =   2.249 (m^2/m^2)
                      stover N conc =     1.84 (%)     extractable sw =   14.14 (mm)
 8 October 1973(Day of year=281), Fababean: 
       stage 9.0 maturity
-                     biomass =        1320.40 (g/m^2)   lai          =   2.115 (m^2/m^2)
-                     stover N conc =     1.78 (%)     extractable sw =   20.68 (mm)
+                     biomass =        1320.37 (g/m^2)   lai          =   2.114 (m^2/m^2)
+                     stover N conc =     1.78 (%)     extractable sw =   20.67 (mm)
 9 October 1973(Day of year=282), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =        1326.93 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     1.85 (%)     extractable sw =   18.71 (mm)
+                     biomass =        1326.90 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     1.85 (%)     extractable sw =   18.70 (mm)
 9 October 1973(Day of year=282), manager: 
      Manager sending message :- fababean harvest
 9 October 1973(Day of year=282), Fababean: 
      
-      flowering day          =  196                           stover (kg/ha)         =     7081.4
-      maturity day           =  281                           grain yield (kg/ha)    =     6188.0
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     7072.0
+      flowering day          =  196                           stover (kg/ha)         =     7081.2
+      maturity day           =  281                           grain yield (kg/ha)    =     6187.8
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     7071.8
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      5.620
-      total above ground biomass (kg/ha)    =    13269.3
-      live above ground biomass (kg/ha)     =    13269.3
-      green above ground biomass (kg/ha)    =    12303.4
+      total above ground biomass (kg/ha)    =    13269.0
+      live above ground biomass (kg/ha)     =    13269.0
+      green above ground biomass (kg/ha)    =    12303.1
       senesced above ground biomass (kg/ha) =      965.9
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =  536.1
       DM Root:Shoot ratio    =    0.299                       Harvest Index          =      0.466
       Stover C:N ratio       =   23.091                       Root C:N ratio         =     15.758
-      grain N percent        =       4.50                     total N content (kg/ha)=     401.13
-      grain N uptake (kg/ha) =     278.46                     senesced N content (kg/ha)=    9.66
+      grain N percent        =       4.50                     total N content (kg/ha)=     401.12
+      grain N uptake (kg/ha) =     278.45                     senesced N content (kg/ha)=    9.66
       green N content (kg/ha)=     113.01                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -2874,19 +3179,19 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               7081.37                    0.00
+                          DM (kg/ha) =               7081.19                    0.00
                           N  (kg/ha) =                122.67                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               6187.98                    0.00
-                          N  (kg/ha) =                278.46                    0.00
+                          DM (kg/ha) =               6187.83                    0.00
+                          N  (kg/ha) =                278.45                    0.00
      
 9 October 1973(Day of year=282), manager: 
      Manager sending message :- fababean end_crop
 9 October 1973(Day of year=282), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 3963.22
+                          DM (kg/ha) =                  0.00                 3963.14
                           N  (kg/ha) =                  0.00                  100.60
                           P  (kg/ha) =                                          0.00
      
@@ -2908,12 +3213,30 @@
      
         - Reading Parameters
 15 May 1974(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1974(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1974(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1974(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1974(Day of year=135), Fababean: 
@@ -2992,33 +3315,33 @@
                      stover N conc =     2.59 (%)     extractable sw =   23.36 (mm)
 11 October 1974(Day of year=284), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         544.01 (g/m^2)   lai          =   0.429 (m^2/m^2)
+                     biomass =         544.00 (g/m^2)   lai          =   0.429 (m^2/m^2)
                      stover N conc =     1.66 (%)     extractable sw =    0.27 (mm)
 15 October 1974(Day of year=288), Fababean: 
       stage 9.0 maturity
-                     biomass =         539.62 (g/m^2)   lai          =   0.350 (m^2/m^2)
+                     biomass =         539.61 (g/m^2)   lai          =   0.350 (m^2/m^2)
                      stover N conc =     1.67 (%)     extractable sw =    0.19 (mm)
 16 October 1974(Day of year=289), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         538.61 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         538.60 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.70 (%)     extractable sw =    0.18 (mm)
 16 October 1974(Day of year=289), manager: 
      Manager sending message :- fababean harvest
 16 October 1974(Day of year=289), Fababean: 
      
       flowering day          =  204                           stover (kg/ha)         =     3290.3
-      maturity day           =  288                           grain yield (kg/ha)    =     2095.8
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2395.2
+      maturity day           =  288                           grain yield (kg/ha)    =     2095.7
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2395.1
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      3.477
-      total above ground biomass (kg/ha)    =     5386.1
-      live above ground biomass (kg/ha)     =     5386.1
-      green above ground biomass (kg/ha)    =     5152.5
+      total above ground biomass (kg/ha)    =     5386.0
+      live above ground biomass (kg/ha)     =     5386.0
+      green above ground biomass (kg/ha)    =     5152.4
       senesced above ground biomass (kg/ha) =      233.6
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =  496.1
       DM Root:Shoot ratio    =    0.370                       Harvest Index          =      0.389
-      Stover C:N ratio       =   24.253                       Root C:N ratio         =     15.015
+      Stover C:N ratio       =   24.252                       Root C:N ratio         =     15.015
       grain N percent        =       4.50                     total N content (kg/ha)=     148.58
       grain N uptake (kg/ha) =      94.31                     senesced N content (kg/ha)=    2.34
       green N content (kg/ha)=      51.93                     dead N content (kg/ha) =       0.00
@@ -3032,11 +3355,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3290.32                    0.00
+                          DM (kg/ha) =               3290.30                    0.00
                           N  (kg/ha) =                 54.27                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2095.83                    0.00
+                          DM (kg/ha) =               2095.73                    0.00
                           N  (kg/ha) =                 94.31                    0.00
      
 16 October 1974(Day of year=289), manager: 
@@ -3044,7 +3367,7 @@
 16 October 1974(Day of year=289), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 1993.36
+                          DM (kg/ha) =                  0.00                 1993.33
                           N  (kg/ha) =                  0.00                   53.10
                           P  (kg/ha) =                                          0.00
      
@@ -3066,12 +3389,30 @@
      
         - Reading Parameters
 15 May 1975(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1975(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1975(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1975(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1975(Day of year=135), Fababean: 
@@ -3150,34 +3491,34 @@
                      stover N conc =     2.77 (%)     extractable sw =    4.20 (mm)
 8 October 1975(Day of year=281), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         649.32 (g/m^2)   lai          =   0.567 (m^2/m^2)
+                     biomass =         649.31 (g/m^2)   lai          =   0.567 (m^2/m^2)
                      stover N conc =     1.80 (%)     extractable sw =    0.71 (mm)
 12 October 1975(Day of year=285), Fababean: 
       stage 9.0 maturity
-                     biomass =         643.07 (g/m^2)   lai          =   0.454 (m^2/m^2)
+                     biomass =         643.05 (g/m^2)   lai          =   0.454 (m^2/m^2)
                      stover N conc =     1.81 (%)     extractable sw =    0.46 (mm)
 13 October 1975(Day of year=286), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         641.63 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         641.61 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.85 (%)     extractable sw =    0.43 (mm)
 13 October 1975(Day of year=286), manager: 
      Manager sending message :- fababean harvest
 13 October 1975(Day of year=286), Fababean: 
      
       flowering day          =  203                           stover (kg/ha)         =     3802.6
-      maturity day           =  285                           grain yield (kg/ha)    =     2613.6
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2987.0
+      maturity day           =  285                           grain yield (kg/ha)    =     2613.5
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2986.9
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      4.823
-      total above ground biomass (kg/ha)    =     6416.3
-      live above ground biomass (kg/ha)     =     6416.3
-      green above ground biomass (kg/ha)    =     6103.9
+      total above ground biomass (kg/ha)    =     6416.1
+      live above ground biomass (kg/ha)     =     6416.1
+      green above ground biomass (kg/ha)    =     6103.7
       senesced above ground biomass (kg/ha) =      312.4
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =  514.0
       DM Root:Shoot ratio    =    0.364                       Harvest Index          =      0.407
       Stover C:N ratio       =   22.479                       Root C:N ratio         =     14.893
-      grain N percent        =       4.50                     total N content (kg/ha)=     185.28
+      grain N percent        =       4.50                     total N content (kg/ha)=     185.27
       grain N uptake (kg/ha) =     117.61                     senesced N content (kg/ha)=    3.12
       green N content (kg/ha)=      64.54                     dead N content (kg/ha) =       0.00
      
@@ -3190,11 +3531,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3802.63                    0.00
+                          DM (kg/ha) =               3802.56                    0.00
                           N  (kg/ha) =                 67.66                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2613.63                    0.00
+                          DM (kg/ha) =               2613.55                    0.00
                           N  (kg/ha) =                117.61                    0.00
      
 13 October 1975(Day of year=286), manager: 
@@ -3202,7 +3543,7 @@
 13 October 1975(Day of year=286), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 2338.30
+                          DM (kg/ha) =                  0.00                 2338.26
                           N  (kg/ha) =                  0.00                   62.80
                           P  (kg/ha) =                                          0.00
      
@@ -3224,12 +3565,30 @@
      
         - Reading Parameters
 15 May 1976(Day of year=136), manager: 
-     Manager sending message :- residue2 reset
-15 May 1976(Day of year=136), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1976(Day of year=136), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1976(Day of year=136), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1976(Day of year=136), Fababean: 
@@ -3312,7 +3671,7 @@
                      stover N conc =     1.72 (%)     extractable sw =    0.32 (mm)
 13 October 1976(Day of year=287), Fababean: 
       stage 9.0 maturity
-                     biomass =         332.25 (g/m^2)   lai          =   0.061 (m^2/m^2)
+                     biomass =         332.24 (g/m^2)   lai          =   0.061 (m^2/m^2)
                      stover N conc =     1.66 (%)     extractable sw =    0.10 (mm)
 14 October 1976(Day of year=288), Fababean: 
       stage 10.0 harvest_ripe
@@ -3329,12 +3688,12 @@
       grains/plant           =    0.0                         maximum lai            =      2.646
       total above ground biomass (kg/ha)    =     3319.7
       live above ground biomass (kg/ha)     =     3319.7
-      green above ground biomass (kg/ha)    =     3266.3
+      green above ground biomass (kg/ha)    =     3266.2
       senesced above ground biomass (kg/ha) =       53.5
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =  498.5
       DM Root:Shoot ratio    =    0.392                       Harvest Index          =      0.434
-      Stover C:N ratio       =   24.223                       Root C:N ratio         =     15.325
+      Stover C:N ratio       =   24.222                       Root C:N ratio         =     15.325
       grain N percent        =       4.50                     total N content (kg/ha)=      95.82
       grain N uptake (kg/ha) =      64.77                     senesced N content (kg/ha)=    0.53
       green N content (kg/ha)=      30.52                     dead N content (kg/ha) =       0.00
@@ -3352,7 +3711,7 @@
                           N  (kg/ha) =                 31.05                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1439.31                    0.00
+                          DM (kg/ha) =               1439.28                    0.00
                           N  (kg/ha) =                 64.77                    0.00
      
 14 October 1976(Day of year=288), manager: 
@@ -3360,7 +3719,7 @@
 14 October 1976(Day of year=288), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 1301.52
+                          DM (kg/ha) =                  0.00                 1301.51
                           N  (kg/ha) =                  0.00                   33.97
                           P  (kg/ha) =                                          0.00
      
@@ -3382,12 +3741,30 @@
      
         - Reading Parameters
 15 May 1977(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1977(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1977(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1977(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1977(Day of year=135), Fababean: 
@@ -3539,12 +3916,30 @@
      
         - Reading Parameters
 15 May 1978(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1978(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1978(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1978(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1978(Day of year=135), Fababean: 
@@ -3697,12 +4092,30 @@
      
         - Reading Parameters
 15 May 1979(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1979(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1979(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1979(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1979(Day of year=135), Fababean: 
@@ -3855,12 +4268,30 @@
      
         - Reading Parameters
 15 May 1980(Day of year=136), manager: 
-     Manager sending message :- residue2 reset
-15 May 1980(Day of year=136), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1980(Day of year=136), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1980(Day of year=136), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1980(Day of year=136), Fababean: 
@@ -3939,7 +4370,7 @@
                      stover N conc =     2.78 (%)     extractable sw =   11.05 (mm)
 11 October 1980(Day of year=285), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         468.73 (g/m^2)   lai          =   0.245 (m^2/m^2)
+                     biomass =         468.72 (g/m^2)   lai          =   0.245 (m^2/m^2)
                      stover N conc =     2.90 (%)     extractable sw =    0.15 (mm)
 15 October 1980(Day of year=289), Fababean: 
       stage 9.0 maturity
@@ -3947,7 +4378,7 @@
                      stover N conc =     2.82 (%)     extractable sw =    9.86 (mm)
 16 October 1980(Day of year=290), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         474.40 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         474.39 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.86 (%)     extractable sw =    5.79 (mm)
 16 October 1980(Day of year=290), manager: 
      Manager sending message :- fababean harvest
@@ -3958,9 +4389,9 @@
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1445.5
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      4.451
-      total above ground biomass (kg/ha)    =     4744.0
-      live above ground biomass (kg/ha)     =     4744.0
-      green above ground biomass (kg/ha)    =     4581.3
+      total above ground biomass (kg/ha)    =     4743.9
+      live above ground biomass (kg/ha)     =     4743.9
+      green above ground biomass (kg/ha)    =     4581.2
       senesced above ground biomass (kg/ha) =      162.7
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =  484.0
@@ -3979,11 +4410,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3479.19                    0.00
+                          DM (kg/ha) =               3479.15                    0.00
                           N  (kg/ha) =                 96.48                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1264.83                    0.00
+                          DM (kg/ha) =               1264.79                    0.00
                           N  (kg/ha) =                 56.92                    0.00
      
 16 October 1980(Day of year=290), manager: 
@@ -3991,7 +4422,7 @@
 16 October 1980(Day of year=290), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 1953.42
+                          DM (kg/ha) =                  0.00                 1953.40
                           N  (kg/ha) =                  0.00                   56.94
                           P  (kg/ha) =                                          0.00
      
@@ -4013,12 +4444,30 @@
      
         - Reading Parameters
 15 May 1981(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1981(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1981(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1981(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1981(Day of year=135), Fababean: 
@@ -4137,11 +4586,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4426.91                    0.00
+                          DM (kg/ha) =               4426.90                    0.00
                           N  (kg/ha) =                 78.89                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2444.61                    0.00
+                          DM (kg/ha) =               2444.60                    0.00
                           N  (kg/ha) =                110.01                    0.00
      
 16 October 1981(Day of year=289), manager: 
@@ -4171,12 +4620,30 @@
      
         - Reading Parameters
 15 May 1982(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1982(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1982(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1982(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1982(Day of year=135), Fababean: 
@@ -4320,12 +4787,30 @@
      
         - Reading Parameters
 15 May 1983(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1983(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1983(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1983(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1983(Day of year=135), Fababean: 
@@ -4408,29 +4893,29 @@
                      stover N conc =     2.41 (%)     extractable sw =    1.71 (mm)
 15 October 1983(Day of year=288), Fababean: 
       stage 9.0 maturity
-                     biomass =         788.52 (g/m^2)   lai          =   0.727 (m^2/m^2)
+                     biomass =         788.51 (g/m^2)   lai          =   0.727 (m^2/m^2)
                      stover N conc =     2.43 (%)     extractable sw =    1.33 (mm)
 16 October 1983(Day of year=289), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         786.37 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         786.36 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.51 (%)     extractable sw =    1.26 (mm)
 16 October 1983(Day of year=289), manager: 
      Manager sending message :- fababean harvest
 16 October 1983(Day of year=289), Fababean: 
      
       flowering day          =  202                           stover (kg/ha)         =     5099.7
-      maturity day           =  288                           grain yield (kg/ha)    =     2764.0
+      maturity day           =  288                           grain yield (kg/ha)    =     2763.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3158.8
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      5.689
-      total above ground biomass (kg/ha)    =     7863.7
-      live above ground biomass (kg/ha)     =     7863.7
-      green above ground biomass (kg/ha)    =     7372.1
+      total above ground biomass (kg/ha)    =     7863.6
+      live above ground biomass (kg/ha)     =     7863.6
+      green above ground biomass (kg/ha)    =     7372.0
       senesced above ground biomass (kg/ha) =      491.6
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =  506.1
       DM Root:Shoot ratio    =    0.372                       Harvest Index          =      0.351
-      Stover C:N ratio       =   16.903                       Root C:N ratio         =     14.463
+      Stover C:N ratio       =   16.903                       Root C:N ratio         =     14.462
       grain N percent        =       4.50                     total N content (kg/ha)=     245.06
       grain N uptake (kg/ha) =     124.38                     senesced N content (kg/ha)=    4.92
       green N content (kg/ha)=     115.77                     dead N content (kg/ha) =       0.00
@@ -4444,11 +4929,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5099.73                    0.00
+                          DM (kg/ha) =               5099.71                    0.00
                           N  (kg/ha) =                120.68                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2763.98                    0.00
+                          DM (kg/ha) =               2763.91                    0.00
                           N  (kg/ha) =                124.38                    0.00
      
 16 October 1983(Day of year=289), manager: 
@@ -4456,7 +4941,7 @@
 16 October 1983(Day of year=289), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 2926.97
+                          DM (kg/ha) =                  0.00                 2926.95
                           N  (kg/ha) =                  0.00                   80.95
                           P  (kg/ha) =                                          0.00
      
@@ -4478,12 +4963,30 @@
      
         - Reading Parameters
 15 May 1984(Day of year=136), manager: 
-     Manager sending message :- residue2 reset
-15 May 1984(Day of year=136), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1984(Day of year=136), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1984(Day of year=136), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1984(Day of year=136), Fababean: 
@@ -4562,34 +5065,34 @@
                      stover N conc =     2.34 (%)     extractable sw =   68.35 (mm)
 9 October 1984(Day of year=283), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         995.05 (g/m^2)   lai          =   1.329 (m^2/m^2)
+                     biomass =         995.03 (g/m^2)   lai          =   1.329 (m^2/m^2)
                      stover N conc =     1.99 (%)     extractable sw =    3.79 (mm)
 13 October 1984(Day of year=287), Fababean: 
       stage 9.0 maturity
-                     biomass =         984.04 (g/m^2)   lai          =   1.091 (m^2/m^2)
+                     biomass =         984.02 (g/m^2)   lai          =   1.091 (m^2/m^2)
                      stover N conc =     2.00 (%)     extractable sw =    3.05 (mm)
 14 October 1984(Day of year=288), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         981.50 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         981.47 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.08 (%)     extractable sw =    2.90 (mm)
 14 October 1984(Day of year=288), manager: 
      Manager sending message :- fababean harvest
 14 October 1984(Day of year=288), Fababean: 
      
-      flowering day          =  201                           stover (kg/ha)         =     5674.7
-      maturity day           =  287                           grain yield (kg/ha)    =     4140.3
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     4731.8
+      flowering day          =  201                           stover (kg/ha)         =     5674.6
+      maturity day           =  287                           grain yield (kg/ha)    =     4140.1
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     4731.6
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      6.003
-      total above ground biomass (kg/ha)    =     9815.0
-      live above ground biomass (kg/ha)     =     9815.0
-      green above ground biomass (kg/ha)    =     9139.9
+      total above ground biomass (kg/ha)    =     9814.7
+      live above ground biomass (kg/ha)     =     9814.7
+      green above ground biomass (kg/ha)    =     9139.7
       senesced above ground biomass (kg/ha) =      675.1
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =  504.8
       DM Root:Shoot ratio    =    0.345                       Harvest Index          =      0.422
       Stover C:N ratio       =   20.518                       Root C:N ratio         =     15.079
-      grain N percent        =       4.50                     total N content (kg/ha)=     296.94
+      grain N percent        =       4.50                     total N content (kg/ha)=     296.93
       grain N uptake (kg/ha) =     186.31                     senesced N content (kg/ha)=    6.75
       green N content (kg/ha)=     103.88                     dead N content (kg/ha) =       0.00
      
@@ -4602,11 +5105,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5674.68                    0.00
+                          DM (kg/ha) =               5674.63                    0.00
                           N  (kg/ha) =                110.63                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               4140.32                    0.00
+                          DM (kg/ha) =               4140.11                    0.00
                           N  (kg/ha) =                186.31                    0.00
      
 14 October 1984(Day of year=288), manager: 
@@ -4614,8 +5117,8 @@
 14 October 1984(Day of year=288), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 3384.62
-                          N  (kg/ha) =                  0.00                   89.79
+                          DM (kg/ha) =                  0.00                 3384.56
+                          N  (kg/ha) =                  0.00                   89.78
                           P  (kg/ha) =                                          0.00
      
 15 May 1985(Day of year=135), manager: 
@@ -4636,12 +5139,30 @@
      
         - Reading Parameters
 15 May 1985(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1985(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1985(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1985(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1985(Day of year=135), Fababean: 
@@ -4724,7 +5245,7 @@
                      stover N conc =     2.44 (%)     extractable sw =   19.31 (mm)
 13 October 1985(Day of year=286), Fababean: 
       stage 9.0 maturity
-                     biomass =         646.35 (g/m^2)   lai          =   0.547 (m^2/m^2)
+                     biomass =         646.34 (g/m^2)   lai          =   0.547 (m^2/m^2)
                      stover N conc =     2.22 (%)     extractable sw =   26.87 (mm)
 14 October 1985(Day of year=287), Fababean: 
       stage 10.0 harvest_ripe
@@ -4736,12 +5257,12 @@
      
       flowering day          =  202                           stover (kg/ha)         =     4523.8
       maturity day           =  286                           grain yield (kg/ha)    =     2019.1
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2307.6
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2307.5
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      5.416
       total above ground biomass (kg/ha)    =     6542.9
       live above ground biomass (kg/ha)     =     6542.9
-      green above ground biomass (kg/ha)    =     6252.6
+      green above ground biomass (kg/ha)    =     6252.5
       senesced above ground biomass (kg/ha) =      290.3
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =  505.5
@@ -4764,7 +5285,7 @@
                           N  (kg/ha) =                 97.25                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2019.13                    0.00
+                          DM (kg/ha) =               2019.11                    0.00
                           N  (kg/ha) =                 90.86                    0.00
      
 14 October 1985(Day of year=287), manager: 
@@ -4772,7 +5293,7 @@
 14 October 1985(Day of year=287), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 2449.66
+                          DM (kg/ha) =                  0.00                 2449.65
                           N  (kg/ha) =                  0.00                   67.55
                           P  (kg/ha) =                                          0.00
      
@@ -4794,12 +5315,30 @@
      
         - Reading Parameters
 15 May 1986(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1986(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1986(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1986(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1986(Day of year=135), Fababean: 
@@ -4878,33 +5417,33 @@
                      stover N conc =     2.27 (%)     extractable sw =   12.01 (mm)
 9 October 1986(Day of year=282), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         506.83 (g/m^2)   lai          =   0.491 (m^2/m^2)
+                     biomass =         506.82 (g/m^2)   lai          =   0.491 (m^2/m^2)
                      stover N conc =     1.44 (%)     extractable sw =   37.48 (mm)
 13 October 1986(Day of year=286), Fababean: 
       stage 9.0 maturity
-                     biomass =         535.59 (g/m^2)   lai          =   0.491 (m^2/m^2)
+                     biomass =         535.58 (g/m^2)   lai          =   0.491 (m^2/m^2)
                      stover N conc =     1.19 (%)     extractable sw =   30.47 (mm)
 14 October 1986(Day of year=287), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         539.33 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         539.32 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.19 (%)     extractable sw =   26.76 (mm)
 14 October 1986(Day of year=287), manager: 
      Manager sending message :- fababean harvest
 14 October 1986(Day of year=287), Fababean: 
      
       flowering day          =  200                           stover (kg/ha)         =     3385.3
-      maturity day           =  286                           grain yield (kg/ha)    =     2008.0
+      maturity day           =  286                           grain yield (kg/ha)    =     2007.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2294.8
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      2.830
-      total above ground biomass (kg/ha)    =     5393.3
-      live above ground biomass (kg/ha)     =     5393.3
-      green above ground biomass (kg/ha)    =     5155.8
+      total above ground biomass (kg/ha)    =     5393.2
+      live above ground biomass (kg/ha)     =     5393.2
+      green above ground biomass (kg/ha)    =     5155.7
       senesced above ground biomass (kg/ha) =      237.6
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =  508.4
       DM Root:Shoot ratio    =    0.358                       Harvest Index          =      0.372
-      Stover C:N ratio       =   34.101                       Root C:N ratio         =     15.476
+      Stover C:N ratio       =   34.100                       Root C:N ratio         =     15.476
       grain N percent        =       4.50                     total N content (kg/ha)=     130.07
       grain N uptake (kg/ha) =      90.36                     senesced N content (kg/ha)=    2.38
       green N content (kg/ha)=      37.33                     dead N content (kg/ha) =       0.00
@@ -4918,11 +5457,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3385.34                    0.00
+                          DM (kg/ha) =               3385.31                    0.00
                           N  (kg/ha) =                 39.71                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2007.99                    0.00
+                          DM (kg/ha) =               2007.92                    0.00
                           N  (kg/ha) =                 90.36                    0.00
      
 14 October 1986(Day of year=287), manager: 
@@ -4930,7 +5469,7 @@
 14 October 1986(Day of year=287), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 1929.41
+                          DM (kg/ha) =                  0.00                 1929.38
                           N  (kg/ha) =                  0.00                   49.87
                           P  (kg/ha) =                                          0.00
      
@@ -4952,12 +5491,30 @@
      
         - Reading Parameters
 15 May 1987(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1987(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1987(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1987(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1987(Day of year=135), Fababean: 
@@ -5033,37 +5590,37 @@
 27 August 1987(Day of year=239), Fababean: 
       stage 7.0 start_grain_fill
                      biomass =         358.50 (g/m^2)   lai          =   1.142 (m^2/m^2)
-                     stover N conc =     2.49 (%)     extractable sw =    2.54 (mm)
+                     stover N conc =     2.49 (%)     extractable sw =    2.53 (mm)
 9 October 1987(Day of year=282), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         315.30 (g/m^2)   lai          =   0.142 (m^2/m^2)
+                     biomass =         315.29 (g/m^2)   lai          =   0.142 (m^2/m^2)
                      stover N conc =     2.15 (%)     extractable sw =    0.04 (mm)
 14 October 1987(Day of year=287), Fababean: 
       stage 9.0 maturity
-                     biomass =         318.29 (g/m^2)   lai          =   0.135 (m^2/m^2)
+                     biomass =         318.28 (g/m^2)   lai          =   0.135 (m^2/m^2)
                      stover N conc =     2.06 (%)     extractable sw =    4.03 (mm)
 15 October 1987(Day of year=288), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         318.94 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         318.93 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.08 (%)     extractable sw =    2.72 (mm)
 15 October 1987(Day of year=288), manager: 
      Manager sending message :- fababean harvest
 15 October 1987(Day of year=288), Fababean: 
      
       flowering day          =  200                           stover (kg/ha)         =     2337.5
-      maturity day           =  287                           grain yield (kg/ha)    =      851.9
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=      973.6
+      maturity day           =  287                           grain yield (kg/ha)    =      851.8
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=      973.5
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      2.571
-      total above ground biomass (kg/ha)    =     3189.4
-      live above ground biomass (kg/ha)     =     3189.4
+      total above ground biomass (kg/ha)    =     3189.3
+      live above ground biomass (kg/ha)     =     3189.3
       green above ground biomass (kg/ha)    =     3104.9
       senesced above ground biomass (kg/ha) =       84.4
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =  515.0
       DM Root:Shoot ratio    =    0.403                       Harvest Index          =      0.267
       Stover C:N ratio       =   19.601                       Root C:N ratio         =     13.650
-      grain N percent        =       4.50                     total N content (kg/ha)=      86.04
+      grain N percent        =       4.50                     total N content (kg/ha)=      86.03
       grain N uptake (kg/ha) =      38.33                     senesced N content (kg/ha)=    0.84
       green N content (kg/ha)=      46.86                     dead N content (kg/ha) =       0.00
      
@@ -5076,11 +5633,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               2337.53                    0.00
+                          DM (kg/ha) =               2337.51                    0.00
                           N  (kg/ha) =                 47.70                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                851.86                    0.00
+                          DM (kg/ha) =                851.83                    0.00
                           N  (kg/ha) =                 38.33                    0.00
      
 15 October 1987(Day of year=288), manager: 
@@ -5088,7 +5645,7 @@
 15 October 1987(Day of year=288), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 1285.02
+                          DM (kg/ha) =                  0.00                 1285.00
                           N  (kg/ha) =                  0.00                   37.66
                           P  (kg/ha) =                                          0.00
      
@@ -5110,12 +5667,30 @@
      
         - Reading Parameters
 15 May 1988(Day of year=136), manager: 
-     Manager sending message :- residue2 reset
-15 May 1988(Day of year=136), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1988(Day of year=136), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1988(Day of year=136), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1988(Day of year=136), Fababean: 
@@ -5190,31 +5765,31 @@
                      stover N conc =     3.49 (%)     extractable sw =   45.78 (mm)
 26 August 1988(Day of year=239), Fababean: 
       stage 7.0 start_grain_fill
-                     biomass =         452.44 (g/m^2)   lai          =   1.604 (m^2/m^2)
+                     biomass =         452.43 (g/m^2)   lai          =   1.604 (m^2/m^2)
                      stover N conc =     2.98 (%)     extractable sw =   10.47 (mm)
 9 October 1988(Day of year=283), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         442.69 (g/m^2)   lai          =   0.203 (m^2/m^2)
+                     biomass =         442.68 (g/m^2)   lai          =   0.203 (m^2/m^2)
                      stover N conc =     2.71 (%)     extractable sw =    0.03 (mm)
 14 October 1988(Day of year=288), Fababean: 
       stage 9.0 maturity
-                     biomass =         438.68 (g/m^2)   lai          =   0.131 (m^2/m^2)
+                     biomass =         438.67 (g/m^2)   lai          =   0.131 (m^2/m^2)
                      stover N conc =     2.73 (%)     extractable sw =    0.00 (mm)
 15 October 1988(Day of year=289), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         437.97 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         437.96 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.76 (%)     extractable sw =    0.00 (mm)
 15 October 1988(Day of year=289), manager: 
      Manager sending message :- fababean harvest
 15 October 1988(Day of year=289), Fababean: 
      
       flowering day          =  200                           stover (kg/ha)         =     2946.6
-      maturity day           =  288                           grain yield (kg/ha)    =     1433.1
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1637.8
+      maturity day           =  288                           grain yield (kg/ha)    =     1433.0
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1637.7
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      4.532
-      total above ground biomass (kg/ha)    =     4379.7
-      live above ground biomass (kg/ha)     =     4379.7
+      total above ground biomass (kg/ha)    =     4379.6
+      live above ground biomass (kg/ha)     =     4379.6
       green above ground biomass (kg/ha)    =     4264.4
       senesced above ground biomass (kg/ha) =      115.2
       dead above ground biomass (kg/ha)     =        0.0
@@ -5223,7 +5798,7 @@
       Stover C:N ratio       =   14.877                       Root C:N ratio         =     14.658
       grain N percent        =       4.50                     total N content (kg/ha)=     143.71
       grain N uptake (kg/ha) =      64.49                     senesced N content (kg/ha)=    1.15
-      green N content (kg/ha)=      78.07                     dead N content (kg/ha) =       0.00
+      green N content (kg/ha)=      78.08                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.146        0.035        0.121
@@ -5234,11 +5809,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               2946.60                    0.00
+                          DM (kg/ha) =               2946.59                    0.00
                           N  (kg/ha) =                 79.23                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1433.07                    0.00
+                          DM (kg/ha) =               1433.03                    0.00
                           N  (kg/ha) =                 64.49                    0.00
      
 15 October 1988(Day of year=289), manager: 
@@ -5246,7 +5821,7 @@
 15 October 1988(Day of year=289), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 1741.52
+                          DM (kg/ha) =                  0.00                 1741.51
                           N  (kg/ha) =                  0.00                   47.53
                           P  (kg/ha) =                                          0.00
      
@@ -5268,12 +5843,30 @@
      
         - Reading Parameters
 15 May 1989(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1989(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1989(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1989(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1989(Day of year=135), Fababean: 
@@ -5352,7 +5945,7 @@
                      stover N conc =     2.73 (%)     extractable sw =    4.93 (mm)
 13 October 1989(Day of year=286), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         482.82 (g/m^2)   lai          =   0.308 (m^2/m^2)
+                     biomass =         482.81 (g/m^2)   lai          =   0.308 (m^2/m^2)
                      stover N conc =     2.75 (%)     extractable sw =    0.36 (mm)
 19 October 1989(Day of year=292), Fababean: 
       stage 9.0 maturity
@@ -5426,12 +6019,30 @@
      
         - Reading Parameters
 15 May 1990(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1990(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1990(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1990(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1990(Day of year=135), Fababean: 
@@ -5514,7 +6125,7 @@
                      stover N conc =     2.59 (%)     extractable sw =    1.88 (mm)
 16 October 1990(Day of year=289), Fababean: 
       stage 9.0 maturity
-                     biomass =         466.75 (g/m^2)   lai          =   0.234 (m^2/m^2)
+                     biomass =         466.74 (g/m^2)   lai          =   0.234 (m^2/m^2)
                      stover N conc =     2.60 (%)     extractable sw =    0.46 (mm)
 17 October 1990(Day of year=290), Fababean: 
       stage 10.0 harvest_ripe
@@ -5525,8 +6136,8 @@
 17 October 1990(Day of year=290), Fababean: 
      
       flowering day          =  203                           stover (kg/ha)         =     3188.8
-      maturity day           =  289                           grain yield (kg/ha)    =     1472.1
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1682.4
+      maturity day           =  289                           grain yield (kg/ha)    =     1472.0
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1682.3
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      4.513
       total above ground biomass (kg/ha)    =     4660.8
@@ -5550,11 +6161,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3188.79                    0.00
-                          N  (kg/ha) =                 81.76                    0.00
+                          DM (kg/ha) =               3188.78                    0.00
+                          N  (kg/ha) =                 81.77                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1472.06                    0.00
+                          DM (kg/ha) =               1472.03                    0.00
                           N  (kg/ha) =                 66.24                    0.00
      
 17 October 1990(Day of year=290), manager: 
@@ -5562,7 +6173,7 @@
 17 October 1990(Day of year=290), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 1860.80
+                          DM (kg/ha) =                  0.00                 1860.79
                           N  (kg/ha) =                  0.00                   51.10
                           P  (kg/ha) =                                          0.00
      
@@ -5584,12 +6195,30 @@
      
         - Reading Parameters
 15 May 1991(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1991(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1991(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1991(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1991(Day of year=135), Fababean: 
@@ -5742,12 +6371,30 @@
      
         - Reading Parameters
 15 May 1992(Day of year=136), manager: 
-     Manager sending message :- residue2 reset
-15 May 1992(Day of year=136), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1992(Day of year=136), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1992(Day of year=136), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1992(Day of year=136), Fababean: 
@@ -5841,7 +6488,7 @@
 16 October 1992(Day of year=290), Fababean: 
      
       flowering day          =  203                           stover (kg/ha)         =     2437.7
-      maturity day           =  289                           grain yield (kg/ha)    =     1035.1
+      maturity day           =  289                           grain yield (kg/ha)    =     1035.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1182.9
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      3.298
@@ -5866,11 +6513,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               2437.66                    0.00
+                          DM (kg/ha) =               2437.65                    0.00
                           N  (kg/ha) =                 68.62                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1035.06                    0.00
+                          DM (kg/ha) =               1035.04                    0.00
                           N  (kg/ha) =                 46.58                    0.00
      
 16 October 1992(Day of year=290), manager: 
@@ -5878,7 +6525,7 @@
 16 October 1992(Day of year=290), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 1474.84
+                          DM (kg/ha) =                  0.00                 1474.83
                           N  (kg/ha) =                  0.00                   41.67
                           P  (kg/ha) =                                          0.00
      
@@ -5900,12 +6547,30 @@
      
         - Reading Parameters
 15 May 1993(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1993(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1993(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1993(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1993(Day of year=135), Fababean: 
@@ -5984,7 +6649,7 @@
                      stover N conc =     2.99 (%)     extractable sw =    3.54 (mm)
 7 October 1993(Day of year=280), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         504.83 (g/m^2)   lai          =   0.365 (m^2/m^2)
+                     biomass =         504.82 (g/m^2)   lai          =   0.365 (m^2/m^2)
                      stover N conc =     2.40 (%)     extractable sw =    0.30 (mm)
 12 October 1993(Day of year=285), Fababean: 
       stage 9.0 maturity
@@ -5999,7 +6664,7 @@
 13 October 1993(Day of year=286), Fababean: 
      
       flowering day          =  198                           stover (kg/ha)         =     3182.6
-      maturity day           =  285                           grain yield (kg/ha)    =     1810.5
+      maturity day           =  285                           grain yield (kg/ha)    =     1810.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2069.1
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      4.943
@@ -6010,7 +6675,7 @@
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =  528.9
       DM Root:Shoot ratio    =    0.380                       Harvest Index          =      0.363
-      Stover C:N ratio       =   16.769                       Root C:N ratio         =     14.829
+      Stover C:N ratio       =   16.768                       Root C:N ratio         =     14.829
       grain N percent        =       4.50                     total N content (kg/ha)=     157.39
       grain N uptake (kg/ha) =      81.47                     senesced N content (kg/ha)=    1.69
       green N content (kg/ha)=      74.23                     dead N content (kg/ha) =       0.00
@@ -6024,11 +6689,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3182.65                    0.00
+                          DM (kg/ha) =               3182.64                    0.00
                           N  (kg/ha) =                 75.92                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1810.49                    0.00
+                          DM (kg/ha) =               1810.43                    0.00
                           N  (kg/ha) =                 81.47                    0.00
      
 13 October 1993(Day of year=286), manager: 
@@ -6036,7 +6701,7 @@
 13 October 1993(Day of year=286), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 1896.15
+                          DM (kg/ha) =                  0.00                 1896.14
                           N  (kg/ha) =                  0.00                   51.15
                           P  (kg/ha) =                                          0.00
      
@@ -6058,12 +6723,30 @@
      
         - Reading Parameters
 15 May 1994(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1994(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1994(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1994(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1994(Day of year=135), Fababean: 
@@ -6207,12 +6890,30 @@
      
         - Reading Parameters
 15 May 1995(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1995(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1995(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1995(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1995(Day of year=135), Fababean: 
@@ -6365,12 +7066,30 @@
      
         - Reading Parameters
 15 May 1996(Day of year=136), manager: 
-     Manager sending message :- residue2 reset
-15 May 1996(Day of year=136), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1996(Day of year=136), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1996(Day of year=136), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1996(Day of year=136), Fababean: 
@@ -6449,33 +7168,33 @@
                      stover N conc =     2.45 (%)     extractable sw =    9.81 (mm)
 11 October 1996(Day of year=285), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         351.39 (g/m^2)   lai          =   0.262 (m^2/m^2)
-                     stover N conc =     1.54 (%)     extractable sw =    9.61 (mm)
+                     biomass =         351.38 (g/m^2)   lai          =   0.262 (m^2/m^2)
+                     stover N conc =     1.55 (%)     extractable sw =    9.61 (mm)
 15 October 1996(Day of year=289), Fababean: 
       stage 9.0 maturity
-                     biomass =         356.53 (g/m^2)   lai          =   0.239 (m^2/m^2)
-                     stover N conc =     1.42 (%)     extractable sw =    2.96 (mm)
+                     biomass =         356.52 (g/m^2)   lai          =   0.239 (m^2/m^2)
+                     stover N conc =     1.42 (%)     extractable sw =    2.95 (mm)
 16 October 1996(Day of year=290), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         356.88 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         356.87 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.44 (%)     extractable sw =    1.91 (mm)
 16 October 1996(Day of year=290), manager: 
      Manager sending message :- fababean harvest
 16 October 1996(Day of year=290), Fababean: 
      
-      flowering day          =  204                           stover (kg/ha)         =     2265.7
-      maturity day           =  289                           grain yield (kg/ha)    =     1303.1
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1489.3
+      flowering day          =  204                           stover (kg/ha)         =     2265.6
+      maturity day           =  289                           grain yield (kg/ha)    =     1303.0
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1489.2
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      2.332
-      total above ground biomass (kg/ha)    =     3568.8
-      live above ground biomass (kg/ha)     =     3568.8
-      green above ground biomass (kg/ha)    =     3440.3
+      total above ground biomass (kg/ha)    =     3568.7
+      live above ground biomass (kg/ha)     =     3568.7
+      green above ground biomass (kg/ha)    =     3440.1
       senesced above ground biomass (kg/ha) =      128.5
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =  482.3
       DM Root:Shoot ratio    =    0.379                       Harvest Index          =      0.365
-      Stover C:N ratio       =   28.345                       Root C:N ratio         =     14.912
+      Stover C:N ratio       =   28.342                       Root C:N ratio         =     14.912
       grain N percent        =       4.50                     total N content (kg/ha)=      90.61
       grain N uptake (kg/ha) =      58.64                     senesced N content (kg/ha)=    1.29
       green N content (kg/ha)=      30.69                     dead N content (kg/ha) =       0.00
@@ -6489,11 +7208,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               2265.68                    0.00
-                          N  (kg/ha) =                 31.97                    0.00
+                          DM (kg/ha) =               2265.64                    0.00
+                          N  (kg/ha) =                 31.98                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1303.12                    0.00
+                          DM (kg/ha) =               1303.02                    0.00
                           N  (kg/ha) =                 58.64                    0.00
      
 16 October 1996(Day of year=290), manager: 
@@ -6501,7 +7220,7 @@
 16 October 1996(Day of year=290), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 1353.46
+                          DM (kg/ha) =                  0.00                 1353.43
                           N  (kg/ha) =                  0.00                   36.30
                           P  (kg/ha) =                                          0.00
      
@@ -6523,12 +7242,30 @@
      
         - Reading Parameters
 15 May 1997(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1997(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1997(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1997(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1997(Day of year=135), Fababean: 
@@ -6607,7 +7344,7 @@
                      stover N conc =     3.21 (%)     extractable sw =    6.48 (mm)
 13 October 1997(Day of year=286), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         280.60 (g/m^2)   lai          =   0.035 (m^2/m^2)
+                     biomass =         280.59 (g/m^2)   lai          =   0.035 (m^2/m^2)
                      stover N conc =     2.98 (%)     extractable sw =   34.63 (mm)
 17 October 1997(Day of year=290), Fababean: 
       stage 9.0 maturity
@@ -6681,12 +7418,30 @@
      
         - Reading Parameters
 15 May 1998(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1998(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1998(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1998(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1998(Day of year=135), Fababean: 
@@ -6761,40 +7516,40 @@
                      stover N conc =     3.53 (%)     extractable sw =   46.91 (mm)
 27 August 1998(Day of year=239), Fababean: 
       stage 7.0 start_grain_fill
-                     biomass =         724.69 (g/m^2)   lai          =   4.813 (m^2/m^2)
+                     biomass =         724.68 (g/m^2)   lai          =   4.813 (m^2/m^2)
                      stover N conc =     2.45 (%)     extractable sw =   40.49 (mm)
 8 October 1998(Day of year=281), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =        1158.70 (g/m^2)   lai          =   1.844 (m^2/m^2)
+                     biomass =        1158.68 (g/m^2)   lai          =   1.844 (m^2/m^2)
                      stover N conc =     1.67 (%)     extractable sw =    7.81 (mm)
 12 October 1998(Day of year=285), Fababean: 
       stage 9.0 maturity
-                     biomass =        1158.13 (g/m^2)   lai          =   1.575 (m^2/m^2)
-                     stover N conc =     1.56 (%)     extractable sw =    4.37 (mm)
+                     biomass =        1158.10 (g/m^2)   lai          =   1.575 (m^2/m^2)
+                     stover N conc =     1.56 (%)     extractable sw =    4.36 (mm)
 13 October 1998(Day of year=286), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =        1156.05 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =        1156.01 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.62 (%)     extractable sw =    3.97 (mm)
 13 October 1998(Day of year=286), manager: 
      Manager sending message :- fababean harvest
 13 October 1998(Day of year=286), Fababean: 
      
-      flowering day          =  202                           stover (kg/ha)         =     6087.9
-      maturity day           =  285                           grain yield (kg/ha)    =     5472.5
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     6254.3
+      flowering day          =  202                           stover (kg/ha)         =     6087.8
+      maturity day           =  285                           grain yield (kg/ha)    =     5472.4
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     6254.1
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      5.659
-      total above ground biomass (kg/ha)    =    11560.5
-      live above ground biomass (kg/ha)     =    11560.5
-      green above ground biomass (kg/ha)    =    10701.8
+      total above ground biomass (kg/ha)    =    11560.1
+      live above ground biomass (kg/ha)     =    11560.1
+      green above ground biomass (kg/ha)    =    10701.5
       senesced above ground biomass (kg/ha) =      858.6
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =  520.0
       DM Root:Shoot ratio    =    0.319                       Harvest Index          =      0.473
-      Stover C:N ratio       =   26.036                       Root C:N ratio         =     15.559
-      grain N percent        =       4.50                     total N content (kg/ha)=     339.80
+      Stover C:N ratio       =   26.035                       Root C:N ratio         =     15.559
+      grain N percent        =       4.50                     total N content (kg/ha)=     339.79
       grain N uptake (kg/ha) =     246.26                     senesced N content (kg/ha)=    8.59
-      green N content (kg/ha)=      84.95                     dead N content (kg/ha) =       0.00
+      green N content (kg/ha)=      84.94                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.008        0.064
@@ -6805,11 +7560,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               6087.94                    0.00
+                          DM (kg/ha) =               6087.77                    0.00
                           N  (kg/ha) =                 93.53                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               5472.52                    0.00
+                          DM (kg/ha) =               5472.38                    0.00
                           N  (kg/ha) =                246.26                    0.00
      
 13 October 1998(Day of year=286), manager: 
@@ -6817,7 +7572,7 @@
 13 October 1998(Day of year=286), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 3687.93
+                          DM (kg/ha) =                  0.00                 3687.86
                           N  (kg/ha) =                  0.00                   94.81
                           P  (kg/ha) =                                          0.00
      
@@ -6839,12 +7594,30 @@
      
         - Reading Parameters
 15 May 1999(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 1999(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 1999(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 1999(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 1999(Day of year=135), Fababean: 
@@ -6975,7 +7748,7 @@
 17 October 1999(Day of year=290), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 1549.49
+                          DM (kg/ha) =                  0.00                 1549.48
                           N  (kg/ha) =                  0.00                   45.43
                           P  (kg/ha) =                                          0.00
      
@@ -6997,12 +7770,30 @@
      
         - Reading Parameters
 15 May 2000(Day of year=136), manager: 
-     Manager sending message :- residue2 reset
-15 May 2000(Day of year=136), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 2000(Day of year=136), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 2000(Day of year=136), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 2000(Day of year=136), Fababean: 
@@ -7097,12 +7888,12 @@
      
       flowering day          =  209                           stover (kg/ha)         =     2491.6
       maturity day           =  292                           grain yield (kg/ha)    =      848.1
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=      969.3
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=      969.2
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      2.366
       total above ground biomass (kg/ha)    =     3339.7
       live above ground biomass (kg/ha)     =     3339.7
-      green above ground biomass (kg/ha)    =     3253.5
+      green above ground biomass (kg/ha)    =     3253.4
       senesced above ground biomass (kg/ha) =       86.3
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =  465.8
@@ -7121,11 +7912,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               2491.65                    0.00
+                          DM (kg/ha) =               2491.63                    0.00
                           N  (kg/ha) =                 54.05                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                848.10                    0.00
+                          DM (kg/ha) =                848.09                    0.00
                           N  (kg/ha) =                 38.16                    0.00
      
 19 October 2000(Day of year=293), manager: 
@@ -7133,7 +7924,7 @@
 19 October 2000(Day of year=293), Fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 1367.70
+                          DM (kg/ha) =                  0.00                 1367.69
                           N  (kg/ha) =                  0.00                   40.70
                           P  (kg/ha) =                                          0.00
      
@@ -7155,12 +7946,30 @@
      
         - Reading Parameters
 15 May 2001(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 2001(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 2001(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 2001(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 2001(Day of year=135), Fababean: 
@@ -7239,7 +8048,7 @@
                      stover N conc =     2.49 (%)     extractable sw =    4.16 (mm)
 9 October 2001(Day of year=282), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         394.70 (g/m^2)   lai          =   0.203 (m^2/m^2)
+                     biomass =         394.69 (g/m^2)   lai          =   0.203 (m^2/m^2)
                      stover N conc =     2.23 (%)     extractable sw =    0.12 (mm)
 13 October 2001(Day of year=286), Fababean: 
       stage 9.0 maturity
@@ -7313,12 +8122,30 @@
      
         - Reading Parameters
 15 May 2002(Day of year=135), manager: 
-     Manager sending message :- residue2 reset
-15 May 2002(Day of year=135), residue2: 
+     Manager sending message :- surfaceom reset
+15 May 2002(Day of year=135), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 15 May 2002(Day of year=135), manager: 
      Manager sending message :- fababean sow  cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 15 May 2002(Day of year=135), Fababean: 
@@ -7405,7 +8232,7 @@
                      stover N conc =     2.81 (%)     extractable sw =    0.00 (mm)
 19 October 2002(Day of year=292), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         233.79 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         233.78 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.84 (%)     extractable sw =    0.00 (mm)
 19 October 2002(Day of year=292), manager: 
      Manager sending message :- fababean harvest
@@ -7416,8 +8243,8 @@
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      702.8
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      2.094
-      total above ground biomass (kg/ha)    =     2337.9
-      live above ground biomass (kg/ha)     =     2337.9
+      total above ground biomass (kg/ha)    =     2337.8
+      live above ground biomass (kg/ha)     =     2337.8
       green above ground biomass (kg/ha)    =     2283.5
       senesced above ground biomass (kg/ha) =       54.4
       dead above ground biomass (kg/ha)     =        0.0
@@ -7437,11 +8264,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               1722.92                    0.00
+                          DM (kg/ha) =               1722.91                    0.00
                           N  (kg/ha) =                 47.97                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                614.93                    0.00
+                          DM (kg/ha) =                614.91                    0.00
                           N  (kg/ha) =                 27.67                    0.00
      
 19 October 2002(Day of year=292), manager: 
