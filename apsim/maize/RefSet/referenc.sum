@@ -19,7 +19,7 @@
      Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\maize\lib\maize.dll
      Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
@@ -50,8 +50,8 @@
         maize.dm_dead()
         maize.yield
         maize.height
-        residue2.residue_wt
-        residue2.residue_n
+        surfaceom.surfaceom_wt
+        surfaceom.surfaceom_n
         soiln2.fom_c()
         soiln2.fom_n()
         maize.leaf_no
@@ -102,7 +102,7 @@
              soilwat2 set sw = 0.15 0.15 0.1
              soiln2   set no3 = 1 1 1
              soiln2   set nh4 = 1 1 1
-             residue2 tillage type = burn
+             surfaceom tillage type = burn
              irrigate set crit_fr_asw = 0.9
              irrigate set asw_depth = 900
              irrigate set automatic_irrigation = on
@@ -113,7 +113,7 @@
              soilwat2 set sw = 0.15 0.15 0.1
              soiln2   set no3 = 1 1 1
              soiln2   set nh4 = 1 1 1
-             residue2 tillage type = burn
+             surfaceom tillage type = burn
              irrigate set crit_fr_asw = 0.9
              irrigate set asw_depth = 900
              irrigate set automatic_irrigation = on
@@ -124,7 +124,7 @@
              soilwat2 set sw = 0.25 0.25 0.2
              soiln2   set no3 = 10 1 1
              soiln2   set nh4 = 1 1 1
-             residue2 tillage type = burn
+             surfaceom tillage type = burn
              irrigate set crit_fr_asw = 0.3
              irrigate set asw_depth = 900
              irrigate set automatic_irrigation = on
@@ -134,7 +134,7 @@
              soilwat2 set sw = 0.25 0.25 0.2
              soiln2   set no3 = 1 1 1
              soiln2   set nh4 = 1 1 1
-             residue2 tillage type = burn
+             surfaceom tillage type = burn
              irrigate set crit_fr_asw = 0.4
              irrigate set asw_depth = 900
              irrigate set automatic_irrigation = on
@@ -220,30 +220,29 @@
             CONA:                     2.00 ()
            Eo from priestly-taylor
 
-------- residue2 Initialisation -----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = maize
+      Residue type = maize
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  80.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  80.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  80.0000000
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-               500.0     2.5     0.0  maize
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100    80.0     0.0       F       no
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -354,8 +353,8 @@
      Manager sending message :- soilwat2 set  sw = 0.15 0.15 0.1
      Manager sending message :- soiln2 set  no3 = 1 1 1
      Manager sending message :- soiln2 set  nh4 = 1 1 1
-     Manager sending message :- residue2 tillage  type = burn
-10 January 1993(Day of year=10), residue2: 
+     Manager sending message :- surfaceom tillage  type = burn
+10 January 1993(Day of year=10), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using burn
@@ -543,8 +542,8 @@
      Manager sending message :- soilwat2 set  sw = 0.15 0.15 0.1
      Manager sending message :- soiln2 set  no3 = 1 1 1
      Manager sending message :- soiln2 set  nh4 = 1 1 1
-     Manager sending message :- residue2 tillage  type = burn
-9 June 1993(Day of year=160), residue2: 
+     Manager sending message :- surfaceom tillage  type = burn
+9 June 1993(Day of year=160), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using burn
@@ -732,8 +731,8 @@
      Manager sending message :- soilwat2 set  sw = 0.25 0.25 0.2
      Manager sending message :- soiln2 set  no3 = 10 1 1
      Manager sending message :- soiln2 set  nh4 = 1 1 1
-     Manager sending message :- residue2 tillage  type = burn
-27 October 1993(Day of year=300), residue2: 
+     Manager sending message :- surfaceom tillage  type = burn
+27 October 1993(Day of year=300), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using burn
@@ -763,24 +762,24 @@
                           stover N conc =    1.302373       extractable sw =    37.30544
 7 January 1994(Day of year=7), maize: 
       stage    7.0 flowering
-                          biomass =           239.2472       lai =     1.015328
+                          biomass =           239.2471       lai =     1.015328
                           stover N conc =    1.279472       extractable sw =    78.27934
 16 January 1994(Day of year=16), maize: 
       stage    8.0 start_grain_fill
                           biomass =           286.7260       lai =     1.015328
-                          stover N conc =    1.206023       extractable sw =    60.79525
+                          stover N conc =    1.206023       extractable sw =    60.79523
 6 March 1994(Day of year=65), maize: 
       stage    9.0 end_grain_fill
-                          biomass =           425.5338       lai =    0.2204389
-                          stover N conc =    1.118581       extractable sw =    78.02934
+                          biomass =           425.5338       lai =    0.2204385
+                          stover N conc =    1.118581       extractable sw =    78.02932
 7 March 1994(Day of year=66), maize: 
       stage   10.0 maturity
-                          biomass =           426.3708       lai =    0.1982972
-                          stover N conc =    1.125719       extractable sw =    77.58109
+                          biomass =           426.3708       lai =    0.1982970
+                          stover N conc =    1.125719       extractable sw =    77.58107
 8 March 1994(Day of year=67), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           426.3708       lai =    0.1900494E-02
-                          stover N conc =    1.136232       extractable sw =    77.15811
+                          biomass =           426.3708       lai =    0.1900017E-02
+                          stover N conc =    1.136232       extractable sw =    77.15810
 8 March 1994(Day of year=67), manager: 
      Manager sending message :- maize harvest
 8 March 1994(Day of year=67), maize: 
@@ -840,15 +839,15 @@
      
       stress indices for start_grain_fill
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.4876151
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.5900921
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.5900922
 8 March 1994(Day of year=67), manager: 
      Manager sending message :- maize kill_crop
 8 March 1994(Day of year=67), maize: 
          kill. Standing above-ground dm =  4263.7 (kg/ha)
 9 March 1994(Day of year=68), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           426.3708       lai =    0.1900494E-02
-                          stover N conc =    1.136232       extractable sw =    76.83409
+                          biomass =           426.3708       lai =    0.1900017E-02
+                          stover N conc =    1.136232       extractable sw =    76.83408
 9 March 1994(Day of year=68), manager: 
      Manager sending message :- maize end_crop
 9 March 1994(Day of year=68), maize: 
@@ -915,8 +914,8 @@
      Manager sending message :- soilwat2 set  sw = 0.25 0.25 0.2
      Manager sending message :- soiln2 set  no3 = 1 1 1
      Manager sending message :- soiln2 set  nh4 = 1 1 1
-     Manager sending message :- residue2 tillage  type = burn
-21 March 1994(Day of year=80), residue2: 
+     Manager sending message :- surfaceom tillage  type = burn
+21 March 1994(Day of year=80), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using burn
@@ -969,7 +968,7 @@
 2 October 1994(Day of year=275), maize: 
       stage   11.0 harvest_ripe
                           biomass =           610.1758       lai =    0.2293829E-02
-                          stover N conc =    1.414409       extractable sw =    60.00085
+                          stover N conc =    1.414410       extractable sw =    60.00085
 2 October 1994(Day of year=275), manager: 
      Manager sending message :- maize harvest
 2 October 1994(Day of year=275), maize: 

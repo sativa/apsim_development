@@ -19,7 +19,7 @@
      Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\maize\lib\maize.dll
      Component DLL          = c:\development\apsim\Tracker\lib\Tracker.dll
@@ -68,7 +68,7 @@
      if today = date('1-oct') then
         soilwat2 reset
         soiln2 reset
-        residue2 reset
+        surfaceom reset
         fertiliz apply amount = 200, type = no3_n, depth = 200.
         maize sow cultivar = dekalb_xl82, plants = popn (/m2), sowing_depth = 30 (mm), row_spacing = 1.0
      endif
@@ -158,30 +158,29 @@
             CONA:                     3.50 ()
            Eo from priestly-taylor
 
-------- residue2 Initialisation -----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-              2000.0    26.7     0.0  mungbean
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100    30.0     0.0       F       no
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -261,12 +260,30 @@
      
         - Reading Parameters
 1 October 1957(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1957(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1957(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1957(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1957(Day of year=274), fertiliz: 
@@ -456,12 +473,30 @@
      
         - Reading Parameters
 1 October 1958(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1958(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1958(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1958(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1958(Day of year=274), fertiliz: 
@@ -542,27 +577,27 @@
 4 December 1958(Day of year=338), maize: 
       stage    6.0 flag_leaf
                           biomass =           290.4057       lai =     1.556248
-                          stover N conc =    2.366067       extractable sw =    186.2412
+                          stover N conc =    2.366067       extractable sw =    186.2413
 10 December 1958(Day of year=344), maize: 
       stage    7.0 flowering
                           biomass =           409.2200       lai =     1.528846
-                          stover N conc =    2.357064       extractable sw =    148.3343
+                          stover N conc =    2.357064       extractable sw =    148.3344
 20 December 1958(Day of year=354), maize: 
       stage    8.0 start_grain_fill
                           biomass =           578.4707       lai =     1.467558
-                          stover N conc =    2.292254       extractable sw =    115.9624
+                          stover N conc =    2.292254       extractable sw =    115.9625
 8 February 1959(Day of year=39), maize: 
       stage    9.0 end_grain_fill
-                          biomass =           1123.025       lai =    0.7589909
-                          stover N conc =    1.646426       extractable sw =    68.63787
+                          biomass =           1123.025       lai =    0.7589906
+                          stover N conc =    1.646426       extractable sw =    68.63791
 9 February 1959(Day of year=40), maize: 
       stage   10.0 maturity
-                          biomass =           1131.535       lai =    0.7380038
-                          stover N conc =    1.646184       extractable sw =    65.21574
+                          biomass =           1131.535       lai =    0.7380036
+                          stover N conc =    1.646184       extractable sw =    65.21579
 10 February 1959(Day of year=41), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           1131.535       lai =    0.5765975E-02
-                          stover N conc =    1.677741       extractable sw =    62.98721
+                          biomass =           1131.535       lai =    0.5765736E-02
+                          stover N conc =    1.677741       extractable sw =    62.98725
 10 February 1959(Day of year=41), manager: 
      Manager sending message :- maize harvest
 10 February 1959(Day of year=41), maize: 
@@ -651,12 +686,30 @@
      
         - Reading Parameters
 1 October 1959(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1959(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1959(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1959(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1959(Day of year=274), fertiliz: 
@@ -846,12 +899,30 @@
      
         - Reading Parameters
 1 October 1960(Day of year=275), manager: 
-     Manager sending message :- residue2 reset
-1 October 1960(Day of year=275), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1960(Day of year=275), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1960(Day of year=275), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1960(Day of year=275), fertiliz: 
@@ -1041,12 +1112,30 @@
      
         - Reading Parameters
 1 October 1961(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1961(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1961(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1961(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1961(Day of year=274), fertiliz: 
@@ -1236,12 +1325,30 @@
      
         - Reading Parameters
 1 October 1962(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1962(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1962(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1962(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1962(Day of year=274), fertiliz: 
@@ -1329,20 +1436,20 @@
                           stover N conc =    2.366124       extractable sw =    100.3635
 17 December 1962(Day of year=351), maize: 
       stage    8.0 start_grain_fill
-                          biomass =           576.1935       lai =     1.468997
+                          biomass =           576.1935       lai =     1.468998
                           stover N conc =    2.297124       extractable sw =    70.70896
 6 February 1963(Day of year=37), maize: 
       stage    9.0 end_grain_fill
-                          biomass =           947.6341       lai =    0.6680574
-                          stover N conc =    1.671720       extractable sw =    19.32148
+                          biomass =           947.6343       lai =    0.6680576
+                          stover N conc =    1.671719       extractable sw =    19.32149
 7 February 1963(Day of year=38), maize: 
       stage   10.0 maturity
-                          biomass =           953.8597       lai =    0.6643134
-                          stover N conc =    1.670312       extractable sw =    15.70941
+                          biomass =           953.8599       lai =    0.6643136
+                          stover N conc =    1.670312       extractable sw =    15.70942
 8 February 1963(Day of year=39), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           953.8597       lai =    0.9501576E-03
-                          stover N conc =    1.706844       extractable sw =    11.33777
+                          biomass =           953.8599       lai =    0.9503961E-03
+                          stover N conc =    1.706844       extractable sw =    11.33778
 8 February 1963(Day of year=39), manager: 
      Manager sending message :- maize harvest
 8 February 1963(Day of year=39), maize: 
@@ -1401,7 +1508,7 @@
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.1953937   nitrogen stress 1 =       0.0000000
+      water stress 1 =       0.1953936   nitrogen stress 1 =       0.0000000
       water stress 2 =       0.2877235   nitrogen stress 2 =       0.0000000
 8 February 1963(Day of year=39), manager: 
      Manager sending message :- maize end_crop
@@ -1431,12 +1538,30 @@
      
         - Reading Parameters
 1 October 1963(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1963(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1963(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1963(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1963(Day of year=274), fertiliz: 
@@ -1626,12 +1751,30 @@
      
         - Reading Parameters
 1 October 1964(Day of year=275), manager: 
-     Manager sending message :- residue2 reset
-1 October 1964(Day of year=275), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1964(Day of year=275), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1964(Day of year=275), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1964(Day of year=275), fertiliz: 
@@ -1707,8 +1850,8 @@
                           stover N conc =    3.152719       extractable sw =    123.4812
 30 October 1964(Day of year=304), maize: 
       stage    5.0 floral_initiation
-                          biomass =           2.791574       lai =    0.2714116E-01
-                          stover N conc =    2.681651       extractable sw =    118.6840
+                          biomass =           2.791575       lai =    0.2714116E-01
+                          stover N conc =    2.681652       extractable sw =    118.6840
 12 December 1964(Day of year=347), maize: 
       stage    6.0 flag_leaf
                           biomass =           344.8566       lai =     1.532282
@@ -1731,7 +1874,7 @@
                           stover N conc =    1.748641       extractable sw =    4.421051
 16 February 1965(Day of year=47), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           1098.878       lai =    0.3258586E-02
+                          biomass =           1098.878       lai =    0.3258467E-02
                           stover N conc =    1.783227       extractable sw =    3.920116
 16 February 1965(Day of year=47), manager: 
      Manager sending message :- maize harvest
@@ -1821,12 +1964,30 @@
      
         - Reading Parameters
 1 October 1965(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1965(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1965(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1965(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1965(Day of year=274), fertiliz: 
@@ -2016,12 +2177,30 @@
      
         - Reading Parameters
 1 October 1966(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1966(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1966(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1966(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1966(Day of year=274), fertiliz: 
@@ -2211,12 +2390,30 @@
      
         - Reading Parameters
 1 October 1967(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1967(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1967(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1967(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1967(Day of year=274), fertiliz: 
@@ -2309,14 +2506,14 @@
 4 February 1968(Day of year=35), maize: 
       stage    9.0 end_grain_fill
                           biomass =           1014.133       lai =    0.7288268
-                          stover N conc =    1.644361       extractable sw =    7.060162
+                          stover N conc =    1.644361       extractable sw =    7.060165
 5 February 1968(Day of year=36), maize: 
       stage   10.0 maturity
                           biomass =           1016.828       lai =    0.7048329
-                          stover N conc =    1.645362       extractable sw =    6.000584
+                          stover N conc =    1.645362       extractable sw =    6.000587
 6 February 1968(Day of year=37), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           1016.828       lai =    0.9500980E-03
+                          biomass =           1016.828       lai =    0.9500384E-03
                           stover N conc =    1.685703       extractable sw =    5.101189
 6 February 1968(Day of year=37), manager: 
      Manager sending message :- maize harvest
@@ -2406,12 +2603,30 @@
      
         - Reading Parameters
 1 October 1968(Day of year=275), manager: 
-     Manager sending message :- residue2 reset
-1 October 1968(Day of year=275), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1968(Day of year=275), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1968(Day of year=275), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1968(Day of year=275), fertiliz: 
@@ -2601,12 +2816,30 @@
      
         - Reading Parameters
 1 October 1969(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1969(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1969(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1969(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1969(Day of year=274), fertiliz: 
@@ -2698,15 +2931,15 @@
                           stover N conc =    2.282544       extractable sw =    103.2508
 6 February 1970(Day of year=37), maize: 
       stage    9.0 end_grain_fill
-                          biomass =           1161.887       lai =    0.7391205
-                          stover N conc =    1.740599       extractable sw =    94.33221
+                          biomass =           1161.887       lai =    0.7391206
+                          stover N conc =    1.740599       extractable sw =    94.33220
 7 February 1970(Day of year=38), maize: 
       stage   10.0 maturity
-                          biomass =           1169.540       lai =    0.7204024
+                          biomass =           1169.540       lai =    0.7204025
                           stover N conc =    1.729771       extractable sw =    91.82356
 8 February 1970(Day of year=39), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           1169.540       lai =    0.4342496E-02
+                          biomass =           1169.540       lai =    0.4342556E-02
                           stover N conc =    1.767662       extractable sw =    89.53119
 8 February 1970(Day of year=39), manager: 
      Manager sending message :- maize harvest
@@ -2761,7 +2994,7 @@
      
       stress indices for flowering
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0074246
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0074245
      
      
      
@@ -2796,12 +3029,30 @@
      
         - Reading Parameters
 1 October 1970(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1970(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1970(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1970(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1970(Day of year=274), fertiliz: 
@@ -2991,12 +3242,30 @@
      
         - Reading Parameters
 1 October 1971(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1971(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1971(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1971(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1971(Day of year=274), fertiliz: 
@@ -3186,12 +3455,30 @@
      
         - Reading Parameters
 1 October 1972(Day of year=275), manager: 
-     Manager sending message :- residue2 reset
-1 October 1972(Day of year=275), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1972(Day of year=275), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1972(Day of year=275), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1972(Day of year=275), fertiliz: 
@@ -3381,12 +3668,30 @@
      
         - Reading Parameters
 1 October 1973(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1973(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1973(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1973(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1973(Day of year=274), fertiliz: 
@@ -3576,12 +3881,30 @@
      
         - Reading Parameters
 1 October 1974(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1974(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1974(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1974(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1974(Day of year=274), fertiliz: 
@@ -3771,12 +4094,30 @@
      
         - Reading Parameters
 1 October 1975(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1975(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1975(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1975(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1975(Day of year=274), fertiliz: 
@@ -3861,23 +4202,23 @@
 13 December 1975(Day of year=347), maize: 
       stage    7.0 flowering
                           biomass =           414.8167       lai =     1.525385
-                          stover N conc =    2.356937       extractable sw =    127.8151
+                          stover N conc =    2.356936       extractable sw =    127.8151
 24 December 1975(Day of year=358), maize: 
       stage    8.0 start_grain_fill
-                          biomass =           557.0207       lai =     1.459579
+                          biomass =           557.0208       lai =     1.459579
                           stover N conc =    2.305380       extractable sw =    203.0067
 14 February 1976(Day of year=45), maize: 
       stage    9.0 end_grain_fill
-                          biomass =           1118.474       lai =    0.7466182
+                          biomass =           1118.474       lai =    0.7466185
                           stover N conc =    1.650117       extractable sw =    144.1713
 15 February 1976(Day of year=46), maize: 
       stage   10.0 maturity
-                          biomass =           1125.522       lai =    0.7277677
-                          stover N conc =    1.644903       extractable sw =    141.1167
+                          biomass =           1125.522       lai =    0.7277679
+                          stover N conc =    1.644903       extractable sw =    141.1168
 16 February 1976(Day of year=47), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           1125.522       lai =    0.5349994E-02
-                          stover N conc =    1.678301       extractable sw =    137.5856
+                          biomass =           1125.522       lai =    0.5350292E-02
+                          stover N conc =    1.678301       extractable sw =    137.5857
 16 February 1976(Day of year=47), manager: 
      Manager sending message :- maize harvest
 16 February 1976(Day of year=47), maize: 
@@ -3966,12 +4307,30 @@
      
         - Reading Parameters
 1 October 1976(Day of year=275), manager: 
-     Manager sending message :- residue2 reset
-1 October 1976(Day of year=275), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1976(Day of year=275), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1976(Day of year=275), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1976(Day of year=275), fertiliz: 
@@ -4161,12 +4520,30 @@
      
         - Reading Parameters
 1 October 1977(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1977(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1977(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1977(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1977(Day of year=274), fertiliz: 
@@ -4356,12 +4733,30 @@
      
         - Reading Parameters
 1 October 1978(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1978(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1978(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1978(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1978(Day of year=274), fertiliz: 
@@ -4551,12 +4946,30 @@
      
         - Reading Parameters
 1 October 1979(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1979(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1979(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1979(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1979(Day of year=274), fertiliz: 
@@ -4717,7 +5130,7 @@
      
       stress indices for start_grain_fill
       water stress 1 =       0.1536659   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.2416898   nitrogen stress 2 =       0.0005981
+      water stress 2 =       0.2416899   nitrogen stress 2 =       0.0005981
 2 February 1980(Day of year=33), manager: 
      Manager sending message :- maize end_crop
 2 February 1980(Day of year=33), maize: 
@@ -4746,12 +5159,30 @@
      
         - Reading Parameters
 1 October 1980(Day of year=275), manager: 
-     Manager sending message :- residue2 reset
-1 October 1980(Day of year=275), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1980(Day of year=275), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1980(Day of year=275), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1980(Day of year=275), fertiliz: 
@@ -4882,7 +5313,7 @@
      
       stress indices for emergence
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0536774
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1481071
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1481070
      
      
      
@@ -4941,12 +5372,30 @@
      
         - Reading Parameters
 1 October 1981(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1981(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1981(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1981(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1981(Day of year=274), fertiliz: 
@@ -5136,12 +5585,30 @@
      
         - Reading Parameters
 1 October 1982(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1982(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1982(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1982(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1982(Day of year=274), fertiliz: 
@@ -5214,19 +5681,19 @@
 23 October 1982(Day of year=296), maize: 
       stage    4.0 end_of_juvenile
                           biomass =           1.540127       lai =    0.1370103E-01
-                          stover N conc =    3.187324       extractable sw =    120.1930
+                          stover N conc =    3.187325       extractable sw =    120.1930
 27 October 1982(Day of year=300), maize: 
       stage    5.0 floral_initiation
                           biomass =           2.654098       lai =    0.2519252E-01
                           stover N conc =    2.846244       extractable sw =    117.6771
 4 December 1982(Day of year=338), maize: 
       stage    6.0 flag_leaf
-                          biomass =           300.7491       lai =     1.577010
+                          biomass =           300.7490       lai =     1.577009
                           stover N conc =    2.391932       extractable sw =    178.8582
 10 December 1982(Day of year=344), maize: 
       stage    7.0 flowering
                           biomass =           416.9308       lai =     1.549903
-                          stover N conc =    2.355128       extractable sw =    141.5581
+                          stover N conc =    2.355127       extractable sw =    141.5581
 20 December 1982(Day of year=354), maize: 
       stage    8.0 start_grain_fill
                           biomass =           582.0438       lai =     1.486456
@@ -5234,15 +5701,15 @@
 4 February 1983(Day of year=35), maize: 
       stage    9.0 end_grain_fill
                           biomass =           1136.715       lai =    0.7889939
-                          stover N conc =    1.698665       extractable sw =    12.95312
+                          stover N conc =    1.698664       extractable sw =    12.95313
 5 February 1983(Day of year=36), maize: 
       stage   10.0 maturity
                           biomass =           1141.464       lai =    0.7689664
-                          stover N conc =    1.692671       extractable sw =    11.39269
+                          stover N conc =    1.692670       extractable sw =    11.39270
 6 February 1983(Day of year=37), maize: 
       stage   11.0 harvest_ripe
                           biomass =           1141.464       lai =    0.6603539E-02
-                          stover N conc =    1.728278       extractable sw =    10.31009
+                          stover N conc =    1.728277       extractable sw =    10.31010
 6 February 1983(Day of year=37), manager: 
      Manager sending message :- maize harvest
 6 February 1983(Day of year=37), maize: 
@@ -5272,19 +5739,19 @@
      
       stress indices for emergence
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0024095
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0924355
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0924356
      
      
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0139758
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0139757
      
      
      
       stress indices for floral_initiation
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0394790
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0394791
      
      
      
@@ -5296,13 +5763,13 @@
      
       stress indices for flowering
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0075283
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0075284
      
      
      
       stress indices for start_grain_fill
       water stress 1 =       0.0285807   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0688198   nitrogen stress 2 =       0.0006858
+      water stress 2 =       0.0688197   nitrogen stress 2 =       0.0006858
 6 February 1983(Day of year=37), manager: 
      Manager sending message :- maize end_crop
 6 February 1983(Day of year=37), maize: 
@@ -5331,12 +5798,30 @@
      
         - Reading Parameters
 1 October 1983(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1983(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1983(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1983(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1983(Day of year=274), fertiliz: 
@@ -5409,7 +5894,7 @@
 21 October 1983(Day of year=294), maize: 
       stage    4.0 end_of_juvenile
                           biomass =           1.123264       lai =    0.1357689E-01
-                          stover N conc =    2.978400       extractable sw =    89.70831
+                          stover N conc =    2.978400       extractable sw =    89.70830
 25 October 1983(Day of year=298), maize: 
       stage    5.0 floral_initiation
                           biomass =           2.027438       lai =    0.2283926E-01
@@ -5473,7 +5958,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0759120
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0759119
      
      
      
@@ -5526,12 +6011,30 @@
      
         - Reading Parameters
 1 October 1984(Day of year=275), manager: 
-     Manager sending message :- residue2 reset
-1 October 1984(Day of year=275), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1984(Day of year=275), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1984(Day of year=275), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1984(Day of year=275), fertiliz: 
@@ -5623,15 +6126,15 @@
                           stover N conc =    2.277662       extractable sw =    115.7038
 7 February 1985(Day of year=38), maize: 
       stage    9.0 end_grain_fill
-                          biomass =           1086.431       lai =    0.6941589
+                          biomass =           1086.431       lai =    0.6941588
                           stover N conc =    1.782882       extractable sw =    6.895393
 8 February 1985(Day of year=39), maize: 
       stage   10.0 maturity
-                          biomass =           1088.616       lai =    0.6813241
+                          biomass =           1088.616       lai =    0.6813239
                           stover N conc =    1.779887       extractable sw =    6.478062
 9 February 1985(Day of year=40), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           1088.616       lai =    0.3894567E-02
+                          biomass =           1088.616       lai =    0.3894687E-02
                           stover N conc =    1.819281       extractable sw =    6.092495
 9 February 1985(Day of year=40), manager: 
      Manager sending message :- maize harvest
@@ -5674,7 +6177,7 @@
      
       stress indices for floral_initiation
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0733411
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0733412
      
      
      
@@ -5691,8 +6194,8 @@
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.1544413   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.2883028   nitrogen stress 2 =       0.0024013
+      water stress 1 =       0.1544412   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.2883027   nitrogen stress 2 =       0.0024013
 9 February 1985(Day of year=40), manager: 
      Manager sending message :- maize end_crop
 9 February 1985(Day of year=40), maize: 
@@ -5721,12 +6224,30 @@
      
         - Reading Parameters
 1 October 1985(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1985(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1985(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1985(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1985(Day of year=274), fertiliz: 
@@ -5916,12 +6437,30 @@
      
         - Reading Parameters
 1 October 1986(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1986(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1986(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1986(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1986(Day of year=274), fertiliz: 
@@ -6111,12 +6650,30 @@
      
         - Reading Parameters
 1 October 1987(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1987(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1987(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1987(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1987(Day of year=274), fertiliz: 
@@ -6306,12 +6863,30 @@
      
         - Reading Parameters
 1 October 1988(Day of year=275), manager: 
-     Manager sending message :- residue2 reset
-1 October 1988(Day of year=275), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1988(Day of year=275), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1988(Day of year=275), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1988(Day of year=275), fertiliz: 
@@ -6501,12 +7076,30 @@
      
         - Reading Parameters
 1 October 1989(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1989(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1989(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1989(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1989(Day of year=274), fertiliz: 
@@ -6696,12 +7289,30 @@
      
         - Reading Parameters
 1 October 1990(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1990(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1990(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1990(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1990(Day of year=274), fertiliz: 
@@ -6891,12 +7502,30 @@
      
         - Reading Parameters
 1 October 1991(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1991(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1991(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1991(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1991(Day of year=274), fertiliz: 
@@ -7086,12 +7715,30 @@
      
         - Reading Parameters
 1 October 1992(Day of year=275), manager: 
-     Manager sending message :- residue2 reset
-1 October 1992(Day of year=275), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1992(Day of year=275), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1992(Day of year=275), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1992(Day of year=275), fertiliz: 
@@ -7281,12 +7928,30 @@
      
         - Reading Parameters
 1 October 1993(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1993(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1993(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1993(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1993(Day of year=274), fertiliz: 
@@ -7476,12 +8141,30 @@
      
         - Reading Parameters
 1 October 1994(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1994(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1994(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1994(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1994(Day of year=274), fertiliz: 
@@ -7671,12 +8354,30 @@
      
         - Reading Parameters
 1 October 1995(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1995(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1995(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1995(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1995(Day of year=274), fertiliz: 
@@ -7866,12 +8567,30 @@
      
         - Reading Parameters
 1 October 1996(Day of year=275), manager: 
-     Manager sending message :- residue2 reset
-1 October 1996(Day of year=275), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1996(Day of year=275), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1996(Day of year=275), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1996(Day of year=275), fertiliz: 
@@ -8061,12 +8780,30 @@
      
         - Reading Parameters
 1 October 1997(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1997(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1997(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1997(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1997(Day of year=274), fertiliz: 
@@ -8256,12 +8993,30 @@
      
         - Reading Parameters
 1 October 1998(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1998(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1998(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1998(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1998(Day of year=274), fertiliz: 
@@ -8451,12 +9206,30 @@
      
         - Reading Parameters
 1 October 1999(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 1999(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 1999(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 1999(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 1999(Day of year=274), fertiliz: 
@@ -8646,12 +9419,30 @@
      
         - Reading Parameters
 1 October 2000(Day of year=275), manager: 
-     Manager sending message :- residue2 reset
-1 October 2000(Day of year=275), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 2000(Day of year=275), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 2000(Day of year=275), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 2000(Day of year=275), fertiliz: 
@@ -8841,12 +9632,30 @@
      
         - Reading Parameters
 1 October 2001(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 2001(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 2001(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 2001(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 2001(Day of year=274), fertiliz: 
@@ -9036,12 +9845,30 @@
      
         - Reading Parameters
 1 October 2002(Day of year=274), manager: 
-     Manager sending message :- residue2 reset
-1 October 2002(Day of year=274), residue2: 
+     Manager sending message :- surfaceom reset
+1 October 2002(Day of year=274), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 October 2002(Day of year=274), manager: 
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 200.
 1 October 2002(Day of year=274), fertiliz: 
