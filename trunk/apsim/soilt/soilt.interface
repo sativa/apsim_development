@@ -14,9 +14,6 @@ class APSIMSoilTPublic
 ; Main actions
 
     sysinit                : APSIMMethod         = System initialise
-    prepare                : APSIMMethod         = System prepare stage
-    process                : APSIMMethod         = Message to process
-    post                   : APSIMMethod         = System post stage
     end_run                : APSIMMethod         = Message that run is to end
 
 end
@@ -42,6 +39,11 @@ class APSIMSoilTExternal
     residue_cover           : APSIMReal             = Residue cover reduces cn2_bare, (), GET, 0.0, 1000.0
                 ; This is repeated until no module responds (get_real_vars).
     cover_green             : APSIMReal             = green cover of crop canopy, (), GET, 0.0, 1.0 
+
+    prepare                : APSIMEvent             = System prepare stage
+    process                : APSIMEvent             = Message to process
+    post                   : APSIMEvent             = System post stage
+
 end
 
 class APSIMSoilT

@@ -10,8 +10,6 @@ include base.interface
 class APSIMTamet2Public
 
    sysinit                 : APSIMMethod                = System initialise
-   prepare                 : APSIMMethod                = Message to prepare for process
-   process                 : APSIMMethod                = Message to process
    end_run                 : APSIMMethod                = Message that run is to end
 
 end
@@ -26,6 +24,9 @@ end
 ; -----------------------------------------------------------
 
 class APSIMTamet2External
+
+   prepare                 : APSIMEvent                = Message to prepare for process
+   process                 : APSIMEvent                = Message to process
 
 end
 

@@ -16,8 +16,6 @@ class APSIMCorrelPublic
 
 ; main events
     sysinit                : APSIMMethod         = System initialise
-    prepare                : APSIMMethod         = System prepare stage
-    process                : APSIMMethod         = System process stage
     end_run                : APSIMMethod         = System end_run stage
 end
 ; -----------------------------------------------------------
@@ -34,6 +32,11 @@ class APSIMCorrelExternal
 
 ; variables from other modules by correl_get_other_variables
     g%name_found(i)         : APSIMReal             = Data values of variables found used for correlation, (), GET_OPT, -1000.0, 10000.0
+
+; events
+    prepare                : APSIMEvent         = System prepare stage
+    process                : APSIMEvent         = System process stage
+
 
 end
 
