@@ -124,4 +124,27 @@ void Macro::parseString(const string& contents)
          values.push_back(MacroValue(line));
       }
    }
+// ------------------------------------------------------------------
+// Set a macro value.
+// ------------------------------------------------------------------
+void Macro::setAttribute(const string& name, const string& value)
+   {
+   attributes.insert(Attributes::value_type(name, value));
+   }
+// ------------------------------------------------------------------
+//  Short description:
+//    Parse the specified string replacing any attributes found with
+//    their values.
+// ------------------------------------------------------------------
+void Macro::performMacroAttributeReplacement(string& text)
+   {
+   // replace all attributes in text.
+   for (Attributes::iterator a = attributes.begin();
+                             a != attributes.end();
+                             a++)
+      {
+      string stringToFind = getName() + "." + a->first;
+      Replace_all(text, stringToFind.c_str(), a->second.c_str());
+      }
+   }
 

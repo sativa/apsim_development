@@ -31,6 +31,9 @@ class Macro
       // return a macro attribute to caller.
       std::string getAttribute(const std::string& name) const;
 
+      // set a macro attribute.
+      void setAttribute(const std::string& name, const std::string& value);
+
       // return the number of values to caller.
       unsigned int getNumValues(void) const {return values.size();}
 
@@ -58,6 +61,9 @@ class Macro
       // Parse the specified string removing this macros' name and
       // replacing with 1 or more values.
       void performMacroReplacement(std::string& text);
+
+      void Macro::performMacroAttributeReplacement(std::string& text);
+
    private:
       typedef std::map<std::string, std::string, std::less<std::string> > Attributes;
       Attributes attributes;
