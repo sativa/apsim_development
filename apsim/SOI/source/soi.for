@@ -59,8 +59,8 @@
       parameter (this_routine='SOI_init')
 *+  Calls
 
-*+  Local Variables
-      character Table_name*100         ! name of table to open
+*+  Local Variables                  
+      character filename*100           ! filename of table to open
       logical ok
 
 *- Implementation Section ----------------------------------
@@ -69,17 +69,16 @@
 
       ! Zero variables
       call SOI_zero_variables()
+                            
+      ! read in the filename
+      if (read_parameter('filename', 'soi', filename, .false.)) then
+         ! create an external table object and open it
+         g%LU_SOI = newApsimDataFile(filename)
 
-      ! create an external table object and open it
-      g%LU_SOI = component_gettable(componentData, 'soi', ' ')
-
-      if (g%LU_SOI .ne. 0) then
          ! Read in all parameters from parameter file
          call SOI_read_phases ()
-      else
-         call Fatal_error (ERR_User, 'Cannot find soi file')
+         call deleteApsimDataFile(g%LU_SOI)
       endif
-      call component_freetable(g%LU_SOI)
 
       call pop_routine (this_routine)
       return
@@ -159,14 +158,14 @@
       ! Loop through the SOI file, reding the phases into an array
 
 10    continue
-      ok = ExternalTable_GetValueByIndex (g%LU_SOI, 0, St)
+      ok = ApsimDataFile_getFieldValue (g%LU_SOI, 0, St)
       if (ok) then
          call String_to_integer_var(St, Year, numvals)
-         ok = ExternalTable_GetValueByIndex (g%LU_SOI, 1, St)
+         ok = ApsimDataFile_getFieldValue (g%LU_SOI, 1, St)
       endif
       if (ok) then
          call String_to_integer_var(St, Month, numvals)
-         ok = ExternalTable_GetValueByIndex (g%LU_SOI, 2, St)
+         ok = ApsimDataFile_getFieldValue (g%LU_SOI, 2, St)
       endif
       if (ok) then
          call String_to_integer_var(St, Phase, numvals)
@@ -185,8 +184,7 @@
      .                                'SOI_inp_month')
 
          g%SOI_array(Year, Month) = Phase
-         call ExternalTable_Next(g%LU_SOI)
-         if (.not. ExternalTable_eof(g%LU_SOI)) then
+         if (.not. ApsimDataFile_Next(g%LU_SOI)) then
             goto 10
          endif
       endif
@@ -266,8 +264,6 @@
       integer   SOI_year               ! System year
       integer   SOI_units              ! SOI lag or month
 *
-      integer   SOI_get_units          ! function
-
 *- Implementation Section ----------------------------------
 
       call push_routine (this_routine)
@@ -385,7 +381,7 @@
 
       call pop_routine (this_routine)
       return
-      end subroutine
+      end function
 
 
 
@@ -420,6 +416,7 @@
       recursive subroutine Main (action, data)
 * ====================================================================
       Use infrastructure
+      Use SOIModule
       implicit none
       ml_external Main
 

@@ -2,9 +2,9 @@
 Dependency = %licensed_source(soi)
 
 [Contents]
-ComponentInterface.for = ComponentInterface.for
+ComponentInterface.f90 = ComponentInterface.f90
 soi.for = soi.for
 
 [APSBuild]
 binary = ..\lib\soi.dll
-moduletype=module
+compilerfile=release.compile
