@@ -20,9 +20,11 @@ using namespace std;
 //    DPH 5/4/01
 
 // ------------------------------------------------------------------
-extern "C" AddInBase* _export __stdcall createAddIn(const string& parameters)
+extern "C" AddInBase* _export __stdcall createAddIn(const string& parameters, bool& success)
    {
-   return new DatabaseAddIn(parameters);
+   DatabaseAddIn* dbAddIn = new DatabaseAddIn(parameters, success);
+   //return new DatabaseAddIn(parameters);
+   return dbAddIn;
    }
 
 // ------------------------------------------------------------------
@@ -147,17 +149,17 @@ class ReadData
 //    DPH 24/9/98
 
 // ------------------------------------------------------------------
-DatabaseAddIn::DatabaseAddIn(const string& parameters)
+DatabaseAddIn::DatabaseAddIn(const string& parameters, bool& success)
    {
    if (parameters == "")
-      askUserForMDBs();
+      askUserForMDBs(success);
    else if (parameters.find("datasetsON") != string::npos)
-      askUserForDataSets();
+      askUserForDataSets(success);
    else
       {
       vector<string> filenames;
       Split_string(parameters, " ", filenames);
-      readAllDatabases(filenames);
+      readAllDatabases(filenames, success);
       }
    readAllImages();
    }
@@ -197,7 +199,7 @@ DatabaseAddIn::~DatabaseAddIn(void)
 //    DPH 24/9/98
 
 // ------------------------------------------------------------------
-void DatabaseAddIn::askUserForMDBs(void)
+void DatabaseAddIn::askUserForMDBs(bool& success)
    {
    TOpenDialog* OpenDialog = new TOpenDialog(NULL);
    OpenDialog->Filter = "MDB files (*.mdb)|*.MDB";
@@ -207,21 +209,25 @@ void DatabaseAddIn::askUserForMDBs(void)
       {
       vector<string> databaseFilenames;
       TStrings_2_stl(OpenDialog->Files, databaseFilenames);
-      readAllDatabases(databaseFilenames);
+      readAllDatabases(databaseFilenames, success);
       }
+   else
+      success = false;
    }
 
 
 
-void DatabaseAddIn::askUserForDataSets(void)
+void DatabaseAddIn::askUserForDataSets(bool& success)
    {
    Directory_select_form = new TDirectory_select_form(Application->MainForm);
    if (Directory_select_form->ShowModal() == mrOk)
       {
       vector<string> databaseFilenames;
       TStrings_2_stl(Directory_select_form->SelectedMDBs, databaseFilenames);
-      readAllDatabases(databaseFilenames);
+      readAllDatabases(databaseFilenames, success);
       }
+   else
+      success = false;
    delete Directory_select_form;
    }
 
@@ -238,7 +244,7 @@ void DatabaseAddIn::askUserForDataSets(void)
 //    DPH 4/4/2001 - moved from TSimulations_from_mdb.cpp
 
 // ------------------------------------------------------------------
-void DatabaseAddIn::readAllDatabases(vector<string>& databaseFilenames)
+void DatabaseAddIn::readAllDatabases(vector<string>& databaseFilenames, bool& success)
    {
 //   simulations.erase(simulations.begin(), simulations.end());
    delete_container(simulations);
@@ -247,6 +253,8 @@ void DatabaseAddIn::readAllDatabases(vector<string>& databaseFilenames)
                                  db != databaseFilenames.end();
                                  db++)
       readDatabase(*db);
+
+   success = true;
    }
 
 // ------------------------------------------------------------------
