@@ -830,8 +830,8 @@ cjh   crop type.
      :     ,'(-)'
      :     ,g_year
      :     ,numvals
-     :     ,1900
-     :     ,2020)
+     :     ,min_year
+     :     ,max_year)
  
          !maxt
       call get_real_var (
