@@ -131,7 +131,7 @@
 
       else if (action.eq.ACTION_init) then
          call SoilpH_zero_variables ()
-         call SoilpH_get_other_variables ()
+         call SoilpH_get_soil_layers ()
          call SoilpH_init ()
 
       elseif (Action.eq.ACTION_Create) then
@@ -1076,20 +1076,7 @@
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
-         ! Get day and year (for debugging).
- !cjh      call get_integer_var (unknown_module, 'day', '()'
- !cjh     :                            ,  e%day, numvals, 0, 366)
- !cjh      call get_integer_var (unknown_module, 'year', '()'
- !cjh     :                             , e%year, numvals, 1000, 3000)
-
-         ! Thickness of the soil layer (mm) and number of layers.
-      call get_real_array (unknown_module
-     :                     , 'dlayer'
-     :                     , max_layer
-     :                     , '(mm)'
-     :                     , e%dlayer
-     :                     , e%num_layers
-     :                     , 1.0, 1000.0)
+      call SoilpH_get_soil_layers ()
 
          ! Amount of rain for today.
       call get_real_var (unknown_module
@@ -1113,6 +1100,47 @@
          ! Get other things.
       call SoilpH_get_crop_uptakes ()  ! Get uptakes from each crop.
       call soilpH_get_org_C_fract ()   ! Get fraction of organic carbon in the layer.
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+*     ===========================================================
+      subroutine SoilpH_get_soil_layers ()
+*     ===========================================================
+      use SoilpHModule
+      implicit none
+      include   'const.inc'
+      include   'data.pub'
+      include   'intrface.pub'
+      include   'error.pub'
+
+*+  Purpose
+*      Get the values of variables from other modules
+
+*+  Mission Statement
+*      Get the values of variables from other modules
+
+*+  Changes
+*     170699 sb   created
+
+*+  Constant Values
+      character  my_name*(*)
+      parameter (my_name='SoilpH_get_soil_layers')
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+         ! Thickness of the soil layer (mm) and number of layers.
+      call get_real_array (unknown_module
+     :                     , 'dlayer'
+     :                     , max_layer
+     :                     , '(mm)'
+     :                     , e%dlayer
+     :                     , e%num_layers
+     :                     , 1.0, 1000.0)
+
 
       call pop_routine (my_name)
       return
@@ -1273,6 +1301,7 @@
       call pop_routine (my_name)
       return
       end
+
 
 *     ===========================================================
       subroutine SoilpH_uptake_equiv (crop_module
@@ -2940,7 +2969,7 @@
       call push_routine (my_name)
 
       if (.not. isOK) then
-         call fatal_error (err_user, err_msg)
+         call fatal_error (err_user, 'Test Failed: '//err_msg)
 !cjh         print *, 'ASSERT FAIL: '//err_msg
       end if
 
