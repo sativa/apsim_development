@@ -1,11 +1,15 @@
-[apsim.sample_sugar]  
-  Module = clock    sugar.par [sample]      
-  Module = report   sugar.par [sample]      
-  Module = met      %apsuite\apsim\met\SAMPLE\INGHAM.MET [weather]      
-  Module = manager  sugar.par [sample]      
-  Module = irrigate sugar.par [sample]      
-  Module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini [standard]      
-  Module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]      
-  Module = residue2 %apsuite\apsim\residue2\sample\residue2.par [sugar_residue]     %apsuite\apsim\residue2\residue2.ini [standard]      
-  Module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]      
-  Module = sugar    sugar.par [sample]      %apsuite\apsim\sugar\sugar.ini [standard]      
+[apsim.sample_sugar]
+version=2.2
+title=Sugar Sample Simulation
+summaryfile=sugar.sum
+screen_output=on
+module = clock    sugar.par [sample]
+module = report   sugar.par [sample]
+module = Input(Met)      %apsuite\apsim\met\SAMPLE\INGHAM.MET [weather]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = irrigate sugar.par [sample]
+module = manager  sugar.par [sample]
+module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = residue2 %apsuite\apsim\residue2\sample\residue2.par [sugar_residue]     %apsuite\apsim\residue2\residue2.ini [standard]
+module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = sugar    sugar.par [sample]      %apsuite\apsim\sugar\sugar.ini [standard]
