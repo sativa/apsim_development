@@ -1,0 +1,165 @@
+include base.interface
+
+; -----------------------------------------------------------
+; Soiln2's public interface which other components may
+; use.  Contains:
+;    Properties which other components may get or set
+;    Methods which other components may call
+;    Events which other components may trap (or subscribe to)
+; -----------------------------------------------------------
+
+class APSIMsoiln2Public
+   no3                      : APSIMRealArray         = Nitrate nitrogen, (kg/ha), GET|SET, 0.0, 1000.0
+   dlt_no3_net              : APSIMRealArray         = Net nitrate nitrogen, (kg/ha), GET
+   no3ppm                   : APSIMRealArray         = Soil nitrate concentration, (ppm), GET|READ|SET, 0.0, 300.0
+   no3_min                  : APSIMRealArray         = Minimum allowable no3, (kg/ha), GET
+   dlt_no3                  : APSIMRealArray         = dlt_no3, (kg/ha), SET
+   dlt_no3ppm               : APSIMRealArray         = dlt_no3ppm, (ppm), SET
+   nh4                      : APSIMRealArray         = Ammonium nitrogen, (kg/ha), GET|SET, 0.0, 1000.0
+   dlt_nh4_net              : APSIMRealArray         = Net ammonium nitrogen, (kg/ha), GET
+   nh4ppm                   : APSIMRealArray         = Soil ammonium concentration, (ppm), GET|READ|SET, 0.0, 300.0
+   nh4_min                  : APSIMRealArray         = Minimum allowable nh4, (kg/ha), GET
+   dlt_nh4                  : APSIMRealArray         = dlt_nh4, (kg/ha), SET
+   dlt_nh4ppm               : APSIMRealArray         = dlt_nh4ppm, (ppm), SET
+   urea                     : APSIMRealArray         = Urea nitrogen, (kg/ha), GET|SET, 0.0, 1000.0
+   ureappm                  : APSIMRealArray         = Soil urea concentration, (ppm), READ, 0.0, 600.0
+   dlt_urea                 : APSIMRealArray         = dlt_urea, (kg/ha), SET
+   fom_n                    : APSIMRealArray         = Nitrogen in fresh organic matter, (kg/ha), GET
+   hum_n                    : APSIMRealArray         = Nitrogen in humus, (kg/ha), GET
+   biom_n                   : APSIMRealArray         = Nitrogen in biomass, (kg/ha), GET
+   fom_c                    : APSIMRealArray         = Fresh organic carbon, (kg/ha), GET
+   hum_c                    : APSIMRealArray         = Humic carbon, (kg/ha), GET
+   biom_c                   : APSIMRealArray         = Biomass carbon, (kg/ha), GET
+   carbon_tot               : APSIMRealArray         = Total carbon in soil, (kg/ha), GET
+   oc%                      : APSIMRealArray         = Organic carbon concentration, (kg/ha), GET, 0.01, 4.0
+   nit_tot                  : APSIMRealArray         = Total N in soil, (kg/ha), GET
+   dlt_n_min                : APSIMRealArray         = Net mineralisation, (kg/ha), GET
+   dlt_n_min_res            : APSIMRealArray         = Net mineralization of No3 and Nh4 from residue, (kg/ha), GET
+   dlt_n_min_tot            : APSIMRealArray         = Total N mineralization, (kg/ha), GET
+   nh4_transform_net        : APSIMRealArray         = net NH4 transformation today, (kg/ha), GET
+   dlt_res_nh4_min          : APSIMRealArray         = Net Residue NH4 mineralisationn, (kg/ha), GET
+   dlt_fom_n_min            : APSIMRealArray         = net fom N mineralized (negative for immobilization), (kg/ha), GET
+   dlt_biom_n_min           : APSIMRealArray         = net biomass N mineralized, (kg/ha), GET
+   dlt_hum_n_min            : APSIMRealArray         = net humic N mineralized, (kg/ha), GET
+   dlt_rntrf                : APSIMRealArray         = nitrogen moved by nitrification, (kg/ha), GET
+   dlt_urea_hydrol          : APSIMRealArray         = nitrogen moved by hydrolysis, (kg/ha), GET
+   excess_nh4               : APSIMRealArray         = excess N required above NH4 supply, (kg/ha), GET
+   no3_transform_net        : APSIMRealArray         = net NO3 transformation today, (kg/ha), GET
+   dlt_res_no3_min          : APSIMRealArray         = Net Residue NO3 mineralisation, (kg/ha), GET
+   dlt_no3_dnit             : APSIMRealArray         = N denitrified, (kg/ha), GET
+   dnit                     : APSIMRealArray         = N denitrified, (kg/ha), GET
+   dlt_c_loss_in_sed        : APSIMRealArray         = Total C losses, (kg/ha), GET
+   dlt_n_loss_in_sed        : APSIMRealArray         = Total N losses, (kg/ha), GET
+   st                       : APSIMRealArray         = Soil temperature, (oC), GET
+   org_c_pool               : APSIMRealArray         = Organic carbon pool, (kg/ha), GET|SET
+   org_n                    : APSIMRealArray         = Organic nitrogen pool, (kg/ha), GET
+   dlt_fom_c_hum            : APSIMRealArray         = Fresh organic matter carbon from humis, (kg/ha), GET
+   dlt_fom_c_biom           : APSIMRealArray         = Fresh organic matter carbon from biomass, (kg/ha), GET
+   dlt_fom_c_atm            : APSIMRealArray         = Fresh organic matter carbon from atmosphere, (kg/ha), GET
+   dlt_hum_c_biom           : APSIMRealArray         = Humic carbon from biomass, (kg/ha), GET
+   dlt_hum_c_atm            : APSIMRealArray         = Humic carbon from atmosphere, (kg/ha), GET
+   dlt_biom_c_hum           : APSIMRealArray         = Biomass carbon from humus, (kg/ha), GET
+   dlt_biom_c_atm           : APSIMRealArray         = Biomass carbon from atmosphere, (kg/ha), GET
+   dlt_res_c_biom           : APSIMRealArray         = Residue carbon from biomass, (kg/ha), GET
+   dlt_res_c_hum            : APSIMRealArray         = Residue carbon from humus, (kg/ha), GET
+   dlt_res_c_atm            : APSIMRealArray         = Residue carbon from atmosphere, (kg/ha), GET
+   amp                      : APSIMReal              = Temperature amplitude - difference between highest and lowest mean monthly air temperatures, (oC), READ_OPT, 0.0, 50.0
+   tav                      : APSIMReal              = Mean annual air temperature, (oC), READ_OPT, 0.0, 50.0
+   root_cn                  : APSIMReal              = C:N ratio of initial root residues, (), READ, 0.0, 500.0
+   root_wt                  : APSIMReal              = Initial weight of root fresh organic matter in soil profile, (kg/ha), READ, 0.0, 100000.0
+   soil_cn                  : APSIMReal              = C:N ratio of the soil, (kg/ha), READ, 5.0, 30.0
+   oc                       : APSIMRealArray         = Organic carbon, (%), READ, 0.01, 4.0
+   ph                       : APSIMRealArray         = Soil pH, (), READ, 3.5, 10.0
+   fbiom                    : APSIMRealArray         = Initial BIOM as proportion of non_inert C, (0-1), READ, 0.0, 1.0
+   finert                   : APSIMRealArray         = Proportion of initial organic C assumed to be inert, (0-1), READ, 0.0, 1.0
+   enr_a_coeff              : APSIMReal              = Enrichment equation coefficient, (), READ, 0.0, 20.0
+   enr_b_coeff              : APSIMReal              = Enrichment equation coefficient, (), READ, 0.0, 20.0
+   profile_reduction        : APSIMString            = Profile reduction,(), READ
+   mcn                      : APSIMReal              = C:N ratio of microbes,(), READ, 1.0, 50.0
+   ef_fom                   : APSIMReal              = Fraction of fresh organic matter C mineralized retained in system, (), READ, 0.0, 1.0
+   fr_fom_biom              : APSIMReal              = Fraction of retained fresh organic matter C transferred to biomass, (), READ, 0.0, 1.0
+   ef_biom                  : APSIMReal              = Fraction of biomass C mineralized retained in the system, (), READ, 0.0, 1.0
+   fr_biom_biom             : APSIMReal              = Fraction of retained biomass C returned to biomass, (), READ, 0.0, 1.0
+   ef_hum                   : APSIMReal              = Fraction of humic C mineralized retained in system, (), READ, 0.0, 1.0
+   rd_biom                  : APSIMReal              = Potential rate of soil biomass mineralization, (), READ, 0.0, 1.0
+   rd_hum                   : APSIMReal              = Potential rate of humus mineralization, (), READ, 0.0, 1.0
+   ef_res                   : APSIMReal              = Fraction of residue C mineralized retained in the system, (), READ, 0.0, 1.0
+   fr_res_biom              : APSIMReal              = Fraction of retained residue C transferred to biomass, (), READ, 0.0, 1.0
+   rd_carb                  : APSIMReal              = Maximum rate constant for decomposition of fresh organic matter pools, (), READ, 0.0, 1.0
+   rd_cell                  : APSIMReal              = Maximum rate constant for decomposition of fresh organic matter pools, (), READ, 0.0, 1.0
+   rd_lign                  : APSIMReal              = Maximum rate constant for decomposition of fresh organic matter pools, (), READ, 0.0, 1.0
+   fom_type                 : APSIMStringArray       = List of fresh organic types, (), READ
+   fr_carb                  : APSIMRealArray         = Carbohydrate cellulose & libnin fractions of FOM, (), READ, 0.0, 1.0
+   fr_cell                  : APSIMRealArray         = Carbohydrate cellulose & libnin fractions of FOM, (), READ, 0.0, 1.0
+   fr_lign                  : APSIMRealArray         = Carbohydrate cellulose & libnin fractions of FOM, (), READ, 0.0, 1.0
+   oc2om_factor             : APSIMReal              = oc2om_factor, (), READ, 0.0, 3.0
+   fom_min                  : APSIMReal              = Minimum allowable fresh organic matter, (), READ, 0.0, 1.0
+   no3ppm_min               : APSIMReal              = Minimum allowable NO3 ppm, (), READ, 0.0, 1.0
+   nh4ppm_min               : APSIMReal              = Minimum allowable NH4 ppm, (), READ, 0.0, 1.0
+   min_depth                : APSIMReal              = Depth from which mineral N can be immobilized by decomposing residues, (mm), READ, 0.0, 1000.0
+   cnrf_coeff               : APSIMReal              = Coefficient to determine the magnitude of C:N effects on decomposition, (mm), READ, 0.0, 10.0
+   cnrf_optcn               : APSIMReal              = C:N above which decomposition rate of FOM declines, (mm), READ, 5.0, 100.0
+   opt_temp                 : APSIMReal              = Soil temperature above which there is no further effect on mineralisation and nitrification, (oC), READ, 5.0, 100.0
+   wfmin_index              : APSIMRealArray         = Index specifying water content for water factor for mineralisation, (), READ, 0.0, 2.0
+   wfmin_values             : APSIMRealArray         = Value of water factor (mineralisation) function at given index values, (), READ, 0.0, 1.0
+   wfnit_index              : APSIMRealArray         = Index specifying water content for water factor for nitrification, (), READ, 0.0, 2.0
+   wfnit_values             : APSIMRealArray         = Value of water factor (nitrification) function at given index values, (), READ, 0.0, 1.0
+   nitrification_pot        : APSIMReal              = Potential nitrification by soil, (ppm), READ, 0.0, 100.0
+   nh4_at_half_pot          : APSIMReal              = Nh4 concentration at half potential, (ppm), READ, 0.0, 200.0
+   phf_nit_ph               : APSIMRealArray         = pH values for specifying pH factor for nitrification, (), READ, 0.0, 14.0
+   phf_nit_values           : APSIMRealArray         = Value of pH factor (nitrification) function for given pH values, (0-1), READ, 0.0, 1.0
+   dnit_rate_coeff          : APSIMReal              = dnit_rate_coeff, (kg/mg), READ, 0.0, 1.0
+   dnit_wf_power            : APSIMReal              = dnit_wf_power, (), READ, 0.0, 5.0
+   n_reduction              : APSIMString            = n_reduction, (), SET
+   dlt_org_n                : APSIMRealArray         = dlt_org_n, (), SET
+   dlt_org_c_pool           : APSIMRealArray         = dlt_org_c_pool, (), SET
+
+   sysinit                 : APSIMMethod                = System initialise
+   reset                   : APSIMMethod                = System reset stage
+   sum_report              : APSIMMethod                = Report SoilN2 module summary details
+   create                  : APSIMMethod                = System create stage
+   incorp_fom              : APSIMIncorporateFOMMethod  = Incorporate fresh organic matter
+
+   new_solute              : APSIMNewSoluteEvent        = New solute event
+   n_balance               : APSIMNitrogenBalanceEvent  = To notify all interested modules in the completion of the soil N calculations, including all N transformation processes for soil organic and inorganic pools
+   c_balance               : APSIMCarbonBalanceEvent    = To notify all interested modules in the completion of the soil C calculations, including all C transformation processes for soil organic pools
+
+end
+
+; -----------------------------------------------------------
+; Soiln2's external interface which documents things in other 
+; components that this component uses.
+; Contains:
+;    Properties used in other components
+;    Methods called in other components
+;    Events from other components that this component uses.
+; -----------------------------------------------------------
+
+class APSIMSoiln2External
+   amp                      : APSIMReal                               = Temperature amplitude - difference between highest and lowest mean monthly air temperatures, (oC), GET_OPT, 0.0, 50.0
+   tav                      : APSIMReal                               = Mean annual air temperature, (oC), GET_OPT, 0.0, 50.0
+   sw_dep                   : APSIMRealArray                          = Soil water content, (mm), GET, 0.00001, 1000.0
+   ll15_dep                 : APSIMRealArray                          = Lower limit at 15bar of soil water content, (mm), GET, 0.00001, 1000.0
+   dul_dep                  : APSIMRealArray                          = Drained upper limit soil water content, (mm), GET, 0.00001, 1000.0
+   sat_dep                  : APSIMRealArray                          = Saturated water content, (mm), GET, 0.00001, 1000.0
+   bd                       : APSIMRealArray                          = Moist bulk density of soil, (g/cc), GET, 0.01, 3.0
+   dlayer                   : APSIMRealArray                          = dlayer, (mm), GET, 0.00001, 5000.0
+   soil_loss                : APSIMRealArray                          = Soil loss, (t/ha), GET, 0.0, 1000.0
+   ph                       : APSIMRealArray                          = Soil ph, (), GET, 3.5, 10.0
+
+   do_decompose             : APSIMDecomposeResidueMethod             = Decompose residue method
+
+   tick                     : APSIMClockTickEvent                     = Clock tick event
+   newmet                   : APSIMNewMetEvent                        = New met event
+   pot_decomp               : APSIMPotentialResidueDecompositionEvent = Potential decomposition of residue event
+   new_profile              : APSIMNewProfileEvent                    = To notify all interested modules of the change in soil water profile characteristic information
+   process                  : APSIMEvent                              = System process stage
+   
+end
+
+class APSIMSoiln2
+   dll       : string
+   public    : APSIMSoiln2Public
+   External  : APSIMSoiln2External
+end
+

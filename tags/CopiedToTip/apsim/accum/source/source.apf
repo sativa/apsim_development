@@ -1,0 +1,9 @@
+[Dependencies]
+Dependency = %licensed_source(accum)
+
+[Contents]
+accum.for = accum.for
+
+[APSBuild]
+binary = ..\lib\accum.dll
+moduletype=module

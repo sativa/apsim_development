@@ -1,0 +1,9 @@
+[Dependencies]
+Dependency = %licensed_source(ozcot)
+
+[Contents]
+ozcot.for = ozcot.for
+
+[APSBuild]
+binary = ..\lib\ozcot.dll
+moduletype=module

@@ -1,0 +1,9 @@
+[Dependencies]
+Dependency = %licensed_source(manager)
+
+[Contents]
+manager.for = manager.for
+
+[APSBuild]
+binary = ..\lib\manager.dll
+moduletype = module

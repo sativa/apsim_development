@@ -1,0 +1,42 @@
+include base.interface
+
+; -----------------------------------------------------------
+; MANAGERs public interface which other components may
+; use.  Contains:
+;    Properties which other components may get or set
+;    Methods which other components may call
+;    Events which other components may trap (or subscribe to)
+; -----------------------------------------------------------
+class APSIMManagerPublic
+   init    : APSIMRule = Initialisation rules, (), READ
+   prepare : APSIMRule = Prepare stage(start of day) rules, (), READ
+   process : APSIMRule = Process stage(daily) rules, (), READ
+   post    : APSIMRule = Post stage(end of day) rules, (), READ
+
+   sysinit : APSIMMethod = System initialise
+
+end
+; -----------------------------------------------------------
+; MANAGERs external interface which documents things in other 
+; components that this component uses.
+; Contains:
+;    Properties used in other components
+;    Methods called in other components
+;    Events from other components that this component uses.
+; -----------------------------------------------------------
+class APSIMManagerExternal
+   today : APSIMReal = Today, (day)
+   day   : APSIMInteger = Day, (day)
+   year  : APSIMInteger = Year, (year)
+
+   prepare    : APSIMEvent      = System prepare
+   process    : APSIMEvent      = System process
+   post       : APSIMEvent      = System post
+
+end
+
+class APSIMManager : APSIMComponent
+   dll  : String
+   public  : APSIMManagerPublic
+   external   : APSIMManagerExternal
+end
