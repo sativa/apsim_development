@@ -9,6 +9,12 @@
 #include <functional>
 using namespace std;
 
+HANDLE DLLHandle;
+void _stdcall (*RENAME_VARIABLE) (const char* oldName,
+                                  const char* newName,
+                                  unsigned int oldNameSize,
+                                  unsigned int newNameSize) = NULL;
+
 // ------------------------------------------------------------------
 //  Short description:
 //    Class for encapsulating a particular event and the components
@@ -110,24 +116,83 @@ class EventRegistration
 class VariableRegistration
    {
    public:
-      VariableRegistration(void) : imported(true) { };
-      VariableRegistration(PROTOCOLCoordinator* coord)
-         : exportCoordinator(coord), imported(false) { };
-      void setIsImported(void)
-         {imported = true;}
-      void setExportComponent(PROTOCOLCoordinator* coordinator)
-         {exportCoordinator = coordinator;}
-      bool isImported(void)
-         {return imported;}
+      VariableRegistration(PROTOCOLCoordinator* coord,
+                           bool variablesend,
+                           const string& realname)
+         : coordinator(coord),
+           variableSend(variablesend),
+           realName(realname) { };
 
-      bool getVariable(const FString& variableName)
+      bool getVariable(const FString& aliasName)
          {
-         return exportCoordinator->getVariable(variableName);
+         // If the variable is a variableReceive then go ask parent for variable.  If found
+         bool ok;
+         if (!variableSend)
+            {
+            ok = coordinator->parent->getVariable(FString(realName.c_str()));
+            RENAME_VARIABLE(realName.c_str(), aliasName.f_str(),
+                            realName.length(), aliasName.length());
+            return true;
+            }
+         else
+            return false;
+         }
+      bool isPublicVariable(void)
+         {
+         return variableSend;
+         }
+      string getRealName(void)
+         {
+         return realName;
+         }
+      bool setVariable(void)
+         {
+         // If the variable is a variableReceive then go ask parent to set the variable.  If found
+         if (!variableSend)
+            return coordinator->parent->setVariable(FString(realName.c_str()));
+         else
+            return false;
          }
 
    private:
-      bool imported;
-      PROTOCOLCoordinator* exportCoordinator;
+      bool variableSend;
+      string realName;
+      PROTOCOLCoordinator* coordinator;
+   };
+// ------------------------------------------------------------------
+//  Short description:
+//    Class for encapsulating a particular method registration
+
+//  Notes:
+
+//  Changes:
+//    dph 6/3/2001
+
+// ------------------------------------------------------------------
+class MethodRegistration
+   {
+   public:
+      MethodRegistration(PROTOCOLCoordinator* coord,
+                         const string& internalName)
+         : coordinator(coord)
+         {
+         unsigned int posSpace = internalName.find(" ");
+         if (posSpace == string::npos)
+            throw string("Bad method name: " + internalName);
+         componentName = internalName.substr(0, posSpace);
+         action = internalName.substr(posSpace+1);
+         };
+
+      bool sendMessage(void)
+         {
+         return coordinator->sendMessage(FString(componentName.c_str()),
+                                         PROTOCOLMessage(FString(action.c_str())));
+         }
+
+   private:
+      string componentName;
+      string action;
+      PROTOCOLCoordinator* coordinator;
    };
 
 
@@ -150,6 +215,12 @@ PROTOCOLCoordinator::PROTOCOLCoordinator(const string& name,
    : PROTOCOLComponent(name, this), systemConfiguration(sysConfiguration)
    {
    parent = aParent;
+   if (RENAME_VARIABLE == NULL)
+      {
+      DLLHandle = LoadLibrary ("apsinfra.dll");
+      if (DLLHandle != NULL)
+         (FARPROC) RENAME_VARIABLE = GetProcAddress (DLLHandle, "rename_variable");
+      }
    }
 
 // ------------------------------------------------------------------
@@ -164,6 +235,7 @@ PROTOCOLCoordinator::PROTOCOLCoordinator(const string& name,
 // ------------------------------------------------------------------
 PROTOCOLCoordinator::~PROTOCOLCoordinator(void)
    {
+   FreeLibrary(DLLHandle);
    delete systemConfiguration;
    while (!components.empty())
       {
@@ -176,6 +248,20 @@ PROTOCOLCoordinator::~PROTOCOLCoordinator(void)
                                         i++)
       {
 		EventRegistration* Ptr = (*i).second;
+		delete Ptr;
+		}
+   for (MethodRegistrationList::iterator i = methodRegistrations.begin();
+                                         i != methodRegistrations.end();
+                                         i++)
+      {
+		MethodRegistration* Ptr = (*i).second;
+		delete Ptr;
+		}
+   for (VariableRegistrationList::iterator i = variableRegistrations.begin();
+                                           i != variableRegistrations.end();
+                                           i++)
+      {
+		VariableRegistration* Ptr = (*i).second;
 		delete Ptr;
 		}
    }
@@ -194,6 +280,7 @@ void PROTOCOLCoordinator::create()
    // read in all event and variable registrations.
    readEventRegistrations();
    readVariableRegistrations();
+   readMethodRegistrations();
 
    // loop through all components specified in configuration and create
    // and add a component object to our list of components.
@@ -709,12 +796,13 @@ void PROTOCOLCoordinator::changeComponentOrder(vector<string>& componentsToChang
 void PROTOCOLCoordinator::readEventRegistrations(void)
    {
    list<string> subscribedEventNames;
-   systemConfiguration->getEventSubscribeRegistrations(subscribedEventNames);
+   systemConfiguration->getEventReceives(subscribedEventNames);
    for (list<string>::iterator subNameI = subscribedEventNames.begin();
                                subNameI != subscribedEventNames.end();
                                subNameI++)
       {
-      parent->registerSubscribedEvent((*subNameI).c_str(), getName().c_str());
+      parent->registerSubscribedEvent(FString((*subNameI).c_str()),
+                                      FString(getName().c_str()));
       }
    }
 // ------------------------------------------------------------------
@@ -729,27 +817,33 @@ void PROTOCOLCoordinator::readEventRegistrations(void)
 // ------------------------------------------------------------------
 void PROTOCOLCoordinator::readVariableRegistrations(void)
    {
-   list<string> importedVariableNames;
-   systemConfiguration->getVariableImportRegistrations(importedVariableNames);
-   for (list<string>::iterator nameI = importedVariableNames.begin();
-                               nameI != importedVariableNames.end();
-                               nameI++)
+   // read in all variable sends.
+   list<string> variableSendNames, variableSendAliases;
+   systemConfiguration->getVariableSends(variableSendNames, variableSendAliases);
+   for (list<string>::iterator nameI = variableSendNames.begin(),
+                               aliasI = variableSendAliases.begin();
+                               nameI != variableSendNames.end();
+                               nameI++,aliasI++)
       {
-      addVariableImport(*nameI);
+      variableRegistrations.insert(VariableRegistrationList::value_type
+         (*aliasI, new VariableRegistration(this, true, *nameI)));
       }
 
-   list<string> exportedVariableNames;
-   systemConfiguration->getVariableExportRegistrations(exportedVariableNames);
-   for (list<string>::iterator nameI = exportedVariableNames.begin();
-                               nameI != exportedVariableNames.end();
-                               nameI++)
+   // read in all variable receives.
+   list<string> variableReceiveNames, variableReceiveAliases;
+   systemConfiguration->getVariableReceives(variableReceiveNames, variableReceiveAliases);
+   for (list<string>::iterator nameI = variableReceiveNames.begin(),
+                               aliasI = variableReceiveAliases.begin();
+                               nameI != variableReceiveNames.end();
+                               nameI++,aliasI++)
       {
-      dynamic_cast<PROTOCOLCoordinator*>(parent)->addVariableExport(*nameI, this);
+      variableRegistrations.insert(VariableRegistrationList::value_type
+         (*aliasI, new VariableRegistration(this, false, *nameI)));
       }
    }
 // ------------------------------------------------------------------
 //  Short description:
-//     add variable import to our variable registrations.
+//     read all method registrations for this Coordinator.
 
 //  Notes:
 
@@ -757,53 +851,20 @@ void PROTOCOLCoordinator::readVariableRegistrations(void)
 //    dph 6/3/2001
 
 // ------------------------------------------------------------------
-void PROTOCOLCoordinator::addVariableImport(const string& variableName)
+void PROTOCOLCoordinator::readMethodRegistrations(void)
    {
-   for (VariableRegistrationList::const_iterator varRegI = variableRegistrations.begin();
-                                                 varRegI != variableRegistrations.end();
-                                                 varRegI++)
+   // read in all variable sends.
+   list<string> methodReceiveNames, methodReceiveAliases;
+   systemConfiguration->getMethodReceives(methodReceiveNames, methodReceiveAliases);
+   for (list<string>::iterator nameI = methodReceiveNames.begin(),
+                               aliasI = methodReceiveAliases.begin();
+                               nameI != methodReceiveNames.end();
+                               nameI++,aliasI++)
       {
-      if (variableName == (*varRegI).first.c_str())
-         {
-         ((*varRegI).second)->setIsImported();
-         break;
-         }
+      methodRegistrations.insert(MethodRegistrationList::value_type
+         (*aliasI, new MethodRegistration(this, *nameI)));
       }
-   // no former registration found - add one.
-   VariableRegistration* ptr = new VariableRegistration;
-   variableRegistrations.insert(
-      VariableRegistrationList::value_type(variableName.c_str(), ptr));
-
    }
-// ------------------------------------------------------------------
-//  Short description:
-//     add variable export to our variable registrations.
-
-//  Notes:
-
-//  Changes:
-//    dph 6/3/2001
-
-// ------------------------------------------------------------------
-void PROTOCOLCoordinator::addVariableExport(const string& variableName,
-                                            PROTOCOLCoordinator* component)
-   {
-   for (VariableRegistrationList::const_iterator varRegI = variableRegistrations.begin();
-                                                 varRegI != variableRegistrations.end();
-                                                 varRegI++)
-      {
-      if (variableName == (*varRegI).first.c_str())
-         {
-         ((*varRegI).second)->setExportComponent(component);
-         break;
-         }
-      }
-   // no former registration found - add one.
-   VariableRegistration* ptr = new VariableRegistration(component);
-   variableRegistrations.insert(
-      VariableRegistrationList::value_type(variableName.c_str(), ptr));
-   }
-
 // ------------------------------------------------------------------
 //  Short description:
 //     retrieve a variable from the system.
@@ -817,20 +878,13 @@ void PROTOCOLCoordinator::addVariableExport(const string& variableName,
 bool PROTOCOLCoordinator::getVariable(const FString& variableName)
    {
    // try and locate our variable in the variable registration list.  If found
-   // and the variable is imported then go ask parent for variable.  If found
-   // and the variable is exported from some sub-system, then go ask that
-   // sub-system for the variable.
-   for (VariableRegistrationList::const_iterator varRegI = variableRegistrations.begin();
-                                                 varRegI != variableRegistrations.end();
-                                                 varRegI++)
+   // then tell the registration to get the variable.
+   VariableRegistrationList::const_iterator varI
+      = variableRegistrations.find(string(variableName.c_str()));
+   if (varI != variableRegistrations.end())
       {
-      if (variableName == (*varRegI).first.c_str())
-         {
-         if ((*varRegI).second->isImported())
-            return parent->getVariable(variableName);
-         else
-            return (*varRegI).second->getVariable(variableName);
-         }
+      if ((*varI).second->getVariable(variableName))
+         return true;
       }
 
    // NOT FOUND in Variable registration list - go ask APSIM
@@ -848,5 +902,144 @@ bool PROTOCOLCoordinator::getVariable(const FString& variableName)
       {
       return false;
       }
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//     retrieve a variable from a specific component.
+
+//  Notes:
+
+//  Changes:
+//    dph 6/3/2001
+
+// ------------------------------------------------------------------
+bool PROTOCOLCoordinator::getVariable(const FString& componentName,
+                                      const FString& variableName)
+   {
+   try
+      {
+      componentResponded = false;
+      unsigned posArray = variableName.find('(');
+      bool ok;
+      if (posArray != std::string::npos)
+         ok = sendMessage
+            (componentName, PROTOCOLMessage("get", variableName.substr(0, posArray)));
+      else
+         ok = sendMessage
+            (componentName, PROTOCOLMessage("get", variableName));
+      return (ok && componentResponded);
+      }
+   catch (std::string& msg)
+      {
+      return false;
+      }
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//     set a variable in a given component.
+
+//  Notes:
+
+//  Changes:
+//    dph 6/3/2001
+
+// ------------------------------------------------------------------
+bool PROTOCOLCoordinator::setVariable(const FString& variableName)
+   {
+   // try and locate our variable in the variable registration list.  If found
+   // then tell the registration to set the variable.
+   VariableRegistrationList::const_iterator varI
+      = variableRegistrations.find(string(variableName.c_str()));
+   if (varI != variableRegistrations.end())
+      {
+      if ((*varI).second->setVariable())
+         return true;
+      }
+
+   return sendMessageToFirst(PROTOCOLMessage("set", variableName));
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//     retrieve a variable from this system only.  Return true if found.
+
+//  Notes:
+
+//  Changes:
+//    dph 6/3/2001
+
+// ------------------------------------------------------------------
+bool PROTOCOLCoordinator::getSystemVariable(const FString& variableName)
+   {
+   // make sure this variable is a public variable.
+   VariableRegistrationList::const_iterator varI
+      = variableRegistrations.find(string(variableName.c_str()));
+   if (varI != variableRegistrations.end() && (*varI).second->isPublicVariable())
+      {
+      // Go locate variable - go ask APSIM
+      string realName = (*varI).second->getRealName();
+      unsigned posArray = realName.find('(');
+      try
+         {
+         bool ok;
+         if (posArray != std::string::npos)
+            ok = sendMessageToFirst(PROTOCOLMessage("get", realName.substr(0, posArray-1).c_str()));
+         else
+            ok = sendMessageToFirst(PROTOCOLMessage("get", realName.c_str()));
+         if (ok)
+            RENAME_VARIABLE(realName.c_str(), variableName.f_str(),
+                            realName.length(), variableName.length());
+         return ok;
+         }
+      catch (std::string& msg)
+         {
+         return false;
+         }
+      }
+   else
+      return false;
+   }
+// ------------------------------------------------------------------
+//  Short description:
+//     set a variable in this system
+
+//  Notes:
+
+//  Changes:
+//    dph 6/3/2001
+
+// ------------------------------------------------------------------
+bool PROTOCOLCoordinator::setSystemVariable(const FString& variableName)
+   {
+   // make sure this variable is a public variable.
+   VariableRegistrationList::const_iterator varI
+      = variableRegistrations.find(string(variableName.c_str()));
+   if (varI != variableRegistrations.end() && (*varI).second->isPublicVariable())
+      return sendMessageToFirst(PROTOCOLMessage("set", variableName));
+   else
+      return false;
+   }
+// ------------------------------------------------------------------
+//  Short description:
+//     method call comming in from another system
+
+//  Notes:
+
+//  Changes:
+//    dph 6/3/2001
+
+// ------------------------------------------------------------------
+bool PROTOCOLCoordinator::doSystemMessage(PROTOCOLMessage& Message)
+   {
+   // try and locate our variable in the variable registration list.  If found
+   // then tell the registration to set the variable.
+   MethodRegistrationList::const_iterator methodI
+      = methodRegistrations.find(string(Message.action.c_str()));
+   if (methodI != methodRegistrations.end())
+      return (*methodI).second->sendMessage();
+   else
+      return false;
    }
 

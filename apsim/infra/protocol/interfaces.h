@@ -105,7 +105,9 @@ class ICoordinator : virtual public IComponent
                                PROTOCOLMessage& aMsg) const = 0;
       virtual void broadcastMessage(PROTOCOLMessage& aMsg) const = 0;
       virtual void publishEvent(PROTOCOLEvent& anEvent) const = 0;
+      virtual bool getVariable(const FString& componentName, const FString& variableName) = 0;
       virtual bool getVariable(const FString& variableName) = 0;
+      virtual bool setVariable(const FString& variableName) = 0;
       virtual bool sendMessageToFirst(PROTOCOLMessage& aMsg) = 0;
       virtual void enumerateComponents
          (ConstCallbackFunction<const IComponent*>& f) const = 0;
@@ -114,7 +116,7 @@ class ICoordinator : virtual public IComponent
                                            FString& componentName) = 0;
 
       // APSIM kludge - used for getvariable and setvariable - remove!
-      bool componentResponded;
+      static bool componentResponded;
 
       // reorder the component's - used for competition.
       // will eventually be removed.
