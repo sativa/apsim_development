@@ -38,6 +38,8 @@
         soilwat2.drain
         soilwat2.eo
         soilwat2.es
+        soilwat2.sw_dep()
+        soilwat2.sw_dep(100)
         soilwat2.sw_dep
      
      Output file = test_array_size_100.out

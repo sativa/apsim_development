@@ -8,6 +8,8 @@ variable = soilwat2.runoff
 variable = soilwat2.drain
 variable = soilwat2.eo
 variable = soilwat2.es
+variable = soilwat2.sw_dep()
+variable = soilwat2.sw_dep(100)
 variable = soilwat2.sw_dep
 
 [test_array_size_100.clock.parameters]
