@@ -14,7 +14,7 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 1.60
+     Version                = 1.61
      Control filename       = c:\regr\apsim\fababean\sample\fababean.con
      Configuration filename = c:\build\regression.config
      Title                  = fababean Sample Simulation
@@ -208,7 +208,8 @@
           ------------------------------------------------
           Cultivar                 = fiord
           est_days_emerg_to_init  =      70
-          tt_emerg_to_endjuv       =   543.0
+          cum_vernal_days  =    0.00 100.00
+          tt_emerg_to_endjuv  =  543.00 543.00
           photoperiod      =   10.60  12.60
           phase_tt_init      =  230.00   0.00
           tt_flower_to_maturity    =  1300.0

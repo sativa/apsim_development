@@ -14,7 +14,7 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 1.60
+     Version                = 1.61
      Control filename       = c:\regr\apsim\mucuna\sample\mucuna.con
      Configuration filename = c:\build\regression.config
      Title                  = mucuna Sample Simulation
@@ -207,7 +207,8 @@
           ------------------------------------------------
           Cultivar                 = mucuna_gen
           est_days_emerg_to_init  =      20
-          tt_emerg_to_endjuv       =   500.0
+          cum_vernal_days  =    0.00 100.00
+          tt_emerg_to_endjuv  =  500.00 500.00
           photoperiod      =   13.30  18.00
           phase_tt_init      =  600.00 600.00
           tt_flower_to_maturity    =  1200.0

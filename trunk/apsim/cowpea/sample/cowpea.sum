@@ -14,7 +14,7 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 1.60
+     Version                = 1.61
      Control filename       = c:\regr\apsim\cowpea\sample\cowpea.con
      Configuration filename = c:\build\regression.config
      Title                  = cowpea Sample Simulation
@@ -208,7 +208,8 @@
           ------------------------------------------------
           Cultivar                 = banjo
           est_days_emerg_to_init  =      20
-          tt_emerg_to_endjuv       =   552.0
+          cum_vernal_days  =    0.00 100.00
+          tt_emerg_to_endjuv  =  552.00 552.00
           photoperiod      =   13.30  18.00
           phase_tt_init      =    0.00 229.00
           tt_flower_to_maturity    =   400.0
