@@ -1,12 +1,13 @@
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 
 #include <general\exec.h>
 #include <general\string_functions.h>
 #include <vector>
-using std::vector;
 #include <process.h>
 #include <fstream>
+using namespace std;
 // ------------------------------------------------------------------
 //  Short description:
 //    executes a program and optionally waits until it has finished.
@@ -25,10 +26,10 @@ using std::vector;
 //    dph 21/4/99  added better error handling code.
 
 // ------------------------------------------------------------------
-bool GENERAL_EXPORT Exec(const char* Command_line,
-                         unsigned int Show_flag,
-                         bool Wait_for_finish,
-                         bool* doTerminateFlag)
+bool Exec(const char* Command_line,
+          unsigned int Show_flag,
+          bool Wait_for_finish,
+          bool* doTerminateFlag)
    {
    STARTUPINFO StartupInfo;
    PROCESS_INFORMATION ProcessInfo;

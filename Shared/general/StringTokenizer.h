@@ -3,7 +3,6 @@
 #ifndef StringTokenizerH
 #define StringTokenizerH
 #include <string>
-#include <general\general.h>
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -45,7 +44,7 @@
 //    DPH 25/8/2000
 
 // ------------------------------------------------------------------
-class GENERAL_EXPORT StringTokenizer
+class StringTokenizer
    {
    private:
       unsigned int currentPosition;

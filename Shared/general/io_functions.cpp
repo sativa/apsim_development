@@ -1,5 +1,7 @@
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
+
 #include "io_functions.h"
 #include <general\path.h>
 #include <general\stristr.h>
@@ -19,11 +21,11 @@ using namespace std;
 //    dph 11/1/1998 modified to use VCL findfirst routines.
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Get_directory_listing (const char* Directory_name,
-                                           const char* Extension,
-                                           list<string>& Dir_list,
-                                           unsigned int Attribute,
-                                           bool Full_path)
+void Get_directory_listing (const char* Directory_name,
+                            const char* Extension,
+                            list<string>& Dir_list,
+                            unsigned int Attribute,
+                            bool Full_path)
    {
    if (Attribute == 0)
       Attribute = faAnyFile;
@@ -70,8 +72,8 @@ void GENERAL_EXPORT Get_directory_listing (const char* Directory_name,
 //    DPH 11/6/1997
 
 // ------------------------------------------------------------------
-string GENERAL_EXPORT Locate_file (list<string>& Search_directories,
-                                   const char* Search_file)
+string Locate_file (list<string>& Search_directories,
+                    const char* Search_file)
    {
    Path p;
    bool found = false;
@@ -107,11 +109,11 @@ string GENERAL_EXPORT Locate_file (list<string>& Search_directories,
 //    DPH 11/9/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Get_recursive_directory_listing(const char* Directory,
-                                                    const char* File_spec,
-                                                    int Max_num_levels_to_descend,
-                                                    bool Include_specified_directory,
-                                                    list<string>& Files)
+void Get_recursive_directory_listing(const char* Directory,
+                                     const char* File_spec,
+                                     int Max_num_levels_to_descend,
+                                     bool Include_specified_directory,
+                                     list<string>& Files)
    {
    // get matching files in this directory if necessary
    if (Include_specified_directory)
@@ -158,9 +160,9 @@ void GENERAL_EXPORT Get_recursive_directory_listing(const char* Directory,
 //    DPH 11/9/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Copy_files (list<string>& Source_files,
-                                const char* Destination_directory,
-                                bool Do_move_files)
+void Copy_files (list<string>& Source_files,
+                 const char* Destination_directory,
+                 bool Do_move_files)
    {
    string source_st;
    Build_string(Source_files, ";", source_st);
@@ -199,9 +201,9 @@ void GENERAL_EXPORT Copy_files (list<string>& Source_files,
 //    DPH 11/9/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Copy_directories (list<string>& Source_directories,
-                                      const char* Destination_directory,
-                                      bool Do_move_files)
+void Copy_directories (list<string>& Source_directories,
+                       const char* Destination_directory,
+                       bool Do_move_files)
    {
    string source_st, destination_st;
 
@@ -289,12 +291,11 @@ void GENERAL_EXPORT Copy_directories (list<string>& Source_directories,
 //    DPH 11/9/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Copy_files_preserve_directories
-                                     (list<string>& Source_files,
-                                      const char* Source_base_directory,
-                                      const char* Destination_directory,
-                                      bool Do_move_files,
-                                      bool Make_files_read_write)
+void Copy_files_preserve_directories(list<string>& Source_files,
+                                     const char* Source_base_directory,
+                                     const char* Destination_directory,
+                                     bool Do_move_files,
+                                     bool Make_files_read_write)
    {
    string source_st, destination_st;
    // loop through all source files and replace source_base_directory
@@ -363,7 +364,7 @@ void GENERAL_EXPORT Copy_files_preserve_directories
 //    DPH 11/9/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Delete_files_or_directories (list<string>& Directories)
+void Delete_files_or_directories (list<string>& Directories)
    {
    // create a string to hold all filenames.
    string st;
@@ -399,8 +400,8 @@ void GENERAL_EXPORT Delete_files_or_directories (list<string>& Directories)
 //    DPH 11/9/98
 
 // ------------------------------------------------------------------
-string GENERAL_EXPORT Get_youngest_file (const char* Directory,
-                                         const char* Filespec)
+string Get_youngest_file (const char* Directory,
+                          const char* Filespec)
    {
    unsigned short Maximum_date = 0;
    unsigned short Maximum_time = 0;
@@ -428,7 +429,7 @@ string GENERAL_EXPORT Get_youngest_file (const char* Directory,
 // ------------------------------------------------------------------
 // Rename the specified file or folder if there is a name collision.
 // ------------------------------------------------------------------
-void GENERAL_EXPORT renameOnCollision(AnsiString& name, bool isFile)
+void renameOnCollision(AnsiString& name, bool isFile)
    {
    int collisionIndex = 2;
    AnsiString newName = name;

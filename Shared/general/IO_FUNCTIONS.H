@@ -2,7 +2,6 @@
 #ifndef io functionsH
 #define io functionsH
 
-#include <general\general.h>
 #include <general\string_functions.h>
 #include <list>
 #include <dos.h>
@@ -16,11 +15,11 @@
 //    DPH 11/6/1997
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Get_directory_listing (const char* Directory_name,
-                                           const char* Extension,
-                                           std::list<std::string>& Dir_list,
-                                           unsigned int Attribute = FA_NORMAL,
-                                           bool Full_path = false);
+void Get_directory_listing (const char* Directory_name,
+                            const char* Extension,
+                            std::list<std::string>& Dir_list,
+                            unsigned int Attribute = FA_NORMAL,
+                            bool Full_path = false);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -33,8 +32,8 @@ void GENERAL_EXPORT Get_directory_listing (const char* Directory_name,
 //    DPH 11/6/1997
 
 // ------------------------------------------------------------------
-std::string GENERAL_EXPORT Locate_file (std::list<std::string>& Search_directories,
-                                   const char* Search_file);
+std::string Locate_file (std::list<std::string>& Search_directories,
+                         const char* Search_file);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -52,11 +51,11 @@ std::string GENERAL_EXPORT Locate_file (std::list<std::string>& Search_directori
 //    DPH 11/9/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Get_recursive_directory_listing(const char* Directory,
-                                                    const char* File_spec,
-                                                    int Max_num_levels_to_descend,
-                                                    bool Include_specified_directory,
-                                                    std::list<std::string>& Files);
+void Get_recursive_directory_listing(const char* Directory,
+                                     const char* File_spec,
+                                     int Max_num_levels_to_descend,
+                                     bool Include_specified_directory,
+                                     std::list<std::string>& Files);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -68,9 +67,9 @@ void GENERAL_EXPORT Get_recursive_directory_listing(const char* Directory,
 //    DPH 11/9/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Copy_files (std::list<std::string>& Source_files,
-                                const char* Destination_directory,
-                                bool Do_move_files);
+void Copy_files (std::list<std::string>& Source_files,
+                 const char* Destination_directory,
+                 bool Do_move_files);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -94,12 +93,11 @@ void GENERAL_EXPORT Copy_files (std::list<std::string>& Source_files,
 //    DPH 11/9/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Copy_files_preserve_directories
-                                     (std::list<std::string>& Source_files,
-                                      const char* Source_base_directory,
-                                      const char* Destination_directory,
-                                      bool Do_move_files,
-                                      bool Make_files_read_write = false);
+void Copy_files_preserve_directories(std::list<std::string>& Source_files,
+                                     const char* Source_base_directory,
+                                     const char* Destination_directory,
+                                     bool Do_move_files,
+                                     bool Make_files_read_write = false);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -112,9 +110,9 @@ void GENERAL_EXPORT Copy_files_preserve_directories
 //    DPH 11/9/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Copy_directories (std::list<std::string>& Source_directories,
-                                      const char* Destination_directory,
-                                      bool Do_move_files = false);
+void  Copy_directories (std::list<std::string>& Source_directories,
+                        const char* Destination_directory,
+                        bool Do_move_files = false);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -127,7 +125,7 @@ void GENERAL_EXPORT Copy_directories (std::list<std::string>& Source_directories
 //    DPH 11/9/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Delete_files_or_directories (std::list<std::string>& Directories);
+void Delete_files_or_directories (std::list<std::string>& Directories);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -140,13 +138,13 @@ void GENERAL_EXPORT Delete_files_or_directories (std::list<std::string>& Directo
 //    DPH 11/9/98
 
 // ------------------------------------------------------------------
-std::string GENERAL_EXPORT Get_youngest_file (const char* Directory,
-                                         const char* Filespec);
+std::string Get_youngest_file (const char* Directory,
+                               const char* Filespec);
 
 // ------------------------------------------------------------------
 // Rename the specified file or folder if there is a name collision.
 // ------------------------------------------------------------------
-void GENERAL_EXPORT renameOnCollision(AnsiString& name, bool isFile = true);
+void renameOnCollision(AnsiString& name, bool isFile = true);
 
 
 #endif

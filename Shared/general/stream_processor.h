@@ -2,15 +2,9 @@
 #ifndef stream_processorH
 #define stream_processorH
 
-#include <general\general.h>
 #include <string>
 #include <list>
-using std::string;
-using std::list;
-using std::istream;
-using std::ostream;
-
-class GENERAL_EXPORT Stream_processor;
+class Stream_processor;
 // ------------------------------------------------------------------
 //  Short description:
 //     Base class for line processor
@@ -21,15 +15,15 @@ class GENERAL_EXPORT Stream_processor;
 //    DPH 8/10/97
 
 // ------------------------------------------------------------------
-class GENERAL_EXPORT Line_processor
+class Line_processor
    {
    protected:
       char Macro_char;
-      virtual bool Get_macro_value (const char* Macro_name, string& Macro_value) {return true;};
+      virtual bool Get_macro_value (const char* Macro_name, std::string& Macro_value) {return true;};
 
    public:
       Line_processor(void);
-      virtual bool Replace_macros (string& Line);
+      virtual bool Replace_macros (std::string& Line);
 
    friend Stream_processor;
    };
@@ -47,7 +41,7 @@ class GENERAL_EXPORT Line_processor
 //    DPH 8/10/97
 
 // ------------------------------------------------------------------
-class GENERAL_EXPORT Stream_processor
+class Stream_processor
    {
    public:
       Stream_processor (void);
@@ -59,6 +53,6 @@ class GENERAL_EXPORT Stream_processor
                ostream& Out_stream);
 
    private:
-      list<Line_processor*> Processors;
+      std::list<Line_processor*> Processors;
    };
 #endif

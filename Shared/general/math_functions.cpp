@@ -1,11 +1,16 @@
-#include <general\math_functions.h>
+//---------------------------------------------------------------------------
+#include <general\pch.h>
+#include <vcl.h>
+#pragma hdrstop
+
+#include "math_functions.h"
 #include <math.h>
 #include <assert.h>
 #include <numeric>
 #include <values.h>
 #include <strstream>
 #include <iomanip>
-using std::ostrstream;
+using namespace std;
 // ------------------------------------------------------------------
 //  Short description:
 //    cycle through a number series from 1 to Max_number.
@@ -342,9 +347,9 @@ void Calculate_freq_dist(vector<double>& Values,
 // ------------------------------------------------------------------
 void Round_using_magnitude (double& Value, bool Round_up)
    {
-   if (abs(Value) > 0)
+   if (fabs(Value) > 0)
       {
-      int Magnitude = log10(abs(Value));
+      int Magnitude = log10(fabs(Value));
       int Nearest = pow(10, Magnitude);
       Round_to_nearest (Value, Nearest, Round_up);
       }

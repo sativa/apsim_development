@@ -1,7 +1,6 @@
 #ifndef STRING_FUNCTIONS_H
 #define STRING_FUNCTIONS_H
 
-#include <general\general.h>
 #include <string>
 #include <list>
 #include <algorith>
@@ -119,7 +118,7 @@ void Build_string (container& words, const char* separators, std::string& text)
 //    dph 17/9/1997 changed "string& line" to "const char* line"
 
 // ------------------------------------------------------------------
-std::string GENERAL_EXPORT Get_section_name (const char* line);
+std::string Get_section_name (const char* line);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -133,7 +132,7 @@ std::string GENERAL_EXPORT Get_section_name (const char* line);
 //    dph 17/9/1997 changed "string& line" to "const char* line"
 
 // ------------------------------------------------------------------
-std::string GENERAL_EXPORT Get_key_value (const char* line, const char* Key_name);
+std::string Get_key_value (const char* line, const char* Key_name);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -145,7 +144,7 @@ std::string GENERAL_EXPORT Get_key_value (const char* line, const char* Key_name
 //    DPH 24/9/97
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Get_keyname_and_value (const char* line, std::string& Key_name, std::string& Key_value);
+void Get_keyname_and_value (const char* line, std::string& Key_name, std::string& Key_value);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -157,7 +156,7 @@ void GENERAL_EXPORT Get_keyname_and_value (const char* line, std::string& Key_na
 //    DPH 17/4/1997
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Strip (char* text, const char* separators);
+void Strip (char* text, const char* separators);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -169,7 +168,7 @@ void GENERAL_EXPORT Strip (char* text, const char* separators);
 //    DPH 17/4/1997
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Strip (std::string& text, const char* separators);
+void Strip (std::string& text, const char* separators);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -181,7 +180,7 @@ void GENERAL_EXPORT Strip (std::string& text, const char* separators);
 //    DPH 29/4/1997
 
 // ------------------------------------------------------------------
-bool GENERAL_EXPORT Is_numerical (const char* Text);
+bool Is_numerical (const char* Text);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -193,7 +192,7 @@ bool GENERAL_EXPORT Is_numerical (const char* Text);
 //    DPH 29/4/1997
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT To_upper (std::string& St);
+void To_upper (std::string& St);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -205,7 +204,7 @@ void GENERAL_EXPORT To_upper (std::string& St);
 //    DPH 29/4/1997
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT To_lower (std::string& St);
+void To_lower (std::string& St);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -410,7 +409,7 @@ void Double_container_2_string (container_type& container,
 //    DPH 17/3/98
 
 // ------------------------------------------------------------------
-bool GENERAL_EXPORT Replace_all (std::string& St, const char* Sub_string, const char* Replacement_string);
+bool Replace_all (std::string& St, const char* Sub_string, const char* Replacement_string);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -423,7 +422,7 @@ bool GENERAL_EXPORT Replace_all (std::string& St, const char* Sub_string, const 
 //    dph 27/3/98 changed NPOS to string::npos in line with standard.
 
 // ------------------------------------------------------------------
-std::string GENERAL_EXPORT ftoa(double Float, int Num_decplaces);
+std::string ftoa(double Float, int Num_decplaces);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -435,7 +434,7 @@ std::string GENERAL_EXPORT ftoa(double Float, int Num_decplaces);
 //    SB ???
 
 // ------------------------------------------------------------------
-int GENERAL_EXPORT Str_i_Cmp(const std::string &a, const std::string &b);
+int Str_i_Cmp(const std::string &a, const std::string &b);
 #define Str_i_Eq(a,b)  (!Str_i_Cmp((a),(b)))
 
 // ------------------------------------------------------------------
@@ -449,7 +448,7 @@ int GENERAL_EXPORT Str_i_Cmp(const std::string &a, const std::string &b);
 //    DPH 11/9/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Replace_all_chars (char* St, char Char_to_replace, char Replacement_char);
+void Replace_all_chars (char* St, char Char_to_replace, char Replacement_char);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -463,7 +462,7 @@ void GENERAL_EXPORT Replace_all_chars (char* St, char Char_to_replace, char Repl
 //    DPH 4/1/1999
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Get_words_from_double_null_term (char* St, std::list<std::string>& Words);
+void Get_words_from_double_null_term (char* St, std::list<std::string>& Words);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -476,7 +475,7 @@ void GENERAL_EXPORT Get_words_from_double_null_term (char* St, std::list<std::st
 //    NH 13/12/2000
 
 // ------------------------------------------------------------------
-int GENERAL_EXPORT NumOccurrences (std::string text, std::string substring);
+int NumOccurrences (std::string text, std::string substring);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -491,8 +490,8 @@ int GENERAL_EXPORT NumOccurrences (std::string text, std::string substring);
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-std::string GENERAL_EXPORT getAttributeFromLine(const std::string& attributeName,
-                                                const std::string& line);
+std::string getAttributeFromLine(const std::string& attributeName,
+                                 const std::string& line);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -509,7 +508,7 @@ std::string GENERAL_EXPORT getAttributeFromLine(const std::string& attributeName
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT getAttributeNameAndValue(const std::string& line,
+void getAttributeNameAndValue(const std::string& line,
                               unsigned int posEquals,
                               std::string& name,
                               std::string& value);
@@ -554,7 +553,7 @@ void getAttributesFromLine(const std::string& line, CT& names, CT& values)
 //  Changes:
 //    dph 16/8/2001
 // ------------------------------------------------------------------
-void GENERAL_EXPORT removeAttributeFromLine(std::string& line, const std::string& attribute);
+void removeAttributeFromLine(std::string& line, const std::string& attribute);
 
 #endif
 
