@@ -11,17 +11,17 @@
 
      Version                = 4.0
      Title                  = pigeonp P Sample Simulation
-     Component DLL          = c:\temp\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\temp\development\apsim\Screen\lib\Screen.dll
-     Component DLL          = c:\temp\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\temp\development\apsim\report\lib\report.dll
-     Component DLL          = c:\temp\development\apsim\input\lib\input.dll
-     Component DLL          = c:\temp\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\temp\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\temp\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-     Component DLL          = c:\temp\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\temp\development\apsim\soilp\lib\soilp.dll
-     Component DLL          = c:\temp\development\apsim\plant\lib\plant.dll
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\soilp\lib\soilp.dll
+     Component DLL          = c:\development\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -80,7 +80,7 @@
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\temp\development\apsim\met\sample\dalby.met
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
@@ -274,7 +274,7 @@
            Root C:P :                    200.0
 
 ------- pigeonp Initialisation ------------------------------------------------
-      initialising
+     phenology model: Legume
         - Module is set phosphorus aware
      
 ------- Start of simulation  --------------------------------------------------
@@ -286,19 +286,19 @@
       - reading cultivar parameters
          ------------------------------------------------
         cultivar                   = short_duration
-        est_days_emerg_to_init     =       20
-        cum_vernal_days            =       0.00     100.00
-        tt_emerg_to_endjuv         =     718.00     718.00
-        x_pp_endjuv_to_init        =      12.80      13.50      13.60
-        y_tt_endjuv_to_init        =       0.00     630.00   10000.00
-        x_pp_init_to_flower        =       1.00      24.00
-        y_tt_init_to_flower        =      10.00      10.00
-        x_pp_flower_to_start_grain =       1.00      24.00
-        y_tt_flower_to_start_grain =     100.00     100.00
-        x_pp_start_to_end_grain    =       1.00      24.00
-        y_tt_start_to_end_grain    =     470.00     470.00
-        tt_end_grain_to_maturity   =      30.00
-        tt_maturity_to_ripe        =      36.00
+        est_days_emerg_to_init     = 20 (days)
+        cum_vernal_days            =       0     100 (vd)
+        tt_emerg_to_endjuv         =     718     718 (dd)
+        x_pp_endjuv_to_init        =    12.8    13.5    13.6 (h)
+        y_tt_endjuv_to_init        =       1     630   10000 (dd)
+        x_pp_init_to_flower        =       1      24 (h)
+        y_tt_init_to_flower        =      10      10 (dd)
+        x_pp_flower_to_start_grain =       1      24 (h)
+        y_tt_flower_to_start_grain =     100     100 (dd)
+        x_pp_start_to_end_grain    =       1      24 (h)
+        y_tt_start_to_end_grain    =     470     470 (dd)
+        tt_end_grain_to_maturity   =         30 (dd)
+        tt_maturity_to_ripe        =         36 (dd)
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0075     0.0075
         x_hi_max_pot_stress        =       0.00       1.00
@@ -339,86 +339,87 @@
 22 October 1988(Day of year=296), pigeonp: 
       stage 3.0 emergence
                      biomass =           0.65 (g/m^2)   lai          =   0.013 (m^2/m^2)
-                     stover N conc =     4.77 (%)     extractable sw =   22.16 (mm)
-18 December 1988(Day of year=353), pigeonp: 
+                     stover N conc =     4.77 (%)    extractable sw =   22.16 (mm)
+16 December 1988(Day of year=351), pigeonp: 
       stage 4.0 end_of_juvenile
-                     biomass =          96.66 (g/m^2)   lai          =   1.282 (m^2/m^2)
-                     stover N conc =     3.75 (%)     extractable sw =  196.40 (mm)
+                     biomass =         100.97 (g/m^2)   lai          =   1.307 (m^2/m^2)
+                     stover N conc =     3.73 (%)    extractable sw =  148.16 (mm)
 2 March 1989(Day of year=61), pigeonp: 
       stage 5.0 floral_initiation
-                     biomass =         384.71 (g/m^2)   lai          =   5.070 (m^2/m^2)
-                     stover N conc =     3.66 (%)     extractable sw =  346.26 (mm)
+                     biomass =         360.58 (g/m^2)   lai          =   4.783 (m^2/m^2)
+                     stover N conc =     3.64 (%)    extractable sw =  298.49 (mm)
 3 March 1989(Day of year=62), pigeonp: 
       stage 6.0 flowering
-                     biomass =         389.28 (g/m^2)   lai          =   5.051 (m^2/m^2)
-                     stover N conc =     3.62 (%)     extractable sw =  343.84 (mm)
+                     biomass =         365.44 (g/m^2)   lai          =   4.803 (m^2/m^2)
+                     stover N conc =     3.59 (%)    extractable sw =  296.63 (mm)
 10 March 1989(Day of year=69), pigeonp: 
       stage 7.0 start_grain_fill
-                     biomass =         482.59 (g/m^2)   lai          =   4.978 (m^2/m^2)
-                     stover N conc =     3.02 (%)     extractable sw =  329.16 (mm)
+                     biomass =         461.91 (g/m^2)   lai          =   4.730 (m^2/m^2)
+                     stover N conc =     2.96 (%)    extractable sw =  268.46 (mm)
 14 April 1989(Day of year=104), pigeonp: 
       stage 8.0 end_grain_fill
-                     biomass =         628.02 (g/m^2)   lai          =   2.769 (m^2/m^2)
-                     stover N conc =     2.09 (%)     extractable sw =  340.10 (mm)
-18 April 1989(Day of year=108), pigeonp: 
+                     biomass =         600.18 (g/m^2)   lai          =   2.686 (m^2/m^2)
+                     stover N conc =     2.02 (%)    extractable sw =  279.32 (mm)
+17 April 1989(Day of year=107), pigeonp: 
       stage 9.0 maturity
-                     biomass =         638.36 (g/m^2)   lai          =   2.607 (m^2/m^2)
-                     stover N conc =     1.94 (%)     extractable sw =  329.46 (mm)
+                     biomass =         606.94 (g/m^2)   lai          =   2.571 (m^2/m^2)
+                     stover N conc =     1.93 (%)    extractable sw =  274.58 (mm)
 21 April 1989(Day of year=111), pigeonp: 
       stage 10.0 harvest_ripe
-                     biomass =         640.08 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     1.91 (%)     extractable sw =  322.77 (mm)
+                     biomass =         610.45 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     1.89 (%)    extractable sw =  267.19 (mm)
 22 April 1989(Day of year=112), manager: 
      Manager sending message :- pigeonp harvest
 22 April 1989(Day of year=112), pigeonp: 
      
-      flowering day          =   62                           stover (kg/ha)         =     4539.9
-      maturity day           =  108                           grain yield (kg/ha)    =     1860.9
-      grain % water content  =   12.0                         grain yield wet (kg/ha)=     2114.6
+      flowering day          =   62                           stover (kg/ha)         =     4379.9
+      maturity day           =  107                           grain yield (kg/ha)    =     1724.6
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1959.8
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
-      grains/plant           =    0.0                         maximum lai            =      5.070
-      total above ground biomass (kg/ha)    =     6400.8
-      live above ground biomass (kg/ha)     =     6400.8
-      green above ground biomass (kg/ha)    =     4553.7
-      senesced above ground biomass (kg/ha) =     1847.1
+      grains/plant           =    0.0                         maximum lai            =      4.803
+      total above ground biomass (kg/ha)    =     6104.5
+      live above ground biomass (kg/ha)     =     6104.5
+      green above ground biomass (kg/ha)    =     4364.4
+      senesced above ground biomass (kg/ha) =     1740.0
       dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =  464.2
-      DM Root:Shoot ratio    =    0.208                       Harvest Index          =      0.291
-      Stover C:N ratio       =   20.532                       Root C:N ratio         =     19.817
-      grain N percent        =       4.00                     total N content (kg/ha)=     162.88
-      grain N uptake (kg/ha) =      74.43                     senesced N content (kg/ha)=   36.94
-      green N content (kg/ha)=      51.50                     dead N content (kg/ha) =       0.00
-      grain P percent        =       0.35                     total P content (kg/ha)=      15.18
-      grain P uptake (kg/ha) =       6.46                     senesced P content (kg/ha)=    3.95
-      green P content (kg/ha)=       4.77                     dead P content (kg/ha) =       0.00
+      number of leaves       =  472.1
+      DM Root:Shoot ratio    =    0.212                       Harvest Index          =      0.283
+      Stover C:N ratio       =   20.657                       Root C:N ratio         =     19.699
+      grain N percent        =       4.00                     total N content (kg/ha)=     153.79
+      grain N uptake (kg/ha) =      68.98                     senesced N content (kg/ha)=   34.80
+      green N content (kg/ha)=      50.01                     dead N content (kg/ha) =       0.00
+      grain P percent        =       0.36                     total P content (kg/ha)=      14.66
+      grain P uptake (kg/ha) =       6.17                     senesced P content (kg/ha)=    3.75
+      green P content (kg/ha)=       4.73                     dead P content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.001        0.031
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.001
          end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.000
          floral_initiation    to flowering               0.000        0.000        0.000        0.000
          flowering            to start_grain_fill        0.000        0.000        0.000        0.000
          start_grain_fill     to end_grain_fill          0.000        0.000        0.000        0.000
      
+     
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4539.90                    0.00
-                          N  (kg/ha) =                 88.44                    0.00
+                          DM (kg/ha) =               4379.88                    0.00
+                          N  (kg/ha) =                 84.81                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1860.85                    0.00
-                          N  (kg/ha) =                 74.43                    0.00
+                          DM (kg/ha) =               1724.60                    0.00
+                          N  (kg/ha) =                 68.98                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.013 (m^2/m^2)
-                     stover N conc =     0.00 (%)     extractable sw =  322.77 (mm)
+                     stover N conc =     0.00 (%)    extractable sw =  267.19 (mm)
 22 April 1989(Day of year=112), manager: 
      Manager sending message :- pigeonp end_crop
 22 April 1989(Day of year=112), pigeonp: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 1334.48
-                          N  (kg/ha) =                  0.00                   26.94
-                          P  (kg/ha) =                                          1.75
+                          DM (kg/ha) =                  0.00                 1296.98
+                          N  (kg/ha) =                  0.00                   26.34
+                          P  (kg/ha) =                                          1.73
      
 30 April 1989(Day of year=120), clock: 
      Simulation is terminating due to end criteria being met.
