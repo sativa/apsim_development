@@ -11,13 +11,12 @@
 
      Version                = 2.2
      Title                  = Eo_gatton_9394
-     Component DLL          = c:\Program Files\apsim22\apsim\screen\lib\screen.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\log\lib\log.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\summaryfile\lib\summaryfile.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\clock\lib\clock.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\report\lib\report.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\input\lib\input.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\correl\lib\correl.dll
+     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\development\apsim\screen\lib\screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\correl\lib\correl.dll
 
 ------- clock Initialisation --------------------------------------------------
      Simulation start date = 26/04/1975
@@ -32,9 +31,9 @@
      Output file = dummy.out
      Format = normal
 
-------- Met Initialisation ----------------------------------------------------
+------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\data\aps\development\apsim\correl\sample\cooper.met
+     INPUT File name: COOPER.MET
 
 ------- correl Initialisation -------------------------------------------------
      Initialising:
