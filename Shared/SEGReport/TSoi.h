@@ -33,7 +33,7 @@ class TSOI : public TSEGTable
       void __fastcall setRisingPhase(bool rising);
       void __fastcall setZeroPhase(bool zero);
 
-      virtual void createFields(void) throw(std::runtime_error);
+      virtual bool createFields(void) throw(std::runtime_error);
       virtual void storeRecords(void) throw(std::runtime_error);
       std::string getSowYearFieldName(TSEGTable* data) const throw (std::runtime_error);
       void readSoiData(void) throw(std::runtime_error);

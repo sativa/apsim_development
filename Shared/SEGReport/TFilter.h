@@ -16,7 +16,7 @@ class TFilter : public TSEGTable
       AnsiString filterString;
       void __fastcall setFilter(AnsiString filter);
 
-      virtual void createFields(void) throw(std::runtime_error);
+      virtual bool createFields(void) throw(std::runtime_error);
       virtual void storeRecords(void) throw(std::runtime_error);
 
    public:

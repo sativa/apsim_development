@@ -144,7 +144,7 @@ void __fastcall TSOI::setZeroPhase(bool zer)
 // Called by our base class to allow us to add any fielddefs we may want to.
 // The table will be closed (Active=false) when this routine is called.
 //---------------------------------------------------------------------------
-void TSOI::createFields(void) throw(runtime_error)
+bool TSOI::createFields(void) throw(runtime_error)
    {
    if (source != NULL)
       {
@@ -152,7 +152,9 @@ void TSOI::createFields(void) throw(runtime_error)
       addDBField(this, SOI_PHASE_FIELD_NAME, "xxxx");
       addDBField(this, SOI_PHASE_NUMBER_FIELD_NAME, "1");
       SortFields = getSowYearFieldName(source).c_str();
+      return true;
       }
+   return false;
    }
 //---------------------------------------------------------------------------
 // Called by our base class to allow us to add records to the table.

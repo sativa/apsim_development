@@ -89,7 +89,7 @@ void TApsimFileReader::setReportDirectory(AnsiString reportDir)
 // Called by our base class to allow us to add any fielddefs we may want to.
 // The table will be closed (Active=false) when this routine is called.
 //---------------------------------------------------------------------------
-void TApsimFileReader::createFields(void) throw(runtime_error)
+bool TApsimFileReader::createFields(void) throw(runtime_error)
    {
    titles.erase(titles.begin(), titles.end());
    for (int fileIndex = 0; fileIndex < files->Count; fileIndex++)
@@ -115,6 +115,7 @@ void TApsimFileReader::createFields(void) throw(runtime_error)
    catch (const runtime_error& error)
       {
       }
+   return (files->Count > 0);
    }
 //---------------------------------------------------------------------------
 // Called by our base class to allow us to add records to the table.
@@ -156,6 +157,8 @@ void TApsimFileReader::readAndStoreFields(const string& filename) throw(runtime_
       string title;
       readApsimHeader(in, fieldNames, title);
       titles.push_back(title);
+
+      FieldDefs->Clear();
 
       // split up title into factors and store as fields.
       vector<string> factorNames, factorValues;

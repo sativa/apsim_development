@@ -20,7 +20,7 @@ class TStats : public TSEGTable
       void __fastcall setFieldName(AnsiString fieldName);
       void __fastcall setStats(StatSet stats);
 
-      virtual void createFields(void) throw(std::runtime_error);
+      virtual bool createFields(void) throw(std::runtime_error);
       virtual void storeRecords(void) throw(std::runtime_error);
 
    public:

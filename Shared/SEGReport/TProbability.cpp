@@ -54,13 +54,16 @@ void __fastcall TProbability::setFieldName(AnsiString fieldName)
 // Called by our base class to allow us to add any fielddefs we may want to.
 // The table will be closed (Active=false) when this routine is called.
 //---------------------------------------------------------------------------
-void TProbability::createFields(void) throw(runtime_error)
+bool TProbability::createFields(void) throw(runtime_error)
    {
    if (source != NULL && fieldNameToAnalyse != "")
       {
+      FieldDefs->Clear();
       addDBField(this, fieldNameToAnalyse.c_str(), "1.0");
       addDBField(this, PROBABILITY_FIELD_NAME, "1.0");
+      return true;
       }
+   return false;
    }
 //---------------------------------------------------------------------------
 // Called by our base class to allow us to add records to the table.

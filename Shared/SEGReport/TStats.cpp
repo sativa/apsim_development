@@ -54,10 +54,12 @@ void __fastcall TStats::setStats(StatSet stats)
 // Called by our base class to allow us to add any fielddefs we may want to.
 // The table will be closed (Active=false) when this routine is called.
 //---------------------------------------------------------------------------
-void TStats::createFields(void) throw(runtime_error)
+bool TStats::createFields(void) throw(runtime_error)
    {
    if (source != NULL && fieldNameToAnalyse != "")
       {
+      FieldDefs->Clear();
+
       if (stats.Contains(statMean))
          addDBField(this, "Mean", "1.0");
       if (stats.Contains(statCount))
@@ -84,7 +86,9 @@ void TStats::createFields(void) throw(runtime_error)
          addDBField(this, "Decile80", "1.0");
       if (stats.Contains(stat90))
          addDBField(this, "Decile90", "1.0");
+      return true;
       }
+   return false;
    }
 //---------------------------------------------------------------------------
 // Called by our base class to allow us to add records to the table.
