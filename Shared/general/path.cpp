@@ -347,18 +347,7 @@ bool Path::Is_empty(void)
 // ------------------------------------------------------------------
 bool Path::Exists(void)
    {
-   const int Not_open = -1;         // Handle returned when can't open file
-   int Handle;                      // File handle of open file
-   int Exists;                      // Does file exist ?
-
-   // Try to open file.  If it exists return TRUE and close handle
-   // If it doesn't exist, return FALSE
-
-   Handle = open(Get_path().c_str(), O_TEXT);
-   Exists = (Handle != Not_open);
-   if (Exists)
-      close(Handle);
-   return Exists;
+   return (GetFileAttributes(Get_path().c_str()) != 0xFFFFFFFF);
    }
 
 // ------------------------------------------------------------------
