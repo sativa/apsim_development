@@ -17,3 +17,12 @@ __fastcall TDataPreviewForm::TDataPreviewForm(TComponent* Owner)
 {
 }
 //---------------------------------------------------------------------------
+void __fastcall TDataPreviewForm::DBAdvStringGrid1GetFloatFormat(
+      TObject *Sender, int ACol, int ARow, bool &IsFloat,
+      AnsiString &FloatFormat)
+   {
+   if (IsFloat)
+      FloatFormat = "%16.3f";
+   }
+//---------------------------------------------------------------------------
+

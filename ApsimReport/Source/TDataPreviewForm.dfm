@@ -23,7 +23,8 @@ object DataPreviewForm: TDataPreviewForm
     Height = 159
     Cursor = crDefault
     Align = alClient
-    ColCount = 5
+    ColCount = 1
+    Ctl3D = True
     DefaultRowHeight = 18
     DefaultDrawing = False
     FixedCols = 0
@@ -35,7 +36,8 @@ object DataPreviewForm: TDataPreviewForm
     Font.Name = 'Tahoma'
     Font.Style = []
     GridLineWidth = 1
-    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goDrawFocusSelected]
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goDrawFocusSelected, goRowSizing, goColSizing]
+    ParentCtl3D = False
     ParentFont = False
     TabOrder = 0
     GridLineColor = clSilver
@@ -58,6 +60,7 @@ object DataPreviewForm: TDataPreviewForm
     EnhRowColMove = False
     SizeWithForm = False
     Multilinecells = False
+    OnGetFloatFormat = DBAdvStringGrid1GetFloatFormat
     DragDropSettings.OleAcceptFiles = True
     DragDropSettings.OleAcceptText = True
     SortSettings.AutoColumnMerge = False
@@ -143,6 +146,7 @@ object DataPreviewForm: TDataPreviewForm
     HTMLSettings.Width = 100
     HTMLSettings.XHTML = False
     Navigation.AdvanceDirection = adLeftRight
+    Navigation.AllowClipboardShortCuts = True
     Navigation.AllowClipboardAlways = True
     Navigation.InsertPosition = pInsertBefore
     Navigation.HomeEndKey = heFirstLastColumn
