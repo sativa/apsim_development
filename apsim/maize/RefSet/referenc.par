@@ -1,180 +1,142 @@
-[reference.report.parameters]  
-outputfile =  referenc.out /overwrite   
-summaryfile =  referenc.sum /overwrite   
+[reference.summaryfile.parameters]
+summaryfile =  referenc.sum
 
-module_names =   clock clock   
-variable_names =  year day   
-variable_alias =  -    -   
-units =          -     -   
+[reference.report.parameters]
+outputfile =  referenc.out
+variable = clock.year
+variable = clock.day
+
 
 ! [soil_nitrogen.no3]
 ! [reset_no3.no3]
-module_names =    soiln2   
-variable_names =  no3   
-variable_alias =   -   
-units =            -   
+variable=soiln2.no3
 
 ! [soil_water.sw_dep]
 ! [reset_sw.sw_dep]
-module_names =    soilwat2   
-variable_names =  sw_dep   
-variable_alias =   -   
-units =            -   
+variable=soilwat2.sw_dep
 
 ! [temperature.tt_tot]
 ! [photoperiod.tt_tot]
-module_names =   maize   
-variable_names =  tt_tot()   
-variable_alias =  -   
-units =           -   
+variable=maize.tt_tot()
 
 ! [temperature.lai]
-! [radiation.lai]        
+! [radiation.lai]
 ! [soil_moisture.lai]
 ! [soil_nitrogen.lai]
-module_names =   maize   
-variable_names =  lai   
-variable_alias =  -   
-units =           -   
+variable=maize.lai
 
 ! [temperature.biomass]
 ! [radiation.biomass]
 ! [soil_moisture.biomass]
 ! [soil_nitrogen.biomass]
 ! [soil_nitrogen.root_length]
-module_names =   maize   maize       maize   
-variable_names =  biomass root_length root_depth   
-variable_alias =  -      -           -   
-units =           -      -           -   
-
+variable=maize.biomass
+variable=maize.root_length
+variable=maize.root_depth
 ! [soil_moisture.swdef_photo]
-module_names =   maize   
-variable_names =  avg@swdef_photo   
-variable_alias =  -   
-units =           -   
+variable=tracker.avg_swdef_photo
 
 ! [soil_nitrogen.nfact_photo]
-module_names =   maize   
-variable_names =  avg@nfact_photo   
-variable_alias =  -   
-units =           -   
+variable=tracker.avg_nfact_photo
 
 ! [sow_msg.crop_status]
 ! [kill_crop_msg.crop_status]
 ! [end_crop_msg.crop_status]
-module_names =   maize   
-variable_names =  plant_status   
-variable_alias =  -   
-units =           -   
+variable=maize.plant_status
 
 ! [kill_crop_msg.crop_status]
-module_names =   maize   
-variable_names =  dm_dead()   
-variable_alias =  -   
-units =           -   
+variable=maize.dm_dead()
 
 ! [harvest_msg.yield]
-module_names =   maize    maize   
-variable_names =  yield   height   
-variable_alias =  -       -   
-units =           -       -   
+variable=maize.yield
+variable=maize.height
 
 ! [add_residue_msg.residue_wt]
 ! [add_residue_msg.residue_n]
-module_names =   residue2   residue2   
-variable_names =  residue_wt residue_n   
-variable_alias =  -         -   
-units =           -         -   
+variable=residue2.residue_wt
+variable=residue2.residue_n
 
 ! [incorp_fom_msg.fom_c]
 ! [incorp_fom_msg.fom_n]
-module_names =   soiln2   soiln2   
-variable_names =  fom_c() fom_n()   
-variable_alias =  -         -   
-units =           -         -   
+variable=soiln2.fom_c()
+variable=soiln2.fom_n()
 
-module_names =   maize   
-variable_names =  leaf_no()   
-variable_alias =  -   
-units =          -   
+variable=maize.leaf_no
 
-[reference.clock.parameters]  
-simulation_start_day =    1   
-simulation_end_day =      365   
-simulation_start_year =   1993   
-simulation_end_year =     1994   
-!start_day = 1
-!start_year = 1986
-!end_day = 1
-!end_year = 1988
+[reference.tracker.parameters]
+variable = average of maize.nfact_photo since reported as avg_nfact_photo
+variable = average of maize.swdef_photo since reported as avg_swdef_photo
 
-[reference.residue2.parameters]  
-pot_decomp_rate =      0.10  ()   
-residue_wt =           500.0 (kg/ha)   
-residue_cnr =           80.0 ()   
-residue_type =         maize   
+[reference.clock.parameters]
+start_date=1/1/1993
+end_date=31/12/1994
 
-[reference.maize.parameters]  
-uptake_source =      calc   
-ll =          0.100   0.100   0.100   
-kl =          0.080   0.050   0.020   
-xf =          1.000   1.000   0.500   
+[reference.residue2.parameters]
+pot_decomp_rate =      0.10  ()
+residue_wt =           500.0 (kg/ha)
+residue_cnr =           80.0 ()
+residue_type =         maize
 
-[reference.soilwat2.parameters]  
+[reference.maize.parameters]
+uptake_source =      calc
+ll =          0.100   0.100   0.100
+kl =          0.080   0.050   0.020
+xf =          1.000   1.000   0.500
 
-runoff_filename =      blank   
-insoil =       2.00 ()   
-cona =      2.0 ()   
-diffus_const =      88.0 ()   
-diffus_slope =      35.4 ()   
-u =        9.0 ()   
-cn2_bare =      75   
-cn_red =      20 ()   
-cn_cov =      0.8 ()   
-cn_canopy_fact =      1.0 ()   
-salb =       0.13 ()   
-air_dry =         0.050   0.100   0.100   
-dlayer =        200.000 400.000 400.000   
-ll15 =            0.100   0.100   0.100   
-dul =             0.200   0.200   0.200   
-sat =             0.300   0.300   0.300   
-sw =              0.200   0.200   0.200   
-swcon =           0.500   0.500   0.500   
-bd =              1.00    1.000   1.000   
+[reference.soilwat2.parameters]
 
-[reference.soiln2.parameters]  
+insoil =       2.00 ()
+cona =      2.0 ()
+diffus_const =      88.0 ()
+diffus_slope =      35.4 ()
+u =        9.0 ()
+cn2_bare =      75
+cn_red =      20 ()
+cn_cov =      0.8 ()
+cn_canopy_fact =      1.0 ()
+salb =       0.13 ()
+air_dry =         0.050   0.100   0.100
+dlayer =        200.000 400.000 400.000
+ll15 =            0.100   0.100   0.100
+dul =             0.200   0.200   0.200
+sat =             0.300   0.300   0.300
+sw =              0.200   0.200   0.200
+swcon =           0.500   0.500   0.500
+bd =              1.00    1.000   1.000
 
-amp =            4.1   (oC)   
-tav =           19.1   (oC)   
-root_cn =       45.0   ()   
-root_wt =      1000.0   (kg/ha)   
-soil_cn =      14.5   ()   
-ph =              7.000   7.000   7.000   
-no3ppm =          1.000   1.000   1.000   
-nh4ppm =          1.000   1.000   1.000   
-ureappm =         0.000   0.000   0.000   
-oc =              1.200   1.000   0.500   
-fbiom =           0.030   0.020   0.010   
-finert =          0.400   0.500   0.999   
-enr_a_coeff =         7.4  ()   
-enr_b_coeff =         0.2  ()   
-profile_reduction =      on   
+[reference.soiln2.parameters]
 
-[reference.irrigate.parameters]  
-automatic_irrigation =      off   
-crit_fr_asw =      0.5   
-asw_depth =      500   
+amp =            4.1   (oC)
+tav =           19.1   (oC)
+root_cn =       45.0   ()
+root_wt =      1000.0   (kg/ha)
+soil_cn =      14.5   ()
+ph =              7.000   7.000   7.000
+no3ppm =          1.000   1.000   1.000
+nh4ppm =          1.000   1.000   1.000
+ureappm =         0.000   0.000   0.000
+oc =              1.200   1.000   0.500
+fbiom =           0.030   0.020   0.010
+finert =          0.400   0.500   0.999
+enr_a_coeff =         7.4  ()
+enr_b_coeff =         0.2  ()
+profile_reduction =      on
 
-[reference.manager.init]  
+[reference.irrigate.parameters]
+automatic_irrigation =      off
+crit_fr_asw =      0.5
+asw_depth =      500
 
-[reference.manager.start_of_day]  
+[reference.manager.init]
+
+[reference.manager.start_of_day]
 
      if year = 1993 and day = 10 then
         ! The first crop is a high yielding crop - no stress/high population
         ! ------------------------------------------------------------------
         ! [sow_msg.sow] - crop should initiate when sown
         maize sow cultivar = dekalb_xl82, plants = 10, sowing_depth = 50, tiller_no_fertile = 1
-        soilwat2 set sw = 0.15 0.15 0.1   
+        soilwat2 set sw = 0.15 0.15 0.1
         soiln2   set no3 = 1 1 1          ! Reset the soil profile
         soiln2   set nh4 = 1 1 1
         residue2 tillage type = burn      ! Remove noise from residues
@@ -188,7 +150,7 @@ asw_depth =      500
         ! The Second crop is winter sown - no stress/low population
         ! ---------------------------------------------------------
         maize sow cultivar = katumani, plants = 5, sowing_depth = 50, tiller_no_fertile = 1
-        soilwat2 set sw = 0.15 0.15 0.1   
+        soilwat2 set sw = 0.15 0.15 0.1
         soiln2   set no3 = 1 1 1          ! Reset the soil profile
         soiln2   set nh4 = 1 1 1
         residue2 tillage type = burn      ! Remove noise from residues
@@ -204,8 +166,8 @@ asw_depth =      500
         ! [soil_moisture.sw_dep] - water stress contributes to crop failure
         ! [soil_nitrogen.no3]    - N stress contributes to crop failure
         maize sow cultivar = dekalb_xl82, plants = 5, sowing_depth = 50, tiller_no_fertile = 1
-!        soilwat2 set sw = 0.15 0.15 0.1   
-        soilwat2 set sw = 0.25 0.25 0.2   
+!        soilwat2 set sw = 0.15 0.15 0.1
+        soilwat2 set sw = 0.25 0.25 0.2
 !        soiln2   set no3 = 1 1 1          ! Reset the soil profile
         soiln2   set no3 = 10 1 1          ! Reset the soil profile
         soiln2   set nh4 = 1 1 1
@@ -223,8 +185,8 @@ asw_depth =      500
         ! [reset_sw.dlt_sw_dep]  - soil water should decrease with extraction
         ! [reset_no3.dlt_no3]    - soil N should decrease with extraction
         maize sow cultivar = dekalb_xl82, plants = 5, sowing_depth = 50, tiller_no_fertile = 1
-!        soilwat2 set sw = 0.15 0.15 0.1   
-        soilwat2 set sw = 0.25 0.25 0.2   
+!        soilwat2 set sw = 0.15 0.15 0.1
+        soilwat2 set sw = 0.25 0.25 0.2
         soiln2   set no3 = 1 1 1          ! Reset the soil profile
         soiln2   set nh4 = 1 1 1
         residue2 tillage type = burn      ! Remove noise from residues
@@ -236,7 +198,7 @@ asw_depth =      500
 
      endif
 
-[reference.manager.end_of_day]  
+[reference.manager.end_of_day]
 
      if (maize.plant_status = 'dead') then
         ! [end_crop_msg.end_crop] - end crop should remove crop altogether
