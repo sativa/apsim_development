@@ -1,6 +1,6 @@
-C     Last change:  E    19 May 2000   11:14 am
+C     Last change:  E    18 Oct 2000    1:22 pm
 
-       INCLUDE 'CropMod.inc'
+C       INCLUDE 'CropMod.inc'
 
 *=======================================================================
       subroutine sunf_process_new ()
