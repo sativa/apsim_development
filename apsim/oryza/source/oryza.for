@@ -1778,6 +1778,15 @@
      :          ,numvals              ! Number of values returned
      :          ,0.0                  ! Lower Limit for bound check
      :          ,500.0)                 ! Upper Limit for bound check
+
+      call read_real_var (
+     :           section_name         ! Section header
+     :          ,'fstr'               ! Keyword
+     :          ,'()'              ! Units
+     :          ,p%fstr               ! Array
+     :          ,numvals              ! Number of values returned
+     :          ,0.0                  ! Lower Limit for bound check
+     :          ,1.0)                 ! Upper Limit for bound check
       
       call read_real_var (
      :           section_name         ! Section header
