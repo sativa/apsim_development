@@ -108,7 +108,7 @@
       else if (action .eq. ACTION_set_variable) then
          call SoilpH_set_my_variable (data_string)
 
-      else if (action.eq.ACTION_process) then
+      else if (action.eq.ACTION_post) then
          call SoilpH_get_other_variables ()
          call SoilpH_process ()
          call SoilpH_zero_event_variables ()
@@ -558,7 +558,7 @@
      :                  //  'numvals.ge.e%num_layers .or. numvals.eq.0')
       if (numvals .eq. 0) then
             ! To indicate that no SALS was supplied by the user.
-         call fill_real_array (p%sAls_supplied, -1.0, e%num_layers)
+         p%sAls_supplied(:) = -1.0
       else
       endif
 
@@ -583,8 +583,7 @@
      :                     , numvals
      :                     , 5.0, 100.0)
       if (numvals .eq. 0)  then
-         call fill_real_array (p%hum_acid_slope
-     :                       , c%hum_acid_slope, e%num_layers)
+         p%hum_acid_slope(:) = c%hum_acid_slope
       else
          call SoilpH_assert (numvals .ge. e%num_layers
      :                 , 'p%hum_acid_slope: numvals.ge.e%num_layers')
@@ -599,8 +598,7 @@
      :                     , numvals
      :                     , 0.5, 2.5)
       if (numvals .eq. 0)  then
-         call fill_real_array (p%hum_acid_pHCa_offset
-     :                        , c%hum_acid_pHCa_offset, e%num_layers)
+         p%hum_acid_pHCa_offset(:) = c%hum_acid_pHCa_offset
       else
          call SoilpH_assert (numvals .ge. e%num_layers
      :              , 'p%hum_acid_pHCa_offset: numvals.ge.e%num_layers')
@@ -881,10 +879,8 @@
       c%hum_acid_pHCa_offset  = 0.0
       c%CO2_pressure_atm      = 0.0
 
-      call fill_real_array (c%lime_sol_tbl_pHCa, 0.0
-     :                     , lime_sol_tbl_size_max)
-      call fill_real_array (c%lime_sol_tbl_lime, 0.0
-     :                     , lime_sol_tbl_size_max)
+      c%lime_sol_tbl_pHCa(:) = 0.0
+      c%lime_sol_tbl_lime(:) = 0.0
 
          !  Paramaters
       p%report_additions   = blank
@@ -897,9 +893,8 @@
       p%P_dm_percent       = 0.0
       p%S_dm_percent       = 0.0
       p%Cl_dm_percent      = 0.0
-      call fill_logical_array (p%sAls_supplied_use_flag, .false.
-     :                        , max_layer)
-      call fill_real_array (p%Ca_avail       , 0.0, max_layer)
+      p%sAls_supplied_use_flag(:) = .false.
+      p%Ca_avail(:)       = 0.0
       call fill_real_array (p%Mg_avail       , 0.0, max_layer)
       call fill_real_array (p%K_avail        , 0.0, max_layer)
       call fill_real_array (p%Na_avail       , 0.0, max_layer)
@@ -1185,7 +1180,7 @@
       call push_routine  (my_name)
 
          ! Fraction of organic carbon in the layer.
-      call fill_real_array (org_C, 0.0, e%num_layers)
+      org_C(:) = 0.0
 
          ! Get OC%.
       call get_real_array (unknown_module
@@ -1376,13 +1371,13 @@
             ! Estimate uptakes of other elements for each crop.
    
             !  Zero out all uptakes.
-         call fill_real_array (dlt_Ca_uptake_equiv  , 0.0, e%num_layers)
-         call fill_real_array (dlt_Mg_uptake_equiv  , 0.0, e%num_layers)
-         call fill_real_array (dlt_K_uptake_equiv   , 0.0, e%num_layers)
-         call fill_real_array (dlt_Na_uptake_equiv  , 0.0, e%num_layers)
-         call fill_real_array (dlt_P_uptake_equiv   , 0.0, e%num_layers)
-         call fill_real_array (dlt_S_uptake_equiv   , 0.0, e%num_layers)
-         call fill_real_array (dlt_Cl_uptake_equiv  , 0.0, e%num_layers)
+         dlt_Ca_uptake_equiv(:)  = 0.0
+         dlt_Mg_uptake_equiv(:)  = 0.0
+         dlt_K_uptake_equiv(:)   = 0.0
+         dlt_Na_uptake_equiv(:)  = 0.0
+         dlt_P_uptake_equiv(:)   = 0.0
+         dlt_S_uptake_equiv(:)   = 0.0
+         dlt_Cl_uptake_equiv(:)  = 0.0
    
    
                !  Get Root Length volume.  Uptakes are distributed in these proportions.
@@ -1616,7 +1611,7 @@
          !  Distribute the stuff where it is available in the proportions of the roots.
       if (root_length_sum .eq. 0)  then
          ! There are no roots where stuff is available.
-         call fill_real_array (uptake_equiv, 0.0, num_layers)
+         uptake_equiv(:) = 0.0
       else
          ! Distribute proportionally according to root length.
          uptake_sum = dlt_dm * dm_percent * pcnt2fract * Kg2Mol*valency
@@ -3135,7 +3130,7 @@
 1100  continue
 
          !  'e%dlt_lime_added' is a delta.  It has just been used, so set it to zero.
-      call fill_real_array (e%dlt_lime_added, 0.0, e%num_layers)
+      e%dlt_lime_added(:) = 0.0
 
          !  Acid added due to nitrogen cycle.
       do 1150 layer=1, e%num_layers
@@ -3185,27 +3180,25 @@
      :                                , 0.0
      :                                , 0.0)
 
-         !  Flow of hydrogen ions out of each layer.
-      do 1200 layer=1, e%num_layers
-         call soilpH_H_equiv_mass_flow (g%H_equiv_mass_flow(layer)
-     :                                , g%pHCa(layer)
-     :                                , e%flow_water(layer)
-     :                                , p%CO2_pressure_soil(layer)
-     :                                , p%pAl_pHca_slope(layer)
-     :                                , p%pAl_pHCa_intercept(layer))
-1200  continue
-
+         !  Upward Flow of hydrogen ions out of each layer.
+      do 1200 layer=e%num_layers,1,-1
+         if (e%flow_water(layer) .lt .0.0) then
+            call soilpH_H_equiv_mass_flow (g%H_equiv_mass_flow(layer)
+     :                                  , g%pHCa(layer+1)
+     :                                  , e%flow_water(layer)
+     :                                  , p%CO2_pressure_soil(layer+1)
+     :                                  , p%pAl_pHca_slope(layer+1)
+     :                                  , p%pAl_pHCa_intercept(layer+1))
          !  Net flow of hydrogen ions into each layer.
-      g%H_equiv_flow_net(1) = g%H_equiv_infiltration 
-     :                      - g%H_equiv_mass_flow(1)
-      do 1300 layer=2, e%num_layers
+      if (layer .eq.1) then
+         g%H_equiv_flow_net(1) = g%H_equiv_infiltration 
+     :                         - g%H_equiv_mass_flow(1)
+      else
          g%H_equiv_flow_net(layer) = g%H_equiv_mass_flow(layer-1) 
      :                             - g%H_equiv_mass_flow(layer)
-1300  continue
+      endif
 
          !  Difference in pHCa.
-      do 2000 layer=1, e%num_layers
-!      print*, 'Layer=', layer
          call soilpH_dlt_pH (
      :                g%dlt_pHCa(layer)
      :               , g%pHBC(layer)
@@ -3221,7 +3214,48 @@
          g%pHCa(layer) = g%pHCa(layer) + g%dlt_pHCa(layer)
          g%lime_pool(layer) = g%lime_pool(layer)
      :                      + g%dlt_lime_pool(layer)
-2000  continue
+         else
+         endif
+1200  continue
+
+
+         !  Downward Flow of hydrogen ions out of each layer.
+      do 1300 layer=1, e%num_layers
+         if (e%flow_water(layer) .ge .0.0) then
+            call soilpH_H_equiv_mass_flow (g%H_equiv_mass_flow(layer)
+     :                                    , g%pHCa(layer)
+     :                                    , e%flow_water(layer)
+     :                                    , p%CO2_pressure_soil(layer)
+     :                                    , p%pAl_pHca_slope(layer)
+     :                                    , p%pAl_pHCa_intercept(layer))
+            !  Net flow of hydrogen ions into each layer.
+         if (layer .eq.1) then
+            g%H_equiv_flow_net(1) = g%H_equiv_infiltration 
+     :                           - g%H_equiv_mass_flow(1)
+         else
+            g%H_equiv_flow_net(layer) = g%H_equiv_mass_flow(layer-1) 
+     :                                - g%H_equiv_mass_flow(layer)
+         endif
+
+         !  Difference in pHCa.
+         call soilpH_dlt_pH (
+     :                g%dlt_pHCa(layer)
+     :               , g%pHBC(layer)
+     :               , g%dlt_acid_N_cycle(layer)
+     :               , g%acid_excretion_root(layer)
+     :               , g%H_equiv_flow_net(layer)
+     :               , g%dlt_lime_dissl(layer)
+     :               , e%ash_alk_wt_incorp(layer)
+     :               , g%dlt_acid_org_C_cycle(layer)
+     :               , e%dlayer(layer)
+     :                        )
+         g%pHca_old(layer) = g%pHCa(layer)
+         g%pHCa(layer) = g%pHCa(layer) + g%dlt_pHCa(layer)
+         g%lime_pool(layer) = g%lime_pool(layer)
+     :                      + g%dlt_lime_pool(layer)
+         else
+         endif
+1300  continue
 
 
  !      print*, 'soilpH:g%residue_ash_alk_wt=', g%residue_ash_alk_wt
