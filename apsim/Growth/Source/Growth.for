@@ -6048,7 +6048,7 @@ c      crown_cover = 1.0/(1.0 + 9.*exp(-1.66*G_LAI))
 
       call post_real_var ('lai_tot'
      :                   , '()'
-     :                   , g%lai)
+     :                   , g%lai + g%slai)
 
       call event_send ('new_canopy')
 
