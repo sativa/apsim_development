@@ -664,9 +664,9 @@
       <field name="CropType" kind="string"/>
       <field name="Layer" array="T">
          <element>
-         <field name="CumHeight" kind="single"/>
-         <field name="CumLAI" kind="single"/>
-         <field name="CumCover" kind="single"/>
+         <field name="Thickness" kind="single"/>
+         <field name="LAI" kind="single"/>
+         <field name="Cover" kind="single"/>
          </element>
       </field>
       <field name="frgr" kind="single"/>
