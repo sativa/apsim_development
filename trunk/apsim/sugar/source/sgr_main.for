@@ -191,7 +191,8 @@
       call push_routine (my_name)
  
       ! request and receive variables from owner-modules
-      call sugar_get_other_variables ()
+      call sugar_get_met_variables ()
+      call sugar_get_soil_variables ()
  
       call sugar_root_depth(1)
       call sugar_root_Depth_init(1) ! after because it sets the delta
@@ -563,7 +564,6 @@
  
           ! zero pools etc.
       call sugar_zero_globals ()
-      call sugar_zero_soil_globals()
       call sugar_zero_daily_variables ()
       call sugar_zero_parameters ()
 
@@ -718,6 +718,8 @@ c      g_oxdef_photo = 0.0
       call push_routine (my_name)
  
       call sugar_zero_variables ()
+      call sugar_zero_soil_globals()
+
 cnh      call report_date_and_event (g_day_of_year,g_year,
 cnh     :                 ' Initialising, Version : '
 cnh     :                  // sugar_version ())
@@ -731,7 +733,8 @@ cnh     :                  // sugar_version ())
       g_current_stage = real (crop_end)
       g_crop_status = crop_out
  
-      call sugar_get_other_variables ()
+      call sugar_get_met_variables ()
+      call sugar_get_soil_variables ()
  
       call pop_routine (my_name)
       return
@@ -777,8 +780,8 @@ cnh     :                  // sugar_version ())
       call push_routine (my_name)
  
       ! request and receive variables from owner-modules
-      call sugar_get_other_variables ()
- 
+      call sugar_get_met_variables ()
+      call sugar_get_soil_variables ()
  
 cnh      call report_event ( 'Sowing initiate')
          call report_date_and_event
@@ -1301,39 +1304,28 @@ cnh         call report_event (string)
 
 
 *     ================================================================
-      subroutine sugar_get_other_variables ()
+      subroutine sugar_get_met_variables ()
 *     ================================================================
       implicit none
       include   'const.inc'
-      include   'convert.inc'
       include   'sugar.inc'
-      include 'data.pub'                          
       include 'engine.pub'                        
       include 'intrface.pub'                      
       include 'error.pub'                         
-      include 'crp_root.pub'
 
 *+  Purpose
 *      Get the values of variables/arrays from other modules.
 
 *+  Changes
-*     060495 nih taken from template
-*     210896 nih added module name as suffice to intercepted radiation
-*     020998 sb Relaced c_year_lb and c_year_ub with min_year and max_year.
+*     230399 nih taken from get_other_variables
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_get_other_variables')
+      parameter (my_name = 'sugar_get_met_variables')
 
 *+  Local Variables
-      integer    layer                 ! layer number
       integer    numvals               ! number of values put into array
       character  mod_name*12           ! module name
-      real       dlayer(max_layer)     ! soil layer depths (mm)
-      real       NO3(max_layer)        ! soil NO3 content (kg/ha)
-      real       NO3_min(max_layer)    ! soil NO3 minimum (kg/ha)
-      real       profile_depth
-      real       root_depth_new
     
 *- Implementation Section ----------------------------------
  
@@ -1372,6 +1364,45 @@ cnh         call report_event (string)
      :                           , 0.0
      :                           , 1.0)
  
+      call pop_routine (my_name)
+      return
+      end
+
+*     ================================================================
+      subroutine sugar_get_soil_variables ()
+*     ================================================================
+      implicit none
+      include   'const.inc'
+      include   'convert.inc'
+      include   'sugar.inc'
+      include 'data.pub'                          
+      include 'intrface.pub'                      
+      include 'error.pub'                         
+      include 'crp_root.pub'
+
+*+  Purpose
+*      Get the values of variables/arrays from soil modules.
+
+*+  Changes
+*     230399 nih taken from get_other_variables
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'sugar_get_soil_variables')
+
+*+  Local Variables
+      integer    layer                 ! layer number
+      integer    numvals               ! number of values put into array
+      real       dlayer(max_layer)     ! soil layer depths (mm)
+      real       NO3(max_layer)        ! soil NO3 content (kg/ha)
+      real       NO3_min(max_layer)    ! soil NO3 minimum (kg/ha)
+      real       profile_depth
+      real       root_depth_new
+    
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
       ! Soil Water module
       ! -----------------
       call get_real_array (unknown_module, 'dlayer', max_layer
@@ -1408,6 +1439,7 @@ cnh         call report_event (string)
          endif
  
          do 1000 layer = 1, numvals
+            ! What happens if crop not in ground and p_ll_dep is empty
             p_ll_dep(layer) = divide (p_ll_dep(layer)
      :                              , g_dlayer(layer), 0.0)
      :                      * dlayer(layer)
@@ -2639,7 +2671,8 @@ cnh      c_crop_type = ' '
  
  
       if (g_crop_status.eq.crop_alive) then
-         call sugar_get_other_variables ()
+         call sugar_get_met_variables ()
+         call sugar_get_soil_variables ()
  
          call sugar_nit_stress_photo (1)
          call sugar_nit_stress_expansion (1)
@@ -2657,6 +2690,8 @@ cnh      c_crop_type = ' '
          call sugar_nit_demand_est (1)
  
       else
+         call sugar_get_soil_variables ()
+
       endif
  
       call pop_routine (myname)
