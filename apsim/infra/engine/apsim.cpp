@@ -27,7 +27,6 @@ int main(int argc, char **argv)
       cout << "Where sim_file_name is the name of your simulation file (.SIM)" << std::endl;
       }
 
-   getch();
    return 0;
    }
 
