@@ -127,6 +127,8 @@
 *      071097 PdeV added tillage message
 *      090298 jngh changed init phase to only get met variables
 *      170599 nih  Added new solute handler
+*      150600 jngh added evap_init action 
+*      240800 jngh added zero_event_data
 
 *+  Constant Values
       character  my_name*(*)           ! name of this module
@@ -176,6 +178,7 @@
       else if (action.eq.ACTION_init) then
          call soilwat2_zero_variables ()
          call soilwat2_zero_data_links ()
+         call soilwat2_zero_event_data ()
          call soilwat2_init ()
          call soilwat2_sum_report ()
  
@@ -3282,12 +3285,13 @@ c     he should have. Any ideas? Perhaps
       call push_routine (my_name)
  
 cnh It seems that this is never used - and usually it is never provided anyway!! 
-c      call get_real_var_optional (unknown_module
-c     :                           , 'cover_surface_extra'
-c     :                           , '()'
-c     :                           , g%cover_surface_extra
-c     :                           , numvals
-c     :                           , 0.0, 1.0)
+cjngh DMS requested that this facility be retained! That's why it was implemented.
+      call get_real_var_optional (unknown_module
+     :                           , 'cover_surface_extra'
+     :                           , '()'
+     :                           , g%cover_surface_extra
+     :                           , numvals
+     :                           , 0.0, 1.0)
   
              ! Get green cover of each crop
              ! g%cover_green is all canopys green
@@ -3764,12 +3768,12 @@ c     :                           , 0.0, 1.0)
      :                             , p%cn_red, numvals
      :                             , 0.0, p%cn2_bare - 0.00009)
  
-      elseif (variable_name .eq. 'u') then
+      elseif (variable_name .eq. 'cona') then
          call collect_real_var (variable_name, '()'
      :                             , p%cona, numvals
      :                             , 0.0001, 10.0)
  
-      elseif (variable_name .eq. 'cona') then
+      elseif (variable_name .eq. 'u') then
          call collect_real_var (variable_name, '()'
      :                             , p%u, numvals
      :                             , 0.0001, 40.0)
@@ -4182,6 +4186,7 @@ c     :                           , 0.0, 1.0)
 *       191094 jngh specified and programmed
 *       190595 jngh added bulk density
 *       201099 dph  zeroed g%irrigation
+*       240800 jngh moved rain, eadn, mint, maxt, day and year to separate s/r
  
 *+  Constant Values
       character  my_name*(*)           ! module name
@@ -4193,18 +4198,12 @@ c     :                           , 0.0, 1.0)
 
 * ====================================================================
 * Globals
-         g%rain = 0.0                         ! precipitation (mm/d)
-         g%radn = 0.0                         ! solar radiation (mj/m^2/day)
-         g%mint = 0.0                         ! minimum air temperature (oC)
-         g%maxt = 0.0                         ! maximum air temperature (oC)
          g%cover_surface_extra = 0.0          ! extra surface cover (0-1)
          g%cover_surface_runoff = 0.0         ! effective total cover (0-1)
          g%cover_tot(:) = 0.0                 ! total canopy cover of crops (0-1)
          g%cover_green(:) = 0.0               ! green canopy cover of crops (0-1)
          g%canopy_height(:) = 0.0             ! canopy heights of each crop (mm)
          g%num_crops = 0                      ! number of crops ()
-         g%year = 0                           ! year
-         g%day  = 0                           ! day of year
          g%sumes1 = 0.0                       ! cumulative soil evaporation in stage 1 (mm)
          g%sumes2 = 0.0                       ! cumulative soil evaporation in stage 2 (mm)
          g%t = 0.0                            ! time after 2nd-stage soil evaporation
@@ -4374,6 +4373,43 @@ c         g%crop_module(:) = ' '               ! list of modules
       call fill_char_array (g%solute_owners, ' ', max_solute)
       call fill_logical_array (g%solute_mobility, .false., max_solute)
       g%num_solutes = 0
+
+      call pop_routine (my_name)
+      return
+      end 
+ 
+*     ===========================================================
+      subroutine soilwat2_zero_event_data ()
+*     ===========================================================
+      use Soilwat2Module
+      implicit none
+      include   'const.inc'            ! blank
+      include 'data.pub'
+      include 'error.pub'
+ 
+*+  Purpose
+*     Zero information describing event data from other modules
+ 
+*+  Mission Statement
+*     Zero information describing event data from other modules
+ 
+*+  Changes
+*       240800 jngh specified and programmed
+ 
+*+  Constant Values
+      character  my_name*(*)           ! module name
+      parameter (my_name  = 'soilwat2_zero_event_data')
+ 
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+         g%year = 0                           ! year
+         g%day  = 0                           ! day of year
+         g%rain = 0.0                         ! precipitation (mm/d)
+         g%radn = 0.0                         ! solar radiation (mj/m^2/day)
+         g%mint = 0.0                         ! minimum air temperature (oC)
+         g%maxt = 0.0                         ! maximum air temperature (oC)
 
       call pop_routine (my_name)
       return
