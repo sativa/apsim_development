@@ -32,6 +32,15 @@ Variables =cum_rain,no_rain
 ---------------------------------------------------------
  INPUT (met) Initialised
 ---------------------------------------------------------
+ day= 265 date= 22  9 1995 accum    - Initialising
+ day= 265 date= 22  9 1995 fertiliz -  Initialising
+ 
+   - Reading Parameters
+ 
+               Fertiliser Schedule (kg/ha)
+     -----------------------------------------------
+      No fertiliser schedule is used
+     -----------------------------------------------
  day= 265 date= 22  9 1995 manager  - Initialising
  
 Manager rules
@@ -167,16 +176,7 @@ the insoil parameter which is between 0 and 1
      ---------------------------------------------------------
       Totals   85591.6  5902.9   898.4   112.3   400.0     8.0
      ---------------------------------------------------------
- day= 265 date= 22  9 1995 fertiliz -  Initialising
- 
-   - Reading Parameters
- 
-               Fertiliser Schedule (kg/ha)
-     -----------------------------------------------
-      No fertiliser schedule is used
-     -----------------------------------------------
  day= 265 date= 22  9 1995 ozcot    - Initialising
- day= 265 date= 22  9 1995 accum    - Initialising
  
 ======= Start of APSIM simulation ============================
  day= 265 date= 22  9 1995 manager  - Manager creating a new local variable : yield_acre =    0.000000000000000

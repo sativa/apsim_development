@@ -14,6 +14,14 @@ Variables =labile_p,unavail_p,rock_p,banded_p,biom_p(),hum_p(),fom_p()
 ---------------------------------------------------------
  INPUT (met) Initialised
 ---------------------------------------------------------
+ day=   1 date=  1  1 1988 fertiliz -  Initialising
+ 
+   - Reading Parameters
+ 
+               Fertiliser Schedule (kg/ha)
+     -----------------------------------------------
+      No fertiliser schedule is used
+     -----------------------------------------------
  day=   1 date=  1  1 1988 manager  - Initialising
  
 Manager rules
@@ -164,14 +172,6 @@ report do_output
  
       Dissolution rate of rock P :    0.00061   (/yr)
       Root C:P :                    200.0
- day=   1 date=  1  1 1988 fertiliz -  Initialising
- 
-   - Reading Parameters
- 
-               Fertiliser Schedule (kg/ha)
-     -----------------------------------------------
-      No fertiliser schedule is used
-     -----------------------------------------------
  
 ======= Start of APSIM simulation ============================
  Day=   5 Year =  1988     Manager sending message :- fertiliz apply amount = 30 (kg/ha), depth = 20 (mm), type = rock_p
