@@ -1323,6 +1323,74 @@ void PlantP::PlantP_retrans (float growth_stage
       pop_routine (my_name);
 }
 
+// ====================================================================
+void PlantP::summary (float dm_green[], float dm_dead[])
+{
+//+  Purpose
+//      Summary
+
+//+  Changes
+//     <insert here>
+
+
+//+  Constant Values
+    const char*  my_name = "PlantP_summary" ;
+
+//+  Local Variables
+    char  msg[400];
+      float       P_grain;               // total grain P uptake (kg/ha)
+      float       P_dead;                // above ground dead plant P (kg/ha)
+      float       P_green;               // above ground green plant P (kg/ha)
+      float       P_senesced;            // above ground senesced plant P (kg/ha)
+      float       P_stover;              // nitrogen content of stover (kg\ha)
+      float       P_total;               // total gross nitrogen content (kg/ha)
+      float       P_grain_conc_percent;  // grain nitrogen .
+
+//- Implementation Section ----------------------------------          g.part_p_green(1:g.num_parts)
+      push_routine (my_name);
+
+   if (g.phosphorus_aware == true)
+   {
+       P_grain_conc_percent = divide (
+           g.part_p_green[meal] + g.part_p_dead[meal] + g.part_p_green[oil] + g.part_p_dead[oil]
+         , dm_green[meal] + dm_dead[meal] + dm_green[oil] + dm_dead[oil]
+         , 0.0) * fract2pcnt;
+
+       P_grain = (g.part_p_green[meal] + g.part_p_dead[meal]
+               +  g.part_p_green[oil]  + g.part_p_dead[oil]) * gm2kg/sm2ha;
+
+       P_green = (sum_real_array (g.part_p_green, max_part)
+               -  g.part_p_green[root] - g.part_p_green[meal] - g.part_p_green[oil]) * gm2kg / sm2ha;
+
+       P_senesced = (sum_real_array (g.part_p_sen, max_part)
+                  -  g.part_p_sen[root] - g.part_p_sen[meal]- g.part_p_sen[oil]) * gm2kg / sm2ha;
+
+       P_dead = (sum_real_array (g.part_p_dead, max_part)
+           - g.part_p_dead[root] - g.part_p_dead[meal] - g.part_p_dead[oil]) * gm2kg / sm2ha;
+
+        P_stover = P_green + P_senesced + P_dead;
+        P_total = P_grain + P_stover;
+
+
+
+       sprintf (msg, "%s%10.2f%20s%s%10.2f"
+                , " grain P percent        = ", P_grain_conc_percent, " "
+                , " total P content (kg/ha)= ", P_total);
+       plant->parent->writeString (msg);
+
+       sprintf (msg, "%s%10.2f%20s%s%8.2f"
+                , " grain P uptake (kg/ha) = ", P_grain, " "
+                , " senesced P content (kg/ha)=", P_senesced);
+       plant->parent->writeString (msg);
+
+       sprintf (msg, "%s%10.2f%20s%s%10.2f"
+                , " green P content (kg/ha)= ", P_green, " "
+                , " dead P content (kg/ha) = ", P_dead);
+       plant->parent->writeString (msg);
+   }
+   pop_routine (my_name);
+}
+
 
 
 
