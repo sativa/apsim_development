@@ -7,6 +7,9 @@
 *+  Purpose
 *       return version number of surface module
 
+*+  Mission Statement
+*       Current Version Number
+
 *+  Changes
 *     <insert here>
 
@@ -52,6 +55,9 @@
 *      this module resets the surface seal value to the value this module
 *      wishes APSwim to use.  This will override any internally calculated
 *      value of surface conductance.
+
+*+  Mission Statement
+*      Main interface routine
 
 *+  Changes
 *     <insert here>
@@ -136,6 +142,9 @@ c         call surface_tillage ()
 *+  Purpose
 *      Initialise surface module
 
+*+  Mission Statement
+*      Perform module initialisation
+
 *+  Changes
 *     <insert here>
 
@@ -182,6 +191,9 @@ c         call surface_tillage ()
 
 *+  Purpose
 *      Read in all parameters from parameter file.
+
+*+  Mission Statement
+*      Read all module parameters
 
 *+  Changes
 *     <insert here>
@@ -281,6 +293,9 @@ c         call surface_tillage ()
 *+  Purpose
 *     Set all variables in this module to zero.
 
+*+  Mission Statement
+*     Initialise all module variables
+
 *+  Changes
 *     <insert here>
 
@@ -323,6 +338,9 @@ c         call surface_tillage ()
 
 *+  Purpose
 *      Get the values of variables from other modules
+
+*+  Mission Statement
+*      Get values of state variables from other modules
 
 *+  Changes
 *     <insert here>
@@ -376,6 +394,9 @@ c         call surface_tillage ()
 *+  Purpose
 *      Return the value of one of our variables to caller
 
+*+  Mission Statement
+*      Provide data to other modules upon request
+
 *+  Changes
 *      011195 jngh  added call to message_unused
 
@@ -415,6 +436,9 @@ c         call surface_tillage ()
 
 *+  Purpose
 *     Set one of our variables altered by some other module
+
+*+  Mission Statement
+*     Update internal state variable upon request
 
 *+  Changes
 *      011195 jngh  added call to message_unused
@@ -461,6 +485,9 @@ c      endif
 
 *+  Purpose
 *      Return the value of one of our variables to caller
+
+*+  Mission Statement
+*      Calculate change in surface seal based upon rainfall information
 
 *+  Changes
 *      011195 jngh  added call to message_unused
@@ -535,6 +562,9 @@ c      endif
       include 'error.pub'                         
 
 *+  Purpose
+*      Get the values of surface seal variables from apswim
+
+*+  Mission Statement
 *      Get the values of surface seal variables from apswim
 
 *+  Changes
@@ -634,6 +664,9 @@ c      endif
 *     decayed state.  We do this because APSwim "owns" the seal
 *     and it may have it reset at any time via tillage etc.
 
+*+  Mission Statement
+*     Calculate the surface conductance
+
 *+  Changes
 *     <insert here>
 
@@ -729,6 +762,9 @@ c      endif
 *        seal was decayed each day using all rainfall up to that
 *        point in time instead of the rainfall for just that time period.
 
+*+  Mission Statement
+*     Calculate the surface conductance (Silburn & Connelly)
+
 *+  Changes
 *     <insert here>
 
@@ -812,6 +848,9 @@ cnh but is more sensible at low rainfall intensities.
 *      point will not have any changes based upon apswim calculations.
 *      We record the state here and then perform our own calculations
 *      at the pre_timestep stage of swim calculations.
+
+*+  Mission Statement
+*      Get variables before swim timesteps
 
 *+  Changes
 *     31-01-1997 - huth - Programmed and Specified
