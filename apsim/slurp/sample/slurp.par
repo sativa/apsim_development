@@ -28,6 +28,9 @@ end_year =  1988
 [sample.manager.start_of_day]  
 if day = 1 or day = 15 then
    fertiliz apply amount = 100 (), type = nh4no3 ()
+elseif day = 10 then
+   slurp set eo_fraction = 0.75 ()
+
 endif
 
 
