@@ -165,7 +165,7 @@
           millet harvest
           millet kill_crop
           millet end_crop
-          residue2 tillage_type = burn
+          residue2 tillage type = burn
           tiller0_finished = 2
           endif
           if (millet1.stage_name = 'harvest_ripe' and millet1.plant_status = 'alive') or
@@ -174,7 +174,7 @@
           millet1 harvest
           millet1 kill_crop
           millet1 end_crop
-          residue2 tillage_type = burn
+          residue2 tillage type = burn
           tiller1_finished = 2
           endif
           if (millet2.stage_name = 'harvest_ripe' and millet2.plant_status = 'alive') or
@@ -183,7 +183,7 @@
           millet2 harvest
           millet2 kill_crop
           millet2 end_crop
-          residue2 tillage_type = burn
+          residue2 tillage type = burn
           tiller2_finished = 2
           endif
           if (millet3.stage_name = 'harvest_ripe' and millet3.plant_status = 'alive') or
@@ -192,7 +192,7 @@
           millet3 harvest
           millet3 kill_crop
           millet3 end_crop
-          residue2 tillage_type = burn
+          residue2 tillage type = burn
           tiller3_finished = 2
           endif
           if (millet4.stage_name = 'harvest_ripe' and millet4.plant_status = 'alive') or
@@ -201,7 +201,7 @@
           millet4 harvest
           millet4 kill_crop
           millet4 end_crop
-          residue2 tillage_type = burn
+          residue2 tillage type = burn
           tiller4_finished = 2
           endif
           if (millet5.stage_name = 'harvest_ripe' and millet5.plant_status = 'alive') or
@@ -210,7 +210,7 @@
           millet5 harvest
           millet5 kill_crop
           millet5 end_crop
-          residue2 tillage_type = burn
+          residue2 tillage type = burn
           tiller5_finished = 2
           endif
      if (tiller0_finished = 2 and tiller1_finished = 2 and tiller2_finished = 2) and
@@ -963,7 +963,13 @@
                                                 root residue =   60.1 kg/ha
                                                 root N =    0.4 kg/ha
    MANAGER:
-           Manager sending message :- residue2 tillage_type = burn
+           Manager sending message :- residue2 tillage type = burn
+   RESIDUE2:
+      
+          - Reading residue tillage info
+      Residue removed using burn                          
+                                              Fraction Incorporated =     1.00
+                                              Incorporated Depth    =     0.00
 23 August 1996 (Day of year=236):
    OPERATNS:
        Sending set message to soilwat2
@@ -1037,7 +1043,13 @@
                                                 root residue =   92.6 kg/ha
                                                 root N =    0.5 kg/ha
    MANAGER:
-           Manager sending message :- residue2 tillage_type = burn
+           Manager sending message :- residue2 tillage type = burn
+   RESIDUE2:
+      
+          - Reading residue tillage info
+      Residue removed using burn                          
+                                              Fraction Incorporated =     1.00
+                                              Incorporated Depth    =     0.00
 24 August 1996 (Day of year=237):
    MILLET4:
       plant_kill. 100% failure because of barreness.
@@ -1049,16 +1061,16 @@
       
       
       
-       flowering day  =  233                  stover (kg/ha) =      60.8
+       flowering day  =  233                  stover (kg/ha) =      60.9
        maturity day        =    0             grain yield (kg/ha) =       0.0
        grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
        grain wt (g) =     0.000               grains/m^2   =     0.000
        grains/head =   0.0                    maximum lai = 0.069
-       total above ground biomass (kg/ha) =      60.8
+       total above ground biomass (kg/ha) =      60.9
        live above ground biomass (kg/ha) =       0.0
        green above ground biomass (kg/ha) =       0.0
        senesced above ground biomass (kg/ha) =       0.0
-       dead above ground biomass (kg/ha) =      60.8
+       dead above ground biomass (kg/ha) =      60.9
        number of leaves =  12.5
        grain N percent =      0.00            total N content (kg/ha) =      0.48
        grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.00
@@ -1091,8 +1103,8 @@
       
       
        stress indices for flowering
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.2465395
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.3972317
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.2435093
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.3948075
       
       
       
@@ -1104,12 +1116,18 @@
            Manager sending message :- millet4 end_crop
    MILLET4:
           ended. Yield (dw) =     0.0
-                                                straw residue =   60.8 kg/ha
+                                                straw residue =   60.9 kg/ha
                                                 straw N =    0.5 kg/ha
                                                 root residue =   26.8 kg/ha
                                                 root N =    0.2 kg/ha
    MANAGER:
-           Manager sending message :- residue2 tillage_type = burn
+           Manager sending message :- residue2 tillage type = burn
+   RESIDUE2:
+      
+          - Reading residue tillage info
+      Residue removed using burn                          
+                                              Fraction Incorporated =     1.00
+                                              Incorporated Depth    =     0.00
 25 August 1996 (Day of year=238):
    MILLET5:
       plant_kill. 100% failure because of barreness.
@@ -1132,9 +1150,9 @@
        senesced above ground biomass (kg/ha) =       0.0
        dead above ground biomass (kg/ha) =      37.3
        number of leaves =  12.0
-       grain N percent =      0.00            total N content (kg/ha) =      0.35
+       grain N percent =      0.00            total N content (kg/ha) =      0.37
        grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.00
-       green N content (kg/ha) =      0.00    dead N content (kg/ha) =      0.35
+       green N content (kg/ha) =      0.00    dead N content (kg/ha) =      0.37
       
       
       
@@ -1163,8 +1181,8 @@
       
       
        stress indices for flowering
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.1853320
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.3466843
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.1823469
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.3343993
       
       
       
@@ -1177,11 +1195,17 @@
    MILLET5:
           ended. Yield (dw) =     0.0
                                                 straw residue =   37.3 kg/ha
-                                                straw N =    0.3 kg/ha
+                                                straw N =    0.4 kg/ha
                                                 root residue =   13.9 kg/ha
                                                 root N =    0.1 kg/ha
    MANAGER:
-           Manager sending message :- residue2 tillage_type = burn
+           Manager sending message :- residue2 tillage type = burn
+   RESIDUE2:
+      
+          - Reading residue tillage info
+      Residue removed using burn                          
+                                              Fraction Incorporated =     1.00
+                                              Incorporated Depth    =     0.00
 26 August 1996 (Day of year=239):
    OPERATNS:
        Sending set message to soilwat2
@@ -1197,44 +1221,44 @@
 8 September 1996 (Day of year=252):
    MILLET:
        stage    9.0 end_grain_fill
-                           biomass =           414.1107       lai =    0.4263270    
-                           stover N conc =   0.7323534       extractable sw =    56.88095
+                           biomass =           414.5027       lai =    0.4263270    
+                           stover N conc =   0.7337184       extractable sw =    56.84430
 9 September 1996 (Day of year=253):
    OPERATNS:
        Sending set message to soilwat2
    MILLET:
        stage   10.0 maturity
-                           biomass =           418.0297       lai =    0.3918211    
-                           stover N conc =   0.7289970       extractable sw =    51.46315
+                           biomass =           418.4484       lai =    0.3918211    
+                           stover N conc =   0.7303060       extractable sw =    51.46347
 10 September 1996 (Day of year=254):
    MILLET:
        stage   11.0 harvest_ripe
-                           biomass =           418.0297       lai =    0.1800179e-02
-                           stover N conc =   0.7706571       extractable sw =    50.48313
+                           biomass =           418.4484       lai =    0.1800179e-02
+                           stover N conc =   0.7720013       extractable sw =    50.47426
    MILLET1:
        stage    9.0 end_grain_fill
-                           biomass =           62.55711       lai =    0.5552453e-01
-                           stover N conc =   0.6553971       extractable sw =    31.75937
+                           biomass =           62.88400       lai =    0.5552453e-01
+                           stover N conc =   0.6647879       extractable sw =    31.75126
    MANAGER:
            Manager sending message :- millet harvest
    MILLET:
       
       
       
-       flowering day  =  228                  stover (kg/ha) =    3326.3
+       flowering day  =  228                  stover (kg/ha) =    3330.5
        maturity day        =  253             grain yield (kg/ha) =     854.0
        grain % water content   =   15.5       grain yield wet (kg/ha) =    1010.6
        grain wt (g) =     0.008               grains/m^2   = 10554.751
        grains/head =1172.8                    maximum lai = 1.196
-       total above ground biomass (kg/ha) =    4180.3
-       live above ground biomass (kg/ha) =    4180.3
-       green above ground biomass (kg/ha) =    3387.5
+       total above ground biomass (kg/ha) =    4184.5
+       live above ground biomass (kg/ha) =    4184.5
+       green above ground biomass (kg/ha) =    3391.6
        senesced above ground biomass (kg/ha) =     792.8
        dead above ground biomass (kg/ha) =       0.0
        number of leaves =  19.0
-       grain N percent =      1.13            total N content (kg/ha) =     26.90
-       grain N uptake (kg/ha) =      9.61     senesced N content (kg/ha) =      0.79
-       green N content (kg/ha) =     16.50    dead N content (kg/ha) =      0.00
+       grain N percent =      1.13            total N content (kg/ha) =     26.98
+       grain N uptake (kg/ha) =      9.63     senesced N content (kg/ha) =      0.79
+       green N content (kg/ha) =     16.56    dead N content (kg/ha) =      0.00
       
       
       
@@ -1269,54 +1293,60 @@
       
       
        stress indices for start_grain_fill
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.4206799
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.5365440
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.4184523
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.5347619
    MANAGER:
            Manager sending message :- millet kill_crop
    MILLET:
-          millet_kill. Standing above-ground dm =  3326.3 (kg/ha)
+          millet_kill. Standing above-ground dm =  3330.5 (kg/ha)
    MANAGER:
            Manager sending message :- millet end_crop
    MILLET:
           ended. Yield (dw) =     0.0
-                                                straw residue = 3326.3 kg/ha
+                                                straw residue = 3330.5 kg/ha
                                                 straw N =   17.3 kg/ha
                                                 root residue = 1004.2 kg/ha
                                                 root N =    7.9 kg/ha
    MANAGER:
-           Manager sending message :- residue2 tillage_type = burn
+           Manager sending message :- residue2 tillage type = burn
+   RESIDUE2:
+      
+          - Reading residue tillage info
+      Residue removed using burn                          
+                                              Fraction Incorporated =     1.00
+                                              Incorporated Depth    =     0.00
 12 September 1996 (Day of year=256):
    MILLET1:
        stage   10.0 maturity
-                           biomass =           63.72470       lai =    0.4828084e-01
-                           stover N conc =   0.6452044       extractable sw =    31.40558
+                           biomass =           64.10001       lai =    0.4828084e-01
+                           stover N conc =   0.6537406       extractable sw =    31.36738
 13 September 1996 (Day of year=257):
    OPERATNS:
        Sending set message to soilwat2
    MILLET1:
        stage   11.0 harvest_ripe
-                           biomass =           63.72469       lai =    0.1799941e-02
-                           stover N conc =   0.6687742       extractable sw =    30.07421
+                           biomass =           64.10001       lai =    0.1799941e-02
+                           stover N conc =   0.6774608       extractable sw =    30.07472
    MANAGER:
            Manager sending message :- millet1 harvest
    MILLET1:
       
       
       
-       flowering day  =  231                  stover (kg/ha) =     574.3
+       flowering day  =  231                  stover (kg/ha) =     578.0
        maturity day        =  256             grain yield (kg/ha) =      63.0
        grain % water content   =   15.5       grain yield wet (kg/ha) =      74.5
        grain wt (g) =     0.008               grains/m^2   =   817.539
        grains/head =  90.8                    maximum lai = 0.544
-       total above ground biomass (kg/ha) =     637.2
-       live above ground biomass (kg/ha) =     637.2
-       green above ground biomass (kg/ha) =     407.8
+       total above ground biomass (kg/ha) =     641.0
+       live above ground biomass (kg/ha) =     641.0
+       green above ground biomass (kg/ha) =     411.5
        senesced above ground biomass (kg/ha) =     229.5
        dead above ground biomass (kg/ha) =       0.0
        number of leaves =  15.0
-       grain N percent =      1.08            total N content (kg/ha) =      2.96
-       grain N uptake (kg/ha) =      0.68     senesced N content (kg/ha) =      0.23
-       green N content (kg/ha) =      2.05    dead N content (kg/ha) =      0.00
+       grain N percent =      1.09            total N content (kg/ha) =      3.02
+       grain N uptake (kg/ha) =      0.69     senesced N content (kg/ha) =      0.23
+       green N content (kg/ha) =      2.10    dead N content (kg/ha) =      0.00
       
       
       
@@ -1351,22 +1381,28 @@
       
       
        stress indices for start_grain_fill
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.4937392
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.5949914
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.4776134
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.5820908
    MANAGER:
            Manager sending message :- millet1 kill_crop
    MILLET1:
-          millet_kill. Standing above-ground dm =   574.3 (kg/ha)
+          millet_kill. Standing above-ground dm =   578.0 (kg/ha)
    MANAGER:
            Manager sending message :- millet1 end_crop
    MILLET1:
           ended. Yield (dw) =     0.0
-                                                straw residue =  574.3 kg/ha
+                                                straw residue =  578.0 kg/ha
                                                 straw N =    2.3 kg/ha
                                                 root residue =  215.2 kg/ha
                                                 root N =    1.3 kg/ha
    MANAGER:
-           Manager sending message :- residue2 tillage_type = burn
+           Manager sending message :- residue2 tillage type = burn
+   RESIDUE2:
+      
+          - Reading residue tillage info
+      Residue removed using burn                          
+                                              Fraction Incorporated =     1.00
+                                              Incorporated Depth    =     0.00
 17 September 1996 (Day of year=261):
    OPERATNS:
        Sending set message to soilwat2
