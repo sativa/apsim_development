@@ -126,14 +126,13 @@ void ScreenComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID
       if (startDateJDay == 0)
          {
          getStartEndDate();
-         updateInterval = min((endDateJDay - startDateJDay) / 40, 100);
-         if (updateInterval < 1)
-            {
-            updateInterval = 1;
-            ScreenForm->ProgressBar->Max = endDateJDay - startDateJDay;
-            }
-         else
-            ScreenForm->ProgressBar->Max = 40;
+         // Try and do 40 updates per simulation but make sure there is
+         // an update every 100 days.  updateInterval units is days.
+         // Range is 1 to 100.
+         updateInterval = max(min((endDateJDay - startDateJDay) / 40, 100), 1);
+
+         ScreenForm->ProgressBar->Step = 1;
+         ScreenForm->ProgressBar->Max = (endDateJDay - startDateJDay) / updateInterval;
          }
 
       protocol::ApsimVariant apsimVariant(this, variant);
