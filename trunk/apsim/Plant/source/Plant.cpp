@@ -817,6 +817,13 @@ void Plant::doRegistrations(void)
    IDtoSetFn.insert(UInt2SetFnMap::value_type(id,&Plant::set_plant_grain_oil_conc));
 
    phosphorus->doRegistrations(parent);
+
+   parent->addRegistration(RegistrationType::event, "sowing", "", "", "");
+   for (unsigned i = 0; i != c.stage_names.size(); i++)
+      parent->addRegistration(RegistrationType::event, c.stage_names[i].c_str(),
+                              "", "", "");
+
+   parent->addRegistration(RegistrationType::event, "harvesting", "", "", "");
    }
 
 
