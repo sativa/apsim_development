@@ -4,7 +4,7 @@
 
 #include <string>
 #include <stdexcept>
-
+#include <iosfwd.h>
 class ApsimControlFile;
 class IniFile;
 
@@ -47,11 +47,7 @@ class __declspec(dllexport) ControlFileConverter
       std::string conSection;
       IniFile* script;
       std::string parFileToUse;
-
-      //---------------------------------------------------------------------------
-      // Backup all parameter files.
-      //---------------------------------------------------------------------------
-      void backupFileAllFiles(void) const;
+      std::ofstream log;
 
       //---------------------------------------------------------------------------
       // convert the control file using the commands in the specified section
@@ -116,6 +112,11 @@ class __declspec(dllexport) ControlFileConverter
       // Execute the RemoveSumAvgToTracker command. Returns true on success
       // ------------------------------------------------------------------
       bool executeRemoveSumAvgToTracker(const std::string& arguments) throw(runtime_error);
+
+      //---------------------------------------------------------------------------
+      // Execute the executeRemoveTrackerDefault command.  Returns true on success.
+      //---------------------------------------------------------------------------
+      bool executeRemoveTrackerDefault(const std::string& arguments) throw(runtime_error);
 
    };
 

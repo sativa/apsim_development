@@ -12,6 +12,7 @@
 #include <general\IniFile.h>
 #include <general\path.h>
 #include <general\date_class.h>
+#include <general\StringTokenizer.h>
 #include <fstream>
 
 using namespace std;
@@ -480,6 +481,7 @@ string ApsimControlFile::getParameterValue(const string& section,
 void ApsimControlFile::setParameterValues(const string& sectionName,
                                           const string& instanceName,
                                           const string& parameterName,
+                                          const string& parameterSectionName,
                                           const vector<string>& parameterValues) throw(std::runtime_error)
    {
    if (instanceName == "")
@@ -522,6 +524,8 @@ void ApsimControlFile::setParameterValues(const string& sectionName,
          }
       if (par != NULL)
          {
+         if (parameterSectionName != "")
+            paramSectionName = parameterSectionName;
          par->write(paramSectionName, parameterName, parameterValues);
          addModuleLine(sectionName, instanceName, instanceName,
                        paramFileName, paramSectionName);
@@ -539,7 +543,7 @@ void ApsimControlFile::setParameterValue(const string& sectionName,
    {
    vector<string> values;
    values.push_back(parameterValue);
-   setParameterValues(sectionName, instanceName, parameterName, values);
+   setParameterValues(sectionName, instanceName, parameterName, "", values);
    }
 // ------------------------------------------------------------------
 // change the name of a module in the control file.  Return true
@@ -656,7 +660,7 @@ IniFile* ApsimControlFile::getParFile(const std::string& parFileName) const
    if (Path(filePath).Get_extension() != ".met" &&
        Path(filePath).Get_extension() != ".soi")
       {
-      IniFile* par = new IniFile(filePath);
+      IniFile* par = new IniFile(filePath, true);
       openedParFiles.push_back(par);
       return par;
       }
@@ -735,7 +739,9 @@ void ApsimControlFile::addModuleLine(const string& section,
    newParamFile.instanceName = instanceName;
    newParamFile.fileName = parFileName;
    newParamFile.sectionName = parSectionName;
-   newParamFile.sectionName.erase(parSectionName.find('.'));
+   unsigned posPeriod = parSectionName.find('.');
+   if (posPeriod != string::npos)
+     newParamFile.sectionName.erase(posPeriod);
 
    vector<string> moduleLines;
    ini->read(section, "module", moduleLines);
@@ -791,7 +797,8 @@ void ApsimControlFile::getDefaultParFileAndSection(const string& section,
    while (i < paramFiles.size()
       && (defaultFile == ""
           ||ExtractFileExt(defaultFile.c_str()) == ".ini"
-          || ExtractFileExt(defaultFile.c_str()) == ".met"))
+          || ExtractFileExt(defaultFile.c_str()) == ".met"
+          || ExtractFileExt(defaultFile.c_str()) == ".con"))
       {
       defaultFile = paramFiles[i].fileName;
       defaultSection = paramFiles[i].sectionName;
@@ -873,24 +880,38 @@ bool ApsimControlFile::moveParameter(const std::string& sectionName,
                                      const std::string& parameterName,
                                      const std::string& destModuleName)
    {
-   vector<string> values;
-   DeleteParameter deleteParam(parameterName, values);
-   enumerateParameters(sectionName, moduleName, false, deleteParam.callback);
-   if (values.size() > 0)
+   // need to locate parameter so that we can get the section name where
+   // the parameter is currently located.
+   string instanceName = moduleToInstance(sectionName, moduleName);
+   IniFile* par;
+   string parameterFileName, parameterSectionName;
+   if (findParameterName(sectionName, instanceName, parameterName,
+                         par, parameterFileName, parameterSectionName))
       {
-      if (destModuleName == "")
+      vector<string> values;
+      DeleteParameter deleteParam(parameterName, values);
+      enumerateParameters(sectionName, moduleName, false, deleteParam.callback);
+      if (values.size() > 0)
          {
-         if (Str_i_Eq(parameterName, "title"))
-            setTitle(sectionName, values[0]);
+         if (destModuleName == "")
+            {
+            if (Str_i_Eq(parameterName, "title"))
+               setTitle(sectionName, values[0]);
+            }
+         else
+            {
+            string instanceName = moduleToInstance(sectionName,destModuleName);
+            if (instanceName == "")
+               instanceName = destModuleName;
+
+            // only use the first word of the parameterSectionName
+            parameterSectionName = StringTokenizer(parameterSectionName, ".").nextToken()
+                                 + "." + instanceName + ".parameters";
+            setParameterValues(sectionName, instanceName, parameterName,
+                               parameterSectionName, values);
+            }
+         return true;
          }
-      else
-         {
-         string instanceName = moduleToInstance(sectionName,destModuleName);
-         if (instanceName == "")
-            instanceName = destModuleName;
-         setParameterValues(sectionName, instanceName, parameterName, values);
-         }
-      return true;
       }
    return false;
    }

@@ -60,8 +60,15 @@ void ControlFileConverter::convert(const string& fileName,
    int apsimVersion = StrToFloat(getApsimVersion().c_str())*10;
    ApsimControlFile::setVersionNumber(fileName, apsimVersion);
 
+   // create a log file that we're going to write to.
+   Path logPath(fileName);
+   logPath.Set_extension(".conversions");
+   log.open(logPath.Get_path().c_str());
+
    for (unsigned f = 0; f != scriptFileNames.size(); f++)
       convert(fileName, scriptFileNames[f], callback);
+      
+   log.close();
    }
 //---------------------------------------------------------------------------
 // convert the specified control file using the commands in the specified
@@ -80,11 +87,6 @@ void ControlFileConverter::convert(const string& fileName,
    Path p(fileName);
    p.Change_directory();
 
-   // create a log file that we're going to write to.
-   Path logPath(fileName);
-   logPath.Set_extension(".conversions");
-   ofstream log(logPath.Get_path().c_str());
-
    vector<string> controlFileSections;
    con->getAllSectionNames(controlFileSections);
    for (unsigned section = 0; section != controlFileSections.size(); section++)
@@ -98,7 +100,7 @@ void ControlFileConverter::convert(const string& fileName,
       else
          ok = true;
 
-      if (ok)
+      if (ok && con->isValid(controlFileSections[section]))
          {
          if (callback != NULL)
             callback(conSection);
@@ -168,6 +170,8 @@ bool ControlFileConverter::convertSection(const string& sectionName) throw(runti
          ok = executeMoveParametersOutOfCon(arguments) || ok;
       else if (routineName == "RemoveSumAvgToTracker")
          ok = executeRemoveSumAvgToTracker(arguments) || ok;
+      else if (routineName == "RemoveTrackerDefault")
+         ok = executeRemoveTrackerDefault(arguments) || ok;
 
       if (!ok)
          return false;
@@ -462,17 +466,22 @@ bool ControlFileConverter::executeMoveParametersOutOfCon(const std::string argum
       string parFileToUse = arguments;
       if (parFileToUse == "")
          {
-         string defaultSection;
-         con->getDefaultParFileAndSection(conSection, parFileToUse, defaultSection);
-         MoveParametersForm = new TMoveParametersForm(Application);
-         MoveParametersForm->FileEdit->Text = parFileToUse.c_str();
-         if (!MoveParametersForm->ShowModal())
+         static string parFile;
+         if (parFile == "")
             {
+            string defaultSection;
+            con->getDefaultParFileAndSection(conSection, parFileToUse, defaultSection);
+            MoveParametersForm = new TMoveParametersForm(Application);
+            MoveParametersForm->FileEdit->Text = parFileToUse.c_str();
+            if (!MoveParametersForm->ShowModal())
+               {
+               delete MoveParametersForm;
+               return false;
+               }
+            parFile = MoveParametersForm->FileEdit->Text.c_str();
             delete MoveParametersForm;
-            return false;
             }
-         parFileToUse = MoveParametersForm->FileEdit->Text.c_str();
-         delete MoveParametersForm;
+         parFileToUse = parFile;
          }
       return con->moveParametersOutOfCon(conSection, parFileToUse);
       }
@@ -541,6 +550,7 @@ class RemoveSumAvg
                       + realVariableName + " since " + instanceName
                       + ".reported as ";
                trackerVariable += functionName + "@" + moduleName + "." + variableName;
+               trackerVariable += " on post";
                trackerVariables.push_back(trackerVariable);
                }
             }
@@ -550,7 +560,7 @@ class RemoveSumAvg
             {
             par->write(section, "variable", variables);
 
-            con->setParameterValues(conSection, trackerInstanceName, "variable", trackerVariables);
+            con->setParameterValues(conSection, trackerInstanceName, "variable", "", trackerVariables);
             con->changeModuleName(conSection, trackerInstanceName, "tracker(" + trackerInstanceName + ")");
 
             trackerNum++;
@@ -571,27 +581,31 @@ bool ControlFileConverter::executeRemoveSumAvgToTracker(const std::string& argum
    return modified;
    }
 //---------------------------------------------------------------------------
-// Backup all parameter files.
+// Execute the executeRemoveTrackerDefault command.  Returns true on success.
 //---------------------------------------------------------------------------
-void ControlFileConverter::backupFileAllFiles(void) const
+bool ControlFileConverter::executeRemoveTrackerDefault(const string& arguments) throw(runtime_error)
    {
-   vector<string> fileNames;
-   con->getAllFiles(conSection, fileNames);
-   for (unsigned f = 0; f != fileNames.size(); f++)
+   vector<string> instanceNames;
+   con->getInstances(conSection, "tracker", instanceNames);
+   bool someHaveChanged = false;
+   for (unsigned i = 0; i != instanceNames.size(); i++)
       {
-      AnsiString fileName = fileNames[f].c_str();
-      int attributes = FileGetAttr(fileName);
-      if (FileExists(fileName) && attributes & faReadOnly)
+      vector<string> variables;
+      con->getParameterValues(conSection, instanceNames[i], "variable", variables);
+      for (unsigned v = 0; v != variables.size(); v++)
          {
-         AnsiString msg = "File: " + fileName + " is read-only.  Convert to read/write?";
-         if (Application->MessageBoxA(msg.c_str(), "Question", MB_ICONQUESTION | MB_YESNO) == IDYES)
-            FileSetAttr(fileName, attributes & !faReadOnly);
+         if (variables[v].find(" on ") == string::npos)
+            {
+            variables[v] += " on process";
+            someHaveChanged = true;
+            }
          }
-
-      AnsiString fileExtension = ExtractFileExt(fileName);
-      fileExtension.Insert("old", 2);
-      AnsiString backupFile = ChangeFileExt(fileName, fileExtension);
-      if (FileExists(fileName))
-         CopyFile(fileName.c_str(), backupFile.c_str(), false);
+      if (someHaveChanged)
+         {
+         con->setParameterValues(conSection, instanceNames[i], "variable",
+                                 "", variables);
+         }
       }
+   return someHaveChanged;
    }
+
