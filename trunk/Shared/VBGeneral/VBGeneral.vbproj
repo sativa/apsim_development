@@ -74,6 +74,47 @@
                     AssemblyName = "System.Windows.Forms"
                     HintPath = "..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Windows.Forms.dll"
                 />
+                <Reference
+                    Name = "Xceed.Grid"
+                    AssemblyName = "Xceed.Grid"
+                    HintPath = "..\..\..\..\Program Files\Xceed Components\Xceed Grid for .NET 2.2\Bin\v2.2.201.0\Xceed.Grid.dll"
+                    AssemblyFolderKey = "hklm\xceed grid for .net v2.2.201.0"
+                />
+                <Reference
+                    Name = "Xceed.Chart"
+                    AssemblyName = "Xceed.Chart"
+                    HintPath = "..\..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.dll"
+                    AssemblyFolderKey = "hklm\xceed chart for .net and asp.net v3.0.100.0"
+                />
+                <Reference
+                    Name = "Xceed.Chart.GLCore"
+                    AssemblyName = "Xceed.Chart.GLCore"
+                    HintPath = "..\..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.GLCore.Dll"
+                    AssemblyFolderKey = "hklm\xceed chart for .net and asp.net v3.0.100.0"
+                />
+                <Reference
+                    Name = "Xceed.Chart.Core"
+                    AssemblyName = "Xceed.Chart.Core"
+                    HintPath = "..\..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.Core.Dll"
+                    AssemblyFolderKey = "hklm\xceed chart for .net and asp.net v3.0.100.0"
+                />
+                <Reference
+                    Name = "Xceed.Chart.Utilities"
+                    AssemblyName = "Xceed.Chart.Utilities"
+                    HintPath = "..\..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.Utilities.Dll"
+                    AssemblyFolderKey = "hklm\xceed chart for .net and asp.net v3.0.100.0"
+                />
+                <Reference
+                    Name = "Xceed.Chart.Standard"
+                    AssemblyName = "Xceed.Chart.Standard"
+                    HintPath = "..\..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.Standard.Dll"
+                    AssemblyFolderKey = "hklm\xceed chart for .net and asp.net v3.0.100.0"
+                />
+                <Reference
+                    Name = "System.Drawing"
+                    AssemblyName = "System.Drawing"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Drawing.dll"
+                />
             </References>
             <Imports>
                 <Import Namespace = "Microsoft.VisualBasic" />
@@ -102,6 +143,16 @@
                 />
                 <File
                     RelPath = "AssemblyInfo.vb"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Chart.vb"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Grid.vb"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

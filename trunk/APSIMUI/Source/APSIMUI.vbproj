@@ -323,6 +323,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "InitWaterUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "InitWaterUI.resx"
+                    DependentUpon = "InitWaterUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "LogicUI.vb"
                     SubType = "Form"
                     BuildAction = "Compile"

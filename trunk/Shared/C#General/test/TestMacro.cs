@@ -251,6 +251,27 @@ namespace test
 			}
 
 		// -------------------------------------------
+		// Test for the existance of a macro.
+		// -------------------------------------------
+		[Test]
+		public void TestExistanceOfMacro()
+		{
+			const string Template = 
+					  "[foreach simulation.soil as s]\r\n" +
+					  "[if ([s.invalid])]\r\n" +
+					  "found\r\n" +
+					  "[else]\r\n" +
+					  "not found\r\n" +
+					  "[endif]\r\n" +
+					  "[endfor]\r\n";
+
+			Macro macro = new Macro();
+			string Result = macro.Go(new APSIMData(Values), Template);
+			Assert.AreEqual(Result, "not found\r\nnot found\r\n");
+
+		}
+
+		// -------------------------------------------
 		// Test that white space is removed
 		// -------------------------------------------
 		[Test]
