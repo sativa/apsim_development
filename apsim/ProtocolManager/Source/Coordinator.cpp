@@ -323,14 +323,27 @@ void Coordinator::onRegisterMessage(unsigned int fromID, RegisterData& registerD
    else
       {
       ComponentAlias::Registrations* registrations = components[fromID]->getRegistrationsForKind(registerData.kind);
-      PMRegistrationItem* regItem = new PMRegistrationItem(asString(registerData.name),
-                                                           registerData.destID,
+
+      string regName = asString(registerData.name);
+      string componentName;
+      unsigned destID = registerData.destID;
+      unsigned posPeriod = regName.find('.');
+      if (posPeriod != string::npos)
+         {
+         componentName = regName.substr(0, posPeriod);
+         destID = componentNameToID(componentName);
+         regName.erase(0, posPeriod+1);
+         }
+
+      PMRegistrationItem* regItem = new PMRegistrationItem(regName,
+                                                           componentName,
+                                                           destID,
                                                            registerData.kind,
                                                            fromID,
                                                            registerData.ID);
       registrations->insert(ComponentAlias::Registrations::value_type(registerData.ID, regItem));
       if (afterInit2)
-         resolveRegistration(regItem, afterInit2);
+         resolveRegistration(regItem);
       }
    }
 
@@ -515,29 +528,6 @@ void Coordinator::onRequestSetValueMessage(unsigned int fromID,
                                           setValueData.ID,
                                           setValueData.variant));
    }
-
-// ------------------------------------------------------------------
-//  Short description:
-//    go find a specific registration for the specified component.
-
-//  Changes:
-//    dph 15/5/2001
-// ------------------------------------------------------------------
-PMRegistrationItem* Coordinator::findRegistration(unsigned int componentID,
-                                                  const std::string& name,
-                                                  RegistrationType kind)
-   {
-   ComponentAlias::Registrations& registrations = *components[componentID]->getRegistrationsForKind(kind);
-   for (ComponentAlias::Registrations::iterator reg = registrations.begin();
-                                                reg != registrations.end();
-                                                reg++)
-      {
-      if (Str_i_Eq(reg->second->name, name))
-         return reg->second;
-      }
-   return NULL;
-   }
-
 // ------------------------------------------------------------------
 //  Short description:
 //    go find a specific registration that matches the specified name
@@ -550,66 +540,63 @@ PMRegistrationItem* Coordinator::findRegistration(unsigned int componentID,
 PMRegistrationItem* Coordinator::findRegistration(const std::string& name,
                                                   RegistrationType kind)
    {
-   std::vector<PMRegistrationItem*> regs;
-   findRegistrations(name, 0, kind, regs);
-   if (regs.size() == 0)
-      return NULL;
-   else if (regs.size() == 1)
-      return regs[0];
-   else
+   for (unsigned c = 0; c < components.size(); c++)
       {
-      string msg = "Non unique registration for " + name;
-      ::MessageBox(NULL, msg.c_str(), "Error", MB_ICONSTOP | MB_OK);
-      return NULL;
-      }
-   }
-// ------------------------------------------------------------------
-//  Short description:
-//    go find all registrations that matches the specified name
-//    and type.  It searches all components.  All registrations are
-//    returned in 'regs'
-
-//  Changes:
-//    dph 15/5/2001
-// ------------------------------------------------------------------
-void Coordinator::findRegistrations(const std::string& name,
-                                    unsigned int destID,
-                                    RegistrationType type,
-                                    std::vector<PMRegistrationItem*>& regs)
-   {
-   // This may be a fully qualified name,
-   // either componentID.name OR componentName.name
-   string regName = name;
-   if (destID == 0)
-      {
-      unsigned int posPeriod = name.find(".");
-      if (posPeriod != string::npos)
-         destID = componentNameToID(name.substr(0, posPeriod));
-      if (destID == INT_MAX)
-         destID = 0;
-      else
-         regName = name.substr(posPeriod+1);
-      }
-   if (destID != 0)
-      {
-      PMRegistrationItem* reg = findRegistration(destID, regName, type);
-      if (reg != NULL)
+      ComponentAlias::Registrations* registrations
+         = components[c]->getRegistrationsForKind(kind);
+      for (ComponentAlias::Registrations::iterator regI = registrations->begin();
+                                                   regI != registrations->end();
+                                                   regI++)
          {
-         regs.push_back(reg);
-         return;
+         if (Str_i_Eq(name, regI->second->name))
+            return regI->second;
          }
       }
-
-   // If we've got this far, then we can just just look for the variable
-   // without having to worry about a component prefix.
-   for (unsigned componentID = 0; componentID < components.size(); componentID++)
+   return NULL;
+   }
+// ------------------------------------------------------------------
+// find registrations for the specified registration.
+// ------------------------------------------------------------------
+void Coordinator::resolveRegistration(PMRegistrationItem* reg)
+   {
+   if (reg->destID == 0)
       {
-      PMRegistrationItem* reg = findRegistration(componentID, name, type);
-      if (reg != NULL)
-         regs.push_back(reg);
+      for (unsigned c = 0; c < components.size(); c++)
+         {
+         ComponentAlias::Registrations* registrations
+            = components[c]->getRegistrationsForKind(getOppositeType(reg->type));
+         for (ComponentAlias::Registrations::iterator regI = registrations->begin();
+                                                      regI != registrations->end();
+                                                      regI++)
+            {
+            if (RegMatch(*reg, *regI->second))
+               {
+               if (find(reg->interestedItems.begin(), reg->interestedItems.end(),
+                        regI->second) == reg->interestedItems.end())
+                  reg->interestedItems.push_back(regI->second);
+               if (find(regI->second->interestedItems.begin(), regI->second->interestedItems.end(),
+                   reg) == regI->second->interestedItems.end())
+                  regI->second->interestedItems.push_back(reg);
+               }
+            }
+         }
+      }
+   else
+      {
+      ComponentAlias::Registrations* registrations
+         = components[reg->destID]->getRegistrationsForKind(getOppositeType(reg->type));
+      for (ComponentAlias::Registrations::iterator regI = registrations->begin();
+                                                   regI != registrations->end();
+                                                   regI++)
+         {
+         if (RegMatch(*reg, *regI->second))
+            {
+            reg->interestedItems.push_back(regI->second);
+            regI->second->interestedItems.push_back(reg);
+            }
+         }
       }
    }
-
 // ------------------------------------------------------------------
 //  Short description:
 //    Go resolve all registrations for this system.
@@ -622,6 +609,9 @@ void Coordinator::findRegistrations(const std::string& name,
 // ------------------------------------------------------------------
 void Coordinator::resolveRegistrations(void)
    {
+   fixupRegistrationIDs(getVariableReg);
+   fixupRegistrationIDs(respondToGetReg);
+
    // loop through all registrations in all components.
    for (Components::iterator componentI = components.begin();
                              componentI != components.end();
@@ -656,63 +646,8 @@ void Coordinator::resolveRegistrations(ComponentAlias::Registrations* registrati
    for (ComponentAlias::Registrations::iterator regI = registrations->begin();
                                                 regI != registrations->end();
                                                 regI++)
-      resolveRegistration(regI->second, false);
+      resolveRegistration(regI->second);
    }
-
-// ------------------------------------------------------------------
-//  Short description:
-//    Go resolve a specific registration for this system.
-
-//  Notes:
-
-//  Changes:
-//    dph 15/5/2001
-
-// ------------------------------------------------------------------
-void Coordinator::resolveRegistration(PMRegistrationItem* regI, bool afterInit2)
-   {
-   // For a respondToEventReg, go find an eventReg.
-   // For a getVariableReg, go find a respondToGetReg or a respondToGetSetReg
-   // For a setVariableReg, go find a respondToSetReg or a respondToGetSetReg
-   // For a methodCallReg, go find a respondToMethodCallReg
-   if (regI->type == eventReg)
-      findRegistrations(regI->name, regI->destID, respondToEventReg, regI->interestedItems);
-
-   else if (regI->type == getVariableReg)
-      findRegistrations(regI->name, regI->destID, respondToGetReg, regI->interestedItems);
-
-   else if (regI->type == setVariableReg)
-      findRegistrations(regI->name, regI->destID, respondToSetReg, regI->interestedItems);
-
-   else if (regI->type == respondToEventReg)
-      {
-      std::vector<PMRegistrationItem*> registrations;
-      findRegistrations(regI->name, 0, eventReg, registrations);
-      for (std::vector<PMRegistrationItem*>::iterator reg = registrations.begin();
-                                                 reg != registrations.end();
-                                                 reg++)
-         (*reg)->interestedItems.push_back(regI);
-      }
-   else if (regI->type == respondToGetReg)
-      {
-      std::vector<PMRegistrationItem*> registrations;
-      findRegistrations(regI->name, 0, getVariableReg, registrations);
-      for (std::vector<PMRegistrationItem*>::iterator reg = registrations.begin();
-                                                 reg != registrations.end();
-                                                 reg++)
-         (*reg)->interestedItems.push_back(regI);
-      }
-   else if (regI->type == respondToSetReg)
-      {
-      std::vector<PMRegistrationItem*> registrations;
-      findRegistrations(regI->name, 0, setVariableReg, registrations);
-      for (std::vector<PMRegistrationItem*>::iterator reg = registrations.begin();
-                                                 reg != registrations.end();
-                                                 reg++)
-         (*reg)->interestedItems.push_back(regI);
-      }
-   }
-
 // ------------------------------------------------------------------
 //  Short description:
 //    Return a component ID for the specified name.  Returns
@@ -742,5 +677,33 @@ void Coordinator::respondToGet(unsigned int& fromID, QueryValueData& queryData)
    {
    if (queryData.ID == titleID)
       sendVariable(queryData, FString(title.c_str()));
+   }
+// ------------------------------------------------------------------
+// Fixup all registration destID's.
+// ------------------------------------------------------------------
+void Coordinator::fixupRegistrationIDs(protocol::RegistrationType& type)
+   {
+   for (unsigned c = 0; c < components.size(); c++)
+      {
+      ComponentAlias::Registrations* registrations
+         = components[c]->getRegistrationsForKind(type);
+      for (ComponentAlias::Registrations::iterator regI = registrations->begin();
+                                                   regI != registrations->end();
+                                                   regI++)
+         {
+         // convert all component names to ID's
+         if (regI->second->destID == INT_MAX && regI->second->componentName != "")
+            {
+            unsigned id = componentNameToID(regI->second->componentName);
+            if (id != INT_MAX)
+               regI->second->destID = id;
+            else
+               {
+               regI->second->name = regI->second->componentName + "." + regI->second->name;
+               regI->second->destID = 0;
+               }
+            }
+         }
+      }
    }
 
