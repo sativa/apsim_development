@@ -64,12 +64,12 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR,  int)
       try
          {
          simulations->run();
-         delete simulations;
          }
       catch (string& msg)
          {
          MessageBox(NULL, msg.c_str(), "APSIM Error", MB_ICONSTOP | MB_OK);
          }
+      delete simulations;
       }
    else
       {
