@@ -269,6 +269,7 @@ void Path::Set_path (const char* New_path)
    if (strlen(New_path) > 0)
       {
       string New_path_string(New_path);
+      Strip (New_path_string, " ");
 
       // remove drive part of path.
       size_t Pos_drive = New_path_string.find(":");
@@ -399,32 +400,35 @@ void Path::Change_directory(void)
 void Path::Append_path (const char* path)
    {
    Path New_path(path);
+   if (New_path.Get_directory().length() > 0)
+      {
 
-   // need to make sure path is an absolute one.
-   // get the current directory because we're going to change it.
-   char Saved_directory[500];
-   GetCurrentDirectory(sizeof Saved_directory, Saved_directory);
+      // need to make sure path is an absolute one.
+      // get the current directory because we're going to change it.
+      char Saved_directory[500];
+      GetCurrentDirectory(sizeof Saved_directory, Saved_directory);
 
-   // Change current directory
-   Change_directory();
+      // Change current directory
+      Change_directory();
 
-   // Get the full path name of the directory passed in.  This API routine
-   // properly converts any relative paths to full paths.
-   char Full_path[500];
-   char* Ptr_to_name;
-   GetFullPathName(New_path.Get_directory().c_str(), sizeof Full_path, Full_path, &Ptr_to_name);
+      // Get the full path name of the directory passed in.  This API routine
+      // properly converts any relative paths to full paths.
+      char Full_path[500];
+      char* Ptr_to_name;
+      GetFullPathName(New_path.Get_directory().c_str(), sizeof Full_path, Full_path, &Ptr_to_name);
 
-   // setup drive.
-   Drive.assign(string(Full_path), 0, 2);
+      // restore current directory.
+      SetCurrentDirectory (Saved_directory);
 
-   // setup directory.
-   Directory.assign (string(Full_path), 2);
+      // setup drive.
+      Drive = string(Full_path).substr(0, 2);
+
+      // setup directory.
+      Directory = string(Full_path).substr(2);
+      }
 
    // setup name
    Name.assign (New_path.Get_name().c_str());
-
-   // restore current directory.
-   SetCurrentDirectory (Saved_directory);
    }
 
 // ------------------------------------------------------------------
