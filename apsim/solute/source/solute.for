@@ -94,7 +94,8 @@
       call solute_read_constants ()
  
       call solute_read_param ()
- 
+
+      call solute_notification () 
  
       call pop_routine (myname)
       return
@@ -231,54 +232,42 @@
  
       call push_routine (myname)
  
-      if (variable_name .eq. 'solute_names') then
+      found = .false.
  
-         call respond2get_char_array (
-     :               variable_name,
-     :               '()',
-     :               p_solute_names,
-     :               g_num_solutes)
+      do 200 solnum = 1,g_num_solutes
  
-      else
+         if (Variable_name .eq. p_solute_names(solnum)) then
  
-         found = .false.
+            num_layers = count_of_real_vals(g_dlayer,max_layer)
  
-         do 200 solnum = 1,g_num_solutes
+            if (num_layers.eq.0) then
+               ! water balance is not initialised yet
+               num_layers = 1
+            else
+            endif
  
-            if (Variable_name .eq. p_solute_names(solnum)) then
+            do 100 layer = 1,max_layer
+               sol(layer) = g_solute(solnum,layer)
+  100       continue
  
-               num_layers = count_of_real_vals(g_dlayer,max_layer)
- 
-               if (num_layers.eq.0) then
-                  ! water balance is not initialised yet
-                  num_layers = 1
-               else
-               endif
- 
-               do 100 layer = 1,max_layer
-                  sol(layer) = g_solute(solnum,layer)
-  100          continue
- 
-               call respond2get_real_array (
+            call respond2get_real_array (
      :               p_solute_names(solnum),
      :               '(kg/ha)',
      :               sol,
      :               num_layers)
  
-               found = .true.
+            found = .true.
  
-            else
- 
-            endif
-  200    continue
- 
-         if (.not. found) then
-            ! We have checked all solutes and we did not respond to anything
-            call Message_Unused ()
          else
-            ! we found the solute so no message unused flag needed
-         endif
  
+         endif
+  200 continue
+ 
+      if (.not. found) then
+         ! We have checked all solutes and we did not respond to anything
+         call Message_Unused ()
+      else
+         ! we found the solute so no message unused flag needed
       endif
  
       call pop_routine (myname)
@@ -530,5 +519,50 @@
       return
       end
  
+* ====================================================================
+       subroutine solute_notification ()
+* ====================================================================
+      implicit none
+      include 'event.inc'
+      include 'solute.inc'             ! solute common block
+      include 'error.pub'
+      include 'engine.pub'
+      include 'intrface.pub'
+ 
+*+  Purpose
+*      Notify all interested modules about this module's ownership
+*      of solute information.
+ 
+*+  Mission Statement
+*     Notify other modules of ownership of solute information
+ 
+*+  Changes
+*     17-05-1999 - nih - Programmed and Specified
+ 
+*+  Constant Values
+
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'solute_notification')
+ 
+*+  Local Variables
+
+ 
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+ 
+      call new_postbox()
+
+      call post_char_array (DATA_new_solute_names
+     :                     , '()'
+     :                     , p_solute_names
+     :                     , g_num_solutes)
+
+      call event_send (EVENT_new_solute)
+
+      call delete_postbox() 
+ 
+      call pop_routine (myname)
+      return
+      end
  
  
