@@ -98,29 +98,19 @@
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      if (action.eq.ACTION_init) then
-            ! Get constants
-         call sugar_init ()
+      if (action.eq.ACTION_get_variable) then
+            ! respond to request for variable values - from modules
+         call sugar_send_my_variable (Data_string)
  
       elseif (action.eq.ACTION_set_variable) then
             ! respond to request to reset variable values - from modules
          call sugar_set_my_variable (data_string)
  
-      elseif (action.eq.ACTION_get_variable) then
-            ! respond to request for variable values - from modules
-         call sugar_send_my_variable (Data_string)
+      elseif (action.eq.EVENT_tick) then
+         call sugar_ONtick()
  
       elseif (action.eq.ACTION_prepare) then
          call sugar_prepare ()
- 
-      elseif (action.eq.ACTION_sow) then
-         if (crop_my_type (c%crop_type)) then
-               ! start crop and do  more initialisations
-            call sugar_start_crop ()
-         else
-            ! not my type!
-            call message_unused ()
-         endif
  
       elseif (action.eq.ACTION_process) then
          if (g%crop_status.ne.crop_out) then
@@ -130,7 +120,15 @@
             ! crop not in
             call sugar_zero_variables ()
          endif
-      elseif (action.eq.ACTION_harvest) then
+      elseif (action.eq.ACTION_sow) then
+         if (crop_my_type (c%crop_type)) then
+               ! start crop and do  more initialisations
+            call sugar_start_crop ()
+         else
+            ! not my type!
+            call message_unused ()
+         endif
+       elseif (action.eq.ACTION_harvest) then
          if (crop_my_type (c%crop_type)) then
                ! harvest crop - turn into residue
             call sugar_harvest ()
@@ -165,15 +163,16 @@
             call message_unused ()
          endif
  
-      elseif (action.eq.EVENT_tick) then
-         call sugar_ONtick()
- 
       elseif (action.eq.'graze') then
          call sugar_graze ()
       elseif (action.eq.'hill_up') then
          call sugar_hill_up ()
       elseif (action.eq.'lodge') then
          call sugar_lodge ()
+ 
+      elseif (action.eq.ACTION_init) then
+            ! Get constants
+         call sugar_init ()
  
       else if (Action.eq.ACTION_Create) then
          call sugar_zero_all_globals ()
@@ -300,6 +299,7 @@
 
 *+  Changes
 *     070495 nih taken from template
+*     191099 jngh changed to sugar_Send_Crop_Chopped_Event
 
 *+  Calls
                                        ! lu_scr_sum
@@ -327,18 +327,21 @@
       real       si4                   ! mean nitrogen stress type 1
       character  string*400            ! message
 *
-      real       dm_root
-      real       N_root
-      real       dm_residue
-      real       N_residue
+      real       dm_root               ! (g/m^2)
+      real       N_root                ! (g/m^2)
+      real       dm_residue            ! (g/m^2)
+      real       N_residue             ! (g/m^2)
+      real       dlt_dm_crop(max_part) ! change in crop dry matter (kg/ha)
+      real       dlt_dm_N(max_part)    ! N content of dry matter change (kg/ha)
+      real       fraction_to_Residue(max_part)   ! fraction sent to residue (0-1)
 *
-      integer layer
-      real hold_ratoon_no
-      real hold_dm_root
-      real hold_n_root
-      real hold_num_layers
-      real hold_root_depth
-      real hold_root_length(max_layer)
+      integer    layer
+      real       hold_ratoon_no
+      real       hold_dm_root
+      real       hold_n_root
+      real       hold_num_layers
+      real       hold_root_depth
+      real       hold_root_length(max_layer)
 
 *- Implementation Section ----------------------------------
  
@@ -474,6 +477,11 @@
  
      :              + (sum_real_array (g%dm_dead, max_part)
      :              - g%dm_dead(root))
+         dlt_dm_crop(:) =  (g%dm_green(:) 
+     :                  + g%dm_senesced(:) 
+     :                  + g%dm_dead(:))
+     :                  * gm2kg/sm2ha
+         dlt_dm_crop(root) = dm_root * gm2kg/sm2ha
  
          N_residue = (sum_real_array (g%N_green, max_part)
      :             - g%N_green(root) - g%N_green (sstem)
@@ -485,7 +493,13 @@
      :             + (sum_real_array (g%N_dead, max_part)
      :             - g%N_dead(root))
  
+          dlt_dm_N(:) =  (g%N_green(:) 
+     :                + g%N_senesced(:) 
+     :                + g%N_dead(:))
+     :                  * gm2kg/sm2ha
+         dlt_dm_N(root) = N_root * gm2kg/sm2ha
  
+
          write (string, '(40x, a, f7.1, a, 3(a, 40x, a, f6.1, a))')
      :                  '  straw residue ='
      :                  , dm_residue * gm2kg /sm2ha, ' kg/ha'
@@ -502,7 +516,7 @@
  
          call write_string (string)
  
-      call crop_root_incorp (dm_root
+         call crop_root_incorp (dm_root
      :                      ,N_root
      :                      ,g%dlayer
      :                      ,g%root_length
@@ -511,7 +525,24 @@
      :                      ,max_layer
      :                      )
  
-         call crop_top_residue (c%crop_type, dm_residue, N_residue)
+!         call crop_top_residue (c%crop_type, dm_residue, N_residue)
+         fraction_to_residue(:) = 1.0
+         fraction_to_Residue(root) = 0.0
+         fraction_to_Residue(sstem) = 0.0
+         fraction_to_Residue(sucrose) = 0.0
+
+         if (sum(dlt_dm_crop) .gt. 0.0) then
+            call sugar_Send_Crop_Chopped_Event 
+     :                (c%crop_type
+     :               , part_name
+     :               , dlt_dm_crop
+     :               , dlt_dm_N                                                       
+     :               , fraction_to_Residue
+     :               , max_part)
+         else
+            ! no surface residue
+         endif
+
  
          hold_ratoon_no = g%ratoon_no
          hold_dm_root   = g%dm_green (root)*(1.0 - c%root_die_back_fr)
@@ -1568,6 +1599,7 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 
 *+  Changes
 *       070495 nih taken from template
+*       191099 jngh changed to sugar_Send_Crop_Chopped_Event
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -1579,6 +1611,9 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       real       dm_root               ! dry matter added to soil (g/m^2)
       real       N_root                ! nitrogen added to soil (g/m^2)
       character  string*400            ! output string
+      real       fraction_to_Residue(max_part)   ! fraction sent to residue (0-1)
+      real       dlt_dm_crop(max_part) ! change in crop dry matter (kg/ha)
+      real       dlt_dm_N(max_part)    ! N content of dry matter change (kg/ha)
 
 *- Implementation Section ----------------------------------
  
@@ -1600,7 +1635,7 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
      :           + g%N_dead(root)
      :           + g%N_senesced(root)
  
-      call crop_root_incorp (dm_root
+         call crop_root_incorp (dm_root
      :                      ,N_root
      :                      ,g%dlayer
      :                      ,g%root_length
@@ -1621,6 +1656,11 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
      :              + (sum_real_array (g%dm_dead, max_part)
      :              - g%dm_dead(root))
  
+         dlt_dm_crop(:) = (g%dm_green(:) 
+     :                  + g%dm_senesced(:) 
+     :                  + g%dm_dead(:))
+     :                  * gm2kg/sm2ha
+ 
          N_residue = (sum_real_array (g%N_green, max_part)
      :             - g%N_green(root))
  
@@ -1630,7 +1670,27 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
      :             + (sum_real_array (g%N_dead, max_part)
      :             - g%N_dead(root))
  
-         call crop_top_residue (c%crop_type, dm_residue, N_residue)
+         dlt_dm_N(:) = (g%N_green(:) 
+     :               + g%N_senesced(:) 
+     :               + g%N_dead(:))
+     :               * gm2kg/sm2ha
+ 
+!         call crop_top_residue (c%crop_type, dm_residue, N_residue)
+         fraction_to_residue(:) = 1.0
+         fraction_to_Residue(root) = 0.0
+
+         if (sum(dlt_dm_crop) .gt. 0.0) then
+            call sugar_Send_Crop_Chopped_Event 
+     :                (c%crop_type
+     :               , part_name
+     :               , dlt_dm_crop
+     :               , dlt_dm_N                                                       
+     :               , fraction_to_Residue
+     :               , max_part)
+         else
+            ! no surface residue
+         endif
+
  
          write (string, '(40x, a, f7.1, a, 3(a, 40x, a, f6.1, a))')
      :                  '  straw residue ='
@@ -2905,7 +2965,6 @@ c      call sugar_nit_stress_expansion (1)
       call fill_real_array (g%plant_wc, 0.0, max_part)
       call fill_real_array (g%dm_plant_top_tot, 0.0, max_stage)
       call fill_real_array (g%leaf_area, 0.0, max_leaf)
-      call fill_real_array (g%leaf_area, 0.0, max_leaf)
       call fill_real_array (g%leaf_dm, 0.0, max_leaf)
       call fill_real_array (g%leaf_no, 0.0, max_stage)
       call fill_real_array (g%node_no, 0.0, max_stage)
@@ -2919,7 +2978,6 @@ c      call sugar_nit_stress_expansion (1)
       call fill_real_array (g%N_dead, 0.0, max_part)
       call fill_real_array (g%N_senesced, 0.0, max_part)
       call fill_real_array (g%root_length, 0.0, max_layer)
-      call fill_real_array (g%plant_wc, 0.0, max_part)
       call fill_real_array (g%dlt_plant_wc, 0.0, max_part)
 
  
@@ -3638,14 +3696,16 @@ cnh      c%crop_type = ' '
 
 *+  Changes
 *      250894 jngh specified and programmed
+*      191099 jngh changed to sugar_Send_Crop_Chopped_Event
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'sugar_update_other_variables')
 
 *+  Local Variables
-      real       dm_residue            ! dry matter added to residue (g/m^2)
-      real       N_residue             ! nitrogen added to residue (g/m^2)
+      real       dm_residue(max_part)  ! dry matter removed (kg/ha)
+      real       N_residue(max_part)   ! nitrogen removed (kg/ha)
+      real       fraction_to_Residue(max_part)   ! fraction sent to residue (0-1)
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -3653,12 +3713,25 @@ cnh      c%crop_type = ' '
          ! dispose of detached material from senesced parts in
          ! live population
  
-      dm_residue = (sum_real_array (g%dlt_dm_detached, max_part)
-     :           - g%dlt_dm_detached(root))
-      N_residue = (sum_real_array (g%dlt_N_detached, max_part)
-     :          - g%dlt_N_detached(root))
+      dm_residue(:) = g%dlt_dm_detached(:) * gm2kg/sm2ha
+      N_residue(:) = g%dlt_N_detached(:) * gm2kg/sm2ha
+      
+      fraction_to_Residue(:) = 1.0
+      fraction_to_Residue(root) = 0.0
 
-      call crop_top_residue (c%crop_type, dm_residue, N_residue)
+!      call crop_top_residue (c%crop_type, dm_residue, N_residue)
+         if (sum(dm_residue) .gt. 0.0) then
+            call sugar_Send_Crop_Chopped_Event 
+     :                (c%crop_type
+     :               , part_name
+     :               , dm_residue
+     :               , N_residue                                                       
+     :               , fraction_to_Residue
+     :               , max_part)
+         else
+            ! no surface residue
+         endif
+
  
              ! put roots into root residue
  
@@ -3883,6 +3956,91 @@ cnh      c%crop_type = ' '
       call pop_routine (myname)
       return
       end
+* ====================================================================
+      subroutine sugar_Send_Crop_Chopped_Event (crop_type
+     :                                           , dm_type
+     :                                           , dlt_crop_dm
+     :                                           , dlt_dm_n
+     :                                           , fraction_to_Residue
+     :                                           , max_part)
+* ====================================================================
+      implicit none
+      include 'const.inc'
+      include 'event.inc'
+      include 'intrface.pub'
+      include 'error.pub'
+      include 'data.pub'
+      include 'postbox.pub'
+
+*+  Sub-Program Arguments
+      character  crop_type*(*)              ! (INPUT) crop type
+      character  dm_type*(*)                ! (INPUT) residue type
+      real  dlt_crop_dm(*)                  ! (INPUT) residue weight (kg/ha)
+      real  dlt_dm_n(*)                     ! (INPUT) residue N weight (kg/ha)
+      real  fraction_to_Residue(*)          ! (INPUT) residue fraction to residue (0-1)
+      integer max_part                      ! (INPUT) number of residue types
+*+  Purpose
+*     Notify other modules of crop chopped.
+ 
+*+  Mission Statement
+*     Notify other modules of crop chopped.
+ 
+*+  Changes
+*   070999 jngh - Programmed and Specified
+ 
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'sugar_Send_Crop_Chopped_Event')
+ 
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      call new_postbox ()
+ 
+         ! send message regardless of fatal error - will stop anyway
+ 
+
+!cjh      write(*,*) 'sugar: '//EVENT_Crop_Chopped
+!cjh      write(*,*) 'sugar: '//DATA_crop_type
+!cjh     :               , ' '//crop_type
+!cjh      write(*,*) 'sugar: '//DATA_dm_type
+!cjh     :               , ' '//dm_type
+!cjh      write(*,*) 'sugar: '//DATA_dlt_crop_dm
+!cjh     :               , dlt_crop_dm
+!cjh      write(*,*) 'sugar: '//DATA_dlt_dm_n
+!cjh     :               , dlt_dm_n
+!cjh      write(*,*) 'sugar: '//DATA_fraction_to_Residue
+!cjh     :               , fraction_to_Residue
+
+      call post_char_var   (DATA_crop_type
+     :                        ,'()'
+     :                        , crop_type)
+      call post_char_array (DATA_dm_type
+     :                        ,'()'
+     :                        , dm_type
+     :                        , max_part)
+      call post_real_array (DATA_dlt_crop_dm
+     :                        ,'(kg/ha)'
+     :                        , dlt_crop_dm
+     :                        , max_part)
+      call post_real_array (DATA_dlt_dm_n
+     :                        ,'(kg/ha)'
+     :                        , dlt_dm_n
+     :                        , max_part)
+      call post_real_array (DATA_fraction_to_Residue
+     :                        ,'()'
+     :                        , fraction_to_Residue
+     :                        , max_part)
+
+      call event_send (EVENT_Crop_Chopped)
+ 
+      call delete_postbox ()
+
+ 
+      call pop_routine (myname)
+      return
+      end
+
  
 
 
