@@ -207,6 +207,7 @@ void __fastcall TMainForm::FormShow(TObject *Sender)
       fileName = getAppHomeDirectory() + "\\" + fileName;
       LogoImage->Picture->LoadFromFile(fileName.c_str());
       }
+   readCommandLine();
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::Evaluate(TObject *Sender)
@@ -234,59 +235,20 @@ void AddToOpenDialog (TOpenDialog* OpenDialog, TStringList* files)
    OpenDialog->Files->AddStrings(files);
    }
 //---------------------------------------------------------------------------
-void __fastcall TMainForm::ApsimOutlookExecuteMacro(TObject *Sender,
-      TStrings *Msg)
+void TMainForm::readCommandLine(void)
    {
-   // display an hourglass if we haven't already done so.
-   if (!Timer1->Enabled)
+   if (CommandLine != "")
       {
-      savedCursor = Screen->Cursor;
+      // display an hourglass if we haven't already done so.
+      TCursor savedCursor = Screen->Cursor;
       Screen->Cursor = crHourGlass;
-      }
 
-   // create a string stream to parse macro.
-   istringstream Macro_stream (Msg->Strings[0].c_str());
+      TStringList* files = new TStringList;
+      files->LoadFromFile(CommandLine);
+      CreateDefaultDatabase(files);
+      delete files;
 
-   // loop through all macros in message
-   string Macro_name;
-   bool ok = true;
-   while (!Macro_stream.eof() && ok)
-      {
-      ok = (Read_token (Macro_stream, " ", "(", Macro_name) == '(');
-      To_lower (Macro_name);
-
-      // read in all macro parameters.
-      string Macro_parameters;
-      if (ok)
-         ok = (Read_token (Macro_stream, " ", ")", Macro_parameters) == ')');
-
-      if (ok)
-         {
-         // interpret command.
-
-         if (Macro_name == "open_predicted_files")
-            {
-            // Every time a user right clicks on an output file in explorer,
-            // control will pass through here once for each output file.
-            // We need to add files to the predicted file list.
-            // We then need to wait a short while to make sure we got all the
-            // files.
-            TStringList* files = new TStringList;
-            Macro_parameters = "\"" + Macro_parameters + "\"";
-            files->CommaText = Macro_parameters.c_str();
-            AddToOpenDialog(OpenDialog, files);
-            Timer1->Enabled = false;
-            Timer1->Enabled = true;
-            delete files;
-            }
-         else
-            {
-            string message;
-            message = "Unknown DDE command : ";
-            message += Msg->Strings[0].c_str();
-            Application->MessageBox ((char*) message.c_str(), "Error", MB_ICONSTOP | MB_OK);
-            }
-         }
+      Screen->Cursor = savedCursor;
       }
    }
 //---------------------------------------------------------------------------
@@ -332,8 +294,6 @@ void __fastcall TMainForm::CreateDefaultDatabase(TStrings* files)
       }
    else
       ShowMessage("Cannot find line in ini file.  Line: DBAddin.dll");
-
-   Screen->Cursor = savedCursor;
    }
 
 //---------------------------------------------------------------------------
@@ -350,16 +310,7 @@ unsigned TMainForm::findDBAddInLine(const string& contents)
       }
    while (true);
    }
-
 //---------------------------------------------------------------------------
-void __fastcall TMainForm::Timer1Timer(TObject *Sender)
-   {
-   Timer1->Enabled = false;
-   CreateDefaultDatabase(OpenDialog->Files);
-   }
-//---------------------------------------------------------------------------
-
-
 void __fastcall TMainForm::FixMDIChild(void)
 {
     if (ActiveMDIChild && ActiveMDIChild->WindowState == wsMaximized)
