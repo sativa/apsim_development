@@ -1,6 +1,8 @@
 C     Last change:  E     5 Dec 2000    8:52 am
       module ClockModule
 
+!      ml_external alloc_dealloc_instance
+
       type ClockData
          sequence
          ! Global variables
@@ -15,7 +17,6 @@ C     Last change:  E     5 Dec 2000    8:52 am
          double precision current_time ! current time of simulation (mins)
          logical pause_current_run     ! pause the current run.
          logical end_current_run       ! end the current run.
-         integer Percent_complete      ! percentage of simulation completed.
       end type ClockData
 
       ! Constant values
@@ -26,138 +27,16 @@ C     Last change:  E     5 Dec 2000    8:52 am
       parameter (Module_name='clock')
 
       ! instance variables.
-      type (ClockData), pointer :: g
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)
-      integer MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-      type ClockDataPtr
-         type (ClockData), pointer :: ptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type ClockDataPtr
-      type (ClockDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
-
-      end module ClockModule
-
-!     ===========================================================
-      subroutine AllocInstance (InstanceName, InstanceNo)
-!     ===========================================================
-      use ClockModule
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%ptr)
-      Instances(InstanceNo)%Name = InstanceName
-
-      return
-      end
-
-!     ===========================================================
-      subroutine FreeInstance (anInstanceNo)
-!     ===========================================================
-      use ClockModule
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module de-instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%ptr)
-
-      return
-      end
-
-!     ===========================================================
-      subroutine SwapInstance (anInstanceNo)
-!     ===========================================================
-      use ClockModule
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Swap an instance into the global 'g' pointer
-
-!- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%ptr
-
-      return
-      end
-
-
-* ====================================================================
-      subroutine Main (Action, Data)
-* ====================================================================
-       use ClockModule
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-       character Action*(*)            ! Message action to perform
-       character Data*(*)              ! Message data
-
-*+  Purpose
-*      This module makes various clock variables available to rest
-*      of system.
-
-*+  Changes
-*     dph 25/11/96
-
-*- Implementation Section ----------------------------------
-
-      if (Action.eq.ACTION_Get_variable) then
-         call clock_send_my_variable (Data)
-
-      else if (Action .eq. ACTION_Init) then
-         call clock_init ()
-
-      else if (Action.eq.ACTION_Start) then
-         call clock_start ()
-
-      else if (Action.eq.ACTION_Pause) then
-         g%pause_current_run = .true.
-
-      else if (Action.eq.ACTION_Continue) then
-         g%pause_current_run = .false.
-
-      else if (Action.eq.ACTION_Finish) then
-         ! must have been a fatal error better tell crops
-         ! that we're about to end.
-
-         call Action_send_to_all_comps (ACTION_End_run)
-
-      else
-         ! Not our variable
-
-         call Message_unused ()
-      endif
-
-      return
-      end
-
-
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (ClockData),pointer :: g
+!      type (IDsType), pointer :: ID
+      
+      contains
 
 * ====================================================================
       subroutine clock_init ()
 * ====================================================================
-      use ClockModule
       Use infrastructure
       implicit none
 
@@ -191,7 +70,6 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
       g%end_current_run = .false.
       g%pause_current_run = .false.
-      g%percent_complete = -1
 
       g%current_date = g%start_date
       g%current_time = -g%timestep
@@ -235,7 +113,6 @@ C     Last change:  E     5 Dec 2000    8:52 am
 * ====================================================================
       subroutine clock_read_params ()
 * ====================================================================
-      use ClockModule
       Use infrastructure
       implicit none
 
@@ -270,7 +147,6 @@ C     Last change:  E     5 Dec 2000    8:52 am
 * ====================================================================
       subroutine clock_advance_clock ()
 * ====================================================================
-      use ClockModule
       Use infrastructure
       implicit none
 
@@ -315,54 +191,15 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
       endif
 
-      call clock_print_percent_complete ()
 
       call pop_routine (This_routine)
       return
       end subroutine
 
-* ====================================================================
-       subroutine clock_print_percent_complete ()
-* ====================================================================
-      use ClockModule
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-
-*+  Calls
-
-
-*+  Purpose
-*      print a percentage complete if necessary.
-
-*+  Changes
-*     dph 3/8/99
-*     dph 3/11/99 modified to only call Screen_writepercentcomplete
-*                 if percent is a multiple of 5.
-
-*+  Constant Values
-
-*+  Local Variables
-      integer New_percent_complete         ! percentage of simulation completed.
-
-*- Implementation Section ----------------------------------
-
-      ! print out percent complete to screen if necessary
-      New_percent_complete = (g%current_date - g%start_date)
-     .                   / (g%end_date - g%start_date) * 100.0
-      if (New_percent_complete - g%Percent_complete .ge. 5 .or.
-     .    g%Percent_complete .eq. -1) then
-         call Screen_WritePercentComplete (New_percent_complete)
-         g%Percent_complete = New_percent_complete
-      endif
-      return
-      end subroutine
 
 * ====================================================================
        subroutine clock_send_my_variable (Variable_name)
 * ====================================================================
-      use ClockModule
       Use infrastructure
       implicit none
 
@@ -370,7 +207,6 @@ C     Last change:  E     5 Dec 2000    8:52 am
        character Variable_name*(*)     ! (INPUT) Variable name to search for
 
 *+  Calls
-      character Clock_time_string*(5)      ! function
 
 *+  Purpose
 *      Return the value of a variable
@@ -403,7 +239,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
      .                                 '(year)',
      .                                 g%year)
       else if (variable_name .eq. 'timestep') then
-         call respond2get_integer_var (Variable_name,
+         call respond2get_integer_var (Variable_name,        
      .                                 '(min)',
      .                                 g%timestep)
       else if (variable_name .eq. 'day_of_month') then
@@ -485,6 +321,12 @@ C     Last change:  E     5 Dec 2000    8:52 am
      .                                 '()',
      .                                 year)
 
+      else if (variable_name .eq. 'simulation_start_date') then
+         call respond2get_double_var(Variable_name, '()', g%start_date)
+
+      else if (variable_name .eq. 'simulation_end_date') then
+         call respond2get_double_var(Variable_name, '()', g%end_date)
+
       else
          ! Not our variable
 
@@ -500,7 +342,6 @@ C     Last change:  E     5 Dec 2000    8:52 am
 * ====================================================================
        subroutine clock_today_object (Variable_name)
 * ====================================================================
-      use ClockModule
       Use infrastructure
       implicit none
 
@@ -622,7 +463,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
          write (str, '(2a)' )
      .      'The TODAY object doesnt have a method called :- ',
      .      variable_name
-         call Fatal_error (ERR_user, str)
+         call Fatal_error (ERR_user, str)             
 
       endif
 
@@ -635,7 +476,6 @@ C     Last change:  E     5 Dec 2000    8:52 am
 * ====================================================================
        subroutine clock_start ()
 * ====================================================================
-      use ClockModule
       Use infrastructure
       implicit none
 
@@ -656,10 +496,6 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
       call push_routine (This_routine)
 
-      ! tell summary service to enter the diary state ie. not the
-      ! initialisation state.
-      call Summary_enter_diary_state ()
-
       ! do all timesteps for simulation
 
 !      g%current_date = g%current_date - 1
@@ -675,7 +511,6 @@ C     Last change:  E     5 Dec 2000    8:52 am
 * ====================================================================
        subroutine Clock_timestep_loop ()
 * ====================================================================
-      use ClockModule
       Use infrastructure
       implicit none
 
@@ -724,7 +559,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
          if (g%End_current_run) then
             goto 100
-         endif
+         endif                                     
 
          ! Check the pause flag and enter a idle loop if necessary.
 
@@ -754,7 +589,6 @@ C     Last change:  E     5 Dec 2000    8:52 am
 * ====================================================================
        subroutine Clock_idle_loop ()
 * ====================================================================
-      use ClockModule
       Use infrastructure
       implicit none
 
@@ -769,7 +603,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 *- Implementation Section ----------------------------------
 
 10    continue
-      if (g%Pause_current_run) then
+      if (g%Pause_current_run) then 
          call Action_send_to_all_comps (ACTION_Idle)
          goto 10
       endif
@@ -779,9 +613,8 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
 
 * ====================================================================
-       character*(*) function Clock_time_string ()
+       character*(10) function Clock_time_string ()
 * ====================================================================
-      use ClockModule
       Use infrastructure
       implicit none
 
@@ -837,12 +670,10 @@ C     Last change:  E     5 Dec 2000    8:52 am
 ! ====================================================================
        subroutine Clock_DoTick ()
 ! ====================================================================
-      use ClockModule
       Use infrastructure
       implicit none
 
 !+  Calls
-      character Clock_time_string*(5)      ! function
 
 !+  Purpose
 !     Notify all modules of a clock tick and the new timestep
@@ -871,6 +702,10 @@ C     Last change:  E     5 Dec 2000    8:52 am
      :                     , '()'
      :                     , g%year)
 
+      call post_double_var (DATA_jday
+     :                     , '()'
+     :                     , g%current_date)
+
       time = clock_time_string()
       call post_char_var (DATA_time
      :                   , '(hh:mm)'
@@ -885,6 +720,86 @@ C     Last change:  E     5 Dec 2000    8:52 am
       call delete_postbox()
 
       call pop_routine (This_routine)
+
+      return
+      end subroutine
+      
+      end module ClockModule
+      
+      
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use ClockModule
+      implicit none  
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+!         allocate(ID)
+      else
+         deallocate(g)
+!         deallocate(ID)
+      end if
+      return
+      end subroutine
+
+
+* ====================================================================
+      subroutine Main (Action, Data)
+* ====================================================================
+      use ClockModule
+      Use infrastructure
+      implicit none
+      ml_external Main
+
+*+  Sub-Program Arguments
+       character Action*(*)            ! Message action to perform
+       character Data*(*)              ! Message data
+
+*+  Purpose
+*      This module makes various clock variables available to rest
+*      of system.
+
+*+  Changes
+*     dph 25/11/96
+
+*- Implementation Section ----------------------------------
+
+      if (Action.eq.ACTION_Get_variable) then
+         call clock_send_my_variable (Data)
+
+      else if (Action .eq. ACTION_Init) then
+         call clock_init ()
+
+      else if (Action.eq.ACTION_Start) then
+         call clock_start ()
+
+      else if (Action.eq.ACTION_Pause) then
+         g%pause_current_run = .true.
+
+      else if (Action.eq.ACTION_Continue) then
+         g%pause_current_run = .false.
+
+      else if (Action.eq.ACTION_Finish) then
+         ! must have been a fatal error better tell crops
+         ! that we're about to end.
+
+         call terminate_simulation()
+
+      else
+         ! Not our variable
+
+         call Message_unused ()
+      endif
 
       return
       end
