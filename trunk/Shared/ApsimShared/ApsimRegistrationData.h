@@ -7,7 +7,7 @@
 // This class encapsulates a single component registration from an
 // interface file.
 // ------------------------------------------------------------------
-class ApsimRegistrationData
+class __declspec(dllexport) ApsimRegistrationData
    {
    public:
       ApsimRegistrationData(XMLNode n) : node(n) { }
