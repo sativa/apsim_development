@@ -12,6 +12,9 @@
  
 !+  Purpose
 !      Module instantiation routine.
+
+*+  Mission Statement
+*     Instantiate routine
  
 !- Implementation Section ----------------------------------
                
@@ -34,6 +37,9 @@
  
 !+  Purpose
 !      Module de-instantiation routine.
+
+*+  Mission Statement
+*     De-Instantiate routine
  
 !- Implementation Section ----------------------------------
                
@@ -55,6 +61,9 @@
  
 !+  Purpose
 !      Swap an instance into the global 'g' pointer
+
+*+  Mission Statement
+*     Swap an instance into global pointer
  
 !- Implementation Section ----------------------------------
                
@@ -76,9 +85,12 @@
       include   'event.inc'
       include   'error.pub'
 
-*   Short description:
+*+  Purpose
 *      This routine is the interface between the main system and the
-*      tamet2 module.
+*      Tamet2 module.
+
+*+  Mission statement
+*      Handles all the communications for the Tamet2 module.
 
 *   Changes:
 *       210995 jngh programmed
@@ -134,8 +146,11 @@
       include 'data.pub'
       include 'error.pub'
 
-*   Short description:
+*+  Purpose
 *     Set all variables in this module to zero.
+
+*+  Mission statement
+*     Zero variables
 
 *   Changes:
 *       210995 jngh programmed
@@ -194,8 +209,11 @@
       include 'data.pub'
       include 'error.pub'
 
-*   Short description:
+*+  Purpose
 *     Set all variables in this module to zero.
+
+*+  Mission statement
+*     Set all variables in this module to zero
 
 *   Changes:
 *       210995 jngh programmed
@@ -246,7 +264,10 @@
       include 'const.inc'
       include 'error.pub'
 
-*   Short description:
+*+  Purpose
+*      Initialise tamet2 module
+
+*+  Mission statement
 *      Initialise tamet2 module
 
 *   Changes:
@@ -293,8 +314,11 @@
       include 'read.pub'                          
       include 'error.pub'                         
 
-*   Short description:
-*       Read all module parameters.
+*+  Purpose
+*      Read in all parameters from parameter file.
+ 
+*+  Mission Statement
+*     Read Parameters from par file
 
 *   Changes:
 *       210995 jngh programmed
@@ -593,8 +617,11 @@
       include 'error.pub'                         
 
 
-*   Short description:
-*       Read all module constants.
+*+  Purpose
+*      Read in all parameters from parameter file.
+ 
+*+  Mission Statement
+*     Read Constants from Ini file
 
 *   Changes:
 *       210995 jngh programmed
@@ -624,8 +651,11 @@
       implicit   none
       include 'error.pub'                         
 
-*   short description:
-*     perform calculations before the current timestep.
+*+  Purpose
+*     Perform calculations before the current timestep.
+
+*+  Mission statement
+*     Perform calculations before the current timestep
 
 *   changes:
 *       210995 jngh programmed
@@ -655,7 +685,10 @@
       include 'date.pub'
 
 
-*   Short description:
+*+  Purpose
+*      Get the values of variables from other modules
+
+*+  Mission statement
 *      Get the values of variables from other modules
 
 *   Changes:
@@ -764,8 +797,11 @@
       include 'intrface.pub'
       include 'error.pub'
 
-*   Short description:
+*+  Purpose
 *      Get the values of variables from other modules
+ 
+*+  Mission Statement
+*     Get Other Variables
 
 *   Changes:
 *       210995 jngh programmed
@@ -888,8 +924,11 @@
       include 'intrface.pub'                      
       include 'error.pub'                         
 
-*   Short description:
-*            return the value of one of our variables to       caller
+*+  Purpose
+*      Return the value of one of our variables to caller
+ 
+*+  Mission Statement
+*     Send Value of Requested Variable
 
 *   Changes:
 *       210995 jngh programmed
@@ -979,8 +1018,11 @@
 
       include 'error.pub'                         
 
-*   short description:
+*+  Purpose
 *      perform actions for current day
+
+*+  Mission Statement
+*     Perform all APSIM Timestep calculations
 
 *   changes:
 *       210995 jngh programmed
@@ -1036,6 +1078,12 @@
       integer  k
       integer  nm
       integer  mth
+
+*+  Purpose
+*      Calculations for current day
+
+*+  Mission Statement
+*     Perform calculations for current day
       
 ! ***************
 !   AV      R MONTH AVERAGE
@@ -1497,8 +1545,12 @@
       CHARACTER RMESS*(*)
       character string*80
       integer LAG, N2, K1, K3
-      
- 
+*+  Purpose
+*      Produce error string
+
+*+  Mission Statement
+*     Produce error string
+       
       LAG = N2
  
          !print*, ' e1'
@@ -1524,6 +1576,11 @@
  
       LAG = N2
  
+*+  Purpose
+*      Produce error string
+
+*+  Mission Statement
+*     Produce error string
  
       WRITE (string, 1000) STN,K1,K3,r4,trim(rmess)
  1000 FORMAT(A1,I4,I5,1X,f7.1,1x,a)
