@@ -14,9 +14,8 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 1.61
-     Control filename       = c:\regr\apsim\surface\sample\sample.con
-     Configuration filename = c:\build\regression.config
+     Version                = 2.0
+     Simulation filename    = c:\regr\apsim\surface\sample\sample.sim
      Title                  = 
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
@@ -35,11 +34,10 @@
 ------- REPORT Initialisation ------------------------------------------------
      Output file = sample.out
      Format = normal
-     Module_names = clock apswim surface 
-     Variable_names = day scon rr 
-     Variable_alias = - - - 
-     Units =    
-     
+     Output variables:
+        clock.day
+        apswim.scon
+        surface.rr
 
 ------- MET Initialisation ---------------------------------------------------
      File name = c:\regr\apsim\surface\sample\sample.met
@@ -66,7 +64,6 @@
      Call stack  = apswim_read_param
                    apswim_reset
                    APSwim Main
-                   clock_start
      
      User error:
      
