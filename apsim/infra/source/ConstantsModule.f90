@@ -134,6 +134,8 @@ module ConstantsModule
    character (len=*), parameter :: ACTION_Add_Residue_P = 'add_residue_p'
    character (len=*), parameter :: ACTION_User_Init = 'init'
    character (len=*), parameter :: ACTION_Incorp_FOM_P  = 'incorp_fom_p'
+   character (len=*), parameter :: ACTION_gimme_water  = 'gimme_water'
+   character (len=*), parameter :: ACTION_Top_up  = 'top_up'
 
    integer, parameter :: err_internal = 1
    integer, parameter :: err_user = 2
