@@ -129,7 +129,7 @@ void Series_base::Add_data (const char* X, const char* Y)
       GDate d;
       d.Read(X);
       Par1 = d.Get_jday();
-      char st[50];
+      string st;
       d.Write (st);
       Par3 = st;
       }
