@@ -1,68 +1,42 @@
-include base.interface 
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/apsim.xsl"?>
 
-; -----------------------------------------------------------
-; CLOCKs public interface which other components may
-; use.  Contains:
-;    Properties which other components may get or set
-;    Methods which other components may call
-;    Events which other components may trap (or subscribe to)
-; -----------------------------------------------------------
-class APSIMClockPublic
-   simulation_start_date  : APSIMDate = Simulation start date, (), READ
-   simulation_end_date    : APSIMDate = Simulation end date, (), READ
-   timestep               : APSIMInteger = TimeStep, (min), GET|READ, 1440
-   day                    : APSIMInteger = Day, (day), GET
-   year                   : APSIMInteger = Year, (year), GET
-   day_of_month           : APSIMInteger = Day of month, (day), GET
-   month                  : APSIMInteger = Month, (month), GET
-   start_week             : APSIMBoolean = Start of week, (0-1), GET
-   end_week               : APSIMBoolean = End of week,  (0-1), GET
-   start_month            : APSIMBoolean = Start of month, (0-1), GET
-   end_month              : APSIMBoolean = End of month, (0-1), GET
-   end_year               : APSIMBoolean = End of year, (0-1), GET
-   time                   : APSIMString = Time of day, (), GET
-   simulation_start_day   : APSIMInteger = Simulation start day,  (day), GET
-   simulation_start_year  : APSIMInteger = Simulation start year, (year), GET
-   simulation_end_day     : APSIMInteger = Simulation end day, (day), GET
-   simulation_end_year    : APSIMInteger = Simulation end year, (year), GET
-   today                  : APSIMReal = Julian day number, (), GET
-   today.day              : APSIMInteger = Todays day of month, (day), GET
-   today.month            : APSIMInteger = Todays month, (month), GET
-   today.year             : APSIMInteger = Todays year, (year), GET
-   today.day_of_year      : APSIMInteger = Todays day of year,  (day), GET
-   today.month_str        : APSIMString = Todays month as a string,  (month), GET
-   today.dd/mm            : APSIMString = Todays date (dd/mm),  (), GET
-   today.dd/mm/yyyy       : APSIMString = Todays date (dd/mm/yyyy), (), GET
-   today.dd_mmm_yyyy      : APSIMString = Todays date (dd_mmm_yyyy), (), GET
-   today.dd/mmm/yyyy      : APSIMString = Todays date (dd/mmm/yyyy), (), GET
-   today.dd.mmm           : APSIMString = Todays date (dd.mmm), (), GET
-
-   sysinit                : APSIMMethod = System initialise
-   start                  : APSIMMethod = Start simulation
-   pause                  : APSIMMethod = Pause simulation
-   cont                   : APSIMMethod = Continue simulation
-   end_run                : APSIMMethod = Message that run is to end
-
-   tick                   : APSIMClockTickEvent  = Tick event
-
-end
-
-; -----------------------------------------------------------
-; Clock's external interface which documents things in other 
-; components that this component uses.
-; Contains:
-;    Properties used in other components
-;    Methods called in other components
-;    Events from other components that this component uses.
-; -----------------------------------------------------------
-
-class APSIMClockExternal
-
-end
-
-class APSIMClock : APSIMComponent
-   dll       : string
-   public    : APSIMClockPublic
-   External  : APSIMClockExternal
-end
-
+<component name="clock">
+   <registrations>
+      <read name="simulation_start_date" type="simulation_start_dateType" readable="T"/>
+      <read name="simulation_end_date" type="simulation_end_dateType" readable="T"/>
+      <read name="timestep" type="timestepType" readable="T"/>
+      <respondToGetReg name="timestep" type="timestepType" readable="T"/>
+      <respondToGetReg name="day" type="dayType"/>
+      <respondToGetReg name="year" type="yearType"/>
+      <respondToGetReg name="day_of_month" type="day_of_monthType"/>
+      <respondToGetReg name="month" type="monthType"/>
+      <respondToGetReg name="start_week" type="start_weekType"/>
+      <respondToGetReg name="end_week" type="end_weekType"/>
+      <respondToGetReg name="start_month" type="start_monthType"/>
+      <respondToGetReg name="end_month" type="end_monthType"/>
+      <respondToGetReg name="end_year" type="end_yearType"/>
+      <respondToGetReg name="time" type="timeType"/>
+      <respondToGetReg name="simulation_start_day" type="simulation_start_dayType"/>
+      <respondToGetReg name="simulation_start_year" type="simulation_start_yearType"/>
+      <respondToGetReg name="simulation_end_day" type="simulation_end_dayType"/>
+      <respondToGetReg name="simulation_end_year" type="simulation_end_yearType"/>
+      <respondToGetReg name="today" type="todayType"/>
+      <respondToGetReg name="today.day" type="today.dayType"/>
+      <respondToGetReg name="today.month" type="today.monthType"/>
+      <respondToGetReg name="today.year" type="today.yearType"/>
+      <respondToGetReg name="today.day_of_year" type="today.day_of_yearType"/>
+      <respondToGetReg name="today.month_str" type="today.month_strType"/>
+      <respondToGetReg name="today.dd/mm" type="today.dd/mmType"/>
+      <respondToGetReg name="today.dd/mm/yyyy" type="today.dd/mm/yyyyType"/>
+      <respondToGetReg name="today.dd_mmm_yyyy" type="today.dd_mmm_yyyyType"/>
+      <respondToGetReg name="today.dd/mmm/yyyy" type="today.dd/mmm/yyyyType"/>
+      <respondToGetReg name="today.dd.mmm" type="today.dd.mmmType"/>
+      <respondToMethodCallReg name="sysinit" type="sysinitType"/>
+      <respondToMethodCallReg name="start" type="startType"/>
+      <respondToMethodCallReg name="pause" type="pauseType"/>
+      <respondToMethodCallReg name="cont" type="contType"/>
+      <respondToMethodCallReg name="end_run" type="end_runType"/>
+      <eventReg name="tick" type="tickType"/>
+   </registrations>
+</component>
