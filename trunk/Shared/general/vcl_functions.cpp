@@ -376,9 +376,9 @@ void Strings_to_olevariant (vector<string>& StlArray, VARIANT& OleVariant)
    }
 
 // ------------------------------------------------------------------
-// Load a component from a stream.
+// Load a component from a file.
 // ------------------------------------------------------------------
-void loadComponent(AnsiString filename, TComponent*& component)
+void loadComponent(AnsiString filename, TForm*& component)
    {
    if (component != NULL && component->Owner != NULL && FileExists(filename))
       {
@@ -398,9 +398,9 @@ void loadComponent(AnsiString filename, TComponent*& component)
       }
    }
 // ------------------------------------------------------------------
-// Save a component to a stream.  Works best saving an entire form.
+// Save a component to a file.
 // ------------------------------------------------------------------
-void saveComponent(AnsiString filename, TComponent* component)
+void saveComponent(AnsiString filename, TForm* component)
    {
    if (component != NULL && component->Owner != NULL)
       {
@@ -418,8 +418,54 @@ void saveComponent(AnsiString filename, TComponent* component)
         delete file;
         }
       }
-
-   }                  
+   }
+// ------------------------------------------------------------------
+// Load a component from contents string.
+// ------------------------------------------------------------------
+void loadComponent(const string& contents, TForm*& component)
+   {
+   if (component != NULL && component->Owner != NULL)
+      {
+      TMemoryStream* source = new TMemoryStream();
+      source->Write(contents.c_str(), contents.length());
+      source->Position = 0;
+      TMemoryStream* memory = new TMemoryStream();
+      try
+         {
+         ObjectTextToBinary(source, memory);
+         memory->Position = 0;
+         memory->ReadComponent(component);
+         }
+      __finally
+         {
+         delete source;
+         delete memory;
+         }
+      }
+   }
+// ------------------------------------------------------------------
+// Save a component to the contents string.
+// ------------------------------------------------------------------
+void saveComponent(string& contents, TForm* component)
+   {
+   if (component != NULL && component->Owner != NULL)
+      {
+      TMemoryStream* memory = new TMemoryStream();
+      TMemoryStream* dest = new TMemoryStream();
+      try
+         {
+         memory->WriteComponent(component);
+         memory->Position = 0;
+         ObjectBinaryToText(memory, dest);
+         contents = string((char*) dest->Memory, dest->Position);
+         }
+      __finally
+        {
+        delete memory;
+        delete dest;
+        }
+      }
+   }
 
 //---------------------------------------------------------------------------
 // Resolve the componentName.propertyName passed in with the value

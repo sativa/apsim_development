@@ -130,7 +130,7 @@ TComponent* Locate_component(TComponent* component, const char* Component_name);
 template <class T>
 T* getComponent(TComponent* owner, const AnsiString& componentName)
    {
-   // loop through all components in parent form.
+   // loop through all components owned by owner.
    for (int componentI = 0; componentI < owner->ComponentCount; componentI++)
       {
       if (owner->Components[componentI]->Name.AnsiCompareIC(componentName) == 0)
@@ -138,7 +138,55 @@ T* getComponent(TComponent* owner, const AnsiString& componentName)
       }
    return NULL;
    }
-
+// ------------------------------------------------------------------
+// Retrieve a component of type T, from the specified owner component
+// Does not recursively search children of the specified owner.
+// to use: TDataSet* dataset = getComponentOfType<TDataSet>(owner);
+// ------------------------------------------------------------------
+template <class T>
+T* getComponentOfType(TComponent* owner)
+   {
+   // loop through all components owned by owner
+   for (int componentI = 0; componentI < owner->ComponentCount; componentI++)
+      {
+      T* comp = dynamic_cast<T*> (owner->Components[componentI]);
+      if (comp != NULL)
+         return comp;
+      }
+   return NULL;
+   }
+// ------------------------------------------------------------------
+// Retrieve a control of type T, from the specified parent component
+// Does not recursively search children of the specified parent
+// to use: TPanel* p = getComponent<TPanel>(parent, "Panel1");
+// ------------------------------------------------------------------
+template <class T>
+T* getControl(TWinControl* parent, const AnsiString& controlName)
+   {
+   // loop through all controls in parent
+   for (int i= 0; i < parent->ControlCount; i++)
+      {
+      if (parent->Controls[i]->Name.AnsiCompareIC(controlName) == 0)
+         return dynamic_cast<T*> (parent->Controls[i]);
+      }
+   return NULL;
+   }
+// ------------------------------------------------------------------
+// Retrieve a control of type T, from the specified parent component
+// to use: TDataSet* dataset = getControlOfType<TDataSet>(owner);
+// ------------------------------------------------------------------
+template <class T>
+T* getControlOfType(TWinControl* parent)
+   {
+   // loop through all components owned by owner
+   for (int i = 0; i < parent->ControlCount; i++)
+      {
+      T* control = dynamic_cast<T*> (parent->Controls[i]);
+      if (control != NULL)
+         return control;
+      }
+   return NULL;
+   }
 // ------------------------------------------------------------------
 // Loop through all components owned by the specified component and
 // retrieve a list of component names that match T.
@@ -260,14 +308,24 @@ void Olevariant_to_doubles (VARIANT& OleVariant, std::vector<double>& StlArray);
 void Strings_to_olevariant (std::vector<std::string>& StlArray, VARIANT& OleVariant);
 
 // ------------------------------------------------------------------
-// Load a component from a stream.
+// Load a component from a file.
 // ------------------------------------------------------------------
-void loadComponent(AnsiString filename, TComponent*& component);
+void loadComponent(AnsiString filename, TForm*& component);
 
 // ------------------------------------------------------------------
-// Save a component to a stream.  Works best saving an entire form.
+// Load a component from contents string.
 // ------------------------------------------------------------------
-void saveComponent(AnsiString filename, TComponent* component);
+void loadComponent(const string& contents, TForm*& component);
+
+// ------------------------------------------------------------------
+// Save a component to a file.
+// ------------------------------------------------------------------
+void saveComponent(AnsiString filename, TForm* component);
+
+// ------------------------------------------------------------------
+// Save a component to the contents string.
+// ------------------------------------------------------------------
+void saveComponent(string& contents, TForm* component);
 
 //---------------------------------------------------------------------------
 // Resolve the componentName.propertyName passed in with the value
