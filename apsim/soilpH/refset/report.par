@@ -1,4 +1,4 @@
-[soilph.report.parameters]  
+[soilph.report.parameters]
 
 !General parameters
 
@@ -8,9 +8,9 @@
 !Water balance parameters
 
 
- 
+
 !Soiln2 parameters
- 
+
 
 
 !Residue2 parameters
@@ -21,9 +21,9 @@ variable = clock.day
 variable = clock.month
 variable = clock.year
 variable = clock.today.dd/mm/yyyy as date
-variable = met.avg@maxt
-variable = met.avg@mint
-variable = met.avg@radn
+variable = tracker.avg@maxt
+variable = tracker.avg@mint
+variable = tracker.avg@radn
 variable = manager.crop_in
 variable = nwheat.emer_date
 variable = nwheat.anth_date
@@ -33,30 +33,30 @@ variable = nwheat.yield as yield
 variable = nwheat.tops_biom as tops_biom
 variable = nwheat.plantn as plantn
 variable = nwheat.root_wt as root_wt
-variable = met.sum@rain as rain
-variable = nwheat.sum@ep() as ep
+variable = tracker.sum@rain as rain
+variable = tracker.sum@ep as ep
 variable = soilwat2.sw_dep() as sw_dep
-variable = soilwat2.sum@es as es
-variable = soilwat2.sum@runoff as runoff
-variable = soilwat2.sum@drain as drain
-variable = soilwat2.sum@eo as eo
+variable = tracker.sum@es as es
+variable = tracker.sum@runoff as runoff
+variable = tracker.sum@drain as drain
+variable = tracker.sum@eo as eo
 variable = soilwat2.sw
 variable = soiln2.urea
 variable = soiln2.nh4
 variable = soiln2.no3
-variable = soilwat2.sum@no3_leach as no3_leach
-variable = soilwat2.sum@nh4_leach as nh4_leach
-variable = soilph.sum@no3_uptake_equiv as no3_uptake
-variable = soilph.sum@nh4_uptake_equiv as nh4_uptake
-variable = soiln2.sum@dnit as dnit
-variable = soiln2.sum@dlt_n_min as dlt_n_min
+variable = tracker.sum@no3_leach as no3_leach
+variable = tracker.sum@nh4_leach as nh4_leach
+variable = tracker.sum@no3_uptake_equiv as no3_uptake
+variable = tracker.sum@nh4_uptake_equiv as nh4_uptake
+variable = tracker.sum@dnit as dnit
+variable = tracker.sum@dlt_n_min as dlt_n_min
 variable = residue2.residue_n
 variable = residue2.residue_wt
 variable = residue2.residue_cover
 variable = soilph.phca as ph
-variable = soilph.sum@dlt_acid_n_cycle as acid_add_N
-variable = soilph.sum@acid_excretion_root as rt_excr
-variable = soilph.sum@ash_alk_wt_incorp as ash_alk
-variable = soilph.sum@dlt_acid_org_c_cycle
-variable = soilph.sum@h_equiv_flow_net
+variable = tracker.sum@dlt_acid_n_cycle as acid_add_N
+variable = tracker.sum@acid_excretion_root as rt_excr
+variable = tracker.sum@ash_alk_wt_incorp as ash_alk
+variable = tracker.sum@dlt_acid_org_c_cycle
+variable = tracker.sum@h_equiv_flow_net
 variable = soilph.phbc

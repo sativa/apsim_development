@@ -196,6 +196,27 @@ cl_dm_percent =   0.01   (%)
       
 
 [WagCW.SummaryFile.parameters]
-summaryfile=WagCW.sum
+summaryfile = WagCW.sum
 [all.Screen.parameters]
-screen_output=off
+screen_output = on
+[all.tracker.parameters]
+variable = average of tracker.maxt since reported as avg@maxt
+variable = average of tracker.mint since reported as avg@mint
+variable = average of tracker.radn since reported as avg@radn
+variable = sum of tracker.rain since reported as sum@rain
+variable = sum of tracker.ep since reported as sum@ep
+variable = sum of tracker.es since reported as sum@es
+variable = sum of tracker.runoff since reported as sum@runoff
+variable = sum of tracker.drain since reported as sum@drain
+variable = sum of tracker.eo since reported as sum@eo
+variable = sum of tracker.no3_leach since reported as sum@no3_leach
+variable = sum of tracker.nh4_leach since reported as sum@nh4_leach
+variable = sum of tracker.no3_uptake_equiv since reported as sum@no3_uptake_equiv
+variable = sum of tracker.nh4_uptake_equiv since reported as sum@nh4_uptake_equiv
+variable = sum of tracker.dnit since reported as sum@dnit
+variable = sum of tracker.dlt_n_min since reported as sum@dlt_n_min
+variable = sum of tracker.dlt_acid_n_cycle since reported as sum@dlt_acid_n_cycle
+variable = sum of tracker.acid_excretion_root since reported as sum@acid_excretion_root
+variable = sum of tracker.ash_alk_wt_incorp since reported as sum@ash_alk_wt_incorp
+variable = sum of tracker.dlt_acid_org_c_cycle since reported as sum@dlt_acid_org_c_cycle
+variable = sum of tracker.h_equiv_flow_net since reported as sum@h_equiv_flow_net
