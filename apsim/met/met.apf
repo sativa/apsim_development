@@ -7,6 +7,7 @@ optional_apf = %thispath\source\source.apf
 
 [dll]
 target  = target dll; %thispath\lib\met.dll
+import = input module; %apsuite\apsim\input\lib\input.imp 
 
 [contacts]
 contact = Dean Holzworth - Module Developer; mailto:Dean.Holzworth@tag.csiro.au
