@@ -43,6 +43,7 @@ void PatchInputComponent::doInit1(const FString& sdml)
    {
    InputComponent::doInit1(sdml);
 
+   haveReadPatchData = false;
    preNewmetID = addRegistration(RegistrationType::respondToEvent, "preNewmet", newmetTypeDDML);
    ApsimDataFile::iterator i = find(data.constantsBegin(),
                                     data.constantsEnd(),
@@ -86,6 +87,7 @@ void PatchInputComponent::readPatchDates(void)
          error(err.what(), true);
          }
       }
+   haveReadPatchData = true;
    }
 // ------------------------------------------------------------------
 // Get matching variables from INPUT for the same dates as specified in our
@@ -133,43 +135,46 @@ void PatchInputComponent::getDataFromInput(unsigned int fromID)
 // ------------------------------------------------------------------
 date PatchInputComponent::advanceToTodaysPatchData(unsigned int fromID)
    {
-   if (patchDates.size() == 0)
+   if (!haveReadPatchData)
       {
       readPatchDates();
       getDataFromInput(fromID);
       }
-   try
+   if (patchDates.size() > 0)
       {
-      PatchDates::iterator i = patchDates.find(todaysDate.julian_day());
-      if (i == patchDates.end() && patchAllYears)
+      try
          {
-         for (unsigned tryYear = minYear;
-                       tryYear <= maxYear && i == patchDates.end();
-                       tryYear++)
-            i = patchDates.find(date(tryYear, todaysDate.month(), todaysDate.day()).julian_day());
+         PatchDates::iterator i = patchDates.find(todaysDate.julian_day());
+         if (i == patchDates.end() && patchAllYears)
+            {
+            for (unsigned tryYear = minYear;
+                          tryYear <= maxYear && i == patchDates.end();
+                          tryYear++)
+               i = patchDates.find(date(tryYear, todaysDate.month(), todaysDate.day()).julian_day());
+            }
+         if (i != patchDates.end())
+            {
+            // advance the data file to the correct record.
+            unsigned recordToGoTo = i->second;
+            if (currentRecord > recordToGoTo)
+               {
+               currentRecord = 1;
+               data.first();
+               }
+            for (unsigned rec = currentRecord; rec != recordToGoTo; rec++)
+               {
+               currentRecord++;
+               data.next();
+               }
+            return todaysDate;
+            }
+         else
+            return date(pos_infin);
          }
-      if (i != patchDates.end())
+      catch (const exception& err) // probably caused by a leap year exception.
          {
-         // advance the data file to the correct record.
-         unsigned recordToGoTo = i->second;
-         if (currentRecord > recordToGoTo)
-            {
-            currentRecord = 1;
-            data.first();
-            }
-         for (unsigned rec = currentRecord; rec != recordToGoTo; rec++)
-            {
-            currentRecord++;
-            data.next();
-            }
-         return todaysDate;
-         }
-      else
          return date(pos_infin);
-      }
-   catch (const exception& err) // probably caused by a leap year exception.
-      {
-      return date(pos_infin);
+         }
       }
    }
 // ------------------------------------------------------------------
