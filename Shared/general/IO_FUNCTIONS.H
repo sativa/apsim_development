@@ -143,4 +143,10 @@ void GENERAL_EXPORT Delete_files_or_directories (std::list<std::string>& Directo
 std::string GENERAL_EXPORT Get_youngest_file (const char* Directory,
                                          const char* Filespec);
 
+// ------------------------------------------------------------------
+// Rename the specified file or folder if there is a name collision.
+// ------------------------------------------------------------------
+void GENERAL_EXPORT renameOnCollision(AnsiString& name, bool isFile = true);
+
+
 #endif
