@@ -1,10 +1,10 @@
 object ScreenForm: TScreenForm
-  Left = 299
-  Top = 121
+  Left = 301
+  Top = 123
   BorderStyle = bsSingle
   Caption = 'APSIM'
   ClientHeight = 137
-  ClientWidth = 471
+  ClientWidth = 467
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -72,12 +72,12 @@ object ScreenForm: TScreenForm
     Caption = 'Simulation progress.'
   end
   object ErrorLabel: TLabel
-    Left = 311
+    Left = 374
     Top = 80
-    Width = 140
+    Width = 77
     Height = 13
     Alignment = taRightJustify
-    Caption = 'Errors were encountered'
+    Caption = '(errors found)'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clRed
     Font.Height = -11
@@ -124,7 +124,7 @@ object ScreenForm: TScreenForm
   object Panel1: TPanel
     Left = 0
     Top = 96
-    Width = 471
+    Width = 467
     Height = 41
     Align = alBottom
     TabOrder = 1
