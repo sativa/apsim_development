@@ -16,15 +16,16 @@ __fastcall TScreenForm::TScreenForm(TComponent* Owner)
 {
 }
 //---------------------------------------------------------------------------
-void __fastcall TScreenForm::FormShow(TObject *Sender)
+__fastcall TScreenForm::TScreenForm(HWND handle)
+   : TForm(handle)
+{
+}
+//---------------------------------------------------------------------------
+void TScreenForm::setup(void)
    {
-   //
+   // restore position on screen
    ApsimSettings settings;
    string st;
-   settings.read("apsim|pauseOnComplete", st);
-   PauseCheckBox->Checked = (st == "" || Str_i_Eq(st, "on"));
-
-   // restore position on screen
    settings.read("apsim|left", st);
    if (st != "")
       {
@@ -35,16 +36,6 @@ void __fastcall TScreenForm::FormShow(TObject *Sender)
       if (st == "yes")
          WindowState = wsMinimized;
       }
-   }
-//---------------------------------------------------------------------------
-void __fastcall TScreenForm::PauseCheckBoxClick(TObject *Sender)
-   {
-   ApsimSettings settings;
-   string pause;
-   if (PauseCheckBox->Checked)
-      settings.write("apsim|pauseOnComplete", "on");
-   else
-      settings.write("apsim|pauseOnComplete", "off");
    }
 //---------------------------------------------------------------------------
 void TScreenForm::addLine(const string& line)
@@ -62,16 +53,27 @@ void TScreenForm::errorsWereEncountered(void)
 //---------------------------------------------------------------------------
 void TScreenForm::simulationHasFinished(void)
    {
+   ApsimSettings settings;
+   string moreToGo;
+   settings.read("apsim|MoreRunsToGo", moreToGo);
+   if (moreToGo == "false")
+      {
+      CancelButton->Caption = "Close";
+      settings.write("apsim|NextWasClicked", "false");
+      }
+   else
+      settings.write("apsim|NextWasClicked", "true");
+
+   PauseButton->Enabled = false;
    FinishedLabel->Visible = true;
-   CloseButton->Caption = "Close";
    }
 //---------------------------------------------------------------------------
 void __fastcall TScreenForm::FormClose(TObject *Sender, TCloseAction &Action)
    {
-   CloseButtonClick(NULL);
+   CancelButtonClick(NULL);
    }
 //---------------------------------------------------------------------------
-void __fastcall TScreenForm::CloseButtonClick(TObject *Sender)
+void __fastcall TScreenForm::CancelButtonClick(TObject *Sender)
    {
    ApsimSettings settings;
    settings.write("apsim|left", Left);
@@ -80,6 +82,21 @@ void __fastcall TScreenForm::CloseButtonClick(TObject *Sender)
       settings.write("apsim|minimize", "yes");
    else
       settings.write("apsim|minimize", "no");
+
+   settings.write("apsim|MoreRunsToGo", "false");
+   }
+//---------------------------------------------------------------------------
+void __fastcall TScreenForm::PauseButtonClick(TObject *Sender)
+   {
+   static bool pause = false;
+   pause = !pause;
+   if (pause)
+      {
+      CancelButton->Enabled = false;
+      while (ScreenForm->Visible && pause)
+         Application->ProcessMessages();
+      CancelButton->Enabled = true;
+      }
    }
 //---------------------------------------------------------------------------
 
