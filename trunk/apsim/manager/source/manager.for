@@ -176,6 +176,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
          character token_array(Max_tokens)*(Max_token_size)
                                           ! Array to hold tokens.
          integer num_local_variables    ! Number of local variables.
+         integer local_variable_regIds(Max_local_variables)
          integer token_array2(Max_tokens)
                                        ! Second array for tokens.
          integer rule_indexes(NUM_MANAGER_SECTIONS)  ! indexes into token array
@@ -614,10 +615,10 @@ C     Last change:  P    25 Oct 2000    9:26 am
             call string_to_real_var
      .          (g%local_variable_values(Variable_index), realValue,
      .           numvals)
-            call respond2get_real_var (Variable_name, '()',
+            call respond2get_real_var (Variable_name, '',
      .                                 realValue)
          else
-            call respond2get_char_var (Variable_name, '()',
+            call respond2get_char_var (Variable_name, '',
      .                        g%local_variable_values(Variable_index))
          endif
       else
@@ -793,19 +794,24 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .            trim(variable_name),
      .            ' = ',
      .            trim(Variable_value)
+         g%local_variable_regIds(g%num_local_variables)
+     .      = Add_Registration (respondToGetSetReg, Variable_name,
+     .                       stringTypeDDML, ' ', ' ')
       else
          write (str, '(4a)' )
      .           'Manager creating a new local real variable : ',
      .            trim(variable_name),
      .            ' = ',
      .            trim(Variable_value)
+         g%local_variable_regIds(g%num_local_variables)
+     .      = Add_Registration (respondToGetSetReg, Variable_name,
+     .                       singleTypeDDML, ' ', ' ')
       endif
+
       call Write_string (str)
 
       return
       end subroutine
-
-
 
 ! ====================================================================
        subroutine manager_get_params (Function_call, Params)
@@ -1300,7 +1306,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
                regID=Add_Registration (EventReg, Action, ' ', ' ', ' ')
                call Event_Send (Action)
             else
-               call Action_send (Module_name, Action)
+               call Event_send_directed (Module_name, Action)
             endif
          else
             ! data was not stored
