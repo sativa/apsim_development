@@ -69,7 +69,7 @@ module ConstantsModule
    character (len=*), parameter :: All_active_modules ='act_mods'
    character (len=*), parameter :: Unknown_module = 'unk_mod'
    character (len=*), parameter :: First_active_module = 'unk_mod'
-                                                      
+
    ! Smallest number considered to be zero
    real, parameter :: close_enough_to_zero = 1.0e-15
 
@@ -111,6 +111,436 @@ module ConstantsModule
    character (len=*), parameter :: ACTION_Prepare      = 'prepare'
    character (len=*), parameter :: ACTION_Process      = 'process'
    character (len=*), parameter :: ACTION_Post         = 'post'
+   character (len=*), parameter :: ACTION_Start        = 'start'
+   character (len=*), parameter :: ACTION_Pause        = 'pause'
+   character (len=*), parameter :: ACTION_Continue     = 'continue'
+   character (len=*), parameter :: ACTION_Finish       = 'finish'
+   character (len=*), parameter :: ACTION_End_Run      = 'end_run'
+   character (len=*), parameter :: ACTION_Report       = 'report'
+   character (len=*), parameter :: ACTION_Idle         = 'idle'
+   character (len=*), parameter :: ACTION_Reset        = 'reset'
+   character (len=*), parameter :: ACTION_Sum_Report   = 'sum_report'
+   character (len=*), parameter :: ACTION_Till         = 'till'
+   character (len=*), parameter :: ACTION_Sow          = 'sow'
+   character (len=*), parameter :: ACTION_Harvest      = 'harvest'
+   character (len=*), parameter :: ACTION_End_Crop     = 'end_crop'
+   character (len=*), parameter :: ACTION_Kill_Crop    = 'kill_crop'
+   character (len=*), parameter :: ACTION_Incorp_FOM   = 'incorp_fom'
+   character (len=*), parameter :: ACTION_Add_Residue   = 'add_residue'
+   character (len=*), parameter :: ACTION_Do_Decompose  = 'do_decompose'
+   character (len=*), parameter :: ACTION_Decomposed    = 'decomposed'
+   character (len=*), parameter :: ACTION_Initiate_Crop = 'initiate_crop'
+   character (len=*), parameter :: ACTION_Add_Residue_P = 'add_residue_p'
+   character (len=*), parameter :: ACTION_User_Init = 'init'
+   character (len=*), parameter :: ACTION_Incorp_FOM_P  = 'incorp_fom_p'
+
+   integer, parameter :: err_internal = 1
+   integer, parameter :: err_user = 2
+
+! ====================================================================
+!      COMMON EVENT CONSTANTS
+! ====================================================================
+
+!   Short description:
+!      Globally used constants for defining names for events within APSIM
+
+!   Notes:
+
+!   Changes:
+!      NIH 17/05/99
+
+! ----------------------- Declaration section ------------------------
+
+!   Global variables
+!      none
+
+!   Constant values
+
+      character DATA_sender* (*)         ! keyname used to identify the sender
+      parameter (DATA_sender='sender')   ! of an event.  This data is included
+                                          ! with every event.
+
+! ====================================================================
+!      CLOCK TICK EVENT
+! ====================================================================
+
+!   Short description:
+!      To notify all interested modules in a change in the simulation
+!      system time and the duration of the new time step.
+
+!   Notes:
+
+!   Changes:
+!      NIH 25/08/99
+
+! ----------------------- Declaration section ------------------------
+
+!   Global variables
+!      none
+
+!   Event Name
+
+      character EVENT_tick* (*)
+      parameter (EVENT_tick='tick')
+
+!   Event Data
+
+      character DATA_day *(*)      ! data name for day of year
+      parameter (DATA_day = 'day')
+      character DATA_year *(*)      ! data name for year
+      parameter (DATA_year = 'year')
+      character DATA_time *(*)      ! data name for time of day
+      parameter (DATA_time = 'time')
+      character DATA_timestep *(*)  ! data name for timestep
+      parameter (DATA_timestep = 'timestep')
+
+
+! ====================================================================
+!      NEW SOLUTE EVENT
+! ====================================================================
+
+!   Short description:
+!      To notify all interested modules in the ownership of solutes by
+!      an individual module.
+!      For example, Soil water modules may need to know what solutes will
+!      need to be redistributed with movement of soil water.
+
+!   Notes:
+
+!   Changes:
+!      NIH 17/05/99
+
+! ----------------------- Declaration section ------------------------
+
+!   Global variables
+!      none
+
+!   Event Name
+
+      character EVENT_new_solute* (*)
+      parameter (EVENT_new_solute='new_solute')
+
+!   Event Data
+
+      character DATA_new_solute_names *(*)               ! name of character array of data containing
+      parameter (DATA_new_solute_names = 'solute_names') ! a list of solutes owned by the sender
+
+
+! ====================================================================
+!      NEW MET EVENT
+! ====================================================================
+
+!   Short description:
+!      To notify all interested modules in a change in the simulation
+!      met data for the current time step
+
+!   Notes:
+
+!   Changes:
+!      NIH 27/08/99
+
+! ----------------------- Declaration section ------------------------
+
+!   Global variables
+!      none
+
+!   Event Name
+
+      character EVENT_newmet* (*)
+      parameter (EVENT_newmet='newmet')
+
+!   Event Data
+
+      character DATA_radn *(*)
+      parameter (DATA_radn = 'radn')
+      character DATA_maxt *(*)
+      parameter (DATA_maxt = 'maxt')
+      character DATA_mint *(*)
+      parameter (DATA_mint = 'mint')
+      character DATA_rain *(*)
+      parameter (DATA_rain = 'rain')
+      character DATA_vp *(*)
+      parameter (DATA_vp = 'vp')
+
+! ====================================================================
+!      IRRIGATED EVENT
+! ====================================================================
+
+!   Short description:
+!      To notify all interested modules in an irrigation application
+!      which may/maynot include solutes
+
+!   Notes:
+
+!   Changes:
+!      NIH 30/08/99
+
+! ----------------------- Declaration section ------------------------
+
+!   Global variables
+!      none
+
+!   Event Name
+
+      character EVENT_irrigated* (*)
+      parameter (EVENT_irrigated='irrigated')
+
+!   Event Data
+
+      character DATA_irrigate_amount *(*)
+      parameter (DATA_irrigate_amount = 'amount')
+      character DATA_irrigate_time *(*)
+      parameter (DATA_irrigate_time = 'time')
+      character DATA_irrigate_duration *(*)
+      parameter (DATA_irrigate_duration = 'duration')
+
+
+
+! ====================================================================
+!      POTENTIAL RESIDUE DECOMPOSITION EVENT
+! ====================================================================
+
+!   Short description:
+!      To notify all interested modules in a potential residue decomposition
+
+!   Notes:
+
+!   Changes:
+!      NIH 31/08/99
+
+! ----------------------- Declaration section ------------------------
+
+!   Global variables
+!      none
+
+!   Event Name
+
+      character EVENT_Pot_Res_decomp*(*)
+      parameter (EVENT_Pot_Res_decomp='pot_decomp')
+
+!   Event Data
+
+      character DATA_Pot_C_decomp *(*)
+      parameter (DATA_Pot_C_decomp = 'pot_c_decomp')
+      character DATA_Pot_N_decomp *(*)
+      parameter (DATA_Pot_N_decomp = 'pot_n_decomp')
+      character DATA_Pot_P_decomp *(*)
+      parameter (DATA_Pot_P_decomp = 'pot_p_decomp')
+
+! ====================================================================
+!      NITROGEN BALANCE EVENT
+! ====================================================================
+
+!   Short description:
+!      To notify all interested modules in the completion of the
+!      soil N calculations, including all N transformation processes
+!      for soil organic and inorganic pools.
+
+!   Notes:
+
+!   Changes:
+!      NIH 08/09/99
+
+! ----------------------- Declaration section ------------------------
+
+!   Global variables
+!      none
+
+!   Event Name
+
+      character EVENT_N_Balance*(*)
+      parameter (EVENT_N_Balance='n_balance')
+
+!   Event Data
+
+      character DATA_NH4_transform_net *(*)
+      parameter (DATA_NH4_transform_net = 'nh4_transform_net')
+      character DATA_NO3_transform_net *(*)
+      parameter (DATA_NO3_transform_net = 'no3_transform_net')
+
+      character DATA_dlt_NH4_net *(*)
+      parameter (DATA_dlt_NH4_net = 'dlt_nh4_net')
+      character DATA_dlt_NO3_net *(*)
+      parameter (DATA_dlt_NO3_net = 'dlt_no3_net')
+
+! ====================================================================
+!      CARBON BALANCE EVENT
+! ====================================================================
+
+!   Short description:
+!      To notify all interested modules in the completion of the
+!      soil C calculations, including all C transformation processes
+!      for soil organic pools.
+
+!   Notes:
+
+!   Changes:
+!      NIH 08/09/99
+
+! ----------------------- Declaration section ------------------------
+
+!   Global variables
+!      none
+
+!   Event Name
+
+      character EVENT_C_Balance*(*)
+      parameter (EVENT_C_Balance='c_balance')
+
+!   Event Data
+
+      character DATA_dlt_OC *(*)
+      parameter (DATA_dlt_OC = 'dlt_oc')
+      character DATA_dlt_OM *(*)
+      parameter (DATA_dlt_OM = 'dlt_om')
+
+! ====================================================================
+!      RESIDUE ADDED EVENT
+! ====================================================================
+
+!   Short description:
+!      To notify all interested modules of the addition of residue to the
+!        residue pool.
+
+!   Notes:
+
+!   Changes:
+!      230999 jngh
+
+! ----------------------- Declaration section ------------------------
+
+!   Global variables
+!      none
+
+!   Event Name
+
+      character EVENT_Residue_added*(*)
+      parameter (EVENT_Residue_added='residue_added')
+
+!   Event Data
+
+      character DATA_residue_type *(*)
+      parameter (DATA_residue_type = 'dlt_residue_type')
+      character DATA_dlt_residue_wt *(*)
+      parameter (DATA_dlt_residue_wt = 'dlt_residue_wt')
+
+! ====================================================================
+!      RESIDUE REMOVED EVENT
+! ====================================================================
+
+!   Short description:
+!      To notify all interested modules of the removal of residue from the
+!        residue pool.
+
+!   Notes:
+
+!   Changes:
+!      230999 jngh
+
+! ----------------------- Declaration section ------------------------
+
+!   Global variables
+!      none
+
+!   Event Name
+
+      character EVENT_Residue_removed*(*)
+      parameter (EVENT_Residue_removed='residue_removed')
+
+!   Event Data
+
+      character DATA_residue_removed_action *(*)
+      parameter (DATA_residue_removed_action = 'residue_removed_action')
+      character DATA_dlt_residue_fraction *(*)
+      parameter (DATA_dlt_residue_fraction = 'dlt_residue_fraction')
+      character DATA_residue_incorp_fraction *(*)
+      parameter (DATA_residue_incorp_fraction = 'residue_incorp_fract')
+
+! ====================================================================
+!      Crop Chopped EVENT
+! ====================================================================
+
+!   Short description:
+!      To notify all interested modules of the removal of dry matter
+!        from a crop.
+
+!   Notes:
+
+!   Changes:
+!      230999 jngh
+
+! ----------------------- Declaration section ------------------------
+
+!   Global variables
+!      none
+
+!   Event Name
+
+      character EVENT_Crop_chopped*(*)
+      parameter (EVENT_Crop_chopped='crop_chopped')
+
+!   Event Data
+
+      character DATA_crop_type *(*)
+      parameter (DATA_crop_type = 'crop_type')
+      character DATA_dm_type *(*)
+      parameter (DATA_dm_type = 'dm_type')
+      character DATA_dlt_crop_dm *(*)
+      parameter (DATA_dlt_crop_dm = 'dlt_crop_dm')
+      character DATA_fraction_to_Residue *(*)
+      parameter (DATA_fraction_to_Residue = 'fraction_to_Residue')
+      character DATA_dlt_dm_n *(*)
+      parameter (DATA_dlt_dm_n = 'dlt_dm_n')
+      character DATA_dlt_dm_cnr *(*)
+      parameter (DATA_dlt_dm_cnr = 'dlt_dm_cnr')
+      character DATA_dlt_dm_p *(*)
+      parameter (DATA_dlt_dm_p = 'dlt_dm_p')
+      character DATA_dlt_dm_cpr *(*)
+      parameter (DATA_dlt_dm_cpr = 'dlt_dm_cpr')
+
+
+! ====================================================================
+!      New Profile Event
+! ====================================================================
+
+!   Short description:
+!      To notify all interested modules of the change in soil water
+!        profile characteristic information
+
+!   Notes:
+
+!   Changes:
+!      150600 nih
+
+! ----------------------- Declaration section ------------------------
+
+!   Global variables
+!      none
+
+!   Event Name
+
+      character EVENT_New_Profile*(*)
+      parameter (EVENT_New_Profile='new_profile')
+
+!   Event Data
+
+      character DATA_dlayer *(*)
+      parameter (DATA_dlayer = 'dlayer')
+      character DATA_air_dry_dep *(*)
+      parameter (DATA_air_dry_dep = 'air_dry_dep')
+      character DATA_ll15_dep *(*)
+      parameter (DATA_ll15_dep = 'll15_dep')
+      character DATA_dul_dep *(*)
+      parameter (DATA_dul_dep = 'dul_dep')
+      character DATA_sat_dep *(*)
+      parameter (DATA_sat_dep = 'sat_dep')
+      character DATA_sw_dep *(*)
+      parameter (DATA_sw_dep = 'sw_dep')
+      character DATA_bd *(*)
+      parameter (DATA_bd = 'bd')
+
+
+
 
 end module ConstantsModule
 

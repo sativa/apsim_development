@@ -38,30 +38,30 @@
       integer MAX_SAVED_EI
       parameter (MAX_SAVED_EI=20)      ! maximum number of levels of recursion
 
-* ====================================================================
+! ====================================================================
        common /postbox_double/
      .   g_Postbox_double
-* ====================================================================
+! ====================================================================
  
-*   Short description:
-*     Double precision variable for postbox.
+!   Short description:
+!     Double precision variable for postbox.
  
-*   Assumptions:
-*      None
+!   Assumptions:
+!      None
  
-*   Notes:
-*     None
+!   Notes:
+!     None
  
-*   Changes:
-*     DPH 18/10/95
+!   Changes:
+!     DPH 18/10/95
  
-* ----------------------- Declaration section ------------------------
+! ----------------------- Declaration section ------------------------
  
       double precision g_Postbox_double(POSTBOX_SIZE)   
                               ! Storage for double precision postbox items.
 
 
-* ====================================================================
+! ====================================================================
        common /postbox_char/
      .   g_Postbox_char,
      .   g_Variable_name,
@@ -69,21 +69,21 @@
      .   g_Last_respond_units,
      .   g_Last_respond_module,
      .   g_variable_owners
-* ====================================================================
+! ====================================================================
  
-*   Short description:
-*     Character variables for postbox.
+!   Short description:
+!     Character variables for postbox.
  
-*   Assumptions:
-*      None
+!   Assumptions:
+!      None
  
-*   Notes:
-*     None
+!   Notes:
+!     None
  
-*   Changes:
-*     DPH 18/10/95
+!   Changes:
+!     DPH 18/10/95
  
-* ----------------------- Declaration section ------------------------
+! ----------------------- Declaration section ------------------------
  
       character g_Postbox_char(POSTBOX_SIZE)*(CHAR_SIZE)
                                        ! Storage for double precision postbox items.
@@ -99,7 +99,7 @@
                                        ! module owner for each variable posted.
 
 
-* ====================================================================
+! ====================================================================
        common /postbox_integer/
      .   g_Variable_start,
      .   g_Postbox_start,
@@ -113,21 +113,21 @@
      .   g_SavedEIStack,
      .   g_SavedEIStackPtr
 
-* ====================================================================
+! ====================================================================
  
-*   Short description:
-*     Integer variables for postbox.
+!   Short description:
+!     Integer variables for postbox.
  
-*   Assumptions:
-*      None
+!   Assumptions:
+!      None
  
-*   Notes:
-*     None
+!   Notes:
+!     None
  
-*   Changes:
-*     DPH 18/10/95
+!   Changes:
+!     DPH 18/10/95
  
-* ----------------------- Declaration section ------------------------
+! ----------------------- Declaration section ------------------------
  
       integer g_Variable_start(MAX_POSTBOXES)
                                        ! Pointer to variable array for each message

@@ -7,7 +7,9 @@ module Infrastructure
    use ScienceModule
    use StringModule
    use ComponentInterfaceModule
-   use ConvertModule        
+   use ConvertModule
    use ReadModule
+   Use InterfaceModule
+   Use PostBoxModule
 end module Infrastructure
                                               

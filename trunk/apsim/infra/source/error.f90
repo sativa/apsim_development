@@ -2,18 +2,31 @@ module ErrorModule
 
 contains
 
+      subroutine warning_Error (dummy,msg)
+      integer dummy
+      character*(*) msg
+      call error(msg,.false.)
+      return
+      end subroutine
+      subroutine fatal_Error (dummy,msg)
+      integer dummy
+      character*(*) msg
+      call error(msg,.true.)
+      return
+      end subroutine
+
 !     ===========================================================
       subroutine pop_routine (name)
 !     ===========================================================
       implicit none
- 
+
 !+ Sub-Program Arguments
       character  name*(*)              ! (INPUT) name to pop off stack
- 
+
 !+ Purpose
 !       pop name off stack.  this is used in conjunction with push_routine
 !       to maintain a trace stack for procedure calls
- 
+
 !+  Definition
 !     There is a subprogram call stack which is used to show the
 !     current nesting of called subprograms in error messages
@@ -24,11 +37,11 @@ contains
 !     to remove its name from the subprogram call stack.  "name"
 !     is passed  so that this routine may perform checking to
 !     ensure that routine names are pushed and popped in
-!     strictly ordered pairs.  
- 
+!     strictly ordered pairs.
+
 !+  Mission Statement
-!      
- 
+!
+
 !+ Changes
 !       250892  specified and programmed (jng hargreaves)
 !       170294 jngh chanaged list directed writes to formatted.
@@ -37,17 +50,17 @@ contains
 !       260698 jngh added call to log profiling elapsed time
 !       14/7/99 dph changed to call APSIMSYSTEM_CALLSTACK_PUSH in
 !               new infrastructure.
- 
+
 !+ Calls
       dll_import apsimsystem_callstack_pop
- 
+
 !+ Local Variables
 
- 
+
 !- Implementation Section ----------------------------------
 
       call APSIMSYSTEM_CALLSTACK_POP (name)
- 
+
       return
       end subroutine
 
@@ -57,14 +70,14 @@ contains
       subroutine push_routine (name)
 !     ===========================================================
       implicit none
- 
+
 !+ Sub-Program Arguments
       character  name*(*)              ! (INPUT) name to push onto stack
- 
+
 !+ Purpose
 !     Push name onto stack.  This is used in conjunction with pop_routine
 !     to maintain a trace stack for procedure calls.
- 
+
 !+  Definition
 !     There is a subprogram call stack which is used to show the
 !     current nesting of called subprograms in error messages
@@ -73,11 +86,11 @@ contains
 !     name of the subprogram, "name" onto the subprogram call
 !     stack.  pop_routine() should be called just before the end
 !     of the subprogram in order to remove its name from the
-!     subprogram call stack.  
- 
+!     subprogram call stack.
+
 !+  Mission Statement
-!      
- 
+!
+
 !+ Changes
 !       250892  specified and programmed (jng hargreaves)
 !       170294 jngh chanaged list directed writes to formatted.
@@ -87,10 +100,10 @@ contains
 !       260698 jngh added call to log profiling start time
 !       14/7/99 dph changed to call APSIMSYSTEM_CALLSTACK_PUSH in
 !               new infrastructure.
- 
+
 !+ Calls
       dll_import apsimsystem_callstack_push
- 
+
 !+ Local Variables
 
 !- Implementation Section ----------------------------------
@@ -150,7 +163,7 @@ contains
          call APSIMSYSTEM_ERROR_FATAL(Message, ModuleName)
       else
          call APSIMSYSTEM_ERROR_WARNING(Message, moduleName)
-      endif   
+      endif
       return
       end subroutine
 
@@ -159,36 +172,36 @@ contains
 !     ===========================================================
       use ConstantsModule
       implicit none
- 
+
 !+  Sub-Program Arguments
       character  whatchkd*(*)     ! (IN) What test did pass or fail.
       logical isok         ! (IN) Did the test pass ?
- 
+
 !+  Mission statement
 !     Give error message and abort if not %1
- 
+
 !+  Purpose
 !     Gives error message on failure of test 'IsOK'.
- 
+
 !+  Changes
 !     030998 sb created
- 
+
 !+  Calls
       dll_import push_routine
       dll_import pop_routine
       dll_import fatal_error
- 
+
 !+  Constant Values
       character  my_name*(*)
       parameter (my_name='assert')
- 
+
 !- Implementation Section ----------------------------------
       call push_routine(my_name)
- 
+
       if (.not. isok) then
          call error('ASSERT FAIL: '//whatchkd, .true.)
       end if
- 
+
       call pop_routine(my_name)
       return
       end subroutine
