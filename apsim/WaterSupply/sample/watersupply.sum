@@ -60,6 +60,8 @@
         dam.available_depth as dam_depth
         sump.available_depth as sump_depth
         bore.available_depth as bore_depth
+        dam.full
+        dam.filling_event
      
      Output file = watersupply.out
      Format = normal
