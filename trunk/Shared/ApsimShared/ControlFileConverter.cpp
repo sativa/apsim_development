@@ -543,8 +543,9 @@ bool ControlFileConverter::executeRemoveSumAvgToTracker(const std::string& argum
                     variableI != variables.size();
                     variableI++)
          {
-         if (variables[variableI].find("sum@") != string::npos ||
-             variables[variableI].find("avg@") != string::npos)
+         if ((variables[variableI].find("sum@") != string::npos ||
+              variables[variableI].find("avg@") != string::npos) &&
+              variables[variableI].find("tracker.") == string::npos)
             {
             doneSomething = true;
             StringTokenizer tokenizer(variables[variableI], ".@");
