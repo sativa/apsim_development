@@ -49,9 +49,9 @@ class GENERAL_EXPORT GDate
       void Set_must_have_year(bool Must_have = true)
          {Must_have_year = Must_have;};// Set the Must_have_year flag.
       void Read(const char *Str);      // Read a date (in normal format) from string
-      void Read(istream& In_stream);   // Read a date (in normal format) from in stream
+      void Read(std::istream& In_stream);   // Read a date (in normal format) from in stream
       void Write(char *Str);           // Write the date to string.
-      void Write(ostream& Out_stream); // Write the date to the output stream
+      void Write(std::ostream& Out_stream); // Write the date to the output stream
       void Set_write_format(const char* Format)
          {Format_string = Format;};
                                        // Set the format of the next print.
@@ -134,12 +134,12 @@ class GENERAL_EXPORT GDate
          {
          return Julian_day - Date.Get_jday();
          }                             // - operator
-      friend ostream& operator << (ostream& Out_stream, GDate& Date)
+      friend std::ostream& operator << (std::ostream& Out_stream, GDate& Date)
          {
          Date.Write(Out_stream);
          return Out_stream;
          }
-      friend istream& operator >> (istream& In_stream, GDate& Date)
+      friend std::istream& operator >> (std::istream& In_stream, GDate& Date)
          {
          Date.Read(In_stream);
          return In_stream;
