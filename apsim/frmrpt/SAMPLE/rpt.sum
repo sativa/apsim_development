@@ -74,10 +74,14 @@
      Manager creating a new local variable : fay =     72.0000000000000
 ------- Start of simulation  --------------------------------------------------
 5 January 1970 (Day of year=5):
-          Manager sending message :- frmrpt clear test2
+   MANAGER:
+           Manager sending message :- frmrpt clear test2
 10 January 1970 (Day of year=10):
-          Manager sending message :- frmrpt clear test2:ramp2
+   MANAGER:
+           Manager sending message :- frmrpt clear test2:ramp2
 15 January 1970 (Day of year=15):
-          Manager sending message :- frmrpt clear test2:manager.ramp2
+   MANAGER:
+           Manager sending message :- frmrpt clear test2:manager.ramp2
 21 January 1970 (Day of year=21):
-     Simulation is terminating due to end criteria being met.
+   CLOCK:
+      Simulation is terminating due to end criteria being met.
