@@ -43,7 +43,7 @@ ApsimSettings::~ApsimSettings(void)
 // ------------------------------------------------------------------
 // return the section name from the specified key.
 // ------------------------------------------------------------------
-string getSection(const std::string& key)
+string ApsimSettings::getSection(const std::string& key)
    {
    int posBar = key.find('|');
    if (posBar != string::npos)
@@ -54,7 +54,7 @@ string getSection(const std::string& key)
 // ------------------------------------------------------------------
 // return the key name from the specified key.
 // ------------------------------------------------------------------
-string getKey(const std::string& key)
+string ApsimSettings::getKey(const std::string& key)
    {
    int posBar = key.find('|');
    if (posBar != string::npos)
