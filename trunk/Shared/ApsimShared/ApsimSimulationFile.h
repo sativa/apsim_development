@@ -39,6 +39,7 @@ class __declspec(dllexport) ApsimSimulationFile
       void getComponentNames(std::vector<std::string>& componentNames) const;
       ApsimComponentData getComponent(const std::string& name) const throw(std::runtime_error);
       ApsimComponentData addComponent(const std::string& name);
+      bool deleteComponent(const std::string& name);
 
       // service methods.
       void getServiceNames(std::vector<std::string>& serviceNames) const;
