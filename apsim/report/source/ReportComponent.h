@@ -9,7 +9,8 @@ class Field
    public:
       Field (protocol::Component* parent,
              const std::string& variable,
-             bool CSVFormat);
+             bool csvformat,
+             const std::string& nastring);
 
       void writeHeadings(std::ostream& headingOut, std::ostream& unitOut);
       void writeValue(std::ostream& out);
@@ -21,6 +22,7 @@ class Field
       std::string VariableName;
       std::string VariableAlias;
       std::string VariableUnits;
+      std::string NAString;
       bool CSVFormat;
       unsigned variableID;
       unsigned int fieldWidth;
@@ -67,6 +69,7 @@ class ReportComponent : public protocol::Component
       bool CSVFormat;
       bool haveWrittenHeadings;
       std::vector<unsigned> frequencyIds;
+      std::string NAString;
 
       unsigned titleID;
       unsigned summaryFileID;
