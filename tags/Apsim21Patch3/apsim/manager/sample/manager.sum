@@ -1,0 +1,113 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+
+
+-------  Initialisation ----------------------------------------------------
+     Licensed name          = User SEG
+     Licensed organisation  = CSIRO
+     Version                = 2.1 patch2
+     Simulation filename    = c:\mydata\dev21\apsim\manager\sample\manager.sim
+     Title                  = accum dalby
+     Instantiated DLL       = c:\program files\apsim21\apsim\clock\lib\clock.dll(clock) - Licensed
+     Instantiated DLL       = c:\program files\apsim21\apsim\report\lib\report.dll(report) - Licensed
+     Instantiated DLL       = c:\program files\apsim21\apsim\input\lib\input.dll(met) - Licensed
+     Instantiated DLL       = c:\program files\apsim21\apsim\operatns\lib\operatns.dll(operatns) - Licensed
+     Instantiated DLL       = C:\MyData\Dev21\Apsim\manager\lib\manager.dll(manager) - Licensed
+
+------- CLOCK Initialisation -------------------------------------------------
+     Simulation start date =  1/01/1988
+     Simulation end date   =  8/04/1988
+     Time step =           = 1440 (mins)
+
+------- REPORT Initialisation ------------------------------------------------
+     Output file = manager.out
+     Format = normal
+     Output variables:
+        clock.year
+        clock.day
+        manager.avtemp
+        manager.avtempi
+        manager.feb_or_not
+        manager.fixed_rain
+        manager.rain_amount
+        met.rain
+
+------- MET Initialisation ---------------------------------------------------
+     File name = C:\Program Files\Apsim21\apsim\met\sample\dalby.met
+
+------- OPERATNS Initialisation ----------------------------------------------
+     Operations Schedule
+     ===================
+        10 1988  Prepare      manager set fixed_rain = yes
+        10 1988  Prepare      manager set rain_amount = 50
+        20 1988  Prepare      manager set fixed_rain = no
+        20 1988  Prepare      manager set rain_amount = 0
+
+------- MANAGER Initialisation -----------------------------------------------
+     Manager rules:
+     fixed_rain = 'no'
+     rain_amount = 0
+     avtemp = (mint + maxt) / 2
+     avtempi=nearest_int(avtemp)
+     feb_or_not=date_within('1-feb,28-feb')
+     if (fixed_rain = 'yes') then
+        met set rain = rain_amount
+     endif
+     report do_output
+     Manager creating a new local variable : fixed_rain = no
+     Manager creating a new local variable : rain_amount =     0.00000000000000
+------- Start of simulation  --------------------------------------------------
+1 January 1988 (Day of year=1):
+   MANAGER:
+      Manager creating a new local variable : avtemp =     25.1999988500000
+      Manager creating a new local variable : avtempi =     25.0000000000000
+      Manager creating a new local variable : feb_or_not =     0.00000000000000
+10 January 1988 (Day of year=10):
+   OPERATNS:
+       Sending set message to manager
+       Sending set message to manager
+   MANAGER:
+      Manager sending message :- met set  rain = 50
+11 January 1988 (Day of year=11):
+   MANAGER:
+      Manager sending message :- met set  rain = 50
+12 January 1988 (Day of year=12):
+   MANAGER:
+      Manager sending message :- met set  rain = 50
+13 January 1988 (Day of year=13):
+   MANAGER:
+      Manager sending message :- met set  rain = 50
+14 January 1988 (Day of year=14):
+   MANAGER:
+      Manager sending message :- met set  rain = 50
+15 January 1988 (Day of year=15):
+   MANAGER:
+      Manager sending message :- met set  rain = 50
+16 January 1988 (Day of year=16):
+   MANAGER:
+      Manager sending message :- met set  rain = 50
+17 January 1988 (Day of year=17):
+   MANAGER:
+      Manager sending message :- met set  rain = 50
+18 January 1988 (Day of year=18):
+   MANAGER:
+      Manager sending message :- met set  rain = 50
+19 January 1988 (Day of year=19):
+   MANAGER:
+      Manager sending message :- met set  rain = 50
+20 January 1988 (Day of year=20):
+   OPERATNS:
+       Sending set message to manager
+       Sending set message to manager
+8 April 1988 (Day of year=99):
+   CLOCK:
+      Simulation is terminating due to end criteria being met.

@@ -1,0 +1,56 @@
+[sample.report.parameters]  
+title =  sorghum Sample Simulation   
+screen_output =  on   
+outputfile =  sorghum.out /overwrite   
+summaryfile =  sorghum.sum /overwrite   
+
+module_names =   clock  clock
+variable_names = year    today.dd/mm/yyyy
+variable_alias = -       -    
+
+module_names =    sorghum sorghum sorghum sorghum  sorghum sorghum     sorghum       sorghum      sorghum       sorghum
+variable_names =  das     stage   lai     biomass  yield   biomass_n   swdef_expan   nfact_expan  swdef_pheno   nfact_pheno
+variable_alias =  -       -       -       -        -       -           -             -            -             -
+units =           -       -       -       -        -       -           -             -            -             -            
+
+module_names =    sorghum      sorghum      sorghum  sorghum
+variable_names =  dlt_dm_light dlt_dm_water dlt_dm   extinct_coeff
+variable_alias =  -            -            -        -
+units =           -            -            -        -
+
+
+[sample.clock.parameters]  
+! Start and end date of run (day number of year and year)
+simulation_start_day  =  300   
+simulation_start_year = 1989   
+simulation_end_day    =   50   
+simulation_end_year   = 1990   
+
+[sample.manager.start_of_day]  
+
+   if day = 305 and year = 1989 then
+      sorghum sow cultivar = early, plants = 10, sowing_depth = 30 (mm), tiller_no_fertile = 0 (), row_spacing = 1.0 (m)
+   endif
+
+   if (sorghum.stage = 11) then
+      sorghum harvest
+      sorghum end_crop
+   endif
+
+! if crop killed due to stress, end simulation
+if (sorghum.plant_status = 'dead')  then
+      sorghum harvest
+      sorghum kill_crop
+      sorghum end_crop
+endif
+
+[sample.manager.end_of_day]  
+
+ if (sorghum.stage >=1 and sorghum.stage <= 11) then
+    report do_output
+ endif
+
+[sample.sorghum.parameters]
+ll =  0.230   0.240   0.240   0.250   0.260   0.270   0.280 ()!cm3 water/cm3 soil
+kl =  0.07    0.07    0.07    0.07    0.05    0.05    0.04  ()
+XF =  1.0     1.0     1.0     1.0     1.0     1.0     1.0   ()
