@@ -1928,10 +1928,10 @@ variable = sum of lupin.dlt_n_fixed since report3.reported as sum@lupin.dlt_n_fi
 [all.tracker5.parameters]
 variable = average of weed1.nfact_photo since report5.reported as avg@weed1.nfact_photo on process
 variable = average of weed1.swdef_photo since report5.reported as avg@weed1.swdef_photo on process
-variable = sum of weed1.ep(1-10) since report5.reported as sum@weed1.ep[1-10] on process
+variable = sum of weed1.sw_uptake(1-10) since report5.reported as sum@weed1.sw_uptake[1-10] on process
 variable = average of weed2.nfact_photo since report5.reported as avg@weed2.nfact_photo on process
 variable = average of weed2.swdef_photo since report5.reported as avg@weed2.swdef_photo on process
-variable = sum of weed2.ep(1-10) since report5.reported as sum@weed2.ep[1-10] on process
+variable = sum of weed2.sw_uptake(1-10) since report5.reported as sum@weed2.sw_uptake[1-10] on process
 [all.tracker8.parameters]
 variable = sum of apswim.leach_brA since report8.reported as sum@apswim.leach_brA on process
 variable = sum of apswim.leach_brB since report8.reported as sum@apswim.leach_brB on process
