@@ -281,7 +281,7 @@ XMLNode::iterator XMLNode::end() const
 //---------------------------------------------------------------------------
 void XMLNode::writeXML(std::string& xml) const
    {
-   xml = AnsiString(node->get_ownerDocument()->xml).c_str();
+   xml = AnsiString(node->xml).c_str();
    formatXML(xml);
    }
 
