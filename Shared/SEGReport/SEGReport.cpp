@@ -13,6 +13,7 @@ USEFORM("TSEGTableForm.cpp", SEGTableForm);
 USEFORM("TFilterForm.cpp", FilterForm);
 USEFORM("TSOIForm.cpp", SOIForm);
 USEFORM("TStatsForm.cpp", StatsForm);
+USEFORM("TShapeForm.cpp", ShapeForm);
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 HINSTANCE instanceHandle;
