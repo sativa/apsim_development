@@ -367,6 +367,8 @@ c        timestep??????? !!
       use APSwimModule
       implicit none
       include 'data.pub'
+      include 'error.pub'
+      include 'const.inc'
 
 *     Global Variables
 cnh      double precision grad
@@ -428,6 +430,8 @@ cnh      double precision potl
       double precision wt
       logical          xidif
       logical          xipdif
+      character        string*300
+      double precision gfhkp
 
       save ifirst,ilast,gr
 
@@ -524,21 +528,35 @@ cnh         g%psi(p%n)=0.
 *                 by setting p%swt < -1
                accept=max(1d0,-p%swt)
                wt=0.
-               if(absgf.ne.0..and.hkp(i).ne.0.)then
+c               if(absgf.ne.0..and.hkp(i).ne.0.)then
+               gfhkp = g%gf*hkp(i)
+               if(gfhkp.ne.0.)then
                   if(it.eq.1)then
-                     value=1.-accept*(skd+(g%p(i)-g%p(i-1))*hkdp2)/
-     1                   (absgf*deltax*hkp(i))
-                     g%swta(i)=sign(max(0d0,value),g%gf)
+c                     value=1.-accept*(skd+(g%p(i)-g%p(i-1))*hkdp2)/
+c     1                   (absgf*deltax*hkp(i))
+     
+                     value=1.-accept*(skd)/(abs(gfhkp)*deltax)
+c                     value=min(1d0,value)
+                     g%swta(i)=sign(max(0d0,value),gfhkp)
                   end if
                   wt=g%swta(i)
                end if
+
                w1=1.+wt
             end if
             w2=2.-w1
+
+            if ((w1.gt.2.0).or.(w1.lt.0.0)) then
+               call warning_error(Err_Internal
+     :                           ,'bad space weighting factor')
+            endif
+               
             g%q(i)=-0.5*(skd*deltap/deltax-g%gf*(w1*g%hk(i-1)
      :                   +w2*g%hk(i)))
             qp1(i)=-0.5*((hkdp1*deltap-skd)/deltax-g%gf*w1*hkp(i-1))
             qp2(i)=-0.5*((hkdp2*deltap+skd)/deltax-g%gf*w2*hkp(i))
+            
+            g%swf(i)= w1
          end if
 10    continue
 ***   get fluxes to storage
@@ -1687,6 +1705,7 @@ c      end if
          hkv=vcon1*phi*exp(vcon2*tpsi)
          thk=thk+hkv
          hkp=hkp+hkv*(vcon2*psip-thp/phi)
+         
       end if
 
       end
