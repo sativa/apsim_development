@@ -194,9 +194,16 @@ Public Class FileUI
                 HelpLabel.Text = HelpLabel.Text + " Click the go button at the top right to send the output file to APSVis, Excel and Apsim Outlook."
             End If
 
-            If File.Exists(filename) Then
+            Dim FullFileName As String = ""
+            If UIManager.ApsimFileName <> "" Then
+                FullFileName = Path.Combine(Path.GetDirectoryName(UIManager.ApsimFileName), filename)
+            Else
+                FullFileName = filename
+            End If
+            If File.Exists(FullFileName) Then
                 Dim text As String
-                Dim sr As StreamReader = New StreamReader(filename)
+                Dim sr As StreamReader = New StreamReader(FullFileName)
+
                 text = sr.ReadToEnd
                 RichTextBox.Text = text
             Else
@@ -210,7 +217,7 @@ Public Class FileUI
             ExcelMenuItem.Visible = ApsvisMenuItem.Visible
             OutlookMenuItem.Visible = ApsvisMenuItem.Visible
 
-        Catch E as system.exception
+        Catch E As System.Exception
             MsgBox(E.Message, MsgBoxStyle.Critical, "Error in refreshing Summary File UI")
         End Try
 
