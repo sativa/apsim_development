@@ -143,14 +143,16 @@ void StringVariant::determineType(void)
             }
          }
       }
-   typeString += "units=\"" + value->units + "\"/>";
+   string units = splitOffBracketedValue(value->units, '(', ')');
+   typeString += " units=\"" + units + "\"";
+   typeString += "/>";
    }
 // ------------------------------------------------------------------
 // Register this variable
 // ------------------------------------------------------------------
 unsigned StringVariant::doRegistration()
    {
-   return parent->addRegistration(respondToGetSetReg, value->name.c_str(), typeString.c_str());
+   return parent->addRegistration(RegistrationType::respondToGetSet, value->name.c_str(), typeString.c_str());
    }
 // ------------------------------------------------------------------
 // return the value of this variable as a float.
