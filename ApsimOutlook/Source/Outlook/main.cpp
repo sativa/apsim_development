@@ -184,9 +184,6 @@ void __fastcall TMainForm::FilePresentationFontsMenuClick(TObject *Sender)
    {
    FilePresentationFontsMenu->Checked = !FilePresentationFontsMenu->Checked;
 
-   // change font on drill down form.
-   Drill_down_form->SetPresentationFonts(FilePresentationFontsMenu->Checked);
-
    // tell all children about font change.
 	for (int i = 0; i < MDIChildCount; i++)
       {

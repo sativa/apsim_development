@@ -363,7 +363,8 @@ void DatabaseAddIn::makeScenarioValid(Scenario& scenario, const std::string fact
    vector<Factor>::const_iterator f = find(closestFactors.begin(),
                                            closestFactors.end(),
                                            factorName);
-   f++;
+   if (f != closestFactors.end())
+      f++;
    while (f != closestFactors.end())
       {
       // see if this factor is one we're supposed to find.

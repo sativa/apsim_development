@@ -14,6 +14,7 @@
 #include <general\ini_file.h>
 #include <general\stl_functions.h>
 #include <general\string_functions.h>
+#include "SeedWeight.h"
 
 //---------------------------------------------------------------------------
 
@@ -82,6 +83,7 @@ WhopEcon::WhopEcon(const string& parameters)
       CropForm = new TCropForm(Application->MainForm);
       AboutBox = new TAboutBox(Application->MainForm);
       WheatMatrixForm = new TWheatMatrixForm(Application->MainForm);
+      SeedWeightsForm = new TSeedWeightsForm(Application->MainForm);
    }
 
    // handle parameter string
@@ -119,6 +121,7 @@ WhopEcon::~WhopEcon(void) {
       delete CropForm;
       delete AboutBox;
       delete WheatMatrixForm;
+      delete SeedWeightsForm;
    }
    numObjects--;
 }
@@ -319,9 +322,9 @@ void WhopEcon::doCalculations(TAPSTable& data,
 
    // Append result vectors to 'data':
    data.first();
-   data.storeNumericArray("Return ($)", vReturn);
-   data.storeNumericArray("Cost ($)", vCost);
-   data.storeNumericArray("GM ($)", vGM);
+   data.storeNumericArray("Return ($/ha)", vReturn);
+   data.storeNumericArray("Cost ($/ha)", vCost);
+   data.storeNumericArray("GM ($/ha)", vGM);
 
    EconForm->CloseEconDB();
    Screen->Cursor = savedCursor;
@@ -462,11 +465,9 @@ float ProteinAdj(float Protein)
 
 float GetSeedWt(AnsiString Crop)
 {
-   Variant v = DATA->CropList->Lookup("CropName",Crop,"SeedWt");
-   if (v.IsNull())
-      return 0.0;
-   else
-      return v;
+   Variant SeedWt = DATA->CropList->Lookup("CropName",Crop,"SeedWt");
+   if(!SeedWt.IsNull())return SeedWt;
+   return 0.0;
 }
 //---------------------------------------------------------------------------
 
