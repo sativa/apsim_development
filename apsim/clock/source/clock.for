@@ -23,6 +23,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
                                        ! list of all events this sequencer is going
                                        ! to publish every timestep.
          integer numTimestepEvents     ! number of timestep events.
+         integer id_start_simulation
          integer id_start_week
          integer id_start_month
          integer id_start_year
@@ -56,6 +57,9 @@ C     Last change:  E     5 Dec 2000    8:52 am
       use infrastructure
 
       call doRegistrations(id)
+      g%id_start_simulation = add_registration(eventReg,
+     .                                         'start_simulation',
+     .                                         nullTypeDDML, '', '')
       g%id_start_week = add_registration(eventReg, 'start_week',
      .                                   nullTypeDDML, '', '')
       g%id_start_month = add_registration(eventReg, 'start_month',
@@ -590,7 +594,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
       ! do all timesteps for simulation
 
-!      g%current_date = g%current_date - 1
+      call publish_null(g%id_start_simulation)
 
       ! enter an infinate loop until end of run is signalled.
       do while (.not. g%end_current_run)
