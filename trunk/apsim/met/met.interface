@@ -15,7 +15,6 @@ class APSIMMetPublic
    day_length : APSIMReal        = Day length, (hours), GET
    
    sysinit    : APSIMMethod      = System initialise
-   prepare    : APSIMMethod      = System prepare
    
    newmet     : APSIMEvent       = New met data available
 end
@@ -31,6 +30,9 @@ class APSIMMetExternal
    day        : APSIMInteger    = Day of year, (day)
    year       : APSIMInteger    = Year, (year)
    today      : APSIMReal    = Today, (jday)
+
+   prepare    : APSIMEvent      = System prepare
+
 end
 
 class APSIMMet : APSIMComponent
