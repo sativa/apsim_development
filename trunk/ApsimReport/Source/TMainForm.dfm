@@ -126,15 +126,6 @@ object MainForm: TMainForm
       end
     end
   end
-  object Panel2: TPanel
-    Left = 0
-    Top = 32
-    Width = 660
-    Height = 497
-    Align = alClient
-    AutoSize = True
-    TabOrder = 1
-  end
   object OpenDialog1: TOpenDialog
     DefaultExt = 'report'
     Filter = 'Report files|*.report'

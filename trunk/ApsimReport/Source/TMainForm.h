@@ -78,7 +78,6 @@ __published:	// IDE-managed Components
    TEdit *ZoomEdit;
    TAction *SaveEnvironment;
    TMenuItem *SaveEnvironment1;
-   TPanel *Panel2;
    TAction *LayoutMode;
    TToolButton *ToolButton5;
    TAction *PageSetup;
