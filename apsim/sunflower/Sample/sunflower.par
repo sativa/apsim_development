@@ -37,7 +37,7 @@ endif
 
 
 [sample.manager.end_of_day]
-if (sunflower.stage >= 0 and sunflower.stage <12 ) then
+if (sunflower.stage > 0 and sunflower.stage <12 ) then
    report do_output
 endif
 
