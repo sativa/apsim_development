@@ -16,8 +16,8 @@
 
    !!!!! CLOCK types !!!!!
 
-   <type name="simulation_start_date" kind="string" unit="" description="Simulation start date"/>
-   <type name="simulation_end_date" kind="string" unit="" description="Simulation end date"/>
+   <type name="simulation_start_date" kind="double" unit="" description="Simulation start date"/>
+   <type name="simulation_end_date" kind="double" unit="" description="Simulation end date"/>
    <type name="timestep" kind="integer4" unit="min" lower_bound="0" upper_bound="1440" description="TimeStep"/>
    <type name="day" kind="integer4" unit="day" lower_bound="1" upper_bound="366" description="Day"/>
    <type name="year" kind="integer4" unit="year" lower_bound="1800" upper_bound="2100" description="Year"/>
