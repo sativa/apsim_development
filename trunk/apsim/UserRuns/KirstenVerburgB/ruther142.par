@@ -703,7 +703,7 @@ endif
 ! canola: Brassica napus cv Oscar, cv Pinnaccle
 
 [CC.operatns.parameters]
-120 1993 residue2 tillage type = rip()
+120 1993 surfaceom tillage type = rip()
 !146 1993 nwheat sow plants = 200, depth = 40, cultivar = katunga
 146 1993 wheat sow plants = 200, sowing_depth = 40, cultivar = katunga
 ! There is no harvest date supplied for this crop.
@@ -711,7 +711,6 @@ endif
 345 1993 wheat harvest
 345 1993 wheat kill_crop
 345 1993 wheat end_crop
-345 1993 residue2 set pot_decomp_rate = 0.02 ()
 !348 1993 weed sow cultivar = early, plants = 40 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
 348 1993 wheat sow plants = 100, sowing_depth = 10, cultivar = katunga
 !119 1994 weed kill_crop
@@ -719,10 +718,10 @@ endif
 119 1994 wheat harvest
 119 1994 wheat kill_crop
 119 1994 wheat end_crop
-!340 1993 residue2 tillage type = graze()
-!360 1993 residue2 tillage type = graze()
-!10  1994 residue2 tillage type = graze()
-120 1994 residue2 tillage type = burn_95()
+!340 1993 surfaceom tillage type = graze()
+!360 1993 surfaceom tillage type = graze()
+!10  1994 surfaceom tillage type = graze()
+120 1994 surfaceom tillage type = burn_95()
 !130 1994 lupin sow plants = 10, cultivar = gungurru, sowing_depth = 40
 !try sow = germination upon first rain >6 mm
 177 1994 lupin sow plants = 40, cultivar = gungurru, sowing_depth = 40
@@ -730,34 +729,30 @@ endif
 355 1994 lupin harvest
 355 1994 lupin kill_crop
 355 1994 lupin end_crop
-355 1994 residue2 set pot_decomp_rate = 0.10 ()
-!355 1994 residue2 tillage type = graze()
-!10  1995 residue2 tillage type = graze()
-120 1995 residue2 tillage type = burn_95()
+!355 1994 surfaceom tillage type = graze()
+!10  1995 surfaceom tillage type = graze()
+120 1995 surfaceom tillage type = burn_95()
 !130 1995 nwheat sow plants = 200, depth = 40, cultivar = katunga
 130 1995 wheat sow plants = 200, sowing_depth = 40, cultivar = katunga
 !336 1995 nwheat harvest
 !336 1995 wheat harvest
 !336 1995 wheat kill_crop
 !336 1995 wheat end_crop
-!336 1995 residue2 set pot_decomp_rate = 0.02 ()
 !harvest listed was 1/12/95, but seems very early given flowering 7/11/95, try harvest 21/12/95
 355 1995 wheat harvest
 355 1995 wheat kill_crop
 355 1995 wheat end_crop
-355 1995 residue2 set pot_decomp_rate = 0.02 ()
-!364 1995 residue2 tillage type = graze()
-!10  1996 residue2 tillage type = graze()
-120 1996 residue2 tillage type = burn_95()
+!364 1995 surfaceom tillage type = graze()
+!10  1996 surfaceom tillage type = graze()
+120 1996 surfaceom tillage type = burn_95()
 137 1996 canola sow cultivar = oscar, plants = 88 (/m2), sowing_depth = 20 (mm)
 !156 1996 canola sow cultivar = oscar, plants = 88 (/m2), sowing_depth = 20 (mm)
 343 1996 canola harvest
 343 1996 canola end_crop
 343 1996 canola kill_crop
-343 1996 residue2 set pot_decomp_rate = 0.10 ()
-!355 1996 residue2 tillage type = graze()
-!10  1997 residue2 tillage type = graze()
-120 1997 residue2 tillage type = burn_95()
+!355 1996 surfaceom tillage type = graze()
+!10  1997 surfaceom tillage type = graze()
+120 1997 surfaceom tillage type = burn_95()
 133 1997 fertiliz apply amount = 10 (kg/ha), type = urea_n (), depth = 10 (mm)
 !133 1997 nwheat sow plants = 196, depth = 40, cultivar = swift
 133 1997 wheat sow plants = 196, sowing_depth = 40, cultivar = swift
@@ -766,10 +761,9 @@ endif
 345 1997 wheat harvest
 345 1997 wheat kill_crop
 345 1997 wheat end_crop
-345 1997 residue2 set pot_decomp_rate = 0.02 ()
-!355 1997 residue2 tillage type = graze()
-!10  1998 residue2 tillage type = graze()
-110 1998 residue2 tillage type = burn_95()
+!355 1997 surfaceom tillage type = graze()
+!10  1998 surfaceom tillage type = graze()
+110 1998 surfaceom tillage type = burn_95()
 !120 1998 nwheat sow plants = 222, depth = 40, cultivar = goldmark
 120 1998 wheat sow plants = 222, sowing_depth = 40, cultivar = goldmark
 191 1998 fertiliz apply amount = 50 (kg/ha), type = urea_n (), depth = 10 (mm)
@@ -778,49 +772,46 @@ endif
 356 1998 wheat harvest
 356 1998 wheat kill_crop
 356 1998 wheat end_crop
-!365 1998 residue2 tillage type = graze()
-!10  1999 residue2 tillage type = graze()
+!365 1998 surfaceom tillage type = graze()
+!10  1999 surfaceom tillage type = graze()
 119 1999 weed harvest
 !119 1999 weed kill_crop
 119 1999 weed end_crop
-120 1999 residue2 tillage type = burn_95()
+120 1999 surfaceom tillage type = burn_95()
 145 1999 fertiliz apply amount = 10 (kg/ha), type = urea_n (), depth = 10 (mm)
 145 1999 canola sow cultivar = pinnacle, crop_class = triazine, plants = 183 (/m2), sowing_depth = 20 (mm)
 166 1999 fertiliz apply amount = 50 (kg/ha), type = urea_n (), depth = 10 (mm)
 341 1999 canola harvest
 341 1999 canola end_crop
-341 1999 residue2 set pot_decomp_rate = 0.10 ()
-!350 1999 residue2 tillage type = graze()
 
 [CL.operatns.parameters]
-120 1993 residue2 tillage type = rip()
+120 1993 surfaceom tillage type = rip()
 270 1993 lucerne sow cultivar = trifecta, plants = 100 (/m2), sowing_depth = 40 (mm)
-270 1993 residue2 set pot_decomp_rate = 0.10 ()
 22  1994 lucerne harvest height = 50 (mm), remove = 0.65
 85  1994 lucerne harvest height = 50 (mm)
-87  1994 residue2 tillage type = graze()
-!91  1994 residue2 tillage type = graze()
+87  1994 surfaceom tillage type = graze()
+!91  1994 surfaceom tillage type = graze()
 292 1994 lucerne harvest height = 50 (mm), remove = 0.65
 6   1995 lucerne harvest height = 50 (mm)
-8   1995 residue2 tillage type = graze()
-!12  1995 residue2 tillage type = graze()
+8   1995 surfaceom tillage type = graze()
+!12  1995 surfaceom tillage type = graze()
 42  1995 lucerne harvest height = 50 (mm)
-44  1995 residue2 tillage type = graze()
-!48  1995 residue2 tillage type = graze()
+44  1995 surfaceom tillage type = graze()
+!48  1995 surfaceom tillage type = graze()
 235 1995 lucerne harvest height = 50 (mm), remove = 0.65
 287 1995 lucerne harvest height = 50 (mm), remove = 0.65, plants = 150
 335 1995 lucerne harvest height = 50 (mm), remove = 0.65, plants = 200 !440
 18  1996 lucerne harvest height = 50 (mm)
-20  1996 residue2 tillage type = graze()
-!24  1996 residue2 tillage type = graze()
+20  1996 surfaceom tillage type = graze()
+!24  1996 surfaceom tillage type = graze()
 74  1996 lucerne harvest height = 50 (mm)
-76  1996 residue2 tillage type = graze()
-!80  1996 residue2 tillage type = graze()
+76  1996 surfaceom tillage type = graze()
+!80  1996 surfaceom tillage type = graze()
 230 1996 lucerne harvest height = 50 (mm), remove = 0.65, plants = 200 !370
 298 1996 lucerne harvest height = 50 (mm), remove = 0.65
 346 1996 lucerne harvest height = 50 (mm)
-348 1996 residue2 tillage type = graze()
-!352 1996 residue2 tillage type = graze()
+348 1996 surfaceom tillage type = graze()
+!352 1996 surfaceom tillage type = graze()
 150 1997 lucerne harvest height = 50 (mm), remove = 0.65
 255 1997 lucerne harvest height = 50 (mm), remove = 0.65, plants = 160
 323 1997 lucerne harvest height = 50 (mm), remove = 0.65, plants = 140
@@ -829,32 +820,31 @@ endif
 287 1998 lucerne harvest height = 50 (mm), remove = 0.65
 339 1998 lucerne harvest height = 50 (mm), remove = 0.65
 65  1999 lucerne harvest height = 50 (mm), plants = 110
-67  1999 residue2 tillage type = graze()
-!71  1999 residue2 tillage type = graze()
+67  1999 surfaceom tillage type = graze()
+!71  1999 surfaceom tillage type = graze()
 112 1999 lucerne harvest height = 50 (mm)
-114 1999 residue2 tillage type = graze()
-!118 1999 residue2 tillage type = graze()
+114 1999 surfaceom tillage type = graze()
+!118 1999 surfaceom tillage type = graze()
 218 1999 lucerne harvest height = 50 (mm), remove = 0.65
 287 1999 lucerne harvest height = 50 (mm), remove = 0.65
 344 1999 lucerne harvest height = 50 (mm)
-346 1999 residue2 tillage type = graze()
-!350 1999 residue2 tillage type = graze()
+346 1999 surfaceom tillage type = graze()
+!350 1999 surfaceom tillage type = graze()
 
 [2L95.operatns.parameters]
-120 1993 residue2 tillage type = rip()
+120 1993 surfaceom tillage type = rip()
 270 1993 lucerne sow cultivar = trifecta, plants = 100 (/m2), sowing_depth = 40 (mm)
-270 1993 residue2 set pot_decomp_rate = 0.10 ()
 22  1994 lucerne harvest height = 50 (mm), remove = 0.65
 85  1994 lucerne harvest height = 50 (mm)
-87  1994 residue2 tillage type = graze()
-!92  1994 residue2 tillage type = graze()
+87  1994 surfaceom tillage type = graze()
+!92  1994 surfaceom tillage type = graze()
 291 1994 lucerne harvest height = 50 (mm), remove = 0.65
 6   1995 lucerne harvest height = 50 (mm)
-8   1995 residue2 tillage type = graze()
-!12  1995 residue2 tillage type = graze()
+8   1995 surfaceom tillage type = graze()
+!12  1995 surfaceom tillage type = graze()
 42  1995 lucerne harvest height = 50 (mm)
-44  1995 residue2 tillage type = graze()
-!49  1995 residue2 tillage type = graze()
+44  1995 surfaceom tillage type = graze()
+!49  1995 surfaceom tillage type = graze()
 90  1995 lucerne harvest
 !90  1995 lucerne kill_crop
 90  1995 lucerne end_crop
@@ -864,93 +854,86 @@ endif
 !336 1995 wheat harvest
 !336 1995 wheat kill_crop
 !336 1995 wheat end_crop
-!336 1995 residue2 set pot_decomp_rate = 0.02 ()
 !harvest listed was 1/12/95, but seems very early given flowering 7/11/95, try harvest 21/12/95
 355 1995 wheat harvest
 355 1995 wheat kill_crop
 355 1995 wheat end_crop
-355 1995 residue2 set pot_decomp_rate = 0.02 ()
-!364 1995 residue2 tillage type = graze()
-!10  1996 residue2 tillage type = graze()
-120 1996 residue2 tillage type = burn_95()
+!364 1995 surfaceom tillage type = graze()
+!10  1996 surfaceom tillage type = graze()
+120 1996 surfaceom tillage type = burn_95()
 137 1996 canola sow cultivar = oscar, plants = 81 (/m2), sowing_depth = 20 (mm)
 !156 1996 canola sow cultivar = oscar, plants = 81 (/m2), sowing_depth = 20 (mm)
 343 1996 canola harvest
 343 1996 canola end_crop
 343 1996 canola kill_crop
-343 1996 residue2 set pot_decomp_rate = 0.10 ()
-!355 1996 residue2 tillage type = graze()
-!10  1997 residue2 tillage type = graze()
-120 1997 residue2 tillage type = burn_95()
+!355 1996 surfaceom tillage type = graze()
+!10  1997 surfaceom tillage type = graze()
+120 1997 surfaceom tillage type = burn_95()
 !133 1997 nwheat sow plants = 199, depth = 40, cultivar = swift
 133 1997 wheat sow plants = 199, sowing_depth = 40, cultivar = swift
 !345 1997 nwheat harvest
 345 1997 wheat harvest
 345 1997 wheat kill_crop
 345 1997 wheat end_crop
-345 1997 residue2 set pot_decomp_rate = 0.02 ()
-!355 1997 residue2 tillage type = graze()
-!10  1998 residue2 tillage type = graze()
-110 1998 residue2 tillage type = burn_95()
+!355 1997 surfaceom tillage type = graze()
+!10  1998 surfaceom tillage type = graze()
+110 1998 surfaceom tillage type = burn_95()
 121 1998 lucerne sow cultivar = trifecta, plants = 200 (/m2), sowing_depth = 40 (mm)
-121 1998 residue2 set pot_decomp_rate = 0.10 ()
 !220 1998 lucerne harvest height = 50 (mm), remove = 0.65
 287 1998 lucerne harvest height = 50 (mm), remove = 0.65
 339 1998 lucerne harvest height = 50 (mm), remove = 0.65
 65  1999 lucerne harvest height = 50 (mm)
-67  1999 residue2 tillage type = graze()
-!71  1999 residue2 tillage type = graze()
+67  1999 surfaceom tillage type = graze()
+!71  1999 surfaceom tillage type = graze()
 112 1999 lucerne harvest height = 50 (mm)
-114 1999 residue2 tillage type = graze()
-!118 1999 residue2 tillage type = graze()
+114 1999 surfaceom tillage type = graze()
+!118 1999 surfaceom tillage type = graze()
 218 1999 lucerne harvest height = 50 (mm), remove = 0.65
 287 1999 lucerne harvest height = 50 (mm), remove = 0.65
 344 1999 lucerne harvest height = 50 (mm)
-346 1999 residue2 tillage type = graze()
-!350 1999 residue2 tillage type = graze()
+346 1999 surfaceom tillage type = graze()
+!350 1999 surfaceom tillage type = graze()
 
 [2L96.operatns.parameters]
-120 1993 residue2 tillage type = rip()
+120 1993 surfaceom tillage type = rip()
 130 1994 lucerne sow cultivar = trifecta, plants = 100 (/m2), sowing_depth = 40 (mm)
-130 1994 residue2 set pot_decomp_rate = 0.10 ()
 292 1994 lucerne harvest height = 50 (mm), remove = 0.65
 6   1995 lucerne harvest height = 50 (mm)
-8   1995 residue2 tillage type = graze()
-!12  1995 residue2 tillage type = graze()
+8   1995 surfaceom tillage type = graze()
+!12  1995 surfaceom tillage type = graze()
 42  1995 lucerne harvest height = 50 (mm)
-44  1995 residue2 tillage type = graze()
-!48  1995 residue2 tillage type = graze()
+44  1995 surfaceom tillage type = graze()
+!48  1995 surfaceom tillage type = graze()
 235 1995 lucerne harvest height = 50 (mm), remove = 0.65
 287 1995 lucerne harvest height = 50 (mm), remove = 0.65, plants = 150
 335 1995 lucerne harvest height = 50 (mm), remove = 0.65, plants = 200 !440
 18  1996 lucerne harvest height = 50 (mm)
-20  1996 residue2 tillage type = graze()
-!24  1996 residue2 tillage type = graze()
+20  1996 surfaceom tillage type = graze()
+!24  1996 surfaceom tillage type = graze()
 74  1996 lucerne harvest height = 50 (mm)
-76  1996 residue2 tillage type = graze()
-!80  1996 residue2 tillage type = graze()
+76  1996 surfaceom tillage type = graze()
+!80  1996 surfaceom tillage type = graze()
 97  1996 lucerne harvest
 !97  1996 lucerne kill_crop
 97  1996 lucerne end_crop
-135 1996 residue2 tillage type = disc()
+135 1996 surfaceom tillage type = disc()
 !137 1996 canola sow cultivar = oscar, plants = 82 (/m2), sowing_depth = 20 (mm)
 156 1996 canola sow cultivar = oscar, plants = 82 (/m2), sowing_depth = 20 (mm)
 343 1996 canola harvest
 343 1996 canola end_crop
 343 1996 canola kill_crop
-!355 1996 residue2 tillage type = graze()
-!10  1997 residue2 tillage type = graze()
-120 1997 residue2 tillage type = burn_95()
+!355 1996 surfaceom tillage type = graze()
+!10  1997 surfaceom tillage type = graze()
+120 1997 surfaceom tillage type = burn_95()
 !133 1997 nwheat sow plants = 199, depth = 40, cultivar = swift
 133 1997 wheat sow plants = 199, sowing_depth = 40, cultivar = swift
 !345 1997 nwheat harvest
 345 1997 wheat harvest
 345 1997 wheat kill_crop
 345 1997 wheat end_crop
-345 1997 residue2 set pot_decomp_rate = 0.02 ()
-!355 1997 residue2 tillage type = graze()
-!10  1998 residue2 tillage type = graze()
-110 1998 residue2 tillage type = burn_95()
+!355 1997 surfaceom tillage type = graze()
+!10  1998 surfaceom tillage type = graze()
+110 1998 surfaceom tillage type = burn_95()
 !120 1998 nwheat sow plants = 250, depth = 40, cultivar = goldmark
 120 1998 wheat sow plants = 250, sowing_depth = 40, cultivar = goldmark
 !356 1998 nwheat harvest
@@ -958,64 +941,61 @@ endif
 356 1998 wheat harvest
 356 1998 wheat kill_crop
 356 1998 wheat end_crop
-!365 1998 residue2 tillage type = graze()
-!10  1999 residue2 tillage type = graze()
+!365 1998 surfaceom tillage type = graze()
+!10  1999 surfaceom tillage type = graze()
 119 1999 weed harvest
 119 1999 weed kill_crop
 119 1999 weed end_crop
-120 1999 residue2 tillage type = burn_95()
+120 1999 surfaceom tillage type = burn_95()
 145 1999 canola sow cultivar = pinnacle, crop_class = triazine, plants = 205 (/m2), sowing_depth = 20 (mm)
 341 1999 canola harvest
 341 1999 canola end_crop
-341 1999 residue2 set pot_decomp_rate = 0.10 ()
-!350 1999 residue2 tillage type = graze()
+!350 1999 surfaceom tillage type = graze()
 
 [3L96.operatns.parameters]
-120 1993 residue2 tillage type = rip()
+120 1993 surfaceom tillage type = rip()
 270 1993 lucerne sow cultivar = trifecta, plants = 100 (/m2), sowing_depth = 40 (mm)
-270 1993 residue2 set pot_decomp_rate = 0.10 ()
 22  1994 lucerne harvest height = 50 (mm), remove = 0.65
 85  1994 lucerne harvest height = 50 (mm)
-87  1994 residue2 tillage type = graze()
-!91  1994 residue2 tillage type = graze()
+87  1994 surfaceom tillage type = graze()
+!91  1994 surfaceom tillage type = graze()
 292 1994 lucerne harvest height = 50 (mm), remove = 0.65
 6   1995 lucerne harvest height = 50 (mm)
-8   1995 residue2 tillage type = graze()
-!12  1995 residue2 tillage type = graze()
+8   1995 surfaceom tillage type = graze()
+!12  1995 surfaceom tillage type = graze()
 42  1995 lucerne harvest height = 50 (mm)
-44  1995 residue2 tillage type = graze()
-!48  1995 residue2 tillage type = graze()
+44  1995 surfaceom tillage type = graze()
+!48  1995 surfaceom tillage type = graze()
 235 1995 lucerne harvest height = 50 (mm), remove = 0.65
 287 1995 lucerne harvest height = 50 (mm), remove = 0.65, plants = 150
 335 1995 lucerne harvest height = 50 (mm), remove = 0.65, plants = 200 !440
 18  1996 lucerne harvest height = 50 (mm)
-20  1996 residue2 tillage type = graze()
-!24  1996 residue2 tillage type = graze()
+20  1996 surfaceom tillage type = graze()
+!24  1996 surfaceom tillage type = graze()
 74  1996 lucerne harvest height = 50 (mm)
-76  1996 residue2 tillage type = graze()
-!80  1996 residue2 tillage type = graze()
+76  1996 surfaceom tillage type = graze()
+!80  1996 surfaceom tillage type = graze()
 97  1996 lucerne harvest
 !97  1996 lucerne kill_crop
 97  1996 lucerne end_crop
-130 1996 residue2 tillage type = disc()
+130 1996 surfaceom tillage type = disc()
 !137 1996 canola sow cultivar = oscar, plants = 73 (/m2), sowing_depth = 20 (mm)
 156 1996 canola sow cultivar = oscar, plants = 73 (/m2), sowing_depth = 20 (mm)
 343 1996 canola harvest
 343 1996 canola end_crop
 343 1996 canola kill_crop
-355 1996 residue2 tillage type = graze()
-10  1997 residue2 tillage type = graze()
-120 1997 residue2 tillage type = burn_95()
+355 1996 surfaceom tillage type = graze()
+10  1997 surfaceom tillage type = graze()
+120 1997 surfaceom tillage type = burn_95()
 !133 1997 nwheat sow plants = 207, depth = 40, cultivar = swift
 133 1997 wheat sow plants = 207, sowing_depth = 40, cultivar = swift
 !345 1997 nwheat harvest
 345 1997 wheat harvest
 345 1997 wheat kill_crop
 345 1997 wheat end_crop
-345 1997 residue2 set pot_decomp_rate = 0.02 ()
-!355 1997 residue2 tillage type = graze()
-!10  1998 residue2 tillage type = graze()
-110 1998 residue2 tillage type = burn_95()
+!355 1997 surfaceom tillage type = graze()
+!10  1998 surfaceom tillage type = graze()
+110 1998 surfaceom tillage type = burn_95()
 !120 1998 nwheat sow plants = 218, depth = 40, cultivar = goldmark
 120 1998 wheat sow plants = 218, sowing_depth = 40, cultivar = goldmark
 !356 1998 nwheat harvest
@@ -1023,43 +1003,41 @@ endif
 356 1998 wheat harvest
 356 1998 wheat kill_crop
 356 1998 wheat end_crop
-!365 1998 residue2 tillage type = graze()
-!10  1999 residue2 tillage type = graze()
+!365 1998 surfaceom tillage type = graze()
+!10  1999 surfaceom tillage type = graze()
 119 1999 weed harvest
 119 1999 weed kill_crop
 119 1999 weed end_crop
-120 1999 residue2 tillage type = burn_95()
+120 1999 surfaceom tillage type = burn_95()
 145 1999 canola sow cultivar = pinnacle, crop_class = triazine, plants = 164 (/m2), sowing_depth = 20 (mm)
 341 1999 canola harvest
 341 1999 canola end_crop
-341 1999 residue2 set pot_decomp_rate = 0.10 ()
-!350 1999 residue2 tillage type = graze()
+!350 1999 surfaceom tillage type = graze()
 
 [3L97.operatns.parameters]
-120 1993 residue2 tillage type = rip()
+120 1993 surfaceom tillage type = rip()
 130 1994 lucerne sow cultivar = trifecta, plants = 100 (/m2), sowing_depth = 40 (mm)
-130 1994 residue2 set pot_decomp_rate = 0.10 ()
 292 1994 lucerne harvest height = 50 (mm), remove = 0.65
 6   1995 lucerne harvest height = 50 (mm)
-8   1995 residue2 tillage type = graze()
-!12  1995 residue2 tillage type = graze()
+8   1995 surfaceom tillage type = graze()
+!12  1995 surfaceom tillage type = graze()
 42  1995 lucerne harvest height = 50 (mm)
-44  1995 residue2 tillage type = graze()
-!48  1995 residue2 tillage type = graze()
+44  1995 surfaceom tillage type = graze()
+!48  1995 surfaceom tillage type = graze()
 235 1995 lucerne harvest height = 50 (mm), remove = 0.65
 287 1995 lucerne harvest height = 50 (mm), remove = 0.65, plants = 150
 335 1995 lucerne harvest height = 50 (mm), remove = 0.65, plants = 200 !440
 18  1996 lucerne harvest height = 50 (mm)
-20  1996 residue2 tillage type = graze()
-!24  1996 residue2 tillage type = graze()
+20  1996 surfaceom tillage type = graze()
+!24  1996 surfaceom tillage type = graze()
 74  1996 lucerne harvest height = 50 (mm)
-76  1996 residue2 tillage type = graze()
-!80  1996 residue2 tillage type = graze()
+76  1996 surfaceom tillage type = graze()
+!80  1996 surfaceom tillage type = graze()
 230 1996 lucerne harvest height = 50 (mm), remove = 0.65
 298 1996 lucerne harvest height = 50 (mm), remove = 0.65
 346 1996 lucerne harvest height = 50 (mm)
-348 1996 residue2 tillage type = graze()
-!352 1996 residue2 tillage type = graze()
+348 1996 surfaceom tillage type = graze()
+!352 1996 surfaceom tillage type = graze()
 93  1997 lucerne harvest
 !93  1997 lucerne kill_crop
 93  1997 lucerne end_crop
@@ -1069,10 +1047,9 @@ endif
 345 1997 wheat harvest
 345 1997 wheat kill_crop
 345 1997 wheat end_crop
-345 1997 residue2 set pot_decomp_rate = 0.02 ()
-!355 1997 residue2 tillage type = graze()
-!10  1998 residue2 tillage type = graze()
-110 1998 residue2 tillage type = burn_95()
+!355 1997 surfaceom tillage type = graze()
+!10  1998 surfaceom tillage type = graze()
+110 1998 surfaceom tillage type = burn_95()
 !120 1998 nwheat sow plants = 231, depth = 40, cultivar = goldmark
 120 1998 wheat sow plants = 231, sowing_depth = 40, cultivar = goldmark
 !356 1998 nwheat harvest
@@ -1080,47 +1057,45 @@ endif
 356 1998 wheat harvest
 356 1998 wheat kill_crop
 356 1998 wheat end_crop
-!365 1998 residue2 tillage type = graze()
-!10  1999 residue2 tillage type = graze()
+!365 1998 surfaceom tillage type = graze()
+!10  1999 surfaceom tillage type = graze()
 119 1999 weed harvest
 119 1999 weed kill_crop
 119 1999 weed end_crop
-120 1999 residue2 tillage type = burn_95()
+120 1999 surfaceom tillage type = burn_95()
 145 1999 canola sow cultivar = pinnacle, crop_class = triazine, plants = 176 (/m2), sowing_depth = 20 (mm)
 341 1999 canola harvest
 341 1999 canola end_crop
-341 1999 residue2 set pot_decomp_rate = 0.10 ()
-!350 1999 residue2 tillage type = graze()
+!350 1999 surfaceom tillage type = graze()
 
 [4L97.operatns.parameters]
-120 1993 residue2 tillage type = rip()
+120 1993 surfaceom tillage type = rip()
 270 1993 lucerne sow cultivar = trifecta, plants = 100 (/m2), sowing_depth = 40 (mm)
-270 1993 residue2 set pot_decomp_rate = 0.10 ()
 22  1994 lucerne harvest height = 50 (mm), remove = 0.65
 85  1994 lucerne harvest height = 50 (mm)
-87  1994 residue2 tillage type = graze()
-!91  1994 residue2 tillage type = graze()
+87  1994 surfaceom tillage type = graze()
+!91  1994 surfaceom tillage type = graze()
 292 1994 lucerne harvest height = 50 (mm), remove = 0.65
 6   1995 lucerne harvest height = 50 (mm)
-8   1995 residue2 tillage type = graze()
-12  1995 residue2 tillage type = graze()
+8   1995 surfaceom tillage type = graze()
+12  1995 surfaceom tillage type = graze()
 42  1995 lucerne harvest height = 50 (mm)
-44  1995 residue2 tillage type = graze()
-!48  1995 residue2 tillage type = graze()
+44  1995 surfaceom tillage type = graze()
+!48  1995 surfaceom tillage type = graze()
 235 1995 lucerne harvest height = 50 (mm), remove = 0.65
 287 1995 lucerne harvest height = 50 (mm), remove = 0.65, plants = 150
 335 1995 lucerne harvest height = 50 (mm), remove = 0.65, plants = 200 !440
 18  1996 lucerne harvest height = 50 (mm)
-20  1996 residue2 tillage type = graze()
-!24  1996 residue2 tillage type = graze()
+20  1996 surfaceom tillage type = graze()
+!24  1996 surfaceom tillage type = graze()
 74  1996 lucerne harvest height = 50 (mm)
-76  1996 residue2 tillage type = graze()
-!80  1996 residue2 tillage type = graze()
+76  1996 surfaceom tillage type = graze()
+!80  1996 surfaceom tillage type = graze()
 230 1996 lucerne harvest height = 50 (mm), remove = 0.65
 298 1996 lucerne harvest height = 50 (mm), remove = 0.65
 346 1996 lucerne harvest height = 50 (mm)
-348 1996 residue2 tillage type = graze()
-!351 1996 residue2 tillage type = graze()
+348 1996 surfaceom tillage type = graze()
+!351 1996 surfaceom tillage type = graze()
 93  1997 lucerne harvest
 !93  1997 lucerne kill_crop
 93  1997 lucerne end_crop
@@ -1130,10 +1105,9 @@ endif
 345 1997 wheat harvest
 345 1997 wheat kill_crop
 345 1997 wheat end_crop
-345 1997 residue2 set pot_decomp_rate = 0.02 ()
-!355 1997 residue2 tillage type = graze()
-!10  1998 residue2 tillage type = graze()
-110 1998 residue2 tillage type = burn_95()
+!355 1997 surfaceom tillage type = graze()
+!10  1998 surfaceom tillage type = graze()
+110 1998 surfaceom tillage type = burn_95()
 !120 1998 nwheat sow plants = 240, depth = 40, cultivar = goldmark
 120 1998 wheat sow plants = 240, sowing_depth = 40, cultivar = goldmark
 !356 1998 nwheat harvest
@@ -1141,19 +1115,18 @@ endif
 356 1998 wheat harvest
 356 1998 wheat kill_crop
 356 1998 wheat end_crop
-!365 1998 residue2 tillage type = graze()
-!10  1999 residue2 tillage type = graze()
+!365 1998 surfaceom tillage type = graze()
+!10  1999 surfaceom tillage type = graze()
 119 1999 weed harvest
 119 1999 weed kill_crop
 119 1999 weed end_crop
-120 1999 residue2 tillage type = burn_95()
+120 1999 surfaceom tillage type = burn_95()
 145 1999 canola sow cultivar = pinnacle, crop_class = triazine, plants = 216 (/m2), sowing_depth = 20 (mm)
 341 1999 canola harvest
 341 1999 canola end_crop
-341 1999 residue2 set pot_decomp_rate = 0.10 ()
-!350 1999 residue2 tillage type = graze()
+!350 1999 surfaceom tillage type = graze()
 
-!******************** Residue2 module ********************
+!******************** surfaceom module ********************
 
 [all.SurfaceOM.parameters]
 report_additions = no
