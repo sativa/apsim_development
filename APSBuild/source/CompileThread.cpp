@@ -515,12 +515,18 @@ void CompileThread::Cleanup (APSIM_project& apf)
 // ------------------------------------------------------------------
 void CompileThread::CopySwitchesToStream (APSIM_project& apf, ostream& out)
    {
-   list<string> switchLines;
-   GetFilesForCompiler (apf, SWITCHES_KEY, switchLines);
+   // get a list of all compiler switch files for this binary.
+   string SwitchesFile = APSDirectories().Get_home() +
+                             "\\apsbuild\\switches." +
+                             CompileType;
+   if (!FileExists(SwitchesFile.c_str()))
+      SwitchesFile = APSDirectories().Get_home() +
+                             "\\apsbuild\\switches.fig";
 
-   // copy all switch lines to output stream.
-   ostream_iterator<string,char> o(out, " ");
-   std::copy(switchLines.begin(), switchLines.end(), o);
+   ifstream in ( SwitchesFile.c_str() );
+   string SwitchLine;
+   getline(in, SwitchLine);
+   out << SwitchLine << std::endl;
    }
 
 // ------------------------------------------------------------------
@@ -648,7 +654,7 @@ void CompileThread::CreateComponentInterface(APSIM_project& apf)
    interfaceFilePath.Append_path(moduleName.c_str());
    interfaceFilePath.Set_name(moduleName.c_str());
    interfaceFilePath.Set_extension(".interface");
-/*   if (interfaceFilePath.Exists())
+   if (interfaceFilePath.Exists())
       {
       Path sourcePath(GetSourceDirectory(apf).c_str());
       sourcePath.Change_directory();
@@ -656,7 +662,7 @@ void CompileThread::CreateComponentInterface(APSIM_project& apf)
       // generate interface file.
       GenerateComponentInterface(interfaceFilePath.Get_path().c_str());
       }
-*/   }
+   }
 // ------------------------------------------------------------------
 //  Short description:
 //     create a ComponentInterface.for file for this module.
