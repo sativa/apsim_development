@@ -105,15 +105,6 @@ void __fastcall TMainForm::ThreadTerminated (TObject* Object)
          Application->MessageBox( (char*) msg.c_str(), "Error", MB_ICONSTOP | MB_OK);
          ThreadTerminated(Object);
          }
-      else if (GetFileAttributes(ProjectFilename.c_str()) & FILE_ATTRIBUTE_READONLY)
-         {
-         string msg = "Cannot compile: " + ProjectFilename + ".  The file is readonly.  "
-                      "If the file is in the APSuite directory then copy the module to "
-                      "the APSWork directory, remove the readonly attribute and try "
-                      "compiling again.";
-         Application->MessageBox( (char*) msg.c_str(), "Error", MB_ICONSTOP | MB_OK);
-         ThreadTerminated(Object);
-         }
       else
          {
          delete Thread;
