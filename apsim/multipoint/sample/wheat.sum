@@ -31,7 +31,7 @@
 
 ------- report Initialisation -------------------------------------------------
      Output variables:
-        clock.today.dd/mm/yyyy as Date
+        clock.dd/mm/yyyy as Date
         SubSystem.rain as rain
      
      Output file = wheat.out
@@ -55,7 +55,7 @@
 
 ------- report2 Initialisation ------------------------------------------------
      Output variables:
-        today.day
+        subsystem.day
      
      Output file = wheat2.out
      Format = normal
