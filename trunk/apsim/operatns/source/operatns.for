@@ -131,6 +131,7 @@
 *+  Changes
 *     dph 10/5/99 removed version and presence reports c186
 *     dph 15/12/00 added properties back in.
+*     dph 18/1/01  changed properties to parameters - mistake
 
 *+  Calls
 
@@ -150,8 +151,8 @@
  
       if (iostatus.eq.0) then
          call operatns_read_section ('start_of_day',prepare_phase)
+         call operatns_read_section ('parameters',prepare_phase)
          call operatns_read_section ('process',process_phase)
-         call operatns_read_section ('properties',process_phase)
          call operatns_read_section ('end_of_day',post_phase)
          call operatns_sort_data ()
          call operatns_list ()
