@@ -76,11 +76,10 @@
       <respondToMethodCallReg name="sum_report" type="null"/>
       <respondToMethodCallReg name="evap_init" type="null"/>
 
-      <respondToEventReg name="tick" type="time"/>
       <respondToEventReg name="SolutesChanged" type="SoluteProfile"/>
       <respondToEventReg name="CropWaterDemandCalculated" type="CropWaterDemand"/>
       <respondToEventReg name="SurfaceWaterChanged" type="SurfaceWater"/>
-      <respondToEventReg name="EosCalculated" type="EosCalculated"/>
+      <respondToEventReg name="SurfaceWaterDemandCalculated" type="SurfaceWaterDemand"/>
       <respondToEventReg name="DoSoilWaterBalance" type="null"/>
 
       <eventReg name="SoluteFluxesCalculated" type="soluteprofile"/>
