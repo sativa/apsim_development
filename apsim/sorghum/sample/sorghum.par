@@ -8,10 +8,10 @@ module_names =   clock clock
 variable_names =  day  year  
 variable_alias =  -    -     
 
-module_names =    sorghum sorghum  sorghum sorghum     sorghum       sorghum   
-variable_names =  lai     biomass  yield   biomass_n   swdef_expan   nfact_expan   
-variable_alias =  -       -        -       -           -             -   
-units =           -       -        -       -           -             -   
+module_names =   sorghum  sorghum sorghum sorghum  sorghum sorghum     sorghum       sorghum
+variable_names = das    stage   lai     biomass  yield   biomass_n   swdef_expan   nfact_expan
+variable_alias = -        -       -       -        -       -           -             -
+units =          -        -       -       -        -       -           -             -   
 
 
 [sample.clock.parameters]  
