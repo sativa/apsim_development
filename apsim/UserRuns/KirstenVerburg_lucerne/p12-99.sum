@@ -300,17 +300,17 @@
         clock.day
         clock.day_of_month as day_month
         solute.brA
-        tracker6.sum@apswim.leach_brA as leach_brA
+        tracker6.sum@apswim_leach_brA as leach_brA
         solute.brB
-        tracker6.sum@apswim.leach_brB as leach_brB
+        tracker6.sum@apswim_leach_brB as leach_brB
         solute.brC
-        tracker6.sum@apswim.leach_brC as leach_brC
+        tracker6.sum@apswim_leach_brC as leach_brC
         solute.brD
-        tracker6.sum@apswim.leach_brD as leach_brD
-        tracker6.sum@apswim.uptake_brA_wheat[] as uptake_brA
-        tracker6.sum@apswim.uptake_brB_wheat[] as uptake_brB
-        tracker6.sum@apswim.uptake_brC_wheat[] as uptake_brC
-        tracker6.sum@apswim.uptake_brD_wheat[] as uptake_brD
+        tracker6.sum@apswim_leach_brD as leach_brD
+        tracker6.sum@apswim_uptake_brA_wheat[] as uptake_brA
+        tracker6.sum@apswim_uptake_brB_wheat[] as uptake_brB
+        tracker6.sum@apswim_uptake_brC_wheat[] as uptake_brC
+        tracker6.sum@apswim_uptake_brD_wheat[] as uptake_brD
      
      Output file = brom-99.out
      Format = normal
@@ -324,7 +324,7 @@
         wheat.rlv(1-16) as W_rlv
         wheat.root_depth as W_root_depth
         wheat.root_wt as W_root_wt
-        wheat.root_n as W_root_n
+        wheat.groot_n as W_root_n
         canola.rlv(1-16) as C_rlv
         canola.root_depth as C_root_depth
         canola.root_wt as C_root_wt
@@ -1053,14 +1053,14 @@
 
 ------- tracker6 Initialisation -----------------------------------------------
      Tracker variables:
-        sum of apswim.leach_brA since report6.reported as sum@apswim.leach_brA on process
-        sum of apswim.leach_brB since report6.reported as sum@apswim.leach_brB on process
-        sum of apswim.leach_brC since report6.reported as sum@apswim.leach_brC on process
-        sum of apswim.leach_brD since report6.reported as sum@apswim.leach_brD on process
-        sum of apswim.uptake_brA_wheat() since report6.reported as sum@apswim.uptake_brA_wheat[] on process
-        sum of apswim.uptake_brB_wheat() since report6.reported as sum@apswim.uptake_brB_wheat[] on process
-        sum of apswim.uptake_brC_wheat() since report6.reported as sum@apswim.uptake_brC_wheat[] on process
-        sum of apswim.uptake_brD_wheat() since report6.reported as sum@apswim.uptake_brD_wheat[] on process
+        sum of apswim.leach_brA since report6.reported as sum@apswim_leach_brA on process
+        sum of apswim.leach_brB since report6.reported as sum@apswim_leach_brB on process
+        sum of apswim.leach_brC since report6.reported as sum@apswim_leach_brC on process
+        sum of apswim.leach_brD since report6.reported as sum@apswim_leach_brD on process
+        sum of apswim.uptake_brA_wheat() since report6.reported as sum@apswim_uptake_brA_wheat[] on process
+        sum of apswim.uptake_brB_wheat() since report6.reported as sum@apswim_uptake_brB_wheat[] on process
+        sum of apswim.uptake_brC_wheat() since report6.reported as sum@apswim_uptake_brC_wheat[] on process
+        sum of apswim.uptake_brD_wheat() since report6.reported as sum@apswim_uptake_brD_wheat[] on process
 
 ------- wheat Initialisation --------------------------------------------------
       Initialising, V1.0 2000.01.21

@@ -33,6 +33,10 @@
      Component DLL          = c:\program files\apsim32\apsim\plant\lib\plant.dll
      Component DLL          = c:\program files\apsim32\apsim\plant\lib\plant.dll
      Component DLL          = c:\program files\apsim32\apsim\plant\lib\plant.dll
+     Component DLL          = c:\program files\apsim32\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\program files\apsim32\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\program files\apsim32\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\program files\apsim32\apsim\tracker\lib\tracker.dll
      Component DLL          = c:\program files\apsim32\apsim\cropmod\lib\cropmod.dll
 
 ------- clock Initialisation --------------------------------------------------
@@ -296,17 +300,17 @@
         clock.day
         clock.day_of_month as day_month
         solute.brA
-        tracker6.sum@apswim.leach_brA as leach_brA
+        tracker6.sum@apswim_leach_brA as leach_brA
         solute.brB
-        tracker6.sum@apswim.leach_brB as leach_brB
+        tracker6.sum@apswim_leach_brB as leach_brB
         solute.brC
-        tracker6.sum@apswim.leach_brC as leach_brC
+        tracker6.sum@apswim_leach_brC as leach_brC
         solute.brD
-        tracker6.sum@apswim.leach_brD as leach_brD
-        tracker6.sum@apswim.uptake_brA_wheat[] as uptake_brA
-        tracker6.sum@apswim.uptake_brB_wheat[] as uptake_brB
-        tracker6.sum@apswim.uptake_brC_wheat[] as uptake_brC
-        tracker6.sum@apswim.uptake_brD_wheat[] as uptake_brD
+        tracker6.sum@apswim_leach_brD as leach_brD
+        tracker6.sum@apswim_uptake_brA_wheat[] as uptake_brA
+        tracker6.sum@apswim_uptake_brB_wheat[] as uptake_brB
+        tracker6.sum@apswim_uptake_brC_wheat[] as uptake_brC
+        tracker6.sum@apswim_uptake_brD_wheat[] as uptake_brD
      
      Output file = brom-97.out
      Format = normal
@@ -320,7 +324,7 @@
         wheat.rlv(1-16) as W_rlv
         wheat.root_depth as W_root_depth
         wheat.root_wt as W_root_wt
-        wheat.root_n as W_root_n
+        wheat.groot_n as W_root_n
         canola.rlv(1-16) as C_rlv
         canola.root_depth as C_root_depth
         canola.root_wt as C_root_wt
@@ -1004,6 +1008,59 @@
 
 ------- weed Initialisation ---------------------------------------------------
       Initialising
+
+------- tracker1 Initialisation -----------------------------------------------
+     Tracker variables:
+        sum of met.rain since report1.reported as sum@met.rain on process
+        sum of manager.T since report1.reported as sum@manager.T on process
+        sum of manager.ET since report1.reported as sum@manager.ET on process
+        sum of apswim.es since report1.reported as sum@apswim.es on process
+        sum of apswim.runoff since report1.reported as sum@apswim.runoff on process
+        sum of apswim.drain since report1.reported as sum@apswim.drain on process
+        sum of apswim.eo since report1.reported as sum@apswim.eo on process
+        sum of manager.drain_25 since report1.reported as sum@manager.drain_25 on process
+        sum of manager.drain_90 since report1.reported as sum@manager.drain_90 on process
+        sum of manager.drain180 since report1.reported as sum@manager.drain180 on process
+        sum of apswim.leach_no3 since report1.reported as sum@apswim.leach_no3 on process
+        sum of soiln2.dnit() since report1.reported as sum@soiln2.dnit[] on process
+        sum of soiln2.dlt_n_min() since report1.reported as sum@soiln2.dlt_n_min[] on process
+        sum of lucerne.dlt_n_fixed since report1.reported as sum@lucerne.dlt_n_fixed on process
+
+------- tracker2 Initialisation -----------------------------------------------
+     Tracker variables:
+        average of wheat.swdef_photo since report2.reported as avg@wheat.swdef_photo on process
+        average of wheat.nfact_photo since report2.reported as avg@wheat.nfact_photo on process
+        average of lucerne.swdef_photo since report2.reported as avg@lucerne.swdef_photo on process
+        average of lucerne.nfact_photo since report2.reported as avg@lucerne.nfact_photo on process
+        sum of lucerne.dlt_n_fixed since report2.reported as sum@lucerne.dlt_n_fixed on process
+        average of canola.swdef_photo since report2.reported as avg@canola.swdef_photo on process
+        average of canola.nfact_photo since report2.reported as avg@canola.nfact_photo on process
+
+------- tracker4 Initialisation -----------------------------------------------
+     Tracker variables:
+        sum of met.rain since report4.reported as sum@met.rain on process
+        sum of wheat.ep  since report4.reported as sum@wheat.ep on process
+        sum of lucerne.ep  since report4.reported as sum@lucerne.ep on process
+        sum of canola.ep  since report4.reported as sum@canola.ep on process
+        sum of weed.ep  since report4.reported as sum@weed.ep on process
+        sum of apswim.es since report4.reported as sum@apswim.es on process
+        sum of apswim.runoff since report4.reported as sum@apswim.runoff on process
+        sum of apswim.drain since report4.reported as sum@apswim.drain on process
+        sum of apswim.eo since report4.reported as sum@apswim.eo on process
+        sum of apswim.eos since report4.reported as sum@apswim.eos on process
+        average of wheat.swdef_photo since report4.reported as avg@wheat.swdef_photo on process
+        average of wheat.nfact_photo since report4.reported as avg@wheat.nfact_photo on process
+
+------- tracker6 Initialisation -----------------------------------------------
+     Tracker variables:
+        sum of apswim.leach_brA since report6.reported as sum@apswim_leach_brA on process
+        sum of apswim.leach_brB since report6.reported as sum@apswim_leach_brB on process
+        sum of apswim.leach_brC since report6.reported as sum@apswim_leach_brC on process
+        sum of apswim.leach_brD since report6.reported as sum@apswim_leach_brD on process
+        sum of apswim.uptake_brA_wheat() since report6.reported as sum@apswim_uptake_brA_wheat[] on process
+        sum of apswim.uptake_brB_wheat() since report6.reported as sum@apswim_uptake_brB_wheat[] on process
+        sum of apswim.uptake_brC_wheat() since report6.reported as sum@apswim_uptake_brC_wheat[] on process
+        sum of apswim.uptake_brD_wheat() since report6.reported as sum@apswim_uptake_brD_wheat[] on process
 
 ------- wheat Initialisation --------------------------------------------------
       Initialising, V1.0 2000.01.21
