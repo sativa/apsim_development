@@ -84,18 +84,25 @@ bool Field::getValues(void)
    bool ok = parent->getVariable(variableID, variant, true);
    if (ok)
       {
-      bool ok = variant->unpack(values);
-      if (managerVariable)
-         formatAsFloats();
-      unit = asString(variant->getType().getUnits());
-      arrayIndex = variant->getLowerBound();
-      if (unit[0] != '(')
-         unit = "(" + unit + ")";
-      if (!ok)
+      try
          {
-         string msg = "Cannot use array notation on a scalar variable.\n"
-                      "Variable name: " + VariableName;
-         parent->error(msg.c_str(), false);
+         bool ok = variant->unpack(values);
+         unit = asString(variant->getType().getUnits());
+         arrayIndex = variant->getLowerBound();
+         if (unit[0] != '(')
+            unit = "(" + unit + ")";
+         if (!ok)
+            {
+            string msg = "Cannot use array notation on a scalar variable.\n"
+                         "Variable name: " + VariableName;
+            parent->error(msg.c_str(), false);
+            }
+         }
+      catch (const runtime_error& err)
+         {
+         string msg = err.what();
+         msg += " Variable name = " + VariableName;
+         parent->error(msg.c_str(), true);
          }
       }
    else
@@ -112,10 +119,13 @@ void Field::formatAsFloats(void)
    {
    for (unsigned i = 0; i != values.size(); i++)
       {
-      char* endptr;
-      double value = strtod(values[i].c_str(), &endptr);
-      if (*endptr == '\0')
-         values[i] = ftoa(value, 3);
+      if (values[i].find('.') != string::npos)
+         {
+         char* endptr;
+         double value = strtod(values[i].c_str(), &endptr);
+         if (*endptr == '\0')
+            values[i] = ftoa(value, 3);
+         }
       }
    }
 // ------------------------------------------------------------------
@@ -177,6 +187,9 @@ void Field::writeHeadings(ostream& headingOut, ostream& unitOut)
 void Field::writeValue(ostream& out)
    {
    getValues();
+   if (!CSVFormat)
+      formatAsFloats();
+
    for (unsigned v = 0; v != values.size(); v++)
       {
       if (CSVFormat && v != 0)
@@ -217,11 +230,15 @@ void Field::writeToSummary(void)
 // ------------------------------------------------------------------
 void Field::writeTo(ostream& out, const string& value)
    {
-   if (!CSVFormat)
+   if (CSVFormat)
+      out << value;
+   else
+      {
       out.width(fieldWidth);
-   if (value.length() >= fieldWidth)
-      value.erase(fieldWidth-1);
-   out << value;
+      if (value.length() >= fieldWidth)
+         value.erase(fieldWidth-1);
+	  out << value;
+      }
    }
 // ------------------------------------------------------------------
 //  Short description:

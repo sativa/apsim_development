@@ -5,6 +5,7 @@
 
 #include "Type.h"
 #include "Protocolvector.h"
+#include <stdexcept>
 namespace protocol {
 
 // turn of the warnings about "Functions containing for are not expanded inline.
@@ -83,7 +84,11 @@ class __declspec(dllexport) ArraySpecifier
             {
             unsigned index = 0;
             for (unsigned i = start; i < end; ++i)
+               {
+               if (i >= values.size())
+                  throw std::runtime_error("Invalid array index.");
                values[index++] = values[i];
+               }
 
             while (values.size() > end-start)
                values.erase(values.size()-1);
