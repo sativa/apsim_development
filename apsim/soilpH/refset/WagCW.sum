@@ -146,10 +146,10 @@
      if (end_month = 1) then
         report do_end_day_output
      endif
-     Manager creating a new local variable : fert_flag =     100.000000000000
-     Manager creating a new local variable : mature_flag =     13.0000000000000
-     Manager creating a new local variable : crop_in =     0.00000000000000
-     Manager creating a new local variable : cum_drain_1 =     0.00000000000000
+     Manager creating a new local real variable : fert_flag =     100.000000000000
+     Manager creating a new local real variable : mature_flag =     13.0000000000000
+     Manager creating a new local real variable : crop_in =     0.00000000000000
+     Manager creating a new local real variable : cum_drain_1 =     0.00000000000000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -437,7 +437,7 @@
         sum of soilph.h_equiv_flow_net since report.reported as sum@h_equiv_flow_net
 ------- Start of simulation  --------------------------------------------------
 1 January 1957(Day of year=1), manager: 
-     Manager creating a new local variable : smi =   -0.575000023541666
+     Manager creating a new local real variable : smi =   -0.575000023541666
 1 January 1957(Day of year=1), soilph: 
      
          - Reading action ash alkalinity loss
@@ -572,7 +572,7 @@
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =   100.00
 1 May 1957(Day of year=121), manager: 
-     Manager creating a new local variable : phase = 0
+     Manager creating a new local real variable : phase =     0.00000000000000
 23 June 1957(Day of year=174), manager: 
      Manager sending message :- nwheat sow  plants = 100, depth = 40, cultivar = janz
 23 June 1957(Day of year=174), nwheat: 
