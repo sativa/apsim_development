@@ -7,11 +7,12 @@
 #include <general\stl_functions.h>
 class XMLNode;
 
+struct XMLDocumentImpl;
+
 namespace Msxml2_tlb
   {
    class IXMLDOMNode;
    }
-struct XMLDocumentImpl;
 
 //---------------------------------------------------------------------------
 // This class encapsulates an XML document and provides an STL like interface.
@@ -46,14 +47,10 @@ class XMLNode
       iterator begin() const;
       iterator end() const;
 
-      XMLNode(XMLDocument* doc, Msxml2_tlb::IXMLDOMNode* n)
-         : parent(doc), node(n) { }
-      XMLNode& operator= (const XMLNode& rhs)
-        {
-        parent = rhs.parent;
-        node = rhs.node;
-        return *this;
-        }
+      XMLNode(::XMLDocument* doc, Msxml2_tlb::IXMLDOMNode* n);
+       ~XMLNode(void);
+      XMLNode(const XMLNode& rhs);
+      XMLNode& operator= (const XMLNode& rhs);
 
       std::string getName(void) const;
       std::string getAttribute(const std::string& attributeName) const;
@@ -127,6 +124,26 @@ class NodeAttributesEquals
                   strcmpi(arg.getAttribute(attribute2Name).c_str(), attribute2Value.c_str()) == 0);}
    };
 //---------------------------------------------------------------------------
+// Handy function that will append a new child node IF that node doesn't
+// already exist.
+//---------------------------------------------------------------------------
+XMLNode appendChildIfNotExist(XMLNode& node,
+                              const std::string& nodeName,
+                              const std::string& nameAttribute)
+   {
+   XMLNode::iterator childI = std::find_if(node.begin(),
+                                           node.end(),
+                                           NodeEquals<XMLNode>(nodeName, nameAttribute));
+   if (childI != node.end())
+      return XMLNode(*childI);
+   else
+      {
+      XMLNode child = node.appendChild(nodeName, true);
+      child.setAttribute("name", nameAttribute);
+      return child;
+      }
+   }
+//---------------------------------------------------------------------------
 // Handy predicate that can help find a node with a particular value.
 // e.g. can be used with find_if
 //---------------------------------------------------------------------------
@@ -178,26 +195,6 @@ class GetValueFunction
          Container.push_back(arg.getValue());
          };
    };
-//---------------------------------------------------------------------------
-// Handy function that will append a new child node IF that node doesn't
-// already exist.
-//---------------------------------------------------------------------------
-XMLNode appendChildIfNotExist(XMLNode& node,
-                              const std::string& nodeName,
-                              const std::string& nameAttribute)
-   {
-   XMLNode::iterator childI = std::find_if(node.begin(),
-                                           node.end(),
-                                           NodeEquals<XMLNode>(nodeName, nameAttribute));
-   if (childI != node.end())
-      return XMLNode(*childI);
-   else
-      {
-      XMLNode child = node.appendChild(nodeName, true);
-      child.setAttribute("name", nameAttribute);
-      return child;
-      }
-   }
 // ------------------------------------------------------------------
 // Handy function that will delete all nodes with the specified name.
 // ------------------------------------------------------------------
