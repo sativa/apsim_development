@@ -118,6 +118,7 @@ void GenerateComponentInterface(const string& interfaceFileName)
                                     nameI != temp.end();
                                     nameI++)
          {
+         To_lower(*nameI);
          MacroValue macroValue;
          macroValue.addAttribute("name", *nameI);
          subMacro->addValue(macroValue);
@@ -133,6 +134,7 @@ void GenerateComponentInterface(const string& interfaceFileName)
                                     nameI != temp.end();
                                     nameI++)
          {
+         To_lower(*nameI);
          MacroValue macroValue;
          macroValue.addAttribute("name", *nameI);
          pubevent->addValue(macroValue);
