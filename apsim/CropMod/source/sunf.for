@@ -1,4 +1,4 @@
-C     Last change:  E     7 Feb 2001    1:11 pm
+C     Last change:  E    13 Feb 2001    1:26 pm
 
 
 ***************************************************************************
@@ -113,7 +113,9 @@ c     real       leaf_no_change
      :        on_day_of (endjuv, g_current_stage, g_days_tot)) then
  
          photoperiod = day_length (g_day_of_year, g_latitude,c_twilight)
- 
+
+
+
          if (photoperiod.le.p_photoperiod_crit1) then
             g_phase_tt(endjuv_to_init) = p_tt_endjuv_to_init
  
@@ -4157,6 +4159,21 @@ c     :                    , 0.0, 100.0)
      :                     , c%y_N_conc_min_flower, c%num_N_conc_stage
      :                     , 0.0, 100.0)
  
+      call read_real_array (section_name
+     :                     , 'y_n_conc_min_root', max_stage, '()'
+     :                     , c%y_N_conc_min_root, c%num_N_conc_stage
+     :                     , 0.0, 100.0)
+
+      call read_real_array (section_name
+     :                     , 'y_n_conc_crit_root', max_stage, '()'
+     :                     , c%y_N_conc_crit_root, c%num_N_conc_stage
+     :                     , 0.0, 100.0)
+ 
+      call read_real_array (section_name
+     :                     , 'y_n_conc_max_root', max_stage, '()'
+     :                     , c%y_N_conc_max_root, c%num_N_conc_stage
+     :                     , 0.0, 100.0)
+
       call read_real_var (section_name
      :                   , 'n_conc_crit_grain', '()'
      :                   , c%N_conc_crit_grain, numvals
@@ -4172,21 +4189,7 @@ c     :                    , 0.0, 100.0)
      :                   , c%N_conc_min_grain, numvals
      :                   , 0.0, 100.0)
  
-      call read_real_var (section_name
-     :                   , 'n_conc_crit_root', '()'
-     :                   , c%N_conc_crit_root, numvals
-     :                   , 0.0, 100.0)
- 
-      call read_real_var (section_name
-     :                   , 'n_conc_max_root', '()'
-     :                   , c%N_conc_max_root, numvals
-     :                   , 0.0, 100.0)
- 
-      call read_real_var (section_name
-     :                   , 'n_conc_min_root', '()'
-     :                   , c%N_conc_min_root, numvals
-     :                   , 0.0, 100.0)
- 
+
          !    Maize_N_init
  
       call read_real_array (section_name
@@ -4518,7 +4521,7 @@ C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
      :                    , 0.0, 10.0)
  
 cSCC change upper limit from 10 to 1000
-       call read_real_var (cultivar
+       call read_real_var_optional (cultivar
      :                    , 'tpla_inflection', '(????)'
      :                    , p%tpla_inflection, numvals
      :                    , 0.0, 1000.0)

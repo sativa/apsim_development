@@ -1,4 +1,4 @@
-C     Last change:  E    19 Jan 2001   11:55 am
+C     Last change:  E     9 Feb 2001    2:12 pm
 
 
 
@@ -930,12 +930,14 @@ cglh uses sowing, not emerg to calc leaf no.
         !EW extinction coefficient needs value when lai is small
         !   extinction coefficient should not increase after anthesis
 
-        if (g_lai.gt.0.0) then
-            extinct_coef = 3.76 * g_lai ** (-0.81)   !!!MCW
-        else
-            extinct_coef = 0.5
-        endif
-        
+c        if (g_lai.gt.0.0) then
+c            extinct_coef = 3.76 * g_lai ** (-0.81)   !!!MCW
+c        else
+c            extinct_coef = 0.5
+c        endif
+
+        extinct_coef = MIN(1.0, 1.43*g_lai**(-0.5))
+
         extinct_coef = bound(extinct_coef, 0.4, 1.0)
 
         if (g_current_stage .le. REAL(flowering))
