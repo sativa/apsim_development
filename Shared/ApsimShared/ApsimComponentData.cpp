@@ -7,6 +7,7 @@
 #include <general\xml.h>
 #include <general\stl_functions.h>
 #include <general\string_functions.h>
+#include <general\path.h>
 #include "FStringExt.h"
 #pragma package(smart_init)
 
@@ -321,6 +322,24 @@ ApsimDataTypeData ApsimComponentData::getDataType
    throw runtime_error("Cannot find a data type: " + name
                        + " in component: " + getName());
    }
+
+// ------------------------------------------------------------------
+// return the name of the interface file for this component
+// ------------------------------------------------------------------
+std::string ApsimComponentData::getInterfaceFileName(void) const
+   {
+   string dll = getExecutableFileName();
+   if (dll != "")
+      {
+      Path interfaceFilePath(dll);
+      interfaceFilePath.Back_up_directory();
+      interfaceFilePath.Set_extension(".interface");
+      if (interfaceFilePath.Exists())
+         return interfaceFilePath.Get_path();
+      }
+   return "";
+   }
+
 // ------------------------------------------------------------------
 // ------------------------------------------------------------------
 // ------------------------------------------------------------------

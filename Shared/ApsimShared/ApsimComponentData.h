@@ -60,6 +60,9 @@ class __declspec(dllexport) ApsimComponentData
       RegIterator regEnd(void) const;
       ApsimDataTypeData getDataType(const std::string& name) const throw(std::runtime_error);
 
+      // return the name of the interface file for this component
+      std::string getInterfaceFileName(void) const;
+
    private:
       XMLDocument* xmlDoc;
       XMLNode node;
