@@ -1,10 +1,9 @@
-[all.residue2.parameters]
-residue_wt = 500
-residue_cnr = 80
-residue_type = wheat
-pot_decomp_rate = 0.10
+[all.surfaceom.parameters]
+mass = 500
+cnr = 80
+type = wheat
+name = wheat
 
-! inserted and modified from residue2.ini
 
 [standard.residue2.specific_areas]
 
