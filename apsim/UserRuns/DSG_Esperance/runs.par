@@ -71,11 +71,10 @@ rz_no3 = no3(1) + no3(2) + no3(3) !! soil nitrate in the root zone
 [all.accum.parameters]
 Accum_variables = rain[5]
 
-[all.residue2.parameters]
-residue_wt = 1000
-residue_cnr = 80
-residue_type = wheat
-pot_decomp_rate = 0.1
+[all.SurfaceOM.parameters]
+mass = 1000
+cnr = 80
+type = wheat
 
 !!!! soil water at initialisation !!!!
 
@@ -87,6 +86,7 @@ pot_decomp_rate = 0.1
 !!!! Rotation 1 - sorghum opportunity crop and wheat+N100 !!!!!!!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+name = wheat
 [sorg_wht.manager.start_of_day]
 ! CROP_FLAG = 0 - neither crop in the ground
 ! CROP_FLAG = 1 - sorghum in the ground
@@ -125,7 +125,7 @@ pot_decomp_rate = 0.1
      sorghum harvest 
      sorghum kill_crop 
      sorghum end_crop
-     residue2 tillage type=graze ()
+     surfaceom tillage type=graze ()
    endif
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -172,7 +172,7 @@ pot_decomp_rate = 0.1
      crop_flag = 0
      wheat harvest
      wheat end_crop
-!     residue2 reset
+!     surfaceom reset
  
    endif
 
@@ -222,7 +222,7 @@ pot_decomp_rate = 0.1
      sorghum harvest 
      sorghum kill_crop 
      sorghum end_crop
-     residue2 tillage type=graze ()
+     surfaceom tillage type=graze ()
    endif
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -269,7 +269,7 @@ pot_decomp_rate = 0.1
      crop_flag = 0
      wheat harvest
      wheat end_crop
-!     residue2 reset
+!     surfaceom reset
  
    endif
 
@@ -317,7 +317,7 @@ pot_decomp_rate = 0.1
      sorghum harvest 
      sorghum kill_crop 
      sorghum end_crop
-     residue2 tillage type=graze ()
+     surfaceom tillage type=graze ()
    endif
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -364,7 +364,7 @@ pot_decomp_rate = 0.1
      crop_flag = 0
      wheat harvest
      wheat end_crop
-!     residue2 reset
+!     surfaceom reset
  
    endif
 
@@ -412,7 +412,7 @@ pot_decomp_rate = 0.1
      sorghum harvest 
      sorghum kill_crop 
      sorghum end_crop
-     residue2 tillage type=graze ()
+     surfaceom tillage type=graze ()
    endif
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -459,7 +459,7 @@ pot_decomp_rate = 0.1
      crop_flag = 0
      wheat harvest
      wheat end_crop
-!     residue2 reset
+!     surfaceom reset
  
    endif
 
@@ -516,7 +516,7 @@ pot_decomp_rate = 0.1
      report do_output
      wheat harvest 
      wheat end_crop
-!     residue2 reset
+!     surfaceom reset
    endif
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -566,7 +566,7 @@ pot_decomp_rate = 0.1
      sorghum harvest 
      sorghum kill_crop 
      sorghum end_crop
-     residue2 tillage type=graze ()
+     surfaceom tillage type=graze ()
    endif
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -615,7 +615,7 @@ pot_decomp_rate = 0.1
      crop_flag = 0
      wheat harvest
      wheat end_crop
-!     residue2 reset
+!     surfaceom reset
    endif
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -649,7 +649,7 @@ pot_decomp_rate = 0.1
      crop_flag = 0
      wheat harvest
      wheat end_crop
-!     residue2 reset
+!     surfaceom reset
    endif
 
 ! if pasture has failed reset crop_flag to allow sorghum to sow
@@ -708,7 +708,7 @@ pot_decomp_rate = 0.1
      sorghum harvest 
      sorghum kill_crop 
      sorghum end_crop
-     residue2 tillage type=graze ()
+     surfaceom tillage type=graze ()
    endif
 
 !  If we fail to get a sorghum-planting opportunity then set crop_flag to 1 so that wheat will sow
@@ -763,7 +763,7 @@ pot_decomp_rate = 0.1
      crop_flag = 0
      wheat harvest
      wheat end_crop
-!     residue2 reset
+!     surfaceom reset
    endif
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -796,7 +796,7 @@ pot_decomp_rate = 0.1
      crop_flag = 0
      wheat harvest
      wheat end_crop
-!     residue2 reset
+!     surfaceom reset
    endif
 
 ! if pasture has failed reset crop_flag to allow sorghum to sow
@@ -857,7 +857,7 @@ pot_decomp_rate = 0.1
      sorghum harvest 
      sorghum kill_crop 
      sorghum end_crop
-     residue2 tillage type=graze ()
+     surfaceom tillage type=graze ()
    endif
 
 !  If we fail to get a sorghum-planting opportunity then set crop_flag to 1 so that wheat will sow
@@ -912,7 +912,7 @@ pot_decomp_rate = 0.1
      crop_flag = 0
      wheat harvest
      wheat end_crop
-!     residue2 reset
+!     surfaceom reset
    endif
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -946,7 +946,7 @@ pot_decomp_rate = 0.1
      crop_flag = 0
      wheat harvest
      wheat end_crop
-!     residue2 reset
+!     surfaceom reset
    endif
 
 ! if pasture has failed reset crop_flag to allow sorghum to sow
@@ -1007,7 +1007,7 @@ pot_decomp_rate = 0.1
      sorghum harvest 
      sorghum kill_crop 
      sorghum end_crop
-     residue2 tillage type=graze ()
+     surfaceom tillage type=graze ()
    endif
 
 !  If we fail to get a sorghum-planting opportunity then set crop_flag to 1 so that wheat will sow
@@ -1062,7 +1062,7 @@ pot_decomp_rate = 0.1
      crop_flag = 0
      wheat harvest
      wheat end_crop
-!     residue2 reset
+!     surfaceom reset
    endif
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -1096,7 +1096,7 @@ pot_decomp_rate = 0.1
      crop_flag = 0
      wheat harvest
      wheat end_crop
-!     residue2 reset
+!     surfaceom reset
    endif
 
 ! if pasture has failed reset crop_flag to allow sorghum to sow
@@ -1157,7 +1157,7 @@ pot_decomp_rate = 0.1
      sorghum harvest 
      sorghum kill_crop 
      sorghum end_crop
-     residue2 tillage type=graze ()
+     surfaceom tillage type=graze ()
    endif
 
 !  If we fail to get a sorghum-planting opportunity then set crop_flag to 1 so that wheat will sow
@@ -1212,7 +1212,7 @@ pot_decomp_rate = 0.1
      crop_flag = 0
      wheat harvest
      wheat end_crop
-!     residue2 reset
+!     surfaceom reset
    endif
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -1246,7 +1246,7 @@ pot_decomp_rate = 0.1
      crop_flag = 0
      wheat harvest
      wheat end_crop
-!     residue2 reset
+!     surfaceom reset
    endif
 
 ! if pasture has failed reset crop_flag to allow sorghum to sow
@@ -1319,7 +1319,7 @@ pot_decomp_rate = 0.1
      crop_flag = 3
      wheat harvest 
      wheat end_crop
-!     residue2 reset
+!     surfaceom reset
    endif
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -1353,7 +1353,7 @@ pot_decomp_rate = 0.1
      crop_flag = 0
      wheat harvest
      wheat end_crop
-!     residue2 reset
+!     surfaceom reset
    endif
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -1398,7 +1398,7 @@ pot_decomp_rate = 0.1
      sorghum harvest 
      sorghum kill_crop 
      sorghum end_crop
-     residue2 tillage type=graze ()
+     surfaceom tillage type=graze ()
    endif
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -1445,7 +1445,7 @@ pot_decomp_rate = 0.1
      crop_flag = 0
      wheat harvest
      wheat end_crop
-!     residue2 reset
+!     surfaceom reset
      soilwat2 init 
    endif
 
@@ -1502,7 +1502,7 @@ pot_decomp_rate = 0.1
      report do_output
      wheat harvest
      wheat end_crop
-!     residue2 reset
+!     surfaceom reset
      soilwat2 init 
    endif
 

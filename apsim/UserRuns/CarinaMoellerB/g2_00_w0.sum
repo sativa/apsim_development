@@ -18,7 +18,7 @@
      Component DLL          = c:\development\apsim\input\lib\input.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
 
@@ -67,7 +67,7 @@
      
      SECTION:- start_of_day
      if day = 355 and year = 1999 then
-           residue2 tillage type = planter, f_incorp = 1.0 (0-1), tillage_depth = 150 (mm)
+           surfaceom tillage type = planter, f_incorp = 1.0 (0-1), tillage_depth = 150 (mm)
      endif
      if day = 356 and year = 1999 then
         chickpea sow cultivar = ghab2, plants = 50 (/m2), sowing_depth = 65 (mm)
@@ -180,30 +180,29 @@
             CONA:                     5.00 ()
            Eo from priestly-taylor
 
-------- residue2 Initialisation -----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = wheat
+      Residue type = wheat
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  120.000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  120.000008
+      Lying lignin mass =  200.000000
+                            C:N =  120.000000
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-              2000.0     6.7     0.0  wheat
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100   120.0     0.0       F       no
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -268,8 +267,8 @@
      Manager creating a new local real variable : ddas =     0.00000000000000
      Manager creating a new local real variable : wat_mm_1_4 =     74.8829994000000
 21 December 1999(Day of year=355), manager: 
-     Manager sending message :- residue2 tillage  type = planter, f_incorp = 1.0 (0-1), tillage_depth = 150 (mm)
-21 December 1999(Day of year=355), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter, f_incorp = 1.0 (0-1), tillage_depth = 150 (mm)
+21 December 1999(Day of year=355), SurfaceOM: 
      Residue removed using planter
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =   150.00

@@ -16,7 +16,7 @@ end_date=30/6/1999
 
 
 if day = 355 and year = 1999 then
-      residue2 tillage type = planter, f_incorp = 1.0 (0-1), tillage_depth = 150 (mm)
+      surfaceom tillage type = planter, f_incorp = 1.0 (0-1), tillage_depth = 150 (mm)
 endif
 
 
@@ -49,7 +49,7 @@ amount = 41   30   15.0  44.6  32.0  22.0  23.6
 [g299.manager.start_of_day]
 
 if day = 332 and year = 1998 then
-      residue2 tillage type = planter, f_incorp = 1.0 (0-1), tillage_depth = 150 (mm)
+      surfaceom tillage type = planter, f_incorp = 1.0 (0-1), tillage_depth = 150 (mm)
 endif
 
        

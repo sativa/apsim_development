@@ -183,24 +183,9 @@ tav = 17.5994  ! mean ann. air temp. (oC), long term
 !******************** ini residues **************************************************************************
 ! RESIDUES
 
-[b7cp99.residue2.parameters]
+[b2cp00.SurfaceOM.parameters]
 
-  residue_wt      = 400      ! initial residues (kg/ha), residues wheat experiment harvest 9899: ~5.6t
-  residue_cnr     = 100  ()  ! cn ratio of surface residues, C:N 140 for fresh wheat straw
-  residue_type    = wheat    ! wheat residues
-  pot_decomp_rate = 0.1  ()  ! POTENTIAL decomposition rate of residues (day-1)
-  
-  
-  
-[b2cp00.residue2.parameters]
-
-  residue_wt      = 300      ! initial residues (kg/ha), residues wheat harvest 9899: ~5.6t
-  residue_cnr     = 100  ()  ! cn ratio of surface residues
-  residue_type    = wheat    ! wheat residues
-  pot_decomp_rate = 0.1  ()  ! POTENTIAL decomposition rate of residues (day-1)
-  
-  
-
-                             
-
-
+mass = 300      ! initial residues (kg/ha), residues wheat harvest 9899: ~5.6t
+cnr = 100  ()  ! cn ratio of surface residues
+type = wheat    ! wheat residues
+name = wheat
