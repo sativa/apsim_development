@@ -55,6 +55,8 @@
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
+     
+     SECTION:- start_of_day
      if day = 169 and year = 1988 then
         wheat sow cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
      endif
@@ -62,9 +64,13 @@
         wheat harvest
         wheat end_crop
      endif
+     
+     SECTION:- end_of_day
      if (wheat.stage >= 0 and wheat.stage <12 ) then
         report do_output
      endif
+     END of rules
+     
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
