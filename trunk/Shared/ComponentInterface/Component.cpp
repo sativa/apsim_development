@@ -7,7 +7,6 @@
 #include "Registrations.h"
 #include <ApsimShared\FApsimComponentData.h>
 #include <limits.h>
-#include <string>
 #define FARPROC void*
 using namespace protocol;
 

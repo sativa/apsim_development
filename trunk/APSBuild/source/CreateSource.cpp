@@ -44,7 +44,7 @@ std::string ddmlKindToFOR(const std::string& kind)
    else if (Str_i_Eq(kind, "char"))
       return "character(len=1)";
    else if (Str_i_Eq(kind, "string"))
-      return "string";
+      return "character(len=100)";
    else
       return "????";
    }
@@ -65,6 +65,8 @@ void CreateSource::go(const std::string& ddml,
    hpp << "#define DataTypesH\n";
    hpp << "#include <ComponentInterface\\MessageData.h>\n";
    hpp << "#include <ComponentInterface\\MessageDataExt.h>\n";
+   hpp << "#include <vector>\n";
+   hpp << "#include <string>\n";
    hpp << "namespace protocol {\n";
    hpp << endl;
    cpp << "#include \"DataTypes.h\"\n";
