@@ -24,8 +24,9 @@ simulation_end_year = 1988
 
 if day = 130 and year  = 1988 then
    fababean sow cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
+endif
 
-elseif day = 290 and year = 1988 then
+if fababean.stage_name = 'harvest_ripe' or fababean.plant_status = 'dead' then
    fababean harvest
    fababean end_crop   
 

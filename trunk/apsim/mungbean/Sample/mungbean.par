@@ -24,8 +24,9 @@ simulation_end_year = 1989
 
 if day = 330 and year  = 1988 then
    mungbean sow cultivar = berken, plants = 25 (/m2), sowing_depth = 40 (mm)
+endif
 
-elseif day = 50 and year = 1989 then
+if mungbean.stage_name = 'harvest_ripe' or mungbean.plant_status = 'dead' then
    mungbean harvest
    mungbean end_crop   
 

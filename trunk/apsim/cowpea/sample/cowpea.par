@@ -24,8 +24,9 @@ simulation_end_year = 1989
 
 if day = 330 and year  = 1988 then
    cowpea sow cultivar = banjo, plants = 25 (/m2), sowing_depth = 40 (mm)
+endif
 
-elseif day = 50 and year = 1989 then
+if cowpea.stage_name = 'harvest_ripe' or cowpea.plant_status = 'dead' then
    cowpea harvest
    cowpea end_crop   
 

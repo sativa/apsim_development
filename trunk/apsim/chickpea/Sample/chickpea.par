@@ -24,8 +24,9 @@ simulation_end_year = 1988
 
 if day = 130 and year  = 1988 then
    chickpea sow cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
+endif
 
-elseif day = 290 and year = 1988 then
+if chickpea.stage_name = 'harvest_ripe' or chickpea.plant_status = 'dead' then
    chickpea harvest
    chickpea end_crop   
 
