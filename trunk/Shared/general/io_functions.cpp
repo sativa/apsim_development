@@ -30,9 +30,11 @@ void GENERAL_EXPORT Get_directory_listing (const char* Directory_name,
    done = FindFirst(p.Get_path().c_str(), Attribute, SearchRec);
    while (!done)
       {
+      bool NormalFile = ((SearchRec.Attr & faAnyFile) == 0);
       if (SearchRec.Name != "." &&
           SearchRec.Name != ".." &&
-          (SearchRec.Attr & Attribute) > 0)
+          ((Attribute == faAnyFile && NormalFile) ||
+            SearchRec.Attr & Attribute) > 0)
          {
          Path p;
          if (Full_path)
