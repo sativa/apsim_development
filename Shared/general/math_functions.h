@@ -1,6 +1,7 @@
 #if !defined (MATH_FUNCTIONS_H)
 #define MATH_FUNCTIONS_H
 
+#include <algorith>
 // ------------------------------------------------------------------
 //  Short description:
 //    cycle through a number series from 1 to Max_number.
@@ -45,6 +46,228 @@ struct Regr_stats
 // ------------------------------------------------------------------
 void Calc_regression_stats (double X[], double Y[], int Num_points,
                             Regr_stats& stats);
+
+// ------------------------------------------------------------------
+//  Short description:
+//     function that takes 2 containers of numbers and multiplies
+//     both together and then returns the sum.
+
+//  Notes:
+//     eg:   x1*y1 + x2*y2 + x3*y3 ...
+
+//  Changes:
+//    DPH 28/10/97
+
+// ------------------------------------------------------------------
+template < class container >
+double multiply_accumulate (container& container1, container& container2)
+   {
+   double Total = 0;
+
+   container::iterator iterator1 = container1.begin();
+   container::iterator iterator2 = container2.begin();
+   while (iterator1 != container1.end() &&
+          iterator2 != container2.end())
+      {
+      Total += *iterator1 * *iterator2;
+      iterator1++;
+      iterator2++;
+      }
+
+   return Total;
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//     container3 = container1 + container2
+
+//  Notes:
+
+//  Changes:
+//    DPH 28/10/97
+
+// ------------------------------------------------------------------
+template < class container >
+container add (container& container1, container& container2)
+   {
+   container return_container;
+
+   container::iterator iterator1 = container1.begin();
+   container::iterator iterator2 = container2.begin();
+   while (iterator1 != container1.end() &&
+          iterator2 != container2.end())
+      {
+      return_container.push_back ( *iterator1 + *iterator2 );
+      iterator1++;
+      iterator2++;
+      }
+   return return_container;
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//     container3 = container1 - container2
+
+//  Notes:
+
+//  Changes:
+//    DPH 28/10/97
+
+// ------------------------------------------------------------------
+template < class container >
+container subtract (container& container1, container& container2)
+   {
+   container return_container;
+
+   container::iterator iterator1 = container1.begin();
+   container::iterator iterator2 = container2.begin();
+   while (iterator1 != container1.end() &&
+          iterator2 != container2.end())
+      {
+      return_container.push_back ( *iterator1 - *iterator2 );
+      iterator1++;
+      iterator2++;
+      }
+   return return_container;
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//     container3 = container1 * container2
+
+//  Notes:
+
+//  Changes:
+//    DPH 28/10/97
+
+// ------------------------------------------------------------------
+template < class container >
+container multiply (container& container1, container& container2)
+   {
+   container return_container;
+
+   container::iterator iterator1 = container1.begin();
+   container::iterator iterator2 = container2.begin();
+   while (iterator1 != container1.end() &&
+          iterator2 != container2.end())
+      {
+      return_container.push_back ( *iterator1 * *iterator2 );
+      iterator1++;
+      iterator2++;
+      }
+   return return_container;
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//     container3 = container1 / container2
+
+//  Notes:
+
+//  Changes:
+//    DPH 28/10/97
+
+// ------------------------------------------------------------------
+template < class container >
+container devide (container& container1, container& container2)
+   {
+   container return_container;
+
+   container::iterator iterator1 = container1.begin();
+   container::iterator iterator2 = container2.begin();
+   while (iterator1 != container1.end() &&
+          iterator2 != container2.end())
+      {
+      return_container.push_back ( *iterator1 / *iterator2 );
+      iterator1++;
+      iterator2++;
+      }
+   return return_container;
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//     container1 += value
+
+//  Notes:
+
+//  Changes:
+//    DPH 28/10/97
+
+// ------------------------------------------------------------------
+template < class container_type, class value_type >
+void add_value (container_type& container1, value_type value)
+   {
+   container_type::iterator iterator1 = container1.begin();
+   while (iterator1 != container1.end())
+      {
+      *iterator1 += value;
+      ++iterator1;
+      }
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//     container1 -= value
+
+//  Notes:
+
+//  Changes:
+//    DPH 28/10/97
+
+// ------------------------------------------------------------------
+template < class container_type, class value_type >
+void subtract_value (container_type& container1, value_type value)
+   {
+   container_type::iterator iterator1 = container1.begin();
+   while (iterator1 != container1.end())
+      {
+      *iterator1 -= value;
+      ++iterator1;
+      }
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//     container1 *= value
+
+//  Notes:
+
+//  Changes:
+//    DPH 28/10/97
+
+// ------------------------------------------------------------------
+template < class container_type, class value_type >
+void multiply_value (container_type& container1, value_type value)
+   {
+   container_type::iterator iterator1 = container1.begin();
+   while (iterator1 != container1.end())
+      {
+      *iterator1 *= value;
+      ++iterator1;
+      }
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//     container1 /= value
+
+//  Notes:
+
+//  Changes:
+//    DPH 28/10/97
+
+// ------------------------------------------------------------------
+template < class container_type, class value_type >
+void devide_value (container_type& container1, value_type value)
+   {
+   container_type::iterator iterator1 = container1.begin();
+   while (iterator1 != container1.end())
+      {
+      *iterator1 /= value;
+      ++iterator1;
+      }
+   }
 
 #endif
 
