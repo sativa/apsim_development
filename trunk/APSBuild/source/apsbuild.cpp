@@ -16,6 +16,8 @@ USEFORM("TMainForm.cpp", MainForm);
 USEUNIT("CompileThread.cpp");
 USELIB("general.lib");
 USELIB("aps32.lib");
+USEUNIT("ComponentInterfaceGenerator.cpp");
+USELIB("odl.lib");
 //---------------------------------------------------------------------------
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
    {
@@ -66,7 +68,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
          {
    		Application->Initialize();
 	   	Application->CreateForm(__classid(TMainForm), &MainForm);
-         MainForm->ProjectFiles = Files;
+       MainForm->ProjectFiles = Files;
          MainForm->Build = Do_build;
          MainForm->Debug = Do_debug;
          MainForm->Quiet = Is_quiet;
