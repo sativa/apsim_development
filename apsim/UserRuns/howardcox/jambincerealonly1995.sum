@@ -749,7 +749,7 @@
           ---------------------------------------------------------
 
 ------- wheat Initialisation --------------------------------------------------
-      Initialising
+      initialising
 
 ------- sorghum Initialisation ------------------------------------------------
       Initialising, V1.0 2000.01.21
@@ -765,69 +765,60 @@
 30 June 1940(Day of year=182), manager: 
      Manager sending message :- wheat sow  plants = 80 (/m2), sowing_depth = 30 (mm), cultivar = hartog
 30 June 1940(Day of year=182), wheat: 
-     Sow
-     
-      - Reading constants for plant
-     
-        - Reading Cultivar Parameters
+     Crop Sow
+      - reading constants for plant(wheat)
+      - reading cultivar parameters
          ------------------------------------------------
-         Cultivar                   = hartog
-         est_days_emerg_to_init     =        0
-         cum_vernal_days            =
-         tt_emerg_to_endjuv         =
-         x_pp_endjuv_to_init        =
-         y_tt_endjuv_to_init        =
-         x_pp_init_to_flower        =
-         y_tt_init_to_flower        =
-         x_pp_flower_to_start_grain =
-         y_tt_flower_to_start_grain =
-         x_pp_start_to_end_grain    =
-         y_tt_start_to_end_grain    =
-         tt_end_grain_to_maturity   =      0.0
-         tt_maturity_to_ripe        =      0.0
-         x_pp_hi_incr               =     1.00   24.00
-         y_hi_incr                  =  0.01300 0.01300
-         x_hi_max_pot_stress        =     0.00    1.00
-         y_hi_max_pot               =     0.50    0.50
-         x_stem_wt                  =     0.00    6.00
-         y_height                   =     0.00 1500.00
+        cultivar                   = hartog
+        est_days_emerg_to_init     =        0
+        cum_vernal_days            =
+        tt_emerg_to_endjuv         =
+        x_pp_endjuv_to_init        =
+        y_tt_endjuv_to_init        =
+        x_pp_init_to_flower        =
+        y_tt_init_to_flower        =
+        x_pp_flower_to_start_grain =
+        y_tt_flower_to_start_grain =
+        x_pp_start_to_end_grain    =
+        y_tt_start_to_end_grain    =
+        tt_end_grain_to_maturity   =       0.00
+        tt_maturity_to_ripe        =       0.00
+        x_pp_hi_incr               =       1.00      24.00
+        y_hi_incr                  =     0.0130     0.0130
+        x_hi_max_pot_stress        =       0.00       1.00
+        y_hi_max_pot               =       0.50       0.50
+        x_stem_wt                  =       0.00       6.00
+        y_height                   =       0.00    1500.00
          ------------------------------------------------
      
      
-     
-     
-        - Reading root profile parameters
-     
-     
-                         Root Profile
+        - reading root profile parameters
+                        Root Profile
      ---------------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
      ---------------------------------------------------
-          150.0     0.070          0.100       1.000
-          150.0     0.070          0.110       1.000
-          300.0     0.070          0.110       1.000
-          300.0     0.070          0.120       1.000
-          300.0     0.070          0.180       1.000
+         150.0     0.070          0.100       1.000
+         150.0     0.070          0.110       1.000
+         300.0     0.070          0.110       1.000
+         300.0     0.070          0.120       1.000
+         300.0     0.070          0.180       1.000
      ---------------------------------------------------
      
-     
-       Crop factor for bounding water use is set to   1.1 times Eo
-     
+     (Crop factor for bounding water use is set to   1.1 times eo)
      
                       Crop Sowing Data
          ------------------------------------------------
          Sowing  Depth Plants Spacing Skip  Skip  Cultivar
-         Day no   mm     m^2     mm   Row   Plant Name
+         Day no   mm     m^2     mm   row   plant name
          ------------------------------------------------
-            182   30.0   80.0  250.0   0.0   0.0  hartog
+            182   30.0   80.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
-     
      
 8 August 1940(Day of year=221), wheat: 
       crop failure because of lack of
-              germination within 40. days of sowing
-         Plant Death. Standing above-ground dm =     0.0 (kg/ha)
+              germination within 40.0000 days of sowing
+     Plant death. standing above-ground dm = 0.00 (kg/ha)
 26 January 1989(Day of year=26), clock: 
      Simulation is terminating due to end criteria being met.
