@@ -79,6 +79,7 @@ __published:
    TToolButton *Select_simulation_button;
    TImage *LogoImage;
    TToolButton *NoChartButton;
+   TToolButton *CalendarButton;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Window_cascade(TObject *Sender);
 	void __fastcall UpdateMenuItems(TObject *Sender);
@@ -105,6 +106,7 @@ __published:
    void __fastcall FormShow(TObject *Sender);
    void __fastcall Evaluate(TObject *Sender);
    void __fastcall FormResize(TObject *Sender);
+   void __fastcall CalendarButtonClick(TObject *Sender);
 private:
    bool FixMDI;
 	void __fastcall CreateMDIChild(const String Name);

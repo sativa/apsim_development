@@ -1,6 +1,7 @@
 inherited ValueSelectPopup: TValueSelectPopup
   Left = 322
   Top = 256
+  BorderStyle = bsDialog
   Caption = ''
   ClientHeight = 302
   ClientWidth = 388
@@ -50,20 +51,20 @@ inherited ValueSelectPopup: TValueSelectPopup
     end
     object ApplyToCurrentButton: TButton
       Left = 8
-      Top = 16
+      Top = 48
       Width = 121
       Height = 25
       Caption = 'Apply to current'
-      Default = True
       TabOrder = 0
       OnClick = applyLabelClick
     end
     object ApplyToAllButton: TButton
       Left = 8
-      Top = 48
+      Top = 16
       Width = 121
       Height = 25
       Caption = 'Apply to all'
+      Default = True
       TabOrder = 1
       OnClick = applyToAllLabelClick
     end

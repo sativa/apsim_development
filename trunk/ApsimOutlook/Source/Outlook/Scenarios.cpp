@@ -351,6 +351,7 @@ void Scenarios::makeScenarioNamesValid(void)
 //---------------------------------------------------------------------------
 void Scenarios::save(const string& name)
    {
+   settings.refresh();
    // loop through all scenarios and tell each to write its state to the
    // specified string.
    vector<string> scenarioStates;
@@ -365,6 +366,7 @@ void Scenarios::save(const string& name)
 //---------------------------------------------------------------------------
 void Scenarios::restore(const string& name)
    {
+   settings.refresh();
    vector<string> scenarioStates;
    settings.read("Outlook Scenario " + name + "|scenario", scenarioStates);
    if (scenarioStates.size() > 0)
