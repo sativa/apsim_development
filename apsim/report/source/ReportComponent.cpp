@@ -42,10 +42,11 @@ Field::Field (protocol::Component* p,
    fieldWidth = 0;
 
    // at this stage simply register an interest in the variable.
-   string fullName = ModuleName + "." + VariableName;
    variableID = parent->addRegistration(protocol::getVariableReg,
-                                        fullName.c_str(),
-                                        stringArrayType);
+                                        VariableName.c_str(),
+                                        stringArrayType,
+                                        "",
+                                        ModuleName.c_str());
    }
 
 // ------------------------------------------------------------------
