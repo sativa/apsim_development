@@ -210,9 +210,13 @@ object MainForm: TMainForm
     Width = 653
     Height = 437
     Align = alClient
+    PopupMenu = PagePopupMenu
     TabOrder = 4
     TabPosition = tpBottom
     OnChange = pageChanged
+    OnDragDrop = onDragDrop
+    OnDragOver = onDragOver
+    OnMouseDown = onMouseDown
   end
   object OpenDialog1: TOpenDialog
     DefaultExt = 'report'
@@ -1235,26 +1239,6 @@ object MainForm: TMainForm
       OnExecute = EditDataActionExecute
     end
   end
-  object FilePopupMenu: TPopupMenu
-    Images = ImageList1
-    Left = 376
-    Top = 104
-    object Rename1: TMenuItem
-      Caption = 'Rename'
-      ImageIndex = 8
-    end
-    object Delete1: TMenuItem
-      Caption = 'Delete'
-      ImageIndex = 5
-    end
-    object Copy1: TMenuItem
-      Action = CopyToClipboardAction
-    end
-    object Paste1: TMenuItem
-      Caption = 'Paste'
-      ImageIndex = 7
-    end
-  end
   object MRUFileList: TdfsMRUFileList
     UseRegistry = True
     SubmenuName = 'Reopen'
@@ -1268,5 +1252,21 @@ object MainForm: TMainForm
     AutoSaveKey = 'MRU Items'
     Left = 248
     Top = 104
+  end
+  object PagePopupMenu: TPopupMenu
+    Left = 376
+    Top = 104
+    object Addanewpage1: TMenuItem
+      Caption = '&Add a new page'
+      OnClick = addMenuItemClick
+    end
+    object Deletecurrentpage1: TMenuItem
+      Caption = '&Delete current page'
+      OnClick = deleteMenuItemClick
+    end
+    object Renamecurrentpage1: TMenuItem
+      Caption = '&Rename current page'
+      OnClick = renameMenuItemClick
+    end
   end
 end

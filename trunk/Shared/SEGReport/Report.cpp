@@ -270,14 +270,19 @@ void Report::updateObjectInspector(TComponent* component)
 //---------------------------------------------------------------------------
 // Create a page on the report.
 //---------------------------------------------------------------------------
-void Report::createPage(AnsiString pageName)
+AnsiString Report::createPage(void)
    {
+   unsigned pageNumber = 1;
+   while (getComponent<TQuickRep>(reportForm, "Page" + IntToStr(pageNumber)) != NULL)
+      pageNumber++;
+
+   AnsiString pageName = "Page" + IntToStr(pageNumber);
    if (pages.size() != 0)
       isDirty = true;
 
    TQuickRep* newPage = new TQuickRep(reportForm);
    newPage->Parent = scrollBox;
-   newPage->Name = "QuickRep" + pageName;
+   newPage->Name = pageName;
    newPage->Units = MM;
    newPage->Page->Ruler = false;
    newPage->Frame->Style = psClear;
@@ -292,15 +297,14 @@ void Report::createPage(AnsiString pageName)
 
    pages.push_back(newPage);
    showPage(pages.size()-1);
+   return pageName;
    }
 //---------------------------------------------------------------------------
 // Get a page name for a particular page.
 //---------------------------------------------------------------------------
 AnsiString getPageName(TQuickRep* page)
    {
-   AnsiString objectName = page->Name;
-   return objectName.SubString(strlen("QuickRep")+1,
-                               objectName.Length()-strlen("QuickRep"));
+   return page->Name;
    }
 //---------------------------------------------------------------------------
 // Return a list of page names.
