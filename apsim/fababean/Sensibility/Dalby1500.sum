@@ -3316,7 +3316,7 @@
                      stover N conc =     1.44 (%)    extractable sw =   34.94 (mm)
 16 October 1974(Day of year=289), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         946.11 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         946.12 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.46 (%)    extractable sw =   30.60 (mm)
 16 October 1974(Day of year=289), manager: 
      Manager sending message :- fababean harvest
@@ -4007,6 +4007,14 @@
                      biomass =         828.68 (g/m^2)   lai          =   5.971 (m^2/m^2)
                      stover N conc =     2.35 (%)    extractable sw =  106.34 (mm)
 11 October 1978(Day of year=284), Fababean: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     dm_retranslocate mass balance of fruit is off: -0.000002 vs 0.000000
+     Component name: Fababean
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
       stage 8.0 end_grain_fill
                      biomass =        1413.15 (g/m^2)   lai          =   3.373 (m^2/m^2)
                      stover N conc =     2.12 (%)    extractable sw =   17.10 (mm)
@@ -5060,7 +5068,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dm_retranslocate mass balance is off: -0.000002 vs 0.000000
+     dm_retranslocate mass balance of fruit is off: -0.000002 vs 0.000000
      Component name: Fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -5108,11 +5116,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               6335.39                    0.00
+                          DM (kg/ha) =               6335.38                    0.00
                           N  (kg/ha) =                129.95                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               5614.19                    0.00
+                          DM (kg/ha) =               5614.20                    0.00
                           N  (kg/ha) =                252.64                    0.00
      
       stage 11.0 end_crop
@@ -5607,7 +5615,7 @@
 14 October 1987(Day of year=287), Fababean: 
      
       flowering day          =  201                           stover (kg/ha)         =     4802.1
-      maturity day           =  286                           grain yield (kg/ha)    =     2256.8
+      maturity day           =  286                           grain yield (kg/ha)    =     2256.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2579.3
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      5.750
@@ -5769,7 +5777,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dm_retranslocate mass balance is off: 0.000002 vs 0.000000
+     dm_retranslocate mass balance of fruit is off: 0.000002 vs 0.000000
      Component name: Fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
