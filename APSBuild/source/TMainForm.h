@@ -46,6 +46,7 @@ public:		// User declarations
    bool Quiet;
    bool Stdout;
    string CompileType;
+   string OutFile;
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TMainForm *MainForm;
