@@ -1005,7 +1005,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 ! ====================================================================
       recursive subroutine Parse_get_variable
-     .                 (Variable_Name, Variable_Value)
+     .                 (Variable_Name, Variable_Value, valueIsReal)
 ! ====================================================================
       Use Infrastructure
       implicit none
@@ -1013,6 +1013,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !+  Sub-Program Arguments
       character     Variable_Name*(*)  ! (INPUT) name of variable
       character     Variable_Value*(*) ! (OUTPUT) return value of variable
+      logical       valueIsReal        ! (OUTPUT) returns true if value is a real.
 
 !+  Purpose
 !     The parse routine has requested a variable.  Return value to it.
@@ -1040,7 +1041,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
       character todayStr*(50)
       integer modNameID                ! ID for module.
       integer regID
-      logical ok
+      logical ok  
+      real  value
 
 !- Implementation Section ----------------------------------
 
@@ -1053,6 +1055,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
          call string_to_double_var (Todaystr, Today, numvals)
          call Double_var_to_string (Date(Params(1), Today),
      .                              Variable_value)
+         valueIsReal = .false.
 
       else if (variable_name(1:12) .eq. 'date_within(') then
          ! get parameters from string.
@@ -1068,10 +1071,11 @@ C     Last change:  P    25 Oct 2000    9:26 am
          else
             Variable_value = '0'
          endif
+         valueIsReal = .true.
 
       else if (variable_name(1:12) .eq. 'nearest_int(') then
          call Manager_get_params (variable_name, Params)
-         call parse_get_variable(params(1), variable_value)
+         call parse_get_variable(params(1), variable_value, valueIsReal)
          call string_to_double_var(variable_value, d_var_val, numvals)
          if (numvals .ne. 1) then
             call fatal_error(ERR_user,
@@ -1079,7 +1083,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
          else
             d_var_val = dnint(d_var_val)
             call double_var_to_string (d_var_val, variable_value)
-         end if
+         end if 
+         valueIsReal = .true.
 
       else
          Is_apsim_variable = (index(variable_name, '.') .gt. 0)
@@ -1091,11 +1096,15 @@ C     Last change:  P    25 Oct 2000    9:26 am
                call Get_char_var
      .              (modNameID, Var_name, '()',
      .               Variable_value, Numvals)
+               call string_to_real_var (Variable_value, value, numvals)              
+               valueIsReal = (numvals .gt. 0) 
+
             else                      
                str = 'Cannot find APSIM variable: ' 
      .                // Trim(variable_name)
                call error(str, .true.)
                Variable_value = ' '
+               valueIsReal = .false.
             endif
 
          else
@@ -1125,15 +1134,19 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .               trim(variable_name),
      .               ' = 0'
                   call Write_string (str)
+                  valueIsReal = .true.
 
                else
                   ! Found variable elsewhere in APSIM
+                  call string_to_real_var 
+     .                     (Variable_value, value, numvals)              
+                  valueIsReal = (numvals .gt. 0) 
                endif
 
-            else
+            else 
                call assign_string (Variable_value
      .                      , g%local_variable_values(Variable_index))
-
+               valueIsReal = g%local_variable_is_real(variable_index)
             endif
          endif
 
@@ -1215,7 +1228,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
             if (Numvals .eq. 0) then
                ! Add variable to local variable list.
-
+                                             
                call manager_new_local_variable(variable_name,
      .              Variable_value, isString)
 
@@ -2561,14 +2574,20 @@ c      end subroutine
        character     Variable_value*(Buffer_size)
                                           ! Value to push on g%stack
        character     Temp*(Buffer_size)
+       logical valueIsReal
 
 !- Implementation Section ----------------------------------
 
        if (g%token .eq. C_WORD) then
-          call   Parse_get_variable(g%buffer, Variable_Value)
-
-          call assign_string (Temp, Real_or_not(Variable_Value))
-
+          call   Parse_get_variable
+     .         (g%buffer, Variable_Value, valueIsReal)
+           
+          if (valueIsReal) then
+             call assign_string (Temp, Real_or_not(Variable_Value))
+          else
+             call assign_string (Temp, Variable_value)
+          endif
+          
           call   push_stack(Temp)
 
           call   Get_sub_token
