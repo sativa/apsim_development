@@ -94,7 +94,7 @@ c      c => Instances(anInstanceNo)%cptr
       call push_routine (myname)
  
 cnh      call set_warning_off ()
- 
+
       if (Action.eq.ACTION_Init) then
          call map_Init ()
  
@@ -104,6 +104,9 @@ cnh      call set_warning_off ()
       else if (Action.eq.ACTION_Set_variable) then
          call map_Set_my_variable (data_string)
  
+      else if (Action.eq.ACTION_Create) then
+         call map_zero_variables ()
+
       else
          ! Don't use message
          call Message_unused ()
@@ -187,7 +190,7 @@ cnh      call set_warning_off ()
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
 !arrays
       call fill_real_array(g%row_sum,0.0,max_size)
       call fill_real_array(g%dlayer,0.0,max_size)
@@ -197,11 +200,14 @@ cnh      call set_warning_off ()
       call fill_real_array(g%sim_start,0.0,max_size)
       call fill_real_array(g%sim_end,0.0,max_size)
       call fill_real_array(g%sw,0.0,max_size)
+      call fill_real_array(g%bd,0.0,max_size)
+      call fill_real_array(g%satpaste_wc,0.0,max_size)
  
       call fill_char_array(p%arrays2sum_names,' ',max_arrays)
       call fill_char_array(p%arrays2ave_names,' ',max_arrays)
       call fill_char_array(p%arrays2conc_names,' ',max_arrays)
       call fill_char_array(p%arrays2concsw_names,' ',max_arrays)
+      call fill_char_array(p%arrays2satpaste_names,' ',max_arrays)
       do out=1,max_size
          do in=1,max_size
             g%coeffs(out,in) = 0.0
@@ -215,6 +221,8 @@ cnh      call set_warning_off ()
       p%num2ave = 0
       p%num2conc = 0
       p%num2concsw = 0
+      p%num2satpaste = 0
+
  
 !logical
       g%update = .true.
