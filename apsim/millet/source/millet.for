@@ -4486,7 +4486,7 @@ cjh special for erik - end
 *+  Local Variables
 !      integer supply_pools(num_supply_pools)
 !      data supply_pools /stem,leaf/
-1      save /supply_pools/
+!      save /supply_pools/
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -5202,8 +5202,8 @@ cjh special for erik - end
 *     5/9/96 dph
 
 *+  Constant Values
-      integer num_demand_parts
-      parameter (num_demand_parts = 4)
+!jh      integer num_demand_parts
+!jh      parameter (num_demand_parts = 4)
 *
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'millet_nit_demand')
@@ -5211,9 +5211,9 @@ cjh special for erik - end
 *+  Local Variables
       real    dlt_dm_pot_radn         ! pot dm production given radn
       integer current_phase
-      integer demand_parts(num_demand_parts)
-      data demand_parts /root,leaf,stem,flower/
-      save /demand_parts/
+!jh      integer demand_parts(num_demand_parts)
+!jh      data demand_parts /root,leaf,stem,flower/
+!jh      save /demand_parts/
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -5853,8 +5853,8 @@ csc  true....
 *     14-05-1997 - huth - Programmed and Specified
 
 *+  Constant Values
-      integer num_demand_parts
-      parameter (num_demand_parts = 4)
+!jh      integer num_demand_parts
+!jh      parameter (num_demand_parts = 4)
 *
       character*(*) myname               ! name of current procedure
       parameter (myname = 'millet_nit_demand_est')
@@ -5867,9 +5867,9 @@ csc  true....
       real    dm_green_tot            ! total dm green
       integer part                    ! simple plant part counter
 *
-      integer demand_parts(num_demand_parts)
-      data demand_parts /root,leaf,stem,flower/
-      save /demand_parts/
+!jh      integer demand_parts(num_demand_parts)
+!jh      data demand_parts /root,leaf,stem,flower/
+!jh      save /demand_parts/
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
