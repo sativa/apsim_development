@@ -27,12 +27,12 @@ class IniFile
 
       void read(const std::string& section,
                 const std::string& key,
-                std::string& value);
+                std::string& value) const;
       void read(const std::string& section,
                 const std::string& key,
-                std::vector<std::string>& values);
-      void readSectionNames(std::vector<std::string>& sections);
-      void readSection(const std::string& section, std::string& contents);
+                std::vector<std::string>& values) const;
+      void readSectionNames(std::vector<std::string>& sections) const;
+      void readSection(const std::string& section, std::string& contents) const;
       void writeSection(const std::string& section, const std::string& contents);
 
       void write(const std::string& section,
@@ -45,10 +45,11 @@ class IniFile
       void deleteKey(const std::string& section, const std::string& key);
       void deleteKeys(const std::string& section, const std::string& key);
       void deleteSection(const std::string& Section);
-      void getKeysInSection(const std::string& section, std::vector<std::string>& keys);
+      void getKeysInSection(const std::string& section,
+                            std::vector<std::string>& keys) const;
 
    private:
-      void flush(void);
+      void flush(void) const;
       std::string fileName;
    };
 

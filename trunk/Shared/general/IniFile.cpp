@@ -37,14 +37,14 @@ void IniFile::setFileName(const string& filename)
 // ------------------------------------------------------------------
 // Tell windows (95 especially) to flush the ini cache to disk.
 // ------------------------------------------------------------------
-void IniFile::flush(void)
+void IniFile::flush(void) const
    {
    WritePrivateProfileString(NULL, NULL, NULL, fileName.c_str());
    }
 // ------------------------------------------------------------------
 // Read and return a string from the .ini file.
 // ------------------------------------------------------------------
-void IniFile::read(const string& section, const string& key, string& value)
+void IniFile::read(const string& section, const string& key, string& value) const
    {
    char st[INI_STRING_SIZE];
    GetPrivateProfileString(section.c_str(), key.c_str(), "",
@@ -54,7 +54,8 @@ void IniFile::read(const string& section, const string& key, string& value)
 // ------------------------------------------------------------------
 // Read and return a list of strings
 // ------------------------------------------------------------------
-void IniFile::read(const string& section, const string& key, vector<string>& values)
+void IniFile::read(const string& section, const string& key,
+                   vector<string>& values) const
 	{
    values.erase(values.begin(), values.end());
    string line;
@@ -84,7 +85,7 @@ void IniFile::read(const string& section, const string& key, vector<string>& val
 // ------------------------------------------------------------------
 // Read and return a list of section names.
 // ------------------------------------------------------------------
-void IniFile::readSectionNames(vector<string>& sections)
+void IniFile::readSectionNames(vector<string>& sections) const
 	{
    sections.erase(sections.begin(), sections.end());
 
@@ -96,7 +97,7 @@ void IniFile::readSectionNames(vector<string>& sections)
 // ------------------------------------------------------------------
 // Read and return the contents of the specified section.
 // ------------------------------------------------------------------
-void IniFile::readSection(const string& section, string& contents)
+void IniFile::readSection(const string& section, string& contents) const
 	{
    contents = "";
    string line;
@@ -322,7 +323,8 @@ void IniFile::deleteSection(const string& section)
 // ------------------------------------------------------------------
 // Return a complete list of all keys in the specified section.
 // ------------------------------------------------------------------
-void IniFile::getKeysInSection(const string& section, vector<string>& keys)
+void IniFile::getKeysInSection(const string& section,
+                               vector<string>& keys) const
 	{
    string sectionContents;
    readSection(section, sectionContents);
