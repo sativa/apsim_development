@@ -100,6 +100,32 @@ void getDBFieldValues(TDataSet* dataset,
                           "\nDataset: " + dataset->Name.c_str());
       }
    }
+// ------------------------------------------------------------------
+// This routine loops through all records from First to Eof on the
+// specified dataset and returns a vector of numbers for the specified field.
+// Will through runtime_error if cannot convert the values to a float.
+// ------------------------------------------------------------------
+void getDBFieldValues(TDataSet* dataset,
+                      const string& fieldName,
+                      vector<unsigned>& values)
+   {
+   try
+      {
+      dataset->First();
+      while (!dataset->Eof)
+         {
+         values.push_back( StrToInt(dataset->FieldValues[fieldName.c_str()]) );
+         dataset->Next();
+         }
+      }
+   catch (...)
+      {
+      throw runtime_error("Cannot convert field to numerical value."
+                          "\nField: " + fieldName +
+                          "\nValue: " + AnsiString(dataset->FieldValues[fieldName.c_str()]).c_str() +
+                          "\nDataset: " + dataset->Name.c_str());
+      }
+   }
 
 // ------------------------------------------------------------------
 // This routine loops through all records from First to Eof on the
