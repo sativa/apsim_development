@@ -122,7 +122,8 @@
    <type name="solute_n_conc_water" kind="double" array="T" unit="" description=""/>
    <type name="solute_n_conc_absorb" kind="double" array="T" unit="" description=""/>
    <type name="EosCalculated" kind="single" unit="mm" description="potential soil water evaporation"/>
-
+   <type name="esw" kind="single" unit="mm" description="Extractable soil water"/>
+   
    <type name="SoilWaterProfileLayer" array="T">
       <element>
       <field name="thickness" kind="single" units="mm"/>
