@@ -43,7 +43,7 @@
 *   Constant values
 
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V1.3  28/2/97')
+      parameter (version_number = 'V1.4  04/4/97')
 
 *   Initial data values
 *       none
@@ -102,7 +102,7 @@
        character Action*(*)            ! Message action to perform
        character Data_String*(*)       ! Message data
 
-       character*40 Apswim_version     ! function
+       character Apswim_version*40     ! function
 
 *   Global variables
        include 'const.inc'             ! Global constant definitions
@@ -206,7 +206,7 @@
        character Event_string*40       ! String to output
 
 *   Constant values
-      character*(*) myname
+      character myname*(*)
       parameter (myname = 'apswim_init')
 
 *   Initial data values
@@ -830,7 +830,7 @@ c     :              1.0d0)
      :              '(mm)',
      :              hm1,
      :              numvals,
-     :              hm0+.01,
+     :              hm0+.01d0,
      :              1.0d3)
 
          call Read_double_var (
@@ -839,8 +839,8 @@ c     :              1.0d0)
      :              '(mm)',
      :              hmin,
      :              numvals,
-     :              hm0+.005,
-     :              hm1-.005)
+     :              hm0+.005d0,
+     :              hm1-.005d0)
 
          call Read_double_var (
      :              runoff_section,
@@ -1480,8 +1480,9 @@ cnh      print*,TD_pevap
      :            g_crop_cover)
 
 cnh added as per request by Dr Val Snow
-      !else if (Variable_name(:5) .eq. 'exco_') then
+
       else if (index(Variable_name,'exco_').eq.1) then
+
          solnum = apswim_solute_number (Variable_name(6:))
          do 200 node=0,n
             dble_exco(node) = ex(solnum,node)/rhob(node)
@@ -1493,8 +1494,8 @@ cnh added as per request by Dr Val Snow
      :            dble_exco(0),
      :            n+1)
 
-      !else if (Variable_name(:4) .eq. 'dis_') then
       else if (index(Variable_name,'dis_').eq.1) then
+
          solnum = apswim_solute_number (Variable_name(5:))
          do 300 node=0,n
             dble_dis(node) = dis(solnum,node)
@@ -1555,16 +1556,11 @@ cnh added as per request by Dr Val Snow
 *   Internal variables
       integer          node
       integer          numvals
-cnh because of an error in respond2set_double_array I need to use
-cnh reals for now - change later when bug is fixed
       double precision theta(0:M)
       double precision suction(0:M)
-      real real_theta(0:M)
-      real real_suction(0:M)
       integer solnum
-      real real_exco(0:M)
-      real real_dis(0:M)
-
+      double precision sol_exco(0:M)  ! solute exchange coefficient
+      double precision sol_dis(0:M)   ! solute dispersion coefficient
 
 *   Constant values
 *      none
@@ -1576,71 +1572,62 @@ cnh reals for now - change later when bug is fixed
 
       if (Variable_name .eq. 'sw') then
                        ! dont forget to change type of limits
-         call collect_real_array (
+         call collect_double_array (
      :              'sw',
      :              n+1,
      :              '(cc/cc)',
-     :              real_theta(0),
+     :              theta(0),
      :              numvals,
-     :              0.0,
-     :              1.0)
-
-         do 100 node=0,numvals-1
-            theta(node) = real_theta(node)
-  100    continue
+     :              0d0,
+     :              1d0)
 
          call apswim_reset_water_balance (1,theta)
 
       else if (Variable_name .eq. 'psi') then
                        ! dont forget to change type of limits
-         call collect_real_array (
+         call collect_double_array (
      :              'psi',
      :              n+1,
      :              '()',
-     :              real_suction(0),
+     :              suction(0),
      :              numvals,
-     :              -1.e10,
-     :              0.e0)
-
-         do 200 node=0,numvals-1
-            suction(node) = real_suction(node)
-  200    continue
+     :              -1.d10,
+     :              0.d0)
 
          call apswim_reset_water_balance (2,suction)
 
 cnh added as per request by Dr Val Snow
-      !else if (Variable_name(:5) .eq. 'exco_') then
+
       else if (index(Variable_name,'exco_').eq.1) then
-                       ! dont forget to change type of limits
+
          solnum = apswim_solute_number (Variable_name(6:))
-         call collect_real_array (
+         call collect_double_array (
      :              Variable_name,
      :              n+1,
      :              '()',
-     :              real_exco(0),
+     :              sol_exco(0),
      :              numvals,
      :              c_lb_exco,
      :              c_ub_exco)
 
          do 300 node=0,numvals-1
-            ex(solnum,node) = dble(real_exco(node))*rhob(node)
+            ex(solnum,node) = sol_exco(node)*rhob(node)
   300    continue
 
-      !else if (Variable_name(:4) .eq. 'dis_') then
       else if (index(Variable_name,'dis_').eq.1) then
-                       ! dont forget to change type of limits
+
          solnum = apswim_solute_number (Variable_name(5:))
-         call collect_real_array (
+         call collect_double_array (
      :              Variable_name,
      :              n+1,
      :              '()',
-     :              real_dis(0),
+     :              sol_dis(0),
      :              numvals,
      :              c_lb_dis,
      :              c_ub_dis)
 
          do 400 node=0,numvals-1
-            dis(solnum,node) = dble(real_dis(node))
+            dis(solnum,node) = sol_dis(node)
   400    continue
 
       elseif (Variable_name .eq. 'scon') then
@@ -1848,11 +1835,11 @@ cnh      slbp0 = 0d0
    20 continue
       slmin = 0.d0
       slmax = 0.d0
-      call fill_double_array (sl,0.0,MP)
-      call fill_double_array (wc,0.0,MP)
-      call fill_double_array (wcd,0.0,MP)
-      call fill_double_array (hkl,0.0,MP)
-      call fill_double_array (hkld,0.0,MP)
+      call fill_double_array (sl,0d0,MP)
+      call fill_double_array (wc,0d0,MP)
+      call fill_double_array (wcd,0d0,MP)
+      call fill_double_array (hkl,0d0,MP)
+      call fill_double_array (hkld,0d0,MP)
       ivap = 0
       hyscon = 0d0
 
@@ -2207,7 +2194,7 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 
 
       if (rainfall_source .eq. 'apsim') then
-         call apswim_get_other_rain_variables ()
+         call apswim_get_rain_variables ()
 
       else
          call apswim_read_logfile (
@@ -2400,7 +2387,7 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
        integer temp
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'dset2')
 
 *   Initial data values
@@ -2478,12 +2465,12 @@ c  100 continue
       integer          solnum
       double precision suction
       double precision thd
-      double precision tth
+c      double precision tth
       double precision thetaj, thetak, dthetaj, dthetak
       double precision hklgj, hklgk, dhklgj, dhklgk
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_init_calc')
 
       double precision psi_ll15
@@ -2574,7 +2561,7 @@ c               Else
 c               Endif
 
    15       continue
-   47       continue
+c   47       continue
 
                ! Interpolate Solute/Soil characteristics for each solute
 
@@ -2721,7 +2708,7 @@ c               Endif
 
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_interp')
 
 *   Initial data values
@@ -2795,12 +2782,15 @@ c               Endif
 
 *     Subroutine Arguments
 cnh NOT SURE ARGUMENT TYPE IS CORRECT.
-      real d
+c      real d
+      double precision d
       double precision dc
       double precision hyscon
       double precision x
-      real x0
-      real x0new
+c      real x0
+c      real x0new
+      double precision x0
+      double precision x0new
 
 *     Internal Variables
 
@@ -2838,6 +2828,8 @@ cnh NOT SURE ARGUMENT TYPE IS CORRECT.
       double precision x(*),y(*),u(*),v(*)
       double precision sx, sy, su, sv,w
       logical again
+cnh added following declarations
+      integer i,j
 
       sx=0.
       sy=0.
@@ -2930,7 +2922,7 @@ cnh NOT SURE ARGUMENT TYPE IS CORRECT.
       integer max_iterations
       parameter (max_iterations = 1000)
 
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_suction')
 
       double precision tolerance
@@ -2960,9 +2952,9 @@ cnh NOT SURE ARGUMENT TYPE IS CORRECT.
             write(error_string,'(1x,a,f5.3,a,i2,a,f5.3)')
      :         'Water Content of ',theta1,
      :         ' in node ',node,
-     :         ' is below lower limit of ',wc(node,k)
+     :         ' is below lower limit of ',wc(node,k-1)
             call warning_error(Err_Internal,error_String)
-            theta1 = wc(node,k)
+            theta1 = wc(node,k-1)
             ! theta1 now lies between previous node and the one before
             i=k-2
             j=k-1
@@ -3099,7 +3091,7 @@ c       real bound
       integer          solnum
       double precision pold(0:M)
 cnh added next line
-      double precision psiold(0:m)
+c      double precision psiold(0:m)
       double precision qmax
       double precision wpold
       double precision timestep_remaining
@@ -3113,7 +3105,7 @@ cnh added next line
       double precision evap_Demand
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_swim')
 
 *   Initial data values
@@ -3233,7 +3225,7 @@ cnh            dt = dubound(dt,timestep_remaining)
             old_hmin = hmin
             old_gsurf = gsurf
 cnh
-            psiold(i) = psi(i)
+c            psiold(i) = psi(i)
             do 78 solnum=1,num_solutes
                cslold(solnum,i) = csl(solnum,i)
    78       continue
@@ -3452,7 +3444,7 @@ cnh
        implicit none
 
 *   Subroutine arguments
-       character*(*) timestring
+       character timestring*(*)
 
 *   Global variables
        include 'const.inc'
@@ -3461,12 +3453,12 @@ cnh
        integer colon
        integer hour
        integer mins
-       character*4 hourstring
-       character*4 minstring
+       character hourstring*4
+       character minstring*4
        integer numvals
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_time_to_mins')
 
 *   Initial data values
@@ -3634,7 +3626,7 @@ cnh
 
 *   Constant values
 
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_init_report')
 
       integer num_psio
@@ -3731,7 +3723,7 @@ cnh     :       x(layer), soil_type(layer), th(layer),psi(layer)*1000.,
       call write_string (LU_Scr_sum,string)
 
       do 220 i=1,num_psio
-         write(string,'(6x,f6.2,x,''|'',7(1x,f10.5))')
+         write(string,'(6x,f6.2,1x,''|'',7(1x,f10.5))')
      :              psio(i)/1000.d0, (tho(j,i),j=0,6)
          call write_string (LU_Scr_sum,string)
   220 continue
@@ -3750,7 +3742,7 @@ cnh     :       x(layer), soil_type(layer), th(layer),psi(layer)*1000.,
      :'-------------------------------------------------'
       call write_string (LU_Scr_sum,string)
       do 230 i=1,num_psio
-         write(string,'(6x,f6.2,x,''|'',7(1x,f10.5))')
+         write(string,'(6x,f6.2,1x,''|'',7(1x,f10.5))')
      :              psio(i)/1000.d0, (hko(j,i),j=0,6)
          call write_string (LU_Scr_sum,string)
   230 continue
@@ -3785,7 +3777,7 @@ cnh     :       x(layer), soil_type(layer), th(layer),psi(layer)*1000.,
      :                     '     depth(node)   conductance  storage')
          call write_string (LU_Scr_sum,
      :                     '     ----------------------------------')
-         write(string,'(5x,f5.0,''('',i4,'')''3x,f11.4,2x,f7.3)')
+         write(string,'(5x,f5.0,''('',i4,'')'',3x,f11.4,2x,f7.3)')
      :                      x(ibp),ibp,gbp,sbp
          call write_string (LU_Scr_sum,string)
          call write_string (LU_Scr_sum, new_line//new_line)
@@ -3931,7 +3923,7 @@ cnh     :       x(layer), soil_type(layer), th(layer),psi(layer)*1000.,
       integer vegnum
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_reset_daily_totals')
 
 *   Initial data values
@@ -4007,7 +3999,7 @@ cnh     :       x(layer), soil_type(layer), th(layer),psi(layer)*1000.,
 *      none
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_check_inputs')
 
 *   Initial data values
@@ -4072,7 +4064,7 @@ cnh     :       x(layer), soil_type(layer), th(layer),psi(layer)*1000.,
 *      none
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_init_defaults')
 
 *   Initial data values
@@ -4150,7 +4142,7 @@ cnh      cslsur = 0.d0 ! its an array now
       double precision crain_mm
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_crain')
 
 *   Initial data values
@@ -4215,7 +4207,7 @@ cnh      cslsur = 0.d0 ! its an array now
        double precision TBell           ! total bell curve area (=2pi)
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_cevap')
 
       double precision pi
@@ -4433,13 +4425,13 @@ cnh      cslsur = 0.d0 ! its an array now
 
 *   Constant values
       double precision largest     ! largest acceptable no. for quotient
-      parameter (largest = 1.0d300)
+      parameter (largest = 1d300)
 
       double precision nought      ! 0
-      parameter (nought = 0.0)
+      parameter (nought = 0d0)
 
       double precision smallest   ! smallest acceptable no. for quotient
-      parameter (smallest = 1.0d-300)
+      parameter (smallest = 1d-300)
 
 
 *   Initial data values
@@ -4454,14 +4446,14 @@ cnh      cslsur = 0.d0 ! its an array now
       elseif (divisor.eq.nought) then       ! dividing by 0
          quotient = default
 
-      elseif (abs (divisor).lt.1.0) then          ! possible overflow
+      elseif (abs (divisor).lt.1d0) then          ! possible overflow
          if (abs (dividend).gt.abs (largest*divisor)) then     ! overflow
             quotient = default
          else                               ! ok
             quotient = dividend/divisor
          endif
 
-      elseif (abs (divisor).gt.1.0) then          ! possible underflow
+      elseif (abs (divisor).gt.1d0) then          ! possible underflow
          if (abs (dividend).lt.abs (smallest*divisor)) then     ! underflow
             quotient = nought
          else                               ! ok
@@ -4529,7 +4521,7 @@ cnh      cslsur = 0.d0 ! its an array now
       double precision days_to_hours              ! convert .....
       parameter (days_to_hours = 24.d0)
 
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_time')
 
 *   Initial data values
@@ -4607,7 +4599,7 @@ cnh      cslsur = 0.d0 ! its an array now
       integer num_nodes
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_init_change_units')
 
 *   Initial data values
@@ -4684,7 +4676,7 @@ cnh      cslsur = 0.d0 ! its an array now
 *     none
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_eqrain')
 
 *   Initial data values
@@ -4743,7 +4735,7 @@ cnh       include 'utility.inc'
        include 'apswim.inc'
 
 *   Internal variables
-       character table_name*10 (nsol)
+       character table_name (nsol)*10
        double precision table_d0(nsol)
        double precision table_disp(nsol)
        double precision table_slupf(nsol)
@@ -4759,7 +4751,7 @@ cnh       double precision table_slscr(nsol)
        logical found
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_read_solute_params')
 
 *   Initial data values
@@ -4973,7 +4965,7 @@ cnh       include 'utility.inc'
        include 'apswim.inc'
 
 *   Internal variables
-       character table_name*10 (nsol)
+       character table_name (nsol)*10
        double precision table_exco(nsol)
        double precision table_fip(nsol)
        double precision table_dis(nsol)
@@ -4986,7 +4978,7 @@ c       double precision table_beta(nsol)
        logical found
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_read_solsoil_params')
 
 *   Initial data values
@@ -5345,7 +5337,7 @@ c                     beta(solnum,node) = table_beta(solnum2)
        integer numvals
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_read_crop_params')
 
 *   Initial data values
@@ -5444,7 +5436,7 @@ cnh       include 'utility.inc'
        logical found
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_assign_crop_params')
 
 *   Initial data values
@@ -5528,13 +5520,13 @@ cnh       include 'utility.inc'
        include 'apswim.inc'
 
 *   Internal variables
-       character owner_module*max_module_name_size
+       character owner_module*(max_module_name_size)
        character crpname*10
        integer numvals
        integer request_no
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_find_crops')
 
 *   Initial data values
@@ -5798,7 +5790,7 @@ cnh
        integer          TEMPSolNumPairs
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_add_water')
 
 *   Initial data values
@@ -5935,7 +5927,7 @@ cnh
        double precision STime(SWIMLogSize)
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_csol')
 
 *   Initial data values
@@ -5997,9 +5989,9 @@ cnh
 
 *   Subroutine arguments
       double precision uarray(0:n)
-      character*(*) ucrop
-      character*(*) uname
-      character*(*) uunits
+      character ucrop *(*)
+      character uname *(*)
+      character uunits*(*)
       logical       uflag
 
 *   Internal variables
@@ -6009,7 +6001,7 @@ cnh
       integer vegnum
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_get_uptake')
 
 *   Initial data values
@@ -6208,7 +6200,7 @@ cnh
        implicit none
 
 *   Subroutine arguments
-       character*(*) solname
+       character solname*(*)
 
 *   Global variables
        include 'apswim.inc'
@@ -6218,7 +6210,7 @@ cnh
        integer solnum
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_solute_number')
 
 *   Initial data values
@@ -6241,7 +6233,7 @@ cnh
       return
       end
 * ====================================================================
-       subroutine apswim_get_other_rain_variables ()
+       subroutine apswim_get_rain_variables ()
 * ====================================================================
 
 *   Short description:
@@ -6409,10 +6401,10 @@ cnh
       real       apswim_eeq_fac       ! function
 
 *   Internal variables
-      real       albedo                ! albedo taking into account plant
+      double precision albedo          ! albedo taking into account plant
                                        !    material
-      real       eeq                   ! equilibrium evaporation rate (mm)
-      real       wt_ave_temp           ! weighted mean temperature for the
+      double precision eeq             ! equilibrium evaporation rate (mm)
+      double precision wt_ave_temp     ! weighted mean temperature for the
                                        !    day (oC)
 
 *   Constant values
@@ -6432,14 +6424,14 @@ cnh
                 ! function of radiation, albedo, and temp.
 
       albedo = c_max_albedo
-     :       - (c_max_albedo - g_salb) * (1.0 - g_cover_green_sum)
+     :       - (c_max_albedo - g_salb) * (1d0 - g_cover_green_sum)
 
                 ! wt_ave_temp is mean temp, weighted towards max.
 
-      wt_ave_temp = 0.60*g_maxt + 0.40*g_mint
+      wt_ave_temp = 0.6d0*g_maxt + 0.4d0*g_mint
 
-      eeq = g_radn*23.8846* (0.000204 - 0.000183*albedo)
-     :    * (wt_ave_temp + 29.0)
+      eeq = g_radn*23.8846d0* (0.000204d0 - 0.000183d0*albedo)
+     :    * (wt_ave_temp + 29.d0)
 
                 ! find potential evapotranspiration (pot_eo)
                 ! from equilibrium evap rate
@@ -6893,7 +6885,7 @@ cnh
       integer numvals
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_get_green_cover')
 
 *   Initial data values
@@ -6985,7 +6977,7 @@ cnh
       double precision time_mins
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_calc_evap_variables')
 
 *   Initial data values
@@ -7108,7 +7100,7 @@ cnh
       real    c
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'integral_real_linint_function')
 
 *   Initial data values
@@ -7147,7 +7139,7 @@ c      endif
          Area = Area + 0.5*(Yb+Ya)*(Xb-Xa)
 
   100 continue
-  200 continue
+
 
       ! now for outside RHS boundary
       Xa = max(x(n), X1)
@@ -7219,7 +7211,7 @@ c      endif
       double precision avinten
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_recalc_eqrain')
 
 *   Initial data values
@@ -7300,7 +7292,7 @@ c      endif
 
       integer          numvals
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_tillage')
 
 *   Initial data values
@@ -7443,7 +7435,7 @@ c      endif
       integer i                          ! node index counter
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_reset_water_balance')
 
 *   Initial data values
@@ -7523,7 +7515,7 @@ c      endif
       double precision hklgd
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_theta')
 
 *   Initial data values
@@ -7584,7 +7576,7 @@ c      endif
        integer key (100)
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'union_double_arrays')
 
 *   Initial data values
@@ -7623,7 +7615,7 @@ c      endif
             do 25 j=i+1,nc
                c(j) = c(j+1)
    25       continue
-            c(nc) = 0
+            c(nc) = 0d0
             nc = nc - 1
             goto 21
          else
@@ -7794,12 +7786,12 @@ cnh         hmin=hm0+(hm1-hm0)*exp(-(apswim_eqrain(ttt)-eqr0)/hrc)
 cnh      end if
 
       if(tth.gt.hmin)then
-         v=roff0*(tth-hmin)**(roff1-1.)
+         v=roff0*(tth-hmin)**(roff1-1d0)
          ttroff=v*(tth-hmin)
          roffh=roff1*v
       else
-         ttroff=0.
-         roffh=0.
+         ttroff=0d0
+         roffh=0d0
       end if
 
       return
@@ -7849,7 +7841,7 @@ cnh      end if
       double precision ceqrain
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_hmin')
 
 *   Initial data values
@@ -7987,8 +7979,6 @@ cnh      end if
       implicit none
 
 *     Global Variables
-cnh
-      include 'const.inc'
       include 'apswim.inc'
 
       double precision apswim_wpf    ! function
@@ -8087,8 +8077,6 @@ cnh     :            'swim will reduce timestep to solve water movement')
       if(fail.and.it.lt.itlim)go to 10
 cnh      if(isol.ne.1.or.fail)go to 90
       if (fail) then
-cnh         call warning_error(Err_internal,
-cnh     :            'swim will reduce timestep to solve water movement')
          call report_event (
      :            'swim will reduce timestep to solve water movement')
 
@@ -8105,8 +8093,6 @@ cnh      call getsol(a(0),b(0),c(0),d(0),rhs(0),dp(0),vbp(0),fail)
          call apswim_getsol
      :          (solnum,a(0),b(0),c(0),d(0),rhs(0),dp(0),vbp(0),fail)
          If (fail) then
-cnh            call warning_error(Err_internal,
-cnh     :            'swim will reduce timestep to solve solute movement')
             call report_event (
      :         'swim will reduce timestep to solve solute movement')
 
@@ -8433,7 +8419,7 @@ cnh now uses constant potential from input file
                   if(it.eq.1)then
                      value=1.-accept*(skd+(p(i)-p(i-1))*hkdp2)/
      1                   (absgf*deltax*hkp(i))
-                     swta(i)=sign(max(0.,value),gf)
+                     swta(i)=sign(max(0d0,value),gf)
                   end if
                   wt=swta(i)
                end if
@@ -9559,7 +9545,7 @@ c      end if
 
 *   Constant values
 
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_freundlich')
 
 *   Initial data values
@@ -9642,7 +9628,7 @@ c      end if
       integer max_iterations
       parameter (max_iterations = 1000)
 
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_freundlich')
 
       double precision tolerance
@@ -9887,7 +9873,7 @@ c      end if
       double precision bitesize_tolerence
       parameter (bitesize_tolerence = 0.001d0)
 
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_extra_solute_demand')
 
       double precision supply_tolerence
@@ -9922,8 +9908,8 @@ c      end if
 
          if (slupf(solnum).gt.0d0) then
 
-            call fill_double_array (supply(0), M, 0d0)
-            call fill_double_array (demand, MV, 0d0)
+            call fill_double_array (supply(0), 0d0, M)
+            call fill_double_array (demand, 0d0, MV)
             tot_supply = 0d0
             tot_demand = 0d0
 
@@ -9933,7 +9919,7 @@ c      end if
             do 300 layer = 0,n
                aswf = ddivide (th (layer) - ll15(layer)
      :                        ,dul(layer) - ll15(layer)
-     :                        ,0.0)
+     :                        ,0d0)
                aswf = min(max(aswf,0d0),1d0)
 
                supply (layer) = c_supply_fraction * aswf
@@ -10099,7 +10085,7 @@ c      end if
       double precision dCtot
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_solute_amount')
 
 *   Initial data values
@@ -10172,7 +10158,7 @@ c      end if
 *      none
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'dbound')
 
 *   Initial data values
@@ -10232,7 +10218,7 @@ c      end if
       double precision conc_water
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_solute_conc')
 
 *   Initial data values
@@ -10313,7 +10299,7 @@ c      end if
       double precision trf
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_transp_redn')
 
 *   Initial data values
@@ -10397,7 +10383,7 @@ c      integer          layer
 c      double precision tpsuptake
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_slupf')
 
 *   Initial data values
@@ -10470,7 +10456,7 @@ c     :       max(solute_demand (crop,solnum) - tpsuptake,0d0)
       integer layer, crop, solnum
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_check_demand')
 
 *   Initial data values
@@ -10558,7 +10544,7 @@ c     :       max(solute_demand (crop,solnum) - tpsuptake,0d0)
        double precision t_th(0:M)
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_report_status')
 
 *   Initial data values
@@ -10573,7 +10559,7 @@ c     :       max(solute_demand (crop,solnum) - tpsuptake,0d0)
   100 continue
 
       write(LU_summary_file,*) '================================'
-      write(LU_summary_file,*) 'time =',day,year,mod(t-dt,24.)
+      write(LU_summary_file,*) 'time =',day,year,mod(t-dt,24d0)
       write(LU_summary_file,*) 'dt=',dt*2.0
       write(LU_summary_file,*) 'psi= ',(t_psi(i),i=0,n)
       write(LU_summary_file,*) 'th= ',(t_th(i),i=0,n)
@@ -10655,7 +10641,7 @@ c      pause
 
 *   Constant values
 
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_read_logfile')
 
 *   Initial data values
@@ -10793,7 +10779,7 @@ c      pause
       double precision SAmt
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_insert_loginfo')
 
 *   Initial data values
@@ -10951,7 +10937,7 @@ c      pause
       integer old_numpairs
 
 *   Constant values
-      character*(*) myname               ! name of current procedure
+      character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_purge_rain_data')
 
 *   Initial data values
