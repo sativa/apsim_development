@@ -21,7 +21,7 @@ module SoilPModule
    parameter (max_layer = 100)
 
    integer    max_crops             ! maximum no. of crops
-   parameter (max_crops = 5)
+   parameter (max_crops = 20)
 
    real       residue_c_frac        ! fraction of c in resiudes
    parameter (residue_c_frac = 0.4)
@@ -1917,18 +1917,18 @@ subroutine soilp_incorp_residues ()
       endif
 
       if (numval_p .eq.0 .and. numval_cpr.eq.0) then
-
-         ! Use constant C:P for roots etc
-         call collect_char_var_optional ('use_default_p', '()', flag, numvals)
-
-         if ((flag.eq.'true').or.(numvals.eq.0)) then
-            do layer = 1, numval_fom
-               dlt_fom_p_incorp(layer) = divide (dlt_fom_incorp(layer)* residue_c_frac, p%root_cp, 0.0)
-            end do
-         else
-          ! data will come in a later message
+!
+!         ! Use constant C:P for roots etc
+!         call collect_char_var_optional ('use_default_p', '()', flag, numvals)
+!
+!         if ((flag.eq.'true').or.(numvals.eq.0)) then
+!            do layer = 1, numval_fom
+!               dlt_fom_p_incorp(layer) = divide (dlt_fom_incorp(layer)* residue_c_frac, p%root_cp, 0.0)
+!            end do
+!         else
+!          ! data will come in a later message
           dlt_fom_p_incorp(:) = 0.0
-         endif
+!         endif
       else
       ! all ok
       endif
@@ -1951,7 +1951,7 @@ subroutine soilp_incorp_residues ()
       end do
 
    !dsg  end of big loop
-   endif
+  endif
 
    !dsg need to get g%fom_c_pools from soiln2 to calculate cp ratios
    call Get_real_array (unknown_module,'fom_c_pool1',max_layer,'()',fom_c_pool1,numvals,0.0,5000.)
