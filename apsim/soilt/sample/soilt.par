@@ -6,7 +6,7 @@ outputfile =soilt.out
 start_date=1/1/1988     ! dd/mm/yyyy
 end_date=30/4/1990     ! dd/mm/yyyy
 
-[sample.manager.end_of_day]
+[sample.manager.post]
 if (end_week = 1) then
    report do_output
 endif
@@ -16,7 +16,7 @@ endif
 
 
 
-variable = clock.today.dd/mm/yyyy(Date)
+variable = clock.today.dd/mm/yyyy as Date
 variable = soilt.soil_temp
 variable = met.maxt
 variable = met.mint
