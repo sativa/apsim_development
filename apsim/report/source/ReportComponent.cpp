@@ -76,6 +76,7 @@ bool Field::getValues(void)
       {
       variant->unpack(values);
       unit = asString(variant->getType().getUnit());
+      unit = "(" + unit + ")";
       }
    else
       unit = "(?)";
@@ -251,6 +252,10 @@ void ReportComponent::doInit1(const FString& sdml)
       {
       Component::doInit1(sdml);
 
+      static const char* stringDDML = "<type kind=\"string\"\\>";
+
+      titleID = addRegistration(getVariableReg, "title", stringDDML);
+      summaryFileID = addRegistration(getVariableReg, "summaryFile", stringDDML);
       repEventID = addRegistration(respondToEventReg, "rep", "");
       doOutputID = addRegistration(respondToMethodCallReg, "do_output", "");
       doEndDayOutputID = addRegistration(respondToMethodCallReg, "do_end_day_output", "");
@@ -404,7 +409,19 @@ void ReportComponent::writeHeadings(void)
 
    headingLine << ends;
    unitLine << ends;
-   out << endl << endl;
+
+   // output title
+   string title;
+   protocol::Variant* variant;
+   if (getVariable(titleID, variant, true))
+      variant->unpack(title);
+   out << "Title = " << title << endl;
+
+   // output summary_file
+   string summaryFile;
+   if (getVariable(summaryFileID, variant, true))
+      variant->unpack(summaryFile);
+   out << "SummaryFile = " << summaryFile << endl;
    out << headingLine.str() << endl;
    out << unitLine.str() << endl;
    }
