@@ -21,7 +21,6 @@ class __declspec(dllexport) TRunForm : public TForm
    {
    __published:	// IDE-managed Components
       TImage *Image1;
-      TBevel *Bevel1;
       TButton *NextButton;
       TButton *CancelButton;
       TPageControl *PageControl1;
