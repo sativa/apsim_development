@@ -293,6 +293,8 @@ void Scenarios::loadAllAddIns(void)
 
 //  Changes:
 //    dph 4/4/01
+//    DAH 7/9/01  now only pass scenarios to addins that are relevant to that
+//                addin.
 
 // ------------------------------------------------------------------
 void Scenarios::getAllData(TAPSTable* data)
@@ -301,7 +303,15 @@ void Scenarios::getAllData(TAPSTable* data)
                                  a != addIns.end();
                                  a++)
       {
-      (*a)->doCalculations(*data, scenarios);
+      ScenarioContainer addin_scenarios;
+      for (ScenarioContainer::iterator s = scenarios.begin(); s != scenarios.end();
+                                                         s++)
+         {
+         Scenario* new_scen = new Scenario((*s)->createScenarioForAddIn(*a));
+         addin_scenarios.push_back(new_scen);
+         }
+      (*a)->doCalculations(*data, addin_scenarios);
+      delete_container(addin_scenarios);
       }
    }
 
