@@ -10,6 +10,7 @@
 #include <ApsimShared\ApsimComponentData.h>
 #include <general\math_functions.h>
 #include <general\stl_functions.h>
+#include <general\vcl_functions.h>
 #include <general\date_class.h>
 #include <general\StringTokenizer.h>
 #include <sstream>
@@ -34,8 +35,20 @@ ScreenComponent::ScreenComponent(void)
    {
    inDiaryState = false;
    startDateJDay = 0;
-   ScreenForm = new TScreenForm(NULL);
+   HWND parentHandle = GetForegroundWindow();
+   ScreenForm = new TScreenForm((HWND)parentHandle);
+
+   if (parentHandle != NULL)
+      {
+      ScreenForm->BorderIcons.Clear();
+      ScreenForm->BorderStyle = bsNone;
+      ScreenForm->Caption = "";
+      }
    ScreenForm->Show();
+
+   ScreenForm->setup();
+   ScreenForm->Left = 168;
+   ScreenForm->Top = 1;
    Application->ProcessMessages();
    }
 // ------------------------------------------------------------------
@@ -44,13 +57,14 @@ ScreenComponent::ScreenComponent(void)
 ScreenComponent::~ScreenComponent(void)
    {
    ScreenForm->simulationHasFinished();
-   if (ScreenForm->PauseCheckBox->Checked)
+   if (ScreenForm->CancelButton->Caption == "Close")
       {
       while (ScreenForm->Visible && ScreenForm->ModalResult != mrOk)
          Application->ProcessMessages();
       }
 
    delete ScreenForm;
+   delete parentForm;
    }
 // ------------------------------------------------------------------
 // INIT1
@@ -72,7 +86,7 @@ void ScreenComponent::doInit1(const FString& sdml)
    screenOutput = Str_i_Eq(componentData->getProperty("parameters", "screen_output"), "on");
    if (screenOutput)
       {
-      ScreenForm->Height = 466;
+//      ScreenForm->Height = 466;
       summaryFileWriteID = addRegistration(respondToEventReg, "summaryFileWrite", "");
       }
    }
@@ -88,7 +102,7 @@ void ScreenComponent::getStartEndDate(void)
       {
       string title;
       variant->unpack(title);
-      ScreenForm->Caption = AnsiString("APSIM - ") + title.c_str();
+      ScreenForm->TitleLabel->Caption = AnsiString("Simulation progress for: ") + title.c_str();
       }
    string st;
    ok = getVariable(startDateID, variant);

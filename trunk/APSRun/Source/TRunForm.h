@@ -15,11 +15,11 @@
 #include <jpeg.hpp>
 #include <ComCtrls.hpp>
 #include "PreviousRuns.h"
+#include "ApsimRuns.h"
 //---------------------------------------------------------------------------
 class __declspec(dllexport) TRunForm : public TForm
    {
    __published:	// IDE-managed Components
-      TImageList *ImageList1;
       TImage *Image1;
       TBevel *Bevel1;
       TButton *NextButton;
@@ -34,55 +34,36 @@ class __declspec(dllexport) TRunForm : public TForm
       TLabel *Label2;
       TLabel *Label4;
       TTabSheet *Page3;
-      TLabel *Label5;
-      TListBox *simulationList;
-      TListBox *configurationList;
       TLabel *Label6;
-      TLabel *Label7;
-      TBevel *Bevel2;
-      TLabel *Label8;
-   TTabSheet *Page4;
-   TLabel *Label9;
-   TLabel *Label10;
-   TTimer *Timer1;
+      TTabSheet *Page4;
+      TLabel *Label9;
+      TLabel *Label10;
+      TLabel *ControlFileLabel;
+      TTreeView *simulationList;
+      TImageList *ImageList1;
       void __fastcall NextButtonClick(TObject *Sender);
       void __fastcall CancelButtonClick(TObject *Sender);
       void __fastcall FormShow(TObject *Sender);
-      void __fastcall Page2Show(TObject *Sender);
-      void __fastcall Page3Show(TObject *Sender);
       void __fastcall checkOkButtonState(TObject *Sender);
-   void __fastcall Timer1Timer(TObject *Sender);
-   void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
+   void __fastcall simulationListClick(TObject *Sender);
    private:	// User declarations
-      TCursor savedCursor;
       PreviousRuns previousRuns;
-      bool createSIM;
-      bool console;
-      std::vector<std::string> sections;
-      unsigned currentSection;
-      std::string controlFileName;
-      std::string configurationFile;
-      HANDLE childProcessHandle;
+      std::vector<std::string> filesNeedingConversion;
 
-      void fillConfigurationList(void);
+      void populatePage1(void);
+      void populatePage2(void);
+      void populatePage3(void);
+
       void fillSimulationList(void);
-      void setupForm(void);
-      void __fastcall ConverterCallback(const std::string& section);
-
-      // This application will be passed either a control file (.CON), a
-      // run file (.RUN), or a .SIM file depending on what the user has
-      // right clicked on.  Returns true if we need to continue with this
-      // form.
-      // ------------------------------------------------------------------
-      bool processCmdLine();
-
-      void doApsimRun(void);
 
       void getSelectedSimulations(std::vector<std::string>& simulations);
       std::string getSelectedConfiguration(void);
+      void saveSelections(void);
 
    public:		// User declarations
       __fastcall TRunForm(TComponent* Owner);
+
+      ApsimRuns* runs;
 
    };
 //---------------------------------------------------------------------------

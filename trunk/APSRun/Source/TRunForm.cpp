@@ -12,7 +12,7 @@
 #include <ApsimShared\ApsimControlFile.h>
 #include <ApsimShared\ApsimRunFile.h>
 #include <ApsimShared\ApsimSimulationFile.h>
-
+#include <iterator>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "HTMLabel"
@@ -20,104 +20,65 @@
 #pragma resource "*.dfm"
 TRunForm *RunForm;
 //---------------------------------------------------------------------------
+// constructor
+//---------------------------------------------------------------------------
 __fastcall TRunForm::TRunForm(TComponent* Owner)
-   : TForm(Owner), childProcessHandle(NULL)
+   : TForm(Owner)
  {
  }
 //---------------------------------------------------------------------------
+// Form has been shown - set everything up.
+//---------------------------------------------------------------------------
 void __fastcall TRunForm::FormShow(TObject *Sender)
    {
-   if (processCmdLine())
+   runs->getFilesNeedingConversion(filesNeedingConversion);
+
+   if (filesNeedingConversion.size() > 0)
       {
-      if (!ControlFileConverter::needsConversion(controlFileName))
-         {
-         PageControl1->ActivePageIndex = 1;
-         NextButtonClick(Sender);
-         }
+      PageControl1->ActivePage = Page1;
+      populatePage1();
       }
    else
-      Close();
-   }
-//---------------------------------------------------------------------------
-void __fastcall TRunForm::FormCloseQuery(TObject *Sender, bool &CanClose)
-   {
-   if (configurationList->ItemIndex >= 0)
       {
-      // write all selected simulations to .ini file
-      string configurationName = configurationList->Items->
-                           Strings[configurationList->ItemIndex].c_str();
-      vector<string> simulations;
-      for (int i = 0; i < simulationList->Items->Count; i++)
-         if (simulationList->Selected[i])
-            simulations.push_back(simulationList->Items->Strings[i].c_str());
-
-      previousRuns.setCurrentRun(controlFileName, configurationName, simulations);
+      PageControl1->ActivePage = Page3;
+      populatePage3();
       }
    }
 //---------------------------------------------------------------------------
-void __fastcall TRunForm::NextButtonClick(TObject *Sender)
+// populate page 1.
+//---------------------------------------------------------------------------
+void TRunForm::populatePage1(void)
    {
-   PageControl1->ActivePageIndex = PageControl1->ActivePageIndex + 1;
-   if (PageControl1->ActivePageIndex == 2)
-      NextButton->Caption = "&Run APSIM";
-   else if (PageControl1->ActivePageIndex == 3)
-      {
-      NextButton->Visible = false;
-      getSelectedSimulations(sections);
-      currentSection = 0;
-      configurationFile = getSelectedConfiguration();
-      if (createSIM)
-         {
-         Visible = false;
-         try
-            {
-            for (unsigned sim = 0; sim != sections.size(); sim++)
-               {
-               ApsimControlFile simulation(controlFileName, sections[sim]);
-               string simFileName;
-               simulation.createSIM(configurationFile, simFileName);
-               }
-            }
-         catch (const runtime_error& err)
-            {
-            ShowMessage(err.what());
-            }
-         Close();
-         }
-      else if (sections.size() == 1)
-         {
-         Visible = false;
-         Timer1->Enabled = true;
-         }
-      else
-         {
-         Caption = "Batch running APSIM";
-         Timer1->Enabled = true;
-         }
-      }
+   ostringstream out;
+   copy(filesNeedingConversion.begin(),filesNeedingConversion.end(),
+        ostream_iterator<string, char>(out,"\n"));
+   ControlFileLabel->Caption = out.str().c_str();
    }
 //---------------------------------------------------------------------------
-void __fastcall TRunForm::CancelButtonClick(TObject *Sender)
-   {
-   Close();
-   }
+// populate page 2.
 //---------------------------------------------------------------------------
-// Do the control file conversion.
-//---------------------------------------------------------------------------
-void __fastcall TRunForm::Page2Show(TObject *Sender)
+void TRunForm::populatePage2()
    {
-   savedCursor = Screen->Cursor;
+   TCursor savedCursor = Screen->Cursor;
    Screen->Cursor = crHourGlass;
 
    try
       {
-      ControlFileConverter converter;
-      converter.convert(controlFileName, &ConverterCallback);
       StatusList->Items->Clear();
-      Path log(controlFileName);
-      log.Set_extension(".conversions");
-      if (FileExists(log.Get_path().c_str()))
-         StatusList->Items->LoadFromFile(log.Get_path().c_str());
+      TStringList* lines = new TStringList;
+      for (unsigned f = 0; f != filesNeedingConversion.size(); f++)
+         {
+         ControlFileConverter converter;
+         converter.convert(filesNeedingConversion[f], (TControlFileConverterEvent)NULL);
+         Path log(filesNeedingConversion[f]);
+         log.Set_extension(".conversions");
+         if (FileExists(log.Get_path().c_str()))
+            {
+            lines->LoadFromFile(log.Get_path().c_str());
+            StatusList->Items->AddStrings(lines);
+            }
+         }
+      delete lines;
       }
    catch (const runtime_error& error)
       {
@@ -128,174 +89,120 @@ void __fastcall TRunForm::Page2Show(TObject *Sender)
    Screen->Cursor = savedCursor;
    }
 //---------------------------------------------------------------------------
-void __fastcall TRunForm::Page3Show(TObject *Sender)
+// populate page 3.
+//---------------------------------------------------------------------------
+void TRunForm::populatePage3()
    {
-   fillConfigurationList();
+   NextButton->Caption = "&Run APSIM";
    fillSimulationList();
-   setupForm();
    }
 //---------------------------------------------------------------------------
-void TRunForm::fillConfigurationList(void)
-   {
-   vector<string> configurationFiles;
-   getDirectoryListing(ApsimSettings::getSettingsFolder(), "*.config", configurationFiles);
-
-   // only put the file name without extention into the listbox.
-   vector<string> configurationFilesNoExt;
-   remove_directory_ext_and_copy< vector<string> > removeDirExt(configurationFilesNoExt);
-   for_each(configurationFiles.begin(), configurationFiles.end(), removeDirExt);
-   Stl_2_tstrings(configurationFiles, configurationList->Items);
-   }
+// Fill the simulation list.
 //---------------------------------------------------------------------------
 void TRunForm::fillSimulationList(void)
    {
-   vector<string> names;
-   ApsimControlFile::getAllSectionNames(controlFileName, names);
-   Stl_2_tstrings(names, simulationList->Items);
-   }
-//---------------------------------------------------------------------------
-void TRunForm::setupForm(void)
-   {
-   bool someSelected = false;
-   string configurationName;
-   vector<string> simulations;
-   if (previousRuns.getPreviousRun(controlFileName,
-                                   configurationName,
-                                   simulations))
+   vector<string> fileNames;
+   runs->getFilesToRun(fileNames);
+   for (unsigned f = 0; f != fileNames.size(); f++)
       {
-      configurationList->ItemIndex = configurationList->Items->
-         IndexOf(configurationName.c_str());
+      TTreeNode* parentNode = simulationList->Items->Add(NULL, fileNames[f].c_str());
+      parentNode->ImageIndex = 0;
+      parentNode->SelectedIndex = 0;
 
-      for (unsigned int simNameI = 0; simNameI < simulations.size(); simNameI++)
+      bool someSelected = false;
+      vector<string> previousSimulations;
+      previousRuns.getPreviousRun(fileNames[f], previousSimulations);
+
+      vector<string> names;
+      ApsimControlFile con(fileNames[f]);
+      con.getAllSectionNames(names);
+      for (unsigned n = 0; n != names.size(); n++)
          {
-         int listBoxIndex = simulationList->Items->
-             IndexOf(simulations[simNameI].c_str());
-         if (listBoxIndex >= 0)
+         TTreeNode* node = simulationList->Items->AddChild(parentNode, names[n].c_str());
+         node->ImageIndex = 1;
+         node->SelectedIndex = 1;
+         if (find(previousSimulations.begin(), previousSimulations.end(),
+                  names[n]) != previousSimulations.end())
             {
-            simulationList->Selected[listBoxIndex] = true;
+            simulationList->Select(node, TShiftState() << ssCtrl);
             someSelected = true;
             }
          }
-      }
-   if (!someSelected)
-      {
-      for (int i = 0; i < simulationList->Items->Count; i++)
-         simulationList->Selected[i] = true;
+      if (!someSelected)
+         {
+         TTreeNode* node = parentNode->getFirstChild();
+         while (node != NULL)
+            {
+            node->Selected = true;
+            node = node->getNextSibling();
+            }
+         }
       }
    checkOkButtonState(NULL);
    }
 //---------------------------------------------------------------------------
+// Next button has been clicked.
+//---------------------------------------------------------------------------
+void __fastcall TRunForm::NextButtonClick(TObject *Sender)
+   {
+   PageControl1->ActivePageIndex = PageControl1->ActivePageIndex + 1;
+   if (PageControl1->ActivePage == Page2)
+      populatePage2();
+   else if (PageControl1->ActivePage == Page3)
+      populatePage3();
+   else if (PageControl1->ActivePage == Page4)
+      {
+      NextButton->Visible = false;
+      CancelButton->Visible = false;
+      PageControl1->Visible = false;
+      saveSelections();
+      runs->runApsim();
+      Close();
+      }
+   }
+//---------------------------------------------------------------------------
+void __fastcall TRunForm::CancelButtonClick(TObject *Sender)
+   {
+   Close();
+   }
+//---------------------------------------------------------------------------
+// Check the ok button state.
+//---------------------------------------------------------------------------
 void __fastcall TRunForm::checkOkButtonState(TObject *Sender)
    {
-   NextButton->Enabled = (configurationList->ItemIndex >= 0);
-   }
-//---------------------------------------------------------------------------
-void TRunForm::getSelectedSimulations(vector<string>& simulations)
-   {
-   for (int i = 0; i < simulationList->Items->Count; i++)
-      {
-      if (simulationList->Selected[i])
-         {
-         simulations.push_back(simulationList->Items->Strings[i].c_str());
-         }
-      }
-   }
-//---------------------------------------------------------------------------
-std::string TRunForm::getSelectedConfiguration(void)
-   {
-   return ApsimSettings::getSettingsFolder() + "\\" + configurationList->Items->Strings[configurationList->ItemIndex].c_str();
-   }
-//---------------------------------------------------------------------------
-void __fastcall TRunForm::ConverterCallback(const std::string& section)
-   {
-   StatusList->Items->Clear();
-   AnsiString msg = AnsiString("Converting control file section: ") + section.c_str();
-   StatusList->Items->Add(msg);
-   Application->ProcessMessages();
-   }
-// ------------------------------------------------------------------
-// This application will be passed either a control file (.CON), a
-// run file (.RUN), or a .SIM file depending on what the user has
-// right clicked on.  Returns true if we need to continue with this
-// form.
-// ------------------------------------------------------------------
-bool TRunForm::processCmdLine()
-   {
-   console = false;
+   bool somethingSelected = false;
+   for (int n = 0; n != simulationList->Items->Count && !somethingSelected; n++)
+      somethingSelected = simulationList->Items->Item[n]->Selected;
 
-   string fileName;
-   bool quietRun = false;
-   createSIM = false;
-   for (int argIndex = 1; argIndex < _argc; argIndex++)
+   NextButton->Enabled = somethingSelected;
+   }
+//---------------------------------------------------------------------------
+// save all selected simulations back to run and previous run objects.
+//---------------------------------------------------------------------------
+void TRunForm::saveSelections(void)
+   {
+   TTreeNode* parentNode = simulationList->Items->Item[0];
+   while (parentNode != NULL)
       {
-      if (stricmp(_argv[argIndex], "/q") == 0)
-         quietRun = true;
-      else if (stricmp(_argv[argIndex], "/CreateSIM") == 0)
-         createSIM = true;
-      else if (stricmp(_argv[argIndex], "/Console") == 0)
-         console = true;
-      else
-         fileName = _argv[argIndex];
-      }
-   if (!FileExists(fileName.c_str()))
-      throw runtime_error("Cannot locate APSIM file: " + fileName);
+      string controlFileName = parentNode->Text.c_str();
+      vector<string> simulations;
+      TTreeNode* childNode = parentNode->getFirstChild();
+      while (childNode != NULL)
+         {
+         if (childNode->Selected)
+            simulations.push_back(childNode->Text.c_str());
+         childNode = childNode->getNextSibling();
+         }
+      runs->setSimulationsToRun(controlFileName, simulations);
+      previousRuns.setCurrentRun(controlFileName, simulations);
 
-   // Does the command line contain a control file?
-   if (ExtractFileExt(fileName.c_str()).AnsiCompareIC(".con") == 0)
-      {
-      // yes - better ask user for a configuration.
-      controlFileName = fileName;
-      return true;
+      parentNode = parentNode->getNextSibling();
       }
-   else if (ExtractFileExt(fileName.c_str()).AnsiCompareIC(".run") == 0)
-      {
-      ApsimRunFile run(fileName);
-      run.run(quietRun);
-      }
-   else if (ExtractFileExt(fileName.c_str()).AnsiCompareIC(".sim") == 0)
-      {
-      ApsimSimulationFile::run(fileName, quietRun);
-      }
-   else
-      throw runtime_error("Cannot run APSIM on file: " + fileName);
-   return false;
    }
 //---------------------------------------------------------------------------
-void __fastcall TRunForm::Timer1Timer(TObject *Sender)
+void __fastcall TRunForm::simulationListClick(TObject *Sender)
    {
-   Timer1->Enabled = false;
-   if (childProcessHandle == NULL)
-      doApsimRun();
-   else
-      {
-      DWORD exitCode;
-      GetExitCodeProcess(childProcessHandle, &exitCode);
-      if (exitCode != STILL_ACTIVE)
-         doApsimRun();
-      }
-   if (childProcessHandle == NULL)
-      Close();
-   else
-      Timer1->Enabled = true;
-   }
-//---------------------------------------------------------------------------
-void TRunForm::doApsimRun(void)
-   {
-   if (currentSection != sections.size())
-      {
-      try
-         {
-         ApsimControlFile simulation(controlFileName, sections[currentSection]);
-         childProcessHandle = simulation.run(configurationFile, console);
-         currentSection++;
-         }
-      catch (const runtime_error& err)
-         {
-         ShowMessage(err.what());
-         }
-      }
-   else
-      childProcessHandle = NULL;
+   checkOkButtonState(NULL);
    }
 //---------------------------------------------------------------------------
 
