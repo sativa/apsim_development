@@ -18,6 +18,7 @@ class InputComponent : public protocol::Component
       virtual void doInit2(void);
       virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
+      virtual void respondToMethod(unsigned int& fromID, unsigned int& methodID, protocol::Variant& variant);
       virtual bool respondToSet(unsigned int& fromID, protocol::QuerySetValueData& setValueData);
 
    protected:
@@ -34,6 +35,7 @@ class InputComponent : public protocol::Component
       unsigned daylengthID;
       unsigned startDateID;
       unsigned endDateID;
+      unsigned hasDataTodayID;
       boost::gregorian::date todaysDate;
       boost::gregorian::date fileDate;
       boost::gregorian::date startDate;
@@ -51,5 +53,9 @@ class InputComponent : public protocol::Component
       float calcDayLength(void);
       float dayLength(int dyoyr, float lat, float sun_angle);
       void getStartEndDate(void);
+   private:
+      unsigned getDataMethodID;
+      unsigned returnDataMethodID;
+
    };
 #endif
