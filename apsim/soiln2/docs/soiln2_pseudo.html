@@ -25,9 +25,9 @@ height="73"></p>
 
 </ul></ul>
 <H2>Module Logic</H2>
-<ul><li><A HREF = "#soiln2_process"> soiln2_process </A>
+<ul><li><A HREF = "#Soil N Balance"> Soil N Balance </A>
 
-<li><A HREF = "#soiln2_incorp_fom"> soiln2_incorp_fom </A>
+<li><A HREF = "#Incorporate Fresh Organic Matter"> Incorporate Fresh Organic Matter </A>
 
 <li><A HREF = "#Structure Charts"> Structure Charts </A>
 
@@ -36,7 +36,10 @@ height="73"></p>
 <A NAME = "Module Description">  </A>
 <H2>Module Documentation</H2>
 <br>
-<A HREF = "soiln2_science.pdf"> Module Documentation </A>
+<A HREF = "soiln2_int.pdf"> Interface document </A>
+<br>
+<A HREF = "soiln2_science.pdf"> Science document </A>
+<br>
 <hr>
 <html>
 <body>
@@ -667,7 +670,7 @@ soiln2_wf = A linearly interpolated value based upon wfd (where X = <A HREF = "#
 <H4>Subprogram Logic</H4>
 <dl><br>
 
-if (no3<I><SUB> layer</SUB></I>.>=.no3_min<I><SUB> layer</SUB></I>.and.sw<SUB>(in mm)</SUB><I><SUB> layer</SUB></I>.>.dul<SUB>(in mm)</SUB><I><SUB> layer</SUB></I>) then<br>
+if (no3<I><SUB> layer</SUB></I>.>=.no3_min<I><SUB> layer</SUB></I>) then<br>
 
 <dl>hum_c_conc = hum_c<I><SUB> layer</SUB></I> * <A HREF = "#soiln2_fac"> Conversion factor (kg/ha to ppm) </A><br>
 
@@ -681,7 +684,7 @@ tf = 0 . 1 * <I><BIG>e</BIG></I><SUP>0 . 046 * soil_temp<I><SUB> layer</SUB></I>
 
 tf = tf constrained between 0 . 0 and 1 . 0<br>
 
-<FONT FACE = "SYMBOL">D</FONT>n_atm = dnit_rate_coeff * active_c * wf * tf * no3<I><SUB> layer</SUB></I><br>
+<FONT FACE = "SYMBOL">D</FONT>n_atm = <A HREF = "#dnit_rate_coeff"> dnit_rate_coeff </A> * active_c * wf * tf * no3<I><SUB> layer</SUB></I><br>
 
 no3_avail = no3<I><SUB> layer</SUB></I> - no3_min<I><SUB> layer</SUB></I><br>
 
@@ -741,17 +744,15 @@ soiln2_fac = 100 . 0 / bd<I><SUB> layer</SUB></I> * dlayer<I><SUB> layer</SUB></
 
 if (sw<SUB>(in mm)</SUB><I><SUB> layer</SUB></I>.>.dul<SUB>(in mm)</SUB><I><SUB> layer</SUB></I>) then<br>
 
-<dl>wfd = sat<SUB>(in mm)</SUB><I><SUB> layer</SUB></I> - sw<SUB>(in mm)</SUB><I><SUB> layer</SUB></I> / sat<SUB>(in mm)</SUB><I><SUB> layer</SUB></I> - dul<SUB>(in mm)</SUB><I><SUB> layer</SUB></I><br>
+<dl>wfd = sw<SUB>(in mm)</SUB><I><SUB> layer</SUB></I> - dul<SUB>(in mm)</SUB><I><SUB> layer</SUB></I> / sat<SUB>(in mm)</SUB><I><SUB> layer</SUB></I> - dul<SUB>(in mm)</SUB><I><SUB> layer</SUB></I> * * <A HREF = "#dnit_wf_power"> dnit_wf_power </A><br>
 
 </dl>else<br>
 
-<dl>wfd = sw<SUB>(in mm)</SUB><I><SUB> layer</SUB></I> - ll15<SUB>(in mm)</SUB><I><SUB> layer</SUB></I> / 0 . 5 * (dul<SUB>(in mm)</SUB><I><SUB> layer</SUB></I>-ll15<SUB>(in mm)</SUB><I><SUB> layer</SUB></I>)<br>
+<dl>wfd = 0<br>
 
 </dl>endif<br>
 
-wfd = wfd constrained between 0 . 0 and 1 . 0<br>
-
-soiln2_wf_denit = 1 . 0 - wfd<br>
+soiln2_wf_denit = wfd constrained between 0 . 0 and 1 . 0<br>
 
 <br>
 
@@ -1265,7 +1266,9 @@ nh4<I><SUB> layer</SUB></I> = nh4<I><SUB> layer</SUB></I> + <FONT FACE = "SYMBOL
 
 <TR><TD VALIGN=TOP><A NAME = "phf_nit_values"> phf_nit_values </A></TD><TD> value of pH factor for nitrification</TD><TD> 0.0 1.0 1.0 0.0  ()</TD><TD><A HREF = "#soiln2_zero_variables"> soiln2_zero_variables </A> , <A HREF = "#soiln2_read_constants"> soiln2_read_constants </A> , <A HREF = "#soiln2_phf_nitrf"> soiln2_phf_nitrf </A></TD></TR>
 
-<TR><TD VALIGN=TOP><A NAME = "">  </A></TD><TD></TD><TD> ()</TD><TD></TD></TR>
+<TR><TD VALIGN=TOP><A NAME = "dnit_rate_coeff"> dnit_rate_coeff </A></TD><TD> denitrification rate coefficient (kg soil/mg C per day)</TD><TD> 0.0006  ()</TD><TD><A HREF = "#soiln2_read_constants"> soiln2_read_constants </A> , <A HREF = "#soiln2_denitrification"> soiln2_denitrification </A></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "dnit_wf_power"> dnit_wf_power </A></TD><TD> power term for calculation of water factor for denitrification where wf = ((SW-DUL)/(SAT-DUL))^P</TD><TD> 1         ()</TD><TD><A HREF = "#soiln2_read_constants"> soiln2_read_constants </A> , <A HREF = "#soiln2_wf_denit"> soiln2_wf_denit </A></TD></TR>
 
 </TABLE>
 <br>
@@ -1315,7 +1318,7 @@ content="text/html; charset=iso-8859-1">
 height="73"></p>
 </body>
 </html>
-Date: 26/11/98  APseudo Version:  1. 0 Rev.  0<br>
+Date: 3/12/98  APseudo Version:  1. 0 Rev.  0<br>
 <html>
 <body>
 <p>
