@@ -3,39 +3,39 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.05.03"/>
-    <PROJECT value="report.dll"/>
-    <OBJFILES value="report.obj ReportComponent.obj ..\..\infra\engine\APSIMComponent.obj"/>
+    <PROJECT value="..\Lib\report.dll"/>
+    <OBJFILES value="report.obj ReportComponent.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
-    <LIBFILES value="..\..\infra\engine\APSIMEngine.lib aps32.lib general.lib protocol.lib"/>
+    <LIBFILES value="aps32.lib general.lib ..\..\infra\ComponentInterface\CompInterface.lib"/>
     <LIBRARIES value=""/>
     <SPARELIBS value="vcl50.lib"/>
     <PACKAGES value="vcl50.bpi vclx50.bpi vcljpg50.bpi ibsmp50.bpi vcldb50.bpi vclbde50.bpi 
       bcbsmp50.bpi vcldbx50.bpi dclocx50.bpi qrpt50.bpi nmfast50.bpi"/>
-    <PATHCPP value=".;..\..\infra\engine"/>
+    <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
     <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
     <RELEASELIBPATH value="$(BCB)\lib\release"/>
     <LINKER value="ilink32"/>
-    <USERDEFINES value="_DEBUG"/>
+    <USERDEFINES value=""/>
     <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
     <MAINSOURCE value="report.cpp"/>
-    <INCLUDEPATH value="k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\engine;..\..\infra\protocol"/>
-    <LIBPATH value="$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib;..\..\infra\protocol;..\..\infra\engine;&quot;k:\general\&quot;"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;k:\;k:\general\;..\..\infra\ComponentInterface;..\..\infra\protocol"/>
+    <LIBPATH value="$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib;..\..\infra\ComponentInterface;..\..\infra\protocol;&quot;k:\general\&quot;"/>
     <WARNINGS value="-w-par -w-8027 -w-8026"/>
     <WARNOPTSTR value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -Od -H=&quot;c:\program files\borland\cbuilder5\lib\vcl50.csm&quot; -Hc -Vx -Ve 
-      -X- -r- -a8 -b- -k -y -v -vi- -c -tWM"/>
-    <PFLAGS value="-$Y+ -$W -$O- -v -JPHNE -M"/>
+    <CFLAG1 value="-WD -O2 -H=&quot;c:\program files\borland\cbuilder5\lib\vcl50.csm&quot; -Hc -Vx -Ve 
+      -X- -a8 -b- -k- -vi -c -tWM"/>
+    <PFLAGS value="-$Y- -$L- -$D- -v -JPHNE -M"/>
     <RFLAGS value=""/>
-    <AFLAGS value="/mx /w2 /zi"/>
-    <LFLAGS value="-D&quot;&quot; -aa -Tpd -x -Gn -Gi -v"/>
+    <AFLAGS value="/mx /w2 /zn"/>
+    <LFLAGS value="-D&quot;&quot; -aa -Tpd -x -Gn -Gi"/>
   </OPTIONS>
   <LINKER>
     <ALLOBJ value="c0d32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
@@ -71,33 +71,41 @@ ProductVersion=1.0.0.0
 Comments=
 
 [HistoryLists\hlIncludePath]
-Count=8
-Item0=k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\engine;..\..\infra\protocol
-Item1=k:\general;k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\engine;..\..\infra\protocol
-Item2=k:\general;$(BCB)\include;$(BCB)\include\vcl;k:\general\;k:\;..\..\infra\engine;..\..\infra\protocol
-Item3=$(BCB)\include;$(BCB)\include\vcl;k:\general;k:\;..\..\infra\engine
-Item4=..\..\..\shared\general;$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\..\shared
-Item5=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\..\shared
-Item6=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\c++source;..\..\..\shared
-Item7=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\c++source
+Count=10
+Item0=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\general\;..\..\infra\ComponentInterface;..\..\infra\protocol
+Item1=..\..\infra\ComponentInterface;k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\engine;..\..\infra\protocol
+Item2=k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\engine;..\..\infra\protocol
+Item3=k:\general;k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\engine;..\..\infra\protocol
+Item4=k:\general;$(BCB)\include;$(BCB)\include\vcl;k:\general\;k:\;..\..\infra\engine;..\..\infra\protocol
+Item5=$(BCB)\include;$(BCB)\include\vcl;k:\general;k:\;..\..\infra\engine
+Item6=..\..\..\shared\general;$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\..\shared
+Item7=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\..\shared
+Item8=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\c++source;..\..\..\shared
+Item9=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\c++source
 
 [HistoryLists\hlLibraryPath]
-Count=11
-Item0=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib;..\..\infra\protocol;..\..\infra\engine;k:\general\
-Item1=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\infra\protocol;..\..\infra\engine;k:\general\;k:\aps\
-Item2=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\infra\protocol;..\..\infra\engine;k:\general\;k:\aps
-Item3=..\..\infra\protocol;k:\general\;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\infra\engine
-Item4=..\..\infra\protocol;k:\general;k:\general\;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\infra\engine
-Item5=k:\general;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;..\..\infra\engine
-Item6=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general;..\..\infra\engine
-Item7=$(BCB)\lib\debug;..\..\..\shared\general;..\..\infra\engine;$(BCB)\lib\obj;$(BCB)\lib
-Item8=..\..\infra\engine;$(BCB)\lib\obj;$(BCB)\lib
-Item9=..\..\..\shared\general;..\..\infra\cppsource;$(BCB)\lib\obj;$(BCB)\lib
-Item10=$(BCB)\lib\obj;$(BCB)\lib
+Count=13
+Item0=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib;..\..\infra\ComponentInterface;..\..\infra\protocol;k:\general\
+Item1=..\..\infra\ComponentInterface;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib;..\..\infra\protocol;..\..\infra\engine;k:\general\
+Item2=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib;..\..\infra\protocol;..\..\infra\engine;k:\general\
+Item3=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\infra\protocol;..\..\infra\engine;k:\general\;k:\aps\
+Item4=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\infra\protocol;..\..\infra\engine;k:\general\;k:\aps
+Item5=..\..\infra\protocol;k:\general\;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\infra\engine
+Item6=..\..\infra\protocol;k:\general;k:\general\;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\infra\engine
+Item7=k:\general;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;..\..\infra\engine
+Item8=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general;..\..\infra\engine
+Item9=$(BCB)\lib\debug;..\..\..\shared\general;..\..\infra\engine;$(BCB)\lib\obj;$(BCB)\lib
+Item10=..\..\infra\engine;$(BCB)\lib\obj;$(BCB)\lib
+Item11=..\..\..\shared\general;..\..\infra\cppsource;$(BCB)\lib\obj;$(BCB)\lib
+Item12=$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
 Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=1
+Item0=_DEBUG
 
 [HistoryLists\hlHostApplication]
 Count=1
@@ -106,6 +114,11 @@ Item0=D:\apsuite\apsim\infra\cppsource\apsim.exe
 [HistoryLists\hlRunParameters]
 Count=1
 Item0=c:\apswork\test\test.run
+
+[HistoryLists\hlFinalOutputDir]
+Count=2
+Item0=..\Lib\
+Item1=..\Lib
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl

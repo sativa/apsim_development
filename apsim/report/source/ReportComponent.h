@@ -1,49 +1,39 @@
 //---------------------------------------------------------------------------
 #ifndef ReportComponentH
 #define ReportComponentH
-#include <APSIMComponent.h>
-#include <APSIMVariant.h>
-
+#include <Component.h>
+#include <aps\APSIMOutputFile.h>
+#include <string>
+#include <vector>
+#include <list>
 class Field
    {
    public:
-      Field (EventInterface* eventInterface,
-             const string& ModuleName,
-             const string& VariableName,
-             const string& VariableAlias,
+      Field (protocol::Component* parent,
+             const std::string& ModuleName,
+             const std::string& VariableName,
+             const std::string& VariableAlias,
              bool CSVFormat);
 
-      void init(void);
-
-      void writeHeading(std::ostream& out);
-      void writeUnits(std::ostream& out);
+      void writeHeadings(std::ostream& headingOut, std::ostream& unitOut);
       void writeValue(std::ostream& out);
       void writeToSummary(void);
-      void accumulateValue(void);
-      bool isFunction(void) const {return (FunctionName.length() > 0);}
 
    private:
-      EventInterface* eventInterface;
+      protocol::Component* parent;
       std::string ModuleName;
       std::string VariableName;
       std::string VariableAlias;
       std::string VariableUnits;
-      std::string FunctionName;
-      int NumTimesAccumulated;
       bool CSVFormat;
+      unsigned variableID;
+      unsigned int fieldWidth;
+      std::vector<std::string> values;
+      std::string unit;
 
-      APSIMVariant::TypeCodesEnum VariableType;
-      bool VariableFound;
-      unsigned int NumElements;
-   public:
-      vector<string> Values;
-   private:
-      vector<double> FunctionValues;
-
-      string truncateSt (const string& st, unsigned int Width);
-      unsigned int getWidth();
-      bool retrieveValue(void);
-      void WriteString (std::ostream& out, const string& st);
+      bool getValues(void);
+      void calcFieldWidth(protocol::Variant* variant, bool ok);
+      void writeTo(std::ostream& out, const std::string& value);
 
    };
 // ------------------------------------------------------------------
@@ -59,30 +49,33 @@ class Field
 //    DPH 29/7/99
 
 // ------------------------------------------------------------------
-class ReportComponent : public APSIMComponent
+class ReportComponent : public protocol::Component
    {
    public:
-      ReportComponent(const FString& name,
-                      IComputation& computation,
-                      const std::string& ssdl);
+      ReportComponent(void);
       ~ReportComponent(void);
-      virtual void init ();
-      virtual bool getVariable (const FString& VariableName);
-      virtual bool doAction(const FString& Action);
+      virtual void doInit1(const FString& sdml);
+      virtual void doInit2(void);
+      virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
+      virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
+      virtual void respondToMethod(unsigned int& fromID, unsigned int& methodID, protocol::Variant& variant);
 
    private:
       APSIMOutputFile* Out;
-      bool HaveAccumulatedVarsToday;
       bool OutputOnThisDay;
-      list<Field> Fields;
-      bool SomeFieldsAreFuntions;
+      typedef std::list<Field> Fields;
+      Fields fields;
       int DaysSinceLastReport;
       bool CSVFormat;
-      bool HaveWrittenHeadings;
 
-      void Setup(void);
+      unsigned repEventID;
+      unsigned doOutputID;
+      unsigned doEndDayOutputID;
+      unsigned daysSinceLastReportVariableID;
+      unsigned tempID;
+
+      void writeHeadings(void);
       void WriteLineOfOutput(void);
-      void AccumulateVariables(void);
    };
 
 
