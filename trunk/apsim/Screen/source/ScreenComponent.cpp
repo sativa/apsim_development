@@ -36,10 +36,14 @@ ScreenComponent::ScreenComponent(void)
    inDiaryState = false;
    startDateJDay = 0;
    HWND parentHandle = GetForegroundWindow();
-   ScreenForm = new TScreenForm((HWND)parentHandle);
+   char parentCaption[100];
+   GetWindowText(parentHandle, parentCaption, sizeof(parentCaption));
+   if (strcmpi(parentCaption, "Running APSIM...") != 0)
+      ScreenForm = new TScreenForm((TComponent*)NULL);
 
-   if (parentHandle != NULL)
+   else
       {
+      ScreenForm = new TScreenForm((HWND)parentHandle);
       ScreenForm->BorderIcons.Clear();
       ScreenForm->BorderStyle = bsNone;
       ScreenForm->Caption = "";
