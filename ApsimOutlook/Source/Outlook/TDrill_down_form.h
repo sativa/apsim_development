@@ -55,6 +55,7 @@ __published:	// IDE-managed Components
           bool &AllowCollapse);
    void __fastcall ScenarioTreeExpanding(TObject *Sender, TTreeNode *Node,
           bool &AllowExpansion);
+   void __fastcall Rename1Click(TObject *Sender);
 //   void __fastcall Rename1Click(TObject *Sender);
 //   void __fastcall Delete1Click(TObject *Sender);
 //   void __fastcall Tab_controlMouseDown(TObject *Sender,
