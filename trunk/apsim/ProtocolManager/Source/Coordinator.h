@@ -34,6 +34,7 @@ class Coordinator : public protocol::Component
       string title;
       unsigned titleID;
       unsigned componentsID;
+      vector<unsigned> componentOrders;
 
       virtual void doInit1(const FString& sdml);
       virtual void doInit2(void);
@@ -48,6 +49,7 @@ class Coordinator : public protocol::Component
       virtual void onQueryInfoMessage(unsigned int fromID, unsigned int messageID, protocol::QueryInfoData& queryInfo);
       virtual void onRequestSetValueMessage(unsigned int fromID, protocol::RequestSetValueData& setValueData);
       virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
+      virtual void onApsimChangeOrderData(protocol::ApsimChangeOrderData& apsimChangeOrderData);
 
       void addComponent(const std::string& name,
                         const std::string& executable,
@@ -67,5 +69,8 @@ class Coordinator : public protocol::Component
       void pollComponentsForSetVariable(PMRegistrationItem& registrationItem,
                                         unsigned fromID,
                                         protocol::RequestSetValueData& setValueData);
+      void publishEventsInOrder(unsigned int fromID,
+                                protocol::PublishEventData& publishEventData,
+                                PMRegistrationItem* registrationItem);
    };
 #endif

@@ -41,7 +41,8 @@ enum MessageType
    TerminateSimulation = 31,
    QuerySetValue = 40,
    ApsimGetQuery = 41,
-   ApsimSetQuery = 42
+   ApsimSetQuery = 42,
+   ApsimChangeOrder = 43
    };
 
 

@@ -242,6 +242,7 @@ unsigned FString::npos = -1;
 class FStrings
    {
    public:
+      FStrings(void) : maxNumElements(0), numElements(0), elementLength(0) { }
       FStrings(char* t,
                const unsigned int elementlength,
                const unsigned int maxNumElement,
@@ -293,6 +294,8 @@ class FStrings
          }
 
       unsigned getNumElements(void) const {return numElements;}
+      unsigned getElementLength(void) const {return elementLength;}
+      FString getSt(void) const {return st;}
    private:
       unsigned maxNumElements;
       unsigned numElements;

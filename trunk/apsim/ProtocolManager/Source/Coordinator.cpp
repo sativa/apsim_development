@@ -368,29 +368,27 @@ void Coordinator::onDeregisterMessage(unsigned int fromID, DeregisterData& dereg
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//    handle incoming publish event messages.
-
-//  Notes:
-
-//  Changes:
-//    dph 15/5/2001
-
+// Handle incoming publish event messages.
 // ------------------------------------------------------------------
 void Coordinator::onPublishEventMessage(unsigned int fromID, PublishEventData& publishEventData)
    {
    ComponentAlias::Registrations& registrations = *components[fromID]->getRegistrationsForKind(protocol::eventReg);
    PMRegistrationItem* registrationItem = registrations[publishEventData.ID];
-   for (PMRegistrationItem::InterestedItems::iterator
-                                  interestI = registrationItem->interestedItems.begin();
-                                  interestI != registrationItem->interestedItems.end();
-                                  interestI++)
+   if (componentOrders.size() > 0)
+      publishEventsInOrder(fromID, publishEventData, registrationItem);
+   else
       {
-      sendMessage(newEventMessage(componentID,
-                                  (*interestI)->componentID,
-                                  (*interestI)->registrationID,
-                                  fromID,
-                                  publishEventData.variant));
+      for (PMRegistrationItem::InterestedItems::iterator
+                                     interestI = registrationItem->interestedItems.begin();
+                                     interestI != registrationItem->interestedItems.end();
+                                     interestI++)
+         {
+         sendMessage(newEventMessage(componentID,
+                                     (*interestI)->componentID,
+                                     (*interestI)->registrationID,
+                                     fromID,
+                                     publishEventData.variant));
+         }
       }
    }
 // ------------------------------------------------------------------
@@ -821,6 +819,86 @@ void Coordinator::pollComponentsForSetVariable(PMRegistrationItem& registrationI
             {
             lastModuleID = i->second->ID;
             return;
+            }
+         }
+      }
+   }
+// ------------------------------------------------------------------
+// Called by component (CANOPY) to change the order that events are sent
+// to a module.
+//     Modules are swapped thus:
+//      e.g. if componentNames[0] = 'x',
+//              componentNames[1] = 'y',
+//              componentNames[2] = 'z'
+//         Then y will replace x, z will replace y, and x will replace z
+//         leaving: y, z, x
+// ------------------------------------------------------------------
+void Coordinator::onApsimChangeOrderData(ApsimChangeOrderData& apsimChangeOrderData)
+   {
+   if (componentOrders.size() == 0)
+      {
+      for (unsigned i = 0; i != apsimChangeOrderData.componentNames.getNumElements(); ++i)
+         {
+         unsigned componentID = componentNameToID(asString(apsimChangeOrderData.componentNames.getString(i)));
+         componentOrders.push_back(componentID);
+         }
+      }
+   else
+      {
+      // move all items up 1 spot.  Move top spot to bottom.
+      for (unsigned i = 1; i != componentOrders.size(); i++)
+         swap(componentOrders[i-1], componentOrders[i]);
+      }
+   }
+// ------------------------------------------------------------------
+// Handle incoming publish event message but make sure the order
+// of events is the same as that specified in the componentOrder.
+// ------------------------------------------------------------------
+void Coordinator::publishEventsInOrder(unsigned int fromID,
+                                       PublishEventData& publishEventData,
+                                       PMRegistrationItem* registrationItem)
+   {
+   bool SentToOrderedComponents = false;
+
+   // Loop through all the subscribed components.  Those that aren't in the list,
+   // send the event as normal.  The first time we strike a component that IS
+   // in the list then send the event to all the components in the componentOrder
+   // list in one hit.  Then send the event to the remaining components.
+   for (PMRegistrationItem::InterestedItems::iterator
+                                  interestI = registrationItem->interestedItems.begin();
+                                  interestI != registrationItem->interestedItems.end();
+                                  interestI++)
+      {
+      std::vector<unsigned>::iterator componentOrderI
+         = find(componentOrders.begin(), componentOrders.end(), (*interestI)->componentID);
+      if (componentOrderI == componentOrders.end())
+         sendMessage(newEventMessage(componentID,
+                                     (*interestI)->componentID,
+                                     (*interestI)->registrationID,
+                                     fromID,
+                                     publishEventData.variant));
+      else if (!SentToOrderedComponents)
+         {
+         SentToOrderedComponents = true;
+         for (unsigned i = 0; i != componentOrders.size(); ++i)
+            {
+            // find the registration that matches this component and send
+            // the event to it.
+            for (PMRegistrationItem::InterestedItems::iterator
+                                           item = registrationItem->interestedItems.begin();
+                                           item != registrationItem->interestedItems.end();
+                                           ++item)
+               {
+               if ((*item)->componentID == componentOrders[i])
+                  {
+                  sendMessage(newEventMessage(componentID,
+                                              (*item)->componentID,
+                                              (*item)->registrationID,
+                                              fromID,
+                                              publishEventData.variant));
+                  break;
+                  }
+               }
             }
          }
       }

@@ -3,6 +3,7 @@
 
 #include "message.h"
 #include "variant.h"
+#include "ProtocolVector.h"
 namespace protocol {
 
 // --------------- NO DATA structure ------------
@@ -551,6 +552,27 @@ inline Message* newApsimSetQueryMessage(unsigned int from,
                                    memorySize(replyID) + memorySize(variant));
    MessageData messageData(msg);
    messageData << regName << replyToID << replyID << variant;
+   return msg;
+   }
+// -------------- ApsimChangeOrder -------------
+struct ApsimChangeOrderData
+   {
+   FStrings componentNames;
+   };
+inline MessageData& operator>> (MessageData& messageData, ApsimChangeOrderData& data)
+   {
+   messageData >> data.componentNames;
+   return messageData;
+   }
+
+inline Message* newApsimChangeOrderMessage(unsigned int from,
+                                           unsigned int to,
+                                           const FStrings& names)
+   {
+   Message* msg = constructMessage(ApsimChangeOrder, from, to, false,
+                                   memorySize(names));
+   MessageData messageData(msg);
+   messageData << names;
    return msg;
    }
 
