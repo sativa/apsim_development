@@ -1,4 +1,4 @@
-C     Last change:  E    12 May 2000   11:51 am
+C     Last change:  E    29 May 2000   11:04 am
 
 *     ===========================================================
       subroutine crop_dm_potential (current_stage,
@@ -4158,7 +4158,8 @@ c""""""""""""""""""""""""""""""""""""""""""""""""""
       
       
 * On the germination day, calculate the tt for emergence
-      if (on_day_of (germ, g_current_stage, g_days_tot)) then
+c     if (on_day_of (germ, g_current_stage, g_days_tot)) then
+      if (on_day_of (sowing, g_current_stage, g_days_tot)) then
          phase_tt(germ_to_emerg) = c_shoot_lag
      :                           + g_sowing_depth*c_shoot_rate
 
