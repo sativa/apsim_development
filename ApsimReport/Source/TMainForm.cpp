@@ -61,8 +61,6 @@ void __fastcall TMainForm::AdvancedEditModeExecute(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::ExitExecute(TObject *Sender)
    {
-   SEGReport1->editMode = false;
-   saveIfNecessary();   
    Close();
    }
 //---------------------------------------------------------------------------
@@ -119,6 +117,7 @@ void TMainForm::save(AnsiString file)
          setCaption();
          }
       SEGReport1->save(file);
+      MRUFileList->AddItem(filename);
       }
    }
 //---------------------------------------------------------------------------
@@ -268,6 +267,7 @@ void __fastcall TMainForm::LibraryExecute(TObject *Sender)
 void __fastcall TMainForm::FormClose(TObject *Sender, TCloseAction &Action)
    {
    SEGReport1->editMode = false;
+   saveIfNecessary();
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::RefreshActionExecute(TObject *Sender)
