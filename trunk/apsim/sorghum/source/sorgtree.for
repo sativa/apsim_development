@@ -1,4 +1,4 @@
-C     Last change:  E     7 Feb 2001   11:56 am
+C     Last change:  E     6 Aug 2001   12:28 pm
 *     ===========================================================
       subroutine Sorg_root_depth (Option)
 *     ===========================================================
@@ -2360,7 +2360,7 @@ c      dll_import  cproc_leaf_area_pot_TPLA
      .          g%current_stage,
      .          g%plants,
      .          g%tt_tot,
-     .          g%dlt_plants_all,
+     .          g%dlt_plants_failure_emergence,
  
      .          g%lai,
      .          g%dlt_slai,
@@ -2371,7 +2371,7 @@ c      dll_import  cproc_leaf_area_pot_TPLA
      .          c%swdf_photo_limit,
      .          g%swdef_photo,
      .          c%swdf_photo_rate,
-     .          g%dlt_plants_water,
+     .          g%dlt_plants_death_drought,
      .          g%dlt_plants_dead)
  
       else
