@@ -758,6 +758,7 @@ void ApsimControlFile::addModuleLine(const string& section,
       parseModuleLine(ini->getFileName(), moduleLines[i], paramFiles, false);
       if (paramFiles[0].instanceName == instanceName)
          {
+         newParamFile.moduleName = paramFiles[0].moduleName;
          if (find(paramFiles.begin(), paramFiles.end(), newParamFile) != paramFiles.end())
             return;
          paramFiles.push_back(newParamFile);
