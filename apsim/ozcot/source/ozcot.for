@@ -101,9 +101,11 @@
 *- Implementation Section ----------------------------------
       call push_routine(myname)
 
-      if (Action.eq.ACTION_init) then
-         call ozcot_zero_variables ()
-         call ozcot_Init ()
+      if (Action.eq.ACTION_Get_variable) then
+         call ozcot_Send_my_variable (data_string)
+
+      else if (Action .eq. ACTION_Set_variable) then
+         call ozcot_set_my_variable (data_string)
 
       else if (Action .eq. ACTION_prepare) then
          call ozcot_prepare ()
@@ -124,18 +126,19 @@
       else if (Action .eq. ACTION_Post) then
          call ozcot_post ()
 
-      else if (Action.eq.ACTION_Get_variable) then
-         call ozcot_Send_my_variable (data_string)
-
-      else if (Action .eq. ACTION_Set_variable) then
-         call ozcot_set_my_variable (data_string)
-
       else if (Action .eq. 'sow' .or. action .eq. 'harvest') then
          call ozcot_manager (Action, data_string)
 
       else if (Action .eq. ACTION_End_run) then
          call ozcot_end_run ()
 
+      elseif (Action.eq.ACTION_init) then
+         call ozcot_zero_variables ()
+         call ozcot_Init ()
+
+      else if (Action.eq.ACTION_Create) then
+         call ozcot_zero_all_globals ()
+ 
       else
          ! Don't use message
          call message_unused ()
@@ -252,6 +255,258 @@ cpsc      call init()                      ! now called from o_zero_variables
       return
       end
 
+*     ===========================================================
+      subroutine ozcot_zero_all_globals ()
+*     ===========================================================
+      use ozcotModule
+      implicit none
+      include 'error.pub'                         
+
+*+  Purpose
+*       Zero all global variables & arrays
+
+*+  Changes
+*     041199 jngh
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name  = 'ozcot_zero_all_globals')
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+      g%TITLE  = ' '
+      g%DAY(:)   = 0.0
+      g%HR(:)    = 0.0
+      g%TEMPMX   = 0.0
+      g%TEMPMN   = 0.0
+      g%SOLRAD   = 0.0
+      g%RAIN     = 0.0
+      g%EPAN     = 0.0
+      g%HUCUT    = 0.0
+      g%BASET    = 0.0
+      g%TEMPDY   = 0.0
+      g%TEMPWT   = 0.0
+      g%WIND     = 0.0
+      g%TEMPAV   = 0.0
+      g%tempre   = 0.0
+      g%tempyd   = 0.0
+      g%tmean3   = 0.0
+      g%HUNITS   = 0.0
+      g%ASOIL    = 0.0
+      g%EOS      = 0.0
+      g%QA       = 0.0
+      g%SOLRTO   = 0.0
+      g%Q        = 0.0
+      g%SUMES1   = 0.0
+      g%SUMES2   = 0.0
+      g%EO       = 0.0
+      g%ES       = 0.0
+      g%EP       = 0.0
+      g%ET       = 0.0
+      g%HO       = 0.0
+      g%G        = 0.0
+      g%TR       = 0.0
+      g%RRIG(:) = 0.0
+      g%RTSW     = 0.0
+      g%DEFIRG   = 0.0
+      g%AMBDA    = 0.0
+      g%CONA     = 0.0
+      g%VPD      = 0.0
+      g%BPER     = 0.0
+      g%dlayr(:)            = 0.0
+      g%dlayr_cm(:)         = 0.0
+      g%ULLAYR(:)           = 0.0
+      g%STLAYR(:)           = 0.0
+      g%SWLAYR(:)           = 0.0
+      g%SW                  = 0.0
+      g%UL                  = 0.0
+      g%sat                 = 0.0
+      g%UL1                 = 0.0
+      g%BULKD(:)            = 0.0
+      g%STEMP               = 0.0
+      g%TRANS(:)            = 0.0
+      g%DEF                 = 0.0
+      g%WPWC                = 0.0
+      g%WHCSUB              = 0.0
+      g%ULSUB               = 0.0
+      g%AVSWSM              = 0.0
+      g%TSWL(:)             = 0.0
+      g%SETLYR(:)           = 0.0
+      g%ESUM                = 0.0
+      g%ALAI                = 0.0
+      g%RTDEP               = 0.0
+      g%RTGROW              = 0.0
+      g%CRSPCE              = 0.0
+      g%PPM                 = 0.0
+      g%SDEPTH              = 0.0
+      g%RTDEPM              = 0.0
+      g%SHEDLF              = 0.0
+      g%SMI                 = 0.0
+      g%S                   = 0.0
+      g%RS                  = 0.0
+      g%PP                  = 0.0
+      g%PS                  = 0.0
+      g%FLL                 = 0.0
+      g%AVAILN              = 0.0
+      g%UPTAKN              = 0.0
+      g%VEGN                = 0.0
+      g%FRUN                = 0.0
+      g%PLANTN              = 0.0
+      g%SEED_NC             = 0.0
+      g%STRUCN              = 0.0
+      g%FRUCAT(:)           = 0.0
+      g%DAYSQZ              = 0.0
+      g%DAYSFL              = 0.0
+      g%DAYSOP              = 0.0
+      g%FMKCAT(:,:)         = 0.0
+      g%DD                  = 0.0
+      g%DDMERG              = 0.0
+      g%SUMDD               = 0.0
+      g%BGRVAR              = 0.0
+      g%FRUDW               = 0.0
+      g%SQUARZ              = 0.0
+      g%BOLLZ               = 0.0
+      g%OPENZ               = 0.0
+      g%SITES               = 0.0
+      g%sites1              = 0.0
+      g%SIZE                = 0.0
+      g%BLOAD               = 0.0
+      g%OPENWT              = 0.0
+      g%SQCON(:)           = 0.0
+      g%RESPCON(:)         = 0.0
+      g%POPCON              = 0.0
+      g%FLAI(:)            = 0.0
+      g%FCUTOUT(:)         = 0.0
+      g%CARCAP              = 0.0
+      g%CUTOUT              = 0.0
+      g%VNSTRS              = 0.0
+      g%FNSTRS              = 0.0
+      g%RAD                 = 0.0
+      g%PCLINT              = 0.0
+      g%CARCAP_C            = 0.0
+      g%CARCAP_N            = 0.0
+      g%SCBOLL(:)          = 0.0
+      g%FBURR               = 0.0
+      g%FRUNO(:)          = 0.0
+      g%FRUWT(:)          = 0.0
+      g%FRMARK(:,:)       = 0.0
+      g%FYZAGE(:)         = 0.0
+      g%DLAI(:)           = 0.0
+      g%ALAIZ               = 0.0
+      g%PLNTNZ              = 0.0
+      g%TWATER              = 0.0
+      g%ALINT               = 0.0
+      g%GROSS_MARG          = 0.0
+      g%DEF_LAST            = 0.0
+      g%SQZX                = 0.0
+      g%OPEN_DEF            = 0.0
+      g%AGRON_INP           = 0.0
+      g%SOILW_INP           = 0.0
+      g%COUNT_INP           = 0.0
+      g%RAIN_INP            = 0.0
+      g%MET_INP             = 0.0
+      g%FCOT_OUT            = 0.0
+      g%FRUCAL_OUT          = 0.0
+      g%YIELD_OUT           = 0.0
+      g%SOW_SW              = 0.0
+      g%s_bed_mi            = 0.0
+      g%s_bed_sat           = 0.0
+      g%delay               = 0.0
+      g%bpsum(:)          = 0.0
+      g%A_ROOT_LEAF         = 0.0
+      g%A_STEM_LEAF         = 0.0
+      g%BOLLGR              = 0.0
+      g%DLAI_POT            = 0.0
+      g%DW_BOLL             = 0.0
+      g%DW_LEAF             = 0.0
+      g%DW_ROOT             = 0.0
+      g%DW_STEM             = 0.0
+      g%DW_TOTAL            = 0.0
+      g%RESERVE             = 0.0
+      g%RES_CAP             = 0.0
+      g%ROOT_FEEDBACK       = 0.0
+      g%SPECIFIC_LW         = 0.0
+      g%WT_AREA_MAX         = 0.0
+      g%WT_AREA_MIN         = 0.0
+      g%dDW_L(:)          = 0.0
+      g%E_PAR               = 0.0
+      g%T_OPT               = 0.0
+      g%T_BASE              = 0.0
+      g%EMBRYO              = 0.0
+      g%F_LEAF              = 0.0
+      g%F_STEM              = 0.0
+      g%F_ROOT              = 0.0
+      g%dDW_BOLL            = 0.0
+      g%dDW_LEAF            = 0.0
+      g%dDW_ROOT            = 0.0
+      g%dDW_STEM            = 0.0
+      g%LEAF_RES            = 0.0
+      g%STEM_RES            = 0.0
+      g%ROOT_RES            = 0.0
+      g%LEAF_RES_N          = 0.0
+      g%STEM_RES_N          = 0.0
+      g%ROOT_RES_N          = 0.0
+      g%total_n             = 0.0
+      g%dn_plant            = 0.0
+      g%tsno3               = 0.0
+      g%no3mn(:)            = 0.0
+      g%yest_tsno3          = 0.0
+      g%ano3(:)             = 0.0
+      g%Last_Iday           = 0
+      g%MODE                = 0
+      g%IMMO                = 0
+      g%IMDY                = 0
+      g%IMYR                = 0
+      g%JDATE               = 0
+      g%MDPY                = 0
+      g%NLAYR               = 0
+      g%ISW                 = 0
+      g%IEMRG               = 0
+      g%ISOW                = 0
+      g%ISQ                 = 0
+      g%IVAR                = 0
+      g%IDATE               = 0
+      g%ILAI                = 0
+      g%IDAY                = 0
+      g%LFRU(:)             = 0
+      g%LAST                = 0
+      g%NEXT                = 0
+      g%LASTL               = 0
+      g%NEXTL               = 0
+      g%IDAYCO              = 0
+      g%LAST_DAY            = 0
+      g%ILAIZ               = 0
+      g%IPLNTN              = 0
+      g%NIRR                = 0
+      g%ISQZX               = 0
+      g%J_PICK              = 0
+      g%N_PICK              = 0
+      g%N_DEF               = 0
+      g%I_DEF               = 0
+      g%LAI_INP             = 0
+      g%IWINDOW             = 0
+      g%das                 = 0
+      g%iend                = 0
+      g%idayx               = 0
+      g%lastlf              = 0
+      g%n_cutout            = 0
+      g%ifrost              = 0
+      g%istress             = 0
+      g%ireliefco           = 0
+      g%Crop_in             = .false.     ! Is a crop in ?
+      g%Zero_variables      = .false.
+
+! OzcotParameters
+
+      p%UNUL(:)           = 0.0
+      p%num_ll_vals       = 0
+
+                                                                        
+      call pop_routine (my_name)
+      return
+      end
 
 
 * ====================================================================
