@@ -55,26 +55,25 @@ __fastcall TDrill_down_form::TDrill_down_form(TComponent* Owner)
 void TDrill_down_form::refreshScenarioTree (void)
    {
    //capture important state information about the present tree
-   AnsiString previous;
-   vector<AnsiString> expandedNodes;
-   if (ScenarioTree->Selected != NULL)
+   //select a root node.
+   int previous = -1;
+   vector<int> expandedNodes;
+   if (ScenarioTree->Items->Count > 0)
       {
-      if (ScenarioTree->Selected->Level > 0)
-         previous = ScenarioTree->Selected->Parent->Text;
-      else
-         previous = ScenarioTree->Selected->Text;
-
-      // capture the expanded state of every scenario name
+      if (ScenarioTree->Selected != NULL && ScenarioTree->Selected->Level > 0)
+         ScenarioTree->Selected->Parent->Selected = true;
+      int nodeNum = 0;
       TTreeNode* node = ScenarioTree->Items->Item[0];
       while (node != NULL)
          {
          if (node->Expanded)
-            expandedNodes.push_back(node->Text);
+            expandedNodes.push_back(nodeNum);
+         if (node->Selected)
+            previous = nodeNum;
+         nodeNum++;
          node = node->getNextSibling();
          }
       }
-   else
-      previous = "";
 
    ScenarioTree->Items->Clear();
    vector<string> Names;
@@ -84,46 +83,26 @@ void TDrill_down_form::refreshScenarioTree (void)
       AnsiString nameString = i->c_str();
       TTreeNode* newScen = ScenarioTree->Items->Add(NULL, nameString);
       vector<string> factorNames;
-      scenarios->getFactorNames(factorNames);
-      scenarios->setCurrentScenario(*i);
+      scenarios->getFactorNames(*i, factorNames);
       for (vector<string>::iterator j = factorNames.begin(); j!=factorNames.end(); j++)
          {
-         AnsiString valueString = j->c_str();
-         valueString += " = ";
-         string factorValue;
-         Graphics::TBitmap* temp;
-         scenarios->getFactorAttributes(*j, factorValue, temp);
-         valueString += factorValue.c_str();
-         ScenarioTree->Items->AddChild(newScen, valueString);
+         string valueString = *j + " = " + scenarios->getFactorValue(*i, *j);
+         ScenarioTree->Items->AddChild(newScen, valueString.c_str());
          }
       }
 
    // highlight the logically 'current' scenario; ie. the first scenario closest
    // to the node previously highlighted
-   int index;
-   for (index = 0; index < ScenarioTree->Items->Count; index++)
+   int nodeNum = 0;
+   TTreeNode* node = ScenarioTree->Items->Item[0];
+   while (node != NULL)
       {
-      if (ScenarioTree->Items->Item[index]->Level == 0 &&
-          ScenarioTree->Items->Item[index]->Text.Pos(previous) > 0)
-         break;
-      }
-   if (index < ScenarioTree->Items->Count)
-      ScenarioTree->Selected = ScenarioTree->Items->Item[index];
-   else
-      ScenarioTree->Items->Item[0]->Selected = true;
-
-   ScenarioTree->Selected->Expanded = true;
-
-   // expand any other nodes that were previously expanded
-   for (unsigned j = 0; j < expandedNodes.size(); j++)
-      {
-      TTreeNode* n = ScenarioTree->Items->Item[0];
-      while (n != NULL)
-         {
-         if (find(expandedNodes.begin(), expandedNodes.end(), n->Text) != expandedNodes.end())
-            n->Expanded = true;
-         n = n->getNextSibling();
-         }
+      if (find(expandedNodes.begin(), expandedNodes.end(), nodeNum) != expandedNodes.end())
+         node->Expanded = true;
+      if (nodeNum == previous)
+         node->Selected = true;
+      nodeNum++;
+      node = node->getNextSibling();
       }
    }
 
@@ -156,8 +135,8 @@ void __fastcall TDrill_down_form::FormShow(TObject *Sender)
    {
    ValueSelectPopup = new TValueSelectPopup(this);
 
+   scenarios->restore();
    Refresh();
-//   ScenarioTree->Items->Item[1]->Expanded = true;
    }
 // ------------------------------------------------------------------
 //  Short description:
@@ -174,14 +153,12 @@ void __fastcall TDrill_down_form::FormClose(TObject *Sender,
       TCloseAction &Action)
    {
    delete ValueSelectPopup;
-//   if (ModalResult != mrOk)
-//      Restore_simulations();
+   scenarios->save();
    }
 //---------------------------------------------------------------------------
 void __fastcall TDrill_down_form::ClearButtonClick(TObject *Sender)
    {
-   bool leaveDefault = true;
-   scenarios->deleteAllScenarios(leaveDefault);
+   scenarios->deleteAllScenarios();
    Refresh();
    }
 //---------------------------------------------------------------------------
@@ -189,18 +166,21 @@ void __fastcall TDrill_down_form::ClearButtonClick(TObject *Sender)
 void __fastcall TDrill_down_form::popupClose(System::TObject* Sender, TCloseAction &Action)
    {
    ValueSelectPopup->FormClose(Sender, Action);
+   string selectedScenario = ScenarioTree->Selected->Parent->Text.c_str();
    if (ValueSelectPopup->applied)
       {
       ValueSelectPopup->applied = false; //flag has been used- turn it off
-      scenarios->createScenariosFromCurrent
-         (ValueSelectPopup->factorName.c_str(), ValueSelectPopup->SelectedItems);
+      scenarios->createScenariosFrom(selectedScenario,
+                                     ValueSelectPopup->factorName,
+                                     ValueSelectPopup->SelectedItems);
       Refresh();
       }
    else if (ValueSelectPopup->appliedToAll)
       {
       ValueSelectPopup->appliedToAll = false; //flag has been used- turn it off
-      scenarios->createScenarioPermutation
-         (ValueSelectPopup->factorName.c_str(), ValueSelectPopup->SelectedItems);
+      scenarios->createScenarioPermutation(selectedScenario,
+                                           ValueSelectPopup->factorName,
+                                           ValueSelectPopup->SelectedItems);
       Refresh();
       }
    }
@@ -217,7 +197,6 @@ void __fastcall TDrill_down_form::ScenarioTreeMouseDown(TObject *Sender,
       ScenarioTree->Selected = node;
       if (node->Parent != NULL)
          {
-         scenarios->setCurrentScenario(node->Text.c_str());
          // get factor name and value.
          string Factor_name;
          string Factor_value;
@@ -228,7 +207,10 @@ void __fastcall TDrill_down_form::ScenarioTreeMouseDown(TObject *Sender,
                                                ValueSelectPopup->SelectedItems.end());
 
          // get a list of identifier values that the user can select from.
-         scenarios->getFactorValues(Factor_name, ValueSelectPopup->SelectedItems);
+         string selectedScenario = node->Parent->Text.c_str();
+         scenarios->getFactorValues(selectedScenario,
+                                    Factor_name,
+                                    ValueSelectPopup->SelectedItems);
          ValueSelectPopup->CurrentValue = Factor_value;
          ValueSelectPopup->factorName = Factor_name;
 
@@ -251,12 +233,13 @@ void __fastcall TDrill_down_form::ScenarioTreeMouseDown(TObject *Sender,
 void __fastcall TDrill_down_form::Rename1Click(TObject *Sender)
    {
    // rename the current simulation and tab name.
-   string new_name = scenarios->getCurrentScenario();
-   TabRenameForm->EditBox->Text = new_name.c_str();
+   string selectedScenario = ScenarioTree->Selected->Text.c_str();
+   TabRenameForm->EditBox->Text = selectedScenario.c_str();
 
    if (TabRenameForm->ShowModal() == mrOk)
       {
-      scenarios->renameCurrentScenario(TabRenameForm->EditBox->Text.c_str());
+      scenarios->renameScenario(selectedScenario,
+                                TabRenameForm->EditBox->Text.c_str());
       Refresh();
       }
    }
@@ -275,10 +258,28 @@ void __fastcall TDrill_down_form::Delete1Click(TObject *Sender)
    {
    // delete the current simulation and tab name.
    if (scenarios->count() == 1)
-      scenarios->deleteAllScenarios(true);
+      scenarios->deleteAllScenarios();
    else
-      scenarios->deleteCurrentScenario();
+      {
+      string selectedScenario = ScenarioTree->Selected->Text.c_str();
+      if (ScenarioTree->Selected->Parent != NULL)
+         selectedScenario = ScenarioTree->Selected->Parent->Text.c_str();
+
+      scenarios->deleteScenario(selectedScenario);
+      }
    Refresh();
+   }
+//---------------------------------------------------------------------------
+void __fastcall TDrill_down_form::ScenarioTreeEditing(TObject *Sender,
+      TTreeNode *Node, bool &AllowEdit)
+   {
+   AllowEdit = (Node->Level == 0);
+   }
+//---------------------------------------------------------------------------
+void __fastcall TDrill_down_form::ScenarioTreeEdited(TObject *Sender,
+      TTreeNode *Node, AnsiString &S)
+   {
+   scenarios->renameScenario(Node->Text.c_str(), S.c_str());
    }
 //---------------------------------------------------------------------------
 

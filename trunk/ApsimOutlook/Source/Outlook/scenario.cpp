@@ -6,153 +6,98 @@
 #include "Scenario.h"
 #include "AddIn.h"
 #include <general\stl_functions.h>
+#include <general\StringTokenizer.h>
 using namespace std;
 //---------------------------------------------------------------------------
 
 #pragma package(smart_init)
 
+//---------------------------------------------------------------------------
 // constructor
-Scenario::Scenario(const string& nam, const FactorContainer& facs) {
+//---------------------------------------------------------------------------
+Scenario::Scenario(const string& nam, const FactorContainer& facs)
+   {
    name = nam;
    factors = facs;
-}
-
-// copy constructor
-Scenario::Scenario(const Scenario& from) {
-   *this = from;
-}
-
-Scenario::~Scenario() {
-   // Scenarios does not create the bitmaps so does not need to delete them
-}
-
-Scenario& Scenario::operator=(const Scenario& rhs) {
-   if (this == &rhs)
-      return *this;
-
-   name = rhs.name;
-   factors.assign(rhs.factors.begin(),rhs.factors.end());
-   return *this;
-}
-
-void Scenario::setName(const string& new_name) {
-   name = new_name;
-}
-
-string Scenario::getName(void) const {
-   return name;
-}
-
-string Scenario::getFactorValue(const std::string& factor_name)
+   }
+//---------------------------------------------------------------------------
+// constructor
+//---------------------------------------------------------------------------
+Scenario::Scenario(const string& state)
    {
-   // find the factor.  If found then return value.  If
-   // not found then return "".
-   FactorContainer::iterator found_pos = find(factors.begin(),
-                                              factors.end(),
-                                              factor_name);
-   if (found_pos != factors.end())
-      return found_pos->getValue();
+   setState(state);
+   }
+//---------------------------------------------------------------------------
+// Return the factor value for the specified factor name
+//---------------------------------------------------------------------------
+string Scenario::getFactorValue(const string& factorName) const
+   {
+   FactorContainer::const_iterator factor = find(factors.begin(),
+                                                 factors.end(),
+                                                 factorName);
+   if (factor != factors.end())
+      return factor->getValue();
    else
       return "";
    }
-
-bool Scenario::setFactorValue(const string& factor_name,
-                              const string& factor_value) {
-   // find the factor.  If found then pass the new factor value to it.  If
-   // not found then return false.
-   FactorContainer::iterator found_pos = find(factors.begin(),
-                                              factors.end(),
-                                              factor_name);
-   if (found_pos != factors.end()) {
-      (*found_pos).setValue(factor_value);
-      makeUsValid(factor_name);
+//---------------------------------------------------------------------------
+// Set the value of the specified factor.
+//---------------------------------------------------------------------------
+bool Scenario::setFactorValue(const string& factorName,
+                              const string& factorValue)
+   {
+   FactorContainer::iterator factor = find(factors.begin(),
+                                           factors.end(),
+                                           factorName);
+   if (factor != factors.end())
+      {
+      factor->setValue(factorValue);
       return true;
-   }
+      }
    else
       return false;
-}
-
-void Scenario::getFactors(std::vector<Factor>& copyOfFactors) const
-   {
-   copy(factors.begin(), factors.end(), back_inserter(copyOfFactors));
    }
-
+//---------------------------------------------------------------------------
+// Return a list of factor names to caller.
+//---------------------------------------------------------------------------
 void Scenario::getFactorNames(vector<string>& factorNames) const
    {
    for_each(factors.begin(), factors.end(),
             GetNameFunction<vector<string>, Factor >(factorNames));
    }
-void Scenario::getFactorAttributes(const std::string& factorName,
-                                   std::string&       factorValue,
-                                   const Graphics::TBitmap*& factorBitmap) const
+//---------------------------------------------------------------------------
+// Return a state string to caller.
+//---------------------------------------------------------------------------
+std::string Scenario::getState(void) const
    {
-   // find the factor.  If found then get factor's attributes.
-   FactorContainer::const_iterator found_pos = find(factors.begin(),
-                                                    factors.end(),
-                                                    factorName);
-   if (found_pos != factors.end())
+   string stateString;
+   for (FactorContainer::const_iterator factor = factors.begin();
+                                        factor != factors.end();
+                                        factor++)
       {
-      factorValue = (*found_pos).getValue();
-      factorBitmap = (*found_pos).getImage();
+      if (stateString != "")
+         stateString += ";";
+      stateString += factor->getState();
       }
+   return name + "##" + stateString;
    }
-void Scenario::makeUsValid(const string factor_name)
+//---------------------------------------------------------------------------
+// Set the state of this scenario from the specified string
+//---------------------------------------------------------------------------
+void Scenario::setState(const string& state)
    {
-   // take a temporary copy of all factors.
-   FactorContainer newFactors;
+   unsigned posEndName = state.find("##");
+   if (posEndName == string::npos)
+      throw runtime_error("Invalid scenario state.");
+   name = state.substr(0, posEndName);
+   StringTokenizer tokenizer(state.substr(posEndName+2), " ");
 
-   const AddInBase* currentAddIn = NULL;
-   // loop through all factors.  Group all factors belonging to the same
-   // add-in into a new Scenario and ask the add-in to validitate it.
-   for (FactorContainer::iterator f = factors.begin();
-                                  f != factors.end();
-                                  f++)
+   string factorState = tokenizer.nextToken(";");
+   while (factorState != "")
       {
-      if ((*f).getAddIn() != currentAddIn)
-         {
-         currentAddIn = (*f).getAddIn();
-         Scenario newScenario = createScenarioForAddIn(currentAddIn);
-         currentAddIn->makeScenarioValid(newScenario, factor_name);
-         newScenario.getFactors(newFactors);
-         }
-      }
-   factors.assign(newFactors.begin(), newFactors.end());
-   }
-
-Scenario Scenario::createScenarioForAddIn(const AddInBase* addIn)
-   {
-   // loop through all factors.  Create a new scenario that contains all
-   // factors for the AddIn passed into this method.
-   vector<Factor> allFactors;
-   for (FactorContainer::iterator f = factors.begin();
-                                        f != factors.end();
-                                        f++)
-      {
-      if ((*f).getAddIn() == addIn)
-         allFactors.push_back(*f);
-      }
-   return Scenario(name, allFactors);
-   }
-
-void Scenario::getFactorValues(const std::string& factorName,
-                               std::vector<std::string>& values)
-   {
-   FactorContainer::iterator found_pos = find(factors.begin(), factors.end(), factorName);
-   if (found_pos != factors.end())
-      {
-      const AddInBase* addIn = (*found_pos).getAddIn();
-      addIn->getFactorValues(*this, factorName, values);
+      Strip(factorState, " ");
+      factors.push_back(Factor(factorState));
+      factorState = tokenizer.nextToken(";");
       }
    }
 
-TValueSelectionForm*  Scenario::getUIForm(const string& factor_name, TComponent* Owner)
-   {
-   FactorContainer::iterator found_pos = find(factors.begin(), factors.end(), factor_name);
-   if (found_pos != factors.end())
-      {
-      const AddInBase* addIn = (*found_pos).getAddIn();
-      return addIn->getUIForm(factor_name, Owner);
-      }
-   else
-      return NULL;
-   }

@@ -35,11 +35,17 @@ class DamEasyEcon : public AddInBase
    {
    public:
 
-      DamEasyEcon(const std::string& parameters);
+      DamEasyEcon() { };
       ~DamEasyEcon(void);
+
+      // set any startup parameters.
+      virtual void setStartupParameters(const std::string& parameters);
 
       // return a default scenario to caller.
       virtual Scenario getDefaultScenario(void) const;
+
+      // return true if the simulation is valid.  False otherwise.
+      virtual bool isScenarioValid(Scenario& scenario) const;
 
       // make the scenario passed in a valid one.  This may mean adding
       // extra factors to the scenario or changing existing factors.
@@ -55,8 +61,7 @@ class DamEasyEcon : public AddInBase
       // given the data object, and the list of user selected
       // scenarios, perform all calculations and store all new data
       // in the returned TAPSTable.
-      virtual void doCalculations(TAPSTable& data,
-                                  const std::vector<Scenario*>& selectedScenarios);
+      virtual void doCalculations(TAPSTable& data, const Scenario& selectedScenarios);
 
    private:
       ApsimSettings settings;

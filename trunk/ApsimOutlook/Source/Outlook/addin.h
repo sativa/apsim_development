@@ -41,8 +41,14 @@ class AddInBase
       // destructor
       virtual ~AddInBase(void) { };
 
+      // set any startup parameters.
+      virtual void setStartupParameters(const std::string& parameters) = 0;
+
       // return a default scenario to caller.
       virtual Scenario getDefaultScenario(void) const = 0;
+
+      // return true if the simulation is valid.  False otherwise.
+      virtual bool isScenarioValid(Scenario& scenario) const = 0;
 
       // make the scenario passed in a valid one.  This may mean adding
       // extra factors to the scenario or changing existing factors.
@@ -72,8 +78,11 @@ class AddInBase
       // given the data object, and the list of user selected
       // scenarios, perform all calculations and store all new data
       // in the returned TAPSTable.
-      virtual void doCalculations(TAPSTable& data,
-                                  const std::vector<Scenario*>& selectedScenarios) = 0;
+      virtual void doCalculations(TAPSTable& data, const Scenario& scenario) = 0;
+
+      // gives the add-in the chance to return any information to the
+      // 'displaySettings' window e.g. warnings, errors etc.
+      virtual std::string getDisplaySettings(void) {return "";}
 
    };
 

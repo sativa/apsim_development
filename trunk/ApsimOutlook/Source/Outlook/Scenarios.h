@@ -6,89 +6,77 @@
 #include <graphics.hpp>
 #include <TAPSTable.h>
 #include "TValueSelectionForm.h"
-
+#include <ApsimShared\ApsimSettings.h>
+#include <general\AddInManager.h>
+#include "AddIn.h"
 class Scenario;
-class AddInBase;
 
 // ------------------------------------------------------------------
-//  Short description:
-//      This class encapsulates a collection of scenarios, keeping
-//      track of a current scenario.  It also manages a collection
-//      of add-in's which supply the possible scenario objects.
-
-//  Notes:
-//      We should probably create an add-in manager class which
-//      encapsulates a collection of add-in's.  An instance of
-//      this class could then be passed into this constructor.
-
-//  Changes:
-//    DPH 4/4/01 - modified slightly from Dene Hughes.
-
+// This class encapsulates a collection of scenarios.
+// It also manages a collection
+// of add-in's which supply the possible scenario objects.
 // ------------------------------------------------------------------
-class Scenarios {
+class Scenarios
+   {
    public:
-      Scenarios(bool& success);
-
-      ~Scenarios();
+      Scenarios(void);
 
       // return the number of scenarios.
       unsigned int count(void) {return scenarios.size();}
 
-      // create multiple scenarios, based on the current scenario, given
+      // create multiple scenarios, based on the specified scenario, given
       // the factor name and 1 or more factor values.
-      void createScenariosFromCurrent(const std::string& factorName,
-                                      const std::vector<std::string>& factorValues);
+      void createScenariosFrom(const std::string& scenarioName,
+                               const std::string& factorName,
+                               const std::vector<std::string>& factorValues);
 
       // Create a permutation of scenarios based on the current selected
       // scenario, the factor name passed in and 1 or more values for
       // that factor.
-      void createScenarioPermutation(const std::string& factorName,
+      void createScenarioPermutation(const std::string& scenarioName,
+                                     const std::string& factorName,
                                      const std::vector<std::string>& factorValues);
 
       // return a list of scenario names to caller.
       void getScenarioNames(std::vector<std::string>& scenarioNames) const;
 
-      // return a list of factor names for current scenario.
-      void getFactorNames(std::vector<std::string>& factorNames) const;
+      // return a list of factor names for specified scenario.
+      void getFactorNames(const std::string& scenarioName,
+                          std::vector<std::string>& factorNames) const;
+      // Return a factor value to caller.
+      std::string getFactorValue(const std::string& scenarioName,
+                                 const std::string& factorName) const;
 
-      // return attributes for a given factor for the current scenario.
-      void getFactorAttributes(const std::string&  factorName,
-                               std::string&        factorValue,
-                               Graphics::TBitmap*& factorBitmap);
+      // Return a list of possible factor values for the given
+      // scenario and factor name.
+      void getFactorValues(const std::string& scenarioName,
+                           const std::string& factor_name,
+                           std::vector<std::string>& factorValues) const;
 
-      // Get a list of factor values for the current scenario and the
-      // specified factor.
-      void getFactorValues(const std::string& factor_name, std::vector<std::string>& factorValues) const;
+      // Rename the specified scenario.
+      void renameScenario(const std::string& oldName, const std::string& newName);
 
-      // Get a value selection form relevant to the requested factor_name
-      TValueSelectionForm*  getUIForm(const std::string& factor_name, TComponent* Owner);
+      // Delete the specified scenario.
+      void deleteScenario(const std::string& scenarioName);
 
-      // Get and set the current scenario.
-      void        setCurrentScenario(const std::string& name);
-      std::string getCurrentScenario(void);
-
-      // Rename the current scenario.
-      void renameCurrentScenario(const std::string& newName);
-
-      // Delete the current scenario.
-      void deleteCurrentScenario();
-
-      // Delete all scenarios.
-      // if leaveDefaultScenario is set to true, create a default scenario after
-      // deleting all others.
-      void deleteAllScenarios(bool leaveDefaultScenario);
+      // Delete all scenarios - leaving a default scenario.
+      void deleteAllScenarios();
 
       void getAllData(TAPSTable* table);
 
-   private:
-      typedef std::vector<Scenario*>            ScenarioContainer;
-      typedef std::vector<AddInBase*>           AddInContainer;
-      typedef std::vector<HINSTANCE>            HINSTANCEContainer;
+      // Save and restore scenarios.
+      void save(void);
+      void restore(void);
 
+      // Allow the add-ins to display information in the settings window.
+      std::string getDisplaySettings(void);
+
+   private:
+      AddInManager<AddInBase> addIns;
+
+      typedef std::vector<Scenario> ScenarioContainer;
       ScenarioContainer scenarios;
-      AddInContainer addIns;
-      HINSTANCEContainer dllHandles;
-      Scenario* currentScenario;
+      ApsimSettings settings;
 
       // prevent the following functions from being auto-generated:
       Scenarios(const Scenarios& rhs);
@@ -97,21 +85,23 @@ class Scenarios {
       // create a default scenario.
       void makeDefaultScenario(void);
 
-      // create a series of scenarios based on the specified scenario,
-      // the specified factor and 1 or more factor values.
-      void createMultipleScenariosFrom(const Scenario& scenario,
-                                       const std::string& factorName,
-                                       const std::vector<std::string>& factorValues);
-      // create multiple scenarios, based on the current scenario, given
+      // create multiple scenarios, based on the specified scenario, given
       // the factor name and 1 or more factor values.
-      void createScenariosFromCurrentInternal(const std::string& factorName,
-                                              const std::vector<std::string>& factorValues);
+      void createScenariosFrom(Scenario& scenario,
+                               const std::string& factorName,
+                               const std::vector<std::string>& factorValues);
 
       // load all add-in DLLs
-      bool loadAllAddIns(void);
+      void loadAllAddIns(void);
 
       // Make sure all scenario names is valid and reflects the factor values.
       void makeScenarioNamesValid(void);
+
+      // ensure the specified scenario is completely valid.
+      void makeScenarioValid(Scenario& scenario,
+                             const std::string factorName);
+      bool isScenarioValid(Scenario& scenario);
+
 };
 
 

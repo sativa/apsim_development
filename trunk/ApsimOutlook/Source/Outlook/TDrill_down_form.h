@@ -18,7 +18,6 @@
 #include "paramtreeview.hpp"
 #include <map>
 #include "Scenarios.h"
-
 //---------------------------------------------------------------------------
 class TDrill_down_form : public TForm
 {
@@ -46,12 +45,15 @@ __published:	// IDE-managed Components
    void __fastcall ShowAllButtonClick(TObject *Sender);
    void __fastcall HideAllButtonClick(TObject *Sender);
    void __fastcall Delete1Click(TObject *Sender);
+   void __fastcall ScenarioTreeEditing(TObject *Sender, TTreeNode *Node,
+          bool &AllowEdit);
+   void __fastcall ScenarioTreeEdited(TObject *Sender, TTreeNode *Node,
+          AnsiString &S);
 //   void __fastcall Rename1Click(TObject *Sender);
 //   void __fastcall Delete1Click(TObject *Sender);
 //   void __fastcall Tab_controlMouseDown(TObject *Sender,
 //          TMouseButton Button, TShiftState Shift, int X, int Y);
 private:	// User declarations
-
    bool Is_variable_attribute (const char* name);
 
    void Refresh (void);

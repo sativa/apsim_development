@@ -12,399 +12,235 @@
 #include <ApsimShared\ApsimDirectories.h>
 #include <list>
 using namespace std;
-
-//---------------------------------------------------------------------------
+static const char* SCENARIOS_KEY = "Saved Scenarios|Scenario";
 
 #pragma package(smart_init)
 
-Scenarios::Scenarios(bool& success) {
-   if (loadAllAddIns())
+//---------------------------------------------------------------------------
+// constructor
+//---------------------------------------------------------------------------
+Scenarios::Scenarios(void)
    {
-      makeDefaultScenario();
-      success = true;
+   loadAllAddIns();
+   makeDefaultScenario();
    }
-   else
-      success = false;
-}
-
-
-Scenarios::~Scenarios() {
-   bool leaveDefault = false;
-   deleteAllScenarios(leaveDefault);
-   while (!addIns.empty()) {
-      AddInBase* ptr = addIns.back();
-      addIns.pop_back();
-      delete ptr;
-      }
-   while (!dllHandles.empty()) {
-      HINSTANCE dllHandle = dllHandles.back();
-      FreeLibrary(dllHandle);
-      dllHandles.pop_back();
-      }
-}
-
-
-void Scenarios::makeDefaultScenario(void) {
-   vector<Factor> allFactors;
-
-   // Loop through all add-ins, get a default scenario from each
-   // and then take a copy of the factors.
-   for (AddInContainer::iterator a = addIns.begin();
-                                 a != addIns.end();
-                                 a++){
-      Scenario scenario = (*a)->getDefaultScenario();
-      scenario.getFactors(allFactors);
-   }
-   // if there is a factor called "simulation" then use that as the default name.
-   vector<Factor>::iterator simFactor = find(allFactors.begin(),
-                                             allFactors.end(), "Simulation");
-   string defaultName = "default";
-   if (simFactor != allFactors.end())
-      defaultName = simFactor->getValue();
-
-   // create a new scenario that contains all the factors, add it to our
-   // list of scenarios and make it the current scenario.
-   Scenario* defaultScenario = new Scenario(defaultName, allFactors);
-   scenarios.push_back(defaultScenario);
-   currentScenario = defaultScenario;
-}
-
-void Scenarios::getFactorValues(const string& factorName,
-                                vector<string>& factorValues) const
-{
-   currentScenario->getFactorValues(factorName, factorValues);
-}
-
-void Scenarios::setCurrentScenario(const string& scenarioName) {
-   // find the 'name' in the list of names, get that Scenario and set it to current
-   ScenarioContainer::iterator s = find_if(scenarios.begin(),
-                                           scenarios.end(),
-                                           PEqualToName<Scenario>(scenarioName));
-   if (s != scenarios.end())
-      currentScenario = *s;
-}
-string Scenarios::getCurrentScenario(void) {
-   return currentScenario->getName();
-}
-
-void Scenarios::getFactorNames(vector<string>& names) const {
-   currentScenario->getFactorNames(names);
-}
-
-void Scenarios::renameCurrentScenario(const string& newName) {
-   currentScenario->setName(newName);
-}
-
-
-void Scenarios::deleteCurrentScenario() {
-   // Locate the current scenario, remove it from our list of scenarios,
-   // delete the object and assign the currentScenario to the next one
-   // in the list.
-   ScenarioContainer::iterator current_s
-                  = find(scenarios.begin(), scenarios.end(), currentScenario);
-   ScenarioContainer::iterator next = scenarios.erase(current_s);
-   delete currentScenario;
-
-   if (next == scenarios.end())  // then we were are past the end and should set Current
-                                 // scenario to point to a valid Scenario
-      currentScenario = scenarios.back();
-   else if (scenarios.size() == 0)   // then Scens is empty and we need to make a default
-                                 // Scenario and set Current_scenario to point to it
-      makeDefaultScenario();
-   else
-      currentScenario = *next;
-}
-
-
-void Scenarios::deleteAllScenarios(bool leaveDefaultScenario) {
-   while (!scenarios.empty()) {
-      Scenario* ptr = scenarios.back();
-      scenarios.pop_back();
-      delete ptr;
-   }
-   if (leaveDefaultScenario)
-      makeDefaultScenario();
-}
-
 // ------------------------------------------------------------------
-//  Short description:
-//    return a list of scenario names to caller.
+// load all add-ins
+// ------------------------------------------------------------------
+void Scenarios::loadAllAddIns(void)
+   {
+   // get a list of add-in filenames from the .ini file.
+   ApsimSettings settings;
+   vector<string> fileNames;
+   settings.read("Addins|addin", fileNames);
 
-//  Notes:
+   // Loop through all filenames, add strip off any parameters.
+   vector<string> parameters;
+   for (vector<string>::iterator fileName = fileNames.begin();
+                                 fileName != fileNames.end();
+                                 fileName++)
+      {
+      // look for add in parameters after a space.
+      unsigned int posSpace = fileName->find(' ');
+      if (posSpace == string::npos)
+         parameters.push_back("");
+      else
+         {
+         parameters.push_back(fileName->substr(posSpace+1));
+         fileName->erase(posSpace);
+         }
+      }
+   addIns.load(fileNames);
 
-//  Changes:
-//    dph 4/4/01
+   // loop through all addins and pass any add-in parameters.
+   for (unsigned addinIndex = 0; addinIndex != addIns.getNumAddIns(); addinIndex++)
+      {
+      AddInBase* addin = addIns.getAddIn(addinIndex);
+      addin->setStartupParameters(parameters[addinIndex]);
+      }
+   }
+// ------------------------------------------------------------------
+// make a default scenario.
+// ------------------------------------------------------------------
+void Scenarios::makeDefaultScenario(void)
+   {
+   Scenario defaultScenario;
 
+   // Loop through all add-ins, and build up a default scenario.
+   for (unsigned addinIndex = 0; addinIndex != addIns.getNumAddIns(); addinIndex++)
+      defaultScenario = defaultScenario + addIns.getAddIn(addinIndex)->getDefaultScenario();
+
+   // if there is a factor called "simulation" then use that as the default name.
+   defaultScenario.setName(defaultScenario.getFactorValue("simulation"));
+   if (defaultScenario.getName() == "")
+      defaultScenario.setName("default");
+   scenarios.push_back(defaultScenario);
+   }
+// ------------------------------------------------------------------
+// Return a list of possible factor values for the given
+// scenario and factor name.
+// ------------------------------------------------------------------
+void Scenarios::getFactorValues(const string& scenarioName,
+                                const string& factorName,
+                                vector<string>& factorValues) const
+   {
+   ScenarioContainer::const_iterator scenario = find(scenarios.begin(),
+                                                     scenarios.end(),
+                                                     scenarioName);
+   if (scenario != scenarios.end())
+      {
+      // Let each addin add factorValues for the given factor name.
+      // In reality one 1 addin will respond.
+      for (unsigned addinIndex = 0; addinIndex != addIns.getNumAddIns(); addinIndex++)
+         addIns.getAddIn(addinIndex)->getFactorValues(*scenario, factorName, factorValues);
+      }
+   }
+// ------------------------------------------------------------------
+// Return a list of factor names for the specified scenario.
+// ------------------------------------------------------------------
+void Scenarios::getFactorNames(const string& scenarioName,
+                               vector<string>& names) const
+   {
+   ScenarioContainer::const_iterator scenario = find(scenarios.begin(),
+                                                     scenarios.end(),
+                                                     scenarioName);
+   if (scenario != scenarios.end())
+      scenario->getFactorNames(names);
+   }
+// ------------------------------------------------------------------
+// Return a factor value to caller.
+// ------------------------------------------------------------------
+string Scenarios::getFactorValue(const string& scenarioName,
+                                 const string& factorName) const
+   {
+   ScenarioContainer::const_iterator scenario = find(scenarios.begin(),
+                                                     scenarios.end(),
+                                                     scenarioName);
+   if (scenario != scenarios.end())
+      return scenario->getFactorValue(factorName);
+   else
+      return "";
+   }
+// ------------------------------------------------------------------
+// Rename the specified scenario.
+// ------------------------------------------------------------------
+void Scenarios::renameScenario(const string& oldName, const string& newName)
+   {
+   ScenarioContainer::iterator scenario = find(scenarios.begin(),
+                                               scenarios.end(),
+                                               oldName);
+   if (scenario != scenarios.end())
+      scenario->setName(newName);
+   }
+// ------------------------------------------------------------------
+// Delete a scenario.
+// ------------------------------------------------------------------
+void Scenarios::deleteScenario(const string& scenarioName)
+   {
+   ScenarioContainer::iterator scenario = find(scenarios.begin(),
+                                               scenarios.end(),
+                                               scenarioName);
+   if (scenario != scenarios.end())
+      scenarios.erase(scenario);
+
+   if (scenarios.size() == 0)
+      makeDefaultScenario();
+   }
+// ------------------------------------------------------------------
+// Clear all scenarios.
+// ------------------------------------------------------------------
+void Scenarios::deleteAllScenarios(void)
+   {
+   scenarios.erase(scenarios.begin(), scenarios.end());
+   makeDefaultScenario();
+   }
+// ------------------------------------------------------------------
+// return a list of scenario names to caller.
 // ------------------------------------------------------------------
 void Scenarios::getScenarioNames(vector<string>& scenarioNames) const
    {
    for_each(scenarios.begin(), scenarios.end(),
-            PGetNameFunction< vector<string>, Scenario>(scenarioNames));
+            GetNameFunction< vector<string>, Scenario>(scenarioNames));
    }
-
 // ------------------------------------------------------------------
-//  Short description:
-//    return attributes for a given factor.
-
-//  Notes:
-
-//  Changes:
-//    dph 4/4/01
-
+// create multiple scenarios, based on the given scenario, given
+// the factor name and 1 or more factor values.
 // ------------------------------------------------------------------
-void Scenarios::getFactorAttributes(const std::string& factorName,
-                                    std::string& factorValue,
-                                    Graphics::TBitmap*& factorBitmap)
+void Scenarios::createScenariosFrom(const string& scenarioName,
+                                    const string& factorName,
+                                    const vector<string>& factorValues)
    {
-   currentScenario->getFactorAttributes(factorName, factorValue, factorBitmap);
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//    create multiple scenarios, based on the current scenario, given
-//    the factor name and 1 or more factor values.
-
-//  Notes:
-
-//  Changes:
-//    DPH 29/6/98
-//    dph 4/4/01 moved from drilldownform to Scenarios.
-
-// ------------------------------------------------------------------
-void Scenarios::createScenariosFromCurrent(const string& factorName,
-                                           const vector<string>& factorValues)
-   {
-   createScenariosFromCurrentInternal(factorName, factorValues);
+   ScenarioContainer::iterator scenario = find(scenarios.begin(),
+                                               scenarios.end(),
+                                               scenarioName);
+   if (scenario != scenarios.end())
+      createScenariosFrom(*scenario, factorName, factorValues);
    makeScenarioNamesValid();
    }
-
 // ------------------------------------------------------------------
-//  Short description:
-//    create multiple scenarios, based on the current scenario, given
-//    the factor name and 1 or more factor values.
-
-//  Notes:
-
-//  Changes:
-//    DPH 29/6/98
-//    dph 4/4/01 moved from drilldownform to Scenarios.
-
+// create multiple scenarios, based on the given scenario, given
+// the factor name and 1 or more factor values.
 // ------------------------------------------------------------------
-void Scenarios::createScenariosFromCurrentInternal(const string& factorName,
-                                                   const vector<string>& factorValues)
+void Scenarios::createScenariosFrom(Scenario& scenario,
+                                    const string& factorName,
+                                    const vector<string>& factorValues)
    {
-   if (factorValues.size() == 1)
-      currentScenario->setFactorValue(factorName, *(factorValues.begin()));
-   else
+   if (factorValues.size() >= 1)
       {
-      createMultipleScenariosFrom(*currentScenario, factorName, factorValues);
-      deleteCurrentScenario();
+      scenario.setFactorValue(factorName, factorValues[0]);
+      for (unsigned factorI = 1; factorI != factorValues.size(); factorI++)
+         {
+         Scenario newScenario(scenario);
+         newScenario.setFactorValue(factorName, factorValues[factorI]);
+         makeScenarioValid(newScenario, factorName);
+         scenarios.push_back(newScenario);
+         }
       }
    }
-
 // ------------------------------------------------------------------
-//  Short description:
-//    Create a permutation of scenarios based on the current selected
-//    scenario, the factor name passed in and 1 or more values for
-//    that factor.
-
-//  Notes:
-
-//  Changes:
-//    DPH 29/6/98
-//    dph 4/4/01 moved from drilldownform to Scenarios.
-
+// Create a permutation of scenarios based on the given
+// scenario, the factor name passed in and 1 or more values for
+// that factor.
 // ------------------------------------------------------------------
-void Scenarios::createScenarioPermutation(const string& factorName,
+void Scenarios::createScenarioPermutation(const std::string& scenarioName,
+                                          const string& factorName,
                                           const vector<string>& factorValues)
    {
-   // get a list of the current scenario names.
-   vector<string> scenarioNames;
-   getScenarioNames(scenarioNames);
-
-   // loop through all our current scenario names, make it the current
-   // scenario and create scenarios from it.
-   for (vector<string>::iterator n = scenarioNames.begin();
-                                 n != scenarioNames.end();
-                                 n++)
+   ScenarioContainer::iterator scenario = find(scenarios.begin(),
+                                               scenarios.end(),
+                                               scenarioName);
+   if (scenario != scenarios.end())
       {
-      setCurrentScenario(*n);
-      createScenariosFromCurrent(factorName, factorValues);
-      }
-   makeScenarioNamesValid();
-   }
+      // get a list of the current scenario names.
+      vector<string> scenarioNames;
+      getScenarioNames(scenarioNames);
 
-// ------------------------------------------------------------------
-//  Short description:
-//    create a series of scenarios based on the specified scenario,
-//    the specified factor and 1 or more factor values.
-
-//  Notes:
-
-//  Changes:
-//    DPH 29/6/98
-//    dph 8/12/99 added identifier to simulation name - c227,d308
-//    dph 4/4/01 moved from drilldownform to Scenarios.
-
-// ------------------------------------------------------------------
-void Scenarios::createMultipleScenariosFrom(const Scenario& scenario,
-                                            const string& factorName,
-                                            const vector<string>& factorValues)
-   {
-   // loop through all factor values and create a new scenario
-   // for each.
-   for (vector<string>::const_iterator v = factorValues.begin();
-                                       v != factorValues.end();
-                                       v++)
-      {
-      Scenario* newScenario = new Scenario(*currentScenario);
-      newScenario->setFactorValue(factorName, *v);
-
-      if (factorValues.size() > 1)
-         {
-         string newName;
-         if (Str_i_Eq(factorName, "Simulation"))
-            newName = *v;
-         else
-            {
-            newName = newScenario->getName();
-            if (Str_i_Eq(newName, "default"))
-               newName = "";
-            else
-               newName = newName + ";";
-            newName += string(factorName) + "=" + *v;
-            }
-         newScenario->setName(newName.c_str());
-         }
-      scenarios.push_back(newScenario);
+      // loop through all our current scenario names and create scenarios from it.
+      for (vector<string>::iterator name = scenarioNames.begin();
+                                    name != scenarioNames.end();
+                                    name++)
+         createScenariosFrom(*name, factorName, factorValues);
+      makeScenarioNamesValid();
       }
    }
-
 // ------------------------------------------------------------------
-//  Short description:
-//    load all add-in DLLs
-
-//  Changes:
-//    dph 4/4/01
-
-// ------------------------------------------------------------------
-bool Scenarios::loadAllAddIns(void)
-   {
-   // clear any addins already loaded in previous calls to this method
-   addIns.clear();
-
-   // get a list of add-in filenames from the .ini file.
-   ApsimSettings settings;
-   vector<string> addInFileNames;
-   settings.read("Addins|addin", addInFileNames);
-
-   // Loop through all filenames, load the DLL, call the DLL to create an
-   // instance of an AddInBase and store in our list of addins.
-   for (vector<string>::iterator a = addInFileNames.begin();
-                                 a != addInFileNames.end();
-                                 a++)
-      {
-      // look for add in parameters after a space.
-      unsigned int posSpace = (*a).find(" ");
-      string addInParameters;
-      if (posSpace != string::npos)
-         {
-         addInParameters = (*a).substr(posSpace+1);
-         (*a).erase(posSpace);
-         }
-
-      Path addInPath(Application->ExeName.c_str());
-      addInPath.Append_path(a->c_str());
-
-      HINSTANCE dllHandle = LoadLibrary(addInPath.Get_path().c_str() );
-      // give an intelligent error msg if this fails...
-      if (dllHandle == NULL) {
-         PVOID pMsgBuf;
-         FormatMessage(
-           FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-           NULL,
-           GetLastError(),
-           MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-           (PTSTR) &pMsgBuf,
-           0,
-           NULL
-         );
-         // display the string
-         Application->MessageBox(
-           reinterpret_cast <PCHAR> (pMsgBuf),
-           "GetLastError",
-           MB_ICONINFORMATION | MB_OK
-         );
-         // free the buffer
-         LocalFree(pMsgBuf);
-         return false;
-      }
-      if (dllHandle != NULL)
-         {
-         dllHandles.push_back(dllHandle);
-
-         AddInBase* __stdcall (*createAddInProc) (const string& addInParameters, bool& success);
-         (FARPROC) createAddInProc = GetProcAddress(dllHandle, "createAddIn");
-         if (createAddInProc != NULL)
-            {
-            bool success;
-            AddInBase* instance = (*createAddInProc)(addInParameters, success);
-            if (success) addIns.push_back( instance );
-            else return false;
-            }
-         else
-            {
-            string msg = "Invalid add-in: " + *a;
-            Application->MessageBox(msg.c_str(), "Error", MB_OK);
-            return false;
-            }
-         }
-      }
-   return true;
-   }
-// ------------------------------------------------------------------
-//  Short description:
-//    return all data.
-
-//  Changes:
-//    dph 4/4/01
-//    DAH 7/9/01  now only pass scenarios to addins that are relevant to that
-//                addin.
-
+// return all data.
 // ------------------------------------------------------------------
 void Scenarios::getAllData(TAPSTable* data)
    {
-   for (AddInContainer::iterator a = addIns.begin();
-                                 a != addIns.end();
-                                 a++)
+   data->beginStoringData();
+   for (unsigned addinIndex = 0; addinIndex != addIns.getNumAddIns(); addinIndex++)
       {
-      ScenarioContainer addin_scenarios;
-      for (ScenarioContainer::iterator s = scenarios.begin(); s != scenarios.end();
-                                                         s++)
-         {
-         Scenario* new_scen = new Scenario((*s)->createScenarioForAddIn(*a));
-         addin_scenarios.push_back(new_scen);
-         }
-      (*a)->doCalculations(*data, addin_scenarios);
-      delete_container(addin_scenarios);
+      for (ScenarioContainer::iterator scenario = scenarios.begin();
+                                       scenario != scenarios.end();
+                                       scenario++)
+         addIns.getAddIn(addinIndex)->doCalculations(*data, *scenario);
       }
+   data->endStoringData();
    }
-
-
 // ------------------------------------------------------------------
-//  Short description:
-//    Get a value selection form relevant to the requested factor_name
-
-//  Changes:
-//    dph 4/4/01
-
+// Small struct using in makeScenarioNamesValid method.
 // ------------------------------------------------------------------
-
-TValueSelectionForm*  Scenarios::getUIForm(const string& factor_name, TComponent* Owner)
-   {
-      return currentScenario->getUIForm(factor_name, Owner);
-   }
-
 struct FactorInfo
    {
    FactorInfo(const string& n, const string& v)
@@ -422,7 +258,7 @@ struct FactorInfo
    };
 
 // ------------------------------------------------------------------
-// Make sure all scenario names is valid and reflects the factor values.
+// Make sure all scenario names are valid and reflect the factor values.
 // ------------------------------------------------------------------
 void Scenarios::makeScenarioNamesValid(void)
    {
@@ -435,19 +271,21 @@ void Scenarios::makeScenarioNamesValid(void)
                                     scenario != scenarios.end();
                                     scenario++)
       {
-      vector<Factor> factors;
-      (*scenario)->getFactors(factors);
-      for (vector<Factor>::iterator factor = factors.begin();
-                                    factor != factors.end();
-                                    factor++)
+      vector<string> factorNames;
+      scenario->getFactorNames(factorNames);
+      for (vector<string>::iterator factorName = factorNames.begin();
+                                    factorName != factorNames.end();
+                                    factorName++)
          {
+         string factorValue = scenario->getFactorValue(*factorName);
+
          FactorInfos::iterator i = find(allFactors.begin(),
                                         allFactors.end(),
-                                        factor->getName());
+                                        *factorName);
          if (i == allFactors.end())
-            allFactors.push_back(FactorInfo(factor->getName(), factor->getValue()));
+            allFactors.push_back(FactorInfo(*factorName, factorValue));
          else
-            i->setValue(factor->getValue());
+            i->setValue(factorValue);
          }
       }
 
@@ -466,10 +304,84 @@ void Scenarios::makeScenarioNamesValid(void)
             {
             if (newName != "")
                newName += ";";
-            newName += factor->name + "=" + (*scenario)->getFactorValue(factor->name);
+            newName += factor->name + "=" + scenario->getFactorValue(factor->name);
             }
          }
-      (*scenario)->setName(newName);
+      if (newName != "")
+         scenario->setName(newName);
       }
+   }
+//---------------------------------------------------------------------------
+// save the current state to the .ini file.
+//---------------------------------------------------------------------------
+void Scenarios::save(void)
+   {
+   // loop through all scenarios and tell each to write its state to the
+   // specified string.
+   vector<string> scenarioStates;
+   for (ScenarioContainer::const_iterator scenario = scenarios.begin();
+                                          scenario != scenarios.end();
+                                          scenario++)
+      scenarioStates.push_back(scenario->getState());
+   settings.write(SCENARIOS_KEY, scenarioStates);
+   }
+//---------------------------------------------------------------------------
+// restore the previously saved state from the .ini file.
+//---------------------------------------------------------------------------
+void Scenarios::restore(void)
+   {
+   vector<string> scenarioStates;
+   settings.read(SCENARIOS_KEY, scenarioStates);
+   if (scenarioStates.size() > 0)
+      scenarios.erase(scenarios.begin(), scenarios.end());
+
+
+   for (vector<string>::iterator state = scenarioStates.begin();
+                                 state != scenarioStates.end();
+                                 state++)
+      {
+      try
+         {
+         Scenario newScenario(*state);
+         if (isScenarioValid(newScenario))
+            scenarios.push_back(newScenario);
+         }
+      catch (const runtime_error& error)
+         {
+         }
+      }
+   if (scenarios.size() == 0)
+      makeDefaultScenario();
+   }
+//---------------------------------------------------------------------------
+// ensure the specified scenario is completely valid.
+//---------------------------------------------------------------------------
+void Scenarios::makeScenarioValid(Scenario& scenario,
+                                  const string factorName)
+   {
+   for (unsigned addinIndex = 0; addinIndex != addIns.getNumAddIns(); addinIndex++)
+      addIns.getAddIn(addinIndex)->makeScenarioValid(scenario, factorName);
+   }
+//---------------------------------------------------------------------------
+// return true if the specified scenario is valid.
+//---------------------------------------------------------------------------
+bool Scenarios::isScenarioValid(Scenario& scenario)
+   {
+   for (unsigned addinIndex = 0; addinIndex != addIns.getNumAddIns(); addinIndex++)
+      {
+      if (!addIns.getAddIn(addinIndex)->isScenarioValid(scenario))
+         return false;
+      }
+   return true;
+   }
+//---------------------------------------------------------------------------
+// Allow the add-ins to display information in the settings window.
+//---------------------------------------------------------------------------
+std::string Scenarios::getDisplaySettings(void)
+   {
+   string settingsString;
+   for (unsigned addinIndex = 0; addinIndex != addIns.getNumAddIns(); addinIndex++)
+      settingsString += addIns.getAddIn(addinIndex)->getDisplaySettings();
+   return settingsString;
    }
 

@@ -273,10 +273,7 @@ void DEToolBar::doCalculations(TAPSTable& data)
    {
       vector<TAPSRecord>::const_iterator record = data.begin();
       string rec_name = record->getFieldValue(SIMULATION_FACTOR_NAME);
-      scenarios->setCurrentScenario(rec_name);
-      Graphics::TBitmap* temp;
-      string econ_config_name;
-      scenarios->getFactorAttributes(DE_ECON_FACTOR_NAME, econ_config_name, temp);
+      string econ_config_name = scenarios->getFactorValue(rec_name, DE_ECON_FACTOR_NAME);
       for (record = data.begin(); record != data.end(); record++)
       {
          econ_config_names.push_back(econ_config_name);
