@@ -224,10 +224,9 @@ void CContextMenuHandler::createMenus(string& subMenuName,
                                              fileNames[0].length()-posExtension);
       if (strcmpi(extension.c_str(), ".out") == 0 ||
           strcmpi(extension.c_str(), ".con") == 0 ||
-          strcmpi(extension.c_str(), ".apf") == 0 ||
           strcmpi(extension.c_str(), ".run") == 0 ||
           strcmpi(extension.c_str(), ".sim") == 0 ||
-          strcmpi(extension.c_str(), ".report") == 0 || 
+          strcmpi(extension.c_str(), ".report") == 0 ||
           strcmpi(extension.c_str(), ".interface") == 0)
          {
 
@@ -261,19 +260,6 @@ void CContextMenuHandler::createMenus(string& subMenuName,
                                "Convert the specified control file to a SIM file",
                                "sim",
                                &createSimFiles));
-            }
-         else if (strcmpi(extension.c_str(), ".apf") == 0)
-            {
-            menuDescriptions.push_back(
-               MenuDescription("&Compile (make)",
-                               "Compile the specified project file",
-                               "make",
-                               &makeFiles));
-            menuDescriptions.push_back(
-               MenuDescription("Compile &all (build)",
-                               "Build the specified project file from scratch",
-                               "build",
-                               &buildFiles));
             }
          else if (strcmpi(extension.c_str(), ".run") == 0)
             {

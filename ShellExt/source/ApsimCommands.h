@@ -28,16 +28,6 @@ extern "C" _export void __stdcall runFiles(const char* csvFiles);
 extern "C" _export void __stdcall createSimFiles(const char* csvFiles);
 
 //---------------------------------------------------------------------------
-// Compile all files
-//---------------------------------------------------------------------------
-extern "C" _export void __stdcall makeFiles(const char* csvFiles);
-
-//---------------------------------------------------------------------------
-// Build all files.
-//---------------------------------------------------------------------------
-extern "C" _export void __stdcall buildFiles(const char* csvFiles);
-
-//---------------------------------------------------------------------------
 // Send all files to an editor.
 //---------------------------------------------------------------------------
 extern "C" _export void __stdcall viewFiles(const char* csvFiles);
