@@ -3,6 +3,7 @@
 #pragma hdrstop
 
 #include <aps\APSIMSimulationCollection.h>
+#include <aps\APSIMCONSimulationCollection.h>
 #include <general\string_functions.h>
 #include <general\stristr.h>
 #include <fstream>
@@ -32,29 +33,35 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR,  int)
 // ------------------------------------------------------------------
    if (_argc == 2)
       {
-      APSIMSimulationCollection simulations;
+      APSIMSimulationCollection* simulations = NULL;
 
       // Does the command line contain a control file?
       if (stristr(_argv[1], ".con") != NULL)
          {
+         simulations = new APSIMSimulationCollection;
+
          // yes - better ask user for a configuration.
          TAPSIMRunForm* runForm = new TAPSIMRunForm(NULL);
          runForm->controlFilename = _argv[1];
          if (runForm->ShowModal() == mrOk)
-            runForm->getSelectedSimulations(simulations);
+            runForm->getSelectedSimulations(*simulations);
          }
       else if (stristr(_argv[1], ".run") != NULL)
          {
-         simulations = APSIMSimulationCollection(_argv[1]);
-         simulations.read();
+         simulations = new APSIMCONSimulationCollection(_argv[1]);
+         simulations->read();
          }
 
       else if (stristr(_argv[1], ".sim") != NULL)
-         simulations.addSimulation(new APSIMSimulation(_argv[1]));
+         {
+         simulations = new APSIMSimulationCollection;
+         simulations->addSimulation(new APSIMSimulation(_argv[1]));
+         }
 
       try
          {
-         simulations.run();
+         simulations->run();
+         delete simulations;
          }
       catch (string& msg)
          {
