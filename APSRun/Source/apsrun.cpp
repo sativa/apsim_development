@@ -70,7 +70,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR,  int)
                   ApsimControlFile simulation(fileName, sections[sim]);
                   if (sim != sections.size()-1)
                      quiet = true;
-                  simulation.run(configurationFile, quiet, console);
+                  simulation.run(configurationFile, console);
                   }
                }
             }

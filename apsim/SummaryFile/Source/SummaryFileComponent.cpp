@@ -4,6 +4,7 @@
 
 #include "SummaryFileComponent.h"
 #include <ComponentInterface\ApsimVariant.h>
+#include <ComponentInterface\MessageDataExt.h>
 #include <ApsimShared\FStringExt.h>
 #include <ApsimShared\ApsimServiceData.h>
 #include <ApsimShared\ApsimVersion.h>
