@@ -1,7 +1,7 @@
 module WaterSupplyModule
    use ComponentInterfaceModule
    use Registrations
-  
+    
 !  ====================================================================
 !  WaterSupply constants
 !  ====================================================================
@@ -578,11 +578,11 @@ subroutine WaterSupply_evaporation_seepage ()
     if(p%receive_rainfall.eq.'yes') then
 
        ! calculate depth of water in storage (m)
-       g%available_depth=((g%available_water/p%max_area)**(1.0/c%b))
+       g%available_depth=(divide(g%available_water,p%max_area,0.0)**(divide(1.0,c%b,0.0)))
 
        ! From CERES maize soil evaporation (ref Shaun Lisson)
        soil_evaporation = g%radn*23.8846*(0.000204-(0.000183*0.1))*(29+(0.6*g%maxt+0.4*g%mint))
-       dummy = (0.7*soil_evaporation/100.0)+(p%permeability*(g%available_depth/p%seal_thickness)/365)
+       dummy = (0.7*soil_evaporation/100.0)+(p%permeability*(divide(g%available_depth,p%seal_thickness,0.0))/365)
 
        if(g%available_depth.gt.dummy) then
 
@@ -591,8 +591,7 @@ subroutine WaterSupply_evaporation_seepage ()
 
            ! calculate seepage
            g%seepage = g%available_water-(p%max_area* &
-            ((g%available_depth-(p%permeability*(g%available_depth &
-             /p%seal_thickness)/365.0))**c%b))
+            ((g%available_depth-(p%permeability*(divide(g%available_depth,p%seal_thickness,0.0))/365.0))**c%b))
        else
           ! evaporate all the water that is left, and assume nothing seeps
           g%evaporation = g%available_depth
@@ -614,7 +613,7 @@ subroutine WaterSupply_evaporation_seepage ()
      if((g%available_water-g%evaporation).eq.0.0) then
         g%solute_conc(i) = 0.0
      else   
-        new_solute_conc =(g%solute_conc(i)*g%available_water)/(g%available_water - g%evaporation)
+        new_solute_conc =divide((g%solute_conc(i)*g%available_water),(g%available_water - g%evaporation),0.0)
         g%solute_conc(i) = new_solute_conc
         new_solute_conc = 0.0
      endif
@@ -1000,9 +999,8 @@ subroutine WaterSupply_ONwater_supplied ()
      if((g%available_water + water_supplied).eq.0.0) then
         g%solute_conc(i) = 0.0
      else   
-        new_solute_conc =((g%solute_conc(i) * g%available_water) &
-                       + (solute_conc_supplied(i) * water_supplied)) &
-                        /(g%available_water + water_supplied)
+        new_solute_conc = divide(((g%solute_conc(i) * g%available_water) &
+                       + (solute_conc_supplied(i) * water_supplied)),(g%available_water + water_supplied),0.0)
         g%solute_conc(i) = new_solute_conc
         new_solute_conc = 0.0
      endif   
