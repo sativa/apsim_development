@@ -1635,6 +1635,7 @@ c+!!!! perhaps we should get number of layers at init and keep it
       use CropModModule
       implicit none
       include 'error.pub'
+      include 'intrface.pub'
 
 *+  Sub-Program Arguments
       character  Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -1646,6 +1647,7 @@ c+!!!! perhaps we should get number of layers at init and keep it
 *      290393 sc
 *      220896 jngh  added call to message_unused
 *                   changed respond2set to collect
+*      13/6/00 dph added intrface.pub
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure

@@ -1,6 +1,6 @@
 C     Last change:  E    12 May 2000   10:23 am
 
-      INCLUDE 'CropMod.inc'
+!      INCLUDE 'CropMod.inc'
 
 *================================================================
       subroutine Crop_Process ()
@@ -1456,6 +1456,7 @@ c       call crop_dm_potential (
       include 'const.inc'
       include 'convert.inc'
       include 'error.pub'                         
+      include 'crp_cnpy.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
