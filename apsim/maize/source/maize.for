@@ -1,5 +1,5 @@
 
-C     Last change:  E    19 Jan 2001   11:13 am
+C     Last change:  E    31 Jul 2001    3:23 pm
 
 
 *     ===========================================================
@@ -1081,7 +1081,7 @@ cnh      real       dlt_plants
      :            )
  
          if (reals_are_equal (g%dlt_plants + g%plants, 0.0)) then
-            call Maize_kill_crop (
+            call Kill_Crop (
      :          g%plant_status
      :        , g%dm_green
      :        , g%dm_senesced
@@ -1160,7 +1160,7 @@ cnh      real       dlt_plants
      :            )
  
          if (reals_are_equal (g%dlt_plants + g%plants, 0.0)) then
-            call Maize_kill_crop (
+            call Kill_Crop (
      :          g%plant_status
      :        , g%dm_green
      :        , g%dm_senesced
@@ -1812,74 +1812,6 @@ cSCC/JNGH changed le to lt
       end
 
 
-
-*     ===========================================================
-      subroutine Maize_kill_crop (
-     :          g_plant_status
-     :        , g_dm_green
-     :        , g_dm_senesced
-     :        , g_dm_dead)
-*     ===========================================================
-      implicit none
-      include   'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc
-      include 'CropDefCons.inc'
-      include 'data.pub'
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      character  g_plant_status*(*)
-      real       g_dm_green(*)
-      real       g_dm_senesced(*)
-      real       g_dm_dead(*)
-
-*+  Purpose
-*       Kill crop
-
-*+ Mission statement
-*       Kill the crop
-
-*+  Changes
-*       290994 jngh specified and programmed
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name  = 'Maize_kill_crop')
-
-*+  Local Variables
-      real       biomass               ! above ground dm (kg/ha)
-      character  string*200            ! output string
-
-*- Implementation Section ----------------------------------
- 
-c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
-      call push_routine (my_name)
- 
-      if (g_plant_status.eq.status_alive) then
-         g_plant_status = status_dead
- 
-         biomass = (sum_real_array (g_dm_green, max_part)
-     :           - g_dm_green(root)) * gm2kg /sm2ha
- 
-     :           + (sum_real_array (g_dm_senesced, max_part)
-     :           - g_dm_senesced(root)) * gm2kg /sm2ha
- 
-     :           + (sum_real_array (g_dm_dead, max_part)
-     :           - g_dm_dead(root)) * gm2kg /sm2ha
- 
- 
-                ! report
- 
-         write (string, '(3x, a, f7.1, a)')
-     :                  ' kill. Standing above-ground dm = '
-     :                  , biomass, ' (kg/ha)'
-         call Write_string (string)
- 
-      else
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
 
 
 
