@@ -3,7 +3,7 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.05.03"/>
-    <PROJECT value="L:\ApsimOutlook.exe"/>
+    <PROJECT value="L:\APSIMOutlook\ApsimOutlook.exe"/>
     <OBJFILES value="ApsimOutlook.obj about.obj ChildWin.obj Main.obj TChartSettingsForm.obj 
       TDrill_down_form.obj TPreferences_form.obj TSkin.obj TSplashForm.obj 
       TTabRenameForm.obj TValueSelectionForm.obj Scenarios.obj factor.obj 
@@ -107,9 +107,12 @@ Count=1
 Item0=_DEBUG
 
 [HistoryLists\hlFinalOutputDir]
-Count=2
-Item0=L:\
-Item1=..\..\
+Count=5
+Item0=L:\APSIMOutlook\
+Item1=L:\OutlookDevelopment\
+Item2=L:\OutlookDevelopment
+Item3=L:\
+Item4=..\..\
 
 [Debugging]
 DebugSourceDirs=c:\program files\borland\cbuilder5\source\vcl;D:\APSIMDevelopment\3rdParty\ThirdParty\
