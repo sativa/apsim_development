@@ -427,26 +427,26 @@
 
 ------- tracker Initialisation ------------------------------------------------
      Tracker variables:
-        average of met.maxt since report.reported as avg@maxt
-        average of met.mint since report.reported as avg@mint
-        average of met.radn since report.reported as avg@radn
-        sum of met.rain since report.reported as sum@rain
-        sum of nwheat.ep since report.reported as sum@ep()
-        sum of soilwat2.es since report.reported as sum@es
-        sum of soilwat2.runoff since report.reported as sum@runoff
-        sum of soilwat2.drain since report.reported as sum@drain
-        sum of soilwat2.eo since report.reported as sum@eo
-        sum of soilwat2.no3_leach since report.reported as sum@no3_leach
-        sum of soilwat2.nh4_leach since report.reported as sum@nh4_leach
-        sum of soilph.no3_uptake_equiv since report.reported as sum@no3_uptake_equiv
-        sum of soilph.nh4_uptake_equiv since report.reported as sum@nh4_uptake_equiv
-        sum of soiln2.dnit since report.reported as sum@dnit
-        sum of soiln2.dlt_n_min since report.reported as sum@dlt_n_min
-        sum of soilph.dlt_acid_n_cycle since report.reported as sum@dlt_acid_n_cycle
-        sum of soilph.acid_excretion_root since report.reported as sum@acid_excretion_root
-        sum of soilph.ash_alk_wt_incorp since report.reported as sum@ash_alk_wt_incorp
-        sum of soilph.dlt_acid_org_c_cycle since report.reported as sum@dlt_acid_org_c_cycle
-        sum of soilph.h_equiv_flow_net since report.reported as sum@h_equiv_flow_net
+        average of met.maxt since report.reported as avg@maxt on process
+        average of met.mint since report.reported as avg@mint on process
+        average of met.radn since report.reported as avg@radn on process
+        sum of met.rain since report.reported as sum@rain on process
+        sum of nwheat.ep since report.reported as sum@ep() on process
+        sum of soilwat2.es since report.reported as sum@es on process
+        sum of soilwat2.runoff since report.reported as sum@runoff on process
+        sum of soilwat2.drain since report.reported as sum@drain on process
+        sum of soilwat2.eo since report.reported as sum@eo on process
+        sum of soilwat2.no3_leach since report.reported as sum@no3_leach on process
+        sum of soilwat2.nh4_leach since report.reported as sum@nh4_leach on process
+        sum of soilph.no3_uptake_equiv since report.reported as sum@no3_uptake_equiv on process
+        sum of soilph.nh4_uptake_equiv since report.reported as sum@nh4_uptake_equiv on process
+        sum of soiln2.dnit since report.reported as sum@dnit on process
+        sum of soiln2.dlt_n_min since report.reported as sum@dlt_n_min on process
+        sum of soilph.dlt_acid_n_cycle since report.reported as sum@dlt_acid_n_cycle on process
+        sum of soilph.acid_excretion_root since report.reported as sum@acid_excretion_root on process
+        sum of soilph.ash_alk_wt_incorp since report.reported as sum@ash_alk_wt_incorp on process
+        sum of soilph.dlt_acid_org_c_cycle since report.reported as sum@dlt_acid_org_c_cycle on process
+        sum of soilph.h_equiv_flow_net since report.reported as sum@h_equiv_flow_net on process
 ------- Start of simulation  --------------------------------------------------
 1 January 1957(Day of year=1), manager: 
      Manager creating a new local real variable : smi =   -0.575000023541666
