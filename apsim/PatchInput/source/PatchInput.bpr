@@ -11,7 +11,7 @@
     <RESDEPEN value="$(RESFILES)"/>
     <LIBFILES value="..\..\..\Shared\ComponentInterface\ComponentInterface.lib 
       ..\..\..\Shared\ApsimShared\ApsimShared.lib 
-      ..\..\..\Shared\general\general.lib"/>
+      ..\..\..\Shared\general\general.lib &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib&quot;"/>
     <LIBRARIES value=""/>
     <SPARELIBS value="rtl.lib"/>
     <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi qrpt.bpi dbrtl.bpi vcldb.bpi 
@@ -27,7 +27,7 @@
     <USERDEFINES value=""/>
     <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="PatchInput.bpf"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(SHARED);..\..\Input\Source"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED);..\..\Input\Source"/>
     <LIBPATH value="..\..\input\source;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
@@ -55,6 +55,7 @@
       <FILE FILENAME="..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\input\source\InputComponent.cpp" FORMNAME="" UNITNAME="InputComponent" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\input\source\StringVariant.cpp" FORMNAME="" UNITNAME="StringVariant" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib" FORMNAME="" UNITNAME="date_time.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -87,19 +88,15 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
-[Excluded Packages]
-..\Lib\C6\DCLgtQRC60Pro.bpl=(untitled)
-C:\MyData\development\Bin\SEGReport.bpl=SEGReport
-C:\Program Files\Borland\CBuilder6\Bin\dclclxstd60.bpl=Borland CLX Standard Components
-
 [HistoryLists\hlIncludePath]
-Count=6
-Item0=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);..\..\Input\Source
-Item1=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item2=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\ComponentInterface;k:\
-Item3=$(BCB)\include;$(BCB)\include\vcl;..\..\ComponentInterface;k:\
-Item4=$(BCB)\include;$(BCB)\include\vcl;..\..\ComponentInterface
-Item5=$(BCB)\include;$(BCB)\include\vcl
+Count=7
+Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED);..\..\Input\Source
+Item1=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);..\..\Input\Source
+Item2=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item3=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\ComponentInterface;k:\
+Item4=$(BCB)\include;$(BCB)\include\vcl;..\..\ComponentInterface;k:\
+Item5=$(BCB)\include;$(BCB)\include\vcl;..\..\ComponentInterface
+Item6=$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
 Count=6
@@ -141,6 +138,7 @@ RemoteDebug=0
 [Compiler]
 ShowInfoMsgs=0
 LinkDebugVcl=0
+LinkCGLIB=0
 
 [Language]
 ActiveLang=

@@ -4,7 +4,8 @@
 #include <ComponentInterface\Component.h>
 #include "StringVariant.h"
 #include <map>
-class ApsimDataFile;
+#include <ApsimShared\ApsimDataFile.h>
+#include <boost\date_time\gregorian\gregorian.hpp>
 // ------------------------------------------------------------------
 // Encapsulates the APSIM INPUT module
 // ------------------------------------------------------------------
@@ -20,45 +21,27 @@ class InputComponent : public protocol::Component
       virtual bool respondToSet(unsigned int& fromID, protocol::QuerySetValueData& setValueData);
 
    protected:
-      typedef std::map<unsigned, StringVariant*> InputVariables;
-      typedef std::vector<StringVariant*> TemporalVariables;
-      InputVariables variables;
-      TemporalVariables temporalVariables;
+      typedef std::map<unsigned, StringVariant> Variables;
+      Variables variables;
       bool iAmMet;
       bool allowSparseData;
-      ApsimDataFile* data;
+      ApsimDataFile data;
       std::string fileName;
 
       unsigned newmetID;
       unsigned preNewmetID;
       unsigned tickID;
       unsigned daylengthID;
-      double todaysDate;
-      StringVariant* yearI;
-      StringVariant* dayOfYearI;
-      StringVariant* dayOfMonthI;
-      StringVariant* monthI;
+      boost::gregorian::date todaysDate;
+      boost::gregorian::date fileDate;
 
-      void readConstants(void);
-      bool readHeadings(void);
-      InputVariables::iterator findVariable(const string& name);
-      bool removeArraySpec(const std::string& fieldName,
-                           std::string& fieldNameMinusSpec,
-                           unsigned int& arraySpec);
-      void doRegistrations(void);
+      void addVariable(Value& value);
+      void registerAllVariables(void);
       void checkForSparseData(void);
-      bool advanceToTodaysData(void);
-      unsigned long getFileDate(void);
-      void dateFieldsOk(void);
-      void readLineFromFile();
-      bool getVariableValue(const std::string& name, float& value);
+      boost::gregorian::date advanceToTodaysData(void);
+      float getVariableValue(const std::string& name);
+      Variables::iterator findVariable(const std::string& name);
       void publishNewMetEvent(void);
-      void addVariable(const std::string& name,
-                       const std::string& units,
-                       const std::string& value,
-                       unsigned arrayIndex,
-                       bool isTemporal,
-                       bool isArray);
       float calcDayLength(void);
       float dayLength(int dyoyr, float lat, float sun_angle);
    };

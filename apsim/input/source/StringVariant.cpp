@@ -10,277 +10,114 @@
 
 using namespace std;
 using namespace protocol;
-// ------------------------------------------------------------------
-//  Short description:
-//     constructor
-
-//  Notes:
-
-//  Changes:
-//    DPH 27/6/2001
 
 // ------------------------------------------------------------------
-StringVariant::StringVariant(Component* p, const string& n)
-   : name(n), parent(p)
+// constructor
+// ------------------------------------------------------------------
+StringVariant::StringVariant(Value* v, Component* p)
+   : value(v), parent(p), secondaryValue(NULL)
    {
+   determineType();
    }
-
 // ------------------------------------------------------------------
-//  Short description:
-//     constructor
-
-//  Notes:
-
-//  Changes:
-//    DPH 27/6/2001
-
+// send the values of this variant to system via a ReturnValue message
 // ------------------------------------------------------------------
-StringVariant::StringVariant(Component* p, const string& n, const string& u,
-   const string& value, bool constants)
-   : name(n), units(u), parent(p)
+void StringVariant::sendVariable(QueryValueData& queryData, bool useMainValue)
    {
-   addValues(value);
-   if (constants)
-      copy(values.begin(), values.end(), back_inserter(constantValues));
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//     add 1 or more values from the specified string to this variant
-
-//  Notes:
-
-//  Changes:
-//    DPH 27/6/2001
-
-// ------------------------------------------------------------------
-void StringVariant::addValues(const string& valueString)
-   {
-   Values localValues;
-   Split_string(valueString, " ", localValues);
-   if (values.size() == 0 || values.size() == localValues.size())
-      copy(localValues.begin(), localValues.end(), back_inserter(values));
-   else
+   Value* valueToUse = value;
+   if (!useMainValue)
+      valueToUse = secondaryValue;
+   if (valueToUse != NULL)
       {
-      AnsiString msg = "The INPUT module was expecting " + IntToStr(values.size());
-      msg +=" values on line\nbut only received " + IntToStr(values.size())
-           + " values.\nLine: ";
-      msg += valueString.c_str();
-      parent->error(msg.c_str(), true);
-      }
-
-   if (typeString == "" && values.size() > 0)
-      determineType();
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//     add the specified value to this variant taking into account
-//     the specified array index.
-
-//  Notes:
-
-//  Changes:
-//    DPH 27/6/2001
-
-// ------------------------------------------------------------------
-void StringVariant::addValue(const string& valueString, unsigned arrayIndex)
-   {
-   if (arrayIndex == values.size())
-      values.push_back(valueString);
-   else if (arrayIndex < values.size())
-      values[arrayIndex] = valueString;
-   else
-      {
-      AnsiString msg = "Non-consecutive array indexes found in INPUT module\n"
-                       "Array index: " + IntToStr(arrayIndex) + "\nValue: ";
-      msg += valueString.c_str();
-      parent->error(msg.c_str(), true);
-      }
-   if (typeString == "" && values.size() > 0)
-      determineType();
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//     send the values of this variant to system via a
-//     ReturnValue message
-
-//  Notes:
-
-//  Changes:
-//    DPH 27/6/2001
-
-// ------------------------------------------------------------------
-void StringVariant::sendVariable(QueryValueData& queryData)
-   {
-   std::vector<string> vals;
-   if (useConstants)
-      vals = constantValues;
-   else
-      vals = values;
-   if (vals.size() == 0)
-      return;
-   std::vector<float> realArray;
-   std::vector<int>   integerArray;
-   switch (type)
-      {
-      case Real:         StringContainerToDoubleContainer(vals, realArray);
-                         parent->sendVariable(queryData,
-                                             realArray[0]);
-                         break;
-      case Integer:      StringContainerToIntegerContainer(vals, integerArray);
-                         parent->sendVariable(queryData,
-                                             integerArray[0]);
-                         break;
-      case String:       parent->sendVariable(queryData,
-                                             values[0]);
-                         break;
-      case RealArray:    StringContainerToDoubleContainer(vals, realArray);
-                         parent->sendVariable(queryData,
-                                             realArray);
-                         break;
-      case IntegerArray: StringContainerToIntegerContainer(vals, integerArray);
-                         parent->sendVariable(queryData,
-                                             integerArray);
-                         break;
-      case StringArray:  parent->sendVariable(queryData,
-                                             vals);
-                         break;
+      std::vector<float> realArray;
+      std::vector<int>   integerArray;
+      switch (type)
+         {
+         case Real:         StringContainerToDoubleContainer(valueToUse->values, realArray);
+                            parent->sendVariable(queryData, realArray[0]);
+                            break;
+         case Integer:      StringContainerToIntegerContainer(valueToUse->values, integerArray);
+                            parent->sendVariable(queryData, integerArray[0]);
+                            break;
+         case String:       parent->sendVariable(queryData, valueToUse->values[0]);
+                            break;
+         case RealArray:    StringContainerToDoubleContainer(valueToUse->values, realArray);
+                            parent->sendVariable(queryData, realArray);
+                            break;
+         case IntegerArray: StringContainerToIntegerContainer(valueToUse->values, integerArray);
+                            parent->sendVariable(queryData, integerArray);
+                            break;
+         case StringArray:  parent->sendVariable(queryData, valueToUse->values);
+                            break;
+         }
       }
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//     set the values of this variant
-
-//  Changes:
-//    DPH 27/6/2001
+// set the values of this variant
 // ------------------------------------------------------------------
 void StringVariant::setVariable(QuerySetValueData& setValueData)
    {
    protocol::TypeConverter* converter = NULL;
    if (getTypeConverter(parent,
-                        name.c_str(),
+                        value->name.c_str(),
                         setValueData.variant.getType(),
                         protocol::Type(typeString.c_str()),
                         converter))
       setValueData.variant.setTypeConverter(converter);
 
+   value->values.erase(value->values.begin(), value->values.end());
    switch (type)
       {
       case Real:         {float realValue;
                          setValueData.variant.unpack(realValue);
-                         addValue(ftoa(realValue, 3), 0);
+                         value->values.push_back(ftoa(realValue, 3));
                          break;}
       case Integer:      {int integerValue;
                          setValueData.variant.unpack(integerValue);
                          char buffer[40];
                          itoa(integerValue, buffer, 10);
-                         addValue(buffer, 0);
+                         value->values.push_back(buffer);
                          break;}
       case String:       {string st;
                          setValueData.variant.unpack(st);
-                         addValue(st, 0);
+                         value->values.push_back(st);
                          break;}
       case RealArray:    {std::vector<float> realArray;
                          setValueData.variant.unpack(realArray);
-                         DoubleContainerToStringContainer(realArray, values);
+                         DoubleContainerToStringContainer(realArray, value->values);
                          break;}
       case IntegerArray: {std::vector<int> integerArray;
                          setValueData.variant.unpack(integerArray);
-                         IntegerContainerToStringContainer(integerArray, values);
+                         IntegerContainerToStringContainer(integerArray, value->values);
                          break;}
-      case StringArray:  {setValueData.variant.unpack(values);
+      case StringArray:  {setValueData.variant.unpack(value->values);
                          break;}
       }
    delete converter;
    }
-
-
 // ------------------------------------------------------------------
-//  Short description:
-//     Return the value of this variant as an integer.  Returns
-//     -1 if variant has no values.
-
-//  Notes:
-
-//  Changes:
-//    DPH 27/6/2001
-
-// ------------------------------------------------------------------
-bool StringVariant::asInteger(int& value)
-   {
-   if (values.size() >= 1)
-      {
-      value = StrToInt(values[0].c_str());
-      return true;
-      }
-   return -1;
-   }
-// ------------------------------------------------------------------
-//  Short description:
-//     Return the value of this variant as a logical.
-
-//  Changes:
-//    DPH 27/6/2001
-// ------------------------------------------------------------------
-bool StringVariant::asLogical(bool& value)
-   {
-   if (values.size() >= 1)
-      {
-      value = (Str_i_Eq(values[0], "yes") || Str_i_Eq(values[0], "true"));
-      return true;
-      }
-   return false;
-   }
-// ------------------------------------------------------------------
-//  Short description:
-//     Return the value of this variant as a float.  Returns
-//     true if variant has a value.
-
-//  Changes:
-//    DPH 27/6/2001
-// ------------------------------------------------------------------
-bool StringVariant::asFloat(float& value)
-   {
-   if (values.size() >= 1)
-      {
-      value = StrToFloat(values[0].c_str());
-      return true;
-      }
-   return false;
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//     Determine the type of the variant from the current values.
-
-//  Notes:
-
-//  Changes:
-//    DPH 27/6/2001
-
+// Determine the type of the variant from the current values.
 // ------------------------------------------------------------------
 void StringVariant::determineType(void)
    {
-   if (values.size() == 0)
+   if (value->values.size() == 0)
       {
       type = String;
       typeString = "<type kind=\"string\"";
       }
-   else if (values[0].length() > 0)
+   else if (value->values[0].length() > 0)
       {
-      if (Is_numerical(values[0].c_str()))
+      if (Is_numerical(value->values[0].c_str()))
          {
-         if (Str_i_Eq(name, "year") || Str_i_Eq(name, "day"))
+         if (Str_i_Eq(value->name, "year") || Str_i_Eq(value->name, "day"))
             {
             type = Integer;
             typeString = "<type kind=\"integer4\"";
             }
          else
             {
-            if (values.size() > 1)
+            if (value->values.size() > 1)
                {
                type = RealArray;
                typeString = "<type kind=\"single\" array=\"T\"";
@@ -294,7 +131,7 @@ void StringVariant::determineType(void)
          }
       else
          {
-         if (values.size() > 1)
+         if (value->values.size() > 1)
             {
             type = StringArray;
             typeString = "<type kind=\"string\"/ array=\"T\"";
@@ -306,30 +143,40 @@ void StringVariant::determineType(void)
             }
          }
       }
-   typeString += "units=\"" + units + "\"/>";
+   typeString += "units=\"" + value->units + "\"/>";
    }
 // ------------------------------------------------------------------
-//  Short description:
-//     Register all variables using specified parent.
-
-//  Notes:
-
-//  Changes:
-//    DPH 27/6/2001
-
+// Register this variable
 // ------------------------------------------------------------------
 unsigned StringVariant::doRegistration()
    {
-   regID = parent->addRegistration(respondToGetSetReg, name.c_str(), typeString.c_str());
-   return regID;
+   return parent->addRegistration(respondToGetSetReg, value->name.c_str(), typeString.c_str());
    }
 // ------------------------------------------------------------------
-// Set this type as an array type.
+// return the value of this variable as a float.
 // ------------------------------------------------------------------
-void StringVariant::setIsArray(void)
+float StringVariant::asFloat()
    {
-   values.push_back("");
-   determineType();
-   values.erase(values.begin()+(values.size()-1));
+   return atof(value->values[0].c_str());
+   }
+// ------------------------------------------------------------------
+// return the value of this variable as an integer
+// ------------------------------------------------------------------
+float StringVariant::asInteger()
+   {
+   return atoi(value->values[0].c_str());
+   }
+// ------------------------------------------------------------------
+// The value object passed in is the main value to use for this variable.
+// The value object already in 'value' is the secondary (backup) value
+// so swap them around. This only ever happens when a temporal variable
+// has the same name as a constant variable. When sparse data is allowed,
+// sometimes we'll have to use the secondaryValue when the main temporal
+// value is not valid (ie when the date isn't the same as today's date.
+// ------------------------------------------------------------------
+void StringVariant::setTemporalValue(Value* v)
+   {
+   secondaryValue = value;
+   value = v;
    }
 

@@ -21,5 +21,12 @@ class PatchInputComponent : public InputComponent
 
    private:
       unsigned preNewmetID;
+      ApsimDataFile::iterator yearI;
+      ApsimDataFile::iterator dayI;
+
+      boost::gregorian::date getFileDate(void);
+      boost::gregorian::date advanceToTodaysPatchData(void);
+
+
    };
 #endif
