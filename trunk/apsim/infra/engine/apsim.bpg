@@ -9,15 +9,22 @@ MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
 DCC = $(ROOT)\bin\dcc32.exe $**
 BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
-PROJECTS = APSIMEngine.dll apsim.exe
+PROJECTS = protocol.dll APSIMEngine.dll report.dll apsim.exe
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
 #------------------------------------------------------------------------------
 
-apsim.exe: apsim.bpr
-  $(MAKE)
-
 APSIMEngine.dll: APSIMEngine.bpr
   $(MAKE)
+
+protocol.dll: ..\protocol\protocol.bpr
+  $(MAKE)
+
+report.dll: ..\..\report\source\report.bpr
+  $(MAKE)
+
+apsim.exe: apsim.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
 
