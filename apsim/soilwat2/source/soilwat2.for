@@ -606,7 +606,7 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
  
 *+  Constant Values
       character  my_name*(*)           ! name of subroutine
-      parameter (my_name = 'soilwat2_pot_evapotranspiration')
+      parameter (my_name = 'soilwat2_priestly_taylor')
  
 *+  Local Variables
       real       albedo                ! albedo taking into account plant
