@@ -4,21 +4,19 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\..\Bin\FileGeneratorFromExcel.exe"/>
-    <OBJFILES value="FileGeneratorFromExcel.obj GeneratorFromExcel.obj 
+    <OBJFILES value="FileGeneratorFromExcel.obj GeneratorFromExcel.obj
       ..\..\Shared\general\Excel.obj"/>
     <RESFILES value="FileGeneratorFromExcel.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
-    <LIBFILES value="..\..\Shared\general\general.lib ..\..\Shared\ApsimShared\ApsimShared.lib 
+    <LIBFILES value="..\..\Shared\general\general.lib ..\..\Shared\ApsimShared\ApsimShared.lib
       ..\..\Shared\general\general_vcl.lib"/>
     <LIBRARIES value="bcb2kaxserver.lib"/>
     <SPARELIBS value="rtl.lib vcl.lib bcb2kaxserver.lib"/>
-    <PACKAGES value="rtl.bpi vcl.bpi dbrtl.bpi bdertl.bpi vcldb.bpi vclx.bpi qrpt60.bpi 
-      nmfast.bpi bcbie.bpi inet.bpi adortl.bpi bcbsmp.bpi dsnap.bpi cds.bpi 
-      dbexpress.bpi dbxcds.bpi ibxpress.bpi vclie.bpi inetdbbde.bpi 
-      inetdbxpress.bpi dclocx.bpi soaprtl.bpi TeeDB6C6.bpi Tee6C6.bpi 
-      TeeUI6C6.bpi TeeLanguage6C6.bpi TeePro6C6.bpi TeeQR6C6.bpi TeeImage6C6.bpi 
-      TeeGL6C6.bpi"/>
+    <PACKAGES value="rtl.bpi vcl.bpi dbrtl.bpi bdertl.bpi vcldb.bpi vclx.bpi qrpt60.bpi
+      nmfast.bpi bcbie.bpi inet.bpi adortl.bpi bcbsmp.bpi dsnap.bpi cds.bpi
+      dbexpress.bpi dbxcds.bpi ibxpress.bpi vclie.bpi inetdbbde.bpi
+      inetdbxpress.bpi dclocx.bpi soaprtl.bpi"/>
     <PATHCPP value=".;..\..\Shared\general"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -35,7 +33,7 @@
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c 
+    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c
       -tW -tWM"/>
     <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>

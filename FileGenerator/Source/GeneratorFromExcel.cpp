@@ -108,8 +108,7 @@ void GeneratorFromExcel::go(const std::string& xlsFileName,
 //   wchar_t* text = shape->Text;
 
 
-   XMLDocument xml;
-   xml.setRootNode("data");
+   XMLDocument xml("data", XMLDocument::rootName);
    unsigned row = 2;
    while (parseSpreadsheetTable(xml.documentElement(), worksheet, row));
 
