@@ -31,6 +31,8 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.HyperLink hylEmail;
 		protected System.Web.UI.WebControls.Label Label1;
 		protected System.Web.UI.WebControls.Button RegistrationButton;
+		protected System.Web.UI.WebControls.Label lblSurvey;
+		protected System.Web.UI.WebControls.Button btnSurvey;
 		protected System.Web.UI.WebControls.Image imgSide;
 
 
@@ -53,6 +55,7 @@ namespace YieldProphet
 		{    
 			this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
 			this.RegistrationButton.Click += new System.EventHandler(this.RegistrationButton_Click);
+			this.btnSurvey.Click += new System.EventHandler(this.btnSurvey_Click);
 			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
@@ -135,6 +138,13 @@ namespace YieldProphet
 		private void RegistrationButton_Click(object sender, System.EventArgs e)
 			{
 			Server.Transfer("wfRegForm1.aspx");
+			}
+		//---------------------------------------------------------------------
+		// User has clicked on the online survey button.
+		//---------------------------------------------------------------------
+		private void btnSurvey_Click(object sender, System.EventArgs e)
+			{
+			Server.Transfer("wfSurvey.aspx");
 			}
 		//---------------------------------------------------------------------
 		#endregion

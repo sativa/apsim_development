@@ -529,9 +529,9 @@ namespace YieldProphet
 					FunctionsClass.GetActiveUserName());
 				DataTable dtSoilSampleFromDB = new DataTable();
 				if(dtPaddocksSoilSameple.Rows.Count > 0)
-				{
+					{
 					dtSoilSampleFromDB = SoilSampleClass.ConvertSoilSampleOneDataToDataTable(dtPaddocksSoilSameple.Rows[0]["Data"].ToString());
-				}
+					}
 				
 				DataRow drSoilSampleLevel;
 				int iMaxNumberOfRows = 8;
@@ -572,9 +572,9 @@ namespace YieldProphet
 
 				DataTable dtSoilSampleFromDB = new DataTable();
 				if(dtPaddocksSoilSameple.Rows.Count > 0)
-				{
+					{
 					dtSoilSampleFromDB = SoilSampleClass.ConvertSoilSampleTwoDataToDataTable(dtPaddocksSoilSameple.Rows[0]["Data"].ToString());
-				}
+					}
 				
 				DataRow drSoilSampleLevel;
 				int iMaxNumberOfRows = 8;
@@ -744,10 +744,48 @@ namespace YieldProphet
 			return dtSoilSampleData;
 			}
 		//-------------------------------------------------------------------------
+		//Redraws the graph on the page
+		//-------------------------------------------------------------------------
+		private void UpdateGraph()
+			{
+			try
+				{
+				DisplaySoilChart(SoilSampleClass.GetChartData(SoilSampleClass.CreateSoilSampleOneXmlFile(ReturnSoilSampleOneDataTable()), cboSoilType.SelectedItem.Text));
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
+			}
+		//-------------------------------------------------------------------------
+		//Draws the graph for the first time
+		//-------------------------------------------------------------------------
+		private void InitialiseGraph()
+			{
+			try
+				{
+				DataTable dtPaddocksSoilSameple =
+					DataAccessClass.GetPaddocksSoilSample("GridOne", Session["SelectedPaddockName"].ToString(), 
+					FunctionsClass.GetActiveUserName());
+				DataTable dtSoilSampleFromDB = new DataTable();
+				if(dtPaddocksSoilSameple.Rows.Count > 0)
+					{
+					DisplaySoilChart(SoilSampleClass.GetChartData(dtPaddocksSoilSameple.Rows[0]["Data"].ToString(),cboSoilType.SelectedItem.Text));
+					}
+				else
+					{
+					DisplaySoilChart(SoilSampleClass.GetChartData("", cboSoilType.SelectedItem.Text));
+					}
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
+			}
+		//-------------------------------------------------------------------------
 		#endregion
 
-
-			
+	
 			
 		#region Chart Function
 		//-------------------------------------------------------------------------
@@ -767,21 +805,22 @@ namespace YieldProphet
 			bsSWLineSeries = ( LineSeries )chtCustomChart.Series.Add( SeriesType.Line );
 			bsSWLineSeries.Name = "SW";
 			bsSWLineSeries.DataLabels.Mode = DataLabelsMode.None;
-			bsSWLineSeries.LineBorder.Color = Color.Blue;
+			bsSWLineSeries.LineBorder.Color = Color.LightBlue;
+			bsSWLineSeries.LineBorder.Width = 3;
 			bsSWLineSeries.Values.FillFromDataTable(dtSoilData, "SW");
 			//Initialise the series and fill with data from the passed in DataTable
 			LineSeries bsDULLineSeries;
 			bsDULLineSeries = ( LineSeries )chtCustomChart.Series.Add( SeriesType.Line );
 			bsDULLineSeries.Name = "DUL";
 			bsDULLineSeries.DataLabels.Mode = DataLabelsMode.None;
-			bsDULLineSeries.LineBorder.Color = Color.Green;
+			bsDULLineSeries.LineBorder.Color = Color.Blue;
 			bsDULLineSeries.Values.FillFromDataTable(dtSoilData, "DUL");
 			//Initialise the series and fill with data from the passed in DataTable
 			LineSeries bsLL15LineSeries;
 			bsLL15LineSeries = ( LineSeries )chtCustomChart.Series.Add( SeriesType.Line );
 			bsLL15LineSeries.Name = "LL15";
 			bsLL15LineSeries.DataLabels.Mode = DataLabelsMode.None;
-			bsLL15LineSeries.LineBorder.Color = Color.Yellow;
+			bsLL15LineSeries.LineBorder.Color = Color.Red;
 			bsLL15LineSeries.Values.FillFromDataTable(dtSoilData, "LL15");
 			//Initialise the series and fill with data from the passed in DataTable
 			LineSeries bsAirDryLineSeries;
@@ -789,13 +828,15 @@ namespace YieldProphet
 			bsAirDryLineSeries.Name = "AirDry";
 			bsAirDryLineSeries.DataLabels.Mode = DataLabelsMode.None;
 			bsAirDryLineSeries.LineBorder.Color = Color.Red;
+			bsAirDryLineSeries.LineBorder.Pattern = Xceed.Chart.Standard.LinePattern.Dash;
 			bsAirDryLineSeries.Values.FillFromDataTable(dtSoilData, "AirDry");
 			//Initialise the series and fill with data from the passed in DataTable
 			LineSeries bsSATLineSeries;
 			bsSATLineSeries = ( LineSeries )chtCustomChart.Series.Add( SeriesType.Line );
 			bsSATLineSeries.Name = "SAT";
 			bsSATLineSeries.DataLabels.Mode = DataLabelsMode.None;
-			bsSATLineSeries.LineBorder.Color = Color.HotPink;
+			bsSATLineSeries.LineBorder.Color = Color.Blue;
+			bsSATLineSeries.LineBorder.Pattern = Xceed.Chart.Standard.LinePattern.Dash;
 			bsSATLineSeries.Values.FillFromDataTable(dtSoilData, "SAT");
 
 			//Configure primary Y-Axis to display title, etc
@@ -824,7 +865,6 @@ namespace YieldProphet
 		
 
 
-
 		#region Form Events
 		//-------------------------------------------------------------------------
 		//If the page hasn't been viewed by the user then the user's
@@ -839,18 +879,7 @@ namespace YieldProphet
 				FillNonDependantFormControls();
 				btnSave.Style.Add("cursor", "hand");
 				FillDependantFormControls();
-				DataTable dtPaddocksSoilSameple =
-					DataAccessClass.GetPaddocksSoilSample("GridOne", Session["SelectedPaddockName"].ToString(), 
-					FunctionsClass.GetActiveUserName());
-				DataTable dtSoilSampleFromDB = new DataTable();
-				if(dtPaddocksSoilSameple.Rows.Count > 0)
-					{
-					DisplaySoilChart(SoilSampleClass.GetChartData(dtPaddocksSoilSameple.Rows[0]["Data"].ToString(),cboSoilType.SelectedItem.Text));
-					}
-				else
-				{
-					DisplaySoilChart(SoilSampleClass.GetChartData("", cboSoilType.SelectedItem.Text));
-				}
+				InitialiseGraph();
 				}
 			}
 		//-------------------------------------------------------------------------
@@ -929,7 +958,7 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void btnUpdateGraph_Click(object sender, System.EventArgs e)
 			{
-			DisplaySoilChart(SoilSampleClass.GetChartData(SoilSampleClass.CreateSoilSampleOneXmlFile(ReturnSoilSampleOneDataTable()), cboSoilType.SelectedItem.Text));
+			UpdateGraph();
 			}
 		//-------------------------------------------------------------------------
 		#endregion

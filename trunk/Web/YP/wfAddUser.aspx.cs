@@ -136,16 +136,16 @@ namespace YieldProphet
 		//---------------------------------------------------------------------------
 		private void SaveUser()
 			{
-			//Checks to ensure all fields have data entered in them
-			if(edtName.Text != "" && edtEmail.Text != "" &&
-				edtUserName.Text != "" && edtPassword.Text != "")
+			try
 				{
-				//As the user name is used in the file name of any reports generated
-				//a check is run to ensure it doesn't have any characters in it
-				//that will stop a file from being created.
-				if(InputValidationClass.IsInputAValidFileLocationString(edtName.Text) == true)
+				//Checks to ensure all fields have data entered in them
+				if(edtName.Text != "" && edtEmail.Text != "" &&
+					edtUserName.Text != "" && edtPassword.Text != "")
 					{
-					try
+					//As the user name is used in the file name of any reports generated
+					//a check is run to ensure it doesn't have any characters in it
+					//that will stop a file from being created.
+					if(InputValidationClass.IsInputAValidFileLocationString(edtName.Text) == true)
 						{
 						//Checks to ensure the user name isn't already in use
 						if(DataAccessClass.IsUserNameAvailable(InputValidationClass.ValidateString(edtUserName.Text)) == true)
@@ -162,9 +162,7 @@ namespace YieldProphet
 										cboConsultant.SelectedItem.Text);
 									}
 								else
-									{
-									FunctionsClass.DisplayMessage(Page, "Please select a consultant");	
-									}
+									throw new Exception("Please select a consultant");	
 								}
 							//If the new user isn't a grower then just insert them into the db
 							else
@@ -178,31 +176,23 @@ namespace YieldProphet
 										cboAccessType.SelectedItem.Text);
 									}
 								else
-									{
-									FunctionsClass.DisplayMessage(Page, "Please select an access type");	
-									}
+									throw new Exception("Please select an access type");	
 								}
 							ReportClass.CreateUsersReportDirectory(InputValidationClass.ValidateString(edtUserName.Text));
 							Server.Transfer("wfAddUser.aspx");
 							}
 						else
-							{
-							FunctionsClass.DisplayMessage(Page, "Username is already being used");
-							}
+							throw new Exception("Username is already being used");
 						}
-					catch(Exception E)
-						{
-						FunctionsClass.DisplayMessage(Page, E.Message);
-						}
+					else
+						throw new Exception("Name field contains invalid characters. Please remove any of the following characters \\\\ / : * ? \" < > |");
 					}
 				else
-					{
-						FunctionsClass.DisplayMessage(Page, "Name field contains invalid characters. Please remove any of the following characters \\\\ / : * ? \" < > |");
-					}
+					throw new Exception("Please enter all details");
 				}
-			else
+			catch(Exception E)
 				{
-				FunctionsClass.DisplayMessage(Page, "Please enter all details");
+				FunctionsClass.DisplayMessage(Page, E.Message);
 				}
 			}
 		//---------------------------------------------------------------------------

@@ -78,13 +78,20 @@ namespace YieldProphet
 		//Fills the report list with all the reports belonging to the current user
 		//-------------------------------------------------------------------------
 		private void FillReportList()
-		{
-			DataTable dtReports = ReportClass.GetReportsOfUser(FunctionsClass.GetActiveUserName(), 
-				Convert.ToInt32(cboYear.SelectedItem.Text));
-			lstReports.DataSource = dtReports;
-			lstReports.DataTextField = "Name";
-			lstReports.DataBind();
-		}
+			{
+			try
+				{
+				DataTable dtReports = ReportClass.GetReportsOfUser(FunctionsClass.GetActiveUserName(), 
+					Convert.ToInt32(cboYear.SelectedItem.Text));
+				lstReports.DataSource = dtReports;
+				lstReports.DataTextField = "Name";
+				lstReports.DataBind();
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
+			}
 		//-------------------------------------------------------------------------
 		//Stores the reportID in a session variable then transfers the user to the
 		//Display report page to view the report
@@ -108,24 +115,27 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------	
 		private void DeleteReport()
 			{
-			//If a report is selected then remove it from the database
-			if(lstReports.SelectedItem.Text != null && lstReports.SelectedItem.Text != "")
+			try
 				{
-				if(FunctionsClass.IsGrowerOrHigher(Session["UserName"].ToString()) == true)
+				//If a report is selected then remove it from the database
+				if(lstReports.SelectedItem.Text != null && lstReports.SelectedItem.Text != "")
 					{
-					ReportClass.DeleteReport(FunctionsClass.GetActiveUserName(), 
-				 lstReports.SelectedItem.Text, Convert.ToInt32(cboYear.SelectedItem.Text));
-					Server.Transfer("wfViewReports.aspx");
+					if(FunctionsClass.IsGrowerOrHigher(Session["UserName"].ToString()) == true)
+						{
+						ReportClass.DeleteReport(FunctionsClass.GetActiveUserName(), 
+							lstReports.SelectedItem.Text, Convert.ToInt32(cboYear.SelectedItem.Text));
+						Server.Transfer("wfViewReports.aspx");
+						}
+					else
+						throw new Exception("Functionality not available to visitors");
 					}
+				//If no report is selected then display an error message to the user
 				else
-					{
-					FunctionsClass.DisplayMessage(Page, "Functionality not available to visitors");
-					}
+					throw new Exception("No Report Selected");
 				}
-			//If no report is selected then display an error message to the user
-			else
+			catch(Exception E)
 				{
-				FunctionsClass.DisplayMessage(Page, "No Report Selected");
+				FunctionsClass.DisplayMessage(Page, E.Message);
 				}
 			}
 		//-------------------------------------------------------------------------

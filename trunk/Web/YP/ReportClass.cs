@@ -39,54 +39,54 @@ namespace YieldProphet
 		// 1 and for the year 2005
 		//-------------------------------------------------------------------------
 		public static void CreateUsersReportDirectory(string szUserName)
-		{	
+			{	
 			string szDirectoryLocaton = HttpContext.Current.Server.MapPath("/YP/")+"Reports";
 			//Creates the Reports directory if it doesn't exist
 			if(System.IO.Directory.Exists(szDirectoryLocaton)==false)
-			{
+				{
 				System.IO.Directory.CreateDirectory(szDirectoryLocaton);
-			}
+				}
 			//Creates the Users sub directory if it doesn't exist
 			szDirectoryLocaton = szDirectoryLocaton+"\\"+szUserName;
 			if(System.IO.Directory.Exists(szDirectoryLocaton)==false)
-			{
+				{
 				System.IO.Directory.CreateDirectory(szDirectoryLocaton);
-			}
+				}
 			//Creates the user's report directory
 			szDirectoryLocaton = szDirectoryLocaton+"\\"+
 				DateTime.Today.Year.ToString();
 			System.IO.Directory.CreateDirectory(szDirectoryLocaton);	
-		}
+			}
 		//-------------------------------------------------------------------------
 		//Creates a user directory for a given year, same format as above
 		//-------------------------------------------------------------------------
 		public static void CreateUsersReportDirectory(string szUserName, int iYear)
-		{	
+			{	
 			string szDirectoryLocaton = HttpContext.Current.Server.MapPath("/YP/")+"Reports";
 			//Creates the Reports directory if it doesn't exist
 			if(System.IO.Directory.Exists(szDirectoryLocaton)==false)
-			{
+				{
 				System.IO.Directory.CreateDirectory(szDirectoryLocaton);
-			}
+				}
 			//Creates the Users sub directory if it doesn't exist
 			szDirectoryLocaton = szDirectoryLocaton+"\\"+szUserName;
 			if(System.IO.Directory.Exists(szDirectoryLocaton)==false)
-			{
+				{
 				System.IO.Directory.CreateDirectory(szDirectoryLocaton);
-			}
+				}
 			//Creates the user's report directory
 			szDirectoryLocaton = szDirectoryLocaton+"\\"+iYear.ToString();
 			if(System.IO.Directory.Exists(szDirectoryLocaton)==false)
-			{
+				{
 				System.IO.Directory.CreateDirectory(szDirectoryLocaton);	
+				}
 			}
-		}
 		//-------------------------------------------------------------------------
 		//Takes a UserID and a year and checks if there is a report directory for the
 		//given values.
 		//-------------------------------------------------------------------------
 		public static bool DoesUsersReportDirectoryExisit(string szUserName, int iYear)
-		{
+			{
 			bool bUsersReportDirectoryExists = false;
 		
 			string szDirectoryLocaton = HttpContext.Current.Server.MapPath("/YP/")+"Reports";
@@ -94,40 +94,40 @@ namespace YieldProphet
 			bUsersReportDirectoryExists = System.IO.Directory.Exists(szDirectoryLocaton);
 		
 			return bUsersReportDirectoryExists;
-		}
+			}
 		//-------------------------------------------------------------------------
 		//Takes a userID and deletes the users report directory including all
 		//sub directories and files
 		//-------------------------------------------------------------------------
 		public static void DeleteUsersReportDirectory(string szUserName)
-		{			
+			{			
 			string szFileLocation = HttpContext.Current.Server.MapPath("/YP/");
 			szFileLocation = szFileLocation+"Reports//"+szUserName;
 			if(System.IO.Directory.Exists(szFileLocation))
-			{
+				{
 				System.IO.Directory.Delete(szFileLocation, true);
+				}
 			}
-		}
 		//-------------------------------------------------------------------------
 		//Takes a UserID, a report name and a year a deletes the report found in
 		//that location.
 		//-------------------------------------------------------------------------
 		public static void DeleteReport(string szUserName, string szReportName, int iYear)
-		{
+			{
 			string szFileLocation = HttpContext.Current.Server.MapPath("/YP/");
 			szFileLocation = szFileLocation+"Reports//"+szUserName+
 				"//"+iYear.ToString()+"//"+szReportName+".gif";
 			if(System.IO.File.Exists(szFileLocation))
-			{
+				{
 				System.IO.File.Delete(szFileLocation);
+				}
 			}
-		}
 		//-------------------------------------------------------------------------
 		//Takes a UserID and a Year and returns all the report names from the
 		//directory found in that location.
 		//-------------------------------------------------------------------------
 		public static DataTable GetReportsOfUser(string szUserName, int iYear)
-		{
+			{
 			DataTable dtUsersReports = new DataTable("Reports");
 			dtUsersReports.Columns.Add("Name");
 
@@ -135,14 +135,14 @@ namespace YieldProphet
 			string szDirectory = HttpContext.Current.Server.MapPath("/YP/")+"Reports//"+
 				szUserName+"//"+iYear.ToString()+"//";
 			if(Directory.Exists(szDirectory) == true)
-			{
+				{
 				//Finds all the report files by looking for all .gif files
 				string[] szReports = Directory.GetFiles(szDirectory, "*.gif");
 				System.Array.Sort(szReports, new FileSortByDate());
 				string szReportName = "";
 				//Cleans up the file names so that only the file name is stored
 				for(int iIndex = 0; iIndex < szReports.Length; iIndex++)
-				{
+					{
 					drUsersReport = dtUsersReports.NewRow();
 					szReportName = szReports[iIndex];
 					//removes the directory structure from the front of the file name
@@ -151,10 +151,10 @@ namespace YieldProphet
 					szReportName = szReportName.Replace(".gif", "");
 					drUsersReport["Name"] = szReportName;
 					dtUsersReports.Rows.Add(drUsersReport);
+					}
 				}
-			}
 			return dtUsersReports;
-		}
+			}
 		//-------------------------------------------------------------------------
 		//Takes an existing report name, a new report name, a UserID and a Year
 		//and replaces the report name of the report found in the specified directory
@@ -162,21 +162,21 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		public static bool RenameReport(string szOldReportName, 
 			string szNewReportName, string szUserName, int iYear)
-		{
+			{
 			bool bRenamedSuccessfully = false;
 
 			string szDirectory = HttpContext.Current.Server.MapPath("/YP/")+"Reports//"+
 				szUserName+"//"+iYear.ToString()+"//";
 			if(Directory.Exists(szDirectory) == true)
-			{
+				{
 				if(szOldReportName == szNewReportName)
-				{
-					bRenamedSuccessfully = true;
-				}
-				else
-				{
-					if(File.Exists(szDirectory+szNewReportName+".gif") == false)
 					{
+					bRenamedSuccessfully = true;
+					}
+				else
+					{
+					if(File.Exists(szDirectory+szNewReportName+".gif") == false)
+						{
 						//Copies the existing report and saves it with a new name
 						File.Copy(szDirectory+szOldReportName+".gif", 
 							szDirectory+szNewReportName+".gif", false);
@@ -184,11 +184,11 @@ namespace YieldProphet
 						//Then deletes the existing report leaving only the 
 						//newly named report.
 						DeleteReport(szUserName, szOldReportName, iYear);
+						}
 					}
 				}
-			}
 			return bRenamedSuccessfully;
-		}
+			}
 		//-------------------------------------------------------------------------
 		#endregion
 						
@@ -427,149 +427,141 @@ namespace YieldProphet
 		//Create the .soil file needed for all reports
 		//-------------------------------------------------------------------------
 		static public void CreateSoilFile(string szDirectoryLocation, ref StringCollection scAttachments)
-		{
-			try
 			{
-				//Gets the data needed
-				DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(FunctionsClass.GetActiveUserName());
-				string szUsersName =  dtUsersDetails.Rows[0]["Name"].ToString();
-				string szPaddockName = HttpContext.Current.Session["SelectedPaddockName"].ToString();
-				DataTable dtPaddocksDetails = DataAccessClass.GetDetailsOfPaddock(szPaddockName, FunctionsClass.GetActiveUserName());
-				string szCropType = dtPaddocksDetails.Rows[0]["CropType"].ToString();
-				//Gets the paddocks selected soil data in the form of an xml string and
-				//converts that data into a APSIMData variable
-				string szSoilXml = DataAccessClass.GetSoilData(dtPaddocksDetails.Rows[0]["SoilName"].ToString());
-				VBGeneral.APSIMData APSIMSoilData = new VBGeneral.APSIMData(szSoilXml);
-				Soil sPaddocksDefaultSoil = new Soil(APSIMSoilData);
-				//Gets the soil sample data from the first grid
-				DataTable dtSoilSampleOne = DataAccessClass.GetPaddocksSoilSample("GridOne", szPaddockName, FunctionsClass.GetActiveUserName());
-				string szSoilSampleOneXml = dtSoilSampleOne.Rows[0]["Data"].ToString();
-				if(szSoilSampleOneXml != "")
+			//Gets the data needed
+			DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(FunctionsClass.GetActiveUserName());
+			string szUsersName =  dtUsersDetails.Rows[0]["Name"].ToString();
+			string szPaddockName = HttpContext.Current.Session["SelectedPaddockName"].ToString();
+			DataTable dtPaddocksDetails = DataAccessClass.GetDetailsOfPaddock(szPaddockName, FunctionsClass.GetActiveUserName());
+			string szCropType = dtPaddocksDetails.Rows[0]["CropType"].ToString();
+			//Gets the paddocks selected soil data in the form of an xml string and
+			//converts that data into a APSIMData variable
+			string szSoilXml = DataAccessClass.GetSoilData(dtPaddocksDetails.Rows[0]["SoilName"].ToString());
+			VBGeneral.APSIMData APSIMSoilData = new VBGeneral.APSIMData(szSoilXml);
+			Soil sPaddocksDefaultSoil = new Soil(APSIMSoilData);
+			//Gets the soil sample data from the first grid
+			DataTable dtSoilSampleOne = DataAccessClass.GetPaddocksSoilSample("GridOne", szPaddockName, FunctionsClass.GetActiveUserName());
+			string szSoilSampleOneXml = dtSoilSampleOne.Rows[0]["Data"].ToString();
+			if(szSoilSampleOneXml != "")
 				{
-					//Converts the soil sample data from the first grid into a APSIMData variable
-					VBGeneral.APSIMData APSIMSoilSampleData = new VBGeneral.APSIMData(szSoilSampleOneXml);
-					SoilSample ssPaddocksSoilSample = new SoilSample(APSIMSoilSampleData);
-					//Maps this soil sample data with the default soil data
-					ssPaddocksSoilSample.MapSampleToSoil(sPaddocksDefaultSoil);
-					if(ssPaddocksSoilSample.HasData("Water", "sw"))
+				//Converts the soil sample data from the first grid into a APSIMData variable
+				VBGeneral.APSIMData APSIMSoilSampleData = new VBGeneral.APSIMData(szSoilSampleOneXml);
+				SoilSample ssPaddocksSoilSample = new SoilSample(APSIMSoilSampleData);
+				//Maps this soil sample data with the default soil data
+				ssPaddocksSoilSample.MapSampleToSoil(sPaddocksDefaultSoil);
+				if(ssPaddocksSoilSample.HasData("Water", "sw"))
 					{
-						sPaddocksDefaultSoil.SetSw(ssPaddocksSoilSample.GetSw());
+					sPaddocksDefaultSoil.SetSw(ssPaddocksSoilSample.GetSw());
 					}
-					if(ssPaddocksSoilSample.HasData("Nitrogen", "no3"))
+				if(ssPaddocksSoilSample.HasData("Nitrogen", "no3"))
 					{
-						sPaddocksDefaultSoil.SetNo3(ssPaddocksSoilSample.GetNo3());
+					sPaddocksDefaultSoil.SetNo3(ssPaddocksSoilSample.GetNo3());
 					}
-					if(ssPaddocksSoilSample.HasData("Nitrogen", "nh4"))
+				if(ssPaddocksSoilSample.HasData("Nitrogen", "nh4"))
 					{
-						sPaddocksDefaultSoil.SetNh4(ssPaddocksSoilSample.GetNh4());
+					sPaddocksDefaultSoil.SetNh4(ssPaddocksSoilSample.GetNh4());
 					}
 				}
-				//Gets the soil sample data from the second grid
-				DataTable dtSoilSampleTwo = DataAccessClass.GetPaddocksSoilSample("GridTwo", szPaddockName, FunctionsClass.GetActiveUserName());
-				string szSoilSampleTwoXml = dtSoilSampleTwo.Rows[0]["Data"].ToString();
-				if(szSoilSampleTwoXml != "")
+			//Gets the soil sample data from the second grid
+			DataTable dtSoilSampleTwo = DataAccessClass.GetPaddocksSoilSample("GridTwo", szPaddockName, FunctionsClass.GetActiveUserName());
+			string szSoilSampleTwoXml = dtSoilSampleTwo.Rows[0]["Data"].ToString();
+			if(szSoilSampleTwoXml != "")
 				{
-					//Converts the soil sample data from the first grid into a APSIMData variable
-					VBGeneral.APSIMData APSIMSoilSampleData = new VBGeneral.APSIMData(szSoilSampleTwoXml);
-					SoilSample ssPaddocksSoilSample = new SoilSample(APSIMSoilSampleData);
-					//Maps this soil sample data with the default soil data
-					ssPaddocksSoilSample.MapSampleToSoil(sPaddocksDefaultSoil);
-					if(ssPaddocksSoilSample.HasData("Nitrogen", "oc"))
+				//Converts the soil sample data from the first grid into a APSIMData variable
+				VBGeneral.APSIMData APSIMSoilSampleData = new VBGeneral.APSIMData(szSoilSampleTwoXml);
+				SoilSample ssPaddocksSoilSample = new SoilSample(APSIMSoilSampleData);
+				//Maps this soil sample data with the default soil data
+				ssPaddocksSoilSample.MapSampleToSoil(sPaddocksDefaultSoil);
+				if(ssPaddocksSoilSample.HasData("Nitrogen", "oc"))
 					{
-						sPaddocksDefaultSoil.SetOc(ssPaddocksSoilSample.GetOc());
+					sPaddocksDefaultSoil.SetOc(ssPaddocksSoilSample.GetOc());
 					}
-					if(ssPaddocksSoilSample.HasData("Nitrogen", "ph"))
+				if(ssPaddocksSoilSample.HasData("Nitrogen", "ph"))
 					{
-						sPaddocksDefaultSoil.SetPh(ssPaddocksSoilSample.GetPh());
+					sPaddocksDefaultSoil.SetPh(ssPaddocksSoilSample.GetPh());
 					}
-					if(ssPaddocksSoilSample.HasData("Other", "esp"))
+				if(ssPaddocksSoilSample.HasData("Other", "esp"))
 					{
-						sPaddocksDefaultSoil.SetEsp(ssPaddocksSoilSample.GetEsp());
+					sPaddocksDefaultSoil.SetEsp(ssPaddocksSoilSample.GetEsp());
 					}
-					if(ssPaddocksSoilSample.HasData("Other", "ec"))
+				if(ssPaddocksSoilSample.HasData("Other", "ec"))
 					{
-						sPaddocksDefaultSoil.SetEc(ssPaddocksSoilSample.GetEc());
+					sPaddocksDefaultSoil.SetEc(ssPaddocksSoilSample.GetEc());
 					}
 				}
-				// make sure the soil is valid.
-				sPaddocksDefaultSoil.AutoCorrect();
-				//Gets the file template
-				string szSoilFileTemplate = CreateSoilFileTemplate();
-				szSoilFileTemplate = szSoilFileTemplate.Replace("[soil.growername]", szUsersName);
-				szSoilFileTemplate = szSoilFileTemplate.Replace("[crop.name]", szCropType.ToLower());
-				Macro mcSoilFile = new Macro();
-				sPaddocksDefaultSoil.RoundResultsTo3DecimalPlaces();
-				//Fills the template with the data and stores the file location in 
-				//a string collection
-				StringCollection scSoilFiles = mcSoilFile.Go(sPaddocksDefaultSoil.ReturnData(), szSoilFileTemplate, szDirectoryLocation);
-				for(int iIndex = 0; iIndex < scSoilFiles.Count; iIndex++)
+			// make sure the soil is valid.
+			sPaddocksDefaultSoil.AutoCorrect();
+			//Gets the file template
+			string szSoilFileTemplate = CreateSoilFileTemplate();
+			szSoilFileTemplate = szSoilFileTemplate.Replace("[soil.growername]", szUsersName);
+			szSoilFileTemplate = szSoilFileTemplate.Replace("[crop.name]", szCropType.ToLower());
+			Macro mcSoilFile = new Macro();
+			sPaddocksDefaultSoil.RoundResultsTo3DecimalPlaces();
+			//Fills the template with the data and stores the file location in 
+			//a string collection
+			StringCollection scSoilFiles = mcSoilFile.Go(sPaddocksDefaultSoil.ReturnData(), szSoilFileTemplate, szDirectoryLocation);
+			for(int iIndex = 0; iIndex < scSoilFiles.Count; iIndex++)
 				{
-					scAttachments.Add(scSoilFiles[iIndex]);
-				}
+				scAttachments.Add(scSoilFiles[iIndex]);
+				}	
 			}
-			catch(Exception)
-			{}
-		}
 		//-------------------------------------------------------------------------
 		//Creates the template for the soil file
 		//-------------------------------------------------------------------------
 		static public string CreateSoilFileTemplate()
-		{
+			{
 			string szSoilFileTemplate = "";
-			try
-			{			
-				szSoilFileTemplate = 
-					"[file grower.soil]\n"+
-					"[soil.soilwat2.parameters]\n"+//TITLE
-					"[foreach Soil.Water as water]\n"+
-					"   diffus_const = [water.DiffusConst]   ! coeffs for unsaturated water flow\n"+
-					"   diffus_slope = [water.DiffusSlope]\n"+
-					"   cn2_bare     = [water.Cn2Bare]    ! bare soil runoff curve number\n"+
-					"   cn_red       = [water.CnRed]    ! potetial reduction in curve number due to residue\n"+
-					"   cn_cov       = [water.CnCov]   ! cover for maximum reduction in curve number\n"+
-					"   salb         = [water.Salb]  ! bare soil albedo\n"+
-					"   cona         = [water.Cona]     ! stage 2 evap coef.\n"+
-					"   u            = [water.U]     ! stage 1 soil evaporation coefficient (mm)\n"+
-					"\n"+
-					"   dlayer  =[foreach water.layer as Layer]\n      [Layer.thickness][endfor]   ! layer thickness mm soil\n"+
-					"   air_dry =[foreach water.layer as Layer]\n    [Layer.airdry][endfor]   ! air dry mm water/mm soil\n"+
-					"   ll15    =[foreach water.layer as Layer]\n    [Layer.ll15][endfor]   ! lower limit mm water/mm soil\n"+
-					"   dul     =[foreach water.layer as Layer]\n    [Layer.dul][endfor]   ! drained upper limit mm water/mm soil\n"+
-					"   sat     =[foreach water.layer as Layer]\n    [Layer.sat][endfor]   ! saturation mm water/mm soil\n"+
-					"   sw      =[foreach water.layer as Layer]\n    [Layer.sw][endfor]   ! starting soil water mm water/mm soil\n"+
-					"   swcon   =[foreach water.layer as Layer]\n    [Layer.swcon][endfor]   ! drainage coefficient\n"+
-					"   bd      =[foreach water.layer as Layer]\n    [Layer.bd][endfor]   ! bulk density gm dry soil/cc moist soil\n"+
-					"[endfor]\n"+//END OF WATER FOR LOOP
-					"\n"+
-					"[soil.soiln2.parameters]\n"+//TITLE
-					"[foreach Soil.Nitrogen as nitrogen]\n"+
-					"   root_cn      = [nitrogen.rootcn]     ! C:N ratio of initial root residues\n"+
-					"   root_wt      = [nitrogen.rootwt]   ! root residues as biomass (kg/ha)\n"+
-					"   soil_cn      = [nitrogen.soilcn]   ! C:N ratio of soil\n"+
-					"   enr_a_coeff  = [nitrogen.enracoeff]\n"+
-					"   enr_b_coeff  = [nitrogen.enrbcoeff]\n"+
-					"   profile_reduction =  off\n"+ 
-					"\n"+
-					"   oc      =[foreach nitrogen.layer as Layer]\n      [Layer.oc][endfor]   ! Soil Organic Carbon\n"+
-					"   ph      =[foreach nitrogen.layer as Layer]\n      [Layer.ph][endfor]   ! pH of soil\n"+
-					"   fbiom   =[foreach nitrogen.layer as Layer]\n      [Layer.fbiom][endfor]   ! Organic C Biomass Fraction\n"+
-					"   finert  =[foreach nitrogen.layer as Layer]\n      [Layer.finert][endfor]   ! Inert Organic C Fraction\n"+
-					"   no3ppm  =[foreach nitrogen.layer as Layer]\n      [Layer.no3][endfor]   ! Nitrate Concentration\n"+
-					"   nh4ppm  =[foreach nitrogen.layer as Layer]\n      [Layer.nh4][endfor]   ! Ammonium Concentration\n"+
-					"[endfor]\n"+//END OF NITROGEN FOR LOOP
-					"\n"+
-					"[soil.[crop.name].parameters]\n"+//TITLE
-					"[foreach Soil.SoilCrop as crop]\n"+
-					"   ll      =[foreach crop.layer as Layer]\n      [Layer.ll][endfor]\n\n"+
-					"   kl      =[foreach crop.layer as Layer]\n      [Layer.kl][endfor]\n\n"+
-					"   xf      =[foreach crop.layer as Layer]\n      [Layer.xf][endfor]\n\n"+
-					"[endfor]\n"+//END OF CROP FOR LOOP
-					"[endfile]\n\n";
-			}
-			catch(Exception)
-			{}
+			
+			szSoilFileTemplate = 
+				"[file grower.soil]\n"+
+				"[soil.soilwat2.parameters]\n"+//TITLE
+				"[foreach Soil.Water as water]\n"+
+				"   diffus_const = [water.DiffusConst]   ! coeffs for unsaturated water flow\n"+
+				"   diffus_slope = [water.DiffusSlope]\n"+
+				"   cn2_bare     = [water.Cn2Bare]    ! bare soil runoff curve number\n"+
+				"   cn_red       = [water.CnRed]    ! potetial reduction in curve number due to residue\n"+
+				"   cn_cov       = [water.CnCov]   ! cover for maximum reduction in curve number\n"+
+				"   salb         = [water.Salb]  ! bare soil albedo\n"+
+				"   cona         = [water.Cona]     ! stage 2 evap coef.\n"+
+				"   u            = [water.U]     ! stage 1 soil evaporation coefficient (mm)\n"+
+				"\n"+
+				"   dlayer  =[foreach water.layer as Layer]\n      [Layer.thickness][endfor]   ! layer thickness mm soil\n"+
+				"   air_dry =[foreach water.layer as Layer]\n    [Layer.airdry][endfor]   ! air dry mm water/mm soil\n"+
+				"   ll15    =[foreach water.layer as Layer]\n    [Layer.ll15][endfor]   ! lower limit mm water/mm soil\n"+
+				"   dul     =[foreach water.layer as Layer]\n    [Layer.dul][endfor]   ! drained upper limit mm water/mm soil\n"+
+				"   sat     =[foreach water.layer as Layer]\n    [Layer.sat][endfor]   ! saturation mm water/mm soil\n"+
+				"   sw      =[foreach water.layer as Layer]\n    [Layer.sw][endfor]   ! starting soil water mm water/mm soil\n"+
+				"   swcon   =[foreach water.layer as Layer]\n    [Layer.swcon][endfor]   ! drainage coefficient\n"+
+				"   bd      =[foreach water.layer as Layer]\n    [Layer.bd][endfor]   ! bulk density gm dry soil/cc moist soil\n"+
+				"[endfor]\n"+//END OF WATER FOR LOOP
+				"\n"+
+				"[soil.soiln2.parameters]\n"+//TITLE
+				"[foreach Soil.Nitrogen as nitrogen]\n"+
+				"   root_cn      = [nitrogen.rootcn]     ! C:N ratio of initial root residues\n"+
+				"   root_wt      = [nitrogen.rootwt]   ! root residues as biomass (kg/ha)\n"+
+				"   soil_cn      = [nitrogen.soilcn]   ! C:N ratio of soil\n"+
+				"   enr_a_coeff  = [nitrogen.enracoeff]\n"+
+				"   enr_b_coeff  = [nitrogen.enrbcoeff]\n"+
+				"   profile_reduction =  off\n"+ 
+				"\n"+
+				"   oc      =[foreach nitrogen.layer as Layer]\n      [Layer.oc][endfor]   ! Soil Organic Carbon\n"+
+				"   ph      =[foreach nitrogen.layer as Layer]\n      [Layer.ph][endfor]   ! pH of soil\n"+
+				"   fbiom   =[foreach nitrogen.layer as Layer]\n      [Layer.fbiom][endfor]   ! Organic C Biomass Fraction\n"+
+				"   finert  =[foreach nitrogen.layer as Layer]\n      [Layer.finert][endfor]   ! Inert Organic C Fraction\n"+
+				"   no3ppm  =[foreach nitrogen.layer as Layer]\n      [Layer.no3][endfor]   ! Nitrate Concentration\n"+
+				"   nh4ppm  =[foreach nitrogen.layer as Layer]\n      [Layer.nh4][endfor]   ! Ammonium Concentration\n"+
+				"[endfor]\n"+//END OF NITROGEN FOR LOOP
+				"\n"+
+				"[soil.[crop.name].parameters]\n"+//TITLE
+				"[foreach Soil.SoilCrop as crop]\n"+
+				"   ll      =[foreach crop.layer as Layer]\n      [Layer.ll][endfor]\n\n"+
+				"   kl      =[foreach crop.layer as Layer]\n      [Layer.kl][endfor]\n\n"+
+				"   xf      =[foreach crop.layer as Layer]\n      [Layer.xf][endfor]\n\n"+
+				"[endfor]\n"+//END OF CROP FOR LOOP
+				"[endfile]\n\n";
+
 			return szSoilFileTemplate;
-		}
+			}
 		//-------------------------------------------------------------------------
 		#endregion
 
@@ -794,7 +786,7 @@ namespace YieldProphet
 		public static DataTable CreateSowingXVarietyReportOtherValues(DataTable dtNitrogen, 
 			string szVarietyOne, string szSowingDateOne, string szVarietyTwo, string szSowingDateTwo,
 			string szVarietyThree, string szSowingDateThree)
-		{	
+			{	
 			DataTable dtOtherValues = new DataTable();
 			dtOtherValues.Columns.Add("Name");
 			dtOtherValues.Columns.Add("Value");
@@ -849,7 +841,7 @@ namespace YieldProphet
 			//Gets all the data for the first scenario	
 			int iIndex = 1;
 			foreach(DataRow drNitrogen in dtNitrogen.Rows)
-			{
+				{
 				drOtherValue = dtOtherValues.NewRow();
 				drOtherValue["Name"] = "scenariofert"+iIndex.ToString()+"rate";  
 				drOtherValue["Value"] = drNitrogen["Rate"].ToString();	
@@ -861,9 +853,9 @@ namespace YieldProphet
 				dtOtherValues.Rows.Add(drOtherValue);
 				
 				iIndex++;
-			}
+				}
 			for(iIndex = iIndex; iIndex <= iMaximumNumberOfNitrogenApplications; iIndex++)
-			{
+				{
 				drOtherValue = dtOtherValues.NewRow();
 				drOtherValue["Name"] = "scenariofert"+iIndex.ToString()+"rate";  
 				drOtherValue["Value"] = "0";	
@@ -873,9 +865,9 @@ namespace YieldProphet
 				drOtherValue["Name"] = "scenariofert"+iIndex.ToString()+"daymonth"; 
 				drOtherValue["Value"] = "";
 				dtOtherValues.Rows.Add(drOtherValue);
-			}
+				}
 			return dtOtherValues;
-		}	
+			}	
 		//-------------------------------------------------------------------------
 		#endregion
 
@@ -912,7 +904,15 @@ namespace YieldProphet
 			int iDifference = difference.Days;
 			if(iDifference == 0)
 				{
-				iDifference = (new CaseInsensitiveComparer()).Compare(objFirstFile, objSecondFile);
+				iDifference = difference.Hours;
+				if(iDifference == 0)
+					{
+					iDifference = difference.Minutes;
+					if(iDifference == 0)
+						{
+						iDifference = (new CaseInsensitiveComparer()).Compare(objFirstFile, objSecondFile);
+						}
+					}
 				}
 			return iDifference;
 			}

@@ -23,31 +23,28 @@ namespace YieldProphet
 			string szSubject, string szBody, StringCollection scAttachments, MailPriority mpSend)
 			{
 			bool bSent = false;
-			try
+
+			MailMessage mmEmailToSend = new MailMessage();
+			MailAttachment maFileToAttach;
+			
+			mmEmailToSend.To = szEmailTo;
+			mmEmailToSend.From = szEmailFrom;
+			mmEmailToSend.Subject = szSubject;
+			mmEmailToSend.Body = szBody;
+			mmEmailToSend.Priority =  mpSend;
+			if(scAttachments != null)
 				{
-				MailMessage mmEmailToSend = new MailMessage();
-				MailAttachment maFileToAttach;
-				
-				mmEmailToSend.To = szEmailTo;
-				mmEmailToSend.From = szEmailFrom;
-				mmEmailToSend.Subject = szSubject;
-				mmEmailToSend.Body = szBody;
-				mmEmailToSend.Priority =  mpSend;
-				if(scAttachments != null)
+				for(int iIndex = 0; iIndex < scAttachments.Count; iIndex++)
 					{
-					for(int iIndex = 0; iIndex < scAttachments.Count; iIndex++)
-						{
-						maFileToAttach = new MailAttachment(scAttachments[iIndex]);
-						mmEmailToSend.Attachments.Add(maFileToAttach);
-						}
+					maFileToAttach = new MailAttachment(scAttachments[iIndex]);
+					mmEmailToSend.Attachments.Add(maFileToAttach);
 					}
-				System.Collections.Specialized.NameValueCollection settings = (System.Collections.Specialized.NameValueCollection)System.Configuration.ConfigurationSettings.GetConfig("CSIRO/YieldProphet");
-				SmtpMail.SmtpServer = Convert.ToString(settings["EmailServer"]);
-				SmtpMail.Send(mmEmailToSend);
-				bSent = true;
 				}
-			catch(Exception)
-				{}
+			System.Collections.Specialized.NameValueCollection settings = (System.Collections.Specialized.NameValueCollection)System.Configuration.ConfigurationSettings.GetConfig("CSIRO/YieldProphet");
+			SmtpMail.SmtpServer = Convert.ToString(settings["EmailServer"]);
+			SmtpMail.Send(mmEmailToSend);
+			bSent = true;
+
 			return bSent;
 			}
 		//-------------------------------------------------------------------------
@@ -57,46 +54,43 @@ namespace YieldProphet
 		private static string PrepareReportEmailBody(string szReportName)
 			{
 			string szBody = "";
-			try
-				{
-				DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(FunctionsClass.GetActiveUserName());
-				string szUsersName =  dtUsersDetails.Rows[0]["Name"].ToString();
-				string szUserEmail = dtUsersDetails.Rows[0]["Email"].ToString();
-				string szPaddockName = HttpContext.Current.Session["SelectedPaddockName"].ToString();
-				string szApplicationName = HttpContext.Current.Request.ApplicationPath;
-				//Remove the starting / character
-				//EG: /YieldProphet becomes YieldProphet
-				szApplicationName = szApplicationName.Remove(0,1);
-				//Remove what ever file name that is currently appended to the applicationurl and 
-				//replace it with the file name of the login page.
-				//EG: http://www.YieldProphet.com.au/YieldProphet.html
-				//becomes http://www.YieldProphet.com.au/wfLogin.apsx
-				string szApplicationURL = HttpContext.Current.Request.Url.ToString();
-				int iLengthOfNewString = szApplicationURL.LastIndexOf("/");
-				szApplicationURL = szApplicationURL.Remove(iLengthOfNewString, (szApplicationURL.Length - iLengthOfNewString));
-				szApplicationURL = szApplicationURL+"/wfLogin.aspx";
-				szApplicationURL = szApplicationURL.Replace("http://", "");
-				//Remove the http:// and any file name of directory structure that follows the 
-				//root address.
-				//EG: http://www.YieldProphet.com.au/YP/YieldProphet.html
-				//becomes www.YieldProphet.com.au
-				string szApplicationFTP = szApplicationURL;
-				iLengthOfNewString = szApplicationFTP.IndexOf("/");
-				szApplicationFTP = szApplicationFTP.Remove(iLengthOfNewString, (szApplicationFTP.Length - iLengthOfNewString));
-				//Sets the directory to be that of the user
-				string szReportDirectory = "YP/Reports/"+FunctionsClass.GetActiveUserName()+"/"+DateTime.Today.Year.ToString();
-				
-				szBody = "username="+FunctionsClass.GetActiveUserName()+"~~\r\n"+
-					"paddockname="+szPaddockName+"~~\r\n"+
-					"useremail="+szUserEmail+"~~\r\n"+
-					"applicationname="+szApplicationName+"~~\r\n"+
-					"applicationurl="+szApplicationURL+"~~\r\n"+
-					"reportdescription="+szReportName+"~~\r\n"+
-					"applicationftp="+szApplicationFTP+"~~\r\n"+
-					"reportdirectory="+szReportDirectory+"~~\r\n";
-				}
-			catch(Exception)
-				{}
+			
+			DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(FunctionsClass.GetActiveUserName());
+			string szUsersName =  dtUsersDetails.Rows[0]["Name"].ToString();
+			string szUserEmail = dtUsersDetails.Rows[0]["Email"].ToString();
+			string szPaddockName = HttpContext.Current.Session["SelectedPaddockName"].ToString();
+			string szApplicationName = HttpContext.Current.Request.ApplicationPath;
+			//Remove the starting / character
+			//EG: /YieldProphet becomes YieldProphet
+			szApplicationName = szApplicationName.Remove(0,1);
+			//Remove what ever file name that is currently appended to the applicationurl and 
+			//replace it with the file name of the login page.
+			//EG: http://www.YieldProphet.com.au/YieldProphet.html
+			//becomes http://www.YieldProphet.com.au/wfLogin.apsx
+			string szApplicationURL = HttpContext.Current.Request.Url.ToString();
+			int iLengthOfNewString = szApplicationURL.LastIndexOf("/");
+			szApplicationURL = szApplicationURL.Remove(iLengthOfNewString, (szApplicationURL.Length - iLengthOfNewString));
+			szApplicationURL = szApplicationURL+"/wfLogin.aspx";
+			szApplicationURL = szApplicationURL.Replace("http://", "");
+			//Remove the http:// and any file name of directory structure that follows the 
+			//root address.
+			//EG: http://www.YieldProphet.com.au/YP/YieldProphet.html
+			//becomes www.YieldProphet.com.au
+			string szApplicationFTP = szApplicationURL;
+			iLengthOfNewString = szApplicationFTP.IndexOf("/");
+			szApplicationFTP = szApplicationFTP.Remove(iLengthOfNewString, (szApplicationFTP.Length - iLengthOfNewString));
+			//Sets the directory to be that of the user
+			string szReportDirectory = "YP/Reports/"+FunctionsClass.GetActiveUserName()+"/"+DateTime.Today.Year.ToString();
+			
+			szBody = "username="+FunctionsClass.GetActiveUserName()+"~~\r\n"+
+				"paddockname="+szPaddockName+"~~\r\n"+
+				"useremail="+szUserEmail+"~~\r\n"+
+				"applicationname="+szApplicationName+"~~\r\n"+
+				"applicationurl="+szApplicationURL+"~~\r\n"+
+				"reportdescription="+szReportName+"~~\r\n"+
+				"applicationftp="+szApplicationFTP+"~~\r\n"+
+				"reportdirectory="+szReportDirectory+"~~\r\n";
+			
 			return szBody;	
 			}
 		//-------------------------------------------------------------------------
