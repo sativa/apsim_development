@@ -505,6 +505,51 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "wfRegForm1.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfRegForm1.aspx.cs"
+                    DependentUpon = "wfRegForm1.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfRegForm1.aspx.resx"
+                    DependentUpon = "wfRegForm1.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfRegForm2.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfRegForm2.aspx.cs"
+                    DependentUpon = "wfRegForm2.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfRegForm2.aspx.resx"
+                    DependentUpon = "wfRegForm2.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfRegForm3.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfRegForm3.aspx.cs"
+                    DependentUpon = "wfRegForm3.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfRegForm3.aspx.resx"
+                    DependentUpon = "wfRegForm3.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "wfSessionTimeOut.aspx"
                     SubType = "Form"
                     BuildAction = "Content"

@@ -12,28 +12,18 @@ using System.Web.UI.HtmlControls;
 namespace YieldProphet
 {
 	/// <summary>
-	/// Summary description for wfSessionTimeOut.
+	/// Summary description for wfRegForm1.
 	/// </summary>
-	public class wfSessionTimeOut : System.Web.UI.Page
+	public class wfRegForm1 : System.Web.UI.Page
 	{
-		protected System.Web.UI.WebControls.Label lblWarning;
-		protected System.Web.UI.WebControls.Label lblDetail;
-		protected System.Web.UI.WebControls.HyperLink hylLogin;
-		//-------------------------------------------------------------------------
-		//If the Session object isn't null then reset all the variables
-		//to their original state
-		//-------------------------------------------------------------------------
+		protected System.Web.UI.WebControls.Label Label1;
+		protected System.Web.UI.WebControls.Image Image1;
+		protected System.Web.UI.WebControls.Button RegistrationButton;
+		protected System.Web.UI.WebControls.Label Label2;
+	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-			FunctionsClass.SetControlFocus("hylLogin", this);
-			if(Session != null)
-			{
-				Session["UserName"] = "";
-				Session["SelectedUserName"] = "";
-				Session["SelectedPaddockName"] = "";
-				Session["SelectedReport"] = "";
-				Session["SelectedReportYear"] = "0";
-			}
+			// Put user code to initialize the page here
 		}
 
 		#region Web Form Designer generated code
@@ -52,9 +42,18 @@ namespace YieldProphet
 		/// </summary>
 		private void InitializeComponent()
 		{    
+			this.RegistrationButton.Click += new System.EventHandler(this.RegistrationButton_Click);
 			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion
+
+		// ------------------------------------------------
+		// User is wanting to do a registration.
+		// ------------------------------------------------
+		private void RegistrationButton_Click(object sender, System.EventArgs e)
+			{
+			Server.Transfer("wfRegForm2.aspx");
+			}
 	}
 }

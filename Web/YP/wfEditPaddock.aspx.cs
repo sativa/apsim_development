@@ -140,32 +140,32 @@ namespace YieldProphet
 			FillReportTypesCombo();
 			try
 				{
-				string szSowDate = DataAccessClass.GetSowDateOfPaddock(Session["SelectedPaddockID"].ToString());
+				DataTable dtPaddockDetails = 
+					DataAccessClass.GetDetailsOfPaddock(Session["SelectedPaddockName"].ToString(), 
+					FunctionsClass.GetActiveUserName());
+				string szSowDate = dtPaddockDetails.Rows[0]["SowDate"].ToString();
 				//If the sow date is not empty then fill the form with data from the database
 				if(szSowDate != null && szSowDate != "")
 					{
-					//Enables all the components on the form
-					ChangeEnableCropDetails(true);
 					//Fills the crops combo box
 					FillCropsCombo();
+					//Enables all the components on the form
+					ChangeEnableCropDetails(true);
+					//Sets the selected crop to the crop returned from the database		
+					cboCrops.SelectedValue = dtPaddockDetails.Rows[0]["CropType"].ToString();
 					//Set the sow date on the calander
 					chkSown.Checked = true;
 					cldSowDate.SelectedDate = DateTime.ParseExact(szSowDate, "yyyy-MM-dd", null);
 					cldSowDate.VisibleDate = cldSowDate.SelectedDate;
-					//Sets the selected crop to the crop returned from the database		
-					int iCropID = DataAccessClass.GetCropTypeIDOfPaddock(Session["SelectedPaddockID"].ToString());
-					if(iCropID > 0)
-						{
-						cboCrops.SelectedValue = iCropID.ToString();
-						}
-					//Sets the selected cultivar to the cultivar returned from the database
+					//Fills the cultivar combo box
 					FillCultivarsCombo();
+					//Sets up and fills the nitrogen application grid
 					FillNitrogenApplicationGrid();
-					int iCultivarID = DataAccessClass.GetCultivarTypeIDOfPaddock(Session["SelectedPaddockID"].ToString());
-					if(iCultivarID > 0)
-						{
-						cboCultivars.SelectedValue = iCultivarID.ToString();
-						}
+					//Restores the selected crop to the crop returned from the database	
+					cboCrops.SelectedValue = dtPaddockDetails.Rows[0]["CropType"].ToString();
+					//Sets the selected cultivar to the cultivar returned from the database
+					cboCultivars.SelectedValue = dtPaddockDetails.Rows[0]["CultivarType"].ToString();
+
 					}
 				//If no sow date has been saved, then initialise the form.
 				else
@@ -177,7 +177,7 @@ namespace YieldProphet
 					cldSowDate.SelectedDate = DateTime.Today;
 					cldSowDate.VisibleDate = DateTime.Today;
 					}
-				if(FunctionsClass.IsAdministrator(Session["UserID"].ToString()) == true)
+				if(FunctionsClass.IsAdministrator(FunctionsClass.GetActiveUserName()) == true)
 					{
 					chkEmail.Visible = true;
 					}
@@ -187,15 +187,15 @@ namespace YieldProphet
 					}
 				//If the Linked Temporal Paddock ID is not zero then don't allow the user to enter rainfall
 				//as this paddocks rainfall events are linked another paddocks. 
-				if(DataAccessClass.GetLinkedTemporalPaddockIDOfPaddock(Session["SelectedPaddockID"].ToString()) != 0)
+				if(dtPaddockDetails.Rows[0]["LinkedRainfallPaddockName"].ToString() != "")
 					{
 					btnRainfall.Enabled = false;
 					btnRainfallImg.Enabled = false;
 					}
 				}
-			catch(Exception)
+			catch(Exception E)
 				{
-					FunctionsClass.DisplayMessage(Page, "Page missing information");
+				FunctionsClass.DisplayMessage(Page, E.Message);
 				}
 			}
 		//-------------------------------------------------------------------------
@@ -203,9 +203,16 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void DisplayGrowersName()
 			{
-			int iUserID = DataAccessClass.GetUserIDOfPaddock(Session["SelectedPaddockID"].ToString());
-			lblName.Text = DataAccessClass.GetNameOfUser(iUserID.ToString())+ 
-				" and paddock: "+DataAccessClass.GetNameOfPaddock(Session["SelectedPaddockID"].ToString());
+			try
+				{
+				DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(FunctionsClass.GetActiveUserName());
+				lblName.Text = dtUsersDetails.Rows[0]["Name"].ToString()+ 
+					" and paddock:  "+Session["SelectedPaddockName"].ToString();
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
 			}
 		//-------------------------------------------------------------------------
 		//Gets all the report types the database and fills the report types combo box with them
@@ -215,7 +222,6 @@ namespace YieldProphet
 			DataTable dtReport = DataAccessClass.GetAllReportTypes("ApsimReport");
 			cboReport.DataSource = dtReport;
 			cboReport.DataTextField = "Type";
-			cboReport.DataValueField = "ID";
 			cboReport.DataBind();
 			}
 		//-------------------------------------------------------------------------
@@ -226,7 +232,7 @@ namespace YieldProphet
 			DataTable dtCropList = DataAccessClass.GetAllCrops();
 			cboCrops.DataSource = dtCropList;
 			cboCrops.DataTextField = "Type";
-			cboCrops.DataValueField = "ID";
+			cboCrops.DataValueField = "Type";
 			cboCrops.DataBind();
 			}
 		//-------------------------------------------------------------------------
@@ -235,13 +241,12 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void FillCultivarsCombo()
 			{
-			if(cboCrops.SelectedValue != null && cboCrops.SelectedValue != "")
+			if(cboCrops.SelectedItem.Text != "")
 				{
-				string szSelectedCropID = cboCrops.SelectedValue.ToString(); 
-				DataTable dtCultivarList = DataAccessClass.GetAllCultivarsOfCrop(szSelectedCropID);
+				DataTable dtCultivarList = DataAccessClass.GetAllCultivarsOfCrop(cboCrops.SelectedItem.Text);
 				cboCultivars.DataSource = dtCultivarList;
 				cboCultivars.DataTextField = "Type";
-				cboCultivars.DataValueField = "ID";
+				cboCultivars.DataValueField = "Type";
 				cboCultivars.DataBind();
 				}
 			}
@@ -250,27 +255,24 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------	
 		private void FillNitrogenApplicationGrid()
 			{
-			string szFertiliserTypeID = DataAccessClass.GetFertiliserTypeIDOfFertiliserType("Nitrogen").ToString();
 			DataTable dtNitrogenApplications =
-				DataAccessClass.GetPaddocksFertiliserApplications(Session["SelectedPaddockID"].ToString(),
-				szFertiliserTypeID);
+				DataAccessClass.GetPaddocksFertiliserApplications("Nitrogen", 
+				Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
 				
 			DataRow drNitrogen;
 			int iMaxNumberOfRows = 5;
 			foreach(DataRow drNitrogenApplication in dtNitrogenApplications.Rows)
-			{
+				{
 				drNitrogen = dsNitrogen.Tables["Nitrogen"].NewRow();
-				drNitrogen["ID"] = drNitrogenApplication["ID"];	
 				drNitrogen["Rate"] = drNitrogenApplication["Rate"];
 				drNitrogen["ApplicationDate"] = DateTime.ParseExact(drNitrogenApplication["ApplicationDate"].ToString(), "yyyy-MM-dd", null);
 				dsNitrogen.Tables["Nitrogen"].Rows.Add(drNitrogen);
-			}
+				}
 			for(int iIndex = dsNitrogen.Tables["Nitrogen"].Rows.Count; iIndex < iMaxNumberOfRows; iIndex++)
-			{
+				{
 				drNitrogen = dsNitrogen.Tables["Nitrogen"].NewRow();
-				drNitrogen["ID"] = 0;	
 				dsNitrogen.Tables["Nitrogen"].Rows.Add(drNitrogen);
-			}
+				}
 			this.DataBind();
 			}
 		//-------------------------------------------------------------------------
@@ -292,31 +294,41 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void SavePaddockDetails()
 			{
-			if(FunctionsClass.IsGrowerOrHigher(Session["UserID"].ToString()) == true)
+			if(FunctionsClass.IsGrowerOrHigher(Session["UserName"].ToString()) == true)
 				{
-				//If the sown check box is checked the paddock record is updated with 
-				//the details from the form
-				if(chkSown.Checked == true)
+				try
 					{
-					//If a cultivar is selected, update the paddock
-					if(cboCultivars.SelectedValue != null && cboCultivars.SelectedValue != "")
+					//If the sown check box is checked the paddock record is updated with 
+					//the details from the form
+					if(chkSown.Checked == true)
 						{
-						DataAccessClass.UpdatePaddockCrop(cldSowDate.SelectedDate.ToString("yyyy-MM-dd"), 
-							cboCultivars.SelectedValue.ToString(), Session["SelectedPaddockID"].ToString());
-						SaveNitrogenApplications();
+						//If a cultivar is selected, update the paddock
+						if( cboCultivars.SelectedItem.Text != "")
+							{
+							DataAccessClass.UpdatePaddock(cldSowDate.SelectedDate.ToString("yyyy-MM-dd"), 
+								cboCultivars.SelectedItem.Text, "", "", "", "", Session["SelectedPaddockName"].ToString(), 
+								FunctionsClass.GetActiveUserName());
+							SaveNitrogenApplications();
+							}
+							//If no cultivar is selected display an error to the user
+						else
+							{
+							FunctionsClass.DisplayMessage(Page,"Please ensure that all fields contain data");
+							return;
+							}
 						}
-					//If no cultivar is selected display an error to the user
+					//If the sown check box hasn't been checked, the paddock is updated with default
+					//settings.
 					else
 						{
-						FunctionsClass.DisplayMessage(Page,"Please ensure that all fields contain data");
-						return;
+						DataAccessClass.DeletePaddocksFertiliserApplications("Nitrogen", 
+							Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
+						DataAccessClass.ResetPaddock(Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
 						}
 					}
-				//If the sown check box hasn't been checked, the paddock is updated with default
-				//settings.
-				else
+				catch(Exception E)
 					{
-					DataAccessClass.UpdatePaddockCrop("", "0", Session["SelectedPaddockID"].ToString());
+					FunctionsClass.DisplayMessage(Page, E.Message);
 					}
 				}
 			else
@@ -331,42 +343,24 @@ namespace YieldProphet
 			{
 			try
 				{
-				string szFertiliserTypeID = DataAccessClass.GetFertiliserTypeIDOfFertiliserType("Nitrogen").ToString();
 				Janus.Web.GridEX.GridEXRow grdRow;
 				grdNitrogen.UpdateOnLeave = true;
+				DataAccessClass.DeletePaddocksFertiliserApplications("Nitrogen", 
+					Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
 				for(int iIndex = 0; iIndex < grdNitrogen.RowCount; iIndex++)
 					{
 					grdRow = grdNitrogen.GetRow(iIndex);
 					//If there is data in the dataTable then save it to the database
 					if(grdRow.Cells["Rate"].Value != null && grdRow.Cells["ApplicationDate"].Value != null)
 						{
-						//If the ID field is 0 then it must be a new record so insert it into the database
-						if(grdRow.Cells["ID"].Text == "0")
-							{
-							DataAccessClass.InsertFertliserApplication((DateTime.ParseExact(grdRow.Cells["ApplicationDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"), 
-								grdRow.Cells["Rate"].Text, szFertiliserTypeID, Session["SelectedPaddockID"].ToString());
-							}
-						//If the ID field isn't zero it must be an existing record so update it in the database
-						else
-							{
-							DataAccessClass.UpdateFertliserApplication((DateTime.ParseExact(grdRow.Cells["ApplicationDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"), 
-								grdRow.Cells["Rate"].Text, szFertiliserTypeID, grdRow.Cells["ID"].Text);
-							}
-						}
-					//If there is no data in the datatable, check to make sure if there was a record
-					else
-						{
-						//If the ID field isn't 0, then this used to be a record so delete it from the database
-						if(grdRow.Cells["ID"].Text != "0")
-							{
-							DataAccessClass.DeleteFertiliserApplication(grdRow.Cells["ID"].Text);
-							}
+						DataAccessClass.InsertFertiliserApplication((DateTime.ParseExact(grdRow.Cells["ApplicationDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"), 
+							grdRow.Cells["Rate"].Text, "Nitrogen", Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
 						}
 					}
 				}
-			catch(Exception)
+			catch(Exception E)
 				{
-				FunctionsClass.DisplayMessage(Page, "Error saving nitrogen applications");
+				FunctionsClass.DisplayMessage(Page, E.Message);
 				}
 			}
 		//-------------------------------------------------------------------------
@@ -376,35 +370,44 @@ namespace YieldProphet
 		private void SendToGenerateReportPage()
 			{
 			//If the user isn't a visitor
-			if(FunctionsClass.IsGrowerOrHigher(Session["UserID"].ToString()) == true)
+			if(FunctionsClass.IsGrowerOrHigher(Session["UserName"].ToString()) == true)
 				{
-				//Checks to make sure that the user has set the paddocks settings, by
-				//checking if they have set the region that the paddock is in.
-				if(DataAccessClass.GetRegionIDOfPaddock(Session["SelectedPaddockID"].ToString()) > 0)
+				try
 					{
-					//Checks that the report type is selected
-					if(cboReport.SelectedValue != "")
+					//Checks to make sure that the user has set the paddocks settings, by
+					//checking if they have set the region that the paddock is in.
+					DataTable dtPaddockDetails = DataAccessClass.GetDetailsOfPaddock(Session["SelectedPaddockName"].ToString(), 
+						FunctionsClass.GetActiveUserName());
+					if(dtPaddockDetails.Rows[0]["RegionType"].ToString() != "")
 						{
-						//If the report is a nitrogen report send them to the nitrogen report
-						//generation page, other wise send them to the default report 
-						//generation page
-						if(cboReport.SelectedItem.Text == ReportClass.szNitrogenComparisonReport)
+						//Checks that the report type is selected
+						if(cboReport.SelectedItem.Text != "")
 							{
-							Server.Transfer("wfGenerateNitrogenComparisonReport.aspx");
+							//If the report is a nitrogen report send them to the nitrogen report
+							//generation page, other wise send them to the default report 
+							//generation page
+							if(cboReport.SelectedItem.Text == ReportClass.szNitrogenComparisonReport)
+								{
+								Server.Transfer("wfGenerateNitrogenComparisonReport.aspx");
+								}
+							else
+								{
+								Server.Transfer("wfGenerateReport.aspx");
+								}
 							}
 						else
 							{
-							Server.Transfer("wfGenerateReport.aspx");
+							FunctionsClass.DisplayMessage(Page, "Please select a report type");
 							}
 						}
 					else
 						{
-						FunctionsClass.DisplayMessage(Page, "Please select a report type");
+						FunctionsClass.DisplayMessage(Page, "Please set the paddocks settings first");
 						}
 					}
-				else
+				catch(Exception E)
 					{
-					FunctionsClass.DisplayMessage(Page, "Please set the paddocks settings first");
+					FunctionsClass.DisplayMessage(Page, E.Message);
 					}
 				}
 			else

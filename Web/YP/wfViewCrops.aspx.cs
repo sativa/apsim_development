@@ -73,21 +73,27 @@ namespace YieldProphet
 		//Fills the form with information from the database
 		//-------------------------------------------------------------------------
 		private void FillForm()
-		{
+			{
 			FillCropsCombo();
 			FillCultivarList();
-		}
+			}
 		//-------------------------------------------------------------------------
 		//Fills the crops combo with all the crop types from the database
 		//-------------------------------------------------------------------------
 		private void FillCropsCombo()
-		{
-			DataTable dtRegions = DataAccessClass.GetAllCrops();
-			cboCrops.DataSource = dtRegions;
-			cboCrops.DataTextField = "Type";
-			cboCrops.DataValueField = "ID";
-			cboCrops.DataBind();
-		}
+			{
+			try
+				{
+				DataTable dtRegions = DataAccessClass.GetAllCrops();
+				cboCrops.DataSource = dtRegions;
+				cboCrops.DataTextField = "Type";
+				cboCrops.DataBind();
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
+			}
 		//-------------------------------------------------------------------------
 		//Fills the cultivar combo with all cultivars that are linked to the 
 		//selected crop
@@ -95,13 +101,19 @@ namespace YieldProphet
 		private void FillCultivarList()
 			{
 			//If a crop is selected then fill the cultivar combo box
-			if(cboCrops.SelectedValue != "" && cboCrops.SelectedValue != "")
+			if(cboCrops.SelectedItem.Text != "" && cboCrops.SelectedItem.Text != "")
 				{
-				DataTable dtCultivars = DataAccessClass.GetAllCultivarsOfCrop(cboCrops.SelectedValue);
-				lstCultivars.DataSource = dtCultivars;
-				lstCultivars.DataTextField = "Type";
-				lstCultivars.DataValueField = "ID";
-				lstCultivars.DataBind();
+				try
+					{
+					DataTable dtCultivars = DataAccessClass.GetAllCultivarsOfCrop(cboCrops.SelectedItem.Text);
+					lstCultivars.DataSource = dtCultivars;
+					lstCultivars.DataTextField = "Type";
+					lstCultivars.DataBind();
+					}
+				catch(Exception E)
+					{
+					FunctionsClass.DisplayMessage(Page, E.Message);
+					}
 				}
 			//If no crop is selected then display an error to the user
 			else
@@ -116,10 +128,17 @@ namespace YieldProphet
 			{
 			//If a cultivar is selected then remove it from the database and
 			//refresh the page to show the changes
-			if(lstCultivars.SelectedValue != null && lstCultivars.SelectedValue != "")
+			if(lstCultivars.SelectedItem.Text != null && lstCultivars.SelectedItem.Text != "")
 				{
-				DataAccessClass.DeleteCulivar(lstCultivars.SelectedValue);
-				Server.Transfer("wfViewCrops.aspx");
+				try
+					{
+					DataAccessClass.DeleteCulivar(lstCultivars.SelectedItem.Text);
+					Server.Transfer("wfViewCrops.aspx");
+					}
+				catch(Exception E)
+					{
+					FunctionsClass.DisplayMessage(Page, E.Message);
+					}
 				}
 			//If no cultivar is selected then display an error to the user
 			else
@@ -133,100 +152,16 @@ namespace YieldProphet
 		private void ImportFile()
 			{
 			//If a crop type is selected check for any uploaded files
-			if(cboCrops.SelectedValue != "")
+			if(cboCrops.SelectedItem.Text != "")
 				{
-				CheckForUploadedFiles();
+				ImportClass.ImportCultivars(Page, cboCrops.SelectedItem.Text);
+				Server.Transfer("wfViewCrops.aspx");
 				}
 			//If no crop is selected then display an error message to the user
 			else
 				{
 				FunctionsClass.DisplayMessage(Page, "No crop selected");
 				}
-			}
-		//-------------------------------------------------------------------------
-		//Checks to make sure that the a file has been selected for upload and
-		//that the file isn't not empty.  If both checks are passed then the file
-		//is uploaded
-		//-------------------------------------------------------------------------
-		private void CheckForUploadedFiles()
-		{
-			HttpFileCollection hfcImportedFiles = Request.Files;
-			//If there is at least one file to upload then proceed to the next check
-			if(Request.Files.Count > 0)
-				{
-				//Get the first file
-				HttpPostedFile hpfImportedFile = hfcImportedFiles[0];
-				//If the file isn't empty then upload the file
-				if(hpfImportedFile.ContentLength > 0)
-					{
-					UploadFile(hpfImportedFile);
-					}
-				//If the file is empty then display an error to the user
-				else
-					{
-					FunctionsClass.DisplayMessage(Page, "File is empty");
-					}
-				}
-			//If there is no file to upload then display an error to the user
-			else
-				{
-				FunctionsClass.DisplayMessage(Page, "Please select a file to upload");
-				}
-			hfcImportedFiles = null;
-		}
-		//-------------------------------------------------------------------------
-		//The selected file is stored as a byte array which is then written to 
-		//a memory stream and converted to xml which is then saved in the database
-		//-------------------------------------------------------------------------
-		private void UploadFile(HttpPostedFile hpfImportedFile)
-			{
-			try
-				{
-				//Checks to make sure that the file is an xml file
-				string szContentType = hpfImportedFile.ContentType;
-				if(szContentType == "text/xml")
-					{
-					//Reads the file into an byte array
-					int iFileLength = hpfImportedFile.ContentLength;
-					byte[] byFileData = new byte[iFileLength];
-					hpfImportedFile.InputStream.Read(byFileData, 0, iFileLength);
-					//Writes the byte array into a memory stream
-					System.IO.MemoryStream msImportFile = new System.IO.MemoryStream();
-					msImportFile.Write(byFileData, 0, iFileLength);
-					msImportFile.Seek(0, System.IO.SeekOrigin.Begin);
-					//Write the memory stream to a dataset
-					DataSet dsImportedTable = new DataSet();
-					dsImportedTable.ReadXml(msImportFile);
-					//Sets the data to the selected crop
-					DataTable dtImportedTable = SetDataToSelectedCrop(dsImportedTable.Tables[0]);
-
-					DataAccessClass.InsertMulitpleRecords(dtImportedTable, "CultivarTypes");
-					//Refreshes the data on the screen
-					FillCultivarList();
-					}
-				else
-					{
-					FunctionsClass.DisplayMessage(Page, "Invalid file type");
-					}
-				}
-			catch(Exception)
-				{
-				FunctionsClass.DisplayMessage(Page, "Error Importing File");
-				}
-			}
-		//-------------------------------------------------------------------------
-		//Sets the imported data to be linked to the correct crop before being
-		//stored in the database
-		//-------------------------------------------------------------------------
-		private DataTable SetDataToSelectedCrop(DataTable dtImportedTable)
-			{
-			dtImportedTable.TableName = "CropTypes";
-			string szSelectedCropID = cboCrops.SelectedValue;
-			foreach(DataRow drCurrent in dtImportedTable.Rows)
-				{
-				drCurrent["CropTypeID"] = szSelectedCropID;
-				}
-			return dtImportedTable;
 			}
 		//-------------------------------------------------------------------------
 		//When the user presses the delete button, the selected cultivar is removed

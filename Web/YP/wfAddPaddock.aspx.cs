@@ -91,7 +91,15 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void DisplayGrowersName()
 			{
-			lblName.Text = DataAccessClass.GetNameOfUser(Session["SelectedUserID"].ToString());
+			try
+				{
+				DataTable dtGrowersDetails = DataAccessClass.GetDetailsOfUser(Session["SelectedUserName"].ToString());
+				lblName.Text = dtGrowersDetails.Rows[0]["Name"].ToString();
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
 			}
 		//-------------------------------------------------------------------------
 		//When the Sown check box is changed, the page is updated.
@@ -120,7 +128,6 @@ namespace YieldProphet
 			DataTable dtCropList = DataAccessClass.GetAllCrops();
 			cboCrops.DataSource = dtCropList;
 			cboCrops.DataTextField = "Type";
-			cboCrops.DataValueField = "ID";
 			cboCrops.DataBind();
 			}
 		//-------------------------------------------------------------------------
@@ -130,13 +137,12 @@ namespace YieldProphet
 		private void FillCultivarsCombo()
 			{
 			//Makes sure that there is a selected crop
-			if(cboCrops.SelectedValue != null && cboCrops.SelectedValue != "")
+			if(cboCrops.SelectedItem.Text != null && cboCrops.SelectedItem.Text != "")
 				{
-				string szSelectedCropID = cboCrops.SelectedValue.ToString(); 
-				DataTable dtCultivarList = DataAccessClass.GetAllCultivarsOfCrop(szSelectedCropID);
+				string szSelectedCrop = cboCrops.SelectedItem.Text;
+				DataTable dtCultivarList = DataAccessClass.GetAllCultivarsOfCrop(szSelectedCrop);
 				cboCultivars.DataSource = dtCultivarList;
 				cboCultivars.DataTextField = "Type";
-				cboCultivars.DataValueField = "ID";
 				cboCultivars.DataBind();
 				}
 			}
@@ -156,24 +162,41 @@ namespace YieldProphet
 			{
 			if(edtName.Text != "")
 				{
-				//Saves all the details including sowing details
-				if(chkSown.Checked == true)
+				if(cboCultivars.SelectedItem.Text != "")
 					{
-					//Makes sure that there is a selected cultivar
-					if(cboCultivars.SelectedValue != null & cboCultivars.SelectedValue != "")
+					try
 						{
-						DataAccessClass.InsertPaddock(InputValidationClass.ValidateString(edtName.Text), 
-							cldSowDate.SelectedDate.ToString("yyyy-MM-dd"), cboCultivars.SelectedValue.ToString(), 
-							Session["SelectedUserID"].ToString());
+						if(DataAccessClass.IsPaddockNameAvailable(edtName.Text, Session["SelectedUserName"].ToString()) == true)
+							{
+							//Saves all the details including sowing details
+							if(chkSown.Checked == true)
+								{
+								DataAccessClass.InsertPaddock(InputValidationClass.ValidateString(edtName.Text), 
+									cldSowDate.SelectedDate.ToString("yyyy-MM-dd"), cboCultivars.SelectedItem.Text, 
+									Session["SelectedUserName"].ToString());
+								}
+							//Saves only the paddock name and consultant ID
+							else
+								{
+								DataAccessClass.InsertPaddock(InputValidationClass.ValidateString(edtName.Text), "", 
+									cboCultivars.SelectedItem.Text, Session["SelectedUserName"].ToString());
+								}
+							Server.Transfer("wfViewGrowers.aspx");
+							}
+						else
+							{
+							FunctionsClass.DisplayMessage(Page, "The selected user already has a paddock with this name");
+							}
+						}
+					catch(Exception E)
+						{
+						FunctionsClass.DisplayMessage(Page, E.Message);
 						}
 					}
-				//Saves only the paddock name and consultant ID
 				else
 					{
-					DataAccessClass.InsertPaddock(InputValidationClass.ValidateString(edtName.Text), "", 
-						"0", Session["SelectedUserID"].ToString());
+					FunctionsClass.DisplayMessage(Page, "Please select a cultivar");
 					}
-				Server.Transfer("wfViewGrowers.aspx");
 				}
 			else
 				{

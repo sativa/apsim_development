@@ -1,5 +1,5 @@
-<%@ Page language="c#" Codebehind="wfEditPaddock.aspx.cs" AutoEventWireup="false" Inherits="YieldProphet.wfEditPaddock" %>
 <%@ Register TagPrefix="jwg" Namespace="Janus.Web.GridEX" Assembly="Janus.Web.GridEX" %>
+<%@ Page language="c#" Codebehind="wfEditPaddock.aspx.cs" AutoEventWireup="false" Inherits="YieldProphet.wfEditPaddock" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
 <HTML>
 	<HEAD>
@@ -15,7 +15,7 @@
 				Width="100%" Height="48px" BackColor="PaleGoldenrod" HorizontalAlign="Left">
 				<DIV style="WIDTH: 730px; POSITION: relative; HEIGHT: 44px" ms_positioning="GridLayout">
 					<asp:LinkButton id="btnCancel" style="Z-INDEX: 102; LEFT: 104px; POSITION: absolute; TOP: 16px"
-						runat="server" EnableViewState="False" Font-Size="Smaller">Cancel</asp:LinkButton>
+						runat="server" Font-Size="Smaller" EnableViewState="False">Cancel</asp:LinkButton>
 					<asp:ImageButton id="btnCancelImg" style="Z-INDEX: 103; LEFT: 80px; POSITION: absolute; TOP: 16px"
 						runat="server" ImageUrl="Images\cancel.gif"></asp:ImageButton>
 					<asp:ImageButton id="btnSaveImg" style="Z-INDEX: 104; LEFT: 8px; POSITION: absolute; TOP: 16px" runat="server"
@@ -31,14 +31,14 @@
 					<asp:LinkButton id="btnRainfall" style="Z-INDEX: 109; LEFT: 288px; POSITION: absolute; TOP: 16px"
 						runat="server" Font-Size="Smaller">Rainfall</asp:LinkButton>
 					<asp:CheckBox id="chkEmail" style="Z-INDEX: 110; LEFT: 624px; POSITION: absolute; TOP: 16px" runat="server"
-						Height="16px" Font-Size="Smaller" Text="Email con/par" ForeColor="Purple"></asp:CheckBox>
+						Height="16px" Font-Size="Smaller" ForeColor="Purple" Text="Email con/par"></asp:CheckBox>
 					<asp:LinkButton id="btnReport" style="Z-INDEX: 111; LEFT: 528px; POSITION: absolute; TOP: 16px"
 						runat="server" Font-Size="Smaller">Create Report</asp:LinkButton>
 					<asp:DropDownList id="cboReport" style="Z-INDEX: 112; LEFT: 352px; POSITION: absolute; TOP: 16px"
 						runat="server" Width="145px" Font-Size="Smaller"></asp:DropDownList>
 					<asp:Button id="btnSave" style="Z-INDEX: 112; LEFT: 32px; POSITION: absolute; TOP: 16px" runat="server"
-						BackColor="Transparent" Height="16px" Width="32px" Font-Size="Smaller" Text="Save" ForeColor="Purple"
-						Font-Underline="True" BorderStyle="None" BorderColor="Transparent"></asp:Button></DIV>
+						BackColor="Transparent" Height="16px" Width="32px" Font-Size="Smaller" ForeColor="Purple"
+						Text="Save" BorderColor="Transparent" BorderStyle="None" Font-Underline="True"></asp:Button></DIV>
 			</asp:panel><asp:label id="lblCropManagement" style="Z-INDEX: 101; LEFT: 16px; POSITION: absolute; TOP: 80px"
 				runat="server" Height="16px" Width="176px">In crop management for user: </asp:label><asp:label id="lblName" style="Z-INDEX: 102; LEFT: 208px; POSITION: absolute; TOP: 80px" runat="server"
 				Height="16px">Name</asp:label><asp:checkbox id="chkSown" style="Z-INDEX: 103; LEFT: 48px; POSITION: absolute; TOP: 120px" runat="server"
@@ -60,26 +60,29 @@
 				runat="server"> Nitrogen fertiliser applications:</asp:label>
 			<jwg:gridEX id="grdNitrogen" style="Z-INDEX: 111; LEFT: 208px; POSITION: absolute; TOP: 400px"
 				runat="server" Height="120px" Width="302px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsNitrogen %>" DataMember="Nitrogen" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch">
-				<TotalRowFormatStyle BackColor="Window" Height="20px"></TotalRowFormatStyle>
-				<FilterRowFormatStyle BackColor="Window" ForeColor="WindowText"></FilterRowFormatStyle>
-				<GroupByBoxInfoFormatStyle BackColor="Control" ForeColor="ControlDark" Height="100%" VerticalAlign="middle"
-					Padding="4px 4px"></GroupByBoxInfoFormatStyle>
-				<SelectedFormatStyle BackColor="Highlight" ForeColor="HighlightText" Height="20px" VerticalAlign="top"></SelectedFormatStyle>
+				<RootTable DataMember="Nitrogen" Key="Nitrogen">
+					<Columns>
+						<jwg:GridEXColumn UseType="System.Single" Key="ID" DataMember="ID" DefaultGroupPrefix="ID:" InvalidValueAction="DiscardChanges"
+							NullText="" Caption="ID" Width="0px" Visible="False">
+							<CellStyle Width="0px"></CellStyle>
+						</jwg:GridEXColumn>
+						<jwg:GridEXColumn UseType="System.DateTime" EditType="CalendarDropDown" Key="ApplicationDate" FormatString="dd/MM/yyyy"
+							DataMember="ApplicationDate" DefaultGroupPrefix="Application Date:" InvalidValueAction="DiscardChanges"
+							NullText="" Caption="Application Date" Width="140px">
+							<CellStyle Width="140px"></CellStyle>
+						</jwg:GridEXColumn>
+						<jwg:GridEXColumn UseType="System.String" Key="Rate" DataMember="Rate" DefaultGroupPrefix="Application Rate (kg/ha):"
+							InvalidValueAction="DiscardChanges" NullText="" Caption="Application Rate (kg/ha)" Width="160px">
+							<CellStyle Width="160px"></CellStyle>
+						</jwg:GridEXColumn>
+					</Columns>
+				</RootTable>
 				<NewRowFormatStyle BackColor="Window" ForeColor="WindowText" Height="20px"></NewRowFormatStyle>
-				<EditorsFormatStyle BackColor="Control"></EditorsFormatStyle>
-				<GroupRowFormatStyle TextAlign="left" BackColor="Control" ForeColor="ControlText" Height="20px" VerticalAlign="top"></GroupRowFormatStyle>
 				<PreviewRowFormatStyle ForeColor="Blue" Height="100%"></PreviewRowFormatStyle>
-				<HeaderFormatStyle BorderStyle="Solid" BackColor="PaleGoldenrod" ForeColor="ControlText" Height="20px"
-					Appearance="RaisedLight" BorderWidth="1px" BorderColor="GrayText"></HeaderFormatStyle>
-				<AlternatingRowFormatStyle BorderStyle="Solid" BackColor="Control" Height="20px" BorderWidth="1px"></AlternatingRowFormatStyle>
-				<GroupIndentFormatStyle BackColor="Control"></GroupIndentFormatStyle>
+				<SelectedFormatStyle BackColor="Highlight" ForeColor="HighlightText" Height="20px" VerticalAlign="top"
+					Padding="0"></SelectedFormatStyle>
 				<FocusCellFormatStyle BorderStyle="Solid" BorderWidth="1px" BorderColor="Highlight"></FocusCellFormatStyle>
-				<GroupRowIndentJunctionFormatStyle BackColor="Control"></GroupRowIndentJunctionFormatStyle>
-				<RowFormatStyle BorderStyle="Solid" TextAlign="left" BackColor="Window" ForeColor="WindowText" Height="20px"
-					VerticalAlign="top" BorderWidth="1px"></RowFormatStyle>
 				<PageNavigatorFormatStyle BackColor="Control" Appearance="RaisedLight" Width="100%"></PageNavigatorFormatStyle>
-				<GroupTotalRowFormatStyle BackColor="Control" Height="20px"></GroupTotalRowFormatStyle>
-				<GroupByBoxFormatStyle BackColor="ControlDark" Padding="5px 4px 5px 4px"></GroupByBoxFormatStyle>
 				<PageNavigatorSettings>
 					<BottomPageNavigatorPanels>
 						<jwg:GridEXPageNavigatorItemCountPanel></jwg:GridEXPageNavigatorItemCountPanel>
@@ -100,23 +103,21 @@
 						<jwg:GridEXPageNavigatorNextBlockPanel Align="right"></jwg:GridEXPageNavigatorNextBlockPanel>
 					</TopPageNavigatorPanels>
 				</PageNavigatorSettings>
-				<RootTable DataMember="Nitrogen" Key="Nitrogen">
-					<Columns>
-						<jwg:GridEXColumn UseType="System.Single" Key="ID" DataMember="ID" DefaultGroupPrefix="ID:" InvalidValueAction="DiscardChanges"
-							Caption="ID" Width="0px" Visible="False">
-							<CellStyle Width="0px"></CellStyle>
-						</jwg:GridEXColumn>
-						<jwg:GridEXColumn UseType="System.DateTime" EditType="CalendarDropDown" Key="ApplicationDate" FormatString="dd/MM/yyyy"
-							DataMember="ApplicationDate" DefaultGroupPrefix="Application Date:" InvalidValueAction="DiscardChanges"
-							Caption="Application Date" Width="140px">
-							<CellStyle Width="140px"></CellStyle>
-						</jwg:GridEXColumn>
-						<jwg:GridEXColumn UseType="System.String" Key="Rate" DataMember="Rate" DefaultGroupPrefix="Application Rate (kg/ha):"
-							InvalidValueAction="DiscardChanges" Caption="Application Rate (kg/ha)" Width="160px">
-							<CellStyle Width="160px"></CellStyle>
-						</jwg:GridEXColumn>
-					</Columns>
-				</RootTable>
+				<AlternatingRowFormatStyle BorderStyle="Solid" BackColor="Control" Height="20px" BorderWidth="1px"></AlternatingRowFormatStyle>
+				<GroupByBoxInfoFormatStyle BackColor="Control" ForeColor="ControlDark" Height="100%" VerticalAlign="middle"
+					Padding="4px 4px"></GroupByBoxInfoFormatStyle>
+				<TotalRowFormatStyle BackColor="Window" Height="20px"></TotalRowFormatStyle>
+				<RowFormatStyle BorderStyle="Solid" TextAlign="left" BackColor="Window" ForeColor="WindowText" Height="20px"
+					VerticalAlign="top" BorderWidth="1px" Font-Size="Small" Padding="0"></RowFormatStyle>
+				<FilterRowFormatStyle BackColor="Window" ForeColor="WindowText"></FilterRowFormatStyle>
+				<GroupTotalRowFormatStyle BackColor="Control" Height="20px"></GroupTotalRowFormatStyle>
+				<GroupByBoxFormatStyle BackColor="ControlDark" Padding="5px 4px 5px 4px"></GroupByBoxFormatStyle>
+				<GroupRowFormatStyle TextAlign="left" BackColor="Control" ForeColor="ControlText" Height="20px" VerticalAlign="top"></GroupRowFormatStyle>
+				<GroupRowIndentJunctionFormatStyle BackColor="Control"></GroupRowIndentJunctionFormatStyle>
+				<HeaderFormatStyle BorderStyle="Solid" BackColor="PaleGoldenrod" ForeColor="ControlText" Height="20px"
+					Appearance="RaisedLight" BorderWidth="1px" BorderColor="GrayText"></HeaderFormatStyle>
+				<GroupIndentFormatStyle BackColor="Control"></GroupIndentFormatStyle>
+				<EditorsFormatStyle BackColor="Control"></EditorsFormatStyle>
 			</jwg:gridEX>
 		</form>
 	</body>

@@ -12,28 +12,15 @@ using System.Web.UI.HtmlControls;
 namespace YieldProphet
 {
 	/// <summary>
-	/// Summary description for wfSessionTimeOut.
+	/// Summary description for wfRegForm3.
 	/// </summary>
-	public class wfSessionTimeOut : System.Web.UI.Page
+	public class wfRegForm3 : System.Web.UI.Page
 	{
-		protected System.Web.UI.WebControls.Label lblWarning;
-		protected System.Web.UI.WebControls.Label lblDetail;
-		protected System.Web.UI.WebControls.HyperLink hylLogin;
-		//-------------------------------------------------------------------------
-		//If the Session object isn't null then reset all the variables
-		//to their original state
-		//-------------------------------------------------------------------------
+		protected System.Web.UI.WebControls.Label Label1;
+	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-			FunctionsClass.SetControlFocus("hylLogin", this);
-			if(Session != null)
-			{
-				Session["UserName"] = "";
-				Session["SelectedUserName"] = "";
-				Session["SelectedPaddockName"] = "";
-				Session["SelectedReport"] = "";
-				Session["SelectedReportYear"] = "0";
-			}
+			// Put user code to initialize the page here
 		}
 
 		#region Web Form Designer generated code

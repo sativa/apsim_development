@@ -32,11 +32,11 @@ namespace YieldProphet
 		protected void Session_Start(Object sender, EventArgs e)
 		{
 			//Initialise the Session information variables we will need
-			Session.Add("UserID", "0");
-			Session.Add("SelectedUserID", "0");
-			Session.Add("SelectedPaddockID", "0");
+			Session.Add("UserName", "");
+			Session.Add("SelectedUserName", "");
+			Session.Add("SelectedPaddockName", "");
 			Session.Add("SelectedReportName", "");
-			Session.Add("SelectedReportYear", "");
+			Session.Add("SelectedReportYear", "0");
 			//Set the time out variable (in minutes)
 			Session.Timeout = 30;
 		}

@@ -86,11 +86,17 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void FillRegionsCombo()
 			{
-			DataTable dtRegions = DataAccessClass.GetAllRegions();
-			cboRegions.DataSource = dtRegions;
-			cboRegions.DataTextField = "Type";
-			cboRegions.DataValueField = "ID";
-			cboRegions.DataBind();
+			try
+				{
+				DataTable dtRegions = DataAccessClass.GetAllRegions();
+				cboRegions.DataSource = dtRegions;
+				cboRegions.DataTextField = "Type";
+				cboRegions.DataBind();
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
 			}
 		//-------------------------------------------------------------------------
 		//Fills the Value list with all values of a certain type in a regions.
@@ -98,28 +104,60 @@ namespace YieldProphet
 		//be filled with all the metstations in victoria 
 		//-------------------------------------------------------------------------
 		private void FillValueList()
-		{
-			//If a region is selected and a type selected then the value is list is filled
-			if(cboRegions.SelectedValue != "" && cboTypes.SelectedValue != "")
 			{
-				DataTable dtValues = DataAccessClass.GetAllNamesFromRegion(cboRegions.SelectedValue,
-					cboTypes.SelectedValue);
-				lstValues.DataSource = dtValues;
-				lstValues.DataTextField = "Name";
-				lstValues.DataValueField = "ID";
-				lstValues.DataBind();
+			//If a region is selected and a type selected then the value is list is filled
+			if(cboRegions.SelectedItem.Text != "" && cboTypes.SelectedItem.Text != "")
+				{
+				try
+					{
+					DataTable dtValues = new DataTable();
+					dtValues.Columns.Add("Name");
+					if(cboTypes.SelectedItem.Text == "Met Stations")
+						{
+						dtValues = DataAccessClass.GetMetStationsOfRegion(cboRegions.SelectedItem.Text);
+						}
+					else if(cboTypes.SelectedItem.Text == "Soils")
+						{
+						dtValues = DataAccessClass.GetSoilsOfRegion(cboRegions.SelectedItem.Text);
+						}
+
+					lstValues.DataSource = dtValues;
+					lstValues.DataTextField = "Name";
+					lstValues.DataBind();
+					}
+				catch(Exception E)
+					{
+					FunctionsClass.DisplayMessage(Page, E.Message);
+					}
+				}
 			}
-		}
 		//-------------------------------------------------------------------------
-		//Deletes the selected region from the database
+		//Deletes the selected value from the database
 		//-------------------------------------------------------------------------
-		private void DeleteRegion()
+		private void DeleteValueFromRegion()
 			{
 			//If a value is selected it is removed from the database
-			if(lstValues.SelectedValue != null && lstValues.SelectedValue != "")
+			if(lstValues.SelectedItem.Text != null && lstValues.SelectedItem.Text != "")
 				{
-				DataAccessClass.DeleteRecordFromTable(lstValues.SelectedValue, cboTypes.SelectedValue);
-				Server.Transfer("wfViewRegions.aspx");
+				try
+					{
+					if(cboTypes.SelectedItem.Text == "Met Stations")
+						{
+						DataAccessClass.DeleteMetStation(cboRegions.SelectedItem.Text, 
+							lstValues.SelectedItem.Text);
+						Server.Transfer("wfViewRegions.aspx");
+						}
+					else if(cboTypes.SelectedItem.Text == "Soils")
+						{
+						DataAccessClass.DeleteSoil(cboRegions.SelectedItem.Text, 
+							lstValues.SelectedItem.Text);
+						Server.Transfer("wfViewRegions.aspx");
+						}
+					}
+				catch(Exception E)
+					{
+					FunctionsClass.DisplayMessage(Page, E.Message);
+					}
 				}
 			//If no value is selected then an error message is displayed to the user
 			else
@@ -132,14 +170,14 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void ImportFile()
 			{
-			if(cboTypes.SelectedValue == "MetStations")
+			if(cboTypes.SelectedItem.Text == "Met Stations")
 				{
-				ImportClass.ImportMetStations(Page, cboTypes.SelectedValue, cboRegions.SelectedValue);
+				ImportClass.ImportMetStations(Page, cboRegions.SelectedItem.Text);
 				Server.Transfer("wfViewRegions.aspx");
 				}
-			else if(cboTypes.SelectedValue == "Soils")
+			else if(cboTypes.SelectedItem.Text == "Soils")
 				{
-				ImportClass.ImportSoils(Page, cboTypes.SelectedValue, cboRegions.SelectedValue);
+				ImportClass.ImportSoils(Page, cboRegions.SelectedItem.Text);
 				Server.Transfer("wfViewRegions.aspx");
 				}
 			//If no type is selected then display an error message to the user
@@ -169,14 +207,14 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void btnDelete_Click(object sender, System.EventArgs e)
 			{
-			DeleteRegion();
+			DeleteValueFromRegion();
 			}
 		//-------------------------------------------------------------------------
 		//When the user presses the delete image, the selected region is deleted
 		//-------------------------------------------------------------------------
 		private void btnDeleteImg_Click(object sender, System.Web.UI.ImageClickEventArgs e)
 			{
-			DeleteRegion();
+			DeleteValueFromRegion();
 			}
 		//-------------------------------------------------------------------------
 		//When the user selects a different region the value list is updated

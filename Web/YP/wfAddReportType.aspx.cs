@@ -74,7 +74,6 @@ namespace YieldProphet
 			DataTable dtReportTemplateTypes = DataAccessClass.GetAllReportTemplateTypes();
 			cboTemplateTypes.DataSource = dtReportTemplateTypes;
 			cboTemplateTypes.DataTextField = "Type";
-			cboTemplateTypes.DataValueField = "ID";
 			cboTemplateTypes.DataBind();
 			}
 		//-------------------------------------------------------------------------
@@ -84,11 +83,18 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void SaveReportType()
 			{
-			if(cboTemplateTypes.SelectedValue != "" && edtReportType.Text != "")
+			if(cboTemplateTypes.SelectedItem.Text != "" && edtReportType.Text != "")
 				{
-				DataAccessClass.InsertReportType(cboTemplateTypes.SelectedValue, 
-					InputValidationClass.ValidateString(edtReportType.Text));
-				Server.Transfer("wfEditReportTemplate.aspx");
+				try
+					{
+					DataAccessClass.InsertReportType("", InputValidationClass.ValidateString(edtReportType.Text), 
+						cboTemplateTypes.SelectedItem.Text);
+					Server.Transfer("wfEditReportTemplate.aspx");
+					}
+				catch(Exception E)
+					{
+					FunctionsClass.DisplayMessage(Page, E.Message);
+					}
 				}
 			else
 				{

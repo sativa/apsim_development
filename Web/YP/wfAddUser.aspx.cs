@@ -82,22 +82,34 @@ namespace YieldProphet
 		//---------------------------------------------------------------------------
 		private void FillAccessTypeCombo()
 			{
-			DataTable dtAccessTypes = DataAccessClass.GetAllAccessTypes();
-			cboAccessType.DataSource = dtAccessTypes;
-			cboAccessType.DataTextField = "Type";
-			cboAccessType.DataValueField = "ID";
-			cboAccessType.DataBind();
+			try
+				{
+				DataTable dtAccessTypes = DataAccessClass.GetAllAccessTypes();
+				cboAccessType.DataSource = dtAccessTypes;
+				cboAccessType.DataTextField = "Type";
+				cboAccessType.DataBind();
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
 			}
 		//---------------------------------------------------------------------------
 		//Fills the consultant combo box with all the consultants from the database
 		//---------------------------------------------------------------------------
 		private void FillConsultantCombo()
 			{
-			DataTable dtConsultants = DataAccessClass.GetAllConsultants();
-			cboConsultant.DataSource = dtConsultants;
-			cboConsultant.DataTextField = "Name";
-			cboConsultant.DataValueField = "ID";
-			cboConsultant.DataBind();
+			try
+				{
+				DataTable dtConsultants = DataAccessClass.GetAllConsultants();
+				cboConsultant.DataSource = dtConsultants;
+				cboConsultant.DataTextField = "Name";
+				cboConsultant.DataBind();
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
 			}
 		//---------------------------------------------------------------------------
 		//Clears all the text boxes and hides the consultant combo box
@@ -151,13 +163,13 @@ namespace YieldProphet
 						//If the new user is a grower then assign them to a consultant
 						if(cboAccessType.SelectedItem.Text == FunctionsClass.szGrower)
 							{
-							if(cboConsultant.SelectedValue != "")
+							if(cboConsultant.SelectedItem.Text != "")
 								{
 								DataAccessClass.InsertGrower(InputValidationClass.ValidateString(edtName.Text), 
 									InputValidationClass.ValidateString(edtEmail.Text), 
 									InputValidationClass.ValidateString(edtUserName.Text), 
 									InputValidationClass.ValidateString(edtPassword.Text), 
-									cboConsultant.SelectedValue);
+									cboConsultant.SelectedItem.Text);
 								}
 							else
 								{
@@ -173,15 +185,14 @@ namespace YieldProphet
 									InputValidationClass.ValidateString(edtEmail.Text), 
 									InputValidationClass.ValidateString(edtUserName.Text),
 									InputValidationClass.ValidateString(edtPassword.Text), 
-									cboAccessType.SelectedValue);
+									cboAccessType.SelectedItem.Text);
 								}
 							else
 								{
 								FunctionsClass.DisplayMessage(Page, "Please select an access type");	
 								}
 							}
-						ReportClass.CreateUsersReportDirectory(InputValidationClass.ValidateString(edtUserName.Text), 
-						InputValidationClass.ValidateString(edtPassword.Text));
+						ReportClass.CreateUsersReportDirectory(InputValidationClass.ValidateString(edtUserName.Text));
 						Server.Transfer("wfAddUser.aspx");
 						}
 					else

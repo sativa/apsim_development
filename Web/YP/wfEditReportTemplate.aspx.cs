@@ -96,14 +96,20 @@ namespace YieldProphet
 			{
 			//If there is a selected template type, then fill the report type
 			//combo box
-			if(cboTemplateTypes.SelectedValue != "")
-				{									
-				DataTable dtReportTypes = 
-					DataAccessClass.GetAllReportTypesOfTemplateType(cboTemplateTypes.SelectedValue);
-				cboReportTypes.DataSource = dtReportTypes;
-				cboReportTypes.DataTextField = "Type";
-				cboReportTypes.DataValueField = "ID";
-				cboReportTypes.DataBind();
+			if(cboTemplateTypes.SelectedItem.Text != "")
+				{	
+				try
+					{
+					DataTable dtReportTypes = 
+						DataAccessClass.GetAllReportTypes(cboTemplateTypes.SelectedItem.Text);
+					cboReportTypes.DataSource = dtReportTypes;
+					cboReportTypes.DataTextField = "Type";
+					cboReportTypes.DataBind();
+					}
+				catch(Exception E)
+					{
+					FunctionsClass.DisplayMessage(Page, E.Message);
+					}
 				}
 			//If no template type has been selected then display an error to the user
 			else
@@ -117,11 +123,17 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void FillTemplateTypesCombo()
 			{
-			DataTable dtReportTemplateTypes = DataAccessClass.GetAllReportTemplateTypes();
-			cboTemplateTypes.DataSource = dtReportTemplateTypes;
-			cboTemplateTypes.DataTextField = "Type";
-			cboTemplateTypes.DataValueField = "ID";
-			cboTemplateTypes.DataBind();
+			try
+				{
+				DataTable dtReportTemplateTypes = DataAccessClass.GetAllReportTemplateTypes();
+				cboTemplateTypes.DataSource = dtReportTemplateTypes;
+				cboTemplateTypes.DataTextField = "Type";
+				cboTemplateTypes.DataBind();
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
 			}
 		//-------------------------------------------------------------------------
 		//Fills the disply template text box with the template type selected by
@@ -131,10 +143,11 @@ namespace YieldProphet
 			{
 			//If a report type has been selected, then download the report type
 			//template from the database.
-			if(cboReportTypes.SelectedValue != "")
+			if(cboReportTypes.SelectedItem.Text != "")
 				{				
 				string szTemplateText = 
-					DataAccessClass.GetReportTypeTemplate(cboReportTypes.SelectedValue);
+					DataAccessClass.GetReportTypeTemplate(cboReportTypes.SelectedItem.Text, 
+					cboTemplateTypes.SelectedItem.Text);
 				szTemplateText = SetUpTemplateTextForDisplay(szTemplateText);
 				edtDisplayTemplate.Text = szTemplateText;
 				}
@@ -160,11 +173,11 @@ namespace YieldProphet
 		//double quote characters with place holders
 		//-------------------------------------------------------------------------
 		private string SetUpTemplateTextForSaving(string szTemplateText)
-			{
+		{
 			szTemplateText = szTemplateText.Replace("'", "#Quote#");
 			szTemplateText = szTemplateText.Replace("\"", "#DQuote#");
 			return szTemplateText;
-			}
+		}
 		//-------------------------------------------------------------------------
 		//The report is updated, but firstly a check is run to ensure that
 		//there is information to save, if there is then the template is saved to the
@@ -174,10 +187,12 @@ namespace YieldProphet
 			{
 			//If the template text box isn't empty and a report type is selected
 			//then update the template in the database
-			if(edtDisplayTemplate.Text != "" && cboReportTypes.SelectedValue != "")
+			if(edtDisplayTemplate.Text != "" && cboReportTypes.SelectedItem.Text != "" 
+				&& cboTemplateTypes.SelectedItem.Text != "")
 				{
 				string szTemplate = SetUpTemplateTextForSaving(edtDisplayTemplate.Text);
-				DataAccessClass.UpdateReportTypes(cboReportTypes.SelectedValue, szTemplate);
+				DataAccessClass.UpdateReportTypes(szTemplate, cboReportTypes.SelectedItem.Text, 
+					cboTemplateTypes.SelectedItem.Text);
 				}
 			//If the there is not text in the template text box or a report type isn't 
 			//selected then display an error message to the user.
@@ -195,7 +210,8 @@ namespace YieldProphet
 			//database
 			if(cboReportTypes.SelectedValue != "")
 				{
-				DataAccessClass.DeleteReportType(cboReportTypes.SelectedValue);
+				DataAccessClass.DeleteReportType(cboReportTypes.SelectedItem.Text, 
+					cboTemplateTypes.SelectedItem.Text);
 				//Refresh the page to show changes
 				Server.Transfer("wfEditReportTemplate.aspx");
 				}
@@ -210,81 +226,16 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void ImportFile()
 			{
-			if(cboReportTypes.SelectedValue != "")
+			if(cboReportTypes.SelectedItem.Text != "" && cboTemplateTypes.SelectedItem.Text != "")
 				{
-				CheckForUploadedFiles();
+				ImportClass.ImportReportTemplate(Page, cboReportTypes.SelectedItem.Text, 
+					cboTemplateTypes.SelectedItem.Text);
+				Server.Transfer("wfEditReportTemplate.aspx");
 				}
 			//If no report type is selected then display an error message to the user
 			else
 				{
 				FunctionsClass.DisplayMessage(Page, "No report type selected");
-				}
-			}
-		//-------------------------------------------------------------------------
-		//Checks to make sure that the a file has been selected for upload and
-		//that the file isn't not empty.  If both checks are passed then the file
-		//is uploaded
-		//-------------------------------------------------------------------------
-		private void CheckForUploadedFiles()
-			{
-			HttpFileCollection hfcImportedFiles = Request.Files;
-			//If there is at least one file to upload then proceed to the next check
-			if(Request.Files.Count > 0)
-				{
-				//Get the first file
-				HttpPostedFile hpfImportedFile = hfcImportedFiles[0];
-				//If the file isn't empty then upload the file
-				if(hpfImportedFile.ContentLength > 0)
-					{
-					UploadFile(hpfImportedFile);
-					}
-				//If the file is empty then display an error to the user
-				else
-					{
-						FunctionsClass.DisplayMessage(Page, "File is empty");
-					}
-				}
-			//If there is no file to upload then display an error to the user
-			else
-				{
-				FunctionsClass.DisplayMessage(Page, "Please select a file to upload");
-				}
-			hfcImportedFiles = null;
-			}
-		//-------------------------------------------------------------------------
-		//The selected file is stored as a byte array which is then converted to a
-		//string which is saved to the database
-		//-------------------------------------------------------------------------
-		private void UploadFile(HttpPostedFile hpfImportedFile)
-			{
-			try
-				{
-				//If the file is a txt file then the file is uploaded and its contents are 
-				//stored in the database
-				string szContentType = hpfImportedFile.ContentType;
-				if(szContentType == "text/plain")
-					{
-					//Reads the file into an byte array
-					int iFileLength = hpfImportedFile.ContentLength;
-					byte[] byFileData = new byte[iFileLength];
-					hpfImportedFile.InputStream.Read(byFileData, 0, iFileLength);
-					//Converts the byte array to a string
-					string szTemplateText = System.Text.Encoding.Default.GetString(byFileData, 0, iFileLength);
-					szTemplateText = SetUpTemplateTextForSaving(szTemplateText);
-					//Saves the template to the database
-					DataAccessClass.UpdateReportTypes(cboReportTypes.SelectedValue, szTemplateText);
-					//Refreshes the data on the screen
-					Server.Transfer("wfReportTemplate.aspx");
-					}
-				//If the file is not a text file then display an error to the user
-				else
-					{
-					FunctionsClass.DisplayMessage(Page,"Invalid file type");
-					}
-				}
-			catch(Exception)
-				{
-				FunctionsClass.DisplayMessage(Page, "Error Importing File");
 				}
 			}
 		//-------------------------------------------------------------------------

@@ -93,8 +93,8 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void FillReportList()
 		{
-			string szUserID = SetUserID();
-			DataTable dtReports = ReportClass.GetReportsOfUser(szUserID, cboYear.SelectedItem.Text);
+			DataTable dtReports = ReportClass.GetReportsOfUser(FunctionsClass.GetActiveUserName(), 
+				Convert.ToInt32(cboYear.SelectedItem.Text));
 			lstReports.DataSource = dtReports;
 			lstReports.DataTextField = "Name";
 			lstReports.DataBind();
@@ -126,10 +126,10 @@ namespace YieldProphet
 			//If a report is selected then remove it from the database
 			if(lstReports.SelectedValue != null && lstReports.SelectedValue != "")
 				{
-				if(FunctionsClass.IsGrowerOrHigher(Session["UserID"].ToString()) == true)
+				if(FunctionsClass.IsGrowerOrHigher(Session["UserName"].ToString()) == true)
 					{
-					string szUserID = SetUserID();
-					ReportClass.DeleteReport(szUserID, lstReports.SelectedItem.Text, cboYear.SelectedItem.Text);
+					ReportClass.DeleteReport(FunctionsClass.GetActiveUserName(), 
+				 lstReports.SelectedItem.Text, Convert.ToInt32(cboYear.SelectedItem.Text));
 					Server.Transfer("wfViewReports.aspx");
 					}
 				else
@@ -151,7 +151,7 @@ namespace YieldProphet
 			//If a report is selected then transfer the user to the edit report page
 			if(lstReports.SelectedValue != null && lstReports.SelectedValue != "")
 				{
-				if(FunctionsClass.IsGrowerOrHigher(Session["UserID"].ToString()) == true)
+				if(FunctionsClass.IsGrowerOrHigher(Session["UserName"].ToString()) == true)
 					{
 					Session["SelectedReportYear"] = cboYear.SelectedItem.Text;
 					Session["SelectedReportName"] = lstReports.SelectedItem.Text;
@@ -168,24 +168,6 @@ namespace YieldProphet
 				FunctionsClass.DisplayMessage(Page, "No Report Selected");
 				}
 			}
-		//-------------------------------------------------------------------------
-		//Determines which UserID to use, either the SelectedUserID or the 
-		//UserID.  This depends on whether it is the user viewing their own reports
-		//or it a user view their grower's reports
-		//-------------------------------------------------------------------------	
-		private string SetUserID()
-		{
-			string szUserID = "";
-			if(Session["SelectedUserID"].ToString() != "" && Session["SelectedUserID"].ToString() != "0")
-			{
-				szUserID = Session["SelectedUserID"].ToString();
-			}
-			else
-			{
-				szUserID = Session["UserID"].ToString();
-			}
-			return szUserID;
-		}
 		//-------------------------------------------------------------------------
 		//When the user presses the rename report button, they are transfered to the
 		// display report page

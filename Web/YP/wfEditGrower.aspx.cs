@@ -18,8 +18,6 @@ namespace YieldProphet
 		{
 		protected System.Web.UI.WebControls.Label lblPassword;
 		protected System.Web.UI.WebControls.TextBox edtPassword;
-		protected System.Web.UI.WebControls.TextBox edtUserName;
-		protected System.Web.UI.WebControls.Label lblUserName;
 		protected System.Web.UI.WebControls.Label lblEmail;
 		protected System.Web.UI.WebControls.TextBox edtEmail;
 		protected System.Web.UI.WebControls.TextBox edtName;
@@ -75,16 +73,21 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void SaveExistingGrower()
 			{
-			if(edtName.Text != "" && edtEmail.Text != "" && 
-				edtUserName.Text != "" && edtPassword.Text != "")
+			if(edtName.Text != "" && edtEmail.Text != "" && edtPassword.Text != "")
 				{
-				DataAccessClass.UpdateGrower(InputValidationClass.ValidateString(edtName.Text), 
-					InputValidationClass.ValidateString(edtEmail.Text), 
-					InputValidationClass.ValidateString(edtUserName.Text),
-					InputValidationClass.ValidateString(edtPassword.Text), 
-					Session["SelectedUserID"].ToString());
-				Session["SelectedUserID"] = "0";
-				Server.Transfer("wfViewGrowers.aspx");
+				try
+					{
+					DataAccessClass.UpdateGrower(InputValidationClass.ValidateString(edtName.Text), 
+						InputValidationClass.ValidateString(edtEmail.Text), 
+						InputValidationClass.ValidateString(edtPassword.Text), 
+						FunctionsClass.GetActiveUserName());
+					Session["SelectedUserName"] = "";
+					Server.Transfer("wfViewGrowers.aspx");
+					}
+				catch(Exception E)
+					{
+					FunctionsClass.DisplayMessage(Page, E.Message);
+					}
 				}
 			else
 				{
@@ -97,9 +100,16 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void FillForm()
 			{
-			edtName.Text = DataAccessClass.GetNameOfUser(Session["SelectedUserID"].ToString());
-			edtEmail.Text = DataAccessClass.GetEmailOfUser(Session["SelectedUserID"].ToString());
-			edtUserName.Text = DataAccessClass.GetUserNameOfUser(Session["SelectedUserID"].ToString());
+			try
+				{
+				DataTable dtUserDetails = DataAccessClass.GetDetailsOfUser(Session["SelectedUserName"].ToString());
+				edtName.Text = dtUserDetails.Rows[0]["Name"].ToString();
+				edtEmail.Text = dtUserDetails.Rows[0]["Email"].ToString();
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
 			}
 		//-------------------------------------------------------------------------
 		//When the user presses the Save button, the grower's information is updated
