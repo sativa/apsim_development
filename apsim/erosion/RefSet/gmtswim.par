@@ -1,34 +1,24 @@
 
 [gmtb0.report.parameters]  
 ! Title of run
-title =  Greenmount B0_SWIM   
 
-screen_output =  on   
 
-module_names =  clock   
-variable_names =  today.dd/mm/yyyy   
-variable_alias =  date   
-units =        -   
                             
 !                  [runoff.soil_loss] [fudge_cover.erosion_cover] 
-module_names =     erosion             erosion   
-variable_names =   soil_loss           erosion_cover   
-variable_alias =   -                   -   
-units =            -                   -   
 
 ! Output file to use
-outputfile =  gmtb0s.out   /overwrite   
+outputfile =gmtb0s.out   
 
 ! Summary file to user
-summaryfile =  gmtb0s.sum  /overwrite   
 
 
+variable = clock.today.dd/mm/yyyy as date
+variable = erosion.soil_loss
+variable = erosion.erosion_cover
 [gmtb0.clock.parameters]  
 ! Entire period
-simulation_start_day =  218   
-simulation_start_year =  1976   
-simulation_end_day =  365   
-simulation_end_year =  1989   
+start_date=5/8/1976
+end_date=31/12/1989
 
 [gmtb0.manager.init]  
 cover_surface_runoff = 0.0
@@ -523,3 +513,7 @@ seal_decay_rate =  0.0036
 rr_decay_rate =  0.015   
 rr_max =  3.99   
 rr_min =  0.49   
+[gmtb0.SummaryFile.parameters]
+summaryfile=gmtb0s.sum
+[gmtb0.Screen.parameters]
+screen_output=on
