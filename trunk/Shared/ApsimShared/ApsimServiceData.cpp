@@ -26,7 +26,7 @@ ApsimServiceData::ApsimServiceData(const XMLNode& n)
 ApsimServiceData::ApsimServiceData(const std::string& xml)
    : node(NULL, NULL)
    {
-   xmlDoc = new XMLDocument(xml, true);
+   xmlDoc = new XMLDocument(xml, XMLDocument::xmlContents);
    node = xmlDoc->documentElement();
    }
 // ------------------------------------------------------------------
@@ -103,8 +103,6 @@ void ApsimServiceData::setProperty(const string& name,
 // ------------------------------------------------------------------
 std::string ApsimServiceData::getXML(void) const
    {
-   string xml;
-   node.writeXML(xml);
-   return xml;
+   return node.write();
    }
 

@@ -14,13 +14,12 @@ using namespace std;
 // ------------------------------------------------------------------
 ApsimSimulationFile::ApsimSimulationFile(void)
    {
-   xmlDoc = new XMLDocument();
-   xmlDoc->setRootNode("Simulation");
+   xmlDoc = new XMLDocument("Simulation", XMLDocument::rootName);
    }
 // ------------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------------
-ApsimSimulationFile::ApsimSimulationFile(const string& filename) throw (std::runtime_error)
+ApsimSimulationFile::ApsimSimulationFile(const string& filename)
    : fileName(filename)
    {
    xmlDoc = new XMLDocument(filename);
@@ -28,9 +27,9 @@ ApsimSimulationFile::ApsimSimulationFile(const string& filename) throw (std::run
 // ------------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------------
-ApsimSimulationFile::ApsimSimulationFile(const string& xml, bool dummy) throw (std::runtime_error)
+ApsimSimulationFile::ApsimSimulationFile(const string& xml, bool dummy)
    {
-   xmlDoc = new XMLDocument(xml, dummy);
+   xmlDoc = new XMLDocument(xml, XMLDocument::xmlContents);
    }
 // ------------------------------------------------------------------
 // Destructor
@@ -108,21 +107,21 @@ void ApsimSimulationFile::getServiceNames(vector<string>& serviceNames) const
 // ------------------------------------------------------------------
 // Return the component with the specified name.
 // ------------------------------------------------------------------
-ApsimComponentData ApsimSimulationFile::getComponent(const std::string& name) const throw(runtime_error)
+ApsimComponentData ApsimSimulationFile::getComponent(const std::string& name) const
    {
    return ApsimSystemData(xmlDoc->documentElement()).getComponent(name);
    }
 // ------------------------------------------------------------------
 // Return the system with the specified name.
 // ------------------------------------------------------------------
-ApsimSystemData ApsimSimulationFile::getSystem(const std::string& name) const throw(runtime_error)
+ApsimSystemData ApsimSimulationFile::getSystem(const std::string& name) const
    {
    return ApsimSystemData(xmlDoc->documentElement()).getSystem(name);
    }
 // ------------------------------------------------------------------
 // Return the system with the specified name.
 // ------------------------------------------------------------------
-ApsimServiceData ApsimSimulationFile::getService(const std::string& name) const throw(runtime_error)
+ApsimServiceData ApsimSimulationFile::getService(const std::string& name) const
    {
    XMLNode::iterator i = find_if(xmlDoc->documentElement().begin(),
                                  xmlDoc->documentElement().end(),

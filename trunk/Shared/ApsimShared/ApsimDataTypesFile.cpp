@@ -10,7 +10,7 @@
 //---------------------------------------------------------------------------
 // constructor.
 //---------------------------------------------------------------------------
-ApsimDataTypesFile::ApsimDataTypesFile(void) throw(runtime_error)
+ApsimDataTypesFile::ApsimDataTypesFile(void)
    : xmlDoc(getApsimDirectory() + "\\apsim\\infra\\datatypes.interface")
    {
    fileName = getApsimDirectory() + "\\apsim\\infra\\datatypes.interface";
@@ -20,15 +20,15 @@ ApsimDataTypesFile::ApsimDataTypesFile(void) throw(runtime_error)
 //---------------------------------------------------------------------------
 // constructor.
 //---------------------------------------------------------------------------
-ApsimDataTypesFile::ApsimDataTypesFile(const string& ddml) throw(runtime_error)
-   : xmlDoc(ddml, true)
+ApsimDataTypesFile::ApsimDataTypesFile(const string& ddml)
+   : xmlDoc(ddml, XMLDocument::xmlContents)
    {
    }
 //---------------------------------------------------------------------------
 // Return a specific data type to caller.  Will throw if that type doesn't
 // exist.
 //---------------------------------------------------------------------------
-ApsimDataTypeData ApsimDataTypesFile::getDataType(const string& name) throw(runtime_error)
+ApsimDataTypeData ApsimDataTypesFile::getDataType(const string& name)
    {
    XMLNode::iterator i = find_if(xmlDoc.documentElement().begin(),
                                  xmlDoc.documentElement().end(),
