@@ -41,6 +41,7 @@
       parameter (off = 0)
 
       type ErosionGlobals
+         sequence
          real       bed_depth              ! depth to bedrock (mm)
          real       runoff                 ! daily runoff (mm)
          real       erosion_cover          ! cover used in soil loss eqn (0 - 1)
@@ -62,6 +63,7 @@
 ! ==============================================================================================
 
       type ErosionParameters
+         sequence
          real       slope                  ! field slope (%)  [input]
          real       slope_length           ! slope length (m) [input]
          real       k_factor_bed           ! USLE K factor (bedload)() [input]
@@ -86,164 +88,16 @@
       end type ErosionParameters
 
 ! ==============================================================================================
-      ! instance variables.
-      type (ErosionGlobals), pointer :: g
-      type (ErosionParameters), pointer :: p
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)
-      integer MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-      type ErosionDataPtr
-         type (ErosionGlobals), pointer ::    gptr
-         type (ErosionParameters), pointer :: pptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type ErosionDataPtr
-      type (ErosionDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
 
+      ! instance variables.
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (ErosionGlobals),pointer :: g
+      type (ErosionParameters),pointer :: p
 
       contains
 
 
-
-C     Last change:  P     8 Nov 2000    3:30 pm
-!     ===========================================================
-      subroutine AllocInstance (InstanceName, InstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module instantiation routine.
-
-*+  Mission Statement
-*     Instantiate routine
-
-!- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%gptr)
-      allocate (Instances(InstanceNo)%pptr)
-      Instances(InstanceNo)%Name = InstanceName
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine FreeInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module de-instantiation routine.
-
-*+  Mission Statement
-*     De-Instantiate routine
-
-!- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%gptr)
-      deallocate (Instances(anInstanceNo)%pptr)
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine SwapInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Swap an instance into the global 'g' pointer
-
-*+  Mission Statement
-*     Swap an instance into global pointer
-
-!- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%gptr
-      p => Instances(anInstanceNo)%pptr
-
-      return
-      end subroutine
-* ====================================================================
-      subroutine Main (Action, Data_string)
-* ====================================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      character  Action*(*)            ! Message action to perform
-      character  Data_string*(*)       ! Message data
-
-*+  Purpose
-*     This routine is the interface between the main system and the
-*     erosion module.
-
-*+  Mission Statement
-*     Handles communication for the Erosion module
-
-*+  Changes
-*     DMS 25/02/94 (new template)
-*     PdeV 25/08/94
-*     011195 jngh  added call to message_unused
-*     190599 jngh removed reference to version and removed ACTION_presence
-
-*+  Constant Values
-      character  my_name*(*)
-      parameter (my_name = 'erosion')
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-         ! initialise error flags
-
-      if (Action.eq.ACTION_Init) then
-            ! initilization once per run
-            ! start with a clean slate
-         call erosion_zero_variables ()
-         call erosion_get_other_variables ()
-         call erosion_init ()   ! get parameters & do initial one-off calc's
-         call erosion_write_summary () ! tell summary file what we're using
-
-      else if (Action.eq.ACTION_Process) then
-         call erosion_zero_daily_variables ()
-            ! get todays variables
-         call erosion_get_other_variables ()
-            ! do daily processes
-         call erosion_process ()
-            ! send back changed variables.
-         call erosion_set_other_variables ()
-
-      else if (Action.eq.ACTION_Get_variable) then
-            ! respond to requests from other modules
-         call erosion_send_my_variable (Data_string)
-
-      else if (Action.eq.ACTION_Set_variable) then
-         call erosion_set_my_variable (data_string)
-
-      else if (Action.eq.ACTION_end_run) then
-         call erosion_end_run ()
-
-      else
-            ! Do nothing..
-         call Message_unused ()
-      endif
-
-      call pop_routine (my_name)
-      return
-      end subroutine
 
 
 
@@ -1574,3 +1428,102 @@ c     What happens when layer completely eroded?
 
 
       end module ErosionModule
+
+
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use ErosionModule
+      implicit none  
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+         allocate(p)
+      else
+         deallocate(g)
+         deallocate(p)
+      end if
+      return
+      end subroutine
+
+
+
+* ====================================================================
+      subroutine Main (Action, Data_string)
+* ====================================================================
+      Use infrastructure
+      implicit none
+      ml_external Main
+
+*+  Sub-Program Arguments
+      character  Action*(*)            ! Message action to perform
+      character  Data_string*(*)       ! Message data
+
+*+  Purpose
+*     This routine is the interface between the main system and the
+*     erosion module.
+
+*+  Mission Statement
+*     Handles communication for the Erosion module
+
+*+  Changes
+*     DMS 25/02/94 (new template)
+*     PdeV 25/08/94
+*     011195 jngh  added call to message_unused
+*     190599 jngh removed reference to version and removed ACTION_presence
+
+*+  Constant Values
+      character  my_name*(*)
+      parameter (my_name = 'erosion')
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+         ! initialise error flags
+
+      if (Action.eq.ACTION_Init) then
+            ! initilization once per run
+            ! start with a clean slate
+         call erosion_zero_variables ()
+         call erosion_get_other_variables ()
+         call erosion_init ()   ! get parameters & do initial one-off calc's
+         call erosion_write_summary () ! tell summary file what we're using
+
+      else if (Action.eq.ACTION_Process) then
+         call erosion_zero_daily_variables ()
+            ! get todays variables
+         call erosion_get_other_variables ()
+            ! do daily processes
+         call erosion_process ()
+            ! send back changed variables.
+         call erosion_set_other_variables ()
+
+      else if (Action.eq.ACTION_Get_variable) then
+            ! respond to requests from other modules
+         call erosion_send_my_variable (Data_string)
+
+      else if (Action.eq.ACTION_Set_variable) then
+         call erosion_set_my_variable (data_string)
+
+      else if (Action.eq.ACTION_end_run) then
+         call erosion_end_run ()
+
+      else
+            ! Do nothing..
+         call Message_unused ()
+      endif
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
