@@ -4,7 +4,7 @@
   <component name="SummaryFile" executable="c:\development\apsim\SummaryFile\lib\SummaryFile.dll"><initdata><parameters name="test3"><property name="summaryfile">test3.sum</property></parameters></initdata></component>
   <component name="Screen" executable="c:\development\apsim\Screen\lib\Screen.dll"><initdata><parameters name="all"><property name="screen_output">off</property></parameters></initdata></component>
   <component name="clock" executable="c:\development\apsim\clock\lib\clock.dll">
-  <initdata><constants name="standard"><property name="timestep_events">prepare process post</property></constants><parameters name="all"><property name="start_date">1/1/1988</property><property name="end_date">26/12/1988</property></parameters></initdata>
+  <initdata><constants name="standard"><property name="timestep_events">prepare process do_stock post</property></constants><parameters name="all"><property name="start_date">1/1/1988</property><property name="end_date">26/12/1988</property></parameters></initdata>
 </component>
   <component name="report" executable="c:\development\apsim\report\lib\report.dll"><initdata><parameters name="test3"><property name="outputfile">test3.out</property></parameters><variables><variable>clock.day</variable><variable>clock.year</variable><variable>millet.lai</variable><variable>millet.biomass</variable><variable>millet.green_biomass</variable></variables></initdata></component>
   <component name="met" executable="c:\development\apsim\input\lib\input.dll"><initdata><parameters name="file"><property name="filename">c:\development\apsim\met\sample\dalby.met</property></parameters></initdata></component>
