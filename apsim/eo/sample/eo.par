@@ -75,3 +75,17 @@ wind_day_fraction = 0.66 ()      ! optional fraction of wind in daylight hours (
                                  ! fractions from 0.5 to 0.8.
 adjustment_factor = 1.0         ! Calibration or crop factor
 wind_multiplier = 1.0 ()        ! multiplier for wind to alter wind run for shelter effects (-)
+[sample.clock.parameters]
+start_date=1/1/1996
+end_date=1/1/1997
+[sample.report.parameters]
+outputfile =eo.out
+variable = clock.year
+variable = clock.day
+variable = eo.eo_pm
+variable = eo.ra
+variable = met.evap
+[sample.SummaryFile.parameters]
+summaryfile=eo.sum
+[sample.Screen.parameters]
+screen_output=on

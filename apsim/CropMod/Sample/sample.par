@@ -107,3 +107,21 @@ kl =       0.06 0.06 0.06 0.06 0.06 0.06 0.02    ! Water Extraction parameter (0
 [intercropping.canopy.parameters]
 
 intercrop = maize cowpea
+
+[all.Screen.parameters]
+screen_output=on
+
+[wheat.summaryfile.parameters]
+summaryfile = wheat.sum
+
+[sunflower.summaryfile.parameters]
+summaryfile=sunflower.sum
+
+[sorghum.summaryfile.parameters]
+summaryfile=sorghum.sum
+
+[maize.summaryfile.parameters]
+summaryfile=maize.sum
+
+[intercropping.summaryfile.parameters]
+summaryfile=intercropping.sum
