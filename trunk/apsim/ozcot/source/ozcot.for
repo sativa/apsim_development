@@ -349,6 +349,7 @@
 
       call push_routine (my_name)
 
+      g%frudw_shed = 0.0
       g%snaplc   = 0.0
       c%fert_crit= 0.0
       c%fert_detect= 0.0
@@ -704,6 +705,7 @@
       g%APPLIED_N = 0.
       g%TOTAL_APPLIED = 0.
 
+      g%frudw_shed = 0.0
       g%das = 0
       g%delay = 0.0
       g%idayx = 0
@@ -1280,7 +1282,7 @@
             dlt_nh4(layer) = 0.0
          endif
          g%ano3(Layer) = g%ano3(Layer) + dlt_no3(Layer)
-         if (g%ano3(Layer) < -1.0) pause
+!         if (g%ano3(Layer) < -1.0) pause
          g%ano3(Layer) = max(0.0, g%ano3(Layer))
          sNO3(layer) = g%ano3(layer) + g%no3mn(layer)
 !jh         g%anh4(Layer) = g%anh4(Layer) + dlt_nh4(Layer)
@@ -1381,6 +1383,28 @@
          call respond2get_real_var (variable_name
      :        , '(kg/ha)', g%alint)
 
+      else if (Variable_name .eq. 'openwt') then
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', g%openwt*10.0)
+
+      else if (Variable_name .eq. 'frudw') then
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', g%frudw*10.0)
+
+      else if (Variable_name .eq. 'frudw_tot') then
+         dm = (g%frudw + g%openwt) * 10.0
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', dm)
+
+      else if (Variable_name .eq. 'frudw_shed') then
+         dm = g%frudw_shed * 10.0
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', dm)
+
+      else if (Variable_name .eq. 'frun') then
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', g%frun*10.0)
+
       else if (Variable_name .eq. 'bload') then
          call respond2get_real_var (variable_name
      :        , '()', g%bload)
@@ -1407,6 +1431,26 @@
 
       else if (Variable_name .eq. 'dm') then
          dm = g%dw_total * 10.
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', dm)
+
+      else if (Variable_name .eq. 'dw_boll') then
+         dm = g%dw_boll * 10.
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', dm)
+
+      else if (Variable_name .eq. 'dw_root') then
+         dm = g%dw_root * 10.
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', dm)
+
+      else if (Variable_name .eq. 'dw_leaf') then
+         dm = g%dw_leaf * 10.
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', dm)
+
+      else if (Variable_name .eq. 'dw_stem') then
+         dm = g%dw_stem * 10.
          call respond2get_real_var (variable_name
      :        , '(kg/ha)', dm)
 
@@ -1585,6 +1629,7 @@
 * ====================================================================
       use OzcotModule
       implicit none
+      include 'const.inc'              ! blank
       include 'error.pub'
 
 *+  Purpose
@@ -1610,6 +1655,13 @@
       endif
 
       call ozcot2 ()
+      if (g%iend .ne. 0 .and. g%das .gt. 400) then
+         call fatal_error (err_user
+     :   , 'Crop remains unharvested at 400 DAS.'
+     :   //' Check that manager harvest criteria contains'
+     :   //' a test for ozcot_status > 0')
+      else
+      endif
 
       call pop_routine(myname)
       return
@@ -1813,7 +1865,6 @@
 !      print*, g%crop_in, g%das, g%isow, g%openz, g%iend
       if (g%crop_in) then
               IF(g%isow.GT.0 .AND. g%das.GT.0) CALL ozcot_pltgrw
-              IF(g%openz.GT.0.0) CALL ozcot_harvest
 !              if(iend.eq.2)  go to 32     ! end of season
 !              if(iend.ne.2)  then
 !                call dayout2(i)             ! daily output
@@ -1862,6 +1913,7 @@
       integer j
       real    RTDEP2
       character string*100
+      real bollgr
 
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_pltgrw')
@@ -1886,7 +1938,8 @@
       ENDIF
 
 !---- crop development complete? ---------------------------------------------
-      IF(g%openz.GT.0.0 .AND. g%bollz.LT.1.0 .AND. g%iend.EQ.0) THEN
+!      IF(g%openz.GT.0.0 .AND. g%bollz.LT.1.0 .AND. g%iend.EQ.0) THEN
+      IF(g%openz.GT.0.0 .AND. g%bollz/g%rs.LT.1.0 .AND. g%iend.EQ.0)THEN
           g%iend=6                               ! bolls/m < 1; end of season
           WRITE(string,774)              ! mature bolls will be forced open.
 774       FORMAT(' *** All bolls open; crop finished.')
@@ -1962,9 +2015,6 @@
         CALL ozcot_laigen
 !      end if
 
-      call ozcot_dryxmatter
-      call ozcot_plant_n
-
 !----- crop nitrogen ---------------------------------------------------------
 
 !      call cropn(i)
@@ -1979,6 +2029,13 @@
 !          if(i.gt.isq) call fruit (i,iend)
          IF(g%das.GT.g%isq) CALL ozcot_fruit
       ENDIF
+
+      IF(g%openz.GT.0.0) CALL ozcot_harvest
+
+      bollgr = g%bollgr
+      call ozcot_dryxmatter
+      call ozcot_plant_n
+      g%bollgr = bollgr
 
 !      if(isyr.eq.82 .and. jdate.eq.354) call hail(i) ! hail in 1982-83 experiment
 !      if(isyr.eq.82 .and. jdate.eq.354) call hail    ! hail in 1982-83 experiment
@@ -2826,6 +2883,7 @@
       integer mmm
       integer nfl
       integer if
+      real    fruit_wt_shed
 
 !      dimension frudd(8),wt(8),sfmcat(8),bltme(8),bpsum(300)
 !jh      DIMENSION FRUDD(8),WT(8),SFMCAT(8),BLTME(8)
@@ -2908,9 +2966,12 @@
                   call write_string (string)
                   g%frmark(cohort,age7) = g%fruno(cohort)
               ENDIF
-              g%fruwt(cohort) = g%fruwt(cohort)
-     :                     * (g%fruno(cohort)-g%frmark(cohort,age7))
+
+              fruit_wt_shed = g%fruwt(cohort)
+     :                      * g%frmark(cohort,age7)
      :                     / g%fruno(cohort) ! adjust wt sheds
+              g%frudw_shed = g%frudw_shed + fruit_wt_shed
+              g%fruwt(cohort) = g%fruwt(cohort) - fruit_wt_shed ! adjust wt sheds
               g%fruno (cohort)=g%fruno(cohort)-g%frmark(cohort,age7) ! remove marked fruit
           ENDIF
 
@@ -2922,6 +2983,7 @@
 
           IF(g%iend.EQ.2 .OR. g%iend.EQ.6) THEN     ! frost or green bolls > 1
               IF(g%bpsum(cohort).GE.0.9) g%bpsum(cohort)=1.0  ! crop finishing; opens phys mat bolls
+!              IF(g%bpsum(cohort).GE.0.98) g%bpsum(cohort)=1.0  ! crop finishing; opens phys mat bolls
           ENDIF
 
           ! determine which fruit age category this cohort is in
@@ -3133,6 +3195,16 @@
              call write_string (string)
           endif
       endif
+
+!jh      IF(g%j_pick.NE.0 .AND. g%bollz.LT.1.0) THEN
+      IF(g%j_pick.NE.0) THEN
+              g%iend = 6                                 ! terminate crop                 !const
+!c              write(2,103) jdate, iday
+              write (string, '(4x, a)')
+     :                'Crop terminated'
+     :              //': first pick.'
+              call write_string (string)
+      ENDIF
 
       call pop_routine(myname)
       RETURN
@@ -3968,7 +4040,7 @@
 !c
        AVAILNX   = availn            ! available N before application
        DO 1000 N=1,NKG
-           FRACTION = 1.0-RATE_REDUCER*availn ! fraction of next kg available
+           FRACTION = max(0.0, 1.0-RATE_REDUCER*availn) ! fraction of next kg available
            availn = availn + FRACTION
 1000  continue
        APPLIED_AVAIL = availn-AVAILNX ! N applied now that will be available
@@ -4906,6 +4978,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
       use OzcotModule
       implicit none
+      include 'data.pub'
       include 'error.pub'
 
       real ozcot_stress
@@ -4922,6 +4995,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       real sup_dem
       real adjust
       real total_n_pot
+      real dn_plant
+      real uptakn_max
 
 !jh      data supply_n /2.0/
       data supply_n /1.0/
@@ -4938,8 +5013,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       call push_routine(myname)
 
 !jhadded
-      supply_n = min(1.0, min(g%uptakn/10.0-g%total_n, g%tsno3/10.0)
-     :                    /8.0)   ! max uptake of 1 g/m2. 8 days to takeup avail n.
+      supply_n = min(2.0, min(g%uptakn/10.0-g%total_n, g%tsno3/10.0)
+     :                    /5.0)   ! max uptake of 2 g/m2. 5 days to takeup avail n.
 !      supply_n = min(1.0, g%uptakn/240.0)   ! max uptake of 240 kg/ha specified in n_fertilise
 
 !      calculate daily increment for components of dry matter
@@ -4971,7 +5046,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       ENDIF
 
       total_n_pot =g%total_n + g%dn_plant ! accumulate uptake for season
-
+      uptakn_max = min(c_uptakn_max, g%uptakn)
 !     compare accumulated uptake with projected uptake for season
 !     if accumulated exceeds projected, assume requirements met by remobilisation
 !     and set this day's increments to zero
@@ -4983,18 +5058,25 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !jh          dN_ROOT = 0.0                ! root nitrogen adjusted
 !jh          dN_BOLL = 0.0                ! boll nitrogen adjusted
 !jh          g%dn_plant = 0.0             ! plant N increment
-      IF(total_n_pot.GT.g%uptakn/10.) THEN
-          g%dn_plant = max(0.0, g%uptakn/10. - g%total_n)   ! plant N increment
+      IF(total_n_pot.GT.uptakn_max/10.) THEN
+          g%dn_plant = max(0.0, uptakn_max/10. - g%total_n)   ! plant N increment
+          adjust = divide (dn_plant, g%dn_plant, 0.0)
+          dN_LEAF = dN_LEAF * ADJUST   ! leaf nitrogen adjusted
+          dN_STEM = dN_STEM * ADJUST   ! stem nitrogen adjusted
+          dN_ROOT = dN_ROOT * ADJUST   ! root nitrogen adjusted
+          dN_BOLL = dN_BOLL * ADJUST   ! boll nitrogen adjusted
+          g%dn_plant = dn_plant             ! plant N increment
       ENDIF
 !      if (g%das .gt. 100
 !     :    .and. g%dn_plant.lt. 0.0001
 !     :    .and. g%total_n .lt. g%uptakn/10.0)then
 !         g%dn_plant = g%uptakn/10.0 - g%total_n
-      if (g%das .gt. 150 .and. g%ddw_leaf .le. 0.0
-     :    .and. g%total_n .lt. g%uptakn/10.0)then
-         g%dn_plant = g%uptakn/10.0 - g%total_n
-      else
-      endif
+!      if ((g%iend.eq.6 .or. g%iend.eq.10)
+!     :    .and. g%total_n .lt. uptakn_max/10.0)then
+!         g%dn_plant = uptakn_max/10.0 - g%total_n
+!      else
+!      endif
+!      print*,  g%iend, g%total_n, uptakn_max/10.0
 
       g%total_n = g%total_n + g%dn_plant ! adjust uptake for season
 
@@ -6418,6 +6500,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       call push_routine (my_name)
 
       res_dm = (g%dw_total - g%openwt / g%rs ) * 10.
+      res_dm = (g%dw_total - g%openwt) * 10.
       if (res_dm.le.0.) res_dm = 0.
       res_N = res_dm * 0.4 / 100.0
 
@@ -6496,6 +6579,10 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
 
       call write_string (new_line//new_line)
+
+      write (string, '(a,i6)')
+     :            ' Days after sowing      = ', g%das
+      call write_string (string)
 
       write (string, '(a,f6.2,t40,a,f10.1)')
      :            ' bolls/m2               = ',g%openz
