@@ -118,7 +118,8 @@ void ApsimRuns::getFilesNeedingConversion(std::vector<std::string>& fileNames)
    for (unsigned f = 0; f != runs.size(); f++)
       {
       string fileName = runs[f]->getFileName();
-      if (ControlFileConverter::needsConversion(fileName))
+      if (Path(fileName).Get_extension() == ".con"
+          && ControlFileConverter::needsConversion(fileName))
          fileNames.push_back(fileName);
       }
    }
@@ -170,26 +171,41 @@ void ApsimRuns::runApsim(bool quiet)
          runs[f]->getSimulationsToRun(simulations);
          for (unsigned s = 0; s != simulations.size() && continueWithRuns; s++)
             {
-            if (s == simulations.size()-1)
-               settings.write("Apsim|MoreRunsToGo", "false");
-            else
-               settings.write("Apsim|MoreRunsToGo", "true");
             simCreator.createSim(simulations[s], "");
-
-            string commandLine = "\"" + getApsimDirectory() + "\\bin\\apsim.exe\" ";
-            if (console)
-               commandLine += "/console ";
-            commandLine += "\"" + simFilePath.Get_path() + "\"";
-            Exec(commandLine.c_str(), SW_SHOW, true);
-            settings.refresh();
-            string nextWasClicked;
-            settings.read("Apsim|NextWasClicked", nextWasClicked);
-            continueWithRuns = (nextWasClicked == "true");
+            bool moreToGo = ((f != runs.size()-1
+                              || s != simulations.size()-1));
+            continueWithRuns = performRun(simFilePath.Get_path(), moreToGo);
             }
+         }
+      else
+         {
+         bool moreToGo = (f != runs.size()-1);
+         continueWithRuns = performRun(filePath.Get_path(), moreToGo);
          }
       }
    settings.deleteKey("Apsim|MoreRunsToGo");
    settings.deleteKey("Apsim|NextWasClicked");
+   }
+//---------------------------------------------------------------------------
+// Perform a single APSIM run.
+//---------------------------------------------------------------------------
+bool ApsimRuns::performRun(const std::string& simFileName, bool moreToGo)
+   {
+   ApsimSettings settings;
+   if (moreToGo)
+      settings.write("Apsim|MoreRunsToGo", "true");
+   else
+      settings.write("Apsim|MoreRunsToGo", "false");
+
+   string commandLine = "\"" + getApsimDirectory() + "\\bin\\apsim.exe\" ";
+   if (console)
+      commandLine += "/console ";
+   commandLine += "\"" + simFileName + "\"";
+   Exec(commandLine.c_str(), SW_SHOW, true);
+   settings.refresh();
+   string nextWasClicked;
+   settings.read("Apsim|NextWasClicked", nextWasClicked);
+   return (nextWasClicked == "true");
    }
 //---------------------------------------------------------------------------
 // Create all sim files.

@@ -57,6 +57,11 @@ class ApsimRuns
       //---------------------------------------------------------------------------
       void createApsimSims(void);
 
+      //---------------------------------------------------------------------------
+      // Perform a single APSIM run.
+      //---------------------------------------------------------------------------
+      bool performRun(const std::string& simFileName, bool moreToGo);
+
    };
 #endif
 
