@@ -1,6 +1,6 @@
 Document Type: WSE
 item: Global
-  Version=6.0
+  Version=6.01
   Title=APSoil Software Installation
   Flags=00000100
   Languages=65 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -8,7 +8,7 @@ item: Global
   Japanese Font Size=10
   Start Gradient=0 0 255
   End Gradient=0 0 0
-  Windows Flags=00000000000000110010110000001000
+  Windows Flags=00000000000000010010110000001000
   Log Pathname=%MAINDIR%\INSTALL.LOG
   Message Font=MS Sans Serif
   Font Size=8
@@ -23,10 +23,10 @@ item: Global
   Variable Default2=C:\WINNT\System32
   Variable Flags2=00001000
   Variable Name3=_ODBC32_
-  Variable Default3=c:\PROGRA~1\wise\Runtime\ODBC30
+  Variable Default3=C:\PROGRA~1\Wise\Runtime\ODBC30
   Variable Flags3=00001000
   Variable Name4=_WISE_
-  Variable Default4=c:\PROGRA~1\wise
+  Variable Default4=C:\PROGRA~1\Wise
   Variable Flags4=00001000
   Variable Name5=_BDEWIN32DIR_
   Variable Default5=C:\Program Files\Common Files\Borland\BDE
@@ -36,7 +36,6 @@ item: Global
   Variable Name7=_ALIASPATH_
   Variable Flags7=00001000
   Variable Name8=_ALIASTYPE_
-  Variable Default8=PARADOX
   Variable Flags8=00001000
   Variable Name9=_BDEWIN32OPT_
   Variable Flags9=00001000
@@ -805,30 +804,147 @@ item: Check Disk Space
   Component=COMPONENTS
 end
 item: Include Script
-  Pathname=%_WISE_%\INCLUDE\bde32ful.wse
-end
-item: Include Script
   Pathname=%_WISE_%\INCLUDE\vshare.wse
 end
 item: Install File
+  Source=d:\apsuite\APSoil\Source\IAMA.bmp
+  Destination=%MAINDIR%\IAMA.bmp
+  Flags=0000000010000010
+end
+item: Install File
+  Source=d:\apsuite\APSoil\Source\two.jpg
+  Destination=%MAINDIR%\two.jpg
+  Flags=0000000010000010
+end
+item: Install File
+  Source=d:\apsuite\APSoil\Source\three.jpg
+  Destination=%MAINDIR%\three.jpg
+  Flags=0000000010000010
+end
+item: Install File
+  Source=d:\apsuite\APSoil\Source\six.jpg
+  Destination=%MAINDIR%\six.jpg
+  Flags=0000000010000010
+end
+item: Install File
+  Source=d:\apsuite\APSoil\Source\seven.jpg
+  Destination=%MAINDIR%\seven.jpg
+  Flags=0000000010000010
+end
+item: Install File
+  Source=d:\apsuite\APSoil\Source\sample.jpg
+  Destination=%MAINDIR%\sample.jpg
+  Flags=0000000010000010
+end
+item: Install File
+  Source=d:\apsuite\APSoil\Source\resultsa.jpg
+  Destination=%MAINDIR%\resultsa.jpg
+  Flags=0000000010000010
+end
+item: Install File
+  Source=d:\apsuite\APSoil\Source\openpic.jpg
+  Destination=%MAINDIR%\openpic.jpg
+  Flags=0000000010000010
+end
+item: Install File
+  Source=d:\apsuite\APSoil\Source\one.jpg
+  Destination=%MAINDIR%\one.jpg
+  Flags=0000000010000010
+end
+item: Install File
+  Source=d:\apsuite\APSoil\Source\nine.jpg
+  Destination=%MAINDIR%\nine.jpg
+  Flags=0000000010000010
+end
+item: Install File
+  Source=d:\apsuite\APSoil\Source\graphs.jpg
+  Destination=%MAINDIR%\graphs.jpg
+  Flags=0000000010000010
+end
+item: Install File
+  Source=d:\apsuite\APSoil\Source\four.jpg
+  Destination=%MAINDIR%\four.jpg
+  Flags=0000000010000010
+end
+item: Install File
+  Source=d:\apsuite\APSoil\Source\five.jpg
+  Destination=%MAINDIR%\five.jpg
+  Flags=0000000010000010
+end
+item: Install File
+  Source=d:\apsuite\APSoil\Source\extraB.jpg
+  Destination=%MAINDIR%\extraB.jpg
+  Flags=0000000010000010
+end
+item: Install File
+  Source=d:\apsuite\APSoil\Source\extra.jpg
+  Destination=%MAINDIR%\extra.jpg
+  Flags=0000000010000010
+end
+item: Install File
+  Source=d:\apsuite\APSoil\Source\eleven.jpg
+  Destination=%MAINDIR%\eleven.jpg
+  Flags=0000000010000010
+end
+item: Install File
+  Source=d:\apsuite\APSoil\Source\eight.jpg
+  Destination=%MAINDIR%\eight.jpg
+  Flags=0000000010000010
+end
+item: Install File
+  Source=d:\apsuite\APSoil\Source\APSoil3 edit1.htm
+  Destination=%MAINDIR%\APSoil3 edit1.htm
+  Flags=0000000010000010
+end
+item: Install File
+  Source=d:\apsuite\APSoil\Source\addbutton.JPG
+  Destination=%MAINDIR%\addbutton.JPG
+  Flags=0000000010000010
+end
+item: Install File
+  Source=c:\Program Files\Borland\CBuilder4\Projects\Bpl\TeeUI4C.bpl
+  Destination=%MAINDIR%\TeeUI4C.bpl
+  Flags=0000000010000011
+end
+item: Install File
   Source=c:\Program Files\Borland\CBuilder4\Projects\Bpl\TeeDB4C.bpl
-  Destination=%SYS32%\TeeDB4C.bpl
+  Destination=%MAINDIR%\TeeDB4C.bpl
+  Flags=0000000010000011
+end
+item: Install File
+  Source=c:\Program Files\Borland\CBuilder4\Projects\Bpl\Tee4C.bpl
+  Destination=%MAINDIR%\Tee4C.bpl
+  Flags=0000000010000011
+end
+item: Install File
+  Source=c:\Program Files\Borland\CBuilder4\Projects\Bpl\TAdvStringGrid.bpl
+  Destination=%MAINDIR%\TAdvStringGrid.bpl
+  Flags=0000000010000011
+end
+item: Install File
+  Source=c:\Winnt\system32\vcljpg40.bpl
+  Destination=%SYS32%\vcljpg40.bpl
+  Flags=0000001010000011
+end
+item: Install File
+  Source=c:\Program Files\Borland\CBuilder4\Projects\Bpl\rxctl4.bpl
+  Destination=%MAINDIR%\rxctl4.bpl
+  Flags=0000000010000010
+end
+item: Install File
+  Source=c:\Program Files\Borland\CBuilder4\Projects\Bpl\DB.bpl
+  Destination=%MAINDIR%\DB.bpl
+  Flags=0000000010000011
+end
+item: Install File
+  Source=c:\Program Files\Borland\CBuilder4\Projects\Bpl\Daodsp.bpl
+  Destination=%MAINDIR%\Daodsp.bpl
   Flags=0000000010000011
 end
 item: Install File
   Source=c:\Winnt\system32\vclx40.bpl
   Destination=%SYS32%\vclx40.bpl
   Flags=0000001010000011
-end
-item: Install File
-  Source=c:\Program Files\Borland\CBuilder4\Projects\Bpl\TeeUI4C.bpl
-  Destination=%SYS32%\TeeUI4C.bpl
-  Flags=0000000010000011
-end
-item: Install File
-  Source=c:\Program Files\Borland\CBuilder4\Projects\Bpl\Tee4C.bpl
-  Destination=%SYS32%\Tee4C.bpl
-  Flags=0000000010000011
 end
 item: Install File
   Source=c:\Program Files\Borland\CBuilder4\Bin\borlndmm.dll
@@ -856,7 +972,7 @@ item: Install File
   Flags=0000000010000010
 end
 item: Install File
-  Source=d:\apsuite\APSoil\Source\Import_HTML\apsru.mdb
+  Source=D:\apsuite\APSoil\Source\apsru.mdb
   Destination=%MAINDIR%\apsru.mdb
   Flags=0000000010000010
 end
@@ -869,11 +985,6 @@ item: Install File
   Source=C:\apsuite\Shared\general.dll
   Destination=%MAINDIR%\general.dll
   Flags=0000000010000010
-end
-item: Install File
-  Source=D:\apsuite\APSoil\Source\Import_HTML\import.exe
-  Destination=%MAINDIR%\import.exe
-  Flags=0000000000000010
 end
 item: Set Variable
   Variable=MAINDIR
@@ -953,20 +1064,30 @@ end
 item: Create Shortcut
   Source=%MAINDIR%\APSoil.exe
   Destination=%GROUP%\APSoil.lnk
+  Working Directory=%maindir%
+  Icon Number=0
+end
+item: Create Shortcut
+  Source=%MAINDIR%\unwise
+  Destination=%GROUP%\Uninstall APSoil.lnk
+  Command Options=%MAINDIR%\install.log
+  Working Directory=%maindir%
   Icon Number=0
 end
 item: Else Statement
 end
 item: Add ProgMan Icon
   Group=%GROUP%
-  Icon Name=Uninstall APSoil
-  Command Line=%MAINDIR%\unwise %MAINDIR%\install.log
+  Icon Name=APSoil
+  Command Line=%MAINDIR%\APSoil.exe
+  Default Directory=%maindir%
   Flags=01000000
 end
 item: Add ProgMan Icon
   Group=%GROUP%
-  Icon Name=APSoil
-  Command Line=%MAINDIR%\APSoil.exe
+  Icon Name=Uninstall APSoil
+  Command Line=%MAINDIR%\unwise %MAINDIR%\install.log
+  Default Directory=%maindir%
   Flags=01000000
 end
 item: Add ProgMan Icon
