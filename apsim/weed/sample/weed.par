@@ -45,8 +45,8 @@ if day = 120 and year = 1988 then
 endif
 
 if weed.stage = 10 or weed.plant_status = 'dead' then
-   weed end_crop   
    weed kill_crop
+   weed end_crop
 endif
 
 [wheat_weed.manager.start_of_day]
@@ -59,6 +59,7 @@ endif
 
 if (wheat.stage = 11) then
   wheat harvest
+  wheat kill_crop
   wheat end_crop
 endif
 
@@ -72,6 +73,7 @@ endif
 
 if (sorghum.stage = 11) then
       sorghum harvest
+      sorghum kill_crop
       sorghum end_crop
 endif
 
@@ -92,26 +94,26 @@ endif
 if weed_in = 1 AND
    weed.das >= 20 AND
    weed.das <= 120 AND
-   rain[5] >= 5 AND 
-   rain[5] <= 30 OR 
+   rain[5] >= 5 AND
+   rain[5] <= 30 OR
    weed.biomass > 500 THEN
       weed kill_crop
       weed end_crop
       weed_in = 0
 endif
 
-[sorghum_weed.canopy.parameters]  
+[sorghum_weed.canopy.parameters]
 
 intercrop = sorghum weed
 
-[wheat_weed.canopy.parameters]  
+[wheat_weed.canopy.parameters]
 
 intercrop = wheat weed
 
-[all.accum.parameters]  
+[all.accum.parameters]
 ! Accumulate rainfall for 5 days.
 ! We can then use this variable in manager
-accum_variables =  rain[5]   
+accum_variables =  rain[5]
 
 [sample_weed.weed.parameters]
 
