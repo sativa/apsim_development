@@ -19,6 +19,7 @@
 #define SOI_SECTION "soi"
 #define SOI_PHASE_FIELD_NAME "SOI Phase"
 #define SOI_PHASE_NUMBER_FIELD_NAME "SOI Phase number"
+#define PHASE_NAMES_KEY "PhaseNames"
 
 using namespace std;
 
@@ -151,13 +152,27 @@ string SOIToolBar::Get_sow_year_field_name(TAPSTable& data)
 
 //  Changes:
 //    DPH 5/2/98
+//    DAH 8/8/01  added ability to read Phase names from the dat file header
+//                Default phase names are defined here rather than Get_phase
 
 // ------------------------------------------------------------------
 void SOIToolBar::Read_all_soi_data (void)
    {
    ifstream in (FSOI_data_file.c_str());
    string Line;
-   getline(in, Line);
+   getline(in, Line); // get first line, and check if it specs Phase names
+   string Phase_names_string = Get_key_value(Line.c_str(), PHASE_NAMES_KEY);
+   if (Phase_names_string != "")
+      {
+      Split_string(Phase_names_string, "," , FPhase_names);
+      getline(in, Line);  // get the column header line
+      }
+   else  // no phase names specified, use default
+      {
+      char* default_phases[6] = {"Unknown", "Negative", "Positive", "Falling", "Rising", "Zero"};
+      for (int i=0; i<ARRAYSIZE(default_phases); i++)
+         FPhase_names.push_back(default_phases[i]);
+      }
 
    soi soi_obj;
    while (!in.eof())
@@ -177,13 +192,19 @@ void SOIToolBar::Read_all_soi_data (void)
 
 //  Changes:
 //    DPH 5/2/98
+//    DAH 8/8/01  removed definition of Phase names from here and placed in
+//                Read_all_soi_data  (see above). Phase names are now found in
+//                the member variable FPhase_names.
+//                Changed the condition testing whether or not a phase name is
+//                known for a particular phase number. It is assumed that
+//                FPhase_names first entry will cover 'unknown' phases, and that
+//                all other entries will cover legitimate phases. If a phase number
+//                is found that has no corresponding entry in FPhase_names, it is
+//                assigned "unknown"
 
 // ------------------------------------------------------------------
 void SOIToolBar::Get_phase (int Year, int Month, int& SOI_phase, string& SOI_phase_st)
    {
-   static const char* Phase_names[6] =
-      {"Unknown", "Negative", "Positive", "Falling", "Rising", "Zero"};
-
    soi_set::iterator i = std::find(soi_phases.begin(),
                                    soi_phases.end(),
                                    soi(Year, Month));
@@ -195,9 +216,9 @@ void SOIToolBar::Get_phase (int Year, int Month, int& SOI_phase, string& SOI_pha
    else
       {
       SOI_phase = max((*i).Phase, 0);
-      if (SOI_phase > 5)
+      if (SOI_phase > FPhase_names.size() - 1)
          SOI_phase = 0;
-      SOI_phase_st = Phase_names[SOI_phase];
+      SOI_phase_st = FPhase_names[SOI_phase];
       }
    }
 
