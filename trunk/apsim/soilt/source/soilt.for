@@ -593,7 +593,7 @@ c     endif
 
 *+  Local Variables
       real A1        ! area of soil surface elements (m2/m2)
-      real A1        ! area of mulch elements (both sides) (m2/m2)
+      real A2        ! area of mulch elements (both sides) (m2/m2)
       REAL RB        ! incoming solar beam shortwave radiation flux (W/m2)
       real RD        ! incoming diffuse shortwave radiation flux (W/m2)
       real RL        ! incoming longwave radiation flux (W/m2)
