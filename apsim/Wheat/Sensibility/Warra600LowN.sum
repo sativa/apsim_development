@@ -1,0 +1,229 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+     Version                = 3.3
+     Title                  = Warra 600mm wet soil Low N
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\plant\lib\plant.dll
+     Component DLL          = c:\development\apsim\Tracker\lib\Tracker.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+        report
+     Simulation start date =  1/01/1957
+     Simulation end date   = 31/12/2002
+     Time step =           = 1440 (mins)
+
+------- report Initialisation -------------------------------------------------
+     Output variables:
+        clock.today.dd/mm/yyyy as date
+        clock.day
+        clock.year
+        manager.in_crop_rain
+        manager.eff_in_crop_rain
+        Wheat.lai
+        Wheat.biomass
+        Wheat.yield
+        manager.hi
+        manager.nhi
+        tracker.sum_ep
+        wheat.n_conc_grain
+        wheat.grain_n
+        soiln2.no3()
+        soilwat2.esw
+     
+     Output file = Warra600LowN.out
+     Format = normal
+
+------- met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\development\apsim\common files\Warra.met
+
+------- fertiliz Initialisation -----------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- init
+     in_crop_rain = 0
+     eff_in_crop_rain = 0
+     
+     SECTION:- init
+     cultivar = 'hartog'
+     
+     SECTION:- init
+     sow_day = 135
+     
+     SECTION:- init
+     nrate = 10
+     
+     SECTION:- init
+     split_nrate = 0
+     
+     SECTION:- start_of_day
+     if day = sow_day then
+        soilwat2 reset
+        soiln2 reset
+        residue2 reset
+        fertiliz apply amount = nrate, type = no3_n, depth = 5 (mm)
+        wheat sow cultivar = cultivar, plants = 100 (/m2), sowing_depth = 40 (mm)
+        in_crop_rain = 0
+        eff_in_crop_rain = 0
+     endif
+     if today = date('15-aug') then
+         fertiliz apply amount = split_nrate, type = no3_n, depth = 5 (mm)
+      endif
+     
+     SECTION:- end_of_day
+     in_crop_rain = in_crop_rain + met.rain
+     eff_in_crop_rain = eff_in_crop_rain + met.rain - soilwat2.drain - soilwat2.runoff
+     if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+        hi = wheat.yield/wheat.biomass
+        nhi = wheat.grain_n/wheat.biomass_n
+        report do_output
+        wheat harvest
+        wheat end_crop
+     endif
+     END of rules
+     
+     Manager creating a new local real variable : in_crop_rain =     0.00000000000000
+     Manager creating a new local real variable : eff_in_crop_rain =     0.00000000000000
+     Manager creating a new local string variable : cultivar = hartog
+     Manager creating a new local real variable : sow_day =     135.000000000000
+     Manager creating a new local real variable : nrate =     10.0000000000000
+     Manager creating a new local real variable : split_nrate =     0.00000000000000
+
+------- soilwat2 Initialisation -----------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed from top down using "wet_soil_depth" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  100.  0.100  0.220  0.450  0.500  0.450  1.300  0.613  0.200
+          100.-  200.  0.200  0.220  0.459  0.509  0.459  1.300  0.243  0.200
+          200.-  300.  0.200  0.230  0.450  0.510  0.450  1.290  0.096  0.200
+          300.-  600.  0.200  0.240  0.440  0.505  0.440  1.310  0.048  0.200
+          600.-  900.  0.200  0.260  0.420  0.490  0.260  1.350  0.000  0.200
+          900.- 1200.  0.200  0.270  0.410  0.480  0.270  1.360  0.000  0.200
+         1200.- 1500.  0.200  0.280  0.410  0.480  0.280  1.360  0.000  0.200
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  100.      22.00      23.00      23.00       5.00
+          100.-  200.      22.00      23.90      23.90       5.00
+          200.-  300.      23.00      22.00      22.00       6.00
+          300.-  600.      72.00      60.00      60.00      19.50
+          600.-  900.      78.00       0.00      48.00      21.00
+          900.- 1200.      81.00       0.00      42.00      21.00
+         1200.- 1500.      84.00       0.00      39.00      21.00
+          ---------------------------------------------------------
+               Totals     382.00     128.90     257.90      98.50
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   2.00        0.13       40.00       16.00
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              80.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            6.00 (mm^0.5)
+            CONA:                     4.00 ()
+           Eo from priestly-taylor
+
+------- residue2 Initialisation -----------------------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                      Residue Initial Data
+         ------------------------------------------------
+            Dry matter   N       P    Type
+             (kg/ha)  (kg/ha) (kg/ha)
+         ------------------------------------------------
+              2000.0    26.7     0.0  mungbean
+         ------------------------------------------------
+
+------- soiln2 Initialisation -------------------------------------------------
+     
+        - Reading Constants
+     
+        - Reading Parameters
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     Cannot find a parameter in any of the files/sections
+     specified in the control file.
+     Parameter name = root_cn
+     Section name = warra
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
