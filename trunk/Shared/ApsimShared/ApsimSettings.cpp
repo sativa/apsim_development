@@ -26,14 +26,8 @@ string ApsimSettings::getSettingsFolder(void) throw(runtime_error)
 // ------------------------------------------------------------------
 ApsimSettings::ApsimSettings(void)
 	{
-   string applicationName = Path(Application->ExeName.c_str()).Get_name_without_ext();
-   string originalPath = getAppHomeDirectory() + "\\" + applicationName + ".ini";
-
+   string originalPath = getApsimDirectory() + "\\settings.ini";
    original = new IniFile(originalPath);
-//   string workingPath = getSettingsFolder() + "\\"
-//                      + ExtractFileName(Application->ExeName).c_str();
-//   workingPath = ChangeFileExt(workingPath.c_str(), ".ini").c_str();
-//   working = new IniFile(workingPath);
    }
 // ------------------------------------------------------------------
 //	destructor
@@ -43,7 +37,13 @@ ApsimSettings::~ApsimSettings(void)
    delete original;
 //   delete working;
    }
-
+// ------------------------------------------------------------------
+// refresh.
+// ------------------------------------------------------------------
+void ApsimSettings::refresh(void)
+   {
+   original->refresh();
+   }
 // ------------------------------------------------------------------
 // return the section name from the specified key.
 // ------------------------------------------------------------------
@@ -177,11 +177,17 @@ void ApsimSettings::getSectionNames(vector<string>& sections) const
    }
 
 // ------------------------------------------------------------------
-// Erase the specified key.  If key is a section then all child keys
-// will also be removed.
+// Erase the specified section.
 // ------------------------------------------------------------------
-void ApsimSettings::erase(const std::string& key)
+void ApsimSettings::deleteSection(const std::string& section)
    {
-   original->deleteSection(getSection(key));
+   original->deleteSection(section);
    }
-   
+// ------------------------------------------------------------------
+// Erase the specified key
+// ------------------------------------------------------------------
+void ApsimSettings::deleteKey(const std::string& key)
+   {
+   original->deleteKey(getSection(key), getKey(key));
+   }
+

@@ -18,6 +18,8 @@ class __declspec(dllexport) ApsimSettings
       ApsimSettings(void);
       ~ApsimSettings(void);
 
+      void refresh(void);
+
       // Read in a setting for the specified key.  Key should be in the format:
       //    section1|section2|...|keyvalue.
       // Will throw if key value cannot be converted to int or double.
@@ -36,9 +38,9 @@ class __declspec(dllexport) ApsimSettings
       void getKeysUnder(const std::string& key, std::vector<std::string>& keys);
       void getSectionNames(vector<string>& sections) const;
 
-      // Erase the specified key.  If key is a section then all child keys
-      // will also be removed.
-      void erase(const std::string& key);
+      // Erase the specified section or key.
+      void deleteSection(const std::string& section);
+      void deleteKey(const std::string& key);
 
       // Read and write section contents.
       void readSection(const std::string& sectionName, std::string& contents) const;
