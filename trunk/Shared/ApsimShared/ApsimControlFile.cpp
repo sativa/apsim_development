@@ -392,18 +392,18 @@ string ApsimControlFile::getParameterValue(const string& instanceName,
    return values[0];
    }
 // ------------------------------------------------------------------
-// Set the value of a parameter for a module
+// Set the values of a parameter for a module
 // If moduleName is blank then parameter will be written to control file
 // ------------------------------------------------------------------
-void ApsimControlFile::setParameterValue(const string& moduleName,
-                                         const string& sectionName,
-                                         const string& parameterName,
-                                         const string& parameterValue) const throw(std::runtime_error)
+void ApsimControlFile::setParameterValues(const string& moduleName,
+                                          const string& sectionName,
+                                          const string& parameterName,
+                                          const vector<string>& parameterValues) const throw(std::runtime_error)
    {
    if (moduleName == "")
       {
       ApsimParameterFile conFile(fileName, "", "", section);
-      conFile.setParamValue(parameterName, parameterValue);
+      conFile.setParamValues(parameterName, parameterValues);
       }
    else
       {
@@ -411,7 +411,7 @@ void ApsimControlFile::setParameterValue(const string& moduleName,
       vector<ApsimParameterFile> paramFiles;
       getParameterFiles(moduleName, paramFiles);
       if (paramFiles.size() > 0)
-         paramFiles[0].setParamValue(parameterName, parameterValue);
+         paramFiles[0].setParamValues(parameterName, parameterValues);
       else
          {
          string defaultFile, defaultSection;
@@ -432,9 +432,22 @@ void ApsimControlFile::setParameterValue(const string& moduleName,
          // now write to the parameter file.
          ApsimParameterFile parFile(defaultFile, moduleName, moduleName,
                                     defaultSection + "." + moduleName + ".parameters");
-         parFile.setParamValue(parameterName, parameterValue);
+         parFile.setParamValues(parameterName, parameterValues);
          }
       }
+   }
+// ------------------------------------------------------------------
+// Set the value of a parameter for a module
+// If moduleName is blank then parameter will be written to control file
+// ------------------------------------------------------------------
+void ApsimControlFile::setParameterValue(const string& moduleName,
+                                         const string& sectionName,
+                                         const string& parameterName,
+                                         const string& parameterValue) const throw(std::runtime_error)
+   {
+   vector<string> values;
+   values.push_back(parameterValue);
+   setParameterValues(moduleName, sectionName, parameterName, values);
    }
 // ------------------------------------------------------------------
 // Create a SIM file for the specified section and return its filename.
