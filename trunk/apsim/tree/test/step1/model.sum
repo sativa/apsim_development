@@ -9,50 +9,49 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-
-
--------  Initialisation ----------------------------------------------------
-     Licensed name          = User SEG
-     Licensed organisation  = CSIRO
-     Version                = 2.1 patch1
-     Simulation filename    = c:\data\aps\archive\tree\test\step1\tree.sim
+     Version                = 2.2
      Title                  = test tree run. No transpiration.
-     Instantiated DLL       = e:\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
-     Instantiated DLL       = e:\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = e:\apsuite\apsim\input\lib\input.dll(met) - Licensed
-     Instantiated DLL       = e:\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
-     Instantiated DLL       = e:\apsuite\apsim\soilwat2\lib\soilwat2.dll(soilwat2) - Licensed
-     Instantiated DLL       = C:\data\APS\archive\tree\lib\tree.dll(tree) - Licensed
+     Component DLL          = c:\Program Files\apsim22\apsim\screen\lib\screen.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\log\lib\log.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\clock\lib\clock.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\report\lib\report.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\input\lib\input.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\manager\lib\manager.dll
+     Component DLL          = C:\Program Files\apsim22\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\tree\lib\tree.dll
 
-------- CLOCK Initialisation -------------------------------------------------
+------- clock Initialisation --------------------------------------------------
      Simulation start date =  1/01/1986
      Simulation end date   =  1/01/1996
      Time step =           = 1440 (mins)
 
-------- REPORT Initialisation ------------------------------------------------
-     Output file = model.out
-     Format = normal
+------- report Initialisation -------------------------------------------------
      Output variables:
         clock.year
         clock.day
-        manager.dateser (alias: date)
+        manager.dateser as date
         soilwat2.sw_dep()
         soilwat2.sw_dep
         soilwat2.eos
         soilwat2.es
-        soilwat2.total_cover (alias: cover)
+        soilwat2.total_cover as cover
         tree.basal_area
         tree.sw_demand
+     
+     Output file = model.out
+     Format = normal
 
-------- MET Initialisation ---------------------------------------------------
-     File name = c:\data\aps\archive\tree\test\narayen.met
+------- Met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\data\aps\development\apsim\tree\test\narayen.met
 
-------- MANAGER Initialisation -----------------------------------------------
+------- manager Initialisation ------------------------------------------------
      Manager rules:
      dateser = day + (year - 1901) * 365 + (year - 1901) / 4
      report do_output
 
-------- SOILWAT2 Initialisation ----------------------------------------------
+------- soilwat2 Initialisation -----------------------------------------------
      
          - Reading constants
      
@@ -118,7 +117,7 @@
             CONA:                     4.00 ()
            Eo from priestly-taylor
 
-------- TREE Initialisation --------------------------------------------------
+------- tree Initialisation ---------------------------------------------------
       Initialising:
      
          - Reading constants
@@ -137,11 +136,12 @@
      Initial conditions:
        Basal area :    0.00 %
        Root depth :  1500.0 mm
-       Using Pan evap from met module.
+       Using Pan evap from Met module.
      
      
      
 ------- Start of simulation  --------------------------------------------------
-1 January 1986 (Day of year=1):
-   MANAGER:
-      Manager creating a new local variable : dateser =     31047.2500000000
+1 January 1986(Day of year=1), manager: 
+     Manager creating a new local variable : dateser =     31047.2500000000
+1 January 1996(Day of year=1), clock: 
+     Simulation is terminating due to end criteria being met.
