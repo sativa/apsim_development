@@ -3,154 +3,6 @@
 
 version = 3.6
 
-[apsim.xifeng_w40] 
-title = Continuous winter wheat at Xifeng top dressed with 40N
-
-module = clock   gansu.man [xifeng] %apsuite\apsim\clock\clock.ini [standard]
-module = report     report.par [xifeng_w40]  report.par [wheat]
-module = input(met) xifeng.met [weather]
-module = manager    gansu.man [xifeng_wheat] gansu.man [xifeng_reset] gansu.man [xifeng_n40]
-module = soilwat2   soil.par [xifeng]     %apsuite\apsim\soilwat2\soilwat2.ini[standard]
-module = residue2   soil.par [xifeng]     %apsuite\apsim\residue2\residue2.ini [standard]
-module = soiln2     soil.par [xifeng]     %apsuite\apsim\soiln2\soiln2.ini [standard]
-module = plant(wheat)     soil.par [xifeng]   %apsuite\apsim\wheat\wheat.ini [standard]  
-module = fertiliz         %apsuite\apsim\fertiliz\fertiliz.ini [standard]
-module = SummaryFile  report.par [xifeng_w40]
-module = Screen     gansu.man [all]
-module = tracker(tracker1)   gansu.man [all]
-
-[apsim.xifeng_w80] 
-title = Continuous winter wheat at Xifeng top dressed with 80N
-
-module = clock   gansu.man [xifeng] %apsuite\apsim\clock\clock.ini [standard]
-module = report     report.par [xifeng_w80]  report.par [wheat]
-module = input(met) xifeng.met [weather]
-module = manager    gansu.man [xifeng_wheat] gansu.man [xifeng_reset] gansu.man [xifeng_n80]
-module = soilwat2   soil.par [xifeng]     soilwat2.ini[standard]
-module = residue2   soil.par [xifeng]     residue2.ini [standard]
-module = soiln2     soil.par [xifeng]     soiln2.ini [standard]
-module = plant(wheat)     soil.par [xifeng]   %apsuite\apsim\wheat\wheat.ini [standard]  
-module = fertiliz         %apsuite\apsim\fertiliz\fertiliz.ini [standard]
-module = SummaryFile  report.par [xifeng_w80]
-module = Screen     gansu.man [all]
-module = tracker(tracker1)   gansu.man [all]
-
-[apsim.xifeng_w120] 
-title = Continuous winter wheat at Xifeng top dressed with 120N
-
-module = clock   gansu.man [xifeng] %apsuite\apsim\clock\clock.ini [standard]
-module = report     report.par [xifeng_w120]  report.par [wheat]
-module = input(met) xifeng.met [weather]
-module = manager    gansu.man [xifeng_wheat] gansu.man [xifeng_reset] gansu.man [xifeng_n120]
-module = soilwat2   soil.par [xifeng]     soilwat2.ini[standard]
-module = residue2   soil.par [xifeng]     residue2.ini [standard]
-module = soiln2     soil.par [xifeng]     soiln2.ini [standard]
-module = plant(wheat)     soil.par [xifeng]   %apsuite\apsim\wheat\wheat.ini [standard]  
-module = fertiliz         %apsuite\apsim\fertiliz\fertiliz.ini [standard]
-module = SummaryFile  report.par [xifeng_w120]
-module = Screen     gansu.man [all]
-module = tracker(tracker1)   gansu.man [all]
-
-[apsim.xifeng_w160] 
-title = Continuous winter wheat at Xifeng top dressed with 160N
-
-module = clock   gansu.man [xifeng] %apsuite\apsim\clock\clock.ini [standard]
-module = report     report.par [xifeng_w160]  report.par [wheat]
-module = input(met) xifeng.met [weather]
-module = manager    gansu.man [xifeng_wheat] gansu.man [xifeng_reset] gansu.man [xifeng_n160]
-module = soilwat2   soil.par [xifeng]     soilwat2.ini[standard]
-module = residue2   soil.par [xifeng]     residue2.ini [standard]
-module = soiln2     soil.par [xifeng]     soiln2.ini [standard]
-module = plant(wheat)     soil.par [xifeng]   %apsuite\apsim\wheat\wheat.ini [standard]  
-module = fertiliz         %apsuite\apsim\fertiliz\fertiliz.ini [standard]
-module = SummaryFile  report.par [xifeng_w160]
-module = Screen     gansu.man [all]
-module = tracker(tracker1)   gansu.man [all]
-
-[apsim.xifeng_w200] 
-title = Continuous winter wheat at Xifeng top dressed with 200N
-
-module = clock   gansu.man [xifeng] %apsuite\apsim\clock\clock.ini [standard]
-module = report     report.par [xifeng_w200]  report.par [wheat]
-module = input(met) xifeng.met [weather]
-module = manager    gansu.man [xifeng_wheat] gansu.man [xifeng_reset] gansu.man [xifeng_n200]
-module = soilwat2   soil.par [xifeng]     soilwat2.ini[standard]
-module = residue2   soil.par [xifeng]     residue2.ini [standard]
-module = soiln2     soil.par [xifeng]     soiln2.ini [standard]
-module = plant(wheat)     soil.par [xifeng]   %apsuite\apsim\wheat\wheat.ini [standard]  
-module = fertiliz         %apsuite\apsim\fertiliz\fertiliz.ini [standard]
-module = SummaryFile  report.par [xifeng_w200]
-module = Screen     gansu.man [all]
-module = tracker(tracker1)   gansu.man [all]
-
-
-
-[apsim.dingxi_w40] 
-title = Continuous spring wheat at Dingxi top dressed with 40N
-
-module = clock   gansu.man [dingxi] %apsuite\apsim\clock\clock.ini [standard]
-module = report     report.par [dingxi_w40]  report.par [wheat]
-module = input(met) dingxi.met [weather]
-module = manager    gansu.man [dingxi_wheat] gansu.man [dingxi_reset] gansu.man [dingxi_n40]
-module = soilwat2   soil.par [dingxi]     soilwat2.ini[standard]
-module = residue2   soil.par [dingxi]     residue2.ini [standard]
-module = soiln2     soil.par [dingxi]     soiln2.ini [standard]
-module = plant(wheat)     soil.par [dingxi]   %apsuite\apsim\wheat\wheat.ini [standard]  
-module = fertiliz         %apsuite\apsim\fertiliz\fertiliz.ini [standard]
-module = SummaryFile  report.par [dingxi_w40]
-module = Screen      gansu.man [all]
-module = tracker(tracker1)   gansu.man [all]
-
-[apsim.dingxi_w80] 
-title = Continuous spring wheat at Dingxi top dressed with 80N
-
-module = clock   gansu.man [dingxi] %apsuite\apsim\clock\clock.ini [standard]
-module = report     report.par [dingxi_w80]  report.par [wheat]
-module = input(met) dingxi.met [weather]
-module = manager    gansu.man [dingxi_wheat] gansu.man [dingxi_reset] gansu.man [dingxi_n80]
-module = soilwat2   soil.par [dingxi]     soilwat2.ini[standard]
-module = residue2   soil.par [dingxi]     residue2.ini [standard]
-module = soiln2     soil.par [dingxi]     soiln2.ini [standard]
-module = plant(wheat)     soil.par [dingxi]   %apsuite\apsim\wheat\wheat.ini [standard]  
-module = fertiliz         %apsuite\apsim\fertiliz\fertiliz.ini [standard]
-module = SummaryFile  report.par [dingxi_w80]
-module = Screen      gansu.man [all]
-module = tracker(tracker1)   gansu.man [all]
-
-[apsim.dingxi_w120] 
-title = Continuous spring wheat at Dingxi top dressed with 120N
-
-module = clock   gansu.man [dingxi] %apsuite\apsim\clock\clock.ini [standard]
-module = report     report.par [dingxi_w120]  report.par [wheat]
-module = input(met) dingxi.met [weather]
-module = manager    gansu.man [dingxi_wheat] gansu.man [dingxi_reset] gansu.man [dingxi_n120]
-module = soilwat2   soil.par [dingxi]     soilwat2.ini[standard]
-module = residue2   soil.par [dingxi]     residue2.ini [standard]
-module = soiln2     soil.par [dingxi]     soiln2.ini [standard]
-module = plant(wheat)     soil.par [dingxi]   %apsuite\apsim\wheat\wheat.ini [standard]  
-module = fertiliz         %apsuite\apsim\fertiliz\fertiliz.ini [standard]
-module = SummaryFile  report.par [dingxi_w120]
-module = Screen      gansu.man [all]
-module = tracker(tracker1)   gansu.man [all]
-
-[apsim.dingxi_w160] 
-title = Continuous spring wheat at Dingxi top dressed with 160N
-
-module = clock   gansu.man [dingxi] %apsuite\apsim\clock\clock.ini [standard]
-module = report     report.par [dingxi_w160]  report.par [wheat]
-module = input(met) dingxi.met [weather]
-module = manager    gansu.man [dingxi_wheat] gansu.man [dingxi_reset] gansu.man [dingxi_n160]
-module = soilwat2   soil.par [dingxi]     soilwat2.ini[standard]
-module = residue2   soil.par [dingxi]     residue2.ini [standard]
-module = soiln2     soil.par [dingxi]     soiln2.ini [standard]
-module = plant(wheat)     soil.par [dingxi]   %apsuite\apsim\wheat\wheat.ini [standard]  
-module = fertiliz         %apsuite\apsim\fertiliz\fertiliz.ini [standard]
-module = SummaryFile  report.par [dingxi_w160]
-module = Screen      gansu.man [all]
-module = tracker(tracker1)   gansu.man [all]
-
-
-
 
 ! +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ! ++++++ LONG TERM RUNS WITHOUR RESETTING +++++++++++++++++++++++++++++++++++++
@@ -161,9 +13,9 @@ module = clock   gansu.man [xifeng] %apsuite\apsim\clock\clock.ini [standard]
 module = report     report.par [xifeng_w]  report.par [wheat]
 module = input(met) xifeng.met [weather]
 module = manager    gansu.man [xifeng_w]
-module = soilwat2   soil.par [xifeng]     soilwat2.ini[standard]
-module = residue2   soil.par [xifeng]     residue2.ini [standard]
-module = soiln2     soil.par [xifeng]     soiln2.ini [standard]
+module = soilwat2   soil.par [xifeng]     %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = residue2   soil.par [xifeng]     %apsuite\apsim\residue2\residue2.ini [standard]
+module = soiln2     soil.par [xifeng]     %apsuite\apsim\soiln2\soiln2.ini [standard]
 module = plant(wheat)     soil.par [xifeng]   %apsuite\apsim\wheat\wheat.ini [standard]  
 module = fertiliz           %apsuite\apsim\fertiliz\fertiliz.ini [standard]
 module = SummaryFile  report.par [xifeng_w]
@@ -177,9 +29,9 @@ module = clock   gansu.man [xifeng] %apsuite\apsim\clock\clock.ini [standard]
 module = report     report.par [xifeng_w_n0]  report.par [wheat]
 module = input(met) xifeng.met [weather]
 module = manager    gansu.man [xifeng_w_n0]
-module = soilwat2   soil.par [xifeng]     soilwat2.ini[standard]
-module = residue2   soil.par [xifeng]     residue2.ini [standard]
-module = soiln2     soil.par [xifeng]     soiln2.ini [standard]
+module = soilwat2   soil.par [xifeng]     %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = residue2   soil.par [xifeng]     %apsuite\apsim\residue2\residue2.ini [standard]
+module = soiln2     soil.par [xifeng]     %apsuite\apsim\soiln2\soiln2.ini [standard]
 module = plant(wheat)     soil.par [xifeng]   %apsuite\apsim\wheat\wheat.ini [standard]  
 module = fertiliz           %apsuite\apsim\fertiliz\fertiliz.ini [standard]
 module = SummaryFile  report.par [xifeng_w_n0]
@@ -194,9 +46,9 @@ module = clock   gansu.man [dingxi] %apsuite\apsim\clock\clock.ini [standard]
 module = report     report.par [dingxi_w]  report.par [wheat]
 module = input(met) dingxi.met [weather]
 module = manager    gansu.man [dingxi_w]
-module = soilwat2   soil.par [dingxi]     soilwat2.ini[standard]
-module = residue2   soil.par [dingxi]     residue2.ini [standard]
-module = soiln2     soil.par [dingxi]     soiln2.ini [standard]
+module = soilwat2   soil.par [dingxi]     %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = residue2   soil.par [dingxi]     %apsuite\apsim\residue2\residue2.ini [standard]
+module = soiln2     soil.par [dingxi]     %apsuite\apsim\soiln2\soiln2.ini [standard]
 module = plant(wheat)     soil.par [dingxi]   %apsuite\apsim\wheat\wheat.ini [standard]  
 module = fertiliz           %apsuite\apsim\fertiliz\fertiliz.ini [standard]
 module = SummaryFile  report.par [dingxi_w]
