@@ -246,6 +246,15 @@
          ------------------------------------------------
                500.0     2.5     0.0  mungbean
          ------------------------------------------------
+     
+     
+                      Residue Initial Parameters
+         ------------------------------------------------
+           Pot Decomp Rate  C:N     C:P  Phosphorous  Report
+           (fraction/day) (ratio) (ratio)  aware      additions
+         ------------------------------------------------
+                  0.100    80.0     0.0       F       no
+         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -329,21 +338,19 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          200.0     0.080          0.100       1.000
          400.0     0.050          0.100       1.000
          400.0     0.020          0.100       0.500
-     ---------------------------------------------------
-        1000.0                    100.0(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to 100.0 times eo)
+         -----------------------------------------------
+         Extractable SW:   100mm in  1000mm total depth ( 10%).
+         Crop factor for bounding water use is set to 100.0 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -472,6 +479,7 @@
          straw N =           0.0 kg/ha
          root residue =   1703.6 kg/ha
          root N =           27.2 kg/ha
+         root P =            0.0 kg/ha
 10 January 1992(Day of year=10), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 20, sowing_depth = 50
 10 January 1992(Day of year=10), mungbean: 
@@ -502,21 +510,19 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          200.0     0.080          0.100       1.000
          400.0     0.050          0.100       1.000
          400.0     0.020          0.100       0.500
-     ---------------------------------------------------
-        1000.0                    100.0(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to 100.0 times eo)
+         -----------------------------------------------
+         Extractable SW:   100mm in  1000mm total depth ( 10%).
+         Crop factor for bounding water use is set to 100.0 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -645,6 +651,7 @@
          straw N =           0.0 kg/ha
          root residue =   1232.4 kg/ha
          root N =           19.7 kg/ha
+         root P =            0.0 kg/ha
 10 January 1993(Day of year=10), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 40, sowing_depth = 50
 10 January 1993(Day of year=10), mungbean: 
@@ -675,21 +682,19 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          200.0     0.080          0.100       1.000
          400.0     0.050          0.100       1.000
          400.0     0.020          0.100       0.500
-     ---------------------------------------------------
-        1000.0                    100.0(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to 100.0 times eo)
+         -----------------------------------------------
+         Extractable SW:   100mm in  1000mm total depth ( 10%).
+         Crop factor for bounding water use is set to 100.0 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -808,6 +813,7 @@
          straw N =           0.0 kg/ha
          root residue =   1515.9 kg/ha
          root N =           23.8 kg/ha
+         root P =            0.0 kg/ha
 30 January 1994(Day of year=30), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 20, sowing_depth = 50
 30 January 1994(Day of year=30), mungbean: 
@@ -838,21 +844,19 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          200.0     0.080          0.100       1.000
          400.0     0.050          0.100       1.000
          400.0     0.020          0.100       0.500
-     ---------------------------------------------------
-        1000.0                    100.0(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to 100.0 times eo)
+         -----------------------------------------------
+         Extractable SW:   100mm in  1000mm total depth ( 10%).
+         Crop factor for bounding water use is set to 100.0 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -974,5 +978,6 @@
          straw N =           0.0 kg/ha
          root residue =    706.1 kg/ha
          root N =           11.2 kg/ha
+         root P =            0.0 kg/ha
 30 May 1994(Day of year=150), clock: 
      Simulation is terminating due to end criteria being met.
