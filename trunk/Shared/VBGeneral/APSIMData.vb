@@ -224,5 +224,27 @@ Public Class APSIMData
 
         End Get
     End Property
+    Property DataTable() As DataTable
+        Get
+            Dim DT As New DataTable
+            DT.Columns.Add("Name", System.Type.GetType("System.String"))
+            DT.Columns.Add("Value", System.Type.GetType("System.String"))
 
+            For Each child As APSIMData In Me.Children
+                Dim r As DataRow
+                r = DT.NewRow
+                r("Name") = child.Name
+                r("Value") = child.Value
+                DT.Rows.Add(r)
+            Next
+            Return DT
+        End Get
+        Set(ByVal Value As DataTable)
+
+            For Each row As DataRow In Value.Rows
+                Me.Child(row("Name")).Value = row("Value")
+            Next
+
+        End Set
+    End Property
 End Class
