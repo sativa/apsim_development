@@ -84,6 +84,8 @@ void Series_base::Design (TChart* TChart_ptr)
 
 //  Changes:
 //    DPH 6/2/1997
+//    dph 10/3/97 problem with dates < 1900.  TDateTime doesn't support
+//                dates before 1900 - D-126
 
 // ------------------------------------------------------------------
 void Series_base::Add_data (const char* X, const char* Y)
@@ -97,7 +99,7 @@ void Series_base::Add_data (const char* X, const char* Y)
 
    double Par1;
    double Par2 = 0.0;
-   const char* Par3 = "";
+   string Par3;
 
    Num_points_so_far++;
    if (x_data_type == Series_base::numeric)
@@ -113,8 +115,10 @@ void Series_base::Add_data (const char* X, const char* Y)
       {
       GDate d;
       d.Read(X);
-      Par1 = EncodeDate((int) d.Get_year(), (int) d.Get_month(), (int) d.Get_day());
-      Series_ptr->XValues->DateTime = true;
+      Par1 = d.Get_jday();
+      char st[50];
+      d.Write (st);
+      Par3 = st;
       }
    if (y_data_type == Series_base::numeric)
       Par2 = atof (Y);
@@ -122,10 +126,9 @@ void Series_base::Add_data (const char* X, const char* Y)
       {
       GDate d;
       d.Read(Y);
-      Par2 = EncodeDate((int) d.Get_year(), (int) d.Get_month(), (int) d.Get_day());
-      Series_ptr->YValues->DateTime = true;
+      Par2 = d.Get_jday();
       }
 
-   Series_ptr->AddXY (Par1, Par2, Par3, TColor(clTeeColor));
+   Series_ptr->AddXY (Par1, Par2, Par3.c_str(), TColor(clTeeColor));
    }
 

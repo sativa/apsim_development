@@ -21,6 +21,7 @@ enum Field_type_enum {numeric, alpha, date};
 
 //  Changes:
 //    DPH 18/4/1997
+//    dph 10/3/98 added accumulate x and y options C-081
 
 // ------------------------------------------------------------------
 class High_level_chart_base
@@ -37,7 +38,9 @@ class High_level_chart_base
                      X_axis_link_enum x_axis_link,
                      Y_axis_link_enum y_axis_link,
                      Format_base* Format_ptr,
-                     const char* Title);
+                     const char* Title,
+                     bool Accumulate_x = false,
+                     bool Accumulate_y = false);
             ~XY_pair (void);
 
             string X_column_name;               // name of x column in table.
@@ -48,10 +51,14 @@ class High_level_chart_base
             Y_axis_link_enum y_axis_link;       // plot on which y axis?
             Format_base* Format_ptr;            // object used to format plot
             string Title;                       // title of series - used in legend
+            bool Accumulate_x;                  // true if we are to accumulate the x variable.
+            bool Accumulate_y;                  // true if we are to accumulate the y variable.
 
             int x_index;                        // used internally by high_level_chart
             int y_index;                        //           "
             Plot* Plot_ptr;                     //           "
+            double Accumulated_x;               // current values of accumulate x
+            double Accumulated_y;               // current values of accumulate y
 
          };
 
@@ -103,8 +110,9 @@ class High_level_chart_base
                         X_axis_link_enum X_axis_link,
                         Y_axis_link_enum Y_axis_link,
                         Format_base* Format_ptr,
-                        const char* Title);
-
+                        const char* Title,
+                        bool Accumulate_x = false,
+                        bool Accumulate_y = false);
       bool More_xy_points (Table_base& Table_obj);
       void Get_next_point_and_plot (Table_base& Table_obj,
                               char* x_value,
