@@ -157,8 +157,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
       integer MAX_INSTANCE_NAME_SIZE
       parameter (MAX_INSTANCE_NAME_SIZE=50)
 
-      integer NUM_RULE_TYPES          ! number of rule types
-      parameter (NUM_RULE_TYPES=6)
+      integer NUM_MANAGER_SECTIONS               ! number of manager sections
+      parameter (NUM_MANAGER_SECTIONS=500)
 
       type ManagerData
          sequence
@@ -178,7 +178,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
          integer num_local_variables    ! Number of local variables.
          integer token_array2(Max_tokens)
                                        ! Second array for tokens.
-         integer rule_indexes(NUM_RULE_TYPES)  ! indexes into token array
+         integer rule_indexes(NUM_MANAGER_SECTIONS)  ! indexes into token array
+         integer rule_regIds(NUM_MANAGER_SECTIONS)
+         integer num_rules
 
          integer line_number            ! line number in section to read from.
          integer num_lines              ! number of lines in section
@@ -335,13 +337,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       call push_routine(This_routine)
 
-      g%num_local_variables = 0
-      g%lines_been_read = .false.
 
       msg = 'Manager rules:'
       call Write_string(msg)
-
-      call Manager_read_rules ()
 
       ! check for case when no manager lines were found anywhere.  Issue warning
 
@@ -355,7 +353,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
          call Warning_error(ERR_user, msg)
       endif
 
-      call manager_init_rules ()
+      call processRules(0)
 
       call pop_routine(This_routine)
 
@@ -385,6 +383,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       call push_routine (Routine_name)
 
+      g%num_local_variables = 0
+      g%lines_been_read = .false.
       g%buffer = blank
       g%expression_result = blank
 
@@ -436,6 +436,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       g%rule_indexes = 0
 
       g%lines_been_read          = .false.
+      g%num_rules = 0
 
       call pop_routine(Routine_name)
       return
@@ -474,22 +475,14 @@ C     Last change:  P    25 Oct 2000    9:26 am
        parameter (MAX_CONDITION_SIZE=20)
 
 !+  Local variables
-       INTEGER Num_rules               ! number of rules user has defined
-       integer Rule_Type               ! index into rules list
-       integer Rule_index
+       character Rule_Type*(MAX_RULE_NAME_SIZE)
+       character dummy*(MAX_RULE_NAME_SIZE)
+       integer rule
        CHARACTER Rule_names(MAX_RULES)*(MAX_RULE_NAME_SIZE)
                                        ! rule names user has defined
        CHARACTER condition*(MAX_CONDITION_SIZE)
                                        ! condition of each rule
 
-       character Rule_types(NUM_RULE_TYPES)*(20)
-       character(len=*), parameter :: RULE_SECTION = "rules"
-       data Rule_types(1) /'init'/
-       data Rule_types(2) /'prepare'/
-       data Rule_types(3) /'start_of_day'/
-       data Rule_types(4) /'process'/
-       data Rule_types(5) /'post'/
-       data Rule_types(6) /'end_of_day'/
 
 
 !- Implementation Section ----------------------------------
@@ -500,31 +493,39 @@ C     Last change:  P    25 Oct 2000    9:26 am
       call apsimcomponentdata_getrulenames(get_componentData(),
      .                                     Rule_names,
      .                                     MAX_RULES,
-     .                                     Num_rules)
-      do Rule_type = 1, NUM_RULE_TYPES
+     .                                     g%num_rules)
+      ! Go tokenize each rule.
+      do rule = 1, g%num_rules
+         call write_string (new_line
+     :                     //'SECTION:- '//rule_names(rule))
 
-         ! Go tokenize each rule.
-         do Rule_Index = 1, Num_rules
-            if (index(Rule_names(Rule_index),
-     .                rule_types(rule_type)) .ne. 0) then
-               call write_string (new_line
-     :                           //'SECTION:- '//rule_types(rule_type))
-               call apsimcomponentdata_loadrule(get_componentData(),
-     .                                          Rule_names(Rule_index))
-               if (g%rule_indexes(rule_type) .eq. 0) then
-                  g%rule_indexes(rule_type) = g%last_token + 2
-                  g%start_token = g%last_token + 2
-               else
-                  g%start_token = g%last_token
-               end if
-               g%line_number = 0
-               g%num_lines = apsimcomponentdata_getnumrulelines
-     .             ()
-               call Tokenize (g%token_array
-     .                      , g%token_array2
-     .                      , max_tokens)
-            end if
-         end do
+         call Split_line (rule_names(rule), dummy, rule_type, '.')
+         rule_type = Lower_case(rule_type)
+         if (rule_type .eq. 'start_of_day') then
+            rule_type = 'prepare'
+         else if (rule_type .eq. 'end_of_day') then
+            rule_type = 'post'
+         endif
+         if (rule_type .ne. 'init') then
+            g%rule_regIds(rule) = add_registration(respondToEventReg,
+     .                                             rule_type,
+     .                                             '<type/>',
+     .                                             ' ',
+     .                                             ' ')
+         else
+            g%rule_regIds(rule) = 0
+         endif
+         call apsimcomponentdata_loadrule(get_componentData(),
+     .                                    Rule_names(rule))
+         if (g%rule_indexes(rule) .eq. 0) then
+            g%rule_indexes(rule) = g%last_token + 2
+            g%start_token = g%last_token + 2
+         else
+            g%start_token = g%last_token
+         end if
+         g%line_number = 0
+         g%num_lines = apsimcomponentdata_getnumrulelines()
+         call Tokenize (g%token_array, g%token_array2, max_tokens)
       end do
 
       call pop_routine(Routine_name)
@@ -532,174 +533,40 @@ C     Last change:  P    25 Oct 2000    9:26 am
       end subroutine
 
 ! ====================================================================
-       subroutine Manager_init_rules ()
+       subroutine ProcessRules(regId)
 ! ====================================================================
       Use Infrastructure
       implicit none
 
 !+  Purpose
-!     Check to see if any criteria for initialisation are met.  If
-!     so then issue message to relevent module.
+!     Process all rules for the specified registration id.
 
-!+  Changes
-!     DPH 19/7/95
+!+  Subprogram Arguments
+      integer regId
+
+!+  Local variables
+      integer rule
 
 !+  Constant Values
       character  my_name*(*)           ! name of this procedure
-      parameter (my_name='manager_init_rules')
+      parameter (my_name='ProcessRules')
 
 !- Implementation Section ----------------------------------
       call push_routine (my_name)
 
       ! Go call the parsing routine.
-
-      g%start_token = g%rule_indexes(1)
-      if (g%start_token .gt. 0) then
-         call Parse (g%token_array, g%token_array2)
-      end if
-
-      call pop_routine (my_name)
-      return
-      end subroutine
-
-
-
-! ====================================================================
-       subroutine Manager_Prepare ()
-! ====================================================================
-      Use Infrastructure
-      implicit none
-
-!+  Purpose
-!     Check to see if any criteria for prepare is met.  If
-!     so then issue message to relevent module.
-
-!+  Changes
-!     DPH 5/12/94
-!     DPH 19/7/95  Added code to parse the prepare index part of token array
-
-!+  Constant Values
-      character  my_name*(*)           ! name of this procedure
-      parameter (my_name='manager_prepare')
-
-!- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-      ! Go call the parsing routine.
-
-      g%start_token = g%rule_indexes(2)
-      if (g%start_token .gt. 0) then
-         call Parse (g%token_array, g%token_array2)
-      end if
-      g%start_token = g%rule_indexes(3)
-      if (g%start_token .gt. 0) then
-         call Parse (g%token_array, g%token_array2)
-      end if
-
+      do rule = 1, g%num_rules
+         if (g%rule_regIds(rule) .eq. regId) then
+            g%start_token = g%rule_indexes(rule)
+            if (g%start_token .gt. 0) then
+               call Parse (g%token_array, g%token_array2)
+            endif
+         endif
+      enddo
 
       call pop_routine (my_name)
       return
       end subroutine
-
-
-
-! ====================================================================
-       subroutine Manager_Process ()
-! ====================================================================
-      Use Infrastructure
-      implicit none
-
-!+  Purpose
-!     Check to see if any criteria for process is met.  If
-!     so then issue message to relevent module.
-
-!+  Changes
-!     DPH 19/7/95
-
-!+  Constant Values
-      character  my_name*(*)           ! name of this procedure
-      parameter (my_name='manager_process')
-
-!- Implementation Section ----------------------------------
-      call push_routine (my_name)
-
-      ! Go call the parsing routine.
-
-      g%start_token = g%rule_indexes(4)
-      if (g%start_token .gt. 0) then
-         call Parse (g%token_array, g%token_array2)
-      end if
-
-      call pop_routine (my_name)
-      return
-      end subroutine
-
-
-
-! ====================================================================
-       subroutine Manager_Post ()
-! ====================================================================
-      Use Infrastructure
-      implicit none
-
-!+  Purpose
-!     Check to see if any criteria for post is met.  If
-!     so then issue message to relevent module.
-
-!+  Changes
-!     DPH 5/12/94
-!     DPH 19/7/95  Added code to check in the post index part of token array.
-
-!+  Constant Values
-      character  my_name*(*)           ! name of this procedure
-      parameter (my_name='manager_post')
-
-!- Implementation Section ----------------------------------
-      call push_routine (my_name)
-
-      ! Go call the parsing routine.
-      g%start_token = g%rule_indexes(5)
-      if (g%start_token .gt. 0) then
-         call Parse (g%token_array, g%token_array2)
-      end if
-      g%start_token = g%rule_indexes(6)
-      if (g%start_token .gt. 0) then
-         call Parse (g%token_array, g%token_array2)
-      end if
-
-      call pop_routine (my_name)
-      return
-      end subroutine
-
-
-
-! ====================================================================
-       subroutine Manager_event (Event_data)
-! ====================================================================
-      Use Infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      character Event_data*(*)         ! (INPUT) Event data string
-
-!+  Purpose
-!     An event has occurred today.  Capture and store it in the
-!     events string.
-
-!+  Changes
-!     DPH 12/1/94
-!     DPH 11/7/94 Added call to no_leading%spaces.
-
-!- Implementation Section ----------------------------------
-
-      ! Convert module's event string to lowercase and remove
-      ! the module name the event came from.
-
-      return
-      end subroutine
-
-
 
 ! ====================================================================
       subroutine manager_send_my_variable (variable_name)
@@ -3727,20 +3594,12 @@ c      end subroutine
          call manager_set_my_variable (Data_string)
 
       else if (Action.eq.ACTION_Init) then
-         call Manager_zero_variables ()
          call Manager_Init ()
 
       else if (Action.eq.ACTION_Create) then
          call doRegistrations(id)
-
-      else if (Action.eq.ACTION_Prepare) then
-         call Manager_Prepare ()
-
-      else if (Action.eq.ACTION_Process) then
-         call Manager_Process ()
-
-      else if (Action.eq.ACTION_Post) then
-         call Manager_Post ()
+         call Manager_zero_variables ()
+         call Manager_read_rules ()
 
       else
          ! Don't use message
@@ -3756,6 +3615,7 @@ c      end subroutine
 ! This routine is the event handler for all events
 ! ====================================================================
       subroutine respondToEvent(fromID, eventID, variant)
+      use ManagerModule
       Use infrastructure
       implicit none
       ml_external respondToEvent
@@ -3763,6 +3623,8 @@ c      end subroutine
       integer, intent(in) :: fromID
       integer, intent(in) :: eventID
       integer, intent(in) :: variant
+
+      call processRules(eventID)
 
       return
       end subroutine respondToEvent
