@@ -11,16 +11,16 @@
 
      Version                = 3.0
      Title                  = lupin Sample Simulation
-     Component DLL          = c:\program files\apsim3\apsim\summaryfile\lib\summaryfile.dll
-     Component DLL          = c:\program files\apsim3\apsim\screen\lib\screen.dll
-     Component DLL          = c:\program files\apsim3\apsim\clock\lib\clock.dll
-     Component DLL          = c:\program files\apsim3\apsim\report\lib\report.dll
-     Component DLL          = c:\program files\apsim3\apsim\input\lib\input.dll
-     Component DLL          = c:\program files\apsim3\apsim\manager\lib\manager.dll
-     Component DLL          = c:\program files\apsim3\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\program files\apsim3\apsim\residue2\lib\residue2.dll
-     Component DLL          = c:\program files\apsim3\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\program files\apsim3\apsim\legume\lib\legume.dll
+     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\development\apsim\screen\lib\screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\legume\lib\legume.dll
 
 ------- clock Initialisation --------------------------------------------------
      Simulation start date =  9/05/1988
@@ -40,7 +40,7 @@
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\program files\apsim3\apsim\met\sample\dalby.met
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
@@ -263,35 +263,35 @@
 17 May 1988(Day of year=138), lupin: 
       stage    3.0 emergence
                           biomass =           5.000000       lai =    0.1250000E-02
-                          stover N conc =    5.999999       extractable sw =    19.43872
+                          stover N conc =    5.999999       extractable sw =    19.44225
 18 May 1988(Day of year=139), lupin: 
       stage    4.0 end_of_juvenile
                           biomass =           5.008257       lai =    0.1373864E-02
-                          stover N conc =    5.990108       extractable sw =    31.78508
+                          stover N conc =    5.990108       extractable sw =    31.79018
 20 June 1988(Day of year=172), lupin: 
       stage    5.0 floral_initiation
                           biomass =           8.856979       lai =    0.5794038E-01
-                          stover N conc =    4.209620       extractable sw =    189.8736
+                          stover N conc =    4.209620       extractable sw =    196.8070
 29 July 1988(Day of year=211), lupin: 
       stage    6.0 flowering
                           biomass =           137.9153       lai =     1.454550
-                          stover N conc =    2.987577       extractable sw =    287.5175
+                          stover N conc =    2.987577       extractable sw =    301.0226
 4 September 1988(Day of year=248), lupin: 
       stage    7.0 start_grain_fill
                           biomass =           505.4931       lai =     2.986554
-                          stover N conc =    1.828250       extractable sw =    237.6993
+                          stover N conc =    1.828250       extractable sw =    253.0670
 10 October 1988(Day of year=284), lupin: 
       stage    8.0 end_grain_fill
                           biomass =           822.2121       lai =    0.4765942
-                          stover N conc =    1.715207       extractable sw =    176.3986
+                          stover N conc =    1.715207       extractable sw =    191.4211
 14 October 1988(Day of year=288), lupin: 
       stage    9.0 maturity
                           biomass =           826.1609       lai =    0.2342845
-                          stover N conc =    1.714492       extractable sw =    171.3882
+                          stover N conc =    1.714495       extractable sw =    186.4107
 15 October 1988(Day of year=289), lupin: 
       stage   10.0 harvest_ripe
                           biomass =           826.1609       lai =    0.2533197E-06
-                          stover N conc =    1.729005       extractable sw =    170.9496
+                          stover N conc =    1.729008       extractable sw =    185.9722
 16 October 1988(Day of year=290), manager: 
      Manager sending message :- lupin harvest
 16 October 1988(Day of year=290), lupin: 

@@ -9,57 +9,55 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-
-
--------  Initialisation ----------------------------------------------------
-     Licensed name          = User SEG
-     Licensed organisation  = CSIRO
-     Version                = 2.1
-     Simulation filename    = c:\regr\apsim\weed\sample\weed.sim
+     Version                = 3.0
      Title                  = Sorghum summer-grass Simulation
-     Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\accum\lib\accum.dll(accum) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\canopy\lib\canopy.dll(canopy) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\soilwat2\lib\soilwat2.dll(soilwat2) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\residue2\lib\residue2.dll(residue2) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\soiln2\lib\soiln2.dll(soiln2) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\sorghum\lib\sorghum.dll(sorghum) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\legume\lib\legume.dll(weed) - Licensed
+     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\development\apsim\screen\lib\screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\accum\lib\accum.dll
+     Component DLL          = c:\development\apsim\canopy\lib\canopy.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\legume\lib\legume.dll
+     Component DLL          = c:\development\apsim\sorghum\lib\sorghum.dll
 
-------- CLOCK Initialisation -------------------------------------------------
+------- clock Initialisation --------------------------------------------------
      Simulation start date =  9/04/1988
      Simulation end date   = 30/05/1989
      Time step =           = 1440 (mins)
 
-------- REPORT Initialisation ------------------------------------------------
-     Output file = Sorgrass.out
-     Format = normal
+------- report Initialisation -------------------------------------------------
      Output variables:
         clock.day
         clock.year
-        weed.lai (alias: weed_lai)
-        weed.biomass (alias: weed_biomass)
-        weed.green_biomass (alias: weed_grn_biomass)
+        weed.lai as weed_lai
+        weed.biomass as weed_biomass
+        weed.green_biomass as weed_grn_biomass
         sorghum.lai
         sorghum.biomass
         sorghum.green_biomass
         sorghum.yield
+     
+     Output file = Sorgrass.out
+     Format = normal
 
-------- MET Initialisation ---------------------------------------------------
-     File name = c:\build\apsuite\apsim\met\sample\dalby.met
+------- met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
 
-------- ACCUM Initialisation -------------------------------------------------
+------- accum Initialisation --------------------------------------------------
      Initialising
 
-------- CANOPY Initialisation ------------------------------------------------
+------- canopy Initialisation -------------------------------------------------
       Initialising
       Module rotation for intercropping :
      sorghum weed
 
-------- MANAGER Initialisation -----------------------------------------------
+------- manager Initialisation ------------------------------------------------
      Manager rules:
      weed_in = 0
      if day = 305 and year = 1988 then
@@ -87,9 +85,9 @@
            weed_in = 0
      endif
      report do_output
-     Manager creating a new local variable : weed_in =     0.00000000000000
+     Manager creating a new local real variable : weed_in =     0.00000000000000
 
-------- SOILWAT2 Initialisation ----------------------------------------------
+------- soilwat2 Initialisation -----------------------------------------------
      
          - Reading constants
      
@@ -161,7 +159,7 @@
             CONA:                     2.50 ()
            Eo from priestly-taylor
 
-------- RESIDUE2 Initialisation ----------------------------------------------
+------- residue2 Initialisation -----------------------------------------------
      
          - Reading constants
      
@@ -177,7 +175,7 @@
               2000.0    26.7     0.0  mungbean
          ------------------------------------------------
 
-------- SOILN2 Initialisation ------------------------------------------------
+------- soiln2 Initialisation -------------------------------------------------
      
         - Reading Constants
      
@@ -226,282 +224,267 @@
            Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
           ---------------------------------------------------------
 
-------- SORGHUM Initialisation -----------------------------------------------
+------- weed Initialisation ---------------------------------------------------
+      Initialising
+
+------- sorghum Initialisation ------------------------------------------------
       Initialising, V1.0 2000.01.21
      
          - Reading constants
      
          - Reading constants
-
-------- WEED Initialisation --------------------------------------------------
-      Initialising
 ------- Start of simulation  --------------------------------------------------
-31 October 1988 (Day of year=305):
-   MANAGER:
-           Manager sending message :- sorghum sow cultivar = early, plants = 10, sowing_depth = 30 (mm), tiller_no_fertile = 0 ()
-   SORGHUM:
-      Sowing initiate
-      
-      
-      
-                       Crop Sowing Data
+31 October 1988(Day of year=305), manager: 
+     Manager sending message :- sorghum sow  cultivar = early, plants = 10, sowing_depth = 30 (mm), tiller_no_fertile = 0
+31 October 1988(Day of year=305), sorghum: 
+     Sowing initiate
+     
+     
+     
+                      Crop Sowing Data
+         -------------------------------------------------------
+         Sowing   Depth  Plants Spacing Skiprow Cultivar    FTN
+         Day no    mm      m^2    m      code     name       no
+         -------------------------------------------------------
+            305   30.0   10.0    0.8    0.0   early         0.00
+         -------------------------------------------------------
+     
+        - Reading root profile parameters
+     Uptake of NO3 and water calculated by sorghum
+     
+     
+     
+     
+                         Root Profile
+         ------------------------------------------------
+           Layer      Kl      Lower Exploration
+           Depth              limit   Factor
+           (mm)       ()     (mm/mm)    ()
+         ------------------------------------------------
+          150.000    0.070    0.100    1.000
+          150.000    0.070    0.100    1.000
+          300.000    0.070    0.100    1.000
+          300.000    0.070    0.100    1.000
+          300.000    0.050    0.100    1.000
+          300.000    0.050    0.100    1.000
+          300.000    0.040    0.100    1.000
           ------------------------------------------------
-          Sowing  Depth Plants Spacing Cultivar    FTN
-          Day no   mm     m^2     m     Name       no
-          ------------------------------------------------
-             305   30.0   10.0    0.8 early         0.00
-          ------------------------------------------------
-      
-         - Reading root profile parameters
-      Uptake of NO3 and water calculated by sorghum
-      
-      
-      
-      
-                          Root Profile
-          ------------------------------------------------
-            Layer      Kl      Lower Exploration
-            Depth              limit   Factor
-            (mm)       ()     (mm/mm)    ()
-          ------------------------------------------------
-           150.000    0.070    0.100    1.000
-           150.000    0.070    0.100    1.000
-           300.000    0.070    0.100    1.000
-           300.000    0.070    0.100    1.000
-           300.000    0.050    0.100    1.000
-           300.000    0.050    0.100    1.000
-           300.000    0.040    0.100    1.000
-           ------------------------------------------------
-      
-      
-      
-      
-         - Reading Cultivar Parameters
-          ------------------------------------------------
-          Cultivar                 = early
-          est_days_endjuv_to_init  =   15
-          tt_emerg_to_endjuv       =  100.00
-          tt_flower_to_maturity       =  695.00
-          pp_endjuv_to_initp       =   30.00
-          head_grain_no_max        = 5000.00
-          grain_gth_rate           =    9.17
-          tt_flag_to_flower        =  100.00
-          tt_flower_to_start_grain =   30.00
-          tt_maturity_to_ripe      =    1.00
-          hi_incr                  =   0.019
-          x_hi_max_pot_stress =    0.00   1.00
-          y_hi_max_pot        =    0.20   0.55
-          tpla_prod_coef           =   0.015
-          tpla_inflection          = 320.000
-          spla_prod_coef           =   0.007
-          spla_intercept           = *******
-          x_stem_wt      =     0.0   80.0
-          y_height      =     0.0 2000.0
-          ------------------------------------------------
-      
-      
-      
-   MANAGER:
-           Manager sending message :- weed sow cultivar = late, plants = 15 (/m2), crop_class = summer_grass, sowing_depth = 40 (mm)
-   WEED:
-      Sow
-      
-       - Reading constants for summer_grass
-      
-         - Reading Cultivar Parameters
-          ------------------------------------------------
-          Cultivar                   = late
-          est_days_emerg_to_init     =       83
-          cum_vernal_days            =     0.00  100.00
-          tt_emerg_to_endjuv         =   700.00  700.00
-          x_pp_endjuv_to_init        =     1.00   24.00
-          y_tt_endjuv_to_init        =   500.00  500.00
-          x_pp_init_to_flower        =     1.00   24.00
-          y_tt_init_to_flower        =    50.00   50.00
-          x_pp_flower_to_start_grain =     1.00   24.00
-          y_tt_flower_to_start_grain =   120.00  120.00
-          x_pp_start_to_end_grain    =     1.00   24.00
-          y_tt_start_to_end_grain    =   580.00  580.00
-          tt_end_grain_to_maturity   =     60.0
-          tt_maturity_to_ripe        =      1.0
-          x_pp_hi_incr               =     1.00   24.00
-          y_hi_incr                  =  0.01000 0.01000
-          x_hi_max_pot_stress        =     0.00    1.00
-          y_hi_max_pot               =     0.15    0.15
-          x_stem_wt                  =     0.00  300.00
-          y_height                   =     0.00  800.00
-          ------------------------------------------------
-      
-      
-      
-      
-         - Reading root profile parameters
-      
-      
-                          Root Profile
-      ---------------------------------------------------
-           Layer       Kl           Lower    Exploration
-           Depth     Factor         Limit      Factor
-           (mm)         ()        (mm/mm)       (0-1)
-      ---------------------------------------------------
-           150.0     0.080          0.230       1.000
-           150.0     0.080          0.240       1.000
-           300.0     0.080          0.240       1.000
-           300.0     0.080          0.250       1.000
-           300.0     0.050          0.260       1.000
-           300.0     0.030          0.270       1.000
-           300.0     0.010          0.280       1.000
-      ---------------------------------------------------
-      
-      
-      
-      
-                       Crop Sowing Data
-          ------------------------------------------------
-          Sowing  Depth Plants Spacing Cultivar
-          Day no   mm     m^2     m     Name
-          ------------------------------------------------
-             305   40.0   15.0  350.0 late
-          ------------------------------------------------
-      
-      
-1 November 1988 (Day of year=306):
-   SORGHUM:
-       stage    2.0 germination
-   WEED:
-       stage    2.0 germination
-2 November 1988 (Day of year=307):
-   SORGHUM:
-       stage    2.0 germination
-5 November 1988 (Day of year=310):
-   SORGHUM:
-       stage    3.0 emergence
-                           biomass =           2.000000       lai =    0.2000000E-02
-                           stover N conc =    1.450000       extractable sw =    44.90025
-7 November 1988 (Day of year=312):
-   WEED:
-       stage    3.0 emergence
-                           biomass =          0.8999999       lai =    0.3750000E-02
-                           stover N conc =    6.000000       extractable sw =    25.23997
-15 November 1988 (Day of year=320):
-   SORGHUM:
-       stage    4.0 end_of_juvenile
-                           biomass =           6.062224       lai =    0.7708421E-01
-                           stover N conc =    3.410556       extractable sw =    179.2707
-20 November 1988 (Day of year=325):
-   MANAGER:
-           Manager sending message :- weed kill_crop
-   WEED:
-          Plant Death. Standing above-ground dm =    66.4 (kg/ha)
-   MANAGER:
-           Manager sending message :- weed end_crop
-   WEED:
-          Crop ended. Yield (dw) =     0.0
-                                                straw residue =   66.4 kg/ha
-                                                straw N =    2.3 kg/ha
-                                                root residue =   36.7 kg/ha
-                                                root N =    0.3 kg/ha
-29 November 1988 (Day of year=334):
-   SORGHUM:
-       stage    5.0 floral_initiation
-                           biomass =           49.26725       lai =    0.6567057    
-                           stover N conc =    2.542604       extractable sw =    266.8125
-21 December 1988 (Day of year=356):
-   SORGHUM:
-       stage    6.0 flag_leaf
-                           biomass =           362.7117       lai =     2.972994    
-                           stover N conc =    1.782778       extractable sw =    459.3912
-28 December 1988 (Day of year=363):
-   SORGHUM:
-       stage    7.0 flowering
-                           biomass =           506.3918       lai =     2.883025    
-                           stover N conc =    1.454568       extractable sw =    524.1834
-30 December 1988 (Day of year=365):
-   SORGHUM:
-       stage    8.0 start_grain_fill
-                           biomass =           547.2100       lai =     2.845911    
-                           stover N conc =    1.341280       extractable sw =    510.4853
-1 February 1989 (Day of year=32):
-   SORGHUM:
-       stage    9.0 end_grain_fill
-                           biomass =           868.5776       lai =     1.255741    
-                           stover N conc =    1.909400       extractable sw =    474.6978
-2 February 1989 (Day of year=33):
-   SORGHUM:
-       stage   10.0 maturity
-                           biomass =           871.6824       lai =     1.191378    
-                           stover N conc =    1.907505       extractable sw =    473.3145
-3 February 1989 (Day of year=34):
-   SORGHUM:
-       stage   11.0 harvest_ripe
-                           biomass =           871.6824       lai =     0.000000    
-                           stover N conc =    2.022404       extractable sw =    472.5694
-4 February 1989 (Day of year=35):
-   MANAGER:
-           Manager sending message :- sorghum harvest
-   SORGHUM:
-      
-      
-      
-      flowering (DAS) =  58                  maturity (DAS)  =  95
-       flowering day  =  363                  stover (kg/ha) =    4410.1
-       maturity day        =   33             grain yield (kg/ha) =    4306.8
-       grain % water content   =   13.0       grain yield wet (kg/ha) =    4950.3
-       grain wt (g) =     0.018               grains/m^2   = 24502.045
-       grains/head =2450.2                    maximum lai = 2.983
-       total above ground biomass (kg/ha) =    8716.8
-       live above ground biomass (kg/ha) =    8716.8
-       green above ground biomass (kg/ha) =    7105.4
-       senesced above ground biomass (kg/ha) =    1611.4
-       dead above ground biomass (kg/ha) =       0.0
-       number of leaves =  15.6
-       grain N percent =      2.86            total N content (kg/ha) =    158.68
-       grain N uptake (kg/ha) =    123.17     senesced N content (kg/ha) =     14.98
-       green N content (kg/ha) =     20.53    dead N content (kg/ha) =      0.00
-      
-      
-      
-       stress indices for emergence
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.1028660
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-      
-      
-      
-       stress indices for end_of_juvenile
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-      
-      
-      
-       stress indices for floral_initiation
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-      
-      
-      
-       stress indices for flag_leaf
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-      
-      
-      
-       stress indices for flowering
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-      
-      
-      
-       stress indices for start_grain_fill
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.4259920
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-   MANAGER:
-           Manager sending message :- sorghum end_crop
-   SORGHUM:
-          ended. Yield (dw) =     0.0
-                                                straw residue = 4410.1 kg/ha
-                                                straw N =   35.5 kg/ha
-                                                root residue = 1906.0 kg/ha
-                                                root N =    3.8 kg/ha
-30 May 1989 (Day of year=150):
-   CLOCK:
-      Simulation is terminating due to end criteria being met.
+     
+     
+     
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar                 = early
+         est_days_endjuv_to_init  =   15
+         tt_emerg_to_endjuv       =  100.00
+         tt_flower_to_maturity       =  695.00
+         pp_endjuv_to_initp       =   30.00
+         head_grain_no_max        = 5000.00
+         grain_gth_rate           =    9.17
+         tt_flag_to_flower        =  100.00
+         tt_flower_to_start_grain =   30.00
+         tt_maturity_to_ripe      =    1.00
+         hi_incr                  =   0.019
+         x_hi_max_pot_stress =    0.00   1.00
+         y_hi_max_pot        =    0.20   0.55
+         tpla_prod_coef           =   0.015
+         tpla_inflection          = 320.000
+         spla_prod_coef           =   0.007
+         spla_intercept           = *******
+         x_stem_wt      =     0.0   80.0
+         y_height      =     0.0 2000.0
+         ------------------------------------------------
+     
+     
+     
+31 October 1988(Day of year=305), manager: 
+     Manager sending message :- weed sow  cultivar = late, plants = 15 (/m2), crop_class = summer_grass, sowing_depth = 40 (mm)
+31 October 1988(Day of year=305), weed: 
+     Sow
+     
+      - Reading constants for summer_grass
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar                   = late
+         est_days_emerg_to_init     =       83
+         cum_vernal_days            =     0.00  100.00
+         tt_emerg_to_endjuv         =   700.00  700.00
+         x_pp_endjuv_to_init        =     1.00   24.00
+         y_tt_endjuv_to_init        =   500.00  500.00
+         x_pp_init_to_flower        =     1.00   24.00
+         y_tt_init_to_flower        =    50.00   50.00
+         x_pp_flower_to_start_grain =     1.00   24.00
+         y_tt_flower_to_start_grain =   120.00  120.00
+         x_pp_start_to_end_grain    =     1.00   24.00
+         y_tt_start_to_end_grain    =   580.00  580.00
+         tt_end_grain_to_maturity   =     60.0
+         tt_maturity_to_ripe        =      1.0
+         x_pp_hi_incr               =     1.00   24.00
+         y_hi_incr                  =  0.01000 0.01000
+         x_hi_max_pot_stress        =     0.00    1.00
+         y_hi_max_pot               =     0.15    0.15
+         x_stem_wt                  =     0.00    3.00
+         y_height                   =     0.00  800.00
+         ------------------------------------------------
+     
+     
+     
+     
+        - Reading root profile parameters
+     
+     
+                         Root Profile
+     ---------------------------------------------------
+          Layer       Kl           Lower    Exploration
+          Depth     Factor         Limit      Factor
+          (mm)         ()        (mm/mm)       (0-1)
+     ---------------------------------------------------
+          150.0     0.080          0.230       1.000
+          150.0     0.080          0.240       1.000
+          300.0     0.080          0.240       1.000
+          300.0     0.080          0.250       1.000
+          300.0     0.050          0.260       1.000
+          300.0     0.030          0.270       1.000
+          300.0     0.010          0.280       1.000
+     ---------------------------------------------------
+     
+     
+       Crop factor for bounding water use is set to 100.0 times Eo
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
+         Day no   mm     m^2     mm   Row   Plant Name
+         ------------------------------------------------
+            305   40.0   15.0  350.0   0.0   0.0  late
+         ------------------------------------------------
+     
+     
+1 November 1988(Day of year=306), sorghum: 
+      stage    2.0 germination
+1 November 1988(Day of year=306), weed: 
+      stage    2.0 germination
+2 November 1988(Day of year=307), sorghum: 
+      stage    2.0 germination
+5 November 1988(Day of year=310), sorghum: 
+      stage    3.0 emergence
+                          biomass =           2.000000       lai =    0.2000000E-02
+                          stover N conc =    2.525000       extractable sw =    49.14497
+7 November 1988(Day of year=312), weed: 
+      stage    3.0 emergence
+                          biomass =          0.8999999       lai =    0.3750000E-02
+                          stover N conc =    6.000000       extractable sw =    29.49802
+15 November 1988(Day of year=320), sorghum: 
+      stage    4.0 end_of_juvenile
+                          biomass =           7.595637       lai =    0.9139051E-01
+                          stover N conc =    3.398683       extractable sw =    196.9368
+20 November 1988(Day of year=325), manager: 
+     Manager sending message :- weed kill_crop
+20 November 1988(Day of year=325), weed: 
+     plant_kill. 100% crop killed because of external action.
+20 November 1988(Day of year=325), manager: 
+     Manager sending message :- weed end_crop
+20 November 1988(Day of year=325), weed: 
+         Crop ended. Yield (dw) =     0.0
+                                               straw residue =   67.2 kg/ha
+                                               straw N =    2.3 kg/ha
+                                               root residue =   37.1 kg/ha
+                                               root N =    0.3 kg/ha
+29 November 1988(Day of year=334), sorghum: 
+      stage    5.0 floral_initiation
+                          biomass =           52.85678       lai =    0.6709458
+                          stover N conc =    2.458212       extractable sw =    295.3338
+21 December 1988(Day of year=356), sorghum: 
+      stage    6.0 flag_leaf
+                          biomass =           368.0118       lai =     2.986853
+                          stover N conc =    1.765709       extractable sw =    489.0864
+28 December 1988(Day of year=363), sorghum: 
+      stage    7.0 flowering
+                          biomass =           512.0425       lai =     2.896465
+                          stover N conc =    1.473455       extractable sw =    554.1163
+30 December 1988(Day of year=365), sorghum: 
+      stage    8.0 start_grain_fill
+                          biomass =           552.9618       lai =     2.859178
+                          stover N conc =    1.362072       extractable sw =    540.3962
+1 February 1989(Day of year=32), sorghum: 
+      stage    9.0 end_grain_fill
+                          biomass =           1104.586       lai =     1.261595
+                          stover N conc =   0.6600807       extractable sw =    454.4524
+2 February 1989(Day of year=33), sorghum: 
+      stage   10.0 maturity
+                          biomass =           1113.025       lai =     1.196933
+                          stover N conc =   0.6525007       extractable sw =    451.1758
+3 February 1989(Day of year=34), sorghum: 
+      stage   11.0 harvest_ripe
+                          biomass =           1113.024       lai =     0.000000
+                          stover N conc =   0.7269011       extractable sw =    449.7271
+4 February 1989(Day of year=35), manager: 
+     Manager sending message :- sorghum harvest
+4 February 1989(Day of year=35), sorghum: 
+     
+     
+     
+     flowering (DAS) =  58                  maturity (DAS)  =  95
+      flowering day  =  363                  stover (kg/ha) =    5704.1
+      maturity day        =   33             grain yield (kg/ha) =    5426.1
+      grain % water content   =   13.0       grain yield wet (kg/ha) =    6236.9
+      grain wt (g) =     0.022               grains/m^2   = 24602.557
+      grains/head =2460.3                    maximum lai = 2.997
+      total above ground biomass (kg/ha) =   11130.2
+      live above ground biomass (kg/ha) =   11130.2
+      green above ground biomass (kg/ha) =    9486.8
+      senesced above ground biomass (kg/ha) =    1643.5
+      dead above ground biomass (kg/ha) =       0.0
+      number of leaves =  15.6
+      grain N percent =      0.86            total N content (kg/ha) =     85.36
+      grain N uptake (kg/ha) =     46.56     senesced N content (kg/ha) =     16.40
+      green N content (kg/ha) =     22.40    dead N content (kg/ha) =      0.00
+     
+     
+     
+      stress indices for emergence
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0651131
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for end_of_juvenile
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for floral_initiation
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for flag_leaf
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for flowering
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for start_grain_fill
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0057135
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+4 February 1989(Day of year=35), manager: 
+     Manager sending message :- sorghum end_crop
+4 February 1989(Day of year=35), sorghum: 
+         ended. Yield (dw) =     0.0
+                                               straw residue = 5704.1 kg/ha
+                                               straw N =   38.8 kg/ha
+                                               root residue = 1947.5 kg/ha
+                                               root N =    3.9 kg/ha
+30 May 1989(Day of year=150), clock: 
+     Simulation is terminating due to end criteria being met.
