@@ -1,6 +1,119 @@
-C     Last change:  E     7 Feb 2001    1:11 pm
+C     Last change:  E    14 Feb 2001    2:51 pm
 
-C      INCLUDE 'CropMod.inc'
+*     ===========================================================
+      subroutine Crop_Read_Constants ()
+*     ===========================================================
+      use CropModModule
+      implicit none
+      include   'const.inc'
+      include 'read.pub'
+      include 'error.pub'
+      include 'datastr.pub'
+
+*+  Purpose
+*       Crop initialisation - reads constants from constants file
+
+*+  Changes
+*     010994 sc   specified and programmed
+*     070495 psc added extra constants (leaf_app etc.)
+*     110695 psc added soil temp effects on plant establishment
+*     270995 scc added leaf area options
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name  = 'Crop_Read_Constants')
+*
+      character  section_name*(*)
+      parameter (section_name = 'constants')
+
+
+*+  Local Variables
+      integer    numvals               !number of values returned
+
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+
+      if (c%crop_type.eq.'wheat') then
+
+         call Read_Constants      ()
+         call Read_Constants_Wheat()
+
+      elseif (c%crop_type.eq.'sunflower') then
+
+         call Read_Constants      ()
+         call Read_Constants_Sunf ()
+
+      else
+
+         call Read_Constants_Wheat()
+
+      endif
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+*     ===========================================================
+      subroutine Crop_Read_Cultivar_Params (cultivar)
+*     ===========================================================
+      use CropModModule
+      implicit none
+      include   'const.inc'            ! new_line,  blank
+      include 'read.pub'
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      character  cultivar*(*)          ! (INPUT) keyname of cultivar in crop
+                                       ! parameter file
+
+*+  Purpose
+*       Get cultivar parameters for named cultivar, from crop parameter file.
+
+*+  Changes
+*       090994 sc   specified and programmed
+*       10/6/98 dph fixed invalid format specification.
+
+*+  Calls
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Crop_Read_Cultivar_Params')
+
+*+  Local Variables
+      character  string*200            ! output string
+      integer    numvals               ! number of values read
+      integer    i
+      REAL       hi_max
+      REAL       vern_sens
+      REAL       photop_sens
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+
+        if (c%crop_type .eq. 'wheat') then
+
+           call Read_Cultivar_Params_Wheat (cultivar)
+
+        elseif (c%crop_type .eq. 'sunflower') then
+
+           call Read_Cultivar_Params_Sunf (cultivar)
+
+        else
+
+           call Read_Cultivar_Params_Wheat (cultivar)
+
+        end if
+ 
+      call pop_routine (my_name)
+      return
+      end
+
 
 *================================================================
       subroutine Crop_Process ()

@@ -1,4 +1,4 @@
-C     Last change:  E    13 Feb 2001    1:26 pm
+C     Last change:  E    14 Feb 2001    2:54 pm
 
 
 ***************************************************************************
@@ -3351,70 +3351,7 @@ csc  true....
       call push_routine (my_name)
 
 
-      call write_string (
-     :                  new_line//'    - Reading constants')
- 
-      call read_char_var (section_name
-     :                     , 'crop_type', '()'
-     :                     , c%crop_type, numvals)
 
-
-
-c      PRINT *, "c%crop_type = ", c%crop_type
-
-
-      call read_char_array (section_name
-     :                     , 'stage_names', max_stage, '()'
-     :                     , c%stage_names, numvals)
- 
-      call read_real_array (section_name
-     :                     , 'stage_code', max_stage, '()'
-     :                     , c%stage_code_list, numvals
-     :                     , 0.0, 1000.0)
- 
-      call read_real_array (section_name
-     :                     , 'rue', max_stage, '(g dm/mj)'
-     :                     , c%rue, numvals
-     :                     , 0.0, 1000.0)
- 
-      call read_real_array (section_name
-     :                     , 'root_depth_rate', max_stage, '(mm)'
-     :                     , c%root_depth_rate, numvals
-     :                     , 0.0, 1000.0)
-
-
-      call read_real_array (section_name
-     :                     , 'x_temp_root', max_table, '()'
-     :                     , c%x_temp_root, c%num_temp_root
-     :                     , 0.0, 50.0)
- 
-      call read_real_array (section_name
-     :                     , 'y_temp_root_fac', max_table, '()'
-     :                     , c%y_temp_root_fac, c%num_temp_root
-     :                     , 0.0, 1.0)
-
-
-
-      call read_real_array (section_name
-     :                     , 'ratio_root_shoot', max_stage, '()'
-     :                     , c%ratio_root_shoot, numvals
-     :                     , 0.0, 1000.0)
- 
-c      call read_real_var (section_name
-c     :                    , 'extinction_coef', '()'
-c     :                    , c%extinction_coef, numvals
-c     :                    , 0.0, 10.0)
- 
-c      call read_real_var (section_name
-c     :                    , 'extinction_coef_dead', '()'
-c     :                    , c%extinction_coef_dead, numvals
-c     :                    , 0.0, 10.0)
-!cpsc
-c      call read_real_var (section_name
-c     :                    , 'extinction_coef_change', '()'
-c     :                    , c%extinction_coef_change, numvals
-c     :                    , 0.0, 10.0)
- 
       call read_real_array (section_name
      :                    , 'x_row_spacing', max_table, '(m)'
      :                    , c%x_row_spacing, c%num_row_spacing
@@ -3431,23 +3368,10 @@ c     :                    , 0.0, 10.0)
      :                    , 0.0, 1.0)
           ! legume_root_distrib
  
-!      call read_real_var (section_name
-!     :                    , 'root_extinction', '()'
-!     :                    , c%root_extinction, numvals
-!     :                    , 0.0, 10.0)
- 
-         ! crop failure
- 
-      call read_real_var (section_name
-     :                    , 'leaf_no_crit', '()'
-     :                    , c%leaf_no_crit, numvals
-     :                    , 0.0, 100.0)
- 
-      call read_real_var (section_name
-     :                    , 'tt_emerg_limit', '(oC)'
-     :                    , c%tt_emerg_limit, numvals
-     :                    , 0.0, 365.0)
- 
+
+
+
+
       call read_real_var (section_name
      :                    , 'days_germ_limit', '(days)'
      :                    , c%days_germ_limit, numvals
@@ -3469,45 +3393,8 @@ c     :                    , 0.0, 10.0)
      :                    , 0.0, 1.0)
  
  
-         !    sunf_root_depth
 
-         !    Maize_root_depth
- 
-!      call read_real_var (section_name
-!     :                    , 'initial_root_depth', '(mm)'
-!     :                    , c%initial_root_depth, numvals
-!     :                    , 0.0, 1000.0)
- 
-      call read_real_var (section_name
-     :                    , 'specific_root_length', '(mm/g)'
-     :                    , c%specific_root_length, numvals
-     :                    , 0.0, 1.e6)
- 
-      call read_real_array (section_name
-     :                     , 'x_plant_rld', max_table, '(mm)'
-     :                     , c%x_plant_rld, c%num_plant_rld
-     :                     , 0.0, 0.3)
 
-      call read_real_array (section_name
-     :                     , 'y_rel_root_rate', max_table, '()'
-     :                     , c%y_rel_root_rate, c%num_plant_rld
-     :                     , 0.0, 1.0)
- 
-         !    sunf_leaf_area_init
-
-      call read_real_var (section_name
-     :                    , 'initial_tpla', '(mm^2)'
-     :                    , c%initial_tpla, numvals
-     :                    , 0.0, 100000.0)
- 
-         ! TEMPLATE OPTION
-         !    sunf_leaf_area_devel
-
-      call read_real_var (section_name
-     :                    , 'sla_max', '(mm^2/g)'
-     :                    , c%sla_max, numvals
-     :                    , 0.0, 100000.0)
- 
          ! TEMPLATE OPTION
          !    sunf_leaf_area_devel_plant
 
@@ -3521,23 +3408,8 @@ c     :                    , 0.0, 10.0)
      :                    , c%tpla_inflection_ratio , numvals
      :                    , 0.0, 1.0)
  
-! scc This parameter moved from sunf.ini to sunf.par file
-!      call read_real_var (section_name
-!     :                    , 'main_stem_coef', '()'
-!     :                    , c%main_stem_coef, numvals
-!     :                    , 0.0, 10.0)
- 
-         !    sunf_height
 
-!      call read_real_var (section_name
-!     :                    , 'height_max', '(mm)'
-!     :                    , c%height_max, numvals
-!     :                    , 0.0, 10000.0)
- 
-!      call read_real_var (section_name
-!     :                    , 'height_stem_slope', '(mm/g/stem)'
-!     :                    , c%height_stem_slope, numvals
-!     :                    , 0.0, 1000.0)
+
  
          !    sunf_get_cultivar_params
 
@@ -3583,21 +3455,8 @@ c     :                    , 0.0, 10.0)
  
          !    Maize_transp_eff
  
-      call read_real_var (section_name
-     :                    , 'svp_fract', '()'
-     :                    , c%svp_fract, numvals
-     :                    , 0.0, 1.0)
- 
-      call read_real_array (section_name
-     :                     , 'transp_eff_cf', max_stage, '(kpa)'
-     :                     , c%transp_eff_cf, numvals
-     :                     , 0.0, 1.0)
- 
-      call read_real_array (section_name
-     :                     , 'n_fix_rate', max_stage, '()'
-     :                     , c%n_fix_rate, numvals
-     :                     , 0.0, 1.0)
- 
+
+
          ! TEMPLATE OPTION
          !    sunf_grain_no
 
@@ -3615,11 +3474,7 @@ c     :                    , 0.0, 10.0)
  
          !    sunf_germination
 
-      call read_real_var (section_name
-     :                    , 'pesw_germ', '(mm/mm)'
-     :                    , c%pesw_germ, numvals
-     :                    , 0.0, 1.0)
- 
+
          ! TEMPLATE OPTION
          !    sunf_grain_no
 
@@ -3643,135 +3498,12 @@ c     :                    , 0.0, 10.0)
      :                    , c%growth_rate_crit, numvals
      :                    , 0.0, 1000.0)
  
-         !    sunf_leaf_appearance
 
-      call read_real_var (section_name
-     :                    , 'leaf_no_at_emerg', '()'
-     :                    , c%leaf_no_at_emerg, numvals
-     :                    , 0.0, 100.0)
- 
-         !    sunf_N_uptake
-
-      call read_real_var (section_name
-     :                    , 'no3_diffn_const', '(days)'
-     :                    , c%NO3_diffn_const, numvals
-     :                    , 0.0, 100.0)
- 
-      call read_char_var (section_name
-     :                     , 'n_supply_preference', '()'
-     :                     , c%n_supply_preference, numvals)
- 
-         !    sunf_phenology_init
-
- 
-      call read_real_var (section_name
-     :                    , 'shoot_lag', '(oC)'
-     :                    , c%shoot_lag, numvals
-     :                    , 0.0, 100.0)
- 
-      call read_real_var (section_name
-     :                    , 'shoot_rate', '(oC/mm)'
-     :                    , c%shoot_rate, numvals
-     :                    , 0.0, 100.0)
- 
- !     call read_real_var (section_name
- !    :                    , 'photoperiod_base', '(hr)'
- !    :                    , c%photoperiod_base, numvals
- !    :                    , 0.0, 24.0)
- 
-      call read_real_var (section_name
-     :                    , 'leaf_app_rate', '(oC)'
-     :                    , c%leaf_app_rate, numvals
-     :                    , 0.0, 100.0)
- 
-      call read_real_var (section_name
-     :                    , 'leaf_app_rate1', '(oC)'
-     :                    , c%leaf_app_rate1, numvals
-     :                    , 0.0, 100.0)
- 
-      call read_real_var (section_name
-     :                    , 'leaf_app_rate2', '(oC)'
-     :                    , c%leaf_app_rate2, numvals
-     :                    , 0.0, 100.0)
- 
-      call read_real_var (section_name
-     :                    , 'leaf_no_rate_change', '()'
-     :                    , c%leaf_no_rate_change, numvals
-     :                    , 0.0, 30.0)
- 
-         !    sunf_dm_init
-
-      call read_real_var (section_name
-     :                    , 'dm_leaf_init', '(g/plant)'
-     :                    , c%dm_leaf_init, numvals
-     :                    , 0.0, 1000.0)
- 
-      call read_real_var (section_name
-     :                    , 'dm_root_init', '(g/plant)'
-     :                    , c%dm_root_init, numvals
-     :                    , 0.0, 1000.0)
- 
-      call read_real_var (section_name
-     :                    , 'dm_stem_init', '(g/plant)'
-     :                    , c%dm_stem_init, numvals
-     :                    , 0.0, 1000.0)
- 
-         !    sunf_get_root_params
-
-!      call read_real_var (section_name
-!     :                    , 'll_ub', '()'
-!     :                    , c%ll_ub, numvals
-!     :                    , 0.0, 1000.0)
- 
-      call read_real_var (section_name
-     :                    , 'kl_ub', '()'
-     :                    , c%kl_ub, numvals
-     :                    , 0.0, 1000.0)
- 
-         !    sunf_leaf_no_final
-
-      call read_real_var (section_name
-     :                    , 'leaf_init_rate', '(oC)'
-     :                    , c%leaf_init_rate, numvals
-     :                    , 0.0, 100.0)
- 
-      call read_real_var (section_name
-     :                    , 'leaf_no_seed', '(leaves)'
-     :                    , c%leaf_no_seed, numvals
-     :                    , 0.0, 100.0)
- 
-c      call read_real_var (section_name
-c     :                    , 'floral_init_error', '(oc)'
-c     :                    , c%floral_init_error, numvals
-c     :                    , 0.0, 100.0)
- 
-      call read_real_var (section_name
-     :                   , 'leaf_no_min', '()'
-     :                   , c%leaf_no_min, numvals
-     :                   , 0.0, 100.0)
- 
-      call read_real_var (section_name
-     :                   , 'leaf_no_max', '()'
-     :                   , c%leaf_no_max, numvals
-     :                   , 0.0, 100.0)
- 
-         !    sunf_retranslocate
-
-      call read_real_var (section_name
-     :                    , 'stem_trans_frac', '()'
-     :                    , c%stem_trans_frac, numvals
-     :                    , 0.0, 1.0)
- 
-      call read_real_var (section_name
-     :                    , 'leaf_trans_frac', '()'
-     :                    , c%leaf_trans_frac, numvals
-     :                    , 0.0, 1.0)
- 
       call read_real_var (section_name
      :                    , 'flower_trans_frac', '()'
      :                    , c%flower_trans_frac, numvals
      :                    , 0.0, 1.0)
- 
+
          !    sunf_watck
 
       call read_real_var (section_name
@@ -3832,118 +3564,9 @@ cSCC changed lower limit from 10.0 to 0.0
  
          !    sunf_get_other_variables
 
-         ! checking the bounds of the bounds..
-      call read_integer_var (section_name
-     :                    , 'year_ub', '()'
-     :                    , c%year_ub, numvals
-     :                    , 1800, 2100)
- 
-      call read_integer_var (section_name
-     :                    , 'year_lb', '()'
-     :                    , c%year_lb, numvals
-     :                    , 1800, 2100)
-
-c      PRINT *, "c%year_lb = ", c%year_lb
-c      PRINT *, "c%year_ub = ", c%year_ub
-
- 
-      call read_real_var (section_name
-     :                    , 'latitude_ub', '(oL)'
-     :                    , c%latitude_ub, numvals
-     :                    , -90.0, 90.0)
- 
-      call read_real_var (section_name
-     :                    , 'latitude_lb', '(oL)'
-     :                    , c%latitude_lb, numvals
-     :                    , -90.0, 90.0)
- 
-      call read_real_var (section_name
-     :                    , 'maxt_ub', '(oC)'
-     :                    , c%maxt_ub, numvals
-     :                    , 0.0, 60.0)
- 
-      call read_real_var (section_name
-     :                    , 'maxt_lb', '(oC)'
-     :                    , c%maxt_lb, numvals
-     :                    , -30.0, 60.0)
- 
-      call read_real_var (section_name
-     :                    , 'mint_ub', '(oC)'
-     :                    , c%mint_ub, numvals
-     :                    , 0.0, 40.0)
- 
-      call read_real_var (section_name
-     :                    , 'mint_lb', '(oC)'
-     :                    , c%mint_lb, numvals
-     :                    , -100.0, 100.0)
- 
-      call read_real_var (section_name
-     :                    , 'radn_ub', '(MJ/m^2)'
-     :                    , c%radn_ub, numvals
-     :                    , 0.0, 100.0)
- 
-      call read_real_var (section_name
-     :                    , 'radn_lb', '(MJ/m^2)'
-     :                    , c%radn_lb, numvals
-     :                    , 0.0, 100.0)
- 
-      call read_real_var (section_name
-     :                    , 'dlayer_ub', '(mm)'
-     :                    , c%dlayer_ub, numvals
-     :                    , 0.0, 10000.0)
- 
-      call read_real_var (section_name
-     :                    , 'dlayer_lb', '(mm)'
-     :                    , c%dlayer_lb, numvals
-     :                    , 0.0, 10000.0)
- 
-      call read_real_var (section_name
-     :                    , 'dul_dep_ub', '(mm)'
-     :                    , c%dul_dep_ub, numvals
-     :                    , 0.0, 10000.0)
- 
-      call read_real_var (section_name
-     :                    , 'dul_dep_lb', '(mm)'
-     :                    , c%dul_dep_lb, numvals
-     :                    , 0.0, 10000.0)
- 
-                                ! 8th block
-      call read_real_var (section_name
-     :                    , 'sw_dep_ub', '(mm)'
-     :                    , c%sw_dep_ub, numvals
-     :                    , 0.0, 10000.0)
- 
-      call read_real_var (section_name
-     :                    , 'sw_dep_lb', '(mm)'
-     :                    , c%sw_dep_lb, numvals
-     :                    , 0.0, 10000.0)
- 
-      call read_real_var (section_name
-     :                    , 'no3_ub', '(kg/ha)'
-     :                    , c%NO3_ub, numvals
-     :                    , 0.0, 100000.0)
- 
-      call read_real_var (section_name
-     :                    , 'no3_lb', '(kg/ha)'
-     :                    , c%NO3_lb, numvals
-     :                    , 0.0, 100000.0)
- 
-      call read_real_var (section_name
-     :                    , 'no3_min_ub', '(kg/ha)'
-     :                    , c%NO3_min_ub, numvals
-     :                    , 0.0, 100000.0)
- 
-      call read_real_var (section_name
-     :                    , 'no3_min_lb', '(kg/ha)'
-     :                    , c%NO3_min_lb, numvals
-     :                    , 0.0, 100000.0)
- 
          !    sunf_event
 
-      call read_real_var (section_name
-     :                    , 'grn_water_cont', '(g/g)'
-     :                    , c%grn_water_cont, numvals
-     :                    , 0.0, 1.0)
+
  
        call read_real_var (section_name
      :                    , 'grain_energy', '()'
@@ -3957,11 +3580,7 @@ c      PRINT *, "c%year_ub = ", c%year_ub
 
          !    sunf_dm_partition
 
-      call read_real_var (section_name
-     :                    , 'sla_min', '(mm^2/g)'
-     :                    , c%sla_min, numvals
-     :                    , 0.0, 100000.0)
- 
+
       call read_real_var (section_name
      :                    , 'partition_rate_leaf', '()'
      :                    , c%partition_rate_leaf, numvals
@@ -3980,30 +3599,6 @@ c      PRINT *, "c%year_ub = ", c%year_ub
      :                    , c%htstress_coeff, numvals
      :                    , 0.0, 1.0)
  
-         !    sunf_dm_senescence
-
-      call read_real_var (section_name
-     :                    , 'dm_root_sen_frac', '()'
-     :                    , c%dm_root_sen_frac, numvals
-     :                    , 0.0, 1.0)
- 
-      call read_real_var (section_name
-     :                    , 'dm_leaf_sen_frac', '()'
-     :                    , c%dm_leaf_sen_frac, numvals
-     :                    , 0.0, 1.0)
- 
-         !    sunf_dm_dead_detachment
-
-      call read_real_array (section_name
-     :                    , 'dead_detach_frac', max_part, '()'
-     :                    , c%dead_detach_frac, numvals
-     :                    , 0.0, 1.0)
- 
-      call read_real_var (section_name
-     :                    , 'dm_leaf_detach_frac', '()'
-     :                    , c%dm_leaf_detach_frac, numvals
-     :                    , 0.0, 1.0)
- 
          ! TEMPLATE OPTION
          !    sunf_leaf_area_devel
 
@@ -4012,6 +3607,7 @@ c     :                    , 'leaf_no_correction', '()'
 c     :                    , c%leaf_no_correction, numvals
 c     :                    , 0.0, 100.0)
  
+
          ! TEMPLATE OPTION
          !    sunf_leaf_size
 
@@ -4094,11 +3690,6 @@ c     :                    , 0.0, 100.0)
  
          !    sunf_phenology_init
 
-      call read_real_var (section_name
-     :                   , 'twilight', '(o)'
-     :                   , c%twilight, numvals
-     :                   , -90.0, 90.0)
- 
          ! TEMPLATE OPTION
          !    sunf_heat_stress
 
@@ -4109,121 +3700,11 @@ c     :                    , 0.0, 100.0)
  
          !    sunf_N_conc_limits
 
-      call read_real_array (section_name
-     :                     , 'x_stage_code', max_stage, '()'
-     :                     , c%x_stage_code, c%num_N_conc_stage
-     :                     , 0.0, 100.0)
- 
-      call read_real_array (section_name
-     :                     , 'y_n_conc_crit_leaf', max_stage, '()'
-     :                     , c%y_N_conc_crit_leaf, c%num_N_conc_stage
-     :                     , 0.0, 100.0)
- 
-      call read_real_array (section_name
-     :                     , 'y_n_conc_max_leaf', max_stage, '()'
-     :                     , c%y_N_conc_max_leaf, c%num_N_conc_stage
-     :                     , 0.0, 100.0)
- 
-      call read_real_array (section_name
-     :                     , 'y_n_conc_min_leaf', max_stage, '()'
-     :                     , c%y_N_conc_min_leaf, c%num_N_conc_stage
-     :                     , 0.0, 100.0)
- 
-      call read_real_array (section_name
-     :                     , 'y_n_conc_crit_stem', max_stage, '()'
-     :                     , c%y_N_conc_crit_stem, c%num_N_conc_stage
-     :                     , 0.0, 100.0)
- 
-      call read_real_array (section_name
-     :                     , 'y_n_conc_max_stem', max_stage, '()'
-     :                     , c%y_N_conc_max_stem, c%num_N_conc_stage
-     :                     , 0.0, 100.0)
- 
-      call read_real_array (section_name
-     :                     , 'y_n_conc_min_stem', max_stage, '()'
-     :                     , c%y_N_conc_min_stem, c%num_N_conc_stage
-     :                     , 0.0, 100.0)
- 
-      call read_real_array (section_name
-     :                     , 'y_n_conc_crit_flower', max_stage, '()'
-     :                     , c%y_N_conc_crit_flower, c%num_N_conc_stage
-     :                     , 0.0, 100.0)
- 
-      call read_real_array (section_name
-     :                     , 'y_n_conc_max_flower', max_stage, '()'
-     :                     , c%y_N_conc_max_flower, c%num_N_conc_stage
-     :                     , 0.0, 100.0)
- 
-      call read_real_array (section_name
-     :                     , 'y_n_conc_min_flower', max_stage, '()'
-     :                     , c%y_N_conc_min_flower, c%num_N_conc_stage
-     :                     , 0.0, 100.0)
- 
-      call read_real_array (section_name
-     :                     , 'y_n_conc_min_root', max_stage, '()'
-     :                     , c%y_N_conc_min_root, c%num_N_conc_stage
-     :                     , 0.0, 100.0)
-
-      call read_real_array (section_name
-     :                     , 'y_n_conc_crit_root', max_stage, '()'
-     :                     , c%y_N_conc_crit_root, c%num_N_conc_stage
-     :                     , 0.0, 100.0)
- 
-      call read_real_array (section_name
-     :                     , 'y_n_conc_max_root', max_stage, '()'
-     :                     , c%y_N_conc_max_root, c%num_N_conc_stage
-     :                     , 0.0, 100.0)
-
-      call read_real_var (section_name
-     :                   , 'n_conc_crit_grain', '()'
-     :                   , c%N_conc_crit_grain, numvals
-     :                   , 0.0, 100.0)
- 
-      call read_real_var (section_name
-     :                   , 'n_conc_max_grain', '()'
-     :                   , c%N_conc_max_grain, numvals
-     :                   , 0.0, 100.0)
- 
-      call read_real_var (section_name
-     :                   , 'n_conc_min_grain', '()'
-     :                   , c%N_conc_min_grain, numvals
-     :                   , 0.0, 100.0)
- 
-
          !    Maize_N_init
- 
-      call read_real_array (section_name
-     :                     , 'n_init_conc', max_part, '()'
-     :                     , c%n_init_conc, numvals
-     :                     , 0.0, 100.0)
- 
-         !    Maize_N_senescence
- 
-      call read_real_array (section_name
-     :                     , 'n_sen_conc', max_part, '()'
-     :                     , c%n_sen_conc, numvals
-     :                     , 0.0, 1.0)
- 
-         !    nfact
- 
-      call read_real_var (section_name
-     :                   , 'N_fact_photo', '()'
-     :                   , c%N_fact_photo, numvals
-     :                   , 0.0, 100.0)
- 
-      call read_real_var (section_name
-     :                   , 'N_fact_pheno', '()'
-     :                   , c%N_fact_pheno, numvals
-     :                   , 0.0, 100.0)
- 
-!scc put this in for consistence w. sugar
- 
-      call read_real_var (section_name
-     :                   , 'N_fact_expansion', '()'
-     :                   , c%N_fact_expansion, numvals
-     :                   , 0.0, 100.0)
- 
+
+
          !    sunf_rue_reduction
+
 
       call read_real_array (section_name
      :                     , 'x_ave_temp', max_table, '(oC)'
@@ -4257,16 +3738,7 @@ c     :                    , 0.0, 100.0)
  
          !    sunf_tt
 
-      call read_real_array (section_name
-     :                     , 'x_temp', max_table, '(oC)'
-     :                     , c%x_temp, c%num_temp
-     :                     , -10.0, 100.0)
- 
-      call read_real_array (section_name
-     :                     , 'y_tt', max_table, '(oC)'
-     :                     , c%y_tt, c%num_temp
-     :                     , -10.0, 100.0)
- 
+
       call read_real_var (section_name
      :                   , 'tt_base', '()'
      :                   , c%tt_base, numvals
@@ -4277,106 +3749,13 @@ c     :                    , 0.0, 100.0)
      :                   , c%tt_opt, numvals
      :                   , 0.0, 100.0)
  
-!cpsc
-      call read_real_array (section_name
-     :                     , 'x_weighted_temp', max_table, '(oC)'
-     :                     , c%x_weighted_temp, c%num_weighted_temp
-     :                     , 0.0, 100.0)
- 
-      call read_real_array (section_name
-     :                     , 'y_plant_death', max_table, '(oC)'
-     :                     , c%y_plant_death, c%num_weighted_temp
-     :                     , 0.0, 100.0)
- 
          ! TEMPLATE OPTION
          !    sunf_tt_other
 
-      ! call read_real_array (section_name
-      !:                     , 'x_temp_other', max_table, '(oC)'
-      !:                     , c%x_temp_other, c%num_temp_other
-      !:                     , 0.0, 100.0)
- 
-      ! call read_real_array (section_name
-      !:                     , 'y_tt_other', max_table, '(oC)'
-      !:                     , c%y_tt_other, c%num_temp_other
-      !:                     , 0.0, 100.0)
- 
-         ! TEMPLATE OPTION
-         !    sunf_tt_curv
-
-      ! call read_real_var (section_name
-      !:                    , 'imin', '()'
-      !:                    , c%imin, numvals
-      !:                    , 0.0, 100.0)
- 
-      ! call read_real_var (section_name
-      !:                    , 'iopt', '()'
-      !:                    , c%iopt, numvals
-      !:                    , 0.0, 100.0)
- 
-      ! call read_real_var (section_name
-      !:                    , 'imax', '()'
-      !:                    , c%imax, numvals
-      !:                    , 0.0, 100.0)
- 
-      ! call read_real_var (section_name
-      !:                    , 'ioptr', '()'
-      !:                    , c%ioptr, numvals
-      !:                    , 0.0, 100.0)
- 
-      ! call read_real_var (section_name
-      !:                    , 'amin', '()'
-      !:                    , c%amin, numvals
-      !:                    , 0.0, 100.0)
- 
-      ! call read_real_var (section_name
-      !:                    , 'aopt', '()'
-      !:                    , c%aopt, numvals
-      !:                    , 0.0, 100.0)
- 
-      ! call read_real_var (section_name
-      !:                    , 'amax', '()'
-      !:                    , c%amax, numvals
-      !:                    , 0.0, 100.0)
- 
-      ! call read_real_var (section_name
-      !:                    , 'aoptr', '()'
-      !:                    , c%aoptr, numvals
-      !:                    , 0.0, 100.0)
- 
          !    swdef
  
-      call read_real_array (section_name
-     :                     , 'x_sw_demand_ratio', max_table, '()'
-     :                     , c%x_sw_demand_ratio, c%num_sw_demand_ratio
-     :                     , 0.0, 100.0)
- 
-      call read_real_array (section_name
-     :                     , 'y_swdef_leaf', max_table, '()'
-     :                     , c%y_swdef_leaf, c%num_sw_demand_ratio
-     :                     , 0.0, 100.0)
- 
-      call read_real_array (section_name
-     :                     , 'x_sw_avail_ratio', max_table, '()'
-     :                     , c%x_sw_avail_ratio, c%num_sw_avail_ratio
-     :                     , 0.0, 100.0)
- 
-      call read_real_array (section_name
-     :                     , 'y_swdef_pheno', max_table, '()'
-     :                     , c%y_swdef_pheno, c%num_sw_avail_ratio
-     :                     , 0.0, 100.0)
- 
-      call read_real_array (section_name
-     :                     , 'x_sw_ratio', max_table, '()'
-     :                     , c%x_sw_ratio, c%num_sw_ratio
-     :                     , 0.0, 100.0)
- 
-      call read_real_array (section_name
-     :                     , 'y_sw_fac_root', max_table, '()'
-     :                     , c%y_sw_fac_root, c%num_sw_ratio
-     :                     , 0.0, 100.0)
- 
- 
+
+
  
  
 !===================================================================================== 
@@ -4417,51 +3796,6 @@ c     :                    , 0.0, 100.0)
      
 
 cew - added this section
-
-C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-C          VALUE LIMITS - MAX AND MINS
-C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-      !-----------------------------------------------------------------
-      !Canopy height
-      call read_real_var (section_name
-     :                    , 'canopy_height_max', '()'
-     :                    , c%height_max, numvals
-     :                    , 0.0, 5000.0)
-
-      !-----------------------------------------------------------------
-      !ROOT PARAMETERS
-      call read_real_var (section_name
-     :                    , 'll_ub', '()'
-     :                    , c%ll_ub, numvals
-     :                    , 0.0, 1000.0)
- 
-      call read_real_var (section_name
-     :                    , 'kl_ub', '()'
-     :                    , c%kl_ub, numvals
-     :                    , 0.0, 1000.0)
-
-
-
-      call read_real_var (section_name
-     :                    , 'nh4_ub', '(kg/ha)'
-     :                    , c%NH4_ub, numvals
-     :                    , 0.0, 100000.0)
- 
-      call read_real_var (section_name
-     :                    , 'nh4_lb', '(kg/ha)'
-     :                    , c%NH4_lb, numvals
-     :                    , 0.0, 100000.0)
- 
-      call read_real_var (section_name
-     :                    , 'nh4_min_ub', '(kg/ha)'
-     :                    , c%NH4_min_ub, numvals
-     :                    , 0.0, 100000.0)
- 
-      call read_real_var (section_name
-     :                    , 'nh4_min_lb', '(kg/ha)'
-     :                    , c%NH4_min_lb, numvals
-     :                    , 0.0, 100000.0)
-
 
       call pop_routine (my_name)
       return

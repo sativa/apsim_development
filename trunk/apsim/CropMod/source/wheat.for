@@ -1,4 +1,379 @@
-C     Last change:  E    22 Jan 2001    5:05 pm
+C     Last change:  E    14 Feb 2001    2:21 pm
+
+*     ===========================================================
+      subroutine Read_Constants_Wheat ()
+*     ===========================================================
+      use CropModModule
+      implicit none
+      include   'const.inc'
+      include 'read.pub'
+      include 'error.pub'
+      include 'datastr.pub'
+
+*+  Purpose
+*       Crop initialisation - reads constants from constants file
+
+*+  Changes
+*     010994 sc   specified and programmed
+*     070495 psc added extra constants (leaf_app etc.)
+*     110695 psc added soil temp effects on plant establishment
+*     270995 scc added leaf area options
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name  = 'Read_Constants_Wheat')
+*
+      character  section_name*(*)
+      parameter (section_name = 'constants')
+
+
+*+  Local Variables
+      integer    numvals               !number of values returned
+
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+
+
+c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+c       LEAF AREA GROWTH - TILLER BASED
+c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+      call read_real_var (section_name
+     :                    , 'max_tiller_area', '(cm^2)'
+     :                    , c%max_tiller_area, numvals
+     :                    , 0.0, 500.0)
+
+
+      call read_real_var (section_name
+     :                    , 'tiller_area_tt_steepness', '()'
+     :                    , c%tiller_area_tt_steepness, numvals
+     :                    , 0.0, 0.05)
+
+
+      call read_real_var (section_name
+     :                    , 'tiller_area_tt_inflection', '(Cd)'
+     :                    , c%tiller_area_tt_inflection, numvals
+     :                    , 0.0, 600.0)
+
+
+
+C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+C      EXTINCTION COEFFICIENT
+C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+      !LAI determined extinction coefficient
+      call read_real_array (section_name
+     :               , 'x_extinct_coeff_lai', max_table, '()'
+     :               , c%x_extinct_coeff_lai, c%num_extinct_coeff_lai
+     :               , 0.0, 20.0)
+
+      call read_real_array (section_name
+     :               , 'y_extinct_coeff_lai', max_table, '()'
+     :               , c%y_extinct_coeff_lai, c%num_extinct_coeff_lai
+     :               , 0.0, 10.0)
+
+
+      call read_real_var (section_name
+     :                    , 'extinct_coeff_post_anthesis', '()'
+     :                    , c%extinct_coeff_post_anthesis, numvals
+     :                    , 0.0, 10.0)
+
+
+
+c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+c       BIOMASS INITIATION, PARTITION AND TRANSLOCATION
+c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+      call read_real_var_optional (section_name
+     :                    , 'dm_seed_reserve', '(g/plant)'
+     :                    , c%dm_seed_reserve, numvals
+     :                    , 0.0, 1000.0)
+ 
+      call read_real_var_optional (section_name
+     :                    , 'dm_grain_embryo', '(g/embryo)'
+     :                    , c%dm_grain_embryo, numvals
+     :                    , 0.0, 1000.0)
+
+
+      call read_real_var_optional (section_name
+     :                    , 'max_kernel_weight', '(mg/kernel)'
+     :                    , c%max_kernel_weight, numvals
+     :                    , 0.0, 60.0)
+
+
+
+c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+c        WATER RELATIONS AND WATER STRESS FACTORS
+c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+C         NITROGEN RELATIONS, UPTAKE AND STRESS FACTORS
+C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+      call read_real_var (section_name
+     :                   , 'min_grain_nc_ratio', '()'
+     :                   , c%min_grain_nc_ratio, numvals
+     :                   , 0.0, 1.0)
+
+
+      call read_real_var (section_name
+     :                   , 'max_grain_nc_ratio', '()'
+     :                   , c%max_grain_nc_ratio, numvals
+     :                   , 0.0, 1.0)
+
+
+      call read_real_var (section_name
+     :                   , 'grain_embryo_nconc', '()'
+     :                   , c%grain_embryo_nc, numvals
+     :                   , 0.0, 0.50)
+
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+
+*     ===========================================================
+      subroutine Read_Cultivar_Params_Wheat (cultivar)
+*     ===========================================================
+      use CropModModule
+      implicit none
+      include   'const.inc'            ! new_line,  blank
+      include 'read.pub'
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      character  cultivar*(*)          ! (INPUT) keyname of cultivar in crop
+                                       ! parameter file
+
+*+  Purpose
+*       Get cultivar parameters for named cultivar, from crop parameter file.
+
+*+  Changes
+*       090994 sc   specified and programmed
+*       10/6/98 dph fixed invalid format specification.
+
+*+  Calls
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Read_Cultivar_Params_Wheat')
+
+*+  Local Variables
+      character  string*200            ! output string
+      integer    numvals               ! number of values read
+      integer    i
+      REAL       hi_max
+      REAL       vern_sens
+      REAL       photop_sens
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+      call write_string (
+     :                 new_line//'   - Reading Cultivar Parameters')
+ 
+
+      !----------------------------------------------------------------------
+      ! Phenology
+      !----------------------------------------------------------------------
+      !Original nwheat approach
+      call read_real_var (cultivar
+     :                    , 'vern_sens', '()'
+     :                    , p%vern_sen, numvals
+     :                    , 0.0, 10.0)
+
+      call read_real_var (cultivar
+     :                    , 'photop_sens', '()'
+     :                    , p%photop_sen, numvals
+     :                    , 0.0, 10.0)
+
+      call read_real_var (cultivar
+     :                    , 'tt_startgf_to_mat', '()'
+     :                    , p%startgf_to_mat, numvals
+     :                    , 0.0, 1000.0)
+
+
+      vern_sens    = p%vern_sen
+      photop_sens  = p%photop_sen
+
+c      PRINT *, "===================================="
+c      PRINT *, 'p%vern_sen  =', p%vern_sen
+c      PRINT *, 'p%photop_sen=', p%photop_sen
+
+      p%vern_sen_internal   = p%vern_sen   * 0.0054545 + 0.0003
+      p%photop_sen_internal = p%photop_sen * 0.002
+
+
+      !----------------------------------------------------------------------
+      ! New approach
+      !----------------------------------------------------------------------
+ 
+      call read_real_var_optional (cultivar
+     :                    , 'photoperiod_sensitivity', '()'
+     :                    , p%photoperiod_sensitivity, numvals
+     :                    , 0.0, 1000.0)
+
+
+      call read_real_var_optional (cultivar
+     :                    , 'vernalisation_requirement', '()'
+     :                    , p%vernalisation_requirement, numvals
+     :                    , 0.0, 1000.0)
+
+  
+
+      !----------------------------------------------------------------------
+      ! HI approach
+      !----------------------------------------------------------------------
+      !HI approach - i_wheat
+
+      call read_real_var_optional (cultivar
+     :                    , 'hi_max_pot', '()'
+     :                    , hi_max, numvals
+     :                    , 0.0, 1.0)
+
+      call read_real_array_optional (cultivar
+     :                   , 'x_hi_max_pot_stress', max_table, '(0-1)'
+     :                   , p%x_hi_max_pot_stress, p%num_hi_max_pot
+     :                   , 0.0, 1.0)
+ 
+      call read_real_array_optional (cultivar
+     :                   , 'y_hi_max_pot_coeff', max_table, '(0-1)'
+     :                   , p%y_hi_max_pot, p%num_hi_max_pot
+     :                   , 0.0, 1.0)
+
+
+      do i = 1, p%num_hi_max_pot
+         p%y_hi_max_pot(i) = p%y_hi_max_pot(i) * hi_max
+      end do
+
+      !----------------------------------------------------------------------
+      !grain number and size appraoch - nwheat
+      call read_real_var (cultivar
+     :                    , 'grain_num_coeff', '()'
+     :                    , p%head_grain_no_max, numvals
+     :                    , 0.0, 50.0)
+ 
+      call read_real_var (cultivar
+     :                    , 'max_grain_fill_rate', '()'
+     :                    , p%grain_gth_rate, numvals
+     :                    , 0.0, 10.0)
+
+      !----------------------------------------------------------------------
+      ! Tillering param. in nwheat
+      !----------------------------------------------------------------------
+      call read_real_var (cultivar
+     :                    , 'dm_tiller_max', '()'
+     :                    , p%dm_tiller_max, numvals
+     :                    , 0.0, 10.0)
+ 
+
+      !----------------------------------------------------------------------
+      ! Crop Height
+      !----------------------------------------------------------------------
+      call read_real_array (cultivar
+     :                     , 'x_stem_wt', max_table, '()'
+     :                     , p%x_stem_wt, p%num_stem_wt
+     :                     , 0.0, 1000.0)
+ 
+      call read_real_array (cultivar
+     :                     , 'y_height', max_table, '()'
+     :                     , p%y_height, p%num_stem_wt
+     :                     , 0.0, 5000.0)
+
+!      call read_real_var (cultivar
+!     :                    , 'dm_per_seed', '()'
+!     :                    , p%dm_per_seed, numvals
+!     :                    , 0.0, 1.0)
+
+
+      !----------------------------------------------------------------------
+      ! Report
+      !----------------------------------------------------------------------
+      string = '    ------------------------------------------------'
+      call write_string (string)
+ 
+      write (string, '(4x,2a)')
+     :                'Cultivar                     = ', cultivar
+      call write_string (string)
+ 
+      write (string, '(4x, a, f6.2)')
+     :                'Sensitivity to vernalisation = '
+     :               , vern_sens
+      call write_string (string)
+                                  
+      write (string, '(4x, a, f7.2)')
+     :                'Sensitivity to photoperiod   = '
+     :               , photop_sens
+      call write_string (string)
+ 
+      write (string, '(4x, a, f7.2)')
+     :                'tt_startgrainfill_to_mat     = '
+     :               , p%startgf_to_mat
+      call write_string (string)
+ 
+
+      write (string, '(4x, a, f7.2)')
+     :                'grain_num_coeff              = '
+     :               , p%head_grain_no_max
+      call write_string (string)
+ 
+      write (string, '(4x, a, f7.2)')
+     :                'max_grain_fill_rate          = '
+     :               , p%grain_gth_rate
+      call write_string (string)
+ 
+      write (string, '(4x, a, f7.2)')
+     :                'dm_tiller_max                = '
+     :               , p%dm_tiller_max
+      call write_string (string)
+ 
+
+c      write (string, '(4x, a, f7.2)')
+c     :                'maximum harvest index        = '
+c     :               , hi_max
+c      call write_string (string)
+c
+c      write (string, '(4x, a, 10f7.2)')
+c     :                'x_hi_max_pot_stress          = '
+c     :               , (p%x_hi_max_pot_stress(i), i=1,p%num_hi_max_pot)
+c      call write_string (string)
+c
+c      write (string, '(4x, a, 10f7.2)')
+c     :                'y_hi_max_pot                 = '
+c     :               , (p%y_hi_max_pot(i), i=1,p%num_hi_max_pot)
+c      call write_string (string)
+ 
+
+      write (string, '(4x, a, 10f7.1)')
+     :                'x_stem_wt                    = '
+     :               , (p%x_stem_wt(i), i=1,p%num_stem_wt)
+      call write_string ( string)
+ 
+      write (string, '(4x, a, 10f7.1)')
+     :                'y_height                     = '
+     :               , (p%y_height(i), i=1,p%num_stem_wt)
+      call write_string (string)
+ 
+      string = '    ------------------------------------------------'
+      call write_string (string)
+ 
+      call write_string ( new_line//new_line)
+ 
+      call pop_routine (my_name)
+      return
+      end
+
+
 
 *     ===========================================================
       subroutine crop_dm_potential (current_stage,
