@@ -29,6 +29,6 @@ bool Exec(const char* Command_line,
       }
    argv[arguments.size()] = NULL;
 
-   return (spawnv(P_WAIT, arguments[0].c_str(), argv) == 0);
+   return (spawnvp(P_WAIT, arguments[0].c_str(), argv) != -1);
    }
 
