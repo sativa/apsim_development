@@ -91,6 +91,7 @@ void Report::clear(void)
 
    currentPage = NULL;
    pages.erase(pages.begin(), pages.end());
+   isDirty = false;
    }
 //---------------------------------------------------------------------------
 // If the filename exists then load it into the report.
@@ -408,7 +409,7 @@ void Report::centrePage(void)
    if (currentPage != NULL)
       {
       int left = (scrollBox->Width - currentPage->Width) / 2;
-      int top = (scrollBox->Height - currentPage->Height) / 2;
+      int top = max((scrollBox->Height - currentPage->Height) / 2, 0);
       if (left >= 0)
          currentPage->Left = left;
       if (top >= 0)
@@ -558,7 +559,7 @@ void Report::refresh(void)
 
    if (TSEGTable::errorMessage != "")
       {
-      ::MessageBox(NULL, TSEGTable::errorMessage.c_str(), "Errors were encountered", MB_ICONSTOP | MB_OK);
+//      ::MessageBox(NULL, TSEGTable::errorMessage.c_str(), "Errors were encountered", MB_ICONSTOP | MB_OK);
       TSEGTable::errorMessage = "";
       }
    }
@@ -569,27 +570,50 @@ void Report::exportCurrentToFile(const std::string& fileName)
    {
    if (currentPage != NULL)
       {
-      if (ExtractFileExt(fileName.c_str()) == ".bmp")
-         ExportToBMP(currentPage, fileName.c_str(), false, false);
-      else if (ExtractFileExt(fileName.c_str()) == ".jpg")
-         ExportToJPEG(currentPage, fileName.c_str(), false, false);
-      else if (ExtractFileExt(fileName.c_str()) == ".html")
-         ExportToHTML(currentPage, fileName.c_str(), false, false);
-      else if (ExtractFileExt(fileName.c_str()) == ".pdf")
-         ExportToPDF(currentPage, fileName.c_str(), false, false);
-      else if (ExtractFileExt(fileName.c_str()) == ".rtf")
-         ExportToRTF(currentPage, fileName.c_str(), false, true);
-      else if (ExtractFileExt(fileName.c_str()) == ".wmf")
-         ExportToWMF(currentPage, fileName.c_str(), false, false);
-      else if (ExtractFileExt(fileName.c_str()) == ".emf")
-         ExportToEMF(currentPage, fileName.c_str(), false, false);
+      setZoom(100);
+      try
+         {
+         if (ExtractFileExt(fileName.c_str()) == ".bmp")
+            ExportToBMP(currentPage, fileName.c_str(), false, false);
+         else if (ExtractFileExt(fileName.c_str()) == ".jpg")
+            ExportToJPEG(currentPage, fileName.c_str(), false, false);
+         else if (ExtractFileExt(fileName.c_str()) == ".html")
+            ExportToHTML(currentPage, fileName.c_str(), false, false);
+         else if (ExtractFileExt(fileName.c_str()) == ".pdf")
+            ExportToPDF(currentPage, fileName.c_str(), false, false);
+         else if (ExtractFileExt(fileName.c_str()) == ".rtf")
+            {
+            gtQRRTFSettings->ExportImageFormat = ifBMP;
+            ExportToRTF(currentPage, fileName.c_str(), false, false);
+            }
+         else if (ExtractFileExt(fileName.c_str()) == ".wmf")
+            ExportToWMF(currentPage, fileName.c_str(), false, false);
+         else if (ExtractFileExt(fileName.c_str()) == ".emf")
+            ExportToEMF(currentPage, fileName.c_str(), false, false);
 
-      AnsiString tempFile = ExtractFileDir(fileName.c_str()) + "\\"
-                          + Path(fileName).Get_name_without_ext().c_str()
-                          + "0001"
-                          + ExtractFileExt(fileName.c_str());
-      CopyFile(tempFile.c_str(), fileName.c_str(), false);
-      DeleteFile(tempFile);
+         AnsiString tempFilePath = ExtractFileDir(fileName.c_str());
+         if (tempFilePath != "")
+            tempFilePath += "\\";
+         AnsiString tempFile =  tempFilePath
+                             + Path(fileName).Get_name_without_ext().c_str()
+                             + "0001"
+                             + ExtractFileExt(fileName.c_str());
+         CopyFile(tempFile.c_str(), fileName.c_str(), false);
+         DeleteFile(tempFile);
+
+         // html exports do things this way!!!!!???
+         tempFilePath = ExtractFileDir(fileName.c_str());
+         if (tempFilePath != "")
+            tempFilePath += "\\";
+         tempFile =  tempFilePath
+                             + Path(fileName).Get_name_without_ext().c_str()
+                             + ".0001.htm";
+         CopyFile(tempFile.c_str(), fileName.c_str(), false);
+         DeleteFile(tempFile);
+         }
+      catch (const Exception& err)
+         {
+         }
       }
    }
 //---------------------------------------------------------------------------
