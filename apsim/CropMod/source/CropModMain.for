@@ -1,4 +1,4 @@
-C     Last change:  E    18 Jan 2001    5:06 pm
+C     Last change:  E    22 Jan 2001    5:10 pm
 
       INCLUDE 'CropMod.inc'
 
@@ -2080,16 +2080,10 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      :                             , 0.0, 2000.0)
 
 
-
-
       elseif (variable_name .eq. 'vern_sen') then
          call collect_real_var (variable_name, '()'
      :                             , p%vern_sen, numvals
      :                             , 0.0, 2000.0)
-
-c      PRINT *, 'p%vern_sen  =', p%vern_sen
-
-
          p%vern_sen_internal   = p%vern_sen   * 0.0054545 + 0.0003
 
 
@@ -2097,10 +2091,59 @@ c      PRINT *, 'p%vern_sen  =', p%vern_sen
          call collect_real_var (variable_name, '()'
      :                             , p%photop_sen, numvals
      :                             , 0.0, 2000.0)
-
-c      PRINT *, 'p%photop_sen=', p%photop_sen
-
          p%photop_sen_internal = p%photop_sen * 0.002
+
+
+
+      else if (variable_name .eq. 'tt_germ_to_emerg') then
+         call collect_real_var (variable_name, '()'
+     :                             , p%tt_germ_to_emerg, numvals
+     :                             , 0.0, 2000.0)
+
+      else if (variable_name .eq. 'tt_emerg_to_endjuv') then
+         call collect_real_var (variable_name, '()'
+     :                             , p%tt_emerg_to_endjuv, numvals
+     :                             , 0.0, 2000.0)
+
+      else if (variable_name .eq. 'tt_endjuv_to_init') then
+         call collect_real_var (variable_name, '()'
+     :                             , p%tt_endjuv_to_init, numvals
+     :                             , 0.0, 2000.0)
+
+      else if (variable_name .eq. 'tt_init_to_flag') then
+         call collect_real_var (variable_name, '()'
+     :                             , p%tt_init_to_flag, numvals
+     :                             , 0.0, 2000.0)
+
+      else if (variable_name .eq. 'tt_flag_to_flower') then
+         call collect_real_var (variable_name, '()'
+     :                             , p%tt_flag_to_flower, numvals
+     :                             , 0.0, 2000.0)
+
+      else if (variable_name .eq. 'tt_flower_to_start_grain') then
+         call collect_real_var (variable_name, '()'
+     :                             , p%tt_flower_to_start_grain, numvals
+     :                             , 0.0, 2000.0)
+
+      else if (variable_name .eq. 'tt_start_to_end_grain') then
+         call collect_real_var (variable_name, '()'
+     :                             , p%tt_start_to_end_grain, numvals
+     :                             , 0.0, 2000.0)
+
+      else if (variable_name .eq. 'tt_end_grain_to_maturity') then
+         call collect_real_var (variable_name, '()'
+     :                             , p%tt_end_grain_to_maturity, numvals
+     :                             , 0.0, 2000.0)
+
+      else if (variable_name .eq. 'tt_maturity_to_ripe') then
+         call collect_real_var (variable_name, '()'
+     :                             , p%tt_maturity_to_ripe, numvals
+     :                             , 0.0, 2000.0)
+
+      else if (variable_name .eq. 'tt_ripe_to_harvest') then
+         call collect_real_var (variable_name, '()'
+     :                             , p%tt_ripe_to_harvest, numvals
+     :                             , 0.0, 2000.0)
 
       else if (variable_name .eq. 'tt_startgf_to_mat') then
          call collect_real_var (variable_name, '()'
@@ -2118,6 +2161,11 @@ c      PRINT *, 'p%photop_sen=', p%photop_sen
          c%leaf_app_rate1 = c%leaf_app_rate
          c%leaf_app_rate2 = c%leaf_app_rate
          c%leaf_init_rate = c%leaf_app_rate *70.0/95.0
+
+      else if (variable_name .eq. 'leaf_init_rate') then
+         call collect_real_var (variable_name, '()'
+     :                             ,c%leaf_init_rate, numvals
+     :                             , 0.0, 2000.0)
 
       else
          ! don't know this variable name

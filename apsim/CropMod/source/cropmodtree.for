@@ -1,4 +1,4 @@
-C     Last change:  E    18 Jan 2001    4:31 pm
+C     Last change:  E    22 Jan 2001    5:04 pm
 
 C      INCLUDE 'CropMod.inc'
 
@@ -779,7 +779,16 @@ c      REAL    deepest_layer
      :              , c%leaf_app_rate1
      :              , g%vern_eff
      :              , g%photop_eff
-     :              , g%dlt_tt
+     :              , p%tt_germ_to_emerg
+     :              , p%tt_emerg_to_endjuv
+     :              , p%tt_endjuv_to_init
+     :              , p%tt_init_to_flag
+     :              , p%tt_flag_to_flower
+     :              , p%tt_flower_to_start_grain
+     :              , p%tt_start_to_end_grain
+     :              , p%tt_end_grain_to_maturity
+     :              , p%tt_maturity_to_ripe
+     :              , p%tt_ripe_to_harvest
      :               )
 
 
