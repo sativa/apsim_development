@@ -40,15 +40,14 @@ class __declspec(dllexport) ApsimDataFileWriter
       // constructor.
       //---------------------------------------------------------------------------
       ApsimDataFileWriter(void) { }
+      ~ApsimDataFileWriter(void);
 
       //---------------------------------------------------------------------------
       // Open the data file for writing. All data is overwritten.
       // Section name should NOT have [ ] characters around it.
       //---------------------------------------------------------------------------
-      typedef enum {dayColumn, dateColumn} DateFormat;
       void open(const std::string& fileName,
-                const std::string& sectionName,
-                DateFormat dateFormat);
+                const std::string& sectionName);
 
       //---------------------------------------------------------------------------
       // Close the data file for writing
@@ -70,7 +69,6 @@ class __declspec(dllexport) ApsimDataFileWriter
       Values constants;
       Values temporalData;
       bool haveWritenHeadings;
-      DateFormat dateFormat;
 
       std::ofstream out;
    };
