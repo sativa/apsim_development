@@ -1971,6 +1971,7 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 
 *- Implementation Section ----------------------------------
 
+      p%num_solutes = 0
       do 100 solnum=1,nsol
          p%solute_names(solnum) = ' '
          g%solute_owners(solnum) = ' '
