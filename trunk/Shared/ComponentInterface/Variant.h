@@ -63,6 +63,7 @@ class Variant
 
          else
             messageData >> obj;
+         return true;
          }
       void setTypeConverter(TypeConverter* typeconv)
          {
