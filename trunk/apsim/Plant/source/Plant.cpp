@@ -11362,17 +11362,17 @@ void Plant::plant_read_constants ( void )
     parent->readParameter (section_name
     , "maxt_ub"//, "(oc)"
     , c.maxt_ub
-    , 0.0, 60.0);
+    , -60.0, 60.0);
 
     parent->readParameter (section_name
     , "maxt_lb"//, "(oc)"
     , c.maxt_lb
-    , 0.0, 60.0);
+    , -60.0, 60.0);
 
     parent->readParameter (section_name
     , "mint_ub"//, "(oc)"
     , c.mint_ub
-    , 0.0, 40.0);
+    , -60.0, 40.0);
 
     parent->readParameter (section_name
     , "mint_lb"//, "(oc)"
