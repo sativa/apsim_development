@@ -80,7 +80,7 @@ trials <- as.character(unique(obs$trial))
 dir <- "new"
 
 ## Read modelled data into 1 big table
-rm("pred")
+if (exists("pred")) { rm("pred") }
 for (i in 1:length(trials)) {
    trial <- trials[i]
    predfile <- paste(dir, "/", trial, ".out", sep="")
@@ -99,6 +99,25 @@ pdf(file="valid.pdf", width=6, height=8, horizontal=F)
 layout(matrix(c(1,1:7), 4,2, byrow = TRUE))
 plot(NA, ylim=c(0,1), xlim=c(0,1), xlab="", ylab="", axes=F, type="n", main="All Experiments")
 plotexp(pred, obs, c("yield", "biomass", "lai"), trials)
+
+layout(matrix(1:8, 4,2, byrow = TRUE))
+for (var in c("lai", "biomass", "yield")) {
+   all <- na.omit(c(pred[[var]], obs[[var]]))
+   ylim <- c(min(all), max(all))
+   for (i in 1:length(trials)) {
+       trial <- trials[i]
+       p<-data.frame(x=pred$das[pred$trial==trial],
+                     y=pred[[var]][pred$trial==trial])
+       o<-na.omit(data.frame(x=obs$das[obs$trial==trial],
+                             y=obs[[var]][obs$trial==trial]))
+       if (length(o$x) > 0) {
+         plot(p,type="l", xlab="das", ylab=var,
+              main=paste(trial,var), xlim=c(min(c(p$x,o$x)),max(c(p$x,o$x))),
+              ylim=ylim)
+         points(na.omit(o))
+       }
+   }
+}
 
 ##-- extra stuff ?
 
