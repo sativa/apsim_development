@@ -383,9 +383,9 @@ bool InputComponent::getVariableValue(const string& name, float& value)
 namespace protocol {
 struct NewMet
    {
+   float radn;
    float maxt;
    float mint;
-   float radn;
    float rain;
    float vp;
    };
