@@ -28,7 +28,7 @@ end_date=1/5/2000
 
 report do_output
 
-if ((lablab.stage_code > 5 and lablab.biomass > 1000) or (lablab.plant_status = 'dead')) then
+if ((lablab.stage > 5 and lablab.biomass > 1000) or (lablab.plant_status = 'dead')) then
     lablab harvest
     lablab end_crop
     crop_in = 0
