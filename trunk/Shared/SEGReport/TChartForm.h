@@ -28,7 +28,6 @@ __published:	// IDE-managed Components
    TEdit *SeriesNumberEdit;
    void __fastcall SeriesNumberEditChange(TObject *Sender);
    void __fastcall ChartPropertyLabelClick(TObject *Sender);
-   void __fastcall FormShow(TObject *Sender);
 private:	// User declarations
    TGraph* graph;
 public:		// User declarations

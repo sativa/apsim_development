@@ -15,9 +15,9 @@
     <LIBRARIES value="ThirdParty.lib VclSmp.lib TMSC6.lib"/>
     <SPARELIBS value="vcl.lib rtl.lib vclx.lib dbrtl.lib bdertl.lib vcldb.lib TMSC6.lib 
       VclSmp.lib ThirdParty.lib vcldbx.lib"/>
-    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi adortl.bpi vcldb.bpi 
-      bdertl.bpi vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi ibxpress.bpi 
-      visualclx.bpi visualdbclx.bpi vclie.bpi xmlrtl.bpi inet.bpi inetdbbde.bpi 
+    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi dbrtl.bpi adortl.bpi vcldb.bpi bdertl.bpi 
+      vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi ibxpress.bpi visualclx.bpi 
+      visualdbclx.bpi vclie.bpi xmlrtl.bpi inet.bpi inetdbbde.bpi 
       inetdbxpress.bpi inetdb.bpi nmfast.bpi bcbie.bpi soaprtl.bpi dclocx.bpi 
       dbexpress.bpi dbxcds.bpi indy.bpi vcljpg.bpi"/>
     <PATHCPP value=".;"/>
@@ -93,6 +93,9 @@ OriginalFilename=
 ProductName=
 ProductVersion=1.0.0.0
 Comments=
+
+[Excluded Packages]
+C:\Program Files\Borland\CBuilder6\Components\TeeChart\Sources\Compiled\BuilderC6\System\TeeImage7C6.bpl=TeeChart Pro Graphic Exporting formats
 
 [HistoryLists\hlIncludePath]
 Count=21

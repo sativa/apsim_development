@@ -37,9 +37,4 @@ void __fastcall TChartForm::ChartPropertyLabelClick(TObject *Sender)
    graph->userEdit();
    }
 //---------------------------------------------------------------------------
-void __fastcall TChartForm::FormShow(TObject *Sender)
-   {
-   // Setup
-   }
-//---------------------------------------------------------------------------
 
