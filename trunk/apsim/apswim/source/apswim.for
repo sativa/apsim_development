@@ -43,7 +43,7 @@
 *   Constant values
 
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V1.4  04/4/97')
+      parameter (version_number = 'V1.6  13/6/97')
 
 *   Initial data values
 *       none
@@ -939,6 +939,15 @@ c     :              3)
 
       elseif (ibbc.eq.2) then
       elseif (ibbc.eq.3) then
+         call Read_double_var (
+     :              bottom_boundary_section,
+     :              'constant_potential',
+     :              '(cm)',
+     :              constant_potential,
+     :              numvals,
+     :             -1d7,
+     :              1d7)
+
       else
       endif
 
@@ -1190,7 +1199,8 @@ c      read(ret_string, *, iostat = err_code) rain
        integer          apswim_time_to_mins ! function
 
 *   Internal variables
-
+       double precision conc_water_solute(0:M)
+       double precision conc_adsorb_solute(0:M)
        double precision dble_dis(0:M)
        double precision dble_exco(0:M)
        double precision dr              ! timestep rainfall (during dt)(mm)
@@ -1200,6 +1210,7 @@ c      read(ret_string, *, iostat = err_code) rain
        double precision hmin_mm
        double precision sol(0:M)   ! tempory solute profile array
        integer          solnum     ! solute number
+       character        solname*20 ! name of solute
        integer          node       ! node number specifier
        double precision start_of_day
        double precision end_of_day
@@ -1507,6 +1518,30 @@ cnh added as per request by Dr Val Snow
      :            dble_dis(0),
      :            n+1)
 
+      else if (index(Variable_name,'conc_water_').eq.1) then
+
+         solname = Variable_name(12:)
+
+         call apswim_conc_water_solute (solname, conc_water_solute)
+
+         call respond2Get_double_array (
+     :            Variable_name,
+     :            '(ug/g)',
+     :            conc_water_solute(0),
+     :            n+1)
+
+      else if (index(Variable_name,'conc_adsorb_').eq.1) then
+
+         solname = Variable_name(13:)
+
+         call apswim_conc_adsorb_solute (solname, conc_adsorb_solute)
+
+         call respond2Get_double_array (
+     :            Variable_name,
+     :            '(ug/g)',
+     :            conc_adsorb_solute(0),
+     :            n+1)
+
 
       else
          call Message_Unused ()
@@ -1550,6 +1585,7 @@ cnh added as per request by Dr Val Snow
       character Variable_name*(*) ! (INPUT) Variable name to search for
 
 *   Global variables
+      include 'const.inc'
       include 'apswim.inc'             ! apswim common block
       integer apswim_solute_number
 
@@ -1638,6 +1674,21 @@ cnh added as per request by Dr Val Snow
      :              numvals,
      :              0d0,
      :              100d0)
+
+      elseif (Variable_name .eq. 'bbc_potential') then
+         if (ibbc.eq.3) then
+            call collect_double_var (
+     :              Variable_name,
+     :              '(cm)',
+     :              constant_potential,
+     :              numvals,
+     :              -1d7,
+     :              1d7)
+         else
+            call fatal_error(ERR_USER,
+     :      'Cannot reset bottom boundary potential unless using'
+     :      //' seepage option.')
+         endif
 
 
       else
@@ -5124,12 +5175,9 @@ c                     beta(solnum,node) = table_beta(solnum2)
        include 'const.inc'             ! Constant definitions
        include 'apswim.inc'            ! apswim common block
 
-       double precision apswim_solve_freundlich ! function
-
 *   Internal variables
       integer solnum                   ! solute array index counter
       integer node                     ! layer number specifier
-      integer numvals                  ! number of values returned
       double precision solute_n(0:M)
                                        ! solute concn in layers(kg/ha)
 
@@ -5144,45 +5192,12 @@ c                     beta(solnum,node) = table_beta(solnum2)
       call push_routine (myname)
 
       do 100 solnum = 1, num_solutes
-         ! Initialise tempory varaibles to zero
-         do 10 node = 0,n
-            solute_n(node) = 0d0
-   10    continue
-
-         call get_double_array (
-     :           unknown_module,
-     :           solute_names(solnum),
-     :           n+1,
-     :           '(kg/ha)',
-     :           solute_n(0),
-     :           numvals,
-     :           c_lb_solute,
-     :           c_ub_solute)
-
-         if (numvals.gt.0) then
-
-            do 50 node=0, n
-               ! convert solute from kg/ha to ug/cc soil
-               ! ug Sol    kg Sol    ug   ha(node)
-               ! ------- = ------- * -- * -------
-               ! cc soil   ha(node)  kg   cc soil
-
-               solute_n(node) = solute_n(node)
-     :                        * 1d9             ! ug/kg
-     :                        / (dx(node)*1d8)  ! cc soil/ha
-
-               csl(solnum,node) = apswim_solve_freundlich
-     :                                             (node
-     :                                             ,solnum
-     :                                             ,solute_n(node))
-
-   50       continue
-
-         else
-            call fatal_error (Err_User,
-     :         'You have asked me to move a solute that is not in the'
-     :         //' system :-'//solute_names(solnum))
-         endif
+         call apswim_conc_water_solute (solute_names (solnum)
+     :                                 ,solute_n)
+        do 50 node = 0, n
+           csl(solnum,node) = solute_n(node)
+   50   continue
+   
   100 continue
 
       if (cslgw_is_set) then
@@ -7835,6 +7850,7 @@ cnh      end if
       include 'apswim.inc'
 
       double precision ddivide           ! function
+      logical doubles_are_equal          ! function
 
 *   Internal variables
       double precision decay_fraction
@@ -7867,14 +7883,19 @@ cnh      end if
          ! applied to reach the current hmin.
 
          decay_Fraction = ddivide(hmin-hm0,hm1-hm0,0d0)
-         ceqrain = -hrc * log(decay_Fraction)
 
-         ! now add rainfall energy for this timestep
-         ceqrain = ceqrain + deqrain
+         if (doubles_are_equal (decay_fraction, 0d0)) then
+            ! the roughness is totally decayed
+            sstorage = hm0
+         else
+            ceqrain = -hrc * log(decay_Fraction)
 
-         ! now calculate new surface storage from new energy
-         sstorage=hm0+(hm1-hm0)*exp(-ceqrain/hrc)
+            ! now add rainfall energy for this timestep
+            ceqrain = ceqrain + deqrain
 
+            ! now calculate new surface storage from new energy
+            sstorage=hm0+(hm1-hm0)*exp(-ceqrain/hrc)
+         endif
       else
          ! nih - commented out to keep storage const
          ! sstorage = hm0
@@ -7933,6 +7954,7 @@ cnh      end if
       include 'apswim.inc'
 
       double precision ddivide
+      logical doubles_are_equal
 
 *     Subroutine Arguments
       double precision deqrain
@@ -7956,14 +7978,20 @@ cnh      end if
          ! applied to reach the current conductance.
 
          decay_Fraction = ddivide(gsurf-g0,g1-g0,0d0)
-         ceqrain = -grc * log(decay_Fraction)
 
-         ! now add rainfall energy for this timestep
-         ceqrain = ceqrain + deqrain
+         if (doubles_are_equal (decay_fraction, 0d0)) then
+            ! seal is totally decayed
+            g = g0
+         else
 
-         ! now calculate new surface storage from new energy
-         g = g0+(g1-g0)*exp(-ceqrain/grc)
+            ceqrain = -grc * log(decay_Fraction)
 
+            ! now add rainfall energy for this timestep
+            ceqrain = ceqrain + deqrain
+       
+            ! now calculate new surface storage from new energy
+            g = g0+(g1-g0)*exp(-ceqrain/grc)
+         endif
       else
          g = gsurf
       endif
@@ -8373,6 +8401,11 @@ cnh now uses constant potential from input file
 
             p(n)=apswim_pf(psi(n))
          end if
+cnh added to allow seepage to user potential at bbc
+         if(ibbc.eq.3)then
+            psi(n) = constant_potential
+         endif
+
       end if
 ***   get soil water variables and their derivatives
       do 8 i=0,n
@@ -8387,9 +8420,12 @@ cnh now uses constant potential from input file
          call apswim_watvar(0,p(0),v1,psip(0),psipp(0),th(0),thp(0),
      1               hk(0),hkp(0))
       end if
-      if(ibbc.eq.3.and.psi(n).gt.0.)then
+cnh added to allow seepage to user potential at bbc
+cnh      if(ibbc.eq.3.and.psi(n).gt.0.)then
+      if(ibbc.eq.3.and.psi(n).gt.constant_potential)then
 *        seepage at bottom boundary
-         psi(n)=0.
+cnh         psi(n)=0.
+         psi(n)=constant_potential
          p(n)=apswim_pf(psi(n))
          call apswim_watvar(n,p(n),v1,psip(n),psipp(n),th(n),thp(n),
      1               hk(n),hkp(n))
@@ -8624,7 +8660,9 @@ cnh
          qp1(n+1)=0.
       else if(ibbc.eq.3)then
 **       seepage
-         if(psi(n).ge.0.)then
+cnh added to allow seepage to user potential at bbc
+cnh         if(psi(n).ge.0.)then
+         if(psi(n).ge.constant_potential) then
             q(n+1)=q(n)-qs(n)-qex(n)
             if(ibp.eq.n)q(n+1)=q(n+1)+qbp
             if(q(n+1).ge.0.)then
@@ -9883,7 +9921,7 @@ c      end if
       parameter (demand_tolerence = 0.0000001d0)
 
       double precision minimum_rlv        ! (cm/cc)
-      parameter (minimum_rlv = 0.05)
+      parameter (minimum_rlv = 0.0005)
 
 *   Initial data values
 *      none
@@ -10971,6 +11009,227 @@ c      pause
          SwimTime  (counter) = 0.0d0
          SwimAmt   (counter) = 0.0d0
  300  continue
+
+      call pop_routine (myname)
+      return
+      end
+* ====================================================================
+       subroutine apswim_conc_water_solute (solname,conc_water_solute)
+* ====================================================================
+
+*   Short description:
+*      Calculate the concentration of solute in water (ug/l).  Note that
+*      this routine is used to calculate output variables and input 
+*      variablesand so can be called at any time during the simulation.
+*      It therefore must use a solute profile obtained from the solute's
+*      owner module.  It therefore also follows that this routine cannot
+*      be used for internal calculations of solute concentration during
+*      the process stage etc.
+
+*   Assumptions:
+*      None
+
+*   Notes:
+*      None
+
+*   Procedure attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <= 20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       Include
+*                       implicit none
+
+*   Changes:
+*     12-06-1997 - huth - Programmed and Specified
+
+*   Calls:
+*     Pop_routine
+*     Push_routine
+
+* ----------------------- Declaration section ------------------------
+
+       implicit none
+
+*   Global variables
+      include 'const.inc'
+      include 'apswim.inc'
+      double precision apswim_solve_freundlich
+      integer          apswim_solute_number
+      
+*   Subroutine arguments
+      character solname*(*)
+      double precision conc_water_solute(0:n)
+      
+*   Internal variables
+      integer          node
+      double precision solute_n(0:M) ! solute at each node
+      integer          solnum
+      integer          numvals
+      
+*   Constant values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'apswim_conc_water_solute')
+
+*   Initial data values
+
+      call fill_double_array(conc_water_solute(0),0d0,n+1)
+
+* --------------------- Executable code section ----------------------
+      call push_routine (myname)
+
+      solnum = apswim_solute_number (solname)
+
+      call get_double_array (
+     :           unknown_module,
+     :           solname,
+     :           n+1,
+     :           '(kg/ha)',
+     :           solute_n(0),
+     :           numvals,
+     :           c_lb_solute,
+     :           c_ub_solute)
+
+         if (numvals.gt.0) then
+
+            do 50 node=0, n
+               ! convert solute from kg/ha to ug/cc soil
+               ! ug Sol    kg Sol    ug   ha(node)
+               ! ------- = ------- * -- * -------
+               ! cc soil   ha(node)  kg   cc soil
+
+               solute_n(node) = solute_n(node)
+     :                        * 1d9             ! ug/kg
+     :                        / (dx(node)*1d8)  ! cc soil/ha
+
+               conc_water_solute(node) = apswim_solve_freundlich
+     :                                             (node
+     :                                             ,solnum
+     :                                             ,solute_n(node))
+
+   50       continue
+
+         else
+            call fatal_error (Err_User,
+     :         'You have asked apswim to use a '
+     :         //' solute that is not in the system :-'
+     :         //solname)
+         endif
+
+      call pop_routine (myname)
+      return
+      end
+* ====================================================================
+       subroutine apswim_conc_adsorb_solute (solname,conc_adsorb_solute)
+* ====================================================================
+
+*   Short description:
+*      Calculate the concentration of solute adsorbed (ug/g soil). Note that
+*      this routine is used to calculate output variables and input
+*      variablesand so can be called at any time during the simulation.
+*      It therefore must use a solute profile obtained from the solute's
+*      owner module.  It therefore also follows that this routine cannot
+*      be used for internal calculations of solute concentration during
+*      the process stage etc.
+
+*   Assumptions:
+*      None
+
+*   Notes:
+*      None
+
+*   Procedure attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <= 20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       Include
+*                       implicit none
+
+*   Changes:
+*     12-06-1997 - huth - Programmed and Specified
+
+*   Calls:
+*     Pop_routine
+*     Push_routine
+
+* ----------------------- Declaration section ------------------------
+
+       implicit none
+
+*   Global variables
+      include 'const.inc'
+      include 'apswim.inc'
+      double precision apswim_solve_freundlich
+      integer          apswim_solute_number
+      double precision ddivide
+      
+*   Subroutine arguments
+      character solname*(*)
+      double precision conc_adsorb_solute(0:n)
+
+*   Internal variables
+      integer          node
+      double precision solute_n(0:M) ! solute at each node
+      integer          solnum
+      integer          numvals
+      double precision conc_water_solute ! (ug/g water)
+      
+*   Constant values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'apswim_conc_adsorb_solute')
+
+*   Initial data values
+
+      call fill_double_array(conc_adsorb_solute(0),0d0,n+1)
+
+* --------------------- Executable code section ----------------------
+      call push_routine (myname)
+
+      solnum = apswim_solute_number (solname)
+
+      call get_double_array (
+     :           unknown_module,
+     :           solname,
+     :           n+1,
+     :           '(kg/ha)',
+     :           solute_n(0),
+     :           numvals,
+     :           c_lb_solute,
+     :           c_ub_solute)
+
+         if (numvals.gt.0) then
+
+            do 50 node=0, n
+               ! convert solute from kg/ha to ug/cc soil
+               ! ug Sol    kg Sol    ug   ha(node)
+               ! ------- = ------- * -- * ------- 
+               ! cc soil   ha(node)  kg   cc soil 
+
+               solute_n(node) = solute_n(node)
+     :                        * 1d9             ! ug/kg
+     :                        / (dx(node)*1d8)  ! cc soil/ha
+     
+               conc_water_solute = apswim_solve_freundlich
+     :                                             (node
+     :                                             ,solnum
+     :                                             ,solute_n(node))
+
+               conc_adsorb_solute(node) = 
+     :           ddivide(solute_n(node) - conc_water_solute * th(node)
+     :                  ,rhob(node)
+     :                  ,0d0)
+     
+   50       continue
+
+         else
+            call fatal_error (Err_User,
+     :         'You have asked apswim to use a '
+     :         //' solute that is not in the system :-'
+     :         //solname)
+         endif
 
       call pop_routine (myname)
       return
