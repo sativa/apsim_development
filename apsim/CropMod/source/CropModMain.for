@@ -1,4 +1,4 @@
-C     Last change:  E    18 Dec 2000   10:20 am
+C     Last change:  E    19 Dec 2000    3:56 pm
 
       INCLUDE 'CropMod.inc'
 
@@ -640,6 +640,22 @@ cjh      endif
           if (numvals.eq.0)  c%nit_switch = '111111111'
 
       endif
+
+
+
+
+
+
+      if (c%crop_type .eq. 'sunflower') then
+          c%wat_switch    = '111111111'
+          c%phen_switch   = '411141111'
+          c%leafno_switch = '141411111'
+          c%carb_switch   = '111111111'
+          c%part_switch   = '444111111'
+          c%tiller_switch = '000000000'
+          c%can_switch    = '041111111'
+          c%nit_switch    = '111111111'
+      end if
 
 
       call pop_routine (my_name)
@@ -2224,10 +2240,18 @@ c    :                                    , c%year_lb, c%year_ub)
      :                                  , 0.0, 20.0)
  
       !Get soil temperature
-      call get_real_var_optional (unknown_module, 'soil_temp', '(oC)'
+c      call get_real_var_optional (unknown_module, 'soil_temp', '(oC)'
+c     :                                  , soil_temp, numvals
+c     :                                  , 0.0, 80.0)
+
+
+      call get_real_var_optional (unknown_module
+     :                                  , 'maxt_soil_surface'
+     :                                  , '(oC)'
      :                                  , soil_temp, numvals
      :                                  , 0.0, 80.0)
- 
+
+
       if (numvals.eq.0) then
          ! soil temp not supplied
       else
