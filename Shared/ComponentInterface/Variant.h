@@ -25,7 +25,7 @@ class Variant
       // this constructor is needed for storing a copy of a variant in a
       // variants class.
       Variant(const Variant& from)
-         : typeConverter(NULL)
+         : typeConverter(NULL), fromId(from.fromId)
          {
          copyFrom(from);
          }
@@ -60,6 +60,7 @@ class Variant
       void aliasTo(Variant& variant)
          {
          type = variant.getType();
+         fromId = variant.fromId;
          messageData = MessageData(variant.messageData.ptr(), variant.messageData.bytesUnRead());
          }
       void aliasTo(MessageData& fromMessageData)
