@@ -290,11 +290,9 @@ class prepend_substring_and_copy : private std::unary_function <string, void >
    public:
       prepend_substring_and_copy( const char* sub, Container& c )
          : Substring (sub), container(c) { }
-      void operator() (const string& x )
+      void operator() (const string& x)
          {
-         string new_st(x);
-         new_st = x + new_st;
-         container.push_back (new_st);
+         container.push_back (Substring + x);
          }
     };
 #endif
