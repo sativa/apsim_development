@@ -76,7 +76,6 @@ void Get_keyname_and_value (const char* line, string& Key_name, string& Key_valu
       string Left_of_equals;
       Key_name = Str_line.substr (0, Pos_equals);
       Strip (Key_name, " ");
-      To_lower(Key_name);
       Key_value = Str_line.substr (Pos_equals + 1);
       Strip (Key_value, " ");
       }

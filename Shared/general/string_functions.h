@@ -221,14 +221,25 @@ int Locate_string (const char* Search_string, StringContainer& words)
 //    DPH 28/10/97
 
 // ------------------------------------------------------------------
-template < class Arg >
-class remove_substring : private std::unary_function < Arg, void >
+template <class Container >
+class remove_substring_and_copy : private std::unary_function < string, void >
    {
    private:
+      Container& container;
       string Substring;
    public:
-      remove_substring( const char* sub ) : Substring ( sub ) { }
-      void operator(  ) ( Arg & x ) { x.remove(x.find(Substring)); }
+      remove_substring_and_copy( const char* sub, Container& c )
+         : Substring ( sub ), cont(c) { }
+      void operator(  ) ( const string& x )
+         {
+         size_t pos = x.find(Substring);
+         if (x != string::npos)
+            {
+            string new_st(x);
+            new_st.remove(pos);
+            container.push_back (new_st);
+            }
+         }
     };
 
 // ------------------------------------------------------------------
@@ -242,14 +253,21 @@ class remove_substring : private std::unary_function < Arg, void >
 //    DPH 28/10/97
 
 // ------------------------------------------------------------------
-template < class Arg >
-class append_substring : private std::unary_function < Arg, void >
+template < class Container >
+class append_substring_and_copy : private std::unary_function < string, void >
    {
    private:
+      Container& container;
       string Substring;
    public:
-      append_substring( const char* sub ) : Substring ( sub ) { }
-      void operator(  ) ( Arg & x ) { x.append(Substring)); }
+      append_substring_and_copy( const char* sub, Container& c )
+         : Substring (sub), container(c) { }
+      void operator(  ) ( const string& x )
+         {
+         string new_st(x);
+         new_st.append(Substring);
+         container.push_back (new_st);
+         }
     };
 
 // ------------------------------------------------------------------
@@ -263,14 +281,21 @@ class append_substring : private std::unary_function < Arg, void >
 //    DPH 28/10/97
 
 // ------------------------------------------------------------------
-template < class Arg >
-class prepend_substring : private std::unary_function < Arg, void >
+template < class Container >
+class prepend_substring_and_copy : private std::unary_function <string, void >
    {
    private:
+      Container& container;
       string Substring;
    public:
-      prepend_substring( const char* sub ) : Substring ( sub ) { }
-      void operator(  ) ( Arg & x ) { x = Substring + x; }
+      prepend_substring_and_copy( const char* sub, Container& c )
+         : Substring (sub), container(c) { }
+      void operator() (const string& x )
+         {
+         string new_st(x);
+         new_st = x + new_st;
+         container.push_back (new_st);
+         }
     };
 #endif
 
