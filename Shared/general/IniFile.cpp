@@ -88,8 +88,9 @@ void IniFile::readSectionNames(vector<string>& sections)
 	{
    sections.erase(sections.begin(), sections.end());
 
+   flush();
    char st[INI_STRING_SIZE];
-   GetPrivateProfileString(NULL, "", "", st, sizeof(st), fileName.c_str());
+   GetPrivateProfileString(NULL, "", "", st, INI_STRING_SIZE, fileName.c_str());
    getWordsFromDoubleNullSt(st, sections);
    }
 // ------------------------------------------------------------------
