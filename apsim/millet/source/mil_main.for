@@ -91,7 +91,7 @@
 !     pipelines that do nothing but pass their arguments onto routines that
 !     may not be dll exported, millet(), millet_alloc() and millet_free().
 
-      include 'Millet.inc'
+!      include 'Millet.inc'
 
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
