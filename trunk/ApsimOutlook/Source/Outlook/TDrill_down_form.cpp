@@ -16,7 +16,6 @@
 #pragma link "Grids"
 #pragma link "HgGrid"
 #pragma link "HgHGrid"
-#pragma link "THGrid"
 #pragma link "TSelected_simulations"
 #pragma resource "*.dfm"
 TDrill_down_form *Drill_down_form;
