@@ -70,7 +70,7 @@
 ! ====================================================================
       implicit none
       dll_export Create
-      include 'const.inc'
+      include 'action.inc'
       include 'ComponentInterface.inc'
 
 !+ Sub-Program Arguments
@@ -99,6 +99,15 @@
       ! allocate an instance of the data
       call AllocInstance(aName, anInstanceNo)
 
+      ! swap in the proper instance.
+      call UseInstance (anInstanceNo) 
+      
+      ! call the init routine.
+      call Main (ACTION_Create, "")
+
+      ! restore existing instance
+      call RestoreInstance()
+      
       return
       end
       
