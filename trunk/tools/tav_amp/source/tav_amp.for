@@ -99,6 +99,7 @@
       eof = ios.ne.0
 
       do while  (.not. eof )
+
          nrecs = 1 + nrecs
          recs(nrecs) = record
       
@@ -208,9 +209,28 @@
          do while  (.not. eof )
             nrecs = 1 + nrecs
             recs(nrecs) = record
-            if (record(1:1).ne.comment) then
+
+            data_end = index (record, comment) - 1
+            if (data_end .lt.0) then
+               data_end = len_trim(record)
+            else
+            endif
+
+            if (record .eq. blank
+     :         .or. record(:data_end) .eq. blank) then
+               data_end = 0
+               record_data_lc = blank
+               record_is_comment = .true.
+            else
+               record_data_lc = lower_case (record(:data_end))
+               record_is_comment = .false.
+            endif
+
+            record_lc = lower_case (record)
+               
+            if (.not. record_is_comment) then
          
-               read (record, *) (c_columns(i), i=1,num_words)
+               read (record_data_lc, *) (c_columns(i), i=1,num_words)
                read (c_columns(posn_year), *) year
                read (c_columns(posn_day), *) day
                read (c_columns(posn_maxt), *) maxt
