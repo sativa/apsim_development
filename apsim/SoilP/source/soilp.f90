@@ -2338,8 +2338,8 @@ subroutine Main (Action, Data_string)
 !   else if (Action.eq.ACTION_incorp_fom) then
 !      call soilp_incorp_residues ()
 !
-!   else if (Action.eq.ACTION_incorp_fom_p) then
-!      call soilp_incorp_residue_p ()
+   else if (Action.eq.ACTION_incorp_fom_p) then
+      call soilp_incorp_residue_p ()
 
 !   now responds to 'ActualResidueDecompositionCalculated'
 !   else if (Action.eq.ACTION_Decomposed) then
