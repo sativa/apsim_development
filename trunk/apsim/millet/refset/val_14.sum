@@ -65,7 +65,10 @@ Variables =lai
 ---------------------------------------------------------
  INPUT (met) Initialised
 ---------------------------------------------------------
- day= 152 date=  1  6 1986 operatns -  Initialising, Version : V1.3  070397
+ day= 152 date=  1  6 1986 canopy   -  Initialising, Version : V1.13 261196
+ Module rotation for intercropping :
+millet  millet1 millet2 millet3 millet4 millet5
+ day= 152 date=  1  6 1986 operatns -  Initialising
 Operations Schedule
 ===================
   169 1986  Prepare       fertiliz apply amount = 40 (kg/ha), depth=10(mm), type=urea ()
@@ -73,6 +76,27 @@ Operations Schedule
   182 1986  Prepare       irrigate apply amount = 15 (mm)
   204 1986  Prepare       fertiliz apply amount = 100 (kg/ha), depth=10(mm), type=urea ()
   239 1986  Prepare       irrigate apply amount = 15 (mm)
+ day= 152 date=  1  6 1986 fertiliz -  Initialising
+ 
+   - Reading Parameters
+ 
+               Fertiliser Schedule (kg/ha)
+     -----------------------------------------------
+      No fertiliser schedule is used
+     -----------------------------------------------
+ day= 152 date=  1  6 1986 irrigate -  Initialising
+ 
+   - Reading Parameters
+ 
+                 Irrigation parameters
+     -----------------------------------------------
+      Irrigation Schedule (Disabled)
+      Automatic Irrigation Application (Disabled)
+      critical fraction of available soil water =  0.00
+      depth for calculating available soil water =       0.00
+      Irrigation Allocation Budget (Disabled)
+     -----------------------------------------------
+The following solutes can be added with irrigation water
  day= 152 date=  1  6 1986 manager  - Initialising
  
 Manager rules
@@ -240,6 +264,19 @@ the insoil parameter which is between 0 and 1
        Cuml evap (U):            1.50 (mm^0.5)
        CONA:                     6.60 ()
       Eo from priestly-taylor
+ day= 152 date=  1  6 1986 residue2 -  Initialising
+ 
+    - Reading constants
+ 
+    - Reading parameters
+ 
+                 Residue Initial Data
+    ------------------------------------------------
+       Dry matter   N       P    Type
+        (kg/ha)  (kg/ha) (kg/ha)
+    ------------------------------------------------
+            0.0     0.0     0.0  millet
+    ------------------------------------------------
  day= 152 date=  1  6 1986 soiln2   -  Initialising
  
    - Reading Constants
@@ -279,43 +316,6 @@ the insoil parameter which is between 0 and 1
      ---------------------------------------------------------
       Totals   75881.0  5233.2   643.0    80.4   400.0     8.9
      ---------------------------------------------------------
- day= 152 date=  1  6 1986 residue2 -  Initialising
- 
-    - Reading constants
- 
-    - Reading parameters
- 
-                 Residue Initial Data
-    ------------------------------------------------
-       Dry matter   N       P    Type
-        (kg/ha)  (kg/ha) (kg/ha)
-    ------------------------------------------------
-            0.0     0.0     0.0  millet
-    ------------------------------------------------
- day= 152 date=  1  6 1986 fertiliz -  Initialising
- 
-   - Reading Parameters
- 
-               Fertiliser Schedule (kg/ha)
-     -----------------------------------------------
-      No fertiliser schedule is used
-     -----------------------------------------------
- day= 152 date=  1  6 1986 irrigate -  Initialising
- 
-   - Reading Parameters
- 
-                 Irrigation parameters
-     -----------------------------------------------
-      Irrigation Schedule (Disabled)
-      Automatic Irrigation Application (Disabled)
-      critical fraction of available soil water =  0.00
-      depth for calculating available soil water =       0.00
-      Irrigation Allocation Budget (Disabled)
-     -----------------------------------------------
-The following solutes can be added with irrigation water
- day= 152 date=  1  6 1986 canopy   -  Initialising, Version : V1.13 261196
- Module rotation for intercropping :
-millet  millet1 millet2 millet3 millet4 millet5
  day= 152 date=  1  6 1986 millet   -  Initialising, V2.01 150698
  
     - Reading constants
@@ -793,7 +793,7 @@ millet  millet1 millet2 millet3 millet4 millet5
  Day= 241 Year =  1986     Manager sending message :- residue2 tillage_type = burn
  day= 242 date= 30  8 1986 millet1  -  stage    8.0 start_grain_fill
                      biomass =           171.9067       lai =     1.142365
-                     stover N conc =    1.783013       extractable sw =    125.3981
+                     stover N conc =    1.783014       extractable sw =    125.3981
  day= 245 date=  2  9 1986 millet4  - plant_kill. 100% failure because of barreness.
  day= 245 date=  2  9 1986 millet4  -     millet_kill. Standing above-ground dm =   124.3 (kg/ha)
  day= 245 date=  2  9 1986 millet4  -  stage   12.0 end_crop
@@ -898,16 +898,16 @@ millet  millet1 millet2 millet3 millet4 millet5
  Day= 246 Year =  1986     Manager sending message :- residue2 tillage_type = burn
  day= 260 date= 17  9 1986 millet   -  stage    9.0 end_grain_fill
                      biomass =           1300.037       lai =     1.971868
-                     stover N conc =    1.056283       extractable sw =    98.25732
+                     stover N conc =    1.056283       extractable sw =    98.26498
  day= 262 date= 19  9 1986 millet   -  stage   10.0 maturity
                      biomass =           1342.085       lai =     1.831804
-                     stover N conc =    1.034280       extractable sw =    89.79439
+                     stover N conc =    1.034279       extractable sw =    89.80153
  day= 263 date= 20  9 1986 millet   -  stage   11.0 harvest_ripe
                      biomass =           1342.085       lai =    0.2400994e-02
-                     stover N conc =    1.122796       extractable sw =    83.53802
+                     stover N conc =    1.122795       extractable sw =    83.54520
  day= 263 date= 20  9 1986 millet1  -  stage    9.0 end_grain_fill
                      biomass =           221.5305       lai =    0.3753083
-                     stover N conc =    1.669022       extractable sw =    83.53802
+                     stover N conc =    1.669019       extractable sw =    83.54520
  Day= 263 Year =  1986     Manager sending message :- millet harvest
  
  flowering day  =  234                  stover (kg/ha) =   10481.5
@@ -959,10 +959,10 @@ millet  millet1 millet2 millet3 millet4 millet5
  Day= 263 Year =  1986     Manager sending message :- residue2 tillage_type = burn
  day= 264 date= 21  9 1986 millet1  -  stage   10.0 maturity
                      biomass =           226.3627       lai =    0.3349864
-                     stover N conc =    1.637815       extractable sw =    82.80595
+                     stover N conc =    1.637812       extractable sw =    82.81325
  day= 265 date= 22  9 1986 millet1  -  stage   11.0 harvest_ripe
                      biomass =           226.3627       lai =    0.2399921e-02
-                     stover N conc =    1.837124       extractable sw =    81.52528
+                     stover N conc =    1.837121       extractable sw =    81.53269
  Day= 265 Year =  1986     Manager sending message :- millet1 harvest
  
  flowering day  =  237                  stover (kg/ha) =    1760.3

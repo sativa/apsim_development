@@ -65,7 +65,10 @@ Variables =lai
 ---------------------------------------------------------
  INPUT (met) Initialised
 ---------------------------------------------------------
- day= 169 date= 18  6 1995 operatns -  Initialising, Version : V1.3  070397
+ day= 169 date= 18  6 1995 canopy   -  Initialising, Version : V1.13 261196
+ Module rotation for intercropping :
+millet  millet1 millet2 millet3 millet4 millet5
+ day= 169 date= 18  6 1995 operatns -  Initialising
 Operations Schedule
 ===================
   180 1995  Prepare       soilwat2 set sw = 0.066   0.090   0.117   0.123   0.129   0.137   0.148
@@ -99,6 +102,27 @@ Operations Schedule
   328 1995  Prepare       soilwat2 set sw =   0.029   0.040   0.046   0.057   0.059   0.065   0.068
   335 1995  Prepare       soilwat2 set sw =   0.019   0.042   0.044   0.056   0.056   0.066   0.067
   342 1995  Prepare       soilwat2 set sw =   0.013   0.041   0.046   0.059   0.059   0.066   0.066
+ day= 169 date= 18  6 1995 fertiliz -  Initialising
+ 
+   - Reading Parameters
+ 
+               Fertiliser Schedule (kg/ha)
+     -----------------------------------------------
+      No fertiliser schedule is used
+     -----------------------------------------------
+ day= 169 date= 18  6 1995 irrigate -  Initialising
+ 
+   - Reading Parameters
+ 
+                 Irrigation parameters
+     -----------------------------------------------
+      Irrigation Schedule (Disabled)
+      Automatic Irrigation Application (Disabled)
+      critical fraction of available soil water =  0.00
+      depth for calculating available soil water =       0.00
+      Irrigation Allocation Budget (Disabled)
+     -----------------------------------------------
+The following solutes can be added with irrigation water
  day= 169 date= 18  6 1995 manager  - Initialising
  
 Manager rules
@@ -266,6 +290,19 @@ the insoil parameter which is between 0 and 1
        Cuml evap (U):            7.00 (mm^0.5)
        CONA:                     3.50 ()
       Eo from priestly-taylor
+ day= 169 date= 18  6 1995 residue2 -  Initialising
+ 
+    - Reading constants
+ 
+    - Reading parameters
+ 
+                 Residue Initial Data
+    ------------------------------------------------
+       Dry matter   N       P    Type
+        (kg/ha)  (kg/ha) (kg/ha)
+    ------------------------------------------------
+            0.0     0.0     0.0  millet
+    ------------------------------------------------
  day= 169 date= 18  6 1995 soiln2   -  Initialising
  
    - Reading Constants
@@ -305,43 +342,6 @@ the insoil parameter which is between 0 and 1
      ---------------------------------------------------------
       Totals   27196.3  1875.6   217.7    27.2   100.0     2.5
      ---------------------------------------------------------
- day= 169 date= 18  6 1995 residue2 -  Initialising
- 
-    - Reading constants
- 
-    - Reading parameters
- 
-                 Residue Initial Data
-    ------------------------------------------------
-       Dry matter   N       P    Type
-        (kg/ha)  (kg/ha) (kg/ha)
-    ------------------------------------------------
-            0.0     0.0     0.0  millet
-    ------------------------------------------------
- day= 169 date= 18  6 1995 fertiliz -  Initialising
- 
-   - Reading Parameters
- 
-               Fertiliser Schedule (kg/ha)
-     -----------------------------------------------
-      No fertiliser schedule is used
-     -----------------------------------------------
- day= 169 date= 18  6 1995 irrigate -  Initialising
- 
-   - Reading Parameters
- 
-                 Irrigation parameters
-     -----------------------------------------------
-      Irrigation Schedule (Disabled)
-      Automatic Irrigation Application (Disabled)
-      critical fraction of available soil water =  0.00
-      depth for calculating available soil water =       0.00
-      Irrigation Allocation Budget (Disabled)
-     -----------------------------------------------
-The following solutes can be added with irrigation water
- day= 169 date= 18  6 1995 canopy   -  Initialising, Version : V1.13 261196
- Module rotation for intercropping :
-millet  millet1 millet2 millet3 millet4 millet5
  day= 169 date= 18  6 1995 millet   -  Initialising, V2.01 150698
  
     - Reading constants

@@ -14,6 +14,14 @@ Variables =lai,biomass,green_biomass
 ---------------------------------------------------------
  INPUT (met) Initialised
 ---------------------------------------------------------
+ day= 130 date=  9  5 1988 fertiliz -  Initialising
+ 
+   - Reading Parameters
+ 
+               Fertiliser Schedule (kg/ha)
+     -----------------------------------------------
+      No fertiliser schedule is used
+     -----------------------------------------------
  day= 130 date=  9  5 1988 manager  - Initialising
  
 Manager rules
@@ -28,14 +36,6 @@ endif
 report do_output
  
 -----------------------------------------------------------
- day= 130 date=  9  5 1988 fertiliz -  Initialising
- 
-   - Reading Parameters
- 
-               Fertiliser Schedule (kg/ha)
-     -----------------------------------------------
-      No fertiliser schedule is used
-     -----------------------------------------------
  day= 130 date=  9  5 1988 soilwat2 -  Initialising
  
     - Reading constants
