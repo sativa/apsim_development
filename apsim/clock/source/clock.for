@@ -755,7 +755,7 @@ cih
  
       ! send end run message to all modules.
  
-      call Action_send (ACTION_End_run)
+      call Action_send_to_all_comps (ACTION_End_run)
  
       call pop_routine (This_routine)
       return
@@ -805,7 +805,7 @@ cih
  
          ! Send message to all modules.
  
-         call Action_send (Instructions(Instruction_Index))
+         call Action_send_to_all_comps (Instructions(Instruction_Index))
  
          ! Check the end of simulation flag and exit if necessary
  
@@ -856,7 +856,7 @@ cih
  
 10    continue
       if (g%Pause_current_run) then
-         call Action_send (ACTION_Idle)
+         call Action_send_to_all_comps (ACTION_Idle)
          goto 10
       endif
  
