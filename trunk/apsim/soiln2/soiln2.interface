@@ -127,10 +127,9 @@
       <getVariableReg name="dlayer" type="dlayer"/>
       <getVariableReg name="soil_loss" type="soil_loss"/>
       <getVariableReg name="ph" type="ph"/>
-      <methodCallReg name="do_decompose" type="do_decompose"/>
       <respondToEventReg name="tick" type="tick"/>
       <respondToEventReg name="newmet" type="newmet"/>
-      <respondToEventReg name="pot_decomp" type="pot_decomp"/>
+      <respondToEventReg name="PotentialResidueDecompositionCalculated" type="SurfaceOrganicMatterDecomp"/>
       <respondToEventReg name="new_profile" type="new_profile"/>
       <respondToEventReg name="process" type="process"/>
    </registrations>
