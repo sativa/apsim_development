@@ -310,7 +310,6 @@
       use ManagerModule
       implicit none
       include 'const.inc'             ! Global constant definitions
-      include 'engine.pub'                        
       include 'error.pub'                         
 
 !+  Sub-Program Arguments
@@ -796,7 +795,6 @@
       implicit none
       include 'const.inc'             ! Global constant definitions
       include 'datastr.pub'                       
-      include 'engine.pub'                        
       include 'intrface.pub'                      
       include 'error.pub'                         
 
@@ -1287,7 +1285,6 @@
       implicit none
       include 'const.inc'              ! constant definitions
       include 'read.pub'                          
-      include 'engine.pub'                        
       include 'error.pub'                         
       include 'string.pub'                        
       include 'intrface.pub'                      
