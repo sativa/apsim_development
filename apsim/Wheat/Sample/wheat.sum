@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.5
+     Version                = 3.6
      Title                  = WHEAT SAMPLE Simulation
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -296,40 +296,27 @@
       senesced above ground biomass (kg/ha) =     1372.8
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   40.2
+      DM Root:Shoot ratio    =    0.148                       Harvest Index          =      0.351
+      Stover C:N ratio       =  114.430                       Root C:N ratio         =     31.662
       grain N percent        =       1.83                     total N content (kg/ha)=      76.55
       grain N uptake (kg/ha) =      56.53                     senesced N content (kg/ha)=    6.86
       green N content (kg/ha)=      13.16                     dead N content (kg/ha) =       0.00
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.207
-         water stress 2 =  0.000     nitrogen stress 2 =  0.207
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.000     nitrogen stress 1 =  0.086
-         water stress 2 =  0.000     nitrogen stress 2 =  0.121
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.000     nitrogen stress 1 =  0.150
-         water stress 2 =  0.000     nitrogen stress 2 =  0.291
-     
-      stress indices for flowering
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.076
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.000     nitrogen stress 1 =  0.489
-         water stress 2 =  0.000     nitrogen stress 2 =  0.791
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.207        0.207
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.086        0.121
+         floral_initiation    to flowering               0.000        0.000        0.150        0.291
+         flowering            to start_grain_fill        0.000        0.000        0.000        0.076
+         start_grain_fill     to end_grain_fill          0.000        0.000        0.489        0.791
      
      Crop harvested.
-         tops residue =  5728.78 kg/ha
-         tops N       =  20.01 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               5728.78                    0.00
+                          N  (kg/ha) =                 20.01                    0.00
      
-         tops removed =  3096.99 kg/ha
-         tops N removed= 56.53 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               3096.99                    0.00
+                          N  (kg/ha) =                 56.53                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.024 (m^2/m^2)
@@ -338,10 +325,10 @@
      Manager sending message :- wheat end_crop
 23 October 1988(Day of year=297), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.2 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =   1305.6 kg/ha
-         root N =           16.5 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.24                 1305.58
+                          N  (kg/ha) =                  0.01                   16.49
+                          P  (kg/ha) =                                          0.00
+     
 17 November 1988(Day of year=322), clock: 
      Simulation is terminating due to end criteria being met.
