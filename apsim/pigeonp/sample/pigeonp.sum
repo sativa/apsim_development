@@ -20,7 +20,7 @@
      Title                  = pigeonp Sample Simulation
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\met\lib\met.dll(met) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\soilwat2\lib\soilwat2.dll(soilwat2) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\residue2\lib\residue2.dll(residue2) - Licensed
@@ -263,13 +263,13 @@
 22 October 1988 (Day of year=296):
    PIGEONP:
        stage    3.0 emergence
-                           biomass =          0.6500000       lai =    0.1300000e-01
+                           biomass =          0.6500000       lai =    0.1300000E-01
                            stover N conc =    4.461538       extractable sw =    21.98140
 17 December 1988 (Day of year=352):
    PIGEONP:
        stage    4.0 end_of_juvenile
                            biomass =           150.9850       lai =     1.492890    
-                           stover N conc =    3.783231       extractable sw =    135.8723
+                           stover N conc =    3.783230       extractable sw =    135.8723
 2 March 1989 (Day of year=61):
    PIGEONP:
        stage    5.0 floral_initiation
@@ -298,7 +298,7 @@
 21 April 1989 (Day of year=111):
    PIGEONP:
        stage   10.0 harvest_ripe
-                           biomass =           1326.147       lai =    0.2384186e-06
+                           biomass =           1326.147       lai =    0.2384186E-06
                            stover N conc =   0.6124390       extractable sw =    90.12469
 22 April 1989 (Day of year=112):
    MANAGER:
@@ -326,7 +326,7 @@
       
        stress indices for emergence
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0088217
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0136547
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0136548
       
       
       
@@ -343,7 +343,7 @@
       
       
        stress indices for flowering
-       water stress 1 =       0.1316615   nitrogen stress 1 =       0.0000000
+       water stress 1 =       0.1316616   nitrogen stress 1 =       0.0000000
        water stress 2 =       0.1929282   nitrogen stress 2 =       0.0000000
       
       

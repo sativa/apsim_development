@@ -20,7 +20,7 @@
      Title                  = peanut Sample Simulation
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\met\lib\met.dll(met) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\soilwat2\lib\soilwat2.dll(soilwat2) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\residue2\lib\residue2.dll(residue2) - Licensed
@@ -263,17 +263,17 @@
 2 December 1988 (Day of year=337):
    PEANUT:
        stage    3.0 emergence
-                           biomass =          0.4500000       lai =    0.6000000e-02
+                           biomass =          0.4500000       lai =    0.6000000E-02
                            stover N conc =    4.599999       extractable sw =    45.49775
 3 December 1988 (Day of year=338):
    PEANUT:
        stage    4.0 end_of_juvenile
-                           biomass =          0.5249696       lai =    0.7517533e-02
+                           biomass =          0.5249696       lai =    0.7517533E-02
                            stover N conc =    4.268701       extractable sw =    45.42114
 4 December 1988 (Day of year=339):
    PEANUT:
        stage    5.0 floral_initiation
-                           biomass =          0.6342280       lai =    0.9727538e-02
+                           biomass =          0.6342280       lai =    0.9727538E-02
                            stover N conc =    4.128428       extractable sw =    45.31645
 29 December 1988 (Day of year=364):
    PEANUT:
@@ -298,7 +298,7 @@
 11 April 1989 (Day of year=101):
    PEANUT:
        stage   10.0 harvest_ripe
-                           biomass =           1083.134       lai =    0.1907349e-05
+                           biomass =           1083.134       lai =    0.1907349E-05
                            stover N conc =    2.356716       extractable sw =    71.09988
 12 April 1989 (Day of year=102):
    MANAGER:

@@ -20,7 +20,7 @@
      Title                  = stylo Sample Simulation
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\met\lib\met.dll(met) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\soilwat2\lib\soilwat2.dll(soilwat2) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\residue2\lib\residue2.dll(residue2) - Licensed
@@ -264,7 +264,7 @@
    STYLO:
        stage    3.0 emergence
                            biomass =           7.500000       lai =    0.2500000    
-                           stover N conc =    6.000000       extractable sw =    26.58648
+                           stover N conc =    6.000000       extractable sw =    26.58649
 30 December 1988 (Day of year=365):
    STYLO:
        stage    4.0 end_of_juvenile
@@ -288,17 +288,17 @@
 24 March 1989 (Day of year=83):
    STYLO:
        stage    8.0 end_grain_fill
-                           biomass =           561.5006       lai =    0.4549074e-06
+                           biomass =           561.5006       lai =    0.4549074E-06
                            stover N conc =    3.392589       extractable sw =    224.7823
 27 March 1989 (Day of year=86):
    STYLO:
        stage    9.0 maturity
-                           biomass =           561.5006       lai =    0.4549074e-06
+                           biomass =           561.5006       lai =    0.4549074E-06
                            stover N conc =    3.393233       extractable sw =    291.5061
 28 March 1989 (Day of year=87):
    STYLO:
        stage   10.0 harvest_ripe
-                           biomass =           561.5006       lai =    0.4549074e-06
+                           biomass =           561.5006       lai =    0.4549074E-06
                            stover N conc =    3.393234       extractable sw =    291.3959
 29 March 1989 (Day of year=88):
    MANAGER:
