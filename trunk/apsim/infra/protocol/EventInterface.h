@@ -40,9 +40,8 @@ class EventInterface
          if (!coordinator->sendMessage(componentName,
                                        PROTOCOLMessage(actionName, actionData)))
             {
-            FString nonConstComponentName = componentName;
             std::string msg = "Cannot deliver message to address: ";
-            msg += nonConstComponentName.c_str();
+            msg += componentName.asString();
             throw msg;
             }
          }
