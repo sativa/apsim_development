@@ -1,4 +1,8 @@
+      subroutine print_routine (my_name)
 
+      character*(*) my_name
+!      print*, trim(my_name)
+      end subroutine
 
 *================================================================
       subroutine CropMod_Initialisation ()
@@ -22,6 +26,7 @@
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       !Report the initialisation process
       call Write_string (' Initialising, '// CropMod_Version ())
@@ -40,6 +45,8 @@
 
       g%current_stage = real (plant_end)
       g%plant_status = status_out
+
+      call PlantP_Init(c%crop_type,part_name,max_part)
 
       call pop_routine (my_name)
       return
@@ -73,6 +80,7 @@
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
       !-----------------------------------------------------------
@@ -239,6 +247,7 @@ cjh      endif
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       call write_string (new_line
      :                  //'   - Reading root profile parameters')
@@ -380,6 +389,7 @@ cjh      endif
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
       !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -616,6 +626,7 @@ cjh      endif
 *-----Implementation Section -------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       CropMod_Version =  version_number
 
@@ -694,6 +705,7 @@ cjh      endif
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
 
@@ -2098,83 +2110,89 @@ cjh      endif
      :                             , max_stage)
 
 
-
-
       !---------------------------------------------------
       ! Crop Phosphorus Variables
       ! -------------------------
-      elseif (variable_name .eq. 'pfact_photo') then
-         call respond2get_real_var (variable_name
-     :                             , '()'
-     :                             , g%pfact_photo)
+      elseif (PlantP_Send_my_variable (Variable_name)) then
+         ! PlantP module has responded
 
-      elseif (variable_name .eq. 'pfact_pheno') then
-         call respond2get_real_var (variable_name
-     :                             , '()'
-     :                             , g%pfact_pheno)
 
-      elseif (variable_name .eq. 'pfact_expan') then
-         call respond2get_real_var (variable_name
-     :                             , '()'
-     :                             , g%pfact_expansion)
 
-      elseif (variable_name .eq. 'p%demand') then
-         ! really ought to do this properly
-         call respond2get_real_var (variable_name
-     :                             , '(kg/ha)'
-     :                             , g%p_demand*10.)
-
-      elseif (variable_name .eq. 'plant_p') then
-         call respond2get_real_var (variable_name
-     :                             , '(g/m2)'
-     :                             , g%plant_p)
-
-      elseif (variable_name .eq. 'biomass_p') then
-        biomass = (sum_real_array (g%dm_green, max_part)
-     :           - g%dm_green(root)
-     :           + sum_real_array (g%dm_senesced, max_part)
-     :           - g%dm_senesced(root)
-     :           + sum_real_array (g%dm_dead, max_part)
-     :           - g%dm_dead(root))
-        biomass_tot = sum_real_array (g%dm_green, max_part)
-     :           + sum_real_array (g%dm_senesced, max_part)
-     :           + sum_real_array (g%dm_dead, max_part)
-
-         biomass_p = g%plant_p * divide (biomass
-     :                                  ,biomass_tot
-     :                                  ,0.0)
-
-         call respond2get_real_var (variable_name
-     :                             , '(g/m2)'
-     :                             , biomass_p)
-
-      elseif (variable_name .eq. 'plant_p_max') then
-         biomass     = sum_real_array (g%dm_green, max_part)
-     :               + sum_real_array (g%dm_senesced, max_part)
-     :               + sum_real_array (g%dm_dead, max_part)
-         plant_p_max = biomass * g%P_conc_max
-
-         call respond2get_real_var (variable_name
-     :                             , '(g/m2)'
-     :                             , plant_p_max)
-
-      elseif (variable_name .eq. 'pconc_max') then
-         call respond2get_real_var (variable_name
-     :                             , '(g/m2)'
-     :                             , g%P_conc_max)
-
-      elseif (variable_name .eq. 'pconc') then
-         biomass     = sum_real_array (g%dm_green, max_part)
-     :               + sum_real_array (g%dm_senesced, max_part)
-     :               + sum_real_array (g%dm_dead, max_part)
-        pconc = 100.0 * divide (g%plant_p
-     :                 ,biomass
-     :                 ,0.0)
-
-         call respond2get_real_var (variable_name
-     :                             , '(%)'
-     :                             , pconc)
-
+!!      !---------------------------------------------------
+!!      ! Crop Phosphorus Variables
+!!      ! -------------------------
+!!      elseif (variable_name .eq. 'pfact_photo') then
+!!         call respond2get_real_var (variable_name
+!!     :                             , '()'
+!!     :                             , g%pfact_photo)
+!!
+!!      elseif (variable_name .eq. 'pfact_pheno') then
+!!         call respond2get_real_var (variable_name
+!!     :                             , '()'
+!!     :                             , g%pfact_pheno)
+!!
+!!      elseif (variable_name .eq. 'pfact_expan') then
+!!         call respond2get_real_var (variable_name
+!!     :                             , '()'
+!!     :                             , g%pfact_expansion)
+!!
+!!      elseif (variable_name .eq. 'p%demand') then
+!!         ! really ought to do this properly
+!!         call respond2get_real_var (variable_name
+!!     :                             , '(kg/ha)'
+!!     :                             , g%p_demand*10.)
+!!
+!!      elseif (variable_name .eq. 'plant_p') then
+!!         call respond2get_real_var (variable_name
+!!     :                             , '(g/m2)'
+!!     :                             , g%plant_p)
+!!
+!!      elseif (variable_name .eq. 'biomass_p') then
+!!        biomass = (sum_real_array (g%dm_green, max_part)
+!!     :           - g%dm_green(root)
+!!     :           + sum_real_array (g%dm_senesced, max_part)
+!!     :           - g%dm_senesced(root)
+!!     :           + sum_real_array (g%dm_dead, max_part)
+!!     :           - g%dm_dead(root))
+!!        biomass_tot = sum_real_array (g%dm_green, max_part)
+!!     :           + sum_real_array (g%dm_senesced, max_part)
+!!     :           + sum_real_array (g%dm_dead, max_part)
+!!
+!!         biomass_p = g%plant_p * divide (biomass
+!!     :                                  ,biomass_tot
+!!     :                                  ,0.0)
+!!
+!!         call respond2get_real_var (variable_name
+!!     :                             , '(g/m2)'
+!!     :                             , biomass_p)
+!!
+!!      elseif (variable_name .eq. 'plant_p_max') then
+!!         biomass     = sum_real_array (g%dm_green, max_part)
+!!     :               + sum_real_array (g%dm_senesced, max_part)
+!!     :               + sum_real_array (g%dm_dead, max_part)
+!!         plant_p_max = biomass * g%P_conc_max
+!!
+!!         call respond2get_real_var (variable_name
+!!     :                             , '(g/m2)'
+!!     :                             , plant_p_max)
+!!
+!!      elseif (variable_name .eq. 'pconc_max') then
+!!         call respond2get_real_var (variable_name
+!!     :                             , '(g/m2)'
+!!     :                             , g%P_conc_max)
+!!
+!!      elseif (variable_name .eq. 'pconc') then
+!!         biomass     = sum_real_array (g%dm_green, max_part)
+!!     :               + sum_real_array (g%dm_senesced, max_part)
+!!     :               + sum_real_array (g%dm_dead, max_part)
+!!        pconc = 100.0 * divide (g%plant_p
+!!     :                 ,biomass
+!!     :                 ,0.0)
+!!
+!!         call respond2get_real_var (variable_name
+!!     :                             , '(%)'
+!!     :                             , pconc)
+!!
 
 
 
@@ -2223,6 +2241,7 @@ cjh      endif
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
 
@@ -2375,6 +2394,7 @@ c         g%co2level = c%co2level
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       !-------------------------------------------------------------------
       ! Co2 and climate change
@@ -2673,6 +2693,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       call Update_Other_Variables()
 
@@ -2752,12 +2773,23 @@ c        end if
 *+  Local Variables
       real       dm_residue(max_part)            ! dry matter added to residue (kg/ha)
       real       N_residue(max_part)             ! nitrogen added to residue (kg/ha)
+      real       P_residue(max_part)             ! nitrogen added to residue (kg/ha)
       real       fraction_to_Residue(max_part)   ! fraction sent to residue (0-1)
+      real       chop_fr_green(max_part)         ! fraction of dm to 'chop' (0-1)
+      real       chop_fr_sen(max_part)         ! fraction of dm to 'chop' (0-1)
+      real       chop_fr_dead(max_part)         ! fraction of dm to 'chop' (0-1)
+      integer    part                            ! part counter
+      real       incorp_fr_green(max_part)         ! fraction of dm to 'chop' (0-1)
+      real       incorp_fr_sen(max_part)         ! fraction of dm to 'chop' (0-1)
+      real       incorp_fr_dead(max_part)         ! fraction of dm to 'chop' (0-1)
+      real       P_tops                ! Phosphorus added to residue (g/m^2)
+      real       P_root                ! Phosphorus added to soil (g/m^2)
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
-      ! dispose of detached material from senesced parts in
+      ! dispose of above ground detached material from senesced parts in
       ! live population
 
       fraction_to_Residue(:)    = 1.0
@@ -2766,12 +2798,31 @@ c        end if
       dm_residue(:) = g%dlt_dm_detached(:) * gm2kg/sm2ha
       N_residue (:) = g%dlt_N_detached (:) * gm2kg/sm2ha
 
+      ! calculate chop fractions for this biomass flow
+      do 100 part=1,max_part
+         chop_fr_sen(part) = divide(g%dlt_dm_detached(part)
+     :                             ,g%dm_senesced(part)
+     :                             ,0.0)
+  100 continue
+      chop_fr_green(:) = 0.0
+      chop_fr_sen(root) = 0.0
+      chop_fr_dead(:) = 0.0
+
       if (sum(dm_residue) .gt. 0.0) then
-            call Send_Crop_Chopped_Event
+         call PlantP_residue_chopped (chop_fr_green  ! green
+     :                              , chop_fr_sen  ! senesced
+     :                              , chop_fr_dead  ! dead
+     :                              , fraction_to_residue
+     :                              , P_tops
+     :                              , P_residue
+     :                              )
+
+            call Send_Crop_Chopped_Event_N_P
      :                (c%crop_type
      :               , part_name
      :               , dm_residue
      :               , N_residue
+     :               , P_residue
      :               , fraction_to_Residue
      :               , max_part)
       else
@@ -2783,18 +2834,53 @@ c        end if
       dm_residue(:) = g%dlt_dm_dead_detached(:) * gm2kg/sm2ha
       N_residue (:) = g%dlt_N_dead_detached (:) * gm2kg/sm2ha
 
+      ! calculate chop fractions for this biomass flow
+      do 200 part=1,max_part
+         chop_fr_dead(part) = divide(g%dlt_dm_dead_detached(part)
+     :                              ,g%dm_dead(part)
+     :                              ,0.0)
+  200 continue
+      chop_fr_green(:) = 0.0
+      chop_fr_dead(root) = 0.0
+      chop_fr_sen(:) = 0.0
+
+         ! Call plant P module so that it can add
+         ! its P to the message
+!          call PlantP_add_residue(chop_fr_green
+!     :                           ,chop_fr_sen
+!     :                           ,chop_fr_dead
+!     :                           ,fraction_to_residue
+!     :                           )
+
+      call PlantP_residue_chopped (chop_fr_green  ! green
+     :                           , chop_fr_sen  ! senesced
+     :                           , chop_fr_dead  ! dead
+     :                           , fraction_to_residue
+     :                           , P_tops
+     :                           , P_residue
+     :                           )
+
       if (sum(dm_residue) .gt. 0.0) then
-            call Send_Crop_Chopped_Event
+            call Send_Crop_Chopped_Event_N_P
      :                (c%crop_type
      :               , part_name
      :               , dm_residue
      :               , N_residue
+     :               , P_residue
      :               , fraction_to_Residue
      :               , max_part)
       else
       ! no surface residue
       endif
 
+         ! Call plant P module so that it can add
+         ! its P to the message
+
+!          call PlantP_add_residue(chop_fr_green
+!     :                           ,chop_fr_sen
+!     :                           ,chop_fr_dead
+!     :                           ,fraction_to_residue
+!     :                           )
 
       ! put roots into root residue
 
@@ -2824,6 +2910,23 @@ c        end if
 
       end if
 
+      incorp_fr_green(:) = 0.0
+      incorp_fr_sen(:) = 0.0
+      incorp_fr_sen(root) = divide(g%dlt_dm_detached(root)
+     :                             ,g%dm_senesced(root)
+     :                             ,0.0)
+      incorp_fr_dead(root) = divide(g%dlt_dm_dead_detached(root)
+     :                             ,g%dm_dead(root)
+     :                             ,0.0)
+
+         call PlantP_incorp_fom( incorp_fr_green
+     :                     , incorp_fr_sen
+     :                     , incorp_fr_dead
+     :                     , G%dlayer
+     :                     , G%root_length
+     :                     , G%root_depth
+     :                     , P_root
+     :                      )
 
       call pop_routine (my_name)
       return
@@ -2922,10 +3025,13 @@ c        end if
       real       yield                 ! grain yield dry wt (kg/ha)
       real       yield_wet             ! grain yield including moisture
                                        ! (kg/ha)
-
+      real       fraction_to_residue(max_part) ! fraction of dm 'chopped' that
+                                       ! ends up in residue pool
+      real       chop_fr(max_part)     ! fraction of dm pool 'chopped'
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
           ! crop harvested. Report status
 
@@ -3055,6 +3161,8 @@ c        end if
      :          , ' dead N content (kg/ha) =', N_dead
       call write_string ( string)
 
+      call PlantP_summary ()
+
       do 2000 phase = emerg_to_endjuv, start_to_end_grain
          si1 = divide (g_cswd_photo(phase)
      :               , g_days_tot(phase), 0.0)
@@ -3088,6 +3196,20 @@ c        end if
       g_dm_dead(grain) = 0.0
       g_N_dead(grain) = 0.0
 
+
+       ! all grain is removed and none of this is added to residue pool
+       ! NIH - note that crop mod really should send a crop chopped event
+       ! here to tell soilpH that grain has been removed.
+       chop_fr(:) = 0.0
+       chop_fr(grain) = 1.0
+       fraction_to_residue(:) = 0.0
+
+       call PlantP_add_residue(chop_fr  ! green
+     :                        ,chop_fr  ! senesced
+     :                        ,chop_fr  ! dead
+     :                        ,fraction_to_residue
+     :                        )
+
       call pop_routine (my_name)
       return
       end subroutine
@@ -3097,6 +3219,7 @@ c        end if
       subroutine End_Crop ()
 *     ===========================================================
             Use infrastructure
+
       implicit none
 
 *+  Purpose
@@ -3113,17 +3236,22 @@ c        end if
 *+  Local Variables
       real       dm_residue            ! dry matter added to residue (g/m^2)
       real       N_residue             ! nitrogen added to residue (g/m^2)
+      real       P_residue             ! Phosphorus added to residue (g/m^2)
       real       dm_root               ! dry matter added to soil (g/m^2)
       real       N_root                ! nitrogen added to soil (g/m^2)
+      real       P_root                ! Phosphorus added to soil (g/m^2)
       character  string*400            ! output string
       real       yield                 ! grain wt (kg/ha)
       real       fraction_to_Residue(max_part)   ! fraction sent to residue (0-1)
       real       dlt_dm_crop(max_part) ! change in dry matter of crop (kg/ha)
       real       dlt_dm_N(max_part)    ! N content of changeed dry matter (kg/ha)
-
+      real       dlt_dm_P(max_part)    ! P content of changeed dry matter (kg/ha)
+      real       incorp_fr(max_part)   ! fraction of each pool to incorporate(0-1)
+      real       chop_fr(max_part)     ! fraction of each pool 'chopped' (0-1)
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if (g%plant_status.ne.status_out) then
          g%plant_status = status_out
@@ -3161,6 +3289,19 @@ c        end if
 
       endif
 
+
+         incorp_fr(:) = 0.0
+         incorp_fr(root) = 1.0
+
+         call PlantP_incorp_fom
+     :                     ( incorp_fr ! green
+     :                     , incorp_fr ! senesced
+     :                     , incorp_fr ! dead
+     :                     , G%dlayer
+     :                     , G%root_length
+     :                     , G%root_depth
+     :                     , P_root
+     :                      )
 
       !Top residue - put stover into surface residue
          dm_residue = (sum_real_array (g%dm_green, max_part)
@@ -3200,14 +3341,25 @@ c    :             - g%N_dead(root) - g%N_dead(grain))
 
          fraction_to_residue(:)    = 1.0
          fraction_to_Residue(root) = 0.0
+         chop_fr(:) = 1.0
+         chop_fr(root) = 0.0
+
+         call PlantP_residue_chopped (chop_fr  ! green
+     :                           , chop_fr  ! senesced
+     :                           , chop_fr  ! dead
+     :                           , fraction_to_residue
+     :                           , P_residue
+     :                           , dlt_dm_P
+     :                           )
 
          if (sum(dlt_dm_crop) .gt. 0.0) then
 
-            call Send_Crop_Chopped_Event
+            call Send_Crop_Chopped_Event_N_P
      :                (c%crop_type
      :               , part_name
      :               , dlt_dm_crop
      :               , dlt_dm_N
+     :               , dlt_dm_P
      :               , fraction_to_Residue
      :               , max_part)
 
@@ -3215,13 +3367,21 @@ c    :             - g%N_dead(root) - g%N_dead(grain))
             ! no surface residue
          endif
 
+!          call PlantP_add_residue(chop_fr  ! green
+!     :                           ,chop_fr  ! senesced
+!     :                           ,chop_fr  ! dead
+!     :                           ,fraction_to_residue
+!     :                           )
 
-         write (string, '(40x, a, f7.1, a, 3(a, 40x, a, f6.1, a))')
+         write (string, '(40x, a, f7.1, a, 5(a, 40x, a, f6.1, a))')
      :                  '  straw residue ='
      :                  , dm_residue * gm2kg /sm2ha, ' kg/ha'
      :                  , new_line
      :                  , '  straw N = '
      :                  , N_residue * gm2kg /sm2ha, ' kg/ha'
+     :                  , new_line
+     :                  , '  straw P = '
+     :                  , P_residue * gm2kg /sm2ha, ' kg/ha'
 
      :                  , new_line
      :                  , '  root residue = '
@@ -3229,6 +3389,9 @@ c    :             - g%N_dead(root) - g%N_dead(grain))
      :                  , new_line
      :                  , '  root N = '
      :                  , N_root * gm2kg /sm2ha, ' kg/ha'
+     :                  , new_line
+     :                  , '  root P = '
+     :                  , P_root * gm2kg /sm2ha, ' kg/ha'
 
          call write_string ( string)
 
@@ -3274,6 +3437,7 @@ c    :             - g%N_dead(root) - g%N_dead(grain))
 
 c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if (g_plant_status.eq.status_alive) then
          g_plant_status  = status_dead
@@ -3336,6 +3500,7 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       call Crop_Update ()
 
@@ -3467,6 +3632,7 @@ c      INTEGER    istage
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
          ! Note.
          ! Accumulate is used to add a value into a specified array element.
@@ -3940,6 +4106,7 @@ c         enddo
 
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       call bound_check_real_var
      :           (sum_real_array (g_leaf_no, max_stage)
@@ -4221,6 +4388,7 @@ cpsc add below
 
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
              ! get totals
       N_conc_stover = divide ((g_N_green(leaf)
@@ -4379,6 +4547,7 @@ cpsc  add above
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       stage_no = INT(g_current_stage)
 
@@ -4534,6 +4703,7 @@ cpsc  add above
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       call fill_real_array (N_conc_crit, 0.0, max_part)
       call fill_real_array (N_conc_min, 0.0, max_part)
@@ -4659,6 +4829,7 @@ c in maize
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if (Option .eq. 1) then
 
@@ -4743,6 +4914,7 @@ c in maize
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
           if (switch.gt.0) then
 
@@ -4804,6 +4976,7 @@ c in maize
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
           N = LEN_TRIM(switch)
 
@@ -4866,6 +5039,7 @@ c           string_to_integer_var(value_string, value, numvals)
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       ! zero pools etc.
 
@@ -5767,6 +5941,7 @@ c      g%dlt_n_uptake_stover=0.0
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       !phenology
 
@@ -5932,6 +6107,7 @@ c      g%dlt_n_uptake_stover=0.0
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 c       VARIABLES ADDED new
@@ -6950,6 +7126,7 @@ cew - added this section
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       extinct_coef = linear_interp_real (g_row_spacing
      :                                   ,c_x_row_spacing

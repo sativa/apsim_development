@@ -69,6 +69,7 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if (action.eq.ACTION_init) then
 
@@ -324,10 +325,10 @@ c        if (TestTrue)   close (1)
       Use infrastructure
       implicit none
       ml_external respondToEvent
-      
+
       integer, intent(in) :: fromID
       integer, intent(in) :: eventID
       integer, intent(in) :: variant
-      
+
       return
       end subroutine respondToEvent

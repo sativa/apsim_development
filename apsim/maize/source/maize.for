@@ -7,6 +7,7 @@ C     Last change:  E    31 Jul 2001    1:26 pm
       contains
 
       include 'cropmodcomms.for'
+      include 'plantp_code.for'
 
 *     ===========================================================
       subroutine Crop_process ()
@@ -104,7 +105,17 @@ cnh      call Maize_water_stress(1)
          call Maize_nit_uptake(1)
          call Maize_nit_partition(1)
 
-         call Maize_p_uptake(1)
+                                 !SECTION 9: PLANT P RELATIONS
+         if (g%phosphorus_aware) then
+            call PlantP_Process(g%current_stage
+     :                      ,g%dm_green
+     :                      ,g%dm_senesced
+     :                      ,g%dlt_dm_senesced
+     :                      ,g%dlt_dm_detached)
+         else
+         endif
+
+!!         call Maize_p_uptake(1)
 
          call Maize_plant_death(2) ! 1 = barreness using cubic (+bug)
                                    ! 2 = linear barreness effect
@@ -1209,48 +1220,48 @@ c     :                    , 0.0, 100.0)
      :                   , c%N_fact_expansion, numvals
      :                   , 0.0, 100.0)
 
-      ! Phosphorus
-      ! ----------
-
-      call read_real_array (section_name
-     :                     , 'p_stage_code', max_stage, '()'
-     :                     , c%p_stage_code, c%num_P_conc_stage
-     :                     , 0.0, 100.0)
-
-      call read_real_array (section_name
-     :                     , 'p_conc_max', max_stage, '()'
-     :                     , c%p_conc_max, c%num_P_conc_stage
-     :                     , 0.0, 100.0)
-
-      call read_real_array (section_name
-     :                     , 'p_conc_min', max_stage, '()'
-     :                     , c%p_conc_min, c%num_P_conc_stage
-     :                     , 0.0, 100.0)
-
-      call read_real_var (section_name
-     :                   , 'k_pfact_photo', '()'
-     :                   , c%k_pfact_photo, numvals
-     :                   , 0.0, 100.0)
-
-      call read_real_var (section_name
-     :                   , 'k_pfact_pheno', '()'
-     :                   , c%k_pfact_pheno, numvals
-     :                   , 0.0, 100.0)
-
-      call read_real_var (section_name
-     :                   , 'k_pfact_expansion', '()'
-     :                   , c%k_pfact_expansion, numvals
-     :                   , 0.0, 100.0)
-
-      call read_real_var (section_name
-     :                   , 'k_pfact_grain', '()'
-     :                   , c%k_pfact_grain, numvals
-     :                   , 0.0, 100.0)
-
-      call read_real_var (section_name
-     :                   , 'p_uptake_factor', '()'
-     :                   , c%p_uptake_factor, numvals
-     :                   , 0.0, 10.0)
+!!      ! Phosphorus
+!!      ! ----------
+!!
+!!      call read_real_array (section_name
+!!     :                     , 'p_stage_code', max_stage, '()'
+!!     :                     , c%p_stage_code, c%num_P_conc_stage
+!!     :                     , 0.0, 100.0)
+!!
+!!      call read_real_array (section_name
+!!     :                     , 'p_conc_max', max_stage, '()'
+!!     :                     , c%p_conc_max, c%num_P_conc_stage
+!!     :                     , 0.0, 100.0)
+!!
+!!      call read_real_array (section_name
+!!     :                     , 'p_conc_min', max_stage, '()'
+!!     :                     , c%p_conc_min, c%num_P_conc_stage
+!!     :                     , 0.0, 100.0)
+!!
+!!      call read_real_var (section_name
+!!     :                   , 'k_pfact_photo', '()'
+!!     :                   , c%k_pfact_photo, numvals
+!!     :                   , 0.0, 100.0)
+!!
+!!      call read_real_var (section_name
+!!     :                   , 'k_pfact_pheno', '()'
+!!     :                   , c%k_pfact_pheno, numvals
+!!     :                   , 0.0, 100.0)
+!!
+!!      call read_real_var (section_name
+!!     :                   , 'k_pfact_expansion', '()'
+!!     :                   , c%k_pfact_expansion, numvals
+!!     :                   , 0.0, 100.0)
+!!
+!!      call read_real_var (section_name
+!!     :                   , 'k_pfact_grain', '()'
+!!     :                   , c%k_pfact_grain, numvals
+!!     :                   , 0.0, 100.0)
+!!
+!!      call read_real_var (section_name
+!!     :                   , 'p_uptake_factor', '()'
+!!     :                   , c%p_uptake_factor, numvals
+!!     :                   , 0.0, 10.0)
 
          !    Maize_rue_reduction
 
@@ -1418,12 +1429,12 @@ c     :                    , 0.0, 100.0)
 
       call Maize_nit_stress(1)
 
-      call Maize_p_conc(1)
-      call Maize_phos_init(1)
-      call Maize_p_stress_photo(1)
-      call Maize_p_stress_pheno(1)
-      call Maize_p_stress_expansion(1)
-      call Maize_p_stress_grain(1)
+!!      call Maize_p_conc(1)
+!!      call Maize_phos_init(1)
+!!      call Maize_p_stress_photo(1)
+!!      call Maize_p_stress_pheno(1)
+!!      call Maize_p_stress_expansion(1)
+!!      call Maize_p_stress_grain(1)
 
       call Maize_temp_stress(1)
 
@@ -1432,7 +1443,14 @@ c     :                    , 0.0, 100.0)
       call Maize_transpiration_eff(1)
       call Maize_water_demand(1)
       call Maize_Nit_demand_est(1)
-      call Maize_P_demand_est(1)
+!!      call Maize_P_demand_est(1)
+
+      if (g%phosphorus_aware) then
+         call PlantP_prepare(g%current_stage
+     :                      ,g%dm_green
+     :                      ,g%dlt_dm_light)
+      else
+      endif
 
       call pop_routine (myname)
       return
@@ -1749,7 +1767,7 @@ C     Last change:  E    24 Aug 2001    4:50 pm
      :        , c%sfac_slope
      :        , g%N_conc_crit
      :        , g%swdef_photo
-     :        , g%pfact_grain
+     :        , PlantP_pfact_grain()
      :        , g%swdef_expansion
      :        , g%nfact_grain_conc
      :    , g%dlt_dm_grain_demand)
@@ -3452,12 +3470,11 @@ c     .          interp_sla_max)
       if (Option .eq. 1) then
 
          call cproc_leaf_area_stressed1 (
-     :                       g%dlt_lai_pot
-     :                      , g%swdef_expansion
-     :                      , min(g%nfact_expansion
-     :                          , g%pfact_expansion)
-     :                      , g%dlt_lai_stressed
-     :                      )
+     :               g%dlt_lai_pot
+     :              , g%swdef_expansion
+     :              , min(g%nfact_expansion, PlantP_pfact_expansion())
+     :              , g%dlt_lai_stressed
+     :              )
 
       else
 
@@ -4760,39 +4777,38 @@ c (how do we do this w. TPLA approach?)
       if (option .eq. 1)  then
 
          call cproc_phenology1 (
-     :                             g%previous_stage
-     :                            , g%current_stage
-     :                            , sowing
-     :                            , germ
-     :                            , harvest_ripe
-     :                            , emerg
-     :                            , flag_leaf
-     :                            , max_stage
-     :                            , c%num_temp
-     :                            , c%x_temp
-     :                            , c%y_tt
-     :                            , g%maxt
-     :                            , g%mint
-     :                            , min(g%nfact_pheno
-     :                                , g%pfact_pheno)
-     :                            , g%swdef_pheno
-     :                            , c%pesw_germ
-     :                            , c%fasw_emerg     !
-     :                            , c%rel_emerg_rate !
-     :                            , c%num_fasw_emerg !
-     :                            , g%dlayer
-     :                            , max_layer
-     :                            , g%sowing_depth
-     :                            , g%sw_dep
-     :                            , g%dul_dep
-     :                            , p%ll_dep
-     :                            , g%dlt_tt
-     :                            , g%phase_tt
-     :                            , phase_dvl
-     :                            , g%dlt_stage
-     :                            , g%tt_tot
-     :                            , g%days_tot
-     :                            )
+     :               g%previous_stage
+     :              , g%current_stage
+     :              , sowing
+     :              , germ
+     :              , harvest_ripe
+     :              , emerg
+     :              , flag_leaf
+     :              , max_stage
+     :              , c%num_temp
+     :              , c%x_temp
+     :              , c%y_tt
+     :              , g%maxt
+     :              , g%mint
+     :              , min(g%nfact_pheno, PlantP_Pfact_Pheno())
+     :              , g%swdef_pheno
+     :              , c%pesw_germ
+     :              , c%fasw_emerg     !
+     :              , c%rel_emerg_rate !
+     :              , c%num_fasw_emerg !
+     :              , g%dlayer
+     :              , max_layer
+     :              , g%sowing_depth
+     :              , g%sw_dep
+     :              , g%dul_dep
+     :              , p%ll_dep
+     :              , g%dlt_tt
+     :              , g%phase_tt
+     :              , phase_dvl
+     :              , g%dlt_stage
+     :              , g%tt_tot
+     :              , g%days_tot
+     :              )
 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -5797,7 +5813,7 @@ cpsc need to develop leaf senescence functions for crop
      :        , c%rue
      :        , g%radn_int
      :        , g%temp_stress_photo
-     :        , min (g%nfact_photo, g%pfact_photo)
+     :        , min(g%nfact_photo, PlantP_pfact_photo())
      :        , g%dlt_dm_light)
 
       else
@@ -6071,680 +6087,6 @@ cpsc need to develop leaf senescence functions for crop
 
 
 
-* ====================================================================
-      subroutine Maize_P_uptake (Option)
-* ====================================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      integer    Option                   ! (INPUT) template option number
-
-*+ Purpose
-*      Get P uptake from P module and convert to require units
-*      for internal use.
-
-*+  Mission statement
-*         Calcualate plant P uptake
-
-*+  Changes
-*     26-06-1997 - huth - Programmed and Specified
-
-*+  Constant Values
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'Maize_P_uptake')
-
-*+  Local Variables
-      real       layered_p_uptake(max_layer)
-      integer    numvals
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
-
-      if (Option.eq.1) then
-         call fill_real_array (layered_p_uptake, 0.0, max_layer)
-
-         call get_real_array_Optional
-     :                        (unknown_module
-     :                       , 'uptake_p_maize'
-     :                       , max_layer
-     :                       , '()'
-     :                       , layered_p_uptake
-     :                       , numvals
-     :                       , 0.0
-     :                       , 100.)
-         if (numvals.gt.0) then
-            g%dlt_plant_p = sum_real_array (layered_p_uptake
-     :                                    , numvals)
-     :                    * kg2gm/ha2sm
-
-         else
-            g%dlt_plant_p = g%p_demand
-
-         endif
-
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
-
-
-      call pop_routine (myname)
-      return
-      end subroutine
-*     ===========================================================
-      subroutine Maize_P_conc_limits (
-     :          g_current_stage
-     :        , c_p_stage_code
-     :        , c_stage_code_list
-     :        , g_tt_tot
-     :        , g_phase_tt
-     :        , c_P_conc_max
-     :        , c_P_conc_min
-     :        , P_conc_max
-     :        , P_conc_min)
-*     ===========================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      real       g_current_stage
-      real       c_p_stage_code(*)
-      real       c_stage_code_list(*)
-      real       g_tt_tot(*)
-      real       g_phase_tt(*)
-      real       c_p_conc_min(*)
-      real       c_p_conc_max(*)
-      real       P_conc_max   ! (OUTPUT) maximum P conc
-                              ! (g N/g part)
-      real       P_conc_min   ! (OUTPUT) minimum P conc
-                              ! (g N/g part)
-
-*+  Purpose
-*       Calculate the critical p concentration below which plant growth
-*       is affected.  Also minimum and maximum p concentrations below
-*       and above which it is not allowed to fall or rise.
-
-*+  Mission Statement
-*       Calculate the critical p concentration below which plant growth
-*       is affected.
-
-*+  Changes
-*     080994 jngh specified and programmed
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Maize_P_conc_limits')
-
-*+  Local Variables
-      integer    numvals               ! number of values in stage code table
-      real       current_stage_code            ! interpolated current stage code
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-      if (stage_is_between (emerg, maturity, g_current_stage)) then
-
-         numvals = count_of_real_vals (c_P_stage_code, max_stage)
-
-         current_stage_code = Crop_stage_code (
-     :          c_stage_code_list
-     :        , g_tt_tot
-     :        , g_phase_tt
-     :        , g_current_stage
-     :        , c_P_stage_code
-     :        , numvals
-     :        , max_stage)
-
-cnh         P_conc_max = linear_interp_real (current_stage_code
-         P_conc_max = linear_interp_real (g_current_stage
-     :                                   , c_P_stage_code
-     :                                   , c_P_conc_max
-     :                                   , numvals)
-
-cnh         P_conc_min = linear_interp_real (current_stage_code
-         P_conc_min = linear_interp_real (g_current_stage
-     :                                   , c_P_stage_code
-     :                                   , c_P_conc_min
-     :                                   , numvals)
-
-
-      else
-
-         P_conc_max = 0.0
-         P_conc_min = 0.0
-
-      endif
-
-      call pop_routine (my_name)
-      return
-      end subroutine
-*     ===========================================================
-      subroutine maize_pfact
-     :               (
-     :                G_dm_green
-     :              , G_dm_dead
-     :              , G_dm_senesced
-     :              , G_p_conc_max
-     :              , G_p_conc_min
-     :              , G_plant_p
-     :              , k_pfact
-     :              , pfact
-     :               )
-*     ===========================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      REAL       G_dm_green(*)    ! (INPUT)  live plant biomass (g/m2)
-      REAL       G_dm_dead(*)     ! (INPUT)  dead plant biomass (g/m2)
-      REAL       G_dm_senesced(*) ! (INPUT)  senesced plant biomass (g/m2)
-      REAL       G_p_conc_max     ! (INPUT)  max P conc (g N/g biomass)
-      REAL       G_p_conc_min     ! (INPUT)  min P conc (g N/g biomass)
-      REAL       G_plant_p        ! (INPUT)  plant P content (g N/m^2)
-      REAL       k_pfact          ! (INPUT)  k value for stress factor
-      real      pfact             ! (OUTPUT) P stress factor
-
-*+  Purpose
-*     The concentration of P in the entire plant is used to derive a
-*     series of Phosphorus stress indices.  The stress indices for
-*     today's growth are calculated from yesterday's
-*     relative nutritional status between a critical and minimum
-*     total plant Phosphorus concentration.
-
-*+  Mission Statement
-*      Calculate P stress indicies
-
-*+   Changes
-*     270697 nih
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'maize_pfact')
-
-*+  Local Variables
-      real       biomass               ! total crop biomass
-      real       P_conc                ! actual P concentration (g/g)
-
-      real       P_def                 ! P factor (0-1)
-      real       P_conc_ratio          ! available P as fraction of P capacity
-                                       ! (0-1)
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-         ! calculate actual P conc
-      biomass    =  sum_real_array (g_dm_green, max_part)
-     :           +  sum_real_array (g_dm_senesced, max_part)
-     :           +  sum_real_array (g_dm_dead, max_part)
-
-      P_conc = divide (g_plant_p, biomass, 0.0)
-
-      P_conc_ratio = divide ((P_conc - g_P_conc_min)
-     :                      ,(g_P_conc_max - g_P_conc_min)
-     :                      , 0.0)
-
-         ! calculate 0-1 P deficiency factors
-
-      P_def = k_pfact * P_conc_ratio
-      pfact = bound (P_def, 0.0, 1.0)
-
-      call pop_routine (my_name)
-      return
-      end subroutine
-*     ===========================================================
-      subroutine maize_p_stress_photo (Option)
-*     ===========================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      integer    Option                ! (INPUT) option number
-
-*+   Purpose
-*         Get current P stress factors for photosysnthesis(0-1)
-
-*+  Mission Statement
-*         Calculate the P stress factors for photosysnthesis(0-1)
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'maize_p_stress_photo')
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-      if (Option .eq. 1) then
-
-         call maize_pfact
-     :               (
-     :                g%dm_green
-     :              , g%dm_dead
-     :              , g%dm_senesced
-     :              , g%P_conc_max
-     :              , g%P_conc_min
-     :              , g%plant_p
-     :              , c%k_pfact_photo
-     :              , g%pfact_photo
-     :               )
-
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
-
-      call pop_routine (my_name)
-      return
-      end subroutine
-*     ===========================================================
-      subroutine maize_p_stress_pheno (Option)
-*     ===========================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      integer    Option                ! (INPUT) option number
-
-*+  Purpose
-*         Get current P stress factors for phenology(0-1)
-
-*+  Mission Statement
-*         Calculate P stress factors for phenology(0-1)
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'maize_p_stress_pheno')
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-      if (Option .eq. 1) then
-
-         call maize_pfact
-     :               (
-     :                g%dm_green
-     :              , g%dm_dead
-     :              , g%dm_senesced
-     :              , g%P_conc_max
-     :              , g%P_conc_min
-     :              , g%plant_p
-     :              , c%k_pfact_pheno
-     :              , g%pfact_pheno
-     :               )
-
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
-
-      call pop_routine (my_name)
-      return
-      end subroutine
-*     ===========================================================
-      subroutine maize_p_stress_expansion (Option)
-*     ===========================================================
-      Use infrastructure
-      implicit none
-
-*+  Purpose
-*         Get current P stress factors for cell expansion(0-1)
-
-*+  Mission Statement
-*         Calculate the P stress factors for cell expansion (0-1)
-
-*+  Sub-Program Arguments
-      integer    Option                ! (INPUT) option number
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'maize_p_stress_expansion')
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-      if (Option .eq. 1) then
-
-         call maize_pfact
-     :               (
-     :                g%dm_green
-     :              , g%dm_dead
-     :              , g%dm_senesced
-     :              , g%P_conc_max
-     :              , g%P_conc_min
-     :              , g%plant_p
-     :              , c%k_pfact_expansion
-     :              , g%pfact_expansion
-     :               )
-
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
-
-      call pop_routine (my_name)
-      return
-      end subroutine
-*     ===========================================================
-      subroutine maize_p_stress_grain (Option)
-*     ===========================================================
-
-*   Short description:
-*         Get current P stress factors (0-1)
-
-      Use infrastructure
-      implicit none
-
-*+  Purpose
-*         Get current P stress factors for grain(0-1)
-
-*+  Mission Statement
-*         Calculate the P stress factors for grain (0-1)
-
-*+  Sub-Program Arguments
-      integer    Option                ! (INPUT) option number
-
-*   Global variables
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'maize_p_stress_grain')
-
-*   Initial data values
-*       none
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-      if (Option .eq. 1) then
-
-         call maize_pfact
-     :               (
-     :                g%dm_green
-     :              , g%dm_dead
-     :              , g%dm_senesced
-     :              , g%P_conc_max
-     :              , g%P_conc_min
-     :              , g%plant_p
-     :              , c%k_pfact_grain
-     :              , g%pfact_grain
-     :               )
-
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
-
-      call pop_routine (my_name)
-      return
-      end subroutine
-
-* ====================================================================
-       subroutine maize_P_demand_est (Option)
-* ====================================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      integer    Option
-
-*+  Purpose
-*      Calculate an approximate phosphorus demand for today's growth.
-*      The estimate basically = p to fill the plant up to maximum
-*      phosphorus concentration.
-
-*+  Mission Statement
-*     Calculate p demand for growth
-
-*+  Constant Values
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'maize_P_demand_est')
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
-
-       if (Option.eq.1) then
-          call Maize_P_demand (
-     :          g%current_stage
-     :        , g%radn_int
-     :        , c%rue
-     :        , c%ratio_root_shoot
-     :        , g%dm_green
-     :        , g%dm_senesced
-     :        , g%dm_dead
-     :        , max_part
-     :        , g%P_conc_max
-     :        , g%plant_P
-     :        , c%P_uptake_factor
-     :        , g%P_demand)
-
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
-
-      call pop_routine (myname)
-      return
-      end subroutine
-*     ===========================================================
-      subroutine maize_P_demand
-     :               (
-     :          g_current_stage
-     :        , g_radn_int
-     :        , c_rue
-     :        , c_ratio_root_shoot
-     :        , g_dm_green
-     :        , g_dm_senesced
-     :        , g_dm_dead
-     :        , max_parts
-     :        , g_P_conc_max
-     :        , g_plant_P
-     :        , c_p_uptake_factor
-     :        , g_P_demand)
-
-*     ===========================================================
-      Use infrastructure
-      implicit none
-
-*+  Purpose
-*     Calculate the plant p demand
-
-*+  Mission Statement
-*     Calculate the plant p demand
-
-*+  Sub-Program Arguments
-
-      REAL       g_current_stage
-      REAL       g_radn_int
-      REAL       c_rue(*)
-      REAL       c_ratio_root_shoot(*)
-      REAL       g_dm_green(*)
-      REAL       g_dm_senesced(*)
-      REAL       g_dm_dead(*)
-      INTEGER    max_parts
-      REAL       g_P_conc_max
-      REAL       g_plant_P
-      REAL       c_P_uptake_Factor
-      REAL       g_P_demand
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'maize_p_demand')
-
-*+  Local Variables
-      real       biomass               ! total plant biomass (g/m2)
-      integer    current_phase         ! current growth phase
-      real       dlt_dm_pot            ! potential dm increase (g/m2)
-      real       P_demand_new          ! demand for P by new growth
-                                       ! (g/m^2)
-      real       P_demand_old          ! demand for P by old biomass
-                                       ! (g/m^2)
-      real       deficit               ! deficit of total plant p (g/m2)
-      real       p_demand_max          ! maximum P demand (g/m2)
-
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
-
-         ! calculate potential new shoot and root growth
-
-      current_phase = int (g_current_stage)
-      dlt_dm_pot = c_rue(current_phase) * g_radn_int
-     :           * (1.0 + c_ratio_root_shoot(current_phase))
-
-      biomass    =  sum_real_array (g_dm_green, max_part)
-     :           +  sum_real_array (g_dm_senesced, max_part)
-     :           +  sum_real_array (g_dm_dead, max_part)
-
-      P_demand_new = dlt_dm_pot * g_P_conc_max
-      P_demand_old = (biomass * g_P_conc_max) - g_plant_p
-
-      deficit = P_demand_old + P_demand_new
-      deficit = l_bound (deficit, 0.0)
-
-      p_demand_max = p_demand_new * c_p_uptake_factor
-
-      g_P_demand = u_bound (deficit, p_demand_max)
-
-      call pop_routine (my_name)
-      return
-      end subroutine
-* ====================================================================
-       subroutine maize_P_conc (Option)
-* ====================================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      integer    Option
-
-*+  Purpose
-*      Calculate p concentration curves
-
-*+  Mission Statement
-*         Calculate p concentration
-
-*+  Constant Values
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'maize_P_conc')
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
-
-      if (Option.eq.1) then
-         call Maize_P_conc_limits (
-     :          g%current_stage
-     :        , c%p_stage_code
-     :        , c%stage_code_list
-     :        , g%tt_tot
-     :        , g%phase_tt
-     :        , c%P_conc_max
-     :        , c%P_conc_min
-     :        , g%P_conc_max
-     :        , g%P_conc_min)
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
-
-      call pop_routine (myname)
-      return
-      end subroutine
-
-*     ===========================================================
-      subroutine Maize_Phos_init (Option)
-*     ===========================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      integer    Option                ! (INPUT) option number
-
-*+  Purpose
-*      Initialise plant Phosphorus
-
-*+  Mission Statement
-*      Initialise plant Phosphorus
-
-*+  Changes:
-*     270697 nih specified and programmed
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Maize_p_init')
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
-
-      if (Option .eq. 1) then
-
-         call Maize_P_init (
-     :          emerg
-     :        , g%current_stage
-     :        , g%days_tot
-     :        , g%dm_green
-     :        , max_part
-     :        , g%p_conc_max
-     :        , g%plant_p
-     :               )
-
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
-
-      call pop_routine (my_name)
-      return
-      end subroutine
-*     ===========================================================
-      subroutine Maize_P_init (
-     :          init_stage
-     :        , g_current_stage
-     :        , g_days_tot
-     :        , g_dm_green
-     :        , max_parts
-     :        , g_p_conc_max
-     :        , g_plant_p)
-*     ===========================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      integer    init_stage
-      real       g_current_stage
-      real       g_days_tot(*)
-      real       g_dm_green(*)
-      integer    max_parts
-      real       g_p_conc_max
-      real       g_plant_p
-
-*+  Purpose
-*     Set initial plant p
-
-*+  Mission Statement
-*     Set initial plant p
-
-*+  Changes:
-*     270697 nih specified and programmed
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Maize_P_init')
-
-*+  Local Variables
-      real       biomass
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-      if (on_day_of (init_stage, g_current_stage, g_days_tot)) then
-         biomass = sum_real_array (g_dm_green, max_parts)
-         g_plant_p = g_p_conc_max * biomass
-      else
-      endif
-
-      call pop_routine (my_name)
-      return
-      end subroutine
-
       end module
 !###########Interface code starts here#############
 *=====================================================================
@@ -6955,7 +6297,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       if (doAllocate) then
          allocate(g)
          allocate(p)
-         allocate(c)   
+         allocate(c)
          allocate(id)
       else
          deallocate(g)
@@ -6972,10 +6314,10 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       Use infrastructure
       implicit none
       ml_external respondToEvent
-      
+
       integer, intent(in) :: fromID
       integer, intent(in) :: eventID
       integer, intent(in) :: variant
-      
+
       return
       end subroutine respondToEvent

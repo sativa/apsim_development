@@ -15,6 +15,9 @@
       integer    max_table             ! Maximum size_of of tables
       parameter (max_table = 10)
 
+      integer max_parts
+      parameter (max_parts = 10)
+
 
 !     ================================================================
 !      crop status
@@ -167,10 +170,11 @@
                                        ! harvest
       parameter (ripe_to_harvest = harvest_ripe) ! by manager)
 
-      character, dimension(max_part), parameter ::
+      character(len=*), dimension(max_part), parameter ::
      :            part_name=(/'root      ',   'leaf      '
      :                      , 'stem      ', 'flower    '
      :                      , 'grain     ', 'energy    '/)
+
 
 
 !    *************************************************************************
@@ -703,6 +707,32 @@
          real nfract
 
 
+! ===========================================================================
+!      type PlantPGlobals
+! ===========================================================================
+!      Sequence
+
+         character part_names*32(max_parts)
+         character crop_type*32
+         logical    phosphorus_aware
+
+         real growth_stage
+         real part_p_green(max_parts)
+         real dlt_part_p_green(max_parts)
+         real part_p_sen(max_parts)
+         real dlt_part_p_sen(max_parts)
+         real dlt_part_p_det(max_parts)
+         real dlt_part_p_retrans(max_parts)
+         real part_p_dead(max_parts)
+         real dlt_part_p_dead(max_parts)
+         real part_demand(max_parts)
+         real plantPfact_photo
+         real plantPfact_expansion
+         real plantPfact_pheno
+         real plantPfact_grain
+         integer num_parts
+
+!      end type PlantPGlobals
 
 
 
@@ -1457,6 +1487,27 @@
          real      floral_init_error  !deg days from true floral_init_error init to field observed foral initiation
 
 
+! ===========================================================================
+!      type PlantPConstants
+! ===========================================================================
+ !     Sequence
+         character stress_determinants(max_parts)*32
+         character yield_parts(max_parts)*32
+         character retrans_parts(max_parts)*32
+
+         real x_p_stage_code (max_table)
+         real y_p_conc_max (max_parts,max_table)
+         real y_p_conc_min (max_parts,max_table)
+         real y_p_conc_sen (max_parts,max_table)
+         real p_conc_init (max_parts)
+         real pfact_photo_slope
+         real pfact_expansion_slope
+         real pfact_pheno_slope
+         real pfact_grain_slope
+
+         integer num_x_p_stage_code
+
+!      end type PlantPConstants
       end type CropModConstants
 
 
@@ -1561,7 +1612,7 @@
         real  photop_sen
         real  startgf_to_mat
 
-        real  photoperiod_sensitivity
+       real  photoperiod_sensitivity
         real  vernalisation_requirement
 
         !------------------------------------
@@ -1608,4 +1659,4 @@
       type (CropModConstants),pointer :: c
       type (IDsType), pointer :: id
 
-      end module
+      end module CropModData
