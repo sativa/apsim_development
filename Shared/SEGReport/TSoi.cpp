@@ -182,13 +182,20 @@ void TSOI::readSoiData(void) throw (runtime_error)
       Split_string(defaultPhaseNamesString, "," , phaseNames);
       }
 
+   vector<string> words;
    unsigned year,month,phase;
-   while (!in.eof())
+   while (getline(in, line))
       {
-      in >> year >> month >> phase >> ws;
-      ostringstream yearMonth;
-      yearMonth << year << '/' << month;
-      phases.insert(Phases::value_type(yearMonth.str(), phase));
+      Split_string(line, " ", words);
+      if (words.size() == 3)
+         {
+         year = StrToInt(words[0].c_str());
+         month = StrToInt(words[1].c_str());
+         phase = StrToInt(words[2].c_str());
+         ostringstream yearMonth;
+         yearMonth << year << '/' << month;
+         phases.insert(Phases::value_type(yearMonth.str(), phase));
+         }
       }
    }
 
