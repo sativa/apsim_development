@@ -71,6 +71,7 @@ class ReportComponent : public protocol::Component
       unsigned doOutputID;
       unsigned doEndDayOutputID;
       unsigned daysSinceLastReportVariableID;
+      unsigned reportedID;
 
       void writeHeadings(void);
       void WriteLineOfOutput(void);
