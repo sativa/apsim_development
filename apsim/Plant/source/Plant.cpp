@@ -13368,6 +13368,8 @@ void Plant::plant_harvest_report ()
              , " dead N content (kg/ha) = ", n_dead);
     parent->writeString (msg);
 
+    phosphorous->summary (g.dm_green, g.dm_dead);
+
     for (phase = emerg_to_endjuv; phase <= start_to_end_grain; phase++)
          {
          si1 = divide (g.cswd_photo[phase-1], g.days_tot[phase-1], 0.0);
