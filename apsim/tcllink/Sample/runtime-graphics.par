@@ -1,0 +1,133 @@
+# Run time graphics as a Tcl module.
+[rtg.tcllink.init]
+
+set dlayer   [apsimGet soilwat2.dlayer]  
+
+# Canvas size
+set width 500
+set height 500
+
+# Limits in real world coords 
+set maxy [expr [join $dlayer "+"]]   ;# mm
+set miny 0.0      ;# mm
+set maxx 0.6      ;# mm/mm
+set minx 0.0
+set dx 0.1        ;# tic width
+
+############
+set yscale [expr $height/($maxy-$miny)]; set yoff $miny
+set xscale [expr $width/($maxx-$minx)]; set xoff $minx
+set c [canvas .c -width $width -height $height]; pack .c -fill both -expand 1 -padx 10 -pady 10
+
+# Draw axes and legends
+set depth 0.0
+for {set i 0} {$i < [llength $dlayer]} {incr i} {
+    set depth [expr $depth + [lindex $dlayer $i]]
+    set cy [expr ($depth-$yoff)*$yscale]
+    #$c create line 0 $cy 10 $cy
+    $c create line $width $cy [expr $width-10] $cy
+    $c create text $width $cy -text $depth -anchor e
+}
+for {set x $minx} {$x <= $maxx} {set x [expr $x + $dx]} {
+    set cx [expr ($x-$xoff)*$xscale]
+    $c create line $cx 0 $cx 10
+    $c create text $cx 10 -text $x -anchor n
+    #$c create line $cx $height $cx [expr $height-10]
+}
+foreach {x y} {$minx $miny $minx $maxy $maxx $maxy $maxx $miny $minx $miny} {
+    set cx [expr ($x-$xoff)*$xscale]
+    set cy [expr ($y-$yoff)*$yscale]
+    lappend border $cx $cy
+}
+$c create line $border
+
+# Create a canvas item called name with coords of "$name"
+proc draw {c name {args {}}} {
+    global dlayer xoff yoff xscale yscale
+    upvar 1 $name what
+    set d [concat 0 $dlayer]; set sum 0.0
+    for {set i 0} {$i < [llength $dlayer]} {incr i} {
+        lappend mids [expr $sum+[lindex $dlayer $i]/2.0]
+        set sum [expr $sum+[lindex $dlayer $i]]
+    }
+
+    for {set i 0} {$i < [llength $mids]} {incr i} {
+       lappend line [expr ([lindex $what $i]-$xoff)*$xscale]
+       lappend line [expr ([lindex $mids $i]-$yoff)*$yscale]
+    } 
+    eval $c create line $line -tags $name $args
+}
+
+# Update the coordinates of a canvas item created above
+proc redraw {c name} {
+    global dlayer xoff yoff xscale yscale
+    upvar 1 $name what
+    set d [concat 0 $dlayer]; set sum 0.0
+    for {set i 0} {$i < [llength $dlayer]} {incr i} {
+        lappend mids [expr $sum+[lindex $dlayer $i]/2.0]
+        set sum [expr $sum+[lindex $dlayer $i]]
+    }
+
+    for {set i 0} {$i < [llength $mids]} {incr i} {
+       lappend line [expr ([lindex $what $i]-$xoff)*$xscale]
+       lappend line [expr ([lindex $mids $i]-$yoff)*$yscale]
+    }
+    foreach id [$c find withtag $name] {
+      $c coords $id $line 
+    }
+}
+
+# Draw some roots alongside the plot window
+proc Rdraw {c x name {args {}}} {
+    global dlayer xoff yoff xscale yscale
+    upvar 1 $name what
+    eval $c create line [expr ($x-$xoff)*$xscale] 0 [expr ($x-$xoff)*$xscale] [expr ($what - $yoff)*$yscale] -tags $name $args
+}
+
+# Update the coordinates of a canvas item created above
+proc Rredraw {c x name} {
+    global dlayer xoff yoff xscale yscale
+    upvar 1 $name what
+    foreach id [$c find withtag $name] {
+      $c coords $id [expr ($x-$xoff)*$xscale] 0 [expr ($x-$xoff)*$xscale] [expr ($what - $yoff)*$yscale] 
+    }
+}
+
+
+### Start drawing (static) things
+set air_dry  [apsimGet soilwat2.air_dry] 
+draw $c air_dry
+
+set ll15     [apsimGet soilwat2.ll15]    
+draw $c ll15
+
+set dul      [apsimGet soilwat2.dul]    
+draw $c dul
+
+set sat      [apsimGet soilwat2.sat]     
+draw $c sat
+
+set swat [apsimGet soilwat2.sw]
+draw $c swat -fill blue
+
+set rtdep [apsimGet sorghum.root_depth]
+Rdraw $c 0.3 rtdep -fill brown -width 3
+
+label .l -textvariable timestamp; pack .l
+label .dl -text "Delay (ms)"
+entry .de -textvariable delay; set delay 100
+button .a -text "Close" -command {destroy .}
+pack .a .dl .de -side left
+
+
+[rtg.tcllink.process]
+# Draw soil water
+set swat [apsimGet soilwat2.sw]  
+redraw $c swat
+
+# Draw root depth
+set rtdep [apsimGet sorghum.root_depth]  
+Rredraw $c 0.3 rtdep
+
+set timestamp "[apsimGet clock.day]-[apsimGet clock.year]"
+update; after $delay
