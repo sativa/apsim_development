@@ -470,6 +470,8 @@ void Coordinator::sendQueryValueMessage(unsigned fromID, unsigned regID)
                                           s->id,
                                           fromID));
          }
+      previousGetValueCompID.pop();
+      previousGetValueRegID.pop();
       }
    catch (const runtime_error& err)
       {
@@ -488,8 +490,6 @@ void Coordinator::onReplyValueMessage(unsigned fromID, ReplyValueData replyValue
                                         fromID,
                                         previousGetValueRegID.top(),
                                         replyValueData.variant));
-      previousGetValueCompID.pop();
-      previousGetValueRegID.pop();
       }
    catch (const runtime_error& err)
       {
