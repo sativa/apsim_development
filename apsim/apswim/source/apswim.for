@@ -43,7 +43,7 @@
 *   Constant values
 
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V1.2  22/7/96')
+      parameter (version_number = 'V1.3  28/2/97')
 
 *   Initial data values
 *       none
@@ -197,8 +197,10 @@
 *      none
 
 *   Global variables
+       include 'const.inc'
        include 'apswim.inc'
        character apswim_version*15     ! function
+       integer  open_file              ! function
 
 *   Internal variables
        character Event_string*40       ! String to output
@@ -212,6 +214,7 @@
 
 * --------------------- Executable code section ----------------------
       call push_routine (myname)
+
 
       call apswim_zero_variables ()
 
@@ -241,9 +244,14 @@
 
       ! read in rainfall information
       if (rainfall_source .ne. 'apsim') then
-         ! read in rainfall if it is not to be supplied by APSIM
-         ! assume that rainfall source is then a file name.
-         call apswim_read_rainfall ()
+            ! read in rainfall if it is not to be supplied by APSIM
+            ! assume that rainfall source is then a file name.
+         g_LUNrain = open_file (rainfall_source)
+         if (g_LUNrain .eq. -1) then
+            call Fatal_Error (err_internal,
+     :                    'cannot open rainfall file')
+         else
+         endif
       else
       endif
 
@@ -251,7 +259,14 @@
       if      ((evap_source .ne. 'apsim')
      :    .and.(evap_source .ne. 'calc')
      :    .and.(evap_source .ne. 'sum_demands')) then
-         call apswim_read_Evap ()
+
+         g_LUNevap = open_file (evap_source)
+         if (g_LUNevap .eq. -1) then
+              call Fatal_Error (err_internal,
+     :                    'cannot open evaporation file')
+         else
+         endif
+
       else
       endif
 
@@ -379,7 +394,7 @@ c     :              1.0d0)
      :              x(0),
      :              num_nodes,  ! get number of nodes from here
      :              0.0d0,
-     :              1.0d6)
+     :              1.0d4)      ! 1.0d4mm = 10m
 
          ! Read in water content as either volumetric content or
          !                matric potential.
@@ -592,7 +607,7 @@ c     :              1.0d0)
      :              dtmin,
      :              numvals,
      :              0.0d0,
-     :              1440.d0)
+     :              1440.d0)  ! 1440 min = 1 day
 
          ! Read in dtmax from parameter file
 
@@ -603,7 +618,7 @@ c     :              1.0d0)
      :              dtmax,
      :              numvals,
      :              0.01d0,
-     :              1440.d0)
+     :              1440.d0)  ! 1440 min = 1 day
 
       call Read_double_var_optional (
      :              calc_section,
@@ -612,7 +627,7 @@ c     :              1.0d0)
      :              dtmax_sol,
      :              numvals,
      :              0.01d0,
-     :              1440.d0)
+     :              1440.d0)  ! 1440 min = 1 day
 
       if (numvals.le.0) then
          ! Not read in - use dtmax as default.
@@ -693,8 +708,8 @@ c     :              1.0d0)
      :           '()',
      :           swt,
      :           numvals,
-     :           -1000d0,
-     :           1000d0)
+     :           -1d0,
+     :           1d0)
 
       call Read_double_var(
      :           calc_section,
@@ -702,8 +717,8 @@ c     :              1.0d0)
      :           '()',
      :           slcerr,
      :           numvals,
-     :           -1000d0,
-     :           1000d0)
+     :           1d-8,
+     :           1d-4)
 
       call Read_double_var(
      :           calc_section,
@@ -711,8 +726,8 @@ c     :              1.0d0)
      :           '()',
      :           slswt,
      :           numvals,
-     :           -1000d0,
-     :           1000d0)
+     :           -1d0,
+     :           1d0)
 
 
          ! ------------------ Climate Information ------------------
@@ -802,21 +817,21 @@ c     :              1.0d0)
 
          call Read_double_var (
      :              runoff_section,
-     :              'maximum_surface_storage',
-     :              '(mm)',
-     :              hm1,
-     :              numvals,
-     :              1.0d0,
-     :              1.0d2)
-
-         call Read_double_var (
-     :              runoff_section,
      :              'minimum_surface_storage',
      :              '(mm)',
      :              hm0,
      :              numvals,
-     :              1.0d0,
+     :              1.0d-3,
      :              1.0d2)
+
+         call Read_double_var (
+     :              runoff_section,
+     :              'maximum_surface_storage',
+     :              '(mm)',
+     :              hm1,
+     :              numvals,
+     :              hm0+.01,
+     :              1.0d3)
 
          call Read_double_var (
      :              runoff_section,
@@ -824,8 +839,8 @@ c     :              1.0d0)
      :              '(mm)',
      :              hmin,
      :              numvals,
-     :              hm0,
-     :              hm1)
+     :              hm0+.005,
+     :              hm1-.005)
 
          call Read_double_var (
      :              runoff_section,
@@ -839,20 +854,20 @@ c     :              1.0d0)
          call Read_double_var (
      :              runoff_section,
      :              'runoff_rate_factor',
-     :              '(??)',
+     :              '(mm/mm^p)',
      :              roff0,
      :              numvals,
-     :              0.0d0,
-     :              1.0d2)
+     :              1.d-6,
+     :              1.d2)
 
          call Read_double_var (
      :              runoff_section,
      :              'runoff_rate_power',
-     :              '(??)',
+     :              '()',
      :              roff1,
      :              numvals,
-     :              1.0d-3,
-     :              1.0d2)
+     :              1d-1,
+     :              10d0)
 
       else
       endif
@@ -1041,31 +1056,42 @@ c      read(ret_string, *, iostat = err_code) rain
      :           numvals,
      :           1.0,
      :           44640.)              ! one month of minutes
-
       If (numvals.ne.1) then
          apsim_timestep = 0.0
       else
+      endif
+
          ! Get length of apsim timestep
 
-           call get_char_var_optional (
+      call get_char_var_optional (
      :           unknown_module,
      :           'time',
      :           '(hh:mm)',
      :           apsim_time,
      :           numvals)
-
+      If (numvals.ne.1) then
+         apsim_time = ' '
+      else
       endif
 
 * ---------------- DECIDE ON SOURCE OF TIMESTEP ----------------------
-      if ((int(apsim_timestep).eq.0).or.(apsim_time.eq.blank)) then
+      if ((int(apsim_timestep).ne.0).and.(apsim_time.ne.blank)) then
+         ! timestep is defined in the input files - use these.
+         timestep_source = 'input'
+                  
+      elseif (((int(apsim_timestep).ne.0).and.(apsim_time.eq.blank))
+     :                                   .or.
+     :       ((int(apsim_timestep).eq.0).and.(apsim_time.ne.blank))) 
+     :                                   then
+        ! only one of the timestep info values available - error!
+        call fatal_error(Err_User,
+     :                  'Insufficient timestep information available')
+        
+      else
          ! it has not been specified - use default (1 day)
          timestep_source = 'default'
          apsim_timestep = 1440.
          apsim_time     = '00:00'
-      else
-         ! timestep is defined in the input files - use these.
-         timestep_source = 'input'
-         apsim_timestep = apsim_timestep
       endif
 
 
@@ -1167,6 +1193,7 @@ c      read(ret_string, *, iostat = err_code) rain
 
        double precision dble_dis(0:M)
        double precision dble_exco(0:M)
+       double precision dr              ! timestep rainfall (during dt)(mm)
        double precision dummy(0:M)
        double precision eo
        double precision h_mm
@@ -1348,7 +1375,8 @@ cnh      print*,TD_pevap
      :            '(ppm)',
      :            sol(0),
      :            n+1)
-      else if (Variable_name(:7).eq. 'uptake_') then
+      !else if (Variable_name(:7).eq. 'uptake_') then
+      else if (index (Variable_name, 'uptake_').eq.1) then
          call split_line (Variable_name(8:),uname,ucrop,'_')
          call apswim_get_uptake (ucrop, uname, uptake, uunits,uflag)
          if (uflag) then
@@ -1360,14 +1388,16 @@ cnh      print*,TD_pevap
          else
             Call Message_Unused()
          endif
-      else if (Variable_name(:6).eq. 'leach_') then
+      !else if (Variable_name(:6).eq. 'leach_') then
+      else if (index(Variable_name,'leach_').eq.1) then
          solnum = apswim_solute_number (Variable_name(7:))
          call respond2Get_double_var (
      :            Variable_name,
      :            '(kg/ha)',
      :            TD_soldrain(solnum))
 
-      else if (Variable_name(:5).eq. 'flow_') then
+      !else if (Variable_name(:5).eq. 'flow_') then
+      else if (index(Variable_name,'flow_').eq.1) then
          solnum = apswim_solute_number (Variable_name(6:))
          do 103 node=0,n
             dummy(node) = TD_sflow(solnum,node)
@@ -1409,8 +1439,49 @@ cnh      print*,TD_pevap
      :            '(mm)',
      :            h_mm)
 
+      else if (Variable_name .eq. 'scon') then
+
+         call respond2Get_double_var (
+     :            'scon',
+     :            '(/h)',
+     :            gsurf)
+
+      else if (Variable_name .eq. 'scon_min') then
+
+         call respond2Get_double_var (
+     :            'scon_min',
+     :            '(/h)',
+     :            g0)
+
+      else if (Variable_name .eq. 'scon_max') then
+
+         call respond2Get_double_var (
+     :            'scon_max',
+     :            '(/h)',
+     :            g1)
+
+      else if (Variable_name .eq. 'dr') then
+         dr=(apswim_crain(t) - apswim_crain(t-dt))*10d0
+         call respond2Get_double_var (
+     :            'dr',
+     :            '(mm)',
+     :            dr)
+
+      else if (Variable_name .eq. 'dt') then
+         call respond2Get_double_var (
+     :            'dt',
+     :            '(min)',
+     :            dt*60d0)
+
+      else if (Variable_name .eq. 'crop_cover') then
+         call respond2Get_double_var (
+     :            Variable_name,
+     :            '(0-1)',
+     :            g_crop_cover)
+
 cnh added as per request by Dr Val Snow
-      else if (Variable_name(:5) .eq. 'exco_') then
+      !else if (Variable_name(:5) .eq. 'exco_') then
+      else if (index(Variable_name,'exco_').eq.1) then
          solnum = apswim_solute_number (Variable_name(6:))
          do 200 node=0,n
             dble_exco(node) = ex(solnum,node)/rhob(node)
@@ -1422,7 +1493,8 @@ cnh added as per request by Dr Val Snow
      :            dble_exco(0),
      :            n+1)
 
-      else if (Variable_name(:4) .eq. 'dis_') then
+      !else if (Variable_name(:4) .eq. 'dis_') then
+      else if (index(Variable_name,'dis_').eq.1) then
          solnum = apswim_solute_number (Variable_name(5:))
          do 300 node=0,n
             dble_dis(node) = dis(solnum,node)
@@ -1537,7 +1609,8 @@ cnh reals for now - change later when bug is fixed
          call apswim_reset_water_balance (2,suction)
 
 cnh added as per request by Dr Val Snow
-      else if (Variable_name(:5) .eq. 'exco_') then
+      !else if (Variable_name(:5) .eq. 'exco_') then
+      else if (index(Variable_name,'exco_').eq.1) then
                        ! dont forget to change type of limits
          solnum = apswim_solute_number (Variable_name(6:))
          call collect_real_array (
@@ -1546,14 +1619,15 @@ cnh added as per request by Dr Val Snow
      :              '()',
      :              real_exco(0),
      :              numvals,
-     :              0.0,
-     :              10.0)
+     :              c_lb_exco,
+     :              c_ub_exco)
 
          do 300 node=0,numvals-1
             ex(solnum,node) = dble(real_exco(node))*rhob(node)
   300    continue
 
-      else if (Variable_name(:4) .eq. 'dis_') then
+      !else if (Variable_name(:4) .eq. 'dis_') then
+      else if (index(Variable_name,'dis_').eq.1) then
                        ! dont forget to change type of limits
          solnum = apswim_solute_number (Variable_name(5:))
          call collect_real_array (
@@ -1562,12 +1636,22 @@ cnh added as per request by Dr Val Snow
      :              '()',
      :              real_dis(0),
      :              numvals,
-     :              0.0,
-     :              10.0)
+     :              c_lb_dis,
+     :              c_ub_dis)
 
          do 400 node=0,numvals-1
             dis(solnum,node) = dble(real_dis(node))
   400    continue
+
+      elseif (Variable_name .eq. 'scon') then
+         call collect_double_var (
+     :              'scon',
+     :              '(/h)',
+     :              gsurf,
+     :              numvals,
+     :              0d0,
+     :              100d0)
+
 
       else
          ! Don't know this variable name
@@ -1630,27 +1714,25 @@ cnh added as per request by Dr Val Snow
       rainfall_source = ' '
       evap_source = ' '
       SWIMRainNumPairs = 1
-
-      do 3 counter = 1, SWIMRainSize
+      SWIMEvapNumPairs = 1
+      
+      do 3 counter = 1, SWIMLogSize
          SWIMRainTime(counter)= 0.d0
          SWIMRainAmt(counter) = 0.d0
          SWIMEqRainTime(counter) = 0.d0
          SWIMEqRainAmt(counter) = 0.d0
-    3 continue
 
-      SWIMEvapNumPairs = 1
-      do 4 counter = 1, SWIMEvapSize
          SWIMEvapTime(counter)= 0.d0
          SWIMEvapAmt(counter) = 0.d0
-    4 continue
 
-      do 6 solnum = 1,nsol
-         SWIMSolNumPAirs(solnum) = 1
-         do 5 counter = 1,SWIMSolSize
+         do 4 solnum = 1,nsol
+            SWIMSolNumPAirs(solnum) = 1
             SWIMSolTime(solnum,counter)= 0.d0
             SWIMSolAmt(solnum,counter) = 0.d0
-    5    continue
-    6 continue
+    4    continue
+
+    3 continue
+
 
       call apswim_reset_daily_totals ()
 
@@ -1759,8 +1841,10 @@ cnh      slbp0 = 0d0
          hys(counter) = 0.d0
          hysref(counter) = 0.d0
          hysdry(counter) = 0.d0
-         index(counter,1) = 0
-         index(counter,2) = 0
+         ! removed old swimv2 index variable as it clashes with
+         ! fortran intrinsic function name.
+         ! index(counter,1) = 0
+         ! index(counter,2) = 0
    20 continue
       slmin = 0.d0
       slmax = 0.d0
@@ -2067,9 +2151,17 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 
 *   Global variables
        include 'apswim.inc'
+       integer apswim_time_to_mins   ! function
+       double precision apswim_time  ! function
 
 *   Internal variables
-*      none
+      integer          counter
+      integer          solnum
+      double precision start_timestep
+      double precision TEMPSolTime(SWIMLogSize)
+      double precision TEMPSolAmt(SWIMLogSize)
+      integer          TEMPSolNumPairs
+      integer          time_mins
 
 *   Constant values
 *      none
@@ -2081,15 +2173,57 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 
       call apswim_get_other_variables ()
 
-      call apswim_purge_rain_data()
-      call apswim_purge_evap_data()
-      call apswim_purge_solute_data()
+      time_mins = apswim_time_to_mins (apsim_time)
+      start_timestep = apswim_time (year,day,time_mins)
+
+      call apswim_purge_log_info(start_timestep
+     :                          ,SWIMRainTime
+     :                          ,SWIMRainAmt
+     :                          ,SWIMRainNumPairs)
+
+      call apswim_purge_log_info(start_timestep
+     :                          ,SWIMEvapTime
+     :                          ,SWIMEvapAmt
+     :                          ,SWIMEvapNumPairs)
+
+      do 100 solnum = 1, num_solutes
+        TEMPSolNumPairs = SWIMSolNumPairs(solnum)
+        do 50 counter = 1, TEMPSolNumPairs
+           TEMPSolTime(counter) = SWIMSolTime(solnum,counter)
+           TEMPSolAmt(counter) = SWIMSolAmt(solnum,counter)
+   50   continue
+
+         call apswim_purge_log_info(start_timestep
+     :                             ,TEMPSolTime
+     :                             ,TEMPSolAmt
+     :                             ,TEMPSolNumPairs)
+
+        SWIMSolNumPairs(solnum) = TEMPSolNumPairs
+        do 60 counter = 1, TEMPSolNumPairs
+           SWIMSolTime(solnum,counter) = TEMPSolTime(counter)
+           SWIMSolAmt(solnum,counter) = TEMPSolAmt(counter)
+   60   continue
+  100 continue
+
 
       if (rainfall_source .eq. 'apsim') then
          call apswim_get_other_rain_variables ()
 
       else
+         call apswim_read_logfile (
+     :                             g_LUNrain
+     :                            ,year
+     :                            ,day
+     :                            ,apsim_time
+     :                            ,apsim_timestep
+     :                            ,SWIMRainTime
+     :                            ,SWIMRainAmt
+     :                            ,SWIMRainNumPairs
+     :                            ,SWIMLogSize)
+
       endif
+
+      call apswim_recalc_eqrain()
 
       if (evap_source .eq. 'apsim') then
          call apswim_get_obs_evap_variables ()
@@ -2101,7 +2235,19 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
          call apswim_calc_evap_variables ()
 
       else
+         call apswim_read_logfile (
+     :                             g_LUNevap
+     :                            ,year
+     :                            ,day
+     :                            ,apsim_time
+     :                            ,apsim_timestep
+     :                            ,SWIMEvapTime
+     :                            ,SWIMEvapAmt
+     :                            ,SWIMEvapNumPairs
+     :                            ,SWIMLogSize)
+
       endif
+
 
 
       return
@@ -2991,6 +3137,16 @@ cnh added next line
 *     solve until end of time step
 
 10    continue
+cnh
+      call new_postbox()
+      call message_send_immediate(unknown_module
+     :                              ,'swim_timestep_preparation'
+     :                              ,' ')
+      call delete_postbox()
+
+
+
+
 *        calculate next step size_of dt
 c         write(LU_Summary_File,*) 'time = ',t
 
@@ -3107,7 +3263,7 @@ cnh time steps so that nutrient exclusion is more effective.
             else
                ! no solute uptake so no need to check timestep
             endif
-            
+
 
 *        new step
 40       continue
@@ -3143,9 +3299,16 @@ cnh
 cnh
             call apswim_check_demand()
 
+cnh
+         call new_postbox()
+         call message_send_immediate(unknown_module
+     :                              ,'pre_swim_timestep'
+     :                              ,' ')
+         call delete_postbox()
 ***
 *           integrate for step dt
             call apswim_solve(itlim,fail)
+
 cnh            print*,t-dt,dt,fail
 c              write(LU_Summary_file,*) '----------------------------'
 c              write(LU_Summary_file,*) day,year,
@@ -3236,6 +3399,15 @@ cnh
                   !endif
 
                end if
+
+cnh
+               call new_postbox()
+               call message_send_immediate(unknown_module
+     :                              ,'post_swim_timestep'
+     :                              ,' ')
+               call delete_postbox()
+
+
             end if
 
       ! We have now finished our first timestep
@@ -3416,155 +3588,6 @@ cnh
       endif
 
       call pop_routine(myname)
-      return
-      end
-* ====================================================================
-       subroutine apswim_read_rainfall ()
-* ====================================================================
-
-*   Short description:
-
-*   Assumptions:
-*      None
-
-*   Notes:
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
-
-*   Changes:
-*   1-9-94 NIH - programmed and specified
-
-*   Calls:
-*   pop_routine
-*   push_routine
-
-* ----------------------- Declaration section ------------------------
-
-       implicit none
-
-*   Subroutine arguments
-*      none
-
-*   Global variables
-       include 'const.inc'
-       include 'apswim.inc'
-       integer apswim_time_to_mins          ! function
-       integer open_file                    ! function
-       double precision apswim_time         ! function
-
-*   Internal variables
-       double precision avinten      ! average rainfall intensity(cm/hr)
-       integer counter               ! simple counter variable
-       double precision eqrain       ! 25 cm/hr equivalent rainfall
-       integer iost                  ! IO status variable
-       character line*80             ! Line from rainfall file
-       character filetime*8          ! Time from line from rainfall file
-       integer fileday               ! day   "     "    "     "      "
-       integer fileyear              ! year  "     "    "     "      "
-       real fileamt                  ! amount "    "    "     "      "
-       real filedurn                 ! duration "  "    "     "      "
-       integer rainfilelun           ! Logical unit number for rainfall
-                                     ! file
-       double precision raintime     ! Time for start of recorded rainfall
-                                     ! event
-       integer time_of_day           ! time of day as minutes since
-                                     ! midnight (min)
-
-*   Constant values
-
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'apswim_read_rainfall')
-
-*   Initial data values
-*     none
-
-* --------------------- Executable code section ----------------------
-      call push_routine (myname)
-
-      ! set the initial values for cum. rainfall/time
-       counter = 1
-       SWIMRainTime(counter) = 0.d0
-       SWIMRainAmt(counter) = 0.d0
-       SWIMEqRainTime(counter) = 0.d0
-       SWIMEqRainAmt(counter) = 0.d0
-
-      rainfilelun = open_file (rainfall_source)
-
-      if (rainfilelun .ne. -1) then
-  100    continue
-         line = blank
-         read(rainfilelun,'(A)',iostat=iost) line
-
-         If (iost.lt.0) then
-            ! We have reached end of file
-
-         elseif (line.eq.blank) then
-            goto 100 ! try reading next line
-
-         else
-
-            fileyear = 0
-            fileday = 0
-            filetime=' '
-            fileamt=0.0
-            filedurn=0.0
-            read(line,*,iostat=iost) fileyear,fileday,filetime,
-     :                            fileamt,filedurn
-            if (iost .ne. 0) then
-               call fatal_error(err_user,'bad rain record')
-            else
-
-               counter = counter+1
-
-               time_of_day = apswim_time_to_mins (filetime)
-               RainTime = apswim_time (fileyear,fileday,time_of_day)
-
-               If (SWIMRainTime(counter-1).ne.RainTime) then
-                  ! rainfall records are not continuous
-                  ! put this gap into the cum. rainfall function
-                  SWIMRainTime(counter) = RainTime
-                  SWIMRainAmt(counter) = SWIMRainAmt(Counter-1)
-                  SWIMEqRainTime(counter) = RainTime
-                  SWIMEqRainAmt(counter) = SWIMEqRainAmt(Counter-1)
-                  counter = counter + 1
-               else
-               endif
-
-
-               SWIMRainTime(counter) = RainTime + fileDurn/60.
-               SWIMRainAmt (counter) = SWIMRainAmt(counter-1)
-     :                                 +fileAmt/10.
-*                                                \__convert mm to cm
-
-               avinten = (FileAmt/10.)/(FileDurn/60.) !cm/hr
-               if (avinten.gt.0.0) then
-                  eqrain=(1.d0+effpar*log(avinten/2.5d0))*FileAmt/10.d0
-               else
-                  eqrain = 0.0
-               endif
-               SWIMEqRainTime(counter) = RainTime + fileDurn/60.d0
-               SWIMEqRainAmt(counter) = SWIMEqRainAmt(counter-1)
-     :                     + eqrain
-
-               goto 100
-            endif
-         endif
-         call close_file (rainfall_source)
-         SWIMRainNumPairs = counter
-
-      else
-         call Fatal_Error (err_internal,
-     :                    'cannot open rainfall file')
-      endif
-
-      call pop_routine (myname)
       return
       end
 * ====================================================================
@@ -4124,7 +4147,7 @@ cnh      cslsur = 0.d0 ! its an array now
        double precision dlinint          ! function
 
 *   Internal variables
-*      none
+      double precision crain_mm
 
 *   Constant values
       character*(*) myname               ! name of current procedure
@@ -4136,8 +4159,10 @@ cnh      cslsur = 0.d0 ! its an array now
 * --------------------- Executable code section ----------------------
       call push_routine (myname)
 
-      apswim_crain = dlinint(time,SWIMRainTime,SWIMRainAmt,
+      crain_mm = dlinint(time,SWIMRainTime,SWIMRainAmt,
      :                       SWIMRainNumPairs)
+
+      apswim_crain = crain_mm / 10d0
 
       call pop_routine (myname)
       return
@@ -4182,6 +4207,7 @@ cnh      cslsur = 0.d0 ! its an array now
        double precision dlinint          ! function
 
 *   Internal variables
+       double precision cevap_mm        ! cumulative evaporation in mm
        integer          counter         ! simple counter variable
        double precision Timefr          ! fractional distance between
                                         ! evap time pointer
@@ -4208,10 +4234,10 @@ cnh      cslsur = 0.d0 ! its an array now
       if (evap_curve.eq.'on') then
 
          if (Time.ge.SWIMEvapTime(SWIMEvapNumPairs)) then
-            apswim_cevap = SWIMEvapAmt(SWIMEvapNumPairs)
+            cevap_mm = SWIMEvapAmt(SWIMEvapNumPairs)
 
          elseif (Time.le.SWIMEvapTime(1)) then
-            apswim_cevap = SWIMEvapAmt(1)
+            cevap_mm = SWIMEvapAmt(1)
 
          else
             do 100 counter = 2,SWIMEvapNumPairs
@@ -4224,7 +4250,7 @@ cnh      cslsur = 0.d0 ! its an array now
                Tbell = Bell_area(7d0*pi/2d0)
                FBell = Bell_area(3d0*pi/2d0+2d0*pi*TimeFr)
 
-               apswim_cevap = SWIMEvapAmt(counter-1)+Fbell/Tbell*
+               cevap_mm = SWIMEvapAmt(counter-1)+Fbell/Tbell*
      :                  (SWIMEvapAmt(counter)-SWIMEvapAmt(counter-1))
 
                goto 200
@@ -4238,9 +4264,11 @@ cnh      cslsur = 0.d0 ! its an array now
          endif
 
       else
-         apswim_cevap = dlinint(time,SWIMEvapTime,SWIMEvapAmt,
+         cevap_mm = dlinint(time,SWIMEvapTime,SWIMEvapAmt,
      :                       SWIMEvapNumPairs)
       endif
+
+      apswim_cevap = cevap_mm / 10d0
 
       call pop_routine (myname)
       return
@@ -4534,131 +4562,6 @@ cnh      cslsur = 0.d0 ! its an array now
       return
       end
 * ====================================================================
-       subroutine apswim_read_evap ()
-* ====================================================================
-
-*   Short description:
-
-*   Assumptions:
-*      None
-
-*   Notes:
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
-
-*   Changes:
-*   1-9-94 NIH - programmed and specified
-
-*   Calls:
-*   pop_routine
-*   push_routine
-
-* ----------------------- Declaration section ------------------------
-
-       implicit none
-
-*   Subroutine arguments
-*      none
-
-*   Global variables
-       include 'const.inc'
-       include 'apswim.inc'
-       integer apswim_time_to_mins          ! function
-       integer open_file                    ! function
-       double precision apswim_time         ! function
-
-*   Internal variables
-       integer counter
-       integer iost
-       character line*80, filetime*8
-       integer fileday,fileyear
-       real fileamt,filedurn
-       integer evapfilelun
-       double precision evaptime
-       integer time_of_day
-
-*   Constant values
-
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'apswim_read_evap')
-
-*   Initial data values
-*     none
-
-* --------------------- Executable code section ----------------------
-      call push_routine (myname)
-
-      ! set the initial values for cum. rainfall/time
-       counter = 1
-       SWIMEvapTime(counter) = 0.d0
-       SWIMEvapAmt(counter) = 0.d0
-
-      Evapfilelun = open_file (Evap_source)
-
-      if (Evapfilelun .ne. -1) then
-  100    continue
-         line = blank
-         read(Evapfilelun,'(A)',iostat=iost) line
-
-         If (iost.lt.0) then
-            ! We have reached end of file
-
-         elseif (line.eq.blank) then
-            goto 100 ! try reading next line
-
-         else
-
-            fileyear = 0
-            fileday = 0
-            filetime=' '
-            fileamt=0.0
-            filedurn=0.0
-            read(line,*,iostat=iost) fileyear,fileday,filetime,
-     :                            fileamt,filedurn
-            if (iost .ne. 0) then
-               call fatal_error(err_user,'bad Evap record')
-            else
-
-               counter = counter+1
-
-               time_of_day = apswim_time_to_mins (filetime)
-               EvapTime = apswim_time (fileyear,fileday,time_of_day)
-
-               If (SWIMEvapTime(counter-1).ne.EvapTime) then
-                  ! rainfall records are not continuous
-                  ! put this gap into the cum. Evapfall function
-                  SWIMEvapTime(counter) = EvapTime
-                  SWIMEvapAmt(counter) = SWIMEvapAmt(Counter-1)
-                  counter = counter + 1   !   \
-               else                       ! No conversion - converted on
-               endif                      ! last record
-
-
-               SWIMEvapTime(counter) = EvapTime + fileDurn/60.
-               SWIMEvapAmt (counter) = SWIMEvapAmt(counter-1)
-     :                                 +fileAmt/10.
-*                                                \__convert mm to cm
-               goto 100
-            endif
-         endif
-         call close_file (Evap_source)
-         SWIMEvapNumPairs = counter
-      else
-         call Fatal_Error (err_internal,
-     :                    'cannot open Evap file')
-      endif
-
-      call pop_routine (myname)
-      return
-      end
-* ====================================================================
        subroutine apswim_init_change_units ()
 * ====================================================================
 
@@ -4760,7 +4663,7 @@ cnh      cslsur = 0.d0 ! its an array now
 *                       implicit none
 
 *   Changes:
-*   NeilH - 06-12-1994 - Programmed and Specified
+*   NeilH - 28-11-1996 - Programmed and Specified
 
 *   Calls:
 *   pop_routine
@@ -4771,7 +4674,7 @@ cnh      cslsur = 0.d0 ! its an array now
        implicit none
 
 *   Subroutine arguments
-      double precision time             ! time (hours since start)
+      double precision time             ! first time (hours since start)
 
 *   Global variables
       include 'apswim.inc'
@@ -4904,33 +4807,13 @@ c     :           1000d0)
 
       call Read_double_array(
      :           solute_section,
-     :           'd0',
-     :           nsol,
-     :           '()',
-     :           table_d0,
-     :           numvals,
-     :           -1000d0,
-     :           1000d0)
-
-      call Read_double_array(
-     :           solute_section,
-     :           'disp',
-     :           nsol,
-     :           '()',
-     :           table_disp,
-     :           numvals,
-     :           -1000d0,
-     :           1000d0)
-
-      call Read_double_array(
-     :           solute_section,
      :           'slupf',
      :           nsol,
      :           '()',
      :           table_slupf,
      :           numvals,
-     :           0d0,
-     :           1d0)
+     :           c_lb_slupf,
+     :           c_ub_slupf)
 
       call Read_double_array(
      :           solute_section,
@@ -4939,8 +4822,18 @@ c     :           1000d0)
      :           '()',
      :           table_slos,
      :           numvals,
-     :           -1000d0,
-     :           1000d0)
+     :           c_lb_slos,
+     :           c_ub_slos)
+
+      call Read_double_array(
+     :           solute_section,
+     :           'd0',
+     :           nsol,
+     :           '()',
+     :           table_d0,
+     :           numvals,
+     :           c_lb_d0,
+     :           c_ub_d0)
 
 c      call Read_double_array(
 c     :           solute_section,
@@ -4970,8 +4863,8 @@ c     :           1000d0)
      :           '()',
      :           table_a,
      :           numvals,
-     :           -1000d0,
-     :           1000d0)
+     :           c_lb_a,
+     :           c_ub_a)
 
 
       call Read_double_array(
@@ -4981,8 +4874,8 @@ c     :           1000d0)
      :           '()',
      :           table_dthc,
      :           numvals,
-     :           -1000d0,
-     :           1000d0)
+     :           c_lb_dthc,
+     :           c_ub_dthc)
 
 
       call Read_double_array(
@@ -4992,8 +4885,18 @@ c     :           1000d0)
      :           '()',
      :           table_dthp,
      :           numvals,
-     :           -1000d0,
-     :           1000d0)
+     :           c_lb_dthp,
+     :           c_ub_dthp)
+
+      call Read_double_array(
+     :           solute_section,
+     :           'disp',
+     :           nsol,
+     :           '()',
+     :           table_disp,
+     :           numvals,
+     :           c_lb_disp,
+     :           c_ub_disp)
 
       ! Now find what solutes are out there and assign them the relevant
       ! ----------------------------------------------------------------
@@ -5095,6 +4998,15 @@ c       double precision table_beta(nsol)
       do 500 node=0,n
          if (soil_type(node).ne.'-') then
 
+            call Read_double_var(
+     :           soil_type(node),
+     :           'bulk_density',
+     :           '()',
+     :           rhob(node),
+     :           numvals,
+     :           0d0,
+     :           2d0)
+
             numvals = 0
             call Read_char_array(
      :           soil_type(node),
@@ -5111,8 +5023,8 @@ c       double precision table_beta(nsol)
      :           '()',
      :           table_exco,
      :           numvals,
-     :           -1000d0,
-     :           1000d0)
+     :           c_lb_exco,
+     :           c_ub_exco)
 
             call Read_double_array(
      :           soil_type(node),
@@ -5121,8 +5033,8 @@ c       double precision table_beta(nsol)
      :           '()',
      :           table_fip,
      :           numvals,
-     :           -1000d0,
-     :           1000d0)
+     :           c_lb_fip,
+     :           c_ub_fip)
 
             call Read_double_array(
      :           soil_type(node),
@@ -5131,8 +5043,8 @@ c       double precision table_beta(nsol)
      :           '()',
      :           table_dis,
      :           numvals,
-     :           -1000d0,
-     :           1000d0)
+     :           c_lb_dis,
+     :           c_ub_dis)
 
 c            call Read_double_array(
 c     :           soil_type(node),
@@ -5154,14 +5066,6 @@ c     :           numvals,
 c     :           -1000d0,
 c     :           1000d0)
 
-            call Read_double_var(
-     :           soil_type(node),
-     :           'bulk_density',
-     :           '()',
-     :           rhob(node),
-     :           numvals,
-     :           -1000d0,
-     :           1000d0)
 
             do 200 solnum = 1,num_solutes
                found = .false.
@@ -5260,8 +5164,8 @@ c                     beta(solnum,node) = table_beta(solnum2)
      :           '(kg/ha)',
      :           solute_n(0),
      :           numvals,
-     :           0d0,
-     :           1d3)
+     :           c_lb_solute,
+     :           c_ub_solute)
 
          if (numvals.gt.0) then
 
@@ -5786,7 +5690,7 @@ cnh       include 'utility.inc'
      :           solute_demand (vegnum,solnum),
      :           numvals,
      :           0d0,
-     :           100d0)
+     :           1000d0)
 
    99    continue
 
@@ -5880,6 +5784,7 @@ cnh
        integer          apswim_time_to_mins
 
 *   Internal variables
+       integer          counter
        double precision amount
        double precision duration
        integer          numvals
@@ -5888,6 +5793,9 @@ cnh
        integer          time_mins
        character        time_string*10
        double precision irrigation_time
+       double precision TEMPSolTime(SWIMLogSize)
+       double precision TEMPSolAmt(SWIMLogSize)
+       integer          TEMPSolNumPairs
 
 *   Constant values
       character*(*) myname               ! name of current procedure
@@ -5924,16 +5832,20 @@ cnh
      :                        ,time_string
      :                        ,numvals)
 
-      ! get information regarding time etc.                                        
+      ! get information regarding time etc.
       call apswim_Get_other_variables()
 
       time_mins = apswim_time_to_mins (time_string)
       irrigation_time = apswim_time (year,day,time_mins)
 
-      call apswim_insert_rainfall (
+      call apswim_insert_loginfo (
      :                         irrigation_time
      :                        ,duration
-     :                        ,amount)
+     :                        ,amount
+     :                        ,SWIMRainTime
+     :                        ,SWIMRainAmt
+     :                        ,SWIMRainNumPairs
+     :                        ,SWIMLogSize)
 
       call apswim_recalc_eqrain ()
 
@@ -5947,377 +5859,31 @@ cnh
      :                        ,1000d0)
 
         if (numvals.gt.0) then
-           call apswim_insert_solute (
+           TEMPSolNumPairs = SWIMSolNumPairs(solnum)
+           do 50 counter = 1, TEMPSolNumPairs
+              TEMPSolTime(counter) = SWIMSolTime(solnum,counter)
+              TEMPSolAmt(counter) = SWIMSolAmt(solnum,counter)
+   50      continue
+
+           call apswim_insert_loginfo (
      :                         irrigation_time
      :                        ,duration
      :                        ,solconc
-     :                        ,solnum)
+     :                        ,TEMPSolTime
+     :                        ,TEMPSolAmt
+     :                        ,TEMPSolNumPairs
+     :                        ,SWIMLogSize)
+
+           SWIMSolNumPairs(solnum) = TEMPSolNumPairs
+           do 60 counter = 1, TEMPSolNumPairs
+              SWIMSolTime(solnum,counter) = TEMPSolTime(counter)
+              SWIMSolAmt(solnum,counter) = TEMPSolAmt(counter)
+   60      continue
 
         else
         endif
   100 continue
 
-
-      call pop_routine (myname)
-      return
-      end
-* ====================================================================
-       subroutine apswim_insert_rainfall (time,duration,amount)
-* ====================================================================
-
-*   Short description:
-
-*   Assumptions:
-*      None
-
-*   Notes:
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
-
-*   Changes:
-*   neilh - 23-01-1995 - Programmed and Specified
-
-*   Calls:
-*   Popsr
-*   Pushsr
-
-* ----------------------- Declaration section ------------------------
-
-       implicit none
-
-*   Subroutine arguments
-
-       double precision amount          ! (mm)
-       double precision duration        ! (min)
-       double precision time            ! (min since start)
-
-*   Global variables
-       include 'const.inc'
-       include 'apswim.inc'
-       double precision apswim_crain
-
-*   Internal variables
-      double precision AvInt
-      integer          counter
-      integer          counter2
-      double precision Extra_rain
-      double precision fAmt
-      double precision ftime
-      double precision NewTime (SWIMRainSize)
-      double precision NewAmt  (SWIMRainSize)
-      double precision SAmt
-
-*   Constant values
-      double precision min_rainfall
-      parameter (min_rainfall = 0.1d0)
-
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'apswim_insert_rainfall')
-
-*   Initial data values
-*      none
-
-* --------------------- Executable code section ----------------------
-      call push_routine (myname)
-
-      ftime = time+duration/60d0
-      counter2 = 0
-
-      if (SWIMRainNumPairs.gt.SWIMRainSize-2) then
-         call fatal_error (Err_Internal,
-     :   'No memory left for rainfall/irrigation data')
-
-      else if (ftime .lt. SWIMRainTime(1)) then
-         ! do nothing - it is not important
-
-      else if (time.lt.SWIMRainTime(1)) then
-         ! for now I shall say that this shouldn't happen
-         call fatal_error (Err_User,
-     :         'rainfall time before start of run')
-
-       else if (amount .lt. min_rainfall) then
-          ! do nothing
-
-       else if (amount .lt. 0) then
-          call fatal_error (Err_User,
-     :             'Negative rainfall!!!!')
-       else
-         call fill_double_array (NewTime, 0d0, SWIMRainSize)
-         call fill_double_array (NewAmt, 0d0, SWIMRainSize)
-
-         counter2 = 0
-         SAmt = apswim_crain(time)
-         FAmt = apswim_crain(Ftime)
-
-         if (time .lt. SWIMRainTime(1)) then
-            counter2 = counter2+1
-            NewTime(Counter2) = time
-            NewAmt(Counter2) = SAmt
-         else
-         endif
-         if (ftime .lt. SWIMRainTime(1)) then
-            counter2 = counter2+1
-            NewTime(Counter2) = ftime
-            NewAmt(Counter2) = FAmt
-         else
-         endif
-
-         do 100 counter = 1, SWIMRainNumPairs-1
-
-            counter2 = counter2+1
-            NewTime(Counter2) = SWIMRainTime(Counter)
-            NewAmt(Counter2) = SWIMRainAmt(Counter)
-
-            if (time.gt.SWIMRainTime(counter)
-     :                  .and.
-     :             time.lt.SWIMRainTime(counter+1)) then
-
-               counter2 = counter2+1
-               NewTime(Counter2) = time
-               NewAmt(Counter2) = SAmt
-            else
-            endif
-
-            if (ftime.gt.SWIMRainTime(counter)
-     :               .and.
-     :          ftime.lt.SWIMRainTime(counter+1)) then
-
-               counter2 = counter2+1
-               NewTime(Counter2) = ftime
-               NewAmt(Counter2) = FAmt
-
-            else
-            endif
-
-  100    continue
-
-         counter2 = counter2+1
-         NewTime(Counter2) = SWIMRainTime(SWIMRainNumPairs)
-         NewAmt(Counter2) = SWIMRainAmt(SWIMRainNumPairs)
-
-         if (time .gt. SWIMRainTime(SWIMRainNumPairs)) then
-            counter2 = counter2+1
-            NewTime(Counter2) = time
-            NewAmt(Counter2) = SAmt
-         else
-         endif
-         if (ftime .gt. SWIMRainTime(SWIMRainNumPairs)) then
-            counter2 = counter2+1
-            NewTime(Counter2) = ftime
-            NewAmt(Counter2) = FAmt
-         else
-         endif
-
-         SWIMRainNumPairs = Counter2
-         AvInt = (Amount/10d0)/(Duration/60d0)
-         call fill_double_array (SWIMRainTime, 0d0, SWIMRainSize)
-         call fill_double_array (SWIMRainAmt, 0d0, SWIMRainSize)
-
-         do 200 Counter = 1,SWIMRainNumPairs
-
-            if (Counter.eq.1) then
-               Extra_rain = 0d0
-
-            elseif (NewTime(Counter).gt.time) then
-
-               extra_rain = AvInt *
-     :            min(NewTime(Counter)-time,(Duration/60d0))
-
-            else
-               Extra_rain = 0d0
-            endif
-
-            SWIMRainTime(Counter) = NewTime(Counter)
-            SWIMRainAmt(Counter) = NewAmt(Counter)+Extra_Rain
-
-  200    continue
-
-      endif
-
-      call pop_routine (myname)
-      return
-      end
-* ====================================================================
-       subroutine apswim_insert_solute (time,duration,amount,solnum)
-* ====================================================================
-
-*   Short description:
-
-*   Assumptions:
-*      None
-
-*   Notes:
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
-
-*   Changes:
-*   neilh - 23-01-1995 - Programmed and Specified
-
-*   Calls:
-*   Popsr
-*   Pushsr
-
-* ----------------------- Declaration section ------------------------
-
-       implicit none
-
-*   Subroutine arguments
-
-       double precision amount          ! (mm)
-       double precision duration        ! (min)
-       double precision time            ! (min since start)
-       integer          solnum          ! (solute number)
-
-*   Global variables
-       include 'const.inc'
-       include 'apswim.inc'
-       double precision apswim_csol
-
-*   Internal variables
-      double precision AvInt
-      integer          counter
-      integer          counter2
-      double precision Extra_sol
-      double precision fAmt
-      double precision ftime
-      double precision NewTime (SWIMSolSize)
-      double precision NewAmt  (SWIMSolSize)
-      double precision SAmt
-
-*   Constant values
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'apswim_insert_solute')
-
-*   Initial data values
-*      none
-
-* --------------------- Executable code section ----------------------
-      call push_routine (myname)
-
-      ftime = time+duration/60d0
-      counter2 = 0
-
-      if (SWIMSolNumPairs(solnum).gt.SWIMSolSize-2) then
-         call fatal_error (Err_Internal,
-     :   'No memory left for rainfall/irrigation solute data')
-
-      else if (ftime .lt. SWIMSolTime(solnum,1)) then
-         ! do nothing - it is not important
-
-      else if (time.lt.SWIMSolTime(solnum,1)) then
-         ! for now I shall say that this shouldn't happen
-         call fatal_error (Err_User,
-     :         'solute addition time before start of run')
-
-       else
-         call fill_double_array (NewTime, 0d0, SWIMSolSize)
-         call fill_double_array (NewAmt, 0d0, SWIMSolSize)
-
-         counter2 = 0
-         ! I think apswim_csol returns ug/cm2 so need to X10 to get kg/ha
-         SAmt = apswim_csol(solnum,time) / 10d0
-         FAmt = apswim_csol(solnum,Ftime) /10d0
-
-         if (time .lt. SWIMSolTime(solnum,1)) then
-            counter2 = counter2+1
-            NewTime(Counter2) = time
-            NewAmt(Counter2) = SAmt
-         else
-         endif
-         if (ftime .lt. SWIMSolTime(solnum,1)) then
-            counter2 = counter2+1
-            NewTime(Counter2) = ftime
-            NewAmt(Counter2) = FAmt
-         else
-         endif
-
-         do 100 counter = 1, SWIMSolNumPairs(solnum)-1
-
-            counter2 = counter2+1
-            NewTime(Counter2) = SWIMSolTime(solnum,Counter)
-            NewAmt(Counter2) = SWIMSolAmt(solnum,Counter)
-
-            if (time.gt.SWIMSolTime(solnum,counter)
-     :               .and.
-     :          time.lt.SWIMSolTime(solnum,counter+1)) then
-
-               counter2 = counter2+1
-               NewTime(Counter2) = time
-               NewAmt(Counter2) = SAmt
-            else
-            endif
-            if (ftime.gt.SWIMSolTime(solnum,counter)
-     :               .and.
-     :          ftime.lt.SWIMSolTime(solnum,counter+1)) then
-
-               counter2 = counter2+1
-               NewTime(Counter2) = ftime
-               NewAmt(Counter2) = FAmt
-
-            else
-            endif
-
-  100    continue
-
-         counter2 = counter2+1
-         NewTime(Counter2) = SWIMSolTime(Solnum,SWIMSolNumPairs(solnum))
-         NewAmt(Counter2) = SWIMSolAmt(Solnum,SWIMSolNumPairs(solnum))
-
-         if (time .gt. SWIMSolTime(Solnum,SWIMSolNumPairs(Solnum))) then
-            counter2 = counter2+1
-            NewTime(Counter2) = time
-            NewAmt(Counter2) = SAmt
-         else
-         endif
-         if (ftime .gt.SWIMSolTime(SolNum,SWIMSolNumPairs(solnum))) then
-            counter2 = counter2+1
-            NewTime(Counter2) = ftime
-            NewAmt(Counter2) = FAmt
-         else
-         endif
-
-         SWIMSolNumPairs(Solnum) = Counter2
-         AvInt = Amount/(Duration/60d0)
-
-         do 150 Counter = 1,SWIMSolSize
-            SWIMSolTime(Solnum,counter) = 0d0
-            SWIMSolAmt(Solnum,counter) = 0d0
-  150    continue
-
-         do 200 Counter = 1,SWIMSolNumPairs(SolNum)
-
-            if (Counter.eq.1) then
-               Extra_sol = 0d0
-
-            elseif (NewTime(Counter).gt.time) then
-
-               extra_sol = AvInt *
-     :            min(NewTime(Counter)-time,(Duration/60d0))
-
-            else
-               Extra_sol = 0d0
-            endif
-
-            SWIMSolTime(SolNum,Counter) = NewTime(Counter)
-            SWIMSolAmt(SolNum,Counter) = NewAmt(Counter)+Extra_sol
-
-  200    continue
-
-      endif
 
       call pop_routine (myname)
       return
@@ -6364,9 +5930,9 @@ cnh
        double precision dlinint          ! function
 
 *   Internal variables
-       double precision Samount (SWIMSolSize)
+       double precision Samount (SWIMLogSize)
        integer          counter
-       double precision STime(SWIMSolSize)
+       double precision STime(SWIMLogSize)
 
 *   Constant values
       character*(*) myname               ! name of current procedure
@@ -6386,7 +5952,7 @@ cnh
       ! Solute arrays are in kg/ha of added solute.  From swim's equations
       ! with everything in cm and ug per g water we convert the output to
       ! ug per cm^2 because the cm^2 area and height in cm gives g water.
-      ! There are 10^9 ug/kg and 10^8 cm^2 per ha therefore we get a 
+      ! There are 10^9 ug/kg and 10^8 cm^2 per ha therefore we get a
       ! conversion factor of 10.
 
       apswim_csol = dlinint(time,STime,SAmount, SWIMSolNumPairs(solnum))
@@ -6783,189 +6349,19 @@ cnh
       if (amount.gt.0d0) then
          time_of_day = apswim_time_to_mins (time)
          Time_mins = apswim_time (year,day,time_of_day)
-         call apswim_insert_rainfall (
-     :                             time_mins
-     :                            ,duration
-     :                            ,amount)
+         call apswim_insert_loginfo (
+     :                                time_mins
+     :                               ,duration
+     :                               ,amount
+     :                               ,SWIMRainTime
+     :                               ,SWIMRainAmt
+     :                               ,SWIMRainNumPairs
+     :                               ,SWIMLogSize)
 
-         call apswim_recalc_eqrain ()
       else
          ! No rain to add to record
       endif
 
-      return
-      end
-* ====================================================================
-       subroutine apswim_insert_evap (time,duration,amount)
-* ====================================================================
-
-*   Short description:
-
-*   Assumptions:
-*      None
-
-*   Notes:
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
-
-*   Changes:
-*   neilh - 26-05-1995 - adapted from apswim_insert_rainfall
-
-*   Calls:
-*   Popsr
-*   Pushsr
-
-* ----------------------- Declaration section ------------------------
-
-       implicit none
-
-*   Subroutine arguments
-
-       double precision amount          ! (mm)
-       double precision duration        ! (min)
-       double precision time            ! (min since start)
-
-*   Global variables
-       include 'const.inc'
-       include 'apswim.inc'
-       double precision apswim_cevap
-
-*   Internal variables
-      double precision AvInt
-      integer          counter
-      integer          counter2
-      double precision Extra_evap
-      double precision fAmt
-      double precision ftime
-      double precision NewTime (SWIMEvapSize)
-      double precision NewAmt  (SWIMEvapSize)
-      double precision SAmt
-
-*   Constant values
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'apswim_insert_evap')
-
-*   Initial data values
-*      none
-
-* --------------------- Executable code section ----------------------
-      call push_routine (myname)
-
-      ftime = time+duration/60d0
-      counter2 = 0
-
-      if (SWIMEvapNumPairs.gt.SWIMEvapSize-2) then
-         call fatal_error (Err_Internal,
-     :   'No memory left for evaporation data')
-
-      else if (ftime .lt. SWIMEvapTime(1)) then
-         ! do nothing - it is not important
-
-      else if (time.lt.SWIMEvapTime(1)) then
-         ! for now I shall say that this shouldn't happen
-         call fatal_error (Err_User,
-     :         'evaporation time before start of run')
-
-       else
-         call fill_double_array (NewTime, 0d0, SWIMEvapSize)
-         call fill_double_array (NewAmt, 0d0, SWIMEvapSize)
-
-         counter2 = 0
-         SAmt = apswim_cevap(time)
-         FAmt = apswim_cevap(Ftime)
-
-         if (time .lt. SWIMEvapTime(1)) then
-            counter2 = counter2+1
-            NewTime(Counter2) = time
-            NewAmt(Counter2) = SAmt
-         else
-         endif
-         if (ftime .lt. SWIMEvapTime(1)) then
-            counter2 = counter2+1
-            NewTime(Counter2) = ftime
-            NewAmt(Counter2) = FAmt
-         else
-         endif
-
-         do 100 counter = 1, SWIMEvapNumPairs-1
-
-            counter2 = counter2+1
-            NewTime(Counter2) = SWIMEvapTime(Counter)
-            NewAmt(Counter2) = SWIMEvapAmt(Counter)
-
-            if (time.gt.SWIMEvapTime(counter)
-     :               .and.
-     :          time.lt.SWIMEvapTime(counter+1)) then
-
-               counter2 = counter2+1
-               NewTime(Counter2) = time
-               NewAmt(Counter2) = SAmt
-            else
-            endif
-            if (ftime.gt.SWIMEvapTime(counter)
-     :               .and.
-     :          ftime.lt.SWIMEvapTime(counter+1)) then
-
-               counter2 = counter2+1
-               NewTime(Counter2) = ftime
-               NewAmt(Counter2) = FAmt
-
-            else
-            endif
-
-  100    continue
-
-         counter2 = counter2+1
-         NewTime(Counter2) = SWIMEvapTime(SWIMEvapNumPairs)
-         NewAmt(Counter2) = SWIMEvapAmt(SWIMEvapNumPairs)
-
-         if (time .gt. SWIMEvapTime(SWIMEvapNumPairs)) then
-            counter2 = counter2+1
-            NewTime(Counter2) = time
-            NewAmt(Counter2) = SAmt
-         else
-         endif
-         if (ftime .gt. SWIMEvapTime(SWIMEvapNumPairs)) then
-            counter2 = counter2+1
-            NewTime(Counter2) = ftime
-            NewAmt(Counter2) = FAmt
-         else
-         endif
-
-         SWIMEvapNumPairs = Counter2
-         AvInt = (Amount/10d0)/(Duration/60d0)
-         call fill_double_array (SWIMEvapTime, 0d0, SWIMEvapSize)
-         call fill_double_array (SWIMEvapAmt, 0d0, SWIMEvapSize)
-
-         do 200 Counter = 1,SWIMEvapNumPairs
-
-            if (Counter.eq.1) then
-               Extra_evap = 0d0
-
-            elseif (NewTime(Counter).gt.time) then
-
-               extra_evap = AvInt *
-     :            min(NewTime(Counter)-time,(Duration/60d0))
-
-            else
-               Extra_evap = 0d0
-            endif
-
-            SWIMEvapTime(Counter) = NewTime(Counter)
-            SWIMEvapAmt(Counter) = NewAmt(Counter)+Extra_evap
-
-  200    continue
-
-      endif
-
-      call pop_routine (myname)
       return
       end
 *     ===========================================================
@@ -7252,6 +6648,203 @@ cnh
      :              0.0d0,
      :              1.0d0)
 
+      call Read_double_var (
+     :              section_name,
+     :              'lb_exco',
+     :              '()',
+     :              c_lb_exco,
+     :              numvals,
+     :              -1d10,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'ub_exco',
+     :              '()',
+     :              c_ub_exco,
+     :              numvals,
+     :              c_lb_exco,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'lb_fip',
+     :              '()',
+     :              c_lb_fip,
+     :              numvals,
+     :              -1d10,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'ub_fip',
+     :              '()',
+     :              c_ub_fip,
+     :              numvals,
+     :              c_lb_fip,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'lb_dis',
+     :              '()',
+     :              c_lb_dis,
+     :              numvals,
+     :              -1d10,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'ub_dis',
+     :              '()',
+     :              c_ub_dis,
+     :              numvals,
+     :              c_lb_dis,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'lb_slupf',
+     :              '()',
+     :              c_lb_slupf,
+     :              numvals,
+     :              -1d10,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'ub_slupf',
+     :              '()',
+     :              c_ub_slupf,
+     :              numvals,
+     :              c_lb_slupf,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'lb_slos',
+     :              '()',
+     :              c_lb_slos,
+     :              numvals,
+     :              -1d10,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'ub_slos',
+     :              '()',
+     :              c_ub_slos,
+     :              numvals,
+     :              c_lb_slos,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'lb_d0',
+     :              '()',
+     :              c_lb_d0,
+     :              numvals,
+     :              -1d10,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'ub_d0',
+     :              '()',
+     :              c_ub_d0,
+     :              numvals,
+     :              c_lb_d0,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'lb_a',
+     :              '()',
+     :              c_lb_a,
+     :              numvals,
+     :              -1d10,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'ub_a',
+     :              '()',
+     :              c_ub_a,
+     :              numvals,
+     :              c_lb_a,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'lb_dthc',
+     :              '()',
+     :              c_lb_dthc,
+     :              numvals,
+     :              -1d10,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'ub_dthc',
+     :              '()',
+     :              c_ub_dthc,
+     :              numvals,
+     :              c_lb_dthc,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'lb_dthp',
+     :              '()',
+     :              c_lb_dthp,
+     :              numvals,
+     :              -1d10,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'ub_dthp',
+     :              '()',
+     :              c_ub_dthp,
+     :              numvals,
+     :              c_lb_dthp,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'lb_disp',
+     :              '()',
+     :              c_lb_disp,
+     :              numvals,
+     :              -1d10,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'ub_disp',
+     :              '()',
+     :              c_ub_disp,
+     :              numvals,
+     :              c_lb_disp,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'lb_solute',
+     :              '(kg/ha)',
+     :              c_lb_solute,
+     :              numvals,
+     :              0d0,
+     :              1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'ub_solute',
+     :              '(kg/ha)',
+     :              c_ub_solute,
+     :              numvals,
+     :               c_lb_solute,
+     :               1d10)
 
       call pop_Routine (myname)
       return
@@ -7429,10 +7022,13 @@ cnh
          call apswim_get_green_cover (g_cover_green_sum)
          call apswim_pot_evapotranspiration (Amount)
 
-         call apswim_insert_evap (
-     :                             time_mins
-     :                            ,duration
-     :                            ,dble(amount))
+         call apswim_insert_loginfo (time_mins
+     :                              ,duration
+     :                              ,dble(amount)
+     :                              ,SWIMEvapTime
+     :                              ,SWIMEvapAmt
+     :                              ,SWIMEvapNumPairs
+     :                              ,SWIMLogSize)
       else
          call fatal_error (Err_User,
      :      'apswim can only calculate Eo for daily timestep')
@@ -7635,7 +7231,7 @@ c      endif
       ! leave the first element alone to keep magnitude in order
 
       do 100 counter = 2, SWIMRainNumPairs
-         amount   = SWIMRainAmt(counter)-SWIMRainAmt(counter-1)
+         amount   = (SWIMRainAmt(counter)-SWIMRainAmt(counter-1))/10d0
          duration = SWIMRainTime(counter)-SWIMRainTime(counter-1)
          avinten = ddivide (amount, duration, 0.d0)
 
@@ -7692,7 +7288,7 @@ c      endif
 
 *   Global variables
       include 'apswim.inc'
-      real apswim_eqrain                 ! function
+      ! real  apswim_eqrain                     ! function
 
 *   Internal variables
       double precision new_hm1
@@ -7714,8 +7310,8 @@ c      endif
       call push_routine (myname)
 
       ! all surface conditions decay to be calculated relative to now
-      tzero = t
-      eqr0 = apswim_eqrain (tzero)
+      !tzero = t
+      !eqr0 = apswim_eqrain (tzero)
 
       call collect_double_var_optional (
      :                         'hm1'
@@ -8163,269 +7759,6 @@ c      endif
 
       return
       end
-* ====================================================================
-       subroutine apswim_purge_rain_data ()
-* ====================================================================
-
-*   Short description:
-
-*   Assumptions:
-*      None
-
-*   Notes:
-*   NIH - I know that it would not be hard to crash this routine
-*         but I hope that it will not be needed much longer.
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
-
-*   Changes:
-*   neilh - 04-08-1995 - Programmed and Specified
-
-*   Calls:
-*   Pop_routine
-*   Push_routine
-
-* ----------------------- Declaration section ------------------------
-
-       implicit none
-
-*   Subroutine arguments
-*      none
-
-*   Global variables
-      include 'apswim.inc'
-
-      double precision apswim_time
-
-*   Internal variables
-      integer counter
-      integer new_index
-      integer new_start
-      double precision start_of_today
-
-*   Constant values
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'apswim_purge_rain_data')
-
-*   Initial data values
-*      none
-
-* --------------------- Executable code section ----------------------
-      call push_routine (myname)
-
-      Start_of_today = apswim_time (year,day,0)
-
-      do 100 counter = SwimRainNumPairs,1,-1
-         if (SwimRainTime(counter).le.Start_of_today) then
-            ! we have found the oldest record we need to keep
-            new_start = counter
-            goto 101
-         else
-         endif
- 100  continue
- 101  continue
-
-      new_index = 0
-      do 200 counter = new_start,SwimRainNumPairs
-         new_index = new_index + 1
-         SwimRainTime  (new_index) = SwimRainTime(counter)
-         SwimRainAmt   (new_index) = SwimRainAmt (counter)
-         SwimEqRainTime(new_index) = SwimEqRainTime(counter)
-         SwimEqRainAmt (new_index) = SwimEqRainAmt (counter)
- 200  continue
-      SwimRainNumPairs = new_index
-
-      do 300 counter = SwimRainNumPairs+1, SwimRainSize
-         SwimRainTime  (counter) = 0.0d0
-         SwimRainAmt   (counter) = 0.0d0
-         SwimEqRainTime(counter) = 0.0d0
-         SwimEqRainAmt (counter) = 0.0d0
- 300  continue
-
-      call pop_routine (myname)
-      return
-      end
-* ====================================================================
-       subroutine apswim_purge_evap_data ()
-* ====================================================================
-
-*   Short description:
-
-*   Assumptions:
-*      None
-
-*   Notes:
-*   NIH - I know that it would not be hard to crash this routine
-*         but I hope that it will not be needed much longer.
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
-
-*   Changes:
-*   neilh - 04-08-1995 - Programmed and Specified
-
-*   Calls:
-*   Pop_routine
-*   Push_routine
-
-* ----------------------- Declaration section ------------------------
-
-       implicit none
-
-*   Subroutine arguments
-*      none
-
-*   Global variables
-      include 'apswim.inc'
-      double precision apswim_time
-
-*   Internal variables
-      integer counter
-      integer new_index
-      integer new_start
-      double precision start_of_today
-      
-*   Constant values
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'apswim_purge_evap_data')
-
-*   Initial data values
-*      none
-
-* --------------------- Executable code section ----------------------
-      call push_routine (myname)
-
-      start_of_today = apswim_time (year,day,0)
-
-      do 100 counter = SwimEvapNumPairs,1,-1
-         if (SwimEvapTime(counter).le.Start_of_today) then
-            ! we have found the oldest record we need to keep
-            new_start = counter
-            goto 101
-         else
-         endif
- 100  continue
- 101  continue
-
-      new_index = 0
-      do 200 counter = new_start,SwimEvapNumPairs
-         new_index = new_index + 1
-         SwimEvapTime (new_index) = SwimEvapTime(counter)
-         SwimEvapAmt  (new_index) = SwimEvapAmT (counter)
- 200  continue
-      SwimEvapNumPairs = new_index
-
-      do 300 counter = SwimEvapNumPairs+1, SwimEvapSize
-         SwimEvapTime  (counter) = 0.0d0
-         SwimEvapAmt   (counter) = 0.0d0
- 300  continue
-
-
-      call pop_routine (myname)
-      return
-      end
-* ====================================================================
-       subroutine apswim_purge_solute_data ()
-* ====================================================================
-
-*   Short description:
-
-*   Assumptions:
-*      None
-
-*   Notes:
-*   NIH - I know that it would not be hard to crash this routine
-*         but I hope that it will not be needed much longer.
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
-
-*   Changes:
-*   neilh - 04-08-1995 - Programmed and Specified
-
-*   Calls:
-*   Pop_routine
-*   Push_routine
-
-* ----------------------- Declaration section ------------------------
-
-       implicit none
-
-*   Subroutine arguments
-*      none
-
-*   Global variables
-      include 'apswim.inc'
-      double precision apswim_time
-      
-*   Internal variables
-      integer counter
-      integer new_index
-      integer new_start
-      integer solnum
-      double precision start_of_today
-      
-*   Constant values
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'apswim_purge_solute_data')
-
-*   Initial data values
-*      none
-
-* --------------------- Executable code section ----------------------
-      call push_routine (myname)
-
-      start_of_today = apswim_time (year,day,0)
-
-      do 500 solnum = 1, nsol
-
-         do 100 counter = SwimSolNumPairs(solnum),1,-1
-            if (SwimSolTime(solnum,counter).le.Start_of_today) then
-               ! we have found the oldest record we need to keep
-               new_start = counter
-               goto 101
-            else
-            endif
- 100     continue
- 101     continue
-
-         new_index = 0
-         do 200 counter = new_start,SwimSolNumPairs(solnum)
-            new_index = new_index + 1
-            SwimSolTime (solnum,new_index) = SwimSolTime(solnum,counter)
-            SwimSolAmt  (solnum,new_index) = SwimSolAmT (solnum,counter)
- 200     continue
-         SwimSolNumPairs(solnum) = new_index
-
-         do 300 counter = SwimSolNumPairs(solnum)+1, SwimSolSize
-            SwimSolTime  (solnum,counter) = 0.0d0
-            SwimSolAmt   (solnum,counter) = 0.0d0
- 300     continue
-
- 500  continue
-
-      call pop_routine (myname)
-      return
-      end
 * =====================================================================
       subroutine apswim_runoff(ttt,tth,ttroff,roffh)
 * =====================================================================
@@ -8571,10 +7904,6 @@ cnh      end if
 
 *     Global Variables
       include 'apswim.inc'
-
-cnh      double precision eqrain          ! function
-cnh      double precision apswim_eqrain          ! function
-      real apswim_eqrain          ! function
 
 *     Subroutine Arguments
       double precision ttt
@@ -8727,7 +8056,9 @@ cnh         wp=wpf(n,dx,th)
             work=work+neq
 cnh            if(fail)go to 90
             if(fail) then
-               call warning_error(Err_internal,
+cnh               call warning_error(Err_internal,
+cnh     :            'swim will reduce timestep to solve water movement')
+                  call report_event (
      :            'swim will reduce timestep to solve water movement')
                goto 90
             endif
@@ -8756,8 +8087,11 @@ cnh            if(fail)go to 90
       if(fail.and.it.lt.itlim)go to 10
 cnh      if(isol.ne.1.or.fail)go to 90
       if (fail) then
-         call warning_error(Err_internal,
+cnh         call warning_error(Err_internal,
+cnh     :            'swim will reduce timestep to solve water movement')
+         call report_event (
      :            'swim will reduce timestep to solve water movement')
+
          goto 90
       endif
       if(isol.ne.1) then
@@ -8771,8 +8105,11 @@ cnh      call getsol(a(0),b(0),c(0),d(0),rhs(0),dp(0),vbp(0),fail)
          call apswim_getsol
      :          (solnum,a(0),b(0),c(0),d(0),rhs(0),dp(0),vbp(0),fail)
          If (fail) then
-            call warning_error(Err_internal,
-     :            'swim will reduce timestep to solve solute movement')
+cnh            call warning_error(Err_internal,
+cnh     :            'swim will reduce timestep to solve solute movement')
+            call report_event (
+     :         'swim will reduce timestep to solve solute movement')
+
             goto 85
          endif
    80 continue
@@ -10449,10 +9786,14 @@ c      end if
 
       time_of_day = apswim_time_to_mins (time)
       Time_mins = apswim_time (year,day,time_of_day)
-      call apswim_insert_evap (
+      call apswim_insert_loginfo (
      :                             time_mins
      :                            ,duration
-     :                            ,amount)
+     :                            ,amount
+     :                            ,SWIMEvapTime
+     :                            ,SWIMEvapAmt
+     :                            ,SWIMEvapNumPairs
+     :                            ,SWIMLogSize)
 
 
       return
@@ -11240,6 +10581,410 @@ c     :       max(solute_demand (crop,solnum) - tpsuptake,0d0)
       write(LU_summary_file,*) 'ron =',ron
       write(LU_summary_file,*) '================================'
 c      pause
+
+      call pop_routine (myname)
+      return
+      end
+* ====================================================================
+      subroutine apswim_read_logfile (LUNlog
+     :                               ,year
+     :                               ,day
+     :                               ,time
+     :                               ,timestep
+     :                               ,SWIMtime
+     :                               ,SWIMamt
+     :                               ,SWIMNumPairs
+     :                               ,SWIMLogSize)
+* ====================================================================
+*   Short description:
+*   Read a general purpose logfile for the current apsim
+*   timestep into time and amount arrays.
+
+*   Assumptions:
+*      None
+
+*   Notes:
+
+*   Procedure attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <= 20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       Include
+*                       implicit none
+
+*   Changes:
+*   28-11-96 NIH - programmed and specified
+
+*   Calls:
+*   pop_routine
+*   push_routine
+
+* ----------------------- Declaration section ------------------------
+
+       implicit none
+
+*   Subroutine arguments
+      integer LUNlog
+      integer year
+      integer day
+      character time*(*)
+      real timestep
+      double precision SWIMtime(*)
+      double precision SWIMamt(*)
+      integer          SWIMNumPairs
+      integer          SWIMLogSize
+
+*   Global variables
+       include 'const.inc'
+
+       integer apswim_time_to_mins          ! function
+       double precision apswim_time         ! function
+
+*   Internal variables
+
+       integer iost
+       character line*80, filetime*8
+       integer fileday,fileyear
+       integer file_time_of_day
+       double precision file_time
+       double precision fileamt,filedurn
+       integer apsim_time_of_day
+       double precision apsim_time
+
+*   Constant values
+
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'apswim_read_logfile')
+
+*   Initial data values
+*     none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (myname)
+
+
+  100    continue
+         line = blank
+         read(LUNlog,'(A)',iostat=iost) line
+
+         If (iost.lt.0) then
+            ! We have reached end of file
+
+         elseif (line.eq.blank) then
+            goto 100 ! try reading next line
+
+         else
+
+            fileyear = 0
+            fileday = 0
+            filetime=' '
+            fileamt=0.0
+            filedurn=0.0
+            read(line,*,iostat=iost) fileyear,fileday,filetime,
+     :                            fileamt,filedurn
+            if (iost .ne. 0) then
+               call fatal_error(err_user,'bad log file record: '//line)
+            else
+               file_time_of_day = apswim_time_to_mins (filetime)
+               file_Time = apswim_time (fileyear,fileday
+     :                                 ,file_time_of_day)
+
+               apsim_time_of_day = apswim_time_to_mins (time)
+               apsim_Time = apswim_time (year,day,apsim_time_of_day)
+
+               if (file_time+filedurn/60d0.le.apsim_time) then
+                  ! The end of this record is before the current timestep
+                  ! so ignore it.
+                  goto 100
+
+               elseif (((file_time.ge.apsim_time)
+     :                   .and.
+     :            (file_time.lt.apsim_time+timestep/60d0))
+     :                   .or.
+     :            ((file_time+filedurn/60d0.ge.apsim_time)
+     :                   .and.
+     :           (file_time+filedurn/60d0.lt.apsim_time+timestep/60d0)))
+     :         then
+                  ! the start or end of the file record lies in this timestep
+                  ! ---------------------------------------------------------
+
+                  call apswim_insert_loginfo(file_time
+     :                                      ,filedurn
+     :                                      ,fileamt
+     :                                      ,SWIMTime
+     :                                      ,SWIMAmt
+     :                                      ,SWIMNumPairs
+     :                                      ,SWIMLogSize)
+
+                  goto 100
+
+               else
+                  backspace(LUNlog)
+
+               endif
+
+            endif
+         endif
+
+
+      call pop_routine (myname)
+      return
+      end
+* ====================================================================
+       subroutine apswim_insert_loginfo (time
+     :                                  ,duration
+     :                                  ,amount
+     :                                  ,SWIMtime
+     :                                  ,SWIMamt
+     :                                  ,SWIMNumPairs
+     :                                  ,SWIMArraySize)
+* ====================================================================
+
+*   Short description:
+
+*   Assumptions:
+*      None
+
+*   Notes:
+
+*   Procedure attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <= 20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       Include
+*                       implicit none
+
+*   Changes:
+*   neilh - 28-11-1996 - adapted from apswim_insert_evap
+
+*   Calls:
+*   Popsr
+*   Pushsr
+
+* ----------------------- Declaration section ------------------------
+
+       implicit none
+
+*   Subroutine arguments
+
+       double precision amount          ! (mm)
+       double precision duration        ! (min)
+       double precision time            ! (min since start)
+       double precision SWIMtime(*)
+       double precision SWIMAmt(*)
+       integer          SWIMNumPairs
+       integer          SWIMArraySize
+
+*   Global variables
+       include 'const.inc'
+       double precision dlinint
+
+*   Internal variables
+      double precision AvInt
+      integer          counter
+      integer          counter2
+      double precision Extra
+      double precision fAmt
+      double precision ftime
+      double precision SAmt
+
+*   Constant values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'apswim_insert_loginfo')
+
+*   Initial data values
+*      none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (myname)
+
+      ftime = time+duration/60d0
+      counter2 = 0
+
+      if (SWIMNumPairs.gt.SWIMArraySize-2) then
+         call fatal_error (Err_Internal,
+     :   'No memory left for log data data')
+
+      else if (ftime .lt. SWIMTime(1)) then
+         ! do nothing - it is not important
+
+      else if (time.lt.SWIMTime(1)) then
+         ! for now I shall say that this shouldn't happen
+         call fatal_error (Err_User,
+     :         'log time before start of run')
+
+       else
+
+         counter2 = 0
+         SAmt = dlinint(time,SWIMTime,SWIMAmt,SWIMNumPairs)
+         FAmt = dlinint(Ftime,SWIMTime,SWIMAmt,SWIMNumPairs)
+
+
+         ! Insert starting element placeholder into log
+         do 10 counter = 1, SWIMNumPairs
+            if (SWIMTime(counter).eq.time) then
+               ! There is already a placeholder there
+               goto 11
+            else if (SWIMTime(counter).gt.time) then
+               SWIMNumPairs = SWIMNumPairs + 1
+               do 5 counter2 = SWIMNumPairs,counter+1,-1
+                  SWIMTime(counter2) = SWIMTime(counter2-1)
+                  SWIMAmt(counter2) = SWIMAmt(counter2-1)
+    5          continue
+               SWIMTime(counter) = Time
+               SWIMAmt(counter) = Samt
+               goto 11
+            else
+            endif
+   10    continue
+         ! Time > last log entry
+         SWIMNumPairs = SWIMNumPairs + 1
+         SWIMTime(SWIMNumPairs) = Time
+         SWIMAmt(SWIMNumPairs) = Samt
+         
+   11    continue
+
+         ! Insert ending element placeholder into log
+         do 13 counter = 1, SWIMNumPairs
+            if (SWIMTime(counter).eq.ftime) then
+               ! There is already a placeholder there
+               goto 14
+            else if (SWIMTime(counter).gt.ftime) then
+               SWIMNumPairs = SWIMNumPairs + 1
+               do 12 counter2 = SWIMNumPairs,counter+1,-1
+                  SWIMTime(counter2) = SWIMTime(counter2-1)
+                  SWIMAmt(counter2) = SWIMAmt(counter2-1)
+   12          continue
+               SWIMTime(counter) = FTime
+               SWIMAmt(counter) = Famt
+               goto 14
+            else
+            endif
+   13    continue
+         ! Time > last log entry
+         SWIMNumPairs = SWIMNumPairs + 1
+         SWIMTime(SWIMNumPairs) = FTime
+         SWIMAmt(SWIMNumPairs) = Famt
+         
+   14    continue
+
+         ! Now add extra quantity to each log entry are required
+
+         AvInt = amount/(duration/60d0)
+
+         do 100 counter = 1, SWIMNumPairs
+
+            if (Counter.eq.1) then
+               Extra = 0d0
+
+            elseif (SWIMTime(Counter).gt.time) then
+ 
+               extra = AvInt *
+     :            min(SWIMTime(Counter)-time,(Duration/60d0))
+
+            else
+               Extra = 0d0
+            endif
+
+            SWIMAmt(Counter) = SWIMAmt(Counter) + extra
+
+  100    continue
+
+      endif
+      
+      call pop_routine (myname)
+      return
+      end
+* ====================================================================
+      subroutine apswim_purge_log_info (time
+     :                                 ,SWIMTime
+     :                                 ,SWIMAmt
+     :                                 ,SWIMNumPairs)
+* ====================================================================
+
+*   Short description:
+
+*   Assumptions:
+*      None
+
+*   Notes:
+*   NIH - I know that it would not be hard to crash this routine
+*         but I hope that it will not be needed much longer.
+
+*   Procedure attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <= 20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       Include
+*                       implicit none
+
+*   Changes:
+*   neilh - 04-08-1995 - Programmed and Specified
+
+*   Calls:
+*   Pop_routine
+*   Push_routine
+
+* ----------------------- Declaration section ------------------------
+
+       implicit none
+
+*   Subroutine arguments
+       double precision time
+       double precision SWIMTime(*)
+       double precision SWIMAmt (*)
+       integer          SWIMNumPairs
+
+*   Global variables
+*      none
+
+*   Internal variables
+      integer counter
+      integer new_index
+      integer new_start
+      integer old_numpairs
+
+*   Constant values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'apswim_purge_rain_data')
+
+*   Initial data values
+*      none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (myname)
+
+      old_numpairs = SWIMNumPairs
+      new_start = 1
+
+      do 100 counter = SwimNumPairs,1,-1
+         if (SwimTime(counter).le.time) then
+            ! we have found the oldest record we need to keep
+            new_start = counter
+            goto 101
+         else
+         endif
+ 100  continue
+ 101  continue
+
+      new_index = 0
+      do 200 counter = new_start,SwimNumPairs
+         new_index = new_index + 1
+         SwimTime  (new_index) = SwimTime(counter)
+         SwimAmt   (new_index) = SwimAmt (counter)
+ 200  continue
+      SwimNumPairs = new_index
+
+      do 300 counter = SwimNumPairs+1, old_numpairs
+         SwimTime  (counter) = 0.0d0
+         SwimAmt   (counter) = 0.0d0
+ 300  continue
 
       call pop_routine (myname)
       return
