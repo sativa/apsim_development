@@ -1,8 +1,6 @@
-[apsim.sunflower_sample]
 version=2.2
+[apsim.sunflower_sample]
 title=Sunflower sample simulation
-summaryfile=sunflower.sum
-screen_output=on
 module = clock     sunflower.par [sample]
 module = report    sunflower.par [sample]
 module = Input(Met)       %apsuite\apsim\met\sample\dalby.met [weather]
@@ -10,3 +8,4 @@ module = manager   sunflower.par [sample]
 module = soilwat2  %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]
 module = soiln2    %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]  %apsuite\apsim\soiln2\soiln2.ini     [standard]
 module = cropmod(sunflower) sunflower.par [sample]  %apsuite\apsim\sunflower\sunflower.ini [standard]
+module = summaryfile sunflower.par[sample]
