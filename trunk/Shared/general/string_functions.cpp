@@ -222,7 +222,7 @@ string ftoa(double Float, int Num_decplaces)
    {
    ostringstream buf;
    buf.setf(std::ios::fixed, std::ios::floatfield);
-   buf << std::setprecision(Num_decplaces) << Float << std::ends;
+   buf << std::setprecision(Num_decplaces) << Float;
    return buf.str();
    }
 
@@ -460,3 +460,15 @@ void removeAttributeFromLine(std::string& line, const std::string& attribute)
          value = "";
          }
       }
+// ------------------------------------------------------------------
+// Locate a substring within a string - case insensitive.
+// ------------------------------------------------------------------
+unsigned findSubString(const std::string& st, const std::string& subString)
+   {
+   char* posChar = stristr(st.c_str(), subString.c_str());
+   if (posChar == NULL)
+      return string::npos;
+   else
+      return posChar - st.c_str();
+   }
+
