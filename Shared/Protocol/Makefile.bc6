@@ -24,14 +24,13 @@ SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
 INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared
 LIBPATH = $(SYSLIBPATH)
 
-ALLOBJ = c0d32.obj vcl.bpi memmgr.lib sysinit.obj $(OBJECTS)
-ALLLIB = $(LIBFILES) import32.lib cp32mti.lib
-ALLRES = $(RESFILES)
+ALLOBJ = c0d32.obj vcl.bpi $(OBJECTS)
+ALLLIB = $(LIBFILES) import32.lib cw32mti.lib
 
-CFLAG1 = $(SYSCFLAGS) -tWM
-WARNINGS = -w-par
-LFLAGS = -l. -D"" -aa -Tpd -x -Gn -Gi
 # ---------------------------------------------------------------------------
+CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
+WARNINGS = -w-par
+LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
 
 $(TARGET): $(OBJECTS) 
 	$(LD) @&&!
