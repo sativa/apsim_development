@@ -167,7 +167,7 @@ class FortranWrapper : public protocol::Component
             strcpy(buffer, "");
             strncat(buffer, dataTypeString.f_str(), dataTypeString.length());
             unsigned insertPos = dataTypeString.find(">");
-            if (insertPos != FString::npos)
+            if (insertPos != FString::npos && units.length() > 0)
                {
                insertPos--;
                buffer[insertPos] = 0;
