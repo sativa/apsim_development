@@ -449,7 +449,7 @@ int GENERAL_EXPORT Str_i_Cmp(const std::string &a, const std::string &b);
 //    DPH 11/9/98
 
 // ------------------------------------------------------------------
-void Replace_all_chars (char* St, char Char_to_replace, char Replacement_char);
+void GENERAL_EXPORT Replace_all_chars (char* St, char Char_to_replace, char Replacement_char);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -463,7 +463,7 @@ void Replace_all_chars (char* St, char Char_to_replace, char Replacement_char);
 //    DPH 4/1/1999
 
 // ------------------------------------------------------------------
-void Get_words_from_double_null_term (char* St, std::list<std::string>& Words);
+void GENERAL_EXPORT Get_words_from_double_null_term (char* St, std::list<std::string>& Words);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -509,7 +509,7 @@ std::string GENERAL_EXPORT getAttributeFromLine(const std::string& attributeName
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-void getAttributeNameAndValue(const std::string& line,
+void GENERAL_EXPORT getAttributeNameAndValue(const std::string& line,
                               unsigned int posEquals,
                               std::string& name,
                               std::string& value);
@@ -541,6 +541,20 @@ void getAttributesFromLine(const std::string& line, CT& names, CT& values)
       posEquals = line.find("=", posEquals+1);
       }
    }
+
+// ------------------------------------------------------------------
+//  Short description:
+//     Remove an attribute from the specified line.
+
+//  Notes
+//     A line may look like:
+//        <property name="prop1" value="prop1value" type=""/>
+//     Where the attributes are name, value and type.
+
+//  Changes:
+//    dph 16/8/2001
+// ------------------------------------------------------------------
+void GENERAL_EXPORT removeAttributeFromLine(std::string& line, const std::string& attribute);
 
 #endif
 
