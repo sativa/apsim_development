@@ -1,6 +1,7 @@
 #if !defined (MATH_FUNCTIONS_H)
 #define MATH_FUNCTIONS_H
 
+#include <general\general.h>
 #include <general\myvector.h>
 #include <general\mystring.h>
 #include <algorith>
@@ -21,7 +22,7 @@
 //    DPH 18/4/1997
 
 // ------------------------------------------------------------------
-int Cycle (int Current_number, int Max_number);
+int GENERAL_EXPORT Cycle (int Current_number, int Max_number);
 
 
 struct Regr_stats
@@ -47,8 +48,8 @@ struct Regr_stats
 //    DPH 18/4/1997
 
 // ------------------------------------------------------------------
-void Calc_regression_stats (double X[], double Y[], int Num_points,
-                            Regr_stats& stats);
+void GENERAL_EXPORT Calc_regression_stats (double X[], double Y[], int Num_points,
+                                           Regr_stats& stats);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -286,10 +287,10 @@ void devide_value (container_type& container1, value_type value)
 //    DPH 16/1/95
 
 // ------------------------------------------------------------------
-double linear_interp_real (double x,
-                           vector<double>& x_cord,
-                           vector<double>& y_cord,
-                           bool& Did_interpolate);
+double GENERAL_EXPORT linear_interp_real (double x,
+                                          vector<double>& x_cord,
+                                          vector<double>& y_cord,
+                                          bool& Did_interpolate);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -302,9 +303,9 @@ double linear_interp_real (double x,
 //    DPH 16/1/95
 
 // ------------------------------------------------------------------
-void Calculate_prob_dist(vector<double>& X,
-                         bool Prob_exceed,
-                         vector<double>& Prob_values);
+void GENERAL_EXPORT Calculate_prob_dist(vector<double>& X,
+                                        bool Prob_exceed,
+                                        vector<double>& Prob_values);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -316,7 +317,7 @@ void Calculate_prob_dist(vector<double>& X,
 //    DPH 16/1/95
 
 // ------------------------------------------------------------------
-double Calculate_mean(vector<double>& X);
+double GENERAL_EXPORT Calculate_mean(vector<double>& X);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -329,9 +330,9 @@ double Calculate_mean(vector<double>& X);
 //    DPH 16/1/95
 
 // ------------------------------------------------------------------
-double Calculate_percentile(vector<double>& X,
-                            bool Prob_exceed,
-                            int Percentile);
+double GENERAL_EXPORT Calculate_percentile(vector<double>& X,
+                                           bool Prob_exceed,
+                                           int Percentile);
 
 
 // ------------------------------------------------------------------
@@ -364,12 +365,12 @@ struct range : std::unary_function<T, bool>
 //    DPH 15/7/98
 
 // ------------------------------------------------------------------
-void Calculate_freq_dist(vector<double>& Values,
-                         vector<double>& Start_values,
-                         vector<double>& End_values,
-                         vector<string>& Frequency_labels,
-                         vector<double>& Frequency_numbers,
-                         int Label_precision);
+void GENERAL_EXPORT Calculate_freq_dist(vector<double>& Values,
+                                        vector<double>& Start_values,
+                                        vector<double>& End_values,
+                                        vector<string>& Frequency_labels,
+                                        vector<double>& Frequency_numbers,
+                                        int Label_precision);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -387,7 +388,7 @@ void Calculate_freq_dist(vector<double>& Values,
 //    DPH 6/8/98
 
 // ------------------------------------------------------------------
-void Round_using_magnitude (double& Value, bool Round_up);
+void GENERAL_EXPORT Round_using_magnitude (double& Value, bool Round_up);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -400,7 +401,7 @@ void Round_using_magnitude (double& Value, bool Round_up);
 //    DPH 6/8/98
 
 // ------------------------------------------------------------------
-void Round_to_nearest (double& Value, double Nearest, bool Round_up);
+void GENERAL_EXPORT Round_to_nearest (double& Value, double Nearest, bool Round_up);
 
 #endif
 

@@ -53,7 +53,7 @@ void Frequency_chart::Add_xy (const char* X_field_name,
                 alpha,
                 numeric,
                 bottom,
-                left,
+                ::left,
                 New_format,
                 New_title.c_str());
    }

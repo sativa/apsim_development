@@ -13,7 +13,7 @@
 //    DPH 18/4/1997
 
 // ------------------------------------------------------------------
-class Probability_chart : public High_level_chart_base
+class CHART_EXPORT Probability_chart : public High_level_chart_base
    {
    public:
       Probability_chart(TForm* parent);

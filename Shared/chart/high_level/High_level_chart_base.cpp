@@ -55,7 +55,7 @@ High_level_chart_base::XY_pair::XY_pair (void)
    X_type = numeric;
    Y_type = numeric;
    x_axis_link = bottom;
-   y_axis_link = left;
+   y_axis_link = ::left;
    Format_ptr = NULL;
    Accumulate_x = false;
    Accumulate_y = false;

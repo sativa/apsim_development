@@ -16,7 +16,7 @@
 //    DPH 18/4/1997
 
 // ------------------------------------------------------------------
-void Grid_input_from_csv (TStringGrid* grid, istream& csv_stream)
+void GENERAL_EXPORT Grid_input_from_csv (TStringGrid* grid, istream& csv_stream)
    {
    // loop through all lines on input stream.
    char Line[1000];
@@ -54,7 +54,7 @@ void Grid_input_from_csv (TStringGrid* grid, istream& csv_stream)
 //    DPH 18/4/1997
 
 // ------------------------------------------------------------------
-void Grid_output_to_csv (TStringGrid* grid, ostream& csv_stream)
+void GENERAL_EXPORT Grid_output_to_csv (TStringGrid* grid, ostream& csv_stream)
    {
    for (int row = 0; row < grid->RowCount; row++)
       {
@@ -76,7 +76,7 @@ void Grid_output_to_csv (TStringGrid* grid, ostream& csv_stream)
 //    DPH 18/4/1997
 
 // ------------------------------------------------------------------
-void Grid_clear (TStringGrid* grid)
+void GENERAL_EXPORT Grid_clear (TStringGrid* grid)
    {
    for (int row = 0; row < grid->RowCount; row++)
       for (int col = 0; col < grid->ColCount; col++)
@@ -94,7 +94,7 @@ void Grid_clear (TStringGrid* grid)
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void Select_items_in_listbox(TListBox* listbox, TStrings* Items_to_select)
+void GENERAL_EXPORT Select_items_in_listbox(TListBox* listbox, TStrings* Items_to_select)
    {
    if (listbox->MultiSelect)
       {
@@ -122,7 +122,7 @@ void Select_items_in_listbox(TListBox* listbox, TStrings* Items_to_select)
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void Get_selected_items_from_listbox(TListBox* listbox, TStrings* Selected_items)
+void GENERAL_EXPORT Get_selected_items_from_listbox(TListBox* listbox, TStrings* Selected_items)
    {
    Selected_items->Clear();
    if (listbox->MultiSelect)
@@ -150,7 +150,7 @@ void Get_selected_items_from_listbox(TListBox* listbox, TStrings* Selected_items
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void Get_active_datasets(TComponent* component, TStrings* Dataset_names)
+void GENERAL_EXPORT Get_active_datasets(TComponent* component, TStrings* Dataset_names)
    {
    // loop through all components in parent form.
    Dataset_names->Clear();
@@ -171,7 +171,7 @@ void Get_active_datasets(TComponent* component, TStrings* Dataset_names)
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void Get_active_databases(TStrings* Database_names)
+void GENERAL_EXPORT Get_active_databases(TStrings* Database_names)
    {
    Database_names->Clear();
 
@@ -190,7 +190,7 @@ void Get_active_databases(TStrings* Database_names)
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-TDataSet* Get_active_dataset(TComponent* component, const char* Dataset_name)
+TDataSet* GENERAL_EXPORT Get_active_dataset(TComponent* component, const char* Dataset_name)
    {
    // loop through all components in parent form.
    for (int i = 0; i < component->ComponentCount; i++)
@@ -213,7 +213,7 @@ TDataSet* Get_active_dataset(TComponent* component, const char* Dataset_name)
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void Get_tables_from_databases (TStringList* Database_names,
+void GENERAL_EXPORT Get_tables_from_databases (TStringList* Database_names,
                                 TStringList* Table_names)
    {
    Table_names->Clear();
@@ -230,7 +230,7 @@ void Get_tables_from_databases (TStringList* Database_names,
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-TComponent* Locate_component(TComponent* component, const char* Component_name)
+TComponent* GENERAL_EXPORT Locate_component(TComponent* component, const char* Component_name)
    {
    // loop through all components in parent form.
    for (int i = 0; i < component->ComponentCount; i++)
@@ -251,7 +251,7 @@ TComponent* Locate_component(TComponent* component, const char* Component_name)
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void Get_field_list (TDataSet* dataset, TStringList* field_names)
+void GENERAL_EXPORT Get_field_list (TDataSet* dataset, TStringList* field_names)
    {
    field_names->Clear();
    for (int i = 0; i < dataset->FieldCount; i++)
@@ -270,9 +270,9 @@ void Get_field_list (TDataSet* dataset, TStringList* field_names)
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void Copy_dataset_structure (TDataSet* source,
-                             TDataSet* destination,
-                             TStringList* field_names)
+void GENERAL_EXPORT Copy_dataset_structure (TDataSet* source,
+                                            TDataSet* destination,
+                                            TStringList* field_names)
    {
    // loop through all selected field names and create a field in
    // out memory table
@@ -301,7 +301,7 @@ void Copy_dataset_structure (TDataSet* source,
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void Give_files_to_open_dialog (TOpenDialog* Open_dialog, TStringList* File_list)
+void GENERAL_EXPORT Give_files_to_open_dialog (TOpenDialog* Open_dialog, TStringList* File_list)
    {
    string Initial_file_name;
 
@@ -329,7 +329,7 @@ void Give_files_to_open_dialog (TOpenDialog* Open_dialog, TStringList* File_list
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void Get_files_from_open_dialog (TOpenDialog* Open_dialog, TStringList* File_list)
+void GENERAL_EXPORT Get_files_from_open_dialog (TOpenDialog* Open_dialog, TStringList* File_list)
    {
    File_list->Clear();
    File_list->AddStrings(Open_dialog->Files);

@@ -13,7 +13,7 @@
 //    DPH 18/4/1997
 
 // ------------------------------------------------------------------
-class Pred_obs_chart : public High_level_chart_base
+class CHART_EXPORT Pred_obs_chart : public High_level_chart_base
    {
    public:
       Pred_obs_chart(TForm* parent);

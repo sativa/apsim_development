@@ -2,6 +2,7 @@
 
 #include "Chart_base.h"
 #include <general\stl_functions.h>
+#include <teeprevi.hpp>
 
 /**# implementation Chart:: id(C_0853910634)
 */

@@ -16,7 +16,7 @@
 //    DPH 18/4/1997
 
 // ------------------------------------------------------------------
-class High_level_screen
+class CHART_EXPORT High_level_screen
    {
    public:
       High_level_screen (void);

@@ -1,6 +1,8 @@
 #if !defined (DATE_CLASS_H)
 #define DATE_CLASS_H
 
+#include <general\general.h>
+
 #include <iostream.h>
 #include <general\mystring.h>
 #include <vcl\sysutils.hpp>
@@ -16,7 +18,7 @@
 //    dph 6/8/97 changed the write formatting system to a more general one.
 
 // ------------------------------------------------------------------
-class GDate
+class GENERAL_EXPORT GDate
    {
    protected :
       string Format_string;             // Current write format default "D/M/YYYY"
@@ -153,7 +155,7 @@ class GDate
 //    DPH 3/2/98
 
 // ------------------------------------------------------------------
-TDateTime Get_file_date_time (const char* File_name);
+TDateTime GENERAL_EXPORT Get_file_date_time (const char* File_name);
 
 
 #endif

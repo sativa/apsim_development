@@ -12,7 +12,7 @@
 //    DPH 18/4/1997
 
 // ------------------------------------------------------------------
-class Scatter_format : public Format_base
+class CHART_EXPORT Scatter_format : public Format_base
    {
    public:
       enum Scatter_type_enum {Lines, Markers_lines, Markers};

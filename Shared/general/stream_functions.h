@@ -1,6 +1,7 @@
 #if !defined (STREAM_FUNCTIONS_H)
 #define STREAM_FUNCTIONS_H
 
+#include <general\general.h>
 #include <general\mystring.h>
 #include <iostream.h>
 
@@ -17,10 +18,10 @@
 //    DPH 17/4/1997 - moved to C++ builder.
 
 // ------------------------------------------------------------------
-char Read_token(istream& In_stream,
-                const char* Init_skip_chars,
-                const char* Delimiter_chars,
-                string& Token);
+char GENERAL_EXPORT Read_token(istream& In_stream,
+                               const char* Init_skip_chars,
+                               const char* Delimiter_chars,
+                               string& Token);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -35,7 +36,7 @@ char Read_token(istream& In_stream,
 //    DPH 8/10/97
 
 // ------------------------------------------------------------------
-void Read_stream(istream& In_stream, string& Contents);
+void GENERAL_EXPORT Read_stream(istream& In_stream, string& Contents);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -49,7 +50,7 @@ void Read_stream(istream& In_stream, string& Contents);
 //    DPH 8/10/97
 
 // ------------------------------------------------------------------
-void Convert_2_CSV(istream& In_stream, ostream& Out_stream);
+void GENERAL_EXPORT Convert_2_CSV(istream& In_stream, ostream& Out_stream);
 
 
 #endif

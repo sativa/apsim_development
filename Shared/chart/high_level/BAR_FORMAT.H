@@ -12,7 +12,7 @@
 //    DPH 18/4/1997
 
 // ------------------------------------------------------------------
-class Bar_format : public Format_base
+class CHART_EXPORT Bar_format : public Format_base
    {
    public:
       enum Bar_type_enum {Vertical_side_by_side, Vertical_stacked, Vertical_stacked100,

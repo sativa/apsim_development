@@ -1,10 +1,11 @@
 #ifndef vclfunctionsH
 #define vclfunctionsH
 
+#include <general\general.h>
+
 #include "Grids.hpp"
 #include <fstream.h>
 #include <vcl\db.hpp>
-
 // ------------------------------------------------------------------
 //  Short description:
 //     Copy contents from a VCL TStrings object to a STL container.
@@ -58,7 +59,7 @@ void Stl_2_tstrings (STL_container& ls, TStrings* VCL_list)
 //    DPH 18/4/1997
 
 // ------------------------------------------------------------------
-void Grid_input_from_csv (TStringGrid* grid, istream& csv_stream);
+void GENERAL_EXPORT Grid_input_from_csv (TStringGrid* grid, istream& csv_stream);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -70,7 +71,7 @@ void Grid_input_from_csv (TStringGrid* grid, istream& csv_stream);
 //    DPH 18/4/1997
 
 // ------------------------------------------------------------------
-void Grid_output_to_csv (TStringGrid* grid, ostream& csv_stream);
+void GENERAL_EXPORT Grid_output_to_csv (TStringGrid* grid, ostream& csv_stream);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -82,7 +83,7 @@ void Grid_output_to_csv (TStringGrid* grid, ostream& csv_stream);
 //    DPH 18/4/1997
 
 // ------------------------------------------------------------------
-void Grid_clear (TStringGrid* grid);
+void GENERAL_EXPORT Grid_clear (TStringGrid* grid);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -95,7 +96,7 @@ void Grid_clear (TStringGrid* grid);
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void Select_items_in_listbox(TListBox* listbox, TStrings* Items_to_select);
+void GENERAL_EXPORT Select_items_in_listbox(TListBox* listbox, TStrings* Items_to_select);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -107,7 +108,7 @@ void Select_items_in_listbox(TListBox* listbox, TStrings* Items_to_select);
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void Get_selected_items_from_listbox(TListBox* listbox, TStrings* Selected_items);
+void GENERAL_EXPORT Get_selected_items_from_listbox(TListBox* listbox, TStrings* Selected_items);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -119,7 +120,7 @@ void Get_selected_items_from_listbox(TListBox* listbox, TStrings* Selected_items
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void Get_active_datasets(TComponent* component, TStrings* Dataset_names);
+void GENERAL_EXPORT Get_active_datasets(TComponent* component, TStrings* Dataset_names);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -131,7 +132,7 @@ void Get_active_datasets(TComponent* component, TStrings* Dataset_names);
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void Get_active_databases(TStrings* Database_names);
+void GENERAL_EXPORT Get_active_databases(TStrings* Database_names);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -143,7 +144,7 @@ void Get_active_databases(TStrings* Database_names);
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-TDataSet* Get_active_dataset(TComponent* component, const char* Dataset_name);
+TDataSet* GENERAL_EXPORT Get_active_dataset(TComponent* component, const char* Dataset_name);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -156,8 +157,8 @@ TDataSet* Get_active_dataset(TComponent* component, const char* Dataset_name);
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void Get_tables_from_databases (TStringList* Database_names,
-                                TStringList* Table_names);
+void GENERAL_EXPORT Get_tables_from_databases (TStringList* Database_names,
+                                               TStringList* Table_names);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -169,7 +170,7 @@ void Get_tables_from_databases (TStringList* Database_names,
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-TComponent* Locate_component(TComponent* component, const char* Component_name);
+TComponent* GENERAL_EXPORT Locate_component(TComponent* component, const char* Component_name);
 
 
 // ------------------------------------------------------------------
@@ -182,7 +183,7 @@ TComponent* Locate_component(TComponent* component, const char* Component_name);
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void Get_field_list (TDataSet* dataset, TStringList* field_names);
+void GENERAL_EXPORT Get_field_list (TDataSet* dataset, TStringList* field_names);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -195,9 +196,9 @@ void Get_field_list (TDataSet* dataset, TStringList* field_names);
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void Copy_dataset_structure (TDataSet* source,
-                             TDataSet* destination,
-                             TStringList* field_names);
+void GENERAL_EXPORT Copy_dataset_structure (TDataSet* source,
+                                            TDataSet* destination,
+                                            TStringList* field_names);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -210,7 +211,7 @@ void Copy_dataset_structure (TDataSet* source,
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void Get_files_from_open_dialog (TOpenDialog* Open_dialog, TStringList* File_list);
+void GENERAL_EXPORT Get_files_from_open_dialog (TOpenDialog* Open_dialog, TStringList* File_list);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -223,6 +224,6 @@ void Get_files_from_open_dialog (TOpenDialog* Open_dialog, TStringList* File_lis
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void Give_files_to_open_dialog (TOpenDialog* Open_dialog, TStringList* File_list);
+void GENERAL_EXPORT Give_files_to_open_dialog (TOpenDialog* Open_dialog, TStringList* File_list);
 
 #endif
