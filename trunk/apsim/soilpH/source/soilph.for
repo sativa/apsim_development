@@ -1,4 +1,4 @@
-      include   'SoilpH.inc'
+      include 'SoilpH.inc'
  !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
  !     ===========================================================
@@ -1209,9 +1209,9 @@
 *     ===========================================================
       use SoilpHModule
       implicit none
-      include   'convert.inc'
+      include 'convert.inc'
       include   'const.inc'
-      include   'SoilpHcv.inc'
+      include 'SoilpHcv.inc'
       include   'data.pub'
       include   'intrface.pub'
       include   'error.pub'
@@ -1372,179 +1372,186 @@
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
-
-         ! Estimate uptakes of other elements for each crop.
-
-         !  Zero out all uptakes.
-      call fill_real_array (dlt_Ca_uptake_equiv  , 0.0, e%num_layers)
-      call fill_real_array (dlt_Mg_uptake_equiv  , 0.0, e%num_layers)
-      call fill_real_array (dlt_K_uptake_equiv   , 0.0, e%num_layers)
-      call fill_real_array (dlt_Na_uptake_equiv  , 0.0, e%num_layers)
-      call fill_real_array (dlt_P_uptake_equiv   , 0.0, e%num_layers)
-      call fill_real_array (dlt_S_uptake_equiv   , 0.0, e%num_layers)
-      call fill_real_array (dlt_Cl_uptake_equiv  , 0.0, e%num_layers)
-
-
-            !  Get Root Length volume.  Uptakes are distributed in these proportions.
-         call get_real_array_optional (crop_module
-     :                     , 'rlv'
-     :                     , max_layer
-     :                     , '(mm/mm^3)'
-     :                     , rlv
-     :                     , numvals
-     :                     , 0.0, 1000000.0 )
+      if (crop_ash_alk_wt .gt. 0.0) then
+            ! Estimate uptakes of other elements for each crop.
+   
+            !  Zero out all uptakes.
+         call fill_real_array (dlt_Ca_uptake_equiv  , 0.0, e%num_layers)
+         call fill_real_array (dlt_Mg_uptake_equiv  , 0.0, e%num_layers)
+         call fill_real_array (dlt_K_uptake_equiv   , 0.0, e%num_layers)
+         call fill_real_array (dlt_Na_uptake_equiv  , 0.0, e%num_layers)
+         call fill_real_array (dlt_P_uptake_equiv   , 0.0, e%num_layers)
+         call fill_real_array (dlt_S_uptake_equiv   , 0.0, e%num_layers)
+         call fill_real_array (dlt_Cl_uptake_equiv  , 0.0, e%num_layers)
+   
+   
+               !  Get Root Length volume.  Uptakes are distributed in these proportions.
+            call get_real_array_optional (crop_module
+     :                        , 'rlv'
+     :                        , max_layer
+     :                        , '(mm/mm^3)'
+     :                        , rlv
+     :                        , numvals
+     :                        , 0.0, 1000000.0 )
          
-         if (numvals .gt.0) then
-               ! crop has rlv
-            do 1400 layer=1, e%num_layers
-               root_length_area(layer) = rlv(layer) 
-     :                                 * e%dlayer(layer)
-1400        continue
-         else
-               ! crop has no rlv - get root depth
-
-            call get_real_var_optional (crop_module
-     :                     , 'root_depth'
-     :                     , '(mm)'
-     :                     , root_depth
-     :                     , numvals
-     :                     , 0.0, 20000.0 )
-            if (numvals .gt. 0) then
-               call soilpH_rldf (rldf
-     :                      , root_depth
-     :                      , e%dlayer
-     :                      , e%num_layers
-     :                      , c%wr_coef)
-            do 1500 layer=1, e%num_layers
-               root_length_area(layer) = rldf(layer) 
-     :                                 * e%dlayer(layer)
-1500        continue
-               
+            if (numvals .gt.0) then
+                  ! crop has rlv
+               do 1400 layer=1, e%num_layers
+                  root_length_area(layer) = rlv(layer) 
+     :                                    * e%dlayer(layer)
+1400           continue
             else
-               call fatal_error (err_internal
-     :               , ' Cannot get RLV or ROOT_DEPTH from '
-     :               //trim(crop_module))
+                  ! crop has no rlv - get root depth
+   
+               call get_real_var_optional (crop_module
+     :                        , 'root_depth'
+     :                        , '(mm)'
+     :                        , root_depth
+     :                        , numvals
+     :                        , 0.0, 20000.0 )
+               if (numvals .gt. 0) then
+                  call soilpH_rldf (rldf
+     :                         , root_depth
+     :                         , e%dlayer
+     :                         , e%num_layers
+     :                         , c%wr_coef)
+               do 1500 layer=1, e%num_layers
+                  root_length_area(layer) = rldf(layer) 
+     :                                    * e%dlayer(layer)
+1500           continue
+               
+               else
+                  call fatal_error (err_internal
+     :                  , ' Cannot get RLV or ROOT_DEPTH from '
+     :                  //trim(crop_module))
+               endif
             endif
-         endif
 
-         dlt_dm = 1.0
-            !  Add in estimate of Ca uptake_equiv for this crop.
-         call soilpH_estimate_uptake_equiv (dlt_Ca_uptake_equiv
-     :                             , dlt_dm
-     :                             , root_length_area
-     :                             , e%num_layers
-     :                             , p%Ca_dm_percent
-     :                             , p%Ca_avail
-     :                             , Ca_valency
-     :                             , Ca_Kg2Mol)
+            dlt_dm = 1.0
+               !  Add in estimate of Ca uptake_equiv for this crop.
+            call soilpH_estimate_uptake_equiv (dlt_Ca_uptake_equiv
+     :                                , dlt_dm
+     :                                , root_length_area
+     :                                , e%num_layers
+     :                                , p%Ca_dm_percent
+     :                                , p%Ca_avail
+     :                                , Ca_valency
+     :                                , Ca_Kg2Mol)
 
-            !  Add in estimate of Mg uptake_equiv for this crop.
-         call soilpH_estimate_uptake_equiv (dlt_Mg_uptake_equiv
-     :                             , dlt_dm
-     :                             , root_length_area
-     :                             , e%num_layers
-     :                             , p%Mg_dm_percent
-     :                             , p%Mg_avail
-     :                             , Mg_valency
-     :                             , Mg_Kg2Mol)
+               !  Add in estimate of Mg uptake_equiv for this crop.
+            call soilpH_estimate_uptake_equiv (dlt_Mg_uptake_equiv
+     :                                      , dlt_dm
+     :                                      , root_length_area
+     :                                      , e%num_layers
+     :                                      , p%Mg_dm_percent
+     :                                      , p%Mg_avail
+     :                                      , Mg_valency
+     :                                      , Mg_Kg2Mol)
 
-            !  Add in estimate of K uptake_equiv for this crop.
-         call soilpH_estimate_uptake_equiv (dlt_K_uptake_equiv
-     :                             , dlt_dm
-     :                             , root_length_area
-     :                             , e%num_layers
-     :                             , p%K_dm_percent
-     :                             , p%K_avail
-     :                             , K_valency
-     :                             , K_Kg2Mol)
+               !  Add in estimate of K uptake_equiv for this crop.
+            call soilpH_estimate_uptake_equiv (dlt_K_uptake_equiv
+     :                                      , dlt_dm
+     :                                      , root_length_area
+     :                                      , e%num_layers
+     :                                      , p%K_dm_percent
+     :                                      , p%K_avail
+     :                                      , K_valency
+     :                                      , K_Kg2Mol)
 
-         !  Add in estimate of Na uptake_equiv for this crop.
-         call soilpH_estimate_uptake_equiv (dlt_Na_uptake_equiv
-     :                             , dlt_dm
-     :                             , root_length_area
-     :                             , e%num_layers
-     :                             , p%Na_dm_percent
-     :                             , p%Na_avail
-     :                             , Na_valency
-     :                             , Na_Kg2Mol)
+               !  Add in estimate of Na uptake_equiv for this crop.
+            call soilpH_estimate_uptake_equiv (dlt_Na_uptake_equiv
+     :                                      , dlt_dm
+     :                                      , root_length_area
+     :                                      , e%num_layers
+     :                                      , p%Na_dm_percent
+     :                                      , p%Na_avail
+     :                                      , Na_valency
+     :                                      , Na_Kg2Mol)
 
-         !  Add in estimate of P uptake_equiv for this crop.
-         call soilpH_estimate_uptake_equiv (dlt_P_uptake_equiv
-     :                             , dlt_dm
-     :                             , root_length_area
-     :                             , e%num_layers
-     :                             , p%P_dm_percent
-     :                             , p%P_avail
-     :                             , H2PO4_valency
-     :                             , P_Kg2Mol)
+               !  Add in estimate of P uptake_equiv for this crop.
+            call soilpH_estimate_uptake_equiv (dlt_P_uptake_equiv
+     :                                      , dlt_dm
+     :                                      , root_length_area
+     :                                      , e%num_layers
+     :                                      , p%P_dm_percent
+     :                                      , p%P_avail
+     :                                      , H2PO4_valency
+     :                                      , P_Kg2Mol)
 
-         !  Add in estimate of S uptake_equiv for this crop.
-         call soilpH_estimate_uptake_equiv (dlt_S_uptake_equiv
-     :                             , dlt_dm
-     :                             , root_length_area
-     :                             , e%num_layers
-     :                             , p%S_dm_percent
-     :                             , p%S_avail
-     :                             , SO4_valency
-     :                             , S_Kg2Mol)
+               !  Add in estimate of S uptake_equiv for this crop.
+            call soilpH_estimate_uptake_equiv (dlt_S_uptake_equiv
+     :                                      , dlt_dm
+     :                                      , root_length_area
+     :                                      , e%num_layers
+     :                                      , p%S_dm_percent
+     :                                      , p%S_avail
+     :                                      , SO4_valency
+     :                                      , S_Kg2Mol)
 
-         !  Add in estimate of Cl uptake_equiv for this crop.
-         call soilpH_estimate_uptake_equiv (dlt_Cl_uptake_equiv
-     :                             , dlt_dm
-     :                             , root_length_area
-     :                             , e%num_layers
-     :                             , p%Cl_dm_percent
-     :                             , p%Cl_avail
-     :                             , Cl_valency
-     :                             , Cl_Kg2Mol)
+               !  Add in estimate of Cl uptake_equiv for this crop.
+            call soilpH_estimate_uptake_equiv (dlt_Cl_uptake_equiv
+     :                                      , dlt_dm
+     :                                      , root_length_area
+     :                                      , e%num_layers
+     :                                      , p%Cl_dm_percent
+     :                                      , p%Cl_avail
+     :                                      , Cl_valency
+     :                                      , Cl_Kg2Mol)
 
-      uptake_equiv_sum = 0.0
-      do 1600 layer =1, e%num_layers
-         uptake_equiv_sum = uptake_equiv_sum
-     :                 + dlt_Ca_uptake_equiv(layer)
-     :                 + dlt_Mg_uptake_equiv(layer)
-     :                 + dlt_K_uptake_equiv(layer)
-     :                 + dlt_Na_uptake_equiv(layer)
-     :                 + dlt_P_uptake_equiv(layer)
-     :                 + dlt_S_uptake_equiv(layer)
-     :                 + dlt_Cl_uptake_equiv(layer)
-1600  continue
+         uptake_equiv_sum = 0.0
+         do 1600 layer =1, e%num_layers
+            uptake_equiv_sum = uptake_equiv_sum
+     :                       + dlt_Ca_uptake_equiv(layer)
+     :                       + dlt_Mg_uptake_equiv(layer)
+     :                       + dlt_K_uptake_equiv(layer)
+     :                       + dlt_Na_uptake_equiv(layer)
+     :                       + dlt_P_uptake_equiv(layer)
+     :                       + dlt_S_uptake_equiv(layer)
+     :                       + dlt_Cl_uptake_equiv(layer)
+1600     continue
 
-      Ca_uptake_equiv(:) = Ca_uptake_equiv(:)
-     :                  + dlt_Ca_uptake_equiv(:)
-     :                  / uptake_equiv_sum
-     :                  * crop_ash_alk_wt
-
-      Mg_uptake_equiv(:) = Mg_uptake_equiv(:)
-     :                  + dlt_Mg_uptake_equiv(:)
-     :                  / uptake_equiv_sum
-     :                  * crop_ash_alk_wt
-
-      K_uptake_equiv(:) =  K_uptake_equiv(:)
-     :                  + dlt_K_uptake_equiv(:)
-     :                  / uptake_equiv_sum
-     :                  * crop_ash_alk_wt
-
-      Na_uptake_equiv(:) = Na_uptake_equiv(:)
-     :                  + dlt_Na_uptake_equiv(:)
-     :                  / uptake_equiv_sum
-     :                  * crop_ash_alk_wt
-
-      P_uptake_equiv(:) =  P_uptake_equiv(:)
-     :                  + dlt_P_uptake_equiv(:)
-     :                  / uptake_equiv_sum
-     :                  * crop_ash_alk_wt
-
-      S_uptake_equiv(:) =  S_uptake_equiv(:)
-     :                  + dlt_S_uptake_equiv(:)
-     :                  / uptake_equiv_sum
-     :                  * crop_ash_alk_wt
-
-      Cl_uptake_equiv(:) = Cl_uptake_equiv(:)
-     :                  + dlt_Cl_uptake_equiv(:)
-     :                  / uptake_equiv_sum
-     :                  * crop_ash_alk_wt
-      
+         if (uptake_equiv_sum .gt. 0.0) then
+            Ca_uptake_equiv(:) = Ca_uptake_equiv(:)            
+     :                         + dlt_Ca_uptake_equiv(:)         
+     :                         / uptake_equiv_sum               
+     :                         * crop_ash_alk_wt                
+                                                                  
+            Mg_uptake_equiv(:) = Mg_uptake_equiv(:)            
+     :                         + dlt_Mg_uptake_equiv(:)         
+     :                         / uptake_equiv_sum               
+     :                         * crop_ash_alk_wt                
+                                                                  
+            K_uptake_equiv(:) =  K_uptake_equiv(:)             
+     :                        + dlt_K_uptake_equiv(:)          
+     :                        / uptake_equiv_sum               
+     :                        * crop_ash_alk_wt                
+                                                                  
+            Na_uptake_equiv(:) = Na_uptake_equiv(:)            
+     :                         + dlt_Na_uptake_equiv(:)         
+     :                         / uptake_equiv_sum               
+     :                         * crop_ash_alk_wt                
+                                                                  
+            P_uptake_equiv(:) =  P_uptake_equiv(:)             
+     :                        + dlt_P_uptake_equiv(:)          
+     :                        / uptake_equiv_sum               
+     :                        * crop_ash_alk_wt                
+                                                                  
+            S_uptake_equiv(:) =  S_uptake_equiv(:)             
+     :                        + dlt_S_uptake_equiv(:)          
+     :                        / uptake_equiv_sum               
+     :                        * crop_ash_alk_wt                
+                                                                  
+            Cl_uptake_equiv(:) = Cl_uptake_equiv(:)            
+     :                         + dlt_Cl_uptake_equiv(:)         
+     :                         / uptake_equiv_sum               
+     :                         * crop_ash_alk_wt
+         else
+            ! no uptake
+         endif     
+      else
+         ! no uptake
+      endif
+                                                            
       call pop_routine (my_name)
       return
       end
@@ -1675,14 +1682,21 @@
       deepest_layer = find_layer_no (root_depth, dlayer
      :                                 , num_layers)
       cumdep = 0
-      do 1100 layer = 1, deepest_layer
-         cumdep = cumdep + dlayer(layer)
-         mid_layer_depth = cumdep - 0.5 * dlayer(layer)
-         rldf(layer) = exp (-4.0 * mid_layer_depth / wr_coef)
-1100  continue
-      deepest_layer_fract = 1.0 
-     :                    - (cumdep - root_depth)/ dlayer(deepest_layer)
-      rldf(deepest_layer) = rldf(num_layers) * deepest_layer_fract
+      if (wr_coef .gt. 0.0) then
+         do 1100 layer = 1, deepest_layer
+            cumdep = cumdep + dlayer(layer)
+            mid_layer_depth = cumdep - 0.5 * dlayer(layer)
+            rldf(layer) = exp (-4.0 * mid_layer_depth / wr_coef)
+1100     continue
+      else
+      endif
+      if (dlayer(deepest_layer) .le. 0.0) then
+         deepest_layer_fract = 1.0 
+     :                    - (cumdep - root_depth)/dlayer(deepest_layer)
+         rldf(deepest_layer) = rldf(deepest_layer) * deepest_layer_fract
+      else
+         rldf(deepest_layer) = 0.0
+      endif
 
       call pop_routine (my_name)
       return
