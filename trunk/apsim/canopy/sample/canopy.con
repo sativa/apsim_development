@@ -1,0 +1,16 @@
+[apsim.sample_canopy]  
+  Module = clock    canopy.par [sample]      
+  Module = report   canopy.par [sample]      
+  Module = met      %apsuite\apsim\MET\SAMPLE\DALBY.MET [weather]      
+  Module = maize    canopy.par [sample]                                          %apsuite\apsim\maize\maize.ini [standard]
+  Module = cowpea   canopy.par[sample]                                           %apsuite\apsim\cowpea\cowpea.ini[standard]  
+  Module = manager  canopy.par [sample]      
+  Module = canopy   canopy.par [sample]      
+  Module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]    %apsuite\apsim\soilwat2\soilwat2.ini [standard]      
+  Module = soiln2   %apsuite\apsim\soiln2\soiln2.ini [standard]                  %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]
+
+!****************************************************************************************
+! To demonstrate the canopy module's capacity for intercropping, Maize and Cowpea have been 
+! chosen for this sample simulation.  If you are not licensed to use these crop modules, 
+! please substitute your licensed crops as appropriate.
+!****************************************************************************************
