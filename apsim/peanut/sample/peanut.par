@@ -1,0 +1,13 @@
+[earlybunch.peanut.parameters]
+
+meff = 1.2                               ! Maximum RUE (g/MJ) [MEFF]
+hmax = 0.55                              ! Maximum HI [HMAX]
+hicut = 0.45                             ! stop for RUE [HICUT]
+ftswswitch = 1                           ! FTSW switch [FTSWSWITCH] 1=full irr
+dmac = 0.0084                            ! DMAC
+gddl = 1000                              ! GDDL = gdd for leaf growth
+gdds = 837                               ! GDDS = gdd for seed growth
+gddhi = 1094                             ! GDDHI = gdd for hi increase
+pop = 9.7                                ! Population density
+mat = 250                                ! MATurity date
+
