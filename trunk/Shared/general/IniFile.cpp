@@ -114,7 +114,7 @@ void stripComments(std::string& line)
    // remove tabs.
    replaceAll(line, "\t", "   ");
 
-   unsigned posComment = line.find_first_of("!;");
+   unsigned posComment = line.find_first_of("!");
    if (posComment != string::npos)
       line.erase(posComment);
    }
@@ -198,7 +198,11 @@ bool IniFile::findMatchingKeys(const string& sectionName, const string& key,
                           i != indexes.end();
                           i++)
       {
-      values.push_back(getKeyValue(sectionContents.substr(i->first, i->second), key));
+      string line = sectionContents.substr(i->first, i->second);
+      stripComments(line);
+      string value = getKeyValue(line, key);
+
+      values.push_back(value);
       stripComments(values[values.size()-1]);
       }
    return (values.size() > 0);
@@ -405,6 +409,7 @@ void IniFile::getKeysInSection(const string& section,
       {
       if (line != "")
          {
+         stripComments(line);
          string keyFromSection;
          string value;
          getKeyNameAndValue(line, keyFromSection, value);

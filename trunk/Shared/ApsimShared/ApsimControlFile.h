@@ -179,6 +179,11 @@ class __declspec(dllexport) ApsimControlFile
                                const std::string& moduleName,
                                bool includeConstants,
                                ParamCallbackEvent callback);
+      void enumerateParametersForInstance(const std::string& section,
+                                          const std::string& instanceName,
+                                          bool includeConstants,
+                                          ParamCallbackEvent callback);
+
    private:
       IniFile* ini;
       std::string fileName;

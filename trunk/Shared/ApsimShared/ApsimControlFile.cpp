@@ -624,15 +624,16 @@ void ApsimControlFile::setVersionNumber(const std::string& fileName,
 // ------------------------------------------------------------------
 IniFile* ApsimControlFile::getParFile(const std::string& fileName) const
    {
+   string filePath = ExpandFileName(fileName.c_str()).c_str();
    for (unsigned i = 0; i != openedParFiles.size(); i++)
       {
-      if (Str_i_Eq(openedParFiles[i]->getFileName(), fileName))
+      if (Str_i_Eq(openedParFiles[i]->getFileName(), filePath))
          return openedParFiles[i];
       }
    if (Path(fileName).Get_extension() != ".met" &&
        Path(fileName).Get_extension() != ".soi")
       {
-      IniFile* par = new IniFile(fileName);
+      IniFile* par = new IniFile(filePath);
       openedParFiles.push_back(par);
       return par;
       }
@@ -966,6 +967,31 @@ void ApsimControlFile::enumerateParameters(const std::string& section,
    {
    vector<ParamFile> paramFiles;
    getParameterFilesForModule(ini, section, moduleName, paramFiles, includeConstants);
+   for (unsigned p = 0; p != paramFiles.size(); p++)
+      {
+      if (paramFiles[p].fileName != "")
+         {
+         IniFile* par = getParFile(paramFiles[p].fileName);
+         if (par != NULL)
+            {
+            vector<string> paramFileSections;
+            getParFileSectionsMatching(par, paramFiles[p], paramFileSections);
+            for (unsigned s = 0; s != paramFileSections.size(); s++)
+               callback(par, paramFileSections[s]);
+            }
+         }
+      }
+   }
+// ------------------------------------------------------------------
+// Enumerate all parameter sections for the specified instance name.
+// ------------------------------------------------------------------
+void ApsimControlFile::enumerateParametersForInstance(const std::string& section,
+                                                      const std::string& instanceName,
+                                                      bool includeConstants,
+                                                      ParamCallbackEvent callback)
+   {
+   vector<ParamFile> paramFiles;
+   getParameterFilesForInstance(ini, section, instanceName, paramFiles, includeConstants);
    for (unsigned p = 0; p != paramFiles.size(); p++)
       {
       if (paramFiles[p].fileName != "")
