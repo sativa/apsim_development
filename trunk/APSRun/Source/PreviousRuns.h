@@ -33,13 +33,5 @@ class PreviousRuns
       unsigned int maxNumRememberedRuns;
       typedef std::vector<std::string> RememberedRuns;
       RememberedRuns rememberedRuns;
-
-      void readList(const std::string& sectionName,
-                    const std::string& keyName,
-                    std::vector<std::string>& values);
-      void writeList(const std::string& sectionName,
-                     const std::string& keyName,
-                     std::vector<std::string>& values);
-
    };
 #endif
