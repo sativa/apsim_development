@@ -15,7 +15,7 @@ CIOBJECTS=CreateComponentInterfaceSource.obj ComponentInterfaceGenerator.obj
 
 LIBFILES = $(APSROOT)\Shared\general\general.lib $(APSROOT)\Shared\ApsimShared\ApsimShared.lib
 
-USERDEFINES = 
+USERDEFINES =
 SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
 INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared
 LIBPATH = $(SYSLIBPATH)
@@ -23,20 +23,21 @@ LIBPATH = $(SYSLIBPATH)
 # ---------------------------------------------------------------------------
 # 'Wizard' generated:
 #CFLAG1 = -Od -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -tWC -tWM- -c
-CFLAG1 = $(SYSCFLAGS) -O2 -vi -tWM 
+
+CFLAG1 = $(SYSCFLAGS) -O2 -r- -vi- -tWM
 WARNINGS = -w-par
 LFLAGS =  -ap -Tpe -x -Gn -v
 
 STDOBJ = c0x32.obj vcl.bpi Memmgr.Lib sysinit.obj
 ALLRES = $(RESFILES)
-ALLLIB = $(LIBFILES) import32.lib cw32mti.lib 
+ALLLIB = $(LIBFILES) import32.lib cw32mti.lib
 
 CC=$(BCB)\Bin\bcc32.exe
 LD=$(BCB)\Bin\ilink32
 # ---------------------------------------------------------------------------
 
 all: $(APSROOT)\Bin\CreateDataTypesSource.exe \
-$(APSROOT)\Bin\CreateComponentInterfaceSource.exe 
+$(APSROOT)\Bin\CreateComponentInterfaceSource.exe
 
 $(APSROOT)\Bin\CreateDataTypesSource.exe: $(DTOBJECTS)
 	$(LD) @&&!
@@ -55,7 +56,7 @@ $(APSROOT)\Bin\CreateComponentInterfaceSource.exe: $(CIOBJECTS)
 
 ####
 CreateDataTypesSource.obj: CreateDataTypesSource.cpp CreateSource.h CreateDataTypesF90.h
-CreateSource.obj: CreateSource.cpp CreateSource.h 
+CreateSource.obj: CreateSource.cpp CreateSource.h
 CreateComponentInterfaceSource.obj: CreateComponentInterfaceSource.cpp ComponentInterfaceGenerator.h
 ComponentInterfaceGenerator.obj: ComponentInterfaceGenerator.cpp ComponentInterfaceGenerator.h
 CreateDataTypesF90.obj: CreateDataTypesF90.cpp CreateDataTypesF90.h
