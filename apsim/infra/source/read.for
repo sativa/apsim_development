@@ -1228,11 +1228,11 @@
       end
  
 * ====================================================================
-       logical function Read_parameter_optional 
+       logical function read_parameter_optional 
      .  (Parameter_name, Section_name, Parameter_value, Parameter_units)
 * ====================================================================
       implicit none
-      dll_export Read_parameter_optional
+      dll_export read_parameter_optional
       include 'const.inc'
  
 *+ Sub-Program Arguments
@@ -1255,12 +1255,12 @@
       dll_import push_routine
       dll_import pop_routine
       dll_import lower_case
-      dll_import Loader_GetCurrentComponent
-      dll_import PROPERTY_CREATE
-      dll_import PROPERTY_FREE
-      dll_import PROPERTY_GETVALUE
-      dll_import PROPERTY_GETUNITS
-      dll_import APSIMSYSTEM_DATA_GET
+      dll_import loader_getcurrentcomponent
+      dll_import property_create
+      dll_import property_free
+      dll_import property_getvalue
+      dll_import property_getunits
+      dll_import apsimsystem_data_get
       
       logical APSIMSYSTEM_DATA_GET     ! function
       character Lower_case*(Function_string_len)
@@ -1324,7 +1324,7 @@
      .     (Parameter_name, Section_name)
 * ====================================================================
       implicit none
-      dll_export Read_parameter
+      dll_export read_parameter
       include 'const.inc'
 
 *+ Sub-Program Arguments
@@ -1345,7 +1345,7 @@
       dll_import push_routine
       dll_import fatal_error
       dll_import pop_routine
-      dll_import Read_parameter_optional
+      dll_import read_parameter_optional
       logical read_parameter_optional
                                        ! function
  

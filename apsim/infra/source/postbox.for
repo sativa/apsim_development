@@ -1093,7 +1093,6 @@
      .         ' elements.  Variable = ',
      .         g_Variable_name(Variable_ptr)
          call Fatal_error(ERR_user, Msg)
-         Num_elements = 0
          Check_num_elements = .false.
       else
          Check_num_elements = .true.      
@@ -1173,11 +1172,11 @@
 *+ Calls
       dll_import assign_string
       dll_import remove_array_spec
-      dll_import Loader_SendAction
-      dll_import Loader_SendActionToFirstComp
-      dll_import Loader_SendActionToAllComps
-      logical Loader_SendAction
-      logical Loader_SendActionToFirstComp
+      dll_import loader_sendaction
+      dll_import loader_sendactiontofirstcomp
+      dll_import loader_sendactiontoallcomps
+      logical loader_sendaction
+      logical loader_sendactiontofirstcomp
  
 *+ Local Variables
       character our_variable_name*(Max_variable_name_size)
@@ -1239,11 +1238,11 @@
 *     DPH 26/7/99
  
 *+ Calls
-      dll_import Loader_SendAction
-      dll_import Loader_SendActionToFirstComp
-      dll_import Loader_SendActionToAllComps
-      logical Loader_SendAction
-      logical Loader_SendActionToFirstComp
+      dll_import loader_sendaction
+      dll_import loader_sendactiontofirstcomp
+      dll_import loader_sendactiontoallcomps
+      logical loader_sendaction
+      logical loader_sendactiontofirstcomp
  
 *+ Local Variables
       logical ok                                
@@ -1284,6 +1283,7 @@
       include 'const.inc'
       include 'postbox.inc'
       include 'string.pub'
+      include 'apsimengine.pub'
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name to find.
@@ -1366,7 +1366,7 @@
        subroutine Get_variables_in_postbox (Variable_names, Num_vars)
 * ====================================================================
       implicit none
-      dll_export Get_variables_in_postbox
+      dll_export get_variables_in_postbox
       include 'const.inc'
       include 'postbox.inc'
  
@@ -1564,7 +1564,7 @@
  
 *+ Calls
       dll_import push_routine
-      dll_import Loader_GetCurrentComponent
+      dll_import loader_getcurrentcomponent
       dll_import fatal_error
       dll_import pop_routine
       character Lower_case*(MAX_VARIABLE_NAME_SIZE)

@@ -442,7 +442,7 @@ cih
 *+  Sub-Program Arguments
 
 *+  Calls
-      dll_import Screen_WritePercentComplete
+      dll_import screen_writepercentcomplete
 
 *+  Purpose
 *      print a percentage complete if necessary.
@@ -881,6 +881,7 @@ cih
       implicit none
        include 'const.inc'             ! Constant definitions
       include 'string.pub'                       
+      include 'error.pub'
 
 *+  Purpose
 *     Create a string giving the daily time in 24 hour format
@@ -940,6 +941,7 @@ cih
       include 'event.inc'
       include 'postbox.pub'
       include 'intrface.pub'
+      include 'error.pub'
 
 !+  Calls
       character Clock_time_string*(5)      ! function
