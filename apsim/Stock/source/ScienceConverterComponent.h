@@ -48,10 +48,12 @@ class ScienceConverterComponent : public protocol::Component
       void getPSenesced(PlantPool &P, vector<float>  &pSenesced, PlantPool &dm, vector<float>  &dmSenesced);
       void getPDead(PlantPool &P, vector<float>  &pDead, PlantPool &dm, vector<float>  &dmDead);
       void getHeight(float &height);
-      void getVariables(PlantPool &dm, PlantPool &N, PlantPool &P, float &height);
+      void getThermalTime(float &thermalTime);
+      void getVariables(PlantPool &dm, PlantPool &N, PlantPool &P, float &height, float &thermalTime);
       void readParameters ( void );
       void readHerbageModuleParameters ( void );
-      void calcDmdDistribution(PlantPool dmdFraction[]);
+      void calcDmdDistribution(PlantPool dmdFraction[], PlantPool dQ);
+      void calcDmdDecline(float thermalTime, PlantPool &dQ);
       void proportion (float dmdAvg, float dmdMax, float dmdMin, float dmdFraction[]);
       float divide (float dividend, float divisor, float default_value);
 
@@ -70,6 +72,8 @@ class ScienceConverterComponent : public protocol::Component
       unsigned pSenescedID;
       unsigned pDeadID;
       unsigned heightID;
+      unsigned thermalTimeID;
+      unsigned thermalTimeBGID;
       unsigned dmFeedOnOfferID;
       unsigned dmFeedRemovedID;
       unsigned stockBuyID;
@@ -94,6 +98,9 @@ class ScienceConverterComponent : public protocol::Component
 //         };
 
       PlantPool partFraction[maxDmdPools];
+      PlantPool dmdMax;
+      PlantPool dmdAvg;
+      PlantPool dmdMin;
 
       struct
       {

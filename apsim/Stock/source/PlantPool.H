@@ -22,6 +22,8 @@ class PlantPool
 		PlantPool(const PlantPool &PlantPool); 						// copy constructor
 		const PlantPool &operator=(const PlantPool &other);		// Assigment operator
 
+            PlantPool operator- (const PlantPool &y) const;  // Command
+            PlantPool operator+ (const PlantPool &y) const;  // Command
             PlantPool operator* (const PlantPool &y) const;  // Command
             PlantPool operator* (const float &y) const;  // Command
             PlantPool operator/ (const PlantPool &y) const;  // Command
