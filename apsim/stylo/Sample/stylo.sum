@@ -210,7 +210,7 @@
           ---------------------------------------------------------
 
 ------- stylo Initialisation --------------------------------------------------
-      initialising
+     phenology model: Legume
 ------- Start of simulation  --------------------------------------------------
 15 November 1988(Day of year=320), manager: 
      Manager sending message :- stylo sow  cultivar = verano, plants = 250 (/m2), sowing_depth = 40 (mm)
@@ -220,19 +220,19 @@
       - reading cultivar parameters
          ------------------------------------------------
         cultivar                   = verano
-        est_days_emerg_to_init     =       30
-        cum_vernal_days            =       0.00     100.00
-        tt_emerg_to_endjuv         =     700.00     700.00
-        x_pp_endjuv_to_init        =      10.70      17.00
-        y_tt_endjuv_to_init        =       0.00     446.00
-        x_pp_init_to_flower        =       1.00      24.00
-        y_tt_init_to_flower        =      33.00      33.00
-        x_pp_flower_to_start_grain =       1.00      24.00
-        y_tt_flower_to_start_grain =     355.00     355.00
-        x_pp_start_to_end_grain    =       1.00      24.00
-        y_tt_start_to_end_grain    =     694.75     694.75
-        tt_end_grain_to_maturity   =      55.25
-        tt_maturity_to_ripe        =       5.00
+        est_days_emerg_to_init     = 30 (days)
+        cum_vernal_days            =       0     100 (vd)
+        tt_emerg_to_endjuv         =     700     700 (dd)
+        x_pp_endjuv_to_init        =    10.7      17 (h)
+        y_tt_endjuv_to_init        =       1     446 (dd)
+        x_pp_init_to_flower        =       1      24 (h)
+        y_tt_init_to_flower        =      33      33 (dd)
+        x_pp_flower_to_start_grain =       1      24 (h)
+        y_tt_flower_to_start_grain =     355     355 (dd)
+        x_pp_start_to_end_grain    =       1      24 (h)
+        y_tt_start_to_end_grain    =  694.75  694.75 (dd)
+        tt_end_grain_to_maturity   =         55 (dd)
+        tt_maturity_to_ripe        =          5 (dd)
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0001     0.0001
         x_hi_max_pot_stress        =       0.00       1.00
@@ -273,70 +273,70 @@
 17 November 1988(Day of year=322), stylo: 
       stage 3.0 emergence
                      biomass =           7.50 (g/m^2)   lai          =   0.025 (m^2/m^2)
-                     stover N conc =     6.00 (%)     extractable sw =   26.61 (mm)
+                     stover N conc =     6.00 (%)    extractable sw =   26.61 (mm)
 30 December 1988(Day of year=365), stylo: 
       stage 4.0 end_of_juvenile
                      biomass =          23.85 (g/m^2)   lai          =   0.143 (m^2/m^2)
-                     stover N conc =     3.94 (%)     extractable sw =  267.50 (mm)
-14 January 1989(Day of year=14), stylo: 
+                     stover N conc =     5.00 (%)    extractable sw =  267.50 (mm)
+15 January 1989(Day of year=15), stylo: 
       stage 5.0 floral_initiation
-                     biomass =          39.06 (g/m^2)   lai          =   0.252 (m^2/m^2)
-                     stover N conc =     3.15 (%)     extractable sw =  322.59 (mm)
+                     biomass =          40.50 (g/m^2)   lai          =   0.263 (m^2/m^2)
+                     stover N conc =     4.00 (%)    extractable sw =  321.53 (mm)
 17 January 1989(Day of year=17), stylo: 
       stage 6.0 flowering
                      biomass =          43.57 (g/m^2)   lai          =   0.280 (m^2/m^2)
-                     stover N conc =     3.00 (%)     extractable sw =  319.30 (mm)
+                     stover N conc =     3.72 (%)    extractable sw =  319.30 (mm)
 9 February 1989(Day of year=40), stylo: 
       stage 7.0 start_grain_fill
-                     biomass =          81.83 (g/m^2)   lai          =   0.431 (m^2/m^2)
-                     stover N conc =     2.68 (%)     extractable sw =  311.36 (mm)
-5 March 1989(Day of year=64), stylo: 
-     Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 1246.39 (kg/ha)
-6 March 1989(Day of year=65), manager: 
-     Manager sending message :- stylo harvest
+                     biomass =          81.91 (g/m^2)   lai          =   0.432 (m^2/m^2)
+                     stover N conc =     2.67 (%)    extractable sw =  311.34 (mm)
 6 March 1989(Day of year=65), stylo: 
+     Crop failure because of total leaf senescence.
+     Plant death. standing above-ground dm = 1273.05 (kg/ha)
+7 March 1989(Day of year=66), manager: 
+     Manager sending message :- stylo harvest
+7 March 1989(Day of year=66), stylo: 
      
-      flowering day          =   17                           stover (kg/ha)         =     1243.3
-      maturity day           =    0                           grain yield (kg/ha)    =        3.1
-      grain % water content  =   12.0                         grain yield wet (kg/ha)=        3.5
+      flowering day          =   17                           stover (kg/ha)         =     1269.7
+      maturity day           =    0                           grain yield (kg/ha)    =        3.3
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=        3.8
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
-      grains/plant           =    0.0                         maximum lai            =      0.522
-      total above ground biomass (kg/ha)    =     1246.4
+      grains/plant           =    0.0                         maximum lai            =      0.530
+      total above ground biomass (kg/ha)    =     1273.1
       live above ground biomass (kg/ha)     =        0.0
       green above ground biomass (kg/ha)    =        0.0
       senesced above ground biomass (kg/ha) =        0.0
-      dead above ground biomass (kg/ha)     =     1246.4
+      dead above ground biomass (kg/ha)     =     1273.1
       number of leaves       =    1.3
-      DM Root:Shoot ratio    =    0.526                       Harvest Index          =      0.002
-      Stover C:N ratio       =   17.604                       Root C:N ratio         =     26.331
-      grain N percent        =       1.70                     total N content (kg/ha)=      28.30
-      grain N uptake (kg/ha) =       0.05                     senesced N content (kg/ha)=    0.00
-      green N content (kg/ha)=       0.00                     dead N content (kg/ha) =      28.25
+      DM Root:Shoot ratio    =    0.520                       Harvest Index          =      0.003
+      Stover C:N ratio       =   17.082                       Root C:N ratio         =     26.341
+      grain N percent        =       1.70                     total N content (kg/ha)=      29.79
+      grain N uptake (kg/ha) =       0.06                     senesced N content (kg/ha)=    0.00
+      green N content (kg/ha)=       0.00                     dead N content (kg/ha) =      29.73
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.000        0.004
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.020
          end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.000
          floral_initiation    to flowering               0.000        0.000        0.000        0.000
          flowering            to start_grain_fill        0.000        0.000        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.000        0.000        0.000        0.000
+     
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               1243.28                    0.00
-                          N  (kg/ha) =                 28.25                    0.00
+                          DM (kg/ha) =               1269.74                    0.00
+                          N  (kg/ha) =                 29.73                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                  3.12                    0.00
-                          N  (kg/ha) =                  0.05                    0.00
+                          DM (kg/ha) =                  3.31                    0.00
+                          N  (kg/ha) =                  0.06                    0.00
      
-6 March 1989(Day of year=65), manager: 
+7 March 1989(Day of year=66), manager: 
      Manager sending message :- stylo end_crop
-6 March 1989(Day of year=65), stylo: 
+7 March 1989(Day of year=66), stylo: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                  655.72
-                          N  (kg/ha) =                  0.00                    9.96
+                          DM (kg/ha) =                  0.00                  661.53
+                          N  (kg/ha) =                  0.00                   10.05
                           P  (kg/ha) =                                          0.00
      
 10 April 1989(Day of year=100), clock: 
