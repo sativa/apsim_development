@@ -53,8 +53,9 @@ inline unsigned int memorySize(const structure.nameType& data)
    }
 
 #endfor
-#endif
 } // protocol
+#endif
+
 #endfile
 ##################################################
 #file ../shared/componentinterface/datatypes.cpp
