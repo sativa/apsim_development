@@ -421,7 +421,9 @@
 
 
       if (NO3gsm_mflow_supply.ge.N_demand) then
-         NO3gsm_mflow = NO3gsm_mflow_supply
+!jh         NO3gsm_mflow = NO3gsm_mflow_supply
+!           Sorghum does not take up luxury N here
+         NO3gsm_mflow = N_demand
          NO3gsm_diffn = 0.0
 !+++++++++++++==                        need to do something with excess N
       else
@@ -447,7 +449,6 @@
 
       call fill_real_array (dlt_NO3gsm, 0.0, max_layer)
 
-
       do 1100 layer = 1,deepest_layer
 
                ! allocate nitrate
@@ -468,11 +469,13 @@
          dlt_NO3gsm(layer) = - NO3gsm_uptake
 1100  continue
 
-      if(N_demand .gt. 0.0)then
+      if(N_demand .gt. 0.1e-5)then
          NFract = min((NO3gsm_mflow + NO3gsm_diffn) / N_demand,1.0)
       else
          NFract = 0.0
       endif
+
+
 
       call pop_routine (my_name)
       return
@@ -515,8 +518,8 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
-
-      do 1300 part = 1, max_part - 1
+		! Grain does not take up N from soil - only retranslocates
+      do 1300 part = root, flower
         dlt_N_green(part) = g_N_demand(part) * NFract
 1300  continue
 
@@ -576,7 +579,7 @@
       parameter (my_name = 'sorg_N_retranslocate1')
 
 *+  Local Variables
-!      integer    part                  ! plant part number
+      integer    part                  ! plant part number
       real SLN,lai
       real dd,NAvail,NRequired
 
@@ -586,12 +589,17 @@
       real LowNStem,LowNHead,StemHeadNAvail,LeafNAvail
       real nConcStem,nStemRate,nLeafRate ,leafSenesced
       real SLNdead,dltSLN
+      real N_avail(max_part)
+      real N_begin
+      real N_end
+      character*200 string
 
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
       call fill_real_array (g_dlt_N_retrans, 0.0, max_part)
+      N_begin = sum_real_array(g_dlt_N_retrans, max_part)
 
 !-------------------------------------------------------------------
 !
@@ -659,14 +667,19 @@ c        at the leaf rate
             dltSLN = 0
          endif
          LeafNAvail = dltSLN * g_dlt_slai
+         N_avail(leaf) = LeafNAvail
 
 c        remove from the senesced pool
          if (LeafNAvail .ge. nRequired) then
             g_dlt_N_Senesced(leaf) = g_dlt_N_Senesced(leaf) - nRequired
+				! N must be removed from green leaf if senesced N is reduced
+            g_dlt_N_retrans(leaf) = - nRequired
             g_dlt_N_retrans(grain) = nRequired
             nRequired = 0
          else
             g_dlt_N_Senesced(leaf) = g_dlt_N_Senesced(leaf) - LeafNAvail
+				! N must be removed from green leaf if senesced N is reduced
+            g_dlt_N_retrans(leaf) = - LeafNAvail
             nRequired = nRequired - LeafNAvail
             g_dlt_N_retrans(grain) = LeafNAvail
          endif
@@ -693,12 +706,14 @@ c        remove from the senesced pool
             g_dlt_N_retrans(stem) = - StemNAvail
             g_dlt_N_retrans(grain) = g_dlt_N_retrans(grain) + StemNAvail
             NRequired = NRequired - StemNAvail
+            N_avail(stem) = StemNAvail
 !           Take from flower
             FlowerNAvail = min(nStemRate/100 *
      .          (G_dlt_dm_green(flower) + G_dm_green(flower)),NRequired)
             g_dlt_N_retrans(flower) = - FlowerNAvail
             g_dlt_N_retrans(grain) = g_dlt_N_retrans(grain)+FlowerNAvail
             NRequired = NRequired - FlowerNAvail
+            N_avail(flower) = FlowerNAvail
          endif
 
 !        LEAF
@@ -707,30 +722,44 @@ c        remove from the senesced pool
                nLeafRate = 0.04 * SLN - 0.016 * (g_dlt_tt_fm / 17.0)
                LeafNAvail = min(nLeafRate * lai, ((SLN - 0.4) *  lai))
                LeafNRequired = min(LeafNAvail,NRequired)
-               NRequired = NRequired - LeafNRequired
-               g_dlt_N_retrans(leaf) = - LeafNRequired
+              NRequired = NRequired - LeafNRequired
+					! Some Leaf N possibly already retranslocated
+               g_dlt_N_retrans(leaf) =
+     :                           g_dlt_N_retrans(leaf) - LeafNRequired
                g_dlt_N_retrans(grain) =
      .                           g_dlt_N_retrans(grain) + LeafNRequired
-            else
+           else
 !              need to senesce leaf to get the required N  (SLN = 0.2)
                leafSenesced =  min(lai,NRequired / 0.2)
                LeafNAvail = leafSenesced * 0.2
                g_dlt_N_retrans(leaf) = g_dlt_N_retrans(leaf)- LeafNAvail
                NRequired = NRequired - LeafNAvail
+					! should retranslocate to grain same amount retranslocated from leaf
                g_dlt_N_retrans(grain) = g_dlt_N_retrans(grain) +
-     .                 NRequired
+     .                                 LeafNAvail
             endif
+            N_avail(leaf) = LeafNAvail + N_avail(leaf)
          endif
       endif
 
 ! just check that we got the maths right.
 
-!      do 1000 part = root, flower
-!         call bound_check_real_var (abs (o_dlt_N_retrans(part))
-!     :                            , 0.0, N_avail(part)
-!     :                            , 'o_dlt_N_retrans(part)')
-!1000  continue
+      do 1000 part = root, flower
+         call bound_check_real_var (abs (g_dlt_N_retrans(part))
+     :                            , 0.0, N_avail(part)
+     :                            , 'g_dlt_N_retrans(part)')
+1000  continue
 
+      N_end = sum_real_array(g_dlt_N_retrans, max_part)
+      if (abs(N_end-N_begin) .gt. 0.1e-5) then
+         call write_string ('N balance error in retranslocation')
+      write (string, '(4x,a, f15.5)')
+     :                'N_begin                 = ', N_begin
+      call write_string (string)
+      write (string, '(4x,a, f15.5)')
+     :                'N_end                 = ', N_end
+      call write_string (string)
+      endif
 
       call pop_routine (my_name)
       return
