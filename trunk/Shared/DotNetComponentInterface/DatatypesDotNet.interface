@@ -60,11 +60,19 @@
       </field>
    </type>
 
+   <type name="CanopyWaterBalance" array="T">
+      <element>
+      <field name="name" kind="string"/>
+      <field name="pet" kind="single" units="mm"/>
+      </element>
+   </type>
+
    <event name="Tick" type="Time"/>
 
    <event name="NullEvent" type="Null"/>
    <event name="NewMetEvent" type="NewMet"/>
    <event name="NewCanopyEvent" type="NewCanopy"/>
+   <event name="CanopyWaterBalanceEvent" type="CanopyWaterBalance"/>
 
 </types>
 
