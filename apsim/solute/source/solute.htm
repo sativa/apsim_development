@@ -1,0 +1,391 @@
+<TITLE>APSIM Solute Module</TITLE>
+<FONT SIZE = 7><B><CENTER>APSIM Solute Module</CENTER></B></FONT>
+<H1>TABLE OF CONTENTS</H1>
+<H2><A HREF = "#Contact Information"> Contact Information </A></H2>
+<H2><A HREF = "#Module Description"> Module Description </A></H2>
+<H2>Input Files</H2>
+<ul><li>The Parameter File
+
+<ul><li><A HREF = "#Sample.solute.parameters"> Sample parameters </A>
+
+</ul></ul>
+<ul><li>The INI File
+
+<ul><li><A HREF = "#calibration.solute.constants"> calibration constants </A>
+
+</ul></ul>
+<A HREF = "#stimuli_table"> <H2>Module Interactions</H2> </A>
+<A HREF = "#changes_table"> <H2>Module Behaviour Changes</H2> </A>
+<H2>Module Logic</H2>
+<ul><li><A HREF = "#The APSIM Solute Module"> The APSIM Solute Module </A>
+
+<li><A HREF = "#Structure Charts"> Structure Charts </A>
+
+</ul>
+<hr>
+<A NAME = "Module Description">  </A>
+<CENTER><H1>Module Description</H1></CENTER>
+<BR>
+<H2>What does the Solute module do?</H2>
+
+The Solute module is an APSIM plug-in-pull-out module that
+keeps a solute balance of up to five different solutes.  
+The Solute module itself does not change the state of the 
+solutes, but lets other modules change the solute information 
+according to their own processes.  
+
+<H2>Things to note when using the Solute module</H2>
+
+<LI>The Solute module can keep track of Nitrate and Ammonium,
+but must do so independent of any other soil balance module 
+(eg SoilN).
+
+<LI>The Solute module is designed primarily to trace solutes
+such as Bromide and Chloride through soil layers.
+<hr>
+<A NAME = "Structure Charts"> <H2>Module Structure Charts</H2> </A>
+<H2>The APSIM Solute Module</H2>
+<ul><li><A HREF = "#apsim_solute"> apsim_solute </A>
+
+<ul><li><A HREF = "#solute_version"> solute_version </A>
+
+<li><A HREF = "#solute_init"> solute_init </A>
+
+<ul><li><A HREF = "#solute_version"> solute_version </A>
+
+<li><A HREF = "#solute_zero_variables"> solute_zero_variables </A>
+
+<li><A HREF = "#solute_get_other_variables"> solute_get_other_variables </A>
+
+<li><A HREF = "#solute_read_constants"> solute_read_constants </A>
+
+<li><A HREF = "#solute_read_param"> solute_read_param </A>
+
+</ul><li><A HREF = "#solute_get_other_variables"> solute_get_other_variables </A>
+
+<li><A HREF = "#solute_send_my_variable"> solute_send_my_variable </A>
+
+<li><A HREF = "#solute_set_my_variable"> solute_set_my_variable </A>
+
+</ul></ul>
+<hr>
+<CENTER><A NAME = "Module Pseudo Code"> <H2><BIG>Module Pseudo Code</BIG></H2> </A></CENTER>
+<hr>
+<H2><BIG><A NAME = "The APSIM Solute Module"> The APSIM Solute Module </A></BIG></H2>
+<A NAME = "apsim_solute">  </A>
+<H2>Apsim Solute</H2>
+<br>
+<H3><CENTER>This routine is the interface between the main system and the solute module.  </CENTER></H3>
+<H4>Subroutine Logic</H4>
+<dl><br>
+
+if (action.=.mes_presence) then<br>
+
+<dl>Identify the current module<br>
+
+print * , module_name , ' ' , <A HREF = "#solute_version"> Version Number </A><br>
+
+</dl>else if (action.=.mes_init) then<br>
+
+<dl><A HREF = "#solute_init"> Initialise all internal state variables </A><br>
+
+</dl>else if (action.=.mes_process) then<br>
+
+<dl><A HREF = "#solute_get_other_variables"> Get external state values from other modules </A><br>
+
+</dl>else if (action.=.mes_get_variable) then<br>
+
+<dl><A HREF = "#solute_send_my_variable"> Supply information to requesting module </A><br>
+
+</dl>else if (action.=.mes_set_variable) then<br>
+
+<dl><A HREF = "#solute_set_my_variable"> Set an internal variable as requested </A><br>
+
+</dl>else<br>
+
+<dl>This message was unused<br>
+
+</dl>endif<br>
+
+<br>
+
+</dl></dl>
+<hr>
+<A NAME = "solute_version">  </A>
+<H2>Solute Version</H2>
+<br>
+<H3><CENTER>return version number of solute module  </CENTER></H3>
+<H4>Subroutine Logic</H4>
+<dl><br>
+
+solute_version = version_number<br>
+
+<br>
+
+</dl></dl>
+<hr>
+<A NAME = "solute_init">  </A>
+<H2>Solute Init</H2>
+<br>
+<H3><CENTER>Initialise solute module  </CENTER></H3>
+<H4>Subroutine Logic</H4>
+<dl><br>
+
+<A HREF = "#solute_zero_variables"> Set internal state variables to zero </A><br>
+
+<A HREF = "#solute_get_other_variables"> Get external state values from other modules </A><br>
+
+event_string = 'initialising version : ' / / <A HREF = "#solute_version"> Version Number </A><br>
+
+Report this event to the system<br>
+
+<A HREF = "#solute_read_constants"> Read constants from ini file </A><br>
+
+<A HREF = "#solute_read_param"> Read parameters from parameter file </A><br>
+
+<br>
+
+</dl></dl>
+<hr>
+<A NAME = "solute_zero_variables">  </A>
+<H2>Solute Zero Variables</H2>
+<br>
+<H3><CENTER>Set all variables to initial state.  i.e. zero or blank.  </CENTER></H3>
+<H4>Subroutine Logic</H4>
+<dl><br>
+
+For each solute number from 1 to maximum number of solutes<br>
+
+<dl>For each layer from 1 to maximum number of layers<br>
+
+<dl>solute<I><SUB> solute number, layer</SUB></I> = 0 . 0<br>
+
+</dl>next<br>
+
+<A HREF = "#solute_names"> solute_names </A><I><SUB> solute number</SUB></I> = ' '<br>
+
+</dl>next<br>
+
+<br>
+
+</dl></dl>
+<hr>
+<A NAME = "solute_get_other_variables">  </A>
+<H2>Solute Get Other Variables</H2>
+<br>
+<H3><CENTER>Get the values of variables from other modules  </CENTER></H3>
+<H4>Subroutine Logic</H4>
+<dl><br>
+
+Get dlayer from the system (Lower Bound = 0, Upper Bound = 1000 .)<br>
+
+<br>
+
+</dl></dl>
+<hr>
+<A NAME = "solute_read_constants">  </A>
+<H2>Solute Read Constants</H2>
+<br>
+<H3><CENTER>Read in all constants from ini file.  </CENTER></H3>
+<H4>Subroutine Logic</H4>
+<dl><br>
+
+Write a string to a file<br>
+
+Read a value for <A HREF = "#ub_solute"> ub_solute </A> (using the name 'ub_solute') and ensure that it is between 0 . 0 and 1e10<br>
+
+Read a value for <A HREF = "#lb_solute"> lb_solute </A> (using the name 'lb_solute') and ensure that it is between 0 . 0 and 1e10<br>
+
+<br>
+
+</dl></dl>
+<hr>
+<A NAME = "solute_read_param">  </A>
+<H2>Solute Read Param</H2>
+<br>
+<H3><CENTER>Read in all parameters from parameter file.  Solute information is stored in a two dimensional array so for each solute, read layer information into a single dimension array and insert into the two dimensional array.  </CENTER></H3>
+<H4>Subroutine Logic</H4>
+<dl><br>
+
+Read a value for <A HREF = "#solute_names"> solute_names </A> (using the name 'solute_names')<br>
+
+For each solute number from 1 to number of solutes<br>
+
+<dl>if (<A HREF = "#solute_names"> solute_names </A><I><SUB> solute number</SUB></I>.=/=.blank) then<br>
+
+<dl>Read a value for sol (using the name <A HREF = "#solute_names"> solute_names </A><I><SUB> solute number</SUB></I>) and ensure that it is between <A HREF = "#lb_solute"> lb_solute </A> and <A HREF = "#ub_solute"> ub_solute </A><br>
+
+For each layer from 1 to number of values returned<br>
+
+<dl>solute<I><SUB> solute number, layer</SUB></I> = sol<I><SUB> layer</SUB></I><br>
+
+</dl>next<br>
+
+</dl>else<br>
+
+endif<br>
+
+</dl>next<br>
+
+<br>
+
+</dl></dl>
+<hr>
+<A NAME = "solute_send_my_variable">  </A>
+<H2>Solute Send My Variable</H2>
+<br>
+<H3><CENTER>Return the value of one of our variables to caller.  The variable is either the solute names or the solute information. Solute information is stored in a two dimensional array so for requested solute, read layer information into a single dimension array and send to the system.  </CENTER></H3>
+<H4>Subroutine Logic</H4>
+<dl><br>
+
+if (variable_name.=.'solute_names') then<br>
+
+<dl>Supply <A HREF = "#solute_names"> solute_names </A> to the requesting module<br>
+
+</dl>else<br>
+
+<dl>found = . false .<br>
+
+For each solute number from 1 to number of solutes<br>
+
+<dl>if (variable_name.=.<A HREF = "#solute_names"> solute_names </A><I><SUB> solute number</SUB></I>) then<br>
+
+<dl>number of layers = the number of values in dlayer<br>
+
+if (number of layers.=.0) then<br>
+
+<dl>number of layers = 1<br>
+
+</dl>else<br>
+
+endif<br>
+
+For each layer from 1 to maximum number of layers<br>
+
+<dl>sol<I><SUB> layer</SUB></I> = solute<I><SUB> solute number, layer</SUB></I><br>
+
+</dl>next<br>
+
+Supply sol to the requesting module<br>
+
+found = . true .<br>
+
+</dl>else<br>
+
+endif<br>
+
+</dl>next<br>
+
+if (.not.found) then<br>
+
+<dl>This message was unused<br>
+
+</dl>else<br>
+
+endif<br>
+
+</dl>endif<br>
+
+<br>
+
+</dl></dl>
+<hr>
+<A NAME = "solute_set_my_variable">  </A>
+<H2>Solute Set My Variable</H2>
+<br>
+<H3><CENTER>Set one of our variables altered by some other module. Solute information is stored in a two dimensional array so for desired solute, read updated layer information into a single dimension array and update into the two dimensional array.  </CENTER></H3>
+<H4>Subroutine Logic</H4>
+<dl><br>
+
+if (number of solutes.=.0) then<br>
+
+<dl>This message was unused<br>
+
+</dl>else<br>
+
+<dl>found = . false .<br>
+
+For each solute number from 1 to number of solutes<br>
+
+<dl>if (variable_name.=.<A HREF = "#solute_names"> solute_names </A><I><SUB> solute number</SUB></I>) then<br>
+
+<dl>Collect a value for sol (using the name variable_name) from the messaging system and ensure that it is between <A HREF = "#lb_solute"> lb_solute </A> and <A HREF = "#ub_solute"> ub_solute </A><br>
+
+For each layer from 1 to number of values returned<br>
+
+<dl>solute<I><SUB> solute number, layer</SUB></I> = sol<I><SUB> layer</SUB></I><br>
+
+</dl>next<br>
+
+found = . true .<br>
+
+</dl>elseif (variable_name.=.'dlt_'//<A HREF = "#solute_names"> solute_names </A><I><SUB> solute number</SUB></I>) then<br>
+
+<dl>Collect a value for <FONT FACE = "SYMBOL">D</FONT>sol (using the name variable_name) from the messaging system and ensure that it is between - <A HREF = "#ub_solute"> ub_solute </A> and <A HREF = "#ub_solute"> ub_solute </A><br>
+
+For each layer from 1 to number of values returned<br>
+
+<dl>solute<I><SUB> solute number, layer</SUB></I> = solute<I><SUB> solute number, layer</SUB></I> + <FONT FACE = "SYMBOL">D</FONT>sol<I><SUB> layer</SUB></I><br>
+
+</dl>next<br>
+
+found = . true .<br>
+
+</dl>else<br>
+
+endif<br>
+
+</dl>next<br>
+
+if (.not.found) then<br>
+
+<dl>This message was unused<br>
+
+</dl>else<br>
+
+endif<br>
+
+</dl>endif<br>
+
+<br>
+
+</dl></dl>
+<hr>
+<TABLE WIDTH = 100% ALIGN=center BORDER=1><CAPTION><H1><A NAME = "calibration.solute.constants"> Calibration Constants </A></H1></CAPTION><TD><B>Parameter</B></TD><TD><B>Description</B></TD><TD><B>Specification</B></TD><TD><B>Usage</B></TD><TR><TD VALIGN=TOP><A NAME = "ub_solute"> ub_solute </A></TD><TD>Upper bound for solutes</TD><TD> 1000.0    ()</TD><TD><A HREF = "#solute_read_param"> solute_read_param </A> , <A HREF = "#solute_set_my_variable"> solute_set_my_variable </A> , <A HREF = "#solute_read_constants"> solute_read_constants </A></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "lb_solute"> lb_solute </A></TD><TD>Lower bound for solutes</TD><TD> 0.0       ()</TD><TD><A HREF = "#solute_read_param"> solute_read_param </A> , <A HREF = "#solute_set_my_variable"> solute_set_my_variable </A> , <A HREF = "#solute_read_constants"> solute_read_constants </A></TD></TR>
+
+</TABLE>
+<br>
+<hr>
+<br>
+<TABLE WIDTH = 100% ALIGN=center BORDER=1><CAPTION><H1><A NAME = "Sample.solute.parameters"> Sample Parameters </A></H1></CAPTION><TD><B>Parameter</B></TD><TD><B>Description</B></TD><TD><B>Specification</B></TD><TD><B>Usage</B></TD><TR><TD VALIGN=TOP><A NAME = "solute_names"> solute_names </A></TD><TD>List of solutes to use (max of 5)</TD><TD> br cl      ()</TD><TD><A HREF = "#solute_zero_variables"> solute_zero_variables </A> , <A HREF = "#solute_send_my_variable"> solute_send_my_variable </A> , <A HREF = "#solute_read_param"> solute_read_param </A> , <A HREF = "#solute_set_my_variable"> solute_set_my_variable </A></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "br"> br </A></TD><TD>Bromide</TD><TD> 100 0 0 0 0 0 0 0    ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "cl"> cl </A></TD><TD>Chloride</TD><TD>  50 0 0 0 0 0 0 0    ()</TD><TD></TD></TR>
+
+</TABLE>
+<br>
+<hr>
+<br>
+<TABLE WIDTH = 100% ALIGN=center BORDER=1><CAPTION><H1><A NAME = "stimuli_table"> Model Interactions </A></H1></CAPTION><TD><B>Stimulus</B></TD><TD><B>Variable/Message</B></TD><TD><B>Description</B></TD><TD><B>Usage</B></TD><TR><TD VALIGN=TOP>resetting solute profile</TD><TD>solute_name</TD><TD>A directive for resetting a solute profile can be send via the messaging system.</TD><TD><A HREF = "#solute_send_my_variable"> solute_send_my_variable </A>, <A HREF = "#solute_read_param"> solute_read_param </A>, <A HREF = "#solute_set_my_variable"> solute_set_my_variable </A></TD></TR>
+
+<TR><TD VALIGN=TOP>resetting solute profile using a dlt value</TD><TD>dlt_solute_name</TD><TD>A directive for adjusting a solute profile can be send via the messaging system.</TD><TD><A HREF = "#solute_set_my_variable"> solute_set_my_variable </A></TD></TR>
+
+</TABLE>
+<br>
+<hr>
+<br>
+<A NAME = "Contact Information"> <H2>Contact Information</H2> </A>
+For Further Information Please Contact:
+<p>
+Neil Huth (Module Developer / Support Person)<br>
+E-mail:  <A HREF = "mailto: Neil.Huth@tag.csiro.au"> Neil.Huth@tag.csiro.au </A><br>
+WWW:     <A HREF = "#none"> none </A><br>
+<p>
+Val Veraart (APSIM Project Manager)<br>
+E-mail:  <A HREF = "mailto: valv@apsrusg.sth.dpi.qld.gov.au"> valv@apsrusg.sth.dpi.qld.gov.au </A><br>
+WWW:     <A HREF = "http://www.ind.dpi.qld.gov.au/apsru-bin/users.pl?user=valv&loc=toow&name=Val+Veraart"> http://www.ind.dpi.qld.gov.au/apsru-bin/users.pl?user=valv&loc=toow&name=Val+Veraart </A><br>
+<p>
+<hr>
