@@ -301,13 +301,10 @@
 
 
 *     ===========================================================
-      subroutine frmrpt_do_output(handle)
+      subroutine frmrpt_do_output()
 *     ===========================================================
       Use infrastructure
       implicit none
-
-*+  Sub-Program Arguments
-      character*(*) handle
 
 *+  Purpose
 *     Handles a do_output message.
@@ -323,9 +320,22 @@
       integer err_ret
       integer hndl_ndx
       integer frm_file_unt
+      integer numvals
+      character*100 handle
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+
+!      if (keyword == 'name') then
+         call collect_char_var ('name', '()'
+     :                      , handle, numvals)
+
+      if (numvals.le.0) then
+         !
+         handle = ' '
+      else
+      endif
+
 
       hndl_ndx = find_string_in_array(handle, p%handle, p%nforms)
 
@@ -632,14 +642,14 @@
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'frmrpt_show_var')
-      
+
       integer componentID
-      logical ok 
+      logical ok
       integer regID
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
-                          
+
       if (mdl .eq. '?') then
          componentID = Unknown_module
       else
@@ -820,13 +830,12 @@
 
 
 *     ===========================================================
-      subroutine frmrpt_clear_vars(data)
+      subroutine frmrpt_clear_vars()
 *     ===========================================================
       Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
-      character*(*) data
 
 *+  Purpose
 *     Clears variables.
@@ -851,9 +860,21 @@
       character*(varname_len_max)  handle, module, varname
       integer i_var        ! loop counter.
       integer hndl_ndx
+      integer numvals
+      character*100 data
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+
+         call collect_char_var ('name', '()'
+     :                      , data, numvals)
+
+      if (numvals.le.0) then
+         !
+         data = ' '
+      else
+      endif
+
 
       call frmrpt_clr_var_prse(handle, module, varname, data)
       hndl_ndx = find_string_in_array(handle, p%handle, p%nforms)
@@ -1148,7 +1169,7 @@
       subroutine alloc_dealloc_instance(doAllocate)
 !     ===========================================================
       use FrmrptModule
-      implicit none  
+      implicit none
       ml_external alloc_dealloc_instance
 
 !+  Sub-Program Arguments
@@ -1172,7 +1193,7 @@
 
 
 * ====================================================================
-       subroutine Main(Action, Data)
+       subroutine Main(Action, data)
 * ====================================================================
       Use infrastructure
       Use FrmrptModule
@@ -1181,7 +1202,7 @@
 
 *+  Sub-Program Arguments
        character Action*(*)            ! Message action to perform
-       character Data*(*)              ! Message data
+       character data*(*)              ! Message data
 
 *+  Purpose
 *      This module reads in FrmRpt data from input file.
@@ -1193,7 +1214,6 @@
 *+  Calls
 
 *- Implementation Section ----------------------------------
-
       if (Action.eq.ACTION_Init) then
          call frmrpt_read_param()
          call frmrpt_init()
@@ -1203,10 +1223,10 @@
          call frmrpt_report_counts()
 
       else if (Action.eq.'do_output') then
-         call frmrpt_do_output(data)
+         call frmrpt_do_output()
 
       else if (Action.eq.'clear') then
-         call frmrpt_clear_vars(data)
+         call frmrpt_clear_vars()
 
       else if (Action.eq.ACTION_End_run) then
          call frmrpt_end_run()

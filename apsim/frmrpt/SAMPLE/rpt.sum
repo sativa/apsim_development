@@ -9,40 +9,43 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
+     Version                = 2.2
+     Title                  =
+     Component DLL          = c:\Program Files\apsim22\apsim\screen\lib\screen.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\log\lib\log.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\clock\lib\clock.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\report\lib\report.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\frmrpt\lib\frmrpt.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\input\lib\input.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\manager\lib\manager.dll
 
-
--------  Initialisation ----------------------------------------------------
-     Licensed name          = User SEG
-     Licensed organisation  = CSIRO
-     Version                = 2.1
-     Simulation filename    = c:\regr\apsim\frmrpt\sample\frm1.sim
-     Title                  = 
-     Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\frmrpt\lib\frmrpt.dll(frmrpt) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
-
-------- CLOCK Initialisation -------------------------------------------------
+------- clock Initialisation --------------------------------------------------
      Simulation start date =  1/01/1970
      Simulation end date   = 21/01/1970
      Time step =           = 1440 (mins)
 
-------- REPORT Initialisation ------------------------------------------------
-     Output file = rpt.out
-     Format = normal
+------- report Initialisation -------------------------------------------------
      Output variables:
         clock.day
         clock.year
+        manager.ramp1
+        manager.ramp2
+        manager.wert
+        manager.fay
+     
+     Output file = rpt.out
+     Format = normal
 
-------- FRMRPT Initialisation ------------------------------------------------
+------- frmrpt Initialisation -------------------------------------------------
      
         - Reading Parameters
 
-------- MET Initialisation ---------------------------------------------------
-     File name = c:\regr\apsim\frmrpt\sample\test.met
+------- Met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\data\aps\develo~1\apsim\frmrpt\sample\test.met
 
-------- MANAGER Initialisation -----------------------------------------------
+------- manager Initialisation ------------------------------------------------
      Manager rules:
      ramp1 = 0
      ramp2 = 0
@@ -54,31 +57,31 @@
         ramp1 = 1
      endif
      if (ramp1 = 5) then
-        frmrpt do_output test2
+        frmrpt do_output name=test2
+        report do_output
      endif
      if (ramp2 = 5) then
-        frmrpt clear test2
+        frmrpt clear name=test2
+        report do_output
      endif
      if (ramp2 = 10) then
-        frmrpt clear test2:ramp2
+        frmrpt clear name=test2:ramp2
+        report do_output
      endif
      if (ramp2 = 15) then
-        frmrpt clear test2:manager.ramp2
+        frmrpt clear name=test2:manager.ramp2
+        report do_output
      endif
      Manager creating a new local variable : ramp1 =     0.00000000000000
      Manager creating a new local variable : ramp2 =     0.00000000000000
      Manager creating a new local variable : wert =     500.670013000000
      Manager creating a new local variable : fay =     72.0000000000000
 ------- Start of simulation  --------------------------------------------------
-5 January 1970 (Day of year=5):
-   MANAGER:
-           Manager sending message :- frmrpt clear test2
-10 January 1970 (Day of year=10):
-   MANAGER:
-           Manager sending message :- frmrpt clear test2:ramp2
-15 January 1970 (Day of year=15):
-   MANAGER:
-           Manager sending message :- frmrpt clear test2:manager.ramp2
-21 January 1970 (Day of year=21):
-   CLOCK:
-      Simulation is terminating due to end criteria being met.
+5 January 1970(Day of year=5), manager: 
+     Manager sending message :- frmrpt clear  name = test2
+10 January 1970(Day of year=10), manager: 
+     Manager sending message :- frmrpt clear  name = test2:ramp2
+15 January 1970(Day of year=15), manager: 
+     Manager sending message :- frmrpt clear  name = test2:manager.ramp2
+21 January 1970(Day of year=21), clock: 
+     Simulation is terminating due to end criteria being met.
