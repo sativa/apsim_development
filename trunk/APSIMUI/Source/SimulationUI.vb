@@ -6,6 +6,7 @@ Imports System.Xml
 Public Class SimulationUI
     Inherits BaseUI
     'Inherits System.Windows.Forms.Form
+    Private listview As Object
 #Region " Windows Form Designer generated code "
 
     Public Sub New()
@@ -45,7 +46,6 @@ Public Class SimulationUI
     Friend WithEvents StartDatePicker As System.Windows.Forms.DateTimePicker
     Friend WithEvents EndDatePicker As System.Windows.Forms.DateTimePicker
     Friend WithEvents SmallImageList As System.Windows.Forms.ImageList
-    Friend WithEvents ListView As System.Windows.Forms.ListView
     Friend WithEvents MapTextBox As System.Windows.Forms.TextBox
     Friend WithEvents MapBrowseButton As System.Windows.Forms.Button
     Friend WithEvents Label5 As System.Windows.Forms.Label
@@ -65,7 +65,6 @@ Public Class SimulationUI
         Me.Label4 = New System.Windows.Forms.Label
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog
         Me.SmallImageList = New System.Windows.Forms.ImageList(Me.components)
-        Me.ListView = New System.Windows.Forms.ListView
         Me.MapTextBox = New System.Windows.Forms.TextBox
         Me.MapBrowseButton = New System.Windows.Forms.Button
         Me.Label5 = New System.Windows.Forms.Label
@@ -169,18 +168,6 @@ Public Class SimulationUI
         Me.SmallImageList.ImageStream = CType(resources.GetObject("SmallImageList.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.SmallImageList.TransparentColor = System.Drawing.Color.Transparent
         '
-        'ListView
-        '
-        Me.ListView.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ListView.Location = New System.Drawing.Point(8, 128)
-        Me.ListView.Name = "ListView"
-        Me.ListView.Size = New System.Drawing.Size(1071, 488)
-        Me.ListView.SmallImageList = Me.SmallImageList
-        Me.ListView.TabIndex = 9
-        Me.ListView.View = System.Windows.Forms.View.SmallIcon
-        '
         'MapTextBox
         '
         Me.MapTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
@@ -220,7 +207,6 @@ Public Class SimulationUI
         Me.Controls.Add(Me.MapTextBox)
         Me.Controls.Add(Me.SummaryFileTextBox)
         Me.Controls.Add(Me.TitleTextBox)
-        Me.Controls.Add(Me.ListView)
         Me.Controls.Add(Me.EndDatePicker)
         Me.Controls.Add(Me.StartDatePicker)
         Me.Controls.Add(Me.Label4)
@@ -247,14 +233,7 @@ Public Class SimulationUI
         EndDatePicker.Value = GetValue("end_date")
         TitleTextBox.Text = GetValue("title")
         MapTextBox.Text = GetValue("map")
-        ListView.Clear()
-        Dim AreaList As New StringCollection
-        APSIMFile.GetChildListByType(DataPath, "area", AreaList)
-        Dim AreaName As String
-        For Each AreaName In AreaList
-            Dim item As New ListViewItem(AreaName, 0)
-            ListView.Items.Add(item)
-        Next
+
 
     End Sub
     Private Sub BrowseButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BrowseButton.Click
@@ -275,16 +254,6 @@ Public Class SimulationUI
         End Try
 
     End Sub
-
-    Private Sub ListView_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles ListView.DoubleClick
-        Dim item As ListViewItem
-        For Each item In ListView.SelectedItems
-            Dim childdatapath As String = DataPath + "/" + item.Text
-            UIManager.ShowUI(childdatapath)
-
-        Next
-    End Sub
-
 
     Private Sub StartDatePicker_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles StartDatePicker.Leave
         Try
@@ -334,18 +303,31 @@ Public Class SimulationUI
         Try
             Dim path As String = DataPath + "/" + "map"
             APSIMFile.SetValue(path, MapTextBox.Text)
-            'ListView.
+
             Me.Refresh()
 
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error in summary file information")
         End Try
     End Sub
-    Private Sub ListView_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListView.SelectedIndexChanged
 
-    End Sub
+    Private Sub SimulationUI_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim listview As New areaui
 
-    Private Sub SimulationUI_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        With listview
+            .Left = 10
+            .Top = 100
+            .Width = Me.Width - 20
+            .Height = .Height - 110
+            .Anchor = AnchorStyles.Bottom Or AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+            .APSIMFile = APSIMFile ' this must be done before you can set the path
+            .DataPath = DataPath
+            .UIManager = Me.UIManager
+            .TopLevel = False
+            .Parent = Me
+            .Show()
+        End With
+
 
     End Sub
 End Class

@@ -10,7 +10,7 @@ Imports System.IO.Path
 Public Class MainUI
     Inherits System.Windows.Forms.Form
     Private MainUImanager As UIManager
-    Private CurrentAPSIMFile As APSIMFile
+
     'Private Toolbox As New OutlookBar
 
 
@@ -534,11 +534,11 @@ Public Class MainUI
     Sub OpenAPSimFile(ByVal Filename As String)
         Try
             If File.Exists(Filename) Then
-                CurrentAPSIMFile = New APSIMFile(Filename)
-                FillSimulationExplorer()
+                MainUImanager = New UIManager(MainTabControl, SimulationExplorer, Filename)
+                MainUImanager.FillSimulationExplorer()
                 SimulationExplorer.SelectedNode = SimulationExplorer.Nodes(0)
                 SimulationExplorer.SelectedNode.Expand()
-                MainUImanager = New UIManager(MainTabControl, CurrentAPSIMFile)
+
             Else
                 MsgBox("Cannot open :" + Filename, MsgBoxStyle.Critical, "File does not exist")
             End If
@@ -560,63 +560,6 @@ Public Class MainUI
         End Try
 
     End Sub
-    Private Sub FillSimulationExplorer()
-        Try
-            SimulationExplorer.Nodes.Clear()
-            ' Ultimately this needs to be replaced with a simulation name - especially when sim files can have >1 simulation
-
-            Dim newnode As TreeNode = SimulationExplorer.Nodes.Add(CurrentAPSIMFile.XMLFilename)
-
-            buildtree("/", newnode)
-        Catch e As Exception
-            MsgBox(e.Message, MsgBoxStyle.Critical, "Error building simulation tree")
-        End Try
-    End Sub
-    Private Sub buildtree(ByVal path As String, ByRef parentnode As TreeNode)
-        Try
-            ' NOTE - Path must be fully qualified name 
-            Dim ChildList As New StringCollection
-
-            CurrentAPSIMFile.GetChildList(path, ChildList)
-
-            Dim item As Object
-            For Each item In ChildList
-                Dim newpath As String
-                If Mid(path, Len(path)) <> "/" Then
-                    newpath = path + "/" + item
-                Else
-                    newpath = path + item
-                End If
-
-                Dim type As String = CurrentAPSIMFile.GetDataType(newpath)
-                Dim addthis As Boolean = False
-                Dim openindex As Integer
-                Dim closedindex As Integer
-                Select Case LCase(type)
-                    Case "simulation", "simulations"
-                        addthis = True
-                        openindex = 0
-                        closedindex = 1
-                    Case "soil", "outputfile", "metfile", "tracker", "area"
-                        addthis = True
-                        openindex = 2
-                        closedindex = 3
-                    Case Else
-                        addthis = False
-                End Select
-                If addthis Then
-                    Dim childnode As TreeNode = parentnode.Nodes.Add(item)
-                    childnode.ImageIndex = closedindex
-                    childnode.SelectedImageIndex = openindex
-
-                    buildtree(newpath, childnode)
-
-                End If
-            Next
-        Catch e As Exception
-            MsgBox("Error building tree for : " + path + vbCrLf + vbCrLf + e.Message, MsgBoxStyle.Critical, "Error building simulation tree")
-        End Try
-    End Sub
 
     Private Sub FileMenuExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileMenuExit.Click
         End
@@ -631,7 +574,7 @@ Public Class MainUI
         ElseIf e.Button Is FileOpenButton Then
             GetAndOpenAPSimFile()
         ElseIf e.Button Is FileSaveButton Then
-            CurrentAPSIMFile.save()
+            MainUImanager.APSIMFile.save()
         ElseIf e.Button Is UIHelpButton Then
             UpdateHelpBrowser()
         End If
@@ -648,7 +591,7 @@ Public Class MainUI
     End Sub
 
     Private Sub FileMenuSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileMenuSave.Click
-        CurrentAPSIMFile.save()
+        MainUImanager.APSIMFile.save()
     End Sub
 
     Private Sub TabContextMenuClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TabContextMenuClose.Click
@@ -707,7 +650,7 @@ Public Class MainUI
 
     Private Sub SimulationMenuMake_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SimulationMenuMake.Click
         Dim mf As New MacroFile
-        mf.Transform(CurrentAPSIMFile.XMLFilename, "C:\temp\macro.txt", "C:\temp")
+        mf.Transform(MainUImanager.APSIMFile.XMLFilename, "C:\temp\macro.txt", "C:\temp")
     End Sub
 
     Private Sub MenuItem6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem6.Click
@@ -777,7 +720,7 @@ Public Class MainUI
         End Try
     End Sub
     Private Sub UpdateHelpBrowser()
-        Dim type As String = CurrentAPSIMFile.GetDataType(SimulationExplorer.SelectedNode.FullPath)
+        Dim type As String = MainUImanager.APSIMFile.GetDataType(SimulationExplorer.SelectedNode.FullPath)
         MsgBox(type)
 
     End Sub
