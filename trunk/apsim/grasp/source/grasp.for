@@ -1,6 +1,6 @@
       module GraspModule
       use Registrations
-
+      
 !      ====================================================================
 !      grasp_array_sizes
 !      ====================================================================
@@ -408,19 +408,11 @@
 c     do N at start of day to calculate N indexes for growth.
       call grasp_nitrogen ()   ! N uptake
 
-!      call grasp_transpiration () ! water uptake
-                                ! sanity check against minsw
-      call grasp_check_sw ()
-
-                                ! increase in root depth
-      call grasp_root_depth (g%dlt_root_depth)
-
-      call grasp_calculate_swi ()
+      call grasp_transpiration () ! water uptake
 
       call grasp_phenology ()  ! phenological processes
 
       call grasp_biomass ()    ! biomass production
-      call grasp_transpiration () ! water uptake
 
       call grasp_plant_death () ! see if sward has died (unused)
 
@@ -865,8 +857,7 @@ c     be removed. FIXME!
       deepest_layer = find_layer_no (g%root_depth, g%dlayer,
      :     max_layer)
 
-!      sw_demand_tot = grasp_sw_pot () * g%swi_total
-      sw_demand_tot = divide(g%dlt_dm, grasp_transp_eff (), 0.0)
+      sw_demand_tot = grasp_sw_pot () * g%swi_total
 
       do 2000 layer = 1, deepest_layer
          dlt_sw_dep(layer) = -1.0 * sw_demand_tot *
@@ -4958,11 +4949,11 @@ c     :                    , 0.0, 10000.0)
       Use infrastructure
       implicit none
       ml_external respondToEvent
-
+      
       integer, intent(in) :: fromID
       integer, intent(in) :: eventID
       integer, intent(in) :: variant
-
+      
       return
       end subroutine respondToEvent
 
