@@ -88,7 +88,7 @@ unsigned int Field::getWidth(void)
       case APSIMVariant::integerType : return 7;
       case APSIMVariant::booleanType : return 7;
       case APSIMVariant::stringType : return 15;
-      case APSIMVariant::unknownType : return 10;
+      case APSIMVariant::unknownType : return 15;
       }
    return 15;
    }
@@ -194,7 +194,7 @@ void Field::writeUnits (ostream& out)
 // ------------------------------------------------------------------
 void Field::writeValue(ostream& out)
    {
-   retrieveValue();
+   VariableFound = retrieveValue();
 
    if (VariableFound)
       {
@@ -248,7 +248,7 @@ void Field::accumulateValue(void)
 
 // ------------------------------------------------------------------
 //  Short description:
-//     Go accumulate
+//     Go retrieve a value from the system.  Return true if found.
 
 //  Notes:
 
@@ -256,7 +256,7 @@ void Field::accumulateValue(void)
 //    DPH 29/7/99
 
 // ------------------------------------------------------------------
-void Field::retrieveValue(void)
+bool Field::retrieveValue(void)
    {
    Values.erase(Values.begin(), Values.end());
    if (FunctionName.length() == 0)
@@ -265,6 +265,15 @@ void Field::retrieveValue(void)
       if (ApsimSystem().Loader.GetOtherVar(ModuleName, VariableName, Variable, true))
          {
          vector<double> DoubleValues;
+         if (VariableType == APSIMVariant::unknownType)
+            {
+            // it is possible that a variable's type wasn't known at startup -
+            // but is now.  Go get the type and assume that the number of elements
+            // is 1.
+            VariableType = Variable.getType();
+            NumElements = 1;
+            }
+
          // get all values.
          if (VariableType == APSIMVariant::realType)
             {
@@ -303,6 +312,8 @@ void Field::retrieveValue(void)
                }
             }
          }
+      else
+         return false;
       }
    else
       {
@@ -317,6 +328,7 @@ void Field::retrieveValue(void)
       FunctionValues.erase(FunctionValues.begin(), FunctionValues.end());
       NumTimesAccumulated = 0;
       }
+   return true;
    }
 
 // ------------------------------------------------------------------
