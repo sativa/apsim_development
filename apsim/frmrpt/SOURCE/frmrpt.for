@@ -1,8 +1,72 @@
+      module FrmrptModule
+
+!   Constant values
+      integer max_vars, varname_len_max
+      integer max_elems
+      integer units_len_max
+      integer file_name_max
+      integer max_line_len
+      integer max_files
+      parameter (max_vars=40, varname_len_max=30)
+      parameter (max_elems=20)
+      parameter (max_files=5)
+      parameter (units_len_max=30)
+      parameter (file_name_max=130)
+      parameter (max_line_len=200)
+
+      integer LU_FORM_FILE
+      parameter (LU_FORM_FILE=69)
+
+      type FrmrptGlobals
+         real values(max_elems,max_vars)
+
+         character*(varname_len_max) varnames(max_vars)
+         character*(varname_len_max) mdlnames(max_vars)
+         character*(200) err_msg
+
+         integer nvars
+         integer var_day_cnt(max_vars)
+         integer val_nelem(max_vars)
+         integer frm_ndx(max_vars)
+         integer day_count(max_files)
+         integer out_file_unt(max_files)
+         character out_line*(max_line_len)
+         integer out_line_pos
+
+      end type FrmrptGlobals
+
+      type FrmrptParameters
+         character*(varname_len_max) handle(max_files)
+         character*(file_name_max) out_file_name(max_files)
+         character*(file_name_max) form_file_name(max_files)
+         character*(1) escape_char(max_files)
+
+         integer nforms
+         integer report_start(max_files)
+         integer report_days(max_files)
+      end type FrmrptParameters
+
+      ! instance variables.
+      type (FrmrptGlobals), pointer :: g
+      type (FrmrptParameters), pointer :: p
+      integer MAX_NUM_INSTANCES
+      parameter (MAX_NUM_INSTANCES=10)
+      integer MAX_INSTANCE_NAME_SIZE
+      parameter (MAX_INSTANCE_NAME_SIZE=50)
+      type FrmrptDataPtr
+         type (FrmrptGlobals), pointer ::    gptr
+         type (FrmrptParameters), pointer :: pptr
+         character Name*(MAX_INSTANCE_NAME_SIZE)
+      end type FrmrptDataPtr
+      type (FrmrptDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+
+
+      contains
+
 
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
-      use FrmrptModule
       Use infrastructure
       implicit none
 
@@ -20,12 +84,11 @@
       Instances(InstanceNo)%Name = InstanceName
 
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
-      use FrmrptModule
       Use infrastructure
       implicit none
 
@@ -41,12 +104,11 @@
       deallocate (Instances(anInstanceNo)%pptr)
 
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
-      use FrmrptModule
       Use infrastructure
       implicit none
 
@@ -62,13 +124,12 @@
       p => Instances(anInstanceNo)%pptr
 
       return
-      end
+      end subroutine
 
 
 * ====================================================================
        subroutine Main(Action, Data)
 * ====================================================================
-      use FrmrptModule
       Use infrastructure
       implicit none
 
@@ -110,14 +171,13 @@
       endif
 
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine frmrpt_end_run()
 *     ===========================================================
-      use FrmrptModule
       Use infrastructure
       implicit none
 
@@ -143,14 +203,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine frmrpt_Init ()
 * ====================================================================
-      use FrmrptModule
       Use infrastructure
       implicit none
 
@@ -218,14 +277,13 @@
 
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine frmrpt_read_param()
 *     ===========================================================
-      use FrmrptModule
       Use infrastructure
       implicit none
 
@@ -298,14 +356,13 @@
 
       call pop_routine(my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine frmrpt_report_counts()
 *     ===========================================================
-      use FrmrptModule
       Use infrastructure
       implicit none
 
@@ -356,14 +413,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine frmrpt_do_output(handle)
 *     ===========================================================
-      use FrmrptModule
       Use infrastructure
       implicit none
 
@@ -417,14 +473,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine frmrpt_update_sumvars()
 *     ===========================================================
-      use FrmrptModule
       Use infrastructure
       implicit none
 
@@ -460,7 +515,7 @@
 
       call pop_routine(my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -469,7 +524,6 @@
      :                     frm_file_unt, out_file_unt,
      :                     escape_char, frm_ndx)
 *     ===============================================================
-      use FrmrptModule
       Use infrastructure
       implicit none
 
@@ -559,7 +613,7 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -567,7 +621,6 @@
       subroutine frmrpt_prcss_frm_wd(word, is_show, out_file_unt,
      :                              frm_ndx)
 *     ===========================================================
-      use FrmrptModule
       Use infrastructure
       implicit none
 
@@ -624,7 +677,7 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -632,7 +685,6 @@
       subroutine frmrpt_do_var(func, mdl, var, out_file_unt,
      :                        frm_ndx)
 *     ===========================================================
-      use FrmrptModule
       Use infrastructure
       implicit none
 
@@ -671,14 +723,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine frmrpt_get_var(mdl, var, vals, max_vals, num_vals)
 *     ===========================================================
-      use FrmrptModule
       Use infrastructure
       implicit none
 
@@ -707,14 +758,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine frmrpt_show_var(vals, num_vals, out_file_unt)
 *     ===========================================================
-      use FrmrptModule
       Use infrastructure
       implicit none
 
@@ -749,14 +799,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine frmrpt_create_sumvar(mdl, var, frm_ndx)
 *     ===========================================================
-      use FrmrptModule
       Use infrastructure
       implicit none
 
@@ -807,7 +856,7 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -815,7 +864,6 @@
       subroutine frmrpt_get_sumvar(func, mdl, var, frm_ndx,
      :                              vals, max_vals, num_vals)
 *     ===========================================================
-      use FrmrptModule
       Use infrastructure
       implicit none
 
@@ -875,14 +923,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine frmrpt_clear_vars(data)
 *     ===========================================================
-      use FrmrptModule
       Use infrastructure
       implicit none
 
@@ -943,14 +990,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine frmrpt_clear_var(var_ndx)
 *     ===========================================================
-      use FrmrptModule
       Use infrastructure
       implicit none
 
@@ -976,14 +1022,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine frmrpt_clr_var_prse(handle, module, varname, in_str)
 *     ===========================================================
-      use FrmrptModule
       Use infrastructure
       implicit none
 
@@ -1038,14 +1083,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine frmrpt_prtrv(unt, vec, nvars)
 *     ===========================================================
-      use FrmrptModule
       Use infrastructure
       implicit none
 
@@ -1094,14 +1138,13 @@
 
       call pop_routine(my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine frmrpt_assert(IsOK, WhatChkd)
 *     ===========================================================
-      use FrmrptModule
       Use infrastructure
       implicit none
 
@@ -1129,14 +1172,13 @@
 
       call pop_routine(my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine frmrpt_copy_real_arr(dest, src, n)
 *     ===========================================================
-      use FrmrptModule
       Use infrastructure
       implicit none
 
@@ -1167,14 +1209,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine frmrpt_vec_scalar_mul(vec, n, mul)
 *     ===========================================================
-      use FrmrptModule
       Use infrastructure
       implicit none
 
@@ -1205,7 +1246,8 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
+      end module FrmrptModule
