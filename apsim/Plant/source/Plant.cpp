@@ -8722,6 +8722,11 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
           }
        }
     }
+
+    float dltBiomassGreen = dltDmGreen[leaf] + dltDmGreen[stem];
+    float biomassGreen =  g.dm_green[leaf] + g.dm_green[stem];
+    g.remove_biom_pheno = divide (dltBiomassGreen, biomassGreen, 0.0);
+
     if (c.remove_biomass_report == "on")
     {
        ostrstream msg1;
@@ -9023,7 +9028,6 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
 //    dm_tops_residue = dm_residue - dm_root_residue;
 //    n_tops_residue = n_residue - n_root_residue;
 //
-    g.remove_biom_pheno = chop_fr_green[leaf];
 
     if (c.remove_biomass_report == "on")
     {

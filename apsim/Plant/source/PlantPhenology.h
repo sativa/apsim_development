@@ -52,6 +52,7 @@ class pPhase
      void  reset(void)             {tt = target = days = 0.0; empty = true;};
      void  update(void)            {empty = false;};
      bool  isFirstDay(void) const  {return empty == true;};
+     bool  isEmpty(void) const {return empty;};
    };
 
 bool operator == (const pPhase &a, const pPhase &b) {
@@ -68,7 +69,7 @@ class compositePhase {
    void add(const pPhase &p) {phases.push_back(p);}
    bool contains(const pPhase &p) const;
    bool isEmpty(void) const {return phases.size() == 0;};
-   float getTT(void) const;
+   float getTT(vector<pPhase> &pPhases);
 };
 
 // An abstract phenology class.
@@ -77,6 +78,7 @@ class PlantPhenology {
  protected:
    // The plant to talk to
    plantInterface *plant;
+   PlantComponent *parentPlant;
 
    // State variables
    vector<pPhase>     phases;                        // The list of phases that this plant goes through
@@ -87,6 +89,9 @@ class PlantPhenology {
    float previousStage, currentStage, dltStage;
 
    // Parameters
+   vector<string>   iniSectionList;                        // list of sections to search in ini file
+   bool initialOnBiomassRemove;
+
    float twilight;                                   // twilight in angular distance between
                                                      // sunset and end of twilight - altitude
                                                      // of sun. (deg)
@@ -172,6 +177,7 @@ class WheatPhenology : public PlantPhenology {
 
    float phyllochron, startgf_to_mat, vern_sens, photop_sens;
    interpolationFunction y_tt, rel_emerg_rate;
+   interpolationFunction y_removeFractPheno;
    lookupFunction stage_reduction_harvest;
    lookupFunction stage_reduction_kill_stem;
 
@@ -231,6 +237,7 @@ class LegumePhenology : public PlantPhenology {
                                                      // seedling layer inadequate for
                                                      // germination (mm/mm)
    interpolationFunction y_tt, rel_emerg_rate;
+   interpolationFunction y_removeFractPheno;
    int   est_days_emerg_to_init;                     // estimated days from emergence to floral initiation
    interpolationFunction vernal_days;                // relate temperature to vernalisation
 

@@ -186,20 +186,30 @@ bool compositePhase::contains(const pPhase &p) const
    return (find(phases.begin(), phases.end(), p) != phases.end());
    }
 
-float compositePhase::getTT() const
+float compositePhase::getTT(vector<pPhase> &pPhases)
 {
    float tt = 0.0;
-   for (vector<pPhase>::const_iterator phase = phases.begin(); phase !=  phases.end(); phase++)
+   for (vector<pPhase>::iterator phase = phases.begin(); phase !=  phases.end(); phase++)
    {
-      tt += phase->getTT();
+      pPhase *test = find(pPhases.begin(), pPhases.end(), *phase);
+      if (test != pPhases.end())
+      {
+         tt += (*test).getTT();
+      }
+      else
+      {
+//         throw std::invalid_argument("Unknown phase name '" + phase->name + "'");
+      }
    }
    return tt;
 }
 
 void PlantPhenology::initialise (PlantComponent *s, const string &section)
 {
+   parentPlant = s;
    phases.push_back(pPhase("out"));
    currentStage = 0.0;
+   initialOnBiomassRemove = true;
 
    // Read the sequential list of stage names
    string scratch = s->readParameter(section, "stage_names");
@@ -368,7 +378,7 @@ float PlantPhenology::ttInPhase(const string &phaseName)
       compositePhase phaseGroup = composites[phaseName];
       if (!phaseGroup.isEmpty())
       {
-         return phaseGroup.getTT();
+         return phaseGroup.getTT(phases);
       }
       else
       {
@@ -526,9 +536,11 @@ void WheatPhenology::doRegistrations (protocol::Component *s)
                     "0-100", "Zadok's growth developmental stage");
    }
 
-void WheatPhenology::readSpeciesParameters (PlantComponent *s, vector<string> &sections)
+void WheatPhenology::readSpeciesParameters(PlantComponent *s, vector<string> &sections)
    {
    PlantPhenology::readSpeciesParameters (s, sections);
+   iniSectionList = sections;
+   initialOnBiomassRemove = true;
 
    stage_reduction_harvest.search(s, sections,
                                 "stage_code_list" , "()", 1.0, 100.0,
@@ -744,7 +756,7 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
          fstress = 1.0;                          //no stress - not really a stage..
       else if (inPhase("harvest_ripe"))
          fstress = 0.0;                          //stop development
-      dlt_tt_phenol = dlt_tt * fstress * min(vern_eff, photop_eff) * ps.remove_biom_pheno;
+      dlt_tt_phenol = dlt_tt * fstress * min(vern_eff, photop_eff);
       dltStage = (phase_fraction(dlt_tt_phenol) + floor(currentStage)) - currentStage;
       }
    else
@@ -827,7 +839,7 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
          fstress = 0.0;                          //stop development
       dlt_tt_phenol = dlt_tt *
                       fstress *
-                      min(vern_eff, photop_eff) * ps.remove_biom_pheno;
+                      min(vern_eff, photop_eff);
 
       const pPhase &current = phases[currentStage];
       phase_devel = divide(current.getTT() + dlt_tt_phenol, current.getTTTarget(), 1.0);
@@ -836,7 +848,7 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
    else
       {
       // ??Hmmm. should probably stop dead here??
-      dlt_tt_phenol = dlt_tt * ps.remove_biom_pheno;
+      dlt_tt_phenol = dlt_tt;
       phase_devel = 0.0;
       new_stage = floor(currentStage) + phase_devel;
       }
@@ -1124,27 +1136,57 @@ void LegumePhenology::onKillStem()
 
 void LegumePhenology::onRemoveBiomass(float removeBiomPheno)
 {
-   float ttAboveGround = ttInPhase("above_ground");
-   float phenoRemoveFract = removeBiomPheno*0.3; // Table lookup required here ***
-   float phenoRemoveTT = ttAboveGround * phenoRemoveFract;
-
-   float ttRemaining = phenoRemoveTT;
-   vector <pPhase>::reverse_iterator phase;
-   for (phase = phases.rbegin(); phase !=  phases.rend(); ++phase)
+   if (initialOnBiomassRemove == true)
    {
-      float ttCurrentPhase = phase->getTT();
-      if (ttRemaining > ttCurrentPhase)
+      initialOnBiomassRemove = false;
+      y_removeFractPheno.search(parentPlant, iniSectionList,
+               "x_removeBiomPheno", "()", 0.0, 1.0,
+               "y_removeFractPheno", "()", 0.0, 1.0);
+   }
+   else
+   {     // parameters already read - do nothing
+   }
+
+
+   float ttAboveGround = ttInPhase("above_ground");
+   float removeFractPheno = y_removeFractPheno[removeBiomPheno];
+   float removeTTPheno = ttAboveGround * removeFractPheno;
+
+   ostrstream msg;
+   msg << "Phenology change:-" << endl;
+   msg << "    Fraction DM removed  = " << removeBiomPheno << endl;
+   msg << "    Fraction TT removed  = " << removeFractPheno << endl;
+   msg << "    Above ground TT      = " << ttAboveGround << endl;
+   msg << "    Remove TT            = " << removeTTPheno << endl;
+
+   float ttRemaining = removeTTPheno;
+   vector <pPhase>::reverse_iterator phase;
+   for (phase = phases.rbegin(); phase !=  phases.rend(); phase++)
+   {
+      if (!phase->isEmpty())
       {
-         phase->reset();
-         ttRemaining -= ttCurrentPhase;
+         float ttCurrentPhase = phase->getTT();
+         if (ttRemaining > ttCurrentPhase)
+         {
+            phase->reset();
+            ttRemaining -= ttCurrentPhase;
+            currentStage -= 1.0;
+         }
+         else
+         {
+            phase->add(0.0, -ttRemaining);
+            currentStage = (phase_fraction(0.0) + floor(currentStage));
+            ttRemaining = 0.0;
+            break;
+         }
       }
       else
-      {
-         phase->add(0.0, -ttRemaining);
-         ttRemaining = 0.0;
-         break;
+      { // phase is empty - not interested in it
       }
    }
+   msg << "New Above ground TT = " << ttInPhase("above_ground") << endl << ends;
+   parentPlant->writeString (msg.str());
+
 }
 
 void LegumePhenology::prepare (const environment_t &e)
@@ -1298,6 +1340,10 @@ void LegumePhenology::readCultivarParameters(PlantComponent *s, const string & c
 void LegumePhenology::readSpeciesParameters (PlantComponent *s, vector<string> &sections)
    {
    PlantPhenology::readSpeciesParameters (s, sections);
+   iniSectionList = sections;
+   initialOnBiomassRemove = true;
+
+
    stage_reduction_harvest.search(s, sections,
                                  "stage_code_list" , "()", 1.0, 100.0,
                                  "stage_stem_reduction_harvest" , "()", 1.0, 100.0);
@@ -1343,7 +1389,7 @@ void LegumePhenology::readSpeciesParameters (PlantComponent *s, vector<string> &
                          "fasw_emerg", "()", 0.0, 1.0,
                          "rel_emerg_rate",  "()", 0.0, 1.0);
 
-   }
+}
 
 void LegumePhenology::zeroStateVariables(void)
    {
@@ -1406,22 +1452,22 @@ void LegumePhenology::process(const environment_t &e, const pheno_stress_t &ps)
       }
    else if (inPhase("emergence2floral_initiation"))
        {
-       dlt_tt_phenol = dlt_tt *  min(ps.swdef, ps.nfact) * ps.remove_biom_pheno;
+       dlt_tt_phenol = dlt_tt *  min(ps.swdef, ps.nfact);
        dltStage = (phase_fraction(dlt_tt_phenol) + floor(currentStage))- currentStage;
        }
     else if (inPhase("flowering"))
        {
-       dlt_tt_phenol = dlt_tt *  ps.swdef_flower * ps.remove_biom_pheno;          //no nstress
+       dlt_tt_phenol = dlt_tt *  ps.swdef_flower;          //no nstress
        dltStage = (phase_fraction(dlt_tt_phenol) + floor(currentStage))- currentStage;
        }
     else if (inPhase("start_grain_fill2harvest_ripe"))
        {
-       dlt_tt_phenol = dlt_tt *  ps.swdef_grainfill * ps.remove_biom_pheno;       //no nstress
+       dlt_tt_phenol = dlt_tt *  ps.swdef_grainfill;       //no nstress
        dltStage = (phase_fraction(dlt_tt_phenol) + floor(currentStage))- currentStage;
        }
     else
        {
-       dlt_tt_phenol = dlt_tt * ps.remove_biom_pheno;
+       dlt_tt_phenol = dlt_tt;
        dltStage = (phase_fraction(dlt_tt_phenol) + floor(currentStage))- currentStage;
        }
 
@@ -1483,7 +1529,7 @@ void LegumePhenology::process (const environment_t &e, const pheno_stress_t &ps)
       }
    else if (inPhase("emergence2floral_initiation"))
       {
-      dlt_tt_phenol = dlt_tt * min(ps.swdef, ps.nfact) * ps.remove_biom_pheno;
+      dlt_tt_phenol = dlt_tt * min(ps.swdef, ps.nfact);
       const pPhase &current = phases[currentStage];
       float a =  current.getTT() + dlt_tt_phenol;
       float b =  current.getTTTarget();
@@ -1492,7 +1538,7 @@ void LegumePhenology::process (const environment_t &e, const pheno_stress_t &ps)
       }
     else if (inPhase("flowering"))
       {
-      dlt_tt_phenol = dlt_tt *  ps.swdef_flower * ps.remove_biom_pheno;          //no nstress
+      dlt_tt_phenol = dlt_tt *  ps.swdef_flower;          //no nstress
       const pPhase &current = phases[currentStage];
       float a =  current.getTT() + dlt_tt_phenol;
       float b =  current.getTTTarget();
@@ -1501,7 +1547,7 @@ void LegumePhenology::process (const environment_t &e, const pheno_stress_t &ps)
       }
     else if (inPhase("start_grain_fill2harvest_ripe"))
       {
-      dlt_tt_phenol = dlt_tt *  ps.swdef_grainfill * ps.remove_biom_pheno;       //no nstress
+      dlt_tt_phenol = dlt_tt *  ps.swdef_grainfill;       //no nstress
       const pPhase &current = phases[currentStage];
       float a =  current.getTT() + dlt_tt_phenol;
       float b =  current.getTTTarget();
@@ -1511,7 +1557,7 @@ void LegumePhenology::process (const environment_t &e, const pheno_stress_t &ps)
    else
       {
       // ??Hmmm. should probably stop dead here??
-      dlt_tt_phenol = dlt_tt * ps.remove_biom_pheno;
+      dlt_tt_phenol = dlt_tt;
       phase_devel = 0.0;
       new_stage = floor(currentStage) + phase_devel;
       }
