@@ -1,9 +1,0 @@
-[Dependencies]
-Dependency = %licensed_source(map)
-
-[Contents]
-map.for = map.for
-
-[APSBuild]
-binary = ..\lib\map.dll
-lf90file = %apsuite\apsbuild\module.lf90
