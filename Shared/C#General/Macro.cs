@@ -139,7 +139,7 @@ namespace CSGeneral
 			if (PosStartOfMacro > 0)
 				{
 				int Pos = PosStartOfMacro-1;
-				while (Pos > 0 && Contents[Pos] == ' ');
+				while (Pos > 0 && Contents[Pos] == ' ')
 					Pos--;
 
 				if (Contents[Pos] == '\n')

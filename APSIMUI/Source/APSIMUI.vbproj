@@ -106,7 +106,7 @@
                 />
                 <Reference
                     Name = "accllistbar"
-                    AssemblyName = "accllistbar"
+                    AssemblyName = "acclListBar"
                     HintPath = "..\..\..\documents and settings\hut104\my documents\visual studio projects\windowsapplication1\accllistbar.dll"
                 />
             </References>
@@ -225,6 +225,16 @@
                 <File
                     RelPath = "FertiliserUI.resx"
                     DependentUpon = "FertiliserUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "HypropsControl.vb"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "HypropsControl.resx"
+                    DependentUpon = "HypropsControl.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -395,6 +405,16 @@
                 <File
                     RelPath = "SummaryFileUI.resx"
                     DependentUpon = "SummaryFileUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SwimSoilUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SwimSoilUI.resx"
+                    DependentUpon = "SwimSoilUI.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
