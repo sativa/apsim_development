@@ -3,8 +3,8 @@ C     Last change:  E     5 Dec 2000    8:52 am
       use ComponentInterfaceModule
       use DataTypesModule
 
-      integer, parameter :: MAX_EVENT_NAME_SIZE = 100
-      integer, parameter :: MAX_NUM_EVENTS = 15
+      integer, parameter :: MAX_EVENT_NAME_SIZE = 30
+      integer, parameter :: MAX_NUM_EVENTS = 30
 
       type ClockData
          sequence
@@ -29,10 +29,9 @@ C     Last change:  E     5 Dec 2000    8:52 am
       end type ClockData
 
       ! instance variables.
-      common /InstancePointers/ ID,g,p,c
+      common /InstancePointers/ g,p,c
       save InstancePointers
       type (ClockData),pointer :: g
-      type (IDsType), pointer :: ID
 
       ! Constant values
       integer mins_in_day
@@ -57,10 +56,8 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
       if (doAllocate) then
          allocate(g)
-         allocate(ID)
       else
          deallocate(g)
-         deallocate(ID)
       end if
       return
       end
@@ -80,7 +77,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
 !- Implementation Section ----------------------------------
 
-      call do_registrations(ID)
+      call do_registrations()
       call clock_read_timesteps()
 
       g%end_current_run = .false.
@@ -161,7 +158,6 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
 *+  Calls
       integer :: registrationNameToID
-      logical clock_read_params
 
 *+  Constant Values
       character This_routine*(*)       ! name of this routine
@@ -170,52 +166,50 @@ C     Last change:  E     5 Dec 2000    8:52 am
 *+  Local Variables
       character msg*400                ! message to write to summary file
       integer day, month, year
-      logical ok
 
 *- Implementation Section ----------------------------------
 
       call push_routine (this_routine)
 
       ! read in all parameters for clock module.
-      ok = clock_read_params ()
 
-      if (ok) then
-         ! set the clock to start_day.
+      call clock_read_params ()
 
-         g%pause_current_run = .false.
-         g%percent_complete = -1
+      ! set the clock to start_day.
 
-         g%current_date = g%start_date
-         g%current_time = -g%timestep
-         call jday_to_day_of_year (g%current_date,
-     .                             g%day,
-     .                             g%year)
+      g%pause_current_run = .false.
+      g%percent_complete = -1
 
-         call clock_advance_clock()
+      g%current_date = g%start_date
+      g%current_time = -g%timestep
+      call jday_to_day_of_year (g%current_date,
+     .                          g%day,
+     .                          g%year)
 
-         ! write parameters to summary file.
-         call jday_to_date (day, month, year, g%start_date)
-         write (msg, '(a, i2,a,i2,a,i4)')
-     .         'Simulation start date = ',
-     .         day, '/', month, '/', year
-         if (msg(28:28) .eq. Blank) then
-            msg(28:28) = '0'
-         endif
-         call Write_string (msg)
+      call clock_advance_clock()
 
-         call jday_to_date (day, month, year, g%end_date)
-         write (msg, '(a, i2,a,i2,a,i4)')
-     .         'Simulation end date   = ',
-     .         day, '/', month, '/', year
-         if (msg(28:28) .eq. Blank) then
-            msg(28:28) = '0'
-         endif
-         call Write_string (msg)
-
-         write (msg, '(a, i4, a)')
-     .      'Time step =           = ', g%timestep, ' (mins)'
-         call Write_string (msg)
+      ! write parameters to summary file.
+      call jday_to_date (day, month, year, g%start_date)
+      write (msg, '(a, i2,a,i2,a,i4)')
+     .      'Simulation start date = ',
+     .      day, '/', month, '/', year
+      if (msg(28:28) .eq. Blank) then
+         msg(28:28) = '0'
       endif
+      call Write_string (msg)
+
+      call jday_to_date (day, month, year, g%end_date)
+      write (msg, '(a, i2,a,i2,a,i4)')
+     .      'Simulation end date   = ',
+     .      day, '/', month, '/', year
+      if (msg(28:28) .eq. Blank) then
+         msg(28:28) = '0'
+      endif
+      call Write_string (msg)
+
+      write (msg, '(a, i4, a)')
+     .   'Time step =           = ', g%timestep, ' (mins)'
+      call Write_string (msg)
 
       call pop_routine (this_routine)
       return
@@ -223,7 +217,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
 
 * ====================================================================
-      logical function clock_read_params ()
+      subroutine clock_read_params ()
 * ====================================================================
       use ClockModule
       use DateModule
@@ -246,6 +240,8 @@ C     Last change:  E     5 Dec 2000    8:52 am
       integer numvals                  ! used in call to read_integer_var routine
       character date_st*(100)          ! string representation of date.
       logical found
+      character(len=MAX_EVENT_NAME_SIZE), dimension(MAX_NUM_EVENTS)
+     .     :: timestepEvents
       integer i
 
 *- Implementation Section ----------------------------------
@@ -254,28 +250,23 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
       ! go get a start date
       found = read_parameter('parameters', 'start_date', date_st)
-      if (found) then
-         call String_to_jday (date_st, g%start_date, numvals, 0.0d0)
+      call String_to_jday (date_st, g%start_date, numvals, 0.0d0)
 
-         if (numvals.eq.0) then
-            call error ('Cannot convert the date:'
-     .                  // TRIM(date_st)
-     .                  //' to a valid date (dd/mm/yyyy)', .true.)
-         endif
-
-         ! go get an end date
-         found = read_parameter('parameters', 'end_date', date_st)
-         if (found) then
-            call String_to_jday (date_st, g%end_date, numvals, 0.0d0)
-
-            if (numvals.eq.0) then
-               call error ('Cannot convert the date:'
-     .                     // TRIM(date_st)
-     .                     //' to a valid date (dd/mm/yyyy)', .true.)
-            endif
-         endif
+      if (numvals.eq.0) then
+         call error ('Cannot convert the date:'
+     .               // TRIM(date_st)
+     .               //' to a valid date (dd/mm/yyyy)', .true.)
       endif
-      clock_read_params = found
+
+      ! go get an end date
+      found = read_parameter('parameters', 'end_date', date_st)
+      call String_to_jday (date_st, g%end_date, numvals, 0.0d0)
+
+      if (numvals.eq.0) then
+         call error ('Cannot convert the date:'
+     .               // TRIM(date_st)
+     .               //' to a valid date (dd/mm/yyyy)', .true.)
+      endif
 
       found = read_parameter('parameters', 'timestep', g%timestep, 1,
      .                   mins_in_day, .true.)
@@ -313,43 +304,33 @@ C     Last change:  E     5 Dec 2000    8:52 am
       parameter (This_routine='clcok_read_timesteps')
 
 *+  Local Variables
-      character(len=*), dimension(MAX_NUM_EVENTS)
-     .     , parameter :: timestepEvents
-     .   = (/'prepare                        ',
-     .       'DoMicromet                     ',
-     .       'process                        ',
-     .       'DoSurfaceWaterBalance          ',
-     .       'DoSoilWaterBalance             ',
-     .       'DoSoilTemperature              ',
-     .       'DoPotentialResidueDecomposition',
-     .       'DoCropgrowth                   ',
-     .       'DoSoilNitrogenBalance          ',
-     .       'DoSoilPhosphorusBalance        ',
-     .       'DoCropUpdate                   ',
-     .       'DoResidue                      ',
-     .       'DoErosion                      ',
-     .       'post                           ',
-     .       'rep                            '/)
+      logical found
+      character(len=MAX_EVENT_NAME_SIZE), dimension(MAX_NUM_EVENTS)
+     .     :: timestepEvents
       integer i
 
 *- Implementation Section ----------------------------------
 
       call push_routine(this_routine)
 
-      ! timestep events are now hardcoded because windows won't let us
-      ! read from a clock.ini file.  Under NT platforms this file is
-      ! mapped to the registry, so when we read from a clock.ini, Windows
-      ! goes looking in the registry!  Thanks Bill!
-      g%numTimestepEvents = 15
-!      found = read_parameter('constants',
-!     .                       'timestep_events',
-!     .                       timestepEvents,
-!     .                       g%numTimestepEvents)
+      ! Read in all timestep events.
+      found = read_parameter('parameters',
+     .                       'timestep_events',
+     .                       timestepEvents,
+     .                       g%numTimestepEvents,
+     .                       .true.)
+      if (.not. found) then
+         timestepEvents(1) = 'prepare'
+         timestepEvents(2) = 'process'
+         timestepEvents(3) = 'post'
+         timestepEvents(4) = 'rep'
+         g%numTimestepEvents = 4
+      endif
 
       ! Register all timestep events.
       do i=1, g%numTimestepEvents
          g%timestepEvents(i) = add_registration
-     .         (eventReg, timestepEvents(i), nullddml)
+     .         (eventReg, timestepEvents(i), null_ddml)
       enddo
 
       call pop_routine (this_routine)
@@ -462,7 +443,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
 *+  Calls
       character Clock_time_string*(5)      ! function
-      type(TimeType) :: clock_get_time
+      type(time_type) :: clock_get_time
 
 *+  Purpose
 *      Return the value of a variable
@@ -481,11 +462,9 @@ C     Last change:  E     5 Dec 2000    8:52 am
       logical logical_to_return        ! logical value to return to calling module
       character time_string*(5)        ! time string
       integer   doy                    ! day of year
-      integer   day
-      integer   month
       integer   year                   ! year
       character str*100                ! string for date formatting
-      type(TimeType) :: time          ! time to send back
+      type(time_type) :: time          ! time to send back
 
 *- Implementation Section ----------------------------------
 
@@ -493,66 +472,66 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
       call day_of_year_to_date (g%day, g%year, thisdate)
 
-      if (variable_info%id .eq. ID%day) then
+      if (variable_info%id .eq. day_id) then
          call return_day(variable_info, g%day)
 
-      else if (variable_info%id .eq. ID%year) then
+      else if (variable_info%id .eq. year_id) then
          call return_year(variable_info, g%year)
 
-      else if (variable_info%id .eq. ID%timestep) then
+      else if (variable_info%id .eq. timestep_id) then
          call return_timestep(variable_info, g%timestep)
 
-      else if (variable_info%id .eq. ID%day_Of_Month) then
+      else if (variable_info%id .eq. day_Of_Month_id) then
          call jday_to_date (thisdate(1), thisdate(2), thisdate(3),
      .                      g%current_date)
          call return_day_of_month(variable_info, thisdate(1))
 
-      else if (variable_info%id .eq. ID%month) then
+      else if (variable_info%id .eq. month_id) then
          call jday_to_date (thisdate(1), thisdate(2), thisdate(3),
      .                      g%current_date)
          call return_month(variable_info, thisdate(2))
 
-      else if (variable_info%id .eq. ID%start_Week) then
+      else if (variable_info%id .eq. start_Week_id) then
          Logical_to_return = Start_week (g%day, g%year)
          call return_start_week(variable_info, Logical_to_return)
 
-      else if (variable_info%id .eq. ID%end_Week) then
+      else if (variable_info%id .eq. end_Week_id) then
          Logical_to_return = End_week (g%day, g%year)
          call return_end_week(variable_info, Logical_to_return)
 
-      else if (variable_info%id .eq. ID%start_Month) then
+      else if (variable_info%id .eq. start_Month_id) then
          Logical_to_return = Start_month (g%day, g%year)
          call return_start_month(variable_info, Logical_to_return)
 
-      else if (variable_info%id .eq. ID%end_Month) then
+      else if (variable_info%id .eq. end_Month_id) then
          Logical_to_return = End_month (g%day, g%year)
          call return_end_month(variable_info, Logical_to_return)
 
-      else if (variable_info%id .eq. ID%end_Year) then
+      else if (variable_info%id .eq. end_Year_id) then
          Logical_to_return = End_year (g%day, g%year)
          call return_end_year(variable_info, Logical_to_return)
 
-      else if (variable_info%id .eq. ID%today) then
+      else if (variable_info%id .eq. today_id) then
          call return_today(variable_info,
      .         Date_to_jday(thisdate(1), thisdate(2), thisdate(3)))
 
-      else if (variable_info%id .eq. ID%today_day) then
+      else if (variable_info%id .eq. today_day_id) then
          call return_today_day(variable_info, thisdate(1))
 
-      else if (variable_info%id .eq. ID%today_month) then
+      else if (variable_info%id .eq. today_month_id) then
          call return_today_month(variable_info, thisdate(2))
 
-      else if (variable_info%id .eq. ID%today_year) then
+      else if (variable_info%id .eq. today_year_id) then
          call return_today_year(variable_info, thisdate(3))
 
-      else if (variable_info%id .eq. ID%today_day_Of_Year) then
+      else if (variable_info%id .eq. today_day_Of_Year_id) then
          call return_today_day_of_year(variable_info, g%day)
 
-      else if (variable_info%id .eq. ID%today_month_Str) then
+      else if (variable_info%id .eq. today_month_Str_id) then
          call return_today_month_str(variable_info,
      .         Get_month_string(thisdate(2)))
 
-      else if (variable_info%id .eq. ID%today_ddmm) then
+      else if (variable_info%id .eq. today_ddmm_id) then
          write (str, '(i2,a,i2)')
      .        thisdate(1), '/', thisdate(2)
 
@@ -565,7 +544,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
          endif
          call return_today_ddmm(variable_info, str)
 
-      else if (variable_info%id .eq. ID%today_ddmmyyyy) then
+      else if (variable_info%id .eq. today_ddmmyyyy_id) then
          write (str, '(i2,a,i2,a,i4)')
      .        thisdate(1), '/', thisdate(2), '/', thisdate(3)
 
@@ -578,7 +557,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
          endif
          call return_today_ddmmyyyy(variable_info, str)
 
-      else if (variable_info%id .eq. ID%today_dd_mmm_yyyy) then
+      else if (variable_info%id .eq. today_dd_mmm_yyyy_id) then
          write (str, '(i2,a,a,a,i4)')
      .        thisdate(1), '_', Get_month_string(thisdate(2)),
      .        '_', thisdate(3)
@@ -589,7 +568,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
          call return_today_dd_mmm_yyyy(variable_info, str)
 
-      else if (variable_info%id .eq. ID%today_ddmmmyyyy) then
+      else if (variable_info%id .eq. today_ddmmmyyyy_id) then
          write (str, '(i2,a,a,a,i4)')
      .        thisdate(1), '/', Get_month_string(thisdate(2)),
      .        '/', thisdate(3)
@@ -600,7 +579,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
          call return_today_ddmmmyyyy(variable_info, str)
 
-      else if (variable_info%id .eq. ID%today_dd_mmm) then
+      else if (variable_info%id .eq. today_dd_mmm_id) then
          write (str, '(i2,a,a)')
      .        thisdate(1), '_', Get_month_string(thisdate(2))
 
@@ -610,44 +589,37 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
          call return_today_dd_mmm(variable_info, str)
 
-      else if (variable_info%id .eq. ID%time) then
+      else if (variable_info%id .eq. time_id) then
          time = clock_get_time()
          call return_time(variable_info, time)
 
-      else if (variable_info%id .eq. ID%time_string) then
+      else if (variable_info%id .eq. time_string_id) then
          time_string = clock_time_string()
          call return_time_string(variable_info, time_string)
 
-      else if (variable_info%id .eq. ID%simulation_Start_Day) then
+      else if (variable_info%id .eq. simulation_Start_Day_id) then
          call jday_to_day_of_year (g%Start_date
      .                            ,doy
      .                            ,year)
          call return_simulation_start_day(variable_info, doy)
 
-      else if (variable_info%id .eq. ID%simulation_Start_Year) then
+      else if (variable_info%id .eq. simulation_Start_Year_id) then
          call jday_to_day_of_year (g%Start_date
      .                            ,doy
      .                            ,year)
          call return_simulation_start_year(variable_info, year)
 
-      else if (variable_info%id .eq. ID%simulation_End_Day) then
+      else if (variable_info%id .eq. simulation_End_Day_id) then
          call jday_to_day_of_year (g%End_date
      .                            ,doy
      .                            ,year)
          call return_simulation_end_day(variable_info, doy)
 
-      else if (variable_info%id .eq. ID%simulation_End_Year) then
+      else if (variable_info%id .eq. simulation_End_Year_id) then
          call jday_to_day_of_year (g%End_date
      .                            ,doy
      .                            ,year)
          call return_simulation_end_year(variable_info, year)
-
-      else if (variable_info%id .eq. ID%simulation_Start_Date) then
-         call return_simulation_start_date(variable_info, g%start_date)
-
-      else if (variable_info%id .eq. ID%simulation_End_Date) then
-         call return_simulation_end_date(variable_info, g%end_date)
-
       endif
 
       call pop_routine(This_routine)
@@ -826,21 +798,21 @@ C     Last change:  E     5 Dec 2000    8:52 am
 !      NIH 25/08/99
 
 *+  Calls
-      type(TimeType) :: clock_get_time
+      type(time_type) :: clock_get_time
 
 !+  Constant Values
       character This_routine*(*)       ! name of this routine
       parameter (This_routine='clock_dotick')
 
 !+  Local Variables
-      type(TimeType) :: tick
+      type(time_type) :: tick
 
 !- Implementation Section ----------------------------------
 
       call push_routine (This_routine)
 
       tick = Clock_get_time()
-      call publish_time(ID%tick, tick, .false.)
+      call publish_time(tick_id, tick, .false.)
 
       call pop_routine (This_routine)
 
@@ -854,7 +826,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
       implicit none
 
 !+  Sub-Program Arguments
-      type(TimeType) :: Clock_get_time
+      type(time_type) :: Clock_get_time
 
 
 !+  Calls

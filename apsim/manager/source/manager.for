@@ -33,6 +33,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       module ManagerModule
       use ComponentInterfaceModule
       use DataTypesModule
+      implicit none
 
 !  Constant variables
       integer MAX_NUM_LOCAL_VARIABLES      ! Maximum number of local variables
@@ -273,10 +274,10 @@ C     Last change:  P    25 Oct 2000    9:26 am
       end type ManagerData
 
       ! instance variables.
-      common /InstancePointers/ ID, g
-      save InstancePointers
-      type (IDsType), pointer :: ID
-      type (ManagerData), pointer :: g
+      common /InstancePointers/ g,p,c
+      type (ManagerData),pointer :: g
+      type (ManagerData),pointer :: p
+      type (ManagerData),pointer :: c
 
       end module ManagerModule
 
@@ -297,10 +298,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !- Implementation Section ----------------------------------
 
       if (doAllocate) then
-         allocate(id)
          allocate(g)
       else
-         deallocate(id)
          deallocate(g)
       end if
       return
@@ -408,7 +407,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       call push_routine(This_routine)
 
-      call do_registrations(id)
+      call do_registrations()
 
       g%numLocalVariables = 0
       g%lines_been_read = .false.
@@ -553,10 +552,10 @@ C     Last change:  P    25 Oct 2000    9:26 am
                                        ! condition of each rule
 
        character Rule_types(NUM_RULE_TYPES)*(20)
-       data Rule_types(1) /'.init'/
-       data Rule_types(2) /'.start_of_day'/
-       data Rule_types(3) /'.process'/
-       data Rule_types(4) /'.end_of_day'/
+       data Rule_types(1) /'init'/
+       data Rule_types(2) /'start_of_day'/
+       data Rule_types(3) /'process'/
+       data Rule_types(4) /'end_of_day'/
 
 
 !- Implementation Section ----------------------------------
@@ -564,31 +563,37 @@ C     Last change:  P    25 Oct 2000    9:26 am
       call push_routine (Routine_name)
 
       ! get a list of all rule names that user has defined.
-      call apsimcomponentdata_getrulenames(get_componentData(),
-     .                                     Rule_names,
-     .                                     MAX_RULES,
-     .                                     Num_rules)
+      call somcomponent_getpropertynames(get_componentData(),
+     .                                   Rule_names,
+     .                                   'rule',
+     .                                   MAX_RULES,
+     .                                   Num_rules)
+
       do Rule_type = 1, NUM_RULE_TYPES
 
          ! Go tokenize each rule.
          do Rule_Index = 1, Num_rules
-            if (index(Rule_names(Rule_index),
-     .                rule_types(rule_type)) .ne. 0) then
-               call apsimcomponentdata_loadrule(get_componentData(),
-     .                                          Rule_names(Rule_index))
-               if (g%rule_indexes(rule_type) .eq. 0) then
-                  g%rule_indexes(rule_type) = g%last_token + 2
-                  g%start_token = g%last_token + 2
-               else
-                  g%start_token = g%last_token
+            g%rule = component_getrule(get_componentData(),
+     .                                 Rule_names(Rule_index),
+     .                                 ' ')
+            if (g%rule .ne. 0) then
+               call rule_getcondition(g%rule, condition)
+
+               if (condition .eq. rule_types(rule_type)) then
+                  if (g%rule_indexes(rule_type) .eq. 0) then
+                     g%rule_indexes(rule_type) = g%last_token + 2
+                     g%start_token = g%last_token + 2
+                  else
+                     g%start_token = g%last_token
+                  end if
+                  g%line_number = 0
+                  g%num_lines = rule_getactionlinecount(g%rule)
+                  call Tokenize (g%token_array
+     .                          , g%token_array2
+     .                          , max_tokens)
                end if
-               g%line_number = 0
-               g%num_lines = apsimcomponentdata_getnumrulelines
-     .             ()
-               call Tokenize (g%token_array
-     .                      , g%token_array2
-     .                      , max_tokens)
-            end if
+               call component_freerule(g%rule)
+           end if
          end do
 
       end do
@@ -651,19 +656,19 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       call push_routine (my_name)
 
-      if (eventID .eq. id%prepare) then
+      if (eventID .eq. prepare_id) then
          g%start_token = g%rule_indexes(2)
          if (g%start_token .gt. 0) then
             call Parse (g%token_array, g%token_array2)
          end if
 
-      else if (eventID .eq. id%process) then
+      else if (eventID .eq. process_id) then
          g%start_token = g%rule_indexes(3)
          if (g%start_token .gt. 0) then
             call Parse (g%token_array, g%token_array2)
          end if
 
-      else if (eventID .eq. id%post) then
+      else if (eventID .eq. post_id) then
          g%start_token = g%rule_indexes(4)
          if (g%start_token .gt. 0) then
             call Parse (g%token_array, g%token_array2)
@@ -762,7 +767,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
        subroutine Parse_read_line(Line, EOF_flag)
 ! ====================================================================
       use ManagerModule
-      use ComponentInterfaceModule
       implicit none
 
 !+  Sub-Program Arguments
@@ -794,8 +798,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
          EOF_flag = 1
 
       else
-         call apsimcomponentdata_getruleline(g%line_number,
-     .                                       Line)
+         call Rule_GetActionLine(g%rule, g%line_number, Line)
          Line = lower_case(Line)
 
          ! advance line number
@@ -870,10 +873,10 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
          if (g%localVariables(g%numLocalVariables)%isNumeric) then
             g%localVariables(g%numLocalVariables)%regID =
-     .      add_registration(respondToGetReg, name, singleddml)
+     .      add_registration(respondToGetReg, name, single_ddml)
          else
             g%localVariables(g%numLocalVariables)%regID =
-     .      add_registration(respondToGetReg, name, stringddml)
+     .      add_registration(respondToGetReg, name, string_ddml)
          endif
 
          variableIndex = g%numLocalVariables
@@ -1048,7 +1051,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .        g%ApsimVariables(g%numApsimVariables)%name, name)
             g%ApsimVariables(g%numApsimVariables)%regID
      .          = add_registration(getVariableReg, name,
-     .                             stringddml)
+     .                             string_ddml)
             g%ApsimVariables(g%numApsimVariables)%setRegID = 0
             add_apsim_variable = .true.
             variableIndex = g%numApsimVariables
@@ -1148,7 +1151,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
          g%ApsimVariables(g%numApsimVariables)%setRegID
      .      = add_registration(setVariableReg,
      .            g%ApsimVariables(g%numApsimVariables)%name,
-     .            stringddml)
+     .            string_ddml)
       endif
 
       ok=set_string(g%apsimVariables(variableIndex)%setRegID, value)
@@ -1156,14 +1159,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
       end
 
 ! ====================================================================
-       subroutine Add_apsim_method(name, componentName, methodIndex)
+       subroutine Add_apsim_method(name, methodIndex)
 ! ====================================================================
       use ManagerModule
       implicit none
 
 !+  Sub-Program Arguments
       character(len=*), intent(in) :: name           ! Name of method
-      character(len=*), intent(in) :: componentName  ! Name of component
       integer, intent(out)         :: methodIndex    ! Index of method
 
 !+  Purpose
@@ -1176,7 +1178,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
       integer regID
       integer componentID
       character str*(300)
-      character fullName*(300)
 
 !- Implementation Section ----------------------------------
 
@@ -1191,12 +1192,11 @@ C     Last change:  P    25 Oct 2000    9:26 am
          call Error(str, .true.)
          methodIndex = 0
       else
-         fullName = Trim(componentName) // '.' // name
          call assign_string(
-     .     g%ApsimMethods(g%numApsimMethods)%name, fullName)
+     .     g%ApsimMethods(g%numApsimMethods)%name, name)
          g%ApsimMethods(g%numApsimMethods)%regID
      .        = add_registration(methodCallReg, name,
-     .                           stringddml, ' ', componentName)
+     .                           string_ddml)
          methodIndex = g%numApsimMethods
       endif
 
@@ -1386,7 +1386,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       ! Look for a date function first.
       if (fullName(1:5) .eq. 'date(') then
          call Manager_get_params (fullName, Params)
-         if (Get_today(id%today, today)) then
+         if (Get_today(today_id, today)) then
             call Double_var_to_string
      .         (String_to_jday_with_error(Params(1), Today), value)
          endif
@@ -1395,7 +1395,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       else if (fullName(1:12) .eq. 'date_within(') then
          call Manager_get_params (fullName, Params)
 
-         if (Get_today(id%today, today)) then
+         if (Get_today(today_id, today)) then
             if (Date_within(Params(1), Params(2), today)) then
                value = '1'
             else
@@ -1556,7 +1556,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
       character componentName*(MAX_COMPONENT_NAME_SIZE)
       character methodName*(MAX_METHOD_NAME_SIZE)
                                        ! Name of method to call
-      character fullMethodName*(MAX_COMPONENT_NAME_SIZE)
 
       character dataString*(Function_string_len)
                                        ! Data string to send with method
@@ -1568,7 +1567,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       if (index(Action_string, 'do_output') .eq. 0 .and.
      .    index(Action_string, 'do_end_day_output') .eq. 0) then
-         if (Get_today(id%today, today)) then
+         if (Get_today(today_id, today)) then
             call jday_to_day_of_year (today, day, year)
 
             msg = '     Manager sending message :- ' // Action_string
@@ -1582,11 +1581,11 @@ C     Last change:  P    25 Oct 2000    9:26 am
       dataString = adjustl(dataString)
       call split_line (dataString, methodName, dataString, Blank)
       methodName = adjustl(methodName)
-      fullMethodName = Trim(componentName) // '.' // methodName
+      methodName = Trim(componentName) // '.' // Trim(methodName)
 
       ! perform the method call.
-      if (.not. find_apsim_method(fullMethodName, methodIndex)) then
-         call add_apsim_method(methodName, componentName, methodIndex)
+      if (.not. find_apsim_method(methodName, methodIndex)) then
+         call add_apsim_method(methodName, methodIndex)
       endif
       call call_apsim_method(methodIndex, dataString)
 

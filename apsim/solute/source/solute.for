@@ -19,13 +19,11 @@
          allocate(g)
          allocate(p)
          allocate(c)
-         allocate(ID)
 
       else
          deallocate(g)
          deallocate(p)
          deallocate(c)
-         deallocate(ID)
 
       end if
       return
@@ -46,7 +44,7 @@
 
 !- Implementation Section ----------------------------------
 
-      call do_registrations(ID)
+      call do_registrations()
       call solute_zero_variables()
       call solute_read_constants ()
       call solute_read_param ()
@@ -97,10 +95,7 @@
       Event_string = 'Initialising'
       call Write_string (Event_string)
 
-cnh Cannot do it here as we may not have soil layer specs yet
-c      call publish_SoluteProfile(ID%SolutesChanged,
-c     :     g%solute_profiles, g%num_solutes, .false.)
-     
+
       call pop_routine (myname)
       return
       end
@@ -124,10 +119,10 @@ c     :     g%solute_profiles, g%num_solutes, .false.)
 
 !- Implementation Section ----------------------------------
 
-      if (eventID .eq. ID%SoluteFluxesCalculated) then
+      if (eventID .eq. solute_fluxes_calculated_id) then
          call on_solute_fluxes_calculated(variant)
 
-      else if (eventID .eq. ID%SoilWaterProfileChanged) then
+      else if (eventID .eq. soil_water_profile_changed_id) then
          call on_soil_water_profile_changed(variant)
          
       else
@@ -221,8 +216,8 @@ c     :     g%solute_profiles, g%num_solutes, .false.)
             endif
 
             do 100 layer = 1,max_layer
-               sol(layer) = g%solute_profiles(solnum)
-     :                              %layer(layer)%amount
+               sol(layer) = g%solute_profiles(solnum)%solute_layers
+     :                                            (layer)%amount
   100       continue
 
             call return_solute(Variable_info,
@@ -241,10 +236,10 @@ c     :     g%solute_profiles, g%num_solutes, .false.)
 
             do layer = 1,max_layer
 
-               sol(layer) = g%solute_profiles(solnum)
-     :                          %layer(layer)%amount
+               sol(layer) = g%solute_profiles(solnum)%solute_layers
+     :                                             (layer)%amount
      :              * divide (100.0
-     :              ,g%soil_water_profile_layers(layer)%BulkDensity *
+     :              ,g%soil_water_profile_layers(layer)%bulk_density *
      :              g%soil_water_profile_layers(layer)%thickness
      :                             ,0.0)
 
@@ -329,7 +324,7 @@ c     :     g%solute_profiles, g%num_solutes, .false.)
      :                 numvals)
 
             do 100 layer = 1, numvals
-               g%solute_profiles(solnum)%layer(layer)%amount 
+               g%solute_profiles(solnum)%solute_layers(layer)%amount 
      :             = sol(layer)
   
   100       continue
@@ -342,9 +337,9 @@ c     :     g%solute_profiles, g%num_solutes, .false.)
      :                 numvals)
 
             do 300 layer = 1, numvals
-               g%solute_profiles(solnum)%layer(layer)%amount 
+               g%solute_profiles(solnum)%solute_layers(layer)%amount 
      :                                                 = sol(layer)
-     :      *  divide (g%soil_water_profile_layers(layer)%BulkDensity*
+     :      *  divide (g%soil_water_profile_layers(layer)%bulk_density*
      :       g%soil_water_profile_layers(layer)%thickness, 100., 0.0)
   300       continue
             found = .true.
@@ -358,8 +353,8 @@ c     :     g%solute_profiles, g%num_solutes, .false.)
 
 
             do 150 layer = 1, numvals
-            g%solute_profiles(solnum)%layer(layer)%amount
-     :        = g%solute_profiles(solnum)%layer(layer)%amount
+            g%solute_profiles(solnum)%solute_layers(layer)%amount
+     :        = g%solute_profiles(solnum)%solute_layers(layer)%amount
      :                            + dlt_sol(layer)
   150       continue
             found = .true.
@@ -403,7 +398,7 @@ c     :     g%solute_profiles, g%num_solutes, .false.)
       parameter (myname = 'on_solute_fluxes_calculated')
 
 *+  Local Variables
-      type(SoluteProfileType),dimension(max_solutes)::solute_profiles
+      type(solute_profiles_type),dimension(max_solutes)::solute_profiles
       integer num_profiles
       integer profilenum
       integer solnum
@@ -413,14 +408,14 @@ c     :     g%solute_profiles, g%num_solutes, .false.)
 
       call push_routine (myname)
        found = .false.
-      call unpack_SoluteProfile(variant,solute_profiles,num_profiles)
+      call unpack_solute_profiles(variant,solute_profiles,num_profiles)
 
       do 200 profilenum = 1, num_profiles
       
         do 100 solnum = 1,g%num_solutes
         
-        if (solute_profiles(profilenum)%name.eq.
-     :      g%solute_profiles(solnum)%name) then
+        if (solute_profiles(profilenum)%solute_name.eq.
+     :      g%solute_profiles(solnum)%solute_name) then
             g%solute_profiles(solnum) = solute_profiles(profilenum)
             found = .true.
         endif      
@@ -429,10 +424,10 @@ c     :     g%solute_profiles, g%num_solutes, .false.)
          
   200 continue
 
-      if(found) then
+      if(.not.found) then
 !    send an event
-          call publish_SoluteProfile(ID%SolutesChanged,
-     :     g%solute_profiles, g%num_solutes, .false.)
+          call publish_solute_profiles(Solutes_changed_id,
+     :     g%solute_profiles, num_profiles, .false.)
       endif          
 
       call pop_routine (myname)
@@ -464,7 +459,7 @@ c     :     g%solute_profiles, g%num_solutes, .false.)
       parameter (myname = 'on_soil_water_profile_changed')
 
 *+  Local Variables
-      type(SoilWaterProfileLayerType)::soil_water_profile_layers
+      type(soil_water_profile_layers_type)::soil_water_profile_layers
      ! (max_layer)
       integer solnum
       integer layer
@@ -473,7 +468,7 @@ c     :     g%solute_profiles, g%num_solutes, .false.)
 
       call push_routine (myname)
 
-      call unpack_SoilWaterProfileLayer(variant
+      call unpack_soil_water_profile_layers(variant
      :                                     ,soil_water_profile_layers
      :                                     ,g%num_layers)
 
@@ -482,16 +477,16 @@ c   dsg 180202    when we want to remap solutes for varying layers, insert here
 		 g%soil_water_profile_layers = soil_water_profile_layers
 		           
        do 100 solnum = 1,g%num_solutes
-       g%solute_profiles(solnum)%NumLayers = g%num_layers
+      
        do 50 layer = 1,g%num_layers
-      g%solute_profiles(solnum)%layer(layer)%thickness  = 
+      g%solute_profiles(solnum)%solute_layers(layer)%thickness  = 
      :                        soil_water_profile_layers(layer)%thickness 
      
  50     continue
  100    continue          
 
 !    send an event
-          call publish_SoluteProfile(ID%SolutesChanged,
+          call publish_solute_profiles(Solutes_changed_id,
      :     g%solute_profiles, g%num_solutes, .false.)
 
       call pop_routine (myname)
@@ -533,7 +528,7 @@ c   dsg 180202    when we want to remap solutes for varying layers, insert here
 !      g%solute_profiles(:)%solute_layers(:)%amount = 0.0
 !      g%solute_profiles(:)%solute_layers(:)%thickness = 0.0
       
-      g%soil_water_profile_layers(:)%BulkDensity = 0.0
+      g%soil_water_profile_layers(:)%bulk_density = 0.0
       g%soil_water_profile_layers(:)%thickness = 0.0
 
 
@@ -595,7 +590,7 @@ c   dsg 180202    when we want to remap solutes for varying layers, insert here
 
       do 200 solnum = 1, g%num_solutes
 
-        g%solute_profiles(solnum)%name = p%solute_names(solnum)
+        g%solute_profiles(solnum)%solute_name = p%solute_names(solnum)
 
 
          if (p%solute_names(solnum).ne.blank) then
@@ -615,20 +610,20 @@ c   dsg 180202    when we want to remap solutes for varying layers, insert here
             g%solute_ids(solnum) = add_registration
      :          (respondToGetSetReg,
      :           p%solute_names(solnum),
-     :           soluteddml)
+     :           solute_ddml)
 
             g%solute_dlt_ids(solnum) = add_registration
      :          (respondToSetReg,
      :           'dlt_' // p%solute_names(solnum),
-     :           dlt_soluteddml)
+     :           dlt_solute_ddml)
 
             g%solute_ppm_ids(solnum) = add_registration
      :          (respondToGetSetReg,
      :           trim(p%solute_names(solnum))//'ppm',
-     :           solute_ppmddml)
+     :           solute_ppm_ddml)
 
             do 100 layer = 1, numvals
-               g%solute_profiles(solnum)%layer(layer)%amount 
+               g%solute_profiles(solnum)%solute_layers(layer)%amount 
      :             = sol(layer)
   100       continue
          else

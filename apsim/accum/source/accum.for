@@ -16,11 +16,9 @@
 !- Implementation Section ----------------------------------
 
       if (doAllocate) then
-         allocate(id)
          allocate(g)
 
       else
-         deallocate(id)
          deallocate(g)
 
       end if
@@ -50,7 +48,7 @@
 
 *- Implementation Section ----------------------------------
 
-      call do_registrations(id)
+      call do_registrations()
 
       return
       end
@@ -125,7 +123,7 @@
 
 !- Implementation Section ----------------------------------
 
-      if (eventID .eq. id%post) then
+      if (eventID .eq. post_id) then
          call Accum_get_other_variables()
 
       else
@@ -207,8 +205,7 @@
       do variable = 1, g%num_variables
          ! If variable is ours then accumulate the variable for the
          ! specified number of days and return the value to the caller.
-         if (Variable_info%id .eq.
-     .       g%Variable_respondtogetids(variable)) then
+         if (Variable_info%id .eq. g%Variable_ids(variable)) then
             Sum = 0.0
             do day = 1, g%Variable_sizes(variable)
                Sum = Sum + g%variable_values(variable, day)
@@ -309,10 +306,9 @@
 
          else
             ! Register the variable as a respondToGet
-            g%Variable_respondtogetids(indx) = add_registration
+            g%Variable_ids(indx) = add_registration
      .            (respondToGetReg, g%variable_names(indx),
-     .             singleddml)
-
+     .             single_ddml)
 
             ! Extract size component.
 
@@ -326,11 +322,6 @@
                Size_string(Pos:) = Blank
                call String_to_integer_var(Size_string,
      .              g%variable_sizes(indx), Numvals)
-
-               ! Also register that we are going to get the value of the raw variable
-               g%Variable_getids(indx) = add_registration
-     .               (getVariableReg, g%variable_names(indx),
-     .                singleddml)
 
                if (g%variable_sizes(indx) .gt. 0 .and.
      .             g%variable_sizes(g%num_variables) .le. Max_days) then
@@ -411,7 +402,7 @@
       ! Get all required variables for today
 
       do 20 Var_index = 1, g%num_variables
-         ok = Get_single(g%variable_getids(Var_index),
+         ok = Get_single(g%variable_ids(Var_index),
      .        g%variable_values(Var_index, 1))
 20    continue
 
