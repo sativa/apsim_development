@@ -7,9 +7,9 @@
    <registrations>
       <respondToGetReg name="ub_solute" type="ub_solute" readable="T"/>
       <respondToGetReg name="lb_solute" type="lb_solute" readable="T"/>
-      <eventReg name="solutes_changed" type="solute_profiles"/>
-      <respondToEventReg name="solute_fluxes_calculated" type="solute_profiles"/>
-      <respondToEventReg name="soil_water_profile_changed" type="soil_water_profile_layers"/>
+      <eventReg name="soluteschanged" type="soluteprofile"/>
+      <respondToEventReg name="SoluteFluxesCalculated" type="SoluteProfile"/>
+      <respondToEventReg name="SoilWaterProfileChanged" type="SoilWaterProfileLayer"/>
       
       <respondToGetSetReg name="solute" type="solute" autoregister="F"/>
       <respondToGetSetReg name="dlt_solute" type="dlt_solute" autoregister="F"/>
