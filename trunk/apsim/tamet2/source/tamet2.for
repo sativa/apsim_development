@@ -9,6 +9,7 @@
 
 !     ================================================================
       type Tamet2Globals
+      sequence
 
       character string*80
       character type*10
@@ -47,7 +48,7 @@
       end type Tamet2Globals
 !     ================================================================
       type Tamet2Parameters
-
+      sequence
       real     dis_evap
       real     dish_evap
       real     disvh_evap
@@ -74,168 +75,24 @@
       end type Tamet2Parameters
 !     ================================================================
       type Tamet2Constants
-
+         sequence
          integer       dummy
       end type Tamet2Constants
 !     ================================================================
-         ! instance variables.
 
-      type (Tamet2Globals), pointer :: g
-      type (Tamet2Parameters), pointer :: p
-      type (Tamet2Constants), pointer :: c
-
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)
-
-      integer MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-
-      type Tamet2DataPtr
-         type (Tamet2Globals), pointer ::    gptr
-         type (Tamet2Parameters), pointer :: pptr
-         type (Tamet2Constants), pointer ::  cptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type Tamet2DataPtr
-
-      type (Tamet2DataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+      ! instance variables.
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (Tamet2Globals),pointer :: g
+      type (Tamet2Parameters),pointer :: p
+      type (Tamet2Constants),pointer :: c
 
       contains
 
 
 
 
-!     ===========================================================
-      subroutine AllocInstance (InstanceName, InstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
 
-!+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module instantiation routine.
-
-*+  Mission Statement
-*     Instantiate routine
-
-!- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%gptr)
-      allocate (Instances(InstanceNo)%pptr)
-      allocate (Instances(InstanceNo)%cptr)
-      Instances(InstanceNo)%Name = InstanceName
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine FreeInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module de-instantiation routine.
-
-*+  Mission Statement
-*     De-Instantiate routine
-
-!- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%gptr)
-      deallocate (Instances(anInstanceNo)%pptr)
-      deallocate (Instances(anInstanceNo)%cptr)
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine SwapInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Swap an instance into the global 'g' pointer
-
-*+  Mission Statement
-*     Swap an instance into global pointer
-
-!- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%gptr
-      p => Instances(anInstanceNo)%pptr
-      c => Instances(anInstanceNo)%cptr
-
-      return
-      end subroutine
-
-*====================================================================
-      subroutine main (Action, Data_string)
-*====================================================================
-      Use infrastructure
-      implicit none
-
-*+  Purpose
-*      This routine is the interface between the main system and the
-*      Tamet2 module.
-
-*+  Mission statement
-*      Handles all the communications for the Tamet2 module.
-
-*   Changes:
-*       210995 jngh programmed
-*       090696 jngh changed presence report to standard
-
-*   subroutine arguments
-      character  Action*(*)            ! Message action to perform
-      character  Data_string*(*)       ! Message data
-
-*   Internal variables
-      character  module_name*8         ! name of this module
-
-*   Constant values
-      character  myname*(*)            ! Name of this procedure
-      parameter (myname = 'apsim_tamet2')
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
-
-      if (Action.eq.ACTION_Init) then
-         call tamet2_zero_variables ()
-         call tamet2_get_other_variables_init ()
-         call tamet2_init ()
-
-      elseif (Action.eq.ACTION_Prepare) then
-         call tamet2_prepare ()
-
-      elseif (Action.eq.ACTION_Get_variable) then
-         call tamet2_send_my_variable (Data_string)
-
-      elseif (Action.eq.ACTION_Process) then
-         call tamet2_zero_daily_variables ()
-         call tamet2_get_other_variables ()
-         call tamet2_process ()
-
-      elseif (Action.eq.ACTION_End_Run) then
-
-      else
-            ! don't use message
-         call Message_unused ()
-
-      endif
-
-      call pop_routine (myname)
-      return
-      end subroutine
 *====================================================================
       subroutine tamet2_zero_variables ()
 *====================================================================
@@ -1826,3 +1683,92 @@
 
 
       end module Tamet2Module
+
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use Tamet2Module
+      implicit none  
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+         allocate(p)
+         allocate(c)
+      else
+         deallocate(g)
+         deallocate(p)
+         deallocate(c)
+      end if
+      return
+      end subroutine
+
+
+
+*====================================================================
+      subroutine main (Action, Data_string)
+*====================================================================
+      Use infrastructure
+      implicit none
+      ml_external Main
+
+*+  Purpose
+*      This routine is the interface between the main system and the
+*      Tamet2 module.
+
+*+  Mission statement
+*      Handles all the communications for the Tamet2 module.
+
+*   Changes:
+*       210995 jngh programmed
+*       090696 jngh changed presence report to standard
+
+*   subroutine arguments
+      character  Action*(*)            ! Message action to perform
+      character  Data_string*(*)       ! Message data
+
+*   Internal variables
+      character  module_name*8         ! name of this module
+
+*   Constant values
+      character  myname*(*)            ! Name of this procedure
+      parameter (myname = 'apsim_tamet2')
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      if (Action.eq.ACTION_Init) then
+         call tamet2_zero_variables ()
+         call tamet2_get_other_variables_init ()
+         call tamet2_init ()
+
+      elseif (Action.eq.ACTION_Prepare) then
+         call tamet2_prepare ()
+
+      elseif (Action.eq.ACTION_Get_variable) then
+         call tamet2_send_my_variable (Data_string)
+
+      elseif (Action.eq.ACTION_Process) then
+         call tamet2_zero_daily_variables ()
+         call tamet2_get_other_variables ()
+         call tamet2_process ()
+
+      elseif (Action.eq.ACTION_End_Run) then
+
+      else
+            ! don't use message
+         call Message_unused ()
+
+      endif
+
+      call pop_routine (myname)
+      return
+      end subroutine
