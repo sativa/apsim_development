@@ -6,6 +6,8 @@
 #include <fstream>
 #include <oleauto.h>
 #include <vector>
+#include <boost\lexical_cast.hpp>
+#include <general\math_functions.h>
 // ------------------------------------------------------------------
 //  Short description:
 //     Copy contents from a VCL TStrings object to a STL container.
@@ -346,4 +348,62 @@ void saveComponent(std::ostream& out, TComponent* component);
 //---------------------------------------------------------------------------
 AnsiString resolveComponentPropertyMacro(TComponent* owner, AnsiString text);
 
+//---------------------------------------------------------------------------
+// populate a single column of a grid with the specified values.
+//---------------------------------------------------------------------------
+template <class gridT>
+void setGridCol(gridT* grid, int col, unsigned startRow, const vector<string>& data)
+   {
+   unsigned row = startRow;
+   for (unsigned i = 0; i != data.size(); i++)
+      {
+      grid->Cells[col][row] = data[i].c_str();
+      row++;
+      }
+   }
+//---------------------------------------------------------------------------
+// populate a single column of a grid with the specified values.
+//---------------------------------------------------------------------------
+template <class gridT, class dataT>
+void setGridCol(gridT* grid, int col,
+                unsigned startRow,
+                const std::vector<dataT>& data,
+                unsigned numDecPlaces)
+   {
+   unsigned row = startRow;
+   for (unsigned i = 0; i != data.size(); i++)
+      {
+      if (!isMissingValue<dataT>(data[i]))
+         grid->Cells[col][row] = ftoa(data[i], numDecPlaces).c_str();
+      row++;
+      }
+   }
+//---------------------------------------------------------------------------
+// get the values from a single column of a grid into the specified vector
+//---------------------------------------------------------------------------
+template <class dataT, class gridT>
+std::vector<dataT> gridCol(gridT* grid, int col, unsigned startRow, unsigned numValues)
+   {
+   std::vector<dataT> values;
+   for (unsigned row = startRow; row < startRow+numValues; row++)
+      {
+      if (grid->Cells[col][row] == "")
+         values.push_back(boost::lexical_cast<dataT>(missingValue<dataT>()));
+      else
+         values.push_back(boost::lexical_cast<dataT>(grid->Cells[col][row].c_str()));
+      }
+   return values;
+   }
+//---------------------------------------------------------------------------
+// populate a single column of a grid with the specified values.
+//---------------------------------------------------------------------------
+template <class gridT>
+unsigned numValuesInCol(gridT* grid, int col)
+   {
+   unsigned count = 0;
+   for (int row = 0; row != grid->RowCount && grid->Cells[col][row] != ""; row++)
+      count++;
+
+   return count;
+   }
 #endif
