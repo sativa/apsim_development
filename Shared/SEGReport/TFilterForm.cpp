@@ -25,25 +25,13 @@ void TFilterForm::setComponent(::TFilter* f)
    {
    filter = f;
    TSEGTableForm::setComponent(filter);
-   FieldNameCombo->ItemIndex = FieldNameCombo->Items->IndexOf(filter->fieldName);
-   FieldValueCombo->ItemIndex = FieldValueCombo->Items->IndexOf(filter->fieldValue);
+   FilterEdit->Text = filter->filter;
    }
 //---------------------------------------------------------------------------
-void __fastcall TFilterForm::FieldNameComboChange(TObject *Sender)
+
+void __fastcall TFilterForm::FilterEditExit(TObject *Sender)
    {
-   filter->fieldName = FieldNameCombo->Items->Strings[FieldNameCombo->ItemIndex];
-   FieldValueCombo->Items->Assign(filter->fieldValues);
-   }
-//---------------------------------------------------------------------------
-void __fastcall TFilterForm::FieldValueComboChange(TObject *Sender)
-   {
-   filter->fieldValue = FieldValueCombo->Items->Strings[FieldValueCombo->ItemIndex];
-   }
-//---------------------------------------------------------------------------
-void __fastcall TFilterForm::PropertiesSheetShow(TObject *Sender)
-   {
-   FieldNameCombo->Items->Assign(filter->fieldNames);
-   FieldValueCombo->Items->Assign(filter->fieldValues);
+   filter->filter = FilterEdit->Text;
    }
 //---------------------------------------------------------------------------
 

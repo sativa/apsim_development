@@ -16,7 +16,7 @@
 
 using namespace std;
 #pragma package(smart_init)
-#pragma resource "ComponentRegistration.res"  
+#pragma resource "ComponentRegistration.res"
 
 //---------------------------------------------------------------------------
 // constructor
@@ -24,8 +24,6 @@ using namespace std;
 __fastcall TFilter::TFilter(TComponent* owner)
    : TSEGTable(owner)
    {
-   columnNames = new TStringList;
-   columnValues = new TStringList;
    }
 
 //---------------------------------------------------------------------------
@@ -33,31 +31,26 @@ __fastcall TFilter::TFilter(TComponent* owner)
 //---------------------------------------------------------------------------
 __fastcall TFilter::~TFilter()
    {
-   delete columnNames;
-   delete columnValues;
    }
 //---------------------------------------------------------------------------
-// set the 'columnName' property and refresh all data.
+// set the 'filter' property and refresh all data.
 //---------------------------------------------------------------------------
-void __fastcall TFilter::setColumnName(AnsiString name)
+void __fastcall TFilter::setFilter(AnsiString filter)
    {
-   if (columnName != name)
+   if (Filter != filter)
       {
-      columnName = name;
-      getColumnValues();
-      refresh();
+      Filter = filter;
+      Filtered = (Filter != "");
+      if (source != NULL)
+         refresh();
       }
    }
 //---------------------------------------------------------------------------
-// set the 'columnValue' property and refresh all data.
+// set the 'filter' property and refresh all data.
 //---------------------------------------------------------------------------
-void __fastcall TFilter::setColumnValue(AnsiString value)
+AnsiString __fastcall TFilter::getFilter(void)
    {
-   if (columnValue != value)
-      {
-      columnValue = value;
-      refresh();
-      }
+   return Filter;
    }
 //---------------------------------------------------------------------------
 // Called by our base class to allow us to add any fielddefs we may want to.
@@ -67,7 +60,7 @@ void TFilter::createFields(void) throw(runtime_error)
    {
    if (source != NULL)
       {
-      getColumnNames();
+      source->onDataRefresh = onSourceDataChange;
       FieldDefs->Assign(source->FieldDefs);
       }
    }
@@ -77,51 +70,22 @@ void TFilter::createFields(void) throw(runtime_error)
 //---------------------------------------------------------------------------
 void TFilter::storeRecords(void) throw(runtime_error)
    {
-   if (source != NULL && fieldName != "" && fieldValue != "")
+   if (source != NULL)
       {
       // loop through all records.
       source->First();
       while (!source->Eof)
          {
-         string thisValue = getDBValue(source, fieldName.c_str());
-         if (Str_i_Eq(thisValue, fieldValue.c_str()))
-            {
-            // add a new record that is identical to the current source record.
-            copyDBRecord(source, this);
-            }
+         copyDBRecord(source, this);
          source->Next();
          }
       }
    }
-// ------------------------------------------------------------------
-// Fill the column names list.
-// ------------------------------------------------------------------
-void TFilter::getColumnNames()
+//---------------------------------------------------------------------------
+// The source data has changed - refresh ourselves.
+//---------------------------------------------------------------------------
+void __fastcall TFilter::onSourceDataChange(TDataSet* dataset)
    {
-   if (source != NULL)
-      {
-      vector<string> fieldNames;
-      getDBFieldNames(source, fieldNames);
-      Stl_2_tstrings(fieldNames, columnNames);
-      }
-   }
-// ------------------------------------------------------------------
-// Fill the column values list.
-// ------------------------------------------------------------------
-void TFilter::getColumnValues()
-   {
-   columnValues->Clear();
-   if (source != NULL && fieldName != "")
-      {
-      source->First();
-      while (!source->Eof)
-         {
-         string thisValue = getDBValue(source, fieldName.c_str());
-         if (columnValues->IndexOf(thisValue.c_str()) == -1)
-            columnValues->Add(thisValue.c_str());
-
-         source->Next();
-         }
-      }
+   refresh();
    }
 
