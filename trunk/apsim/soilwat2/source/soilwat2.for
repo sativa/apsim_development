@@ -2320,10 +2320,10 @@ cjh
 !     :                   , c%max_albedo, numvals
 !     :                   , 0.0, 1.0)
 
-      found = read_parameter (section_name
-     :                   , 'A_to_evap_fact'          !, '()'
-     :                   , c%A_to_evap_fact           !, numvals
-     :                   , 0.0, 1.0)
+!      found = read_parameter (section_name
+!     :                   , 'A_to_evap_fact'          !, '()'
+!     :                   , c%A_to_evap_fact           !, numvals
+!     :                   , 0.0, 1.0)
 
 !      found = read_parameter (section_name
 !     :                   , 'canopy_eos_coef'          !, '()'
@@ -4223,7 +4223,7 @@ c         g%crop_module(:) = ' '               ! list of modules
 !        c%min_crit_temp = 0.0                ! temperature below which eeq decreases (oC)
 !         c%max_crit_temp = 0.0                ! temperature above which eeq increases (oC)
 !         c%max_albedo = 0.0                   ! maximum bare ground soil albedo (0-1)
-         c%A_to_evap_fact = 0.0               ! factor to convert "A" to coefficient
+!         c%A_to_evap_fact = 0.0               ! factor to convert "A" to coefficient
                                               ! in Adam's type residue effect on Eos
 !         c%canopy_eos_coef = 0.0              ! coef in cover Eos reduction eqn
          c%sw_top_crit = 0.0                  ! critical sw ratio in top layer
