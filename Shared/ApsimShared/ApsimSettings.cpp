@@ -229,3 +229,37 @@ void loadFormPosition(TForm* form)
       }
    }
 
+extern "C" void _export __stdcall SettingsRead(const char* key,
+                                               char* values,
+                                               int replaceMacros)
+   {
+   try
+      {
+      ApsimSettings settings;
+      vector<string> valueList;
+      settings.read(key, valueList, replaceMacros);
+      string valueString;
+      Build_string(valueList, "|", valueString);
+      strcpy(values, valueString.c_str());
+      }
+   catch (const exception& err)
+      {
+      ShowMessage(err.what());
+      }
+   }
+extern "C" void _export __stdcall SettingsWrite(const char* key,
+                                                const char* values)
+   {
+   try
+      {
+      ApsimSettings settings;
+      vector<string> valueList;
+      Split_string(values, "|", valueList);
+      settings.write(key, valueList);
+      }
+   catch (const exception& err)
+      {
+      ShowMessage(err.what());
+      }
+   }
+
