@@ -5,6 +5,7 @@ class PlantComponent;
 class PlantPhenology;
 class ApsimVariant;
 class PlantP;
+class PlantFruit;
 class Plant;
 
 typedef bool (Plant::*ptr2setFn) (protocol::QuerySetValueData&);
@@ -1192,6 +1193,7 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
 
   PlantP *phosphorus;
   PlantPhenology *phenology;
+  PlantFruit *fruit;
 
   struct IDS {
        // gets
@@ -1254,6 +1256,7 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
       float nfact_photo;
       float nfact_grain_conc;
       float nfact_pheno;
+      float remove_biom_pheno;
       float temp_stress_photo;
       float oxdef_photo;
       float row_spacing;                                // row spacing (m) [optional]

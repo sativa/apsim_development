@@ -13,7 +13,7 @@ PROJECT=..\lib\Plant.dll
 
 OBJFILES=PlantComponent.obj Plant.obj PlantBiomass.obj PlantCanopy.obj PlantFail.obj PlantLibrary.obj \
 PlantNitrogen.obj PlantPhenology.obj PlantRoot.obj PlantTemp.obj PlantUtility.obj PlantWater.obj \
-Data.obj Science.obj Date.obj PlantComms.obj PlantP.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj
+Data.obj Science.obj Date.obj PlantComms.obj PlantP.obj PlantFruit.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj
 
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
@@ -70,6 +70,7 @@ PlantTemp.obj: PlantTemp.cpp PlantLibrary.h
 PlantUtility.obj: PlantUtility.cpp PlantLibrary.h
 PlantWater.obj: PlantWater.cpp PlantLibrary.h
 PlantP.obj: PlantP.cpp PlantP.h
+PlantFruit.obj: PlantFruit.cpp PlantFruit.h
 Data.obj: Data.cpp PlantLibrary.h
 Date.obj: Date.cpp PlantLibrary.h
 Science.obj: Science.cpp PlantLibrary.h

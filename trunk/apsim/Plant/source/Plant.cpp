@@ -30,6 +30,7 @@
 #include "PlantComponent.h"
 #include "PlantLibrary.h"
 #include "PlantPhenology.h"
+#include "PlantFruit.h"
 #include "Plant.h"
 #include "PlantP.h"
 
@@ -96,6 +97,7 @@ Plant::Plant(PlantComponent *P)
 
     phenology = NULL;
     phosphorus = new PlantP(this);
+    fruit = new PlantFruit(this);
 
     plant_zero_all_globals();
     parent = P;
@@ -152,6 +154,7 @@ Plant::~Plant()
 #endif
     delete phosphorus;
     if (phenology) delete phenology;
+    delete fruit;
     }
 
 // Init1. Set up plant structure
@@ -168,6 +171,7 @@ void Plant::doInit1(protocol::Component *s)
        phenology = NULL;//new LegumeCohortPhenology();
     else
        throw std::invalid_argument("Unknown phenology model '" + scratch + "'");
+
     }
 
 void Plant::initialise(void)
@@ -668,6 +672,9 @@ void Plant::doRegistrations(protocol::Component *system)
 
    setupGetVar("nfact_grain",
                g.nfact_grain_conc, "", "N factor for ??");
+
+   setupGetVar("remove_biom_pheno",
+               g.remove_biom_pheno, "", "biomass removal factor for phenology");
 
    setupGetFunction("nfact_grain_tot", protocol::DTsingle, false,
                     &Plant::get_nfact_grain_tot,
@@ -3413,6 +3420,8 @@ void Plant::plant_cleanup ()
     const char*  my_name = "plant_cleanup" ;
 
     push_routine (my_name);
+    g.remove_biom_pheno = 1.0;
+
     plant_update(c.n_conc_crit_grain
                 , c.n_conc_crit_root
                 , c.n_conc_max_grain
@@ -7555,6 +7564,8 @@ void Plant::plant_process ( void )
         ps.nfact = min(g.nfact_pheno, phosphorus->fact_pheno()); //xx ha ha ha
         ps.swdef_flower = g.swdef_pheno_flower;
         ps.swdef_grainfill = g.swdef_pheno_grainfill;
+        ps.remove_biom_pheno = g.remove_biom_pheno;
+
         phenology->process (e,ps);
 
         plant_root_depth_init(1);
@@ -9012,6 +9023,8 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
 //    dm_tops_residue = dm_residue - dm_root_residue;
 //    n_tops_residue = n_residue - n_root_residue;
 //
+    g.remove_biom_pheno = chop_fr_green[leaf];
+
     if (c.remove_biomass_report == "on")
     {
        parent->writeString ("\nCrop biomass removed.");
@@ -9031,6 +9044,9 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
        parent->writeString (msgrmv);
 
        sprintf (msgrmv, "%48s%7.2f%24.2f", "N  (kg/ha) =               ", n_removed_tops, n_removed_root);
+       parent->writeString (msgrmv);
+
+       sprintf (msgrmv, "%30s%7.2f", "Remove biomass phenology factor = ", g.remove_biom_pheno);
        parent->writeString (msgrmv);
 
        parent->writeString (" ");
@@ -9124,7 +9140,7 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
 //    g.leaf_area[(int)c.leaf_no_at_emerg] = fmod(c.leaf_no_at_emerg,1.0) * avg_leaf_area;
 //
 
-    phenology->onRemoveBiomass();
+    phenology->onRemoveBiomass(g.remove_biom_pheno);
 
     // other plant states
     g.canopy_height = g.canopy_height * (1.0 - chop_fr_green[stem]);
@@ -9200,103 +9216,104 @@ void Plant::plant_zero_all_globals (void)
 #endif
       g.hasreadconstants = false;
       g.plant_status_out_today = false;
-      g.module_name="";
-      g.crop_class="";
-      g.plant_status=out;
-      g.cultivar="";
-      g.pre_dormancy_crop_class="";
-      g.swdef_expansion=1.0;
-      g.swdef_photo=1.0;
-      g.swdef_pheno=1.0;
-      g.swdef_fixation=1.0;
-      g.sw_avail_fac_deepest_layer=0;
-      g.nfact_expansion=1.0;
-      g.nfact_photo=1.0;
-      g.nfact_grain_conc=1.0;
-      g.nfact_pheno=1.0;
-      g.temp_stress_photo=1.0;
-      g.oxdef_photo=1.0;
-      g.row_spacing=0;
-      g.skip_row=0;
-      g.skip_plant=0;
-      g.skip_row_fac=0;
-      g.skip_plant_fac=0;
-      g.sowing_depth=0;
-      g.year=0;
-      g.day_of_year=0;
-      g.fr_intc_radn=0;
-      g.latitude=0;
-      g.radn=0;
-      g.mint=0;
-      g.maxt=0;
+      g.module_name = "";
+      g.crop_class = "";
+      g.plant_status = out;
+      g.cultivar = "";
+      g.pre_dormancy_crop_class = "";
+      g.swdef_expansion = 1.0;
+      g.swdef_photo = 1.0;
+      g.swdef_pheno = 1.0;
+      g.swdef_fixation = 1.0;
+      g.sw_avail_fac_deepest_layer = 0;
+      g.nfact_expansion = 1.0;
+      g.nfact_photo = 1.0;
+      g.nfact_grain_conc = 1.0;
+      g.nfact_pheno = 1.0;
+      g.remove_biom_pheno = 1.0;
+      g.temp_stress_photo = 1.0;
+      g.oxdef_photo = 1.0;
+      g.row_spacing = 0;
+      g.skip_row = 0;
+      g.skip_plant = 0;
+      g.skip_row_fac = 0;
+      g.skip_plant_fac = 0;
+      g.sowing_depth = 0;
+      g.year = 0;
+      g.day_of_year = 0;
+      g.fr_intc_radn = 0;
+      g.latitude = 0;
+      g.radn = 0;
+      g.mint = 0;
+      g.maxt = 0;
       fill_real_array (g.soil_temp, 0, 366+1);
-      g.eo=0;
-      g.dlt_canopy_height=0;
-      g.canopy_height=0;
-      g.dlt_canopy_width=0;
-      g.canopy_width=0;
-      g.plants=0;
-      g.dlt_plants=0;
-      g.grain_no=0;
-      g.dlt_root_depth=0;
-      g.root_depth=0;
-      g.cover_green=0;
-      g.cover_sen=0;
-      g.cover_dead=0;
-      g.dlt_plants_death_seedling=0;
-      g.dlt_plants_death_drought=0;
-      g.dlt_plants_failure_phen_delay=0;
-      g.dlt_plants_failure_leaf_sen=0;
-      g.dlt_plants_failure_emergence=0;
-      g.dlt_plants_failure_germ=0;
-      g.dlt_plants_death_external=0;
-      g.dlt_dm=0;
-      g.dlt_dm_pot_rue=0;
-      g.dlt_dm_pot_te=0;
-      g.dlt_dm_oil_conv=0;
-      g.dlt_dm_parasite = 0.0;
+      g.eo = 0;
+      g.dlt_canopy_height = 0;
+      g.canopy_height = 0;
+      g.dlt_canopy_width = 0;
+      g.canopy_width = 0;
+      g.plants = 0;
+      g.dlt_plants = 0;
+      g.grain_no = 0;
+      g.dlt_root_depth = 0;
+      g.root_depth = 0;
+      g.cover_green = 0;
+      g.cover_sen = 0;
+      g.cover_dead = 0;
+      g.dlt_plants_death_seedling = 0;
+      g.dlt_plants_death_drought = 0;
+      g.dlt_plants_failure_phen_delay = 0;
+      g.dlt_plants_failure_leaf_sen = 0;
+      g.dlt_plants_failure_emergence = 0;
+      g.dlt_plants_failure_germ = 0;
+      g.dlt_plants_death_external = 0;
+      g.dlt_dm = 0;
+      g.dlt_dm_pot_rue = 0;
+      g.dlt_dm_pot_te = 0;
+      g.dlt_dm_oil_conv = 0;
+      g.dlt_dm_parasite  =  0.0;
       fill_real_array (g.dlt_dm_green, 0, max_part);
       fill_real_array (g.dlt_dm_senesced, 0, max_part);
       fill_real_array (g.dlt_dm_detached, 0, max_part);
       fill_real_array (g.dlt_dm_dead, 0, max_part);
       fill_real_array (g.dlt_dm_dead_detached, 0, max_part);
-      g.dlt_dm_oil_conv_retranslocate=0;
+      g.dlt_dm_oil_conv_retranslocate = 0;
       fill_real_array (g.dlt_dm_green_retrans, 0, max_part);
-      g.dlt_dm_stress_max=0.0;
-      g.dlt_dm_grain_demand=0.0;
+      g.dlt_dm_stress_max = 0.0;
+      g.dlt_dm_grain_demand = 0.0;
       g.dlt_dm_parasite_demand = 0.0;
       g.dlt_sw_parasite_demand = 0.0;
       fill_real_array (g.dm_green_demand, 0, max_part);
       fill_real_array (g.dm_dead, 0, max_part);
       fill_real_array (g.dm_green, 0, max_part);
       fill_real_array (g.dm_senesced, 0, max_part);
-      g.radn_int=0;
-      g.transp_eff=0;
-      g.slai=0;
-      g.dlt_slai=0;
-      g.dlt_lai=0;
-      g.dlt_lai_pot=0;
-      g.dlt_lai_stressed=0;
-      g.lai=0;
-      g.lai_canopy_green=0;
-      g.tlai_dead=0;
-      g.dlt_slai_detached=0;
-      g.dlt_tlai_dead=0;
-      g.dlt_tlai_dead_detached=0;
-      g.dlt_slai_age=0;
-      g.dlt_slai_light=0;
-      g.dlt_slai_water=0;
-      g.dlt_slai_frost=0;
-      g.pai=0;
-      g.dlt_pai=0;
+      g.radn_int = 0;
+      g.transp_eff = 0;
+      g.slai = 0;
+      g.dlt_slai = 0;
+      g.dlt_lai = 0;
+      g.dlt_lai_pot = 0;
+      g.dlt_lai_stressed = 0;
+      g.lai = 0;
+      g.lai_canopy_green = 0;
+      g.tlai_dead = 0;
+      g.dlt_slai_detached = 0;
+      g.dlt_tlai_dead = 0;
+      g.dlt_tlai_dead_detached = 0;
+      g.dlt_slai_age = 0;
+      g.dlt_slai_light = 0;
+      g.dlt_slai_water = 0;
+      g.dlt_slai_frost = 0;
+      g.pai = 0;
+      g.dlt_pai = 0;
       fill_real_array (g.leaf_no, 0, max_node);
       fill_real_array (g.leaf_no_dead, 0, max_node);
-      g.dlt_leaf_no=0;
-      g.dlt_node_no=0;
-      g.dlt_leaf_no_pot=0;
-      g.dlt_node_no_pot=0;
-      g.dlt_leaf_no_dead=0;
-      g.leaf_no_final=0;
+      g.dlt_leaf_no = 0;
+      g.dlt_node_no = 0;
+      g.dlt_leaf_no_pot = 0;
+      g.dlt_node_no_pot = 0;
+      g.dlt_leaf_no_dead = 0;
+      g.leaf_no_final = 0;
       fill_real_array (g.leaf_area, 0, max_node);
       fill_real_array (g.lai_equilib_light, 0, 366+1);
       fill_real_array (g.lai_equilib_water, 0, 366+1);
@@ -9324,16 +9341,16 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (g.no3gsm_mflow_avail, 0, max_layer);
       fill_real_array (g.soil_n_demand, 0, max_part);
       g.grain_n_demand = 0.0;
-      g.n_fix_pot=0;
+      g.n_fix_pot = 0;
       fill_real_array (g.no3gsm_uptake_pot, 0, max_layer);
       fill_real_array (g.nh4gsm_uptake_pot, 0, max_layer);
-      g.n_fix_uptake=0;
-      g.n_fixed_tops=0;
+      g.n_fix_uptake = 0;
+      g.n_fixed_tops = 0;
       fill_real_array (g.n_conc_crit, 0, max_part);
       fill_real_array (g.n_conc_max, 0, max_part);
       fill_real_array (g.n_conc_min, 0, max_part);
       fill_real_array (g.dm_plant_min, 0, max_part);
-      g.cover_pod=0;
+      g.cover_pod = 0;
       fill_real_array (g.dlayer , 0, max_layer);
       fill_real_array (g.dlt_sw_dep, 0, max_layer);
       fill_real_array (g.ll15_dep, 0, max_layer);
@@ -9341,42 +9358,42 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (g.sat_dep, 0, max_layer);
       fill_real_array (g.bd, 0, max_layer);
       fill_real_array (g.sw_dep , 0, max_layer);
-      g.sw_demand=0;
-      g.sw_demand_te=0;
+      g.sw_demand = 0;
+      g.sw_demand_te = 0;
       fill_real_array (g.sw_avail_pot, 0, max_layer);
       fill_real_array (g.sw_avail, 0, max_layer);
       fill_real_array (g.sw_supply , 0, max_layer);
 
-      g.num_layers=0;
-      g.transpiration_tot=0;
-      g.n_uptake_tot=0;
-      g.n_demand_tot=0;
-      g.n_conc_act_stover_tot=0;
-      g.n_conc_crit_stover_tot=0;
-      g.n_uptake_grain_tot=0;
-      g.n_uptake_stover_tot=0;
-      g.lai_max=0;
-      g.flowering_date=0;
-      g.maturity_date=0;
-      g.flowering_das=0;
-      g.maturity_das=0;
+      g.num_layers = 0;
+      g.transpiration_tot = 0;
+      g.n_uptake_tot = 0;
+      g.n_demand_tot = 0;
+      g.n_conc_act_stover_tot = 0;
+      g.n_conc_crit_stover_tot = 0;
+      g.n_uptake_grain_tot = 0;
+      g.n_uptake_stover_tot = 0;
+      g.lai_max = 0;
+      g.flowering_date = 0;
+      g.maturity_date = 0;
+      g.flowering_das = 0;
+      g.maturity_das = 0;
       fill_real_array (g.root_length, 0, max_layer);
       fill_real_array (g.root_length_dead, 0, max_layer);
       fill_real_array (g.dlt_root_length_dead, 0, max_layer);
       fill_real_array (g.dlt_root_length, 0, max_layer);
       fill_real_array (g.dlt_root_length_senesced, 0, max_layer);
-      g.ext_n_demand=0;
-      g.ext_sw_demand=0;
-      g.grain_energy=0;
-      g.leaves_per_node=0;
+      g.ext_n_demand = 0;
+      g.ext_sw_demand = 0;
+      g.grain_energy = 0;
+      g.leaves_per_node = 0;
 
-      p.grains_per_gram_stem=0;
-      p.potential_grain_filling_rate=0;
+      p.grains_per_gram_stem = 0;
+      p.potential_grain_filling_rate = 0;
 
       fill_real_array (p.x_pp_hi_incr, 0, max_table);
       fill_real_array (p.y_hi_incr, 0, max_table);
-      p.num_pp_hi_incr=0;
-      p.num_hi_max_pot=0;
+      p.num_pp_hi_incr = 0;
+      p.num_hi_max_pot = 0;
       fill_real_array (p.x_hi_max_pot_stress, 0, max_table);
       fill_real_array (p.y_hi_max_pot, 0, max_table);
       fill_real_array (p.kl, 0, max_layer);
@@ -9385,33 +9402,33 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (p.x_stem_wt, 0, max_table);
       fill_real_array (p.y_height , 0, max_table);
       fill_real_array (p.y_width , 0, max_table);
-      p.num_stem_wt=0;
-      p.num_canopy_widths=0;
+      p.num_stem_wt = 0;
+      p.num_canopy_widths = 0;
       fill_real_array (p.xf, 0, max_layer);
       p.uptake_source = "";
-      p.eo_crop_factor=0;
+      p.eo_crop_factor = 0;
 
       //       plant Constants
-	   c.grain_fill_option=0;
-      c.n_uptake_option=0;
-      c.leaf_no_pot_option=0;
-      c.partition_option=0;
-      c.grain_no_option=0;
+	   c.grain_fill_option = 0;
+      c.n_uptake_option = 0;
+      c.leaf_no_pot_option = 0;
+      c.partition_option = 0;
+      c.grain_no_option = 0;
 
-      c.sen_start_stage=0;
+      c.sen_start_stage = 0;
       fill_real_array (c.x_temp_grainfill, 0, max_table);
       fill_real_array (c.y_rel_grainfill, 0, max_table);
-      c.num_temp_grainfill=0;
+      c.num_temp_grainfill = 0;
 
-      c.no3_uptake_max=0;
-      c.no3_conc_half_max=0;
+      c.no3_uptake_max = 0;
+      c.no3_conc_half_max = 0;
 
-      c.crop_type="";
-      c.default_crop_class="";
-      c.remove_biomass_report = "off";
+      c.crop_type = "";
+      c.default_crop_class = "";
+      c.remove_biomass_report = "on";
 
       ///////////c.part_names.empty(); in constructor!
-      c.n_supply_preference="";
+      c.n_supply_preference = "";
       fill_real_array (c.x_sw_ratio , 0, max_table);
       fill_real_array (c.y_sw_fac_root , 0, max_table);
       fill_real_array (c.x_ws_root , 0, max_table);
@@ -9424,25 +9441,25 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (c.y_swdef_fix , 0, max_table);
       fill_real_array (c.oxdef_photo , 0, max_table);
       fill_real_array (c.oxdef_photo_rtfr, 0, max_table);
-      c.num_oxdef_photo=0;
-      c.num_sw_ratio=0;
-      c.num_ws_root=0;
-      c.num_sw_demand_ratio=0;
-      c.num_sw_avail_ratio=0;
-      c.num_sw_avail_fix=0;
-      c.twilight=0;
+      c.num_oxdef_photo = 0;
+      c.num_sw_ratio = 0;
+      c.num_ws_root = 0;
+      c.num_sw_demand_ratio = 0;
+      c.num_sw_avail_ratio = 0;
+      c.num_sw_avail_fix = 0;
+      c.twilight = 0;
 
 
       fill_real_array (c.x_lai_ratio, 0, max_table);
 
       fill_real_array (c.y_leaf_no_frac, 0, max_table);
-      c.num_lai_ratio=0;
-      c.n_conc_crit_grain=0;
-      c.n_conc_max_grain=0;
-      c.n_conc_min_grain=0;
-      c.n_conc_crit_root=0;
-      c.n_conc_max_root=0;
-      c.n_conc_min_root=0;
+      c.num_lai_ratio = 0;
+      c.n_conc_crit_grain = 0;
+      c.n_conc_max_grain = 0;
+      c.n_conc_min_grain = 0;
+      c.n_conc_crit_root = 0;
+      c.n_conc_max_root = 0;
+      c.n_conc_min_root = 0;
       fill_real_array (c.x_stage_code, 0, max_table);
       fill_real_array (c.y_n_conc_crit_leaf, 0, max_table);
       fill_real_array (c.y_n_conc_max_leaf, 0, max_table);
@@ -9453,70 +9470,70 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (c.y_n_conc_crit_pod, 0, max_table);
       fill_real_array (c.y_n_conc_max_pod, 0, max_table);
       fill_real_array (c.y_n_conc_min_pod, 0, max_table);
-      c.n_fact_photo=0;
-      c.n_fact_pheno=0;
-      c.n_fact_expansion=0;
+      c.n_fact_photo = 0;
+      c.n_fact_pheno = 0;
+      c.n_fact_expansion = 0;
       fill_real_array (c.n_init_conc, 0, max_part);
       fill_real_array (c.n_sen_conc, 0, max_part);
-      c.num_n_conc_stage=0;
+      c.num_n_conc_stage = 0;
       fill_real_array (c.x_row_spacing, 0, max_table);
       fill_real_array (c.y_extinct_coef, 0, max_table);
       fill_real_array (c.y_extinct_coef_dead, 0, max_table);
       fill_real_array (c.root_depth_rate, 0, max_table);
-      c.extinct_coef_pod=0;
-      c.spec_pod_area=0;
-      c.rue_pod=0;
-      c.num_row_spacing=0;
-      c.leaf_no_crit=0;
-      c.tt_emerg_limit=0;
-      c.days_germ_limit=0;
-      c.swdf_pheno_limit=0;
-      c.swdf_photo_limit=0;
-      c.swdf_photo_rate=0;
-      c.initial_root_depth=0;
+      c.extinct_coef_pod = 0;
+      c.spec_pod_area = 0;
+      c.rue_pod = 0;
+      c.num_row_spacing = 0;
+      c.leaf_no_crit = 0;
+      c.tt_emerg_limit = 0;
+      c.days_germ_limit = 0;
+      c.swdf_pheno_limit = 0;
+      c.swdf_photo_limit = 0;
+      c.swdf_photo_rate = 0;
+      c.initial_root_depth = 0;
       fill_real_array (c.x_lai , 0, max_table);
       fill_real_array (c.y_sla_max, 0, max_table);
-      c.sla_min=0;
-      c.initial_tpla=0;
-      c.min_tpla=0;
-      c.svp_fract=0;
+      c.sla_min = 0;
+      c.initial_tpla = 0;
+      c.min_tpla = 0;
+      c.svp_fract = 0;
       fill_real_array (c.transp_eff_cf, 0, max_table);
-      c.num_lai=0;
-      c.grain_n_conc_min=0;
-      c.seed_wt_min=0;
-      c.leaf_no_at_emerg=0;
-      c.no3_diffn_const=0;
+      c.num_lai = 0;
+      c.grain_n_conc_min = 0;
+      c.seed_wt_min = 0;
+      c.leaf_no_at_emerg = 0;
+      c.no3_diffn_const = 0;
       fill_real_array (c.n_fix_rate, 0,max_table);
       fill_real_array (c.x_node_no_app, 0, max_table);
       fill_real_array (c.y_node_app_rate, 0, max_table);
       fill_real_array (c.x_node_no_leaf, 0, max_table);
       fill_real_array (c.y_leaves_per_node, 0, max_table);
       fill_real_array (c.dm_init, 0, max_part);
-      c.leaf_init_rate=0;
-      c.leaf_no_seed=0;
-      ////c.x_dm_sen_frac=NULL; done in constructor
-      ////c.y_dm_sen_frac=NULL;
-      ////c.num_dm_sen_frac=NULL;
+      c.leaf_init_rate = 0;
+      c.leaf_no_seed = 0;
+      ////c.x_dm_sen_frac = NULL; done in constructor
+      ////c.y_dm_sen_frac = NULL;
+      ////c.num_dm_sen_frac = NULL;
       fill_real_array (c.dead_detach_frac,0,max_part);
       fill_real_array (c.sen_detach_frac,0,max_part);
-      c.num_node_no_app=0;
-      c.num_node_no_leaf=0;
-      c.swdf_grain_min=0;
-      c.hi_min=0;
-      c.sfac_slope=0;
-      c.tfac_slope=0;
-      c.lai_sen_light=0;
-      c.sw_fac_max=0;
+      c.num_node_no_app = 0;
+      c.num_node_no_leaf = 0;
+      c.swdf_grain_min = 0;
+      c.hi_min = 0;
+      c.sfac_slope = 0;
+      c.tfac_slope = 0;
+      c.lai_sen_light = 0;
+      c.sw_fac_max = 0;
       fill_real_array (c.x_temp_senescence, 0, max_table);
       fill_real_array (c.y_senescence_fac, 0, max_table);
-      c.temp_fac_min=0;
-      c.spla_slope=0;
-      c.sen_threshold=0;
-      c.sen_rate_water=0;
-      c.sen_light_slope=0;
-      c.num_temp_senescence=0;
-      c.grn_water_cont=0;
-      c.partition_rate_leaf=0;
+      c.temp_fac_min = 0;
+      c.spla_slope = 0;
+      c.sen_threshold = 0;
+      c.sen_rate_water = 0;
+      c.sen_light_slope = 0;
+      c.num_temp_senescence = 0;
+      c.grn_water_cont = 0;
+      c.partition_rate_leaf = 0;
       fill_real_array (c.frac_leaf,0,max_table);
       fill_real_array (c.frac_pod,0,max_table);
       fill_real_array (c.ratio_root_shoot, 0, max_table);
@@ -9524,77 +9541,77 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (c.y_frac_leaf, 0, max_table);
       fill_real_array (c.y_frac_pod, 0, max_table);
       fill_real_array (c.y_ratio_root_shoot, 0, max_table);
-      c.num_stage_no_partition=0;
-      c.stem_trans_frac=0;
-      c.leaf_trans_frac=0;
-      c.pod_trans_frac=0;
-      c.htstress_coeff=0;
-      c.temp_grain_crit_stress=0;
-      c.node_sen_rate=0;
-      c.fr_lf_sen_rate=0;
+      c.num_stage_no_partition = 0;
+      c.stem_trans_frac = 0;
+      c.leaf_trans_frac = 0;
+      c.pod_trans_frac = 0;
+      c.htstress_coeff = 0;
+      c.temp_grain_crit_stress = 0;
+      c.node_sen_rate = 0;
+      c.fr_lf_sen_rate = 0;
       c.n_fact_lf_sen_rate = 0.0;
-      c.carbo_oil_conv_ratio=0;
-      c.grain_oil_conc=0;
-      c.node_no_correction=0;
+      c.carbo_oil_conv_ratio = 0;
+      c.grain_oil_conc = 0;
+      c.node_no_correction = 0;
       fill_real_array (c.x_node_no, 0, max_table);
       fill_real_array (c.y_leaf_size, 0, max_table);
-      c.num_node_no=0;
+      c.num_node_no = 0;
       fill_real_array (c.x_ave_temp, 0, max_table);
       fill_real_array (c.y_stress_photo, 0, max_table);
       fill_real_array (c.x_weighted_temp, 0, max_table);
       fill_real_array (c.y_plant_death, 0, max_table);
       fill_real_array (c.y_grain_rate, 0, max_table);
-      c.num_temp=0;
-      c.num_ave_temp=0;
-      c.num_temp_grain=0;
-      c.num_factors=0;
-      c.num_temp_other=0;
-      c.num_weighted_temp=0;
-      c.kl_ub=0;
-      c.sw_dep_ub=0;
-      c.sw_dep_lb=0;
-      c.sw_ub=0;
-      c.sw_lb=0;
-      c.no3_ub=0;
-      c.no3_lb=0;
-      c.no3_min_ub=0;
-      c.no3_min_lb=0;
-      c.nh4_ub=0;
-      c.nh4_lb=0;
-      c.nh4_min_ub=0;
-      c.nh4_min_lb=0;
-      c.leaf_no_min=0;
-      c.leaf_no_max=0;
-      c.latitude_ub=0;
-      c.latitude_lb=0;
-      c.maxt_ub=0;
-      c.maxt_lb=0;
-      c.mint_ub=0;
-      c.mint_lb=0;
-      c.radn_ub=0;
-      c.radn_lb=0;
-      c.dlayer_ub=0;
-      c.dlayer_lb=0;
-      c.row_spacing_default=0;
-      c.skip_row_default=0;
-      c.skip_plant_default=0;
+      c.num_temp = 0;
+      c.num_ave_temp = 0;
+      c.num_temp_grain = 0;
+      c.num_factors = 0;
+      c.num_temp_other = 0;
+      c.num_weighted_temp = 0;
+      c.kl_ub = 0;
+      c.sw_dep_ub = 0;
+      c.sw_dep_lb = 0;
+      c.sw_ub = 0;
+      c.sw_lb = 0;
+      c.no3_ub = 0;
+      c.no3_lb = 0;
+      c.no3_min_ub = 0;
+      c.no3_min_lb = 0;
+      c.nh4_ub = 0;
+      c.nh4_lb = 0;
+      c.nh4_min_ub = 0;
+      c.nh4_min_lb = 0;
+      c.leaf_no_min = 0;
+      c.leaf_no_max = 0;
+      c.latitude_ub = 0;
+      c.latitude_lb = 0;
+      c.maxt_ub = 0;
+      c.maxt_lb = 0;
+      c.mint_ub = 0;
+      c.mint_lb = 0;
+      c.radn_ub = 0;
+      c.radn_lb = 0;
+      c.dlayer_ub = 0;
+      c.dlayer_lb = 0;
+      c.row_spacing_default = 0;
+      c.skip_row_default = 0;
+      c.skip_plant_default = 0;
       fill_real_array (c.fr_height_cut , 0, max_table);
       fill_real_array (c.fr_stem_remain, 0, max_table);
-      c.num_fr_height_cut=0;
-      c.specific_root_length=0;
-      c.root_die_back_fr=0;
+      c.num_fr_height_cut = 0;
+      c.specific_root_length = 0;
+      c.root_die_back_fr = 0;
       fill_real_array (c.x_plant_rld , 0, max_table);
       fill_real_array (c.y_rel_root_rate , 0, max_table);
-      c.num_plant_rld=0;
+      c.num_plant_rld = 0;
       c.class_action.clear();
       c.class_change.clear();
       fill_real_array (c.x_temp_root_advance, 0, max_table);
       fill_real_array (c.y_rel_root_advance, 0, max_table);
-      c.num_temp_root_advance=0;
-      c.eo_crop_factor_default=0;
+      c.num_temp_root_advance = 0;
+      c.eo_crop_factor_default = 0;
 
       // parasite
-      g.dlt_dm_parasite_demand= 0.0;
+      g.dlt_dm_parasite_demand =  0.0;
       g.dlt_sw_parasite_demand = 0.0;
       g.dm_parasite_retranslocate = 0.0;
       g.dlt_dm_parasite = 0.0;
@@ -9612,24 +9629,24 @@ void Plant::plant_zero_all_globals (void)
       g.node_no_first_flower= 0.0;
       fill_real_array (g.dlt_dm_daily, 0.0, 366);
       g.fruit_site_no = 0.0;
-      g.dlt_fruit_flower_no= 0.0;
+      g.dlt_fruit_flower_no =  0.0;
       g.dlt_fruit_site_no = 0.0;
       g.swdef_pheno_flower = 0.0;
       g.swdef_pheno_grainfill = 0.0;
-      for (int i=0; i < max_fruit_cohorts; i++) {
-         for (int j=0; j < max_fruit_stage; j++) {
-           g.fruit_days_tot[i][j]= 0.0;
-           g.fruit_phase_tt[i][j]= 0.0;
-           g.fruit_tt_tot[i][j]= 0.0;
+      for (int i = 0; i < max_fruit_cohorts; i++) {
+         for (int j = 0; j < max_fruit_stage; j++) {
+           g.fruit_days_tot[i][j] =  0.0;
+           g.fruit_phase_tt[i][j] =  0.0;
+           g.fruit_tt_tot[i][j] =  0.0;
          }
-         for (int j=0; j < max_part; j++) {
-           g.dm_fruit_green[i][j]= 0.0;
-           g.dlt_dm_fruit_green[i][j]= 0.0;
-           g.dlt_dm_fruit_senesced[i][j] = 0.0;
-           g.dlt_dm_fruit_abort[i][j] = 0.0;
+         for (int j = 0; j < max_part; j++) {
+           g.dm_fruit_green[i][j] =  0.0;
+           g.dlt_dm_fruit_green[i][j] =  0.0;
+           g.dlt_dm_fruit_senesced[i][j]  =  0.0;
+           g.dlt_dm_fruit_abort[i][j]  =  0.0;
            g.dm_fruit_dead[i][j] = 0.0;
            g.dm_fruit_senesced[i][j] = 0.0;
-           g.dlt_dm_fruit_green_retrans[i][j]= 0.0;
+           g.dlt_dm_fruit_green_retrans[i][j] =  0.0;
          }
          for (int j = 0; j < 366; j++) {
            g.fruit_sdr_daily[i][j] = 0.0;
@@ -9650,8 +9667,8 @@ void Plant::plant_zero_all_globals (void)
        // fruit cohorts
       fill_real_array (p.x_node_no_fruit_sites, 0.0,max_table);
       fill_real_array (p.y_fruit_sites_per_node, 0.0,max_table);
-      p.dm_fruit_set_min= 0.0;
-      p.num_node_no_fruit_sites = 0;
+      p.dm_fruit_set_min =  0.0;
+      p.num_node_no_fruit_sites  =  0;
       fill_real_array (p.fruit_frac_pod, 0.0,max_table);
       fill_real_array (p.x_pp_fruit_start_to_end_grain, 0.0 ,max_table);
       fill_real_array (p.y_tt_fruit_start_to_end_grain, 0.0 ,max_table);
@@ -9662,10 +9679,10 @@ void Plant::plant_zero_all_globals (void)
       p.num_pp_fruit_start_to_end_grain = 0;
       fill_integer_array (p.fruit_stage_no_partition, 0,max_table);
 
-      p.num_fruit_stage_no_partition= 0;
-      p.dm_fruit_max= 0.0;
+      p.num_fruit_stage_no_partition =  0;
+      p.dm_fruit_max =  0.0;
       p.dm_fruit_set_crit = 0.0;
-      p.potential_fruit_filling_rate= 0.0;
+      p.potential_fruit_filling_rate =  0.0;
       p.cutout_fract = 0.0;
 
       fill_real_array (c.x_temp_fruit_site,0.0, max_table);
@@ -9686,20 +9703,20 @@ void Plant::plant_zero_all_globals (void)
       c.days_assimilate_ave = 0;
       c.dm_abort_fract = 0;
       c.fruit_phen_end = 0;
-      c.tt_flower_to_start_pod= 0.0;
+      c.tt_flower_to_start_pod =  0.0;
       c.fract_dm_fruit_abort_crit = 0.0;
-      c.root_growth_option= 0;
+      c.root_growth_option =  0;
 
       c.swdef_pheno_flower = 0.0;
       c.swdef_pheno_grainfill = 0.0;
 
       fill_real_array (c.x_co2_te_modifier, 0.0, max_table);
       fill_real_array (c.y_co2_te_modifier, 0.0, max_table);
-      c.num_co2_te_modifier=0;
+      c.num_co2_te_modifier = 0;
 
       fill_real_array (c.x_co2_nconc_modifier, 0.0, max_table);
       fill_real_array (c.y_co2_nconc_modifier, 0.0, max_table);
-      c.num_co2_nconc_modifier=0;
+      c.num_co2_nconc_modifier = 0;
 
       c.photosynthetic_pathway = pw_UNDEF;
 
@@ -9810,6 +9827,8 @@ void Plant::plant_zero_variables (void)
     g.nfact_photo = 1.0;
     g.nfact_grain_conc = 1.0;
 
+//    g.remove_biom_pheno = 1.0;
+
     g.n_fix_pot = 0.0;
     g.n_fix_uptake = 0.0;
     g.n_fixed_tops = 0.0;
@@ -9829,12 +9848,12 @@ void Plant::plant_zero_variables (void)
       g.fruit_sdr[i]                = 0.0;
       g.dm_fruit_pod_min[i]         = 0.0;
       g.fruit_phase_devel[i]        = 0.0;
-      for (int j =0; j < max_fruit_stage; j++) {
+      for (int j = 0; j < max_fruit_stage; j++) {
          g.fruit_days_tot[i][j]        = 0.0;
          g.fruit_phase_tt[i][j]        = 0.0;
          g.fruit_tt_tot[i][j]          = 0.0;
       }
-      for (int j =0; j < max_part; j++) {
+      for (int j = 0; j < max_part; j++) {
          g.dm_fruit_green[i][j]        = 0.0;
          g.dm_fruit_dead[i][j]         = 0.0;
          g.dm_fruit_senesced[i][j]     = 0.0;
@@ -13570,7 +13589,6 @@ void Plant::get_nstress_grain(protocol::Component *systemInterface, protocol::Qu
        nstress_grain = 0.0;
     systemInterface->sendVariable(qd, nstress_grain);  //()
 }
-
 
 void Plant::get_parasite_c_gain(protocol::Component *system, protocol::QueryValueData &qd)
 {
