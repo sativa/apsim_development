@@ -5289,7 +5289,7 @@ c         NO3_diffn = divide (NO3_diffn, c%NO3_diffn_const, 0.0)
 
       dlt_plants = min(0.0,Popn - g%plants)
 
-      biomass_dying_fraction = divide(dlt_plants
+      biomass_dying_fraction = -divide(dlt_plants
      :                               ,g%plants
      :                               ,0.0)
      :                       * c%self_thin_size
