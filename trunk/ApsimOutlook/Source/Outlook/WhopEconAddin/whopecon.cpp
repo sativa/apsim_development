@@ -266,8 +266,7 @@ void WhopEcon::doCalculations(TAPSTable& data,
                         }
                      }
 
-                  // get yield from file, change yield in file from a WET weight
-                  // to a DRY weight and add a new WET weight column.
+                  // get yield from file and add a new WET weight column.
                   string yieldFieldName = cropFields.getCropFieldName
                      (*record, "yield", *cropAcronymI);
                   string wetYieldFieldName = yieldFieldName + "WET";
@@ -275,9 +274,8 @@ void WhopEcon::doCalculations(TAPSTable& data,
                   float yield = 0.0;
                   if (!cropFields.getCropValue(*record, "yield", *cropAcronymI, yield))
                      addWarning("Cannot find a yield column for crop: " + cropName);
-                  record->setFieldValue(wetYieldFieldName, FloatToStr(yield).c_str());
                   yield = cropData->calculateDryYield(yield);
-                  record->setFieldValue(yieldFieldName, FloatToStr(yield).c_str());
+                  record->setFieldValue(wetYieldFieldName, FloatToStr(yield).c_str());
 
                   // Calculate a return for this crop and store it as a new field
                   // for this crop.
