@@ -90,13 +90,11 @@
  
       call push_routine (my_name)
  
-      if (Action.eq.ACTION_Init) then
-         call canopy_zero_variables ()
-         call canopy_init ()
-         call canopy_find_crops ()
-!         call canopy_get_other_variables ()
+      if (Action.eq.ACTION_Get_variable) then
+            ! respond to requests from other modules
+         call canopy_send_my_variable (Data_string)
  
-      else if (Action .eq. ACTION_Prepare) then
+      elseif (Action .eq. ACTION_Prepare) then
          call canopy_zero_variables ()
          call canopy_find_crops ()
          call canopy_get_other_variables ()
@@ -105,11 +103,13 @@
       else if (Action .eq. ACTION_Post) then
          call canopy_post ()
  
-      else if (Action.eq.ACTION_Get_variable) then
-            ! respond to requests from other modules
-         call canopy_send_my_variable (Data_string)
+      else if (Action.eq.ACTION_Init) then
+         call canopy_zero_all_variables ()
+         call canopy_init ()
+         call canopy_find_crops ()
+!         call canopy_get_other_variables ()
  
-      else
+      else 
             ! Don't use message
  
          call Message_unused ()
@@ -240,7 +240,6 @@
                call get_posting_Module (Owner_module)
 
                g%crop_module(crop) = owner_module
-!               g%crop_types(crop) = crop_type
                goto 1000
             else
                call fatal_error (err_user
@@ -292,7 +291,6 @@
 
       g%intercrop_list = blank
       g%crop_module    = blank
-      g%crop_types     = blank
 
  
 
@@ -305,6 +303,7 @@
 *     ===========================================================
       use CanopyModule
       implicit none
+      include 'const.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -508,6 +507,7 @@
 *      011195 jngh  added call to message_unused
 *      010896 jngh changed method of getting module name for gets
 *      120996 jngh removed print statement
+*      021199 jngh added export of cover_tot_all and cover_height_all arrays
 
 *+  Calls
       integer    canopy_crop_number    ! function
@@ -531,6 +531,8 @@
       real       cover                 ! temporary cover variable
       integer    module                ! module counter
       character  module_name*(max_module_name_size) ! module name
+      real       cover_tot_all(max_crops)   ! total cover of each crop (0-1)
+      real       cover_green_all(max_crops) ! green cover of each crop (0-1)
 
 *- Implementation Section ----------------------------------
  
@@ -557,10 +559,36 @@
      :         - exp (-sum_real_array (g%K_lai_total, g%num_crops))
          call respond2get_real_var (variable_name, '()', cover)
  
+      else if (variable_name.eq.'cover_tot_all') then
+         cover_tot_all(:) = 0.0
+         do 1000 module = 1, g%num_crops
+            cover_tot_all(module) = 1.0
+     :                            - exp (-g%K_lai_total(module))
+1000     continue
+         call respond2get_real_array (variable_name, '()'
+     :                                 , cover_tot_all, g%num_crops)
+ 
+      else if (variable_name.eq.'cover_height_all') then
+         call respond2get_real_array (variable_name, '()', g%height
+     :                                 , g%num_crops)
+ 
       else if (variable_name.eq.'cover_green_sum') then
          cover = 1.0
      :         - exp (-sum_real_array (g%K_lai_green, g%num_crops))
          call respond2get_real_var (variable_name, '()', cover)
+ 
+      else if (variable_name.eq.'cover_green_all') then
+         cover_tot_all(:) = 0.0
+         do 2000 module = 1, g%num_crops
+            cover_green_all(module) = 1.0
+     :                              - exp (-g%K_lai_green(module))
+2000     continue
+         call respond2get_real_array (variable_name, '()'
+     :                                 , cover_green_all, g%num_crops)
+ 
+      else if (variable_name.eq.'cover_crops_all') then
+         call respond2get_char_array (variable_name, '()', g%crop_module
+     :                                 , g%num_crops)
  
       else
             ! don't own the variable
@@ -1068,7 +1096,6 @@ cjh            of the canopies within the layer.
       parameter (my_name='canopy_post')
 
 *+  Local Variables
-      character  e_messg*200           ! error message
       integer    num_in_list           ! number of names in crop list
 
 *- Implementation Section ----------------------------------
