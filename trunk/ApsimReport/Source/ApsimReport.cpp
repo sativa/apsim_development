@@ -6,11 +6,13 @@
 USEFORM("TRenameFileForm.cpp", RenameFileForm);
 USEFORM("TMainForm.cpp", MainForm);
 USEFORM("TPageSetupForm.cpp", PageSetupForm);
+AnsiString commandLine;
 //---------------------------------------------------------------------------
-WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdLine, int)
 {
    try
    {
+       commandLine = cmdLine;
        Application->Initialize();
 
        Application->Title = "ApsimReport";

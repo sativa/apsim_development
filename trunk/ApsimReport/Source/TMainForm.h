@@ -133,6 +133,7 @@ private:	// User declarations
    void saveIfNecessary(void);
    void setCaption(void);
    int textToZoom(AnsiString zoomText);
+   void processCommandLine(AnsiString commandLine);
 
 public:		// User declarations
    __fastcall TMainForm(TComponent* Owner);

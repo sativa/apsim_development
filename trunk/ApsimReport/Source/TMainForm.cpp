@@ -8,7 +8,9 @@
 #include "TPageSetupForm.h"
 #include <general\vcl_functions.h>
 #include <general\inifile.h>
+#include <general\path.h>
 #include <ApsimShared\ApsimSettings.h>
+#include <TApsimFileReader.h>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "TSEGReport"
@@ -17,7 +19,7 @@
 #pragma link "JPEG"
 #pragma resource "*.dfm"
 TMainForm *MainForm;
-
+extern AnsiString commandLine;
 //---------------------------------------------------------------------------
 __fastcall TMainForm::TMainForm(TComponent* Owner)
    : TForm(Owner)
@@ -43,6 +45,8 @@ void __fastcall TMainForm::FormShow(TObject *Sender)
       Width = atoi(widthSt.c_str());
       Height = atoi(heightSt.c_str());
       }
+   if (commandLine != "")
+      processCommandLine(commandLine);
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::LayoutModeExecute(TObject *Sender)
@@ -283,4 +287,43 @@ void __fastcall TMainForm::MRUFileListMRUItemClick(TObject *Sender,
    open(AFilename);
    }
 //---------------------------------------------------------------------------
+// process the specified command line.
+//---------------------------------------------------------------------------
+void TMainForm::processCommandLine(AnsiString commandLine)
+   {
+   vector<string> commandWords;
+   Split_string(commandLine.c_str(), " ", commandWords);
+   if (commandWords.size() == 1 || commandWords.size() == 2)
+      {
+      string reportFileName = commandWords[0];
+      string outputFileName;
+      open(reportFileName.c_str());
 
+      if (commandWords.size() == 2)
+         {
+         outputFileName = commandWords[1];
+
+         // get the first file reader and pass the output file to it.
+         TComponent* reportComp = getComponent<TComponent> (SEGReport1, "Report");
+         TApsimFileReader* reader = NULL;
+         for (int componentI = 0; componentI < reportComp->ComponentCount && reader == NULL; componentI++)
+            reader = dynamic_cast<TApsimFileReader*> (reportComp->Components[componentI]);
+         if (reader != NULL)
+            {
+            TStringList* fileNames = new TStringList;
+            fileNames->Add(outputFileName.c_str());
+            reader->filenames = fileNames;
+            delete fileNames;
+
+            SEGReport1->refresh();
+            }
+         }
+      else
+         outputFileName = reportFileName;
+
+      Path jpeg(outputFileName.c_str());
+      jpeg.Set_extension(".jpg");
+      save(jpeg.Get_path().c_str());
+      Close();
+      }
+   }
