@@ -3,14 +3,8 @@ Dependency = %licensed_source(sorghum)
 
 [Contents]
 ComponentInterface.for = ComponentInterface.for
-;CropDefCons.inc = ..\..\cropmod\source\CropDefCons.inc
-;CropMod.inc     = ..\..\cropmod\source\CropMod.inc
-;cropmodmain.for = ..\..\cropmod\source\cropmodmain.for
-sorgmain.for = sorgmain.for
-sorgopt.for  = sorgopt.for
-sorgtree.for = sorgtree.for
-sorgn.for    = sorgn.for
+sorghum.for = sorghum.for
 
 [APSBuild]
 binary = ..\lib\sorghum.dll
-moduletype=croptemplate
+compilerfile = release.compile

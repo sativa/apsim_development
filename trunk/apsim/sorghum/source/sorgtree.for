@@ -2,7 +2,6 @@ C     Last change:  E     6 Aug 2001   12:28 pm
 *     ===========================================================
       subroutine Sorg_root_depth (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -22,7 +21,7 @@ C     Last change:  E     6 Aug 2001   12:28 pm
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
          call cproc_root_depth1 (
      :                              g%dlayer
@@ -38,21 +37,20 @@ C     Last change:  E     6 Aug 2001   12:28 pm
      :                             ,g%dlt_root_depth
      :                             ,g%root_depth
      :                             )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Sorg_root_depth_init (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -72,9 +70,9 @@ C     Last change:  E     6 Aug 2001   12:28 pm
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_root_depth_init1
      :               (
      :                c%initial_root_depth
@@ -83,9 +81,9 @@ C     Last change:  E     6 Aug 2001   12:28 pm
      :              , g%days_tot
      :              , g%dlt_root_depth
      :               )
- 
+
       elseif (Option .eq. 2) then
- 
+
          call cproc_root_depth_init1
      :               (
      :                g%sowing_depth
@@ -94,21 +92,20 @@ C     Last change:  E     6 Aug 2001   12:28 pm
      :              , g%days_tot
      :              , g%dlt_root_depth
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Sorg_water_supply (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -127,11 +124,11 @@ C     Last change:  E     6 Aug 2001   12:28 pm
       parameter (my_name = 'Sorg_water_supply')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_sw_supply1 (
      :                 c%minsw
      :                ,g%dlayer
@@ -145,21 +142,20 @@ C     Last change:  E     6 Aug 2001   12:28 pm
      :                ,g%sw_avail_pot
      :                ,g%sw_supply
      :                )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Sorg_water_stress(Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -181,9 +177,9 @@ C     Last change:  E     6 Aug 2001   12:28 pm
       real ext_sw_supply (max_layer) ! external sw supply (mm)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
          if (p%uptake_source .eq. 'apsim') then
             ! this would have been avoided if we have
@@ -191,7 +187,7 @@ C     Last change:  E     6 Aug 2001   12:28 pm
             ! photo requires (really) actually water uptake
             ! but expansion requires pot water uptake.
             ! we only have one supply variable.
- 
+
             call crop_get_ext_uptakes(
      :                 p%uptake_source   ! uptake flag
      :                ,c%crop_type       ! crop type
@@ -208,7 +204,7 @@ C     Last change:  E     6 Aug 2001   12:28 pm
             call crop_swdef_photo(max_layer, g%dlayer, g%root_depth,
      :           g%sw_demand, g%sw_supply, g%swdef_photo)
          endif
- 
+
          call crop_swdef_expansion(c%num_sw_demand_ratio,
      :        c%x_sw_demand_ratio, c%y_swdef_leaf, max_layer, g%dlayer,
      :        g%root_depth,g%sw_demand, g%sw_supply, g%swdef_expansion)
@@ -218,21 +214,19 @@ C     Last change:  E     6 Aug 2001   12:28 pm
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sorg_nit_stress(Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
-      dll_import sorg_nfact_photo
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -249,11 +243,11 @@ C     Last change:  E     6 Aug 2001   12:28 pm
       parameter (my_name = 'Sorg_nit_stress')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call crop_nfact_pheno(leaf, stem, g%dm_green,
      .                         g%N_conc_crit,
      .                         g%N_conc_min,
@@ -277,15 +271,15 @@ C     Last change:  E     6 Aug 2001   12:28 pm
      .                     g%N_green,
      .                     c%N_fact_expansion,
      .                     g%nfact_expansion)
- 
+
       else if (Option .eq. 400) then
- 
+
          call crop_nfact_pheno(leaf, stem, g%dm_green,
      .                         g%N_conc_crit,
      .                         g%N_conc_min,
      .                         g%N_green,
      .                         c%N_fact_pheno, g%nfact_pheno)
- 
+
          call crop_nfact_photo(leaf, stem,
      .                     g%dm_green,
      .                     g%N_conc_crit,
@@ -304,12 +298,12 @@ C     Last change:  E     6 Aug 2001   12:28 pm
      .                     g%N_green,
      .                     c%N_fact_expansion,
      .                     g%nfact_expansion)
- 
+
       else if (Option .eq. 401) then
         g%nfact_pheno = g%nfact_expansion
         g%nfact_grain_conc = 1
 
-         call sorg_nfact_photo(leaf, 
+         call sorg_nfact_photo(leaf,
      .                     g%lai,
      .                     g%N_green,
      .                     g%nfact_photo)
@@ -317,17 +311,16 @@ C     Last change:  E     6 Aug 2001   12:28 pm
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Sorg_temp_stress(Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 !      include 'stress.inc'
@@ -347,9 +340,9 @@ C     Last change:  E     6 Aug 2001   12:28 pm
       parameter (my_name = 'Sorg_temp_stress')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
           call crop_temperature_stress_photo
      :               (c%num_ave_temp, c%x_ave_temp, c%y_stress_photo,
@@ -357,17 +350,16 @@ C     Last change:  E     6 Aug 2001   12:28 pm
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sorg_light_supply (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -390,32 +382,31 @@ C     Last change:  E     6 Aug 2001   12:28 pm
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 400) then
        extinct_coef = linear_interp_real (g%row_spacing
      :                                  ,c%x_row_spacing
      :                                  ,c%y_extinct_coef
      :                                  ,c%num_row_spacing)
- 
+
        g%cover_green = 1.0 - exp (-extinct_coef*g%lai)
- 
+
        call crop_radn_int0(g%cover_green,
      :                     g%fr_intc_radn, g%radn, g%radn_int)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Sorg_bio_RUE (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -435,10 +426,10 @@ C     Last change:  E     6 Aug 2001   12:28 pm
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
          ! potential by photosynthesis
- 
+
          call crop_dm_pot_rue(
      .          g%current_stage,
      .          c%rue,
@@ -446,21 +437,20 @@ C     Last change:  E     6 Aug 2001   12:28 pm
      .          g%temp_stress_photo,
      .          g%nfact_photo,
      .          g%dlt_dm_light)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Sorg_transpiration_eff (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -482,9 +472,9 @@ C     Last change:  E     6 Aug 2001   12:28 pm
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_transp_eff1(
      :               c%svp_fract
      :             , c%transp_eff_cf
@@ -493,21 +483,20 @@ C     Last change:  E     6 Aug 2001   12:28 pm
      :             , g%mint
      :             , g%transp_eff
      :             )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Sorg_water_demand (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -527,29 +516,28 @@ C     Last change:  E     6 Aug 2001   12:28 pm
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_sw_demand1(
      :           g%dlt_dm_light
      :         , g%transp_eff
      :         , g%sw_demand
      :         )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sorg_phenology_init (option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -568,15 +556,15 @@ C     Last change:  E     6 Aug 2001   12:28 pm
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (option .eq. 1)  then
- 
+
       call sorg_phen_init (
 !     .          germ_stage,
 !     .          emerg_stage,
 !     .          begin_PP_sensitive_stage, !end_juv
 !     .          germ_stage,
- 
+
      .          g%current_stage,
      .          g%days_tot,
      .          c%shoot_lag,
@@ -603,17 +591,16 @@ C     Last change:  E     6 Aug 2001   12:28 pm
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine sorg_phenology (Option)
 * ====================================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -632,9 +619,9 @@ C     Last change:  E     6 Aug 2001   12:28 pm
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       If (Option .eq. 1) then
- 
+
 c      call sproc_phenology1 (
 c     .       g%previous_stage,
 c     .       g%current_stage,
@@ -694,55 +681,55 @@ c     :          g%days_tot)
       call sorg_phenology2 (
      .       g%previous_stage,
      .       g%current_stage,
- 
+
      .       g%maxt, g%mint,
      .       c%x_temp, c%y_tt,
      .       c%num_temp, g%dlt_tt,
- 
+
      :       c%num_sw_avail_ratio,
      :       c%x_sw_avail_ratio, c%y_swdef_pheno, g%dlayer,
      :       g%root_depth, g%sw_avail, g%sw_avail_pot, g%swdef_pheno,
- 
+
      .       g%dm_green,
      .       g%N_conc_crit, g%N_conc_min, g%N_green,
      .       c%N_fact_pheno, g%nfact_pheno,
- 
+
      .          g%days_tot,
      .          g%sowing_depth,
      .          g%tt_tot,
      .          g%phase_tt,
- 
+
      .          g%sw_dep,
      .          p%ll_dep,
      .          c%pesw_germ,
- 
+
      .          g%dlt_stage,
- 
+
      .          c%tt_base,
      .          c%tt_opt,
      .          g%tt_tot_fm,
      .          g%dlt_tt_fm,
      .          g%sw_supply_demand_ratio)
- 
+
       elseif (Option .eq. 403) then
- 
+
 !version with 2 thermal times (different for GF)
       call sorg_phenology3 (
      .       g%previous_stage,
      .       g%current_stage,
- 
+
      .       g%maxt, g%mint,
      .       c%x_temp, c%y_tt,
      .       c%num_temp, g%dlt_tt,
- 
+
      :       c%num_sw_avail_ratio,
      :       c%x_sw_avail_ratio, c%y_swdef_pheno, g%dlayer,
      :       g%root_depth, g%sw_avail, g%sw_avail_pot, g%swdef_pheno,
- 
+
      .       g%dm_green,
      .       g%N_conc_crit, g%N_conc_min, g%N_green,
      .       c%N_fact_pheno, g%nfact_pheno,
- 
+
      .          g%days_tot,
      .          c%shoot_lag,
      .          g%sowing_depth,
@@ -766,33 +753,32 @@ c     :          g%days_tot)
      .          p%tt_flower_to_maturity,
      .          p%tt_maturity_to_ripe,
      .          g%phase_tt,
- 
+
      .          g%sw_dep,
      .          p%ll_dep,
      .          c%pesw_germ,
- 
+
      .          g%dlt_stage,
- 
+
      .          c%tt_base,
      .          c%tt_opt,
      .          g%tt_tot_fm,
      .          g%dlt_tt_fm,
      .          g%sw_supply_demand_ratio)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Sorg_water_uptake (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -817,7 +803,7 @@ c     :          g%days_tot)
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (p%uptake_source .eq. 'apsim') then
          call crop_get_ext_uptakes(
      :                 p%uptake_source   ! uptake flag
@@ -829,26 +815,26 @@ c     :          g%days_tot)
      :                ,ext_sw_supply     ! uptake array
      :                ,max_layer         ! array dim
      :                )
- 
+
          do 100 layer = 1, g%num_layers
             g%dlt_sw_dep(layer) = -ext_sw_supply(layer)
   100    continue
- 
- 
+
+
       elseif (Option .eq. 1) then
- 
+
          call crop_sw_uptake0(max_layer, g%dlayer, g%root_depth,
      :              g%sw_demand, g%sw_supply, g%dlt_sw_dep)
- 
+
       elseif (Option .eq. 2) then
- 
+
          deepest_layer = find_layer_no
      :                   (g%root_depth, g%dlayer, max_layer)
          g%sw_supply_sum = sum_real_array (g%sw_supply, deepest_layer)
          g%sw_supply_demand_ratio = divide(g%sw_supply_sum
      :                                           , g%sw_demand,0.0)
- 
- 
+
+
          call cproc_sw_uptake1(
      :            max_layer,
      :            g%dlayer,
@@ -856,21 +842,20 @@ c     :          g%days_tot)
      :            g%sw_demand,
      :            g%sw_supply,
      :            g%dlt_sw_dep)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Sorg_nit_supply (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -892,18 +877,18 @@ c     :          g%days_tot)
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (p%uptake_source .eq. 'apsim') then
          ! do nothing here for now
          ! I assume that the retrans routine does not need the
          ! call below as it is called on its own from process routine.
          ! -NIH
- 
+
       elseif (Option .eq. 1) then
- 
+
          fixation_determinant = sum_real_array(g%dm_green, max_part)
      :                        - g%dm_green(root)
- 
+
          call cproc_n_supply1 (
      :            g%dlayer
      :          , max_layer
@@ -921,25 +906,23 @@ c     :          g%days_tot)
      :          , g%swdef_fixation
      :          , g%N_fix_pot
      :          )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Sorg_nit_init (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
-      dll_import sorg_N_init1
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -956,9 +939,9 @@ c     :          g%days_tot)
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_N_init1
      :               (
      :                c%n_init_conc
@@ -969,16 +952,13 @@ c     :          g%days_tot)
      :              , g%dm_green
      :              , g%N_green
      :               )
- 
+
       elseif (Option .eq. 2) then
- 
+
          call sorg_N_init1
      :               (
      :                C%n_init_conc
      :              , max_part
-     :              , emerg
-     :              , G%current_stage
-     :              , G%days_tot
      :              , G%dm_green
      :              , g%lai
      :              , g%plants
@@ -987,17 +967,16 @@ c     :          g%days_tot)
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Sorg_height (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -1016,9 +995,9 @@ c     :          g%days_tot)
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_canopy_height
      :               (
      :                g%canopy_height
@@ -1030,21 +1009,20 @@ c     :          g%days_tot)
      :              , stem
      :              , g%dlt_canopy_height
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Sorg_leaf_no_init (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -1063,9 +1041,9 @@ c     :          g%days_tot)
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_leaf_no_init1
      :               (
      :                c%leaf_no_at_emerg
@@ -1075,21 +1053,20 @@ c     :          g%days_tot)
      :              , g%leaf_no
      :              , g%node_no
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine sorg_leaf_no_pot (Option)
 * ====================================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -1108,14 +1085,14 @@ c     :          g%days_tot)
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       If (Option .eq. 400) then
- 
+
       call sorg_leaf_number1(
      .          g%current_stage,
      .          g%days_tot,
      .          g%phase_tt,
- 
+
      .          c%leaf_init_rate,
      .          c%leaf_no_seed,
      .          c%leaf_no_min,
@@ -1128,25 +1105,22 @@ c     :          g%days_tot)
      .          g%dlt_tt,
      .          g%dlt_leaf_no,
      .          g%node_no)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine sorg_leaf_area_pot (Option)
 * ====================================================================
-      use CropModModule
       Use infrastructure
       implicit none
-
-c      dll_import  cproc_leaf_area_pot_TPLA
 
 
 *+  Sub-Program Arguments
@@ -1167,9 +1141,9 @@ c      dll_import  cproc_leaf_area_pot_TPLA
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       If (Option .eq. 1) then
- 
+
       call sproc_leaf_area_pot2 (
      .          g%days_tot,
      .          g%current_stage,
@@ -1191,10 +1165,10 @@ c      dll_import  cproc_leaf_area_pot_TPLA
      .          g%plants,
      .          g%lai,
      .          g%dlt_lai_pot)
- 
- 
+
+
       elseif (Option .eq. 2) then
- 
+
 !converted to new routine
 
       call cproc_tpla_max (
@@ -1225,17 +1199,16 @@ c      dll_import  cproc_leaf_area_pot_TPLA
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Sorg_leaf_area_stressed (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -1254,33 +1227,32 @@ c      dll_import  cproc_leaf_area_pot_TPLA
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
 !stress factors should really be called again here!!!
- 
+
          call cproc_leaf_area_stressed1 (
      :                       g%dlt_lai_pot
      :                      ,g%swdef_expansion
      :                      ,g%nfact_expansion
      :                      ,g%dlt_lai_stressed
      :                      )
- 
+
       else
- 
+
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Sorg_bio_TE (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -1299,11 +1271,11 @@ c      dll_import  cproc_leaf_area_pot_TPLA
       parameter (my_name = 'Sorg_bio_TE')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_bio_water1(
      .           max_layer
      .         , g%dlayer
@@ -1312,21 +1284,20 @@ c      dll_import  cproc_leaf_area_pot_TPLA
      .         , g%transp_eff
      .         , g%dlt_dm_water
      .         )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sorg_bio_init (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -1346,10 +1317,10 @@ c      dll_import  cproc_leaf_area_pot_TPLA
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
          ! use whichever is limiting
- 
+
          !scc need to feed this back to N/leaf area interaction
          !Note that dlt_dm_light is w. RUE as limited by temperature and Nfac
          call sorg_dm_init (g%current_stage,
@@ -1361,21 +1332,20 @@ c      dll_import  cproc_leaf_area_pot_TPLA
      .          c%stem_trans_frac,
      .          c%leaf_trans_frac,
      .          g%dm_green, g%dm_plant_min)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sorg_bio_actual (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -1395,29 +1365,28 @@ c      dll_import  cproc_leaf_area_pot_TPLA
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
          ! use whichever is limiting
- 
+
          !scc need to feed this back to N/leaf area interaction
          !Note that dlt_dm_light is w. RUE as limited by temperature and Nfac
- 
+
          g%dlt_dm = min (g%dlt_dm_light, g%dlt_dm_water)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Sorg_bio_grain_demand_stress (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -1436,15 +1405,15 @@ c      dll_import  cproc_leaf_area_pot_TPLA
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
         g%swdef_photo = divide(g%sw_supply_sum,g%sw_demand,1.0)
- 
+
         if(g%swdef_photo .ge.1.0) then
            g%swdef_photo = 1.0
         endif
- 
+
          call cproc_yieldpart_demand_stress1
      :               (
      :                g%nfact_photo
@@ -1452,21 +1421,20 @@ c      dll_import  cproc_leaf_area_pot_TPLA
      :              , g%temp_stress_photo
      :              , g%dlt_dm_stress_max
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Sorg_bio_grain_demand (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -1485,7 +1453,7 @@ c      dll_import  cproc_leaf_area_pot_TPLA
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
          call cproc_bio_yieldpart_demand1
      :               (
@@ -1523,21 +1491,20 @@ c      dll_import  cproc_leaf_area_pot_TPLA
      .          g%dm_dead,
      .          p%dm_per_seed,
      .          g%dm_green_tot_fi)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine sorg_bio_partition (Option)
 * ====================================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -1556,9 +1523,9 @@ c      dll_import  cproc_leaf_area_pot_TPLA
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       If (Option .eq. 400) then
- 
+
       call sproc_bio_partition1 (
      .          g%current_stage,
      .          c%ratio_root_shoot,
@@ -1570,21 +1537,20 @@ c      dll_import  cproc_leaf_area_pot_TPLA
      .          c%frac_stem2flower,
      .          g%dlt_dm_grain_demand,
      .          g%dlt_dm_green)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Sorg_bio_retrans (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -1612,9 +1578,9 @@ c      dll_import  cproc_leaf_area_pot_TPLA
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_dm_retranslocate1
      :               (
      :                g%current_stage
@@ -1631,21 +1597,20 @@ c      dll_import  cproc_leaf_area_pot_TPLA
      :              , g%plants
      :              , g%dlt_dm_green_retrans
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine sorg_leaf_area_actual (Option)
 * ====================================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -1664,9 +1629,9 @@ c      dll_import  cproc_leaf_area_pot_TPLA
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       If (Option .eq. 400) then
- 
+
 !old version
       call sproc_leaf_area_actual1 (
      .          g%current_stage,
@@ -1675,37 +1640,36 @@ c      dll_import  cproc_leaf_area_pot_TPLA
      .          g%dlt_dm_green,
      .          c%sla_max
      .          )
- 
+
       elseif (Option .eq. 3) then
- 
+
 !this is the one that we would probably use....
 !         leaf_no_now = sum_between(sowing, now, g%leaf_no)
 !         interp_sla_max = linear_interp_real(leaf_no_now
 !     .                                      ,c%x_leaf_no
 !     .                                      ,c%leaf_no_sla_max
 !     .                                      ,c%num_x_leaf_no)
- 
+
 !         call maize_leaf_area1 (
 !     .          g%current_stage,
 !     .          g%dlt_lai,
 !     .          g%dlt_lai_stressed,
 !     .          g%dlt_dm_green,
 !     .          interp_sla_max)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Sorg_root_length_init (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -1725,9 +1689,9 @@ c      dll_import  cproc_leaf_area_pot_TPLA
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_root_length_init1 (
      :                emerg
      :               ,g%current_stage
@@ -1738,21 +1702,20 @@ c      dll_import  cproc_leaf_area_pot_TPLA
      :               ,g%dlayer
      :               ,g%root_length
      :               ,max_layer)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Sorg_root_dist (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -1770,11 +1733,11 @@ c      dll_import  cproc_leaf_area_pot_TPLA
       parameter (my_name = 'Sorg_root_dist')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_root_length_growth1
      :               (
      :                c%specific_root_length
@@ -1797,21 +1760,20 @@ c      dll_import  cproc_leaf_area_pot_TPLA
      :              , p%ll_dep
      :              , max_layer
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Sorg_sen_bio (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -1830,9 +1792,9 @@ c      dll_import  cproc_leaf_area_pot_TPLA
       parameter (my_name = 'Sorg_sen_bio')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
          call crop_dm_senescence0(max_part, root, leaf, stem,
      .          c%dm_leaf_sen_frac,
@@ -1845,21 +1807,20 @@ c      dll_import  cproc_leaf_area_pot_TPLA
      .          g%lai,
      .          g%dlt_dm_senesced,
      .          g%dlt_dm_sen_retrans)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Sorg_sen_root_length (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -1878,9 +1839,9 @@ c      dll_import  cproc_leaf_area_pot_TPLA
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_root_length_senescence1
      :               (
      :               c%specific_root_length
@@ -1891,21 +1852,20 @@ c      dll_import  cproc_leaf_area_pot_TPLA
      :              , g%dlt_root_length_senesced
      :              , max_layer
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Sorg_sen_nit (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -1924,20 +1884,20 @@ c      dll_import  cproc_leaf_area_pot_TPLA
       parameter (my_name = 'Sorg_sen_nit')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_N_senescence1 (max_part
      :                              , c%n_sen_conc
      :                              , g%dlt_dm_senesced
      :                              , g%n_green
      :                              , g%dm_green
      :                              , g%dlt_N_senesced)
- 
+
       else if (Option .eq. 400) then
- 
+
          call sorg_N_senescence1 (max_part
      :                              , c%n_sen_conc
      :                              , g%dlt_dm_senesced
@@ -1945,22 +1905,21 @@ c      dll_import  cproc_leaf_area_pot_TPLA
      :                              , g%dm_green
      :                              , g%swdef_expansion
      :                              , g%dlt_N_senesced)
- 
+
 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine sorg_N_retranslocate (Option)
 * ====================================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -1979,9 +1938,9 @@ c      dll_import  cproc_leaf_area_pot_TPLA
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       If (Option .eq. 400) then
- 
+
       call sproc_N_retranslocate1 (
      .          g%dlt_dm_green,
      .          g%maxt,
@@ -1999,7 +1958,7 @@ c      dll_import  cproc_leaf_area_pot_TPLA
      .          g%nfact_grain_conc,
      .          g%dlt_N_retrans)
       else If (Option .eq. 401) then    !SORGHUM
- 
+
       call sorg_N_retranslocate1 (
      .          g%N_demand,
      .          g%NFract,
@@ -2012,21 +1971,20 @@ c      dll_import  cproc_leaf_area_pot_TPLA
      .          g%current_stage,
      .          g%dlt_N_retrans)
 
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Sorg_nit_demand (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -2053,16 +2011,16 @@ c      dll_import  cproc_leaf_area_pot_TPLA
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          ! maize version that works on dm_light
          ! calculate potential new shoot and root growth
          ! need to calculate dm using potential rue not affected by
          ! N and temperature
- 
+
       elseif (Option .eq. 2) then
- 
+
        call cproc_N_demand2
      :               (
      :                max_part
@@ -2099,21 +2057,20 @@ c      dll_import  cproc_leaf_area_pot_TPLA
      .                c%n_target_conc,
      :                g%N_demand
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Sorg_nit_uptake (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -2132,7 +2089,7 @@ c      dll_import  cproc_leaf_area_pot_TPLA
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (p%uptake_source .eq. 'apsim') then
          ! NIH - note that I use a -ve conversion
          ! factor FOR NOW to make it a delta.
@@ -2146,9 +2103,9 @@ c      dll_import  cproc_leaf_area_pot_TPLA
      :                ,g%dlt_no3gsm      ! uptake array
      :                ,max_layer         ! array dim
      :                )
- 
+
       elseif (Option .eq. 1) then
- 
+
          call cproc_N_uptake1
      :               (
      :                c%no3_diffn_const
@@ -2180,26 +2137,24 @@ c      dll_import  cproc_leaf_area_pot_TPLA
      :              , g%current_stage
      :              , g%dlt_NO3gsm
      :               )
- 
- 
+
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine sorg_N_partition (Option)
 * ====================================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
-      dll_import sorg_N_partition1
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2216,9 +2171,9 @@ c      dll_import  cproc_leaf_area_pot_TPLA
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       If (Option .eq. 400) then
- 
+
       call sproc_N_partition1(
      .          g%root_depth,
      .          g%dlayer,
@@ -2228,28 +2183,27 @@ c      dll_import  cproc_leaf_area_pot_TPLA
      .          g%dlt_N_green
      .                     )
       else If (Option .eq. 401) then       ! SORGHUM
- 
+
       call sorg_N_partition1(
      .          g%N_demand,
      .          G%NFract,
      .          G%dlt_N_green
      .                     )
- 
- 
+
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine sorg_plant_death (Option)
 * ====================================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -2268,19 +2222,19 @@ c      dll_import  cproc_leaf_area_pot_TPLA
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       If (Option .eq. 1) then
- 
+
       call sproc_plant_death1 (
      .          c%tt_emerg_limit,
      .          g%current_stage,
      .          g%plants,
      .          g%tt_tot,
      .          g%dlt_plants_failure_emergence,
- 
+
      .          g%lai,
      .          g%dlt_slai,
- 
+
      .          g%cswd_photo,
      .          g%leaf_no,
      .          c%leaf_no_crit,
@@ -2289,21 +2243,20 @@ c      dll_import  cproc_leaf_area_pot_TPLA
      .          c%swdf_photo_rate,
      .          g%dlt_plants_death_drought,
      .          g%dlt_plants_dead)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Sorg_detachment(option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -2325,9 +2278,9 @@ c in maize
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_dm_detachment1( max_part
      :                              , c%sen_detach_frac
      :                              , g%dm_senesced
@@ -2335,7 +2288,7 @@ c in maize
      :                              , c%dead_detach_frac
      :                              , g%dm_dead
      :                              , g%dlt_dm_dead_detached)
- 
+
          call cproc_n_detachment1( max_part
      :                              , c%sen_detach_frac
      :                              , g%n_senesced
@@ -2343,7 +2296,7 @@ c in maize
      :                              , c%dead_detach_frac
      :                              , g%n_dead
      :                              , g%dlt_n_dead_detached)
- 
+
          call cproc_lai_detachment1 (leaf
      :                             , c%sen_detach_frac
      :                             , g%slai
@@ -2351,21 +2304,20 @@ c in maize
      :                             , c%dead_detach_frac
      :                             , g%tlai_dead
      :                             , g%dlt_tlai_dead_detached)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sorg_leaf_area_sen (Option)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -2400,15 +2352,15 @@ c in maize
       parameter (my_name = 'sorg_leaf_area_sen')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! Standard routines derived from Ceres - simpler ?
          !TEMPLATE OPTION alternatives developed by GLH - mechanistic
- 
+
       if (Option .eq. 1) then
 *Following routines are already in CROP.FOR
- 
+
             call srop_leaf_area_sen_age1 (
      :          emerg, now,
      .          g%leaf_no_dead,
@@ -2435,18 +2387,18 @@ c in maize
      .          g%lai,
      .          g%mint,
      .          g%dlt_slai_frost)
- 
+
          ! now take largest of deltas
          g%dlt_slai = max (g%dlt_slai_age
      :                 , g%dlt_slai_light
      :                 , g%dlt_slai_water
      :                 , g%dlt_slai_frost)
- 
+
       else if (Option .eq. 400) then
- 
+
 *check against cropsid.for
 *set the lai_max_possible for input to SPLA routines
- 
+
            call srop_leaf_area_lai_max_possible (
      .          floral_init,
      .          flag_leaf,
@@ -2458,7 +2410,7 @@ c in maize
      .          g%slai,
      .          g%dlt_lai_pot,
      .          g%dlt_lai_stressed)
- 
+
             call srop_leaf_area_sen_age2 (
      .          g%current_stage,
      .          g%tt_tot,
@@ -2472,7 +2424,7 @@ c in maize
      .          g%lai,
      .          g%dlt_lai,
      .          g%dlt_slai_age)
- 
+
             call srop_lai_equilib_light (
      .          g%radn_int,
      .          g%cover_green,
@@ -2482,7 +2434,7 @@ c in maize
      .          g%day_of_year,
      .          g%year,
      .          g%lai_equilib_light)
- 
+
             call srop_leaf_area_sen_light2 (
      .          g%radn_int,
      .          g%radn,
@@ -2493,7 +2445,7 @@ c in maize
      .          g%lai,
      .          c%sen_light_time_const,
      .          g%dlt_slai_light)
- 
+
 *Water limiting routines... in CROP.FOR
             call srop_lai_equilib_water(
      .          g%day_of_year,
@@ -2509,7 +2461,7 @@ c in maize
      .          g%temp_stress_photo,
      .          g%transp_eff,
      .          g%lai_equilib_water)
- 
+
             call srop_leaf_area_sen_water2 (
      .          g%day_of_year,
      .          g%year,
@@ -2523,27 +2475,27 @@ c in maize
      .          g%sw_demand,
      .          g%sw_supply,
      .          g%dlt_slai_water)
- 
+
 *Frost effects in CROP.FOR
             call srop_leaf_area_sen_frost2(
      .          c%frost_kill,
      .          g%lai,
      .          g%mint,
      .          g%dlt_slai_frost)
- 
+
          ! now take largest of deltas
          g%dlt_slai = max (g%dlt_slai_age
      :                 , g%dlt_slai_light
      :                 , g%dlt_slai_water
      :                 , g%dlt_slai_frost)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
