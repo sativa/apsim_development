@@ -38,33 +38,6 @@ RegistrationItem::RegistrationItem(Component* p, RegistrationType k,
    isError = true;
    }
 // ------------------------------------------------------------------
-// Return the destination component ID or -1 if not found.
-// ------------------------------------------------------------------
-int RegistrationItem::getComponentID(void)
-   {
-   char* endPtr;
-   int destID = strtol(componentName, &endPtr, 10);
-   if (*endPtr == '\0')
-      return destID;
-   else
-      return -1;
-   }
-// ------------------------------------------------------------------
-// Return the fully qualified name of the registration.
-// e.g. componentname.name
-// ------------------------------------------------------------------
-void RegistrationItem::getFQN(char* fqn)
-   {
-   if (strlen(componentName) == 0 || getComponentID() != -1)
-      strcpy(fqn, name);
-   else
-      {
-      strcpy(fqn, componentName);
-      strcat(fqn, ".");
-      strcat(fqn, name);
-      }
-   }
-// ------------------------------------------------------------------
 // Add a return value message to this registration item.
 // ------------------------------------------------------------------
 void RegistrationItem::addReturnValueMessage(unsigned int fromID,

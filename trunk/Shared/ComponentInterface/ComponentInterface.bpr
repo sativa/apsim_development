@@ -3,70 +3,78 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.06.00"/>
-    <PROJECT value="ComponentInterface.lib"/>
-    <OBJFILES value="Component.obj message.obj Type.obj TypeConverter.obj variant.obj 
-      Variants.obj FORTRANComponent.obj MessageData.obj ApsimVariant.obj 
-      ArraySpecifier.obj Registrations.obj RegistrationItem.obj 
-      ProtocolVector.obj datatypes.obj SimpleWrapper.obj"/>
-    <RESFILES value=""/>
+    <PROJECT value="../../bin\ComponentInterface.dll"/>
+    <OBJFILES value="FORTRANComponentWrapper.obj Component.obj message.obj Type.obj 
+      TypeConverter.obj Variant.obj Variants.obj MessageData.obj 
+      ApsimVariant.obj ArraySpecifier.obj Registrations.obj RegistrationItem.obj 
+      ProtocolVector.obj datatypes.obj RegistrationType.obj EntryPoints.obj"/>
+    <RESFILES value="ComponentInterface.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
-    <LIBFILES value=""/>
+    <LIBFILES value="..\ApsimShared\ApsimShared.lib ..\general\general.lib &quot;C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\bin.bcb\libxml2.lib&quot;"/>
     <LIBRARIES value=""/>
-    <PACKAGES value=""/>
+    <SPARELIBS value="rtl.lib"/>
+    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi vcldb.bpi dbrtl.bpi qrpt.bpi 
+      bdertl.bpi vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi teeqr.bpi teeui.bpi 
+      teedb.bpi tee.bpi ibxpress.bpi visualclx.bpi visualdbclx.bpi vclie.bpi 
+      xmlrtl.bpi inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi nmfast.bpi 
+      bcbie.bpi soaprtl.bpi dclocx.bpi dbexpress.bpi dbxcds.bpi indy.bpi 
+      bcb2kaxserver.bpi adortl.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
-    <LINKER value="TLib"/>
-    <USERDEFINES value=""/>
-    <SYSDEFINES value="_RTLDLL;NO_STRICT"/>
+    <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
+    <RELEASELIBPATH value="$(BCB)\lib\release"/>
+    <LINKER value="ilink32"/>
+    <USERDEFINES value="_DEBUG"/>
+    <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="ComponentInterface.bpf"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(SHARED)"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost"/>
     <LIBPATH value="$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
-    <LISTFILE value=""/>
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-O2 -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -x- -RT- -X- -a8 -b- -k- -vi -c 
-      -tW -tWM"/>
-    <PFLAGS value="-$Y- -$L- -$D- -$A8 -v -JPHNE -M"/>
-    <AFLAGS value="/mx /w2 /zn"/>
-    <LFLAGS value=""/>
+    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- 
+      -tWD -tWM -c"/>
+    <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
+    <RFLAGS value=""/>
+    <AFLAGS value="/mx /w2 /zd"/>
+    <LFLAGS value="-D&quot;&quot; -aa -Tpd -x -Gn -Gi -v"/>
     <OTHERFILES value=""/>
   </OPTIONS>
   <LINKER>
-    <ALLOBJ value="$(OBJFILES)"/>
-    <ALLLIB value=""/>
+    <ALLOBJ value="c0d32.obj $(PACKAGES) $(OBJFILES)"/>
+    <ALLRES value="$(RESFILES)"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
     <OTHERFILES value=""/>
   </LINKER>
   <FILELIST>
+      <FILE FILENAME="ComponentInterface.res" FORMNAME="" UNITNAME="ComponentInterface.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ComponentInterface.bpf" FORMNAME="" UNITNAME="ComponentInterface" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Component.cpp" FORMNAME="" UNITNAME="Component.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="message.cpp" FORMNAME="" UNITNAME="message.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Type.cpp" FORMNAME="" UNITNAME="Type.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="TypeConverter.cpp" FORMNAME="" UNITNAME="TypeConverter.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="variant.cpp" FORMNAME="" UNITNAME="Variant.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Variants.cpp" FORMNAME="" UNITNAME="Variants.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="FORTRANComponent.cpp" FORMNAME="" UNITNAME="FORTRANComponent" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="FORTRANComponentWrapper.cpp" FORMNAME="" UNITNAME="FORTRANComponentWrapper" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Component.cpp" FORMNAME="" UNITNAME="Component" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="message.cpp" FORMNAME="" UNITNAME="message" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Type.cpp" FORMNAME="" UNITNAME="Type" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TypeConverter.cpp" FORMNAME="" UNITNAME="TypeConverter" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Variant.cpp" FORMNAME="" UNITNAME="variant" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Variants.cpp" FORMNAME="" UNITNAME="Variants" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="MessageData.cpp" FORMNAME="" UNITNAME="MessageData" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ApsimVariant.cpp" FORMNAME="" UNITNAME="ApsimVariant" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ArraySpecifier.cpp" FORMNAME="" UNITNAME="ArraySpecifier" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Registrations.cpp" FORMNAME="" UNITNAME="Registrations.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="RegistrationItem.cpp" FORMNAME="" UNITNAME="RegistrationItem.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Registrations.cpp" FORMNAME="" UNITNAME="Registrations" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="RegistrationItem.cpp" FORMNAME="" UNITNAME="RegistrationItem" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ProtocolVector.cpp" FORMNAME="" UNITNAME="ProtocolVector" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="datatypes.cpp" FORMNAME="" UNITNAME="datatypes" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="SimpleWrapper.cpp" FORMNAME="" UNITNAME="SimpleWrapper" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="RegistrationType.cpp" FORMNAME="" UNITNAME="RegistrationType" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\bin.bcb\libxml2.lib" FORMNAME="" UNITNAME="libxml2.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="EntryPoints.cpp" FORMNAME="" UNITNAME="EntryPoints" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
-
-  <FILES>
-    <FILE type="override" value="Registrations.cpp" translator="Auto">
-      <CFLAG1 value=" -O2"/>
-    </FILE>
-  </FILES>
 
   <IDEOPTIONS>
 [Version Info]
@@ -96,10 +104,14 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
+[Excluded Packages]
+C:\Program Files\Borland\CBuilder6\Components\TeeChart\Sources\Compiled\BuilderC6\System\TeeImage7C6.bpl=TeeChart Pro Graphic Exporting formats
+
 [HistoryLists\hlIncludePath]
-Count=2
-Item0=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item1=$(BCB)\include;$(BCB)\include\vcl
+Count=3
+Item0=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost
+Item1=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item2=$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
 Count=1
@@ -113,19 +125,20 @@ Item0=$(BCB)\source\vcl
 Count=1
 Item0=_DEBUG
 
-[HistoryLists\hlTlibPageSize]
-Count=1
-Item0=0x0010
+[HistoryLists\hlFinalOutputDir]
+Count=2
+Item0=../../bin\
+Item1=../../bin
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=
+RunParams=C:\MyData\development\apsim\soiln2\sample\soiln2.sim
 Launcher=
 UseLauncher=0
 DebugCWD=
-HostApplication=
+HostApplication=c:\mydata\development\bin\apsim.exe
 RemoteHost=
 RemotePath=
 RemoteLauncher=
@@ -141,5 +154,10 @@ LinkCGLIB=0
 ActiveLang=
 ProjectLang=
 RootDir=
+
+[Linker]
+LibPrefix=
+LibSuffix=
+LibVersion=
   </IDEOPTIONS>
 </PROJECT>

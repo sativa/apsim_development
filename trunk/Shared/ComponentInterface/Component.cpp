@@ -23,11 +23,6 @@ static const char* SUMMARY_FILE_WRITE_TYPE = "<type name=\"SummaryFileWrite\">"
                                              "   <field name=\"componentName\" kind=\"string\"/>"
                                              "   <field name=\"lines\" kind=\"string\"/>"
                                              "</type>";
-enum ProtocolRegistrationType {drivingProperty=1, readableProperty=2,
-                       writableProperty=3, readableWritableProperty=4,
-                       publishedEvent=5, subscribedEvent=6,
-                       methodHandler=7};
-
 Component* component;
 // ------------------------------------------------------------------
 //  Short description:
@@ -144,10 +139,7 @@ try {
                                  break;}
       case Event:               {EventData eventData;
                                  messageData >> eventData;
-                                 if (((RegistrationItem*) eventData.ID)->getKind() == respondToMethodCallReg)
-                                    respondToMethod(eventData.publishedByID, eventData.ID, eventData.params);
-                                 else
-                                    respondToEvent(eventData.publishedByID, eventData.ID, eventData.params);
+                                 respondToEvent(eventData.publishedByID, eventData.ID, eventData.params);
                                  break;}
       case QueryValue:          {QueryValueData queryData;
                                  messageData >> queryData;
@@ -173,6 +165,10 @@ try {
                                  messageData >> returnData;
                                  ((RegistrationItem*) returnData.ID)->addReturnValueMessage(message->from,
                                                                                      returnData);
+                                 break;}
+      case ReplyValue:          {ReplyValueData replyData;
+                                 messageData >> replyData;
+                                 onReplyValueMessage(message->from, replyData);
                                  break;}
       case NotifyTermination:   {notifyTermination();
                                  break;}
@@ -224,7 +220,7 @@ try {
                                                     apsimSetQueryData.replyToID,
                                                     apsimSetQueryData.replyID,
                                                     ok));
-                                    addRegistration(protocol::respondToSetReg,
+                                    addRegistration(RegistrationType::respondToSet,
                                                     apsimSetQueryData.name, " ");
                                     }
                                  break;}
@@ -255,28 +251,28 @@ void Component::doInit1(const FString& sdml)
    {
    static const char* STRING_TYPE = "<type kind=\"string\"/>";
    static const char* INTEGER_TYPE = "<type kind=\"integer4\"/>";
-   nameID = addRegistration(respondToGetReg,
+   nameID = addRegistration(RegistrationType::respondToGet,
                             "name",
                             STRING_TYPE);
-   typeID = addRegistration(respondToGetReg,
+   typeID = addRegistration(RegistrationType::respondToGet,
                             "type",
                             STRING_TYPE);
-   versionID = addRegistration(respondToGetReg,
+   versionID = addRegistration(RegistrationType::respondToGet,
                                "version",
                                STRING_TYPE);
-   authorID = addRegistration(respondToGetReg,
+   authorID = addRegistration(RegistrationType::respondToGet,
                               "author",
                               STRING_TYPE);
-   activeID = addRegistration(respondToGetReg,
+   activeID = addRegistration(RegistrationType::respondToGet,
                               "active",
                               INTEGER_TYPE);
-   stateID = addRegistration(respondToGetReg,
+   stateID = addRegistration(RegistrationType::respondToGet,
                              "state",
                              STRING_TYPE);
-   errorID = addRegistration(eventReg,
+   errorID = addRegistration(RegistrationType::event,
                              "error",
                              ERROR_TYPE);
-   summaryID = addRegistration(eventReg,
+   summaryID = addRegistration(RegistrationType::event,
                                "summaryFileWrite",
                                SUMMARY_FILE_WRITE_TYPE);
    }
@@ -342,37 +338,23 @@ unsigned Component::addRegistration(RegistrationType kind,
       reg = registrations->add(kind, regName, type, componentNameOrID);
 
       unsigned id = (unsigned) reg;
-      int destID = reg->getComponentID();
-      if (destID == -1) destID = 0;
-      char fqn[100];
-      strcpy(fqn, "");
-      reg->getFQN(fqn);
 
-      if (kind == methodCallReg)
+      string registrationName = reg->getName();
+      int destID = 0;
+      if (strlen(reg->getComponentName()) > 0)
          {
-         kind = eventReg;
-         if (strchr(fqn, '.') == NULL)
-            {
-            char msg[200];
-            strcpy(msg, "Method call registrations must be directed to specific modules. \n"
-                        "Registration name = ");
-            strcat(msg, fqn);
-            error(msg, true);
-            }
+         char* endPtr;
+         destID = strtol(reg->getComponentName(), &endPtr, 10);
+         if (*endPtr != '\0')
+            registrationName = string(reg->getComponentName()) + "." + registrationName;
          }
-      else if (kind == respondToMethodCallReg)
-         {
-         kind = respondToEventReg;
-         strcpy(fqn, name);
-         strcat(fqn, ".");
-         strncat(fqn, regName.f_str(), regName.length());
-         }
+
       sendMessage(newRegisterMessage(componentID,
                                      parentID,
                                      kind,
                                      id,
                                      destID,
-                                     fqn,
+                                     registrationName.c_str(),
                                      reg->getType()));
       }
    return (unsigned) reg;
@@ -805,70 +787,10 @@ void Component::waitForComplete(void)
       {
       char buffer[200];
       strcpy(buffer, "Timeout while waiting for a COMPLETE message");
-      error(buffer, true);
+//      error(buffer, true);
       }
    }
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
-//  Short description:
-//     The PM is instructing us to create an instance of all our data.
 
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-namespace protocol {
-extern "C" _export void __stdcall createInstance
-   (const char* dllFileName,
-    const unsigned int* compID,
-    const unsigned int* parentID,
-    unsigned int* instanceNumber,
-    const unsigned int* callbackArg,
-    CallbackType* callback)
-   {
-   protocol::Component* component = ::createComponent();
-   component->setup(dllFileName, *compID, *parentID, callbackArg, (FARPROC)callback);
-   *instanceNumber = (unsigned) component;
-   }
-}
-// ------------------------------------------------------------------
-//  Short description:
-//     The PM is instructing us to delete an instance of our data.
-
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-extern "C" _export void __stdcall deleteInstance (unsigned* instanceNumber)
-   {
-   delete (protocol::Component*) *instanceNumber;
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//     All messages to component go through here.
-
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-namespace protocol {
-extern "C" _export void __stdcall messageToLogic (unsigned* instanceNumber,
-                                                  Message* message,
-                                                  bool* processed)
-   {
-   ((protocol::Component*) *instanceNumber)->messageToLogic(message);
-   *processed = true; // ???? not sure why we need this.
-   }
-}
 
 void fatalError(const FString& st)
    {
@@ -967,5 +889,5 @@ unsigned int Component::getReg(const char *systemName,
    strcat(buffer, "\" units=\"(");
    strcat(buffer, units);
    strcat(buffer, ")\"/>");
-   return this->addRegistration(respondToGetReg, systemName, buffer);
+   return this->addRegistration(RegistrationType::respondToGet, systemName, buffer);
    }

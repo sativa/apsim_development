@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "variants.h"
+#include "datatypes.h"
 
 // turn of the warnings about "Functions containing for are not expanded inline.
 #pragma warn -inl
@@ -240,23 +241,6 @@ void FortranWrapper::respondToEvent(unsigned int& fromID, unsigned int& eventID,
    currentInstance = savedThis;
    }
 // ------------------------------------------------------------------
-// respond to a method call.
-// ------------------------------------------------------------------
-void FortranWrapper::respondToMethod(unsigned int& fromID, unsigned int& methodID, protocol::Variant& var)
-   {
-   Instance saved = *instance;
-   FortranWrapper* savedThis = currentInstance;
-   swapInstanceIn();
-
-   FString name = getRegistrationName(methodID);
-   incomingApsimVariant.aliasTo(var.getMessageData());
-   inRespondToSet = false;
-   Main(name, " ");
-
-   *instance = saved;
-   currentInstance = savedThis;
-   }
-// ------------------------------------------------------------------
 // respond to an onApsimGetQuery message
 // ------------------------------------------------------------------
 void FortranWrapper::onApsimGetQuery(protocol::ApsimGetQueryData& apsimGetQueryData)
@@ -332,7 +316,7 @@ protocol::Component* createComponent(void)
 
 // ------------------------------------------------------------------
 extern "C" __declspec(dllexport) unsigned  __stdcall _export add_registration
-   (protocol::RegistrationType* kind, const char* name, const char* type,
+   (RegistrationType* kind, const char* name, const char* type,
     const char* alias, const char* componentNameOrID,
     unsigned nameLength, unsigned typeLength, unsigned aliasLength,
     unsigned componentNameOrIDLength)
@@ -701,6 +685,18 @@ extern "C" __declspec(dllexport) void __stdcall respond2get_char_array
    FortranWrapper::currentInstance->respond2var
       (FString(variableName, variableNameLength, FORString),
        FString(units, unitsLength, FORString), stringArrayType, values);
+   }
+// ------------------------------------------------------------------
+// Module is returning the value of a variable to the system.
+// ------------------------------------------------------------------
+extern "C" __declspec(dllexport) void __stdcall respond2get_time_var
+   (const char* variableName, const char* units, const protocol::timeType* value,
+    unsigned variableNameLength, unsigned unitsLength)
+   {
+   string timeDDML = timeTypeDDML;
+   FortranWrapper::currentInstance->respond2var
+      (FString(variableName, variableNameLength, FORString),
+       FString(units, unitsLength, FORString), timeDDML.c_str(), *value);
    }
 // ------------------------------------------------------------------
 // Bound check a real variable and produce an error if out of bound.
@@ -1092,24 +1088,13 @@ extern "C" __declspec(dllexport) void __stdcall event_send(const char* eventName
    FortranWrapper::currentInstance->event_send(FString(eventName, eventNameLength, FORString));
    }
 // ------------------------------------------------------------------
-// Module wants to send an action.
+// Module wants to send an event
 // ------------------------------------------------------------------
-//extern "C" __declspec(dllexport) void __stdcall action_send_to_all_comps(const char* actionName, unsigned actionNameLength)
-//   {
-//   int actionID = FortranWrapper::currentInstance->addRegistration
-//      (protocol::methodCallReg, FString(actionName, actionNameLength), nullType);
-//
-//   FortranWrapper::currentInstance->publish
-//      (actionID, FortranWrapper::currentInstance->apsimVariant());
-//   }
-// ------------------------------------------------------------------
-// Module wants to send an action.
-// ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall action_send(const char* moduleName, const char* actionName,
-                                      unsigned moduleNameLength, unsigned actionNameLength)
+extern "C" __declspec(dllexport) void __stdcall event_send_directed(const char* moduleName, const char* eventName,
+                                      unsigned moduleNameLength, unsigned eventNameLength)
    {
-   FortranWrapper::currentInstance->action_send
-      (FString(moduleName, moduleNameLength, FORString), FString(actionName, actionNameLength, FORString));
+   FortranWrapper::currentInstance->event_send
+      (FString(eventName, eventNameLength, FORString), FString(moduleName, moduleNameLength, FORString));
    }
 // ------------------------------------------------------------------
 // Module is posting a value into a variant.

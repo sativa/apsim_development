@@ -15,8 +15,8 @@ namespace protocol {
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-void tooManyError(unsigned int maxCount)
-   {           
+void _export tooManyError(unsigned int maxCount)
+   {
    char st[500];
    strcpy(st, "Internal Error - Too many items have been inserted in the \n");
    strcat(st, "component interface vector.  Maximum number of items: ");
@@ -34,7 +34,7 @@ void tooManyError(unsigned int maxCount)
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-void rangeError(unsigned int index, unsigned int maxCount)
+void _export rangeError(unsigned int index, unsigned int maxCount)
    {
    char st[500];
    strcpy(st, "Internal Error - Invalid item index passed into \n");
