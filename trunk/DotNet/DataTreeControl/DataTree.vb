@@ -50,6 +50,8 @@ Public Class DataTree
         'TreeView
         '
         Me.TreeView.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TreeView.HideSelection = False
+        Me.TreeView.HotTracking = True
         Me.TreeView.ImageList = Me.ImageList
         Me.TreeView.Location = New System.Drawing.Point(0, 0)
         Me.TreeView.Name = "TreeView"
@@ -116,10 +118,27 @@ Public Class DataTree
                         addthis = True
                         openindex = 0
                         closedindex = 1
-                    Case "soil", "outputfile", "metfile", "tracker", "area", "summaryfile"
+                    Case "soil", "tracker", "area", "crop"
                         addthis = True
                         openindex = 2
                         closedindex = 3
+                    Case "metfile"
+                        addthis = True
+                        openindex = 4
+                        closedindex = 4
+                    Case "summaryfile"
+                        addthis = True
+                        openindex = 5
+                        closedindex = 5
+                    Case "outputfile"
+                        addthis = True
+                        openindex = 6
+                        closedindex = 6
+                    Case "logic"
+                        addthis = True
+                        openindex = 7
+                        closedindex = 7
+
                     Case Else
                         addthis = False
                 End Select

@@ -90,6 +90,7 @@ Public Class APSIMData
         End Get
         Set(ByVal value As String)
             Node.InnerXml = value
+
         End Set
     End Property
     Function Attribute(ByVal AttributeName As String) As String
@@ -161,5 +162,7 @@ Public Class APSIMData
             Node.Attributes.GetNamedItem("name").Value = Value
         End Set
     End Property
+
+
 
 End Class
