@@ -8,164 +8,33 @@
       parameter (max_solutes = 5)
 !     ========================================
       Type SoluteGlobals
+         sequence
          real    solute(max_solutes,max_layer)
          integer num_solutes
          real    dlayer (max_layer)
       end type SoluteGlobals
 !     ========================================
       Type SoluteParameters
+         sequence
          character solute_names(max_solutes)*20
       end type SoluteParameters
 !     ========================================
       Type SoluteConstants
+         sequence
          real ub_solute
          real lb_solute
       end type SoluteConstants
 !     ========================================
+
       ! instance variables.
-      type (SoluteGlobals), pointer :: g
-      type (SoluteParameters), pointer :: p
-      type (SoluteConstants), pointer :: c
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)
-      integer MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-      type SoluteDataPtr
-         type (SoluteGlobals), pointer ::    gptr
-         type (SoluteParameters), pointer :: pptr
-         type (SoluteConstants), pointer ::  cptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type SoluteDataPtr
-      type (SoluteDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (SoluteGlobals),pointer :: g
+      type (SoluteParameters),pointer :: p
+      type (SoluteConstants),pointer :: c
 
       contains
 
-
-!     ===========================================================
-      subroutine AllocInstance (InstanceName, InstanceNo)
-!     ===========================================================
-      Use Infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module instantiation routine.
-
-*+  Mission Statement
-*     Instantiate routine
-
-!- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%gptr)
-      allocate (Instances(InstanceNo)%pptr)
-      allocate (Instances(InstanceNo)%cptr)
-      Instances(InstanceNo)%Name = InstanceName
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine FreeInstance (anInstanceNo)
-!     ===========================================================
-      Use Infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module de-instantiation routine.
-
-*+  Mission Statement
-*     De-Instantiate routine
-
-!- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%gptr)
-      deallocate (Instances(anInstanceNo)%pptr)
-      deallocate (Instances(anInstanceNo)%cptr)
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine SwapInstance (anInstanceNo)
-!     ===========================================================
-      Use Infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Swap an instance into the global 'g' pointer
-
-*+  Mission Statement
-*     Swap an instance into global pointer
-
-!- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%gptr
-      p => Instances(anInstanceNo)%pptr
-      c => Instances(anInstanceNo)%cptr
-
-      return
-      end subroutine
-
-* ====================================================================
-       subroutine Main (Action, Data_string)
-* ====================================================================
-      Use Infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-       character Action*(*)            ! Message action to perform
-       character Data_string*(*)       ! Message data
-
-*+  Purpose
-*      This routine is the interface between the main system and the
-*      solute module.
-
-*+  Mission Statement
-*     Apsim Solute
-
-*+  Changes
-*     SDB 5/5/99 Removed version function and presence action.
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'Solute Main')
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      if (Action.eq.ACTION_Init) then
-         call solute_Init ()
-
-      else if (Action.eq.ACTION_Process) then
-         call solute_get_other_variables ()
-
-      else if (Action.eq.ACTION_Create) then
-         call solute_zero_variables ()
-
-      else if (Action.eq.ACTION_Get_variable) then
-         call solute_Send_my_variable (Data_string)
-
-      else if (Action.eq.ACTION_Set_variable) then
-         call Solute_Set_my_variable (data_string)
-
-      else
-         ! Don't use message
-         call Message_Unused ()
-      endif
-
-      call pop_routine (myname)
-      return
-      end subroutine
 
 
 
@@ -658,3 +527,86 @@
 
 
       end module SoluteModule
+
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use SoluteModule
+      implicit none  
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+         allocate(p)
+         allocate(c)
+      else
+         deallocate(g)
+         deallocate(p)
+         deallocate(c)
+      end if
+      return
+      end subroutine
+
+
+* ====================================================================
+       subroutine Main (Action, Data_string)
+* ====================================================================
+      Use Infrastructure
+      implicit none
+      ml_external Main
+
+*+  Sub-Program Arguments
+       character Action*(*)            ! Message action to perform
+       character Data_string*(*)       ! Message data
+
+*+  Purpose
+*      This routine is the interface between the main system and the
+*      solute module.
+
+*+  Mission Statement
+*     Apsim Solute
+
+*+  Changes
+*     SDB 5/5/99 Removed version function and presence action.
+
+*+  Constant Values
+      character  myname*(*)            ! name of this procedure
+      parameter (myname = 'Solute Main')
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (myname)
+
+      if (Action.eq.ACTION_Init) then
+         call solute_Init ()
+
+      else if (Action.eq.ACTION_Process) then
+         call solute_get_other_variables ()
+
+      else if (Action.eq.ACTION_Create) then
+         call solute_zero_variables ()
+
+      else if (Action.eq.ACTION_Get_variable) then
+         call solute_Send_my_variable (Data_string)
+
+      else if (Action.eq.ACTION_Set_variable) then
+         call Solute_Set_my_variable (data_string)
+
+      else
+         ! Don't use message
+         call Message_Unused ()
+      endif
+
+      call pop_routine (myname)
+      return
+      end subroutine
+
+
