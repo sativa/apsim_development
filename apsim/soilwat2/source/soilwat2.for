@@ -4920,7 +4920,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
      :'         Depth    Unavailable Available  Max Avail.  Drainable'
       call write_string (line)
       line =
-     :'                      (LL)     (SW-LL)    (DUL-LL)   (SAT-DUL)'
+     :'                     (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)'
       call write_string (line)
  
       line =
