@@ -1,4 +1,4 @@
-C     Last change:  E    19 Dec 2000    3:40 pm
+C     Last change:  E    20 Dec 2000   11:08 am
 
 C      INCLUDE 'CropMod.inc'
 
@@ -34,18 +34,8 @@ C      INCLUDE 'CropMod.inc'
 
       if (g%plant_status.eq.status_alive) then
 
+          call Dynamic_Processes ()
 
-         if (c%crop_type .eq. 'wheat') then
-
-           call Dynamic_Processes ()
-
-         elseif (c%crop_type .eq. 'sunflower') then
-
-           call sunf_process ()
-
-         else
-
-         end if
 
          !------------------------------------------------
          !CROP DEATH of PLANTS (cf. plant part pools)
@@ -137,11 +127,6 @@ C      INCLUDE 'CropMod.inc'
 
 
 
-
-
-
-
-
       !SECTION 3: CARBOHYDRATE/BIOMASS PRODUCTION
       call biomass_rue               (GetSwitchCode(c%carb_switch,1))
       call biomass_te                (GetSwitchCode(c%carb_switch,2))
@@ -153,14 +138,6 @@ C      INCLUDE 'CropMod.inc'
       call biomass_yieldpart_demand  (GetSwitchCode(c%part_switch,2))
       call biomass_partition         (GetSwitchCode(c%part_switch,3))
       call biomass_retranslocation   (GetSwitchCode(c%part_switch,4))
-
-
-
-
-
-
-
-
 
 
 
@@ -809,7 +786,32 @@ c      REAL    deepest_layer
 
       elseif (option.eq.4)  then
 
-          call sunf_phenology_init ()
+       call sunf_phen_init_new (
+     .          g%current_stage,
+     .          g%days_tot,
+     .          c%shoot_lag,
+     .          g%sowing_depth,
+     .          c%shoot_rate,
+     .          p%tt_emerg_to_endjuv,
+     .          p%tt_endjuv_to_init,
+     .          g%day_of_year,
+     .          g%latitude,
+     .          c%twilight,
+     .          p%photoperiod_crit1,
+     .          p%photoperiod_crit2,
+     .          p%photoperiod_slope,
+     .          g%leaf_no_final,
+     .          c%leaf_no_rate_change,
+     .          c%leaf_no_at_emerg,
+     .          p%determinate_crop,
+     .          p%x_node_num_lar,
+     .          p%y_node_lar,
+     .          p%tt_fi_to_flag,
+     .          p%tt_flag_to_flower,
+     .          p%tt_flower_to_start_grain,
+     .          p%tt_flower_to_maturity,
+     .          p%tt_maturity_to_ripe,
+     .          g%phase_tt)
 
 
       elseif (Option.eq.0) then
@@ -936,7 +938,39 @@ c      REAL    deepest_layer
 
       elseif (Option.eq.4) then
 
-             call sunf_phenology()        !different TT for grainfill, EW not checked yet
+         call sunf_phenology2 (
+     .       g%previous_stage,
+     .       g%current_stage,
+ 
+     .       g%maxt, g%mint,
+     .       c%x_temp, c%y_tt,
+     .       c%num_temp, g%dlt_tt,
+ 
+     :       c%num_sw_avail_ratio,
+     :       c%x_sw_avail_ratio, c%y_swdef_pheno, g%dlayer,
+     :       g%root_depth, g%sw_avail, g%sw_avail_pot, g%swdef_pheno,
+ 
+     .       g%dm_green,
+     .       g%N_conc_crit, g%N_conc_min, g%N_green,
+     .       c%N_fact_pheno, g%nfact_pheno,
+ 
+     .          g%days_tot,
+     .          g%sowing_depth,
+     .          g%tt_tot,
+     .          g%phase_tt,
+ 
+     .          g%sw_dep,
+     .          p%ll_dep,
+     .          c%pesw_germ,
+ 
+     .          g%dlt_stage,
+ 
+     .          c%tt_base,
+     .          c%tt_opt,
+     .          g%tt_tot_fm,
+     .          g%dlt_tt_fm,
+     .          g%sw_supply_demand_ratio,
+     .          p%tt_switch_stage)                                   !<------------- Enli added the switch
 
       else if (Option.eq.0) then
 
@@ -1815,14 +1849,14 @@ c          nw_sla = 22500.0  ! mm2/g - nwheat value
 
       elseif (Option.eq.4) then
 
-c         call leaf_area_potential(GetSwitchCode(c%can_switch,2))
+         call leaf_area_potential(GetSwitchCode(c%can_switch,2))
 
-c         call cproc_leaf_area_stressed1 (
-c     :                       g%dlt_lai_pot
-c     :                      ,g%swdef_expansion
-c     :                      ,g%nfact_expansion
-c     :                      ,g%dlt_lai_stressed
-c     :                      )
+         call cproc_leaf_area_stressed1 (
+     :                       g%dlt_lai_pot
+     :                      ,g%swdef_expansion
+     :                      ,g%nfact_expansion
+     :                      ,g%dlt_lai_stressed
+     :                      )
 
 
       call sproc_bio_partition2 (
@@ -2695,6 +2729,19 @@ c      endif
 
         g%dlt_lai = g%dlt_lai_stressed
 
+
+
+      elseif (Option .eq. 4) then
+
+        call sproc_leaf_area_actual1 (
+     .          g%current_stage,
+     .          g%dlt_lai,
+     .          g%dlt_lai_stressed,
+     .          g%dlt_dm_green,
+     .          c%sla_max
+     .          )
+
+
       elseif (Option .eq. 0) then
 
       else
@@ -3197,8 +3244,12 @@ c      endif
      :                g%dlt_slai )
 
 
-
       else if (Option.eq.4) then
+
+          call sunf_leaf_area_sen ()
+
+
+      else if (Option.eq.6) then
 
        call leaf_senescence_age_nw_ew(
      :                   g%current_stage,
@@ -3236,7 +3287,7 @@ c      endif
        call  Kill_tillers()
 
 
-      elseif (Option.eq.5) then
+      elseif (Option.eq.7) then
 
        call leaf_senescence_age_wheat(
      :                   g%current_stage,
@@ -3680,6 +3731,19 @@ c       end do
      :          + sum_real_array (dlt_n_sen_supply, max_part)
 
 
+      elseif (Option.eq.4) then
+
+         call cproc_N_senescence1 (max_part
+     :                              , c%n_sen_conc
+     :                              , g%dlt_dm_senesced
+     :                              , g%n_green
+     :                              , g%dm_green
+     :                              , g%dlt_N_senesced)
+ 
+
+
+
+
       elseif (Option.eq.2) then
 
 
@@ -3968,6 +4032,20 @@ c"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
          ENDIF
 
        
+      elseif (Option.eq.4) then
+ 
+         call cproc_N_init1
+     :               (
+     :                c%n_init_conc
+     :              , max_part
+     :              , emerg
+     :              , g%current_stage
+     :              , g%days_tot
+     :              , g%dm_green
+     :              , g%N_green
+     :               )
+
+
       else if (Option.eq.0) then
 
          !This module is excluded from the model
@@ -4111,6 +4189,30 @@ c
      :                  g%pot_extract_NO3gsm,
      :                  g%pot_extract_NH4gsm)
 
+
+
+      elseif (Option .eq. 4) then
+ 
+         fixation_determinant = sum_real_array(g%dm_green, max_part)
+     :                        - g%dm_green(root)
+ 
+         call cproc_n_supply1 (
+     :            g%dlayer
+     :          , max_layer
+     :          , g%dlt_sw_dep
+     :          , g%NO3gsm
+     :          , g%NO3gsm_min
+     :          , g%root_depth
+     :          , g%sw_dep
+     :          , g%NO3gsm_mflow_avail
+     :          , g%sw_avail
+     :          , g%NO3gsm_diffn_pot
+     :          , g%current_stage
+     :          , c%n_fix_rate
+     :          , fixation_determinant
+     :          , g%swdef_fixation
+     :          , g%N_fix_pot
+     :          )
  
       else if (Option.eq.0) then
 
@@ -4203,6 +4305,23 @@ c      call fill_real_array (g%dlt_N_retrans, 0.0, max_part)
 
            g%n_demand(flower) =0.0
 
+      elseif (Option .eq. 4) then
+ 
+       call cproc_N_demand2
+     :               (
+     :                max_part
+     :              , demand_parts
+     :              , num_demand_parts
+     :              , g%dlt_dm_green
+     :              , g%dlt_n_retrans
+     :              , g%dm_green
+     :              , g%n_conc_crit
+     :              , g%n_conc_max
+     :              , g%n_green
+     :              , g%N_demand, g%N_max
+     :               )
+
+
       else if (Option.eq.0) then
 
          !This module is excluded from the model
@@ -4259,6 +4378,23 @@ c       DATA b/0.,0.,0./
       call push_routine (my_name)
 
 
+      if (p%uptake_source .eq. 'apsim') then
+         ! NIH - note that I use a -ve conversion
+         ! factor FOR NOW to make it a delta.
+         call crop_get_ext_uptakes(
+     :                 p%uptake_source   ! uptake flag
+     :                ,c%crop_type       ! crop type
+     :                ,'no3'             ! uptake name
+     :                ,-kg2gm/ha2sm      ! unit conversion factor
+     :                ,0.0               ! uptake lbound
+     :                ,100.0             ! uptake ubound
+     :                ,g%dlt_no3gsm      ! uptake array
+     :                ,max_layer         ! array dim
+     :                )
+ 
+      elseif ((Option.eq.1).OR.(Option.eq.9)) then
+ 
+
         deepest_layer = find_layer_no(g%root_depth, g%dlayer, max_layer)
      
         sw_avail       = sum_real_array(g%sw_avail,     deepest_layer)
@@ -4276,29 +4412,9 @@ c       DATA b/0.,0.,0./
      :                               ,c%num_fract_avail_sw)
          end if
 
-
         g%no3_diffn_const = c%no3_diffn_const * fact
 
 
-
-
- 
-      if (p%uptake_source .eq. 'apsim') then
-         ! NIH - note that I use a -ve conversion
-         ! factor FOR NOW to make it a delta.
-         call crop_get_ext_uptakes(
-     :                 p%uptake_source   ! uptake flag
-     :                ,c%crop_type       ! crop type
-     :                ,'no3'             ! uptake name
-     :                ,-kg2gm/ha2sm      ! unit conversion factor
-     :                ,0.0               ! uptake lbound
-     :                ,100.0             ! uptake ubound
-     :                ,g%dlt_no3gsm      ! uptake array
-     :                ,max_layer         ! array dim
-     :                )
- 
-      elseif ((Option.eq.1).OR.(Option.eq.4)) then
- 
          call cproc_n_uptake2
      :               (
      :                g%no3_diffn_const     !c%no3_diffn_const
@@ -4325,6 +4441,25 @@ c       b(:) = MAX(a(:),0.0)
 
 c       PRINT *, b
 c       pause
+
+      elseif (Option .eq. 4) then
+ 
+         call cproc_N_uptake1
+     :               (
+     :                c%no3_diffn_const
+     :              , g%dlayer
+     :              , max_layer
+     :              , g%no3gsm_diffn_pot
+     :              , g%no3gsm_mflow_avail
+     :              , g%N_fix_pot
+     :              , c%n_supply_preference
+     :              , g%n_demand
+     :              , g%n_max
+     :              , max_part
+     :              , g%root_depth
+     :              , g%dlt_NO3gsm
+     :               )
+
 
       elseif (Option .eq. 2) then
 
@@ -4574,6 +4709,27 @@ c       pause
      .          g%N_senesced,
      .          g%N_dead,
      .          g%dlt_N_retrans)
+
+
+      else if (Option .eq. 4) then
+
+      call sproc_N_retranslocate1 (
+     .          g%dlt_dm_green,
+     .          g%maxt,
+     .          g%mint,
+     .          c%temp_fac_min,
+     .          c%tfac_slope,
+     .          c%sw_fac_max,
+     .          c%sfac_slope,
+     .          g%N_conc_min,
+     .          g%N_conc_crit,
+     .          g%dm_green,
+     .          g%N_green,
+     .          g%N_conc_max,
+     .          g%swdef_expansion,
+     .          g%nfact_grain_conc,
+     .          g%dlt_N_retrans)
+
 
       elseif (Option.eq.200) then
 

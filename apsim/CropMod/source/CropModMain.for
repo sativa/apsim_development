@@ -1,4 +1,4 @@
-C     Last change:  E    19 Dec 2000    3:56 pm
+C     Last change:  E    20 Dec 2000   11:00 am
 
       INCLUDE 'CropMod.inc'
 
@@ -653,8 +653,10 @@ cjh      endif
           c%carb_switch   = '111111111'
           c%part_switch   = '444111111'
           c%tiller_switch = '000000000'
-          c%can_switch    = '041111111'
-          c%nit_switch    = '111111111'
+          c%can_switch    = '044111111'
+          c%root_switch   = '111111111'
+          c%sen_switch    = '411411111'
+          c%nit_switch    = '444414111'
       end if
 
 
