@@ -3668,8 +3668,7 @@ void Plant::plant_fruit_cohort_number (int option)
 
 //+  Changes
 //      091294 jngh specified and programmed
-void Plant::plant_sen_bio (int dm_senescence_option,
-                           int fruit_no_option)
+void Plant::plant_sen_bio (int dm_senescence_option)
     {
 
 //+  Constant Values
@@ -3707,13 +3706,6 @@ void Plant::plant_sen_bio (int dm_senescence_option,
                               , c.num_dm_sen_frac
                               , g.dm_green
                               , g.dlt_dm_senesced);
-         if (fruit_no_option == 2)
-            {
-            for (int part = 0; part < max_part; part++)
-               {
-               g.dlt_dm_fruit_senesced[0][part] = g.dlt_dm_senesced[part];
-               }
-            }
         }
       else if (dm_senescence_option == 3)
         {
@@ -8134,14 +8126,14 @@ void Plant::plant_fruit_number (int option)
 
    push_routine (my_name);
 
-   if (option == 1) 
+   if (option == 1)
       {
       // do not use fruit number
       fill_real_array(g.fruit_no,0, max_fruit_cohorts);
       fill_real_array(g.dlt_fruit_no,0, max_fruit_cohorts);
       fill_real_array(g.fruit_flower_no,0, max_fruit_cohorts);
       }
-   else if (option == 2) 
+   else if (option == 2)
       {
       crop_fruit_flower_number (p.dm_fruit_set_crit
                        , p.dm_fruit_set_min
@@ -8155,7 +8147,7 @@ void Plant::plant_fruit_number (int option)
                        , g.dlt_fruit_site_no
                        , g.setting_fruit
                        , &g.dlt_fruit_flower_no);
-      if (g.num_fruit_cohorts > 0) 
+      if (g.num_fruit_cohorts > 0)
          {
          g.fruit_flower_no[g.num_fruit_cohorts-1] = g.dlt_fruit_flower_no;
          }
@@ -8169,15 +8161,12 @@ void Plant::plant_fruit_number (int option)
                       , g.dlt_fruit_no);
 
        // update fruit and flower numbers now
-       if (g.num_fruit_cohorts > 0)
-           {
-           for (int cohort = 0; cohort < g.num_fruit_cohorts; cohort++)
-              {
-              g.fruit_no[cohort] +=  g.dlt_fruit_no[cohort];
-              g.fruit_flower_no[cohort] -= g.dlt_fruit_no[cohort];
-              }
-           }
-      }   
+      for (int cohort = 0; cohort < g.num_fruit_cohorts; cohort++)
+         {
+         g.fruit_no[cohort] +=  g.dlt_fruit_no[cohort];
+         g.fruit_flower_no[cohort] -= g.dlt_fruit_no[cohort];
+         }
+      }
    else
       fatal_error (&err_internal
                   , "Invalid template option for plant fruit number");
@@ -8387,7 +8376,7 @@ void Plant::plant_process ( void )
         plant_leaf_death (1);                     // 1 = fract leaf death rate
         plant_leaf_area_sen (1);
 
-        plant_sen_bio (c.dm_senescence_option, c.fruit_no_option);
+        plant_sen_bio (c.dm_senescence_option);
         plant_sen_root_length(1);                 // added NIH
 
         plant_nit_init (1);
@@ -10815,14 +10804,14 @@ void Plant::plant_read_cultivar_params ()
        }
     else
       {
-      s = string("   x_pp_start_to_end_grain        = ");
+      s = string("   x_pp_start_to_end_grain    = ");
       for (int i = 0; i < p.num_pp_start_to_end_grain; i++)
         {
         s = s + ftoa(p.x_pp_start_to_end_grain[i], "10.2") + " ";
         }
       parent->writeString (s.c_str());
 
-      s = string("   y_tt_start_to_end_grain        = ");
+      s = string("   y_tt_start_to_end_grain    = ");
       for (int i = 0; i < p.num_pp_start_to_end_grain; i++)
         {
         s = s + ftoa(p.y_tt_start_to_end_grain[i], "10.2") + " ";
@@ -10924,14 +10913,14 @@ void Plant::plant_read_cultivar_params ()
        s = s + ftoa(p.cutout_fract, "8.2");
        parent->writeString (s.c_str());
        }
-    s = string("   x_stem_wt                    = ");
+    s = string("   x_stem_wt                  = ");
     for (int i = 0; i < p.num_stem_wt; i++)
       {
       s = s + ftoa(p.x_stem_wt[i], "10.2") + " ";
       }
     parent->writeString (s.c_str());
 
-    s = string("   y_height                     = ");
+    s = string("   y_height                   = ");
     for (int i = 0; i < p.num_stem_wt; i++)
       {
       s = s + ftoa(p.y_height[i], "10.2") + " ";
@@ -14904,7 +14893,7 @@ void Plant::plant_fruit_cleanup (int option)
                          , g.dm_fruit_senesced
                          , g.num_fruit_cohorts
                          , g.fruit_no
-                         , g.fruit_site_no
+                         , &g.fruit_site_no
                          , g.dlt_dm
                          , g.fruit_sdr
                          , g.day_of_year
@@ -15226,7 +15215,7 @@ void Plant::plant_fruit_no_abort(
 
           start_day = offset_day_of_year(g_year, g_day_of_year, -1);
 
-          if (g_day_of_year == 1) 
+          if (g_day_of_year == 1)
                start_year = g_year - 1;
           else
                start_year = g_year;
@@ -15241,19 +15230,19 @@ void Plant::plant_fruit_no_abort(
                       + g_fruit_sdr[cohort]
                      , days_assimilate_ave, 0.0);
 
-          if (dm_fruit <= dm_fruit_crit) 
+          if (dm_fruit <= dm_fruit_crit)
               {
               sdr_min = linear_interp_real (g_current_fruit_stage[cohort]
                                           , p_x_stage_sdr_min
                                           , p_y_sdr_min
                                           , p_num_sdr_min);
 
-      
+
               survive_fract = divide(fruit_sdr_average, sdr_min, 0.0);
               survive_fract = u_bound (survive_fract, 1.0);
-      
+
               dlt_fruit_no_survive = g_fruit_no[cohort] * survive_fract;
-              if (dlt_fruit_no_survive > tolerance_fruit_no) 
+              if (dlt_fruit_no_survive > tolerance_fruit_no)
                  dlt_fruit_no_abort[cohort] = g_fruit_no[cohort] - dlt_fruit_no_survive;
               else
                  dlt_fruit_no_abort[cohort] = g_fruit_no[cohort];
@@ -15265,7 +15254,7 @@ void Plant::plant_fruit_no_abort(
           }
       else
           {
-          //no fruit in this cohort	
+          //no fruit in this cohort
           dlt_fruit_no_abort[cohort] = 0.0;
           }
       cohort++;
@@ -15431,14 +15420,14 @@ void Plant::plant_fruit_update(
     ,float  **g_dm_fruit_senesced
     ,int    g_num_fruit_cohorts
     ,float  *g_fruit_no
-    ,float  g_fruit_site_no
+    ,float  *g_fruit_site_no      // IN/OUT
     ,float  g_dlt_dm
     ,float  *g_fruit_sdr
     ,int    g_day_of_year
     ,int    g_year
     ,float  *g_dlt_dm_daily
     ,float  **g_fruit_sdr_daily
-    ,bool   *g_setting_fruit)
+    ,bool   *g_setting_fruit)     //IN/OUT
 {
     //+  Constant Values
     const char*  my_name = "plant_fruit_update" ;
@@ -15456,7 +15445,9 @@ void Plant::plant_fruit_update(
 
     push_routine (my_name);
 
-    if (g_dlt_fruit_flower_no <= 0.0 && g_setting_fruit) 
+    *g_fruit_site_no  = *g_fruit_site_no  + g_dlt_fruit_site_no;
+
+    if (g_dlt_fruit_flower_no <= 0.0 && g_setting_fruit)
        {
        *g_setting_fruit = false;
        }
@@ -15623,7 +15614,7 @@ void Plant::plant_fruit_phenology_init(
                                                     ,p_x_pp_start_to_end_grain
                                                     ,p_y_tt_start_to_end_grain
                                                     ,p_num_pp_start_to_end_grain);
-          }
+           }
       cohort++;
       } while (cohort < g_num_fruit_cohorts);
    pop_routine (my_name);
@@ -15726,14 +15717,11 @@ void Plant::plant_fruit_phenology (
                    , &g_current_stage[cohort]);
 
        // update thermal time states and day count
-//       if (g_previous_stage[cohort] > 0) // This test wasn't in john's code..
-//          {
-          accumulate (g_dlt_tt[cohort], g_tt_tot[cohort]
+       accumulate (g_dlt_tt[cohort], g_tt_tot[cohort]
                     , g_previous_stage[cohort]-1.0, g_dlt_stage[cohort]);
 
-          accumulate (1.0, g_days_tot[cohort]
+       accumulate (1.0, g_days_tot[cohort]
                     , g_previous_stage[cohort]-1.0, g_dlt_stage[cohort]);
-//          }
        cohort++;
     } while (cohort < g_num_fruit_cohorts);
 
