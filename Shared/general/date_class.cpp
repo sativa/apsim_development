@@ -194,7 +194,6 @@ int Month_string_2_integer (string& Month_string)
 
    ostringstream Out_stream;
    Write(Out_stream);
-   //Out_stream << ends;
    Str = Out_stream.str();
    }
 
@@ -567,7 +566,7 @@ int Month_string_2_integer (string& Month_string)
    struct tm *ts = localtime(&t);
 
 
-   Set(ts->tm_mday, ts->tm_mon, ts->tm_year);
+   Set(ts->tm_mday, ts->tm_mon+1, ts->tm_year+1900);
    }
 
 // *******************************************************************
