@@ -238,6 +238,7 @@
 *   DPH 19/10/94 Changed name from bndchk
 *       240698 jngh blanked e_messg before writing to it to remove trailing 
 *                   rubbish. D141.
+*   DPH 13/10/99 increased size of e_messg to 400
  
 *+ Calls
       dll_import error_margin
@@ -245,7 +246,7 @@
       real       error_margin          ! function
  
 *+ Local Variables
-      character  e_messg*200           ! err message
+      character  e_messg*400           ! err message
       real       margin_lower          ! margin for precision err of lower
       real       margin_upper          ! margin for precision err of upper
       real       margin_val            ! margin for precision err of value
