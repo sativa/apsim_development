@@ -1,4 +1,4 @@
-C     Last change:  E    28 Aug 2001    4:11 pm
+C     Last change:  E    13 Sep 2001    6:08 pm
 
       INCLUDE 'CropMod.inc'
 
@@ -656,18 +656,22 @@ cjh      endif
           c%root_switch   = '111111111'
           c%sen_switch    = '111111111'
           c%nit_switch    = '111111111'
+          c%phos_switch   = '000000000'
+          c%die_switch    = '111111111'
  
       if (c%crop_type .eq. 'wheat') then
           c%wat_switch    = '111111111'
-          c%phen_switch   = '111111111'
+          c%phen_switch   = '111121111'
           c%leafno_switch = '111111111'
           c%carb_switch   = '111111111'
           c%part_switch   = '111111111'
           c%tiller_switch = '111111111'
           c%can_switch    = '111111111'
           c%root_switch   = '111111111'
-          c%sen_switch    = '111111111'
+          c%sen_switch    = '111311111'
           c%nit_switch    = '111111111'
+          c%phos_switch   = '000000000'
+          c%die_switch    = '111111111'
       end if
 
 
@@ -680,8 +684,10 @@ cjh      endif
           c%tiller_switch = '000000000'
           c%can_switch    = '044111111'
           c%root_switch   = '111111111'
-          c%sen_switch    = '411411111'
-          c%nit_switch    = '111114111'
+          c%sen_switch    = '411111111'
+          c%nit_switch    = '111114411'
+          c%phos_switch   = '000000000'
+          c%die_switch    = '111111111'
       end if
 
 
@@ -696,8 +702,25 @@ cjh      endif
           c%root_switch   = '111111111'
           c%sen_switch    = '511511111'
           c%nit_switch    = '515550551'
+          c%phos_switch   = '000000000'
+          c%die_switch    = '111111111'
       end if
  
+      if (c%crop_type .eq. 'maize') then
+          c%wat_switch    = '111111111'
+          c%phen_switch   = '611111111'
+          c%leafno_switch = '161511111'
+          c%carb_switch   = '111111111'
+          c%part_switch   = '666611111'
+          c%tiller_switch = '000000000'
+          c%can_switch    = '166111111'
+          c%root_switch   = '121111111'
+          c%sen_switch    = '611111111'
+          c%nit_switch    = '166114411'
+          c%phos_switch   = '111100000'
+          c%die_switch    = '611111111'
+      end if
+
       !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       ! READ MODULE SWITCHES
       !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -729,6 +752,8 @@ cjh      endif
          c%root_switch    = switch(2:10)
          c%sen_switch     = switch(2:10)
          c%nit_switch     = switch(2:10)
+         c%phos_switch    = switch(2:10)
+         c%die_switch     = switch(2:10)
 
       !If module_switch is zero, use the sub module switches
       else
@@ -792,6 +817,21 @@ cjh      endif
      :                     , 'nit_switch', '()'
      :                     , c%nit_switch, numvals)
           if (numvals.eq.0)  c%nit_switch = switch
+
+
+          switch = c%phos_switch
+          call read_char_var_optional (section_name
+     :                     , 'phos_switch', '()'
+     :                     , c%phos_switch, numvals)
+          if (numvals.eq.0)  c%phos_switch = switch
+
+
+          switch = c%die_switch
+          call read_char_var_optional (section_name
+     :                     , 'die_switch', '()'
+     :                     , c%die_switch, numvals)
+          if (numvals.eq.0)  c%die_switch = switch
+
 
       endif
 
@@ -1014,6 +1054,18 @@ cjh      endif
      :                             , '()'
      :                             , g%extinction_coeff)
  
+
+       elseif (variable_name .eq. 'radn_int') then
+         call respond2get_real_var (variable_name
+     :                             , '(MJ/m^2/d)'
+     :                             , g%radn_int)
+
+
+       elseif (variable_name .eq. 'rue_day') then
+         value = divide(g%dlt_dm, g%radn_int, 0.0)
+         call respond2get_real_var (variable_name
+     :                             , 'g/MJ)'
+     :                             , value)
 
 
       !================================================================
@@ -2504,6 +2556,8 @@ cjh      endif
      :                             , c%co2level, numvals
      :                             , 0.0, 2000.0)
 
+c         g%co2level = c%co2level
+
 
       elseif (variable_name .eq. 'vern_sens') then
          call collect_real_var (variable_name, '()'
@@ -2829,7 +2883,7 @@ c+!!!!!!!! what to do if no waterbalance variables found
       do layer = 1, g%num_layers
          g%NO3gsm(layer) = NO3(layer) * kg2gm /ha2sm
       enddo
- 
+
 
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
@@ -2947,21 +3001,32 @@ c+!!!! perhaps we should get number of layers at init and keep it
          num_layers = count_of_real_vals (g%dlayer, max_layer)
 
 
+
          do layer = 1, num_layers
             dlt_NO3(layer) = g%dlt_NO3gsm(layer) * gm2kg /sm2ha
             dlt_Nh4(layer) = g%dlt_Nh4gsm(layer) * gm2kg /sm2ha
-         end do 
+         end do
  
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+         dlt_no3(:) = - MIN(g%NO3(:), - dlt_NO3(:))
+
 
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
-         dlt_no3(:) = - MAX(1E-15, MIN(g%NO3(:), - dlt_NO3(:)))
-c        dlt_no3(:) = -  MIN(g%NO3(:), - dlt_NO3(:))
-
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-
+c        if (g%no3(1)+ dlt_NO3(1).le.0.0) then
+c             PRINT *,'-----------get---000-----------'
+c             PRINT *, 'NO3kgh     = ', g%NO3(1:2)
+c             PRINT *, 'NO3gsm     = ', g%NO3gsm(1:2)
+c
+c             PRINT *,'-----------set-----------------'
+c             PRINT *, 'dlt_NO3gsm = ', g%dlt_NO3gsm(1:2)
+c             PRINT *, 'dlt_NO3kgh = ', dlt_NO3(1:2)
+c             PRINT *, 'NO3kgh New = ', g%no3(1)+ dlt_NO3(1)
+c             pause
+c        end if
 
 
          call set_real_array (unknown_module, 'dlt_no3', '(kg/ha)'
@@ -4179,7 +4244,10 @@ c         if (istage.lt.emerg) then
      :                                  c%num_co2_level_nconc)
 
 
-c        PRINT *,'nconc_co2modifier =', co2_modifier
+c        PRINT *,'nconc_co2modifier '
+c        PRINT *,'c%co2_level_nconc    =', c%co2_level_nconc
+c        PRINT *,'c%nconc_co2_modifier =', c%nconc_co2_modifier
+c        PRINT *,'nconc_co2modifier    =', co2_modifier
 
 
          g%N_conc_crit(leaf)= g%N_conc_crit(leaf)*co2_modifier
@@ -5951,6 +6019,7 @@ c      g%dlt_n_uptake_stover=0.0
 
       !swim_comms_var
       c%n_supply_preference = " "
+      c%n_uptake_preference = " "
 
       !ew added variables
       c%NH4_ub            =0.0
@@ -5969,6 +6038,8 @@ c      g%dlt_n_uptake_stover=0.0
       c%root_switch     = " "
       c%sen_switch      = " "
       c%nit_switch      = " "
+      c%phos_switch     = " "
+      c%die_switch      = " "
 
 
 *================== what is different from crop ======================
@@ -6394,7 +6465,28 @@ c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
       if (numvals .eq. 0) then
-          c%co2switch = 0
+         c%co2switch = 0
+
+         call read_real_array_optional (section_name
+     :                   , 'co2_level_te', max_table, '(ppm)'
+     :                   , c%co2_level_te, c%num_co2_level_te
+     :                   , 0.0, 1000.0)
+
+         call read_real_array_optional (section_name
+     :                   , 'te_co2_modifier', max_table, '()'
+     :                   , c%te_co2_modifier, c%num_co2_level_te
+     :                   , 0.0, 10.0)
+
+
+         call read_real_array_optional (section_name
+     :                   , 'co2_level_nconc', max_table, '(ppm)'
+     :                   , c%co2_level_nconc, c%num_co2_level_nconc
+     :                   , 0.0, 1000.0)
+
+         call read_real_array_optional (section_name
+     :                   , 'nconc_co2_modifier', max_table, '()'
+     :                   , c%nconc_co2_modifier, c%num_co2_level_nconc
+     :                   , 0.0, 10.0)
       else
           c%co2switch = 1
 
@@ -6833,6 +6925,13 @@ C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       call read_char_var (section_name
      :                     , 'n_supply_preference', '()'
      :                     , c%n_supply_preference, numvals)
+
+      call read_char_var_optional (section_name
+     :                     , 'n_uptake_preference', '()'
+     :                     , c%n_uptake_preference, numvals)
+       if (numvals .eq. 0) then
+           c%n_uptake_preference = 'no3'
+       end if
 
       call read_real_var (section_name
      :                    , 'no3_diffn_const', '(days)'
