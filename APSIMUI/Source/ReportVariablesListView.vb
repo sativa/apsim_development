@@ -83,7 +83,7 @@ Public Class ReportVariablesListView
         For Each child As String In MyData.ChildList("variable")
             Dim item As New ListViewItem
             item.Text = child
-            item.SubItems.Add("???")
+            item.SubItems.Add(MyData.Child(child).Attribute("module"))
             item.SubItems.Add(MyData.Child(child).Attribute("description"))
             ListView.Items.Add(item)
         Next

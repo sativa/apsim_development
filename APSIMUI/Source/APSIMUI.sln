@@ -11,10 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSGeneral", "..\..\Shared\c
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "..\..\Shared\c#general\test\test.csproj", "{A968E71A-3A27-4375-88A5-474C58F617C3}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -33,10 +29,6 @@ Global
 		{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}.Debug.Build.0 = Debug|.NET
 		{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}.Release.ActiveCfg = Release|.NET
 		{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}.Release.Build.0 = Release|.NET
-		{A968E71A-3A27-4375-88A5-474C58F617C3}.Debug.ActiveCfg = Debug|.NET
-		{A968E71A-3A27-4375-88A5-474C58F617C3}.Debug.Build.0 = Debug|.NET
-		{A968E71A-3A27-4375-88A5-474C58F617C3}.Release.ActiveCfg = Release|.NET
-		{A968E71A-3A27-4375-88A5-474C58F617C3}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
