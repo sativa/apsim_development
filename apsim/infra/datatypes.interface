@@ -1513,7 +1513,7 @@
       <type name="max_available_water" kind="single"  unit="Ml" lower_bound="0.0" upper_bound="10000.0" description="Source water capacity"/>
       <type name="init_available_water" kind="single" unit="Ml" description="Initial volume of water in source"/>
       <type name="min_volume" kind="single" unit="Ml" lower_bound="0.0" upper_bound="100.0" description="Minimum volume in source below which pumping is not allowed"/>
-      <type name="max_pump" kind="single" unit="Ml/day" lower_bound="0.0" upper_bound="100.0"description="Maximum water pumping rate from the source"/>
+      <type name="max_pump" kind="single" unit="Ml/day" lower_bound="0.0" upper_bound="100.0" description="Maximum water pumping rate from the source"/>
       <type name="annual_allocation" kind="single" unit="Ml" lower_bound="0.0" upper_bound="1000.0" description="Annual water allocation for bores and rivers"/>
       <type name="renewal_day" kind="integer" unit="" lower_bound="1" upper_bound="365" description="Day of year on which allocation is granted"/>
       <type name="b" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Water storage geometry factor"/>
