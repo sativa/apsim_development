@@ -69,7 +69,7 @@ class Component
                        bool isOptional = false)
          {
          protocol::Variant* variant;
-         if (getVariable(regId, variant, isOptional))
+         if (getVariable(variableID, variant, isOptional))
             {
             bool ok = variant->unpack(values);
             if (!ok)
@@ -77,7 +77,7 @@ class Component
                char buffer[100];
                strcpy(buffer, "Cannot use array notation on a scalar variable.\n"
                               "VariableName:");
-               strncat(buffer, variableName.f_str(), variableName.length());
+//               strncat(buffer, variableName.f_str(), variableName.length());
                error(buffer, true);
                return false;
                }
@@ -88,7 +88,7 @@ class Component
                   char buffer[100];
                   strcpy(buffer, "Bound check error while getting variable.\n"
                                  "Variable :");
-                  strncat(buffer, variableName.f_str(), variableName.length());
+//                  strncat(buffer, variableName.f_str(), variableName.length());
                   error(buffer, true);
                   return false;
                   }
