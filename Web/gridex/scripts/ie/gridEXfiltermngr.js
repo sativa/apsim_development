@@ -14,18 +14,9 @@ function ResetFilterCommand()
 	this.Hide = Hide;	
 	this.Init = Init;
 	this.Show = Show; 	
-	function getInnerHtml()
-	{
-		return divFilter; 
-	}
-	function getManager()
-	{
-		return currentManager; 
-	}
-	function setManager(manager)
-	{
-		currentManager = manager;
-	}
+	function getInnerHtml() { return divFilter; }
+	function getManager() { return currentManager; }
+	function setManager(manager) { currentManager = manager;}
 	function Init(clientID)
 	{	
 		divFilter = document.getElementById(clientID + "_resetFilter"); 
@@ -67,10 +58,7 @@ function GridEXFilterCheckBoxManager(cell)
 	this.Hide = Hide;
 	this.Show = Show;		
 	this.ResetFilter= ResetFilter; 
-	function Hide()
-	{
-		resetCommand.Hide(); 
-	}
+	function Hide() { resetCommand.Hide(); }
 	function Show()
 	{			
 		resetCommand = gridEXCell.getGridEX().getResetFilterCommand(); 
@@ -159,10 +147,7 @@ function GridEXFilterComboManager(cell, actAsEdit)
 		}		
 		combo.setValue(gridEXCell.getValue()); 
 	}
-	function EnterKeyDown()
-	{
-		gridEXCell.ResumeFilter(); 
-	}
+	function EnterKeyDown() { gridEXCell.ResumeFilter(); }
 	function EscKeyDown()
 	{
 		gridEXCell.getInnerCell().setAttribute("niv", null);
@@ -242,14 +227,8 @@ function GridEXFilterComboManager(cell, actAsEdit)
 		else if(window.event.keyCode == 9)
 			TabKeyDown(); 
 	}
-	function KeyUp()
-	{
-		gridEXCell.getGridEX().FireEvent("EditingKeyUp", [gridEXCell, window.event.keyCode]); 
-	}
-	function Leaving()
-	{
-		Hide();		
-	}
+	function KeyUp() { gridEXCell.getGridEX().FireEvent("EditingKeyUp", [gridEXCell, window.event.keyCode]); }
+	function Leaving() { Hide(); }
 	function Hide()
 	{
 		combo.Hide(); 
@@ -337,10 +316,7 @@ function GridEXFilterComboManager(cell, actAsEdit)
 			Hide();
 		}
 	}
-	function getCell()
-	{
-		return gridEXCell; 
-	}	
+	function getCell() { return gridEXCell;  }	
 	function updateInnerCell(display, image)
 	{	
 		var _innerCell = gridEXCell.getInnerCell(); 
@@ -395,11 +371,7 @@ function GridEXFilterListManager(cell, actAsEdit)
 	if(valueList == null)
 		throw Error("invalid operation exception: filter list is null or invalid"); 
 		
-	//if(actAsEdit != null && actAsEdit == true)	
-	valueList.setCompareTarget(1); 
-	//else		
-	//	valueList.setCompareTarget(2);  
-		
+	valueList.setCompareTarget(1);
 	this.getCell = getCell; 		
 	this.DropDown = DropDown; 
 	this.EnterKeyDown = EnterKeyDown; 
@@ -409,10 +381,7 @@ function GridEXFilterListManager(cell, actAsEdit)
 	this.ValueChanged = ValueChanged;
 	this.ResetFilter = ResetFilter; 
 	this.Show = Show; 	
-	function getCell()
-	{
-		return gridEXCell;
-	}	
+	function getCell() { return gridEXCell; }	
 	function Hide()
 	{
 		valueList.Hide(); 
@@ -491,14 +460,8 @@ function GridEXFilterListManager(cell, actAsEdit)
 			_element.appendChild(document.createTextNode(' ' + display));
 		}
 	}
-	function EnterKeyDown()
-	{
-		gridEXCell.ResumeFilter(); 
-	}
-	function EscKeyDown()
-	{			
-		Hide(); 
-	}
+	function EnterKeyDown() { gridEXCell.ResumeFilter(); }
+	function EscKeyDown() { Hide(); }
 	function TabKeyDown()
 	{		
 		if(gridEXCell.getGridEX().TabElementChanging != null)		
@@ -576,10 +539,7 @@ function GridEXFilterListManager(cell, actAsEdit)
 		else if(window.event.keyCode == 40)
 			ArrowDownKeyDown();
 	}	
-	function Leaving()
-	{
-		Hide(); 		
-	}
+	function Leaving() { Hide(); }
 	function ValueChanged()
 	{
 		var args = null; 
@@ -626,10 +586,7 @@ function GridEXFilterDropDownManager(cell)
 	this.ResetFilter = ResetFilter; 
 	this.ValueChanged = ValueChanged;	
 	this.Show = Show; 			
-	function getCell()
-	{
-		return gridEXCell; 
-	}	
+	function getCell() { return gridEXCell;  }	
 	function DropDown()
 	{
 		var cancel = gridEXCell.getGridEX().FireEvent("DropDown", [gridEXCell]);
@@ -702,14 +659,8 @@ function GridEXFilterDropDownManager(cell)
 		else if(window.event.keyCode == 40)
 			ArrowDownKeyDown(); 
 	}
-	function EnterKeyDown()
-	{
-		gridEXCell.ResumeFilter(); 
-	}
-	function EscKeyDown()
-	{
-		Hide(); 		
-	}
+	function EnterKeyDown() { gridEXCell.ResumeFilter(); }
+	function EscKeyDown() { Hide(); }
 	function TabKeyDown()
 	{		
 		if(gridEXCell.getGridEX().TabElementChanging != null)		
@@ -853,10 +804,7 @@ function GridEXFilterComboDropDownManager(cell)
 	this.ValueChanged = ValueChanged; 
 	this.ResetFilter = ResetFilter; 
 	this.Show = Show;		
-	function getCell()
-	{
-		return gridEXCell; 
-	}
+	function getCell() { return gridEXCell; }
 	function ArrowLeftKeyDown()
 	{
 		if(window.event.srcElement != null && (window.event.srcElement == dropdown.getInnerTextBox() || window.event.srcElement.contains(dropdown.getInnerTextBox())))
@@ -951,10 +899,7 @@ function GridEXFilterComboDropDownManager(cell)
 		else if(window.event.keyCode == 9)
 			TabKeyDown();
 	}
-	function KeyUp()
-	{
-		gridEXCell.getGridEX().FireEvent("EditingKeyUp", [gridEXCell, window.event.keyCode]); 
-	}
+	function KeyUp() { gridEXCell.getGridEX().FireEvent("EditingKeyUp", [gridEXCell, window.event.keyCode]); }
 	function ValueChanged()
 	{
 		var args = null; 
@@ -1153,10 +1098,7 @@ function GridEXFilterCalendarComboManager(cell)
 			
 		gridEXCell.getRow().NextFocusCell(); 
 	}
-	function getCell()
-	{
-		return gridEXCell;
-	}
+	function getCell() { return gridEXCell; }
 	function KeyDown()
 	{		
 		var cancel = gridEXCell.getGridEX().FireEvent("EditingKeyDown", [gridEXCell, window.event.keyCode]); 
@@ -1181,14 +1123,8 @@ function GridEXFilterCalendarComboManager(cell)
 		else if(window.event.keyCode == 9)
 			TabKeyDown(); 
 	}
-	function KeyUp()
-	{
-		gridEXCell.getGridEX().FireEvent("EditingKeyUp", [gridEXCell, window.event.keyCode]); 
-	}
-	function Leaving()
-	{
-		Hide();
-	}
+	function KeyUp() { gridEXCell.getGridEX().FireEvent("EditingKeyUp", [gridEXCell, window.event.keyCode]); }
+	function Leaving() { Hide(); }
 	function updateInnerCell(display)
 	{
 		var _innerCell = gridEXCell.getInnerCell(); 
@@ -1351,10 +1287,7 @@ function GridEXFilterCalendarDropDownManager(cell)
 			
 		gridEXCell.getRow().NextFocusCell(); 
 	}
-	function getCell()
-	{
-		return gridEXCell;
-	}
+	function getCell() { return gridEXCell; }
 	function KeyDown()
 	{
 		var cancel = gridEXCell.getGridEX().FireEvent("EditingKeyDown", [gridEXCell, window.event.keyCode]); 
@@ -1379,10 +1312,7 @@ function GridEXFilterCalendarDropDownManager(cell)
 		else if(window.event.keyCode == 9)
 			TabKeyDown(); 
 	}		
-	function setConditionOperator(value)
-	{		
-		gridEXCell.setFilterConditionOperator(value); 
-	}
+	function setConditionOperator(value) {	 gridEXCell.setFilterConditionOperator(value);  }
 	function updateInnerCell(display)
 	{
 		var _innerCell = gridEXCell.getInnerCell(); 
@@ -1400,14 +1330,8 @@ function GridEXFilterCalendarDropDownManager(cell)
 		else if(_element.childNodes.length == 0)
 			_element.appendChild(document.createTextNode(' ' + display));
 	}	
-	function EnterKeyDown()
-	{		
-		gridEXCell.ResumeFilter(); 
-	}	
-	function EscKeyDown()
-	{
-		Hide();  
-	}
+	function EnterKeyDown() { gridEXCell.ResumeFilter(); }	
+	function EscKeyDown() { Hide();  }
 	function TabKeyDown()
 	{		
 		if(gridEXCell.getGridEX().TabElementChanging != null)		
@@ -1542,10 +1466,7 @@ function GridEXFilterTextBoxManager(cell, sameAsEdit)
 		else if(window.event.keyCode == 38)
 			ArrowUpKeyDown(); 	
 	}
-	function KeyUp()
-	{
-		gridEXCell.getGridEX().FireEvent("EditingKeyUp", [gridEXCell, window.event.keyCode]); 
-	}	
+	function KeyUp() { gridEXCell.getGridEX().FireEvent("EditingKeyUp", [gridEXCell, window.event.keyCode]); }	
 	function Leaving()
 	{
 		if(document.activeElement == resetCommand.getInnerHtml() || resetCommand.getInnerHtml().contains(document.activeElement))
@@ -1616,10 +1537,7 @@ function GridEXFilterTextBoxManager(cell, sameAsEdit)
 		window.event.cancelBubble = true;		
 		return false;
 	}
-	function ApplyingInputMask()
-	{
-		return gridEXCell.getGridEX().FireEvent("ApplyingInputMask", [gridEXCell]); 
-	}
+	function ApplyingInputMask() { return gridEXCell.getGridEX().FireEvent("ApplyingInputMask", [gridEXCell]); }
 	function ArrowDownKeyDown()
 	{
 		Hide(); 

@@ -37,23 +37,11 @@ function hideBackFrame(id)
 	if(element != null)
 		element.style.visibility = "hidden"; 
 }
-function hideCalendarBackFrame()
-{
-	hideBackFrame("backCalendarFrame"); 
-}
-function showCalendarBackMonthsFrame(left, top, width, height)
-{	
-	showBackFrame("backCalendarMonthsFrame", left, top, width, height);	
-}
-function hideCalendarBackMonthsFrame()
-{
-	hideBackFrame("backCalendarMonthsFrame"); 
-}
+function hideCalendarBackFrame() { hideBackFrame("backCalendarFrame"); }
+function showCalendarBackMonthsFrame(left, top, width, height) {	 showBackFrame("backCalendarMonthsFrame", left, top, width, height);	}
+function hideCalendarBackMonthsFrame() { hideBackFrame("backCalendarMonthsFrame");  }
 // date format functions (based on http://www.mattkruse.com/) // 
-function LZ(x) 
-{
-	return(x<0||x>9?"":"0")+x
-}
+function LZ(x)  { return(x<0||x>9?"":"0")+x }
 function _isInteger(val) 
 {
 	var digits="1234567890";
@@ -443,10 +431,7 @@ function GridEXCalendarComboDropDown(calendarID, monthNames, firstDayWeek)
 	
 		return monthDays[month]; 
 	}			
-	function getMonth()
-	{
-		return currMonth; 
-	}	
+	function getMonth() { return currMonth; }	
 	function getMonthName(month)
 	{
 		if(month < 0 || month >= 12)
@@ -454,10 +439,7 @@ function GridEXCalendarComboDropDown(calendarID, monthNames, firstDayWeek)
 			
 		return monthNames[month]; 
 	}	
-	function getYear()
-	{
-		return currYear; 
-	}	
+	function getYear() { return currYear; }	
 	function isSelectedDate(day, month, year)
 	{
 		if(selectedDate == null)
@@ -465,18 +447,9 @@ function GridEXCalendarComboDropDown(calendarID, monthNames, firstDayWeek)
 			
 		return (selectedDate.getDate() == day && selectedDate.getMonth() == month && selectedDate.getFullYear() == year); 						
 	}	
-	function isTodayDate(date, day, month, year)
-	{		
-		return (date.getDate() == day && date.getMonth() == month && date.getFullYear() == year); 
-	}	
-	function getID()
-	{
-		return id; 
-	}	
-	function setOwner(value)
-	{
-		owner = value; 		
-	}	
+	function isTodayDate(date, day, month, year) { return (date.getDate() == day && date.getMonth() == month && date.getFullYear() == year);  }	
+	function getID() { return id; }	
+	function setOwner(value)  { owner = value; }	
 	function setSelectedDate(value)
 	{
 		if(value == null || value == "")
@@ -499,14 +472,8 @@ function GridEXCalendarComboDropDown(calendarID, monthNames, firstDayWeek)
 			currYear = selectedDate.getFullYear(); 						
 		}
 	}	
-	function getInnerTextBox()
-	{
-		return textbox; 
-	}	
-	function getSelectedDate()
-	{
-		return selectedDate; 
-	}	
+	function getInnerTextBox() { return textbox; }	
+	function getSelectedDate() { return selectedDate; }	
 	function getSelectedDateString()
 	{
 		if(selectedDate != null)
@@ -524,10 +491,7 @@ function GridEXCalendarComboDropDown(calendarID, monthNames, firstDayWeek)
 		else
 			return pattern;
 	}	
-	function setLeft(value)
-	{
-		left = value; 
-	}	
+	function setLeft(value) { left = value; }	
 	function setStyle(style)
 	{
 		if(style != null)
@@ -537,20 +501,16 @@ function GridEXCalendarComboDropDown(calendarID, monthNames, firstDayWeek)
 			textbox.style.textAlign = style.textAlign;
 		}
 	}	
-	function setTop(value)
-	{
-		top = value; 
-	}	
-	function setWidth(value)
-	{
-		width = value; 
-	}	
-	function setHeight(value)
-	{
-		height = value;
-	}		
+	function setTop(value) { top = value; }	
+	function setWidth(value) { width = value; }	
+	function setHeight(value) { height = value; }		
 	function differentDates(a, b)
 	{
+		if(a == null && b != null)
+			return true;
+		if(a != null && b == null)
+			return true; 
+		
 		if(a.getDay() == b.getDay() && a.getMonth() == b.getMonth() && a.getFullYear() == b.getFullYear())
 			return false;
 		else
@@ -571,10 +531,7 @@ function GridEXCalendarComboDropDown(calendarID, monthNames, firstDayWeek)
 			}
 		}
 	}	
-	function updateTextBox()
-	{
-		textbox.value = getSelectedDateString(); 		
-	}		
+	function updateTextBox() { textbox.value = getSelectedDateString(); }		
 	function updateDropDown()
 	{
 		if(textbox.value != getSelectedDateString())
@@ -603,7 +560,14 @@ function GridEXCalendarComboDropDown(calendarID, monthNames, firstDayWeek)
 			currDay = selectedDate.getDate(); 
 			currMonth = selectedDate.getMonth();
 			currYear = selectedDate.getFullYear(); 			
-		}			
+		}
+		else
+		{
+			var date = new Date(); 
+			currDay = date.getDate();
+			currMonth = date.getMonth();
+			currYear = date.getFullYear();
+		}		
 		initializeMonthDays(); 		
 		UpdateCalendar(true);
 		calendar.style.display = "block"; 
@@ -791,10 +755,7 @@ function GridEXCalendarComboDropDown(calendarID, monthNames, firstDayWeek)
 		}		
 		cellMonthCaption.innerHTML = getMonthName(currMonth) + "&nbsp;" + currYear;
 	}	
-	function HideButton()
-	{
-		button.style.visibility = "hidden"; 
-	}	
+	function HideButton() { button.style.visibility = "hidden"; }	
 	function HideCalendar()
 	{
 		calendar.style.visibility = "hidden";
@@ -827,6 +788,7 @@ function GridEXCalendarComboDropDown(calendarID, monthNames, firstDayWeek)
 		HideTextBox(); 
 		textbox.value  = ""; 
 	}
+	var init = false;
 	function Show()
 	{
 		button.style.visibility = "visible"; 
@@ -843,8 +805,8 @@ function GridEXCalendarComboDropDown(calendarID, monthNames, firstDayWeek)
 		else
 			textbox.style.pixelLeft = left;
 		textbox.style.pixelHeight = height; 
-		textbox.style.pixelWidth = (width - button.offsetWidth);
-		textbox.focus(); 
+		textbox.style.pixelWidth = (width - button.offsetWidth);		
+		textbox.focus(); 				
 	}	
 	// private events 
 	function button_onblur()
@@ -901,7 +863,7 @@ function GridEXCalendarComboDropDown(calendarID, monthNames, firstDayWeek)
 			cancelEvent(); 
 	}
 	function textbox_onblur()
-	{
+	{		
 		if(document.activeElement == button || button.contains(document.activeElement))
 			return true; 
 			
@@ -914,10 +876,7 @@ function GridEXCalendarComboDropDown(calendarID, monthNames, firstDayWeek)
 		Hide();
 		return true; 
 	}	
-	function textbox_onchange()
-	{		
-		commitNewValue(); 
-	}	
+	function textbox_onchange() { commitNewValue(); }	
 	function textbox_onkeydown()
 	{
 		if(window.event.keyCode == 13)
@@ -1108,10 +1067,7 @@ function GridEXCalendarComboDropDown(calendarID, monthNames, firstDayWeek)
 			HideScrollableMonths(); 
 	}	
 	var lastClientY = null; 
-	function scrollablemonths_onmousemove()
-	{		
-		lastClientY = window.event.clientY; 
-	}
+	function scrollablemonths_onmousemove() {	lastClientY = window.event.clientY;  }
 	function scrollablemonths_onmouseup()
 	{		
 		if(intervalID != null)
@@ -1462,10 +1418,7 @@ function GridEXCalendarDropDown(calendarID, monthNames, firstDayWeek)
 	
 		return monthDays[month]; 
 	}			
-	function getMonth()
-	{
-		return currMonth; 
-	}	
+	function getMonth() { return currMonth; }	
 	function getMonthName(month)
 	{
 		if(month < 0 || month >= 12)
@@ -1473,10 +1426,7 @@ function GridEXCalendarDropDown(calendarID, monthNames, firstDayWeek)
 			
 		return monthNames[month]; 
 	}	
-	function getYear()
-	{
-		return currYear; 
-	}	
+	function getYear() { return currYear; }	
 	function isSelectedDate(day, month, year)
 	{
 		if(selectedDate == null)
@@ -1484,22 +1434,10 @@ function GridEXCalendarDropDown(calendarID, monthNames, firstDayWeek)
 			
 		return (selectedDate.getDate() == day && selectedDate.getMonth() == month && selectedDate.getFullYear() == year); 						
 	}	
-	function isTodayDate(date, day, month, year)
-	{		
-		return (date.getDate() == day && date.getMonth() == month && date.getFullYear() == year); 
-	}		
-	function getID()
-	{
-		return id; 
-	}	
-	function getInnerHtml()
-	{
-		return calendar; 
-	}
-	function setOwner(value)
-	{
-		owner = value; 		
-	}	
+	function isTodayDate(date, day, month, year) { return (date.getDate() == day && date.getMonth() == month && date.getFullYear() == year); }		
+	function getID() { return id;  }	
+	function getInnerHtml() { return calendar; }
+	function setOwner(value) { owner = value; }	
 	function setSelectedDate(value)
 	{
 		if(value == null || value == "")
@@ -1521,10 +1459,7 @@ function GridEXCalendarDropDown(calendarID, monthNames, firstDayWeek)
 			currYear = selectedDate.getFullYear(); 
 		}
 	}	
-	function getSelectedDate()
-	{
-		return selectedDate; 
-	}	
+	function getSelectedDate() { return selectedDate; }	
 	function getSelectedDateString()
 	{
 		if(selectedDate != null)
@@ -1542,22 +1477,10 @@ function GridEXCalendarDropDown(calendarID, monthNames, firstDayWeek)
 		else
 			return pattern;	
 	}	
-	function setLeft(value)
-	{
-		left = value; 
-	}	
-	function setTop(value)
-	{
-		top = value; 
-	}	
-	function setWidth(value)
-	{
-		width = value; 
-	}	
-	function setHeight(value)
-	{
-		height = value;
-	}		
+	function setLeft(value) { left = value; }	
+	function setTop(value) { top = value; }	
+	function setWidth(value) { width = value; }	
+	function setHeight(value) { height = value; }		
 	function updateDropDown()
 	{		
 		if(selectedDate != null)
@@ -1565,7 +1488,14 @@ function GridEXCalendarDropDown(calendarID, monthNames, firstDayWeek)
 			currDay = selectedDate.getDate(); 
 			currMonth = selectedDate.getMonth();
 			currYear = selectedDate.getFullYear();
-		}			
+		}
+		else
+		{
+			var date = new Date();
+			currDay = date.getDate();
+			currMonth = date.getMonth();
+			currYear = date.getYear();
+		}	
 		initializeMonthDays(); 		
 		UpdateCalendar(true); 		
 		calendar.style.display = "block"; 
@@ -1694,10 +1624,7 @@ function GridEXCalendarDropDown(calendarID, monthNames, firstDayWeek)
 		}
 		cellMonthCaption.innerHTML = getMonthName(currMonth) + "&nbsp;" + currYear;
 	}	
-	function HideButton()
-	{
-		button.style.visibility = "hidden"; 
-	}	
+	function HideButton() { button.style.visibility = "hidden"; }	
 	function HideCalendar()
 	{
 		calendar.style.visibility = "hidden"; 
@@ -1835,10 +1762,7 @@ function GridEXCalendarDropDown(calendarID, monthNames, firstDayWeek)
 			HideScrollableMonths(); 
 	}	
 	var lastClientY = null; 
-	function scrollablemonths_onmousemove()
-	{		
-		lastClientY = window.event.clientY; 
-	}
+	function scrollablemonths_onmousemove() {	lastClientY = window.event.clientY; }
 	function scrollablemonths_onmouseup()
 	{		
 		if(intervalID != null)

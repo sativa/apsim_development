@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using CSGeneral;
 using System.Xml;
+using System.Collections;
 using System.Collections.Specialized;
 
 namespace YieldProphet
@@ -12,10 +13,11 @@ namespace YieldProphet
 	/// <summary>
 	/// Summary description for ReportClass.
 	/// </summary>
+
 	public class ReportClass
-		{
+	{
 		public ReportClass()
-			{}
+		{}
 
 
 		#region Public Variables
@@ -37,149 +39,122 @@ namespace YieldProphet
 		// 1 and for the year 2005
 		//-------------------------------------------------------------------------
 		public static void CreateUsersReportDirectory(string szUserName)
-			{	
-			try
-				{
-				string szDirectoryLocaton = HttpContext.Current.Server.MapPath("/YP/")+"Reports";
-				//Creates the Reports directory if it doesn't exist
-				if(System.IO.Directory.Exists(szDirectoryLocaton)==false)
-					{
-					System.IO.Directory.CreateDirectory(szDirectoryLocaton);
-					}
-				//Creates the Users sub directory if it doesn't exist
-				szDirectoryLocaton = szDirectoryLocaton+"\\"+szUserName;
-				if(System.IO.Directory.Exists(szDirectoryLocaton)==false)
-					{
-					System.IO.Directory.CreateDirectory(szDirectoryLocaton);
-					}
-				//Creates the user's report directory
-				szDirectoryLocaton = szDirectoryLocaton+"\\"+
-					DateTime.Today.Year.ToString();
-				System.IO.Directory.CreateDirectory(szDirectoryLocaton);	
-				}
-			catch(Exception)
-				{}		
+		{	
+			string szDirectoryLocaton = HttpContext.Current.Server.MapPath("/YP/")+"Reports";
+			//Creates the Reports directory if it doesn't exist
+			if(System.IO.Directory.Exists(szDirectoryLocaton)==false)
+			{
+				System.IO.Directory.CreateDirectory(szDirectoryLocaton);
 			}
+			//Creates the Users sub directory if it doesn't exist
+			szDirectoryLocaton = szDirectoryLocaton+"\\"+szUserName;
+			if(System.IO.Directory.Exists(szDirectoryLocaton)==false)
+			{
+				System.IO.Directory.CreateDirectory(szDirectoryLocaton);
+			}
+			//Creates the user's report directory
+			szDirectoryLocaton = szDirectoryLocaton+"\\"+
+				DateTime.Today.Year.ToString();
+			System.IO.Directory.CreateDirectory(szDirectoryLocaton);	
+		}
 		//-------------------------------------------------------------------------
 		//Creates a user directory for a given year, same format as above
 		//-------------------------------------------------------------------------
 		public static void CreateUsersReportDirectory(string szUserName, int iYear)
-			{	
-			try
-				{
-				string szDirectoryLocaton = HttpContext.Current.Server.MapPath("/YP/")+"Reports";
-				//Creates the Reports directory if it doesn't exist
-				if(System.IO.Directory.Exists(szDirectoryLocaton)==false)
-					{
-					System.IO.Directory.CreateDirectory(szDirectoryLocaton);
-					}
-				//Creates the Users sub directory if it doesn't exist
-				szDirectoryLocaton = szDirectoryLocaton+"\\"+szUserName;
-				if(System.IO.Directory.Exists(szDirectoryLocaton)==false)
-					{
-					System.IO.Directory.CreateDirectory(szDirectoryLocaton);
-					}
-				//Creates the user's report directory
-				szDirectoryLocaton = szDirectoryLocaton+"\\"+iYear.ToString();
-				if(System.IO.Directory.Exists(szDirectoryLocaton)==false)
-					{
-					System.IO.Directory.CreateDirectory(szDirectoryLocaton);	
-					}
-				}
-			catch(Exception)
-				{}		
+		{	
+			string szDirectoryLocaton = HttpContext.Current.Server.MapPath("/YP/")+"Reports";
+			//Creates the Reports directory if it doesn't exist
+			if(System.IO.Directory.Exists(szDirectoryLocaton)==false)
+			{
+				System.IO.Directory.CreateDirectory(szDirectoryLocaton);
 			}
+			//Creates the Users sub directory if it doesn't exist
+			szDirectoryLocaton = szDirectoryLocaton+"\\"+szUserName;
+			if(System.IO.Directory.Exists(szDirectoryLocaton)==false)
+			{
+				System.IO.Directory.CreateDirectory(szDirectoryLocaton);
+			}
+			//Creates the user's report directory
+			szDirectoryLocaton = szDirectoryLocaton+"\\"+iYear.ToString();
+			if(System.IO.Directory.Exists(szDirectoryLocaton)==false)
+			{
+				System.IO.Directory.CreateDirectory(szDirectoryLocaton);	
+			}
+		}
 		//-------------------------------------------------------------------------
 		//Takes a UserID and a year and checks if there is a report directory for the
 		//given values.
 		//-------------------------------------------------------------------------
 		public static bool DoesUsersReportDirectoryExisit(string szUserName, int iYear)
-			{
+		{
 			bool bUsersReportDirectoryExists = false;
-			try
-				{
-				string szDirectoryLocaton = HttpContext.Current.Server.MapPath("/YP/")+"Reports";
-				szDirectoryLocaton = szDirectoryLocaton+"\\"+szUserName+"\\"+iYear.ToString();
-
-				bUsersReportDirectoryExists = System.IO.Directory.Exists(szDirectoryLocaton);
-				}
-			catch(Exception)
-				{}	
+		
+			string szDirectoryLocaton = HttpContext.Current.Server.MapPath("/YP/")+"Reports";
+			szDirectoryLocaton = szDirectoryLocaton+"\\"+szUserName+"\\"+iYear.ToString();
+			bUsersReportDirectoryExists = System.IO.Directory.Exists(szDirectoryLocaton);
+		
 			return bUsersReportDirectoryExists;
-			}
+		}
 		//-------------------------------------------------------------------------
 		//Takes a userID and deletes the users report directory including all
 		//sub directories and files
 		//-------------------------------------------------------------------------
 		public static void DeleteUsersReportDirectory(string szUserName)
-			{			
-			try
-				{
-				string szFileLocation = HttpContext.Current.Server.MapPath("/YP/");
-				szFileLocation = szFileLocation+"Reports//"+szUserName;
-				if(System.IO.Directory.Exists(szFileLocation))
-					{
-					System.IO.Directory.Delete(szFileLocation, true);
-					}
-				}
-			catch(Exception)
-				{}
+		{			
+			string szFileLocation = HttpContext.Current.Server.MapPath("/YP/");
+			szFileLocation = szFileLocation+"Reports//"+szUserName;
+			if(System.IO.Directory.Exists(szFileLocation))
+			{
+				System.IO.Directory.Delete(szFileLocation, true);
 			}
+		}
 		//-------------------------------------------------------------------------
 		//Takes a UserID, a report name and a year a deletes the report found in
 		//that location.
 		//-------------------------------------------------------------------------
 		public static void DeleteReport(string szUserName, string szReportName, int iYear)
 		{
-			try
-				{
-				string szFileLocation = HttpContext.Current.Server.MapPath("/YP/");
-				szFileLocation = szFileLocation+"Reports//"+szUserName+
-					"//"+iYear.ToString()+"//"+szReportName+".gif";
-				if(System.IO.File.Exists(szFileLocation))
-					{
-					System.IO.File.Delete(szFileLocation);
-					}
-				}
-			catch(Exception)
-				{}
+			string szFileLocation = HttpContext.Current.Server.MapPath("/YP/");
+			szFileLocation = szFileLocation+"Reports//"+szUserName+
+				"//"+iYear.ToString()+"//"+szReportName+".gif";
+			if(System.IO.File.Exists(szFileLocation))
+			{
+				System.IO.File.Delete(szFileLocation);
+			}
 		}
 		//-------------------------------------------------------------------------
 		//Takes a UserID and a Year and returns all the report names from the
 		//directory found in that location.
 		//-------------------------------------------------------------------------
 		public static DataTable GetReportsOfUser(string szUserName, int iYear)
-			{
+		{
 			DataTable dtUsersReports = new DataTable("Reports");
 			dtUsersReports.Columns.Add("Name");
-			try
+
+			DataRow drUsersReport;
+			string szDirectory = HttpContext.Current.Server.MapPath("/YP/")+"Reports//"+
+				szUserName+"//"+iYear.ToString()+"//";
+			if(Directory.Exists(szDirectory) == true)
+			{
+				//Finds all the report files by looking for all .gif files
+				string[] szReports = Directory.GetFiles(szDirectory, "*.gif");
+				System.Array.Sort(szReports, new FileSortByDate());
+				string szReportName = "";
+				//Cleans up the file names so that only the file name is stored
+				for(int iIndex = 0; iIndex < szReports.Length; iIndex++)
 				{
-				DataRow drUsersReport;
-				string szDirectory = HttpContext.Current.Server.MapPath("/YP/")+"Reports//"+
-					szUserName+"//"+iYear.ToString()+"//";
-				if(Directory.Exists(szDirectory) == true)
-					{
-					//Finds all the report files by looking for all .gif files
-					string[] szReports = Directory.GetFiles(szDirectory, "*.gif");
-					string szReportName = "";
-					//Cleans up the file names so that only the file name is stored
-					for(int iIndex = 0; iIndex < szReports.Length; iIndex++)
-						{
-						drUsersReport = dtUsersReports.NewRow();
-						szReportName = szReports[iIndex];
-						//removes the directory structure from the front of the file name
-						szReportName = szReportName.Remove(0, (szReportName.LastIndexOf('/')+1));
-						//removes the .gif from the end of the file name
-						szReportName = szReportName.Replace(".gif", "");
-						drUsersReport["Name"] = szReportName;
-						dtUsersReports.Rows.Add(drUsersReport);
-						}
-					}
+					drUsersReport = dtUsersReports.NewRow();
+					szReportName = szReports[iIndex];
+					//removes the directory structure from the front of the file name
+					szReportName = szReportName.Remove(0, (szReportName.LastIndexOf('/')+1));
+					//removes the .gif from the end of the file name
+					szReportName = szReportName.Replace(".gif", "");
+					drUsersReport["Name"] = szReportName;
+					dtUsersReports.Rows.Add(drUsersReport);
 				}
-			catch(Exception)
-				{}
-			return dtUsersReports;
 			}
+			return dtUsersReports;
+		}
 		//-------------------------------------------------------------------------
 		//Takes an existing report name, a new report name, a UserID and a Year
 		//and replaces the report name of the report found in the specified directory
@@ -187,41 +162,37 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		public static bool RenameReport(string szOldReportName, 
 			string szNewReportName, string szUserName, int iYear)
-			{
+		{
 			bool bRenamedSuccessfully = false;
-			try
+
+			string szDirectory = HttpContext.Current.Server.MapPath("/YP/")+"Reports//"+
+				szUserName+"//"+iYear.ToString()+"//";
+			if(Directory.Exists(szDirectory) == true)
+			{
+				if(szOldReportName == szNewReportName)
 				{
-				string szDirectory = HttpContext.Current.Server.MapPath("/YP/")+"Reports//"+
-					szUserName+"//"+iYear.ToString()+"//";
-				if(Directory.Exists(szDirectory) == true)
+					bRenamedSuccessfully = true;
+				}
+				else
+				{
+					if(File.Exists(szDirectory+szNewReportName+".gif") == false)
 					{
-					if(szOldReportName == szNewReportName)
-						{
-						bRenamedSuccessfully = true;
-						}
-					else
-						{
-						if(File.Exists(szDirectory+szNewReportName+".gif") == false)
-							{
-							//Copies the existing report and saves it with a new name
-							File.Copy(szDirectory+szOldReportName+".gif", 
+						//Copies the existing report and saves it with a new name
+						File.Copy(szDirectory+szOldReportName+".gif", 
 							szDirectory+szNewReportName+".gif", false);
-							bRenamedSuccessfully = true;
-							//Then deletes the existing report leaving only the 
-							//newly named report.
-							DeleteReport(szUserName, szOldReportName, iYear);
-							}
-						}
+						bRenamedSuccessfully = true;
+						//Then deletes the existing report leaving only the 
+						//newly named report.
+						DeleteReport(szUserName, szOldReportName, iYear);
 					}
 				}
-			catch(Exception)
-				{}
-			return bRenamedSuccessfully;
 			}
-			//-------------------------------------------------------------------------
-			#endregion
-				
-			
+			return bRenamedSuccessfully;
+		}
+		//-------------------------------------------------------------------------
+		#endregion
+						
+
 
 		#region Collate Report Files
 		//-------------------------------------------------------------------------
@@ -339,6 +310,11 @@ namespace YieldProphet
 			XmlNode xmlStartOfGrwoingSeasonDate = xmlDocSoilSample.CreateNode(XmlNodeType.Element, "start_growing_season_date", "");  
 			xmlStartOfGrwoingSeasonDate.InnerText = szStartOfGrowingSeasonDateFull;	
 			xmlPaddock.AppendChild(xmlStartOfGrwoingSeasonDate);		
+			//Create the Start of Growing Season day month.
+			string szStartOfGrowingSeasonDayMonth = (DateTime.ParseExact(szStartOfGrowingSeasonDate, "yyyy-MM-dd", null)).ToString("dd-MMM");
+			XmlNode xmlStartOfGrwoingSeasonDayMonth = xmlDocSoilSample.CreateNode(XmlNodeType.Element, "start_growing_season_daymonth", "");  
+			xmlStartOfGrwoingSeasonDayMonth.InnerText = szStartOfGrowingSeasonDayMonth;	
+			xmlPaddock.AppendChild(xmlStartOfGrwoingSeasonDayMonth);		
 			//Create the cultivar node
 			XmlNode xmlCultivar = xmlDocSoilSample.CreateNode(XmlNodeType.Element, "cultivar", "");  
 			xmlCultivar.InnerText = szCultivar;	
@@ -490,7 +466,7 @@ namespace YieldProphet
 				}
 				//Gets the soil sample data from the second grid
 				DataTable dtSoilSampleTwo = DataAccessClass.GetPaddocksSoilSample("GridTwo", szPaddockName, FunctionsClass.GetActiveUserName());
-				string szSoilSampleTwoXml = dtSoilSampleOne.Rows[0]["Data"].ToString();
+				string szSoilSampleTwoXml = dtSoilSampleTwo.Rows[0]["Data"].ToString();
 				if(szSoilSampleTwoXml != "")
 				{
 					//Converts the soil sample data from the first grid into a APSIMData variable
@@ -515,6 +491,8 @@ namespace YieldProphet
 						sPaddocksDefaultSoil.SetEc(ssPaddocksSoilSample.GetEc());
 					}
 				}
+				// make sure the soil is valid.
+				sPaddocksDefaultSoil.AutoCorrect();
 				//Gets the file template
 				string szSoilFileTemplate = CreateSoilFileTemplate();
 				szSoilFileTemplate = szSoilFileTemplate.Replace("[soil.growername]", szUsersName);
@@ -602,106 +580,105 @@ namespace YieldProphet
 		//Creates the .rai file needed for all report types
 		//-------------------------------------------------------------------------
 		public static void CreateRainfallInformationFile(string szDirectoryLocation, ref StringCollection scAttachments)
-		{
+			{
 			DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(FunctionsClass.GetActiveUserName());
 			string szUsersName =  dtUsersDetails.Rows[0]["Name"].ToString();
 			string szRainfallPaddockName = HttpContext.Current.Session["SelectedPaddockName"].ToString();
 			DataTable dtPaddocksDetails = DataAccessClass.GetDetailsOfPaddock(szRainfallPaddockName, FunctionsClass.GetActiveUserName());
 			DataTable dtSoilSample = DataAccessClass.GetPaddocksSoilSample("GridOne", szRainfallPaddockName, FunctionsClass.GetActiveUserName());
-			try
+
+			int iValueCount = 0;
+			int iPlacesToFill = 4;
+			string szEventValue = "";
+			System.Text.StringBuilder sbFileText = new System.Text.StringBuilder();
+			//Write the text from the database to a temorary file
+			string szFileLocation = szDirectoryLocation+"\\grower.rai";
+			System.IO.StreamWriter swReportFile = System.IO.File.CreateText(szFileLocation);
+			//Get the rain fall data from the database 
+			string szSowingDate = dtPaddocksDetails.Rows[0]["SowDate"].ToString();
+			string szInitialConditionsDate = dtSoilSample.Rows[0]["SampleDate"].ToString();
+
+			// Work out the patch date. It is the earliest of sowing date and reset date.
+			string szStartOfSowingSeasonDate = dtPaddocksDetails.Rows[0]["StartOfGrowingSeasonDate"].ToString();
+			DateTime dtStartOfSowingSeasonDate = DateTime.ParseExact(szStartOfSowingSeasonDate, "yyyy-MM-dd", null);
+			DateTime dtSowingDate  = new DateTime(9999, 12, 31);
+			if(szSowingDate != "")
+				{
+				dtSowingDate = DateTime.ParseExact(szSowingDate, "yyyy-MM-dd", null);
+				}
+			DateTime dtInitialConditionsDate = DateTime.ParseExact(szInitialConditionsDate, "yyyy-MM-dd", null);
+			DateTime dtPatchDate = dtInitialConditionsDate;
+			if (dtSowingDate < dtInitialConditionsDate)
+				dtPatchDate = dtSowingDate;
+			string szPatchDate = dtPatchDate.ToString("yyyy-MM-dd");
+
+			//Write the header information to the file
+			sbFileText.Append("[grower.Rainfall.data]\n");
+			sbFileText.Append("allow_sparse_data = true ()\n");
+			sbFileText.Append("patch_all_years = true ()\n");
+			sbFileText.Append("start_patching_from = "+szPatchDate+"\n");
+			sbFileText.Append("patch_variables_long_term = maxt mint radn ()\n");
+			sbFileText.Append("           date     patch_rain\n");
+			sbFileText.Append("             ()             ()\n");
+
+			//Finds out what the earliest date from which to start the rainfall file
+			//As the Sowing Date doesn't have to be set for all reports we must test that it is a valid date, if 
+			//it isn't then set it to the highest possible date so it won't be chosen.
+			DateTime dtDateToRecord = new DateTime(DateTime.Today.Year, 01, 01);
+
+			if(dtStartOfSowingSeasonDate <= dtSowingDate && dtStartOfSowingSeasonDate <= dtInitialConditionsDate)
+				{
+				dtDateToRecord = dtStartOfSowingSeasonDate;
+				}
+			else if(dtSowingDate <= dtStartOfSowingSeasonDate && dtSowingDate <= dtInitialConditionsDate)
+				{
+				dtDateToRecord = dtSowingDate;
+				}
+			else if(dtInitialConditionsDate <= dtStartOfSowingSeasonDate && dtInitialConditionsDate <= dtSowingDate)
+				{
+				dtDateToRecord = dtInitialConditionsDate;
+				}
+
+			//Get the rainfall data from the database for the specific period.
+			string szLinkedTemporalPaddockName = dtPaddocksDetails.Rows[0]["LinkedRainfallPaddockName"].ToString();
+			if(szLinkedTemporalPaddockName != "")
 			{
-				int iValueCount = 0;
-				int iPlacesToFill = 4;
-				string szEventValue = "";
-				System.Text.StringBuilder sbFileText = new System.Text.StringBuilder();
-				//Write the text from the database to a temorary file
-				string szFileLocation = szDirectoryLocation+"\\grower.rai";
-				System.IO.StreamWriter swReportFile = System.IO.File.CreateText(szFileLocation);
-				//Get the rain fall data from the database 
-				string szSowingDate = dtPaddocksDetails.Rows[0]["SowDate"].ToString();
-				string szInitialConditionsDate = dtSoilSample.Rows[0]["SampleDate"].ToString();
-				
-				string szLinkedTemporalPaddockName = dtPaddocksDetails.Rows[0]["LinkedRainfallPaddockName"].ToString();
-				if(szLinkedTemporalPaddockName != "")
-					{
-					szRainfallPaddockName = szLinkedTemporalPaddockName;
-					}
-				DataTable dtRainfall = DataAccessClass.GetPaddocksTemporalEvents(szRainfallPaddockName, FunctionsClass.GetActiveUserName(), 
-					"patch_rain", DateTime.Today.Year.ToString()+"-01-01", DateTime.Today.Year.ToString()+"-12-31");
-
-				// Work out the patch date. It is the earliest of sowing date and reset date.
-				string szStartOfSowingSeasonDate = dtPaddocksDetails.Rows[0]["StartOfGrowingSeasonDate"].ToString();
-				DateTime dtStartOfSowingSeasonDate = DateTime.ParseExact(szStartOfSowingSeasonDate, "yyyy-MM-dd", null);
-				DateTime dtSowingDate  = new DateTime(9999, 12, 31);
-				if(szSowingDate != "")
-					{
-					dtSowingDate = DateTime.ParseExact(szSowingDate, "yyyy-MM-dd", null);
-					}
-				DateTime dtInitialConditionsDate = DateTime.ParseExact(szInitialConditionsDate, "yyyy-MM-dd", null);
-				DateTime dtPatchDate = dtInitialConditionsDate;
-				if (dtSowingDate < dtInitialConditionsDate)
-					dtPatchDate = dtSowingDate;
-				string szPatchDate = dtPatchDate.ToString("yyyy-MM-dd");
-
-				//Write the header information to the file
-				sbFileText.Append("[grower.Rainfall.data]\n");
-				sbFileText.Append("allow_sparse_data = false ()\n");
-				sbFileText.Append("patch_all_years = true ()\n");
-				sbFileText.Append("start_patching_from = "+szPatchDate+"\n");
-				sbFileText.Append("patch_variables_long_term = maxt mint radn ()\n");
-				sbFileText.Append("           date     patch_rain\n");
-				sbFileText.Append("             ()             ()\n");
-
-				//Finds out what the earliest date from which to start the rainfall file
-				//As the Sowing Date doesn't have to be set for all reports we must test that it is a valid date, if 
-				//it isn't then set it to the highest possible date so it won't be chosen.
-				DateTime dtDateToRecord = new DateTime(DateTime.Today.Year, 01, 01);
-
-				if(dtStartOfSowingSeasonDate <= dtSowingDate && dtStartOfSowingSeasonDate <= dtInitialConditionsDate)
-					{
-					dtDateToRecord = dtStartOfSowingSeasonDate;
-					}
-				else if(dtSowingDate <= dtStartOfSowingSeasonDate && dtSowingDate <= dtInitialConditionsDate)
-					{
-					dtDateToRecord = dtSowingDate;
-					}
-				else if(dtInitialConditionsDate <= dtStartOfSowingSeasonDate && dtInitialConditionsDate <= dtSowingDate)
-					{
-					dtDateToRecord = dtInitialConditionsDate;
-					}
-
-
-				//Add blank records, for every day in the period, to the file
-				while (dtDateToRecord < DateTime.Today)
-				{
-					sbFileText.Append("     "+dtDateToRecord.ToString("yyyy-MM-dd")+"              0\n");
-					dtDateToRecord = dtDateToRecord.AddDays(1);
-				}
-				//Add the rain fall information from the database
-				for(int iIndex = 0; iIndex < dtRainfall.Rows.Count; iIndex++)
-				{
-					szEventValue = dtRainfall.Rows[iIndex]["EventValue"].ToString();
-					iValueCount = szEventValue.Length;
-					//Ensure that the rainfall event is correctly positioned.
-					//Basically this just adds the correct amount of spaces
-					//to ensure that it lines up with the other records
-					while(iValueCount <= iPlacesToFill)
-					{
-						szEventValue = szEventValue.Insert(0, " ");
-						iValueCount++;
-					}
-					//Replace the blank record with the actual rainfall event
-					sbFileText = sbFileText.Replace(dtRainfall.Rows[iIndex]["EventDate"].ToString()+"              0",
-						dtRainfall.Rows[iIndex]["EventDate"].ToString()+"          "+szEventValue);		
-				}
-				swReportFile.Write(sbFileText.ToString());
-				swReportFile.Close();
-				//Store the location of this file in a datatable
-				scAttachments.Add(szFileLocation);
+				szRainfallPaddockName = szLinkedTemporalPaddockName;
 			}
-			catch(Exception)
-			{}
-		}
+			DataTable dtRainfall = DataAccessClass.GetPaddocksTemporalEvents(szRainfallPaddockName, FunctionsClass.GetActiveUserName(), 
+				"patch_rain", dtDateToRecord.ToString("yyyy-MM-dd"), DateTime.Today.ToString("yyyy-MM-dd"));
+
+
+			//Add blank records, for every day in the period, to the file
+			while (dtDateToRecord < DateTime.Today)
+			{
+				sbFileText.Append("     "+dtDateToRecord.ToString("yyyy-MM-dd")+"              0\n");
+				dtDateToRecord = dtDateToRecord.AddDays(1);
+			}
+			//Add the rain fall information from the database
+			for(int iIndex = 0; iIndex < dtRainfall.Rows.Count; iIndex++)
+			{
+				szEventValue = dtRainfall.Rows[iIndex]["EventValue"].ToString();
+				iValueCount = szEventValue.Length;
+				//Ensure that the rainfall event is correctly positioned.
+				//Basically this just adds the correct amount of spaces
+				//to ensure that it lines up with the other records
+				while(iValueCount <= iPlacesToFill)
+				{
+					szEventValue = szEventValue.Insert(0, " ");
+					iValueCount++;
+				}
+				//Replace the blank record with the actual rainfall event
+				sbFileText = sbFileText.Replace(dtRainfall.Rows[iIndex]["EventDate"].ToString()+"              0",
+					dtRainfall.Rows[iIndex]["EventDate"].ToString()+"          "+szEventValue);		
+			}
+			swReportFile.Write(sbFileText.ToString());
+			swReportFile.Close();
+			//Store the location of this file in a datatable
+			scAttachments.Add(szFileLocation);
+				
+			}
+		//-------------------------------------------------------------------------
 		#endregion
 
 
@@ -817,7 +794,7 @@ namespace YieldProphet
 		public static DataTable CreateSowingXVarietyReportOtherValues(DataTable dtNitrogen, 
 			string szVarietyOne, string szSowingDateOne, string szVarietyTwo, string szSowingDateTwo,
 			string szVarietyThree, string szSowingDateThree)
-			{	
+		{	
 			DataTable dtOtherValues = new DataTable();
 			dtOtherValues.Columns.Add("Name");
 			dtOtherValues.Columns.Add("Value");
@@ -834,6 +811,11 @@ namespace YieldProphet
 			dtOtherValues.Rows.Add(drOtherValue);
 
 			drOtherValue = dtOtherValues.NewRow();
+			drOtherValue["Name"] = "sowingdaymonth1";  
+			drOtherValue["Value"] = (DateTime.ParseExact(szSowingDateOne, "yyyy-MM-dd", null)).ToString("dd-MMM");
+			dtOtherValues.Rows.Add(drOtherValue);
+
+			drOtherValue = dtOtherValues.NewRow();
 			drOtherValue["Name"] = "variety2";  
 			drOtherValue["Value"] = szVarietyTwo;	
 			dtOtherValues.Rows.Add(drOtherValue);
@@ -841,6 +823,11 @@ namespace YieldProphet
 			drOtherValue = dtOtherValues.NewRow();
 			drOtherValue["Name"] = "sowingdate2";  
 			drOtherValue["Value"] = szSowingDateTwo;	
+			dtOtherValues.Rows.Add(drOtherValue);
+
+			drOtherValue = dtOtherValues.NewRow();
+			drOtherValue["Name"] = "sowingdaymonth2";  
+			drOtherValue["Value"] = (DateTime.ParseExact(szSowingDateTwo, "yyyy-MM-dd", null)).ToString("dd-MMM");
 			dtOtherValues.Rows.Add(drOtherValue);
 
 			drOtherValue = dtOtherValues.NewRow();
@@ -853,11 +840,16 @@ namespace YieldProphet
 			drOtherValue["Value"] = szSowingDateThree;	
 			dtOtherValues.Rows.Add(drOtherValue);
 
+			drOtherValue = dtOtherValues.NewRow();
+			drOtherValue["Name"] = "sowingdaymonth3";  
+			drOtherValue["Value"] = (DateTime.ParseExact(szSowingDateThree, "yyyy-MM-dd", null)).ToString("dd-MMM");
+			dtOtherValues.Rows.Add(drOtherValue);
+
 			int iMaximumNumberOfNitrogenApplications = 5;
 			//Gets all the data for the first scenario	
 			int iIndex = 1;
 			foreach(DataRow drNitrogen in dtNitrogen.Rows)
-				{
+			{
 				drOtherValue = dtOtherValues.NewRow();
 				drOtherValue["Name"] = "scenariofert"+iIndex.ToString()+"rate";  
 				drOtherValue["Value"] = drNitrogen["Rate"].ToString();	
@@ -869,9 +861,9 @@ namespace YieldProphet
 				dtOtherValues.Rows.Add(drOtherValue);
 				
 				iIndex++;
-				}
+			}
 			for(iIndex = iIndex; iIndex <= iMaximumNumberOfNitrogenApplications; iIndex++)
-				{
+			{
 				drOtherValue = dtOtherValues.NewRow();
 				drOtherValue["Name"] = "scenariofert"+iIndex.ToString()+"rate";  
 				drOtherValue["Value"] = "0";	
@@ -881,7 +873,7 @@ namespace YieldProphet
 				drOtherValue["Name"] = "scenariofert"+iIndex.ToString()+"daymonth"; 
 				drOtherValue["Value"] = "";
 				dtOtherValues.Rows.Add(drOtherValue);
-				}
+			}
 			return dtOtherValues;
 		}	
 		//-------------------------------------------------------------------------
@@ -906,4 +898,24 @@ namespace YieldProphet
 		
 		//-------------------------------------------------------------------------	
 		}//END CLASS
+	//---------------------------------------------------------------------------
+	//The FileSortByDate class sorts an array of files firstly by date then secondly
+	//by name.
+	//---------------------------------------------------------------------------
+	public class FileSortByDate: IComparer
+		{
+		int IComparer.Compare(object objFirstFile, object objSecondFile)
+			{
+			FileInfo fiFirstFile = new FileInfo(objFirstFile.ToString());
+			FileInfo fiSecondFile = new FileInfo(objSecondFile.ToString());
+			TimeSpan difference = fiSecondFile.LastWriteTime - fiFirstFile.LastWriteTime;
+			int iDifference = difference.Days;
+			if(iDifference == 0)
+				{
+				iDifference = (new CaseInsensitiveComparer()).Compare(objFirstFile, objSecondFile);
+				}
+			return iDifference;
+			}
+		//-------------------------------------------------------------------------
+		}//END OF CLASS
 	}//END NAMESPACE

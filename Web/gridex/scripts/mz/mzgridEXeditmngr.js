@@ -14,8 +14,7 @@ function GridEXCheckBoxManager(cell)
 			checkbox = element;
 	}
 	this.Show = Show;		
-	function Show()
-	{ }	
+	function Show() { }	
 	return this;
 }
 function GridEXCalendarComboDropDownManager(cell)
@@ -133,10 +132,7 @@ function GridEXCalendarComboDropDownManager(cell)
 	{
 		gridEXCell.getGridEX().FireEvent("EditingKeyUp", [gridEXCell, window.event.keyCode]);
 	}
-	function getCell()
-	{
-		return gridEXCell; 
-	}	
+	function getCell() { return gridEXCell; }	
 	function Show()
 	{			
 		var args = null; 
@@ -157,7 +153,7 @@ function GridEXCalendarComboDropDownManager(cell)
 			if(!gridEXCell.isNewRecordTopCell())
 				_top -= getVerticalScrollOffset(gridEXCell.getGridEX());				
 			var _width = _innerCell.offsetWidth - getPaddingRight(_innerSpan);
-			var _height = _innerSpan.offsetHeight  - getPaddingBottom(_innerSpan);			
+			var _height = _innerSpan.offsetHeight; //   - getPaddingBottom(_innerSpan);			
 			calendar.setLeft(_left); 
 			calendar.setTop(_top); 
 			calendar.setWidth(_width); 
@@ -173,8 +169,19 @@ function GridEXCalendarComboDropDownManager(cell)
 			if(args != null)
 				calendar.setSelectedDate(args.getValue()); 
 			else
-				calendar.setSelectedDate(gridEXCell.getValue()); 
-			
+			{
+				if(gridEXCell.getRow().getRowType() == "NewRecord")
+				{
+					if(!gridEXCell.getDataChanged() && gridEXCell.getInnerCell().getAttribute("default") != null)
+						calendar.setSelectedDate(gridEXCell.getInnerCell().getAttribute("default"));
+					else if(gridEXCell.getDataChanged())
+						calendar.setSelectedDate(gridEXCell.getValue()); 
+					else if(gridEXCell.getInnerCell().getAttribute("ind") != null && gridEXCell.getInnerCell().getAttribute("value") != null)
+						calendar.setSelectedDate(gridEXCell.getInnerCell().getAttribute("value")); 
+				}
+				else				
+					calendar.setSelectedDate(gridEXCell.getValue()); 
+			}			
 			calendar.Show(); 
 		}		
 	}
@@ -333,6 +340,8 @@ function GridEXCalendarDropDownManager(cell)
 						calendar.setSelectedDate(gridEXCell.getInnerCell().getAttribute("default"));
 					else if(gridEXCell.getDataChanged())
 						calendar.setSelectedDate(gridEXCell.getValue()); 
+					else if(gridEXCell.getInnerCell().getAttribute("ind") != null && gridEXCell.getInnerCell().getAttribute("value") != null)
+						calendar.setSelectedDate(gridEXCell.getInnerCell().getAttribute("value"));
 				}
 				else
 					calendar.setSelectedDate(gridEXCell.getValue());	
@@ -357,10 +366,7 @@ function GridEXComboDropDownManager(cell)
 	this.NotInList = NotInList;
 	this.ValueChanged = ValueChanged; 
 	this.Show = Show; 	
-	function getCell()
-	{
-		return gridEXCell; 
-	}		
+	function getCell() { return gridEXCell; }		
 	function keepOriginalValues(args)
 	{
 		if(args != null)
@@ -502,6 +508,8 @@ function GridEXComboDropDownManager(cell)
 						dropdown.setValue(gridEXCell.getValue());
 					else if(gridEXCell.getInnerCell().getAttribute("niv") != null)
 						dropdown.setValue(null, gridEXCell.getInnerCell().getAttribute("niv")); 
+					else if(gridEXCell.getInnerCell().getAttribute("ind") != null && gridEXCell.getInnerCell().getAttribute("value") != null)
+						dropdown.setValue(gridEXCell.getInnerCell().getAttribute("value"));
 				}
 				else
 				{
@@ -871,6 +879,8 @@ function GridEXDropDownManager(cell)
 						dropdown.setValue(gridEXCell.getInnerCell().getAttribute("default"));
 					else if(gridEXCell.getDataChanged())
 						dropdown.setValue(gridEXCell.getValue()); 
+					else if(gridEXCell.getInnerCell().getAttribute("ind") != null && gridEXCell.getInnerCell().getAttribute("value") != null)
+						dropdown.setValue(gridEXCell.getInnerCell().getAttribute("value"));
 				}
 				else
 					dropdown.setValue(gridEXCell.getValue());
@@ -1461,6 +1471,8 @@ function GridEXEditValueListManager(cell)
 				valueList.setValue(gridEXCell.getInnerCell().getAttribute("default")); 
 			else if(gridEXCell.getDataChanged())
 				valueList.setValue(gridEXCell.getValue());
+			else if(gridEXCell.getInnerCell().getAttribute("ind") != null && gridEXCell.getInnerCell().getAttribute("value") != null)
+				valueList.setValue(gridEXCell.getInnerCell().getAttribute("value"));
 		}
 		else
 			valueList.setValue(gridEXCell.getValue());
@@ -1650,10 +1662,7 @@ function GridEXComboListManager(cell)
 	this.NotInList = NotInList; 
 	this.ValueChanged = ValueChanged; 	
 	this.Show = Show; 
-	function getCell()
-	{
-		return gridEXCell; 
-	}
+	function getCell() { return gridEXCell; }
 	function keepOriginalValues(args)
 	{
 		if(args != null)
@@ -1755,6 +1764,8 @@ function GridEXComboListManager(cell)
 				combo.setValue(gridEXCell.getInnerCell().getAttribute("default"));
 			else if(gridEXCell.getDataChanged())
 				combo.setValue(gridEXCell.getValue()); 
+			else if(gridEXCell.getInnerCell().getAttribute("ind") != null && gridEXCell.getInnerCell().getAttribute("value") != null)
+				combo.setValue(gridEXCell.getInnerCell().getAttribute("value"));
 		}
 		else
 			combo.setValue(gridEXCell.getValue());
@@ -1780,10 +1791,7 @@ function GridEXComboListManager(cell)
 		if(combo.getInnerTextBox().value != originalDisplay)
 			gridEXCell.getRow().ShowHeaderIndicator(true); 
 	}
-	function KeyUp()
-	{
-		gridEXCell.getGridEX().FireEvent("EditingKeyUp", [gridEXCell, window.event.keyCode]); 
-	}
+	function KeyUp() { gridEXCell.getGridEX().FireEvent("EditingKeyUp", [gridEXCell, window.event.keyCode]); }
 	function ArrowDownKeyDown()
 	{
 		combo.Hide();
@@ -1804,14 +1812,11 @@ function GridEXComboListManager(cell)
 		window.event.returnValue = false;
 		window.event.cancelBubble = true;
 	}
-	function EnterKeyDown()
-	{
-		gridEXCell.ResumeEdit(); 
-	}	
+	function EnterKeyDown() { gridEXCell.ResumeEdit(); }	
 	function EscKeyDown()
-	{
-		if(originalValue != gridEXCell.getValue())
-		{						
+	{	
+		if(originalValue != combo.getValue())
+		{	
 			gridEXCell.setValue(originalValue); 
 			gridEXCell.UndoChanges(); 			
 			updateInnerCell(originalDisplay, originalImage);					
@@ -1819,10 +1824,7 @@ function GridEXComboListManager(cell)
 		gridEXCell.getInnerCell().setAttribute("niv", null);
 		combo.Hide(); 
 	}	
-	function Leaving()
-	{
-		combo.Hide(); 
-	}
+	function Leaving() { combo.Hide(); }
 	function NotInList(value)	
 	{	
 		if(gridEXCell.getColumn().limitToList)
@@ -1833,7 +1835,7 @@ function GridEXComboListManager(cell)
 		}
 	}
 	function ValueChanged()
-	{
+	{		
 		var args = null; 
 		var cancel = null; 		
 		if(gridEXCell.getGridEX().getClientEventsCount() > 0)
@@ -1855,7 +1857,7 @@ function GridEXComboListManager(cell)
 		}
 	}	
 	function Show()
-	{	
+	{			
 		var args = null;
 		var cancel = null; 		
 		if(gridEXCell.getGridEX().getClientEventsCount() > 0)
@@ -1890,20 +1892,20 @@ function GridEXComboListManager(cell)
 			combo.setItemCSS(gridEXCell.getRow().getTable().getRowCss(0)); 
 			combo.setSelectedItemCSS(gridEXCell.getRow().getTable().getRowCss(1)); 			
 			if(args != null)
-			{
-				if(gridEXCell.getInnerCell().getAttribute("niv") != null)
+			{				
+				if(gridEXCell.getInnerCell().getAttribute("niv") != null && gridEXCell.getInnerCell().getAttribute("niv") != "")
 					combo.setValue(null, gridEXCell.getInnerCell().getAttribute("niv"));
 				else
 					combo.setValue(args.getValue()); 
 			}
 			else			
 			{
-				if(gridEXCell.getInnerCell().getAttribute("niv") != null)	
+				if(gridEXCell.getInnerCell().getAttribute("niv") != null)						
 					combo.setValue(null, gridEXCell.getInnerCell().getAttribute("niv")); 
-				else
+				else					
 					combo.setValue(gridEXCell.getValue());
 			}
-			keepOriginalValues(args);			
+			keepOriginalValues(args);
 			combo.Show(); 
 			combo.Focus();		
 		}

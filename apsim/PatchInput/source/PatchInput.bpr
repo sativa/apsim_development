@@ -5,7 +5,8 @@
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\Lib\PatchInput.dll"/>
     <OBJFILES value="PatchInput.obj PatchInputComponent.obj 
-      ..\..\input\source\InputComponent.obj ..\..\input\source\StringVariant.obj"/>
+      ..\..\input\source\InputComponent.obj ..\..\input\source\StringVariant.obj 
+      ..\..\..\Shared\ComponentInterface\EntryPoints.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -19,7 +20,7 @@
     <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi qrpt.bpi dbrtl.bpi vcldb.bpi 
       bdertl.bpi ibsmp.bpi vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi 
       inet.bpi nmfast.bpi dclocx.bpi bcb97axserver.bpi"/>
-    <PATHCPP value=".;..\..\input\source"/>
+    <PATHCPP value=".;..\..\input\source;..\..\..\Shared\ComponentInterface"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -29,8 +30,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="PatchInput.bpf"/>
-    <INCLUDEPATH value="..\..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED);..\..\Input\Source"/>
-    <LIBPATH value="..\..\..\Shared\ApsimShared;..\..\input\source;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <INCLUDEPATH value="..\..\..\Shared\ComponentInterface;..\..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED);..\..\Input\Source"/>
+    <LIBPATH value="..\..\..\Shared\ComponentInterface;..\..\..\Shared\ApsimShared;..\..\input\source;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -60,6 +61,7 @@
       <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib" FORMNAME="" UNITNAME="date_time.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib" FORMNAME="" UNITNAME="filesystem.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\Shared\ComponentInterface\EntryPoints.cpp" FORMNAME="" UNITNAME="EntryPoints" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -130,11 +132,11 @@ Item1=..\Lib
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=c:\mydata\development\apsim\patchinput\sample\patchinput.sim
+RunParams=D:\development\Web\YP\Temp\agronomic.sim
 Launcher=
 UseLauncher=0
 DebugCWD=
-HostApplication=c:\mydata\development\bin\apsim.exe
+HostApplication=d:\development\bin\apsim.exe
 RemoteHost=
 RemotePath=
 RemoteLauncher=

@@ -185,14 +185,8 @@ function GridEXCalendarComboDropDownManager(cell)
 		if(calendar.getSelectedDateString() != originalDisplay)
 			gridEXCell.getRow().ShowHeaderIndicator(true); 
 	}
-	function KeyUp()
-	{
-		gridEXCell.getGridEX().FireEvent("EditingKeyUp", [gridEXCell, window.event.keyCode]); 
-	}
-	function getCell()
-	{
-		return gridEXCell; 
-	}
+	function KeyUp() { gridEXCell.getGridEX().FireEvent("EditingKeyUp", [gridEXCell, window.event.keyCode]); }
+	function getCell() { return gridEXCell; }
 	function Show()
 	{	
 		var args = null; 
@@ -236,7 +230,19 @@ function GridEXCalendarComboDropDownManager(cell)
 			if(args != null)
 				calendar.setSelectedDate(args.getValue()); 
 			else
-				calendar.setSelectedDate(gridEXCell.getValue()); 
+			{
+				if(gridEXCell.getRow().getRowType() == "NewRecord")
+				{
+					if(!gridEXCell.getDataChanged() && gridEXCell.getInnerCell().getAttribute("default") != null)
+						calendar.setSelectedDate(gridEXCell.getInnerCell().getAttribute("default"));
+					else if(gridEXCell.getDataChanged())
+						calendar.setSelectedDate(gridEXCell.getValue()); 
+					else if(gridEXCell.getInnerCell().getAttribute("ind") != null && gridEXCell.getInnerCell().getAttribute("value") != null)
+						calendar.setSelectedDate(gridEXCell.getInnerCell().getAttribute("value")); 
+				}
+				else
+					calendar.setSelectedDate(gridEXCell.getValue()); 
+			}
 			calendar.Show(); 
 		}		
 	}
@@ -363,10 +369,7 @@ function GridEXCalendarDropDownManager(cell)
 		gridEXCell.UndoChanges(); 
 		calendar.Hide(); 		
 	}	
-	function EnterKeyDown()
-	{
-		gridEXCell.ResumeEdit(); 
-	}
+	function EnterKeyDown() { gridEXCell.ResumeEdit(); }
 	function TabKeyDown()	
 	{	
 		if(gridEXCell.getGridEX().TabElementChanging != null)		
@@ -402,10 +405,7 @@ function GridEXCalendarDropDownManager(cell)
 		else if(window.event.keyCode == 40)
 			ArrowDownKeyDown();		
 	}
-	function getCell()
-	{
-		return gridEXCell; 
-	}
+	function getCell() { return gridEXCell; }
 	function Show()
 	{	
 		var args = null; 
@@ -461,6 +461,8 @@ function GridEXCalendarDropDownManager(cell)
 						calendar.setSelectedDate(gridEXCell.getInnerCell().getAttribute("default"));
 					else if(gridEXCell.getDataChanged())
 						calendar.setSelectedDate(gridEXCell.getValue()); 
+					else if(gridEXCell.getInnerCell().getAttribute("ind") != null && gridEXCell.getInnerCell().getAttribute("value") != null)
+						calendar.setSelectedDate(gridEXCell.getInnerCell().getAttribute("value")); 
 				}
 				else
 					calendar.setSelectedDate(gridEXCell.getValue());
@@ -643,6 +645,8 @@ function GridEXComboDropDownManager(cell)
 						dropdown.setValue(gridEXCell.getValue()); 
 					else if(gridEXCell.getInnerCell().getAttribute("niv") != null)
 						dropdown.setValue(null, gridEXCell.getInnerCell().getAttribute("niv")); 
+					else if(gridEXCell.getInnerCell().getAttribute("ind") != null && gridEXCell.getInnerCell().getAttribute("value") != null)
+						dropdown.setValue(gridEXCell.getValue()); 
 				}
 				else
 				{
@@ -915,10 +919,7 @@ function GridEXDropDownManager(cell)
 			}
 		}
 	}
-	function EnterKeyDown()
-	{
-		gridEXCell.ResumeEdit();
-	}	
+	function EnterKeyDown() { gridEXCell.ResumeEdit(); }	
 	function EscKeyDown()
 	{
 		if(originalValue != dropdown.getValue())
@@ -1074,6 +1075,8 @@ function GridEXDropDownManager(cell)
 						dropdown.setValue(gridEXCell.getInnerCell().getAttribute("default"));
 					else if(gridEXCell.getDataChanged())
 						dropdown.setValue(gridEXCell.getValue()); 
+					else if(gridEXCell.getInnerCell().getAttribute("ind") != null && gridEXCell.getInnerCell().getAttribute("value") != null)
+						dropdown.setValue(gridEXCell.getInnerCell().getAttribute("value")); 
 				}
 				else
 					dropdown.setValue(gridEXCell.getValue());
@@ -1144,14 +1147,8 @@ function GridEXEditTextAreaManager(cell)
 		else if(window.event.keyCode == 9)
 			TabKeyDown(); 
 	}
-	function KeyUp()
-	{
-		gridEXCell.getGridEX().FireEvent("EditingKeyUp", [gridEXCell, window.event.keyCode]);
-	}
-	function Leaving()
-	{
-		textarea.Hide(); 
-	}	
+	function KeyUp() { gridEXCell.getGridEX().FireEvent("EditingKeyUp", [gridEXCell, window.event.keyCode]); }
+	function Leaving() { textarea.Hide(); }	
 	function Show()
 	{
 		var args = null; 	
@@ -1335,10 +1332,7 @@ function GridEXEditPasswordManager(cell)
 			textbox.Focus();			
 		}
 	}	
-	function Hide()
-	{
-		textbox.Hide(); 
-	}	
+	function Hide() { textbox.Hide(); }	
 	function KeyDown()
 	{		
 		var cancel = gridEXCell.getGridEX().FireEvent("EditingKeyDown", [gridEXCell, window.event.keyCode]); 
@@ -1364,14 +1358,8 @@ function GridEXEditPasswordManager(cell)
 		if(originalValue != textbox.getInnerHTML().value)
 			gridEXCell.getRow().ShowHeaderIndicator(true); 
 	}	
-	function MouseWheel()
-	{
-		Hide(); 
-	}
-	function ApplyingInputMask()
-	{
-		return gridEXCell().getGridEX().FireEvent("ApplyingInputMask", [gridEXCell]); 
-	}
+	function MouseWheel() { Hide(); }
+	function ApplyingInputMask() { return gridEXCell().getGridEX().FireEvent("ApplyingInputMask", [gridEXCell]); }
 	function ArrowDownKeyDown()
 	{
 		Hide(); 
@@ -1420,10 +1408,7 @@ function GridEXEditPasswordManager(cell)
 		if(gridEXCell.getGridEX().getHtmlGridEX().setActive != null)
 			gridEXCell.getGridEX().getHtmlGridEX().setActive();		
 	}	
-	function Leaving()
-	{
-		Hide();
-	}	
+	function Leaving() { Hide(); }	
 	function TabKeyDown()	
 	{	
 		if(gridEXCell.getGridEX().TabElementChanging != null)		
@@ -1724,14 +1709,13 @@ function GridEXEditValueListManager(cell)
 				valueList.setValue(gridEXCell.getInnerCell().getAttribute("default")); 
 			else if(gridEXCell.getDataChanged())
 				valueList.setValue(gridEXCell.getValue());
+			else if(gridEXCell.getInnerCell().getAttribute("ind") != null && gridEXCell.getInnerCell().getAttribute("value") != null)
+				valueList.setValue(gridEXCell.getInnerCell().getAttribute("value")); 
 		}
 		else
 			valueList.setValue(gridEXCell.getValue());
 	}	
-	function EnterKeyDown()
-	{
-		gridEXCell.ResumeEdit(); 
-	}	
+	function EnterKeyDown() { gridEXCell.ResumeEdit(); }	
 	function EscKeyDown()
 	{
 		if(originalValue != gridEXCell.getValue())
@@ -1976,10 +1960,7 @@ function GridEXComboListManager(cell)
 	this.NotInList = NotInList; 
 	this.ValueChanged = ValueChanged; 	
 	this.Show = Show; 	
-	function getCell()
-	{
-		return gridEXCell; 
-	}	
+	function getCell() { return gridEXCell; }	
 	function keepOriginalValues(args)
 	{
 		if(args != null)
@@ -2106,10 +2087,7 @@ function GridEXComboListManager(cell)
 		if(combo.getInnerTextBox().value != originalDisplay)
 			gridEXCell.getRow().ShowHeaderIndicator(true); 
 	}
-	function KeyUp()
-	{
-		gridEXCell.getGridEX().FireEvent("EditingKeyUp", [gridEXCell, window.event.keyCode]); 
-	}
+	function KeyUp() { gridEXCell.getGridEX().FireEvent("EditingKeyUp", [gridEXCell, window.event.keyCode]); }
 	function ArrowDownKeyDown()
 	{
 		combo.Hide();
@@ -2148,14 +2126,11 @@ function GridEXComboListManager(cell)
 			
 		gridEXCell.getGridEX().MovePrevious(); 
 	}	
-	function EnterKeyDown()
-	{
-		gridEXCell.ResumeEdit(); 
-	}	
+	function EnterKeyDown() { gridEXCell.ResumeEdit(); }	
 	function EscKeyDown()
 	{
 		if(originalValue != combo.getValue())
-		{						
+		{									
 			gridEXCell.setValue(originalValue); 
 			gridEXCell.UndoChanges(); 			
 			updateInnerCell(originalDisplay, originalImage);						
@@ -2165,10 +2140,7 @@ function GridEXComboListManager(cell)
 		if(gridEXCell.getGridEX().getHtmlGridEX().setActive != null)
 			gridEXCell.getGridEX().getHtmlGridEX().setActive(); 
 	}	
-	function Leaving()
-	{
-		combo.Hide(); 
-	}
+	function Leaving() { combo.Hide(); }
 	function TabKeyDown()
 	{
 		if(gridEXCell.getGridEX().TabElementChanging != null)
@@ -2281,6 +2253,8 @@ function GridEXComboListManager(cell)
 						combo.setValue(gridEXCell.getValue());
 					else if(gridEXCell.getInnerCell().getAttribute("niv") != null)
 						combo.setValue(null, gridEXCell.getInnerCell().getAttribute("niv"));  
+					else if(gridEXCell.getInnerCell().getAttribute("ind") != null && gridEXCell.getInnerCell().getAttribute("value") != null)
+						combo.setValue(gridEXCell.getInnerCell().getAttribute("value")); 
 				}
 				else
 				{

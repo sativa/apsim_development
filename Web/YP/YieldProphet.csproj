@@ -119,6 +119,55 @@
                     Private = "True"
                 />
                 <Reference
+                    Name = "Xceed.Chart.Core"
+                    AssemblyName = "Xceed.Chart.Core"
+                    HintPath = "..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.Core.Dll"
+                    AssemblyFolderKey = "hklm\xceed chart for .net and asp.net v3.0.100.0"
+                    Private = "True"
+                />
+                <Reference
+                    Name = "Xceed.Chart.DataManipulation"
+                    AssemblyName = "Xceed.Chart.DataManipulation"
+                    HintPath = "..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.DataManipulation.Dll"
+                    AssemblyFolderKey = "hklm\xceed chart for .net and asp.net v3.0.100.0"
+                    Private = "True"
+                />
+                <Reference
+                    Name = "Xceed.Chart"
+                    AssemblyName = "Xceed.Chart"
+                    HintPath = "..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.dll"
+                    AssemblyFolderKey = "hklm\xceed chart for .net and asp.net v3.0.100.0"
+                    Private = "True"
+                />
+                <Reference
+                    Name = "Xceed.Chart.Server"
+                    AssemblyName = "Xceed.Chart.Server"
+                    HintPath = "..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.Server.Dll"
+                    AssemblyFolderKey = "hklm\xceed chart for .net and asp.net v3.0.100.0"
+                    Private = "True"
+                />
+                <Reference
+                    Name = "Xceed.Chart.Standard"
+                    AssemblyName = "Xceed.Chart.Standard"
+                    HintPath = "..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.Standard.Dll"
+                    AssemblyFolderKey = "hklm\xceed chart for .net and asp.net v3.0.100.0"
+                    Private = "True"
+                />
+                <Reference
+                    Name = "Xceed.Chart.Utilities"
+                    AssemblyName = "Xceed.Chart.Utilities"
+                    HintPath = "..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.Utilities.Dll"
+                    AssemblyFolderKey = "hklm\xceed chart for .net and asp.net v3.0.100.0"
+                    Private = "True"
+                />
+                <Reference
+                    Name = "Xceed.Chart.GLCore"
+                    AssemblyName = "Xceed.Chart.GLCore"
+                    HintPath = "..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.GLCore.Dll"
+                    AssemblyFolderKey = "hklm\xceed chart for .net and asp.net v3.0.100.0"
+                    Private = "True"
+                />
+                <Reference
                     Name = "VBGeneral"
                     AssemblyName = "VBGeneral"
                     HintPath = "..\..\Bin\VBGeneral.dll"
@@ -489,6 +538,22 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "wfGenerateSowingXVarietyReport.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfGenerateSowingXVarietyReport.aspx.cs"
+                    DependentUpon = "wfGenerateSowingXVarietyReport.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfGenerateSowingXVarietyReport.aspx.resx"
+                    DependentUpon = "wfGenerateSowingXVarietyReport.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "wfLogin.aspx"
                     SubType = "Form"
                     BuildAction = "Content"
@@ -547,6 +612,22 @@
                 <File
                     RelPath = "wfRegForm3.aspx.resx"
                     DependentUpon = "wfRegForm3.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfReportGenerated.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfReportGenerated.aspx.cs"
+                    DependentUpon = "wfReportGenerated.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfReportGenerated.aspx.resx"
+                    DependentUpon = "wfReportGenerated.aspx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File

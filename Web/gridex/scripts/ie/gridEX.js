@@ -94,10 +94,7 @@ function header_onselectstart()
 	window.event.returnValue = false; 
 	return true;
 }
-function header_onmousedown()
-{
-	var element = window.event.srcElement;
-}
+function header_onmousedown() { var element = window.event.srcElement; }
 function hcscolumn_oncontextmenu()
 {
 	window.event.cancelBubble = true; 
@@ -433,6 +430,7 @@ function selectionChanged(row, rowID, tableID, gridexID)
 	}
 	if(_row != null)
 	{
+		_gridex.setCurrentRow(_row, true); 
 		_gridex.setHitTestArea(0); 
 		_gridex.FireEvent("Click", [_gridex, window.event.button, window.event.clientX, window.event.clientY]); 
 		_gridex.FireEvent("SelectionChanged", [_row]); 
@@ -464,6 +462,8 @@ function row_ondblclick(row, tableID, gridexID)
 		onSelectRow(row, _gridex, _gridextable); 
 		_gridex.setHitTestArea(0); 
 		_gridex.FireEvent("DoubleClick", [_gridex, window.event.clientX, window.event.clientY]); 
+		if(_gridex.dcpb)
+			_gridex.DoPostBack(null, "DoubleClick"); 
 	}
 }
 function clickRowPreviewCore(_gridex, previewRow, tableID)
@@ -1296,7 +1296,10 @@ function loadAdditionalElements(gridex)
 		resizeline.style.visibility = "hidden"; 		
 		resizeline.style.zIndex = 3001; 
 		resizeline.style.cursor = cursorResize;
-		resizeline.attachEvent("onmouseup", resizeline_onmouseup); 
+		if(resizeline.attachEvent != null)
+			resizeline.attachEvent("onmouseup", resizeline_onmouseup); 
+		else
+			resizeline.onmouseup = resizeline_onmouseup;
 		document.body.appendChild(resizeline);		
 	}	
 	if(dragcolumn == null)
@@ -1311,9 +1314,18 @@ function loadAdditionalElements(gridex)
 		dragcolumn.style.visibility = "hidden";
 		dragcolumn.style.overflow = "hidden";		
 		dragcolumn.style.zIndex = 3001;	
-		dragcolumn.attachEvent("onselectstart", drag_onselectstart); 
-		dragcolumn.attachEvent("onmousemove", drag_onmousemove); 
-		dragcolumn.attachEvent("onmouseup", drag_onmouseup); 
+		if(dragcolumn.attachEvent != null)
+		{
+			dragcolumn.attachEvent("onselectstart", drag_onselectstart); 
+			dragcolumn.attachEvent("onmousemove", drag_onmousemove); 
+			dragcolumn.attachEvent("onmouseup", drag_onmouseup); 
+		}
+		else
+		{
+			dragcolumn.onselectstart = drag_onselectstart;
+			dragcolumn.onmousemove = drag_onmousemove;
+			dragcolumn.onmouseup = drag_onmouseup;
+		}
 		document.body.appendChild(dragcolumn); 					
 	}			
 	var index = 0;
@@ -1958,9 +1970,9 @@ function getSelectedClassName(row)
 }
 function getColumnIDFromCellID(cellID)
 {
-	var _indexof = cellID.indexOf("_L"); 
-	if(_indexof > 0)
-		return cellID.substring(0, _indexof); 
+	var i = cellID.indexOf("_L"); 
+	if(i > 0)
+		return cellID.substring(0, i); 
 
 	return ""; 
 }
@@ -1973,28 +1985,20 @@ function getGridEXFromID(id)
 		
 	return _gridex; 
 }
-function getGridEXCalendarFromID(id)
-{
-	var _calendar = null; 
-	eval("_calendar = " + id + ";"); 
-	if(_calendar == null)
-		throw Error("GridEXCalendar '" + id + "' object is null or invalid"); 
-		
-	return _calendar; 
-}
 function getHorizontalScrollOffset(gridex)
-{
-	var _offset = 0;
-	var _table = gridex.getRootTable();
-	_offset = _table.getHtmlItemsTable().offsetParent.scrollLeft;
-	return _offset; 
+{	
+	var t = gridex.getRootTable();
+	var o = t.getHtmlItemsTable().offsetParent.scrollLeft;
+	return o; 
+}
+function getVerticalScrollOffsetCore(e)
+{	
+	var o = e.scrollTop;
+	return o; 
 }
 function getVerticalScrollOffset(gridex)
 {	
-	var _offset = 0; 
-	var _table = gridex.getRootTable(); 	
-	_offset = _table.getHtmlItemsTable().offsetParent.scrollTop; 
-	return _offset; 
+	return getVerticalScrollOffsetCore(gridex.getRootTable().getHtmlItemsTable().offsetParent); 	
 }
 function getPixelTop(element)
 {
@@ -2083,7 +2087,6 @@ function getPixelLeft(element, rtl)
 }
 function getPercentWidth(width)
 {
-	var percentage = 0;
 	if(width.indexOf("%") > 0)
 		return parseInt(width.substring(0, width.indexOf("%")), 10);
 		
@@ -2091,7 +2094,6 @@ function getPercentWidth(width)
 }
 function getPixelWidth(width)
 {
-	var pixel = 0; 
 	if(width.indexOf("px") > 0)
 		return parseInt(width.substring(0, width.indexOf("px")), 10); 
 
@@ -2139,15 +2141,6 @@ function getHierarchicalRowTop(element)
 {	
 	element = getHierarchicalRow(element); 		
 	return element.offsetTop;	
-}
-function getPositionOfCell(cellindex, cells)
-{
-	for(var index = 0; index < cells.length; index = index + 2)
-	{
-		if(cells[index] == cellindex) 
-			return index;
-	}		
-	return -1; 
 }
 function getTextNode(node)
 {	

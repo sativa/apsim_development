@@ -251,58 +251,19 @@ function GridEXComboDropDown(id)
 	this.textbox_onkeypress = textbox_onkeypress;
 	this.textbox_onkeydown = textbox_onkeydown;
 	this.textbox_onkeyup = textbox_onkeyup; 
-	function getDisplayFromItem(item)
-	{
-		return item.getAttribute("displayMember"); 
-	}	
-	function getValueFromItem(item)
-	{
-		return item.getAttribute("value"); 
-	}	
-	function getID()
-	{
-		return id; 
-	}	
-	function getInnerTextBox()
-	{
-		return textbox; 
-	}	
-	function getValue()
-	{
-		return itemValue; 
-	}	
-	function getDisplay()
-	{
-		return itemDisplay; 
-	}	
-	function getCharacterCasing()
-	{
-		return characterCasing; 
-	}	
-	function setCharacterCasing(value)
-	{
-		characterCasing = value; 
-	}	
-	function setOwner(value)
-	{
-		owner = value; 
-	}	
-	function setLeft(value)
-	{
-		left = value; 
-	}	
-	function setTop(value)
-	{
-		top = value; 
-	}	
-	function setHeight(value)
-	{
-		height = value; 
-	}	
-	function setWidth(value)
-	{
-		width = value; 
-	}	
+	function getDisplayFromItem(item) { return item.getAttribute("displayMember"); }	
+	function getValueFromItem(item) { return item.getAttribute("value"); }	
+	function getID() { return id; }	
+	function getInnerTextBox() { return textbox; }	
+	function getValue() { return itemValue; }	
+	function getDisplay() { return itemDisplay; }	
+	function getCharacterCasing() { return characterCasing; }	
+	function setCharacterCasing(value) { characterCasing = value; }	
+	function setOwner(value) { owner = value; }	
+	function setLeft(value) { left = value; }	
+	function setTop(value) { top = value; }	
+	function setHeight(value) { height = value; }	
+	function setWidth(value) { width = value; }	
 	function setStyle(style)
 	{
 		if(style != null)
@@ -472,14 +433,8 @@ function GridEXComboDropDown(id)
 			}
 		}
 	}	
-	function HideButton()
-	{
-		button.style.visibility = "hidden";
-	}	
-	function HideTextBox()
-	{
-		textbox.style.visibility = "hidden"; 
-	}	
+	function HideButton() { button.style.visibility = "hidden"; }	
+	function HideTextBox() { textbox.style.visibility = "hidden"; }	
 	function ShowGridEX()	
 	{	
 		if(initialHeight == -1)
@@ -554,7 +509,16 @@ function GridEXComboDropDown(id)
 			}
 		}
 		if(owner != null && owner.getCell != null && owner.getCell().getGridEX().getHtmlGridEX().getAttribute("rtl") == "1")
-			innerGridEX.style.pixelWidth = width; 
+			innerGridEX.style.pixelWidth = width;
+		if(innerGridEX.offsetWidth + left > document.body.clientWidth)
+		{
+			left -= (innerGridEX.offsetWidth + left) - document.body.clientWidth; 
+			if(left < 0)
+			{
+				left = 0;
+				innerGridEX.style.pixelWidth = document.body.clientWidth; 
+			}
+		}
 		innerGridEX.style.pixelLeft = left; 
 		if(_fixedTop != -1)
 			innerGridEX.style.pixelTop = _fixedTop; 
@@ -991,26 +955,11 @@ function GridEXDropDown(id)
 	this.button_onblur = button_onblur;
 	this.button_onkeydown = button_onkeydown;
 	this.button_onmousedown = button_onmousedown;
-	function getID()
-	{
-		return id; 
-	}			
-	function getDisplay()
-	{
-		return itemDisplay; 
-	}	
-	function getValue()
-	{
-		return itemValue; 
-	}	
-	function setLeft(value)
-	{
-		left = value; 
-	}	
-	function setHeight(value)
-	{
-		height = value; 
-	}	
+	function getID() { return id; }			
+	function getDisplay() { return itemDisplay; }	
+	function getValue() { return itemValue; }	
+	function setLeft(value) { left = value; }	
+	function setHeight(value) { height = value; }	
 	function setValue(value)
 	{
 		itemValue = value; 				
@@ -1025,18 +974,9 @@ function GridEXDropDown(id)
 			return getDisplayFromItem(item[1]);
 		return ""; 
 	}
-	function setWidth(value)
-	{
-		width = value; 
-	}	
-	function setTop(value)
-	{
-		top = value; 
-	}	
-	function setOwner(value)
-	{
-		owner = value; 
-	}				
+	function setWidth(value) { width = value; }	
+	function setTop(value) { top = value; }	
+	function setOwner(value) { owner = value; }				
 	function getItemFromInnerRow(element)
 	{
 		while(element != null)
@@ -1103,14 +1043,8 @@ function GridEXDropDown(id)
 			item.className = css; 
 		}
 	}	
-	function getValueFromItem(item)
-	{
-		return item.getAttribute("value"); 
-	}	
-	function getDisplayFromItem(item)
-	{
-		return item.getAttribute("displayMember"); 
-	}	
+	function getValueFromItem(item) { return item.getAttribute("value"); }	
+	function getDisplayFromItem(item) { return item.getAttribute("displayMember"); }	
 	function commitNewValue(item)
 	{			
 		var value = getValueFromItem(item); 
@@ -1122,10 +1056,7 @@ function GridEXDropDown(id)
 				owner.ValueChanged(); 
 		}
 	}	
-	function HideButton()
-	{
-		button.style.visibility = "hidden"; 
-	}	
+	function HideButton() { button.style.visibility = "hidden"; }	
 	function HideGridEX()
 	{
 		if(gridEX.getGridEXRow() != null)
@@ -1217,6 +1148,15 @@ function GridEXDropDown(id)
 		}
 		if(owner != null && owner.getCell != null && owner.getCell().getGridEX().getHtmlGridEX().getAttribute("rtl") == "1")
 			innerGridEX.style.pixelWidth = width; 
+		if(innerGridEX.offsetWidth + left > document.body.clientWidth)
+		{
+			left -= (innerGridEX.offsetWidth + left) - document.body.clientWidth; 
+			if(left < 0)
+			{
+				left = 0; 
+				innerGridEX.style.pixelWidth = document.body.clientWidth;
+			}
+		}
 		innerGridEX.style.pixelLeft = left;
 		if(_fixedTop != -1)
 			innerGridEX.style.pixelTop = _fixedTop;
@@ -1549,66 +1489,21 @@ function GridEXValueList(id)
 	this.button_onmousedown = button_onmousedown;
 	this.list_onblur = list_onblur;
 	this.list_onkeydown = list_onkeydown;
-	function getDisplay()
-	{
-		return itemDisplay; 
-	}	
-	function getID()
-	{
-		return id; 
-	}	
-	function getImage()
-	{
-		return itemImage; 
-	}
-	function getInnerList()
-	{
-		return list;
-	}
-	function getItemCSS()
-	{
-		return itemCSS; 
-	}	
-	function getSelectedItemCSS()
-	{
-		return selectedItemCSS; 
-	}	
-	function getValue()
-	{
-		return itemValue; 
-	}
-	function setCompareTarget(target)
-	{
-		compareTarget = target; 
-	}	
-	function setLeft(value)
-	{
-		left = value; 
-	}	
-	function setOwner(value)
-	{
-		owner = value; 
-	}	
-	function setTop(value)
-	{
-		top = value; 
-	}	
-	function setHeight(value)
-	{
-		height = value; 
-	}	
-	function setWidth(value)
-	{
-		width = value; 
-	}	
-	function setItemCSS(value)
-	{
-		itemCSS = value; 
-	}	
-	function setSelectedItemCSS(value)
-	{
-		selectedItemCSS = value; 
-	}	
+	function getDisplay() { return itemDisplay; }	
+	function getID() { return id; }	
+	function getImage() { return itemImage; }
+	function getInnerList() { return list; }
+	function getItemCSS() { return itemCSS; }	
+	function getSelectedItemCSS() { return selectedItemCSS; }	
+	function getValue() { return itemValue; }
+	function setCompareTarget(target) { compareTarget = target;  }	
+	function setLeft(value) { left = value; }	
+	function setOwner(value) { owner = value; }	
+	function setTop(value) { top = value; }	
+	function setHeight(value) { height = value; }	
+	function setWidth(value) { width = value; }	
+	function setItemCSS(value){ itemCSS = value; }	
+	function setSelectedItemCSS(value) { selectedItemCSS = value;  }	
 	function setValue(value)
 	{
 		itemValue = value;		
@@ -1624,10 +1519,7 @@ function GridEXValueList(id)
 		itemDisplay = getDisplayFromItem(_item); 
 		itemImage = getImageFromItem(_item); 
 	}	
-	function Focus()
-	{
-		button.focus();
-	}	
+	function Focus() { button.focus(); } 	
 	function Hide()
 	{
 		HideList(); 
@@ -1662,7 +1554,7 @@ function GridEXValueList(id)
 			if(list.offsetHeight != 0)
 				listHeight = list.offsetHeight;
 			else
-				listHeight = list.style.pixelHeight; 			
+				listHeight = list.style.pixelHeight; 				
 			if(((top + height + 2) + listHeight > scrollHeight) || ((top + height + 2) + listHeight < scrollHeight))
 			{						
 				if(scrollHeight - (top + button.offsetHeight + 1) >= initialHeight)
@@ -1678,7 +1570,8 @@ function GridEXValueList(id)
 						_fixedTop = top - _heightProposed;
 					}
 					else
-						_heightProposed = scrollHeight - (top + height +  2);
+						_heightProposed = scrollHeight - (top + height +  2);						
+					
 					list.style.pixelHeight = _heightProposed; 
 				}
 			}
@@ -1703,7 +1596,7 @@ function GridEXValueList(id)
 			list.style.pixelTop = top + height + 2;
 			
 		list.style.pixelWidth = width;		
-		list.style.visibility = "visible";
+		list.style.visibility = "visible";		
 		showDropDownBackFrame(list.style.pixelLeft, list.style.pixelTop, width, list.offsetHeight); 
 		if(list.setActive != null)
 			list.setActive();
@@ -1724,10 +1617,7 @@ function GridEXValueList(id)
 			}
 		}
 	}	
-	function HideButton()
-	{
-		button.style.visibility = "hidden"; 
-	}
+	function HideButton() { button.style.visibility = "hidden"; }
 	function Unload()
 	{		
 		var row = null; 	
@@ -2223,18 +2113,9 @@ function GridEXCombo(id)
 	this.textbox_onkeyup = textbox_onkeyup; 
 	this.combo_onblur = combo_onblur;
 	this.combo_onkeydown = combo_onkeydown;
-	function getCharacterCasing()
-	{
-		return characterCasing; 
-	}	
-	function getID()
-	{
-		return id; 
-	}	
-	function getDisplay()
-	{
-		return itemDisplay; 
-	}
+	function getCharacterCasing() { return characterCasing; }	
+	function getID() { return id; }	
+	function getDisplay() { return itemDisplay; }
 	function getDisplayByValue(value)
 	{
 		var item = getItemByValue(value);
@@ -2243,58 +2124,19 @@ function GridEXCombo(id)
 			
 		return getDisplayFromItem(item);
 	}
-	function getImage()
-	{
-		return itemImage;
-	}
-	function getInnerCombo()
-	{
-		return combo; 
-	}
-	function getInnerTextBox()
-	{
-		return textbox; 
-	}	
-	function getItemCSS()
-	{
-		return itemCSS; 
-	}	
-	function getSelectedItemCSS()
-	{
-		return selectedItemCSS; 
-	}	
-	function getValue()
-	{
-		return itemValue; 
-	}	
-	function setAutoComplete(value)
-	{
-		autoComplete = value; 
-	}
-	function setCharacterCasing(value)
-	{
-		characterCasing = value; 
-	}	
-	function setCompareTarget(value)
-	{
-		compareTarget = value; 
-	}
-	function setItemCSS(value)
-	{		
-		itemCSS = value; 
-	}			
-	function setLeft(value)
-	{
-		left = value; 
-	}	
-	function setSelectedItemCSS(value)
-	{
-		selectedItemCSS = value; 
-	}	
-	function setTop(value)
-	{
-		top = value; 
-	}	
+	function getImage() { return itemImage; }
+	function getInnerCombo() { return combo; }
+	function getInnerTextBox() { return textbox; }	
+	function getItemCSS() { return itemCSS; }	
+	function getSelectedItemCSS() { return selectedItemCSS; }	
+	function getValue() { return itemValue; }	
+	function setAutoComplete(value) { autoComplete = value; }
+	function setCharacterCasing(value) { characterCasing = value; }	
+	function setCompareTarget(value) { compareTarget = value; }
+	function setItemCSS(value) { itemCSS = value; }			
+	function setLeft(value) { left = value; }	
+	function setSelectedItemCSS(value) { selectedItemCSS = value; }	
+	function setTop(value) { top = value; }	
 	function setValue(value, text)
 	{
 		itemValue = value; 
@@ -2574,10 +2416,7 @@ function GridEXCombo(id)
 			}
 		}
 	}	
-	function HideButton()
-	{
-		button.style.visibility = "hidden"; 
-	}	
+	function HideButton() { button.style.visibility = "hidden"; }	
 	function HideTextBox()
 	{
 		textbox.style.visibility = "hidden"; 

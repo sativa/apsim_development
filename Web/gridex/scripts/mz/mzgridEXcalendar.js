@@ -196,8 +196,7 @@ function GridEXCalendarComboDropDown(calendarID, monthNames, firstDayWeek)
 	if(monthNames == null || firstDayWeek == null)
 		throw Error("arguments of GridEXCalendarComboDropDown constructor are null or invalid");
 		
-	var id = calendarID; 
-	
+	var id = calendarID;
 	var button = document.getElementById(calendarID + "_button"); 
 	if(button == null)
 		throw Error("unable to find button for GridEXCalendarDropDown '" + calendarID + "'"); 
@@ -262,10 +261,7 @@ function GridEXCalendarComboDropDown(calendarID, monthNames, firstDayWeek)
 	
 		return monthDays[month]; 
 	}			
-	function getMonth()
-	{
-		return currMonth; 
-	}	
+	function getMonth() { return currMonth; }	
 	function getMonthName(month)
 	{
 		if(month < 0 || month >= 12)
@@ -273,10 +269,7 @@ function GridEXCalendarComboDropDown(calendarID, monthNames, firstDayWeek)
 			
 		return monthNames[month]; 
 	}	
-	function getYear()
-	{
-		return currYear; 
-	}	
+	function getYear() { return currYear; }	
 	function isSelectedDate(day, month, year)
 	{
 		if(selectedDate == null)
@@ -288,14 +281,8 @@ function GridEXCalendarComboDropDown(calendarID, monthNames, firstDayWeek)
 	{		
 		return (date.getDate() == day && date.getMonth() == month && date.getFullYear() == year); 
 	}	
-	function getID()
-	{
-		return id; 
-	}	
-	function setOwner(value)
-	{
-		owner = value; 		
-	}	
+	function getID() { return id; }	
+	function setOwner(value) { owner = value; }	
 	function setSelectedDate(value)
 	{
 		if(value == null || value == "")
@@ -318,14 +305,8 @@ function GridEXCalendarComboDropDown(calendarID, monthNames, firstDayWeek)
 			currYear = selectedDate.getFullYear(); 						
 		}
 	}	
-	function getInnerTextBox()
-	{
-		return textbox; 
-	}	
-	function getSelectedDate()
-	{
-		return selectedDate; 
-	}	
+	function getInnerTextBox() { return textbox; }	
+	function getSelectedDate() { return selectedDate; }	
 	function getSelectedDateString()
 	{
 		if(selectedDate != null)
@@ -356,18 +337,9 @@ function GridEXCalendarComboDropDown(calendarID, monthNames, firstDayWeek)
 			textbox.style.textAlign = style.getPropertyValue("text-align"); 
 		}
 	}	
-	function setTop(value)
-	{
-		top = value; 
-	}	
-	function setWidth(value)
-	{
-		width = value; 
-	}	
-	function setHeight(value)
-	{
-		height = value;
-	}
+	function setTop(value) { top = value; }	
+	function setWidth(value) { width = value; }	
+	function setHeight(value) { height = value; }
 	function commitNewValue()	
 	{
 		if(isDate(textbox.value, getDatePattern()))
@@ -383,10 +355,7 @@ function GridEXCalendarComboDropDown(calendarID, monthNames, firstDayWeek)
 			}
 		}
 	}	
-	function updateTextBox()
-	{
-		textbox.value = getSelectedDateString(); 		
-	}		
+	function updateTextBox() { textbox.value = getSelectedDateString(); 	}		
 	function updateDropDown()
 	{
 		if(textbox.value != getSelectedDateString())
@@ -439,7 +408,8 @@ function GridEXCalendarComboDropDown(calendarID, monthNames, firstDayWeek)
 				proposedLeft += getPixelWidth(document.defaultView.getComputedStyle(document.body, null).getPropertyValue("padding-left")); 
 				proposedLeft += getPixelWidth(document.defaultView.getComputedStyle(document.body, null).getPropertyValue("margin-left")); 
 			}
-			catch { }
+			catch(err)
+			{ } 
 		}		
 		calendar.style.left = proposedLeft + "px"; 
 	}			
@@ -664,6 +634,9 @@ function GridEXCalendarComboDropDown(calendarID, monthNames, firstDayWeek)
 	}
 	function textbox_onchange()
 	{		
+		if(textbox.style.visibility == "visible")
+			return; 
+			
 		commitNewValue(); 
 	}	
 	function textbox_onkeydown()
@@ -736,9 +709,9 @@ function GridEXCalendarComboDropDown(calendarID, monthNames, firstDayWeek)
 		window.event.returnValue = false; 
 		return true;
 	}
-	function day_onclick()
+	function day_onclick(e)
 	{
-		var element = window.event.srcElement; 
+		var element = e.srcElement; 
 		if(element == null || element.tagName != "TD" || element.innerHTML == "")
 			return; 
 			
@@ -861,10 +834,7 @@ function GridEXCalendarComboDropDown(calendarID, monthNames, firstDayWeek)
 			HideScrollableMonths(); 
 	}	
 	var lastClientY = null; 
-	function scrollablemonths_onmousemove()
-	{		
-		lastClientY = window.event.clientY; 
-	}
+	function scrollablemonths_onmousemove() {	lastClientY = window.event.clientY; }
 	function scrollablemonths_onmouseup()
 	{		
 		if(intervalID != null)
@@ -1131,10 +1101,7 @@ function GridEXCalendarDropDown(calendarID, monthNames, firstDayWeek)
 	
 		return monthDays[month]; 
 	}			
-	function getMonth()
-	{
-		return currMonth; 
-	}	
+	function getMonth() { return currMonth; }	
 	function getMonthName(month)
 	{
 		if(month < 0 || month >= 12)
@@ -1142,10 +1109,7 @@ function GridEXCalendarDropDown(calendarID, monthNames, firstDayWeek)
 			
 		return monthNames[month]; 
 	}	
-	function getYear()
-	{
-		return currYear; 
-	}	
+	function getYear() { return currYear; }	
 	function isSelectedDate(day, month, year)
 	{
 		if(selectedDate == null)
@@ -1153,18 +1117,9 @@ function GridEXCalendarDropDown(calendarID, monthNames, firstDayWeek)
 			
 		return (selectedDate.getDate() == day && selectedDate.getMonth() == month && selectedDate.getFullYear() == year); 						
 	}	
-	function isTodayDate(date, day, month, year)
-	{		
-		return (date.getDate() == day && date.getMonth() == month && date.getFullYear() == year); 
-	}		
-	function getID()
-	{
-		return id; 
-	}	
-	function setOwner(value)
-	{
-		owner = value; 		
-	}	
+	function isTodayDate(date, day, month, year) { return (date.getDate() == day && date.getMonth() == month && date.getFullYear() == year); }		
+	function getID() { return id; }	
+	function setOwner(value) { owner = value; }	
 	function setSelectedDate(value)
 	{
 		if(value == null || value == "")
@@ -1186,10 +1141,7 @@ function GridEXCalendarDropDown(calendarID, monthNames, firstDayWeek)
 			currYear = selectedDate.getFullYear(); 
 		}
 	}	
-	function getSelectedDate()
-	{
-		return selectedDate; 
-	}	
+	function getSelectedDate() { return selectedDate; }	
 	function getSelectedDateString()
 	{
 		if(selectedDate != null)
@@ -1207,22 +1159,10 @@ function GridEXCalendarDropDown(calendarID, monthNames, firstDayWeek)
 		else
 			return pattern;
 	}	
-	function setLeft(value)
-	{
-		left = value; 
-	}	
-	function setTop(value)
-	{
-		top = value; 
-	}	
-	function setWidth(value)
-	{
-		width = value; 
-	}	
-	function setHeight(value)
-	{
-		height = value;
-	}			
+	function setLeft(value) { left = value; }	
+	function setTop(value) { top = value;  }	
+	function setWidth(value) { width = value; }	
+	function setHeight(value) { height = value; }			
 	function updateDropDown()
 	{		
 		if(selectedDate != null)
@@ -1230,7 +1170,7 @@ function GridEXCalendarDropDown(calendarID, monthNames, firstDayWeek)
 			currDay = selectedDate.getDate(); 
 			currMonth = selectedDate.getMonth();
 			currYear = selectedDate.getFullYear();
-		}			
+		}	
 		initializeMonthDays(); 		
 		UpdateCalendar(true); 				
 		var scrollheight = -1;
@@ -1253,7 +1193,8 @@ function GridEXCalendarDropDown(calendarID, monthNames, firstDayWeek)
 				proposedLeft += getPixelWidth(document.defaultView.getComputedStyle(document.body, null).getPropertyValue("padding-left"));
 				proposedLeft += getPixelWidth(document.defaultView.getComputedStyle(document.body, null).getPropertyValue("margin-left")); 
 			}
-			catch { } 
+			catch(err)
+			{ } 
 		}
 		calendar.style.left = proposedLeft + "px";
 	}			
@@ -1362,10 +1303,7 @@ function GridEXCalendarDropDown(calendarID, monthNames, firstDayWeek)
 		}
 		cellMonthCaption.innerHTML = getMonthName(currMonth) + "&nbsp;" + currYear;
 	}	
-	function HideButton()
-	{		
-		button.style.visibility = "hidden"; 
-	}	
+	function HideButton() { button.style.visibility = "hidden"; }	
 	function HideCalendar()
 	{
 		calendar.style.visibility = "hidden";
@@ -1379,12 +1317,9 @@ function GridEXCalendarDropDown(calendarID, monthNames, firstDayWeek)
 			}
 		}
 	}	
-	function HideScrollableMonths()
-	{
-		monthsScrollable.style.visibility = "hidden"; 
-	}
+	function HideScrollableMonths() { monthsScrollable.style.visibility = "hidden"; }
 	function Hide()
-	{
+	{		
 		HideCalendar(); 
 		HideButton() ;
 	}					
@@ -1394,7 +1329,8 @@ function GridEXCalendarDropDown(calendarID, monthNames, firstDayWeek)
 		button.style.top = top + "px"; 
 		button.style.left = (left + width - button.offsetWidth) + "px"; 
 		button.style.height = height + "px"; 
-		button.focus(); 
+		if(button.focus != null)
+			button.focus(); 
 	}	
 	var initializedMonthsScrollable = false;
 	function RefreshMonthsScrollable()	
@@ -1616,11 +1552,13 @@ function GridEXCalendarDropDown(calendarID, monthNames, firstDayWeek)
 	function button_onblur()
 	{
 		if(button.style.visibility != "visible")
-			return;					
-	
+			return;
+
+		if(document.activeElement == button || button.contains(document.activeElement))
+			return true;
 		if(document.activeElement == calendar || calendar.contains(document.activeElement))
 			return true;					
-			
+		
 		Hide(); 
 		return true; 
 	}	
@@ -1676,8 +1614,8 @@ function GridEXCalendarDropDown(calendarID, monthNames, firstDayWeek)
 			return true; 
 			
 		if(document.activeElement == calendar || calendar.contains(document.activeElement))
-			return true; 
-			
+			return true; 			
+		
 		if(owner != null && owner.Leaving != null)
 			owner.Leaving();
 		else			
@@ -1707,9 +1645,9 @@ function GridEXCalendarDropDown(calendarID, monthNames, firstDayWeek)
 				owner.KeyDown(); 
 		}
 	}	
-	function day_onclick()
+	function day_onclick(e)
 	{
-		var element = window.event.srcElement; 
+		var element = e.srcElement; // window.event.srcElement; 		
 		if(element == null || element.tagName != "TD" || element.innerHTML == "")
 			return; 
 			
@@ -1728,9 +1666,11 @@ function GridEXCalendarDropDown(calendarID, monthNames, firstDayWeek)
 				if(x != null && x == true)
 					selectedDate = previousDate; 
 			}
-		}		
+		}
 		HideCalendar(); 
-		button.focus(); 
+		if(button.onfocus != null)
+			button.onfocus(); 
+		
 	}	
 	function nextmonth_onclick()
 	{

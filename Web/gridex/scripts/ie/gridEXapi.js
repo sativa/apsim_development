@@ -41,8 +41,8 @@ function GridEXGroupByBox(div, gridex)
 		var ycelllow = null;
 		var ycellhigh = null; 		
 		var table = null; 		
-		var _colslength = -1; 
-		var _rowslength = -1;		
+		var cl = -1; 
+		var rl = -1;		
 		if(currcolumn != null && currcolumn.type == "header")
 			return null;
 			
@@ -59,8 +59,8 @@ function GridEXGroupByBox(div, gridex)
 					if(columns != null && columns.length > 0)
 					{	
 						cell = null; 
-						_colslength = columns.length; 
-						for(var i = 0; i < _colslength; i = i + 3)
+						cl = columns.length; 
+						for(var i = 0; i < cl; i = i + 3)
 						{						
 							if(currheader.getGridEXTable().getID() == columns[i+2])
 							{
@@ -73,10 +73,10 @@ function GridEXGroupByBox(div, gridex)
 									return [cell, columns[i+2], 0]; 
 							}
 						}						
-						_rowslength = htmlBox.rows.length; 						
+						rl = htmlBox.rows.length; 						
 						row = null; 
 						table = null; 
-						for(var index = 0; index < _rowslength; index++)
+						for(var index = 0; index < rl; index++)
 						{
 							row = htmlBox.rows[index]; 
 							if(currheader.getGridEXTable().getID() == row.id || (!IsTablePresent(currheader.getGridEXTable().getID()) && IsHierarchicalParent(row.id, currheader.getGridEXTable())))
@@ -101,12 +101,17 @@ function GridEXGroupByBox(div, gridex)
 					}					
 				}
 				else if(type == 0)
-					return [htmlBox.cells[htmlBox.cells.length-1], currheader.getGridEXTable().getID(), -1]; 
+				{
+					if(htmlBox.cells != null)					
+						return [htmlBox.cells[htmlBox.cells.length-1], currheader.getGridEXTable().getID(), -1]; 
+					else
+						return [htmlBox.rows[0].cells[htmlBox.rows[0].cells.length-1], currheader.getGridEXTable().getID(), -1];
+				}
 			}			
 			else if(testmode == 2) 
 			{	
-				_colslength = columns.length; 
-				for(var i = 0; i < _colslength; i = i + 3)
+				cl = columns.length; 
+				for(var i = 0; i < cl; i = i + 3)
 				{
 					if(columns[i + 2] == currgrouptable)
 					{
@@ -236,16 +241,33 @@ function GridEXGroupByBox(div, gridex)
 					var c = table.cells[g];
 					if(c.type != null && parseInt(c.type, 10) == 1)
 					{					
-						c.detachEvent("onmousedown", gbbcolumn_onmousedown); 
-						c.detachEvent("onmouseup", gbbcolumn_onmouseup); 
-						c.detachEvent("onmousemove", gbbcolumn_onmousemove); 
+						if(c.detachEvent != null)
+						{
+							c.detachEvent("onmousedown", gbbcolumn_onmousedown); 
+							c.detachEvent("onmouseup", gbbcolumn_onmouseup); 
+							c.detachEvent("onmousemove", gbbcolumn_onmousemove); 
+						}
+						else
+						{
+							c.onmousedown	 = null;
+							c.onmouseup = null;
+							c.onmousemove = null;
+						}
 						c.removeAttribute("groupbybox");																	
 					}
 				}
 			}			
 		}
-		htmlBox.detachEvent("onclick", groupbyboxinfotext_onclick);
-		htmlBox.parentElement.detachEvent("onclick", groupbybox_onclick);
+		if(htmlBox.detachEvent != null)
+		{
+			htmlBox.detachEvent("onclick", groupbyboxinfotext_onclick);
+			htmlBox.parentElement.detachEvent("onclick", groupbybox_onclick);
+		}
+		else
+		{
+			htmlBox.onclick = null; 
+			htmlBox.parentElement.onclick = null;
+		}		
 		htmlBox = null;
 		groupByBox = null;
 		gridEX = null;		
@@ -411,10 +433,19 @@ function GridEXGroupByBox(div, gridex)
 						length = columns.length; 
 						columns[length] = c.id; 
 						columns[length + 1] = c; 
-						columns[length + 2] = row.id; 												
-						c.attachEvent("onmousedown", gbbcolumn_onmousedown); 
-						c.attachEvent("onmouseup", gbbcolumn_onmouseup); 
-						c.attachEvent("onmousemove", gbbcolumn_onmousemove); 
+						columns[length + 2] = row.id; 						
+						if(c.attachEvent != null)
+						{						
+							c.attachEvent("onmousedown", gbbcolumn_onmousedown); 
+							c.attachEvent("onmouseup", gbbcolumn_onmouseup); 
+							c.attachEvent("onmousemove", gbbcolumn_onmousemove); 
+						}
+						else
+						{
+							c.onmousedown = gbbcolumn_onmousedown;
+							c.onmouseup = gbbcolumn_onmouseup;
+							c.onmousemove = gbbcolumn_onmousemove;
+						}
 						c.setAttribute("groupbybox", this);																		
 					}
 				}
@@ -424,9 +455,15 @@ function GridEXGroupByBox(div, gridex)
 		else
 		{
 			type = 0; 
-			htmlBox.attachEvent("onclick", groupbyboxinfotext_onclick ); 
+			if(htmlBox.attachEvent != null)
+				htmlBox.attachEvent("onclick", groupbyboxinfotext_onclick ); 
+			else
+				htmlBox.onclick = groupbyboxinfotext_onclick ;
 		}			
-		htmlBox.parentElement.attachEvent("onclick", groupbybox_onclick); 
+		if(htmlBox.parentElement.attachEvent != null)
+			htmlBox.parentElement.attachEvent("onclick", groupbybox_onclick); 
+		else
+			htmlBox.parentElement.onclick = groupbybox_onclick;
 	}	
 	var groupByBox = this; 
 	return this;
@@ -488,14 +525,14 @@ function GridEXSelectedItemCollection(gridex, selectedItems)
 		return false; 
 	}
 	function SelectRow(row)
-	{
+	{		
 		if(gridEX.getSelectionMode() == 1)
 			SelectSingleRow(row);
 		else if(gridEX.getSelectionMode() == 2)
 			SelectMultipleRow(row); 
 	}
 	function SelectSingleRow(rowToSelect)
-	{		
+	{	
 		if(getGridEX().getSelectionMode() != 1 && Count() == 1 && IsRowSelected(rowToSelect))
 			return;
 			
@@ -1175,13 +1212,20 @@ function GridEXColumnHeaders(gridEXTable, htmlRow, htmlTable, headerType, header
 			var xcelllow = null;
 			var xcellhigh = null;
 			var ycelllow = null; 
-			var ycellhigh = null; 			
-			var _length = htmlTable.cells.length;
+			var ycellhigh = null; 		
+			var _length = 0; 	
+			if(htmlTable.cells != null)
+				_length = htmlTable.cells.length;
+			else
+				_length = htmlTable.rows[0].cells.length; 
 			if(!isrtl)
 			{
 				for(var i = 0; i < _length; i++)
 				{
-					cell = htmlTable.cells[i];
+					if(htmlTable.cells != null)
+						cell = htmlTable.cells[i];
+					else
+						cell = htmlTable.rows[0].cells[i]; 
 					if(cell.type != "rh")
 					{	
 						xcelllow = xlow + cell.offsetLeft; 
@@ -1197,7 +1241,10 @@ function GridEXColumnHeaders(gridEXTable, htmlRow, htmlTable, headerType, header
 			{
 				for(var i=_length-1;i>=0;i--)
 				{	
-					cell = htmlTable.cells[i];
+					if(htmlTable.cells != null)
+						cell = htmlTable.cells[i];
+					else
+						cell = htmlTable.rows[0].cells[i]; 
 					if(cell.type != "rh")
 					{	
 						xcelllow = xlow + cell.offsetLeft; 
@@ -1535,8 +1582,16 @@ function GridEXColumnHeaders(gridEXTable, htmlRow, htmlTable, headerType, header
 		delete columnsets;
 		if(htmlTable != null)
 		{
-			htmlTable.detachEvent("onselectstart", header_onselectstart); 
-			htmlTable.detachEvent("onmousedown", header_onmousedown);
+			if(htmlTable.detachEvent != null)
+			{
+				htmlTable.detachEvent("onselectstart", header_onselectstart); 
+				htmlTable.detachEvent("onmousedown", header_onmousedown);
+			}
+			else
+			{
+				htmlTable.onselectstart = null;
+				htmlTable.onmousedown = null;
+			}
 			var row = htmlTable.rows[0];
 			var c = null; 
 			var l = row.cells.length; 
@@ -1545,13 +1600,26 @@ function GridEXColumnHeaders(gridEXTable, htmlRow, htmlTable, headerType, header
 				c = row.cells[i];
 				if(c.type != "rh")
 				{	
-					c.detachEvent("onmousedown", hcolumn_onmousedown);
-					c.detachEvent("onmousemove", hcolumn_onmousemove);
-					c.detachEvent("onmouseover", hcolumn_onmouseover);				
-					c.detachEvent("onmouseup", hcolumn_onmouseup);
-					c.detachEvent("onclick", hcolumn_onclick); 
-					c.detachEvent("ondblclick", hcolumn_ondblclick);
-					c.detachEvent("oncontextmenu", hcolumn_oncontextmenu); 
+					if(c.detachEvent != null)
+					{
+						c.detachEvent("onmousedown", hcolumn_onmousedown);
+						c.detachEvent("onmousemove", hcolumn_onmousemove);
+						c.detachEvent("onmouseover", hcolumn_onmouseover);				
+						c.detachEvent("onmouseup", hcolumn_onmouseup);
+						c.detachEvent("onclick", hcolumn_onclick); 
+						c.detachEvent("ondblclick", hcolumn_ondblclick);
+						c.detachEvent("oncontextmenu", hcolumn_oncontextmenu); 
+					}
+					else
+					{
+						c.onmousedown = null;
+						c.onmousemove = null;
+						c.onmouseover = null;
+						c.onmouseup = null;
+						c.onclick = null;
+						c.ondblclick = null;
+						c.oncontextmenu = null;
+					}
 					c.removeAttribute("header");							
 				}						
 			}
@@ -1629,6 +1697,7 @@ function GridEXColumnHeaders(gridEXTable, htmlRow, htmlTable, headerType, header
 		{			
 			for(var _item = 0; _item < _itemsTablesLength; _item++)
 			{											
+				_customApplied = false; 
 				_itemsCols = _itemsTables[_item].getElementsByTagName("COL"); 				
 				for(var _icol = 0;  _icol < _colwidthLength; _icol = _icol + 2)
 				{					
@@ -2234,10 +2303,7 @@ function GridEXColumnHeaders(gridEXTable, htmlRow, htmlTable, headerType, header
 		}
 	}
 	var eventButton = 0; 
-	function column_onmouseup()
-	{
-		eventButton = window.event.button; 
-	}
+	function column_onmouseup() { eventButton = window.event.button; }
 	function column_onclick()		
 	{		
 		if(eventButton == 1)
@@ -2336,13 +2402,26 @@ function GridEXColumnHeaders(gridEXTable, htmlRow, htmlTable, headerType, header
 			c = r.cells[i];
 			if(c.type != "rh")
 			{	
-				c.attachEvent("onmousedown", hcolumn_onmousedown);
-				c.attachEvent("onmousemove", hcolumn_onmousemove);
-				c.attachEvent("onmouseover", hcolumn_onmouseover);				
-				c.attachEvent("onmouseup", hcolumn_onmouseup);
-				c.attachEvent("onclick", hcolumn_onclick);
-				c.attachEvent("ondblclick", hcolumn_ondblclick);
-				c.attachEvent("oncontextmenu", hcolumn_oncontextmenu); 
+				if(c.attachEvent != null)
+				{
+					c.attachEvent("onmousedown", hcolumn_onmousedown);
+					c.attachEvent("onmousemove", hcolumn_onmousemove);
+					c.attachEvent("onmouseover", hcolumn_onmouseover);				
+					c.attachEvent("onmouseup", hcolumn_onmouseup);
+					c.attachEvent("onclick", hcolumn_onclick);
+					c.attachEvent("ondblclick", hcolumn_ondblclick);
+					c.attachEvent("oncontextmenu", hcolumn_oncontextmenu); 
+				}
+				else
+				{
+					c.onmousedown = hcolumn_onmousedown;
+					c.onmousemove = hcolumn_onmousemove;
+					c.onmouseover = hcolumn_onmouseover;
+					c.onmouseup = hcolumn_onmouseup;
+					c.onclick = hcolumn_onclick;
+					c.ondblclick = hcolumn_ondblclick;
+					c.oncontextmenu = hcolumn_oncontextmenu;
+				}
 				c.setAttribute("header", this);							
 			}			
 			if(c.type != "rh" && c.allowsize == null)
@@ -2351,8 +2430,16 @@ function GridEXColumnHeaders(gridEXTable, htmlRow, htmlTable, headerType, header
 	}	
 	if(htmlTable != null)
 	{				
-		htmlTable.attachEvent("onselectstart", header_onselectstart); 
-		htmlTable.attachEvent("onmousedown", header_onmousedown);
+		if(htmlTable.attachEvent != null)
+		{
+			htmlTable.attachEvent("onselectstart", header_onselectstart); 
+			htmlTable.attachEvent("onmousedown", header_onmousedown);
+		}
+		else
+		{	
+			htmlTable.onselectstart = header_onselectstart;
+			htmlTable.onmousedown = header_onmousedown;
+		}
 	}	
 	var gridEXColumnHeaders = this; 
 	return this; 
@@ -2383,12 +2470,12 @@ function GridEXChildTableCollection(gridEXTable)
 		}
 		return null; 
 	}	
-	function getTableInIndex(index)
+	function getTableInIndex(i)
 	{
-		if(index < 0 || index > childTables.length)
+		if(i < 0 || i > childTables.length)
 			throw new Error("index is out of range"); 
 			
-		return childTables[index];
+		return childTables[i];
 	}	
 	return this;
 }
@@ -2438,14 +2525,36 @@ function GridEXTableCollection(gridEX)
 		}		
 		throw Error("the GridEXTable with ID '" + id + "' is not in the collection"); 
 	}	
-	function getTableInIndex(index)
+	function getTableInIndex(i)
 	{
-		if(index < 0 || index > tables.length) 
+		if(i < 0 || i > tables.length) 
 			throw new Error("'index' is out of range");
 			
-		return tables[index]; 
+		return tables[i]; 
 	}
 	return this; 
+}
+function RefreshColumnSetHeaders(headers,current)
+{
+	if(headers == null)
+		return; 
+			
+	for(var i=0;i<headers.length;i++)
+	{
+		if(i != current)
+		{			
+			for(var j=0;j<headers[i].getColumnSets().getCount();j++)
+			{
+				var cs = headers[i].getColumnSets().getColumnSetInIndex(j); 
+				var hcs = cs.getHtmlColumnSet(); 
+				var cols = hcs.getElementsByTagName("COL"); 
+				var w = 0; 
+				for(var h=0;h<cols.length;h++)
+					w += getPixelColWidth(cols[h].width); 			
+				hcs.parentElement.style.pixelWidth = w; 
+			}			
+		}
+	}
 }
 function GridEXColumnSetCollection(gridEXTable, parentElement, isInHeader, gridEXHeader)
 {
@@ -2591,11 +2700,13 @@ function GridEXColumnSetCollection(gridEXTable, parentElement, isInHeader, gridE
 				igset++; 								
 			}
 		}		
-		FixAutoSizeWidth(newwidth, headers);		
+		FixAutoSizeWidth(newwidth, headers);	
+		if(headers != null)
+			RefreshColumnSetHeaders(headers, -1);
 		updateColumnsDefinition();
 		AutoSizeItems();		
 	}	
-	function AutoSizeByColumnSet(columnset, remainoldwidth, remainnewwidth, currwidth)
+	function AutoSizeByColumnSet(columnset, remainoldwidth, remainnewwidth, currwidth, refreshHeaders)
 	{	
 		var _headers = getGridEXTable().getHeaders(); 
 		var _inallHeaders = _headers.length > 1; 		
@@ -2629,16 +2740,19 @@ function GridEXColumnSetCollection(gridEXTable, parentElement, isInHeader, gridE
 					newwidth -= borderwidth;
 					if(newwidth < _minimalWidth[index])
 						newwidth = _minimalWidth[index];
-						
-					if(_inallHeaders)
+
+					if(_inallHeaders && (refreshHeaders == null || refreshHeaders == true))
 						acolumnset.ResizeColumnSet(newwidth, _headers);
 					else
-						acolumnset.ResizeColumnSet(newwidth, null); 
+						acolumnset.ResizeColumnSet(newwidth, null);					
+						
 					igcell++;
 				}
 			}
 		}		
-		FixAutoSizeWidth(currwidth - fixedwidth, _inallHeaders ? _headers : null); 		
+		FixAutoSizeWidth(currwidth - fixedwidth, ((refreshHeaders == null || refreshHeaders == true) && _inallHeaders) ? _headers : null); 		
+		if(_inallHeaders && (refreshHeaders == null || refreshHeaders == true))
+			RefreshColumnSetHeaders(_headers, getGridEXHeader().getIndex());
 		updateColumnsDefinition(); 
 		AutoSizeItems();
 	}	
@@ -2981,7 +3095,23 @@ function GridEXColumnSet(gridEXTable, index, htmlTable, isInHeader, gridEXHeader
 				}
 			}					
 		}
-	}	
+		if(headers != null)
+			RefreshColumnSetHeaders(headers, getIndex());
+	}
+	function RefreshAllColumnSetHeaders(current)
+	{
+		if(getGridEXTable().getHeaders().length > 1)
+		{
+			for(var i=0;i<getGridEXHeader().getColumnSets().getCount();i++)
+			{
+				var cs = getGridEXHeader().getColumnSets().getColumnSetInIndex(i);
+				var hcs = cs.getHtmlColumnSet(); 
+				var cells = hcs.cells;
+				var cols = hcs.getElementsByTagName("COL"); 
+				ResizeColumnsInColumnSetHeaders(i, cells, cols, getGridEXTable().getHeaders()); 
+			}			
+		}
+	}
 	function ResizeColumnSetHeader(column, posX)
 	{	
 		var _rtl = getGridEXTable().getGridEX().getHtmlGridEX().getAttribute("rtl") == "1";		
@@ -3010,13 +3140,15 @@ function GridEXColumnSet(gridEXTable, index, htmlTable, isInHeader, gridEXHeader
 				var newsize = oldsize + offsetwidth;
 				var oldcolumnsetwidth = htmlTable.parentElement.offsetWidth; 
 				var columnsetswidth = getGridEXHeader().getColumnSets().getColumnSetsWidth();  								
-				AutoSizeColumns(newsize, oldsize);
+				AutoSizeColumns(newsize, oldsize, !getGridEX().getColumnAutoResize());
 				if(getGridEX().getColumnAutoResize())
-					getGridEXHeader().getColumnSets().AutoSizeByColumnSet(getIndex(), columnsetswidth - oldcolumnsetwidth, columnsetswidth - htmlTable.parentElement.offsetWidth, columnsetswidth);				
+					getGridEXHeader().getColumnSets().AutoSizeByColumnSet(getIndex(), columnsetswidth - oldcolumnsetwidth, columnsetswidth - htmlTable.parentElement.offsetWidth, columnsetswidth, false);				
 				else
+				{
+					getGridEXHeader().getColumnSets().updateColumnsDefinition();
 					AutoSizeItems(); 
-					
-				getGridEXHeader().getColumnSets().updateColumnsDefinition();
+				}
+				RefreshAllColumnSetHeaders(getGridEXHeader().getIndex());
 			}
 		}
 		else
@@ -3030,11 +3162,15 @@ function GridEXColumnSet(gridEXTable, index, htmlTable, isInHeader, gridEXHeader
 					
 				var oldcolumnsetwidth = htmlTable.parentElement.offsetWidth;
 				var columnsetswidth = getGridEXHeader().getColumnSets().getColumnSetsWidth(); 									
-				AutoSizeColumns(newsize, oldsize);		
+				AutoSizeColumns(newsize, oldsize, !getGridEX().getColumnAutoResize());		
 				if(getGridEX().getColumnAutoResize())		
-					getGridEXHeader().getColumnSets().AutoSizeByColumnSet(getIndex(), columnsetswidth - oldcolumnsetwidth, columnsetswidth - htmlTable.parentElement.offsetWidth, columnsetswidth);					
+					getGridEXHeader().getColumnSets().AutoSizeByColumnSet(getIndex(), columnsetswidth - oldcolumnsetwidth, columnsetswidth - htmlTable.parentElement.offsetWidth, columnsetswidth, false);					
 				else
-					AutoSizeItems(); 
+				{
+					getGridEXHeader().getColumnSets().updateColumnsDefinition();
+					AutoSizeItems(); 					 
+				}
+				RefreshAllColumnSetHeaders(getGridEXHeader().getIndex());
 			}
 			else
 			{				
@@ -3062,7 +3198,7 @@ function GridEXColumnSet(gridEXTable, index, htmlTable, isInHeader, gridEXHeader
 			}
 		}		
 		resetRootTableScroll(getGridEX().getRootTable()); 			
-	}	
+	}
 	function ResizeColumnInColumnSetHeaders(column, columnIndex, columnSetIndex, cols)
 	{
 		var _arrHeaders = getGridEXTable().getHeaders();
@@ -3115,6 +3251,10 @@ function GridEXColumnSet(gridEXTable, index, htmlTable, isInHeader, gridEXHeader
 					var diff = getPaddingLeft(_cell) + getPaddingRight(_cell) + getBorderWidth(_cell) + getSortWidth(_cell);
 					_cell.childNodes[0].style.pixelWidth = (_width - diff);					
 				}
+				else if(_cell.type == "header")
+				{
+					
+				}
 				else
 				{
 					var colspan = _cell.colSpan + parseInt(_cell.usecol, 10); 
@@ -3126,7 +3266,7 @@ function GridEXColumnSet(gridEXTable, index, htmlTable, isInHeader, gridEXHeader
 					}
 					var diff = getPaddingLeft(_cell) + getPaddingRight(_cell) + getBorderWidth(_cell) + getSortWidth(_cell);
 					_cell.childNodes[0].style.pixelWidth = (_width - diff); 
-				}
+				}				
 			}
 		}
 	}
@@ -3144,15 +3284,29 @@ function GridEXColumnSet(gridEXTable, index, htmlTable, isInHeader, gridEXHeader
 			{
 				cell = _row.cells[i];
 				if(cell.type != "space")
-				{									
-					cell.detachEvent("onmousemove", hcscolumn_onmousemove); 
-					cell.detachEvent("onmouseover", hcscolumn_onmouseover);					
-					cell.detachEvent("onmousedown", hcscolumn_onmousedown);  
-					cell.detachEvent("onmouseup", hcscolumn_onmouseup); 
-					cell.detachEvent("onselectstart", hcscolumn_onselectstart); 
-					cell.detachEvent("onclick", hcscolumn_onclick);
-					cell.detachEvent("ondblclick", hcscolumn_ondblclick); 
-					cell.detachEvent("oncontextmenu", hcscolumn_oncontextmenu);
+				{						
+					if(cell.detachEvent != null)
+					{			
+						cell.detachEvent("onmousemove", hcscolumn_onmousemove); 
+						cell.detachEvent("onmouseover", hcscolumn_onmouseover);					
+						cell.detachEvent("onmousedown", hcscolumn_onmousedown);  
+						cell.detachEvent("onmouseup", hcscolumn_onmouseup); 
+						cell.detachEvent("onselectstart", hcscolumn_onselectstart); 
+						cell.detachEvent("onclick", hcscolumn_onclick);
+						cell.detachEvent("ondblclick", hcscolumn_ondblclick); 
+						cell.detachEvent("oncontextmenu", hcscolumn_oncontextmenu);
+					}
+					else
+					{
+						cell.onmousemove = null;
+						cell.onmouseover = null;
+						cell.onmousedown = null;
+						cell.onmouseup = null;
+						cell.onselectstart = null;
+						cell.onclick = null;
+						cell.ondblclick = null;
+						cell.oncontextmenu = null;
+					}
 					cell.removeAttribute("columnset");			
 				}
 			}
@@ -3162,20 +3316,20 @@ function GridEXColumnSet(gridEXTable, index, htmlTable, isInHeader, gridEXHeader
 	}
 	function cellCouldResizeOthers(cell, cellsLength)
 	{		
-		var _cell = htmlTable.cells[cell]; 
-		var _low = parseInt(_cell.getAttribute("usecol"), 10); 
-		var _high = _low + _cell.colSpan; 	
-		for(var icell=0;icell<cellsLength;icell++)
+		var c = htmlTable.cells[cell]; 
+		var l = parseInt(c.getAttribute("usecol"), 10); 
+		var h = l + c.colSpan; 	
+		for(var i=0;i<cellsLength;i++)
 		{
-			if(icell != cell)
+			if(i != cell)
 			{
-				_cell = htmlTable.cells[icell]; 
-				if(_cell.type != "space" && _cell.type != "header")
+				c = htmlTable.cells[i]; 
+				if(c.type != "space" && c.type != "header")
 				{	
-					usecol = parseInt(_cell.usecol, 10); 
-					if(usecol >= _low && usecol < _high)
+					usecol = parseInt(c.usecol, 10); 
+					if(usecol >= l && usecol < h)
 					{
-						if(_cell.getAttribute("allowsize") != null)
+						if(c.getAttribute("allowsize") != null)
 							return false; 
 					}
 				}
@@ -3183,7 +3337,7 @@ function GridEXColumnSet(gridEXTable, index, htmlTable, isInHeader, gridEXHeader
 		}
 		return true; 
 	}
-	function AutoSizeColumns(newsize, oldsize)
+	function AutoSizeColumns(newsize, oldsize, refreshHeaders)
 	{		
 		var cell = null;		
 		var diff = null; 		
@@ -3192,9 +3346,9 @@ function GridEXColumnSet(gridEXTable, index, htmlTable, isInHeader, gridEXHeader
 		var colswidth = new Array(_cols.length); 
 		var inallheaders = getGridEXTable().getHeaders().length > 1;
 		var _fixedwidth = null; 
-		for(var icell = 0; icell < _cellsLength; icell++)
+		for(var i = 0; i < _cellsLength; i++)
 		{			
-			cell = htmlTable.cells[icell];
+			cell = htmlTable.cells[i];
 			if(cell.allowsize != null && cell.usecol != null)
 			{
 				if(_fixedwidth == null)
@@ -3202,8 +3356,8 @@ function GridEXColumnSet(gridEXTable, index, htmlTable, isInHeader, gridEXHeader
 				_fixedwidth[cell.usecol] = cell.offsetWidth; 
 			}			
 		}
-		for(var icol = 0; icol < _cols.length; icol++)
-			colswidth[icol] = getPixelColWidth(_cols[icol].width);
+		for(var i = 0; i < _cols.length; i++)
+			colswidth[i] = getPixelColWidth(_cols[i].width);
 		if(_fixedwidth != null)
 		{
 			for(var i = 0; i < _fixedwidth.length; i++)
@@ -3243,11 +3397,8 @@ function GridEXColumnSet(gridEXTable, index, htmlTable, isInHeader, gridEXHeader
 							_fixedwidth += getPixelColWidth(_cols[icol].width);
 						}
 						if(_fixedwidth - diff > 0)
-							cell.childNodes[0].style.pixelWidth = _fixedwidth - diff;
-							
-						if(inallheaders)
-							ResizeColumnInColumnSetHeaders(cell, icell, getIndex(), _cols); 
-					}					
+							cell.childNodes[0].style.pixelWidth = _fixedwidth - diff;						
+					}
 				}
 				else 
 				{		
@@ -3267,13 +3418,83 @@ function GridEXColumnSet(gridEXTable, index, htmlTable, isInHeader, gridEXHeader
 					}		
 					diff = getPaddingLeft(cell) + getPaddingRight(cell) + getBorderWidth(cell) + getSortWidth(cell); 
 					if(_fixedwidth - diff > 0)
-						cell.childNodes[0].style.pixelWidth = _fixedwidth - diff;						
-					if(inallheaders)
-						ResizeColumnInColumnSetHeaders(cell, icell, getIndex(), _cols);
+						cell.childNodes[0].style.pixelWidth = _fixedwidth - diff;											
 				}		
 			}
 		}
-	}	
+		if(inallheaders && (refreshHeaders == null || refreshHeaders == true))
+			ResizeColumnsInColumnSetHeaders(getIndex(), htmlTable.cells, _cols); 
+	}
+	function ResizeColumnsInColumnSetHeaders(csi, cells, cols, headers)
+	{
+		if(headers == null)
+			headers = getGridEXTable().getHeaders(); 
+			
+		var current = getGridEXHeader().getIndex(); 
+		for(var i=0;i<headers.length;i++)
+		{
+			if(current != i)
+			{
+				var cs = headers[i].getColumnSets().getColumnSetInIndex(csi);
+				var hcs = cs.getHtmlColumnSet();
+				var _cols = hcs.getElementsByTagName("COL");
+				for(var j=0;j<hcs.cells.length;j++)
+				{
+					var cell = hcs.cells[j];
+					var col = cells[j]; 
+					var w = 0;
+					if((col.type == "ch" || col.isCH != null) && (cell.type != "ch" && cell.isCH == null))
+					{
+						w = getPixelColWidth(cols[parseInt(col.usecol, 10)].width) - getGridEXTable().getHeaderWidth(); 
+						if(cell.getAttribute("pec") != null && cell.type != "ch")
+							w += 18;			
+						_cols[parseInt(cell.usecol, 10)].width = w + "px";
+						if(cell.colSpan > 1)
+						{
+							var colspan = cell.colSpan + parseInt(cell.usecol, 10);
+							for(var icol=parseInt(cell.usecol, 10) + 1; icol < colspan; icol++)
+							{
+								_cols[icol].width = cols[icol].width;
+								w += getPixelColWidth(_cols[icol].width);
+							}
+							var d = getPaddingLeft(cell) + getPaddingRight(cell) + getBorderWidth(cell) + getSortWidth(cell); 
+							cell.childNodes[0].style.pixelWidth = w - d;
+						}
+					}
+					else if((col.type != "ch" || col.isCH == null) && (cell.type == "ch" || cell.isCH != null))
+					{
+						w = getPixelColWidth(cols[parseInt(col.usecol, 10)].width) + getGridEXTable().getHeaderWidth(); 
+						if(cell.getAttribute("pec") != null && cell.type != "ch")
+							w += 18;
+						_cols[parseInt(cell.usecol, 10)].width = w + "px";
+						if(cell.colSpan > 1)
+						{
+							var colspan = cell.colSpan + parseInt(cell.usecol, 10);
+							for(var icol=parseInt(cell.usecol, 10) + 1; icol<colspan;icol++)
+							{
+								_cols[icol].width = cols[icol].width;
+								w += getPixelColWidth(_cols[icol].width);
+							}							
+						}
+						var d = getPaddingLeft(cell) + getPaddingRight(cell) + getBorderWidth(cell) + getSortWidth(cell);
+						cell.childNodes[0].style.pixelWidth = w - d; 
+					}
+					else					
+					{
+						var colspan = cell.colSpan + parseInt(cell.usecol, 10);
+						for(var icol=parseInt(cell.usecol, 10); icol<colspan;icol++)
+						{
+							_cols[icol].width = cols[icol].width;
+							w += getPixelColWidth(_cols[icol].width);
+						}
+						var d = getPaddingLeft(cell) + getPaddingRight(cell) + getBorderWidth(cell) + getSortWidth(cell);
+						cell.childNodes[0].style.pixelWidth = w - d; 
+					}
+				}
+				hcs.parentElement.style.pixelWidth = hcs.offsetWidth;
+			}
+		}
+	}
 	function AutoSize(oldsize, newsize, igcell, cells, headers)	
 	{	
 		var _cellsLength = htmlTable.cells.length;
@@ -3388,7 +3609,8 @@ function GridEXColumnSet(gridEXTable, index, htmlTable, isInHeader, gridEXHeader
 				var _usecol = parseInt(_cell.usecol, 10); 						
 				if(_checkedCols[_usecol] == null)
 				{
-					_colswidth[_usecol] -= getGridEXTable().getHeaderWidth(); 				
+					_colswidth[_usecol] -= getGridEXTable().getHeaderWidth(); 			
+					_hw -= getGridEXTable().getHeaderWidth(); 	
 					_checkedCols[_usecol] = -1; 
 				}
 			}
@@ -3471,7 +3693,6 @@ function GridEXColumnSet(gridEXTable, index, htmlTable, isInHeader, gridEXHeader
 	function CopyCellsWidth(cells)
 	{				
 		var l = htmlTable.cells.length;
-		var cell = null; 
 		for(var i = 0; i < l; i++)
 			cells[cells.length] = htmlTable.cells[i].offsetWidth;
 	}
@@ -3883,8 +4104,16 @@ function GridEXColumnSet(gridEXTable, index, htmlTable, isInHeader, gridEXHeader
 	if(getIsInHeader())
 	{
 		var c = null;				
-		htmlTable.parentElement.attachEvent("onselectstart", gcolumnset_onselectstart); 
-		htmlTable.attachEvent("onselectstart", gcolumnset_onselectstart);		
+		if(htmlTable.parentElement.attachEvent != null)
+		{
+			htmlTable.parentElement.attachEvent("onselectstart", gcolumnset_onselectstart); 
+			htmlTable.attachEvent("onselectstart", gcolumnset_onselectstart);		
+		}
+		else
+		{
+			htmlTable.parentElement.onselectstart = gcolumnset_onselectstart;
+			htmlTable.attachEvent.onselectstart = gcolumnset_onselectstart;
+		}
 		var g = -1; 
 		var l = htmlTable.rows.length; 
 		var _row = null; 
@@ -3896,15 +4125,29 @@ function GridEXColumnSet(gridEXTable, index, htmlTable, isInHeader, gridEXHeader
 			{
 				c = _row.cells[i];
 				if(c.type != "space")
-				{									
-					c.attachEvent("onmousemove", hcscolumn_onmousemove); 
-					c.attachEvent("onmouseover", hcscolumn_onmouseover);					
-					c.attachEvent("onmousedown", hcscolumn_onmousedown);  
-					c.attachEvent("onmouseup", hcscolumn_onmouseup); 
-					c.attachEvent("onselectstart", hcscolumn_onselectstart); 
-					c.attachEvent("onclick", hcscolumn_onclick); 
-					c.attachEvent("ondblclick", hcscolumn_ondblclick); 
-					c.attachEvent("oncontextmenu", hcscolumn_oncontextmenu);
+				{						
+					if(c.attachEvent != null)
+					{			
+						c.attachEvent("onmousemove", hcscolumn_onmousemove); 
+						c.attachEvent("onmouseover", hcscolumn_onmouseover);					
+						c.attachEvent("onmousedown", hcscolumn_onmousedown);  
+						c.attachEvent("onmouseup", hcscolumn_onmouseup); 
+						c.attachEvent("onselectstart", hcscolumn_onselectstart); 
+						c.attachEvent("onclick", hcscolumn_onclick); 
+						c.attachEvent("ondblclick", hcscolumn_ondblclick); 
+						c.attachEvent("oncontextmenu", hcscolumn_oncontextmenu);
+					}
+					else
+					{
+						c.onmousemove = hcscolumn_onmousemove;
+						c.onmouseover = hcscolumn_onmouseover;
+						c.onmousedown = hcscolumn_onmousedown;
+						c.onmouseup = hcscolumn_onmouseup;
+						c.onselectstart = hcscolumn_onselectstart;
+						c.onclick = hcscolumn_onclick;
+						c.ondblclick = hcscolumn_ondblclick;
+						c.oncontextmenu = hcscolumn_oncontextmenu;						
+					}
 					c.setAttribute("columnset", this);			
 				}
 				if(c.type == "ch")
@@ -4064,10 +4307,10 @@ function GridEXColumnCollection(array, table)
 	var columnArray = null; 
 	var columnIndex = 0; 
 	var columns = new Array();
-	for(var index = 0; index < array.length; index = index + columnDefinitionLength)
+	for(var i = 0; i < array.length; i = i + columnDefinitionLength)
 	{		
 		columnArray = new Array();
-		for(var prop = index; prop < index + columnDefinitionLength; prop++)
+		for(var prop = i; prop < i + columnDefinitionLength; prop++)
 			columnArray[columnArray.length] = array[prop];
 			
 		column = new GridEXColumn(columnArray, columnIndex, table); 		
@@ -4527,6 +4770,7 @@ function GridEXCell(column, row)
 	var gridEXCell = this; 	
 	return this; 
 }
+var currentRowHeader = null;
 function GridEXRow(id, innerRow, table, pos, rootRow)
 {	
 	var cells = null; 
@@ -4815,79 +5059,13 @@ function GridEXRow(id, innerRow, table, pos, rootRow)
 	function getType() { return (type == 4) ? 3 : type; }	
 	function getVisibleInScroll()
 	{						
-		if((getRootRowFromInner(getInnerRow()).offsetTop + getRowHeight()) > (getGridEX().getRootTable().getHtmlItemsTable().offsetParent.offsetHeight  + getGridEX().getRootTable().getHtmlItemsTable().offsetParent.scrollTop))
+		if((getRootRowFromInner(getInnerRow()).offsetTop + getRowHeight()) > (getGridEX().getRootTable().getHtmlItemsTable().offsetParent.offsetHeight  + getGridEX().getRootTable().getHtmlItemsTable().offsetParent.scrollTop)) // getGridEX().getRootTable().getHtmlItemsTable().offsetParent.scrollTop
 			return false; 
-		else if((getRootRowFromInner(getInnerRow()).offsetTop - getGridEX().getRootTable().getHtmlItemsTable().offsetParent.scrollTop) < 0)
+		else if((getRootRowFromInner(getInnerRow()).offsetTop - getGridEX().getRootTable().getHtmlItemsTable().offsetParent.scrollTop) < 0) // getGridEX().getRootTable().getHtmlItemsTable().offsetParent.scrollTop
 			return false;
 		else
 			return true; 		
-	}	
-	function getVisibleRowHeader()
-	{	
-		var rtl = (getGridEX().getHtmlGridEX().getAttribute("rtl") == "1");
-		if(!rtl)
-		{
-			var minLeft = getPixelLeft(getGridEX().getRootTable().getHtmlItemsTable().offsetParent) + getGridEX().getRootTable().getHtmlItemsTable().offsetParent.scrollLeft; 
-			if(headerIndicatorType == -1)
-			{
-				if((getPixelLeft(getRowHeaderCell()) + getRowHeaderCell().offsetWidth) >= minLeft)
-					return true;
-				else
-					return false; 
-			}
-			else
-			{	
-				if(headerIndicatorType == 1)
-				{
-					if((getPixelLeft(getGridEX().getRowHeaderGlyph()) + getGridEX().getRowHeaderGlyph().offsetWidth) >= minLeft)
-						return true;
-					else
-						return false;
-				}
-				else if(headerIndicatorType == 2)
-				{				
-					if((getPixelLeft(getGridEX().getRowHeaderEditGlyph()) + getGridEX().getRowHeaderEditGlyph().offsetWidth) >= minLeft)
-						return true;
-					else
-						return false; 
-				}
-			}
-		}
-		else
-		{
-			var minLeft = getPixelLeft(getGridEX().getRootTable().getHtmlItemsTable().offsetParent) + getGridEX().getRootTable().getHtmlItemsTable().offsetParent.offsetWidth;			
-			if(headerIndicatorType == -1)
-			{
-				var l = getPixelLeft(getRowHeaderCell()) + getGridEX().getRowHeaderGlyph().offsetWidth; 
-				l += (getGridEX().getRootTable().getHtmlItemsTable().offsetParent.scrollWidth - getGridEX().getRootTable().getHtmlItemsTable().offsetParent.clientWidth) - getGridEX().getRootTable().getHtmlItemsTable().offsetParent.scrollLeft;
-				if(l > minLeft)
-					return false;
-				else
-					return true;				
-			}
-			else
-			{
-				if(headerIndicatorType == 1)
-				{
-					var l = getPixelLeft(getGridEX().getRowHeaderGlyph()) + getGridEX().getRowHeaderGlyph().offsetWidth;
-					l += (getGridEX().getRootTable().getHtmlItemsTable().offsetParent.scrollWidth - getGridEX().getRootTable().getHtmlItemsTable().offsetParent.clientWidth) - getGridEX().getRootTable().getHtmlItemsTable().offsetParent.scrollLeft;
-					if(l > minLeft)
-						return false;
-					else
-						return true; 
-				}
-				else if(headerIndicatorType == 2)
-				{
-					var l = getPixelLeft(getGridEX().getRowHeaderEditGlyph()) + getGridEX().getRowHeaderEditGlyph().offsetWidth;
-					l += (getGridEX().getRootTable().getHtmlItemsTable().offsetParent.scrollWidth - getGridEX().getRootTable().getHtmlItemsTable().offsetParent.clientWidth) - getGridEX().getRootTable().getHtmlItemsTable().offsetParent.scrollLeft;
-					if(l > minLeft)
-						return false;
-					else
-						return true;
-				}
-			}
-		}
-	}	
+	}
 	function getDataChanged()
 	{
 		var t = getType(); 
@@ -5085,9 +5263,9 @@ function GridEXRow(id, innerRow, table, pos, rootRow)
 		}
 	}
 	function CheckRow(checked,colID,reviewStatus,fireEvent)
-	{
+	{		
 		if(getType() != 3)
-			throw Error("invalid operation exception");
+			return;  /* throw Error("invalid operation exception"); */			
 		
 		if(cells == null)
 		{
@@ -5337,25 +5515,14 @@ function GridEXRow(id, innerRow, table, pos, rootRow)
 	}	
 	function HideHeaderIndicator()
 	{
-		var headerIndicator = null; 
+		hideCurrentRowHeader(); 		
 		if(getTable().getRowHeaders())
 		{
-			if(headerIndicatorType == 1)
-			{
-				headerIndicator = getGridEX().getRowHeaderGlyph(); 
-				headerIndicator.style.visibility = "hidden"; 				
-			}
-			else if(headerIndicatorType == 2)
-			{
-				headerIndicator = getGridEX().getRowHeaderEditGlyph();
-				headerIndicator.style.visibility = "hidden";
-			}			
 			if(getType() == 9)
 			{
-				var cellHeader = getRowHeaderCell();				
-				cellHeader.childNodes[0].childNodes[0].style.visibility = "visible"; 
-			}			
-			headerIndicatorType = -1; 
+				showHeaderIndicatorCore(getGridEX().rowheaders[2]); 				
+				currentRowHeader = null;
+			}
 		}
 	}
 	function ReportStatus()
@@ -5389,13 +5556,21 @@ function GridEXRow(id, innerRow, table, pos, rootRow)
 			rowstatus += "-1"; 
 		return rowstatus; 
 	}
+	function hideCurrentRowHeader()
+	{
+		if(currentRowHeader != null)
+			currentRowHeader.getElementsByTagName("SPAN")[0].style.backgroundImage = "none"; 
+	}
+	function showHeaderIndicatorCore(img)
+	{
+		var s = getRowHeaderCell().getElementsByTagName("SPAN")[0]; 
+		s.style.backgroundImage = "url(" +  img +")"; 
+		s.style.backgroundPosition = "left center"; 
+		s.style.backgroundRepeat = "no-repeat"; 
+		currentRowHeader = getRowHeaderCell(); 
+	}
 	function ShowHeaderIndicator(editing)
 	{
-		var cellHeader = null; 
-		var headerIndicator = null; 
-		var headerSettings = null; 
-		var _left = -1;
-		var _top = -1; 
 		if(getTable().getRowHeaders())				
 		{							
 			if(getType() == 5 || getType() == 8 || getType() == 11 || getType() == 12) 
@@ -5403,168 +5578,41 @@ function GridEXRow(id, innerRow, table, pos, rootRow)
 		
 			if((getType() == 3 || getType() == 4 || getType() == 9) && ((editing != null && editing) || (getDataChanged() && getTable().getAllowEdit())))
 			{
-				if(headerIndicatorType == -1)
+				if(headerIndicatorType == -1 || headerIndicatorType == 1)
 				{
-					if(getVisibleInScroll() && getVisibleRowHeader())
-					{						
-						headerSettings = getHeaderSettings(); 
-						if(headerSettings != null)
-						{						
-							if(getType() == 9)
-							{
-								cellHeader = getRowHeaderCell(); 
-								cellHeader.childNodes[0].childNodes[0].style.display = "none"; 							
-							}							
-							headerIndicator = getGridEX().getRowHeaderEditGlyph();						
-							_top = headerSettings[1] + (headerSettings[3] / 2) - (headerIndicator.offsetHeight / 2); 
-							if(getType() == 9)
-								_left = headerSettings[0] + (headerSettings[2] - headerIndicator.offsetWidth - 2); 
-							else
-								_left = headerSettings[0] + (headerSettings[2] / 2) - (headerIndicator.offsetWidth / 2);
-							headerIndicator.style.pixelTop = _top; 
-							headerIndicator.style.pixelLeft = _left;
-							headerIndicator.style.visibility = "visible"; 							
-							headerIndicatorType = 2; 
-						}
-					}					
+					hideCurrentRowHeader(); 
+					if(getRowHeaderCell() != null)
+						showHeaderIndicatorCore(getGridEX().rowheaders[1]); 						
+					headerIndicatorType = 2; 					
 					return; 
-				}
-				else if(headerIndicatorType == 1) 
-				{
-					headerIndicator = getGridEX().getRowHeaderGlyph(); 
-					headerIndicator.style.visibility = "hidden"; 					
-					if(getType() == 9)
-					{							
-						cellHeader = getRowHeaderCell(); 
-						cellHeader.childNodes[0].childNodes[0].style.visibility = "hidden";
-					}				
-					if(getVisibleInScroll() && getVisibleRowHeader())
-					{	
-						headerIndicator = getGridEX().getRowHeaderEditGlyph(); 
-						headerSettings = getHeaderSettings(); 
-						if(headerSettings != null)
-						{	
-							_top = headerSettings[1] + (headerSettings[3] / 2) - (headerIndicator.offsetHeight / 2); 
-							if(getType() == 9)
-								_left = headerSettings[0] + (headerSettings[2] - headerIndicator.offsetWidth - 2);
-							else
-								_left = headerSettings[0] + (headerSettings[2] / 2)  - (headerIndicator.offsetWidth / 2);
-							headerIndicator.style.pixelTop = _top; 
-							headerIndicator.style.pixelLeft = _left; 
-							headerIndicator.style.visibility = "visible";							
-							headerIndicatorType = 2; 
-						}
-					}					
-					return; 
-				}
+				}				
 				else if(headerIndicatorType == 2)
-				{
-					if(!getVisibleInScroll() || !getVisibleRowHeader())
-					{
-						headerIndicator = getGridEX().getRowHeaderEditGlyph(); 
-						headerIndicator.style.visibility = "hidden"; 
-						return; 
-					}					
-					headerIndicator = getGridEX().getRowHeaderEditGlyph(); 
-					headerSettings = getHeaderSettings(); 
-					if(headerSettings != null)
-					{	
-						_top = headerSettings[1] + (headerSettings[3] / 2) - (headerIndicator.offsetHeight / 2); 
-						if(getType() == 9)
-							_left = headerSettings[0] + (headerSettings[2] - headerIndicator.offsetWidth - 2);
-						else
-							_left = headerSettings[0] + (headerSettings[2] / 2) - (headerIndicator.offsetWidth / 2); 
-						headerIndicator.style.pixelTop = _top; 
-						headerIndicator.style.pixelLeft = _left;
-						headerIndicator.style.visibility = "visible";
-					}					
+				{					
+					hideCurrentRowHeader(); 
+					if(getRowHeaderCell() != null)
+						showHeaderIndicatorCore(getGridEX().rowheaders[1]);
+						
 					return; 
 				}
 			}
 			else
 			{
-				if(headerIndicatorType == -1)
-				{
-					if(getVisibleInScroll() && getVisibleRowHeader())
-					{						
-						headerSettings = getHeaderSettings(); 
-						if(headerSettings != null)
-						{						
-							if(getType() == 9)
-							{
-								cellHeader = getRowHeaderCell(); 
-								cellHeader.childNodes[0].childNodes[0].style.visibility = "hidden";								
-							}						
-							headerIndicator = getGridEX().getRowHeaderGlyph(); 
-							_top = headerSettings[1] + (headerSettings[3] / 2) - (headerIndicator.offsetHeight / 2);
-							if(getType() == 9)
-								_left = headerSettings[0] + (headerSettings[2] - headerIndicator.offsetWidth - 2);
-							else
-								_left = headerSettings[0] + (headerSettings[2] / 2) - (headerIndicator.offsetWidth / 2);
-							headerIndicator.style.pixelTop = _top; 
-							headerIndicator.style.pixelLeft = _left;
-							headerIndicator.style.visibility = "visible";
-						}
-						headerIndicatorType = 1; 
-					}					
+				if(headerIndicatorType == -1 || headerIndicatorType == 2)
+				{					
+					hideCurrentRowHeader();
+					if(getRowHeaderCell() != null)
+						showHeaderIndicatorCore(getGridEX().rowheaders[0]);
+						
+					headerIndicatorType = 1; 
 					return; 
 				}
 				else if(headerIndicatorType == 1)
-				{
-					if(!getVisibleInScroll() || !getVisibleRowHeader())
-					{
-						headerIndicator = getGridEX().getRowHeaderGlyph(); 
-						headerIndicator.style.visibility = "hidden"; 
-						return; 
-					}					
-					headerSettings = getHeaderSettings(); 
-					if(headerSettings != null)
-					{					
-						if(getType() == 9)
-						{
-							cellHeader = getRowHeaderCell(); 
-							cellHeader.childNodes[0].childNodes[0].style.visibility = "hidden";
-						}						
-						headerIndicator = getGridEX().getRowHeaderGlyph(); 					
-						_top = headerSettings[1] + (headerSettings[3] / 2) - (headerIndicator.offsetHeight / 2);
-						if(getType() == 9)
-							_left = headerSettings[0] + (headerSettings[2] - headerIndicator.offsetWidth - 2);
-						else
-							_left = headerSettings[0] + (headerSettings[2] / 2) - (headerIndicator.offsetWidth / 2); 												
-						headerIndicator.style.pixelTop = _top; 
-						headerIndicator.style.pixelLeft = _left; 
-						headerIndicator.style.visibility = "visible";
-					}					
+				{					
+					hideCurrentRowHeader();
+					if(getRowHeaderCell() != null)
+						showHeaderIndicatorCore(getGridEX().rowheaders[0]); 					
 					return; 
-				}
-				else if(headerIndicatorType == 2)
-				{
-					headerIndicator = getGridEX().getRowHeaderEditGlyph();
-					headerIndicator.style.visibility = "hidden"; 					
-					if(getVisibleInScroll() && getVisibleRowHeader())
-					{						
-						headerSettings = getHeaderSettings(); 
-						if(headerSettings != null)
-						{						
-							if(getType() == 9)
-							{
-								cellHeader = getRowHeaderCell(); 
-								cellHeader.childNodes[0].childNodes[0].style.visibility = "hidden";
-							}							
-							headerIndicator = getGridEX().getRowHeaderGlyph(); 
-							_top = headerSettings[1] + (headerSettings[3] / 2) - (headerIndicator.offsetHeight / 2);
-							if(getType() == 9)
-								_left = headerSettings[0] + (headerSettings[2] - headerIndicator.offsetWidth - 2);
-							else
-								_left = headerSettings[0] + (headerSettings[2] / 2) - (headerIndicator.offsetWidth / 2); 							
-							headerIndicator.style.pixelLeft = _left; 
-							headerIndicator.style.pixelTop = _top; 
-							headerIndicator.style.visibility = "visible";
-						}
-					}															
-					headerIndicatorType = 1; 					
-					return; 
-				}
+				}				
 			}
 		}
 	}	
@@ -6077,16 +6125,8 @@ function GridEXRow(id, innerRow, table, pos, rootRow)
 			}			
 		}
 	}
-	function NextFocusCell()
-	{
-		if(currentCell != null)
-			setFocusCell(1);			
-	}
-	function PreviousFocusCell()
-	{
-		if(currentCell != null)
-			setFocusCell(-1); 
-	}
+	function NextFocusCell() { if(currentCell != null) setFocusCell(1);	}
+	function PreviousFocusCell() { if(currentCell != null) setFocusCell(-1); }
 	function TabCellChanged(editing)
 	{	
 		var row = null;				
@@ -6251,10 +6291,7 @@ function GridEXRow(id, innerRow, table, pos, rootRow)
 		}		
 		return rootInnerRow; 
 	}	
-	function getInnerItemRow(row)
-	{
-		return getInnerItemRowCore(row, getGridEX());
-	}	
+	function getInnerItemRow(row) { return getInnerItemRowCore(row, getGridEX()); }	
 	function getPreviousRow()
 	{
 		var previousGridEXRow = null;				
@@ -6641,9 +6678,6 @@ function GridEXTable(div, id, parent, rowpos, gridex)
 	var scrollStatus = null; 	
 	function table_onscroll()
 	{	
-		if(getGridEX().getGridEXRow() != null)
-			getGridEX().getGridEXRow().ShowHeaderIndicator();
-
 		var scrollLeft = table.offsetParent.scrollLeft;
 		if(scrollLeft >= 0)
 		{	
@@ -6802,6 +6836,7 @@ function GridEXTable(div, id, parent, rowpos, gridex)
 		}
 		else
 			AutoSizeByCells(); 
+			
 		if(childTables != null)
 		{			
 			for(var i = 0; i < childTables.Count(); i++)
@@ -7428,10 +7463,20 @@ function GridEXTable(div, id, parent, rowpos, gridex)
 		divtable = null;	
 		if(table != null)
 		{						
-			table.detachEvent("onmousemove", table_onmousemove);
-			table.detachEvent("onselectstart", table_onselectstart);
-			table.offsetParent.detachEvent("onblur", gtable_onblur);
-			table.offsetParent.detachEvent("onscroll", gtable_onscroll);
+			if(table.detachEvent != null)
+			{
+				table.detachEvent("onmousemove", table_onmousemove);
+				table.detachEvent("onselectstart", table_onselectstart);
+				table.offsetParent.detachEvent("onblur", gtable_onblur);
+				table.offsetParent.detachEvent("onscroll", gtable_onscroll);
+			}
+			else
+			{
+				table.onmousemove = null;
+				table.onselectstart = null;
+				table.offsetParent.onblur = null;
+				table.offsetParent.onscroll = null;
+			}
 			table.offsetParent.removeAttribute("table");
 		}
 		table = null;		
@@ -7598,7 +7643,7 @@ function GridEXTable(div, id, parent, rowpos, gridex)
 			_row = rootTable.rows[i]; 
 			if( _row.type == "1" && _row.t  != null && _row.t == gridEXTable.getID()) 
 			{				
-				columnsheader = new GridEXColumnHeaders(gridEXTable, _row, _row.cells[0].getElementsByTagName("DIV")[0].getElementsByTagName("TABLE")[0] , headerType, _pos);
+				columnsheader = new GridEXColumnHeaders(gridEXTable, _row, _row.cells[0].getElementsByTagName("DIV")[0].getElementsByTagName("TABLE")[0], headerType, _pos);
 				if(columnHeaders == null)
 					columnHeaders = new Array(); 
 				columnHeaders[columnHeaders.length] = columnsheader;
@@ -7733,10 +7778,20 @@ function GridEXTable(div, id, parent, rowpos, gridex)
 	}
 	if(table != null)
 	{
-		table.attachEvent("onmousemove", table_onmousemove);
-		table.attachEvent("onselectstart", table_onselectstart); 									
-		table.offsetParent.attachEvent("onblur", gtable_onblur); 
-		table.offsetParent.attachEvent("onscroll", gtable_onscroll);						
+		if(table.attachEvent != null)
+		{
+			table.attachEvent("onmousemove", table_onmousemove);
+			table.attachEvent("onselectstart", table_onselectstart); 									
+			table.offsetParent.attachEvent("onblur", gtable_onblur); 
+			table.offsetParent.attachEvent("onscroll", gtable_onscroll);						
+		}
+		else
+		{			
+			table.onmousemove = table_onmousemove;
+			table.onselectstart = table_onselectstart;
+			table.offsetParent.onblur = gtable_onblur;
+			table.offsetParent.onscroll = gtable_onscroll;
+		}
 		table.offsetParent.setAttribute("table", this); 
 	}
 	columnsCollection = new GridEXColumnCollection(eval(getID() + "_client_columns"), this);
@@ -7856,9 +7911,7 @@ function GridEX(id, clientDefinition, tablesDefinition, selectedItems, rowsCss, 
 	this.getRow = getRow; 	
 	this.getRowInIndex = getRowInIndex; 
 	this.getRowByID = getRowByID; 
-	this.getRowsInPageCount = getRowsInPageCount; 
-	this.getRowHeaderEditGlyph = getRowHeaderEditGlyph; 
-	this.getRowHeaderGlyph = getRowHeaderGlyph; 	
+	this.getRowsInPageCount = getRowsInPageCount; 	
 	this.getSelectOnExpand =getSelectOnExpand; 
 	this.getSelectionMode = getSelectionMode; 
 	this.getSelectedItems = getSelectedItems;	
@@ -7914,8 +7967,10 @@ function GridEX(id, clientDefinition, tablesDefinition, selectedItems, rowsCss, 
 		this.selpb = (clientDefinition[22] == 1) ? true : false; 
 		this.ddpb = (clientDefinition[23] == 1) ? true: false; 
 		this.cmpb = (clientDefinition[24] == 1) ? true : false; 
-		this.focusCss = (clientDefinition[25] == null) ? null : clientDefinition[25][0]; 
-		this.focusRowCss = (clientDefinition[25] == null) ? null : clientDefinition[25][1]; 
+		this.dcpb = (clientDefinition[25] == 1) ? true : false; 
+		this.focusCss = (clientDefinition[26] == null) ? null : clientDefinition[26][0]; 
+		this.focusRowCss = (clientDefinition[26] == null) ? null : clientDefinition[26][1]; 
+		this.rowheaders = clientDefinition[27]; 
 		unloadArray(clientDefinition); 
 	}	
 	if(columnAutoResize)
@@ -8412,9 +8467,7 @@ function GridEX(id, clientDefinition, tablesDefinition, selectedItems, rowsCss, 
 			}
 		}
 		return null; 
-	}	
-	function getRowHeaderGlyph() { return document.getElementById(getID() + "_rowheaders_glyph"); }	
-	function getRowHeaderEditGlyph() { return document.getElementById(getID() + "_rowheaders_edit_glyph"); }
+	}			
 	function isHierarchicalGrid() { return hierarchicalGrid; }	
 	function getID() { return id; }	
 	function getIsInitialized() { return initialized; }	
@@ -8652,7 +8705,7 @@ function GridEX(id, clientDefinition, tablesDefinition, selectedItems, rowsCss, 
 			for(var i = 0; i < l; i++)
 			{				
 				_cell = _gridEXRow.getCellByIndex(i); 
-				if((_cell.getDataChanged() || (_cell.getInnerCell() != null && _cell.getInnerCell().getAttribute("ind") != null)) && !_cell.getColumn().getActAsSelector())
+				if((_cell.getDataChanged() || (_cell.getInnerCell() != null && _cell.getInnerCell().getAttribute("ind") != null)) && (!_cell.getColumn().getActAsSelector() || (_cell.getColumn().getActAsSelector() && _gridEXRow.getType() == 9 && _cell.getColumn().getEditType() == 9)))
 				{
 					if(_cell.getInnerCell() == null || _cell.getInnerCell().getAttribute("niv") == null)
 					{
@@ -8842,12 +8895,11 @@ function GridEX(id, clientDefinition, tablesDefinition, selectedItems, rowsCss, 
 			
 			_input.value = xml; 
 			DoPostBack(null, "ResumeEditing");
-			window.event.returnValue = false;
-			window.event.cancelBubble = true;
-		}
-		else
-		{
-			
+			if(window.event != null)
+			{
+				window.event.returnValue = false;
+				window.event.cancelBubble = true;
+			}
 		}
 	}
 	function ReportEditOperation(arg)
@@ -9030,10 +9082,7 @@ function GridEX(id, clientDefinition, tablesDefinition, selectedItems, rowsCss, 
 			return;
 			
 		if(document.activeElement != null && document.activeElement != htmlGridEX)
-			htmlGridEX.setActive(); 
-			
-		if(getGridEXRow() != null)
-			getGridEXRow().ShowHeaderIndicator(); 
+			htmlGridEX.setActive();
 			
 		resetRootTableScroll(getRootTable());
 		if(resizeHeight || resizeWidth)
@@ -9187,7 +9236,7 @@ function GridEX(id, clientDefinition, tablesDefinition, selectedItems, rowsCss, 
 		if(groupByBox != null || rootTable != null)
 			throw Error("initialize operation could be performed only once"); 
 	
-		groupByBox  = setGroupByBox(gridEX);		
+		groupByBox  = setGroupByBox(gridEX);				
 		rootTable = setRootTable(gridEX);
 		if(isdropdown)
 		{
@@ -9233,8 +9282,8 @@ function GridEX(id, clientDefinition, tablesDefinition, selectedItems, rowsCss, 
 		ReportRowsStatus();
 	}	
 	function gridEX_onload()
-	{					
-		Initialize();
+	{							
+		Initialize();		
 		loadAdditionalElements(gridEX);
 		if(controlsToBuild != null)
 		{		
@@ -9395,9 +9444,18 @@ function GridEX(id, clientDefinition, tablesDefinition, selectedItems, rowsCss, 
 		gridEXRow = null;
 		if(htmlGridEX != null)
 		{
-			htmlGridEX.detachEvent("onmousemove", gridEX_onmousemove);
-			htmlGridEX.detachEvent("onmouseup", gridEX_onmouseup);  
-			htmlGridEX.detachEvent("onselectstart", gridEX_onselectstart);	
+			if(htmlGridEX.detachEvent != null)
+			{
+				htmlGridEX.detachEvent("onmousemove", gridEX_onmousemove);
+				htmlGridEX.detachEvent("onmouseup", gridEX_onmouseup);  
+				htmlGridEX.detachEvent("onselectstart", gridEX_onselectstart);	
+			}
+			else
+			{
+				htmlGridEX.onmousemove = null;
+				htmlGridEX.onmouseup = null;
+				htmlGridEX.onselectstart = null;
+			}
 		}
 		htmlGridEX = null;		
 		htmlGridEXParent = null;
@@ -9422,7 +9480,9 @@ function GridEX(id, clientDefinition, tablesDefinition, selectedItems, rowsCss, 
 	}		
 	function getHtmlGridEX() { return htmlGridEX; }	
 	function getHtmlWidth()
-	{													
+	{									
+		if(htmlGridEXParent == null)
+			htmlGridEXParent = 	getGridEXOffsetParent(htmlGridEX); 
 		var width = -1; 
 		if(htmlGridEX.style.width != "" && htmlGridEX.style.width.indexOf("%") > 0)
 			width = htmlGridEXParent.clientWidth * (getPercentWidth(htmlGridEX.style.width) / 100); 
@@ -9476,14 +9536,14 @@ function GridEX(id, clientDefinition, tablesDefinition, selectedItems, rowsCss, 
 	}	
 	function setGroupByBox(gridex)
 	{
-		var divs = gridex.getHtmlGridEX().all.tags("DIV"); 
-		var l = divs.length; 
+		var divs = gridex.getHtmlGridEX().all.tags("DIV");
+		var l = divs.length; 		
 		if(divs != null && l > 0)
 		{
 			var div = null; 
 			for(var i=0; i<l; i++)
 			{
-				div = divs[i]; 
+				div = divs[i];				
 				if(div.type != null && parseInt(div.type, 10) == 5)
 					return new GridEXGroupByBox(div, gridex); 
 			}
@@ -9522,24 +9582,57 @@ function GridEX(id, clientDefinition, tablesDefinition, selectedItems, rowsCss, 
 		}		
 	}	
 	var gridEX = this;
-	window.attachEvent("onkeydown", function() { ggridEX_onkeydown(id); });	
+	if(window.attachEvent != null)
+		window.attachEvent("onkeydown", function() { ggridEX_onkeydown(id); });	
+	else
+		window.onkeydown = function() { ggridEX_onkeydown(id); };
 	if(!isDropDown())
 	{	
 		if(document.getElementById(formID) != null)
-			document.getElementById(formID).attachEvent("onsubmit", function() { ggridEX_onsubmit(id); });		
-		
-		window.attachEvent("onresize", function() { ggridEX_onresize(id); } );			
+		{
+			if(window.attachEvent != null)
+				document.getElementById(formID).attachEvent("onsubmit", function() { ggridEX_onsubmit(id); });		
+			else
+				document.getElementById(formID).onsubmit = function() { ggridEX_onsubmit(id); };
+				
+		}
+		if(window.attachEvent != null)		
+			window.attachEvent("onresize", function() { ggridEX_onresize(id); } );			
+		else
+			window.onresize = function() { ggridEX_onresize(id); };
 	}		
-	document.body.attachEvent("onmousemove", body_onmousemove);
-	document.body.attachEvent("onselectstart", function() { gbody_onselectstart(id); }); 
-	htmlGridEX.attachEvent("onblur", function() { ggridEX_onblur(id); }); 
-	htmlGridEX.attachEvent("onkeydown", function() { ggridEX_onkeydown(id); } ); 
-	htmlGridEX.attachEvent("onmousemove", gridEX_onmousemove);
-	htmlGridEX.attachEvent("onmouseup", gridEX_onmouseup);  
-	htmlGridEX.attachEvent("onselectstart", gridEX_onselectstart);		
-	htmlGridEX.attachEvent("onmousewheel", function() { ggridEX_onmousewheel(id); } );	
+	if(window.attachEvent != null)
+	{
+		document.body.attachEvent("onmousemove", body_onmousemove);
+		document.body.attachEvent("onselectstart", function() { gbody_onselectstart(id); }); 
+		htmlGridEX.attachEvent("onblur", function() { ggridEX_onblur(id); }); 
+		htmlGridEX.attachEvent("onkeydown", function() { ggridEX_onkeydown(id); } ); 
+		htmlGridEX.attachEvent("onmousemove", gridEX_onmousemove);
+		htmlGridEX.attachEvent("onmouseup", gridEX_onmouseup);  
+		htmlGridEX.attachEvent("onselectstart", gridEX_onselectstart);		
+		htmlGridEX.attachEvent("onmousewheel", function() { ggridEX_onmousewheel(id); } );	
+	}
+	else
+	{
+		document.body.onmousemove = body_onmousemove;
+		document.body.onselectstart = function() { gbody_onselectstart(id); };
+		htmlGridEX.onblur = function() { ggridEX_onblur(id); }
+		htmlGridEX.onkeydown = function() { ggridEX_onkeydown(id); }
+		htmlGridEX.onmousemove = gridEX_onmousemove;
+		htmlGridEX.onmouseup = gridEX_onmouseup;
+		htmlGridEX.onselectstart = gridEX_onselectstart;
+		htmlGridEX.onmousewheel = function() { ggridEX_onmousewheel(id); }
+	}	
 	if(!isDropDown())
-		window.attachEvent("onload", function() { ggridEX_onload(id); });				
-	window.attachEvent("onunload", function() { ggridEX_onunload(id); });	
+	{
+		if(window.attachEvent != null)
+			window.attachEvent("onload", function() { ggridEX_onload(id); });				
+		else
+			window.onload = function() { ggridEX_onload(id); };
+	}
+	if(window.attachEvent != null)
+		window.attachEvent("onunload", function() { ggridEX_onunload(id); });	
+	else
+		window.onunload = function() { ggridEX_onunload(id); };
 	return this; 
 }
