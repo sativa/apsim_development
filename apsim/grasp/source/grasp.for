@@ -15,7 +15,7 @@
       parameter (my_name = 'grasp_version')
 *
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V0.2 170398')
+      parameter (version_number = 'V0.21 080299')
 
 *- Implementation Section ----------------------------------
  
@@ -2903,6 +2903,8 @@ cpdev  bound required?..
 
 *+  Changes
 *     010994 jngh specified and programmed
+*     080299 jngh zeroed ll_dep before adding new value
+*                 zeroed temp array
 
 *+  Calls
       real       grasp_vpd
@@ -2972,12 +2974,14 @@ cpdev  bound required?..
      :     , g_es, numvals, c_es_lb, c_es_ub)
  
                                 ! soil profile and soil water
+Cjh      call fill_real_array (temp, 0.0, max_layer)
       call get_real_array (unknown_module, 'dlayer', max_layer
      :     , '(mm)', temp, numvals, c_dlayer_lb, c_dlayer_ub)
  
       if (g_num_layers.eq.0) then
                                 ! we assume dlayer hasn't been
                                 ! initialised yet.
+         call fill_real_array (g_ll_dep, 0.0, max_layer)
          call add_real_array (temp, g_dlayer, numvals)
          g_num_layers = numvals
  
