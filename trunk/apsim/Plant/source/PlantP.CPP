@@ -1122,7 +1122,7 @@ void PlantP::end_crop (float chop_fr[]        //IN
          *dlt_residue_p = 0.0;
          for (int part = 0; part < g.num_parts; part++)
          {
-            dlt_dm_p[part]  = (g.dlt_part_p_det[part] + g.dlt_part_p_dead_det[part] + g.part_p_green[part] + g.part_p_sen[part] + g.part_p_dead[part])
+            dlt_dm_p[part]  = (g.part_p_green[part] + g.part_p_sen[part] + g.part_p_dead[part])
                             * chop_fr[part] * gm2kg/sm2ha;
 
             *dlt_residue_p += dlt_dm_p[part];
