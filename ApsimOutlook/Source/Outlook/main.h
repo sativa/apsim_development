@@ -24,6 +24,7 @@
 #include <ToolWin.hpp>
 #include <ImgList.hpp>
 #include "StrHlder.hpp"
+#include <DdeMan.hpp>
 //----------------------------------------------------------------------------
 class TMainForm : public TForm
 {
@@ -82,6 +83,8 @@ __published:
         TToolButton *SOI_button;
    TStrHolder *StrHolder1;
    TToolButton *GM_button;
+   TDdeServerConv *ApsimOutlook;
+   TTimer *Timer1;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Window_cascade(TObject *Sender);
 	void __fastcall UpdateMenuItems(TObject *Sender);
@@ -108,14 +111,19 @@ __published:
 
    void __fastcall FormShow(TObject *Sender);
    void __fastcall Evaluate(TObject *Sender);
+   void __fastcall ApsimOutlookExecuteMacro(TObject *Sender,
+          TStrings *Msg);
+   void __fastcall Timer1Timer(TObject *Sender);
 private:
 	void __fastcall CreateMDIChild(const String Name);
 	void __fastcall ShowHint(TObject *Sender);
    void __fastcall Close_all ();
    void __fastcall Application_minimize (TObject* Sender);
+   void __fastcall CreateDefaultDatabase(TStrings* files);
 
 public:
 	virtual __fastcall TMainForm(TComponent *Owner);
+	virtual __fastcall ~TMainForm();
 };
 //----------------------------------------------------------------------------
 extern TMainForm *MainForm;
