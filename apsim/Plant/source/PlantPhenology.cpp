@@ -251,6 +251,8 @@ void PlantPhenology::doRegistrations (protocol::Component *s)
    setupGetVar("dlt_stage", dltStage, "", "Change in plant stage");
    setupGetFunction("stage_name", protocol::DTstring, false,
                     &PlantPhenology::get_stage_name, "", "Plant stage name");
+   setupGetFunction("stage_code", protocol::DTint4, false,
+                    &PlantPhenology::get_stage_code, "", "Plant stage code");
    setupGetFunction("phase_tt", protocol::DTsingle, true,
                     &PlantPhenology::get_phase_tt, "dd", "Thermal time target for each crop phase");
    setupGetFunction("tt_tot", protocol::DTsingle, true,
@@ -428,6 +430,11 @@ void PlantPhenology::get_stage_name(protocol::Component *s, protocol::QueryValue
    {
    unsigned int stage_no = (unsigned int) currentStage;
    s->sendVariable(qd, phases[stage_no].name());
+   }
+void PlantPhenology::get_stage_code(protocol::Component *s, protocol::QueryValueData &qd)
+   {
+   int stage_no = (int) currentStage;
+   s->sendVariable(qd, stage_no);
    }
 
 // NB. the 0'th element in these arrays is the "out" stage. 

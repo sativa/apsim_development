@@ -123,6 +123,7 @@ class PlantPhenology {
    
    void get_stage(protocol::Component *, protocol::QueryValueData &);
    void get_stage_name(protocol::Component *, protocol::QueryValueData &);
+   void get_stage_code(protocol::Component *, protocol::QueryValueData &);
    void get_phase_tt(protocol::Component *, protocol::QueryValueData &);
    void get_tt_tot(protocol::Component *, protocol::QueryValueData &);
    void get_days_tot(protocol::Component *, protocol::QueryValueData &);
