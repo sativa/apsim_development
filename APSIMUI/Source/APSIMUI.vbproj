@@ -143,6 +143,11 @@
                     Lcid = "0"
                     WrapperTool = "aximp"
                 />
+                <Reference
+                    Name = "sharedcontrols"
+                    AssemblyName = "sharedcontrols"
+                    HintPath = "..\..\..\documents and settings\hut104\my documents\visual studio projects\sharedcontrols\bin\sharedcontrols.dll"
+                />
             </References>
             <Imports>
                 <Import Namespace = "Microsoft.VisualBasic" />
