@@ -494,7 +494,7 @@ namespace YieldProphet
 			//Gets the file template
 			string szSoilFileTemplate = CreateSoilFileTemplate();
 			szSoilFileTemplate = szSoilFileTemplate.Replace("[soil.growername]", szUsersName);
-			szSoilFileTemplate = szSoilFileTemplate.Replace("[crop.name]", szCropType.ToLower());
+			//szSoilFileTemplate = szSoilFileTemplate.Replace("[crop.name]", szCropType.ToLower());
 			Macro mcSoilFile = new Macro();
 			sPaddocksDefaultSoil.RoundResultsTo3DecimalPlaces();
 			//Fills the template with the data and stores the file location in 
@@ -552,8 +552,8 @@ namespace YieldProphet
 				"   nh4ppm  =[foreach nitrogen.layer as Layer]\n      [Layer.nh4][endfor]   ! Ammonium Concentration\n"+
 				"[endfor]\n"+//END OF NITROGEN FOR LOOP
 				"\n"+
-				"[soil.[crop.name].parameters]\n"+//TITLE
 				"[foreach Soil.SoilCrop as crop]\n"+
+				"[soil.[crop.name].parameters]\n"+//TITLE
 				"   ll      =[foreach crop.layer as Layer]\n      [Layer.ll][endfor]\n\n"+
 				"   kl      =[foreach crop.layer as Layer]\n      [Layer.kl][endfor]\n\n"+
 				"   xf      =[foreach crop.layer as Layer]\n      [Layer.xf][endfor]\n\n"+
