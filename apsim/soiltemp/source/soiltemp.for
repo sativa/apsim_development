@@ -14,6 +14,9 @@
  !+  Purpose
  !      Module instantiation routine.
 
+ !+  Mission Statement
+ !     Instantiate routine
+
  !- Implementation Section ----------------------------------
 
       allocate (Instances(InstanceNo)%gptr)
@@ -38,6 +41,9 @@
  !+  Purpose
  !      Module de-instantiation routine.
 
+ !+  Mission Statement
+ !     De-Instantiate routine
+
  !- Implementation Section ----------------------------------
 
       deallocate (Instances(anInstanceNo)%gptr)
@@ -60,6 +66,9 @@
 
  !+  Purpose
  !      Swap an instance into the global 'g' pointer
+
+ !+  Mission Statement
+ !     Swap an instance into global pointer
 
  !- Implementation Section ----------------------------------
 
@@ -89,6 +98,9 @@
 *+  Purpose
 *      This routine is the interface between the main system and the
 *      soiltemp module.
+
+*+  Mission Statement
+*     Handles communications for Soiltemp
 
 *+  Changes
 *    ????
@@ -155,6 +167,9 @@
 *+  Purpose
 *      Initialise soiltemp module
 
+*+  Mission statement
+*     Initialise soiltemp
+
 *+  Changes
 *     <insert here>
 
@@ -198,6 +213,9 @@
 
 *+  Purpose
 *      perform actions for current day.
+
+*+  Mission Statement
+*     Performs actions for the current day
 
 *+  Changes
 *      1/6/94  vos programmed
@@ -275,7 +293,12 @@
       include 'error.pub'                         
 
 *+  Purpose
-*     <insert here>
+*     Calculate the storage of heat energy in the soil layer following
+*     to Campbell, G.S. (1985) "Soil physics with BASIC: Transport
+*     models for soil-plant systems" (Amsterdam, Elsevier)
+
+*+  Mission statement
+*     Calculate the storage of heat energy in the soil
 
 *+  Changes
 *     27-05-1995 - vals - Programmed and Specified
@@ -318,7 +341,12 @@
       include 'error.pub'                         
 
 *+  Purpose
-*     <insert here>
+*     Calculate the thermal conductivity of the soil layer following
+*     to Campbell, G.S. (1985) "Soil physics with BASIC: Transport
+*     models for soil-plant systems" (Amsterdam, Elsevier)
+
+*+  Mission statement
+*     Calculate the thermal conductivity of the soil
 
 *+  Changes
 *     27-05-1995 - vals - Programmed and Specified
@@ -372,7 +400,13 @@
       include 'error.pub'                         
 
 *+  Purpose
-*     <insert here>
+*     Numerical solution of the differential equations. Solves the 
+*     tri_diagonal matrix using the Thomas algorithm, Thomas, L.H. (1946)
+*     "Elliptic problems in linear difference equations over a network"
+*     Watson Sci Comput. Lab. Report., (Columbia University, New York)"
+
+*+  Mission statement
+*     Numerical solution of the differential equations.
 
 *+  Changes
 *     27-05-1995 - vals - Programmed and Specified
@@ -470,7 +504,12 @@
       include 'error.pub'                         
 
 *+  Purpose
-*     <insert here>
+*     Determine min, max, and average soil temperature from the
+*     half-hourly iterations.
+
+*+  Mission statement
+*     Determine min, max, and average soil temperature from the
+*     half-hourly iterations
 
 *+  Changes
 *     27-05-1995 - vals - Programmed and Specified
@@ -519,6 +558,9 @@
 
 *+  Purpose
 *     Set all variables in this module to zero.
+
+*+  Mission Statement
+*     Zero all the global variables and arrays
 
 *+  Changes
 *     <insert here>
@@ -587,6 +629,9 @@
 *+  Purpose
 *     Set all variables in this module to zero.
 
+*+  Mission statement
+*     Initialise variables to zero
+
 *+  Changes
 *     <insert here>
 
@@ -616,6 +661,9 @@
 
 *+  Purpose
 *     perform calculations before the current timestep.
+
+*+  Mission Statement
+*     Perform preparatory calculations for the next timestep
 
 *+  Changes
 *      1/6/94  vos programmed
@@ -650,6 +698,9 @@
 
 *+  Purpose
 *      Get the values of variables from other modules
+
+*+  Mission Statement
+*     Gets the values of variables/arrays from other modules
 
 *+  Changes
 *     <insert here>
@@ -819,6 +870,9 @@
 *+  Purpose
 *      Return the value of one of our variables to caller
 
+*+  Mission Statement
+*     Return the value of a variable requested by other modules
+
 *+  Changes
 *    ????
 *    070896 jngh added message_unused call at end
@@ -948,6 +1002,9 @@
 *+  Purpose
 *       Read all module parameters.
 
+*+  Mission statement
+*       Read all module parameters
+
 *+  Changes
 *     <insert here>
 
@@ -1046,7 +1103,10 @@
       include 'error.pub'                         
 
 *+  Purpose
-*       Rad all module constants.
+*       Read all module constants.
+
+*+  Mission statement
+*       Get the constants for soiltemp
 
 *+  Changes
 *
@@ -1118,6 +1178,9 @@
 
 *+  Purpose
 *     Set all variables in this module to zero.
+
+*+  Mission Statement
+*     Set soiltemp daily variables & arrays to zero
 
 *+  Changes
 *     <insert here>
@@ -1221,6 +1284,9 @@
 
 *+  Purpose
 *      Get the values of variables from other modules
+
+*+  Mission statement
+*      Get all the values from other modules
 
 *+  Changes
 *     <insert here>
