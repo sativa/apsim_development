@@ -904,6 +904,7 @@ cnh         if(g%psi(p%n).ge.0.)then
       double precision exco3
       double precision fq
       double precision fqc
+      integer          crop
       integer          i
       integer          itcnt
       integer          j
@@ -1027,8 +1028,12 @@ cnh         j=indxsl(solnum,i)
             exco2=p%betaex(solnum,j)*p%fip(solnum,j)*c2(i)
             exco3=p%betaex(solnum,j)*(1.-p%fip(solnum,j))*c2(i)
          end if
-         b(i)=(-(thi+exco1)/g%dt+p%alpha(solnum,j)*thi+exco2)*p%dx(i)-
-     1        apswim_slupf(1,solnum)*g%qex(i)-g%qssof(i)
+         b(i)=(-(thi+exco1)/g%dt+p%alpha(solnum,j)*thi+exco2)*p%dx(i)
+cnh     1        apswim_slupf(1,solnum)*g%qex(i)-g%qssof(i)
+     1        -g%qssof(i)
+         do 44 crop=1,g%num_crops
+            b(i) = b(i) - apswim_slupf(crop,solnum)*g%qr(i,crop)
+   44    continue
 cnh     1        p%slupf(solnum)*g%qex(i)
          rhs(i)=-g%qslprd(solnum,i)
      :          -(g%csl(solnum,i)*((g%thold(i)+exco1)
@@ -1300,8 +1305,12 @@ cnh         j=indxsl(solnum,i)
          g%cslt(solnum,i)=(g%th(i)+p%ex(solnum,j)*cp)*g%csl(solnum,i)
          g%slp(solnum)=g%slp(solnum)+g%cslt(solnum,i)*p%dx(i)
 cnh         g%rslex(solnum)=g%rslex(solnum)+g%qex(i)*g%csl(solnum,i)*p%slupf(solnum)
-         g%rslex(solnum)=g%rslex(solnum)+g%qex(i)*g%csl(solnum,i)
-     :                *apswim_slupf(1,solnum)
+cnh         g%rslex(solnum)=g%rslex(solnum)+g%qex(i)*g%csl(solnum,i)
+cnh     :                *apswim_slupf(1,solnum)
+         do 79 crop=1,g%num_Crops
+            g%rslex(solnum)=g%rslex(solnum)+g%qr(i,crop)*g%csl(solnum,i)
+     :                *apswim_slupf(crop,solnum)
+   79    continue
          g%rsldec(solnum)=g%rsldec(solnum)
      :           -(p%alpha(solnum,j)*g%th(i)+p%betaex(solnum,j)*cp)
      :           *p%dx(i)*g%csl(solnum,i)
@@ -1315,12 +1324,16 @@ cnh         j=indxsl(solnum,p%n)
          j = p%n
          g%qsl(solnum,p%n+1)=g%qsl(solnum,p%n)-g%qsls(solnum,p%n)
 cnh     :                  -g%qex(p%n)*g%csl(solnum,p%n)*p%slupf(solnum)
-     :              -g%qex(p%n)*g%csl(solnum,p%n)*apswim_slupf(1,solnum)
+cnh     :              -g%qex(p%n)*g%csl(solnum,p%n)*apswim_slupf(1,solnum)
      :              -g%qssof(p%n)*g%csl(solnum,p%n)
      :              +g%qslprd(solnum,p%n)
      :              +(p%alpha(solnum,j)*g%th(p%n)
      :              +p%betaex(solnum,j)*cp)
      :              *p%dx(p%n)*g%csl(solnum,p%n)
+         do 81 crop=1,g%num_crops
+            g%qsl(solnum,p%n+1)=g%qsl(solnum,p%n)
+     :      -g%qr(p%n,crop)*g%csl(solnum,p%n)*apswim_slupf(crop,solnum)
+   81    continue
       else
 *        convection only
 *CHANGES 6/11/98 to remove/restore Crank-Nicolson time weighting for convection
