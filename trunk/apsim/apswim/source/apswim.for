@@ -1762,7 +1762,7 @@ cnh added as per request by Dr Val Snow
       evap_source = ' '
       SWIMRainNumPairs = 1
       SWIMEvapNumPairs = 1
-      
+
       do 3 counter = 1, SWIMLogSize
          SWIMRainTime(counter)= 0.d0
          SWIMRainAmt(counter) = 0.d0
@@ -3156,11 +3156,12 @@ c       real bound
       integer          itlim
       integer          node
       integer          solnum
-      
+
 cnh added next line
 c      double precision psiold(0:m)
       double precision qmax
       double precision wpold
+      double precision pold(0:m)
       double precision timestep_remaining
       logical          fail
       double precision crt
@@ -3288,7 +3289,7 @@ cnh            dt = dubound(dt,timestep_remaining)
             if(.not.run_has_started)hysref(i)=hysdry(i)
 *           save transformed potls and water contents
             pold(i)=p(i)
-            thold(i)=th(i)            
+            thold(i)=th(i)
             old_hmin = hmin
             old_gsurf = gsurf
 cnh
@@ -5215,7 +5216,7 @@ c                     beta(solnum,node) = table_beta(solnum2)
         do 50 node = 0, n
            csl(solnum,node) = solute_n(node)
    50   continue
-   
+
   100 continue
 
       if (cslgw_is_set) then
@@ -5903,7 +5904,7 @@ cnh
 
       elseif ((numvals_int.ne.0).and.(numvals_amt.ne.0)) then
          ! we need to calculate the duration
-         duration = ddivide (amount,intensity/60d0,0.0)
+         duration = ddivide (amount,intensity/60d0,0.d0)
       else
          ! We do not have enough information
          call fatal_error (ERR_User,
@@ -5924,7 +5925,7 @@ cnh
       ! allow 1 sec numerical error as data resolution is
       ! 60 sec.
       if (irrigation_time.lt.(t - 1.d0/3600.d0) )then
-         
+
          call fatal_error (ERR_User,
      :                    'Irrigation has been specified for an '//
      :                    'already processed time period')
@@ -5948,8 +5949,8 @@ cnh
      :                        ,'(kg/ha)'
      :                        ,solconc
      :                        ,numvals
-     :                        ,0.d0
-     :                        ,1000d0)
+     :                        ,c_lb_solute
+     :                        ,c_ub_solute)
 
         if (numvals.gt.0) then
            TEMPSolNumPairs = SWIMSolNumPairs(solnum)
@@ -6325,7 +6326,7 @@ cnh
          if (solute_names(counter).eq.solname) then
             solnum = counter
          else
-         endif      
+         endif
   100 continue
 
       apswim_solute_number = solnum
@@ -8081,7 +8082,7 @@ cnh      end if
 
             ! now add rainfall energy for this timestep
             ceqrain = ceqrain + deqrain
-       
+
             ! now calculate new surface storage from new energy
             g = g0+(g1-g0)*exp(-ceqrain/grc)
          endif
@@ -8272,8 +8273,8 @@ cnh      double precision tfrac
 
 *     Constant Values
 
-      double precision rad    ! set root radius rad (alter as required)
-      parameter (rad=0.1d0)
+c      double precision rad    ! set root radius rad (alter as required)
+c      parameter (rad=0.1d0)
 
       double precision pi
       parameter (pi=3.141593d0)
@@ -9437,8 +9438,8 @@ cnh     :                  -qex(n)*csl(solnum,n)*slupf(solnum)
       double precision tq
 
 *     set root conductance gr (alter as required)
-      double precision gr  ! cm/h
-      parameter (gr=1.4d-7)
+c      double precision gr  ! cm/h
+c      parameter (gr=1.4d-7)
 
 *
       do 10 i=0,n
@@ -11380,8 +11381,8 @@ c      pause
 *   Initial data values
       ! set to false to start - if match is found it is
       ! set to true.
-      flow_flag = .false. 
-      
+      flow_flag = .false.
+
       flow_units = ' '
 * --------------------- Executable code section ----------------------
       call push_routine (myname)
@@ -11409,7 +11410,7 @@ c      pause
   100    continue
   110    continue
       endif
-      
+
       call pop_routine (myname)
       return
       end
