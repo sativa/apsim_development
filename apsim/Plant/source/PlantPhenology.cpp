@@ -700,8 +700,10 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
       float fstress = min (ps.swdef, ps.nfact);  //eme2fi: (g.swdef_pheno, g.nfact_pheno);
       if (inPhase("flowering"))
          fstress = ps.swdef_flower;              //g.swdef_pheno_flower;
-      else if (inPhase("grainfill"))
+      else if (inPhase("start_grain_fill"))
          fstress = ps.swdef_grainfill;           //g.swdef_pheno_grainfill;
+      else if (inPhase("end_grain_fill") || inPhase("maturity"))
+         fstress = 1.0;                          //no stress - not really a stage..
       else if (inPhase("harvest_ripe"))
          fstress = 0.0;                          //stop development
       dlt_tt_phenol = dlt_tt *
@@ -780,8 +782,10 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
       float fstress = min (ps.swdef, ps.nfact);  //eme2fi: (g.swdef_pheno, g.nfact_pheno);
       if (inPhase("flowering"))
          fstress = ps.swdef_flower;              //g.swdef_pheno_flower;
-      else if (inPhase("grainfill"))
+      else if (inPhase("start_grain_fill"))
          fstress = ps.swdef_grainfill;           //g.swdef_pheno_grainfill;
+      else if (inPhase("end_grain_fill") || inPhase("maturity"))
+         fstress = 1.0;                          //no stress - not really a stage..
       else if (inPhase("harvest_ripe"))
          fstress = 0.0;                          //stop development
       dlt_tt_phenol = dlt_tt *
