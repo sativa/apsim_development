@@ -13,6 +13,9 @@
 !+  Purpose
 !      Module instantiation routine.
  
+*+  Mission Statement
+*     Instantiate routine
+
 !- Implementation Section ----------------------------------
                
       allocate (Instances(InstanceNo)%gptr)
@@ -35,6 +38,9 @@
 !+  Purpose
 !      Module de-instantiation routine.
  
+*+  Mission Statement
+*     Deinstantiate routine
+
 !- Implementation Section ----------------------------------
                
       deallocate (Instances(anInstanceNo)%gptr)
@@ -56,6 +62,9 @@
 !+  Purpose
 !      Swap an instance into the global 'g' pointer
  
+*+  Mission Statement
+*     Swap an instance into global pointer 
+
 !- Implementation Section ----------------------------------
                
       g => Instances(anInstanceNo)%gptr
@@ -85,6 +94,9 @@
 *     This routines handles all the input and output communications to
 *     other modules in APSIM and calls model process routines for each
 *     timestep when required.
+
+*+  Mission Statement
+*     Handle all communications with Sugar
 
 *+  Changes
 *      250894 jngh specified and programmed
@@ -201,6 +213,9 @@
 *       water uptake and nitrogen uptake, plant senescense and so on.
 *       This routine is called once per day during the process stage.
 
+*+  Mission Statement
+*     Perform actions for current day
+
 *+  Changes
 *      060495 nih taken from template
 
@@ -296,6 +311,9 @@
 *+  Purpose
 *       Report occurence of harvest and the current status of specific
 *       variables.
+
+*+  Mission Statement
+*     Occurance of harvest
 
 *+  Changes
 *     070495 nih taken from template
@@ -602,6 +620,9 @@
 
 *+  Purpose
 *       Zero crop variables & arrays
+
+*+  Mission Statement
+*     Zero crop variables and arrays
 
 *+  Changes
 *     060495 nih taken from template
@@ -953,6 +974,9 @@
 *+  Purpose
 *       Zero crop variables & arrays
 
+*+  Mission Statement
+*     Zero crop variables and arrays
+
 *+  Changes
 *     060495 nih taken from template
 
@@ -983,6 +1007,9 @@
 
 *+  Purpose
 *       Zero soil variables & arrays
+
+*+  Mission Statement
+*     Zero soil global variables and arrays
 
 *+  Changes
 *     210199 NIH
@@ -1019,6 +1046,9 @@
 
 *+  Purpose
 *       Zero crop daily variables & arrays
+
+*+  Mission Statement
+*     Zero daily variables and arrays
 
 *+  Changes
 *     060495 nih taken from template
@@ -1104,6 +1134,9 @@
 *+  Purpose
 *       Crop initialisation
 
+*+  Mission Statement
+*     Crop initialisation
+
 *+  Changes
 *     060495 nih taken from template
 *     060599 sdb  removed version reference
@@ -1151,6 +1184,9 @@ cnh     :                 ' Initialising')
 
 *+  Purpose
 *       Start crop using parameters specified in passed record
+
+*+  Mission Statement
+*     Start the crop based on passed parameters
 
 *+  Changes
 *     060495 nih taken from template
@@ -1270,6 +1306,9 @@ cnh     :                 ' Initialising')
 *+  Purpose
 *       Crop initialisation - reads constants from constants file
 
+*+  Mission Statement
+*     Crop initialisation - read cultivar parameters
+
 *+  Changes
 *       25-07-96 - NIH/MJR added sucrose/water stress partitioning factor
 
@@ -1384,6 +1423,9 @@ cnh     :                 ' Initialising')
 
 *+  Purpose
 *       Get root profile parameters
+
+*+  Mission Statement
+*     Crop initialisation - get root profile parameters
 
 *+  Changes
 *       060495 nih taken from template
@@ -1540,6 +1582,9 @@ cnh     :                 ' Initialising')
 *+  Purpose
 *       Kill crop
 
+*+  Mission Statement
+*     Crop death due to killing
+
 *+  Changes
 *       070495 nih taken from template
 
@@ -1598,6 +1643,9 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 
 *+  Purpose
 *       End crop
+
+*+  Mission Statement
+*     End the crop
 
 *+  Changes
 *       070495 nih taken from template
@@ -1731,6 +1779,9 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 *+  Purpose
 *      Get the values of variables/arrays from other modules.
 
+*+  Mission Statement
+*     Get the values of variables/arrays from the met module
+
 *+  Changes
 *     230399 nih taken from get_other_variables
 
@@ -1791,6 +1842,9 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 
 *+  Purpose
 *      Get the values of variables/arrays from soil modules.
+
+*+  Mission Statement
+*     Get the values of variables from soil modules
 
 *+  Changes
 *     230399 nih taken from get_other_variables
@@ -1926,6 +1980,9 @@ c     :                                    , -10., 80.)
 *+  Purpose
 *      Set the value of a variable or array in other module/s.
 
+*+  Mission Statement
+*     Set value of variable or array in other module/s
+
 *+  Notes
 *      a flag is set if any of the totals is requested.  The totals are
 *      reset during the next process phase when this happens.
@@ -1997,6 +2054,9 @@ c      call sugar_update_other_variables ()
 *+  Purpose
 *      Set a variable in this module as requested by another.
 
+*+  Mission Statement
+*     Reset an internal variable as specified by another module
+
 *+  Changes
 *      060495 nih - taken from template
 *      060696 nih - changed respond2set routines to collect routines
@@ -2054,6 +2114,9 @@ c      call sugar_update_other_variables ()
 
 *+  Purpose
 *      Return the value of a variable requested by other modules.
+
+*+  Mission Statement
+*     Provide data to a requesting module
 
 *+  Changes
 *      060495 nih - taken from template
@@ -2680,6 +2743,9 @@ c      call sugar_nit_stress_expansion (1)
 *       and a nominated stage number. Returns 0 if the stage number is not
 *       found. Interpolation is done on thermal time.
 
+*+  Mission Statement
+*     Get thermal time interpolated stage code from table
+
 *+  Changes
 *       070495 nih taken from template
 
@@ -2762,6 +2828,9 @@ c      call sugar_nit_stress_expansion (1)
 
 *+  Purpose
 *       Crop initialisation - reads constants from constants file
+
+*+  Mission Statement
+*     Read constants from constants file
 
 *+  Changes
 *     060495 nih taken from template
@@ -2944,6 +3013,9 @@ c      call sugar_nit_stress_expansion (1)
 *+  Purpose
 *       Zero global variables and arrays
 
+*+  Mission Statement
+*     Zero global variables and arrays
+
 *+  Changes
 *     150595 nih created from sugar_zero_variables
 
@@ -3025,6 +3097,9 @@ cnh      g%initial_plant_density = 0.0
 *+  Purpose
 *       Zero parameter variables and arrays
 
+*+  Mission Statement
+*     Zero parameter variables and arrays
+
 *+  Changes
 *     150595 nih created from sugar_zero_variables
 
@@ -3063,6 +3138,9 @@ cnh      c%crop_type = ' '
 *     the standard APSim timestep.  This model uses this opportunity
 *     to calculate potential growth variables for the coming day
 *     and phenological development.
+
+*+  Mission Statement
+*     Perform preparatory calculations for the next timestep
 
 *+  Changes
 *   neilh - 05-07-1995 - Programmed and Specified
@@ -3121,6 +3199,9 @@ cnh      c%crop_type = ' '
 
 *+  Purpose
 *       Crop initialisation - reads constants from constants file
+
+*+  Mission Statement
+*     Crop initialisation - read crop constants
 
 *+  Changes
 *     <insert here>
@@ -3703,6 +3784,9 @@ cnh      c%crop_type = ' '
 *+  Purpose
 *       Update other modules states
 
+*+  Mission Statement
+*     Update other modules states
+
 *+  Changes
 *      250894 jngh specified and programmed
 *      191099 jngh changed to sugar_Send_Crop_Chopped_Event
@@ -3772,6 +3856,9 @@ cnh      c%crop_type = ' '
 
 *+  Purpose
 *       Mound soil around base of crop and bury some plant material
+
+*+  Mission Statement
+*     Mound soil around base of crop
 
 *+  Changes
 *     120897 nih
@@ -3909,6 +3996,9 @@ cnh      c%crop_type = ' '
 
 *+  Purpose
 *     <insert here>
+
+*+  Mission Statement
+*     Crop lodging
 
 *+  Changes
 *     25-08-1997 - unknown - Programmed and Specified
