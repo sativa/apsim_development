@@ -1,12 +1,12 @@
 [general]
 name = soi
-apf = %this\..\base-module.apf
-apf = %this\source\source.apf
-apf = %this\docs\docs.apf
-apf = %this\sample\sample.apf
+apf = %thispath\..\base-module.apf
+apf = %thispath\docs\docs.apf
+optional_apf = %thispath\sample\sample.apf
+optional_apf = %thispath\source\source.apf
 
 [dll]
-target  = target dll; %this\lib\soi.dll
+target  = target dll; %thispath\lib\soi.dll
 
 [contacts]
 contact = Roger Stone - Module Developer; mailto:StoneR@dpi.qld.gov.au

@@ -1,7 +1,8 @@
 [general]
 name = source
-uses = %this\*.*
+uses = %thispath\*.*
+apf = %thispath\..\..\base-source.apf
 
 [source]
-source  = manager.for; %this\manager.for
+source  = manager.for; %thispath\manager.for
 

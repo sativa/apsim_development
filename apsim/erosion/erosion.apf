@@ -1,12 +1,12 @@
 [general]
 name = erosion
-apf = %this\..\base-module.apf
-apf = %this\source\source.apf
-apf = %this\docs\docs.apf
-apf = %this\sample\sample.apf
+apf = %thispath\..\base-module.apf
+apf = %thispath\docs\docs.apf
+optional_apf = %thispath\sample\sample.apf
+optional_apf = %thispath\source\source.apf
 
 [dll]
-target  = target dll; %this\lib\erosion.dll
+target  = target dll; %thispath\lib\erosion.dll
 
 [contacts]
 contact = Mark Silburn - Module Developer; mailto:silburm@dpi.qld.gov.au

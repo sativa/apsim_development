@@ -1,12 +1,12 @@
 [general]
 name = soilwat2
-apf = %this\..\base-module.apf
-apf = %this\source\source.apf
-apf = %this\docs\docs.apf
-apf = %this\sample\sample.apf
+apf = %thispath\..\base-module.apf
+apf = %thispath\docs\docs.apf
+optional_apf = %thispath\sample\sample.apf
+optional_apf = %thispath\source\source.apf
 
 [dll]
-target  = target dll; %this\lib\soilwat2.dll
+target  = target dll; %thispath\lib\soilwat2.dll
 
 [contacts]
 contact = Mark Silburn - Module Developer; mailto:SilburM@dpi.qld.gov.au

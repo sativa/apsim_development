@@ -1,9 +1,10 @@
 [general]
 name = source
-uses = %this\*.*
+uses = %thispath\*.*
+apf = %thispath\..\..\base-source.apf
 
 [source]
-source  = canopy.for; %this\canopy.for
+source  = canopy.for; %thispath\canopy.for
 
 
 

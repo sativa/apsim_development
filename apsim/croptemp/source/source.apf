@@ -1,17 +1,18 @@
 [general]
 name = source
-uses = %this\*.*
+uses = %thispath\*.*
+apf = %thispath\..\..\base-source.apf
 
 [source]
-source  = crp_biom.for; %this\crp_biom.for
-source  = crp_cnpy.for; %this\crp_cnpy.for
-source  = crp_comm.for; %this\crp_comm.for
-source  = crp_fail.for; %this\crp_fail.for
-source  = crp_nitn.for; %this\crp_nitn.for
-source  = crp_phen.for; %this\crp_phen.for
-source  = crp_root.for; %this\crp_root.for
-source  = crp_temp.for; %this\crp_temp.for
-source  = crp_util.for; %this\crp_util.for
-source  = crp_watr.for; %this\crp_watr.for
+source  = crp_biom.for; %thispath\crp_biom.for
+source  = crp_cnpy.for; %thispath\crp_cnpy.for
+source  = crp_comm.for; %thispath\crp_comm.for
+source  = crp_fail.for; %thispath\crp_fail.for
+source  = crp_nitn.for; %thispath\crp_nitn.for
+source  = crp_phen.for; %thispath\crp_phen.for
+source  = crp_root.for; %thispath\crp_root.for
+source  = crp_temp.for; %thispath\crp_temp.for
+source  = crp_util.for; %thispath\crp_util.for
+source  = crp_watr.for; %thispath\crp_watr.for
 include = Crop template include directory; %apsuite\apsim\croptemp\
 

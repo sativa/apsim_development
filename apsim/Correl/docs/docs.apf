@@ -1,6 +1,7 @@
 [general]
 name = docs
 uses = *.*
+apf = %thispath\..\..\base-docs.apf
 
 [docs]
-doc = Interface document; %this\correl_int.pdf
+doc = Interface document; %thispath\correl_int.pdf

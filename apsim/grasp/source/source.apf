@@ -1,9 +1,10 @@
 [general]
 name = source
-uses = %this\*.*
+uses = %thispath\*.*
+apf = %thispath\..\..\base-source.apf
 
 [source]
-source  = grasp.for; %this\grasp.for
+source  = grasp.for; %thispath\grasp.for
 
 
 

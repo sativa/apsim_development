@@ -1,7 +1,8 @@
 [general]
 name = source
-uses = %this\*.*
+uses = %thispath\*.*
+apf = %thispath\..\..\base-source.apf
 
 [source]
-source  = irrigate.for; %this\irrigate.for
+source  = irrigate.for; %thispath\irrigate.for
 

@@ -1,7 +1,8 @@
 [general]
 name = source
-uses = %this\*.*
+uses = %thispath\*.*
+apf = %thispath\..\..\base-source.apf
 
 [source]
-source  = input.for; %this\input.for
+source  = input.for; %thispath\input.for
 

@@ -1,9 +1,10 @@
 [general]
 name = source
-uses = %this\*.*
+uses = %thispath\*.*
+apf = %thispath\..\..\base-source.apf
 
 [source]
-source  = clock.for; %this\clock.for
+source  = clock.for; %thispath\clock.for
 
 
 
