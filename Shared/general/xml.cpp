@@ -38,6 +38,7 @@ XMLDocument::~XMLDocument(void)
    {
    xmlFreeDoc(doc);
    xmlCleanupParser();
+   xmlCleanupGlobals();
    }
 //---------------------------------------------------------------------------
 // return the root document element
@@ -119,7 +120,8 @@ string XMLNode::getAttribute(const std::string& attributeName) const
    if (node != NULL)
       {
       xmlChar* st = xmlGetProp(node, attributeName.c_str());
-      returnString = (char*) st;
+      if (st != NULL)
+         returnString = (char*) st;
       xmlFree(st);
       }
    return returnString;
