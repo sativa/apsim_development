@@ -12,6 +12,7 @@
 #include "TProbabilityForm.h"
 #include "TREMSForm.h"
 #include "TExcelForm.h"
+#include "TFilterForm.h"
 
 //---------------------------------------------------------------------------
 #pragma resource "*.res"
@@ -25,15 +26,16 @@
 //---------------------------------------------------------------------------
 void RegisterComponents(void)
    {
-   TComponentClass classes[8] = {__classid(TRichText),
+   TComponentClass classes[9] = {__classid(TRichText),
                                  __classid(TQRImage),
                                  __classid(TApsimFileReader),
                                  __classid(TSOI),
                                  __classid(TSEGChart),
                                  __classid(TProbability),
                                  __classid(TREMS),
-                                 __classid(TExcel)};
-   RegisterComponents("Standard", classes, 7);
+                                 __classid(TExcel),
+                                 __classid(::TFilter)};
+   RegisterComponents("Standard", classes, 8);
    }
 
 //---------------------------------------------------------------------------
@@ -102,6 +104,14 @@ TForm* createComponentUI(TComponent* component, TWinControl* parent)
       form->setComponent(dynamic_cast<TExcel*> (component));
       return form;
       }
+   else if (component->ClassType() == __classid(::TFilter))
+      {
+      TFilterForm* form = new TFilterForm(parent);
+      form->Parent = parent;
+      form->setComponent((::TFilter*) (component));
+      return form;
+      }
+
    return NULL;
    }
 
