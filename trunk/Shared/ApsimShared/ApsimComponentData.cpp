@@ -294,6 +294,8 @@ void ApsimComponentData::getRule(const std::string& name,
          condition = rule->getAttribute("condition");
          contents = rule->getValue();
          Replace_all(contents, "[cr]", "\n");
+         replaceAllMacros(rule, condition);
+         replaceAllMacros(rule, contents);
          }
       }
    }
@@ -392,6 +394,38 @@ std::string ApsimComponentData::getInterfaceFileName(void) const
       }
    return "";
    }
+// ------------------------------------------------------------------
+// Replace all macros between square brackets.
+// ------------------------------------------------------------------
+void ApsimComponentData::replaceAllMacros(XMLNode::iterator ruleNode, string& contents) const
+   {
+   unsigned posOpenBracket = contents.find('[');
+   while (posOpenBracket != string::npos)
+      {
+      unsigned posCloseBracket = contents.find(']', posOpenBracket);
+      string macroName = contents.substr(posOpenBracket+1, posCloseBracket-posOpenBracket-1);
+
+      // try and resolve macroName from a properties child.
+      for (XMLNode::iterator category = ruleNode->begin();
+                             category != ruleNode->end();
+                             category++)
+         {
+         if (category->getName() == "category")
+            {
+            XMLNode::iterator property = find_if(category->begin(), category->end(), NodeEquals<XMLNode>("property", macroName));
+            if (property != category->end())
+               {
+               // found a property with the macro name - replace macro name.
+               string macroValue = property->getAttribute("value");
+               contents.replace(posOpenBracket, posCloseBracket-posOpenBracket+1, macroValue);
+               }
+            }
+         }
+
+      posOpenBracket = contents.find('[', posOpenBracket+1);
+      }
+   }
+
 
 // ------------------------------------------------------------------
 // ------------------------------------------------------------------
