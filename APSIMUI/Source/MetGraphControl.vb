@@ -64,6 +64,7 @@ Public Class MetGraphControl
     Friend WithEvents YearBox As System.Windows.Forms.TextBox
     Friend WithEvents MonthlyRainfall As Xceed.SmartUI.Controls.OutlookShortcutBar.Shortcut
     Friend WithEvents FrostRisk As Xceed.SmartUI.Controls.OutlookShortcutBar.Shortcut
+    Friend WithEvents ChartHelper As VBGeneral.ChartHelper
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MetGraphControl))
@@ -86,6 +87,7 @@ Public Class MetGraphControl
         Me.Panel = New System.Windows.Forms.Panel
         Me.TrackBar = New System.Windows.Forms.TrackBar
         Me.YearBox = New System.Windows.Forms.TextBox
+        Me.ChartHelper = New VBGeneral.ChartHelper
         Me.Panel.SuspendLayout()
         CType(Me.TrackBar, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -226,6 +228,11 @@ Public Class MetGraphControl
         Me.YearBox.TabIndex = 9
         Me.YearBox.Text = "TextBox1"
         '
+        'ChartHelper
+        '
+        Me.ChartHelper.Chart = Me.ChartBox
+        Me.ChartHelper.Grid = Nothing
+        '
         'MetGraphControl
         '
         Me.Controls.Add(Me.ChartBox)
@@ -290,44 +297,14 @@ Public Class MetGraphControl
     End Sub
 
     Private Sub DoRainfallChart()
-        Dim DailyData As New DataTable
-        DailyData = ReadAnnualDataTable()
-        Dim DateColumn As New DataColumn
-        DateColumn = DailyData.Columns("date")
-        Dim RainColumn As New DataColumn
-        RainColumn = DailyData.Columns("rain")
-
-        ChartBox.Charts(0).Series.Clear()
-        ChartBox.Charts(0).Axis(Xceed.Chart.Core.StandardAxis.SecondaryY).Visible = False
-        Dim RainfallSeries As Xceed.Chart.Core.BarSeries = ChartBox.Charts(0).Series.Add(Xceed.Chart.Core.SeriesType.Bar)
-        With RainfallSeries
-            .DataLabels.Mode = Xceed.Chart.Core.DataLabelsMode.None
-            .BarBorder.Width = 0
-            .BarFillEffect.Color = .BarFillEffect.Color.Blue
-            .Name = "Daily Rainfall"
-        End With
-
-        For Each row As DataRow In DailyData.Rows
-            If Not IsNothing(RainColumn) Then
-                RainfallSeries.Values.Add(row(RainColumn))
-            End If
-        Next
-
-        With ChartBox.Charts(0).Axis(Xceed.Chart.Core.StandardAxis.PrimaryX)
-            .NumericScale.MajorTickMode = Xceed.Chart.Core.MajorTickModeNumeric.Auto
-        End With
-        With ChartBox
-            '.Clear()
-            '.Charts(0).Series.Clear()
-            '.Charts.Add(NewChart)
-            '.Show()
-            .Refresh()
-            '.Legends.Clear()
-        End With
+        ChartHelper.Clear()
+        ChartHelper.DataTable = ReadAnnualDataTable()
+        ChartHelper.CreateChartSeriesFromDataTable("Rainfall", "date", "rain", False, Drawing.Color.Blue, Xceed.Chart.Core.StandardAxis.PrimaryX, Xceed.Chart.Core.StandardAxis.PrimaryY)
+        ChartBox.Refresh()
     End Sub
     Private Sub DoMonthlyRainfallChart()
-        Dim r(12) As Single
-        Dim e(12) As Single
+        Dim r(11) As Double
+        Dim e(11) As Double
 
         Dim DailyData As New DataTable
         DailyData = ReadAnnualDataTable()
@@ -341,75 +318,29 @@ Public Class MetGraphControl
         For Each row As DataRow In DailyData.Rows
             Dim ThisDay As Date = row(DateColumn)
             If Not IsNothing(RainColumn) Then
-                r(ThisDay.Month) = r(ThisDay.Month) + row(RainColumn)
+                r(ThisDay.Month - 1) = r(ThisDay.Month - 1) + row(RainColumn)
             End If
             If Not IsNothing(EvapColumn) Then
-                e(ThisDay.Month) = e(ThisDay.Month) + row(EvapColumn)
+                e(ThisDay.Month - 1) = e(ThisDay.Month - 1) + row(EvapColumn)
             End If
         Next
-
-        ChartBox.Charts(0).Series.Clear()
-        Dim RainfallSeries As Xceed.Chart.Core.BarSeries = ChartBox.Charts(0).Series.Add(Xceed.Chart.Core.SeriesType.Bar)
-        Dim EvapSeries As Xceed.Chart.Core.LineSeries = ChartBox.Charts(0).Series.Add(Xceed.Chart.Core.SeriesType.Line)
-
-        With RainfallSeries
-            .DataLabels.Mode = Xceed.Chart.Core.DataLabelsMode.None
-            .BarBorder.Width = 0
-            .BarFillEffect.Color = .BarFillEffect.Color.Blue
-            .Name = "Monthly Rainfall"
-        End With
-        With EvapSeries
-            .DataLabels.Mode = Xceed.Chart.Core.DataLabelsMode.None
-            .LineFillEffect.Color = .LineFillEffect.Color.Red
-            .LineBorder.Color = .LineBorder.Color.Red
-            .Name = "Monthly Evaporation"
-        End With
-        For month As Integer = 1 To 12
-            RainfallSeries.Values.Add(r(month))
-            EvapSeries.Values.Add(e(month))
+        Dim month(11) As Double
+        For i As Integer = 1 To 12
+            month(i - 1) = i
         Next
-        With ChartBox.Charts(0).Axis(Xceed.Chart.Core.StandardAxis.PrimaryX)
 
-            .NumericScale.MajorTickMode = Xceed.Chart.Core.MajorTickModeNumeric.CustomStep
-            .NumericScale.CustomStep = 1
-            .NumericScale.Max = 12
-            .NumericScale.Min = 1
-
-        End With
-        With ChartBox
-            .Refresh()
-        End With
+        ChartHelper.Clear()
+        ChartHelper.CreateChartSeriesFromArray("Rainfall", month, r, False, Drawing.Color.Blue, Xceed.Chart.Core.StandardAxis.PrimaryX, Xceed.Chart.Core.StandardAxis.PrimaryY)
+        ChartHelper.CreateChartSeriesFromArray("Evaporation", month, e, False, Drawing.Color.Red, Xceed.Chart.Core.StandardAxis.PrimaryX, Xceed.Chart.Core.StandardAxis.PrimaryY)
+        ChartBox.Refresh()
 
     End Sub
     Private Sub DoTemperatureChart()
-        Dim Maxt() As Single = ReadAnnualData("maxt")
-        Dim Mint() As Single = ReadAnnualData("mint")
-        ChartBox.Charts(0).Series.Clear()
-        ChartBox.Charts(0).Axis(Xceed.Chart.Core.StandardAxis.SecondaryY).Visible = False
-        Dim MaxtSeries As Xceed.Chart.Core.LineSeries = ChartBox.Charts(0).Series.Add(Xceed.Chart.Core.SeriesType.Line)
-        Dim MintSeries As Xceed.Chart.Core.LineSeries = ChartBox.Charts(0).Series.Add(Xceed.Chart.Core.SeriesType.Line)
-        With MaxtSeries
-            .DataLabels.Mode = Xceed.Chart.Core.DataLabelsMode.None
-            .LineFillEffect.Color = .LineFillEffect.Color.Red
-            .LineBorder.Color = .LineFillEffect.Color.Red
-            .Name = "Daily Maximum Temperature"
-        End With
-        With MintSeries
-            .DataLabels.Mode = Xceed.Chart.Core.DataLabelsMode.None
-            .LineFillEffect.Color = .LineFillEffect.Color.Blue
-            .LineBorder.Color = .LineFillEffect.Color.Blue
-            .Name = "Daily Minimum Temperature"
-        End With
-        For doy As Integer = 0 To 365
-            MaxtSeries.Values.Add(Maxt(doy))
-            MintSeries.Values.Add(Mint(doy))
-        Next
-        With ChartBox.Charts(0).Axis(Xceed.Chart.Core.StandardAxis.PrimaryX)
-            .NumericScale.MajorTickMode = Xceed.Chart.Core.MajorTickModeNumeric.Auto
-        End With
-        With ChartBox
-            .Refresh()
-        End With
+        ChartHelper.Clear()
+        ChartHelper.DataTable = ReadAnnualDataTable()
+        ChartHelper.CreateChartSeriesFromDataTable("Maximum Temperature", "date", "maxt", False, Drawing.Color.Red, Xceed.Chart.Core.StandardAxis.PrimaryX, Xceed.Chart.Core.StandardAxis.PrimaryY)
+        ChartHelper.CreateChartSeriesFromDataTable("Minimum Temperature", "date", "mint", False, Drawing.Color.Blue, Xceed.Chart.Core.StandardAxis.PrimaryX, Xceed.Chart.Core.StandardAxis.PrimaryY)
+        ChartBox.Refresh()
 
     End Sub
     Private Sub FrostRiskChart()
@@ -459,68 +390,52 @@ Public Class MetGraphControl
         'End With
     End Sub
     Private Sub DoRadiationChart()
-        Dim Rain() As Single = ReadAnnualData("rain")
-        Dim Radn() As Single = ReadAnnualData("radn")
-        Dim Vp() As Single = ReadAnnualData("vp")
-        Dim MinT() As Single = ReadAnnualData("mint")
+        'Dim Rain() As Single = ReadAnnualData("rain")
+        'Dim Radn() As Single = ReadAnnualData("radn")
+        'Dim Vp() As Single = ReadAnnualData("vp")
+        'Dim MinT() As Single = ReadAnnualData("mint")
 
-        ChartBox.Charts(0).Series.Clear()
-        ChartBox.Charts(0).Axis(Xceed.Chart.Core.StandardAxis.SecondaryY).Visible = True
-        Dim RainfallSeries As Xceed.Chart.Core.BarSeries = ChartBox.Charts(0).Series.Add(Xceed.Chart.Core.SeriesType.Bar)
-        Dim RadnSeries As Xceed.Chart.Core.LineSeries = ChartBox.Charts(0).Series.Add(Xceed.Chart.Core.SeriesType.Line)
-        Dim VPSeries As Xceed.Chart.Core.LineSeries = ChartBox.Charts(0).Series.Add(Xceed.Chart.Core.SeriesType.Line)
-        Dim QmaxSeries As Xceed.Chart.Core.LineSeries = ChartBox.Charts(0).Series.Add(Xceed.Chart.Core.SeriesType.Line)
-        Dim QmaxDrySeries As Xceed.Chart.Core.LineSeries = ChartBox.Charts(0).Series.Add(Xceed.Chart.Core.SeriesType.Line)
-        With (RainfallSeries)
-            .DataLabels.Mode = Xceed.Chart.Core.DataLabelsMode.None
-            .BarBorder.Width = 0
-            .BarFillEffect.Color = .BarFillEffect.Color.Blue
-            .Name = "Daily Rainfall"
-            .DisplayOnAxis(Xceed.Chart.Core.StandardAxis.SecondaryY, True)
-        End With
-        With RadnSeries
-            .DataLabels.Mode = Xceed.Chart.Core.DataLabelsMode.None
-            .LineFillEffect.Color = .LineFillEffect.Color.Red
-            .LineBorder.Color = .LineFillEffect.Color.Red
-            .Name = "Daily Solar Radiation"
-        End With
-        With VPSeries
-            .DataLabels.Mode = Xceed.Chart.Core.DataLabelsMode.None
-            .LineFillEffect.Color = .LineFillEffect.Color.Turquoise
-            .LineBorder.Color = .LineFillEffect.Color.Yellow.Turquoise
-            .Name = "Daily Vapour Pressure"
-        End With
-        With QmaxSeries
-            .DataLabels.Mode = Xceed.Chart.Core.DataLabelsMode.None
-            .LineFillEffect.Color = .LineFillEffect.Color.Yellow
-            .LineBorder.Color = .LineFillEffect.Color.Yellow
-            .Name = "Max Radiation"
-        End With
-        With QmaxDrySeries
-            .DataLabels.Mode = Xceed.Chart.Core.DataLabelsMode.None
-            .LineFillEffect.Color = .LineFillEffect.Color.Orange
-            .LineBorder.Color = .LineFillEffect.Color.Orange
-            .Name = "Max Radiation (Dry Air)"
-        End With
-        For doy As Integer = 0 To 365
-            If Vp(doy) = 0 Then
-                Vp(doy) = MinT(doy) / 10.0
+
+        'ChartBox.Charts(0).Series.Clear()
+        'ChartBox.Charts(0).Axis(Xceed.Chart.Core.StandardAxis.SecondaryY).Visible = True
+        'Dim RainfallSeries As Xceed.Chart.Core.BarSeries = ChartBox.Charts(0).Series.Add(Xceed.Chart.Core.SeriesType.Bar)
+        'Dim RadnSeries As Xceed.Chart.Core.LineSeries = ChartBox.Charts(0).Series.Add(Xceed.Chart.Core.SeriesType.Line)
+        'Dim VPSeries As Xceed.Chart.Core.LineSeries = ChartBox.Charts(0).Series.Add(Xceed.Chart.Core.SeriesType.Line)
+        'Dim QmaxSeries As Xceed.Chart.Core.LineSeries = ChartBox.Charts(0).Series.Add(Xceed.Chart.Core.SeriesType.Line)
+        'Dim QmaxDrySeries As Xceed.Chart.Core.LineSeries = ChartBox.Charts(0).Series.Add(Xceed.Chart.Core.SeriesType.Line)
+
+        'For doy As Integer = 0 To 365
+        '    If Vp(doy) = 0 Then
+        '        Vp(doy) = MinT(doy) / 10.0
+        '    End If
+        '    RainfallSeries.Values.Add(Rain(doy))
+        '    RadnSeries.Values.Add(Radn(doy))
+        '    VPSeries.Values.Add(Vp(doy))
+        '    QmaxSeries.Values.Add(QMax(doy + 1, -27.0, VBMet.Taz, VBMet.Alpha, Vp(doy)))
+        '    QmaxDrySeries.Values.Add(QMax(doy + 1, -27.0, VBMet.Taz, VBMet.Alpha, 0.0))
+        'Next
+        Dim D As DataTable = ReadAnnualDataTable()
+        If (IsNothing(D.Columns("Qmax"))) Then
+            D.Columns.Add("Qmax")
+        End If
+        Dim doy As Integer = 0
+        For Each row As DataRow In D.Rows
+            doy = doy + 1
+            Dim vpcolumn As DataColumn = D.Columns("vp")
+            Dim latitude As Single = Metfile.Constant("latitude").Value
+            If Not IsNothing(vpcolumn) Then
+                row("Qmax") = QMax(doy + 1, latitude, VBMet.Taz, VBMet.Alpha, row("vp"))
+            Else
+                row("Qmax") = QMax(doy + 1, latitude, VBMet.Taz, VBMet.Alpha, svp(row("mint")))
             End If
-            RainfallSeries.Values.Add(Rain(doy))
-            RadnSeries.Values.Add(Radn(doy))
-            VPSeries.Values.Add(Vp(doy))
-            QmaxSeries.Values.Add(QMax(doy + 1, -27.0, VBMet.Taz, VBMet.Alpha, Vp(doy)))
-            QmaxDrySeries.Values.Add(QMax(doy + 1, -27.0, VBMet.Taz, VBMet.Alpha, 0.0))
         Next
 
-        With ChartBox.Charts(0).Axis(Xceed.Chart.Core.StandardAxis.PrimaryX)
-            .NumericScale.MajorTickMode = Xceed.Chart.Core.MajorTickModeNumeric.Auto
-        End With
-        With ChartBox
-            .Refresh()
-        End With
-
-
+        ChartHelper.Clear()
+        ChartHelper.DataTable = D
+        ChartHelper.CreateChartSeriesFromDataTable("Rainfall", "date", "rain", False, Drawing.Color.Blue, Xceed.Chart.Core.StandardAxis.PrimaryX, Xceed.Chart.Core.StandardAxis.SecondaryY)
+        ChartHelper.CreateChartSeriesFromDataTable("Radiation", "date", "radn", False, Drawing.Color.Orange, Xceed.Chart.Core.StandardAxis.PrimaryX, Xceed.Chart.Core.StandardAxis.PrimaryY)
+        ChartHelper.CreateChartSeriesFromDataTable("Max. Radiation", "date", "Qmax", False, Drawing.Color.Red, Xceed.Chart.Core.StandardAxis.PrimaryX, Xceed.Chart.Core.StandardAxis.PrimaryY)
+        ChartBox.Refresh()
     End Sub
     Private Function ReadAnnualData(ByVal ColumnName As String) As Single()
         Dim temp(366) As Single
