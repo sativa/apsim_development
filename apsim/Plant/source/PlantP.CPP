@@ -790,10 +790,10 @@ void PlantP::zero_daily_variables ()
       fill_real_array (g.dlt_part_p_dead_det, 0.0, max_part);
       fill_real_array (g.dlt_part_p_retrans, 0.0, max_part);
       fill_real_array (g.part_demand, 0.0, max_part);
-      g.pfact_photo        = 1.0;
-      g.pfact_expansion    = 1.0;
-      g.pfact_pheno        = 1.0;
-      g.pfact_grain        = 1.0;
+      g.pfact_photo        = 0.0;
+      g.pfact_expansion    = 0.0;
+      g.pfact_pheno        = 0.0;
+      g.pfact_grain        = 0.0;
 
       pop_routine (my_name);
 }
