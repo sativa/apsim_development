@@ -11,21 +11,20 @@
 
      Version                = 2.2
      Title                  = Canopy Sample Simulation
-     Component DLL          = c:\Program Files\apsim22\apsim\screen\lib\screen.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\log\lib\log.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\summaryfile\lib\summaryfile.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\clock\lib\clock.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\report\lib\report.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\input\lib\input.dll
-     Component DLL          = C:\apswork\apsim\canopy\lib\canopy.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\irrigate\lib\irrigate.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\manager\lib\manager.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\residue2\lib\residue2.dll
-     Component DLL          = C:\Program Files\apsim22\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\legume\lib\legume.dll
-     Component DLL          = c:\apswork\apsim\cropmod\lib\cropmod.dll
+     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\development\apsim\screen\lib\screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\canopy\lib\canopy.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\legume\lib\legume.dll
+     Component DLL          = c:\development\apsim\cropmod\lib\cropmod.dll
 
 ------- clock Initialisation --------------------------------------------------
      Simulation start date =  1/01/1988
@@ -49,7 +48,7 @@
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\progra~1\apsim22\apsim\MET\SAMPLE\DALBY.MET
+     INPUT File name: c:\development\apsim\MET\SAMPLE\DALBY.MET
 
 ------- canopy Initialisation -------------------------------------------------
       Initialising
@@ -392,52 +391,52 @@
                           stover N conc =    6.000000       extractable sw =    58.97849
 24 January 1988(Day of year=24), maize: 
       stage    4.0 end_of_juvenile
-                          biomass =           2.294842       lai =    0.3800542E-01
-                          stover N conc =    2.964964       extractable sw =    65.56458
+                          biomass =           2.291063       lai =    0.3787786E-01
+                          stover N conc =    2.956174       extractable sw =    65.56481
 29 January 1988(Day of year=29), maize: 
       stage    5.0 floral_initiation
-                          biomass =           6.128351       lai =    0.9219889E-01
-                          stover N conc =    2.568608       extractable sw =    119.8192
+                          biomass =           6.111196       lai =    0.9189993E-01
+                          stover N conc =    2.564983       extractable sw =    119.8216
 23 February 1988(Day of year=54), cowpea: 
       stage    4.0 end_of_juvenile
-                          biomass =           294.5037       lai =     4.018773
-                          stover N conc =    3.038779       extractable sw =    147.6969
+                          biomass =           294.5057       lai =     4.018808
+                          stover N conc =    3.038776       extractable sw =    147.7000
 25 February 1988(Day of year=56), cowpea: 
       stage    5.0 floral_initiation
-                          biomass =           321.2104       lai =     4.298626
-                          stover N conc =    2.879066       extractable sw =    134.1966
+                          biomass =           321.2127       lai =     4.298667
+                          stover N conc =    2.879065       extractable sw =    134.1997
 26 February 1988(Day of year=57), cowpea: 
       stage    6.0 flowering
-                          biomass =           329.8688       lai =     4.375850
-                          stover N conc =    2.831380       extractable sw =    131.6577
+                          biomass =           329.8712       lai =     4.375890
+                          stover N conc =    2.831378       extractable sw =    131.6608
 5 March 1988(Day of year=65), cowpea: 
       stage    7.0 start_grain_fill
-                          biomass =           442.6119       lai =     5.200901
-                          stover N conc =    2.563534       extractable sw =    149.1298
+                          biomass =           442.6145       lai =     5.200930
+                          stover N conc =    2.563534       extractable sw =    149.1327
 11 March 1988(Day of year=71), maize: 
       stage    6.0 flag_leaf
-                          biomass =           84.00741       lai =    0.9781746
-                          stover N conc =    2.574205       extractable sw =    256.2465
+                          biomass =           83.89360       lai =    0.9774146
+                          stover N conc =    2.574055       extractable sw =    256.2504
 19 March 1988(Day of year=79), maize: 
       stage    7.0 flowering
-                          biomass =           90.89659       lai =    0.8532546
-                          stover N conc =    2.632730       extractable sw =    211.1123
+                          biomass =           90.77831       lai =    0.8526075
+                          stover N conc =    2.632537       extractable sw =    211.1166
 30 March 1988(Day of year=90), cowpea: 
       stage    8.0 end_grain_fill
-                          biomass =           749.4818       lai =     2.248965
-                          stover N conc =    1.888154       extractable sw =    63.17022
+                          biomass =           749.4858       lai =     2.248981
+                          stover N conc =    1.888496       extractable sw =    63.17397
 1 April 1988(Day of year=92), maize: 
       stage    8.0 start_grain_fill
-                          biomass =           100.5154       lai =    0.6085521
-                          stover N conc =    2.744653       extractable sw =    211.6526
+                          biomass =           100.3908       lai =    0.6080980
+                          stover N conc =    2.744392       extractable sw =    211.6577
 1 April 1988(Day of year=92), cowpea: 
       stage    9.0 maturity
-                          biomass =           753.8293       lai =     2.035075
-                          stover N conc =    1.797851       extractable sw =    98.25164
+                          biomass =           753.8336       lai =     2.035090
+                          stover N conc =    1.798716       extractable sw =    98.25540
 2 April 1988(Day of year=93), cowpea: 
       stage   10.0 harvest_ripe
-                          biomass =           753.8294       lai =     0.000000
-                          stover N conc =    1.834073       extractable sw =    115.2156
+                          biomass =           753.8336       lai =     0.000000
+                          stover N conc =    1.834796       extractable sw =    115.2193
 3 April 1988(Day of year=94), manager: 
      Manager sending message :- cowpea harvest
 3 April 1988(Day of year=94), cowpea: 
@@ -455,21 +454,21 @@
       senesced above ground biomass (kg/ha) =    2338.2
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  20.6
-      grain N percent =      4.50            total N content (kg/ha) =    221.03
-      grain N uptake (kg/ha) =    127.86     senesced N content (kg/ha) =     49.91
-      green N content (kg/ha) =     43.26    dead N content (kg/ha) =      0.00
+      grain N percent =      4.50            total N content (kg/ha) =    221.06
+      grain N uptake (kg/ha) =    127.86     senesced N content (kg/ha) =     49.92
+      green N content (kg/ha) =     43.28    dead N content (kg/ha) =      0.00
      
      
      
       stress indices for emergence
-      water stress 1 =       0.0191190   nitrogen stress 1 =       0.0189075
-      water stress 2 =       0.0298502   nitrogen stress 2 =       0.0315052
+      water stress 1 =       0.0191169   nitrogen stress 1 =       0.0189075
+      water stress 2 =       0.0298478   nitrogen stress 2 =       0.0332325
      
      
      
       stress indices for end_of_juvenile
-      water stress 1 =       0.2670218   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.3529350   nitrogen stress 2 =       0.0000000
+      water stress 1 =       0.2670106   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.3529238   nitrogen stress 2 =       0.0000000
      
      
      
@@ -486,8 +485,8 @@
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.0232836   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0434660   nitrogen stress 2 =       0.0000000
+      water stress 1 =       0.0232818   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0434589   nitrogen stress 2 =       0.0000000
      
       Crop harvested.
                                                tops residue = 4697.1 kg/ha
@@ -502,27 +501,27 @@
                                                root N removed =    0.0 kg/ha
       stage    4.0 end_of_juvenile
                           biomass =           0.000000       lai =    0.2500000E-01
-                          stover N conc =    0.000000       extractable sw =    115.2156
+                          stover N conc =    0.000000       extractable sw =    115.2193
 3 April 1988(Day of year=94), manager: 
      Manager sending message :- cowpea end_crop
 3 April 1988(Day of year=94), cowpea: 
          Crop ended. Yield (dw) =     0.0
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
-                                               root residue = 3034.6 kg/ha
+                                               root residue = 3034.7 kg/ha
                                                root N =   45.6 kg/ha
 17 June 1988(Day of year=169), maize: 
       stage    9.0 end_grain_fill
-                          biomass =           215.7656       lai =    0.3183534E-03
-                          stover N conc =    2.290665       extractable sw =    299.2708
+                          biomass =           215.5705       lai =    0.3181739E-03
+                          stover N conc =    2.290351       extractable sw =    299.2718
 18 June 1988(Day of year=170), maize: 
       stage   10.0 maturity
-                          biomass =           215.7676       lai =    0.3183534E-03
-                          stover N conc =    2.290640       extractable sw =    298.3938
+                          biomass =           215.5725       lai =    0.3181739E-03
+                          stover N conc =    2.290326       extractable sw =    298.3947
 19 June 1988(Day of year=171), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           215.7676       lai =    0.2122356E-03
-                          stover N conc =    2.290675       extractable sw =    297.5354
+                          biomass =           215.5725       lai =    0.2121159E-03
+                          stover N conc =    2.290362       extractable sw =    297.5362
 20 June 1988(Day of year=172), manager: 
      Manager sending message :- maize harvest
 20 June 1988(Day of year=172), maize: 
@@ -530,38 +529,38 @@
      
      
      flowering (DAS) =  70                  maturity (DAS)  = 161
-      flowering day  =   79                  stover (kg/ha) =    2157.7
+      flowering day  =   79                  stover (kg/ha) =    2155.7
       maturity day        =  170             grain yield (kg/ha) =       0.0
       grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
       grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 1.068
-      total above ground biomass (kg/ha) =    2157.7
-      live above ground biomass (kg/ha) =    2157.7
-      green above ground biomass (kg/ha) =    1808.0
-      senesced above ground biomass (kg/ha) =     349.6
+      grains/head =   0.0                    maximum lai = 1.067
+      total above ground biomass (kg/ha) =    2155.7
+      live above ground biomass (kg/ha) =    2155.7
+      green above ground biomass (kg/ha) =    1806.7
+      senesced above ground biomass (kg/ha) =     349.1
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  19.4
-      grain N percent =      0.00            total N content (kg/ha) =     41.77
+      grain N percent =      0.00            total N content (kg/ha) =     41.73
       grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.35
-      green N content (kg/ha) =     41.42    dead N content (kg/ha) =      0.00
+      green N content (kg/ha) =     41.38    dead N content (kg/ha) =      0.00
      
      
      
       stress indices for emergence
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0924773
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0942499
      
      
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1273702
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1303514
      
      
      
       stress indices for floral_initiation
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0546708
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0550697
      
      
      
@@ -584,9 +583,9 @@
      Manager sending message :- maize end_crop
 20 June 1988(Day of year=172), maize: 
          ended. Yield (dw) =     0.0
-                                               straw residue = 2157.7 kg/ha
-                                               straw N =   41.8 kg/ha
-                                               root residue =  265.0 kg/ha
-                                               root N =    3.3 kg/ha
+                                               straw residue = 2155.7 kg/ha
+                                               straw N =   41.7 kg/ha
+                                               root residue =  264.6 kg/ha
+                                               root N =    3.2 kg/ha
 1 January 1990(Day of year=1), clock: 
      Simulation is terminating due to end criteria being met.
