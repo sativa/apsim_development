@@ -25,10 +25,14 @@ bool ControlFileConverter::needsConversion(const std::string& fileName)
    return (fileVersion != apsimVersion);
    }
 //---------------------------------------------------------------------------
-// convert the specified control file using the commands in the specified
-// script file name.  Throws an exception if a problem was encountered.
+// convert the specified control file using the version number of
+// APSIM and the version number in the control file.
+// Throws an exception if a problem was encountered.
+// If callback is not null, then it will be called for every section
+// in con file being converter.
 //---------------------------------------------------------------------------
-void ControlFileConverter::convert(const std::string& fileName) throw (runtime_error)
+void ControlFileConverter::convert(const string& fileName,
+                                   TControlFileConverterEvent callback) throw(runtime_error)
    {
    int fileVersion = ApsimControlFile::getVersionNumber(fileName);
    int apsimVersion = StrToFloat(getApsimVersion().c_str())*10;
@@ -40,7 +44,7 @@ void ControlFileConverter::convert(const std::string& fileName) throw (runtime_e
          ostringstream conversionFile;
          conversionFile << homeDir << "conversions." << version;
          if (FileExists(conversionFile.str().c_str()))
-            convert(fileName, conversionFile.str());
+            convert(fileName, conversionFile.str(), callback);
          }
       ApsimControlFile::setVersionNumber(fileName, apsimVersion);
       }
@@ -48,9 +52,12 @@ void ControlFileConverter::convert(const std::string& fileName) throw (runtime_e
 //---------------------------------------------------------------------------
 // convert the specified control file using the commands in the specified
 // script file name.  Throws an exception if a problem was encountered.
+// If callback is not null, then it will be called for every section
+// in con file being converter.
 //---------------------------------------------------------------------------
-void ControlFileConverter::convert(const std::string& fileName,
-                                   const std::string& scriptFileName) throw(runtime_error)
+void ControlFileConverter::convert(const string& fileName,
+                                   const string& scriptFileName,
+                                   TControlFileConverterEvent callback) throw(runtime_error)
    {
    // Make the working directory the same directory as the where the
    // control file resides.
@@ -80,6 +87,8 @@ void ControlFileConverter::convert(const std::string& fileName,
 
       if (ok)
          {
+         if (callback != NULL)
+            callback(controlFileSections[section]);
          log << "-------------------------------------------------------" << endl;
          log << "Converting section: " << controlFileSections[section] << endl;
          log << "-------------------------------------------------------" << endl;

@@ -55,6 +55,7 @@ class __declspec(dllexport) TRunForm : public TForm
       void fillConfigurationList(void);
       void fillSimulationList(void);
       void setupForm(void);
+      void __fastcall ConverterCallback(const std::string& section);
    public:		// User declarations
       __fastcall TRunForm(TComponent* Owner);
       std::string controlFileName;
