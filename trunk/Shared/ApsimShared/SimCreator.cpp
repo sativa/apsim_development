@@ -226,75 +226,79 @@ void SimCreator::createSim(const string& sectionName,
       simulationFileName += IntToStr(simNumber).c_str();
    simulationFileName += ".sim";
    simulationFileName = ExpandFileName(simulationFileName.c_str()).c_str();
+   DeleteFile(simulationFileName.c_str());
 
-   ApsimSimulationFile simulation;
-   simulation.setFileName(simulationFileName);
-
-   simulation.setExecutableFileName(getApsimDirectory() + "\\apsim\\protocolmanager\\lib\\protocolmanager.dll");
-   simulation.setTitle(con->getTitle(sectionName));
-
-   // get the names of all input modules.
-   ApsimSettings settings;
-   vector<string> inputModules;
-   settings.read("Apsim Input Modules|module", inputModules);
-
-
-   ApsimControlFile::ModuleInstances moduleInstances;
-   con->getAllModuleInstances(sectionName, moduleInstances);
-   stable_sort(moduleInstances.begin(), moduleInstances.end(), ComponentOrder());
-   for (ApsimControlFile::ModuleInstances::iterator m = moduleInstances.begin();
-                                                    m != moduleInstances.end();
-                                                    m++)
+   if (con->isValid(sectionName))
       {
-      string moduleName = m->moduleName;
-      string instanceName = m->instanceName;
-      string dllFileName = m->dllFileName;
+      ApsimSimulationFile simulation;
+      simulation.setFileName(simulationFileName);
 
-      ApsimComponentData* component;
+      simulation.setExecutableFileName(getApsimDirectory() + "\\apsim\\protocolmanager\\lib\\protocolmanager.dll");
+      simulation.setTitle(con->getTitle(sectionName));
 
-      // See if we've already parsed the .ini file this component.
-      string iniFileName = con->getIniFileForInstance(sectionName, instanceName);
-      if (iniFileName != "")
+      // get the names of all input modules.
+      ApsimSettings settings;
+      vector<string> inputModules;
+      settings.read("Apsim Input Modules|module", inputModules);
+
+
+      ApsimControlFile::ModuleInstances moduleInstances;
+      con->getAllModuleInstances(sectionName, moduleInstances);
+      stable_sort(moduleInstances.begin(), moduleInstances.end(), ComponentOrder());
+      for (ApsimControlFile::ModuleInstances::iterator m = moduleInstances.begin();
+                                                       m != moduleInstances.end();
+                                                       m++)
          {
-         string componentXML;
+         string moduleName = m->moduleName;
+         string instanceName = m->instanceName;
+         string dllFileName = m->dllFileName;
 
-         Components::iterator c = components.find(iniFileName + ":" + instanceName);
-         if (c == components.end())
+         ApsimComponentData* component;
+
+         // See if we've already parsed the .ini file this component.
+         string iniFileName = con->getIniFileForInstance(sectionName, instanceName);
+         if (iniFileName != "")
             {
-            ApsimComponentData iniComponent;
-            ImportSection importSection(iniComponent, moduleName);
-            con->enumerateParametersForInstance(sectionName, instanceName, true, importSection.callback);
-            componentXML = iniComponent.getXML();
-            components.insert(make_pair(iniFileName + ":" + instanceName,
-                                        componentXML));
+            string componentXML;
+
+            Components::iterator c = components.find(iniFileName + ":" + instanceName);
+            if (c == components.end())
+               {
+               ApsimComponentData iniComponent;
+               ImportSection importSection(iniComponent, moduleName);
+               con->enumerateParametersForInstance(sectionName, instanceName, true, importSection.callback);
+               componentXML = iniComponent.getXML();
+               components.insert(make_pair(iniFileName + ":" + instanceName,
+                                           componentXML));
+               }
+            else
+               componentXML = c->second;
+            component = new ApsimComponentData(componentXML);
+            component->setName(instanceName);
+            *component = simulation.addComponent(*component);
             }
          else
-            componentXML = c->second;
-         component = new ApsimComponentData(componentXML);
-         component->setName(instanceName);
-         *component = simulation.addComponent(*component);
-         }
-      else
-         component = new ApsimComponentData(simulation.addComponent(instanceName));
+            component = new ApsimComponentData(simulation.addComponent(instanceName));
 
-      component->setExecutableFileName(dllFileName);
+         component->setExecutableFileName(dllFileName);
 
-      if (find_if(inputModules.begin(), inputModules.end(),
-                  PartialStringComparison(moduleName)) != inputModules.end())
-         {
-         string fileName = con->getFileForInstance(sectionName, instanceName);
-         component->setProperty("parameters", "file", "filename", fileName);
-         }
+         if (find_if(inputModules.begin(), inputModules.end(),
+                     PartialStringComparison(moduleName)) != inputModules.end())
+            {
+            string fileName = con->getFileForInstance(sectionName, instanceName);
+            component->setProperty("parameters", "file", "filename", fileName);
+            }
 
-      else
-         {
-         ImportSection importSection(*component, moduleName);
-         con->enumerateParametersForInstance(sectionName, instanceName, false, importSection.callback);
+         else
+            {
+            ImportSection importSection(*component, moduleName);
+            con->enumerateParametersForInstance(sectionName, instanceName, false, importSection.callback);
+            }
+         delete component;
          }
-      delete component;
+      simulation.write();
+      if (simCreatorEvent != NULL)
+         simCreatorEvent(simulationFileName);
       }
-   simulation.write();
-   if (simCreatorEvent != NULL)
-      simCreatorEvent(simulationFileName);
    }
 
