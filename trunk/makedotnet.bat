@@ -24,3 +24,9 @@ cd %APSROOT%\ApsimUI\source
 echo ------Compiling  %APSROOT%\ApsimUI >> %APSROOT%\dotnet.out
 "C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\devenv" ApsimUI.vbproj /rebuild debug >> %APSROOT%\dotnet.out
 cd %APSROOT%
+
+rem --------- Compile GetComponentDescription
+cd %APSROOT%\Tools\GetComponentDescription
+echo ------Compiling  %APSROOT%\Tools\GetComponentDescription >> %APSROOT%\dotnet.out
+"C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\devenv" GetComponentDescription.csproj /rebuild debug >> %APSROOT%\dotnet.out
+cd %APSROOT%
