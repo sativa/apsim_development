@@ -64,7 +64,7 @@
       return
       end
 
-C     Last change:  NIH  30 Sep 1999   11:28 am
+C     Last change:  DSG  15 Jun 2000    4:33 pm
 * ====================================================================
        subroutine Main (Action, Data_string)
 * ====================================================================
@@ -2241,8 +2241,8 @@ c      double precision tth
             do 45 l=1,MP
                slj(l) = p%sl(j,l)
                slk(l) = p%sl(k,l)
-               if (p%sl(j,l).eq.p%slmax) nslj = l
-               if (p%sl(k,l).eq.p%slmax) nslk = l
+               if (Doubles_are_equal(p%sl(j,l),p%slmax)) nslj = l
+               if (Doubles_are_equal(p%sl(k,l),p%slmax)) nslk = l
    45       continue
             call union_double_arrays (slj,nslj,slk,nslk,sli,nsli,MP)
 
@@ -2629,6 +2629,7 @@ c   47       continue
       include 'intrface.pub'
       include 'postbox.pub'
       include 'error.pub'
+      include 'data.pub'
 
 *+  Sub-Program Arguments
        double precision timestep
@@ -2724,11 +2725,11 @@ c         print*,g%t
 
          ! Start with first guess as largest size_of possible
          g%dt = p%dtmax
-         if(p%dtmin.eq.p%dtmax)then
+         if(Doubles_are_equal(p%dtmin,p%dtmax))then
             g%dt=p%dtmin
          else
             if(.not.g%run_has_started)then
-               if(p%dtmin.eq.0.) then
+               if(Doubles_are_equal(p%dtmin,0d0)) then
                   g%dt=min(0.01*(timestep_remaining),0.25d0)
                else
                   g%dt=p%dtmin
@@ -6430,6 +6431,7 @@ c      endif
 * ====================================================================
       implicit none
       include 'error.pub'
+      include 'data.pub'
 
 *+  Sub-Program Arguments
        integer na,nb,nc,nc_max
@@ -6482,7 +6484,7 @@ c      endif
    21 continue
       ! to avoid updating the counter - VERY BAD PROGRAMMING (NIH)
       do 30 i=1, nc-1
-         if (c(i).eq.c(i+1)) then
+         if (Doubles_are_equal(c(i),c(i+1))) then
             do 25 j=i+1,nc
                c(j) = c(j+1)
    25       continue
@@ -7676,6 +7678,7 @@ c      pause
       implicit none
        include 'const.inc'
       include 'error.pub'
+      include 'data.pub'
 
 *+  Sub-Program Arguments
        double precision amount          ! (mm)
@@ -7735,7 +7738,7 @@ c      pause
 
          ! Insert starting element placeholder into log
          do 10 counter = 1, SWIMNumPairs
-            if (SWIMTime(counter).eq.time) then
+            if (Doubles_are_equal(SWIMTime(counter),time)) then
                ! There is already a placeholder there
                goto 11
             else if (SWIMTime(counter).gt.time) then
@@ -7759,7 +7762,7 @@ c      pause
 
          ! Insert ending element placeholder into log
          do 13 counter = 1, SWIMNumPairs
-            if (SWIMTime(counter).eq.ftime) then
+            if (Doubles_are_equal(SWIMTime(counter),ftime)) then
                ! There is already a placeholder there
                goto 14
             else if (SWIMTime(counter).gt.ftime) then
