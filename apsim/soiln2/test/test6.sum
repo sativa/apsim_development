@@ -9,19 +9,19 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.4
+     Version                = 3.5
      Title                  = Surface Organic Matter Module Test 6
-     Component DLL          = c:\progra~1\apsim34\apsim\log\lib\log.dll
-     Component DLL          = c:\progra~1\apsim34\apsim\summaryfile\lib\summaryfile.dll
-     Component DLL          = c:\progra~1\apsim34\apsim\screen\lib\screen.dll
-     Component DLL          = c:\progra~1\apsim34\apsim\clock\lib\clock.dll
-     Component DLL          = c:\progra~1\apsim34\apsim\report\lib\report.dll
-     Component DLL          = c:\progra~1\apsim34\apsim\Input\lib\Input.dll
-     Component DLL          = c:\progra~1\apsim34\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\progra~1\apsim34\apsim\manager\lib\manager.dll
-     Component DLL          = c:\progra~1\apsim34\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\progra~1\apsim34\apsim\residue2\lib\residue2.dll
-     Component DLL          = c:\progra~1\apsim34\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\log\lib\log.dll
+     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\development\apsim\screen\lib\screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\Input\lib\Input.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -160,6 +160,15 @@
              (kg/ha)  (kg/ha) (kg/ha)
          ------------------------------------------------
               4000.0    16.0     0.0  lucerne
+         ------------------------------------------------
+     
+     
+                      Residue Initial Parameters
+         ------------------------------------------------
+           Pot Decomp Rate  C:N     C:P  Phosphorous  Report
+           (fraction/day) (ratio) (ratio)  aware      additions
+         ------------------------------------------------
+                  0.100   100.0     0.0       F       no
          ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
