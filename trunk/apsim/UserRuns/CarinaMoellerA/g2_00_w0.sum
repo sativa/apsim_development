@@ -243,7 +243,7 @@
           ---------------------------------------------------------
 
 ------- chickpea Initialisation -----------------------------------------------
-      Initialising
+      initialising
 ------- Start of simulation  --------------------------------------------------
 20 December 1999(Day of year=354), manager: 
      Manager creating a new local real variable : chickpea =     0.00000000000000
@@ -258,174 +258,153 @@
 22 December 1999(Day of year=356), manager: 
      Manager sending message :- chickpea sow  cultivar = ghab2, plants = 50 (/m2), sowing_depth = 60 (mm)
 22 December 1999(Day of year=356), chickpea: 
-     Sow
-     
-      - Reading constants for plant
-     
-        - Reading Cultivar Parameters
+     Crop Sow
+      - reading constants for plant(chickpea)
+      - reading cultivar parameters
          ------------------------------------------------
-         Cultivar                   = ghab2
-         est_days_emerg_to_init     =       90
-         cum_vernal_days            =     0.00  100.00
-         tt_emerg_to_endjuv         =   700.00  700.00
-         x_pp_endjuv_to_init        =    10.70   17.00
-         y_tt_endjuv_to_init        =   445.00    0.00
-         x_pp_init_to_flower        =     1.00   24.00
-         y_tt_init_to_flower        =    35.00   35.00
-         x_pp_flower_to_start_grain =     1.00   24.00
-         y_tt_flower_to_start_grain =   230.00  230.00
-         x_pp_start_to_end_grain    =     1.00   24.00
-         y_tt_start_to_end_grain    =   400.00  400.00
-         tt_end_grain_to_maturity   =     60.0
-         tt_maturity_to_ripe        =     40.0
-         x_pp_hi_incr               =     1.00   24.00
-         y_hi_incr                  =  0.01000 0.01000
-         x_hi_max_pot_stress        =     0.00    1.00
-         y_hi_max_pot               =     0.50    0.30
-         x_stem_wt                  =     0.00  390.00
-         y_height                   =     0.00  800.00
+        cultivar                   = ghab2
+        est_days_emerg_to_init     =       90
+        cum_vernal_days            =       0.00     100.00
+        tt_emerg_to_endjuv         =     700.00     700.00
+        x_pp_endjuv_to_init        =      10.70      17.00
+        y_tt_endjuv_to_init        =     445.00       0.00
+        x_pp_init_to_flower        =       1.00      24.00
+        y_tt_init_to_flower        =      35.00      35.00
+        x_pp_flower_to_start_grain =       1.00      24.00
+        y_tt_flower_to_start_grain =     230.00     230.00
+        x_pp_start_to_end_grain    =       1.00      24.00
+        y_tt_start_to_end_grain    =     400.00     400.00
+        tt_end_grain_to_maturity   =      60.00
+        tt_maturity_to_ripe        =      40.00
+        x_pp_hi_incr               =       1.00      24.00
+        y_hi_incr                  =     0.0100     0.0100
+        x_hi_max_pot_stress        =       0.00       1.00
+        y_hi_max_pot               =       0.50       0.30
+        x_stem_wt                  =       0.00     390.00
+        y_height                   =       0.00     800.00
          ------------------------------------------------
      
      
-     
-     
-        - Reading root profile parameters
-     
-     
-                         Root Profile
+        - reading root profile parameters
+                        Root Profile
      ---------------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
      ---------------------------------------------------
-          150.0     0.080          0.140       1.000
-          150.0     0.080          0.140       1.000
-          150.0     0.080          0.160       1.000
-          150.0     0.080          0.190       1.000
-          150.0     0.050          0.220       1.000
-          150.0     0.030          0.220       1.000
-          150.0     0.010          0.240       1.000
-          150.0     0.000          0.240       1.000
-          150.0     0.000          0.240       1.000
-          150.0     0.000          0.240       1.000
+         150.0     0.080          0.140       1.000
+         150.0     0.080          0.140       1.000
+         150.0     0.080          0.160       1.000
+         150.0     0.080          0.190       1.000
+         150.0     0.050          0.220       1.000
+         150.0     0.030          0.220       1.000
+         150.0     0.010          0.240       1.000
+         150.0     0.000          0.240       1.000
+         150.0     0.000          0.240       1.000
+         150.0     0.000          0.240       1.000
      ---------------------------------------------------
      
-     
-       Crop factor for bounding water use is set to 100.0 times Eo
-     
+     (Crop factor for bounding water use is set to 100.0 times eo)
      
                       Crop Sowing Data
          ------------------------------------------------
          Sowing  Depth Plants Spacing Skip  Skip  Cultivar
-         Day no   mm     m^2     mm   Row   Plant Name
+         Day no   mm     m^2     mm   row   plant name
          ------------------------------------------------
-            356   60.0   50.0  350.0   0.0   0.0  ghab2
+            356   60.0   50.0  350.0   0.0   0.0 ghab2
          ------------------------------------------------
-     
      
 5 January 2000(Day of year=5), chickpea: 
-      stage    2.0 germination
+      stage 2.0 germination
 29 January 2000(Day of year=29), chickpea: 
-      stage    3.0 emergence
-                          biomass =           10.00000       lai =    0.5000000E-02
-                          stover N conc =    5.999999       extractable sw =    20.17691
+      stage 3.0 emergence
+                     biomass =          10.00 (g/m^2)   lai          =   0.005 (m^2/m^2)
+                     stover N conc =     6.00 (%)     extractable sw =   20.18 (mm)
 8 April 2000(Day of year=99), chickpea: 
-      stage    4.0 end_of_juvenile
-                          biomass =           38.24496       lai =    0.5979269
-                          stover N conc =    4.335648       extractable sw =    70.97061
+      stage 4.0 end_of_juvenile
+                     biomass =          38.24 (g/m^2)   lai          =   0.598 (m^2/m^2)
+                     stover N conc =     4.34 (%)     extractable sw =   70.97 (mm)
 20 April 2000(Day of year=111), chickpea: 
-      stage    5.0 floral_initiation
-                          biomass =           93.13577       lai =     1.601910
-                          stover N conc =    3.300897       extractable sw =    64.34634
+      stage 5.0 floral_initiation
+                     biomass =          93.14 (g/m^2)   lai          =   1.602 (m^2/m^2)
+                     stover N conc =     3.30 (%)     extractable sw =   64.35 (mm)
 23 April 2000(Day of year=114), chickpea: 
-      stage    6.0 flowering
-                          biomass =           110.6266       lai =     1.787736
-                          stover N conc =    3.124508       extractable sw =    59.72427
+      stage 6.0 flowering
+                     biomass =         110.63 (g/m^2)   lai          =   1.788 (m^2/m^2)
+                     stover N conc =     3.12 (%)     extractable sw =   59.72 (mm)
 5 May 2000(Day of year=126), chickpea: 
-      stage    7.0 start_grain_fill
-                          biomass =           152.9720       lai =     1.234454
-                          stover N conc =    2.821994       extractable sw =    38.71287
+      stage 7.0 start_grain_fill
+                     biomass =         152.97 (g/m^2)   lai          =   1.234 (m^2/m^2)
+                     stover N conc =     2.82 (%)     extractable sw =   38.71 (mm)
 25 May 2000(Day of year=146), chickpea: 
-      stage    8.0 end_grain_fill
-                          biomass =           169.1886       lai =    0.2109013
-                          stover N conc =    2.738407       extractable sw =    29.26259
+      stage 8.0 end_grain_fill
+                     biomass =         169.19 (g/m^2)   lai          =   0.211 (m^2/m^2)
+                     stover N conc =     2.74 (%)     extractable sw =   29.26 (mm)
 28 May 2000(Day of year=149), chickpea: 
-      stage    9.0 maturity
-                          biomass =           170.2993       lai =    0.1631112
-                          stover N conc =    2.727109       extractable sw =    28.53881
+      stage 9.0 maturity
+                     biomass =         170.30 (g/m^2)   lai          =   0.163 (m^2/m^2)
+                     stover N conc =     2.73 (%)     extractable sw =   28.54 (mm)
 30 May 2000(Day of year=151), chickpea: 
-      stage   10.0 harvest_ripe
-                          biomass =           170.2993       lai =    0.4619360E-06
-                          stover N conc =    2.802554       extractable sw =    28.28441
+      stage 10.0 harvest_ripe
+                     biomass =         170.30 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     2.80 (%)     extractable sw =   28.28 (mm)
 30 May 2000(Day of year=151), manager: 
      Manager sending message :- chickpea harvest
 30 May 2000(Day of year=151), chickpea: 
      
-     
-     
-      flowering day  =  114                  stover (kg/ha) =    1389.6
-      maturity day        =  149             grain yield (kg/ha) =     313.4
-      grain % water content   =   12.0       grain yield wet (kg/ha) =     356.1
-      grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 1.861
-      total above ground biomass (kg/ha) =    1703.0
-      live above ground biomass (kg/ha) =    1703.0
-      green above ground biomass (kg/ha) =    1037.0
-      senesced above ground biomass (kg/ha) =     666.0
-      dead above ground biomass (kg/ha) =       0.0
-      number of leaves = 149.9
-      grain N percent =      3.60            total N content (kg/ha) =     41.55
-      grain N uptake (kg/ha) =     11.28     senesced N content (kg/ha) =      9.99
-      green N content (kg/ha) =     20.28    dead N content (kg/ha) =      0.00
-     
-     
+      flowering day          =  114                           stover (kg/ha)         =     1389.6
+      maturity day           =  149                           grain yield (kg/ha)    =      313.4
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=      356.1
+      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grains/head            =    0.0                         maximum lai            =      1.861
+      total above ground biomass (kg/ha)    =     1703.0
+      live above ground biomass (kg/ha)     =     1703.0
+      green above ground biomass (kg/ha)    =     1037.0
+      senesced above ground biomass (kg/ha) =      666.0
+      dead above ground biomass (kg/ha)     =        0.0
+      number of leaves       =  149.9
+      grain N percent        =       3.60                     total N content (kg/ha)=      41.55
+      grain N uptake (kg/ha) =      11.28                     senesced N content (kg/ha)=    9.99
+      green N content (kg/ha)=      20.28                     dead N content (kg/ha) =       0.00
      
       stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0096651
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0184904
-     
-     
+         water stress 1 =  0.000     nitrogen stress 1 =  0.010
+         water stress 2 =  0.000     nitrogen stress 2 =  0.018
      
       stress indices for end_of_juvenile
-      water stress 1 =       0.0362302   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0527770   nitrogen stress 2 =       0.0109980
-     
-     
+         water stress 1 =  0.036     nitrogen stress 1 =  0.000
+         water stress 2 =  0.053     nitrogen stress 2 =  0.011
      
       stress indices for floral_initiation
-      water stress 1 =       0.0212225   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0266894   nitrogen stress 2 =       0.0000000
-     
-     
+         water stress 1 =  0.021     nitrogen stress 1 =  0.000
+         water stress 2 =  0.027     nitrogen stress 2 =  0.000
      
       stress indices for flowering
-      water stress 1 =       0.5415686   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.6337604   nitrogen stress 2 =       0.0000000
-     
-     
+         water stress 1 =  0.542     nitrogen stress 1 =  0.000
+         water stress 2 =  0.634     nitrogen stress 2 =  0.000
      
       stress indices for start_grain_fill
-      water stress 1 =       0.8452421   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.9449321   nitrogen stress 2 =       0.0000000
+         water stress 1 =  0.845     nitrogen stress 1 =  0.000
+         water stress 2 =  0.945     nitrogen stress 2 =  0.000
      
-      Crop harvested.
-                                               tops residue = 1389.6 kg/ha
-                                               tops N =   30.3 kg/ha
-                                               root residue =   93.7 kg/ha
-                                               root N =    0.7 kg/ha
+     Crop harvested.
+         tops residue =  1389.62 kg/ha
+         tops N       =  30.27 kg/ha
+         root residue =  93.72 kg/ha
+         root N       =  0.75 kg/ha
      
+         tops removed =  313.38 kg/ha
+         tops N removed= 11.28 kg/ha
+         root removed =  0.00 kg/ha
+         root N removed= 0.00 kg/ha
      
-                                               tops removed =  313.4 kg/ha
-                                               tops N removed =   11.3 kg/ha
-                                               root removed =    0.0 kg/ha
-                                               root N removed =    0.0 kg/ha
 30 May 2000(Day of year=151), manager: 
      Manager sending message :- chickpea end_crop
 30 May 2000(Day of year=151), chickpea: 
-         Crop ended. Yield (dw) =     0.0
-                                               straw residue =    0.0 kg/ha
-                                               straw N =    0.0 kg/ha
-                                               root residue =  941.9 kg/ha
-                                               root N =   15.1 kg/ha
+     Crop ended. Yield (dw) =     0.0  (kg/ha)
+         straw residue =     0.0 kg/ha
+         straw N =           0.0 kg/ha
+         root residue =    941.9 kg/ha
+         root N =           15.1 kg/ha
 29 June 2000(Day of year=181), clock: 
      Simulation is terminating due to end criteria being met.
