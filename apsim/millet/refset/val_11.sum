@@ -20,7 +20,7 @@
      Title                  = pat86_d1
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\met\lib\met.dll(met) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\canopy\lib\canopy.dll(canopy) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\operatns\lib\operatns.dll(operatns) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\fertiliz\lib\fertiliz.dll(fertiliz) - Licensed
@@ -190,13 +190,13 @@
         tiller4_finished = 0
         tiller5_finished = 0
      endif
-     Manager creating a new local variable : crop_in =    0.000000000000000
-     Manager creating a new local variable : tiller0_finished =    0.000000000000000
-     Manager creating a new local variable : tiller1_finished =    0.000000000000000
-     Manager creating a new local variable : tiller2_finished =    0.000000000000000
-     Manager creating a new local variable : tiller3_finished =    0.000000000000000
-     Manager creating a new local variable : tiller4_finished =    0.000000000000000
-     Manager creating a new local variable : tiller5_finished =    0.000000000000000
+     Manager creating a new local variable : crop_in =     0.00000000000000
+     Manager creating a new local variable : tiller0_finished =     0.00000000000000
+     Manager creating a new local variable : tiller1_finished =     0.00000000000000
+     Manager creating a new local variable : tiller2_finished =     0.00000000000000
+     Manager creating a new local variable : tiller3_finished =     0.00000000000000
+     Manager creating a new local variable : tiller4_finished =     0.00000000000000
+     Manager creating a new local variable : tiller5_finished =     0.00000000000000
 
 ------- SOILWAT2 Initialisation ----------------------------------------------
      
@@ -403,27 +403,35 @@
           tt_flag_to_flower        =    66.1
           tt_flower_to_start_grain =    80.0
           tt_maturity_to_ripe      =     1.0
+          x_stem_wt                =     0.0   10.0
+          y_height                 =     0.0 3000.0
           ------------------------------------------------
       
       
       
       
          - Reading root profile parameters
+      Uptake of NO3 and water calculated by millet
+      
+      
+      
+      
       
       
       
                           Root Profile
           ------------------------------------------------
-            Layer depth  Kl factor   Lower limit
-               (mm)         ()        (mm/mm)
+            Layer      Kl      Lower Exploration
+            Depth              limit   Factor
+            (mm)       ()     (mm/mm)    ()
           ------------------------------------------------
-              150.000       0.120       0.146
-              150.000       0.120       0.207
-              300.000       0.120       0.244
-              300.000       0.100       0.236
-              300.000       0.060       0.218
-              300.000       0.055       0.173
-              300.000       0.030       0.173
+           150.000    0.120    0.146    1.000
+           150.000    0.120    0.207    1.000
+           300.000    0.120    0.244    1.000
+           300.000    0.100    0.236    1.000
+           300.000    0.060    0.218    1.000
+           300.000    0.055    0.173    1.000
+           300.000    0.030    0.173    1.000
            ------------------------------------------------
       
       
@@ -434,7 +442,7 @@
 22 June 1986 (Day of year=173):
    MILLET:
        stage    3.0 emergence
-                           biomass =          0.3150000e-01   lai =    0.9000000e-03
+                           biomass =          0.3150000E-01   lai =    0.9000000E-03
                            stover N conc =    4.400001       extractable sw =    20.15788
 1 July 1986 (Day of year=182):
    OPERATNS:
@@ -464,33 +472,41 @@
           tt_flag_to_flower        =    66.1
           tt_flower_to_start_grain =    80.0
           tt_maturity_to_ripe      =     1.0
+          x_stem_wt                =     0.0   10.0
+          y_height                 =     0.0 3000.0
           ------------------------------------------------
       
       
       
       
          - Reading root profile parameters
+      Uptake of NO3 and water calculated by millet
+      
+      
+      
+      
       
       
       
                           Root Profile
           ------------------------------------------------
-            Layer depth  Kl factor   Lower limit
-               (mm)         ()        (mm/mm)
+            Layer      Kl      Lower Exploration
+            Depth              limit   Factor
+            (mm)       ()     (mm/mm)    ()
           ------------------------------------------------
-              150.000       0.120       0.146
-              150.000       0.120       0.207
-              300.000       0.120       0.244
-              300.000       0.100       0.236
-              300.000       0.060       0.218
-              300.000       0.055       0.173
-              300.000       0.030       0.173
+           150.000    0.120    0.146    1.000
+           150.000    0.120    0.207    1.000
+           300.000    0.120    0.244    1.000
+           300.000    0.100    0.236    1.000
+           300.000    0.060    0.218    1.000
+           300.000    0.055    0.173    1.000
+           300.000    0.030    0.173    1.000
            ------------------------------------------------
       
       
       
        stage    3.0 emergence
-                           biomass =          0.9000001e-02   lai =    0.9000000e-03
+                           biomass =          0.9000001E-02   lai =    0.9000000E-03
                            stover N conc =    4.400000       extractable sw =    19.43450
 3 July 1986 (Day of year=184):
    MILLET2:
@@ -518,27 +534,35 @@
           tt_flag_to_flower        =    66.1
           tt_flower_to_start_grain =    80.0
           tt_maturity_to_ripe      =     1.0
+          x_stem_wt                =     0.0   10.0
+          y_height                 =     0.0 3000.0
           ------------------------------------------------
       
       
       
       
          - Reading root profile parameters
+      Uptake of NO3 and water calculated by millet
+      
+      
+      
+      
       
       
       
                           Root Profile
           ------------------------------------------------
-            Layer depth  Kl factor   Lower limit
-               (mm)         ()        (mm/mm)
+            Layer      Kl      Lower Exploration
+            Depth              limit   Factor
+            (mm)       ()     (mm/mm)    ()
           ------------------------------------------------
-              150.000       0.120       0.146
-              150.000       0.120       0.207
-              300.000       0.120       0.244
-              300.000       0.100       0.236
-              300.000       0.060       0.218
-              300.000       0.055       0.173
-              300.000       0.030       0.173
+           150.000    0.120    0.146    1.000
+           150.000    0.120    0.207    1.000
+           300.000    0.120    0.244    1.000
+           300.000    0.100    0.236    1.000
+           300.000    0.060    0.218    1.000
+           300.000    0.055    0.173    1.000
+           300.000    0.030    0.173    1.000
            ------------------------------------------------
       
       
@@ -546,7 +570,7 @@
 4 July 1986 (Day of year=185):
    MILLET2:
        stage    3.0 emergence
-                           biomass =          0.9000001e-02   lai =    0.9000000e-03
+                           biomass =          0.9000001E-02   lai =    0.9000000E-03
                            stover N conc =    4.400000       extractable sw =    14.74776
 5 July 1986 (Day of year=186):
    MILLET3:
@@ -574,38 +598,46 @@
           tt_flag_to_flower        =    66.1
           tt_flower_to_start_grain =    80.0
           tt_maturity_to_ripe      =     1.0
+          x_stem_wt                =     0.0   10.0
+          y_height                 =     0.0 3000.0
           ------------------------------------------------
       
       
       
       
          - Reading root profile parameters
+      Uptake of NO3 and water calculated by millet
+      
+      
+      
+      
       
       
       
                           Root Profile
           ------------------------------------------------
-            Layer depth  Kl factor   Lower limit
-               (mm)         ()        (mm/mm)
+            Layer      Kl      Lower Exploration
+            Depth              limit   Factor
+            (mm)       ()     (mm/mm)    ()
           ------------------------------------------------
-              150.000       0.120       0.146
-              150.000       0.120       0.207
-              300.000       0.120       0.244
-              300.000       0.100       0.236
-              300.000       0.060       0.218
-              300.000       0.055       0.173
-              300.000       0.030       0.173
+           150.000    0.120    0.146    1.000
+           150.000    0.120    0.207    1.000
+           300.000    0.120    0.244    1.000
+           300.000    0.100    0.236    1.000
+           300.000    0.060    0.218    1.000
+           300.000    0.055    0.173    1.000
+           300.000    0.030    0.173    1.000
            ------------------------------------------------
       
       
       
    MILLET:
        stage    4.0 end_of_juvenile
-                           biomass =           1.918496       lai =    0.2872154e-01
+                           biomass =           1.918496       lai =    0.2872154E-01
                            stover N conc =    1.883067       extractable sw =    58.14544
    MILLET3:
        stage    3.0 emergence
-                           biomass =          0.9000001e-02   lai =    0.9000000e-03
+                           biomass =          0.9000001E-02   lai =    0.9000000E-03
                            stover N conc =    4.400000       extractable sw =    13.93531
 6 July 1986 (Day of year=187):
    MILLET4:
@@ -633,38 +665,46 @@
           tt_flag_to_flower        =    66.1
           tt_flower_to_start_grain =    80.0
           tt_maturity_to_ripe      =     1.0
+          x_stem_wt                =     0.0   10.0
+          y_height                 =     0.0 3000.0
           ------------------------------------------------
       
       
       
       
          - Reading root profile parameters
+      Uptake of NO3 and water calculated by millet
+      
+      
+      
+      
       
       
       
                           Root Profile
           ------------------------------------------------
-            Layer depth  Kl factor   Lower limit
-               (mm)         ()        (mm/mm)
+            Layer      Kl      Lower Exploration
+            Depth              limit   Factor
+            (mm)       ()     (mm/mm)    ()
           ------------------------------------------------
-              150.000       0.120       0.146
-              150.000       0.120       0.207
-              300.000       0.120       0.244
-              300.000       0.100       0.236
-              300.000       0.060       0.218
-              300.000       0.055       0.173
-              300.000       0.030       0.173
+           150.000    0.120    0.146    1.000
+           150.000    0.120    0.207    1.000
+           300.000    0.120    0.244    1.000
+           300.000    0.100    0.236    1.000
+           300.000    0.060    0.218    1.000
+           300.000    0.055    0.173    1.000
+           300.000    0.030    0.173    1.000
            ------------------------------------------------
       
       
       
        stage    3.0 emergence
-                           biomass =          0.9000001e-02   lai =    0.9000000e-03
+                           biomass =          0.9000001E-02   lai =    0.9000000E-03
                            stover N conc =    4.400000       extractable sw =    13.21837
 8 July 1986 (Day of year=189):
    MILLET1:
        stage    4.0 end_of_juvenile
-                           biomass =          0.8411673       lai =    0.2734933e-01
+                           biomass =          0.8411673       lai =    0.2734933E-01
                            stover N conc =    1.814521       extractable sw =    28.41606
    MILLET5:
       Initiate
@@ -691,27 +731,35 @@
           tt_flag_to_flower        =    66.1
           tt_flower_to_start_grain =    80.0
           tt_maturity_to_ripe      =     1.0
+          x_stem_wt                =     0.0   10.0
+          y_height                 =     0.0 3000.0
           ------------------------------------------------
       
       
       
       
          - Reading root profile parameters
+      Uptake of NO3 and water calculated by millet
+      
+      
+      
+      
       
       
       
                           Root Profile
           ------------------------------------------------
-            Layer depth  Kl factor   Lower limit
-               (mm)         ()        (mm/mm)
+            Layer      Kl      Lower Exploration
+            Depth              limit   Factor
+            (mm)       ()     (mm/mm)    ()
           ------------------------------------------------
-              150.000       0.120       0.146
-              150.000       0.120       0.207
-              300.000       0.120       0.244
-              300.000       0.100       0.236
-              300.000       0.060       0.218
-              300.000       0.055       0.173
-              300.000       0.030       0.173
+           150.000    0.120    0.146    1.000
+           150.000    0.120    0.207    1.000
+           300.000    0.120    0.244    1.000
+           300.000    0.100    0.236    1.000
+           300.000    0.060    0.218    1.000
+           300.000    0.055    0.173    1.000
+           300.000    0.030    0.173    1.000
            ------------------------------------------------
       
       
@@ -719,52 +767,52 @@
 9 July 1986 (Day of year=190):
    MILLET5:
        stage    3.0 emergence
-                           biomass =          0.9000001e-02   lai =    0.9000000e-03
+                           biomass =          0.9000001E-02   lai =    0.9000000E-03
                            stover N conc =    4.400000       extractable sw =    14.35814
    MILLET:
        stage    5.0 floral_initiation
-                           biomass =           5.029123       lai =    0.7050223e-01
+                           biomass =           5.029123       lai =    0.7050223E-01
                            stover N conc =    1.916613       extractable sw =    54.95797
 11 July 1986 (Day of year=192):
    MILLET2:
        stage    4.0 end_of_juvenile
-                           biomass =          0.5266445       lai =    0.1746462e-01
+                           biomass =          0.5266445       lai =    0.1746462E-01
                            stover N conc =    1.802768       extractable sw =    24.57847
    MILLET3:
        stage    4.0 end_of_juvenile
-                           biomass =          0.3122830       lai =    0.1060505e-01
+                           biomass =          0.3122830       lai =    0.1060505E-01
                            stover N conc =    1.815363       extractable sw =    24.55035
 12 July 1986 (Day of year=193):
    MILLET1:
        stage    5.0 floral_initiation
-                           biomass =           4.032060       lai =    0.9807196e-01
+                           biomass =           4.032060       lai =    0.9807196E-01
                            stover N conc =    1.854093       extractable sw =    49.88592
    MILLET4:
        stage    4.0 end_of_juvenile
-                           biomass =          0.2922326       lai =    0.9963442e-02
+                           biomass =          0.2922326       lai =    0.9963442E-02
                            stover N conc =    1.833211       extractable sw =    23.20706
 14 July 1986 (Day of year=195):
    MILLET2:
        stage    5.0 floral_initiation
-                           biomass =           1.811161       lai =    0.5856915e-01
+                           biomass =           1.811160       lai =    0.5856911E-01
                            stover N conc =    1.866171       extractable sw =    47.20914
    MILLET5:
        stage    4.0 end_of_juvenile
-                           biomass =          0.2146392       lai =    0.7480455e-02
+                           biomass =          0.2146392       lai =    0.7480455E-02
                            stover N conc =    1.903218       extractable sw =    21.60228
 15 July 1986 (Day of year=196):
    MILLET3:
        stage    5.0 floral_initiation
-                           biomass =           1.452527       lai =    0.4709285e-01
+                           biomass =           1.452527       lai =    0.4709285E-01
                            stover N conc =    1.829948       extractable sw =    61.45763
    MILLET4:
        stage    5.0 floral_initiation
-                           biomass =          0.8694149       lai =    0.2843327e-01
+                           biomass =          0.8694149       lai =    0.2843328E-01
                            stover N conc =    1.834130       extractable sw =    36.27874
 18 July 1986 (Day of year=199):
    MILLET5:
        stage    5.0 floral_initiation
-                           biomass =          0.5380789       lai =    0.1783053e-01
+                           biomass =          0.5380789       lai =    0.1783053E-01
                            stover N conc =    1.962759       extractable sw =    43.23164
 23 July 1986 (Day of year=204):
    OPERATNS:
@@ -777,31 +825,31 @@
 28 July 1986 (Day of year=209):
    MILLET:
        stage    6.0 flag_leaf
-                           biomass =           71.94290       lai =    0.4003051    
+                           biomass =           71.94293       lai =    0.4003051    
                            stover N conc =    1.440364       extractable sw =    87.62061
 29 July 1986 (Day of year=210):
    MILLET4:
        stage    6.0 flag_leaf
                            biomass =           10.25252       lai =    0.1275457    
-                           stover N conc =    1.516602       extractable sw =    52.67173
+                           stover N conc =    1.516603       extractable sw =    52.67173
    MILLET1:
        stage    6.0 flag_leaf
-                           biomass =           61.82642       lai =    0.4171514    
+                           biomass =           61.82641       lai =    0.4171514    
                            stover N conc =    1.461794       extractable sw =    80.73091
    MILLET3:
        stage    6.0 flag_leaf
                            biomass =           17.61364       lai =    0.2020606    
-                           stover N conc =    1.498372       extractable sw =    48.58070
+                           stover N conc =    1.498372       extractable sw =    48.58071
 30 July 1986 (Day of year=211):
    MILLET2:
        stage    6.0 flag_leaf
-                           biomass =           34.11196       lai =    0.3084797    
-                           stover N conc =    1.475001       extractable sw =    80.28198
+                           biomass =           34.11195       lai =    0.3084796    
+                           stover N conc =    1.475002       extractable sw =    80.28198
 31 July 1986 (Day of year=212):
    MILLET5:
        stage    6.0 flag_leaf
-                           biomass =           5.822272       lai =    0.7500016e-01
-                           stover N conc =    1.530768       extractable sw =    45.13243
+                           biomass =           5.822271       lai =    0.7500016E-01
+                           stover N conc =    1.530768       extractable sw =    45.13244
 1 August 1986 (Day of year=213):
    MILLET:
        stage    7.0 flowering
@@ -810,7 +858,7 @@
 2 August 1986 (Day of year=214):
    MILLET3:
        stage    7.0 flowering
-                           biomass =           25.83475       lai =    0.1974274    
+                           biomass =           25.83478       lai =    0.1974274    
                            stover N conc =    1.413519       extractable sw =    93.59627
    MILLET4:
        stage    7.0 flowering
@@ -818,26 +866,26 @@
                            stover N conc =    1.430089       extractable sw =    93.48329
    MILLET1:
        stage    7.0 flowering
-                           biomass =           87.60098       lai =    0.4013608    
+                           biomass =           87.60094       lai =    0.4013608    
                            stover N conc =    1.395877       extractable sw =    92.98716
 3 August 1986 (Day of year=215):
    MILLET2:
        stage    7.0 flowering
-                           biomass =           47.57208       lai =    0.2989153    
+                           biomass =           47.57207       lai =    0.2989153    
                            stover N conc =    1.394355       extractable sw =    90.43393
 4 August 1986 (Day of year=216):
    MILLET5:
        stage    7.0 flowering
-                           biomass =           8.001588       lai =    0.7267727e-01
+                           biomass =           8.001586       lai =    0.7267727E-01
                            stover N conc =    1.443985       extractable sw =    94.59922
 7 August 1986 (Day of year=219):
    MILLET1:
        stage    8.0 start_grain_fill
-                           biomass =           111.7108       lai =    0.3735796    
+                           biomass =           111.7107       lai =    0.3735796    
                            stover N conc =    1.328285       extractable sw =    113.9605
    MILLET3:
        stage    8.0 start_grain_fill
-                           biomass =           33.73735       lai =    0.1853700    
+                           biomass =           33.73738       lai =    0.1853700    
                            stover N conc =    1.339978       extractable sw =    113.3013
    MILLET4:
        stage    8.0 start_grain_fill
@@ -845,17 +893,17 @@
                            stover N conc =    1.357480       extractable sw =    113.1642
    MILLET:
        stage    8.0 start_grain_fill
-                           biomass =           137.9539       lai =    0.3521585    
+                           biomass =           137.9540       lai =    0.3521585    
                            stover N conc =    1.315463       extractable sw =    147.6838
 8 August 1986 (Day of year=220):
    MILLET2:
        stage    8.0 start_grain_fill
-                           biomass =           61.68240       lai =    0.2792369    
+                           biomass =           61.68238       lai =    0.2792369    
                            stover N conc =    1.324677       extractable sw =    110.8265
 9 August 1986 (Day of year=221):
    MILLET5:
        stage    8.0 start_grain_fill
-                           biomass =           10.64038       lai =    0.6670927e-01
+                           biomass =           10.64037       lai =    0.6670927E-01
                            stover N conc =    1.373987       extractable sw =    104.2686
 27 August 1986 (Day of year=239):
    OPERATNS:
@@ -863,15 +911,15 @@
 30 August 1986 (Day of year=242):
    MILLET:
        stage    9.0 end_grain_fill
-                           biomass =           213.3809       lai =    0.1519938    
+                           biomass =           213.3811       lai =    0.1519938    
                            stover N conc =    1.042132       extractable sw =    109.7102
    MILLET1:
        stage    9.0 end_grain_fill
-                           biomass =           181.5409       lai =    0.1492966    
+                           biomass =           181.5408       lai =    0.1492966    
                            stover N conc =    1.078041       extractable sw =    79.84560
    MILLET3:
        stage    9.0 end_grain_fill
-                           biomass =           58.09837       lai =    0.6010497e-01
+                           biomass =           58.09844       lai =    0.6010497E-01
                            stover N conc =    1.020591       extractable sw =    79.01497
 31 August 1986 (Day of year=243):
    MILLET2:
@@ -880,49 +928,49 @@
                            stover N conc =    1.064009       extractable sw =    74.78292
    MILLET4:
        stage    9.0 end_grain_fill
-                           biomass =           33.61527       lai =    0.3470536e-01
+                           biomass =           33.61527       lai =    0.3470533E-01
                            stover N conc =    1.075074       extractable sw =    74.30757
 1 September 1986 (Day of year=244):
    MILLET3:
        stage   10.0 maturity
-                           biomass =           59.83290       lai =    0.5270374e-01
-                           stover N conc =   0.9923167       extractable sw =    71.70918
+                           biomass =           59.83298       lai =    0.5270374E-01
+                           stover N conc =   0.9923165       extractable sw =    71.70918
    MILLET4:
        stage   10.0 maturity
-                           biomass =           34.12449       lai =    0.3141036e-01
+                           biomass =           34.12449       lai =    0.3141034E-01
                            stover N conc =    1.065601       extractable sw =    71.56688
    MILLET:
        stage   10.0 maturity
-                           biomass =           219.1346       lai =    0.1274860    
-                           stover N conc =    1.019096       extractable sw =    100.2519
+                           biomass =           219.1348       lai =    0.1274860    
+                           stover N conc =    1.019095       extractable sw =    100.2519
    MILLET1:
        stage   10.0 maturity
-                           biomass =           186.7092       lai =    0.1216988    
+                           biomass =           186.7091       lai =    0.1216988    
                            stover N conc =    1.056711       extractable sw =    70.99455
 2 September 1986 (Day of year=245):
    MILLET3:
        stage   11.0 harvest_ripe
-                           biomass =           59.83290       lai =    0.8999854e-03
-                           stover N conc =    1.019199       extractable sw =    69.08067
+                           biomass =           59.83298       lai =    0.9000003E-03
+                           stover N conc =    1.019198       extractable sw =    69.08067
    MILLET4:
        stage   11.0 harvest_ripe
-                           biomass =           34.12449       lai =    0.1487948e-02
-                           stover N conc =    1.095301       extractable sw =    69.08067
+                           biomass =           34.12449       lai =    0.1487926E-02
+                           stover N conc =    1.095302       extractable sw =    69.08067
    MILLET5:
        stage    9.0 end_grain_fill
-                           biomass =           19.37390       lai =    0.2142360e-01
+                           biomass =           19.37389       lai =    0.2142360E-01
                            stover N conc =    1.084273       extractable sw =    69.08067
    MILLET:
        stage   11.0 harvest_ripe
-                           biomass =           219.1346       lai =    0.8999109e-03
+                           biomass =           219.1348       lai =    0.8998513E-03
                            stover N conc =    1.047200       extractable sw =    97.59526
    MILLET1:
        stage   11.0 harvest_ripe
-                           biomass =           186.7092       lai =    0.8999407e-03
+                           biomass =           186.7091       lai =    0.8999407E-03
                            stover N conc =    1.086376       extractable sw =    69.01893
    MILLET2:
        stage   10.0 maturity
-                           biomass =           107.6495       lai =    0.8887826e-01
+                           biomass =           107.6495       lai =    0.8887829E-01
                            stover N conc =    1.044096       extractable sw =    69.01893
    MANAGER:
            Manager sending message :- millet harvest
@@ -933,7 +981,7 @@
        flowering day  =  213                  stover (kg/ha) =    1247.6
        maturity day        =  244             grain yield (kg/ha) =     943.8
        grain % water content   =   15.5       grain yield wet (kg/ha) =    1116.9
-       grain wt (g) =     0.011               grains/m^2   =  8354.364
+       grain wt (g) =     0.011               grains/m^2   =  8354.367
        grains/head =1856.5                    maximum lai = 0.402
        total above ground biomass (kg/ha) =    2191.3
        live above ground biomass (kg/ha) =    2191.3
@@ -948,32 +996,32 @@
       
       
        stress indices for emergence
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0306673
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1456272
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0275487
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1271826
       
       
       
        stress indices for end_of_juvenile
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0012763
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1884590
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0031875
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1954801
       
       
       
        stress indices for floral_initiation
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0937630
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0871320
       
       
       
        stress indices for flag_leaf
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0245915
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0231919
       
       
       
        stress indices for flowering
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000803
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000478
       
       
       
@@ -983,7 +1031,7 @@
    MANAGER:
            Manager sending message :- millet kill_crop
    MILLET:
-          millet_kill. Standing above-ground dm =  1247.6 (kg/ha)
+          kill. Standing above-ground dm =  1247.6 (kg/ha)
    MANAGER:
            Manager sending message :- millet end_crop
    MILLET:
@@ -1009,7 +1057,7 @@
        flowering day  =  214                  stover (kg/ha) =    1089.6
        maturity day        =  244             grain yield (kg/ha) =     777.5
        grain % water content   =   15.5       grain yield wet (kg/ha) =     920.1
-       grain wt (g) =     0.011               grains/m^2   =  6882.438
+       grain wt (g) =     0.011               grains/m^2   =  6882.437
        grains/head =1529.4                    maximum lai = 0.421
        total above ground biomass (kg/ha) =    1867.1
        live above ground biomass (kg/ha) =    1867.1
@@ -1024,26 +1072,26 @@
       
       
        stress indices for emergence
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.1929218
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2850634
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.1761101
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2421136
       
       
       
        stress indices for end_of_juvenile
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0697640
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2558112
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0582192
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2465754
       
       
       
        stress indices for floral_initiation
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0014809
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1201989
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0047856
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1183660
       
       
       
        stress indices for flag_leaf
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0248232
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0214728
       
       
       
@@ -1059,7 +1107,7 @@
    MANAGER:
            Manager sending message :- millet1 kill_crop
    MILLET1:
-          millet_kill. Standing above-ground dm =  1089.6 (kg/ha)
+          kill. Standing above-ground dm =  1089.6 (kg/ha)
    MANAGER:
            Manager sending message :- millet1 end_crop
    MILLET1:
@@ -1085,7 +1133,7 @@
        flowering day  =  214                  stover (kg/ha) =     266.5
        maturity day        =  244             grain yield (kg/ha) =     331.8
        grain % water content   =   15.5       grain yield wet (kg/ha) =     392.7
-       grain wt (g) =     0.011               grains/m^2   =  2937.201
+       grain wt (g) =     0.011               grains/m^2   =  2937.207
        grains/head = 652.7                    maximum lai = 0.203
        total above ground biomass (kg/ha) =     598.3
        live above ground biomass (kg/ha) =     598.3
@@ -1100,32 +1148,32 @@
       
       
        stress indices for emergence
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.1994237
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2734615
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.1843175
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2285658
       
       
       
        stress indices for end_of_juvenile
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0494174
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2395339
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0474838
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2341527
       
       
       
        stress indices for floral_initiation
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0076131
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1472799
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0048558
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1426505
       
       
       
        stress indices for flag_leaf
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0272079
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0236302
       
       
       
        stress indices for flowering
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0001756
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
       
       
       
@@ -1135,7 +1183,7 @@
    MANAGER:
            Manager sending message :- millet3 kill_crop
    MILLET3:
-          millet_kill. Standing above-ground dm =   266.5 (kg/ha)
+          kill. Standing above-ground dm =   266.5 (kg/ha)
    MANAGER:
            Manager sending message :- millet3 end_crop
    MILLET3:
@@ -1161,7 +1209,7 @@
        flowering day  =  214                  stover (kg/ha) =     173.8
        maturity day        =  244             grain yield (kg/ha) =     167.4
        grain % water content   =   15.5       grain yield wet (kg/ha) =     198.2
-       grain wt (g) =     0.012               grains/m^2   =  1417.768
+       grain wt (g) =     0.012               grains/m^2   =  1417.767
        grains/head = 315.1                    maximum lai = 0.128
        total above ground biomass (kg/ha) =     341.2
        live above ground biomass (kg/ha) =     341.2
@@ -1176,26 +1224,26 @@
       
       
        stress indices for emergence
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.2362092
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2880202
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.2245782
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2416603
       
       
       
        stress indices for end_of_juvenile
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0392090
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2313672
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0255776
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2203668
       
       
       
        stress indices for floral_initiation
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0059862
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1432807
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0038049
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1392207
       
       
       
        stress indices for flag_leaf
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0229534
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0205640
       
       
       
@@ -1211,7 +1259,7 @@
    MANAGER:
            Manager sending message :- millet4 kill_crop
    MILLET4:
-          millet_kill. Standing above-ground dm =   173.8 (kg/ha)
+          kill. Standing above-ground dm =   173.8 (kg/ha)
    MANAGER:
            Manager sending message :- millet4 end_crop
    MILLET4:
@@ -1231,12 +1279,12 @@
 3 September 1986 (Day of year=246):
    MILLET5:
        stage   10.0 maturity
-                           biomass =           19.65082       lai =    0.1882777e-01
-                           stover N conc =    1.071906       extractable sw =    76.10649
+                           biomass =           19.65081       lai =    0.1882776E-01
+                           stover N conc =    1.071906       extractable sw =    75.43595
    MILLET2:
        stage   11.0 harvest_ripe
-                           biomass =           107.6495       lai =    0.8999258e-03
-                           stover N conc =    1.072547       extractable sw =    76.04960
+                           biomass =           107.6495       lai =    0.8999705E-03
+                           stover N conc =    1.072547       extractable sw =    75.37906
    MANAGER:
            Manager sending message :- millet2 harvest
    MILLET2:
@@ -1246,7 +1294,7 @@
        flowering day  =  215                  stover (kg/ha) =     549.3
        maturity day        =  245             grain yield (kg/ha) =     527.2
        grain % water content   =   15.5       grain yield wet (kg/ha) =     623.9
-       grain wt (g) =     0.011               grains/m^2   =  4658.677
+       grain wt (g) =     0.011               grains/m^2   =  4658.678
        grains/head =1035.3                    maximum lai = 0.309
        total above ground biomass (kg/ha) =    1076.5
        live above ground biomass (kg/ha) =    1076.5
@@ -1261,32 +1309,32 @@
       
       
        stress indices for emergence
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.2049966
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2908591
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.1905578
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2479440
       
       
       
        stress indices for end_of_juvenile
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0623169
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2498535
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0545980
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2436784
       
       
       
        stress indices for floral_initiation
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0065507
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1434132
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0045622
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1399984
       
       
       
        stress indices for flag_leaf
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0281718
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0224428
       
       
       
        stress indices for flowering
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0012544
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
       
       
       
@@ -1296,7 +1344,7 @@
    MANAGER:
            Manager sending message :- millet2 kill_crop
    MILLET2:
-          millet_kill. Standing above-ground dm =   549.3 (kg/ha)
+          kill. Standing above-ground dm =   549.3 (kg/ha)
    MANAGER:
            Manager sending message :- millet2 end_crop
    MILLET2:
@@ -1316,8 +1364,8 @@
 4 September 1986 (Day of year=247):
    MILLET5:
        stage   11.0 harvest_ripe
-                           biomass =           19.65082       lai =    0.9000041e-03
-                           stover N conc =    1.102923       extractable sw =    73.74167
+                           biomass =           19.65081       lai =    0.8999966E-03
+                           stover N conc =    1.102923       extractable sw =    73.19975
    MANAGER:
            Manager sending message :- millet5 harvest
    MILLET5:
@@ -1342,26 +1390,26 @@
       
       
        stress indices for emergence
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.1108890
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2135329
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.1054878
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1717820
       
       
       
        stress indices for end_of_juvenile
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0231356
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2101155
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0191943
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2000827
       
       
       
        stress indices for floral_initiation
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0065000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1293734
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0029614
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1245164
       
       
       
        stress indices for flag_leaf
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0255395
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0168707
       
       
       
@@ -1377,7 +1425,7 @@
    MANAGER:
            Manager sending message :- millet5 kill_crop
    MILLET5:
-          millet_kill. Standing above-ground dm =   179.7 (kg/ha)
+          kill. Standing above-ground dm =   179.7 (kg/ha)
    MANAGER:
            Manager sending message :- millet5 end_crop
    MILLET5:

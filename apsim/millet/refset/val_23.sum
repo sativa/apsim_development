@@ -20,7 +20,7 @@
      Title                  = pat97_bj104
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\met\lib\met.dll(met) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\canopy\lib\canopy.dll(canopy) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\operatns\lib\operatns.dll(operatns) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\fertiliz\lib\fertiliz.dll(fertiliz) - Licensed
@@ -197,13 +197,13 @@
         tiller4_finished = 0
         tiller5_finished = 0
      endif
-     Manager creating a new local variable : crop_in =    0.000000000000000
-     Manager creating a new local variable : tiller0_finished =    0.000000000000000
-     Manager creating a new local variable : tiller1_finished =    0.000000000000000
-     Manager creating a new local variable : tiller2_finished =    0.000000000000000
-     Manager creating a new local variable : tiller3_finished =    0.000000000000000
-     Manager creating a new local variable : tiller4_finished =    0.000000000000000
-     Manager creating a new local variable : tiller5_finished =    0.000000000000000
+     Manager creating a new local variable : crop_in =     0.00000000000000
+     Manager creating a new local variable : tiller0_finished =     0.00000000000000
+     Manager creating a new local variable : tiller1_finished =     0.00000000000000
+     Manager creating a new local variable : tiller2_finished =     0.00000000000000
+     Manager creating a new local variable : tiller3_finished =     0.00000000000000
+     Manager creating a new local variable : tiller4_finished =     0.00000000000000
+     Manager creating a new local variable : tiller5_finished =     0.00000000000000
 
 ------- SOILWAT2 Initialisation ----------------------------------------------
      
@@ -221,10 +221,11 @@
      Call stack  = soilwat2_soil_profile_param
                    soilwat2_init
                    soilwat2
+                   clock_start
      
      Internal error:
      
-      soil water of     0.370000e-001 in layer   6
+      soil water of     0.370000E-001 in layer   6
               is below air-dry value of     0.137000
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -425,27 +426,35 @@
           tt_flag_to_flower        =    66.1
           tt_flower_to_start_grain =    80.0
           tt_maturity_to_ripe      =     1.0
+          x_stem_wt                =     0.0   10.0
+          y_height                 =     0.0 3000.0
           ------------------------------------------------
       
       
       
       
          - Reading root profile parameters
+      Uptake of NO3 and water calculated by millet
+      
+      
+      
+      
       
       
       
                           Root Profile
           ------------------------------------------------
-            Layer depth  Kl factor   Lower limit
-               (mm)         ()        (mm/mm)
+            Layer      Kl      Lower Exploration
+            Depth              limit   Factor
+            (mm)       ()     (mm/mm)    ()
           ------------------------------------------------
-              150.000       0.120       0.066
-              150.000       0.120       0.090
-              300.000       0.120       0.117
-              300.000       0.100       0.123
-              300.000       0.060       0.129
-              300.000       0.055       0.137
-              300.000       0.030       0.148
+           150.000    0.120    0.066    1.000
+           150.000    0.120    0.090    1.000
+           300.000    0.120    0.117    1.000
+           300.000    0.100    0.123    1.000
+           300.000    0.060    0.129    1.000
+           300.000    0.055    0.137    1.000
+           300.000    0.030    0.148    1.000
            ------------------------------------------------
       
       
@@ -456,7 +465,7 @@
 5 July 1997 (Day of year=186):
    MILLET:
        stage    3.0 emergence
-                           biomass =          0.5250000e-01   lai =    0.1500000e-02
+                           biomass =          0.5250000E-01   lai =    0.1500000E-02
                            stover N conc =    4.399999       extractable sw =    12.68722
 8 July 1997 (Day of year=189):
    OPERATNS:
@@ -558,27 +567,35 @@
           tt_flag_to_flower        =    66.1
           tt_flower_to_start_grain =    80.0
           tt_maturity_to_ripe      =     1.0
+          x_stem_wt                =     0.0   10.0
+          y_height                 =     0.0 3000.0
           ------------------------------------------------
       
       
       
       
          - Reading root profile parameters
+      Uptake of NO3 and water calculated by millet
+      
+      
+      
+      
       
       
       
                           Root Profile
           ------------------------------------------------
-            Layer depth  Kl factor   Lower limit
-               (mm)         ()        (mm/mm)
+            Layer      Kl      Lower Exploration
+            Depth              limit   Factor
+            (mm)       ()     (mm/mm)    ()
           ------------------------------------------------
-              150.000       0.120       0.066
-              150.000       0.120       0.090
-              300.000       0.120       0.117
-              300.000       0.100       0.123
-              300.000       0.060       0.129
-              300.000       0.055       0.137
-              300.000       0.030       0.148
+           150.000    0.120    0.066    1.000
+           150.000    0.120    0.090    1.000
+           300.000    0.120    0.117    1.000
+           300.000    0.100    0.123    1.000
+           300.000    0.060    0.129    1.000
+           300.000    0.055    0.137    1.000
+           300.000    0.030    0.148    1.000
            ------------------------------------------------
       
       
@@ -586,7 +603,7 @@
 15 July 1997 (Day of year=196):
    MILLET1:
        stage    3.0 emergence
-                           biomass =          0.1500000e-01   lai =    0.1500000e-02
+                           biomass =          0.1500000E-01   lai =    0.1500000E-02
                            stover N conc =    4.400000       extractable sw =    4.672297
 16 July 1997 (Day of year=197):
    MILLET2:
@@ -614,34 +631,42 @@
           tt_flag_to_flower        =    66.1
           tt_flower_to_start_grain =    80.0
           tt_maturity_to_ripe      =     1.0
+          x_stem_wt                =     0.0   10.0
+          y_height                 =     0.0 3000.0
           ------------------------------------------------
       
       
       
       
          - Reading root profile parameters
+      Uptake of NO3 and water calculated by millet
+      
+      
+      
+      
       
       
       
                           Root Profile
           ------------------------------------------------
-            Layer depth  Kl factor   Lower limit
-               (mm)         ()        (mm/mm)
+            Layer      Kl      Lower Exploration
+            Depth              limit   Factor
+            (mm)       ()     (mm/mm)    ()
           ------------------------------------------------
-              150.000       0.120       0.066
-              150.000       0.120       0.090
-              300.000       0.120       0.117
-              300.000       0.100       0.123
-              300.000       0.060       0.129
-              300.000       0.055       0.137
-              300.000       0.030       0.148
+           150.000    0.120    0.066    1.000
+           150.000    0.120    0.090    1.000
+           300.000    0.120    0.117    1.000
+           300.000    0.100    0.123    1.000
+           300.000    0.060    0.129    1.000
+           300.000    0.055    0.137    1.000
+           300.000    0.030    0.148    1.000
            ------------------------------------------------
       
       
       
        stage    3.0 emergence
-                           biomass =          0.1500000e-01   lai =    0.1500000e-02
-                           stover N conc =    4.400000       extractable sw =    3.678414
+                           biomass =          0.1500000E-01   lai =    0.1500000E-02
+                           stover N conc =    4.400000       extractable sw =    3.678415
 18 July 1997 (Day of year=199):
    MILLET3:
       Initiate
@@ -668,38 +693,46 @@
           tt_flag_to_flower        =    66.1
           tt_flower_to_start_grain =    80.0
           tt_maturity_to_ripe      =     1.0
+          x_stem_wt                =     0.0   10.0
+          y_height                 =     0.0 3000.0
           ------------------------------------------------
       
       
       
       
          - Reading root profile parameters
+      Uptake of NO3 and water calculated by millet
+      
+      
+      
+      
       
       
       
                           Root Profile
           ------------------------------------------------
-            Layer depth  Kl factor   Lower limit
-               (mm)         ()        (mm/mm)
+            Layer      Kl      Lower Exploration
+            Depth              limit   Factor
+            (mm)       ()     (mm/mm)    ()
           ------------------------------------------------
-              150.000       0.120       0.066
-              150.000       0.120       0.090
-              300.000       0.120       0.117
-              300.000       0.100       0.123
-              300.000       0.060       0.129
-              300.000       0.055       0.137
-              300.000       0.030       0.148
+           150.000    0.120    0.066    1.000
+           150.000    0.120    0.090    1.000
+           300.000    0.120    0.117    1.000
+           300.000    0.100    0.123    1.000
+           300.000    0.060    0.129    1.000
+           300.000    0.055    0.137    1.000
+           300.000    0.030    0.148    1.000
            ------------------------------------------------
       
       
       
    MILLET:
        stage    4.0 end_of_juvenile
-                           biomass =           3.622349       lai =    0.5231187e-01
+                           biomass =           3.622349       lai =    0.5231187E-01
                            stover N conc =    3.058452       extractable sw =    37.15386
    MILLET3:
        stage    3.0 emergence
-                           biomass =          0.1500000e-01   lai =    0.1500000e-02
+                           biomass =          0.1500000E-01   lai =    0.1500000E-02
                            stover N conc =    4.400000       extractable sw =    1.930515
 20 July 1997 (Day of year=201):
    MILLET4:
@@ -727,27 +760,35 @@
           tt_flag_to_flower        =    66.1
           tt_flower_to_start_grain =    80.0
           tt_maturity_to_ripe      =     1.0
+          x_stem_wt                =     0.0   10.0
+          y_height                 =     0.0 3000.0
           ------------------------------------------------
       
       
       
       
          - Reading root profile parameters
+      Uptake of NO3 and water calculated by millet
+      
+      
+      
+      
       
       
       
                           Root Profile
           ------------------------------------------------
-            Layer depth  Kl factor   Lower limit
-               (mm)         ()        (mm/mm)
+            Layer      Kl      Lower Exploration
+            Depth              limit   Factor
+            (mm)       ()     (mm/mm)    ()
           ------------------------------------------------
-              150.000       0.120       0.066
-              150.000       0.120       0.090
-              300.000       0.120       0.117
-              300.000       0.100       0.123
-              300.000       0.060       0.129
-              300.000       0.055       0.137
-              300.000       0.030       0.148
+           150.000    0.120    0.066    1.000
+           150.000    0.120    0.090    1.000
+           300.000    0.120    0.117    1.000
+           300.000    0.100    0.123    1.000
+           300.000    0.060    0.129    1.000
+           300.000    0.055    0.137    1.000
+           300.000    0.030    0.148    1.000
            ------------------------------------------------
       
       
@@ -755,8 +796,8 @@
 21 July 1997 (Day of year=202):
    MILLET4:
        stage    3.0 emergence
-                           biomass =          0.1500000e-01   lai =    0.1425000e-02
-                           stover N conc =    4.400000       extractable sw =   0.0000000
+                           biomass =          0.1500000E-01   lai =    0.1425000E-02
+                           stover N conc =    4.400000       extractable sw =    0.000000
    MILLET5:
       Initiate
       
@@ -782,27 +823,35 @@
           tt_flag_to_flower        =    66.1
           tt_flower_to_start_grain =    80.0
           tt_maturity_to_ripe      =     1.0
+          x_stem_wt                =     0.0   10.0
+          y_height                 =     0.0 3000.0
           ------------------------------------------------
       
       
       
       
          - Reading root profile parameters
+      Uptake of NO3 and water calculated by millet
+      
+      
+      
+      
       
       
       
                           Root Profile
           ------------------------------------------------
-            Layer depth  Kl factor   Lower limit
-               (mm)         ()        (mm/mm)
+            Layer      Kl      Lower Exploration
+            Depth              limit   Factor
+            (mm)       ()     (mm/mm)    ()
           ------------------------------------------------
-              150.000       0.120       0.066
-              150.000       0.120       0.090
-              300.000       0.120       0.117
-              300.000       0.100       0.123
-              300.000       0.060       0.129
-              300.000       0.055       0.137
-              300.000       0.030       0.148
+           150.000    0.120    0.066    1.000
+           150.000    0.120    0.090    1.000
+           300.000    0.120    0.117    1.000
+           300.000    0.100    0.123    1.000
+           300.000    0.060    0.129    1.000
+           300.000    0.055    0.137    1.000
+           300.000    0.030    0.148    1.000
            ------------------------------------------------
       
       
@@ -810,17 +859,17 @@
    MILLET:
        stage    5.0 floral_initiation
                            biomass =           7.932461       lai =    0.1067593    
-                           stover N conc =    2.665061       extractable sw =    33.49121
+                           stover N conc =    2.665060       extractable sw =    33.49121
 22 July 1997 (Day of year=203):
    MILLET5:
        stage    3.0 emergence
-                           biomass =          0.1500000e-01   lai =    0.1425000e-02
-                           stover N conc =    4.400000       extractable sw =   0.0000000
+                           biomass =          0.1500000E-01   lai =    0.1425000E-02
+                           stover N conc =    4.400000       extractable sw =    0.000000
 23 July 1997 (Day of year=204):
    MILLET1:
        stage    4.0 end_of_juvenile
-                           biomass =           1.660053       lai =    0.5057522e-01
-                           stover N conc =    2.345055       extractable sw =    9.740542
+                           biomass =           1.660050       lai =    0.5057510E-01
+                           stover N conc =    2.345055       extractable sw =    9.740544
 24 July 1997 (Day of year=205):
    MILLET2:
       plant_kill.   1% failure because of water stress.
@@ -831,17 +880,17 @@
 25 July 1997 (Day of year=206):
    MILLET1:
        stage    5.0 floral_initiation
-                           biomass =           3.196562       lai =    0.9267542e-01
+                           biomass =           3.196554       lai =    0.9267522E-01
                            stover N conc =    2.375426       extractable sw =    31.68915
 28 July 1997 (Day of year=209):
    MILLET2:
        stage    4.0 end_of_juvenile
-                           biomass =          0.8831947       lai =    0.2578366e-01
-                           stover N conc =    2.396220       extractable sw =    31.31610
+                           biomass =          0.8831949       lai =    0.2578366E-01
+                           stover N conc =    2.396219       extractable sw =    31.31610
 29 July 1997 (Day of year=210):
    MILLET5:
        stage    4.0 end_of_juvenile
-                           biomass =          0.2723494       lai =    0.9521245e-02
+                           biomass =          0.2723495       lai =    0.9521248E-02
                            stover N conc =    2.051064       extractable sw =    31.09874
 30 July 1997 (Day of year=211):
    OPERATNS:
@@ -853,20 +902,20 @@
                                                added at depth   10.00 (layer   1)
    MILLET2:
        stage    5.0 floral_initiation
-                           biomass =           1.586837       lai =    0.4830020e-01
-                           stover N conc =    2.067008       extractable sw =    27.61230
+                           biomass =           1.586837       lai =    0.4830021E-01
+                           stover N conc =    2.067007       extractable sw =    27.61230
    MILLET3:
        stage    4.0 end_of_juvenile
-                           biomass =          0.8137925       lai =    0.2641657e-01
+                           biomass =          0.8137927       lai =    0.2641658E-01
                            stover N conc =    2.019340       extractable sw =    27.56483
    MILLET4:
        stage    4.0 end_of_juvenile
-                           biomass =          0.3494377       lai =    0.1191991e-01
-                           stover N conc =    2.053406       extractable sw =    27.53887
+                           biomass =          0.3494377       lai =    0.1191991E-01
+                           stover N conc =    2.053405       extractable sw =    27.53887
 31 July 1997 (Day of year=212):
    MILLET5:
        stage    5.0 floral_initiation
-                           biomass =          0.4433595       lai =    0.1499357e-01
-                           stover N conc =    2.036153       extractable sw =    26.34486
+                           biomass =          0.4433596       lai =    0.1499357E-01
+                           stover N conc =    2.036153       extractable sw =    26.34485
    CLOCK:
       Simulation is terminating due to end criteria being met.
