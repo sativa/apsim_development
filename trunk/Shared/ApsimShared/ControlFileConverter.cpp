@@ -149,7 +149,7 @@ bool ControlFileConverter::convertSection(const string& sectionName) throw(runti
       if (posCloseBracket == string::npos)
          throw runtime_error("Bad control file converter command: " + commands[c]);
       string arguments = commands[c].substr(posOpenBracket+1, posCloseBracket-posOpenBracket-1);
-      Strip(arguments, " ");
+      stripLeadingTrailing(arguments, " ");
 
       // call the appropriate routine to do the conversion.
       if (routineName == "SetParameterValue")
@@ -272,8 +272,8 @@ bool ControlFileConverter::executeSetParameterValue(const string& arguments) thr
 
    string arg1 = arguments.substr(0, posComma);
    string arg2 = arguments.substr(posComma+1, arguments.length()-posComma-1);
-   Strip(arg1, " ");
-   Strip(arg2, " ");
+   stripLeadingTrailing(arg1, " ");
+   stripLeadingTrailing(arg2, " ");
 
    string value;
    if (evaluate(arg2, value))
@@ -297,8 +297,8 @@ bool ControlFileConverter::executeRenameParameter(const string& arguments) throw
 
    string arg1 = arguments.substr(0, posComma);
    string arg2 = arguments.substr(posComma+1, arguments.length()-posComma-1);
-   Strip(arg1, " ");
-   Strip(arg2, " ");
+   stripLeadingTrailing(arg1, " ");
+   stripLeadingTrailing(arg2, " ");
    unsigned posPeriod = arg1.find('.');
    string moduleName = arg1.substr(0, posPeriod);
    string parameterName = arg1.substr(posPeriod+1);
@@ -325,8 +325,8 @@ bool ControlFileConverter::executeChangeInstantiation(const string& arguments) t
 
    string arg1 = arguments.substr(0, posComma);
    string arg2 = arguments.substr(posComma+1, arguments.length()-posComma-1);
-   Strip(arg1, " ");
-   Strip(arg2, " ");
+   stripLeadingTrailing(arg1, " ");
+   stripLeadingTrailing(arg2, " ");
 
    return con->changeModuleName(conSection, arg1, arg2);
    }
@@ -347,7 +347,7 @@ class RemoveReportSwitch
          if (posOverwrite != string::npos)
             {
             value.erase(posOverwrite);
-            Strip(value, " ");
+            stripLeadingTrailing(value, " ");
             par->write(section, paramName, value);
             modified = true;
             }
@@ -376,8 +376,8 @@ bool ControlFileConverter::executeMoveParameter(const string& arguments) throw(r
 
    string arg1 = arguments.substr(0, posComma);
    string arg2 = arguments.substr(posComma+1, arguments.length()-posComma-1);
-   Strip(arg1, " ");
-   Strip(arg2, " ");
+   stripLeadingTrailing(arg1, " ");
+   stripLeadingTrailing(arg2, " ");
    unsigned posPeriod = arg1.find('.');
    string moduleName = arg1.substr(0, posPeriod);
    string parameterName = arg1.substr(posPeriod+1);
@@ -624,8 +624,8 @@ bool ControlFileConverter::executeSearchReplaceReportVariables(const string& arg
 
    string arg1 = arguments.substr(0, posComma);
    string arg2 = arguments.substr(posComma+1, arguments.length()-posComma-1);
-   Strip(arg1, " ");
-   Strip(arg2, " ");
+   stripLeadingTrailing(arg1, " ");
+   stripLeadingTrailing(arg2, " ");
 
    vector<string> instanceNames;
    con->getInstances(conSection, "report", instanceNames);
@@ -656,8 +656,8 @@ bool ControlFileConverter::executeAddParamFileToModule(const string& arguments) 
 
    string arg1 = arguments.substr(0, posComma);
    string arg2 = arguments.substr(posComma+1, arguments.length()-posComma-1);
-   Strip(arg1, " ");
-   Strip(arg2, " ");
+   stripLeadingTrailing(arg1, " ");
+   stripLeadingTrailing(arg2, " ");
    posComma = arg2.find(',');
    string arg3 = arg2.substr(posComma+1);
    arg2.erase(posComma);

@@ -335,7 +335,7 @@ void TMainForm::processCommandLine(AnsiString commandLine)
    if (commandWords.size() >= 1)
       {
       string reportFileName = commandWords[0];
-      Strip(reportFileName, "\"");
+      stripLeadingTrailing(reportFileName, "\"");
       open(reportFileName.c_str());
       if (commandWords.size() >= 2)
          {

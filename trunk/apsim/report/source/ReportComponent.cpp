@@ -46,8 +46,8 @@ Field::Field (protocol::Component* p,
          {
          VariableAlias = VariableName.substr(posAlias+strlen(" as "));
          VariableName.erase(posAlias, VariableName.length()-posAlias);
-         Strip(VariableName, " ");
-         Strip(VariableAlias, " ");
+         stripLeadingTrailing(VariableName, " ");
+         stripLeadingTrailing(VariableAlias, " ");
          }
 
       // at this stage simply register an interest in the variable.

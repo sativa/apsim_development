@@ -67,8 +67,8 @@ void getPropertyTypeAndGroupName(const string& section,
    groupName = tokenizer.nextToken();
    tokenizer.nextToken();
    propertyType = tokenizer.nextToken();
-   Strip(propertyType, " ");
-   Strip(groupName, " ");
+   stripLeadingTrailing(propertyType, " ");
+   stripLeadingTrailing(groupName, " ");
    }
 //---------------------------------------------------------------------------
 // This class imports a specific parameter section into a specific component.
@@ -132,7 +132,7 @@ class ImportSection
                unsigned posUnits = value.find('(');
                if (posUnits != string::npos)
                   value.erase(posUnits);
-               Strip(value, " ");
+               stripLeadingTrailing(value, " ");
                if (value != "")
                   {
                   // problem with XML elements starting with numbers.
