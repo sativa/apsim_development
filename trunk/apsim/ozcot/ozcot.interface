@@ -54,7 +54,7 @@ class APSIMOzcotPublic
     d_nup                  : APSIMReal           = Daily N uptake, (kg/ha), GET
     rtdep                  : APSIMReal           = Depth of roots in soil profile, (cm), GET
     tmean3                 : APSIMReal           = Mean temperature for last 3 days, (oC), GET
-    s_bed_sat              : APSIMReal           = Maximum seed-bed moisture index, (), GET
+    s_bed_sat              : APSIMReal           = Maximum seed-bed moisture index (layer 1), (), GET
     s_bed_mi               : APSIMReal           = Seed-bed moisture index, (), GET
     smi                    : APSIMReal           = Soil moisture index (water stress factor), (), GET
     evap_plant             : APSIMReal           = Plant transpiration, (cm), GET
@@ -65,7 +65,7 @@ class APSIMOzcotPublic
     ozcot_status           : APSIMInteger        = Crop status (0 - not in; 1 - sown and in; 2 - ready for harvest), (), GET
 
 ; variables read from parameter section of parameter file by ozcot_read_param
-    ll                    : APSIMReal           = Days, (mm/mm), READ, 0.0, 1.0, optional
+    ll                     : APSIMRealArray      = lower limit of extractable soil water by the crop for each soil layer, (mm/mm), READ, 0.0, 1.0, optional
 
 ; Main actions
     create                 : APSIMMethod         = System create
@@ -74,8 +74,8 @@ class APSIMOzcotPublic
     process                : APSIMMethod         = System process stage
     post                   : APSIMMethod         = System post stage
     end_run                : APSIMMethod         = System end_run stage
-    sow                    : APSIMOzcotMethod     = Perform sowing
-    harvest                : APSIMOzcotMethod     = Perform harvest
+    sow                    : APSIMOzcotMethod    = Perform sowing
+    harvest                : APSIMOzcotMethod    = Perform harvest
 end
 ; -----------------------------------------------------------
 ; Ozcots External interface which documents things in other 
