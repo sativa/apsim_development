@@ -3,42 +3,21 @@ include base.interface
 ; Independant types that Millet uses  
 ; for some of its methods and events.
 ; -----------------------------------------------------------
- class APSIMMilletHarvestMethod : APSIMMethod
-    type                : APSIMString    = Type of Crop, (), GET
- end
- class APSIMMilletSowMethod : APSIMMethod
-    type                : APSIMString    = Type of Crop, (), GET
-    plants              : APSIMReal      = Plant density, (), GET, 0.0, 100.0 
-    row_spacing         : APSIMReal      = row spacing, (m), GET_OPT, 0.0, 2.0
-    sowing_depth        : APSIMReal      = sowing depth, (mm), GET, 0.0, 100.0
-    cultivar            : APSIMString    = name of cultivar, (), GET
- end
 
- class APSIMMilletInitiateCropMethod : APSIMMethod
-    type                : APSIMString    = Type of Crop, (), GET
-    plants              : APSIMReal      = Plant density, (plants/m2), GET|SET, 0.0, 100.0 
-    tiller_wt           : APSIMReal      = dry matter of tiller, (g/plant), GET_OPT|SET, 0.0, 100.0
-    tiller_n            : APSIMReal      = N content of tiller, (g/plant), GET_OPT|SET, 0.0, 10.0
-    row_spacing         : APSIMReal      = row spacing, (m), GET_OPT|SET, 0.0, 2.0
-    cultivar            : APSIMString      = name of cultivar, (), GET_OPT|SET
- end
  
- class APSIMMilletEndCropMethod : APSIMMethod
-    type                : APSIMString           = Type of Crop, (), GET
-    dlt_fom_type        : APSIMString           = Type of fresh organic matter (FOM) incorporated, (), SET
-    dlt_fom_wt          : APSIMRealArray        = Weight of FOM incorporated, (kg/ha), SET
-    dlt_fom_n           : APSIMRealArray        = amount of FOM N incorporated, (kg/ha), SET
-    incorp_fom          : APSIMIncorporateFOMMethod  = Incorporate FOM action
-    
-    dlt_residue_type    : APSIMString           = Type of Residue added, (), SET
-    dlt_residue_wt      : APSIMReal             = Weight of residue added, (kg/ha), SET
-    dlt_residue_n       : APSIMReal             = amount of residue N added, (kg/ha), SET
-    add_residue         : APSIMAddResidueMethod = Add residue action
- end
+; class APSIMMilletEndCropMethod : APSIMMethod
+;    type                : APSIMString           = Type of Crop, (), GET
+;    dlt_fom_type        : APSIMString           = Type of fresh organic matter (FOM) incorporated, (), SET
+;    dlt_fom_wt          : APSIMRealArray        = Weight of FOM incorporated, (kg/ha), SET
+;    dlt_fom_n           : APSIMRealArray        = amount of FOM N incorporated, (kg/ha), SET
+;    incorp_fom          : APSIMIncorporateFOMMethod  = Incorporate FOM action
+;    
+;    dlt_residue_type    : APSIMString           = Type of Residue added, (), SET
+;    dlt_residue_wt      : APSIMReal             = Weight of residue added, (kg/ha), SET
+;    dlt_residue_n       : APSIMReal             = amount of residue N added, (kg/ha), SET
+;    add_residue         : APSIMAddResidueMethod = Add residue action
+; end
  
- class APSIMMilletKillCropMethod : APSIMMethod
-    type                : APSIMString    = Type of Crop, (), GET
- end
  
 ; -----------------------------------------------------------
 ; Millets public interface which other components may
@@ -318,15 +297,21 @@ class APSIMMilletPublic
 
 ; variables set by other modules in  millet_set_my_variable
     dlt_leaf_no_pot         : APSIMReal             = Irrigation, (), SET
+
 ; Main actions
-    sysinit                : APSIMMethod            = System initialise
-    prepare                : APSIMMethod            = System prepare stage
-    process                : APSIMMethod            = System process stage
-    sow                    : APSIMMilletSowMethod        = Perform sowing
-    harvest                : APSIMMilletHarvestMethod    = Perform harvest
-    end_crop               : APSIMMilletEndCropMethod    = Perform end_crop
-    initiate_crop          : APSIMMilletInitiateCropMethod = Perform initiate_crop
-    kill_crop              : APSIMMilletKillCropMethod   = Perform kill_crop
+
+    create                 : APSIMMethod             = System message to create
+    sysinit                : APSIMMethod             = System initialise
+    prepare                : APSIMMethod             = System prepare stage
+    process                : APSIMMethod             = System process stage
+    sow                    : APSIMSowMethod          = Perform sowing
+    harvest                : APSIMHarvestMethod      = Perform harvest
+    end_crop               : APSIMEndCropMethod      = Perform end_crop
+    initiate_crop          : APSIMInitiateCropMethod = Perform initiate_crop
+    kill_crop              : APSIMKillCropMethod     = Perform kill_crop
+    stop_growth            : APSIMStopGrowthMethod   = Message from manager to module millet
+
+    crop_chopped           : APSIMCropChoppedEvent   = To notify all interested modules of the removal of dry matter from a crop
 
 end
 ; -----------------------------------------------------------
@@ -355,9 +340,16 @@ class APSIMMilletExternal
     no3                     : APSIMRealArray        = Nitrate nitrogen in each layer, (kg/ha), GET_OPT !, c%NO3_lb, c%NO3_ub
     dlt_sw_dep              : APSIMRealArray        = Soil water content of each layer, (mm), SET
     dlt_no3                 : APSIMRealArray        = Nitrate nitrogen in each layer, (kg/ha), SET
+
 ; Other actions
+
     incorp_fom              : APSIMIncorporateFOMMethod  = Incorporate FOM action
-    add_residue             : APSIMAddResidueMethod = Add residue action
+    add_residue             : APSIMAddResidueMethod      = Add residue action
+    initiate_crop           : APSIMInitiateCropMethod    = Message for a crop to be initiated
+
+    tick                    : APSIMClockTickEvent        = Change in the simulation system time and the duration of the new time step
+    newmet                  : APSIMNewMetEvent           = To notify all interested modules in a change in the simulation met data for the current time step
+
 end
 
 class APSIMMillet

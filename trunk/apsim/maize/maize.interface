@@ -122,7 +122,7 @@ class APSIMMaizePublic
   tt_maturity_to_ripe     : APSIMReal           = Growing deg day required to for grain dry down, (oC-days), READ
   x_stem_wt               : APSIMRealArray      = Plant weights, (g), READ, 0.0, 1000.0
   y_height                : APSIMRealArray      = Plant heights for above weights, (mm), READ, 0.0, 5000.0
-  uptake_source           : APSIMString         = Switch for source of water and no3 uptake, (), READ
+  uptake_source           : APSIMString_Opt     = Switch for source of water and no3 uptake, (), READ
   ll                      : APSIMRealArray      = Lower limit of plant-extractable soil water for soil layer l, (mm water/mm soil), READ
   kl                      : APSIMRealArray      = Root length density factor for water, (), READ
   xf                      : APSIMRealArray      = Root exploration factor, (0-1), READ
@@ -287,14 +287,16 @@ class APSIMMaizePublic
   y_swdef_pheno           : APSIMRealArray      = Soil water availability ratio effect on phenology, (), READ, 0.0, 100.0
   x_sw_ratio              : APSIMRealArray      = Soil water ratio, (), READ, 0.0, 100.0
   y_sw_fac_root           : APSIMRealArray      = Soil water ratio effect on root elongation, (), READ, 0.0, 100.0
-  prepare                 : APSIMMethod         = Prepare
-  process                 : APSIMMethod         = Process
-  sow                     : APSIMMethod         = Plant crop
-  harvest                 : APSIMMethod         = Harvest crop
-  end_crop                : APSIMMethod         = End crop cycle
-  kill_crop               : APSIMMethod         = Kill plants
-  init                    : APSIMMethod         = Initialise
-  create                  : APSIMMethod         = Create
+
+   create                  : APSIMMethod                = System message to create
+   sysinit                 : APSIMMethod                = System initialise
+   prepare                 : APSIMMethod                = Message to prepare for process
+   process                 : APSIMMethod                = Message to process
+   sow                     : APSIMSowMethod             = Message from manager to module
+   harvest                 : APSIMHarvestMethod         = Message from manager to module
+   end_crop                : APSIMEndCropMethod         = Message for a crop to terminate
+   kill_crop               : APSIMKillCropMethod        = Message for a crop to be killed
+
 
 end
 
@@ -320,7 +322,11 @@ class APSIMMaizeExternal
   no3                     : APSIMRealArray_Opt  = Soil NO3 content, (kg/ha), GET
   no3_min                 : APSIMRealArray_Opt  = Soil NO3 minimum, (kg/ha), GET
   uptake_p_maize          : APSIMRealArray_Opt  = Soil P uptake, (g/m2), GET, 0.0, 100.0
-  set_variable            : APSIMMethod         = Set variable
+
+  add_residue             : APSIMAddResidueMethod      = Message to report a residue decomposition
+  incorp_fom              : APSIMIncorporateFOMMethod  = Message to report a residue decomposition
+
+
 
 end 
 

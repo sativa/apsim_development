@@ -1,12 +1,12 @@
 include base.interface
 
 ; -----------------------------------------------------------
-; OPERATIONSs public interface which other components may
+; OPERATNSs public interface which other components may
 ; use.  
 ; -----------------------------------------------------------
-class APSIMOperationsPublic
+class APSIMOperatnsPublic
 
-init                   : APSIMMethod         = System Initialise
+sysinit                : APSIMMethod         = System Initialise
 prepare                : APSIMMethod         = System Prepare
 process                : APSIMMethod         = System Process
 post                   : APSIMMethod         = System Post
@@ -14,19 +14,19 @@ post                   : APSIMMethod         = System Post
 end
 
 ; -----------------------------------------------------------
-; OPERATIONSs External interface which documents things in other
+; OPERATNSs External interface which documents things in other
 ; components that this component uses.  
 ; -----------------------------------------------------------
 
-class APSIMOperationsExternal
+class APSIMOperatnsExternal
 
   year                 : APSIMInteger        =  Current year, (), GET
   day                  : APSIMInteger        =  Current day, (), GET
-  set                  : APSIMMethod         =  Set
+
 end
 
 class APSIMOperatns
    dll      : string
-   public   : APSIMOperationsPublic
-   external : APSIMOperationsExternal
+   public   : APSIMOperatnsPublic
+   external : APSIMOperatnsExternal
 end

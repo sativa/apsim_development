@@ -12,7 +12,7 @@ class APSIMInputPublic
    sysinit    : APSIMMethod      = System initialise
    prepare    : APSIMMethod      = System prepare
    
-   newmet     : APSIMEvent       = New met data available
+   newmet     : APSIMNewMetEvent       = New met data available
 end
 ; -----------------------------------------------------------
 ; INPUTs external interface which documents things in other 

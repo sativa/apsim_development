@@ -28,10 +28,11 @@ class APSIMIrrigatePublic
    irr_fasw               : APSIMReal           = irr fasw, (mm), GET
    irr_deficit            : APSIMReal           = irr_deficit, (mm), GET
    carry_over             : APSIMReal           = carry_over, (Ml), GET
+
    sysinit                : APSIMMethod         = System initialise
    process                : APSIMMethod         = System process stage
    irrigate               : APSIMIrrigateMethod = Perform irrigation
-   apply                  : APSIMIrrigateMethod = Perform irrigation
+   apply                  : APSIMApplyMethod    = Perform irrigation
 
    irrigated              : APSIMIrrigatedEvent = Irrigated event
 
@@ -50,7 +51,7 @@ class APSIMIrrigateExternal
    dul_dep                : APSIMReal             = Drained upper limit, (mm), GET
    dlayer                 : APSIMReal             = Depth of each layer, (mm), GET
 
-   tick                   : APSIMEvent            = Tick event
+   tick                   : APSIMClockTickEvent   = Tick event
    new_solute             : APSIMNewSoluteEvent   = New solute event
 end
 

@@ -7,48 +7,7 @@ include base.interface
 ;    Methods which other components may call
 ;    Events which other components may trap (or subscribe to)
 ; -----------------------------------------------------------
-class APSIMSugarSowMethod
-   plants             : APSIMReal           = Plant density, (plants/m2mm), 0.0, 100.0
-   ratoon             : APSIMInteger        = Ratoon number, (), 0, 10
-   sowing_depth       : APSIMReal           = Sowing depth, (mm), 0.0, 500.0
-   cultivar           : APSIMString         = Name of cultivar, ()
-end
 
-class APSIMSugarHarvestMethod : APSIMMethod
-    type                : APSIMString    = Type of Crop, (), GET
-end
-
-class APSIMSugarEndCropMethod : APSIMMethod
-    type                : APSIMString    = Type of Crop, (), GET
-end
-
-class APSIMSugarKillCropMethod : APSIMMethod
-    type                : APSIMString    = Type of Crop, ()
-end
-
-class APSIMSugarGrazeMethod : APSIMMethod
-   fraction            : APSIMReal      = Fraction removed, (), 0.0, 1.0
-   n_eff               : APSIMReal      = Fraction of N returned to the soil, (), 0.0, 1.0
-   c_eff               : APSIMReal      = Fraction of C returned to the soil, (), 0.0, 1.0
-   report              : APSIMString    = Report flag (optional), ()
-end
-
-class APSIMSugarHillupMethod : APSIMMethod
-   topsfr              : APSIMReal      = Fraction of tops covered, (), 0.0, 1.0
-   canefr              : APSIMReal      = Fraction of cane conered, (), 0.0, 1.0
-end
-
-class APSIMSugarLodgeMethod : APSIMMethod
-   type                : APSIMString    = Type of Crop, ()
-end
-
-class APSIMDlt_NO3Method
-   dlt_NO3             : APSIMRealArray       = Soil NO3 change, (kg/ha)
-end
-
-class APSIMDlt_sw_depMethod
-   dlt_sw_dep             : APSIMRealArray       = Soil NO3 change, (kg/ha)
-end
 
 class APSIMSugarPublic
    crop_status               : APSIMString         = Status of the crop (dead,alive,out), (), GET
@@ -271,18 +230,19 @@ class APSIMSugarPublic
    death_fr_lodge              : APSIMRealArray      = death_fr_lodge, (), READ, 0.0, 1.0
    plants                      : APSIMReal           = Plant density, (plants/m2), SET, 0.0, 1000.0
    
+   sysinit                     : APSIMMethod               = System initialization stage
+   create                      : APSIMMethod               = System zero variables
    prepare                     : APSIMMethod               = System prepare stage
    process                     : APSIMMethod               = System process stage
    sow                         : APSIMSugarSowMethod       = Perform Sugar Sowing
-   harvest                     : APSIMSugarHarvestMethod   = Perform Sugar Harvest
-   end_crop                    : APSIMSugarEndCropMethod   = Perform Sugar Endcrop
-   kill_crop                   : APSIMSugarKillCropMethod  = Perform Sugar Killcrop
-   graze                       : APSIMSugarGrazeMethod     = Perform Sugar Graze
-   hill_up                     : APSIMSugarHillupMethod    = Perform Sugar Hillup
-   lodge                       : APSIMSugarLodgeMethod     = Perform Sugar Lodge    
-   sysinit                     : APSIMMethod               = System initialization stage
-   create                      : APSIMMethod               = System zero variables
-   Crop_Chopped                : APSIMCropChoppedEvent
+   harvest                     : APSIMHarvestMethod        = Perform Sugar Harvest
+   end_crop                    : APSIMEndCropMethod        = Perform Sugar Endcrop
+   kill_crop                   : APSIMKillCropMethod       = Perform Sugar Killcrop
+   graze                       : APSIMGrazeMethod          = Perform Sugar Graze
+   hill_up                     : APSIMHillUpMethod         = Perform Sugar Hillup
+   lodge                       : APSIMLodgeMethod          = Perform Sugar Lodge    
+
+   crop_chopped                : APSIMCropChoppedEvent      = To notify all interested modules of the removal of dry matter from a crop
    
 end
 
@@ -310,11 +270,10 @@ class APSIMSugarExternal
    NO3_min                     : APSIMRealArray         = Minimum soil NO3 content, (kg/ha), GET
    st                          : APSIMRealArray         = Soil temperature, (oC), GET
    
-   dlt_NO3                     : APSIMDlt_NO3Method     = Change in NO3
-   dlt_sw_dep                  : APSIMDlt_sw_depMethod  = Change in soil water  
-   incorp_fom                  : APSIMIncorporateFOMMethod = Incorporate fresh organic matter
+   incorp_fom                  : APSIMIncorporateFOMMethod  = Incorporate fresh organic matter
+   add_residue                 : APSIMAddResidueMethod      = Message to report a residue decomposition
 
-   Crop_Chopped                : APSIMCropChoppedEvent     = Crop chopped event
+   tick                        : APSIMClockTickEvent        = Change in the simulation system time and the duration of the new time step
    
 end
 

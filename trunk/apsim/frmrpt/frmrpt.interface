@@ -24,8 +24,8 @@ class APSIMFrmrptPublic
    process        : APSIMMethod        = System process stage
    end_run        : APSIMMethod        = System end run stage
    
-   do_output      : APSIMMethod        = Do Output
-   clear          : APSIMMethod        = Clear
+   do_output      : APSIMDoOutputMethod        = Message to FRMRPT from MANAGER
+   clear          : APSIMClearMethod           = Message to FRMRPT from MANAGER
    
 end
 

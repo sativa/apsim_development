@@ -13,9 +13,13 @@ class APSIMSolutePublic
    ub_solute    : APSIMReal           = ub_solute, (), READ, 0, 1E10
    lb_solute    : APSIMReal           = lb_solute, (), READ, 0, 1E10
    dlt_nnnnn    : APSIMReal           = Delta solute amount, (kg/ha), SET
+
+   create       : APSIMMethod         = System message to create
    sys_init     : APSIMMethod         = System init stage
    process      : APSIMMethod         = System process stage   
+
    new_solute   : APSIMNewSoluteEvent = New solute event
+
 end
 
 ; -----------------------------------------------------------

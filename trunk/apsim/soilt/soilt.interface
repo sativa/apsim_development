@@ -12,9 +12,13 @@ class APSIMSoilTPublic
    soil_temp               : APSIMReal           = Maximum soil surface temperature, (oC), GET
                                            
 ; Main actions
+
     sysinit                : APSIMMethod         = System initialise
     prepare                : APSIMMethod         = System prepare stage
+    process                : APSIMMethod         = Message to process
     post                   : APSIMMethod         = System post stage
+    end_run                : APSIMMethod         = Message that run is to end
+
 end
 ; -----------------------------------------------------------
 ; SoilTs External interface which documents things in other 
