@@ -14,9 +14,8 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 1.61
-     Control filename       = c:\regr\apsim\mucuna\sample\mucuna.con
-     Configuration filename = c:\build\regression.config
+     Version                = 2.0
+     Simulation filename    = c:\regr\apsim\mucuna\sample\mucuna.sim
      Title                  = mucuna Sample Simulation
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
@@ -35,11 +34,12 @@
 ------- REPORT Initialisation ------------------------------------------------
      Output file = mucuna.out
      Format = normal
-     Module_names = clock clock mucuna mucuna mucuna 
-     Variable_names = day year lai biomass green_biomass 
-     Variable_alias = - - - - - 
-     Units = - - -   
-     
+     Output variables:
+        clock.day
+        clock.year
+        mucuna.lai
+        mucuna.biomass
+        mucuna.green_biomass
 
 ------- MET Initialisation ---------------------------------------------------
      File name = c:\build\apsuite\apsim\met\sample\dalby.met

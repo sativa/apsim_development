@@ -14,9 +14,8 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 1.61
-     Control filename       = c:\regr\apsim\ozcot\sample\ozcot.con
-     Configuration filename = c:\build\regression.config
+     Version                = 2.0
+     Simulation filename    = c:\regr\apsim\ozcot\sample\ozcot.sim
      Title                  = Alan Hunter
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
@@ -36,11 +35,23 @@
 ------- REPORT Initialisation ------------------------------------------------
      Output file = o_971_1.out
      Format = normal
-     Module_names = clock clock manager ozcot ozcot ozcot manager ozcot ozcot ozcot ozcot ozcot ozcot soilwat2 soilwat2 soiln2 
-     Variable_names = year day yield_acre evap_plant lai yield yield_acre dm sites squarz bollz openz totnup es esw no3() 
-     Variable_alias = - - yld/acre c_ep c_lai c_yield c_yld/acre biomass - - - - c_nuptake - pesw - 
-     Units = - - - - - - - - - - - - - - - - 
-     
+     Output variables:
+        clock.year
+        clock.day
+        manager.yield_acre (alias: yld/acre)
+        ozcot.evap_plant (alias: c_ep)
+        ozcot.lai (alias: c_lai)
+        ozcot.yield (alias: c_yield)
+        manager.yield_acre (alias: c_yld/acre)
+        ozcot.dm (alias: biomass)
+        ozcot.sites
+        ozcot.squarz
+        ozcot.bollz
+        ozcot.openz
+        ozcot.totnup (alias: c_nuptake)
+        soilwat2.es
+        soilwat2.esw (alias: pesw)
+        soiln2.no3()
 
 ------- MET Initialisation ---------------------------------------------------
      File name = c:\regr\apsim\ozcot\sample\hunter.aps

@@ -14,9 +14,8 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 1.61
-     Control filename       = c:\regr\apsim\sugar\sample\sugar.con
-     Configuration filename = c:\build\regression.config
+     Version                = 2.0
+     Simulation filename    = c:\regr\apsim\sugar\sample\sugar.sim
      Title                  = Sugar Sample Simulation
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
@@ -37,11 +36,17 @@
 ------- REPORT Initialisation ------------------------------------------------
      Output file = sugar.out
      Format = normal
-     Module_names = clock soilwat2 soiln2 residue2 irrigate sugar sugar sugar sugar sugar 
-     Variable_names = today.dd/mm/yyyy esw() no3() residue_wt irrigation lai biomass green_biomass swdef_photo nfact_photo 
-     Variable_alias = Date - - - - - - - - - 
-     Units = - - - - -      
-     
+     Output variables:
+        clock.today.dd/mm/yyyy (alias: Date)
+        soilwat2.esw()
+        soiln2.no3()
+        residue2.residue_wt
+        irrigate.irrigation
+        sugar.lai
+        sugar.biomass
+        sugar.green_biomass
+        sugar.swdef_photo
+        sugar.nfact_photo
 
 ------- MET Initialisation ---------------------------------------------------
      File name = c:\build\apsuite\apsim\met\SAMPLE\INGHAM.MET

@@ -14,9 +14,8 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 1.61
-     Control filename       = c:\regr\apsim\maize\refset\referenc.con
-     Configuration filename = c:\build\regression.config
+     Version                = 2.0
+     Simulation filename    = c:\regr\apsim\maize\refset\referenc.sim
      Title                  = 
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
@@ -37,11 +36,27 @@
 ------- REPORT Initialisation ------------------------------------------------
      Output file = referenc.out
      Format = normal
-     Module_names = clock clock soiln2 soilwat2 maize maize maize maize maize maize maize maize maize maize maize residue2 residue2 soiln2 soiln2 maize 
-     Variable_names = year day no3 sw_dep tt_tot() lai biomass root_length root_depth avg@swdef_photo avg@nfact_photo plant_status dm_dead() yield height residue_wt residue_n fom_c() fom_n() leaf_no() 
-     Variable_alias = - - - - - - - - - - - - - - - - - - - - 
-     Units = - - - - - - - - - - - - - - - - - - - - 
-     
+     Output variables:
+        clock.year
+        clock.day
+        soiln2.no3
+        soilwat2.sw_dep
+        maize.tt_tot()
+        maize.lai
+        maize.biomass
+        maize.root_length
+        maize.root_depth
+        maize.avg@swdef_photo
+        maize.avg@nfact_photo
+        maize.plant_status
+        maize.dm_dead()
+        maize.yield
+        maize.height
+        residue2.residue_wt
+        residue2.residue_n
+        soiln2.fom_c()
+        soiln2.fom_n()
+        maize.leaf_no()
 
 ------- MET Initialisation ---------------------------------------------------
      File name = c:\regr\apsim\maize\refset\referenc.met
@@ -292,7 +307,7 @@
       
          - Reading root profile parameters
       Uptake of NO3 and water calculated by maize
-      
+       
       
       
       
@@ -487,7 +502,7 @@
       
          - Reading root profile parameters
       Uptake of NO3 and water calculated by maize
-      
+       
       
       
       
@@ -682,7 +697,7 @@
       
          - Reading root profile parameters
       Uptake of NO3 and water calculated by maize
-      
+       
       
       
       
@@ -872,7 +887,7 @@
       
          - Reading root profile parameters
       Uptake of NO3 and water calculated by maize
-      
+       
       
       
       
