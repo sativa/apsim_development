@@ -317,6 +317,7 @@ void ReportComponent::doInit2(void)
       else
          msg += "normal";
       writeString(msg.c_str());
+      haveWrittenHeadings = false;
       }
    catch (const runtime_error& err)
       {
@@ -392,7 +393,6 @@ void ReportComponent::respondToGet(unsigned int& fromID, QueryValueData& queryDa
 // ------------------------------------------------------------------
 void ReportComponent::WriteLineOfOutput(void)
    {
-   static bool haveWrittenHeadings = false;
    if (!haveWrittenHeadings)
       {
       haveWrittenHeadings = true;
