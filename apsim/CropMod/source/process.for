@@ -1,4 +1,4 @@
-C     Last change:  E    15 Dec 2000   12:35 pm
+C     Last change:  E    18 Dec 2000    2:53 pm
 
 *     ===========================================================
       subroutine cproc_transp_eff_co2(svp_fract,
@@ -1482,144 +1482,6 @@ c     dll_export leaf_size_bellshapecurveellshapecurve
 
 
 *     ===========================================================
-      subroutine cproc_leaf_area_pot_TPLA (
-     .          begin_stage,
-     .          end_stage_TPLA_plateau,
-     .          now,
-     .          g_phase_tt,
-     .          g_days_tot,
-     .          g_current_stage,
-     .          g_leaf_no_final,
-     .          c_initial_tpla,
-     .          g_tiller_no_fertile,
-     .          c_tiller_coef,
-     .          p_main_stem_coef,
-     .          g_tt_tot,
-     .          c_tpla_inflection_ratio,
-     .          g_tpla_today,
-     .          g_tpla_yesterday,
-     .          p_tpla_prod_coef,
-     .          g_plants,
-     .          g_lai,
-     .          g_dlt_lai_pot)
-*     ===========================================================
-      implicit none
-      dll_export cproc_leaf_area_pot_tpla
-      include 'convert.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      integer    begin_stage            !stage number of start
-      integer    end_stage_TPLA_plateau !stage number to stop TPLA growth
-      integer    now                    !stage number now
-      real       g_phase_tt(*)
-      real       g_days_tot(*)
-      real       g_current_stage
-      real       g_leaf_no_final
-      real       c_initial_tpla
-      real       g_tiller_no_fertile
-      real       c_tiller_coef
-      real       p_main_stem_coef
-      real       g_tt_tot(*)
-      real       c_tpla_inflection_ratio
-      real       g_tpla_today
-      real       g_tpla_yesterday
-      real       p_tpla_prod_coef
-      real       g_plants
-      real       g_lai
-      real       g_dlt_lai_pot           ! (OUTPUT) change in leaf area
-
-*+  Purpose
-*       Return the potential increase in leaf area development (mm^2)
-*       calculated on a whole plant basis as determined by thermal time
-*
-*   Called by srop_leaf_area_potential(2) in croptree.for
-
-*+  Changes
-*      010994    jngh specified and programmed
-*      26/02/97  sb moved stressing out to another routine.
-*      20001031  ew generalised
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'cproc_leaf_area_pot_TPLA')
-
-*+  Local Variables
-      real       tpla_max              ! maximum total plant leaf area (mm^2)
-      real       tt_since_begin        ! deg days since begin TPLA Period
-*
-      real       tpla_inflection       ! inflection adjusted for leaf no.
-*
-      real       tt_begin_to_end_TPLA  ! thermal time for TPLA period
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-           ! once leaf no is calculated maximum plant leaf area
-           ! is determined
- 
-        if (on_day_of (begin_stage, g_current_stage, g_days_tot)) then
-          g_lai = c_initial_tpla * smm2sm * g_plants
-        endif
- 
- 
-        if (stage_is_between (begin_stage, end_stage_TPLA_plateau,
-     .        g_current_stage) .and.
-     .        g_phase_tt(end_stage_TPLA_plateau) .gt.0.0) then
- 
-          tt_begin_to_end_TPLA = sum_between(begin_stage,
-     :                          end_stage_TPLA_plateau,g_phase_tt)
- 
-          tpla_max = (((g_tiller_no_fertile + 1.0) ** c_tiller_coef)
-     :             * g_leaf_no_final ** p_main_stem_coef) * scm2smm
-
-          tt_since_begin = sum_between (begin_stage, now, g_tt_tot)
- 
-cscc 10/95 fixing the beta inflection coefficient as halfway to thermal
-c time of flag_leaf expanded. Code needs work as the halfway point jumps
-c around a bit as we progress (espec. when final_leaf_no is reset at floral in
-c Note that tpla_inflection needs to be removed as a 'read-in' parameter
-c maybe the number is more like .66 of the distance?
-c can work out from the shape of a leaf area distribution - where is the biggest
-c leaf appearing...
- 
-c  scc - generalise tpla_inflection  - needs more work
- 
-         tpla_inflection = tt_begin_to_end_TPLA *
-     :           c_tpla_inflection_ratio
- 
-c scc end of changes for tpla (more below)
- 
-         g_tpla_today = divide (Tpla_max
-     :              , (1.0 + exp(-p_tpla_prod_coef
-     :                        * (tt_since_begin - tpla_inflection)))
-     :              , 0.0)
- 
-         if (g_tpla_today .lt. g_tpla_yesterday)then
-            g_tpla_today = g_tpla_yesterday
-         endif
- 
-         g_dlt_lai_pot = (g_tpla_today - g_tpla_yesterday)
-     .                  *smm2sm * g_plants
- 
-         g_tpla_yesterday = g_tpla_today
- 
-      else
-!Beyond TPLA growth stage
-         g_dlt_lai_pot = 0.0
- 
-      endif
- 
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-*     ===========================================================
       subroutine zadok_stage_decimal_code(
      .          emerg,
      .          now,
@@ -1659,7 +1521,7 @@ c scc end of changes for tpla (more below)
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'zadok_stage')
+      parameter (my_name = 'zadok_stage_decimal_code')
 
 *+  Local Variables
       INTEGER istage
