@@ -13,6 +13,18 @@
 #include <iostream.h>
 #endif
 
+      //*****        FIXME when this becomes proper class
+      //      indices of plant part names
+//      const int  root = 0 ;
+//      const int  leaf = 1 ;
+//      const int  stem = 2 ;
+//      const int  pod  = 3 ;
+//      const int  meal = 4 ; // excludes oil component
+//      const int  oil  = 5 ; // seed oil
+//
+//      // number of plant parts
+//      const int  max_part = 6 ; // NB. implies for (i=0; i < max_part; max_part++) usage
+
 class PlantFruit
 {
    friend ostream &operator<<(ostream &, const PlantFruit &);
@@ -21,6 +33,8 @@ class PlantFruit
 //            PlantFruit(float greenLeaf, float greenStem, float senescedLeaf, float senescedStem, float deadLeaf, float deadStem);
 		PlantFruit(const PlantFruit &PlantFruit); 			// copy constructor
 		const PlantFruit &operator=(const PlantFruit &other);		// Assigment operator
+
+            void doInit(PlantComponent *systemInterface, PlantPhenology *plantPhenology);
 
 //            void setValue(float greenLeaf, float greenStem, float senescedLeaf, float senescedStem, float deadLeaf, float deadStem);
             float coverTotal() const;
@@ -34,6 +48,68 @@ class PlantFruit
             float calcCover (float cExtinctCoef, float pai);  // calc pod cover
 
             float divide (float dividend, float divisor, float default_value) const;  // Command
+
+            void legnew_bio_grain_oil (
+                                        float  c_grain_oil_conc
+                                       ,float  c_carbo_oil_conv_ratio
+                                       ,float  *grain_energy
+                                      );
+
+            void legnew_bio_yieldpart_demand1 (float c_twilight
+                                              ,int   g_day_of_year
+                                              ,float g_latitude
+                                              ,int  *yield_parts
+                                              ,int   num_yield_parts
+                                              ,int   root_part
+                                              ,int   max_part
+                                              ,float g_dlt_dm
+                                              ,float *g_dm_green
+                                              ,float *g_dm_senesced
+                                              ,float g_dm_stress_average
+                                              ,float *p_x_pp_hi_incr
+                                              ,float *p_y_hi_incr
+                                              ,int   p_num_pp_hi_incr
+                                              ,float *p_x_hi_max_pot_stress
+                                              ,float *p_y_hi_max_pot
+                                              ,int   p_num_hi_max_pot
+                                              ,float g_grain_energy
+                                              ,float *dlt_dm_yieldpart_demand
+                                              ) ;
+
+            void plant_grain_n_demand1(float C_sfac_slope
+                                       , float C_sw_fac_max
+                                       , float C_temp_fac_min
+                                       , float C_tfac_slope
+                                       , float G_maxt
+                                       , float G_mint
+                                       , float G_nfact_grain_conc
+                                       , float *G_n_conc_crit
+                                       , float G_swdef_expansion
+                                       , float *G_n_conc_min
+                                       , float *G_dlt_dm_green
+                                       , float *G_dlt_dm_green_retrans
+                                       , float *G_dm_green
+                                       , float *G_n_conc_max
+                                       , float *G_n_green
+                                       , float *grain_n_demand);
+
+            float dm_yield_demand ( float  c_frac_pod
+                                  , float  g_grain_energy
+                                  , float  g_dlt_dm_veg
+                                  , double g_dlt_dm
+                                  , float  g_dlt_dm_grain_demand
+                                 );
+
+            void dm_partition1 (float  c_frac_pod
+                               ,float  g_grain_energy
+                               ,float  c_grain_oil_conc
+                               ,double g_dlt_dm
+                               ,float  g_dlt_dm_grain_demand
+                               ,float  *dlt_dm_oil_conv
+                               ,float  *dlt_dm_green
+                               );
+
+
 
 #if TEST_PlantFruit
 		virtual ~PlantFruit();							// destructor
@@ -81,6 +157,9 @@ class PlantFruit
 
       // The plant we hook into
       Plant *plant;
+      PlantComponent *parentPlant;
+      PlantPhenology *phenology;
+
 };
 
 #endif
