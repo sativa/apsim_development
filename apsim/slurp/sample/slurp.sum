@@ -17,11 +17,11 @@
      Component DLL          = c:\Program Files\apsim22\apsim\clock\lib\clock.dll
      Component DLL          = c:\Program Files\apsim22\apsim\report\lib\report.dll
      Component DLL          = c:\Program Files\apsim22\apsim\input\lib\input.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\fertiliz\lib\fertiliz.dll
      Component DLL          = c:\Program Files\apsim22\apsim\manager\lib\manager.dll
      Component DLL          = C:\Program Files\apsim22\apsim\soilwat2\lib\soilwat2.dll
      Component DLL          = C:\Program Files\apsim22\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\apswork\apsim\slurp\lib\slurp.dll
-     Component DLL          = c:\apswork\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\slurp\lib\slurp.dll
 
 ------- clock Initialisation --------------------------------------------------
      Simulation start date =  1/01/1988
@@ -53,7 +53,19 @@
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\progra~1\apsim22\apsim\MET\SAMPLE\DALBY.MET
+     INPUT File name: c:\program files\apsim22\apsim\MET\SAMPLE\DALBY.MET
+
+------- fertiliz Initialisation -----------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
@@ -187,18 +199,6 @@
 
 ------- slurp Initialisation --------------------------------------------------
      Initialising:
-
-------- fertiliz Initialisation -----------------------------------------------
-      Initialising
-     
-        - Reading Parameters
-     
-     
-     
-                    Fertiliser Schedule (kg/ha)
-          -----------------------------------------------
-           No fertiliser schedule is used
-          -----------------------------------------------
 ------- Start of simulation  --------------------------------------------------
 1 January 1988(Day of year=1), manager: 
      Manager sending message :- fertiliz apply  amount = 100, type = nh4no3
