@@ -16,6 +16,7 @@
 #include "TStatsForm.h"
 #include "TeeEditPro.hpp"
 #include "TDecileFunction.h"
+#include "TShapeForm.h"
 //---------------------------------------------------------------------------
 #pragma resource "*.res"
 #pragma package(smart_init)
@@ -30,17 +31,18 @@ AnsiString DecileDescription = "Decile function";
 void RegisterComponents(void)
    {
    RegisterTeeBasicFunction(__classid(TDecileFunction), &DecileDescription);
-   TComponentClass classes[10] = {__classid(TRichText),
-                                 __classid(TQRImage),
-                                 __classid(TApsimFileReader),
-                                 __classid(TSOI),
-                                 __classid(TSEGChart),
-                                 __classid(TProbability),
-                                 __classid(TREMS),
-                                 __classid(TExcel),
-                                 __classid(::TFilter),
-                                 __classid(TStats)};
-   RegisterComponents("Standard", classes, 9);
+   TComponentClass classes[11] = {__classid(TRichText),
+                                  __classid(::TShape),
+                                  __classid(TQRImage),
+                                  __classid(TApsimFileReader),
+                                  __classid(TSOI),
+                                  __classid(TSEGChart),
+                                  __classid(TProbability),
+                                  __classid(TREMS),
+                                  __classid(TExcel),
+                                  __classid(::TFilter),
+                                  __classid(TStats)};
+   RegisterComponents("Standard", classes, 10);
    }
 
 //---------------------------------------------------------------------------
@@ -57,7 +59,15 @@ TForm* createComponentUI(TComponent* component, TWinControl* parent)
       richText->Frame->Style = psClear;
       return form;
       }
-
+   else if (component->ClassNameIs("TShape"))
+      {
+      TShapeForm* form = new TShapeForm(NULL);
+      form->Parent = parent;
+      ::TShape* shape = (::TShape*) component;
+      form->setComponent(shape);
+      shape->Frame->Style = psClear;
+      return form;
+      }
    else if (component->ClassNameIs("TQRImage"))
       {
       TImageForm* frame = new TImageForm(parent);
