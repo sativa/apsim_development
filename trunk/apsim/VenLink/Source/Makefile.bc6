@@ -10,7 +10,7 @@ BCB = $(MAKEDIR)\..
 !include $(APSROOT)\APSBuild\cpp.make
 PROJECT=..\lib\VenLink.dll
 
-OBJFILES=VenLink.obj VensimComponent.obj
+OBJFILES=VenLink.obj VensimComponent.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj
 
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
@@ -18,7 +18,7 @@ LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\Protocol\Protocol.lib \
 	VenDLM32.lib
 
-USERDEFINES = 
+USERDEFINES =
 SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
 INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface
 LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface
@@ -53,7 +53,7 @@ $(PROJECT): $(OBJFILES) $(DEFFILE)
 
 
 ####
-VenLink.obj: VenLink.cpp 
+VenLink.obj: VenLink.cpp
 VenLinkComponent.obj: VenLinkComponent.cpp VenLinkComponent.h
 
 clean:

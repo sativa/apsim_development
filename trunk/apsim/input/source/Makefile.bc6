@@ -11,7 +11,7 @@ BCB = $(MAKEDIR)\..
 
 PROJECT=..\lib\input.dll
 
-OBJFILES=Input.obj InputComponent.obj StringVariant.obj
+OBJFILES=Input.obj InputComponent.obj StringVariant.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj
 
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
@@ -19,7 +19,7 @@ LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\Protocol\Protocol.lib \
 	$(BCB)\Components\Boost\libs\date_time\date_time.lib
 
-USERDEFINES = 
+USERDEFINES =
 SYSDEFINES = _RTLDLL;NO_STRICT;_NO_VCL;USEPACKAGES
 INCLUDEPATH = $(SYSINCLUDES);$(BCB)\Components\Boost;$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface
 LIBPATH = $(SYSLIBPATH);$(APSROOT)\Shared\ComponentInterface
@@ -54,7 +54,7 @@ $(PROJECT): $(OBJFILES) $(DEFFILE)
 
 
 ####
-input.obj: input.cpp 
+input.obj: input.cpp
 inputComponent.obj: inputComponent.cpp inputComponent.h
 StringVariant.obj: StringVariant.cpp StringVariant.h
 

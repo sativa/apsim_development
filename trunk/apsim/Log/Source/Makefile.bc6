@@ -11,14 +11,14 @@ BCB = $(MAKEDIR)\..
 
 PROJECT=..\lib\log.dll
 
-OBJFILES=Log.obj LogComponent.obj
+OBJFILES=Log.obj LogComponent.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj
 
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
 	$(APSROOT)\Shared\general\general.lib \
 	$(APSROOT)\Shared\Protocol\Protocol.lib
 
-USERDEFINES = 
+USERDEFINES =
 SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
 INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface
 LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface
@@ -53,7 +53,7 @@ $(PROJECT): $(OBJFILES) $(DEFFILE)
 
 
 ####
-Log.obj: Log.cpp 
+Log.obj: Log.cpp
 LogComponent.obj: LogComponent.cpp LogComponent.h
 
 clean:

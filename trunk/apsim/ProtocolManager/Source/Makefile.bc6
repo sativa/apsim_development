@@ -15,15 +15,15 @@ LD=$(BCB)/Bin/ilink32.exe
 TARGET=..\lib\ProtocolManager.dll
 OBJECTS = ProtocolManager.obj Coordinator.obj \
 	ComponentAlias.obj DebugHook.obj \
-	Registrations.obj
-RESFILES = 
+	Registrations.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj
+RESFILES =
 LIBFILES = $(APSROOT)\Shared\general\general.lib \
    $(APSROOT)\Shared\general\general_vcl.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
 	$(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\Protocol\Protocol.lib
 
-USERDEFINES = 
+USERDEFINES =
 SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
 INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared
 LIBPATH = $(SYSLIBPATH)
@@ -39,7 +39,7 @@ LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
 .cpp.obj:
     $(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
 
-$(TARGET): $(OBJECTS) 
+$(TARGET): $(OBJECTS)
 	$(LD) @&&!
     $(LFLAGS) -L$(LIBPATH) +
     $(ALLOBJ), +

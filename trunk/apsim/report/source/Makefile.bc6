@@ -11,14 +11,14 @@ BCB = $(MAKEDIR)\..
 
 PROJECT=..\lib\Report.dll
 
-OBJFILES=Report.obj ReportComponent.obj
+OBJFILES=Report.obj ReportComponent.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj
 
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
 	$(APSROOT)\Shared\general\general.lib \
 	$(APSROOT)\Shared\Protocol\Protocol.lib
 
-USERDEFINES = 
+USERDEFINES =
 SYSDEFINES = _RTLDLL;NO_STRICT;_NO_VCL;USEPACKAGES
 INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\Boost;$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface
 LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface
@@ -53,7 +53,7 @@ $(PROJECT): $(OBJFILES) $(DEFFILE)
 
 
 ####
-Report.obj: Report.cpp 
+Report.obj: Report.cpp
 ReportComponent.obj: ReportComponent.cpp ReportComponent.h
 
 clean:

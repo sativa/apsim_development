@@ -13,13 +13,13 @@ PROJECT=..\lib\Plant.dll
 
 OBJFILES=PlantComponent.obj Plant.obj PlantBiomass.obj PlantCanopy.obj PlantFail.obj PlantLibrary.obj \
 PlantNitrogen.obj PlantPhenology.obj PlantRoot.obj PlantTemp.obj PlantUtility.obj PlantWater.obj \
-Data.obj Science.obj Date.obj PlantComms.obj PlantP.obj
+Data.obj Science.obj Date.obj PlantComms.obj PlantP.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj
 
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
-	$(APSROOT)\Shared\general\general.lib 
-	
-USERDEFINES = 
+	$(APSROOT)\Shared\general\general.lib
+
+USERDEFINES =
 SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
 INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\Boost;$(APSROOT)\Shared
 LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface

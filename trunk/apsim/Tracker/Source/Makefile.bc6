@@ -11,7 +11,7 @@ BCB = $(MAKEDIR)\..
 
 PROJECT=..\lib\Tracker.dll
 
-OBJFILES=Tracker.obj TrackerVariable.obj TrackerComponent.obj
+OBJFILES=Tracker.obj TrackerVariable.obj TrackerComponent.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj
 
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
@@ -19,14 +19,14 @@ LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\Protocol\Protocol.lib \
 	$(BCB)\Components\Boost\libs\date_time\date_time.lib
 
-USERDEFINES = 
+USERDEFINES =
 SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
 INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface
 LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface
 
 
 # ---------------------------------------------------------------------------
-CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD 
+CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
 WARNINGS = -w-par
 LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
 
@@ -54,7 +54,7 @@ $(PROJECT): $(OBJFILES) $(DEFFILE)
 
 
 ####
-Tracker.obj: Tracker.cpp 
+Tracker.obj: Tracker.cpp
 TrackerComponent.obj: TrackerComponent.cpp TrackerComponent.h
 
 clean:
