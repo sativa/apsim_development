@@ -1,4 +1,4 @@
-C     Last change:  E    18 Dec 2000   11:06 am
+C     Last change:  E    18 Dec 2000    2:44 pm
 *     ===========================================================
       subroutine Sorg_root_depth (Option)
 *     ===========================================================
@@ -238,11 +238,12 @@ C     Last change:  E    18 Dec 2000   11:06 am
       subroutine sorg_nit_stress(Option)
 *     ===========================================================
       use CropModModule
-      dll_import sorg_nfact_photo
       implicit none
       include   'const.inc'
       include 'crp_nitn.pub'                      
       include 'error.pub'                         
+
+      dll_import sorg_nfact_photo
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -969,11 +970,12 @@ c     :          g%days_tot)
       subroutine Sorg_nit_init (Option)
 *     ===========================================================
       use CropModModule
-      dll_import sorg_N_init1
       implicit none
       include   'const.inc'
       include 'crp_nitn.pub'                      
       include 'error.pub'                         
+
+      dll_import sorg_N_init1
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -1187,6 +1189,10 @@ c     :          g%days_tot)
       include 'const.inc'
       include 'convert.inc'
       include 'error.pub'                         
+      include 'crp_cnpy.pub'
+
+c      dll_import  cproc_leaf_area_pot_TPLA
+
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -1232,12 +1238,13 @@ c     :          g%days_tot)
       elseif (Option .eq. 2) then
  
 !converted to new routine
-      call cproc_leaf_area_pot2 (
+
+      call cproc_leaf_area_pot_tpla (
      .          emerg,
      .          flag_leaf,
      .          now,
      .          g%phase_tt,
- 
+     .          g%tt_tot,
      .          g%days_tot,
      .          g%current_stage,
      .          g%leaf_no_final,
@@ -1245,7 +1252,6 @@ c     :          g%days_tot)
      .          g%tiller_no_fertile,
      .          c%tiller_coef,
      .          p%main_stem_coef,
-     .          g%tt_tot,
      .          c%tpla_inflection_ratio,
      .          g%tpla_today,
      .          g%tpla_yesterday,
@@ -1253,7 +1259,8 @@ c     :          g%days_tot)
      .          g%plants,
      .          g%lai,
      .          g%dlt_lai_pot)
- 
+
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
@@ -2263,11 +2270,12 @@ c     :          g%days_tot)
        subroutine sorg_N_partition (Option)
 * ====================================================================
       use CropModModule
-      dll_import sorg_N_partition1
       implicit none
       include 'const.inc'
       include 'convert.inc'
       include 'error.pub'                         
+
+      dll_import sorg_N_partition1
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
