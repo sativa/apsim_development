@@ -5,7 +5,6 @@
 #include <functional>
 #include <general\string_functions.h>
 #include <general\stristr.h>
-using namespace std;
 // ------------------------------------------------------------------
 //  Short description:
 //    locates an object in a container and returns the numerical
@@ -43,12 +42,13 @@ int location_number (InputIterator first, InputIterator last, const T& value)
 
 //  Changes:
 //    DPH 17/4/1997
+//    dph 16/5/2001 removed indirection from value.
 
 // ------------------------------------------------------------------
 template <class InputIterator, class T>
 InputIterator Pfind (InputIterator first, InputIterator last, const T& value)
 {
-    while (first != last && *(*first) != *value)
+    while (first != last && *(*first) != value)
         ++first;
     return first;
 }
@@ -351,7 +351,7 @@ class PEqualToFileName
 class PartialStringComparison
    {
    private:
-      const string& st;
+      const std::string& st;
    public:
       PartialStringComparison(const std::string& s)
          : st(s) {}
