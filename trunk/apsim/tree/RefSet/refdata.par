@@ -18,7 +18,7 @@ variable = soilwat2.sw_dep()
 outputfile =step1.out
 
 [all.manager.end_of_day]
-transpiration = tree.ep() * -1.0
+transpiration = tree.ep
 report do_output
 
 [all.soilwat2.parameters]

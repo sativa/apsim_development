@@ -165,7 +165,7 @@ endif
 
 [all.manager.end_of_day]
 !water balance terms
-T            = weed.ep()  + lucerne.ep()  + canola.ep()  - wheat.ep()
+T            = weed.ep  + lucerne.ep  + canola.ep  + wheat.ep
 ET           = apswim.es + T
 drain_25     = apswim.flow(6)
 drain_90     = 0.5* apswim.flow(10)+ 0.5* apswim.flow(11)
@@ -907,10 +907,10 @@ variable = average of canola.swdef_photo since report2.reported as avg@canola.sw
 variable = average of canola.nfact_photo since report2.reported as avg@canola.nfact_photo on process
 [all.tracker4.parameters]
 variable = sum of met.rain since report4.reported as sum@met.rain on process
-variable = sum of wheat.ep()  since report4.reported as sum@wheat.ep[] on process
-variable = sum of lucerne.ep()  since report4.reported as sum@lucerne.ep[] on process
-variable = sum of canola.ep()  since report4.reported as sum@canola.ep[] on process
-variable = sum of weed.ep()  since report4.reported as sum@weed.ep[] on process
+variable = sum of wheat.ep  since report4.reported as sum@wheat.ep on process
+variable = sum of lucerne.ep  since report4.reported as sum@lucerne.ep on process
+variable = sum of canola.ep  since report4.reported as sum@canola.ep on process
+variable = sum of weed.ep  since report4.reported as sum@weed.ep on process
 variable = sum of apswim.es since report4.reported as sum@apswim.es on process
 variable = sum of apswim.runoff since report4.reported as sum@apswim.runoff on process
 variable = sum of apswim.drain since report4.reported as sum@apswim.drain on process
