@@ -84,10 +84,6 @@
      SECTION:- init
         crop_growing = 0
      
-     SECTION:- init
-        sow_day = 21
-        geno = 4
-     
      SECTION:- start_of_day
      if (day = sow_day) then
         crop_growing = 1
@@ -125,6 +121,10 @@
      n_biomass = n_green() - n_green(1)
         report do_end_day_output
      endif
+     
+     SECTION:- init
+        sow_day = 21
+        geno = 4
      END of rules
      
      Manager creating a new local real variable : crop_growing =     0.00000000000000
