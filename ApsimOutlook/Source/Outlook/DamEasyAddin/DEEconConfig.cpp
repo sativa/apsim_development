@@ -30,6 +30,7 @@ DEEconConfig::DEEconConfig() {
    Investment_rate = 0;
    Inflation_input_rate = 0;
    Inflation_cane_rate = 0;
+   Payment_constant = 0.6455;
    Repayment_time = 0;
    Num_partners = 0;
    Upfront = false;
@@ -70,6 +71,7 @@ DEEconConfig& DEEconConfig::operator=(const DEEconConfig& rhs)
    Investment_rate =             rhs.Investment_rate;
    Inflation_input_rate =        rhs.Inflation_input_rate;
    Inflation_cane_rate =         rhs.Inflation_cane_rate;
+   Payment_constant =            rhs.Payment_constant;
    Repayment_time =              rhs.Repayment_time;
    Num_partners =                rhs.Num_partners;
    Upfront =                     rhs.Upfront;
@@ -129,6 +131,7 @@ void DEEconConfig::writeToFile() const
    section += "Harvesting_and_levies        = "; section += FloatToStr(Harvesting_and_levies).c_str(); section += "\n";
    section += "Inflation_input_rate         = "; section += FloatToStr(Inflation_input_rate).c_str(); section += "\n";
    section += "Inflation_cane_rate          = "; section += FloatToStr(Inflation_cane_rate).c_str(); section += "\n";
+   section += "Payment_constant             = "; section += FloatToStr(Payment_constant).c_str(); section += "\n";
    section += "Repayment_time               = "; section += FloatToStr(Repayment_time).c_str(); section += "\n";
    section += "Interest_rate                = "; section += FloatToStr(Interest_rate).c_str(); section += "\n";
    section += "Investment_rate              = "; section += FloatToStr(Investment_rate).c_str(); section += "\n";
@@ -203,6 +206,8 @@ bool DEEconConfig::readFromFile(const string& name)
    Inflation_input_rate = StrToFloat(value.c_str());
    ini.Read(section_name.c_str(), "Inflation_cane_rate", value);
    Inflation_cane_rate = StrToFloat(value.c_str());
+   ini.Read(section_name.c_str(), "Payment_constant", value);
+   Payment_constant = StrToFloat(value.c_str());
    ini.Read(section_name.c_str(), "Repayment_time", value);
    Repayment_time = StrToFloat(value.c_str());
    ini.Read(section_name.c_str(), "Interest_rate", value);
