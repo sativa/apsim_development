@@ -2087,15 +2087,33 @@ cnh     :                 ' Initialising')
 
          !       sugar_sw_supply
 
-      call read_real_array (section_name
+      call fill_real_array (p%ll_dep, 0.0, max_layer)
+      call read_real_array_optional (section_name
      :                     , 'll', max_layer, '()'
      :                     , ll, num_layers
      :                     , 0.0, c%ll_ub)
 
-      call fill_real_array (p%ll_dep, 0.0, max_layer)
-      do 1000 layer = 1, num_layers
-         p%ll_dep(layer) = ll(layer)*g%dlayer(layer)
-1000  continue
+      if (num_layers .gt. 0) then
+          do layer = 1, num_layers
+             p%ll_dep(layer) = ll(layer)*g%dlayer(layer)
+          enddo
+      else
+          call get_real_array_optional (unknown_module 
+     :                                  , 'll15' 
+     :                                  , max_layer, '()'
+     :                                  , ll, num_layers
+     :                                  , 0.0, c%ll_ub)
+          if (num_layers .gt. 0) then
+             do layer = 1, num_layers
+               p%ll_dep(layer) = ll(layer)*g%dlayer(layer)
+             enddo
+             call Write_String(
+     :            'Using externally supplied Lower Limit (ll15)')
+          else
+             call Fatal_error (ERR_internal, 
+     :                         'No Crop Lower Limit found')
+          endif
+      endif
 
       call read_real_array (section_name
      :                     , 'kl', max_layer, '()'
