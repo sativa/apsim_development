@@ -37,10 +37,9 @@ struct XMLDocumentImpl
    XMLDocumentImpl(const string& xml, bool dummy)
       : xmlDoc(CoDOMDocument40::Create())
       {
-      xmlDoc->loadXML(asVariant(xml));
+      xmlDoc->loadXML(WideString(xml.c_str()));
       }
    };
-
 //---------------------------------------------------------------------------
 // Conversion function - from variant to string
 //---------------------------------------------------------------------------
@@ -75,6 +74,45 @@ void formatXML(std::string& xml)
       xml.replace(pos+1, 1, st);
       pos = xml.find("><", pos);
       }
+   }
+
+//---------------------------------------------------------------------------
+// destructor for node.
+//---------------------------------------------------------------------------
+XMLNode::XMLNode(::XMLDocument* doc, Msxml2_tlb::IXMLDOMNode* n)
+   : parent(doc), node(n)
+   {
+   }
+//---------------------------------------------------------------------------
+// copy constructor for node
+//---------------------------------------------------------------------------
+XMLNode::XMLNode(const XMLNode& rhs)
+   {
+   parent = rhs.parent;
+   node = rhs.node;
+   if (node != NULL)
+      node->AddRef();
+   }
+//---------------------------------------------------------------------------
+// destructor for node.
+//---------------------------------------------------------------------------
+XMLNode::~XMLNode(void)
+   {
+   if (node != NULL)
+      node->Release();
+   }
+//---------------------------------------------------------------------------
+// assignment operator for a node
+//---------------------------------------------------------------------------
+XMLNode& XMLNode::operator= (const XMLNode& rhs)
+   {
+   if (node != NULL)
+      node->Release();
+   parent = rhs.parent;
+   node = rhs.node;
+   if (node != NULL)
+      node->AddRef();
+   return *this;
    }
 //---------------------------------------------------------------------------
 // constructor
@@ -112,7 +150,8 @@ XMLDocument::~XMLDocument(void)
 //---------------------------------------------------------------------------
 void XMLDocument::setRootNode(const std::string& rootNodeName)
    {
-   docImpl->xmlDoc->documentElement = docImpl->xmlDoc->createElement(asVariant(rootNodeName));
+   IXMLDOMElementPtr docNode = docImpl->xmlDoc->createElement(WideString(rootNodeName.c_str()));
+   docImpl->xmlDoc->documentElement = docNode;
    }
 //---------------------------------------------------------------------------
 // return the root document element
@@ -155,18 +194,24 @@ string XMLNode::getName(void) const
 // ------------------------------------------------------------------
 string XMLNode::getAttribute(const std::string& attributeName) const
    {
+   string returnString;
    if (node != NULL)
       {
       Variant value;
       Msxml2_tlb::IXMLDOMNamedNodeMap* attributes = node->get_attributes();
+      Msxml2_tlb::IXMLDOMNode* attribute = NULL;
       if (attributes != NULL)
          {
-         Msxml2_tlb::IXMLDOMNode* attribute = attributes->getNamedItem(asVariant(attributeName));
+         attribute = attributes->getNamedItem(WideString(attributeName.c_str()));
          if (attribute != NULL)
-            return asString(attribute->text);
+            {
+            returnString = asString(attribute->text);
+            attribute->Release();
+            }
+         attributes->Release();
          }
        }
-   return "";
+   return returnString;
    }
 // ------------------------------------------------------------------
 // Return the value of the node.
@@ -175,12 +220,8 @@ std::string XMLNode::getValue(void) const
    {
    if (node != NULL)
       {
-      AnsiString text;
-//      if (node->childNodes->Count == 1)
-//         text = node->firstChild->Text;
-//      else
-         text = node->get_text();
-      return text.c_str();
+      Variant v = node->get_text();
+      return AnsiString(v).c_str();
       }
    return "";
    }
@@ -192,17 +233,26 @@ void XMLNode::setAttribute(const string& attributeName,
    {
    if (node != NULL)
       {
-      Msxml2_tlb::IXMLDOMNode* attribute;
+      Msxml2_tlb::IXMLDOMDocumentPtr owner = node->ownerDocument;
+
       Msxml2_tlb::IXMLDOMNamedNodeMap* attributes = node->get_attributes();
       if (attributes != NULL)
-         attribute = attributes->getNamedItem(asVariant(attributeName));
-      if (attribute == NULL)
          {
-         attribute = node->ownerDocument->createAttribute(asVariant(attributeName));
-         attributes->setNamedItem(attribute);
+         Msxml2_tlb::IXMLDOMNode* attribute = attributes->getNamedItem(WideString(attributeName.c_str()));
+         if (attribute != NULL)
+            {
+            attribute->set_text(WideString(attributeValue.c_str()));
+            attribute->Release();
+            attributes->Release();
+            return;
+            }
          }
 
-      attribute->set_text(asVariant(attributeValue));
+      IXMLDOMAttributePtr attribute = owner->createAttribute(WideString(attributeName.c_str()));
+      attribute->set_text(WideString(attributeValue.c_str()));
+      IXMLDOMNodePtr namedItem = attributes->setNamedItem(attribute);
+
+      attributes->Release();
       parent->setDirty(true);
       }
    }
@@ -214,11 +264,11 @@ void XMLNode::setValue(const std::string& value, bool asCData)
    {
    if (asCData)
       {
-      Msxml2_tlb::IXMLDOMCDATASection* section = node->ownerDocument->createCDATASection(asVariant(value));
-      node->appendChild(section);
+      Msxml2_tlb::IXMLDOMCDATASectionPtr section = node->ownerDocument->createCDATASection(WideString(value.c_str()));
+      Msxml2_tlb::IXMLDOMNodePtr newNode = node->appendChild(section);
       }
    else
-      node->set_text(asVariant(value));
+      node->set_text(WideString(value.c_str()));
    parent->setDirty(true);
    }
 // ------------------------------------------------------------------
@@ -235,11 +285,10 @@ XMLNode XMLNode::appendChild(const std::string& nodeName, bool alwaysAppend)
       if (i != end())
          return *i;
       }
-   Msxml2_tlb::IXMLDOMElement* childNode = node->get_ownerDocument()
-                              ->createElement(asVariant(nodeName));
-   node->appendChild(childNode);
+   Msxml2_tlb::IXMLDOMDocumentPtr owner = node->ownerDocument;
+   Msxml2_tlb::IXMLDOMElementPtr childNode = owner->createElement(WideString(nodeName.c_str()));
    parent->setDirty(true);
-   return XMLNode(parent, childNode);
+   return XMLNode(parent, node->appendChild(childNode));
    }
 // ------------------------------------------------------------------
 // Delete a child node from this node.
