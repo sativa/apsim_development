@@ -846,14 +846,13 @@
       <field name="dlt_no3_net"       kind="single" units="kg/ha"/>
       <field name="dlt_oc"            kind="single" units="kg/ha"/>
       <field name="dlt_om"            kind="single" units="kg/ha"/>
-      <field name="dlt_fomc_hum"      kind="single" units="kg/ha"/>
-      <field name="dlt_fomc_biom"     kind="single" units="kg/ha"/>
-      <field name="dlt_fomc_atm"      kind="single" units="kg/ha"/>
+      <field name="dlt_fomc_hum"      kind="single" array="T" units="kg/ha"/>
+      <field name="dlt_fomc_biom"     kind="single" array="T" units="kg/ha"/>
+      <field name="dlt_fomc_atm"      kind="single" array="T" units="kg/ha"/>
       <field name="dlt_humc_biom"     kind="single" units="kg/ha"/>
       <field name="dlt_humc_atm"      kind="single" units="kg/ha"/>
       <field name="dlt_biomc_hum"     kind="single" units="kg/ha"/>
       <field name="dlt_biomc_atm"     kind="single" units="kg/ha"/>
-      <field name="dlt_fomc_hum"      kind="single" units="kg/ha"/>
       <field name="dlt_fomc_pool"     kind="single" array="T" units="kg/ha"/>
    </type>
 
