@@ -1,4 +1,4 @@
-C     Last change:  E    27 Aug 2001    4:21 pm
+C     Last change:  E    13 Sep 2001    6:14 pm
 
 
 
@@ -1274,7 +1274,8 @@ c        endif
         
 
       !SORGHUM CROP
-      else if (crop_type .eq. 'sorghum') then
+      else if ((crop_type .eq. 'sorghum').OR.
+     :         (crop_type .eq. 'maize')  ) then
 
        extinct_coef = linear_interp_real (g_row_spacing
      :                                 , c_x_row_spacing
@@ -1284,7 +1285,7 @@ c        endif
        g_extinction_coeff = extinct_coef
  
       else
-         call Fatal_error (ERR_internal, 'Invalid crop type')
+         call Fatal_error (ERR_internal, 'Invalid crop type - for now')
       endif
  
       call pop_routine (my_name)
@@ -1509,6 +1510,7 @@ c        endif
       implicit none
 c     dll_export Cproc_N_Supply_Massflow_Diffusion_Fixation
       include 'error.pub'                         
+      include 'crp_nitn.pub'
 
 *+  Sub-Program Arguments
       real    g_dlayer(*)             ! (INPUT)
@@ -1524,16 +1526,16 @@ c     dll_export Cproc_N_Supply_Massflow_Diffusion_Fixation
       real    g_NO3gsm_mflow_avail(*) ! (OUTPUT)
       real    g_NO3gsm_diffn_pot(*)   ! (OUTPUT)
 
-      REAL, OPTIONAL :: g_current_stage         ! (INPUT)
-      REAL, OPTIONAL :: c_n_fix_rate(*)         ! (INPUT)
-      REAL, OPTIONAL :: fixation_determinant    ! (INPUT)
-      REAL, OPTIONAL :: g_swdef_fixation        ! (INPUT)
-      REAL, OPTIONAL :: g_N_fix_pot             ! (INPUT)
+      REAL    g_current_stage         ! (INPUT)
+      REAL    c_n_fix_rate(*)         ! (INPUT)
+      REAL    fixation_determinant    ! (INPUT)
+      REAL    g_swdef_fixation        ! (INPUT)
+      REAL    g_N_fix_pot             ! (INPUT)
 
-      REAL, OPTIONAL :: g_NH4gsm(*)             ! (INPUT)
-      REAL, OPTIONAL :: g_NH4gsm_min(*)         ! (INPUT)
-      REAL, OPTIONAL :: g_NH4gsm_mflow_avail(*) ! (OUTPUT)
-      REAL, OPTIONAL :: g_NH4gsm_diffn_pot(*)   ! (OUTPUT)
+      REAL    g_NH4gsm(*)             ! (INPUT)
+      REAL    g_NH4gsm_min(*)         ! (INPUT)
+      REAL    g_NH4gsm_mflow_avail(*) ! (OUTPUT)
+      REAL    g_NH4gsm_diffn_pot(*)   ! (OUTPUT)
 
 
 *+  Purpose
@@ -1557,7 +1559,10 @@ c     dll_export Cproc_N_Supply_Massflow_Diffusion_Fixation
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
+
+
+
          call crop_n_potential_massflow  (
      .          g_root_depth,
      .          max_layer,
@@ -1586,21 +1591,13 @@ c     dll_export Cproc_N_Supply_Massflow_Diffusion_Fixation
      .          g_NH4gsm_diffn_pot)
 
 
-      if ( PRESENT(g_current_stage)      .and.
-     :     PRESENT(c_n_fix_rate)         .and.
-     :     PRESENT(fixation_determinant) .and.
-     :     PRESENT(g_swdef_fixation)     .and.
-     :     PRESENT(g_N_fix_pot)      )    then
-
-c          PRINT *, 'fixation present'
-
          call crop_n_potential_fixation (
      :             g_current_stage,
      :             c_n_fix_rate,
      :             fixation_determinant,
      :             g_swdef_fixation,
      :             g_N_fix_pot)
-      endif
+
 
       call pop_routine (myname)
       return
@@ -1630,20 +1627,20 @@ c          PRINT *, 'fixation present'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
-      REAL            root_depth         ! (INPUT)  depth of roots (mm)
-      INTEGER         max_layer          ! (INPUT)  number of layers in profile
-      REAL            dlayer(*)          ! (INPUT)  thickness of soil layer I (mm)
-      REAL            sw_dep(*)          ! (INPUT)  soil water content of layer L (mm)
-      REAL            dlt_sw_dep(*)      ! (INPUT)  water uptake in each layer (mm water)
+      REAL      root_depth         ! (INPUT)  depth of roots (mm)
+      INTEGER   max_layer          ! (INPUT)  number of layers in profile
+      REAL      dlayer(*)          ! (INPUT)  thickness of soil layer I (mm)
+      REAL      sw_dep(*)          ! (INPUT)  soil water content of layer L (mm)
+      REAL      dlt_sw_dep(*)      ! (INPUT)  water uptake in each layer (mm water)
 
-      REAL            no3gsm(*)          ! (INPUT)  nitrate nitrogen in layer L (g N/m^2)
-      REAL            no3gsm_min(*)      ! (INPUT)  minimum allowable NO3 in soil (g/m^2)
-      real            NO3gsm_mflow_pot(*)! (OUTPUT) potential plant NO3  uptake (supply) g/m^2, by mass flow
+      REAL      no3gsm(*)          ! (INPUT)  nitrate nitrogen in layer L (g N/m^2)
+      REAL      no3gsm_min(*)      ! (INPUT)  minimum allowable NO3 in soil (g/m^2)
+      real      NO3gsm_mflow_pot(*)! (OUTPUT) potential plant NO3  uptake (supply) g/m^2, by mass flow
 
-      REAL, OPTIONAL :: NH4gsm(*)          ! (INPUT)  nitrate nitrogen in layer L (g N/m^2)
-      REAL, OPTIONAL :: NH4gsm_min(*)      ! (INPUT)  minimum allowable NH4 in soil (g/m^2)
-      REAL, OPTIONAL :: NH4gsm_mflow_pot(*)! (OUTPUT) potential plant NH4  uptake (supply) g/m^2, by mass flow
-
+      REAL      NH4gsm(*)          ! (INPUT)  nitrate nitrogen in layer L (g N/m^2)
+      REAL      NH4gsm_min(*)      ! (INPUT)  minimum allowable NH4 in soil (g/m^2)
+      REAL      NH4gsm_mflow_pot(*)! (OUTPUT) potential plant NH4  uptake (supply) g/m^2, by mass flow
+                 
 *+  Purpose
 *       Return potential nitrogen uptake (supply) by mass flow (water
 *       uptake) (g/m^2)
@@ -1693,29 +1690,23 @@ c          PRINT *, 'fixation present'
 
       enddo
 
-      if ( PRESENT(NH4gsm)          .and.
-     :     PRESENT(NH4gsm_min)      .and.
-     :     PRESENT(NH4gsm_mflow_pot)      ) then
 
-c               PRINT *, 'NH4 massflow present'
+       call fill_real_array (NH4gsm_mflow_pot, 0.0, max_layer)
 
-           call fill_real_array (NH4gsm_mflow_pot, 0.0, max_layer)
+       do layer = 1, deepest_layer
 
-           do layer = 1, deepest_layer
+          !get   NH4 concentration
+          sw_avail = MAX(0.0, sw_dep(layer))!-ll_dep(layer))
+          NH4_conc = divide(NH4gsm(layer),sw_avail, 0.0)
 
-              !get   NH4 concentration
-              sw_avail = MAX(0.0, sw_dep(layer))!-ll_dep(layer))
-              NH4_conc = divide(NH4gsm(layer),sw_avail, 0.0)
+          ! get potential uptake by mass flow
+          NH4gsm_mflow  = NH4_conc * (-dlt_sw_dep(layer))
+          NH4_avail     = MAX(0.0,NH4gsm(layer) - NH4gsm_min(layer))
 
-              ! get potential uptake by mass flow
-              NH4gsm_mflow  = NH4_conc * (-dlt_sw_dep(layer))
-              NH4_avail     = MAX(0.0,NH4gsm(layer) - NH4gsm_min(layer))
+          NH4gsm_mflow_pot(layer) = u_bound (NH4gsm_mflow,NH4_avail)
+          NH4gsm_mflow_pot(layer) = MAX(0.0,NH4gsm_mflow_pot(layer))
 
-              NH4gsm_mflow_pot(layer) = u_bound (NH4gsm_mflow,NH4_avail)
-              NH4gsm_mflow_pot(layer) = MAX(0.0,NH4gsm_mflow_pot(layer))
-
-           enddo
-      end if
+       enddo
 
       call pop_routine (my_name)
       return
@@ -1755,9 +1746,9 @@ c               PRINT *, 'NH4 massflow present'
       REAL    no3gsm_min(*)       ! (INPUT)  minimum allowable NO3 in soil (g/m^
       real    NO3gsm_diffn_pot(*) ! (OUTPUT) potential plant NO3 uptake (supply) g/m^2, by diffusion
 
-      REAL, OPTIONAL :: NH4gsm(*)           ! (INPUT)  nitrate nitrogen in layer L (g N/m^
-      REAL, OPTIONAL :: NH4gsm_min(*)       ! (INPUT)  minimum allowable NO3 in soil (g/m^
-      REAL, OPTIONAL :: NH4gsm_diffn_pot(*) ! (OUTPUT) potential plant NO3 uptake (supply) g/m^2, by diffusion
+      REAL  NH4gsm(*)           ! (INPUT)  nitrate nitrogen in layer L (g N/m^
+      REAL  NH4gsm_min(*)       ! (INPUT)  minimum allowable NO3 in soil (g/m^
+      REAL  NH4gsm_diffn_pot(*) ! (OUTPUT) potential plant NO3 uptake (supply) g/m^2, by diffusion
 
 *+  Purpose
 *       Return potential nitrogen uptake (supply) by diffusion for a plant (g/m^2)
@@ -1799,26 +1790,19 @@ c               PRINT *, 'NH4 massflow present'
      :                             NO3gsm(layer) - NO3gsm_min(layer))
       enddo
 
-      if ( PRESENT(NH4gsm)          .and.
-     :     PRESENT(NH4gsm_min)      .and.
-     :     PRESENT(NH4gsm_diffn_pot)      ) then
 
+      call fill_real_array(NH4gsm_diffn_pot, 0.0, max_layer)
 
-c               PRINT *, 'NH4 diffusion present'
+      do layer = 1, deepest_layer
+         sw_avail_fract = divide(sw_avail(layer),
+     :                      sw_avail_pot(layer), 0.0)
+         sw_avail_fract = bound(sw_avail_fract, 0.0, 1.0)
 
-           call fill_real_array(NH4gsm_diffn_pot, 0.0, max_layer)
-
-           do layer = 1, deepest_layer
-              sw_avail_fract = divide(sw_avail(layer),
-     :                           sw_avail_pot(layer), 0.0)
-              sw_avail_fract = bound(sw_avail_fract, 0.0, 1.0)
-
-              ! get extractable NH4, restricts NO3 available for diffusion to NO3 in plant available water range
-              NH4gsm_diffn = sw_avail_fract * NH4gsm(layer)
-              NH4gsm_diffn_pot(layer) = u_bound(NH4gsm_diffn,
-     :                           NH4gsm(layer) - NH4gsm_min(layer))
-           enddo
-      endif
+         ! get extractable NH4, restricts NO3 available for diffusion to NO3 in plant available water range
+         NH4gsm_diffn = sw_avail_fract * NH4gsm(layer)
+         NH4gsm_diffn_pot(layer) = u_bound(NH4gsm_diffn,
+     :                      NH4gsm(layer) - NH4gsm_min(layer))
+      enddo
 
       call pop_routine (my_name)
       return
@@ -1902,6 +1886,8 @@ c               PRINT *, 'NH4 diffusion present'
      :              , dlt_NH4gsm_diffusion
 
      :              , c_n_supply_preference
+     :              , c_n_uptake_preference
+
      :              , n_fix_pot
      :               )
 *     ===========================================================
@@ -1937,6 +1923,7 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
       real       dlt_NH4gsm_diffusion(*) !(OUTPUT) actual plant N uptake from diffusion (g/m2)
 
       CHARACTER  c_n_supply_preference*(*) !(INPUT)
+      CHARACTER  c_n_uptake_preference*(*)  !(INPUT)
       REAL       n_fix_pot           ! (INPUT) potential N fixation (g/m2)
 
 
@@ -1985,8 +1972,10 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
       REAL       N_tot_diffn
 
       REAL       ratio
-      REAL       NO3Ratio
-      REAL       NH4Ratio
+      REAL       NO3Ratio_mf
+      REAL       NH4Ratio_mf
+      REAL       NO3Ratio_df
+      REAL       NH4Ratio_df
 
 *- Implementation Section ----------------------------------
  
@@ -2021,8 +2010,33 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
       NH4gsm_diffn_supply = sum_real_array (NH4gsm_diffn_avail
      :                                     , deepest_layer)
 
-      N_tot_mflow_supply  = NO3gsm_mflow_supply + NH4gsm_mflow_supply
-      N_tot_diffn_supply  = NO3gsm_diffn_supply + NH4gsm_diffn_supply
+
+      if (c_n_uptake_preference.eq.'nh4') then
+         N_tot_mflow_supply  = NH4gsm_mflow_supply
+         N_tot_diffn_supply  = NH4gsm_diffn_supply
+
+         NO3Ratio_mf = 0.0
+         NO3Ratio_df = 0.0
+         NH4Ratio_mf = 1.0
+         NH4Ratio_df = 1.0
+      elseif (c_n_uptake_preference.eq.'both') then
+         N_tot_mflow_supply  = NO3gsm_mflow_supply + NH4gsm_mflow_supply
+         N_tot_diffn_supply  = NO3gsm_diffn_supply + NH4gsm_diffn_supply
+
+         NO3Ratio_mf =divide(NO3gsm_mflow_supply,N_tot_mflow_supply,0.0)
+         NO3Ratio_df =divide(NO3gsm_diffn_supply,N_tot_mflow_supply,0.0)
+         NH4Ratio_mf =divide(NH4gsm_mflow_supply,N_tot_mflow_supply,0.0)
+         NH4Ratio_df =divide(NH4gsm_diffn_supply,N_tot_mflow_supply,0.0)
+      else  !- default value - (c_n_uptake_preference.eq.'no3') then
+         N_tot_mflow_supply  = NO3gsm_mflow_supply
+         N_tot_diffn_supply  = NO3gsm_diffn_supply
+
+         NO3Ratio_mf = 1.0
+         NO3Ratio_df = 1.0
+         NH4Ratio_mf = 0.0
+         NH4Ratio_df = 0.0
+      endif
+
 
       ! get actual total nitrogen uptake for diffusion and mass flow.
       ! If demand is not satisfied by mass flow, then use diffusion.
@@ -2037,19 +2051,17 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
          ratio = divide(N_tot_mflow_supply, n_max_tot,  0.0)
          ratio = bound(ratio, 0.0, 1.0)
 
-         NO3Ratio = divide(NO3gsm_mflow_supply,N_tot_mflow_supply,0.0)
-         NH4Ratio = divide(NH4gsm_mflow_supply,N_tot_mflow_supply,0.0)
-
-         NO3gsm_mflow = n_max_tot * ratio * NO3Ratio
-         NH4gsm_mflow = n_max_tot * ratio * NH4Ratio
+         NO3gsm_mflow = n_max_tot * ratio * NO3Ratio_mf
+         NH4gsm_mflow = n_max_tot * ratio * NH4Ratio_mf
 
          NO3gsm_diffn = 0.0
          NH4gsm_diffn = 0.0
 
       else
  
-         NO3gsm_mflow = NO3gsm_mflow_supply
-         NH4gsm_mflow = NH4gsm_mflow_supply
+         NO3gsm_mflow = N_tot_mflow_supply * NO3Ratio_mf
+         NH4gsm_mflow = N_tot_mflow_supply * NH4Ratio_mf
+
          n_tot_mflow  = NO3gsm_mflow + NH4gsm_mflow
 
          if (c_n_supply_preference.eq.'active') then
@@ -2067,11 +2079,8 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
  
          n_tot_diffn = divide (n_tot_diffn, c_n_diffn_const, 0.0)
 
-         NO3Ratio = divide(NO3gsm_diffn_supply,N_tot_diffn_supply,0.0)
-         NH4Ratio = divide(NH4gsm_diffn_supply,N_tot_diffn_supply,0.0)
-
-         NO3gsm_diffn = n_tot_diffn * NO3Ratio
-         NH4gsm_diffn = n_tot_diffn * NH4Ratio
+         NO3gsm_diffn = n_tot_diffn * NO3Ratio_df
+         NH4gsm_diffn = n_tot_diffn * NH4Ratio_df
 
       endif
  
@@ -3432,6 +3441,407 @@ c     :        - g_dlt_dm_green(root)
       end
 
 
+
+
+
+*     ===========================================================
+      subroutine maize_leaf_appearance (
+     :          g_leaf_no
+     :        , g_leaf_no_final
+     :        , c_leaf_no_rate_change
+     :        , c_leaf_app_rate2
+     :        , c_leaf_app_rate1
+     :        , g_current_stage
+     :        , g_days_tot
+     :        , g_dlt_tt
+     :        , dlt_leaf_no)
+*     ===========================================================
+      implicit none
+      include 'CropDefCons.inc'
+      include 'science.pub'
+      include 'data.pub'                          
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      real       g_leaf_no(*)
+      real       g_leaf_no_final
+      real       c_leaf_no_rate_change
+      real       c_leaf_app_rate2
+      real       c_leaf_app_rate1
+      real       g_current_stage
+      real       g_days_tot(*)
+      real       g_dlt_tt
+      real       dlt_leaf_no           ! (OUTPUT) new fraction of oldest
+                                       ! expanding leaf
+
+*+  Purpose
+*       Return the fractional increase in emergence of the oldest
+*       expanding leaf.
+*       Note ! this does not take account of the other younger leaves
+*       that are currently expanding
+
+*+  Mission statement
+*       Calculate the fractional increase in emergence of the oldest
+*       expanding leaf.
+
+*+  Changes
+*       031194 jngh specified and programmed
+*       070495 psc  added 2nd leaf appearance rate
+*       260596 glh  corrected error in leaf no calcn
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'maize_leaf_appearance')
+
+*+  Local Variables
+      real       leaf_no_remaining     ! number of leaves to go before all
+                                       ! are fully expanded
+      real       leaf_no_now           ! number of fully expanded leaves
+      real       leaf_app_rate         ! rate of leaf appearance (oCd/leaf)
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+cscc Need to work this out. If you use sowing, not emerg. then the
+c leaf no. appears to be underestimated. Maybe it double counts leaf no.
+c between sowing and emergence. Note use of c_leaf_no_at_emerg.
+c ie. this routine really works out leaf no., when above ground.
+ 
+cglh uses sowing, not emerg to calc leaf no.
+ 
+      leaf_no_now = sum_between (sowing, now, g_leaf_no)
+      leaf_no_remaining = g_leaf_no_final - leaf_no_now
+ 
+c      write(*,*) g_leaf_no
+ 
+cSCC normal leaf app rate
+ 
+!      leaf_app_rate = c_leaf_app_rate
+ 
+!scc Peter's 2 stage version used here, modified to apply
+! to last few leaves before flag
+ 
+      if (leaf_no_remaining .le. c_leaf_no_rate_change) then
+ 
+         leaf_app_rate = c_leaf_app_rate2
+ 
+      else
+ 
+         leaf_app_rate = c_leaf_app_rate1
+ 
+      endif
+ 
+ 
+      if (on_day_of (emerg, g_current_stage, g_days_tot)) then
+ 
+             ! initialisation done elsewhere.
+ 
+      elseif (leaf_no_remaining.gt.0.0) then
+ 
+!sscc This should halt on day flag leaf is fully expanded ....
+             ! we  haven't reached full number of leaves yet
+ 
+             ! if leaves are still growing, the cumulative number of
+             ! phyllochrons or fully expanded leaves is calculated from
+             ! daily thermal time for the day.
+ 
+         dlt_leaf_no = divide (g_dlt_tt, leaf_app_rate, 0.0)
+         dlt_leaf_no = bound (dlt_leaf_no, 0.0, leaf_no_remaining)
+ 
+      else
+             ! we have full number of leaves.
+ 
+         dlt_leaf_no = 0.0
+ 
+      endif
+ 
+      call pop_routine (my_name)
+      return
+      end
+
+
+*     ===========================================================
+      subroutine cproc_grain_N_demand (
+     .           g_dm_grain,
+     .           g_dlt_dm_grain,
+     .           g_maxt,
+     .           g_mint,
+     .           c_temp_fac_min,
+     .           c_tfac_slope,
+     .           c_sw_fac_max,
+     .           c_sfac_slope,
+     .           g_N_grain,
+     .           g_N_conc_min_grain,
+     .           g_N_conc_crit_grain,
+     .           g_N_conc_max_grain,
+     .           g_swdef_expansion,
+     .           g_nfact_grain_conc,
+     .           grain_n_demand)
+*     ===========================================================
+      implicit none
+      include 'CropDefCons.inc'
+      include 'data.pub'
+      include 'error.pub'
+      include 'crp_nitn.pub'
+
+*+  Sub-Program Arguments
+       real g_dm_grain
+       real g_dlt_dm_grain
+       real g_maxt
+       real g_mint
+       real c_temp_fac_min
+       real c_tfac_slope
+       real c_sw_fac_max
+       real c_sfac_slope
+       real g_N_grain
+       real g_N_conc_min_grain
+       real g_N_conc_crit_grain
+       real g_N_conc_max_grain
+       real g_swdef_expansion
+       real g_nfact_grain_conc
+       real grain_n_demand       ! (OUTPUT) plant N taken out from plant parts (g N/m^2)
+
+*+  Purpose
+*+  Changes
+
+*+  Calls
+      real       cproc_N_dlt_grain_conc ! function
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'cproc_grain_N_demand')
+
+*+  Local Variables
+      real       N_potential           ! maximum grain N demand (g/m^2)
+      integer    part                  ! plant part number
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+      grain_N_demand = g_dlt_dm_grain * cproc_N_dlt_grain_conc(
+     .                                      c_sfac_slope,
+     .                                      c_sw_fac_max,
+     .                                      c_temp_fac_min,
+     .                                      c_tfac_slope,
+     .                                      g_maxt,
+     .                                      g_mint,
+     .                                      g_nfact_grain_conc,
+     .                                      g_N_conc_crit_grain,
+     .                                      g_N_conc_min_grain,
+     .                                      g_swdef_expansion)
+                                        
+      N_potential  = (g_dm_grain + g_dlt_dm_grain)
+     :             * g_N_conc_max_grain
+ 
+      grain_N_demand = u_bound (grain_N_demand
+     :                        , N_potential - g_N_grain)
+ 
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+*     ===========================================================
+      real function cproc_N_dlt_grain_conc(
+     .              c_sfac_slope,
+     .              c_sw_fac_max,
+     .              c_temp_fac_min,
+     .              c_tfac_slope,
+     .              g_maxt,
+     .              g_mint,
+     .              g_nfact_grain_conc,
+     .              g_n_conc_crit_grain,
+     .              g_n_conc_min_grain,
+     .              g_swdef_expansion)
+*     ===========================================================
+      implicit none
+      include 'error.pub'
+
+*+  Sub-Program Arguments
+      REAL       c_sfac_slope          ! (INPUT)  soil water stress factor slope
+      REAL       c_sw_fac_max          ! (INPUT)  soil water stress factor maximum
+      REAL       c_temp_fac_min        ! (INPUT)  temperature stress factor minimu
+      REAL       c_tfac_slope          ! (INPUT)  temperature stress factor slope
+      REAL       g_maxt                ! (INPUT)  maximum air temperature (oC)
+      REAL       g_mint                ! (INPUT)  minimum air temperature (oC)
+      REAL       g_nfact_grain_conc    ! (INPUT)
+      REAL       g_n_conc_crit_grain   ! (INPUT)  critical N concentration (g N/g
+      REAL       g_n_conc_min_grain    ! (INPUT)  minimum N concentration (g N/g b
+      REAL       g_swdef_expansion     ! (INPUT)
+
+*+  Purpose
+*     Calculate the nitrogen concentration required to meet the increase
+*     from daily grain growth (0-1)
+
+*+  Notes
+*     First, two factors are calculated and used to estimate the
+*     effects of mean temperature and drought stress on the N
+*     concentration in grain growth for the day.  High temperature
+*     or drought stress can cause the factors to exceed 1.
+*     N deficiency can cause nfac < 1.  The net effect of these
+*     equations is to allow grain nitrogen concentration to range
+*     from less than .01 when N deficiency is severe to about .018
+*     when adequate N is available but high temperature or drought
+*     stress limit grain growth.
+*     Here, optimum N concentration = 1.7%
+*
+*       called by srop_N_retranslocate1
+
+*+  Changes
+*       090994 jngh specified and programmed
+*       970317 slw extracted from Mungbean
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'crop_N_dlt_grain_conc')
+
+*+  Local Variables
+      real       N_conc_pot            ! potential grain N concentration
+                                       ! (0-1) (g N/g part)
+      real       N_grain_sw_fac        ! soil water stress factor for N
+                                       ! uptake
+      real       N_grain_temp_fac      ! temperature stress factor for N
+                                       ! uptake
+      real       ave_temp              ! mean temperature (oC)
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+      ave_temp = (g_maxt + g_mint) /2.0
+ 
+c+!!!!!!!!!! return to orig cm
+      N_grain_temp_fac = c_temp_fac_min + c_tfac_slope* ave_temp
+      N_grain_sw_fac = c_sw_fac_max - c_sfac_slope * g_swdef_expansion
+ 
+            ! N stress reduces grain N concentration below critical
+ 
+      N_conc_pot = g_n_conc_min_grain
+     :           + (g_n_conc_crit_grain - g_n_conc_min_grain)
+     :           * g_nfact_grain_conc
+ 
+            ! Temperature and water stresses can decrease/increase grain
+            ! N concentration
+ 
+            ! when there is no N stress, the following can be a higher N conc th
+            ! the crit and thus the N conc of the grain can exceed N critical.
+ 
+      cproc_N_dlt_grain_conc = N_conc_pot
+     :                       * max (N_grain_temp_fac, N_grain_sw_fac)
+ 
+      call pop_routine (my_name)
+      return
+      end
+
+
+*     ===========================================================
+      subroutine cproc_N_retranslocate1 (
+     .            grain_n_demand,
+     .            g_N_conc_min,
+     .            g_dm_green,
+     .            g_N_green,
+     .            o_dlt_N_retrans)
+*     ===========================================================
+      implicit none
+      include   'CropDefCons.inc'
+      include 'data.pub'
+      include 'error.pub'                         
+      include 'crp_nitn.pub'
+
+*+  Sub-Program Arguments
+       real grain_n_demand
+       real g_N_conc_min(*)
+       real g_dm_green(*)
+       real g_N_green(*)
+       real o_dlt_N_retrans (*)     ! (OUTPUT) plant N taken out from
+                                       ! plant parts (g N/m^2)
+
+*+  Purpose
+*     Calculate the nitrogen retranslocation from the various plant parts
+*     to the grain.
+*
+*       Called by srop_nit_retrans(1) in croptree
+*       Calls srop_N_dlt_grain_conc,  srop_N_retrans_avail   in crop
+
+*+  Changes
+*     080994 jngh specified and programmed
+
+*+  Calls
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'cproc_N_retranslocate1')
+
+*+  Local Variables
+      real       N_avail(max_part)     ! N available for transfer to grain  (g/m^2)
+      real       N_avail_stover        ! total N available in stover! (g/m^2)
+      integer    part                  ! plant part number
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+
+      call crop_N_retrans_avail (max_part, root, grain,
+     .          g_N_conc_min,
+     .          g_dm_green,
+     .          g_N_green,N_avail)  ! grain N potential (supply)
+ 
+            ! available N does not include roots or grain
+cjh  this should not presume roots and grain are 0.
+csc  true....
+ 
+      N_avail_stover  =  sum_real_array (N_avail, max_part)
+ 
+          ! get actual grain N uptake
+ 
+          ! limit retranslocation to total available N
+ 
+      call fill_real_array (o_dlt_N_retrans, 0.0, max_part)
+ 
+      if (grain_N_demand.ge.N_avail_stover) then
+ 
+             ! demand greater than or equal to supply
+             ! retranslocate all available N
+ 
+         o_dlt_N_retrans(leaf) = - N_avail(leaf)
+         o_dlt_N_retrans(stem) = - N_avail(stem)
+         o_dlt_N_retrans(flower) = - N_avail(flower)
+         o_dlt_N_retrans(grain) = N_avail_stover
+ 
+      else
+             ! supply greater than demand.
+             ! Retranslocate what is needed
+ 
+         o_dlt_N_retrans(leaf) = - grain_N_demand
+     :                         * divide (N_avail(leaf)
+     :                                 , N_avail_stover, 0.0)
+ 
+         o_dlt_N_retrans(flower) = - grain_N_demand
+     :                         * divide (N_avail(flower)
+     :                                 , N_avail_stover, 0.0)
+ 
+         o_dlt_N_retrans(stem) = - grain_N_demand
+     :                         - o_dlt_N_retrans(leaf)   ! note - these are
+     :                         - o_dlt_N_retrans(flower) ! -ve values.
+ 
+         o_dlt_N_retrans(grain) = grain_N_demand
+ 
+      endif
+             ! just check that we got the maths right.
+ 
+      do 1000 part = root, flower
+         call bound_check_real_var (abs (o_dlt_N_retrans(part))
+     :                            , 0.0, N_avail(part)
+     :                            , 'o_dlt_N_retrans(part)')
+1000  continue
+ 
+      call pop_routine (my_name)
+      return
+      end
 
 
 
