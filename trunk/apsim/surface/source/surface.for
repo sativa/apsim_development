@@ -1,80 +1,145 @@
+      module SurfaceModule
+!     ================================================================
+!     Surface array sizes and constants
+!     ================================================================
+
+!   Short description:
+!      array size settings and constants
+
+!   Notes:
+!      none
+
+!   Attributes:
+!      Version:         Any hardware/Fortran77
+!      Extensions:      Long names <= 20 chars.
+!                       Lowercase
+!                       Underscore
+!                       Inline comments
+
+!   Changes:
+!
+! ----------------------- Declaration section ------------------------
+
+!   Constant values
+      integer    max_crops                    ! maximum number of crops in at once
+      parameter (max_crops = 10)
+
+!   Global variables
+
+      type SurfaceGlobals
+         integer    year                ! year
+         integer    day                 ! day of year
+         double precision scon
+         double precision scon_max
+         double precision scon_min
+         double precision RR
+         double precision cover
+         real   cover_tot_all(max_crops)
+         real   cover_height_all(max_crops)
+         integer          num_crops
+      end type SurfaceGlobals
+! ====================================================================
+      type SurfaceParameters
+         integer    model_no            ! model identifier flag
+         double precision precip_const
+         double precision effpar
+         double precision RR_max
+         double precision RR_min
+         double precision seal_decay_rate
+         double precision RR_decay_rate
+      end type SurfaceParameters
+! ====================================================================
+
+      ! instance variables.
+      type (SurfaceGlobals), pointer :: g
+      type (SurfaceParameters), pointer :: p
+      integer MAX_NUM_INSTANCES
+      parameter (MAX_NUM_INSTANCES=10)
+      integer MAX_INSTANCE_NAME_SIZE
+      parameter (MAX_INSTANCE_NAME_SIZE=50)
+      type SurfaceDataPtr
+         type (SurfaceGlobals), pointer ::    gptr
+         type (SurfaceParameters), pointer :: pptr
+         character Name*(MAX_INSTANCE_NAME_SIZE)
+      end type SurfaceDataPtr
+      type (SurfaceDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+
+      contains
+
+
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
-      use SurfaceModule
       Use infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       character InstanceName*(*)       ! (INPUT) name of instance
       integer   InstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Module instantiation routine.
 
 *+  Mission Statement
 *     Instantiate routine
- 
+
 !- Implementation Section ----------------------------------
-               
+
       allocate (Instances(InstanceNo)%gptr)
       allocate (Instances(InstanceNo)%pptr)
       Instances(InstanceNo)%Name = InstanceName
- 
+
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
-      use SurfaceModule
       Use infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       integer anInstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Module de-instantiation routine.
 
 *+  Mission Statement
 *     De-Instantiate routine
- 
+
 !- Implementation Section ----------------------------------
-               
+
       deallocate (Instances(anInstanceNo)%gptr)
       deallocate (Instances(anInstanceNo)%pptr)
-       
+
       return
-      end
-     
+      end subroutine
+
 !     ===========================================================
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
-      use SurfaceModule
       Use infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       integer anInstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Swap an instance into the global 'g' pointer
 
 *+  Mission Statement
 *     Swap an instance into global pointer
- 
+
 !- Implementation Section ----------------------------------
-               
+
       g => Instances(anInstanceNo)%gptr
       p => Instances(anInstanceNo)%pptr
-       
+
       return
-      end
+      end subroutine
 *     ===========================================================
       subroutine Main (Action, Data_String)
 *     ===========================================================
-      use SurfaceModule
       Use infrastructure
       implicit none
 
@@ -104,58 +169,57 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
          ! initialise error flags
-      
+
       if (Action.eq.ACTION_Init) then
          call surface_zero_variables ()
          call surface_Init ()
- 
+
 c      else if (Action.eq.ACTION_Inter_Timestep) then
 c         call surface_Inter_Timestep()
- 
+
 c      else if (Action.eq.ACTION_Process) then
 c         call surface_get_other_variables ()
 c         call surface_process ()
- 
+
 c      else if ((Action.eq.'surface').or.(Action.eq.'apply')) then
 c         call surface_get_other_variables ()
 c         call surface_surface ()
- 
+
       else if (Action.eq.ACTION_Get_variable) then
          call surface_Send_my_variable (Data_String)
- 
+
       else if (Action.eq.'swim_timestep_preparation') then
          call surface_timestep_preparation ()
- 
+
       else if (Action.eq.'pre_swim_timestep') then
          call surface_calc_scon ()
- 
+
       else if (Action .eq. ACTION_Set_variable) then
          call surface_set_my_variable (Data_String)
- 
+
       else if (Action .eq. 'post_swim_timestep') then
          call surface_post_swim_timestep ()
- 
+
       else if (Action .eq. 'tillage') then
          call surface_tillage ()
- 
+
       else
             ! Don't use message
          call Message_unused ()
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine surface_Init ()
 *     ===========================================================
-      use SurfaceModule
       Use infrastructure
       implicit none
 
@@ -177,31 +241,30 @@ c         call surface_surface ()
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       call surface_get_other_variables ()
- 
+
          ! Notify system that we have initialised
- 
+
       Event_string = 'Initialising'
       call Write_string (Event_string)
- 
+
          ! Get all parameters from parameter file
- 
+
       call surface_read_param ()
- 
+
       g%rr = p%rr_max
- 
- 
+
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine surface_read_param ()
 *     ===========================================================
-      use SurfaceModule
       Use infrastructure
       implicit none
 
@@ -226,9 +289,9 @@ c         call surface_surface ()
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       call write_string (new_line//'   - Reading Parameters')
- 
+
       call read_integer_var (
      :           section_name         ! Section header
      :         , 'model_no'           ! Keyword
@@ -237,7 +300,7 @@ c         call surface_surface ()
      :         , numvals              ! Number of values returned
      :         , 1                    ! Lower Limit for bound checking
      :         , 2)                   ! Upper Limit for bound checking
- 
+
       call read_double_var (
      :           section_name         ! Section header
      :         , 'precip_const'       ! Keyword
@@ -246,7 +309,7 @@ c         call surface_surface ()
      :         , numvals              ! Number of values returned
      :         , 0d0                  ! Lower Limit for bound checking
      :         , 1000d0)              ! Upper Limit for bound checking
- 
+
       call read_double_var (
      :           section_name         ! Section header
      :         , 'effpar'             ! Keyword
@@ -255,7 +318,7 @@ c         call surface_surface ()
      :         , numvals              ! Number of values returned
      :         , 0d0                  ! Lower Limit for bound checking
      :         , 10d0)                ! Upper Limit for bound checking
- 
+
       call read_double_var (
      :           section_name         ! Section header
      :         , 'seal_decay_rate'    ! Keyword
@@ -264,7 +327,7 @@ c         call surface_surface ()
      :         , numvals              ! Number of values returned
      :         , 0d0                  ! Lower Limit for bound checking
      :         , 1d0)                 ! Upper Limit for bound checking
- 
+
       call read_double_var (
      :           section_name         ! Section header
      :         , 'rr_decay_rate'    ! Keyword
@@ -273,7 +336,7 @@ c         call surface_surface ()
      :         , numvals              ! Number of values returned
      :         , 0d0                  ! Lower Limit for bound checking
      :         , 1d0)                 ! Upper Limit for bound checking
- 
+
       call read_double_var (
      :           section_name         ! Section header
      :         , 'rr_max'             ! Keyword
@@ -282,7 +345,7 @@ c         call surface_surface ()
      :         , numvals              ! Number of values returned
      :         , 0d0                  ! Lower Limit for bound checking
      :         , 3.99d0)              ! Upper Limit for bound checking
- 
+
       call read_double_var (
      :           section_name         ! Section header
      :         , 'rr_min'             ! Keyword
@@ -291,17 +354,16 @@ c         call surface_surface ()
      :         , numvals              ! Number of values returned
      :         , 0d0                  ! Lower Limit for bound checking
      :         , 3.99d0)              ! Upper Limit for bound checking
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine surface_zero_variables ()
 *     ===========================================================
-      use SurfaceModule
       Use infrastructure
       implicit none
 
@@ -320,7 +382,7 @@ c         call surface_surface ()
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       g%year = 0
       g%day = 0
       g%cover = 0d0
@@ -338,17 +400,16 @@ c         call surface_surface ()
       g%cover_tot_all(:) = 0.0
       g%cover_height_all(:) = 0.0
       g%num_crops = 0
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine surface_get_other_variables ()
 *     ===========================================================
-      use SurfaceModule
       Use infrastructure
       implicit none
 
@@ -370,7 +431,7 @@ c         call surface_surface ()
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       call Get_integer_var (
      :      unknown_module  ! Module that responds (Not Used)
      :    , 'year'          ! Variable Name
@@ -379,7 +440,7 @@ c         call surface_surface ()
      :    , numvals         ! Number of values returned
      :    , 1800            ! Lower Limit for bound checking
      :    , 2000)           ! Upper Limit for bound checking
- 
+
       call Get_integer_var (
      :      unknown_module  ! Module that responds (Not Used)
      :    , 'day'           ! Variable Name
@@ -388,17 +449,16 @@ c         call surface_surface ()
      :    , numvals         ! Number of values returned
      :    , 0               ! Lower Limit for bound checking
      :    , 366)            ! Upper Limit for bound checking
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine surface_Send_my_variable (Variable_name)
 *     ===========================================================
-      use SurfaceModule
       Use infrastructure
       implicit none
 
@@ -449,17 +509,16 @@ c RDC
       else
          call Message_unused ()
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine surface_set_my_variable (Variable_name)
 *     ===========================================================
-      use SurfaceModule
       Use infrastructure
       implicit none
 
@@ -485,25 +544,25 @@ c RDC
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
- 
+
+
 c RDC
- 
+
       if (variable_name .eq. 'seal_decay_rate') then
          call collect_double_var (variable_name, '()'
      :                             , p%seal_decay_rate, numvals
      :                             , 0.0d0, 1.0d0)
- 
+
       else if (variable_name .eq. 'rr_decay_rate') then
          call collect_double_var (variable_name, '()'
      :                             , p%rr_decay_rate, numvals
      :                             , 0.0d0, 1.0d0)
- 
+
       else if (variable_name .eq. 'rr_max') then
          call collect_double_var (variable_name, '()'
      :                             , p%RR_max, numvals
      :                             , 0.0d0, 2000.0d0)
- 
+
       else if (variable_name .eq. 'rr_min') then
          call collect_double_var (variable_name, '()'
      :                             , p%RR_min, numvals
@@ -516,22 +575,21 @@ c RDC
          call collect_double_var (variable_name, '()'
      :                             , g%scon_min, numvals
      :                             , 0.0d0, 2000.0d0)
- 
+
       else
          ! don't know this variable name
          call Message_Unused()
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine surface_Calc_Scon ()
 *     ===========================================================
-      use SurfaceModule
       Use infrastructure
       implicit none
 
@@ -556,7 +614,7 @@ c RDC
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       call Get_double_var (
      :      'apswim'        ! Module that responds (Not Used)
      :    , 'dr'            ! Variable Name
@@ -565,7 +623,7 @@ c RDC
      :    , numvals         ! Number of values returned
      :    , 0d0             ! Lower Limit for bound checking
      :    , 1000d0)         ! Upper Limit for bound checking
- 
+
       call Get_double_var (
      :      'apswim'        ! Module that responds (Not Used)
      :    , 'dt'            ! Variable Name
@@ -574,40 +632,39 @@ c RDC
      :    , numvals         ! Number of values returned
      :    , 0d0             ! Lower Limit for bound checking
      :    , 1440d0)         ! Upper Limit for bound checking
- 
+
       if (p%model_no .eq. 1) then
          call surface_Scon_calc1(rainfall,duration,Scon)
       elseif (p%model_no .eq. 2) then
          call surface_Scon_calc2(rainfall,duration,Scon)
       else
       endif
- 
- 
+
+
       call new_postbox()
- 
+
       call Post_double_var (
      :                      'scon'
      :                    , '(/h)'
      :                    , Scon)
- 
+
       call Action_send(
      :                            'apswim'
      :                           ,ACTION_Set_variable
      :                           ,'scon'
      :                           )
- 
+
       call delete_postbox ()
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine surface_get_swim_variables ()
 *     ===========================================================
-      use SurfaceModule
       Use infrastructure
       implicit none
 
@@ -632,7 +689,7 @@ c RDC
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       call Get_double_var (
      :      'apswim'        ! Module that responds (Not Used)
      :    , 'scon'          ! Variable Name
@@ -641,7 +698,7 @@ c RDC
      :    , numvals         ! Number of values returned
      :    , 0d0             ! Lower Limit for bound checking
      :    , 1000d0)         ! Upper Limit for bound checking
- 
+
       call Get_double_var (
      :      'apswim'        ! Module that responds (Not Used)
      :    , 'scon_min'      ! Variable Name
@@ -650,7 +707,7 @@ c RDC
      :    , numvals         ! Number of values returned
      :    , 0d0             ! Lower Limit for bound checking
      :    , 1000d0)         ! Upper Limit for bound checking
- 
+
       call Get_double_var (
      :      'apswim'        ! Module that responds (Not Used)
      :    , 'scon_max'      ! Variable Name
@@ -659,7 +716,7 @@ c RDC
      :    , numvals         ! Number of values returned
      :    , 0d0             ! Lower Limit for bound checking
      :    , 1000d0)         ! Upper Limit for bound checking
- 
+
 !      call Get_double_var (
 !     :      'apswim'        ! Module that responds (Not Used)
 !     :    , 'crop_cover'    ! Variable Name
@@ -668,7 +725,7 @@ c RDC
 !     :    , numvals         ! Number of values returned
 !     :    , 0d0             ! Lower Limit for bound checking
 !     :    , 1d0)            ! Upper Limit for bound checking
- 
+
       call Get_real_array (
      :      unknown_module  ! Module that responds (Not Used)
      :    , 'cover_tot_all' ! Variable Name
@@ -678,7 +735,7 @@ c RDC
      :    , g%num_crops     ! Number of values returned
      :    , 0.0          ! Lower Limit for bound checking
      :    , 1.0)            ! Upper Limit for bound checking
- 
+
       call Get_real_array (
      :      unknown_module  ! Module that responds (Not Used)
      :    , 'cover_height_all' ! Variable Name
@@ -688,10 +745,10 @@ c RDC
      :    , numvals         ! Number of values returned
      :    , 0.0             ! Lower Limit for bound checking
      :    , 20000.0)            ! Upper Limit for bound checking
- 
+
       ! When apswim starts to use residue information we should
       ! use its value of total cover.
- 
+
       residue_cover = 0d0
       call Get_double_var_optional (
      :      unknown_module  ! Module that responds (Not Used)
@@ -701,24 +758,23 @@ c RDC
      :    , numvals         ! Number of values returned
      :    , 0d0             ! Lower Limit for bound checking
      :    , 1d0)            ! Upper Limit for bound checking
- 
- 
+
+
       ! add residue to cover variable
 !      g%cover = g%cover + residue_cover * (1d0 - g%cover)
       g%cover = sum_cover_array (g%cover_tot_all, g%num_crops)
       g%cover = add_cover (real(g%cover), real(residue_cover))
 1000  continue
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 * =====================================================================
       subroutine surface_scon_calc1(rainfall,duration,Scon)
 * =====================================================================
-      use SurfaceModule
       Use infrastructure
       implicit none
 
@@ -756,51 +812,50 @@ c RDC
       double precision avinten
 
 *- Implementation Section ----------------------------------
- 
+
       ! first calculate the amount of Energy that must have been
       ! applied to reach the current conductance.
- 
+
       decay_Fraction = (g%scon-g%scon_min)/(g%scon_max-g%scon_min)
- 
+
       if (doubles_are_equal (decay_fraction, 0d0)) then
          ! Surface seal has reached maximum decay
          Scon = g%Scon_min
- 
+
       else
- 
+
          Es = -p%precip_const * log(decay_Fraction)
- 
- 
+
+
          ! now add rainfall energy for this timestep
- 
+
          if (rainfall .gt. 0.d0) then
- 
+
             avinten = rainfall/duration
- 
+
             Eo = (1d0+p%effpar*log(avinten/(25d0/60d0)))
             dEs = Eo*rainfall
- 
+
          else
             dEs = 0.d0
          endif
- 
+
          Es = Es + dEs
- 
+
          ! now calculate new surface storage from new energy
          Scon = g%Scon_min
      :          + (g%Scon_max-g%Scon_min)*exp(-Es/p%precip_const)
- 
+
       endif
- 
+
       return
-      end
+      end subroutine
 
 
 
 * =====================================================================
       subroutine surface_scon_calc2(rainfall,duration,Scon)
 * =====================================================================
-      use SurfaceModule
       Use infrastructure
       implicit none
 
@@ -839,7 +894,7 @@ c RDC
 
 *+  Mission statement
 *     Update surface conductance using Silburn & Connolly approach
- 
+
 *+  Changes
 *     <insert here>
 
@@ -854,64 +909,63 @@ c RDC
       double precision avinten
 
 *- Implementation Section ----------------------------------
- 
+
       ! first calculate the amount of Energy that must have been
       ! applied to reach the current conductance.
- 
+
       decay_Fraction = (g%scon-g%scon_min)/(g%scon_max-g%scon_min)
- 
+
       if (doubles_are_equal (decay_fraction, 0d0)) then
          ! Surface seal has reached maximum decay
          Scon = g%Scon_min
- 
+
       else
- 
+
          Es = -1.0/p%seal_decay_rate * log(decay_Fraction)
- 
+
          !  Calculate the random roughness that would exist after
          !  this amount of rainfall energy.
 ! RDC this part not used
 !         g%RR = p%RR_min
 !     :          + (p%RR_max-p%RR_min)*exp(-p%RR_decay_rate*Es)
- 
- 
+
+
          ! Now calculate the rainfal energy for this SWIM timestep.
- 
+
          if (rainfall .gt. 0.d0) then
- 
+
             avinten = rainfall/(duration/60d0)
- 
+
 cnh note that the following equation from Rosewell is nonsensical for
 cnh low rainfall intensities.  A better option may be to use the
 cnh approach used internally in swim.  Tests show that a precipitation
 cnh constant of 0.27 gives the same response for most rainfall intensities
 cnh but is more sensible at low rainfall intensities.
             Eo  = 26.35 * (1.0 - 0.669*exp(-0.0349*avinten))
- 
+
             dEs = (1.0 - g%cover)*(1.0-g%RR/4.0)*Eo*rainfall
- 
+
          else
             dEs = 0.d0
          endif
- 
+
          ! now add rainfall energy for this timestep
          Es = Es + dEs
- 
+
          ! now calculate new surface storage from new energy
          Scon = g%Scon_min
      :          + (g%Scon_max-g%Scon_min)*exp(-p%seal_decay_rate*Es)
- 
+
       endif
- 
+
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine surface_timestep_preparation ()
 * ====================================================================
-      use SurfaceModule
       Use infrastructure
       implicit none
 
@@ -938,19 +992,18 @@ cnh but is more sensible at low rainfall intensities.
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       call surface_get_swim_variables ()
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine surface_post_swim_timestep ()
 *     ===========================================================
-      use SurfaceModule
       Use infrastructure
       implicit none
 
@@ -982,19 +1035,18 @@ cnh but is more sensible at low rainfall intensities.
      :    , numvals         ! Number of values returned
      :    , 0d0             ! Lower Limit for bound checking
      :    , 1000d0)         ! Upper Limit for bound checking
- 
+
       g%rr=p%rr_min+((1d0-p%rr_decay_rate)**dr*(g%rr-p%rr_min))  ! p%rr_decay_rate=frac drop in RR /mm rain
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine surface_tillage ()
 *     ===========================================================
-      use SurfaceModule
       Use infrastructure
       implicit none
 
@@ -1039,12 +1091,13 @@ cnh but is more sensible at low rainfall intensities.
           p%rr_decay_rate = temp
       else
       endif
- 
+
       g%rr = p%rr_max
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
+      end module SurfaceModule
