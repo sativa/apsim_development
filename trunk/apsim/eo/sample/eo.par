@@ -7,15 +7,15 @@
 !                 rc_method, rc
 
 
-[sample.eo.parameters]
-albedo = 0.13 ()                 ! soil albedo (0-1)
-max_albedo = 0.23 ()             ! albedo at 100% green crop cover (0-1). 
+[sample.eo.parameters]  
+albedo =  0.13 ()   ! soil albedo (0-1)
+max_albedo =  0.23 ()   ! albedo at 100% green crop cover (0-1). 
                                  ! Bare soil albedo must not exceed this value.
-z0soil = 3 (mm)                  ! soil z0 (used when rlai=0) (mm)
-e_method = pen_mon               ! method used for evaportranspiration
-default_wind = 60.0  (km/day)    ! default wind speed (km/day)          
-default_pa   = 1000 (hpa)        ! default atmospheric pressure (hPa)
-default_instrum_height = 2000 (mm) ! default instrument height (mm)     
-disp_instrum = 37.0 (mm)  ! mown grass) ! zero plane displacement at instrument site (mm)
-z0_instrum = 4.0 (mm)     ! mown grass  ! roughness length at instrument site (mm)
+z0soil =  3 (mm)   ! soil z0 (used when rlai=0) (mm)
+e_method =  pen_mon   ! method used for evaportranspiration
+default_wind =  60.0 (km/day)   ! default wind speed (km/day)          
+default_pa =   1000 (hpa)   ! default atmospheric pressure (hPa)
+default_instrum_height =  2000 (mm)   ! default instrument height (mm)     
+disp_instrum =  37.0 (mm)   ! mown grass) ! zero plane displacement at instrument site (mm)
+z0_instrum =  4.0 (mm)   ! mown grass  ! roughness length at instrument site (mm)
                           ! mown grass - lai=1, canopy height of 50 mm

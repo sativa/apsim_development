@@ -7,24 +7,19 @@ Screen output =on
 Variable list
 -------------
  
-Module = input
+Module = clock
 Variables =year,day
  
 Module = eo
 Variables =eo_pm,ra
  
-Module = input
+Module = met
 Variables =evap
 ---------------------------------------------------------
-latitude = -27.31
-start_year =1996
-end_year =1997
-start_day =1
-end_day =1
-latitude = -27.31
- INPUT Initialised, Version: V1.02  05/08/96
+latitude =  -27.31
+ MET Initialised, Version: V1.4 25/11/96
 ---------------------------------------------------------
- day=   1 date=  1  1 1996 manager  - Initialising, Version : V1.40  23/04/98
+ day=   1 date=  1  1 1996 manager  - Initialising, Version : V1.30  02/10/96
  
 Manager rules
 ------- -----
@@ -62,15 +57,5 @@ report do_output
      Source of VPD is mint
      Default atmospheric pressure used =   1000.0 (mb)
  
----------------------------------------------------------
-APSuite version number : 1_4p4
-Registered to      : John Hargreaves
-                   : CSIRO
-Module : report
-Module : input
-Module : manager
-Module : eo
----------------------------------------------------------
- 
 ======= Start of APSIM simulation ============================
-Simulation is terminating due to satisfying end of run conditions.
+Simulation is terminating due to end criteria being met.

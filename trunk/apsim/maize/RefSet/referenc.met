@@ -1,9 +1,9 @@
-[reference.input.weather]
+[reference.met.weather]  
 ! [photoperiod.latitude] Single value of latitude will suffice
 !                        with photoperiod varying with day of year
-latitude = -28.
+latitude =  -28.   
 
-rain = 0.0 ! rainfall is turned off - use irrigation to control water stress
+rain =  0.0   ! rainfall is turned off - use irrigation to control water stress
 
 ! [temperature.maxt]  Temperatures and radiation
 ! [temperature.mint]  are tested simply by using

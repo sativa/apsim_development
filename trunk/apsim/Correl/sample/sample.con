@@ -1,19 +1,25 @@
-[APSIM.Correl_gatton.control]
-module=report     [sample] 
-module=input      cooper.met[cprl]  [gatton]
-module=correl     correl.par [sample]
+[Correl_gatton.clock.parameters]  
+start_day =    116   
+start_year =   1975 
+end_day =      150
+end_year =     1997
+[apsim.Correl_gatton.control]  
+  Module = clock    [Correl_gatton] 
+  Module = report   [sample]      
+  Module = met      COOPER.MET [CPRL]      
+  Module = correl   correl.par [sample]      
 
 ! Generic report parameters
-[sample.report.parameters]
-screen_output = on
+[sample.report.parameters]  
+screen_output =  on   
 
-module_names=    input input
-variable_names=  year  day  
-variable_alias=   -    -    
-units=            -    -    
+module_names =   clock clock   
+variable_names =  year day   
+variable_alias =  -    -   
+units =           -    -   
 
 
-title = Eo_gatton_9394
-outputfile = correl.out  /overwrite
-summaryfile = correl.sum /overwrite
+title =  Eo_gatton_9394   
+outputfile =  correl.out /overwrite   
+summaryfile =  correl.sum /overwrite   
 

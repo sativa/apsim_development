@@ -1,32 +1,33 @@
 
 
 
-[APSIM.test1]
-module=input      [test]  test.met[test]
-module=manager    [test]
-module=report     [test]
-module=frmrpt     [test]
+[apsim.test1]  
+  Module = clock    [test]      
+  Module = report   [test]      
+  Module = met      TEST.MET [test]      
+  Module = manager  [test]      
+  Module = frmrpt   [test]      
 
 
-[test.report.parameters]
-outputfile = rpt.out /overwrite
-summaryfile =rpt.sum /overwrite
+[test.report.parameters]  
+outputfile =  rpt.out /overwrite   
+summaryfile =  rpt.sum /overwrite   
 
-module_names=    input input
-variable_names=  day year
-variable_alias=  -     -
-units=           -     -
+module_names =   clock clock   
+variable_names =  day year   
+variable_alias =  -    -   
+units =          -     -   
 
 
 
-[test.manager.init]
+[test.manager.init]  
 ramp1 = 0
 ramp2 = 0
 wert = 500.67
 fay = 72
 
 
-[test.manager.start_of_day]
+[test.manager.start_of_day]  
 ramp1 = ramp1 + 1
 ramp2 = ramp2 + 1
 if (ramp1 > 5)  then
@@ -34,7 +35,7 @@ if (ramp1 > 5)  then
 endif
 
 
-[test.manager.process]
+[test.manager.process]  
 
 if (ramp1 = 5) then
    frmrpt do_output test2
@@ -53,20 +54,20 @@ if (ramp2 = 15) then
 endif
 
 
-[test.input.parameters]
+[test.clock.parameters]  
 ! Start and end date of run (day number of year and year)
-start_day = 1
-start_year = 1970
-end_day = 21
-end_year = 1970
+start_day =  1   
+start_year =  1970   
+end_day =  21   
+end_year =  1970   
 
 
-[test.frmrpt.parameters]
-handle=       test1     test2
-form_file=    test1.frm test2.frm
-out_file=     test1.out test2.out
-report_start=    1         0
-report_days=     3         0
+[test.frmrpt.parameters]  
+handle =      test1     test2   
+form_file =   test1.frm test2.frm   
+out_file =    test1.out test2.out   
+report_start =   1         0   
+report_days =    3         0   
 
 
 
