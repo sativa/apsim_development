@@ -242,10 +242,10 @@
   100       continue
   200    continue
 
-         call send_interception (variable_info, Total_interception)
+         call return_interception (variable_info, Total_interception)
 
       else
-         call Message_Unused ()
+
       endif
 
       call pop_routine (myname)
@@ -312,18 +312,18 @@
       call push_routine (myname)
 
       g%NumComponents = 0
-      g%ComponentName(:) = ' '
-      g%ComponentType(:) = ' '
-      g%ComponentLAI(:) = 0.0
-      g%ComponentCover(:) = 0.0
-      g%ComponentK(:) = 0.0
-      g%ComponentHeight(:) = 0.0
-      g%ComponentDepth(:) = 0.0
+c      g%ComponentName(:) = ' '
+c      g%ComponentType(:) = ' '
+c      g%ComponentLAI(:) = 0.0
+c      g%ComponentCover(:) = 0.0
+      g%K(:,:) = 0.0
+c      g%ComponentHeight(:) = 0.0
+c      g%ComponentDepth(:) = 0.0
       g%ComponentGsmax(:) = 0.0
       g%ComponentR50(:) = 0.0
       g%ComponentAlbedo(:) = 0.0
       g%ComponentEmissivity(:) = 0.0
-      g%ComponentFrgr(:) = 0.0
+c      g%ComponentFrgr(:) = 0.0
 
       g%DeltaZ(:) = 0.0
       g%NumLayers = 0
@@ -331,6 +331,7 @@
       g%LayerK(:) = 0.0
 
       g%LAI(:,:) = 0.0
+      g%Cover(:,:) = 0.0
       g%F(:,:) = 0.0
       g%Rs(:,:) = 0.0
       g%Rl(:,:) = 0.0
@@ -520,64 +521,6 @@
 
 
 *     ===========================================================
-      subroutine Micromet_OnNewCrop ()
-*     ===========================================================
-      use MicrometModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*       Register presence of a new crop
-
-*+  Mission Statement
-*       Register presence of a new crop
-
-*+  Changes
-*     NIH 30/3/00 Specified
-
-*+  Calls
-
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'Micromet_OnNewCrop')
-
-*+  Local Variables
-      integer    numvals               ! number of values read
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      g%NumComponents = g%NumComponents + 1
-
-      if (g%NumComponents.gt.max_components) then
-         call fatal_Error(ERR_Internal
-     :                   ,'Too many canopy components in system')
-
-      else
-
-         call collect_char_var (DATA_sender
-     :                         ,'()'
-     :                         ,g%ComponentName(g%NumComponents)
-     :                         ,numvals)
-
-         call collect_char_var ('crop_type'
-     :                         ,'()'
-     :                         ,g%ComponentType(g%NumComponents)
-     :                         ,numvals)
-
-         ! Read Component Specific Constants
-         ! ---------------------------------
-         call micromet_component_constants(g%NumComponents)
-
-      endif
-
-      call pop_routine (myname)
-      return
-      end
-
-*     ===========================================================
       subroutine on_canopy_changed(variant)
 *     ===========================================================
       use MicrometModule
@@ -597,7 +540,7 @@
 *     NIH 30/3/00 Specified
 
 *+  Calls
-
+      integer Micromet_Component_Number ! function
 
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
@@ -609,54 +552,34 @@
       integer    ComponentNo
       type (canopies_type), dimension(max_canopies) :: canopies
       integer num_canopies
-
+      integer counter
 *- Implementation Section ----------------------------------
 
       call push_routine (myname)
 
       call unpack_canopies(variant, canopies, num_canopies)
 
-      ComponentNo = position_in_char_array
-     :                   (sender
-     :                   ,g%ComponentName
-     :                   ,g%NumComponents)
+      do 100 counter = 1, num_canopies
+      
+         ComponentNo = Micromet_Component_Number
+     :                   (canopies(counter)%name)
 
-      if (ComponentNo.eq.0) then
-         call fatal_Error(ERR_Internal
-     :                   ,'Unknown Canopy Component: '//sender)
+         if (ComponentNo.eq.0) then
 
-      else
+            g%NumComponents = g%NumComponents + 1
+            g%Canopies(g%NumComponents) = canopies(counter)
 
-         call collect_real_var ('lai'
-     :                         ,'()'
-     :                         ,g%ComponentLAI(ComponentNo)
-     :                         ,numvals
-     :                         ,0.0
-     :                         ,20.0)
+            ! Read Component Specific Constants
+            ! ---------------------------------
+            call micromet_component_constants(g%NumComponents)
 
-         call collect_real_var ('cover'
-     :                         ,'()'
-     :                         ,g%ComponentCover(ComponentNo)
-     :                         ,numvals
-     :                         ,0.0
-     :                         ,1.0)
+         else
 
-         call collect_real_var ('height'
-     :                         ,'()'
-     :                         ,g%ComponentHeight(ComponentNo)
-     :                         ,numvals
-     :                         ,0.0
-     :                         ,100000.0)
+            g%Canopies(ComponentNo) = canopies(counter)
 
-         call collect_real_var ('depth'
-     :                         ,'()'
-     :                         ,g%ComponentDepth(ComponentNo)
-     :                         ,numvals
-     :                         ,0.0
-     :                         ,100000.0)
-
-      endif
-
+         endif
+  100 continue
+  
       call pop_routine (myname)
       return
       end
@@ -809,7 +732,8 @@
       integer Node
       real    CanopyBase
       integer key(2*max_components - 1)
-
+      integer layer
+      
 *- Implementation Section ----------------------------------
 
       call push_routine (myname)
@@ -818,30 +742,22 @@
       NumNodes = 0
 
       do 100 ComponentNo = 1, g%NumComponents
-         if (position_in_real_array(g%ComponentHeight(ComponentNo)
-     :                             ,Nodes
-     :                             ,NumNodes)
+
+         do 50 layer = 1, max_layer
+
+            if (position_in_real_array
+     :         (g%Canopies(ComponentNo)%Canopy_Layers(layer)%Cum_Height
+     :         ,Nodes
+     :         ,NumNodes)
      :       .eq.0) then
-            NumNodes = NumNodes + 1
-            Nodes(NumNodes) = g%ComponentHeight(ComponentNo)
+               NumNodes = NumNodes + 1
+               Nodes(NumNodes) = g%Canopies(ComponentNo)
+     :                             %Canopy_Layers(layer)%Cum_Height
 
-         else
-            ! it is already there - ignore it
-         endif
-
-         CanopyBase = g%ComponentHeight(ComponentNo)
-     :              - g%ComponentDepth(ComponentNo)
-
-         if (position_in_real_array(CanopyBase
-     :                             ,Nodes
-     :                             ,NumNodes)
-     :       .eq.0) then
-            NumNodes = NumNodes + 1
-            Nodes(NumNodes) = CanopyBase
-         else
-            ! it is already there - ignore it
-         endif
-
+            else
+               ! it is already there - ignore it
+            endif
+   50    continue
   100 continue
 
       ! Sort into Ascending order
@@ -894,11 +810,6 @@
 
       g%LAI(:,:) = 0.0
 
-      do 100 j = 1, g%NumComponents
-         Ld(j) = divide(g%ComponentLAI(j)
-     :                 ,g%ComponentDepth(j)
-     :                 ,0.0)
-  100 continue
 
       top = 0.0
       bottom = 0.0
@@ -910,14 +821,28 @@
          ! =========================================
 
          do 200 j = 1, g%NumComponents
-            if ((g%ComponentHeight(j).gt.bottom)
-     :                 .and.
-     :          (g%ComponentHeight(j)-g%ComponentDepth(j).lt.top))then
-               g%LAI(i,j) = Ld(j) * g%DeltaZ(i)
-            else
-               ! This component is not in this layer
-            endif
 
+            g%LAI(i,j) = linear_interp_Real
+     :                        (top
+     :                        ,g%canopies(j)%canopy_layers(:)%cum_height
+     :                        ,g%canopies(j)%canopy_layers(:)%cum_lai
+     :                        ,g%canopies(j)%num_canopy_layers)
+     :                 - linear_interp_Real
+     :                        (bottom
+     :                        ,g%canopies(j)%canopy_layers(:)%cum_height
+     :                        ,g%canopies(j)%canopy_layers(:)%cum_lai
+     :                        ,g%canopies(j)%num_canopy_layers)
+            g%Cover(i,j) = linear_interp_Real
+     :                        (top
+     :                        ,g%canopies(j)%canopy_layers(:)%cum_height
+     :                        ,g%canopies(j)%canopy_layers(:)%cum_cover
+     :                        ,g%canopies(j)%num_canopy_layers)
+     :                 - linear_interp_Real
+     :                        (bottom
+     :                        ,g%canopies(j)%canopy_layers(:)%cum_height
+     :                        ,g%canopies(j)%canopy_layers(:)%cum_cover
+     :                        ,g%canopies(j)%num_canopy_layers)     
+     
   200    continue
 
          ! Calculate fractional contribution for layer i and component j
@@ -983,7 +908,7 @@
 
       write(string,'(5x,a,4x,11a10)')
      :       'Canopy Layer Height'
-     :      ,(g%ComponentName(j),j=1,g%NumComponents)
+     :      ,(g%Canopies(j)%name,j=1,g%NumComponents)
      :      ,'Total'
       call write_string(String)
 
@@ -1055,15 +980,17 @@
          ! Calculate effective K from LAI and Cover
          ! ========================================
 
+      do 150 i = 1, g%NumLayers
+         do 100 j = 1, g%NumComponents
 
-      do 100 j = 1, g%NumComponents
 
-         g%ComponentK(j) = divide(-log(1.-g%ComponentCover(j))
-     :                           ,g%ComponentLAI(j)
+            g%K(i,j) = divide(-log(1.-g%Cover(i,j))
+     :                           ,g%LAI(i,j)
      :                           ,0.0)
 
-  100 continue
-
+  100    continue
+  150 continue
+  
          ! Calculate extinction for individual layers
          ! ==========================================
 
@@ -1071,7 +998,7 @@
       do 200 i = 1, g%NumLayers
 
          g%LayerK(i) = Sum(g%F(i,1:g%NumComponents)
-     :                     * g%ComponentK(1:g%NumComponents))
+     :                   * g%K(i,1:g%NumComponents))
 
   200 continue
 
@@ -1161,7 +1088,7 @@
 
          do 100 j = 1, g%NumComponents
             g%Rs(i,j) = Rint
-     :                * divide(g%F(i,j)*g%ComponentK(j)
+     :                * divide(g%F(i,j)*g%K(i,j)
      :                        ,g%LayerK(i)
      :                        ,0.0)
   100    continue
@@ -1461,63 +1388,41 @@
       integer    numvals               ! number of values read
       character  search_order(max_table)*32 ! sections to search
       integer    num_sections          ! number of sections to search
-
+      logical    found
+      
 *- Implementation Section ----------------------------------
 
       call push_routine (myname)
-
-      ! Find search order for component constants
-      ! -----------------------------------------
-
-      call read_char_array ('constants'
-     :                     , g%ComponentType(Cno)
-     :                     , max_table
-     :                     , '()'
-     :                     , search_order
-     :                     , num_sections)
-
 
          ! Read Component Specific Constants
          ! ---------------------------------
          ! (should be in dedicated routine)
 
-         call search_read_real_var (
-     :           search_order
-     :         , num_sections
+         found = read_parameter (
+     :           g%canopies(Cno)%crop_type
      :         , 'albedo'             ! Keyword
-     :         , '(0-1)'              ! Units
      :         , g%ComponentAlbedo(Cno)  ! Variable
-     :         , numvals              ! Number of values returned
      :         , 0.0                  ! Lower Limit for bound checking
      :         , 1.0)                 ! Upper Limit for bound checking
 
-         call search_read_real_var (
-     :           search_order
-     :         , num_sections
+         found = read_parameter (
+     :           g%canopies(Cno)%crop_type
      :         , 'emissivity'         ! Keyword
-     :         , '(0-1)'              ! Units
      :         , g%ComponentEmissivity(Cno)  ! Variable
-     :         , numvals              ! Number of values returned
      :         , 0.9                  ! Lower Limit for bound checking
      :         , 1.0)                 ! Upper Limit for bound checking
 
-         call search_read_real_var (
-     :           search_order
-     :         , num_sections
+         found = read_parameter (
+     :           g%canopies(Cno)%crop_type
      :         , 'gsmax'              ! Keyword
-     :         , '(m/s)'              ! Units
      :         , g%ComponentGsmax(Cno)  ! Variable
-     :         , numvals              ! Number of values returned
      :         , 0.0                  ! Lower Limit for bound checking
      :         , 1.0)                 ! Upper Limit for bound checking
 
-         call search_read_real_var (
-     :           search_order
-     :         , num_sections
+         found = read_parameter (
+     :           g%canopies(Cno)%crop_type
      :         , 'r50'                ! Keyword
-     :         , '(W/m2)'             ! Units
      :         , g%ComponentR50(Cno)  ! Variable
-     :         , numvals              ! Number of values returned
      :         , 0.0                  ! Lower Limit for bound checking
      :         , 1e3)                 ! Upper Limit for bound checking
 
@@ -1574,7 +1479,7 @@
             g%Gc(i,j) = micromet_CanopyConductance
      :                    (g%ComponentGsmax(j)
      :                    ,g%ComponentR50(j)
-     :                    ,g%ComponentFrgr(j)
+     :                    ,g%Canopies(j)%Frgr
      :                    ,g%F(i,j)
      :                    ,g%LayerK(i)
      :                    ,LayerLAI
@@ -2147,23 +2052,28 @@
 
 *+  Local Variables
       integer j
-
+      integer i
+      type (light_profiles_type)::profiles(max_components)
+      integer layer
+            
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      call new_postbox()
 
       do 100 j=1,g%NumComponents
 
-         call post_real_var ('int_radn_'//Trim(g%ComponentName(j))
-     :                      , '(MJ)'
-     :                      , sum(g%Rs(1:g%NumLayers,j)))
-
+         profiles(j)%name = g%canopies(j)%name
+         profiles(j)%crop_type = g%canopies(j)%crop_type
+         do 50 i = 1,g%NumLayers
+            profiles(j)%light_profile(i)%cum_height
+     :                       = sum(g%DeltaZ(1:i))
+            profiles(j)%light_profile(i)%cum_light
+     :                       = sum(g%Rs(1:i,j))     
+   50    continue
   100 continue
 
-      call event_send ('canopy_energy_balance')
-
-      call delete_postbox()
+      call publish_light_profiles(Light_Profile_Calculated_ID
+     :            ,profiles,g%NumComponents,.false.)
 
       call pop_routine (myname)
       return
@@ -2198,84 +2108,68 @@
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      call new_postbox()
+c      call new_postbox()
 
       do 100 j=1,g%NumComponents
 
-         call post_real_var ('pet_'//Trim(g%ComponentName(j))
-     :                      , '(mm)'
-     :                      , sum(g%PET(1:g%NumLayers,j)))
+c         call post_real_var ('pet_'//Trim(g%ComponentName(j))
+c     :                      , '(mm)'
+c     :                      , sum(g%PET(1:g%NumLayers,j)))
 
   100 continue
 
-      call post_real_var ('interception'
-     :                   , '(mm)'
-     :                   , sum(g%Interception(:,:)))
+c      call post_real_var ('interception'
+c     :                   , '(mm)'
+c     :                   , sum(g%Interception(:,:)))
 
-      call event_send ('canopy_water_balance')
+c      call event_send ('canopy_water_balance')
 
-      call delete_postbox()
+c      call delete_postbox()
 
       call pop_routine (myname)
       return
       end
 
 *     ===========================================================
-      subroutine Micromet_OnNewPotGrowth ()
+      integer function Micromet_Component_Number (name)
 *     ===========================================================
       use MicrometModule
       use ComponentInterfaceModule
       implicit none
 
+*+  Sub-Program Arguments
+      character name*(*)
+      
 *+  Purpose
-*       Obtain updated information about a plant's growth capacity
+*       Find record number for a given canopy name
 
 *+  Mission Statement
-*       Obtain updated information about a plant's growth capacity
+*       Find record number for a given canopy name
 
 *+  Changes
-*     NIH 1/6/00 Specified
+*     NIH 5/3/02 Specified
 
 *+  Calls
 
 
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
-      parameter (myname = 'Micromet_OnNewPotGrowth')
+      parameter (myname = 'Micromet_Component_Number')
 
 *+  Local Variables
-      integer    numvals               ! number of values read
-      character  sender*32
-      integer    ComponentNo
+      integer    counter
 
 *- Implementation Section ----------------------------------
 
       call push_routine (myname)
 
-      call collect_char_var (DATA_sender
-     :                      ,'()'
-     :                      ,sender
-     :                      ,numvals)
-
-      ComponentNo = position_in_char_array
-     :                   (sender
-     :                   ,g%ComponentName
-     :                   ,g%NumComponents)
-
-      if (ComponentNo.eq.0) then
-         call fatal_Error(ERR_Internal
-     :                   ,'Unknown Canopy Component: '//sender)
-
-      else
-
-         call collect_real_var ('frgr'
-     :                         ,'()'
-     :                         ,g%ComponentFrgr(ComponentNo)
-     :                         ,numvals
-     :                         ,0.0
-     :                         ,1.0)
-
-      endif
+      Micromet_Component_Number = 0
+      do 100 counter = 1, g%NumComponents
+         if (g%Canopies(counter)%name.eq.name) then
+            Micromet_Component_Number = counter
+         else
+         endif
+  100 continue
 
       call pop_routine (myname)
       return
