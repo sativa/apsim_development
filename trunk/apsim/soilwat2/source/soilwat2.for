@@ -10,8 +10,8 @@
 
 *   Notes:
 *   $Log$
-*   Revision 1.2  1997/01/06 23:24:52  SidWright
-*   Patch 5
+*   Revision 1.3  1997/01/07 04:06:02  SidWright
+*   Patch 6
 *r  $
 *      
 *         Rev 1.5   12 Oct 1995 17:08:26   PVCSUSER
@@ -82,7 +82,7 @@
 * jpd V1.1 includes selected changes from PhilV1.0 30/9/94
 
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V2.1 200896')
+      parameter (version_number = 'V2.11 160996')
 
 *   Initial data values
 *       none
@@ -1719,7 +1719,7 @@ cjh
       real       dul                   ! drained upper limit water content
                                        !   of layer (mm water/mm soil)
       real       dul_errmargin         ! rounding error margin for dulc
-      character  err_messg*200         ! error message
+      character  err_messg*300         ! error message
       real       ll15                  ! lower limit at 15 bars water content
                                        !   of layer (mm water/mm soil)
       real       air_dry_errmargin     ! rounding error margin for air_dryc
@@ -1740,12 +1740,15 @@ cjh
       real       min_sw                ! lowest acceptable value for sw
                                        !   (mm water/mm soil)
       parameter (min_sw  = 0.0)
+      
+      real      max_sw_margin          ! margin for measurement error (mm/mm)
+      parameter (max_sw_margin = 0.01) 
 
 *   Initial data values
 *              none
 
 * --------------------- Executable code section ----------------------
-      max_sw = 1.0 - divide (g_bd(layer), c_specific_bd, 0.0)   
+      max_sw = 1.0 - divide (g_bd(layer), c_specific_bd, 0.0) 
          ! ie Total Porosity
 
       sw = divide (g_sw_dep(layer), p_dlayer(layer), 0.0)
@@ -1801,12 +1804,18 @@ cjh
       else
       endif
 
-      if (sat - sat_errmargin .gt. max_sw) then
-         write (err_messg, '(a, g17.6e3, a, i3, 2a, g17.6e3)')
+      if (sat - sat_errmargin .gt. max_sw + max_sw_margin) then
+         
+         write (err_messg, '(a, g17.6e3, a, i3, 3(2a, g17.6e3))')
      :            ' saturation of ', sat
      :           ,' in layer ', layer
      :           , new_line
      :           ,'         is above acceptable value of ', max_sw
+     :           , new_line
+     :           , 'You must adjust bulk density (bd) to below '
+     :           , (1.0 - sat) * c_specific_bd
+     :           , new_line
+     :           , 'OR saturation (sat) to below ', max_sw
          call warning_error (err_internal, err_messg)
 
       else
