@@ -436,7 +436,7 @@
            Root C:P :                    200.0
 
 ------- navybean Initialisation -----------------------------------------------
-      initialising
+     phenology model: Legume
         - Module is set phosphorus aware
      
 ------- Start of simulation  --------------------------------------------------
@@ -448,19 +448,19 @@
       - reading cultivar parameters
          ------------------------------------------------
         cultivar                   = rainbird
-        est_days_emerg_to_init     =       20
-        cum_vernal_days            =       0.00     100.00
-        tt_emerg_to_endjuv         =     340.00     340.00
-        x_pp_endjuv_to_init        =       5.00      17.00
-        y_tt_endjuv_to_init        =      50.00      50.00
-        x_pp_init_to_flower        =       1.00      24.00
-        y_tt_init_to_flower        =      25.00      25.00
-        x_pp_flower_to_start_grain =       1.00      24.00
-        y_tt_flower_to_start_grain =      30.00      30.00
-        x_pp_start_to_end_grain    =       1.00      24.00
-        y_tt_start_to_end_grain    =     445.00     445.00
-        tt_end_grain_to_maturity   =      25.00
-        tt_maturity_to_ripe        =       5.00
+        est_days_emerg_to_init     = 20 (days)
+        cum_vernal_days            =       0     100 (vd)
+        tt_emerg_to_endjuv         =     340     340 (dd)
+        x_pp_endjuv_to_init        =       5      17 (h)
+        y_tt_endjuv_to_init        =      50      50 (dd)
+        x_pp_init_to_flower        =       1      24 (h)
+        y_tt_init_to_flower        =      25      25 (dd)
+        x_pp_flower_to_start_grain =       1      24 (h)
+        y_tt_flower_to_start_grain =      30      30 (dd)
+        x_pp_start_to_end_grain    =       1      24 (h)
+        y_tt_start_to_end_grain    =     445     445 (dd)
+        tt_end_grain_to_maturity   =         25 (dd)
+        tt_maturity_to_ripe        =          5 (dd)
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0080     0.0080
         x_hi_max_pot_stress        =       0.00       0.80       1.00
@@ -501,75 +501,77 @@
 7 December 1992(Day of year=342), navybean: 
       stage 3.0 emergence
                      biomass =           4.00 (g/m^2)   lai          =   0.016 (m^2/m^2)
-                     stover N conc =     6.00 (%)     extractable sw =   34.64 (mm)
+                     stover N conc =     6.00 (%)    extractable sw =   34.64 (mm)
 6 January 1993(Day of year=6), navybean: 
       stage 4.0 end_of_juvenile
                      biomass =          56.54 (g/m^2)   lai          =   1.057 (m^2/m^2)
-                     stover N conc =     3.62 (%)     extractable sw =  141.14 (mm)
+                     stover N conc =     5.03 (%)    extractable sw =  141.14 (mm)
 11 January 1993(Day of year=11), navybean: 
       stage 5.0 floral_initiation
                      biomass =          81.30 (g/m^2)   lai          =   1.503 (m^2/m^2)
-                     stover N conc =     3.19 (%)     extractable sw =  151.51 (mm)
+                     stover N conc =     4.09 (%)    extractable sw =  151.51 (mm)
 13 January 1993(Day of year=13), navybean: 
       stage 6.0 flowering
-                     biomass =          99.78 (g/m^2)   lai          =   1.734 (m^2/m^2)
-                     stover N conc =     2.87 (%)     extractable sw =  153.81 (mm)
+                     biomass =          99.78 (g/m^2)   lai          =   1.736 (m^2/m^2)
+                     stover N conc =     3.33 (%)    extractable sw =  153.81 (mm)
 15 January 1993(Day of year=15), navybean: 
       stage 7.0 start_grain_fill
-                     biomass =         123.53 (g/m^2)   lai          =   2.002 (m^2/m^2)
-                     stover N conc =     2.76 (%)     extractable sw =  146.16 (mm)
+                     biomass =         123.53 (g/m^2)   lai          =   2.003 (m^2/m^2)
+                     stover N conc =     2.89 (%)    extractable sw =  146.16 (mm)
 24 February 1993(Day of year=55), navybean: 
       stage 8.0 end_grain_fill
-                     biomass =         347.52 (g/m^2)   lai          =   0.583 (m^2/m^2)
-                     stover N conc =     2.20 (%)     extractable sw =  123.65 (mm)
+                     biomass =         348.59 (g/m^2)   lai          =   0.649 (m^2/m^2)
+                     stover N conc =     2.42 (%)    extractable sw =  123.65 (mm)
 27 February 1993(Day of year=58), navybean: 
       stage 9.0 maturity
-                     biomass =         350.84 (g/m^2)   lai          =   0.300 (m^2/m^2)
-                     stover N conc =     2.26 (%)     extractable sw =  122.29 (mm)
+                     biomass =         352.21 (g/m^2)   lai          =   0.364 (m^2/m^2)
+                     stover N conc =     2.46 (%)    extractable sw =  122.29 (mm)
 28 February 1993(Day of year=59), navybean: 
       stage 10.0 harvest_ripe
-                     biomass =         351.46 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     2.37 (%)     extractable sw =  122.12 (mm)
+                     biomass =         352.94 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     2.60 (%)    extractable sw =  122.14 (mm)
 1 March 1993(Day of year=60), manager: 
      Manager sending message :- navybean harvest
 1 March 1993(Day of year=60), navybean: 
      
-      flowering day          =   13                           stover (kg/ha)         =     2311.5
-      maturity day           =   58                           grain yield (kg/ha)    =     1203.1
-      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1367.2
+      flowering day          =   13                           stover (kg/ha)         =     2321.9
+      maturity day           =   58                           grain yield (kg/ha)    =     1207.4
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1372.1
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
-      grains/plant           =    0.0                         maximum lai            =      2.901
-      total above ground biomass (kg/ha)    =     3514.6
-      live above ground biomass (kg/ha)     =     3514.6
-      green above ground biomass (kg/ha)    =     2361.1
-      senesced above ground biomass (kg/ha) =     1153.5
+      grains/plant           =    0.0                         maximum lai            =      2.922
+      total above ground biomass (kg/ha)    =     3529.4
+      live above ground biomass (kg/ha)     =     3529.4
+      green above ground biomass (kg/ha)    =     2375.4
+      senesced above ground biomass (kg/ha) =     1153.9
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =    9.2
       DM Root:Shoot ratio    =    0.247                       Harvest Index          =      0.342
-      Stover C:N ratio       =   23.727                       Root C:N ratio         =     26.375
-      grain N percent        =       3.50                     total N content (kg/ha)=      81.08
-      grain N uptake (kg/ha) =      42.11                     senesced N content (kg/ha)=   11.54
-      green N content (kg/ha)=      27.43                     dead N content (kg/ha) =       0.00
+      Stover C:N ratio       =   22.190                       Root C:N ratio         =     26.378
+      grain N percent        =       3.50                     total N content (kg/ha)=      84.12
+      grain N uptake (kg/ha) =      42.26                     senesced N content (kg/ha)=   11.54
+      green N content (kg/ha)=      30.32                     dead N content (kg/ha) =       0.00
       grain P percent        =       0.36                     total P content (kg/ha)=       7.69
       grain P uptake (kg/ha) =       4.35                     senesced P content (kg/ha)=    1.58
       green P content (kg/ha)=       1.76                     dead P content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.000        0.007
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.027
          end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.000
          floral_initiation    to flowering               0.000        0.000        0.000        0.000
-         flowering            to start_grain_fill        0.000        0.000        0.000        0.003
-         start_grain_fill     to end_grain_fill          0.000        0.000        0.000        0.020
+         flowering            to start_grain_fill        0.000        0.000        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.000        0.000        0.000        0.022
+     
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               2311.45                    0.00
-                          N  (kg/ha) =                 38.97                    0.00
+                          DM (kg/ha) =               2321.94                    0.00
+                          N  (kg/ha) =                 41.86                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1203.14                    0.00
-                          N  (kg/ha) =                 42.11                    0.00
+                          DM (kg/ha) =               1207.41                    0.00
+                          N  (kg/ha) =                 42.26                    0.00
      
+      stage 11.0 end_crop
 1 March 1993(Day of year=60), manager: 
      Manager sending message :- navybean kill_crop
 1 March 1993(Day of year=60), navybean: 
@@ -579,9 +581,9 @@
 1 March 1993(Day of year=60), navybean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                  869.67
-                          N  (kg/ha) =                  0.00                   13.19
-                          P  (kg/ha) =                                          1.22
+                          DM (kg/ha) =                  0.00                  870.50
+                          N  (kg/ha) =                  0.00                   13.20
+                          P  (kg/ha) =                                          1.21
      
 1 May 1993(Day of year=121), manager: 
      Manager sending message :- surfaceom tillage  type = chisel
