@@ -106,8 +106,10 @@ void __fastcall TMainForm::ThreadTerminated (TObject* Object)
          }
       else
          MessageBox(NULL, "Compiler not invoked.  Probable cause: nothing to compile.", "Information", MB_ICONINFORMATION | MB_OK);
+      Close();
       }
-   Close();
+   else
+      Close();
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FormShow(TObject *Sender)
