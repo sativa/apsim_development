@@ -3,7 +3,9 @@
 #ifndef SimCreatorH
 #define SimCreatorH
 #include <string>
+#include <map>
 class ApsimControlFile;
+class ApsimComponentData;
 typedef void __fastcall (__closure *TSimCreatorEvent)(const std::string& simFileName);
 //---------------------------------------------------------------------------
 // This class creates SIM files given a control file.
@@ -45,6 +47,8 @@ class __declspec(dllexport) SimCreator
 
    private:
       ApsimControlFile* con;
+      typedef std::map<std::string, ApsimComponentData*> Components;
+      Components components;
 
       // ------------------------------------------------------------------
       // Create a SIM file for the specified section and return its filename.
