@@ -1,5 +1,5 @@
 report - Output_file=lucerne.out
-report - initialising,V1.6  21/8/98
+report - initialising
 Title =lucerne sample simulation
 Screen output =on
  
@@ -12,9 +12,9 @@ Variables =day,year
 Module = lucerne
 Variables =lai,biomass,green_biomass
 ---------------------------------------------------------
- INPUT (met) Initialised, Version: V3.0 26/11/98
+ INPUT (met) Initialised
 ---------------------------------------------------------
- day= 150 date= 29  5 1988 manager  - Initialising, Version : V1.40  23/04/98
+ day= 150 date= 29  5 1988 manager  - Initialising
  
 Manager rules
 ------- -----
@@ -141,7 +141,7 @@ report do_output
      ---------------------------------------------------------
       Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
      ---------------------------------------------------------
- day= 150 date= 29  5 1988 lucerne  -  Initialising, V2.0 091196
+ day= 150 date= 29  5 1988 lucerne  -  Initialising
  
     - Reading constants
  

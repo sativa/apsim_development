@@ -1,5 +1,5 @@
 report - Output_file=soilp.out
-report - initialising,V1.6  21/8/98
+report - initialising
 Title =soilp sample simulation
 Screen output =on
  
@@ -12,9 +12,9 @@ Variables =day,year
 Module = soilp
 Variables =labile_p,unavail_p,rock_p,banded_p,biom_p(),hum_p(),fom_p()
 ---------------------------------------------------------
- INPUT (met) Initialised, Version: V3.0 26/11/98
+ INPUT (met) Initialised
 ---------------------------------------------------------
- day=   1 date=  1  1 1988 manager  - Initialising, Version : V1.40  23/04/98
+ day=   1 date=  1  1 1988 manager  - Initialising
  
 Manager rules
 ------- -----
@@ -140,7 +140,7 @@ report do_output
      ---------------------------------------------------------
       Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
      ---------------------------------------------------------
- day=   1 date=  1  1 1988 soilp    - Initialising Version : V1.11 12/11/98
+ day=   1 date=  1  1 1988 soilp    - Initialising
  
    - Reading Constants
  

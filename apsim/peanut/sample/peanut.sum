@@ -1,5 +1,5 @@
 report - Output_file=peanut.out
-report - initialising,V1.6  21/8/98
+report - initialising
 Title =peanut sample simulation
 Screen output =on
  
@@ -12,9 +12,9 @@ Variables =day,year
 Module = peanut
 Variables =lai,biomass,green_biomass
 ---------------------------------------------------------
- INPUT (met) Initialised, Version: V3.0 26/11/98
+ INPUT (met) Initialised
 ---------------------------------------------------------
- day= 320 date= 15 11 1988 manager  - Initialising, Version : V1.40  23/04/98
+ day= 320 date= 15 11 1988 manager  - Initialising
  
 Manager rules
 ------- -----
@@ -137,7 +137,7 @@ report do_output
      ---------------------------------------------------------
       Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
      ---------------------------------------------------------
- day= 320 date= 15 11 1988 peanut   -  Initialising, V2.0 091196
+ day= 320 date= 15 11 1988 peanut   -  Initialising
  
     - Reading constants
  

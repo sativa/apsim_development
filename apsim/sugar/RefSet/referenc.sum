@@ -1,5 +1,5 @@
 report - Output_file=referenc.out
-report - initialising,V1.6  21/8/98
+report - initialising
 Title =sugar reference run
 Screen output =on
  
@@ -24,9 +24,9 @@ Variables =residue_wt,residue_n
 Module = soiln2
 Variables =fom_c(),fom_n()
 ---------------------------------------------------------
- INPUT (met) Initialised, Version: V3.0 26/11/98
+ INPUT (met) Initialised
 ---------------------------------------------------------
- day=  90 date= 30  3 1984 manager  - Initialising, Version : V1.40  23/04/98
+ day=  90 date= 30  3 1984 manager  - Initialising
  
 Manager rules
 ------- -----
@@ -178,7 +178,7 @@ The following solutes can be added with irrigation water
      -----------------------------------------------
       No fertiliser schedule is used
      -----------------------------------------------
- day=  90 date= 30  3 1984 sugar    -  Initialising, Version : V0.3 040497
+ day=  90 date= 30  3 1984 sugar    -  Initialising
  
     - Reading constants
  
