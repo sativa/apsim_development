@@ -1044,7 +1044,7 @@
       g%TRWL(:) = 0
       g%MSUC(:)  = 0.
       g%MSKPA(:) = 0.
-      p%wcst(:)=0.0
+!      p%wcst(:)=0.0
       g%WCL(:)=0.0
       g%FACT(:)=0.0
       g%ZRTL(:)  =0.0
@@ -4313,7 +4313,6 @@
 
          num_layers = count_of_real_vals(p%tkl,max_layer)
          num_layers = max(1,num_layers)
-!         write (*,*) 'n=', num_layers
          DO I = 1,num_layers
            
             IF (g%WCL(I).GE.p%WCFC(I)) THEN
