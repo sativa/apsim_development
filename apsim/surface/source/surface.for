@@ -317,6 +317,9 @@ c         call surface_surface ()
       p%precip_const = 0d0
       p%seal_decay_rate = 0d0
       p%RR_decay_rate = 0d0
+      g%cover_tot_all(:) = 0.0
+      g%cover_height_all(:) = 0.0
+      g%num_crops = 0
  
       call pop_routine (my_name)
       return
@@ -331,7 +334,7 @@ c         call surface_surface ()
       implicit none
       include   'const.inc'            ! Constant definitions
       include 'intrface.pub'                      
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Purpose
 *      Get the values of variables from other modules
@@ -586,6 +589,7 @@ c RDC
       use SurfaceModule
       implicit none
       include   'const.inc'            ! Constant definitions
+      include 'science.pub'                   
       include 'intrface.pub'                      
       include 'error.pub'                         
 
@@ -594,6 +598,8 @@ c RDC
 
 *+  Changes
 *     <insert here>
+*          021199 jngh removed import of crop_cover and added
+*                       cover_tot_all and cover_height_all
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -633,14 +639,34 @@ c RDC
      :    , 0d0             ! Lower Limit for bound checking
      :    , 1000d0)         ! Upper Limit for bound checking
  
-      call Get_double_var (
-     :      'apswim'        ! Module that responds (Not Used)
-     :    , 'crop_cover'    ! Variable Name
+!      call Get_double_var (
+!     :      'apswim'        ! Module that responds (Not Used)
+!     :    , 'crop_cover'    ! Variable Name
+!     :    , '(0-1)'         ! Units                (Not Used)
+!     :    , g%cover         ! Variable
+!     :    , numvals         ! Number of values returned
+!     :    , 0d0             ! Lower Limit for bound checking
+!     :    , 1d0)            ! Upper Limit for bound checking
+ 
+      call Get_real_array (
+     :      unknown_module  ! Module that responds (Not Used)
+     :    , 'cover_tot_all' ! Variable Name
+     :    , max_crops
      :    , '(0-1)'         ! Units                (Not Used)
-     :    , g%cover         ! Variable
+     :    , g%cover_tot_all ! Variable
+     :    , g%num_crops     ! Number of values returned
+     :    , 0.0          ! Lower Limit for bound checking
+     :    , 1.0)            ! Upper Limit for bound checking
+ 
+      call Get_real_array (
+     :      unknown_module  ! Module that responds (Not Used)
+     :    , 'cover_height_all' ! Variable Name
+     :    , max_crops
+     :    , '(0-1)'         ! Units                (Not Used)
+     :    , g%cover_height_all ! Variable
      :    , numvals         ! Number of values returned
-     :    , 0d0             ! Lower Limit for bound checking
-     :    , 1d0)            ! Upper Limit for bound checking
+     :    , 0.0             ! Lower Limit for bound checking
+     :    , 20000.0)            ! Upper Limit for bound checking
  
       ! When apswim starts to use residue information we should
       ! use its value of total cover.
@@ -657,7 +683,10 @@ c RDC
  
  
       ! add residue to cover variable
-      g%cover = g%cover + residue_cover * (1d0 - g%cover)
+!      g%cover = g%cover + residue_cover * (1d0 - g%cover)
+      g%cover = sum_cover_array (g%cover_tot_all, g%num_crops)
+      g%cover = add_cover (real(g%cover), real(residue_cover))
+1000  continue
  
       call pop_routine (my_name)
       return
