@@ -108,6 +108,9 @@ ProductName=Apsim Outlook
 ProductVersion=1.2
 Comments=Build date: 4 July
 
+[Excluded Packages]
+C:\Program Files\Borland\CBuilder6\Projects\Bpl\TeeImage5C6.bpl=TeeChart Pro Graphic Exporting formats
+
 [HistoryLists\hlIncludePath]
 Count=15
 Item0=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
