@@ -240,4 +240,23 @@ unsigned day_of_year(boost::gregorian::date d)
    {
    return boost::gregorian::date_duration(d - boost::gregorian::date(d.year(), 1, 1)).days() + 1;
    }
+//! Generic function to parse a delimited date DMY format (eg: 2/12/2002)
+boost::gregorian::date fromDmyString(const std::string& s)
+   {
+   unsigned day, month, year;
+   int pos = 0;
+   boost::tokenizer<boost::char_delimiters_separator<char> > tok(s);
+   for(boost::tokenizer<>::iterator beg=tok.begin(); beg!=tok.end();++beg)
+    {
+    int i = boost::lexical_cast<int>(*beg);
+    switch(pos)
+       {
+       case 0: day = i; break;
+       case 1: month = i; break;
+       case 2: year = i; break;
+       };
+    pos++;
+    }
+   return boost::gregorian::date(year, month, day);
+   }
 #endif
