@@ -262,7 +262,7 @@
       save InstancePointers
       type (Soilwat2Globals),pointer :: g
       type (Soilwat2Parameters),pointer :: p
-      type (Soilwat2Constants),pointer :: c          
+      type (Soilwat2Constants),pointer :: c
       type (LateralData),pointer :: lateral
       type (EvapData), pointer :: evap
       type (IDsType), pointer :: ID
@@ -4320,9 +4320,9 @@ c  dsg   070302  added runon
    50    continue
 
          dlt_name = string_concat ('dlt_',g%solute_names(solnum))
-              
-         call set_real_array(g%solute_owners(solnum) 
-     :                       , dlt_name 
+
+         call set_real_array(g%solute_owners(solnum)
+     :                       , dlt_name
      :                       , '(kg/ha)'
      :                       , temp_dlt_solute
      :                       , num_layers)
@@ -4385,7 +4385,7 @@ c  dsg   070302  added runon
       integer    solnum                ! solute no. counter
       character  solute_name*32        ! solute name
       real       temp_array(max_layer) ! temporary array
-!      real       total_cover           ! total ground cover (0-1)
+      real       temp_var
       real       es                    ! total es
       real       eff_rain              ! daily effective rainfall (mm)
 
@@ -4572,7 +4572,7 @@ c dsg 070302 added runon
       else if (index(variable_name, 'flow_').eq.1) then
          solute_name = variable_name(len('flow_')+1:)
          solnum = position_in_char_array (solute_name
-     :                                   ,g%solute_names
+     :                                  ,g%solute_names
      :                                   ,max_solute)
          if (solnum.ne.0) then
             num_layers = count_of_real_vals (p%dlayer, max_layer)
@@ -4583,6 +4583,21 @@ c dsg 070302 added runon
 
             call respond2get_real_array (variable_name, '(kg/ha)'
      :                               , temp_array, num_layers)
+         else
+            call Message_unused ()
+         endif
+
+      else if (index(variable_name, 'leach_').eq.1) then
+         solute_name = variable_name(len('leach_')+1:)
+         solnum = position_in_char_array (solute_name
+     :                                   ,g%solute_names
+     :                                   ,max_solute)
+         if (solnum.ne.0) then
+            num_layers = count_of_real_vals (p%dlayer, max_layer)
+            temp_var = g%solute_leach(solnum,num_layers)
+
+            call respond2get_real_var (variable_name, '(kg/ha)'
+     :                               , temp_var)
          else
             call Message_unused ()
          endif
@@ -6276,7 +6291,7 @@ c dsg 070302 added runon
 *     ===========================================================
       Use Infrastructure
       implicit none
-      
+
       integer, intent(in) :: variant
 
 *+  Purpose
@@ -6298,7 +6313,7 @@ c dsg 070302 added runon
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      call unpack_time(variant, tick)                                                 
+      call unpack_time(variant, tick)
       call jday_to_day_of_year(dble(tick%startday), g%day, g%year)
 
       call pop_routine (myname)
@@ -6309,7 +6324,7 @@ c dsg 070302 added runon
 *     ===========================================================
       Use Infrastructure
       implicit none
-      
+
       integer, intent(in) :: variant
 *+  Purpose
 *     Get new met data
@@ -6526,9 +6541,9 @@ c dsg 150302  saturated layer = layer, layer above not over dul
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
-                    
+
       call doRegistrations(id)
-      
+
       call Evap_create(evap)
 
       call soilwat2_zero_variables ()
@@ -6545,7 +6560,7 @@ c dsg 150302  saturated layer = layer, layer above not over dul
       subroutine alloc_dealloc_instance(doAllocate)
 !     ===========================================================
       use Soilwat2Module
-      implicit none  
+      implicit none
       ml_external alloc_dealloc_instance
 
 !+  Sub-Program Arguments
@@ -6567,7 +6582,7 @@ c dsg 150302  saturated layer = layer, layer above not over dul
          deallocate(id)
          deallocate(g)
          deallocate(p)
-         deallocate(c) 
+         deallocate(c)
          deallocate(lateral)
          deallocate(evap)
       end if
@@ -6721,7 +6736,7 @@ c dsg 150302  saturated layer = layer, layer above not over dul
       Use infrastructure
       implicit none
       ml_external respondToEvent
-      
+
       integer, intent(in) :: fromID
       integer, intent(in) :: eventID
       integer, intent(in) :: variant
@@ -6733,4 +6748,4 @@ c dsg 150302  saturated layer = layer, layer above not over dul
       endif
       return
       end subroutine respondToEvent
-                                   
+
