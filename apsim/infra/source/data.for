@@ -40,6 +40,7 @@
       subroutine copy_real_array(dest, src, n)
 *     ===========================================================
       implicit none
+      dll_export copy_real_array
  
 *+  Sub-Program Arguments
       integer n      ! (IN) Size of 'dest' and 'src'.
@@ -79,6 +80,7 @@
       subroutine array_val_mul(vec, n, mul)
 *     ===========================================================
       implicit none
+      dll_export array_val_mul
  
 *+  Sub-Program Arguments
       integer n      ! (IN) Size of 'vec'.
