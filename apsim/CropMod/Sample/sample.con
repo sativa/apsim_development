@@ -50,3 +50,22 @@
   Module = residue2            soil.par   [sample]     %apsuite\apsim\residue2\residue2.ini [standard]
   Module = cropmod(maize)      ..\maize.ini [standard]  soil.par [sample]
 
+[apsim.intercropping]
+  Module = clock    intercropping.par [sample]      
+  Module = report   intercropping.par [sample]
+  Module = met      %apsuite\apsim\MET\SAMPLE\DALBY.MET [weather]
+  Module = irrigate      intercropping.par [sample]
+  Module = fertiliz      intercropping.par [sample] %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+  Module = cropmod(maize)    intercropping.par [sample]                                          %apsuite\apsim\maize\maize.ini [standard]
+  Module = cowpea   intercropping.par[sample]                                           %apsuite\apsim\cowpea\cowpea.ini[standard]
+  Module = manager  intercropping.par [sample]
+  Module = canopy   intercropping.par [sample]
+  Module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]    %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+  Module = soiln2   %apsuite\apsim\soiln2\soiln2.ini [standard]                  %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]
+
+!****************************************************************************************
+! To demonstrate the canopy module's capacity for intercropping, Maize and Cowpea have been 
+! chosen for this sample simulation.  If you are not licensed to use these crop modules, 
+! please substitute your licensed crops as appropriate.
+!****************************************************************************************
+
