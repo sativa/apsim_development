@@ -69,6 +69,7 @@ Public Class FileUI
         Me.RichTextBox.Size = New System.Drawing.Size(937, 456)
         Me.RichTextBox.TabIndex = 3
         Me.RichTextBox.Text = ""
+        Me.RichTextBox.WordWrap = False
         '
         'OpenFileDialog
         '
