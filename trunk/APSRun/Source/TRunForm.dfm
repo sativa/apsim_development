@@ -680,6 +680,7 @@ object RunForm: TRunForm
         BevelInner = bvNone
         BorderStyle = bsNone
         ItemHeight = 13
+        MultiSelect = True
         TabOrder = 0
         OnClick = checkOkButtonState
       end
