@@ -32,8 +32,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="WhopEconAddin.bpf"/>
-    <INCLUDEPATH value="..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(BCB)\components\tms;$(BCB)\components;$(SHARED);$(SHARED)\components\data"/>
-    <LIBPATH value="..;..\..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\imports;$(BCB)\components\tms;$(SHARED)\components\general"/>
+    <INCLUDEPATH value="..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED);$(SHARED)\components\data"/>
+    <LIBPATH value="..\;..;..\..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\imports;$(BCB)\components\tms;$(SHARED)\components\general"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -101,36 +101,41 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
+[Excluded Packages]
+C:\MyData\development\Bin\APSData.bpl=APSuite data components
+c:\program files\borland\cbuilder6\Projects\Bpl\FilterBarPackage.bpl=FilterBarPackage
+
 [HistoryLists\hlIncludePath]
-Count=23
-Item0=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(BCB)\components\tms;$(BCB)\components;$(SHARED);$(SHARED)\components\data
+Count=24
+Item0=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED);$(SHARED)\components\data
 Item1=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(BCB)\components\tms;$(BCB)\components;$(SHARED);$(SHARED)\components\data
-Item2=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
-Item3=$(BCB)\components\tms;..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(SHARED)
-Item4=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(SHARED)
-Item5=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(SHARED)
-Item6=K:\general;..\;..;$(BCB)\include;$(BCB)\include\vcl;K:\Components\Data\;K:\;K:\Components\General\;j:\RX\Units\;j:\ThirdParty\;$(BCB)\imports
-Item7=..;$(BCB)\include;$(BCB)\include\vcl;K:\Components\Data\;K:\;K:\Components\General\;j:\RX\Units\;j:\ThirdParty\;$(BCB)\imports
-Item8=..\;..;$(BCB)\include;$(BCB)\include\vcl;K:\Components\Data\;K:\;K:\Components\General\;j:\RX\Units\;j:\ThirdParty\;$(BCB)\imports
-Item9=..\;..;$(BCB)\include;$(BCB)\include\vcl;K:\Components\Data\;K:\;K:\Components\General\;j:\RX\Units\;j:\ThirdParty\
-Item10=..\;..;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components\Data\;K:\;K:\Components\General\;j:\RX\Units\;j:\ThirdParty\
-Item11=..\;..;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components\Data\;K:\;K:\Components\General\;j:\RX\Units;j:\ThirdParty
-Item12=..\..\..\..\3rdParty\RX\Units;..\..\..\..\3rdParty\ThirdParty;..\;..;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components\Data\;K:\;K:\Components\General\
-Item13=..\;..;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components\Data\;K:\;K:\Components\General\
-Item14=..\;..;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components\Data\;K:\;K:\Components\General
-Item15=..\;..;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components\Data\;K:\
-Item16=..\;..;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components\Data\
-Item17=..\;..;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components\
-Item18=..\;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;..;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components
-Item19=..\;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;..;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\
-Item20=..\..\..\..\3rdParty\Raize\RC25\LibBCB5;..\;..;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\
-Item21=..\..\..\..\3rdParty\Raize\RC25\LibBCB5;..\;..;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl
-Item22=..\;C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\include;$(BCB)\include\vcl
+Item2=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(BCB)\components\tms;$(BCB)\components;$(SHARED);$(SHARED)\components\data
+Item3=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
+Item4=$(BCB)\components\tms;..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(SHARED)
+Item5=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(SHARED)
+Item6=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(SHARED)
+Item7=K:\general;..\;..;$(BCB)\include;$(BCB)\include\vcl;K:\Components\Data\;K:\;K:\Components\General\;j:\RX\Units\;j:\ThirdParty\;$(BCB)\imports
+Item8=..;$(BCB)\include;$(BCB)\include\vcl;K:\Components\Data\;K:\;K:\Components\General\;j:\RX\Units\;j:\ThirdParty\;$(BCB)\imports
+Item9=..\;..;$(BCB)\include;$(BCB)\include\vcl;K:\Components\Data\;K:\;K:\Components\General\;j:\RX\Units\;j:\ThirdParty\;$(BCB)\imports
+Item10=..\;..;$(BCB)\include;$(BCB)\include\vcl;K:\Components\Data\;K:\;K:\Components\General\;j:\RX\Units\;j:\ThirdParty\
+Item11=..\;..;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components\Data\;K:\;K:\Components\General\;j:\RX\Units\;j:\ThirdParty\
+Item12=..\;..;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components\Data\;K:\;K:\Components\General\;j:\RX\Units;j:\ThirdParty
+Item13=..\..\..\..\3rdParty\RX\Units;..\..\..\..\3rdParty\ThirdParty;..\;..;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components\Data\;K:\;K:\Components\General\
+Item14=..\;..;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components\Data\;K:\;K:\Components\General\
+Item15=..\;..;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components\Data\;K:\;K:\Components\General
+Item16=..\;..;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components\Data\;K:\
+Item17=..\;..;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components\Data\
+Item18=..\;..;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components\
+Item19=..\;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;..;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\;K:\Components
+Item20=..\;..\..\..\..\3rdParty\Raize\RC25\LibBCB5;..;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\
+Item21=..\..\..\..\3rdParty\Raize\RC25\LibBCB5;..\;..;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder5\Imports\
+Item22=..\..\..\..\3rdParty\Raize\RC25\LibBCB5;..\;..;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl
+Item23=..\;C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
 Count=23
-Item0=..;..\..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\imports;$(BCB)\components\tms;$(SHARED)\components\general
-Item1=..\;..;..\..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\imports;$(BCB)\components\tms;$(SHARED)\components\general
+Item0=..\;..;..\..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\imports;$(BCB)\components\tms;$(SHARED)\components\general
+Item1=..;..\..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\imports;$(BCB)\components\tms;$(SHARED)\components\general
 Item2=..;..\..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\imports;$(BCB)\components\tms
 Item3=..\;..;..\..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\imports;$(BCB)\components\tms
 Item4=..\;..;..\..\..\..\shared\components\data;..\..\..\..\shared\components\general;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\imports;$(BCB)\components\tms

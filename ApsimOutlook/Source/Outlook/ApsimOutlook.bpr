@@ -34,7 +34,7 @@
     <USERDEFINES value=""/>
     <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
     <MAINSOURCE value="ApsimOutlook.cpp"/>
-    <INCLUDEPATH value="..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data"/>
+    <INCLUDEPATH value="..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data"/>
     <LIBPATH value="..;..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\lib\debug;$(BCB)\components\thirdparty;$(BCB)\components\tms"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
@@ -108,25 +108,27 @@ ProductVersion=1.2
 Comments=Build date: 4 July
 
 [Excluded Packages]
-C:\Program Files\Borland\CBuilder6\Projects\Bpl\TeeImage5C6.bpl=TeeChart Pro Graphic Exporting formats
+C:\MyData\development\Bin\APSData.bpl=APSuite data components
+c:\program files\borland\cbuilder6\Projects\Bpl\FilterBarPackage.bpl=FilterBarPackage
 
 [HistoryLists\hlIncludePath]
-Count=15
-Item0=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
-Item1=..\;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
-Item2=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
-Item3=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
-Item4=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(SHARED);$(SHARED)\components\data
-Item5=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\thirdparty;$(SHARED);$(SHARED)\components\data
-Item6=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\components\data
-Item7=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item8=C:\PROGRAM FILES\BORLAND\CBUILDER5\PROJECTS\CPPBUILDERJOURNAL-MAY2001\POPUPCONTROLS\;..\..\..\3rdparty\tms;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;k:\;K:\general\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
-Item9=C:\PROGRAM FILES\BORLAND\CBUILDER5\PROJECTS\CPPBUILDERJOURNAL-MAY2001\POPUPCONTROLS;..\..\..\3rdparty\tms;C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\include;$(BCB)\include\vcl;k:\;K:\general\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
-Item10=$(BCB)\include;$(BCB)\include\vcl;k:\;K:\general\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
-Item11=c:\program files\borland\components\thirdparty;K:\general\;..\OutlookDevelopment\Outlook\Source\Outlook;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
-Item12=K:\general\;..\OutlookDevelopment\Outlook\Source\Outlook;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
-Item13=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;j:\rx\units\
-Item14=C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\include;$(BCB)\include\vcl
+Count=16
+Item0=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
+Item1=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
+Item2=..\;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
+Item3=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
+Item4=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
+Item5=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(SHARED);$(SHARED)\components\data
+Item6=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\thirdparty;$(SHARED);$(SHARED)\components\data
+Item7=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\components\data
+Item8=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item9=C:\PROGRAM FILES\BORLAND\CBUILDER5\PROJECTS\CPPBUILDERJOURNAL-MAY2001\POPUPCONTROLS\;..\..\..\3rdparty\tms;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;k:\;K:\general\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
+Item10=C:\PROGRAM FILES\BORLAND\CBUILDER5\PROJECTS\CPPBUILDERJOURNAL-MAY2001\POPUPCONTROLS;..\..\..\3rdparty\tms;C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\include;$(BCB)\include\vcl;k:\;K:\general\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
+Item11=$(BCB)\include;$(BCB)\include\vcl;k:\;K:\general\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
+Item12=c:\program files\borland\components\thirdparty;K:\general\;..\OutlookDevelopment\Outlook\Source\Outlook;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
+Item13=K:\general\;..\OutlookDevelopment\Outlook\Source\Outlook;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
+Item14=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;j:\rx\units\
+Item15=C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
 Count=20

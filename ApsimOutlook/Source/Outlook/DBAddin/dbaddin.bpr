@@ -3,7 +3,7 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.06.00"/>
-    <PROJECT value="..\..\..\..\Bin\DBAddIn.dll"/>
+    <PROJECT value="..\..\..\..\Bin\dbaddin.dll"/>
     <OBJFILES value="dbaddin.obj DataBaseAddIn.obj DBSimulation.obj ..\scenario.obj 
       TDirectory_select_form.obj"/>
     <RESFILES value=""/>
@@ -30,8 +30,8 @@
     <USERDEFINES value=""/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="DBAddIn.bpf"/>
-    <INCLUDEPATH value="..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED);$(SHARED)\components\data"/>
-    <LIBPATH value="..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general"/>
+    <INCLUDEPATH value="..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED);$(SHARED)\components\data"/>
+    <LIBPATH value="..\;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -91,49 +91,52 @@ ProductVersion=1.0.0.0
 Comments=
 
 [Excluded Packages]
-C:\Program Files\Borland\CBuilder6\Projects\Bpl\TeeImage5C6.bpl=TeeChart Pro Graphic Exporting formats
+C:\MyData\development\Bin\APSData.bpl=APSuite data components
+c:\program files\borland\cbuilder6\Projects\Bpl\FilterBarPackage.bpl=FilterBarPackage
 
 [HistoryLists\hlIncludePath]
-Count=21
-Item0=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED);$(SHARED)\components\data
-Item1=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED);$(SHARED)\components\data
-Item2=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\components\data
-Item3=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\data;$(SHARED)
-Item4=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item5=..\;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item6=..\;K:\general;..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item7=K:\general;..\;..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item8=..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item9=K:\general;..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;;j:\rx\units\;
-Item10=..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;J:\RX\Units\
-Item11=..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;J:\RX\Units
-Item12=..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
-Item13=..\;$(BCB)\include;$(BCB)\include\vcl;k:\;..;k:\components\data\;k:\components\general\
-Item14=$(BCB)\include;$(BCB)\include\vcl;k:\;..;k:\components\data\;k:\components\general\
-Item15=$(BCB)\include;$(BCB)\include\vcl;k:\;..;k:\components\data\;k:\components\general
-Item16=$(BCB)\include;$(BCB)\include\vcl;k:\;..;k:\components\data\
-Item17=$(BCB)\include;$(BCB)\include\vcl;k:\;..
-Item18=$(BCB)\include;$(BCB)\include\vcl;k:\;..\
-Item19=$(BCB)\include;$(BCB)\include\vcl;k:\
-Item20=$(BCB)\include;$(BCB)\include\vcl
+Count=22
+Item0=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED);$(SHARED)\components\data
+Item1=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED);$(SHARED)\components\data
+Item2=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED);$(SHARED)\components\data
+Item3=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\components\data
+Item4=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\data;$(SHARED)
+Item5=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item6=..\;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item7=..\;K:\general;..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item8=K:\general;..\;..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item9=..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item10=K:\general;..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;;j:\rx\units\;
+Item11=..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;J:\RX\Units\
+Item12=..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;J:\RX\Units
+Item13=..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
+Item14=..\;$(BCB)\include;$(BCB)\include\vcl;k:\;..;k:\components\data\;k:\components\general\
+Item15=$(BCB)\include;$(BCB)\include\vcl;k:\;..;k:\components\data\;k:\components\general\
+Item16=$(BCB)\include;$(BCB)\include\vcl;k:\;..;k:\components\data\;k:\components\general
+Item17=$(BCB)\include;$(BCB)\include\vcl;k:\;..;k:\components\data\
+Item18=$(BCB)\include;$(BCB)\include\vcl;k:\;..
+Item19=$(BCB)\include;$(BCB)\include\vcl;k:\;..\
+Item20=$(BCB)\include;$(BCB)\include\vcl;k:\
+Item21=$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=15
-Item0=..\;..\..\..\..\shared\components\data;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general
-Item1=..\..\..\..\shared\components\data;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general
-Item2=..\..\..\..\shared\components\data;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\data;$(SHARED)\components\general
-Item3=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\data;$(SHARED)\components\general
-Item4=..\;..;..\..\..\..\shared\components\data;..\..\..\..\shared\components\general;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
-Item5=..\;..\..\..\..\shared\components\data;..\..\..\..\shared\components\general;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
-Item6=..\..\..\..\shared\components\data;..\..\..\..\shared\components\general;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
-Item7=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
-Item8=..\;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
-Item9=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
-Item10=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
-Item11=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;j:\rx\units\
-Item12=..\;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
-Item13=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
-Item14=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Count=16
+Item0=..\;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general
+Item1=..\;..\..\..\..\shared\components\data;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general
+Item2=..\..\..\..\shared\components\data;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general
+Item3=..\..\..\..\shared\components\data;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\data;$(SHARED)\components\general
+Item4=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\data;$(SHARED)\components\general
+Item5=..\;..;..\..\..\..\shared\components\data;..\..\..\..\shared\components\general;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
+Item6=..\;..\..\..\..\shared\components\data;..\..\..\..\shared\components\general;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
+Item7=..\..\..\..\shared\components\data;..\..\..\..\shared\components\general;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
+Item8=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
+Item9=..\;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
+Item10=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
+Item11=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
+Item12=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;j:\rx\units\
+Item13=..\;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
+Item14=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
+Item15=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1

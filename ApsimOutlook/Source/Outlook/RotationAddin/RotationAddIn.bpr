@@ -4,7 +4,7 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\..\..\..\Bin\RotationAddIn.dll"/>
-    <OBJFILES value="RotationAddIn.obj RotAddIn.obj RotationValues.obj TRotationForm.obj 
+    <OBJFILES value="RotationAddIn.obj rotaddin.obj RotationValues.obj TRotationForm.obj 
       TRenameRotationForm.obj ..\CropFields.obj"/>
     <RESFILES value="RotationAddIn.res"/>
     <DEFFILE value=""/>
@@ -28,8 +28,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="RotationAddIn.bpf"/>
-    <INCLUDEPATH value="..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components;$(SHARED);$(SHARED)\components\data"/>
-    <LIBPATH value="..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general"/>
+    <INCLUDEPATH value="..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED);$(SHARED)\components\data"/>
+    <LIBPATH value="..\;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -91,22 +91,27 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
+[Excluded Packages]
+C:\MyData\development\Bin\APSData.bpl=APSuite data components
+c:\program files\borland\cbuilder6\Projects\Bpl\FilterBarPackage.bpl=FilterBarPackage
+
 [HistoryLists\hlIncludePath]
-Count=9
-Item0=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components;$(SHARED);$(SHARED)\components\data
+Count=10
+Item0=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED);$(SHARED)\components\data
 Item1=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components;$(SHARED);$(SHARED)\components\data
-Item2=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
-Item3=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
-Item4=..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\components\data
-Item5=..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item6=..\;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item7=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item8=D:\Development\ApsimOutlook\Source\Outlook\RotationAddin;$(BCB)\include;$(BCB)\include\vcl
+Item2=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components;$(SHARED);$(SHARED)\components\data
+Item3=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
+Item4=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
+Item5=..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\components\data
+Item6=..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item7=..\;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item8=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item9=D:\Development\ApsimOutlook\Source\Outlook\RotationAddin;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
 Count=14
-Item0=..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general
-Item1=..\;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general
+Item0=..\;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general
+Item1=..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general
 Item2=..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
 Item3=..\;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
 Item4=..\;..;..\..\..\..\shared\components\general;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib

@@ -24,7 +24,7 @@
     <USERDEFINES value=""/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="APSRun.cpp"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED);$(BCB)\components\tms"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED);$(BCB)\components\tms"/>
     <LIBPATH value="$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Projects\Lib;$(SHARED)\ApsimShared"/>
     <WARNINGS value="-w-par -w-8027 -w-8026"/>
     <WARNOPTSTR value=""/>
@@ -90,16 +90,17 @@ C:\MyData\development\Bin\APSData.bpl=APSuite data components
 c:\program files\borland\cbuilder6\Projects\Bpl\FilterBarPackage.bpl=FilterBarPackage
 
 [HistoryLists\hlIncludePath]
-Count=9
-Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED);$(BCB)\components\tms
-Item1=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED)
-Item2=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item3=$(BCB)\include;$(BCB)\include\vcl;k:\
-Item4=$(BCB)\include;$(BCB)\include\vcl;k:Item1=$(BCB)\include;$(BCB)\include\vcl;k:Item1=$(BCB)\include;$(BCB)\include\vcl;..\..\shared
-Item5=
+Count=10
+Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED);$(BCB)\components\tms
+Item1=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED);$(BCB)\components\tms
+Item2=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED)
+Item3=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item4=$(BCB)\include;$(BCB)\include\vcl;k:\
+Item5=$(BCB)\include;$(BCB)\include\vcl;k:Item1=$(BCB)\include;$(BCB)\include\vcl;k:Item1=$(BCB)\include;$(BCB)\include\vcl;..\..\shared
 Item6=
-Item7=c:\program files\borland\cbuilder3\projects;$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
-Item8=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
+Item7=
+Item8=c:\program files\borland\cbuilder3\projects;$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
+Item9=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
 
 [HistoryLists\hlLibraryPath]
 Count=11

@@ -26,7 +26,7 @@
     <USERDEFINES value=""/>
     <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
     <MAINSOURCE value="Screen.cpp"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)"/>
     <LIBPATH value="..\..\..\APSoil\Source;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib"/>
     <WARNINGS value="-w-par -w-8027 -w-8026"/>
     <WARNOPTSTR value=""/>
@@ -86,24 +86,26 @@ ProductVersion=1.0.0.0
 Comments=
 
 [Excluded Packages]
-c:\program files\borland\cbuilder6\Projects\Bpl\SEGReport.bpl=SEGReport
 c:\program files\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
+C:\MyData\development\Bin\APSData.bpl=APSuite data components
+c:\program files\borland\cbuilder6\Projects\Bpl\FilterBarPackage.bpl=FilterBarPackage
 
 [HistoryLists\hlIncludePath]
-Count=13
-Item0=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components
-Item1=..\..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item2=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item3=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\general\;..\..\infra\ComponentInterface;..\..\infra\protocol
-Item4=..\..\infra\ComponentInterface;k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\engine;..\..\infra\protocol
-Item5=k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\engine;..\..\infra\protocol
-Item6=k:\general;k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\engine;..\..\infra\protocol
-Item7=k:\general;$(BCB)\include;$(BCB)\include\vcl;k:\general\;k:\;..\..\infra\engine;..\..\infra\protocol
-Item8=$(BCB)\include;$(BCB)\include\vcl;k:\general;k:\;..\..\infra\engine
-Item9=..\..\..\shared\general;$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\..\shared
-Item10=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\..\shared
-Item11=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\c++source;..\..\..\shared
-Item12=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\c++source
+Count=14
+Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)
+Item1=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components
+Item2=..\..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item3=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item4=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\general\;..\..\infra\ComponentInterface;..\..\infra\protocol
+Item5=..\..\infra\ComponentInterface;k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\engine;..\..\infra\protocol
+Item6=k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\engine;..\..\infra\protocol
+Item7=k:\general;k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\engine;..\..\infra\protocol
+Item8=k:\general;$(BCB)\include;$(BCB)\include\vcl;k:\general\;k:\;..\..\infra\engine;..\..\infra\protocol
+Item9=$(BCB)\include;$(BCB)\include\vcl;k:\general;k:\;..\..\infra\engine
+Item10=..\..\..\shared\general;$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\..\shared
+Item11=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\..\shared
+Item12=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\c++source;..\..\..\shared
+Item13=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\c++source
 
 [HistoryLists\hlLibraryPath]
 Count=15
