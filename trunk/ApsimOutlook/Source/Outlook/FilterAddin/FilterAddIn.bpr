@@ -9,7 +9,7 @@
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TFilterForm.dfm"/>
-    <LIBFILES value="..\DBAddin\general.lib &quot;C:\Program Files\Borland\CBuilder5\Projects\Lib\thirdparty.lib&quot;"/>
+    <LIBFILES value="..\DBAddin\general.lib"/>
     <LIBRARIES value="TMSC5.lib"/>
     <SPARELIBS value="Vcl50.lib VCLADO50.lib vcldb50.lib APSData.lib VCLBDE50.lib TEE4C5.lib 
       TEEUI4C5.lib TEEDB4C5.lib APSGENERAL.lib TEEPRO4C5.lib VCLX50.lib TMSC5.lib"/>
@@ -17,7 +17,8 @@
       ibsmp50.bpi vcldbx50.bpi VCLIB50.bpi bcbie50.bpi vclie50.bpi Inetdb50.bpi 
       Inet50.bpi NMFast50.bpi dclocx50.bpi bcb97axserver50.bpi TeeGL4C5.bpi 
       TEE4C5.bpi TeeQR4C5.bpi TEEDB4C5.bpi TEEUI4C5.bpi TEEPRO4C5.bpi 
-      OpenXML.bpi DB.bpi VCLADO50.bpi dclusr50.bpi APSGENERAL.bpi APSData.bpi"/>
+      OpenXML.bpi DB.bpi VCLADO50.bpi dclusr50.bpi APSGENERAL.bpi APSData.bpi 
+      thirdparty.bpi"/>
     <PATHCPP value=".;.."/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -28,8 +29,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="FilterAddIn.bpf"/>
-    <INCLUDEPATH value="..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;J:\AdvGrid\;j:\DREAM\Filterbox\units\;&quot;J:\ThirdParty\&quot;"/>
-    <LIBPATH value="..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;&quot;j:\DREAM\Filterbox\units\&quot;"/>
+    <INCLUDEPATH value="..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;J:\AdvGrid\;j:\DREAM\Filterbox\units\;&quot;J:\ThirdParty\&quot;"/>
+    <LIBPATH value="..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;&quot;j:\DREAM\Filterbox\units\&quot;"/>
     <WARNINGS value="-w-par"/>
   </MACROS>
   <OPTIONS>
