@@ -50,12 +50,10 @@ observed_runoff =  obrunoff
 [swat.manager.start_of_day]
 
 if day = 100 then
-   ! [irrigated.irrigated]
-   soilwat2 irrigated amount = 30 (mm)
+   irrigate apply amount = 30 (mm)
 endif
 
 if day = 120 then
-   ! [tillage.<MES_till>]
    soilwat2 tillage type = disc, cn_red = 15.0, cn_rain = 30.0
 endif
 
@@ -63,7 +61,7 @@ endif
 report do_output
 
 [swat.screen.parameters]
-screen_output =  off    
+screen_output =  off
 
 [swat.summaryfile.parameters]
 summaryfile =  swat.sum
