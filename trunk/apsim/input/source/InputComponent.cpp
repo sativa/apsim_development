@@ -10,11 +10,13 @@
 #include <general\string_functions.h>
 #include <general\stl_functions.h>
 #include <general\date_class.h>
-#include <ApsimShared\ApsimDataFile.h>
 #include <list>
 #include <math.h>
+#include <boost\bind.hpp>
 
 using namespace std;
+using namespace boost;
+using namespace boost::gregorian;
 
 static const char* dayLengthType =
    "<type name=\"daylength\" kind=\"single\" units=\"hours\"/>";
@@ -31,8 +33,8 @@ protocol::Component* createComponent(void)
 // constructor
 // ------------------------------------------------------------------
 InputComponent::InputComponent(void)
+   : todaysDate(pos_infin), fileDate(pos_infin)
    {
-   data = NULL;
    }
 
 // ------------------------------------------------------------------
@@ -40,49 +42,38 @@ InputComponent::InputComponent(void)
 // ------------------------------------------------------------------
 InputComponent::~InputComponent(void)
    {
-   delete data;
-   for (InputVariables::iterator i = variables.begin();
-                                 i != variables.end();
-                                 i++)
-      delete i->second;
    }
 // ------------------------------------------------------------------
 // INIT1 method handler.
 // ------------------------------------------------------------------
 void InputComponent::doInit1(const FString& sdml)
    {
-   protocol::Component::doInit1(sdml);
-
-   // register a few things.
-   tickID = addRegistration(protocol::respondToEventReg, "tick", timeTypeDDML);
-   preNewmetID = addRegistration(protocol::eventReg, "preNewmet", newmetTypeDDML);
-   newmetID = addRegistration(protocol::eventReg, "newmet", newmetTypeDDML);
-   iAmMet = (stricmp(name, "met") == 0);
-   if (iAmMet)
-      daylengthID = addRegistration(protocol::respondToGetReg, "day_length", dayLengthType);
-   else
-      daylengthID = 0;
-
-   fileName = componentData->getProperty("parameters", "filename");
-   if (fileName == "")
+   try
       {
-      string msg = "Cannot find a filename parameter for module: " + string(name);
-      error(msg.c_str(), true);
+      protocol::Component::doInit1(sdml);
+
+      // register a few things.
+      tickID = addRegistration(protocol::respondToEventReg, "tick", timeTypeDDML);
+      preNewmetID = addRegistration(protocol::eventReg, "preNewmet", newmetTypeDDML);
+      newmetID = addRegistration(protocol::eventReg, "newmet", newmetTypeDDML);
+      iAmMet = (stricmp(name, "met") == 0);
+      if (iAmMet)
+         daylengthID = addRegistration(protocol::respondToGetReg, "day_length", dayLengthType);
+      else
+         daylengthID = 0;
+
+      fileName = componentData->getProperty("parameters", "filename");
+      if (fileName == "")
+         throw "Cannot find a filename parameter for module: " + string(name);
+
+      data.open(fileName);
+
+      registerAllVariables();
+      checkForSparseData();
       }
-   else
+   catch (const runtime_error& err)
       {
-      data = new ApsimDataFile(fileName);
-
-      readConstants();
-      if (readHeadings())
-         {
-         dateFieldsOk();
-
-         // read in a line from the file so that the fields know what data
-         // type they're dealing with.
-         readLineFromFile();
-         checkForSparseData();
-         }
+      error(err.what(), true);
       }
    }
 // ------------------------------------------------------------------
@@ -98,289 +89,57 @@ void InputComponent::doInit2(void)
    writeString(msg.c_str());
    }
 // ------------------------------------------------------------------
+// add a variable to our list and register it.
+// ------------------------------------------------------------------
+void InputComponent::addVariable(Value& value)
+   {
+   if (!Str_i_Eq(value.name, "year")  &&
+       !Str_i_Eq(value.name, "day")   &&
+       !Str_i_Eq(value.name, "month") &&
+       !Str_i_Eq(value.name, "date"))
+      {
+      Variables::iterator i = findVariable(value.name);
+      if (i != variables.end())
+         i->second.setTemporalValue(&value);
+      else
+         {
+         StringVariant variable(&value, this);
+         variables.insert(make_pair(variable.doRegistration(), variable));
+         }
+      }
+   }
+// ------------------------------------------------------------------
 // read in all constants from file.
 // ------------------------------------------------------------------
-void InputComponent::readConstants(void)
+void InputComponent::registerAllVariables(void)
    {
-   vector<string> constantNames;
-   data->getConstantNames(constantNames);
+   for_each(data.constantsBegin(), data.constantsEnd(),
+            bind(&InputComponent::addVariable, this, _1));
 
-   // read in each constant
-   for (vector<string>::iterator constantI = constantNames.begin();
-                                 constantI != constantNames.end();
-                                 constantI++)
-      {
-      string value = data->getConstant(*constantI);
-      string units;
-      unsigned posStartUnit = value.find("(");
-      if (posStartUnit != string::npos)
-         {
-         unsigned posEndUnit = value.find(")");
-         if (posEndUnit == value.length()-1)
-            {
-            units = value.substr(posStartUnit, posEndUnit-posStartUnit+1);
-            value = value.erase(posStartUnit, posEndUnit-posStartUnit+1);
-            }
-         }
-      addVariable(*constantI, units, value, 1, false, false);
-      }
-   }
-// ------------------------------------------------------------------
-// read in all headings from file.
-// ------------------------------------------------------------------
-bool InputComponent::readHeadings(void)
-   {
-   vector<string> fieldNames, fieldUnits;
-   data->getFieldNames(fieldNames);
-   data->getFieldUnits(fieldUnits);
-   if (fieldNames.size() == 0 || fieldUnits.size() == 0)
-      {
-      string msg = "Cannot find field names or units in input file: " + fileName;
-      error(msg.c_str(), true);
-      return false;
-      }
-   else
-      {
-      // Loop through all field names and look for an array specifier.
-      // If one is found then strip it off, then add the variable to
-      // our variables container.
-      for (unsigned int fieldI = 0; fieldI != fieldNames.size(); fieldI++)
-         {
-         if (Str_i_Eq(fieldNames[fieldI], "year") ||
-             Str_i_Eq(fieldNames[fieldI], "day"))
-            fieldNames[fieldI] = string(name) + "_" + fieldNames[fieldI];
-         string fieldNameMinusSpec;
-         unsigned int arraySpec;
-         bool isArray = removeArraySpec(fieldNames[fieldI], fieldNameMinusSpec, arraySpec);
-
-         addVariable(fieldNameMinusSpec,
-                     fieldUnits[fieldI],
-                     data->getFieldValue(fieldI),
-                     arraySpec, true, isArray);
-         }
-      return true;
-      }
-   }
-
-// ------------------------------------------------------------------
-// Find a specific variable whose name matches the one passed in.
-// ------------------------------------------------------------------
-InputComponent::InputVariables::iterator InputComponent::findVariable(const string& name)
-   {
-   for (InputVariables::iterator inputVariable = variables.begin();
-                                 inputVariable != variables.end();
-                                 inputVariable++)
-      {
-      if (Str_i_Eq(inputVariable->second->getName(), name))
-         return inputVariable;
-      }
-   return variables.end();
-   }
-// ------------------------------------------------------------------
-// Strip off the array specifier if found.  Return the variable
-// name with the array specifier removed, and the array index.
-// Returns true if field is an array.
-// ------------------------------------------------------------------
-bool InputComponent::removeArraySpec(const string& fieldName,
-                                     string& fieldNameMinusSpec,
-                                     unsigned int& arraySpec)
-   {
-   unsigned posStartArraySpec = fieldName.find("(");
-   if (posStartArraySpec != string::npos)
-      {
-      unsigned posEndArraySpec = fieldName.find(")");
-      if (posEndArraySpec == fieldName.length()-1)
-         {
-         fieldNameMinusSpec = fieldName.substr(0, posStartArraySpec);
-         arraySpec = atoi(fieldName.substr(posStartArraySpec+1,
-                                           posEndArraySpec-posStartArraySpec-1).c_str());
-         return true;
-         }
-      else
-         {
-         string msg = "Invalid array specification on INPUT field name: ";
-         msg += fieldName;
-         throw runtime_error(msg);
-         }
-      }
-   else
-      {
-      fieldNameMinusSpec = fieldName;
-      arraySpec = 1;
-      }
-   return false;
-   }
-
-// ------------------------------------------------------------------
-// Register all our variables.
-// ------------------------------------------------------------------
-void InputComponent::addVariable(const std::string& name,
-                                 const std::string& units,
-                                 const std::string& value,
-                                 unsigned arrayIndex,
-                                 bool isTemporal,
-                                 bool isArray)
-   {
-   StringVariant* stringVariant;
-   InputVariables::iterator variableI = findVariable(name);
-   if (variableI == variables.end())
-      {
-      stringVariant = new StringVariant(this, name, units, value, !isTemporal);
-      }
-   else
-      {
-      stringVariant = variableI->second;
-      if (value.find(" ") != string::npos)
-         stringVariant->addValues(value);
-      else
-         stringVariant->addValue(value, arrayIndex-1);
-      }
-   if (isTemporal && find(temporalVariables.begin(), temporalVariables.end(),
-                          stringVariant) == temporalVariables.end())
-      temporalVariables.push_back(stringVariant);
-
-   if (isArray)
-      stringVariant->setIsArray();
-   if (units != "")
-      stringVariant->setUnits(units);
-
-   // Last step - do the registration now that the stringVariant has a value
-   // use the registration ID as the index into the variables map.
-   unsigned int regID = stringVariant->doRegistration();
-   variables.insert(InputVariables::value_type(regID, stringVariant));
+   for_each(data.fieldsBegin(), data.fieldsEnd(),
+            bind(&InputComponent::addVariable, this, _1));
    }
 // ------------------------------------------------------------------
 // Check to see if we need to handle sparse data or not.
 // ------------------------------------------------------------------
 void InputComponent::checkForSparseData(void)
    {
-   InputVariables::iterator i = findVariable("allow_sparse_data");
-   if (i == variables.end())
-      allowSparseData = false;
-   else
-      i->second->asLogical(allowSparseData);
+   ApsimDataFile::iterator i = find(data.constantsBegin(),
+                                    data.constantsEnd(),
+                                    "allow_sparse_data");
+   allowSparseData = (i != data.constantsEnd()
+                      && i->values.size() == 1
+                      && (Str_i_Eq(i->values[0], "true") || Str_i_Eq(i->values[0], "yes")));
    }
 // ------------------------------------------------------------------
-// Advance the file to todays date.
+// Advance the file to todays date. Returns the date the file is
+// positioned at.
 // ------------------------------------------------------------------
-bool InputComponent::advanceToTodaysData(void)
+date InputComponent::advanceToTodaysData(void)
    {
-   vector<string> fieldNames, fieldUnits;
-   data->getFieldNames(fieldNames);
-   data->getFieldUnits(fieldUnits);
-   if (fieldNames.size() > 0 && fieldUnits.size() > 0)
-      {
-      double fileDate;
-
-      do
-         {
-         readLineFromFile();
-         fileDate = getFileDate();
-         }
-      while (fileDate < todaysDate && data->next());
-
-      if (fileDate == todaysDate)
-         {
-         data->next();
-         for (InputVariables::iterator i = variables.begin();
-                                       i != variables.end();
-                                       ++i)
-            i->second->useConstantValues(false);
-
-         return true;
-         }
-      else
-         {
-         for (InputVariables::iterator i = variables.begin();
-                                       i != variables.end();
-                                       ++i)
-            i->second->useConstantValues(true);
-         return false;
-         }
-      }
-   }
-// ------------------------------------------------------------------
-// Get a file date from the variables container.
-// ------------------------------------------------------------------
-unsigned long InputComponent::getFileDate(void)
-   {
-   int year;
-   if (yearI == NULL)
-      {
-      GDate today;
-      today.Set(todaysDate);
-      year = today.Get_year();
-      }
-   else
-      yearI->asInteger(year);
-
-   if (dayOfYearI != NULL)
-      {
-      int day_of_year;
-      dayOfYearI->asInteger(day_of_year);
-      GDate date;
-      date.Set(day_of_year, year);
-      return date.Get_jday();
-      }
-   else
-      {
-      int day;
-      dayOfMonthI->asInteger(day);
-      int month;
-      monthI->asInteger(month);
-      GDate date;
-      date.Set(day, month, year);
-      return date.Get_jday();
-      }
-   }
-// ------------------------------------------------------------------
-// If dates are not ok then throw error.
-// ------------------------------------------------------------------
-void InputComponent::dateFieldsOk(void)
-   {
-   InputVariables::iterator i = findVariable(string(name) + "_year");
-   if (i != variables.end())
-      yearI = i->second;
-   else
-      yearI = NULL;
-
-   i = findVariable(string(name) + "_day");
-   if (i != variables.end())
-      dayOfYearI = i->second;
-   i = findVariable("day_of_month");
-   if (i != variables.end())
-      dayOfMonthI = i->second;
-   i = findVariable("month");
-   if (i != variables.end())
-      monthI = i->second;
-   bool ok = (dayOfYearI != NULL ||
-            (dayOfMonthI != NULL && monthI != NULL));
-   if (!ok)
-      throw runtime_error("APSIM input files must have day OR day and month columns.");
-   }
-
-// ------------------------------------------------------------------
-// Reads in a line of data from file and stores values in
-// 'variables'.  Return true if values read ok.
-// ------------------------------------------------------------------
-void InputComponent::readLineFromFile()
-   {
-   // loop through all temporal variables (ie. goto end of variables
-   // container) and get a value from the line and store into the
-   // variable.  Each variable knows how many values to expect from
-   // the line.
-   TemporalVariables::iterator variableI = temporalVariables.begin();
-   string value;
-   unsigned fieldNumber = 0;
-   while (variableI != temporalVariables.end())
-      {
-      for (unsigned valueI = 0; valueI != (*variableI)->numValues(); valueI++)
-         {
-         value = data->getFieldValue(fieldNumber++);
-         (*variableI)->addValue(value, valueI);
-         }
-      variableI++;
-      }
+   while (data.getDate() < todaysDate && !data.eof())
+      data.next();
+   return data.getDate();
    }
 // ------------------------------------------------------------------
 // return a variable to caller.
@@ -390,18 +149,16 @@ void InputComponent::respondToGet(unsigned int& fromID, protocol::QueryValueData
    if (queryData.ID == daylengthID)
       sendVariable(queryData, calcDayLength());
    else
-      variables[queryData.ID]->sendVariable(queryData);
+      variables[queryData.ID].sendVariable(queryData, (todaysDate == fileDate));
    }
-
 // ------------------------------------------------------------------
 // set the value of one of our variables.
 // ------------------------------------------------------------------
 bool InputComponent::respondToSet(unsigned int& fromID, protocol::QuerySetValueData& setValueData)
    {
-   variables[setValueData.ID]->setVariable(setValueData);
+   variables[setValueData.ID].setVariable(setValueData);
    return true;
    }
-
 // ------------------------------------------------------------------
 // Event handler.
 // ------------------------------------------------------------------
@@ -411,16 +168,12 @@ void InputComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID,
       {
       protocol::timeType tick;
       variant.unpack(tick);
-      todaysDate = tick.startday;
-      if (!advanceToTodaysData() && !allowSparseData)
+      todaysDate = date(tick.startday);
+      fileDate = advanceToTodaysData();
+      if (fileDate != todaysDate && !allowSparseData)
          {
-         GDate errorDate;
-         errorDate.Set(todaysDate);
-
-         string msg = "Cannot find data in INPUT file for day: ";
-         msg += IntToStr(errorDate.Get_day_of_year()).c_str();
-         msg += " and year: ";
-         msg += IntToStr(errorDate.Get_year()).c_str();
+         string msg = "Cannot find data in INPUT file for date ";
+         msg += to_simple_string(todaysDate).c_str();
          error(msg.c_str(), true);
          }
       else
@@ -428,34 +181,46 @@ void InputComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID,
       }
    }
 // ------------------------------------------------------------------
-// Find a value and return it's numerical value.  Returns true if
-// variable is found and it has a value.
+// Find a value and return it's numerical value.  Returns value if
+// found or zero otherwise.
 // ------------------------------------------------------------------
-bool InputComponent::getVariableValue(const string& name, float& value)
+float InputComponent::getVariableValue(const string& name)
    {
-   InputVariables::iterator i = findVariable(name);
+   Variables::iterator i = findVariable(name);
    if (i != variables.end())
-      return i->second->asFloat(value);
+      return i->second.asFloat();
    else
-      return false;
+      return 0.0;
+   }
+// ------------------------------------------------------------------
+// Find a variable in our variables list. Return variables.end() if
+// not found.
+// ------------------------------------------------------------------
+InputComponent::Variables::iterator InputComponent::findVariable(const std::string& name)
+   {
+   for (Variables::iterator i = variables.begin();
+                            i != variables.end();
+                            i++)
+      {
+      if (Str_i_Eq(i->second.getName(), name))
+         return i;
+      }
+   return variables.end();
    }
 // ------------------------------------------------------------------
 // Calculate and return day length.
 // ------------------------------------------------------------------
 float InputComponent::calcDayLength(void)
    {
-   GDate currentDate;
-   currentDate.Set(todaysDate);
-
-   float latitude;
-   if (getVariableValue("latitude", latitude))
+   float latitude = getVariableValue("latitude");
+   if (latitude != 0.0)
       {
       // Twilight is defined as the interval between sunrise or sunset and the
       // time when the true centre of the sun is 6 degrees below the horizon.
       // Sunrise or sunset is defined as when the true centre of the sun is 50'
       // below the horizon.
       float twligt = -6.0;
-      unsigned dayOfYear = currentDate.Get_day_of_year();
+      int dayOfYear = date_duration(todaysDate - date(todaysDate.year(), 1, 1)).days()+1;
       return dayLength(dayOfYear, latitude, twligt);
       }
    else
@@ -478,21 +243,23 @@ void InputComponent::publishNewMetEvent(void)
       {
       // send out a preNewMet Event.
       protocol::newmetType newmet;
-      newmet.today = todaysDate;
-      getVariableValue("maxt", newmet.maxt);
-      getVariableValue("mint", newmet.mint);
-      getVariableValue("radn", newmet.radn);
-      getVariableValue("rain", newmet.rain);
-      if (!getVariableValue("vp", newmet.vp))
+      newmet.today = todaysDate.julian_day();
+      newmet.maxt = getVariableValue("maxt");
+      newmet.mint = getVariableValue("mint");
+      newmet.radn = getVariableValue("radn");
+      newmet.rain = getVariableValue("rain");
+      newmet.vp = getVariableValue("vp");
+      if (newmet.vp == 0.0)
          newmet.vp = calcVP(newmet.mint);
       publish(preNewmetID, newmet);
 
-      newmet.today = todaysDate;
-      getVariableValue("maxt", newmet.maxt);
-      getVariableValue("mint", newmet.mint);
-      getVariableValue("radn", newmet.radn);
-      getVariableValue("rain", newmet.rain);
-      if (!getVariableValue("vp", newmet.vp))
+      newmet.today = todaysDate.julian_day();
+      newmet.maxt = getVariableValue("maxt");
+      newmet.mint = getVariableValue("mint");
+      newmet.radn = getVariableValue("radn");
+      newmet.rain = getVariableValue("rain");
+      newmet.vp = getVariableValue("vp");
+      if (newmet.vp == 0.0)
          newmet.vp = calcVP(newmet.mint);
       publish(newmetID, newmet);
 

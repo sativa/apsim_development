@@ -4,6 +4,7 @@
 #define StringVariantH
 #include <string>
 #include <vector>
+#include <ApsimShared\ApsimDataFile.h>
 namespace protocol {
    class QueryValueData;
    class QuerySetValueData;
@@ -27,50 +28,25 @@ namespace protocol {
 class StringVariant
    {
    public:
-      StringVariant(void) : parent(NULL) { }
-      StringVariant(protocol::Component* p) : parent(p) { }
-      StringVariant(protocol::Component* parent, const std::string& name);
-      StringVariant(protocol::Component* parent,
-                    const std::string& name,
-                    const std::string& units,
-                    const std::string& value,
-                    bool constants);
-      void addValue(const std::string& value, unsigned arrayIndex);
-      void addValues(const std::string& valueString);
-      unsigned numValues(void) {return values.size();}
+      StringVariant(void) : value(NULL), parent(NULL), secondaryValue(NULL) { }
+      StringVariant(Value* value, protocol::Component* parent);
 
-      void sendVariable(protocol::QueryValueData& queryData);
+      void sendVariable(protocol::QueryValueData& queryData, bool useMainValue);
       void setVariable(protocol::QuerySetValueData& setValueData);
-      bool asInteger(int& value);
-      bool asLogical(bool& value);
-      bool asFloat(float& value);
       unsigned doRegistration(void);
-      void setIsArray(void);
-      void setUnits(const std::string& u) {units = u;}
-      void useConstantValues(bool useC)
-         {
-         useConstants = useC;
-         }
-
-      bool operator ==(const std::string& n)
-         {return (name == n);}
-      bool operator !=(const std::string& n)
-         {return (name != n);}
-      std::string getName(void) const {return name;}
+      float asFloat(void);
+      float asInteger(void);
+      std::string getName(void) {return value->name;}
+      void setTemporalValue(Value* value);
 
    private:
       protocol::Component* parent;
-      std::string name;
-      std::string units;
-      std::string typeString;
-      typedef std::vector<std::string> Values;
-      Values values;
-      Values constantValues;
-      unsigned int regID;
-      bool useConstants;
+      Value* value;
+      Value* secondaryValue;
 
       enum Type {Real, Integer, String, RealArray, IntegerArray, StringArray};
       Type type;
+      string typeString;
 
       void determineType(void);
    };
