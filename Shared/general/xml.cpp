@@ -62,7 +62,7 @@ void formatXML(std::string& xml)
       else
          level++;
 
-      string st = string("\n") + string(level*3, ' ') +"<";
+      string st = string("\n") + string(max(level*3, 0), ' ') +"<";
       xml.replace(pos+1, 1, st);
       pos = xml.find("><", pos);
       }
