@@ -13,19 +13,17 @@
 class TFilter : public TSEGTable
    {
    private:
-
+      AnsiString filterString;
       void __fastcall setFilter(AnsiString filter);
-      AnsiString __fastcall getFilter(void);
 
       virtual void createFields(void) throw(std::runtime_error);
       virtual void storeRecords(void) throw(std::runtime_error);
-      void __fastcall onSourceDataChange(TDataSet* dataset);
 
    public:
       __fastcall TFilter(TComponent* owner);
       __fastcall ~TFilter();
 
    __published:
-      __property AnsiString filter = {read=getFilter, write=setFilter};
+      __property AnsiString filter = {read=filterString, write=setFilter};
    };
 #endif
