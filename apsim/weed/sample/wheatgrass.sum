@@ -10,7 +10,8 @@
              Copyright(c) APSRU               
 
      Version                = 3.4
-     Title                  = Wheat Winter-grass Simulation
+     Title                  = Wheat Winter - weed Simulation
+     Component DLL          = c:\development\apsim\log\lib\log.dll
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
      Component DLL          = c:\development\apsim\clock\lib\clock.dll
@@ -358,20 +359,20 @@
       stage 2.0 germination
 24 June 1988(Day of year=176), wheat: 
       stage 3.0 emergence
-                     biomass =           0.56 (kg/ha)   lai          =   0.024 (m^2/m^2)
+                     biomass =           0.56 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)     extractable sw =   35.14 (mm)
 25 June 1988(Day of year=177), weed: 
       stage 3.0 emergence
-                     biomass =           0.90 (kg/ha)   lai          =   0.004 (m^2/m^2)
+                     biomass =           0.90 (g/m^2)   lai          =   0.004 (m^2/m^2)
                      stover N conc =     6.00 (%)     extractable sw =   30.57 (mm)
 25 June 1988(Day of year=177), wheat: 
       stage 4.0 end_of_juvenile
-                     biomass =           0.74 (kg/ha)   lai          =   0.027 (m^2/m^2)
+                     biomass =           0.74 (g/m^2)   lai          =   0.027 (m^2/m^2)
                      stover N conc =     5.83 (%)     extractable sw =   35.07 (mm)
 12 July 1988(Day of year=194), manager: 
      Manager sending message :- weed kill_crop
 12 July 1988(Day of year=194), weed: 
-     plant_kill. 100% crop killed because of external action.
+     Plant kill. 100.00% crop killed because of external action.
 12 July 1988(Day of year=194), manager: 
      Manager sending message :- weed end_crop
 12 July 1988(Day of year=194), weed: 
@@ -382,27 +383,27 @@
          root N =            0.2 kg/ha
 16 August 1988(Day of year=229), wheat: 
       stage 5.0 floral_initiation
-                     biomass =         199.92 (kg/ha)   lai          =   2.880 (m^2/m^2)
+                     biomass =         199.92 (g/m^2)   lai          =   2.880 (m^2/m^2)
                      stover N conc =     2.17 (%)     extractable sw =  114.59 (mm)
 19 September 1988(Day of year=263), wheat: 
       stage 6.0 flowering
-                     biomass =         594.69 (kg/ha)   lai          =   2.156 (m^2/m^2)
+                     biomass =         594.69 (g/m^2)   lai          =   2.156 (m^2/m^2)
                      stover N conc =     1.04 (%)     extractable sw =  200.62 (mm)
 26 September 1988(Day of year=270), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         710.46 (kg/ha)   lai          =   1.750 (m^2/m^2)
+                     biomass =         710.46 (g/m^2)   lai          =   1.750 (m^2/m^2)
                      stover N conc =     0.67 (%)     extractable sw =  173.76 (mm)
 20 October 1988(Day of year=294), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         836.62 (kg/ha)   lai          =   0.270 (m^2/m^2)
+                     biomass =         836.62 (g/m^2)   lai          =   0.270 (m^2/m^2)
                      stover N conc =     0.31 (%)     extractable sw =  221.86 (mm)
 21 October 1988(Day of year=295), wheat: 
       stage 9.0 maturity
-                     biomass =         836.62 (kg/ha)   lai          =   0.247 (m^2/m^2)
+                     biomass =         836.62 (g/m^2)   lai          =   0.247 (m^2/m^2)
                      stover N conc =     0.31 (%)     extractable sw =  221.22 (mm)
 22 October 1988(Day of year=296), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         836.62 (kg/ha)   lai          =   0.001 (m^2/m^2)
+                     biomass =         836.62 (g/m^2)   lai          =   0.001 (m^2/m^2)
                      stover N conc =     0.30 (%)     extractable sw =  220.06 (mm)
 23 October 1988(Day of year=297), manager: 
      Manager sending message :- wheat harvest
@@ -455,12 +456,12 @@
          root N removed= 0.00 kg/ha
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (kg/ha)   lai          =   0.024 (m^2/m^2)
+                     biomass =           0.02 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     6.30 (%)     extractable sw =  220.06 (mm)
 23 October 1988(Day of year=297), manager: 
      Manager sending message :- wheat kill_crop
 23 October 1988(Day of year=297), wheat: 
-     plant_kill. 100% crop killed because of external action.
+     Plant kill. 100.00% crop killed because of external action.
 23 October 1988(Day of year=297), manager: 
      Manager sending message :- wheat end_crop
 23 October 1988(Day of year=297), wheat: 
