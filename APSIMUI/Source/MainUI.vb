@@ -670,17 +670,22 @@ Public Class MainUI
 
     Sub OpenAPSIMFile(Optional ByVal filename As String = "")
         Try
+            Dim OkPressed As Boolean
             If filename = "" Then
-                SimulationFile.Open()
-                filename = SimulationFile.Filename
+                OkPressed = SimulationFile.Open()
             Else
                 SimulationFile.Open(filename)
+                OkPressed = True
             End If
-            Directory.SetCurrentDirectory(Path.GetDirectoryName(filename))
-            SimulationExplorer.Data = SimulationFile.data
-            UpdateMainForm()
+            If OkPressed Then
+                filename = SimulationFile.Filename
+                Directory.SetCurrentDirectory(Path.GetDirectoryName(filename))
+                SimulationExplorer.Data = SimulationFile.data
+                UpdateMainForm()
+            End If
 
-        Catch e as system.exception
+
+        Catch e As System.Exception
             MsgBox(e.Message, MsgBoxStyle.Critical, "Cannot open APSIM file")
         End Try
 
