@@ -1,0 +1,57 @@
+# (Borlandish) Makefile for apsim executable
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:\progra~1\apsim33
+#APSROOT=c:\development
+
+DTOBJECTS=CreateDataTypesSource.obj CreateSource.obj CreateDataTypesF90.obj
+CIOBJECTS=CreateComponentInterfaceSource.obj ComponentInterfaceGenerator.obj
+
+LIBFILES = $(APSROOT)\Shared\general\general.lib $(APSROOT)\Shared\ApsimShared\ApsimShared.lib
+
+USERDEFINES = 
+SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
+INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(APSROOT)\Shared
+LIBPATH = $(BCB)\lib\obj;$(BCB)\lib
+
+# ---------------------------------------------------------------------------
+
+CFLAG1 = -O2 -H- -Vx -Ve -X- -r- -a8 -b- -k- -y -v -vi- -c -tW -tWM
+WARNINGS = -w-par
+LFLAGS =  -l. -D"" -aa -Tpe -x -Gn -v
+
+STDOBJ = c0x32.obj vcl.bpi Memmgr.Lib sysinit.obj
+ALLRES = $(RESFILES)
+ALLLIB = $(LIBFILES) import32.lib cp32mti.lib
+
+CC=$(BCB)\Bin\bcc32.exe
+LD=$(BCB)\Bin\ilink32
+# ---------------------------------------------------------------------------
+
+all: $(APSROOT)\Bin\CreateDataTypesSource.exe \
+$(APSROOT)\Bin\CreateComponentInterfaceSource.exe 
+
+$(APSROOT)\Bin\CreateDataTypesSource.exe: $(DTOBJECTS)
+	$(LD) @&&!
+	$(LFLAGS) -L$(LIBPATH) +
+	$(DTOBJECTS) $(STDOBJ), $<, , $(ALLLIB), $(DEFFILE), $(ALLRES)
+!
+
+$(APSROOT)\Bin\CreateComponentInterfaceSource.exe: $(CIOBJECTS)
+	$(LD) @&&!
+	$(LFLAGS) -L$(LIBPATH) +
+	$(CIOBJECTS) $(STDOBJ), $<, , $(ALLLIB), $(DEFFILE), $(ALLRES)
+!
+
+.cpp.obj:
+	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+
+####
+CreateDataTypesSource.obj: CreateDataTypesSource.cpp CreateSource.h CreateDataTypesF90.h
+CreateSource.obj: CreateSource.cpp CreateSource.h 
+CreateComponentInterfaceSource.obj: CreateComponentInterfaceSource.cpp ComponentInterfaceGenerator.h
+ComponentInterfaceGenerator.obj: ComponentInterfaceGenerator.cpp ComponentInterfaceGenerator.h
+CreateDataTypesF90.obj: CreateDataTypesF90.cpp CreateDataTypesF90.h

@@ -1,0 +1,50 @@
+# (Borlandish) Makefile for apsim ComponentInterface module
+
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:/progra~1/apsim33
+#APSROOT=c:/development
+
+OBJECTS = Component.obj message.obj Type.obj TypeConverter.obj variant.obj \
+    Variants.obj FORTRANComponent.obj MessageData.obj ApsimVariant.obj \
+    ArraySpecifier.obj Registrations.obj RegistrationItem.obj \
+    ProtocolVector.obj datatypes.obj
+
+USERDEFINES = 
+SYSDEFINES = _RTLDLL;NO_STRICT
+INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(APSROOT)\Shared
+LIBPATH = $(BCB)\lib\obj;$(BCB)\lib
+
+
+# ---------------------------------------------------------------------------
+CFLAG1 = -O2 -H- -Vx -Ve -x- -RT- -X- -a8 -b- -k- -vi -c -tW -tWM
+WARNINGS = -w-par
+LFLAGS = 
+
+CC=$(BCB)/Bin/bcc32.exe
+LD=$(BCB)/Bin/TLib.exe
+
+.cpp.obj:
+    $(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+
+ComponentInterface.lib: $(OBJECTS) 
+	$(LD) /u $@ @&&!
+	$(LFLAGS) $? 
+
+!
+
+# NB. Assumption here that we are always working within the development tree. NB.
+# Datatypes.
+datatypes.obj: datatypes.cpp datatypes.h
+datatypes.cpp datatypes.h:  $(APSROOT)\apsim\infra\datatypes.interface $(APSROOT)\APSBuild\datatypes.macro
+	cd $(APSROOT)\Bin
+	$(APSROOT)\Bin\CreateDataTypesSource.exe
+   cd $(APSROOT)\Shared\ComponentInterface
+# NB. Assumption here that we are always working within the development tree. NB.
+
+clean:
+	$(RM) ComponentInterface.lib $(OBJECTS) datatypes.cpp datatypes.h

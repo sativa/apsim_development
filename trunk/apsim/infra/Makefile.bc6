@@ -1,0 +1,11 @@
+# (Borlandish) Makefile for apsim infrastructure module
+MAKE=$(MAKEDIR)\make
+
+all: source 
+
+source:
+	echo make = $(MAKE)
+	cd source
+	$(MAKE) -DAPSROOT=$(APSROOT) source
+   cd ../engine
+	$(MAKE) -DAPSROOT=$(APSROOT) engine

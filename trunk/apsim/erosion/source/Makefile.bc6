@@ -1,0 +1,33 @@
+# (Borlandish) Makefile for apsim erosion module
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:\progra~1\apsim33
+#APSROOT=c:\development
+
+# Platform specific defns
+!include $(APSROOT)\APSBuild\platform.make
+
+# Fortran compiler defns
+!include $(APSROOT)\APSBuild\fortran.make
+
+# The statically linked components of the engine interface
+!include $(APSROOT)\APSBuild\ApsimComponentInterface.make
+
+# Main target
+source: ..\lib\erosion.dll
+..\lib\erosion.dll: Registrations.obj erosion.obj erosion.imp $(STATICLINKEDOBJECTS) 
+	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
+	$(ECHO) $(F90FLAGS) >> linker.tmp
+	$(ECHO) $(F90LIBS) >> linker.tmp
+	$(LF95) erosion.obj Registrations.obj -exe ..\lib\erosion.dll erosion.imp @linker.tmp
+	$(RM) linker.tmp
+   
+erosion.obj: erosion.for
+erosion.imp:
+	$(ECHO) -implib ApsimShared.dll > erosion.imp
+Registrations.obj: Registrations.f90
+Registrations.f90: ..\erosion.interface 
+	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\erosion.interface
+clean:
+	$(RM) ..\lib\erosion.dll Registrations.obj Registrations.f90 erosion.obj erosion.imp
+
