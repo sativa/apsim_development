@@ -449,37 +449,28 @@ void Component::error(const FString& msg, bool isFatal)
    {
    char cMessage[2048];
 
-   if (beforeInit2)
-      {
-      strcpy(cMessage, "");
-      strncat(cMessage, msg.f_str(), min((int)msg.length(), 999));
-      ::MessageBox(NULL, cMessage, "Init1 error", MB_ICONSTOP | MB_OK);
-      }
+   strcpy(cMessage, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+   if (isFatal)
+      strcat(cMessage, "                 APSIM  Fatal  Error               \n");
    else
-      {
-      strcpy(cMessage, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-      if (isFatal)
-         strcat(cMessage, "                 APSIM  Fatal  Error               \n");
-      else
-         strcat(cMessage, "                 APSIM Warning Error               \n");
-      strcat(cMessage, "                 -------------------              \n");
+      strcat(cMessage, "                 APSIM Warning Error               \n");
+   strcat(cMessage, "                 -------------------              \n");
 
-      strncat(cMessage, msg.f_str(), min((int)msg.length(), 999));
-      strcat(cMessage, "\nComponent name: ");
-      strcat(cMessage, name);
-      strcat(cMessage, "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n");
+   strncat(cMessage, msg.f_str(), min((int)msg.length(), 999));
+   strcat(cMessage, "\nComponent name: ");
+   strcat(cMessage, name);
+   strcat(cMessage, "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n");
 
-      // create and send a message.
-      Message* errorMessage = newPublishEventMessage(componentID,
-                                                     parentID,
-                                                     errorID,
-                                                     Type(ERROR_TYPE),
-                                                     ErrorData(isFatal, cMessage));
-      errorMessage->toAcknowledge = true;
-      sendMessage(errorMessage);
-      if (isFatal)
-         terminateSimulation();
-      }
+   // create and send a message.
+   Message* errorMessage = newPublishEventMessage(componentID,
+                                                  parentID,
+                                                  errorID,
+                                                  Type(ERROR_TYPE),
+                                                  ErrorData(isFatal, cMessage));
+   errorMessage->toAcknowledge = true;
+   sendMessage(errorMessage);
+   if (isFatal)
+      terminateSimulation();
    }
 
 // ------------------------------------------------------------------
