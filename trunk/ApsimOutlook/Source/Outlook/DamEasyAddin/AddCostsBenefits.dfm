@@ -15,6 +15,9 @@ object AddCostsBenefitsForm: TAddCostsBenefitsForm
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnShow = FormShow
+  DesignSize = (
+    413
+    270)
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -64,7 +67,7 @@ object AddCostsBenefitsForm: TAddCostsBenefitsForm
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     Items.Strings = (
-      'Standard'
+      'Cash Flow Analysis'
       'Additional Costs and Benefits'
       'Net Present Value and Internal Rate of Return')
     ParentFont = False

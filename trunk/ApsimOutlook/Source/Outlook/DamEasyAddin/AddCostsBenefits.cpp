@@ -18,7 +18,7 @@ __fastcall TAddCostsBenefitsForm::TAddCostsBenefitsForm(TComponent* Owner)
 {
    analysisType = NO_NPV_CALCS;
    baseCase = "";
-   investmentPeriod = 10;
+   investmentPeriod = 15;
    salvageRate = 0;
 }
 //---------------------------------------------------------------------------
