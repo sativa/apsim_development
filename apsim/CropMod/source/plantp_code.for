@@ -61,7 +61,13 @@ c      p%crop_type = ' '       ! Characters
       c%y_p_conc_max (:,:) = 0.0
       c%y_p_conc_min (:,:) = 0.0
       c%y_p_conc_sen (:,:) = 0.0
+
+      g%plantPfact_photo = 1.0
+      g%plantPfact_expansion = 1.0
+      g%plantPfact_pheno = 1.0
+      g%plantPfact_grain = 1.0
       c%pfact_photo_slope = 0.0
+
       c%pfact_expansion_slope = 0.0
       c%pfact_pheno_slope = 0.0
 
@@ -905,10 +911,6 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
       g%dlt_part_p_green(:) = 0.0
       g%part_demand(:) = 0.0
-      g%plantPfact_photo = 0.0
-      g%plantPfact_expansion = 0.0
-      g%plantPfact_pheno = 0.0
-      g%plantPfact_grain = 0.0
 
       call pop_routine (myname)
       return
@@ -1588,6 +1590,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
       real    act_p_conc
       real    determinants_wt
       real    pfact
+      character*200 msg
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
@@ -1628,18 +1631,18 @@ c     :          ,1.0)                 ! Upper Limit for bound check
      :                   + dm_green(part)
   100 continue
 
-      act_p_conc = divide(act_p, determinants_wt, 0.0)
-      max_p_conc = divide(max_p, determinants_wt, 0.0)
-      min_p_conc = divide(min_p, determinants_wt, 0.0)
+      act_p_conc = divide(act_p, determinants_wt, 1.0)
+      max_p_conc = divide(max_p, determinants_wt, 1.0)
+      min_p_conc = divide(min_p, determinants_wt, 1.0)
 
-      if ((determinants_wt.eq.0).or. (act_p.eq.0.0)) then
+      if ((determinants_wt.le.1.0e-5).or. (act_p.le.1.0e-5)) then
          ! appears that things are not yet initialised
          pfact = 1.0
 
       else
          pfact = divide(act_p_conc - min_p_conc
      :                 ,max_p_conc - min_p_conc
-     :                 ,0.0)
+     :                 ,1.0)
       endif
 
       PlantP_Pfact = bound(pfact,0.0,1.0)
@@ -1692,10 +1695,10 @@ c     :          ,1.0)                 ! Upper Limit for bound check
          g%plantPfact_grain = pfact * c%pfact_grain_slope
          g%plantPfact_grain = bound(g%plantPfact_grain,0.0,1.0)
       else
-         g%plantPfact_photo = 0.0
-         g%plantPfact_expansion = 0.0
-         g%plantPfact_pheno = 0.0
-         g%plantPfact_grain = 0.0
+         g%plantPfact_photo = 1.0
+         g%plantPfact_expansion = 1.0
+         g%plantPfact_pheno = 1.0
+         g%plantPfact_grain = 1.0
       endif
 
       call pop_routine (myname)
@@ -1730,9 +1733,9 @@ c     :          ,1.0)                 ! Upper Limit for bound check
       call push_routine (myname)
       call print_routine (myname)
 
-      if ((sum(dm_green(1:g%num_parts)).ne.0.0)
+      if ((sum(dm_green(1:g%num_parts)).gt.1.0e-5)
      :            .and.
-     :   (sum(g%part_p_green(1:g%num_parts)).eq.0.0)) then
+     :   (sum(g%part_p_green(1:g%num_parts)).le.1.0e-5)) then
 
          ! biomass has been initialised but the p pools have not
          g%part_p_green(1:g%num_parts) = dm_green(1:g%num_parts)

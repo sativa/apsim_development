@@ -118,19 +118,19 @@ void PlantP::doRegistrations(protocol::Component *systemInterface)
                     &PlantP::get_p_demand,
                     "g/m^2","");
 
-   setupGetVar("pfact_photo", 
+   setupGetVar("pfact_photo",
                g.pfact_photo,
                "", "P factor in photosynthesis");
 
-   setupGetVar("pfact_pheno", 
+   setupGetVar("pfact_pheno",
                g.pfact_pheno,
                "", "P factor in phenology");
 
-   setupGetVar("pfact_expansion", 
+   setupGetVar("pfact_expansion",
                g.pfact_expansion,
                "", "P factor in leaf expansion");
 
-   setupGetVar("pfact_grain",  
+   setupGetVar("pfact_grain",
                g.pfact_grain,
                "", "P factor in grain");
 
@@ -170,19 +170,19 @@ void PlantP::doRegistrations(protocol::Component *systemInterface)
                     &PlantP::get_grain_p,
                     "g/m^2","P in grain");
 
-   setupGetVar("leaf_p", 
+   setupGetVar("leaf_p",
                g.part_p_green[leaf],
                "g/m^2","P in leaf");
 
-   setupGetVar("stem_p",  
+   setupGetVar("stem_p",
                g.part_p_green[stem],
                "g/m^2","P in stem");
 
-   setupGetVar("root_p",  
+   setupGetVar("root_p",
                g.part_p_green[root],
                "g/m^2","P in roots");
 
-   setupGetVar("deadleaf_p", 
+   setupGetVar("deadleaf_p",
                g.part_p_sen[leaf],
                "g/m^2","P in dead leaf");
 
@@ -251,7 +251,7 @@ void PlantP::doRegistrations(protocol::Component *systemInterface)
                     &PlantP::get_p_uptake_stover,
                     "%","P in stover");
 
-   setupGetVar("grain_p_demand", 
+   setupGetVar("grain_p_demand",
                g.part_demand[meal],
                "g/m^2","P demand of grain");
 
@@ -311,6 +311,11 @@ void PlantP::zero_variables ()
       {
          fill_real_array (c.y_p_conc_sen[part], 0.0, max_table);
       }
+      g.pfact_photo        = 1.0;
+      g.pfact_expansion    = 1.0;
+      g.pfact_pheno        = 1.0;
+      g.pfact_grain        = 1.0;
+
       c.pfact_photo_slope = 0.0;
       c.pfact_expansion_slope = 0.0;
       c.pfact_pheno_slope = 0.0;
@@ -847,10 +852,6 @@ void PlantP::zero_daily_variables ()
       fill_real_array (g.dlt_part_p_dead_det, 0.0, max_part);
       fill_real_array (g.dlt_part_p_retrans, 0.0, max_part);
       fill_real_array (g.part_demand, 0.0, max_part);
-      g.pfact_photo        = 0.0;
-      g.pfact_expansion    = 0.0;
-      g.pfact_pheno        = 0.0;
-      g.pfact_grain        = 0.0;
 
       pop_routine (my_name);
 }
@@ -905,7 +906,7 @@ void PlantP::PlantP_Set_Up_Parts (vector<string> &part_names)
 void PlantP::PlantP_set_phosphorus_aware (PlantComponent *systemInterface)
 {
 //+  Purpose
-//      Check that soil phosphorus is in system                              
+//      Check that soil phosphorus is in system
 
 //+  Mission statement
 //     Check the phosphorus awareness of the system
