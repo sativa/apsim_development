@@ -330,17 +330,17 @@ variable = clock.month
 variable = clock.day
 variable = clock.day_of_month as day_month
 variable = solute.brA
-variable = tracker6.sum@apswim.leach_brA as leach_brA
+variable = tracker6.sum@apswim_leach_brA as leach_brA
 variable = solute.brB
-variable = tracker6.sum@apswim.leach_brB as leach_brB
+variable = tracker6.sum@apswim_leach_brB as leach_brB
 variable = solute.brC
-variable = tracker6.sum@apswim.leach_brC as leach_brC
+variable = tracker6.sum@apswim_leach_brC as leach_brC
 variable = solute.brD
-variable = tracker6.sum@apswim.leach_brD as leach_brD
-variable = tracker6.sum@apswim.uptake_brA_wheat[] as uptake_brA
-variable = tracker6.sum@apswim.uptake_brB_wheat[] as uptake_brB
-variable = tracker6.sum@apswim.uptake_brC_wheat[] as uptake_brC
-variable = tracker6.sum@apswim.uptake_brD_wheat[] as uptake_brD
+variable = tracker6.sum@apswim_leach_brD as leach_brD
+variable = tracker6.sum@apswim_uptake_brA_wheat[] as uptake_brA
+variable = tracker6.sum@apswim_uptake_brB_wheat[] as uptake_brB
+variable = tracker6.sum@apswim_uptake_brC_wheat[] as uptake_brC
+variable = tracker6.sum@apswim_uptake_brD_wheat[] as uptake_brD
 [root.report7.parameters]
 !General parameters
 
@@ -356,7 +356,7 @@ variable = clock.day_of_month as day_month
 variable = wheat.rlv(1-16) as W_rlv
 variable = wheat.root_depth as W_root_depth
 variable = wheat.root_wt as W_root_wt
-variable = wheat.root_n as W_root_n
+variable = wheat.groot_n as W_root_n
 variable = canola.rlv(1-16) as C_rlv
 variable = canola.root_depth as C_root_depth
 variable = canola.root_wt as C_root_wt
