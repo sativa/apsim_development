@@ -41,4 +41,8 @@ enr_a_coeff =  7.4 ()
 enr_b_coeff =  0.2
 profile_reduction =  off
 
+[sample.summaryfile.parameters]
+summaryfile=soiln2.sum
 
+[sample.screen.parameters]
+screen_output=on

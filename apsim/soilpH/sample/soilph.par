@@ -1,54 +1,52 @@
 [sample.clock.parameters]    
-Start_year =  1988   
-Start_day =  1   
-End_year =   1990   
-End_day =    120   
+start_date=1/1/1988
+end_date=30/4/1990
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  report  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 [sample.report.parameters]    
-title = sample run
-outputfile =  soilph.out /overwrite   
-summaryfile =  soilph.sum /overwrite   
+outputfile =soilph.out   
 
-screen_output =  off   
 
-Module_names =   clock clock clock clock
-Variable_names = year  month day   today.dd/mm/yyyy
-Variable_alias = -     -     -     date
  
-Module_names =   soilph soilph     soilph        soilph   
-Variable_names = phca   phbc       tec           al_exchangable 
-Variable_alias = ph     -          TEC           Al_ex   
 
-Module_names =   soilph               soilph                   soilph
-Variable_names = sum@dlt_acid_n_cycle sum@acid_excretion_root  sum@ash_alk_wt_incorp   
-Variable_alias = acid_add_N           rt_excr                  ash_alk_incorp   
 
-Module_names =   soilph                   soilph               soilph               soilph
-Variable_names = sum@dlt_acid_org_c_cycle sum@dlt_lime_dissl   sum@h_equiv_flow_net sum@h_equiv_mass_flow
-Variable_alias = org_acid_acc             lime_dissl           netflow              masflow 
 
-Module_names =   soilph                     
-Variable_names = sum@h_equiv_infiltration   
-Variable_alias = infiltn_mol                
 
+variable = clock.year
+variable = clock.month
+variable = clock.day
+variable = clock.today.dd/mm/yyyy as date
+variable = soilph.phca as ph
+variable = soilph.phbc
+variable = soilph.tec as TEC
+variable = soilph.al_exchangable as Al_ex
+variable = soilph.sum@dlt_acid_n_cycle as acid_add_N
+variable = soilph.sum@acid_excretion_root as rt_excr
+variable = soilph.sum@ash_alk_wt_incorp as ash_alk_incorp
+variable = soilph.sum@dlt_acid_org_c_cycle as org_acid_acc
+variable = soilph.sum@dlt_lime_dissl as lime_dissl
+variable = soilph.sum@h_equiv_flow_net as netflow
+variable = soilph.sum@h_equiv_mass_flow as masflow
+variable = soilph.sum@h_equiv_infiltration as infiltn_mol
 [rtexcr.report1.parameters]  
-outputfile =  rtexcr.out /overwrite   
+outputfile =rtexcr.out   
 
-Module_names =   clock clock clock clock
-Variable_names = year  month day   today.dd/mm/yyyy
-Variable_alias = -     -     -     date
  
-Module_names =   soilph               soilph              soilph              soilph
-Variable_names = sum@ca_uptake_equiv  sum@mg_uptake_equiv sum@k_uptake_equiv  sum@na_uptake_equiv
-Variable_alias = ca_uptk_eqv          mg_uptk_eqv         k_uptk_eqv          na_uptk_eqv
 
-Module_names =   soilph             soilph             soilph      
-Variable_names = sum@p_uptake_equiv sum@s_uptake_equiv sum@cl_uptake_equiv
-Variable_alias = p_uptk_eqv         s_uptk_eqv         cl_uptk_eqv
 
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  manager  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+variable = clock.year
+variable = clock.month
+variable = clock.day
+variable = clock.today.dd/mm/yyyy as date
+variable = soilph.sum@ca_uptake_equiv as ca_uptk_eqv
+variable = soilph.sum@mg_uptake_equiv as mg_uptk_eqv
+variable = soilph.sum@k_uptake_equiv as k_uptk_eqv
+variable = soilph.sum@na_uptake_equiv as na_uptk_eqv
+variable = soilph.sum@p_uptake_equiv as p_uptk_eqv
+variable = soilph.sum@s_uptake_equiv as s_uptk_eqv
+variable = soilph.sum@cl_uptake_equiv as cl_uptk_eqv
 [sample.manager.init]    
    crop_in = 0
    first_day = 1
@@ -131,3 +129,7 @@ s_dm_percent  =   0.018  (%)
 cl_dm_percent =   0.01   (%)
       
 
+[sample.SummaryFile.parameters]
+summaryfile=soilph.sum
+[sample.Screen.parameters]
+screen_output=off

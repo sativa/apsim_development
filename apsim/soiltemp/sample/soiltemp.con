@@ -1,12 +1,14 @@
+version=2.2
 [APSIM.soiltemp_sample]
 
          
-version=2.2
+
 title=sample simulation
-summaryfile=soiltemp.sum
 module = clock      soiltemp.par[sample]
 module = report     soiltemp.par[variables]       soiltemp.par[files]
 module = Input(Met)        %apsuite\apsim\met\sample\dalby.met[weather]
 module = manager    soiltemp.par[sample]
 module = soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]           %apsuite\apsim\soilwat2\soilwat2.ini[standard]
 module = soiltemp   soiltemp.par[sample]          ..\soiltemp.ini[standard]
+module = screen     soiltemp.par[sample]
+module = summaryfile soiltemp.par[sample]

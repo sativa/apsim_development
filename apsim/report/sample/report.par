@@ -1,40 +1,34 @@
 
 [sample.report1.parameters]  
-title =  Report Instantiation Sample Simulation file 1   
-screen_output =  on   
-outputfile =  report1.out /overwrite   
-summaryfile =  report.sum /overwrite   
+outputfile =report1.out   
  
-module_names =   clock clock  met     
-variable_names =  day year    rain   
-variable_alias =  -    -      -   
  
-module_names =   soilwat2 soilwat2 soilwat2    
-variable_names =  runoff  drain    sw_dep   
-variable_alias =  -       -        -       
-units =          -        -        -       
 
 
+variable = clock.day
+variable = clock.year
+variable = met.rain
+variable = soilwat2.runoff
+variable = soilwat2.drain
+variable = soilwat2.sw_dep
 [sample.report2.parameters]  
-outputfile =  report2.out /overwrite   
+outputfile =report2.out   
  
-module_names =   clock clock  met     
-variable_names =  day year    rain   
-variable_alias =  -    -      -   
  
-module_names =   soilwat2 soilwat2 soilwat2 soilwat2   
-variable_names =  runoff  drain    eo       es   
-variable_alias =  -       -        -        -   
-units =          -        -        -        -   
 
 
 
+variable = clock.day
+variable = clock.year
+variable = met.rain
+variable = soilwat2.runoff
+variable = soilwat2.drain
+variable = soilwat2.eo
+variable = soilwat2.es
 [sample.clock.parameters]  
 ! Start and end date of run (day number of year and year)
-start_day =  1   
-start_year =  1988   
-end_day =  100   
-end_year =  1988   
+start_date=1/1/1988
+end_date=9/4/1988
 
 
 [sample.manager.end_of_day]  
@@ -72,3 +66,7 @@ bd =       1.30 1.30 1.29 1.31 1.35 1.36 1.36    ! bulk density gm dry soil/cc m
 
 
 
+[sample.SummaryFile.parameters]
+summaryfile=report.sum
+[sample.Screen.parameters]
+screen_output=on

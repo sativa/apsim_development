@@ -1,8 +1,8 @@
-[apsim.sample_slurp]
 version=2.2
+
+[apsim.sample_slurp]
+
 title=Slurp Sample Simulation
-summaryfile=slurp.sum
-screen_output=on
 module = clock    slurp.par [sample]
 module = report   slurp.par [sample]
 module = Input(Met) %apsuite\apsim\MET\SAMPLE\DALBY.MET [weather]
@@ -11,3 +11,5 @@ module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth] %aps
 module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth] %apsuite\apsim\soiln2\soiln2.ini [standard]
 module = slurp    slurp.par [sample]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = screen   slurp.par [sample]
+module = summaryfile slurp.par [sample]

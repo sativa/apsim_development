@@ -1,15 +1,11 @@
 !******************* Report module ********************
 [WagCW.report.parameters]  
-title = Continuous wheat Wagga
-outputfile =  WagCW.out /overwrite   
-summaryfile =  WagCW.sum /overwrite   
+outputfile =WagCW.out   
 
 !******************** Input module ******************* 
 [all.clock.parameters]  
-start_day =  1 
-start_year =  1957
-end_day =  121  
-end_year =  1998   
+start_date=1/1/1957
+end_date=1/5/1998
 
 !************** Accum module ****************
 [all.accum.parameters]
@@ -199,3 +195,7 @@ s_dm_percent  =   0.018  (%)
 cl_dm_percent =   0.01   (%)
       
 
+[WagCW.SummaryFile.parameters]
+summaryfile=WagCW.sum
+[all.Screen.parameters]
+screen_output=off

@@ -1,13 +1,17 @@
+version = 2.2
 [apsim.sample_report]  
 !
 !  	This sample includes a demonstration of instantiation
 !	- two .out files produced, report1 and report2
 !	each containing different data   - D.Gaydon 13/10/99
 !
-Module=clock report.par [sample]  
-Module=report (report1) report.par [sample]  
-Module=report (report2) report.par [sample]      
-Module=met %apsuite\apsim\MET\SAMPLE\DALBY.MET [weather]  
-Module=manager report.par [sample]  
-Module = soilwat2 report.par [black_earth] %apsuite\apsim\soilwat2\soilwat2.ini [standard]      
      
+title=Report Instantiation Sample Simulation file 1
+module = clock report.par [sample]
+module = report (report1) report.par [sample]
+module = report (report2) report.par [sample]
+module = input(met) %apsuite\apsim\MET\SAMPLE\DALBY.MET [weather]
+module = manager report.par [sample]
+module = soilwat2 report.par [black_earth] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = SummaryFile  report.par[sample]
+module = Screen  report.par[sample]
