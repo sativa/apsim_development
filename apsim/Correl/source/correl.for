@@ -60,8 +60,8 @@
       common /InstancePointers/ ID,g,p,c
       save InstancePointers
       type (CorrelGlobals),pointer :: g
-      type (CorrelParameters),pointer :: g
-      type (CorrelConstants),pointer :: g
+      type (CorrelParameters),pointer :: p
+      type (CorrelConstants),pointer :: c
 
       contains
 
@@ -625,11 +625,16 @@ c      character  line*80               ! output string
 
       if (doAllocate) then
          allocate(g)
+         allocate(p)
+         allocate(c)
       else
          deallocate(g)
+         deallocate(p)
+         deallocate(c)
       end if
       return
       end subroutine
+
 
 
 
