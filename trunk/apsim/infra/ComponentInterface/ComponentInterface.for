@@ -1,8 +1,8 @@
+C     Last change:  P     1 Nov 2000    9:53 am
 ! ====================================================================
       subroutine UseInstance(anInstanceNo)
 ! ====================================================================
       implicit none
-      dll_export create
       include 'const.inc'
       include 'ComponentInterface.inc'
       include 'error.pub'
@@ -10,7 +10,7 @@
 !+ Sub-Program Arguments
       integer anInstanceNo            ! (INPUT) the particular instance number
                                       !         of this computation
-
+                     
 !+ Purpose
 !      swaps the specified instance number into memory.
  
@@ -20,6 +20,7 @@
 !      DPH 14/7/99
 
 !+ Calls
+      dll_import set_ei
  
 !- Implementation Section ----------------------------------
 
@@ -28,7 +29,22 @@
          call Fatal_error (ERR_Internal, 
      .      'Too many instances in component interface')
       else
+         ! These routines are recursive.  We need to save the current
+         ! value of messageused, eventinterface and componentdata.
+         !  This whole "MessageUsed" thing needs
+         ! a rethink.  I would prefer to have the Main routine return
+         ! true or false if a message is used or not.
+         SavedMessageUsed = MessageUsed
+         SavedEventInterface = EventInterface
+         SavedComponentData = ComponentData
+
+         EventInterface = EventInterfaces(anInstanceNo)
+         ComponentData = ComponentDatas(anInstanceNo)
          InstanceNoStack(CurrentInstanceIndex) = anInstanceNo
+
+         call Set_EI(EventInterface)
+         MessageUsed = .true.
+
          call SwapInstance(anInstanceNo)
       endif
 
@@ -39,7 +55,6 @@
       subroutine RestoreInstance()
 ! ====================================================================
       implicit none
-      dll_export create
       include 'const.inc'
       include 'ComponentInterface.inc'
 
@@ -54,12 +69,19 @@
 !      DPH 14/7/99
 
 !+ Calls
- 
+      dll_import set_ei
+
 !- Implementation Section ----------------------------------
 
       CurrentInstanceIndex = CurrentInstanceIndex - 1
       if (CurrentInstanceIndex .gt. 0) then
          call SwapInstance(InstanceNoStack(CurrentInstanceIndex))
+
+         call Set_EI(SavedEventInterface)
+
+         MessageUsed    = SavedMessageUsed
+         EventInterface = SavedEventInterface
+         ComponentData  = SavedComponentData
       endif
 
       return
@@ -67,21 +89,22 @@
 
 ! ====================================================================
       recursive subroutine Create 
-     .   (aName, anInstanceNo, aCallBack, aCompUnit, ID)
+     .   (aName, anInstanceNo, aComputation, ssdl)
 ! ====================================================================
       implicit none
       dll_export create
       include 'action.inc'
       include 'ComponentInterface.inc'
+      include 'apsimengine.pub'
+      include 'postbox.pub'
 
 !+ Sub-Program Arguments
       character aName*(*)             ! (INPUT) the name of the protocol component
                                       !         owning this computational DLL 
       integer anInstanceNo            ! (INPUT) the particular instance number
                                       !         of this computation
-      integer aCallBack               ! (INPUT) Callback procedure to communicate with calling process
-      integer aCompUnit               ! (INPUT) pointer to an object as the subject of the callback
-      integer ID                      ! (INPUT) ????
+      integer aComputation            ! (INPUT) pointer to a computation object
+      character ssdl*(*)              ! (INPUT) SIMScript
 
 !+ Purpose
 !      Initialises the DLL and establishes communication with the system
@@ -97,18 +120,22 @@
 
       CurrentInstanceIndex = 0
 
+      ! create the componentdata and the event interface
+      EventInterfaces(anInstanceNo) = EI_CREATE(aComputation)
+      ComponentDatas(anInstanceNo) = SOMComponent_create(ssdl)
+
       ! allocate an instance of the data
       call AllocInstance(aName, anInstanceNo)
 
       ! swap in the proper instance.
       call UseInstance (anInstanceNo) 
-      
+
       ! call the init routine.
       call Main (ACTION_Create, "")
 
       ! restore existing instance
       call RestoreInstance()
-      
+
       return
       end
       
@@ -121,6 +148,7 @@
       include 'const.inc'
       include 'action.inc'
       include 'ComponentInterface.inc'
+      include 'apsimengine.pub'
 
 !+ Sub-Program Arguments
       integer anInstanceNo            ! (INPUT) the particular instance number
@@ -140,7 +168,7 @@
 
       ! swap in the proper instance.
       call UseInstance (anInstanceNo) 
-      
+
       ! call the init routine.
       call Main (ACTION_Init, "")
 
@@ -157,6 +185,9 @@
       dll_export term
       include 'const.inc'
       include 'ComponentInterface.inc'
+      include 'apsimengine.pub'
+      include 'postbox.pub'
+      include 'action.inc'
        
 !+ Sub-Program Arguments
       integer anInstanceNo            ! (INPUT) the particular instance number
@@ -174,24 +205,33 @@
 !- Implementation Section ----------------------------------
 
       call FreeInstance(anInstanceNo)
-      
+
+      ! terminate the postbox stuff.
+      call postbox_term()
+
+      ! free the componentdata and the event interface
+      call EI_Free(EventInterfaces(anInstanceNo))
+      call SOMComponent_free(ComponentDatas(anInstanceNo))
+
       return
       end
       
 ! ====================================================================
-      recursive subroutine Action (anInstanceNo, anAction, aDnbytes, 
-     .                             apData, aTnbytes, apTypDsc)
+      recursive subroutine Action (anInstanceNo, anAction, 
+     .                    aDnbytes, apData, aTnbytes, apTypDsc)
 ! ====================================================================
       implicit none
       dll_export action
       include 'ComponentInterface.inc'
+      include 'apsimengine.pub'
+      include 'action.inc'
  
 !+ Sub-Program Arguments
       integer anInstanceNo            ! (INPUT) the particular instance number
                                       !         of this computation
       character anAction*(*)          ! (INPUT) the name of the action to be executed
       integer aDnbytes                ! (INPUT) number of data bytes
-      integer apData                  ! (INPUT) C string - the data of the message
+      character apData*(*)            ! (INPUT) string - the data of the message
       integer aTnbytes                ! (INPUT) number of type bytes
       integer apTypDsc                ! (INPUT) the type of the data with message.
  
@@ -204,39 +244,18 @@
 !+ Changes
 !      DPH 14/7/99
  
-!+ Calls
-      dll_import cstring2fstring
-      dll_import loader_messageused
-
-!+ Constant Values
- 
-!+ Local Variables
-      character DataString*(150)       ! FORTRAN version of C data string
-      logical SavedMessageUsed
- 
 !- Implementation Section ----------------------------------
 
-      call CString2FString(apData, DataString)      
-
       ! swap in the proper instance.
-      call UseInstance (anInstanceNo) 
+      call UseInstance (anInstanceNo)
 
-      ! These routines are recursive.  We need to save the current
-      ! value of messageused.  This whole "MessageUsed" thing needs
-      ! a rethink.  I would prefer to have the Main routine return
-      ! true or false if a message is used or not.
-      SavedMessageUsed = MessageUsed
-      MessageUsed = .true.
-      call Main (anAction, DataString)
-      call Loader_MessageUsed(MessageUsed)
-      
-      ! Restore the value of messageused to the same value at the start of
-      ! this routine.
-      MessageUsed = SavedMessageUsed
+      call Main (anAction, apData)
+
+      call EI_setComponentResponded(EventInterface, MessageUsed)
 
       ! restore existing instance
       call RestoreInstance()
-      
+
       return
       end
       
@@ -247,6 +266,8 @@
       implicit none
       dll_export inevent
       include 'ComponentInterface.inc'
+      include 'apsimengine.pub'
+      include 'action.inc'
  
 !+ Sub-Program Arguments
       integer anInstanceNo            ! (INPUT) the particular instance number
@@ -265,16 +286,19 @@
  
 !+ Changes
 !      DPH 14/7/99
- 
-!+ Calls
- 
-!+ Constant Values
- 
-!+ Local Variables
- 
+
 !- Implementation Section ----------------------------------
 
-      
+      ! swap in the proper instance.
+      call UseInstance (anInstanceNo) 
+
+      call Main (anAction, apData)
+
+      call EI_SetComponentResponded(EventInterface, MessageUsed)
+
+      ! restore existing instance
+      call RestoreInstance()
+     
       return
       end
       
@@ -342,6 +366,8 @@
 ! ====================================================================
       implicit none
       include 'error.pub'
+      include 'ComponentInterface.inc'
+      include 'apsimengine.pub'
  
 !+ Sub-Program Arguments
       character ModuleName*(*)         ! (OUTPUT) current module name
@@ -353,7 +379,6 @@
 !      DPH 14/7/99
  
 !+ Calls
-      dll_import loader_getcurrentcomponent
 
 !+ Constant Values
       character my_name*(*)
@@ -362,7 +387,7 @@
 !- Implementation Section ----------------------------------
 
       call Push_routine (my_name)
-      call LOADER_GETCURRENTCOMPONENT(ModuleName)
+      call EI_GETNAME(EventInterface, ModuleName)
       call Pop_routine (my_name)
       return
       end
@@ -373,6 +398,7 @@
       implicit none
        include 'const.inc'             ! Constant definitions
       include 'error.pub'
+      include 'componentinterface.inc'
  
 !+ Sub-Program Arguments
        character String*(*)            ! (INPUT) String to write out.
@@ -399,17 +425,20 @@
  
 !+ Calls
       dll_import summary_writeline
+      dll_import ei_getname
   
 !+ Constant Values
       character my_name*(*)
       parameter (my_name='Write_string')
  
 !+ Local Variables
+      character name*(100)             ! name of this component
 
 !- Implementation Section ----------------------------------
 
       call Push_routine (my_name)
-      call Summary_WriteLine (String)
+      call ei_getname(EventInterface, name)
+      call Summary_WriteLine (name, String)
       call Pop_routine  (my_name)
       return
       end
@@ -443,12 +472,15 @@
 !- Implementation Section ----------------------------------
 
       if (ModuleName .eq. Unknown_module) then
-         ok = Loader_SendActionToFirstComp (ActionName, Dat)
+         print *, 'in action_send - shouldnt be here'
+         pause
+         !ok = Loader_SendActionToFirstComp (ActionName, Dat)
       else if (ModuleName .eq. All_active_modules) then
-         call Loader_SendActionToAllComps (Actionname, Dat)
+         call EI_BroadcastAction (EventInterface, Actionname, Dat)
          ok = .true.
       else
-         ok = Loader_SendAction (ModuleName, ActionName, Dat);
+         call EI_SendAction(EventInterface, ModuleName, ActionName, Dat)
+         ok = .true.
       endif
       
       if (.not. ok) then
@@ -469,6 +501,7 @@
 ! ====================================================================
       implicit none
       include 'ComponentInterface.inc'
+      include 'apsimengine.pub'
  
 !+ Sub-Program Arguments
       character ActionName*(*)          ! (INPUT) the event name we're sending
@@ -480,11 +513,10 @@
 !      DPH 14/7/99
  
 !+ Calls
-      dll_import loader_sendactiontoallcomps
  
 !- Implementation Section ----------------------------------
 
-      call Loader_SendActionToAllComps (ActionName, "");
+      call EI_BroadcastAction (EventInterface, ActionName, "");
       return
       end
 
@@ -493,6 +525,8 @@
 ! ====================================================================
       implicit none
       include 'ComponentInterface.inc'
+      include 'apsimengine.pub'
+      include 'postbox.pub'
  
 !+ Sub-Program Arguments
       character EventName*(*)          ! (INPUT) the event name we're sending
@@ -503,10 +537,16 @@
 !      DPH 14/7/99
  
 !+ Calls
-      dll_import loader_sendevent
- 
+
+!+ Local variables
+      character name*(100)             ! name of this component
+
 !- Implementation Section ----------------------------------
 
-      call Loader_SendEvent (EventName)
+      call ei_getname(EventInterface, name)
+      call post_char_var ('sender'
+     :                     , '()'
+     :                     , name)
+      call EI_PublishEvent (EventInterface, EventName)
       return
       end
