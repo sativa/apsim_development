@@ -22,16 +22,12 @@
 //   If your DLL uses the dynamic version of the RTL, you do not need to
 //   explicitly add MEMMGR.LIB as this will be done implicitly for you
 //---------------------------------------------------------------------------
-USEUNIT("Message.cpp");
-USEUNIT("Event.cpp");
-USEUNIT("Run.cpp");
-USEUNIT("Coordinator.cpp");
-USEUNIT("Component.cpp");
-USEUNIT("InterfaceLayer.cpp");
-USEUNIT("Loader.cpp");
-USEUNIT("computation.cpp");
-USEUNIT("EventInterface.cpp");
-USEUNIT("interfaces.cpp");
+USEUNIT("Simulation.cpp");
+USEUNIT("transport.cpp");
+USELIB("C:\Program Files\Borland\CBuilder5\Projects\Lib\general.lib");
+USEUNIT("Computation.cpp");
+USELIB("C:\Program Files\Borland\CBuilder5\Projects\Lib\aps32.lib");
+USELIB("..\ComponentInterface\CompInterface.lib");
 //---------------------------------------------------------------------------
 int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void*)
 {

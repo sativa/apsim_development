@@ -1,20 +1,29 @@
 //---------------------------------------------------------------------------
-#include "computation.h"
-#include "Loader.h"
-
-#include <sstream>
-#include <general\stl_functions.h>
-
-// GLOBAL Callback function that is called when a line needs to be written
-// to the log stream.  Declared in run.cpp
-class IMessageCallbackClass
-   {
-   public:
-      virtual void callback(const std::string& to,
-                            const PROTOCOLMessage* msg) = 0;
-   };
-extern IMessageCallbackClass* MessageCallback;
+#include "Computation.h"
+#include "Transport.h"
+#include <list>
+#include <functional>
+#include <general\path.h>
 using namespace std;
+using namespace protocol;
+
+// ------------------------------------------------------------------
+//  Short description:
+//     Callback routine that all components call when sending a message.
+
+//  Notes:
+
+//  Changes:
+//    dph 10/5/2001
+
+// ------------------------------------------------------------------
+void __stdcall messageCallback(const unsigned int* dummy, Message* message)
+   {
+   transport.deliverMessage(message);
+   }
+
+CallbackType* callback = &messageCallback;
+
 // ------------------------------------------------------------------
 //  Short description:
 //    constructor
@@ -25,14 +34,17 @@ using namespace std;
 //    dph 22/2/2000
 
 // ------------------------------------------------------------------
-PROTOCOLComputation::PROTOCOLComputation(IComponent* comp,
-                                         const string& dllFileName,
-                                         const string& sdl)
-   : component(comp), ssdl(sdl)
+Computation::Computation(const string& name,
+                         const string& fileName,
+                         unsigned int componentId,
+                         unsigned int parentId)
    {
-   // load the dll into memory
-   PROTOCOLLoader loader;
-   loader.loadComponent(dllFileName, dllInfo);
+   // need to give the component to the transport layer.  Need a better
+   // way of doing this.
+   transport.addComponent(componentId, name, this);
+
+   if (loadComponent(fileName))
+      createInstance(fileName, componentId, parentId);
    }
 
 // ------------------------------------------------------------------
@@ -45,10 +57,11 @@ PROTOCOLComputation::PROTOCOLComputation(IComponent* comp,
 //    dph 22/2/2000
 
 // ------------------------------------------------------------------
-PROTOCOLComputation::~PROTOCOLComputation(void)
+Computation::~Computation(void)
    {
-   PROTOCOLLoader loader;
-   loader.unloadComponent(dllInfo);
+   if (isOk())
+      deleteInstance();
+   unloadComponent();
    }
 
 // ------------------------------------------------------------------
@@ -61,45 +74,19 @@ PROTOCOLComputation::~PROTOCOLComputation(void)
 //    dph 22/2/2000
 
 // ------------------------------------------------------------------
-void PROTOCOLComputation::create(void) const
+void Computation::createInstance(const std::string& filename,
+                                 unsigned int componentId,
+                                 unsigned int parentId)
    {
-   if (MessageCallback)
-      MessageCallback->callback(component->getName().c_str(),
-                                &PROTOCOLMessage("create"));
-
-   const IComputation* computation = this;
-   const char* name = component->getName().c_str();
-   (*(dllInfo.CREATEProc)) (name,
-                            &dllInfo.instanceNo,
-                            &computation,
-                            ssdl.c_str(),
-                            strlen(name),
-                            ssdl.length());
-
-   if (MessageCallback)
-      MessageCallback->callback("", NULL);
+   static int dummy = 0;
+   (*createInstanceProc) (filename.c_str(),
+                          &componentId,
+                          &parentId,
+                          &instanceNo,
+                          &dummy,
+                          callback);
    }
-// ------------------------------------------------------------------
-//  Short description:
-//    call the INIT entry point.
 
-//  Notes:
-
-//  Changes:
-//    dph 22/2/2000
-
-// ------------------------------------------------------------------
-void PROTOCOLComputation::initialise(void) const
-   {
-   if (MessageCallback)
-      MessageCallback->callback(component->getName().c_str(),
-                                &PROTOCOLMessage("init"));
-
-   (*(dllInfo.INITProc)) (&dllInfo.instanceNo);
-
-   if (MessageCallback)
-      MessageCallback->callback("", NULL);
-   }
 // ------------------------------------------------------------------
 //  Short description:
 //    call the TERMINATE entry point
@@ -110,20 +97,14 @@ void PROTOCOLComputation::initialise(void) const
 //    dph 22/2/2000
 
 // ------------------------------------------------------------------
-void PROTOCOLComputation::terminate(void) const
+void Computation::deleteInstance(void) const
    {
-   if (MessageCallback)
-      MessageCallback->callback(component->getName().c_str(),
-                                &PROTOCOLMessage("term"));
-
-   (*(dllInfo.TERMProc)) (&dllInfo.instanceNo);
-
-   if (MessageCallback)
-      MessageCallback->callback("", NULL);
+   (*deleteInstanceProc) (&instanceNo);
    }
+
 // ------------------------------------------------------------------
 //  Short description:
-//    call the ACTION entry point
+//    Returns the name of the wrapper filename
 
 //  Notes:
 
@@ -131,29 +112,28 @@ void PROTOCOLComputation::terminate(void) const
 //    dph 22/2/2000
 
 // ------------------------------------------------------------------
-void PROTOCOLComputation::action(PROTOCOLMessage& anEvent) const
+string Computation::getWrapperFilename(const std::string& filename)
    {
-   if (MessageCallback)
-      MessageCallback->callback(component->getName().c_str(),
-                                &anEvent);
-
-   int Dummy = 0;
-   (*(dllInfo.ACTIONProc)) (&dllInfo.instanceNo,
-                            anEvent.action.f_str(),
-                            &Dummy,
-                            (void*) anEvent.data.f_str(),
-                            &Dummy,
-                            &Dummy,
-                            anEvent.action.length(),
-                            anEvent.data.length());
-
-   if (MessageCallback)
-      MessageCallback->callback("", NULL);
+   void _stdcall (*wrapperDll)(char* dllFileName);
+   (FARPROC) wrapperDll = GetProcAddress(handle, "wrapperDLL");
+   if (wrapperDll == NULL)
+      {
+      string msg = "Cannot find entry point 'wrapperDll' in dll: " + filename;
+      throw msg;
+      }
+   else
+      {
+      // Go get the wrapperDll filename.
+      char wrapperFilename[500];
+      (*wrapperDll)(&wrapperFilename[0]);
+      return &wrapperFilename[0];
+      }
    }
 
 // ------------------------------------------------------------------
 //  Short description:
-//    call the INEVENT entry point
+//    Load the DLL and find pointers to all the entry points.
+//    An exception is thrown if the dll cannot be loaded.
 
 //  Notes:
 
@@ -161,22 +141,68 @@ void PROTOCOLComputation::action(PROTOCOLMessage& anEvent) const
 //    dph 22/2/2000
 
 // ------------------------------------------------------------------
-void PROTOCOLComputation::inEvent(PROTOCOLEvent& anEvent) const
+bool Computation::loadComponent(const std::string& filename)
    {
-   if (MessageCallback)
-      MessageCallback->callback(component->getName().c_str(),
-                                &anEvent);
+   createInstanceProc = NULL;
+   deleteInstanceProc = NULL;
+   messageToLogicProc = NULL;
+   handle = LoadLibrary(filename.c_str());
+   if (handle != NULL)
+      {
+      string wrapperFilename = getWrapperFilename(filename);
+      if (wrapperFilename != "")
+         {
+         FreeLibrary(handle);
+         Path wrapperPath(filename.c_str());
+         wrapperPath.Set_name(wrapperFilename.c_str());
+         handle = LoadLibrary(wrapperPath.Get_path().c_str());
+         }
 
-   int Dummy = 0;
-   (*(dllInfo.INEVENTProc)) (&dllInfo.instanceNo,
-                             anEvent.action.f_str(),
-                             &Dummy,
-                             (void*) anEvent.data.f_str(),
-                             &Dummy,
-                             &Dummy,
-                             anEvent.action.length());
+      (FARPROC) createInstanceProc = GetProcAddress(handle, "createInstance");
+      (FARPROC) deleteInstanceProc = GetProcAddress(handle, "deleteInstance");
+      (FARPROC) messageToLogicProc = GetProcAddress(handle, "messageToLogic");
+      if (createInstanceProc == NULL ||
+          deleteInstanceProc == NULL ||
+          messageToLogicProc == NULL)
+          {
+          throw string("Not a valid APSIM DLL.  Missing 1 or more entry points.  DLL=" +
+                       filename);
+          }
+      return true;
+      }
+   else
+      {
+      // Get windows error message.
+      LPVOID lpMsgBuf;
+      FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+                    NULL,
+                    GetLastError(),
+                    MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
+                    (LPTSTR) &lpMsgBuf,
+                    0,
+                    NULL
+                    );
+      string errorMessage = ("Cannot load DLL: " + filename + ".  " + (LPTSTR) lpMsgBuf);
+      LocalFree( lpMsgBuf );
 
-   if (MessageCallback)
-      MessageCallback->callback("", NULL);
+      ::MessageBox(NULL, errorMessage.c_str(), "Error", MB_ICONSTOP | MB_OK);
+      return false;
+      }
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//    Unload the specified dll.
+
+//  Notes:
+
+//  Changes:
+//    dph 22/2/2000
+
+// ------------------------------------------------------------------
+void Computation::unloadComponent(void)
+   {
+   if (handle != 0)
+      FreeLibrary(handle);
    }
 
