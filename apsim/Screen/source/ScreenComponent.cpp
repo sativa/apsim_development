@@ -68,7 +68,6 @@ ScreenComponent::~ScreenComponent(void)
       }
 
    delete ScreenForm;
-   delete parentForm;
    }
 // ------------------------------------------------------------------
 // INIT1

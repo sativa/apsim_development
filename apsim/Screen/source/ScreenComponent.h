@@ -16,7 +16,6 @@ class ScreenComponent : public protocol::Component
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
 
    private:
-      TForm* parentForm;
       unsigned screenOutput;
       unsigned tickID;
       unsigned prepareID;
