@@ -62,7 +62,7 @@ accum_variables = rain[2]
 [all.manager.init]
 ! Initialise
 event         = 0
-Transp        = 0
+transp        = 0
 ET            = 0
 cum_drain_120 = 0
 cum_drain_180 = 0
@@ -173,12 +173,12 @@ endif
 !------------------------ calculations -----------------------
 !layers            0-10  10-20   20-30  30-40   40-60    60-80    80-100   100-120  120-140  140-160  160-180  180-200  200-220  220-240  240-260  260-280  280-300
 !layer             1      2      3      4       5        6        7        8        9        10       11       12       13       14       15       16       17
-Transp        = lucerne.ep + canola.ep + lupin.ep + weed.ep + wheat.ep
-ET            = soilwat2.es + Transp
+transp        = lucerne.ep + canola.ep + lupin.ep + weed.ep + wheat.ep
+ET            = soilwat2.es + transp
 cum_drain_120 = cum_drain_120 + flow_water(8)
 cum_drain_180 = cum_drain_180 + flow_water(11)
 cum_rain      = cum_rain + met.rain
-cum_T         = cum_T  + Transp
+cum_T         = cum_T  + transp
 cum_es        = cum_es + soilwat2.es
 cum_ET        = cum_ET + ET
 sw_dep_10120  = sw_dep(2) + sw_dep(3) + sw_dep(4) + sw_dep(5) + sw_dep(6) + sw_dep(7) + sw_dep(8)
@@ -1287,7 +1287,7 @@ variable = sum of weed.ep since report1.reported as sum@weed.ep on process
 variable = sum of soilwat2.es since report1.reported as sum@soilwat2.es on process
 variable = sum of soilwat2.runoff since report1.reported as sum@soilwat2.runoff on process
 variable = sum of soilwat2.drain since report1.reported as sum@soilwat2.drain on process
-variable = sum of manager.Transp since report1.reported as sum@manager.T on process
+variable = sum of manager.transp since report1.reported as sum@manager.T on process
 variable = sum of manager.ET since report1.reported as sum@manager.ET on process
 variable = sum of soiln2.dlt_n_min() since report1.reported as sum@soiln2.dlt_n_min[] on process
 variable = average of wheat.swdef_photo since report1.reported as avg@wheat.swdef_photo on process
