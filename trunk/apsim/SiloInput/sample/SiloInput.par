@@ -5,10 +5,10 @@ station_number = 15027       ! ROCKHAMPTON DOWNS
 outputfile = siloinput.out
 variable = clock.day
 variable = clock.year
-variable = siloinput.radn
-variable = siloinput.maxt
-variable = siloinput.mint
-variable = siloinput.rain
+variable = met.radn
+variable = met.maxt
+variable = met.mint
+variable = met.rain
 
 [sample.clock.parameters]
 start_date=1/1/1988
