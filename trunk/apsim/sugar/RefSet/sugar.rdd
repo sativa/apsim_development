@@ -89,12 +89,41 @@ apsimname = plants
 internalname = g_plants
 indicators = ####
 
+[lodge_redn_photo_set]
+name = lodge_redn_photo
+description = Changes the lodging effect on  photosynthesis
+apsimname = lodge_redn_photo
+internalname = g_lodge_redn_photo
+indicators = lodge_redn_photo
+
+[lodge_redn_sucrose_set]
+name = lodge_redn_sucrose
+description = Changes the lodging effect on  sucrose growth
+apsimname = lodge_redn_sucrose
+internalname = g_lodge_redn_sucrose
+indicators = lodge_redn_sucrose
+
+[lodge_redn_green_leaf_set]
+name = lodge_redn_green_leaf
+description = Changes the lodging effect on green_leaf_number
+apsimname = lodge_redn_green_leaf
+internalname = g_lodge_redn_green_leaf
+indicators = lodge_redn_green_leaf
+
+
 [sow_msg]
 name = The Sowing Command
 description = An explicit sowing command is required to initiate crop development.
 apsimname = sow
 internalname= mes_sow
 indicators= crop_status
+
+[lodge_msg]
+name = The Lodge Command
+description = An explicit lodging command is required to initiate changed development due to lodging.
+apsimname = lodge
+internalname= lodge
+indicators= lodge_redn_photo
 
 [harvest_msg]
 name = The Harvest Command
