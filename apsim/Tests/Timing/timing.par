@@ -1,30 +1,16 @@
-[short.report.parameters]
-title = Short Timing Test
+[run1.report.parameters]
+title = Run1 - Long Timing Test
 screen_output = off
-debug_output = on
-!profile_output = on
-outputfile  = short.out /overwrite
-summaryfile = short.sum /overwrite
+outputfile  = run1.out /overwrite
+summaryfile = run1.sum /overwrite
 
-module_names=    clock clock
-variable_names=  day   year     
-variable_alias=  -     -      
-
-module_names=    chickpea chickpea chickpea
-variable_names=  yield    biomass  green_biomass
-variable_alias=  -        -        -     
-units=           -         -       -     
-
-!module_names=    mungbean mungbean mungbean
-!variable_names=  yield    biomass  green_biomass
-!variable_alias=  -        -        -     
-!units=           -         -       -     
+[run2.report.parameters]
+title = Run2 - Long Timing Test
+outputfile  = run2.out /overwrite
+summaryfile = run2.sum /overwrite
 
 [long.report.parameters]
-title = Long Timing Test
 screen_output = off
-outputfile  = long.out /overwrite
-summaryfile = long.sum /overwrite
 
 module_names=    clock clock
 variable_names=  day   year     
@@ -40,34 +26,12 @@ variable_names=  yield    biomass  green_biomass
 variable_alias=  -        -        -     
 units=           -         -       -     
 
-[short.clock.parameters]
-! Start and end date of run (day number of year and year)
-simulation_start_day =  129
-simulation_start_year = 1887
-simulation_end_day =  330
-simulation_end_year = 1887
-
 [long.clock.parameters]
 ! Start and end date of run (day number of year and year)
 simulation_start_day =  1
 simulation_start_year = 1887
 simulation_end_day =  365
 simulation_end_year = 1993
-
-[short.manager.start_of_day]
-
-if day = 130 then
-   chickpea sow cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
-   irrigate apply amount = 30
-   fertiliz apply amount = 40, depth = 10, type = no3_n
-endif
-
-if chickpea.stage_name = 'harvest_ripe' or chickpea.plant_status = 'dead' then
-   report   do_output
-   chickpea harvest
-   chickpea end_crop   
-
-endif
 
 [long.manager.start_of_day]
 
