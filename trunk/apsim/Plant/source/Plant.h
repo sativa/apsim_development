@@ -1366,6 +1366,7 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
   void get_sw_supply(protocol::Component *, protocol::QueryValueData &);
   void get_esw_layr(protocol::Component *, protocol::QueryValueData &);
   void get_n_conc_stover(protocol::Component *, protocol::QueryValueData &);
+  void get_n_conc_root(protocol::Component *, protocol::QueryValueData &);
   void get_n_conc_leaf(protocol::Component *, protocol::QueryValueData &);
   void get_n_conc_stem(protocol::Component *, protocol::QueryValueData &);
   void get_n_conc_grain(protocol::Component *, protocol::QueryValueData &);
