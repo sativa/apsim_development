@@ -41,32 +41,83 @@ void PatchInputComponent::doInit1(const FString& sdml)
    InputComponent::doInit1(sdml);
 
    preNewmetID = addRegistration(protocol::respondToEventReg, "preNewmet", newmetTypeDDML);
-   dayI = find(data.fieldsBegin(), data.fieldsEnd(), "day");
-   yearI = find(data.fieldsBegin(), data.fieldsEnd(), "year");
-   if (dayI == data.fieldsEnd())
-      error("Must have a day column and an optional year column in patch input data file", true);
-   }
-// ------------------------------------------------------------------
-// Return the file date.
-// ------------------------------------------------------------------
-date PatchInputComponent::getFileDate(void)
-   {
-   date_duration days(atoi(dayI->values[0].c_str())-1);
-   if (yearI != data.fieldsEnd())
-      return date(atoi(yearI->values[0].c_str()), 1, 1) + days;
-   else
-      return date(todaysDate.year(), 1, 1) + days;
-   }
 
+   ApsimDataFile::iterator i = find(data.constantsBegin(),
+                                    data.constantsEnd(),
+                                    "patch_all_years");
+   patchAllYears = (i != data.constantsEnd() && Str_i_Eq(i->values[0], "true"));
+   }
 // ------------------------------------------------------------------
-// Advance the file to todays date. Returns the date the file is
-// positioned at.
+// Read all patch dates.
+// ------------------------------------------------------------------
+void PatchInputComponent::readPatchDates(void)
+   {
+   if (!data.eof())
+      {
+      try
+         {
+         currentRecord = 1;
+         minYear = data.getDate().year();
+         maxYear = minYear;
+         while (!data.eof())
+            {
+            patchDates.insert(make_pair(data.getDate().julian_day(), currentRecord));
+            currentRecord++;
+            maxYear = max(maxYear , data.getDate().year());
+            data.next();
+            }
+         data.first();
+         currentRecord = 1;
+         }
+      catch (const exception& err)
+         {
+         error(err.what(), true);
+         }
+      }
+   }
+// ------------------------------------------------------------------
+// Advance the file to todays date.
+// NB: The patch data file may run over a year boundary eg. for a
+//     summer crop - need to handle this situation.
+// Returns the date the file is positioned at.
 // ------------------------------------------------------------------
 date PatchInputComponent::advanceToTodaysPatchData(void)
    {
-   while (getFileDate() < todaysDate && !data.eof())
-      data.next();
-   return getFileDate();
+   if (patchDates.size() == 0)
+      readPatchDates();
+   try
+      {
+      PatchDates::iterator i = patchDates.find(todaysDate.julian_day());
+      if (i == patchDates.end() && patchAllYears)
+         {
+         for (unsigned tryYear = minYear;
+                       tryYear <= maxYear && i == patchDates.end();
+                       tryYear++)
+            i = patchDates.find(date(tryYear, todaysDate.month(), todaysDate.day()).julian_day());
+         }
+      if (i != patchDates.end())
+         {
+         // advance the data file to the correct record.
+         unsigned recordToGoTo = i->second;
+         if (currentRecord > recordToGoTo)
+            {
+            currentRecord = 1;
+            data.first();
+            }
+         for (unsigned rec = currentRecord; rec != recordToGoTo; rec++)
+            {
+            currentRecord++;
+            data.next();
+            }
+         return todaysDate;
+         }
+      else
+         return date(pos_infin);
+      }
+   catch (const exception& err) // probably caused by a leap year exception.
+      {
+      return date(pos_infin);
+      }
    }
 // ------------------------------------------------------------------
 // Event handler.
@@ -78,11 +129,6 @@ void PatchInputComponent::respondToEvent(unsigned int& fromID, unsigned int& eve
       protocol::newmetType newmet;
       variant.unpack(newmet);
       todaysDate = newmet.today;
-
-      // rewind the file if the patch data files doesn't have year in it.
-      // ie we patch all years.
-      if (findVariable("year") == variables.end() && todaysDate.day() == 1)
-         data.first();
 
       fileDate = advanceToTodaysPatchData();
       if (fileDate == todaysDate)
