@@ -64,6 +64,7 @@ void CreateSource::go(const std::string& ddml,
    hpp << "#ifndef DataTypesH\n";
    hpp << "#define DataTypesH\n";
    hpp << "#include <ComponentInterface\\MessageData.h>\n";
+   hpp << "#include <ComponentInterface\\MessageDataExt.h>\n";
    hpp << "namespace protocol {\n";
    hpp << endl;
    cpp << "#include \"DataTypes.h\"\n";
