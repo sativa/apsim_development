@@ -1344,6 +1344,9 @@
    <type name="FPoolProfileLayer" array="T">
          <element>
          <field name="thickness" kind="single" units = "mm"/>
+         <field name="no3" kind="single" units="kg/ha"/>
+         <field name="nh4" kind="single" units="kg/ha"/>
+         <field name="po4" kind="single" units="kg/ha"/>
          <field name="FPool" array="T">
             <element>
             <field name="C"       kind="single" units="kg/ha"/>
