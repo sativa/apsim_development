@@ -410,7 +410,7 @@ void Double_container_2_string (container_type& container,
 //    DPH 17/3/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Replace_all (std::string& St, const char* Sub_string, const char* Replacement_string);
+bool GENERAL_EXPORT Replace_all (std::string& St, const char* Sub_string, const char* Replacement_string);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -477,6 +477,68 @@ void Get_words_from_double_null_term (char* St, std::list<std::string>& Words);
 
 // ------------------------------------------------------------------
 int GENERAL_EXPORT NumOccurrences (std::string text, std::string substring);
+
+// ------------------------------------------------------------------
+//  Short description:
+//     Return an attribute of the type.
+
+//  Notes:
+//     A line may look like:
+//        <property name="prop1" value="prop1value" type=""/>
+//     Where the attributes are name, value and type.
+
+//  Changes:
+//    DPH 7/6/2001
+
+// ------------------------------------------------------------------
+std::string GENERAL_EXPORT getAttributeFromLine(const std::string& attributeName,
+                                                const std::string& line);
+
+// ------------------------------------------------------------------
+//  Short description:
+//     Given the position of an equals sign within a line, extract
+//     the name and value from the left and right hand side of the
+//     equals.
+
+//  Notes:
+//     A line may look like:
+//        <property name="prop1" value="prop1value" type=""/>
+//     Where the attributes are name, value and type.
+
+//  Changes:
+//    DPH 7/6/2001
+
+// ------------------------------------------------------------------
+void getAttributeNameAndValue(const std::string& line,
+                              unsigned int posEquals,
+                              std::string& name,
+                              std::string& value);
+
+// ------------------------------------------------------------------
+//  Short description:
+//     Return a list of attribute names and values from the specified line.
+
+//  Notes:
+//     A line may look like:
+//        <property name="prop1" value="prop1value" type=""/>
+//     Where the attributes are name, value and type.
+
+//  Changes:
+//    DPH 7/6/2001
+
+// ------------------------------------------------------------------
+template <class CT>
+void getAttributesFromLine(const std::string& line, CT& names, CT& values)
+   {
+   while (unsigned posEquals = line.find("=", posEquals) != std::string::npos)
+      {
+      std::string name;
+      std::string value;
+      getAttributeNameAndValue(line, posEquals, name, value);
+      names.push_back(name);
+      values.push_back(value);
+      }
+   }
 
 #endif
 
