@@ -324,6 +324,7 @@ void Coordinator::onRegisterMessage(unsigned int fromID, RegisterData& registerD
       string regName = asString(registerData.name);
       unsigned destID = registerData.destID;
       unsigned posPeriod = regName.find('.');
+
       if (posPeriod != string::npos)
          {
          destID = componentNameToID(regName.substr(0, posPeriod));
@@ -446,17 +447,24 @@ void Coordinator::sendQueryValueMessage(unsigned fromID, unsigned regID)
       {
       ::Registrations::Subscriptions subs;
 
-      bool hasBeenResolved = registrations.isResolved(fromID, regID, RegistrationType::get);
       registrations.getSubscriptions(fromID, regID, RegistrationType::get, subs);
 
       // apsim hack to poll modules for variables.  This is because we haven't
       // yet got all the .interface files up to date.
-      if (!hasBeenResolved && subs.size() == 0)
+      if (subs.size() == 0)
          {
          string regName = registrations.getName(fromID, regID, RegistrationType::get);
-         unsigned destID = registrations.getDestId(fromID, regID, RegistrationType::get);
-         pollComponentsForGetVariable(regName, destID);
-         registrations.getSubscriptions(fromID, regID, RegistrationType::get, subs);
+         string fqn = itoa(registrations.getDestId(fromID, regID, RegistrationType::get));
+         fqn += "." + regName;
+         bool havePolled = (variablesBeenPolledForGets.find(fqn)
+            != variablesBeenPolledForGets.end());
+         if (!havePolled)
+            {
+            variablesBeenPolledForGets.insert(fqn);
+            unsigned destID = registrations.getDestId(fromID, regID, RegistrationType::get);
+            pollComponentsForGetVariable(regName, destID);
+            registrations.getSubscriptions(fromID, regID, RegistrationType::get, subs);
+            }
          }
 
       previousGetValueCompID.push(fromID);
@@ -595,10 +603,18 @@ void Coordinator::sendQuerySetValueMessage(unsigned ourComponentID,
       if (!hasBeenResolved && subs.size() == 0)
          {
          string regName = registrations.getName(ourComponentID, ourRegID, RegistrationType::set);
-         unsigned destID = registrations.getDestId(ourComponentID, ourRegID, RegistrationType::set);
-         pollComponentsForSetVariable(regName, destID, ourComponentID, ourRegID, variant);
-         registrations.getSubscriptions(ourComponentID, ourRegID, RegistrationType::set, subs);
-         return;
+         string fqn = itoa(registrations.getDestId(ourComponentID, ourRegID, RegistrationType::set));
+         fqn += "." + regName;
+         bool havePolled = (variablesBeenPolledForSets.find(fqn)
+            != variablesBeenPolledForSets.end());
+         if (!havePolled)
+            {
+            variablesBeenPolledForSets.insert(fqn);
+            unsigned destID = registrations.getDestId(ourComponentID, ourRegID, RegistrationType::set);
+            pollComponentsForSetVariable(regName, destID, ourComponentID, ourRegID, variant);
+            registrations.getSubscriptions(ourComponentID, ourRegID, RegistrationType::set, subs);
+            return;
+            }
          }
 
       if (subs.size() == 0)
