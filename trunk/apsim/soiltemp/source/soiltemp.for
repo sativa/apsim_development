@@ -373,7 +373,7 @@
       do i = 1,g%nz
          heat(i) = g%heat_store(i) * 0.5 * (g%z(i+1) - g%z(i-1)) / g%dt   !rate of heat
          therm(i) = g%therm_cond(i) / (g%z(i+1)-g%z(i))     !convert to thermal conduc
-
+      enddo
 !My version
       a(1) = 0.0
       b(1) =   c%nu * therm(1)
