@@ -14,7 +14,7 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 2.0
+     Version                = 2.1
      Simulation filename    = c:\regr\apsim\millet\refset\valid_1.sim
      Title                  = jod95_n40
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
@@ -249,6 +249,7 @@
      
      Soil water in parameter file is being overridden by
      the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
      
      
      
@@ -411,6 +412,8 @@
 29 June 1995 (Day of year=180):
    OPERATNS:
        Sending set message to soilwat2
+   SOILWAT2:
+      Initial soilwater distributed using "sw" parameter.
 30 June 1995 (Day of year=181):
    OPERATNS:
        Sending set message to soiln2
@@ -495,9 +498,13 @@
 28 July 1995 (Day of year=209):
    OPERATNS:
        Sending set message to soilwat2
+   SOILWAT2:
+      Initial soilwater distributed using "sw" parameter.
 31 July 1995 (Day of year=212):
    OPERATNS:
        Sending set message to soilwat2
+   SOILWAT2:
+      Initial soilwater distributed using "sw" parameter.
 1 August 1995 (Day of year=213):
    MILLET1:
       Initiate
@@ -563,6 +570,8 @@
 3 August 1995 (Day of year=215):
    OPERATNS:
        Sending set message to soilwat2
+   SOILWAT2:
+      Initial soilwater distributed using "sw" parameter.
    MILLET2:
       Initiate
       
@@ -694,6 +703,8 @@
 7 August 1995 (Day of year=219):
    OPERATNS:
        Sending set message to soilwat2
+   SOILWAT2:
+      Initial soilwater distributed using "sw" parameter.
    MILLET4:
       Initiate
       
@@ -822,6 +833,8 @@
 9 August 1995 (Day of year=221):
    OPERATNS:
        Sending set message to soilwat2
+   SOILWAT2:
+      Initial soilwater distributed using "sw" parameter.
    MILLET5:
        stage    3.0 emergence
                            biomass =          0.9000001E-02   lai =    0.1800000E-02
@@ -862,6 +875,8 @@
 17 August 1995 (Day of year=229):
    OPERATNS:
        Sending set message to soilwat2
+   SOILWAT2:
+      Initial soilwater distributed using "sw" parameter.
 19 August 1995 (Day of year=231):
    MILLET4:
        stage    5.0 floral_initiation
@@ -875,6 +890,8 @@
 24 August 1995 (Day of year=236):
    OPERATNS:
        Sending set message to soilwat2
+   SOILWAT2:
+      Initial soilwater distributed using "sw" parameter.
    MILLET5:
        stage    4.0 end_of_juvenile
                            biomass =           2.057572       lai =    0.5004453E-01
@@ -887,6 +904,8 @@
 26 August 1995 (Day of year=238):
    OPERATNS:
        Sending set message to soilwat2
+   SOILWAT2:
+      Initial soilwater distributed using "sw" parameter.
 27 August 1995 (Day of year=239):
    MILLET:
        stage    6.0 flag_leaf
@@ -895,6 +914,8 @@
 29 August 1995 (Day of year=241):
    OPERATNS:
        Sending set message to soilwat2
+   SOILWAT2:
+      Initial soilwater distributed using "sw" parameter.
 30 August 1995 (Day of year=242):
    MILLET1:
        stage    6.0 flag_leaf
@@ -912,6 +933,8 @@
 1 September 1995 (Day of year=244):
    OPERATNS:
        Sending set message to soilwat2
+   SOILWAT2:
+      Initial soilwater distributed using "sw" parameter.
    MILLET3:
        stage    6.0 flag_leaf
                            biomass =           40.49443       lai =    0.5568377    
@@ -952,6 +975,8 @@
 8 September 1995 (Day of year=251):
    OPERATNS:
        Sending set message to soilwat2
+   SOILWAT2:
+      Initial soilwater distributed using "sw" parameter.
    MILLET5:
        stage    6.0 flag_leaf
                            biomass =           10.33943       lai =    0.1545456    
@@ -979,6 +1004,8 @@
 15 September 1995 (Day of year=258):
    OPERATNS:
        Sending set message to soilwat2
+   SOILWAT2:
+      Initial soilwater distributed using "sw" parameter.
 16 September 1995 (Day of year=259):
    MILLET5:
       plant_kill. 100% failure because of barreness.
@@ -1060,6 +1087,8 @@
 22 September 1995 (Day of year=265):
    OPERATNS:
        Sending set message to soilwat2
+   SOILWAT2:
+      Initial soilwater distributed using "sw" parameter.
 23 September 1995 (Day of year=266):
    MILLET:
        stage    9.0 end_grain_fill
@@ -1257,6 +1286,8 @@
 29 September 1995 (Day of year=272):
    OPERATNS:
        Sending set message to soilwat2
+   SOILWAT2:
+      Initial soilwater distributed using "sw" parameter.
    MILLET2:
        stage   11.0 harvest_ripe
                            biomass =           146.5707       lai =    0.1790643E-02
@@ -1435,6 +1466,8 @@
 6 October 1995 (Day of year=279):
    OPERATNS:
        Sending set message to soilwat2
+   SOILWAT2:
+      Initial soilwater distributed using "sw" parameter.
    MILLET4:
        stage   11.0 harvest_ripe
                            biomass =           48.79134       lai =    0.1800016E-02
@@ -1522,13 +1555,18 @@
 13 October 1995 (Day of year=286):
    OPERATNS:
        Sending set message to soilwat2
+   SOILWAT2:
+      Initial soilwater distributed using "sw" parameter.
 20 October 1995 (Day of year=293):
    OPERATNS:
        Sending set message to soilwat2
+   SOILWAT2:
+      Initial soilwater distributed using "sw" parameter.
 27 October 1995 (Day of year=300):
    OPERATNS:
        Sending set message to soilwat2
    SOILWAT2:
+      Initial soilwater distributed using "sw" parameter.
       !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                        APSIM Warning Error               
                        -------------------              
