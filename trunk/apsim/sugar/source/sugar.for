@@ -252,6 +252,7 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
      :                g_nfact_photo
      :              , G_temp_stress_photo
      :              , G_oxdef_photo
+     :              , G_lodge_redn_photo
      :               )
 *     ===========================================================
       implicit none
@@ -262,13 +263,15 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
       REAL       G_nfact_photo         ! (INPUT)
       REAL       G_temp_stress_photo   ! (INPUT)
       REAL       G_oxdef_photo         ! (INPUT)
+      REAL       G_lodge_redn_photo    ! (INPUT)
 
 *+  Purpose
-*       The overall fractional effect of non-optimal N, Temperature,
+*       The overall fractional effect of non-optimal N, Temperature, lodging
 *       and water logging conditions on radiation use efficiency.
 
 *+  Changes
 *       060495 nih taken from template
+*       170700 nih added lodging factor
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -281,7 +284,8 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
  
       sugar_rue_reduction = min (g_temp_stress_photo
      :                      , g_nfact_photo
-     :                      ,g_oxdef_photo)
+     :                      ,g_oxdef_photo
+     :                      ,g_lodge_redn_photo)
  
       call pop_routine (my_name)
       return
@@ -3155,6 +3159,7 @@ c+!!!!!!!!! check order dependency of deltas
      :              , g%nfact_photo
      :              , g%temp_stress_photo
      :              , g%oxdef_photo
+     :              , g%lodge_redn_photo
      :              , g%dlt_dm_pot_rue
      :               )
  
@@ -3185,6 +3190,7 @@ c+!!!!!!!!! check order dependency of deltas
      :              , G_nfact_photo
      :              , G_temp_stress_photo
      :              , G_oxdef_photo
+     :              , G_lodge_redn_photo
      :              , dlt_dm_pot
      :               )
 *     ===========================================================
@@ -3199,6 +3205,7 @@ c+!!!!!!!!! check order dependency of deltas
       REAL       G_nfact_photo         ! (INPUT)
       REAL       G_temp_stress_photo   ! (INPUT)
       REAL       G_oxdef_photo         ! (INPUT)
+      REAL       G_lodge_redn_photo    ! (INPUT)
       real       dlt_dm_pot            ! (OUTPUT) potential dry matter
                                        ! (carbohydrate) production (g/m^2)
 
@@ -3209,6 +3216,7 @@ c+!!!!!!!!! check order dependency of deltas
 
 *+  Changes
 *       060495 nih taken from template
+*       170700 nih added lodgine factor
 
 *+  Calls
       real       sugar_rue_reduction   ! function
@@ -3233,6 +3241,7 @@ c+!!!!!!!!! check order dependency of deltas
      :                G_nfact_photo
      :              , G_temp_stress_photo
      :              , G_oxdef_photo
+     :              , G_lodge_redn_photo
      :               )
  
          ! potential dry matter production with temperature
@@ -5810,6 +5819,46 @@ cnh I made it a subroutine like all the rest
       end
 
 
+*     ===========================================================
+      subroutine sugar_lodge_redn_photo (Option)
+*     ===========================================================
+      use sugarModule
+      implicit none
+      include   'const.inc'
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      integer    Option                ! (INPUT) option number
+
+*+  Purpose
+*         Get current effect of lodging on photosynthesis (0-1)
+
+*+  Changes
+*     170700 nih specified and programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'sugar_lodge_redn_photo')
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+      if (Option .eq. 1) then
+ 
+         if (g%lodge_flag) then
+            g%lodge_redn_photo = c%lodge_redn_photo
+         else
+            g%lodge_redn_photo = 1.0
+         endif
+ 
+      else
+         call Fatal_error (ERR_internal, 'Invalid template option')
+      endif
+ 
+      call pop_routine (my_name)
+      return
+      end
 
 *     ===========================================================
       subroutine sugar_nit_stress_stalk (Option)

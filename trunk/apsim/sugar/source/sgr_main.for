@@ -633,6 +633,7 @@
       g%nfact_pheno           = 0.0
       g%sucrose_fraction      = 0.0
       g%oxdef_photo           = 0.0
+      g%lodge_redn_photo      = 0.0
       g%fr_intc_radn          = 0.0
       g%latitude              = 0.0
       g%mint                  = 0.0
@@ -865,6 +866,7 @@
       c%y_tt(:)                  = 0.0
       c%stress_lodge(:)          = 0.0
       c%death_fr_lodge(:)        = 0.0
+      c%lodge_redn_photo         = 0.0
       c%x_plant_rld (:)           = 0.0
       c%y_rel_root_rate (:)       = 0.0
       c%num_temp                     = 0 
@@ -1084,7 +1086,7 @@
       g%nfact_photo = 0.0
       g%nfact_pheno = 0.0
       g%oxdef_photo = 0.0
-
+      g%lodge_redn_photo = 0.0
  
       call pop_routine (my_name)
       return
@@ -3072,7 +3074,7 @@ cnh      c%crop_type = ' '
 *- Implementation Section ----------------------------------
       call push_routine (myname)
  
- 
+
       if (g%crop_status.eq.crop_alive) then
          call sugar_get_met_variables ()
          call sugar_get_soil_variables ()
@@ -3085,6 +3087,8 @@ cnh      c%crop_type = ' '
          call sugar_temp_stress_photo(1)
          call sugar_temp_stress_stalk(1)
  
+         call sugar_lodge_redn_photo(1)
+
          call sugar_light_supply(1)
          call sugar_water_log (1)
          call sugar_bio_RUE(1)
@@ -3675,6 +3679,10 @@ cnh      c%crop_type = ' '
      :                     , 'death_fr_lodge', max_table, '(0-1)'
      :                     , c%death_fr_lodge, c%num_stress_lodge
      :                     , 0.0, 1.0)
+      call read_real_var (section_name
+     :                   , 'lodge_redn_photo', '()'
+     :                   , c%lodge_redn_photo, numvals
+     :                   , 0.0, 1.0)
  
       call pop_routine (my_name)
       return
