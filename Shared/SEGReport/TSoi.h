@@ -45,6 +45,9 @@ class TSOI : public TSEGTable
       __fastcall TSOI(TComponent* owner);
       __fastcall ~TSOI();
 
+      virtual void setProperty(const std::string& propertyName,
+                               const std::string& propertyValue);
+      
    __published:
       __property AnsiString month = {read=getMonth, write=setMonth};
       __property AnsiString filename = {read=soiFilename, write=setFilename};

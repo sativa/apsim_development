@@ -302,3 +302,25 @@ bool TSOI::keepPhase(unsigned phase)
       return true;
    return false;
    }
+// ------------------------------------------------------------------
+// set one of our properties.
+// ------------------------------------------------------------------
+void TSOI::setProperty(const std::string& propertyName,
+                         const std::string& propertyValue)
+   {
+   if (Str_i_Eq(propertyName, "filename"))
+      filename = propertyValue.c_str();
+   else if (Str_i_Eq(propertyName, "month"))
+      month = propertyValue.c_str();
+   else if (Str_i_Eq(propertyName, "negative"))
+      negative = Str_i_Eq(propertyValue, "true");
+   else if (Str_i_Eq(propertyName, "positive"))
+      positive = Str_i_Eq(propertyValue, "true");
+   else if (Str_i_Eq(propertyName, "falling"))
+      falling = Str_i_Eq(propertyValue, "true");
+   else if (Str_i_Eq(propertyName, "rising"))
+      rising = Str_i_Eq(propertyValue, "true");
+   else if (Str_i_Eq(propertyName, "zero"))
+      zero = Str_i_Eq(propertyValue, "true");
+   }
+

@@ -9,7 +9,10 @@
 #include <fstream>
 #include <general\inifile.h>
 #include <general\db_functions.h>
+#include <general\vcl_functions.h>
 #include <general\string_functions.h>
+#include <general\path.h>
+#include <general\io_functions.h>
 
 using namespace std;
 #pragma package(smart_init)
@@ -257,6 +260,27 @@ void TApsimFileReader::splitTitleIntoFactors(const string& title,
       getKeyNameAndValue(namesAndValues[i], factorName, factorValue);
       factorNames.push_back(factorName);
       factorValues.push_back(factorValue);
+      }
+   }
+// ------------------------------------------------------------------
+// set one of our properties.
+// ------------------------------------------------------------------
+void TApsimFileReader::setProperty(const std::string& propertyName,
+                                   const std::string& propertyValue)
+   {
+   if (Str_i_Eq(propertyName, "filenames"))
+      {
+      Path p(propertyValue);
+      vector<string> matchingFiles;
+      getDirectoryListing(p.Get_directory(),
+                          p.Get_name(),
+                          matchingFiles,
+                          FA_NORMAL,
+                          true);
+      TStringList* files = new TStringList;
+      Stl_2_tstrings(matchingFiles, files);
+      setFileNames(files);
+      delete files;
       }
    }
 

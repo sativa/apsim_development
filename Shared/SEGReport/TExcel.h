@@ -26,6 +26,9 @@ class TExcel : public TSEGTable
       __fastcall TExcel(TComponent* owner);
       __fastcall ~TExcel(void);
 
+      virtual void setProperty(const std::string& propertyName,
+                               const std::string& propertyValue);
+
    __published:
       __property AnsiString fileName = {read=xlsFileName, write=setFilename};
       __property AnsiString pageName = {read=getPageName, write=setPageName};

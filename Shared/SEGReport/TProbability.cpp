@@ -6,6 +6,7 @@
 #include "TProbability.h"
 #include <general\db_functions.h>
 #include <general\math_functions.h>
+#include <general\string_functions.h>
 
 using namespace std;
 #pragma package(smart_init)
@@ -95,5 +96,16 @@ void TProbability::storeRecords(void) throw(runtime_error)
       source->cancelSeries();
       SortFields = PROBABILITY_FIELD_NAME;
       }
+   }
+// ------------------------------------------------------------------
+// set one of our properties.
+// ------------------------------------------------------------------
+void TProbability::setProperty(const std::string& propertyName,
+                               const std::string& propertyValue)
+   {
+   if (Str_i_Eq(propertyName, "fieldName"))
+      fieldName = propertyValue.c_str();
+   else if (Str_i_Eq(propertyName, "exceedence"))
+      exceedence = Str_i_Eq(propertyValue, "true");
    }
 

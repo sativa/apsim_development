@@ -23,6 +23,9 @@ class TFilter : public TSEGTable
       __fastcall TFilter(TComponent* owner);
       __fastcall ~TFilter();
 
+      virtual void setProperty(const std::string& propertyName,
+                               const std::string& propertyValue);
+
    __published:
       __property AnsiString filter = {read=filterString, write=setFilter};
    };

@@ -27,6 +27,9 @@ class TStats : public TSEGTable
       __fastcall TStats(TComponent* owner);
       __fastcall ~TStats();
 
+      virtual void setProperty(const std::string& propertyName,
+                               const std::string& propertyValue);
+      
    __published:
       __property AnsiString fieldName = {read=fieldNameToAnalyse, write=setFieldName};
       __property StatSet stats = {read=statsToCalc, write=setStats};
