@@ -25,7 +25,7 @@
 *
       character  version_number*(*)    ! version number of module
 *
-      parameter (version_number = 'V2.00 261097')
+      parameter (version_number = 'V2.01 150698')
 
 *- Implementation Section ----------------------------------
  
@@ -84,8 +84,9 @@
          ! initialise error flags
       call set_warning_off ()
  
+      call get_current_module (module_name)
+      
       if (action.eq.mes_presence) then      ! report presence
-         call get_current_module (module_name)
          write(*, *) 'module_name = '
      :              , module_name(:lastnb(module_name))
      :              // blank
@@ -96,6 +97,8 @@
          call millet_zero_variables ()
             ! Get constants
          call millet_init ()
+            ! set class
+         call millet_set_my_class (module_name)
             ! request and receive variables from owner-modules
          call millet_get_other_variables ()
  
@@ -117,7 +120,6 @@
                call fatal_error (err_user,
      :                      'Cannot sow initiated tiller!')
             else
-               call millet_set_my_class (class_main)
  
                ! request and receive variables from owner-modules
                call millet_get_other_variables ()
@@ -137,7 +139,6 @@
                call fatal_error (err_user,
      :                      'Cannot initiate main tiller!')
             else
-               call millet_set_my_class (class_tiller)
                ! request and receive variables from owner-modules
                call millet_get_other_variables ()
                ! start crop and do  more initialisations
@@ -161,6 +162,8 @@
          else
             ! crop not in
             call millet_zero_variables ()
+               ! set class
+            call millet_set_my_class (module_name)
          endif
       elseif (action.eq.mes_harvest) then
          if (millet_my_type ()) then
@@ -11198,14 +11201,14 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
 
 
 *     ===========================================================
-      subroutine millet_set_my_class (My_Class)
+      subroutine millet_set_my_class (module_name)
 *     ===========================================================
       implicit none
       include   'millet.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
-      character my_class*(*)
+      character module_name*(*)
 
 *+  Purpose
 *       Set class type for this module.
@@ -11221,7 +11224,11 @@ cglh     :  .and. days_after_flowering.lt.c_root_depth_lag_end) then
  
       call push_routine (my_name)
  
-      g_stem_class = my_class
+      If (module_name .eq. name_main) then
+         g_stem_class = class_main
+      else
+         g_stem_class = class_tiller
+      endif
  
       call pop_routine (my_name)
       return
