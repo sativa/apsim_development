@@ -138,6 +138,7 @@ void DBSimulation::open (void)
    // create a query object for this simulation.
    dataset = new TADOQuery (db);
    dataset->Connection = db;
+   dataset->CursorLocation = clUseServer;
 
    // create an SQL query statement to extract the necessary data.
    ostringstream SQL;
