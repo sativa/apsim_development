@@ -18,6 +18,8 @@ struct XMLDocumentImpl
    _di_IXMLDocument xmlDoc;
    XMLDocumentImpl()
       : xmlDoc(NewXMLDocument()) { }
+   XMLDocumentImpl(const string& fileName)
+      : xmlDoc(LoadXMLDocument(AnsiString(fileName.c_str()))) { }
    };
 
 //---------------------------------------------------------------------------
@@ -72,6 +74,15 @@ XMLDocument::XMLDocument(const std::string& rootNodeName)
    docImpl->xmlDoc->DocumentElement = docImpl->xmlDoc->CreateNode(rootNodeName.c_str());
    dirty = true;
    }
+//---------------------------------------------------------------------------
+// constructor
+//---------------------------------------------------------------------------
+XMLDocument::XMLDocument(const std::string& fileName, bool dummy)
+   {
+   docImpl = new XMLDocumentImpl(fileName);
+   dirty = true;
+   }
+
 //---------------------------------------------------------------------------
 // destructor
 //---------------------------------------------------------------------------

@@ -21,10 +21,9 @@ ApsimSimulationFile::ApsimSimulationFile(void)
 ApsimSimulationFile::ApsimSimulationFile(const string& filename) throw (std::runtime_error)
    : fileName(filename)
    {
-   xmlDoc = new XMLDocument;
    try
       {
-      read();
+      xmlDoc = new XMLDocument(filename, true);
       }
    catch (...)
       {

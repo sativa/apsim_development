@@ -21,6 +21,8 @@ class XMLDocument
    {
    public:
       XMLDocument(const std::string& rootNodeName = "DummyRootNode");
+      XMLDocument(const std::string& fileName, bool dummy);
+
       ~XMLDocument(void);
 
       void readXML(const std::string& xml) throw(std::runtime_error);
