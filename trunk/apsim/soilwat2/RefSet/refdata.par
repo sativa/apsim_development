@@ -1,34 +1,34 @@
-[standard.report.parameters]  
-outputfile =  swat.out 
+[standard.report.parameters]
+outputfile =  swat.out
 
 
-[calibrators.report.parameters]  
-outputfile =  calib.out 
+[calibrators.report.parameters]
+outputfile =  calib.out
 
 
-[swat.report.parameters]  
+[swat.report.parameters]
 
-variable = clock.today.dd/mm/yyyy(date)
+variable = clock.today.dd/mm/yyyy as date
 variable = soilwat2.eo
 variable = soilwat2.eos
 variable = soilwat2.runoff
 variable = soilwat2.sw_dep
 
 
-[swat.clock.parameters]  
+[swat.clock.parameters]
 start_date =  1/1/1977
 end_date =  31/12/1978
 
-[swat.soilwat2.parameters]  
-cn2_bare =        80       ()   
-diffus_const =    100      ()   
-diffus_slope =    50       ()   
-cona =            4.0      ()   
-u =               4.0      ()   
-salb =            0.25     ()   
-insoil =          1.5      ()   
-cn_red =          0        ()   
-cn_cov =          0        ()   
+[swat.soilwat2.parameters]
+cn2_bare =        80       ()
+diffus_const =    100      ()
+diffus_slope =    50       ()
+cona =            4.0      ()
+u =               4.0      ()
+salb =            0.25     ()
+insoil =          1.5      ()
+cn_red =          0        ()
+cn_cov =          0        ()
 
 !layer           = 1      2      3      4      5
 dlayer =           100    100    100    100    100       (mm)   ! Layer depth mm soil
@@ -40,14 +40,14 @@ bd =               1.0    1.0    1.0    1.0    1.0    (g/cc)   ! Bulk density gm
 sw =               0.3    0.3    0.3    0.3    0.3    (mm/mm)   ! Initial water content mm water/mm soil
 swcon =            0.1    0.1    0.1    0.1    0.1    ()   ! Soil conductivity - sand 0.7 heavy clay 0.1
 
-[calibrators.soilwat2.parameters]  
-! Supplied met file has both "pan" and "obrunoff". 
-eo_source =       pan   
-observed_runoff =  obrunoff   
+[calibrators.soilwat2.parameters]
+! Supplied met file has both "pan" and "obrunoff".
+eo_source =       pan
+observed_runoff =  obrunoff
 
-[swat.manager.init]  
+[swat.manager.init]
 
-[swat.manager.start_of_day]  
+[swat.manager.start_of_day]
 
 if day = 100 then
    ! [irrigated.irrigated]
@@ -59,6 +59,6 @@ if day = 120 then
    soilwat2 tillage type = disc, cn_red = 15.0, cn_rain = 30.0
 endif
 
-[swat.manager.end_of_day]  
+[swat.manager.end_of_day]
 report do_output
 
