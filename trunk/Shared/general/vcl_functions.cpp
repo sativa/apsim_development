@@ -96,14 +96,19 @@ void Grid_clear (TStringGrid* grid)
 // ------------------------------------------------------------------
 void Select_items_in_listbox(TListBox* listbox, TStrings* Items_to_select)
    {
-   for (int i = 0; i < Items_to_select->Count; i++)
+   if (listbox->MultiSelect)
       {
-      int index = listbox->Items->IndexOf(Items_to_select->Strings[i]);
-      if (index < 0)
-         index = listbox->Items->Add(Items_to_select->Strings[i]);
+      for (int i = 0; i < Items_to_select->Count; i++)
+         {
+         int index = listbox->Items->IndexOf(Items_to_select->Strings[i]);
+         if (index < 0)
+            index = listbox->Items->Add(Items_to_select->Strings[i]);
 
-      listbox->Selected[index] = true;
+         listbox->Selected[index] = true;
+         }
       }
+   else if (Items_to_select->Count > 0)
+      listbox->ItemIndex = listbox->Items->IndexOf(Items_to_select->Strings[0]);
    }
 
 // ------------------------------------------------------------------
@@ -118,14 +123,20 @@ void Select_items_in_listbox(TListBox* listbox, TStrings* Items_to_select)
 // ------------------------------------------------------------------
 void Get_selected_items_from_listbox(TListBox* listbox, TStrings* Selected_items)
    {
-   Selected_items->Clear();
-   for (int i = 0; i < listbox->Items->Count; i++)
+   if (listbox->MultiSelect)
       {
-      if (listbox->Selected[i])
+      Selected_items->Clear();
+      for (int i = 0; i < listbox->Items->Count; i++)
          {
-         Selected_items->Add(listbox->Items->Strings[i]);
+         if (listbox->Selected[i])
+            {
+            if (listbox->Items->Strings[i].Length() > 0)
+               Selected_items->Add(listbox->Items->Strings[i]);
+            }
          }
       }
+   else if (listbox->ItemIndex >= -1)
+      Selected_items->Add(listbox->Items->Strings[listbox->ItemIndex]);
    }
 
 // ------------------------------------------------------------------
