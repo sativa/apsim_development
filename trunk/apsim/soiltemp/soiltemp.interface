@@ -20,8 +20,13 @@ class APSIMSoilTempPublic
     vol_spec_heat_clay      : APSIMReal           = volumetric specific heat of clay minerals, (J/m3/K), READ, 1.0e6, 1.0e7
 
 ; sent by soiltemp_Send_my_variable
+    final_soil_temp_surface : APSIMReal           = Soil surface temperature at the end of the final internal Soiltemp timestep., (oC), GET
     final_soil_temp         : APSIMRealArray      = Soil temperature at the end of the final internal Soiltemp timestep., (oC), GET
+    ave_soil_temp_surface   : APSIMReal           = Average soil temperature found at the surface during the Apsim timestep, (oC), GET
+    ave_soil_temp           : APSIMRealArray      = Average soil temperature found in each layer during the Apsim timestep, (oC), GET
+    mint_soil_surface       : APSIMReal           = Minimum soil temperature found at the surface during the Apsim timestep, (oC), GET
     mint_soil               : APSIMRealArray      = Minimum soil temperature found in each layer during the Apsim timestep, (oC), GET
+    maxt_soil_surface       : APSIMReal           = Maximum soil temperature found at the surface during the Apsim timestep, (oC), GET
     maxt_soil               : APSIMRealArray      = Maximum soil temperature found in each layer during the Apsim timestep., (oC), GET
     therm_cond              : APSIMRealArray      = Thermal conductivity for each layer, (J/sec/m/K), GET
     heat_store              : APSIMRealArray      = Volumetric specific heat for each layer, (J/m3/K/s), GET
