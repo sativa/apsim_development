@@ -22,7 +22,8 @@ class Macro
       // ------------------------------------------------------------------
       void go(const XMLNode& macroValues,
               const std::string& macroContents,
-              std::vector<std::string>& filesGenerated);
+              std::vector<std::string>& filesGenerated,
+              const std::string& outputDirectory = "");
 
    private:
       const XMLNode* macroValues;
@@ -44,7 +45,8 @@ class Macro
       // file name listed after the #file macro.
       // ------------------------------------------------------------------
       void writeStringToFiles(std::string contents,
-                              std::vector<std::string>& fileNamesCreated) const;
+                              std::vector<std::string>& fileNamesCreated,
+                              const std::string& outputDirectory) const;
 
       // ------------------------------------------------------------------
       // Replace all global counter in the specified string.

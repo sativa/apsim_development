@@ -8,7 +8,7 @@
 #include <general\string_functions.h>
 #include <general\stl_functions.h>
 #include <general\stringtokenizer.h>
-#include <ApsimShared\ApsimDirectories.h>
+//#include <ApsimShared\ApsimDirectories.h>
 using namespace std;
 // ------------------------------------------------------------------
 // Constructor
@@ -27,13 +27,14 @@ Macro::~Macro()
 // ------------------------------------------------------------------
 void Macro::go(const XMLNode& values,
                const string& macroContents,
-               vector<string>& filesGenerated)
+               vector<string>& filesGenerated,
+               const std::string& outputDirectory)
    {
    macroValues = &values;
    filesGenerated.erase(filesGenerated.begin(), filesGenerated.end());
    string contents = macroContents;
    contents = parseForEach(contents, "", *macroValues);
-   writeStringToFiles(contents, filesGenerated);
+   writeStringToFiles(contents, filesGenerated, outputDirectory);
    }
 
 // ------------------------------------------------------------------
@@ -195,7 +196,8 @@ string Macro::parseForEach(const string& originalContents,
 // file name listed after the #file macro.
 // ------------------------------------------------------------------
 void Macro::writeStringToFiles(string contents,
-                               vector<string>& fileNamesCreated) const
+                               vector<string>& fileNamesCreated,
+                               const string& outputDirectory) const
    {
    unsigned posFile = contents.find("#file");
    while (posFile != string::npos)
@@ -204,7 +206,9 @@ void Macro::writeStringToFiles(string contents,
       unsigned posEol = contents.find("\n", posFile);
       string filename=contents.substr(posFile, posEol-posFile);
       stripLeadingTrailing(filename, " ");
-      replaceAll(filename, "%apsuite", getApsimDirectory());
+      if (outputDirectory != "")
+         filename = outputDirectory + "\\" + filename;
+      //replaceAll(filename, "%apsuite", getApsimDirectory());
 
       unsigned posStartFileBody = posEol + 1;
       unsigned posEndFileBody = contents.find("#endfile", posStartFileBody);
