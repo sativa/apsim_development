@@ -122,7 +122,7 @@ class APSIMMaizePublic
   tt_maturity_to_ripe     : APSIMReal           = Growing deg day required to for grain dry down, (oC-days), READ
   x_stem_wt               : APSIMRealArray      = Plant weights, (g), READ, 0.0, 1000.0
   y_height                : APSIMRealArray      = Plant heights for above weights, (mm), READ, 0.0, 5000.0
-  uptake_source           : APSIMString_Opt     = Switch for source of water and no3 uptake, (), READ
+  uptake_source           : APSIMString         = Switch for source of water and no3 uptake, (), READ
   ll                      : APSIMRealArray      = Lower limit of plant-extractable soil water for soil layer l, (mm water/mm soil), READ
   kl                      : APSIMRealArray      = Root length density factor for water, (), READ
   xf                      : APSIMRealArray      = Root exploration factor, (0-1), READ
