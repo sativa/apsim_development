@@ -11,16 +11,16 @@
 
      Version                = 3.2
      Title                  = Ghab2_9899
-     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
-     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\development\apsim\plant\lib\plant.dll
+     Component DLL          = c:\program files\apsim32\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\program files\apsim32\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\program files\apsim32\apsim\clock\lib\clock.dll
+     Component DLL          = c:\program files\apsim32\apsim\report\lib\report.dll
+     Component DLL          = c:\program files\apsim32\apsim\input\lib\input.dll
+     Component DLL          = c:\program files\apsim32\apsim\manager\lib\manager.dll
+     Component DLL          = c:\program files\apsim32\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\program files\apsim32\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\program files\apsim32\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\program files\apsim32\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
      Simulation start date = 26/11/1998
@@ -332,68 +332,68 @@
       stage    2.0 germination
 22 December 1998(Day of year=356), chickpea: 
       stage    3.0 emergence
-                          biomass =           8.600001       lai =    0.4300000E-01
+                          biomass =           8.600001       lai =    0.4300000E-02
                           stover N conc =    6.000000       extractable sw =    12.42587
 9 March 1999(Day of year=68), chickpea: 
       stage    4.0 end_of_juvenile
-                          biomass =           63.09042       lai =     1.174040
-                          stover N conc =    4.280172       extractable sw =    50.52109
+                          biomass =           17.52454       lai =    0.1856531
+                          stover N conc =    4.417773       extractable sw =    55.35218
 7 April 1999(Day of year=97), chickpea: 
       stage    5.0 floral_initiation
-                          biomass =           216.7421       lai =     3.224789
-                          stover N conc =    3.165665       extractable sw =    93.97803
+                          biomass =           84.88794       lai =     1.518541
+                          stover N conc =    3.165665       extractable sw =    98.23508
 9 April 1999(Day of year=99), chickpea: 
       stage    6.0 flowering
-                          biomass =           243.3043       lai =     3.412971
-                          stover N conc =    3.018440       extractable sw =    89.43114
+                          biomass =           103.3129       lai =     1.747912
+                          stover N conc =    3.004933       extractable sw =    92.74030
 23 April 1999(Day of year=113), chickpea: 
       stage    7.0 start_grain_fill
-                          biomass =           402.4193       lai =     3.896680
-                          stover N conc =    2.147598       extractable sw =    32.39055
+                          biomass =           229.3730       lai =     2.581233
+                          stover N conc =    2.074993       extractable sw =    32.95114
 14 May 1999(Day of year=134), chickpea: 
       stage    8.0 end_grain_fill
-                          biomass =           458.9653       lai =    0.7599251
-                          stover N conc =    2.237843       extractable sw =    6.303968
+                          biomass =           277.0385       lai =    0.5334093
+                          stover N conc =    2.043828       extractable sw =    7.007668
 17 May 1999(Day of year=137), chickpea: 
       stage    9.0 maturity
-                          biomass =           461.2260       lai =    0.5777165
-                          stover N conc =    2.268625       extractable sw =    4.768652
+                          biomass =           279.0526       lai =    0.4089040
+                          stover N conc =    2.016136       extractable sw =    5.315418
 18 May 1999(Day of year=138), chickpea: 
       stage   10.0 harvest_ripe
-                          biomass =           461.2260       lai =    0.1072884E-05
-                          stover N conc =    2.481425       extractable sw =    4.338205
+                          biomass =           279.0525       lai =     0.000000
+                          stover N conc =    2.216400       extractable sw =    4.840727
 18 May 1999(Day of year=138), manager: 
      Manager sending message :- chickpea harvest
 18 May 1999(Day of year=138), chickpea: 
      
      
      
-      flowering day  =   99                  stover (kg/ha) =    3645.1
-      maturity day        =  137             grain yield (kg/ha) =     967.1
-      grain % water content   =   12.0       grain yield wet (kg/ha) =    1099.0
+      flowering day  =   99                  stover (kg/ha) =    2122.6
+      maturity day        =  137             grain yield (kg/ha) =     668.0
+      grain % water content   =   12.0       grain yield wet (kg/ha) =     759.1
       grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 4.101
-      total above ground biomass (kg/ha) =    4612.3
-      live above ground biomass (kg/ha) =    4612.3
-      green above ground biomass (kg/ha) =    2964.6
-      senesced above ground biomass (kg/ha) =    1647.7
+      grains/head =   0.0                    maximum lai = 2.700
+      total above ground biomass (kg/ha) =    2790.5
+      live above ground biomass (kg/ha) =    2790.5
+      green above ground biomass (kg/ha) =    1820.3
+      senesced above ground biomass (kg/ha) =     970.2
       dead above ground biomass (kg/ha) =       0.0
-      number of leaves = 218.6
-      grain N percent =      3.60            total N content (kg/ha) =     91.01
-      grain N uptake (kg/ha) =     34.82     senesced N content (kg/ha) =      6.62
-      green N content (kg/ha) =     49.56    dead N content (kg/ha) =      0.00
+      number of leaves = 159.5
+      grain N percent =      3.60            total N content (kg/ha) =     53.22
+      grain N uptake (kg/ha) =     24.05     senesced N content (kg/ha) =      3.63
+      green N content (kg/ha) =     25.54    dead N content (kg/ha) =      0.00
      
      
      
       stress indices for emergence
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0058149
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0258086
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0063656
      
      
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0177195
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0062005
      
      
      
@@ -404,24 +404,24 @@
      
      
       stress indices for flowering
-      water stress 1 =       0.1028149   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.1504718   nitrogen stress 2 =       0.0000000
+      water stress 1 =       0.1195751   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.1672743   nitrogen stress 2 =       0.0000000
      
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.7445478   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.8445477   nitrogen stress 2 =       0.0000000
+      water stress 1 =       0.7245987   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.8245987   nitrogen stress 2 =       0.0000000
      
       Crop harvested.
-                                               tops residue = 3645.1 kg/ha
-                                               tops N =   56.2 kg/ha
-                                               root residue =  218.8 kg/ha
-                                               root N =    1.8 kg/ha
+                                               tops residue = 2122.6 kg/ha
+                                               tops N =   29.2 kg/ha
+                                               root residue =  109.6 kg/ha
+                                               root N =    0.9 kg/ha
      
      
-                                               tops removed =  967.1 kg/ha
-                                               tops N removed =   34.8 kg/ha
+                                               tops removed =  668.0 kg/ha
+                                               tops N removed =   24.0 kg/ha
                                                root removed =    0.0 kg/ha
                                                root N removed =    0.0 kg/ha
 18 May 1999(Day of year=138), manager: 
@@ -430,7 +430,7 @@
          Crop ended. Yield (dw) =     0.0
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
-                                               root residue = 2199.0 kg/ha
-                                               root N =   34.6 kg/ha
+                                               root residue = 1101.2 kg/ha
+                                               root N =   17.2 kg/ha
 30 June 1999(Day of year=181), clock: 
      Simulation is terminating due to end criteria being met.
