@@ -81,5 +81,6 @@ void Axis::Design(TChart* TChart_ptr)
    Axis_ptr->Grid->Visible = Grid_visible;
    Axis_ptr->DateTimeFormat = "dd/mm/yy";
    Axis_ptr->Inverted = Inverted;
+   Axis_ptr->AxisValuesFormat = "###0.###";
    }
    
