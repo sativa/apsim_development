@@ -2,10 +2,10 @@
 #include <vcl.h>
 #pragma hdrstop
 
+#include <ComponentInterface\messageDataExt.h>
 #include "Coordinator.h"
 #include <ApsimShared\FStringExt.h>
 #include <ComponentInterface\messages.h>
-#include <ComponentInterface\messageDataExt.h>
 #include <assert.h>
 #include <general\stl_functions.h>
 #include <ApsimShared\ApsimSimulationFile.h>
@@ -833,13 +833,15 @@ void Coordinator::pollComponentsForSetVariable(PMRegistrationItem& registrationI
 //         Then y will replace x, z will replace y, and x will replace z
 //         leaving: y, z, x
 // ------------------------------------------------------------------
-void Coordinator::onApsimChangeOrderData(ApsimChangeOrderData& apsimChangeOrderData)
+void Coordinator::onApsimChangeOrderData(MessageData& messageData)
    {
+   std::vector<string> componentNames;
+   messageData >> componentNames;
    if (componentOrders.size() == 0)
       {
-      for (unsigned i = 0; i != apsimChangeOrderData.componentNames.getNumElements(); ++i)
+      for (unsigned i = 0; i != componentNames.size(); ++i)
          {
-         unsigned componentID = componentNameToID(asString(apsimChangeOrderData.componentNames.getString(i)));
+         unsigned componentID = componentNameToID(componentNames[i]);
          componentOrders.push_back(componentID);
          }
       }

@@ -151,7 +151,7 @@ class Component
       virtual void onCompleteMessage(CompleteData& completeData);
       virtual void onApsimGetQuery(ApsimGetQueryData& apsimGetQueryData) { }
       virtual bool onApsimSetQuery(ApsimSetQueryData& apsimSetQueryData) {return false;}
-      virtual void onApsimChangeOrderData(ApsimChangeOrderData& apsimChangeOrderData) { }
+      virtual void onApsimChangeOrderData(protocol::MessageData& messageData) { }
 
       // Send a message
       void sendMessage(Message* message)

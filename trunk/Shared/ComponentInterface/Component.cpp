@@ -228,9 +228,7 @@ void Component::messageToLogic(Message* message)
                                                     apsimSetQueryData.name, " ");
                                     }
                                  break;}
-      case ApsimChangeOrder:    {ApsimChangeOrderData apsimChangeOrderData;
-                                 messageData >> apsimChangeOrderData;
-                                 onApsimChangeOrderData(apsimChangeOrderData);
+      case ApsimChangeOrder:    {onApsimChangeOrderData(messageData);
                                  break;}
       }
 
