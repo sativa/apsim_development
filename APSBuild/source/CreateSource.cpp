@@ -24,7 +24,7 @@ std::string ddmlKindToCPP(const std::string& kind)
    else if (Str_i_Eq(kind, "char"))
       return "char";
    else if (Str_i_Eq(kind, "string"))
-      return "std::string";
+      return "FString";
    else
       return "????";
    }
@@ -65,8 +65,7 @@ void CreateSource::go(const std::string& ddml,
    hpp << "#define DataTypesH\n";
    hpp << "#include <ComponentInterface\\MessageData.h>\n";
    hpp << "#include <ComponentInterface\\MessageDataExt.h>\n";
-   hpp << "#include <vector>\n";
-   hpp << "#include <string>\n";
+   hpp << "#include \"ProtocolVector.h\"\n";
    hpp << "namespace protocol {\n";
    hpp << endl;
    cpp << "#include \"DataTypes.h\"\n";
@@ -112,7 +111,7 @@ void CreateSource::go(const std::string& ddml,
             if (cDataType != "????")
                {
                if (field->isArray())
-                  cDataType = "std::vector<" + cDataType + ">";
+                  cDataType = "protocol::vector<" + cDataType + ">";
                hpp << "   " << cDataType << ' ' << field->getName() << ';' << endl;
                }
             else
