@@ -206,6 +206,10 @@ bool ApsimDataFile::readNextRecord(istream& in) throw(runtime_error)
    string line;
    if (getline(line) && line.length() > 0)
       {
+      // remove any comment characters.
+      unsigned posComment = line.find('!');
+      if (posComment != string::npos)
+         line.erase(posComment);
       Split_string(line, " ", fieldValues);
       if (fieldValues.size() != fieldNames.size())
          {
