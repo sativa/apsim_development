@@ -9,6 +9,9 @@
 #include <Forms.hpp>
 #include <ComCtrls.hpp>
 #include <ExtCtrls.hpp>
+
+#define WM_CLOSE_CLICKED_MSG WM_USER+1
+
 //---------------------------------------------------------------------------
 class TScreenForm : public TForm
    {

@@ -63,8 +63,12 @@ ScreenComponent::~ScreenComponent(void)
    ScreenForm->simulationHasFinished();
    if (ScreenForm->CancelButton->Caption == "Close")
       {
-      while (ScreenForm->Visible && ScreenForm->ModalResult != mrOk)
-         Application->ProcessMessages();
+      MSG msg;
+      while (GetMessage(&msg, 0, 0, 0) && msg.message != WM_CLOSE_CLICKED_MSG)
+         {
+         TranslateMessage(&msg);
+         DispatchMessage(&msg);
+         }
       }
 
    delete ScreenForm;
