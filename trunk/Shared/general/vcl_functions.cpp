@@ -5,7 +5,7 @@
 #include <general\string_functions.h>
 #include <general\path.h>
 #include <list>
-using std::list;
+using namespace std;
 #include <vcl\dbtables.hpp>
 
 // ------------------------------------------------------------------

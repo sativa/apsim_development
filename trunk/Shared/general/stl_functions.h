@@ -4,6 +4,8 @@
 
 #include <functional>
 #include <general\string_functions.h>
+#include <general\stristr.h>
+using namespace std;
 // ------------------------------------------------------------------
 //  Short description:
 //    locates an object in a container and returns the numerical
@@ -346,6 +348,33 @@ class PEqualToFileName
       bool operator () (T* arg)
          {return (stricmp(arg->getFilename().c_str(), filename.c_str()) == 0);};
    };
+class PartialStringComparison
+   {
+   private:
+      const string& st;
+   public:
+      PartialStringComparison(const std::string& s)
+         : st(s) {}
+
+      bool operator () (const std::string& arg)
+         {
+         return (stristr((char*) arg.c_str(), st.c_str()) != NULL);
+         }
+   };
+class CaseInsensitiveStringComparison
+   {
+   private:
+      const std::string& st;
+   public:
+      CaseInsensitiveStringComparison(const std::string& s)
+         : st(s) {}
+
+      bool operator () (const std::string& arg)
+         {
+         return Str_i_Eq(arg, st);
+         }
+   };
+
 template <class T>
 class EqualToFileName
    {
