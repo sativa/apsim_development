@@ -1706,6 +1706,11 @@ subroutine soilp_min_fom ()
       g%biom_p (layer) = g%biom_p (layer) +g%dlt_fom_c_biom (layer) / c%biom_cp
       g%labile_p (layer) = g%labile_p (layer) + min_p
 
+      if (g%labile_p (layer) .lt. 0.0) then
+         call fatal_error (err_internal, 'Insufficient labile P for immobilisation from FOM')
+      else
+      endif
+
    end do
 
    call pop_routine (myname)
@@ -1824,6 +1829,11 @@ subroutine soilp_min_residues ()
 
       ! mineralised P distributed to layers in same proportion as carbon converted to soil biomass.
       g%labile_p (layer) = g%labile_p (layer) +min_p * divide(dlt_res_c_biom (layer),sum_real_array(dlt_res_c_biom, num_layers), 0.0)
+
+      if (g%labile_p (layer) .lt. 0.0) then
+         call fatal_error (err_internal, 'Insufficient labile P for immobilisation from Residue')
+      else
+      endif
 
    end do
 
