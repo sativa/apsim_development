@@ -94,11 +94,15 @@ void __fastcall TScreenForm::PauseButtonClick(TObject *Sender)
    pause = !pause;
    if (pause)
       {
+      PauseButton->Caption = "Resume";
       CancelButton->Enabled = false;
       while (ScreenForm->Visible && pause)
          Application->ProcessMessages();
       CancelButton->Enabled = true;
       }
+   else
+      PauseButton->Caption = "Pause";
+
    }
 //---------------------------------------------------------------------------
 
