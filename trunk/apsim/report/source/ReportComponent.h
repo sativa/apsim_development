@@ -64,6 +64,7 @@ class ReportComponent : public protocol::Component
       Fields fields;
       int DaysSinceLastReport;
       bool CSVFormat;
+      bool haveWrittenHeadings;
 
       unsigned titleID;
       unsigned summaryFileID;
