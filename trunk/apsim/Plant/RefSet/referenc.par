@@ -55,8 +55,8 @@ variable = tracker1.avg@mungbean_nfact_photo
 variable = mungbean.plant_status
 variable = mungbean.dm_dead()
 variable = mungbean.yield
-variable = residue2.residue_wt
-variable = residue2.residue_n
+variable = surfaceom.surfaceom_wt
+variable = surfaceom.surfaceom_n
 variable = soiln2.fom_c()
 variable = soiln2.fom_n()
 variable = mungbean.node_no
@@ -82,12 +82,12 @@ variable = mungbean.root_depth
 start_date=7/10/1990
 end_date=30/5/1994
 
-[reference.residue2.parameters]
-pot_decomp_rate =      0.10  ()
-residue_wt =           500.0 (kg/ha)
-residue_cnr =           80.0 ()
-residue_type =         mungbean
+[reference.SurfaceOM.parameters]
+mass = 500.0 (kg/ha)
+cnr = 80.0 ()
+type = mungbean
 
+name = mungbean
 [reference.mungbean.parameters]
 uptake_source =      calc
 ll =          0.100   0.100   0.100
@@ -146,7 +146,7 @@ profile_reduction =      on
         soilwat2 set sw = 0.15 0.15 0.1
         soiln2   set no3 = 1 1 1          ! Reset the soil profile
         soiln2   set nh4 = 1 1 1
-        residue2 tillage type = burn      ! Remove noise from residues
+        surfaceom tillage type = burn      ! Remove noise from residues
         irrigate set crit_fr_asw = 0.9
         irrigate set asw_depth = 900
         irrigate set automatic_irrigation = on
@@ -162,7 +162,7 @@ profile_reduction =      on
         soilwat2 set sw = 0.15 0.15 0.1
         soiln2   set no3 = 1 1 1          ! Reset the soil profile
         soiln2   set nh4 = 1 1 1
-        residue2 tillage type = burn      ! Remove noise from residues
+        surfaceom tillage type = burn      ! Remove noise from residues
         irrigate set crit_fr_asw = 0.9
         irrigate set asw_depth = 900
         irrigate set automatic_irrigation = on
@@ -178,7 +178,7 @@ profile_reduction =      on
         soilwat2 set sw = 0.15 0.15 0.1
         soiln2   set no3 = 1 1 1          ! Reset the soil profile
         soiln2   set nh4 = 1 1 1
-        residue2 tillage type = burn      ! Remove noise from residues
+        surfaceom tillage type = burn      ! Remove noise from residues
         report do_output
 
      elseif year = 1994 and day = 30 then
@@ -195,7 +195,7 @@ profile_reduction =      on
         irrigate set crit_fr_asw = 0.4
         irrigate set asw_depth = 900
         irrigate set automatic_irrigation = on
-        residue2 tillage type = burn      ! Remove noise from residues
+        surfaceom tillage type = burn      ! Remove noise from residues
         report do_output
 
      endif

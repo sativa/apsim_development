@@ -20,7 +20,7 @@
      Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
      Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
@@ -48,8 +48,8 @@
         mungbean.plant_status
         mungbean.dm_dead()
         mungbean.yield
-        residue2.residue_wt
-        residue2.residue_n
+        surfaceom.surfaceom_wt
+        surfaceom.surfaceom_n
         soiln2.fom_c()
         soiln2.fom_n()
         mungbean.node_no
@@ -116,7 +116,7 @@
              soilwat2 set sw = 0.15 0.15 0.1
              soiln2   set no3 = 1 1 1
              soiln2   set nh4 = 1 1 1
-             residue2 tillage type = burn
+             surfaceom tillage type = burn
              irrigate set crit_fr_asw = 0.9
              irrigate set asw_depth = 900
              irrigate set automatic_irrigation = on
@@ -127,7 +127,7 @@
              soilwat2 set sw = 0.15 0.15 0.1
              soiln2   set no3 = 1 1 1
              soiln2   set nh4 = 1 1 1
-             residue2 tillage type = burn
+             surfaceom tillage type = burn
              irrigate set crit_fr_asw = 0.9
              irrigate set asw_depth = 900
              irrigate set automatic_irrigation = on
@@ -138,7 +138,7 @@
              soilwat2 set sw = 0.15 0.15 0.1
              soiln2   set no3 = 1 1 1
              soiln2   set nh4 = 1 1 1
-             residue2 tillage type = burn
+             surfaceom tillage type = burn
              report do_output
           elseif year = 1994 and day = 30 then
              mungbean sow cultivar = emerald, plants = 20, sowing_depth = 50
@@ -148,7 +148,7 @@
              irrigate set crit_fr_asw = 0.4
              irrigate set asw_depth = 900
              irrigate set automatic_irrigation = on
-             residue2 tillage type = burn
+             surfaceom tillage type = burn
              report do_output
           endif
      
@@ -230,30 +230,29 @@
             CONA:                     2.00 ()
            Eo from priestly-taylor
 
-------- residue2 Initialisation -----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  80.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  80.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  80.0000000
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-               500.0     2.5     0.0  mungbean
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100    80.0     0.0       F       no
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -363,8 +362,8 @@
      Manager sending message :- soilwat2 set  sw = 0.15 0.15 0.1
      Manager sending message :- soiln2 set  no3 = 1 1 1
      Manager sending message :- soiln2 set  nh4 = 1 1 1
-     Manager sending message :- residue2 tillage  type = burn
-7 October 1990(Day of year=280), residue2: 
+     Manager sending message :- surfaceom tillage  type = burn
+7 October 1990(Day of year=280), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using burn
@@ -522,8 +521,8 @@
      Manager sending message :- soilwat2 set  sw = 0.15 0.15 0.1
      Manager sending message :- soiln2 set  no3 = 1 1 1
      Manager sending message :- soiln2 set  nh4 = 1 1 1
-     Manager sending message :- residue2 tillage  type = burn
-10 January 1992(Day of year=10), residue2: 
+     Manager sending message :- surfaceom tillage  type = burn
+10 January 1992(Day of year=10), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using burn
@@ -681,8 +680,8 @@
      Manager sending message :- soilwat2 set  sw = 0.15 0.15 0.1
      Manager sending message :- soiln2 set  no3 = 1 1 1
      Manager sending message :- soiln2 set  nh4 = 1 1 1
-     Manager sending message :- residue2 tillage  type = burn
-10 January 1993(Day of year=10), residue2: 
+     Manager sending message :- surfaceom tillage  type = burn
+10 January 1993(Day of year=10), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using burn
@@ -833,8 +832,8 @@
      Manager sending message :- irrigate set  crit_fr_asw = 0.4
      Manager sending message :- irrigate set  asw_depth = 900
      Manager sending message :- irrigate set  automatic_irrigation = on
-     Manager sending message :- residue2 tillage  type = burn
-30 January 1994(Day of year=30), residue2: 
+     Manager sending message :- surfaceom tillage  type = burn
+30 January 1994(Day of year=30), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using burn
