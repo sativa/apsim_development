@@ -302,6 +302,7 @@
 
 *+  Local Variables
       integer    layer                 ! layer number
+      real       dlayer(max_layers)     ! soil profile layer depths (mm)
       real       residue_cover
       integer    crop                  ! loop index
       integer    numvals               ! number of values put into array
@@ -320,9 +321,9 @@
                                 ! get depth of each soil water layer
       call get_real_array (unknown_module, 'dlayer', max_layers
      :                                    , '(mm)'
-     :                                    , g%dlayer, g%num_layers
+     :                                    , dlayer, g%num_layers
      :                                    , 0.0, 1000.0)
-!jh      g%dlayer(:) = g%dlayer(:) / 10.0
+      g%dlayer_cm(:) = dlayer(:) / 10.0
 
       call get_real_var (unknown_module, 'maxt', '(oC)'
      :                                  , g%maxt, numvals
@@ -457,10 +458,20 @@ cjh100   continue
 c      write (6,630) iyr,jdate,g%temp0,wattm2,rb0,rd,rl,p0,pav,g%estimated_lai,tr,
 c     1     ttav,hv,g%es,beta2,g%ys,g%phis
 
-      if (Variable_name .eq. 'soil_temp') then
-         call respond2get_real_var ('soil_temp'
+      if (Variable_name .eq. 'maxt_soil_surface') then
+         call respond2get_real_var (Variable_name
      :        , '(oC)', g%temp0)
 
+      elseif (Variable_name .eq. 'soil_temp') then
+         call respond2get_real_var (Variable_name
+     :        , '(oC)', g%temp0)
+
+      elseif (variable_name .eq. 'st_max') then
+         call respond2get_real_array (
+     :               variable_name            ! variable name
+     :              ,'(oC)'           ! variable units
+     :              ,g%st_max              ! variable
+     :              ,g%num_layers+1)             ! array size
       else
 
                                 ! Nothing
@@ -614,27 +625,27 @@ c     endif
       REAL IPSI      ! proportion of radiation from direction PSI intercepted by mulch (-) 
       real PAV       ! proportion of diffuse radiation which penetrates the mulch without interception (-)
       real IAV       ! proportion of diffuse radiation intercepted by mulch (-)
-      real RHO1      ! reflection coefficient of soil surface and mulch for diffuse shortwave radiation (-)
-      real RHO2      ! reflection coefficient of soil surface and mulch for diffuse shortwave radiation (-)
+      real RHO1      ! reflection coefficient of soil surface for diffuse shortwave radiation (-)
+      real RHO2      ! reflection coefficient of mulch for diffuse shortwave radiation (-)
       real TAU2      ! transmission coefficient of mulch for diffuse shortwave radiation (-)
       REAL B1        ! unintercepted solar beam shortwave radiation flux just above soil surface (W/m2)
       real ED1       ! downward diffuse shortwave radiation flux just above soil surface (W/m2)
-      real EU1       ! upward diffuse shortwave radiation fluxes just above soil durface and mulch (W/m2)
-      real EU2       ! upward diffuse shortwave radiation fluxes just above soil durface and mulch (W/m2)
-      real ES1       ! net shortwave radiation fluxes absorbed by soil surface and mulch (W/m2)
-      real ES2       ! net shortwave radiation fluxes absorbed by soil surface and mulch (W/m2)
-      real EL1       ! net longwave radiation fluxes absorbed by soil surface and mulch (W/m2)
-      real EL2       ! net longwave radiation fluxes absorbed by soil surface and mulch (W/m2)
-      REAL HS1       ! sensible heat fluxes from soil surface and mulch to air due to convection (W/m2)
-      real HS2       ! sensible heat fluxes from soil surface and mulch to air due to convection (W/m2)
-      real RC1       ! soil surface and mulch canopy average boundary layer resistances to sensible heat transfer (K m2/W)
-      real RC2       ! soil surface and mulch canopy average boundary layer resistances to sensible heat transfer (K m2/W)
+      real EU1       ! upward diffuse shortwave radiation fluxes just above soil durface (W/m2)
+      real EU2       ! upward diffuse shortwave radiation fluxes just above mulch (W/m2)
+      real ES1       ! net shortwave radiation fluxes absorbed by soil surface (W/m2)
+      real ES2       ! net shortwave radiation fluxes absorbed by mulch (W/m2)
+      real EL1       ! net longwave radiation fluxes absorbed by soil surface (W/m2)
+      real EL2       ! net longwave radiation fluxes absorbed by mulch (W/m2)
+      REAL HS1       ! sensible heat fluxes from soil surface to air due to convection (W/m2)
+      real HS2       ! sensible heat fluxes from mulch to air due to convection (W/m2)
+      real RC1       ! soil surface canopy average boundary layer resistances to sensible heat transfer (K m2/W)
+      real RC2       ! mulch canopy average boundary layer resistances to sensible heat transfer (K m2/W)
       real TC1       ! soil surface temperature (K, oC)
       real TC2       ! mulch temperature (K, oC)
       real Gg        ! heat flux into the soil (W/m2)
       real PHI       ! phase angle of idealized sinusoidal soil surface temperature (rad)
-      REAL H1        ! net heat fluxes at soil surface and mulch (W/m2)
-      real H2        ! net heat fluxes at soil surface and mulch (W/m2)
+      REAL H1        ! net heat fluxes at soil surface (W/m2)
+      real H2        ! net heat fluxes at mulch (W/m2)
       real J11       ! partial derivative (W/m2/K)
       real J12       ! partial derivative (W/m2/K)
       real J21       ! partial derivative (W/m2/K)
@@ -652,8 +663,11 @@ c     endif
       real  x4
       real wattm2    ! incoming shortwave radiation (W/m2)
       real tempm     ! average temperature (oC)
-      real       ys                    ! magnitude of soil thermal admittance (W/m2/K)
-      real       phis                  ! phase angle of soil thermal admittance (rad)
+      real       ys(max_layers+1)                    ! magnitude of soil thermal admittance (W/m2/K)
+      real       phis(max_layers+1)                  ! phase angle of soil thermal admittance (rad)
+      real       ratio_G(max_layers+1)               ! ratio of heat flux between top and bottom layer boundaries ()
+      real       ratio_T(max_layers+1)               ! ratio of temperature between top and bottom layer boundaries ()
+      integer    node
 
 *+  Constant Values
       character  myname*(*)            ! name of subroutine
@@ -678,6 +692,7 @@ c     endif
 
       call push_routine(myname)
 
+      node = 1
       A1 = 1.0
       A2 = 2.*g%estimated_lai
 
@@ -703,13 +718,13 @@ c     endif
       beta2 = 1.4*A2 / w2**0.25
       if (beta2 .le. 22.) beta2 = 22.
 
-      call soilt (ys, phis)
+      call soilt (ys, phis, ratio_G, ratio_T)
         !  DERIVE OTHER PARAMETERS
       IAV = 1.0 - PAV
       RHO1 = SB1
       RHO2 = IAV*SB2
       TAU2 = PAV + IAV*SF2
-      YEFF = ys*COS(phis)
+      YEFF = ys(node)*COS(phis(node))
 
       tt = 0.
 
@@ -760,7 +775,7 @@ c     endif
       X3 = PPSI*ALOG(PPSI)
       F1 = (1. - SB1)*(PPSI + SF2*IPSI - X3*(1. - SF2))
       F2 = (1. - SB2 - SF2)*(IPSI + IAV*SB1*PPSI + X3*(1. - IAV*SB1))
-      F = ys*SIN(phis) / (RB*(F1 - (J12 / J22)*F2))
+      F = ys(node)*SIN(phis(node)) / (RB*(F1 - (J12 / J22)*F2))
 
       PHI = ATAN((TC1 - ttav)*F)
 
@@ -769,9 +784,16 @@ c     endif
       IF (ABS(tt - X4) .GT. 0.1) GO TO 20
 
       g%temp0 = tc1 - tz
+
 !c      write (6,630) iyr,jdate,g%temp0,wattm2,rb0,rd,rl,p0,pav,g%estimated_lai,tr,
 !c     1     ttav,hv,g%es,beta2,ys,phis
 !c  630 format(i3,i4,f5.1,4f5.0,2f5.2,3f6.0,f5.0,3f5.1,f6.3)
+
+      g%st_max(1) = tc1 - tz
+      do node = 2, g%num_layers + 1
+         tc1 = tc1 / ratio_T(node-1)
+         g%st_max(node) = tc1 - tz
+      end do
 
       call pop_routine(myname)
       return
@@ -779,15 +801,17 @@ c     endif
 
 * ====================================================================
       Recursive
-     :Subroutine SOILT (ys, phis)
+     :Subroutine SOILT (ys, phis, ratio_G, ratio_T)
 * ====================================================================
       use SoilTModule
       implicit none
       include   'error.pub'
 
 *+  Sub-Program Arguments
-      real       ys                    ! (Output) magnitude of soil thermal admittance (W/m2/K)
-      real       phis                  ! (Output) phase angle of soil thermal admittance (rad)
+      real       ys(*)                    ! (Output) magnitude of soil thermal admittance (W/m2/K)
+      real       phis(*)                  ! (Output) phase angle of soil thermal admittance (rad)
+      real       ratio_G(*)               ! ratio of heat flux between top and bottom layer boundaries ()
+      real       ratio_T(*)               ! ratio of temperature between top and bottom layer boundaries ()
 
 *+  Local Variables
       REAL Z             ! layer depth (decimetre)
@@ -807,9 +831,12 @@ c     endif
       integer nj   ! layer counter
       integer i    ! layer counter
       integer j    ! layer counter
-      real topsw   ! soil water depth in top profile )mm)
-      real subsw   ! soil water depth in sub-profile (mm)
-      real zd      ! depth (mm)
+      real topsw   ! soil water depth in top profile (cm)
+      real subsw   ! soil water depth in sub-profile (cm)
+      real zd      ! depth (cm)
+      integer nj7
+      integer node
+      real cumr
 
 *+  Constant Values
       character  myname*(*)            ! name of subroutine
@@ -818,12 +845,12 @@ c     endif
       REAL Pp         ! period length (s)
       parameter (Pp = 86400.0)
 
-      real vsw(7)     ! volumetric soil water content of SoilT layers (m3/m3)
-      real tlayr(7)   ! SoilT layer depths (7 is top, 1 is bottom)
+      real vsw(max_layers)     ! volumetric soil water content of SoilT layers (m3/m3)
+      real tlayr(max_layers)   ! SoilT layer depths (7 is top, 1 is bottom)
 
 !      DATA Pp / 86400. / 
-      data tlayr / 0.,0.,1.,1.,1.,1.,1. / 
-      data vsw / 7*0.0 / 
+!      data tlayr / 0.,0.,1.,1.,1.,1.,1. / 
+!      data vsw / 7*0.0 / 
       
       fun_M (CN) = cabs (CN)
       fun_A (CN) = aimag (clog (CN))
@@ -832,8 +859,12 @@ c     endif
 
       call push_routine(myname)
 
+      tlayr(1:2) = 0.0
+      tlayr(3:7) = 1.0
+      vsw(:) = 0.0
+
          ! SoilT layers number 1 to 7 from bottom to top (reverse of dlayer).
-      if (g%dlayer(1) .ge. 6.) then
+      if (g%dlayer_cm(1) .ge. 6.) then
             ! we have a thick top layer. Split top layer into 6 layers
             ! and lump the other layers into one - a total of 7 layers.
             ! Top 5 thin layers
@@ -845,45 +876,57 @@ c     endif
           topsw = topsw + vsw(i)
    20   continue
             ! 6th layer is remainder of top dlayer.
-        vsw(2) = (g%sw(1)*g%dlayer(1) - topsw) / (g%dlayer(1) - 5.)
-        tlayr(2) = g%dlayer(1) - 5.
-
+        tlayr(2) = g%dlayer_cm(1) - 5.
+        vsw(2) = (g%sw(1)*g%dlayer_cm(1) - topsw) / tlayr(2)
             ! now put the remaining layers (dlayer(2) onwards to 75??) into one bottom layer        
          tlayr(1) = 0.
          subsw = 0.
         do 30 j = 2, 10
-          tlayr(1) = tlayr(1) + g%dlayer(j)
-          subsw = subsw + g%sw(j)*g%dlayer(j)
+          tlayr(1) = tlayr(1) + g%dlayer_cm(j)
+          subsw = subsw + g%sw(j)*g%dlayer_cm(j)
           if (tlayr(1) .ge. 75.) go to 40
    30   continue
 
    40   vsw(1) = subsw / tlayr(1)
 
       else
-         tlayr(1) = 0.
+!         tlayr(1) = 0.
             ! top layer is thin enough.
         do 50 j = 1, 4
+          tlayr(j) = g%dlayer_cm(4)
    50     vsw(j) = g%sw(4)
         vsw(5) = g%sw(3)
         vsw(6) = g%sw(2)
         vsw(7) = g%sw(1)
+
+        tlayr(5) = g%dlayer_cm(3)
+        tlayr(6) = g%dlayer_cm(2)
+        tlayr(7) = g%dlayer_cm(1)
       endif
 
       YS1 = (10., .7845)
       NJ = 0
+      NJ7 = 7
+      cumr = 1.0
    10 CONTINUE
          ! start at bottom layer (1) and loop up to the top layer (7)
+      node = nj7 - nj
       NJ = NJ + 1
       z = tlayr(nj) / 100.
       vwc = vsw(nj)
       CALL GETCK (VWC, Cc, K)
       CALL ADMIT1 (Pp, Z, Cc, K, YS1, Y, RG, RT)
       YS1 = Y
-      if (nj .lt. 7) GO TO 10
+         ! store results into real variables
+      ys(node) = fun_m (y)
+      phis(node) = fun_a (y)
+      ratio_G(node) = fun_m (RG)
+      ratio_T(node) = fun_m (RT)
+!      print*, node, ratio_T(node), (fun_a (RT))
+      cumr = 1.0/ratio_T(node) * cumr
 
-         ! store rresults into real variables
-      ys = fun_m (y)
-      phis = fun_a (y)
+      if (nj .lt. NJ7) GO TO 10
+!      read*
 
       call pop_routine(myname)
       return
