@@ -125,6 +125,8 @@ void __fastcall TMainForm::ThreadTerminated (TObject* Object)
          Thread->DisplayMessage2 = DisplayMessage2;
          Thread->OnTerminate = ThreadTerminated;
          Thread->Stdout = Stdout;
+         if (OutFile != "")
+            Thread->Compiler_output_filename = OutFile;
          Thread->Resume();
          }
       }
@@ -198,7 +200,7 @@ void TMainForm::displayCompilerOutput(void)
          Height = 400;
       else
          Height = StrToInt(st.c_str());
-      Memo->Lines->LoadFromFile(Thread->getCompilerFileName().c_str());
+      Memo->Lines->LoadFromFile(Thread->Compiler_output_filename.c_str());
       CloseButton->Caption = "Close";
       while (ModalResult == mrNone)
          Application->ProcessMessages();

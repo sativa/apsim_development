@@ -24,8 +24,8 @@ class CompileThread : public TThread
       bool Debug;
       bool Stdout;
       bool Quiet;
+      string Compiler_output_filename;
 
-      string getCompilerFileName(void) {return Compiler_output_filename;}
       virtual void __fastcall Execute (void);
 
       typedef void __fastcall (__closure *TMessageEvent)(System::TObject* Sender, const char* Message);
@@ -34,7 +34,6 @@ class CompileThread : public TThread
 
    private:
       string InitialFilename;
-      string Compiler_output_filename;
       string Message;
       string CommandLineToExecute;
 
