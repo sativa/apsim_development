@@ -42,6 +42,36 @@ StringTokenizer::StringTokenizer(const string& st,
    delimiters = delim;
    retTokens = returnTokens;
    }
+// ------------------------------------------------------------------
+    /*
+     * Constructs a string tokenizer for the specified string but
+     * only after the specified position.  The
+     * characters in the delim argument are the delimiters
+     * for separating tokens.
+     *
+     * If the returnTokens flag is true, then
+     * the delimiter characters are also returned as tokens. Each
+     * delimiter is returned as a string of length one. If the flag is
+     * false, the delimiter characters are skipped and only
+     * serve as separators between tokens.
+     *
+     * str            a string to be parsed.
+     * delim          the delimiters.
+     * returnTokens   flag indicating whether to return the delimiters
+     *                as tokens.
+     */
+// ------------------------------------------------------------------
+StringTokenizer::StringTokenizer(const string& st,
+                                 unsigned pos,
+                                 const string& delim,
+                                 bool returnTokens)
+   {
+   currentPosition = pos;
+   str = st;
+   maxPosition = str.length();
+   delimiters = delim;
+   retTokens = returnTokens;
+   }
 
 // ------------------------------------------------------------------
 //  Short description:

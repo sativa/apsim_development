@@ -88,6 +88,28 @@ class StringTokenizer
                      bool returnTokens = false);
 
     /*
+     * Constructs a string tokenizer for the specified string but
+     * only after the specified position.  The
+     * characters in the delim argument are the delimiters
+     * for separating tokens.
+     *
+     * If the returnTokens flag is true, then
+     * the delimiter characters are also returned as tokens. Each
+     * delimiter is returned as a string of length one. If the flag is
+     * false, the delimiter characters are skipped and only
+     * serve as separators between tokens.
+     *
+     * str            a string to be parsed.
+     * delim          the delimiters.
+     * returnTokens   flag indicating whether to return the delimiters
+     *                as tokens.
+     */
+     StringTokenizer(const std::string& str,
+                     unsigned pos,
+                     const std::string& delim = " \t\n",
+                     bool returnTokens = false);
+
+    /*
      * Tests if there are more tokens available from this tokenizer's string.
      *
      * @return  true if there are more tokens available from this
@@ -137,5 +159,12 @@ class StringTokenizer
      * @see     java.util.StringTokenizer#nextToken()
      */
      int countTokens();
+
+    /*
+     * Return the current position in string.
+    */
+     unsigned currentPos(void) const {return currentPosition;}
+
+
    };
 #endif
