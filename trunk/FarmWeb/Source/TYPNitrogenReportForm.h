@@ -30,23 +30,25 @@ class TYPNitrogenReportForm: public TIWAppForm
    {
    __published:	// IDE-managed Components
       TIWRectangle *IWRectangle1;
-   TIWLabel *IWLabel2;
-   TTIWAdvWebGrid *FertGrid;
-   TIWEdit *Scenario1Edit;
-   TIWLabel *IWLabel1;
-   TIWEdit *Scenario2Edit;
-   TIWEdit *Scenario3Edit;
-   TIWHRule *IWHRule1;
-   TIWLabel *IWLabel3;
-   TIWLabel *IWLabel4;
-   TIWHRule *IWHRule2;
-   TIWLabel *IWLabel5;
-   TIWHRule *IWHRule3;
-   TIWLabel *IWLabel6;
-   TIWLink *BackButton;
-   TIWImageFile *IWImageFile2;
-   TIWImageFile *IWImageFile1;
-   TIWLink *OkButton;
+      TIWLabel *IWLabel2;
+      TTIWAdvWebGrid *FertGrid;
+      TIWEdit *Scenario1Edit;
+      TIWLabel *IWLabel1;
+      TIWEdit *Scenario2Edit;
+      TIWEdit *Scenario3Edit;
+      TIWHRule *IWHRule1;
+      TIWLabel *IWLabel3;
+      TIWLabel *IWLabel4;
+      TIWHRule *IWHRule2;
+      TIWLabel *IWLabel5;
+      TIWHRule *IWHRule3;
+      TIWLabel *IWLabel6;
+      TIWLink *BackButton;
+      TIWImageFile *IWImageFile2;
+      TIWImageFile *IWImageFile1;
+      TIWLink *OkButton;
+      TIWLabel *IWLabel7;
+      TIWEdit *ReportDescription;
       void __fastcall BackButtonClick(TObject *Sender);
       void __fastcall OkButtonClick(TObject *Sender);
    private:
@@ -55,7 +57,6 @@ class TYPNitrogenReportForm: public TIWAppForm
       std::string userName;
       std::string paddockName;
       std::string emailAddress;
-      std::string reportDescription;
 
       //---------------------------------------------------------------------------
       // Save the fertiliser grid
@@ -79,8 +80,7 @@ class TYPNitrogenReportForm: public TIWAppForm
                  Data* data,
                  const std::string& userName,
                  const std::string& paddockName,
-                 const std::string& emailAddress,
-                 const string& reportDescription);
+                 const std::string& emailAddress);
    };
 //---------------------------------------------------------------------------
 #endif

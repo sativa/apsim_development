@@ -42,15 +42,13 @@ void TYPNitrogenReportForm::setup(TYPWebSession* session,
                                   Data* d,
                                   const string& userN,
                                   const string& paddockN,
-                                  const string& emailaddress,
-                                  const string& reportDesc)
+                                  const string& emailaddress)
    {
    webSession = session;
    data = d;
    userName = userN;
    paddockName = paddockN;
    emailAddress = emailaddress;
-   reportDescription = reportDesc;
    }
 //---------------------------------------------------------------------------
 // User has clicked back - call callback
@@ -73,7 +71,7 @@ void __fastcall TYPNitrogenReportForm::OkButtonClick(TObject *Sender)
 
          generateReport(emailAddress, webSession, data, userName, paddockName,
                         "Nitrogen comparison report", properties, false, true,
-                        reportDescription);
+                        ReportDescription->Text.c_str());
          webSession->show(this);
          }
       catch (const exception& err)
@@ -127,6 +125,8 @@ void TYPNitrogenReportForm::saveFertGrid(Data::Properties& properties)
 //---------------------------------------------------------------------------
 bool TYPNitrogenReportForm::allOk()
    {
+   if (ReportDescription->Text == "")
+      webSession->showMessage("You must enter a report description in the top edit box");
    if (Scenario1Edit->Text == "")
       webSession->showMessage("You must enter a description for scenario1");
    else if (scenarioHasData(2) && Scenario2Edit->Text == "")

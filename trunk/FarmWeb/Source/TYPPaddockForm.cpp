@@ -206,8 +206,13 @@ void __fastcall TYPPaddockForm::EmailFilesButtonClick(TObject *Sender)
    {
    SaveButtonClick(NULL);
    if (checkForMissingData())
-      webSession->showInfoForm("Enter a descriptive name for the report:",
-                               "Enter the your email address:", "", "", createReportCallback);
+      {
+      if (ReportCombo->Text == "Nitrogen comparison report")
+         webSession->showInfoForm("Enter your email address:", "", "", "", emailFilesCallback);
+      else
+         webSession->showInfoForm("Enter a descriptive name for the report:",
+                                  "Enter your email address:", "", "", createReportCallback);
+      }
    }
 //---------------------------------------------------------------------------
 // User has requested a report.
@@ -216,7 +221,12 @@ void __fastcall TYPPaddockForm::CreateReportButtonClick(TObject *Sender)
    {
    SaveButtonClick(NULL);
    if (checkForMissingData())
-      webSession->showInfoForm("Enter a descriptive name for the report:", "", "", "", createReportCallback);
+      {
+      if (ReportCombo->Text == "Nitrogen comparison report")
+         generateReportFilesAndEmail("", "");
+      else
+         webSession->showInfoForm("Enter a descriptive name for the report:", "", "", "", createReportCallback);
+      }
    }
 //---------------------------------------------------------------------------
 // User has finished entering an email address - send files.
@@ -232,6 +242,24 @@ void __fastcall TYPPaddockForm::createReportCallback(bool okClicked,
       webSession->show(this);
       string emailAddress = text2.c_str();
       generateReportFilesAndEmail(text1.c_str(), emailAddress);
+      }
+   else
+      webSession->show(this);
+   }
+//---------------------------------------------------------------------------
+// User has finished entering an email address - send files.
+//---------------------------------------------------------------------------
+void __fastcall TYPPaddockForm::emailFilesCallback(bool okClicked,
+                                                   AnsiString text1,
+                                                   AnsiString text2,
+                                                   AnsiString text3,
+                                                   AnsiString text4)
+   {
+   if (okClicked && text1 != "")
+      {
+      webSession->show(this);
+      string emailAddress = text1.c_str();
+      generateReportFilesAndEmail("", emailAddress);
       }
    else
       webSession->show(this);
@@ -261,7 +289,7 @@ void TYPPaddockForm::generateReportFilesAndEmail(const std::string& reportName,
                                                  const std::string& emailAddress)
    {
    if (ReportCombo->Text == "Nitrogen comparison report")
-      webSession->showNitrogenReportForm(userName, paddockName, emailAddress, reportName);
+      webSession->showNitrogenReportForm(userName, paddockName, emailAddress);
    else if (ReportCombo->Text != "")
       {
       Data::Properties properties;
@@ -320,4 +348,13 @@ bool TYPPaddockForm::checkForMissingData()
       }
    return ok;
    }
+//---------------------------------------------------------------------------
+// User has clicked on help file link.
+//---------------------------------------------------------------------------
+void __fastcall TYPPaddockForm::HelpFileLinkClick(TObject *Sender)
+   {
+   string helpScriptURL = "http://www.yieldprophet.com.au/yieldprophet/help/nitrogen fertiliser report.htm";
+   webSession->newWindow(helpScriptURL.c_str(), "Help", true);
+   }
+//---------------------------------------------------------------------------
 

@@ -247,7 +247,7 @@ object YPPaddockForm: TYPPaddockForm
   end
   object IWLabel7: TIWLabel
     Left = 584
-    Top = 144
+    Top = 224
     Width = 324
     Height = 19
     Cursor = crAuto
@@ -270,7 +270,7 @@ object YPPaddockForm: TYPPaddockForm
   object IWLabel6: TIWLabel
     Left = 146
     Top = 184
-    Width = 242
+    Width = 294
     Height = 19
     Cursor = crAuto
     IW50Hint = False
@@ -286,7 +286,7 @@ object YPPaddockForm: TYPPaddockForm
     Font.Style = []
     NoWrap = False
     FriendlyName = 'IWLabel1'
-    Caption = 'Nitrogen fertiliser applications:'
+    Caption = 'Actual nitrogen fertiliser applications:'
     RawText = False
   end
   object PlantingDateCheck: TIWCheckBox
@@ -336,7 +336,7 @@ object YPPaddockForm: TYPPaddockForm
   end
   object IWLabel2: TIWLabel
     Left = 606
-    Top = 168
+    Top = 248
     Width = 265
     Height = 19
     Cursor = crAuto
@@ -823,7 +823,7 @@ object YPPaddockForm: TYPPaddockForm
   end
   object IWLabel1: TIWLabel
     Left = 606
-    Top = 192
+    Top = 272
     Width = 259
     Height = 19
     Cursor = crAuto
@@ -1177,7 +1177,7 @@ object YPPaddockForm: TYPPaddockForm
   object IWLabel8: TIWLabel
     Left = 606
     Top = 120
-    Width = 81
+    Width = 270
     Height = 19
     Cursor = crAuto
     IW50Hint = False
@@ -1193,7 +1193,75 @@ object YPPaddockForm: TYPPaddockForm
     Font.Style = [fsBold]
     NoWrap = False
     FriendlyName = 'IWLabel1'
-    Caption = 'scenarios.'
+    Caption = 'scenarios. This is especially useful'
+    RawText = False
+  end
+  object HelpFileLink: TIWLink
+    Left = 608
+    Top = 168
+    Width = 289
+    Height = 17
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Caption = 'Please read the help file'
+    Color = clNone
+    Font.Color = clWebCRIMSON
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = [fsBold, fsUnderline]
+    ScriptEvents = <>
+    DoSubmitValidation = False
+    FriendlyName = 'HelpFileLink'
+    OnClick = HelpFileLinkClick
+    TabOrder = 31
+    RawText = False
+  end
+  object IWLabel10: TIWLabel
+    Left = 606
+    Top = 144
+    Width = 281
+    Height = 19
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Alignment = taRightJustify
+    BGColor = clNone
+    Font.Color = clWebCRIMSON
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = [fsBold]
+    NoWrap = False
+    FriendlyName = 'IWLabel1'
+    Caption = 'for comparing top dressing N rates.'
+    RawText = False
+  end
+  object IWLabel12: TIWLabel
+    Left = 608
+    Top = 192
+    Width = 291
+    Height = 19
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Alignment = taRightJustify
+    BGColor = clNone
+    Font.Color = clWebCRIMSON
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = [fsBold]
+    NoWrap = False
+    FriendlyName = 'IWLabel1'
+    Caption = 'on how to do a N comparison report.'
     RawText = False
   end
 end
