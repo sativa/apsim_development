@@ -1278,7 +1278,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
       integer regID
 
 !- Implementation Section ----------------------------------
-
       call split_line (Action_string, Module_name, Data_string, Blank)
       Data_string = adjustl(Data_string)
       call split_line (Data_string, Action, Data_string, Blank)
@@ -1289,9 +1288,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
       if (Action .eq. 'set') then
          if (index(Data_string, '=') .eq. 0) then
             write (msg, '(50a)' )
-     .         'Your manager file has a set command that does not have',
+     .         'Your manager file has a set command that does not',
      .         new_line,
-     .         'have a equals sign in it.  Please correct problem.'
+     .         ' have a equals sign in it.  Please correct problem.'
             call Fatal_error(ERR_user, msg)
          endif
       endif
@@ -1302,7 +1301,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       if (index(Action_string, 'do_output') .eq. 0 .and.
      .    index(Action_string, 'do_end_day_output') .eq. 0) then
-
          write (msg, '(6a)' )
      .      'Manager sending message :- ',
      .      Trim(Module_name),
@@ -1312,6 +1310,15 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .      Trim(Data_string)
 
          call Write_string(msg)
+
+         if (data_string <> ' ' .and.
+     :      index(Data_string, '=') .eq. 0) then
+            write (msg, '(50a)' )
+     .         'Your manager file has data in an action line that does',
+     .         new_line,
+     .         ' not have a equals sign in it.  Please correct problem.'
+            call Fatal_error(ERR_user, msg)
+         endif
       endif
 
       ! Add code to check for a keyword of QUEUE.
@@ -1364,51 +1371,60 @@ c      end subroutine
       integer posQuote
       newString = ' '
 
-      ! string will look like:
-      !   cultivar = hartog, plants = 121.61, sowing_depth = 30 (mm)
-      ! We need to parse this looking for values that match a local
-      ! manager variable.  Make sure we honour double quotes ie don't
-      ! substitute local variable values.
-      call get_next_variable(st, key, value)
-      do while (key <> ' ')
-         call split_off_units (value, units)
-         value = No_leading_spaces(value)
-         if (value(1:1) <> '"' .and. value(1:1) <> '''') then
+      if (index(st, '=') <> 0) then
 
-            localIndex = find_string_in_array(value,
+         ! string will look like:
+         !   cultivar = hartog, plants = 121.61, sowing_depth = 30 (mm)
+         ! We need to parse this looking for values that match a local
+         ! manager variable.  Make sure we honour double quotes ie don't
+         ! substitute local variable values.
+         call get_next_variable(st, key, value)
+         do while (key <> ' ')
+            call split_off_units (value, units)
+            value = No_leading_spaces(value)
+            if (value(1:1) <> '"' .and. value(1:1) <> '''') then
+
+               localIndex = find_string_in_array(value,
      .                                        g%local_variable_names,
      .                                        g%num_local_variables)
-            if (localIndex > 0) then
-               value = g%local_variable_values(localIndex)
-            endif
-         else
-            value = value(2:)
-            posQuote = index(value, '"')
-            if (posQuote <= 0) then
-               posQuote = index(value, '''')
-            endif
-            if (posQuote <= 0) then
-               call Fatal_error(ERR_user,
-     .             'Missing closing quote on action line in manager.')
+               if (localIndex > 0) then
+                  value = g%local_variable_values(localIndex)
+               endif
             else
-               value(posQuote:) = ' '
+               value = value(2:)
+               posQuote = index(value, '"')
+               if (posQuote <= 0) then
+                  posQuote = index(value, '''')
+               endif
+               if (posQuote <= 0) then
+                  call Fatal_error(ERR_user,
+     .             'Missing closing quote on action line in manager.')
+               else
+                  value(posQuote:) = ' '
+               endif
             endif
-         endif
 
-         ! append all the bits for the current key to a new string.
-         if (newString <> ' ') then
-            call append_string(newString, ',')
-         endif
-         call append_string(newString, ' ' // key)
-         call append_string(newString, ' =')
-         call append_string(newString, ' ' // No_leading_spaces(value))
-         if (units <> '()') then
-            call append_string(newString, ' ' // units)
-         endif
+            ! append all the bits for the current key to a new string.
+            if (newString <> ' ') then
+               call append_string(newString, ',')
+            endif
+            call append_string(newString, ' ' // key)
+            if (value <> ' ') then
+               call append_string(newString, ' =')
+               call append_string(newString, ' '
+     :                        // No_leading_spaces(value))
+            else
+            endif
+            if (units <> '()') then
+               call append_string(newString, ' ' // units)
+            endif
 
-      call get_next_variable(st, key, value)
-      end do
-      st = newString
+         call get_next_variable(st, key, value)
+         end do
+         st = newString
+      else
+         ! no change
+      endif
 
       return
       end subroutine
