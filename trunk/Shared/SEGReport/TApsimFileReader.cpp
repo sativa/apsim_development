@@ -48,7 +48,7 @@ void __fastcall TApsimFileReader::setFileNames(TStrings* apsimFiles)
    {
    files->Assign(apsimFiles);
    absoluteToRelativeFiles();
-   refresh();
+   forceRefresh();
    }
 //---------------------------------------------------------------------------
 // If we already have a report directory then the current paths will be
