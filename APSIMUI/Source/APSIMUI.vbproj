@@ -243,16 +243,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "BrowserUI.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "BrowserUI.resx"
-                    DependentUpon = "BrowserUI.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "CropUI.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
