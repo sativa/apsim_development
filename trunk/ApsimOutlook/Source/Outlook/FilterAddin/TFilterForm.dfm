@@ -144,7 +144,7 @@ object FilterForm: TFilterForm
         Width = 524
         Height = 21
         Style = csDropDownList
-        ItemHeight = 13
+        ItemHeight = 0
         TabOrder = 1
         OnChange = FilterCombo2Change
       end
@@ -199,7 +199,7 @@ object FilterForm: TFilterForm
         Width = 524
         Height = 21
         Style = csDropDownList
-        ItemHeight = 13
+        ItemHeight = 0
         TabOrder = 1
         OnChange = FilterCombo3Change
       end
@@ -254,7 +254,7 @@ object FilterForm: TFilterForm
         Width = 524
         Height = 21
         Style = csDropDownList
-        ItemHeight = 13
+        ItemHeight = 0
         TabOrder = 1
         OnChange = FilterCombo4Change
       end
@@ -268,7 +268,7 @@ object FilterForm: TFilterForm
         Width = 524
         Height = 21
         Style = csDropDownList
-        ItemHeight = 13
+        ItemHeight = 0
         TabOrder = 0
         OnChange = FilterCombo5Change
       end
