@@ -8655,21 +8655,24 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
     protocol::removeCropDmType dmRemoved;
     v.unpack(dmRemoved);
 
-    ostrstream msg;
-    msg << "Remove Crop Biomass:-" << endl;
-    float dmTotal = 0.0;
-
-    for (unsigned int pool=0; pool < dmRemoved.dm.size(); pool++)
+    if (c.remove_biomass_report == "on")
     {
-       for (unsigned int part = 0; part < dmRemoved.dm[pool].part.size(); part++)
-       {
-          msg << "   dm " << dmRemoved.dm[pool].pool << " " << dmRemoved.dm[pool].part[part] << " = " << dmRemoved.dm[pool].dlt[part] << " (g/m2)" << endl;
-          dmTotal +=  dmRemoved.dm[pool].dlt[part];
-       }
-    }
-    msg << endl << "   dm total = " << dmTotal << " (kg/ha)" << endl << ends;
+       ostrstream msg;
+       msg << "Remove Crop Biomass:-" << endl;
+       float dmTotal = 0.0;
 
-    parent->writeString (msg.str());
+       for (unsigned int pool=0; pool < dmRemoved.dm.size(); pool++)
+       {
+          for (unsigned int part = 0; part < dmRemoved.dm[pool].part.size(); part++)
+          {
+             msg << "   dm " << dmRemoved.dm[pool].pool << " " << dmRemoved.dm[pool].part[part] << " = " << dmRemoved.dm[pool].dlt[part] << " (g/m2)" << endl;
+             dmTotal +=  dmRemoved.dm[pool].dlt[part];
+          }
+       }
+       msg << endl << "   dm total = " << dmTotal << " (kg/ha)" << endl << ends;
+
+       parent->writeString (msg.str());
+    }
 
     float dltDmGreen[max_part];
     float dltDmSenesced[max_part];
@@ -8708,46 +8711,48 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
           }
        }
     }
-    ostrstream msg1;
-    msg1 << "Remove Crop Biomass 2:-" << endl;
-    float dmTotal1 = 0.0;
+    if (c.remove_biomass_report == "on")
+    {
+       ostrstream msg1;
+       msg1 << "Remove Crop Biomass 2:-" << endl;
+       float dmTotal1 = 0.0;
 
-    msg1 << "   dm green leaf = " << dltDmGreen[leaf] << " (g/m2)" << endl;
-    msg1 << "   dm green stem = " << dltDmGreen[stem] << " (g/m2)" << endl;
-    dmTotal1 +=  dltDmGreen[leaf] + dltDmGreen[stem];
+       msg1 << "   dm green leaf = " << dltDmGreen[leaf] << " (g/m2)" << endl;
+       msg1 << "   dm green stem = " << dltDmGreen[stem] << " (g/m2)" << endl;
+       dmTotal1 +=  dltDmGreen[leaf] + dltDmGreen[stem];
 
-    msg1 << "   dm senesced leaf = " << dltDmSenesced[leaf] << " (g/m2)" << endl;
-    msg1 << "   dm senesced stem = " << dltDmSenesced[stem] << " (g/m2)" << endl;
-    dmTotal1 +=  dltDmSenesced[leaf] + dltDmSenesced[stem];
+       msg1 << "   dm senesced leaf = " << dltDmSenesced[leaf] << " (g/m2)" << endl;
+       msg1 << "   dm senesced stem = " << dltDmSenesced[stem] << " (g/m2)" << endl;
+       dmTotal1 +=  dltDmSenesced[leaf] + dltDmSenesced[stem];
 
-    msg1 << "   dm dead leaf = " << dltDmDead[leaf] << " (g/m2)" << endl;
-    msg1 << "   dm dead stem = " << dltDmDead[stem] << " (g/m2)" << endl;
-    dmTotal1 +=  dltDmDead[leaf] + dltDmDead[stem];
+       msg1 << "   dm dead leaf = " << dltDmDead[leaf] << " (g/m2)" << endl;
+       msg1 << "   dm dead stem = " << dltDmDead[stem] << " (g/m2)" << endl;
+       dmTotal1 +=  dltDmDead[leaf] + dltDmDead[stem];
 
-    msg1 << endl << "   dm total = " << dmTotal1 << " (g/m2)" << endl << ends;
+       msg1 << endl << "   dm total = " << dmTotal1 << " (g/m2)" << endl << ends;
 
-    parent->writeString (msg1.str());
+       parent->writeString (msg1.str());
 
-    ostrstream msg2;
-    msg2 << "Crop Biomass Available:-" << endl;
-    float dmTotal2 = 0.0;
+       ostrstream msg2;
+       msg2 << "Crop Biomass Available:-" << endl;
+       float dmTotal2 = 0.0;
 
-    msg2 << "   dm green leaf = " << g.dm_green[leaf] << " (g/m2)" << endl;
-    msg2 << "   dm green stem = " << g.dm_green[stem] << " (g/m2)" << endl;
-    dmTotal2 +=  g.dm_green[leaf] + g.dm_green[stem];
+       msg2 << "   dm green leaf = " << g.dm_green[leaf] << " (g/m2)" << endl;
+       msg2 << "   dm green stem = " << g.dm_green[stem] << " (g/m2)" << endl;
+       dmTotal2 +=  g.dm_green[leaf] + g.dm_green[stem];
 
-    msg2 << "   dm senesced leaf = " << g.dm_senesced[leaf] << " (g/m2)" << endl;
-    msg2 << "   dm senesced stem = " << g.dm_senesced[stem] << " (g/m2)" << endl;
-    dmTotal2 +=  g.dm_senesced[leaf] + g.dm_senesced[stem];
+       msg2 << "   dm senesced leaf = " << g.dm_senesced[leaf] << " (g/m2)" << endl;
+       msg2 << "   dm senesced stem = " << g.dm_senesced[stem] << " (g/m2)" << endl;
+       dmTotal2 +=  g.dm_senesced[leaf] + g.dm_senesced[stem];
 
-    msg2 << "   dm dead leaf = " << g.dm_dead[leaf] << " (g/m2)" << endl;
-    msg2 << "   dm dead stem = " << g.dm_dead[stem] << " (g/m2)" << endl;
-    dmTotal2 +=  g.dm_dead[leaf] + g.dm_dead[stem];
+       msg2 << "   dm dead leaf = " << g.dm_dead[leaf] << " (g/m2)" << endl;
+       msg2 << "   dm dead stem = " << g.dm_dead[stem] << " (g/m2)" << endl;
+       dmTotal2 +=  g.dm_dead[leaf] + g.dm_dead[stem];
 
-    msg2 << endl << "   dm total = " << dmTotal2 << " (g/m2)" << endl << ends;
+       msg2 << endl << "   dm total = " << dmTotal2 << " (g/m2)" << endl << ends;
 
-    parent->writeString (msg2.str());
-
+       parent->writeString (msg2.str());
+    }
 //    g.previous_stage = g.current_stage;
 //    stage_no_current = int (g.current_stage);
 //    g.current_stage = c.stage_stem_reduction_harvest[stage_no_current-1];
@@ -9007,26 +9012,29 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
 //    dm_tops_residue = dm_residue - dm_root_residue;
 //    n_tops_residue = n_residue - n_root_residue;
 //
-    parent->writeString ("\nCrop biomass removed.");
+    if (c.remove_biomass_report == "on")
+    {
+       parent->writeString ("\nCrop biomass removed.");
 
-    char  msgrmv[400];
+       char  msgrmv[400];
 
 
-    float dm_removed_tops = sum_real_array(dlt_dm_crop, max_part) - dlt_dm_crop[root];
-    float dm_removed_root = dlt_dm_crop[root];
+       float dm_removed_tops = sum_real_array(dlt_dm_crop, max_part) - dlt_dm_crop[root];
+       float dm_removed_root = dlt_dm_crop[root];
 
-    float n_removed_tops = sum_real_array(dlt_dm_n, max_part) - dlt_dm_n[root];
-    float n_removed_root = dlt_dm_n[root];
+       float n_removed_tops = sum_real_array(dlt_dm_n, max_part) - dlt_dm_n[root];
+       float n_removed_root = dlt_dm_n[root];
 
-    parent->writeString ("    Organic matter removed from system:-      From Tops               From Roots");
+       parent->writeString ("    Organic matter removed from system:-      From Tops               From Roots");
 
-    sprintf (msgrmv, "%48s%7.2f%24.2f", "DM (kg/ha) =               ", dm_removed_tops, dm_removed_root);
-    parent->writeString (msgrmv);
+       sprintf (msgrmv, "%48s%7.2f%24.2f", "DM (kg/ha) =               ", dm_removed_tops, dm_removed_root);
+       parent->writeString (msgrmv);
 
-    sprintf (msgrmv, "%48s%7.2f%24.2f", "N  (kg/ha) =               ", n_removed_tops, n_removed_root);
-    parent->writeString (msgrmv);
+       sprintf (msgrmv, "%48s%7.2f%24.2f", "N  (kg/ha) =               ", n_removed_tops, n_removed_root);
+       parent->writeString (msgrmv);
 
-    parent->writeString (" ");
+       parent->writeString (" ");
+    }
 //
 //    // put roots into root residue
 //
@@ -9400,6 +9408,7 @@ void Plant::plant_zero_all_globals (void)
 
       c.crop_type="";
       c.default_crop_class="";
+      c.remove_biomass_report = "off";
 
       ///////////c.part_names.empty(); in constructor!
       c.n_supply_preference="";
