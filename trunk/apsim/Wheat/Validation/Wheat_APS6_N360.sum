@@ -288,7 +288,7 @@
           ---------------------------------------------------------
 
 ------- Wheat Initialisation --------------------------------------------------
-      Initialising
+      initialising
 ------- Start of simulation  --------------------------------------------------
 15 June 1992(Day of year=167), operatns: 
       Sending apply message to fertiliz
@@ -300,80 +300,71 @@
 17 June 1992(Day of year=169), operatns: 
       Sending sow message to wheat
 17 June 1992(Day of year=169), Wheat: 
-     Sow
-     
-      - Reading constants for plant
-     
-        - Reading Cultivar Parameters
+     Crop Sow
+      - reading constants for plant(wheat)
+      - reading cultivar parameters
          ------------------------------------------------
-         Cultivar                   = gatton_hartog
-         est_days_emerg_to_init     =        0
-         cum_vernal_days            =
-         tt_emerg_to_endjuv         =
-         x_pp_endjuv_to_init        =
-         y_tt_endjuv_to_init        =
-         x_pp_init_to_flower        =
-         y_tt_init_to_flower        =
-         x_pp_flower_to_start_grain =
-         y_tt_flower_to_start_grain =
-         x_pp_start_to_end_grain    =
-         y_tt_start_to_end_grain    =
-         tt_end_grain_to_maturity   =      0.0
-         tt_maturity_to_ripe        =      0.0
-         x_pp_hi_incr               =     1.00   24.00
-         y_hi_incr                  =  0.01300 0.01300
-         x_hi_max_pot_stress        =     0.00    1.00
-         y_hi_max_pot               =     0.50    0.50
-         x_stem_wt                  =     0.00    6.00
-         y_height                   =     0.00 1500.00
+        cultivar                   = gatton_hartog
+        est_days_emerg_to_init     =        0
+        cum_vernal_days            =
+        tt_emerg_to_endjuv         =
+        x_pp_endjuv_to_init        =
+        y_tt_endjuv_to_init        =
+        x_pp_init_to_flower        =
+        y_tt_init_to_flower        =
+        x_pp_flower_to_start_grain =
+        y_tt_flower_to_start_grain =
+        x_pp_start_to_end_grain    =
+        y_tt_start_to_end_grain    =
+        tt_end_grain_to_maturity   =       0.00
+        tt_maturity_to_ripe        =       0.00
+        x_pp_hi_incr               =       1.00      24.00
+        y_hi_incr                  =     0.0130     0.0130
+        x_hi_max_pot_stress        =       0.00       1.00
+        y_hi_max_pot               =       0.50       0.50
+        x_stem_wt                  =       0.00       6.00
+        y_height                   =       0.00    1500.00
          ------------------------------------------------
      
      
-     
-     
-        - Reading root profile parameters
-     
-     
-                         Root Profile
+        - reading root profile parameters
+                        Root Profile
      ---------------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
      ---------------------------------------------------
-          150.0     0.060          0.200       1.000
-          150.0     0.060          0.200       1.000
-          300.0     0.060          0.220       1.000
-          300.0     0.060          0.180       1.000
-          300.0     0.060          0.140       1.000
-          300.0     0.060          0.250       1.000
-          300.0     0.060          0.280       1.000
+         150.0     0.060          0.200       1.000
+         150.0     0.060          0.200       1.000
+         300.0     0.060          0.220       1.000
+         300.0     0.060          0.180       1.000
+         300.0     0.060          0.140       1.000
+         300.0     0.060          0.250       1.000
+         300.0     0.060          0.280       1.000
      ---------------------------------------------------
      
-     
-       Crop factor for bounding water use is set to   1.1 times Eo
-     
+     (Crop factor for bounding water use is set to   1.1 times eo)
      
                       Crop Sowing Data
          ------------------------------------------------
          Sowing  Depth Plants Spacing Skip  Skip  Cultivar
-         Day no   mm     m^2     mm   Row   Plant Name
+         Day no   mm     m^2     mm   row   plant name
          ------------------------------------------------
-            169   30.0  121.6  250.0   0.0   0.0  gatton_hartog
+            169   30.0  121.6  250.0   0.0   0.0 gatton_hartog
          ------------------------------------------------
-     
      
 18 June 1992(Day of year=170), Wheat: 
-      stage    2.0 germination
+      stage 2.0 germination
 24 June 1992(Day of year=176), operatns: 
       Sending apply message to irrigate
 24 June 1992(Day of year=176), Wheat: 
-      stage    3.0 emergence
-                          biomass =          0.5594060       lai =    0.2432200E-01
-                          stover N conc =    5.847826       extractable sw =    21.30427
+      stage 3.0 emergence
+                     biomass =           0.56 (g/m^2)   lai          =   0.024 (m^2/m^2)
+                     stover N conc =     5.85 (%)     extractable sw =   21.30 (mm)
 25 June 1992(Day of year=177), Wheat: 
-      stage    4.0 end_of_juvenile
-                          biomass =          0.7771862       lai =    0.2784686E-01
-                          stover N conc =    5.828821       extractable sw =    19.42119
+      stage 4.0 end_of_juvenile
+                     biomass =           0.78 (g/m^2)   lai          =   0.028 (m^2/m^2)
+                     stover N conc =     5.83 (%)     extractable sw =   19.42 (mm)
 26 June 1992(Day of year=178), operatns: 
       Sending apply message to irrigate
 28 July 1992(Day of year=210), operatns: 
@@ -390,9 +381,9 @@
 19 August 1992(Day of year=232), operatns: 
       Sending apply message to irrigate
 22 August 1992(Day of year=235), Wheat: 
-      stage    5.0 floral_initiation
-                          biomass =           532.1598       lai =     6.947714
-                          stover N conc =    3.154140       extractable sw =    195.6130
+      stage 5.0 floral_initiation
+                     biomass =         532.16 (g/m^2)   lai          =   6.948 (m^2/m^2)
+                     stover N conc =     3.15 (%)     extractable sw =  195.61 (mm)
 26 August 1992(Day of year=239), operatns: 
       Sending apply message to irrigate
 7 September 1992(Day of year=251), operatns: 
@@ -407,30 +398,28 @@
 21 September 1992(Day of year=265), operatns: 
       Sending apply message to irrigate
 26 September 1992(Day of year=270), Wheat: 
-      stage    6.0 flowering
-                          biomass =           1338.683       lai =     5.770234
-                          stover N conc =    1.621433       extractable sw =    249.1586
+      stage 6.0 flowering
+                     biomass =        1338.68 (g/m^2)   lai          =   5.770 (m^2/m^2)
+                     stover N conc =     1.62 (%)     extractable sw =  249.16 (mm)
 1 October 1992(Day of year=275), operatns: 
       Sending apply message to irrigate
 2 October 1992(Day of year=276), Wheat: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.3473974
-             less than lower limit of   0.5020040
+     dlt_n_green mass balance is off: 0.347398 vs 0.502004
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-      stage    7.0 start_grain_fill
-                          biomass =           1490.891       lai =     5.093130
-                          stover N conc =    1.479518       extractable sw =    272.7643
+      stage 7.0 start_grain_fill
+                     biomass =        1490.89 (g/m^2)   lai          =   5.093 (m^2/m^2)
+                     stover N conc =     1.48 (%)     extractable sw =  272.76 (mm)
 3 October 1992(Day of year=277), Wheat: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.3842887
-             less than lower limit of   0.5553142
+     dlt_n_green mass balance is off: 0.384290 vs 0.555314
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -439,8 +428,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.4375778
-             less than lower limit of   0.5999940
+     dlt_n_green mass balance is off: 0.437578 vs 0.599994
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -449,8 +437,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.4406517
-             less than lower limit of   0.5860920
+     dlt_n_green mass balance is off: 0.440652 vs 0.586092
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -459,8 +446,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.3914632
-             less than lower limit of   0.4744146
+     dlt_n_green mass balance is off: 0.391463 vs 0.474414
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -471,8 +457,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.3894137
-             less than lower limit of   0.4119505
+     dlt_n_green mass balance is off: 0.389413 vs 0.411951
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -484,16 +469,16 @@
 13 October 1992(Day of year=287), operatns: 
       Sending apply message to irrigate
 30 October 1992(Day of year=304), Wheat: 
-      stage    8.0 end_grain_fill
-                          biomass =           2068.945       lai =    0.8712382
-                          stover N conc =   0.9759436       extractable sw =    227.8788
+      stage 8.0 end_grain_fill
+                     biomass =        2068.95 (g/m^2)   lai          =   0.871 (m^2/m^2)
+                     stover N conc =     0.98 (%)     extractable sw =  227.88 (mm)
 1 November 1992(Day of year=306), Wheat: 
-      stage    9.0 maturity
-                          biomass =           2069.591       lai =    0.7086711
-                          stover N conc =   0.9790968       extractable sw =    221.5263
+      stage 9.0 maturity
+                     biomass =        2069.59 (g/m^2)   lai          =   0.709 (m^2/m^2)
+                     stover N conc =     0.98 (%)     extractable sw =  221.53 (mm)
 2 November 1992(Day of year=307), Wheat: 
-      stage   10.0 harvest_ripe
-                          biomass =           2069.591       lai =    0.6080270E-03
-                          stover N conc =   0.9968203       extractable sw =    220.6684
+      stage 10.0 harvest_ripe
+                     biomass =        2069.59 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     stover N conc =     1.00 (%)     extractable sw =  220.67 (mm)
 17 November 1992(Day of year=322), clock: 
      Simulation is terminating due to end criteria being met.

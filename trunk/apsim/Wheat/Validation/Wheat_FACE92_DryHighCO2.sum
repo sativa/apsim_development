@@ -325,7 +325,7 @@
           ---------------------------------------------------------
 
 ------- Wheat Initialisation --------------------------------------------------
-      Initialising
+      initialising
 ------- Start of simulation  --------------------------------------------------
 16 December 1992(Day of year=351), operatns: 
       Sending apply message to fertiliz
@@ -344,85 +344,76 @@
 18 December 1992(Day of year=353), operatns: 
       Sending sow message to wheat
 18 December 1992(Day of year=353), Wheat: 
-     Sow
-     
-      - Reading constants for plant
-     
-        - Reading Cultivar Parameters
+     Crop Sow
+      - reading constants for plant(wheat)
+      - reading cultivar parameters
          ------------------------------------------------
-         Cultivar                   = yecora
-         est_days_emerg_to_init     =        0
-         cum_vernal_days            =
-         tt_emerg_to_endjuv         =
-         x_pp_endjuv_to_init        =
-         y_tt_endjuv_to_init        =
-         x_pp_init_to_flower        =
-         y_tt_init_to_flower        =
-         x_pp_flower_to_start_grain =
-         y_tt_flower_to_start_grain =
-         x_pp_start_to_end_grain    =
-         y_tt_start_to_end_grain    =
-         tt_end_grain_to_maturity   =      0.0
-         tt_maturity_to_ripe        =      0.0
-         x_pp_hi_incr               =     1.00   24.00
-         y_hi_incr                  =  0.01300 0.01300
-         x_hi_max_pot_stress        =     0.00    1.00
-         y_hi_max_pot               =     0.50    0.50
-         x_stem_wt                  =     0.00    6.00
-         y_height                   =     0.00 1500.00
+        cultivar                   = yecora
+        est_days_emerg_to_init     =        0
+        cum_vernal_days            =
+        tt_emerg_to_endjuv         =
+        x_pp_endjuv_to_init        =
+        y_tt_endjuv_to_init        =
+        x_pp_init_to_flower        =
+        y_tt_init_to_flower        =
+        x_pp_flower_to_start_grain =
+        y_tt_flower_to_start_grain =
+        x_pp_start_to_end_grain    =
+        y_tt_start_to_end_grain    =
+        tt_end_grain_to_maturity   =       0.00
+        tt_maturity_to_ripe        =       0.00
+        x_pp_hi_incr               =       1.00      24.00
+        y_hi_incr                  =     0.0130     0.0130
+        x_hi_max_pot_stress        =       0.00       1.00
+        y_hi_max_pot               =       0.50       0.50
+        x_stem_wt                  =       0.00       6.00
+        y_height                   =       0.00    1500.00
          ------------------------------------------------
      
      
-     
-     
-        - Reading root profile parameters
-     
-     
-                         Root Profile
+        - reading root profile parameters
+                        Root Profile
      ---------------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
      ---------------------------------------------------
-           50.0     0.060          0.200       1.000
-          100.0     0.060          0.200       1.000
-          150.0     0.060          0.200       1.000
-          200.0     0.060          0.200       0.800
-          100.0     0.060          0.200       0.800
-          100.0     0.060          0.200       0.800
-          200.0     0.060          0.190       0.600
-          200.0     0.060          0.160       0.600
-          100.0     0.060          0.160       0.400
-          100.0     0.060          0.160       0.200
-          200.0     0.060          0.140       0.200
-          200.0     0.060          0.140       0.200
-          200.0     0.060          0.130       0.200
-          200.0     0.060          0.130       0.200
+          50.0     0.060          0.200       1.000
+         100.0     0.060          0.200       1.000
+         150.0     0.060          0.200       1.000
+         200.0     0.060          0.200       0.800
+         100.0     0.060          0.200       0.800
+         100.0     0.060          0.200       0.800
+         200.0     0.060          0.190       0.600
+         200.0     0.060          0.160       0.600
+         100.0     0.060          0.160       0.400
+         100.0     0.060          0.160       0.200
+         200.0     0.060          0.140       0.200
+         200.0     0.060          0.140       0.200
+         200.0     0.060          0.130       0.200
+         200.0     0.060          0.130       0.200
      ---------------------------------------------------
      
-     
-       Crop factor for bounding water use is set to   1.1 times Eo
-     
+     (Crop factor for bounding water use is set to   1.1 times eo)
      
                       Crop Sowing Data
          ------------------------------------------------
          Sowing  Depth Plants Spacing Skip  Skip  Cultivar
-         Day no   mm     m^2     mm   Row   Plant Name
+         Day no   mm     m^2     mm   row   plant name
          ------------------------------------------------
-            353   40.0  140.0  250.0   0.0   0.0  yecora
+            353   40.0  140.0  250.0   0.0   0.0 yecora
          ------------------------------------------------
-     
      
 19 December 1992(Day of year=354), Wheat: 
-      stage    2.0 germination
+      stage 2.0 germination
 29 December 1992(Day of year=364), Wheat: 
-      stage    3.0 emergence
-                          biomass =          0.6439999       lai =    0.2800000E-01
-                          stover N conc =    5.847826       extractable sw =    17.38999
+      stage 3.0 emergence
+                     biomass =           0.64 (g/m^2)   lai          =   0.028 (m^2/m^2)
+                     stover N conc =     5.85 (%)     extractable sw =   17.39 (mm)
 30 December 1992(Day of year=365), Wheat: 
-      stage    4.0 end_of_juvenile
-                          biomass =          0.7715690       lai =    0.3006447E-01
-                          stover N conc =    5.836611       extractable sw =    16.37046
+      stage 4.0 end_of_juvenile
+                     biomass =           0.77 (g/m^2)   lai          =   0.030 (m^2/m^2)
+                     stover N conc =     5.84 (%)     extractable sw =   16.37 (mm)
 30 January 1993(Day of year=30), operatns: 
       Sending apply message to fertiliz
 30 January 1993(Day of year=30), fertiliz: 
@@ -449,9 +440,9 @@
         92.00 of n as nitrate (no3_n)
                                               added at depth   10.00 (layer   1)
 5 March 1993(Day of year=64), Wheat: 
-      stage    5.0 floral_initiation
-                          biomass =           395.4837       lai =     5.227920
-                          stover N conc =    3.312100       extractable sw =    58.69110
+      stage 5.0 floral_initiation
+                     biomass =         395.48 (g/m^2)   lai          =   5.228 (m^2/m^2)
+                     stover N conc =     3.31 (%)     extractable sw =   58.69 (mm)
 18 March 1993(Day of year=77), operatns: 
       Sending apply message to fertiliz
 18 March 1993(Day of year=77), fertiliz: 
@@ -482,32 +473,30 @@
 6 April 1993(Day of year=96), operatns: 
       Sending apply message to irrigate
 9 April 1993(Day of year=99), Wheat: 
-      stage    6.0 flowering
-                          biomass =           782.3588       lai =     2.136188
-                          stover N conc =    1.891977       extractable sw =    51.07158
+      stage 6.0 flowering
+                     biomass =         782.36 (g/m^2)   lai          =   2.136 (m^2/m^2)
+                     stover N conc =     1.89 (%)     extractable sw =   51.07 (mm)
 12 April 1993(Day of year=102), operatns: 
       Sending apply message to irrigate
 16 April 1993(Day of year=106), Wheat: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.1094852
-             less than lower limit of   0.2615831
+     dlt_n_green mass balance is off: 0.109485 vs 0.261583
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-      stage    7.0 start_grain_fill
-                          biomass =           857.5323       lai =     1.877266
-                          stover N conc =    1.720045       extractable sw =    43.48305
+      stage 7.0 start_grain_fill
+                     biomass =         857.53 (g/m^2)   lai          =   1.877 (m^2/m^2)
+                     stover N conc =     1.72 (%)     extractable sw =   43.48 (mm)
 17 April 1993(Day of year=107), operatns: 
       Sending apply message to irrigate
 17 April 1993(Day of year=107), Wheat: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.1939401
-             less than lower limit of   0.2662901
+     dlt_n_green mass balance is off: 0.193940 vs 0.266290
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -518,8 +507,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.1979375
-             less than lower limit of   0.2669626
+     dlt_n_green mass balance is off: 0.197938 vs 0.266963
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -528,8 +516,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.1463437
-             less than lower limit of   0.2461166
+     dlt_n_green mass balance is off: 0.146344 vs 0.246117
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -538,8 +525,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.1316143
-             less than lower limit of   0.2481341
+     dlt_n_green mass balance is off: 0.131614 vs 0.248134
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -550,8 +536,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.2521613
-             less than lower limit of   0.2810841
+     dlt_n_green mass balance is off: 0.252161 vs 0.281084
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -560,8 +545,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.2124386
-             less than lower limit of   0.2878086
+     dlt_n_green mass balance is off: 0.212439 vs 0.287809
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -570,8 +554,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.2180513
-             less than lower limit of   0.2636004
+     dlt_n_green mass balance is off: 0.218051 vs 0.263600
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -580,8 +563,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.1325388
-             less than lower limit of   0.2467892
+     dlt_n_green mass balance is off: 0.132539 vs 0.246789
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -590,8 +572,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.1524353
-             less than lower limit of   0.2689800
+     dlt_n_green mass balance is off: 0.152435 vs 0.268980
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -604,8 +585,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.2981243
-             less than lower limit of   0.3079821
+     dlt_n_green mass balance is off: 0.298124 vs 0.307982
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -614,8 +594,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.2916650
-             less than lower limit of   0.3066372
+     dlt_n_green mass balance is off: 0.291665 vs 0.306637
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -624,8 +603,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.2332213
-             less than lower limit of   0.3019301
+     dlt_n_green mass balance is off: 0.233221 vs 0.301930
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -636,8 +614,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.2826095
-             less than lower limit of   0.2884810
+     dlt_n_green mass balance is off: 0.282609 vs 0.288481
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -646,8 +623,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.2501667
-             less than lower limit of   0.2790667
+     dlt_n_green mass balance is off: 0.250167 vs 0.279067
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -656,8 +632,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.2670620
-             less than lower limit of   0.3194138
+     dlt_n_green mass balance is off: 0.267062 vs 0.319414
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -666,8 +641,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.1313612
-             less than lower limit of   0.3093270
+     dlt_n_green mass balance is off: 0.131359 vs 0.309327
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -678,8 +652,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =     0.000000
-             less than lower limit of   0.2548586
+     dlt_n_green mass balance is off: 0.000000 vs 0.254859
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -688,8 +661,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =     0.000000
-             less than lower limit of   0.2844464
+     dlt_n_green mass balance is off: 0.000000 vs 0.284446
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -698,8 +670,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =     0.000000
-             less than lower limit of   0.2999127
+     dlt_n_green mass balance is off: 0.000000 vs 0.299913
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -708,8 +679,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =     0.000000
-             less than lower limit of   0.2878087
+     dlt_n_green mass balance is off: 0.000000 vs 0.287809
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -720,8 +690,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =     0.000000
-             less than lower limit of   0.3093270
+     dlt_n_green mass balance is off: 0.000000 vs 0.309327
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -732,25 +701,24 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =     0.000000
-             less than lower limit of   0.3362250
+     dlt_n_green mass balance is off: 0.000000 vs 0.336225
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
 12 May 1993(Day of year=132), Wheat: 
-      stage    8.0 end_grain_fill
-                          biomass =           1105.430       lai =    0.4623176
-                          stover N conc =    1.777329       extractable sw =    68.26750
+      stage 8.0 end_grain_fill
+                     biomass =        1105.43 (g/m^2)   lai          =   0.462 (m^2/m^2)
+                     stover N conc =     1.78 (%)     extractable sw =   68.27 (mm)
 13 May 1993(Day of year=133), Wheat: 
-      stage    9.0 maturity
-                          biomass =           1105.430       lai =    0.3475519
-                          stover N conc =    1.790570       extractable sw =    64.98058
+      stage 9.0 maturity
+                     biomass =        1105.43 (g/m^2)   lai          =   0.348 (m^2/m^2)
+                     stover N conc =     1.79 (%)     extractable sw =   64.98 (mm)
 14 May 1993(Day of year=134), operatns: 
       Sending apply message to irrigate
 14 May 1993(Day of year=134), Wheat: 
-      stage   10.0 harvest_ripe
-                          biomass =           1105.430       lai =    0.6999969E-03
-                          stover N conc =    1.832308       extractable sw =    81.64897
+      stage 10.0 harvest_ripe
+                     biomass =        1105.43 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     stover N conc =     1.83 (%)     extractable sw =   81.65 (mm)
 30 May 1993(Day of year=150), clock: 
      Simulation is terminating due to end criteria being met.
