@@ -220,7 +220,7 @@ void PlantPhenology::initialise (PlantComponent *s, const string &section)
            phase++)
          {
          pPhase *p = find(phases.begin(), phases.end(), *phase);
-         if (p != phases.end()) 
+         if (p != phases.end())
            composite.add(*p);
          else
            throw std::invalid_argument("Unknown phase name '" + (*phase) + "'");
@@ -274,7 +274,7 @@ void PlantPhenology::prepare(const environment_t &sw)
 
 void PlantPhenology::update(void)
    {
-   phases[currentStage].update();
+   phases[(int)currentStage].update();
    }
 
 //bool PlantPhenology::stage_is_between(const pStage &a, const pStage &b)
@@ -291,9 +291,10 @@ void PlantPhenology::update(void)
 bool PlantPhenology::on_day_of(const string &stageName)
    {
    const pPhase *trial = getStage(stageName);
-   const pPhase current = phases[currentStage];
-   return (current == *trial &&
-           trial->isFirstDay());
+   const pPhase &current = phases[(int)currentStage];
+   if (current == *trial)
+      return (trial->isFirstDay());
+   return false;
    }
 
 // Are we currently in a certain phase?
@@ -301,13 +302,13 @@ bool PlantPhenology::inPhase(const string &phase_name)
    {
    // See if it's a composite
    compositePhase phase = composites[phase_name];
-   if (!phase.isEmpty()) 
+   if (!phase.isEmpty())
    	 return phase.contains(phases[(int)currentStage]);
 
    // No, see if the stage is known at all to us
    pPhase *test = find(phases.begin(), phases.end(), pPhase(phase_name));
    if (test == phases.end()) { throw std::runtime_error("unknown phase name " + phase_name);}
-   const pPhase current = phases[(int)currentStage];
+   const pPhase &current = phases[(int)currentStage];
    return(current == *test);
    }
 
@@ -342,13 +343,13 @@ pPhase *PlantPhenology::getStage(const string &name)
 
 int PlantPhenology::daysInCurrentStage(void)
    {
-	pPhase current = phases[currentStage];
+	const pPhase &current = phases[currentStage];
 	return current.getDays();
    }
 
 float PlantPhenology::ttInCurrentStage(void)
    {
-	pPhase current = phases[currentStage];
+	const pPhase &current = phases[currentStage];
 	return current.getTT();
    }
 int PlantPhenology::daysInStage(const pPhase &stage)
@@ -371,7 +372,7 @@ string PlantPhenology::stageName(void)
    }
 string PlantPhenology::stageName(int n)
    {
- 	return phases[n].name();
+   return phases[n].name();
    }
 string PlantPhenology::previousStageName(void)
    {
@@ -384,7 +385,7 @@ string PlantPhenology::previousStageName(void)
 //       phenological phase (0-1)
 float PlantPhenology::phase_fraction(float dlt_tt) //(INPUT)  daily thermal time (growing degree days)
    {
-   pPhase current = phases[(int) currentStage];
+   const pPhase &current = phases[(int) currentStage];
 
    float dividend = current.getTT() + dlt_tt;
    float divisor = current.getTTTarget();
@@ -392,10 +393,10 @@ float PlantPhenology::phase_fraction(float dlt_tt) //(INPUT)  daily thermal time
    result = bound(result, 0.0, 1.0);
    return result;
    }
-void PlantPhenology::zeroStateVariables(void) 
+void PlantPhenology::zeroStateVariables(void)
    {
    previousStage = currentStage = dltStage = 0.0;
-   for(unsigned int i=0; i < phases.size(); i++) 
+   for(unsigned int i=0; i < phases.size(); i++)
       phases[i].reset();
    }
 
@@ -603,7 +604,7 @@ void WheatPhenology::onKillStem()
    {
    previousStage = currentStage;
    currentStage = stage_reduction_kill_stem[currentStage];
-   for (unsigned int stage = currentStage; stage != phases.size(); stage++)
+   for (unsigned int stage = (int)currentStage; stage != phases.size(); stage++)
       phases[stage].reset();
    }
 
@@ -1051,7 +1052,7 @@ void LegumePhenology::onSow(float depth)
 void LegumePhenology::onEndCrop()
    {
    zeroStateVariables();
-	}
+   }
 void LegumePhenology::onHarvest()
    {
    previousStage = currentStage;
@@ -1071,13 +1072,13 @@ void LegumePhenology::prepare (const environment_t &e)
    {
    PlantPhenology::prepare(e);
    photoperiod = e.daylength (twilight);
-   
+
    updateTTTargets(e);
    }
 
 
 // static TT targets (called at sowing)
-void LegumePhenology::setupTTTargets(void) 
+void LegumePhenology::setupTTTargets(void)
    {
    pPhase *germ_to_emerg = getStage("germination");
    germ_to_emerg->setTarget(shoot_lag + sowing_depth * shoot_rate);
