@@ -1,0 +1,881 @@
+Version = 2.0
+NumPages = 1
+object data: TForm
+  Left = 4
+  Top = 4
+  Align = alClient
+  BorderIcons = []
+  BorderStyle = bsNone
+  ClientHeight = 865
+  ClientWidth = 1384
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Dalby600File: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'day'
+        DataType = ftInteger
+      end
+      item
+        Name = 'year'
+        DataType = ftInteger
+      end
+      item
+        Name = 'lai'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass'
+        DataType = ftFloat
+      end
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum_ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexFieldNames = 'Series'
+    IndexName = 'mainIndex'
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'Probability1.onSourceDataChanged'
+      'Dalby600Prob.onSourceDataChanged')
+    filenames.Strings = (
+      'Dalby600.out')
+    Left = 122
+    Top = 357
+  end
+  object Dalby600Prob: TProbability
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Probability'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortFields = 'Series;Probability'
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = Dalby600File
+    subscriptionComponentNames.Strings = (
+      'Filter1.onSourceDataChanged')
+    fieldName = 'yield'
+    Left = 25
+    Top = 271
+  end
+  object Roma600File: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'day'
+        DataType = ftInteger
+      end
+      item
+        Name = 'year'
+        DataType = ftInteger
+      end
+      item
+        Name = 'lai'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass'
+        DataType = ftFloat
+      end
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum_ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexFieldNames = 'Series'
+    IndexName = 'mainIndex'
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'Roma600Prob.onSourceDataChanged')
+    filenames.Strings = (
+      'Roma600.out')
+    Left = 336
+    Top = 192
+  end
+  object Roma600Prob: TProbability
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Probability'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortFields = 'Series;Probability'
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = Roma600File
+    fieldName = 'yield'
+    Left = 448
+    Top = 216
+  end
+  object Roma1500File: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'day'
+        DataType = ftInteger
+      end
+      item
+        Name = 'year'
+        DataType = ftInteger
+      end
+      item
+        Name = 'lai'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass'
+        DataType = ftFloat
+      end
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum_ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexFieldNames = 'Series'
+    IndexName = 'mainIndex'
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'Roma1500Prob.onSourceDataChanged')
+    filenames.Strings = (
+      'Roma1500.out')
+    Left = 248
+    Top = 88
+  end
+  object Roma1500Prob: TProbability
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Probability'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortFields = 'Series;Probability'
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = Roma1500File
+    fieldName = 'yield'
+    Left = 112
+    Top = 112
+  end
+  object Dalby1500File: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'day'
+        DataType = ftInteger
+      end
+      item
+        Name = 'year'
+        DataType = ftInteger
+      end
+      item
+        Name = 'lai'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass'
+        DataType = ftFloat
+      end
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum_ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexFieldNames = 'Series'
+    IndexName = 'mainIndex'
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'Dalby1500Prob.onSourceDataChanged')
+    filenames.Strings = (
+      'Dalby1500.out')
+    Left = 342
+    Top = 79
+  end
+  object Dalby1500Prob: TProbability
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Probability'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortFields = 'Series;Probability'
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = Dalby1500File
+    fieldName = 'yield'
+    Left = 417
+    Top = 28
+  end
+end
+object QuickRepPage1: TQuickRep
+  Left = 254
+  Top = -47
+  Width = 714
+  Height = 1010
+  Frame.Color = clBlack
+  Frame.DrawTop = False
+  Frame.DrawBottom = False
+  Frame.DrawLeft = False
+  Frame.DrawRight = False
+  Frame.Style = psClear
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -13
+  Font.Name = 'Arial'
+  Font.Style = []
+  Functions.Strings = (
+    'PAGENUMBER'
+    'COLUMNNUMBER'
+    'REPORTTITLE')
+  Functions.DATA = (
+    '0'
+    '0'
+    #39#39)
+  Options = [FirstPageHeader, LastPageFooter]
+  Page.Columns = 1
+  Page.Orientation = poPortrait
+  Page.PaperSize = A4
+  Page.Ruler = False
+  Page.Values = (
+    0
+    2970
+    0
+    2100
+    0
+    0
+    0)
+  PrinterSettings.Copies = 1
+  PrinterSettings.Duplex = False
+  PrinterSettings.FirstPage = 0
+  PrinterSettings.LastPage = 0
+  PrinterSettings.OutputBin = Auto
+  PrintIfEmpty = True
+  SnapToGrid = True
+  Units = MM
+  Zoom = 90
+  object TitleBand1: TQRBand
+    Left = 0
+    Top = 0
+    Width = 714
+    Height = 1010
+    Frame.Color = clBlack
+    Frame.DrawTop = False
+    Frame.DrawBottom = False
+    Frame.DrawLeft = False
+    Frame.DrawRight = False
+    AlignToBottom = False
+    Color = clWhite
+    ForceNewColumn = False
+    ForceNewPage = False
+    Size.Values = (
+      2970
+      2099.02777777778)
+    BandType = rbTitle
+    object Graph1: TGraph
+      Left = 84
+      Top = 171
+      Width = 576
+      Height = 342
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        1005.41666666667
+        248.046875
+        502.708333333333
+        1693.33333333333)
+      title = ' '
+      leftAxisTitle = 'Cumulative probability (%)'
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = 'maize Grain Yield (kg/ha)'
+      footTitle = ' '
+      object QRDBChart1: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        BottomAxis.Automatic = False
+        BottomAxis.AutomaticMinimum = False
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.ExactDateTime = False
+        BottomAxis.Grid.Visible = False
+        BottomAxis.Increment = 500
+        BottomAxis.LabelsSeparation = 100
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        BottomAxis.Title.Caption = 'maize Grain Yield (kg/ha)'
+        LeftAxis.Automatic = False
+        LeftAxis.AutomaticMaximum = False
+        LeftAxis.AutomaticMinimum = False
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.ExactDateTime = False
+        LeftAxis.Grid.Visible = False
+        LeftAxis.Increment = 10
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.Maximum = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        LeftAxis.Title.Caption = 'Cumulative probability (%)'
+        Legend.CustomPosition = True
+        Legend.Left = 100
+        Legend.LegendStyle = lsSeries
+        Legend.Top = 30
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object Series1: TLineSeries
+          Depth = 0
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.Dalby600Prob
+          SeriesColor = clRed
+          Title = 'Dalby 600'
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'yield'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'Probability'
+        end
+        object Series2: TLineSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.Dalby1500Prob
+          SeriesColor = clGreen
+          Title = 'Dalby1500'
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'yield'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'Probability'
+        end
+        object Series3: TLineSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.Roma600Prob
+          SeriesColor = clYellow
+          Title = 'Roma600'
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'yield'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'Probability'
+        end
+        object Series4: TLineSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.Roma1500Prob
+          SeriesColor = clBlue
+          Title = 'Roma1500'
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'yield'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'Probability'
+        end
+      end
+    end
+    object Graph2: TGraph
+      Left = 84
+      Top = 549
+      Width = 576
+      Height = 342
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        1005.41666666667
+        248.046875
+        1613.95833333333
+        1693.33333333333)
+      title = ' '
+      leftAxisTitle = 'maize Grain Yield (kg/ha)'
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = 'maize Transpiration (mm)'
+      footTitle = ' '
+      object QRDBChart2: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        BottomAxis.Automatic = False
+        BottomAxis.AutomaticMinimum = False
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.ExactDateTime = False
+        BottomAxis.Grid.Visible = False
+        BottomAxis.Increment = 10
+        BottomAxis.LabelsSeparation = 100
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        BottomAxis.Title.Caption = 'maize Transpiration (mm)'
+        LeftAxis.Automatic = False
+        LeftAxis.AutomaticMinimum = False
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.ExactDateTime = False
+        LeftAxis.Grid.Visible = False
+        LeftAxis.Increment = 10
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        LeftAxis.Title.Caption = 'maize Grain Yield (kg/ha)'
+        Legend.CustomPosition = True
+        Legend.Left = 100
+        Legend.LegendStyle = lsSeries
+        Legend.Top = 30
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object LineSeries1: TPointSeries
+          Depth = 0
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.Dalby600File
+          SeriesColor = clRed
+          Title = 'Dalby 600'
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'sum_ep'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'yield'
+        end
+        object LineSeries2: TPointSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.Dalby1500File
+          SeriesColor = clGreen
+          Title = 'Dalby1500'
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'sum_ep'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'yield'
+        end
+        object LineSeries3: TPointSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.Roma600File
+          SeriesColor = clYellow
+          Title = 'Roma600'
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'sum_ep'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'yield'
+        end
+        object LineSeries4: TPointSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.Roma1500File
+          SeriesColor = clBlue
+          Title = 'Roma1500'
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'sum_ep'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'yield'
+        end
+      end
+    end
+    object Text1: TText
+      Left = 261
+      Top = 36
+      Width = 226
+      Height = 27
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        79.375
+        767.291666666667
+        105.833333333333
+        664.398148148148)
+      Alignment = taCenter
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -24
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      Lines.Strings = (
+        'maize Sensibility Test')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = 'maize Sensibility Test'#13#10
+      FontSize = 18
+    end
+    object Text2: TText
+      Left = 83
+      Top = 94
+      Width = 549
+      Height = 23
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        67.6157407407407
+        244.00462962963
+        276.342592592593
+        1613.95833333333)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Lines.Strings = (
+        
+          'maize yields for 1957 to 2002 for Dalby and Roma on a Waco Black' +
+          ' Earth for 600 or 1500 mm of wet soil.')
+      Transparent = False
+      WordWrap = True
+      text = 
+        'maize yields for 1957 to 2002 for Dalby and Roma on a Waco Black' +
+        ' Earth for 600 or 1500 mm of wet soil.'#13#10
+      FontSize = 10
+    end
+  end
+end
