@@ -396,6 +396,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
      :                     , blank, Max_local_variables)
       call fill_char_array (g%local_variable_values
      :                     , blank, Max_local_variables)
+      g%local_variable_is_real(:) = .false.
 
       call fill_char_array (g%token_array, blank, Max_tokens)
       g%token         = 0
@@ -897,12 +898,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
          call Fatal_error(ERR_user, str)
 
       else
-         if (scan(Variable_value,'0123456789') .le. 0) then
-            read_status = Not_ok
-         else
-            read (Variable_value, '(g25.0)',
-     .         iostat=read_status) realValue
-         endif
+         call str_to_real_var
+     .               (Variable_value, realValue, read_status)
 
          g%local_variable_is_real(g%num_local_variables)
      .       = (read_status.eq.OK_status)
@@ -1125,13 +1122,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
                ! variable not already defined.  Add variable to list.
 
                if (Numvals .eq. 0) then
-                  call manager_new_local_variable
-     .                (variable_name, '0')
                   Variable_value = '0'
+                  call manager_new_local_variable
+     .                (variable_name, Variable_value)
                   write (str, '(4a)' )
      .              'Manager creating a new local variable : ',
      .               trim(variable_name),
-     .               ' = 0'
+     .               ' = '//trim(Variable_value)
                   call Write_string (str)
                   valueIsReal = .true.
 
@@ -1246,8 +1243,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
          else
             ! make sure this value matches the type
             if (g%local_variable_is_real(variable_index)) then
-               read (Variable_value, '(g25.0)'
-     .             , iostat=read_status) realValue
+               call str_to_real_var
+     .                     (Variable_value, realValue, read_status)
                if (read_status.ne.OK_status) then
                  write(str, '(12a)')
      .           'Cannot change the type of a manager local variable.',
@@ -1812,7 +1809,6 @@ c      end subroutine
                                           ! value to assign the variable
 
 !- Implementation Section ----------------------------------
-
 
        call   Get_next_token(Token_array, Token_array2)
        g%number_expressions = 1
