@@ -56,21 +56,43 @@ MacroValue* Macro::getValue(const string& name)
    }
 // ------------------------------------------------------------------
 //  Short description:
-//    Parse the specified string removing this macros' name and
-//    replacing with 1 or more values.  Original text is left
-//    unchanged.
+//    return a specific attribute or blank if not found.
 
 //  Changes:
 //    DPH 22/8/2001 reworked from NIH original
 // ------------------------------------------------------------------
-string Macro::performMacroReplacement(const string& text)
+string Macro::getAttribute(const string& name) const
    {
-   string newText;
+   Attributes::const_iterator attributeI = attributes.find(name);
+   if (attributeI == attributes.end())
+      return "";
+   else
+      return attributeI->second;
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//    Parse the specified string removing this macros' name and
+//    replacing with 1 or more values.
+
+//  Changes:
+//    DPH 22/8/2001 reworked from NIH original
+// ------------------------------------------------------------------
+void Macro::performMacroReplacement(string& text)
+   {
+   string original = text;   // Keep a copy of the original text provided
+
+   text = "";                // Now clear the text and incrementally rebuild it
+
    for (vector<MacroValue>::iterator v = values.begin();
                                      v != values.end();
                                      v++)
-      newText += v->performMacroReplacement(text, name);
-   return newText;
+      {
+      // Now, add a copy of the original with macro substituted
+      string workstr = original;
+      v->performMacroReplacement(workstr, getName());
+      text += workstr;
+      }
    }
 
 // ------------------------------------------------------------------
@@ -85,7 +107,10 @@ void Macro::parseString(const string& contents)
    istringstream in(contents.c_str());
    string line;
    getline(in, line);
-   name = getAttributeFromLine("name", line);
+   vector<string> names, vals;
+   getAttributesFromLine(line, names, vals);
+   for (unsigned int n = 0; n < names.size(); n++)
+      attributes.insert(Attributes::value_type(names[n], vals[n]));
 
    // go looking for lines like:
    //    #value name="year" type="(y)"
