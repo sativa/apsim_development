@@ -302,8 +302,6 @@ class APSIMMilletPublic
 
     create                 : APSIMMethod             = System message to create
     sysinit                : APSIMMethod             = System initialise
-    prepare                : APSIMMethod             = System prepare stage
-    process                : APSIMMethod             = System process stage
     sow                    : APSIMSowMethod          = Perform sowing
     harvest                : APSIMHarvestMethod      = Perform harvest
     end_crop               : APSIMEndCropMethod      = Perform end_crop
@@ -349,6 +347,8 @@ class APSIMMilletExternal
 
     tick                    : APSIMClockTickEvent        = Change in the simulation system time and the duration of the new time step
     newmet                  : APSIMNewMetEvent           = To notify all interested modules in a change in the simulation met data for the current time step
+    prepare                 : APSIMEvent                 = System prepare stage
+    process                 : APSIMEvent                 = System process stage
 
 end
 
