@@ -1,9 +1,13 @@
+version = 2.2
 [apsim.sample_accum]  
-  Module = clock    accum.par [sample]      
-  Module = report   accum.par [sample]      
-  Module = met      %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]      
-  Module = accum    accum.par [sample]      
-  Module = manager  accum.par [sample]      
 
 
 
+title=Accum Sample Simulation
+module = clock    accum.par [sample]
+module = report   accum.par [sample]
+module = input(met)      %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
+module = accum    accum.par [sample]
+module = manager  accum.par [sample]
+module = SummaryFile  accum.par[sample]
+module = Screen  accum.par[sample]
