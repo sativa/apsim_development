@@ -4064,6 +4064,13 @@ c  dsg   070302  added runon
 
 * code for erosion
 
+*** dsg 280103  Added re-settable 'max-pond' for Shaun Lisson to simulate dam-break in rice cropping
+      elseif (variable_name .eq. 'max_pond') then
+         call collect_real_var (variable_name, '()'
+     :                             , p%max_pond, numvals
+     :                             , 0.0, 100.0)
+
+
       elseif (variable_name .eq. 'dul_dep') then
          call collect_real_array (variable_name, max_layer, '(mm)'
      :                               , g%dul_dep, numvals
@@ -6523,6 +6530,11 @@ c dsg 150302  saturated layer = layer, layer above not over dul
 
       call Evap_create(evap)
 
+      call soilwat2_zero_variables ()
+      call soilwat2_zero_data_links ()
+      call soilwat2_zero_event_data ()
+
+
       call pop_routine (myname)
       return
       end subroutine
@@ -6673,10 +6685,6 @@ c dsg 150302  saturated layer = layer, layer above not over dul
 
       else if (action.eq.ACTION_init) then
 
-
-         call soilwat2_zero_variables ()
-         call soilwat2_zero_data_links ()
-         call soilwat2_zero_event_data ()
          call soilwat2_init ()
          call soilwat2_sum_report ()
 
