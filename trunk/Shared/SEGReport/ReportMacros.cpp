@@ -69,8 +69,9 @@ AnsiString ReportMacros::doReplacement(TComponent* owner, AnsiString text)
       unsigned posCloseBracket = st.find(')', posOpenBracket);
       if (posOpenBracket != string::npos && posCloseBracket != string::npos)
          {
+         string macroName = st.substr(posMacro, posOpenBracket-posMacro);
          string arguments = st.substr(posOpenBracket+1, posCloseBracket-posOpenBracket-1);
-         string value = evaluateMacro(owner, "$precision", arguments);
+         string value = evaluateMacro(owner, macroName, arguments);
          if (value != "")
             st.replace(posMacro, posCloseBracket-posMacro+1, value);
          }
