@@ -3,7 +3,7 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.05.03"/>
-    <PROJECT value="L:\OutlookDevelopment\SOIAddin\SOIAddin.dll"/>
+    <PROJECT value="L:\APSIMOutlook\SOIAddin\SOIAddin.dll"/>
     <OBJFILES value="SOIAddin.obj TSOI_form.obj SOIToolBar.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
@@ -103,11 +103,12 @@ Count=1
 Item0=_DEBUG
 
 [HistoryLists\hlFinalOutputDir]
-Count=4
-Item0=L:\OutlookDevelopment\SOIAddin\
-Item1=L:\SOIAddin\
-Item2=..\..\..\SOIAddin\
-Item3=..\..\..\SOIAddin
+Count=5
+Item0=L:\APSIMOutlook\SOIAddin\
+Item1=L:\OutlookDevelopment\SOIAddin\
+Item2=L:\SOIAddin\
+Item3=..\..\..\SOIAddin\
+Item4=..\..\..\SOIAddin
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
