@@ -7,7 +7,6 @@
 #include <ComponentInterface\ApsimVariant.h>
 #include <ApsimShared\FStringExt.h>
 #include <ApsimShared\ApsimComponentData.h>
-#include <ApsimShared\ApsimServiceData.h>
 #include <general\math_functions.h>
 #include <general\stl_functions.h>
 #include <general\date_class.h>
@@ -69,9 +68,7 @@ void ScreenComponent::doInit1(const FString& sdml)
    startDateID = addRegistration(getVariableReg, "simulation_start_date", doubleDDML);
    endDateID = addRegistration(getVariableReg, "simulation_end_date", doubleDDML);
 
-   string sdmlString(sdml.f_str(), sdml.length());
-   ApsimServiceData service(sdmlString);
-   screenOutput = Str_i_Eq(service.getProperty("screen_output"), "on");
+   screenOutput = Str_i_Eq(componentData->getProperty("parameters", "screen_output"), "on");
    if (screenOutput)
       {
       ScreenForm->Height = 450;

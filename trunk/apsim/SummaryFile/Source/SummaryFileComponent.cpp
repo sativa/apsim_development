@@ -6,7 +6,7 @@
 #include <ComponentInterface\ApsimVariant.h>
 #include <ComponentInterface\MessageDataExt.h>
 #include <ApsimShared\FStringExt.h>
-#include <ApsimShared\ApsimServiceData.h>
+#include <ApsimShared\ApsimComponentData.h>
 #include <ApsimShared\ApsimVersion.h>
 #include <general\date_class.h>
 #include <sstream>
@@ -67,11 +67,8 @@ void SummaryFileComponent::doInit1(const FString& sdml)
    titleID = addRegistration(getVariableReg, "title", stringDDML);
    componentsID = addRegistration(getVariableReg, "components", stringArrayDDML);
 
-   string sdmlString(sdml.f_str(), sdml.length());
-   ApsimServiceData service(sdmlString);
-
    // read in and open our file.
-   fileName = service.getProperty("filename");
+   fileName = componentData->getProperty("parameters", "summaryfile");
    out.open(fileName.c_str());
    if (!out)
       {
