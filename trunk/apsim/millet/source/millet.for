@@ -1005,6 +1005,8 @@ cjh      endif
 *+  Changes
 *     091095 jngh specified and programmed
 *     220696 jngh changed extract to collect
+*     180500 jngh changed the tiller wt and tiller N to be the same keywords being sent at initiation.
+*                 Also removed optional from collects.
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -1026,17 +1028,17 @@ cjh      if (data_record.ne.blank) then
          call collect_real_var ('plants', '()'
      :                        , g%plants, numvals, 0.0, 100.0)
  
-         call collect_real_var_optional (
-     :                          'dm_tiller_plant', '(g/plant)'
+         call collect_real_var (
+     :                          'tiller_wt', '(g/plant)'
      :                        , c%dm_leaf_init, numvals
      :                        , 0.0, 100.0)
  
-         call collect_real_var_optional (
-     :                          'n_tiller_plant', '(g/plant)'
+         call collect_real_var (
+     :                          'tiller_n', '(g/plant)'
      :                        , N_tiller_plant, numvals
      :                        , 0.0, 10.0)
  
-         call collect_real_var_optional (
+         call collect_real_var (
      :                          'row_spacing', '(m)'
      :                        , g%row_spacing, numvals
      :                        , 0.0, 2.0)
@@ -10401,7 +10403,8 @@ cgol bounds added to tiller number determination
 
 *+  Changes
 *       101095 jngh specified and programmed
-*       220696 jngh changed to post_ construct
+*       220696 jngh changed to post_ construct 
+*       180500 jngh changed 'tiller_N' to lower case
 
 *+  Calls
       character  no_spaces*8           ! function
@@ -10444,6 +10447,9 @@ cjh      character  string*200            ! output string
      :                              , g%plants, 0.0)
             N_tiller_plant = divide (N_tiller_independence
      :                             , g%plants, 0.0)
+
+      print *, dm_tiller_plant, N_tiller_independence
+      print *, N_tiller_plant, N_tiller_independence
  
 cjh            write(string, '(4(a, g16.7e3, a), 2a)' )
 cjh     :           'plants = '       , g%plants        , '(plants/m2)'
@@ -10466,7 +10472,7 @@ cjh     :                                  , string)
      :                        ,'(g/plant)'
      :                        ,dm_tiller_plant)
  
-            call post_real_var ('tiller_N'
+            call post_real_var ('tiller_n'
      :                        ,'(g/plant)'
      :                        ,N_tiller_plant)
  
