@@ -3,20 +3,20 @@
 
 <component name="canopy">
    <registrations>
-      <read name="intercrop" type="intercropType" readable="T"/>
-      <respondToGetReg name="fr_intc_radn_"ModuleName"" type="fr_intc_radn_"ModuleName"Type"/>
-      <respondToGetReg name="cover_tot_sum" type="cover_tot_sumType"/>
-      <respondToGetReg name="cover_tot_all" type="cover_tot_allType"/>
-      <respondToGetReg name="cover_height_all" type="cover_height_allType"/>
-      <respondToGetReg name="cover_green_sum" type="cover_green_sumType"/>
-      <respondToGetReg name="cover_green_all" type="cover_green_allType"/>
-      <respondToGetReg name="cover_crops_all" type="cover_crops_allType"/>
-      <respondToMethodCallReg name="sysinit" type="sysinitType"/>
-      <getVariableReg name="crop_type" type="crop_typeType"/>
-      <getVariableReg name="cover_green" type="cover_greenType"/>
-      <getVariableReg name="cover_tot" type="cover_totType"/>
-      <getVariableReg name="height" type="heightType"/>
-      <respondToEventReg name="prepare" type="prepareType"/>
-      <respondToEventReg name="post" type="postType"/>
+      <read name="intercrop" type="intercrop" readable="T"/>
+      <respondToGetReg name="fr_intc_radn_"ModuleName"" type="fr_intc_radn_"ModuleName""/>
+      <respondToGetReg name="cover_tot_sum" type="cover_tot_sum"/>
+      <respondToGetReg name="cover_tot_all" type="cover_tot_all"/>
+      <respondToGetReg name="cover_height_all" type="cover_height_all"/>
+      <respondToGetReg name="cover_green_sum" type="cover_green_sum"/>
+      <respondToGetReg name="cover_green_all" type="cover_green_all"/>
+      <respondToGetReg name="cover_crops_all" type="cover_crops_all"/>
+      <respondToMethodCallReg name="sysinit" type="sysinit"/>
+      <getVariableReg name="crop_" type="crop_type"/>
+      <getVariableReg name="cover_green" type="cover_green"/>
+      <getVariableReg name="cover_tot" type="cover_tot"/>
+      <getVariableReg name="height" type="height"/>
+      <respondToEventReg name="prepare" type="prepare"/>
+      <respondToEventReg name="post" type="post"/>
    </registrations>
 </component>
