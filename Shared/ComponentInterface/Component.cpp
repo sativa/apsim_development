@@ -602,15 +602,6 @@ bool Component::componentIDToName(unsigned int compID, FString& name)
 // ------------------------------------------------------------------
 void Component::onQuerySetValueMessage(unsigned fromID, QuerySetValueData& querySetData)
    {
-   Type type = getRegistrationType(querySetData.ID);
-   FString name = getRegistrationName(querySetData.ID);
-
-   TypeConverter* converter;
-   bool isError = !getTypeConverter(this, name, querySetData.variant.getType(),
-                                    type.getTypeString(), converter);
-   if (!isError)
-      querySetData.variant.setTypeConverter(converter);
-
    bool ok = respondToSet(fromID, querySetData);
    sendMessage(newNotifySetValueSuccessMessage
                   (componentID,
