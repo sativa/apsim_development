@@ -32,19 +32,27 @@ class __declspec(dllexport) ApsimComponentData
       bool replaceProperty(const std::string& propertyType,
                            const std::string& name,
                            const std::string& value);
+      void clearProperties(const std::string& propertyType);
+
+      void getGroupNames(const std::string& propertyType,
+                         std::vector<std::string>& groupNames);
 
       std::string getXML(void) const;
-                       
+
       // variable methods.
       void clearVariables(void);
       void getVariables(std::vector<std::string>& variables) const;
       void addVariable(const std::string& name);
 
-      // rule methods.
+      // rule methods.  All rules have a unique name.
       void clearRules(void);
       void getRuleNames(std::vector<std::string>& names) const;
-      std::string getRule(const std::string& name) const;
-      void addRule(const std::string& name, const std::string& rule);
+      void getRule(const std::string& name,
+                   std::string& condition,
+                   std::string& contents) const;
+      void addRule(const std::string& name,
+                   const std::string& condition,
+                   const std::string& contents);
 
       // registration methods.
       typedef TreeNodeAliasIterator< TreeNodeIterator<XMLNode>, ApsimRegistrationData> RegIterator;
