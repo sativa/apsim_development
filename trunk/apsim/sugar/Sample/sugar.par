@@ -1,24 +1,34 @@
 [sample.report.parameters]
 outputfile =sugar.out
 
-
-
 variable = clock.dd/mm/yyyy as Date
-variable = soilwat2.es
-variable = soilwat2.eos
-variable = soilwat2.eo
-variable = soilwat2.drain
-variable = soilwat2.infiltration
+variable = tracker.soil_evap
+variable = tracker.pot_soil_evap
+variable = tracker.pot_evap
+variable = tracker.drainage
+variable = tracker.infiltrat
 variable = soilwat2.esw
 variable = sugar.esw()
 variable = soiln2.no3
 variable = surfaceom.surfaceom_wt
-variable = irrigate.irrigation
+variable = tracker.irrig_applied
 variable = sugar.lai
 variable = sugar.biomass
 variable = sugar.green_biomass
-variable = sugar.swdef_photo
-variable = sugar.nfact_photo
+variable = tracker.av_swdef_photo
+variable = tracker.av_nfact_photo
+
+[sample.tracker.parameters]
+variable = sum of soilwat2.es on end_of_day from reported to now as soil_evap
+variable = sum of soilwat2.eos on end_of_day from reported to now as pot_soil_evap
+variable = sum of soilwat2.eo on end_of_day from reported to now as pot_evap
+variable = sum of soilwat2.drain on end_of_day from reported to now as drainage
+variable = sum of soilwat2.infiltration on end_of_day from reported to now as infiltrat
+variable = sum of irrigate.irrigation on end_of_day from reported to now as irrig_applied
+variable = average of sugar.swdef_photo on end_of_day from reported to now as av_swdef_photo
+variable = average of sugar.nfact_photo on end_of_day from reported to now as av_nfact_photo
+
+
 [sample.clock.parameters]
 ! Start and end date of run (day number of year and year)
 start_date=9/4/1980     ! dd/mm/yyyy
@@ -72,7 +82,9 @@ sample = 0
 num_irr = 0
 
 [sample.manager.end_of_day]
-report do_output
+if clock.end_month = 1 then
+   report do_output
+endif   
 
 if sugar.crop_status = 'alive' then
    dah = 0

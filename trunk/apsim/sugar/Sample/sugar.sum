@@ -11,18 +11,19 @@
 
      Version                = 4.0
      Title                  = Sugar Sample Simulation
-     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
-     Component DLL          = c:\development\apsim\screen\lib\screen.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\Input\lib\Input.dll
-     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
-     Component DLL          = c:\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\development\apsim\sugar\lib\sugar.dll
+     Component DLL          = c:\temp3\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\temp3\development\apsim\screen\lib\screen.dll
+     Component DLL          = c:\temp3\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\temp3\development\apsim\report\lib\report.dll
+     Component DLL          = c:\temp3\development\apsim\Input\lib\Input.dll
+     Component DLL          = c:\temp3\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\temp3\development\apsim\irrigate\lib\irrigate.dll
+     Component DLL          = c:\temp3\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\temp3\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\temp3\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+     Component DLL          = c:\temp3\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\temp3\development\apsim\sugar\lib\sugar.dll
+     Component DLL          = c:\temp3\development\apsim\tracker\lib\tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -36,28 +37,28 @@
 ------- report Initialisation -------------------------------------------------
      Output variables:
         clock.dd/mm/yyyy as Date
-        soilwat2.es
-        soilwat2.eos
-        soilwat2.eo
-        soilwat2.drain
-        soilwat2.infiltration
+        tracker.soil_evap
+        tracker.pot_soil_evap
+        tracker.pot_evap
+        tracker.drainage
+        tracker.infiltrat
         soilwat2.esw
         sugar.esw()
         soiln2.no3
         surfaceom.surfaceom_wt
-        irrigate.irrigation
+        tracker.irrig_applied
         sugar.lai
         sugar.biomass
         sugar.green_biomass
-        sugar.swdef_photo
-        sugar.nfact_photo
+        tracker.av_swdef_photo
+        tracker.av_nfact_photo
      
      Output file = sugar.out
      Format = normal
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\met\SAMPLE\INGHAM.MET
+     INPUT File name: c:\temp3\development\apsim\met\SAMPLE\INGHAM.MET
 
 ------- fertiliz Initialisation -----------------------------------------------
       Initialising
@@ -115,7 +116,9 @@
      num_irr = 0
      
      SECTION:- end_of_day
-     report do_output
+     if clock.end_month = 1 then
+        report do_output
+     endif
      if sugar.crop_status = 'alive' then
         dah = 0
         if (das > (plantlen - dryoff) and ratoon_no = 0) or
@@ -350,6 +353,17 @@
       Initialising
      
          - Reading constants
+
+------- tracker Initialisation ------------------------------------------------
+     Tracker variables:
+        sum of soilwat2.es on end_of_day from reported to now as soil_evap
+        sum of soilwat2.eos on end_of_day from reported to now as pot_soil_evap
+        sum of soilwat2.eo on end_of_day from reported to now as pot_evap
+        sum of soilwat2.drain on end_of_day from reported to now as drainage
+        sum of soilwat2.infiltration on end_of_day from reported to now as infiltrat
+        sum of irrigate.irrigation on end_of_day from reported to now as irrig_applied
+        average of sugar.swdef_photo on end_of_day from reported to now as av_swdef_photo
+        average of sugar.nfact_photo on end_of_day from reported to now as av_nfact_photo
 ------- Start of simulation  --------------------------------------------------
 1 May 1980(Day of year=122), manager: 
      Manager sending message :- sugar sow  plants = 10, cultivar = q117, sowing_depth = 150
