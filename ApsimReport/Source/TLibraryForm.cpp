@@ -28,6 +28,11 @@ void __fastcall TLibraryForm::FormShow(TObject *Sender)
 
    vector<string> folders;
    getDirectoryListing(libraryDirectory, "*.*", folders, FA_DIREC);
+   sort(folders.begin(), folders.end());
+
+   // remove all 'cvs' directories.
+   folders.erase(remove(folders.begin(), folders.end(), "cvs"), folders.end());
+
    Stl_2_tstrings(folders, TabControl->Tabs);
 
    // go fill the file list.
