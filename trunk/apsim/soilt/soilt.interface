@@ -1,53 +1,22 @@
-include base.interface
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/apsim.xsl"?>
 
-; -----------------------------------------------------------
-; SoilTs public interface which other components may
-; use.  Contains:
-;    Properties which other components may get or set
-;    Methods which other components may call
-;    Events which other components may trap (or subscribe to)
-; -----------------------------------------------------------
-class APSIMSoilTPublic
-; sent by soilt_Send_my_variable
-   soil_temp               : APSIMReal           = Maximum soil surface temperature, (oC), GET
-                                           
-; Main actions
-
-    sysinit                : APSIMMethod         = System initialise
-    end_run                : APSIMMethod         = Message that run is to end
-
-end
-; -----------------------------------------------------------
-; SoilTs External interface which documents things in other 
-; components that this component uses.
-; Contains:
-;    Properties used in other components
-;    Methods called in other components
-;    Events from other components that this component uses.
-; -----------------------------------------------------------
-class APSIMSoilTExternal
-    tav                     : APSIMReal             = Mean annual air temperature, (oC), GET, -30.0, 40.0
-    bd                      : APSIMRealArray        = Moist bulk density of soil, (Mg/m3), GET, 0.0, 2.65
-
-; variables from other modules by SoilT_get_other_variables
-    sw                      : APSIMRealArray        = Soil water content, (m3/m3), GET, 0.0, 1.0
-    dlayer                  : APSIMRealArray        = Thickness of each layer of soil profile, (mm), GET, 0.00, 1000.0
-    maxt                    : APSIMReal             = Maximum ambient temperature, (oC), GET , -100.0, 100.0
-    mint                    : APSIMReal             = Minimum ambient temperature, (oC), GET , -100.0, 100.0
-    radn                    : APSIMReal             = Incoming shortwave solar radiation, (Mj/m^2), , 0.0, 1000.0   
-    es                      : APSIMReal             = Evaporation, (mm), GET, 0.0, 1000.0
-    residue_cover           : APSIMReal             = Residue cover reduces cn2_bare, (), GET, 0.0, 1000.0
-                ; This is repeated until no module responds (get_real_vars).
-    cover_green             : APSIMReal             = green cover of crop canopy, (), GET, 0.0, 1.0 
-
-    prepare                : APSIMEvent             = System prepare stage
-    process                : APSIMEvent             = Message to process
-    post                   : APSIMEvent             = System post stage
-
-end
-
-class APSIMSoilT
-   dll      : string
-   public   : APSIMSoilTPublic
-   external : APSIMSoilTExternal
-end
+<component name="soilt">
+   <registrations>
+      <respondToGetReg name="soil_temp" type="soil_temp"/>
+      <respondToMethodCallReg name="sysinit" type="sysinit"/>
+      <respondToMethodCallReg name="end_run" type="end_run"/>
+      <getVariableReg name="tav" type="tav"/>
+      <getVariableReg name="bd" type="bd"/>
+      <getVariableReg name="sw" type="sw"/>
+      <getVariableReg name="dlayer" type="dlayer"/>
+      <getVariableReg name="maxt" type="maxt"/>
+      <getVariableReg name="mint" type="mint"/>
+      <getVariableReg name="es" type="es"/>
+      <getVariableReg name="residue_cover" type="residue_cover"/>
+      <getVariableReg name="cover_green" type="cover_green"/>
+      <respondToEventReg name="prepare" type="prepare"/>
+      <respondToEventReg name="process" type="process"/>
+      <respondToEventReg name="post" type="post"/>
+   </registrations>
+</component>
