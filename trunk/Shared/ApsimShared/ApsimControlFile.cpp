@@ -4,48 +4,20 @@
 #pragma hdrstop
 
 #include "ApsimControlFile.h"
-#include "ApsimDirectories.h"
+#include <ApsimShared\ApsimDirectories.h>
+#include <ApsimShared\ApsimConfigurationFile.h>
 #include "ApsimSimulationFile.h"
+#include "TControlFileConversionForm.h"
+
 #include <general\string_functions.h>
 #include <general\stristr.h>
 #include <general\IniFile.h>
 #include <general\path.h>
+#include <general\date_class.h>
 #include <fstream>
 
 using namespace std;
 #pragma package(smart_init)
-
-class Instance
-   {
-   public:
-      string moduleName;
-      string instanceName;
-   };
-
-class Parameter
-   {
-   public:
-      string moduleName;
-      string instanceName;
-      string sectionName;
-      string name;
-
-      bool isParameter;
-      bool isConstant;
-      bool isTable;
-      bool isRule;
-      bool isError;
-
-      string parameterValue;
-
-      string tableFileName;
-      unsigned long tableStartPos;
-
-      string ruleContents;
-
-      string errorMessage;
-
-   };
 
 struct ParamFile
    {
@@ -60,12 +32,14 @@ struct ParamFile
 // Throws exception on error.
 // ------------------------------------------------------------------
 void parseModuleLine(const string& controlFileName, const string& moduleLine,
-                     vector<ParamFile> paramFiles) throw(runtime_error)
+                     vector<ParamFile>& paramFiles) throw(runtime_error)
    {
    string line = moduleLine;
 
    // remove any comments
-   line.erase(line.find('!'));
+   unsigned posComment = line.find('!');
+   if (posComment != string::npos)
+      line.erase(posComment);
 
    // initialise everything to zero.
    string moduleName;
@@ -119,7 +93,11 @@ void parseModuleLine(const string& controlFileName, const string& moduleLine,
 
                          state = READ_PARAM_FILE;
                          if (paramFile.length() == 0)
-                            paramFile = controlFileName;
+                            {
+                            throw runtime_error("APSIM 3 no longer supports module parameters being "
+                                                " in the control file.  Please move all module parameters "
+                                                " from the control file to a parameter file.");
+                            }
 
                          // replace any apsuite macros.
                          Replace_all(paramFile, "%apsuite", getApsimDirectory().c_str());
@@ -134,7 +112,7 @@ void parseModuleLine(const string& controlFileName, const string& moduleLine,
                             }
                          ParamFile p;
                          p.fileName = paramFile;
-                         p.sectionName = section + "." + instanceName;
+                         p.sectionName = section;
                          p.moduleName = moduleName;
                          p.instanceName = instanceName;
                          if (instanceName == "")
@@ -158,13 +136,10 @@ void parseModuleLine(const string& controlFileName, const string& moduleLine,
 void parseControlSection(const string& controlFileName, const string& section,
                          vector<ParamFile>& paramFiles) throw(runtime_error)
    {
-   // create the section name to search for in the control file.
-   string fullSection = "APSIM." + section;
-
    // read in all 'module=' lines from control file.
    IniFile controlFile(controlFileName);
    vector<string> moduleLines;
-   controlFile.read(fullSection, "module", moduleLines);
+   controlFile.read(section, "module", moduleLines);
 
    // loop through all module lines
    for (vector<string>::const_iterator moduleLineI = moduleLines.begin();
@@ -176,22 +151,17 @@ void parseControlSection(const string& controlFileName, const string& section,
 // ------------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------------
-ApsimControlFile::ApsimControlFile (void)
-   {
-   }
-
-// ------------------------------------------------------------------
-// Constructor
-// ------------------------------------------------------------------
-ApsimControlFile::ApsimControlFile (const string& filename)
+ApsimControlFile::ApsimControlFile (const string& filename,
+                                    const string& s) throw(std::runtime_error)
    {
    fileName = filename;
+   section = s;
    }
-
 // ------------------------------------------------------------------
 // Return a list of all section names to caller.
 // ------------------------------------------------------------------
-void ApsimControlFile::getAllSectionNames (vector<string>& sectionNames) const
+void ApsimControlFile::getAllSectionNames (const string& fileName,
+                                           vector<string>& sectionNames)
    {
    string line, sectionName;
 
@@ -200,27 +170,18 @@ void ApsimControlFile::getAllSectionNames (vector<string>& sectionNames) const
       {
       sectionName = getSectionName(line);
       if (sectionName.length() > 0)
-         {
-         char* posPrefix = stristr(sectionName.c_str(), "APSIM.");
-         if (posPrefix != NULL)
-            {
-            posPrefix += strlen("APSIM.");
-            sectionNames.push_back(posPrefix);
-            }
-         }
+         sectionNames.push_back(sectionName);
       }
    }
 // ------------------------------------------------------------------
 // Return a list of all modules that this control file references.
 // ------------------------------------------------------------------
-void ApsimControlFile::getAllFiles(const string& section,
-                                   vector<string>& fileNames) const throw(runtime_error)
+void ApsimControlFile::getAllFiles(vector<string>& fileNames) const throw(runtime_error)
    {
-   // create the section name to search for in the control file.
-   string fullSection = "APSIM." + section;
+   convertControlFile();
 
    vector<ParamFile> paramFiles;
-   parseControlSection(fileName, fullSection, paramFiles);
+   parseControlSection(fileName, section, paramFiles);
    for (vector<ParamFile>::const_iterator paramFileI = paramFiles.begin();
                                           paramFileI != paramFiles.end();
                                           paramFileI++)
@@ -233,89 +194,77 @@ void ApsimControlFile::getAllFiles(const string& section,
 // ------------------------------------------------------------------
 // Return the contents of the specified control file section.
 // ------------------------------------------------------------------
-string ApsimControlFile::getSectionContents(const string& section) const
+string ApsimControlFile::getSectionContents(void) const
    {
-   // create the section name to search for in the control file.
-   string fullSection = "APSIM." + section;
+   convertControlFile();
 
    IniFile controlFile(fileName);
    string contents;
-   controlFile.readSection(fullSection, contents);
+   controlFile.readSection(section, contents);
    return contents;
    }
 
 // ------------------------------------------------------------------
 // Set the contents of the specified section.
 // ------------------------------------------------------------------
-void ApsimControlFile::setSectionContents(const string& section,
-                                          const string& contents)
+void ApsimControlFile::setSectionContents(const string& contents)
    {
-   // create the section name to search for in the control file.
-   string fullSection = "APSIM." + section;
-
    IniFile controlFile(fileName);
-   controlFile.writeSection(fullSection, contents);
+   controlFile.writeSection(section, contents);
    }
 // ------------------------------------------------------------------
 // Return a list of all output file names for the specified section
 // ------------------------------------------------------------------
-void ApsimControlFile::getOutputFileNames(const string& section,
-                                          vector<string>& fileNames) const
+void ApsimControlFile::getOutputFileNames(vector<string>& fileNames) const
    {
-   vector<string> reportInstances;
-   getInstances(section, "report", reportInstances);
-   for (vector<string>::iterator instanceI = reportInstances.begin();
-                                 instanceI != reportInstances.end();
-                                 instanceI++)
-      getParamValues(section, *instanceI, "outputfile", fileNames);
+   vector<ApsimParameterFile> paramFiles;
+   getParameterFiles("report", paramFiles);
+
+   for (vector<ApsimParameterFile>::const_iterator
+                 paramFile = paramFiles.begin();
+                 paramFile != paramFiles.end();
+                 paramFile++)
+      paramFile->getParamValues("outputfile", fileNames);
    }
 // ------------------------------------------------------------------
 // Return a list of all summary file names for the specified section
 // ------------------------------------------------------------------
-void ApsimControlFile::getSummaryFileNames(const string& section,
-                                           vector<string>& fileNames) const
+void ApsimControlFile::getSummaryFileNames(vector<string>& fileNames) const
    {
-   vector<string> reportInstances;
-   getInstances(section, "report", reportInstances);
-   for (vector<string>::iterator instanceI = reportInstances.begin();
-                                 instanceI != reportInstances.end();
-                                 instanceI++)
-      getParamValues(section, *instanceI, "summaryfile", fileNames);
+   vector<ApsimParameterFile> paramFiles;
+   getParameterFiles("report", paramFiles);
+
+   for (vector<ApsimParameterFile>::const_iterator
+                 paramFile = paramFiles.begin();
+                 paramFile != paramFiles.end();
+                 paramFile++)
+      paramFile->getParamValues("summaryfile", fileNames);
    }
 
 // ------------------------------------------------------------------
 // Run apsim using the specified configuration file.
-// If sections.size() > 0 then only those sections specified will be run
-// If sections.size() == 0 then all sections will be run.
 // ------------------------------------------------------------------
-void ApsimControlFile::run(const vector<string>& sections,
-                           const string& configurationFile,
-                           bool quiet) const
+void ApsimControlFile::run(const string& configurationFile,
+                           bool quiet) const throw(runtime_error)
    {
-   vector<string> sectionsToRun = sections;
-   if (sectionsToRun.size() == 0)
-      getAllSectionNames(sectionsToRun);
-
-   for (vector<string>::const_iterator sectionI = sectionsToRun.begin();
-                                       sectionI != sectionsToRun.end();
-                                       sectionI++)
+   try
       {
-      ApsimSimulationFile simulation(createSIM(*sectionI, configurationFile));
+      ApsimSimulationFile simulation(createSIM(configurationFile));
       simulation.run(quiet);
+      }
+   catch (const runtime_error& error)
+      {
+      throw runtime_error(string(error.what()) + ".  Cannot run APSIM.");
       }
    }
 // ------------------------------------------------------------------
 // Return a list of instance names for the specified module name.
 // ------------------------------------------------------------------
-void ApsimControlFile::getInstances(const string& section,
-                                    const string& moduleName,
+void ApsimControlFile::getInstances(const string& moduleName,
                                     vector<string>& instanceNames) const
    {
-   // create the section name to search for in the control file.
-   string fullSection = "APSIM." + section;
-
    vector<ParamFile> paramFiles;
-   parseControlSection(fileName, fullSection, paramFiles);
+   parseControlSection(fileName, section, paramFiles);
    for (vector<ParamFile>::const_iterator paramFileI = paramFiles.begin();
                                           paramFileI != paramFiles.end();
                                           paramFileI++)
@@ -328,510 +277,432 @@ void ApsimControlFile::getInstances(const string& section,
    }
 
 // ------------------------------------------------------------------
-// Return the values of the specified parameter for the specified
-// module and section.
+// Return all the parameter files for the specified section and instance.
 // ------------------------------------------------------------------
-void ApsimControlFile::getParamValues(const string& section,
-                                      const string& instanceName,
-                                      const string& parameterName,
-                                      vector<string>& values) const
+void ApsimControlFile::getParameterFiles(const string& moduleName,
+                                         vector<ApsimParameterFile>& paramFiles,
+                                         bool oneFilePerInstance,
+                                         bool constants) const
    {
-   // empty parameter values
-   values.erase(values.begin(), values.end());
+   vector<string> instancesSoFar;
 
-   // create the section name to search for in the control file.
-   string fullSection = "APSIM." + section;
-
-   vector<ParamFile> paramFiles;
-   parseControlSection(fileName, fullSection, paramFiles);
-   for (vector<ParamFile>::const_iterator paramFileI = paramFiles.begin();
-                                          paramFileI != paramFiles.end();
-                                          paramFileI++)
+   vector<ParamFile> parFiles;
+   parseControlSection(fileName, section, parFiles);
+   for (vector<ParamFile>::const_iterator paramFile = parFiles.begin();
+                                          paramFile != parFiles.end();
+                                          paramFile++)
       {
-      if (Str_i_Eq(paramFileI->instanceName, instanceName))
+      bool doAdd = (moduleName == "" || Str_i_Eq(paramFile->moduleName, moduleName));
+      if (doAdd)
          {
-         IniFile ini(paramFileI->fileName);
-         ini.read(paramFileI->sectionName + ".parameters", parameterName,
-                  values);
+         if (constants)
+            doAdd = Str_i_Eq(paramFile->sectionName, "standard");
+         else
+            doAdd = !Str_i_Eq(paramFile->sectionName, "standard");
+         }
+      if (doAdd && oneFilePerInstance)
+         doAdd = (find(instancesSoFar.begin(), instancesSoFar.end(),
+                       paramFile->instanceName) == instancesSoFar.end());
+      if (doAdd)
+         {
+         vector<string> sections;
+         ApsimParameterFile::getSectionNames(paramFile->fileName,
+                                    paramFile->sectionName,
+                                    paramFile->instanceName,
+                                    sections);
+         for (vector<string>::iterator section = sections.begin();
+                                       section != sections.end();
+                                       section++)
+            paramFiles.push_back(ApsimParameterFile(paramFile->fileName,
+                                                    paramFile->moduleName,
+                                                    paramFile->instanceName,
+                                                    *section));
+         instancesSoFar.push_back(paramFile->instanceName);
          }
       }
    }
-
 // ------------------------------------------------------------------
-//  Short description:
-//     get a list of all module names for specified section.
-
-//  Notes:
-
-//  Changes:
-//    DPH 15/10/98
-
+// Return a list of all parameter values for the specified module
+// and parameter name.
 // ------------------------------------------------------------------
-/*void ApsimControlFile::getModuleNames (const string& controlSection,
-                                       list<string>& moduleNames)
+void ApsimControlFile::getParameterValues(const string& moduleName,
+                                          const string& parameterName,
+                                          vector<string>& values) const
    {
-   string sectionName = "APSIM.";
-   sectionName += controlSection;
+   convertControlFile();
 
-   Ini_file controlFile;
-   controlFile.Set_file_name (controlFilename.c_str());
-   controlFile.Read_list(sectionName.c_str(), "module", moduleNames);
+   vector<ApsimParameterFile> paramFiles;
+   getParameterFiles(moduleName, paramFiles);
 
-   for (list<string>::iterator moduleI = moduleNames.begin();
-                               moduleI != moduleNames.end();
-                               moduleI++)
-      {
-      // remove everything after the first space.
-      (*moduleI).erase((*moduleI).find(" "));
-      }
+   for (vector<ApsimParameterFile>::const_iterator
+                 paramFile = paramFiles.begin();
+                 paramFile != paramFiles.end();
+                 paramFile++)
+      paramFile->getParamValues(parameterName, values);
    }
-
 // ------------------------------------------------------------------
-//  Short description:
-//     enumerate through all parameters for the APSIM specified section.
-
-//  Notes:
-
-//  Changes:
-//    DPH 15/10/98
-//    Dph 12/4/2000 changed from foreachfunction to CallbackFunction
-
+// Return a single parameter value for the specified module
+// and parameter name.
 // ------------------------------------------------------------------
-void ApsimControlFile::enumerateInstances(const string& controlSection,
-                                          CallbackFunction<Instance&>& function)
+string ApsimControlFile::getParameterValue(const string& moduleName,
+                                           const string& parameterName) const throw(runtime_error)
    {
-   // create the section name to search for in the control file.
-   string sectionName = "APSIM.";
-   sectionName += controlSection;
-
-   // read in all 'module=' lines from control file.
-   Ini_file controlFile;
-   controlFile.Set_file_name (controlFilename.c_str());
-   list<string> moduleLines;
-   controlFile.Read_list (sectionName.c_str(), "module", moduleLines);
-
-   // loop through all module lines
-   string moduleName, instantiationName;
-   for (list<string>::iterator moduleI = moduleLines.begin();
-                               moduleI != moduleLines.end();
-                               moduleI++)
-      {
-      ParamFileListType paramFiles;
-      parseModuleLine (*moduleI, moduleName, instantiationName, paramFiles);
-
-      Instance i;
-      i.moduleName = moduleName;
-      i.instanceName = instantiationName;
-      function.callback(i);
-      }
+   vector<string> values;
+   getParameterValues(moduleName, parameterName, values);
+   if (values.size() == 0)
+      throw runtime_error("Expected a single parameter value but none was found. "
+                          "Module name: " + moduleName +
+                          "Parameter name: " + parameterName);
+   if (values.size() > 1)
+      throw runtime_error("Expected a single parameter value but multiple were found. "
+                          "Module name: " + moduleName +
+                          "Parameter name: " + parameterName);
+   return values[0];
    }
-
-// ------------------------------------------------------------------
-//  Short description:
-//     enumerate through all parameters for the APSIM specified section.
-
-//  Notes:
-
-//  Changes:
-//    DPH 15/10/98
-//    Dph 12/4/2000 changed from foreachfunction to CallbackFunction
-// ------------------------------------------------------------------
-void ApsimControlFile::enumerateParameters
-   (const string& controlSection, CallbackFunction<Parameter&>& function)
-   {
-   // create the section name to search for in the control file.
-   string sectionName = "APSIM.";
-   sectionName += controlSection;
-
-   // read in all 'module=' lines from control file.
-   Ini_file controlFile;
-   controlFile.Set_file_name (controlFilename.c_str());
-   list<string> moduleLines;
-   controlFile.Read_list (sectionName.c_str(), "module", moduleLines);
-
-   // loop through all module lines
-   string moduleName, instantiationName;
-   for (list<string>::iterator moduleI = moduleLines.begin();
-                               moduleI != moduleLines.end();
-                               moduleI++)
-      {
-      ParamFileListType paramFiles;
-      parseModuleLine (*moduleI, moduleName, instantiationName, paramFiles);
-
-      // loop through all parameter files and sections.
-      for (ParamFileListType::iterator paramFileI = paramFiles.begin();
-                                       paramFileI != paramFiles.end();
-                                       paramFileI++)
-         {
-         string paramFile = (*paramFileI).filename;
-         string sectionName = (*paramFileI).sectionName;
-         // remove leading instance name.
-         sectionName.erase(sectionName.find("."));
-
-         enumerateSection (moduleName, instantiationName, paramFile,
-                           sectionName, function);
-         }
-
-      if (paramFiles.size() == 0)
-         {
-         // special case - no parameter for module.
-         Parameter p;
-         p.isParameter = true;
-         p.moduleName = moduleName;
-         p.instanceName = instantiationName;
-         p.isError = false;
-         function.callback(p);
-         }
-      }
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//     Parse an APSIM section name into it's components.  Returns
-//     true if a valid section name.
-
-//  Notes:
-
-//  Changes:
-//    DPH 15/10/98
-
-// ------------------------------------------------------------------
-bool ApsimControlFile::parseSectionName(const string& line,
-                                        string& firstWord,
-                                        string& secondWord,
-                                        string& thirdWord)
-   {
-   string sectionName = Get_section_name(line.c_str());
-   if (sectionName.length() > 0)
-      {
-      size_t posFirstPeriod = sectionName.find(".");
-      if (posFirstPeriod != string::npos)
-         {
-         size_t posSecondPeriod = sectionName.substr
-                                  (posFirstPeriod+1).find(".");
-         if (posSecondPeriod != string::npos)
-            {
-            posSecondPeriod += posFirstPeriod + 1;
-            firstWord = sectionName.substr(0, posFirstPeriod);
-            secondWord = sectionName.substr
-                         (posFirstPeriod+1,
-                          posSecondPeriod - posFirstPeriod - 1);
-            thirdWord = sectionName.substr(posSecondPeriod+1);
-            return true;
-            }
-         }
-      }
-   return false;
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//     Go find an APSIM section name on the specified stream that
-//     matches the modulename and section name passed in.  Returns
-//     true and the third part of the section name if found.
-
-//  Notes:
-
-//  Changes:
-//    DPH 15/10/98
-
-// ------------------------------------------------------------------
-bool ApsimControlFile::findParameterSection(istream& in,
-                                            const string& moduleName,
-                                            const string& sectionName,
-                                            string& thirdWord)
-   {
-   // go find a parameter section.
-   string firstWord, secondWord;
-   string line;
-   getline(in, line);
-   while (in)
-      {
-      if (parseSectionName (line, firstWord, secondWord, thirdWord))
-         {
-         if (Str_i_Eq(firstWord, sectionName) &&
-             Str_i_Eq(secondWord, moduleName))
-            return true;
-         }
-      getline(in, line);
-      }
-   return false;
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//     Enumerate through all parameters for the specified section in the
-//     specified file.
-
-//  Notes:
-
-//  Changes:
-//    DPH 15/10/98
-//    Dph 12/4/2000 changed from foreachfunction to CallbackFunction
-// ------------------------------------------------------------------
-void ApsimControlFile::enumerateSection (const string& moduleName,
-                                         const string& instName,
-                                         const string& paramFile,
-                                         const string& sectionName,
-                                         CallbackFunction<Parameter&>& function)
-   {
-   ifstream in (paramFile.c_str());
-
-   Parameter p;
-   p.moduleName = moduleName;
-   p.instanceName = instName;
-   bool foundASection = false;
-
-   while (findParameterSection (in, instName, sectionName, p.sectionName))
-      {
-      foundASection = true;
-      long previousLinePos;
-
-      // found section - are we dealing with manager?
-      if (Str_i_Eq(moduleName, "manager") || Str_i_Eq(moduleName, "operatns"))
-         {
-         // yes manager - pass section contents to function
-         p.ruleContents = "";
-         string line;
-         previousLinePos = in.tellg();
-         getline(in, line);
-         while (in)
-            {
-            if (Get_section_name(line.c_str()).length() == 0)
-               {
-               p.ruleContents += line + "[cr]";
-               previousLinePos = in.tellg();
-               getline(in, line);
-               }
-            else
-               break;
-            }
-
-         p.isParameter = false;
-         p.isConstant = false;
-         p.isTable = false;
-         p.isRule = true;
-         p.isError = false;
-         p.name = p.sectionName;
-         function.callback(p);
-         }
-      else
-         {
-         // no not manager - can be either a data table section or a parameters section
-         string line;
-         previousLinePos = in.tellg();
-         getline(in, line);
-         while (in && Get_section_name(line.c_str()).length() == 0)
-            {
-            size_t posComment = line.find("!");
-            if (posComment != string::npos)
-               line.erase(posComment);
-            Strip(line, " ");
-
-            if (line.length() > 0)
-               {
-               // get a parameter name and value, and remove the units and comments from end
-               Get_keyname_and_value (line.c_str(), p.name, p.parameterValue);
-
-               if (!Str_i_Eq(moduleName, "report"))
-                  {
-                  size_t posUnits = p.parameterValue.find("(");
-                  if (posUnits != string::npos)
-                     p.parameterValue.erase(posUnits);
-                  }
-               Strip(p.parameterValue, " ");
-
-               if (p.name.length() > 0)
-                  {
-                  p.isParameter = (stristr((char*) paramFile.c_str(), ".ini")
-                                   == NULL);
-                  p.isConstant = !p.isParameter;
-                  p.isTable = false;
-                  p.isRule = false;
-                  p.isError = false;
-                  function.callback(p);
-                  }
-               else
-                  {
-                  // must be a data table.
-                  p.isParameter = false;
-                  p.isConstant = false;
-                  p.isTable = true;
-                  p.isRule = false;
-                  p.isError = false;
-                  p.name = "default";
-                  p.tableFileName = paramFile;
-                  p.tableStartPos = previousLinePos;
-                  function.callback(p);
-
-                  if (Str_i_Eq(moduleName, "met") ||
-                      Str_i_Eq(moduleName, "input") ||
-                      Str_i_Eq(moduleName, "soi"))
-                     break;
-                  }
-               }
-
-            // goto next line.
-            previousLinePos = in.tellg();
-            getline(in, line);
-            }
-         }
-      if (in)
-         in.seekg(previousLinePos);
-      }
-   if (!foundASection)
-      {
-      p.isParameter = false;
-      p.isConstant = false;
-      p.isTable = false;
-      p.isRule = false;
-      p.isError = true;
-      p.errorMessage = "Cannot find section " + sectionName + " in file " +
-                       paramFile;
-      function.callback(p);
-      }
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//     get a list of parameter files from the control file for the
-//     specified module
-
-//  Notes:
-
-//  Changes:
-//    DPH 15/10/98
-
-// ------------------------------------------------------------------
-void ApsimControlFile::getParamFilesForModule (const string&  controlsection,
-                                               const string&  moduleName,
-                                               ParamFileListType& paramFiles)
-   {
-   paramFiles.erase (paramFiles.begin(), paramFiles.end());
-
-   // create the section name to search for in the control file.
-   string sectionName = "APSIM.";
-   sectionName += controlsection;
-
-   // read in all 'module=' lines from control file.
-   Ini_file controlFile;
-   controlFile.Set_file_name (controlFilename.c_str());
-   list<string> moduleLines;
-   controlFile.Read_list (sectionName.c_str(), "module", moduleLines);
-
-   // loop through all module lines looking for our module name
-   string module, instantiationName;
-   for (list<string>::iterator moduleLineI = moduleLines.begin();
-                               moduleLineI != moduleLines.end();
-                               moduleLineI++)
-      {
-      ParamFileListType ourParamFiles;
-      parseModuleLine (*moduleLineI, module,
-                        instantiationName, ourParamFiles);
-      if (moduleName.length() == 0 || Str_i_Eq(module, moduleName))
-         {
-         std::copy (ourParamFiles.begin(), ourParamFiles.end(),
-                    std::back_inserter(paramFiles));
-         }
-      }
-   }
-
-
-// ------------------------------------------------------------------
-//  Short description:
-//     Get a parameter from the specified file in the specified APSIM section.
-//     Return true if parameter found.
-
-//  Notes:
-
-//  Changes:
-//    DPH 15/10/98
-
-// ------------------------------------------------------------------
-bool ApsimControlFile::getParametersFromFile(const string& fileName,
-                                             const string& sectionName,
-                                             const string& parameterName,
-                                             list<string>& parameterValues)
-   {
-   // read parameters from file.
-   Ini_file paramFile;
-   paramFile.Set_file_name (fileName.c_str());
-   list<string> values;
-   paramFile.Read_list (sectionName.c_str(), parameterName.c_str(), values);
-
-   // copy our values to the return list.
-   std::copy (values.begin(), values.end(), std::back_inserter(parameterValues));
-
-   return (values.size() > 0);
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//     return a list of all parameter file names for all modules.
-//     Excludes .ini files.
-
-//  Notes:
-
-//  Changes:
-//    DPH 15/10/98
-
-// ------------------------------------------------------------------
-void ApsimControlFile::getAllParamFiles (const string& controlSection,
-                                         list<string>& fileNames)
-   {
-   ParamFileListType files;
-   getParamFilesForModule (controlSection, "", files);
-
-   // remove all files that have a .ini in their name.
-   for (ParamFileListType::iterator fileI = files.begin();
-                                    fileI != files.end();
-                                    fileI++)
-      {
-      string file = (*fileI).filename;
-      if ( stristr((char*) file.c_str(), ".ini") == NULL)
-         fileNames.push_back ( file);
-      }
-   fileNames.erase(std::unique(fileNames.begin(), fileNames.end()),
-                    fileNames.end());
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//     return a list of all constant (.ini) file names for all modules.
-
-//  Notes:
-
-//  Changes:
-//    DPH 15/10/98
-
-// ------------------------------------------------------------------
-void ApsimControlFile::getAllConstantFiles(const string& controlSection,
-                                           list<string>& fileNames)
-   {
-   ParamFileListType files;
-   getParamFilesForModule (controlSection, "", files);
-
-   // remove all files that have a .ini in their name.
-   for (ParamFileListType::iterator fileI = files.begin();
-                                    fileI != files.end();
-                                    fileI++)
-      {
-      string file = (*fileI).filename;
-      if ( stristr((char*) file.c_str(), ".ini") != NULL)
-         fileNames.push_back (file);
-      }
-   fileNames.erase(std::unique(fileNames.begin(), fileNames.end()),
-                    fileNames.end());
-   }
-*/
 // ------------------------------------------------------------------
 // Create a SIM file for the specified section and return its filename.
 // ------------------------------------------------------------------
-std::string ApsimControlFile::createSIM(const string& section,
-                                        const string& configurationFile) const
+std::string ApsimControlFile::createSIM(const string& configurationFile) const throw(runtime_error)
    {
-   string simulationFileName;
+   convertControlFile();
 
+   string simulationFileName = ChangeFileExt(fileName.c_str(), ".sim").c_str();
+   DeleteFile(simulationFileName.c_str());
+   ApsimSimulationFile simulation(simulationFileName);
+   ApsimConfigurationFile configuration(configurationFile);
+
+   createServices(simulation, configuration);
+
+   // Get a complete list of files and sections we're to convert.
+   vector<ApsimParameterFile> paramFiles;
+   getParameterFiles("", paramFiles);
+
+   // Loop through all files | sections and parse each.
+   for (vector<ApsimParameterFile>::iterator paramFile = paramFiles.begin();
+                                             paramFile != paramFiles.end();
+                                             paramFile++)
+      {
+      ApsimComponentData component = simulation.addComponent(paramFile->getInstanceName());
+      component.setExecutableFileName
+         (configuration.getDllForComponent(paramFile->getModuleName()));
+      paramFile->importIntoSIM(simulation);
+      }
+   simulation.write();
    return simulationFileName;
+   }
+
+// ------------------------------------------------------------------
+// Create default services in specified simulation
+// ------------------------------------------------------------------
+void ApsimControlFile::createServices(ApsimSimulationFile& simulation,
+                                      ApsimConfigurationFile& configuration) const
+   {
+   // give simulation a title.
+   ApsimParameterFile controlFile(fileName, "", "", section);
+   string title = controlFile.getParamValue("title");
+   if (title != "")
+      simulation.setTitle(title);
+
+   // create an setup a log service.
+   ApsimServiceData log = simulation.addService("log");
+   log.setExecutableFileName(configuration.getDllForComponent("log"));
+   string logFileName = Path(fileName).Get_name_without_ext() + ".log";
+   log.setProperty("filename", logFileName);
+   string debug_output = controlFile.getParamValue("debug_output");
+   if (debug_output != "")
+      log.setProperty("debug_output", debug_output);
+
+   // create a summaryfile service.
+   ApsimServiceData summaryfile = simulation.addService("summaryfile");
+   summaryfile.setExecutableFileName(configuration.getDllForComponent("summaryfile"));
+   string summaryfilename = controlFile.getParamValue("summaryfile");
+   summaryfile.setProperty("summaryfile", summaryfilename);
+   }
+// ------------------------------------------------------------------
+// Convert the control / parameter file.
+// ------------------------------------------------------------------
+bool ApsimControlFile::convertControlFile(void) const throw(runtime_error)
+   {
+   string logFileName = section;
+   Replace_all(logFileName, ".", "_");
+   Path logPath(fileName);
+   logPath.Set_name(logFileName.c_str());
+   logPath.Set_extension(".conversions");
+   ofstream log(logPath.Get_path().c_str());
+
+   bool isError = false;
+
+   TControlFileConversionForm* form = new TControlFileConversionForm(Application);
+   form->Show();
+   form->waitForOkButton();
+
+   Path scriptFile(Application->ExeName.c_str());
+   scriptFile.Set_name("conversion.script");
+   ifstream in(scriptFile.Get_path().c_str());
+
+   unsigned statusIndex = -1;
+   string description;
+   string msg, logmsg;
+   string line;
+   while (getline(in, line))
+      {
+      try
+         {
+         if (line != "")
+            {
+            StringTokenizer tokenizer(line, " ");
+            string routineName = tokenizer.nextToken();
+
+            if (Str_i_Eq(routineName, "description"))
+               {
+               if (logmsg != "")
+                  log << logmsg << endl;
+               description = line.substr(line.find(' ')+1);
+               msg = "<IMG \"idx:0\">" + description;
+               logmsg = "OK: " + description;
+               statusIndex++;
+               }
+            else
+               {
+               unsigned posPeriod = routineName.find('.');
+               if (posPeriod == string::npos)
+                  throw runtime_error("Invalid format for script command: " + routineName);
+               string moduleName = routineName.substr(0, posPeriod);
+               routineName.erase(0, posPeriod+1);
+
+               vector<ApsimParameterFile> paramFiles;
+               getParameterFiles(moduleName, paramFiles);
+               for (vector<ApsimParameterFile>::const_iterator
+                        paramFile = paramFiles.begin();
+                        paramFile != paramFiles.end();
+                        paramFile++)
+                  {
+                  if (Str_i_Eq(routineName, "createParameter"))
+                     parseCreateParameter(*paramFile, tokenizer);
+                  else if (Str_i_Eq(routineName, "deleteParameter"))
+                     parseDeleteParameter(*paramFile, tokenizer);
+                  else if (Str_i_Eq(routineName, "newFormatReportVariables"))
+                     parseNewFormatReportVariables(*paramFile, tokenizer);
+                  else if (Str_i_Eq(routineName, "moveParameter"))
+                     parseMoveParameter(*paramFile, tokenizer);
+                  else if (Str_i_Eq(routineName, "removeReportOutputSwitch"))
+                     parseRemoveReportOutputSwitch(*paramFile, tokenizer);
+                  else
+                     throw runtime_error("Invalid control file script routine name: " + routineName);
+                  }
+               }
+            }
+         }
+      catch (const runtime_error& error)
+         {
+         // output status text.
+         msg = "<IMG \"idx:1\">" + description + ".<BR>Warning: " + error.what();
+         logmsg = "WARNING: " + description + "  " + error.what();
+         isError = true;
+         form->displayErrorButton();
+         }
+      form->StatusList->Items->Strings[statusIndex] = msg.c_str();
+      Application->ProcessMessages();
+      }
+
+   // write out last log message.
+   log << logmsg << endl;
+   string logCaption = "Log file: " + logPath.Get_path() + " has been writen.";
+   form->LogLabel->Caption = logCaption.c_str();
+
+   form->waitForOkButton();
+   delete form;
+   return isError;
+   }
+// ------------------------------------------------------------------
+// convert a module name to an instance name.
+// ------------------------------------------------------------------
+string ApsimControlFile::moduleToInstance(const string& moduleName) const
+   {
+   vector<string> instanceNames;
+   getInstances(moduleName, instanceNames);
+   if (instanceNames.size() == 0)
+      throw runtime_error("Control file converter error: Cannot find an instance of module: "
+                          + moduleName + ".");
+   else if (instanceNames.size() > 1)
+      throw runtime_error("Control file converter error: More than 1 instance of module: "
+                          + moduleName + "has been found.");
+   return instanceNames[0];
+   }
+// ------------------------------------------------------------------
+// Parse a parameter name (e.g. clock.start_day) string and return
+// the module and parameter name.
+// ------------------------------------------------------------------
+void ApsimControlFile::parseName(StringTokenizer& tokenizer,
+                                 string& moduleName, string& parameterName) const
+   {
+   parameterName = tokenizer.nextToken("(),=");
+   unsigned posPeriod = parameterName.find('.');
+   if (posPeriod == string::npos)
+      throw runtime_error("Control file converter error: Invalid format for "
+                          "parameter name.  Parameter: "
+                          + parameterName);
+   moduleName = parameterName.substr(0, posPeriod);
+   Strip(moduleName, " ");
+   parameterName = parameterName.substr(posPeriod+1);
+   Strip(parameterName, " ");
+   }
+// ------------------------------------------------------------------
+// Parse a value string and return it's value.
+// ------------------------------------------------------------------
+string ApsimControlFile::parseValue(const ApsimParameterFile& paramFile,
+                                    StringTokenizer& tokenizer) const
+   {
+   // Syntax is either a literal value e.g. 10.6
+   // or a function call e.g. getValue(clock.start_day) or date(1, 2000)
+   string word = tokenizer.nextToken("(),=");
+   Strip(word, " ");
+   if (Str_i_Eq(word, "date"))
+      return parseDate(paramFile, tokenizer);
+   else
+      {
+      string value = paramFile.getParamValue(word);
+      if (value == "")
+         {
+         // assume word is a literal and just return it as the value.
+         return word;
+         }
+      else
+         return value;
+      }
+   }
+// ------------------------------------------------------------------
+// Parse a date string and return it's value.
+// ------------------------------------------------------------------
+string ApsimControlFile::parseDate(const ApsimParameterFile& paramFile, StringTokenizer& tokenizer) const
+   {
+   // This function expects 2 values: day_of_year and year
+   string dayString = parseValue(paramFile, tokenizer);
+   string yearString = parseValue(paramFile, tokenizer);
+   if (dayString == "" || yearString == "")
+      throw runtime_error("Control file converter error: Format of date function is: "
+                          "date(dayOfYear, year)");
+   int day = atoi(dayString.c_str());
+   int year = atoi(yearString.c_str());
+   GDate date;
+   date.Set(day, year);
+   ostringstream buffer;
+   date.Write(buffer);
+   return buffer.str();
+   }
+// ------------------------------------------------------------------
+// Parse the CreateParameter function call
+// ------------------------------------------------------------------
+void ApsimControlFile::parseCreateParameter(const ApsimParameterFile& paramFile,
+                                            StringTokenizer& tokenizer) const throw(runtime_error)
+   {
+   // E.g. Syntax of this function:
+   //    clock.createParameter simulation_start_date = date(simulation_start_day, simulation_start_year)
+   string parameterName = tokenizer.nextToken("(),=");
+   string parameterValue = parseValue(paramFile, tokenizer);
+   paramFile.setParamValue(parameterName, parameterValue);
+   }
+// ------------------------------------------------------------------
+// Parse the DeleteParameter function call
+// ------------------------------------------------------------------
+void ApsimControlFile::parseDeleteParameter(const ApsimParameterFile& paramFile, StringTokenizer& tokenizer) const throw(runtime_error)
+   {
+   // E.g. Syntax of this function:
+   //    clock.deleteParameter simulation_start_day
+   string parameterName = tokenizer.nextToken("(),=");
+   Strip(parameterName, " ");
+   string parameterValue = parseValue(paramFile, tokenizer);
+   paramFile.deleteParam(parameterName);
+   }
+// ------------------------------------------------------------------
+// Parse the moveParameter function call
+// ------------------------------------------------------------------
+void ApsimControlFile::parseMoveParameter(const ApsimParameterFile& paramFile, StringTokenizer& tokenizer) const throw(runtime_error)
+   {
+   // E.g. Syntax of this function:
+   //    report.moveParameter title
+   string parameterName = tokenizer.nextToken("(),=");
+   Strip(parameterName, " ");
+   string value = paramFile.getParamValue(parameterName);
+   if (value == "")
+      throw runtime_error("Parameter: " +  parameterName + " not found.  Cannot move.");
+
+   if (!tokenizer.hasMoreTokens())
+      {
+      // parameter is being moved to control file.
+      paramFile.deleteParam(parameterName);
+      ApsimParameterFile controlFile(fileName, "", "", section);
+      controlFile.setParamValue(parameterName, value);
+      }
+   }
+// ------------------------------------------------------------------
+// Parse the newFormatReportVariables function call
+// ------------------------------------------------------------------
+void ApsimControlFile::parseNewFormatReportVariables(const ApsimParameterFile& paramFile, StringTokenizer& tokenizer) const throw(runtime_error)
+   {
+   // Syntax of this function:
+   //
+
+   // Get the module_names, variable_names and variable_alias lines for all
+   // instances of REPORT.  Keep in mind that there may be multiple variable 'blocks'
+   // for each section.
+   vector<string> moduleLines, variableLines, aliasLines;
+   paramFile.getParamValues("module_names", moduleLines);
+   paramFile.getParamValues("variable_names", variableLines);
+   paramFile.getParamValues("variable_alias", aliasLines);
+
+   if (moduleLines.size() != variableLines.size()
+       || moduleLines.size() != aliasLines.size())
+      throw runtime_error("Control file converter error: Invalid report variables section in "
+                          "parameter file.  The number of values in the module_names, "
+                          "variable_names and variable_alias lines must be the same. ");
+
+   // For each variable on each variable line, create a new variable.
+   vector<string> newVariables;
+   for (unsigned variableLineI = 0;
+                 variableLineI != variableLines.size();
+                 variableLineI++)
+      {
+      vector<string> modules, variables, aliases;
+      Split_string(moduleLines[variableLineI], " ", modules);
+      Split_string(variableLines[variableLineI], " ", variables);
+      Split_string(aliasLines[variableLineI], " ", aliases);
+      if (modules.size() != variables.size() || modules.size() != aliases.size())
+         throw runtime_error("Control file converter error: Invalid report variables section in "
+                             "parameter file.  The number of values in the module_names, "
+                             "variable_names and variable_alias lines must be the same. "
+                             "Variable_names: " + variableLines[variableLineI]);
+      for (unsigned int variable = 0; variable < variables.size(); variable++)
+         {
+         string variableName = modules[variable] + "." + variables[variable];
+         if (aliases[variable] != "-")
+            variableName += "(" + aliases[variable] + ")";
+         newVariables.push_back(variableName);
+         }
+      }
+
+   // write all new variables.
+   paramFile.setParamValues("variable", newVariables);
+   }
+// ------------------------------------------------------------------
+// Parse the newFormatReportVariables function call
+// ------------------------------------------------------------------
+void ApsimControlFile::parseRemoveReportOutputSwitch
+   (const ApsimParameterFile& paramFile, StringTokenizer& tokenizer) const throw(runtime_error)
+   {
+   // E.g. Syntax of this function:
+   //    report.removeReportOutputSwitch outputfile
+   string parameterName = tokenizer.nextToken("(),=");
+   Strip(parameterName, " ");
+   string value = paramFile.getParamValue(parameterName);
+   unsigned posOverwrite = value.find("/overwrite");
+   if (posOverwrite == string::npos)
+      paramFile.setParamValue(parameterName + "_increment", "true");
+   else
+      {
+      value.erase(posOverwrite);
+      Strip(value, " ");
+      paramFile.setParamValue(parameterName, value);
+      }
    }
 
