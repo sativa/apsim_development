@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.2
+     Version                = 3.3
      Title                  = Wheat Winter-grass Simulation
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -23,9 +23,14 @@
      Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
-     Component DLL          = c:\development\apsim\CropMod\lib\CropMod.dll
+     Component DLL          = c:\development\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+        report
      Simulation start date =  9/04/1988
      Simulation end date   = 30/05/1989
      Time step =           = 1440 (mins)
@@ -59,20 +64,23 @@
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
      
-     SECTION:- init
-     weed_in = 0
-     
      SECTION:- start_of_day
      if day = 169 and year = 1988 then
         wheat sow cultivar = hartog, plants = 121.61, sowing_depth = 30 (mm), tiller_no_fertile = 0
         weed sow cultivar = late, plants = 15 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
         weed_in = 1
      endif
-     if (wheat.stage = 11) then
+     if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
        wheat harvest
        wheat kill_crop
        wheat end_crop
      endif
+     
+     SECTION:- init
+     weed_in = 0
+     
+     SECTION:- end_of_day
+     report do_output
      
      SECTION:- start_of_day
      if weed_in = 1 and
@@ -85,9 +93,6 @@
            weed end_crop
            weed_in = 0
      endif
-     
-     SECTION:- end_of_day
-     report do_output
      END of rules
      
      Manager creating a new local real variable : weed_in =     0.00000000000000
@@ -233,62 +238,71 @@
       Initialising
 
 ------- wheat Initialisation --------------------------------------------------
-      Initialising, V1.0 2000.01.21
-     
-         - Reading constants
+      Initialising
 ------- Start of simulation  --------------------------------------------------
 17 June 1988(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 121.61, sowing_depth = 30 (mm), tiller_no_fertile = 0
 17 June 1988(Day of year=169), wheat: 
-     Sowing initiate
+     Sow
      
-     
-     
-                      Crop Sowing Data
-         -------------------------------------------------------
-         Sowing   Depth  Plants Spacing Skiprow Cultivar    FTN
-         Day no    mm      m^2    m      code     name       no
-         -------------------------------------------------------
-            169   30.0  121.6    0.0    0.0   hartog        0.00
-         -------------------------------------------------------
-     
-        - Reading root profile parameters
-     Uptake of NO3 and water calculated by wheat
-     
-     
-     
-     
-                         Root Profile
-         ------------------------------------------------
-           Layer      Kl      Lower Exploration
-           Depth              limit   Factor
-           (mm)       ()     (mm/mm)    ()
-         ------------------------------------------------
-          150.000    0.060    0.200    1.000
-          150.000    0.060    0.201    0.600
-          300.000    0.060    0.215    0.450
-          300.000    0.060    0.176    0.220
-          300.000    0.060    0.141    0.100
-          300.000    0.060    0.249    0.080
-          300.000    0.020    0.279    0.050
-          ------------------------------------------------
-     
-     
-     
+      - Reading constants for plant
      
         - Reading Cultivar Parameters
          ------------------------------------------------
-         Cultivar                     = hartog
-         Sensitivity to vernalisation =   1.50
-         Sensitivity to photoperiod   =    3.00
-         tt_startgrainfill_to_mat     =  580.00
-         grain_num_coeff              =   33.00
-         max_grain_fill_rate          =    2.30
-         dm_tiller_max                =    1.22
-         x_stem_wt                    =     0.0    2.0
-         y_height                     =    10.0  700.0
+         Cultivar                   = hartog
+         est_days_emerg_to_init     =        0
+         cum_vernal_days            =
+         tt_emerg_to_endjuv         =
+         x_pp_endjuv_to_init        =
+         y_tt_endjuv_to_init        =
+         x_pp_init_to_flower        =
+         y_tt_init_to_flower        =
+         x_pp_flower_to_start_grain =
+         y_tt_flower_to_start_grain =
+         x_pp_start_to_end_grain    =
+         y_tt_start_to_end_grain    =
+         tt_end_grain_to_maturity   =      0.0
+         tt_maturity_to_ripe        =      0.0
+         x_pp_hi_incr               =     1.00   24.00
+         y_hi_incr                  =  0.01300 0.01300
+         x_hi_max_pot_stress        =     0.00    1.00
+         y_hi_max_pot               =     0.50    0.50
+         x_stem_wt                  =     0.00    6.00
+         y_height                   =     0.00 1500.00
          ------------------------------------------------
      
+     
+     
+     
+        - Reading root profile parameters
+     
+     
+                         Root Profile
+     ---------------------------------------------------
+          Layer       Kl           Lower    Exploration
+          Depth     Factor         Limit      Factor
+          (mm)         ()        (mm/mm)       (0-1)
+     ---------------------------------------------------
+          150.0     0.060          0.200       1.000
+          150.0     0.060          0.201       0.600
+          300.0     0.060          0.215       0.450
+          300.0     0.060          0.176       0.220
+          300.0     0.060          0.141       0.100
+          300.0     0.060          0.249       0.080
+          300.0     0.020          0.279       0.050
+     ---------------------------------------------------
+     
+     
+       Crop factor for bounding water use is set to   1.1 times Eo
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
+         Day no   mm     m^2     mm   Row   Plant Name
+         ------------------------------------------------
+            169   30.0  121.6  250.0   0.0   0.0  hartog
+         ------------------------------------------------
      
      
 17 June 1988(Day of year=169), manager: 
@@ -362,16 +376,16 @@
       stage    2.0 germination
 24 June 1988(Day of year=176), wheat: 
       stage    3.0 emergence
-                          biomass =          0.5715671       lai =    0.6080500E-02
-                          stover N conc =    6.299999       extractable sw =    70.80305
+                          biomass =          0.5594060       lai =    0.2432200E-01
+                          stover N conc =    5.847826       extractable sw =    35.13984
 25 June 1988(Day of year=177), weed: 
       stage    3.0 emergence
                           biomass =          0.8999999       lai =    0.3750000E-02
                           stover N conc =    6.000000       extractable sw =    30.57316
 25 June 1988(Day of year=177), wheat: 
       stage    4.0 end_of_juvenile
-                          biomass =          0.7525535       lai =    0.7762126E-02
-                          stover N conc =    4.784873       extractable sw =    70.66406
+                          biomass =          0.7415140       lai =    0.2726949E-01
+                          stover N conc =    5.831170       extractable sw =    35.07316
 12 July 1988(Day of year=194), manager: 
      Manager sending message :- weed kill_crop
 12 July 1988(Day of year=194), weed: 
@@ -380,106 +394,110 @@
      Manager sending message :- weed end_crop
 12 July 1988(Day of year=194), weed: 
          Crop ended. Yield (dw) =     0.0
-                                               straw residue =   23.9 kg/ha
-                                               straw N =    0.8 kg/ha
-                                               root residue =   15.5 kg/ha
+                                               straw residue =   25.3 kg/ha
+                                               straw N =    0.9 kg/ha
+                                               root residue =   16.3 kg/ha
                                                root N =    0.2 kg/ha
 16 August 1988(Day of year=229), wheat: 
       stage    5.0 floral_initiation
-                          biomass =           278.5294       lai =     3.473914
-                          stover N conc =    2.171183       extractable sw =    164.2991
-3 September 1988(Day of year=247), wheat: 
-      stage    6.0 flag_leaf
-                          biomass =           472.7123       lai =     3.057559
-                          stover N conc =    1.526910       extractable sw =    164.7113
+                          biomass =           199.9174       lai =     2.880054
+                          stover N conc =    2.171290       extractable sw =    114.5904
 19 September 1988(Day of year=263), wheat: 
-      stage    7.0 flowering
-                          biomass =           712.3828       lai =     2.717821
-                          stover N conc =   0.9938606       extractable sw =    150.2454
+      stage    6.0 flowering
+                          biomass =           594.6920       lai =     2.156306
+                          stover N conc =    1.043179       extractable sw =    200.6211
 26 September 1988(Day of year=270), wheat: 
-      stage    8.0 start_grain_fill
-                          biomass =           844.0760       lai =     2.510726
-                          stover N conc =   0.8437893       extractable sw =    180.8699
-27 October 1988(Day of year=301), wheat: 
-      stage    9.0 end_grain_fill
-                          biomass =           982.6845       lai =     0.000000
-                          stover N conc =   0.8707542       extractable sw =    122.0243
-29 October 1988(Day of year=303), wheat: 
-      stage   10.0 maturity
-                          biomass =           982.6846       lai =     0.000000
-                          stover N conc =   0.8723848       extractable sw =    121.9287
-30 October 1988(Day of year=304), wheat: 
-      stage   11.0 harvest_ripe
-                          biomass =           982.6847       lai =     0.000000
-                          stover N conc =   0.8723848       extractable sw =    121.8817
-31 October 1988(Day of year=305), manager: 
+      stage    7.0 start_grain_fill
+                          biomass =           710.4586       lai =     1.750498
+                          stover N conc =   0.6749603       extractable sw =    173.7582
+20 October 1988(Day of year=294), wheat: 
+      stage    8.0 end_grain_fill
+                          biomass =           836.6242       lai =    0.2700347
+                          stover N conc =   0.3068674       extractable sw =    221.8577
+21 October 1988(Day of year=295), wheat: 
+      stage    9.0 maturity
+                          biomass =           836.6243       lai =    0.2467381
+                          stover N conc =   0.3064548       extractable sw =    221.2190
+22 October 1988(Day of year=296), wheat: 
+      stage   10.0 harvest_ripe
+                          biomass =           836.6242       lai =    0.6080568E-03
+                          stover N conc =   0.3019879       extractable sw =    220.0557
+23 October 1988(Day of year=297), manager: 
      Manager sending message :- wheat harvest
-31 October 1988(Day of year=305), wheat: 
+23 October 1988(Day of year=297), wheat: 
      
      
      
-     flowering (DAS) =  95                  maturity (DAS)  = 135
-      flowering day  =  263                  stover (kg/ha) =    6442.7
-      maturity day        =  303             grain yield (kg/ha) =    3384.2
-      grain % water content   =   13.0       grain yield wet (kg/ha) =    3889.8
-      grain wt (g) =     0.028               grains/m^2   = 12227.465
-      grains/head = 100.5                    maximum lai = 3.646
-      total above ground biomass (kg/ha) =    9826.8
-      live above ground biomass (kg/ha) =    9826.8
-      green above ground biomass (kg/ha) =    7613.9
-      senesced above ground biomass (kg/ha) =    2212.9
+      flowering day  =  263                  stover (kg/ha) =    5508.4
+      maturity day        =  295             grain yield (kg/ha) =    2857.8
+      grain % water content   =   12.5       grain yield wet (kg/ha) =    3266.1
+      grain wt (g) =     0.034               grains/m^2   =  8365.564
+      grains/head =  68.8                    maximum lai = 3.051
+      total above ground biomass (kg/ha) =    8366.2
+      live above ground biomass (kg/ha) =    8366.2
+      green above ground biomass (kg/ha) =    7047.4
+      senesced above ground biomass (kg/ha) =    1318.8
       dead above ground biomass (kg/ha) =       0.0
-      number of leaves =  17.4
-      grain N percent =      1.66            total N content (kg/ha) =     70.85
-      grain N uptake (kg/ha) =     56.20     senesced N content (kg/ha) =      4.43
-      green N content (kg/ha) =     10.23    dead N content (kg/ha) =      0.00
+      number of leaves =  40.1
+      grain N percent =      1.80            total N content (kg/ha) =     70.75
+      grain N uptake (kg/ha) =     51.51     senesced N content (kg/ha) =      6.59
+      green N content (kg/ha) =     12.65    dead N content (kg/ha) =      0.00
      
      
      
       stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.2069176
       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2069176
      
      
      
       stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0719673
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1653985
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0933473
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1265406
      
      
      
       stress indices for floral_initiation
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.2533854
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.4940714
-     
-     
-     
-      stress indices for flag_leaf
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1028114
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.1710519
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.2742730
      
      
      
       stress indices for flowering
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0006188
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0912179
      
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.0163404   nitrogen stress 1 =       0.4712372
-      water stress 2 =       0.0381952   nitrogen stress 2 =       0.6393614
-31 October 1988(Day of year=305), manager: 
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.5220507
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.8261539
+     
+      Crop harvested.
+                                               tops residue = 5508.2 kg/ha
+                                               tops N =   19.2 kg/ha
+                                               root residue =    0.0 kg/ha
+                                               root N =    0.0 kg/ha
+     
+     
+                                               tops removed = 2857.8 kg/ha
+                                               tops N removed =   51.5 kg/ha
+                                               root removed =    0.0 kg/ha
+                                               root N removed =    0.0 kg/ha
+      stage    4.0 end_of_juvenile
+                          biomass =          0.2388763E-01   lai =    0.2432200E-01
+                          stover N conc =    6.300403       extractable sw =    220.0557
+23 October 1988(Day of year=297), manager: 
      Manager sending message :- wheat kill_crop
-31 October 1988(Day of year=305), wheat: 
-         kill. Standing above-ground dm =  6442.7 (kg/ha)
-31 October 1988(Day of year=305), manager: 
+23 October 1988(Day of year=297), wheat: 
+     plant_kill. 100% crop killed because of external action.
+23 October 1988(Day of year=297), manager: 
      Manager sending message :- wheat end_crop
-31 October 1988(Day of year=305), wheat: 
-         ended. Yield (dw) =     0.0
-                                               straw residue = 6442.7 kg/ha
-                                               straw N =   14.7 kg/ha
-                                               root residue = 4833.9 kg/ha
-                                               root N =   36.0 kg/ha
+23 October 1988(Day of year=297), wheat: 
+         Crop ended. Yield (dw) =     0.0
+                                               straw residue =    0.2 kg/ha
+                                               straw N =    0.0 kg/ha
+                                               root residue = 1256.5 kg/ha
+                                               root N =   16.2 kg/ha
 30 May 1989(Day of year=150), clock: 
      Simulation is terminating due to end criteria being met.
