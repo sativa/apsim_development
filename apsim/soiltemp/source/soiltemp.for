@@ -215,7 +215,6 @@
          endif
 
          g%tn(0) = g%airt
-
          call soiltemp_heat(g%heat_store)
 
          call soiltemp_therm(g%therm_cond)
@@ -225,7 +224,6 @@
          call soiltemp_update()
 
       enddo
-
 
       call pop_routine (myname)
       return
@@ -256,15 +254,15 @@
       parameter (myname = 'soiltemp_heat')
 
 *+  Local Variables
-      real l_heat_store(max_node)
+      real l_heat_store(max_node)   ! Joules*m-3*K-1
       integer i
-      real porosity
+      real solidity
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
          do i=1,g%nz
-            porosity = e%rhob(i) / 2.65
-            l_heat_store(i)=(   c%vol_spec_heat_clay*(1-porosity)  +
+            solidity = e%rhob(i) / 2.65
+            l_heat_store(i)=(   c%vol_spec_heat_clay*solidity  +
      :                     c%vol_spec_heat_water*e%sw(i)           )
          enddo
 
@@ -375,7 +373,6 @@
       do i = 1,g%nz
          heat(i) = g%heat_store(i) * 0.5 * (g%z(i+1) - g%z(i-1)) / g%dt   !rate of heat
          therm(i) = g%therm_cond(i) / (g%z(i+1)-g%z(i))     !convert to thermal conduc
-      enddo
 
 !My version
       a(1) = 0.0
@@ -390,7 +387,7 @@
      :       + g%t(2) * (1-c%nu) * therm(1)
      :       + therm(0)* g%tn(0) * c%nu
       if ((e%eos - e%es) .gt. 0.2) then
-         d(1) = d(1) - (e%eos - e%es) * lambda / e%timestepsec
+         d(1) = d(1) + (e%eos - e%es) * lambda / e%timestepsec
       endif
 !last line is unfullfilled soil water evaporation
 !the main loop
@@ -408,10 +405,12 @@
       enddo
 !lower node
       a(g%nz) = -c%nu * therm(g%nz-1)
+      a(g%nz+1) = -c%nu * therm(g%nz)
       b(g%nz) =  c%nu * therm(g%nz)
      :       + c%nu * therm(g%nz-1)
      :       + heat(g%nz)
       cc(g%nz) = 0.0
+      cc(g%nz) =  -c%nu * therm(g%nz)
       d(g%nz) =  g%t(g%nz-1) * (1-c%nu) * therm(g%nz-1)
      :       - g%t(g%nz) * (1-c%nu) * therm(g%nz)
      :       - g%t(g%nz) * (1-c%nu) * therm(g%nz-1)
@@ -690,10 +689,12 @@
          ! node   -  0      1       2    3         nz       nz+1
       g%z(0) = 0.0
       g%z(1) = 0.0
-         g%z(2) = 0.5*e%dlayer(1) /1000.0
+      g%z(2) = 0.5*e%dlayer(1) /1000.0
+
       do i=2,g%nz
          g%z(i+1) = (sum(e%dlayer(1:i-1)) + 0.5 * e%dlayer(i) ) /1000.0
       enddo
+
       g%z(g%nz+1) = g%z(g%nz) + 10.0 !add 2 meters - should always be enough to assume c
       e%dlayer(g%num_layer+1) = 10.0 - 0.5*e%dlayer(g%num_layer)
 !sw(i)
@@ -966,8 +967,8 @@
 
       do i = 1,g%nz
          g%c1(i) = 0.65 - 0.78*e%rhob(i) + 0.6 * e%rhob(i)**2   !A  approximation to e
-         g%c2(i) = 1.06 * e%rhob(i) * e%sw(i)           !B   for mineral soil - assume
-         g%c3(i) = 1.0 + 2.6* 1/(sqrt(p%clay(i)))  !c  is the water content where co
+         g%c2(i) = 1.06 * e%rhob(i)! * e%sw(i)           !B   for mineral soil - assume
+         g%c3(i) = 1.0 + 2.6 /(sqrt(p%clay(i)))  !c  is the water content where co
          g%c4(i) = 0.03 + 0.1 * e%rhob(i)**2  !D  assume mineral soil particle d
       enddo
 
@@ -1402,10 +1403,10 @@
       Use infrastructure
       implicit none
       ml_external respondToEvent
-      
+
       integer, intent(in) :: fromID
       integer, intent(in) :: eventID
       integer, intent(in) :: variant
-      
+
       return
       end subroutine respondToEvent
