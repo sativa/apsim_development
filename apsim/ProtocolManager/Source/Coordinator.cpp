@@ -492,7 +492,11 @@ void Coordinator::onQueryInfoMessage(unsigned int fromID,
       if (Is_numerical(name.c_str()))
          componentID = atoi(name.c_str());
       else
+         {
          componentID = componentNameToID(name);
+         if (componentID == INT_MAX)
+            return;
+         }
       string fqn = name;
       fqn += ".";
       fqn += components[componentID]->getName();
