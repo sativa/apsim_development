@@ -45,8 +45,9 @@
       <respondToMethodCallReg name="sysinit" type="sysinit"/>
       <respondToMethodCallReg name="sum_report" type="sum_report"/>
       <respondToMethodCallReg name="tillage" type="tillage"/>
-      <respondToMethodCallReg name="incorp_fom" type="incorp_fom"/>
-      <respondToMethodCallReg name="decomposed" type="decomposed"/>
+      <respondToEventReg name="incorp_fom" type="incorp_fom"/>
+      <respondToEventReg name="incorp_fom_p" type="incorp_fom_p"/>
+      <respondToEventReg name="decomposed" type="decomposed"/>
       <getVariableReg name="dlayer" type="dlayer"/>
       <getVariableReg name="st" type="st"/>
       <getVariableReg name="sw_dep" type="sw_dep"/>
@@ -72,6 +73,7 @@
       <getVariableReg name="hum_c" type="hum_c"/>
       <getVariableReg name="fom_c" type="fom_c"/>
       <getVariableReg name="residue_wt" type="residue_wt"/>
+      <respondToEventReg name="tick" type="tick"/>
       <respondToEventReg name="process" type="process"/>
    </registrations>
 </component>
