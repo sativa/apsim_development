@@ -149,13 +149,6 @@ void __fastcall CompileThread::Execute (void)
       {
       ShowMessage(msg.c_str());
       }
-   if (!Quiet)
-      {
-       string command = getApsimDirectory();
-       command += "\\viewcmplmsg\\viewcmplmsg ";
-       command += Compiler_output_filename;
-       WinExec (command.c_str(), SW_SHOW);
-       }
    }
 
 // ------------------------------------------------------------------
@@ -183,7 +176,7 @@ void CompileThread::compileProject (ApsimProject& apf)
       Path BinaryFile( (*BinaryFileNameIter).c_str());
 
       // display message on screen.
-      Message = BinaryFile.Get_path();
+      Message = "<B>Compiling:</B> " + BinaryFile.Get_path();
       Synchronize(goDisplayMessage1);
 
       // write banner to output file.
@@ -331,14 +324,14 @@ void CompileThread::createLinkerResponseFile (ApsimProject& apf)
 void CompileThread::runAutoMake (ApsimProject& apf, Path& BinaryFile)
    {
    // display message on screen.
-   Message = "Creating DataTypesModule.f90";
+   Message = "<B>Creating: </B>DataTypesModule.f90...";
    Synchronize(goDisplayMessage2);
 
    // go create the component interface file - datatypesmodule.f90
    createDataTypesModule(apf);
 
    // display message on screen.
-   Message = " ";
+   Message = "<B>Creating: </B>DataTypesModule.f90.  Done!";
    Synchronize(goDisplayMessage2);
 
    if (!Terminated)
@@ -434,12 +427,11 @@ void CompileThread::getCompilerSettings(ApsimProject& apf,
    // Try and open the compiler file in the apsbuild directory.  If
    // the file is opened ok, then read in the requested settings
    // If the file isn't opened ok then show an error message.
-   Path compilerPath(Application->ExeName.c_str());
-   compilerPath.Set_name(compilerFileToUse.c_str());
-   if (compilerPath.Exists())
+   string compilerPath = getAppHomeDirectory() + "\\" + compilerFileToUse;
+   if (FileExists(compilerPath.c_str()))
       {
       // open compiler file and return requested information.
-      IniFile Ini(compilerPath.Get_path().c_str());
+      IniFile Ini(compilerPath);
       Ini.read("Instructions", settingName, settings);
       }
    else
@@ -447,6 +439,9 @@ void CompileThread::getCompilerSettings(ApsimProject& apf,
       string msg = "Cannot find compiler file in the APSBuild directory.  File: " + compilerFileToUse;
       ShowMessage(msg.c_str());
       }
+   // replace any %apsuite macros.
+   for (unsigned i = 0; i < settings.size(); i++)
+      Replace_all(settings[i], "%apsuite", getApsimDirectory().c_str());
    }
 // ------------------------------------------------------------------
 // Return a single specified compiler setting for the

@@ -18,6 +18,7 @@
 using namespace std;
 
 set<string> routinesDoneSoFar;
+ApsimDataTypesFile* dataTypes;
 ApsimComponentData* component;
 
 // ------------------------------------------------------------------
@@ -144,10 +145,6 @@ void writeDeclaration(const ApsimDataTypeData& dataType, ostream& out, const cha
 // ------------------------------------------------------------------
 ApsimDataTypeData getDataType(const ApsimRegistrationData& registration)
    {
-   static ApsimDataTypesFile* dataTypes = NULL;
-   if (dataTypes == NULL)
-      dataTypes = new ApsimDataTypesFile;
-
    try
       {
       return component->getDataType(registration.getDataTypeName());
@@ -1064,9 +1061,11 @@ void CreateDataTypesF90::doConvert(const std::string& sourceFilename,
                                    const std::string& destFilename,
                                    ostream& console)
    {
+   dataTypes = NULL;
+   component = NULL;
    try
       {
-      component = NULL;
+      dataTypes = new ApsimDataTypesFile;
 
       if (!FileExists(sourceFilename.c_str()))
          throw runtime_error("Cannot find component interface file: " + sourceFilename);
@@ -1124,10 +1123,12 @@ void CreateDataTypesF90::doConvert(const std::string& sourceFilename,
 
       out << "end module DataTypesModule" << endl;
       delete component;
+      delete dataTypes;
       }
    catch (const exception& error)
       {
       delete component;
+      delete dataTypes;
       throw;
       }
    }
