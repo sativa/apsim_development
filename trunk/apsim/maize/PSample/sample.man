@@ -54,21 +54,8 @@ end_date = 30/12/1993     ! dd/mm/yyyy
 
 
 [maize.manager.end_of_day]
-P_below_ground = sysbal.p_state_soil
-P_above_ground = sysbal.p_state_crop + sysbal.p_state_surface
-systemP = sysbal.p_state_system
-dlt_systemP = sysbal.p_dlt_system
-
-P_plant = sysbal.p_state_crop
-P_uptake_cum = P_uptake_cum + uptake_P_maize()
-P_pl_up_diff = P_plant - P_uptake_cum
-below_gnd_diff = P_below_ground - P_below_ground_yest
-residue_P_yest =  sysbal.p_state_surface
-P_below_ground_yest = P_below_ground
 
       report do_output
-
-systemP_yday = systemP
 
 
 [maize.SummaryFile.parameters]
