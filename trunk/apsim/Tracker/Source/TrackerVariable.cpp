@@ -8,6 +8,7 @@
 #include <general\stringtokenizer.h>
 #include <general\string_functions.h>
 #include <numeric>
+#include <ApsimShared\FStringExt.h>
 
 #pragma package(smart_init)
 using namespace std;
@@ -135,15 +136,28 @@ void TrackerVariable::doRegistrations(void)
    {
    static const char* nullDDML = "<type\\>";
    static const char* singleDDML = "<type kind=\"single\"\\>";
+   string typeString = singleDDML;
 
    if (stat == countStat)
       variableID = parent->addRegistration(protocol::respondToEventReg,
                                            variable.c_str(),
                                            nullDDML);
    else
+      {
       variableID = parent->addRegistration(protocol::getVariableReg,
                                            variable.c_str(),
                                            singleDDML);
+      protocol::Variant* variant;
+      bool ok = parent->getVariable(variableID, variant);
+      if (ok)
+         {
+         protocol::Type t = variant->getType();
+         typeString = "<type kind=\"single\" units=\"" + asString(t.getUnits())
+                    + "\"/>";
+         parent->setRegistrationType(variableID, typeString.c_str());
+         }
+      }
+
 
    if (startPeriod != "" && endPeriod != "")
       {
@@ -162,6 +176,8 @@ void TrackerVariable::doRegistrations(void)
    nameID = parent->addRegistration(protocol::respondToGetReg,
                                     name.c_str(),
                                     singleDDML);
+   parent->setRegistrationType(nameID, typeString.c_str());
+
    onID = parent->addRegistration(protocol::respondToEventReg,
                                   on.c_str(),
                                   nullDDML);
