@@ -467,10 +467,25 @@ struct Pless : public std::binary_function<T*, T*, bool>
   {
     while (first != last)
        {
-       if (pred(*first)) f(*first);
+       if (pred(*first))
+          f(*first);
        first++;
        }
     return f;
   }
+template <class CT, class T>
+class GetAttribute
+   {
+   public:
+      CT& C;
+      const string attributeName;
+      GetAttribute(const std::string& attributename, CT& c)
+         : attributeName(attributename), C(c) { }
+
+      void operator()(T t)
+         {
+         C.push_back(t.getAttribute(attributeName));
+         }
+   };
 
 #endif
