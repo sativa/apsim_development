@@ -333,10 +333,10 @@ void ApsimControlFile::getAllFiles(const string& section,
       }
    }
 // ------------------------------------------------------------------
-// Return the referenced file for the specified module e.g. met and soi.
+// Return the referenced file for the specified instance e.g. met and soi.
 // ------------------------------------------------------------------
-string ApsimControlFile::getFileForModule(const string& section,
-                                          const string& module) const
+string ApsimControlFile::getFileForInstance(const string& section,
+                                            const string& instanceName) const
    {
    vector<string> moduleLines;
    ini->read(section, "module", moduleLines);
@@ -344,7 +344,7 @@ string ApsimControlFile::getFileForModule(const string& section,
       {
       vector<ParamFile> paramFiles;
       parseModuleLine(ini->getFileName(), moduleLines[m], paramFiles);
-      if (paramFiles.size() > 0 && Str_i_Eq(paramFiles[0].moduleName, module))
+      if (paramFiles.size() > 0 && Str_i_Eq(paramFiles[0].instanceName, instanceName))
          return paramFiles[0].fileName;
       }
    return "";

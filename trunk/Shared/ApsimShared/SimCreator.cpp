@@ -268,7 +268,7 @@ void SimCreator::createSim(const string& sectionName,
 
       if (Str_i_Eq(moduleName, "input") || Str_i_Eq(moduleName, "soi"))
          {
-         string fileName = con->getFileForModule(sectionName, moduleName);
+         string fileName = con->getFileForInstance(sectionName, instanceName);
          component->setProperty("parameters", "file", "filename", fileName);
          }
 
