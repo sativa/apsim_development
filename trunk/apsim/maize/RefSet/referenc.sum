@@ -20,7 +20,7 @@
      Title                  = 
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\met\lib\met.dll(met) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\fertiliz\lib\fertiliz.dll(fertiliz) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\irrigate\lib\irrigate.dll(irrigate) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
@@ -343,12 +343,12 @@
 13 January 1993 (Day of year=13):
    MAIZE:
        stage    3.0 emergence
-                           biomass =          0.2000000       lai =    0.3800000e-02
+                           biomass =          0.2000000       lai =    0.3800000E-02
                            stover N conc =    4.399999       extractable sw =    15.19154
 25 January 1993 (Day of year=25):
    MAIZE:
        stage    4.0 end_of_juvenile
-                           biomass =           3.096354       lai =    0.4589706e-01
+                           biomass =           3.096354       lai =    0.4589706E-01
                            stover N conc =    3.371311       extractable sw =    50.80445
 29 January 1993 (Day of year=29):
    MAIZE:
@@ -383,7 +383,7 @@
 31 May 1993 (Day of year=151):
    MAIZE:
        stage   11.0 harvest_ripe
-                           biomass =           1450.108       lai =    0.3800392e-02
+                           biomass =           1450.108       lai =    0.3800392E-02
                            stover N conc =    1.705789       extractable sw =    93.35242
    MANAGER:
            Manager sending message :- maize    harvest
@@ -448,7 +448,7 @@
 1 June 1993 (Day of year=152):
    MAIZE:
        stage   11.0 harvest_ripe
-                           biomass =           682.9380       lai =    0.3800392e-02
+                           biomass =           682.9380       lai =    0.3800392E-02
                            stover N conc =    1.970883       extractable sw =    92.88876
    MANAGER:
            Manager sending message :- maize    end_crop
@@ -545,17 +545,17 @@
 14 June 1993 (Day of year=165):
    MAIZE:
        stage    3.0 emergence
-                           biomass =          0.9999999e-01   lai =    0.1836667e-02
+                           biomass =          0.9999999E-01   lai =    0.1836667E-02
                            stover N conc =    4.474576       extractable sw =    20.57023
 28 June 1993 (Day of year=179):
    MAIZE:
        stage    4.0 end_of_juvenile
-                           biomass =           1.283269       lai =    0.3133579e-01
+                           biomass =           1.283269       lai =    0.3133579E-01
                            stover N conc =    3.128253       extractable sw =    54.89865
 29 June 1993 (Day of year=180):
    MAIZE:
        stage    5.0 floral_initiation
-                           biomass =           1.486029       lai =    0.3534915e-01
+                           biomass =           1.486029       lai =    0.3534915E-01
                            stover N conc =    3.092211       extractable sw =    52.46495
 16 August 1993 (Day of year=228):
    MAIZE:
@@ -585,7 +585,7 @@
 18 October 1993 (Day of year=291):
    MAIZE:
        stage   11.0 harvest_ripe
-                           biomass =           566.3032       lai =    0.1899898e-02
+                           biomass =           566.3032       lai =    0.1899898E-02
                            stover N conc =    1.928749       extractable sw =    91.61586
    MANAGER:
            Manager sending message :- maize    harvest
@@ -650,7 +650,7 @@
 19 October 1993 (Day of year=292):
    MAIZE:
        stage   11.0 harvest_ripe
-                           biomass =           481.2863       lai =    0.1899898e-02
+                           biomass =           481.2863       lai =    0.1899898E-02
                            stover N conc =    1.993217       extractable sw =    89.62666
    MANAGER:
            Manager sending message :- maize    end_crop
@@ -741,18 +741,18 @@
 30 October 1993 (Day of year=303):
    MAIZE:
        stage    3.0 emergence
-                           biomass =          0.9999999e-01   lai =    0.1900000e-02
+                           biomass =          0.9999999E-01   lai =    0.1900000E-02
                            stover N conc =    4.399999       extractable sw =    19.36671
 15 November 1993 (Day of year=319):
    MAIZE:
        stage    4.0 end_of_juvenile
-                           biomass =           1.728902       lai =    0.2437304e-01
+                           biomass =           1.728902       lai =    0.2437304E-01
                            stover N conc =    2.971665       extractable sw =    53.71131
 19 November 1993 (Day of year=323):
    MAIZE:
        stage    5.0 floral_initiation
-                           biomass =           3.891607       lai =    0.4773697e-01
-                           stover N conc =    2.590126       extractable sw =    52.45822
+                           biomass =           3.891607       lai =    0.4773697E-01
+                           stover N conc =    2.590126       extractable sw =    52.45823
 1 January 1994 (Day of year=1):
    MAIZE:
        stage    6.0 flag_leaf
@@ -761,28 +761,28 @@
 7 January 1994 (Day of year=7):
    MAIZE:
        stage    7.0 flowering
-                           biomass =           252.7519       lai =    0.8469617    
-                           stover N conc =    1.449789       extractable sw =    78.92084
+                           biomass =           252.7520       lai =    0.8469617    
+                           stover N conc =    1.449789       extractable sw =    78.92082
 16 January 1994 (Day of year=16):
    MAIZE:
        stage    8.0 start_grain_fill
-                           biomass =           307.1984       lai =    0.8469617    
-                           stover N conc =    1.331020       extractable sw =    58.33138
+                           biomass =           307.1985       lai =    0.8469617    
+                           stover N conc =    1.331020       extractable sw =    58.33137
 6 March 1994 (Day of year=65):
    MAIZE:
        stage    9.0 end_grain_fill
-                           biomass =           454.9584       lai =    0.9511685e-01
-                           stover N conc =    1.264112       extractable sw =    73.61404
+                           biomass =           454.9584       lai =    0.9511667E-01
+                           stover N conc =    1.264112       extractable sw =    73.61402
 7 March 1994 (Day of year=66):
    MAIZE:
        stage   10.0 maturity
-                           biomass =           455.4966       lai =    0.7157481e-01
-                           stover N conc =    1.273432       extractable sw =    73.26166
+                           biomass =           455.4966       lai =    0.7157475E-01
+                           stover N conc =    1.273432       extractable sw =    73.26164
 8 March 1994 (Day of year=67):
    MAIZE:
        stage   11.0 harvest_ripe
-                           biomass =           455.4966       lai =    0.1900077e-02
-                           stover N conc =    1.280229       extractable sw =    72.93007
+                           biomass =           455.4966       lai =    0.1900136E-02
+                           stover N conc =    1.280229       extractable sw =    72.93005
    MANAGER:
            Manager sending message :- maize    harvest
    MAIZE:
@@ -819,20 +819,20 @@
       
       
        stress indices for floral_initiation
-       water stress 1 =       0.2090163   nitrogen stress 1 =       0.0975774
-       water stress 2 =       0.3734493   nitrogen stress 2 =       0.2241048
+       water stress 1 =       0.2090163   nitrogen stress 1 =       0.0975773
+       water stress 2 =       0.3734493   nitrogen stress 2 =       0.2241047
       
       
       
        stress indices for flag_leaf
-       water stress 1 =       0.5111684   nitrogen stress 1 =       0.3284809
-       water stress 2 =       0.6935075   nitrogen stress 2 =       0.4627847
+       water stress 1 =       0.5111685   nitrogen stress 1 =       0.3284808
+       water stress 2 =       0.6935076   nitrogen stress 2 =       0.4627846
       
       
       
        stress indices for flowering
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.3402560
-       water stress 2 =       0.0053108   nitrogen stress 2 =       0.4722048
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.3402559
+       water stress 2 =       0.0053109   nitrogen stress 2 =       0.4722047
       
       
       
@@ -846,8 +846,8 @@
 9 March 1994 (Day of year=68):
    MAIZE:
        stage   11.0 harvest_ripe
-                           biomass =           374.0244       lai =    0.1900077e-02
-                           stover N conc =    1.239587       extractable sw =    72.66058
+                           biomass =           374.0244       lai =    0.1900136E-02
+                           stover N conc =    1.239587       extractable sw =    72.66056
    MANAGER:
            Manager sending message :- maize    end_crop
    MAIZE:
@@ -943,23 +943,23 @@
 25 March 1994 (Day of year=84):
    MAIZE:
        stage    3.0 emergence
-                           biomass =          0.9999999e-01   lai =    0.1900000e-02
+                           biomass =          0.9999999E-01   lai =    0.1900000E-02
                            stover N conc =    4.399999       extractable sw =    19.91586
 9 April 1994 (Day of year=99):
    MAIZE:
        stage    4.0 end_of_juvenile
-                           biomass =           2.232163       lai =    0.4077145e-01
-                           stover N conc =    3.087794       extractable sw =    56.52453
+                           biomass =           2.232162       lai =    0.4077145E-01
+                           stover N conc =    3.087795       extractable sw =    56.52453
 10 April 1994 (Day of year=100):
    MAIZE:
        stage    5.0 floral_initiation
-                           biomass =           2.694658       lai =    0.4550484e-01
+                           biomass =           2.694658       lai =    0.4550484E-01
                            stover N conc =    3.090349       extractable sw =    56.27663
 1 June 1994 (Day of year=152):
    MAIZE:
        stage    6.0 flag_leaf
-                           biomass =           259.5999       lai =     1.499833    
-                           stover N conc =    2.462072       extractable sw =    47.25520
+                           biomass =           259.6000       lai =     1.499833    
+                           stover N conc =    2.462073       extractable sw =    47.25520
 12 June 1994 (Day of year=163):
    MAIZE:
        stage    7.0 flowering
@@ -968,7 +968,7 @@
 3 July 1994 (Day of year=184):
    MAIZE:
        stage    8.0 start_grain_fill
-                           biomass =           342.2191       lai =    0.3839600e-03
+                           biomass =           342.2191       lai =    0.3839600E-03
                            stover N conc =    2.546100       extractable sw =    72.78976
 30 July 1994 (Day of year=211):
    MAIZE:

@@ -20,7 +20,7 @@
      Title                  = lucerne Sample Simulation
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\met\lib\met.dll(met) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\soilwat2\lib\soilwat2.dll(soilwat2) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\residue2\lib\residue2.dll(residue2) - Licensed
@@ -264,7 +264,7 @@
 7 June 1988 (Day of year=159):
    LUCERNE:
        stage    3.0 emergence
-                           biomass =           1.000000       lai =    0.2000000e-03
+                           biomass =           1.000000       lai =    0.2000000E-03
                            stover N conc =    6.000000       extractable sw =    27.53854
 21 August 1988 (Day of year=234):
    LUCERNE:
@@ -335,7 +335,7 @@
       
        - Reading constants for regrowth
        stage    5.0 floral_initiation
-                           biomass =           22.07100       lai =    0.2521275e-03
+                           biomass =           22.07100       lai =    0.2521275E-03
                            stover N conc =    4.904836       extractable sw =    156.6243
 1 November 1988 (Day of year=306):
    LUCERNE:
@@ -394,12 +394,12 @@
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
        water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
        stage    5.0 floral_initiation
-                           biomass =           22.02674       lai =    0.2550523e-03
+                           biomass =           22.02674       lai =    0.2550523E-03
                            stover N conc =    4.273879       extractable sw =    120.2214
 3 December 1988 (Day of year=338):
    LUCERNE:
        stage    6.0 flowering
-                           biomass =           136.6250       lai =    0.6465449    
+                           biomass =           136.6250       lai =    0.6465448    
                            stover N conc =    3.156757       extractable sw =    73.21413
 4 December 1988 (Day of year=339):
    MANAGER:
@@ -444,8 +444,8 @@
       
       
        stress indices for flowering
-       water stress 1 =       0.3901295   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.6358068   nitrogen stress 2 =       0.0000000
+       water stress 1 =       0.3901297   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.6358069   nitrogen stress 2 =       0.0000000
       
       
       
@@ -453,8 +453,8 @@
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
        water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
        stage    5.0 floral_initiation
-                           biomass =           22.34754       lai =    0.2732937e-03
-                           stover N conc =    4.206635       extractable sw =    67.99916
+                           biomass =           22.34753       lai =    0.2732938E-03
+                           stover N conc =    4.206639       extractable sw =    67.99916
 31 December 1988 (Day of year=366):
    LUCERNE:
        stage    6.0 flowering
@@ -491,7 +491,7 @@
       
       
        stress indices for end_of_juvenile
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.4754997
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.4754996
        water stress 2 =       0.0000000   nitrogen stress 2 =       0.5803998
       
       
@@ -504,7 +504,7 @@
       
        stress indices for flowering
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.1965080   nitrogen stress 2 =       0.0000000
+       water stress 2 =       0.1965082   nitrogen stress 2 =       0.0000000
       
       
       
@@ -512,13 +512,13 @@
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
        water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
        stage    5.0 floral_initiation
-                           biomass =           19.64623       lai =    0.2516309e-03
-                           stover N conc =    5.492398       extractable sw =    96.86229
+                           biomass =           19.64623       lai =    0.2516309E-03
+                           stover N conc =    5.492398       extractable sw =    96.86227
 29 January 1989 (Day of year=29):
    LUCERNE:
        stage    6.0 flowering
                            biomass =           145.3889       lai =     1.239714    
-                           stover N conc =    2.740281       extractable sw =    91.20857
+                           stover N conc =    2.740281       extractable sw =    91.20858
 30 January 1989 (Day of year=30):
    MANAGER:
            Manager sending message :- lucerne harvest height = 50 (mm)
@@ -562,7 +562,7 @@
       
       
        stress indices for flowering
-       water stress 1 =       0.2467508   nitrogen stress 1 =       0.0000000
+       water stress 1 =       0.2467507   nitrogen stress 1 =       0.0000000
        water stress 2 =       0.5333934   nitrogen stress 2 =       0.0000000
       
       
@@ -571,13 +571,13 @@
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
        water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
        stage    5.0 floral_initiation
-                           biomass =           21.32193       lai =    0.2616787e-03
-                           stover N conc =    5.403767       extractable sw =    85.86877
+                           biomass =           21.32191       lai =    0.2616787E-03
+                           stover N conc =    5.403771       extractable sw =    85.86878
 28 February 1989 (Day of year=59):
    LUCERNE:
        stage    6.0 flowering
                            biomass =           145.4873       lai =     1.344514    
-                           stover N conc =    2.657117       extractable sw =    131.3752
+                           stover N conc =    2.657118       extractable sw =    131.3752
 1 March 1989 (Day of year=60):
    MANAGER:
            Manager sending message :- lucerne harvest height = 50 (mm)
@@ -630,12 +630,12 @@
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
        water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
        stage    5.0 floral_initiation
-                           biomass =           21.05399       lai =    0.2394946e-03
+                           biomass =           21.05399       lai =    0.2394946E-03
                            stover N conc =    5.866979       extractable sw =    129.0103
 29 March 1989 (Day of year=88):
    LUCERNE:
        stage    6.0 flowering
-                           biomass =           84.42068       lai =     1.087240    
+                           biomass =           84.42069       lai =     1.087240    
                            stover N conc =    2.620513       extractable sw =    180.5081
 30 March 1989 (Day of year=89):
    MANAGER:
@@ -689,13 +689,13 @@
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
        water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
        stage    5.0 floral_initiation
-                           biomass =           17.64655       lai =    0.2261301e-03
+                           biomass =           17.64655       lai =    0.2261301E-03
                            stover N conc =    5.999998       extractable sw =    175.9173
 1 May 1989 (Day of year=121):
    LUCERNE:
        stage    6.0 flowering
-                           biomass =           72.20052       lai =    0.9010406    
-                           stover N conc =    2.624546       extractable sw =    210.2589
+                           biomass =           72.20054       lai =    0.9010406    
+                           stover N conc =    2.624545       extractable sw =    210.2589
 2 May 1989 (Day of year=122):
    MANAGER:
            Manager sending message :- lucerne harvest height = 50 (mm)
@@ -748,13 +748,13 @@
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
        water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
        stage    5.0 floral_initiation
-                           biomass =           16.72741       lai =    0.2331536e-03
-                           stover N conc =    6.000003       extractable sw =    206.5723
+                           biomass =           16.72741       lai =    0.2331536E-03
+                           stover N conc =    6.000006       extractable sw =    206.5723
 14 June 1989 (Day of year=165):
    LUCERNE:
        stage    6.0 flowering
-                           biomass =           80.88873       lai =    0.9169982    
-                           stover N conc =    2.638996       extractable sw =    211.2669
+                           biomass =           80.88871       lai =    0.9169982    
+                           stover N conc =    2.638997       extractable sw =    211.2669
 15 June 1989 (Day of year=166):
    MANAGER:
            Manager sending message :- lucerne harvest height = 50 (mm)
@@ -807,8 +807,8 @@
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
        water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
        stage    5.0 floral_initiation
-                           biomass =           16.92822       lai =    0.2290908e-03
-                           stover N conc =    5.999995       extractable sw =    206.8994
+                           biomass =           16.92822       lai =    0.2290908E-03
+                           stover N conc =    5.999999       extractable sw =    206.8994
 19 July 1989 (Day of year=200):
    MANAGER:
            Manager sending message :- lucerne harvest

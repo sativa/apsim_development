@@ -20,7 +20,7 @@
      Title                  = Maize Sample Simulation
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\met\lib\met.dll(met) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\soilwat2\lib\soilwat2.dll(soilwat2) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\soiln2\lib\soiln2.dll(soiln2) - Licensed
@@ -249,12 +249,12 @@
 4 November 1989 (Day of year=308):
    MAIZE:
        stage    3.0 emergence
-                           biomass =          0.2000000       lai =    0.3800000e-02
+                           biomass =          0.2000000       lai =    0.3800000E-02
                            stover N conc =    4.399999       extractable sw =    31.23713
 19 November 1989 (Day of year=323):
    MAIZE:
        stage    4.0 end_of_juvenile
-                           biomass =           3.305968       lai =    0.4452320e-01
+                           biomass =           3.305968       lai =    0.4452320E-01
                            stover N conc =    3.033566       extractable sw =    68.76894
 25 November 1989 (Day of year=329):
    MAIZE:
@@ -289,7 +289,7 @@
 10 March 1990 (Day of year=69):
    MAIZE:
        stage   11.0 harvest_ripe
-                           biomass =           1481.816       lai =    0.1252604e-01
+                           biomass =           1481.816       lai =    0.1252604E-01
                            stover N conc =    1.008942       extractable sw =    139.9483
 11 March 1990 (Day of year=70):
    MANAGER:
