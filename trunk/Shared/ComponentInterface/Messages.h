@@ -265,9 +265,11 @@ inline Message* newPublishEventMessage(unsigned int from,
                                        const T data[],
                                        unsigned numValues)
    {
-   Message* msg = constructMessage(PublishEvent, from, to, false,
-                                   memorySize(ID) + memorySize(type) + memorySize(numValues) +
-                                   numValues * memorySize(data[0]));
+   unsigned size = memorySize(ID) + memorySize(type) + memorySize(numValues);
+   for (unsigned i = 0; i != numValues; i++)
+      size += memorySize(data[i]);
+
+   Message* msg = constructMessage(PublishEvent, from, to, false, size);
    MessageData messageData(msg);
    messageData << ID << type << numValues;
    for (unsigned i = 0; i != numValues; i++)
