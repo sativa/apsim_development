@@ -3,7 +3,3 @@ Dependency = %licensed_source(infra)
 
 [Contents]
 ComponentInterface.for = ComponentInterface.for
-
-[APSBuild]
-binary = ComponentInterface.obj
-lf90file = %apsuite\apsbuild\infra.lf90
