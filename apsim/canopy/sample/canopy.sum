@@ -296,13 +296,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          150.0     0.080          0.230       1.000
          150.0     0.080          0.240       1.000
          300.0     0.080          0.240       1.000
@@ -310,11 +310,9 @@
          300.0     0.050          0.260       1.000
          300.0     0.030          0.270       1.000
          300.0     0.010          0.280       1.000
-     ---------------------------------------------------
-        1800.0                    460.5(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to 100.0 times eo)
+         -----------------------------------------------
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
+         Crop factor for bounding water use is set to 100.0 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -338,52 +336,52 @@
                      stover N conc =     6.00 (%)     extractable sw =   57.69 (mm)
 24 January 1988(Day of year=24), maize: 
       stage    4.0 end_of_juvenile
-                          biomass =           2.303716       lai =    0.3813568E-01
-                          stover N conc =    2.971863       extractable sw =    65.31902
+                          biomass =           2.294529       lai =    0.3788647E-01
+                          stover N conc =    2.959953       extractable sw =    65.31970
 29 January 1988(Day of year=29), maize: 
       stage    5.0 floral_initiation
-                          biomass =           6.211960       lai =    0.9249049E-01
-                          stover N conc =    2.572983       extractable sw =    122.6257
+                          biomass =           6.178588       lai =    0.9200640E-01
+                          stover N conc =    2.568072       extractable sw =    122.6298
 23 February 1988(Day of year=54), cowpea: 
       stage 4.0 end_of_juvenile
-                     biomass =         287.04 (g/m^2)   lai          =   4.049 (m^2/m^2)
-                     stover N conc =     2.98 (%)     extractable sw =  252.95 (mm)
+                     biomass =         287.05 (g/m^2)   lai          =   4.049 (m^2/m^2)
+                     stover N conc =     2.98 (%)     extractable sw =  252.96 (mm)
 25 February 1988(Day of year=56), cowpea: 
       stage 5.0 floral_initiation
                      biomass =         320.49 (g/m^2)   lai          =   4.471 (m^2/m^2)
-                     stover N conc =     2.85 (%)     extractable sw =  232.41 (mm)
+                     stover N conc =     2.85 (%)     extractable sw =  232.42 (mm)
 26 February 1988(Day of year=57), cowpea: 
       stage 6.0 flowering
                      biomass =         329.26 (g/m^2)   lai          =   4.543 (m^2/m^2)
-                     stover N conc =     2.81 (%)     extractable sw =  229.14 (mm)
+                     stover N conc =     2.81 (%)     extractable sw =  229.15 (mm)
 5 March 1988(Day of year=65), cowpea: 
       stage 7.0 start_grain_fill
                      biomass =         443.31 (g/m^2)   lai          =   5.328 (m^2/m^2)
-                     stover N conc =     2.57 (%)     extractable sw =  283.42 (mm)
+                     stover N conc =     2.57 (%)     extractable sw =  283.44 (mm)
 11 March 1988(Day of year=71), maize: 
       stage    6.0 flag_leaf
-                          biomass =           91.53971       lai =     1.057662
-                          stover N conc =    2.568395       extractable sw =    263.8910
+                          biomass =           91.25676       lai =     1.055156
+                          stover N conc =    2.544259       extractable sw =    263.9058
 19 March 1988(Day of year=79), maize: 
       stage    7.0 flowering
-                          biomass =           97.72791       lai =    0.9318868
-                          stover N conc =    2.626708       extractable sw =    198.5558
+                          biomass =           97.43324       lai =    0.9297664
+                          stover N conc =    2.586762       extractable sw =    198.5733
 30 March 1988(Day of year=90), cowpea: 
       stage 8.0 end_grain_fill
                      biomass =         915.83 (g/m^2)   lai          =   2.724 (m^2/m^2)
-                     stover N conc =     1.88 (%)     extractable sw =  130.93 (mm)
+                     stover N conc =     1.88 (%)     extractable sw =  130.95 (mm)
 1 April 1988(Day of year=92), cowpea: 
       stage 9.0 maturity
                      biomass =         921.98 (g/m^2)   lai          =   2.418 (m^2/m^2)
-                     stover N conc =     1.78 (%)     extractable sw =  161.47 (mm)
+                     stover N conc =     1.78 (%)     extractable sw =  161.49 (mm)
 1 April 1988(Day of year=92), maize: 
       stage    8.0 start_grain_fill
-                          biomass =           105.9408       lai =    0.6781890
-                          stover N conc =    2.742882       extractable sw =    160.5567
+                          biomass =           105.6309       lai =    0.6767805
+                          stover N conc =    2.670460       extractable sw =    160.5769
 2 April 1988(Day of year=93), cowpea: 
       stage 10.0 harvest_ripe
                      biomass =         921.98 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     1.78 (%)     extractable sw =  177.86 (mm)
+                     stover N conc =     1.78 (%)     extractable sw =  177.88 (mm)
 3 April 1988(Day of year=94), manager: 
      Manager sending message :- cowpea harvest
 3 April 1988(Day of year=94), cowpea: 
@@ -399,8 +397,8 @@
       senesced above ground biomass (kg/ha) =     2537.3
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   20.5
-      grain N percent        =       4.50                     total N content (kg/ha)=     261.93
-      grain N uptake (kg/ha) =     156.19                     senesced N content (kg/ha)=   48.59
+      grain N percent        =       4.50                     total N content (kg/ha)=     261.92
+      grain N uptake (kg/ha) =     156.19                     senesced N content (kg/ha)=   48.58
       green N content (kg/ha)=      57.15                     dead N content (kg/ha) =       0.00
      
       stress indices for emergence
@@ -425,7 +423,7 @@
      
      Crop harvested.
          tops residue =  5748.87 kg/ha
-         tops N       =  105.74 kg/ha
+         tops N       =  105.73 kg/ha
          root residue =  316.19 kg/ha
          root N       =  4.74 kg/ha
      
@@ -442,18 +440,19 @@
          straw N =           0.0 kg/ha
          root residue =   3177.8 kg/ha
          root N =           47.7 kg/ha
+         root P =            0.0 kg/ha
 17 June 1988(Day of year=169), maize: 
       stage    9.0 end_grain_fill
-                          biomass =           235.8932       lai =    0.6891526E-01
-                          stover N conc =    2.059092       extractable sw =    285.3394
+                          biomass =           234.7350       lai =    0.6881060E-01
+                          stover N conc =    2.014347       extractable sw =    285.3980
 18 June 1988(Day of year=170), maize: 
       stage   10.0 maturity
-                          biomass =           236.3210       lai =    0.6891526E-01
-                          stover N conc =    2.066119       extractable sw =    284.8936
+                          biomass =           235.1622       lai =    0.6881060E-01
+                          stover N conc =    2.021698       extractable sw =    284.9522
 19 June 1988(Day of year=171), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           236.3210       lai =    0.4428521E-02
-                          stover N conc =    2.084111       extractable sw =    284.4645
+                          biomass =           235.1622       lai =    0.4428171E-02
+                          stover N conc =    2.035663       extractable sw =    284.5233
 20 June 1988(Day of year=172), manager: 
      Manager sending message :- maize harvest
 20 June 1988(Day of year=172), maize: 
@@ -461,20 +460,20 @@
      
      
      flowering (DAS) =  70                  maturity (DAS)  = 161
-      flowering day  =   79                  stover (kg/ha) =    2363.2
+      flowering day  =   79                  stover (kg/ha) =    2351.6
       maturity day        =  170             grain yield (kg/ha) =       0.0
       grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
       grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 1.146
-      total above ground biomass (kg/ha) =    2363.2
-      live above ground biomass (kg/ha) =    2363.2
-      green above ground biomass (kg/ha) =    1985.6
-      senesced above ground biomass (kg/ha) =     377.6
+      grains/head =   0.0                    maximum lai = 1.143
+      total above ground biomass (kg/ha) =    2351.6
+      live above ground biomass (kg/ha) =    2351.6
+      green above ground biomass (kg/ha) =    1975.4
+      senesced above ground biomass (kg/ha) =     376.3
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  19.4
-      grain N percent =      0.00            total N content (kg/ha) =     41.76
-      grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.38
-      green N content (kg/ha) =     41.38    dead N content (kg/ha) =      0.00
+      grain N percent =      0.00            total N content (kg/ha) =     42.09
+      grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      1.88
+      green N content (kg/ha) =     40.21    dead N content (kg/ha) =      0.00
       grain P percent =      0.00            total P content (kg/ha) =      0.00
       grain P uptake (kg/ha) =      0.00     senesced P content (kg/ha) =      0.00
       green P content (kg/ha) =      0.00    dead P content (kg/ha) =      0.00
@@ -483,19 +482,19 @@
      
       stress indices for emergence
       water stress 1 =       0.0085427   nitrogen stress 1 =       0.0085427
-      water stress 2 =       0.0085427   nitrogen stress 2 =       0.0897005
+      water stress 2 =       0.0085427   nitrogen stress 2 =       0.0936690
      
      
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1247516
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1283366
      
      
      
       stress indices for floral_initiation
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0552558
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0565047
      
      
      
@@ -512,17 +511,17 @@
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0673681
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0040844
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0973694
 20 June 1988(Day of year=172), manager: 
      Manager sending message :- maize end_crop
 20 June 1988(Day of year=172), maize: 
          ended. Yield (dw) =     0.0
-                                               straw residue = 2363.2 kg/ha
-                                               straw N =   41.8 kg/ha
+                                               straw residue = 2351.6 kg/ha
+                                               straw N =   42.1 kg/ha
                                                straw P =    0.0 kg/ha
-                                               root residue =  282.0 kg/ha
-                                               root N =    3.5 kg/ha
+                                               root residue =  281.1 kg/ha
+                                               root N =    3.0 kg/ha
                                                root P =    0.0 kg/ha
 30 December 1988(Day of year=365), clock: 
      Simulation is terminating due to end criteria being met.
