@@ -74,6 +74,35 @@ void GENERAL_EXPORT Copy_files (list<string>& Source_files,
 
 // ------------------------------------------------------------------
 //  Short description:
+//     copy or move the specified source files to the destination
+//     directory preserving the directory structure.
+
+//     The source_base_directory is used to determine the root of all the
+//     source files.  It is assumed that all source files are located
+//     under this base directory.  Any that aren't are NOT copied.
+//
+//     Each source file has the "source_base_directory" part of its
+//     path replaced with the destination directory. eg:
+//        If           source file = c:\apsuite\apsim\chickpea\chickpea.apf
+//           source_base_directory = c:\apsuite\apsim
+//           destination_directory = c:\apswork
+//        Then    destination file = c:\apswork\chickpea\chickpea.apf
+
+//  Notes:
+
+//  Changes:
+//    DPH 11/9/98
+
+// ------------------------------------------------------------------
+void GENERAL_EXPORT Copy_files_preserve_directories
+                                     (list<string>& Source_files,
+                                      const char* Source_base_directory,
+                                      const char* Destination_directory,
+                                      bool Do_move_files,
+                                      bool Make_files_read_write = false);
+
+// ------------------------------------------------------------------
+//  Short description:
 //     copy or move the specified source directories and all directories below them
 //     to the destination directory.
 
@@ -89,7 +118,7 @@ void GENERAL_EXPORT Copy_directories (list<string>& Source_directories,
 
 // ------------------------------------------------------------------
 //  Short description:
-//     send the specified directory and all directories below it to the
+//     send the specified directory or files to the
 //     recycle bin.
 
 //  Notes:
@@ -98,7 +127,7 @@ void GENERAL_EXPORT Copy_directories (list<string>& Source_directories,
 //    DPH 11/9/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Delete_directories (list<string>& Directories);
+void GENERAL_EXPORT Delete_files_or_directories (list<string>& Directories);
 
 // ------------------------------------------------------------------
 //  Short description:

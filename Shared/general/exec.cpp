@@ -2,17 +2,20 @@
 #include <general\string_functions.h>
 #include <general\myvector.h>
 #include <process.h>
-
+#include <fstream>
 // ------------------------------------------------------------------
 //  Short description:
 //    executes a program and optionally waits until it has finished.
-//    Returns true if program was successfully executed.
+//    Returns true if program was successfully executed.  NOTE:  This
+//    routine is NOT THREAD SAFE.  Wrap inside a Synchronize method call
+//    if being called from a thread.
 
 //  Notes:
 
 //  Changes:
 //    DPH 17/4/1997
 //    dph 20/5/98  added new algorithm based on createprocess.
+//    dph 21/4/99  added better error handling code.
 
 // ------------------------------------------------------------------
 bool GENERAL_EXPORT Exec(const char* Command_line,
@@ -37,12 +40,29 @@ bool GENERAL_EXPORT Exec(const char* Command_line,
                        NULL,                   // pointer to current directory name
                        &StartupInfo,           // pointer to STARTUPINFO
                        &ProcessInfo) )         // pointer to PROCESS_INF
-      return false;
-   else
       {
+      LPVOID lpMsgBuf;
+      FormatMessage(
+          FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+          NULL,
+          GetLastError(),
+          MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
+          (LPTSTR) &lpMsgBuf,
+          0,
+          NULL);
+
+      // Display the string.
+      MessageBox(NULL, (char*) lpMsgBuf, "GetLastError", MB_OK|MB_ICONINFORMATION );
+
+      // Free the buffer.
+      LocalFree( lpMsgBuf );
+      }
+   else
+      {                              
       WaitForSingleObject(ProcessInfo.hProcess, INFINITE);
       //GetExitCodeProcess(ProcessInfo.hProcess, Result);
       return true;
       }
+   return false;
    }
 

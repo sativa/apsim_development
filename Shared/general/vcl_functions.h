@@ -6,6 +6,11 @@
 #include "Grids.hpp"
 #include <fstream.h>
 #include <vcl\db.hpp>
+
+#include <oleauto.h>
+#include <vector>
+//using std::vector;
+
 // ------------------------------------------------------------------
 //  Short description:
 //     Copy contents from a VCL TStrings object to a STL container.
@@ -225,5 +230,81 @@ void GENERAL_EXPORT Get_files_from_open_dialog (TOpenDialog* Open_dialog, TStrin
 
 // ------------------------------------------------------------------
 void GENERAL_EXPORT Give_files_to_open_dialog (TOpenDialog* Open_dialog, TStringList* File_list);
+
+// ------------------------------------------------------------------
+//  Short description:
+//      convert a colour string to a TColor
+
+//  Notes:
+
+//  Changes:
+//    DPH 5/2/98
+
+// ------------------------------------------------------------------
+TColor GENERAL_EXPORT ColorStringToTColor (const char* ColourString);
+
+// ------------------------------------------------------------------
+//  Short description:
+//      convert a font style string to a TFontStyle
+
+//  Notes:
+
+//  Changes:
+//    DPH 5/2/98
+
+// ------------------------------------------------------------------
+TFontStyles GENERAL_EXPORT FontStringToTFontStyles (const char* StyleString);
+
+// ------------------------------------------------------------------
+//  Short description:
+//      this routine sets up a Olevariant array with the
+//      specified bounds.
+
+//  Notes:
+
+//  Changes:
+//    DPH 5/2/98
+
+// ------------------------------------------------------------------
+void GENERAL_EXPORT OleVariantInit (VARIANT& OleVariant, int NumElements, VARTYPE DataType);
+
+// ------------------------------------------------------------------
+//  Short description:
+//      this routine converts a vector of numbers into an OLE
+//      variant array that can be passed to an ACTIVEX object.
+
+//  Notes:
+
+//  Changes:
+//    DPH 5/2/98
+
+// ------------------------------------------------------------------
+void GENERAL_EXPORT Doubles_to_olevariant (vector<double>& StlArray, VARIANT& OleVariant);
+
+// ------------------------------------------------------------------
+//  Short description:
+//      this routine converts an ACTIVEX VARIANT into a vector
+//      of numbers
+
+//  Notes:
+
+//  Changes:
+//    DPH 5/2/98
+
+// ------------------------------------------------------------------
+void GENERAL_EXPORT Olevariant_to_doubles (VARIANT& OleVariant, vector<double>& StlArray);
+
+// ------------------------------------------------------------------
+//  Short description:
+//      this routine converts a vector of strings into an OLE
+//      variant array that can be passed to an ACTIVEX object.
+
+//  Notes:
+
+//  Changes:
+//    DPH 5/2/98
+
+// ------------------------------------------------------------------
+void GENERAL_EXPORT Strings_to_olevariant (vector<string>& StlArray, VARIANT& OleVariant);
 
 #endif

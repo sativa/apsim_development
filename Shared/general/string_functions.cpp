@@ -282,3 +282,28 @@ void Replace_all_chars (char* St, char Char_to_replace, char Replacement_char)
       }
    }
 
+// ------------------------------------------------------------------
+//  Short description:
+//     Get all words from a double null terminated string where each
+//     word is separated by a null.  Windows API routines sometimes
+//     do things this way.
+
+//  Notes:
+
+//  Changes:
+//    DPH 4/1/1999
+
+// ------------------------------------------------------------------
+void Get_words_from_double_null_term (char* St, list<string>& Words)
+   {
+   char* StartPtr = St;
+   char* EndPtr = St;
+   EndPtr = strchr(StartPtr, 0);
+   while (StartPtr != EndPtr)
+      {
+      Words.push_back (StartPtr);
+      StartPtr = ++EndPtr;
+      EndPtr = strchr(StartPtr, 0);
+      }
+   }
+

@@ -6,6 +6,7 @@
 #include <general\path.h>
 #include <general\mylist.h>
 #include <vcl\dbtables.hpp>
+
 // ------------------------------------------------------------------
 //  Short description:
 //     fill a grid control from a csv stream.
@@ -334,4 +335,191 @@ void GENERAL_EXPORT Get_files_from_open_dialog (TOpenDialog* Open_dialog, TStrin
    File_list->Clear();
    File_list->AddStrings(Open_dialog->Files);
    }
+
+// ------------------------------------------------------------------
+//  Short description:
+//      convert a colour string to a TColor
+
+//  Notes:
+
+//  Changes:
+//    DPH 5/2/98
+
+// ------------------------------------------------------------------
+TColor GENERAL_EXPORT ColorStringToTColor (const char* ColourString)
+   {
+   if (Str_i_Eq(ColourString, "Aqua"))
+      return clAqua;
+   else if (Str_i_Eq(ColourString, "Black"))
+      return clBlack;
+   else if (Str_i_Eq(ColourString, "Blue"))
+      return clBlue;
+   else if (Str_i_Eq(ColourString, "DkGray"))
+      return clDkGray;
+   else if (Str_i_Eq(ColourString, "Fuchsia"))
+      return clFuchsia;
+   else if (Str_i_Eq(ColourString, "Gray"))
+      return clGray;
+   else if (Str_i_Eq(ColourString, "Green"))
+      return clGreen;
+   else if (Str_i_Eq(ColourString, "Lime"))
+      return clLime;
+   else if (Str_i_Eq(ColourString, "LtGray"))
+      return clLtGray;
+   else if (Str_i_Eq(ColourString, "Maroon"))
+      return clMaroon;
+   else if (Str_i_Eq(ColourString, "Navy"))
+      return clNavy;
+   else if (Str_i_Eq(ColourString, "Olive"))
+      return clOlive;
+   else if (Str_i_Eq(ColourString, "Purple"))
+      return clPurple;
+   else if (Str_i_Eq(ColourString, "Red"))
+      return clRed;
+   else if (Str_i_Eq(ColourString, "Silver"))
+      return clSilver;
+   else if (Str_i_Eq(ColourString, "Teal"))
+      return clTeal;
+   else if (Str_i_Eq(ColourString, "White"))
+      return clWhite;
+   else if (Str_i_Eq(ColourString, "Yellow"))
+      return clYellow;
+   else
+      return clBlack;
+
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//      convert a font style string to a TFontStyle
+
+//  Notes:
+
+//  Changes:
+//    DPH 5/2/98
+
+// ------------------------------------------------------------------
+TFontStyles GENERAL_EXPORT FontStringToTFontStyles (const char* StyleString)
+   {
+   TFontStyles FontStyles;
+
+   string St = StyleString;
+   list<string> Styles;
+   Split_string (St, ",", Styles);
+   for (list<string>::iterator s = Styles.begin();
+                               s != Styles.end();
+                               s++)
+      {
+      if (Str_i_Eq(*s, "Bold"))
+         FontStyles << fsBold;
+      else if (Str_i_Eq(*s, "Italic"))
+         FontStyles << fsItalic;
+      else if (Str_i_Eq(*s, "Underline"))
+         FontStyles << fsUnderline;
+      else if (Str_i_Eq(*s, "StrikeOut"))
+         FontStyles << fsStrikeOut;
+      }
+   return FontStyles;
+   }
 #endif
+
+// ------------------------------------------------------------------
+//  Short description:
+//      this routine sets up a Olevariant array with the
+//      specified bounds.
+
+//  Notes:
+
+//  Changes:
+//    DPH 5/2/98
+
+// ------------------------------------------------------------------
+void OleVariantInit (VARIANT& OleVariant, int NumElements, VARTYPE DataType)
+   {
+   // create OleArray
+   SAFEARRAYBOUND OleArrayBound[1];
+	OleArrayBound[0].lLbound = 0;
+	OleArrayBound[0].cElements = NumElements;
+   SAFEARRAY* OleArray = SafeArrayCreate(DataType, 1, OleArrayBound);
+   VariantInit(&OleVariant);
+   OleVariant.parray = OleArray;
+   OleVariant.vt = VT_ARRAY|DataType;
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//      this routine converts a vector of numbers into an OLE
+//      variant array that can be passed to an ACTIVEX object.
+
+//  Notes:
+
+//  Changes:
+//    DPH 5/2/98
+
+// ------------------------------------------------------------------
+void Doubles_to_olevariant (vector<double>& StlArray, VARIANT& OleVariant)
+   {
+   // setup array.
+   OleVariantInit(OleVariant, StlArray.size(), VT_R4);
+
+   // Fill OleArray.
+   float* OleArrayPtr;
+   SafeArrayAccessData(OleVariant.parray, (void HUGEP* FAR*) &OleArrayPtr);
+   for (long i=0; i < StlArray.size(); i++)
+      OleArrayPtr[i] = StlArray[i];
+
+   SafeArrayUnaccessData (OleVariant.parray);
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//      this routine converts an ACTIVEX VARIANT into a vector
+//      of numbers
+
+//  Notes:
+
+//  Changes:
+//    DPH 5/2/98
+
+// ------------------------------------------------------------------
+void Olevariant_to_doubles (VARIANT& OleVariant, vector<double>& StlArray)
+   {
+   long ubound;
+   SafeArrayGetUBound(OleVariant.parray, 1, &ubound);
+   for (long index = 0; index <= ubound; index++)
+      {
+      float value;
+      SafeArrayGetElement(OleVariant.parray, &index, &value);
+      StlArray.push_back (value);
+      }
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//      this routine converts a vector of strings into an OLE
+//      variant array that can be passed to an ACTIVEX object.
+
+//  Notes:
+
+//  Changes:
+//    DPH 5/2/98
+
+// ------------------------------------------------------------------
+void Strings_to_olevariant (vector<string>& StlArray, VARIANT& OleVariant)
+   {
+   // setup array.
+   OleVariantInit(OleVariant, StlArray.size(), VT_BSTR);
+
+   // Fill OleArray.
+   BSTR* OleArrayPtr;
+   SafeArrayAccessData(OleVariant.parray, (void HUGEP* FAR*) &OleArrayPtr);
+   for (long i=0; i < StlArray.size(); i++)
+      {
+      Variant st = StlArray[i].c_str();
+      OleArrayPtr[i] = st.AsType(varOleStr);
+      }
+
+   SafeArrayUnaccessData (OleVariant.parray);
+   }
+
+
