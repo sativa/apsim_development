@@ -17,3 +17,27 @@ cover_green      = 0         ()
 uptake_source    = calc
 kl2rlv           = 1.5
 
+[tree.report.parameters]
+
+
+!Input stuff
+
+
+
+outputfile =model.out
+
+variable = clock.year
+variable = clock.day
+variable = manager.dateser as date
+variable = soilwat2.sw_dep()
+variable = soilwat2.sw_dep
+variable = soilwat2.eos
+variable = soilwat2.es
+variable = soilwat2.total_cover as cover
+variable = tree.basal_area
+variable = tree.sw_demand
+[tree.clock.parameters]
+
+
+start_date=1/1/1986     ! dd/mm/yyyy
+end_date=1/1/1996     ! dd/mm/yyyy

@@ -1,41 +1,14 @@
 [APSIM.tree.control]
-module=clock    [tree]
-module=report   [tree]
-module=met      ..\narayen.met [climate]
-module=manager  tree.man [tree]
-module=soilwat2 soilwat2.par [tree] %apsuite\apsim\soilwat2\soilwat2.ini[standard]
-module=tree     tree.par [tree]    ..\..\tree.ini[standard]
-
-[tree.report.parameters]
-title = test tree run. No transpiration.
-
-screen_output = off
-
-!Input stuff
-module_names=  clock   clock   manager
-variable_names=year    day     dateser
-variable_alias=-       -       date
-units=         -       -       -
-
-module_names=soilwat2   soilwat2 soilwat2 soilwat2 soilwat2
-variable_names=sw_dep() sw_dep   eos      es       total_cover
-variable_alias=-        -        -        -        cover
-units=         -        -        -        -        -
-
-module_names =    tree        tree
-variable_names =  basal_area  sw_demand
-variable_alias=   -           -
-units=            -           -
-
-outputfile = model.out  /overwrite
-summaryfile = model.sum /overwrite
-
-[tree.clock.parameters]
-simulation_start_day  =1   ()
-simulation_start_year =1986()
-simulation_end_day  =1     ()
-simulation_end_year =1996  ()
 
 
 
-
+version=2.2
+title=test tree run. No transpiration.
+summaryfile=model.sum
+screen_output=off
+module = clock    tree.par [tree]
+module = report   tree.par [tree]
+module = Input(Met)      ..\narayen.met [climate]
+module = manager  tree.man [tree]
+module = soilwat2 soilwat2.par [tree] %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = tree     tree.par [tree]    ..\..\tree.ini[standard]
