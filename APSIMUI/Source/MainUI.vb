@@ -850,6 +850,8 @@ Public Class MainUI
     ' User has clicked on a tool box - show it
     ' --------------------------------------------
     Private Sub ToolBoxes_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        ToolboxExplorer.UIManager.CloseUI()
+
         Dim toolboxes As New Toolboxes
         ToolboxMenuItem.Checked = True
         Dim inifile As New APSIMSettings
