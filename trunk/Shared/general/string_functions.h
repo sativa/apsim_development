@@ -465,5 +465,18 @@ void Replace_all_chars (char* St, char Char_to_replace, char Replacement_char);
 // ------------------------------------------------------------------
 void Get_words_from_double_null_term (char* St, std::list<std::string>& Words);
 
+// ------------------------------------------------------------------
+//  Short description:
+//     Count and return the number of occurrances of a substring
+//     in a text string.
+
+//  Notes:
+
+//  Changes:
+//    NH 13/12/2000
+
+// ------------------------------------------------------------------
+int NumOccurrences (std::string text, std::string substring);
+
 #endif
 
