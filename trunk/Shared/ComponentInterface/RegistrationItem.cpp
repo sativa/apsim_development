@@ -97,5 +97,6 @@ void RegistrationItem::setType(const Type& t)
    type = new char[t.getTypeString().length()+20];
    strcpy(type, "");
    strncat(type, t.getTypeString().f_str(), t.getTypeString().length());
+   haveCreatedTypeConverter = false;
    }
 
