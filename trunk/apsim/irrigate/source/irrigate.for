@@ -1300,6 +1300,7 @@
  
 *+  Changes
 *     10-11-1997 - neil huth - Programmed and Specified
+*     20/10/99 - dph - beefed up the error messages.
  
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -1307,6 +1308,7 @@
  
 *+  Local Variables
       real       profile_depth           ! total soil profile depth
+      character  msg*100
  
 *- Implementation Section ----------------------------------
       call push_routine (myname)
@@ -1316,17 +1318,28 @@
          profile_depth = sum_real_array (g%dlayer, max_layer)
  
          if (p%asw_depth .gt. profile_depth) then
-            call fatal_error (Err_User,
-     :      'ASW_depth for automatic irrigation must not '//
-     :      'exceed profile depth.')
+            write (msg, '(3a,f8.1,2a,f8.1)' )
+     :      'ASW_depth for automatic irrigation must not ' //
+     :      'exceed profile depth.',
+     :      new_line,
+     :      'ASW_depth=',
+     :      p%asw_depth,
+     :      new_line,
+     :      'Profile depth=',
+     :      profile_depth 
+            call fatal_error (Err_User, msg)
          else
             ! No problems here
          endif
  
          if (p%asw_depth .le. 0.0) then
-            call fatal_error (Err_User,
+            write (msg, '(3a,f8.1)' )
      :      'ASW_depth for automatic irrigation must not '//
-     :      'be zero or negetive.')
+     :      'be zero or negetive.',
+     :      new_line,
+     :      'ASW_depth=',
+     :      p%asw_depth
+            call fatal_error (Err_User, msg)
          else
             ! No problems here
          endif
