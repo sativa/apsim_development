@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.4
+     Version                = 3.5
      Title                  = 3 Years Lucerne Harvested 1997 plots
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -764,37 +764,37 @@
 
 ------- tracker1 Initialisation -----------------------------------------------
      Tracker variables:
-        sum of met.rain since report1.reported as sum@met_rain on process
-        sum of wheat.ep since report1.reported as sum@wheat_ep on process
-        sum of lucerne.ep since report1.reported as sum@lucerne_ep on process
-        sum of canola.ep since report1.reported as sum@canola_ep on process
-        sum of lupin.ep since report1.reported as sum@lupin_ep on process
-        sum of weed.ep since report1.reported as sum@weed_ep on process
-        sum of soilwat2.es since report1.reported as sum@soilwat2_es on process
-        sum of soilwat2.runoff since report1.reported as sum@soilwat2_runoff on process
-        sum of soilwat2.drain since report1.reported as sum@soilwat2_drain on process
-        sum of manager.transp since report1.reported as sum@manager_T on process
-        sum of manager.ET since report1.reported as sum@manager_ET on process
-        sum of soiln2.dlt_n_min() since report1.reported as sum@soiln2_dlt_n_min[] on process
-        average of wheat.swdef_photo since report1.reported as avg@wheat_swdef_photo on process
-        average of wheat.nfact_photo since report1.reported as avg@wheat_nfact_photo on process
-        average of canola.swdef_photo since report1.reported as avg@canola_swdef_photo on process
-        average of canola.nfact_photo since report1.reported as avg@canola_nfact_photo on process
-        average of lucerne.swdef_photo since report1.reported as avg@lucerne_swdef_photo on process
-        average of lucerne.nfact_photo since report1.reported as avg@lucerne_nfact_photo on process
-        sum of lucerne.dlt_n_fixed since report1.reported as sum@lucerne_dlt_n_fixed on process
-        average of lupin.swdef_photo since report1.reported as avg@lupin_swdef_photo on process
-        average of lupin.nfact_photo since report1.reported as avg@lupin_nfact_photo on process
-        sum of lupin.dlt_n_fixed since report1.reported as sum@lupin_dlt_n_fixed on process
-        sum of manager.netdrain180 since report1.reported as sum@manager_netdrain180 on process
+        sum of met.rain on process from report1.reported to now as sum@met_rain
+        sum of wheat.ep on process from report1.reported to now as sum@wheat_ep
+        sum of lucerne.ep on process from report1.reported to now as sum@lucerne_ep
+        sum of canola.ep on process from report1.reported to now as sum@canola_ep
+        sum of lupin.ep on process from report1.reported to now as sum@lupin_ep
+        sum of weed.ep on process from report1.reported to now as sum@weed_ep
+        sum of soilwat2.es on process from report1.reported to now as sum@soilwat2_es
+        sum of soilwat2.runoff on process from report1.reported to now as sum@soilwat2_runoff
+        sum of soilwat2.drain on process from report1.reported to now as sum@soilwat2_drain
+        sum of manager.transp on process from report1.reported to now as sum@manager_T
+        sum of manager.ET on process from report1.reported to now as sum@manager_ET
+        sum of soiln2.dlt_n_min() on process from report1.reported to now as sum@soiln2_dlt_n_min[]
+        average of wheat.swdef_photo on process from report1.reported to now as avg@wheat_swdef_photo
+        average of wheat.nfact_photo on process from report1.reported to now as avg@wheat_nfact_photo
+        average of canola.swdef_photo on process from report1.reported to now as avg@canola_swdef_photo
+        average of canola.nfact_photo on process from report1.reported to now as avg@canola_nfact_photo
+        average of lucerne.swdef_photo on process from report1.reported to now as avg@lucerne_swdef_photo
+        average of lucerne.nfact_photo on process from report1.reported to now as avg@lucerne_nfact_photo
+        sum of lucerne.dlt_n_fixed on process from report1.reported to now as sum@lucerne_dlt_n_fixed
+        average of lupin.swdef_photo on process from report1.reported to now as avg@lupin_swdef_photo
+        average of lupin.nfact_photo on process from report1.reported to now as avg@lupin_nfact_photo
+        sum of lupin.dlt_n_fixed on process from report1.reported to now as sum@lupin_dlt_n_fixed
+        sum of manager.netdrain180 on process from report1.reported to now as sum@manager_netdrain180
 
 ------- tracker2 Initialisation -----------------------------------------------
      Tracker variables:
-        sum of soiln2.dlt_n_min(1) since report2.reported as sum@soiln2_dlt_n_min[1] on process
-        sum of soiln2.dlt_n_min_res(1) since report2.reported as sum@soiln2_dlt_n_min_res[1] on process
-        sum of soiln2.dlt_n_min_tot(1) since report2.reported as sum@soiln2_dlt_n_min_tot[1] on process
-        average of wheat.swdef_photo since report2.reported as avg@wheat_swdef_photo on process
-        average of wheat.nfact_photo since report2.reported as avg@wheat_nfact_photo on process
+        sum of soiln2.dlt_n_min(1) on process from report2.reported to now as sum@soiln2_dlt_n_min[1]
+        sum of soiln2.dlt_n_min_res(1) on process from report2.reported to now as sum@soiln2_dlt_n_min_res[1]
+        sum of soiln2.dlt_n_min_tot(1) on process from report2.reported to now as sum@soiln2_dlt_n_min_tot[1]
+        average of wheat.swdef_photo on process from report2.reported to now as avg@wheat_swdef_photo
+        average of wheat.nfact_photo on process from report2.reported to now as avg@wheat_nfact_photo
 ------- Start of simulation  --------------------------------------------------
 1 January 1994(Day of year=1), manager: 
      Manager sending message :- soiln2 add_roots  dlt_fom_wt = 1500 1000 500 350 300 200 100 50 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0, dlt_fom_cnr = 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30

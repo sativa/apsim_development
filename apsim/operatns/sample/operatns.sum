@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.4
+     Version                = 3.5
      Title                  = Operatns Sample Simulation
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -210,8 +210,8 @@
 
 ------- Tracker Initialisation ------------------------------------------------
      Tracker variables:
-        sum of irrigation since reported as sum@irrigation on process
-        sum of fertilizer since reported as sum@fertilizer on process
+        sum of irrigation on process from reported to now as sum@irrigation
+        sum of fertilizer on process from reported to now as sum@fertilizer
 ------- Start of simulation  --------------------------------------------------
 1 January 1988(Day of year=1), operatns: 
       Sending do_output message to report

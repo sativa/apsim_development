@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.4
+     Version                = 3.5
      Title                  = Emerald 600mm wet soil Early sowing
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -265,7 +265,7 @@
 
 ------- Tracker Initialisation ------------------------------------------------
      Tracker variables:
-        sum of Wheat.ep since reported as sum_ep on process
+        sum of Wheat.ep on process from reported to now as sum_ep
 ------- Start of simulation  --------------------------------------------------
 1 May 1957(Day of year=121), manager: 
      Manager sending message :- soilwat2 reset

@@ -232,8 +232,8 @@ summaryfile = referenc.sum
 [reference.Screen.parameters]
 screen_output = on
 [reference.tracker1.parameters]
-variable = average of mungbean.swdef_photo since report.reported as avg@mungbean_swdef_photo on process
-variable = average of mungbean.nfact_photo since report.reported as avg@mungbean_nfact_photo on process
-variable = sum of mungbean.dlt_n_fixed_pot since report.reported as sum@mungbean_dlt_n_fixed_pot on process
-variable = sum of mungbean.dlt_n_fixed since report.reported as sum@mungbean_dlt_n_fixed on process
-variable = sum of mungbean.n_supply_soil since report.reported as sum@mungbean_n_supply_soil on process
+variable = average of mungbean.swdef_photo on process from report.reported to now as avg@mungbean_swdef_photo
+variable = average of mungbean.nfact_photo on process from report.reported to now as avg@mungbean_nfact_photo
+variable = sum of mungbean.dlt_n_fixed_pot on process from report.reported to now as sum@mungbean_dlt_n_fixed_pot
+variable = sum of mungbean.dlt_n_fixed on process from report.reported to now as sum@mungbean_dlt_n_fixed
+variable = sum of mungbean.n_supply_soil on process from report.reported to now as sum@mungbean_n_supply_soil

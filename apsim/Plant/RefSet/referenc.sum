@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.4
+     Version                = 3.5
      Title                  =
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -293,11 +293,11 @@
 
 ------- tracker1 Initialisation -----------------------------------------------
      Tracker variables:
-        average of mungbean.swdef_photo since report.reported as avg@mungbean_swdef_photo on process
-        average of mungbean.nfact_photo since report.reported as avg@mungbean_nfact_photo on process
-        sum of mungbean.dlt_n_fixed_pot since report.reported as sum@mungbean_dlt_n_fixed_pot on process
-        sum of mungbean.dlt_n_fixed since report.reported as sum@mungbean_dlt_n_fixed on process
-        sum of mungbean.n_supply_soil since report.reported as sum@mungbean_n_supply_soil on process
+        average of mungbean.swdef_photo on process from report.reported to now as avg@mungbean_swdef_photo
+        average of mungbean.nfact_photo on process from report.reported to now as avg@mungbean_nfact_photo
+        sum of mungbean.dlt_n_fixed_pot on process from report.reported to now as sum@mungbean_dlt_n_fixed_pot
+        sum of mungbean.dlt_n_fixed on process from report.reported to now as sum@mungbean_dlt_n_fixed
+        sum of mungbean.n_supply_soil on process from report.reported to now as sum@mungbean_n_supply_soil
 ------- Start of simulation  --------------------------------------------------
 7 October 1990(Day of year=280), manager: 
      Manager sending message :- mungbean sow  crop_class = plant, cultivar = emerald, plants = 40, sowing_depth = 50

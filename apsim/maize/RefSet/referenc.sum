@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.4
+     Version                = 3.5
      Title                  =
      Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
      Component DLL          = c:\development\apsim\clock\lib\clock.dll
@@ -287,8 +287,8 @@
 
 ------- tracker Initialisation ------------------------------------------------
      Tracker variables:
-        average of maize.nfact_photo since reported as avg_nfact_photo on process
-        average of maize.swdef_photo since reported as avg_swdef_photo on process
+        average of maize.nfact_photo on process from reported to now as avg_nfact_photo
+        average of maize.swdef_photo on process from reported to now as avg_swdef_photo
 ------- Start of simulation  --------------------------------------------------
 10 January 1993(Day of year=10), manager: 
      Manager sending message :- maize sow  cultivar = dekalb_xl82, plants = 10, sowing_depth = 50, tiller_no_fertile = 1

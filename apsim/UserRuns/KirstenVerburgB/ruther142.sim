@@ -531,6 +531,12 @@
             <property name="fruit_no_option">1</property>
             <property name="parasite_option">1</property>
             <property name="root_growth_option">1</property>
+            <property name="co2_default">350              =</property>
+            <property name="photosynthetic_pathway">C3</property>
+            <property name="x_co2_te_modifier">350</property>
+            <property name="y_co2_te_modifier">1.0</property>
+            <property name="x_co2_nconc_modifier">350</property>
+            <property name="y_co2_nconc_modifier">1.0</property>
             <property name="stage_names">sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</property>
             <property name="stage_code">1      2    3     4     5     6     7      8     9    10     11</property>
             <property name="stage_stem_reduction_harvest">1      2    3     3     4     4     4      4     4     4     11</property>
@@ -1302,6 +1308,12 @@
             <property name="fruit_no_option">1</property>
             <property name="parasite_option">1</property>
             <property name="root_growth_option">1</property>
+            <property name="co2_default">350              =</property>
+            <property name="photosynthetic_pathway">C3</property>
+            <property name="x_co2_te_modifier">350</property>
+            <property name="y_co2_te_modifier">1.0</property>
+            <property name="x_co2_nconc_modifier">350</property>
+            <property name="y_co2_nconc_modifier">1.0</property>
             <property name="stage_names">sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</property>
             <property name="stage_code">1      2    3     4     5     6     7      8     9    10     11</property>
             <property name="stage_stem_reduction_harvest">1      2    3     4     4     4     4      4     4     4     11</property>
@@ -1669,6 +1681,12 @@
             <property name="fruit_no_option">1</property>
             <property name="parasite_option">1</property>
             <property name="root_growth_option">1</property>
+            <property name="co2_default">350              =</property>
+            <property name="photosynthetic_pathway">C3</property>
+            <property name="x_co2_te_modifier">350</property>
+            <property name="y_co2_te_modifier">1.0</property>
+            <property name="x_co2_nconc_modifier">350</property>
+            <property name="y_co2_nconc_modifier">1.0</property>
             <property name="stage_names">sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</property>
             <property name="stage_code">1      2    3     4     5     6     7      8     9    10     11</property>
             <property name="stage_stem_reduction_harvest">1      2    3     3     4     4    11     11    11    11    11</property>
@@ -2087,6 +2105,12 @@
             <property name="fruit_no_option">1</property>
             <property name="parasite_option">1</property>
             <property name="root_growth_option">1</property>
+            <property name="co2_default">350              =</property>
+            <property name="photosynthetic_pathway">C3</property>
+            <property name="x_co2_te_modifier">350</property>
+            <property name="y_co2_te_modifier">1.0</property>
+            <property name="x_co2_nconc_modifier">350</property>
+            <property name="y_co2_nconc_modifier">1.0</property>
             <property name="stage_names">sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</property>
             <property name="stage_code">1      2    3     4     5     6     7      8     9    10     11</property>
             <property name="stage_stem_reduction_harvest">1      2    3     3     4     4    11     11    11    11    11</property>
@@ -2415,6 +2439,12 @@
             <property name="plant">wheat</property>
             <property name="class_action">harvest</property>
             <property name="class_change">unchanged</property>
+            <property name="co2_default">350</property>
+            <property name="photosynthetic_pathway">C3</property>
+            <property name="x_co2_te_modifier">0  350  700   1000</property>
+            <property name="y_co2_te_modifier">0  1.0  1.37  1.69</property>
+            <property name="x_co2_nconc_modifier">0  350  700   1000</property>
+            <property name="y_co2_nconc_modifier">0  1.0  0.93  0.9</property>
             <property name="phenology_option">2</property>
             <property name="stage_names">sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</property>
             <property name="stage_code">1      2    3     4     5     6     7      8     9    10     11</property>
@@ -2694,40 +2724,40 @@
    <component name="tracker1" executable="c:\development\apsim\tracker\lib\tracker.dll">
       <initdata>
          <variables>
-            <variable>sum of met.rain since report1.reported as sum@met_rain on process</variable>
-            <variable>sum of wheat.ep since report1.reported as sum@wheat_ep on process</variable>
-            <variable>sum of lucerne.ep since report1.reported as sum@lucerne_ep on process</variable>
-            <variable>sum of canola.ep since report1.reported as sum@canola_ep on process</variable>
-            <variable>sum of lupin.ep since report1.reported as sum@lupin_ep on process</variable>
-            <variable>sum of weed.ep since report1.reported as sum@weed_ep on process</variable>
-            <variable>sum of soilwat2.es since report1.reported as sum@soilwat2_es on process</variable>
-            <variable>sum of soilwat2.runoff since report1.reported as sum@soilwat2_runoff on process</variable>
-            <variable>sum of soilwat2.drain since report1.reported as sum@soilwat2_drain on process</variable>
-            <variable>sum of manager.transp since report1.reported as sum@manager_T on process</variable>
-            <variable>sum of manager.ET since report1.reported as sum@manager_ET on process</variable>
-            <variable>sum of soiln2.dlt_n_min() since report1.reported as sum@soiln2_dlt_n_min[] on process</variable>
-            <variable>average of wheat.swdef_photo since report1.reported as avg@wheat_swdef_photo on process</variable>
-            <variable>average of wheat.nfact_photo since report1.reported as avg@wheat_nfact_photo on process</variable>
-            <variable>average of canola.swdef_photo since report1.reported as avg@canola_swdef_photo on process</variable>
-            <variable>average of canola.nfact_photo since report1.reported as avg@canola_nfact_photo on process</variable>
-            <variable>average of lucerne.swdef_photo since report1.reported as avg@lucerne_swdef_photo on process</variable>
-            <variable>average of lucerne.nfact_photo since report1.reported as avg@lucerne_nfact_photo on process</variable>
-            <variable>sum of lucerne.dlt_n_fixed since report1.reported as sum@lucerne_dlt_n_fixed on process</variable>
-            <variable>average of lupin.swdef_photo since report1.reported as avg@lupin_swdef_photo on process</variable>
-            <variable>average of lupin.nfact_photo since report1.reported as avg@lupin_nfact_photo on process</variable>
-            <variable>sum of lupin.dlt_n_fixed since report1.reported as sum@lupin_dlt_n_fixed on process</variable>
-            <variable>sum of manager.netdrain180 since report1.reported as sum@manager_netdrain180 on process</variable>
+            <variable>sum of met.rain on process from report1.reported to now as sum@met_rain</variable>
+            <variable>sum of wheat.ep on process from report1.reported to now as sum@wheat_ep</variable>
+            <variable>sum of lucerne.ep on process from report1.reported to now as sum@lucerne_ep</variable>
+            <variable>sum of canola.ep on process from report1.reported to now as sum@canola_ep</variable>
+            <variable>sum of lupin.ep on process from report1.reported to now as sum@lupin_ep</variable>
+            <variable>sum of weed.ep on process from report1.reported to now as sum@weed_ep</variable>
+            <variable>sum of soilwat2.es on process from report1.reported to now as sum@soilwat2_es</variable>
+            <variable>sum of soilwat2.runoff on process from report1.reported to now as sum@soilwat2_runoff</variable>
+            <variable>sum of soilwat2.drain on process from report1.reported to now as sum@soilwat2_drain</variable>
+            <variable>sum of manager.transp on process from report1.reported to now as sum@manager_T</variable>
+            <variable>sum of manager.ET on process from report1.reported to now as sum@manager_ET</variable>
+            <variable>sum of soiln2.dlt_n_min() on process from report1.reported to now as sum@soiln2_dlt_n_min[]</variable>
+            <variable>average of wheat.swdef_photo on process from report1.reported to now as avg@wheat_swdef_photo</variable>
+            <variable>average of wheat.nfact_photo on process from report1.reported to now as avg@wheat_nfact_photo</variable>
+            <variable>average of canola.swdef_photo on process from report1.reported to now as avg@canola_swdef_photo</variable>
+            <variable>average of canola.nfact_photo on process from report1.reported to now as avg@canola_nfact_photo</variable>
+            <variable>average of lucerne.swdef_photo on process from report1.reported to now as avg@lucerne_swdef_photo</variable>
+            <variable>average of lucerne.nfact_photo on process from report1.reported to now as avg@lucerne_nfact_photo</variable>
+            <variable>sum of lucerne.dlt_n_fixed on process from report1.reported to now as sum@lucerne_dlt_n_fixed</variable>
+            <variable>average of lupin.swdef_photo on process from report1.reported to now as avg@lupin_swdef_photo</variable>
+            <variable>average of lupin.nfact_photo on process from report1.reported to now as avg@lupin_nfact_photo</variable>
+            <variable>sum of lupin.dlt_n_fixed on process from report1.reported to now as sum@lupin_dlt_n_fixed</variable>
+            <variable>sum of manager.netdrain180 on process from report1.reported to now as sum@manager_netdrain180</variable>
          </variables>
       </initdata>
    </component>
    <component name="tracker2" executable="c:\development\apsim\tracker\lib\tracker.dll">
       <initdata>
          <variables>
-            <variable>sum of soiln2.dlt_n_min(1) since report2.reported as sum@soiln2_dlt_n_min[1] on process</variable>
-            <variable>sum of soiln2.dlt_n_min_res(1) since report2.reported as sum@soiln2_dlt_n_min_res[1] on process</variable>
-            <variable>sum of soiln2.dlt_n_min_tot(1) since report2.reported as sum@soiln2_dlt_n_min_tot[1] on process</variable>
-            <variable>average of wheat.swdef_photo since report2.reported as avg@wheat_swdef_photo on process</variable>
-            <variable>average of wheat.nfact_photo since report2.reported as avg@wheat_nfact_photo on process</variable>
+            <variable>sum of soiln2.dlt_n_min(1) on process from report2.reported to now as sum@soiln2_dlt_n_min[1]</variable>
+            <variable>sum of soiln2.dlt_n_min_res(1) on process from report2.reported to now as sum@soiln2_dlt_n_min_res[1]</variable>
+            <variable>sum of soiln2.dlt_n_min_tot(1) on process from report2.reported to now as sum@soiln2_dlt_n_min_tot[1]</variable>
+            <variable>average of wheat.swdef_photo on process from report2.reported to now as avg@wheat_swdef_photo</variable>
+            <variable>average of wheat.nfact_photo on process from report2.reported to now as avg@wheat_nfact_photo</variable>
          </variables>
       </initdata>
    </component>

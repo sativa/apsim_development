@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.4
+     Version                = 3.5
      Title                  = Grandis
      Component DLL          = c:\development\apsim\log\lib\log.dll
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
@@ -258,10 +258,10 @@
 
 ------- tracker1 Initialisation -----------------------------------------------
      Tracker variables:
-        average of Egrandis.Fn since report.reported as avg@Egrandis_Fn on process
-        average of Egrandis.Fw since report.reported as avg@Egrandis_Fw on process
-        average of Egrandis.Fvpd since report.reported as avg@Egrandis_Fvpd on process
-        average of Egrandis.ft since report.reported as avg@Egrandis_ft on process
+        average of Egrandis.Fn on process from report.reported to now as avg@Egrandis_Fn
+        average of Egrandis.Fw on process from report.reported to now as avg@Egrandis_Fw
+        average of Egrandis.Fvpd on process from report.reported to now as avg@Egrandis_Fvpd
+        average of Egrandis.ft on process from report.reported to now as avg@Egrandis_ft
 ------- Start of simulation  --------------------------------------------------
 10 April 1994(Day of year=100), clock: 
      Simulation is terminating due to end criteria being met.

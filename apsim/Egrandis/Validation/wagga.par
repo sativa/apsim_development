@@ -158,10 +158,10 @@ rlv = .02 .01 .00 .00 .00 .00
 screen_output = on
 
 [all.tracker.parameters]
-variable = average of Egrandis.fn since report.reported as avg@fn on process
-variable = average of Egrandis.fw since report.reported as avg@fw on process
-variable = average of Egrandis.fvpd since report.reported as avg@fvpd on process
-variable = average of Egrandis.ft since report.reported as avg@ft on process
-variable = sum of Egrandis.ep() since report.reported as sum@ep() on process
-variable = sum of Egrandis.dlt_foliage_mass_detached since report.reported as litterfall on process
+variable = average of Egrandis.fn on process from report.reported to now as avg@fn
+variable = average of Egrandis.fw on process from report.reported to now as avg@fw
+variable = average of Egrandis.fvpd on process from report.reported to now as avg@fvpd
+variable = average of Egrandis.ft on process from report.reported to now as avg@ft
+variable = sum of Egrandis.ep() on process from report.reported to now as sum@ep()
+variable = sum of Egrandis.dlt_foliage_mass_detached on process from report.reported to now as litterfall
 
