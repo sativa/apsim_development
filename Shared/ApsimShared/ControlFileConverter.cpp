@@ -905,9 +905,12 @@ bool ControlFileConverter::executeSearchReplace(const string& arguments) throw(r
    if (args.size() != 3)
       throw runtime_error("Bad arguments in call to SearchReplace: " + arguments);
 
-   stripLeadingTrailing(args[0], "\" ");
-   stripLeadingTrailing(args[1], "\" ");
-   stripLeadingTrailing(args[2], "\" ");
+   stripLeadingTrailing(args[1], " ");
+   stripLeadingTrailing(args[2], " ");
+
+   stripLeadingTrailing(args[0], "\"");
+   stripLeadingTrailing(args[1], "\"");
+   stripLeadingTrailing(args[2], "\"");
    return con->searchReplace(conSection, args[0], args[1], args[2]);
    }
 //---------------------------------------------------------------------------
