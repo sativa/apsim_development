@@ -37,7 +37,7 @@ Scenarios::~Scenarios() {
       }
    while (!dllHandles.empty()) {
       HINSTANCE dllHandle = dllHandles.back();
-//      FreeLibrary(dllHandle);
+      FreeLibrary(dllHandle);
       dllHandles.pop_back();
       }
 }
@@ -312,10 +312,11 @@ bool Scenarios::loadAllAddIns(void)
          Application->MessageBox(
            reinterpret_cast <PCHAR> (pMsgBuf),
            "GetLastError",
-           MB_ICONINFORMATION
+           MB_ICONINFORMATION | MB_OK
          );
          // free the buffer
          LocalFree(pMsgBuf);
+         return false;
       }
       if (dllHandle != NULL)
          {
@@ -329,6 +330,12 @@ bool Scenarios::loadAllAddIns(void)
             AddInBase* instance = (*createAddInProc)(addInParameters, success);
             if (success) addIns.push_back( instance );
             else return false;
+            }
+         else
+            {
+            string msg = "Invalid add-in: " + *a;
+            Application->MessageBox(msg.c_str(), "Error", MB_OK);
+            return false;
             }
          }
       }
