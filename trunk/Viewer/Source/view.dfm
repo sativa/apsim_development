@@ -21,7 +21,7 @@ object ViewForm: TViewForm
     Left = 0
     Top = 0
     Width = 927
-    Height = 536
+    Height = 530
     Cursor = crDefault
     Align = alClient
     ColCount = 5
@@ -39,7 +39,6 @@ object ViewForm: TViewForm
     GridLineWidth = 1
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goDrawFocusSelected]
     ParentFont = False
-    ScrollBars = ssBoth
     TabOrder = 0
     GridLineColor = clSilver
     ActiveCellShow = False
@@ -75,11 +74,9 @@ object ViewForm: TViewForm
     SortSettings.BlankPos = blFirst
     SortSettings.AutoFormat = True
     SortSettings.Direction = sdAscending
-    SortSettings.InitSortDirection = sdAscending
     SortSettings.FixedCols = False
     SortSettings.NormalCellsOnly = False
     SortSettings.Row = 0
-    SortSettings.UndoSort = False
     FloatingFooter.Color = clBtnFace
     FloatingFooter.Column = 0
     FloatingFooter.FooterStyle = fsFixedLastRow
@@ -88,17 +85,11 @@ object ViewForm: TViewForm
     ControlLook.CheckSize = 15
     ControlLook.RadioSize = 10
     ControlLook.ControlStyle = csWinXP
-    ControlLook.DropDownAlwaysVisible = False
     ControlLook.FlatButton = False
-    ControlLook.NoDisabledCheckRadioLook = False
-    ControlLook.ProgressMarginX = 2
-    ControlLook.ProgressMarginY = 2
-    ControlLook.ProgressXP = False
     EnableBlink = False
     EnableHTML = True
     EnableWheel = True
     Flat = False
-    Look = glXP
     HintColor = clInfoBk
     SelectionColor = 15387318
     SelectionTextColor = clBlack
@@ -120,11 +111,6 @@ object ViewForm: TViewForm
     PrintSettings.Font.Height = -11
     PrintSettings.Font.Name = 'MS Sans Serif'
     PrintSettings.Font.Style = []
-    PrintSettings.FixedFont.Charset = DEFAULT_CHARSET
-    PrintSettings.FixedFont.Color = clWindowText
-    PrintSettings.FixedFont.Height = -11
-    PrintSettings.FixedFont.Name = 'MS Sans Serif'
-    PrintSettings.FixedFont.Style = []
     PrintSettings.HeaderFont.Charset = DEFAULT_CHARSET
     PrintSettings.HeaderFont.Color = clWindowText
     PrintSettings.HeaderFont.Height = -11
@@ -157,7 +143,6 @@ object ViewForm: TViewForm
     PrintSettings.NoAutoSize = False
     PrintSettings.NoAutoSizeRow = False
     PrintSettings.PrintGraphics = False
-    PrintSettings.UseDisplayFont = True
     HTMLSettings.Width = 100
     HTMLSettings.XHTML = False
     Navigation.AdvanceDirection = adLeftRight
@@ -167,21 +152,9 @@ object ViewForm: TViewForm
     Navigation.TabAdvanceDirection = adLeftRight
     ColumnSize.Location = clRegistry
     CellNode.Color = clSilver
-    CellNode.ExpandOne = False
     CellNode.NodeColor = clBlack
-    CellNode.NodeIndent = 12
     CellNode.ShowTree = True
-    CellNode.TreeColor = clSilver
     MaxEditLength = 0
-    Grouping.HeaderColor = clNone
-    Grouping.HeaderColorTo = clNone
-    Grouping.HeaderTextColor = clNone
-    Grouping.MergeHeader = False
-    Grouping.MergeSummary = False
-    Grouping.Summary = False
-    Grouping.SummaryColor = clNone
-    Grouping.SummaryColorTo = clNone
-    Grouping.SummaryTextColor = clNone
     IntelliPan = ipVertical
     URLColor = clBlue
     URLShow = False
@@ -218,7 +191,7 @@ object ViewForm: TViewForm
   end
   object StatusBar: TStatusBar
     Left = 0
-    Top = 536
+    Top = 530
     Width = 927
     Height = 19
     Panels = <
