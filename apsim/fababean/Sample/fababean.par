@@ -23,7 +23,7 @@ end_year = 1988
 [sample.manager.start_of_day]
 
 if day = 130 and year  = 1988 then
-   fababean sow crop_type = fababean, cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
+   fababean sow cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 
 elseif day = 290 and year = 1988 then
    fababean harvest

@@ -23,7 +23,7 @@ end_year = 1989
 [sample.manager.start_of_day]
 
 if day = 330 and year  = 1988 then
-   soybean sow crop_type = soybean, cultivar = davis, plants = 25 (/m2), sowing_depth = 40 (mm)
+   soybean sow cultivar = davis, plants = 25 (/m2), sowing_depth = 40 (mm)
 
 elseif day = 80 and year = 1989 then
    soybean harvest

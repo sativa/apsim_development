@@ -23,7 +23,7 @@ end_year = 1989
 [sample.manager.start_of_day]
 
 if day = 330 and year  = 1988 then
-   peanut sow crop_type = peanut, cultivar = early_bunch, plants = 10 (/m2), sowing_depth = 40 (mm)
+   peanut sow cultivar = early_bunch, plants = 10 (/m2), sowing_depth = 40 (mm)
 
 elseif day = 105 and year = 1989 then
    peanut harvest

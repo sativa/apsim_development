@@ -24,7 +24,7 @@ end_year = 1989
 [sample.manager.start_of_day]
 
 if day = 150 and year = 1988 then
-   lucerne sow crop_type = lucerne, cultivar = trifecta, plants = 200 (/m2), sowing_depth = 40 (mm)
+   lucerne sow cultivar = trifecta, plants = 200 (/m2), sowing_depth = 40 (mm)
 
 elseif (day = 300 and year = 1988) or (day = 360 and year = 1988) or
        (day = 40 and year = 1989) or (day = 100 and year = 1989) or 

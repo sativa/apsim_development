@@ -23,7 +23,7 @@ end_year = 1989
 [sample.manager.start_of_day]
 
 if day = 320 and year  = 1988 then
-   stylo sow crop_type = stylo, cultivar = verano, plants = 5 (/m2), sowing_depth = 40 (mm)
+   stylo sow cultivar = verano, plants = 5 (/m2), sowing_depth = 40 (mm)
 
 elseif day = 90 and year = 1989 then
    stylo harvest
