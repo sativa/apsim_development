@@ -1,4 +1,4 @@
-C     Last change:  E    18 Jan 2001    4:06 pm
+C     Last change:  E    18 Jan 2001    5:06 pm
 
       INCLUDE 'CropMod.inc'
 
@@ -3550,29 +3550,24 @@ c=======================================================================
 
       elseif (c%crop_type .eq. 'maize') then
 
-       call crop_cover_m1 (
+      call Maize_cover1 (
      .          g%row_spacing,
-     .          c%kvalue_rowspace,
-     .          c%kvalue_adjustment,
-     .          c%num_kvalue_rowspace,
-     .          g%cover_green,
-     .          c%extinction_coef,
-     .          g%lai)
-       call crop_cover_m1 (
+     .          c%x_row_spacing,
+     .          c%y_extinct_coef,
+     .          c%num_row_spacing,
+     .          g%cover_green,g%lai)
+      call Maize_cover1 (
      .          g%row_spacing,
-     .          c%kvalue_rowspace,
-     .          c%kvalue_adjustment,
-     .          c%num_kvalue_rowspace,
-     .          g%cover_sen,
-     .          c%extinction_coef_dead,
-     .          g%slai)
-       call crop_cover_m1 (
+     .          c%x_row_spacing,
+     .          c%y_extinct_coef_dead,
+     .          c%num_row_spacing,
+     .          g%cover_sen,g%slai)
+      call Maize_cover1 (
      .          g%row_spacing,
-     .          c%kvalue_rowspace,
-     .          c%kvalue_adjustment,
-     .          c%num_kvalue_rowspace,
+     .          c%x_row_spacing,
+     .          c%y_extinct_coef_dead,
+     .          c%num_row_spacing,
      .          g%cover_dead,
-     .          c%extinction_coef_dead,
      :          g%tlai_dead)
 
       elseif (c%crop_type .eq. 'sorghum') then
@@ -5729,13 +5724,12 @@ c           string_to_integer_var(value_string, value, numvals)
 
 
 *     ===========================================================
-      subroutine Crop_Cover_m1 (
+      subroutine Maize_cover1 (
      .          g_row_spacing,
-     .          c_kvalue_rowspace,
-     .          c_kvalue_adjustment,
-     .          c_num_kvalue_rowspace,
+     .          c_x_row_spacing,
+     .          c_y_extinct_coef,
+     .          c_num_row_spacing,
      .          cover_leaf,
-     .          extinction_coef,
      .          lai)
 *     ===========================================================
       implicit none
@@ -5744,54 +5738,49 @@ c           string_to_integer_var(value_string, value, numvals)
 
 *+  Sub-Program Arguments
        real g_row_spacing
-       real extinction_coef
 *
       real       cover_leaf            ! (OUTPUT) fraction of radn that is
                                        !  intercepted by leaves (0-1)
       real       lai                   ! (INPUT) leaf area index ()
-      real       c_kvalue_rowspace(*)  ! (INPUT) rowspace array for k lookup
-      real       c_kvalue_adjustment(*)! (INPUT) k lookup values
-      integer    c_num_kvalue_rowspace
+      real       c_x_row_spacing(*)    ! (INPUT) rowspace array for extinction_coef lookup
+      real       c_y_extinct_coef(*)   ! (INPUT) extinction_coef lookup values
+      integer    c_num_row_spacing     ! number of values in the lookup table
 
 *+  Purpose
 *       'Cover' by leaves (0-1) . Fraction of radiation reaching the
-*       canopy, intercepted by the leaves of the canopy.
+*       canopy, intercepted by the leaves of the canopy. Extinction
+*       coefficient is a function of row spacing.
+
+*+  Mission statement
+*       Calculate crop cover using %6
 
 *+  Changes
-*     <insert here>
+*   03-11-2000  - Don Gaydon - simplified cover calculation by removing need for 
+*                              extinction coefficient 'adjustment' parameter
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'crop_cover_m1')
+      parameter (my_name = 'Maize_cover1')
 
 *+  Local Variables
-      real       adjustment            ! extinction coefficient adjustment
-                                       ! due to rowspacing.
-      real       k_coef                ! extinction coefficient
+      real       extinct_coef                ! extinction coefficient
 
 *- Implementation Section ----------------------------------
  
       call push_routine (my_name)
  
-         ! this equation implies that leaf interception of
-         ! solar radiation obeys Beer's law
+      extinct_coef = linear_interp_real (g_row_spacing
+     :                                   ,c_x_row_spacing
+     :                                   ,c_y_extinct_coef
+     :                                   ,c_num_row_spacing)
  
-      if (g_row_spacing .gt. 0.0) then
-         adjustment = linear_interp_real (g_row_spacing
-     :                                   ,c_kvalue_rowspace
-     :                                   ,c_kvalue_adjustment
-     :                                   ,c_num_kvalue_rowspace)
  
-         k_coef = extinction_coef * adjustment
-      else
-         k_coef = extinction_coef
-      endif
- 
-      cover_leaf = 1.0 - exp (-k_coef * lai)
+      cover_leaf = 1.0 - exp (-extinct_coef * lai)
  
       call pop_routine (my_name)
       return
       end
+
 
 
 * ====================================================================
