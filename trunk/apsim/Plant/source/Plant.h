@@ -478,6 +478,19 @@ class Plant : public plantInterface {
     ,float  *dm_oil_conv_retranslocate
     ,float  *dm_retranslocate
     ) ;
+  void legnew_dm_retranslocate_test
+    (
+     int    max_part
+    ,int    *supply_pools
+    ,int    num_supply_pools
+    ,float  g_dm_demand_differential
+    ,float  *g_dlt_dm_green
+    ,float  *g_dm_green
+    ,float  *g_dm_plant_min
+    ,float  g_plants
+    ,float  *dlt_dm_retrans_fruit
+    ,float  *dm_retranslocate
+    ) ;
   void legnew_dm_retranslocate2
     (
      float  g_current_stage
@@ -1148,6 +1161,11 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
   void get_dlt_dm_fruit_abort(protocol::Component *, protocol::QueryValueData &);
   void get_zadok_stage(protocol::Component *, protocol::QueryValueData &);
 
+
+// To transfer to Fruit class
+  void plant_bio_distribute (int option /* (INPUT) option number */);
+
+
  private:
   /* system interface: */
   UInt2SetFnMap   IDtoSetFn;    /* setVariable */
@@ -1275,6 +1293,9 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
                                                         // temperature stress conditions (g/m^2)
       float dlt_dm_pot_te;                              // the potential daily biomass production from te (g/m^2)
       float dlt_dm_oil_conv;                            // plant biomass used in conversion to oil (g/m^2)
+      double dlt_dm_supply_to_fruit;                     // dry matter supplied to fruit from assimilate (g/m^2)
+      float dlt_dm_yield_demand_fruit;                  // dry matter demand by fruit (g/m^2)
+      float dlt_dm_retrans_to_fruit;                    // dry matter retranslocated to fruit (g/m^2)
       float dlt_dm_green[max_part];                     // plant biomass growth (g/m^2)
       float dlt_dm_senesced[max_part];                  // plant biomass senescence (g/m^2)
       float dlt_dm_detached[max_part];                  // plant biomass detached (g/m^2)
