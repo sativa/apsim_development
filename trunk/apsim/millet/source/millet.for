@@ -1055,20 +1055,20 @@ c+!!!!!!!!! check order dependency of deltas
       include 'data.pub'                          
       include 'write.pub'                         
       include 'error.pub'                         
-
+ 
 *+  Purpose
 *       Report occurence of harvest and the current status of specific
 *       variables.
-
+ 
 *+  Changes
 *     010994 jngh specified and programmed
-
+ 
 *+  Calls
-
+ 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'millet_harvest')
-
+ 
 *+  Local Variables
       real       biomass_dead          ! above ground dead plant wt (kg/ha)
       real       biomass_green         ! above ground green plant wt (kg/ha)
@@ -1095,7 +1095,7 @@ c+!!!!!!!!! check order dependency of deltas
       real       yield                 ! grain yield dry wt (kg/ha)
       real       yield_wet             ! grain yield including moisture
                                        ! (kg/ha)
-
+ 
 *- Implementation Section ----------------------------------
  
       call push_routine (my_name)
@@ -1270,99 +1270,141 @@ cejvo      leaf_no = sum_between (germ, harvest_ripe, g%leaf_no)
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
-
+ 
 *+  Purpose
 *       Zero crop variables & arrays
-
+ 
 *+  Changes
 *     010994 jngh specified and programmed
 *     090695 psc  add row spacing = 0
-
+*     040998 sb added many
+ 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name  = 'millet_zero_variables')
-
-*- Implementation Section ----------------------------------
  
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-          ! zero pools etc.
- 
-      call millet_zero_daily_variables ()
- 
-      call fill_real_array (g%cnd_grain_conc, 0.0, max_stage)
-      call fill_real_array (g%cnd_photo, 0.0, max_stage)
-      call fill_real_array (g%cswd_expansion, 0.0, max_stage)
-      call fill_real_array (g%cswd_pheno, 0.0, max_stage)
-      call fill_real_array (g%cswd_photo, 0.0, max_stage)
-      call fill_real_array (g%days_tot, 0.0, max_stage)
-      call fill_real_array (g%dm_dead, 0.0, max_part)
-      call fill_real_array (g%dm_green, 0.0, max_part)
-      call fill_real_array (g%dm_plant_min, 0.0, max_part)
-      call fill_real_array (g%dm_plant_top_tot, 0.0, max_stage)
-      call fill_real_array (g%heat_stress_tt, 0.0, max_stage)
-      call fill_real_array (g%leaf_area, 0.0, max_leaf)
-      call fill_real_array (g%leaf_area, 0.0, max_leaf)
-      call fill_real_array (g%leaf_no, 0.0, max_stage)
-      call fill_real_array (g%tiller_no, 0.0, max_stage)
-cejvo
-      call fill_real_array (g%y_tiller_tt_adj, 0.0, max_table)
-      call fill_real_array (g%leaf_no_dead, 0.0, max_stage)
-      call fill_real_array (p%ll_dep, 0.0, max_layer)
-      call fill_real_array (g%N_conc_crit, 0.0, max_part)
-      call fill_real_array (g%N_conc_min, 0.0, max_part)
-      call fill_real_array (g%N_green, 0.0, max_part)
-      call fill_real_array (g%phase_tt, 0.0, max_stage)
-      call fill_real_array (g%tt_tot, 0.0, max_stage)
-      call fill_real_array (g%phase_tt_curv, 0.0, max_stage)
-      call fill_real_array (g%tt_curv_tot, 0.0, max_stage)
-      call fill_real_array (g%phase_tt_other, 0.0, max_stage)
-      call fill_real_array (g%tt_other_tot, 0.0, max_stage)
-      call fill_real_array (g%lai_equilib_light, 0.0, 366)
-      call fill_real_array (g%lai_equilib_water, 0.0, 366)
-      call fill_real_array (g%soil_temp, 0.0, 366)
- 
-      call fill_real_array (g%dm_senesced, 0.0, max_part)
-      call fill_real_array (g%dm_stress_max, 0.0, max_stage)
-      call fill_real_array (g%N_dead, 0.0, max_part)
-      call fill_real_array (g%N_senesced, 0.0, max_part)
- 
- 
+      g%row_spacing = 0
+      g%sowing_depth = 0
+      g%fr_intc_radn = 0
+      g%latitude = 0
+      g%radn = 0
+      g%mint = 0
+      g%maxt = 0
+      g%soil_temp = 0
+      g%daylength_at_emerg = 0
+      g%cnd_photo = 0
+      g%cnd_grain_conc = 0
+      g%cswd_photo = 0
+      g%cswd_expansion = 0
+      g%cswd_pheno = 0
+      g%dlt_tt = 0
+      g%tt_tot = 0
+      g%phase_tt = 0
+      g%dlt_tt_curv = 0
+      g%tt_curv_tot = 0
+      g%phase_tt_curv = 0
+      g%dlt_tt_other = 0
+      g%tt_other_tot = 0
+      g%phase_tt_other = 0
+      g%heat_stress_tt = 0
+      g%dlt_heat_stress_tt = 0
+      g%dlt_stage = 0
+      g%previous_stage = 0
+      g%days_tot = 0
+      g%dlt_canopy_height = 0
+      g%canopy_height = 0
+      g%plants = 0
+      g%dlt_plants = 0
+      g%grain_no = 0
+      g%dlt_root_depth = 0
+      g%root_depth = 0
+      g%cover_green = 0
+      g%cover_sen = 0
+      g%cover_dead = 0
+      g%dlt_dm = 0
+      g%dlt_dm_green = 0
+      g%dlt_dm_senesced = 0
+      g%dlt_dm_detached = 0
+      g%dlt_dm_dead_detached = 0
+      g%dlt_dm_green_retrans = 0
+      g%dm_stress_max = 0
+      g%dlt_dm_stress_max = 0
+      g%dlt_dm_grain_demand = 0
+      g%dm_green_demand = 0
+      g%dm_dead = 0
+      g%dm_green = 0
+      g%dm_senesced = 0
+      g%dm_plant_top_tot = 0
+      g%slai = 0
+      g%dlt_slai = 0
+      g%dlt_lai = 0
+      g%dlt_lai_pot = 0
+      g%lai = 0
+      g%tlai_dead = 0
+      g%dlt_slai_detached = 0
+      g%dlt_tlai_dead_detached = 0
+      g%leaf_no = 0
+      g%leaf_no_dead = 0
+      g%dlt_leaf_no = 0
+      g%dlt_leaf_no_pot = 0
+      g%dlt_leaf_no_dead = 0
+      g%leaf_no_final = 0
+      g%leaf_no_effective = 0
+      g%leaf_no_ref = 0
+      g%leaf_no_total = 0
+      g%leaf_no_dead_const2 = 0
+      g%lf_no_dead_at_flaglf = 0
+      g%leaf_area = 0
+      g%lai_equilib_light = 0
+      g%lai_equilib_water = 0
+      g%tiller_no = 0
+      g%dlt_tiller_no = 0
+      g%dm_tiller_independence = 0
+      g%N_tiller_independence = 0
+      g%y_tiller_tt_adj = 0
+      g%N_demand = 0
+      g%N_max = 0
+      g%dlt_N_green = 0
+      g%dlt_N_senesced = 0
+      g%dlt_N_detached = 0
+      g%dlt_N_dead_detached = 0
+      g%N_dead = 0
+      g%N_green = 0
+      g%N_senesced = 0
+      g%dlt_N_retrans = 0
+      g%dlt_NO3gsm = 0
+      g%NO3gsm = 0
+      g%NO3gsm_min = 0
+      g%N_conc_crit = 0
+      g%N_conc_max = 0
+      g%N_conc_min = 0
+      g%dm_plant_min = 0
+      g%dlayer = 0
+      g%dlt_sw_dep = 0
+      g%dul_dep = 0
+      g%sw_dep = 0
+      g%sw_demand = 0
+      g%sw_avail_pot = 0
+      g%sw_avail = 0
+      g%sw_supply = 0
+      g%transpiration_tot = 0
+      g%N_uptake_tot = 0
+      g%N_demand_tot = 0
+      g%N_conc_act_stover_tot = 0
+      g%N_conc_crit_stover_tot = 0
+      g%N_uptake_grain_tot = 0
+      g%N_uptake_stover_tot = 0
+      g%lai_max = 0
+      g%cover_green_sum = 0
+      g%year = 0
+      g%day_of_year = 0
+      g%tiller_independence = 0
       g%num_layers = 0
-      g%canopy_height = 0.0
-      g%grain_no = 0.0
       g%isdate = 0
       g%mdate = 0
-      g%leaf_no_final = 0.0
-!cejvo
-      g%leaf_no_effective = 0.0
-      g%leaf_no_ref = 0.0
-      g%leaf_no_dead_const2 = 0.0
-      g%lf_no_dead_at_flaglf = 0.0
-      g%lai_max = 0.0
-      g%N_conc_act_stover_tot = 0.0
-      g%N_conc_crit_stover_tot = 0.0
-      g%N_demand_tot = 0.0
-      g%N_uptake_grain_tot = 0.0
-      g%N_uptake_stover_tot = 0.0
-      g%N_uptake_tot = 0.0
-      g%plants = 0.0
-      g%root_depth = 0.0
-      g%sowing_depth = 0.0
-!cpsc
-      g%row_spacing = 0.0
-cjh
-      g%cover_green = 0.0
-      g%cover_sen   = 0.0
-      g%cover_dead  = 0.0
-!cpsc
-      g%slai = 0.0
-      g%lai = 0.0
-      g%tlai_dead = 0.0
-      g%transpiration_tot = 0.0
-      g%previous_stage = 0.0
- 
-      g%stem_class = blank
  
       call pop_routine (my_name)
       return
@@ -1376,17 +1418,17 @@ cjh
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
-
+ 
 *+  Purpose
 *       Zero crop daily variables & arrays
-
+ 
 *+  Changes
 *     010994 jngh specified and programmed
-
+ 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name  = 'millet_zero_daily_variables')
-
+ 
 *- Implementation Section ----------------------------------
  
       call push_routine (my_name)
