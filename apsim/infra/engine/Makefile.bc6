@@ -6,6 +6,8 @@ BCB = $(MAKEDIR)\..
 # APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
 #APSROOT=c:\progra~1\apsim33
 #APSROOT=c:\development
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
 
 PROJECT=..\..\..\Bin\apsim.exe
 
@@ -19,13 +21,13 @@ RESFILES = apsim.res
 
 USERDEFINES = 
 SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
-INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface
-LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface
+INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface
+LIBPATH = $(SYSLIBPATH);$(APSROOT)\Shared\ComponentInterface
 
 
 # ---------------------------------------------------------------------------
 
-CFLAG1 = -O2 -H- -Vx -Ve -X- -a8 -b- -k- -vi -c -tW -tWM
+CFLAG1 = $(SYSCFLAGS) -tWM 
 WARNINGS = -w-par
 LFLAGS = 
 
@@ -51,3 +53,6 @@ $(PROJECT): $(OBJECTS) $(RESFILES)
 ####
 apsim.obj: apsim.cpp Simulation.h
 Simulation.obj: Simulation.cpp Simulation.h
+
+clean:
+	$(RM) $(OBJECTS) $(TARGET)

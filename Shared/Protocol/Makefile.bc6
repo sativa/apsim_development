@@ -11,6 +11,9 @@ LD=$(BCB)/Bin/ilink32.exe
 #APSROOT=c:/progra~1/apsim33
 #APSROOT=c:\development
 
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
+
 TARGET = ..\..\Bin\Protocol.dll
 OBJECTS = Protocol.obj transport.obj Computation.obj
 RESFILES = Protocol.res
@@ -18,14 +21,14 @@ LIBFILES = $(APSROOT)\Shared\general\general.lib $(APSROOT)\Shared\ApsimShared\A
 
 USERDEFINES = 
 SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
-INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(APSROOT)\Shared
-LIBPATH = $(BCB)\lib\obj;$(BCB)\lib
+INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared
+LIBPATH = $(SYSLIBPATH)
 
 ALLOBJ = c0d32.obj vcl.bpi memmgr.lib sysinit.obj $(OBJECTS)
 ALLLIB = $(LIBFILES) import32.lib cp32mti.lib
 ALLRES = $(RESFILES)
 
-CFLAG1 = -O2 -H- -Vx -Ve -x- -RT- -X- -a8 -b- -k- -vi -c -tW -tWM
+CFLAG1 = $(SYSCFLAGS) -tWM 
 WARNINGS = -w-par
 LFLAGS = -l. -D"" -aa -Tpd -x -Gn -Gi
 # ---------------------------------------------------------------------------
@@ -43,3 +46,6 @@ $(ALLRES)
 
 .cpp.obj:
     $(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+
+clean:
+	$(RM) $(OBJECTS) $(TARGET)

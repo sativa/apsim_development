@@ -6,11 +6,11 @@ BCB = $(MAKEDIR)\..
 CC=$(BCB)/Bin/bcc32.exe
 LD=$(BCB)/Bin/ilink32.exe
 
-
-
 # APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
 #APSROOT=c:\progra~1\apsim33
 #APSROOT=c:\development
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
 
 TARGET=..\lib\ProtocolManager.dll
 OBJECTS = ProtocolManager.obj Coordinator.obj \
@@ -24,14 +24,14 @@ LIBFILES = $(APSROOT)\Shared\general\general.lib \
 
 USERDEFINES = 
 SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
-INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(APSROOT)\Shared
-LIBPATH = $(BCB)\lib\obj;$(BCB)\lib
+INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared
+LIBPATH = $(SYSLIBPATH)
 
 ALLOBJ = c0d32.obj vcl.bpi $(OBJECTS)
 ALLLIB = $(LIBFILES) import32.lib cw32mti.lib
 
 # ---------------------------------------------------------------------------
-CFLAG1 = -WD -O2 -H- -Vx -Ve -X- -a8 -b- -k- -vi -tWD -tWM -c
+CFLAG1 = $(SYSCFLAGS) -tWM 
 WARNINGS = -w-par
 LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
 
@@ -47,3 +47,6 @@ $(TARGET): $(OBJECTS)
     $(DEFFILE), +
     $(ALLRES)
 !
+
+clean:
+	$(RM) $(OBJECTS) $(TARGET)

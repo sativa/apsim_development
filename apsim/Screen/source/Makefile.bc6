@@ -6,6 +6,8 @@ BCB = $(MAKEDIR)\..
 # APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
 #APSROOT=c:\progra~1\apsim33
 #APSROOT=c:\development
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
 
 PROJECT=..\lib\Screen.dll
 
@@ -23,7 +25,7 @@ LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface
 
 
 # ---------------------------------------------------------------------------
-CFLAG1 = -WD -O2 -H- -Vx -Ve -X- -a8 -b- -k- -vi -c -tWD -tWM
+CFLAG1 = $(SYSCFLAGS) -tWM 
 WARNINGS = -w-par
 LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
 

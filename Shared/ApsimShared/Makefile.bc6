@@ -12,6 +12,9 @@ LINKER=$(BCB)\Bin\ilink32.exe
 #APSROOT=c:/progra~1/apsim33
 #APSROOT=c:\development
 
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
+
 TARGET = $(APSROOT)\Bin\ApsimShared.dll
 OBJECTS = ApsimShared.obj ApsimComponentData.obj ApsimControlFile.obj \
 ApsimDirectories.obj ApsimLicence.obj ApsimProject.obj ApsimRunFile.obj \
@@ -24,8 +27,8 @@ TMoveParametersForm.obj SimCreator.obj StarUtils.obj ApsimMacroFile.obj
 RESFILES = ApsimShared.res
 USERDEFINES = 
 SYSDEFINES = NO_STRICT;_RTLDLL;USEPACKAGES
-INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components;$(BCB)\Components\tms;$(BCB)\components\boost;$(APSROOT)\Shared
-LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\tms
+INCLUDEPATH = $(SYSINCLUDES);$(BCB)\Components;$(BCB)\Components\tms;$(BCB)\components\boost;$(APSROOT)\Shared
+LIBPATH =  $(SYSLIBPATH);$(BCB)\Components\tms
 RESDEPEN = $(RESFILES) TAboutForm.dfm TSplashForm.dfm TMoveParametersForm.dfm
 LIBFILES = $(APSROOT)\Shared\general\general.lib \
     $(BCB)\Components\Boost\libs\filesystem\filesystem.lib \
@@ -35,16 +38,13 @@ LIBRARIES = xmlrtl.lib TMSC6.lib
 PACKAGES = vcl.bpi rtl.bpi
 
 # ---------------------------------------------------------------------------
-CFLAG1 = -WD -O2 -H- -Vx -Ve -X- -a8 -b- -k- -vi -tWD -tWM -c
+CFLAG1 = $(SYSCFLAGS) -tWM
 WARNINGS = -w-par
 LFLAGS = -l. -D"" -aa -Tpd -x -Gn -Gi
 
 ALLOBJ = c0d32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJECTS)
 ALLRES = $(RESFILES)
 ALLLIB = $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib
-
-.cpp.obj:
-	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
 
 $(TARGET): $(OBJECTS) $(RESDEPEN) $(DEFFILE)
 	$(LINKER) @&&!
@@ -56,3 +56,9 @@ $(DEFFILE), +
 $(ALLRES)
 !
 
+.cpp.obj:
+	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+
+clean:
+	$(RM) $(OBJECTS) $(TARGET)
+	
