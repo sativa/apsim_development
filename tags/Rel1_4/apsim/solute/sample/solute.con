@@ -1,0 +1,10 @@
+[APSIM.Test_Solute]
+! Modules to use in simulation
+
+module=report     solute.par[solute] solute.par[solute]
+module=input      solute.met[weather]  solute.par[solute]
+module=fertiliz   solute.par[solute]   fertiliz.ini [standard]
+module=soilwat2    solute.par[solute]  soilwat2.ini[standard]
+module=manager    solute.man[solute]
+module=solute     solute.par[solute]   solute.ini[standard]
+! ............................................................................

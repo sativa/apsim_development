@@ -1,0 +1,14 @@
+! **********************************
+! Test of accum module
+! Created by Dean Holzworth APSRU
+! 19/7/95
+! **********************************
+
+[apsim.test of accum]
+Module = report   report.par[output_vars] [title0]
+Module = input    dalby.met[weather]
+Module = accum    accum.par[accum]
+Module = manager  accum.man[general]
+Module = soilwat  soil.wat[pawc210] \apsuite\apsim\soilwat\soilwat.ini [standard]
+
+
