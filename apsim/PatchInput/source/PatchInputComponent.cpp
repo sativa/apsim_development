@@ -43,7 +43,7 @@ void PatchInputComponent::doInit1(const FString& sdml)
    {
    InputComponent::doInit1(sdml);
 
-   preNewmetID = addRegistration(protocol::respondToEventReg, "preNewmet", newmetTypeDDML);
+   preNewmetID = addRegistration(RegistrationType::respondToEvent, "preNewmet", newmetTypeDDML);
    ApsimDataFile::iterator i = find(data.constantsBegin(),
                                     data.constantsEnd(),
                                     "patch_all_years");
@@ -112,11 +112,11 @@ void PatchInputComponent::getDataFromInput(unsigned int fromID)
       componentIDToName(fromID, fromComponent);
       string getDataMethodCallString = asString(fromComponent);
       getDataMethodCallString += ".getData";
-      getDataMethodID = addRegistration(protocol::methodCallReg,
+      getDataMethodID = addRegistration(RegistrationType::event,
                                         getDataMethodCallString.c_str(),
                                         getDataDDML);
-      returnDataMethodID = addRegistration(protocol::respondToMethodCallReg, "returnData", returnDataDDML);
-      methodCall(getDataMethodID, dataDates);
+      returnDataMethodID = addRegistration(RegistrationType::respondToEvent, "returnData", returnDataDDML);
+      publish(getDataMethodID, dataDates);
       }
    }
 // ------------------------------------------------------------------
@@ -201,7 +201,7 @@ void PatchInputComponent::respondToEvent(unsigned int& fromID, unsigned int& eve
                   }
                foreignName.erase(0, strlen("patch_"));
 
-               unsigned variableID = addRegistration(protocol::setVariableReg,
+               unsigned variableID = addRegistration(RegistrationType::set,
                                                      foreignName.c_str(),
                                                      DTsingleString,
                                                      "",
@@ -216,13 +216,8 @@ void PatchInputComponent::respondToEvent(unsigned int& fromID, unsigned int& eve
       }
    else if (eventID != tickID)  // stop the tick event going to base class.
       InputComponent::respondToEvent(fromID, eventID, variant);
-   }
-// ------------------------------------------------------------------
-// method call handler.
-// ------------------------------------------------------------------
-void PatchInputComponent::respondToMethod(unsigned int& fromID, unsigned int& methodID, protocol::Variant& variant)
-   {
-   if (methodID == returnDataMethodID)
+
+   else if (eventID == returnDataMethodID)
       {
       vector<protocol::newmetType> data;
       variant.unpack(data);
@@ -236,7 +231,9 @@ void PatchInputComponent::respondToMethod(unsigned int& fromID, unsigned int& me
          patchData.insert(make_pair(dayNumber, data[i]));
          }
       }
+
    }
+
 // ------------------------------------------------------------------
 // Do a bunch of setVariables back to INPUT for all patchVariablesLongTerm.
 // ------------------------------------------------------------------
@@ -257,25 +254,25 @@ void PatchInputComponent::setPatchData()
       if (find(patchVariablesLongTerm.begin(), patchVariablesLongTerm.end(),
                "maxt") != patchVariablesLongTerm.end())
          {
-         unsigned maxtID = addRegistration(protocol::setVariableReg, "maxt", DTsingleString);
+         unsigned maxtID = addRegistration(RegistrationType::set, "maxt", DTsingleString);
          setVariable(maxtID, i->second.maxt);
          }
       if (find(patchVariablesLongTerm.begin(), patchVariablesLongTerm.end(),
                "mint") != patchVariablesLongTerm.end())
          {
-         unsigned mintID = addRegistration(protocol::setVariableReg, "mint", DTsingleString);
+         unsigned mintID = addRegistration(RegistrationType::set, "mint", DTsingleString);
          setVariable(mintID, i->second.mint);
          }
       if (find(patchVariablesLongTerm.begin(), patchVariablesLongTerm.end(),
                "radn") != patchVariablesLongTerm.end())
          {
-         unsigned radnID = addRegistration(protocol::setVariableReg, "radn", DTsingleString);
+         unsigned radnID = addRegistration(RegistrationType::set, "radn", DTsingleString);
          setVariable(radnID, i->second.radn);
          }
       if (find(patchVariablesLongTerm.begin(), patchVariablesLongTerm.end(),
                "rain") != patchVariablesLongTerm.end())
          {
-         unsigned rainID = addRegistration(protocol::setVariableReg, "rain", DTsingleString);
+         unsigned rainID = addRegistration(RegistrationType::set, "rain", DTsingleString);
          setVariable(rainID, i->second.rain);
          }
       }

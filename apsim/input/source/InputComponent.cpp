@@ -80,24 +80,24 @@ void InputComponent::doInit1(const FString& sdml)
       static const char* getDataDDML = "<type kind=\"string\" array=\"T\"/>";
 
       // register a few things.
-      tickID = addRegistration(protocol::respondToEventReg, "tick", timeTypeDDML);
-      preNewmetID = addRegistration(protocol::eventReg, "preNewmet", newmetTypeDDML);
-      newmetID = addRegistration(protocol::eventReg, "newmet", newmetTypeDDML);
-      hasDataTodayID = addRegistration(protocol::respondToGetReg, "hasDataToday", hasDataTodayTypeDDML);
-      getDataMethodID = addRegistration(protocol::respondToMethodCallReg, "getData", getDataDDML);
+      tickID = addRegistration(RegistrationType::respondToEvent, "tick", timeTypeDDML);
+      preNewmetID = addRegistration(RegistrationType::event, "preNewmet", newmetTypeDDML);
+      newmetID = addRegistration(RegistrationType::event, "newmet", newmetTypeDDML);
+      hasDataTodayID = addRegistration(RegistrationType::respondToGet, "hasDataToday", hasDataTodayTypeDDML);
+      getDataMethodID = addRegistration(RegistrationType::respondToEvent, "getData", getDataDDML);
 
       iAmMet = (stricmp(name, "met") == 0);
       if (iAmMet)
-         daylengthID = addRegistration(protocol::respondToGetReg, "day_length", dayLengthType);
+         daylengthID = addRegistration(RegistrationType::respondToGet, "day_length", dayLengthType);
       else
          daylengthID = 0;
 
       string dateName = name;
       dateName += "_start_date";
-      startDateID = addRegistration(protocol::respondToGetReg, dateName.c_str(), startDateType);
+      startDateID = addRegistration(RegistrationType::respondToGet, dateName.c_str(), startDateType);
       dateName = name;
       dateName += "_end_date";
-      endDateID = addRegistration(protocol::respondToGetReg, dateName.c_str(), endDateType);
+      endDateID = addRegistration(RegistrationType::respondToGet, dateName.c_str(), endDateType);
 
       openInputFile();
       registerAllVariables();
@@ -252,13 +252,7 @@ void InputComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID,
       else
          publishNewMetEvent();
       }
-   }
-// ------------------------------------------------------------------
-// method call handler.
-// ------------------------------------------------------------------
-void InputComponent::respondToMethod(unsigned int& fromID, unsigned int& methodID, protocol::Variant& variant)
-   {
-   if (methodID == methodID)
+   else if (eventID == getDataMethodID)
       {
       data.first();
       vector<protocol::newmetType> newmets;
@@ -293,10 +287,10 @@ void InputComponent::respondToMethod(unsigned int& fromID, unsigned int& methodI
       componentIDToName(fromID, fromComponent);
       string returnDataMethodCallString = asString(fromComponent);
       returnDataMethodCallString += ".returnData";
-      unsigned returnDataMethodID = addRegistration(protocol::methodCallReg,
+      unsigned returnDataMethodID = addRegistration(RegistrationType::event,
                                                     returnDataMethodCallString.c_str(),
                                                     returnDataDDML);
-      methodCall(returnDataMethodID, newmets);
+      publish(returnDataMethodID, newmets);
 
       // reposition the data file to todays date.
       data.first();
