@@ -7,7 +7,7 @@
 // This class encapsulates a run file which is a collection of
 // control file | configuration file pairs.
 // ------------------------------------------------------------------
-class ApsimRunFile
+class __declspec(dllexport) ApsimRunFile
    {
    public:
       ApsimRunFile(const std::string& filename);
