@@ -1,49 +1,18 @@
-include base.interface
-; -----------------------------------------------------------
-; Independant types that FRMRPT uses  
-; for some of its methods and events.
-; -----------------------------------------------------------
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/apsim.xsl"?>
 
-
-; -----------------------------------------------------------
-; FRMRPT's public interface which other components may
-; use.  Contains:
-;    Properties which other components may get or set
-;    Methods which other components may call
-;    Events which other components may trap (or subscribe to)
-; -----------------------------------------------------------
-class APSIMFrmrptPublic
-   handle         : APSIMString        = Handle, (), READ
-   form_file      : APSIMString        = Form file, (), READ
-   out_file       : APSIMString        = Out file, (), READ
-   escape_char    : APSIMString        = Escape character, (), READ_OPT
-   report_days    : APSIMIntegerArray  = Report days, (), READ_OPT
-   report_start   : APSIMIntegerArray  = Report start, (), READ_OPT
-   
-   sysinit        : APSIMMethod        = System initialization stage
-   end_run        : APSIMMethod        = System end run stage
-   
-   do_output      : APSIMDoOutputMethod        = Message to FRMRPT from MANAGER
-   clear          : APSIMClearMethod           = Message to FRMRPT from MANAGER
-   
-end
-
-; -----------------------------------------------------------
-; FRMRPT's external interface which documents things in other 
-; components that this component uses.
-; Contains:
-;    Properties used in other components
-;    Methods called in other components
-;    Events from other components that this component uses.
-; -----------------------------------------------------------
-class APSIMFrmrptExternal
-
-   process        : APSIMEvent        = System process stage
-
-end
-
-class APSIMFrmrpt
-   dll      : string
-   public   : APSIMFrmrptPublic
-   external : APSIMFrmrptExternal
-end
+<component name="frmrpt">
+   <registrations>
+      <read name="handle" type="handleType" readable="T"/>
+      <read name="form_file" type="form_fileType" readable="T"/>
+      <read name="out_file" type="out_fileType" readable="T"/>
+      <read name="escape_char" type="escape_charType" readable="T"/>
+      <read name="report_days" type="report_daysType" readable="T"/>
+      <read name="report_start" type="report_startType" readable="T"/>
+      <respondToMethodCallReg name="sysinit" type="sysinitType"/>
+      <respondToMethodCallReg name="end_run" type="end_runType"/>
+      <respondToMethodCallReg name="do_output" type="do_outputType"/>
+      <respondToMethodCallReg name="clear" type="clearType"/>
+      <respondToEventReg name="process" type="processType"/>
+   </registrations>
+</component>
