@@ -118,9 +118,7 @@ void Series_base::Add_data (const char* X, const char* Y)
       }
    else if (x_data_type == Series_base::date)
       {
-      GDate d;
-      d.Read(X);
-      Par1 = d.Get_jday();
+      Par1 = TDateTime(X, TDateTime::Date);
       }
 
    else
