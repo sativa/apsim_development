@@ -7,6 +7,7 @@
 #include <sstream>
 #include <fstream>
 #include <general\path.h>
+#include <ComponentInterface\MessageDataExt.h>
 #include <dir.h>
 
 #include "messages.h"

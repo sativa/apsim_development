@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 #ifndef MessageDataH
 #define MessageDataH
-#include "fstring.h"
+#include <ApsimShared\fstring.h>
 #include "message.h"
 
 namespace protocol {
