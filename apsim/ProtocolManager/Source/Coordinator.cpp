@@ -13,7 +13,6 @@
 #include <list>
 #include <functional>
 #include <memory>
-#include "DebugHook.h"
 using namespace std;
 using namespace protocol;
 
@@ -145,10 +144,6 @@ void Coordinator::doInit1(const FString& sdml)
          }
 
       readAllRegistrations();
-
-      // Perform a debug interrupt so that the FORTRAN debugger can
-      // stop.
-      DebugException();
       }
    catch (const runtime_error& error)
       {
