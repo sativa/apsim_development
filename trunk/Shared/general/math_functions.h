@@ -1,6 +1,7 @@
 #if !defined (MATH_FUNCTIONS_H)
 #define MATH_FUNCTIONS_H
 
+#include <general\myvector.h>
 #include <algorith>
 // ------------------------------------------------------------------
 //  Short description:
@@ -268,6 +269,25 @@ void devide_value (container_type& container1, value_type value)
       ++iterator1;
       }
    }
+
+// ------------------------------------------------------------------
+//  Short description:
+//       Linearly interpolates a value y for a given value x and a given
+//       set of xy co-ordinates.
+//       When x lies outside the x range_of, y is set to the boundary condition.
+//       Returns true for Did_interpolate if interpolation was necessary.
+
+//  Notes:
+//       XY pairs are ordered by x in ascending order.
+
+//  Changes:
+//    DPH 16/1/95
+
+// ------------------------------------------------------------------
+double linear_interp_real (double x,
+                           vector<double>& x_cord,
+                           vector<double>& y_cord,
+                           bool& Did_interpolate);
 
 #endif
 
