@@ -385,8 +385,8 @@
           ------------------------------------------------
           Cultivar                 = bj104
           est_days_emerg_to_init  =      17
-          tt_emerg_to_endjuv       =   225.0
-          pp_endjuv_to_initp       =   164.0
+          tt_emerg_to_endjuv       =   290.9
+          pp_endjuv_to_initp       =   113.8
           tt_flower_to_maturity    =   457.0
           head_grain_no_max        =  3300.0
           grain_gth_rate           =     0.6
@@ -432,8 +432,8 @@
 22 June 1982 (Day of year=173):
    MILLET:
        stage    3.0 emergence
-                           biomass =          0.1043000       lai =    0.2980000E-02
-                           stover N conc =    4.400001       extractable sw =    17.05802
+                           biomass =          0.5960000E-01   lai =    0.2980000E-02
+                           stover N conc =    4.400000       extractable sw =    17.05802
 1 July 1982 (Day of year=182):
    MILLET1:
       Initiate
@@ -452,8 +452,8 @@
           ------------------------------------------------
           Cultivar                 = bj104
           est_days_emerg_to_init  =      17
-          tt_emerg_to_endjuv       =   128.5
-          pp_endjuv_to_initp       =   164.0
+          tt_emerg_to_endjuv       =   194.4
+          pp_endjuv_to_initp       =   113.8
           tt_flower_to_maturity    =   457.0
           head_grain_no_max        =  2900.0
           grain_gth_rate           =     0.6
@@ -494,8 +494,8 @@
       
       
        stage    3.0 emergence
-                           biomass =          0.2980000E-01   lai =    0.2980000E-02
-                           stover N conc =    4.400000       extractable sw =    13.69369
+                           biomass =          0.1490000E-01   lai =    0.2980000E-02
+                           stover N conc =    4.400000       extractable sw =    13.67119
 3 July 1982 (Day of year=184):
    MILLET2:
       Initiate
@@ -514,8 +514,8 @@
           ------------------------------------------------
           Cultivar                 = bj104
           est_days_emerg_to_init  =      17
-          tt_emerg_to_endjuv       =   118.5
-          pp_endjuv_to_initp       =   164.0
+          tt_emerg_to_endjuv       =   184.4
+          pp_endjuv_to_initp       =   113.8
           tt_flower_to_maturity    =   457.0
           head_grain_no_max        =  2900.0
           grain_gth_rate           =     0.6
@@ -556,8 +556,8 @@
       
       
        stage    3.0 emergence
-                           biomass =          0.2980000E-01   lai =    0.2980000E-02
-                           stover N conc =    4.400000       extractable sw =    12.29498
+                           biomass =          0.1490000E-01   lai =    0.2980000E-02
+                           stover N conc =    4.400000       extractable sw =    12.25489
 4 July 1982 (Day of year=185):
    OPERATNS:
        Sending apply message to fertiliz
@@ -567,75 +567,70 @@
          23.00 of calcium ammonium nitrate (can)
                                                added at depth   10.00 (layer   1)
 5 July 1982 (Day of year=186):
-   MILLET:
-       stage    4.0 end_of_juvenile
-                           biomass =           7.680204       lai =    0.1027860    
-                           stover N conc =    1.879019       extractable sw =    53.36340
+   MILLET3:
+      Initiate
+      
+      
+      
+                       Crop Initiate Data
+          ------------------------------------------------
+         Initiate   Axes   DM      N   Spacing Cultivar
+          Day no    m^2 g/plant g/plant   m      Name
+          ------------------------------------------------
+             186   14.9    0.0    0.0    0.8 bj104
+          ------------------------------------------------
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = bj104
+          est_days_emerg_to_init  =      17
+          tt_emerg_to_endjuv       =   174.4
+          pp_endjuv_to_initp       =   113.8
+          tt_flower_to_maturity    =   457.0
+          head_grain_no_max        =  2900.0
+          grain_gth_rate           =     0.6
+          tt_flag_to_flower        =    66.1
+          tt_flower_to_start_grain =    80.0
+          tt_maturity_to_ripe      =     1.0
+          x_stem_wt                =     0.0   10.0
+          y_height                 =     0.0 3000.0
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      Uptake of NO3 and water calculated by millet
+      
+      
+      
+      
+      
+      
+      
+                          Root Profile
+          ------------------------------------------------
+            Layer      Kl      Lower Exploration
+            Depth              limit   Factor
+            (mm)       ()     (mm/mm)    ()
+          ------------------------------------------------
+           150.000    0.120    0.146    1.000
+           150.000    0.120    0.207    1.000
+           300.000    0.120    0.244    1.000
+           300.000    0.100    0.236    1.000
+           300.000    0.060    0.218    1.000
+           300.000    0.055    0.173    1.000
+           300.000    0.030    0.173    1.000
+           ------------------------------------------------
+      
+      
+      
 6 July 1982 (Day of year=187):
    MILLET3:
-      Initiate
-      
-      
-      
-                       Crop Initiate Data
-          ------------------------------------------------
-         Initiate   Axes   DM      N   Spacing Cultivar
-          Day no    m^2 g/plant g/plant   m      Name
-          ------------------------------------------------
-             187   14.9    0.0    0.0    0.8 bj104
-          ------------------------------------------------
-      
-         - Reading Cultivar Parameters
-          ------------------------------------------------
-          Cultivar                 = bj104
-          est_days_emerg_to_init  =      17
-          tt_emerg_to_endjuv       =   108.5
-          pp_endjuv_to_initp       =   164.0
-          tt_flower_to_maturity    =   457.0
-          head_grain_no_max        =  2900.0
-          grain_gth_rate           =     0.6
-          tt_flag_to_flower        =    66.1
-          tt_flower_to_start_grain =    80.0
-          tt_maturity_to_ripe      =     1.0
-          x_stem_wt                =     0.0   10.0
-          y_height                 =     0.0 3000.0
-          ------------------------------------------------
-      
-      
-      
-      
-         - Reading root profile parameters
-      Uptake of NO3 and water calculated by millet
-      
-      
-      
-      
-      
-      
-      
-                          Root Profile
-          ------------------------------------------------
-            Layer      Kl      Lower Exploration
-            Depth              limit   Factor
-            (mm)       ()     (mm/mm)    ()
-          ------------------------------------------------
-           150.000    0.120    0.146    1.000
-           150.000    0.120    0.207    1.000
-           300.000    0.120    0.244    1.000
-           300.000    0.100    0.236    1.000
-           300.000    0.060    0.218    1.000
-           300.000    0.055    0.173    1.000
-           300.000    0.030    0.173    1.000
-           ------------------------------------------------
-      
-      
-      
+       stage    3.0 emergence
+                           biomass =          0.1490000E-01   lai =    0.2980000E-02
+                           stover N conc =    4.400000       extractable sw =    10.48424
 7 July 1982 (Day of year=188):
-   MILLET3:
-       stage    3.0 emergence
-                           biomass =          0.2980000E-01   lai =    0.2980000E-02
-                           stover N conc =    4.400000       extractable sw =    9.543634
-8 July 1982 (Day of year=189):
    MILLET4:
       Initiate
       
@@ -646,15 +641,15 @@
          Initiate   Axes   DM      N   Spacing Cultivar
           Day no    m^2 g/plant g/plant   m      Name
           ------------------------------------------------
-             189   14.9    0.0    0.0    0.8 bj104
+             188   14.9    0.0    0.0    0.8 bj104
           ------------------------------------------------
       
          - Reading Cultivar Parameters
           ------------------------------------------------
           Cultivar                 = bj104
           est_days_emerg_to_init  =      17
-          tt_emerg_to_endjuv       =    98.5
-          pp_endjuv_to_initp       =   164.0
+          tt_emerg_to_endjuv       =   164.4
+          pp_endjuv_to_initp       =   113.8
           tt_flower_to_maturity    =   457.0
           head_grain_no_max        =  2900.0
           grain_gth_rate           =     0.6
@@ -694,20 +689,16 @@
       
       
       
-   MILLET1:
+8 July 1982 (Day of year=189):
+   MILLET:
        stage    4.0 end_of_juvenile
-                           biomass =           2.811324       lai =    0.8449011E-01
-                           stover N conc =    1.758517       extractable sw =    26.60881
+                           biomass =           18.10470       lai =    0.2125228    
+                           stover N conc =    5.283981       extractable sw =    54.87164
    MILLET4:
        stage    3.0 emergence
-                           biomass =          0.2980000E-01   lai =    0.2980000E-02
-                           stover N conc =    4.400000       extractable sw =    14.90703
+                           biomass =          0.1490000E-01   lai =    0.2980000E-02
+                           stover N conc =    4.400000       extractable sw =    14.90187
 9 July 1982 (Day of year=190):
-   MILLET:
-       stage    5.0 floral_initiation
-                           biomass =           22.24361       lai =    0.2514845    
-                           stover N conc =    1.865578       extractable sw =    56.34395
-10 July 1982 (Day of year=191):
    MILLET5:
       Initiate
       
@@ -718,15 +709,15 @@
          Initiate   Axes   DM      N   Spacing Cultivar
           Day no    m^2 g/plant g/plant   m      Name
           ------------------------------------------------
-             191   14.9    0.0    0.0    0.8 bj104
+             190   14.9    0.0    0.0    0.8 bj104
           ------------------------------------------------
       
          - Reading Cultivar Parameters
           ------------------------------------------------
           Cultivar                 = bj104
           est_days_emerg_to_init  =      17
-          tt_emerg_to_endjuv       =    88.5
-          pp_endjuv_to_initp       =   164.0
+          tt_emerg_to_endjuv       =   154.4
+          pp_endjuv_to_initp       =   113.8
           tt_flower_to_maturity    =   457.0
           head_grain_no_max        =  2900.0
           grain_gth_rate           =     0.6
@@ -766,6 +757,14 @@
       
       
       
+   MILLET:
+       stage    5.0 floral_initiation
+                           biomass =           23.25249       lai =    0.2566673    
+                           stover N conc =    5.266991       extractable sw =    56.27681
+   MILLET5:
+       stage    3.0 emergence
+                           biomass =          0.1490000E-01   lai =    0.2980000E-02
+                           stover N conc =    4.400000       extractable sw =    16.76407
 11 July 1982 (Day of year=192):
    OPERATNS:
        Sending apply message to fertiliz
@@ -774,128 +773,126 @@
          - Reading Fertiliser Type Parameters
           5.00 of calcium ammonium nitrate (can)
                                                added at depth   10.00 (layer   1)
-   MILLET2:
+13 July 1982 (Day of year=194):
+   MILLET1:
        stage    4.0 end_of_juvenile
-                           biomass =           2.714551       lai =    0.8175117E-01
-                           stover N conc =    1.844324       extractable sw =    35.62101
-   MILLET5:
-       stage    3.0 emergence
-                           biomass =          0.2980000E-01   lai =    0.2980000E-02
-                           stover N conc =    4.400000       extractable sw =    20.43449
-12 July 1982 (Day of year=193):
+                           biomass =           10.91707       lai =    0.2841952    
+                           stover N conc =    5.097545       extractable sw =    57.80949
+14 July 1982 (Day of year=195):
    MILLET1:
        stage    5.0 floral_initiation
-                           biomass =           10.15036       lai =    0.2761252    
-                           stover N conc =    1.803081       extractable sw =    61.02627
+                           biomass =           15.61228       lai =    0.3511317    
+                           stover N conc =    5.009999       extractable sw =    54.08141
+   MILLET2:
+       stage    4.0 end_of_juvenile
+                           biomass =           7.912758       lai =    0.2553771    
+                           stover N conc =    4.999798       extractable sw =    53.31709
 15 July 1982 (Day of year=196):
    MILLET2:
        stage    5.0 floral_initiation
-                           biomass =           9.559489       lai =    0.2831773    
-                           stover N conc =    1.819307       extractable sw =    53.32082
+                           biomass =           10.42365       lai =    0.3294616    
+                           stover N conc =    5.117886       extractable sw =    53.57431
+17 July 1982 (Day of year=198):
    MILLET3:
        stage    4.0 end_of_juvenile
-                           biomass =           1.251625       lai =    0.4207841E-01
-                           stover N conc =    1.826215       extractable sw =    29.75388
-   MILLET4:
-       stage    4.0 end_of_juvenile
-                           biomass =          0.8290023       lai =    0.2855447E-01
-                           stover N conc =    1.836457       extractable sw =    29.70311
-17 July 1982 (Day of year=198):
-   MILLET5:
-       stage    4.0 end_of_juvenile
-                           biomass =          0.5994821       lai =    0.2120982E-01
-                           stover N conc =    1.883107       extractable sw =    26.24653
+                           biomass =           3.333854       lai =    0.1407955    
+                           stover N conc =    5.223725       extractable sw =    48.33303
 18 July 1982 (Day of year=199):
    MILLET3:
        stage    5.0 floral_initiation
-                           biomass =           2.427474       lai =    0.7970557E-01
-                           stover N conc =    1.855405       extractable sw =    48.33204
+                           biomass =           4.292598       lai =    0.1787638    
+                           stover N conc =    5.166805       extractable sw =    48.51461
 19 July 1982 (Day of year=200):
    MILLET4:
-       stage    5.0 floral_initiation
-                           biomass =           1.750457       lai =    0.5804104E-01
-                           stover N conc =    1.943933       extractable sw =    47.62575
+       stage    4.0 end_of_juvenile
+                           biomass =           1.485120       lai =    0.6309555E-01
+                           stover N conc =    5.539773       extractable sw =    47.82663
+   MILLET5:
+       stage    4.0 end_of_juvenile
+                           biomass =          0.9221848       lai =    0.4005427E-01
+                           stover N conc =    5.537969       extractable sw =    47.81683
 20 July 1982 (Day of year=201):
    MILLET5:
        stage    5.0 floral_initiation
-                           biomass =          0.8347977       lai =    0.2873993E-01
-                           stover N conc =    2.049141       extractable sw =    34.04558
-28 July 1982 (Day of year=209):
-   MILLET1:
-       stage    6.0 flag_leaf
-                           biomass =           109.6454       lai =     1.164249    
-                           stover N conc =    1.518530       extractable sw =    87.41064
+                           biomass =          0.9576833       lai =    0.4138966E-01
+                           stover N conc =    5.758829       extractable sw =    52.73969
+   MILLET4:
+       stage    5.0 floral_initiation
+                           biomass =           1.542722       lai =    0.6526241E-01
+                           stover N conc =    5.759501       extractable sw =    52.45645
+29 July 1982 (Day of year=210):
    MILLET:
        stage    6.0 flag_leaf
-                           biomass =           249.3970       lai =     1.352463    
-                           stover N conc =    1.425745       extractable sw =    86.53506
+                           biomass =           278.5348       lai =     1.543965    
+                           stover N conc =    1.634608       extractable sw =    87.53665
 30 July 1982 (Day of year=211):
+   MILLET1:
+       stage    6.0 flag_leaf
+                           biomass =           113.6028       lai =     1.333838    
+                           stover N conc =    1.850703       extractable sw =    110.1623
    MILLET2:
        stage    6.0 flag_leaf
-                           biomass =           46.06404       lai =    0.7073942    
-                           stover N conc =    1.589835       extractable sw =    109.4615
+                           biomass =           51.24328       lai =    0.9090703    
+                           stover N conc =    2.027065       extractable sw =    109.4454
+31 July 1982 (Day of year=212):
+   MILLET3:
+       stage    6.0 flag_leaf
+                           biomass =           11.27257       lai =    0.2708928    
+                           stover N conc =    2.271361       extractable sw =    99.43231
 1 August 1982 (Day of year=213):
-   MILLET:
-       stage    7.0 flowering
-                           biomass =           335.3955       lai =     1.299367    
-                           stover N conc =    1.362486       extractable sw =    129.9543
-   MILLET1:
-       stage    7.0 flowering
-                           biomass =           143.3164       lai =     1.121337    
-                           stover N conc =    1.445551       extractable sw =    94.83012
-   MILLET3:
+   MILLET5:
        stage    6.0 flag_leaf
-                           biomass =           7.114757       lai =    0.1300862    
-                           stover N conc =    1.641393       extractable sw =    93.05638
-   MILLET4:
-       stage    6.0 flag_leaf
-                           biomass =           4.716311       lai =    0.9269267E-01
-                           stover N conc =    1.633475       extractable sw =    62.74041
+                           biomass =           2.258037       lai =    0.5971510E-01
+                           stover N conc =    2.640289       extractable sw =    66.74185
 2 August 1982 (Day of year=214):
-   MILLET5:
+   MILLET:
+       stage    7.0 flowering
+                           biomass =           372.2763       lai =     1.485148    
+                           stover N conc =    1.380477       extractable sw =    129.1340
+   MILLET4:
        stage    6.0 flag_leaf
-                           biomass =           2.406361       lai =    0.4957529E-01
-                           stover N conc =    1.651134       extractable sw =    64.30846
+                           biomass =           3.885417       lai =    0.9308609E-01
+                           stover N conc =    2.528224       extractable sw =    93.02325
 3 August 1982 (Day of year=215):
+   MILLET1:
+       stage    7.0 flowering
+                           biomass =           149.4803       lai =     1.275009    
+                           stover N conc =    1.548245       extractable sw =    103.6603
    MILLET2:
        stage    7.0 flowering
-                           biomass =           58.61312       lai =    0.6642368    
-                           stover N conc =    1.524346       extractable sw =    102.6170
-5 August 1982 (Day of year=217):
+                           biomass =           63.39772       lai =    0.8627843    
+                           stover N conc =    1.734682       extractable sw =    102.2483
+4 August 1982 (Day of year=216):
    MILLET3:
        stage    7.0 flowering
-                           biomass =           8.823281       lai =    0.1126672    
-                           stover N conc =    1.649562       extractable sw =    97.50253
-   MILLET4:
-       stage    7.0 flowering
-                           biomass =           5.851814       lai =    0.7786039E-01
-                           stover N conc =    1.669554       extractable sw =    97.45808
-6 August 1982 (Day of year=218):
+                           biomass =           13.76056       lai =    0.2488271    
+                           stover N conc =    1.948999       extractable sw =    102.7624
+5 August 1982 (Day of year=217):
    MILLET5:
        stage    7.0 flowering
-                           biomass =           3.029925       lai =    0.4291639E-01
-                           stover N conc =    1.654179       extractable sw =    92.69650
+                           biomass =           2.714948       lai =    0.5012566E-01
+                           stover N conc =    2.363619       extractable sw =    96.61488
+6 August 1982 (Day of year=218):
+   MILLET4:
+       stage    7.0 flowering
+                           biomass =           4.647080       lai =    0.7632507E-01
+                           stover N conc =    2.279878       extractable sw =    91.85203
    MILLET:
        stage    8.0 start_grain_fill
-                           biomass =           437.2609       lai =     1.196644    
-                           stover N conc =    1.305496       extractable sw =    122.8628
+                           biomass =           461.1530       lai =     1.406032    
+                           stover N conc =    1.184732       extractable sw =    121.9449
+8 August 1982 (Day of year=220):
    MILLET1:
        stage    8.0 start_grain_fill
-                           biomass =           184.4472       lai =     1.021070    
-                           stover N conc =    1.387383       extractable sw =    90.30283
-7 August 1982 (Day of year=219):
+                           biomass =           186.9165       lai =     1.166947    
+                           stover N conc =    1.314876       extractable sw =    91.88136
    MILLET2:
        stage    8.0 start_grain_fill
-                           biomass =           69.83607       lai =    0.5861454    
-                           stover N conc =    1.497892       extractable sw =    84.78801
-10 August 1982 (Day of year=222):
+                           biomass =           76.31599       lai =    0.7556682    
+                           stover N conc =    1.518333       extractable sw =    91.31277
    MILLET3:
       plant_kill. 100% failure because of barreness.
-          kill. Standing above-ground dm =   100.5 (kg/ha)
-       stage   12.0 end_crop
-   MILLET4:
-      plant_kill. 100% failure because of barreness.
-          kill. Standing above-ground dm =    66.4 (kg/ha)
+          kill. Standing above-ground dm =   154.7 (kg/ha)
        stage   12.0 end_crop
    MANAGER:
            Manager sending message :- millet3 harvest
@@ -903,44 +900,44 @@
       
       
       
-       flowering day  =  217                  stover (kg/ha) =     103.8
+       flowering day  =  216                  stover (kg/ha) =     157.4
        maturity day        =    0             grain yield (kg/ha) =       0.0
        grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
        grain wt (g) =     0.000               grains/m^2   =     0.000
-       grains/head =   0.0                    maximum lai = 0.134
-       total above ground biomass (kg/ha) =     103.8
+       grains/head =   0.0                    maximum lai = 0.277
+       total above ground biomass (kg/ha) =     157.4
        live above ground biomass (kg/ha) =       0.0
        green above ground biomass (kg/ha) =       0.0
        senesced above ground biomass (kg/ha) =       0.0
-       dead above ground biomass (kg/ha) =     103.8
-       number of leaves =  10.1
-       grain N percent =      0.00            total N content (kg/ha) =      1.50
+       dead above ground biomass (kg/ha) =     157.4
+       number of leaves =  10.4
+       grain N percent =      0.00            total N content (kg/ha) =      2.61
        grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.00
-       green N content (kg/ha) =      0.00    dead N content (kg/ha) =      1.50
+       green N content (kg/ha) =      0.00    dead N content (kg/ha) =      2.61
       
       
       
        stress indices for emergence
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.2078830
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.3091316
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.2560904
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.3860167
       
       
       
        stress indices for end_of_juvenile
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0558168
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2446534
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0847829
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2678263
       
       
       
        stress indices for floral_initiation
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0012825
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0768925
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
       
       
       
        stress indices for flag_leaf
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0042988
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
       
       
       
@@ -958,10 +955,10 @@
            Manager sending message :- millet3 end_crop
    MILLET3:
           ended. Yield (dw) =     0.0
-                                                straw residue =  103.8 kg/ha
-                                                straw N =    1.5 kg/ha
-                                                root residue =   42.2 kg/ha
-                                                root N =    0.4 kg/ha
+                                                straw residue =  157.4 kg/ha
+                                                straw N =    2.6 kg/ha
+                                                root residue =   67.4 kg/ha
+                                                root N =    0.7 kg/ha
    MANAGER:
            Manager sending message :- residue2 tillage type = burn
    RESIDUE2:
@@ -970,50 +967,59 @@
       Residue removed using burn                          
                                               Fraction Incorporated =     1.00
                                               Incorporated Depth    =     0.00
+10 August 1982 (Day of year=222):
+   MILLET4:
+      plant_kill. 100% failure because of barreness.
+          kill. Standing above-ground dm =    50.1 (kg/ha)
+       stage   12.0 end_crop
+   MILLET5:
+      plant_kill. 100% failure because of barreness.
+          kill. Standing above-ground dm =    30.3 (kg/ha)
+       stage   12.0 end_crop
    MANAGER:
            Manager sending message :- millet4 harvest
    MILLET4:
       
       
       
-       flowering day  =  217                  stover (kg/ha) =      68.5
+       flowering day  =  218                  stover (kg/ha) =      51.7
        maturity day        =    0             grain yield (kg/ha) =       0.0
        grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
        grain wt (g) =     0.000               grains/m^2   =     0.000
-       grains/head =   0.0                    maximum lai = 0.093
-       total above ground biomass (kg/ha) =      68.5
+       grains/head =   0.0                    maximum lai = 0.097
+       total above ground biomass (kg/ha) =      51.7
        live above ground biomass (kg/ha) =       0.0
        green above ground biomass (kg/ha) =       0.0
        senesced above ground biomass (kg/ha) =       0.0
-       dead above ground biomass (kg/ha) =      68.5
-       number of leaves =   9.6
-       grain N percent =      0.00            total N content (kg/ha) =      1.00
+       dead above ground biomass (kg/ha) =      51.7
+       number of leaves =   9.9
+       grain N percent =      0.00            total N content (kg/ha) =      0.98
        grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.00
-       green N content (kg/ha) =      0.00    dead N content (kg/ha) =      1.00
+       green N content (kg/ha) =      0.00    dead N content (kg/ha) =      0.98
       
       
       
        stress indices for emergence
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.2204180
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2845944
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.2399371
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.3702402
       
       
       
        stress indices for end_of_juvenile
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0355892
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2284713
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0273330
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2073013
       
       
       
        stress indices for floral_initiation
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0006216
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0724140
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
       
       
       
        stress indices for flag_leaf
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0099603
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
       
       
       
@@ -1031,9 +1037,9 @@
            Manager sending message :- millet4 end_crop
    MILLET4:
           ended. Yield (dw) =     0.0
-                                                straw residue =   68.5 kg/ha
+                                                straw residue =   51.7 kg/ha
                                                 straw N =    1.0 kg/ha
-                                                root residue =   30.1 kg/ha
+                                                root residue =   25.0 kg/ha
                                                 root N =    0.3 kg/ha
    MANAGER:
            Manager sending message :- residue2 tillage type = burn
@@ -1043,55 +1049,50 @@
       Residue removed using burn                          
                                               Fraction Incorporated =     1.00
                                               Incorporated Depth    =     0.00
-11 August 1982 (Day of year=223):
-   MILLET5:
-      plant_kill. 100% failure because of barreness.
-          kill. Standing above-ground dm =    34.7 (kg/ha)
-       stage   12.0 end_crop
    MANAGER:
            Manager sending message :- millet5 harvest
    MILLET5:
       
       
       
-       flowering day  =  218                  stover (kg/ha) =      35.6
+       flowering day  =  217                  stover (kg/ha) =      31.2
        maturity day        =    0             grain yield (kg/ha) =       0.0
        grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
        grain wt (g) =     0.000               grains/m^2   =     0.000
-       grains/head =   0.0                    maximum lai = 0.050
-       total above ground biomass (kg/ha) =      35.6
+       grains/head =   0.0                    maximum lai = 0.060
+       total above ground biomass (kg/ha) =      31.2
        live above ground biomass (kg/ha) =       0.0
        green above ground biomass (kg/ha) =       0.0
        senesced above ground biomass (kg/ha) =       0.0
-       dead above ground biomass (kg/ha) =      35.6
-       number of leaves =   9.1
-       grain N percent =      0.00            total N content (kg/ha) =      0.52
+       dead above ground biomass (kg/ha) =      31.2
+       number of leaves =   9.4
+       grain N percent =      0.00            total N content (kg/ha) =      0.60
        grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.00
-       green N content (kg/ha) =      0.00    dead N content (kg/ha) =      0.52
+       green N content (kg/ha) =      0.00    dead N content (kg/ha) =      0.60
       
       
       
        stress indices for emergence
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0657936
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1962210
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.2619196
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.3892658
       
       
       
        stress indices for end_of_juvenile
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1679572
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0290026
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2091059
       
       
       
        stress indices for floral_initiation
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0509152
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
       
       
       
        stress indices for flag_leaf
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0066430
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
       
       
       
@@ -1109,9 +1110,9 @@
            Manager sending message :- millet5 end_crop
    MILLET5:
           ended. Yield (dw) =     0.0
-                                                straw residue =   35.6 kg/ha
-                                                straw N =    0.5 kg/ha
-                                                root residue =   15.1 kg/ha
+                                                straw residue =   31.2 kg/ha
+                                                straw N =    0.6 kg/ha
+                                                root residue =   15.0 kg/ha
                                                 root N =    0.2 kg/ha
    MANAGER:
            Manager sending message :- residue2 tillage type = burn
@@ -1121,83 +1122,87 @@
       Residue removed using burn                          
                                               Fraction Incorporated =     1.00
                                               Incorporated Depth    =     0.00
-28 August 1982 (Day of year=240):
-   MILLET:
-       stage    9.0 end_grain_fill
-                           biomass =           627.9532       lai =    0.4526597    
-                           stover N conc =    1.038782       extractable sw =    96.41322
-   MILLET1:
-       stage    9.0 end_grain_fill
-                           biomass =           269.7154       lai =    0.2992684    
-                           stover N conc =    1.096380       extractable sw =    70.89645
 29 August 1982 (Day of year=241):
    MILLET:
-       stage   10.0 maturity
-                           biomass =           634.8713       lai =    0.4331349    
-                           stover N conc =    1.028012       extractable sw =    92.98984
-   MILLET2:
        stage    9.0 end_grain_fill
-                           biomass =           97.55814       lai =    0.1107557    
-                           stover N conc =    1.294040       extractable sw =    66.97213
+                           biomass =           693.0801       lai =    0.5915797    
+                           stover N conc =   0.9470421       extractable sw =    90.10763
 30 August 1982 (Day of year=242):
    MILLET:
+       stage   10.0 maturity
+                           biomass =           699.8200       lai =    0.5521944    
+                           stover N conc =   0.9411691       extractable sw =    86.41052
+   MILLET1:
+       stage    9.0 end_grain_fill
+                           biomass =           278.0882       lai =    0.3931017    
+                           stover N conc =    1.036264       extractable sw =    61.62766
+   MILLET2:
+       stage    9.0 end_grain_fill
+                           biomass =           105.9408       lai =    0.1341144    
+                           stover N conc =    1.277031       extractable sw =    61.15171
+31 August 1982 (Day of year=243):
+   MILLET:
        stage   11.0 harvest_ripe
-                           biomass =           634.8713       lai =    0.2979994E-02
-                           stover N conc =    1.064444       extractable sw =    89.52164
+                           biomass =           699.8200       lai =    0.3118157E-02
+                           stover N conc =   0.9717262       extractable sw =    82.81341
    MILLET1:
        stage   10.0 maturity
-                           biomass =           275.4217       lai =    0.2609255    
-                           stover N conc =    1.076388       extractable sw =    65.13826
+                           biomass =           282.0026       lai =    0.3453542    
+                           stover N conc =    1.026875       extractable sw =    59.13856
+   MILLET2:
+       stage   10.0 maturity
+                           biomass =           106.9677       lai =    0.1162859    
+                           stover N conc =    1.268591       extractable sw =    58.47138
    MANAGER:
            Manager sending message :- millet harvest
    MILLET:
       
       
       
-       flowering day  =  213                  stover (kg/ha) =    3340.0
-       maturity day        =  241             grain yield (kg/ha) =    3008.7
-       grain % water content   =   15.5       grain yield wet (kg/ha) =    3560.6
-       grain wt (g) =     0.011               grains/m^2   = 26447.396
-       grains/head =1775.0                    maximum lai = 1.359
-       total above ground biomass (kg/ha) =    6348.7
-       live above ground biomass (kg/ha) =    6348.7
-       green above ground biomass (kg/ha) =    5585.9
-       senesced above ground biomass (kg/ha) =     762.8
+       flowering day  =  214                  stover (kg/ha) =    3696.4
+       maturity day        =  242             grain yield (kg/ha) =    3301.8
+       grain % water content   =   15.5       grain yield wet (kg/ha) =    3907.4
+       grain wt (g) =     0.012               grains/m^2   = 27739.926
+       grains/head =1861.7                    maximum lai = 1.551
+       total above ground biomass (kg/ha) =    6998.2
+       live above ground biomass (kg/ha) =    6998.2
+       green above ground biomass (kg/ha) =    6283.6
+       senesced above ground biomass (kg/ha) =     714.6
        dead above ground biomass (kg/ha) =       0.0
-       number of leaves =  16.1
-       grain N percent =      0.99            total N content (kg/ha) =     60.22
-       grain N uptake (kg/ha) =     29.80     senesced N content (kg/ha) =      0.76
-       green N content (kg/ha) =     29.66    dead N content (kg/ha) =      0.00
+       number of leaves =  16.4
+       grain N percent =      1.08            total N content (kg/ha) =     61.77
+       grain N uptake (kg/ha) =     35.53     senesced N content (kg/ha) =      0.71
+       green N content (kg/ha) =     25.53    dead N content (kg/ha) =      0.00
       
       
       
        stress indices for emergence
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0772101
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2072376
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.1494668
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.3195735
       
       
       
        stress indices for end_of_juvenile
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0215771
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2172617
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0579039
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2463231
       
       
       
        stress indices for floral_initiation
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0009243
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1092006
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0276336
       
       
       
        stress indices for flag_leaf
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0498200
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
       
       
       
        stress indices for flowering
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0085165
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
       
       
       
@@ -1207,100 +1212,15 @@
    MANAGER:
            Manager sending message :- millet kill_crop
    MILLET:
-          kill. Standing above-ground dm =  3340.0 (kg/ha)
+          kill. Standing above-ground dm =  3696.4 (kg/ha)
    MANAGER:
            Manager sending message :- millet end_crop
    MILLET:
           ended. Yield (dw) =     0.0
-                                                straw residue = 3340.0 kg/ha
-                                                straw N =   30.4 kg/ha
-                                                root residue = 1242.0 kg/ha
-                                                root N =   13.2 kg/ha
-   MANAGER:
-           Manager sending message :- residue2 tillage type = burn
-   RESIDUE2:
-      
-          - Reading residue tillage info
-      Residue removed using burn                          
-                                              Fraction Incorporated =     1.00
-                                              Incorporated Depth    =     0.00
-31 August 1982 (Day of year=243):
-   MILLET1:
-       stage   11.0 harvest_ripe
-                           biomass =           275.4217       lai =    0.2979934E-02
-                           stover N conc =    1.119308       extractable sw =    61.49743
-   MILLET2:
-       stage   10.0 maturity
-                           biomass =           99.43425       lai =    0.8359087E-01
-                           stover N conc =    1.276293       extractable sw =    61.49743
-   MANAGER:
-           Manager sending message :- millet1 harvest
-   MILLET1:
-      
-      
-      
-       flowering day  =  213                  stover (kg/ha) =    1409.0
-       maturity day        =  242             grain yield (kg/ha) =    1345.3
-       grain % water content   =   15.5       grain yield wet (kg/ha) =    1592.0
-       grain wt (g) =     0.011               grains/m^2   = 12525.161
-       grains/head = 840.6                    maximum lai = 1.169
-       total above ground biomass (kg/ha) =    2754.2
-       live above ground biomass (kg/ha) =    2754.2
-       green above ground biomass (kg/ha) =    2284.9
-       senesced above ground biomass (kg/ha) =     469.3
-       dead above ground biomass (kg/ha) =       0.0
-       number of leaves =  12.1
-       grain N percent =      1.00            total N content (kg/ha) =     26.04
-       grain N uptake (kg/ha) =     13.45     senesced N content (kg/ha) =      0.47
-       green N content (kg/ha) =     12.13    dead N content (kg/ha) =      0.00
-      
-      
-      
-       stress indices for emergence
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.2174148
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2885763
-      
-      
-      
-       stress indices for end_of_juvenile
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.1012043
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2809634
-      
-      
-      
-       stress indices for floral_initiation
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0130440
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1341995
-      
-      
-      
-       stress indices for flag_leaf
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0263745
-      
-      
-      
-       stress indices for flowering
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0001071
-      
-      
-      
-       stress indices for start_grain_fill
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-   MANAGER:
-           Manager sending message :- millet1 kill_crop
-   MILLET1:
-          kill. Standing above-ground dm =  1409.0 (kg/ha)
-   MANAGER:
-           Manager sending message :- millet1 end_crop
-   MILLET1:
-          ended. Yield (dw) =     0.0
-                                                straw residue = 1409.0 kg/ha
-                                                straw N =   12.6 kg/ha
-                                                root residue =  533.6 kg/ha
-                                                root N =    5.7 kg/ha
+                                                straw residue = 3696.4 kg/ha
+                                                straw N =   26.2 kg/ha
+                                                root residue = 1358.9 kg/ha
+                                                root N =   14.4 kg/ha
    MANAGER:
            Manager sending message :- residue2 tillage type = burn
    RESIDUE2:
@@ -1310,54 +1230,134 @@
                                               Fraction Incorporated =     1.00
                                               Incorporated Depth    =     0.00
 1 September 1982 (Day of year=244):
+   MILLET1:
+       stage   11.0 harvest_ripe
+                           biomass =           282.0026       lai =    0.2980113E-02
+                           stover N conc =    1.060891       extractable sw =    55.26769
    MILLET2:
        stage   11.0 harvest_ripe
-                           biomass =           99.43423       lai =    0.2979994E-02
-                           stover N conc =    1.316713       extractable sw =    59.82761
+                           biomass =           106.9677       lai =    0.2993166E-02
+                           stover N conc =    1.299797       extractable sw =    55.26769
+   MANAGER:
+           Manager sending message :- millet1 harvest
+   MILLET1:
+      
+      
+      
+       flowering day  =  215                  stover (kg/ha) =    1430.2
+       maturity day        =  243             grain yield (kg/ha) =    1389.8
+       grain % water content   =   15.5       grain yield wet (kg/ha) =    1644.7
+       grain wt (g) =     0.011               grains/m^2   = 12634.726
+       grains/head = 848.0                    maximum lai = 1.340
+       total above ground biomass (kg/ha) =    2820.0
+       live above ground biomass (kg/ha) =    2820.0
+       green above ground biomass (kg/ha) =    2451.2
+       senesced above ground biomass (kg/ha) =     368.8
+       dead above ground biomass (kg/ha) =       0.0
+       number of leaves =  12.4
+       grain N percent =      1.00            total N content (kg/ha) =     26.37
+       grain N uptake (kg/ha) =     13.93     senesced N content (kg/ha) =      0.37
+       green N content (kg/ha) =     12.07    dead N content (kg/ha) =      0.00
+      
+      
+      
+       stress indices for emergence
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.2453059
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.3790911
+      
+      
+      
+       stress indices for end_of_juvenile
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.1125106
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2900085
+      
+      
+      
+       stress indices for floral_initiation
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0279403
+      
+      
+      
+       stress indices for flag_leaf
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for flowering
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for start_grain_fill
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+   MANAGER:
+           Manager sending message :- millet1 kill_crop
+   MILLET1:
+          kill. Standing above-ground dm =  1430.2 (kg/ha)
+   MANAGER:
+           Manager sending message :- millet1 end_crop
+   MILLET1:
+          ended. Yield (dw) =     0.0
+                                                straw residue = 1430.2 kg/ha
+                                                straw N =   12.4 kg/ha
+                                                root residue =  573.5 kg/ha
+                                                root N =    6.1 kg/ha
+   MANAGER:
+           Manager sending message :- residue2 tillage type = burn
+   RESIDUE2:
+      
+          - Reading residue tillage info
+      Residue removed using burn                          
+                                              Fraction Incorporated =     1.00
+                                              Incorporated Depth    =     0.00
    MANAGER:
            Manager sending message :- millet2 harvest
    MILLET2:
       
       
       
-       flowering day  =  215                  stover (kg/ha) =     637.3
-       maturity day        =  243             grain yield (kg/ha) =     357.1
-       grain % water content   =   15.5       grain yield wet (kg/ha) =     422.6
-       grain wt (g) =     0.011               grains/m^2   =  3145.016
-       grains/head = 211.1                    maximum lai = 0.712
-       total above ground biomass (kg/ha) =     994.3
-       live above ground biomass (kg/ha) =     994.3
-       green above ground biomass (kg/ha) =     754.4
-       senesced above ground biomass (kg/ha) =     240.0
+       flowering day  =  215                  stover (kg/ha) =     727.7
+       maturity day        =  243             grain yield (kg/ha) =     342.0
+       grain % water content   =   15.5       grain yield wet (kg/ha) =     404.7
+       grain wt (g) =     0.011               grains/m^2   =  3015.019
+       grains/head = 202.4                    maximum lai = 0.917
+       total above ground biomass (kg/ha) =    1069.7
+       live above ground biomass (kg/ha) =    1069.7
+       green above ground biomass (kg/ha) =     873.9
+       senesced above ground biomass (kg/ha) =     195.8
        dead above ground biomass (kg/ha) =       0.0
-       number of leaves =  11.1
-       grain N percent =      1.16            total N content (kg/ha) =     10.17
-       grain N uptake (kg/ha) =      4.15     senesced N content (kg/ha) =      0.24
-       green N content (kg/ha) =      5.78    dead N content (kg/ha) =      0.00
+       number of leaves =  11.4
+       grain N percent =      1.28            total N content (kg/ha) =     11.55
+       grain N uptake (kg/ha) =      4.37     senesced N content (kg/ha) =      0.20
+       green N content (kg/ha) =      6.99    dead N content (kg/ha) =      0.00
       
       
       
        stress indices for emergence
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.2408278
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.3430591
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.2568830
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.3877089
       
       
       
        stress indices for end_of_juvenile
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0880888
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2704710
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.1547229
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.3237783
       
       
       
        stress indices for floral_initiation
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0096605
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1135125
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0157395
       
       
       
        stress indices for flag_leaf
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0057934
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
       
       
       
@@ -1373,15 +1373,15 @@
    MANAGER:
            Manager sending message :- millet2 kill_crop
    MILLET2:
-          kill. Standing above-ground dm =   637.3 (kg/ha)
+          kill. Standing above-ground dm =   727.7 (kg/ha)
    MANAGER:
            Manager sending message :- millet2 end_crop
    MILLET2:
           ended. Yield (dw) =     0.0
-                                                straw residue =  637.3 kg/ha
-                                                straw N =    6.0 kg/ha
-                                                root residue =  243.2 kg/ha
-                                                root N =    2.6 kg/ha
+                                                straw residue =  727.7 kg/ha
+                                                straw N =    7.2 kg/ha
+                                                root residue =  264.7 kg/ha
+                                                root N =    2.8 kg/ha
    MANAGER:
            Manager sending message :- residue2 tillage type = burn
    RESIDUE2:
