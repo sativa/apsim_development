@@ -17,7 +17,6 @@ Public Class areaui
         InitializeComponent()
 
         'Add any initialization after the InitializeComponent() call
-        HelpLabel.Text = "This screen shows all components in the paddock. A background bitmap can be added by right clicking above. Components can be double clicked to edit them."
     End Sub
 
     'Form overrides dispose to clean up the component list.
@@ -171,7 +170,10 @@ Public Class areaui
     ' User is trying to initiate a drag - allow drag operation
     ' --------------------------------------------------------
     Private Sub ListView_ItemDrag(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemDragEventArgs) Handles ListView.ItemDrag
-        ListView.DoDragDrop(ListView.SelectedItems, DragDropEffects.Move)
+        Dim Data As APSIMData = MyData.Child(ListView.SelectedItems.Item(0).Text)
+        Dim DataString As String = Data.XML
+
+        ListView.DoDragDrop(DataString, DragDropEffects.All)
     End Sub
 
 
@@ -179,13 +181,11 @@ Public Class areaui
     ' User is dragging an item
     ' --------------------------------------------------
     Private Sub ListView_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles ListView.DragEnter
-        Dim i As Integer
-        For i = 0 To e.Data.GetFormats().Length - 1
-            If e.Data.GetFormats()(i).Equals("System.Windows.Forms.ListView+SelectedListViewItemCollection") Then
-                'The data from the drag source is moved to the target.
-                e.Effect = DragDropEffects.Move
-            End If
-        Next
+        If (e.KeyState And 5) = 5 Then
+            e.Effect = DragDropEffects.Move
+        Else
+            e.Effect = DragDropEffects.Copy
+        End If
     End Sub
 
 
@@ -196,11 +196,39 @@ Public Class areaui
         'Convert the mouse coordinates to client coordinates.
         Dim p As Point = ListView.PointToClient(New Point(e.X, e.Y))
 
-        For Each item As ListViewItem In ListView.SelectedItems
-            CSGeneral.ListViewAPI.SetItemPosition(ListView, ListView.SelectedItems.Item(0).Index, p.X, p.Y)
-            Dim child As APSIMData = MyData.Child(item.Text)
-            child.SetAttribute("x", p.X.ToString)
-            child.SetAttribute("y", p.Y.ToString)
-        Next
+        If e.Effect = DragDropEffects.Copy Then
+            Dim NewDataString As String = e.Data.GetData(DataFormats.Text)
+            Dim NewNode As New APSIMData(NewDataString)
+            MyData.Add(NewNode)
+            Refresh()
+        Else
+            For Each item As ListViewItem In ListView.SelectedItems
+                CSGeneral.ListViewAPI.SetItemPosition(ListView, ListView.SelectedItems.Item(0).Index, p.X, p.Y)
+                Dim child As APSIMData = MyData.Child(item.Text)
+                child.SetAttribute("x", p.X.ToString)
+                child.SetAttribute("y", p.Y.ToString)
+            Next
+        End If
+        UIManager.SimulationExplorer.fill()
+
+    End Sub
+
+    Private Sub ListView_DragOver(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles ListView.DragOver
+        If (e.KeyState And 5) = 5 Then
+            e.Effect = DragDropEffects.Move
+        Else
+            e.Effect = DragDropEffects.Copy
+        End If
+
+    End Sub
+
+    Private Sub ListView_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles ListView.KeyDown
+        If e.KeyCode = Keys.Delete Then
+            Dim Data As APSIMData = MyData.Child(ListView.SelectedItems.Item(0).Text)
+            Dim ParentNode As APSIMData = Data.Parent
+            ParentNode.Delete(ListView.SelectedItems.Item(0).Text)
+            UIManager.SimulationExplorer.fill()
+            ListView.SelectedItems.Item(0).Remove()
+        End If
     End Sub
 End Class
