@@ -167,7 +167,9 @@
 
 
       leafarea = divide(g_lai * 10000, g_plants, 0.0)
-      if (leafarea .lt. 4.0) then   ! ???? what's magic about 4?
+         ! Need to check if initialisation has already taken place.
+      if (leafarea .lt. 4.0
+     :    .and. sum_real_array(N_green, max_part) .lt. 1.0e-6) then   ! ???? what's magic about 4?
          do 100 part = 1, max_part
             N_green(part) = c_N_init_conc(part)*g_dm_green(part)
   100    continue
