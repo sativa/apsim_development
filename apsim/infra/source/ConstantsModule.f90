@@ -127,6 +127,7 @@ module ConstantsModule
    character (len=*), parameter :: ACTION_End_Crop     = 'end_crop'
    character (len=*), parameter :: ACTION_Kill_Crop    = 'kill_crop'
    character (len=*), parameter :: ACTION_Incorp_FOM   = 'incorp_fom'
+   character (len=*), parameter :: ACTION_Add_Roots    = 'add_roots'
    character (len=*), parameter :: ACTION_Add_Residue   = 'add_residue'
    character (len=*), parameter :: ACTION_Do_Decompose  = 'do_decompose'
    character (len=*), parameter :: ACTION_Decomposed    = 'decomposed'
