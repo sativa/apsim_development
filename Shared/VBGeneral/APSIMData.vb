@@ -91,7 +91,7 @@ Public Class APSIMData
     Property Value() As String
         Get
             If Me.Attribute("shortcut") <> "" Then
-                Dim RemoteSource = "library" + "|" + Me.Attribute("shortcut")
+                Dim RemoteSource = "shared" + "|" + Me.Attribute("shortcut")
                 Return New APSIMData(Node.OwnerDocument.DocumentElement).FindChild(RemoteSource, "|").Value
             Else
 
@@ -100,7 +100,7 @@ Public Class APSIMData
         End Get
         Set(ByVal value As String)
             If Me.Attribute("shortcut") <> "" Then
-                Dim RemoteSource = "library" + "|" + Me.Attribute("shortcut")
+                Dim RemoteSource = "shared" + "|" + Me.Attribute("shortcut")
                 Dim RootNode As New APSIMData(Node.OwnerDocument.DocumentElement)
                 RootNode.FindChild(RemoteSource, "|").Value = value
             Else
@@ -161,7 +161,7 @@ Public Class APSIMData
     Property XML() As String
         Get
             If Me.Attribute("shortcut") <> "" Then
-                Dim RemoteSource = "library" + "|" + Me.Attribute("shortcut")
+                Dim RemoteSource = "shared" + "|" + Me.Attribute("shortcut")
                 Return New APSIMData(Node.OwnerDocument.DocumentElement).FindChild(RemoteSource, "|").XML
             Else
                 Return Node.OuterXml()
@@ -169,7 +169,7 @@ Public Class APSIMData
         End Get
         Set(ByVal value As String)
             If Me.Attribute("shortcut") <> "" Then
-                Dim RemoteSource = "library" + "|" + Me.Attribute("shortcut")
+                Dim RemoteSource = "shared" + "|" + Me.Attribute("shortcut")
                 Dim RootNode As New APSIMData(Node.OwnerDocument.DocumentElement)
                 RootNode.FindChild(RemoteSource, "|").XML = value
             Else
@@ -183,7 +183,7 @@ Public Class APSIMData
     ReadOnly Property InnerXML() As String
         Get
             If Me.Attribute("shortcut") <> "" Then
-                Dim RemoteSource = "library" + "|" + Me.Attribute("shortcut")
+                Dim RemoteSource = "shared" + "|" + Me.Attribute("shortcut")
                 Return New APSIMData(Node.OwnerDocument.DocumentElement).FindChild(RemoteSource, "|").InnerXML
             Else
                 Return Node.InnerXml()
@@ -287,8 +287,8 @@ Public Class APSIMData
 
                 Else
                     ' There is a shortcut so return REMOTE children
-                    Dim RemoteSource = "library" + "|" + Me.Attribute("shortcut")
-                    ChildrenCollection = New APSIMData(Node.OwnerDocument.DocumentElement).FindChild(RemoteSource, "|").Children
+                    Dim RemoteSource = "shared" + "|" + Me.Attribute("shortcut")
+                    ChildrenCollection = New APSIMData(Node.OwnerDocument.DocumentElement).FindChild(RemoteSource, "|").Children(Type)
                 End If
 
 
