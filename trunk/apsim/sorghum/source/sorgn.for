@@ -152,7 +152,7 @@
      :               )
 *     ===========================================================
       implicit none
-      dll_export sorg_N_init1
+      dll_export sorg_n_init1
       include 'science.pub'                       
       include 'error.pub'                         
 
@@ -563,7 +563,7 @@
 
 *     ===========================================================
       implicit none
-      dll_export sorg_N_partition1
+      dll_export sorg_n_partition1
       include   'sorgcons.inc'
       include 'data.pub'                          
       include 'error.pub'                         
