@@ -988,7 +988,7 @@ void WheatPhenology::get_zadok_stage(protocol::Component *system, protocol::Quer
     else if (currentStage > emerg &&
              currentStage <= 4.9)
        {
-       float leaf_no_now = plant->getLeafNo();
+       float leaf_no_now = max(0.0, plant->getLeafNo() - 2.0);
 
        static float tillerno_y[] =   // tiller no.
            {0, 0, 5};
