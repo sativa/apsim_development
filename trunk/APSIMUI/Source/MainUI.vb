@@ -686,11 +686,19 @@ Public Class MainUI
     Sub OpenNewFile()
         Try
             SimulationFile = New APSIMFile
-            SimulationFile.OpenNewDocument()
-            SimulationExplorer.Data = SimulationFile.data
-            UpdateMainForm()
+            Dim NewDocForm As New NewDocumentForm
+            NewDocForm.ShowDialog()
+            If Not IsNothing(NewDocForm.Selection) Then
+                Dim newsim As New APSIMData("simulations", "untitled")
+                newsim.Add(NewDocForm.Selection)
+                newsim.Add(New APSIMData("shared", "shared"))
+                SimulationFile.OpenNewDocument(newsim)
+                SimulationExplorer.Data = SimulationFile.data
+                UpdateMainForm()
+                NewDocForm.Close()
+            End If
 
-        Catch e as system.exception
+        Catch e As System.Exception
             MsgBox(e.Message, MsgBoxStyle.Critical, "Error openinig document template")
         End Try
     End Sub
@@ -765,8 +773,8 @@ Public Class MainUI
         Dim separators As String = " "
         Dim commands As String = Microsoft.VisualBasic.Command()
         Dim args() As String = commands.Split(separators.ToCharArray)
-        If args.Length = 0 Then
-            ' do nothing
+        If args(0) = "" Then
+            'OpenNewFile()
         ElseIf args.Length = 1 Then
             If args(0).Length() > 0 Then
                 OpenAPSIMFile(args(0))
