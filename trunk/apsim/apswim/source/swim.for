@@ -1331,7 +1331,7 @@ cnh     :              -g%qex(p%n)*g%csl(solnum,p%n)*apswim_slupf(1,solnum)
      :              +p%betaex(solnum,j)*cp)
      :              *p%dx(p%n)*g%csl(solnum,p%n)
          do 81 crop=1,g%num_crops
-            g%qsl(solnum,p%n+1)=g%qsl(solnum,p%n)
+            g%qsl(solnum,p%n+1)=g%qsl(solnum,p%n+1)
      :      -g%qr(p%n,crop)*g%csl(solnum,p%n)*apswim_slupf(crop,solnum)
    81    continue
       else
