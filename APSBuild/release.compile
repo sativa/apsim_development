@@ -13,12 +13,15 @@ libraryPath = %apsuite\apsbuild
 object   = %apsuite\shared\ComponentInterface\FORTRANComponent.obj
 object   = %apsuite\shared\ComponentInterface\Component.obj
 object   = %apsuite\shared\ComponentInterface\TypeConverter.obj
-object   = %apsuite\shared\ComponentInterface\Vector.obj
+object   = %apsuite\shared\ComponentInterface\ProtocolVector.obj
 object   = %apsuite\shared\ComponentInterface\Message.obj
 object   = %apsuite\shared\ComponentInterface\MessageData.obj
 object   = %apsuite\shared\ComponentInterface\Type.obj
 object   = %apsuite\shared\ComponentInterface\Variant.obj
 object   = %apsuite\shared\ComponentInterface\Variants.obj
+object   = %apsuite\shared\ComponentInterface\Registrations.obj
+object   = %apsuite\shared\ComponentInterface\RegistrationItem.obj
+object   = %apsuite\shared\ComponentInterface\ArraySpecifier.obj
 
 compile=@lf95 -c "%fi" -winconsole -dll -tp -nco -o0 -pca -nsav -stchk -trace -nchk -nin -ml bd -staticlink @compiler.rsp
 link=@lf95 @%rf -exe %ex -winconsole -dll -tp -nco -o0 -pca -nsav -stchk -trace -nchk -nin -ml bd -staticlink @linker.rsp

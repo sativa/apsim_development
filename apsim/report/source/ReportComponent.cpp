@@ -2,8 +2,8 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include "ReportComponent.h"
 #include <ComponentInterface\MessageDataExt.h>
+#include "ReportComponent.h"
 #include <ApsimShared\FStringExt.h>
 #include <ApsimShared\ApsimComponentData.h>
 #include <general\math_functions.h>
@@ -40,11 +40,10 @@ Field::Field (protocol::Component* p,
       {
       ModuleName = variable.substr(0, posPeriod);
       VariableName = variable.substr(posPeriod+1);
-      unsigned posAlias = VariableName.find('(');
+      unsigned posAlias = VariableName.find(" as ");
       if (posAlias != string::npos)
          {
-         VariableAlias = VariableName.substr(posAlias+1);
-         VariableAlias.erase(VariableAlias.length()-1, 1);
+         VariableAlias = VariableName.substr(posAlias+strlen(" as "));
          VariableName.erase(posAlias, VariableName.length()-posAlias);
          Strip(VariableName, " ");
          Strip(VariableAlias, " ");
@@ -79,7 +78,7 @@ bool Field::getValues(void)
    if (ok)
       {
       variant->unpack(values);
-      unit = asString(variant->getType().getUnit());
+      unit = asString(variant->getType().getUnits());
       if (unit[0] != '(')
          unit = "(" + unit + ")";
       }

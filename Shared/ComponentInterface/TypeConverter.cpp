@@ -14,6 +14,50 @@ using namespace protocol;
 char buffer[1000];
 MessageData TypeConverter::bufferMessageData(buffer, sizeof(buffer));
 
+
+class Int4FromInt4 : public TypeConverter
+   {
+   public:
+      void doConvert(MessageData& messageData)
+         {
+         int value;
+         messageData >> value;
+         bufferMessageData << value;
+         }
+      virtual TypeConverter* clone(void)
+         {
+         return new Int4FromInt4;
+         }
+   } int4FromInt4;
+class SingleFromSingle : public TypeConverter
+   {
+   public:
+      void doConvert(MessageData& messageData)
+         {
+         float value;
+         messageData >> value;
+         bufferMessageData << value;
+         }
+      virtual TypeConverter* clone(void)
+         {
+         return new SingleFromSingle;
+         }
+   } singleFromSingle;
+class DoubleFromDouble : public TypeConverter
+   {
+   public:
+      void doConvert(MessageData& messageData)
+         {
+         double value;
+         messageData >> value;
+         bufferMessageData << value;
+         }
+      virtual TypeConverter* clone(void)
+         {
+         return new DoubleFromDouble;
+         }
+   } doubleFromDouble;
+
 class SingleFromInt4 : public TypeConverter
    {
    public:
@@ -57,7 +101,7 @@ class StringFromInt4 : public TypeConverter
          messageData >> value;
          char result[100];
          itoa(value, result, 10);
-         bufferMessageData << FString(result, strlen(result));
+         bufferMessageData << FString(result, strlen(result), CString);
          }
       virtual TypeConverter* clone(void)
          {
@@ -73,7 +117,7 @@ class StringFromSingle : public TypeConverter
          messageData >> value;
          char st[100];
          sprintf(st, "%10.3f", value);
-         bufferMessageData << FString(st, strlen(st));
+         bufferMessageData << FString(st, strlen(st), CString);
          }
       virtual TypeConverter* clone(void)
          {
@@ -122,7 +166,7 @@ class StringFromChar : public TypeConverter
          {
          char value;
          messageData >> value;
-         bufferMessageData << FString(&value, 1);
+         bufferMessageData << FString(&value, 1, CString);
          }
       virtual TypeConverter* clone(void)
          {
@@ -298,10 +342,10 @@ static TypeConverter* scalarConversionMatrix[9][9] =  {
 //                int1      int2    int4              int8   single                double              boolean             char             string
 /*D   int1*/    {  NULL,    NULL,    NULL,            NULL,   NULL,                 NULL,              NULL,               NULL,            NULL},
 /*E   int2*/    {  NULL,    NULL,    NULL,            NULL,   NULL,                 NULL,              NULL,               NULL,            NULL},
-/*S   int4*/    {  NULL,    NULL,    NULL,            NULL, &int4FromSingle,        NULL,              NULL,               NULL,        &int4FromString},
+/*S   int4*/    {  NULL,    NULL,    &int4FromInt4,   NULL, &int4FromSingle,        NULL,              NULL,               NULL,        &int4FromString},
 /*T   int8*/    {  NULL,    NULL,    NULL,            NULL,   NULL,                 NULL,              NULL,               NULL,            NULL},
-/*    single*/  {  NULL,    NULL,    NULL,            NULL,   NULL,              &singleFromDouble,    NULL,               NULL,        &singleFromString},
-/*    double*/  {  NULL,    NULL,    NULL,            NULL, &doubleFromSingle,      NULL,              NULL,               NULL,            NULL},
+/*    single*/  {  NULL,    NULL,    NULL,            NULL, &singleFromSingle,   &singleFromDouble,    NULL,               NULL,        &singleFromString},
+/*    double*/  {  NULL,    NULL,    NULL,            NULL, &doubleFromSingle,   &doubleFromDouble,    NULL,               NULL,            NULL},
 /*    boolean*/ {  NULL,    NULL,    NULL,            NULL,   NULL,                 NULL,              NULL,               NULL,        &booleanFromString},
 /*    char*/    {  NULL,    NULL,    NULL,            NULL,   NULL,                 NULL,              NULL,               NULL,            NULL},
 /*    string*/  {  NULL,    NULL,  &stringFromInt4,   NULL, &stringFromSingle,   &stringFromDouble, &stringFromBoolean, &stringFromChar,&stringFromString},

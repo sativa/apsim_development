@@ -234,7 +234,7 @@ void LogComponent::storeRegistration(const Message* message)
    RegisterData registerData;
    messageData >> registerData;
    components[message->from].registrations.insert(
-      Registrations::value_type(registerData.ID, asString(registerData.name)));
+      LogComponent::Registrations::value_type(registerData.ID, asString(registerData.name)));
    }
 // ------------------------------------------------------------------
 //  Short description:

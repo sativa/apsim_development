@@ -2,11 +2,13 @@
 #ifndef FStringH
 #define FStringH
 
-#include <values.h>
 #include <windows.h>
 
 // turn of the warnings about "Functions containing for are not expanded inline.
 #pragma warn -inl
+
+enum StringType {CString, FORString};
+
 // ------------------------------------------------------------------
 //  Short description:
 //     Encapsulates a case insensitive FORTRAN string.
@@ -20,32 +22,43 @@
 class FString
    {
    public:
+      static unsigned npos;
+
       // default constructor that doesn't alias to anything.
       FString(void)
          {
          aliasTo((const char*) NULL, 0);
          }
       // constructor for an alias to a char*
-      FString(char* t)
+/*      FString(char* t)
          {
          aliasTo(t, strlen(t));
          }
-      // constructor for an alias to a char*
+*/      // constructor for an alias to a char*
       FString(const char* t)
          {
          aliasTo(t, strlen(t));
          }
+
       // constructor for an alias to a FORTRAN string
-      FString(char* t, const unsigned int tLength)
+      FString(char* t, unsigned int tLength, StringType stringType)
          {
          aliasTo(t, tLength);
-         calcRealLength();
+         if (stringType == CString)
+            realLen = strlen(t);
+         else
+            calcRealLength();
          }
       // constructor for an alias to a FORTRAN string
-      FString(const char* t, const unsigned int tLength)
+      FString(const char* t, unsigned int tLength, StringType stringType)
          {
-         aliasTo((char*)t, tLength);
-         calcRealLength();
+         if (tLength == 0)
+            tLength = strlen(t);
+         aliasTo(t, tLength);
+         if (stringType == CString)
+            realLen = strlen(t);
+         else
+            calcRealLength();
          }
       // alias to the specified string
       void aliasTo(char* t, const unsigned int tLength)
@@ -90,7 +103,12 @@ class FString
                }
             }
          else
-            aliasTo(rhs.f_str(), rhs.length());
+            {
+            text = rhs.text;
+            len = rhs.len;
+            realLen = rhs.realLen;
+            canModify = rhs.canModify;
+            }
          return *this;
          }
       FString& operator+ (const FString& rhs)
@@ -120,13 +138,43 @@ class FString
          {
          return len;
          }
-      FString substr(unsigned int pos, unsigned int nchar = MAXINT) const
+      FString substr(unsigned int pos, unsigned int nchar = npos) const
          {
-         if (nchar == MAXINT)
+         if (nchar == npos)
             nchar = length() - pos;
          else if (pos+nchar > len)
             error("Invalid index into string: ", *this);
-         return FString(&text[pos], nchar);
+         return FString(&text[pos], nchar, FORString);
+         }
+      void insert(unsigned int pos, const char* st)
+         {
+         if (canModify)
+            {
+            unsigned numCharsToInsert = strlen(st);
+            if (len-realLen < numCharsToInsert)
+               error("String not long enough to hold the string: ", st);
+            else
+               {
+               char buffer[500];
+               strncpy(buffer, &text[pos], realLen-pos);
+               strncpy(&text[pos], st, numCharsToInsert);
+               strncpy(&text[pos+numCharsToInsert], buffer, realLen-pos);
+               realLen += numCharsToInsert;
+               }
+            }
+         else
+            error("Cannot modify const string: ", text);
+         }
+      void erase(unsigned int pos, unsigned int nchars)
+         {
+         if (canModify)
+            {
+            strncpy(&text[pos], &text[pos+nchars], realLen-(pos+nchars));
+            strnset(&text[realLen-nchars], ' ', nchars);
+            realLen -= nchars;
+            }
+         else
+            error("Cannot modify const string: ", text);
          }
       unsigned int find(const char* st, unsigned startPos = 0) const
          {
@@ -139,7 +187,7 @@ class FString
             if (j-i == stLength)
                return i;
             }
-         return MAXINT;
+         return npos;
          }
 
    private:
@@ -164,6 +212,8 @@ class FString
          }
 
    };
+unsigned FString::npos = -1;
+
 //inline std::ostream& operator<< (std::ostream& out, const FString& st)
 //   {
 //   out.write(st.text, st.realLen);
@@ -240,6 +290,16 @@ class FStrings
       unsigned elementLength;
       FString st;
    };
+
+char* strchr(const char* st, char ch)
+   {
+   char* pos = (char*)st;
+   while (*pos != NULL && *pos != ch)
+      ++pos;
+   if (*pos == NULL)
+      return NULL;
+   return pos;
+   }
 
 // restore the warnings about "Functions containing for are not expanded inline.
 #pragma warn .inl

@@ -2,7 +2,7 @@
 #pragma hdrstop
 
 #include "variant.h"
-#include "vector.h"
+#include "ProtocolVector.h"
 using namespace protocol;
 
 // ------------------------------------------------------------------
@@ -15,7 +15,7 @@ using namespace protocol;
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" void __stdcall unpack_string
+/*extern "C" void __stdcall unpack_string
    (Variant** variant, char* value, unsigned int valueLength)
    {
    FString st;
@@ -158,4 +158,4 @@ extern "C" void __stdcall unpack_boolean
    *value = b;
    }
 
-
+*/

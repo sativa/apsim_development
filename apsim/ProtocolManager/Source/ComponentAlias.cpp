@@ -47,7 +47,7 @@ ComponentAlias::ComponentAlias(const string& n,
 ComponentAlias::~ComponentAlias(void)
    {
    delete computation;
-   Registrations::iterator i;
+   ComponentAlias::Registrations::iterator i;
    for (i = getRegistrations.begin(); i != getRegistrations.end(); i++)
       delete i->second;
    for (i = setRegistrations.begin(); i != setRegistrations.end(); i++)

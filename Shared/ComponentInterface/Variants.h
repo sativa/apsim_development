@@ -2,7 +2,7 @@
 
 #ifndef VariantsH
 #define VariantsH
-#include "Vector.h"
+#include "ProtocolVector.h"
 #include "Variant.h"
 namespace protocol {
 class TypeConverter;

@@ -31,18 +31,17 @@ enum DataTypeCode  {DTint1 = 0,
 #define DTwstringString  "<type kind=\"wstring\"/>"
 
 // ------------------------------------------------------------------
-//  Short description:
-//     Encapsulates a DDML type string.
-
-//  Changes:
-//    DPH 18/7/2001
-
+// Encapsulates a DDML type string.  Does NOT allocate any
+// memory.  Relies on the string passed in.  If a const string
+// is passed in then the type is read-only and cannot be
+// modified.
 // ------------------------------------------------------------------
 class Type
    {
    public:
       Type(void) : code(DTunknown) { };
       Type(const char* typeString) : type(typeString), code(DTunknown) { }
+      Type(FString& typeString) : type(typeString), code(DTunknown) { }
       Type(const FString& typeString) : type(typeString), code(DTunknown) { }
 
       void initFrom(MessageData& messageData)
@@ -58,24 +57,27 @@ class Type
          return protocol::memorySize(type);
          }
 
-      FString getUnit(void) const {return getAttribute("units");}
+      FString getUnits(void) const {return getAttribute("units");}
       bool isArray(void) const {return (getAttribute("array") == "T");}
-      DataTypeCode getCode(void)
+      void setArray(bool isArray);
+      DataTypeCode getCode(void) const
          {
          if (code == DTunknown)
             determineType();
          return code;
          }
-      FString& getTypeString(void) {return type;}
+      const FString& getTypeString(void) const {return type;}
 
       static FString codeToString(DataTypeCode code);
 
    private:
       FString type;
-      DataTypeCode code;
+      mutable DataTypeCode code;
 
-      void determineType(void);
+      void determineType(void) const;
       FString getAttribute(const char* attributeName) const;
+      void setAttribute(const char* attributeName, const char* value);
+
 
    };
 inline MessageData& operator>> (MessageData& messageData, Type& type)
