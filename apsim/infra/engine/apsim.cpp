@@ -17,7 +17,10 @@ USELIB("apsimengine.lib");
 #pragma argsused
 int main(int argc, char **argv)
    {
-   if (argc == 2)
+   if (argc == 3 && strcmpi(argv[1], "/q") == 0)
+      start(argv[2]);
+
+   else if (argc == 2)
       start(argv[1]);
 
    else
