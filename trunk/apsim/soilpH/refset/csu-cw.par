@@ -38,12 +38,12 @@ endif
 [CW.manager.start_of_day]
 !if (today = date('31-mar')) then
 !  cool burn of previous wheat crop on 31 March 1993
-!   residue2 tillage type = Cool_burn ()
+!   surfaceom tillage type = Cool_burn ()
 !endif
 
 if (today = date('15-apr')) then
 !  incorporation of ashes and unburnt straw on 15 April 1993
-   residue2 tillage type = tine ()
+   surfaceom tillage type = tine ()
 endif
 
 [all.manager.end_of_day]
@@ -68,7 +68,7 @@ smi = (sw(1) - ll15(1))/(dul(1) - ll15(1))
 if (crop_in = 0) then
    if (date_within('1-may, 31-jul') = 1) and (rain[10] >= 25) and (rain = 0) and (esw >= 0) and (smi >= 0.5) then
       wheat sow plants = 100, depth = 40, cultivar = janz
-      residue2 tillage type = planter ()
+      surfaceom tillage type = planter ()
       fertiliz apply amount = 17 (kg/ha), type = nh4_n, depth = 40 (mm)
       fert_flag = 62
       crop_in = 1
@@ -122,13 +122,13 @@ kl =       0.07    0.07    0.07    0.07    0.05    0.05    0.04    0.04    0.04 
 XF =       1.0     1.0     1.0     1.0     1.0     1.0     1.0     1.0     1.0   ()
 
 !******************** Residue2 module ********************
-[all.residue2.parameters]
+[all.SurfaceOM.parameters]
 report_additions = yes
-residue_wt =  970.
-residue_cnr =  90.
-residue_type =  wheat
-pot_decomp_rate =  0.10
+mass = 970.
+cnr = 90.
+type = wheat
 
+name = wheat
 [all.soiln2.parameters]
 !Layers    0-10  10-20 20-30 30-50 50-70 70-90 90-120 120-150 150-200
 !layer     1     2     3     4     5     6     7      8       9
