@@ -3975,7 +3975,7 @@ cnh      c%crop_type = ' '
 
 *+  Sub-Program Arguments
       character  crop_type*(*)              ! (INPUT) crop type
-      character  dm_type*(*)                ! (INPUT) residue type
+      character  dm_type(*)*(*)             ! (INPUT) residue type
       real  dlt_crop_dm(*)                  ! (INPUT) residue weight (kg/ha)
       real  dlt_dm_n(*)                     ! (INPUT) residue N weight (kg/ha)
       real  fraction_to_Residue(*)          ! (INPUT) residue fraction to residue (0-1)
@@ -3988,6 +3988,7 @@ cnh      c%crop_type = ' '
  
 *+  Changes
 *   070999 jngh - Programmed and Specified
+*   110700 jngh - Changed dm_type to array
  
 *+  Constant Values
       character*(*) myname               ! name of current procedure
