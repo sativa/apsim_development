@@ -19,6 +19,8 @@
       <respondToGetReg name="interception" type="interception"/>
       <eventReg name="lightprofilecalculated" type="lightprofile"/>
       <eventReg name="CanopyWaterBalanceCalculated" type="canopywaterbalance"/>
+
+      <getVariableReg name="eo" type="eo" autoregister = "F"/>      
       
    </registrations>
 </component>

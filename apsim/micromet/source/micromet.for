@@ -392,7 +392,7 @@ c      g%ComponentFrgr(:) = 0.0
 *
       character section_name*(*)
       parameter (section_name = 'parameters')
-
+      
 *+  Local Variables
       logical found
 
@@ -464,6 +464,22 @@ c      g%ComponentFrgr(:) = 0.0
       else
       endif
 
+      found = read_parameter(
+     :        section_name,          ! Section header
+     :        'eo_source',           ! Keyword
+     :        p%eo_source,           ! Parameter
+     :        .true.)
+     
+      if(.not.found) then
+         p%eo_source = blank
+      else
+         ! better register my interest in this data
+         g%EoSourceID = add_registration(GetVariableReg 
+     :                                  ,p%eo_source
+     :                                  ,Eoddml)
+      endif
+     
+     
       call pop_routine (myname)
       return
       end
@@ -515,6 +531,20 @@ c      g%ComponentFrgr(:) = 0.0
      :         , 0.9                  ! Lower Limit for bound checking
      :         , 1.0)                 ! Upper Limit for bound checking
 
+      found = read_parameter(
+     :           section_name         ! Section header
+     :         , 'min_crit_temp'      ! Keyword
+     :         , c%min_crit_temp      ! Variable
+     :         , 0.0                  ! Lower Limit for bound checking
+     :         , 10.)                 ! Upper Limit for bound checking
+
+      found = read_parameter(
+     :           section_name         ! Section header
+     :         , 'min_crit_temp'      ! Keyword
+     :         , c%max_crit_temp      ! Variable
+     :         , 0.0                  ! Lower Limit for bound checking
+     :         , 50.)                 ! Upper Limit for bound checking
+          
       call pop_routine (myname)
       return
       end
@@ -615,6 +645,8 @@ c      g%ComponentFrgr(:) = 0.0
       call Micromet_Met_Variables ()
       call Micromet_Canopy_Compartments ()
       call Micromet_Canopy_Energy_Balance ()
+      call Micromet_Reference_Et()
+
 
       call Micromet_Energy_Balance_Event()
       call Micromet_Water_Balance_Event()
@@ -736,6 +768,7 @@ c      g%ComponentFrgr(:) = 0.0
       real    CanopyBase
       integer key(2*max_components - 1)
       integer layer
+      real    CumHeight
 
 *- Implementation Section ----------------------------------
 
@@ -745,17 +778,18 @@ c      g%ComponentFrgr(:) = 0.0
       NumNodes = 0
 
       do 100 ComponentNo = 1, g%NumComponents
-
+      
+         CumHeight = 0.0
          do 50 layer = 1, max_layer
-
+               CumHeight = CumHeight
+     :            + g%Canopies(ComponentNo)%Layer(layer)%thickness
             if (position_in_real_array
-     :         (g%Canopies(ComponentNo)%Layer(layer)%CumHeight
+     :         (CumHeight
      :         ,Nodes
      :         ,NumNodes)
      :       .eq.0) then
                NumNodes = NumNodes + 1
-               Nodes(NumNodes) = g%Canopies(ComponentNo)
-     :                             %Layer(layer)%CumHeight
+               Nodes(NumNodes) = CumHeight
 
             else
                ! it is already there - ignore it
@@ -801,56 +835,56 @@ c      g%ComponentFrgr(:) = 0.0
       parameter (myname = 'Micromet_Divide_Components')
 
 *+  Local Variables
-      real Ld (max_components)
-      real top
-      real bottom
       integer i
       integer j
-
+      real    KLAI(max_layer)
+      real    KLAInew(max_layer)
+            
 *- Implementation Section ----------------------------------
 
       call push_routine (myname)
 
       g%LAI(:,:) = 0.0
 
-
-      top = 0.0
-      bottom = 0.0
-      do 300 i = 1, g%NumLayers
-         bottom = top
-         top = top + g%DeltaZ(i)
-
          ! Calculate LAI for layer i and component j
          ! =========================================
 
-         do 200 j = 1, g%NumComponents
+      do 200 j = 1, g%NumComponents
 
-            g%LAI(i,j) = linear_interp_Real
-     :                        (top
-     :                        ,g%canopies(j)%layer(:)%cumheight
-     :                        ,g%canopies(j)%layer(:)%cumlai
-     :                        ,g%canopies(j)%numlayers)
-     :                 - linear_interp_Real
-     :                        (bottom
-     :                        ,g%canopies(j)%layer(:)%cumheight
-     :                        ,g%canopies(j)%layer(:)%cumlai
-     :                        ,g%canopies(j)%numlayers)
-            g%Cover(i,j) = linear_interp_Real
-     :                        (top
-     :                        ,g%canopies(j)%layer(:)%cumheight
-     :                        ,g%canopies(j)%layer(:)%cumcover
-     :                        ,g%canopies(j)%numlayers)
-     :                 - linear_interp_Real
-     :                        (bottom
-     :                        ,g%canopies(j)%layer(:)%cumheight
-     :                        ,g%canopies(j)%layer(:)%cumcover
-     :                        ,g%canopies(j)%numlayers)
+         do 100 i=1,g%Canopies(j)%NumLayers
+            if(g%Canopies(j)%Layer(i)%LAI.gt.0) then
+               KLAI(i) = - log(1.0-g%Canopies(j)%Layer(1)%LAI)
+            else
+               KLAI(i) = 0.0
+            endif            
+  100    continue
 
-  200    continue
+         call map(g%Canopies(j)%NumLayers
+     :           ,g%Canopies(j)%Layer(:)%thickness
+     :           ,g%Canopies(j)%Layer(:)%LAI
+     :           ,g%NumLayers
+     :           ,g%DeltaZ
+     :           ,g%LAI(:,j))
+
+         call map(g%Canopies(j)%NumLayers
+     :           ,g%Canopies(j)%Layer(:)%thickness
+     :           ,KLAI
+     :           ,g%NumLayers
+     :           ,g%DeltaZ
+     :           ,KLAInew)
+                 
+
+         do 150 i=1,g%Canopies(j)%NumLayers
+            g%Cover(i,j) = 1.0-exp(-KLAInew(i))
+  150    continue
+
+  200 continue
 
          ! Calculate fractional contribution for layer i and component j
          ! =============================================================
 
+      do 300 i=1, g%NumLayers
+      
          do 250 j = 1, g%NumComponents
             g%F(i,j) = divide(g%LAI(i,j)
      :                       ,sum(g%LAI(i,1:g%NumComponents))
@@ -2182,3 +2216,224 @@ c      g%ComponentFrgr(:) = 0.0
       call pop_routine (myname)
       return
       end
+
+
+*     ===========================================================
+      subroutine Micromet_Reference_Et ()
+*     ===========================================================
+      use MicrometModule
+      use ComponentInterfaceModule
+
+      implicit none
+
+*+  Sub-Program Arguments
+
+
+*+  Purpose
+*       calculate Reference(potential) evapotranspiration
+
+*+  Notes
+
+
+*+  Mission Statement
+*     Calculate Reference(Potential) EvapoTranspiration
+
+*+  Changes
+*        190802   specified and programmed jngh (j hargreaves
+
+*+  Local Variables
+      real eo_system  ! value of Eo obtained from the comm. system
+      logical found
+      
+*+  Constant Values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'Micromet_pot_evapotranspiration')
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+      if (p%eo_source .eq. blank) then
+          call Micromet_priestly_taylor (g%eo) ! eo from priestly taylor
+      else
+          found = get_Eo(g%EoSourceId, Eo_system)
+          if (.not.found) then
+             ! said data is not available
+             call error('Cannot find data for '//Trim(p%Eo_Source)
+     :                 ,.true.)
+          else
+             g%eo = eo_system       ! eo is provided by system
+          endif
+      endif
+
+      call pop_routine (my_name)
+      end
+
+
+
+*     ===========================================================
+      subroutine Micromet_priestly_taylor (eo)
+*     ===========================================================
+      use MicrometModule
+      use ComponentInterfaceModule
+
+      implicit none
+
+*+  Sub-Program Arguments
+      real       eo            ! (output) potential evapotranspiration
+
+*+  Purpose
+*       calculate potential evapotranspiration via priestly-taylor
+
+*+  Mission Statement
+*       Calculate potential evapotranspiration using priestly-taylor method
+
+*+  Changes
+*        190802 NIH taken from soilwat2 module code
+
+
+*+  Calls
+      real       Micromet_eeq_fac       ! function
+
+*+  Constant Values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'Micromet_priestly_taylor')
+
+*+  Local Variables
+      real       eeq                   ! equilibrium evaporation rate (mm)
+      real       wt_ave_temp           ! weighted mean temperature for the
+                                       !    day (oC)
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+*  ******* calculate potential evaporation from soil surface (eos) ******
+
+                ! find equilibrium evap rate as a
+                ! function of radiation, albedo, and temp.
+
+                ! wt_ave_temp is mean temp, weighted towards max.
+
+      wt_ave_temp = 0.60*g%met%maxt + 0.40*g%met%mint
+
+      eeq = g%met%radn*23.8846* (0.000204 - 0.000183*g%albedo)
+     :    * (wt_ave_temp + 29.0)
+
+                ! find potential evapotranspiration (eo)
+                ! from equilibrium evap rate
+
+      eo = eeq*Micromet_eeq_fac ()
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+*     ===========================================================
+      real function Micromet_eeq_fac ()
+*     ===========================================================
+      use MicrometModule
+      use ComponentInterfaceModule
+
+      implicit none
+
+*+  Purpose
+*    calculate coefficient for equilibrium evaporation rate
+
+*+  Mission Statement
+*     Calculate the Equilibrium Evaporation Rate
+
+*+  Changes
+*        190802 NIH Taken from soilwat2 module
+
+*+  Constant Values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'Micromet_eeq_fac')
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+      if (g%met%maxt.gt.c%max_crit_temp) then
+
+                ! at very high max temps eo/eeq increases
+                ! beyond its normal value of 1.1
+
+         Micromet_eeq_fac = ((g%met%maxt - c%max_crit_temp)*0.05 + 1.1)
+      else if (g%met%maxt.lt.c%min_crit_temp) then
+
+                ! at very low max temperatures eo/eeq
+                ! decreases below its normal value of 1.1
+                ! note that there is a discontinuity at tmax = 5
+                ! it would be better at tmax = 6.1, or change the
+                ! .18 to .188 or change the 20 to 21.1
+
+         Micromet_eeq_fac = 0.01*exp (0.18* (g%met%maxt + 20.0))
+      else
+
+                ! temperature is in the normal range, eo/eeq = 1.1
+
+         Micromet_eeq_fac = 1.1
+      endif
+
+      call pop_routine (my_name)
+      return
+      end
+      
+*     ===========================================================
+      subroutine map(n,x,y,M,u,v)
+*     ===========================================================      
+      implicit none
+*+  Sub-Program Arguments
+      integer N,M
+      real x(*),y(*),u(*),v(*)
+      
+*+  Purpose
+*     maps concentration in y into v so that integral is conserved
+*     x and u give intervals corresponding to y and v values
+
+*+  Mission Statement
+*    Map array of amounts into new layer structure
+
+*+  Changes
+*        190802 NIH Taken from similar routine in swim module
+
+*+  Local Variables
+      double precision sx, sy, su, sv,w
+      logical again
+      integer i,j
+
+*+  Constant Values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'Map')
+
+*- Implementation Section ----------------------------------
+
+      sx=0.
+      sy=0.
+      j=0
+      su=u(1)
+      sv=0.
+      do 20 i=1,N
+         sx=sx+x(i)
+         sy=sy+y(i)
+10       continue
+            again=.FALSE.
+            if((j.lt.M).and.(sx.ge.su.or.i.eq.N))then
+               j=j+1
+               w=sy-(sx-su)*y(i)
+               v(j)=(w-sv)
+               if(j.lt.M)then
+                  su=su+u(j+1)
+                  sv=w
+                  again=.TRUE.
+               end if
+            end if
+         if(again)go to 10
+20    continue
+
+      return
+      end
+      
