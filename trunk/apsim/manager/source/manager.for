@@ -157,7 +157,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       parameter (MAX_INSTANCE_NAME_SIZE=50)
 
       integer NUM_RULE_TYPES          ! number of rule types
-      parameter (NUM_RULE_TYPES=4)
+      parameter (NUM_RULE_TYPES=6)
 
       type ManagerData
          sequence
@@ -479,9 +479,11 @@ C     Last change:  P    25 Oct 2000    9:26 am
        character Rule_types(NUM_RULE_TYPES)*(20)
        character(len=*), parameter :: RULE_SECTION = "rules"
        data Rule_types(1) /'init'/
-       data Rule_types(2) /'start_of_day'/
-       data Rule_types(3) /'process'/
-       data Rule_types(4) /'end_of_day'/
+       data Rule_types(2) /'prepare'/
+       data Rule_types(3) /'start_of_day'/
+       data Rule_types(4) /'process'/
+       data Rule_types(5) /'post'/
+       data Rule_types(6) /'end_of_day'/
 
 
 !- Implementation Section ----------------------------------
@@ -582,6 +584,11 @@ C     Last change:  P    25 Oct 2000    9:26 am
       if (g%start_token .gt. 0) then
          call Parse (g%token_array, g%token_array2)
       end if
+      g%start_token = g%rule_indexes(3)
+      if (g%start_token .gt. 0) then
+         call Parse (g%token_array, g%token_array2)
+      end if
+      
 
       call pop_routine (my_name)
       return
@@ -611,7 +618,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       ! Go call the parsing routine.
 
-      g%start_token = g%rule_indexes(3)
+      g%start_token = g%rule_indexes(4)
       if (g%start_token .gt. 0) then
          call Parse (g%token_array, g%token_array2)
       end if
@@ -644,7 +651,11 @@ C     Last change:  P    25 Oct 2000    9:26 am
       call push_routine (my_name)
 
       ! Go call the parsing routine.
-      g%start_token = g%rule_indexes(4)
+      g%start_token = g%rule_indexes(5)
+      if (g%start_token .gt. 0) then
+         call Parse (g%token_array, g%token_array2)
+      end if
+      g%start_token = g%rule_indexes(6)
       if (g%start_token .gt. 0) then
          call Parse (g%token_array, g%token_array2)
       end if
