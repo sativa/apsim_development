@@ -1,4 +1,4 @@
-version = 3.3
+version = 3.4
 [apsim.csu-S]
 module = clock   csu-p149.par [all] %apsuite\apsim\clock\clock.ini [standard]
 module = report (report1)   report.par [csu-p14] csu-p149.par [csu-S]
@@ -15,6 +15,7 @@ module = apswim    csu-p149.par [all]   csup14d9.par [hyprops] %apsuite\apsim\ap
 module = residue2  csu-p149.par [all]   %apsuite\apsim\residue2\residue2.ini [standard]
 module = soiln2    csu-p149.par [all]   %apsuite\apsim\soiln2\soiln2.ini [standard]
 module = plant(wheat)    csu-p149.par [all]   %apsuite\apsim\wheat\wheat.ini [standard]
+module = plant(weed)    csu-p149.par [all]   %apsuite\apsim\weed\weed.ini [standard]
 module = plant(lucerne)   csu-p149.par [all]   %apsuite\apsim\lucerne\lucerne.ini [standard]
 module = plant(canola)    csu-p149.par [all]   %apsuite\apsim\canola\canola.ini [standard]
 module = fertiliz                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
@@ -42,6 +43,7 @@ module = operatns  csu-p149.par [all]   csu-p149.par [csu-N]
 module = apswim    csu-p149.par [all]   csup14d9.par [hyprops] %apsuite\apsim\apswim\apswim.ini [standard]
 module = residue2  csu-p149.par [all]   %apsuite\apsim\residue2\residue2.ini [standard]
 module = soiln2    csu-p149.par [all]   %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = plant(weed)    csu-p149.par [all]   %apsuite\apsim\weed\weed.ini [standard]
 module = plant(wheat)    csu-p149.par [all]   %apsuite\apsim\wheat\wheat.ini [standard]
 module = plant(lucerne)   csu-p149.par [all]   %apsuite\apsim\lucerne\lucerne.ini [standard]
 module = plant(canola)    csu-p149.par [all]   %apsuite\apsim\canola\canola.ini [standard]
