@@ -2982,8 +2982,7 @@ c       be set to '1' in all layers by default
          ! ok - only sw present
             line = 'Initial soilwater distributed '
      :           //'using "sw" parameter.'
-            call write_string (line)
-
+            call write_string (line)  
       else
                ! all absent - must have one
             call fatal_error (ERR_USER,
@@ -3947,7 +3946,7 @@ cjngh DMS requested that this facility be retained! That's why it was implemente
      :                               , temp, g%numvals_sw
      :                               , 0.0, 1.0)
  
-         call soilwat2_set_default ()
+!jh         call soilwat2_set_default ()   ! this causes output to occur whenever a module changes "sw", such as nwheat!
          num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 1000 layer = 1,num_layers
             g%sw_dep(layer) = temp(layer)*p%dlayer(layer)
@@ -3961,7 +3960,7 @@ cjngh DMS requested that this facility be retained! That's why it was implemente
      :                               , g%sw_dep, g%numvals_sw
      :                               , 0.0, 10000.0)
  
-         call soilwat2_set_default ()
+!jh         call soilwat2_set_default ()  this causes output to occur whenever a module changes "sw", such as nwheat!
          num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 2000 layer = 1,num_layers
             call soilwat2_check_profile (layer)
