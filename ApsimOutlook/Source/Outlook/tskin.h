@@ -1,6 +1,7 @@
 //---------------------------------------------------------------------------
 #ifndef TSkinH
 #define TSkinH
+#include <string>
 // ------------------------------------------------------------------
 //  Short description:
 //      This class encapsulates a "skin" for APSIM Outlook.
@@ -22,6 +23,8 @@ class TSkin
 
    private:
       TIcon* Icon;
+      bool showBackdrop;
+      std::string BitmapName;
    };
 extern PACKAGE TSkin *Skin;
 

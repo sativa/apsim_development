@@ -47,7 +47,7 @@ class Factor {
       void setValue(const std::string& val)   { value = val; }
 
       // get a pointer to add-in
-      const AddInBase* getAddIn(void) const {return addIn;}
+      const AddInBase* getAddIn(void)  {return addIn;}
       void       setAddIn(const AddInBase* addin) {addIn = addin;}
 
    protected:
