@@ -132,10 +132,17 @@ extern "C" void __stdcall publish_structure.name(unsigned* id, const protocol::F
    FortranProxyComponent::currentInstance->publish(*id, *data);
    }
    #endif
+   #if (structure.array = T)
+extern "C" void __stdcall unpack_structure.name(protocol::Variant* variant, protocol::Fstructure.nameType data[], unsigned* numValues)
+   {
+   variant->unpackArray(data, *numValues);
+   }
+   #else
 extern "C" void __stdcall unpack_structure.name(protocol::Variant* variant, protocol::Fstructure.nameType* data)
    {
    variant->unpack(*data);
    }
+   #endif
 #endfor
 
 // restore the warnings about "Functions containing for are not expanded inline.
@@ -202,12 +209,22 @@ module dataTypesInterface
    end subroutine
    #endif
 
+   #if (structure.array = T)
+   subroutine unpack_structure.name(variant, data, numValues)
+   use datatypes
+   ml_external unpack_structure.name
+   integer :: variant
+   type(structure.nameType) :: data(*)
+   integer :: numValues
+   end subroutine
+   #else
    subroutine unpack_structure.name(variant, data)
    use datatypes
    ml_external unpack_structure.name
    integer :: variant
    type(structure.nameType) :: data
    end subroutine
+   #endif
    #endfor
 
    end interface

@@ -68,6 +68,21 @@ class Variant
             messageData >> obj;
          return true;
          }
+      template <class T>
+      bool unpackArray(T obj[], unsigned& numValues)
+         {
+         if (arraySpecifier != NULL)
+            {
+            if (!type.isArray())
+               return false;
+            else
+               arraySpecifier->convert(messageData, type.getCode());
+            }
+         messageData >> numValues;
+         for (unsigned i = 0; i != numValues; i++)
+            messageData >> obj[0];  
+         return true;
+         }
       void setTypeConverter(TypeConverter* typeconv)
          {
          typeConverter = typeconv;
