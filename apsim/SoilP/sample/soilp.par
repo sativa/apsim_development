@@ -26,7 +26,9 @@ elseif day = 10 then
 elseif day = 15 then
    fertiliz apply amount = 20 (kg/ha), depth = 35 (mm), type = banded_p
 elseif day = 20 then
-   act_mods tillage type = disc ()
+   soilwat2 tillage type = disc ()
+   residue2 tillage type = disc ()
+   soilp tillage type = disc ()
 endif
 
 [sample.manager.end_of_day]
