@@ -55,6 +55,7 @@ __published:	// IDE-managed Components
 private:	// User declarations
    Ini_file ini;
    TComboBox* activeCombo;
+   bool inFormShow;
    void addToVectorIfUnique(std::vector<std::string>& strings, const std::string& st);
    void PutFilterInCombo(TComboBox* combo, AnsiString filter);
 
