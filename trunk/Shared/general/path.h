@@ -29,7 +29,7 @@ class Path
 
 	public:
       Path(void) {};
-      Path(const char* File_path) {Set_path(File_path);};
+      Path(const std::string& File_path) {Set_path(File_path);};
       int operator== (const Path& From) const {return (Directory == From.Directory &&
                                                  Name == From.Name);};
       int operator< (const Path& From) const {return (Directory < From.Directory &&
@@ -43,12 +43,11 @@ class Path
       std::string Get_path(void);
       std::string Get_full_path (void);              // always returns a full absolute path.
 
-      void Set_to_cwd(void);
       void Set_drive(const char* New_drive);
       void Set_directory(const char* New_directory);
       void Set_name(const char* New_name);
       void Set_extension(const char* New_extension);
-      void Set_path(const char* New_path);
+      void Set_path(const std::string& New_path);
 
       bool Is_empty(void);
       bool Exists(void);
@@ -56,6 +55,9 @@ class Path
 
       void Append_path (const char* Path);
       std::string Back_up_directory (void);
+
+      static Path getCurrentFolder(void);
+      static Path getTempFolder(void);
 	};
 
 // ------------------------------------------------------------------
