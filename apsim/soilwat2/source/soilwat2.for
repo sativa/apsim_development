@@ -1,8 +1,278 @@
+      module Soilwat2Module
+      use ComponentInterfaceModule
+
+! ====================================================================
+!     soilwat2 constants
+! ====================================================================
+
+!   Short Description:
+!      Constant values
+
+!   Notes:
+
+!   attributes:
+!      version:         any hardware/fortran77
+!      extensions:      long names <= 20 chars.
+!                       lowercase
+!                       underscore
+!                       inline comments
+
+!   Changes:
+!      151292 jngh
+!      131093 markl added variables for cover cn response
+!      131093 markl added p_cona variable for soil evaporation
+!      131093 markl added p_swcon
+!      190194 jpd   added g_air_dry_dep
+!      060994 jpd added g_crop_cover
+!      110195 jngh removed crop cover
+!      100595 jngh added bulk density
+!      190595 jngh added specific bulk density
+!      300695 jngh changed max_layer from 11 to 100
+!      300695 jngh added g_eo to common block
+!      130896 jngh added g_crop_module
+!      130896 jngh removed g_total_cover
+!      130896 jngh added max_crops and module_name_size
+!      130896 jngh added g_crop_cover and g_num_crops
+!                  removed g_cover_green_sum
+!                  removed g_cover_tot_sum
+!      200896 jngh changed cn2 to cn2_bare
+!      200896 jngh changed N_flow/flux to Solute_Flow/flux
+!      270897 PdeV Observed runoff
+!      270897 PdeV     Observed runoff source
+!      970910 slw  replace g_es by g_es_layers
+!     011199 jngh removed residue_wt
+!      220500 jngh changed max solutes from 10 to 100
+!      201100 dsg  added ponding/perched water-table variables
+
+! ----------------------- Declaration section ------------------------
+
+!   Global variables
+      real       precision_sw_dep        ! Precision for sw dep (mm)
+      parameter (precision_sw_dep = 1.0e-3)
+
+      integer    max_layer        ! Maximum number of layers
+      parameter (max_layer = 50)
+
+      integer    max_solute       ! Maximum number of solutes in the soil
+      parameter (max_solute = 20)
+
+      integer    max_coeffs       ! Maximum number of coefficients in a table
+      parameter (max_coeffs = 10)
+
+      integer    max_crops             ! maximum number of crops in at once
+      parameter (max_crops = 10)
+
+      integer    module_name_size      ! maximum length of module name
+      parameter (module_name_size = 30)
+
+      integer ritchie_method
+      parameter (ritchie_method = 1)
+
+      integer bs_a_method
+      parameter (bs_a_method = 2)
+
+      integer bs_b_method
+      parameter (bs_b_method = 3)
+
+      integer bs_acs_method
+      parameter (bs_acs_method = 4)
+
+      integer rickert_method
+      parameter (rickert_method = 5)
+
+      integer rwc_method
+      parameter (rwc_method = 6)
+
+      type Soilwat2Globals
+
+         real    rain                                 ! precipitation (mm/d)
+         real    runon                                ! external run-on of H2O (mm/d)
+         real    radn                                 ! solar radiation (mj/m^2/day)
+         real    mint                                 ! minimum air temperature (oC)
+         real    maxt                                 ! maximum air temperature (oC)
+         real    cover_surface_extra                  ! extra surface cover (0-1)
+         real    cover_surface_runoff                 ! effective total cover (0-1)
+         real    cover_tot(max_crops)                 ! total canopy cover of crops (0-1)
+         real    cover_green(max_crops)               ! green canopy cover of crops (0-1)
+         real    canopy_height(max_crops)             ! canopy heights of each crop (mm)
+         integer num_crops                            ! number of crops ()
+         integer year                                 ! year
+         integer day                                  ! day of year
+         real    sumes1                               ! cumulative soil evaporation in stage 1 (mm)
+         real    sumes2                               ! cumulative soil evaporation in stage 2 (mm)
+         real    t                                    ! time after 2nd-stage soil evaporation
+                                                      ! begins (d)
+         real    solute_min(max_solute,max_layer)     ! minimum allowable solute
+                                                      ! in soil (kg/ha)
+         real    solute (max_solute, max_layer)       ! solute in each layer (kg/ha)
+         real    dlt_solute (max_solute, max_layer)   ! change in solute each in
+                                                      ! layer (kg n/ha)
+         real    solute_leach (max_solute,max_layer)  ! amount of solute leached
+                                                      ! from each layer (kg/ha)
+         real    solute_up (max_solute,max_layer)     ! amount of solute upped
+                                                      ! from each layer (kg/ha)
+                                                      ! nih - I dont like these
+                                                      ! names.
+         real    irrigation_solute(max_solute)        ! amount of solute in
+                                                      ! irrigation water (kg/ha)
+         integer num_solutes                          ! number of solutes in
+                                                      ! APSIM ()
+         integer num_irrigation_solutes               ! number of solutes traced
+                                                      ! in irrigation water
+
+         real    residue_cover                        ! residue cover reduces  cn2_bare
+!  dsg 260502   eo is the effective eo used in calcs after ponding considerations have been taken.
+!               real_eo is the eo calculated before evaporating from the pond.
+         real    eo                                   ! effective potential evapotranspiration (mm)
+         real    real_eo                              ! potential evapotranspiration (mm)
+         real    eos                                  ! pot sevap after modification for green cover &
+                                                      ! residue wt
+         real    cn2_new                              ! New cn2  after modification for crop
+                                                      ! cover &
+                                                      ! residue cover
+         real    air_dry_dep(max_layer)               ! air dry soil water content (mm
+                                                      ! water)
+         real    bd(max_layer)                        ! moist bulk density of soil (g/cm^3)
+         real    dul_dep (max_layer)                  ! drained upper limit soil water content
+                                                      ! for each soil layer (mm water)
+         real    ll15_dep (max_layer)                 ! 15 bar lower limit of extractable
+                                                      ! soil water for each soil layer
+                                                      ! (mm water)
+         real    sat_dep (max_layer)                  ! saturated water content for layer l
+                                                      ! (mm water)
+         real    flow (max_layer)                     ! depth of water moving from layer l+1
+                                                      ! into layer l because of unsaturated
+                                                      ! flow; positive value indicates upward
+                                                      ! movement into layer l, negative value
+                                                      ! indicates downward movement (mm) out of
+                                                      ! layer l
+         real    flux (max_layer)                     ! initially, water moving downward into
+                                                      ! layer l (mm), then water moving downward
+                                                      ! out of layer l (mm)
+         real    sw_dep (max_layer)                   ! soil water content of layer l (mm)
+         real    es_layers(max_layer)                 ! actual soil evaporation (mm)
+
+         real    drain                                ! drainage rate from bottom layer (cm/d)
+         real    infiltration                         ! infiltration (mm)
+         real    runoff                               ! runoff (mm)
+         real    runoff_pot                           ! potential runoff with no pond(mm)
+         real    irrigation                           ! irrigation (mm)
+         real    obsrunoff                            ! observed runoff (mm)
+         real    tillage_cn_red                       ! reduction in CN due to tillage ()
+         real    tillage_cn_rain                      ! cumulative rainfall below which
+                                                      ! tillage reduces CN (mm)
+         real    tillage_rain_sum                     ! cumulative rainfall for
+                                                      ! tillage CN reduction (mm)
+         logical obsrunoff_found                      ! whether obserevd runoff was returned from system
+         character obsrunoff_name*200                 ! system name of observed runoff
+         character solute_names(max_solute)*32        ! names of solutes in the
+                                                      ! soil system that will
+                                                      ! be leached by soilwat2
+         character solute_owners(max_solute)*32       ! names of owner module for each
+                                                      ! solutes in the system
+         character crop_module(max_crops)*(module_name_size)
+                                                      ! list of modules
+                                                      ! replying
+         integer    numvals_profile_esw_depth         ! number of values returned for profile_esw_depth
+         integer    numvals_insoil                    ! number of values returned for insoil
+         integer    numvals_wet_soil_depth            ! number of values returned for wet_soil_depth
+         integer    numvals_profile_fesw              ! number of values returned for profile_fesw
+         integer    numvals_sw                        ! number of values returned for sw
+
+         logical   solute_mobility (max_solute)
+         integer   num_canopy_fact                    ! number of canopy factors read ()
+         real   inf_pool                              ! infiltration pool to be evap at reset sumes
+         real   sumes_last                            ! sumes before inf reset
+         real   sumes                                 ! summed es
+         real   sumes_yest                            ! yesterdays sumes
+         real   sumeos                                ! summed eos
+         real   sumeos_last                           ! sumeos before inf reset
+         real   eo_system                             ! eo from somewhere else in the system
+         character*50 eo_source                       ! system variable name of external eo source
+         real   pond_evap                             ! evaporation from the surface of the pond (mm)
+         real   pond                                  ! surface water ponding depth
+         real   water_table                           ! water table depth
+         real   sws(max_layer)                        ! temporary soil water array
+
+      end type Soilwat2Globals
+! ====================================================================
+      type Soilwat2Parameters
+         integer irrigation_layer                     ! number of soil layer to which irrigation water is applied
+         real    dlayer (max_layer)                   ! thickness of soil layer i (mm)
+         real    swcon (max_layer)                    ! soil water conductivity constant (1/d)
+                                                      ! ie day**-1 for each soil layer
+         real    mwcon (max_layer)                    ! impermeable soil layer indicator
+         real    max_pond                             ! maximum surface storage capacity of soil
+         real   cn2_bare                              ! curve number input used to calculate
+                                                      ! daily g_runoff
+         real   cn_cov                                ! cover at which c_cn_red occurs
+         real   cn_red                                ! maximum reduction in p_cn2_bare due to cover
+         real   cona                                  ! stage 2 drying coefficient
+         real   diffus_const                          ! diffusivity constant for soil testure
+         real   diffus_slope                          ! slope for diffusivity/soil water content
+                                                      ! relationship
+         real   salb                                  ! bare soil albedo (unitless)
+         real   u                                     ! upper limit of stage 1 soil evaporation
+                                                      ! (mm)
+         real   insoil                                ! switch describing initial soil water
+         real   profile_esw_depth                     ! initial depth of extractable soil water distributed from the top down (mm)
+         real   wet_soil_depth                        ! initial depth of soil filled to drained upper limit (field capacity) (mm)
+         real   profile_fesw                          ! initial fraction of esw of profile distributed from top down ()
+         real   max_evap                              ! maximum daily evaporation for rickert
+         real   beta                                  ! beta for b&s model
+      end type Soilwat2Parameters
+! ====================================================================
+      type Soilwat2Constants
+         real   hydrol_effective_depth                ! hydrologically effective depth for
+                                                      ! runoff (mm)
+         character  mobile_solutes(max_solute)*32     ! names of all possible
+                                                      ! mobile solutes
+         character  immobile_solutes(max_solute)*32   ! names of all possible
+                                                      ! immobile solutes
+         real    min_crit_temp                        ! temperature below which eeq decreases (oC)
+         real    max_crit_temp                        ! temperature above which eeq increases (oC)
+         real    max_albedo                           ! maximum bare ground soil albedo (0-1)
+         real    A_to_evap_fact                       ! factor to convert "A" to coefficient
+                                                      ! in Adam's type residue effect on Eos
+         real    canopy_eos_coef                      ! coef in cover Eos reduction eqn
+         real    sw_top_crit                          ! critical sw ratio in top layer
+                                                      ! below which stage 2 evaporation occurs
+         real    sumes1_max                           ! upper limit of sumes1
+         real    sumes2_max                           ! upper limit of sumes2
+         real    Solute_flux_eff                      ! efficiency of moving solute with flux (0-1)
+         real    Solute_flow_eff                      ! efficiency of moving solute with flow (0-1)
+         real    gravity_gradient                     ! gradient due to hydraulic differentials
+                                                      ! (0-1)
+         real    specific_bd                          ! specific bulk density (g/cc)
+         real    canopy_fact(max_coeffs)              ! canopy factors for cover runoff effect ()
+         real    canopy_fact_height(max_coeffs)       ! heights for canopy factors (mm)
+         real    canopy_fact_default                  ! default canopy factor in absence of height ()
+         integer   evap_method                        ! actual soil evaporation model being used
+
+      end type Soilwat2Constants
+! ====================================================================
+
+      ! instance variables.
+      type (Soilwat2Globals), pointer :: g
+      type (Soilwat2Parameters), pointer :: p
+      type (Soilwat2Constants), pointer :: c
+      integer MAX_NUM_INSTANCES
+      parameter (MAX_NUM_INSTANCES=50)
+      integer MAX_INSTANCE_NAME_SIZE
+      parameter (MAX_INSTANCE_NAME_SIZE=50)
+      type Soilwat2DataPtr
+         type (Soilwat2Globals), pointer ::    gptr
+         type (Soilwat2Parameters), pointer :: pptr
+         type (Soilwat2Constants), pointer ::  cptr
+         character Name*(MAX_INSTANCE_NAME_SIZE)
+      end type Soilwat2DataPtr
+      type (Soilwat2DataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+
+      contains
 
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
-      use Soilwat2Module
       use LateralModule
       use EvapModule
       Use Infrastructure
@@ -28,12 +298,10 @@
       call EvapAllocInstance (InstanceName, InstanceNo)
 
       return
-      end
-
+      end subroutine
 !     ===========================================================
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
-      use Soilwat2Module
       use LateralModule
       use EvapModule
       Use Infrastructure
@@ -56,12 +324,10 @@
       call  LateralFreeInstance (anInstanceNo)
       call EvapFreeInstance (anInstanceNo)
       return
-      end
-
+      end subroutine
 !     ===========================================================
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
-      use Soilwat2Module
       use LateralModule
       use EvapModule
 
@@ -86,8 +352,7 @@
       call EvapSwapInstance (anInstanceNo)
 
       return
-      end
-
+      end subroutine
 * ====================================================================
       subroutine Main (action, data_string)
 * ====================================================================
@@ -229,14 +494,12 @@
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_process
 *     ===========================================================
-      use Soilwat2Module
       use LateralModule
       Use Infrastructure
       implicit none
@@ -269,7 +532,7 @@
 *       041200 dsg  added ponding and impermeable soil layer features
 
 *+  Calls
-      real  soilwat_water_table  !  function
+
 
 *+  Constant Values
       character  my_name*(*)           ! this subroutine name
@@ -398,14 +661,12 @@ c dsg 070302 added runon
             ! end
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_runoff ( rain,runon, runoff )
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -471,14 +732,12 @@ c dsg 070302 added runon
 
       call pop_routine(my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_scs_runoff (rain,runon, runoff)
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -610,14 +869,12 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_cover_surface_runoff (cover_surface_runoff)
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -690,14 +947,12 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
 !     :                           , 0.0, 1.0)
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_pot_evapotranspiration (eo)
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -756,14 +1011,12 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
       endif
 
       call pop_routine (my_name)
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_priestly_taylor (eo)
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -784,8 +1037,6 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
 *        290393   jngh changed to use lai factor
 *        110195   jngh changed to use green cover instead of lai
 
-*+  Calls
-      real       soilwat2_eeq_fac       ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of subroutine
@@ -826,14 +1077,12 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       real function soilwat2_eeq_fac ()
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -879,14 +1128,12 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
 
       call pop_routine (my_name)
       return
-      end
-
+      end function
 
 
 *     ===========================================================
       subroutine soilwat2_evaporation (esoil, eos)
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -930,14 +1177,12 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_pot_soil_evaporation (eos)
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -1050,14 +1295,12 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_soil_evaporation (es, eos, eos_max)
 *     ===========================================================
-      use Soilwat2Module
       use EvapModule
       Use Infrastructure
       implicit none
@@ -1124,14 +1367,12 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_ritchie_evaporation (es, eos, eos_max)
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -1269,14 +1510,12 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_bs_a_evaporation (es, eos, eos_max)
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -1363,14 +1602,12 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_bs_b_evaporation (es, eos, eos_max)
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -1512,14 +1749,12 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_bs_acs_evaporation (es, eos, eos_max)
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -1634,14 +1869,12 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_rickert_evaporation (es, eos)
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -1664,8 +1897,6 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
 *+  Changes
 *       210191 specified and programmed jngh (j hargreaves
 
-*+  Calls
-      real       soilwat2_comp_curve
 
 *+  Constant Values
       character  my_name*(*)           ! name of subroutine
@@ -1754,14 +1985,12 @@ c     should suffice.
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       real function soilwat2_comp_curve (ndx, a)
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -1796,14 +2025,12 @@ c     should suffice.
 
       call pop_routine (my_name)
       return
-      end
-
+      end function
 
 
 *     ===========================================================
       subroutine soilwat2_drainage (flux,extra_runoff)
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -1944,14 +2171,12 @@ c     should suffice.
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_unsat_flow (flow)
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -2173,14 +2398,12 @@ cjh
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_check_profile (layer)
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -2341,14 +2564,12 @@ cjh
       endif
 
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_layer_check (layer)
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -2404,14 +2625,12 @@ cjh
       endif
 
       return
-      end
-
+      end subroutine
 
 
 * ====================================================================
       subroutine soilwat2_read_constants ()
 * ====================================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -2576,14 +2795,12 @@ cjh
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_soil_property_param ()
 *     ===========================================================
-      use Soilwat2Module
       use EvapModule
 
       Use Infrastructure
@@ -2781,14 +2998,12 @@ cjh
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_soil_profile_param ()
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -2934,14 +3149,12 @@ c       be set to '1' in all layers by default
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_set_default ()
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -2956,8 +3169,6 @@ c       be set to '1' in all layers by default
 *        290892   jngh changed soil water to depth of water
 *        100801   jngh added profile_esw_depth
 
-*+  Calls
-                                       ! cells used in array
 
 *+  Constant Values
       character  my_name*(*)           ! name of subroutine
@@ -3189,14 +3400,12 @@ c       be set to '1' in all layers by default
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_evap_init
 *     ===========================================================
-      use Soilwat2Module
       use EvapModule
 
       Use Infrastructure
@@ -3249,14 +3458,12 @@ c       be set to '1' in all layers by default
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_ritchie_init
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -3313,14 +3520,12 @@ c       be set to '1' in all layers by default
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_bs_a_init
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -3333,8 +3538,6 @@ c       be set to '1' in all layers by default
 *+  Changes
 *       210191 specified and programmed jngh (j hargreaves
 
-*+  Calls
-!      real       bound                 ! function to contain within bounds
 
 *+  Constant Values
       character  my_name*(*)           ! name of subroutine
@@ -3403,14 +3606,12 @@ c       be set to '1' in all layers by default
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_bs_b_init
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -3438,14 +3639,12 @@ c     he should have. Any ideas? Perhaps
                                 ! Nothing
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_bs_acs_init
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -3511,14 +3710,12 @@ c     he should have. Any ideas? Perhaps
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_rickert_init
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -3548,14 +3745,12 @@ c     he should have. Any ideas? Perhaps
       endif
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 * ====================================================================
       subroutine soilwat2_get_other_variables ()
 * ====================================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -3590,12 +3785,10 @@ c     he should have. Any ideas? Perhaps
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 * ====================================================================
       subroutine soilwat2_get_residue_variables ()
 * ====================================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -3634,14 +3827,12 @@ c     he should have. Any ideas? Perhaps
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 * ====================================================================
       subroutine soilwat2_get_crop_variables ()
 * ====================================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -3744,14 +3935,12 @@ cjngh DMS requested that this facility be retained! That's why it was implemente
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 * ====================================================================
       subroutine soilwat2_get_solute_variables ()
 * ====================================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -3772,8 +3961,6 @@ cjngh DMS requested that this facility be retained! That's why it was implemente
 *     170895 nih  added read for solute information
 *                 (removed old code for no3 and nh4)
 *     070696 nih  changed get other for optimal speed
-
-*+  Calls
 
 
 *+  Constant Values
@@ -3842,13 +4029,11 @@ cjngh DMS requested that this facility be retained! That's why it was implemente
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 * ====================================================================
       subroutine soilwat2_get_environ_variables ()
 * ====================================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -3909,13 +4094,11 @@ c  dsg   070302  added runon
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 * ====================================================================
       subroutine soilwat2_zero_default_variables ()
 * ====================================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -3953,15 +4136,13 @@ c  dsg   070302  added runon
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 
 * ====================================================================
       subroutine soilwat2_set_my_variable (variable_name)
 * ====================================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -4289,14 +4470,12 @@ c  dsg   070302  added runon
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 * ====================================================================
       subroutine soilwat2_set_other_variables ()
 * ====================================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -4314,8 +4493,6 @@ c  dsg   070302  added runon
 *      100393 jngh specified and programmed
 *      170895 nih  converted to update any solutes it knows about
 *      070696 nih  changed set calls to post_var constructs
-
-*+  Calls
 
 
 *+  Constant Values
@@ -4358,14 +4535,12 @@ c  dsg   070302  added runon
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 * ====================================================================
       subroutine soilwat2_send_my_variable (variable_name)
 * ====================================================================
-      use Soilwat2Module
       use LateralModule
       Use Infrastructure
       implicit none
@@ -4685,14 +4860,12 @@ c dsg 070302 added runon
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_zero_variables ()
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -4880,12 +5053,10 @@ c         g%crop_module(:) = ' '               ! list of modules
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       subroutine soilwat2_zero_data_links ()
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -4913,12 +5084,10 @@ c         g%crop_module(:) = ' '               ! list of modules
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       subroutine soilwat2_zero_event_data ()
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -4949,13 +5118,11 @@ c         g%crop_module(:) = ' '               ! list of modules
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 *     ===========================================================
       subroutine soilwat2_zero_daily_variables ()
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -5023,8 +5190,7 @@ c         g%crop_module(:) = ' '               ! list of modules
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
@@ -5032,7 +5198,6 @@ c         g%crop_module(:) = ' '               ! list of modules
      :                                , solute_kg
      :                                , solute_min)
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -5121,14 +5286,12 @@ c         g%crop_module(:) = ' '               ! list of modules
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_solute_flow (solute_up, solute_kg, solute_min)
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -5311,14 +5474,12 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 * ====================================================================
        subroutine soilwat2_ONirrigated ()
 * ====================================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -5375,14 +5536,12 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 
       call pop_routine (myname)
       return
-      end
-
+      end subroutine
 
 
 * ====================================================================
       subroutine soilwat2_sum_report ()
 * ====================================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -5677,14 +5836,12 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_init ()
 *     ===========================================================
-      use Soilwat2Module
       use LateralModule
       Use Infrastructure
       implicit none
@@ -5732,14 +5889,12 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 * ====================================================================
        subroutine Soilwat2_runoff_depth_factor (runoff_wf)
 * ====================================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -5822,14 +5977,12 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 
       call pop_routine (myname)
       return
-      end
-
+      end subroutine
 
 
 * ====================================================================
        subroutine soilwat2_irrig_solute ()
 * ====================================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -5870,14 +6023,12 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 
       call pop_routine (myname)
       return
-      end
-
+      end subroutine
 
 
 * ====================================================================
        subroutine soilwat2_move_solute_down ()
 * ====================================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -5946,14 +6097,12 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 
       call pop_routine (myname)
       return
-      end
-
+      end subroutine
 
 
 * ====================================================================
        subroutine soilwat2_move_solute_up ()
 * ====================================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -6022,14 +6171,12 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 
       call pop_routine (myname)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_infiltration ( infiltration )
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -6080,14 +6227,12 @@ c dsg 070302 added runon
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_tillage ()
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -6190,14 +6335,12 @@ c dsg 070302 added runon
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       subroutine soilwat2_tillage_addrain ( rain, runon )
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -6243,13 +6386,11 @@ c dsg 070302 added runon
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 *     ===========================================================
       subroutine soilwat2_on_new_solute ()
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -6326,13 +6467,11 @@ c dsg 070302 added runon
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 *     ===========================================================
       subroutine soilwat2_ONtick ()
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -6363,12 +6502,10 @@ c dsg 070302 added runon
 
       call pop_routine (myname)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       subroutine soilwat2_ONnewmet ()
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 *+  Purpose
@@ -6428,12 +6565,10 @@ cnh      call handler_ONnewmet(g%radn, g%maxt, g%mint, g%rain, temp1)
 
       call pop_routine (myname)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       subroutine soilwat2_New_Profile_Event ()
 *     ===========================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 *+  Purpose
@@ -6501,13 +6636,11 @@ cnh      call handler_ONnewmet(g%radn, g%maxt, g%mint, g%rain, temp1)
 
       call pop_routine (myname)
       return
-      end
-
+      end subroutine
 c
 * ====================================================================
        real function soilwat_water_table ()
 * ====================================================================
-      use Soilwat2Module
       Use Infrastructure
       implicit none
 
@@ -6594,12 +6727,10 @@ c dsg 150302  saturated layer = layer, layer above not over dul
 
       call pop_routine (myname)
       return
-      end
-
+      end function
 * ====================================================================
        subroutine soilwat2_create ()
 * ====================================================================
-      use Soilwat2Module
       use EvapModule
       Use Infrastructure
       implicit none
@@ -6626,5 +6757,6 @@ c dsg 150302  saturated layer = layer, layer above not over dul
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
+      end module Soilwat2Module
 
