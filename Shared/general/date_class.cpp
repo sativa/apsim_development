@@ -690,3 +690,27 @@ int Month_string_2_integer (string& Month_string)
 
    }
 
+// ------------------------------------------------------------------
+//  Short description:
+//      Get a TDateTime from the specified file.
+
+//  Notes:
+
+//  Changes:
+//    DPH 3/2/98
+
+// ------------------------------------------------------------------
+TDateTime Get_file_date_time (const char* File_name)
+   {
+   TDateTime Date_time;
+   int Handle = FileOpen(File_name, fmOpenRead);
+   if (Handle >= 0)
+      {
+      int File_date = FileGetDate(Handle);
+
+      Date_time = TDateTime::FileDateToDateTime(File_date);
+      FileClose(Handle);
+      }
+   return Date_time;
+   }
+
