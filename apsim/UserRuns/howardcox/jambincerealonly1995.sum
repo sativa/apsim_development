@@ -62,7 +62,7 @@
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\progra~1\apsim31\apsim\met\sample\emerald.met
+     INPUT File name: c:\program files\apsim32\apsim\met\sample\emerald.met
 
 ------- accum Initialisation --------------------------------------------------
      Initialising
@@ -550,7 +550,7 @@
      endif
      if (crop_current = sorghum) then
         sor_yield = sorghum.yield
-        sor_ep = sorghum.ep
+        sor_ep = sorghum.ep()
         sor_fert = fert_tot
         sor_density = 7.5
         plant_density = 7.5

@@ -413,7 +413,7 @@ endif
 
 if (crop_current = sorghum) then
    sor_yield = sorghum.yield
-   sor_ep = sorghum.ep
+   sor_ep = sorghum.ep()
    sor_fert = fert_tot
    sor_density = 7.5
    plant_density = 7.5
