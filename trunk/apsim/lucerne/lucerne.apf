@@ -1,0 +1,19 @@
+[general]
+name = lucerne
+
+[Binaries]
+binary=lucerne
+
+[lucerne]
+compiler_switches = %apsuite\apsim\infra\lf90.fig
+
+library = %apsuite\apsim\legume\lib\legume.lib
+source  = source\lucerne.for
+
+target  = lib\lucerne.dll
+
+include = %apsuite\apsim\infra\
+include = %apsuite\apsim\legume\source\
+
+import  = %apsuite\apsim\infra\lib\apsinfra.imp
+import  = %apsuite\apsim\croptemp\lib\croptemp.imp

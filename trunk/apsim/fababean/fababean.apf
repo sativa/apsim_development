@@ -1,0 +1,19 @@
+[general]
+name = fababean
+
+[Binaries]
+binary=fababean
+
+[fababean]
+compiler_switches = %apsuite\apsim\infra\lf90.fig
+
+library = %apsuite\apsim\legume\lib\legume.lib
+source  = source\fababean.for
+
+target  = lib\fababean.dll
+
+include = %apsuite\apsim\infra\
+include = %apsuite\apsim\legume\source\
+
+import  = %apsuite\apsim\infra\lib\apsinfra.imp
+import  = %apsuite\apsim\croptemp\lib\croptemp.imp
