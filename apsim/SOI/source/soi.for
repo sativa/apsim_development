@@ -25,8 +25,8 @@
       type SOIGlobals
          sequence
          integer   LU_SOI                        ! Unit number for SOI file
-         integer   SOI_phase
-         integer   SOI_array(SOI_min:SOI_max,12) ! SOI phases array
+         real   SOI_phase
+         real   SOI_array(SOI_min:SOI_max,12) ! SOI phases array
          double precision SOI_jday               ! System jday
       end type SOIGlobals
 
@@ -115,11 +115,11 @@
 
       do x = SOI_min, SOI_max
         do y = 1, 12
-            g%SOI_array(x,y) = 0
+            g%SOI_array(x,y) = 0.0
         enddo
       enddo
 
-      g%SOI_phase = 0
+      g%SOI_phase = 0.0
       g%LU_SOI = 0
 
 
@@ -147,10 +147,11 @@
       parameter (this_routine='SOI_read_phases')
 
 *+  Local Variables
-      integer Year,Month,Phase         ! Values found on line.
+      integer Year,Month               ! Values found on line.
       character st*(100)               ! Line read from climate file
       logical ok                       ! all ok?
       integer numvals
+      real Phase
 
 *- Implementation Section ----------------------------------
 
@@ -169,21 +170,9 @@
          ok = ApsimDataFile_getFieldValue (g%LU_SOI, 2, St)
       endif
       if (ok) then
-         call String_to_integer_var(St, Phase, numvals)
+         call String_to_real_var(St, Phase, numvals)
       endif
       if (ok) then
-         ! check if input values are ok
-
-         call bound_check_integer_var(Year,
-     .                                SOI_min,
-     .                                SOI_max,
-     .                                'SOI_inp_year')
-
-         call bound_check_integer_var(Month,
-     .                                1,
-     .                                12,
-     .                                'SOI_inp_month')
-
          g%SOI_array(Year, Month) = Phase
          if (ApsimDataFile_Next(g%LU_SOI).eq.0) then
             goto 10
@@ -222,7 +211,7 @@
       if (variable_name(1:4) .eq. 'soi[') then
          call SOI_get_phase (variable_name)
 
-         call respond2get_integer_var(variable_name, ! external name
+         call respond2get_real_var(variable_name, ! external name
      .                             '()',       ! units of var.
      .                             g%SOI_phase)     ! internal var. name
 
@@ -469,10 +458,10 @@
       Use infrastructure
       implicit none
       ml_external respondToEvent
-      
+
       integer, intent(in) :: fromID
       integer, intent(in) :: eventID
       integer, intent(in) :: variant
-      
+
       return
       end subroutine respondToEvent
