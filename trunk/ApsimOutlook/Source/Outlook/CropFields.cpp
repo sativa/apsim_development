@@ -25,11 +25,11 @@ CropFields::CropFields(const TAPSRecord* record)
    for (vector<string>::iterator i = recogCropAcronyms.begin();
                                  i != recogCropAcronyms.end();
                                  i++)
-      Strip(*i, " ");
+      stripLeadingTrailing(*i, " ");
    for (vector<string>::iterator i = recogCropNames.begin();
                                  i != recogCropNames.end();
                                  i++)
-      Strip(*i, " ");
+      stripLeadingTrailing(*i, " ");
 
    // get a list of field names
    if (record != NULL)
@@ -50,7 +50,7 @@ CropFields::CropFields(const TAPSRecord* record)
          else
             {
             string fieldNameMinusUnits = i->substr(0, posUnits);
-            Strip(fieldNameMinusUnits, " ");
+            stripLeadingTrailing(fieldNameMinusUnits, " ");
             fieldNamesMinusUnits.push_back(fieldNameMinusUnits);
             }
          }
@@ -212,8 +212,8 @@ bool CropFields::cropHasNonZeroValue(const TAPSRecord& recordI,
          if (fieldI->find(acronym_) == 0)
             {
             string Value = recordI.getFieldValue(*fieldI);
-            if (Is_numerical(Value.c_str()))
-               return (StrToFloat(Value.c_str()) != 0.0);
+            if (Is_numerical(Value.c_str()) && StrToFloat(Value.c_str()) != 0.0)
+               return true;
             }
          }
       }
