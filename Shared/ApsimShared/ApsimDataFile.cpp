@@ -274,6 +274,7 @@ gregorian::date ApsimDataFile::getDate(void) const
          int dom    = lexical_cast<int>(domI->values[0]);
          return date(year, month, dom);
          }
+      return date(pos_infin);
       }
    }
 //---------------------------------------------------------------------------
