@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include "Plantlibrary.h"
+#include "PlantInterface.h"
 
 
 //===========================================================================
@@ -392,7 +393,7 @@ void crop_oxdef_photo1(int   C_num_oxdef_photo,    //  (INPUT)
    float wet_root_fr;
    float wfps;
    float tot_root_fr;
-   float *root_fr = new float[crop_max_layer];
+   float *root_fr = new float[max_layer];
 
    // Implementation Section ----------------------------------
    crop_root_dist(G_dlayer, G_root_length, G_root_depth, root_fr, 1.0,  max_layer);

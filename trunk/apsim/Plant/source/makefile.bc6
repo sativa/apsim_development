@@ -64,7 +64,7 @@ PlantComms.obj: PlantComms.cpp PlantLibrary.h
 PlantFail.obj: PlantFail.cpp PlantLibrary.h
 PlantLibrary.obj: PlantLibrary.cpp PlantLibrary.h
 PlantNitrogen.obj: PlantNitrogen.cpp PlantLibrary.h
-PlantPhenology.obj: PlantPhenology.cpp PlantLibrary.h
+PlantPhenology.obj: PlantPhenology.cpp PlantPhenology.h
 PlantRoot.obj: PlantRoot.cpp PlantLibrary.h
 PlantTemp.obj: PlantTemp.cpp PlantLibrary.h
 PlantUtility.obj: PlantUtility.cpp PlantLibrary.h

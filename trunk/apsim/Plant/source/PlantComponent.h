@@ -5,6 +5,7 @@
 // turn of the warnings about "Functions containing for are not expanded inline.
 #pragma warn -inl
 #include <boost/function.hpp>
+#include <ComponentInterface/Component.h>
 #include "PlantInterface.h"
 
 class Plant;

@@ -503,24 +503,6 @@ void cproc_leaf_no_init1 (float c_leaf_no_at_emerg,       //(INPUT)  leaf number
 
    }
 
-//===========================================================================
-void cproc_leaf_no_pot1 (float *c_x_node_no_app,            // (INPUT)                                        
-                         float *c_y_node_app_rate,          // (INPUT)                                        
-                         int    c_num_node_no_app,            //  (INPUT)                                       
-                         float *c_x_node_no_leaf,           //  (INPUT)                                       
-                         float *c_y_leaves_per_node,        //  (INPUT)                                    
-                         int    c_num_node_no_leaf,           // (INPUT)                                        
-                         float  g_current_stage,            // (INPUT)  current phenological stage            
-                         int    start_node_app,             // (INPUT)  stage of start of leaf appeara        
-                         int    end_node_app,               // (INPUT)  stage of end of leaf appearanc        
-                         int    emerg,                      // (INPUT)  emergence stage                       
-                         float *g_days_tot,                 // (INPUT)  duration of each phase (days)         
-                         float  g_dlt_tt,                   // (INPUT)  daily thermal time (growing de        
-                         float *g_node_no,                  // (INPUT)  number of fully expanded nodes        
-                         float *dlt_leaf_no_pot,            // (OUTPUT) new fraction of oldest expanding leaf 
-                         float *dlt_node_no_pot)            // (OUTPUT) new fraction of oldest expanding node on main stem               
-//===========================================================================
-
 /*Purpose
  *   Return the fractional increase in emergence of the oldest
  *   expanding leaf and nodes.  Nodes can initiate from a user-defined
@@ -529,37 +511,39 @@ void cproc_leaf_no_pot1 (float *c_x_node_no_app,            // (INPUT)
  *   Note ! this does not take account of the other younger leaves
  *   that are currently expanding
  */
-
+void cproc_leaf_no_pot1 (float *c_x_node_no_app,            // (INPUT)                                        
+                         float *c_y_node_app_rate,          // (INPUT)                                        
+                         int    c_num_node_no_app,          //  (INPUT)                                       
+                         float *c_x_node_no_leaf,           //  (INPUT)                                       
+                         float *c_y_leaves_per_node,        //  (INPUT)                                    
+                         int    c_num_node_no_leaf,         // (INPUT)                                        
+                         bool   inNodeFormationPhase,
+                         bool   inEmergenceDay,
+                         float  node_no_now,                // (INPUT) current number of nodes
+                         float  g_dlt_tt,                   // (input) 
+                         float *dlt_leaf_no_pot,            // (OUTPUT) new fraction of oldest expanding leaf 
+                         float *dlt_node_no_pot)            // (OUTPUT) new fraction of oldest expanding node on main stem               
    {
-   //Local Variables
-   float node_no_now;           // number of fully expanded nodes
-   float leaves_per_node;
-   float node_app_rate;
-
-   //Implementation Section ----------------------------------
-
-   node_no_now = sum_between (start_node_app-1, end_node_app-1, g_node_no);
-
-   node_app_rate = linear_interp_real(node_no_now, c_x_node_no_app,
-                                      c_y_node_app_rate, c_num_node_no_app);
-
-   leaves_per_node = linear_interp_real(node_no_now, c_x_node_no_leaf,
-                                        c_y_leaves_per_node, c_num_node_no_leaf);
-
-   if (stage_is_between (start_node_app, end_node_app, g_current_stage))
+   if (inNodeFormationPhase)
       {
+      float node_app_rate = linear_interp_real(node_no_now, c_x_node_no_app,
+                                               c_y_node_app_rate, c_num_node_no_app);
       *dlt_node_no_pot = divide (g_dlt_tt, node_app_rate, 0.0);
       }
    else
       {
       *dlt_node_no_pot = 0.0;
       }
-   if (on_day_of (emerg, g_current_stage))
-      {      //no leaf growth on first day because initialised elsewhere ???
+
+   if (inEmergenceDay)
+      {
+      //no leaf growth on first day because initialised elsewhere ???
       *dlt_leaf_no_pot = 0.0;
       }
-   else if (stage_is_between (emerg, end_node_app, g_current_stage))
+   else if (inNodeFormationPhase)
       {
+      float leaves_per_node = linear_interp_real(node_no_now, c_x_node_no_leaf,
+                                                 c_y_leaves_per_node, c_num_node_no_leaf);
       *dlt_leaf_no_pot = *dlt_node_no_pot * leaves_per_node;
       }
    else
@@ -572,10 +556,8 @@ void cproc_leaf_no_pot1 (float *c_x_node_no_app,            // (INPUT)
 void cproc_leaf_area_pot1 (float *c_x_node_no,                  //(INPUT)  node number for lookup               
                            float *c_y_leaf_size,                //(INPUT)  leaf size for lookup                 
                            int    c_num_node_no,                //(INPUT)  lookup table size                    
-                           float *g_node_no,                    //(INPUT)  node number                          
+                           float  g_node_no,                    //(INPUT)  node number                          
                            float  c_node_no_correction,         //(INPUT)  corrects for other growing lea       
-                           int    start_node_app,               //(INPUT)  stage of start of leaf init          
-                           int    now,                          //(INPUT)  current stage                        
                            float  g_dlt_leaf_no_pot,            //(INPUT)  potential fraction of oldest l       
                            float  g_plants,                     //(INPUT)  Plant density (plants/m^2)           
                            float *dlt_lai_pot)                  //(OUTPUT) change in leaf area                  
@@ -592,8 +574,7 @@ void cproc_leaf_area_pot1 (float *c_x_node_no,                  //(INPUT)  node 
    float node_no_now;
    float leaf_size;
 
-   node_no_now = sum_between(start_node_app-1, now-1, g_node_no)
-                    + c_node_no_correction;
+   node_no_now = g_node_no + c_node_no_correction;
 
    leaf_size = linear_interp_real (node_no_now, c_x_node_no,
                                    c_y_leaf_size, c_num_node_no);
@@ -1144,69 +1125,6 @@ void legnew_cover_leaf_pod (
     }
 
 
-//+  Purpose
-//       Potential biomass (carbohydrate) production from
-//       photosynthesis (g/m^2).  The effect of factors such
-//       temperature and nutritional status of the plant are
-//       taken into account in the radiation use efficiency.
-
-//+  Mission Statement
-//     Get the potential biomass production - limited by stress factors
-
-//+  Changes
-//       181197 nih specified and programmed
-void legnew_dm_pot_rue (
-     float  current_stage
-    ,int    max_stage
-    ,float  *g_tt_tot
-    ,float  *c_x_stage_rue
-    ,float  *g_phase_tt
-    ,float  *c_y_rue
-    ,float  rue_pod
-    ,float  cover_green
-    ,float  cover_pod
-    ,double  radn_int
-    ,double  stress_factor
-    ,float g_co2, float g_maxt, float g_mint
-    ,photosynthetic_pathway_t c_photosynthetic_pathway
-    ,float  *dlt_dm_pot                    // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
-    ) {
-    //+  Local Variables
-    double podfr;                                  // fraction of intercepted light intercepted by pods
-    double rue_leaf;
-    int   numvals;
-    float co2_modifier = 0.0;
-
-    // Assume pods are above the rest of the canopy
-    podfr = bound(divide(cover_pod,cover_green,0.0), 0.0, 1.0);
-
-    if (cover_green<cover_pod)
-        {
-        throw std::runtime_error("error in pod light interception : legnew_dm_pot_rue()");
-        }
-    else
-        {
-        numvals = 1+count_of_real_vals (c_x_stage_rue, max_stage);
-        rue_leaf = linear_interp_real (current_stage
-                                       , c_x_stage_rue
-                                       , c_y_rue
-                                       , numvals);
-
-        cproc_rue_co2_modifier(c_photosynthetic_pathway,
-                               g_co2,
-                               g_maxt,
-                               g_mint,
-                               &co2_modifier);
-
-        *dlt_dm_pot = (radn_int * podfr * rue_pod +
-                       radn_int * (1.0 - podfr) * rue_leaf) *
-                       stress_factor * co2_modifier;
-        // crue
-        //fprintf(stdout, "%d %f %f %f\n",
-        //        g.day_of_year, rue_leaf, radn_int, stress_factor);
-        }
-    }
-
 
 //+  Purpose
 //       Derives number of nodes to result in given cumulative area
@@ -1381,46 +1299,37 @@ void plant_canopy_width
 
 //+  Changes
 //       270598 nih specified and programmed
-void cproc_leaf_no_pot3
-    (
+void cproc_leaf_no_pot3(
      float  *c_x_node_no_app                  //(INPUT)
     ,float  *c_y_node_app_rate                //(INPUT)
     ,int    c_num_node_no_app                 // (INPUT)
     ,float  *c_x_node_no_leaf                 // (INPUT)
     ,float  *c_y_leaves_per_node              // (INPUT)
     ,int    c_num_node_no_leaf                // (INPUT)
-    ,float  g_current_stage                   // (INPUT)  current phenological stage
-    ,int    start_node_app                    // (INPUT)  stage of start of leaf appeara
-    ,int    end_node_app                      // (INPUT)  stage of end of leaf appearanc
-    ,int    emerg                             // (INPUT)  emergence stage
+    ,bool   inNodeFormationPhase
+    ,bool   inEmergenceDay
+    ,float  node_no_now                 // (INPUT) current number of nodes
     ,float  g_dlt_tt                          // (INPUT)  daily thermal time (growing de
-    ,float  *g_node_no                        // (INPUT)  number of fully expanded nodes
     ,float  g_nfact_expansion
     ,float  g_swdef_expansion
     ,float  *g_leaves_per_node                 // OUTPUT
     ,float  *dlt_leaf_no_pot                   // (OUTPUT) new fraction of oldest expanding leaf
     ,float  *dlt_node_no_pot                   // (OUTPUT) new fraction of oldest expanding node on main stem
     ) {
-
 //+  Local Variables
-    float node_no_now;                            // number of fully expanded nodes
     float dlt_leaves_per_node;
     float node_app_rate;
     float leaves_per_node_now;
 
 //- Implementation Section ----------------------------------
 
-    node_no_now = sum_between (start_node_app-1
-                              ,end_node_app-1
-                              ,g_node_no);
 
-    node_app_rate = linear_interp_real(node_no_now
-                                       ,c_x_node_no_app
-                                       ,c_y_node_app_rate
-                                       ,c_num_node_no_app);
-
-    if (stage_is_between (start_node_app, end_node_app, g_current_stage))
+    if (inNodeFormationPhase)
         {
+        node_app_rate = linear_interp_real(node_no_now
+                                          ,c_x_node_no_app
+                                          ,c_y_node_app_rate
+                                          ,c_num_node_no_app);
         *dlt_node_no_pot = divide (g_dlt_tt, node_app_rate, 0.0);
         }
     else
@@ -1428,17 +1337,17 @@ void cproc_leaf_no_pot3
         *dlt_node_no_pot = 0.0;
         }
 
-    if (on_day_of (emerg, g_current_stage))
+    if (inEmergenceDay)
         {
         // no leaf growth on first day because initialised elsewhere ???
         *dlt_leaf_no_pot = 0.0;
 
         *g_leaves_per_node = linear_interp_real(node_no_now
-                                              ,c_x_node_no_leaf
-                                              ,c_y_leaves_per_node
-                                              ,c_num_node_no_leaf);
+                                                ,c_x_node_no_leaf
+                                                ,c_y_leaves_per_node
+                                                ,c_num_node_no_leaf);
         }
-    else if (stage_is_between (emerg, end_node_app,g_current_stage))
+    else if (inNodeFormationPhase)
         {
         // NIH - bit scary using dlt_node_no_POT
         // so make sure that we don't get ahead of ourselves
@@ -1449,7 +1358,7 @@ void cproc_leaf_no_pot3
                                                  ,c_y_leaves_per_node
                                                  ,c_num_node_no_leaf);
 
-        *g_leaves_per_node = min(*g_leaves_per_node,leaves_per_node_now);
+        *g_leaves_per_node = min(*g_leaves_per_node, leaves_per_node_now);
 
         dlt_leaves_per_node = linear_interp_real( node_no_now+(*dlt_node_no_pot)
                                                 ,c_x_node_no_leaf
@@ -1478,10 +1387,7 @@ void cproc_leaf_no_pot3
 //+  Changes
 //     200498 nih specified and programmed
 void legopt_leaf_area_sen1
-    (
-     int    emergence                        // (INPUT) emergence stage no.
-    ,int    this_stage                       // (INPUT) This current stage
-    ,float  g_dlt_lai_stressed               // (INPUT)  potential change in live
+    (float  g_dlt_lai_stressed               // (INPUT)  potential change in live
     ,float  g_dlt_leaf_no                    // (INPUT)  actual fraction of oldest leaf
     ,float  g_dlt_leaf_no_dead               // (INPUT)  fraction of oldest green leaf
     ,float  g_lai                            // (INPUT)  live plant green lai
@@ -1508,9 +1414,7 @@ void legopt_leaf_area_sen1
     ) {
 
     //- Implementation Section ----------------------------------
-    legopt_leaf_area_sen_age1(emergence
-                              , this_stage
-                              , g_leaf_no
+    *g_dlt_slai_age = legopt_leaf_area_sen_age1( g_leaf_no
                               , g_leaf_no_dead
                               , g_dlt_leaf_no_dead
                               , max_node
@@ -1518,8 +1422,7 @@ void legopt_leaf_area_sen1
                               , g_slai
                               , c_min_tpla
                               , g_leaf_area
-                              , g_plants
-                              , g_dlt_slai_age );
+                              , g_plants);
 
     crop_leaf_area_sen_light1(c_lai_sen_light
                               , c_sen_light_slope
@@ -1559,32 +1462,21 @@ void legopt_leaf_area_sen1
 
 //+  Changes
 //     210498 nih specified and programmed
-void legopt_leaf_area_init1
-    (
-     float  c_initial_tpla              // (INPUT)  initial plant leaf area (mm^2)
-    ,float  c_leaf_no_at_emerg          //
-    ,int    init_stage                  // (INPUT)  initialisation stage
-    ,float  g_current_stage             // (INPUT)  current phenological stage
-    ,float  *g_days_tot                 // (INPUT)  duration of each phase (days)
-    ,float  g_plants                    // (INPUT)  Plant density (plants/m^2)
-    ,float  *lai                        // (OUTPUT) total plant leaf area
-    ,float  *leaf_area                  // (OUTPUT)
-    ) {
+void legopt_leaf_area_init1(float  c_initial_tpla              // (INPUT)  initial plant leaf area (mm^2)
+                           ,float  c_leaf_no_at_emerg          //
+                           ,float  g_plants                    // (INPUT)  Plant density (plants/m^2)
+                           ,float  *lai                        // (OUTPUT) total plant leaf area
+                           ,float  *leaf_area)                  // (OUTPUT)
+    {
 
-    if (on_day_of (init_stage, g_current_stage))
-        {
-        *lai = c_initial_tpla * smm2sm * g_plants;
+    *lai = c_initial_tpla * smm2sm * g_plants;
 
-        fill_real_array (leaf_area,
-                         divide(c_initial_tpla,c_leaf_no_at_emerg,0.0),
-                         (int)c_leaf_no_at_emerg);
-        leaf_area[(int)c_leaf_no_at_emerg] =                      //ok
-        divide(fmod(c_leaf_no_at_emerg, 1.0) * c_initial_tpla
-               ,c_leaf_no_at_emerg, 0.0);
-        }
-    else
-        {
-        }
+    fill_real_array (leaf_area,
+                     divide(c_initial_tpla,c_leaf_no_at_emerg,0.0),
+                     (int)c_leaf_no_at_emerg);
+    leaf_area[(int)c_leaf_no_at_emerg] =                      //ok
+          divide(fmod(c_leaf_no_at_emerg, 1.0) * c_initial_tpla
+                 ,c_leaf_no_at_emerg, 0.0);
 
     }
 
@@ -1604,42 +1496,22 @@ void legopt_leaf_area_init1
 void legopt_leaf_no_init1
     (
      float  c_leaf_no_at_emerg          // (INPUT)  leaf number at emergence ()
-    ,float  g_current_stage             // (INPUT)  current phenological stage
-    ,int    emerg                       // (INPUT)  emergence stage no
-    ,float  *g_days_tot                 // (INPUT)  duration of each phase (days)
     ,float  *leaf_no                    // (OUTPUT) initial leaf number
-    ,float  *node_no                    // (OUTPUT) initial node number
-    ) {
-
-//+  Constant Values
-//- Implementation Section ----------------------------------
-
-
-    if (on_day_of (emerg, g_current_stage))
-        {
-        // initialise first leaves
-        node_no[emerg-1] = c_leaf_no_at_emerg;
-        fill_real_array (leaf_no, 1.0, int(c_leaf_no_at_emerg));
-        leaf_no[(int)c_leaf_no_at_emerg]= fmod(c_leaf_no_at_emerg,1.0);
-        }
-    else
-        {
-        // no inital leaf no
-        }
-
-    }
+    ,float  *node_no)                    // (OUTPUT) initial node number
+   {
+   *node_no = c_leaf_no_at_emerg;
+   fill_real_array (leaf_no, 1.0, int(c_leaf_no_at_emerg));
+   leaf_no[(int)c_leaf_no_at_emerg]= fmod(c_leaf_no_at_emerg,1.0);
+   }
 
 
 
 //---------------------------------------------------------------------------
-// Return the lai that would senesce on the
-// current day due to ageing
+// Calculate the leaf senescence
+// due to normal phenological (phasic, age) development
 //---------------------------------------------------------------------------
-void legopt_leaf_area_sen_age1
-    (
-     int    emergence                           // (INPUT) emergence stage no.
-    ,int    this_stage                          // (INPUT) This current stage
-    ,float  *g_leaf_no
+float legopt_leaf_area_sen_age1
+    (float  *g_leaf_no
     ,float  *g_leaf_no_dead                     // (INPUT)  no of dead leaves ()
     ,float  g_dlt_leaf_no_dead                  // (INPUT)  fraction of oldest green leaf
     ,int    max_node
@@ -1647,11 +1519,9 @@ void legopt_leaf_area_sen_age1
     ,float  g_slai                              // (INPUT)  area of leaf that senesces fro
     ,float  c_min_tpla                          // (INPUT)
     ,float  *g_leaf_area                        // (INPUT)  leaf area of each leaf (mm^2)
-    ,float  g_plants                            // (INPUT)  Plant density (plants/m^2)
-    ,float  *dlt_slai_age                        // (OUTPUT) new senesced lai from phasic devel.
-    )
+    ,float  g_plants)                            // (INPUT)  Plant density (plants/m^2)
     {
-
+    float dlt_slai_age = 0.0;                     // return value
     float area_sen_dying_node;                    // senesced leaf area from current node dying (mm^2)
     int   dying_node;                             // current node number dying ()
     float leaf_no_dead;                           // today's number of dead leaves ()
@@ -1659,15 +1529,12 @@ void legopt_leaf_area_sen_age1
     float min_lai;                                // min allowable LAI
     float max_sen;
 
-// now calculate the leaf senescence
-// due to normal phenological (phasic) development
 
-// get highest leaf no. senescing today
-
+    // get highest leaf no. senescing today
     leaf_no_dead = sum_real_array (g_leaf_no_dead, max_node) + g_dlt_leaf_no_dead;
     dying_node = get_cumulative_index_real (leaf_no_dead, g_leaf_no, max_node);
 
-// get area senesced from highest leaf no.
+    // get area senesced from highest leaf no.
     if (dying_node >= 0)
         {
         area_sen_dying_node = divide ( leaf_no_dead - sum_real_array(g_leaf_no, dying_node)
@@ -1680,15 +1547,9 @@ void legopt_leaf_area_sen_age1
 
         min_lai = c_min_tpla * g_plants * smm2sm;
         max_sen = l_bound (g_lai - min_lai, 0.0);
-        *dlt_slai_age = bound (slai_age - g_slai, 0.0, max_sen);
+        dlt_slai_age = bound (slai_age - g_slai, 0.0, max_sen);
         }
-    else
-        {
-        *dlt_slai_age = 0.0;
-        }
-//    fprintf(stdout, "%d,%.9f,%.9f,%.9f,%.9f\n",
-//                g.day_of_year, slai_age, area_sen_dying_node, (float) dying_node, leaf_no_dead);
-
+    return dlt_slai_age;
     }
 
 

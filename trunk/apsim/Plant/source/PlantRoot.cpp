@@ -3,7 +3,9 @@
 #include <vector>
 #include <string>
 #include <stdexcept>
-#include "Plantlibrary.h"
+#include "PlantComponent.h"
+#include "PlantLibrary.h"
+#include "Plant.h"
 
 #define dim(A,B) (min(0,(A)-(B)))
 
@@ -177,10 +179,10 @@ void crop_root_sw_avail_factor(int  num_sw_ratio,                 // (INPUT)
    // Implementation Section ----------------------------------
 
    //Total soil layers
-   deepest_layer = count_of_real_vals (dlayer, crop_max_layer);
+   deepest_layer = count_of_real_vals (dlayer, max_layer);
 
    //the layer with root front
-   layer = find_layer_no (root_depth, dlayer, crop_max_layer);
+   layer = find_layer_no (root_depth, dlayer, max_layer);
 
    cum_depth = sum_real_array (dlayer, layer+1);
 
@@ -236,7 +238,7 @@ void crop_root_depth_increase2(float current_stage,             //(INPUT)  curre
    int current_layer;            //layer of root front
    int deepest_layer;            //deepest layer for rooting
 
-   current_layer = find_layer_no(root_depth,dlayer, crop_max_layer);
+   current_layer = find_layer_no(root_depth,dlayer, max_layer);
 
    stage_no = int (current_stage);   //used as index
 
@@ -251,7 +253,7 @@ void crop_root_depth_increase2(float current_stage,             //(INPUT)  curre
 
    // constrain it by the maximum
    // depth that roots are allowed to grow.
-   deepest_layer = count_of_real_vals (p_xf, crop_max_layer);
+   deepest_layer = count_of_real_vals (p_xf, max_layer);
 
    root_depth_max = sum_real_array (dlayer, deepest_layer+1);
 
@@ -388,10 +390,7 @@ float crop_sw_avail_fac(int   num_sw_ratio,             //(INPUT)
    }
 
 //===========================================================================
-void cproc_root_length_init1 (int    stage_to_init,
-                              float g_current_stage,
-                              float *g_days_tot, 
-                              float root_wt,
+void cproc_root_length_init1 (float root_wt,
                               float c_specific_root_length, 
                               float g_root_depth, 
                               float *g_dlayer,
@@ -417,9 +416,7 @@ void cproc_root_length_init1 (int    stage_to_init,
    float rld;                       // initial root length density (mm/mm^3)
    int deepest_layer;             // number of layers with roots
    int layer;                       // simple layer counter variable
-   //- Implementation Section ----------------------------------
-   if (on_day_of (stage_to_init, g_current_stage))
-      {
+
       initial_root_length = root_wt / sm2smm * c_specific_root_length;
       rld = divide (initial_root_length, g_root_depth, 0.0);
       deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer);
@@ -432,7 +429,7 @@ void cproc_root_length_init1 (int    stage_to_init,
                   root_proportion (layer, g_dlayer, g_root_depth);
          }
       }
-   }
+   
 
 
 //========================================================================
@@ -655,15 +652,9 @@ void cproc_root_length_growth_new (
     float *root_length_new;
 
 //- Implementation Section ----------------------------------
-    rlv_factor = new float [crop_max_layer];
+    rlv_factor = new float [max_layer];
     root_length_new = new float [max_layer];
 
-    if (max_layer > crop_max_layer)
-        {
-        throw std::invalid_argument("too many layers for crop routines");
-        }
-    else
-        {
         fill_real_array (g_dlt_root_length, 0.0, max_layer);
         fill_real_array (root_length_new, 0.0, max_layer);
 
@@ -729,7 +720,6 @@ void cproc_root_length_growth_new (
                    ,0.0);
 
             }
-        }
     delete [] rlv_factor;
     delete [] root_length_new;
     }
@@ -764,7 +754,7 @@ void legopt_root_depth_increase
 
 //- Implementation Section ----------------------------------
 
-    current_layer = find_layer_no(g_root_depth, g_dlayer, crop_max_layer);
+    current_layer = find_layer_no(g_root_depth, g_dlayer, max_layer);
     current_phase = (int) g_current_stage;
 
 // this equation allows soil water in the deepest
@@ -779,7 +769,7 @@ void legopt_root_depth_increase
 // constrain it by the maximum
 // depth that roots are allowed to grow.
 
-    deepest_layer = count_of_real_vals (p_xf, crop_max_layer);
+    deepest_layer = count_of_real_vals (p_xf, max_layer);
     root_depth_max = sum_real_array (g_dlayer, deepest_layer+1);
     *dlt_root_depth = u_bound (*dlt_root_depth, root_depth_max - g_root_depth);
     }
@@ -820,7 +810,7 @@ void legopt_root_depth1
 
     //- Implementation Section ----------------------------------
 
-    deepest_layer = find_layer_no (g_root_depth, g_dlayer, crop_max_layer);
+    deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer);
 
     sw_avail_fac_deepest_layer = crop_sw_avail_fac ( c_num_sw_ratio
                                                    ,c_x_sw_ratio

@@ -755,60 +755,6 @@ void crop_dm_pot_rue_co2 (float current_stage,
    *dlt_dm_pot = usrue * radn_int;
    }
 
-//==========================================================================
-void cproc_rue_co2_modifier(photosynthetic_pathway_t croptype, // Photosynthetic pathway
-                            float co2,                 //!CO2 level (ppm)
-                            float maxt,                //!daily max temp (C)
-                            float mint,                //!daily min temp (C)
-                            float *modifier)           //!modifier (-)
-//==========================================================================
-/*  Purpose
-*     Calculation of the CO2 modification on rue
-*
-*     References
-*     Reyenga, Howden, Meinke, Mckeon (1999), Modelling global change impact on wheat cropping in
-*              south-east Queensland, Australia. Enivironmental Modelling & Software 14:297-306
-*
-*
-*  Purpose
-*     Calculation of the CO2 modification on rue
-*
-*  Changes
-*     20000717   ew programmed
-*/
-   {
-   //  Local Variables
-      float temp;  //daily average temperature (C)
-      float TT;    //co2 compensation point (ppm)
-      float first;            // Temp vars for passing composite arg to a func
-      float second;           // expecting a pointer
-
-   // Implementation Section ----------------------------------
-
-   switch (croptype)
-      {
-      pw_C3:
-        {
-        temp = 0.5*( maxt + mint);
-        TT  = divide(163.0 - temp, 5.0 - 0.1 * temp, 0.0);
-
-        first = (co2 - TT) * (350.0 + 2.0 * TT);
-        second = (co2 + 2.0 * TT)*(350.0 - TT);
-        *modifier = divide( first, second, 1.0);
-        break;
-        }
-      pw_C4:
-        {
-        *modifier = 0.000143 * co2 + 0.95; //Mark Howden, personal communication
-        break;
-        }
-      default:
-        {
-        throw std::invalid_argument ("Unknown photosynthetic pathway in cproc_rue_co2_modifier()");
-        }
-      }
-   }
-
 //  Purpose
 //      Derives seneseced plant dry matter (g/m^2) for the day
 //
@@ -845,10 +791,7 @@ void plant_dm_senescence (int num_part               // (INPUT) number of plant 
 
 //+  Changes
 void legnew_bio_yieldpart_demand2(
-     float g_current_stage
-    ,int   start_grain_fill
-    ,int   end_grain_fill
-    ,float g_grain_no
+    float g_grain_no
     ,float p_potential_grain_filling_rate
     ,float g_maxt
     ,float g_mint
@@ -860,9 +803,6 @@ void legnew_bio_yieldpart_demand2(
     //+  Local Variables
     float tav;
 
-    //- Implementation Section ----------------------------------
-    if (stage_is_between(start_grain_fill, end_grain_fill, g_current_stage))
-        {
         // we are in grain filling stage
         tav = (g_maxt+g_mint)/2.0;
 
@@ -873,46 +813,6 @@ void legnew_bio_yieldpart_demand2(
                                          ,c_y_rel_grainfill
                                          ,c_num_temp_grainfill);
 
-        }
-    else
-        {
-        // no changes
-        *g_dlt_dm_grain_demand = 0.0;
-        }
-    }
 
-//+  Purpose
-//       Perform grain number calculations
-
-//+  Changes
-void crop_grain_number (
-     float g_current_stage
-    ,float *g_days_tot
-    ,int   emerg
-    ,int   flowering
-    ,float *dm_green
-    ,int   stem
-    ,float p_grains_per_gram_stem
-    ,float *g_grain_no    // OUTPUT
-    ) {
-
-//+  Local Variables
-
-//- Implementation Section ----------------------------------
-
-    if (on_day_of (emerg, g_current_stage))
-        {
-        // seedling has just emerged.
-        *g_grain_no = 0.0;
-        }
-    else if (on_day_of (flowering, g_current_stage))
-        {
-        // we are at first day of grainfill.
-        *g_grain_no = p_grains_per_gram_stem * dm_green[stem];
-        }
-    else
-        {
-        // no changes
-        }
     }
 
