@@ -14,7 +14,7 @@ PROJECTS =  GrossMarginCalculator.dll SEGReport.dll Soil.dll APSGeneral.bpl apsd
   ApsimOutlook.exe dbaddin.dll FilterAddIn.dll RotationAddIn.dll soiaddin.dll \
   WhopEconAddin.dll OutlookManager.exe apsoil.exe icons.dll Misc.dll \
   SoilWater.dll TemplatePacks.dll apsvis.exe FileGeneratorFromExcel.exe \
-  Rainfall.dll
+  Rainfall.dll viewer.exe
 
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
@@ -189,5 +189,9 @@ Plant.dll: apsim\Plant\source\Plant.bpr
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
 Rainfall.dll: Howwet\source\Rainfall\Rainfall.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+viewer.exe: viewer\source\viewer.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
