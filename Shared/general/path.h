@@ -58,5 +58,32 @@ class Path
       string Back_up_directory (void);
 	};
 
+// ------------------------------------------------------------------
+//  Short description:
+//     generic "for_each" function for removing directories from a list
+//     paths and storing just the names in a given stl container.
+
+//  Notes:
+
+//  Changes:
+//    DPH 28/10/97
+
+// ------------------------------------------------------------------
+template < class Container >
+class remove_directory_and_copy : private std::unary_function <string, void >
+   {
+   private:
+      Container& container;
+   public:
+      remove_directory_and_copy( Container& c )
+         : container(c) { }
+      void operator() (const string& x)
+         {
+         Path p(x.c_str());
+         container.push_back (p.Get_name());
+         }
+    };
+
+
 #endif
 
