@@ -1633,10 +1633,13 @@ void Plant::plant_bio_water (int option /* (INPUT) option number */)
 
     if (option == 1)
         {
-//        fruit->bio_water1 (sw_supply, g.transpEffFruit, &g.dltDmPotTeFruit);
+          float dltDmPotTeVeg = 0.0;
+        fruit->bio_water1 (g.swSupplyFruit, g.transpEffFruit, &g.dltDmPotTeFruit);
+        plant_bio_water1 (g.swSupplyVeg, g.transp_eff, &dltDmPotTeVeg);
+        g.dlt_dm_pot_te = dltDmPotTeVeg + g.dltDmPotTeFruit;
 
-        cproc_bio_water1 (max_layer, g.dlayer, g.root_depth,
-                          g.dlt_sw_dep, g.transp_eff, &g.dlt_dm_pot_te);
+//        cproc_bio_water1 (max_layer, g.dlayer, g.root_depth,
+//                          g.dlt_sw_dep, g.transp_eff, &g.dlt_dm_pot_te);
         }
     else
         {
@@ -4672,10 +4675,9 @@ void Plant::plant_water_demand (int option /* (INPUT) option number*/)
     if (option == 1)
         {
 
-        float swDemandTEFruit = 0.0;
         fruit->sw_demand1 (g.dltDmPotRueFruit
                          , g.transpEffFruit
-                         , &swDemandTEFruit);
+                         , &g.swDemandTEFruit);
 
         float swDemandTEVeg = 0.0;                                        //
         float dltDmPotRueveg = g.dlt_dm_pot_rue - g.dltDmPotRueFruit;     // FIXME when fruit is proper class
@@ -4683,7 +4685,7 @@ void Plant::plant_water_demand (int option /* (INPUT) option number*/)
                           g.transp_eff,                                   //
                           &swDemandTEVeg);                                //
 
-        g.sw_demand_te = swDemandTEVeg + swDemandTEFruit;
+        g.sw_demand_te = swDemandTEVeg + g.swDemandTEFruit;
 
 //        cproc_sw_demand1 (g.dlt_dm_pot_rue,
 //                          g.transp_eff,
@@ -4769,21 +4771,24 @@ void Plant::plant_water_distribute (int option /*(INPUT) option number*/)
 //     Seek the light intercepted by the leaves
 
 //+  Changes
-//      5/9/96 dph
+///      250894 jngh specified and programmed
 
 //+  Constant Values
-    const char*  my_name = "plant_water_supply_distribute" ;
+    const char*  my_name = "plant_water_distribute" ;
 
 //- Implementation Section ----------------------------------
     push_routine (my_name);
 
     if (option == 1)
     {
-//      plant_water_supply_partition(float g.sw_demand
-//                                 , float g.sw_demand_veg
-//                                 , float *g.sw_supply
-//                                 , float g.sw_supply_veg
-//                                 , float g.swSupplyFruit)
+      float swDemandVeg = g.sw_demand - g.swDemandTEFruit;
+      float swSupply = - sum_real_array(g.dlt_sw_dep, max_layer);
+
+      plant_water_supply_partition (g.sw_demand
+                                  , swDemandVeg
+                                  , swSupply
+                                  , &g.swSupplyVeg
+                                  , &g.swSupplyFruit);
 
     }
     else
@@ -4792,14 +4797,14 @@ void Plant::plant_water_distribute (int option /*(INPUT) option number*/)
     }
 
     pop_routine (my_name);
-    }
+}
 
 //===========================================================================
-void Plant::plant_water_supply_partition(float g_sw_demand
-                                       , float g_sw_demand_veg
-                                       , float *g_sw_supply
-                                       , float g_sw_supply_veg
-                                       , float g_sw_supply_fruit)
+void Plant::plant_water_supply_partition(float gSwDemand
+                                       , float gSwDemandVeg
+                                       , float gSwSupply
+                                       , float *gSwSupplyVeg
+                                       , float *gSwSupplyFruit)
 //===========================================================================
 {
 
@@ -4818,10 +4823,9 @@ void Plant::plant_water_supply_partition(float g_sw_demand
 //- Implementation Section ----------------------------------
     push_routine (my_name);
 
-         float swSupply  = sum_real_array(g_sw_supply, max_layer);
-         g_sw_supply_veg = swSupply * divide (g_sw_demand_veg, g_sw_demand, 0.0);
-         g_sw_supply_veg = bound (g_sw_supply_veg, 0.0, 1.0);
-         g_sw_supply_fruit = swSupply - g_sw_supply_veg;
+    *gSwSupplyVeg = gSwSupply * divide (gSwDemandVeg, gSwDemand, 0.0);
+    *gSwSupplyVeg = bound (*gSwSupplyVeg, 0.0, 1.0);
+    *gSwSupplyFruit = gSwSupply - *gSwSupplyVeg;
 
     pop_routine (my_name);
 }
@@ -4852,19 +4856,20 @@ void Plant::plant_light_supply_partition (int option /*(INPUT) option number*/)
 //        crop_radn_int0(g.cover_green, g.fr_intc_radn, g.radn, &g.radn_int);
 
              // calc the green fruit interception
-          float radnIntGreenFruit = 0.0;
           float paiGreen = g.pai;
+          float frIntcRadnGreenFruit = g.fr_intc_radn * divide (fruit->calcCover (c.extinct_coef_pod, paiGreen), g.cover_green, 0.0);
           crop_radn_int0(fruit->calcCover (c.extinct_coef_pod, paiGreen)
-                       , g.fr_intc_radn
+                       , frIntcRadnGreenFruit
                        , g.radn
-                       , &radnIntGreenFruit);
+                       , &g.radnIntGreenFruit);
 
              // calc the total fruit interception - what is left is transmitted to the vegetative parts)
              // fruit is considered to be at top of canopy
           float radnIntTotFruit = 0.0;
           float paiTot = g.pai;   // for now same as green (should include sen and dead)
+          float frIntcRadnTotFruit = g.fr_intc_radn * divide (fruit->calcCover (c.extinct_coef_pod, paiTot), g.cover_green, 0.0);
           crop_radn_int0(fruit->calcCover (c.extinct_coef_pod, paiTot)
-                       , g.fr_intc_radn
+                       , frIntcRadnTotFruit
                        , g.radn
                        , &radnIntTotFruit);
 
@@ -4877,7 +4882,7 @@ void Plant::plant_light_supply_partition (int option /*(INPUT) option number*/)
                        , &radnIntGreenVeg);
 
                // for now, put both interceptions into radn_int
-          g.radn_int =  radnIntGreenVeg + radnIntGreenFruit;  // FIXME when turned into proper fruit class
+          g.radn_int =  radnIntGreenVeg + g.radnIntGreenFruit;  // FIXME when turned into proper fruit class
         //cradn
         //fprintf(stdout, "%d %f\n", g.day_of_year, g.cover_green);
     }
@@ -4906,17 +4911,10 @@ void Plant::plant_bio_rue (int option /*(INPUT) option number*/)
 
     if (option == 1)
         {
-        float radnIntGreenFruit = 0.0;                                    //
-        float paiGreen = g.pai;                                           //  FIXME temporary until proper fruit class
-        crop_radn_int0(fruit->calcCover (c.extinct_coef_pod, paiGreen)    //
-                     , g.fr_intc_radn                                     //
-                     , g.radn                                             //
-                     , &radnIntGreenFruit);
-
         float meanT = 0.5*(g.maxt + g.mint);
 
         fruit->dm_pot_rue( c.rue_pod
-                         , radnIntGreenFruit
+                         , g.radnIntGreenFruit
                          , min(min(min(g.temp_stress_photo, g.nfact_photo),
                              g.oxdef_photo), phosphorus->fact_photo())
                          , g.co2
@@ -4925,7 +4923,7 @@ void Plant::plant_bio_rue (int option /*(INPUT) option number*/)
                          , &g.dltDmPotRueFruit);
 
 
-        float radnIntGreenVeg = g.radn_int - radnIntGreenFruit;  //  FIXME temporary until proper fruit class
+        float radnIntGreenVeg = g.radn_int - g.radnIntGreenFruit;  //  FIXME temporary until proper fruit class
 
         float dlt_dm_pot_rue_veg = 0.0;
         plant_dm_pot_rue_veg(&c.rue
@@ -9590,6 +9588,7 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (g.dm_green, 0.0, max_part);
       fill_real_array (g.dm_senesced, 0.0, max_part);
       g.radn_int = 0.0;
+      g.radnIntGreenFruit = 0.0;
       g.transp_eff = 0.0;
       g.transpEffFruit = 0.0;
       g.slai = 0.0;
@@ -9663,6 +9662,9 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (g.sw_dep , 0.0, max_layer);
       g.sw_demand = 0.0;
       g.sw_demand_te = 0.0;
+      g.swDemandTEFruit = 0.0;
+      g.swSupplyFruit   = 0.0;
+      g.swSupplyVeg   = 0.0;
       fill_real_array (g.sw_avail_pot, 0.0, max_layer);
       fill_real_array (g.sw_avail, 0.0, max_layer);
       fill_real_array (g.sw_supply , 0.0, max_layer);
@@ -10217,6 +10219,8 @@ void Plant::plant_zero_daily_variables ()
     fill_real_array (g.no3gsm_uptake_pot, 0.0, max_layer);
     fill_real_array (g.nh4gsm_uptake_pot, 0.0, max_layer);
 
+    g.swSupplyFruit   = 0.0;
+    g.swSupplyVeg   = 0.0;
     g.dlt_tlai_dead_detached   = 0.0;
     g.dlt_slai_detached        = 0.0;
     g.dlt_canopy_height        = 0.0;
@@ -10236,6 +10240,7 @@ void Plant::plant_zero_daily_variables ()
     g.dlt_pai                  = 0.0;
     g.sw_demand                = 0.0;
     g.sw_demand_te             = 0.0;
+    g.swDemandTEFruit             = 0.0;
     g.ext_n_demand             = 0.0;
 
 //      g%dlt_plants_death_barrenness     = 0.0
