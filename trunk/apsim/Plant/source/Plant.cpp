@@ -1165,7 +1165,6 @@ void Plant::plant_bio_partition (int option /* (INPUT) option number */)
     {
         double dlt_dm_supply_by_veg = g.dlt_dm;
         double dlt_dm_supply_by_pod = 0.0;
-//        double dlt_dm_supply_to_fruit = 0.0;
 
         g.dlt_dm_yield_demand_fruit = fruit->dm_yield_demand (c.frac_pod[(int)phenology->stageNumber()-1]
                                                             , g.grain_energy
@@ -1454,9 +1453,15 @@ void Plant::plant_bio_distribute (int option /* (INPUT) option number */)
         }
 
     }
+    else if (option == 2)
+    {          // do nothing
+    }
+    else if (option == 2)
+    {          // do nothing
+    }
     else
     {
-        throw std::invalid_argument("invalid template option in plant_bio_partition");
+        throw std::invalid_argument("invalid template option in plant_bio_distribute");
     }
 
 }
@@ -7985,7 +7990,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
 
     unsigned int junk = 0L;
     phenology->onHarvest(junk,junk,v);
-    
+
     // determine the new stem density
     // ==============================
     if (incomingApsimVariant.get("plants", protocol::DTsingle, false, temp) == true)
@@ -9108,29 +9113,32 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
     float dlt_slai = g.slai * chop_fr_sen[leaf];
     float dlt_tlai_dead = g.tlai_dead * chop_fr_dead[leaf];
 
-    float lai_init = c.initial_tpla * smm2sm * g.plants;
-    float dlt_lai_max = g.lai - lai_init;
-    dlt_lai = u_bound (dlt_lai, dlt_lai_max);
+         // keep leaf area above a minimum
+
+//    float lai_init = c.initial_tpla * smm2sm * g.plants;
+//    float dlt_lai_max = g.lai - lai_init;
+//    dlt_lai = u_bound (dlt_lai, dlt_lai_max);
 
     g.lai = g.lai - dlt_lai;
     g.slai = g.slai - dlt_slai;
     g.tlai_dead = g.tlai_dead - dlt_tlai_dead;
 
-         // keep leaf area and dm above a minimum
+         // keep dm above a minimum
 
-    dm_init = c.dm_init [leaf] * g.plants;
-    g.dm_green[leaf] = l_bound (g.dm_green[leaf], dm_init);
-
-    n_init = dm_init * c.n_init_conc[leaf];
-    g.n_green[leaf] = l_bound (g.n_green[leaf], n_init);
+//    dm_init = c.dm_init [leaf] * g.plants;
+//    g.dm_green[leaf] = l_bound (g.dm_green[leaf], dm_init);
+//
+//    n_init = dm_init * c.n_init_conc[leaf];
+//    g.n_green[leaf] = l_bound (g.n_green[leaf], n_init);
 
     plant_leaf_detachment (g.leaf_area
                             , dlt_slai
                             , g.plants, max_node);
 
+
     plant_leaf_removal_top (g.leaf_area
                             , dlt_lai
-                            , g.plants, (int)g.node_no);
+                            , g.plants, &g.node_no);
 
     g.canopy_width = g.canopy_width * (1.0 - chop_fr_green[stem]);
 
@@ -9181,7 +9189,6 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
      for (int node = max_node - 1; node >= 0; node--)
       {
          if (!reals_are_equal(g.leaf_area[node], 0.0, 1.0E-4))    // Slop?
-//         if (g.leaf_area[node] > 0.0)
          {
             g.node_no = (float)node;  //FIXME - need adjustment for leafs remaining in for this node
             break;
@@ -9195,9 +9202,9 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
 //     float dltNodeNo = divide (newDmStem, oldDmStem, 0.0);
 //     g.node_no -= dltNodeNo;
 
+         // calc new leaf number
      int newNodeNo = 1.0 + g.node_no;
 
-         // calc new leaf number
      for (int node = newNodeNo - 1; node < max_node; node++)
       {
          g.leaf_no[node] = 0.0;
@@ -10162,7 +10169,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
     char  msg[200];                               // output string
     FString  dummy;                               // dummy variable
     float  sowing_depth;                          // sowing depth for reporting
-    
+
 //- Implementation Section ----------------------------------
 
     push_routine (my_name);

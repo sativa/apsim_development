@@ -713,7 +713,7 @@ void plant_leaf_detachment (float *leaf_area
 void plant_leaf_removal_top (float *leaf_area
                            , float dlt_lai_removed
                            , float plants
-                           , int last_node);
+                           , float *last_node);
 //---------------------------------------------------------------------------
 void legnew_cover_leaf_pod (
      float g_row_spacing
