@@ -469,8 +469,7 @@ bool ControlFileConverter::executeMoveParametersOutOfCon(const std::string argum
          static string parFile;
          if (parFile == "")
             {
-            string defaultSection;
-            con->getDefaultParFileAndSection(conSection, parFileToUse, defaultSection);
+            parFileToUse = con->getFileName();
             MoveParametersForm = new TMoveParametersForm(Application);
             MoveParametersForm->FileEdit->Text = parFileToUse.c_str();
             if (!MoveParametersForm->ShowModal())
