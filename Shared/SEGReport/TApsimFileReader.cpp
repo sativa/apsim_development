@@ -109,7 +109,8 @@ void TApsimFileReader::readAndStoreFields(const string& filename) throw(runtime_
       // split up title into factors and store as fields.
       vector<string> factorNames, factorValues;
       splitTitleIntoFactors(title, factorNames, factorValues);
-      addDBFields(this, factorNames, factorValues);
+      if (factorNames.size() > 0 && factorNames[0] != "")
+         addDBFields(this, factorNames, factorValues);
 
       vector<string> fieldValues;
       if (readNextRecord(in, fieldValues))
