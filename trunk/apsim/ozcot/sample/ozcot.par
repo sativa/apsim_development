@@ -24,10 +24,10 @@ variable_names =  es      esw
 variable_alias =  -       pesw   
 units =           -       -   
 
-module_names =    soiln2   manager  manager   
-variable_names =  no3()   cum_rain no_rain   
-variable_alias =  -       -        -   
-units =           -       -        -   
+module_names =    soiln2   
+variable_names =  no3()  
+variable_alias =  -     
+units =           -     
 
 
 !********************************************************************
@@ -116,14 +116,5 @@ residue_cnr =        33.  ()   ! cn ratio of surface residues
 residue_type =       wheat   
 pot_decomp_rate =    0.1  ()   
 
-
-
-!********************************************************************
-!    Parameter values required by the accum module
-!********************************************************************
-
-[risk.accum.parameters]  
-accum_variables =    rain[5]   
-                       
 
 
