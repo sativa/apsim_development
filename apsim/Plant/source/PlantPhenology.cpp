@@ -974,20 +974,21 @@ bool plant_germination(float pesw_germ,         //(INPUT)  plant extractable soi
    return false;
    }
 
+// XX This is heavily tied to current ini file. !!Watch Out!!
 // NB. "5.2" is half way between FI and flag leaf in wheat
 void WheatPhenology::get_zadok_stage(protocol::Component *system, protocol::QueryValueData &qd)
 {
+    float sowing = 1.0, emerg = 2.0;
     float zadok_stage = 0.0;
-#if 0
-    if (g.current_stage >= sowing &&
-        g.current_stage <= emerg)
+    if (currentStage >= sowing &&
+        currentStage <= emerg)
        {
-       zadok_stage = 5.0 * (g.current_stage - sowing);
+       zadok_stage = 5.0 * (currentStage - sowing);
        }
-    else if (g.current_stage > emerg &&
-             g.current_stage <= 4.9)
+    else if (currentStage > emerg &&
+             currentStage <= 4.9)
        {
-       float leaf_no_now = sum_between (emerg-1, now-1, g.leaf_no);
+       float leaf_no_now = plant->getLeafNo();
 
        static float tillerno_y[] =   // tiller no.
            {0, 0, 5};
@@ -1006,8 +1007,8 @@ void WheatPhenology::get_zadok_stage(protocol::Component *system, protocol::Quer
            zadok_stage = 20.0 + tiller_no_now;
            }
        }
-    else if (g.current_stage > 4.9 &&
-             g.current_stage < plant_end )
+    else if (currentStage > 4.9 &&
+             currentStage < 11 )
        {
 // from senthold's archive:
 //1    2    3         4.5     5       6
@@ -1029,12 +1030,11 @@ void WheatPhenology::get_zadok_stage(protocol::Component *system, protocol::Quer
        static float zadok_code_x[] =
            {4.9, 5.4,  6,  7,  8,  9,  10};
 
-      zadok_stage = linear_interp_real (g.current_stage
+      zadok_stage = linear_interp_real (currentStage
                                        , zadok_code_x
                                        , zadok_code_y
                                        , sizeof(zadok_code_x)/sizeof(float));
        }
-#endif
     system->sendVariable(qd, zadok_stage);
 }
 

@@ -61,7 +61,7 @@ typedef enum {pw_C3, pw_C4, pw_UNDEF} photosynthetic_pathway_t;
 //   This class performs crop crop growth
 //     simulates root, leaf, head, stem and grain development. Water and
 //     nitrogen uptake, photosynhesis, and leaf and root senescense.
-class Plant {
+class Plant : public plantInterface {
  private:
   PlantComponent *parent;                                // for interface calls to system
   friend class PlantP;  //?? need to think this one over ?
@@ -1027,6 +1027,7 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
   void get_flowering_das(protocol::Component *, protocol::QueryValueData &);
   void get_maturity_das(protocol::Component *, protocol::QueryValueData &);
   void get_leaf_no(protocol::Component *, protocol::QueryValueData &);
+  float getLeafNo(void) const;
   void get_dlt_leaf_no(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_node_no(protocol::Component *, protocol::QueryValueData &);
   void get_leaf_no_dead(protocol::Component *, protocol::QueryValueData &);

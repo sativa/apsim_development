@@ -69,8 +69,10 @@ class compositePhase {
 // An abstract phenology class.
 class PlantPhenology {
  private:
-
  protected:
+   // The plant to talk to
+   plantInterface *plant;
+
    // State variables
    vector<pPhase>     phases;                        // The list of phases that this plant goes through
 
@@ -88,7 +90,7 @@ class PlantPhenology {
    pPhase *getPhase(const char *);
    
  public:
-   PlantPhenology() {};
+   PlantPhenology(plantInterface *p) {plant = p;};
    virtual void writeCultivarInfo (PlantComponent *)=0;
    virtual void initialise (PlantComponent *, const string &);                // read structure etc from constants
    virtual void doRegistrations (protocol::Component *);
@@ -174,7 +176,7 @@ class WheatPhenology : public PlantPhenology {
    void vernalisation (const environment_t &);
    void setupTTTargets(void);
  public:
-   WheatPhenology() {};
+   WheatPhenology(plantInterface *p) : PlantPhenology(p) {};
 
    void initialise (PlantComponent *, const string &);              // read structure etc from constants
    void doRegistrations (protocol::Component *);
@@ -249,6 +251,7 @@ class LegumePhenology : public PlantPhenology {
    void updateTTTargets(const environment_t &e);
 
  public:
+   LegumePhenology(plantInterface *p) : PlantPhenology(p) {};
    void prepare(const environment_t &e);
    void process(const environment_t &e, const pheno_stress_t &ps);
    void doRegistrations (protocol::Component *);

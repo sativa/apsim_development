@@ -159,9 +159,9 @@ void Plant::doInit1(protocol::Component *s)
     {
     string scratch = s->readParameter ("constants", "phenology_model");
     if (scratch == "legume")
-       phenology = new LegumePhenology();
+       phenology = new LegumePhenology(this);
     else if (scratch == "wheat")
-       phenology = new WheatPhenology();
+       phenology = new WheatPhenology(this);
     else if (scratch == "cohorting_legume")
        phenology = NULL;//new LegumeCohortPhenology();
     else
@@ -13011,6 +13011,13 @@ void Plant::get_leaf_no(protocol::Component *system, protocol::QueryValueData &q
 {
     float temp = sum_real_array(g.leaf_no, max_node);
     system->sendVariable(qd, temp);
+}
+
+float Plant::getLeafNo(void) const
+{
+   float sum = 0.0;
+	for (int i = 0; i < max_node; i++) sum += g.leaf_no[i];
+   return sum;
 }
 
 void Plant::get_leaf_no_dead(protocol::Component *system, protocol::QueryValueData &qd)
