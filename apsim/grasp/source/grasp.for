@@ -1826,6 +1826,7 @@ c     NB. straight from grasp - may be another method:
      :        root_proportion (layer, g%dlayer,
      :        g%root_depth)
  500  continue
+      max_n_sum = l_bound (max_n_sum,  c%residual_plant_N)
  
       N_uptake = c%residual_plant_N +
      :     c%N_uptk_per100 * g%acc_trans_for_N / 100.0
@@ -3105,6 +3106,7 @@ cpdev  bound required?..
 
 *+  Changes
 *     010994 jngh specified and programmed
+*     241199 jngh added zeroing of remainder of soil profile arrays
 
 *+  Calls
       real       grasp_vpd
@@ -3197,6 +3199,15 @@ cpdev  bound required?..
  
 1000     continue
          g%num_layers = numvals
+         
+         do 1100 layer = numvals+1, max_layer
+ 
+            g%ll_dep(layer) = 0.0
+            g%layer_fract(layer) = 0.0
+            g%dlayer(layer) = 0.0
+ 
+1100     continue
+         
       endif
  
       value = sum_real_array (g%dlayer, max_layer)
