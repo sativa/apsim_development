@@ -1,4 +1,4 @@
-C     Last change:  E     7 Apr 2000   12:00 pm
+C     Last change:  E    10 Apr 2000   11:47 am
 
       INCLUDE 'CropMod.inc'
 
@@ -3833,7 +3833,6 @@ c      PRINT *,"***********************************************"
      :          , 'canopy_height')
 
 
-      PRINT *, g_canopy_height, c_height_max
 
       call bound_check_real_var
      :           (g_lai
