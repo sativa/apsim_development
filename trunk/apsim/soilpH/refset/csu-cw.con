@@ -1,8 +1,8 @@
 version = 2.2
-[apsim.WagCW]  
+[apsim.WagCW]
 
 
-title=Continuous wheat Wagga
+title = Continuous wheat Wagga
 module = clock     csu-cw.par [all]
 module = report    report.par [soilph] csu-cw.par [WagCW]
 module = input(met)       072150.met [longterm]
@@ -16,3 +16,4 @@ module = fertiliz                    %apsuite\apsim\fertiliz\fertiliz.ini [stand
 module = soilph    csu-cw.par [all]  %apsuite\apsim\soilph\soilph.ini [standard]
 module = SummaryFile  csu-cw.par[WagCW]
 module = Screen  csu-cw.par[all]
+module = tracker  csu-cw.par[all]
