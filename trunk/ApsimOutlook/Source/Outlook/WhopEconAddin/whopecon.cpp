@@ -462,7 +462,11 @@ float ProteinAdj(float Protein)
 
 float GetSeedWt(AnsiString Crop)
 {
-   return DATA->CropList->Lookup("CropName",Crop,"SeedWt");
+   Variant v = DATA->CropList->Lookup("CropName",Crop,"SeedWt");
+   if (v.IsNull())
+      return 0.0;
+   else
+      return v;
 }
 //---------------------------------------------------------------------------
 

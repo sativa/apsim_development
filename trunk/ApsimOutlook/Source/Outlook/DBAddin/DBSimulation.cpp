@@ -142,14 +142,19 @@ void DBSimulation::open (void)
 
    // create an SQL query statement to extract the necessary data.
    ostringstream SQL;
-   SQL << "SELECT [";
-   for (vector<string>::iterator field = fieldNames.begin();
-                                 field != fieldNames.end();
-                                 field++)
+   if (fieldNames.size() == 0)
+      SQL << "SELECT *";
+   else
       {
-      if (field != fieldNames.begin())
-         SQL << ",[";
-      SQL << *field << ']';
+      SQL << "SELECT [";
+      for (vector<string>::iterator field = fieldNames.begin();
+                                    field != fieldNames.end();
+                                    field++)
+         {
+         if (field != fieldNames.begin())
+            SQL << ",[";
+         SQL << *field << ']';
+         }
       }
    SQL << " FROM Data WHERE SimulationID = " << simulationId;
 

@@ -49,10 +49,16 @@ void Scenarios::makeDefaultScenario(void) {
       Scenario scenario = (*a)->getDefaultScenario();
       scenario.getFactors(allFactors);
    }
+   // if there is a factor called "simulation" then use that as the default name.
+   vector<Factor>::iterator simFactor = find(allFactors.begin(),
+                                             allFactors.end(), "Simulation");
+   string defaultName = "default";
+   if (simFactor != allFactors.end())
+      defaultName = simFactor->getValue();
 
    // create a new scenario that contains all the factors, add it to our
    // list of scenarios and make it the current scenario.
-   Scenario* defaultScenario = new Scenario("default", allFactors);
+   Scenario* defaultScenario = new Scenario(defaultName, allFactors);
    scenarios.push_back(defaultScenario);
    currentScenario = defaultScenario;
 }
