@@ -1,24 +1,16 @@
 [sample.report.parameters]  
-title =  Solute Sample Simulation   
-screen_output =  on   
-outputfile =  Solute.out /overwrite   
-summaryfile =  Solute.sum /overwrite   
+outputfile =Solute.out   
 
-module_names =   clock clock   
-variable_names =  day year   
-variable_alias =  -    -   
 
-module_names =   solute  solute   
-variable_names =  br     cl   
-variable_alias =  -      -   
-units =          -       -   
 
+variable = clock.day
+variable = clock.year
+variable = solute.br
+variable = solute.cl
 [sample.clock.parameters]  
 ! Start and end date of run (day number of year and year)
-simulation_start_day =  1   
-simulation_start_year =  1988   
-simulation_end_day =  30   
-simulation_end_year =  1988   
+start_date=1/1/1988     ! dd/mm/yyyy
+end_date=30/1/1988     ! dd/mm/yyyy
 
 [sample.manager.start_of_day]  
 if day = 5 then
