@@ -1,6 +1,7 @@
+#include <vcl.h>
+#pragma hdrstop
 #include "io_functions.h"
 #include <general\path.h>
-#include <dir.h>
 // ------------------------------------------------------------------
 //  Short description:
 //      return a list of files/directories to caller.
@@ -17,27 +18,31 @@ void GENERAL_EXPORT Get_directory_listing (const char* Directory_name,
                                            unsigned int Attribute,
                                            bool Full_path)
    {
+   if (Attribute == 0)
+      Attribute = faAnyFile;
+      
    Path p;
 
-   struct ffblk ffblk;
+   TSearchRec SearchRec;
    int done;
    p.Set_path (Directory_name);
    p.Set_name (Extension);
-   done = findfirst(p.Get_path().c_str(),&ffblk, Attribute);
+   done = FindFirst(p.Get_path().c_str(), Attribute, SearchRec);
    while (!done)
       {
-      if (strcmpi(ffblk.ff_name, ".") != 0 &&
-          strcmpi(ffblk.ff_name, "..") != 0 &&
-          (ffblk.ff_attrib & Attribute) == Attribute)
+      if (SearchRec.Name != "." &&
+          SearchRec.Name != ".." &&
+          (SearchRec.Attr & Attribute) > 0)
          {
          Path p;
          if (Full_path)
             p.Set_directory (Directory_name);
-         p.Set_name(ffblk.ff_name);
+         p.Set_name(SearchRec.Name.c_str());
          Dir_list.push_back (p.Get_path());
          }
-      done = findnext(&ffblk);
+      done = FindNext (SearchRec);
       }
+   FindClose(SearchRec);
    }
 
 // ------------------------------------------------------------------
