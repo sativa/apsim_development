@@ -418,6 +418,9 @@ c        timestep??????? !!
       double precision gfhkp
       double precision qdrain(0:M)
 
+      double precision headdiff ! head difference between water table and
+                                ! potential at bottom of profile (cm)
+
       save ifirst,ilast,gr
 
 *     Constant Values
@@ -774,6 +777,11 @@ cnh         if(g%psi(p%n).ge.0.)then
             g%q(p%n+1)=0.
             qp1(p%n+1)=0.
          end if
+      else if(p%ibbc.eq.4)then
+**       flux calculated according to head difference from water table
+         headdiff = g%psi(p%n) - p%water_table_depth/10d0   ! cm
+         g%q(p%n+1)= headdiff*p%water_table_conductance
+         qp1(p%n+1)=psip(p%n)*p%water_table_conductance
       end if
 ***   get Newton-Raphson equations
       i1=max(ifirst,0)
@@ -924,7 +932,8 @@ cnh         if(g%psi(p%n).ge.0.)then
       if (p%ibbc.eq.1) then
          ! water table boundary condition
          solute_bbc = constant_conc
-      else if ((p%ibbc.eq.0).and.(g%q(p%n+1).lt.0)) then
+      else if (((p%ibbc.eq.0).or.(p%ibbc.eq.4)
+     :          .and.(g%q(p%n+1).lt.0))) then
          ! you have a gradient with flow upward
          solute_bbc = constant_conc
       else
