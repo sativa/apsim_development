@@ -4,7 +4,7 @@
   <MACROS>
     <VERSION value="BCB.05.03"/>
     <PROJECT value="L:\ApsimOutlook\RotationAddIn\RotationAddIn.dll"/>
-    <OBJFILES value="RotationAddIn.obj TRotationForm.obj RotAddIn.obj ..\CropFields.obj
+    <OBJFILES value="RotationAddIn.obj TRotationForm.obj RotAddIn.obj ..\CropFields.obj 
       RotationValues.obj TRenameRotationForm.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
@@ -12,12 +12,12 @@
     <LIBFILES value="general.lib"/>
     <LIBRARIES value=""/>
     <SPARELIBS value="Vcl50.lib VCLDB50.lib"/>
-    <PACKAGES value="Vcl50.bpi Vclx50.bpi bcbsmp50.bpi Qrpt50.bpi Vcldb50.bpi Vclbde50.bpi
-      ibsmp50.bpi vcldbx50.bpi bcbie50.bpi vclie50.bpi Inetdb50.bpi Inet50.bpi
-      NMFast50.bpi dclocx50.bpi bcb97axserver50.bpi TeeGL4C5.bpi TEE4C5.bpi
-      TeeQR4C5.bpi TEEDB4C5.bpi TEEUI4C5.bpi TEEPRO4C5.bpi OpenXML.bpi
+    <PACKAGES value="Vcl50.bpi Vclx50.bpi bcbsmp50.bpi Qrpt50.bpi Vcldb50.bpi Vclbde50.bpi 
+      ibsmp50.bpi vcldbx50.bpi bcbie50.bpi vclie50.bpi Inetdb50.bpi Inet50.bpi 
+      NMFast50.bpi dclocx50.bpi bcb97axserver50.bpi TeeGL4C5.bpi TEE4C5.bpi 
+      TeeQR4C5.bpi TEEDB4C5.bpi TEEUI4C5.bpi TEEPRO4C5.bpi OpenXML.bpi 
       dclusr50.bpi vclado50.bpi APSGENERAL.bpi tmsc5.bpi VCLIB50.bpi APSData.bpi"/>
-    <PATHCPP value=".;"/>
+    <PATHCPP value=".;.."/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -27,12 +27,12 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="RotationAddIn.bpf"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;..;k:\components\data\;k:\components\general\;j:\tms;&quot;k:\&quot;"/>
-    <LIBPATH value="&quot;c:\program files\borland\cbuilder5\projects\lib&quot;$(BCB)\lib\obj;$(BCB)\lib;j:\tms;"/>
+    <INCLUDEPATH value="..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\components\data\;k:\components\general\;j:\tms\;&quot;k:\&quot;"/>
+    <LIBPATH value="..\;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib;j:\tms\;.."/>
     <WARNINGS value="-w-par"/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl50.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi-
+    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl50.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- 
       -tWD -tWM -c"/>
     <PFLAGS value="-$YD -$W -$O- -v -JPHNE -M"/>
     <RFLAGS value=""/>
@@ -72,25 +72,31 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
-[Excluded Packages]
-$(BCB)\Projects\Bpl\APSUI.bpl=APSuite user interface components
-$(BCB)\Projects\Bpl\DB.bpl=c:\program files\borland\cbuilder5\Projects\Bpl\DB
-
 [HistoryLists\hlIncludePath]
-Count=7
-Item0=$(BCB)\include;$(BCB)\include\vcl;..;k:\components\data\;k:\components\general\;k:\
-Item1=$(BCB)\include;$(BCB)\include\vcl;..;k:\components\data\;k:\components\general;k:\
-Item2=$(BCB)\include;$(BCB)\include\vcl;..;k:\components\data\;k:\
-Item3=$(BCB)\include;$(BCB)\include\vcl;..;k:\components\data;k:\
-Item4=$(BCB)\include;$(BCB)\include\vcl;..
-Item5=$(BCB)\include;$(BCB)\include\vcl;..\
-Item6=$(BCB)\include;$(BCB)\include\vcl
+Count=9
+Item0=..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\components\data\;k:\components\general\;j:\tms\;k:\
+Item1=..\;$(BCB)\include;$(BCB)\include\vcl;..;k:\components\data\;k:\components\general\;j:\tms;k:\
+Item2=$(BCB)\include;$(BCB)\include\vcl;..;k:\components\data\;k:\components\general\;k:\
+Item3=$(BCB)\include;$(BCB)\include\vcl;..;k:\components\data\;k:\components\general;k:\
+Item4=$(BCB)\include;$(BCB)\include\vcl;..;k:\components\data\;k:\
+Item5=$(BCB)\include;$(BCB)\include\vcl;..;k:\components\data;k:\
+Item6=$(BCB)\include;$(BCB)\include\vcl;..
+Item7=$(BCB)\include;$(BCB)\include\vcl;..\
+Item8=$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=3
-Item0=$(BCB)\lib\obj;$(BCB)\lib
-Item1=c:\program files\borland\cbuilder5\projects\lib;$(BCB)\lib\obj;$(BCB)\lib
-Item2=c:\program files\borland\cbuilder5\projects\lib\;$(BCB)\lib\obj;$(BCB)\lib
+Count=11
+Item0=$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib;j:\tms\;..;..\
+Item1=..\;..;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib;j:\tms\
+Item2=..\;..;$(BCB)\lib\obj;$(BCB)\lib;j:\tms\
+Item3=..\;$(BCB)\lib\obj;$(BCB)\lib;j:\tms\;..
+Item4=c:\program files\borland\cbuilder5\projects\lib;..\;$(BCB)\lib\obj;$(BCB)\lib;j:\tms\;..
+Item5=$(BCB)\lib\obj;$(BCB)\lib;j:\tms\;..;..\
+Item6=..\;$(BCB)\lib\obj;$(BCB)\lib;j:\tms
+Item7=..\;&quot;c:\program files\borland\cbuilder5\projects\lib&quot;$(BCB)\lib\obj;$(BCB)\lib;j:\tms
+Item8=$(BCB)\lib\obj;$(BCB)\lib
+Item9=c:\program files\borland\cbuilder5\projects\lib;$(BCB)\lib\obj;$(BCB)\lib
+Item10=c:\program files\borland\cbuilder5\projects\lib\;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
@@ -121,5 +127,10 @@ RemoteDebug=0
 ShowInfoMsgs=0
 LinkDebugVcl=0
 LinkCGLIB=0
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
   </IDEOPTIONS>
 </PROJECT>
