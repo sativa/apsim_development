@@ -42,7 +42,7 @@ object ScreenForm: TScreenForm
   Visible = True
   OnClose = FormClose
   PixelsPerInch = 120
-  TextHeight = 16
+  TextHeight = 13
   object CurrentDateLabel: TLabel
     Left = 16
     Top = 52
@@ -55,27 +55,27 @@ object ScreenForm: TScreenForm
     Left = 16
     Top = 51
     Width = 3
-    Height = 16
+    Height = 13
   end
   object EndDateLabel: TLabel
     Left = 470
     Top = 50
     Width = 3
-    Height = 16
+    Height = 13
     Alignment = taRightJustify
   end
   object TitleLabel: TLabel
     Left = 16
     Top = 8
-    Width = 122
-    Height = 16
+    Width = 94
+    Height = 13
     Caption = 'Simulation progress.'
   end
   object ErrorLabel: TLabel
-    Left = 379
+    Left = 396
     Top = 80
-    Width = 94
-    Height = 16
+    Width = 77
+    Height = 13
     Alignment = taRightJustify
     Caption = '(errors found)'
     Font.Charset = DEFAULT_CHARSET
@@ -89,8 +89,8 @@ object ScreenForm: TScreenForm
   object FinishedLabel: TLabel
     Left = 184
     Top = 80
-    Width = 134
-    Height = 16
+    Width = 111
+    Height = 13
     Caption = 'APSIM has finished'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlue
@@ -138,8 +138,15 @@ object ScreenForm: TScreenForm
     BevelInner = bvNone
     BevelKind = bkFlat
     BorderStyle = bsNone
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -10
+    Font.Name = 'Courier'
+    Font.Style = []
+    ParentFont = False
     ScrollBars = ssVertical
     TabOrder = 3
+    WordWrap = False
   end
   object PauseCheckBox: TCheckBox
     Left = 16
