@@ -294,8 +294,8 @@ void ApsimComponentData::getRule(const std::string& name,
          condition = rule->getAttribute("condition");
          contents = rule->getValue();
          Replace_all(contents, "[cr]", "\n");
-         replaceAllMacros(rules, condition);
-         replaceAllMacros(rules, contents);
+         replaceAllMacros(rule, condition);
+         replaceAllMacros(rule, contents);
          }
       }
    }
