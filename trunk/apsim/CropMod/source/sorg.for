@@ -1,4 +1,4 @@
-C     Last change:  E     1 Aug 2001   12:29 pm
+C     Last change:  E    24 Aug 2001   12:55 pm
 *     ===========================================================
       subroutine sorg_nfact_photo(leaf,lai,
      :                  n_green, nfact)
@@ -739,6 +739,9 @@ cew   SLN = LeafN/lai
                NReq = LeafN50 - LeafN
 !              get this from killing leaf (SLN = 0.2)
                g_dlt_slai = g_dlt_slai + NReq / 0.3
+! Stop LAI going negative
+               g_dlt_slai = min(g_dlt_slai, g_lai + g_dlt_lai)
+
                reduct = 0.5               
             endif
             g_nfact_expansion = reduct            
