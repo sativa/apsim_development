@@ -14,7 +14,7 @@
     <RESFILES value="ApsimShared.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TAboutForm.dfm TSplashForm.dfm TMoveParametersForm.dfm"/>
-    <LIBFILES value="..\general\general.lib"/>
+    <LIBFILES value="..\general\general.lib &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib&quot;"/>
     <LIBRARIES value="xmlrtl.lib TMSC6.lib"/>
     <SPARELIBS value="vcl.lib rtl.lib TMSC6.lib vclx.lib dbrtl.lib vcldb.lib xmlrtl.lib"/>
     <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi adortl.bpi vcldb.bpi 
@@ -77,6 +77,7 @@
       <FILE FILENAME="ControlFileConverter.cpp" FORMNAME="" UNITNAME="ControlFileConverter" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TMoveParametersForm.cpp" FORMNAME="MoveParametersForm" UNITNAME="TMoveParametersForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="SimCreator.cpp" FORMNAME="" UNITNAME="SimCreator" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib" FORMNAME="" UNITNAME="filesystem.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
