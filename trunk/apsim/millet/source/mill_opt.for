@@ -12,7 +12,7 @@
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*       Plant water supply
+*     Calculate the soil water availability in each soil layer.
 
 *+  Mission Statement
 *     Plant water supply
@@ -176,7 +176,7 @@
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     Seek the light intercepted by the leaves
+*     Calculate the amount of radiation intercepted by the leaves
 
 *+  Mission Statement
 *     Seek the light intercepted by the leaves
@@ -219,7 +219,8 @@
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*       Calculate bio transpiration efficiency
+*     Calculate daily potential biomass accumulation, as determined by today's water
+*     availability (based upon TE)
 
 *+  Mission Statement
 *     Calculate biomass transpiration efficiency
@@ -269,7 +270,7 @@
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     biomass light
+*     Calculate the biomass produced per MJ of intercepted radiation.
 
 *+  Mission Statement
 *     Biomass radiation use efficiency
@@ -370,7 +371,7 @@
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     Soil water demand
+*     Calculate the crop demand for soil water based upon transpiration efficiency.
 
 *+  Mission Statement
 *     Calculate the plant water demand
@@ -417,7 +418,7 @@
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*       Plant root distribution in the soil
+*       Calculate daily increase in root depth.
 
 *+  Mission Statement
 *     Calculates the plant root depth
@@ -637,7 +638,7 @@
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*       Plant transpiration and soil water extraction
+*     Calculate the actual water uptake from each layer of the soil profile by the crop.
 
 *+  Mission Statement
 *     Get the plant water uptake
@@ -1061,7 +1062,7 @@ cjh special for erik - end
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*       Partition biomass.
+*     partition today's dry matter between plant parts.
 
 *+  Mission Statement
 *     Calculate biomass partitioning
@@ -1256,7 +1257,8 @@ cjh special for erik - end
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*     Canopy height.
+*     Calculate the change in plant canopy height between emergence and flag
+*     leaf from stem dry weight.
 
 *+  Mission Statement
 *     Calculate canopy height
@@ -1908,7 +1910,7 @@ cjh special for erik - end
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*       Find nitrogen demand.
+*     Calculate plant nitrogen demand for each plant part.
 
 *+  Mission Statement
 *     Get the plant nitrogen demand
@@ -1982,7 +1984,7 @@ cjh special for erik - end
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*       Find nitrogen uptake.
+*     Calculate the actual nitrogen uptake for each plant part from each soil layer.
 
 *+  Mission Statement
 *     Get the plant nitrogen uptake
@@ -2053,7 +2055,7 @@ cjh special for erik - end
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*       Find nitrogen partitioning.
+*     Calculate actual plant nitrogen uptake to each plant part and from each soil layer.
 
 *+  Mission Statement
 *     Calculate the nitrogen partitioning in the plant
@@ -2194,8 +2196,7 @@ cjh special for erik - end
       integer Option                   ! (INPUT) template option number
 
 *+ Purpose
-*      Get P uptake from P module and convert to require units
-*      for internal use.
+*      Get P uptake from P module and convert to required units for internal use.
 
 *+  Mission statement
 *         Calcualate plant P uptake
@@ -2967,7 +2968,7 @@ cjh special for erik - end
       integer option
 
 *+  Purpose
-*       Initialise Phenological Growth Stage Targets
+*     Initialise cumulative thermal time targets required for each growth stage.
 
 *+  Mission Statement
 *     Initialise millet growth phases
