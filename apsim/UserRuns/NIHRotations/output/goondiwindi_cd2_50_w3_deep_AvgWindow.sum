@@ -92,15 +92,6 @@
      days_since_sorg = 0
      srg_min_fallow = 7
      wht_crops_max = 1
-     system_fallow = 10000
-     crop_in = 0
-     wht_freq = 1
-     days_since_wheat = wht_freq * 365
-     wht_min_fallow = 7
-     srg_freq = 200
-     days_since_sorg = 0
-     srg_min_fallow = 7
-     wht_crops_max = 1
      
      SECTION:- start_of_day
      if (crop_in = 0) then
