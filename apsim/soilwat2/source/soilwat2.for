@@ -5610,7 +5610,7 @@ cnh      call handler_ONnewmet(g_radn, g_maxt, g_mint, g_rain, temp1)
      :                      ,g_rain
      :                      ,numvals
      :                      ,0.0
-     :                      ,300.0)
+     :                      ,500.0)
 
       call pop_routine (myname)
       return
