@@ -11,13 +11,13 @@
     <RESDEPEN value="$(RESFILES) TMain_form.dfm TFilespec_form.dfm TBatch_import_form.dfm"/>
     <LIBFILES value="..\..\..\Shared\general\general.lib"/>
     <LIBRARIES value="kbmMemC6Run.lib TeeUI.lib TeePro.lib Tee.lib TMSC6.lib THIRDPARTY.lib 
-      APSGENERAL.lib APSData.lib"/>
+      APSGENERAL.lib APSData.lib bdertl.lib"/>
     <SPARELIBS value="rtl.lib vcl.lib dbrtl.lib vcldb.lib bdertl.lib APSData.lib APSGENERAL.lib 
       vclx.lib THIRDPARTY.lib bcbsmp.lib adortl.lib TMSC6.lib Tee.lib TeePro.lib 
       TeeUI.lib kbmMemC6Run.lib"/>
-    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi qrpt.bpi dbrtl.bpi vcldb.bpi 
-      bdertl.bpi ibsmp.bpi vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi 
-      inet.bpi nmfast.bpi dclocx.bpi bcb97axserver.bpi adortl.bpi designide.bpi"/>
+    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi qrpt.bpi dbrtl.bpi vcldb.bpi ibsmp.bpi 
+      vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi inet.bpi nmfast.bpi 
+      dclocx.bpi bcb97axserver.bpi adortl.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -88,6 +88,7 @@ ProductVersion=1.0.0.0
 Comments=
 
 [Excluded Packages]
+C:\WINDOWS\System32\PsQRC60.bpl=Pragnaan QuickReport Export Filters
 c:\program files\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
 
 [HistoryLists\hlIncludePath]

@@ -10,10 +10,10 @@
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TRunForm.dfm"/>
     <LIBFILES value="..\..\Shared\ApsimShared\ApsimShared.lib ..\..\Shared\general\general.lib"/>
-    <LIBRARIES value=""/>
+    <LIBRARIES value="Tee.lib TMSC6.lib bdertl.lib"/>
     <SPARELIBS value="rtl.lib vcl.lib vclx.lib dbrtl.lib vcldb.lib bdertl.lib TMSC6.lib Tee.lib"/>
-    <PACKAGES value="vclx.bpi rtl.bpi vcl.bpi dbrtl.bpi vcldb.bpi bdertl.bpi vcldbx.bpi 
-      bcbsmp.bpi dclocx.bpi qrpt.bpi ibsmp.bpi nmfast.bpi Tee.bpi TMSC6.bpi"/>
+    <PACKAGES value="vclx.bpi rtl.bpi vcl.bpi dbrtl.bpi vcldb.bpi vcldbx.bpi bcbsmp.bpi 
+      dclocx.bpi ibsmp.bpi nmfast.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -86,8 +86,8 @@ Comments=
 
 [Excluded Packages]
 C:\WINDOWS\System32\PsQRC60.bpl=Pragnaan QuickReport Export Filters
-c:\program files\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
 C:\Program Files\Borland\CBuilder6\Projects\Bpl\FilterBarPackage.bpl=FilterBarPackage
+c:\program files\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
 
 [HistoryLists\hlIncludePath]
 Count=11
