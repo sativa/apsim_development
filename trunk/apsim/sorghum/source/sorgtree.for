@@ -724,7 +724,7 @@ c
 c     :          g%days_tot)
 
       elseif (Option .eq. 400) then
-         stress_pheno = min(g%nfact_photo, PlantP_pfact_photo())
+         stress_pheno = min(g%nfact_pheno, PlantP_pfact_pheno())
 
 !version with 2 thermal times (different for GF)
       call sorg_phenology2 (
