@@ -50,7 +50,7 @@ Public Class RuleUI
         Me.LogicTextBox.Location = New System.Drawing.Point(8, 48)
         Me.LogicTextBox.Multiline = True
         Me.LogicTextBox.Name = "LogicTextBox"
-        Me.LogicTextBox.Size = New System.Drawing.Size(792, 504)
+        Me.LogicTextBox.Size = New System.Drawing.Size(844, 653)
         Me.LogicTextBox.TabIndex = 0
         Me.LogicTextBox.Text = ""
         '
@@ -82,7 +82,7 @@ Public Class RuleUI
         'RuleUI
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(808, 558)
+        Me.ClientSize = New System.Drawing.Size(860, 707)
         Me.Controls.Add(Me.RuleNameLabel)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.EventComboBox)
@@ -139,5 +139,9 @@ Public Class RuleUI
 
     Private Sub LogicTextBox_LostFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles LogicTextBox.LostFocus
         MsgBox("lost focus")
+    End Sub
+
+    Private Sub RuleUI_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
     End Sub
 End Class
