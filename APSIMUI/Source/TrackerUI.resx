@@ -109,11 +109,11 @@
   <data name="TrackerTextBox.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="TrackerTextBox.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </data>
   <data name="TrackerTextBox.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
+  </data>
+  <data name="TrackerTextBox.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
   </data>
   <data name="ReplaceButton.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
@@ -157,8 +157,8 @@
   <data name="RemoveButton.Image" type="System.Drawing.Bitmap, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEQAA
-        CxEBf2RfkQAABLZJREFUSEvFlWtQlHUYxZ91FxEWFhBQgeUioASBJmUIgSAoKHdWCJIkMhoF0wZTS5tu
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEAAA
+        CxABrSO9dQAABLZJREFUSEvFlWtQlHUYxZ91FxEWFhBQgeUioASBJmUIgSAoKHdWCJIkMhoF0wZTS5tu
         Wp+sZpyamqJsunrJSidF1IpM2kCRKU1UxlEaQ52xQmEdl3Z5T+ddxUTk8qVpZ/bDzr7/3zn/81xekf/z
         c1Qk4aDIW/w6D+WjQcSvVqRxj8iy/SLuw3puFyn8WeREa0yI0hY3GS0iawY7ZCaQ8JZL6aE4HeWJb7Sa
         K9+KvP2TSPgdz5wVqTgWEahgUzXwbhXwSiHMTtruVpGA2w+cFtHtFtndMSsMKI8G5ocAJiN+i/XE1yKd
@@ -193,8 +193,8 @@
   <data name="AddButton.Image" type="System.Drawing.Bitmap, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEQAA
-        CxEBf2RfkQAAA9JJREFUSEvFVVtM03cYNdEBVSmWKrTcSoG5qKgvigyQDZGbQlyYU7csXlEEihS1clO5
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEAAA
+        CxABrSO9dQAAA9JJREFUSEvFVVtM03cYNdEBVSmWKrTcSoG5qKgvigyQDZGbQlyYU7csXlEEihS1clO5
         CCJ3EeiVm1Mm0Tg38X0vU+Md7yICamVUsaLGh1lZzr7fryTUF0Nsk/2T83rO+c53ft9/0qT/+/Npd0Pg
         sVmQHxVD3jYTslYxZC0MMyHRTIfd/haclONPdKLrXwO6LHr8YdHgd4sap/6phrxZbL9AcKcfzo0a8Mu7
         Eujf5EA9ko0j5gzk9yfBSy20X2DuCT90jeqhf6vCYfNWVA1vxEHTOuQ8ioe0yQECczpogg966N7sRq05
@@ -231,11 +231,11 @@
   <data name="$this.DrawGrid" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </data>
-  <data name="$this.TrayHeight" type="System.Int32, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>80</value>
-  </data>
   <data name="$this.Name">
     <value>TrackerUI</value>
+  </data>
+  <data name="$this.TrayHeight" type="System.Int32, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>80</value>
   </data>
   <data name="$this.SnapToGrid" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
