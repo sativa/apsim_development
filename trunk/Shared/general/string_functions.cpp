@@ -183,7 +183,7 @@ void GENERAL_EXPORT To_lower (string& St)
    strcpy(buffer, St.c_str());
    strlwr(buffer);
    St = buffer;
-   delete buffer;
+   delete [] buffer;
    }
 
 // ------------------------------------------------------------------
