@@ -36,7 +36,7 @@
 
 ------- report Initialisation -------------------------------------------------
      Output variables:
-        clock.today.dd/mm/yyyy as date
+        clock.dd/mm/yyyy as date
         clock.day
         clock.year
         manager.in_crop_rain
@@ -78,18 +78,6 @@
      in_crop_rain = 0
      eff_in_crop_rain = 0
      
-     SECTION:- init
-     cultivar = 'sunco'
-     
-     SECTION:- init
-     sow_day = 121
-     
-     SECTION:- init
-     nrate = 60
-     
-     SECTION:- init
-     split_nrate = 0
-     
      SECTION:- start_of_day
      if day = sow_day then
         soilwat2 reset
@@ -114,6 +102,18 @@
         wheat harvest
         wheat end_crop
      endif
+     
+     SECTION:- init
+     cultivar = 'sunco'
+     
+     SECTION:- init
+     sow_day = 121
+     
+     SECTION:- init
+     nrate = 60
+     
+     SECTION:- init
+     split_nrate = 0
      END of rules
      
      Manager creating a new local real variable : in_crop_rain =     0.00000000000000
