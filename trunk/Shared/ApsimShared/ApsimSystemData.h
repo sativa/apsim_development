@@ -30,7 +30,9 @@ class __declspec(dllexport) ApsimSystemData
       bool deleteComponent(const std::string& name);
 
       std::string getXML(void) const;
-      
+
+      ApsimComponentData asComponent(void);
+
    private:
       XMLNode node;
    };
