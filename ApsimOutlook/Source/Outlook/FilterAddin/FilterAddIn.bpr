@@ -4,20 +4,22 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\..\..\..\Bin\FilterAddIn.dll"/>
-    <OBJFILES value="FilterAddIn.obj FiltAddIn.obj ..\Scenario.obj FieldValues.obj
+    <OBJFILES value="FilterAddIn.obj FiltAddIn.obj ..\Scenario.obj FieldValues.obj 
       TFilterForm.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TFilterForm.dfm"/>
-    <LIBFILES value="..\..\..\..\Shared\general\general.lib
-      ..\..\..\..\Shared\ApsimShared\ApsimShared.lib
+    <LIBFILES value="..\..\..\..\Shared\general\general.lib 
+      ..\..\..\..\Shared\ApsimShared\ApsimShared.lib 
       ..\..\..\..\Shared\general\general_vcl.lib"/>
-    <LIBRARIES value="ThirdParty.lib kbmMemC6Run.lib TMSC6.lib APSGENERAL.lib APSData.lib"/>
-    <SPARELIBS value="rtl.lib vcl.lib adortl.lib dbrtl.lib vcldb.lib APSData.lib bdertl.lib
+    <LIBRARIES value="bcbsmp.lib ThirdParty.lib kbmMemC6Run.lib TMSC6.lib APSGENERAL.lib 
+      APSData.lib adortl.lib"/>
+    <SPARELIBS value="rtl.lib vcl.lib adortl.lib dbrtl.lib vcldb.lib APSData.lib bdertl.lib 
       APSGENERAL.lib vclx.lib TMSC6.lib kbmMemC6Run.lib ThirdParty.lib bcbsmp.lib"/>
-    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi vcldb.bpi ibsmp.bpi
-      vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi inet.bpi nmfast.bpi
-      dclocx.bpi bcb97axserver.bpi adortl.bpi bdertl.bpi"/>
+    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi dbrtl.bpi vcldb.bpi bdertl.bpi ibsmp.bpi 
+      vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi inet.bpi nmfast.bpi 
+      dclocx.bpi bcb97axserver.bpi TeeDB7C6.bpi Tee7C6.bpi TeeUI7C6.bpi 
+      TeeGL7C6.bpi TeeQR7C6.bpi TeeLanguage7C6.bpi TeePro7C6.bpi TeeImage7C6.bpi"/>
     <PATHCPP value=".;.."/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -34,7 +36,7 @@
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi-
+    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- 
       -tWD -tWM -c"/>
     <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
@@ -125,36 +127,36 @@ Item29=$(BCB)\include;$(BCB)\include\vcl;k:\;..;k:\components\data\
 
 [HistoryLists\hlLibraryPath]
 Count=30
-Item0=..\;$(BCB)\Components\TeeChart\CBuilder6\Lib;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\filterbox\units;$(BCB)\components\tms;$(BCB)\components\thirdparty;$(SHARED)\components\general
-Item1=..\;$(BCB)\Components\TeeChart\CBuilder6\Lib;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\filterbox\units;$(BCB)\components\tms;$(SHARED)\components\general
-Item2=$(BCB)\Components\TeeChart\CBuilder6\Lib;..\;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\filterbox\units;$(BCB)\components\tms;$(SHARED)\components\general
-Item3=$(BCB)\Components\TeeChart\CBuilder6\Lib;..\;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\filterbox\units;$(SHARED)\components\general
-Item4=..\;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\filterbox\units;$(SHARED)\components\general
-Item5=..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\filterbox\units;$(SHARED)\components\general
-Item6=..\;..\..\..\..\shared\components\data;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\filterbox\units;$(SHARED)\components\general
-Item7=..\..\..\..\shared\components\data;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\filterbox\units;$(SHARED)\components\general
-Item8=..\..\..\..\shared\components\data;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\filterbox\units
-Item9=..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\filterbox\units;..\
-Item10=..\;$(BCB)\components\memtable;..;..\..\..\..\shared\components\data;..\..\..\..\shared\components\general;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item11=$(BCB)\components\memtable;..\;..\..\..\..\shared\components\data;..\..\..\..\shared\components\general;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item12=..\..\..\..\shared\components\data;..\..\..\..\shared\components\general;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item13=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item14=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;j:\DREAM\Filterbox\units\
-Item15=..\;C:\Program Files\Borland\CBuilder5\Projects\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;j:\DREAM\FLTBX_C5\units\
-Item16=C:\Program Files\Borland\CBuilder5\Projects;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;j:\DREAM\FLTBX_C5\units\
-Item17=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;j:\DREAM\FLTBX_C5\units\
-Item18=..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;j:\DREAM\FLTBX_C5\units\
-Item19=..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\expressionparser\;j:\DREAM\FLTBX_C5\units\
-Item20=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\;k:\general\;k:\expressionparser\;j:\DREAM\FLTBX_C5\units
-Item21=C:\Program Files\Borland\CBuilder5\Projects;C:\program files\DREAM\FLTBX_C5\units;J:\RX\Units;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\expressionparser\
-Item22=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\expressionparser\
-Item23=C:\Program Files\Borland\CBuilder5\Projects;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\expressionparser\
-Item24=..\;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\expressionparser
-Item25=C:\Program Files\Borland\CBuilder5\Projects;..\;..\DBAddin;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
-Item26=..\;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
-Item27=..\;..\DBAddin;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
-Item28=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
-Item29=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item0=..\;..;$(BCB)\Components\TeeChart\CBuilder6\Lib;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\filterbox\units;$(BCB)\components\tms;$(BCB)\components\thirdparty;$(SHARED)\components\general
+Item1=..\;$(BCB)\Components\TeeChart\CBuilder6\Lib;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\filterbox\units;$(BCB)\components\tms;$(BCB)\components\thirdparty;$(SHARED)\components\general
+Item2=..\;$(BCB)\Components\TeeChart\CBuilder6\Lib;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\filterbox\units;$(BCB)\components\tms;$(SHARED)\components\general
+Item3=$(BCB)\Components\TeeChart\CBuilder6\Lib;..\;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\filterbox\units;$(BCB)\components\tms;$(SHARED)\components\general
+Item4=$(BCB)\Components\TeeChart\CBuilder6\Lib;..\;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\filterbox\units;$(SHARED)\components\general
+Item5=..\;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\filterbox\units;$(SHARED)\components\general
+Item6=..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\filterbox\units;$(SHARED)\components\general
+Item7=..\;..\..\..\..\shared\components\data;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\filterbox\units;$(SHARED)\components\general
+Item8=..\..\..\..\shared\components\data;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\filterbox\units;$(SHARED)\components\general
+Item9=..\..\..\..\shared\components\data;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\filterbox\units
+Item10=..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\filterbox\units;..\
+Item11=..\;$(BCB)\components\memtable;..;..\..\..\..\shared\components\data;..\..\..\..\shared\components\general;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item12=$(BCB)\components\memtable;..\;..\..\..\..\shared\components\data;..\..\..\..\shared\components\general;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item13=..\..\..\..\shared\components\data;..\..\..\..\shared\components\general;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item14=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item15=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;j:\DREAM\Filterbox\units\
+Item16=..\;C:\Program Files\Borland\CBuilder5\Projects\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;j:\DREAM\FLTBX_C5\units\
+Item17=C:\Program Files\Borland\CBuilder5\Projects;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;j:\DREAM\FLTBX_C5\units\
+Item18=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;j:\DREAM\FLTBX_C5\units\
+Item19=..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;j:\DREAM\FLTBX_C5\units\
+Item20=..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\expressionparser\;j:\DREAM\FLTBX_C5\units\
+Item21=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\;k:\general\;k:\expressionparser\;j:\DREAM\FLTBX_C5\units
+Item22=C:\Program Files\Borland\CBuilder5\Projects;C:\program files\DREAM\FLTBX_C5\units;J:\RX\Units;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\expressionparser\
+Item23=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\expressionparser\
+Item24=C:\Program Files\Borland\CBuilder5\Projects;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\expressionparser\
+Item25=..\;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\expressionparser
+Item26=C:\Program Files\Borland\CBuilder5\Projects;..\;..\DBAddin;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
+Item27=..\;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
+Item28=..\;..\DBAddin;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
+Item29=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
@@ -196,6 +198,7 @@ RemoteDebug=0
 [Compiler]
 ShowInfoMsgs=0
 LinkDebugVcl=0
+LinkCGLIB=0
 
 [Language]
 ActiveLang=

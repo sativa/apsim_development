@@ -44,12 +44,27 @@ bool ApsimDataTypeData::isBuiltIn(void) const
    return (strcmpi(node.getAttribute("builtin").c_str(), "T") == 0);
    }
 // ------------------------------------------------------------------
+// Return true if data type is a message
+// ------------------------------------------------------------------
+bool ApsimDataTypeData::isMessage(void) const
+   {
+   return (strcmpi(node.getAttribute("message").c_str(), "T") == 0);
+   }
+// ------------------------------------------------------------------
 // Return true if data type is an array element
 // ------------------------------------------------------------------
 bool ApsimDataTypeData::isArrayElement(void) const
    {
    return (strcmpi(node.getName().c_str(), "element") == 0);
    }
+// ------------------------------------------------------------------
+// Return true if data type is an array element
+// ------------------------------------------------------------------
+bool ApsimDataTypeData::isEvent(void) const
+   {
+   return (strcmpi(node.getName().c_str(), "event") == 0);
+   }
+
 // ------------------------------------------------------------------
 // Return data type name
 // ------------------------------------------------------------------
@@ -98,5 +113,12 @@ std::string ApsimDataTypeData::getUpperBound(void) const
 std::string ApsimDataTypeData::getTypeString(void) const
    {
    return node.write();
+   }
+// ------------------------------------------------------------------
+// Return full type string.
+// ------------------------------------------------------------------
+std::string ApsimDataTypeData::getType(void) const
+   {
+   return node.getAttribute("type");
    }
 

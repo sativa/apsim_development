@@ -20,11 +20,12 @@ ComponentAlias::ComponentAlias(const string& n,
 // ------------------------------------------------------------------
 ComponentAlias::ComponentAlias(const string& n,
                                const string& dllFileName,
+                               const string& componentInterfaceFileName,
                                unsigned int componentAliasID,
                                unsigned int parentID)
    : ID(componentAliasID), name(n)
    {
-   computation = new Computation(name, dllFileName, componentAliasID, parentID);
+   computation = new Computation(name, dllFileName, componentInterfaceFileName, componentAliasID, parentID);
    }
 // ------------------------------------------------------------------
 // destructor

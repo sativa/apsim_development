@@ -69,6 +69,7 @@ class Coordinator : public protocol::Component
 
       void addComponent(const std::string& name,
                         const std::string& executable,
+                        const std::string& componentInterfaceExecutable,
                         const std::string& sdml);
       unsigned int getComponentID(const std::string& name);
 

@@ -12,6 +12,7 @@
 #include <general\math_functions.h>
 #include <Math.hpp>
 #include <ApsimShared\ApsimDirectories.h>
+#include <ApsimShared\ApsimSettings.h>
 #pragma link "TAPSTable"
 #pragma link "TAPSTable_Form"
 #pragma link "TAPSRecord"
@@ -51,11 +52,10 @@ extern "C" ToolBarAddInBase* _export __stdcall createToolBarAddIn(const string& 
 
 SOIToolBar::SOIToolBar(const string& parameters)
 {
-   string bitmap_name;
-   settings.read(TOOLBAR_BITMAP_KEY, bitmap_name);
+   string bitmapPath;
+   settings.read(TOOLBAR_BITMAP_KEY, bitmapPath, true);
 
    // get stuff from ini file like image name
-   string bitmapPath = getAppHomeDirectory() + "\\" + bitmap_name;
    glyph = new Graphics::TBitmap;
    glyph->LoadFromFile(bitmapPath.c_str());
 
@@ -69,16 +69,54 @@ SOIToolBar::SOIToolBar(const string& parameters)
 
    needs_update = false;
    SOI_enabled = false;
+   load();
 }
 
 SOIToolBar::~SOIToolBar()
 {
+   save();
+
    delete SOI_form;
    Toolbar->RemoveControl(SOI_button);
    delete SOI_button;
    Toolbar->Images->Delete(glyph_position);
    delete glyph;
 }
+
+void SOIToolBar::load()
+   {
+   phasesToInclude.erase(phasesToInclude.begin(), phasesToInclude.end());
+   try
+      {
+      ApsimSettings settings;
+      settings.read(CHART_SETTINGS_KEY + "|SOIPhaseAllYears", allYears);
+
+      vector<string> phaseStrings;
+      settings.read(CHART_SETTINGS_KEY + "|SOIPhase", phaseStrings);
+      for (unsigned i = 0; i != phaseStrings.size(); i++)
+         phasesToInclude.push_back(atoi(phaseStrings[i].c_str()));
+      }
+   catch (const exception& err)
+      {
+      allYears = true;
+      phasesToInclude.push_back(1);
+      phasesToInclude.push_back(2);
+      phasesToInclude.push_back(3);
+      phasesToInclude.push_back(4);
+      phasesToInclude.push_back(5);
+      }
+   }
+
+void SOIToolBar::save()
+   {
+   ApsimSettings settings;
+   settings.write(CHART_SETTINGS_KEY + "|SOIPhaseAllYears", allYears);
+
+   vector<string> phaseStrings;
+   for (unsigned i = 0; i != phasesToInclude.size(); i++)
+      phaseStrings.push_back(itoa(phasesToInclude[i]));
+   settings.write(CHART_SETTINGS_KEY + "|SOIPhase", phaseStrings);
+   }
 
 void SOIToolBar::decorateToolBar(TToolBar* toolbar)
 {
@@ -136,9 +174,12 @@ void SOIToolBar::calcSowYearFieldName(const TAPSRecord& record) throw (runtime_e
          sowYearFieldName = *i;
          return;
          }
+      if (stristr(fieldName.c_str(), "year") != NULL)
+         sowYearFieldName = *i;
       }
-   throw runtime_error("To perform an SOI analysis the data must contain a\n"
-                       "'sow_year' field.");
+   if (sowYearFieldName == "")
+      throw runtime_error("To perform an SOI analysis the data must contain a\n"
+                          "'sow_year' field.");
    }
 
 // ------------------------------------------------------------------
@@ -296,21 +337,26 @@ void SOIToolBar::doCalculations(TAPSTable& data)
                TAPSRecord newRecord = *i;
                int Sow_year = getSowYear(*i);
                Get_phase (Sow_year, FPhase_month, SOI_phase, SOI_phase_st);
-               newRecord.setFieldValue(SOI_PHASE_FIELD_NAME, SOI_phase_st.c_str());
-               newRecord.setFieldValue(SOI_PHASE_NUMBER_FIELD_NAME, IntToStr(SOI_phase).c_str());
-               string blockSuffix = string(SOI_PHASE_FIELD_NAME) + "=" + SOI_phase_st;
-               string blockForRecord = blockName + ";" + blockSuffix;
-               newRecord.setFieldValue("Simulation", blockForRecord.c_str());
-
-               allData[SOI_phase].push_back(newRecord);
+               if (find(phasesToInclude.begin(), phasesToInclude.end(), SOI_phase)
+                   != phasesToInclude.end())
+                  {
+                  newRecord.setFieldValue(SOI_PHASE_FIELD_NAME, SOI_phase_st.c_str());
+                  newRecord.setFieldValue(SOI_PHASE_NUMBER_FIELD_NAME, IntToStr(SOI_phase).c_str());
+                  string blockSuffix = string(SOI_PHASE_FIELD_NAME) + "=" + SOI_phase_st;
+                  string blockForRecord = blockName + ";" + blockSuffix;
+                  newRecord.setFieldValue("Simulation", blockForRecord.c_str());
+                  allData[SOI_phase].push_back(newRecord);
+                  }
 
                // store all years records.
-               newRecord.setFieldValue(SOI_PHASE_FIELD_NAME, "All years");
-               blockSuffix = string(SOI_PHASE_FIELD_NAME) + "=" + "All years";
-               blockForRecord = blockName + ";" + blockSuffix;
-               newRecord.setFieldValue("Simulation", blockForRecord.c_str());
-
-               allData[allYearsFieldNum].push_back(newRecord);
+               if (allYears)
+                  {
+                  newRecord.setFieldValue(SOI_PHASE_FIELD_NAME, "All years");
+                  string blockSuffix2 = string(SOI_PHASE_FIELD_NAME) + "=" + "All years";
+                  string blockForRecord2 = blockName + ";" + blockSuffix2;
+                  newRecord.setFieldValue("Simulation", blockForRecord2.c_str());
+                  allData[allYearsFieldNum].push_back(newRecord);
+                  }
                }
 
             // goto next dataset.

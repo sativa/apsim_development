@@ -22,6 +22,8 @@ class __declspec(dllexport) ApsimDataTypeData
       bool isArray(void) const;
       bool isBuiltIn(void) const;
       bool isArrayElement(void) const;
+      bool isMessage(void) const;
+      bool isEvent(void) const;
       std::string getName(void) const;
       std::string getKind(void) const;
       std::string getDescription(void) const;
@@ -33,6 +35,7 @@ class __declspec(dllexport) ApsimDataTypeData
       iterator begin() const {return iterator(TreeNodeIterator<XMLNode>(node.begin()));}
       iterator end() const   {return iterator(TreeNodeIterator<XMLNode>(node.end()));}
       std::string getTypeString(void) const;
+      std::string getType(void) const;
    private:
       XMLNode node;
    };

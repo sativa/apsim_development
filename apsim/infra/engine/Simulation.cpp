@@ -129,7 +129,7 @@ void Simulation::init(const string& fileName)
    replaceAll(dllFilename, "%apsuite", getApsimDirectory());
 
    // create a Master PM and give it to the transport layer.
-   masterPM = new Computation("MasterPM", dllFilename, parentID, masterPMID);
+   masterPM = new Computation("MasterPM", dllFilename, "", parentID, masterPMID);
    Transport::getTransport().addComponent(masterPMID, "MasterPM", masterPM);
 
    // get sdml contents.

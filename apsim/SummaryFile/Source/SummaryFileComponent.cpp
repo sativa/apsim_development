@@ -177,9 +177,7 @@ void SummaryFileComponent::respondToEvent(unsigned int& fromID, unsigned int& ev
       }
    else if (eventID == externalErrorID)
       {
-      bool isFatal;
       FString errorMessage;
-      variant.unpack(isFatal);
       variant.unpack(errorMessage);
       string componentName = asString(errorMessage);
       unsigned int posComponentName = componentName.find("Component name: ");

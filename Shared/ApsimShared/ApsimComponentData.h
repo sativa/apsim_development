@@ -25,6 +25,8 @@ class __declspec(dllexport) ApsimComponentData
 
       std::string getName(void) const;
       std::string getExecutableFileName(void) const;
+      std::string getComponentInterfaceFileName(void) const;
+
       std::string getXML(void) const;
       void setName(const std::string& name);
       void setExecutableFileName(const std::string& executable);

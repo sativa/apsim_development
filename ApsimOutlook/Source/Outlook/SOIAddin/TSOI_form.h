@@ -23,6 +23,12 @@ __published:	// IDE-managed Components
    TLabel *Label3;
    TPanel *Panel3;
    TCheckBox *SOI_toggle;
+   TCheckBox *CheckBox1;
+   TCheckBox *CheckBox2;
+   TCheckBox *CheckBox3;
+   TCheckBox *CheckBox4;
+   TCheckBox *CheckBox5;
+   TCheckBox *AllYears;
    void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
    void __fastcall FormShow(TObject *Sender);
    void __fastcall SOI_toggleClick(TObject *Sender);

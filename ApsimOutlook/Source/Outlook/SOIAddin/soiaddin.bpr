@@ -3,19 +3,20 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.06.00"/>
-    <PROJECT value="..\..\..\..\Bin\soiaddin.dll"/>
+    <PROJECT value="..\..\..\..\Bin\SOIAddin.dll"/>
     <OBJFILES value="soiaddin.obj TSOI_form.obj SOIToolBar.obj"/>
     <RESFILES value="soiaddin.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TSOI_form.dfm"/>
-    <LIBFILES value="..\..\..\..\Shared\general\general.lib
-      ..\..\..\..\Shared\ApsimShared\ApsimShared.lib
+    <LIBFILES value="..\..\..\..\Shared\general\general.lib 
+      ..\..\..\..\Shared\ApsimShared\ApsimShared.lib 
       ..\..\..\..\Shared\general\general_vcl.lib"/>
     <LIBRARIES value=""/>
     <SPARELIBS value="vcl.lib rtl.lib"/>
-    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi vcldb.bpi ibsmp.bpi
-      vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi inet.bpi nmfast.bpi
-      dclocx.bpi bcb97axserver.bpi adortl.bpi bdertl.bpi"/>
+    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi dbrtl.bpi vcldb.bpi bdertl.bpi ibsmp.bpi 
+      vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi inet.bpi nmfast.bpi 
+      dclocx.bpi bcb97axserver.bpi TeeDB7C6.bpi Tee7C6.bpi TeeUI7C6.bpi 
+      TeeGL7C6.bpi TeeQR7C6.bpi TeeLanguage7C6.bpi TeePro7C6.bpi TeeImage7C6.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -32,7 +33,7 @@
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi-
+    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- 
       -tWD -tWM -c"/>
     <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
@@ -143,6 +144,7 @@ RemoteDebug=0
 [Compiler]
 ShowInfoMsgs=0
 LinkDebugVcl=0
+LinkCGLIB=0
 
 [Language]
 ActiveLang=
