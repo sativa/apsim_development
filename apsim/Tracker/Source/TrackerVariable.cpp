@@ -58,6 +58,8 @@ void TrackerVariable::parse(const string& fullName)
 
       keyword = tokenizer.nextToken();
       }
+   if (on == "")
+      on = "post";
    }
 // ------------------------------------------------------------------
 // Parse a 'stat'
