@@ -80,8 +80,11 @@ void Compile (string& Command_line, bool Do_make_only)
                                i++)
       {
       Path prj_file ( (*i).c_str() );
-      if (prj_file.Get_directory() == "")
+      if (prj_file.Get_drive() == "")
+         {
          prj_file.Set_to_cwd();
+         prj_file.Append_path ( (*i).c_str() );
+         }
       APSIM_project project( prj_file.Get_path().c_str() );
       string compiler_report_file = compiler_rpt.Get_path();
       project.Write_build_instructions (batch_file, compiler_report_file, Do_make_only);
@@ -159,6 +162,7 @@ void Run (string& Command_line)
       {
       APSIM_simulation_collection Simulation_collection;
       Simulation_collection.Add(control_file_name.c_str());
+      Simulation_collection.Set_configuration_name (config_name.c_str());
       Simulation_collection.Run();
       }
    }
