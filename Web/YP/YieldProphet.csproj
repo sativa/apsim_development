@@ -679,6 +679,22 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "wfSurvey.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfSurvey.aspx.cs"
+                    DependentUpon = "wfSurvey.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfSurvey.aspx.resx"
+                    DependentUpon = "wfSurvey.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "wfViewCrops.aspx"
                     SubType = "Form"
                     BuildAction = "Content"

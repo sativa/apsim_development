@@ -256,21 +256,35 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void FillReportTypesCombo()
 			{
-			DataTable dtReport = DataAccessClass.GetAllReportTypes("ApsimReport");
-			cboReport.DataSource = dtReport;
-			cboReport.DataTextField = "Type";
-			cboReport.DataBind();
+			try
+				{
+				DataTable dtReport = DataAccessClass.GetAllReportTypes("ApsimReport");
+				cboReport.DataSource = dtReport;
+				cboReport.DataTextField = "Type";
+				cboReport.DataBind();
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
 			}
 		//-------------------------------------------------------------------------
 		//Gets all the crops the database and fills the crops combo box with them
 		//-------------------------------------------------------------------------
 		private void FillCropsCombo()
 			{
-			DataTable dtCropList = DataAccessClass.GetAllCrops();
-			cboCrops.DataSource = dtCropList;
-			cboCrops.DataTextField = "Type";
-			cboCrops.DataValueField = "Type";
-			cboCrops.DataBind();
+			try
+				{
+				DataTable dtCropList = DataAccessClass.GetAllCrops();
+				cboCrops.DataSource = dtCropList;
+				cboCrops.DataTextField = "Type";
+				cboCrops.DataValueField = "Type";
+				cboCrops.DataBind();
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
 			}
 		//-------------------------------------------------------------------------
 		//Gets all the cultivars for the selected crop and fills the cultivars
@@ -278,13 +292,20 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void FillCultivarsCombo()
 			{
-			if(cboCrops.SelectedItem.Text != "")
+			try
 				{
-				DataTable dtCultivarList = DataAccessClass.GetAllCultivarsOfCrop(cboCrops.SelectedItem.Text);
-				cboCultivars.DataSource = dtCultivarList;
-				cboCultivars.DataTextField = "Type";
-				cboCultivars.DataValueField = "Type";
-				cboCultivars.DataBind();
+				if(cboCrops.SelectedItem.Text != "")
+					{
+					DataTable dtCultivarList = DataAccessClass.GetAllCultivarsOfCrop(cboCrops.SelectedItem.Text);
+					cboCultivars.DataSource = dtCultivarList;
+					cboCultivars.DataTextField = "Type";
+					cboCultivars.DataValueField = "Type";
+					cboCultivars.DataBind();
+					}
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
 				}
 			}
 		//-------------------------------------------------------------------------
@@ -292,25 +313,32 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------	
 		private void FillNitrogenApplicationGrid()
 			{
-			DataTable dtNitrogenApplications =
-				DataAccessClass.GetPaddocksFertiliserApplications("Nitrogen", 
-				Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
+			try
+				{
+				DataTable dtNitrogenApplications =
+					DataAccessClass.GetPaddocksFertiliserApplications("Nitrogen", 
+					Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
 				
-			DataRow drNitrogen;
-			int iMaxNumberOfRows = 5;
-			foreach(DataRow drNitrogenApplication in dtNitrogenApplications.Rows)
-				{
-				drNitrogen = dsNitrogen.Tables["Nitrogen"].NewRow();
-				drNitrogen["Rate"] = drNitrogenApplication["Rate"];
-				drNitrogen["ApplicationDate"] = DateTime.ParseExact(drNitrogenApplication["ApplicationDate"].ToString(), "yyyy-MM-dd", null);
-				dsNitrogen.Tables["Nitrogen"].Rows.Add(drNitrogen);
+				DataRow drNitrogen;
+				int iMaxNumberOfRows = 5;
+				foreach(DataRow drNitrogenApplication in dtNitrogenApplications.Rows)
+					{
+					drNitrogen = dsNitrogen.Tables["Nitrogen"].NewRow();
+					drNitrogen["Rate"] = drNitrogenApplication["Rate"];
+					drNitrogen["ApplicationDate"] = DateTime.ParseExact(drNitrogenApplication["ApplicationDate"].ToString(), "yyyy-MM-dd", null);
+					dsNitrogen.Tables["Nitrogen"].Rows.Add(drNitrogen);
+					}
+				for(int iIndex = dsNitrogen.Tables["Nitrogen"].Rows.Count; iIndex < iMaxNumberOfRows; iIndex++)
+					{
+					drNitrogen = dsNitrogen.Tables["Nitrogen"].NewRow();
+					dsNitrogen.Tables["Nitrogen"].Rows.Add(drNitrogen);
+					}
+				this.DataBind();
 				}
-			for(int iIndex = dsNitrogen.Tables["Nitrogen"].Rows.Count; iIndex < iMaxNumberOfRows; iIndex++)
+			catch(Exception E)
 				{
-				drNitrogen = dsNitrogen.Tables["Nitrogen"].NewRow();
-				dsNitrogen.Tables["Nitrogen"].Rows.Add(drNitrogen);
+				FunctionsClass.DisplayMessage(Page, E.Message);
 				}
-			this.DataBind();
 			}
 		//-------------------------------------------------------------------------
 		//If the page hasn't been viewed by the user then the user's
@@ -411,15 +439,15 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------			
 		private void SendToGenerateReportPage()
 			{
-			//If the user isn't a visitor
-			if(FunctionsClass.IsGrowerOrHigher(Session["UserName"].ToString()) == true)
+			try
 				{
-				try
+				//If the user isn't a visitor
+				if(FunctionsClass.IsGrowerOrHigher(Session["UserName"].ToString()) == true)
 					{
 					if(SavePaddockDetails() == true)
 						{
 						if(SoilSampleClass.IsSampleValid(Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName()))
-							{
+							{	
 							//Checks that the report type is selected
 							if(cboReport.SelectedItem.Text != "")
 								{
@@ -437,9 +465,7 @@ namespace YieldProphet
 										Server.Transfer("wfGenerateNitrogenComparisonReport.aspx");
 										}
 									else
-										{
-										FunctionsClass.DisplayMessage(Page, "This report requires a sowing date");
-										}
+										throw new Exception("This report requires a sowing date");
 									}
 								else if(cboReport.SelectedItem.Text == ReportClass.szSowingXVarietyReport)
 									{
@@ -452,30 +478,22 @@ namespace YieldProphet
 										Server.Transfer("wfGenerateReport.aspx");
 										}
 									else
-										{
-										FunctionsClass.DisplayMessage(Page, "This report requires a sowing date");
-										}
+										throw new Exception("This report requires a sowing date");
 									}
 								}
 							else
-								{
-								FunctionsClass.DisplayMessage(Page, "Please select a report type");
-								}
+								throw new Exception("Please select a report type");
 							}
 						else
-							{
-							FunctionsClass.DisplayMessage(Page, "Please visit the paddock setup page and set the initial water and nitrogen conditions.");
-							}
-						}
+							throw new Exception("Please visit the paddock setup page and set the initial water and nitrogen conditions.");
+						}//END OF SAVE PADDOCK IF STATEMENT (THIS FUNCTION GIVES ITS OWN WARNINGS IF IT FAILS
 					}
-				catch(Exception E)
-					{
-					FunctionsClass.DisplayMessage(Page, E.Message);
-					}
+				else
+					throw new Exception("Functionality not available to visitors");
 				}
-			else
+			catch(Exception E)
 				{
-				FunctionsClass.DisplayMessage(Page, "Functionality not available to visitors");
+				FunctionsClass.DisplayMessage(Page, E.Message);
 				}
 			}
 		//-------------------------------------------------------------------------

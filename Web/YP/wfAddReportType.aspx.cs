@@ -53,6 +53,7 @@ namespace YieldProphet
 		#endregion
 
 
+
 		#region Form Functions
 		//-------------------------------------------------------------------------
 		//Fills the template types combo box with all the report template types
@@ -72,26 +73,25 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void SaveReportType()
 			{
-			if(cboTemplateTypes.SelectedItem.Text != "" && edtReportType.Text != "")
+			try
 				{
-				try
+				if(cboTemplateTypes.SelectedItem.Text != "" && edtReportType.Text != "")
 					{
 					DataAccessClass.InsertReportType("", InputValidationClass.ValidateString(edtReportType.Text), 
 						cboTemplateTypes.SelectedItem.Text);
 					Server.Transfer("wfEditReportTemplate.aspx");
 					}
-				catch(Exception E)
-					{
-					FunctionsClass.DisplayMessage(Page, E.Message);
+				else
+					throw new Exception("Please enter a report type");
 					}
-				}
-			else
+			catch(Exception E)
 				{
-				FunctionsClass.DisplayMessage(Page, "Please enter a report type");
+				FunctionsClass.DisplayMessage(Page, E.Message);
 				}
 			}
 		//-------------------------------------------------------------------------
 		#endregion
+
 
 
 		#region Form Events

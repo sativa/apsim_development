@@ -182,6 +182,13 @@ namespace YieldProphet
 			pgPageInfo.RegisterStartupScript("startupScript", "<script language=JavaScript>alert('"+szMessageText+"');</script>");
 			}
 		//-------------------------------------------------------------------------
+		//Displays a java script alert on the page and transfers them to another page.
+		//-------------------------------------------------------------------------
+		public static void DisplayMessage(Page pgPageInfo, string szMessageText, string szURL)
+		{
+			pgPageInfo.RegisterStartupScript("startupScript", "<script language=JavaScript>alert('"+szMessageText+"');document.location.href='"+szURL+"';</script>");
+		}
+		//-------------------------------------------------------------------------
 		//Gives a specified control focus.
 		//-------------------------------------------------------------------------
 		public static void SetControlFocus(string szControlName, Page pgCurrent)
