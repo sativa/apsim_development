@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <general\VCLAdaptors.h>
 #include <general\stl_functions.h>
+#include <xmldoc.hpp>
 class XMLNode;
 
 namespace Msxml2_tlb
@@ -46,8 +47,14 @@ class XMLNode
       iterator begin() const;
       iterator end() const;
 
-      XMLNode(XMLDocument* doc, Msxml2_tlb::IXMLDOMNode* n)
+      XMLNode(XMLDocument* doc, _di_IXMLNode n)
          : parent(doc), node(n) { }
+      XMLNode& operator= (const XMLNode& rhs)
+        {
+        parent = rhs.parent;
+        node = rhs.node;
+        return *this;
+        }
 
       std::string getName(void) const;
       std::string getAttribute(const std::string& attributeName) const;
@@ -63,7 +70,7 @@ class XMLNode
 
    private:
       XMLDocument* parent;
-      Msxml2_tlb::IXMLDOMNode* node;
+      _di_IXMLNode node;
 
       XMLNode getNextSibling(void) const;
 
@@ -198,7 +205,7 @@ XMLNode appendChildIfNotExist(XMLNode& node,
 // ------------------------------------------------------------------
 void eraseNodes(XMLNode& node, const std::string& name)
    {
-   XMLNode::iterator i = find_if(node.begin(),
+/*   XMLNode::iterator i = find_if(node.begin(),
                                  node.end(),
                                  EqualToName<XMLNode>(name));
    while (i != node.end())
@@ -208,7 +215,7 @@ void eraseNodes(XMLNode& node, const std::string& name)
                   node.end(),
                   EqualToName<XMLNode>(name));
       }
-   }
+*/   }
 
 
 #endif
