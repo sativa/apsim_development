@@ -1,3 +1,7 @@
+#include <general\pch.h>
+#include <vcl.h>
+#pragma hdrstop
+
 #include "drawable.h"
 
 /**# implementation Drawable:: id(C_0853909749)

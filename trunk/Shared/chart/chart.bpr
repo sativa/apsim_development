@@ -2,29 +2,31 @@
 <!-- C++Builder XML Project -->
 <PROJECT>
   <MACROS>
-    <VERSION value="BCB.05.03"/>
-    <PROJECT value="&quot;c:\program files\borland\cbuilder5\projects\bpl\chart.dll&quot;"/>
-    <OBJFILES value="chart.obj low_level\XY_series.obj low_level\Bar_series.obj 
-      low_level\Brush.obj low_level\Chart_base.obj low_level\Drawable.obj 
-      low_level\Font.obj low_level\Legend_class.obj low_level\Line.obj 
-      low_level\Plot.obj low_level\Position.obj low_level\Rectangle.obj 
-      low_level\Screen.obj low_level\Series_base.obj low_level\Text.obj 
-      low_level\Axis.obj high_level\Scatter_format.obj high_level\Bar_format.obj 
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value="..\..\Bin\chart.dll"/>
+    <OBJFILES value="chart.obj low_level\XY_series.obj low_level\axis.obj 
+      low_level\Bar_series.obj low_level\brush.obj low_level\Chart_base.obj 
+      low_level\drawable.obj low_level\font.obj low_level\Legend_class.obj 
+      low_level\line.obj low_level\pen.obj low_level\plot.obj 
+      low_level\position.obj low_level\Rectangle.obj low_level\screen.obj 
+      low_level\Series_base.obj low_level\text.obj high_level\Scatter_format.obj 
+      high_level\Apsim_depth_chart.obj high_level\Bar_format.obj 
       high_level\Depth_chart.obj high_level\Format_base.obj 
       high_level\Frequency_chart.obj high_level\High_level_chart_base.obj 
       high_level\High_level_screen.obj high_level\Pred_obs_chart.obj 
-      high_level\Prob_chart.obj high_level\Scatter_chart.obj 
-      high_level\Apsim_depth_chart.obj low_level\Pen.obj"/>
-    <RESFILES value=""/>
-    <IDLFILES value=""/>
+      high_level\Prob_chart.obj high_level\Scatter_chart.obj"/>
+    <RESFILES value="chart.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
-    <LIBFILES value="general.lib data.lib"/>
+    <LIBFILES value="..\general\general.lib ..\data\data.lib"/>
     <LIBRARIES value=""/>
-    <SPARELIBS value="vcl50.lib vcldb50.lib vclbde50.lib vclx50.lib tee4c5.lib"/>
-    <PACKAGES value="vclx50.bpi vcl50.bpi vcldb50.bpi vclbde50.bpi vcldbx50.bpi bcbsmp50.bpi 
-      dclocx50.bpi qrpt50.bpi ibsmp50.bpi nmfast50.bpi TEEDB4C5.bpi TEE4C5.bpi 
-      TEEUI4C5.bpi TeeQR4C5.bpi TEEGL4C5.bpi TEEPRO4C5.bpi"/>
+    <SPARELIBS value="rtl.lib"/>
+    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi vcldb.bpi dbrtl.bpi bdertl.bpi 
+      vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi visualclx.bpi visualdbclx.bpi 
+      vclie.bpi xmlrtl.bpi inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi 
+      bcbie.bpi soaprtl.bpi dclocx.bpi dbexpress.bpi dbxcds.bpi 
+      bcb2kaxserver.bpi qrpt60.bpi ibxpress.bpi indy.bpi Tee.bpi TeeDB.bpi 
+      TeeUI.bpi TeeGL.bpi TeeQR.bpi TeePro.bpi TeeLanguage.bpi"/>
     <PATHCPP value=".;low_level;high_level"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -32,29 +34,66 @@
     <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
     <RELEASELIBPATH value="$(BCB)\lib\release"/>
     <LINKER value="ilink32"/>
-    <USERDEFINES value="BUILDING_CHART"/>
+    <USERDEFINES value="_DEBUG;BUILDING_CHART"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
-    <MAINSOURCE value="chart.cpp"/>
-    <INCLUDEPATH value="high_level;low_level;k:\;$(BCB)\include;$(BCB)\include\vcl"/>
-    <LIBPATH value="$(BCB)\lib\debug;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;k:\data\;&quot;k:\general\&quot;"/>
-    <WARNINGS value="-w-par -w-8027 -w-8026"/>
-    <WARNOPTSTR value=""/>
+    <MAINSOURCE value="chart.bpf"/>
+    <INCLUDEPATH value="high_level;low_level;..\chart;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)"/>
+    <LIBPATH value="high_level;low_level;..\chart;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <WARNINGS value="-w-par"/>
+    <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -Od -H=&quot;c:\program files\borland\cbuilder5\lib\vcl50.csm&quot; -Hc -Vx -Ve 
-      -Tkh30000 -X- -r- -a8 -b- -k -y -v -vi- -c -tWM"/>
-    <PFLAGS value="-$YD -$W -$O- -v -M -JPHNE"/>
-    <RFLAGS value="= /ihigh_level /ilow_level /i$(BCB)\include /i$(BCB)\include\vcl /i..\ 
-      /d_RTLDLL /dBUILDING_CHART /dUSEPACKAGES /mx /w2 /zd"/>
+    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- 
+      -tWD -tWM -c"/>
+    <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
+    <RFLAGS value=""/>
     <AFLAGS value="/mx /w2 /zd"/>
-    <LFLAGS value="-l&quot;c:\program files\borland\cbuilder5\projects\lib\&quot; -D&quot;&quot; -aa -Tpd -x -Gn 
-      -Gi -v"/>
+    <LFLAGS value="-l. -D&quot;&quot; -aa -Tpd -x -Gn -Gi -v"/>
+    <OTHERFILES value=""/>
   </OPTIONS>
   <LINKER>
     <ALLOBJ value="c0d32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
     <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+    <OTHERFILES value=""/>
   </LINKER>
+  <FILELIST>
+      <FILE FILENAME="chart.res" FORMNAME="" UNITNAME="chart.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="chart.bpf" FORMNAME="" UNITNAME="chart" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="chart.cpp" FORMNAME="" UNITNAME="chart" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="low_level\XY_series.cpp" FORMNAME="" UNITNAME="XY_series.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="low_level\axis.cpp" FORMNAME="" UNITNAME="axis.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="low_level\Bar_series.cpp" FORMNAME="" UNITNAME="Bar_series.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="low_level\brush.cpp" FORMNAME="" UNITNAME="brush.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="low_level\Chart_base.cpp" FORMNAME="" UNITNAME="Chart_base.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="low_level\drawable.cpp" FORMNAME="" UNITNAME="drawable.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="low_level\font.cpp" FORMNAME="" UNITNAME="font.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="low_level\Legend_class.cpp" FORMNAME="" UNITNAME="Legend_class.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="low_level\line.cpp" FORMNAME="" UNITNAME="line.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="low_level\pen.cpp" FORMNAME="" UNITNAME="pen.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="low_level\plot.cpp" FORMNAME="" UNITNAME="plot.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="low_level\position.cpp" FORMNAME="" UNITNAME="position.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="low_level\Rectangle.cpp" FORMNAME="" UNITNAME="Rectangle.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="low_level\screen.cpp" FORMNAME="" UNITNAME="screen.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="low_level\Series_base.cpp" FORMNAME="" UNITNAME="Series_base.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="low_level\text.cpp" FORMNAME="" UNITNAME="text.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="high_level\Scatter_format.cpp" FORMNAME="" UNITNAME="Scatter_format.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="high_level\Apsim_depth_chart.cpp" FORMNAME="" UNITNAME="Apsim_depth_chart.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="high_level\Bar_format.cpp" FORMNAME="" UNITNAME="Bar_format.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="high_level\Depth_chart.cpp" FORMNAME="" UNITNAME="Depth_chart.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="high_level\Format_base.cpp" FORMNAME="" UNITNAME="Format_base.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="high_level\Frequency_chart.cpp" FORMNAME="" UNITNAME="Frequency_chart.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="high_level\High_level_chart_base.cpp" FORMNAME="" UNITNAME="High_level_chart_base.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="high_level\High_level_screen.cpp" FORMNAME="" UNITNAME="High_level_screen.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="high_level\Pred_obs_chart.cpp" FORMNAME="" UNITNAME="Pred_obs_chart.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="high_level\Prob_chart.cpp" FORMNAME="" UNITNAME="Prob_chart.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="high_level\Scatter_chart.cpp" FORMNAME="" UNITNAME="Scatter_chart.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\data\data.lib" FORMNAME="" UNITNAME="data.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
   <IDEOPTIONS>
 [Version Info]
 IncludeVerInfo=0
@@ -83,59 +122,59 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
+[Excluded Packages]
+c:\program files\borland\cbuilder6\Bin\DCLNMF60.bpl=NetMasters Fastnet Tools
+C:\Program Files\Borland\CBuilder6\Projects\Bpl\uoolepcb6.bpl=uoolepcb6
+C:\Program Files\Borland\CBuilder6\Projects\Bpl\DCLPsQRC60.bpl=Pragnaan Quick Report Export Filters
+C:\WINDOWS\System32\PsQRC60.bpl=Pragnaan QuickReport Export Filters
+C:\Program Files\Borland\CBuilder6\Projects\Bpl\flt_c6.bpl=PSC FilterBox
+C:\Program Files\Borland\CBuilder6\Projects\Bpl\PlusMemoC6.bpl=PlusMemoC6
+C:\Program Files\Borland\CBuilder6\Projects\Bpl\ThirdParty.bpl=ThirdParty
+C:\Program Files\Borland\CBuilder6\Projects\Bpl\kbmMemC6Des.bpl=kbmMemC6Des
+C:\Program Files\Borland\CBuilder6\Projects\Bpl\FilterBarPackage.bpl=FilterBarPackage
+
 [HistoryLists\hlIncludePath]
-Count=8
-Item0=high_level;low_level;k:\;$(BCB)\include;$(BCB)\include\vcl
-Item1=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;k:Item1=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;k:Item1=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;..
-Item2=
-Item3=
-Item4=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;..Item1=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;..Item1=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;..Item1=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
-Item5=
-Item6=
-Item7=
+Count=3
+Item0=high_level;low_level;..\chart;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item1=..\chart;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item2=..\chart;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=9
-Item0=$(BCB)\lib\debug;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;k:\data\;k:\general\
-Item1=$(BCB)\lib\debug;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;k:\data\;k:\general
-Item2=$(BCB)\lib\debug;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;k:\dataItem1=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;k:\data
-Item3=
-Item4=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level
-Item5=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib;low_level;high_level
-Item6=$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level
-Item7=c:\program files\borland\cbuilder3\lib;..\components\ui;..\components\general;c:\thypergrid;c:\rx-30\units;high_level;low_level;$(BCB)\lib\obj;$(BCB)\lib
-Item8=..\components\ui;..\components\general;c:\thypergrid;c:\rx-30\units;high_level;low_level;$(BCB)\lib\obj;$(BCB)\lib
+Count=2
+Item0=high_level;low_level;..\chart;$(BCB)\lib\obj;$(BCB)\lib
+Item1=..\chart;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
 Item0=$(BCB)\source\vcl
 
 [HistoryLists\hlConditionals]
-Count=4
-Item0=BUILDING_CHART
-Item1=_RTLDLL;BUILDING_CHART;USEPACKAGES
-Item2=_RTLDLL;USEPACKAGES;BUILDING_CHART
-Item3=_RTLDLL;USEPACKAGES
+Count=2
+Item0=_DEBUG;BUILDING_CHART
+Item1=_DEBUG
 
 [HistoryLists\hlFinalOutputDir]
-Count=4
-Item0=c:\program files\borland\cbuilder5\projects\bpl\
-Item1=c:\program files\borland\cbuilder5\projects\bpl
-Item2=c:\program files\borland\cbuilder5\projects\lib\
-Item3=$(BCB)\projects\lib
+Count=2
+Item0=..\..\Bin\
+Item1=..\..\Bin
 
 [HistoryLists\hIBPIOutputDir]
 Count=1
-Item0=c:\program files\borland\cbuilder5\projects\lib
+Item0=.
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
 RunParams=
+Launcher=
+UseLauncher=0
+DebugCWD=
 HostApplication=
 RemoteHost=
 RemotePath=
+RemoteLauncher=
+RemoteCWD=
 RemoteDebug=0
 
 [Compiler]
@@ -147,5 +186,10 @@ LinkCGLIB=0
 ActiveLang=
 ProjectLang=
 RootDir=
+
+[Linker]
+LibPrefix=
+LibSuffix=
+LibVersion=
   </IDEOPTIONS>
 </PROJECT>

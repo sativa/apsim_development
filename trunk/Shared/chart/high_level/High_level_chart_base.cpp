@@ -1,3 +1,7 @@
+#include <general\pch.h>
+#include <vcl.h>
+#pragma hdrstop
+
 #include "high_level_chart_base.h"
 #include "bar_format.h"
 static const char* MISSING_VALUE = "-";

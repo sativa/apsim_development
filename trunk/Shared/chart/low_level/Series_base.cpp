@@ -1,3 +1,7 @@
+#include <general\pch.h>
+#include <vcl.h>
+#pragma hdrstop
+
 #include "drawable.h"
 
 #include "Series_base.h"
