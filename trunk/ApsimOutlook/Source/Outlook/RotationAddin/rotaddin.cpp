@@ -96,18 +96,18 @@ void __fastcall RotationAddIn::buttonClick(TObject* Sender)
 // ------------------------------------------------------------------
 // Return the number of rotations.
 // ------------------------------------------------------------------
-int RotationAddIn::getNumRotations(void) const
+int RotationAddIn::getNumRotations(void)
    {
-   if (rotations.size() == 0)
-      partitionFilesIntoRotations();
+   ensureRotationMappingStillValid();
    return rotations.size();
    }
 
 // ------------------------------------------------------------------
 // Return a list of rotation names to caller
 // ------------------------------------------------------------------
-void RotationAddIn::getRotationNames(vector<string>& rotationNames) const
+void RotationAddIn::getRotationNames(vector<string>& rotationNames)
    {
+   ensureRotationMappingStillValid();
    for (Rotations::const_iterator rotationI = rotations.begin();
                                   rotationI != rotations.end();
                                   rotationI++)
@@ -157,11 +157,6 @@ class ScoreNameAgainst
          // see if 2 strings are identical
          if (baseName[index] == '\0' && name[index] == '\0')
             return index;
-
-         // go back to the previous space ie. only consider whole words that
-         // match.
-         while (index > 0 && baseName[index] != ' ')
-            index--;
          return index;
          }
       bool operator()(const string& dataBlockName1, const string& dataBlockName2)
@@ -248,6 +243,8 @@ void RotationAddIn::doCalculations(TAPSTable& data)
    {
    if (needsUpdating && rotationAnalysisOn)
       {
+      ensureRotationMappingStillValid();
+
       TCursor savedCursor = Screen->Cursor;
       Screen->Cursor = crHourGlass;
 
@@ -376,5 +373,32 @@ string addPerYearToFieldName(string& fieldName)
       return fieldName.substr(0, fieldName.length()-1) + " per yr)";
    else
       return fieldName;
+   }
+// ------------------------------------------------------------------
+// Ensure the previous rotation mapping is still valid.
+// ------------------------------------------------------------------
+void RotationAddIn::ensureRotationMappingStillValid(void)
+   {
+   vector<string> dataBlockNames;
+   working->getAllDataBlockNames(dataBlockNames);
+
+   unsigned numDataBlocks = 0;
+   bool ok = true;
+   for (Rotations::const_iterator rotationI = rotations.begin();
+                                  rotationI != rotations.end();
+                                  rotationI++)
+      {
+      const DataBlockNames& rotationDataBlockNames = rotationI->second;
+      for (DataBlockNames::const_iterator j = rotationDataBlockNames.begin();
+                                          j != rotationDataBlockNames.end();
+                                          j++)
+         {
+         ok = (ok && find(dataBlockNames.begin(), dataBlockNames.end(), *j)
+                     != dataBlockNames.end());
+         numDataBlocks++;
+         }
+      }
+   if (!ok || numDataBlocks != dataBlockNames.size())
+      partitionFilesIntoRotations();
    }
 

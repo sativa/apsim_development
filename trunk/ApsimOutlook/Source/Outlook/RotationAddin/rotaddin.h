@@ -40,6 +40,7 @@ class RotationAddIn : public ToolBarAddInBase
       bool cropWasSown(const TAPSRecord& recordI, const std::string& crop_acronym) const;
       bool CropHasNonZeroValue(const TAPSRecord& recordI, const std::string& crop_acronym) const;
       bool doTotalVariable(const std::string& fieldName);
+      void ensureRotationMappingStillValid(void);
 
    public:
       RotationAddIn(const std::string& parameters);
@@ -66,8 +67,8 @@ class RotationAddIn : public ToolBarAddInBase
       // Each file is categorised as belonging to a particular named rotation.
       // These methods allow callers to manipulate which files belong to which
       // rotations.
-      int getNumRotations(void) const;
-      void getRotationNames(std::vector<std::string>& names) const;
+      int getNumRotations(void);
+      void getRotationNames(std::vector<std::string>& names);
       void clearRotations(void) {rotations.erase(rotations.begin(), rotations.end());}
       bool getRotation(const std::string& name, DataBlockNames& dataBlockNames) const;
       void addRotation(const std::string& name, const DataBlockNames& dataBlockNames);
