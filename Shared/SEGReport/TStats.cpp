@@ -7,6 +7,7 @@
 #include <general\db_functions.h>
 #include <general\math_functions.h>
 #include <general\string_functions.h>
+#include <numeric>
 
 using namespace std;
 #pragma package(smart_init)
@@ -68,6 +69,8 @@ bool TStats::createFields(void) throw(runtime_error)
          addDBField(this, "Minimum", "1.0");
       if (stats.Contains(statMax))
          addDBField(this, "Maximum", "1.0");
+      if (stats.Contains(statSum))
+         addDBField(this, "Sum", "1.0");
       if (stats.Contains(stat10))
          addDBField(this, "Decile10", "1.0");
       if (stats.Contains(stat20))
@@ -127,6 +130,8 @@ void TStats::storeRecords(void) throw(runtime_error)
          if (stats.Contains(statMax))
             FieldValues["Maximum"] = max_element(values.begin(), values.end(),
                                                  less<double>());
+         if (stats.Contains(statSum))
+            FieldValues["Sum"] = accumulate(values.begin(), values.end(), 0.0);
          if (stats.Contains(stat10))
             FieldValues["Decile10"] = Calculate_percentile(values, false, 10);
          if (stats.Contains(stat20))

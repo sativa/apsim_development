@@ -41,6 +41,8 @@ void TStatsForm::setComponent(TComponent* component)
       MinCheckBox->Checked = true;
    if (allStats.Contains(statMax))
       MaxCheckBox->Checked = true;
+   if (allStats.Contains(statSum))
+      SumCheckBox->Checked = true;
    if (allStats.Contains(stat10))
       Decile10CheckBox->Checked = true;
    if (allStats.Contains(stat20))
@@ -77,6 +79,8 @@ void __fastcall TStatsForm::CheckBoxClick(TObject *Sender)
       allStats << statMax;
    if (CountCheckBox->Checked)
       allStats << statCount;
+   if (SumCheckBox->Checked)
+      allStats << statSum;
    if (Decile10CheckBox->Checked)
       allStats << stat10;
    if (Decile20CheckBox->Checked)

@@ -8,7 +8,7 @@
 // derived from TSEGTable, this creates a dataset that provides some
 // simple stats on a source dataset variable. e.g. mean, median, percentiles...
 //---------------------------------------------------------------------------
-enum StatType {statMean, statCount, statMin, statMax, stat10, stat20, stat30,
+enum StatType {statMean, statCount, statMin, statMax, statSum, stat10, stat20, stat30,
                stat40, stat50, stat60, stat70, stat80, stat90};
 typedef Set<StatType, statMean, stat90> StatSet;
 class TStats : public TSEGTable

@@ -49,6 +49,8 @@ __published:	// IDE-managed Components
    TLabel *Label14;
    TLabel *Label15;
    TLabel *Label16;
+   TCheckBox *SumCheckBox;
+   TLabel *Label1;
    void __fastcall FieldNameComboChange(TObject *Sender);
    void __fastcall CheckBoxClick(TObject *Sender);
 private:	// User declarations
