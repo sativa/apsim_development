@@ -1,0 +1,112 @@
+##################################################
+#file \misc\componentinterface\datatypes.h
+#pragma once
+#include "Message.h"
+#include "MessageData.h"
+#include "Interfaces.h"
+#include "Utility.h"
+#include <string>
+
+#for_each structure
+//-------------------- structure.name type
+class structure.name : public #if (structure.message = T) IMessage#else IData#endif
+
+   {
+   public:
+      #for_each structure.field
+      field.ctype field.name;
+      #endfor
+      void pack(Message& message)
+         {
+         #for_each structure.field
+         #if (field.ctype <> char*)
+         ::pack(message, field.name);
+         #endif
+         #endfor
+         }
+      void unpack(Message& message)
+         {
+         #for_each structure.field
+         #if (field.ctype <> char*)
+         ::unpack(message, field.name);
+         #endif
+         #endfor
+         }
+      #if (structure.message <> T)
+      std::string ddml()
+         {
+         return
+structure.dotnetddml;
+         }
+      #endif
+   };
+#if (structure.message <> T)
+public __gc class Apsimstructure.name : public IManagedData
+   {
+   public:
+      Apsimstructure.name() : dataPtr(new ::structure.name) { }
+      ~Apsimstructure.name() {delete dataPtr;}
+      virtual IData* data() {return dataPtr;}
+      #for_each structure.field
+      #if (field.ctype = std::string)
+      __property String* get_field.name() { return dataPtr->field.name.c_str(); }
+      __property void set_field.name(String* field.name) { dataPtr->field.name = stringToStdString(field.name); }
+      #else
+      __property field.ctype get_field.name() { return dataPtr->field.name; }
+      __property void set_field.name(field.ctype field.name) { dataPtr->field.name = field.name; }
+      #endif
+      #endfor
+   private:
+      ::structure.name __nogc* dataPtr;
+   };
+#endif
+#endfor
+
+#endfile
+
+##################################################
+#file \misc\componentinterface\ApsimEvents.h
+#pragma once
+#include "datatypes.h"
+#include "ComponentInterface.h"
+#include "utility.h"
+
+public __gc class ApsimEvents
+	{
+   private:
+      IComms* comms;
+	public:
+      ApsimEvents(IComms* _comms)
+         : comms(_comms) { }
+
+#for_each event
+   // -----------------
+   // event.name
+   // -----------------
+   public:
+		__delegate void Onevent.name(Apsimevent.type* tick);
+		void registerevent.nameHandler(String* eventName, Onevent.name* handler)
+			{
+			comms->registerEventHandler(eventName,
+										"", //dataPtr->ddml(),
+										new event.name(handler));
+			};
+
+   private:
+		__gc class event.name : public IEvent
+			{
+			public:
+				event.name(Onevent.name* _handler) : handler(_handler) { }
+				Onevent.name* handler;
+				virtual void invokeEvent(Message& message)
+					{
+					Apsimevent.type* data = new Apsimevent.type;
+					data->data()->unpack(message);
+					handler(data);
+					}
+			};
+#endfor
+
+   };
+#endfile
+   
