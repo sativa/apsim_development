@@ -98,6 +98,16 @@ class FortranWrapper : public protocol::Component
                    T& value, unsigned& numvals, bool isOptional = false)
          {
          int regId;
+         if (componentID == INT_MAX)
+            {
+            char buffer[100];
+            strcpy(buffer, "Invalid component id passed while getting variable. \n"
+                           "VariableName: ");
+            strncat(buffer, variableName.f_str(), variableName.length());
+            error(buffer, true);
+            numvals = 0;
+            return;
+            }
          if (componentID == 0)
             regId = FortranWrapper::currentInstance->addRegistration
                (RegistrationType::get, variableName, dataTypeString);

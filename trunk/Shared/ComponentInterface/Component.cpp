@@ -601,7 +601,10 @@ bool Component::componentNameToID(const FString& name, unsigned int& compID)
       return true;
       }
    else
+      {
+      compID = INT_MAX;
       return false;
+      }
    }
 // ------------------------------------------------------------------
 // component ID to name
