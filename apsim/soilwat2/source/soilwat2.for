@@ -3191,7 +3191,7 @@ c     he should have. Any ideas? Perhaps
  
       call get_integer_var (unknown_module, 'year', '()'
      :                                    , g_year, numvals
-     :                                    , 1800, 2100)
+     :                                    , min_year, max_year)
  
       call get_real_var (unknown_module, 'maxt', '(oC)'
      :                                  , g_maxt, numvals
