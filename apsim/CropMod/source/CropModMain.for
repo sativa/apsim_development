@@ -1,4 +1,4 @@
-C     Last change:  E    13 Feb 2001    9:28 pm
+C     Last change:  E    14 Feb 2001   12:41 pm
 
       INCLUDE 'CropMod.inc'
 
@@ -837,6 +837,7 @@ cjh      endif
       integer    layer                 ! soil layer
       real       esw_layer(max_layer)   ! plant extractable soil water
       real       rlv(max_layer)
+      real       ll(max_layer)
       real       n_conc
       real       hi                    ! harvest index (yield/biomass)
       real       sw_deficit(max_layer) ! Soil water deficit below dul_dep (mm)
@@ -1551,6 +1552,41 @@ cjh      endif
      :                             , divide(g%sw_supply_sum,
      :                                      g%sw_demand,0.0))
  
+      elseif (variable_name .eq. 'll')  then
+
+         num_layers = count_of_real_vals (g%dlayer, max_layer)
+
+         call fill_real_array(ll,0.0, max_layer)
+
+         do layer = 1, num_layers
+            ll(layer) = divide(p%ll_dep(layer), g%dlayer(layer), 0.0)
+         end do
+
+         call respond2get_real_array (variable_name
+     :                               , '(%)'
+     :                               , ll
+     :                               , num_layers)
+
+      elseif (variable_name .eq. 'll_dep')  then
+
+         call respond2get_real_array (variable_name
+     :                               , '(mm)'
+     :                               , p%ll_dep
+     :                               , num_layers)
+
+      elseif (variable_name .eq. 'kl')  then
+
+         call respond2get_real_array (variable_name
+     :                               , '()'
+     :                               , p%kl
+     :                               , num_layers)
+
+      elseif (variable_name .eq. 'xf')  then
+
+         call respond2get_real_array (variable_name
+     :                               , '()'
+     :                               , p%xf
+     :                               , num_layers)
 
       !=============================================================
       ! plant nitrogen
