@@ -18,9 +18,6 @@ namespace CSGeneral
 		   CharSet=CharSet.Ansi,
 			CallingConvention=CallingConvention.StdCall)]
 		public static extern void convertIniToSim(string fileName, StringBuilder contents);
-		private APSIMData Variables;
-		private string ProtocolToVariablesFileName;
-
 
 
 		// ------------
@@ -28,12 +25,6 @@ namespace CSGeneral
 		// ------------
 		public ComponentDescription()
 			{
-			APSIMSettings Settings = new APSIMSettings();
-			ProtocolToVariablesFileName = Settings.GetSetting("apsimui", "ProtocolToVariablesFile");
-			string VariablesFileName = Settings.GetSetting("apsimui", "variablefile");
-			APSIMFile VariableFile = new APSIMFile();
-			VariableFile.Open(VariablesFileName);
-			Variables = VariableFile.data;
 			}
 
 
@@ -41,7 +32,7 @@ namespace CSGeneral
 		// Return a list of variables (as xml) for the specified component
 		// by calling into a protocol compliant DLL.
 		// ------------------------------------------------------------------
-		private string getDescriptionFromDLL(string moduleName, string instanceName)
+		static public  string getDescriptionFromDLL(string moduleName, string instanceName)
 			{	
 			string DllFileName = APSIMSettings.ApsimDirectory() + "\\apsim\\" + moduleName + "\\lib\\" + moduleName + ".dll";
 
@@ -97,50 +88,13 @@ namespace CSGeneral
 			mi.Invoke(null, parameters);
 			Directory.SetCurrentDirectory(CurrentDirectory);		
 
-			StreamReader In = new StreamReader(ProtocolToVariablesFileName);
+			APSIMSettings Settings = new APSIMSettings();
+			string ProtocolToVariablesXSLFileName = Settings.GetSetting("apsimui", "ProtocolToVariablesFile");
+
+			StreamReader In = new StreamReader(ProtocolToVariablesXSLFileName);
 			return CSUtility.ApplyStyleSheet(description.ToString(), In.ReadToEnd());
 			//return description.ToString();
 			}
-
-
-		// ------------------------------------------------------------------
-		// Return a list of variables (as xml) for the specified component
-		// by looking in the variables file.
-		// ------------------------------------------------------------------
-		private string getDescriptionFromFile(string apsimuiTypeName)
-			{
-			APSIMData Child = Variables.Child(apsimuiTypeName);
-			if (Child != null)
-				return Child.XML;
-			else
-				return "";
-			}
-
-
-		// ------------------------------------------------------------------
-		// Return a list of variables (as xml) for the specified components
-		// eg of ApsimuiTypeName is PLANT
-		// eg of ApsimuiInstanceName is WHEAT
-		// ------------------------------------------------------------------
-		public string getDescription(APSIMData Data)
-			{
-			if (Data.Type == "plant")
-				{
-				string PlantType = Data.Child("type").Value;
-				return getDescriptionFromDLL(Data.Type, PlantType);
-				}
-
-			// The input module tries to open a met file during Init1 to register all variables in the met file.
-			// We're only passing .ini file to it and not a full parameter file and so it can't find a filename
-			// and so throws.
-			//else if (Data.Type == "metfile")
-			//	return getDescriptionFromDLL("input", "");
-			else if (Data.Type == "stock")
-				return getDescriptionFromDLL("stock", "");
-			else
-				return getDescriptionFromFile(Data.Type);
-			}
-
 
 
 		}
