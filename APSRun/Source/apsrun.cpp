@@ -32,17 +32,28 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR command_line, int)
       // assume that if we want to run a whole bunch of simulations then
       // we want to do so with the released apsim configuration - eg: regression tests
       Simulation_collection.Set_configuration_name ("Standard APSIM release");
+
+      for (list<string>::iterator i = Control_filenames.begin();
+                                  i != Control_filenames.end();
+                                  i++)
+         {
+         Simulation_collection.Add( (*i).c_str() );
+         }
+      Simulation_collection.Run_quietly();
+
       }
    else
+      {
       Split_string (Command_line, " ", Control_filenames);
 
-   for (list<string>::iterator i = Control_filenames.begin();
-                               i != Control_filenames.end();
-                               i++)
-      {
-      Simulation_collection.Add( (*i).c_str() );
+      for (list<string>::iterator i = Control_filenames.begin();
+                                  i != Control_filenames.end();
+                                  i++)
+         {
+         Simulation_collection.Add( (*i).c_str() );
+         }
+      Simulation_collection.Run();
       }
-   Simulation_collection.Run();
 
    return 0;
    }
