@@ -28,6 +28,8 @@ void ApsimDataFile::open(const std::string& file)
    if (!exists(path(fileName, native)))
       throw runtime_error("Cannot open file: " + fileName + ". File doesn't exist");
 
+   if (in.is_open())
+      in.close();
    in.open(fileName.c_str(), ios::binary);
    readApsimHeader();
    firstRecordPos = in.tellg();
@@ -95,6 +97,10 @@ bool ApsimDataFile::last(void)
 // ------------------------------------------------------------------
 void ApsimDataFile::readApsimHeader() throw(runtime_error)
    {
+   temporalData.erase(temporalData.begin(), temporalData.end());
+   constants.erase(constants.begin(), constants.end());
+   columnIndexes.erase(columnIndexes.begin(), columnIndexes.end());
+
    // loop through all lines looking for heading line.
    string line, previousLine;
    bool foundHeadings = false;
@@ -198,7 +204,7 @@ bool ApsimDataFile::readNextRecord() throw(runtime_error)
    for_each(temporalData.begin(), temporalData.end(), ClearValues);
 
    string line;
-   if (getline(line) && line.length() > 0)
+   if (getline(line))
       {
       vector<string> fieldValues;
 
@@ -206,16 +212,22 @@ bool ApsimDataFile::readNextRecord() throw(runtime_error)
       unsigned posComment = line.find('!');
       if (posComment != string::npos)
          line.erase(posComment);
-      splitIntoValues(line, " ", fieldValues);
-      if (fieldValues.size() != columnIndexes.size())
-         throw runtime_error("Not enough values on line: " + line + " in file: " + fileName);
+      if (line.length() == 0)
+         endOfFile = true;
+      else
+         {
+         splitIntoValues(line, " ", fieldValues);
+         if (fieldValues.size() != columnIndexes.size())
+            throw runtime_error("Not enough values on line: " + line + " in file: " + fileName);
 
-      for (unsigned i = 0; i != columnIndexes.size(); i++)
-         temporalData[columnIndexes[i]].values.push_back(fieldValues[i]);
-      return true;
+         for (unsigned i = 0; i != columnIndexes.size(); i++)
+            temporalData[columnIndexes[i]].values.push_back(fieldValues[i]);
+         endOfFile = false;
+         }
       }
    else
-      return false;
+      endOfFile = true;
+   return endOfFile;
    }
 // ------------------------------------------------------------------
 // Look at the columns names to see if we sufficient columns to
@@ -248,8 +260,6 @@ void ApsimDataFile::lookForDateField(void)
       ok = (yearI != temporalData.end() && dayI != temporalData.end());
    if (!ok)
       ok = (yearI != temporalData.end() && domI != temporalData.end() && monthI != temporalData.end());
-   if (!ok)
-      ok = (dayI != temporalData.end());   // to keep patchinput's data files ok.
    if (!ok)
       throw runtime_error("Cannot find date columns in file: " + fileName + "\n"
                           "The file must have one of the following combinations:\n"
@@ -285,11 +295,22 @@ gregorian::date ApsimDataFile::getDate(void) const
       }
    }
 //---------------------------------------------------------------------------
+// advance the met file to a specified date. Throws is can't find date.
+//---------------------------------------------------------------------------
+void ApsimDataFile::gotoDate(date dateToFind)
+   {
+   while (!eof() && getDate() != dateToFind)
+      next();
+   if (eof() || getDate() != dateToFind)
+      throw runtime_error("Cannot find date " + to_simple_string(dateToFind)
+                          + " in file " + fileName);
+   }
+//---------------------------------------------------------------------------
 // return true if at end of file.
 //---------------------------------------------------------------------------
 bool ApsimDataFile::eof(void)
    {
-   return !in;
+   return endOfFile;
    }
 
 

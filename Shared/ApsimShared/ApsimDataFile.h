@@ -24,6 +24,7 @@ struct Value
          const std::string& v, const std::string& c)
       : name(n), units(u), comment(c) {values.push_back(v);}
    std::string getName(void) {return name;}
+   std::string getValue(void) {return values[0];}
    bool operator== (const std::string& rhsName)
       {return (strcmpi(name.c_str(), rhsName.c_str()) == 0);}
    };
@@ -90,6 +91,11 @@ class __declspec(dllexport) ApsimDataFile
       //---------------------------------------------------------------------------
       boost::gregorian::date getDate(void) const;
 
+      //---------------------------------------------------------------------------
+      // advance the met file to a specified date. Throws is can't find date.
+      //---------------------------------------------------------------------------
+      void gotoDate(boost::gregorian::date dateToFind);
+
       // position at first record.
       bool first(void);
 
@@ -116,6 +122,7 @@ class __declspec(dllexport) ApsimDataFile
       iterator dateI;
       iterator domI;
       bool haveFoundDate;
+      bool endOfFile;
 
       std::istream& getline(std::string& line);
 
