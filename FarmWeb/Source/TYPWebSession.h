@@ -81,8 +81,7 @@ class TYPWebSession : public TWebSession
       //---------------------------------------------------------------------------
       void showNitrogenReportForm(const std::string& userName,
                                   const std::string& paddockName,
-                                  const std::string& emailAddress,
-                                  const std::string& reportDescription);
+                                  const std::string& emailAddress);
 
    };
 //---------------------------------------------------------------------------

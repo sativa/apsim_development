@@ -128,15 +128,14 @@ void TYPWebSession::showMetStationsForm()
 //---------------------------------------------------------------------------
 void TYPWebSession::showNitrogenReportForm(const string& userName,
                                            const string& paddockName,
-                                           const std::string& emailAddress,
-                                           const std::string& reportDescription)
+                                           const std::string& emailAddress)
    {
    try
       {
       if (nitrogenReportForm == NULL)
          nitrogenReportForm = new TYPNitrogenReportForm(webApplication);
 
-      nitrogenReportForm->setup(this, data, userName, paddockName, emailAddress, reportDescription);
+      nitrogenReportForm->setup(this, data, userName, paddockName, emailAddress);
       show(nitrogenReportForm);
       }
    catch (const exception& err)

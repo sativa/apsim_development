@@ -38,7 +38,7 @@ object YPNitrogenReportForm: TYPNitrogenReportForm
   end
   object IWLabel2: TIWLabel
     Left = 24
-    Top = 64
+    Top = 144
     Width = 488
     Height = 19
     Cursor = crAuto
@@ -60,7 +60,7 @@ object YPNitrogenReportForm: TYPNitrogenReportForm
   end
   object FertGrid: TTIWAdvWebGrid
     Left = 24
-    Top = 232
+    Top = 296
     Width = 673
     Height = 161
     Cursor = crAuto
@@ -778,7 +778,7 @@ object YPNitrogenReportForm: TYPNitrogenReportForm
   end
   object Scenario1Edit: TIWEdit
     Left = 24
-    Top = 176
+    Top = 240
     Width = 219
     Height = 21
     Cursor = crAuto
@@ -806,7 +806,7 @@ object YPNitrogenReportForm: TYPNitrogenReportForm
   end
   object IWLabel1: TIWLabel
     Left = 24
-    Top = 158
+    Top = 222
     Width = 180
     Height = 19
     Cursor = crAuto
@@ -828,7 +828,7 @@ object YPNitrogenReportForm: TYPNitrogenReportForm
   end
   object Scenario2Edit: TIWEdit
     Left = 246
-    Top = 176
+    Top = 240
     Width = 223
     Height = 21
     Cursor = crAuto
@@ -856,7 +856,7 @@ object YPNitrogenReportForm: TYPNitrogenReportForm
   end
   object Scenario3Edit: TIWEdit
     Left = 474
-    Top = 176
+    Top = 240
     Width = 223
     Height = 21
     Cursor = crAuto
@@ -884,7 +884,7 @@ object YPNitrogenReportForm: TYPNitrogenReportForm
   end
   object IWHRule1: TIWHRule
     Left = 24
-    Top = 136
+    Top = 200
     Width = 213
     Height = 3
     Cursor = crAuto
@@ -897,7 +897,7 @@ object YPNitrogenReportForm: TYPNitrogenReportForm
   end
   object IWLabel3: TIWLabel
     Left = 24
-    Top = 118
+    Top = 182
     Width = 217
     Height = 19
     Cursor = crAuto
@@ -920,7 +920,7 @@ object YPNitrogenReportForm: TYPNitrogenReportForm
   end
   object IWLabel4: TIWLabel
     Left = 249
-    Top = 118
+    Top = 182
     Width = 221
     Height = 19
     Cursor = crAuto
@@ -943,7 +943,7 @@ object YPNitrogenReportForm: TYPNitrogenReportForm
   end
   object IWHRule2: TIWHRule
     Left = 250
-    Top = 136
+    Top = 200
     Width = 217
     Height = 3
     Cursor = crAuto
@@ -956,7 +956,7 @@ object YPNitrogenReportForm: TYPNitrogenReportForm
   end
   object IWLabel5: TIWLabel
     Left = 477
-    Top = 118
+    Top = 182
     Width = 217
     Height = 19
     Cursor = crAuto
@@ -979,7 +979,7 @@ object YPNitrogenReportForm: TYPNitrogenReportForm
   end
   object IWHRule3: TIWHRule
     Left = 475
-    Top = 136
+    Top = 200
     Width = 217
     Height = 3
     Cursor = crAuto
@@ -992,7 +992,7 @@ object YPNitrogenReportForm: TYPNitrogenReportForm
   end
   object IWLabel6: TIWLabel
     Left = 24
-    Top = 214
+    Top = 278
     Width = 247
     Height = 19
     Cursor = crAuto
@@ -1099,5 +1099,55 @@ object YPNitrogenReportForm: TYPNitrogenReportForm
     OnClick = OkButtonClick
     TabOrder = 23
     RawText = False
+  end
+  object IWLabel7: TIWLabel
+    Left = 24
+    Top = 48
+    Width = 314
+    Height = 19
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Alignment = taLeftJustify
+    BGColor = clNone
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = []
+    NoWrap = False
+    FriendlyName = 'IWLabel1'
+    Caption = 'Enter a descriptive name for the report:'
+    RawText = False
+  end
+  object ReportDescription: TIWEdit
+    Left = 24
+    Top = 72
+    Width = 673
+    Height = 21
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = True
+    Alignment = taLeftJustify
+    BGColor = clNone
+    FocusColor = clNone
+    DoSubmitValidation = True
+    Editable = True
+    NonEditableAsLabel = True
+    Font.Color = clNone
+    Font.Size = 10
+    Font.Style = []
+    FriendlyName = 'ReportDescription'
+    MaxLength = 0
+    ReadOnly = False
+    Required = False
+    ScriptEvents = <>
+    TabOrder = 19
+    PasswordPrompt = False
   end
 end

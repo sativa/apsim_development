@@ -61,9 +61,12 @@ class TYPPaddockForm: public TIWAppForm
       TIWLink *CreateReportButton;
       TIWLink *EmailFilesButton;
       TIWImageFile *EmailFilesImage;
-   TIWLabel *IWLabel4;
-   TIWLabel *IWLabel5;
-   TIWLabel *IWLabel8;
+      TIWLabel *IWLabel4;
+      TIWLabel *IWLabel5;
+      TIWLabel *IWLabel8;
+   TIWLink *HelpFileLink;
+   TIWLabel *IWLabel10;
+   TIWLabel *IWLabel12;
       void __fastcall SaveButtonClick(TObject *Sender);
       void __fastcall RainfallEntryButtonClick(TObject *Sender);
       void __fastcall CreateReportButtonClick(TObject *Sender);
@@ -71,6 +74,7 @@ class TYPPaddockForm: public TIWAppForm
       void __fastcall PlantingDateCheckClick(TObject *Sender);
       void __fastcall SetupButtonClick(TObject *Sender);
       void __fastcall BackButtonClick(TObject *Sender);
+   void __fastcall HelpFileLinkClick(TObject *Sender);
    private:
       TYPWebSession* webSession;
       Data* data;
@@ -101,6 +105,14 @@ class TYPPaddockForm: public TIWAppForm
                                            AnsiString text2,
                                            AnsiString text3,
                                            AnsiString text4);
+      //---------------------------------------------------------------------------
+      // User has finished entering an email address - send files.
+      //---------------------------------------------------------------------------
+      void __fastcall emailFilesCallback(bool okClicked,
+                                         AnsiString text1,
+                                         AnsiString text2,
+                                         AnsiString text3,
+                                         AnsiString text4);
 
       //---------------------------------------------------------------------------
       // generate report files and send to the specified email address.
