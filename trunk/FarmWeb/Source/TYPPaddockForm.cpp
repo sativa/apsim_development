@@ -85,6 +85,16 @@ void TYPPaddockForm::setup(TYPWebSession* session,
    BackImage->Visible = fromGrowerManagement;
    SaveButton->Enabled = (webSession->isSaveAllowed());
 
+   // show / hide the visitor labels.
+   VisitorLabel1->Visible = (userN == "Visitor");
+   VisitorLabel2->Visible = (userN == "Visitor");
+   VisitorLabel3->Visible = (userN == "Visitor");
+   VisitorLabel4->Visible = (userN == "Visitor");
+   VisitorLabel5->Visible = (userN == "Visitor");
+   VisitorLabel6->Visible = (userN == "Visitor");
+   VisitorLabel7->Visible = (userN == "Visitor");
+   VisitorLabel8->Visible = (userN == "Visitor");
+   VisitorLabel9->Visible = (userN == "Visitor");
    }
 //---------------------------------------------------------------------------
 // Populate the report combo.
@@ -327,4 +337,5 @@ void __fastcall TYPPaddockForm::HelpButtonClick(TObject *Sender)
    webSession->showHelp();
    }
 //---------------------------------------------------------------------------
+
 

@@ -1289,4 +1289,216 @@ object YPPaddockForm: TYPPaddockForm
     TabOrder = 23
     RawText = False
   end
+  object VisitorLabel1: TIWLabel
+    Left = 144
+    Top = 400
+    Width = 849
+    Height = 19
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Alignment = taLeftJustify
+    BGColor = clNone
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = []
+    NoWrap = False
+    FriendlyName = 'IWLabel1'
+    Caption = 
+      'Welcome to the Visitors site of the Yield Prophet.  The Visitors' +
+      ' site enables you to check out how the Yield'
+    RawText = False
+  end
+  object VisitorLabel2: TIWLabel
+    Left = 144
+    Top = 416
+    Width = 843
+    Height = 19
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Alignment = taLeftJustify
+    BGColor = clNone
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = []
+    NoWrap = False
+    FriendlyName = 'IWLabel1'
+    Caption = 
+      'Prophet operates and see some of the reports which were generate' +
+      'd over the season.  The Visitors site is'
+    RawText = False
+  end
+  object VisitorLabel3: TIWLabel
+    Left = 144
+    Top = 432
+    Width = 718
+    Height = 19
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Alignment = taLeftJustify
+    BGColor = clNone
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = []
+    NoWrap = False
+    FriendlyName = 'IWLabel1'
+    Caption = 
+      'not an active site '#8211' you cannot actually run the model, it is de' +
+      'signed only to show you how'
+    RawText = False
+  end
+  object VisitorLabel4: TIWLabel
+    Left = 144
+    Top = 448
+    Width = 217
+    Height = 19
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Alignment = taLeftJustify
+    BGColor = clNone
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = []
+    NoWrap = False
+    FriendlyName = 'IWLabel1'
+    Caption = 'the Yield Prophet operates.'
+    RawText = False
+  end
+  object VisitorLabel5: TIWLabel
+    Left = 144
+    Top = 480
+    Width = 673
+    Height = 19
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Alignment = taLeftJustify
+    BGColor = clNone
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = []
+    NoWrap = False
+    FriendlyName = 'IWLabel1'
+    Caption = 
+      'The Visitors site is using updated information from the BCG main' +
+      ' trial site at Birchip.'
+    RawText = False
+  end
+  object VisitorLabel6: TIWLabel
+    Left = 144
+    Top = 520
+    Width = 716
+    Height = 19
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Alignment = taLeftJustify
+    BGColor = clNone
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = []
+    NoWrap = False
+    FriendlyName = 'IWLabel1'
+    Caption = 
+      'The help files will help you in becoming familiar with how to us' +
+      'e the Yield Prophet web site'
+    RawText = False
+  end
+  object VisitorLabel7: TIWLabel
+    Left = 144
+    Top = 536
+    Width = 525
+    Height = 19
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Alignment = taLeftJustify
+    BGColor = clNone
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = []
+    NoWrap = False
+    FriendlyName = 'IWLabel1'
+    Caption = 
+      'and there are also help files explaining how to interpret the re' +
+      'ports'
+    RawText = False
+  end
+  object VisitorLabel8: TIWLabel
+    Left = 144
+    Top = 576
+    Width = 738
+    Height = 19
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Alignment = taLeftJustify
+    BGColor = clNone
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = []
+    NoWrap = False
+    FriendlyName = 'IWLabel1'
+    Caption = 
+      'If you have any comments or would like to find out more about th' +
+      'e Yield Prophet please drop'
+    RawText = False
+  end
+  object VisitorLabel9: TIWLabel
+    Left = 144
+    Top = 592
+    Width = 412
+    Height = 19
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Alignment = taLeftJustify
+    BGColor = clNone
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = []
+    NoWrap = False
+    FriendlyName = 'IWLabel1'
+    Caption = 'a line to James Hunt at:  james.hunt@aanet.com.au'
+    RawText = False
+  end
 end

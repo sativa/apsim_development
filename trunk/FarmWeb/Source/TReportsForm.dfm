@@ -128,7 +128,7 @@ object ReportsForm: TReportsForm
   end
   object ReportList: TIWListbox
     Left = 144
-    Top = 40
+    Top = 32
     Width = 740
     Height = 634
     Cursor = crAuto
@@ -244,6 +244,50 @@ object ReportsForm: TReportsForm
     DoSubmitValidation = False
     FriendlyName = 'SaveButton'
     OnClick = HelpButtonClick
+    TabOrder = 23
+    RawText = False
+  end
+  object IWImageFile4: TIWImageFile
+    Left = 456
+    Top = 8
+    Width = 24
+    Height = 24
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    BorderOptions.Color = clNone
+    BorderOptions.Width = 0
+    DoSubmitValidation = True
+    ScriptEvents = <>
+    TabOrder = 22
+    UseSize = False
+    FriendlyName = 'IWImageFile1'
+    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\document rename.gif'
+  end
+  object RenameButton: TIWLink
+    Left = 483
+    Top = 11
+    Width = 70
+    Height = 17
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Caption = 'Rename'
+    Color = clNone
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = [fsUnderline]
+    ScriptEvents = <>
+    DoSubmitValidation = False
+    FriendlyName = 'DeleteButton'
+    OnClick = RenameButtonClick
     TabOrder = 23
     RawText = False
   end

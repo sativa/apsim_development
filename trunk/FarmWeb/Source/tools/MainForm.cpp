@@ -5,13 +5,16 @@
 
 #include "MainForm.h"
 #include <general\db_functions.h>
+#include <general\string_functions.h>
 #include <general\xml.h>
 #include <soil\soilsample.h>
 #include <general\math_functions.h>
+#include <general\date_functions.h>
 #include <boost\lexical_cast.hpp>
 #include "..\Data.h"
+#include <sstream>
 using namespace boost;
-
+using namespace std;
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "IWBaseControl"
@@ -42,10 +45,73 @@ void setAsMainForm() {
 //---------------------------------------------------------------------------
 void __fastcall TIWForm1::IWButton1Click(TObject *Sender)
    {
-   copyReportsFromOnePaddockToAnother();
+   changeReportDates();
    }
 //---------------------------------------------------------------------------
-// Convert all soils
+// Change report dates.
+//---------------------------------------------------------------------------
+void TIWForm1::changeReportDates()
+   {
+   try
+      {
+      AnsiString mdbFileName = GServerController->FilesDir + "yp.mdb";
+      open(mdbFileName.c_str());
+
+      string sql = "SELECT Reports.* FROM Users, Reports WHERE users.name = 'Visitor' "
+                   " and Users.id = Reports.userId";
+
+      TDataSet* query = runQuery(connection, sql);
+      query->First();
+      while (!query->Eof)
+         {
+         int id = query->FieldValues["id"];
+         string reportName = AnsiString(query->FieldValues["name"]).c_str();
+
+         string timeString = splitOffBracketedValue(reportName, '(', ')');
+
+         unsigned posDash = reportName.find_last_of('-');
+         if (posDash != string::npos && timeString != "")
+            {
+            string dateString = reportName.substr(posDash+2);
+            istringstream dateIn(dateString.c_str());
+            short day, month, year;
+            string monthStr;
+            dateIn >> day >> monthStr >> year;
+            bool found = false;
+            for (month = 1; month <= 12 && !found; month++)
+               found = Str_i_Eq(getShortMonthString(month), monthStr);
+
+            if (found)
+               {
+               month--;
+
+               int time = atoi(timeString.c_str());
+               int hour = time / 100;
+               int minute = time - hour * 100;
+
+               double julianDay = TDateTime(year, month,day) - TDateTime(1899, 12, 30);
+               int secsInDay = 24 * 60 * 60;
+               julianDay += (hour * 24.0 * 60 + minute * 60.0) / secsInDay;
+               TDateTime reportDate(julianDay);
+
+               ostringstream sql;
+               sql << "UPDATE [Reports] SET [date] = \'" << reportDate << "\'"
+                   << " WHERE id = " << id;
+               executeQuery(connection, sql.str());
+
+
+               }
+            }
+         query->Next();
+         }
+      }
+   catch (const exception& err)
+      {
+      ShowMessage(err.what());
+      }
+   }
+//---------------------------------------------------------------------------
+// Copy reports from one paddock to another.
 //---------------------------------------------------------------------------
 void TIWForm1::copyReportsFromOnePaddockToAnother()
    {

@@ -30,6 +30,7 @@ class TIWForm1: public TIWAppForm
 
       void convertSoils();
       void copyReportsFromOnePaddockToAnother();
+      void changeReportDates();
 
 
    public:		// User declarations

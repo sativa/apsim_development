@@ -68,6 +68,15 @@ class TYPPaddockForm: public TIWAppForm
       TIWCheckBox *EmailFilesCheckBox;
    TIWImageFile *HelpImage;
    TIWLink *HelpButton;
+   TIWLabel *VisitorLabel1;
+   TIWLabel *VisitorLabel2;
+   TIWLabel *VisitorLabel3;
+   TIWLabel *VisitorLabel4;
+   TIWLabel *VisitorLabel5;
+   TIWLabel *VisitorLabel6;
+   TIWLabel *VisitorLabel7;
+   TIWLabel *VisitorLabel8;
+   TIWLabel *VisitorLabel9;
       void __fastcall SaveButtonClick(TObject *Sender);
       void __fastcall RainfallEntryButtonClick(TObject *Sender);
       void __fastcall CreateReportButtonClick(TObject *Sender);
