@@ -527,13 +527,13 @@ bool ControlFileConverter::executeMoveParametersOutOfCon(const std::string argum
 bool ControlFileConverter::executeRemoveSumAvgToTracker(const std::string& arguments) throw(runtime_error)
    {
    bool sumAvgFound = false;
-
    string name;
 
    vector<string> instanceNames;
    controlFile.getInstances("report", instanceNames);
    for (unsigned i = 0; i != instanceNames.size(); ++i)
       {
+      bool sumAvgFoundThisInstance = false;
       bool alreadyConverted = false;
 
       vector<string> trackerVariables;
@@ -561,6 +561,7 @@ bool ControlFileConverter::executeRemoveSumAvgToTracker(const std::string& argum
                   if (variables[variableI].find("sum@") != string::npos ||
                       variables[variableI].find("avg@") != string::npos)
                      {
+                     sumAvgFoundThisInstance = true;
                      sumAvgFound = true;
                      if (variables[variableI].find("tracker") == string::npos)
                         {
@@ -618,7 +619,7 @@ bool ControlFileConverter::executeRemoveSumAvgToTracker(const std::string& argum
             }
          }
 
-      if (sumAvgFound)
+      if (sumAvgFoundThisInstance)
          {
          vector<string> instanceNames;
          controlFile.getInstances("tracker", instanceNames);
