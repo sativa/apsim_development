@@ -36,32 +36,43 @@ Public Class MetUI
     Friend WithEvents BrowseButton As System.Windows.Forms.Button
     Friend WithEvents OpenFileDialog As System.Windows.Forms.OpenFileDialog
     Friend WithEvents RichTextBox As System.Windows.Forms.RichTextBox
+    Friend WithEvents ImageList2 As System.Windows.Forms.ImageList
+    Friend WithEvents ImageList As System.Windows.Forms.ImageList
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container
+        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MetUI))
         Me.MetFileTextBox = New System.Windows.Forms.TextBox
         Me.BrowseButton = New System.Windows.Forms.Button
         Me.Label1 = New System.Windows.Forms.Label
         Me.RichTextBox = New System.Windows.Forms.RichTextBox
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog
+        Me.ImageList = New System.Windows.Forms.ImageList(Me.components)
+        Me.ImageList2 = New System.Windows.Forms.ImageList(Me.components)
         Me.SuspendLayout()
         '
         'MetFileTextBox
         '
         Me.MetFileTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.MetFileTextBox.AutoSize = False
         Me.MetFileTextBox.Location = New System.Drawing.Point(100, 48)
         Me.MetFileTextBox.Name = "MetFileTextBox"
-        Me.MetFileTextBox.Size = New System.Drawing.Size(540, 20)
+        Me.MetFileTextBox.Size = New System.Drawing.Size(859, 24)
         Me.MetFileTextBox.TabIndex = 0
         Me.MetFileTextBox.Text = ""
         '
         'BrowseButton
         '
         Me.BrowseButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.BrowseButton.Location = New System.Drawing.Point(663, 48)
+        Me.BrowseButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.BrowseButton.ImageIndex = 0
+        Me.BrowseButton.ImageList = Me.ImageList
+        Me.BrowseButton.Location = New System.Drawing.Point(960, 48)
         Me.BrowseButton.Name = "BrowseButton"
-        Me.BrowseButton.Size = New System.Drawing.Size(64, 24)
+        Me.BrowseButton.Size = New System.Drawing.Size(80, 24)
         Me.BrowseButton.TabIndex = 1
         Me.BrowseButton.Text = "Browse"
+        Me.BrowseButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label1
         '
@@ -80,14 +91,25 @@ Public Class MetUI
         Me.RichTextBox.Location = New System.Drawing.Point(56, 112)
         Me.RichTextBox.Name = "RichTextBox"
         Me.RichTextBox.ReadOnly = True
-        Me.RichTextBox.Size = New System.Drawing.Size(672, 384)
+        Me.RichTextBox.Size = New System.Drawing.Size(991, 427)
         Me.RichTextBox.TabIndex = 3
         Me.RichTextBox.Text = ""
+        '
+        'ImageList
+        '
+        Me.ImageList.ImageSize = New System.Drawing.Size(16, 16)
+        Me.ImageList.ImageStream = CType(resources.GetObject("ImageList.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.ImageList.TransparentColor = System.Drawing.Color.Transparent
+        '
+        'ImageList2
+        '
+        Me.ImageList2.ImageSize = New System.Drawing.Size(16, 16)
+        Me.ImageList2.TransparentColor = System.Drawing.Color.Transparent
         '
         'MetUI
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(776, 542)
+        Me.ClientSize = New System.Drawing.Size(1095, 585)
         Me.Controls.Add(Me.RichTextBox)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.BrowseButton)
@@ -150,4 +172,9 @@ Public Class MetUI
         End Try
     End Sub
 
+
+
+    Private Sub MetUI_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+    End Sub
 End Class

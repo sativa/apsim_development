@@ -46,6 +46,10 @@ Public Class SimulationUI
     Friend WithEvents EndDatePicker As System.Windows.Forms.DateTimePicker
     Friend WithEvents SmallImageList As System.Windows.Forms.ImageList
     Friend WithEvents ListView As System.Windows.Forms.ListView
+    Friend WithEvents MapTextBox As System.Windows.Forms.TextBox
+    Friend WithEvents MapBrowseButton As System.Windows.Forms.Button
+    Friend WithEvents Label5 As System.Windows.Forms.Label
+    Friend WithEvents ImageList As System.Windows.Forms.ImageList
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(SimulationUI))
@@ -54,6 +58,7 @@ Public Class SimulationUI
         Me.TitleTextBox = New System.Windows.Forms.TextBox
         Me.SummaryFileTextBox = New System.Windows.Forms.TextBox
         Me.BrowseButton = New System.Windows.Forms.Button
+        Me.ImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.Label1 = New System.Windows.Forms.Label
         Me.Label2 = New System.Windows.Forms.Label
         Me.Label3 = New System.Windows.Forms.Label
@@ -61,6 +66,9 @@ Public Class SimulationUI
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog
         Me.SmallImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.ListView = New System.Windows.Forms.ListView
+        Me.MapTextBox = New System.Windows.Forms.TextBox
+        Me.MapBrowseButton = New System.Windows.Forms.Button
+        Me.Label5 = New System.Windows.Forms.Label
         Me.SuspendLayout()
         '
         'StartDatePicker
@@ -84,7 +92,7 @@ Public Class SimulationUI
         Me.TitleTextBox.AutoSize = False
         Me.TitleTextBox.Location = New System.Drawing.Point(355, 10)
         Me.TitleTextBox.Name = "TitleTextBox"
-        Me.TitleTextBox.Size = New System.Drawing.Size(518, 20)
+        Me.TitleTextBox.Size = New System.Drawing.Size(600, 20)
         Me.TitleTextBox.TabIndex = 2
         Me.TitleTextBox.Text = ""
         '
@@ -95,22 +103,31 @@ Public Class SimulationUI
         Me.SummaryFileTextBox.AutoSize = False
         Me.SummaryFileTextBox.Location = New System.Drawing.Point(355, 40)
         Me.SummaryFileTextBox.Name = "SummaryFileTextBox"
-        Me.SummaryFileTextBox.Size = New System.Drawing.Size(518, 20)
+        Me.SummaryFileTextBox.Size = New System.Drawing.Size(600, 20)
         Me.SummaryFileTextBox.TabIndex = 3
         Me.SummaryFileTextBox.Text = ""
         '
         'BrowseButton
         '
         Me.BrowseButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.BrowseButton.Location = New System.Drawing.Point(875, 40)
+        Me.BrowseButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.BrowseButton.ImageIndex = 0
+        Me.BrowseButton.ImageList = Me.ImageList
+        Me.BrowseButton.Location = New System.Drawing.Point(976, 40)
         Me.BrowseButton.Name = "BrowseButton"
-        Me.BrowseButton.Size = New System.Drawing.Size(60, 20)
+        Me.BrowseButton.Size = New System.Drawing.Size(96, 24)
         Me.BrowseButton.TabIndex = 4
         Me.BrowseButton.Text = "Browse..."
         '
+        'ImageList
+        '
+        Me.ImageList.ImageSize = New System.Drawing.Size(16, 16)
+        Me.ImageList.ImageStream = CType(resources.GetObject("ImageList.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.ImageList.TransparentColor = System.Drawing.Color.Transparent
+        '
         'Label1
         '
-        Me.Label1.Location = New System.Drawing.Point(291, 19)
+        Me.Label1.Location = New System.Drawing.Point(285, 19)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(40, 24)
         Me.Label1.TabIndex = 5
@@ -157,22 +174,55 @@ Public Class SimulationUI
         Me.ListView.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ListView.Location = New System.Drawing.Point(8, 96)
+        Me.ListView.Location = New System.Drawing.Point(8, 128)
         Me.ListView.Name = "ListView"
-        Me.ListView.Size = New System.Drawing.Size(920, 584)
+        Me.ListView.Size = New System.Drawing.Size(1071, 488)
         Me.ListView.SmallImageList = Me.SmallImageList
         Me.ListView.TabIndex = 9
         Me.ListView.View = System.Windows.Forms.View.SmallIcon
         '
+        'MapTextBox
+        '
+        Me.MapTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.MapTextBox.Location = New System.Drawing.Point(355, 75)
+        Me.MapTextBox.Name = "MapTextBox"
+        Me.MapTextBox.Size = New System.Drawing.Size(600, 20)
+        Me.MapTextBox.TabIndex = 10
+        Me.MapTextBox.Text = ""
+        '
+        'MapBrowseButton
+        '
+        Me.MapBrowseButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.MapBrowseButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.MapBrowseButton.ImageIndex = 0
+        Me.MapBrowseButton.ImageList = Me.ImageList
+        Me.MapBrowseButton.Location = New System.Drawing.Point(976, 72)
+        Me.MapBrowseButton.Name = "MapBrowseButton"
+        Me.MapBrowseButton.Size = New System.Drawing.Size(98, 24)
+        Me.MapBrowseButton.TabIndex = 11
+        Me.MapBrowseButton.Text = "Browse..."
+        '
+        'Label5
+        '
+        Me.Label5.Location = New System.Drawing.Point(283, 75)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(48, 24)
+        Me.Label5.TabIndex = 12
+        Me.Label5.Text = "Map:"
+        '
         'SimulationUI
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(944, 686)
+        Me.ClientSize = New System.Drawing.Size(1095, 625)
+        Me.Controls.Add(Me.Label5)
+        Me.Controls.Add(Me.MapBrowseButton)
+        Me.Controls.Add(Me.MapTextBox)
+        Me.Controls.Add(Me.SummaryFileTextBox)
+        Me.Controls.Add(Me.TitleTextBox)
         Me.Controls.Add(Me.ListView)
         Me.Controls.Add(Me.EndDatePicker)
         Me.Controls.Add(Me.StartDatePicker)
-        Me.Controls.Add(Me.SummaryFileTextBox)
-        Me.Controls.Add(Me.TitleTextBox)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label2)
@@ -196,7 +246,7 @@ Public Class SimulationUI
         StartDatePicker.Value = GetValue("start_date")
         EndDatePicker.Value = GetValue("end_date")
         TitleTextBox.Text = GetValue("title")
-
+        MapTextBox.Text = GetValue("map")
         ListView.Clear()
         Dim AreaList As New StringCollection
         APSIMFile.GetChildListByType(DataPath, "area", AreaList)
@@ -205,6 +255,7 @@ Public Class SimulationUI
             Dim item As New ListViewItem(AreaName, 0)
             ListView.Items.Add(item)
         Next
+
     End Sub
     Private Sub BrowseButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BrowseButton.Click
 
@@ -277,5 +328,24 @@ Public Class SimulationUI
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error in summary file information")
         End Try
+    End Sub
+
+    Private Sub MapTextBox_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles MapTextBox.Leave
+        Try
+            Dim path As String = DataPath + "/" + "map"
+            APSIMFile.SetValue(path, MapTextBox.Text)
+            'ListView.
+            Me.Refresh()
+
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error in summary file information")
+        End Try
+    End Sub
+    Private Sub ListView_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListView.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub SimulationUI_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
     End Sub
 End Class
