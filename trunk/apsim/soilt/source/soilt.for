@@ -266,7 +266,7 @@
      :                                  , g%es, numvals
      :                                  , 0.0, 1000.0)
 
-      call get_real_var (unknown_module, 'residue_cover', '()'
+      call get_real_var (unknown_module, 'surfaceom_cover', '()'
      :                                  , cover, numvals
      :                                  , 0.0, 1000.0)
 
