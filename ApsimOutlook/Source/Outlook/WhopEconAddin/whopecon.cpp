@@ -25,7 +25,6 @@
 //---------------------------------------------------------------------------
 #define WHOPECON_SECTION "WhopEcon"
 #define WHOPECON_FACTOR_NAME "Econ Config"
-#define ECON_DB_NAME "WhopEcon|Econ Database"
 #define BITMAP_NAME_KEY "WhopEcon|bitmap"
 #define SIMULATION_FACTOR_NAME "Simulation"
 #define WHOPECON_FIELDS "Crops"
@@ -62,48 +61,37 @@ void WhopEcon::setStartupParameters(const std::string& parameters)
       firstTime = false;
       }
 
-   // handle parameter string
-
-   // read settings from ini
-   Read_inifile_settings();
-
    // get a default econ config name
    AnsiString default_config_name;
-   EconForm->OpenEconDB();
    DATA->Scenario->First();
    if (!DATA->Scenario->Eof)
       default_config_name =  DATA->Scenario->FieldValues["ScenarioName"];
    else
       default_config_name = "Empty";
-   EconForm->CloseEconDB();
 
    // create a factor with the default name
    Factor econ(WHOPECON_FACTOR_NAME,default_config_name.c_str());
    factors.push_back(econ);
    }
-
+// ------------------------------------------------------------------
+// destructor
+// ------------------------------------------------------------------
 WhopEcon::~WhopEcon(void)
    {
    delete DATA;
-   DATA = NULL;
    delete EconForm;
-   EconForm = NULL;
    delete CropForm;
-   CropForm = NULL;
    delete AboutBox;
-   AboutBox = NULL;
    delete WheatMatrixForm;
-   WheatMatrixForm = NULL;
    delete SeedWeightsForm;
-   SeedWeightsForm = NULL;
    }
-
+// ------------------------------------------------------------------
 // return true if the simulation is valid.  False otherwise.
+// ------------------------------------------------------------------
 bool WhopEcon::isScenarioValid(Scenario& scenario) const
    {
    string econName = scenario.getFactorValue(WHOPECON_FACTOR_NAME);
 
-   EconForm->OpenEconDB();
    DATA->Scenario->First();
    bool found = false;
    while (!DATA->Scenario->Eof && !found)
@@ -112,20 +100,25 @@ bool WhopEcon::isScenarioValid(Scenario& scenario) const
       found = (name == econName.c_str());
       DATA->Scenario->Next();
       }
-   EconForm->CloseEconDB();
    return found;
    }
-
+// ------------------------------------------------------------------
+// Make the specified scenario valid.
+// ------------------------------------------------------------------
 void WhopEcon::makeScenarioValid(Scenario& scenario,
-                                     const std::string factor_name) const {}
-
-
-Scenario WhopEcon::getDefaultScenario(void) const {
+                                     const std::string factor_name) const
+   { }
+// ------------------------------------------------------------------
+// Return a default scenario.
+// ------------------------------------------------------------------
+Scenario WhopEcon::getDefaultScenario(void) const
+   {
    // check the following to see if "" is the right thing to pass in.
    return Scenario("",factors);
-}
-
-
+   }
+// ------------------------------------------------------------------
+// Return factor values for specified factor name to caller.
+// ------------------------------------------------------------------
 void WhopEcon::getFactorValues(const Scenario& scenario,
                                    const std::string& factorName,
                                    std::vector<std::string>& factorValues) const
@@ -133,7 +126,6 @@ void WhopEcon::getFactorValues(const Scenario& scenario,
    if (factorName == WHOPECON_FACTOR_NAME)
       {
       TListItems* config_names;
-      EconForm->OpenEconDB();
       DATA->Scenario->First();
       while (!DATA->Scenario->Eof)
          {
@@ -141,43 +133,17 @@ void WhopEcon::getFactorValues(const Scenario& scenario,
          factorValues.push_back(name.c_str());
          DATA->Scenario->Next();
          }
-      EconForm->CloseEconDB();
       }
    }
-   
+// ------------------------------------------------------------------
+// display our form.
+// ------------------------------------------------------------------
 void WhopEcon::showUI(void)
    {
    EconForm->ShowModal();
    }
 // ------------------------------------------------------------------
-//  Short description:
-//      read all defaults from .ini file.
-
-//  Notes:
-
-//  Changes:
-//    DAH 29/8/01 :   Created
-
-// ------------------------------------------------------------------
-void WhopEcon::Read_inifile_settings (void)
-{
-   // read all defaults.
-   string st;
-   settings.read (ECON_DB_NAME, st);
-   Econ_DB_name = getAppHomeDirectory() +  "\\"  +  st;
-   EconForm->DBFileName = Econ_DB_name.c_str();
-
-}
-
-
-// ------------------------------------------------------------------
-//  Short description:
-//      calculate and store all records in memory table.
-
-//  Notes:
-
-//  Created:   DAH   7/9/01   Adapted from G. McLean's WhopEcon and Dameasy
-//                            doCalculations routine
+// calculate and store all records in memory table.
 // ------------------------------------------------------------------
 void WhopEcon::doCalculations(TAPSTable& data, const Scenario& scenario)
    {
@@ -197,7 +163,6 @@ void WhopEcon::doCalculations(TAPSTable& data, const Scenario& scenario)
 
    // open the relevant tables and convert the economic configuration name
    // into an index.
-   EconForm->OpenEconDB();
    DATA->CropList->Open();
 
    bool ok = data.first();
@@ -307,7 +272,6 @@ void WhopEcon::doCalculations(TAPSTable& data, const Scenario& scenario)
       ok = data.next();
       }
 
-   EconForm->CloseEconDB();
    Screen->Cursor = savedCursor;
    }
 
