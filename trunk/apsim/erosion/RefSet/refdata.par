@@ -57,14 +57,14 @@ minimum_depth =    100.0 (mm)
 k_factor =          0.4   ()
 p_factor =          1.0   ()
 
-[gmtb0.residue2.parameters]
-residue_wt =  100. ()   ! surface residue (kg/ha) !stubble incorporated prior to sowing. guess @1000kg
-residue_cnr =  120. ()   ! cn ratio of surface residues
-residue_type =  wheat
-pot_decomp_rate =  0.1 ()   !default
+[gmtb0.SurfaceOM.parameters]
+mass = 100. ()   ! surface residue (kg/ha) !stubble incorporated prior to sowing. guess @1000kg
+cnr = 120. ()   ! cn ratio of surface residues
+type = wheat
 
 
 
+name = wheat
 [gmtb0.grasp.parameters]
 crop_type =  grass
 uptake_source =  calc
