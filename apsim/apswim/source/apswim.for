@@ -2886,6 +2886,8 @@ c              write(LU_Summary_file,*) '  dr=',real(dr)
 c              write(LU_Summary_file,*) '  dt=',real(dt)
             if(fail)then
 c               call apswim_report_status()
+                call apswim_diagnostics(pold)
+
                t = old_time
                hmin = old_hmin
                gsurf = old_gsurf
@@ -8177,7 +8179,7 @@ c      pause
 
 
 * ====================================================================
-       subroutine apswim_diagnostics ()
+       subroutine apswim_diagnostics (pold)
 * ====================================================================
       implicit none
        include 'const.inc'
@@ -8185,6 +8187,9 @@ c      pause
       include 'data.pub'                          
       include 'write.pub'                         
       include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      double precision pold(0:n)
 
 *+  Purpose
 *     <insert here>
@@ -8210,15 +8215,15 @@ c      pause
       call write_string (LU_Scr_sum,string)
  
       string =     '     --------------------------------------------'
-     :            //    '--------------------'
+     :            //    '----------------------------------'
       call write_string (LU_Scr_sum,string)
  
       string =     '      depth   Soil Type     Theta         Psi    '
-     :            //    '    K           P'
+     :            //    '    K           P          P*'
       call write_string (LU_Scr_sum,string)
  
       string =     '     --------------------------------------------'
-     :            //    '--------------------'
+     :            //    '----------------------------------'
       call write_string (LU_Scr_sum,string)
  
       nlayers = count_of_double_vals (x,M)
@@ -8227,14 +8232,14 @@ c      pause
          call apswim_watvar(layer,p(layer),dummy1,dummy2,dummy3,dummy4
      :                     ,dummy5,k,dummy6)
          write(string
-     :        ,'(5x,f6.1,2x,a10,4x,f9.7,1x,f10.3,1x,f10.3,1x,f10.3)')
+     :  ,'(5x,f6.1,2x,a10,4x,f9.7,4(1x,f10.3))')
      :       x(layer)*10., soil_type(layer), th(layer),psi(layer),
-     :       k ,p(layer)
+     :       k ,p(layer), pold(layer)
          call write_string (LU_Scr_sum,string)
   200 continue
  
       string =     '     --------------------------------------------'
-     :            //    '--------------------'
+     :            //    '----------------------------------'
       call write_string (LU_Scr_sum,string)
  
  
