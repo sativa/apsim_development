@@ -8,8 +8,8 @@ outputfile =operatns.out
 
 variable = clock.day
 variable = clock.year
-variable = irrigate.sum@irrigation
-variable = fertiliz.sum@fertilizer
+variable = tracker.sum@irrigation
+variable = tracker.sum@fertilizer
 variable = soilwat2.sw_dep()
 variable = soiln2.no3()
 [sample.clock.parameters]  
@@ -31,3 +31,7 @@ end_date=30/1/1988
 summaryfile=operatns.sum
 [sample.Screen.parameters]
 screen_output=on
+
+[sample.tracker.parameters]
+variable = sum of irrigation since reported as sum@irrigation
+variable = sum of fertilizer since reported as sum@fertilizer
