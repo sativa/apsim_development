@@ -1,30 +1,23 @@
 [sample.report.parameters]
-title = lupin Sample Simulation
-screen_output = on
-outputfile  = lupin.out /overwrite
-summaryfile = lupin.sum /overwrite
-
-module_names=    clock clock
-variable_names=  day   year     
-variable_alias=  -     -      
-
-module_names=    lupin lupin lupin
-variable_names=  lai      biomass  green_biomass
-variable_alias=  -        -        -     
-units=           -         -       -     
+outputfile  =lupin.out
 
 
+
+
+variable = clock.day
+variable = clock.year
+variable = lupin.lai
+variable = lupin.biomass
+variable = lupin.green_biomass
 [sample.clock.parameters]
 ! Start and end date of run (day number of year and year)
-simulation_start_day =  130
-simulation_start_year = 1988
-simulation_end_day =  300
-simulation_end_year = 1988
+start_date=9/5/1988     ! dd/mm/yyyy
+end_date=26/10/1988     ! dd/mm/yyyy
 
 [sample.manager.start_of_day]
 
 if day = 130 and year  = 1988 then
-   lupin sow cultivar = generic, plants = 25 (/m2), sowing_depth = 40 (mm)
+   lupin sow cultivar = belara, plants = 25 (/m2), sowing_depth = 40 (mm)
 endif
 
 if lupin.stage_name = 'harvest_ripe' or lupin.plant_status = 'dead' then
