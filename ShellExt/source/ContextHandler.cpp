@@ -226,7 +226,8 @@ void CContextMenuHandler::createMenus(string& subMenuName,
           strcmpi(extension.c_str(), ".con") == 0 ||
           strcmpi(extension.c_str(), ".apf") == 0 ||
           strcmpi(extension.c_str(), ".run") == 0 ||
-          strcmpi(extension.c_str(), ".sim") == 0)
+          strcmpi(extension.c_str(), ".sim") == 0 ||
+          strcmpi(extension.c_str(), ".report") == 0)
          {
 
          if (strcmpi(extension.c_str(), ".out") == 0)
@@ -288,6 +289,14 @@ void CContextMenuHandler::createMenus(string& subMenuName,
                                "Run Apsim",
                                "run",
                                &runFiles));
+            }
+         else if (strcmpi(extension.c_str(), ".report") == 0)
+            {
+            menuDescriptions.push_back(
+               MenuDescription("&ApsimReport",
+                               "Send report to ApsimReport",
+                               "apsimreport",
+                               &apsimReportFiles));
             }
          }
       }
