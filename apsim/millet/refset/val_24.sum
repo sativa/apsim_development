@@ -37,7 +37,7 @@
 
 ------- CLOCK Initialisation -------------------------------------------------
      Simulation start date = 19/06/1997
-     Simulation end date   = 31/07/1997
+     Simulation end date   = 31/10/1997
      Time step =           = 1440 (mins)
 
 ------- REPORT Initialisation ------------------------------------------------
@@ -432,8 +432,8 @@
           ------------------------------------------------
           Cultivar                 = hhb67
           est_days_emerg_to_init  =      17
-          tt_emerg_to_endjuv       =   250.9
-          pp_endjuv_to_initp       =   113.8
+          tt_emerg_to_endjuv       =   199.4
+          pp_endjuv_to_initp       =   112.4
           tt_flower_to_maturity    =   457.0
           head_grain_no_max        =  2600.0
           grain_gth_rate           =     0.6
@@ -573,8 +573,8 @@
           ------------------------------------------------
           Cultivar                 = hhb67
           est_days_emerg_to_init  =      17
-          tt_emerg_to_endjuv       =   154.4
-          pp_endjuv_to_initp       =   113.8
+          tt_emerg_to_endjuv       =    99.4
+          pp_endjuv_to_initp       =   112.4
           tt_flower_to_maturity    =   457.0
           head_grain_no_max        =  2200.0
           grain_gth_rate           =     0.6
@@ -618,7 +618,7 @@
    MILLET1:
        stage    3.0 emergence
                            biomass =          0.7500000E-02   lai =    0.1500000E-02
-                           stover N conc =    4.400000       extractable sw =    4.674411
+                           stover N conc =    4.400000       extractable sw =    4.689861
 16 July 1997 (Day of year=197):
    MILLET2:
       Initiate
@@ -637,8 +637,8 @@
           ------------------------------------------------
           Cultivar                 = hhb67
           est_days_emerg_to_init  =      17
-          tt_emerg_to_endjuv       =   144.4
-          pp_endjuv_to_initp       =   113.8
+          tt_emerg_to_endjuv       =    89.4
+          pp_endjuv_to_initp       =   112.4
           tt_flower_to_maturity    =   457.0
           head_grain_no_max        =  2200.0
           grain_gth_rate           =     0.6
@@ -680,7 +680,12 @@
       
        stage    3.0 emergence
                            biomass =          0.7500000E-02   lai =    0.1500000E-02
-                           stover N conc =    4.400000       extractable sw =    3.683187
+                           stover N conc =    4.400000       extractable sw =    3.705277
+17 July 1997 (Day of year=198):
+   MILLET:
+       stage    4.0 end_of_juvenile
+                           biomass =           2.195560       lai =    0.3832419E-01
+                           stover N conc =    5.686502       extractable sw =    38.60120
 18 July 1997 (Day of year=199):
    MILLET3:
       Initiate
@@ -699,8 +704,8 @@
           ------------------------------------------------
           Cultivar                 = hhb67
           est_days_emerg_to_init  =      17
-          tt_emerg_to_endjuv       =   134.4
-          pp_endjuv_to_initp       =   113.8
+          tt_emerg_to_endjuv       =    79.4
+          pp_endjuv_to_initp       =   112.4
           tt_flower_to_maturity    =   457.0
           head_grain_no_max        =  2200.0
           grain_gth_rate           =     0.6
@@ -742,12 +747,12 @@
       
        stage    3.0 emergence
                            biomass =          0.7500000E-02   lai =    0.1500000E-02
-                           stover N conc =    4.400000       extractable sw =    1.930885
+                           stover N conc =    4.400000       extractable sw =    1.970965
 19 July 1997 (Day of year=200):
    MILLET:
-       stage    4.0 end_of_juvenile
-                           biomass =           4.470361       lai =    0.6379005E-01
-                           stover N conc =    5.637546       extractable sw =    35.86647
+       stage    5.0 floral_initiation
+                           biomass =           3.670950       lai =    0.6272072E-01
+                           stover N conc =    4.570792       extractable sw =    35.98132
 20 July 1997 (Day of year=201):
    MILLET4:
       Initiate
@@ -766,8 +771,8 @@
           ------------------------------------------------
           Cultivar                 = hhb67
           est_days_emerg_to_init  =      17
-          tt_emerg_to_endjuv       =   124.4
-          pp_endjuv_to_initp       =   113.8
+          tt_emerg_to_endjuv       =    69.4
+          pp_endjuv_to_initp       =   112.4
           tt_flower_to_maturity    =   457.0
           head_grain_no_max        =  2200.0
           grain_gth_rate           =     0.6
@@ -807,15 +812,15 @@
       
       
       
-   MILLET:
-       stage    5.0 floral_initiation
-                           biomass =           5.904278       lai =    0.7964443E-01
-                           stover N conc =    5.541627       extractable sw =    34.51860
 21 July 1997 (Day of year=202):
    MILLET4:
        stage    3.0 emergence
                            biomass =          0.7500000E-02   lai =    0.1425000E-02
                            stover N conc =    4.400000       extractable sw =    0.000000
+   MILLET1:
+       stage    4.0 end_of_juvenile
+                           biomass =          0.6259938       lai =    0.1833077E-01
+                           stover N conc =    5.538277       extractable sw =    10.69935
 22 July 1997 (Day of year=203):
    MILLET5:
       Initiate
@@ -834,8 +839,8 @@
           ------------------------------------------------
           Cultivar                 = hhb67
           est_days_emerg_to_init  =      17
-          tt_emerg_to_endjuv       =   114.4
-          pp_endjuv_to_initp       =   113.8
+          tt_emerg_to_endjuv       =    59.4
+          pp_endjuv_to_initp       =   112.4
           tt_flower_to_maturity    =   457.0
           head_grain_no_max        =  2200.0
           grain_gth_rate           =     0.6
@@ -880,22 +885,44 @@
        stage    3.0 emergence
                            biomass =          0.7500000E-02   lai =    0.1425000E-02
                            stover N conc =    4.400000       extractable sw =    0.000000
-24 July 1997 (Day of year=205):
    MILLET1:
-       stage    4.0 end_of_juvenile
-                           biomass =           1.935895       lai =    0.5768372E-01
-                           stover N conc =    5.391997       extractable sw =    9.503890
+       stage    5.0 floral_initiation
+                           biomass =           1.319940       lai =    0.4181331E-01
+                           stover N conc =    4.141020       extractable sw =    9.959849
+24 July 1997 (Day of year=205):
    MILLET2:
       plant_kill.   1% failure because of water stress.
    MILLET3:
       plant_kill.   1% failure because of water stress.
    MILLET4:
       plant_kill.   0% failure because of water stress.
-25 July 1997 (Day of year=206):
-   MILLET1:
+26 July 1997 (Day of year=207):
+   MILLET2:
+       stage    4.0 end_of_juvenile
+                           biomass =          0.4267186       lai =    0.1436506E-01
+                           stover N conc =    5.663769       extractable sw =    31.57114
+28 July 1997 (Day of year=209):
+   MILLET3:
+       stage    4.0 end_of_juvenile
+                           biomass =          0.4219624       lai =    0.1886829E-01
+                           stover N conc =    5.244487       extractable sw =    31.77038
+   MILLET4:
+       stage    4.0 end_of_juvenile
+                           biomass =          0.1155830       lai =    0.5924921E-02
+                           stover N conc =    5.211389       extractable sw =    31.74652
+   MILLET5:
+       stage    4.0 end_of_juvenile
+                           biomass =          0.1266504       lai =    0.6542748E-02
+                           stover N conc =    5.207974       extractable sw =    31.73923
+   MILLET2:
        stage    5.0 floral_initiation
-                           biomass =           2.784641       lai =    0.7621971E-01
-                           stover N conc =    5.414508       extractable sw =    31.67298
+                           biomass =          0.9410809       lai =    0.3331654E-01
+                           stover N conc =    4.523636       extractable sw =    31.08747
+29 July 1997 (Day of year=210):
+   MILLET5:
+       stage    5.0 floral_initiation
+                           biomass =          0.2081410       lai =    0.1009167E-01
+                           stover N conc =    3.685626       extractable sw =    30.70580
 30 July 1997 (Day of year=211):
    OPERATNS:
        Sending apply message to fertiliz
@@ -904,22 +931,33 @@
          - Reading Fertiliser Type Parameters
         100.00 of urea ferilizer (urea)
                                                added at depth   10.00 (layer   1)
-   MILLET2:
-       stage    4.0 end_of_juvenile
-                           biomass =           2.020465       lai =    0.6877918E-01
-                           stover N conc =    5.353731       extractable sw =    27.53046
-31 July 1997 (Day of year=212):
-   MILLET2:
-       stage    5.0 floral_initiation
-                           biomass =           2.447740       lai =    0.8685738E-01
-                           stover N conc =    5.395819       extractable sw =    26.24406
    MILLET3:
-       stage    4.0 end_of_juvenile
-                           biomass =           1.162292       lai =    0.4661346E-01
-                           stover N conc =    5.391135       extractable sw =    26.21228
-   MILLET5:
-       stage    4.0 end_of_juvenile
-                           biomass =          0.4214036       lai =    0.1900097E-01
-                           stover N conc =    5.351374       extractable sw =    26.18991
-   CLOCK:
-      Simulation is terminating due to end criteria being met.
+       stage    5.0 floral_initiation
+                           biomass =          0.9466095       lai =    0.4171667E-01
+                           stover N conc =    3.695701       extractable sw =    27.06427
+   MILLET4:
+       stage    5.0 floral_initiation
+                           biomass =          0.2784470       lai =    0.1301765E-01
+                           stover N conc =    3.862172       extractable sw =    27.02707
+1 August 1997 (Day of year=213):
+   MET:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        APSIM Fatal Error               
+                        -----------------               
+      
+      Module name = met
+      
+      Call stack  = input_read_temporal_line
+                    input_read_temporal_data
+                    input_read_todays_data
+                    main
+                    clock_timestep_loop
+      
+      User error.
+      
+      Cannot find data for day = 213 and year = 1997
+      Possible cause : CLOCK starting or ending conditions 
+      are outside the range of the climate file.
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      Simulation terminated due to a fatal error
+      
