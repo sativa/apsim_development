@@ -1,4 +1,4 @@
-C     Last change:  E    13 Sep 2001    6:14 pm
+C     Last change:  E    14 Sep 2001    1:00 pm
 
 
 
@@ -1886,7 +1886,7 @@ c     dll_export Cproc_N_Supply_Massflow_Diffusion_Fixation
      :              , dlt_NH4gsm_diffusion
 
      :              , c_n_supply_preference
-     :              , c_n_uptake_preference
+     :              , c_nh4_uptake_preference
 
      :              , n_fix_pot
      :               )
@@ -1923,7 +1923,7 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
       real       dlt_NH4gsm_diffusion(*) !(OUTPUT) actual plant N uptake from diffusion (g/m2)
 
       CHARACTER  c_n_supply_preference*(*) !(INPUT)
-      CHARACTER  c_n_uptake_preference*(*)  !(INPUT)
+      REAL       c_nh4_uptake_preference  !(INPUT)
       REAL       n_fix_pot           ! (INPUT) potential N fixation (g/m2)
 
 
@@ -1977,6 +1977,9 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
       REAL       NO3Ratio_df
       REAL       NH4Ratio_df
 
+      REAL       NO3_f
+      REAL       NH4_f
+
 *- Implementation Section ----------------------------------
  
       call push_routine (my_name)
@@ -2011,31 +2014,23 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
      :                                     , deepest_layer)
 
 
-      if (c_n_uptake_preference.eq.'nh4') then
-         N_tot_mflow_supply  = NH4gsm_mflow_supply
-         N_tot_diffn_supply  = NH4gsm_diffn_supply
+      NH4_f = MIN(       c_nh4_uptake_preference /0.5,1.0)
+      NO3_f = MIN((1.0 - c_nh4_uptake_preference)/0.5,1.0)
 
-         NO3Ratio_mf = 0.0
-         NO3Ratio_df = 0.0
-         NH4Ratio_mf = 1.0
-         NH4Ratio_df = 1.0
-      elseif (c_n_uptake_preference.eq.'both') then
-         N_tot_mflow_supply  = NO3gsm_mflow_supply + NH4gsm_mflow_supply
-         N_tot_diffn_supply  = NO3gsm_diffn_supply + NH4gsm_diffn_supply
+      NO3gsm_mflow_supply = NO3gsm_mflow_supply * NO3_f
+      NO3gsm_diffn_supply = NO3gsm_diffn_supply * NO3_f
 
-         NO3Ratio_mf =divide(NO3gsm_mflow_supply,N_tot_mflow_supply,0.0)
-         NO3Ratio_df =divide(NO3gsm_diffn_supply,N_tot_mflow_supply,0.0)
-         NH4Ratio_mf =divide(NH4gsm_mflow_supply,N_tot_mflow_supply,0.0)
-         NH4Ratio_df =divide(NH4gsm_diffn_supply,N_tot_mflow_supply,0.0)
-      else  !- default value - (c_n_uptake_preference.eq.'no3') then
-         N_tot_mflow_supply  = NO3gsm_mflow_supply
-         N_tot_diffn_supply  = NO3gsm_diffn_supply
+      NH4gsm_mflow_supply = NH4gsm_mflow_supply * NH4_f
+      NH4gsm_diffn_supply = NH4gsm_diffn_supply * NH4_f
 
-         NO3Ratio_mf = 1.0
-         NO3Ratio_df = 1.0
-         NH4Ratio_mf = 0.0
-         NH4Ratio_df = 0.0
-      endif
+
+      N_tot_mflow_supply  = NO3gsm_mflow_supply + NH4gsm_mflow_supply
+      N_tot_diffn_supply  = NO3gsm_diffn_supply + NH4gsm_diffn_supply
+
+      NO3Ratio_mf =divide(NO3gsm_mflow_supply,N_tot_mflow_supply,0.0)
+      NO3Ratio_df =divide(NO3gsm_diffn_supply,N_tot_diffn_supply,0.0)
+      NH4Ratio_mf =divide(NH4gsm_mflow_supply,N_tot_mflow_supply,0.0)
+      NH4Ratio_df =divide(NH4gsm_diffn_supply,N_tot_diffn_supply,0.0)
 
 
       ! get actual total nitrogen uptake for diffusion and mass flow.
@@ -2059,8 +2054,8 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
 
       else
  
-         NO3gsm_mflow = N_tot_mflow_supply * NO3Ratio_mf
-         NH4gsm_mflow = N_tot_mflow_supply * NH4Ratio_mf
+         NO3gsm_mflow = NO3gsm_mflow_supply
+         NH4gsm_mflow = NH4gsm_mflow_supply
 
          n_tot_mflow  = NO3gsm_mflow + NH4gsm_mflow
 
@@ -2083,7 +2078,7 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
          NH4gsm_diffn = n_tot_diffn * NH4Ratio_df
 
       endif
- 
+
             ! get actual change in N contents
  
       call fill_real_array (dlt_NO3gsm,           0.0, max_layer)
@@ -2125,6 +2120,7 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
       call pop_routine (my_name)
       return
       end
+
 
 
 
