@@ -74,7 +74,7 @@ string asString(Variant st)
 // ------------------------------------------------------------------
 void formatXML(std::string& xml)
    {
-   Replace_all(xml, "\r\n", "");
+   Replace_all(xml, ">\r\n", ">");
    Replace_all(xml, "\t", "");
    int level = 0;
    unsigned pos = xml.find("><");
@@ -92,7 +92,7 @@ void formatXML(std::string& xml)
       else
          level++;
 
-      string st = string("\n") + string(max(level*3, 0), ' ') +"<";
+      string st = string("\r\n") + string(max(level*3, 0), ' ') +"<";
       xml.replace(pos+1, 1, st);
       pos = xml.find("><", pos);
       }
@@ -189,7 +189,7 @@ void XMLDocument::write(const std::string& fileName) const
    {
    string xml;
    writeXML(xml);
-   ofstream out(fileName.c_str());
+   ofstream out(fileName.c_str(), ios::binary);
    out << xml;
    dirty = false;
    }
