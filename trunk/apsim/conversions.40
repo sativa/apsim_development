@@ -19,6 +19,15 @@ command = DeleteParameter(SurfaceOM.pot_decomp_rate)
 [Added new SurfaceOM input parameter 'name']
 command = SetParameterValue(SurfaceOM.name,SurfaceOM.type,onlywhennecessary)
 
+[Changed Operatns command 'residue2 tillage' to 'surfaceom tillage'] 
+command = SearchReplace(operatns,residue2 tillage,surfaceom tillage)
+
+[Changed Operatns command 'residue2 reset' to 'surfaceom reset'] 
+command = SearchReplace(operatns,residue2 reset,surfaceom reset)
+
+[Changed Operatns command 'residue2 add_residue' to 'surfaceom add_surfaceom'] 
+command = SearchReplace(operatns,residue2 add_residue,surfaceom add_surfaceom)
+
 [Changed Manager 'residue2 sum_report' call to 'surfaceom sum_report'] 
 command = SearchReplace(manager,residue2 sum_report,surfaceom sum_report)
 
@@ -212,6 +221,15 @@ command = DeleteManagerActionParameter(Manure add_Manure,pool2_cp)
 
 [Removed Manager 'add_manure' argument 'pool3_cp'] 
 command = DeleteManagerActionParameter(Manure add_Manure,pool3_cp)
+
+[Changed Operatns command 'manure tillage' to 'surfaceom tillage'] 
+command = SearchReplace(operatns,manure tillage,surfaceom tillage)
+
+[Changed Operatns command 'manure reset' to 'surfaceom reset'] 
+command = SearchReplace(operatns,manure reset,surfaceom reset)
+
+[Changed Operatns command 'manure add_manure' to 'surfaceom add_surfaceom'] 
+command = SearchReplace(operatns,manure add_manure,surfaceom add_surfaceom)
 
 [Changed Manager 'Manure tillage' call to 'surfaceom tillage'] 
 command = SearchReplace(manager,manure tillage,surfaceom tillage)
