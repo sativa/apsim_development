@@ -33,9 +33,6 @@ struct Key_struct
 ApsimLicence::ApsimLicence(const string& filename)
    : fileName(filename)
    {
-   if (!FileExists(filename.c_str()))
-      throw runtime_error("Cannot find APSIM licence key file: " + filename);
-      
    keyInfo.numModules = 0;
    strcpy(keyInfo.moduleList, "");
    strcpy(keyInfo.applications, "");
