@@ -47,7 +47,7 @@ class __declspec(dllexport) SimCreator
 
    private:
       ApsimControlFile* con;
-      typedef std::map<std::string, ApsimComponentData*> Components;
+      typedef std::map<std::string, std::string> Components;
       Components components;
 
       // ------------------------------------------------------------------
