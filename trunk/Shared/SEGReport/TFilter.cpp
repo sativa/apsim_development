@@ -25,7 +25,6 @@ __fastcall TFilter::TFilter(TComponent* owner)
    : TSEGTable(owner)
    {
    }
-
 //---------------------------------------------------------------------------
 // destructor
 //---------------------------------------------------------------------------
@@ -39,18 +38,10 @@ void __fastcall TFilter::setFilter(AnsiString filter)
    {
    if (Filter != filter)
       {
-      Filter = filter;
-      Filtered = (Filter != "");
-      if (source != NULL)
-         refresh();
+      filterString = filter;
+      Active = false;
+      Active = true;
       }
-   }
-//---------------------------------------------------------------------------
-// set the 'filter' property and refresh all data.
-//---------------------------------------------------------------------------
-AnsiString __fastcall TFilter::getFilter(void)
-   {
-   return Filter;
    }
 //---------------------------------------------------------------------------
 // Called by our base class to allow us to add any fielddefs we may want to.
@@ -59,10 +50,7 @@ AnsiString __fastcall TFilter::getFilter(void)
 void TFilter::createFields(void) throw(runtime_error)
    {
    if (source != NULL)
-      {
-      source->onDataRefresh = onSourceDataChange;
       FieldDefs->Assign(source->FieldDefs);
-      }
    }
 //---------------------------------------------------------------------------
 // Called by our base class to allow us to add records to the table.
@@ -72,6 +60,8 @@ void TFilter::storeRecords(void) throw(runtime_error)
    {
    if (source != NULL)
       {
+      source->Filter = filterString;
+      source->Filtered = true;
       // loop through all records.
       source->First();
       while (!source->Eof)
@@ -79,13 +69,8 @@ void TFilter::storeRecords(void) throw(runtime_error)
          copyDBRecord(source, this);
          source->Next();
          }
+      source->Filtered = false;
+      source->Filter = "";
       }
-   }
-//---------------------------------------------------------------------------
-// The source data has changed - refresh ourselves.
-//---------------------------------------------------------------------------
-void __fastcall TFilter::onSourceDataChange(TDataSet* dataset)
-   {
-   refresh();
    }
 
