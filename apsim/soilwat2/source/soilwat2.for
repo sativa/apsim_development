@@ -58,7 +58,7 @@
 * jpd V1.1 includes selected changes from PhilV1.0 30/9/94
 *
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V2.14 081298')
+      parameter (version_number = 'V2.15 090299')
  
 *- Implementation Section ----------------------------------
  
@@ -106,6 +106,7 @@ cnh     :  'Revision:   1.6  Date:   7 Jun 1996 17:08:26  '
 *      070696 nih  removed data_string from add_water arguments
 *      190897 nih  added MES_reset and MES_Sum_Report
 *      071097 PdeV added tillage message
+*      090298 jngh changed init phase to only get met variables
  
 *+  Calls
                                        ! mes_post, lu_summary_file,
@@ -133,11 +134,17 @@ cnh     :  'Revision:   1.6  Date:   7 Jun 1996 17:08:26  '
      :               // soilwat2_version ()
  
       else if (action.eq.mes_init) then
-         call soilwat2_reset ()
+         call soilwat2_zero_variables ()
+         call soilwat2_get_met_variables ()
+
+         call soilwat2_init ()
          call soilwat2_sum_report ()
  
       else if (action.eq.mes_reset) then
-         call soilwat2_reset ()
+         call soilwat2_zero_variables ()
+         call soilwat2_get_other_variables ()
+ 
+         call soilwat2_init ()
  
       else if (action.eq.mes_sum_report) then
          call soilwat2_sum_report ()
@@ -3125,6 +3132,48 @@ c     he should have. Any ideas? Perhaps
       subroutine soilwat2_get_other_variables ()
 * ====================================================================
       implicit none
+ 
+*+  Purpose
+*      get the value/s of a variable/array.
+ 
+*+  Assumptions
+*      assumes variable has the following format
+*         <variable_name> = <variable_value/s> (<units>)
+ 
+*+  Mission Statement
+*     Get Other Variables
+ 
+*+  Changes
+*     090299 jngh put contents of routine into lower level routines
+ 
+*+  Constant Values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'soilwat2_get_other_variables')
+ 
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+      call soilwat2_get_met_variables ()
+
+      call soilwat2_get_residue_variables ()
+ 
+      call soilwat2_get_crop_variables ()
+ 
+      call soilwat2_get_solute_variables ()
+ 
+      call soilwat2_get_environ_variables ()
+ 
+      call pop_routine (my_name)
+      return
+      end
+ 
+ 
+ 
+* ====================================================================
+      subroutine soilwat2_get_met_variables ()
+* ====================================================================
+      implicit none
       include   'const.inc'            ! mes_get_variable, global_active
       include   'soilwat2.inc'
       include 'string.pub'
@@ -3160,28 +3209,12 @@ c     he should have. Any ideas? Perhaps
 *     210896 jngh removed check of crops owning heights not being the same
 *                 as crops owning green_cover.
  
-*+  Calls
-      character string_concat*32       ! function
- 
 *+  Constant Values
       character  my_name*(*)           ! name of subroutine
-      parameter (my_name = 'soilwat2_get_other_variables')
+      parameter (my_name = 'soilwat2_get_met_variables')
  
 *+  Local Variables
-      real       canopy_height         ! height of canopy (mm)
-      real       cover                 ! temporary cover variable (0-1)
-      integer    counter               ! counter variable
-      integer    crop                  ! loop index
-      integer    crop_index            ! array index
-      integer    layer                 ! soil layer number counter
-      character  min_name*32           ! name of solute minimum variable
       integer    numvals               ! number of values put into array
-      character  owner_module*(max_module_name_size) ! owner module of variable
-      integer    request_no            ! request no for multiple get
-      integer    solnum                ! solute number counter
-      character  solute_names(max_solute)*32
-                                       ! list of solute names
-      real       temp_solute(max_layer)! temp solute array (kg/ha)
  
 *- Implementation Section ----------------------------------
  
@@ -3211,6 +3244,52 @@ c     he should have. Any ideas? Perhaps
      :                                  , g_rain, numvals
      :                                  , 0.0, 10000.0)
  
+      call pop_routine (my_name)
+      return
+      end
+ 
+ 
+ 
+* ====================================================================
+      subroutine soilwat2_get_residue_variables ()
+* ====================================================================
+      implicit none
+      include   'const.inc'            ! mes_get_variable, global_active
+      include   'soilwat2.inc'
+      include 'string.pub'
+      include 'data.pub'
+      include 'engine.pub'
+      include 'intrface.pub'
+      include 'error.pub'
+ 
+*+  Purpose
+*      get the value/s of a variable/array.
+ 
+*+  Assumptions
+*      assumes variable has the following format
+*         <variable_name> = <variable_value/s> (<units>)
+ 
+*+  Mission Statement
+*     Get Met Variables
+ 
+*+  Changes
+*     301192 jngh
+*     110393 jngh altered to new engine - immediate messages
+*      191094 jngh changed interface routines
+*     070696 nih  changed get other for optimal speed
+ 
+ 
+*+  Constant Values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'soilwat2_get_residue_variables')
+ 
+*+  Local Variables
+      integer    numvals               ! number of values put into array
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
       call get_real_var_optional (unknown_module
      :                                  , 'residue_wt', '(kg/ha)'
      :                                  , g_residue_wt, numvals
@@ -3219,6 +3298,65 @@ c     he should have. Any ideas? Perhaps
       call get_real_var_optional (unknown_module, 'residue_cover', '()'
      :                                  , g_residue_cover, numvals
      :                                  , 0.0, 1.0)
+  
+      call pop_routine (my_name)
+      return
+      end
+ 
+ 
+ 
+* ====================================================================
+      subroutine soilwat2_get_crop_variables ()
+* ====================================================================
+      implicit none
+      include   'const.inc'            ! mes_get_variable, global_active
+      include   'soilwat2.inc'
+      include 'string.pub'
+      include 'data.pub'
+      include 'engine.pub'
+      include 'intrface.pub'
+      include 'error.pub'
+ 
+*+  Purpose
+*      get the value/s of a variable/array.
+ 
+*+  Assumptions
+*      assumes variable has the following format
+*         <variable_name> = <variable_value/s> (<units>)
+ 
+*+  Mission Statement
+*     Get crop Variables
+ 
+*+  Changes
+*     301192 jngh
+*     110393 jngh altered to new engine - immediate messages
+*     010994 jpd  Added request for 'crop_cover' from crop modules
+*     160994 jpd  add basal_cover request
+*     230994  pdev  added cover_extra
+*      191094 jngh changed interface routines
+*     070696 nih  changed get other for optimal speed
+*     130896 jngh removed getting cover from canopy module.
+*                 stored covers (green and total) in arrays
+*     200896 jngh added capture of crop heights.
+*     210896 jngh removed check of crops owning heights not being the same
+*                 as crops owning green_cover.
+ 
+*+  Constant Values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'soilwat2_get_crop_variables')
+ 
+*+  Local Variables
+      real       canopy_height         ! height of canopy (mm)
+      real       cover                 ! temporary cover variable (0-1)
+      integer    crop                  ! loop index
+      integer    crop_index            ! array index
+      integer    numvals               ! number of values put into array
+      character  owner_module*(max_module_name_size) ! owner module of variable
+ 
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
  
              ! Get green cover of each crop
              ! g_cover_green is all canopys green
@@ -3319,6 +3457,64 @@ cjh     :              // 'number of modules with green cover.')
 cjh         else
 cjh         endif
  
+      call pop_routine (my_name)
+      return
+      end
+ 
+ 
+ 
+* ====================================================================
+      subroutine soilwat2_get_solute_variables ()
+* ====================================================================
+      implicit none
+      include   'const.inc'            ! mes_get_variable, global_active
+      include   'soilwat2.inc'
+      include 'string.pub'
+      include 'data.pub'
+      include 'engine.pub'
+      include 'intrface.pub'
+      include 'error.pub'
+ 
+*+  Purpose
+*      get the value/s of a variable/array.
+ 
+*+  Assumptions
+*      assumes variable has the following format
+*         <variable_name> = <variable_value/s> (<units>)
+ 
+*+  Mission Statement
+*     Get solute Variables
+ 
+*+  Changes
+*     301192 jngh
+*     110393 jngh altered to new engine - immediate messages
+*      191094 jngh changed interface routines
+*     170895 nih  added read for solute information
+*                 (removed old code for no3 and nh4)
+*     070696 nih  changed get other for optimal speed
+ 
+*+  Calls
+      character string_concat*32       ! function
+ 
+*+  Constant Values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'soilwat2_get_solute_variables')
+ 
+*+  Local Variables
+      integer    counter               ! counter variable
+      integer    layer                 ! soil layer number counter
+      character  min_name*32           ! name of solute minimum variable
+      integer    numvals               ! number of values put into array
+      integer    request_no            ! request no for multiple get
+      integer    solnum                ! solute number counter
+      character  solute_names(max_solute)*32
+                                       ! list of solute names
+      real       temp_solute(max_layer)! temp solute array (kg/ha)
+ 
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
       ! --------------- GET SOLUTE INFORMATION --------------
  
       solnum = 0
@@ -3397,6 +3593,50 @@ cjh         endif
  3300       continue
  
  3400    continue
+
+      call pop_routine (my_name)
+      return
+      end
+ 
+ 
+* ====================================================================
+      subroutine soilwat2_get_environ_variables ()
+* ====================================================================
+      implicit none
+      include   'const.inc'            ! mes_get_variable, global_active
+      include   'soilwat2.inc'
+      include 'string.pub'
+      include 'data.pub'
+      include 'engine.pub'
+      include 'intrface.pub'
+      include 'error.pub'
+ 
+*+  Purpose
+*      get the value/s of a variable/array.
+ 
+*+  Assumptions
+*      assumes variable has the following format
+*         <variable_name> = <variable_value/s> (<units>)
+ 
+*+  Mission Statement
+*     Get environment Variables
+ 
+*+  Changes
+*     301192 jngh
+*      191094 jngh changed interface routines
+*     070696 nih  changed get other for optimal speed
+ 
+
+*+  Constant Values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'soilwat2_get_environ_variables')
+ 
+*+  Local Variables
+      integer    numvals               ! number of values put into array
+ 
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
  
       if (g_eo_source .ne. blank) then
          g_eo_system = 0.0
@@ -3419,6 +3659,7 @@ cjh         endif
       call pop_routine (my_name)
       return
       end
+ 
  
  
  
@@ -4914,7 +5155,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
  
  
 *     ===========================================================
-      subroutine soilwat2_reset ()
+      subroutine soilwat2_init ()
 *     ===========================================================
       implicit none
       include   'const.inc'
@@ -4940,22 +5181,20 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *        25/7/96  dph  added code to report to summary file when p_insoil < 1
 *        190897   nih  renamed from soilwat2_init and
 *                      adapted as part of MES_reset development
+*        090299   jngh changed name from reset to init
+*                       removed calls to zero variables and get other variables
  
 *+  Calls
       character  soilwat2_version*52    ! function
  
 *+  Constant Values
       character  my_name*(*)           ! name of subroutine
-      parameter (my_name  = 'soilwat2_reset')
+      parameter (my_name  = 'soilwat2_init')
  
 *- Implementation Section ----------------------------------
  
       call push_routine (my_name)
             ! zero pools
-      call soilwat2_zero_variables ()
-               ! request and receive variables from owner-modules
-      call soilwat2_get_other_variables ()
- 
       call report_event (' Initialising, '
      :                // soilwat2_version ())
  
