@@ -50,8 +50,10 @@
      endif
 ------- Start of simulation  --------------------------------------------------
 1 January 1988 (Day of year=1):
-     Manager creating a new local variable : avtemp =     25.1999988500000
-     Manager creating a new local variable : avtempi =     25.0000000000000
-     Manager creating a new local variable : feb_or_not =    0.000000000000000
+   MANAGER:
+      Manager creating a new local variable : avtemp =     25.1999988500000
+      Manager creating a new local variable : avtempi =     25.0000000000000
+      Manager creating a new local variable : feb_or_not =    0.000000000000000
 8 April 1988 (Day of year=99):
-     Simulation is terminating due to end criteria being met.
+   CLOCK:
+      Simulation is terminating due to end criteria being met.
