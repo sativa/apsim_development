@@ -165,7 +165,7 @@ endif
 
 [all.manager.end_of_day]
 !water balance terms
-T            = weed.ep + lucerne.ep + canola.ep - wheat.ep
+T            = weed.ep() + lucerne.ep() + canola.ep() - wheat.ep()
 ET           = apswim.es + T
 drain_25     = apswim.flow(6)
 drain_90     = 0.5* apswim.flow(10)+ 0.5* apswim.flow(11)
