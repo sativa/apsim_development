@@ -1,3 +1,4 @@
+! #Issue Flags for  further work
       include 'micromet.inc'
 C     Last change:  VS   30 Jul 1999   11:44 am
 
@@ -904,6 +905,13 @@ C     Last change:  VS   30 Jul 1999   11:44 am
 *- Implementation Section ----------------------------------
 
       call push_routine (myname)
+
+      ! #ISSUE
+      ! NIH - 20/08/02 - Is this correct????????
+      ! 1) We integrate across total layer lai (ie layer light profile)
+      !    and so it does not look like the old gs*lai approach
+      ! 2) We should use total canopy (ie green + dead) light extinction
+      !    to get light profile but integrate across green leaf area.
 
       Numerator   =   LayerSolRad
      :            + CropR50
