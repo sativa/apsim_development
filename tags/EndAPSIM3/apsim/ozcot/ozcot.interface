@@ -1,0 +1,323 @@
+<component name="ozcot">
+   <registrations>
+
+      <read name="percent_l" type="percent_l" readable="T"/>
+      <read name="scboll" type="scboll" readable="T"/>
+      <read name="respcon" type="respcon" readable="T"/>
+      <read name="sqcon" type="sqcon" readable="T"/>
+      <read name="fcutout" type="fcutout" readable="T"/>
+      <read name="flai" type="flai" readable="T"/>
+      <read name="ddisq" type="ddisq" readable="T"/>
+      <read name="stage_code" type="stage_code" readable="T"/>
+      <read name="crop_" type="crop_type" readable="T"/>
+      <read name="frudd" type="frudd" readable="T"/>
+      <read name="bltme" type="bltme" readable="T"/>
+      <read name="wt" type="wt" readable="T"/>
+      <read name="row_spacing_default" type="row_spacing_default" readable="T"/>
+      <read name="popcon" type="popcon" readable="T"/>
+      <read name="fburr" type="fburr" readable="T"/>
+      <read name="acotyl" type="acotyl" readable="T"/>
+      <read name="rlai" type="rlai" readable="T"/>
+      <read name="leaf_res_n_conc" type="leaf_res_n_conc" readable="T"/>
+      <read name="a" type="a" readable="T"/>
+      <read name="b1" type="b1" readable="T"/>
+      <read name="b2" type="b2" readable="T"/>
+      <read name="b3" type="b3" readable="T"/>
+      <read name="hucut" type="hucut" readable="T"/>
+      <read name="baset" type="baset" readable="T"/>
+      <read name="ul1" type="ul1" readable="T"/>
+      <read name="cona" type="cona" readable="T"/>
+      <read name="open_def" type="open_def" readable="T"/>
+      <read name="a_root_leaf" type="a_root_leaf" readable="T"/>
+      <read name="a_stem_leaf" type="a_stem_leaf" readable="T"/>
+      <read name="e_par" type="e_par" readable="T"/>
+      <read name="t_opt" type="t_opt" readable="T"/>
+      <read name="t_base" type="t_base" readable="T"/>
+      <read name="wt_area_max" type="wt_area_max" readable="T"/>
+      <read name="embryo" type="embryo" readable="T"/>
+      <read name="f_leaf" type="f_leaf" readable="T"/>
+      <read name="f_stem" type="f_stem" readable="T"/>
+      <read name="f_root" type="f_root" readable="T"/>
+      <read name="elevation_default" type="elevation_default" readable="T"/>
+      <read name="stress_wlog" type="stress_wlog" readable="T"/>
+      <read name="wlog_assimilate_red" type="wlog_assimilate_red" readable="T"/>
+      <read name="wlog_carcap_red" type="wlog_carcap_red" readable="T"/>
+      <read name="wlog_carcap_red_stress" type="wlog_carcap_red_stress" readable="T"/>
+      <read name="smi_affect_wlog" type="smi_affect_wlog" readable="T"/>
+      <read name="days_relief_wlog" type="days_relief_wlog" readable="T"/>
+      <read name="frost_kill_immediate" type="frost_kill_immediate" readable="T"/>
+      <read name="frost_kill_immediate_das" type="frost_kill_immediate_das" readable="T"/>
+      <read name="frost_kill_delayed" type="frost_kill_delayed" readable="T"/>
+      <read name="frost_kill_delayed_das" type="frost_kill_delayed_das" readable="T"/>
+      <read name="frost_kill_delayed_days" type="frost_kill_delayed_days" readable="T"/>
+      <read name="rtdep_max" type="rtdep_max" readable="T"/>
+      <read name="harvest_n_frac" type="harvest_n_frac" readable="T"/>
+      <read name="cutout_smi_crit" type="cutout_smi_crit" readable="T"/>
+      <read name="cutout_smi_days" type="cutout_smi_days" readable="T"/>
+      <read name="cutout_smi_site_red" type="cutout_smi_site_red" readable="T"/>
+      <read name="smi_delay_crit" type="smi_delay_crit" readable="T"/>
+      <read name="cold_shock_delay_crit" type="cold_shock_delay_crit" readable="T"/>
+      <read name="cold_shock_delay" type="cold_shock_delay" readable="T"/>
+      <read name="epcoef1" type="epcoef1" readable="T"/>
+      <read name="epcoef2" type="epcoef2" readable="T"/>
+      <read name="epcoef_smi_crit" type="epcoef_smi_crit" readable="T"/>
+      <read name="fbwstr_low" type="fbwstr_low" readable="T"/>
+      <read name="fbwstr_high" type="fbwstr_high" readable="T"/>
+      <read name="fbwstr_a" type="fbwstr_a" readable="T"/>
+      <read name="fbnstr_low" type="fbnstr_low" readable="T"/>
+      <read name="fbnstr_high" type="fbnstr_high" readable="T"/>
+      <read name="fbnstr_a" type="fbnstr_a" readable="T"/>
+      <read name="relp_smi_crit" type="relp_smi_crit" readable="T"/>
+      <read name="relp_intercept" type="relp_intercept" readable="T"/>
+      <read name="relp_slope" type="relp_slope" readable="T"/>
+      <read name="relp_low" type="relp_low" readable="T"/>
+      <read name="relp_high" type="relp_high" readable="T"/>
+      <read name="relp_a" type="relp_a" readable="T"/>
+      <read name="vsnstr_low" type="vsnstr_low" readable="T"/>
+      <read name="vsnstr_high" type="vsnstr_high" readable="T"/>
+      <read name="vsnstr_a" type="vsnstr_a" readable="T"/>
+      <read name="flfsmi_low" type="flfsmi_low" readable="T"/>
+      <read name="flfsmi_high" type="flfsmi_high" readable="T"/>
+      <read name="flfsmi_a" type="flfsmi_a" readable="T"/>
+      <read name="vlnstr_low" type="vlnstr_low" readable="T"/>
+      <read name="vlnstr_high" type="vlnstr_high" readable="T"/>
+      <read name="vlnstr_a" type="vlnstr_a" readable="T"/>
+      <read name="fw_low" type="fw_low" readable="T"/>
+      <read name="fw_high" type="fw_high" readable="T"/>
+      <read name="fw_a" type="fw_a" readable="T"/>
+      <read name="adjust_low" type="adjust_low" readable="T"/>
+      <read name="adjust_high" type="adjust_high" readable="T"/>
+      <read name="adjust_a" type="adjust_a" readable="T"/>
+      <read name="fwstrs_low" type="fwstrs_low" readable="T"/>
+      <read name="fwstrs_high" type="fwstrs_high" readable="T"/>
+      <read name="fwstrs_a" type="fwstrs_a" readable="T"/>
+      <read name="ll" type="ll" readable="T"/>
+
+      <getVariableReg name="day" type="day"/>
+      <getVariableReg name="year" type="year"/>
+      <getVariableReg name="maxt" type="maxt"/>
+      <getVariableReg name="mint" type="mint"/>
+      <getVariableReg name="radn" type="radn"/>
+      <getVariableReg name="rain" type="rain"/>
+      <getVariableReg name="dlayer" type="dlayer"/>
+      <getVariableReg name="bd" type="bd"/>
+      <getVariableReg name="ll15" type="ll15"/>
+      <getVariableReg name="dul_dep" type="dul_dep"/>
+      <getVariableReg name="sat_dep" type="sat_dep"/>
+      <getVariableReg name="es" type="es"/>
+      <getVariableReg name="runoff" type="runoff"/>
+      <getVariableReg name="no3_min" type="no3_min"/>
+
+      <respondToGetReg name="das" type="das"/>
+      <respondToGetReg name="sumdd" type="sumdd"/>
+      <respondToGetReg name="sites" type="sites"/>
+      <respondToGetReg name="squarz" type="squarz"/>
+      <respondToGetReg name="bollz" type="bollz"/>
+      <respondToGetReg name="openz" type="openz"/>
+      <respondToGetReg name="alint" type="alint"/>
+      <respondToGetReg name="dm" type="dm"/>
+      <respondToGetReg name="totnup" type="totnup"/>
+      <respondToGetReg name="yield" type="yield"/>
+      <respondToGetReg name="lai" type="lai"/>
+      <respondToGetReg name="cover_green" type="cover_green"/>
+      <respondToGetReg name="cover_tot" type="cover_tot"/>
+      <respondToGetReg name="height" type="height"/>
+      <respondToGetReg name="availn" type="availn"/>
+      <respondToGetReg name="tsno3" type="tsno3"/>
+      <respondToGetReg name="ysno3" type="ysno3"/>
+      <respondToGetReg name="d_nup" type="d_nup"/>
+      <respondToGetReg name="rtdep" type="rtdep"/>
+      <respondToGetReg name="tmean3" type="tmean3"/>
+      <respondToGetReg name="s_bed_sat" type="s_bed_sat"/>
+      <respondToGetReg name="s_bed_mi" type="s_bed_mi"/>
+      <respondToGetReg name="smi" type="smi"/>
+      <respondToGetReg name="evap_plant" type="evap_plant"/>
+      <respondToGetReg name="evap_soil" type="evap_soil"/>
+      <respondToGetReg name="evap_pot" type="evap_pot"/>
+      <respondToGetReg name="evap_tot" type="evap_tot"/>
+      <respondToGetReg name="ozcot_crop_in" type="ozcot_crop_in"/>
+      <respondToGetReg name="ozcot_status" type="ozcot_status"/>
+
+      <setVariableReg name="dlt_no3" type="dlt_no3"/>
+      <setVariableReg name="dlt_sw_dep" type="dlt_sw_dep"/>
+
+      <methodCallReg name="add_residue" type="add_residue"/>
+      
+      <respondToMethodCallReg name="sow" type="sow"/>
+      <respondToMethodCallReg name="harvest" type="harvest"/>
+      <respondToMethodCallReg name="end_crop" type="end_crop"/>
+      <respondToMethodCallReg name="kill_crop" type="kill_crop"/>
+
+      <respondToEventReg name="LightProfileCalculated" type="LightProfile"/>
+      <respondToEventReg name="CropWaterSupplyCalculated" type="CropWaterSupply"/>
+      <respondToEventReg name="CropNitrogenSupplyCalculated" type="CropNitrogenSupply"/>
+      <respondToEventReg name="SoilWaterChanged" type="SoilWaterLayer"/>
+      <respondToEventReg name="SoilWaterBalanceCalculated" type="SoilWaterBalance"/>
+      <respondToEventReg name="SolutesChanged" type="SoluteProfile"/>
+      <respondToEventReg name="SoilTemperatureChanged" type="????"/>
+      <respondToEventReg name="DoCropGrowth" type="null"/>
+      <respondToEventReg name="NewMet" type="NewMet"/>
+      
+   </registrations>
+</component>
+
+
+
+!  TYPES
+
+      <type name="das" kind="integer4" unit="day" description="Days after sowing"/>
+      <type name="sumdd" kind="single" unit="oCd" description="Sum of thermal time after sowing"/>
+      <type name="sites" kind="single" unit="" description="Number of fruting sites"/>
+      <type name="squarz" kind="single" unit="" description="Number of squares"/>
+      <type name="bollz" kind="single" unit="" description="Number of bolls"/>
+      <type name="openz" kind="single" unit="" description="Number of open bolls"/>
+      <type name="alint" kind="single" unit="kg/ha" description="Lint weight"/>
+      <type name="dm" kind="single" unit="kg/ha" description="Total dry matter (leaf+stem+boll+root)"/>
+      <type name="totnup" kind="single" unit="kg/ha" description="Total N uptake"/>
+      <type name="yield" kind="single" unit="bales/ha" description="Lint yield"/>
+      <type name="lai" kind="single" unit="m^2/m^2" description="Green leaf area index"/>
+      <type name="cover_green" kind="single" unit="" description="Projected cover of green component of canopy"/>
+      <type name="cover_tot" kind="single" unit="" description="Projected cover of total canopy"/>
+      <type name="height" kind="single" unit="mm" description="Canopy height of crop"/>
+      <type name="availn" kind="single" unit="kg/ha" description="N available for uptake"/>
+      <type name="tsno3" kind="single" unit="kg/ha" description="Total mobile nitrate in soil profile"/>
+      <type name="ysno3" kind="single" unit="kg/ha" description="Total mobile nitrate in soil profile less plant uptake"/>
+      <type name="d_nup" kind="single" unit="kg/ha" description="Daily N uptake"/>
+      <type name="rtdep" kind="single" unit="cm" description="Depth of roots in soil profile"/>
+      <type name="tmean3" kind="single" unit="oC" description="Mean temperature for last 3 days"/>
+      <type name="s_bed_sat" kind="single" unit="" description="Maximum seed-bed moisture index (layer 1)"/>
+      <type name="s_bed_mi" kind="single" unit="" description="Seed-bed moisture index"/>
+      <type name="smi" kind="single" unit="" description="Soil moisture index (water stress factor)"/>
+      <type name="evap_plant" kind="single" unit="cm" description="Plant transpiration"/>
+      <type name="evap_soil" kind="single" unit="cm" description="Soil evaporation"/>
+      <type name="evap_pot" kind="single" unit="cm" description="Potential evapotranspiration"/>
+      <type name="evap_tot" kind="single" unit="cm" description="Total evapotranspiration"/>
+      <type name="ozcot_crop_in" kind="boolean" unit="" description="Flag indicating if crop is in the ground"/>
+      <type name="ozcot_status" kind="integer4" unit="" description="Crop status (0 - not in: 1 - sown and in: 2 - ready for harvest)"/>
+      <type name="percent_l" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="percent lint"/>
+      <type name="scboll" kind="single" unit="g/boll" lower_bound="0.0" upper_bound="10.0" description="g seed cotton/boll"/>
+      <type name="respcon" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="respiration const"/>
+      <type name="sqcon" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="governs pot rate of squaring in thermal time"/>
+      <type name="fcutout" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="relates timing of cutut to boll load"/>
+      <type name="flai" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="modifying ratio of leaf area per site for this cultivar"/>
+      <type name="ddisq" kind="single" unit="" lower_bound="0.0" upper_bound="1000.0" description="dd to first square"/>
+      <type name="stage_code" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1000.0" description="list of stage numbers"/>
+      <type name="crop_type" kind="string" unit="" description="Type of Crop"/>
+      <type name="frudd" kind="single" array="T" unit="dd" lower_bound="0.0" upper_bound="2000.0" description="fruit dd to change of category"/>
+      <type name="bltme" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="boll time (fraction of period from flowering to boll opening)"/>
+      <type name="wt" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="weighting of number of bolls by carbon demand"/>
+      <type name="row_spacing_default" kind="single" unit="m" lower_bound="0.0" upper_bound="2000.0" description="Default rowing spacing"/>
+      <type name="popcon" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="population constant"/>
+      <type name="fburr" kind="single" unit="" lower_bound="0.0" upper_bound="5.0" description="factor sc/boll to sc+burr/boll"/>
+      <type name="acotyl" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="initial leaf area per plant"/>
+      <type name="rlai" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="lai growth rate"/>
+      <type name="leaf_res_n_conc" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="N content of senesced leaf"/>
+      <type name="a" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="rate of leaf area expansion constants for LAI calibration eqn"/>
+      <type name="b1" kind="single" unit="" lower_bound="-1.0" upper_bound="1.0" description="rate of leaf area expansion constants for LAI calibration eqn"/>
+      <type name="b2" kind="single" unit="" lower_bound="-1.0" upper_bound="1.0" description="rate of leaf area expansion constants for LAI calibration eqn"/>
+      <type name="b3" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="rate of leaf area expansion constants for LAI calibration eqn"/>
+      <type name="hucut" kind="single" unit="oC" lower_bound="0.0" upper_bound="100.0" description="cutoff temperature"/>
+      <type name="baset" kind="single" unit="oC" lower_bound="0.0" upper_bound="30.0" description="base temperature"/>
+      <type name="ul1" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="limit for stage 1 es  daRosa 1983"/>
+      <type name="cona" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="es rate in stage 2  daRosa 1983"/>
+      <type name="open_def" kind="single" unit="%" lower_bound="0.0" upper_bound="100.0" description="percent of open bolls at which to defoliate crop"/>
+      <type name="a_root_leaf" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="allometric constant root:leaf. Huxley's data 1964"/>
+      <type name="a_stem_leaf" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="allometric constant stem:leaf. Huxley's data 1964"/>
+      <type name="e_par" kind="single" unit="g/mj" lower_bound="0.0" upper_bound="10.0" description="Charles-edwards et al 1986"/>
+      <type name="specific_lw" kind="single" unit="" description="GAC 71/72"/>
+      <type name="t_opt" kind="single" unit="oC" lower_bound="0.0" upper_bound="50.0" description="Constable 1981"/>
+      <type name="t_base" kind="single" unit="oC" lower_bound="0.0" upper_bound="20.0" description="Constable 1981"/>
+      <type name="wt_area_max" kind="single" unit="" lower_bound="0.0" upper_bound="400.0" description="Hesketh and Low 1968 - Hoffman & Rawlins = 80"/>
+      <type name="embryo" kind="single" unit="g" lower_bound="0.0" upper_bound="1.0" description="dry weight of seedling at emergence"/>
+      <type name="f_leaf" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="proportion of leaf dry weight at emergence"/>
+      <type name="f_stem" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="proportion of stem dry weight at emergence"/>
+      <type name="f_root" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="proportion of root dry weight at emergence  -  data by extrapolation from Huxlry"/>
+      <type name="elevation_default" kind="single" unit="m" lower_bound="-100.0" upper_bound="1000.0" description="default elevation for calculating advection in eo calculation"/>
+      <type name="stress_wlog" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="sw/ul ratio for waterlogging"/>
+      <type name="wlog_assimilate_red" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="assimilate reduction with waterlogging"/>
+      <type name="wlog_carcap_red" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="carrying capacity reduction with waterlogging"/>
+      <type name="wlog_carcap_red_stress" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="carrying capacity reduction with waterlogging after stress"/>
+      <type name="smi_affect_wlog" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="level of water stress below which could affect waterlogging"/>
+      <type name="days_relief_wlog" kind="integer4" unit="days" lower_bound="0" upper_bound="20" description="number of days of stress relief after which has no effect on waterlogging"/>
+      <type name="frost_kill_immediate" kind="single" unit="oC" lower_bound="-5.0" upper_bound="5.0" description="min temperature below which immediate kill"/>
+      <type name="frost_kill_immediate_das" kind="integer4" unit="days" lower_bound="0" upper_bound="200" description="days after sowing after which  immediate kill can occur"/>
+      <type name="frost_kill_delayed" kind="single" unit="oC" lower_bound="0.0" upper_bound="10.0" description="min temperature below which delayed kill"/>
+      <type name="frost_kill_delayed_das" kind="integer4" unit="days" lower_bound="0" upper_bound="200" description="days after sowing after which  delayed kill can occur"/>
+      <type name="frost_kill_delayed_days" kind="integer4" unit="days" lower_bound="0" upper_bound="10" description="number of days delay before delayed frost kill"/>
+      <type name="rtdep_max" kind="single" unit="cm" lower_bound="0.0" upper_bound="500.0" description="maximum root depth"/>
+      <type name="harvest_n_frac" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="fraction of uptake N for potential N harvested"/>
+      <type name="cutout_smi_crit" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="crit smi for coutout due to water stress or full boll load"/>
+      <type name="cutout_smi_days" kind="integer4" unit="" lower_bound="0" upper_bound="10" description="days of crit smi for coutout due to water stress or full boll load"/>
+      <type name="cutout_smi_site_red" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="site reduction for coutout due to water stress or full boll load"/>
+      <type name="smi_delay_crit" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="delays to squaring"/>
+      <type name="cold_shock_delay_crit" kind="single" unit="" lower_bound="0.0" upper_bound="20.0" description="delays to squaring"/>
+      <type name="cold_shock_delay" kind="single" unit="" lower_bound="0.0" upper_bound="20.0" description="delays to squaring"/>
+      <type name="epcoef1" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="ep coef for smi ge crit"/>
+      <type name="epcoef2" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="ep coef for smi lt crit"/>
+      <type name="epcoef_smi_crit" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="crit smi for ep coef"/>
+      <type name="fbwstr_low" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="lower limit water stress on bolls"/>
+      <type name="fbwstr_high" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="upper limit water stress on bolls"/>
+      <type name="fbwstr_a" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="power water stress on bolls"/>
+      <type name="fbnstr_low" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="lower limit N stress"/>
+      <type name="fbnstr_high" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="upper limit N stress"/>
+      <type name="fbnstr_a" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="power N stress"/>
+      <type name="relp_smi_crit" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="water stress on photosynthesis - critical level of smi below which it affects pp"/>
+      <type name="relp_intercept" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="water stress on photosynthesis - intercept  of f(smi)"/>
+      <type name="relp_slope" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="water stress on photosynthesis - slope  of f(smi)"/>
+      <type name="relp_low" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="lower limit severity of effect of water stress on photosynthesis"/>
+      <type name="relp_high" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="upper limit severity of effect of water stress on photosynthesis"/>
+      <type name="relp_a" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="power severity of effect of water stress on photosynthesis"/>
+      <type name="vsnstr_low" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="lower limit N stress on fruiting site number"/>
+      <type name="vsnstr_high" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="upper limit N stress on fruiting site number"/>
+      <type name="vsnstr_a" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="power N stress on fruiting site number"/>
+      <type name="flfsmi_low" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="lower limit water stress on pre-squaring lai"/>
+      <type name="flfsmi_high" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="upper limit water stress on pre-squaring lai"/>
+      <type name="flfsmi_a" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="power water stress on pre-squaring lai"/>
+      <type name="vlnstr_low" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="lower limit N stress on lai"/>
+      <type name="vlnstr_high" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="upper limit N stress on lai"/>
+      <type name="vlnstr_a" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="power N stress on lai"/>
+      <type name="fw_low" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="lower limit effect of water stress on leaf senescence"/>
+      <type name="fw_high" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="upper limit effect of water stress on leaf senescence"/>
+      <type name="fw_a" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="power effect of water stress on leaf senescence"/>
+      <type name="adjust_low" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="lower limit plant N adjustment for supply/demand ratio"/>
+      <type name="adjust_high" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="upper limit plant N adjustment for supply/demand ratio"/>
+      <type name="adjust_a" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="power plant N adjustment for supply/demand ratio"/>
+      <type name="fwstrs_low" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="lower limit water stress for boll growth"/>
+      <type name="fwstrs_high" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="upper limit water stress for boll growth"/>
+      <type name="fwstrs_a" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="power water stress for boll growth"/>
+      <type name="ll" kind="single" array="T" unit="mm/mm" lower_bound="0.0" upper_bound="1.0" description="lower limit of extractable soil water by the crop for each soil layer"/>
+      <type name="day" kind="integer4" unit="" lower_bound="1" upper_bound="366" description="Day of year"/>
+      <type name="year" kind="integer4" unit="" lower_bound="1800" upper_bound="2100" description="Year"/>
+      <type name="maxt" kind="single" unit="oC" lower_bound="-100.0" upper_bound="100.0" description="Maximum ambient temperature"/>
+      <type name="mint" kind="single" unit="oC" lower_bound="-100.0" upper_bound="100.0" description="Minimum ambient temperature"/>
+      <type name="radn" kind="single" unit="Mj/m^2" lower_bound="0.0" upper_bound="1000.0" description="Incident radiation"/>
+      <type name="rain" kind="single" unit="mm" lower_bound="0.0" upper_bound="1000.0" description="Rainfall"/>
+      <type name="dlayer" kind="single" array="T" unit="mm" lower_bound="0.0" upper_bound="1000.0" description="Thickness of each layer of soil profile"/>
+      <type name="bd" kind="single" array="T" unit="g/cm^3" lower_bound="0.0" upper_bound="1000.0" description="moist bulk density of soil in each layer"/>
+      <type name="ll15" kind="single" array="T" unit="mm/mm" lower_bound="0.0" upper_bound="1.0" description="15 bar lower limit of extractable soil water for each soil layer"/>
+      <type name="dul_dep" kind="single" array="T" unit="mm" lower_bound="0.0" upper_bound="1000.0" description="drained upper limit soil water content for each soil layer"/>
+      <type name="sat_dep" kind="single" array="T" unit="mm" lower_bound="0.0" upper_bound="1000.0" description="saturated water content for each soil layer"/>
+      <type name="es" kind="single" unit="mm" lower_bound="0.0" upper_bound="1000.0" description="Actual soil evaporation"/>
+      <type name="runoff" kind="single" unit="mm" lower_bound="0.0" upper_bound="1000.0" description="Surface runoff"/>
+      <type name="sw_dep" kind="single" array="T" unit="mm" lower_bound="0.0" upper_bound="1000.0" description="Soil water content of each layer"/>
+      <type name="dlt_sw_dep" kind="single" array="T" unit="mm" lower_bound="0.0" upper_bound="1000.0" description="Soil water content of each layer"/>
+      <type name="no3_min" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="1000.0" description="Minimum allowable NO3 in soil in each layer"/>
+      <type name="no3" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="1000.0" description="Nitrate nitrogen in each layer"/>
+      <type name="dlt_no3" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="1000.0" description="Nitrate nitrogen in each layer"/>
+
+      <type name="add_residue" kind="????" unit="" description="Message to report addition of dropped leaves to the residue pool"/>
+      <type name="sow" kind="????" unit="" description="Perform sowing"/>
+      <type name="harvest" kind="????" unit="" description="Perform harvest"/>
+      <type name="end_crop" kind="????" unit="" description="Ends the crop" />
+      <type name="kill_crop" kind="????" unit="" description="Kills the crop"/>
+
+      <type name="LightProfileCalculated" kind="????" unit="" description="Light Profile Information arbitrated between canopy holders"/>
+      <type name="CropWaterSupplyCalculated" kind="????" unit="" description="Actual water supply for crop"/>
+      <type name="CropNitrogenSupplyCalculated" kind="????" unit="" description="Actual nitrogen supply for crop"/>
+      <type name="SoilWaterChanged" kind="????" unit="" description="Information on changed soil water in the system"/>
+      <type name="SoilWaterBalanceCalculated" kind="????" unit="" description="Soil water balance terms provided"/>
+      <type name="SolutesChanged" kind="????" unit="" description="Information on a changed in system solutes"/>
+      <type name="SoilTemperatureChanged" kind="????" unit="" description="Soil temperature changed"/>
+      <type name="DoCropGrowth" kind="????" unit="" description="Instruction from sequencer to do daily crop growth "/>
+      <type name="NewMet" kind="????" unit="" description="Daily weather information provided"/>
+

@@ -1,0 +1,10 @@
+[Dependencies]
+Dependency = %licensed_source(solute)
+
+[Contents]
+datatypesmodule.f90=datatypesmodule.f90
+solute.for = solute.for
+
+[APSBuild]
+binary = ..\lib\solute.dll
+compilerfile=debug.compile

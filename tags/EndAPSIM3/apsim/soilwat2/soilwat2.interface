@@ -1,0 +1,92 @@
+<component name="soilwat2">
+   <registrations>
+
+      <read name="A_to_evap_fact" type="A_to_evap_fact" />
+      <read name="sw_top_crit" type="sw_top_crit" />
+      <read name="sumes1_max" type="sumes1_max" />
+      <read name="sumes2_max" type="sumes2_max" />
+      <read name="solute_flow_eff" type="solute_flow_eff" />
+      <read name="solute_flux_eff" type="solute_flux_eff" />
+      <read name="gravity_gradient" type="gravity_gradient" />
+      <read name="specific_bd" type="specific_bd" />
+      <read name="mobile_solutes" type="mobile_solutes" />
+      <read name="immobile_solutes" type="immobile_solutes" />
+      <read name="act_evap_method" type="act_evap_method" />
+
+      <read name="cona" type="cona" />
+      <read name="u" type="u" />
+      <read name="air_dry" type="air_dry" />
+      <read name="bd" type="bd" />
+      <read name="diffus_const" type="diffus_const" />
+      <read name="diffus_slope" type="diffus_slope" />
+      <read name="dlayer" type="dlayer" />
+      <read name="dul" type="dul" />
+      <read name="insoil" type="insoil" />
+      <read name="ll15" type="ll15" />
+      <read name="profile_esw_depth" type="profile_esw_depth" />
+      <read name="profile_fesw" type="profile_fesw" />
+      <read name="sat" type="sat" />
+      <read name="sw" type="sw" />
+      <read name="wet_soil_depth" type="wet_soil_depth" />
+      <read name="irrigation_layer" type="dlayer"/>
+      <read name="swcon" type="swcon"/>
+      <read name="mwcon" type="mwcon"/>
+      <read name="beta" type="beta"/>
+      <read name="max_evap" type="max_evap"/>
+
+      <respondToGetReg name="bd" type="bd" />
+      <respondToGetReg name="drain" type="drain"/>
+      <respondToGetReg name="eo" type="eo"/>
+      <respondToGetReg name="es" type="es"/>
+      <respondToGetReg name="esw" type="esw"/>
+      <respondToGetReg name="flow" type="flow"/>
+      <respondToGetReg name="flow_water" type="flow_water"/>
+      <respondToGetReg name="flux" type="flux"/>
+      <respondToGetReg name="infiltration" type="infiltration"/>
+      <respondToGetReg name="water_table" type="water_table"/>
+      <respondToGetReg name="sws" type="sws"/>
+      <respondToGetReg name="solute_n_flow" type="solute_n_flow" autoregister="F"/>
+      <respondToGetReg name="solute_n_leach" type="solute_n_leach" autoregister="F"/>
+      <respondToGetReg name="solute_n_up" type="solute_n_up" autoregister="F"/>
+
+      <respondToGetSetReg name="sw" type="sw" />
+      <respondToGetSetReg name="sw_dep" type="sw_dep"/>
+      <respondToGetSetReg name="air_dry" type="air_dry" />
+      <respondToGetSetReg name="air_dry_dep" type="air_dry_dep"/>
+      <respondToGetSetReg name="dlayer" type="dlayer" />
+      <respondToGetSetReg name="dlt_sw" type="dlt_sw"/>
+      <respondToGetSetReg name="dlt_sw_dep" type="dlt_sw_dep"/>
+      <respondToGetSetReg name="dul" type="dul" />
+      <respondToGetSetReg name="dul_dep" type="dul_dep"/>
+      <respondToGetSetReg name="ll15" type="ll15" />
+      <respondToGetSetReg name="ll15_dep" type="ll15_dep"/>
+      <respondToGetSetReg name="sat" type="sat" />
+      <respondToGetSetReg name="sat_dep" type="sat_dep"/>
+
+      <respondToSetReg name="profile_esw_depth" type="profile_esw_depth" />
+      <respondToSetReg name="insoil" type="insoil" />
+      <respondToSetReg name="dlt_dlayer" type="dlt_dlayer"/>
+      <respondToSetReg name="profile_fesw" type="profile_fesw" />
+      <respondToSetReg name="wet_soil_depth" type="wet_soil_depth" />
+      <respondToSetReg name="cona" type="cona"/>
+      <respondToSetReg name="u" type="u"/>
+
+      <respondToMethodCallReg name="UserInit" type="null"/>
+      <respondToMethodCallReg name="reset" type="null"/>
+      <respondToMethodCallReg name="SumReport" type="null"/>
+      <respondToMethodCallReg name="EvapInit" type="null"/>
+
+      <respondToEventReg name="SolutesChanged" type="SoluteProfile"/>
+      <respondToEventReg name="CropWaterDemandCalculated" type="CropWaterDemand"/>
+      <respondToEventReg name="SurfaceWaterChanged" type="SurfaceWater"/>
+      <respondToEventReg name="SurfaceWaterDemandCalculated" type="SurfaceWaterDemand"/>
+      <respondToEventReg name="DoSoilWaterBalance" type="null"/>
+
+      <eventReg name="SoluteFluxesCalculated" type="soluteprofile"/>
+      <eventReg name="CropWaterSupplyCalculated" type="CropWaterSupply"/>
+      <eventReg name="SoilWaterBalanceCalculated" type="SoilWaterBalance"/>
+      <eventReg name="SoilWaterProfileChanged" type="SoilWaterProfileLayer"/>
+      <eventReg name="SoilWaterChanged" type="SoilWaterLayer"/>
+
+   </registrations>
+</component>

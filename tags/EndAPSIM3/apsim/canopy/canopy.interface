@@ -1,0 +1,29 @@
+<component name="canopy">
+
+   <registrations>
+      <respondToMethodCallReg name="lai_table" type="null"/>
+      <respondToMethodCallReg name="cover_table" type="null"/>
+      <respondToMethodCallReg name="f_table" type="null"/>
+      <respondToMethodCallReg name="rs_table" type="null"/>
+      <respondToMethodCallReg name="rl_table" type="null"/>
+      <respondToMethodCallReg name="gc_table" type="null"/>
+      <respondToMethodCallReg name="ga_table" type="null"/>
+      <respondToMethodCallReg name="pet_table" type="null"/>
+      <respondToMethodCallReg name="petr_table" type="null"/>
+      <respondToMethodCallReg name="peta_table" type="null"/>
+      <respondToMethodCallReg name="omega_table" type="null"/>
+
+      <respondToEventReg name="tick" type="time"/>
+      <respondToEventReg name="newmet" type="newmet"/>
+      <respondToEventReg name="canopychanged" type="canopy"/>
+      <respondToEventReg name="residuechanged" type="residue"/>
+      <respondToEventReg name="domicromet" type="null"/>
+      <respondToGetReg name="interception" type="interception"/>
+      <eventReg name="lightprofilecalculated" type="lightprofile"/>
+      <eventReg name="CanopyWaterBalanceCalculated" type="canopywaterbalance"/>
+      
+      <getVariableReg name="eo" type="eo" autoregister = "F"/>      
+      <respondToGetReg name="eo" type="eo"/>
+      
+   </registrations>
+</component>

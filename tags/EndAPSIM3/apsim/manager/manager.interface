@@ -1,0 +1,15 @@
+<component name="manager">
+   <registrations>
+      <getVariableReg name="today" type="today"/>
+      <respondToEventReg name="prepare" type="null"/>
+      <respondToEventReg name="process" type="null"/>
+      <respondToEventReg name="post" type="null"/>
+      
+      <getVariableReg name="string" type="string" autoregister="F"/>
+      <setVariableReg name="string" type="string" autoregister="F"/>
+      <methodCallReg name="string" type="string" autoregister="F"/>
+      <respondToGetReg name="single" type="single" autoregister="F"/>
+      <respondToGetReg name="string" type="string" autoregister="F"/>
+      
+   </registrations>
+</component>

@@ -1,0 +1,60 @@
+[sample.report.parameters]
+outputfile =Canopy.out   
+
+variable = clock.day
+variable = clock.year
+variable = grass.sw_demand(grass_swd)
+variable = grass.ep(grass_ep)
+variable = tree.sw_demand(tree_swd)
+variable = tree.ep(tree_ep)
+variable = canopy.eo
+
+[sample.clock.parameters]  
+! Start and end date of run (day number of year and year)
+start_date=1/1/1988
+end_date=30/1/1988
+
+[sample.manager.end_of_day]  
+if day = 1 then
+   Canopy lai_table
+   Canopy rs_table
+   Canopy cover_table
+endif
+report do_output
+
+[sample.grass.parameters]  
+crop_type     = grass
+uptake_source = calc
+eo_fraction   = 0.9 (0-1)
+lai           = 3.0
+Frgr          = 1.0
+height        = 200. (mm)
+rlv           = 0.05 0.03 0.02 0.01 0.01 0.01 0.01 (mm/mm3)
+solute_names  = no3 nh4
+no3_demand    = 1 (kg/ha)
+nh4_demand    = 0.3 (kg/ha)
+
+[sample.tree.parameters]  
+crop_type     = tree
+uptake_source = calc
+eo_fraction   = 0.9 (0-1)
+lai           = 3.0
+Frgr          = 1.0
+height        = 5000. (mm)
+rlv           = 0.05 0.03 0.02 0.01 0.01 0.01 0.01 (mm/mm3)
+solute_names  = no3 nh4
+no3_demand    = 1 (kg/ha)
+nh4_demand    = 0.3 (kg/ha)
+
+[sample.Canopy.parameters]
+soil_albedo = 0.13
+layer_ga = 0.01666
+
+!      Interception = A_interception * (rain ^ B_interception)
+!                   + C_interception * Total_LAI
+!                   + D_interception
+! Standard LAI approach
+a_interception = 0.0
+b_interception = 0.0
+c_interception = 0.0
+d_interception = 0.0
