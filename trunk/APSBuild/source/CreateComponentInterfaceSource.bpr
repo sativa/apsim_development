@@ -26,7 +26,7 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
     <MAINSOURCE value="CreateComponentInterfaceSource.cpp"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(SHARED)"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)"/>
     <LIBPATH value="$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
@@ -85,13 +85,13 @@ ProductVersion=1.0.0.0
 Comments=
 
 [Excluded Packages]
-C:\WINDOWS\System32\PsQRC60.bpl=Pragnaan QuickReport Export Filters
-C:\MyData\development\Bin\SEGReport.bpl=SEGReport
+C:\Program Files\Borland\CBuilder6\Components\MemTable\kbmMemC6Des.bpl=kbmMemC6Des
 
 [HistoryLists\hlIncludePath]
-Count=2
-Item0=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item1=$(BCB)\include;$(BCB)\include\vcl
+Count=3
+Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)
+Item1=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item2=$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
 Count=1
