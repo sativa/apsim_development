@@ -636,6 +636,7 @@
 
    <type name="residue_cover" kind="single" unit="" description=""/>
    <type name="add_residue" kind="string"/>
+   <type name="addresiduestring" kind="string" unit="" description="Residue Added String: dlt_residue_type=xx (), dlt_residue_wt=xx (kg/ha), dlt_residue_n=xx (kg/ha), dlt_residue_cnr=xx (kg/ha), dlt_residue_p=xx (kg/ha), dlt_residue_cpr=xx (kg/ha)"/>
 
    <type name="Residue" array="T">
       <element>
