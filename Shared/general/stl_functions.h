@@ -163,16 +163,16 @@ void Double2string (CT1& source, CT2& dest, int NumDecPlaces = 5)
 
 
 template <class CT, class T>
-class Add_if_unique : public std::unary_function<T, void>
+class UniqueBackInserter : public std::unary_function<T, void>
    {
    private:
       CT& container;
    public:
-      Add_if_unique (CT& c) : container(c) {}
+      UniqueBackInserter (CT& c) : container(c) {}
       void operator() (T& arg)
          {
          if (std::find(container.begin(), container.end(), arg) == container.end())
-            container.push_back (arg);
+            container.push_back(arg);
          }
    };
 
@@ -461,17 +461,17 @@ struct Pless : public std::binary_function<T*, T*, bool>
    bool operator() (const T* x, const T* y) const { return *x < *y; }
    };
 
-  template <class InputIterator, class Function, class Predicate>
-  Function for_each_if (InputIterator first, InputIterator last,
-                        Function f, Predicate pred)
+template <class InputIterator, class Function, class Predicate>
+Function for_each_if (InputIterator first, InputIterator last,
+                      Function f, Predicate pred)
   {
-    while (first != last)
-       {
-       if (pred(*first))
-          f(*first);
-       first++;
-       }
-    return f;
+  while (first != last)
+     {
+     if (pred(*first))
+        f(*first);
+     first++;
+     }
+  return f;
   }
 template <class CT, class T>
 class GetAttribute
@@ -505,5 +505,51 @@ class MatchPartialStringAndStore
             matchingFiles.push_back(st);
          }
    };
+
+//---------------------------------------------------------------------------
+// predicate to create a vector of strings that has a particular extension.
+//---------------------------------------------------------------------------
+template <class CT>
+class FilterContainer
+   {
+   private:
+      CT& matchingFiles;
+      const CT& subStrings;
+   public:
+      FilterContainer(const CT& substrings, CT& matchingfiles)
+         : subStrings(substrings), matchingFiles(matchingfiles) { }
+      void operator() (const string& st)
+         {
+         for (CT::const_iterator i = subStrings.begin(); i != subStrings.end(); i++)
+            {
+            if (stristr(st.c_str(), i->c_str()) != NULL &&
+                find(matchingFiles.begin(), matchingFiles.end(), st) == matchingFiles.end())
+               matchingFiles.push_back(st);
+            }
+         }
+   };
+//---------------------------------------------------------------------------
+// functor to remove all characters, following a delimiter, from a string
+// and store in a return container.
+//---------------------------------------------------------------------------
+template <class CT>
+class RemoveSuffix : public std::unary_function<std::string, void>
+   {
+   private:
+      CT& container;
+      const std::string& delimiter;
+   public:
+      RemoveSuffix(const std::string& d, CT& c)
+         : delimiter(d), container(c) {}
+      void operator() (const std::string& st)
+         {
+         unsigned posDelimiter = st.find(delimiter);
+         if (posDelimiter != std::string::npos)
+            container.push_back(st.substr(0, posDelimiter));
+         else
+            container.push_back(st);
+         }
+   };
+
 
 #endif
