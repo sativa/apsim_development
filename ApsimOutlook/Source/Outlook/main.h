@@ -115,11 +115,13 @@ __published:
           TStrings *Msg);
    void __fastcall Timer1Timer(TObject *Sender);
 private:
+   TCursor savedCursor; 
 	void __fastcall CreateMDIChild(const String Name);
 	void __fastcall ShowHint(TObject *Sender);
    void __fastcall Close_all ();
    void __fastcall Application_minimize (TObject* Sender);
    void __fastcall CreateDefaultDatabase(TStrings* files);
+
 
 public:
 	virtual __fastcall TMainForm(TComponent *Owner);

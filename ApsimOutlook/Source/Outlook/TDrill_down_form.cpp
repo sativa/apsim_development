@@ -161,10 +161,13 @@ void TDrill_down_form::RefreshScrollBox (void)
    Current_simulation.Get_identifiers_and_values (Identifiers, Values);
 
    // put identifiers in first column and values in second column
-   for (unsigned int i = 0; i < Identifiers.size(); i++)
+   for (unsigned int i = 0; i < Values.size(); i++)
       {
       // give button a caption
-      string Caption = Identifiers[i] + " - " + Values[i];
+      string Caption;
+      if (Identifiers[i] != "")
+         Caption = Identifiers[i] + " - ";
+      Caption += Values[i];
       TSpeedButton* Button = dynamic_cast <TSpeedButton*> (ScrollBox->Controls[i]);
       Button->Caption = Caption.c_str();
 
@@ -267,12 +270,15 @@ void __fastcall TDrill_down_form::ButtonClick(TObject *Sender)
 
    // get identifier from button.
    string Identifier = Button->Caption.c_str();
-   Identifier.erase (Identifier.find(" - "));
    string Value = Button->Caption.c_str();
-   if (Value.find(" - ") != string::npos)
-      Value = Value.substr(Value.find(" - ") + 3);
+   int posDash = Identifier.find(" - ");
+   if (posDash != string::npos)
+      {
+      Identifier.erase (posDash);
+      Value = Value.substr(posDash + 3);
+      }
    else
-      Value = "";
+      Identifier = "";
 
    // delete old selections.
    ValueSelectionForm->SelectedItems.erase(ValueSelectionForm->SelectedItems.begin(),
@@ -376,7 +382,10 @@ void TDrill_down_form::Select_multiple_simulations (TSimulation& Simulation,
             NewName = "";
          else
             NewName = NewName + ";";
-         NewName += string(Selected_identifier) + "=" + *i;
+         NewName += string(Selected_identifier);
+         if (NewName != "")
+            NewName += "=";
+         NewName += *i;
          New_simulation.Set_name (NewName.c_str());
          }
       Simulations->Select_simulation (New_simulation);

@@ -274,6 +274,13 @@ void AddToOpenDialog (TOpenDialog* OpenDialog, TStringList* files)
 void __fastcall TMainForm::ApsimOutlookExecuteMacro(TObject *Sender,
       TStrings *Msg)
    {
+   // display an hourglass if we haven't already done so.
+   if (!Timer1->Enabled)
+      {
+      savedCursor = Screen->Cursor;
+      Screen->Cursor = crHourGlass;
+      }
+
    // create a string stream to parse macro.
    istringstream Macro_stream (Msg->Strings[0].c_str());
 
@@ -344,6 +351,8 @@ void __fastcall TMainForm::CreateDefaultDatabase(TStrings* files)
    Directory_select_form->SelectedMDBs->Add(destinationMDB.c_str());
    if (Directory_select_form->SelectedMDBs->Count > 0)
       CreateMDIChild("Chart" + IntToStr(MDIChildCount + 1));
+
+   Screen->Cursor = savedCursor;
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::Timer1Timer(TObject *Sender)
