@@ -42,6 +42,8 @@ class Coordinator : public protocol::Component
       bool printReport;
       std::stack<unsigned> previousGetValueCompID;
       std::stack<unsigned> previousGetValueRegID;
+      std::set<std::string> variablesBeenPolledForGets;
+      std::set<std::string> variablesBeenPolledForSets;
 
       virtual void doInit1(const FString& sdml);
       virtual void doInit2(void);
