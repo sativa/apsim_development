@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <windows.h>
 
 
 struct Instance
@@ -42,3 +43,13 @@ extern "C" _export void __stdcall getInstance(Instance ** p)
    *p = &instancepointers_;
    }
 
+
+extern "C" void __stdcall getDescriptionInternal(char* initScript,
+                                                 char* description);
+// ------------------------------------------------------------------
+// Return component description info.
+// ------------------------------------------------------------------
+extern "C" _export void __stdcall getDescription(char* initScript, char* description)
+   {
+   getDescriptionInternal(initScript, description);
+   }

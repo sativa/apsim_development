@@ -895,3 +895,50 @@ unsigned int Component::getReg(const char *systemName,
    strcat(buffer, ")\"/>");
    return this->addRegistration(RegistrationType::respondToGet, systemName, buffer);
    }
+
+
+// Build the xml fragment that describes this variable and publish to system
+std::string baseInfo::getXML()
+   {
+   string st = "   <property name=\"" + asString(myName) + "\" description=\"" + asString(myDescription) + "\" access=\"read\" init=\"F\">\n";
+   st += "      <type kind=\"" + asString(Type::codeToString(myType)) + "\" array=\"";
+   if (myIsArray)
+      st += "T";
+   else
+      st += "F";
+   st += "\" unit=\"" + asString(myUnits) + "\"/>\n";
+   st += "   </property>";
+   return st;
+   }
+
+// Build the xml fragment that describes this variable and publish to system
+std::string Component::getDescription()
+   {
+   try
+      {
+      string returnString = "<describecomp name=\"" + asString(name) + "\">\n";
+      for (UInt2InfoMap::iterator var = getVarMap.begin();
+                                  var != getVarMap.end();
+                                  var++)
+         {
+         returnString += var->second->getXML() + "\n";
+         }
+      for (unsigned i = 0; i != registrations->size(); i++)
+         {
+         RegistrationItem* reg = registrations->get(i);
+         if (reg->getKind() == RegistrationType::event)
+            {
+            returnString += "   <event name=\"";
+            returnString += reg->getName();
+            returnString += "\"/>\n";
+            }
+         }
+      returnString += "\n</describecomp>\n";
+      return returnString;
+      }
+   catch (const exception& err)
+      {
+      MessageBox(NULL, err.what(), "Error", MB_ICONSTOP | MB_OK);
+      return "";
+      }
+   }

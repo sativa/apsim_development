@@ -1,4 +1,5 @@
 #include "Component.h"
+#include <ApsimShared\ApsimComponentData.h>
 
 namespace protocol {
 // ------------------------------------------------------------------
@@ -33,5 +34,34 @@ extern "C" _export void __stdcall messageToLogic (unsigned* instanceNumber,
    ((protocol::Component*) *instanceNumber)->messageToLogic(message);
    *processed = true; // ???? not sure why we need this.
    }
+
+// ------------------------------------------------------------------
+// Return component description info.
+// ------------------------------------------------------------------
+extern "C" _export void __stdcall getDescriptionInternal(char* initScript,
+                                                         char* description)
+   {
+   ApsimComponentData componentData(initScript);
+   string dllFileName = componentData.getExecutableFileName();
+   string instanceName = componentData.getName();
+   //MessageBox(NULL, instanceName.c_str(), "", MB_OK);
+
+   // create an instance of the module.
+   unsigned dummy = 0;
+   unsigned instanceNumber = 0;
+   createInstance(dllFileName.c_str(), &dummy, &dummy, &instanceNumber, &dummy, NULL);
+
+   // call init1.
+   Message* init1Message = newInit1Message(0, 0, initScript, instanceName.c_str(), true);
+   bool processed;
+   messageToLogic(&instanceNumber, init1Message, &processed);
+
+   string compDescription = ((protocol::Component*) instanceNumber)->getDescription();
+   strcpy(description, compDescription.c_str());
+
+   // delete the instance.
+   deleteInstance(&instanceNumber);
+   }
+
 
 } // namespace protocol
