@@ -1,33 +1,3 @@
-*===========================================================
-      character*(*) function correl_version ()
-*===========================================================
-      implicit none
-      include 'error.pub'                         
-
-*+  Purpose
-*             return version number of correl module
-
-*+  Changes
-*       210995 jngh programmed
-
-*+  Constant Values
-      character  myname*(*)            ! Name of this procedure
-      parameter (myname = 'correl_version')
-*
-      character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V1.0 27/02/98')
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
- 
-      correl_version = version_number
- 
-      call pop_routine (myname)
-      return
-      end
-
-
-
 *====================================================================
       subroutine apsim_Correl (Action, Data_string)
 *====================================================================
@@ -49,9 +19,7 @@
 *+  Changes
 *       210995 jngh programmed
 *       090696 jngh changed presence report to standard
-
-*+  Calls
-      character  correl_version*20         ! function
+*       190599 jngh removed version references and MES_presence
 
 *+  Constant Values
       character  myname*(*)            ! Name of this procedure
@@ -63,12 +31,7 @@
 *- Implementation Section ----------------------------------
       call push_routine (myname)
  
-      if (Action.eq.MES_Presence) then
-         call get_current_module (Module_name)
-         write(*, *) 'Module_name = ', Module_name
-     :              // ', Version : ' // correl_version()
- 
-      elseif (Action.eq.MES_Init) then
+      if (Action.eq.MES_Init) then
          call correl_zero_variables ()
          call correl_init ()
          call correl_get_other_variables_init ()
@@ -173,24 +136,18 @@
 
 *+  Changes
 *       210995 jngh programmed
-
-*+  Calls
-      character  correl_version*15         ! function
+*       190599 jngh removed version references
 
 *+  Constant Values
       character  myname*(*)            ! Name of this procedure
       parameter (myname = 'correl_init')
-
-*+  Local Variables
-      character  Event_string*40       ! String to output
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
  
          ! notify system that we have initialised
  
-      Event_string = 'Initialising Version : ' // correl_version ()
-      call report_event (Event_string)
+      call report_event ('Initialising:')
  
          ! get all parameters from parameter file
  
@@ -236,6 +193,13 @@
 *+  Local Variables
       integer    numvals               ! number of values read
 c      character  line*80               ! output string
+      integer    temp(numvars)
+      integer    numints
+      character  check(numvars)*8
+      integer    numcheck
+      integer    i
+      integer    k
+      
 
 *- Implementation Section ----------------------------------
  
@@ -262,6 +226,34 @@ c      character  line*80               ! output string
      :          ,'(-)'
      :          ,p_names
      :          ,p_numvars)
+ 
+      call read_char_array (
+     :           section_name
+     :          ,'check'
+     :          ,numvars
+     :          ,'(-)'
+     :          ,check
+     :          ,numcheck)
+ 
+      k = 0
+      do i = 1, numcheck
+         call read_integer_array (
+     :           section_name
+     :          ,check(i)
+     :          ,numvars
+     :          ,'(-)'
+     :          ,temp
+     :          ,numints
+     :          ,-1
+     :          ,1)
+         if (numints.eq.0) then
+         else
+            k = k + 1
+            p_check_name(k) = check(i)
+            p_check_vals(:,k) = temp
+         endif
+      end do
+      p_num_check = k
  
       call pop_routine  (myname)
       return
@@ -531,6 +523,8 @@ c      character  line*80               ! output string
       double precision     mean(numvars)
       double precision     sumprod(numvars,numvars)
       character string*1000
+      integer   corloc(numvars,numvars,1)
+      real      temp(offset*2+1)
 
 *- Implementation Section ----------------------------------
  
@@ -606,6 +600,20 @@ c      character  line*80               ! output string
             write (1000, *) trim(string)
          end do
       end do
+ 
+!      write (string, '(10x, 100a7)') (g_name_found(i), i=1,g_numvars)
+!      call write_string (lu_scr_sum, string)
+!      write (1000, *) trim(string)
+!      do i=1,g_numvars
+!         do j=1,g_numvars
+!            temp = cor(i,j,:)
+!            corloc(i,j,1) = maxloc(temp)-(p_offset+1)
+!         end do
+!            write (string, '(1x, a7, 2x, 700f7.2)')
+!     :            g_name_found(i), (corloc(i,j), j=1,g_numvars)
+!            call write_string (lu_scr_sum, string)
+!            write (1000, *) trim(string)
+!      end do
  
       close (1000)
  
