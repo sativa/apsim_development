@@ -997,7 +997,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
 *+  Local Variables
       integer   numvals
-      real labile_p(max_layer)      ! labile p from soil phosphorous
+      real labile_p(max_layer)      ! labile p from soil phosphorus
 
 *- Implementation Section ----------------------------------
 
@@ -1018,7 +1018,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
          g%phosphorus_aware = .true.
          call write_string (
      :                  new_line
-     :                  //'    - Module is set Phosphorous aware')
+     :                  //'    - Module is set phosphorus aware')
       else
          g%phosphorus_aware = .false.
 
