@@ -62,36 +62,4 @@ void GENERAL_EXPORT appendDBRecord(TDataSet* dataset,
                                    std::vector<std::string>& fieldNames,
                                    std::vector<std::string>& fieldValues) throw(std::runtime_error);
 
-//---------------------------------------------------------------------------
-// Append a series of new records to the specified dataset, one record
-// for each value in the fieldValues container.
-//---------------------------------------------------------------------------
-void GENERAL_EXPORT addDBRecords(TDataSet* dataset,
-                                 const std::string& fieldName,
-                                 std::vector<std::string>& fieldValues);
-
-//---------------------------------------------------------------------------
-// Append a series of new records to the specified dataset, one record
-// for each value in the fieldValues container.
-//---------------------------------------------------------------------------
-void GENERAL_EXPORT addDBRecords(TDataSet* dataset,
-                                 const std::string& fieldName,
-                                 std::vector<double>& fieldValues);
-//---------------------------------------------------------------------------
-// Stores a series values for a specified field in the record range First()
-// to Eof().  This routine DOES NOT create any new records.
-// Will throw if there are not enough records to store all fieldValues.
-//---------------------------------------------------------------------------
-void GENERAL_EXPORT storeDBRecords(TDataSet* dataset,
-                                   const std::string& fieldName,
-                                   std::vector<std::string>& fieldValues)  throw (std::runtime_error);
-//---------------------------------------------------------------------------
-// Stores a series values for a specified field in the record range First()
-// to Eof().  This routine DOES NOT create any new records.
-// Will throw if there are not enough records to store all fieldValues.
-//---------------------------------------------------------------------------
-void GENERAL_EXPORT storeDBRecords(TDataSet* dataset,
-                                   const std::string& fieldName,
-                                   std::vector<double>& fieldValues) throw (std::runtime_error);
-
 #endif
