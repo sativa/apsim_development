@@ -234,6 +234,11 @@ void CContextMenuHandler::createMenus(string& subMenuName,
          if (strcmpi(extension.c_str(), ".out") == 0)
             {
             menuDescriptions.push_back(
+               MenuDescription("View",
+                               "View output file",
+                               "view",
+                               &viewFiles));
+            menuDescriptions.push_back(
                MenuDescription("Send to &Excel",
                                "Send all data in the selected files to Microsoft EXCEL",
                                "excel",

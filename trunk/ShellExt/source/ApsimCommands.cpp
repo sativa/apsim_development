@@ -118,19 +118,17 @@ extern "C" _export void __stdcall createSimFiles(const char* csvFiles)
    }
 
 //---------------------------------------------------------------------------
-// Send all files to an editor.
+// View a .out file.
 //---------------------------------------------------------------------------
 extern "C" _export void __stdcall viewFiles(const char* csvFiles)
    {
    vector<string> fileNames;
    Split_string(csvFiles, ",", fileNames);
 
-   for (unsigned int file = 0; file != fileNames.size(); file++)
+   for (unsigned f = 0; f != fileNames.size(); f++)
       {
-      string command = "\"" + getApsimDirectory() + "\\bin\\apsbuild -build \"" + fileNames[file] + "\"";
-
-      // run command
-      ShellExecute(NULL, "open", fileNames[file].c_str(), NULL, "", SW_SHOW);
+      string command = getApsimDirectory() + "\\bin\\Viewer \"" + fileNames[f] + "\"";
+      WinExec(command.c_str(), SW_SHOW);
       }
    }
 //---------------------------------------------------------------------------
@@ -177,3 +175,5 @@ extern "C" _export void __stdcall apsimFiles(const char* csvFiles)
       WinExec(command.c_str(), SW_SHOW);
       }
    }
+
+
