@@ -153,6 +153,7 @@ void TYPSetupForm::populateResetGrid()
          string soilContents = data->getSoil(RegionCombo->Text.c_str(), SoilTypeCombo->Text.c_str());
          Soil soil(soilContents);
          vector<string> layerStrings = thicknessToLayerStrings(soil.thickness());
+         ResetGrid->RowCount = max(layerStrings.size(), 8);
          for (unsigned l = 0; l != layerStrings.size(); l++)
             ResetGrid->Cells[0][l] = layerStrings[l].c_str();
 
@@ -211,6 +212,7 @@ void TYPSetupForm::populateResetGrid2()
          string soilContents = data->getSoil(RegionCombo->Text.c_str(), SoilTypeCombo->Text.c_str());
          Soil soil(soilContents);
          vector<string> layerStrings = thicknessToLayerStrings(soil.thickness());
+         ResetGrid2->RowCount = max(layerStrings.size(), 8);
          for (unsigned l = 0; l != layerStrings.size(); l++)
             ResetGrid2->Cells[0][l] = layerStrings[l].c_str();
 
