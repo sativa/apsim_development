@@ -100,6 +100,7 @@
 
 ! ====================================================================
       type OzcotGlobals
+      Sequence
 
       real    frudw_shed
          real    APPLIED_N
@@ -377,6 +378,7 @@
 ! ====================================================================
 
       type OzcotParameters
+      Sequence
 
          real    UNUL(max_layers)
          integer num_ll_vals
@@ -405,6 +407,7 @@
 ! ====================================================================
 
       type OzcotConstants
+      Sequence
       character  crop_type*50        ! crop type
                                              ! reporting
       real       row_spacing_default
@@ -525,248 +528,15 @@
 ! ====================================================================
 
       ! instance variables.
-      type (OzcotGlobals), pointer :: g
-      type (OzcotParameters), pointer :: p
-      type (OzcotConstants), pointer :: c
-      save g
-      save p
-      save c
-
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)
-      integer MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-      type OzcotDataPtr
-         type (OzcotGlobals), pointer ::    gptr
-         type (OzcotParameters), pointer :: pptr
-         type (OzcotConstants), pointer ::  cptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type OzcotDataPtr
-      type (OzcotDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
-
-      save Instances
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (OzcotGlobals),pointer :: g
+      type (OzcotParameters),pointer :: p
+      type (OzcotConstants),pointer :: c
 
       contains
 
 
-
-
-!     ===========================================================
-      subroutine AllocInstance (InstanceName, InstanceNo)
-!     ===========================================================
-      Use Infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%gptr)
-      allocate (Instances(InstanceNo)%pptr)
-      allocate (Instances(InstanceNo)%cptr)
-      Instances(InstanceNo)%Name = InstanceName
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine FreeInstance (anInstanceNo)
-!     ===========================================================
-      Use Infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module de-instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%gptr)
-      deallocate (Instances(anInstanceNo)%pptr)
-      deallocate (Instances(anInstanceNo)%cptr)
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine SwapInstance (anInstanceNo)
-!     ===========================================================
-      Use Infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Swap an instance into the global 'g' pointer
-
-!- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%gptr
-      p => Instances(anInstanceNo)%pptr
-      c => Instances(anInstanceNo)%cptr
-
-      return
-      end subroutine
-
-
-
-* ====================================================================
-       subroutine Main (action, data_string)
-* ====================================================================
-      Use Infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      character Action*(*)            ! Message action to perform
-      character data_string*(*)
-
-*+  Purpose
-*      This routine is the interface between the main system and the
-*      ozcot module.
-
-*+  Changes
-*      psc - 9/08/93
-*      DPH - 11/7/94 Modifed routine to zero variables if required
-*                    when a process message is received.
-*      PdeV  16/3/95 New engine interface
-*      jngh  170895  changed manager action to react to sow and harvest actions
-*      jngh  250996  added version to presence report
-*                    added message_unused call
-*      sdb   060599  removed version reference and presence action
-
-*+  Calls
-
-
-*+  Constant Values
-      character  myname*(*)            ! name of subroutine
-      parameter (myname = 'Ozcot_main')
-
-*- Implementation Section ----------------------------------
-      call push_routine(myname)
-
-      if (Action.eq.ACTION_Get_variable) then
-         call ozcot_Send_my_variable (data_string)
-
-      else if (Action .eq. ACTION_Set_variable) then
-         call ozcot_set_my_variable (data_string)
-
-      else if (Action .eq. ACTION_prepare) then
-         call ozcot_prepare ()
-
-      elseif (action.eq.EVENT_tick) then
-         call ozcot_ONtick ()
-
-      elseif (action.eq.EVENT_NewMet) then
-         call ozcot_ONNew_Met ()
-
-!      elseif (action.eq.EVENT_Hail) then
-!         call ozcot_ONHail ()
-
-      else if (Action.eq.ACTION_Process) then
-         if (g%zero_variables) then
-            call ozcot_zero_variables()
-            call ozcot_init()
-
-         else
-            ! No need to zero variables.
-         endif
-
-         call ozcot_get_other_variables ()
-         call ozcot_Process ()
-         call ozcot_set_other_variables ()
-
-      else if (Action .eq. ACTION_Post) then
-         call ozcot_post ()
-
-!jh      else if (Action .eq. 'sow' .or. action .eq. 'harvest') then
-!jh         call ozcot_manager (Action, data_string)
-
-      elseif (action.eq.ACTION_sow) then
-         if (ozcot_my_type ()) then
-               ! request and receive variables from owner-modules
-!jh            call ozcot_get_other_variables ()
-            if (g%zero_variables) then
-               call ozcot_zero_variables()
-               call ozcot_init()
-
-            else
-               ! No need to zero variables.
-            endif
-               ! start crop and do  more initialisations
-            call ozcot_start_crop ()
-         else
-            ! not my type!
-            call message_unused ()
-         endif
-
-      elseif (action.eq.ACTION_harvest) then
-         if (ozcot_my_type ()) then
-               ! harvest crop - turn into residue
-            if (g%crop_in) then
-               call ozcot_manager('harvest', ' ')
-            else
-            endif
-
-         else
-            ! not my type!
-            call message_unused ()
-         endif
-
-      elseif (action.eq.ACTION_end_crop) then
-         if (ozcot_my_type ()) then
-               ! end crop - turn into residue
-            if (g%crop_in) then
-               call ozcot_end_crop ()
-            else
-            endif
-         else
-            ! not my type!
-            call message_unused ()
-         endif
-
-      elseif (action.eq.ACTION_kill_crop) then
-         if (ozcot_my_type ()) then
-               ! kill crop - die
-!            call ozcot_kill_crop
-!     :               (
-!     :                g%dm_dead
-!     :              , g%dm_green
-!     :              , g%dm_senesced
-!     :              , g%plant_status
-!     :               )
-         else
-            ! not my type!
-            call message_unused ()
-         endif
-      else if (Action .eq. ACTION_End_run) then
-         call ozcot_end_run ()
-
-      elseif (Action.eq.ACTION_init) then
-         call ozcot_zero_variables ()
-         call ozcot_get_other_variables ()
-         call ozcot_Init ()
-
-      else if (Action.eq.ACTION_Create) then
-         call ozcot_zero_all_globals ()
-!jh         open (100, 'out.txt')
-
-      else
-         ! Don't use message
-         call message_unused ()
-
-      endif
-
-      call pop_routine(myname)
-      return
-      end subroutine
 
 
 
@@ -7255,3 +7025,187 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
 
       end module OzcotModule
+
+
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use OzcotModule
+      implicit none
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+         allocate(p)
+         allocate(c)
+      else
+         deallocate(g)
+         deallocate(p)
+         deallocate(c)
+      end if
+      return
+      end subroutine
+
+
+
+* ====================================================================
+       subroutine Main (action, data_string)
+* ====================================================================
+      Use Infrastructure
+      implicit none
+      ml_external Main
+
+*+  Sub-Program Arguments
+      character Action*(*)            ! Message action to perform
+      character data_string*(*)
+
+*+  Purpose
+*      This routine is the interface between the main system and the
+*      ozcot module.
+
+*+  Changes
+*      psc - 9/08/93
+*      DPH - 11/7/94 Modifed routine to zero variables if required
+*                    when a process message is received.
+*      PdeV  16/3/95 New engine interface
+*      jngh  170895  changed manager action to react to sow and harvest actions
+*      jngh  250996  added version to presence report
+*                    added message_unused call
+*      sdb   060599  removed version reference and presence action
+
+*+  Calls
+
+
+*+  Constant Values
+      character  myname*(*)            ! name of subroutine
+      parameter (myname = 'Ozcot_main')
+
+*- Implementation Section ----------------------------------
+      call push_routine(myname)
+
+      if (Action.eq.ACTION_Get_variable) then
+         call ozcot_Send_my_variable (data_string)
+
+      else if (Action .eq. ACTION_Set_variable) then
+         call ozcot_set_my_variable (data_string)
+
+      else if (Action .eq. ACTION_prepare) then
+         call ozcot_prepare ()
+
+      elseif (action.eq.EVENT_tick) then
+         call ozcot_ONtick ()
+
+      elseif (action.eq.EVENT_NewMet) then
+         call ozcot_ONNew_Met ()
+
+!      elseif (action.eq.EVENT_Hail) then
+!         call ozcot_ONHail ()
+
+      else if (Action.eq.ACTION_Process) then
+         if (g%zero_variables) then
+            call ozcot_zero_variables()
+            call ozcot_init()
+
+         else
+            ! No need to zero variables.
+         endif
+
+         call ozcot_get_other_variables ()
+         call ozcot_Process ()
+         call ozcot_set_other_variables ()
+
+      else if (Action .eq. ACTION_Post) then
+         call ozcot_post ()
+
+!jh      else if (Action .eq. 'sow' .or. action .eq. 'harvest') then
+!jh         call ozcot_manager (Action, data_string)
+
+      elseif (action.eq.ACTION_sow) then
+         if (ozcot_my_type ()) then
+               ! request and receive variables from owner-modules
+!jh            call ozcot_get_other_variables ()
+            if (g%zero_variables) then
+               call ozcot_zero_variables()
+               call ozcot_init()
+
+            else
+               ! No need to zero variables.
+            endif
+               ! start crop and do  more initialisations
+            call ozcot_start_crop ()
+         else
+            ! not my type!
+            call message_unused ()
+         endif
+
+      elseif (action.eq.ACTION_harvest) then
+         if (ozcot_my_type ()) then
+               ! harvest crop - turn into residue
+            if (g%crop_in) then
+               call ozcot_manager('harvest', ' ')
+            else
+            endif
+
+         else
+            ! not my type!
+            call message_unused ()
+         endif
+
+      elseif (action.eq.ACTION_end_crop) then
+         if (ozcot_my_type ()) then
+               ! end crop - turn into residue
+            if (g%crop_in) then
+               call ozcot_end_crop ()
+            else
+            endif
+         else
+            ! not my type!
+            call message_unused ()
+         endif
+
+      elseif (action.eq.ACTION_kill_crop) then
+         if (ozcot_my_type ()) then
+               ! kill crop - die
+!            call ozcot_kill_crop
+!     :               (
+!     :                g%dm_dead
+!     :              , g%dm_green
+!     :              , g%dm_senesced
+!     :              , g%plant_status
+!     :               )
+         else
+            ! not my type!
+            call message_unused ()
+         endif
+      else if (Action .eq. ACTION_End_run) then
+         call ozcot_end_run ()
+
+      elseif (Action.eq.ACTION_init) then
+         call ozcot_zero_variables ()
+         call ozcot_get_other_variables ()
+         call ozcot_Init ()
+
+      else if (Action.eq.ACTION_Create) then
+         call ozcot_zero_all_globals ()
+!jh         open (100, 'out.txt')
+
+      else
+         ! Don't use message
+         call message_unused ()
+
+      endif
+
+      call pop_routine(myname)
+      return
+      end subroutine
+
+
+      
