@@ -1,4 +1,4 @@
-C     Last change:  E    13 Sep 2001    6:08 pm
+C     Last change:  E    14 Sep 2001    2:18 pm
 
       INCLUDE 'CropMod.inc'
 
@@ -716,7 +716,7 @@ cjh      endif
           c%can_switch    = '166111111'
           c%root_switch   = '121111111'
           c%sen_switch    = '611111111'
-          c%nit_switch    = '166114411'
+          c%nit_switch    = '116114411'  !'166114411'
           c%phos_switch   = '111100000'
           c%die_switch    = '611111111'
       end if
@@ -2884,7 +2884,6 @@ c+!!!!!!!! what to do if no waterbalance variables found
          g%NO3gsm(layer) = NO3(layer) * kg2gm /ha2sm
       enddo
 
-
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
@@ -2892,7 +2891,6 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-
 
       call get_real_array_optional (unknown_module, 'no3_min',max_layer
      :                                  ,  '(kg/ha)'
@@ -2917,6 +2915,16 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       do layer = 1, g%num_layers
          g%NH4gsm(layer) = NH4(layer) * kg2gm /ha2sm
       end do 
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+      g%NH4(:) = NH4(:)
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+
  
       call get_real_array_optional (unknown_module, 'nh4_min',max_layer
      :                                  ,  '(kg/ha)'
@@ -3011,6 +3019,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
          dlt_no3(:) = - MIN(g%NO3(:), - dlt_NO3(:))
+         dlt_nh4(:) = - MIN(g%NH4(:), - dlt_NH4(:))
 
 
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
@@ -5309,6 +5318,7 @@ c           string_to_integer_var(value_string, value, numvals)
 *=====GLOBAL VARIABLES =============================
 
        g%NO3(:) = 0.0
+       g%NH4(:) = 0.0
 
       !co2 level
 
@@ -6018,8 +6028,8 @@ c      g%dlt_n_uptake_stover=0.0
       c%tt_opt         =0.0
 
       !swim_comms_var
-      c%n_supply_preference = " "
-      c%n_uptake_preference = " "
+      c%n_supply_preference   = " "
+      c%nh4_uptake_preference = 0.0
 
       !ew added variables
       c%NH4_ub            =0.0
@@ -6926,12 +6936,17 @@ C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
      :                     , 'n_supply_preference', '()'
      :                     , c%n_supply_preference, numvals)
 
-      call read_char_var_optional (section_name
-     :                     , 'n_uptake_preference', '()'
-     :                     , c%n_uptake_preference, numvals)
+
+
+      call read_real_var_optional (section_name
+     :                     , 'nh4_uptake_preference', '()'
+     :                     , c%nh4_uptake_preference, numvals
+     :                     , 0.0, 1.0 )
+
        if (numvals .eq. 0) then
-           c%n_uptake_preference = 'no3'
+           c%nh4_uptake_preference = 0.0
        end if
+
 
       call read_real_var (section_name
      :                    , 'no3_diffn_const', '(days)'
