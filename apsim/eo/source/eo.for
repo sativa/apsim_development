@@ -45,7 +45,7 @@
       parameter (myname = 'Eo_version')
 
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V0.04 29/10/96')
+      parameter (version_number = 'V1.31 16/03/98')
 
 *   Initial data values
 *       none
@@ -213,9 +213,14 @@
 
       p_e_method   = blank 
       g_vpd_source = blank
+      c_reference_height_base=blank
       g_day_of_year = 0
       g_year      = 0
-      g_wind_ms   = 0.0
+      g_wind_ms_instrum   = 0.0
+      g_wind_ms_reference = 0.0
+      c_reference_height  = 0.0
+      p_disp_instrum      = 0.0
+      p_z0_instrum        = 0.0
       g_maxt      = 0.0    
       g_mint      = 0.0    
       g_n_hrs     = 0.0
@@ -237,10 +242,13 @@
       g_instrum_height = 0.0
       g_lai            = 0.0     
       g_latitude       = 0.0     
-      
-      
-      call Eo_zero_daily_variables ()
+      c_zc_conversion  = 0.0
+      c_rsmin_canopy   = 0.0
+      c_rc             = 0.0
+      c_pen_mon_ub     = 0.0
 
+      call Eo_zero_daily_variables ()
+      
       call pop_routine (myname)
 
       return
@@ -404,6 +412,9 @@
 
 *   Changes:
 *       210995 jngh programmed
+*       020398 jngh added in reading and reporting for reference height,
+*                   disp and Z0 at instrument site.
+*                   changed z0soil to mm
 
 *   Calls:
 *       pop_routine
@@ -461,15 +472,20 @@
      :          ,0.0            
      :          ,1.0)           
 
+      call read_real_var (section_name
+     :                   , 'max_albedo', '()'
+     :                   , p_max_albedo, numvals
+     :                   , 0.0, 1.0)
+
          ! Z0soil
       call read_real_var (
      :           section_name   
      :          ,'z0soil'       
-     :          ,'(m)'          
+     :          ,'(mm)'          
      :          ,p_z0soil     
      :          ,numvals        
      :          ,0.0            
-     :          ,1.0)           
+     :          ,1000.0)           
 
          ! default wind
       call read_real_var (
@@ -499,7 +515,27 @@
      :          ,p_default_instrum_height
      :          ,numvals        
      :          ,0.0            
-     :          ,500000.0)           
+     :          ,50000.0)           
+
+         ! disp_instrum
+      call read_real_var (
+     :           section_name   
+     :          ,'disp_instrum'       
+     :          ,'(mm)'          
+     :          ,p_disp_instrum
+     :          ,numvals        
+     :          ,0.0            
+     :          ,50000.0)           
+
+         ! z0_instrum
+      call read_real_var (
+     :           section_name   
+     :          ,'z0_instrum'       
+     :          ,'(mm)'          
+     :          ,p_z0_instrum
+     :          ,numvals        
+     :          ,0.0            
+     :          ,50000.0)           
 
          ! now report out what we have read in
 
@@ -518,7 +554,7 @@
       call write_string (lu_scr_sum, line)
 
       line =
-     :'       (-)       (m)    (km/day)   (hpa)      (mm)'
+     :'       (-)       (mm)   (km/day)   (hpa)      (mm)'
       call write_string (lu_scr_sum, line)
 
       line =
@@ -536,6 +572,32 @@
 
       line =
      :  '     ---------------------------------------------------------'
+      call write_string (lu_scr_sum, line)
+      call write_string (lu_scr_sum, new_line//new_line)
+
+      line =
+     :  '     -------------------'
+      call write_string (lu_scr_sum, line)
+
+      line =
+     :'    instrum_d instrum_z0'
+      call write_string (lu_scr_sum, line)
+
+      line =
+     :'     (mm)      (mm)     '
+      call write_string (lu_scr_sum, line)               
+
+      line =
+     :'     -------------------'
+      call write_string (lu_scr_sum, line)
+
+      write (line, '(4x, 2f10.2)')
+     :              p_disp_instrum
+     :            , p_z0_instrum
+      call write_string (lu_scr_sum, line)
+
+      line =
+     :'     -------------------'
       call write_string (lu_scr_sum, line)
       call write_string (lu_scr_sum, new_line//new_line)
 
@@ -599,6 +661,72 @@
 * --------------------- Executable code section ----------------------
 
       call push_routine (myname)
+
+         ! reference_height
+      call read_real_var (
+     :           section_name   
+     :          ,'reference_height'       
+     :          ,'(mm)'          
+     :          ,c_reference_height
+     :          ,numvals        
+     :          ,0.0            
+     :          ,50000.0)           
+
+         ! reference_height_base
+      call read_char_var (
+     :           section_name   
+     :          ,'reference_height_base'       
+     :          ,'()'          
+     :          ,c_reference_height_base
+     :          ,numvals)           
+
+         ! conversion_height
+      call read_real_var (
+     :           section_name   
+     :          ,'zc_conversion'       
+     :          ,'(mm)'          
+     :          ,c_zc_conversion
+     :          ,numvals        
+     :          ,0.0            
+     :          ,50000.0)           
+
+         ! rsmin for canopy
+      call read_real_var (
+     :           section_name   
+     :          ,'rsmin_canopy'       
+     :          ,'(s/m)'          
+     :          ,c_rsmin_canopy
+     :          ,numvals        
+     :          ,0.0            
+     :          ,200.0)           
+
+         ! rc_method
+        call read_char_var (
+     :           section_name   
+     :          ,'rc_method'     
+     :          ,'()'           
+     :          ,c_rc_method       
+     :          ,numvals)       
+
+         ! rc for fixed
+      call read_real_var_optional (
+     :           section_name   
+     :          ,'rc'       
+     :          ,'(s/m)'          
+     :          ,c_rc
+     :          ,numvals        
+     :          ,0.0            
+     :          ,200.0)           
+
+         ! c_pen_mon_ub
+      call read_real_var (
+     :           section_name   
+     :          ,'pen_mon_ub'       
+     :          ,'(mm)'          
+     :          ,c_pen_mon_ub
+     :          ,numvals        
+     :          ,0.0            
+     :          ,100.0)           
 
       call pop_routine  (myname)
       return
@@ -1081,6 +1209,22 @@ cjh   crop type.
          g_canopy_height =  canopy_height
       endif     
 
+            ! green cover
+      call get_real_var_optional (
+     :      unknown_module
+     :     ,'cover_green'        
+     :     ,'()'       
+     :     ,g_cover_green    
+     :     ,numvals       
+     :     ,0.0           
+     :     ,1.0)        
+
+      if (numvals.eq.0) then
+         g_cover_green = 0.0
+      else
+            ! cover_green returned ok
+      endif     
+
          !wind
       call get_real_var_optional (
      :      unknown_module
@@ -1092,10 +1236,10 @@ cjh   crop type.
      :     ,1000.0)        
 
       if (numvals.eq.0) then
-         g_wind_ms = p_default_wind*km2m/(day2hr*hr2s)
+         g_wind_ms_instrum = p_default_wind*km2m/(day2hr*hr2s)
       else
          ! wind returned ok
-         g_wind_ms = wind*km2m/(day2hr*hr2s)
+         g_wind_ms_instrum = wind*km2m/(day2hr*hr2s)
       endif     
 
 
@@ -1207,7 +1351,7 @@ cjh   crop type.
          
       call Eo_radiation (g_radn_net)
 
-         ! assume that soil heat flux is 0.1 of the net radiation
+         ! assume that soil and vegetation heat flux is 0.1 of the net radiation
 
       g_fg = 0.1 * g_radn_net
 
@@ -1219,16 +1363,26 @@ cjh   crop type.
          
       call Eo_aerodynamic (g_ra)
 
-         ! we assume that the canopy resistance is zero
-
-      g_rc = 0.0
-
          ! calculate epsilon
       call Eo_epsilon (g_epsilon)
+
+         ! calculate canopy resistance
+         
+      call Eo_canopy (g_rc
+     :               , g_rc_fixed
+     :               , g_rc_simple
+     :               , g_rc_simulat
+     :               , g_rc_kelliher)
 
          ! finally calculate the penman-monteith eo
       call Eo_penman_monteith (g_Eo_pm)
 
+         ! finally calculate the penman-monteith eo
+      call Eo_penman_monteith_plant (g_Eo_pm_plant)
+
+         ! finally calculate the priestly taylor eo
+      call Eo_priestly_taylor_soil (g_Eo_pm_soil)
+         
       call pop_routine (myname)
       return
       end
@@ -1278,6 +1432,7 @@ cjh   crop type.
       real       divide                ! function
       
 *   Internal variables
+      real       albedo                ! fraction of radiation reflected (0-1)
       real       ave_temp              ! average daily temp (oC)
       real       ea_mb                 ! vapour pressure (mb)
       real       long_wave_in          ! net incoming long wave radiation (W/m2)
@@ -1328,7 +1483,14 @@ cjh   crop type.
       long_wave_in = (emiss_sky - 1.0) * stef_boltz 
      :             * (ave_temp + abs_temp)**4
 
-      radn_net = (1.0 - p_albedo) * intc_radn + long_wave_in
+      albedo = p_max_albedo
+     :       - (p_max_albedo - p_albedo) * (1.0 - g_cover_green)
+
+      radn_net = (1.0 - albedo) * intc_radn + long_wave_in
+
+cjh      print*, 'fln, fsd, (1-albedo)*fsd,fn,emissa, ea, ta, sboltz'
+cjh      print*, long_wave_in, intc_radn, (1-albedo)*intc_radn,radn_net
+cjh     :      ,emiss_sky, ea_mb, ave_temp, stef_boltz
 
       call pop_routine (myname)
       return
@@ -1559,7 +1721,8 @@ cjh   crop type.
 *====================================================================
 
 *   Short description:
-*     calculate the aerodynamic resistance
+*     calculate the aerodynamic resistance, which is the gradient-diffusion
+*     aerodynamic resistance in a thermally neutral atmosphere
 
 *   Assumptions:
 *      None
@@ -1578,6 +1741,10 @@ cjh   crop type.
 
 *   Changes:
 *       210995 jngh programmed
+*       020398 jngh added adjustment for wind from another site
+*                     added adjustment that accounts for the difference 
+*                     in transfer of heat/water vapour compared to momentum.
+*                   changed z0soil to mm
 
 *   calls:
 *       pop_routine
@@ -1588,24 +1755,29 @@ cjh   crop type.
       implicit none
 
 *   Subroutine arguments
-      real       ra                    ! (OUTPUT) aerodynamic resistance ()
+      real       ra                    ! (OUTPUT) aerodynamic resistance (s/m)
 
 *   Global variables
+      include   'const.inc'            ! Global constant definitions
       include   'Eo.inc'               ! Eo common block
       include   'convert.inc'
       
       real       divide                ! function
       real       u_bound               ! function
+      real       l_bound               ! function
 
 *   Internal variable
+      real       reference_height      ! height above soil for wind clculation (mm)
       real       usuhl                 ! ? (?)
       real       usuh                  ! ? (?)
       real       dh                    ! ? (?)
       real       xx                    ! ? (?)
-      real       disp                  ! ? (?)
+      real       disp                  ! zero plane displacement under canopy (mm)
       real       psih                  ! ? (?)
       real       z0h                   ! ? (?)
-      real       z0                    ! roughness length ()
+      real       z0                    ! roughness length for momentum transfer (mm)
+      real       z0he                  ! roughness length for heat and water 
+                                       ! vapour transfer (mm)
 
 *   Constant values
       character  myname*(*)            ! name of procedure
@@ -1630,6 +1802,9 @@ cjh   crop type.
       parameter (usuhm = 0.3)          
 c     *           usuhm = 1.0,          ! (max of us/uh)
 
+      real       m2mm
+      parameter (m2mm = 1.0/mm2m)       ! convert metres to mm
+
 *   Initial data values
 *      None
 
@@ -1641,7 +1816,7 @@ c     *           usuhm = 1.0,          ! (max of us/uh)
          !z0, and roughness for heat, z0he.  use these to calculate
          !aerodynamic resistance, ra.  all from raupach.
 
-      if (g_wind_ms.gt.0.0) then
+      if (g_wind_ms_instrum.gt.0.0) then
       
          if (g_canopy_height.gt.0.0 .and. g_lai .gt. 0.0) then
                ! we have some vegetative cover
@@ -1656,28 +1831,61 @@ c     *           usuhm = 1.0,          ! (max of us/uh)
                ! when lai < 0.5076, dh becomes -ve
             xx = sqrt (ccd * g_lai)
             dh = 1.0 - divide (1.0 - exp (-xx), xx, 0.0)
-            disp  = dh * g_canopy_height*mm2m
+            disp  = dh * g_canopy_height
       
                ! find z0h and z0:
                ! Note: when usuh < usuhm, z0h curve becomes quite different.
             psih = log (ccw) - 1.0 + 1.0/ccw
             z0h = (1.0 - dh) * exp (psih - divide (von_k, usuh, 1.0e20))
-            z0 = z0h * g_canopy_height*mm2m
+            z0 = z0h * g_canopy_height
       
-   !            z0he = z0/5.0
          else
                ! soil is bare
             disp = 0.0
             z0 = p_z0soil
      
          endif
-   
+         z0he = z0/5.0
+
+         if (c_reference_height_base .eq. 'canopy') then
+            reference_height = g_canopy_height + c_reference_height
+         else
+            reference_height = c_reference_height
+         endif
+
+         call eo_wind_conv (
+     :        g_instrum_height, p_disp_instrum, p_z0_instrum  
+     :      , g_wind_ms_instrum
+     :      , reference_height, disp, z0, g_wind_ms_reference)
+
+
+         if (g_canopy_height .le. reference_height) then
+            ! reference height sufficient
+         else
+
+            call fatal_error (err_user, 
+     :        ' canopy height is above reference height')
+
+         endif
+
+
          ! calculate ratot (from d to za). No stability corrections at 
          ! this stage 
    
 !            ra  = log ((d_za - disp) /z0)*log ((za - disp) /z0he) / ((von_k**2)*ua)   
-         ra  = log ((g_instrum_height*mm2m - disp) /z0)**2 
-     :       / ((von_k**2)*g_wind_ms)
+!         ra  = log ((g_instrum_height - disp) /z0)**2 
+!     :       / ((von_k**2)*g_wind_ms)
+
+         ra  = log ((reference_height - disp) /z0)
+     :       * log ((reference_height - disp) /z0he) 
+     :       / ((von_k**2)*g_wind_ms_reference)
+     
+cjh      print*, 'ra, reference_height, disp, reference_height-disp, z0'
+cjh     :        //', z0he, g_wind_ms_reference'
+cjh      print*, ra, reference_height, disp, reference_height-disp, z0
+cjh     :        , z0he, g_wind_ms_reference
+
+cjh         ra = ra*.4
          
       else
          ra = 1.0e20
@@ -1687,11 +1895,304 @@ c     *           usuhm = 1.0,          ! (max of us/uh)
       return
       end
 *====================================================================
+      subroutine Eo_canopy (rc
+     :                     , rc_fixed
+     :                     , rc_simple
+     :                     , rc_simulat
+     :                     , rc_kelliher)
+*====================================================================
+
+*   Short description:
+*     calculate the canopy resistance, which accounts for the biological
+*     control upon evaporation, and is the most sensitive part of the 
+*     eo_pm equation in typical conditions.
+
+*   Assumptions:
+*      None
+
+*   Notes:
+*       none
+
+*   Procedure attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <=20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*       040398 jngh programmed
+
+*   calls:
+*       pop_routine
+*       push_routine
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      real       rc                    ! (OUTPUT) canopy resistance (s/m)
+      real       rc_fixed              ! (OUTPUT) canopy resistance (s/m)
+      real       rc_simple             ! (OUTPUT) canopy resistance (s/m)
+      real       rc_simulat            ! (OUTPUT) canopy resistance (s/m)
+      real       rc_kelliher           ! (OUTPUT) canopy resistance (s/m)
+
+*   Global variables
+      include   'const.inc'            ! Global constant definitions
+      include   'Eo.inc'               ! Eo common block
+      include   'convert.inc'
+      
+      real       divide                ! function
+      real       u_bound               ! function
+      real       l_bound               ! function
+      real       Eo_lambda             ! function
+
+*   Internal variable
+      real       rsmin                 ! minimum bulk vegetation surface resistance (s/m)
+      real       gsmax                 ! maximum value of stomatal conductance of
+                                       ! individual leaves (mm/s)
+      real       cq                    ! extinction coefficient for the attenuation of
+                                       ! photosynthetically active radiation 
+      real       q                     ! photosynthetically active radiation (micromol/m2/s)
+      real       qa50_fract
+      real       par
+      real       qh                    ! q incident at the top of the plant canopy (micromol/m2/s)
+      real       qa50                  ! value of q absorbed by an individual leaf when stomatal
+                                       ! conductance is at 50% of its maximum (micromol/m2/s)
+      real       q50                   ! value of q when stomatal conductance is at 50% of
+                                       ! its maximum (micromol/m2/s)
+      real       rsmin_canopy          ! minimum leaf stomatal resistance (s/m)
+      real       rsmin_soil            ! minimum soil resistance (s/m)
+      real       gsmax_canopy          ! maximum stomatal conductance (m/s)
+      real       gsmax_soil            ! maximum soil conductance (m/s)
+      real       gc                    ! bulk plant canopy conductance (m/s)
+      real       soil_part             ! fraction of radiation reaching soil surface (0-1)
+      real       canopy_part           ! fraction of radiation absorbed by canopy (0-1)
+      real       ave_temp              ! average daily temp (oC)
+      real       density_air           ! dry air density (kg/m3)
+      real       gs                    ! bulk surface conductance (mm/s)
+      real       gj                    ! isothermal conductance proportional to the ratio of
+                                       ! avail energy flux density and air saturation deficit
+                                       ! (micromol/m2/s)
+      real       term1
+      real       term2
+      real       ga                    ! bulk vegetation aerodynamic conductance (mm/s)
+      real       par_fract
+
+*   Constant values
+      character  myname*(*)            ! name of procedure
+      parameter (myname = 'Eo_canopy')
+
+      real       k                     ! extinction coefficient
+      parameter (k = 0.4)
+
+*   Initial data values
+*      None
+
+* --------------------- Executable code section ----------------------
+
+      call push_routine (myname)
+      
+            ! SIMULAT method
+         rsmin_soil = 1.0
+         rsmin_canopy = c_rsmin_canopy
+   
+         soil_part = 1.0 - g_cover_green
+         canopy_part = 1.0 - soil_part
+   
+         gsmax_canopy = canopy_part / rsmin_canopy
+         gsmax_soil = soil_part / rsmin_soil
+   
+         gc = gsmax_canopy + gsmax_soil
+         rc_simulat = divide (1.0, gc, 0.0)
+
+            ! simple
+         rc_simple = divide (rsmin, g_lai, 0.0)
+
+
+            ! kelliher
+         gsmax_canopy = divide (g_cover_green, c_rsmin_canopy, 0.0)
+         gc = g_lai * gsmax_canopy
+   
+            ! Kelliher et al. method
+   !      rsmin = 87.0
+   !      qa50_fract = 0.75
+   !      par_fract = 1.0
+         
+   !      par = g_radn_net * par_fract
+         
+   !      if (g_lai .ne. 0.0) then
+   !         par_fract = 1.0
+   !         cq = -divide(log(1.0-g_cover_green * par_fract), g_lai, k)
+      
+   !         gsmax = (1.0/rsmin) / 1000.0
+            
+   !         qh = par
+   !         q = par * g_cover_green
+   !         qa50 = q * qa50_fract
+   !         q50 = qa50/cq
+            
+   !         gc = gsmax/cq 
+   !     :      * log((qh + qa50)/(qh * (1.0-g_cover_green) + q50))
+   !      else
+   !         gc = 0.0
+   !      endif
+         
+         ga = divide (1.0, g_ra, 0.0)
+   
+         ave_temp = (g_maxt + g_mint) * 0.5
+         density_air = mwair*g_pa*100.0 / ((ave_temp + abs_temp)* r_gas)
+         
+         gj = (g_radn_net - g_fg)/(density_air * Eo_lambda () * g_da)
+         term1 = ga/(g_epsilon*gj)
+         term2 = ga/(g_epsilon+1.0)
+         
+         gs = divide ((gc + gc*term1 + (1.0-g_cover_green)*term2)
+     :      , (g_cover_green + term1), 0.0)
+         rc_kelliher = divide (1.0, gs, 0.0)
+
+            ! fixed
+         rc_fixed = c_rc
+
+      if (c_rc_method .eq. 'simulat') then
+      
+         rc = rc_simulat
+         
+      else if (c_rc_method .eq. 'simple') then
+         rc = rc_simple
+         
+      else if (c_rc_method .eq. 'kelliher') then
+
+         rc = rc_kelliher
+         
+      else if (c_rc_method .eq. 'fixed') then
+      
+         rc = rc_fixed
+      else
+         call fatal_error (err_user, 
+     :        c_rc_method//' rc method is not recognised')
+
+      
+      endif
+
+      call pop_routine (myname)
+      return
+      end
+*====================================================================
+      subroutine Eo_wind_conv (z1, d1, zruff1, windz1
+     :                        , z2, d2, zruff2, windz2)
+*====================================================================
+
+*   Short description:
+*     calculate the wind speed at another site with different conditions
+
+*   Assumptions:
+*      None
+
+*   Notes:
+*       none
+
+*   Procedure attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <=20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*       260298 jngh programmed
+
+*   calls:
+*       pop_routine
+*       push_routine
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      real       z1                    ! (INPUT) original instrument height (mm)
+      real       d1                    ! (INPUT) original zero plane displacement (mm)
+      real       zruff1                ! (INPUT) original roughness length ()
+      real       windz1                ! (INPUT) original wind speed (m/s)
+      real       z2                    ! (INPUT) new instrument height (mm)
+      real       d2                    ! (INPUT) new zero plane displacement (mm)
+      real       zruff2                ! (INPUT) new roughness length ()
+      real       windz2                ! (OUTPUT) new wind speed (m/s)
+
+*   Global variables
+      include   'const.inc'            ! Global constant definitions
+      include   'Eo.inc'               ! Eo common block
+      include   'convert.inc'
+      
+      real       divide                ! function
+
+*   Internal variable
+      real       conversion_height     ! height which is not affected by surface (mm)
+      real       ustar_old             ! old friction velocity (?)
+      real       ustar_new             ! new friction velocity (?)
+      real       windz10               ! wind at 10m (m/s)
+
+*   Constant values
+      character  myname*(*)            ! name of procedure
+      parameter (myname = 'Eo_wind_conv')
+
+      real       von_k                 !von Karmen's constant
+      parameter (von_k = 0.41)
+
+*   Initial data values
+*      None
+
+* --------------------- Executable code section ----------------------
+
+      call push_routine (myname)
+
+      if (c_reference_height_base .eq. 'canopy') then
+cjh!         conversion_height = c_zc_conversion + g_canopy_height
+         conversion_height = c_zc_conversion
+      else
+         conversion_height = c_zc_conversion
+      endif
+
+      if (g_canopy_height .le. conversion_height) then
+         ! conversion height sufficient
+      else
+
+         call warning_error (err_user, 
+     :        ' canopy height is above 0.5 * conversion height')
+
+      endif
+      
+
+*        translate input windspeed to 10 m, using zo and d appropriate for that site
+
+      ustar_old  = von_k * windz1 / (log((z1-d1)/zruff1))
+      windz10    = ustar_old / von_k 
+     :           * (log((conversion_height-d1)/zruff1))
+
+*        and then adjust ustar for new roughness and zero plane displacement
+
+      ustar_new  = von_k * windz10 
+     :           / (log((conversion_height-d2)/zruff2))
+
+*        then calculate new U(z2)
+
+      windz2 = ustar_new / von_k * (log((z2-d2)/zruff2))
+
+      call pop_routine (myname)
+      return
+      end
+*====================================================================
       real function Eo_lambda ()
 *====================================================================
 
 *   Short description:
-*     calculate the lambda (latent heat of vapourisation for water)(kg/m3)
+*     calculate the lambda (latent heat of vapourisation for water)(J/kg)
 
 *   Assumptions:
 *      None
@@ -1742,7 +2243,7 @@ c     *           usuhm = 1.0,          ! (max of us/uh)
          ! temperature functions.  lambda is the slope
          
       ave_temp = (g_maxt + g_mint) * 0.5
-      Eo_lambda = (2501.0 - 2.38*ave_temp)*1000.0      ! kg/m3
+      Eo_lambda = (2501.0 - 2.38*ave_temp)*1000.0      ! J/kg
 
       call pop_routine (myname)
       return
@@ -1867,6 +2368,7 @@ c     *           usuhm = 1.0,          ! (max of us/uh)
       
       real       divide                ! function
       real       Eo_lambda             ! function
+      real       l_bound               ! function
 
 *   Internal variables
       real       ave_temp              ! average daily temp (oC)
@@ -1876,9 +2378,6 @@ c     *           usuhm = 1.0,          ! (max of us/uh)
 *   Constant values
       character  myname*(*)            ! name of procedure
       parameter (myname = 'Eo_penman_monteith')
-
-      real       r_gas                 ! universal gas constant (J/mol/K)
-      parameter (r_gas = 8.3143)        
 
 *   Initial data values
 *      None
@@ -1892,11 +2391,161 @@ c     *           usuhm = 1.0,          ! (max of us/uh)
 
          !and now raupach's version of penman-monteith
 
-      fe = (g_epsilon * (g_radn_net - g_fg) 
+      fe = (g_epsilon * (g_radn_net - g_fg)
      :    + divide (density_air * Eo_lambda () * g_da, g_ra, 1.0e20))
      :    / (g_epsilon + divide (g_rc, g_ra, 1.0e20) + 1.0)
+     
+cjh      print*, 'fe, epsi, fn, fg, rho, rlam,da,ratot,rsv'
+cjh      print*, fe, g_epsilon, g_radn_net, g_fg, density_air
+cjh     :      , Eo_lambda (),g_da,g_ra,g_rc
 
       pen_mon = fe/Eo_lambda ()*g_n_hrs*hr2s   ! to convert back to a daily basis
+
+      call Bound_check_real_var (pen_mon, 0.0, c_pen_mon_ub, 'pen_mon')
+      pen_mon = l_bound (pen_mon, 0.0)      
+      
+      call pop_routine (myname)
+      return
+      end
+*====================================================================
+      subroutine Eo_penman_monteith_plant (pen_mon)
+*====================================================================
+
+*   Short description:
+*     calculate the Penman-Monteith evaporation rate for plant
+
+*   Assumptions:
+*      None
+
+*   Notes:
+*       none
+
+*   Procedure attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <=20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*       210995 jngh programmed
+
+*   calls:
+*       pop_routine
+*       push_routine
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      real       pen_mon               ! (OUTPUT) evaporation rate ()
+
+*   Global variables
+      include   'convert.inc'          ! conversion constants
+      include   'Eo.inc'               ! Eo common block
+      
+      real       divide                ! function
+      real       Eo_lambda             ! function
+
+*   Internal variables
+      real       ave_temp              ! average daily temp (oC)
+      real       density_air           ! dry air density (kg/m3)
+      real       fe                    ! latent heat flux (W/m2)
+
+*   Constant values
+      character  myname*(*)            ! name of procedure
+      parameter (myname = 'Eo_penman_monteith_plant')
+
+*   Initial data values
+*      None
+
+* --------------------- Executable code section ----------------------
+
+      call push_routine (myname)
+
+      ave_temp = (g_maxt + g_mint) * 0.5
+      density_air = mwair*g_pa*100.0 / ((ave_temp + abs_temp)* r_gas)
+
+         !and now raupach's version of penman-monteith
+      if (g_cover_green .gt. 0.0) then
+
+         fe = (g_epsilon * (g_radn_net - g_fg) * g_cover_green
+     :      + divide (density_air * Eo_lambda () * g_da, g_ra, 1.0e20))
+     :      / (g_epsilon + divide (g_rc, g_ra, 1.0e20) + 1.0)
+     
+      else
+         fe = 0.0
+      endif
+
+      pen_mon = fe/Eo_lambda ()*g_n_hrs*hr2s   ! to convert back to a daily basis
+
+      call pop_routine (myname)
+      return
+      end
+*====================================================================
+      subroutine Eo_priestly_taylor_soil (priestly_taylor)
+*====================================================================
+
+*   Short description:
+*     calculate the Priestly Taylor evaporation rate for soil
+
+*   Assumptions:
+*      None
+
+*   Notes:
+*       none
+
+*   Procedure attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <=20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*       060398 jngh programmed
+
+*   calls:
+*       pop_routine
+*       push_routine
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      real       priestly_taylor       ! (OUTPUT) evaporation rate ()
+
+*   Global variables
+      include   'convert.inc'          ! conversion constants
+      include   'Eo.inc'               ! Eo common block
+      
+      real       divide                ! function
+      real       Eo_lambda             ! function
+
+*   Internal variables
+      real       fe                    ! latent heat flux (W/m2)
+
+*   Constant values
+      character  myname*(*)            ! name of procedure
+      parameter (myname = 'Eo_priestly_taylor_soil')
+
+*   Initial data values
+*      None
+
+* --------------------- Executable code section ----------------------
+
+      call push_routine (myname)
+
+      fe = (g_epsilon * (g_radn_net - g_fg) * (1.0 - g_cover_green))
+     :    / (g_epsilon + 1.0)
+
+      priestly_taylor = fe/Eo_lambda ()*g_n_hrs*hr2s   ! to convert back to a daily basis
 
       call pop_routine (myname)
       return
@@ -1961,11 +2610,73 @@ c     *           usuhm = 1.0,          ! (max of us/uh)
      :              ,'(mm)'         
      :              ,g_Eo_pm)
      
+         ! pen_mon penman-monteith plant evaporation
+      else if (variable_name .eq. 'eo_plant') then
+         call respond2get_real_var (
+     :               variable_name
+     :              ,'(mm)'         
+     :              ,g_Eo_pm_plant)
+     
+         ! pen_mon priestly taylor soil evaporation
+      else if (variable_name .eq. 'eo_soil') then
+         call respond2get_real_var (
+     :               variable_name
+     :              ,'(mm)'         
+     :              ,g_eo_pm_soil)
+     
       else if (variable_name .eq. 'g_canopy_height') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(mm)'         
      :              ,g_canopy_height)
+     
+      else if (variable_name .eq. 'wind_ms_instrum') then
+         call respond2get_real_var (
+     :               variable_name
+     :              ,'(m/s)'         
+     :              ,g_wind_ms_instrum)
+     
+      else if (variable_name .eq. 'wind_ms_reference') then
+         call respond2get_real_var (
+     :               variable_name
+     :              ,'(m/s)'         
+     :              ,g_wind_ms_reference)
+     
+      else if (variable_name .eq. 'n_hrs') then
+         call respond2get_real_var (
+     :               variable_name
+     :              ,'(hour)'         
+     :              ,g_n_hrs)
+     
+      else if (variable_name .eq. 'radn_net') then
+         call respond2get_real_var (
+     :               variable_name
+     :              ,'(W/m2)'         
+     :              ,g_radn_net)
+     
+      else if (variable_name .eq. 'da') then
+         call respond2get_real_var (
+     :               variable_name
+     :              ,'(kg/kg)'         
+     :              , g_da)
+     
+      else if (variable_name .eq. 'ra') then
+         call respond2get_real_var (
+     :               variable_name
+     :              ,'(s/m)'         
+     :              ,g_ra)
+     
+      else if (variable_name .eq. 'rc') then
+         call respond2get_real_var (
+     :               variable_name
+     :              ,'(s/m)'         
+     :              ,g_rc)
+     
+      else if (variable_name .eq. 'epsilon') then
+         call respond2get_real_var (
+     :               variable_name
+     :              ,'(kg/kg/K)'         
+     :              ,g_epsilon)
      
       else
          call Message_unused ()
