@@ -13,10 +13,11 @@ end_date = 30/12/1993     ! dd/mm/yyyy
 
 
 !===========================================================================================
-! mungbean
+! maize
 !===========================================================================================
 
-[mungbean.manager.init]
+
+[maize.manager.init]
  systemP_yday = 0.0
  cum_error_systemP = 0.0
  P_below_ground = 0.0
@@ -32,23 +33,16 @@ end_date = 30/12/1993     ! dd/mm/yyyy
  P_below_ground_yest = 0.0
  dlt_residue_P_cum = 0.0
 
-[mungbean.manager.start_of_day]
 
-   if day = 336 and year = 1992 then
-        !fertiliz apply amount = 20 (kg/ha), depth = 35 (mm), type = banded_p
-        mungbean sow crop_class = plant, cultivar = emerald, plants = 40, sowing_depth = 50
+[maize.manager.start_of_day]
+
+   if day = 305 and year = 1992 then
+      maize sow cultivar = dekalb_xl82, plants = 10, sowing_depth = 30 (mm)
    endif
 
-  ! if crop killed due to stress, end simulation
-   if (mungbean.plant_status = 'dead')  then
-      mungbean harvest
-      mungbean kill_crop
-      mungbean end_crop
-  endif
-
-   if (mungbean.stage = 7) then
-       mungbean harvest
-       mungbean end_crop
+   if (maize.stage = 11) then
+      maize harvest
+      maize end_crop
    endif
 
  if (clock.day=151 and clock.year=1993) then
@@ -59,13 +53,11 @@ end_date = 30/12/1993     ! dd/mm/yyyy
 
 
 
-[mungbean.manager.end_of_day]
-
+[maize.manager.end_of_day]
 P_below_ground = soilp.fom_p() + soilp.hum_p() + soilp.biom_p() + soilp.rock_p() + soilp.unavail_p() + soilp.labile_p()
-P_above_ground = (mungbean.p_green() + mungbean.p_senesced() + mungbean.p_dead())*10.0 + residue2.residue_p
+P_above_ground = (maize.p_green() + maize.p_senesced() + maize.p_dead())*10.0 + residue2.residue_p
 systemP = P_below_ground + P_above_ground
 dlt_systemP = systemP - systemP_yday
-
 if (systemP_yday >= 0.00001) then
     cum_error_systemP = dlt_systemP + cum_error_systemP
     dlt_residue_P = residue2.residue_P - residue_P_yest
@@ -74,21 +66,22 @@ else
     dlt_residue_P = 0.0
 endif
 
-P_plant = (mungbean.P_green() + mungbean.P_sen() + mungbean.P_dead())*10.0
-P_uptake_cum = P_uptake_cum + uptake_P_mungbean()
+P_plant = (maize.P_green() + maize.P_sen() + maize.P_dead())*10.0
+P_uptake_cum = P_uptake_cum + uptake_P_maize()
 P_pl_up_diff = P_plant - P_uptake_cum
 below_gnd_diff = P_below_ground - P_below_ground_yest
 residue_P_yest =  residue2.residue_P
 P_below_ground_yest = P_below_ground
 
-!  if (mungbean.stage >=1 and mungbean.stage <= 11) then
-    report do_output
+!  if (maize.stage >=1 and maize.stage <= 11) then
+      report do_output
 !  endif
 
 systemP_yday = systemP
 
-[mungbean.SummaryFile.parameters]
-summaryfile = mungbean.sum
+
+[maize.SummaryFile.parameters]
+summaryfile = maize.sum
 
 [all.Screen.parameters]
 screen_output = on
