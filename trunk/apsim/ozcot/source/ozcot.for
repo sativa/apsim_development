@@ -2038,6 +2038,7 @@ c     fruiting sites and bolload adjusted for nitrogen stress
 c      data from "siratac" - 1987-88 hearn (pers. comm.).
 
       use OzcotModule
+      include 'data.pub'
       integer ndas
 
       real ozcot_stress
@@ -2073,8 +2074,13 @@ c      if(i.eq.isq+1) blr = 0.              ! except day after 1st square
 
       IF(BLR.LT.1.0 .AND. g%n_cutout.le.0)GO TO 30 ! squaring continues
       IF(BLR.LT.1.0 .AND. g%n_cutout.GE.1)GO TO 20 ! squaring stopped, may resume
-      IF(BLR.EQ.1.0 .AND. g%n_cutout.GE.1)GO TO 10 ! squaring stopped, no restart
-
+      IF (reals_are_equal(BLR,1.0)) then
+         if (g%n_cutout.GE.1) then 
+                 GO TO 10 ! squaring stopped, no restart
+         else
+         endif
+      else
+      endif
       g%n_cutout=1 ! ie (BLR.EQ.1.0 .AND. g%n_cutout.EQ.0) and squaring stops today
 
 10    continue
@@ -2920,6 +2926,7 @@ c                                                                  c
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       use OzcotModule
+      include 'data.pub'
       integer nsince, ndate
       real root, rclear, srad, wet_depress, date
       DATA NSINCE/0/
@@ -3080,10 +3087,12 @@ c      end if
 
 c       estimate wet and dry bulb when odd day missing
 c
-      IF(g%tempdy.EQ.0. .OR. g%tempdy.EQ.99.9) THEN
+      IF((reals_are_equal(g%tempdy,0.0)) .OR. 
+     :   (reals_are_equal(g%tempdy,99.9))) THEN
           g%tempdy = -.54+0.57*g%tempmx+0.40*g%tempmn
       ENDIF
-      IF(g%tempwt.EQ.0. .OR. g%tempwt.EQ.99.9) THEN
+      IF((reals_are_equal(g%tempwt,0.0)) .OR.
+     :   (reals_are_equal(g%tempwt,99.9))) THEN
           WET_DEPRESS = -3.103+0.28*g%tempmx-0.07*g%tempmn+0.62*ROOT
           IF(WET_DEPRESS.LT.0.) WET_DEPRESS=0.
           g%tempwt = g%tempdy-WET_DEPRESS
