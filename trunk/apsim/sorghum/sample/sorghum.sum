@@ -14,16 +14,16 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 2.1
-     Simulation filename    = c:\regr\apsim\sorghum\sample\sorghum.sim
+     Version                = 2.1 patch2
+     Simulation filename    = c:\apswork\sorghu~1\sorghum.sim
      Title                  = sorghum Sample Simulation
-     Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\soilwat2\lib\soilwat2.dll(soilwat2) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\soiln2\lib\soiln2.dll(soiln2) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\sorghum\lib\sorghum.dll(sorghum) - Licensed
+     Instantiated DLL       = c:\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
+     Instantiated DLL       = c:\apsuite\apsim\report\lib\report.dll(report) - Licensed
+     Instantiated DLL       = c:\apsuite\apsim\input\lib\input.dll(met) - Licensed
+     Instantiated DLL       = c:\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
+     Instantiated DLL       = c:\apsuite\apsim\soilwat2\lib\soilwat2.dll(soilwat2) - Licensed
+     Instantiated DLL       = c:\apsuite\apsim\soiln2\lib\soiln2.dll(soiln2) - Licensed
+     Instantiated DLL       = c:\apsuite\apsim\sorghum\lib\sorghum.dll(sorghum) - Licensed
 
 ------- CLOCK Initialisation -------------------------------------------------
      Simulation start date = 27/10/1989
@@ -35,7 +35,7 @@
      Format = normal
      Output variables:
         clock.year
-        clock.day
+        clock.today.dd/mm/yyyy
         sorghum.das
         sorghum.stage
         sorghum.lai
@@ -52,12 +52,12 @@
         sorghum.extinct_coeff
 
 ------- MET Initialisation ---------------------------------------------------
-     File name = c:\build\apsuite\apsim\met\sample\dalby.met
+     File name = C:\APSuite\apsim\met\sample\dalby.met
 
 ------- MANAGER Initialisation -----------------------------------------------
      Manager rules:
         if day = 305 and year = 1989 then
-           sorghum sow cultivar = early, plants = 10, sowing_depth = 30 (mm), tiller_no_fertile = 0 ()
+           sorghum sow cultivar = early, plants = 10, sowing_depth = 30 (mm), tiller_no_fertile = 0 (), row_spacing = 1.0 (m)
         endif
         if (sorghum.stage = 11) then
            sorghum harvest
@@ -202,7 +202,7 @@
 ------- Start of simulation  --------------------------------------------------
 1 November 1989 (Day of year=305):
    MANAGER:
-           Manager sending message :- sorghum sow cultivar = early, plants = 10, sowing_depth = 30 (mm), tiller_no_fertile = 0 ()
+           Manager sending message :- sorghum sow cultivar = early, plants = 10, sowing_depth = 30 (mm), tiller_no_fertile = 0 (), row_spacing = 1.0 (m)
    SORGHUM:
       Sowing initiate
       
@@ -213,7 +213,7 @@
           Sowing  Depth Plants Spacing Cultivar    FTN
           Day no   mm     m^2     m     Name       no
           ------------------------------------------------
-             305   30.0   10.0    0.8 early         0.00
+             305   30.0   10.0    1.0 early         0.00
           ------------------------------------------------
       
          - Reading root profile parameters
@@ -228,13 +228,13 @@
             Depth              limit   Factor
             (mm)       ()     (mm/mm)    ()
           ------------------------------------------------
-           150.000    0.070    0.100    1.000
-           150.000    0.070    0.100    1.000
-           300.000    0.070    0.100    1.000
-           300.000    0.070    0.100    1.000
-           300.000    0.050    0.100    1.000
-           300.000    0.050    0.100    1.000
-           300.000    0.040    0.100    1.000
+           150.000    0.070    0.230    1.000
+           150.000    0.070    0.240    1.000
+           300.000    0.070    0.240    1.000
+           300.000    0.070    0.250    1.000
+           300.000    0.050    0.260    1.000
+           300.000    0.050    0.270    1.000
+           300.000    0.040    0.280    1.000
            ------------------------------------------------
       
       
@@ -275,47 +275,47 @@
    SORGHUM:
        stage    3.0 emergence
                            biomass =           2.000000       lai =    0.2000000E-02
-                           stover N conc =    1.450000       extractable sw =    56.62283
+                           stover N conc =    1.450000       extractable sw =    37.12283
 16 November 1989 (Day of year=320):
    SORGHUM:
        stage    4.0 end_of_juvenile
                            biomass =           5.156181       lai =    0.7706219E-01
-                           stover N conc =    3.656326       extractable sw =    204.5297
+                           stover N conc =    3.656371       extractable sw =    122.0297
 30 November 1989 (Day of year=334):
    SORGHUM:
        stage    5.0 floral_initiation
                            biomass =           45.95330       lai =    0.6486335    
-                           stover N conc =    2.598285       extractable sw =    294.1939
+                           stover N conc =    2.598539       extractable sw =    166.6910
 23 December 1989 (Day of year=357):
    SORGHUM:
        stage    6.0 flag_leaf
                            biomass =           401.2199       lai =     2.972177    
-                           stover N conc =    1.668433       extractable sw =    481.8902
+                           stover N conc =    1.668642       extractable sw =    255.6056
 31 December 1989 (Day of year=365):
    SORGHUM:
        stage    7.0 flowering
                            biomass =           576.2254       lai =     2.877342    
-                           stover N conc =    1.355539       extractable sw =    532.3565
+                           stover N conc =    1.355666       extractable sw =    252.1086
 1 January 1990 (Day of year=1):
    SORGHUM:
        stage    8.0 start_grain_fill
                            biomass =           599.6835       lai =     2.861281    
-                           stover N conc =    1.305001       extractable sw =    525.8068
+                           stover N conc =    1.305094       extractable sw =    245.5590
 1 February 1990 (Day of year=32):
    SORGHUM:
        stage    9.0 end_grain_fill
-                           biomass =           913.1642       lai =     1.290694    
-                           stover N conc =    1.752952       extractable sw =    468.3967
+                           biomass =           913.3987       lai =     1.294256    
+                           stover N conc =    1.753771       extractable sw =    188.4647
 3 February 1990 (Day of year=34):
    SORGHUM:
        stage   10.0 maturity
-                           biomass =           918.0256       lai =     1.223646    
-                           stover N conc =    1.751500       extractable sw =    508.5657
+                           biomass =           918.2676       lai =     1.223646    
+                           stover N conc =    1.752724       extractable sw =    228.9024
 4 February 1990 (Day of year=35):
    SORGHUM:
        stage   11.0 harvest_ripe
-                           biomass =           918.0256       lai =     0.000000    
-                           stover N conc =    1.928490       extractable sw =    506.2777
+                           biomass =           918.2676       lai =     0.000000    
+                           stover N conc =    1.929118       extractable sw =    226.6140
 5 February 1990 (Day of year=36):
    MANAGER:
            Manager sending message :- sorghum harvest
@@ -325,18 +325,18 @@
       
       flowering (DAS) =  60                  maturity (DAS)  =  94
        flowering day  =  365                  stover (kg/ha) =    5010.7
-       maturity day        =   34             grain yield (kg/ha) =    4169.6
-       grain % water content   =   13.0       grain yield wet (kg/ha) =    4792.6
+       maturity day        =   34             grain yield (kg/ha) =    4172.0
+       grain % water content   =   13.0       grain yield wet (kg/ha) =    4795.3
        grain wt (g) =     0.016               grains/m^2   = 25886.240
        grains/head =2588.6                    maximum lai = 2.981
-       total above ground biomass (kg/ha) =    9180.3
-       live above ground biomass (kg/ha) =    9180.3
-       green above ground biomass (kg/ha) =    7469.6
+       total above ground biomass (kg/ha) =    9182.7
+       live above ground biomass (kg/ha) =    9182.7
+       green above ground biomass (kg/ha) =    7472.0
        senesced above ground biomass (kg/ha) =    1710.7
        dead above ground biomass (kg/ha) =       0.0
        number of leaves =  15.6
-       grain N percent =      2.86            total N content (kg/ha) =    156.49
-       grain N uptake (kg/ha) =    119.40     senesced N content (kg/ha) =     12.44
+       grain N percent =      2.86            total N content (kg/ha) =    156.60
+       grain N uptake (kg/ha) =    119.50     senesced N content (kg/ha) =     12.46
        green N content (kg/ha) =     24.65    dead N content (kg/ha) =      0.00
       
       
@@ -372,7 +372,7 @@
       
       
        stress indices for start_grain_fill
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.4623626
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.4620604
        water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
    MANAGER:
            Manager sending message :- sorghum end_crop
