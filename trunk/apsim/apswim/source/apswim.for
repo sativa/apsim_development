@@ -86,6 +86,7 @@ C     Last change:  NIH  30 Sep 1999   11:28 am
 *+  Changes
 *        18081998   igh   Changed to use MES_Till
 *        270899 nih added clock tick event
+*        121099 dph added ACTION_Create handler.
 
 *+  Constant Values
       character myname*(*)
@@ -96,6 +97,10 @@ C     Last change:  NIH  30 Sep 1999   11:28 am
 
       if (Action.eq.ACTION_Get_variable) then
          call apswim_Send_my_variable (Data_string)
+
+      else if (Action.eq.ACTION_Create) then
+         call apswim_zero_module_links()
+         call apswim_zero_variables()
 
       else if (Action.eq.ACTION_Init) then
          call apswim_zero_module_links()
