@@ -175,6 +175,9 @@
       elseif (action.eq.'lodge') then
          call sugar_lodge ()
  
+      else if (Action.eq.ACTION_Create) then
+         call sugar_zero_all_globals ()
+ 
       else
                ! don't use message
          call message_unused ()
@@ -558,6 +561,355 @@
 
 
 
+*     ===========================================================
+      subroutine sugar_zero_all_globals ()
+*     ===========================================================
+      use sugarModule
+      implicit none
+      include 'const.inc'
+      include 'error.pub'                         
+
+*+  Purpose
+*       Zero crop variables & arrays
+
+*+  Changes
+*     060495 nih taken from template
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name  = 'sugar_zero_all_globals')
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+      g%crop_status           = blank    
+      g%crop_cultivar         = blank  
+      g%sowing_depth          = 0.0
+      g%year                  = 0
+      g%day_of_year           = 0 
+      g%sw_avail_fac_deepest_layer = 0.0
+      g%temp_stress_photo     = 0.0
+      g%temp_stress_stalk     = 0.0
+      g%swdef_expansion       = 0.0
+      g%swdef_stalk           = 0.0
+      g%swdef_photo           = 0.0
+      g%swdef_pheno           = 0.0
+      g%swdef_fixation        = 0.0
+      g%nfact_expansion       = 0.0
+      g%nfact_stalk           = 0.0
+      g%nfact_photo           = 0.0
+      g%nfact_pheno           = 0.0
+      g%sucrose_fraction      = 0.0
+      g%oxdef_photo           = 0.0
+      g%fr_intc_radn          = 0.0
+      g%latitude              = 0.0
+      g%mint                  = 0.0
+      g%maxt                  = 0.0
+      g%cnd_photo (:) = 0.0     
+      g%cswd_photo (:)     = 0.0     
+      g%cswd_expansion (:) = 0.0 
+      g%cswd_pheno (:)     = 0.0
+      g%dlt_tt                     = 0.0
+      g%tt_tot(:)          = 0.0
+      g%phase_tt(:)        = 0.0
+      g%dlt_stage                  = 0.0
+      g%current_stage              = 0.0
+      g%previous_stage             = 0.0
+      g%days_tot (:)       = 0.0
+      g%dlt_canopy_height          = 0.0
+      g%canopy_height              = 0.0
+      g%phase_devel                = 0.0
+      g%ratoon_no                = 0 
+      g%plants                     = 0.0
+      g%dlt_plants                 = 0.0
+      g%initial_plant_density      = 0.0
+      g%dlt_root_depth             = 0.0
+      g%root_depth                 = 0.0
+      g%lodge_flag                  = .false.
+      g%rue                         = 0.0
+      g%uptake_water(:)    = 0.0
+      g%num_uptake_water          = 0 
+      g%num_layers                = 0 
+      g%transpiration_tot       = 0.0
+      g%N_uptake_tot            = 0.0
+      g%N_demand_tot            = 0.0
+      g%N_conc_act_stover_tot   = 0.0
+      g%N_conc_crit_stover_tot  = 0.0
+      g%N_uptake_stover_tot     = 0.0
+      g%lai_max                 = 0.0
+      g%isdate                  = 0 
+      g%mdate                   = 0 
+      g%dm_graze                = 0.0
+      g%n_graze                 = 0.0
+      g%plant_wc(:)          = 0.0
+      g%dlt_plant_wc(:)      = 0.0
+      g%uptake_source              = blank 
+      g%dlayer (:)        = 0.0
+      g%dlt_sw_dep(:)     = 0.0
+      g%sat_dep (:)       = 0.0
+      g%dul_dep (:)       = 0.0
+      g%ll15_dep (:)      = 0.0
+      g%sw_dep (:)        = 0.0
+      g%st (:)            = 0.0
+      g%sw_demand                 = 0.0
+      g%sw_avail_pot(:)   = 0.0
+      g%sw_avail(:)       = 0.0
+      g%sw_supply (:)               = 0.0
+      g%dlt_root_length(:)          = 0.0
+      g%dlt_root_length_senesced(:) = 0.0
+      g%root_length (:)             = 0.0
+      g%dlt_plants_death_drought            = 0.0
+      g%dlt_plants_failure_leaf_sen         = 0.0
+      g%dlt_plants_failure_emergence        = 0.0
+      g%dlt_plants_failure_germ             = 0.0
+      g%dlt_plants_death_lodging            = 0.0
+      g%dlt_dm                              = 0.0
+      g%dlt_dm_green(:)              = 0.0
+      g%dlt_dm_green_pot(:)          = 0.0
+      g%dlt_dm_senesced(:)           = 0.0
+      g%dlt_dm_realloc (:)           = 0.0
+      g%dlt_dm_detached(:)           = 0.0
+      g%dlt_dm_dead_detached(:)      = 0.0
+      g%dlt_dm_green_retrans(:)      = 0.0
+      g%dm_stress_max(:)            = 0.0
+      g%dlt_dm_stress_max                   = 0.0
+      g%dm_green_demand(:)           = 0.0
+      g%dm_dead(:)                   = 0.0
+      g%dm_green(:)                  = 0.0
+      g%dm_senesced(:)               = 0.0
+      g%dm_plant_top_tot(:)         = 0.0
+      g%partition_xs                        = 0.0
+      g%partition_xs_pot                    = 0.0
+      g%dlt_dm_pot_rue                      = 0.0
+      g%dlt_dm_pot_te                       = 0.0
+      g%dlt_dm_pot_rue_pot                  = 0.0
+      g%radn_int                            = 0.0
+      g%transp_eff                          = 0.0
+      g%min_sstem_sucrose                   = 0.0
+      g%dlt_min_sstem_sucrose               = 0.0
+      g%slai                                = 0.0
+      g%dlt_slai                            = 0.0
+      g%dlt_lai                             = 0.0
+      g%dlt_lai_pot                         = 0.0
+      g%dlt_lai_stressed                    = 0.0
+      g%lai                                 = 0.0
+      g%tlai_dead                           = 0.0
+      g%dlt_slai_detached                   = 0.0
+      g%dlt_tlai_dead_detached              = 0.0
+      g%dlt_tlai_dead                       = 0.0
+      g%dlt_slai_age                        = 0.0
+      g%dlt_slai_light                      = 0.0
+      g%dlt_slai_water                      = 0.0
+      g%dlt_slai_frost                      = 0.0
+      g%sla_min                             = 0.0
+      g%leaf_no(:)                  = 0.0
+      g%node_no(:)                  = 0.0
+      g%node_no_dead(:)             = 0.0
+      g%dlt_leaf_no                         = 0.0
+      g%dlt_node_no                         = 0.0
+      g%dlt_node_no_dead                    = 0.0
+      g%leaf_no_final                       = 0.0
+      g%leaf_area(:)                 = 0.0
+      g%leaf_dm(:)                   = 0.0
+      g%node_no_detached                    = 0.0
+      g%N_demand (:)                 = 0.0
+      g%N_max(:)                     = 0.0
+      g%dlt_N_green(:)               = 0.0
+      g%dlt_N_senesced(:)            = 0.0
+      g%dlt_n_realloc (:)            = 0.0
+      g%dlt_N_detached(:)            = 0.0
+      g%dlt_N_dead_detached(:)       = 0.0
+      g%N_dead(:)                    = 0.0
+      g%N_green(:)                   = 0.0
+      g%N_senesced(:)                = 0.0
+      g%dlt_N_retrans(:)             = 0.0
+      g%dlt_NO3gsm(:)               = 0.0
+      g%NO3gsm (:)                  = 0.0
+      g%NO3gsm_min(:)               = 0.0
+      g%uptake_no3(:)               = 0.0
+      g%NO3gsm_diffn_pot(:)         = 0.0
+      g%NO3gsm_mflow_avail(:)       = 0.0
+      g%n_fix_pot                           = 0.0
+      g%num_uptake_no3               = 0    
+      g%N_conc_crit(:)               = 0.0
+      g%N_conc_max(:)                = 0.0
+      g%N_conc_min(:)                = 0.0
+      g%dm_plant_min(:)              = 0.0
+
+      p%tt_emerg_to_begcane                    = 0.0
+      p%tt_begcane_to_flowering                = 0.0
+      p%tt_flowering_to_crop_end               = 0.0
+      p%kl(:)                       = 0.0
+      p%xf(:)                       = 0.0
+      p%ll_dep(:)                   = 0.0
+                                     
+      c%stage_names(:)          = blank 
+      c%crop_type               = blank 
+      c%x_sw_ratio (:)           = 0.0
+      c%y_sw_fac_root (:)        = 0.0
+      c%x_sw_demand_ratio (:)    = 0.0
+      c%x_demand_ratio_stalk (:) = 0.0
+      c%y_swdef_leaf (:)         = 0.0
+      c%y_swdef_stalk (:)        = 0.0
+      c%x_sw_avail_ratio (:)     = 0.0
+      c%y_swdef_pheno (:)        = 0.0
+      c%k_nfact_photo                    = 0.0
+      c%k_nfact_expansion                = 0.0
+      c%k_nfact_stalk                    = 0.0
+      c%k_nfact_pheno                    = 0.0
+      c%num_sw_ratio           = 0 
+      c%num_sw_demand_ratio    = 0 
+      c%num_demand_ratio_Stalk = 0 
+      c%num_sw_avail_ratio     = 0 
+      c%leaf_no_crit           = 0.0
+      c%tt_emerg_limit                   = 0.0
+      c%days_germ_limit                  = 0.0
+      c%swdf_pheno_limit                 = 0.0
+      c%swdf_photo_limit                 = 0.0
+      c%swdf_photo_rate                  = 0.0
+      c%initial_root_depth               = 0.0
+      c%sla_max(:)               = 0.0
+      c%sla_min(:)               = 0.0
+      c%sla_lfno(:)              = 0.0
+      c%initial_tpla                     = 0.0
+      c%x_stem_wt(:)              = 0.0
+      c%y_height (:)             = 0.0
+      c%svp_fract                        = 0.0
+      c%transp_eff_cf(:)         = 0.0
+      c%n_fix_rate(:)            = 0.0
+      c%pesw_germ                        = 0.0
+      c%fasw_emerg(:)            = 0.0
+      c%rel_emerg_rate(:)        = 0.0
+      c%leaf_no_at_emerg                 = 0.0
+      c%NO3_diffn_const                  = 0.0
+      c%shoot_lag                        = 0.0
+      c%shoot_rate                       = 0.0
+      c%y_leaves_per_node(:)     = 0.0
+      c%y_node_app_rate(:)       = 0.0
+      c%x_node_no_app(:)         = 0.0
+      c%x_node_no_leaf(:)        = 0.0
+      c%dm_leaf_init                     = 0.0
+      c%dm_root_init                     = 0.0
+      c%dm_sstem_init                    = 0.0
+      c%dm_cabbage_init                  = 0.0
+      c%dm_sucrose_init                  = 0.0
+      c%leaf_cabbage_ratio               = 0.0
+      c%cabbage_sheath_fr                = 0.0
+      c%dm_root_sen_frac                 = 0.0
+      c%dead_detach_frac(:)       = 0.0
+      c%sen_detach_frac(:)        = 0.0
+      c%minsw                            = 0.0
+      c%lai_sen_light                    = 0.0
+      c%frost_kill                       = 0.0
+      c%sen_rate_water                   = 0.0
+      c%sen_light_slope                  = 0.0
+      c%frost_temp(:)            = 0.0
+      c%frost_fraction(:)        = 0.0
+      c%oxdef_photo_rtfr(:)      = 0.0
+      c%oxdef_photo(:)           = 0.0
+      c%num_frost_temp              = 0  
+      c%num_oxdef_photo             = 0 
+      c%num_stress_factor_Stalk     = 0 
+      c%green_leaf_no                          = 0.0
+      c%cane_Fraction                          = 0.0
+      c%sucrose_fraction_stalk(:)      = 0.0
+      c%stress_factor_stalk(:)         = 0.0
+      c%sucrose_delay                          = 0.0
+      c%min_sstem_sucrose                      = 0.0
+      c%min_sstem_sucrose_redn                 = 0.0
+      c%num_dead_lfno                   = 0 
+      c%leaf_no_correction               = 0.0
+      c%leaf_size(:)             = 0.0
+      c%leaf_size_no(:)          = 0.0
+      c%num_leaf_size                = 0 
+      c%tillerf_leaf_size(:)     = 0.0
+      c%tillerf_leaf_size_no(:)  = 0.0
+      c%num_tillerf_leaf_size        = 0 
+      c%x_ave_temp(:)            = 0.0
+      c%x_ave_temp_stalk(:)      = 0.0
+      c%y_stress_photo(:)        = 0.0
+      c%y_stress_stalk(:)        = 0.0
+      c%x_temp(:)                = 0.0
+      c%y_tt(:)                  = 0.0
+      c%stress_lodge(:)          = 0.0
+      c%death_fr_lodge(:)        = 0.0
+      c%x_plant_rld (:)           = 0.0
+      c%y_rel_root_rate (:)       = 0.0
+      c%num_temp                     = 0 
+      c%num_ave_temp                 = 0 
+      c%num_ave_temp_stalk           = 0 
+      c%num_factors                  = 0 
+      c%num_node_no_app              = 0 
+      c%num_node_no_leaf             = 0 
+      c%num_sla_lfno                 = 0 
+      c%num_x_swdef_cellxp           = 0 
+      c%num_stress_lodge             = 0 
+      c%num_fasw_emerg               = 0 
+      c%num_plant_rld                = 0 
+      c%num_stem_wt                  = 0 
+      c%tt_emerg_to_begcane_ub           = 0.0
+      c%tt_begcane_to_flowering_ub       = 0.0
+      c%tt_flowering_to_crop_end_ub      = 0.0
+      c%ll_ub                            = 0.0
+      c%kl_ub                            = 0.0
+      c%sw_dep_ub                        = 0.0
+      c%sw_dep_lb                        = 0.0
+      c%NO3_ub                           = 0.0
+      c%NO3_lb                           = 0.0
+      c%NO3_min_ub                       = 0.0
+      c%NO3_min_lb                       = 0.0
+      c%leaf_no_min                      = 0.0
+      c%leaf_no_max                      = 0.0
+      c%latitude_ub                         = 0.0
+      c%latitude_lb                         = 0.0
+      c%maxt_ub                             = 0.0
+      c%maxt_lb                             = 0.0
+      c%mint_ub                             = 0.0
+      c%mint_lb                             = 0.0
+      c%radn_ub                             = 0.0
+      c%radn_lb                             = 0.0
+      c%dlayer_ub                           = 0.0
+      c%dlayer_lb                           = 0.0
+      c%dul_dep_ub                          = 0.0
+      c%dul_dep_lb                          = 0.0
+      c%n_supply_preference               = blank 
+      c%cane_dmf_min(:)            = 0.0
+      c%cane_dmf_max(:)            = 0.0
+      c%cane_dmf_tt(:)             = 0.0
+      c%cane_dmf_rate                      = 0.0
+      c%num_cane_dmf                = 0    
+      c%N_conc_crit_root                 = 0.0
+      c%N_conc_min_root                  = 0.0
+      c%x_stage_code(:)          = 0.0
+      c%y_n_conc_crit_leaf(:)    = 0.0
+      c%y_n_conc_min_leaf(:)     = 0.0
+      c%y_n_conc_crit_cane(:)    = 0.0
+      c%y_n_conc_min_cane(:)     = 0.0
+      c%y_n_conc_crit_cabbage(:) = 0.0
+      c%y_n_conc_min_cabbage(:)  = 0.0
+      c%N_root_init_conc                 = 0.0
+      c%N_sstem_init_conc                = 0.0
+      c%N_leaf_init_conc                 = 0.0
+      c%N_cabbage_init_conc              = 0.0
+      c%N_leaf_sen_conc                  = 0.0
+      c%N_cabbage_sen_conc               = 0.0
+      c%N_root_sen_conc                  = 0.0
+      c%num_N_conc_stage           = 0   
+      c%extinction_coef                  = 0.0
+      c%extinction_coef_dead             = 0.0
+      c%rue(:)                   = 0.0
+      c%root_depth_rate(:)       = 0.0
+      c%ratio_root_shoot(:)      = 0.0
+      c%root_die_back_fr                 = 0.0
+      c%specific_root_length             = 0.0
+      c%stage_code_list(:)       = 0.0
+      c%twilight                         = 0.0
+
+
+      call pop_routine (my_name)
+      return
+      end
 *     ===========================================================
       subroutine sugar_zero_variables ()
 *     ===========================================================
