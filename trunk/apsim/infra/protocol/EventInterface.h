@@ -80,11 +80,11 @@ class EventInterface
 
       void setComponentResponded(bool componentDidRespond)
          {
-         coordinator->componentResponded = componentDidRespond;
+         coordinator->setComponentResponded(componentDidRespond);
          }
       bool componentResponded(void)
          {
-         return coordinator->componentResponded;
+         return coordinator->getComponentResponded();
          }
 
       // reorder the component's - used for competition.

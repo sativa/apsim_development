@@ -31,6 +31,7 @@ USEUNIT("InterfaceLayer.cpp");
 USEUNIT("Loader.cpp");
 USEUNIT("computation.cpp");
 USEUNIT("EventInterface.cpp");
+USEUNIT("interfaces.cpp");
 //---------------------------------------------------------------------------
 int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void*)
 {
