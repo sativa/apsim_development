@@ -772,7 +772,7 @@ bool ApsimControlFile::addModuleLine(const string& section,
       {
       vector<ParamFile> paramFiles;
       parseModuleLine(ini->getFileName(), moduleLines[i], paramFiles, false);
-      if (paramFiles[0].instanceName == instanceName)
+      if (Str_i_Eq(paramFiles[0].instanceName, instanceName))
          {
          newParamFile.moduleName = paramFiles[0].moduleName;
          if (find(paramFiles.begin(), paramFiles.end(), newParamFile) != paramFiles.end())
@@ -1153,20 +1153,23 @@ bool ApsimControlFile::renameModule(const std::string& section,
                               paramFile != parFileNames.end();
                               paramFile++)
       {
-      IniFile* par = getParFile(*paramFile);
-      vector<string> sectionNames;
-      par->readSectionNames(sectionNames);
-      for (unsigned s = 0; s != sectionNames.size(); s++)
+      if (paramFile->find(".ini") == string::npos)
          {
-         StringTokenizer tokenizer(sectionNames[s], ".");
-         string firstBit = tokenizer.nextToken();
-         string secondBit = tokenizer.nextToken();
-         string thirdBit = tokenizer.nextToken();
-         if (Str_i_Eq(secondBit, oldModuleName))
+         IniFile* par = getParFile(*paramFile);
+         vector<string> sectionNames;
+         par->readSectionNames(sectionNames);
+         for (unsigned s = 0; s != sectionNames.size(); s++)
             {
-            par->renameSection(sectionNames[s],
-                               firstBit + "." + newModuleName + "." + thirdBit);
-            modsMade = true;
+            StringTokenizer tokenizer(sectionNames[s], ".");
+            string firstBit = tokenizer.nextToken();
+            string secondBit = tokenizer.nextToken();
+            string thirdBit = tokenizer.nextToken();
+            if (Str_i_Eq(secondBit, oldModuleName))
+               {
+               par->renameSection(sectionNames[s],
+                                  firstBit + "." + newModuleName + "." + thirdBit);
+               modsMade = true;
+               }
             }
          }
       }
@@ -1182,17 +1185,7 @@ bool ApsimControlFile::renameModule(const std::string& section,
       unsigned posIni = findSubString(paramFiles[p].fileName, oldIniFileName);
       if (posIni != string::npos)
          {
-         string oldIniPath = paramFiles[p].fileName;
-         string iniPath = ExtractFileDir(oldIniPath.c_str()).c_str();
-         string newIniPath;
-         if (iniPath != "")
-            newIniPath += "\\";
-         newIniPath += newIniFileName;
-
-         RenameFile(oldIniPath.c_str(), newIniPath.c_str());
-         replaceAll(newIniPath, getApsimDirectory(), "%apsuite");
-         paramFiles[p].fileName = newIniPath;
-
+         paramFiles[p].fileName = "%apsuite\\apsim\\" + newModuleName + "\\" + newIniFileName;
          modsMade = true;
          }
       }
