@@ -852,7 +852,6 @@ void Coordinator::pollComponentsForSetVariable(PMRegistrationItem& registrationI
 //         Then y will replace x, z will replace y, and x will replace z
 //         leaving: y, z, x
 // ------------------------------------------------------------------
-XXXXXXX fixme!!!! 
 void Coordinator::onApsimChangeOrderData(MessageData& messageData)
    {
    std::vector<string> componentNames;
@@ -862,6 +861,7 @@ void Coordinator::onApsimChangeOrderData(MessageData& messageData)
       for (unsigned i = 0; i != componentNames.size(); ++i)
          {
          unsigned componentID = componentNameToID(componentNames[i]);
+         if (componentID == INT_MAX) {throw runtime_error("attempt to change order of non-existant module");}
          componentOrders.push_back(componentID);
          }
       }
