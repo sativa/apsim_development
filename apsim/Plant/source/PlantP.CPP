@@ -84,14 +84,14 @@ PlantP::~PlantP()
 void PlantP::doIDs(PlantComponent *systemInterface)
 {
     // we want to send these events out
-    ids.add_residue_p = systemInterface->addRegistration(protocol::eventReg,
+    ids.add_residue_p = systemInterface->addRegistration(RegistrationType::event,
                                     "add_residue_p", "",
                                     "", "");
-    ids.incorp_fom_p = systemInterface->addRegistration(protocol::eventReg,
+    ids.incorp_fom_p = systemInterface->addRegistration(RegistrationType::event,
                                     "incorp_fom_p", "",
                                     "", "");
     // we will want this variable
-    // ids.layered_p_uptake = systemInterface->addRegistration(protocol::getVariableReg,
+    // ids.layered_p_uptake = systemInterface->addRegistration(RegistrationType::get,
     //                                "layered_p_uptake", floatType,
     //                                "", "");
 }
@@ -868,10 +868,10 @@ void PlantP::doInit (PlantComponent *systemInterface
          read_constants (systemInterface);
 
          string keyword = "uptake_p_" + crop_type;
-//    ids.layered_p_uptake = systemInterface->addRegistration(protocol::getVariableReg,
+//    ids.layered_p_uptake = systemInterface->addRegistration(RegistrationType::get,
 //                                    "layered_p_uptake", floatType,
 //                                    "", "");
-         ids.layered_p_uptake = systemInterface->addRegistration(protocol::getVariableReg,
+         ids.layered_p_uptake = systemInterface->addRegistration(RegistrationType::get,
                                                                keyword.c_str(), floatArrayType,
                                                                "", "");
       }
@@ -905,7 +905,7 @@ void PlantP::PlantP_Set_Up_Parts (vector<string> &part_names)
 void PlantP::PlantP_set_phosphorus_aware (PlantComponent *systemInterface)
 {
 //+  Purpose
-//      Check that soil phosphorus is in system
+//      Check that soil phosphorus is in system                              
 
 //+  Mission statement
 //     Check the phosphorus awareness of the system
@@ -923,7 +923,7 @@ const char*  my_name = "PlantP_set_phosphorus_aware";
 
       push_routine (my_name);
 
-      unsigned int idSoilpVar = systemInterface->addRegistration(protocol::getVariableReg,
+      unsigned int idSoilpVar = systemInterface->addRegistration(RegistrationType::get,
                                                                "labile_p", floatArrayType,
                                                                "", "");
       systemInterface->getVariable(idSoilpVar, values, 0.0, 1000000.0, true);
