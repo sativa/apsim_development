@@ -1,7 +1,12 @@
 !title = Ingham sample
 
-[weather.met.weather]                                         
-latitude        =       -18.7   (deg)                   
+[weather.met.weather]
+latitude        =       -18.7   (deg)
+
+
+   ! TAV and AMP inserted by "tav_amp" on 28/10/1999 at 13:56 for period from   1/1980 to 365/1990 (ddd/yyyy)
+ tav =  24.42 (oC)     ! annual average ambient temperature
+ amp =   8.79 (oC)     ! annual amplitude in mean monthly temperature
 
 site   year day radn  maxt   mint   rain  wcode
  ()    ()   () (MJ/m2) (oC) (oC)    (mm)   ()
