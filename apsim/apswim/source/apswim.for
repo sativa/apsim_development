@@ -1033,20 +1033,20 @@ c      read(ret_string, *, iostat = err_code) rain
        double precision eo
        double precision h_mm
        double precision hmin_mm
-       integer          solnum     ! solute number
-       character        solname*20 ! name of solute
+       integer          solnum          ! solute number
+       character        solname*(strsize) ! name of solute
        integer          node       ! node number specifier
        double precision start_of_day
        double precision end_of_day
        double precision daily_rain
-       character        uname*20   ! solute name
-       character        ucrop*20   ! crop name
+       character        uname*(strsize)   ! solute name
+       character        ucrop*(strsize)   ! crop name
        logical          uflag      ! uptake flag
        double precision uptake(0:M)
-       character        uunits*20  ! utake units
+       character        uunits*(strsize)  ! utake units
        double precision flow_array(0:M)
-       character        flow_name*20 ! Name of flow
-       character        flow_units*20 !
+       character        flow_name*(strsize) ! Name of flow
+       character        flow_units*(strsize) !
        logical          flow_found
 
 *- Implementation Section ----------------------------------
@@ -4046,7 +4046,7 @@ cnh       include 'utility.inc'
       parameter (myname = 'apswim_read_solute_params')
 
 *+  Local Variables
-       character table_name (nsol)*10
+       character table_name (nsol)*(strsize)
        double precision table_d0(nsol)
        double precision table_disp(nsol)
        double precision table_slupf(nsol)
@@ -4266,7 +4266,7 @@ cnh       include 'utility.inc'
       parameter (myname = 'apswim_read_solsoil_params')
 
 *+  Local Variables
-       character table_name (nsol)*10
+       character table_name (nsol)*(strsize)
        double precision table_exco(nsol)
        double precision table_fip(nsol)
        double precision table_dis(nsol)
@@ -4698,7 +4698,7 @@ cnh       include 'utility.inc'
 
 *+  Local Variables
        character owner_module*(max_module_name_size)
-       character crpname*10
+       character crpname*(strsize)
        integer numvals
        integer request_no
 
@@ -4762,7 +4762,7 @@ cnh       include 'utility.inc'
 *     <insert here>
 
 *+  Calls
-       character string_concat*25      ! function
+       character string_concat*(strsize)      ! function
 
 *+  Local Variables
       double precision rlv_l(M+1)
@@ -4773,7 +4773,7 @@ cnh       include 'utility.inc'
       real    cover                    ! cover for each crop
       integer crop                     ! crop number
       integer   solnum                 ! solute number for array index
-      character solute_demand_name*25  ! key name for solute demand
+      character solute_demand_name*(strsize)  ! key name for solute demand
 
 *- Implementation Section ----------------------------------
  
@@ -5343,8 +5343,8 @@ cnh
       double precision intensity       ! intensity of rainfall (mm/h)
       integer time_of_day              ! time of day (min)
       double precision time_mins       ! time of rainfall (min)
-      character owner_module*20        ! name of module providing info.
-      character module_name*20         ! name of this module
+      character owner_module*(strsize)   ! name of module providing info.
+      character module_name*(strsize)         ! name of this module
 
 *- Implementation Section ----------------------------------
 
@@ -6857,8 +6857,8 @@ cnh      end if
       double precision duration        ! duration of evaporation (min)
       integer time_of_day              ! time of day (min)
       double precision time_mins       ! time of evaporation (min)
-      character owner_module*20        ! name of module providing info.
-      character module_name*20         ! name of this module
+      character owner_module*(strsize)   ! name of module providing info.
+      character module_name*(strsize)    ! name of this module
 
 *- Implementation Section ----------------------------------
  
