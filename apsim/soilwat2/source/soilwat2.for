@@ -128,7 +128,7 @@ cnh     :  'Revision:   1.6  Date:   7 Jun 1996 17:08:26  '
 *      261095 DPH  added call to message_unused
 *      070696 nih  removed data_string from add_water arguments
 *      190897 nih  added MES_reset and MES_Sum_Report
-
+*      071097 PdeV added tillage message
 *   Calls:
 *      get_current_module
 *      lastnb
@@ -213,6 +213,9 @@ cnh     :  'Revision:   1.6  Date:   7 Jun 1996 17:08:26  '
       else if (action.eq.'add_water') then
                ! respond to addition of irrigation
          call soilwat2_add_water ()
+
+      else if (action .eq. mes_till) then
+         call soilwat2_tillage ()
 
       else
              ! don't use message
@@ -454,6 +457,11 @@ cnh     :  'Revision:   1.6  Date:   7 Jun 1996 17:08:26  '
                call soilwat2_scs_runoff (rain, runoff)
            endif
          endif
+
+         call soilwat2_tillage_addrain(g_rain)  ! Update rain since tillage accumulator
+                                                ! NB. this needs to be done _after_ cn
+                                                ! calculation.
+
       else
                ! nothing
       endif
@@ -505,6 +513,7 @@ cnh     :  'Revision:   1.6  Date:   7 Jun 1996 17:08:26  '
 *        200896 jngh changed cn2 to cn2_bare
 *        210896 jngh removed the bound check on the sum of WF.
 *                    removed redundant l_bound of cn2_new
+*        071097 pdev added tillage reduction on CN.
 
 *   Calls:
 *      bound
@@ -551,6 +560,7 @@ cnh     :  'Revision:   1.6  Date:   7 Jun 1996 17:08:26  '
                                        !    runof
 
       real       runoff_wf(max_layer)   ! weighting factor for depth for each la
+      real       tillage_reduction     ! reduction in cn due to tillage
 
 *   Constant values
       character  my_name*(*)           ! name of subroutine
@@ -593,6 +603,17 @@ cnh     :  'Revision:   1.6  Date:   7 Jun 1996 17:08:26  '
       cover_fract = bound (cover_fract, 0.0, 1.0)
 
       g_cn2_new = p_cn2_bare - (p_cn_red * cover_fract)
+
+          ! Tillage reduction on CN
+      if (g_tillage_cn_rain .gt. 0.0 ) then
+        tillage_reduction = g_tillage_cn_red * 
+     :    ( divide (g_tillage_rain_sum, g_tillage_cn_rain, 0.0) -
+     :      1.0)
+c        write (*,*) 'tillred = ', tillage_reduction
+        g_cn2_new = g_cn2_new + tillage_reduction 
+      else
+                                   ! Nothing
+      endif
 
           ! cut off response to cover at high covers if p_cn_red < 100.
           ! <dms7/95> - this bit was missing altogether ??
@@ -4917,6 +4938,9 @@ cjh         endif
       g_sumes_yest         = 0.0
       g_sumeos_last        = 0.0
       g_eo_source          = blank
+      g_tillage_rain_sum   = 0.0
+      g_tillage_cn_rain    = 0.0
+      g_tillage_cn_red     = 0.0
 
       call pop_routine (my_name)
       return
@@ -6414,6 +6438,204 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
             ! Note: no irrigation runs off.
 
       infiltration =  g_irrigation + g_rain - g_runoff
+
+      call pop_routine (my_name)
+      return
+      end
+*     ===========================================================
+      subroutine soilwat2_tillage ()
+*     ===========================================================
+
+*   Short Description:
+*     Set up for CN reduction after tillage operation
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*       This code is borrowed from residue module.
+
+*   Procedure Attributes:
+*      version:         any hardware/fortran77
+*      extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*       221090 specified (jngh)
+*       071097 PdeV 
+*   Calls:
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+
+*   Global variables
+      include   'const.inc'
+      include   'soilwat2.inc'
+      real      bound
+      
+*   Internal variables
+      character string*300             ! message string
+      character type*30                ! name of implement used for tillage
+      real      type_info(2)           ! Array containing information about
+                                       ! a certain type (from table)
+      integer   numvals                ! Number of values found in data string
+      integer   numvals_cnred, numvals_cnrain
+
+*   Constant values
+      character  my_name*(*)           ! this subroutine name
+      parameter (my_name = 'soilwat2_tillage')
+
+      character*(*) tillage_section    ! section name for tillage info in
+      parameter (tillage_section = 'tillage') ! lookup file
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+
+      call push_routine (my_name)
+
+                              ! 1. Find which implement was used.
+      call collect_char_var ('type'
+     :                      ,'()'
+     :                      ,type
+     :                      ,numvals)
+
+      call collect_real_var_optional ('cn_red'
+     :                      ,'()'
+     :                      ,g_tillage_cn_red
+     :                      ,numvals_cnred, 0.0, 100.0)
+
+      call collect_real_var_optional ('cn_rain'
+     :                      ,'()'
+     :                      ,g_tillage_cn_rain
+     :                      ,numvals_cnrain, 0.0, 1000.0)
+
+      if (numvals_cnred .le. 0 .or. numvals_cnrain .le. 0) then
+
+        call write_string (lu_scr_sum
+     :               ,new_line//'    - Reading tillage CN info')
+
+        call read_real_array_optional (
+     :           tillage_section      ! Section header
+     :         , type                 ! Keyword
+     :         , 2                    ! size of array
+     :         , '()'                 ! Units
+     :         , type_info            ! Variable
+     :         , numvals              ! Number of values returned
+     :         , 0.0                  ! Lower Limit for bound checking
+     :         , 1000.0)               ! Upper Limit for bound checking
+
+        if (numvals.ne.2) then
+               ! We have an unspecified tillage type
+            g_tillage_cn_red = 0.0
+            g_tillage_cn_rain = 0.0
+
+            string = 'Cannot find info for tillage:- '//type
+            call FATAL_ERROR (ERR_user, string)
+
+        else
+          if (numvals_cnred .le. 0) then  
+            g_tillage_cn_red = type_info(1)
+          else
+          endif
+
+          if (numvals_cnrain .le. 0) then  
+            g_tillage_cn_rain = type_info(2)
+          else
+          endif
+        endif
+      endif
+
+      ! Ensure cn equation won't go silly             
+      g_tillage_cn_red = bound (g_tillage_cn_red, 0.0, p_cn2_bare)
+
+      write (string, '(3a,40x,a,f8.2,a,40x,a, f8.2)' )
+     :      'Soil tilled using ', type, New_Line
+     :     ,'CN reduction = ', g_tillage_cn_red, New_Line
+     :     ,'Acc rain     = ', g_tillage_cn_rain
+
+      call report_event (string)
+
+                                     ! 3. Reset the accumulator
+      g_tillage_rain_sum = 0.0
+      
+      call pop_routine (my_name)
+      return
+      end
+
+*     ===========================================================
+      subroutine soilwat2_tillage_addrain ( rain )
+*     ===========================================================
+
+*   Short Description:
+*     accumulate rainfall for tillage cn reduction
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*       none
+
+*   Procedure Attributes:
+*      version:         any hardware/fortran77
+*      extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*       221090 specified (jngh)
+
+*   Calls:
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      real      rain                   ! (INPUT) today's rainfall (mm)
+
+*   Global variables
+      include   'soilwat2.inc'
+     
+*   Internal variables
+      character  string*100            ! message string
+*   Constant values
+      character  my_name*(*)           ! this subroutine name
+      parameter (my_name = 'soilwat2_tillage_addrain')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+
+      call push_routine (my_name)
+
+      g_tillage_rain_sum = g_tillage_rain_sum + rain
+
+      if (g_tillage_cn_rain .gt. 0.0 .and.
+     :    g_tillage_rain_sum .gt. g_tillage_cn_rain) then
+
+           ! This tillage has lost all effect on cn. CN reduction 
+           !  due to tillage is off until the next tillage operation.
+         g_tillage_cn_rain = 0.0
+         g_tillage_cn_red = 0.0
+
+         write (string, '(a)') 'Tillage CN reduction finished'
+         call report_event (string)
+
+      else
+      endif
 
       call pop_routine (my_name)
       return
