@@ -44,7 +44,7 @@
 
 !- Implementation Section ----------------------------------
 
-      call do_registrations()
+      call do_registrations(ID)
       call solute_zero_variables()
       call solute_read_constants ()
       call solute_read_param ()
@@ -96,7 +96,7 @@
       call Write_string (Event_string)
 
 cnh Cannot do it here as we may not have soil layer specs yet
-c      call publish_SoluteProfile(SolutesChangedId,
+c      call publish_SoluteProfile(ID%SolutesChanged,
 c     :     g%solute_profiles, g%num_solutes, .false.)
      
       call pop_routine (myname)
@@ -122,10 +122,10 @@ c     :     g%solute_profiles, g%num_solutes, .false.)
 
 !- Implementation Section ----------------------------------
 
-      if (eventID .eq. SoluteFluxesCalculatedId) then
+      if (eventID .eq. ID%SoluteFluxesCalculated) then
          call on_solute_fluxes_calculated(variant)
 
-      else if (eventID .eq. SoilWaterProfileChangedId) then
+      else if (eventID .eq. ID%SoilWaterProfileChanged) then
          call on_soil_water_profile_changed(variant)
          
       else
@@ -429,7 +429,7 @@ c     :     g%solute_profiles, g%num_solutes, .false.)
 
       if(found) then
 !    send an event
-          call publish_SoluteProfile(SolutesChangedId,
+          call publish_SoluteProfile(ID%SolutesChanged,
      :     g%solute_profiles, g%num_solutes, .false.)
       endif          
 
@@ -489,7 +489,7 @@ c   dsg 180202    when we want to remap solutes for varying layers, insert here
  100    continue          
 
 !    send an event
-          call publish_SoluteProfile(SolutesChangedId,
+          call publish_SoluteProfile(ID%SolutesChanged,
      :     g%solute_profiles, g%num_solutes, .false.)
 
       call pop_routine (myname)
