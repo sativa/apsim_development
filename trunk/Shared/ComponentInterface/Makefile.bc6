@@ -9,6 +9,9 @@ BCB = $(MAKEDIR)\..
 #APSROOT=c:/progra~1/apsim33
 #APSROOT=c:/development
 
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
+
 OBJECTS = Component.obj message.obj Type.obj TypeConverter.obj variant.obj \
     Variants.obj FORTRANComponent.obj MessageData.obj ApsimVariant.obj \
     ArraySpecifier.obj Registrations.obj RegistrationItem.obj \
@@ -16,12 +19,12 @@ OBJECTS = Component.obj message.obj Type.obj TypeConverter.obj variant.obj \
 
 USERDEFINES = 
 SYSDEFINES = _RTLDLL;NO_STRICT
-INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(APSROOT)\Shared
-LIBPATH = $(BCB)\lib\obj;$(BCB)\lib
+INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared
+LIBPATH = $(SYSLIBPATH)
 
 
 # ---------------------------------------------------------------------------
-CFLAG1 = -O2 -H- -Vx -Ve -x- -RT- -X- -a8 -b- -k- -vi -c -tW -tWM
+CFLAG1 = $(SYSCFLAGS) -x- -RT- -tWM 
 WARNINGS = -w-par
 LFLAGS = 
 

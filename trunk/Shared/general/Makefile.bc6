@@ -7,10 +7,12 @@ BCB = $(MAKEDIR)\..
 CC=$(BCB)\Bin\bcc32.exe
 RANLIB=$(BCB)\Bin\TLib.exe
 
-
 # APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
 #APSROOT=c:/progra~1/apsim33
 #APSROOT=c:\development
+
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
 
 TARGET = general.lib
 OBJECTS = date_class.obj db_functions.obj exec.obj general.obj IniFile.obj \
@@ -21,11 +23,11 @@ LIBFILES =
 
 USERDEFINES = 
 SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
-INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(APSROOT)\Shared
-LIBPATH = $(BCB)\lib\obj;$(BCB)\lib
+INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared
+LIBPATH = $(SYSLIBPATH)
 
 # ---------------------------------------------------------------------------
-CFLAG1 = -Od -H- -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c -tW -tWM
+CFLAG1 = $(SYSCFLAGS) -tWM
 WARNINGS = -w-par
 LFLAGS = /P128
 
@@ -37,3 +39,6 @@ $(TARGET): $(OBJECTS)
     $(LFLAGS) $? 
 
 !
+
+clean:
+	$(RM) $(OBJECTS) $(TARGET)

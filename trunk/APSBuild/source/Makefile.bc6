@@ -7,19 +7,22 @@ BCB = $(MAKEDIR)\..
 #APSROOT=c:\progra~1\apsim33
 #APSROOT=c:\development
 
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
+
 DTOBJECTS=CreateDataTypesSource.obj CreateSource.obj CreateDataTypesF90.obj
 CIOBJECTS=CreateComponentInterfaceSource.obj ComponentInterfaceGenerator.obj
 
 LIBFILES = $(APSROOT)\Shared\general\general.lib $(APSROOT)\Shared\ApsimShared\ApsimShared.lib
 
-USERDEFINES =
+USERDEFINES = 
 SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
-INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(APSROOT)\Shared
-LIBPATH = $(BCB)\lib\obj;$(BCB)\lib
+INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared
+LIBPATH = $(SYSLIBPATH)
 
 # ---------------------------------------------------------------------------
 
-CFLAG1 = -O2 -H- -Vx -Ve -X- -r- -a8 -b- -k- -y -v -vi- -c -tW -tWM
+CFLAG1 = $(SYSCFLAGS) -tWM
 WARNINGS = -w-par
 LFLAGS =  -l. -D"" -aa -Tpe -x -Gn -v
 
@@ -32,7 +35,7 @@ LD=$(BCB)\Bin\ilink32
 # ---------------------------------------------------------------------------
 
 all: $(APSROOT)\Bin\CreateDataTypesSource.exe \
-$(APSROOT)\Bin\CreateComponentInterfaceSource.exe
+$(APSROOT)\Bin\CreateComponentInterfaceSource.exe 
 
 $(APSROOT)\Bin\CreateDataTypesSource.exe: $(DTOBJECTS)
 	$(LD) @&&!
@@ -51,7 +54,12 @@ $(APSROOT)\Bin\CreateComponentInterfaceSource.exe: $(CIOBJECTS)
 
 ####
 CreateDataTypesSource.obj: CreateDataTypesSource.cpp CreateSource.h CreateDataTypesF90.h
-CreateSource.obj: CreateSource.cpp CreateSource.h
+CreateSource.obj: CreateSource.cpp CreateSource.h 
 CreateComponentInterfaceSource.obj: CreateComponentInterfaceSource.cpp ComponentInterfaceGenerator.h
 ComponentInterfaceGenerator.obj: ComponentInterfaceGenerator.cpp ComponentInterfaceGenerator.h
 CreateDataTypesF90.obj: CreateDataTypesF90.cpp CreateDataTypesF90.h
+
+clean:
+	$(RM) $(DTOBJECTS) $(CIOBJECTS) \
+$(APSROOT)\Bin\CreateDataTypesSource.exe \
+$(APSROOT)\Bin\CreateComponentInterfaceSource.exe 
