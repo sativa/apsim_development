@@ -23,9 +23,10 @@
             <tr>
                <td width="100%" ><font face="Arial Narrow" size="5" color="#FF9900">General Documentation : </font><font face="Arial Narrow" size="2" >(Useful and general information about APSIM)</font></td>
             </tr>
+            <xsl:variable name="doc_loc"><xsl:value-of select="unparsed-entity-uri('docs')"/></xsl:variable>
             <xsl:for-each select="document/component">
             <tr>
-               <td width="100%" ><font size="4" face="Arial Narrow"><a href="{@type}"><xsl:value-of select="@name"/></a></font><font size="3" face="Arial Narrow"> : <xsl:value-of select="@description"/></font><br></br></td>
+               <td width="100%" ><font size="4" face="Arial Narrow"><a href="{$doc_loc}{@type}"><xsl:value-of select="@name"/></a></font><font size="3" face="Arial Narrow"> : <xsl:value-of select="@description"/></font><br></br></td>
             </tr>
             </xsl:for-each>
          </table>
