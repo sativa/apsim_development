@@ -1060,11 +1060,11 @@
 !- Implementation Section ----------------------------------
  
       ! Look for function first.
- 
+
       if (variable_name(1:5) .eq. 'date(') then
          call Manager_get_params (variable_name, Params)
          call Get_double_var (Unknown_module, 'today', '', Today, 
-     .                        numvals, 0, 10000000d0)
+     .                        numvals, 0d0, 10000000d0)
          call Double_var_to_string (Date(Params(1), Today), 
      .                              Variable_value)
  
@@ -1074,7 +1074,7 @@
          call Manager_get_params (variable_name, Params)
 
          call Get_double_var (Unknown_module, 'today', '', Today, 
-     .                        numvals, 0, 10000000d0)
+     .                        numvals, 0d0, 10000000d0)
  
          if (Date_within(Params(1), Params(2), Today)) then
             Variable_value = '1'
@@ -1142,7 +1142,7 @@
          endif
  
       endif
- 
+
       return
       end
 
