@@ -828,14 +828,14 @@ xf        =        1       1       1       1       1       1       1       1    
 !eo_crop_factor = 1.1
 
 !******************** Residue2 module ********************
-[all.residue2.parameters]
+[all.SurfaceOM.parameters]
 !unknown - guesses
-residue_wt =  500. !0.
-residue_cnr =  60.
-residue_type =  wheat
-pot_decomp_rate =  0.10 !0.02
+mass = 500. !0.
+cnr = 60.
+type = wheat
 
 !******************** Soiln2 module ********************
+name = wheat
 [all.soiln2.parameters]
 
 !                  1       2       3       4       5       6       7       8       9      10      11      12      13      14      15      16      17      18      19      20     21      22      23      24      25      26

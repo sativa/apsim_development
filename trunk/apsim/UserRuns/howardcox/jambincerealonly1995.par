@@ -549,9 +549,9 @@ if (next_crop = wheat OR next_crop = blank) then
       if (crop_in = 0 and ready_to_till_pre_sow = 1) then
          ! tillage
          if ('disc' = 'user_defined') then
-             residue2 tillage type = disc, f_incorp = 0 (), tillage_depth = 0
+             surfaceom tillage type = disc, f_incorp = 0 (), tillage_depth = 0
          else
-             residue2 tillage type = disc ()
+             surfaceom tillage type = disc ()
          endif
          ready_to_till_pre_sow = 0
          till_day_pre_sow = 0
@@ -714,9 +714,9 @@ if (next_crop = sorghum OR next_crop = blank) then
       if (crop_in = 0 and ready_to_till_pre_sow = 1) then
          ! tillage
          if ('disc' = 'user_defined') then
-             residue2 tillage type = disc, f_incorp = 0 (), tillage_depth = 0
+             surfaceom tillage type = disc, f_incorp = 0 (), tillage_depth = 0
          else
-             residue2 tillage type = disc ()
+             surfaceom tillage type = disc ()
          endif
          ready_to_till_pre_sow = 0
          till_day_pre_sow = 0
@@ -898,12 +898,12 @@ xf  =  1.000   1.000   1.000   1.000   1.000   1.000   1.000
 
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  residue2  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-[default.residue2.parameters]
+[default.SurfaceOM.parameters]
 
-   pot_decomp_rate   =    0.10  ()
-   residue_wt        =  500.0   ()  ! surface residues as biomass (kg/ha)
-   residue_cnr       =  76.0   ()  ! cn ratio of surface residues
-   residue_type      =  sorghum
+mass = 500.0   ()  ! surface residues as biomass (kg/ha)
+cnr = 76.0   ()  ! cn ratio of surface residues
+type = sorghum
+name = sorghum
 
 
 
