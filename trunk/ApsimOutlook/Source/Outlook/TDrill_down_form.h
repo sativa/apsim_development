@@ -65,7 +65,7 @@ __published:	// IDE-managed Components
 //   void __fastcall Tab_controlMouseDown(TObject *Sender,
 //          TMouseButton Button, TShiftState Shift, int X, int Y);
 private:	// User declarations
-   bool weAreExpanding;
+   bool weAreExpanding, fullExpColl, renamingNode;
    bool Is_variable_attribute (const char* name);
 
    void Refresh (void);
