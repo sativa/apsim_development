@@ -134,16 +134,23 @@ void parseModuleLine(const string& controlFileName, const string& moduleLine,
                             // replace any apsuite macros.
                             Replace_all(paramFile, "%apsuite", getApsimDirectory().c_str());
                             }
-                         if (instanceName.length() == 0)
-                            instanceName = moduleName;
 
+                         replaceAll(moduleName, "\'", "");
+                         replaceAll(moduleName, "\"", "");
+                         replaceAll(paramFile, "\'", "");
+                         replaceAll(paramFile, "\"", "");
                          ParamFile p;
                          p.fileName = paramFile;
                          p.sectionName = section;
                          p.moduleName = moduleName;
                          p.instanceName = instanceName;
                          if (instanceName == "")
-                            p.instanceName = moduleName;
+                            {
+                            if (moduleName.find("\\") != string::npos)
+                               p.instanceName = Path(moduleName).Get_name_without_ext();
+                            else
+                               p.instanceName = moduleName;
+                            }
                          p.fixUpModuleName();
                          paramFiles.push_back(p);
                          paramFile = "";
