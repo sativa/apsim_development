@@ -184,7 +184,7 @@ void __fastcall TDrill_down_form::ButtonClick(TObject *Sender)
    scenarios->getFactorAttributes(Factor_name, Factor_value, temp);
 
    TValueSelectionForm* ValSelectionForm  =
-                                scenarios->getUIForm(Factor_name,this) ;
+                                scenarios->getUIForm(Factor_name,Application->MainForm) ;
    if (ValSelectionForm == NULL)
       ValSelectionForm = ValueSelectionForm;
 
