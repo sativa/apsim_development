@@ -1,8 +1,504 @@
+      Module APSwimModule
+
+      character calc_section*(*)
+      parameter (calc_section = 'calc')
+
+      character crop_section*(*)
+      parameter (crop_section = 'crop')
+
+      character climate_section*(*)
+      parameter (climate_section = 'climate')
+
+      character init_section*(*)
+      parameter (init_section = 'init')
+
+      character runoff_section*(*)
+      parameter (runoff_section = 'runoff')
+
+      character solute_section*(*)
+      parameter (solute_section = 'solute')
+
+      character top_boundary_section*(*)
+      parameter (top_boundary_section = 'top_boundary')
+
+      character bottom_boundary_section*(*)
+      parameter (bottom_boundary_section = 'bottom_boundary')
+
+      character interp_key*(*)
+      parameter (interp_key = '-')
+
+      character bypass_flow_section*(*)
+      parameter (bypass_flow_section = 'bypass_flow')
+
+      integer M
+      parameter (M=100)
+
+      integer MP
+      parameter (MP=25) ! originally = 100
+
+!cnh      integer MPSL
+!cnh      parameter (MPSL=11) ! originally = 101
+
+      integer MDRT, MTRT
+      parameter (MDRT=11,MTRT=15) ! originally = 21 and 25
+
+      integer MTB
+      parameter (MTB = 50) ! originally 500
+
+      integer MTE
+      parameter (MTE=50) ! originally 500
+
+      integer MTR
+      parameter (MTR=50) ! originally 500
+
+      integer MTS
+      parameter (MTS=50) ! originally 500
+
+!cnh      integer MTSPR
+!cnh      parameter (MTSPR=25)
+
+      integer MV
+      parameter (MV=10)
+
+!cnh      integer MDSL
+!cnh      parameter (MDSL=11)
+
+!cnh      integer MTSL
+!cnh      parameter (MTSL=11)
+
+      integer SWIMLogSize
+      parameter (SWIMLogSize = 1000)
+
+      integer nsol
+      parameter (nsol = 20)
+
+      double precision effpar
+      parameter (effpar = 0.184d0)
+
+      integer max_table
+      parameter (max_table=20)
+
+      integer strsize
+      parameter (strsize = 50)
+
+
+      integer LUNrain
+      parameter (LUNrain = 10)
+
+      integer LUNevap
+      parameter (LUNevap = 11)
+
+
+! =====================================================================
+!     APSWIM Globals
+! =====================================================================
+      Type APSwimGlobals
+         real             swf(0:M)
+         real             potet  ! from met file
+         real             rain   ! from met file
+         real             mint
+         real             maxt
+         real             radn
+
+         integer          SWIMRainNumPairs
+         integer          SWIMEvapNumPairs
+         integer          SWIMSolNumPairs(nsol)
+
+         double precision SWIMRainTime (SWIMLogSize)
+         double precision SWIMRainAmt (SWIMLogSize)
+         double precision SWIMEqRainTime (SWIMLogSize)
+         double precision SWIMEqRainAmt (SWIMLogSize)
+         double precision SWIMEvapTime (SWIMLogSize)
+         double precision SWIMEvapAmt (SWIMLogSize)
+         double precision SWIMSolTime (nsol,SWIMLogSize)
+         double precision SWIMSolAmt (nsol,SWIMLogSize)
+
+         double precision TD_runoff
+         double precision TD_rain
+         double precision TD_evap
+         double precision TD_pevap
+         double precision TD_drain
+         double precision TD_soldrain(nsol)
+         double precision TD_wflow(0:M)
+         double precision TD_sflow(nsol,0:M)
+
+         double precision ll15(0:M)
+         double precision dul(0:M)
+         double precision sat(0:M)
+         double precision dlayer(0:M)
+
+         double precision t
+         double precision dt
+
+         double precision won
+         double precision woff
+         double precision wes
+         double precision wesp
+         double precision wex
+         double precision wbp
+         double precision winf
+         double precision h0
+         double precision wp
+         double precision wp0
+         double precision wdrn
+
+         double precision p(0:M)
+         double precision psi(0:M)
+         double precision th(0:M)
+         double precision thold(0:M)
+         double precision hk(0:M)
+         double precision q(0:M+1)
+         double precision h
+         double precision hold
+         double precision ron
+         double precision roff
+         double precision res
+         double precision resp
+         double precision rex
+         double precision qs(0:M)
+         double precision qex(0:M)
+
+         double precision slon (nsol)
+         double precision sloff (nsol)
+         double precision slex (nsol)
+         double precision slbp (nsol)
+         double precision slinf (nsol)
+         double precision slh0 (nsol)
+         double precision slsadd (nsol)
+         double precision slp (nsol)
+         double precision slp0 (nsol)
+         double precision sldrn (nsol)
+         double precision sldec (nsol)
+         double precision slprd (nsol)
+
+         double precision dc(nsol,M)
+         double precision csl(nsol,0:M)
+         double precision cslt(nsol,0:M)
+         double precision qsl(nsol,0:M+1)
+         double precision qsls(nsol,0:M)
+         double precision slsur (nsol)
+         double precision cslsur (nsol)
+         double precision rslon (nsol)
+         double precision rsloff (nsol)
+         double precision rslex (nsol)
+         double precision rsldec (nsol)
+         double precision rslprd (nsol)
+         double precision qslprd(nsol,0:M)
+
+         logical demand_is_met(MV,nsol)
+
+         character solute_owners (nsol)*(strsize)
+
+         double precision work
+         double precision slwork
+
+         double precision hmin
+         double precision gsurf
+
+         integer day
+         integer year
+         real    apsim_timestep
+         integer start_day
+         integer start_year
+         character apsim_time*10
+         logical run_has_started
+
+
+         double precision psim
+         double precision psimin(MV)
+         double precision rld(0:M,MV)
+         double precision rc(0:M,MV)
+         double precision rtp(MV)
+         double precision rt(MV)
+         double precision ctp(MV)
+         double precision ct(MV)
+         double precision qr(0:M,MV)
+         double precision slup(MV,nsol) ! this seems a silly declaration
+                                     ! from what I see it makes no difference
+                                     ! because it is not used.
+
+         character crop_names (MV)*(strsize)
+         character crop_owners (MV)*(strsize)
+         integer num_crops
+         integer          nveg
+         double precision root_radius(MV)
+         double precision root_conductance(MV)
+         double precision pep(MV)
+         double precision solute_demand (MV,nsol)
+
+         double precision crop_cover
+         double precision residue_cover
+         double precision cover_green_sum
+
+         double precision hbp
+         double precision hbp0
+         double precision hbpold
+         double precision qbp
+         double precision qbpd
+!cnh      double precision slbp0
+         double precision qslbp (nsol)
+
+         double precision gf
+
+         double precision swta(M)
+
+         double precision psuptake(nsol,MV,0:M)
+         double precision pwuptake(MV,0:M)
+         double precision cslold(nsol,0:M)
+
+         double precision hyscon
+
+         double precision hys(0:M)
+         double precision hysref(0:M)
+         double precision hysdry(0:M)
+
+      End Type APSwimGlobals
+! =====================================================================
+!     APSWIM Parameters
+! =====================================================================
+      Type APSwimParameters
+         character        rainfall_source*50       ! source of rainfall data
+         character        evap_source*50       ! file containing evap data
+         character        evap_curve*5
+         character        echo_directives*5
+         real             salb
+
+         character        soil_type(0:M)*10
+         double precision slmin
+         double precision slmax
+         double precision sl(0:M,MP)
+         double precision wc(0:M,MP)
+         double precision wcd(0:M,MP)
+         double precision hkl(0:M,MP)
+         double precision hkld(0:M,MP)
+
+         integer          ivap
+         integer          isbc
+         integer          itbc
+         integer          ibbc
+
+         character        solute_names (nsol)*(strsize)
+         character        extra_solute_supply_flag*(strsize)
+         character        solute_exclusion_flag*(strsize)
+         integer          num_solutes
+
+         double precision dw
+         double precision dtmin
+         double precision dtmax
+         double precision dtmax_sol
+         integer          isol
+
+         double precision ersoil
+         double precision ernode
+         double precision errex
+         double precision dppl
+         double precision dpnl
+         double precision slcerr
+
+         double precision swt
+         double precision slswt
+
+!cnh added xbp 19-9-1994
+         double precision gbp
+         double precision sbp
+         double precision xbp
+         integer ibp
+
+         double precision hm0
+         double precision hm1
+         double precision hrc
+         double precision roff0
+         double precision roff1
+         double precision g0
+         double precision g1
+         double precision grc
+
+         double precision dis(nsol,0:M)
+         double precision ex(nsol,0:M)
+         double precision alpha(nsol,0:M)
+         double precision beta(nsol,0:M)
+         double precision betaex(nsol,0:M)
+         double precision cslgw(nsol)
+         double precision slupf (nsol)
+         double precision slos (nsol)
+         double precision slsci (nsol)
+         double precision slscr (nsol)
+         double precision dcon (nsol)
+         double precision dthc (nsol)
+         double precision dthp (nsol)
+         double precision disp (nsol)
+         double precision fip(nsol,0:M)
+
+         double precision constant_gradient
+         double precision constant_potential
+         double precision init_psi  (0:M)
+         double precision rhob(0:M)
+         double precision exco(nsol,0:M)
+         character        crop_table_name (MV)*(strsize)
+         double precision crop_table_psimin(MV)
+         double precision crop_table_root_radius(MV)
+         double precision crop_table_root_con(MV)
+
+         integer          n
+         double precision x(0:M)
+         double precision dx(0:M)
+
+
+      End Type APSwimParameters
+! =====================================================================
+!     APSWIM Constants
+! =====================================================================
+      Type APSwimConstants
+         double precision
+     :       lb_exco ,ub_exco
+     :      ,lb_fip ,ub_fip
+     :      ,lb_dis ,ub_dis
+     :      ,lb_slupf ,ub_slupf
+     :      ,lb_slos ,ub_slos
+     :      ,lb_d0 ,ub_d0
+     :      ,lb_a ,ub_a
+     :      ,lb_dthc ,ub_dthc
+     :      ,lb_dthp ,ub_dthp
+     :      ,lb_disp ,ub_disp
+     :      ,lb_solute, ub_solute
+
+         integer          num_trf_asw
+
+         real             min_crit_temp
+         real             max_crit_temp
+         real             max_albedo
+
+         double precision max_bitesize
+         double precision supply_fraction
+         double precision trf_asw (max_table)
+         double precision trf_value (max_table)
+         double precision a_to_evap_fact
+         double precision canopy_eos_coef
+
+         character        cover_effects*5
+
+         double precision negative_conc_warn
+         double precision negative_conc_fatal
+
+         integer          max_iterations
+
+      End Type APSwimConstants
+
+      ! instance variables.
+      type (APSwimGlobals), pointer :: g
+      type (APSwimParameters), pointer :: p
+      type (APSwimConstants), pointer :: c
+      integer MAX_NUM_INSTANCES
+      parameter (MAX_NUM_INSTANCES=10)
+      integer MAX_INSTANCE_NAME_SIZE
+      parameter (MAX_INSTANCE_NAME_SIZE=50)
+      type APSwimDataPtr
+         type (APSwimGlobals), pointer ::    gptr
+         type (APSwimParameters), pointer :: pptr
+         type (APSwimConstants), pointer ::  cptr
+         character Name*(MAX_INSTANCE_NAME_SIZE)
+      end type APSwimDataPtr
+      type (APSwimDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+
+
+
+
+! =====================================================================
+!     APSWIM Unused - Not required from SWIM Standalone Version
+! =====================================================================
+!cnh      integer itime
+!cnh      integer idepth
+!cnh      double precision slxc
+!cnh      double precision slpmax
+!cnh      double precision slpc1
+!cnh      double precision slpc2
+!cnh      double precision scycle
+!cnh      double precision asl1
+!cnh      double precision bsl1
+!cnh      double precision asl2
+!cnh      double precision bsl2
+
+!cnh      integer ndrt(MV)
+!cnh      integer ntrt(MV)
+
+!cnh      real drt(MDRT,MV)
+!cnh      real trt(MTRT,MV)
+!cnh      real grt(MDRT,MTRT,MV)
+
+!cnh      integer ifts
+!cnh      integer ists
+!cnh      integer its
+!cnh      integer lus
+!cnh      real    ts(2,1:MTS)
+
+!c      double precision t0
+!c      double precision tfin
+!c      double precision tcycle
+
+!cnh      double precision effpar
+!cnh      integer iftr
+!cnh      integer istr
+!cnh      integer itr
+!cnh      integer lur
+!cnh      real tr(2,1:MTR)
+!cnh      real teqr(2,1:MTR)
+
+!c      double precision effpar
+
+!cnh      integer ifte
+!cnh      integer iste
+!cnh      integer ite
+!cnh      integer lue
+!cnh      real te(2,1:MTE)
+
+!cnh      real tspr(2,1:MTSPR)
+!cnh      integer luspr
+!cnh      integer istspr
+!cnh      integer iftspr
+!cnh      integer itspr
+
+!cnh      real dsl(MDSL)
+!cnh      real tsl(MTSL)
+!cnh      real psl(MDSL,MTSL)
+!cnh      integer ndsl
+!cnh      integer ntsl
+
+!cnh      integer lub
+!cnh      integer istb
+!cnh      integer iftb
+!cnh      integer itb
+!cnh      real    tb(2,1:MTB)
+
+!cnh       double precision xc(MV)
+!cnh       double precision rldmax(MV)
+!cnh       double precision fevmax(MV)
+!cnh       double precision vcycle(MV)
+!cnh       double precision arld1(MV)
+!cnh       double precision brld1(MV)
+!cnh       double precision arld2(MV)
+!cnh       double precision brld2(MV)
+
+!cnh      double precision tzero
+!cnh      double precision eqr0
+
+!cnh      integer          igrow(MV)
+!cnh      integer          iroot(MV)
+
+!cnh      double precision pint
+
+!cnh      integer indxsl(nsol,0:M)
+!cnh      double precision wtint(0:M)
+
+! =====================================================================
+
+
+
+      contains
+
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -21,13 +517,12 @@
       Instances(InstanceNo)%Name = InstanceName
 
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -44,13 +539,12 @@
       deallocate (Instances(anInstanceNo)%cptr)
 
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -67,14 +561,13 @@
       c => Instances(anInstanceNo)%cptr
 
       return
-      end
+      end subroutine
 
 C     Last change:  DSG  15 Jun 2000    4:33 pm
 * ====================================================================
        subroutine Main (Action, Data_string)
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -156,15 +649,14 @@ C     Last change:  DSG  15 Jun 2000    4:33 pm
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_Reset ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -253,15 +745,14 @@ C     Last change:  DSG  15 Jun 2000    4:33 pm
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_read_param ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -916,15 +1407,14 @@ c     :              1.0d0)
 
       call pop_Routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_get_other_variables ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -975,15 +1465,14 @@ c      ret_string = get_variable_value('rain')
 c      read(ret_string, *, iostat = err_code) g%rain
 
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_set_other_variables ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -996,15 +1485,14 @@ c      read(ret_string, *, iostat = err_code) g%rain
 *- Implementation Section ----------------------------------
 
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_Send_my_variable (Variable_name)
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -1019,11 +1507,7 @@ c      read(ret_string, *, iostat = err_code) g%rain
 *       02/11/99 jngh removed crop_cover
 
 *+  Calls
-       double precision apswim_cevap   ! function
-       double precision apswim_crain   ! function
-       integer          apswim_solute_number ! function
-       double precision apswim_time    ! function
-       integer          apswim_time_to_mins ! function
+
 
 *+  Local Variables
        double precision conc_water_solute(0:M)
@@ -1393,15 +1877,14 @@ cnh added as per request by Dr Val Snow
       endif
 
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_set_my_variable (Variable_name)
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -1415,7 +1898,7 @@ cnh added as per request by Dr Val Snow
 *      21-06-96 NIH Changed respond2set calls to collect calls
 
 *+  Calls
-      integer apswim_solute_number
+
 
 *+  Local Variables
       integer          node
@@ -1537,15 +2020,14 @@ cnh added as per request by Dr Val Snow
       endif
 
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_zero_variables ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -1966,13 +2448,12 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
       p%extra_solute_supply_flag = 'off'
 
       return
-      end
+      end subroutine
 
 * ====================================================================
        subroutine apswim_zero_module_links ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -1994,7 +2475,7 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
   100 continue
 
       return
-      end
+      end subroutine
 
 
 
@@ -2002,8 +2483,7 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 * ====================================================================
        subroutine apswim_Prepare ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -2064,15 +2544,14 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 
 
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_post ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -2085,15 +2564,14 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 *- Implementation Section ----------------------------------
 
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_end_run ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -2114,7 +2592,7 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
       endif
 
       return
-      end
+      end subroutine
 
 
 
@@ -2122,8 +2600,7 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 * ====================================================================
        subroutine apswim_init_calc ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -2135,8 +2612,7 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 *   8-7-94 NIH - programmed and specified
 
 *+  Calls
-      double precision apswim_time
-      integer          apswim_time_to_mins
+
 
 *+  Constant Values
       character myname*(*)               ! name of current procedure
@@ -2323,15 +2799,14 @@ c   47       continue
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_interp (node,tpsi,tth,thd,hklg,hklgd)
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -2368,7 +2843,6 @@ c   47       continue
       double precision a3
       double precision dy
       integer          i
-      integer          ihys
       integer          j
       integer          jhys
       integer          k
@@ -2433,15 +2907,14 @@ c   47       continue
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        double precision function apswim_suction (node, theta)
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -2591,15 +3064,14 @@ c   47       continue
 
       call pop_routine (myname)
       return
-      end
+      end function
 
 
 
 * ====================================================================
        logical function apswim_swim (timestep_start, timestep)
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -2626,13 +3098,7 @@ c   47       continue
 *                    to action_send_to_all_comps(action)
 
 *+  Calls
-       double precision apswim_crain
-       double precision apswim_cevap
-       real             apswim_eqrain
-       double precision apswim_csol
-       double precision dubound
-       double precision ddivide
-c       real bound
+
 
 *+  Constant Values
       character myname*(*)               ! name of current procedure
@@ -2951,15 +3417,14 @@ cnh
 
       call pop_routine (myname)
       return
-      end
+      end function
 
 
 
 * ====================================================================
        integer function apswim_time_to_mins (timestring)
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -3003,15 +3468,14 @@ cnh
 
       call pop_routine (myname)
       return
-      end
+      end function
 
 
 
 * ====================================================================
        subroutine apswim_Process ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -3029,9 +3493,6 @@ cnh
 *     <insert here>
 
 *+  Calls
-       logical apswim_swim             ! function
-       double precision apswim_time    ! function
-       integer apswim_time_to_mins     ! function
 
 *+  Constant Values
       character myname*(*)
@@ -3075,15 +3536,14 @@ cnh
 
       call pop_routine(myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_sum_report ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -3344,15 +3804,14 @@ cnh     :       p%x(layer), p%soil_type(layer), g%th(layer),g%psi(layer)*1000.,
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_reset_daily_totals()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -3395,15 +3854,14 @@ cnh     :       p%x(layer), p%soil_type(layer), g%th(layer),g%psi(layer)*1000.,
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_check_inputs ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -3480,15 +3938,14 @@ cnh     :       p%x(layer), p%soil_type(layer), g%th(layer),g%psi(layer)*1000.,
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_init_defaults ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -3530,15 +3987,14 @@ c      eqr0  = 0.d0
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        double precision function apswim_crain (time)
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -3552,7 +4008,7 @@ c      eqr0  = 0.d0
 *   NeilH - 29-09-1994 - Programmed and Specified
 
 *+  Calls
-       double precision dlinint          ! function
+
 
 *+  Constant Values
       character myname*(*)               ! name of current procedure
@@ -3571,15 +4027,14 @@ c      eqr0  = 0.d0
 
       call pop_routine (myname)
       return
-      end
+      end function
 
 
 
 * ====================================================================
        double precision function apswim_cevap (time)
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -3593,7 +4048,7 @@ c      eqr0  = 0.d0
 *   NeilH - 29-09-1994 - Programmed and Specified
 
 *+  Calls
-       double precision dlinint          ! function
+
 
 *+  Constant Values
       character myname*(*)               ! name of current procedure
@@ -3662,7 +4117,7 @@ c      eqr0  = 0.d0
 
       call pop_routine (myname)
       return
-      end
+      end function
 
 
 
@@ -3693,7 +4148,7 @@ c      eqr0  = 0.d0
 *       230994 nih adapted from linear_interp_real
 
 *+  Calls
-      double precision ddivide     ! function
+
 
 *+  Local Variables
       integer          indx        ! position in table
@@ -3748,21 +4203,20 @@ c      eqr0  = 0.d0
       dlinint = y
 
       return
-      end
+      end function
 
 
 
 *     ===========================================================
       double precision function ddivide (dividend, divisor, default)
 *     ===========================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
       double precision default     ! (INPUT) default value if overflow
-      double precision dividend    ! (INPUT) dividend
+      double precision dividend    ! (INPUT) dividend subroutine
       double precision divisor     ! (INPUT) divisor
 
 *+  Purpose
@@ -3820,15 +4274,14 @@ c      eqr0  = 0.d0
       ddivide = quotient
 
       return
-      end
+      end function
 
 
 
 * ====================================================================
        double precision function apswim_time (yy,dd,tt)
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -3884,15 +4337,14 @@ c      endif
 
       call pop_routine (myname)
       return
-      end
+      end function
 
 
 
 * ====================================================================
        subroutine apswim_init_change_units ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -3940,15 +4392,14 @@ c      endif
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        real function apswim_eqrain (time)
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -3962,7 +4413,7 @@ c      endif
 *   NeilH - 28-11-1996 - Programmed and Specified
 
 *+  Calls
-      double precision dlinint          ! function
+
 
 *+  Constant Values
       character myname*(*)               ! name of current procedure
@@ -3980,15 +4431,14 @@ c      endif
 
       call pop_routine (myname)
       return
-      end
+      end function
 
 
 
 * ====================================================================
        subroutine apswim_read_solute_params ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -3999,7 +4449,6 @@ c      endif
 *   nih - 15-12-1994 - Programmed and Specified
 
 *+  Calls
-cnh       include 'utility.inc'
 
 *+  Constant Values
       character myname*(*)               ! name of current procedure
@@ -4199,15 +4648,14 @@ cnh               g%slscr(solnum) = table_slscr(solnum2)
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_read_solsoil_params ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -4218,7 +4666,7 @@ cnh               g%slscr(solnum) = table_slscr(solnum2)
 *   nih - 15-12-1994 - Programmed and Specified
 
 *+  Calls
-cnh       include 'utility.inc'
+
 
 *+  Constant Values
       character myname*(*)               ! name of current procedure
@@ -4339,15 +4787,14 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_get_solute_variables ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -4381,15 +4828,14 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_set_solute_variables ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -4484,15 +4930,14 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
   100 continue
 
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_read_crop_params ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -4556,15 +5001,14 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_assign_crop_params ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -4575,7 +5019,7 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
 *   nih - 15-12-1994 - Programmed and Specified
 
 *+  Calls
-cnh       include 'utility.inc'
+
 
 *+  Constant Values
       character myname*(*)               ! name of current procedure
@@ -4624,15 +5068,14 @@ cnh       include 'utility.inc'
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_find_crops ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -4644,7 +5087,7 @@ cnh       include 'utility.inc'
 *   nih - 27-05-1996 - Changed call get_last_module to get_posting_module
 
 *+  Calls
-cnh       include 'utility.inc'
+
 
 *+  Constant Values
       character myname*(*)               ! name of current procedure
@@ -4695,15 +5138,14 @@ cnh       include 'utility.inc'
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_get_crop_variables ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -4829,15 +5271,14 @@ cnh different to the way the rest of the crop variables are obtained.
 cnh
 
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_ONirrigated ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -4857,9 +5298,7 @@ cnh
 *   neilh - 29-08-1997 added test for whether directives are to be echoed
 
 *+  Calls
-       double precision apswim_time
-       integer          apswim_time_to_mins
-       double precision ddivide
+
 
 *+  Constant Values
       character myname*(*)               ! name of current procedure
@@ -5030,15 +5469,14 @@ cnh NOTE - intensity is not part of the official design !!!!?
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        double precision function apswim_csol (solnum,time)
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -5053,7 +5491,7 @@ cnh NOTE - intensity is not part of the official design !!!!?
 *   NeilH - 29-09-1994 - Programmed and Specified
 
 *+  Calls
-       double precision dlinint          ! function
+
 
 *+  Constant Values
       character myname*(*)               ! name of current procedure
@@ -5084,15 +5522,14 @@ cnh NOTE - intensity is not part of the official design !!!!?
 
       call pop_routine (myname)
       return
-      end
+      end function
 
 
 
 * ====================================================================
        subroutine apswim_get_uptake (ucrop, uname, uarray, uunits,uflag)
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -5169,7 +5606,7 @@ cnh NOTE - intensity is not part of the official design !!!!?
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -5196,7 +5633,7 @@ cnh NOTE - intensity is not part of the official design !!!!?
       dubound = min (var, upper)
 
       return
-      end
+      end function
 
 
 
@@ -5223,15 +5660,14 @@ cnh NOTE - intensity is not part of the official design !!!!?
       dlbound = max (var, lower)
 
       return
-      end
+      end function
 
 
 
 * ====================================================================
        integer function apswim_solute_number (solname)
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -5267,15 +5703,14 @@ cnh NOTE - intensity is not part of the official design !!!!?
 
       call pop_routine (myname)
       return
-      end
+      end function
 
 
 
 * ====================================================================
        subroutine apswim_get_rain_variables ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -5287,9 +5722,7 @@ cnh NOTE - intensity is not part of the official design !!!!?
 *    24/6/98 NIH - added check for swim getting rainfall from itself
 
 *+  Calls
-       double precision apswim_time    ! function
-       integer          apswim_time_to_mins ! function
-       double precision ddivide        ! function
+
 
 *+  Local Variables
       integer numvals                  ! number of values returned
@@ -5377,15 +5810,14 @@ cnh NOTE - intensity is not part of the official design !!!!?
       endif
 
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine apswim_pot_evapotranspiration (pot_eo)
 *     ===========================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -5399,7 +5831,7 @@ cnh NOTE - intensity is not part of the official design !!!!?
 *            26/5/95 NIH - adapted from soilwat_pot_evapotranspiration
 
 *+  Calls
-      real       apswim_eeq_fac       ! function
+
 
 *+  Constant Values
       character  my_name*(*)           ! name of subroutine
@@ -5438,15 +5870,14 @@ cnh NOTE - intensity is not part of the official design !!!!?
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       real function apswim_eeq_fac ()
 *     ===========================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -5488,15 +5919,14 @@ cnh NOTE - intensity is not part of the official design !!!!?
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
 * ====================================================================
        subroutine apswim_read_constants ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -5836,7 +6266,7 @@ cnh NOTE - intensity is not part of the official design !!!!?
 
       call pop_Routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -5900,15 +6330,14 @@ cnh NOTE - intensity is not part of the official design !!!!?
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_calc_evap_variables ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -5919,8 +6348,7 @@ cnh NOTE - intensity is not part of the official design !!!!?
 *   neilh - 26-05-1995 - Programmed and Specified
 
 *+  Calls
-       integer apswim_time_to_mins       ! function
-       double precision apswim_time      ! function
+
 
 *+  Constant Values
       character myname*(*)               ! name of current procedure
@@ -5979,7 +6407,7 @@ cnh NOTE - intensity is not part of the official design !!!!?
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -6102,15 +6530,14 @@ c      endif
 
       call pop_routine (myname)
       return
-      end
+      end function
 
 
 
 * ====================================================================
        subroutine apswim_recalc_eqrain ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -6121,7 +6548,6 @@ c      endif
 *   neilh - 29-05-1995 - Programmed and Specified
 
 *+  Calls
-      double precision ddivide           ! function
 
 *+  Constant Values
       character myname*(*)               ! name of current procedure
@@ -6159,15 +6585,14 @@ c      endif
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_tillage ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -6181,7 +6606,7 @@ c      endif
 *   neilh - 29-08-1997 added test for whether directives are to be echoed
 
 *+  Calls
-      ! real  apswim_eqrain                     ! function
+
 
 *+  Constant Values
       character myname*(*)               ! name of current procedure
@@ -6290,15 +6715,14 @@ c      endif
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_reset_water_balance (wc_flag, water_content)
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -6314,10 +6738,7 @@ c      endif
 *   neilh - 02-06-1995 - Programmed and Specified
 
 *+  Calls
-      double precision apswim_suction  ! function
-      double precision apswim_theta    ! function
-      double precision apswim_wpf      ! function
-      double precision apswim_pf       ! function
+
 
 *+  Constant Values
       character myname*(*)               ! name of current procedure
@@ -6354,7 +6775,7 @@ c      endif
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -6395,7 +6816,7 @@ c      endif
 
       call pop_routine (myname)
       return
-      end
+      end function
 
 
 
@@ -6470,7 +6891,7 @@ c      endif
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -6570,15 +6991,14 @@ c      endif
       endif
 
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_hmin (deqrain, sstorage)
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -6593,7 +7013,7 @@ c      endif
 *   neilh - 14-09-1995 - Programmed and Specified
 
 *+  Calls
-      double precision ddivide           ! function
+
 
 *+  Constant Values
       character myname*(*)               ! name of current procedure
@@ -6647,15 +7067,14 @@ cnh      end if
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_freundlich (node, solnum, Cw, Ctot, dCtot)
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -6690,7 +7109,7 @@ cnh      end if
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -6698,8 +7117,7 @@ cnh      end if
        double precision function apswim_solve_freundlich
      :                                      (node, solnum, Ctot)
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -6716,7 +7134,7 @@ cnh      end if
 *   18-9-95 NIH - programmed and specified
 
 *+  Calls
-      double precision ddivide
+
 
 *+  Constant Values
       integer max_iterations
@@ -6786,15 +7204,14 @@ cnh      end if
 
       call pop_routine (myname)
       return
-      end
+      end function
 
 
 
 * ====================================================================
        subroutine apswim_get_obs_evap_variables ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -6806,8 +7223,7 @@ cnh      end if
 *    24/6/98 NIH - added check for swim getting Eo from itself
 
 *+  Calls
-       double precision apswim_time    ! function
-       integer          apswim_time_to_mins ! function
+
 
 *+  Local Variables
       integer numvals                  ! number of values returned
@@ -6873,15 +7289,14 @@ cnh      end if
 
 
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_extra_solute_supply ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -6916,9 +7331,7 @@ cnh      end if
 *   neilh - 20-12-1995 - Programmed and Specified
 
 *+  Calls
-      double precision apswim_solute_amount   ! function
-      double precision apswim_solute_conc     ! function
-      double precision ddivide                ! function
+
 
 *+  Constant Values
       double precision bitesize_tolerence
@@ -7111,15 +7524,14 @@ cnh      end if
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        double precision function apswim_solute_amount (solnum,node)
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -7165,7 +7577,7 @@ cnh      end if
 
       call pop_routine (myname)
       return
-      end
+      end function
 
 
 
@@ -7186,8 +7598,7 @@ cnh      end if
 *   neilh - 20-12-1995 - Programmed and Specified
 
 *+  Calls
-      double precision dlbound
-      double precision dubound
+
 
 *+  Constant Values
       character myname*(*)               ! name of current procedure
@@ -7200,15 +7611,14 @@ cnh      end if
 
       call pop_routine (myname)
       return
-      end
+      end function
 
 
 
 * ====================================================================
        double precision function apswim_solute_conc (solnum,node,amount)
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -7224,7 +7634,7 @@ cnh      end if
 *   neilh - 20-12-1995 - Programmed and Specified
 
 *+  Calls
-      double precision apswim_solve_freundlich  ! function
+
 
 *+  Constant Values
       character myname*(*)               ! name of current procedure
@@ -7255,15 +7665,14 @@ cnh      end if
 
       call pop_routine (myname)
       return
-      end
+      end function
 
 
 
 * ====================================================================
        double precision function apswim_transp_redn (crop_num)
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -7277,11 +7686,7 @@ cnh      end if
 *   neilh - 30-01-1996 - Programmed and Specified
 
 *+  Calls
-      double precision apswim_theta
-      double precision dbound
-      double precision dlbound
-      double precision ddivide
-      double precision dlinint
+
 
 *+  Constant Values
       character myname*(*)               ! name of current procedure
@@ -7330,15 +7735,14 @@ cnh      end if
 
       call pop_routine (myname)
       return
-      end
+      end function
 
 
 
 * ====================================================================
        double precision function apswim_slupf (crop, solnum)
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -7384,15 +7788,14 @@ c     :       max(g%solute_demand (crop,solnum) - tpsuptake,0d0)
 
       call pop_routine (myname)
       return
-      end
+      end function
 
 
 
 * ====================================================================
        subroutine apswim_check_demand ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -7461,15 +7864,14 @@ c     :       max(g%solute_demand (crop,solnum) - tpsuptake,0d0)
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_report_status ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -7517,7 +7919,7 @@ c      pause
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -7555,8 +7957,7 @@ c      pause
 *   28-11-96 NIH - programmed and specified
 
 *+  Calls
-       integer apswim_time_to_mins          ! function
-       double precision apswim_time         ! function
+
 
 *+  Constant Values
       character myname*(*)               ! name of current procedure
@@ -7644,7 +8045,7 @@ c      pause
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -7677,7 +8078,7 @@ c      pause
 *   neilh - 28-11-1996 - adapted from apswim_insert_evap
 
 *+  Calls
-       double precision dlinint
+
 
 *+  Constant Values
       character myname*(*)               ! name of current procedure
@@ -7791,7 +8192,7 @@ c      pause
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -7862,15 +8263,14 @@ c      pause
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_conc_water_solute (solname,conc_water_solute)
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -7892,8 +8292,7 @@ c      pause
 *     20-08-1998 - hills - added checking to make sure solute is found
 
 *+  Calls
-      double precision apswim_solve_freundlich
-      integer          apswim_solute_number
+
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -7969,15 +8368,14 @@ c      pause
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_conc_adsorb_solute (solname,conc_adsorb_solute)
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -8000,9 +8398,7 @@ c      pause
 *     21-08-1998 - hills - changed conc_adsorb calculation to be more stable
 
 *+  Calls
-      double precision apswim_solve_freundlich
-      integer          apswim_solute_number
-      double precision ddivide
+
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -8088,7 +8484,7 @@ c      pause
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -8096,8 +8492,7 @@ c      pause
       subroutine apswim_get_flow (flow_name, flow_array, flow_units
      :                           ,flow_flag)
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -8157,15 +8552,14 @@ c      pause
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine apswim_diagnostics (pold)
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -8226,13 +8620,12 @@ c      pause
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 * ====================================================================
        subroutine apswim_get_residue_variables ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -8263,13 +8656,12 @@ c      pause
          endif
 
       return
-      end
+      end subroutine
 
 * ====================================================================
       double precision function apswim_cover_eos_redn  ()
 * ====================================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -8330,14 +8722,13 @@ c      pause
 
       call pop_routine (myname)
       return
-      end
+      end function
 
 
 *     ===========================================================
       subroutine apswim_on_new_solute ()
 *     ===========================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -8351,7 +8742,7 @@ c      pause
 *       170599 nih - specified
 
 *+  Calls
-      integer apswim_solute_number
+
 
 *+  Constant Values
       character  my_name*(*)           ! this subroutine name
@@ -8396,14 +8787,13 @@ c      pause
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine apswim_ONtick ()
 *     ===========================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -8417,8 +8807,6 @@ c      pause
 *        270899 nih
 
 *+  Calls
-       integer apswim_time_to_mins   ! function
-       double precision apswim_time  ! function
 
 *+  Local Variables
       integer intTimestep
@@ -8478,13 +8866,12 @@ c      pause
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 * ====================================================================
        subroutine apswim_remove_interception ()
 * ====================================================================
-      use APSwimModule
-       use Infrastructure
+             use Infrastructure
       Use infrastructure
       implicit none
 
@@ -8494,9 +8881,7 @@ c      pause
 *+   Changes
 
 *+  Calls
-      double precision ddivide
-       integer apswim_time_to_mins   ! function
-       double precision apswim_time  ! function
+
 
 *+  Local Variables
       integer numvals                  ! number of values returned
@@ -8566,13 +8951,12 @@ c      pause
       endif
 
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine apswim_New_Profile_Event ()
 *     ===========================================================
-      use APSwimModule
-      use Infrastructure
+            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -8642,4 +9026,9 @@ c      pause
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
+
+
+      include 'swim.for'
+
+      end module APSwimModule
