@@ -1,28 +1,34 @@
 //---------------------------------------------------------------------------
-#include <general\pch.h>
-#include <vcl.h>
+
+#include <basepch.h>
 #pragma hdrstop
-USEFORM("TDirectorySelectForm.cpp", DirectorySelectForm);
-USEFORM("TLibraryForm.cpp", LibraryForm);
-USEFORM("TStringsForm.cpp", StringsForm);
 USEFORM("TPropertyForm.cpp", PropertyForm);
+USEFORM("TApsimFileReaderForm.cpp", ApsimFileReaderForm);
+USEFORM("TChartForm.cpp", ChartForm);
+USEFORM("TDirectorySelectForm.cpp", DirectorySelectForm);
+USEFORM("TExcelForm.cpp", ExcelForm);
 USEFORM("TFilterForm.cpp", FilterForm);
+USEFORM("TImageForm.cpp", ImageForm);
+USEFORM("TLibraryForm.cpp", LibraryForm);
+USEFORM("TProbabilityForm.cpp", ProbabilityForm);
+USEFORM("TREMSForm.cpp", REMSForm);
+USEFORM("TShapeForm.cpp", ShapeForm);
 USEFORM("TSOIForm.cpp", SOIForm);
 USEFORM("TStatsForm.cpp", StatsForm);
-USEFORM("TChartForm.cpp", ChartForm);
-USEFORM("TImageForm.cpp", ImageForm);
-USEFORM("TShapeForm.cpp", ShapeForm);
+USEFORM("TStringsForm.cpp", StringsForm);
 USEFORM("TTextForm.cpp", TextForm);
-//---------------------------------------------------------------------------
-#pragma package(smart_init)
 HINSTANCE instanceHandle;
 //---------------------------------------------------------------------------
+#pragma package(smart_init)
+//---------------------------------------------------------------------------
+
 //   Package source.
 //---------------------------------------------------------------------------
+
 #pragma argsused
 int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void*)
-   {
+{
    instanceHandle = hinst;
    return 1;
-   }
+}
 //---------------------------------------------------------------------------
