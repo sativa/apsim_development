@@ -1,30 +1,34 @@
+! ================================= Test One  =====================================
+! Test for capping of crop water use - ep should be capped proportional to Eo value
+! *** Note capping may need to be turned on in the ini file.
+
+[sample.SummaryFile.parameters]
+summaryfile = test.sum
+
+[sample.Screen.parameters]
+screen_output = on
+
 [sample.report.parameters]
-title =  Sugar Test for capping of crop water use
-screen_output =  on
-outputfile =  test.out /overwrite
-summaryfile =  test.sum /overwrite
+outputfile = test.out
 
-module_names =   clock
-variable_names =  today.dd/mm/yyyy
-variable_alias =  Date
-
-module_names =   soilwat2 soiln2 residue2   irrigate
-variable_names =  esw()   no3()  residue_wt irrigation
-variable_alias =  -       -      -          -
-
-module_names =   sugar   sugar     sugar           sugar       sugar        sugar     sugar        soilwat2
-variable_names =  lai    biomass   green_biomass   swdef_photo nfact_photo  sw_demand sw_demand_te eo
-variable_alias =  -         -         -            -           -                  -       -         -
-units =          -          -         -            -           -                  -      -          -
-
-
+variable = clock.dd/mm/yyyy as Date
+variable = soilwat2.esw
+variable = soiln2.no3()
+variable = residue2.residue_wt
+variable = irrigate.irrigation
+variable = sugar.lai
+variable = sugar.biomass
+variable = sugar.green_biomass
+variable = sugar.swdef_photo
+variable = sugar.nfact_photo
+variable = sugar.sw_demand
+variable = sugar.sw_demand_te
+variable = soilwat2.eo
 
 [sample.clock.parameters]
 ! Start and end date of run (day number of year and year)
-simulation_start_day =  100
-simulation_start_year =  1980
-simulation_end_day =  100
-simulation_end_year =  1982
+start_date = 9/4/1980     ! dd/mm/yyyy
+end_date = 10/4/1982     ! dd/mm/yyyy
 
 
 [sample.irrigate.parameters]
@@ -164,37 +168,39 @@ else
 endif
 
 !*****************************************************************************************
-[sample2.report.parameters]  
-title =  Sugar Sample Simulation   
-screen_output =  on   
-outputfile =  test2.out /overwrite   
-summaryfile =  test2.sum /overwrite   
+
+! ================================= Test Two  =====================================
+! Test for defect d-514, Sugar Lodging N problem from Heidi Horan
+
+
+[sample2.SummaryFile.parameters]
+summaryfile = test2.sum
+
+[sample2.Screen.parameters]
+screen_output = on
+
+[sample2.report.parameters]
+outputfile = test2.out
 format = csv
 
-module_names =   clock      clock
-variable_names =  day       year  
-variable_alias =  -           -   
-
-module_names =   soilwat2 soiln2 residue2    residue2   irrigate   
-variable_names =  esw()   no3()  residue_wt  residue_n  irrigation   
-variable_alias =  -       -      -            -             - 
-
-module_names =   sugar   sugar     sugar           sugar       sugar   
-variable_names =  lai    biomass   green_biomass   swdef_photo nfact_photo   
-variable_alias =  -         -         -            -           -   
-units =          -          -         -            -           -   
-
-module_names =   sugar              sugar           sugar      sugar      
-variable_names =  dm_senesced()    n_senesced()    dm_dead()   dlt_dm_detached()       
-variable_alias =  -                 -            -               -
-units =          -                  -            -               -
-
-module_names =   manager
-variable_names = error
-variable_alias =  -   
-units =          -    
-
-[sample2.manager.init]  
+variable = clock.day
+variable = clock.year
+variable = soilwat2.esw
+variable = soiln2.no3()
+variable = residue2.residue_wt
+variable = residue2.residue_n
+variable = irrigate.irrigation
+variable = sugar.lai
+variable = sugar.biomass
+variable = sugar.green_biomass
+variable = sugar.swdef_photo
+variable = sugar.nfact_photo
+variable = sugar.dm_senesced()
+variable = sugar.n_senesced()
+variable = sugar.dm_dead()
+variable = sugar.dlt_dm_detached()
+variable = manager.error
+[sample2.manager.init]
 
 ! The management logic for sugar cane here is fairly self-contained.  Many management
 ! scenarios can be handled by altering the management parameters below.  No changes to the
@@ -228,8 +234,8 @@ dah = 0
 sample = 0
 num_irr = 0
 
-[sample2.manager.end_of_day]  
- 
+[sample2.manager.end_of_day]
+
 
 ! dsg now do an N balance and calculate an 'error' (units g/m2)
 
@@ -241,18 +247,18 @@ num_irr = 0
   leach_n = (soilwat2.no3_leach(7))/10
   dnit_n  = (soiln2.dnit())/10
 
- total_n = soil_n + resid_n + plant_n 
+ total_n = soil_n + resid_n + plant_n
  losses = losses + leach_n + dnit_n
 
  bal_n = total_n + losses
  error = bal_n - bal_n_old
  bal_n_old = bal_n
 
- 
+
 report do_output
 
 [sample2.manager.start_of_day]
-      
+
 
 
 if sugar.crop_status = 'alive' then
@@ -278,7 +284,7 @@ if sugar.crop_status = 'alive' then
    endif
 
    ! Set harvest dates for each crop phase
-   if (das = plantlen and ratoon_no = 0) or     
+   if (das = plantlen and ratoon_no = 0) or
       (das = ratoonlen and ratoon_no > 0) then
 
       sugar harvest
@@ -286,7 +292,7 @@ if sugar.crop_status = 'alive' then
       if burn_flag = 1 then
          residue2 tillage type = burn
       endif
-         
+
       if ratoon_no = NoRatoons + 1 then
          ! plough the crop out
          sugar kill_crop
@@ -346,3 +352,4 @@ endif
 if day = 100 and year= 1981 then
 sugar lodge
 endif
+
