@@ -557,6 +557,7 @@
       include   'error.pub'
       include   'read.pub'
       include   'postbox.pub'
+      include   'datastr.pub'
 
 *+  Sub-Program Arguments
        integer Phase_no
