@@ -20,6 +20,14 @@ Variables =sw_dep
 ---------------------------------------------------------
  INPUT (met) Initialised
 ---------------------------------------------------------
+ day=   1 date=  1  1 1988 fertiliz -  Initialising
+ 
+   - Reading Parameters
+ 
+               Fertiliser Schedule (kg/ha)
+     -----------------------------------------------
+      No fertiliser schedule is used
+     -----------------------------------------------
  day=   1 date=  1  1 1988 manager  - Initialising
  
 Manager rules
@@ -130,14 +138,6 @@ report do_output
       Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
      ---------------------------------------------------------
  day=   1 date=  1  1 1988 slurp    - Initialising Version : V0.1 7/6/96
- day=   1 date=  1  1 1988 fertiliz -  Initialising
- 
-   - Reading Parameters
- 
-               Fertiliser Schedule (kg/ha)
-     -----------------------------------------------
-      No fertiliser schedule is used
-     -----------------------------------------------
  
 ======= Start of APSIM simulation ============================
  Day=   1 Year =  1988     Manager sending message :- fertiliz apply amount = 100 (), type = nh4no3 ()
