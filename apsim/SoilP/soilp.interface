@@ -43,6 +43,7 @@
       <respondToGetSetReg name="dlt_banded_p" type="dlt_banded_p"/>
       <respondToGetSetReg name="dlt_rock_p" type="dlt_rock_p"/>
       <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="reset" type="reset"/>
       <respondToEventReg name="sum_report" type="sum_report"/>
       <respondToEventReg name="tillage" type="tillage"/>
       <respondToEventReg name="incorp_fom" type="incorp_fom"/>
