@@ -805,8 +805,8 @@
       </element>
    </type>
 
-!dsg 030702
-   <type name="SurfaceOrganicMatter" >  !for each residue instance
+!dsg 030702 for each residue instance
+   <type name="SurfaceOrganicMatter" >
       <field name="name" kind="string"/>
       <field name="OrganicMatterType" kind="string"/>
       <field name="OrganicMatterFraction" array="T">
