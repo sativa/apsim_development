@@ -112,6 +112,8 @@ height="73"></p>
 
 <li><A HREF = "#cproc_leaf_no_pot2"> cproc_leaf_no_pot2 </A>
 
+<li><A HREF = "#cproc_leaf_area_pot_tpla"> cproc_leaf_area_pot_tpla </A>
+
 <li><A HREF = "#crop_root_incorp"> crop_root_incorp </A>
 
 <ul><li><A HREF = "#crop_root_dist"> crop_root_dist </A>
@@ -1411,6 +1413,63 @@ if (on_day_of (emerg, g_current_stage, g_days_tot)) then<br>
 </blockquote>else<br>
 
 <blockquote>dlt_leaf_no_pot = 0 . 0<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "cproc_leaf_area_pot_tpla">  </A>
+<H2>Cproc Leaf Area Pot Tpla</H2>
+<br>
+<H3><CENTER>Return the potential increase in leaf area development (mm^2) calculated on a whole plant basis as determined by thermal time  Used for sorghum  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (on_day_of (begin_stage, g_current_stage, g_days_tot)) then<br>
+
+<blockquote>g_lai = <A HREF = "#initial_tpla"> c_initial_tpla </A> * smm2sm * g_plants<br>
+
+</blockquote>endif<br>
+
+if (stage_is_between (begin_stage, end_stage_tpla_plateau, g_current_stage).and.g_phase_tt<I><SUB> end_stage_tpla_plateau</SUB></I>.&gt;.0.0) then<br>
+
+<blockquote>tt_begin_to_end_tpla = sum_between (begin_stage, end_stage_tpla_plateau, g_phase_tt)<br>
+
+tpla_max = (((g_tiller_no_fertile+1.0)**<A HREF = "#tiller_coef"> c_tiller_coef </A>)*g_leaf_no_final**<A HREF = "#main_stem_coef"> p_main_stem_coef </A>) * scm2smm<br>
+
+tt_since_begin = sum_between (begin_stage, now, g_tt_tot)<br>
+
+tpla_inflection = tt_begin_to_end_tpla * <A HREF = "#tpla_inflection_ratio"> c_tpla_inflection_ratio </A><br>
+
+g_tpla_today = divide (tpla_max, (1.0+<I><BIG>e</BIG></I><SUP>- <A HREF = "#tpla_prod_coef"> p_tpla_prod_coef </A> * (tt_since_begin-tpla_inflection)</SUP>), 0 . 0)<br>
+
+if (g_tpla_today.&lt;.g_tpla_yesterday) then<br>
+
+<blockquote>g_tpla_today = g_tpla_yesterday<br>
+
+</blockquote>endif<br>
+
+g_dlt_lai_pot = (g_tpla_today-g_tpla_yesterday) * smm2sm * g_plants<br>
+
+g_tpla_yesterday = g_tpla_today<br>
+
+</blockquote>else<br>
+
+<blockquote>g_dlt_lai_pot = 0 . 0<br>
 
 </blockquote>endif<br>
 
@@ -2991,7 +3050,7 @@ senesced_length = g_dlt_root_dm_senesced / sm2smm * <A HREF = "#specific_root_le
 <A NAME = "cproc_root_depth1">  </A>
 <H2>Cproc Root Depth1</H2>
 <br>
-<H3><CENTER>Calculate daily increase in rooting depth through a layer as limited by soil water availability in that layer.  </CENTER></H3>
+<H3><CENTER>Calculate plant rooting depth through time limited by soil water content in layer through which roots are penetrating.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
 <blockquote><br>
 
@@ -4019,7 +4078,7 @@ if (sw_demand.&lt;.sw_supply_sum) then<br>
 <A NAME = "cproc_sw_demand1">  </A>
 <H2>Cproc Sw Demand1</H2>
 <br>
-<H3><CENTER>Return crop water demand by the crop (mm) calculated from potential dry matter production and transpiration efficiency.  </CENTER></H3>
+<H3><CENTER>Return crop water demand from soil by the crop (mm) calculated by dividing biomass production limited by radiation by transpiration efficiency.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
 <blockquote><br>
 
@@ -4133,7 +4192,7 @@ content="text/html; charset=iso-8859-1">
 height="73"></p>
 </body>
 </html>
-Date: 29/11/2000  APseudo Version:  1. 0 Rev.  1<br>
+Date: 11/01/2001  APseudo Version:  1. 0 Rev.  1<br>
 <hr>
 <html>
 <body>
