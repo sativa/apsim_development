@@ -1165,6 +1165,7 @@
 *====================================================================
       real function micromet_AerodynamicConductanceFAO(
      :                         WindSpeed
+     :                       , RefHeight
      :                       , TopHeight
      :                       , LAItot)
 *====================================================================
@@ -1175,6 +1176,7 @@
 
 *+  Sub-Program Arguments
       real Windspeed               !m/s
+      real RefHeight
       real TopHeight              !m
       real LAItot                 !m2/m2
 
@@ -1216,8 +1218,8 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
       d = 0.666 * TopHeight
-      Zh = TopHeight + 2.0 ! assume reference above canopy
-      Zm = TopHeight + 2.0
+      Zh = TopHeight + RefHeight ! assume reference above canopy
+      Zm = TopHeight + RefHeight
       Z0m = 0.123 * TopHeight
       Z0h = 0.1*Z0m
 
