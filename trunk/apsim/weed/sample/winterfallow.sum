@@ -215,7 +215,7 @@
           ---------------------------------------------------------
 
 ------- weed Initialisation ---------------------------------------------------
-      initialising
+     phenology model: Legume
 ------- Start of simulation  --------------------------------------------------
 29 April 1988(Day of year=120), manager: 
      Manager sending message :- weed sow  cultivar = late, plants = 15 (/m2), crop_class = winter_dicot, sowing_depth = 40 (mm)
@@ -225,19 +225,19 @@
       - reading cultivar parameters
          ------------------------------------------------
         cultivar                   = late
-        est_days_emerg_to_init     =       83
-        cum_vernal_days            =       0.00     100.00
-        tt_emerg_to_endjuv         =     700.00     700.00
-        x_pp_endjuv_to_init        =       1.00      24.00
-        y_tt_endjuv_to_init        =     500.00     500.00
-        x_pp_init_to_flower        =       1.00      24.00
-        y_tt_init_to_flower        =      50.00      50.00
-        x_pp_flower_to_start_grain =       1.00      24.00
-        y_tt_flower_to_start_grain =     120.00     120.00
-        x_pp_start_to_end_grain    =       1.00      24.00
-        y_tt_start_to_end_grain    =     580.00     580.00
-        tt_end_grain_to_maturity   =      60.00
-        tt_maturity_to_ripe        =       1.00
+        est_days_emerg_to_init     = 83 (days)
+        cum_vernal_days            =       0     100 (vd)
+        tt_emerg_to_endjuv         =     700     700 (dd)
+        x_pp_endjuv_to_init        =       1      24 (h)
+        y_tt_endjuv_to_init        =     500     500 (dd)
+        x_pp_init_to_flower        =       1      24 (h)
+        y_tt_init_to_flower        =      50      50 (dd)
+        x_pp_flower_to_start_grain =       1      24 (h)
+        y_tt_flower_to_start_grain =     120     120 (dd)
+        x_pp_start_to_end_grain    =       1      24 (h)
+        y_tt_start_to_end_grain    =     580     580 (dd)
+        tt_end_grain_to_maturity   =         60 (dd)
+        tt_maturity_to_ripe        =          1 (dd)
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0100     0.0100
         x_hi_max_pot_stress        =       0.00       1.00
@@ -278,37 +278,37 @@
 4 May 1988(Day of year=125), weed: 
       stage 3.0 emergence
                      biomass =           0.90 (g/m^2)   lai          =   0.004 (m^2/m^2)
-                     stover N conc =     6.00 (%)     extractable sw =   29.00 (mm)
+                     stover N conc =     6.00 (%)    extractable sw =   29.00 (mm)
 20 June 1988(Day of year=172), weed: 
       stage 4.0 end_of_juvenile
                      biomass =         179.61 (g/m^2)   lai          =   2.755 (m^2/m^2)
-                     stover N conc =     3.12 (%)     extractable sw =  200.98 (mm)
+                     stover N conc =     3.12 (%)    extractable sw =  200.98 (mm)
 28 July 1988(Day of year=210), weed: 
       stage 5.0 floral_initiation
-                     biomass =         633.17 (g/m^2)   lai          =   5.379 (m^2/m^2)
-                     stover N conc =     1.63 (%)     extractable sw =  260.00 (mm)
+                     biomass =         599.83 (g/m^2)   lai          =   5.212 (m^2/m^2)
+                     stover N conc =     1.72 (%)    extractable sw =  266.49 (mm)
 1 August 1988(Day of year=214), weed: 
       stage 6.0 flowering
-                     biomass =         687.44 (g/m^2)   lai          =   5.391 (m^2/m^2)
-                     stover N conc =     1.55 (%)     extractable sw =  246.10 (mm)
+                     biomass =         647.90 (g/m^2)   lai          =   5.234 (m^2/m^2)
+                     stover N conc =     1.65 (%)    extractable sw =  254.27 (mm)
 10 August 1988(Day of year=223), weed: 
       stage 7.0 start_grain_fill
-                     biomass =         797.98 (g/m^2)   lai          =   5.297 (m^2/m^2)
-                     stover N conc =     1.41 (%)     extractable sw =  218.18 (mm)
-14 September 1988(Day of year=258), weed: 
+                     biomass =         758.78 (g/m^2)   lai          =   5.212 (m^2/m^2)
+                     stover N conc =     1.49 (%)    extractable sw =  226.44 (mm)
+15 September 1988(Day of year=259), weed: 
      Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 11424.95 (kg/ha)
-15 September 1988(Day of year=259), manager: 
+     Plant death. standing above-ground dm = 10985.61 (kg/ha)
+16 September 1988(Day of year=260), manager: 
      Manager sending message :- weed kill_crop
-15 September 1988(Day of year=259), weed: 
+16 September 1988(Day of year=260), weed: 
      Plant kill. 100.00% crop killed because of external action.
-15 September 1988(Day of year=259), manager: 
+16 September 1988(Day of year=260), manager: 
      Manager sending message :- weed end_crop
-15 September 1988(Day of year=259), weed: 
-     Crop ended. Yield (dw) =  1715.1  (kg/ha)
+16 September 1988(Day of year=260), weed: 
+     Crop ended. Yield (dw) =  1651.2  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               11433.99                 3092.29
-                          N  (kg/ha) =                107.95                   11.41
+                          DM (kg/ha) =               11008.11                 2968.09
+                          N  (kg/ha) =                109.06                   10.93
                           P  (kg/ha) =                                          0.00
      
 30 May 1989(Day of year=150), clock: 
