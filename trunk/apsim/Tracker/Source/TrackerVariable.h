@@ -25,24 +25,29 @@ class TrackerVariable
    private:
       std::string name;
       protocol::Component* parent;
-      enum Stat {sumStat, averageStat, minimumStat, maximumStat, countStat};
+      enum Stat {sumStat, averageStat, minimumStat, maximumStat,
+                 countStat, dateStat, valueStat};
       Stat stat;
 
-      std::string variable;
+      std::string variableName;
+      std::string eventName;
+      std::string eventNameComponent;
+
       std::string startPeriod;
+      std::string startPeriodComponent;
       std::string endPeriod;
-      std::string since;
-      std::string on;
-      std::string onComponent;
+      std::string endPeriodComponent;
+
       unsigned last;
-      unsigned sinceComponentID;
+      std::string sampleDate;
 
       unsigned variableID;
       unsigned startPeriodID;
       unsigned endPeriodID;
-      unsigned sinceID;
       unsigned nameID;
-      unsigned onID;
+      unsigned eventID;
+      unsigned todayID;
+
 
       bool inWindow;
       bool isArray;
@@ -51,11 +56,10 @@ class TrackerVariable
 
       void parse(const std::string& fullName);
       void parseStat(StringTokenizer& tokenizer);
-      void parseBetween(StringTokenizer& tokenizer);
+      void parsePeriod(StringTokenizer& tokenizer);
       void parseLast(StringTokenizer& tokenizer);
-      void parseSince(StringTokenizer& tokenizer);
       void parseAs(StringTokenizer& tokenizer);
-      void parseOn(StringTokenizer& tokenizer);
+      void parseEventName(StringTokenizer& tokenizer);
       void doSample(void);
       void onStartPeriod(void);
       void onEndPeriod(void);

@@ -10,9 +10,13 @@
 #include <numeric>
 #include <ApsimShared\FStringExt.h>
 #include <ComponentInterface\MessageDataExt.h>
+#include <boost\date_time\gregorian\gregorian.hpp>
+#include <general\date_functions.h>
 
 #pragma package(smart_init)
 using namespace std;
+using namespace boost::gregorian;
+
 //---------------------------------------------------------------------------
 // constructor
 //---------------------------------------------------------------------------
@@ -22,8 +26,8 @@ TrackerVariable::TrackerVariable(protocol::Component* p, const string& fullName)
    count = 0;
    last = 0;
    inWindow = false;
-   sinceComponentID = 0;
    parse(fullName);
+   sampleDate = "?";
    }
 // ------------------------------------------------------------------
 // Parse the name passed in.
@@ -37,32 +41,33 @@ void TrackerVariable::parse(const string& fullName)
 
    // make sure next word is 'of'
    if (!Str_i_Eq(tokenizer.nextToken(), "of"))
-      throw runtime_error("Expected keyword 'of'.");
+      throw runtime_error("Expected keyword 'of' in tracker variable: " + fullName);
 
    // get variable.
-   variable = tokenizer.nextToken();
-   if (variable == "")
-      throw runtime_error("Expected sample variable.");
+   if (stat == countStat || stat == dateStat)
+      parseEventName(tokenizer);
+   else
+      variableName = tokenizer.nextToken();
 
-   // get keyword.
-   string keyword = tokenizer.nextToken();
-   while (keyword != "")
+   // Look for an on followed by an event name.
+   if (stat != countStat && stat != dateStat)
       {
-      if (Str_i_Eq(keyword, "between"))
-         parseBetween(tokenizer);
-      else if (Str_i_Eq(keyword, "last"))
-         parseLast(tokenizer);
-      else if (Str_i_Eq(keyword, "since"))
-         parseSince(tokenizer);
-      else if (Str_i_Eq(keyword, "as"))
-         parseAs(tokenizer);
-      else if (Str_i_Eq(keyword, "on"))
-         parseOn(tokenizer);
+      if (!Str_i_Eq(tokenizer.nextToken(), "on"))
+         throw runtime_error("Expected keyword 'on' in tracker variable: " + fullName);
+      parseEventName(tokenizer);
+      }
 
+   string keyword = tokenizer.nextToken();
+   if (stat != valueStat && Str_i_Eq(keyword, "from"))
+      {
+      parsePeriod(tokenizer);
       keyword = tokenizer.nextToken();
       }
-   if (on == "")
-      throw runtime_error("Expected an 'on' keyword specifying the sampling event.");
+   else
+      inWindow = true;
+
+   if (Str_i_Eq(keyword, "as"))
+      parseAs(tokenizer);
    }
 // ------------------------------------------------------------------
 // Parse a 'stat'
@@ -80,18 +85,45 @@ void TrackerVariable::parseStat(StringTokenizer& tokenizer)
       stat = maximumStat;
    else if (Str_i_Eq(statName, "count"))
       stat = countStat;
+   else if (Str_i_Eq(statName, "date"))
+      stat = dateStat;
+   else if (Str_i_Eq(statName, "value"))
+      stat = valueStat;
    else
       throw runtime_error("Invalid stat name: " + statName);
    }
 // ------------------------------------------------------------------
-// Parse a 'between' section
+// Parse a 'from' section
 // ------------------------------------------------------------------
-void TrackerVariable::parseBetween(StringTokenizer& tokenizer)
+void TrackerVariable::parsePeriod(StringTokenizer& tokenizer)
    {
    startPeriod = tokenizer.nextToken();
-   if (!Str_i_Eq(tokenizer.nextToken(), "and"))
-      throw runtime_error("Expected keyword 'and'");
+   unsigned posPeriod = startPeriod.find('.');
+   if (posPeriod != string::npos)
+      {
+      startPeriodComponent = startPeriod.substr(0, posPeriod);
+      startPeriod = startPeriod.substr(posPeriod+1);
+      }
+   if (Str_i_Eq(startPeriod, "reported"))
+      inWindow = true;
+
+   if (startPeriod == "" || Str_i_Eq(startPeriod, "to"))
+      throw runtime_error("Expected a start of period after a 'from' keyword in tracker variable");
+
+   if (!Str_i_Eq(tokenizer.nextToken(), "to"))
+      throw runtime_error("Expected a 'to' keyword in tracker variable.");
+
    endPeriod = tokenizer.nextToken();
+   posPeriod = endPeriod.find('.');
+   if (posPeriod != string::npos)
+      {
+      endPeriodComponent = endPeriod.substr(0, posPeriod);
+      endPeriod = endPeriod.substr(posPeriod+1);
+      }
+   if (endPeriod == "")
+      throw runtime_error("Expected an end of period after a 'to' keyword in tracker variable");
+   if (Str_i_Eq(endPeriod, "now"))
+      endPeriod = "";
    }
 // ------------------------------------------------------------------
 // Parse a 'last' section
@@ -102,19 +134,6 @@ void TrackerVariable::parseLast(StringTokenizer& tokenizer)
    if (!Is_numerical(number.c_str()))
       throw runtime_error("Expected a number following a 'last' keyword.");
    last = StrToInt(number.c_str());
-   inWindow = true;
-   }
-// ------------------------------------------------------------------
-// Parse a 'since' section
-// ------------------------------------------------------------------
-void TrackerVariable::parseSince(StringTokenizer& tokenizer)
-   {
-   since = tokenizer.nextToken();
-   if (since == "")
-      throw runtime_error("Expected an event name following a 'since' keyword.");
-
-   // assume the start of simulation is the beginning of the sampling window
-   inWindow = true;
    }
 // ------------------------------------------------------------------
 // Parse an 'as' section
@@ -123,22 +142,35 @@ void TrackerVariable::parseAs(StringTokenizer& tokenizer)
    {
    name = tokenizer.nextToken();
    if (name == "")
-      throw runtime_error("Expected a name following an 'as' keyword.");
+      throw runtime_error("Expected a name following an 'as' keyword in tracker variable.");
    }
 // ------------------------------------------------------------------
 // Parse an 'on' section
 // ------------------------------------------------------------------
-void TrackerVariable::parseOn(StringTokenizer& tokenizer)
+void TrackerVariable::parseEventName(StringTokenizer& tokenizer)
    {
-   on = tokenizer.nextToken();
-   unsigned posPeriod = on.find('.');
+   eventName = tokenizer.nextToken();
+   if (Str_i_Eq(eventName, "last"))
+      {
+      if (stat == countStat || stat == dateStat)
+         throw runtime_error("A 'last' keyword cannot be used with a 'count' or a 'date' "
+                             "keyword in a tracker variable");
+      parseLast(tokenizer);
+      eventName = tokenizer.nextToken();
+      }
+
+   unsigned posPeriod = eventName.find('.');
    if (posPeriod != string::npos)
       {
-      onComponent = on.substr(0, posPeriod);
-      on = on.substr(posPeriod+1);
+      eventNameComponent = eventName.substr(0, posPeriod);
+      eventName = eventName.substr(posPeriod+1);
       }
-   if (on == "")
-      throw runtime_error("Expected an event name following an 'on' keyword.");
+   if (eventName == "")
+      throw runtime_error("Expected an event name.");
+   else if (Str_i_Eq(eventName, "start_of_day"))
+      eventName = "prepare";
+   else if (Str_i_Eq(eventName, "end_of_day"))
+      eventName = "post";
    }
 // ------------------------------------------------------------------
 // Do all necessary registrations.
@@ -146,18 +178,18 @@ void TrackerVariable::parseOn(StringTokenizer& tokenizer)
 void TrackerVariable::doRegistrations(void)
    {
    static const char* nullDDML = "<type/>";
-//   static const char* singleDDML = "<type kind=\"single\"/>";
+   static const char* doubleDDML = "<type kind=\"double\"/>";
+   static const char* stringDDML = "<type kind=\"string\"/>";
    static const char* singleArrayDDML = "<type kind=\"single\" array=\"T\"/>";
    string typeString = singleArrayDDML;
 
-   if (stat == countStat)
-      variableID = parent->addRegistration(protocol::respondToEventReg,
-                                           variable.c_str(),
-                                           nullDDML);
-   else
+   eventID = parent->addRegistration(protocol::respondToEventReg,
+                                        eventName.c_str(),
+                                        nullDDML);
+   if (variableName != "")
       {
       variableID = parent->addRegistration(protocol::getVariableReg,
-                                           variable.c_str(),
+                                           variableName.c_str(),
                                            singleArrayDDML);
       protocol::Variant* variant;
       bool ok = parent->getVariable(variableID, variant, true);
@@ -172,57 +204,59 @@ void TrackerVariable::doRegistrations(void)
       }
 
 
-   if (startPeriod != "" && endPeriod != "")
-      {
+   if (startPeriod != "")
       startPeriodID = parent->addRegistration(protocol::respondToEventReg,
                                               startPeriod.c_str(),
                                               nullDDML);
+   if (endPeriod != "")
       endPeriodID = parent->addRegistration(protocol::respondToEventReg,
                                             endPeriod.c_str(),
                                             nullDDML);
-      }
-   if (since != "")
+   if (stat == dateStat)
       {
-      unsigned posPeriod = since.find('.');
-      if (posPeriod != string::npos)
-         {
-         string sinceComponentName = since.substr(0, posPeriod);
-         parent->componentNameToID(sinceComponentName.c_str(), sinceComponentID);
-         since.erase(0, posPeriod+1);
-         }
-      sinceID = parent->addRegistration(protocol::respondToEventReg,
-                                        since.c_str(),
-                                        nullDDML);
+      nameID = parent->addRegistration(protocol::respondToGetReg,
+                                       name.c_str(),
+                                       stringDDML);
+      todayID = parent->addRegistration(protocol::getVariableReg,
+                                       "today",
+                                       doubleDDML);
       }
-
-   nameID = parent->addRegistration(protocol::respondToGetReg,
-                                    name.c_str(),
-                                    singleArrayDDML);
-   parent->setRegistrationType(nameID, typeString.c_str());
-
-   onID = parent->addRegistration(protocol::respondToEventReg,
-                                  on.c_str(),
-                                  nullDDML);
+   else
+      {
+      nameID = parent->addRegistration(protocol::respondToGetReg,
+                                       name.c_str(),
+                                       singleArrayDDML);
+      parent->setRegistrationType(nameID, typeString.c_str());
+      }
    }
 // ------------------------------------------------------------------
 // Incoming events come through here.
 // ------------------------------------------------------------------
-void TrackerVariable::respondToEvent(unsigned fromID, unsigned eventID)
+void TrackerVariable::respondToEvent(unsigned fromID, unsigned evntID)
    {
-   if (eventID == onID)
+   char buffer[1000];
+   FString fromName(buffer, sizeof(buffer), CString);
+   if (evntID == eventID)
       {
-      char buffer[1000];
-      FString fromName(buffer, sizeof(buffer), CString);
-      if (parent->componentIDToName(fromID, fromName)
-          && fromName == onComponent.c_str())
+      if (eventNameComponent == ""
+             || (parent->componentIDToName(fromID, fromName)
+                 && fromName == eventNameComponent.c_str()))
          doSample();
       }
-   else if (eventID == startPeriodID)
-      onStartPeriod();
-   else if (eventID == sinceID && (sinceComponentID == 0 || sinceComponentID == fromID))
-      onStartPeriod();
-   else if (eventID == endPeriodID)
-      onEndPeriod();
+   else if (evntID == startPeriodID)
+      {
+      if (startPeriodComponent == ""
+             || (parent->componentIDToName(fromID, fromName)
+                 && fromName == startPeriodComponent.c_str()))
+         onStartPeriod();
+      }
+   else if (evntID == endPeriodID)
+      {
+      if (endPeriodComponent == ""
+             || (parent->componentIDToName(fromID, fromName)
+                 && fromName == endPeriodComponent.c_str()))
+         onEndPeriod();
+      }
    }
 // ------------------------------------------------------------------
 // Incoming requests for values of variables come through here.
@@ -232,9 +266,14 @@ void TrackerVariable::respondToGet(unsigned int& fromID,
    {
    if (queryData.ID == nameID)
       {
-      vector<float> values;
-      getCurrentValues(values);
-      parent->sendVariable(queryData, values);
+      if (stat != dateStat)
+         {
+         vector<float> values;
+         getCurrentValues(values);
+         parent->sendVariable(queryData, values);
+         }
+      else
+         parent->sendVariable(queryData, sampleDate);
       }
    }
 // ------------------------------------------------------------------
@@ -244,6 +283,16 @@ void TrackerVariable::doSample(void)
    {
    if (stat == countStat)
       count++;
+   else if (stat == dateStat)
+      {
+      protocol::Variant* variant;
+      if (parent->getVariable(todayID, variant))
+         {
+         double today;
+         variant->unpack(today);
+         sampleDate = to_dmy(date(today));
+         }
+      }
    else if (inWindow)
       {
       protocol::Variant* variant;
@@ -252,6 +301,9 @@ void TrackerVariable::doSample(void)
          {
          vector<float> theseValues;
          variant->unpack(theseValues);
+         if (stat == valueStat)
+            values.erase(values.begin(), values.end());
+
          values.push_back(theseValues);
 
          if (last != 0)
@@ -285,7 +337,9 @@ void TrackerVariable::onEndPeriod(void)
 void TrackerVariable::getCurrentValues(vector<float>& currentValues)
    {
    currentValues.erase(currentValues.begin(), currentValues.end());
-   if (values.size() > 0)
+   if (stat == countStat)
+      currentValues.push_back(count);
+   else if (values.size() > 0)
       {
       for (unsigned i = 0; i != values[0].size(); ++i)
          {
@@ -299,6 +353,7 @@ void TrackerVariable::getCurrentValues(vector<float>& currentValues)
                case minimumStat : value = min(value, values[v][i]); break;
                case maximumStat : value = max(value, values[v][i]); break;
                case countStat   : value++; break;
+               case valueStat   : value = values[v][i]; break;
                }
             }
          if (stat == averageStat && values.size() > 0)
