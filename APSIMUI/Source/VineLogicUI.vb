@@ -88,7 +88,7 @@ Public Class VineLogicUI
             MyBase.Refresh()
             HelpLabel.Text = "Parameterisation of this vinelogic component is via the standard VineLogic Input file structure shown above."
             TextBox.Text = MyData.Child("data").Value
-        Catch E As Exception
+        Catch E As System.Exception
             MsgBox(E.Message, MsgBoxStyle.Critical, "Error in refreshing Summary File UI")
         End Try
 
