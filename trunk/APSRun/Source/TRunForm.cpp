@@ -72,7 +72,8 @@ void __fastcall TRunForm::Page2Show(TObject *Sender)
    try
       {
       ControlFileConverter converter;
-      converter.convert(controlFileName);
+      converter.convert(controlFileName, &ConverterCallback);
+      StatusList->Items->Clear();
       Path log(controlFileName);
       log.Set_extension(".conversions");
       if (FileExists(log.Get_path().c_str()))
@@ -163,5 +164,13 @@ void TRunForm::getSelectedSimulations(vector<string>& simulations)
 std::string TRunForm::getSelectedConfiguration(void)
    {
    return ApsimSettings::getSettingsFolder() + "\\" + configurationList->Items->Strings[configurationList->ItemIndex].c_str();
+   }
+//---------------------------------------------------------------------------
+void __fastcall TRunForm::ConverterCallback(const std::string& section)
+   {
+   StatusList->Items->Clear();
+   AnsiString msg = AnsiString("Converting control file section: ") + section.c_str();
+   StatusList->Items->Add(msg);
+   Application->ProcessMessages();
    }
 

@@ -460,9 +460,6 @@ void ApsimControlFile::setParameterValue(const string& moduleName,
 void ApsimControlFile::createSIM(const string& configurationFile,
                                  string& simulationFileName) const throw(runtime_error)
    {
-   ControlFileConverter converter;
-   converter.convert(fileName);
-
    SetCurrentDir(ExtractFileDir(fileName.c_str()));
    simulationFileName = ChangeFileExt(fileName.c_str(), ".sim").c_str();
 

@@ -7,6 +7,7 @@
 #include <general\inifile.h>
 #include <ApsimShared\ApsimControlFile.h>
 
+typedef void __fastcall (__closure *TControlFileConverterEvent)(const std::string& section);
 //---------------------------------------------------------------------------
 // This class converts a control file from 1 format to another.
 //---------------------------------------------------------------------------
@@ -23,16 +24,22 @@ class __declspec(dllexport) ControlFileConverter
       //---------------------------------------------------------------------------
       // convert the specified control file using the version number of
       // APSIM and the version number in the control file.
-      //  Throws an exception if a problem was encountered.
+      // Throws an exception if a problem was encountered.
+      // If callback is not null, then it will be called for every section
+      // in con file being converter.
       //---------------------------------------------------------------------------
-      void convert(const string& fileName) throw(runtime_error);
+      void convert(const string& fileName,
+                   TControlFileConverterEvent callback) throw(runtime_error);
 
       //---------------------------------------------------------------------------
       // convert the specified control file using the commands in the specified
       // script file name.  Throws an exception if a problem was encountered.
+      // If callback is not null, then it will be called for every section
+      // in con file being converter.
       //---------------------------------------------------------------------------
       void convert(const string& fileName,
-                   const string& scriptFileName) throw(runtime_error);
+                   const string& scriptFileName,
+                   TControlFileConverterEvent callback) throw(runtime_error);
 
    private:
       ApsimControlFile controlFile;
