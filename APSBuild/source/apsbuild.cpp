@@ -64,7 +64,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
          {
    		Application->Initialize();
 	   	Application->CreateForm(__classid(TMainForm), &MainForm);
-      MainForm->ProjectFiles = Files;
+         MainForm->ProjectFiles = Files;
          MainForm->Build = Do_build;
          MainForm->Debug = Do_debug;
          MainForm->Quiet = Is_quiet;
