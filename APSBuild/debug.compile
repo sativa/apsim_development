@@ -1,10 +1,14 @@
 [Instructions]
-import   = %apsuite\apsim\infra\lib\apsimengine.imp
+import   = %apsuite\apsim\infra\lib\ApsimEngine.imp
 include  = %apsuite\apsim\infra
 module   = .
 module   = %apsuite\apsim\infra\source
+module   = %apsuite\apsim\croptemp\source
+program  = %apsuite\bin\createComponentInterfaceSource.exe
 
 library  = %apsuite\apsim\infra\lib\apsinfra.lib
+library  = %apsuite\apsim\croptemp\lib\croptemp.lib
+
 libraryPath = %apsuite\apsbuild
 object   = %apsuite\shared\ComponentInterface\FORTRANComponent.obj
 object   = %apsuite\shared\ComponentInterface\Component.obj
