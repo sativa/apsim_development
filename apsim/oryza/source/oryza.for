@@ -48,31 +48,32 @@
       integer    env_potential        ! no water balance plugged in
       parameter  (env_potential = 1)
 
-      integer    env_limited          ! water balance is avaiolable
+      integer    env_limited          ! water balance is available
       parameter  (env_limited = 2)
       
+      integer    ET_LINEAR            ! Et methods
+      parameter  (ET_LINEAR = 1)
 
+      integer    ET_EXPONENTIAL
+      parameter  (ET_EXPONENTIAL = 2)
+      
       type oryzaGlobals
          sequence
          character cultivar*20     ! name of cultivar
          real no3(max_layer)       ! amount of NO3 in each layer (kg/ha)
          REAL MSKPA(max_layer)     ! Array with soil water potential/layer (KPa)
-         REAL TKLP(max_layer)      ! Array of thickness of puddled soil layers, per layer (m)
          REAL WCL(max_layer)       ! Array of actual soil water content, per soil layer (m3/m3) 
          Real Fact(max_layer)      ! Soil-water tension (pF)
-         real dlt_sw_dep(max_layer)! soil water uptake in layer(mm)
          real Fvpd                 ! Interpolated VPD stress factor (0-1)
          REAL eff                  ! Initial light-use efficiency (kg CO2 ha-1 leaf h-1)(W m-2 leaf )-1 
          REAL wclqt(max_layer)     ! Array of actual soil water contents/layer (m3 m-3)
          REAL MSUC(max_layer)      ! Array of soil-water tension (suction), per soil layer  !cm H2O 
          REAL TRWL(max_layer)      ! Array of actual water withdrawal by transpiration, per soil layer  !mm d-1 
          REAL ZRTL(max_layer)      ! Array of root length in a soil layer, per soil layer  !m
-         REAL SW(max_layer)        ! Array of actual soil water contens per layer (m3/m3) 
          real tmmx                 ! Daily maximum temperature (degrees C) 
          REAL tmmn                 ! Daily minimum temperature (degrees C)
          REAL tmda                 ! Daily average temperature (degrees C)                 
          REAL ZRT                  ! Root length or rooting depth  !m
-         REAL WL0                  ! Depth f ponded water layer (mm)                       
          REAL RLAI                 ! Rice leaf area index 
          Real ETD                  ! Reference evapotranspiration (mm d-1)                
          REAL ETRD                 ! Radiation-driven part of reference evapotranspiration rate  !mm d-1 
@@ -135,7 +136,7 @@
          REAL RAPC                 ! Instantaneous absorbed photosynthetically active radiation  !W m-2 leaf
          REAL GAID                 ! Green area index above selected height   !ha leaf ha-1 soil
          REAL AMAX1                ! Uncorrected CO2 assimilation rate at light saturation   !kg CO2 ha-1 leaf h-1 
-         REAL EFF1                 ! Uncorrected initial light-use efficiency  !(kg CO2 ha-1 leaf h-1)(W m-2 leaf )-1 
+         REAL EFF1                 ! Uncorrected initial light-use efficiency  !(kg CO2 ha-1 leaf h-1)(W m-2 leaf )-1
          REAL RAPSHL               ! Absorbed flux for shaded leaves  !W m-2 leaf
          REAL RAPPPL               ! Direct flux absorbed by leaves perpendicular on direct beam  !W m-2 leaf
          REAL FSLLA                ! Fraction of leaf area that is sunlit  !-
@@ -178,7 +179,6 @@
          REAL GNSP                 ! Rate of increase in spikelet number   !no. ha-1 d-1 
          REAL GNGR                 ! Rate of increase in grain number   !no. ha-1 d-1 
          REAL NSP                  ! Number of spikelets   !no. ha-1 
-         REAL TBLV                 ! Base temperature for juvenile leaf area growth  !°C
          REAL sla                  ! Specific leaf area   !ha leaf kg-1 leaf
          REAL RGRL                 ! Relative growth rate for leaf development   !°Cd-1 
          REAL RNSTRS               ! Reduction factor on relative leaf growth rate caused by N stress  !-
@@ -189,10 +189,6 @@
          REAL LDSTRS               ! Drought stress factor accelerating leaf death   !-
          REAL CKCIN                ! Carbon in crop accumulated since simulation started  !kg C ha-1 
          REAL CKCFL                ! Sum of integrated carbon fluxes into and out of crop  !kg C ha-1 
-         REAL WSOI                 ! Initial dry weight of storage organs  !kg ha-1 
-         REAL WLVGI                ! Initial dry weight of leaves  !kg ha-1 
-         REAL WSTI                 ! Initial dry weight of stems  !kg ha-1 
-         REAL WRTI                 ! Initial dry weight of roots  !kg ha-1 
          REAL TNASS                ! Total net CO2 assimilation  !kg CO2 ha-1 
          REAL RTNASS               ! Net rate of total CO2 assimilation by crop  !kg CO2 ha-1 d-1 
          REAL PARCUM               ! Cumulative amount of radiation absorbed by canopy based on detailed calculation of daily absorbed radiation  !MJ m-2     
@@ -200,7 +196,6 @@
          REAL NGR                  ! Number of grains  !no ha-1 
          REAL NGRM2                ! Number of hills   !hills m-2 
          REAL NSPM2                ! Number of spikelets  !no. m-2 
-         REAL WRR14                ! Dry weight of rough rice (14% moisture)  !kg ha-1 
          REAL ZRTM                 ! Maximum root length/depth  !m
          REAL TKLT                 ! Thickness of combined soil layers   !m
          REAL RAIN                 ! Daily amount of rainfall   !mm d-1 
@@ -221,10 +216,6 @@
          REAL NLV                  ! Daily net flow rate of N to the leaves  !kg N ha-1 d-1 
          REAL NST                  ! Net flow rate of N to stems  !kg N ha-1 d-1 
          REAL NSO                  ! Net flow rate of N to storage organs  !kg N ha-1 d-1 
-         REAL NLDLV                ! N loss rate because of death of leaves  !kg N ha-1 d-1 
-         REAL NLVAN                ! Daily net flow rate of N to the leaves before flowering  !kg N ha-1 d-1 
-         REAL NTRT                 ! Actual N translocation rate to storage organs from roots  !kg N ha-1 d-1 
-         REAL NBCHK                ! Balance of nitrogen uptake  !kg N ha-1  
          REAL FNSO                 ! Fraction of N in storage organs  !kg N kg-1 DM
          REAL anlv                 ! Amount of N in leaves  !kg N ha-1 
          REAL anld                 ! Amount of N in dead leaves  !kg N ha-1 
@@ -250,6 +241,7 @@
          REAL WLVGEXS              ! Value of WLVG at end of exponential growth phase in seedbed  !kg ha-1
          REAL LAIEXS               ! Value of LAI at end of exponential growth phase in seedbed  !ha leaf ha-1 soil
          REAL TEST                 ! Difference between simulated and user-supplied SLA  !ha leaf kg-1 leaf           
+         REAL CO2                   ! Ambient CO2 concentration  !ppm
          
          character plant_status*5  ! status of crop
          
@@ -268,8 +260,7 @@
          character uptake_source*32
          character crop_type*32     ! Low-land rice or high-land rice
          character estab*32         ! Method of crop establishment  !-
-         character swisla*32        ! Switch to select method of imposed SLA calculation  !- 
-         character swirtr*32        ! Switch to select calculation mode for relative transpiration ratio  !-
+         integer  swirtr            ! Switch to select calculation mode for relative transpiration ratio  !-
          integer  prodenv           ! Name of production environment with respect to water   !-
          integer  nitroenv          ! Name of production environment with respect to nitrogen  !- 
          REAL lape                  ! Leaf area per plant at emergence  !m2 pl-1 
@@ -289,9 +280,7 @@
          REAL SHCKD                 ! Delay parameter in phenology   !°Cd (°Cd)-1 
          REAL FRPAR                 ! Fraction of short-wave radiation that is photosynthetically active  !-
          REAL CO2REF                ! Reference level of atmospheric CO2 (340 ppm)  !ppm
-         REAL CO2                   ! Ambient CO2 concentration  !ppm
          REAL SCP                   ! Scattering coefficient of leaves for photosynthetically active radiation  !-
-         REAL DELT                  ! Time interval of integration   !d
          REAL tclstr                ! Time coefficient for loss of stem reserves  !d-1 
          REAL Q10                   ! Factor accounting for increase in maintenance respiration with a 10 °C rise in temperature  !-
          REAL TREF                  ! Reference temperature  !°C
@@ -347,7 +336,6 @@
          REAL WCFC(max_layer)       !Array of soil water content at field capacity, per soil layer  !m3 m-3 
          REAL WCWP(max_layer)       !Array of soil water content at wilting point, per soil layer  !m3 m-3 
          REAL WCAD(max_layer)       !Array of soil water content at air dryness, per soil layer  !m3 m-3 
-         REAL WCLI(max_layer)       !Array of initial water content of soil layer  !m3 m-3
          real tkl(max_layer)        !Array of thickness of soil layers, per soil layer  !m
          real FVPD(max_table)       !Interpolated VPD stress factor (0-1)
          REAL eff(max_table)        !Initial light-use efficiency   !(kg CO2 ha-1 leaf h-1)(W m-2 leaf )-1
@@ -403,6 +391,12 @@
          Integer numdrlv            !Number of values in the table of leaf death coefficient
          Integer numnsllv           !Number of values in the table of N stress factor that accelerates leaf death
          INteger numsla             !Number of values in the table of specific leaf area
+
+!!XX NB. these are not read in - initialised to zero, so are probably wrong..
+         REAL WSOI                 ! Initial dry weight of storage organs  !kg ha-1 
+         REAL WLVGI                ! Initial dry weight of leaves  !kg ha-1 
+         REAL WSTI                 ! Initial dry weight of stems  !kg ha-1 
+         REAL WRTI                 ! Initial dry weight of roots  !kg ha-1 
          
       end type oryzaParameters
 ! ===================================================================
@@ -437,7 +431,7 @@
 
 *+  Local Variables
 !      character  string*200            ! output string
-!      integer    numvals               ! number of values read
+      integer    numvals               ! number of values read
 
 *- Implementation Section ----------------------------------
 
@@ -445,12 +439,145 @@
 
       call write_string ('   - Reading Cultivar Parameters')
 
-!      call read_real_array (g%cultivar
-!     :                   , 'x_pp_hi_incr', max_table, '(h)'
-!     :                   , p%x_pp_hi_incr
-!     :                   , p%num_pp_hi_incr
-!     :                   , 0.0, 24.0)
+      call read_real_var (
+     :           g%cultivar         ! Section header
+     :          ,'dvri'             ! Keyword
+     :          ,'()'               ! Units
+     :          ,p%dvri             ! Array
+     :          ,numvals            ! Number of values returned
+     :          ,0.0                ! Lower Limit for bound check
+     :          ,100.0)             ! Upper Limit for bound check
+      
+      call read_real_var (
+     :           g%cultivar         ! Section header
+     :          ,'dvrj'               ! Keyword
+     :          ,'()'              ! Units
+     :          ,p%dvrj               ! Array
+     :          ,numvals              ! Number of values returned
+     :          ,0.0                  ! Lower Limit for bound check
+     :          ,50.0)                 ! Upper Limit for bound check
 
+      call read_real_var (
+     :           g%cultivar         ! Section header
+     :          ,'dvrp'               ! Keyword
+     :          ,'()'              ! Units
+     :          ,p%dvrp               ! Array
+     :          ,numvals              ! Number of values returned
+     :          ,0.0                  ! Lower Limit for bound check
+     :          ,50.0)                 ! Upper Limit for bound check
+      
+      call read_real_var (
+     :           g%cultivar         ! Section header
+     :          ,'dvrr'               ! Keyword
+     :          ,'()'              ! Units
+     :          ,p%dvrr               ! Array
+     :          ,numvals              ! Number of values returned
+     :          ,0.0                  ! Lower Limit for bound check
+     :          ,50.0)                 ! Upper Limit for bound check      
+
+      call read_real_var (
+     :           g%cultivar         ! Section header
+     :          ,'mopp'               ! Keyword
+     :          ,'()'              ! Units
+     :          ,p%mopp               ! Array
+     :          ,numvals              ! Number of values returned
+     :          ,0.0                  ! Lower Limit for bound check
+     :          ,50.0)                 ! Upper Limit for bound check
+      
+      call read_real_var (
+     :           g%cultivar         ! Section header
+     :          ,'ppse'               ! Keyword
+     :          ,'()'              ! Units
+     :          ,p%ppse               ! Array
+     :          ,numvals              ! Number of values returned
+     :          ,0.0                  ! Lower Limit for bound check
+     :          ,50.0)                 ! Upper Limit for bound check
+      
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+*     ===========================================================
+      subroutine oryza_read_estab_params (section)
+*     ===========================================================
+      Use Infrastructure
+      implicit none
+
+*+  Purpose
+*       Get cultivar parameters for named cultivar, from crop parameter file.
+
+*+  Changes
+*       090994 jngh specified and programmed
+
+*+  Arguments
+      character*(*)  section           ! Name of section to read from
+      
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'oryza_read_estab_params')
+
+*+  Local Variables
+      integer    numvals               ! number of values read
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+      call write_string ('   - Reading Establishment Parameters')
+
+      call read_char_var (
+     :           section          ! Section header
+     :          ,'estab'          ! Keyword
+     :          ,'()'             ! Units
+     :          ,p%estab          ! Array
+     :          ,numvals)         ! Number of values returned
+      
+        call read_integer_var (
+     :           section         ! Section header
+     :          ,'sbdur'             ! Keyword
+     :          ,'()'               ! Units
+     :          ,p%sbdur             ! Array
+     :          ,numvals              ! Number of values returned
+     :          ,0                  ! Lower Limit for bound check
+     :          ,100)              ! Upper Limit for bound check
+
+      call read_real_var (
+     :           section         ! Section header
+     :          ,'nplh'               ! Keyword
+     :          ,'()'              ! Units
+     :          ,p%nplh               ! Array
+     :          ,numvals              ! Number of values returned
+     :          ,0.0                  ! Lower Limit for bound check
+     :          ,1000.0)                 ! Upper Limit for bound check
+      
+      call read_real_var (
+     :           section         ! Section header
+     :          ,'nh'               ! Keyword
+     :          ,'()'              ! Units
+     :          ,p%nh               ! Array
+     :          ,numvals              ! Number of values returned
+     :          ,0.0                  ! Lower Limit for bound check
+     :          ,1000.0)                 ! Upper Limit for bound check
+      
+      call read_real_var (
+     :           section         ! Section header
+     :          ,'nplsb'             ! Keyword
+     :          ,'(mm)'               ! Units
+     :          ,p%nplsb             ! Array
+     :          ,numvals              ! Number of values returned
+     :          ,0.0                  ! Lower Limit for bound check
+     :          ,10000.)              ! Upper Limit for bound check
+      
+      call read_real_var (
+     :           section         ! Section header
+     :          ,'nplds'             ! Keyword
+     :          ,'(mm)'               ! Units
+     :          ,p%nplds             ! Array
+     :          ,numvals              ! Number of values returned
+     :          ,0.0                  ! Lower Limit for bound check
+     :          ,1000.)              ! Upper Limit for bound check
+     
       call pop_routine (my_name)
       return
       end subroutine
@@ -474,6 +601,7 @@
       integer I
       integer numvals
       REAL    num_layers
+      character esection*80
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -483,36 +611,46 @@
 
       call push_routine (my_name)
 
-      call oryza_read_param ()
-
-      call collect_char_var ('cultivar', '()'
-     :                      , g%cultivar, numvals)
-
-      call oryza_read_cultivar_params ()
-      
-      g%plant_status = status_alive
-
-      !Set CROPSTA: 0=before sowing; 1=sowing; 2=in seedbed;
-      !             3=day of transplanting; 4=main growth period      
-      g%CROPSTA = 1
-
-      g%Rlai = 0.0
-      IF (p%ESTAB.EQ.'transplant' ) then
-         g%Rlai= p%lape * p%nplsb
-      ELSEIF (p%ESTAB.EQ.'direct-seed') then
-         g%Rlai= p%lape * p%nplds
-      else 
+      if (g%plant_status.ne.status_out) then
          call fatal_error(err_user, 
-     :              'unknown establishment ' // p%ESTAB)
+     :      'Already in the ground - did you forget to "end_crop"?')
+      else
+
+         call oryza_read_param ()
+         
+         call collect_char_var ('cultivar', '()'
+     :                         , g%cultivar, numvals)
+         
+         call oryza_read_cultivar_params ()
+         
+         call collect_char_var ('establishment_section', '()'
+     :                         , esection, numvals)
+         call oryza_read_estab_params (esection)
+         
+         g%plant_status = status_alive
+         
+         !Set CROPSTA: 0=before sowing; 1=sowing; 2=in seedbed;
+         !             3=day of transplanting; 4=main growth period      
+         g%CROPSTA = 1
+         
+         g%Rlai = 0.0
+         IF (p%ESTAB.EQ.'transplant' ) then
+            g%Rlai= p%lape * p%nplsb
+         ELSEIF (p%ESTAB.EQ.'direct-seed') then
+            g%Rlai= p%lape * p%nplds
+         else 
+            call fatal_error(err_user, 
+     :                 'unknown establishment ' // p%ESTAB)
+         endif
+         
+         g%WLVG = 0.01  !initial Dry weight of green leaves  !kg ha-1
+         g%WSTS = 0.01  !initial Dry weight of structural stems  !kg ha-1
+         g%FNLV   = p%FNLVI
+         g%FNST   = 0.5*p%FNLVI
+         g%NFLV   = p%NFLVI
+         g%ZRT    = 0.0001
       endif
-
-      g%WLVG = 0.01  !initial Dry weight of green leaves  !kg ha-1
-      g%WSTS = 0.01  !initial Dry weight of structural stems  !kg ha-1
-      g%FNLV   = p%FNLVI
-      g%FNST   = 0.5*p%FNLVI
-      g%NFLV   = p%NFLVI
-      g%ZRT    = 0.0001
-
+      
       call pop_routine (my_name)
       return
       end subroutine
@@ -630,7 +768,11 @@
      :                  , N_root(1) , ' (kg/ha)'
          call write_string (string)
 
-         call oryza_zero_harvest_variables ()
+         call oryza_zero_variables ()
+         call oryza_init ()
+
+         g%plant_status = status_out
+
       else
           call warning_error (ERR_USER,
      :            'ORYZA is not in the ground -'
@@ -688,13 +830,15 @@
 *+  Constant Values
       character*(*) myname                 ! Name of this procedure
       parameter (myname = 'oryza_init')
+
+*+  Local variables
       Integer I,num_layers, numvals
       REAL zrti
+      real dummy(max_layer)
+      
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      call write_string ('   - Initialising')
- 
       g%LRAV   = 1.
       g%LDAV   = 1.
       g%LEAV   = 1.
@@ -703,7 +847,7 @@
       g%CPEW   = 1.
       g%LRSTRS = 1.
       g%LDSTRS = 1.
-      g%TRW = 0.
+      g%TRW    = 0.
       g%NSLLV  = 1.
       g%RNSTRS = 1.
 
@@ -714,11 +858,17 @@
       ! see whether soil & nitrogen is available to us.
       call get_real_array_optional (unknown_module, 'sw', max_layer
      :                                    , '(mm3/mm3)'
-     :                                    , g%sw, numvals
+     :                                    , dummy, numvals
      :                                    , 0.0, 1.0)
       if (numvals.eq.0) then
         p%PRODENV=env_potential         ! No soilwat - non-limited
         call write_string('Non - limiting Soil Water conditions')
+        ! set up (dummy) variables
+        g%TKLT = 100.
+        p%ZRTMS = 100.
+        g%WCLQT(1) = 0.3
+        p%WCST(1)  = 0.3
+        p%tkl(1)   = 100.0
       else
         p%PRODENV=env_limited 
       endif
@@ -733,7 +883,6 @@
       else
         p%nitroenv=env_limited 
       endif
-
       
       call pop_routine (myname)
       return
@@ -765,8 +914,8 @@
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      p%crop_type = ' '
-      p%ESTAB = ' '
+! Zero everything _except_ what comes to us through _Init() and onNewProfile().
+
       g%anso=0.0
       g%anld=0.0
       g%ANCRF  = 0.
@@ -776,34 +925,23 @@
       g%NLV    = 0.
       g%NST    = 0.
       g%NSO    = 0.
-      g%NLDLV  = 0.
-      g%NLVAN  = 0.
-      g%NBCHK  = 0.
       g%FNSO   = 0.
       g%NACR=0.0
       g%TRRM =0.0
       g%ZLL=0.0
       g%TNSOIL = 0.
       g%TRW=0.0 
-      g%TKLT=0.0
       g%cropsta = 0
-      p%sbdur= 0
-      p%DELT = 1.0
       g%DAE = 0
       g%Idoy=0
       g%NGRM2  =0.0
       g%NSPM2  =0.0
       g%ZRTM=0.0
-      g%WRR14=0.
       g%PARCUM =0.0
       g%PARCM1 =0.0
       g%NGR = 0.
       g%RTNASS=0. 
       g%TNASS=0.
-      g%WSOI  =0.0
-      g%WLVGI =0.0
-      g%WSTI  =0.0
-      g%WRTI  =0.0
       g%CKCIN=0.0
       g%CKCFL=0.0
       g%DLDRT=0.
@@ -817,7 +955,6 @@
       g%tmda = 0.0
       g%ZRT = 0.0
       g%etd = 0.0
-      g%WL0 = 0.0
       g%RLAI = 0.0
       g%etrd = 0.0
       g%etae = 0.0
@@ -904,7 +1041,6 @@
       g%GNSP =0.
       g%GNGR=0.
       g%NSP=0.0
-      g%TBLV=0.0
       g%RGRL=0.0
       g%TRWL(:) = 0
       g%MSUC(:)  = 0.
@@ -939,215 +1075,158 @@
       g%WLVGEXP = 0.0
       g%LAIEXP  = 0.0
       g%no3(:) = 0.0
+      g%amax1 = 0.0   !! XXnot used anywhere??
+      g%eff1=0.0      !! XXnot used anywhere??
+
+      p%lape = 0.0                 
+      p%nplsb = 0.0
+      p%nplds = 0.0
+      p%zrttr = 0.0
+      p%TMPSB = 0.0
+      p%TBD = 0.0
+      p%TOD = 0.0
+      p%TMD = 0.0
+      p%DVRJ = 0.0
+      p%DVRI = 0.0
+      p%DVRP = 0.0
+      p%DVRR = 0.0
+      p%PPSE = 0.0
+      p%MOPP = 0.0
+      p%SHCKD = 0.0
+      p%FRPAR = 0.0
+      p%CO2REF = 0.0
+      p%SCP = 0.0
+      p%tclstr = 0.0
+      p%Q10 = 0.0
+      p%TREF = 0.0
+      p%MAINLV = 0.0
+      p%MAINSO  =0.0              
+      p%MAINST  =0.0              
+      p%MAINRT  =0.0              
+      p%CRGLV   =0.0              
+      p%CRGST   =0.0              
+      p%CRGSO   =0.0              
+      p%CRGRT   =0.0              
+      p%CRGSTR  =0.0              
+      p%FSTR    =0.0              
+      p%LRSTR   =0.0              
+      p%NH      =0.0              
+      p%NPLH    =0.0              
+      p%SPGF    =0.0              
+      p%WGRMX   =0.0              
+      p%ASLA    =0.0              
+      p%BSLA    =0.0              
+      p%CSLA    =0.0              
+      p%DSLA    =0.0              
+      p%SLAMAX  =0.0              
+      p%RGRLMX  =0.0              
+      p%RGRLMN  =0.0              
+      p%SHCKL   =0.0              
+      p%FCLV    =0.0              
+      p%FCST    =0.0              
+      p%FCSO    =0.0              
+      p%FCRT    =0.0              
+      p%FCSTR   =0.0              
+      p%GZRT    =0.0              
+      p%ZRTMCW  =0.0              
+      p%ZRTMCD  =0.0              
+      p%ZRTMS   =0.0              
+      p%ULLS    =0.0              
+      p%LLLS    =0.0              
+      p%ULDL    =0.0              
+      p%LLDL    =0.0              
+      p%ULLE    =0.0              
+      p%LLLE    =0.0              
+      p%ULRT    =0.0              
+      p%LLRT    =0.0              
+      p%NMAXUP  =0.0              
+      p%RFNLV   =0.0              
+      p%FNTRT   =0.0              
+      p%RFNST   =0.0              
+      p%TCNTRF  =0.0              
+      p%NFLVI   =0.0              
+      p%FNLVI   =0.0              
+      p%NMAXSO  =0.0              
+      p%FVPD(:) = 0.0       
+      p%eff(:) = 0.0        
+      p%VPD(:) = 0.0        
+      p%efft(:) = 0.0       
+      p%ssga(:) = 0.0       
+      p%ssgat(:) = 0.0      
+      p%kdf(:) = 0.0        
+      p%kdft(:) = 0.0       
+      p%redf(:) = 0.0       
+      p%redft(:) = 0.0      
+      p%knf(:) = 0.0        
+      p%knft(:) = 0.0       
+      p%nflv(:) = 0.0       
+      p%nflvt(:) = 0.0      
+      p%fsh(:) = 0.0        
+      p%fsht(:) = 0.0       
+      p%flv(:) = 0.0        
+      p%flvt(:) = 0.0       
+      p%fst(:) = 0.0        
+      p%fstt(:) = 0.0       
+      p%fso(:) = 0.0        
+      p%fsot(:) = 0.0       
+      p%drlv(:) = 0.0       
+      p%drlvt(:) = 0.0      
+      p%nsllv(:) = 0.0      
+      p%nsllvt(:) = 0.0     
+      p%sla(:) = 0.0        
+      p%slat(:) = 0.0       
+      p%nminso(:) = 0.0     
+      p%nminsot(:) = 0.0
+      p%nmaxl(:) = 0.0      
+      p%nmaxlt(:) = 0.0     
+      p%nminl(:) = 0.0      
+      p%nminlt(:) = 0.0     
+
+! Comes to us in onNewMet()
+!      p%tkl(:) = 0.0
+!      p%WCST(:) = 0.0
+!      p%WCFC(:) = 0.0
+!      p%WCWP(:) = 0.0
+!      p%WCAD(:) = 0.0
+!      g%TKLT=0.0
+                
+      p%numnminso =0        
+      p%numnmaxl  =0        
+      p%numnminl  =0        
+      p%numVPD    =0        
+      p%sbdur     =0        
+      p%numeff    =0        
+      p%numssga   =0        
+      p%numkdf    =0        
+      p%numredf   =0        
+      p%numknf    =0        
+      p%numnflv   =0        
+      p%IACC      =0        
+      p%numfsh    =0        
+      p%numflv    =0        
+      p%numfst    =0        
+      p%numfso    =0        
+      p%numdrlv   =0        
+      p%numnsllv  =0        
+      p%numsla    =0        
+      p%swirtr    =0        
+      p%prodenv   =0        
+      p%nitroenv  =0        
+
+
+      p%uptake_source = ' '
+      p%crop_type = ' '
+      p%ESTAB = ' '
+      p%WSOI  =0.0
+      p%WLVGI =0.0
+      p%WSTI  =0.0
+      p%WRTI  =0.0
+
       call pop_routine (myname)
       return
       end subroutine
 
-* ====================================================================
-       subroutine oryza_zero_harvest_variables ()
-* ====================================================================
-      Use Infrastructure
-      implicit none
-
-
-*+  Purpose
-*     Set some variables in this module to zero.
-
-*+  Mission Statement
-*     Zero variables
-
-*+  Changes
-*     <insert here>
-
-*+  Constant Values
-      character*(*) myname                 ! Name of this procedure
-      parameter (myname = 'oryza_zero_harvest_variables')
-
-*+  Local Variables
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
-
-      g%anso=0.0
-      g%anld=0.0
-      g%ANCRF  = 0.
-      g%anlv=0.
-      g%anst=0.
-      g%ANCR=0.
-      g%NLV    = 0.
-      g%NST    = 0.
-      g%NSO    = 0.
-      g%NLDLV  = 0.
-      g%NLVAN  = 0.
-      g%NBCHK  = 0.
-      g%FNSO   = 0.
-      g%NACR=0.0
-      g%TRRM =0.0
-      g%ZLL=0.0
-      g%TNSOIL = 0.
-      g%TKLT=0.0
-      g%cropsta = 0
-      p%sbdur= 0
-      p%DELT = 1.0
-      g%DAE = 0
-      g%Idoy=0
-      g%NGRM2  =0.0
-      g%NSPM2  =0.0
-      g%ZRTM=0.0
-      g%WRR14=0.
-      g%PARCUM =0.0
-      g%PARCM1 =0.0
-      g%NGR = 0.
-      g%RTNASS=0. 
-      g%TNASS=0.
-      g%WSOI  =0.0
-      g%WLVGI =0.0
-      g%WSTI  =0.0
-      g%WRTI  =0.0
-      g%CKCIN=0.0
-      g%CKCFL=0.0
-      g%DLDRT=0.
-      g%DLDR=0.
-      g%TSLV=0.
-      g%GLAI=0.
-      g%tmmx = 0.0
-      g%tmmn = 0.0
-      g%tmda = 0.0
-      g%ZRT = 0.0
-      g%etd = 0.0
-      g%WL0 = 0.0
-      g%RLAI = 0.0
-      g%etrd = 0.0
-      g%etae = 0.0
-      g%ETD = 0.0
-      g%evsc = 0.0
-      g%trc  = 0.0
-      g%WLVG = 0.0
-      g%WSTS = 0.0
-      g%WST  = 0.0
-      g%WSTR = 0.0
-      g%WLV  = 0.0
-      g%WLVD = 0.0
-      g%WAG  = 0.0
-      g%WSO  = 0.0
-      g%WAGT = 0.0
-      g%TDRW = 0.0
-      g%WRT  = 0.0
-      g%DVS  = 0.0
-      g%LESTRS = 1.0
-      g%TMPCOV = 0.0
-      g%TAV    = 0.0
-      g%TAVD   = 0.0
-      g%DTR    = 0.0
-      g%TMAX    = 0.0
-      g%TMIN   = 0.0
-      g%hu     = 0.0
-      g%hulv   = 0.0
-      g%NCOLD  = 0
-      g%DVR    = 0.0 
-      g%dayl   = 24.0
-      g%TS     = 0.0
-      g%TSHCKD = 0.0
-      g%LAIROL = 0.0
-      g%ARLAI  = 0.0
-      g%SAI    = 0.0
-      g%KDF   = 0.0
-      g%REDF = 0.0
-      g%KNF = 0.0
-      g%NFLV = 0.0
-      g%CSLV  = 0.0
-      g%ECPDF = 0.0
-      g%GAI   = 0.0
-      g%GPCDT = 0.0
-      g%DTGA  = 0.0
-      g%COSLD = 0.0 
-      g%sinld = 0.0
-      g%DAYLP = 0.0
-      g%DSINB=0.0
-      g%DSINBE=0.0
-      g%SOLCON=0.0
-      g%ANGOT=0.0 
-      g%RAPCDT = 0.
-      g%HOUR=0.0
-      g%SINB=0.0
-      g%RAPSHL=0.0
-      g%RAPPPL=0.0
-      g%FSLLA=0.0
-      g%AMAX2=0.0
-      g%EFF2=0.0
-      g%GPSHL=0.0
-      g%GPL=0.0
-      g%RAPL=0.0 
-      g%PARI1 =0.0
-      g%DPARI =0.0
-      g%DPAR  =0.0
-      g%FRT=0.0
-      g%GGR=0.0
-      g%PWRR=0.0
-      g%WRR=0.0
-      g%GCR=0.0
-      g%NGCR  =0.0
-      g%PLTR =0.0
-      g%GRT    =0.
-      g%GLV    =0.
-      g%RWLVG  =0.
-      g%GST    =0.
-      g%GSTR   =0.
-      g%RWSTR  =0.
-      g%GSO    =0.
-      g%GNSP =0.
-      g%GNGR=0.
-      g%NSP=0.0
-      g%TBLV=0.0
-      g%RGRL=0.0
-      g%TRWL(:) = 0
-      g%MSUC(:)  = 0.
-      g%MSKPA(:) = 0.
-      g%wclqt(:)=0.0
-      p%wcst(:)=0.0
-      g%WCL(:)=0.0
-      g%FACT(:)=0.0
-      g%ZRTL(:)  =0.0
-      g%LRAV   = 1.
-      g%LDAV   = 1.
-      g%LEAV   = 1.
-      g%LESTRS = 1.
-      g%PCEW   = 1.
-      g%CPEW   = 1.
-      g%LRSTRS = 1.
-      g%LDSTRS = 1.
-      g%TRW = 0.
-      g%NSLLV  = 1.
-      g%RNSTRS = 1.
-      g%ANSTA = 0.0
-      g%ANLVA = 0.0
-      g%NASTS = 0.0
-      g%NASOS = 0.0
-      g%NACRS = 0.0
-      g%NTRTS = 0.0
-      g%NALVS = 0.0
-      g%COLDTT = 0.0
-      g%GRAINS = .FALSE.
-      g%SF1    = 1.
-      g%SF2    = 1.
-      g%SPFERT = 1.
-      g%TFERT  = 0.
-      g%NTFERT = 0.
-        g%X       = 1.
-        g%TESTL   = .FALSE.
-        g%TESTSET = 0.00001
-        g%WLVGEXS = 0.0
-        g%LAIEXS  = 0.0
-        g%TSLVTR  = 0.0
-        g%TSHCKL  = 0.0
-        g%WLVGEXP = 0.0
-        g%LAIEXP  = 0.0
-
-      g%plant_status = status_out
       
-      call pop_routine (myname)
-      return
-      end subroutine
 
 
 * ====================================================================
@@ -1433,13 +1512,6 @@
      :              ,'(mm/day)'            ! variable units
      :              ,g%etd)            ! variable
       
-      elseif (variable_name .eq. 'WL0') then
-
-         call respond2get_real_var (
-     :               variable_name      ! variable name
-     :              ,'(mm)'            ! variable units
-     :              ,g%WL0)            ! variable
-      
        elseif (variable_name .eq. 'cropsta') then
 
          call respond2get_Integer_var (
@@ -1527,20 +1599,6 @@
      :          ,p%crop_type          ! Array
      :          ,numvals)             ! Number of values returned
       
-      call read_char_var (
-     :           section_name         ! Section header
-     :          ,'estab'          ! Keyword
-     :          ,'()'                 ! Units
-     :          ,p%estab          ! Array
-     :          ,numvals)             ! Number of values returned
-      
-      call read_char_var (
-     :           section_name         ! Section header
-     :          ,'swirtr'          ! Keyword
-     :          ,'()'                 ! Units
-     :          ,p%swirtr          ! Array
-     :          ,numvals)             ! Number of values returned
-      
       call read_real_var (
      :           section_name         ! Section header
      :          ,'nmaxup'               ! Keyword
@@ -1615,7 +1673,7 @@
      :          ,5.0)                 ! Upper Limit for bound check
      
       
-      call read_real_var (
+      call read_real_var_optional (
      :           section_name         ! Section header
      :          ,'ulrt'               ! Keyword
      :          ,'()'              ! Units
@@ -1623,8 +1681,8 @@
      :          ,numvals              ! Number of values returned
      :          ,0.0                  ! Lower Limit for bound check
      :          ,5000.0)                 ! Upper Limit for bound check
-     
-      call read_real_var (
+      if (numvals .gt. 0) then
+        call read_real_var (
      :           section_name         ! Section header
      :          ,'llrt'               ! Keyword
      :          ,'()'              ! Units
@@ -1632,7 +1690,13 @@
      :          ,numvals              ! Number of values returned
      :          ,0.0                  ! Lower Limit for bound check
      :          ,5000.0)                 ! Upper Limit for bound check
-     
+
+        p%SWIRTR = ET_EXPONENTIAL ! Woperis
+      else 
+
+        p%SWIRTR = ET_LINEAR      ! tanner & sinclair relationship, p91
+      endif  
+      
       call read_real_var (
      :           section_name         ! Section header
      :          ,'ulle'               ! Keyword
@@ -1843,15 +1907,6 @@
       
       call read_real_var (
      :           section_name         ! Section header
-     :          ,'co2'               ! Keyword
-     :          ,'(ppm)'              ! Units
-     :          ,p%co2               ! Array
-     :          ,numvals              ! Number of values returned
-     :          ,0.0                  ! Lower Limit for bound check
-     :          ,1000.0)                 ! Upper Limit for bound check
-      
-      call read_real_var (
-     :           section_name         ! Section header
      :          ,'co2REF'               ! Keyword
      :          ,'(ppm)'              ! Units
      :          ,p%co2ref               ! Array
@@ -1876,60 +1931,6 @@
      :          ,numvals              ! Number of values returned
      :          ,0.0                  ! Lower Limit for bound check
      :          ,1000.0)                 ! Upper Limit for bound check  
-      
-      call read_real_var (
-     :           section_name         ! Section header
-     :          ,'dvri'                 ! Keyword
-     :          ,'()'              ! Units
-     :          ,p%dvri                 ! Array
-     :          ,numvals              ! Number of values returned
-     :          ,0.0                  ! Lower Limit for bound check
-     :          ,100.0)                 ! Upper Limit for bound check
-      
-      call read_real_var (
-     :           section_name         ! Section header
-     :          ,'dvrj'               ! Keyword
-     :          ,'()'              ! Units
-     :          ,p%dvrj               ! Array
-     :          ,numvals              ! Number of values returned
-     :          ,0.0                  ! Lower Limit for bound check
-     :          ,50.0)                 ! Upper Limit for bound check
-      
-      call read_real_var (
-     :           section_name         ! Section header
-     :          ,'dvrp'               ! Keyword
-     :          ,'()'              ! Units
-     :          ,p%dvrp               ! Array
-     :          ,numvals              ! Number of values returned
-     :          ,0.0                  ! Lower Limit for bound check
-     :          ,50.0)                 ! Upper Limit for bound check
-      
-      call read_real_var (
-     :           section_name         ! Section header
-     :          ,'dvrr'               ! Keyword
-     :          ,'()'              ! Units
-     :          ,p%dvrr               ! Array
-     :          ,numvals              ! Number of values returned
-     :          ,0.0                  ! Lower Limit for bound check
-     :          ,50.0)                 ! Upper Limit for bound check
-      
-      call read_real_var (
-     :           section_name         ! Section header
-     :          ,'mopp'               ! Keyword
-     :          ,'()'              ! Units
-     :          ,p%mopp               ! Array
-     :          ,numvals              ! Number of values returned
-     :          ,0.0                  ! Lower Limit for bound check
-     :          ,50.0)                 ! Upper Limit for bound check
-      
-      call read_real_var (
-     :           section_name         ! Section header
-     :          ,'ppse'               ! Keyword
-     :          ,'()'              ! Units
-     :          ,p%ppse               ! Array
-     :          ,numvals              ! Number of values returned
-     :          ,0.0                  ! Lower Limit for bound check
-     :          ,50.0)                 ! Upper Limit for bound check
       
       call read_real_var (
      :           section_name         ! Section header
@@ -2059,24 +2060,6 @@
       
       call read_real_var (
      :           section_name         ! Section header
-     :          ,'nplh'               ! Keyword
-     :          ,'()'              ! Units
-     :          ,p%nplh               ! Array
-     :          ,numvals              ! Number of values returned
-     :          ,0.0                  ! Lower Limit for bound check
-     :          ,1000.0)                 ! Upper Limit for bound check
-      
-      call read_real_var (
-     :           section_name         ! Section header
-     :          ,'nh'               ! Keyword
-     :          ,'()'              ! Units
-     :          ,p%nh               ! Array
-     :          ,numvals              ! Number of values returned
-     :          ,0.0                  ! Lower Limit for bound check
-     :          ,1000.0)                 ! Upper Limit for bound check
-      
-      call read_real_var (
-     :           section_name         ! Section header
      :          ,'spgf'               ! Keyword
      :          ,'()'              ! Units
      :          ,p%spgf               ! Array
@@ -2147,24 +2130,6 @@
      :          ,0.0                  ! Lower Limit for bound check
      :          ,10.)              ! Upper Limit for bound check
       
-      call read_real_var (
-     :           section_name         ! Section header
-     :          ,'nplsb'             ! Keyword
-     :          ,'(mm)'               ! Units
-     :          ,p%nplsb             ! Array
-     :          ,numvals              ! Number of values returned
-     :          ,0.0                  ! Lower Limit for bound check
-     :          ,10000.)              ! Upper Limit for bound check
-      
-      call read_real_var (
-     :           section_name         ! Section header
-     :          ,'nplds'             ! Keyword
-     :          ,'(mm)'               ! Units
-     :          ,p%nplds             ! Array
-     :          ,numvals              ! Number of values returned
-     :          ,0.0                  ! Lower Limit for bound check
-     :          ,1000.)              ! Upper Limit for bound check
-      
       call read_integer_var (
      :           section_name         ! Section header
      :          ,'IACC'             ! Keyword
@@ -2174,15 +2139,6 @@
      :          ,0                  ! Lower Limit for bound check
      :          ,10)              ! Upper Limit for bound check
               
-        call read_integer_var (
-     :           section_name         ! Section header
-     :          ,'sbdur'             ! Keyword
-     :          ,'()'               ! Units
-     :          ,p%sbdur             ! Array
-     :          ,numvals              ! Number of values returned
-     :          ,0                  ! Lower Limit for bound check
-     :          ,100)              ! Upper Limit for bound check
-
       call read_real_array (
      :           section_name         ! Section header
      :          ,'nminso'                ! Keyword
@@ -2243,7 +2199,7 @@
      :          ,0.0                  ! Lower Limit for bound check
      :          ,10.0)                 ! Upper Limit for bound check  
       
-      call read_real_array (
+      call read_real_array_optional (
      :           section_name         ! Section header
      :          ,'slat'                ! Keyword
      :          ,max_table            ! array size
@@ -2252,8 +2208,8 @@
      :          ,p%numsla             ! Number of values returned
      :          ,0.0                  ! Lower Limit for bound check
      :          ,100.0)               ! Upper Limit for bound check
-
-      call read_real_array (
+      if (p%numsla .gt. 0) then
+        call read_real_array (
      :           section_name         ! Section header
      :          ,'sla'               ! Keyword
      :          ,max_table            ! array size
@@ -2262,6 +2218,9 @@
      :          ,p%numsla             ! Number of values returned
      :          ,0.0                  ! Lower Limit for bound check
      :          ,100.0)                 ! Upper Limit for bound check 
+      else
+        p%sla(:) = 0.0
+      endif
        
       call read_real_array (
      :           section_name         ! Section header
@@ -2522,18 +2481,8 @@
      :          ,p%numnsllv             ! Number of values returned
      :          ,0.0                  ! Lower Limit for bound check
      :          ,100.0)                 ! Upper Limit for bound check 
-
-      call read_real_array (
-     :           section_name         ! Section header
-     :          ,'wcli'                ! Keyword
-     :          ,max_layer            ! array size
-     :          ,'(mm3/mm3)'           ! Units
-     :          ,p%wcli                ! Array
-     :          ,numvals              ! Number of values returned
-     :          ,0.0                  ! Lower Limit for bound check
-     :          ,500.0)                 ! Upper Limit for bound check 
-      
-       call pop_routine  (myname)
+    
+      call pop_routine  (myname)
       return
       end subroutine
 
@@ -2565,10 +2514,10 @@
       if (p%PRODENV.eq. env_limited) then
           call get_real_array(unknown_module, 'sw', max_layer
      :                                    , '(mm3/mm3)'
-     :                                    , g%sw, numvals
+     :                                    , g%wcl, numvals
      :                                    , 0.0, 1.0)
       else
-          g%sw(:) = 1.0
+          g%wcl(:) = 1.0
       endif
 
       if (p%nitroenv.eq. env_limited) then
@@ -2589,6 +2538,14 @@
      :                                  , g%etd, numvals
      :                                  , 0.0, 500.0)
 
+      call get_real_var_optional (unknown_module
+     :                           , 'co2', '()'
+     :                           , g%co2, numvals
+     :                           , 0.0, 1000.0)
+      if (numvals .eq. 0) then
+        g%co2= p%CO2REF
+      else
+      endif
 
       call pop_routine(myname)
       return
@@ -2643,18 +2600,9 @@
         CALL Oryza_ET() !same arguments
 
         IF (p%PRODENV.EQ.env_limited) THEN
-               CALL Oryza_WSTRESS()
+            CALL Oryza_WSTRESS()
         ELSE If (p%PRODENV.EQ.env_potential) THEN
             CALL Oryza_WNOSTRESS()
-            g%TKLT = 100.
-            p%ZRTMS = 100.
-            g%WL0=0.
-            num_layers = count_of_real_vals(p%wcli,max_layer)
-            num_layers = max(1,num_layers) 
-            DO I=1,num_layers
-               g%WCLQT(I) = 0.3
-               p%WCST(I)  = 0.3
-            END DO
         ELSE
             call fatal_error(err_user,'unknown water environment??')
         ENDIF    
@@ -3145,47 +3093,45 @@
       END Subroutine
           
 
-!----------------------------------------------------------------------*
-! Subroutine GPPARGET
-!-----------------------------------------------------------------------*
-! user subroutine !!!!!!!!
-          
-! xGAI     - Total leaf area index
-! xGAID    - Leaf area index above point of calculation
-! xAmaxIn  - Uncorrected amax
-! xEffIn   - Uncorrected efficiency
-! xAmaxOut - Corrected amax
-! xEffOut  - Corrected efficiency
-          
-      subroutine Oryza_GPParGet()
-      
+! user subroutine !!!!!!!!????
+      subroutine Oryza_GPParGet(xGAI
+     :                         , xGAID
+     :                         , xAmaxIn
+     :                         , xEffIn
+     :                         , xAmaxOut
+     :                         , xEffOut
+     :                         , cCO2
+     :                         , cKNF
+     :                         , cNFLV
+     :                         , cREDFT)
       implicit none
-          
+
 !     formal parameters
-      real xGAI, xGAID, xAmaxIn, xEffIn, xAmaxOut, xEffOut
-          
+      real xGAI      ! Total leaf area index                      
+      real xGAID     ! Leaf area index above point of calculation 
+      real xAmaxIn   ! Uncorrected amax                           
+      real xEffIn    ! Uncorrected efficiency                     
+      real xAmaxOut  ! Corrected amax                             
+      real xEffOut   ! Corrected efficiency                       
+      real cCO2      ! Ambient CO2 level
+      real cKNF
+      real cNFLV
+      real cREDFT
+      
 !     local variables
       real AmaxCO2,SLNI
       real Amax
-      real tmpr1
 
-       xGAI = g%gai
-       xGAID=g%GAID
-       xAmaxin=g%AMAX1
-       xeffin=g%eff1
-
-!      avoid compiler warnings on unused variables
-       tmpr1 = xAmaxin
 !          
-       AmaxCO2 = 49.57/34.26*(1.-exp (-0.208*(p%CO2-60.)/49.57))
+       AmaxCO2 = 49.57/34.26*(1.-exp (-0.208*(cCO2-60.)/49.57))
        AmaxCO2 = max (0.,AmaxCO2)
 !          
 
       if(xGAI.GT.0.01 .AND. g%KNF.GT.0.) then
-         SLNI = g%NFLV*xGAI*g%KNF*exp (-g%KNF*xGAID)/
-     :             (1.-exp (-g%KNF*xGAI))
+         SLNI = cNFLV*xGAI*cKNF*exp (-cKNF*xGAID)/
+     :             (1.-exp (-cKNF*xGAI))
        else
-         SLNI = g%NFLV
+         SLNI = cNFLV
       end if
 !          
 !!-----Calculate actual photosynthesis from SLN, CO2 and temperature
@@ -3194,16 +3140,14 @@
 !          
       if (SLNI.GE.0.5) then
          !! According to Shaobing Peng (IRRI, unpublished data):
-         Amax = 9.5+(22.*SLNI)*g%REDF*AmaxCO2
+         Amax = 9.5+(22.*SLNI)*cREDFT*AmaxCO2
        else
-         Amax = max (0.,68.33*(SLNI-0.2)*g%REDF*AmaxCO2)
+         Amax = max (0.,68.33*(SLNI-0.2)*cREDFT*AmaxCO2)
       end if
-!          
+
       xAmaxOut = Amax
       xEffOut  = xEffIn
-      g%AMAX2=xamaxout
-      g%eff2=xeffout
- 
+!          
       return
       end Subroutine 
 !
@@ -3221,8 +3165,6 @@
 !             radiation (PAR)                                          *
 ! AMAX1   R4  Assimilation rate at light saturation       kg CO2/   I  *
 !                                                        ha leaf/h     *
-! EFF1    R4  Initial light use efficiency               kg CO2/J/  I  *
-!                                                       (ha/h/m2/s)    *
 ! ECPDF   R4  Extinction coefficient for diffuse light              I  *
 ! GAI     R4  Total green area                             ha/ha    I  *
 ! GAID    R4  Green area index above selected height       ha/ha    I  *
@@ -3260,11 +3202,19 @@
       g%EFF1 =g%EFF
 
       !! Selection of depth of canopy, canopy assimilation is set to zero
-
       CALL Oryza_SRDPRF() !Same arguments
 
       !! Get photosynthesis parameters from user routine
-      CALL Oryza_GPPARGET()!Different arguments
+      CALL Oryza_GPPARGET(g%gai
+     :                    ,g%GAID
+     :                    ,g%AMAX1
+     :                    ,g%eff1
+     :                    ,g%AMAX2 
+     :                    ,g%eff2
+     :                    ,g%CO2
+     :                    ,g%KNF
+     :                    ,g%NFLV
+     :                    ,g%REDF)
 
       !! Assimilation of shaded leaf area
       IF (g%AMAX2.GT.0.) THEN
@@ -4000,8 +3950,6 @@
       REAL    TSHCKL  
       REAL    WLVGIT
      
-
-
       g%WST    = g%WSTS + g%WSTR
       g%WLV    = g%WLVG + g%WLVD
       g%WAG    = g%WLVG + g%WST  + g%WSO
@@ -4056,7 +4004,7 @@
 !           g%DVR = g%DVR*g%DVEW
 !          
 !!----------CO2 concentration
-           CO2EFF =(1.-EXP(-0.00305*p%co2-0.222))/
+           CO2EFF =(1.-EXP(-0.00305*g%co2-0.222))/
      :              (1.-EXP(-0.00305*p%co2ref-0.222))           
 
            g%EFF = linear_interp_real(g%tavd,p%efft,p%eff,p%numeff)
@@ -4155,10 +4103,10 @@
            END IF
 !          
 !!----------Growth rates of crop organs at transplanting
-           RWLVG1 = divide(g%WLVG*(1.-g%PLTR),p%DELT, 0.0)
-           GST1   = divide(g%WSTS*(1.-g%PLTR),p%DELT, 0.0)
-           RWSTR1 = divide(g%WSTR*(1.-g%PLTR),p%DELT, 0.0)
-           GRT1   = divide(g%WRT *(1.-g%PLTR),p%DELT, 0.0)
+           RWLVG1 = g%WLVG*(1.-g%PLTR)
+           GST1   = g%WSTS*(1.-g%PLTR)
+           RWSTR1 = g%WSTR*(1.-g%PLTR)
+           GRT1   = g%WRT *(1.-g%PLTR)
 !          
 !!----------Growth rates of crop organs
            g%GRT    = g%GCR*g%FRT-GRT1
@@ -4181,15 +4129,14 @@
 !!--------- Leaf area growth (after calculation on leaf growth and loss rates!)
 !          
 !!----------Temperature sum for leaf development
-           g%TBLV = p%TBD
            CALL Oryza_SUBDD()
 !          
 !!----------Specific leaf area
-           IF (p%SWISLA .EQ. 'table') THEN
+           IF (p%numsla .gt. 0) THEN
               g%SLA = linear_interp_real(g%DVS,p%slat,p%sla,p%numsla)
-            ELSE
-           g%SLA = p%ASLA + p%BSLA*EXP(p%CSLA*(g%DVS-p%DSLA))
-           g%SLA = MIN(p%SLAMAX, g%SLA)
+           ELSE
+              g%SLA = p%ASLA + p%BSLA*EXP(p%CSLA*(g%DVS-p%DSLA))
+              g%SLA = MIN(p%SLAMAX, g%SLA)
            END IF
 !          
 !!----------Leaf area index growth
@@ -4209,11 +4156,11 @@
            END IF
            IF (DLEAF) THEN
               IF (g%LDSTRS.LE.KEEP) THEN
-                 g%DLDR=divide(WLVGIT,p%DELT,0.0) *
+                 g%DLDR=WLVGIT *
      :                  (1.-g%LDSTRS) -
-     :                   divide(g%DLDRT,p%DELT,0.0)
+     :                   g%DLDRT
                  KEEP  = g%LDSTRS
-                 g%DLDRT = g%DLDR*p%DELT+g%DLDRT
+                 g%DLDRT = g%DLDR+g%DLDRT
               END IF
            END IF
 !          
@@ -4233,9 +4180,9 @@
      :              (CTRANS*44./12.)
 !          
 !!----------Carbon balance check
-           g%CKCIN  = (g%WLVG+g%WLVD-g%WLVGI)*p%FCLV+(g%WSTS-g%WSTI)
+           g%CKCIN  = (g%WLVG+g%WLVD-p%WLVGI)*p%FCLV+(g%WSTS-p%WSTI)
      :           *p%FCST+g%WSTR*p%FCSTR 
-     :           +(g%WRT-g%WRTI)*p%FCRT+g%WSO*p%FCSO
+     :           +(g%WRT-p%WRTI)*p%FCRT+g%WSO*p%FCSO
            g%CKCFL  = g%TNASS*(12./44.)
           
            CALL Oryza_SUBCBC()
@@ -4256,22 +4203,22 @@
          IF (g%CROPSTA .GE. 1) THEN
 !          
 !!-----------Integrate rate variables
-            g%PARCUM = g%PARCUM + g%DPARI*p%DELT
-            g%PARCM1 = g%PARCM1 + g%PARI1*p%DELT
-            g%TS     = g%TS + g%HU*p%DELT
-            g%TSLV   = g%TSLV + g%HULV*p%DELT
-            g%DVS    = g%DVS + g%DVR*p%DELT
-            g%WLVG   = g%WLVG + (g%RWLVG-g%DLDR)*p%DELT
-            g%WLVD   = g%WLVD + (g%LLV+g%DLDR)* p%DELT
-            g%WSTS   = g%WSTS + g%GST*p%DELT
-            g%WSTR   = g%WSTR + g%RWSTR*p%DELT
-            g%WSO    = g%WSO + g%GSO*p%DELT
-            g%WRT    = g%WRT + g%GRT*p%DELT
-            g%WRR    = g%WRR + g%GGR*p%DELT
-            g%NGR    = g%NGR + g%GNGR*p%DELT
-            g%NSP    = g%NSP + g%GNSP*p%DELT
+            g%PARCUM = g%PARCUM + g%DPARI
+            g%PARCM1 = g%PARCM1 + g%PARI1
+            g%TS     = g%TS + g%HU
+            g%TSLV   = g%TSLV + g%HULV
+            g%DVS    = g%DVS + g%DVR
+            g%WLVG   = g%WLVG + (g%RWLVG-g%DLDR)
+            g%WLVD   = g%WLVD + (g%LLV+g%DLDR)
+            g%WSTS   = g%WSTS + g%GST
+            g%WSTR   = g%WSTR + g%RWSTR
+            g%WSO    = g%WSO + g%GSO
+            g%WRT    = g%WRT + g%GRT
+            g%WRR    = g%WRR + g%GGR
+            g%NGR    = g%NGR + g%GNGR
+            g%NSP    = g%NSP + g%GNSP
 
-            g%TNASS  = g%TNASS + g%RTNASS*p%DELT 
+            g%TNASS  = g%TNASS + g%RTNASS
 !!-----------Calculate sums of states
             g%WST    = g%WSTS + g%WSTR
             g%WLV    = g%WLVG + g%WLVD
@@ -4282,12 +4229,9 @@
             g%PWRR   = g%NGR*p%WGRMX
             g%NGRM2  = g%NGR/10000.
             g%NSPM2  = g%NSP/10000.
-!          
-!!-----------Weight rough rice with 14% moisture
-            g%WRR14  = (g%WRR/0.86)
-!          
+
 !!-----------Leaf area index and total area index (leaves + stems)
-            g%RLAI    = g%RLAI + g%GLAI*p%DELT
+            g%RLAI    = g%RLAI + g%GLAI
             g%ARLAI   = g%RLAI+0.5*g%SAI
 
 !          
@@ -4299,7 +4243,7 @@
             ELSE IF (DROUT) THEN
                g%ZRTM = MIN(p%ZRTMCD,p%ZRTMS,g%TKLT)
             END IF
-            g%ZRT    = g%ZRT + p%GZRT *p%DELT
+            g%ZRT    = g%ZRT + p%GZRT
             g%ZRT    = MIN(g%ZRT,g%ZRTM)
 !          
 !!===========Checks on simulation run
@@ -4417,12 +4361,10 @@
          g%LEAV = 0.
          g%LDAV = 0.
 
-         num_layers = count_of_real_vals(p%wcli,max_layer)
+         num_layers = count_of_real_vals(p%tkl,max_layer)
          num_layers = max(1,num_layers)
          DO I = 1,num_layers
-
-            g%WCL(I)=g%SW(I)
-            
+           
             IF (g%WCL(I).GE.p%WCFC(I)) THEN
                   g%FACT(I)= MAX(0.,MIN(1.,(p%WCST(I)-g%WCL(I))/
      :                          (p%WCST(I)-p%WCFC(I))))
@@ -4471,20 +4413,24 @@
             IF (g%MSKPA(I) .GE. 10000.) THEN
                TRR(I) = 0.
             ELSE
-               IF (p%SWIRTR .EQ. 'data') THEN
+               IF (p%SWIRTR .EQ. ET_EXPONENTIAL) THEN
+                  ! Woperis, p91
                   TRR(I) = (LOG10(g%MSKPA(I)+TINY)-LOG10(p%LLRT))
      :                              /(LOG10(p%ULRT)-LOG10(p%LLRT))
-                   If(TRR(I).lt.0.0) TRR(I)=0.0
-                   If(TRR(I).gt.1.0) TRR(I)=1.0
-               ELSE
+                  If(TRR(I).lt.0.0) TRR(I)=0.0
+                  If(TRR(I).gt.1.0) TRR(I)=1.0
+               ELSEIF (p%SWIRTR .EQ. ET_LINEAR) THEN
+                  ! Tanner & sinclair, p91
                   TRR(I)  = 2./(1.+EXP(0.003297*g%MSKPA(I)))
+               ELSE
+                  call fatal_error(err_user, 'ET method wrong??')
                END IF
             END IF
             If(TRR(I).lt.0.0) TRR(I)=0.0
             If(TRR(I).gt.1.0) TRR(I)=1.0
            
             WLA(I)=MAX(0.0,(g%WCLQT(I)-p%WCWP(I))*g%ZRTL(I)*1000.)
-            g%TRWL(I) = MIN(TRR(I)*g%ZRTL(I)*g%TRRM,WLA(I)/p%DELT)
+            g%TRWL(I) = MIN(TRR(I)*g%ZRTL(I)*g%TRRM,WLA(I))
             g%TRW     = g%TRW + g%TRWL(I)
             g%ZLL     = g%ZLL+p%TKL(I)
          END DO
@@ -4493,9 +4439,9 @@
          !!     Take water from soil layer that has a surplus, starting from top.
          DO I = 1, num_layers
             IF (g%TRW .LT. g%TRC) THEN
-               IF (TRR(I).GE.1 .AND.g%TRWL(I).LT.WLA(I)/p%DELT) THEN
-                  g%TRWL(I) = MIN(WLA(I)/p%DELT,(g%TRWL(I)+
-     :                       (g%TRC-g%TRW)/p%DELT))
+               IF (TRR(I).GE.1 .AND.g%TRWL(I).LT.WLA(I)) THEN
+                  g%TRWL(I) = MIN(WLA(I),(g%TRWL(I)+
+     :                       (g%TRC-g%TRW)))
                END IF
                g%TRW = 0.
                DO J = 1,num_layers
@@ -4562,7 +4508,7 @@
       g%CPEW   = 1.
       g%PCEW   = 1.
 
-      num_layers = count_of_real_vals(p%wcli,max_layer)
+      num_layers = count_of_real_vals(p%tkl,max_layer)
       num_layers = max(1,num_layers)    
       DO I=1,num_layers
         g%TRWL(I) = 0.
@@ -4700,11 +4646,11 @@
           !!========== Calculate (potential) N demand of crop organs
           !!           Maximum N demand of leaves
 
-          NDEML  = (g%NMAXL*(g%WLVG+g%GLV*p%DELT)-g%ANLV)/p%DELT 
+          NDEML  = (g%NMAXL*(g%WLVG+g%GLV)-g%ANLV)
 
           IF (NDEML .LT. 0.) NDEML = 0.
           !!           Maximum N demand of stems
-          NDEMS  = (g%NMAXL*0.5*(g%WST+g%GST*p%DELT)-g%ANST)/p%DELT
+          NDEMS  = (g%NMAXL*0.5*(g%WST+g%GST)-g%ANST)
           IF (NDEMS .LT. 0.) NDEMS = 0.
           !!           Maximum N demand of storage organs
           NDEMSX = p%NMAXSO*g%GSO
@@ -4784,25 +4730,25 @@
       END IF !!=End if statement for CROPSTA GT 4
       
       !!------- N amount in plant organs
-      g%ANSO  =g%ANSO +NSO*p%DELT
-      g%ANLV  =g%ANLV +NLV*p%DELT
-      g%ANST  =g%ANST +NST*p%DELT
-      g%ANLD  =g%ANLD +NLDLV*p%DELT
+      g%ANSO  =g%ANSO +NSO
+      g%ANLV  =g%ANLV +NLV
+      g%ANST  =g%ANST +NST
+      g%ANLD  =g%ANLD +NLDLV
       g%ANCR  =g%ANSO+g%ANLV+g%ANLD+g%ANST          
       
       !!------- N amount in plant organs before flowering
-      g%ANLVA =g%ANLVA + NLVAN*p%DELT
-      g%ANSTA =g%ANSTA + NSTAN*p%DELT
+      g%ANLVA =g%ANLVA + NLVAN
+      g%ANSTA =g%ANSTA + NSTAN
       g%ANCRF =g%ANSTA + g%ANLVA
       
       !!------- Total N uptake from soil
-      g%NALVS = g%NALVS+ NALV* p%DELT
-      g%NASTS = g%NASTS+ NAST* p%DELT
-      g%NASOS = g%NASOS+ NASO* p%DELT
+      g%NALVS = g%NALVS+ NALV
+      g%NASTS = g%NASTS+ NAST
+      g%NASOS = g%NASOS+ NASO
       g%NACRS = g%NALVS + g%NASTS + g%NASOS
 
       !!------- Total N supply by translocation from roots
-      g%NTRTS = g%NTRTS + NTRT*p%DELT
+      g%NTRTS = g%NTRTS + NTRT
 
       !!------- Nitrogen balance check
       CALL Oryza_SUBNBC (g%ANCR, g%NACRS+g%NTRTS)
@@ -5155,21 +5101,6 @@
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-
-      num_layers = count_of_real_vals(p%wcli,max_layer)
-      num_layers = max(1,num_layers)
-
-      do I=1,num_layers
-         g%TKLP(I) = p%TKL(I)
-         g%TKLT    = g%TKLT+p%TKL(I)
-         g%WCLQT(I)= p%WCLI(I)
-         g%WCL(I)  = p%WCLI(I)
-
- 
-      enddo
-
-
-
       call pop_routine (myname)
       return
       end subroutine
@@ -5250,7 +5181,7 @@
 
 *- Implementation Section ----------------------------------
       call push_routine(myname)
-      num_layers = count_of_real_vals(p%wcli,max_layer)
+      num_layers = count_of_real_vals(p%tkl,max_layer)
       num_layers = max(1,num_layers)
 
       if (p%nitroenv .eq. env_limited) then
@@ -5331,6 +5262,7 @@
      :                                    , p%wcst, numvals
      :                                    , 0.0, 1000.0)
 
+      g%TKLT = 0.0
       ! cvt to (mm3/mm3)
       do 1000 layer = 1, numvals
          p%wcad(layer) = divide (p%wcad(layer)
@@ -5341,7 +5273,7 @@
      :                           , p%tkl(layer), 0.0)
          p%wcst(layer) = divide (p%wcst(layer)
      :                           , p%tkl(layer), 0.0)
-
+         g%TKLT = g%TKLT + p%tkl(layer)
 1000  continue
 
       call pop_routine (myname)
@@ -5583,6 +5515,7 @@
       elseif (Action.eq.ACTION_Init) then
          ! Initialise & read constants, parameters
          call oryza_create ()
+         call write_string ('   - Initialising')
          call oryza_Init ()
       
       elseif (action.eq.ACTION_sow) then
