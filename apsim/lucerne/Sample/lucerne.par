@@ -1,25 +1,18 @@
 [sample.report.parameters]
-title = lucerne Sample Simulation
-screen_output = on
-outputfile  = lucerne.out /overwrite
-summaryfile = lucerne.sum /overwrite
-
-module_names=    clock clock
-variable_names=  day   year     
-variable_alias=  -     -      
-
-module_names=    lucerne  lucerne    lucerne
-variable_names=  lai     biomass   green_biomass
-variable_alias=  -          -         -     
-units=           -          -         -     
+outputfile  =lucerne.out
 
 
+
+
+variable = clock.day
+variable = clock.year
+variable = lucerne.lai
+variable = lucerne.biomass
+variable = lucerne.green_biomass
 [sample.clock.parameters]
 ! Start and end date of run (day number of year and year)
-simulation_start_day =  150
-simulation_start_year = 1988
-simulation_end_day =  210
-simulation_end_year = 1989
+start_date=29/5/1988
+end_date=29/7/1989
 
 [sample.manager.start_of_day]
 
@@ -44,3 +37,7 @@ report do_output
    ll    = .230 .240 .240 .250 .260 .270 .280  ! lower limit mm water/mm soil
    xf   = 1.00 1.00 1.00 1.00 1.00 1.00 1.00  ! Weighting factor for root advance
    kl   = 0.08 0.08 0.08 0.08 0.05 0.03 0.01  ! Water Extraction Parameter (0-1)
+[sample.SummaryFile.parameters]
+summaryfile=lucerne.sum
+[sample.Screen.parameters]
+screen_output=on

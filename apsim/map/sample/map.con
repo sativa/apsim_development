@@ -1,9 +1,8 @@
-[apsim.sample_map]
 version=2.2
+
+[apsim.sample_map]
+
 title=Map Sample Simulation
-summaryfile=Map.sum
-screen_output=on
-debug_output=on
 module = clock    map.par [sample]
 module = report   map.par [sample]
 module = Input(Met)      %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
@@ -12,3 +11,5 @@ module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini [standard]
 module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
 module = solute   %apsuite\apsim\solute\sample\solute.par [sample]     %apsuite\apsim\solute\solute.ini [standard]
 module = map      map.par [sample]
+module = screen   map.par [sample]
+module = summaryfile map.par [sample]

@@ -1,11 +1,12 @@
+version=2.2
 
 [apsim.sample_manager]  
 
-version=2.2
 title=Manager Sample Simulation
-summaryfile=manager.sum
 module = clock   manager.par [sample]
 module = report  manager.par [sample]
 module = Input(Met)     %apsuite\apsim\met\sample\dalby.met [weather]
 module = manager manager.par [sample]
 module = operatns manager.par [sample]
+module = screen manager.par [sample]
+module = summaryfile manager.par [sample]
