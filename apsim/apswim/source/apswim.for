@@ -8787,7 +8787,6 @@ c      pause
 *     ===========================================================
       subroutine apswim_New_Profile_Event ()
 *     ===========================================================
-            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -8814,9 +8813,8 @@ c      pause
 
       call post_double_array   (DATA_dlayer
      :                        ,'(mm)'
-     :                        , g%dlayer(0)
+     :                        , g%dlayer(0:p%n)
      :                        , p%n+1)
-
 
       dummy(:) = 0d0
 
