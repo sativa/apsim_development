@@ -2,7 +2,7 @@
   <simulation name="SpatialSimulation">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1940</start_date>
-      <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1949</end_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date">10/03/1940</end_date>
     </clock>
     <summaryfile name="summaryfile">
       <filename name="filename">D:\development\APSIMUI\ContinuousWheat.sum</filename>
@@ -18,12 +18,14 @@
       <filename name="filename">D:\development\APSIMUI\top.out</filename>
       <outputfiledescription name="My Variables">
         <variables>
+          <variable name="day" description="Day" module="clock" variablename="day" arrayspec="" />
           <variable name="date" variablename="dd/mm/yyyy" module="clock" arrayspec="" description="Date (dd/mm/yyyy)" />
           <variable name="evaporation" description="Dam Evaporation" module="dam" variablename="evaporation" arrayspec="" />
           <variable name="available_depth" description="Dam Water Depth" module="dam" variablename="available_depth" arrayspec="" />
           <variable name="overflow" description="Dam Overflow" module="dam" variablename="overflow" arrayspec="" />
           <variable name="seepage" description="Dam Seepage" module="dam" variablename="seepage" arrayspec="" />
           <variable name="available_water" description="Available Dam Water" module="dam" variablename="available_water" arrayspec="" />
+          <variable name="streamflow" description="Stream Flow (ML)" module="stream" variablename="streamflow" arrayspec="" />
         </variables>
         <events>
           <event name="post" description="End of daily simulation time step" module="clock" />
@@ -36,15 +38,34 @@
         <filename name="filename">D:\development\APSIMUI\Paddock1.out</filename>
         <outputfiledescription name="My Variables">
           <variables>
+            <variable name="day" description="Day" module="registrations" variablename="day" arrayspec="" />
             <variable name="Date" variablename="dd/mm/yyyy" module="registrations" arrayspec="" description="Date (dd/mm/yyyy)" />
             <variable name="surfaceom_wt" module="surfaceom" description="Total mass of all surface organic materials" variablename="surfaceom_wt" arrayspec="" />
             <variable name="surfaceom_cover" module="surfaceom" description="Fraction of ground covered by all surface OM&quot;s" variablename="surfaceom_cover" arrayspec="" />
             <variable name="biomass" description="Biomass" array="F" units="kg/ha" module="wheat" variablename="biomass" arrayspec="" />
             <variable name="yield" description="Yield" array="F" units="kg/ha" module="wheat" variablename="yield" arrayspec="" />
+            <variable name="esw" array="T" description="Extractable Soil Water - all layers (mm)" module="soilwat2" variablename="esw" arrayspec="" />
+            <variable name="irrigation" description="Irrigation entering the profile (mm)" module="irrigation" variablename="irrigation" arrayspec="" />
+            <variable name="streamflow" description="Stream Flow (ML)" module="stream1" variablename="streamflow" arrayspec="" />
+            <variable name="runoff" description="Runoff (mm)" module="soilwat2" variablename="runoff" arrayspec="" />
           </variables>
           <events>
-            <event name="harvesting" description="" module="wheat" />
+            <event name="post" description="End of daily simulation time step" module="registrations" />
           </events>
+          <outputfiledescription name="My Variables">
+            <variables>
+              <variable name="Date" variablename="dd/mm/yyyy" module="registrations" arrayspec="" description="Date (dd/mm/yyyy)" />
+              <variable name="surfaceom_wt" module="surfaceom" description="Total mass of all surface organic materials" variablename="surfaceom_wt" arrayspec="" />
+              <variable name="surfaceom_cover" module="surfaceom" description="Fraction of ground covered by all surface OM&quot;s" variablename="surfaceom_cover" arrayspec="" />
+              <variable name="biomass" description="Biomass" array="F" units="kg/ha" module="wheat" variablename="biomass" arrayspec="" />
+              <variable name="yield" description="Yield" array="F" units="kg/ha" module="wheat" variablename="yield" arrayspec="" />
+              <variable name="esw" array="T" description="Extractable Soil Water - all layers (mm)" module="soilwat2" variablename="esw" arrayspec="" />
+              <variable name="irrigation" description="Irrigation entering the profile (mm)" module="irrigation" variablename="irrigation" arrayspec="" />
+            </variables>
+            <events>
+              <event name="post" description="End of daily simulation time step" module="registrations" />
+            </events>
+          </outputfiledescription>
         </outputfiledescription>
       </outputfile>
       <soil name="#016 - Jimbour,Waco">
@@ -779,6 +800,18 @@
       </manager>
       <wheat />
       <fertiliser name="fertiliser" />
+      <logic name="logic">
+        <script name="init" />
+        <script name="startofday">crop_area = 100[cr]if day = 5 then[cr] irrigation apply amount = 100, source = dam[cr]endif</script>
+        <script name="endofday" />
+      </logic>
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">off</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <stream name="stream1" />
     </area>
     <area name="paddock2">
       <registrations />
@@ -790,10 +823,11 @@
             <variable name="surfaceom_wt" module="surfaceom" description="Total mass of all surface organic materials" variablename="surfaceom_wt" arrayspec="" />
             <variable name="surfaceom_cover" module="surfaceom" description="Fraction of ground covered by all surface OM&quot;s" variablename="surfaceom_cover" arrayspec="" />
             <variable name="biomass" description="Biomass" array="F" units="kg/ha" module="wheat" variablename="biomass" arrayspec="" />
+            <variable name="streamflow" description="Stream Flow (ML)" module="stream2" variablename="streamflow" arrayspec="" />
             <variable name="yield" description="Yield" array="F" units="kg/ha" module="wheat" variablename="yield" arrayspec="" />
           </variables>
           <events>
-            <event name="harvesting" description="" module="wheat" />
+            <event name="post" description="End of daily simulation time step" module="registrations" />
           </events>
         </outputfiledescription>
       </outputfile>
@@ -1529,6 +1563,18 @@
       </manager>
       <wheat />
       <fertiliser name="fertiliser" />
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">off</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <logic name="logic">
+        <script name="init" />
+        <script name="startofday">crop_area = 100[cr]</script>
+        <script name="endofday" />
+      </logic>
+      <stream name="stream2" />
     </area>
     <area name="Forestry">
       <registrations />
@@ -1940,7 +1986,7 @@
       <max_available_water>150.0</max_available_water>
       <max_area>20</max_area>
       <init_available_water>144.0</init_available_water>
-      <max_pump>20.0</max_pump>
+      <max_pump>100</max_pump>
       <min_volume>5.0</min_volume>
       <permeability>0.00007</permeability>
       <seal_thickness>0.5</seal_thickness>
@@ -1948,10 +1994,11 @@
       <receive_crop_runoff>no</receive_crop_runoff>
     </WaterSupply>
     <logic name="logic">
-      <script name="init">runoff = 0[cr]crop_area = 0</script>
+      <script name="init">runoff = 0[cr]crop_area = 100</script>
       <script name="startofday" />
       <script name="endofday" />
     </logic>
+    <stream />
   </simulation>
   <folder name="shared">
   </folder>
