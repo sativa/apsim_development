@@ -1085,6 +1085,7 @@
 *     dph 4/9/96   added function 'date_within'
 *     dph 2/10/96  changed call to date_between to date_within
 *     sb  19/3/97  added manager function nearest_int().
+*     dph 10/2/98  called write_event instead of report_event - d097
  
 *   Global variables
       include 'const.inc'              ! constant definitions
@@ -1176,7 +1177,7 @@
      .              'Manager creating a new local variable : ',
      .               variable_name(1:Lastnb(variable_name)),
      .               ' = 0'
-                  call Report_event (str)
+                  call Write_event (str)
    
                else
                   ! Found variable elsewhere in APSIM
@@ -1227,6 +1228,7 @@
 *     dph 25/7/96  added message to summary file when creating a local variable
 *     dph 2/10/96  replaced all calls to post_char_var to set_char_var.
 *     sb 3/7/97  Trimmed args in both calls of set_char_var().
+*     dph 10/2/98  called write_event instead of report_event - d097
 *   Calls:
 *      assign_string
  
@@ -1296,7 +1298,7 @@
      .            variable_name(1:Lastnb(variable_name)),
      .            ' = ',
      .            Variable_value(1:lastnb(Variable_value))
-               call Report_event (str)
+               call Write_event (str)
  
             else
                call set_char_var(Unknown_module,
