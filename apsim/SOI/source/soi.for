@@ -59,7 +59,7 @@
       parameter (this_routine='SOI_init')
 *+  Calls
 
-*+  Local Variables                  
+*+  Local Variables
       character filename*100           ! filename of table to open
       logical ok
 
@@ -69,12 +69,11 @@
 
       ! Zero variables
       call SOI_zero_variables()
-                            
       ! read in the filename
-      if (read_parameter('filename', 'soi', filename, .false.)) then
+      if (read_parameter('filename', 'parameters', filename,
+     .     .false.)) then
          ! create an external table object and open it
          g%LU_SOI = newApsimDataFile(filename)
-
          ! Read in all parameters from parameter file
          call SOI_read_phases ()
          call deleteApsimDataFile(g%LU_SOI)
@@ -184,7 +183,7 @@
      .                                'SOI_inp_month')
 
          g%SOI_array(Year, Month) = Phase
-         if (.not. ApsimDataFile_Next(g%LU_SOI)) then
+         if (ApsimDataFile_Next(g%LU_SOI)) then
             goto 10
          endif
       endif
@@ -219,7 +218,6 @@
       call push_routine (this_routine)
 
       if (variable_name(1:4) .eq. 'soi[') then
-
          call SOI_get_phase (variable_name)
 
          call respond2get_integer_var(variable_name, ! external name
@@ -280,7 +278,6 @@
 
 
       call jday_to_date (SOI_Day, SOI_Month, SOI_Year, g%SOI_jday)
-
       ! get the month or lag from the variable name
 
       SOI_units = SOI_get_units (variable_name)
@@ -391,7 +388,7 @@
       subroutine alloc_dealloc_instance(doAllocate)
 !     ===========================================================
       use SOIModule
-      implicit none  
+      implicit none
       ml_external alloc_dealloc_instance
 
 !+  Sub-Program Arguments
