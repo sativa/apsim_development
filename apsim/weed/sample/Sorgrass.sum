@@ -194,7 +194,7 @@
      
                       Residue Initial Parameters
          ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorous  Report
+           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
            (fraction/day) (ratio) (ratio)  aware      additions
          ------------------------------------------------
                   0.100    30.0     0.0       F       no
@@ -405,11 +405,11 @@
      Manager sending message :- weed end_crop
 20 November 1988(Day of year=325), weed: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =    67.2 kg/ha
-         straw N =           2.3 kg/ha
-         root residue =     37.1 kg/ha
-         root N =            0.3 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                 67.16                   37.10
+                          N  (kg/ha) =                  2.27                    0.33
+                          P  (kg/ha) =                                          0.00
+     
 29 November 1988(Day of year=334), sorghum: 
       stage    5.0 floral_initiation
                           biomass =           52.85678       lai =    0.6709458
