@@ -10,8 +10,7 @@
 #include <general\stristr.h>
 #include "ComponentInterfaceGenerator.h"
 #pragma package(smart_init)
-using std::ofstream;
-using std::ifstream;
+using namespace std;
 
 static const char* COMPILER_OUTPUT_FILENAME = "compiler.rpt";
 
@@ -21,8 +20,9 @@ static const char* IMPORT_KEY = "import";
 static const char* OBJECT_KEY = "object";
 static const char* LIBRARY_KEY = "library";
 static const char* INCLUDE_KEY = "include";
-static const char* SWITCHES_KEY = "switches";
+static const char* MODULE_KEY = "module";
 static const char* SOURCE_KEY = "source";
+static const char* SWITCHES_KEY = "switches";
 
 static const char* AUTOMAKE_FILENAME = "automake.fig";
 static const char* COMPILER_RESPONSE_FILENAME = "compiler.rsp";
@@ -205,6 +205,16 @@ void CompileThread::CompileProject (APSIM_project& apf)
          {
          // cleanup after ourselves.
          Cleanup (apf);
+
+         // send contents of compiler.rpt to standard out.
+         if (Stdout)
+            {
+            string compilerRptPath = APSDirectories().Get_working() + "\\compiler.rpt";
+            ifstream compilerRpt(compilerRptPath.c_str());
+            string contents;
+            getline(compilerRpt, contents, '\0');
+            std::cout << contents;
+            }
          }
       }
    }
@@ -315,6 +325,16 @@ void CompileThread::CreateCompilerResponseFile (APSIM_project& apf)
    string IncludeString;
    Build_string (IncludeDirectories, ";", IncludeString);
    out << "-i " << IncludeString;
+
+   // add a modules switch.
+   list<string> ModuleDirectories;
+   GetFilesForCompiler (apf, MODULE_KEY, ModuleDirectories);
+   if (ModuleDirectories.size() > 0)
+      {
+      string ModuleString;
+      Build_string (ModuleDirectories, ";", ModuleString);
+      out << " -mod " << ModuleString;
+      }
    }
 
 // ------------------------------------------------------------------
@@ -495,18 +515,12 @@ void CompileThread::Cleanup (APSIM_project& apf)
 // ------------------------------------------------------------------
 void CompileThread::CopySwitchesToStream (APSIM_project& apf, ostream& out)
    {
-   // get a list of all compiler switch files for this binary.
-   string SwitchesFile = APSDirectories().Get_home() +
-                             "\\apsbuild\\switches." +
-                             CompileType;
-   if (!FileExists(SwitchesFile.c_str()))
-      SwitchesFile = APSDirectories().Get_home() +
-                             "\\apsbuild\\switches.fig";
+   list<string> switchLines;
+   GetFilesForCompiler (apf, SWITCHES_KEY, switchLines);
 
-   ifstream in ( SwitchesFile.c_str() );
-   string SwitchLine;
-   getline(in, SwitchLine);
-   out << SwitchLine << std::endl;
+   // copy all switch lines to output stream.
+   ostream_iterator<string,char> o(out, " ");
+   std::copy(switchLines.begin(), switchLines.end(), o);
    }
 
 // ------------------------------------------------------------------
@@ -634,7 +648,7 @@ void CompileThread::CreateComponentInterface(APSIM_project& apf)
    interfaceFilePath.Append_path(moduleName.c_str());
    interfaceFilePath.Set_name(moduleName.c_str());
    interfaceFilePath.Set_extension(".interface");
-   if (interfaceFilePath.Exists())
+/*   if (interfaceFilePath.Exists())
       {
       Path sourcePath(GetSourceDirectory(apf).c_str());
       sourcePath.Change_directory();
@@ -642,7 +656,7 @@ void CompileThread::CreateComponentInterface(APSIM_project& apf)
       // generate interface file.
       GenerateComponentInterface(interfaceFilePath.Get_path().c_str());
       }
-   }
+*/   }
 // ------------------------------------------------------------------
 //  Short description:
 //     create a ComponentInterface.for file for this module.
