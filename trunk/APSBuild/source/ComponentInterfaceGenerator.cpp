@@ -101,16 +101,36 @@ void GenerateComponentInterface(const string& interfaceFile)
 
       // Step Two. - Set Subscribed Event Macro Values
       GetSubscribedEvents(interfaceFile,temp);
-      AMF->SetMacroValues("Subscribed Event",temp);
+      Macro* subMacro = AMF->getMacro("subevent");
+      if (subMacro == NULL)
+         throw string("Cannot find a 'subevent' macro.");
+      for (list<string>::iterator nameI = temp.begin();
+                                  nameI != temp.end();
+                                  nameI++)
+         {
+         MacroValue macroValue;
+         macroValue.addAttribute("name", *nameI);
+         subMacro->addValue(macroValue);
+         }
 
       // Step Three. - Set Published Event Macro Values
       temp.clear();
       GetPublishedEvents(interfaceFile,temp);
-      AMF->SetMacroValues("Published Event",temp);
-
+      Macro* pubevent = AMF->getMacro("pubevent");
+      if (pubevent == NULL)
+         throw string("Cannot find a 'pubevent' macro.");
+      for (list<string>::iterator nameI = temp.begin();
+                                  nameI != temp.end();
+                                  nameI++)
+         {
+         MacroValue macroValue;
+         macroValue.addAttribute("name", *nameI);
+         pubevent->addValue(macroValue);
+         }
 
       //  All done - so now write out the output files
-      AMF->write();
+      vector<string> filesWriten;
+      AMF->write(filesWriten);
       }
    catch (...)
       {
