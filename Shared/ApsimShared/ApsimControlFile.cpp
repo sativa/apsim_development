@@ -1067,4 +1067,19 @@ void ApsimControlFile::enumerateParametersForInstance(const std::string& section
          }
       }
    }
+// ------------------------------------------------------------------
+// Add a parameter file reference to all instances of the
+// specified module. Return true if the con file was modified.
+// ------------------------------------------------------------------
+bool ApsimControlFile::addParameterFileReference(const std::string& section,
+                                                 const std::string& moduleName,
+                                                 const std::string& parameterFileName,
+                                                 const std::string& parameterSectionName)
+   {
+   vector<string> instanceNames;
+   getInstances(section, moduleName, instanceNames);
+   for (unsigned i = 0; i != instanceNames.size(); i++)
+      addModuleLine(section, moduleName, instanceNames[i], parameterFileName, parameterSectionName);
+   return (instanceNames.size() > 0);
+   }
 

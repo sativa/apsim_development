@@ -174,6 +174,8 @@ bool ControlFileConverter::convertSection(const string& sectionName) throw(runti
          ok = executeRemoveTrackerDefault(arguments) || ok;
       else if (routineName == "SearchReplaceReportVariables")
          ok = executeSearchReplaceReportVariables(arguments) || ok;
+      else if (routineName == "AddParamFileToModule")
+         ok = executeAddParamFileToModule(arguments) || ok;
 
       if (!ok)
          return false;
@@ -640,4 +642,23 @@ bool ControlFileConverter::executeSearchReplaceReportVariables(const string& arg
          }
       }
    return someHaveChanged;
+   }
+//---------------------------------------------------------------------------
+// Add a parameter file reference to all instances of a module in con file.
+//---------------------------------------------------------------------------
+bool ControlFileConverter::executeAddParamFileToModule(const string& arguments) throw(runtime_error)
+   {
+   unsigned posComma = arguments.find(',');
+   if (posComma == string::npos)
+      throw runtime_error("Bad arguments in call to AddParamFileToModule: " + arguments);
+
+   string arg1 = arguments.substr(0, posComma);
+   string arg2 = arguments.substr(posComma+1, arguments.length()-posComma-1);
+   Strip(arg1, " ");
+   Strip(arg2, " ");
+   posComma = arg2.find(',');
+   string arg3 = arg2.substr(posComma+1);
+   arg2.erase(posComma);
+
+   return con->addParameterFileReference(conSection, arg1, arg2, arg3);
    }

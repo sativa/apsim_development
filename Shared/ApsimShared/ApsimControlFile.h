@@ -190,6 +190,15 @@ class __declspec(dllexport) ApsimControlFile
                                           const std::string& instanceName,
                                           bool constantsOnly,
                                           ParamCallbackEvent callback);
+      // ------------------------------------------------------------------
+      // Add a parameter file reference to all instances of the
+      // specified module. Return true if the con file was modified.
+      // ------------------------------------------------------------------
+      bool addParameterFileReference(const std::string& section,
+                                     const std::string& moduleName,
+                                     const std::string& parameterFileName,
+                                     const std::string& parameterSectionName);
+
 
    private:
       IniFile* ini;

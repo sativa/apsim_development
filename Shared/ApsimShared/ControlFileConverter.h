@@ -123,6 +123,11 @@ class __declspec(dllexport) ControlFileConverter
       //---------------------------------------------------------------------------
       bool executeSearchReplaceReportVariables(const std::string& arguments) throw(runtime_error);
 
+      //---------------------------------------------------------------------------
+      // Add a parameter file reference to all instances of a module in con file.
+      //---------------------------------------------------------------------------
+      bool executeAddParamFileToModule(const string& arguments) throw(runtime_error);
+
    };
 
 // ------------------------------------------------------------------
