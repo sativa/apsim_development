@@ -1805,10 +1805,10 @@ std::string ftoa(double Float, char *fmtwidth=".2");
 std::string itoa(int value, int width=5);
 
 inline bool char2any(const char *str, int &value) {
-   return (sscanf(str, "%d", value) == 1);
+   return (sscanf(str, "%d", &value) == 1);
 }
 inline bool char2any(const char *str, float &value) {
-   return (sscanf(str, "%f", value) == 1);
+   return (sscanf(str, "%f", &value) == 1);
 }
 inline std::string any2string(float value) {
    return(ftoa(value));

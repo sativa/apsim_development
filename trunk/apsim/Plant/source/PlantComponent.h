@@ -30,7 +30,7 @@ class PlantComponent : public protocol::Component
              string baseSection = componentData->getProperty(sectionName, "derived_from");
              if (baseSection.length() > 0)
                 {
-                return readParameter(sectionName, variableName);
+                return readParameter(baseSection, variableName);
                 }
              }
           return valueString;
