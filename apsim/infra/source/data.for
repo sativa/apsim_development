@@ -296,6 +296,7 @@
  
       else if (value + margin_val.lt.lower - margin_lower) then
          e_messg = blank
+         print *, 'vname=',vname
          write (e_messg, '(2a, g16.7e2, 2a, g16.7e2)')
      :                      vname
      :                    , ' = '
