@@ -202,7 +202,7 @@ void Scenarios::createScenariosFrom(ScenarioContainer::iterator posn,
          newScenario.setName("");
          makeScenarioValid(newScenario, factorName);
          posn++;
-         scenarios.insert(posn, newScenario);
+         posn = scenarios.insert(posn, newScenario);
          }
       }
    }
