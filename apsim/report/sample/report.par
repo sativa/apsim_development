@@ -16,10 +16,7 @@ units =          -        -        -
 
 
 [sample.report2.parameters]  
-title =  Report Instantiation Sample Simulation file 2 
-screen_output =  on   
 outputfile =  report2.out /overwrite   
-summaryfile =  report.sum /overwrite   
  
 module_names =   clock clock  met     
 variable_names =  day year    rain   
