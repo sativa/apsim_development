@@ -111,7 +111,7 @@ Public Class APSIMData
             Return Node.OuterXml
         End Get
     End Property
-    Public Sub Add(ByRef Data As APSIMData)
+    Public Sub Add(ByVal Data As APSIMData)
         Dim NewName As String = UniqueName(Data.Name, ChildList)
         Data.Name = NewName
 

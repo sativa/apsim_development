@@ -76,8 +76,11 @@ Public Class APSIMFile
             Return APSIMFilename
         End Get
     End Property
-    Public Sub Save()
-        If APSIMFilename = DefaultName Then
+    Public Sub Save(Optional ByVal fname As String = "")
+        If fname <> "" Then
+            APSIMFilename = fname
+            SaveFile()
+        ElseIf APSIMFilename = DefaultName Then
             SaveAs()
             HasChanged = False
         Else
@@ -106,9 +109,22 @@ Public Class APSIMFile
     End Property
 
     Private Sub SaveFile()
-        Dim sw As StreamWriter = New StreamWriter(APSIMFilename)
-        sw.Write(FileData.XML)
-        sw.Close()
+        'Dim sw As StreamWriter = New StreamWriter(APSIMFilename)
+        'sw.Write(FileData.XML)
+        'sw.Close()
+
+        Dim doc As New XmlDocument
+        doc.LoadXml(FileData.XML)
+        doc.Save(APSIMFilename)
+
+        'Dim writer As New XmlTextWriter(APSIMFilename, System.Text.Encoding.ASCII)
+        'With writer
+        '    .Formatting = Formatting.Indented
+        '    .Indentation = 3
+        'End With
+        'writer..WriteString(FileData.XML)
+        'writer.Flush()
+
     End Sub
     ReadOnly Property caption() As String
         Get
