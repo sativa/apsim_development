@@ -8,24 +8,44 @@
 using namespace std;
 using namespace protocol;
 //---------------------------------------------------------------------------
-int main(int argc, char* argv[])
+WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
    {
    Simulation simulation;
 
-   if (argc == 3 && strcmpi(argv[1], "/q") == 0)
-      simulation.go(argv[2]);
+   if (_argc == 3 && strcmpi(_argv[1], "/q") == 0)
+      simulation.go(_argv[2]);
 
-   else if (argc == 2)
-      simulation.go(argv[1]);
+   else if (_argc == 2)
+      simulation.go(_argv[1]);
 
    else
       {
-      cout << "To run APSIM type : " << std::endl;
-      cout << "   apsim sim_file_name" << std::endl << std::endl;
-      cout << "Where sim_file_name is the name of your simulation file (.SIM)" << std::endl;
+      ::MessageBox(NULL, "To run APSIM type : \n"
+                         "   apsim sim_file_name\n\n"
+                         "Where sim_file_name is the name of your simulation file (.SIM)",
+                         "Error", MB_ICONSTOP | MB_OK);
       }
 
-   return 0;
+   try
+   {
+       Application->Initialize();
+       Application->Run();
    }
+   catch (Exception &exception)
+   {
+       Application->ShowException(&exception);
+   }
+   catch (...)
+   {
+       try
+       {
+          throw Exception("");
+       }
+       catch (Exception &exception)
+       {
+          Application->ShowException(&exception);
+       }
+   }
+   return 0;
+}
 //---------------------------------------------------------------------------
- 

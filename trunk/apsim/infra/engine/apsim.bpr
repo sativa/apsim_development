@@ -5,15 +5,20 @@
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\..\..\Bin\apsim.exe"/>
     <OBJFILES value="apsim.obj Simulation.obj ..\..\..\Shared\ComponentInterface\message.obj"/>
-    <RESFILES value=""/>
+    <RESFILES value="apsim.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
     <LIBFILES value="..\..\..\Shared\general\general.lib 
       ..\..\..\Shared\ApsimShared\ApsimShared.lib 
       ..\..\..\Shared\Protocol\Protocol.lib"/>
     <LIBRARIES value=""/>
-    <SPARELIBS value="rtl.lib vcl.lib"/>
-    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi vcljpg.bpi dbrtl.bpi vcldb.bpi bdertl.bpi"/>
+    <SPARELIBS value="vcl.lib rtl.lib"/>
+    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi adortl.bpi vcldb.bpi 
+      qrpt.bpi bdertl.bpi vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi ibxpress.bpi 
+      visualclx.bpi visualdbclx.bpi vclie.bpi xmlrtl.bpi inet.bpi inetdbbde.bpi 
+      inetdbxpress.bpi inetdb.bpi nmfast.bpi bcbie.bpi soaprtl.bpi dclocx.bpi 
+      dbexpress.bpi dbxcds.bpi indy.bpi bcb2kaxserver.bpi TeeDB.bpi Tee.bpi 
+      TeeUI.bpi TeeLanguage.bpi TeePro.bpi TeeGL.bpi TeeQR.bpi TMSC6.bpi"/>
     <PATHCPP value=".;..\..\..\Shared\ComponentInterface"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -22,35 +27,35 @@
     <RELEASELIBPATH value="$(BCB)\lib\release"/>
     <LINKER value="ilink32"/>
     <USERDEFINES value=""/>
-    <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
-    <MAINSOURCE value="apsim.bpf"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(SHARED);..\..\..\Shared\ComponentInterface"/>
-    <LIBPATH value="$(BCB)\lib\obj;$(BCB)\lib;..\..\..\Shared\ComponentInterface"/>
+    <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
+    <MAINSOURCE value="apsim.cpp"/>
+    <INCLUDEPATH value="..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)"/>
+    <LIBPATH value="..\..\..\Shared\ComponentInterface;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-O2 -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -a8 -b- -k- -vi -tWC -tWM -c"/>
+    <CFLAG1 value="-O2 -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -a8 -b- -k- -vi -c -tW -tWM"/>
     <PFLAGS value="-$Y- -$L- -$D- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
     <AFLAGS value="/mx /w2 /zn"/>
-    <LFLAGS value="-D&quot;&quot; -ap -Tpe -x -Gn"/>
+    <LFLAGS value="-l. -D&quot;&quot; -aa -Tpe -x -Gn"/>
     <OTHERFILES value=""/>
   </OPTIONS>
   <LINKER>
-    <ALLOBJ value="c0x32.obj $(PACKAGES) $(OBJFILES)"/>
+    <ALLOBJ value="c0w32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
-    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
     <OTHERFILES value=""/>
   </LINKER>
   <FILELIST>
-      <FILE FILENAME="apsim.bpf" FORMNAME="" UNITNAME="apsim" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="apsim.res" FORMNAME="" UNITNAME="apsim.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="apsim.cpp" FORMNAME="" UNITNAME="apsim" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Simulation.cpp" FORMNAME="" UNITNAME="Simulation.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Simulation.cpp" FORMNAME="" UNITNAME="Simulation" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="..\..\..\Shared\ComponentInterface\message.cpp" FORMNAME="" UNITNAME="message" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\Protocol\Protocol.lib" FORMNAME="" UNITNAME="Protocol.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\Shared\ComponentInterface\message.cpp" FORMNAME="" UNITNAME="message" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -88,49 +93,36 @@ c:\program files\borland\cbuilder6\Projects\Bpl\SEGReport.bpl=SEGReport
 c:\program files\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
 
 [HistoryLists\hlIncludePath]
-Count=11
-Item0=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);..\..\..\Shared\ComponentInterface
-Item1=..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item2=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item3=..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);..\ComponentInterface
-Item4=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);..\ComponentInterface
-Item5=$(BCB)\include;$(BCB)\include\vcl;..\ComponentInterface
-Item6=$(BCB)\include;$(BCB)\include\vcl;..\protocol;k:\
-Item7=D:\apsuite\apsim\infra\engine;$(BCB)\include;$(BCB)\include\vcl;..\protocol;k:\
-Item8=C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;..\protocol
-Item9=$(BCB)\include;$(BCB)\include\vcl;..\protocol
-Item10=$(BCB)\include;$(BCB)\include\vcl
+Count=3
+Item0=..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item1=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item2=..\..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=10
-Item0=$(BCB)\lib\obj;$(BCB)\lib;..\..\..\Shared\ComponentInterface
-Item1=..\..\..\Shared\ComponentInterface;$(BCB)\lib\obj;$(BCB)\lib
-Item2=$(BCB)\lib\obj;$(BCB)\lib
-Item3=..\..\..\Shared\ComponentInterface;..\ComponentInterface;$(BCB)\lib\obj;$(BCB)\lib
-Item4=..\ComponentInterface;$(BCB)\lib\obj;$(BCB)\lib
-Item5=C:\Program Files\Borland\CBuilder5\Projects;C:\Program Files\Borland\CBuilder5\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item6=C:\Program Files\Borland\CBuilder5\Projects\;C:\Program Files\Borland\CBuilder5\Projects\Lib\;$(BCB)\lib\obj;$(BCB)\lib
-Item7=D:\apsuite\apsim\infra\engine;C:\Program Files\Borland\CBuilder5\Projects\;C:\Program Files\Borland\CBuilder5\Projects\Lib\;$(BCB)\lib\obj;$(BCB)\lib
-Item8=C:\Program Files\Borland\CBuilder5\Projects\Lib\;$(BCB)\lib\obj;$(BCB)\lib
-Item9=C:\Program Files\Borland\CBuilder5\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Count=3
+Item0=..\..\..\Shared\ComponentInterface;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item1=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item2=..\..\..\APSoil\Source;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
-Count=2
-Item0=c:\program files\borland\cbuilder5\source\vcl;F:\apsim\Pasture\source\
-Item1=$(BCB)\source\vcl
+Count=1
+Item0=$(BCB)\source\vcl
 
 [HistoryLists\hlConditionals]
 Count=1
 Item0=_DEBUG
 
 [HistoryLists\hlFinalOutputDir]
-Count=3
+Count=2
 Item0=..\..\..\Bin\
 Item1=..\..\..\Bin
-Item2=..\..\
+
+[HistoryLists\hIBPIOutputDir]
+Count=1
+Item0=.
 
 [Debugging]
-DebugSourceDirs=
+DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
 RunParams=D:\Development\apsim\clock\sample\test.sim

@@ -10,7 +10,7 @@
 #include <ComponentInterface\MessageDataExt.h>
 #include <dir.h>
 
-#include "messages.h"
+#include <ComponentInterface\messages.h>
 #include <Protocol\Transport.h>
 #include <Protocol\Computation.h>
 
