@@ -16,7 +16,7 @@ CIOBJECTS=CreateComponentInterfaceSource.obj ComponentInterfaceGenerator.obj
 LIBFILES = $(APSROOT)\Shared\general\general.lib \
 	$(APSROOT)\Shared\general\general_vcl.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
-	$(BCB)\components\libxml2\win32\bin\libxml2.lib
+	$(BCB)\components\libxml2\win32\libxml2.lib
 
 USERDEFINES =
 SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
