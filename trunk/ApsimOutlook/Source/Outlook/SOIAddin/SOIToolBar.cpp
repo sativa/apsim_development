@@ -215,19 +215,9 @@ void SOIToolBar::Read_all_soi_data (void)
 
    ifstream in (FSOI_data_file.c_str());
    string Line;
-   getline(in, Line); // get first line, and check if it specs Phase names
-   string Phase_names_string = getKeyValue(Line, PHASE_NAMES_KEY);
-   if (Phase_names_string != "")
-      {
-      Split_string(Phase_names_string, "," , FPhase_names);
-      getline(in, Line);  // get the column header line
-      }
-   else  // no phase names specified, use default
-      {
-      char* default_phases[6] = {"Unknown", "Negative", "Positive", "Falling", "Rising", "Zero"};
-      for (int i=0; i<ARRAYSIZE(default_phases); i++)
-         FPhase_names.push_back(default_phases[i]);
-      }
+   char* default_phases[6] = {"Unknown", "Negative", "Positive", "Falling", "Rising", "Zero"};
+   for (int i=0; i<ARRAYSIZE(default_phases); i++)
+      FPhase_names.push_back(default_phases[i]);
 
    soi soi_obj;
    while (!in.eof())
