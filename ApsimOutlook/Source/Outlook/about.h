@@ -22,6 +22,7 @@ __published:
    TBitBtn *BitBtn1;
    TImage *Image1;
    TLabel *Label2;
+   TLabel *Label3;
 private:
 public:
 	virtual __fastcall TAboutBox(TComponent *Owner);
