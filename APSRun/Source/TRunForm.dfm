@@ -1,11 +1,11 @@
 object RunForm: TRunForm
-  Left = 269
-  Top = 165
-  BorderIcons = []
-  BorderStyle = bsDialog
+  Left = 378
+  Top = 117
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
   Caption = 'Running APSIM...'
-  ClientHeight = 450
-  ClientWidth = 649
+  ClientHeight = 457
+  ClientWidth = 652
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,14 +16,13 @@ object RunForm: TRunForm
   Position = poScreenCenter
   Scaled = False
   OnShow = FormShow
-  PixelsPerInch = 96
-  TextHeight = 13
+  PixelsPerInch = 120
+  TextHeight = 16
   object Image1: TImage
     Left = 8
     Top = 8
     Width = 150
-    Height = 300
-    AutoSize = True
+    Height = 353
     Picture.Data = {
       0A544A504547496D6167658B3E0000FFD8FFE000104A46494600010102001C00
       1C0000FFDB0043000503040404030504040405050506070C08070707070F0B0B
@@ -527,16 +526,10 @@ object RunForm: TRunForm
       54EE34F3CBA2E1872703AD761730C4265C20F99726A8C88A559F1C8A8444D2B1
       CA08D948C86438EC28AE98DBC4EC0320E5734569C88C2C7FFFD9}
   end
-  object Bevel1: TBevel
-    Left = 0
-    Top = 417
-    Width = 649
-    Height = 1
-  end
   object NextButton: TButton
-    Left = 486
+    Left = 470
     Top = 424
-    Width = 75
+    Width = 85
     Height = 25
     Caption = '&Next >'
     Default = True
@@ -544,9 +537,9 @@ object RunForm: TRunForm
     OnClick = NextButtonClick
   end
   object CancelButton: TButton
-    Left = 566
+    Left = 558
     Top = 424
-    Width = 75
+    Width = 85
     Height = 25
     Caption = '&Cancel'
     ModalResult = 2
@@ -566,8 +559,8 @@ object RunForm: TRunForm
       object Label1: TLabel
         Left = 10
         Top = 24
-        Width = 363
-        Height = 13
+        Width = 449
+        Height = 16
         Alignment = taCenter
         Caption = 
           'This control files listed below need to be converted to the new ' +
@@ -576,8 +569,8 @@ object RunForm: TRunForm
       object Label3: TLabel
         Left = 10
         Top = 40
-        Width = 351
-        Height = 13
+        Width = 445
+        Height = 16
         Caption = 
           'This is an automatic process and backups will be made of all mod' +
           'ified files.'
@@ -585,15 +578,15 @@ object RunForm: TRunForm
       object Label2: TLabel
         Left = 10
         Top = 200
-        Width = 184
-        Height = 13
+        Width = 227
+        Height = 16
         Caption = 'Click "Next" to perform the conversion.'
       end
       object ControlFileLabel: TLabel
         Left = 10
         Top = 64
-        Width = 20
-        Height = 13
+        Width = 24
+        Height = 16
         Caption = 'xxxx'
       end
     end
@@ -605,8 +598,8 @@ object RunForm: TRunForm
       object Label4: TLabel
         Left = 8
         Top = 16
-        Width = 287
-        Height = 13
+        Width = 360
+        Height = 16
         Caption = 
           'The following lists all the changes made to your control file(s)' +
           ':'
@@ -644,8 +637,8 @@ object RunForm: TRunForm
       object Label6: TLabel
         Left = 8
         Top = 0
-        Width = 246
-        Height = 13
+        Width = 310
+        Height = 16
         Caption = 'Select one or more simulations from the following list.'
       end
       object simulationList: TTreeView
@@ -673,15 +666,15 @@ object RunForm: TRunForm
       object Label9: TLabel
         Left = 24
         Top = 80
-        Width = 219
-        Height = 13
+        Width = 275
+        Height = 16
         Caption = 'APSIM is currently running multiple simulations.'
       end
       object Label10: TLabel
         Left = 24
         Top = 112
-        Width = 97
-        Height = 13
+        Width = 120
+        Height = 16
         Caption = 'Click Cancel to stop.'
       end
     end
