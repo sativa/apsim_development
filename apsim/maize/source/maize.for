@@ -6159,7 +6159,7 @@ cpsc need to develop leaf senescence functions for crop
 
          else
             ! Crop not in the field, do nothing
-            !call Zero_Variables (.false.)
+            call Zero_Variables (.false.)
          endif
 
       elseif (action.eq.ACTION_process) then
@@ -6236,7 +6236,7 @@ cpsc need to develop leaf senescence functions for crop
             call End_Crop ()
 
             !Zero all the globals, but not the contants and parameters
-            call Zero_Variables (.false.)
+!            call Zero_Variables (.false.)
 
             !Set plant status to status_out and stage to plant_end subroutine
             if (g%plant_status.ne.status_out) then
