@@ -1,6 +1,5 @@
-Output_file=fababean.out
- 
-Report - initialising,V1.5  21/7/96
+report - Output_file=fababean.out
+report - initialising,V1.6  21/8/98
 Title =fababean sample simulation
 Screen output =on
  
@@ -13,7 +12,7 @@ Variables =day,year
 Module = fababean
 Variables =lai,biomass,green_biomass
 ---------------------------------------------------------
-latitude=-27.11
+latitude =  -27.11
  MET Initialised, Version: V1.4 25/11/96
 ---------------------------------------------------------
  day= 130 date=  9  5 1988 manager  - Initialising, Version : V1.40  23/04/98
@@ -270,3 +269,5 @@ report do_output
                                           root residue = 5055.1 kg/ha
                                           root N =  126.4 kg/ha
 Simulation is terminating due to end criteria being met.
+ 
+======= End of APSIM simulation ==============================
