@@ -45,7 +45,7 @@
       parameter (my_name = 'sugar_version')
 
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V0.1 060696')
+      parameter (version_number = 'V0.11 150896')
 
 *   Initial data values
 *       none
@@ -7658,6 +7658,7 @@ c     :           (all_active_modules, 'incorp_fom', string)
 
 *   Changes:
 *     060495 nih taken from template
+*     140896 jngh modified fr_intc_radn name to inclued a suffix of module name
 
 *   Calls:
 *     add_real_array
@@ -7689,6 +7690,7 @@ c     :           (all_active_modules, 'incorp_fom', string)
       integer    layer                 ! layer number
       integer    numvals               ! number of values put into array
       real       dlayer(max_layer)     ! soil layer depths (mm)
+      character  module_name*(Max_module_name_size) ! module name
       real       NO3(max_layer)        ! soil NO3 content (kg/ha)
       real       NO3_min(max_layer)    ! soil NO3 minimum (kg/ha)
 
@@ -7727,9 +7729,14 @@ c     :           (all_active_modules, 'incorp_fom', string)
 
       ! Canopy Module
       ! -------------
-      call get_real_var_optional (unknown_module, 'fr_intc_radn', '()'
-     :                                  , g_fr_intc_radn, numvals
-     :                                  , 0.0, 1.0)
+      call get_current_module (module_name)
+      call get_real_var_optional (unknown_module
+     :                           , 'fr_intc_radn_'//module_name
+     :                           , '()'
+     :                           , g_fr_intc_radn
+     :                           , numvals
+     :                           , 0.0
+     :                           , 1.0)
 
       ! Soil Water module
       ! -----------------
