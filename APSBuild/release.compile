@@ -22,6 +22,7 @@ object   = %apsuite\shared\ComponentInterface\Variants.obj
 object   = %apsuite\shared\ComponentInterface\Registrations.obj
 object   = %apsuite\shared\ComponentInterface\RegistrationItem.obj
 object   = %apsuite\shared\ComponentInterface\ArraySpecifier.obj 
+object   = %apsuite\shared\ComponentInterface\DataTypes.obj 
 
 compile=@lf95 -c "%fi" -winconsole -dll -tp -nco -o0 -pca -nsav -stchk -trace -nchk -nin -ml bd -staticlink @compiler.rsp
 link=@lf95 @%rf -exe %ex -winconsole -dll -tp -nco -o0 -pca -nsav -stchk -trace -nchk -nin -ml bd -staticlink @linker.rsp
