@@ -1,8 +1,8 @@
-[weather.met.weather]
-version =  2.0 beta 2
+[weather.met.weather]  
+version =  2.0 beta 2   
 station_number = 041040
-rainfall_station = GREENMOUNT
-temperature_station = WARWICK
+rainfall_station = GREENMOUNT                       
+temperature_station = WARWICK                          
 latitude = -27.78  (DEG.MIN)
 longitude =  151.95  (DEG.MIN)
 rain_time = 00:00 (hh:mm)
@@ -10,15 +10,11 @@ rain_int = 30.0 (mm/h)
 eo_time = 6:00 (hh:mm)
 eo_durn = 720 (min)
 
-   ! TAV and AMP inserted by "tav_amp" on 28/10/1999 at 15:39 for period from   1/1976 to  59/1993 (ddd/yyyy)
- tav =  17.52 (oC)     ! annual average ambient temperature
- amp =  13.25 (oC)     ! annual amplitude in mean monthly temperature
-
-year  day radn  MaxT  MinT   Rain  Code
-()    () (mj/m2) (oC) (oC)   (mm)  ()
-1976   1 14.56 28.50  16.00   3.8  wrrS
-1976   2 14.69 28.00  17.30   0.9  wrrS
-1976   3 14.69 28.20  15.60  14.8  wrrS
+year  day radn  MaxT  MinT   Rain  Code  
+()    () (mj/m2) (oC) (oC)   (mm)  ()    
+1976   1 14.56 28.50  16.00   3.8  wrrS  
+1976   2 14.69 28.00  17.30   0.9  wrrS  
+1976   3 14.69 28.20  15.60  14.8  wrrS  
 1976   4 32.47 27.00  16.50   0.0  wrrn
 1976   5 15.01 27.60  14.00   0.2  wrrS
 1976   6 31.66 28.00  15.90   0.0  wrrn

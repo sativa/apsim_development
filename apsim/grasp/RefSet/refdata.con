@@ -5,40 +5,40 @@
 [apsim.step1.control]  
   Module = clock    [all]      
   Module = report   [all]     [step1]      
-  Module = met      %apsuite\apsim\grasp\sample\NARAYEN.MET [climate]      
+  Module = met      NARAYEN.MET [weather]      
   Module = manager  [all]      
   Module = soilwat2 [all]     soilwat2.ini [standard]      
-  Module = grasp    [all]     [step1]     [soilwat]     %apsuite\apsim\grasp\grasp.ini [standard]       
+  Module = grasp    [all]     [step1]     [soilwat]     ..\grasp.ini [standard]      
   Module = residue2 [all]     residue2.ini [standard]      
 
 ! Introduce dead grass
 [apsim.step3.control]  
   Module = clock    [all]      
   Module = report   [all]     [step3]      
-  Module = met      %apsuite\apsim\grasp\sample\NARAYEN.MET [climate]      
+  Module = met      NARAYEN.MET [weather]      
   Module = manager  [all]      
   Module = soilwat2 [all]     soilwat2.ini [standard]      
-  Module = grasp    [all]     [step3]     [soilwat]     %apsuite\apsim\grasp\grasp.ini [standard]       
+  Module = grasp    [all]     [step3]     [soilwat]     ..\grasp.ini [standard]      
   Module = residue2 [all]     residue2.ini [standard]      
 
 ! Add growth by regrowth
 [apsim.step5.control]  
   Module = clock    [all]      
   Module = report   [all]     [step5]      
-  Module = met      %apsuite\apsim\grasp\sample\NARAYEN.MET [climate]      
+  Module = met      NARAYEN.MET [weather]      
   Module = manager  [all]      
   Module = soilwat2 [all]     soilwat2.ini [standard]      
-  Module = grasp    [all]     [step5]     [soilwat]     %apsuite\apsim\grasp\grasp.ini [standard]       
+  Module = grasp    [all]     [step5]     [soilwat]     ..\grasp.ini [standard]      
   Module = residue2 [all]     residue2.ini [standard]      
 
 ! And growth by transpiration
 [apsim.step6.control]  
   Module = clock    [all]      
   Module = report   [all]     [step6]      
-  Module = met      %apsuite\apsim\grasp\sample\NARAYEN.MET [climate]      
+  Module = met      NARAYEN.MET [weather]      
   Module = manager  [all]      
   Module = soilwat2 [all]     soilwat2.ini [standard]      
-  Module = grasp    [all]     [step6]     [soilwat]     %apsuite\apsim\grasp\grasp.ini [standard]       
+  Module = grasp    [all]     [step6]     [soilwat]     ..\grasp.ini [standard]      
   Module = residue2 [all]     residue2.ini [standard]      
 
 ! SWIM interface.
@@ -47,29 +47,28 @@
   Module = report   [gmtb0]      
   Module = met      GMTAPSIM.DAT [weather]      
   Module = manager  [all]      
-  Module = apswim   [gmtb0]     %apsuite\apsim\apswim\apswim.ini [standard]      
-  Module = grasp    [all]     [step8]     [swim]     %apsuite\apsim\grasp\grasp.ini [standard]       
+  Module = apswim   [gmtb0]     \apsuite\apsim\apswim\apswim.ini [standard]      
+  Module = grasp    [all]     [step8]     [swim]     ..\grasp.ini [standard]      
   Module = residue2 [gmtb0]     residue2.ini [standard]      
-  Module = surface  [gmtb0]
-  Module = canopy    
+  Module = surface  [gmtb0]      
 
 ! EP effect on Nitrogen uptake
 [apsim.ep-on.control]  
   Module = clock    [ep]      
   Module = report   [ep]     [ep-on]      
-  Module = met      %apsuite\apsim\grasp\sample\NARAYEN.MET [climate]       
+  Module = met      NARAYEN.MET [weather]      
   Module = soilwat2 [all]     soilwat2.ini [standard]      
   Module = erosion  [ep]      
-  Module = grasp    [all]     [ep]     [soilwat]     %apsuite\apsim\grasp\grasp.ini [standard]       
+  Module = grasp    [all]     [ep]     [soilwat]     ..\grasp.ini [standard]      
   Module = residue2 [all]     residue2.ini [standard]      
   Module = manager  [ep]      
 
 [apsim.ep-off.control]  
   Module = clock    [ep]      
   Module = report   [ep]     [ep-off]      
-  Module = met      %apsuite\apsim\grasp\sample\NARAYEN.MET [climate]      
+  Module = met      NARAYEN.MET [weather]      
   Module = soilwat2 [all]     soilwat2.ini [standard]      
-  Module = grasp    [all]     [ep]     [soilwat]     %apsuite\apsim\grasp\grasp.ini [standard]       
+  Module = grasp    [all]     [ep]     [soilwat]     ..\grasp.ini [standard]      
   Module = residue2 [all]     residue2.ini [standard]      
   Module = manager  [ep]      
 
@@ -188,10 +187,10 @@ end_day =  1 ()   ! day of year to end
 end_year =  1996 ()   ! year to end
 
 [gmtb0.clock.parameters]  
-simulation_start_day =  218   
-simulation_start_year =  1976   
-simulation_end_day =  365   
-simulation_end_year =  1977   
+start_day =  218   
+start_year =  1976   
+end_day =  365   
+end_year =  1977   
 
 [all.manager.end_of_day]  
 transpiration = grasp.ep() * -1.0
@@ -433,7 +432,8 @@ bottom_boundary_condition =  0   ! Bottom Flag  - 0) constant gradient
 vapour_conductivity =  off   ! Vapour Conductivity flag (0=off, 1=on)
                               ! ------------------------
 
-run_solutes =    none    ! solutes to be moved by SWIM during simulation
+run_solutes =    
+!!no3 nh4       ! solutes to be moved by SWIM during simulation
 
 extra_solute_supply =  off   
 solute_exclusion =  off   
