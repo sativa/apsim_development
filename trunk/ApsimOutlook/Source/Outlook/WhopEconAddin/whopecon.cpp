@@ -171,7 +171,6 @@ void WhopEcon::doCalculations(TAPSTable& data, const Scenario& scenario)
       {
       // find the corresponding Scenario and the economic configuration name
       // that is used for this data block.
-      string rec_name = data.begin()->getFieldValue(SIMULATION_FACTOR_NAME);
       string econConfigName = scenario.getFactorValue(WHOPECON_FACTOR_NAME);
 
       // get a list of crops that have variables on the current record.
@@ -183,6 +182,19 @@ void WhopEcon::doCalculations(TAPSTable& data, const Scenario& scenario)
                            record != const_cast<RecordsIterator> (data.end());
                            record++)
          {
+         string rec_name = record->getFieldValue(SIMULATION_FACTOR_NAME);
+         unsigned posEconFactorName = rec_name.find(string(WHOPECON_FACTOR_NAME) + "=");
+         string recordEconName;
+         if (posEconFactorName != string::npos)
+            {
+            recordEconName = rec_name.substr(posEconFactorName+strlen(WHOPECON_FACTOR_NAME)+1);
+            unsigned posSemiColon = recordEconName.find(';');
+            if (posSemiColon != string::npos)
+               recordEconName.erase(posSemiColon);
+            }
+         if (recordEconName != "" && recordEconName != econConfigName)
+            break;
+
          // create a new column for the configuration name.
          record->setFieldValue(WHOPECON_FACTOR_NAME, econConfigName);
 
@@ -271,6 +283,7 @@ void WhopEcon::doCalculations(TAPSTable& data, const Scenario& scenario)
          }
       ok = data.next();
       }
+   data.markFieldAsAPivot(WHOPECON_FACTOR_NAME);
 
    Screen->Cursor = savedCursor;
    }
