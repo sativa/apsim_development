@@ -14,9 +14,8 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 1.61
-     Control filename       = c:\regr\apsim\millet\refset\valid_1.con
-     Configuration filename = c:\build\regression.config
+     Version                = 2.0
+     Simulation filename    = c:\regr\apsim\millet\refset\valid_1.sim
      Title                  = pat95_rcbic911
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
@@ -44,11 +43,27 @@
 ------- REPORT Initialisation ------------------------------------------------
      Output file = val_16.out
      Format = normal
-     Module_names = clock clock millet millet1 millet2 millet3 millet4 millet5 millet millet1 millet2 millet3 millet4 millet5 millet millet1 millet2 millet3 millet4 millet5 
-     Variable_names = year day yield yield yield yield yield yield biomass biomass biomass biomass biomass biomass lai lai lai lai lai lai 
-     Variable_alias = - - y0 y1 y2 y3 y4 y5 bio0 bio1 bio2 bio3 bio4 bio5 lai0 lai1 lai2 lai3 lai4 lai5 
-     Units = - - - - - - - - - - - - - - - - - - - - 
-     
+     Output variables:
+        clock.year
+        clock.day
+        millet.yield (alias: y0)
+        millet1.yield (alias: y1)
+        millet2.yield (alias: y2)
+        millet3.yield (alias: y3)
+        millet4.yield (alias: y4)
+        millet5.yield (alias: y5)
+        millet.biomass (alias: bio0)
+        millet1.biomass (alias: bio1)
+        millet2.biomass (alias: bio2)
+        millet3.biomass (alias: bio3)
+        millet4.biomass (alias: bio4)
+        millet5.biomass (alias: bio5)
+        millet.lai (alias: lai0)
+        millet1.lai (alias: lai1)
+        millet2.lai (alias: lai2)
+        millet3.lai (alias: lai3)
+        millet4.lai (alias: lai4)
+        millet5.lai (alias: lai5)
 
 ------- MET Initialisation ---------------------------------------------------
      File name = c:\regr\apsim\millet\refset\pat74-97.aps
@@ -488,9 +503,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -523,9 +538,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -558,9 +573,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -593,9 +608,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -628,9 +643,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -663,9 +678,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -698,9 +713,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -733,9 +748,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -768,9 +783,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -803,9 +818,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -897,9 +912,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -919,9 +934,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -954,9 +969,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -971,9 +986,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -1065,9 +1080,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -1082,9 +1097,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -1104,9 +1119,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -1139,9 +1154,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -1156,9 +1171,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -1173,9 +1188,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -1267,9 +1282,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -1284,9 +1299,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -1301,9 +1316,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -1323,9 +1338,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -1358,9 +1373,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -1375,9 +1390,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -1392,9 +1407,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -1409,9 +1424,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -1444,9 +1459,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -1461,9 +1476,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -1537,9 +1552,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
@@ -1554,9 +1569,9 @@
       
       Call stack  = soilwat2_set_my_variable
                     soilwat2
+                    set_real_array
                     millet_set_other_variables
                     Millet_main
-                    clock_timestep_loop
       
       Internal error:
       
