@@ -20,7 +20,7 @@
      Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\apswim\lib\apswim.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\sugar\lib\sugar.dll
 
@@ -145,7 +145,7 @@
            (das = ratoonlen and ratoon_no > 0) then
            sugar harvest
            if burn_flag = 1 then
-              residue2 tillage type = burn
+              surfaceom tillage type = burn
            endif
            if ratoon_no = noratoons + 1 then
               sugar kill_crop
@@ -155,7 +155,7 @@
               if sowing_reset = 1 then
                  soilwat2 reset
                  soiln2   reset
-                 residue2 reset
+                 surfaceom reset
               else
               endif
               if irrigate_flag = 1 and automatic_irrigation = 'off' then
@@ -176,7 +176,7 @@
         sugar harvest
         sugar end_crop
         if burn_flag = 1 then
-           residue2 tillage type = burn
+           surfaceom tillage type = burn
         endif
      elseif (sugar.crop_status = 'out') and (day = planting_day) then
         sugar sow plants = 10 (), cultivar = q117, sowing_depth = 150
@@ -330,30 +330,29 @@
      
      
 
-------- residue2 Initialisation -----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sugar
+      Residue type = sugar
+      Overall mass =  10000.0000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  2000.00000
+                            C:N =  80.0000000
+      Lying cellulose mass =  7000.00000
+                            C:N =  80.0000000
+      Lying lignin mass =  1000.00000
+                            C:N =  80.0000000
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-             10000.0    50.0     0.0  sugar
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100    80.0     0.0       F       no
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -516,10 +515,10 @@
 1 June 2000(Day of year=153), sugar: 
       stage    3.0 emergence
                           biomass =           3.530000       lai =    0.9900000E-02
-                          stover N conc =    2.543532       extractable sw =    3.262217
+                          stover N conc =    2.543532       extractable sw =    3.262218
 14 November 2000(Day of year=319), sugar: 
       stage    4.0 begin_cane
-                          biomass =           2378.947       lai =     6.183602
+                          biomass =           2378.946       lai =     6.183602
                           stover N conc =   0.4996068       extractable sw =    251.9105
 2 August 2001(Day of year=214), manager: 
      Manager sending message :- sugar harvest
@@ -541,13 +540,13 @@
      
      
       stress indices for emergence
-      water stress 1 =   0.5178264E-01   nitrogen stress 1 =   0.3244913E-01
-      water stress 2 =   0.2196841E-02
+      water stress 1 =   0.5178262E-01   nitrogen stress 1 =   0.3244916E-01
+      water stress 2 =   0.2196835E-02
      
      
      
       stress indices for begin_cane
-      water stress 1 =   0.1879881E-07   nitrogen stress 1 =   0.3140366
+      water stress 1 =   0.2039625E-07   nitrogen stress 1 =   0.3140366
       water stress 2 =    0.000000
      
      
@@ -564,8 +563,8 @@
      
          - Reading constants from q117_ratoon
 2 August 2001(Day of year=214), manager: 
-     Manager sending message :- residue2 tillage  type = burn
-2 August 2001(Day of year=214), residue2: 
+     Manager sending message :- surfaceom tillage  type = burn
+2 August 2001(Day of year=214), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using burn
@@ -610,7 +609,7 @@
      
      
       stress indices for begin_cane
-      water stress 1 =   0.2150950E-07   nitrogen stress 1 =   0.1833910
+      water stress 1 =   0.1715926E-07   nitrogen stress 1 =   0.1833907
       water stress 2 =    0.000000
      
      
@@ -623,8 +622,8 @@
                                                root residue = 1992.3 kg/ha
                                                root N =    8.3 kg/ha
 3 September 2002(Day of year=246), manager: 
-     Manager sending message :- residue2 tillage  type = burn
-3 September 2002(Day of year=246), residue2: 
+     Manager sending message :- surfaceom tillage  type = burn
+3 September 2002(Day of year=246), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using burn
@@ -668,7 +667,7 @@
           ------------------------------------------------------------------------------
 25 January 2003(Day of year=25), sugar: 
       stage    4.0 begin_cane
-                          biomass =           2217.241       lai =     6.613217
+                          biomass =           2217.241       lai =     6.613219
                           stover N conc =   0.6087534       extractable sw =    294.8139
 5 October 2003(Day of year=278), manager: 
      Manager sending message :- sugar harvest
@@ -678,8 +677,8 @@
      
       flowering day  =    0
       maximum lai = 6.720
-      total above ground biomass (kg/ha) =   68332.5
-      live above ground biomass (kg/ha) =   68332.5
+      total above ground biomass (kg/ha) =   68332.6
+      live above ground biomass (kg/ha) =   68332.6
       green above ground biomass (kg/ha) =   64401.0
       senesced above ground biomass (kg/ha) =    3931.6
       dead above ground biomass (kg/ha) =       0.0
@@ -690,13 +689,13 @@
      
      
       stress indices for emergence
-      water stress 1 =   0.2719786E-02   nitrogen stress 1 =   0.1276444E-01
+      water stress 1 =   0.2719779E-02   nitrogen stress 1 =   0.1276444E-01
       water stress 2 =   0.2719768E-02
      
      
      
       stress indices for begin_cane
-      water stress 1 =   0.1878984E-07   nitrogen stress 1 =   0.1352443
+      water stress 1 =   0.1925959E-07   nitrogen stress 1 =   0.1352440
       water stress 2 =    0.000000
      
      
@@ -709,8 +708,8 @@
                                                root residue = 2299.7 kg/ha
                                                root N =   11.8 kg/ha
 5 October 2003(Day of year=278), manager: 
-     Manager sending message :- residue2 tillage  type = burn
-5 October 2003(Day of year=278), residue2: 
+     Manager sending message :- surfaceom tillage  type = burn
+5 October 2003(Day of year=278), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using burn
