@@ -56,7 +56,9 @@ void TScreenForm::simulationHasFinished(void)
    ApsimSettings settings;
    string moreToGo;
    settings.read("apsim|MoreRunsToGo", moreToGo);
-   if (moreToGo == "false")
+   string quiet;
+   settings.read("apsim|Quiet", quiet);
+   if (moreToGo == "false" && quiet == "false")
       {
       CancelButton->Caption = "Close";
       settings.write("apsim|NextWasClicked", "false");

@@ -74,7 +74,7 @@ void ApsimRuns::addFile(const std::string& fileName, bool allSimulations)
          runFile.getRun(runNames[r], fileName, conFileSections);
          runs.push_back(new ApsimRun(fileName));
          if (conFileSections.size() == 0)
-            allSimulations = true;
+            runs[runs.size()-1]->doAllSimulations();
          else
             runs[runs.size()-1]->setSimulationsToRun(conFileSections);
          }
@@ -83,7 +83,10 @@ void ApsimRuns::addFile(const std::string& fileName, bool allSimulations)
       runs.push_back(new ApsimRun(fileName));
 
    if (allSimulations)
-      runs[runs.size()-1]->doAllSimulations();
+      {
+      for (unsigned r = 0; r != runs.size(); r++)
+         runs[r]->doAllSimulations();
+      }
    }
 //---------------------------------------------------------------------------
 // Perform all APSIM runs.
@@ -98,7 +101,7 @@ void ApsimRuns::runAll(bool withConsole, bool quiet)
       RunForm->ShowModal();
       }
    else
-      runApsim();
+      runApsim(quiet);
    }
 //---------------------------------------------------------------------------
 // Create SIM files for all runs.
@@ -145,9 +148,14 @@ void ApsimRuns::setSimulationsToRun(const std::string& fileName,
 //---------------------------------------------------------------------------
 // Perform all Apsim runs.
 //---------------------------------------------------------------------------
-void ApsimRuns::runApsim(void)
+void ApsimRuns::runApsim(bool quiet)
    {
    ApsimSettings settings;
+   if (quiet)
+      settings.write("Apsim|Quiet", "true");
+   else
+      settings.write("Apsim|Quiet", "false");
+
    bool continueWithRuns = true;
    for (unsigned f = 0; f != runs.size() && continueWithRuns; f++)
       {
