@@ -88,7 +88,8 @@ Public Class APSIMData
                 Dim RemoteSource = "library" + "|" + Me.Attribute("shortcut")
                 Return New APSIMData(Node.OwnerDocument.DocumentElement).FindChild(RemoteSource, "|").Value
             Else
-                Return Node.InnerText
+
+                Return Node.InnerText.Replace("%apsuite", APSIMSettings.ApsimDirectory())
             End If
         End Get
         Set(ByVal value As String)
