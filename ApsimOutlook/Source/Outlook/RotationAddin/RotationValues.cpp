@@ -84,12 +84,12 @@ bool RotationValues::isAveragedField(const string& fieldName) const
    else
       {
       // Make sure name is in fieldsDividedByNumFiles.
-      fieldI = find_if(fieldsDividedByNumFiles.begin(),
-                       fieldsDividedByNumFiles.end(),
-                       CaseInsensitiveStringComparison(fieldName));
-      if (fieldI == fieldsDividedByNumFiles.end())
-         throw runtime_error("Cannot find field: " + fieldName +
-                             " in the rotation.ini [fields] section.");
+//      fieldI = find_if(fieldsDividedByNumFiles.begin(),
+//                       fieldsDividedByNumFiles.end(),
+//                       CaseInsensitiveStringComparison(fieldName));
+//      if (fieldI == fieldsDividedByNumFiles.end())
+//         throw runtime_error("Cannot find field: " + fieldName +
+//                             " in the rotation.ini [fields] section.");
       return false;
       }
    }
