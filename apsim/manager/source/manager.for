@@ -591,6 +591,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .                          , g%token_array2
      .                          , max_tokens)
                end if
+               call component_freerule(g%rule)
            end if
          end do
 
