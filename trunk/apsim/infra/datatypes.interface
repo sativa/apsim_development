@@ -1334,6 +1334,9 @@
       <field name="Name" kind="string"/>
       <field name="OrganicMatterType" kind="string"/>
       <field name="PotDecompRate" kind="single" units="day^-1"/>
+      <field name="no3" kind="single" units="kg/ha"/>
+      <field name="nh4" kind="single" units="kg/ha"/>
+      <field name="po4" kind="single" units="kg/ha"/>
       <field name="StandingFraction" array="T">
          <element>
          <field name="amount"  kind="single" units="kg/ha"/>
