@@ -2399,7 +2399,8 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
             else
                open (unit = unit_number, file = file_name,
-     :              action='READ', status='OLD', iostat=iostatus)
+     :              action='READ,DENYWRITE', status='OLD', 
+     :              iostat=iostatus)
  
                if (iostatus.eq.ok) then
                                ! file has been opened.
