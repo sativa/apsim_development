@@ -73,6 +73,11 @@ C     Last change:  E     5 Dec 2000    8:52 am
 *+  Local Variables
       character msg*400                ! message to write to summary file
       integer day, month, year
+      integer start_julian_days
+      integer end_julian_days
+      integer startdate_numvals
+      integer enddate_numvals
+
 
 *- Implementation Section ----------------------------------
 
@@ -84,6 +89,27 @@ C     Last change:  E     5 Dec 2000    8:52 am
       ! read in all parameters for clock module.
       call clock_read_timesteps ()
       call clock_read_params ()
+
+      if (g%start_date .eq. 0.0) then
+         call get_integer_var(unknown_module, 'met_start_date'
+     :                        , '()'
+     :                        , start_julian_days, startdate_numvals
+     :                        , 0, 10000000)
+         call get_integer_var(unknown_module, 'met_end_date'
+     :                        , '()'
+     :                        , end_julian_days, enddate_numvals
+     :                        , 0, 10000000)
+
+         if (startdate_numvals .eq.  0 .or. enddate_numvals .eq. 0)then
+            call fatal_error (ERR_User
+     .                       ,'Cannot find CLOCK start and end date:')
+         else
+            g%start_date = start_julian_days
+            g%end_date = end_julian_days
+            call write_string(
+     .         'Using start and end dates from the met file.')
+         endif
+      endif
 
       ! set the clock to start_day.
 
