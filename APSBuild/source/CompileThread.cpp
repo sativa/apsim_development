@@ -108,7 +108,7 @@ void __fastcall CompileThread::goDisplayMessage2 (void)
 // ------------------------------------------------------------------
 void __fastcall CompileThread::runCommandLine (void)
    {
-   Exec(CommandLineToExecute.c_str(), SW_HIDE, true, &Terminated);
+   Exec(CommandLineToExecute.c_str(), SW_HIDE, true);
    }
 
 // ------------------------------------------------------------------
