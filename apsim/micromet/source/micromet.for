@@ -716,10 +716,10 @@
      :                         ,newType
      :                         ,numvals)
 
-      ! See if we know of it 
+      ! See if we know of it
       alreadyHaveIt = .false.
       do 100 i = 1, g%NumComponents
-        if (g%ComponentType(g%NumComponents).eq.newType) 
+        if (g%ComponentType(g%NumComponents).eq.newType)
      :            alreadyHaveIt = .true.
  100  continue
 
@@ -739,7 +739,7 @@
           ! ---------------------------------
           call micromet_component_constants(g%NumComponents)
         endif
-      else  
+      else
       endif
 
       call pop_routine (myname)
@@ -1003,7 +1003,7 @@
       call push_routine (myname)
 
       nodes(:) = 0.0
-      NumNodes = 0
+      NumNodes = 1
 
       do 100 ComponentNo = 1, g%NumComponents
          if (position_in_real_array(g%ComponentHeight(ComponentNo)
