@@ -20,7 +20,7 @@ latitude =  -27.11
 Manager rules
 ------- -----
 if day = 330 and year  = 1988 then
-mungbean sow crop_type = mungbean, cultivar = berkin, plants = 25 (/m2), sowing_depth = 40 (mm)
+mungbean sow cultivar = berkin, plants = 25 (/m2), sowing_depth = 40 (mm)
 elseif day = 50 and year = 1989 then
 mungbean harvest
 mungbean end_crop
@@ -142,7 +142,7 @@ report do_output
     - Reading constants
  
 ======= Start of APSIM simulation ============================
- Day= 330 Year =  1988     Manager sending message :- mungbean sow crop_type = mungbean, cultivar = berkin, plants = 25 (/m2), sowing_depth = 40 (mm)
+ Day= 330 Year =  1988     Manager sending message :- mungbean sow cultivar = berkin, plants = 25 (/m2), sowing_depth = 40 (mm)
  day= 330 date= 25 11 1988 mungbean - Sow
  
  - Reading constants for plant
@@ -196,7 +196,7 @@ report do_output
                      biomass =           5.000000       lai =    0.8500000e-01
                      stover N conc =    5.999999       extractable sw =    23.25670
  day=   1 date=  1  1 1989 mungbean -  stage    4.0 end_of_juvenile
-                     biomass =           196.8318       lai =     2.325282
+                     biomass =           196.8317       lai =     2.325282
                      stover N conc =    3.201111       extractable sw =    171.8377
  day=   2 date=  2  1 1989 mungbean -  stage    5.0 floral_initiation
                      biomass =           206.1897       lai =     2.407813
@@ -208,41 +208,41 @@ report do_output
                      biomass =           401.4985       lai =     3.393447
                      stover N conc =    2.652447       extractable sw =    224.1786
  day=  37 date=  6  2 1989 mungbean -  stage    8.0 end_grain_fill
-                     biomass =           634.8208       lai =    0.5275885
+                     biomass =           634.8208       lai =    0.5275894
                      stover N conc =    2.119896       extractable sw =    154.3095
  day=  39 date=  8  2 1989 mungbean -  stage    9.0 maturity
-                     biomass =           639.8419       lai =    0.3955923
-                     stover N conc =    2.083570       extractable sw =    150.2318
+                     biomass =           639.8420       lai =    0.3955930
+                     stover N conc =    2.083569       extractable sw =    150.2317
  day=  40 date=  9  2 1989 mungbean -  stage   10.0 harvest_ripe
-                     biomass =           639.8419       lai =    0.9760225e-01
+                     biomass =           639.8420       lai =    0.9760296e-01
                      stover N conc =    2.158433       extractable sw =    147.0488
  day=  41 date= 10  2 1989 mungbean -  stage   10.0 harvest_ripe
-                     biomass =           639.8419       lai =    0.9760225e-01
+                     biomass =           639.8420       lai =    0.9760296e-01
                      stover N conc =    2.158432       extractable sw =    145.7638
  day=  42 date= 11  2 1989 mungbean -  stage   10.0 harvest_ripe
-                     biomass =           639.8419       lai =    0.9760225e-01
+                     biomass =           639.8420       lai =    0.9760296e-01
                      stover N conc =    2.158432       extractable sw =    147.4789
  day=  43 date= 12  2 1989 mungbean -  stage   10.0 harvest_ripe
-                     biomass =           639.8419       lai =    0.9760225e-01
-                     stover N conc =    2.158432       extractable sw =    146.8850
+                     biomass =           639.8420       lai =    0.9760296e-01
+                     stover N conc =    2.158433       extractable sw =    146.8849
  day=  44 date= 13  2 1989 mungbean -  stage   10.0 harvest_ripe
-                     biomass =           639.8419       lai =    0.9760225e-01
+                     biomass =           639.8420       lai =    0.9760296e-01
                      stover N conc =    2.158432       extractable sw =    144.9702
  day=  45 date= 14  2 1989 mungbean -  stage   10.0 harvest_ripe
-                     biomass =           639.8419       lai =    0.9760225e-01
-                     stover N conc =    2.158432       extractable sw =    144.3010
+                     biomass =           639.8420       lai =    0.9760296e-01
+                     stover N conc =    2.158432       extractable sw =    144.3009
  day=  46 date= 15  2 1989 mungbean -  stage   10.0 harvest_ripe
-                     biomass =           639.8419       lai =    0.9760225e-01
+                     biomass =           639.8420       lai =    0.9760296e-01
                      stover N conc =    2.158432       extractable sw =    143.7112
  day=  47 date= 16  2 1989 mungbean -  stage   10.0 harvest_ripe
-                     biomass =           639.8419       lai =    0.9760225e-01
+                     biomass =           639.8420       lai =    0.9760296e-01
                      stover N conc =    2.158432       extractable sw =    143.1780
  day=  48 date= 17  2 1989 mungbean -  stage   10.0 harvest_ripe
-                     biomass =           639.8419       lai =    0.9760225e-01
-                     stover N conc =    2.158433       extractable sw =    142.6876
+                     biomass =           639.8420       lai =    0.9760296e-01
+                     stover N conc =    2.158432       extractable sw =    142.6875
  day=  49 date= 18  2 1989 mungbean -  stage   10.0 harvest_ripe
-                     biomass =           639.8419       lai =    0.9760225e-01
-                     stover N conc =    2.158433       extractable sw =    142.2310
+                     biomass =           639.8420       lai =    0.9760296e-01
+                     stover N conc =    2.158432       extractable sw =    142.2310
  Day=  50 Year =  1989     Manager sending message :- mungbean harvest
  
  flowering day  =    3                  stover (kg/ha) =    4101.3

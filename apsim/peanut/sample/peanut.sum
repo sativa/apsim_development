@@ -20,7 +20,7 @@ latitude =  -27.11
 Manager rules
 ------- -----
 if day = 330 and year  = 1988 then
-peanut sow crop_type = peanut, cultivar = early_bunch, plants = 10 (/m2), sowing_depth = 40 (mm)
+peanut sow cultivar = early_bunch, plants = 10 (/m2), sowing_depth = 40 (mm)
 elseif day = 105 and year = 1989 then
 peanut harvest
 peanut end_crop
@@ -142,7 +142,7 @@ report do_output
     - Reading constants
  
 ======= Start of APSIM simulation ============================
- Day= 330 Year =  1988     Manager sending message :- peanut sow crop_type = peanut, cultivar = early_bunch, plants = 10 (/m2), sowing_depth = 40 (mm)
+ Day= 330 Year =  1988     Manager sending message :- peanut sow cultivar = early_bunch, plants = 10 (/m2), sowing_depth = 40 (mm)
  day= 330 date= 25 11 1988 peanut   - Sow
  
  - Reading constants for plant
@@ -196,35 +196,35 @@ report do_output
                      biomass =           2.000000       lai =    0.1000000e-02
                      stover N conc =    4.600000       extractable sw =    23.14492
  day= 338 date=  3 12 1988 peanut   -  stage    4.0 end_of_juvenile
-                     biomass =           2.018762       lai =    0.1341402e-02
+                     biomass =           2.018761       lai =    0.1341396e-02
                      stover N conc =    4.559442       extractable sw =    23.11142
  day= 339 date=  4 12 1988 peanut   -  stage    5.0 floral_initiation
-                     biomass =           2.048041       lai =    0.1874166e-02
-                     stover N conc =    4.517795       extractable sw =    45.33690
+                     biomass =           2.048041       lai =    0.1874157e-02
+                     stover N conc =    4.517796       extractable sw =    45.33690
  day= 364 date= 29 12 1988 peanut   -  stage    6.0 flowering
-                     biomass =           67.41476       lai =    0.9771541
-                     stover N conc =    2.496039       extractable sw =    203.6425
+                     biomass =           67.41459       lai =    0.9771522
+                     stover N conc =    2.496039       extractable sw =    203.6426
  day=  19 date= 19  1 1989 peanut   -  stage    7.0 start_grain_fill
-                     biomass =           492.7791       lai =     3.751202
-                     stover N conc =    2.460854       extractable sw =    161.9233
+                     biomass =           492.7788       lai =     3.751201
+                     stover N conc =    2.460855       extractable sw =    161.9234
  day=  94 date=  4  4 1989 peanut   -  stage    8.0 end_grain_fill
                      biomass =           1108.363       lai =     4.111656
-                     stover N conc =    1.522046       extractable sw =    84.46259
+                     stover N conc =    1.522047       extractable sw =    84.46257
  day= 100 date= 10  4 1989 peanut   -  stage    9.0 maturity
                      biomass =           1167.673       lai =     3.962977
-                     stover N conc =    1.422120       extractable sw =    60.02340
+                     stover N conc =    1.422121       extractable sw =    60.02338
  day= 101 date= 11  4 1989 peanut   -  stage   10.0 harvest_ripe
-                     biomass =           1167.673       lai =    0.1186371e-02
-                     stover N conc =    1.710973       extractable sw =    56.27549
+                     biomass =           1167.673       lai =    0.1185417e-02
+                     stover N conc =    1.710973       extractable sw =    56.27548
  day= 102 date= 12  4 1989 peanut   -  stage   10.0 harvest_ripe
-                     biomass =           1167.673       lai =    0.1186371e-02
-                     stover N conc =    1.710971       extractable sw =    58.72914
+                     biomass =           1167.673       lai =    0.1185417e-02
+                     stover N conc =    1.710972       extractable sw =    58.72912
  day= 103 date= 13  4 1989 peanut   -  stage   10.0 harvest_ripe
-                     biomass =           1167.673       lai =    0.1186371e-02
-                     stover N conc =    1.710972       extractable sw =    57.76211
+                     biomass =           1167.673       lai =    0.1185417e-02
+                     stover N conc =    1.710973       extractable sw =    57.76209
  day= 104 date= 14  4 1989 peanut   -  stage   10.0 harvest_ripe
-                     biomass =           1167.673       lai =    0.1186371e-02
-                     stover N conc =    1.710973       extractable sw =    56.58585
+                     biomass =           1167.673       lai =    0.1185417e-02
+                     stover N conc =    1.710973       extractable sw =    56.58583
  Day= 105 Year =  1989     Manager sending message :- peanut harvest
  
  flowering day  =  364                  stover (kg/ha) =    5491.3
@@ -255,12 +255,12 @@ report do_output
  water stress 2 =       0.0000000   nitrogen stress 2 =       0.0429376
  
  stress indices for flowering
- water stress 1 =       0.0377127   nitrogen stress 1 =       0.0000000
- water stress 2 =       0.0556675   nitrogen stress 2 =       0.0101223
+ water stress 1 =       0.0377126   nitrogen stress 1 =       0.0000000
+ water stress 2 =       0.0556673   nitrogen stress 2 =       0.0101224
  
  stress indices for start_grain_fill
  water stress 1 =       0.4265209   nitrogen stress 1 =       0.0000000
- water stress 2 =       0.4995287   nitrogen stress 2 =       0.0000000
+ water stress 2 =       0.4995286   nitrogen stress 2 =       0.0000000
  Day= 105 Year =  1989     Manager sending message :- peanut end_crop
  day= 105 date= 15  4 1989 peanut   -     ended. Yield (dw) =     0.0
                                           straw residue =    0.6 kg/ha

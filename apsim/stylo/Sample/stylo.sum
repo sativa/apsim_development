@@ -20,7 +20,7 @@ latitude =  -27.11
 Manager rules
 ------- -----
 if day = 320 and year  = 1988 then
-stylo sow crop_type = stylo, cultivar = verano, plants = 5 (/m2), sowing_depth = 40 (mm)
+stylo sow cultivar = verano, plants = 5 (/m2), sowing_depth = 40 (mm)
 elseif day = 90 and year = 1989 then
 stylo harvest
 stylo end_crop
@@ -142,7 +142,7 @@ report do_output
     - Reading constants
  
 ======= Start of APSIM simulation ============================
- Day= 320 Year =  1988     Manager sending message :- stylo sow crop_type = stylo, cultivar = verano, plants = 5 (/m2), sowing_depth = 40 (mm)
+ Day= 320 Year =  1988     Manager sending message :- stylo sow cultivar = verano, plants = 5 (/m2), sowing_depth = 40 (mm)
  day= 320 date= 15 11 1988 stylo    - Sow
  
  - Reading constants for plant
@@ -196,31 +196,31 @@ report do_output
                      biomass =           1.000000       lai =    0.5000000e-02
                      stover N conc =    6.000000       extractable sw =    26.58648
  day= 365 date= 30 12 1988 stylo    -  stage    4.0 end_of_juvenile
-                     biomass =           4.340765       lai =    0.2905351e-01
+                     biomass =           4.340766       lai =    0.2905352e-01
                      stover N conc =    3.942141       extractable sw =    260.2517
  day=  14 date= 14  1 1989 stylo    -  stage    5.0 floral_initiation
-                     biomass =           7.558381       lai =    0.5222034e-01
-                     stover N conc =    3.145552       extractable sw =    315.4746
+                     biomass =           7.558384       lai =    0.5222037e-01
+                     stover N conc =    3.145551       extractable sw =    315.4746
  day=  17 date= 17  1 1989 stylo    -  stage    6.0 flowering
-                     biomass =           8.531075       lai =    0.5839877e-01
+                     biomass =           8.531078       lai =    0.5839881e-01
                      stover N conc =    2.998692       extractable sw =    312.0786
  day=  40 date=  9  2 1989 stylo    -  stage    7.0 start_grain_fill
-                     biomass =           17.13913       lai =    0.7767309e-01
+                     biomass =           17.13914       lai =    0.7767312e-01
                      stover N conc =    2.787016       extractable sw =    304.0497
  day=  83 date= 24  3 1989 stylo    -  stage    8.0 end_grain_fill
-                     biomass =           24.46755       lai =    0.5078506e-02
+                     biomass =           24.46756       lai =    0.5078495e-02
                      stover N conc =    3.030605       extractable sw =    300.3961
  day=  86 date= 27  3 1989 stylo    -  stage    9.0 maturity
-                     biomass =           24.50919       lai =    0.5081079e-02
-                     stover N conc =    3.022836       extractable sw =    339.6707
+                     biomass =           24.50920       lai =    0.5081112e-02
+                     stover N conc =    3.022837       extractable sw =    339.6707
  day=  87 date= 28  3 1989 stylo    -  stage   10.0 harvest_ripe
-                     biomass =           24.50919       lai =    0.5081079e-02
-                     stover N conc =    3.022836       extractable sw =    337.2435
+                     biomass =           24.50920       lai =    0.5081112e-02
+                     stover N conc =    3.022837       extractable sw =    337.2435
  day=  88 date= 29  3 1989 stylo    -  stage   10.0 harvest_ripe
-                     biomass =           24.50919       lai =    0.5081079e-02
-                     stover N conc =    3.022836       extractable sw =    334.8051
+                     biomass =           24.50920       lai =    0.5081112e-02
+                     stover N conc =    3.022837       extractable sw =    334.8051
  day=  89 date= 30  3 1989 stylo    -  stage   10.0 harvest_ripe
-                     biomass =           24.50919       lai =    0.5081079e-02
+                     biomass =           24.50920       lai =    0.5081112e-02
                      stover N conc =    3.022837       extractable sw =    333.1842
  Day=  90 Year =  1989     Manager sending message :- stylo harvest
  
