@@ -20,12 +20,12 @@ LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
    $(BCB)\Components\Boost\libs\date_time\date_time.lib
 USERDEFINES = 
 SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
-INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\Boost;$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface;$(APSROOT)\apsim\input\source
+INCLUDEPATH = $(SYSINCLUDES);$(BCB)\Components\Boost;$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface;$(APSROOT)\apsim\input\source
 LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface
 
 
 # ---------------------------------------------------------------------------
-CFLAG1 = $(SYSCFLAGS) -tWM 
+CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
 WARNINGS = -w-par
 LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
 
