@@ -285,8 +285,6 @@
       <respondToGetReg name="kl" type="kl"/>
       <respondToGetReg name="xf" type="xf"/>
       <respondToMethodCallReg name="sysinit" type="sysinit"/>
-      <respondToMethodCallReg name="prepare" type="prepare"/>
-      <respondToMethodCallReg name="process" type="process"/>
       <respondToMethodCallReg name="sow" type="sow"/>
       <respondToMethodCallReg name="harvest" type="harvest"/>
       <respondToMethodCallReg name="kill_crop" type="kill_crop"/>

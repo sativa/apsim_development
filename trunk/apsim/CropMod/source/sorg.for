@@ -190,7 +190,6 @@ cew   SLN = n_green(leaf)/lai
   100    continue
          N_green(2) = c_N_init_conc(2) * g_lai
       endif
-
       call pop_routine (my_name)
       return
       end subroutine
@@ -277,7 +276,6 @@ c     save SLN
 
       call fill_real_array (n_demand, 0.0, max_part)
 
-
 !   ROOT demand to keep root [N] at 0.2%
 !   get root + delta root
 !   and calculate rootN  needed to keep [N] above 0.2%
@@ -286,7 +284,6 @@ c     save SLN
       N_required = (G_dlt_dm_green(root) + G_dm_green(root))
      .         * c_n_target_conc(root)
       N_demand(root) = max(0.0, N_required - G_n_green(root))
-
 ! STEM demand to keep stem [N] at emerg   flag   maturity
 !                                 0.055   0.005  0.005  ()
       if(G_current_stage .lt. flowering )then
@@ -296,7 +293,6 @@ c     save SLN
      :                             , c_x_stage_code
      :                             , c_y_N_conc_crit_stem
      :                             , numvals)
-
          N_required = (G_dlt_dm_green(stem) + G_dm_green(stem)) *
      .                  NTargetStem
          N_demand(stem) = max(0.0, N_required - G_n_green(stem))
@@ -376,8 +372,6 @@ cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
 !         write(8,*) (g_phase_tt(i),i=1,12)
 !         write(8,*) gf_tt_now,gf_tt,NFillFact
 !         close(8)
-
-
 
       call pop_routine (my_name)
       return
@@ -3225,6 +3219,14 @@ c     :                    , 0.0, 10.0)
      :                    , 'svp_fract', '()'
      :                    , c%svp_fract, numvals
      :                    , 0.0, 1.0)
+
+         !    cproc_sw_demand_bound
+
+      call read_real_var (section_name
+     :                    , 'eo_crop_factor_default', '()'
+     :                    , c%eo_crop_factor_default, numvals
+     :                    , 0.0, 100.)
+
 
       call read_real_array (section_name
      :                     , 'transp_eff_cf', max_stage, '(kpa)'

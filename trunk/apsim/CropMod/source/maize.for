@@ -1923,6 +1923,13 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :                    , c%svp_fract, numvals
      :                    , 0.0, 1.0)
 
+         !    cproc_sw_demand_bound
+
+      call read_real_var (section_name
+     :                    , 'eo_crop_factor_default', '()'
+     :                    , c%eo_crop_factor_default, numvals
+     :                    , 0.0, 100.)
+
       call read_real_array (section_name
      :                     , 'transp_eff_cf', max_stage, '(kpa)'
      :                     , c%transp_eff_cf, numvals
