@@ -741,7 +741,7 @@ void Plant::doRegistrations(protocol::Component *system)
    setupGetFunction("leaf_area_tot", protocol::DTsingle, false,
                     &Plant::get_leaf_area_tot,
                     "m^2", "Total plant leaf area");
-
+#ifdef COHORTS
    setupGetFunction("dlt_fruit_no", protocol::DTsingle, false,
                     &Plant::get_dlt_fruit_no,
                     "fruit/m2","Change in fruit number");
@@ -815,6 +815,7 @@ void Plant::doRegistrations(protocol::Component *system)
    setupGetFunction("dlt_fruit_no_abort", protocol::DTsingle, false,
                     &Plant::get_dlt_fruit_no_abort,
                     "fruit/m2", "");
+#endif
 
 #undef setupGetVar
 #undef setupGetFunction
@@ -13173,7 +13174,7 @@ void Plant::get_ep(protocol::Component *system, protocol::QueryValueData &qd)
     int num_layers = 1+count_of_real_vals (g.dlayer, max_layer);
     for (int layer = 0; layer < num_layers; layer++)
         {
-        sum = sum + fabs(-1.0 * g.dlt_sw_dep[layer]);
+        sum = sum + fabs(g.dlt_sw_dep[layer]);
         }
     system->sendVariable(qd, sum);
 }
@@ -13184,7 +13185,7 @@ void Plant::get_sw_uptake(protocol::Component *system, protocol::QueryValueData 
     int num_layers = 1+count_of_real_vals (g.dlayer, max_layer);
     for (int layer = 0; layer < num_layers; layer++)
         {
-        rwu[layer] = - g.dlt_sw_dep[layer];
+        rwu[layer] = fabs(g.dlt_sw_dep[layer]);
         }
     system->sendVariable(qd, protocol::vector<float>(rwu, rwu+num_layers));
 }
@@ -13193,7 +13194,7 @@ void Plant::get_sw_uptake(protocol::Component *system, protocol::QueryValueData 
 
 void Plant::get_cep(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    system->sendVariable(qd, g.transpiration_tot);
+    system->sendVariable(qd, fabs(g.transpiration_tot));
 }
 
 
