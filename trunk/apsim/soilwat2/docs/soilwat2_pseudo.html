@@ -31,6 +31,8 @@ height="73"></p>
 
 <li><A HREF = "#soilwat2_add_water"> soilwat2_add_water </A>
 
+<li><A HREF = "#soilwat2_tillage"> soilwat2_tillage </A>
+
 <li><A HREF = "#Structure Charts"> Structure Charts </A>
 
 </ul>
@@ -110,6 +112,10 @@ i-checksum="58234" endspan --></p>
 </ul></ul></ul>
 <H2>Add Water</H2>
 <ul><li><A HREF = "#soilwat2_add_water"> soilwat2_add_water </A>
+
+</ul>
+<H2>Tillage</H2>
+<ul><li><A HREF = "#soilwat2_tillage"> soilwat2_tillage </A>
 
 </ul>
 <html>
@@ -1795,6 +1801,80 @@ height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border=
 i-checksum="58234" endspan --></p>
 </body>
 </html>
+<H2><BIG><A NAME = "Tillage"> Tillage </A></BIG></H2>
+<A NAME = "soilwat2_tillage">  </A>
+<H2>Soilwat2 Tillage</H2>
+<br>
+<H3><CENTER>Set up for CN reduction after tillage operation   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+Get type from the message<br>
+
+Get tillage_cn_red from the message (Lower Bound = 0 . 0, Upper Bound = 100 . 0)<I>(OPTIONAL)</I><br>
+
+Get tillage_cn_rain from the message (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<I>(OPTIONAL)</I><br>
+
+if (number of values returned_cnred.<=.0.or.number of values returned_cnrain.<=.0) then<br>
+
+<dl>Write a string to a file<br>
+
+Read type_info from file (Lower Bound = number of values returned, Upper Bound = 0 . 0) <I>(OPTIONAL)</I><br>
+
+if (number of values returned.=/=.2) then<br>
+
+<dl>tillage_cn_red = 0 . 0<br>
+
+tillage_cn_rain = 0 . 0<br>
+
+string = 'cannot find info for tillage:- ' / / type<br>
+
+Report a fatal error<br>
+
+</dl>else<br>
+
+<dl>if (number of values returned_cnred.<=.0) then<br>
+
+<dl>tillage_cn_red = type_info<I><SUB> 1</SUB></I><br>
+
+</dl>else<br>
+
+endif<br>
+
+if (number of values returned_cnrain.<=.0) then<br>
+
+<dl>tillage_cn_rain = type_info<I><SUB> 2</SUB></I><br>
+
+</dl>else<br>
+
+endif<br>
+
+</dl>endif<br>
+
+</dl>endif<br>
+
+tillage_cn_red = tillage_cn_red constrained between 0 . 0 and <A HREF = "#cn2_bare"> cn2_bare </A><br>
+
+write (to string)  'soil tilled using ' , type , new_line , 'cn reduction = ' , tillage_cn_red , new_line , 'acc rain     = ' , tillage_cn_rain<br>
+
+Report this event to the system<br>
+
+tillage_rain_sum = 0 . 0<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  #Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
 <TABLE WIDTH = 100% ALIGN=center BORDER=1><CAPTION><H1><A NAME = "standard.soilwat2.constants"> Standard Constants </A></H1></CAPTION><TD><B>Parameter</B></TD><TD><B>Description</B></TD><TD><B>Specification</B></TD><TD><B>Usage</B></TD><TR><TD VALIGN=TOP><A NAME = "min_crit_temp"> min_crit_temp </A></TD><TD> temperature below which eeq decreases (oC)</TD><TD> 5.0  (oC)</TD><TD><A HREF = "#soilwat2_eeq_fac"> soilwat2_eeq_fac </A> , <A HREF = "#soilwat2_read_constants"> soilwat2_read_constants </A></TD></TR>
 
 <TR><TD VALIGN=TOP><A NAME = "max_crit_temp"> max_crit_temp </A></TD><TD> temperature above which eeq increases (oC)</TD><TD> 35.0  (oC)</TD><TD><A HREF = "#soilwat2_eeq_fac"> soilwat2_eeq_fac </A> , <A HREF = "#soilwat2_read_constants"> soilwat2_read_constants </A></TD></TR>
@@ -1891,7 +1971,7 @@ content="text/html; charset=iso-8859-1">
 height="73"></p>
 </body>
 </html>
-Date: 25/11/98  APseudo Version:  1. 0 Rev.  0<br>
+Date: 26/11/98  APseudo Version:  1. 0 Rev.  0<br>
 <html>
 
 <body>
