@@ -45,7 +45,7 @@ variable_alias =   cep    ws_pheno    ws_photo    ws_expan    ws_tiller     Ns_p
 
 [all.report.parameters]
 module_names   =   soilwat2 soilwat2  soilwat2 soilwat2  soilwat2 soiln2   soiln2
-ariable_names  =   esw        sw()    es       runoff    drain    no3()    nh4()
+variable_names =   esw        sw()    es       runoff    drain    no3()    nh4()
 variable_alias =   esw        -       -        -         -        -        -
 units          =   -          -       -        -         -        -        -
 
