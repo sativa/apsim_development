@@ -4,10 +4,10 @@ screen_output =  on
 outputfile =  met.out /overwrite   
 summaryfile =  met.sum /overwrite   
 
-module_names =   clock clock  met   met   met   met     
-variable_names =  day  year   radn  maxt  mint  rain   
-variable_alias =  -    -      -     -     -     -   
-units =          -     -      -     -     -     -   
+module_names =   clock clock  met   met   met   met     met
+variable_names =  day  year   radn  maxt  mint  rain    day_length
+variable_alias =  -    -      -     -     -     -       -
+units =          -     -      -     -     -     -       -
 
 [sample.clock.parameters]  
 ! Start and end date of run (day number of year and year)
