@@ -11,6 +11,7 @@ BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
 PROJECTS = general.dll aps32.dll data.dll chart.dll apsgeneral.bpl apsui.bpl \
   apsdata.bpl apsbuild.exe apsrun.exe datatypescreate.exe protocol.dll apsim.exe \
+  protocolmanager.dll summaryfile.dll log.dll \
   apsimexplorer.exe newapsfrontrun.exe apsimoutlook.exe dbaddin.dll \
   filteraddin.dll dameasyaddin.dll soiaddin.dll rotationaddin.dll \
   whopeconaddin.dll outlookmanager.exe apslook.exe apsvis.exe apsshowkey.exe \
@@ -63,6 +64,18 @@ protocol.dll: apsim\infra\protocol\protocol.bpr
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
 apsim.exe: apsim\infra\engine\apsim.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+protocolmanager.dll: apsim\protocolmanager\source\protocolmanager.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+summaryfile.dll: apsim\summaryfile\source\summaryfile.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+log.dll: apsim\log\source\log.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 

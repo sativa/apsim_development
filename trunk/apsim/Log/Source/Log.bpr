@@ -15,9 +15,8 @@
     <SPARELIBS value=""/>
     <PACKAGES value="Vcl50.bpi Vclx50.bpi bcbsmp50.bpi Qrpt50.bpi Vcldb50.bpi Vclbde50.bpi 
       ibsmp50.bpi vcldbx50.bpi VCLIB50.bpi bcbie50.bpi vclie50.bpi Inetdb50.bpi 
-      Inet50.bpi NMFast50.bpi dclocx50.bpi bcb97axserver50.bpi TeeGL4C5.bpi 
-      TEE4C5.bpi TeeQR4C5.bpi TEEDB4C5.bpi TEEUI4C5.bpi TEEPRO4C5.bpi 
-      OpenXML.bpi DB.bpi VCLADO50.bpi dclusr50.bpi APSGENERAL.bpi APSData.bpi"/>
+      Inet50.bpi NMFast50.bpi dclocx50.bpi bcb97.bpi axserver50.bpi VCLADO50.bpi 
+      dclusr50.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -71,6 +70,9 @@ OriginalFilename=
 ProductName=
 ProductVersion=1.0.0.0
 Comments=
+
+[Excluded Packages]
+$(BCB)\Projects\Bpl\DclTee4C5.bpl=TeeChart 4.0 Components
 
 [HistoryLists\hlIncludePath]
 Count=3
