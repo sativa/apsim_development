@@ -390,8 +390,8 @@ void CompileThread::getSourceFileNames (ApsimProject& apf, vector<string>& sourc
       if (posSwitch != string::npos)
          filename = filename.substr(0, posSwitch);
       Path File(filename.c_str());
-      if (File.Get_extension() == ".for" ||
-          File.Get_extension() == ".f90")
+//      if (File.Get_extension() == ".for" ||
+//          File.Get_extension() == ".f90")
          sourceFiles.push_back(filename);
       }
    }
