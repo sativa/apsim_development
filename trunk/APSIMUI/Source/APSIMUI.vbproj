@@ -109,6 +109,38 @@
                     HintPath = "..\..\Bin\VBGeneral.dll"
                     Private = "False"
                 />
+                <Reference
+                    Name = "Microsoft.VisualBasic"
+                    AssemblyName = "Microsoft.VisualBasic"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\Microsoft.VisualBasic.dll"
+                />
+                <Reference
+                    Name = "System.Runtime.Serialization.Formatters.Soap"
+                    AssemblyName = "System.Runtime.Serialization.Formatters.Soap"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Runtime.Serialization.Formatters.Soap.dll"
+                />
+                <Reference
+                    Name = "System.Design"
+                    AssemblyName = "System.Design"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Design.dll"
+                />
+                <Reference
+                    Name = "System.Web"
+                    AssemblyName = "System.Web"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Web.dll"
+                />
+                <Reference
+                    Name = "Xceed.Grid"
+                    AssemblyName = "Xceed.Grid"
+                    HintPath = "..\..\..\..\Program Files\Xceed Components\Xceed Grid for .NET 2.2\Bin\v2.2.107.0\Xceed.Grid.dll"
+                    AssemblyFolderKey = "hklm\xceed grid for .net v2.2.107.0"
+                />
+                <Reference
+                    Name = "Xceed.Grid.UIStyle"
+                    AssemblyName = "Xceed.Grid.UIStyle"
+                    HintPath = "..\..\..\..\Program Files\Xceed Components\Xceed Grid for .NET 2.2\Bin\v2.2.107.0\Xceed.Grid.UIStyle.dll"
+                    AssemblyFolderKey = "hklm\xceed grid for .net v2.2.107.0"
+                />
             </References>
             <Imports>
                 <Import Namespace = "Microsoft.VisualBasic" />
@@ -268,6 +300,10 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "licenses.licx"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "LogicUI.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
@@ -295,6 +331,16 @@
                 <File
                     RelPath = "MainUI.resx"
                     DependentUpon = "MainUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "ManagerUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ManagerUI.resx"
+                    DependentUpon = "ManagerUI.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -375,6 +421,16 @@
                 <File
                     RelPath = "ReportVariablesListView.resx"
                     DependentUpon = "ReportVariablesListView.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "RuleUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RuleUI.resx"
+                    DependentUpon = "RuleUI.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File

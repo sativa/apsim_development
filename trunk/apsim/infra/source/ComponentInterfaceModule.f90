@@ -126,6 +126,11 @@ module ComponentInterfaceModule
       character(len=*), intent(in out) :: line
       end subroutine
 
+      subroutine ApsimComponentData_getRuleCondition(condition)
+      ml_external ApsimComponentData_getRuleCondition
+      character(len=*), intent(in out) :: condition
+      end subroutine
+
       function newApsimDataFile(fileName)
       ml_external newApsimDataFile
       character(len=*), intent(in) :: fileName
