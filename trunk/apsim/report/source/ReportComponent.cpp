@@ -393,7 +393,7 @@ void ReportComponent::doInit2(void)
          }
 
       NAString = componentData->getProperty("parameters", "NAString");
-      if (NAString == "") NAString = "????";
+      if (NAString == "") NAString = "?";
 
       // get format specifier.
       CSVFormat = Str_i_Eq(componentData->getProperty("parameters", "format"), "csv");
