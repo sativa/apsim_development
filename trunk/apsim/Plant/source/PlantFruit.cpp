@@ -325,6 +325,168 @@ float PlantFruit::interceptRadiation (
    return radiation - radiationIntercepted;
 }
 
+//===========================================================================
+void PlantFruit::dm_pot_rue (float   rue_pod
+                           , double  radn_int_pod
+                           , double  stress_factor
+                           , float   g_co2
+                           , float   meanT
+                           , photosynthetic_pathway_t c_photosynthetic_pathway
+                           , float  *dlt_dm_pot_pod)                    // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
+//===========================================================================
+{
+//+  Purpose
+//       Potential biomass (carbohydrate) production from
+//       photosynthesis (g/m^2).  The effect of factors such
+//       temperature and nutritional status of the plant are
+//       taken into account in the radiation use efficiency.
+
+//+  Mission Statement
+//     Get the potential biomass production - limited by stress factors
+
+//+  Changes
+//       181197 nih specified and programmed
+//+  Local Variables
+  double podfr;                                  // fraction of intercepted light intercepted by pods
+  double rue_leaf;
+  float co2_modifier = 0.0;
+
+//- Implementation Section ----------------------------------
+
+  rue_co2_modifier(c_photosynthetic_pathway
+                 , g_co2
+                 , meanT
+                 , &co2_modifier);
+
+  *dlt_dm_pot_pod = (radn_int_pod * rue_pod) * stress_factor * co2_modifier;
+  }
+
+
+//==========================================================================
+void PlantFruit::rue_co2_modifier(photosynthetic_pathway_t photosyntheticType // Photosynthetic pathway
+                                , float co2                                   // CO2 level (ppm)
+                                , float meanT                                 // daily mean temp (oC)
+                                , float *modifier)                            // modifier (-)
+//==========================================================================
+{
+//  Purpose
+//     Calculation of the CO2 modification on rue
+
+//     References
+//     Reyenga, Howden, Meinke, Mckeon (1999), Modelling global change impact on wheat cropping in
+//              south-east Queensland, Australia. Enivironmental Modelling & Software 14:297-306
+
+
+//  Purpose
+//     Calculation of the CO2 modification on rue
+
+//  Changes
+//     20000717   ew programmed
+
+//  Local Variables
+      float TT;               // co2 compensation point (ppm)
+      float dividend;         // Temp vars for passing composite arg to a func
+      float divisor;          // expecting a pointer
+
+// Implementation Section ----------------------------------
+
+   switch (photosyntheticType)
+      {
+      pw_C3:
+        {
+        TT  = divide(163.0 - meanT, 5.0 - 0.1 * meanT, 0.0);
+
+        dividend = (co2 - TT) * (350.0 + 2.0 * TT);
+        divisor = (co2 + 2.0 * TT)*(350.0 - TT);
+        *modifier = divide( dividend, divisor, 1.0);
+        break;
+        }
+      pw_C4:
+        {
+        *modifier = 0.000143 * co2 + 0.95; //Mark Howden, personal communication
+        break;
+        }
+      default:
+        {
+        throw std::invalid_argument ("Unknown photosynthetic pathway in fruit rue_co2_modifier()");
+        }
+      }
+}
+
+//==========================================================================
+void PlantFruit::transp_eff_co2(float svp_fract             // (INPUT)  fraction of distance between svp at mi
+                              , float te_coeff              // (INPUT)  transpiration efficiency coefficien
+                              , float maxt                  // (INPUT)  maximum air temperature (oC)
+                              , float mint                  // (INPUT)  minimum air temperature (oC)
+                              , float co2                   // (INPUT)  current co2 level (ppm)
+                              , float *x_co2_te_modifier    // (INPUT)  co2 levels (ppm)
+                              , float *y_co2_te_modifier    // (INPUT)  te modifiers of co2 levels (0-1)
+                              , int   num_co2_te_modifier   // (INPUT)  number of table elements in co2-te modifier table
+                              , float *transp_eff)          // (OUTPUT) transpiration coefficient
+//==========================================================================
+{
+   cproc_transp_eff_co2(svp_fract
+                      , te_coeff
+                      , maxt
+                      , mint
+                      , co2
+                      , x_co2_te_modifier
+                      , y_co2_te_modifier
+                      , num_co2_te_modifier
+                      , transp_eff);
+}
+
+//===========================================================================
+void PlantFruit::sw_demand1(float dlt_dm_pot_rue      //(INPUT)  potential dry matter production with opt
+                          , float transp_eff          //(INPUT)  transpiration efficiency (g dm/m^2/mm wa
+                          , float *sw_demand)         //(OUTPUT) crop water demand (mm)
+//===========================================================================
+/*  Purpose
+*       Return crop water demand from soil by the crop (mm) calculated by
+*       dividing biomass production limited by radiation by transpiration efficiency.
+*
+*  Mission Statement
+*   Calculate the crop demand for soil water (based upon transpiration efficiency)
+*
+*  Changes
+*       21/5/2003 ad converted to BC++
+*       010994 jngh specified and programmed
+*       970216 slw generalised
+*
+*/
+   {
+   // get potential transpiration from potential
+   // carbohydrate production and transpiration efficiency
+        cproc_sw_demand1 (dlt_dm_pot_rue
+                         , transp_eff
+                         , sw_demand);
+   }
+
+//===========================================================================
+void bio_water1(float sw_supply        //(INPUT)  potential water to take up (supply)
+              , float transp_eff       //(INPUT)  transpiration efficiency (g dm/m^2/m
+              , float *dlt_dm_pot_te)  //(OUTPUT) potential dry matter production
+                                       //         by transpiration (g/m^2)
+//===========================================================================
+//  Purpose
+//   Calculate the potential biomass production based upon today's water supply.
+
+//  Mission Statement
+//   Calculate the potential biomass production based upon today's water supply.
+
+//  Changes
+//       090994 jngh specified and programmed
+
+{
+   //  Local Variables
+   int deepest_layer;     // deepest layer in which the roots are growing
+   float sw_uptake_sum;   // Water available to roots (mm)
+   // Implementation Section ----------------------------------
+
+   // potential (supply) by transpiration
+
+   *dlt_dm_pot_te = sw_supply * transp_eff;
+}
 
 //===========================================================================
 void PlantFruit::legnew_bio_grain_oil (

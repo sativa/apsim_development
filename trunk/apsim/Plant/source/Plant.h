@@ -349,14 +349,21 @@ class Plant : public plantInterface {
   void plant_root_depth (int option /* (INPUT) option number*/);
   void plant_water_supply (int option /* (INPUT) option number*/);
   void plant_water_demand (int option /* (INPUT) option number*/);
+  void plant_water_distribute (int option /*(INPUT) option number*/);
   void plant_water_uptake (int option /*(INPUT) option number*/);
-  void plant_light_supply (int option /*(INPUT) option number*/);
+  void plant_light_supply_partition (int option /*(INPUT) option number*/);
   void plant_bio_rue (int option /*(INPUT) option number*/);
   void plant_transpiration_eff (int option /*(INPUT) option number*/);
   void plant_sen_root_length (int option /*(INPUT) option number*/);
   void plant_root_depth_init (int option /*(INPUT) option number*/);
   void plant_root_length_growth (int option /*(INPUT) option number*/);
   void plant_root_length_init (int option /*(INPUT) option number*/);
+  void plant_water_supply_partition(float g_sw_demand
+                                  , float g_sw_demand_veg
+                                  , float *g_sw_supply
+                                  , float g_sw_supply_veg
+                                  , float g_sw_supply_fruit);
+
  void plant_dm_pot_rue (externalFunction *c_rue
                          ,float  rue_pod
                          ,float  cover_green
@@ -367,11 +374,21 @@ class Plant : public plantInterface {
                          ,photosynthetic_pathway_t photosynthetic_pathway
                          ,float  *dlt_dm_pot);
 
+ void plant_dm_pot_rue_veg (externalFunction *c_rue
+                          , double  radn_int
+                          , double  stress_factor
+                          , float g_co2
+                          , float g_maxt
+                          , float g_mint
+                          , photosynthetic_pathway_t photosynthetic_pathway
+                          , float  *dlt_dm_pot);
+
   void plant_rue_co2_modifier(photosynthetic_pathway_t,  //!please use 'C3' or 'C4' for crop_type
                               float co2,                 //!CO2 level (ppm)
                               float maxt,                //!daily max temp (C)
                               float mint,                //!daily min temp (C)
                               float *modifier);           //!modifier (-)
+
   void plant_n_conc_grain_limits(float  c_n_conc_crit_grain
 				 ,float  c_n_conc_max_grain
 				 ,float  c_n_conc_min_grain
@@ -381,6 +398,7 @@ class Plant : public plantInterface {
 				 ,float  *n_conc_crit
 				 ,float  *n_conc_max
 				 ,float  *n_conc_min) ;
+
   void plant_n_conc_limits (float  c_n_conc_crit_meal
 			     ,float  c_n_conc_crit_root
 			     ,float  c_n_conc_max_meal
@@ -1292,6 +1310,10 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
                                                         // optimum water and nitrogen and
                                                         // temperature stress conditions (g/m^2)
       float dlt_dm_pot_te;                              // the potential daily biomass production from te (g/m^2)
+      float dltDmPotRueFruit;                           // potential dry matter production of fruit with
+                                                        // optimum water and nitrogen and
+                                                        // temperature stress conditions (g/m^2)
+      float dltDmPotTeFruit;                            // the potential daily biomass production of fruit from te (g/m^2)
       float dlt_dm_oil_conv;                            // plant biomass used in conversion to oil (g/m^2)
       double dlt_dm_supply_to_fruit;                     // dry matter supplied to fruit from assimilate (g/m^2)
       float dlt_dm_yield_demand_fruit;                  // dry matter demand by fruit (g/m^2)
@@ -1312,6 +1334,7 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
       float dm_senesced[max_part];                      // senesced plant dry wt (g/m^2)
       float radn_int;                                   // radn intercepted by leaves (mj/m^2)
       float transp_eff;                                 // transpiration efficiency (g dm/m^2/mm water)
+      float transpEffFruit;                             // transpiration efficiency of fruit (g dm/m^2/mm water)
       float slai;                                       // area of leaf that senesces from plant
       float dlt_slai;                                   // area of leaf that senesces from plant
       float dlt_lai;                                    // actual change in live plant lai

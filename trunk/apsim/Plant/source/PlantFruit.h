@@ -27,6 +27,7 @@
 
 class PlantFruit
 {
+   typedef enum {pw_C3, pw_C4, pw_UNDEF} photosynthetic_pathway_t;    //  FIXME temporary until proper fruit class
    friend ostream &operator<<(ostream &, const PlantFruit &);
 	public:												// member functions
 		PlantFruit(Plant *P);			// default constructor
@@ -49,6 +50,37 @@ class PlantFruit
 
             float divide (float dividend, float divisor, float default_value) const;  // Command
 
+            void dm_pot_rue (float  rue_pod
+                           , double  radn_int_pod
+                           , double  stress_factor
+                           , float g_co2
+                           , float meanT
+                           , photosynthetic_pathway_t c_photosynthetic_pathway
+                           , float  *dlt_dm_pot_pod);                         // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
+
+            void rue_co2_modifier(photosynthetic_pathway_t photosyntheticType //!please use 'C3' or 'C4' for photosyntheticType
+                                , float co2                                   // CO2 level (ppm)
+                                , float meanT                                 // daily mean temp (oC)
+                                , float *modifier);                           // modifier (-)
+
+            void transp_eff_co2(float svp_fract          // (INPUT)  fraction of distance between svp at mi
+                              , float transp_eff_cf      // (INPUT)  transpiration efficiency coefficien
+                              , float maxt               // (INPUT)  maximum air temperature (oC)
+                              , float mint               // (INPUT)  minimum air temperature (oC)
+                              , float co2level           // (INPUT)  current co2 level (ppm)
+                              , float *co2_level_te      // (INPUT)  co2 levels (ppm)
+                              , float *te_co2_modifier   // (INPUT)  te modifiers of co2 levels (0-1)
+                              , int   num_co2_level_te   // (INPUT)  number of table elements in co2-te modifier table
+                              , float *transp_eff);      // (OUTPUT) transpiration coefficient
+
+            void sw_demand1(float dlt_dm_pot_rue      //(INPUT)  potential dry matter production with opt
+                          , float transp_eff          //(INPUT)  transpiration efficiency (g dm/m^2/mm wa
+                          , float *sw_demand);        //(OUTPUT) crop water demand (mm)
+
+            void bio_water1(float sw_supply        //(INPUT)  potential water to take up (supply)
+                          , float transp_eff       //(INPUT)  transpiration efficiency (g dm/m^2/m
+                          , float *dlt_dm_pot_te); //(OUTPUT) potential dry matter production
+                                                   //         by transpiration (g/m^2)
             void legnew_bio_grain_oil (
                                         float  c_grain_oil_conc
                                        ,float  c_carbo_oil_conv_ratio
