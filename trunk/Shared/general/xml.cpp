@@ -196,7 +196,8 @@ XMLNode XMLNode::appendChild(XMLNode childNode, bool alwaysAppend)
          return *i;
       }
    parent->setDirty(true);
-   return XMLNode(parent, xmlAddChild(node, childNode.node));
+   xmlNode* copyOfChild = xmlCopyNode(childNode.node, 1);
+   return XMLNode(parent, xmlAddChild(node, copyOfChild));
    }
 // ------------------------------------------------------------------
 // Delete a child node from this node.
