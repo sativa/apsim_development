@@ -14,7 +14,7 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 2.0
+     Version                = 2.1
      Simulation filename    = c:\regr\apsim\maize\refset\referenc.sim
      Title                  = 
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
@@ -153,6 +153,7 @@
         - Reading Soil Property Parameters
      
         - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
      
      
      
@@ -328,6 +329,9 @@
       
    MANAGER:
            Manager sending message :- soilwat2 set sw = 0.15 0.15 0.1
+   SOILWAT2:
+      Initial soilwater distributed using "sw" parameter.
+   MANAGER:
            Manager sending message :- soiln2   set no3 = 1 1 1
            Manager sending message :- soiln2   set nh4 = 1 1 1
            Manager sending message :- residue2 tillage type = burn
@@ -524,6 +528,9 @@
       
    MANAGER:
            Manager sending message :- soilwat2 set sw = 0.15 0.15 0.1
+   SOILWAT2:
+      Initial soilwater distributed using "sw" parameter.
+   MANAGER:
            Manager sending message :- soiln2   set no3 = 1 1 1
            Manager sending message :- soiln2   set nh4 = 1 1 1
            Manager sending message :- residue2 tillage type = burn
@@ -647,7 +654,7 @@
       
        stress indices for start_grain_fill
        water stress 1 =       0.0066631   nitrogen stress 1 =       0.0372627
-       water stress 2 =       0.0191607   nitrogen stress 2 =       0.1256186
+       water stress 2 =       0.0191607   nitrogen stress 2 =       0.1256187
    MANAGER:
            Manager sending message :- maize    kill_crop
    MAIZE:
@@ -720,6 +727,9 @@
       
    MANAGER:
            Manager sending message :- soilwat2 set sw = 0.25 0.25 0.2
+   SOILWAT2:
+      Initial soilwater distributed using "sw" parameter.
+   MANAGER:
            Manager sending message :- soiln2   set no3 = 10 1 1
            Manager sending message :- soiln2   set nh4 = 1 1 1
            Manager sending message :- residue2 tillage type = burn
@@ -754,34 +764,34 @@
 1 January 1994 (Day of year=1):
    MAIZE:
        stage    6.0 flag_leaf
-                           biomass =           238.8665       lai =    0.8704188    
+                           biomass =           238.8665       lai =    0.8704189    
                            stover N conc =    1.154990       extractable sw =    92.40581
 7 January 1994 (Day of year=7):
    MAIZE:
        stage    7.0 flowering
-                           biomass =           279.7420       lai =    0.8282390    
-                           stover N conc =    1.098374       extractable sw =    62.20335
+                           biomass =           279.7420       lai =    0.8282391    
+                           stover N conc =    1.098375       extractable sw =    62.20335
 16 January 1994 (Day of year=16):
    MAIZE:
       plant_kill.  32% failure because of barreness.
        stage    8.0 start_grain_fill
-                           biomass =           329.4497       lai =    0.5564636    
+                           biomass =           329.4497       lai =    0.5564640    
                            stover N conc =    1.019316       extractable sw =    45.87869
 6 March 1994 (Day of year=65):
    MAIZE:
        stage    9.0 end_grain_fill
-                           biomass =           427.5143       lai =    0.4143158E-01
-                           stover N conc =    1.216935       extractable sw =    68.87566
+                           biomass =           427.5143       lai =    0.4143178E-01
+                           stover N conc =    1.216935       extractable sw =    68.87564
 7 March 1994 (Day of year=66):
    MAIZE:
        stage   10.0 maturity
-                           biomass =           427.8743       lai =    0.2852598E-01
-                           stover N conc =    1.228636       extractable sw =    68.63115
+                           biomass =           427.8744       lai =    0.2852619E-01
+                           stover N conc =    1.228635       extractable sw =    68.63113
 8 March 1994 (Day of year=67):
    MAIZE:
        stage   11.0 harvest_ripe
-                           biomass =           427.8743       lai =    0.1286298E-02
-                           stover N conc =    1.233296       extractable sw =    68.39867
+                           biomass =           427.8744       lai =    0.1286507E-02
+                           stover N conc =    1.233296       extractable sw =    68.39866
    MANAGER:
            Manager sending message :- maize    harvest
    MAIZE:
@@ -826,19 +836,19 @@
       
        stress indices for flag_leaf
        water stress 1 =       0.1575412   nitrogen stress 1 =       0.5432565
-       water stress 2 =       0.3956969   nitrogen stress 2 =       0.6346053
+       water stress 2 =       0.3956970   nitrogen stress 2 =       0.6346053
       
       
       
        stress indices for flowering
        water stress 1 =       0.0167966   nitrogen stress 1 =       0.5556439
-       water stress 2 =       0.0643888   nitrogen stress 2 =       0.6445150
+       water stress 2 =       0.0643889   nitrogen stress 2 =       0.6445150
       
       
       
        stress indices for start_grain_fill
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.4945914
-       water stress 2 =       0.0029709   nitrogen stress 2 =       0.5956731
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.4945916
+       water stress 2 =       0.0029710   nitrogen stress 2 =       0.5956733
    MANAGER:
            Manager sending message :- maize    kill_crop
    MAIZE:
@@ -846,8 +856,8 @@
 9 March 1994 (Day of year=68):
    MAIZE:
        stage   11.0 harvest_ripe
-                           biomass =           351.9221       lai =    0.1286298E-02
-                           stover N conc =    1.207009       extractable sw =    68.20457
+                           biomass =           351.9222       lai =    0.1286507E-02
+                           stover N conc =    1.207008       extractable sw =    68.20455
    MANAGER:
            Manager sending message :- maize    end_crop
    MAIZE:
@@ -911,6 +921,9 @@
       
    MANAGER:
            Manager sending message :- soilwat2 set sw = 0.25 0.25 0.2
+   SOILWAT2:
+      Initial soilwater distributed using "sw" parameter.
+   MANAGER:
            Manager sending message :- soiln2   set no3 = 1 1 1
            Manager sending message :- soiln2   set nh4 = 1 1 1
            Manager sending message :- residue2 tillage type = burn
@@ -969,7 +982,7 @@
            Manager sending message :- maize    end_crop
    MAIZE:
           ended. Yield (dw) =     6.7
-                                                straw residue = 4338.9 kg/ha
+                                                straw residue = 4345.6 kg/ha
                                                 straw N =   67.3 kg/ha
                                                 root residue = 1241.8 kg/ha
                                                 root N =    9.6 kg/ha
