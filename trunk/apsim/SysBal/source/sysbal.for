@@ -972,7 +972,7 @@
       value = 0.0
       temp = 0.0
       name = var_name
-      unit = unit
+      unit = units
 
 1000  continue
 
