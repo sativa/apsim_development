@@ -3,7 +3,6 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
 *     ===========================================================
       subroutine sugar_phenology (Option)
 *     ===========================================================
-
       Use infrastructure
       implicit none
 
@@ -4904,6 +4903,34 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
      :          , g%N_fix_pot
      :          )
 
+      elseif (Option .eq. 2) then
+         fixation_determinant = sum_real_array(g%dm_green, max_part)
+     :                        - g%dm_green(root)
+
+        call cproc_n_supply4 (g%dlayer
+     :                       , g%bd
+     :                       , max_layer
+     :                       , g%no3gsm
+     :                       , g%no3gsm_min
+     :                       , g%no3gsm_uptake_pot
+     :                       , g%nh4gsm
+     :                       , g%nh4gsm_min
+     :                       , g%nh4gsm_uptake_pot
+     :                       , g%root_depth
+     :                       , 1.0 !c%n_stress_start_stage
+     :                       , c%kno3
+     :                       , c%no3ppm_min
+     :                       , c%knh4
+     :                       , c%nh4ppm_min
+     :                       , c%total_n_uptake_max
+     :                       , g%sw_avail_pot
+     :                       , g%sw_avail
+     :                       , g%current_stage
+     :                       , c%n_fix_rate
+     :                       , fixation_determinant
+     :                       , g%swdef_fixation
+     :                       , g%n_fix_pot)
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
@@ -4912,6 +4939,156 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
       return
       end subroutine
 
+      subroutine cproc_n_supply4 (g_dlayer
+     :         ,g_bd
+     :         ,max_layer
+     :         , g_no3gsm
+     :         , g_no3gsm_min
+     :         , g_no3gsm_uptake_pot
+     :         , g_nh4gsm
+     :         , g_nh4gsm_min
+     :         , g_nh4gsm_uptake_pot
+     :         ,g_root_depth
+     :         ,c_n_stress_start_stage
+     :         ,c_kno3
+     :         ,c_no3ppm_min
+     :         ,c_knh4
+     :         ,c_nh4ppm_min
+     :         ,c_total_n_uptake_max
+     :         , g_sw_avail_pot
+     :         , g_sw_avail
+     :         ,g_current_stage
+     :         ,c_n_fix_rate
+     :         ,fixation_determinant
+     :         ,g_swdef_fixation
+     :         ,g_n_fix_pot)
+
+      use Infrastructure
+      implicit none
+
+  !+  Sub-Program Arguments
+      real g_dlayer(*)             ! (INPUT)
+      integer max_layer            ! (INPUT)
+      real g_bd(*)
+      real g_NO3gsm(*)             ! (INPUT)
+      real g_NO3gsm_min(*)         ! (INPUT)
+      real g_no3gsm_uptake_pot(*)
+      real g_NH4gsm(*)             ! (INPUT)
+      real g_NH4gsm_min(*)         ! (INPUT)
+      real g_nH4gsm_uptake_pot(*)
+      real g_root_depth            ! (INPUT)
+      real c_n_stress_start_stage
+      real c_kno3
+      real c_no3ppm_min
+      real c_knh4
+      real c_nh4ppm_min
+      real c_total_n_uptake_max
+      real g_sw_avail(*)           ! (INPUT)
+      real g_sw_avail_pot(*)       ! (INPUT)
+      real G_current_stage         ! (INPUT)
+      real C_n_fix_rate(*)         ! (INPUT)
+      real fixation_determinant    ! (INPUT)
+      real G_swdef_fixation        ! (INPUT)
+      real g_N_fix_pot             ! (INPUT)
+
+
+      ! Locals
+      real no3ppm
+      real nh4ppm
+      integer deepest_layer
+      integer layer
+      real swfac
+      real total_n_uptake_pot
+      real scalef
+
+      deepest_layer = find_layer_no (g_root_depth
+     :                                ,g_dlayer
+     :                                ,max_layer)
+
+      if (g_current_stage.ge. c_n_stress_start_stage) then
+
+         do 100 layer = 1, deepest_layer
+
+            no3ppm = g_no3gsm(layer)
+     :             * divide (1000.0
+     :                      ,g_bd(layer)*g_dlayer(layer)
+     :                      , 0.0)
+            nh4ppm = g_nh4gsm(layer)
+     :             * divide (1000.0
+     :                      , g_bd(layer)*g_dlayer(layer)
+     :                      , 0.0)
+
+           swfac = divide(g_sw_avail(layer),g_sw_avail_pot(layer),0.0)
+           swfac = bound (swfac,0.0,1.0)
+
+           g_no3gsm_uptake_pot(layer) = g_no3gsm(layer)
+     :                   * c_kno3 * (no3ppm - c_no3ppm_min) * swfac;
+           g_no3gsm_uptake_pot(layer) =
+     :                  u_bound(g_no3gsm_uptake_pot(layer)
+     :                         ,g_no3gsm(layer)-g_no3gsm_min(layer))
+           g_no3gsm_uptake_pot(layer) =
+     :                  l_bound(g_no3gsm_uptake_pot(layer), 0.0)
+
+           g_nh4gsm_uptake_pot(layer) = g_nh4gsm(layer)
+     :              * c_knh4 * (nh4ppm - c_nh4ppm_min) * swfac;
+           g_nh4gsm_uptake_pot(layer)
+     :                   = u_bound(g_nh4gsm_uptake_pot(layer)
+     :                    ,g_nh4gsm(layer)-g_nh4gsm_min(layer));
+           g_nh4gsm_uptake_pot(layer)
+     :                   = l_bound(g_nh4gsm_uptake_pot(layer), 0.0);
+  100    continue
+
+      else
+
+        !// No N stress whilst N is present in soil
+        !// crop has access to all that it wants early on
+        !// to avoid effects of small differences in N supply
+        !// having affect during the most sensitive part
+        !// of canopy development.
+
+        do 200 layer = 1, deepest_layer
+
+            no3ppm = g_no3gsm(layer)
+     :             * divide (1000.0, g_bd(layer)*g_dlayer(layer), 0.0)
+            nh4ppm = g_nh4gsm(layer)
+     :             * divide (1000.0, g_bd(layer)*g_dlayer(layer), 0.0)
+
+           if ((c_kno3.gt.0) .and. (no3ppm.gt.c_no3ppm_min))then
+              g_no3gsm_uptake_pot(layer)
+     :           = l_bound(g_no3gsm(layer)-g_no3gsm_min(layer),0.0)
+           else
+              g_no3gsm_uptake_pot(layer) = 0.0
+           endif
+
+           if ((c_knh4.gt.0) .and. (nh4ppm.gt.c_nh4ppm_min))then
+              g_nh4gsm_uptake_pot(layer)
+     :            = l_bound(g_nh4gsm(layer)-g_nh4gsm_min(layer),0.0)
+           else
+              g_nh4gsm_uptake_pot(layer) = 0.0
+           endif
+  200    continue
+
+      endif
+
+      total_n_uptake_pot =
+     :       sum_real_array(g_no3gsm_uptake_pot, deepest_layer)
+     :       + sum_real_array(g_nh4gsm_uptake_pot, deepest_layer)
+      scalef = divide(c_total_n_uptake_max, total_n_uptake_pot,0.0)
+      scalef = bound(scalef,0.0,1.0)
+      do 300 layer = 1,deepest_layer
+           g_no3gsm_uptake_pot(layer)=scalef*g_no3gsm_uptake_pot(layer)
+           g_nh4gsm_uptake_pot(layer)=scalef*g_nh4gsm_uptake_pot(layer)
+  300 continue
+
+      !// determine N from fixation
+      call crop_n_fixation_pot1(g_current_stage
+     :                   , c_n_fix_rate
+     :                   , fixation_determinant
+     :                   , g_swdef_fixation
+     :                   , g_n_fix_pot)
+
+      return
+      end subroutine
 
 
 *     ===========================================================
@@ -5065,6 +5242,22 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
      :              , g%root_depth
      :              , g%dlt_NO3gsm
      :               )
+
+      elseif (Option .eq. 2) then
+
+        call cproc_n_uptake3(g%dlayer
+     :                  , max_layer
+     :                  , g%no3gsm_uptake_pot
+     :                  , g%nh4gsm_uptake_pot
+     :                  , g%n_fix_pot
+     :                  , c%n_supply_preference
+     :                  , g%n_demand
+     :                  , g%n_demand
+     :                  , max_part
+     :                  , g%root_depth
+     :                  , g%dlt_no3gsm
+     :                  , g%dlt_nh4gsm)
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
@@ -5073,6 +5266,85 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
       return
       end subroutine
 
+      subroutine cproc_n_uptake3(g_dlayer
+     :                  , max_layer
+     :                  , g_no3gsm_uptake_pot
+     :                  , g_nh4gsm_uptake_pot
+     :                  , g_n_fix_pot
+     :                  , c_n_supply_preference
+     :                  , g_soil_n_demand
+     :                  , g_n_max
+     :                  , max_part
+     :                  , g_root_depth
+     :                  , dlt_no3gsm
+     :                  , dlt_nh4gsm)
+
+      use Infrastructure
+      Implicit None
+
+      real      g_dlayer(*)
+      integer   max_layer
+      real      g_no3gsm_uptake_pot(*)
+      real      g_nh4gsm_uptake_pot(*)
+      real      g_n_fix_pot
+      character c_n_supply_preference*(*)
+      real      g_soil_n_demand(*)
+      real      g_n_max(*)
+      integer   max_part
+      real      g_root_depth
+      real      dlt_no3gsm(*)
+      real      dlt_nh4gsm(*)
+
+
+      !//+  Local Variables
+      integer   deepest_layer                    ! deepest layer in which the roots are growing
+      integer   layer                            ! soil layer number of profile
+      real      n_demand                         ! total nitrogen demand (g/m^2)
+      real      no3gsm_uptake                    ! plant NO3 uptake from layer (g/m^2)
+      real      nh4gsm_uptake                    ! plant NO3 uptake from layer (g/m^2)
+      real      n_max                            ! potential N uptake per plant (g/m^2)
+      real      ngsm_supply
+      real      scalef
+
+      !//- Implementation Section ----------------------------------
+
+      deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
+
+      ngsm_supply = sum_real_array (g_no3gsm_uptake_pot, deepest_layer)
+     :          + sum_real_array (g_nh4gsm_uptake_pot, deepest_layer)
+
+      n_demand = sum_real_array (g_soil_n_demand, max_part)
+
+      if (c_n_supply_preference.eq.'fixation') then
+         n_demand = l_bound (n_demand - g_n_fix_pot, 0.0)
+       endif
+
+       !// get actual change in N contents
+       call fill_real_array (dlt_no3gsm, 0.0, max_layer)
+       call fill_real_array (dlt_nh4gsm, 0.0, max_layer)
+
+       if (n_demand .gt. ngsm_supply)then
+           scalef = 0.99999    !                     // avoid taking it all up as it can
+                               !                   // cause rounding errors to take
+                               !                   // no3 below zero.
+       else
+          scalef = divide (n_demand
+     :                  ,ngsm_supply
+     :                   ,0.0);
+       endif
+
+       do 100 layer = 1, deepest_layer
+
+         !// allocate nitrate
+        no3gsm_uptake = g_no3gsm_uptake_pot(layer) * scalef
+        dlt_no3gsm(layer) = - no3gsm_uptake
+
+         !// allocate ammonium
+         nh4gsm_uptake = g_nh4gsm_uptake_pot(layer) * scalef
+         dlt_nh4gsm(layer) = - nh4gsm_uptake
+  100 continue
+      return
+      end subroutine
 
 
 *     ===========================================================
@@ -5107,6 +5379,7 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
      :               (
      :                g%dlayer
      :              , g%dlt_no3gsm
+     :              , g%dlt_nh4gsm
      :              , g%n_demand
      :              , g%root_depth
      :              , g%dlt_N_green
@@ -5772,6 +6045,7 @@ c         call sugar_kill_crop ()
      :               (
      :                G_dlayer
      :              , G_dlt_no3gsm
+     :              , G_dlt_nh4gsm
      :              , G_n_demand
      :              , G_root_depth
      :              , dlt_N_green
@@ -5784,6 +6058,7 @@ c         call sugar_kill_crop ()
 *+  Sub-Program Arguments
       REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
       REAL       G_dlt_no3gsm(*)       ! (INPUT)  actual NO3 uptake from soil (g
+      REAL       G_dlt_nh4gsm(*)       ! (INPUT)  actual NO3 uptake from soil (g
       REAL       G_n_demand(*)         ! (INPUT)  plant nitrogen demand (g/m^2)
       REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
       real       dlt_N_green(max_part) ! (OUTPUT) actual plant N uptake
@@ -5823,6 +6098,7 @@ c         call sugar_kill_crop ()
                ! find proportion of uptake to be
                ! distributed to each plant part and distribute it.
       N_uptake_sum = - sum_real_array (g_dlt_NO3gsm, deepest_layer)
+     :               - sum_real_array (g_dlt_NH4gsm, deepest_layer)
       N_demand = sum_real_array (g_N_demand, max_part)
 
       ! Partition N, according to relative demand, to each plant
