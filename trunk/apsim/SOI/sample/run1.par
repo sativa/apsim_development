@@ -2,8 +2,8 @@
 [run1.report.parameters]
 Outputfile =soi.out
 
-variable = clock.today.dd/mm/yyyy(Date)
-variable = soi.soi[Jun](soi)
+variable = clock.today.dd/mm/yyyy as date
+variable = soi.soi[Jun] as soi
 
 [run1.clock.parameters]
 start_date=1/1/1980     ! dd/mm/yyyy
