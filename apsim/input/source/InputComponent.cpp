@@ -129,7 +129,7 @@ void InputComponent::readConstants(void)
             value = value.erase(posStartUnit, posEndUnit-posStartUnit+1);
             }
          }
-      addVariable(*constantI, units, value, 1);
+      addVariable(*constantI, units, value, 1, false, false);
       }
    }
 // ------------------------------------------------------------------
@@ -151,12 +151,12 @@ void InputComponent::readHeadings(void)
          fieldNames[fieldI] = string(name) + "_" + fieldNames[fieldI];
       string fieldNameMinusSpec;
       unsigned int arraySpec;
-      removeArraySpec(fieldNames[fieldI], fieldNameMinusSpec, arraySpec);
+      bool isArray = removeArraySpec(fieldNames[fieldI], fieldNameMinusSpec, arraySpec);
 
       addVariable(fieldNameMinusSpec,
                   fieldUnits[fieldI],
                   data->getFieldValue(fieldI),
-                  arraySpec, true);
+                  arraySpec, true, isArray);
       }
    }
 
@@ -177,9 +177,9 @@ InputComponent::InputVariables::iterator InputComponent::findVariable(const stri
 // ------------------------------------------------------------------
 // Strip off the array specifier if found.  Return the variable
 // name with the array specifier removed, and the array index.
-// Returns true if all went ok.
+// Returns true if field is an array.
 // ------------------------------------------------------------------
-void InputComponent::removeArraySpec(const string& fieldName,
+bool InputComponent::removeArraySpec(const string& fieldName,
                                      string& fieldNameMinusSpec,
                                      unsigned int& arraySpec)
    {
@@ -192,6 +192,7 @@ void InputComponent::removeArraySpec(const string& fieldName,
          fieldNameMinusSpec = fieldName.substr(0, posStartArraySpec);
          arraySpec = atoi(fieldName.substr(posStartArraySpec+1,
                                            posEndArraySpec-posStartArraySpec-1).c_str());
+         return true;
          }
       else
          {
@@ -205,6 +206,7 @@ void InputComponent::removeArraySpec(const string& fieldName,
       fieldNameMinusSpec = fieldName;
       arraySpec = 1;
       }
+   return false;
    }
 
 // ------------------------------------------------------------------
@@ -214,22 +216,31 @@ void InputComponent::addVariable(const std::string& name,
                                  const std::string& units,
                                  const std::string& value,
                                  unsigned arrayIndex,
-                                 bool isTemporal)
+                                 bool isTemporal,
+                                 bool isArray)
    {
    StringVariant* stringVariant;
    InputVariables::iterator variableI = findVariable(name);
    if (variableI == variables.end())
       {
-      stringVariant = new StringVariant(this, name, units, value);
-      if (isTemporal)
-         temporalVariables.push_back(stringVariant);
+      stringVariant = new StringVariant(this, name, units, value, !isTemporal);
       }
    else
+      {
       stringVariant = variableI->second;
-   if (value.find(" ") != string::npos)
-      stringVariant->addValues(value);
-   else
-      stringVariant->addValue(value, arrayIndex-1);
+      if (value.find(" ") != string::npos)
+         stringVariant->addValues(value);
+      else
+         stringVariant->addValue(value, arrayIndex-1);
+      }
+   if (isTemporal && find(temporalVariables.begin(), temporalVariables.end(),
+                          stringVariant) == temporalVariables.end())
+      temporalVariables.push_back(stringVariant);
+
+   if (isArray)
+      stringVariant->setIsArray();
+   if (units != "")
+      stringVariant->setUnits(units);
 
    // Last step - do the registration now that the stringVariant has a value
    // use the registration ID as the index into the variables map.
@@ -264,10 +275,21 @@ bool InputComponent::advanceToTodaysData(void)
    if (fileDate == todaysDate)
       {
       data->next();
+      for (InputVariables::iterator i = variables.begin();
+                                    i != variables.end();
+                                    ++i)
+         i->second->useConstantValues(false);
+
       return true;
       }
    else
+      {
+      for (InputVariables::iterator i = variables.begin();
+                                    i != variables.end();
+                                    ++i)
+         i->second->useConstantValues(true);
       return false;
+      }
    }
 // ------------------------------------------------------------------
 // Get a file date from the variables container.

@@ -36,10 +36,12 @@ StringVariant::StringVariant(Component* p, const string& n)
 
 // ------------------------------------------------------------------
 StringVariant::StringVariant(Component* p, const string& n, const string& u,
-   const string& value)
+   const string& value, bool constants)
    : name(n), units(u), parent(p)
    {
    addValues(value);
+   if (constants)
+      copy(values.begin(), values.end(), back_inserter(constantValues));
    }
 
 // ------------------------------------------------------------------
@@ -112,31 +114,38 @@ void StringVariant::addValue(const string& valueString, unsigned arrayIndex)
 // ------------------------------------------------------------------
 void StringVariant::sendVariable(QueryValueData& queryData)
    {
+   std::vector<string> vals;
+   if (useConstants)
+      vals = constantValues;
+   else
+      vals = values;
+   if (vals.size() == 0)
+      return;
    std::vector<float> realArray;
    std::vector<int>   integerArray;
    switch (type)
       {
-      case Real:         StringContainerToDoubleContainer(values, realArray);
+      case Real:         StringContainerToDoubleContainer(vals, realArray);
                          parent->sendVariable(queryData,
                                              realArray[0]);
                          break;
-      case Integer:      StringContainerToIntegerContainer(values, integerArray);
+      case Integer:      StringContainerToIntegerContainer(vals, integerArray);
                          parent->sendVariable(queryData,
                                              integerArray[0]);
                          break;
       case String:       parent->sendVariable(queryData,
                                              values[0]);
                          break;
-      case RealArray:    StringContainerToDoubleContainer(values, realArray);
+      case RealArray:    StringContainerToDoubleContainer(vals, realArray);
                          parent->sendVariable(queryData,
                                              realArray);
                          break;
-      case IntegerArray: StringContainerToIntegerContainer(values, integerArray);
+      case IntegerArray: StringContainerToIntegerContainer(vals, integerArray);
                          parent->sendVariable(queryData,
                                              integerArray);
                          break;
       case StringArray:  parent->sendVariable(queryData,
-                                             values);
+                                             vals);
                          break;
       }
    }
@@ -220,7 +229,7 @@ bool StringVariant::asLogical(bool& value)
    {
    if (values.size() >= 1)
       {
-      value = Str_i_Eq(values[0], "yes");
+      value = (Str_i_Eq(values[0], "yes") || Str_i_Eq(values[0], "true"));
       return true;
       }
    return false;
@@ -313,5 +322,14 @@ unsigned StringVariant::doRegistration()
    {
    regID = parent->addRegistration(respondToGetSetReg, name.c_str(), typeString.c_str());
    return regID;
+   }
+// ------------------------------------------------------------------
+// Set this type as an array type.
+// ------------------------------------------------------------------
+void StringVariant::setIsArray(void)
+   {
+   values.push_back("");
+   determineType();
+   values.erase(values.begin()+(values.size()-1));
    }
 

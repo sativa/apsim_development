@@ -33,7 +33,8 @@ class StringVariant
       StringVariant(protocol::Component* parent,
                     const std::string& name,
                     const std::string& units,
-                    const std::string& value);
+                    const std::string& value,
+                    bool constants);
       void addValue(const std::string& value, unsigned arrayIndex);
       void addValues(const std::string& valueString);
       unsigned numValues(void) {return values.size();}
@@ -44,6 +45,12 @@ class StringVariant
       bool asLogical(bool& value);
       bool asFloat(float& value);
       unsigned doRegistration(void);
+      void setIsArray(void);
+      void setUnits(const std::string& u) {units = u;}
+      void useConstantValues(bool useC)
+         {
+         useConstants = useC;
+         }
 
       bool operator ==(const std::string& n)
          {return (name == n);}
@@ -58,7 +65,9 @@ class StringVariant
       std::string typeString;
       typedef std::vector<std::string> Values;
       Values values;
+      Values constantValues;
       unsigned int regID;
+      bool useConstants;
 
       enum Type {Real, Integer, String, RealArray, IntegerArray, StringArray};
       Type type;
