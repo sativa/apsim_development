@@ -2,9 +2,9 @@
 Dependency = %licensed_source(map)
 
 [Contents]
-ComponentInterface.for = ComponentInterface.for
+ComponentInterface.f90 = ComponentInterface.f90
 map.for = map.for
 
 [APSBuild]
 binary = ..\lib\map.dll
-moduletype=module
+compilerfile=release.compile

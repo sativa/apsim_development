@@ -37,6 +37,7 @@ class CompileThread : public TThread
       string InitialFilename;
       string Message;
       string CommandLineToExecute;
+      std::vector<std::string> filesToCleanup;
 
       void   __fastcall goDisplayMessage1 (void);
       void   __fastcall goDisplayMessage2 (void);
@@ -66,6 +67,7 @@ class CompileThread : public TThread
       std::string getCompileLineForSourceFile(ApsimProject& apf,
                                               const std::string& sourceFile);
       void runExternalProgram(ApsimProject& apf);
+      void copyModuleFiles(ApsimProject& apf);
    };
 
 bool ProjectIsCompilable (const char* Filename);

@@ -1661,6 +1661,7 @@ c      endif
        subroutine Main (Action, Data_string)
 * ====================================================================
       Use infrastructure
+      Use MapModule
       implicit none
       ml_external Main
 
