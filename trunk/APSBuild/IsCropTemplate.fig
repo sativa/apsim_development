@@ -1,0 +1,6 @@
+[instructions]
+import   = %apsuite\apsim\infra\lib\apsiminfra.imp
+import   = %apsuite\apsim\infra\lib\apsimengine.imp
+include  = %apsuite\apsim\infra
+include  = %apsuite\apsim\croptemp
+switches = %apsuite\apsbuild\switches.lf95
