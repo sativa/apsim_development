@@ -1,0 +1,92 @@
+version = 4
+[apsim.Test1]
+
+title= Surface Organic Matter Module Test 1
+module = clock    test.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   test.par [test1]
+module = Input(Met)      optimum.MET [weather]
+module = manager  test.par [test1]
+module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = SurfaceOM  test.par [test1]     %apsuite\apsim\surfaceom\surfaceom.ini [standard]
+module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = screen   test.par [sample]
+module = summaryfile test.par [test1]
+module = log test.par[test1]
+
+[apsim.Test2]
+
+title= Surface Organic Matter Module Test 2
+module = clock    test.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   test.par [test2]
+module = Input(Met)      optimum.MET [weather]
+module = manager  test.par [test2]
+module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = SurfaceOM  test.par [test2]     %apsuite\apsim\surfaceom\surfaceom.ini [standard]
+module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = screen   test.par [sample]
+module = summaryfile test.par [test2]
+module = log test.par[test2]
+
+[apsim.Test3]
+
+title= Surface Organic Matter Module Test 3
+module = clock    test.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   test.par [test3]
+module = Input(Met)      optimum.MET [weather]
+module = manager  test.par [test3]
+module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = SurfaceOM  test.par [test3]     %apsuite\apsim\surfaceom\surfaceom.ini [standard]
+module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = screen   test.par [sample]
+module = summaryfile test.par [test3]
+module = log test.par[test1]
+
+[apsim.Test4]
+
+title= Surface Organic Matter Module Test 4
+module = clock    test.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   test.par [test4]
+module = Input(Met)      optimum.MET [weather]
+module = manager  test.par [test4]
+module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = SurfaceOM  test.par [test4]     %apsuite\apsim\surfaceom\surfaceom.ini [standard]
+module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = screen   test.par [sample]
+module = summaryfile test.par [test4]
+module = log test.par[test1]
+
+
+[apsim.Test5]
+
+title= Surface Organic Matter Module Test 5
+module = clock    test.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   test.par [test5]
+module = Input(Met)      optimum.MET [weather]
+module = manager  test.par [test5]
+module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = SurfaceOM  test.par [test5]     %apsuite\apsim\surfaceom\surfaceom.ini [standard]
+module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]
+! NOTE - NO MICROMET MODULE SO BAMBATSI WILL NOT GROW AND SO WILL REMAIN STATIC
+module = growth(bambatsi) test.par[test5] %apsuite\apsim\bambatsi\bambatsi.ini[standard]
+module = screen   test.par [sample]
+module = summaryfile test.par [test5]
+module = log test.par[test5]
+
+[apsim.Test6]
+
+title= Surface Organic Matter Module Test 6
+module = clock    test.par [test6] %apsuite\apsim\clock\clock.ini[standard]
+module = report   test.par [test6]
+module = Input(Met)     optimum_long.met [weather]
+module = manager  test.par [test6]
+module = fertiliz   %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = irrigate 
+module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = SurfaceOM  test.par [test6]     %apsuite\apsim\surfaceom\surfaceom.ini [standard]
+module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = plant(wheat)  test.par [test6] %apsuite\apsim\wheat\wheat.ini [standard]
+module = sorghum  test.par [test6] %apsuite\apsim\sorghum\sorghum.ini [standard]
+module = plant(canola)   test.par [test6] %apsuite\apsim\canola\canola.ini[standard]
+module = screen   test.par [sample]
+module = summaryfile test.par [test6]
+module = log test.par[test6]
