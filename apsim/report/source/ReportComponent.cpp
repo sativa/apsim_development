@@ -430,7 +430,7 @@ void ReportComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID
    else
       {
       if (find(frequencyIds.begin(), frequencyIds.end(), eventID) != frequencyIds.end())
-         OutputOnThisDay = true;
+         WriteLineOfOutput();
       }
    }
 
