@@ -204,6 +204,13 @@
    </type>
 
    !!!!! IRRIGATE types !!!!!
+   <type name="allocation" kind="single" unit="mm" lower_bound="0.0" upper_bound="10000" description="Allocation amount"/>
+   <type name="crit_fr_asw" kind="single" unit="0-1" lower_bound="0.0" upper_bound="1.0" description="Critical fraction of available soil water"/>
+   <type name="asw_depth" kind="single" unit="mm" lower_bound="0.0" upper_bound="10000" description="Available soil water depth"/>
+   <type name="automatic_irrigation" kind="boolean" unit="" description="Automatic irrigation on?"/>
+   <type name="irrigation_allocation" kind="boolean" unit="" description="Irrigation allocation on?"/>
+   <type name="irrigation_efficiency" kind="single" unit="0-1" lower_bound="0.0" upper_bound="1.0" description="Irrigation efficiency"/>
+   
    <type name="irrigation" kind="single" unit="mm" description="Amount of irrigation applied"/>
    <type name="irrig_tot" kind="single" unit="mm" description="Total irrigation entering the profile when used in conjunction with the irrigation_efficiency mechanism"/>
    <type name="irrig_loss" kind="single" unit="mm" description="Losses resulting from an application of irrigation in conjunction with the irrigation_efficiency mechanism"/>
@@ -601,7 +608,7 @@
       <field name="layer" array = "T">
          <element>
          <field name="thickness" kind="single" unit="mm" />
-         <field name="amount"    array = "T">
+         <field name="amount" >
               <element>
                    <field name="NH4"    kind="single" unit="kg/ha" />
                    <field name="NO3"    kind="single" unit="kg/ha" />
