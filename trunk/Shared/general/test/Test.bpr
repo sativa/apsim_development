@@ -4,21 +4,26 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="Test.exe"/>
-    <OBJFILES value="test.obj TestXml.obj TestIoFunctions.obj"/>
+    <OBJFILES value="Test.obj ..\date_class.obj ..\db_functions.obj ..\Excel.obj ..\exec.obj 
+      ..\IniFile.obj ..\io_functions.obj ..\macro.obj ..\math_functions.obj 
+      ..\path.obj ..\stream_functions.obj ..\stream_processor.obj 
+      ..\string_functions.obj ..\StringTokenizer.obj ..\stristr.obj ..\xml.obj 
+      TestXml.obj TestIoFunctions.obj TestPathClass.obj TestMathFunctions.obj 
+      TestDateClass.obj"/>
     <RESFILES value="Test.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
-    <LIBFILES value="&quot;C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\bin\libxml2.lib&quot; 
-      &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib&quot; 
-      &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\test\test.lib&quot; 
-      ..\general.lib"/>
+    <LIBFILES value="&quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\test\test.lib&quot; 
+      &quot;C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\LibXML2.lib&quot; &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib&quot;"/>
     <LIBRARIES value=""/>
-    <SPARELIBS value="rtl.lib vcl.lib vclx.lib dbrtl.lib vcldb.lib adortl.lib"/>
-    <PACKAGES value="rtl.bpi vcl.bpi dbrtl.bpi bdertl.bpi vcldb.bpi vclx.bpi qrpt60.bpi 
-      nmfast.bpi bcbie.bpi inet.bpi adortl.bpi bcbsmp.bpi dsnap.bpi cds.bpi 
-      dbexpress.bpi dbxcds.bpi ibxpress.bpi vclie.bpi inetdbbde.bpi 
-      inetdbxpress.bpi dclocx.bpi soaprtl.bpi"/>
-    <PATHCPP value=".;"/>
+    <SPARELIBS value="rtl.lib"/>
+    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi adortl.bpi vcldb.bpi 
+      qrpt.bpi bdertl.bpi vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi teeui.bpi 
+      teedb.bpi tee.bpi teeqr.bpi ibxpress.bpi visualclx.bpi visualdbclx.bpi 
+      vclie.bpi xmlrtl.bpi inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi 
+      nmfast.bpi bcbie.bpi soaprtl.bpi dclocx.bpi dbexpress.bpi dbxcds.bpi 
+      indy.bpi bcb2kaxserver.bpi"/>
+    <PATHCPP value=".;..;..;..;..;..;..;..;..;..;..;..;..;..;..;.."/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -28,18 +33,17 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="Test.bpf"/>
-    <INCLUDEPATH value="C:\MyData\development\Shared\general\test;..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)"/>
-    <LIBPATH value="C:\MyData\development\Shared\general\test;..\..\APSoil\Source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms"/>
+    <INCLUDEPATH value="..\;..;D:\development\Shared\general\test;$(BCB)\include;$(BCB)\include\vcl;&quot;C:\Program Files\Borland\CBuilder6\Components\Boost&quot;;&quot;C:\Program Files\Borland\CBuilder6\Components\libxml2\include&quot;;..\.."/>
+    <LIBPATH value="..\;..;D:\development\Shared\general\test;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -tWC 
-      -tWM -c"/>
+    <CFLAG1 value="-Od -Vx -Ve -fp -X- -r- -a8 -b- -k -y -v -vi- -tWC -tWM -c"/>
     <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
     <AFLAGS value="/mx /w2 /zd"/>
-    <LFLAGS value="-D&quot;&quot; -ap -Tpe -x -Gn -Gi -v"/>
+    <LFLAGS value="-D&quot;&quot; -ap -Tpe -x -Gn -wdpl -v"/>
     <OTHERFILES value=""/>
   </OPTIONS>
   <LINKER>
@@ -51,13 +55,30 @@
   <FILELIST>
       <FILE FILENAME="Test.res" FORMNAME="" UNITNAME="Test.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Test.bpf" FORMNAME="" UNITNAME="Test" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="test.cpp" FORMNAME="" UNITNAME="test" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="TestXml.cpp" FORMNAME="" UNITNAME="TestXml" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="TestIoFunctions.cpp" FORMNAME="" UNITNAME="TestIoFunctions" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\bin\libxml2.lib" FORMNAME="" UNITNAME="libxml2.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib" FORMNAME="" UNITNAME="filesystem.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Test.cpp" FORMNAME="" UNITNAME="Test" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\date_class.cpp" FORMNAME="" UNITNAME="date_class.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\db_functions.cpp" FORMNAME="" UNITNAME="db_functions.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\Excel.cpp" FORMNAME="" UNITNAME="Excel.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\exec.cpp" FORMNAME="" UNITNAME="exec.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\IniFile.cpp" FORMNAME="" UNITNAME="IniFile.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\io_functions.cpp" FORMNAME="" UNITNAME="io_functions.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\macro.cpp" FORMNAME="" UNITNAME="macro.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\math_functions.cpp" FORMNAME="" UNITNAME="math_functions.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\path.cpp" FORMNAME="" UNITNAME="path.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\stream_functions.cpp" FORMNAME="" UNITNAME="stream_functions.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\stream_processor.cpp" FORMNAME="" UNITNAME="stream_processor.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\string_functions.cpp" FORMNAME="" UNITNAME="string_functions.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\StringTokenizer.cpp" FORMNAME="" UNITNAME="StringTokenizer.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\stristr.cpp" FORMNAME="" UNITNAME="stristr.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\xml.cpp" FORMNAME="" UNITNAME="xml.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\test\test.lib" FORMNAME="" UNITNAME="test.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="..\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\LibXML2.lib" FORMNAME="" UNITNAME="LibXML2.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TestXml.cpp" FORMNAME="" UNITNAME="TestXml.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib" FORMNAME="" UNITNAME="filesystem.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TestIoFunctions.cpp" FORMNAME="" UNITNAME="TestIoFunctions" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TestPathClass.cpp" FORMNAME="" UNITNAME="TestPathClass" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TestMathFunctions.cpp" FORMNAME="" UNITNAME="TestMathFunctions" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TestDateClass.cpp" FORMNAME="" UNITNAME="TestDateClass" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -90,25 +111,20 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
-[Excluded Packages]
-..\Lib\C6\DCLgtQRC60Pro.bpl=(untitled)
-
 [HistoryLists\hlIncludePath]
 Count=6
-Item0=C:\MyData\development\Shared\general\test;..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
-Item1=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
-Item2=..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED)
-Item3=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED)
-Item4=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item5=C:\MyData\development\Shared\Soil;$(BCB)\include;$(BCB)\include\vcl
+Item0=..\;..;D:\development\Shared\general\test;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder6\Components\Boost;C:\Program Files\Borland\CBuilder6\Components\libxml2\include;..\..
+Item1=..\;..;D:\development\Shared\general\test;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder6\Components\Boost;..\..
+Item2=..\;D:\development\Shared\general\test;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder6\Components\Boost;..\..;..
+Item3=..\;D:\development\Shared\general\test;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder6\Components\Boost;..\..
+Item4=D:\development\Shared\general\test;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder6\Components\Boost;..\..
+Item5=D:\development\Shared\general\test;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=5
-Item0=C:\MyData\development\Shared\general\test;..\..\APSoil\Source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
-Item1=$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
-Item2=..\..\APSoil\Source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
-Item3=$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item4=$(BCB)\Components\TeeChart\CBuilder6\Lib;C:\MyData\development\Shared\Soil;..\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Count=3
+Item0=..\;..;D:\development\Shared\general\test;$(BCB)\lib\obj;$(BCB)\lib
+Item1=..\;D:\development\Shared\general\test;$(BCB)\lib\obj;$(BCB)\lib
+Item2=D:\development\Shared\general\test;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
@@ -117,15 +133,6 @@ Item0=$(BCB)\source\vcl
 [HistoryLists\hlConditionals]
 Count=1
 Item0=_DEBUG
-
-[HistoryLists\hlFinalOutputDir]
-Count=2
-Item0=..\..\Bin\
-Item1=..\..\Bin
-
-[HistoryLists\hIBPIOutputDir]
-Count=1
-Item0=.
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
@@ -144,7 +151,7 @@ RemoteDebug=0
 
 [Compiler]
 ShowInfoMsgs=0
-LinkDebugVcl=0
+LinkDebugVcl=1
 LinkCGLIB=0
 
 [Language]
