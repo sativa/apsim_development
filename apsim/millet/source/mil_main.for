@@ -523,6 +523,7 @@
          real       phase_tt_curv(max_stage) ! Cumulative growing degree days required for each stage (deg days)
          real       phase_tt_other(max_stage) ! Cumulative growing degree days required for each stage (deg days)
          character  plant_status*5      ! status of crop
+         logical    plant_status_out_today
          real       plants              ! Plant density (plants/m^2)
          real       previous_stage      ! previous phenological stage
          real       radn                ! solar radiation (Mj/m^2/day)
@@ -1486,6 +1487,7 @@ cejvo      leaf_no = sum_between (germ, harvest_ripe, g%leaf_no)
          g%phase_tt_curv(:)          = 0.0
          g%phase_tt_other(:)         = 0.0
          g%plant_status              = ' '
+         g%plant_status_out_today = .false.
          g%plants                    = 0.0
          g%previous_stage            = 0.0
          g%radn                      = 0.0
@@ -1598,6 +1600,7 @@ cjh special for erik - end
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
+      g%plant_status_out_today = .false.
       g%row_spacing = 0
       g%sowing_depth = 0
       g%fr_intc_radn = 0
@@ -1881,6 +1884,7 @@ cjh special for erik - end
 *+  Local Variables
       integer    numvals               ! number of values found in array
       character  string*200            ! output string
+      character  module_name*50      ! module name
 
 *- Implementation Section ----------------------------------
 
@@ -1888,6 +1892,10 @@ cjh special for erik - end
 !gd
 !         call get_name (module_name)
 !         write(*,*) 'len_trim', len_trim(module_name)
+      if (g%plant_status.eq.status_out) then
+         if (.not. g%plant_status_out_today) then
+
+
       call publish_null(id%sowing)
 
       call Write_string ( 'Sow')
@@ -1956,6 +1964,25 @@ cjh      else
             ! report empty sowing record
 cjh         call fatal_error (err_user, 'No sowing criteria supplied')
 cjh      endif
+
+         else
+            call get_name (module_name)
+            call fatal_error (ERR_USER,
+     :           '"'//trim(module_name)
+     :          //'" was taken out today by end_crop action -'
+     :          //new_line
+     :          //' Unable to accept sow action '
+     :          //' until the next day.')
+         endif
+      else
+         call get_name (module_name)
+         call fatal_error (ERR_USER,
+     :           '"'//trim(module_name)
+     :          //'" is still in the ground -'
+     :          //' unable to sow until it is'
+     :          //' taken out by "end_crop" action.')
+
+      endif
 
       call pop_routine (my_name)
       return
@@ -2492,6 +2519,7 @@ cgd   Eriks modifications for Leaf Area
       if (g%plant_status.ne.status_out) then
          g%plant_status = status_out
          g%current_stage = real (plant_end)
+         g%plant_status_out_today = .true.
 
                 ! report
 
