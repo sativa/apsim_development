@@ -47,12 +47,8 @@ void addDBField(TDataSet* dataset,
       fieldDef->Name = fieldName.c_str();
 
       if (Is_numerical(fieldValue.c_str()))
-         {
-         if (fieldValue.find(".") == string::npos)
-            fieldDef->DataType = ftInteger;
-         else
-            fieldDef->DataType = ftFloat;
-         }
+         fieldDef->DataType = ftFloat;
+
       else
          {
          try
