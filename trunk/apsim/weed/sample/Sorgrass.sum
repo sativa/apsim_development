@@ -71,6 +71,7 @@
      endif
      if (sorghum.stage = 11) then
            sorghum harvest
+           sorghum kill_crop
            sorghum end_crop
      endif
      if (sorghum.plant_status = 'dead')  then
@@ -488,6 +489,10 @@
       stress indices for start_grain_fill
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0057135
       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+4 February 1989(Day of year=35), manager: 
+     Manager sending message :- sorghum kill_crop
+4 February 1989(Day of year=35), sorghum: 
+         kill. Standing above-ground dm =  5704.1 (kg/ha)
 4 February 1989(Day of year=35), manager: 
      Manager sending message :- sorghum end_crop
 4 February 1989(Day of year=35), sorghum: 
