@@ -911,7 +911,7 @@ void Plant::doHarvest(unsigned &, unsigned &, protocol::Variant &v)
 void Plant::doEndCrop(unsigned &, unsigned &, protocol::Variant &v)
   {
   plant_end_crop ();            //end crop - turn into residue
-  plant_zero_variables ();
+//  plant_zero_variables ();
   }
 
 // Field a Kill crop event
@@ -10273,6 +10273,7 @@ void Plant::plant_zero_all_globals (void)
   memset (&c, 0xdeadbeef, sizeof(c)); //not for <x>_dm_sen_frac
 #endif
       g.hasreadconstants = false;
+      g.plant_status_out_today = false;
       g.module_name="";
       g.crop_class="";
       g.plant_status=out;
@@ -10874,6 +10875,8 @@ void Plant::plant_zero_variables (void)
 
     plant_zero_daily_variables ();
 
+    g.plant_status_out_today = false;
+
     //c      call fill_char_array (c.part_names, " ", max_part);
 
     fill_real_array (g.cnd_grain_conc , 0.0, max_stage);
@@ -11206,105 +11209,122 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
     push_routine (my_name);
 
     if (g.plant_status == out)
-        {
-        protocol::ApsimVariant incomingApsimVariant(parent);
-        incomingApsimVariant.aliasTo(v.getMessageData());
-        parent->writeString ( "Crop Sow");
+    {
+         if (g.plant_status_out_today == false)
+         {
 
-        // Check anachronisms
-        if (incomingApsimVariant.get("crop_type", protocol::DTstring, false, dummy) != false)
-            {
-            parent->warningError ("crop type no longer used in sowing command");
-            }
+           protocol::ApsimVariant incomingApsimVariant(parent);
+           incomingApsimVariant.aliasTo(v.getMessageData());
+           parent->writeString ( "Crop Sow");
 
-        // get species parameters
-        if (incomingApsimVariant.get("crop_class", protocol::DTstring, false, dummy) == false)
-            {
-            // crop class was not specified
-            g.crop_class = c.default_crop_class;
-            }
-        else
-            {
-            g.crop_class = dummy.f_str();
-            g.crop_class = g.crop_class.substr(0,dummy.length());
-            }
-        plant_read_species_const ();
+           // Check anachronisms
+           if (incomingApsimVariant.get("crop_type", protocol::DTstring, false, dummy) != false)
+               {
+               parent->warningError ("crop type no longer used in sowing command");
+               }
 
-        // get cultivar parameters
-        if (incomingApsimVariant.get("cultivar", protocol::DTstring, false, dummy) == false)
-            {
-            throw std::invalid_argument("Cultivar not specified");
-            }
-        else
-            {
-            g.cultivar = dummy.substr(0,dummy.length()).f_str();
-            g.cultivar = g.cultivar.substr(0,dummy.length());
-            }
-        plant_read_cultivar_params ();
+           // get species parameters
+           if (incomingApsimVariant.get("crop_class", protocol::DTstring, false, dummy) == false)
+               {
+               // crop class was not specified
+               g.crop_class = c.default_crop_class;
+               }
+           else
+               {
+               g.crop_class = dummy.f_str();
+               g.crop_class = g.crop_class.substr(0,dummy.length());
+               }
+           plant_read_species_const ();
 
-        // get root profile parameters
-        plant_read_root_params ();
+           // get cultivar parameters
+           if (incomingApsimVariant.get("cultivar", protocol::DTstring, false, dummy) == false)
+               {
+               throw std::invalid_argument("Cultivar not specified");
+               }
+           else
+               {
+               g.cultivar = dummy.substr(0,dummy.length()).f_str();
+               g.cultivar = g.cultivar.substr(0,dummy.length());
+               }
+           plant_read_cultivar_params ();
 
-        // get other sowing criteria
-        if (incomingApsimVariant.get("plants", protocol::DTsingle, false, g.plants) == false)
-            {
-            throw std::invalid_argument("plant density ('plants') not specified");
-            }
-        bound_check_real_var(parent,g.plants, 0.0, 1000.0, "plants");
+           // get root profile parameters
+           plant_read_root_params ();
 
-        if (incomingApsimVariant.get("sowing_depth", protocol::DTsingle, false, g.sowing_depth) == false)
-            {
-            throw std::invalid_argument("sowing_depth not specified");
-            }
-        bound_check_real_var(parent,g.sowing_depth, 0.0, 100.0, "sowing_depth");
+           // get other sowing criteria
+           if (incomingApsimVariant.get("plants", protocol::DTsingle, false, g.plants) == false)
+               {
+               throw std::invalid_argument("plant density ('plants') not specified");
+               }
+           bound_check_real_var(parent,g.plants, 0.0, 1000.0, "plants");
 
-        if (incomingApsimVariant.get("row_spacing", protocol::DTsingle, false, g.row_spacing) == false)
-            {
-            g.row_spacing = c.row_spacing_default;
-            }
-        bound_check_real_var(parent,g.row_spacing, 0.0, 2000.0, "row_spacing");
+           if (incomingApsimVariant.get("sowing_depth", protocol::DTsingle, false, g.sowing_depth) == false)
+               {
+               throw std::invalid_argument("sowing_depth not specified");
+               }
+           bound_check_real_var(parent,g.sowing_depth, 0.0, 100.0, "sowing_depth");
+
+           if (incomingApsimVariant.get("row_spacing", protocol::DTsingle, false, g.row_spacing) == false)
+               {
+               g.row_spacing = c.row_spacing_default;
+               }
+           bound_check_real_var(parent,g.row_spacing, 0.0, 2000.0, "row_spacing");
 
 
-        if (incomingApsimVariant.get("skipplant", protocol::DTsingle, false, g.skip_plant) == false)
-            {
-            g.skip_plant = c.skip_plant_default;
-            }
-        bound_check_real_var(parent,g.skip_plant, 0.0, 2.0, "skipplant");
-        g.skip_plant_fac = (2.0 + g.skip_plant)/2.0;
+           if (incomingApsimVariant.get("skipplant", protocol::DTsingle, false, g.skip_plant) == false)
+               {
+               g.skip_plant = c.skip_plant_default;
+               }
+           bound_check_real_var(parent,g.skip_plant, 0.0, 2.0, "skipplant");
+           g.skip_plant_fac = (2.0 + g.skip_plant)/2.0;
 
-        if (incomingApsimVariant.get("skiprow", protocol::DTsingle, false, g.skip_row) == false)
-            {
-            g.skip_row = c.skip_row_default;
-            }
-        bound_check_real_var(parent,g.skip_row, 0.0, 2.0, "skiprow");
-        g.skip_row_fac = (2.0 + g.skip_row)/2.0;
+           if (incomingApsimVariant.get("skiprow", protocol::DTsingle, false, g.skip_row) == false)
+               {
+               g.skip_row = c.skip_row_default;
+               }
+           bound_check_real_var(parent,g.skip_row, 0.0, 2.0, "skiprow");
+           g.skip_row_fac = (2.0 + g.skip_row)/2.0;
 
-        // Bang.
-        g.current_stage = (float) sowing;
-        g.plant_status = alive;
-        sendStageMessage("sowing");
+           // Bang.
+           g.current_stage = (float) sowing;
+           g.plant_status = alive;
+           sendStageMessage("sowing");
 
-        parent->writeString ("");
-        parent->writeString ("                 Crop Sowing Data");
-        parent->writeString ("    ------------------------------------------------");
-        parent->writeString ("    Sowing  Depth Plants Spacing Skip  Skip  Cultivar");
-        parent->writeString ("    Day no   mm     m^2     mm   row   plant name");
-        parent->writeString ("    ------------------------------------------------");
+           parent->writeString ("");
+           parent->writeString ("                 Crop Sowing Data");
+           parent->writeString ("    ------------------------------------------------");
+           parent->writeString ("    Sowing  Depth Plants Spacing Skip  Skip  Cultivar");
+           parent->writeString ("    Day no   mm     m^2     mm   row   plant name");
+           parent->writeString ("    ------------------------------------------------");
 
-        sprintf(msg, "   %7d%7.1f%7.1f%7.1f%6.1f%6.1f %s"
-               , g.day_of_year, g.sowing_depth
-               , g.plants, g.row_spacing
-               , g.skip_row, g.skip_plant, g.cultivar.c_str());
-        parent->writeString (msg);
+           sprintf(msg, "   %7d%7.1f%7.1f%7.1f%6.1f%6.1f %s"
+                  , g.day_of_year, g.sowing_depth
+                  , g.plants, g.row_spacing
+                  , g.skip_row, g.skip_plant, g.cultivar.c_str());
+           parent->writeString (msg);
 
-        parent->writeString ("    ------------------------------------------------\n");
+           parent->writeString ("    ------------------------------------------------\n");
 
-        }
+         }
+
+         else
+         {
+            ostrstream msg;
+            msg << g.module_name << " was taken out today by \"end_crop\" action -" << endl;
+            msg << " Unable to accept \"sow\" action until the next day." << endl << ends;
+            throw std::runtime_error (msg.str());
+         }
+    }
     else
-        {
-        string m = string(g.module_name + " is still in the ground -\n unable to sow until it is\n taken out by \"end_crop\" action.");
-        throw std::runtime_error (m.c_str());
-        }
+    {
+         ostrstream msg;
+         msg << g.module_name << " is still in the ground -" << endl;
+         msg << " Unable to sow until it is taken out by \"end_crop\" action." << endl << ends;
+         throw std::runtime_error (msg.str());
+
+//        string m = string(g.module_name + " is still in the ground -\n unable to sow until it is\n taken out by \"end_crop\" action.");
+//        throw std::runtime_error (m.c_str());
+    }
 
     pop_routine (my_name);
     return;
@@ -12077,6 +12097,7 @@ void Plant::plant_end_crop ()
 
     if (g.plant_status != out)
         {
+        g.plant_status_out_today = true;
         g.plant_status = out;
         g.current_stage = (float) plant_end;
 
