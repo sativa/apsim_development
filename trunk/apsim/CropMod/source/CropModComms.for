@@ -29,8 +29,8 @@
       !Read the crop type and sub-module switches
       call Read_Module_Switches()
 
-      PRINT *,"crop type is ", c%crop_type
-      PRINT *
+!      PRINT *,"crop type is ", c%crop_type
+!      PRINT *
 
 
       !Read the crop specific constants

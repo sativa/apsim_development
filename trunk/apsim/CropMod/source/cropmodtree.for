@@ -3300,7 +3300,7 @@ c          endif
      .          g%tiller_no_fertile)
 
 
-        PRINT *,tt_emerg_to_flag,g%tt_tiller_emergence(1:6)
+!        PRINT *,tt_emerg_to_flag,g%tt_tiller_emergence(1:6)
 
 
       elseif ((Option .eq. 0).or.(Option .eq. 3)) then
@@ -5228,7 +5228,7 @@ c     :               )
 
       elseif (Option.eq.9) then
 
-        PRINT *, 'uptake'
+!        PRINT *, 'uptake'
 
         call cproc_n_uptake_massflow_diffusion_fixation
      :               (
@@ -5501,7 +5501,7 @@ c     :               )
      :              , g%N_demand(grain)
      :               )
 
-       PRINT *, 'new N_Yieldpart_demand'
+!       PRINT *, 'new N_Yieldpart_demand'
 
       else if (Option.eq.0) then
 
