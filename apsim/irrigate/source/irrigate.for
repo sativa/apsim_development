@@ -1,7 +1,104 @@
+      module IrrigateModule
+!     ================================================================
+!     Irrigate array sizes and constants
+!     ================================================================
+
+!   Short description:
+!      array size settings and constants
+
+!   Notes:
+!      none
+
+!   Attributes:
+!      Version:         Any hardware/Fortran77
+!      Extensions:      Long names <= 20 chars.
+!                       Lowercase
+!                       Underscore
+!                       Inline comments
+
+!   Changes:
+!      070694 - adapted from old irrigation module
+!      021194 - nih
+!      081294 jngh
+!      300695 jngh changed max_layer form 11 to 100
+
+
+! ----------------------- Declaration section ------------------------
+
+!   Global variables
+      integer    max_layer
+      parameter (max_layer = 100)
+
+      integer    max_irrigs                   ! Maximum number of irrigation
+      parameter (max_irrigs = 50)             ! applications
+
+      integer    max_solutes                  ! Maximum number of solutes
+      parameter (max_solutes = 20)            ! applied in irrigation water
+
+      real       effirr                       ! input - fractional value for
+      parameter (effirr = 1.0)                ! irrigation system efficiency
+         ! note:- the only reason this constant has not been made into a
+         ! parameter is that it would be the only one.  It has never been used
+         ! to my knowlede (not often anyway) so hide it - Neil Huth 11/11/94
+
+      type IrrigateGlobals
+         integer   year                          ! year
+         integer   day                           ! day of year
+         real    irrigation_solutes_shed (max_solutes, max_irrigs)  ! scheduled irrigation solutes
+         real    irrigation_applied
+         real    irrigation_tot
+         real    irrigation_loss
+         real    allocation
+         real    carry_over
+         integer  num_solutes
+         integer  irr_pointer
+         character  solute_names(max_solutes)*32
+         character  solute_owners(max_solutes)*32
+         real    sw_dep(max_layer)
+         real    ll15_dep(max_layer)
+         real    dul_dep(max_layer)
+         real    dlayer(max_layer)
+         real    irrigation_solutes(max_solutes)     ! quantity of solutes in the current irrigation
+      end type IrrigateGlobals
+! ==================================================================
+      type IrrigateParameters
+         real    asw_depth
+         real    crit_fr_asw
+         integer   day(max_irrigs)
+         integer   year(max_irrigs)
+         real    amount(max_irrigs)
+         real    duration(max_irrigs)
+         real    default_duration
+         character  time(max_irrigs)*10
+         character  default_time*10
+         character  automatic_irrigation*3
+         character  manual_irrigation*3
+         character  irrigation_allocation*3
+         real       irrigation_efficiency
+         real    default_conc_solute(max_solutes)
+      end type IrrigateParameters
+! ==================================================================
+
+      ! instance variables.
+      type (IrrigateGlobals), pointer :: g
+      type (IrrigateParameters), pointer :: p
+      integer MAX_NUM_INSTANCES
+      parameter (MAX_NUM_INSTANCES=10)
+      integer MAX_INSTANCE_NAME_SIZE
+      parameter (MAX_INSTANCE_NAME_SIZE=50)
+      type IrrigateDataPtr
+         type (IrrigateGlobals), pointer ::    gptr
+         type (IrrigateParameters), pointer :: pptr
+         character Name*(MAX_INSTANCE_NAME_SIZE)
+      end type IrrigateDataPtr
+      type (IrrigateDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+
+      contains
+
+
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
-      use IrrigateModule
       Use infrastructure
       implicit none
 
@@ -22,12 +119,11 @@
       Instances(InstanceNo)%Name = InstanceName
 
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
-      use IrrigateModule
       Use infrastructure
       implicit none
 
@@ -46,12 +142,11 @@
       deallocate (Instances(anInstanceNo)%pptr)
 
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
-      use IrrigateModule
       Use infrastructure
       implicit none
 
@@ -70,11 +165,10 @@
       p => Instances(anInstanceNo)%pptr
 
       return
-      end
+      end subroutine
 *     ===========================================================
       subroutine Main (Action, Data_String)
 *     ===========================================================
-      use IrrigateModule
       Use infrastructure
       implicit none
 
@@ -135,14 +229,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine irrigate_irrigate ()
 *     ===========================================================
-      use IrrigateModule
       Use infrastructure
       implicit none
 
@@ -295,14 +388,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine irrigate_Init ()
 *     ===========================================================
-      use IrrigateModule
       Use infrastructure
       implicit none
 
@@ -422,14 +514,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine irrigate_read_param ()
 *     ===========================================================
-      use IrrigateModule
       Use infrastructure
       implicit none
 
@@ -646,14 +737,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine irrigate_zero_variables ()
 *     ===========================================================
-      use IrrigateModule
       Use infrastructure
       implicit none
 
@@ -707,14 +797,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine irrigate_get_other_variables ()
 *     ===========================================================
-      use IrrigateModule
       Use infrastructure
       implicit none
 
@@ -779,14 +868,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine irrigate_Send_my_variable (Variable_name)
 *     ===========================================================
-      use IrrigateModule
       Use infrastructure
       implicit none
 
@@ -809,7 +897,7 @@
       parameter (my_name = 'irrigate_send_my_variable')
 
 *+  Calls
-      INTEGER  irrigate_solute_number   ! function
+
 
 *+  Local Variables
       real fasw
@@ -910,14 +998,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine irrigate_set_my_variable (Variable_name)
 *     ===========================================================
-      use IrrigateModule
       Use infrastructure
       implicit none
 
@@ -1059,14 +1146,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine irrigate_Process ()
 *     ===========================================================
-      use IrrigateModule
       Use infrastructure
       implicit none
 
@@ -1103,14 +1189,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine irrigate_schedule ()
 *     ===========================================================
-      use IrrigateModule
       Use infrastructure
       implicit none
 
@@ -1233,14 +1318,13 @@ c    Check whether to apply default solute concentrations
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine irrigate_automatic ()
 *     ===========================================================
-      use IrrigateModule
       Use infrastructure
       implicit none
 
@@ -1334,14 +1418,13 @@ c    Check whether to apply default solute concentrations
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine irrigate_ONtick ()
 *     ===========================================================
-      use IrrigateModule
       Use infrastructure
       implicit none
 
@@ -1380,14 +1463,13 @@ c    Check whether to apply default solute concentrations
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine irrigate_check_variables ()
 * ====================================================================
-      use IrrigateModule
       Use infrastructure
       implicit none
 
@@ -1450,12 +1532,11 @@ c    Check whether to apply default solute concentrations
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine irrigate_set_amount (amount)
 *     ===========================================================
-      use IrrigateModule
       Use infrastructure
       implicit none
 
@@ -1538,13 +1619,12 @@ c    Check whether to apply default solute concentrations
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine irrigate_check_allocation (amount)
 *     ===========================================================
-      use IrrigateModule
       Use infrastructure
       implicit none
 
@@ -1591,12 +1671,11 @@ c    Check whether to apply default solute concentrations
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine irrigate_fasw (fasw, swdef)
 *     ===========================================================
-      use IrrigateModule
       Use infrastructure
       implicit none
 
@@ -1655,13 +1734,12 @@ cnh note that results may be strange if swdep < ll15
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine irrigate_on_new_solute ()
 *     ===========================================================
-      use IrrigateModule
       Use infrastructure
       implicit none
 
@@ -1773,14 +1851,13 @@ cnh note that results may be strange if swdep < ll15
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        integer function irrigate_solute_number (solname)
 * ====================================================================
-      use IrrigateModule
       Use infrastructure
       implicit none
 
@@ -1821,8 +1898,8 @@ cnh note that results may be strange if swdep < ll15
 
       call pop_routine (myname)
       return
-      end
+      end function
 
 
-
+      end module IrrigateModule
 

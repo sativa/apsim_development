@@ -129,7 +129,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       integer        C_ELSE
       parameter      (C_ELSE = 25)
 
-      integer        C_END
+      integer        C_end subroutine
       parameter      (C_END = 26)
 
       integer        C_SPACE
@@ -237,13 +237,12 @@ C     Last change:  P    25 Oct 2000    9:26 am
       type (ManagerDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
 
 
-      end module ManagerModule
+      contains
 
 
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -260,12 +259,11 @@ C     Last change:  P    25 Oct 2000    9:26 am
       Instances(InstanceNo)%ptr%Instance_name = InstanceName
 
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -280,12 +278,11 @@ C     Last change:  P    25 Oct 2000    9:26 am
       deallocate (Instances(anInstanceNo)%ptr)
 
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -300,13 +297,12 @@ C     Last change:  P    25 Oct 2000    9:26 am
       g => Instances(anInstanceNo)%ptr
 
       return
-      end
+      end subroutine
 
 
 ! ====================================================================
        subroutine Main (Action, Data_string)
 ! ====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -366,14 +362,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 ! ====================================================================
        subroutine Manager_Init ()
 ! ====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -425,14 +420,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
       call pop_routine(This_routine)
 
       return
-      end
+      end subroutine
 
 
 
 ! ====================================================================
        subroutine Manager_zero_variables ()
 ! ====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -504,12 +498,11 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       call pop_routine(Routine_name)
       return
-      end
+      end subroutine
 
 ! ====================================================================
        subroutine Manager_read_rules ()
 ! ====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -596,12 +589,11 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       call pop_routine(Routine_name)
       return
-      end
+      end subroutine
 
 ! ====================================================================
        subroutine Manager_init_rules ()
 ! ====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -628,14 +620,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 ! ====================================================================
        subroutine Manager_Prepare ()
 ! ====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -663,14 +654,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 ! ====================================================================
        subroutine Manager_Process ()
 ! ====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -697,14 +687,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 ! ====================================================================
        subroutine Manager_Post ()
 ! ====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -731,7 +720,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -758,14 +747,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
       ! the module name the event came from.
 
       return
-      end
+      end subroutine
 
 
 
 ! ====================================================================
       subroutine manager_send_my_variable (variable_name)
 ! ====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -810,12 +798,11 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 * ====================================================================
        subroutine manager_set_my_variable (Variable_name)
 * ====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -853,12 +840,11 @@ C     Last change:  P    25 Oct 2000    9:26 am
       endif
 
       return
-      end
+      end subroutine
 
 ! ====================================================================
        subroutine Parse_read_line(Line, EOF_flag)
 ! ====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -916,7 +902,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -924,7 +910,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
        subroutine Manager_new_local_variable(Variable_name,
      .                                       Variable_value)
 ! ====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -963,14 +948,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
       endif
 
       return
-      end
+      end subroutine
 
 
 
 ! ====================================================================
        subroutine manager_get_params (Function_call, Params)
 ! ====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -1042,7 +1026,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       endif
 
       return
-      end
+      end subroutine
 
 
 
@@ -1050,7 +1034,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
       recursive subroutine Parse_get_variable
      .                 (Variable_Name, Variable_Value)
 ! ====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -1169,14 +1152,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
       endif
 
       return
-      end
+      end subroutine
 
 
 
 ! ====================================================================
        subroutine Parse_set_variable (Variable_Name, Variable_Value)
 ! ====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -1270,14 +1252,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !      endif
 
       return
-      end
+      end subroutine
 
 
 
 ! ====================================================================
        subroutine Parse_action (Action_string)
 ! ====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -1372,14 +1353,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
       call Delete_postbox ()
 
       return
-      end
+      end subroutine
 
 ! ====================================================================
 ! Replace all local variables names in the specified string with the
 ! variable values.
 ! ====================================================================
       subroutine Replace_local_variables(st)
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -1439,14 +1419,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
       st = newString
 
       return
-      end
+      end subroutine
 
 
 
 ! ====================================================================
        subroutine Parse_error (Error_message, Routine_message)
 ! ====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -1491,14 +1470,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
       call Pop_routine(Routine_message)
 
       return
-      end
+      end subroutine
 
 
 
 ! =====================================================================
        subroutine Parse (Token_array, Token_array2)
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -1558,7 +1536,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
        endif
 
        return
-       end
+       end subroutine
 
 
 
@@ -1566,7 +1544,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
        subroutine Process_if_statement (Nested_ifs, Token_array,
      .                                                   Token_array2)
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -1582,7 +1559,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !      TM - 21/11/94
 
 !+  Calls
-       integer       If_statement         ! function
+
 
 !+  Local Variables
        integer       This_Nested          ! Number of this nested if
@@ -1651,7 +1628,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
        endif
 
        return
-       end
+       end subroutine
 
 
 
@@ -1659,7 +1636,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
        subroutine Process_else_statement (Nested_ifs, Token_array,
      .                                                   Token_array2)
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -1701,14 +1677,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
        Nested_ifs = Nested_ifs - 1
 
        return
-       end
+       end subroutine
 
 
 
 ! =====================================================================
        subroutine Assignment_Statement (Token_array, Token_array2)
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -1744,7 +1719,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
        endif
 
        return
-       end
+       end subroutine
 
 
 
@@ -1752,7 +1727,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
        subroutine Process_Assignment (Variable_name, Token_array,
      .                                                    Token_array2)
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -1791,7 +1765,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
               call   Get_next_token(Token_array, Token_array2)
               goto 10
        endif
-       g%expression_array2(g%number_expressions+1) = C_END
+       g%expression_array2(g%number_expressions+1) = C_end subroutine
 
        call   Process_expression
 
@@ -1801,14 +1775,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
        endif
 
        return
-       end
+       end subroutine
 
 
 
 ! =====================================================================
        subroutine Process_Action (Token_array, Token_array2)
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -1830,14 +1803,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
        call   Get_next_token (Token_array, Token_array2)
 
        return
-       end
+       end subroutine
 
 
 
 ! =====================================================================
        integer function If_statement(Token_array, Token_array2)
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -1892,14 +1864,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
        endif
 
        return
-       end
+       end function
 
 
 
 ! =====================================================================
        subroutine Process_next_expression (Token_array, Token_array2)
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -1941,14 +1912,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
        call   Get_next_token(Token_array, Token_array2)
 
        return
-       end
+       end subroutine
 
 
 
 ! =====================================================================
        subroutine Process_And_Or_expression ()
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -1978,19 +1948,18 @@ C     Last change:  P    25 Oct 2000    9:26 am
           g%expression_array2(ind) = g%and_or_array2(ind)
 20     continue
 
-       g%expression_array2(g%number_and_or+2) = C_END
+       g%expression_array2(g%number_and_or+2) = C_end subroutine
        g%number_expressions = g%number_and_or
        g%number_and_or = 0
 
        return
-       end
+       end subroutine
 
 
 
 ! =====================================================================
        subroutine Process_expression ()
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -2002,8 +1971,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !      jngh 24/2/95 put in calls to assign string
 
 !+  Calls
-       character     pop_stack*(Buffer_size)
-                                          ! function
+
 
 !+  Local Variables
        integer       ind                  ! loop index
@@ -2035,7 +2003,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
              g%expression_sub_array2(ind) =
      :                                 g%expression_array2(ind+left)
 40        continue
-          g%expression_sub_array2(g%number_of_tokens+1) = C_END
+          g%expression_sub_array2(g%number_of_tokens+1) = C_end
 
           call assign_string (g%buffer, g%expression_sub_array(1))
           g%token = g%expression_sub_array2(1)
@@ -2079,7 +2047,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
              g%expression_sub_array2(ind) =
      :                             g%expression_array2(ind+left)
 60        continue
-          g%expression_sub_array2(g%number_of_tokens+1) = C_END
+          g%expression_sub_array2(g%number_of_tokens+1) = C_end
 
           call assign_string (g%buffer, g%expression_sub_array(1))
           g%token = g%expression_sub_array2(1)
@@ -2110,12 +2078,12 @@ C     Last change:  P    25 Oct 2000    9:26 am
                 g%number_expressions = left + 1
              endif
 
-             g%expression_array2(g%number_expressions+1) = C_END
+             g%expression_array2(g%number_expressions+1) = C_end
           endif
        endif
 
        return
-       end
+       end subroutine
 
 
 
@@ -2146,14 +2114,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
       read (String, '(g25.0)',iostat = io_result) Double_value
 
       return
-      end
+      end subroutine
 
 
 
 ! =====================================================================
        subroutine Process_sub_expression ()
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -2166,8 +2133,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !      dph 24/6/96  changed from using reals to double precision for temps
 
 !+  Calls
-       character     pop_stack*(Buffer_size)
-                                          ! function
+
 
 !+  Local Variables
        integer       operator             ! save the operator
@@ -2293,14 +2259,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
        endif
 
        return
-       end
+       end subroutine
 
 
 
 ! =====================================================================
        subroutine Process_Simple_Expression ()
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -2313,8 +2278,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !      dph  24/6/96 changed data type to doubles for all calculations.
 
 !+  Calls
-       character     pop_stack*(Buffer_size)
-                                          ! function
+
 
 !+  Local Variables
        integer       operator             ! save the operator
@@ -2373,14 +2337,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
        endif
 
        return
-       end
+       end subroutine
 
 
 
 ! =====================================================================
        subroutine Process_Term ()
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -2393,8 +2356,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !      dph  24/6/96 changed data type to doubles for all calculations.
 
 !+  Calls
-       character     pop_stack*(Buffer_size)
-                                          ! function
+
 
 !+  Local Variables
        integer       operator             ! save the operator
@@ -2462,12 +2424,11 @@ C     Last change:  P    25 Oct 2000    9:26 am
        endif
 
        return
-       end
+       end subroutine
 
 ! =====================================================================
        subroutine Process_Power ()
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -2478,8 +2439,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !      dph  5/12/2000 separated power stuff into its own process routine
 
 !+  Calls
-       character     pop_stack*(Buffer_size)
-                                          ! function
+
 
 !+  Local Variables
        integer       operator             ! save the operator
@@ -2521,7 +2481,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
        endif
 
        return
-       end
+       end subroutine
 
 
 
@@ -2529,7 +2489,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! =====================================================================
        subroutine Process_Factor ()
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -2540,7 +2499,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !      TM - 21/11/94
 
 !+  Calls
-       character     Real_or_not*(Buffer_size)
+
 
 !+  Local Variables
        character     Variable_value*(Buffer_size)
@@ -2574,14 +2533,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
        return
-       end
+       end subroutine
 
 
 
 ! =====================================================================
        subroutine push_stack (Variable_Value)
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -2610,14 +2568,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
        return
-       end
+       end subroutine
 
 
 
 ! =====================================================================
-       character*(*) function pop_stack ()
+       character*(buffer_size) function pop_stack ()
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -2644,14 +2601,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
        return
-       end
+       end function
 
 
 
 ! =====================================================================
        subroutine Get_sub_token ()
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -2676,14 +2632,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
        return
-       end
+       end subroutine
 
 
 
 ! =====================================================================
        subroutine Get_next_token (Token_array, Token_array2)
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -2711,14 +2666,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
        return
-       end
+       end subroutine
 
 
 
 ! =====================================================================
        subroutine Get_expression_array (Token_array, Token_array2)
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -2793,14 +2747,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
        return
-       end
+       end subroutine
 
 
 
 ! =====================================================================
        subroutine Check_previous_word ()
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -2836,12 +2789,12 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
        return
-       end
+       end subroutine
 
 
 
 ! =====================================================================
-       character*(*) function Real_or_not (Variable_Value)
+       character*(buffer_size) function Real_or_not (Variable_Value)
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -2872,14 +2825,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
        Real_or_not = Variable_Value
 
        return
-       end
+       end function
 
 
 
 ! =====================================================================
        subroutine Tokenize (Token_array, Token_array2, maxtokens)
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -2997,14 +2949,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
        g%last_token = ind
        return
-       end
+       end subroutine
 
 
 
 ! =====================================================================
        subroutine Get_Token_from_file ()
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -3038,14 +2989,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
        endif
 
        return
-       end
+       end subroutine
 
 
 
 ! =====================================================================
        subroutine Get_Char ()
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -3072,14 +3022,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
        end if
 
        return
-       end
+       end subroutine
 
 
 
 ! =====================================================================
        subroutine Get_Word ()
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -3092,8 +3041,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !     JNGH - 23/4/98 - added % character to variable name list
 
 !+  Calls
-
-       logical       Reserved             ! function
 
 !+  Local Variables
        integer       left                 ! left brackets
@@ -3154,14 +3101,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
        endif
 
        return
-       end
+       end subroutine
 
 
 
 ! =====================================================================
        subroutine Get_Literal ()
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -3193,14 +3139,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
        return
-       end
+       end subroutine
 
 
 
 ! =====================================================================
        subroutine Get_Number ()
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -3231,14 +3176,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
        g%token = C_NUMBER
 
        return
-       end
+       end subroutine
 
 
 
 ! =====================================================================
        subroutine Get_Special ()
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -3347,14 +3291,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
        return
-       end
+       end subroutine
 
 
 
 ! =====================================================================
        subroutine Get_Action ()
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -3380,14 +3323,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
        endif
 
        return
-       end
+       end subroutine
 
 
 
 ! =====================================================================
        logical function Reserved()
 ! =====================================================================
-      use ManagerModule
       Use Infrastructure
       implicit none
 
@@ -3429,7 +3371,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
        Reserved = Found
 
        return
-       end
+       end function
 
 
 
+      end module ManagerModule
