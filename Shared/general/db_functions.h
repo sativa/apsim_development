@@ -62,4 +62,15 @@ void appendDBRecord(TDataSet* dataset,
                     std::vector<std::string>& fieldNames,
                     std::vector<std::string>& fieldValues) throw(std::runtime_error);
 
+//---------------------------------------------------------------------------
+// Return a DB value to caller - as a string.
+//---------------------------------------------------------------------------
+string getDBValue(TDataSet* dataset, const std::string& fieldName)
+   {
+   if (dataset->FieldValues[fieldName.c_str()].IsNull())
+      return "";
+   else
+      return AnsiString(dataset->FieldValues[fieldName.c_str()]).c_str();
+   }
+
 #endif
