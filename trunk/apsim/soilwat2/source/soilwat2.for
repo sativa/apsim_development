@@ -224,6 +224,7 @@
          real   profile_fesw                          ! initial fraction of esw of profile distributed from top down ()
          real   max_evap                              ! maximum daily evaporation for rickert
          real   beta                                  ! beta for b&s model
+         real   solute_conc_rain(max_solute)          ! concentration of solutes entering soil via rainfall (ppm)
       end type Soilwat2Parameters
 ! ====================================================================
       type Soilwat2Constants
@@ -311,6 +312,8 @@
 *+  Constant Values
       character  my_name*(*)           ! this subroutine name
       parameter (my_name = 'soilwat2_process')
+       character  section_name*(*)
+       parameter (section_name = 'parameters')
 
 *+  Local Variables
       real       extra_runoff          ! water backed up from flux calculations
@@ -322,6 +325,7 @@
 
       call push_routine (my_name)
 
+      call soilwat2_check_rainfall_solutes ()
 
 
       call lateral_process(lateral, g%sw_dep
@@ -367,6 +371,9 @@ c dsg 070302 added runon
 
             ! save solutes from irrigation
       call soilwat2_irrig_solute ()
+
+            ! receive any solutes from rainfall
+      call soilwat2_rainfall_solute ()
 
       ! NIH 180895
       ! in order to continue capturing irrigation information we zero
@@ -2786,6 +2793,59 @@ cjh
 
 
 *     ===========================================================
+      subroutine soilwat2_check_rainfall_solutes ()
+*     ===========================================================
+      use EvapModule
+
+      Use Infrastructure
+      implicit none
+
+*+  Purpose
+*       collect any rainfall solute data
+
+*+  Mission Statement
+*     Read rainfall solute data
+
+*+  Changes
+
+*+  Constant Values
+      character  my_name*(*)            ! name of this module
+      parameter (my_name = 'soilwat2_check_rainfall_solutes')
+*
+       character  section_name*(*)
+       parameter (section_name = 'parameters')
+
+*+  Local Variables
+      integer    i                     ! simple counter
+      integer    numvals               ! number of values returned
+      character  dummy*100             ! first half of solute concatenation
+      character  default_name*100      ! concatenated parameter name for initial solute concentration
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+   !********** check for any rainfall solute information    *********
+
+      do 100 i = 1,g%num_solutes
+      dummy = string_concat('rainfall_',g%solute_names(i))
+      default_name = string_concat(dummy,'_conc')
+      p%solute_conc_rain(i) = 0.0
+      call read_real_var_optional (section_name, default_name, '(ppm)'
+     +              , p%solute_conc_rain(i), numvals, 0.0, 10000.0)
+
+ 100  continue
+
+   !********************************************************************************************
+
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+
+
+*     ===========================================================
       subroutine soilwat2_soil_profile_param ()
 *     ===========================================================
       Use Infrastructure
@@ -4829,8 +4889,8 @@ c         g%crop_module(:) = ' '               ! list of modules
          p%beta = 0.0                         ! beta for b&s model
 
          p%max_pond = 0.0                     ! maximum allowable surface storage (ponding) mm
-         p%mwcon (:) = 0.0                   ! layer permeability factor (zero or one)
-
+         p%mwcon (:) = 0.0                    ! layer permeability factor (zero or one)
+         p%solute_conc_rain(:) = 0.0          ! solute concentrations in rainfall (optional parameter) 
 * ====================================================================
 * Constants
          c%hydrol_effective_depth = 0.0       ! hydrologically effective depth for
@@ -5836,6 +5896,58 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       call pop_routine (myname)
       return
       end subroutine
+
+
+* ====================================================================
+       subroutine soilwat2_rainfall_solute ()
+* ====================================================================
+      Use Infrastructure
+      implicit none
+
+*+  Purpose
+*     <insert here>
+
+*+  Mission Statement
+*      Add solutes from rainfall
+
+*+  Changes
+*   dsg - 01-04-2005 - Programmed and Specified
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'soilwat2_rainfall_solute')
+
+*+  Local Variables
+      integer    solnum                ! solute number counter variable
+      real       mass_rain             ! mass of rainfall on this day (kg/ha)
+      real       mass_solute           ! mass of solute in this rainfall (kg/ha)
+
+*- Implementation Section ----------------------------------
+
+
+      call push_routine (myname)
+
+         ! 1mm of rain = 10000 kg/ha, therefore total mass of rainfall = g%rain * 10000 kg/ha
+         mass_rain = g%rain * 10000.0
+
+      do 1000 solnum = 1, g%num_solutes
+         !assume all rainfall goes into layer 1
+         
+         ! therefore mass_solute = mass_rain * g%solute_conc_rain (in ppm) / 10^6
+         
+         mass_solute = divide(mass_rain * p%solute_conc_rain(solnum)
+     :                                        ,1000000.0,0.0)   
+         g%solute(solnum,1)     = g%solute(solnum,1)
+     :                          + mass_solute
+         g%dlt_solute(solnum,1) = g%dlt_solute(solnum,1)
+     :                          + mass_solute
+
+ 1000 continue
+
+      call pop_routine (myname)
+      return
+      end subroutine
+
 
 
 * ====================================================================
