@@ -725,7 +725,7 @@ cjh      endif
 
          das_real = sum_between (sowing, now, g%days_tot)
 !         das_int  = int(das_real+0.9999999)
-         das_int  = nint(das_real
+         das_int  = nint(das_real)
          call respond2get_integer_var (variable_name
      :                             , '(days)'
      :                             , das_int)
