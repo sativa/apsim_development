@@ -131,4 +131,83 @@ void Double2string (CT1& source, CT2& dest)
    std::for_each(source.begin(), source.end(), convert);
    }
 
+
+template <class CT, class T>
+class Add_if_unique : public std::unary_function<T, void>
+   {
+   private:
+      CT& container;
+   public:
+      Add_if_unique (CT& c) : container(c) {}
+      void operator() (T& arg)
+         {
+         if (std::find(container.begin(), container.end(), arg) == container.end())
+            container.push_back (arg);
+         }
+   };
+
+template <class CT, class T>
+class Get_name_and_store_function
+   {
+   private:
+      CT& Container;
+   public:
+      Get_name_and_store_function(CT& container)
+         : Container (container)
+         { }
+
+      void operator () (T arg)
+         {
+         Container.push_back (arg.Get_name());
+         };
+   };
+
+template <class CT, class T>
+class Get_filename_and_store_function
+   {
+   private:
+      CT& Container;
+   public:
+      Get_filename_and_store_function(CT& container)
+         : Container (container)
+         { }
+
+      void operator () (T arg)
+         {
+         Container.push_back (arg.Get_filename());
+         };
+   };
+
+template <class T>
+class Find_by_name_predicate
+   {
+   private:
+      string Name;
+   public:
+      Find_by_name_predicate(const char* name)
+         : Name(name)
+         { }
+
+      bool operator () (T& arg)
+         {
+         return (strcmpi(arg.Get_name().c_str(), Name.c_str()) == 0);
+         };
+   };
+
+template <class T>
+class Find_by_filename_predicate
+   {
+   private:
+      string File_name;
+   public:
+      Find_by_filename_predicate(const char* file_name)
+         : File_name(file_name)
+         { }
+
+      bool operator () (T& arg)
+         {
+         return (strcmpi(arg.Get_filename().c_str(), File_name.c_str()) == 0);
+         };
+   };
+
 #endif

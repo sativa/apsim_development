@@ -75,27 +75,27 @@ class GENERAL_EXPORT GDate
 
       // operators
 
-      int operator == (const GDate& D)
+      bool operator == (const GDate& D) const
          {
          return (Julian_day == D.Get_jday());
          }                             // == operator
-      int operator != (const GDate& D)
+      bool operator != (const GDate& D) const
          {
          return (Julian_day != D.Get_jday());
          }                             // != operator
-      int operator < (const GDate& D)
+      bool operator < (const GDate& D) const
          {
          return (Julian_day < D.Get_jday());
          }                             // < operator
-      int operator <= (const GDate& D)
+      bool operator <= (const GDate& D) const
          {
          return (Julian_day <= D.Get_jday());
          }                             // <= operator
-      int operator > (const GDate& D)
+      bool operator > (const GDate& D) const
          {
          return (Julian_day > D.Get_jday());
          }                             // > operator
-      int operator >= (const GDate& D)
+      bool operator >= (const GDate& D) const
          {
          return (Julian_day >= D.Get_jday());
          }                             // >= operator

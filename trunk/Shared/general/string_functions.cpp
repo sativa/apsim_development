@@ -137,11 +137,15 @@ string GENERAL_EXPORT Get_section_name (const char* line)
    string Str_line = line;
    string Section_name;
 
-   int Pos_open = Str_line.find("[");
-   int Pos_close = Str_line.find("]");
-   if (Pos_open >= 0 && Pos_close > 0)
-      Section_name = Str_line.substr(Pos_open + 1, Pos_close - Pos_open - 1);
-   To_lower (Section_name);
+   int Pos_first_non_blank = Str_line.find_first_not_of (" ");
+   if (Pos_first_non_blank != string::npos && Str_line[Pos_first_non_blank] == '[')
+      {
+      int Pos_open = Str_line.find("[");
+      int Pos_close = Str_line.find("]");
+      if (Pos_open >= 0 && Pos_close > 0)
+         Section_name = Str_line.substr(Pos_open + 1, Pos_close - Pos_open - 1);
+      To_lower (Section_name);
+      }
    return Section_name;
    }
 
@@ -254,4 +258,27 @@ string GENERAL_EXPORT ftoa(double Float, int Num_decplaces)
 int GENERAL_EXPORT Str_i_Cmp(const string &a, const string &b)
 {	return stricmp(a.c_str(),b.c_str());
 }
+
+
+// ------------------------------------------------------------------
+//  Short description:
+//     replace all chars in a give string with a replacement.  Can
+//     handle a NULL char as a replacement char.
+
+//  Notes:
+
+//  Changes:
+//    DPH 11/9/98
+
+// ------------------------------------------------------------------
+void Replace_all_chars (char* St, char Char_to_replace, char Replacement_char)
+   {
+   char* ptr = St;
+   ptr = strchr(ptr, Char_to_replace);
+   while (ptr != NULL)
+      {
+      *ptr = Replacement_char;
+      ptr = strchr(ptr + 1, Char_to_replace);
+      }
+   }
 
