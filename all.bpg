@@ -54,10 +54,6 @@ apsbuild.exe: apsbuild\source\apsbuild.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
-compinterface.lib: apsim\infra\componentinterface\compinterface.bpr
-  $(ROOT)\bin\bpr2mak $**
-  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
-
 protocol.dll: apsim\infra\protocol\protocol.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
