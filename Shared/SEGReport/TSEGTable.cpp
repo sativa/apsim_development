@@ -106,6 +106,8 @@ void TSEGTable::forceRefresh(bool displayError)
             }
          else
             Active = true;
+
+         refreshLinkedComponents();
          }
       catch (const exception& error)  // one of our error messages.
          {
@@ -123,7 +125,6 @@ void TSEGTable::forceRefresh(bool displayError)
          {
          Active = false;
          }
-      refreshLinkedComponents();
 
       EnableControls();
 
