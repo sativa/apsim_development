@@ -484,6 +484,9 @@
 
         real      xf(max_layer)                        ! root exploration factor (0-1)
 
+        real      dlt_root_front                       ! increase in root depth (mm)
+        real      root_front                           ! root front in Skip Row (mm) GMC
+
 
 !-----------------------------------------------------------
 !plant water relations
