@@ -35,8 +35,6 @@ class APSIMSoilTempPublic
 
     create                 : APSIMMethod         = System create stage
     sysinit                : APSIMMethod         = System initialise
-    prepare                : APSIMMethod         = System prepare stage
-    process                : APSIMMethod         = Message to process 
 
 end
 ; -----------------------------------------------------------
@@ -61,6 +59,9 @@ class APSIMSoilTempExternal
     mint                    : APSIMReal             = Minimum ambient temperature, (oC), GET , -100.0, 100.0
     es                      : APSIMReal             = Evaporation, (mm), GET, 0.0, 100.0
     eos                     : APSIMReal             = Potential soil water evaporation, (mm), GET, 0.0, 100.0
+
+    prepare                 : APSIMEvent            = System prepare stage
+    process                 : APSIMEvent            = Message to process 
 
 end
 

@@ -232,8 +232,6 @@ class APSIMSugarPublic
    
    sysinit                     : APSIMMethod               = System initialization stage
    create                      : APSIMMethod               = System zero variables
-   prepare                     : APSIMMethod               = System prepare stage
-   process                     : APSIMMethod               = System process stage
    sow                         : APSIMSugarSowMethod       = Perform Sugar Sowing
    harvest                     : APSIMHarvestMethod        = Perform Sugar Harvest
    end_crop                    : APSIMEndCropMethod        = Perform Sugar Endcrop
@@ -274,6 +272,8 @@ class APSIMSugarExternal
    add_residue                 : APSIMAddResidueMethod      = Message to report a residue decomposition
 
    tick                        : APSIMClockTickEvent        = Change in the simulation system time and the duration of the new time step
+   prepare                     : APSIMEvent                 = System prepare stage
+   process                     : APSIMEvent                 = System process stage
 
 end
 
