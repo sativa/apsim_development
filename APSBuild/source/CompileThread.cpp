@@ -653,20 +653,29 @@ void CompileThread::DeleteFiles (APSIM_project& apf, const char* Filespec)
 // ------------------------------------------------------------------
 void CompileThread::CreateComponentInterface(APSIM_project& apf)
    {
-   // see if we can find an interface file.
-   Path interfaceFilePath(apf.Get_filename().c_str());
-   interfaceFilePath.Back_up_directory();
-   string moduleName = interfaceFilePath.Back_up_directory();
-   interfaceFilePath.Append_path(moduleName.c_str());
-   interfaceFilePath.Set_name(moduleName.c_str());
-   interfaceFilePath.Set_extension(".interface");
-   if (interfaceFilePath.Exists())
+   // need to work out the name of the interface file.
+   // It does this by looking at the name of the binary file and
+   // assuming the interface file has the same name but with a .interface
+   // extension and exists in the parent directory of the apf passed in.
+   list<string> binaryFileNames;
+   GetBinaryFileNames (apf, binaryFileNames);
+   if (binaryFileNames.size() > 0)
       {
-      Path sourcePath(GetSourceDirectory(apf).c_str());
-      sourcePath.Change_directory();
+      Path binaryPath(binaryFileNames.begin()->c_str());
+      string moduleName = binaryPath.Get_name_without_ext();
 
-      // generate interface file.
-      GenerateComponentInterface(interfaceFilePath.Get_path().c_str());
+      Path interfaceFilePath(apf.Get_filename().c_str());
+      interfaceFilePath.Back_up_directory();
+      interfaceFilePath.Set_name(moduleName.c_str());
+      interfaceFilePath.Set_extension(".interface");
+      if (interfaceFilePath.Exists())
+         {
+         Path sourcePath(GetSourceDirectory(apf).c_str());
+         sourcePath.Change_directory();
+
+         // generate interface file.
+         GenerateComponentInterface(interfaceFilePath.Get_path().c_str());
+         }
       }
    }
 // ------------------------------------------------------------------
