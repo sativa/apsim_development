@@ -102,5 +102,9 @@ std::string getYoungestFile(const std::string& directory,
 // ------------------------------------------------------------------
 void renameOnCollision(std::string& name, bool isFile = true);
 
+// ------------------------------------------------------------------
+// Remove invalid file name characters from the specified string e.g. / \ | *
+// ------------------------------------------------------------------
+void removeInvalidFileNameChars(std::string& fileName);
 
 #endif
