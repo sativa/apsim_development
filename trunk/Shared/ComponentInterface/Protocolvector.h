@@ -1,5 +1,5 @@
-#ifndef VectorH
-#define VectorH
+#ifndef ProtocolVectorH
+#define ProtocolVectorH
 #include "MessageData.h"
 namespace protocol {
 class Component;
@@ -89,7 +89,18 @@ class vector
          else
             rangeError(index, maxCount);
          }
-
+      void copyTo(T to[], unsigned& toCount) const
+         {
+         for (unsigned i = 0; i != count; i++)
+            to[i] = array[i];
+         toCount = count;
+         }
+      void copyFrom(const T from[], unsigned fromCount)
+         {
+         for (unsigned i = 0; i != fromCount; i++)
+            array[i] = from[i];
+         count = fromCount;
+         }
 
    private:
       unsigned int count;
