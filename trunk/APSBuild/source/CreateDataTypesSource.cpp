@@ -3,27 +3,43 @@
 #include <vcl.h>
 #pragma hdrstop
 #include "CreateSource.h"
-#include <ApsimShared\ApsimDirectories.h>
+#include <ApsimShared\ApsimSettings.h>
+#include <general\string_functions.h>
 #include <fstream>
 using namespace std;
 //---------------------------------------------------------------------------
 // Main entry point into exe
 //---------------------------------------------------------------------------
-WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR fileName, int)
+WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR commandLine, int)
    {
-   string apsimDirectory = getApsimDirectory();
+   try
+      {
+      bool writeXML = Str_i_Eq(commandLine, "/writexml");
 
-   ifstream dataTypesInterface(string(apsimDirectory + "\\apsim\\infra\\datatypes.interface").c_str());
-   ostringstream ddml;
-   ddml << dataTypesInterface.rdbuf();
+      ApsimSettings settings;
+      string dataTypesInterfaceFile;
+      string dataTypesMacroFile;
+      settings.read("APSBuild|DataTypesInterfaceFile", dataTypesInterfaceFile, true);
+      settings.read("APSBuild|DataTypesMacroFile", dataTypesMacroFile, true);
 
-   ofstream cpp(string(apsimDirectory + "\\shared\\componentInterface\\dataTypes.cpp").c_str());
-   ofstream hpp(string(apsimDirectory + "\\shared\\componentInterface\\dataTypes.h").c_str());
-   ofstream forDataTypes(string(apsimDirectory + "\\apsim\\infra\\source\\dataTypes.f90").c_str());
-   ofstream forDataTypesInterface(string(apsimDirectory + "\\apsim\\infra\\source\\dataTypesInterface.f90").c_str());
+      // read contents of datatypes.interface
+      ifstream dataTypesInterface(dataTypesInterfaceFile.c_str());
+      ostringstream dataTypesContents;
+      dataTypesContents << dataTypesInterface.rdbuf();
 
-   CreateSource createSource;
-   createSource.go(ddml.str(), cpp, hpp, forDataTypes, forDataTypesInterface);
+      // read contents of componentinterface.amf
+      ifstream dataTypesMacro(dataTypesMacroFile.c_str());
+      ostringstream dataTypesMacroContents;
+      dataTypesMacroContents << dataTypesMacro.rdbuf();
+
+      CreateSource createSource;
+      createSource.go(dataTypesContents.str(), dataTypesMacroContents.str(), writeXML);
+      }
+   catch (const runtime_error& err)
+      {
+      cout << err.what();
+      return 1;
+      }
    return 0;
    }
 //---------------------------------------------------------------------------
