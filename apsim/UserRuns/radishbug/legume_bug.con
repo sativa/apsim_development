@@ -1,6 +1,6 @@
-version = 3.2
+version = 3.3
 [APSIM.rd_1000_timeA]
-module = clock            sow_rule.par[all]
+module = clock   sow_rule.par [all] %apsuite\apsim\clock\clock.ini [standard]
 module = report   legume_bug.par [rd1000_timeA] sow_rule.par [all]
 module = input(met)              Wonganh.met[weather]
 module = manager          sow_rule.par[all] sow_rule.par [density1_1000] sow_rule.par[rd]  sow_rule.par[timeA]

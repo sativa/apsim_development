@@ -781,43 +781,43 @@ screen_output = on
 screen_output = off
 
 [all.tracker1.parameters]
-variable = sum of met.rain since report1.reported as sum@met.rain on post
-variable = sum of nwheat.ep since report1.reported as sum@nwheat.ep on post
-variable = sum of lucerne.ep since report1.reported as sum@lucerne.ep on post
-variable = sum of canola.ep since report1.reported as sum@canola.ep on post
-variable = sum of apswim.es since report1.reported as sum@apswim.es on post
-variable = sum of apswim.runoff since report1.reported as sum@apswim.runoff on post
-variable = sum of apswim.drain since report1.reported as sum@apswim.drain on post
-variable = sum of apswim.eo since report1.reported as sum@apswim.eo on post
-variable = sum of apswim.leach_no3 since report1.reported as sum@apswim.leach_no3 on post
-variable = sum of soiln2.dnit() since report1.reported as sum@soiln2.dnit[] on post
-variable = sum of soiln2.dlt_n_min() since report1.reported as sum@soiln2.dlt_n_min[] on post
-variable = sum of lucerne.dlt_n_fixed since report1.reported as sum@lucerne.dlt_n_fixed on post
-variable = sum of canola.dlt_n_fixed since report1.reported as sum@canola.dlt_n_fixed on post
+variable = sum of met.rain since report1.reported as sum@met_rain on post
+variable = sum of nwheat.ep since report1.reported as sum@nwheat_ep on post
+variable = sum of lucerne.ep since report1.reported as sum@lucerne_ep on post
+variable = sum of canola.ep since report1.reported as sum@canola_ep on post
+variable = sum of apswim.es since report1.reported as sum@apswim_es on post
+variable = sum of apswim.runoff since report1.reported as sum@apswim_runoff on post
+variable = sum of apswim.drain since report1.reported as sum@apswim_drain on post
+variable = sum of apswim.eo since report1.reported as sum@apswim_eo on post
+variable = sum of apswim.leach_no3 since report1.reported as sum@apswim_leach_no3 on post
+variable = sum of soiln2.dnit() since report1.reported as sum@soiln2_dnit[] on post
+variable = sum of soiln2.dlt_n_min() since report1.reported as sum@soiln2_dlt_n_min[] on post
+variable = sum of lucerne.dlt_n_fixed since report1.reported as sum@lucerne_dlt_n_fixed on post
+variable = sum of canola.dlt_n_fixed since report1.reported as sum@canola_dlt_n_fixed on post
 
 [all.tracker2.parameters]
-variable = sum of lucerne.dlt_n_fixed since report2.reported as sum@lucerne.dlt_n_fixed on post
-variable = sum of canola.dlt_n_fixed since report2.reported as sum@canola.dlt_n_fixed on post
+variable = sum of lucerne.dlt_n_fixed since report2.reported as sum@lucerne_dlt_n_fixed on post
+variable = sum of canola.dlt_n_fixed since report2.reported as sum@canola_dlt_n_fixed on post
 
 [all.tracker3.parameters]
-variable = sum of met.rain since report4.reported as sum@met.rain on post
-variable = sum of nwheat.ep since report4.reported as sum@nwheat.ep on post
-variable = sum of lucerne.ep since report4.reported as sum@lucerne.ep on post
-variable = sum of canola.ep since report4.reported as sum@canola.ep on post
-variable = sum of apswim.es since report4.reported as sum@apswim.es on post
-variable = sum of apswim.runoff since report4.reported as sum@apswim.runoff on post
-variable = sum of apswim.drain since report4.reported as sum@apswim.drain on post
-variable = sum of apswim.eo since report4.reported as sum@apswim.eo on post
+variable = sum of met.rain since report4.reported as sum@met_rain on post
+variable = sum of nwheat.ep since report4.reported as sum@nwheat_ep on post
+variable = sum of lucerne.ep since report4.reported as sum@lucerne_ep on post
+variable = sum of canola.ep since report4.reported as sum@canola_ep on post
+variable = sum of apswim.es since report4.reported as sum@apswim_es on post
+variable = sum of apswim.runoff since report4.reported as sum@apswim_runoff on post
+variable = sum of apswim.drain since report4.reported as sum@apswim_drain on post
+variable = sum of apswim.eo since report4.reported as sum@apswim_eo on post
 
 [all.tracker4.parameters]
-variable = sum of apswim.leach_brA since report6.reported as sum@apswim.leach_brA on post
-variable = sum of apswim.leach_brB since report6.reported as sum@apswim.leach_brB on post
-variable = sum of apswim.leach_brC since report6.reported as sum@apswim.leach_brC on post
-variable = sum of apswim.leach_brD since report6.reported as sum@apswim.leach_brD on post
-variable = sum of apswim.uptake_brA_wheat() since report6.reported as sum@apswim.uptake_brA_wheat[] on post
-variable = sum of apswim.uptake_brB_wheat() since report6.reported as sum@apswim.uptake_brB_wheat[] on post
-variable = sum of apswim.uptake_brC_wheat() since report6.reported as sum@apswim.uptake_brC_wheat[] on post
-variable = sum of apswim.uptake_brD_wheat() since report6.reported as sum@apswim.uptake_brD_wheat[] on post
+variable = sum of apswim.leach_brA since report6.reported as sum@apswim_leach_brA on post
+variable = sum of apswim.leach_brB since report6.reported as sum@apswim_leach_brB on post
+variable = sum of apswim.leach_brC since report6.reported as sum@apswim_leach_brC on post
+variable = sum of apswim.leach_brD since report6.reported as sum@apswim_leach_brD on post
+variable = sum of apswim.uptake_brA_wheat() since report6.reported as sum@apswim_uptake_brA_wheat[] on post
+variable = sum of apswim.uptake_brB_wheat() since report6.reported as sum@apswim_uptake_brB_wheat[] on post
+variable = sum of apswim.uptake_brC_wheat() since report6.reported as sum@apswim_uptake_brC_wheat[] on post
+variable = sum of apswim.uptake_brD_wheat() since report6.reported as sum@apswim_uptake_brD_wheat[] on post
 
 [csu-N.SummaryFile.parameters]
 summaryfile = csu-N09.sum

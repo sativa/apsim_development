@@ -28,7 +28,7 @@ APSIM_progress_form = Off
 !   kl  =  0.12   0.10    0.08    0.06    0.03    0.01    0.01
 !   xf   = 1.000  1.000   1.000   1.000   1.000   1.000   1.000 ()
 
-variable = clock.today.dd/mm/yyyy as Date
+variable = clock.dd/mm/yyyy as Date
 variable = clock.year
 variable = ozcot.yield as oz_yield
 [run1.sorg.parameters]
