@@ -42,7 +42,7 @@
 *   Constant values
 
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V1.12  05/08/96')
+      parameter (version_number = 'V1.20  04/09/96')
 
 *   Initial data values
 *       none
@@ -920,6 +920,106 @@
 
       return
       end
+      
+* ====================================================================
+       subroutine manager_get_params (Function_call, Params)
+* ====================================================================
+
+*   Short description:
+*     This routine returns the parameters from the specified function
+*     call.  Return blank string on error.
+
+*   Assumptions:
+*      assumes no more than 2 parameters
+
+*   Notes:
+*     if function_call = 'date_between (1/8, 1/9)
+*     then params(1) = 1/8
+*          params(2) = 1/9
+
+*   Procedure attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <= 20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       Include
+*                       implicit none
+
+*   Changes:
+*     DPH 4/9/96
+
+*   Calls:
+*      assign_string
+
+* ----------------------- Declaration section ------------------------
+
+       implicit none
+
+*   Subroutine arguments
+      character     Function_call*(*)  ! (INPUT) function call
+      character     Params(2)*(*)      ! (OUTPUT) params from function call
+
+*   Global variables
+      include 'const.inc'              ! constant definitions
+      include 'manager.inc'            ! manager common block
+
+*   Internal variables
+      integer pos_open_bracket
+      integer pos_close_bracket
+      integer pos_comma
+
+*   Constant values
+*      none
+
+*   Initial data values
+
+* --------------------- Executable code section ----------------------
+
+      ! locate open and close bracket.
+      
+      pos_open_bracket = index (Function_call, '(')
+      pos_close_bracket = index (Function_call, ')')
+      
+      ! did we find both an open and a close bracket?
+      
+      if (pos_open_bracket .gt. 0 .and.
+     .    pos_close_bracket .gt. pos_open_bracket) then
+     
+      
+         ! yes - locate position of comma.
+      
+         pos_comma = index (Function_call, ',')
+
+         ! did we find a comma between the brackets?
+      
+         if (pos_comma .gt. pos_open_bracket .and. 
+     .       pos_comma .lt. pos_close_bracket) then
+            ! yes - 2 params
+         
+            Params(1) = Function_call (pos_open_bracket + 1: 
+     .                                 pos_comma - 1)
+            Params(2) = Function_call(pos_comma + 1: 
+     .                                 pos_close_bracket - 1)
+         
+         else
+            ! no - 1 param
+      
+            Params(1) = Function_call(pos_open_bracket + 1:
+     .                                pos_close_bracket - 1)
+            Params(2) = Blank
+         endif      
+         
+      else
+         ! no - error
+         
+         Params(1) = Blank
+         Params(2) = Blank
+      endif
+      
+      return
+      end
+      
 * ====================================================================
        subroutine Parse_get_variable (Variable_Name, Variable_Value)
 * ====================================================================
@@ -947,6 +1047,7 @@
 *      jngh 24/2/95 put in calls to assign string
 *     dph 25/7/96  added code to put a message in summary file when creating
 *                  a new local variable
+*     dph 4/9/96   added function 'date_within'
 
 *   Calls:
 *      assign_string
@@ -965,6 +1066,7 @@
       integer Find_string_in_array     ! function
       double precision Date            ! function
       integer lastNb                   ! function
+      logical Date_between             ! function
 
 *   Internal variables
       logical Is_apsim_variable        ! Is the requested variable APSIM's?
@@ -973,6 +1075,7 @@
       character Mod_name*100           ! name of module owning variable
       character Var_name*100           ! name of variable
       character Str*300                ! Dummy value returned by APSIM
+      character Params(2)*(50)         ! params from function call
 
 *   Constant values
 *      none
@@ -984,9 +1087,19 @@
       ! Look for function first.
       
       if (Variable_name(1:5) .eq. 'date(') then
-         call Double_var_to_string 
-     .        (Date(Variable_name(6:LastNB(Variable_name)-1)),
-     .         Variable_value)
+         call Manager_get_params (Variable_name, Params)
+         call Double_var_to_string (Date(Params(1)), Variable_value)
+     
+      else if (Variable_name(1:12) .eq. 'date_within(') then
+         ! get parameters from string.
+         
+         call Manager_get_params (Variable_name, Params)
+         
+         if (Date_between(Params(1), Params(2))) then
+            Variable_value = '1'
+         else
+            Variable_value = '0'
+         endif
 
       else
          Is_apsim_variable = (index(Variable_name, '.') .gt. 0)
