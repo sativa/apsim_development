@@ -396,6 +396,7 @@ string ApsimControlFile::getParameterValue(const string& instanceName,
 // If moduleName is blank then parameter will be written to control file
 // ------------------------------------------------------------------
 void ApsimControlFile::setParameterValue(const string& moduleName,
+                                         const string& sectionName,
                                          const string& parameterName,
                                          const string& parameterValue) const throw(std::runtime_error)
    {
@@ -415,6 +416,8 @@ void ApsimControlFile::setParameterValue(const string& moduleName,
          {
          string defaultFile, defaultSection;
          getDefaultParFileAndSection(defaultFile, defaultSection);
+         if (sectionName != "")
+            defaultSection = sectionName;
 
          // write new module= line to control file.
          vector<string> moduleLines;
@@ -659,5 +662,8 @@ void ApsimControlFile::getDefaultParFileAndSection(string& defaultFile,
       defaultSection.erase(defaultSection.find('.'));
       i++;
       }
+   if (ExtractFileExt(defaultFile.c_str()) != ".par")
+      defaultFile = "";
    }
+
 

@@ -37,6 +37,7 @@ class __declspec(dllexport) ControlFileConverter
    private:
       ApsimControlFile controlFile;
       IniFile script;
+      std::string parFileToUse;
 
       //---------------------------------------------------------------------------
       // convert the control file using the commands in the specified section

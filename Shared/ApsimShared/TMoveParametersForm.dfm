@@ -109,6 +109,7 @@ object MoveParametersForm: TMoveParametersForm
     Width = 75
     Height = 25
     Caption = '&Ok'
+    Default = True
     ModalResult = 1
     TabOrder = 1
   end
