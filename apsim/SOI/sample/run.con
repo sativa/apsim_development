@@ -1,0 +1,10 @@
+[apsim.SOI]
+module = report      run1.par [run1] 
+module = input       run1.par [run1] 028004.sg2 [weather]
+module = met         
+module = manager     run1.man [run1] 
+module = soilwat2    run1.par [run1] soilwat2.ini [standard]
+module = soiln2      run1.par [run1] soiln2.ini [standard]
+module = residue2    run1.par [run1] residue2.ini [standard]
+module = sorg        run1.par [run1] sorg.ini [standard]
+module = soi phases.soi [soi]
