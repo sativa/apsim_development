@@ -4,7 +4,7 @@
 #pragma hdrstop
 
 #include "Excel.h"
-
+#include <general\string_functions.h>
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
 // Return a list of EXCEL sheet names for the specified xlsfile.
@@ -72,7 +72,7 @@ bool getXLSRow(ExcelWorksheetPtr worksheet, int row, vector<string>& values)
       // work out the start and end ref in excel notation e.g B45
       AnsiString startref = "A" + IntToStr(row);
 
-      int endCol1 = numCols / 26;
+      int endCol1 = (numCols-1) / 26;
       int endCol2 = numCols-endCol1*26;
       AnsiString endref;
       if (endCol1 > 0)
@@ -92,7 +92,9 @@ bool getXLSRow(ExcelWorksheetPtr worksheet, int row, vector<string>& values)
          indexes[1] = col;
          Variant variantValue = VarArrayGet(farray, indexes, 1);
          AnsiString value = variantValue;
-         values.push_back(value.c_str());
+         string strippedValue = value.c_str();
+         Strip(strippedValue, " ");
+         values.push_back(strippedValue);
          }
       }
    return (values.size() > 0);

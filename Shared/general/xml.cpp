@@ -278,7 +278,7 @@ std::string XMLNode::getValue(void) const
 void XMLNode::setAttribute(const string& attributeName,
                            const string& attributeValue)
    {
-   if (node != NULL)
+   if (node != NULL && attributeValue != "")
       {
       Msxml2_tlb::IXMLDOMDocumentPtr owner = node->ownerDocument;
 

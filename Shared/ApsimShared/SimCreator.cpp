@@ -249,7 +249,7 @@ void SimCreator::createSim(const string& sectionName,
       else
          {
          ImportSection importSection(component, moduleName);
-         con->enumerateParameters(sectionName, moduleName, true, importSection.callback);
+         con->enumerateParametersForInstance(sectionName, instanceName, true, importSection.callback);
          }
       }
    simulation.write();
