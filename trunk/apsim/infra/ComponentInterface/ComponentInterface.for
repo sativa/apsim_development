@@ -2,7 +2,7 @@
       subroutine UseInstance(anInstanceNo)
 ! ====================================================================
       implicit none
-      dll_export Create
+      dll_export create
       include 'const.inc'
       include 'ComponentInterface.inc'
       include 'error.pub'
@@ -39,7 +39,7 @@
       subroutine RestoreInstance()
 ! ====================================================================
       implicit none
-      dll_export Create
+      dll_export create
       include 'const.inc'
       include 'ComponentInterface.inc'
 
@@ -70,7 +70,7 @@
      .   (aName, anInstanceNo, aCallBack, aCompUnit, ID)
 ! ====================================================================
       implicit none
-      dll_export Create
+      dll_export create
       include 'action.inc'
       include 'ComponentInterface.inc'
 
@@ -117,7 +117,7 @@
       recursive subroutine Init (anInstanceNo)
 ! ====================================================================
       implicit none
-      dll_export Init
+      dll_export init
       include 'const.inc'
       include 'action.inc'
       include 'ComponentInterface.inc'
@@ -154,7 +154,7 @@
        subroutine Term (anInstanceNo)
 ! ====================================================================
       implicit none
-      dll_export Term
+      dll_export term
       include 'const.inc'
       include 'ComponentInterface.inc'
        
@@ -179,11 +179,11 @@
       end
       
 ! ====================================================================
-      recursive subroutine Action (anInstanceNo, anAction, 
-     .                    aDnbytes, apData, aTnbytes, apTypDsc)
+      recursive subroutine Action (anInstanceNo, anAction, aDnbytes, 
+     .                             apData, aTnbytes, apTypDsc)
 ! ====================================================================
       implicit none
-      dll_export Action
+      dll_export action
       include 'ComponentInterface.inc'
  
 !+ Sub-Program Arguments
@@ -205,8 +205,8 @@
 !      DPH 14/7/99
  
 !+ Calls
-      dll_import CString2FString
-      dll_import Loader_MessageUsed
+      dll_import cstring2fstring
+      dll_import loader_messageused
 
 !+ Constant Values
  
@@ -245,7 +245,7 @@
      .                     apData, aTnbytes, apTypDsc)
 ! ====================================================================
       implicit none
-      dll_export InEvent
+      dll_export inevent
       include 'ComponentInterface.inc'
  
 !+ Sub-Program Arguments
@@ -283,7 +283,7 @@
      .                      apData, aTnbytes, apTypDsc)
 ! ====================================================================
       implicit none
-      dll_export OutEvent
+      dll_export outevent
       include 'ComponentInterface.inc'
       
  
@@ -353,7 +353,7 @@
 !      DPH 14/7/99
  
 !+ Calls
-      dll_import LOADER_GETCURRENTCOMPONENT
+      dll_import loader_getcurrentcomponent
 
 !+ Constant Values
       character my_name*(*)
@@ -398,7 +398,7 @@
 !     dph 20/7/99 - uses new interface routine and moved to component interface.
  
 !+ Calls
-      dll_import Summary_WriteLine
+      dll_import summary_writeline
   
 !+ Constant Values
       character my_name*(*)
@@ -480,7 +480,7 @@
 !      DPH 14/7/99
  
 !+ Calls
-      dll_import Loader_SendActionToAllComps
+      dll_import loader_sendactiontoallcomps
  
 !- Implementation Section ----------------------------------
 
@@ -503,7 +503,7 @@
 !      DPH 14/7/99
  
 !+ Calls
-      dll_import Loader_SendEvent
+      dll_import loader_sendevent
  
 !- Implementation Section ----------------------------------
 
