@@ -1,7 +1,7 @@
 [APSIM.sample_peanut]
 module=clock      peanut.par[sample]
 module=report     peanut.par[sample]                                 
-module=met        ..\..\input\sample\dalby.met[weather]
+module=met        ..\..\met\sample\dalby.met[weather]
 module=manager    peanut.par[sample]
 module=soilwat2   ..\..\soilwat2\sample\soilwat2.par[black_earth]  ..\..\soilwat2\soilwat2.ini[standard]
 module=residue2   ..\..\residue2\sample\residue2.par[legume_residue]  ..\..\residue2\residue2.ini[standard]
