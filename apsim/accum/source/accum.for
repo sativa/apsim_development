@@ -1,9 +1,9 @@
-       include 'Accum.inc'
        
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
       use AccumModule
+      Use infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -25,6 +25,7 @@
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
       use AccumModule
+      Use infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -44,6 +45,7 @@
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
       use AccumModule
+      Use infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -63,9 +65,8 @@
        subroutine Main (Action, Data)
 * ====================================================================
       use AccumModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Global constant definitions
-       include 'action.inc'
 
 *+  Sub-Program Arguments
        character Action*(*)            ! Message action to perform
@@ -109,8 +110,8 @@
        subroutine Accum_Init ()
 * ====================================================================
       use AccumModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Constant definitions
 
 *+  Purpose
 *      Initialise Accum module
@@ -149,11 +150,8 @@
        subroutine Accum_read_param ()
 * ====================================================================
       use AccumModule
+      Use infrastructure
       implicit none
-      include 'const.inc'              ! Constant definitions
-      include 'datastr.pub'                       
-      include 'read.pub'                          
-      include 'error.pub'                         
 
 *+  Purpose
 *      Read in all parameters from parameter file.
@@ -237,6 +235,7 @@
        subroutine Accum_zero_variables ()
 * ====================================================================
       use AccumModule
+      Use infrastructure
       implicit none
 
 *+  Purpose
@@ -266,9 +265,8 @@
        subroutine Accum_get_other_variables ()
 * ====================================================================
       use AccumModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Constant definitions
-      include 'intrface.pub'                      
 
 *+  Purpose
 *      Get the values of variables from other modules
@@ -308,11 +306,8 @@
        subroutine Accum_Send_my_variable (Variable_name)
 * ====================================================================
       use AccumModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! constant definitions
-      include 'intrface.pub'                      
-      include 'datastr.pub'                       
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
        character Variable_name*(*)     ! (INPUT) Variable name to search for
