@@ -42,7 +42,7 @@
 *   Constant values
 
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V1.11  07/06/96')
+      parameter (version_number = 'V1.12  05/08/96')
 
 *   Initial data values
 *       none
@@ -945,6 +945,8 @@
 *   Changes:
 *     DPH 5/12/94
 *      jngh 24/2/95 put in calls to assign string
+*     dph 25/7/96  added code to put a message in summary file when creating
+*                  a new local variable
 
 *   Calls:
 *      assign_string
@@ -970,6 +972,7 @@
       integer Variable_index           ! Index into local variable array
       character Mod_name*100           ! name of module owning variable
       character Var_name*100           ! name of variable
+      character Str*300                ! Dummy value returned by APSIM
 
 *   Constant values
 *      none
@@ -1012,9 +1015,15 @@
    
                ! If not found anywhere in APSIM then it must be a local
                ! variable not already defined.  Add variable to list.
-                  if (Numvals .eq. 0) then
+
+               if (Numvals .eq. 0) then
                   call manager_new_local_variable(Variable_name, '0')
                   Variable_value = '0'
+                  write (str, '(4a)' )
+     .              'Manager creating a new local variable : ',
+     .               Variable_name(1:Lastnb(Variable_name)),
+     .               ' = 0'
+                  call Report_event (str)
    
                else
                   ! Found variable elsewhere in APSIM
@@ -1058,6 +1067,7 @@
 *      jngh 24/2/95 put in calls to assign string
 *      jngh 07/06/96 changed set_ to post_
 *     dph 12/7/96  added code to display line in summary file when setting apsim variable
+*     dph 25/7/96  added message to summary file when creating a local variable
 
 *   Calls:
 *      assign_string
@@ -1126,6 +1136,13 @@
                call manager_new_local_variable(Variable_name, 
      .              Variable_value)
 
+               write (str, '(4a)' )
+     .           'Manager creating a new local variable : ',
+     .            Variable_name(1:Lastnb(Variable_name)),
+     .            ' = ',
+     .            Variable_value(1:lastnb(Variable_value))
+               call Report_event (str)
+
             else
                call post_char_var(Unknown_module, Variable_name,
      .            Variable_value)
@@ -1182,6 +1199,8 @@
 *     DPH 27/5/96  Added code to check for a set action and to pass the
 *                  variable name as data string.
 *     dph 12/7/96  Added call to no_leading_spaces (Action) - fixes bug in manager
+*     dph 25/7/96  Changed decl of no_leading_spaces*(mes_action_size) to
+*                  no_leading_spaces*(function_string_len)
 
 *   Calls:
 *     None
@@ -1196,7 +1215,7 @@
 *   Global variables
       include 'const.inc'              ! constant definitions
       logical Store_in_postbox         ! function
-      character No_leading_spaces*(MES_Action_size)
+      character No_leading_spaces*(Function_string_len)
                                        ! function
 
 *   Internal variables
