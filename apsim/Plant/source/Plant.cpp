@@ -10963,11 +10963,14 @@ void Plant::plant_get_other_variables ()
     // Soil temperature at surface
     if (id.maxt_soil_surface != 0)
        {
-       parent->getVariable(id.maxt_soil_surface, soil_temp, 0.0, 80.0, true);
-       plant_store_value (g.day_of_year
-                        , g.year
-                        , g.soil_temp
-                        , soil_temp);
+       soil_temp = 0.0;
+       if (parent->getVariable(id.maxt_soil_surface, soil_temp, 0.0, 80.0, true));
+          {
+          plant_store_value (g.day_of_year
+                           , g.year
+                           , g.soil_temp
+                           , soil_temp);
+          }                 
        }
 
     // Canopy XX this is wrong if our 'module name' changes during a simulation
