@@ -122,7 +122,7 @@
                                        ! mes_report
 
       integer    lastnb                ! function
-      logical    sugar_my_type         ! function
+      logical    crop_my_type          ! function
       character  sugar_version*15      ! function
 
 *   Internal variables
@@ -164,7 +164,7 @@
          call sugar_prepare ()
 
       elseif (action.eq.mes_sow) then
-         if (sugar_my_type ()) then
+         if (crop_my_type (c_crop_type)) then
                ! start crop and do  more initialisations
             call sugar_start_crop ()
          else
@@ -181,7 +181,7 @@
             call sugar_zero_variables ()
          endif
       elseif (action.eq.mes_harvest) then
-         if (sugar_my_type ()) then
+         if (crop_my_type (c_crop_type)) then
                ! harvest crop - turn into residue
             call sugar_harvest ()
          else
@@ -190,7 +190,7 @@
          endif
 
       elseif (action.eq.mes_end_crop) then
-         if (sugar_my_type ()) then
+         if (crop_my_type (c_crop_type)) then
                ! end crop - turn into residue
             call sugar_end_crop ()
          else
@@ -199,7 +199,7 @@
          endif
 
       elseif (action.eq.mes_kill_crop) then
-         if (sugar_my_type ()) then
+         if (crop_my_type (c_crop_type)) then
                ! kill crop - die
             call sugar_kill_crop
      :               (
@@ -302,14 +302,25 @@
       call sugar_get_other_variables ()
 
       call sugar_root_depth(1)
+      call sugar_root_Depth_init(1) ! after because it sets the delta
       call sugar_water_supply(1)
       call sugar_water_uptake (1)
       call sugar_water_stress_expansion (1)
       call sugar_water_stress_stalk (1)
-      call sugar_water_stress_photo (1)
+      call sugar_water_stress_pheno (1)
 
       if (g_crop_status.eq.crop_alive) then
-         call sugar_bio_TE (1)
+         call sugar_min_sstem_sucrose(1)
+         call sugar_phenology_init (1)
+         call sugar_phenology (1)
+         call sugar_height (1)
+
+         call sugar_leaf_no_init (1)
+         call sugar_leaf_no_pot (1)
+         call sugar_leaf_area_init (1)
+         call sugar_leaf_area_potential (1)
+
+         call sugar_bio_water (1)
          call sugar_water_log (1)
          call sugar_bio_RUE(1)
          call sugar_bio_actual (1)
@@ -322,22 +333,19 @@
          !!!! LEAF AREA SEN !!!!
 
          call sugar_leaf_death (1)
-         call sugar_leaf_area_sen_age (1)
-         call sugar_leaf_area_sen_light (1)
-         call sugar_leaf_area_sen_water (1)
-         call sugar_leaf_area_sen_frost (1)
-         call sugar_leaf_area_sen_actual (1)
+         call sugar_leaf_area_sen(1)
+
          call sugar_sen_bio (1)
          call sugar_sen_nit (1)
-         call sugar_sen_rlv (1)
-c         call sugar_senescence ()
+         call sugar_sen_root_length (1)
 
-c         call sugar_Nitrogen ()
+         call sugar_nit_retrans (1)
+         call sugar_nit_Demand(1)
          call sugar_nit_supply (1)
          call sugar_nit_init (1)
          call sugar_nit_uptake (1)
          call sugar_nit_partition (1)
-         call sugar_nit_retrans (1)
+
 
          call sugar_water_content_cane (1)
 c         call sugar_water_content()
@@ -457,7 +465,7 @@ cjh      call sugar_nit_stress (1)
       real hold_n_root
       real hold_num_layers
       real hold_root_depth
-      real hold_rlv(max_layer)
+      real hold_root_length(max_layer)
 
 *   Constant values
       character  my_name*(*)           ! name of procedure
@@ -627,8 +635,17 @@ cjh      call sugar_nit_stress (1)
 
          call write_string (lu_scr_sum, string)
 
-         call sugar_root_incorp (dm_root, N_root)
-         call sugar_top_residue (dm_residue, N_residue)
+      call crop_root_incorp (dm_root
+     :                      ,N_root
+     :                      ,g_dlayer
+     :                      ,g_root_length
+     :                      ,g_root_depth
+     :                      ,c_crop_type
+     :                      ,max_layer
+     :                      )
+
+
+         call crop_top_residue (c_crop_type, dm_residue, N_residue)
 
          hold_ratoon_no = g_ratoon_no
          hold_dm_root   = g_dm_green (root)*(1.0 - c_root_die_back_fr)
@@ -636,7 +653,8 @@ cjh      call sugar_nit_stress (1)
          hold_num_layers= g_num_layers
          hold_root_depth= g_root_depth
          do 101 layer=1,max_layer
-            hold_rlv(layer) = g_rlv(layer)*(1.0 - c_root_die_back_fr)
+            hold_root_length(layer) = g_root_length(layer)
+     :                                *(1.0 - c_root_die_back_fr)
   101    continue
 
 
@@ -652,7 +670,7 @@ cjh      call sugar_nit_stress (1)
          g_plants          = g_initial_plant_density
 
          do 102 layer=1,max_layer
-            g_rlv(layer) = hold_rlv(layer)
+            g_root_length(layer) = hold_root_length(layer)
   102    continue
 
          ! now update constants if need be
@@ -819,7 +837,8 @@ cjh      call sugar_nit_stress (1)
       g_dlt_dm = 0.0
       g_partition_xs = 0.0
       g_dlt_leaf_no = 0.0
-      g_dlt_leaf_no_dead = 0.0
+      g_dlt_node_no = 0.0
+      g_dlt_node_no_dead = 0.0
       g_dlt_plants = 0.0
       g_dlt_root_depth = 0.0
       g_dlt_slai = 0.0
@@ -832,7 +851,7 @@ cjh      call sugar_nit_stress (1)
       g_n_graze = 0.0
 
       g_dlt_min_sstem_sucrose = 0.0
-      
+
       call pop_routine (my_name)
       return
       end
@@ -1259,6 +1278,7 @@ cnh      call report_event ( 'Sowing initiate')
       integer    num_layers            ! number of layers in profile
       integer    numvals               !
       character  string*200            ! output string
+      real       rlv (max_layer)
 
 *   Constant values
       character  my_name*(*)           ! name of procedure
@@ -1309,8 +1329,12 @@ cnh      call report_event ( 'Sowing initiate')
 
       call read_real_array (section_name
      :                     , 'rlv', max_layer, '()'
-     :                     , g_rlv, num_layers
+     :                     , rlv, num_layers
      :                     , 0.0, 20.0)
+      call fill_real_array (g_root_depth, 0.0, max_layer)
+      do 1001 layer = 1, num_layers
+         g_root_length(layer) = rlv(layer)*g_dlayer(layer)
+1001  continue
 
       if (g_uptake_source.eq.'calc') then
 
@@ -1421,7 +1445,7 @@ cnh      call report_event ( 'Sowing initiate')
 
 *   Global variables
       include   'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       real       sum_real_array        ! function
 
@@ -1552,7 +1576,15 @@ cnh         call report_event (string)
      :           + g_N_dead(root)
      :           + g_N_senesced(root)
 
-         call sugar_root_incorp (dm_root, N_root)
+      call crop_root_incorp (dm_root
+     :                      ,N_root
+     :                      ,g_dlayer
+     :                      ,g_root_length
+     :                      ,g_root_depth
+     :                      ,c_crop_type
+     :                      ,max_layer
+     :                      )
+
 
              ! put stover into surface residue
 
@@ -1574,7 +1606,7 @@ cnh         call report_event (string)
      :             + (sum_real_array (g_N_dead, max_part)
      :             - g_N_dead(root))
 
-         call sugar_top_residue (dm_residue, N_residue)
+         call crop_top_residue (c_crop_type, dm_residue, N_residue)
 
          write (string, '(40x, a, f7.1, a, 3(a, 40x, a, f6.1, a))')
      :                  '  straw residue ='
@@ -1648,7 +1680,6 @@ cnh         call report_event (string)
       include   'sugar.inc'
 
       real       divide                ! function
-      character  string_concat*50      ! function
 
 *   Internal variables
       integer    layer                 ! layer number
@@ -1657,7 +1688,6 @@ cnh         call report_event (string)
       real       dlayer(max_layer)     ! soil layer depths (mm)
       real       NO3(max_layer)        ! soil NO3 content (kg/ha)
       real       NO3_min(max_layer)    ! soil NO3 minimum (kg/ha)
-      character  uptake_name*50        ! name of uptake variable
 
 *   Constant values
       character  my_name*(*)           ! name of procedure
@@ -1750,24 +1780,25 @@ cnh         call add_real_array (dlayer, g_dlayer, numvals)
      :          .and.
      :    (c_crop_type.ne.' '))
      :then
-         uptake_name = string_concat('uptake_water_',c_crop_type)
-         call get_real_array_optional (unknown_module
-     :                             ,uptake_name
-     :                             ,max_layer
-     :                             ,'(mm)'
-     :                             ,g_uptake_water
-     :                             ,g_num_uptake_water
-     :                             ,0.0
-     :                             ,500.0)
-         uptake_name = string_concat('uptake_no3_',c_crop_type)
-         call get_real_array_optional (unknown_module
-     :                             ,uptake_name
-     :                             ,max_layer
-     :                             ,'(kg/ha)'
-     :                             ,g_uptake_no3
-     :                             ,g_num_uptake_no3
-     :                             ,0.0
-     :                             ,500.0)
+            call crop_get_ext_uptakes (unknown_module
+     :                                ,c_crop_type
+     :                                ,'water'
+     :                                ,1.0
+     :                                ,0.0
+     :                                ,500.0
+     :                                ,g_uptake_water
+     :                                ,g_num_uptake_water
+     :                                )
+            call crop_get_ext_uptakes (unknown_module
+     :                                ,c_crop_type
+     :                                ,'no3'
+     :                                ,1.0
+     :                                ,0.0
+     :                                ,500.0
+     :                                ,g_uptake_no3
+     :                                ,g_num_uptake_no3
+     :                                )
+
       else
       endif
 
@@ -2072,6 +2103,7 @@ cmjr
       real       tla
       integer    layer
       real       rwu(max_layer)        ! root water uptake (mm)
+      real       rlv(max_layer)
 
 *   Constant values
       character  my_name*(*)           ! name of procedure
@@ -2146,10 +2178,10 @@ c I removed this NIH
      :                              , g_leaf_no
      :                              , max_stage)
 
-      elseif (variable_name .eq. 'leaf_no_dead') then
+      elseif (variable_name .eq. 'node_no_dead') then
          call respond2get_real_array (variable_name
      :                              , '()'
-     :                              , g_leaf_no_dead
+     :                              , g_node_no_dead
      :                              , max_stage)
 
       elseif (variable_name .eq. 'leaf_area') then
@@ -2522,10 +2554,10 @@ c      call sugar_nit_stress_expansion (1)
      :                             , '(0-1)'
      :                             , cane_dmf)
 
-      elseif (variable_name .eq. 'water_log_fact') then
+      elseif (variable_name .eq. 'oxdef_photo') then
          call respond2get_real_var (variable_name
      :                             , '(0-1)'
-     :                             , g_water_log_fact)
+     :                             , g_oxdef_photo)
 
       elseif (variable_name .eq. 'das') then
          das = sum_between (sowing, now, g_days_tot)
@@ -2572,9 +2604,14 @@ c      call sugar_nit_stress_expansion (1)
 
       elseif (variable_name .eq. 'rlv') then
          num_layers = count_of_real_vals (g_dlayer, max_layer)
+         do 2000 layer = 1, num_layers
+            rlv(layer) = divide (g_root_length(layer)
+     :                          ,g_dlayer(layer)
+     :                          ,0.0)
+ 2000    continue
          call respond2get_real_array (variable_name
      :                               , '(mm/mm3)'
-     :                               , g_rlv
+     :                               , rlv
      :                               , num_layers)
 
       elseif (variable_name .eq. 'dm_graze') then
@@ -2663,7 +2700,7 @@ c      call sugar_nit_stress_expansion (1)
 
 *   Global variables
       include   'const.inc'            ! err_user
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       real       divide                ! function
       logical    stage_is_between      ! function
@@ -2736,75 +2773,6 @@ c      call sugar_nit_stress_expansion (1)
 
       call pop_routine (my_name)
 
-      return
-      end
-*     ===========================================================
-      logical function sugar_my_type ()
-*     ===========================================================
-
-*   Short description:
-*       Returns true if 'type' is equal to the crop type or is absent.
-
-*   Assumptions:
-*       If type is not specified, it is assumed the message was addressed
-*        directly to the module.
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*      060495 nih taken from template
-*      060696 nih changed extract routines to collect routine calls
-*                 removed datastring from argument list
-
-*   Calls:
-*     collect_char_var_optional
-*     pop_routine
-*     push_routine
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-*    none
-
-*   Global variables
-      include   'sugar.inc'
-
-*   Internal variables
-      character  crop_type*50          ! crop type in data string
-      integer    numvals               ! number of values returned
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_my_type')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-      call push_routine (my_name)
-
-      call collect_char_var_optional ('type', '()'
-     :                              , crop_type, numvals)
-
-      if (crop_type.eq.c_crop_type .or. numvals.eq.0) then
-         sugar_my_type = .true.
-      else
-         sugar_my_type = .false.
-      endif
-
-      call pop_routine (my_name)
       return
       end
 *     ===========================================================
@@ -2897,6 +2865,10 @@ c      call sugar_nit_stress_expansion (1)
      :                    , 'no3_diffn_const', '(days)'
      :                    , c_NO3_diffn_const, numvals
      :                    , 0.0, 100.0)
+
+      call read_char_var (section_name
+     :                   , 'n_supply_preference', '()'
+     :                   , c_n_supply_preference, numvals)
 
          !    sugar_get_root_params
 
@@ -3096,7 +3068,8 @@ c      call sugar_nit_stress_expansion (1)
       call fill_real_array (g_leaf_area, 0.0, max_leaf)
       call fill_real_array (g_leaf_dm, 0.0, max_leaf)
       call fill_real_array (g_leaf_no, 0.0, max_stage)
-      call fill_real_array (g_leaf_no_dead, 0.0, max_stage)
+      call fill_real_array (g_node_no, 0.0, max_stage)      
+      call fill_real_array (g_node_no_dead, 0.0, max_stage)
       call fill_real_array (g_N_conc_crit, 0.0, max_part)
       call fill_real_array (g_N_conc_min, 0.0, max_part)
       call fill_real_array (g_N_green, 0.0, max_part)
@@ -3105,7 +3078,7 @@ c      call sugar_nit_stress_expansion (1)
       call fill_real_array (g_dm_senesced, 0.0, max_part)
       call fill_real_array (g_N_dead, 0.0, max_part)
       call fill_real_array (g_N_senesced, 0.0, max_part)
-      call fill_real_array (g_rlv, 0.0, max_layer)
+      call fill_real_array (g_root_length, 0.0, max_layer)
       call fill_real_array (g_plant_wc, 0.0, max_part)
       call fill_real_array (g_dlt_plant_wc, 0.0, max_part)
 
@@ -3129,7 +3102,7 @@ cnh      g_initial_plant_density = 0.0
       g_transpiration_tot = 0.0
       g_previous_stage = 0.0
       g_ratoon_no = 0
-      g_leaf_no_detached = 0.0
+      g_node_no_detached = 0.0
       g_lodge_flag = .false.
       g_min_sstem_sucrose = 0.0
 
@@ -3255,37 +3228,27 @@ cnh      c_crop_type = ' '
 * --------------------- Executable code section ----------------------
       call push_routine (myname)
 
-cnh      call sugar_zero_daily_variables ()
-      call sugar_get_other_variables ()
-      call sugar_water_stress_pheno (1)
-      call sugar_nit_stress_photo (1)
-      call sugar_nit_stress_expansion (1)
-      call sugar_nit_stress_stalk (1)
-cnh
-      call sugar_min_sstem_sucrose(1)
-      call sugar_phenology (1)
-      call sugar_height (1)
 
       if (g_crop_status.eq.crop_alive) then
+         call sugar_get_other_variables ()
+
+         call sugar_nit_stress_photo (1)
+         call sugar_nit_stress_expansion (1)
+         call sugar_nit_stress_pheno (1)
+         call sugar_nit_stress_stalk (1)
+
          call sugar_temp_stress_photo(1)
          call sugar_temp_stress_stalk(1)
+
          call sugar_light_supply(1)
          call sugar_water_log (1)
          call sugar_bio_RUE(1)
          call sugar_transpiration_eff(1)
-c         call sugar_water_stress_expansion (1)
-         call sugar_phen_leaf (1)
-         call sugar_leaf_area_potential (1)
          call sugar_water_demand (1)
-         call sugar_water_stress_expansion (1)
-         call sugar_water_stress_stalk (1)
-         call sugar_bio_partition_pot (1)
-         call sugar_nit_demand (1)
-c         call sugar_N_demand (g_N_demand)
+         call sugar_nit_demand_est (1)
+
       else
       endif
-
-cnh
 
       call pop_routine (myname)
       return
@@ -3377,6 +3340,16 @@ cnh
      :                     , c_ratio_root_shoot, numvals
      :                     , 0.0, 1000.0)
 
+      call read_real_array (section_name
+     :                     , 'transp_eff_cf', max_stage, '()'
+     :                     , c_transp_eff_cf, numvals
+     :                     , 0.0, 1.0)
+
+      call read_real_array (section_name
+     :                     , 'n_fix_rate', max_stage, '()'
+     :                     , c_n_fix_rate, numvals
+     :                     , 0.0, 1.0)
+
       call read_real_var (section_name
      :                    , 'extinction_coef', '()'
      :                    , c_extinction_coef, numvals
@@ -3432,6 +3405,16 @@ cnh
      :                    , c_specific_root_length, numvals
      :                    , 0.0, 50000.0)
 
+      call read_real_array (section_name
+     :                     , 'x_plant_rld', max_table, '(mm/mm3/plant)'
+     :                     , c_x_plant_rld, c_num_plant_rld
+     :                     , 0.0, 0.1)
+
+      call read_real_array (section_name
+     :                     , 'y_rel_root_rate', max_table, '(0-1)'
+     :                     , c_y_rel_root_rate, c_num_plant_rld
+     :                     , 0.0, 1.0)
+
       call read_real_var (section_name
      :                    , 'root_die_back_fr', '(0-1)'
      :                    , c_root_die_back_fr, numvals
@@ -3462,15 +3445,15 @@ cnh
 
          !    sugar_height
 
-      call read_real_var (section_name
-     :                    , 'height_max', '(mm)'
-     :                    , c_height_max, numvals
+      call read_real_array (section_name
+     :                    , 'x_stem_wt',max_table,'(g/plant)'
+     :                    , c_x_stem_wt, c_num_stem_wt
      :                    , 0.0, 10000.0)
 
-      call read_real_var (section_name
-     :                    , 'height_stem_slope', '(mm/g/stem)'
-     :                    , c_height_stem_slope, numvals
-     :                    , 0.0, 1000.0)
+      call read_real_array (section_name
+     :                    , 'y_height',max_table,'(mm)'
+     :                    , c_y_height, c_num_stem_wt
+     :                    , 0.0, 10000.0)
 
          !    sugar_transp_eff
 
@@ -3479,10 +3462,6 @@ cnh
      :                    , c_svp_fract, numvals
      :                    , 0.0, 1.0)
 
-      call read_real_var (section_name
-     :                    , 'transp_eff_cf', '(kpa)'
-     :                    , c_transp_eff_cf, numvals
-     :                    , 0.0, 1.0)
 
          !    sugar_germination
 
@@ -3522,15 +3501,27 @@ cnh
      :                    , 0.0, 100.0)
 
       call read_real_array (section_name
-     :                    , 'leaf_app_rate', max_table,'(oC)'
-     :                    , c_leaf_app_rate
-     :                    , c_num_leaf_app_rate
+     :                    , 'x_node_no_app', max_table,'(oC)'
+     :                    , c_x_node_no_app
+     :                    , c_num_node_no_app
      :                    , 0.0, 1000.0)
 
       call read_real_array (section_name
-     :                    , 'leaf_app_rate_lfno', max_table,'(oC)'
-     :                    , c_leaf_app_rate_lfno
-     :                    , c_num_leaf_app_rate
+     :                    , 'y_node_app_rate', max_table,'(oC)'
+     :                    , c_y_node_app_rate
+     :                    , c_num_node_no_app
+     :                    , 0.0, 1000.0)
+
+      call read_real_array (section_name
+     :                    , 'x_node_no_leaf', max_table,'(oC)'
+     :                    , c_x_node_no_leaf
+     :                    , c_num_node_no_leaf
+     :                    , 0.0, 1000.0)
+
+      call read_real_array (section_name
+     :                    , 'y_leaves_per_node', max_table,'(oC)'
+     :                    , c_y_leaves_per_node
+     :                    , c_num_node_no_leaf
      :                    , 0.0, 1000.0)
 
          !    sugar_dm_init
@@ -3584,9 +3575,9 @@ cnh
      :                    , c_dead_detach_frac, numvals
      :                    , 0.0, 1.0)
 
-      call read_real_var (section_name
-     :                    , 'dm_leaf_detach_frac', '()'
-     :                    , c_dm_leaf_detach_frac, numvals
+      call read_real_array (section_name
+     :                    , 'sen_detach_frac', max_part, '()'
+     :                    , c_sen_detach_frac, numvals
      :                    , 0.0, 1.0)
 
          !    sugar_leaf_area_devel
@@ -3599,9 +3590,9 @@ cnh
          !    sugar_leaf_area_sen_light
 
       call read_real_var (section_name
-     :                   , 'cover_sen_light', '(m^2/m^2)'
+     :                   , 'lai_sen_light', '(m^2/m^2)'
      :                   , c_lai_sen_light, numvals
-     :                   , 0.0, 1.0)
+     :                   , 0.0, 10.0)
 
       call read_real_var (section_name
      :                    , 'sen_light_slope', '()'
@@ -3817,15 +3808,20 @@ cnh
      :                   , c_k_nfact_stalk, numvals
      :                   , 0.0, 100.0)
 
+      call read_real_var (section_name
+     :                   , 'k_nfact_pheno', '()'
+     :                   , c_k_nfact_pheno, numvals
+     :                   , 0.0, 100.0)
+
       ! Water logging function
       ! ----------------------
       call read_real_array (section_name
-     :                     , 'water_log_rtfr', max_table, '()'
-     :                     , c_water_log_rtfr, c_num_water_log_fact
+     :                     , 'oxdef_photo_rtfr', max_table, '()'
+     :                     , c_oxdef_photo_rtfr, c_num_oxdef_photo
      :                     , 0.0, 1.0)
       call read_real_array (section_name
-     :                     , 'water_log_fact', max_table, '()'
-     :                     , c_water_log_fact, c_num_water_log_fact
+     :                     , 'oxdef_photo', max_table, '()'
+     :                     , c_oxdef_photo, c_num_oxdef_photo
      :                     , 0.0, 1.0)
 
       ! Plant Water Content function
@@ -3935,12 +3931,18 @@ cnh
       N_residue = (sum_real_array (g_dlt_N_detached, max_part)
      :          - g_dlt_N_detached(root))
 
-      call sugar_top_residue (dm_residue, N_residue)
+      call crop_top_residue (c_crop_type, dm_residue, N_residue)
 
              ! put roots into root residue
 
-      call sugar_root_incorp (g_dlt_dm_detached(root)
-     :                    , g_dlt_N_detached(root))
+      call crop_root_incorp (g_dlt_dm_detached(root)
+     :                      ,g_dlt_N_detached(root)
+     :                      ,g_dlayer
+     :                      ,g_root_length
+     :                      ,g_root_depth
+     :                      ,c_crop_type
+     :                      ,max_layer
+     :                      )
 
       call pop_routine (my_name)
       return
