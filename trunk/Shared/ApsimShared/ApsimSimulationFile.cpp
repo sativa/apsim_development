@@ -45,7 +45,7 @@ ApsimSimulationFile::~ApsimSimulationFile(void)
 void ApsimSimulationFile::run(bool quiet) const
    {
    AllocConsole();
-   string commandLine = getApsimDirectory() + "\\apsim\\apsim.exe " +
+   string commandLine = getApsimDirectory() + "\\bin\\apsim.exe " +
                         fileName;
    Exec(commandLine.c_str(), SW_SHOW, true);
    if (!quiet)
