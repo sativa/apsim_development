@@ -704,33 +704,42 @@
 
 *+  Local Variables
       integer    numvals               ! number of values read
-
+      character  newType*32             ! the new type of canopy
+      integer    i
+      logical    alreadyHaveIt
 *- Implementation Section ----------------------------------
 
       call push_routine (myname)
 
-      g%NumComponents = g%NumComponents + 1
-
-      if (g%NumComponents.gt.max_components) then
-         call fatal_Error(ERR_Internal
-     :                   ,'Too many canopy components in system')
-
-      else
-
-         call collect_char_var (DATA_sender
+      call collect_char_var (DATA_sender
      :                         ,'()'
-     :                         ,g%ComponentName(g%NumComponents)
+     :                         ,newType
      :                         ,numvals)
 
-         call collect_char_var ('crop_type'
+      ! See if we know of it 
+      alreadyHaveIt = .false.
+      do 100 i = 1, g%NumComponents
+        if (g%ComponentType(g%NumComponents).eq.newType) 
+     :            alreadyHaveIt = .true.
+ 100  continue
+
+      if (.not.alreadyHaveIt) then
+        g%NumComponents = g%NumComponents + 1
+        if (g%NumComponents.gt.max_components) then
+          call fatal_Error(ERR_Internal
+     :                   ,'Too many canopy components in system')
+        else
+          g%ComponentName(g%NumComponents) = newType
+          call collect_char_var ('crop_type'
      :                         ,'()'
      :                         ,g%ComponentType(g%NumComponents)
      :                         ,numvals)
 
-         ! Read Component Specific Constants
-         ! ---------------------------------
-         call micromet_component_constants(g%NumComponents)
-
+          ! Read Component Specific Constants
+          ! ---------------------------------
+          call micromet_component_constants(g%NumComponents)
+        endif
+      else  
       endif
 
       call pop_routine (myname)
