@@ -3052,9 +3052,12 @@ c       be set to '1' in all layers by default
      :                                 , p%dlayer
      :                                 , p%wet_soil_depth)
 
-         if (sum (p%dlayer) .lt. p%wet_soil_depth) then
-           call fatal_error (ERR_USER,
-     :       'Can''t fit profile field capacity depth into profile.') 
+         if (sum(p%dlayer)+precision_sw_dep .lt. p%wet_soil_depth) then
+            write (line, *) 'Can''t fit wet soil depth of '
+     :                         , p%wet_soil_depth
+     :                         , ' into profile depth of '
+     :                         , sum(p%dlayer)
+           call fatal_error (ERR_USER, line) 
 
          else
             ! depth fits in profile
@@ -3080,10 +3083,14 @@ c       be set to '1' in all layers by default
             esw_remaining = esw_remaining - esw_avail
 
 3000     continue
-         if (esw_remaining .gt. 0.0) then
+         if (esw_remaining .gt. precision_sw_dep) then
+!         if (esw_remaining .gt. 0.0) then
               ! we have too much water to distirbute - won't fit in profile
-           call fatal_error (ERR_USER,
-     :               'Can''t fit profile fesw into profile. ') 
+            write (line, *) 'Can''t fit profile esw of '
+     :                         , profile_esw_depth + esw_remaining 
+     :                         , ' into profile esw depth of '
+     :                         , profile_esw_depth
+           call fatal_error (ERR_USER, line) 
 
          else
             ! it fits
@@ -3108,10 +3115,14 @@ c       be set to '1' in all layers by default
             esw_remaining = esw_remaining - esw_avail
 
 4000     continue
-         if (esw_remaining .gt. 0.0) then
+         if (esw_remaining .gt. precision_sw_dep) then
               ! we have too much water to distirbute - won't fit in profile
-           call fatal_error (ERR_USER,
-     :               'Can''t fit profile esw depth into profile. ') 
+            profile_esw_depth = sum(g%dul_dep(:) - g%ll15_dep(:)) 
+            write (line, *) 'Can''t fit profile esw of '
+     :                         , p%profile_esw_depth  
+     :                         , ' into profile esw depth of '
+     :                         , profile_esw_depth
+           call fatal_error (ERR_USER, line) 
 
          else
             ! it fits
