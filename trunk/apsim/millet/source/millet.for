@@ -9,9 +9,9 @@
 *     ===========================================================
       use MilletModule
       implicit none
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       dm_green(*)           ! (INPUT/OUTPUT) plant part weights
@@ -35,44 +35,44 @@
       real       dm_plant_stem         ! dry matter in stems (g/plant)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! initialise plant weight
          ! initialisations - set up dry matter for leaf, stem, flower, grain
          ! and root
- 
+
       if (on_day_of (emerg, g%current_stage, g%days_tot)) then
              ! seedling has just emerged.
- 
+
              ! initialise root, stem and leaf.
- 
+
          dm_green(root) = c%dm_root_init * g%plants
          dm_green(stem) = c%dm_stem_init * g%plants
          dm_green(leaf) = c%dm_leaf_init * g%plants
          dm_green(tiller) = 0.0
          dm_green(grain) = 0.0
          dm_green(flower) = 0.0
- 
+
       elseif (on_day_of (flowering, g%current_stage, g%days_tot)) then
              ! we are at first day of flowering
              ! set the minimum weight of stem; used for retranslocation to grain
- 
+
          dm_plant_stem = divide (dm_green(stem), g%plants, 0.0)
          dm_plant_min(stem) = dm_plant_stem * (1.0 - c%stem_trans_frac)
- 
+
       elseif (on_day_of (start_grain_fill
      :                 , g%current_stage, g%days_tot)) then
- 
+
              ! we are at first day of grainfill.
              ! set the minimum weight of leaf; used for translocation to grain
- 
+
          dm_plant_leaf = divide (dm_green(leaf), g%plants, 0.0)
          dm_plant_min(leaf) = dm_plant_leaf * (1.0 - c%leaf_trans_frac)
- 
+
       else   ! no changes
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -92,9 +92,9 @@
 *     ===========================================================
       use MilletModule
       implicit none
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       dm_retranslocate(*)   ! (INPUT) actual change in plant part
@@ -124,76 +124,76 @@
       real       mass_balance          ! sum of translocated carbo (g/m^2)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! now translocate carbohydrate between plant components
          ! this is different for each stage
- 
+
       call fill_real_array (dm_retranslocate, 0.0, max_part)
- 
+
       if (stage_is_between (start_grain_fill, maturity
      :                    , g%current_stage)) then
- 
+
          if (g%dlt_dm_grain_demand .gt. g%dlt_dm_green(grain)) then
                ! we can translocate stem and leaf carbohydrate
                ! to grain if needed
- 
+
             dm_grain_differential = g%dlt_dm_grain_demand
      :                            - g%dlt_dm_green(grain)
- 
+
                ! get available carbohydrate in stem and leaf for transfer
- 
+
             dm_stem_pot = g%dm_green(stem) + g%dlt_dm_green(stem)
             dm_stem_avail = dm_stem_pot - g%dm_plant_min(stem)*g%plants
             dm_stem_avail = l_bound (dm_stem_avail, 0.0)
- 
+
             dm_leaf_pot = g%dm_green(leaf) + g%dlt_dm_green(leaf)
             dm_leaf_avail = dm_leaf_pot - g%dm_plant_min(leaf)*g%plants
             dm_leaf_avail = l_bound (dm_leaf_avail, 0.0)
- 
+
                ! now find out how much to translocate.
                ! first chop at stem
- 
+
             dlt_dm_retrans_stem = min (dm_grain_differential
      :                               , dm_stem_avail)
- 
+
                ! second chop at leaf
- 
+
             dm_grain_differential = dm_grain_differential
      :                            - dlt_dm_retrans_stem
             dlt_dm_retrans_leaf = min (dm_grain_differential
      :                               , dm_leaf_avail)
             dlt_dm_retrans_leaf = bound (dlt_dm_retrans_leaf
      :                                 , 0.0, dm_leaf_avail)
- 
+
                ! get actual growth/withdrawal
- 
+
             call fill_real_array (dm_retranslocate, 0.0, max_part)
             dm_retranslocate(stem) = - dlt_dm_retrans_stem
             dm_retranslocate(leaf) = - dlt_dm_retrans_leaf
             dm_retranslocate(grain) = - sum_real_array (dm_retranslocate
      :                                                , max_part)
- 
+
                ! ??? check that stem and leaf are >= min wts
          else
                ! we have no retranslocation
             call fill_real_array (dm_retranslocate, 0.0, max_part)
          endif
- 
+
       else
- 
+
             ! we have no retranslocation
          call fill_real_array (dm_retranslocate, 0.0, max_part)
- 
+
       endif
- 
+
          ! now check that we have mass balance
- 
+
       mass_balance = sum_real_array (dm_retranslocate, max_part)
       call bound_check_real_var (mass_balance, 0.0, 0.0
      :                         , 'dm_retranslocate mass balance')
- 
+
       call pop_routine (my_name)
       return
       end
@@ -213,9 +213,9 @@
 *     ===========================================================
       use MilletModule
       implicit none
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       leaf_no_final         ! (OUTPUT) maximum total leaf number
@@ -239,62 +239,62 @@ cglh      real       tt_cum                ! cumulative dtt from sowing (deg day
                                        ! to true floral initiation (deg day)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
           ! set total leaf number
- 
+
       if (on_day_of (emerg, g%current_stage, g%days_tot)) then
- 
+
                ! estimate the final leaf no from an approximated thermal
                ! time for the period from emergence to floral initiation.
- 
+
          tt_floral_init = sum_between (germ, floral_init, g%phase_tt)
 cglh         tt_cum = sum_between (emerg, floral_init, g%phase_tt)
 cglh         tt_floral_init = tt_cum - c%floral_init_error
- 
+
             ! just check that maths is ok.
 cglh         call bound_check_real_var (tt_floral_init, 0.0, tt_cum
 cglh     :                             , 'tt_floral_init')
          leaf_no_final = divide (tt_floral_init
      :                         , c%leaf_init_rate, 0.0)
      :                 + c%leaf_no_seed
- 
+
          call bound_check_real_var (leaf_no_final
      :                            , c%leaf_no_min, c%leaf_no_max
      :                            , 'leaf_no_final')
- 
+
       elseif (on_day_of (floral_init, g%current_stage, g%days_tot)) then
- 
+
                ! now we know the thermal time, get the actual final leaf no.
- 
+
          tt_floral_init = sum_between (germ, floral_init, g%tt_tot)
- 
+
 cglh         tt_cum = sum_between (emerg, floral_init, g%tt_tot)
 cglh         tt_floral_init = tt_cum - c%floral_init_error
- 
+
             ! just check that maths is ok.
 cglh         call bound_check_real_var (tt_floral_init, 0.0, tt_cum
 cglh     :                             , 'tt_floral_init')
- 
+
          if (g%stem_class .eq. class_main) then
- 
+
             ! calculate main stem final leaf no.
- 
+
             leaf_no_final = divide (tt_floral_init
      :                         , c%leaf_init_rate, 0.0)
      :                 + c%leaf_no_seed
- 
+
 cgd
             g%leaf_no_ref = leaf_no_final
- 
+
          else
             ! tillers use main stem leaf no final
          endif
- 
- 
+
+
          leaf_no_final = g%leaf_no_ref - c%leaf_no_diff
- 
+
 !         write (*,*) leaf_no_final,g%leaf_no_ref,c%leaf_no_diff
 !         write (*,*) 'fln',leaf_no_final
 !
@@ -305,14 +305,14 @@ cgd
          call bound_check_real_var (leaf_no_final
      :                            , c%leaf_no_min, c%leaf_no_max
      :                            , 'leaf_no_final')
- 
+
       elseif (on_day_of (plant_end, g%current_stage, g%days_tot)) then
          leaf_no_final = 0.0
- 
+
       else
          ! leave leaf_no_final as is.
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -324,9 +324,9 @@ cgd
 *     ===========================================================
       use MilletModule
       implicit none
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       dlt_leaf_no_pot       ! (OUTPUT) new fraction of oldest
@@ -353,46 +353,46 @@ cgd
       real       leaf_app_rate         ! rate of leaf appearance (oCd/leaf)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       leaf_no_now = sum_between (emerg, now, g%leaf_no)
       leaf_no_remaining = g%leaf_no_final - leaf_no_now
- 
+
       if (leaf_no_now .le. c%leaf_no_rate_change) then
- 
+
          leaf_app_rate = c%leaf_app_rate1
- 
+
       else
- 
+
          leaf_app_rate = c%leaf_app_rate2
- 
+
       endif
- 
+
       if (on_day_of (emerg, g%current_stage, g%days_tot)) then
- 
+
              ! no leaf growth on first day because initialised elsewhere ???
- 
+
          dlt_leaf_no_pot = 0.0
- 
+
       elseif (leaf_no_remaining.gt.0.0) then
- 
+
              ! we  haven't reached full number of leaves yet
- 
+
              ! if leaves are still growing, the cumulative number of
              ! phyllochrons or fully expanded leaves is calculated from
              ! daily thermal time for the day.
- 
+
          dlt_leaf_no_pot = divide (g%dlt_tt, leaf_app_rate, 0.0)
          dlt_leaf_no_pot = bound (dlt_leaf_no_pot, 0.0
      :                          , leaf_no_remaining)
- 
+
       else
              ! we have full number of leaves.
- 
+
          dlt_leaf_no_pot = 0.0
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -409,9 +409,9 @@ cgd
       use MilletModule
       implicit none
       include   'convert.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Purpose
 *       Simulate actual crop leaf area development - checks that leaf area
@@ -437,43 +437,43 @@ cejvo
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
          ! limit the delta leaf area by carbon supply
 cejvo
       if (g%fr_intc_radn .gt. 0.0) then
- 
+
          extinct_coef = linear_interp_real (g%row_spacing
      :                        , c%x_row_spacing, c%y_extinct_coef
      :                        , c%num_row_spacing)
- 
+
 !         lai_sum = g%lai +
 !     :             divide (-alog(1.0 - g%fr_intc_radn),extinct_coef,0.0)
- 
+
          lai_sum =  divide (-alog(1.0 - g%cover_green_sum)
      :                           ,extinct_coef,0.0)
- 
+
 !      write (*,*) g%lai,lai_sum,g%cover_green_sum,extinct_coef
 !     :                        , g%fr_intc_radn
- 
- 
+
+
       else
- 
+
          lai_sum = g%lai
- 
+
       endif
- 
+
       sla = linear_interp_real (lai_sum
      :                        , c%x_lai, c%y_sla_max
      :                        , c%num_lai)
- 
+
       g%dlt_lai = u_bound (g%dlt_lai_pot
      :                   , g%dlt_dm_green(leaf) * sla * smm2sm)
- 
+
 !      g%dlt_lai = u_bound (g%dlt_lai_pot
 !     :                   , g%dlt_dm_green(leaf)*c%sla_max * smm2sm)
- 
+
       lai_ratio = divide (g%dlt_lai, g%dlt_lai_pot, 0.0)
- 
+
       leaf_no_frac= linear_interp_real (lai_ratio
      :                        , c%x_lai_ratio, c%y_leaf_no_frac
      :                        , c%num_lai_ratio)
@@ -481,7 +481,7 @@ cejvo
 !      write (*,*)lai_ratio, c%x_lai_ratio, c%y_leaf_no_frac,
 !     :c%num_lai_ratio,leaf_no_frac
       g%dlt_leaf_no = g%dlt_leaf_no_pot * leaf_no_frac
- 
+
       call pop_routine (my_name)
       return
       end
@@ -494,8 +494,8 @@ cejvo
 *     ===========================================================
       use MilletModule
       implicit none
-      include 'science.pub'                       
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       N_green(*)            ! plant nitrogen (g/m^2)
@@ -511,19 +511,19 @@ cejvo
       parameter (my_name = 'millet_N_init')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (on_day_of (emerg, g%current_stage, g%days_tot)) then
          N_green(root) = c%N_root_init_conc*g%dm_green(root)
          N_green(stem) = c%N_stem_init_conc*g%dm_green(stem)
          N_green(leaf) = c%N_leaf_init_conc*g%dm_green(leaf)
          N_green(flower) = 0.0
          N_green(grain) = 0.0
- 
+
       else
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -536,8 +536,8 @@ cejvo
 *     ===========================================================
       use MilletModule
       implicit none
-      include 'science.pub'                       
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       dlt_tt                ! (OUTPUT) daily thermal time (oC)
@@ -569,22 +569,22 @@ cejvo
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       dly_therm_time = linint_3hrly_temp (g%maxt, g%mint
      :                 , c%x_temp, c%y_tt
      :                 , c%num_temp)
- 
+
       if (stage_is_between (emerg, flag_leaf, g%current_stage)) then
- 
+
 !cpsc
          dlt_tt = dly_therm_time *
      :             min (g%swdef_pheno, g%nfact_pheno)
- 
+
       else
- 
+
          dlt_tt = dly_therm_time
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -599,9 +599,9 @@ cejvo
 *     ===========================================================
       use MilletModule
       implicit none
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       phase_tt (*)          ! (INPUT/OUTPUT) cumulative growing
@@ -635,23 +635,23 @@ cejvo
       real       leaf_no               ! leaf no. above which app. rate changes
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (on_day_of (germ, g%current_stage, g%days_tot)) then
          phase_tt(germ_to_emerg) = c%shoot_lag
      :                           + g%sowing_depth*c%shoot_rate
          phase_tt(emerg_to_endjuv) = p%tt_emerg_to_endjuv
- 
+
       elseif (on_day_of (emerg, g%current_stage, g%days_tot)) then
- 
+
          est_day_of_floral_init = offset_day_of_year (g%year
      :                                  , g%day_of_year
      :                                  , p%est_days_emerg_to_init)
      :
          photoperiod = day_length (est_day_of_floral_init
      :                           , g%latitude, c%twilight)
- 
+
          photoperiod_active = photoperiod - c%photoperiod_base
          photoperiod_active = bound (photoperiod_active, 0.0, 24.0)
 !cpsc                          need below to exert stage when phase_tt = 0
@@ -659,7 +659,7 @@ cjh         phase_tt(endjuv_to_init) = l_bound (p%pp_endjuv_to_init
 cjh     :                            * photoperiod_active, 0.1)
          phase_tt(endjuv_to_init) = p%pp_endjuv_to_init
      :                            * photoperiod_active
- 
+
       elseif (stage_is_between (endjuv, floral_init
      :                        , g%current_stage)) then
          photoperiod = day_length (g%day_of_year, g%latitude
@@ -671,7 +671,7 @@ cjh         phase_tt(endjuv_to_init) = l_bound (p%pp_endjuv_to_init
 cjh     :                            * photoperiod_active, 0.1)
          phase_tt(endjuv_to_init) = p%pp_endjuv_to_init
      :                            * photoperiod_active
- 
+
       elseif (on_day_of (floral_init, g%current_stage
      :                 , g%days_tot)) then
 cpsc
@@ -685,21 +685,21 @@ cjh
          phase_tt(init_to_flag) = tt_emerg_to_flag_leaf
      :                          - sum_between (emerg, floral_init
      :                                       , g%tt_tot)
- 
+
          phase_tt(flag_to_flower) = p%tt_flag_to_flower
- 
+
          phase_tt(flower_to_start_grain) = p%tt_flower_to_start_grain
- 
+
          phase_tt(end_grain_to_maturity) = 0.05*p%tt_flower_to_maturity
- 
+
          phase_tt(start_to_end_grain) = p%tt_flower_to_maturity
      :                                - phase_tt(flower_to_start_grain)
      :                                - phase_tt(end_grain_to_maturity)
          phase_tt(maturity_to_ripe) = p%tt_maturity_to_ripe
- 
+
       else
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -711,7 +711,7 @@ cjh
 *     ===========================================================
       use MilletModule
       implicit none
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       dlt_stage             ! (OUTPUT) change in growth stage
@@ -733,30 +733,30 @@ cjh
       real       phase_devel           ! fraction of current phase elapsed ()
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! mechanical operation - not to be changed
- 
+
          ! now calculate the new delta and the new stage
- 
+
       call millet_phase_devel (phase_devel)
       new_stage = aint (g%current_stage) + phase_devel
 cjh      dlt_stage = l_bound(new_stage - g%current_stage,0.0)
       dlt_stage = new_stage - g%current_stage
- 
+
       if (phase_devel.ge.1.0) then
          current_stage = aint (current_stage + 1.0)
          if (int(current_stage).eq.max_stage) then
             current_stage = 1.0
          else
          endif
- 
+
       else
          current_stage = new_stage
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -768,8 +768,8 @@ cjh      dlt_stage = l_bound(new_stage - g%current_stage,0.0)
 *     ===========================================================
       use MilletModule
       implicit none
-      include 'science.pub'                       
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       phase_devel           ! (OUTPUT) fraction of current phase
@@ -790,23 +790,23 @@ cjh      dlt_stage = l_bound(new_stage - g%current_stage,0.0)
       parameter (my_name = 'millet_phase_devel')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (stage_is_between (sowing, germ, g%current_stage)) then
          phase_devel = millet_germination (g%current_stage)
- 
+
       elseif (stage_is_between (germ, harvest_ripe
      :                        , g%current_stage)) then
- 
+
          phase_devel =  millet_phase_tt (g%current_stage)
- 
+
       else
 cjh         phase_devel = 0.0
          phase_devel = mod(g%current_stage, 1.0)
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -818,9 +818,9 @@ cjh         phase_devel = 0.0
 *     ===========================================================
       use MilletModule
       implicit none
-      include 'data.pub'                          
-      include 'science.pub'                       
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       current_stage         ! (OUTPUT) phenological stage number
@@ -843,29 +843,29 @@ cjh         phase_devel = 0.0
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
          ! determine if soil water content is sufficient to allow germination.
          ! Soil water content of the seeded layer must be > the
          ! lower limit to be adequate for germination.
- 
+
       if (stage_is_between (sowing, germ, current_stage)) then
- 
+
          layer_no_seed = find_layer_no (g%sowing_depth, g%dlayer
      :                                , max_layer)
          pesw_seed = divide (g%sw_dep(layer_no_seed)
      :                     - p%ll_dep(layer_no_seed)
      :                     , g%dlayer(layer_no_seed), 0.0)
- 
+
             ! can't germinate on same day as sowing, because miss out on
             ! day of sowing else_where
- 
+
          if (pesw_seed.gt.c%pesw_germ
      :   .and.
      :   .not. on_day_of (sowing, g%current_stage, g%days_tot)) then
                ! we have germination
                ! set the current stage so it is on the point of germination
             millet_germination = 1.0 + mod (g%current_stage, 1.0)
- 
+
          else
                 ! no germination yet but indicate that we are on the way.
             millet_germination = 0.999
@@ -874,7 +874,7 @@ cjh         phase_devel = 0.0
              ! no sowing yet
          millet_germination = 0.0
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -886,8 +886,8 @@ cjh         phase_devel = 0.0
 *     ===========================================================
       use MilletModule
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       stage_no              ! (INPUT) stage number
@@ -907,9 +907,9 @@ cjh         phase_devel = 0.0
       integer    phase                 ! phase number containing stage
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       phase = int (stage_no)
 cjh  changed 0.0 to 1.0
       millet_phase_tt = divide (g%tt_tot(phase) + g%dlt_tt
@@ -930,9 +930,9 @@ cjh  changed 0.0 to 1.0
 *     ===========================================================
       use MilletModule
       implicit none
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       dlt_leaf_no_dead      ! (OUTPUT) new fraction of oldest
@@ -962,18 +962,18 @@ cejvo
       real       ttsum                 ! temperature sum
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
 cpsc need to develop leaf senescence functions for crop
- 
+
       leaf_no_dead_yesterday = sum_between (emerg, now, g%leaf_no_dead)
- 
+
 cejvo made it absolute leafnumber and added second slope
- 
+
       if ((stage_is_between (emerg, harvest_ripe, g%current_stage))
      : .and. (g%leaf_no_effective .lt. g%leaf_no_final)) then
- 
+
 cgol added upper and lower bounds
 !         leaf_no_dead_today = amax1(leaf_no_dead_yesterday,
 !     :    amin1((c%leaf_no_dead_const + c%leaf_no_dead_slope1
@@ -986,56 +986,56 @@ cgd
       leaf_no_dead_now = u_bound (leaf_no_dead_now,g%leaf_no_final)
       leaf_no_dead_today = l_bound (leaf_no_dead_yesterday
      :                             , leaf_no_dead_now)
- 
+
       g%lf_no_dead_at_flaglf = leaf_no_dead_today
 !      ttsum= sum_between (emerg, now, g%tt_tot)
- 
+
       elseif ((stage_is_between (emerg, harvest_ripe, g%current_stage))
      :   .and. (g%leaf_no_effective .ge. g%leaf_no_final) .and.
      :   (g%leaf_no_dead_const2 .eq. 0.0)) then
- 
+
 !         leaf_no_dead_today = amax1(leaf_no_dead_yesterday,
 !     :    amin1((c%leaf_no_dead_const + c%leaf_no_dead_slope1
 !     :          * sum_between (emerg, now, g%tt_tot))
 !     :          , g%leaf_no_final))
- 
+
       ttsum= sum_between (emerg, now, g%tt_tot)
       leaf_no_dead_now = c%leaf_no_dead_const + c%leaf_no_dead_slope1
      :                   * ttsum
       leaf_no_dead_now = u_bound (leaf_no_dead_now,g%leaf_no_final)
       leaf_no_dead_today = l_bound (leaf_no_dead_yesterday
      :                             , leaf_no_dead_now)
- 
+
       temp = g%lf_no_dead_at_flaglf - (c%leaf_no_dead_slope2
      :         * sum_between (emerg, now, g%tt_tot))
       g%leaf_no_dead_const2 = temp
 !      ttsum= sum_between (emerg, now, g%tt_tot)
- 
+
       elseif((stage_is_between (emerg, harvest_ripe, g%current_stage))
      :   .and. (g%leaf_no_effective .ge. g%leaf_no_final) .and.
      :   (g%leaf_no_dead_const2 .ne. 0.0)) then
- 
+
 !         leaf_no_dead_today = amax1(leaf_no_dead_yesterday,
 !     :    amin1((g%leaf_no_dead_const2 + c%leaf_no_dead_slope2
 !     :          * sum_between (emerg, now, g%tt_tot))
 !     :          , g%leaf_no_final))
- 
+
       ttsum= sum_between (emerg, now, g%tt_tot)
       leaf_no_dead_now = g%leaf_no_dead_const2 + c%leaf_no_dead_slope2
      :                   * ttsum
       leaf_no_dead_now = u_bound (leaf_no_dead_now,g%leaf_no_final)
       leaf_no_dead_today = l_bound (leaf_no_dead_yesterday
      :                             , leaf_no_dead_now)
- 
+
       elseif (on_day_of (harvest_ripe
      :                 , g%current_stage, g%days_tot)) then
          leaf_no_dead_today = g%leaf_no_final
- 
+
       else
       leaf_no_dead_today = 0.0
- 
+
       endif
- 
+
 cgol removed bound check
 !      leaf_no_dead_today = bound (leaf_no_dead_today
 !     :                           , leaf_no_dead_yesterday
@@ -1046,7 +1046,7 @@ cgol added lower bound of zero
 !     : leaf_no_dead_yesterday)
       dlt_leaf_no_dead = l_bound (0.0, leaf_no_dead_today -
      : leaf_no_dead_yesterday)
- 
+
 cccc
 !     write (*,*) 'fln',g%leaf_no_final,'slno',leaf_no_dead_today
 !     write (*,*) 'efln',g%leaf_no_effective
@@ -1054,8 +1054,8 @@ cccc
 !     write (*,*) 'temp',temp,'ttsum',ttsum
 !     write (*,*) 'int2',g%leaf_no_dead_const2
 cccc
- 
- 
+
+
       call pop_routine (my_name)
       return
       end
@@ -1073,8 +1073,8 @@ cccc
 *     ===========================================================
       use MilletModule
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       dlt_N_senesced(*)     ! (OUTPUT) actual nitrogen senesced
@@ -1091,18 +1091,18 @@ cccc
       parameter (my_name  = 'millet_N_senescence')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! first we zero all plant component deltas
- 
+
       call fill_real_array (dlt_N_senesced, 0.0, max_part)
- 
+
       dlt_N_senesced(leaf) = g%dlt_dm_senesced(leaf)
      :                     * c%N_leaf_sen_conc
       dlt_N_senesced(root) = g%dlt_dm_senesced(root)
      :                     * c%N_root_sen_conc
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1115,9 +1115,9 @@ cccc
       use MilletModule
       implicit none
       include   'convert.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Purpose
 *       Update states
@@ -1160,18 +1160,18 @@ cccc
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
          ! Note.
          ! Accumulate is used to add a value into a specified array element.
          ! If a specified increment of the element indicates a new element
          ! is started, the value is distributed proportionately between the
          ! two elements of the array
- 
+
          ! Add is used to add the elements of one array into the corresponding
          ! elements of another array.
- 
+
          ! now update with deltas
- 
+
          ! The following table describes the transfer of material that should
          ! take place
          !                        POOLS
@@ -1181,46 +1181,46 @@ cccc
          ! dlt_senesced      -      +
          ! dlt_dead          -      -       +
          ! dlt_detached             -       -      (outgoing only)
- 
+
          ! transfer N
- 
+
       call subtract_real_array (g%dlt_N_dead_detached, g%N_dead
      :                        , max_part)
- 
+
       call add_real_array (g%dlt_N_green, g%N_green, max_part)
       call add_real_array (g%dlt_N_retrans, g%N_green, max_part)
       call subtract_real_array (g%dlt_N_senesced, g%N_green
      :                        , max_part)
       g%N_green(tiller) = g%N_green(tiller) - g%N_tiller_independence
- 
+
       call add_real_array (g%dlt_N_senesced, g%N_senesced
      :                   , max_part)
       call subtract_real_array (g%dlt_N_detached, g%N_senesced
      :                        , max_part)
- 
+
       dying_fract = divide (-g%dlt_plants, g%plants, 0.0)
       dying_fract = bound (dying_fract, 0.0, 1.0)
- 
+
       do 1000 part = 1, max_part
          dlt_N_green_dead = g%N_green(part) * dying_fract
          g%N_green(part) = g%N_green(part) - dlt_N_green_dead
          g%N_dead(part) = g%N_dead(part) + dlt_N_green_dead
- 
+
          dlt_N_senesced_dead = g%N_senesced(part) * dying_fract
          g%N_senesced(part) = g%N_senesced(part) - dlt_N_senesced_dead
          g%N_dead(part) = g%N_dead(part) + dlt_N_senesced_dead
 1000  continue
- 
+
          ! Transfer plant dry matter
- 
+
       dlt_dm_plant = divide (g%dlt_dm, g%plants, 0.0)
- 
+
       call accumulate (dlt_dm_plant, g%dm_plant_top_tot
      :               , g%previous_stage, g%dlt_stage)
- 
+
       call subtract_real_array (g%dlt_dm_dead_detached, g%dm_dead
      :                        , max_part)
- 
+
       call add_real_array (g%dlt_dm_green, g%dm_green, max_part)
       call add_real_array (g%dlt_dm_green_retrans, g%dm_green, max_part)
       call subtract_real_array (g%dlt_dm_senesced, g%dm_green
@@ -1228,61 +1228,61 @@ cccc
       call subtract_real_array (g%dlt_dm_sen_retrans, g%dm_senesced
      :                        , max_part)
       g%dm_green(tiller) = g%dm_green(tiller) - g%dm_tiller_independence
- 
+
       call add_real_array (g%dlt_dm_senesced, g%dm_senesced
      :                   , max_part)
       call subtract_real_array (g%dlt_dm_detached, g%dm_senesced
      :                        , max_part)
- 
+
       do 2000 part = 1, max_part
          dlt_dm_green_dead = g%dm_green(part) * dying_fract
          g%dm_green(part) = g%dm_green(part) - dlt_dm_green_dead
          g%dm_dead(part) = g%dm_dead(part) + dlt_dm_green_dead
- 
+
          dlt_dm_senesced_dead = g%dm_senesced(part) * dying_fract
          g%dm_senesced(part) = g%dm_senesced(part)
      :                       - dlt_dm_senesced_dead
          g%dm_dead(part) = g%dm_dead(part) + dlt_dm_senesced_dead
 2000  continue
- 
+
          ! initiate new tiller and transfer any DM and N content.
- 
+
       call millet_tiller_initiate (g%dm_tiller_independence
      :                          , g%N_tiller_independence)
- 
+
          ! dispose of detached material from senesced parts in
          ! live population
- 
+
  !cjh     dm_residue = (sum_real_array (g%dlt_dm_detached, max_part)
  !cjh    :           - g%dlt_dm_detached(root))
  !cjh     N_residue = (sum_real_array (g%dlt_N_detached, max_part)
  !cjh    :          - g%dlt_N_detached(root))
- 
+
 !cjh      call millet_top_residue (dm_residue, N_residue)
- 
+
          ! put roots into root residue
- 
+
 !cjh      call millet_root_incorp (g%dlt_dm_detached(root)
 !cjh     :                    , g%dlt_N_detached(root))
- 
+
          ! now dispose of dead population detachments
- 
+
 !cjh      dm_residue = (sum_real_array (g%dlt_dm_dead_detached, max_part)
 !cjh     :           - g%dlt_dm_dead_detached(root))
 !cjh      N_residue = (sum_real_array (g%dlt_N_dead_detached, max_part)
 !cjh     :          - g%dlt_N_dead_detached(root))
- 
+
 !cjh      call millet_top_residue (dm_residue, N_residue)
- 
+
          ! put roots into root residue
- 
+
 !cjh      call millet_root_incorp (g%dlt_dm_dead_detached(root)
 !cjh     :                      , g%dlt_N_dead_detached(root))
- 
+
          ! tiller development
       call accumulate (g%dlt_tiller_no, g%tiller_no
      :               , g%previous_stage, g%dlt_stage)
- 
+
 !         call get_current_module (module_name)
 !
 ! gd
@@ -1295,30 +1295,30 @@ cjh
          ! transfer plant grain no.
       dlt_grain_no_lost  = g%grain_no * dying_fract
       g%grain_no = g%grain_no - dlt_grain_no_lost
- 
+
          ! transfer plant leaf area
- 
+
       g%lai = g%lai + g%dlt_lai - g%dlt_slai
       g%slai = g%slai + g%dlt_slai - g%dlt_slai_detached
- 
+
       dlt_lai_dead  = g%lai  * dying_fract
       dlt_slai_dead = g%slai * dying_fract
- 
+
       g%lai = g%lai - dlt_lai_dead
       g%slai = g%slai - dlt_slai_dead
       g%tlai_dead = g%tlai_dead + dlt_lai_dead + dlt_slai_dead
      :            - g%dlt_tlai_dead_detached
- 
+
          ! now update new canopy covers
 ! ejvo
 !cjh      extinct_coef = linear_interp_real (g%row_spacing
 !cjh     :                        , c%x_row_spacing, c%y_extinct_coef
 !cjh     :                        , c%num_row_spacing)
- 
+
 !cjh      extinct_coef_dead = linear_interp_real (g%row_spacing
 !cjh     :                        , c%x_row_spacing, c%y_extinct_coef_dead
 !cjh     :                        , c%num_row_spacing)
- 
+
 !      call millet_cover (g%cover_green, extinct_coef, g%lai)
 !      call millet_cover (g%cover_sen, extinct_coef_dead, g%slai)
 !      call millet_cover (g%cover_dead, extinct_coef_dead
@@ -1347,47 +1347,47 @@ cjh
      :                                ,g%tlai_dead
      :                                ,g%cover_dead
      :               )
- 
- 
+
+
          ! plant leaf development
          ! need to account for truncation of partially developed leaf (add 1)
       leaf_no = 1.0 + sum_between (emerg, now, g%leaf_no)
       dlt_leaf_area = divide (g%dlt_lai, g%plants, 0.0) * sm2smm
       call accumulate (dlt_leaf_area, g%leaf_area
      :               , leaf_no, g%dlt_leaf_no)
- 
+
       call accumulate (g%dlt_leaf_no, g%leaf_no
      :               , g%previous_stage, g%dlt_stage)
- 
+
       call accumulate (g%dlt_leaf_no_dead, g%leaf_no_dead
      :               , g%previous_stage, g%dlt_stage)
- 
+
          ! plant stress
- 
+
       call accumulate (g%dlt_heat_stress_tt, g%heat_stress_tt
      :               , g%previous_stage, g%dlt_stage)
- 
+
       call accumulate (g%dlt_dm_stress_max, g%dm_stress_max
      :               , g%current_stage, g%dlt_stage)
- 
+
       call accumulate (1.0 - g%swdef_photo, g%cswd_photo
      :               , g%previous_stage, g%dlt_stage)
       call accumulate (1.0 - g%swdef_expansion, g%cswd_expansion
      :               , g%previous_stage, g%dlt_stage)
       call accumulate (1.0 - g%swdef_pheno, g%cswd_pheno
      :               , g%previous_stage, g%dlt_stage)
- 
+
       call accumulate (1.0 - g%nfact_photo, g%cnd_photo
      :               , g%previous_stage, g%dlt_stage)
       call accumulate (1.0 - g%nfact_grain_conc, g%cnd_grain_conc
      :               , g%previous_stage, g%dlt_stage)
- 
+
          ! other plant states
- 
+
       g%canopy_height = g%canopy_height + g%dlt_canopy_height
       g%plants = g%plants + g%dlt_plants
       g%root_depth = g%root_depth + g%dlt_root_depth
- 
+
       ! Phosphorus
       ! ----------
       g%plant_p = g%plant_p + g%dlt_plant_p
@@ -1416,7 +1416,7 @@ cjh
      :        , g%N_conc_crit
      :        , g%N_conc_max
      :        , g%N_conc_min)  ! plant N concentr
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1428,8 +1428,8 @@ cjh
 *     ===========================================================
       use MilletModule
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Purpose
 *         Check bounds of internal pools
@@ -1445,112 +1445,112 @@ cjh
      :                                 ! top (g/m^2)
 
 *- Implementation Section ----------------------------------
- 
- 
+
+
       call push_routine (my_name)
- 
+
       call bound_check_real_var
      :           (sum_real_array (g%leaf_no, max_stage)
      :          , 0.0
      :          , real (max_leaf)
      :          , 'leaf_no')
- 
+
       call bound_check_real_var
      :           (sum_real_array (g%leaf_no_dead, max_stage)
      :          , 0.0
      :          , real (max_leaf)
      :          , 'leaf_no_dead')
- 
+
       call bound_check_real_var
      :           (g%root_depth
      :          , 0.0
      :          , sum_real_array (g%dlayer, max_layer)
      :          , 'root_depth')
- 
+
       call bound_check_real_var
      :           (g%grain_no
      :          , 0.0
      :          , p%head_grain_no_max * g%plants
      :          , 'grain_no')
- 
+
       call bound_check_real_var
      :           (g%current_stage
      :          , 0.0
      :          , real (max_stage)
      :          , 'current_stage')
- 
+
       call bound_check_real_var
      :           (sum_real_array (g%phase_tt, max_stage)
      :          , 0.0
      :          , 1000000.0
      :          , 'phase_tt')
- 
+
       call bound_check_real_var
      :           (sum_real_array (g%days_tot, max_stage)
      :          , 0.0
      :          , 40000.0
      :          , 'days_tot')
- 
+
       call bound_check_real_var
      :           (sum_real_array (g%tt_tot, max_stage)
      :          , 0.0
      :          , 40000.0
      :          , 'tt_tot')
- 
+
       call bound_check_real_var
      :           (g%plants
      :          , 0.0
      :          , 10000.0
      :          , 'plants')
- 
+
 !      call bound_check_real_var
 !     :           (g%canopy_height
 !     :          , 0.0
 !     :          , c%height_max
 !     :          , 'canopy_height')
- 
+
       call bound_check_real_var
      :           (g%lai
      :          , 0.0
      :          , 30.0 - g%slai - g%tlai_dead
      :          , 'lai')
- 
+
       call bound_check_real_var
      :           (g%slai
      :          , 0.0
      :          , 30.0 - g%lai - g%tlai_dead
      :          , 'slai')
- 
+
       call bound_check_real_var
      :           (g%tlai_dead
      :          , 0.0
      :          , 30.0 - g%slai - g%lai
      :          , 'tlai_dead')
- 
+
       call bound_check_real_var
      :           (g%cover_green
      :          , 0.0
      :          , 1.0
      :          , 'cover_green')
- 
+
       call bound_check_real_var
      :           (g%cover_sen
      :          , 0.0
      :          , 1.0
      :          , 'cover_sen')
- 
+
       call bound_check_real_var
      :           (g%cover_dead
      :          , 0.0
      :          , 1.0
      :          , 'cover_dead')
- 
+
       call bound_check_real_var
      :           (sum_real_array (g%leaf_area, max_leaf)
      :          , 0.0
      :          , 10000000.0
      :          , 'leaf_area')
- 
+
       call bound_check_real_var
      :           (sum_real_array (g%heat_stress_tt, max_stage)
      :          , 0.0
@@ -1561,67 +1561,67 @@ cjh
      :          , 0.0
      :          , 1000000.0
      :          , 'dm_stress_max')
- 
+
       call bound_check_real_var
      :           (sum_real_array (g%N_conc_crit, max_part)
      :          , sum_real_array (g%N_conc_min, max_part)
      :          , sum_real_array (g%N_conc_max, max_part)
      :          , 'N_conc_crit')
- 
+
       call bound_check_real_var
      :           (sum_real_array (g%N_conc_max, max_part)
      :          , sum_real_array (g%N_conc_crit, max_part)
      :          , 1.0
      :          , 'N_conc_max')
- 
+
       call bound_check_real_var
      :           (sum_real_array (g%N_conc_min, max_part)
      :          , 0.0
      :          , sum_real_array (g%N_conc_crit, max_part)
      :          , 'N_conc_min')
- 
+
       call bound_check_real_var
      :           (sum_real_array (g%N_dead, max_part)
      :          , 0.0
      :          , 10000.0 - sum_real_array (g%N_green, max_part)
      :                    - sum_real_array (g%N_senesced, max_part)
      :          , 'N_dead')
- 
+
       call bound_check_real_var
      :           (sum_real_array (g%N_green, max_part)
      :          , 0.0
      :          , 10000.0 - sum_real_array (g%N_dead, max_part)
      :                    - sum_real_array (g%N_senesced, max_part)
      :          , 'N_green')
- 
+
       call bound_check_real_var
      :           (sum_real_array (g%N_senesced, max_part)
      :          , 0.0
      :          , 10000.0 - sum_real_array (g%N_green, max_part)
      :                    - sum_real_array (g%N_dead, max_part)
      :          , 'N_senesced')
- 
+
       call bound_check_real_var
      :           (sum_real_array (g%dm_dead, max_part)
      :          , 0.0
      :          , 10000.0 - sum_real_array (g%dm_green, max_part)
      :                    - sum_real_array (g%dm_senesced, max_part)
      :          , 'dm_dead')
- 
+
       call bound_check_real_var
      :           (sum_real_array (g%dm_green, max_part)
      :          , 0.0
      :          , 10000.0 - sum_real_array (g%dm_dead, max_part)
      :                    - sum_real_array (g%dm_senesced, max_part)
      :          , 'dm_green')
- 
+
       call bound_check_real_var
      :           (sum_real_array (g%dm_senesced, max_part)
      :          , 0.0
      :          , 10000.0 - sum_real_array (g%dm_green, max_part)
      :                    - sum_real_array (g%dm_dead, max_part)
      :          , 'dm_senesced')
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1633,9 +1633,9 @@ cjh
 *     ===========================================================
       use MilletModule
       implicit none
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Purpose
 *         Collect totals of crop variables for output
@@ -1668,31 +1668,31 @@ cpsc add below
       real       N_stover              ! nitrogen content of stover
 
 *- Implementation Section ----------------------------------
- 
- 
+
+
       call push_routine (my_name)
- 
+
              ! get totals
       N_conc_stover = divide ((g%N_green(leaf)
      :                       + g%N_green(stem)
      :                       + g%N_green(flower))
- 
+
      :                      , (g%dm_green(leaf)
      :                       + g%dm_green(stem)
      :                       + g%dm_green(flower))
      :                       , 0.0)
- 
+
       N_uptake = sum_real_array (g%dlt_N_retrans, max_part)
       N_uptake_stover =  g%dlt_N_retrans(leaf) + g%dlt_N_retrans(stem)
- 
+
           ! note - g%N_conc_crit should be done before the stages change
- 
+
       N_conc_stover_crit = (g%N_conc_crit(leaf) + g%N_conc_crit(stem))
      :                   * 0.5
       N_green_demand = sum_real_array (g%N_demand, max_part)
- 
+
       deepest_layer = find_layer_no (g%root_depth, g%dlayer, max_layer)
- 
+
       if (on_day_of (sowing, g%current_stage, g%days_tot)) then
          g%N_uptake_tot = N_uptake
          g%transpiration_tot =
@@ -1703,7 +1703,7 @@ cpsc add below
          g%N_uptake_stover_tot = N_uptake_stover
          g%N_uptake_grain_tot = sum_real_array (g%dlt_N_retrans
      :                                        , max_part)
- 
+
       else
          g%N_uptake_tot = g%N_uptake_tot + N_uptake
          g%transpiration_tot = g%transpiration_tot
@@ -1717,9 +1717,9 @@ cpsc add below
          g%N_uptake_grain_tot = g%N_uptake_grain_tot
      :                        + sum_real_array (g%dlt_N_retrans
      :                                        , max_part)
- 
+
       endif
- 
+
       g%lai_max = max (g%lai_max, g%lai)
       if (on_day_of (flowering, g%current_stage, g%days_tot)) then
          g%isdate = g%day_of_year
@@ -1727,29 +1727,29 @@ cpsc add below
          g%mdate = g%day_of_year
       else
       endif
- 
+
 cpsc add below 07/04/95
- 
+
       N_grain = (g%N_green(grain) + g%N_dead(grain))
- 
+
       N_green = (sum_real_array (g%N_green, max_part)
      :        - g%N_green(root) - g%N_green(grain))
- 
+
       N_senesced = (sum_real_array (g%N_senesced, max_part)
      :           - g%N_senesced(root) - g%N_senesced(grain))
- 
+
       N_dead = (sum_real_array (g%N_dead, max_part)
      :       - g%N_dead(root) - g%N_dead(grain))
- 
+
       N_stover = N_green + N_senesced + N_dead
- 
+
       g%N_uptake_grain_tot = N_grain
       g%N_uptake_stover_tot = N_stover
       g%N_uptake_tot = N_grain + N_stover
- 
+
 cpsc  add above
- 
- 
+
+
       call pop_routine (my_name)
       return
       end
@@ -1763,9 +1763,9 @@ cpsc  add above
       implicit none
       include 'const.inc'
       include   'convert.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Purpose
 *       Report occurence of event and the current status of specific
@@ -1795,11 +1795,11 @@ cpsc  add above
       real       N_green_conc_percent  ! n% of tops less flower (incl grain)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       stage_no = int (g%current_stage)
- 
+
       if (on_day_of (stage_no, g%current_stage, g%days_tot)) then
              ! new phase has begun.
          write (string, '(a, f6.1, 1x, a)')
@@ -1807,24 +1807,24 @@ cpsc  add above
      :                  , c%stage_code_list(stage_no)
      :                  , c%stage_names(stage_no)
          call Write_string (string)
- 
+
          biomass = sum_real_array (g%dm_green, max_part)
      :           - g%dm_green(root)
- 
+
      :           + sum_real_array (g%dm_senesced, max_part)
      :           - g%dm_senesced(root)
- 
+
      :           + sum_real_array (g%dm_dead, max_part)
      :           - g%dm_dead(root)
- 
+
          dm_green = sum_real_array (g%dm_green, max_part)
      :            - g%dm_green(root)
          N_green = sum_real_array (g%N_green, max_part)
      :           - g%N_green(root)
- 
+
          N_green_conc_percent = divide (N_green, dm_green, 0.0)
      :                        * fract2pcnt
- 
+
          deepest_layer = find_layer_no (g%root_depth, g%dlayer
      :                                , max_layer)
          do 1000 layer = 1, deepest_layer
@@ -1832,7 +1832,7 @@ cpsc  add above
             pesw(layer) = l_bound (pesw(layer), 0.0)
 1000     continue
          pesw_tot = sum_real_array (pesw, deepest_layer)
- 
+
          if (stage_is_between (emerg, plant_end, g%current_stage)) then
             write (string, '(2(a, g16.7e2), a, 2(a, g16.7e2))')
      :              '                     biomass =       '
@@ -1847,10 +1847,10 @@ cpsc  add above
             call write_string (string)
          else
          endif
- 
+
       else
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1863,9 +1863,9 @@ cpsc  add above
 *     ===========================================================
       use MilletModule
       implicit none
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       root_array(*)         ! (OUTPUT) array to contain
@@ -1891,13 +1891,13 @@ cpsc  add above
       real       root_distrb_sum       ! sum of root distribution array
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
              ! distribute roots over profile to root_depth
- 
+
       call fill_real_array (root_array, 0.0, max_layer)
       call fill_real_array (root_distrb, 0.0, max_layer)
- 
+
       deepest_layer = find_layer_no (g%root_depth, g%dlayer
      :                                , max_layer)
       cum_depth = 0.0
@@ -1907,14 +1907,14 @@ cpsc  add above
          root_distrb(layer) = exp (-c%root_extinction
      :                      * divide (cum_depth, g%root_depth, 0.0))
 1000  continue
- 
+
       root_distrb_sum = sum_real_array (root_distrb, deepest_layer)
       do 2000 layer = 1, deepest_layer
          root_array(layer) = root_sum * divide (root_distrb(layer)
      :                                        , root_distrb_sum, 0.0)
- 
+
 2000  continue
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1930,9 +1930,9 @@ cpsc  add above
       include 'const.inc'
       include 'action.inc'
       include   'convert.inc'
-      include 'science.pub'                       
-      include 'intrface.pub'                      
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'intrface.pub'
+      include 'error.pub'
       include 'postbox.pub'
 
 *+  Sub-Program Arguments
@@ -1963,63 +1963,63 @@ cjh      integer    layer                 ! layer number
 cjh      character  string*(ACTION_data_size) ! output string
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (dlt_dm_root.gt.0.0) then
- 
+
             ! send out root residue
- 
+
          call millet_root_distrib (dlt_dm_incorp
      :                          , dlt_dm_root * gm2kg /sm2ha)
          call millet_root_distrib (dlt_N_incorp
      :                          , dlt_N_root * gm2kg /sm2ha)
- 
+
          deepest_layer = find_layer_no (g%root_depth, g%dlayer
      :                                , max_layer)
- 
+
 cjh         string = 'dlt_fom_type='// c%crop_type
- 
+
 cjh         write (string(len_trim(string)+1:), '(a, 20g16.7e3)' )
 cjh     :              ', dlt_fom_wt = '
 cjh     :               , (dlt_dm_incorp(layer), layer = 1, deepest_layer)
 cjh         string =  string_concat (string, '(kg/ha)')
- 
+
 cjh         write (string(len_trim(string)+1:), '(a, 20g16.7e3)')
 cjh     :              ', dlt_fom_n = '
 cjh     :               , (dlt_N_incorp(layer), layer = 1, deepest_layer)
 cjh         string = string_concat (string, '(kg/ha)')
- 
+
 cjh         call message_pass_to_module (all_active_modules
 cjh     :                               , 'incorp_fom'
 cjh     :                               , string)
- 
+
          call New_postbox ()
- 
+
          call post_char_var ('dlt_fom_type=','()',c%crop_type)
- 
+
          call post_real_array ('dlt_fom_wt'
      :                        ,'(kg/ha)'
      :                        ,dlt_dm_incorp
      :                        ,deepest_layer)
- 
+
          call post_real_array ('dlt_fom_n'
      :                        ,'(kg/ha)'
      :                        ,dlt_n_incorp
      :                        ,deepest_layer)
- 
+
          call Action_send (
      :                              unknown_module
      :                            , 'incorp_fom'
      :                            , Blank
      :                            )
- 
+
          call Delete_postbox ()
- 
+
       else
          ! no roots to incorporate
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2033,7 +2033,7 @@ cjh     :                               , string)
       use MilletModule
       implicit none
       include 'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Purpose
 *       Tiller routine
@@ -2046,17 +2046,17 @@ cjh     :                               , string)
       parameter (my_name  = 'millet_tillering')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (c%tiller_no_pot.gt.0) then
- 
+
          if (c%tiller_appearance.eq.'tt') then
             call millet_tiller_appearance_tt (g%dlt_tiller_no)
- 
+
          elseif (c%tiller_appearance.eq.'dm') then
             call millet_tiller_appearance_dm (g%dlt_tiller_no)
- 
+
          else
             ! no tillers simulated
             call fatal_error (err_user
@@ -2065,11 +2065,11 @@ cjh     :                               , string)
          call millet_tiller_independence (g%tiller_independence
      :                                 , g%dm_tiller_independence
      :                                 , g%N_tiller_independence)
- 
+
       else
          ! no tillers simulated
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2081,9 +2081,9 @@ cjh     :                               , string)
 *     ===========================================================
       use MilletModule
       implicit none
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       dlt_tiller_no         ! (OUTPUT) new fraction of next
@@ -2116,69 +2116,69 @@ c is increased in a one-step process
 !      real       ttsum                 ! temperature sum
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
 cejvo made leaf appearance function of plant density
       g%y_tiller_tt_adj(2) = c%y_tiller_tt(2)
      :                       + c%tiller_appearance_slope
      :                       * g%plants
- 
+
 cgol added tiller initiation adjustment for daylength
- 
+
       if (on_day_of (emerg, g%current_stage, g%days_tot)) then
- 
+
          g%daylength_at_emerg = day_length (g%day_of_year, g%latitude
      :        ,                             c%twilight)
- 
+
          if (g%daylength_at_emerg.gt.c%photo_tiller_crit) then
- 
+
             g%y_tiller_tt_adj(1) = c%y_tiller_tt(1)
      :                             + g%y_tiller_tt_adj(2)
- 
+
          else
- 
+
              g%y_tiller_tt_adj(1) = c%y_tiller_tt(1)
- 
+
          endif
- 
+
       endif
- 
+
 cgol check calculations (now turned off)
 !      write (*,*) g%day_of_year, g%latitude, c%twilight,
 !     : g%daylength_at_emerg, c%photo_tiller_crit, g%y_tiller_tt_adj(1),
 !     : c%y_tiller_tt(2)
 !     : g%y_tiller_tt_adj(2)
- 
+
       if (stage_is_between (emerg, flag_leaf, g%current_stage)) then
- 
+
 cgol bounds added to tiller number determination
 !     for tiller_no_now and tiller_no_remaining to stop model initating
 !     tillers beyond the potential tiller number (set previously to 5)
- 
+
 !         tiller_no_now = amin1(amax1(0.0, sum_between (emerg, now,
 !     :                         g%tiller_no)), c%tiller_no_pot)
 !         tiller_no_remaining = amax1(0.0, (real (c%tiller_no_pot) -
 !     :                               tiller_no_now))
- 
+
          tiller_no_now = sum_between (emerg, now, g%tiller_no)
- 
+
          tiller_no_now = l_bound (0.0, tiller_no_now)
- 
+
          tiller_no_now = u_bound (tiller_no_now, real(c%tiller_no_pot))
- 
+
          tiller_no_remaining = l_bound(0.0, real(c%tiller_no_pot
      :                                       - tiller_no_now))
- 
+
          tiller_no_next = aint (tiller_no_now) + 1.0
- 
+
 !gd
 !      write (*,*) g%current_stage,
 !     : tiller_no_now,tiller_no_next,tiller_no_remaining
 !       write (*,*) 'ttsum',ttsum, 'yt',g%y_tiller_tt_adj
 !     : c%num_tiller_no_next
 !      write (*,*) c%x_tiller_no_next, c%y_tiller_tt,c%num_tiller_no_next
- 
+
          tiller_app_rate = linear_interp_real (tiller_no_next
      :                       , c%x_tiller_no_next, g%y_tiller_tt_adj
      :                       , c%num_tiller_no_next)
@@ -2187,13 +2187,13 @@ cgol bounds added to tiller number determination
 !
          dlt_tiller_no = divide (g%dlt_tt, tiller_app_rate, 0.0)
          dlt_tiller_no = bound (dlt_tiller_no, 0.0, tiller_no_remaining)
- 
+
       else
              ! we have full number of leaves.
- 
+
          dlt_tiller_no = 0.0
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2205,9 +2205,9 @@ cgol bounds added to tiller number determination
 *     ===========================================================
       use MilletModule
       implicit none
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       dlt_tiller_no         ! (OUTPUT) new fraction of next
@@ -2230,24 +2230,24 @@ cgol bounds added to tiller number determination
       real       tiller_no_now         ! number of tillers
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (stage_is_between (emerg, flag_leaf, g%current_stage)) then
- 
+
          tiller_no_now = sum_between (emerg, now, g%tiller_no)
          tiller_no_remaining = real (c%tiller_no_pot) - tiller_no_now
          dlt_tiller_no = divide (g%dm_green(tiller)
      :                         , c%dm_tiller_crit*g%plants, 0.0)
- 
+
          dlt_tiller_no = bound (dlt_tiller_no, 0.0, tiller_no_remaining)
- 
+
       else
              ! we have full number of leaves.
- 
+
          dlt_tiller_no = 0.0
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2262,8 +2262,8 @@ cgol bounds added to tiller number determination
       use MilletModule
       implicit none
       include   'convert.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    tiller_independence    ! (OUTPUT) new tiller ready for
@@ -2286,36 +2286,36 @@ cgol bounds added to tiller number determination
       real       tiller_no             ! number of tillers developed ()
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       tiller_no = sum_between (emerg, now, g%tiller_no)
 !jh      print*, 'tiller_no, g%dlt_tiller_no'
 !jh      print*, tiller_no, g%dlt_tiller_no
       if (aint (tiller_no + g%dlt_tiller_no) .gt. tiller_no) then
             ! tiller is independent
- 
+
          tiller_independence = 1
          if (c%tiller_appearance.eq.'dm') then
             dm_tiller_independence = c%dm_tiller_crit * g%plants
             dm_tiller_fract = divide (dm_tiller_independence
      :                              , g%dm_green(tiller), 0.0)
             N_tiller_independence = g%N_green(tiller) * dm_tiller_fract
- 
+
          else
                ! tiller not collecting DM or N
             dm_tiller_independence = 0.0
             N_tiller_independence = 0.0
- 
+
          endif
- 
+
       else
             ! tiller not independent yet
          tiller_independence = 0
          dm_tiller_independence = 0.0
          N_tiller_independence = 0.0
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2330,10 +2330,10 @@ cgol bounds added to tiller number determination
       implicit none
       include 'const.inc'
       include 'action.inc'
-      include 'string.pub'                        
-      include 'data.pub'                          
-      include 'intrface.pub'                      
-      include 'error.pub'                         
+      include 'string.pub'
+      include 'data.pub'
+      include 'intrface.pub'
+      include 'error.pub'
       include 'postbox.pub'
 
 *+  Sub-Program Arguments
@@ -2345,7 +2345,7 @@ cgol bounds added to tiller number determination
 
 *+  Changes
 *       101095 jngh specified and programmed
-*       220696 jngh changed to post_ construct 
+*       220696 jngh changed to post_ construct
 *       180500 jngh changed 'tiller_N' to lower case
 
 *+  Calls
@@ -2364,27 +2364,27 @@ cgol bounds added to tiller number determination
       integer    tiller_no             ! number of tillers developed ()
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (g%tiller_independence.gt.0) then
             ! send out new tiller
- 
+
          tiller_no = int (sum_between (emerg, now, g%tiller_no)) + 1
- 
+
 !cjh         write (*,*) 'tiller_no(int(sum(emerg,now))) = ', tiller_no
- 
+
          call get_current_module (module_name)
          write (tiller_module, '(a, i2)') module_name, tiller_no
- 
+
 !cjh         write (*,*) 'tiller_module', tiller_module
- 
+
          tiller_module = no_spaces (tiller_module)
- 
+
 !cjh         write (*,*) 'no_spaces(tiller_module)', tiller_module
- 
+
          if (len_trim(tiller_module).le.8) then
- 
+
             dm_tiller_plant = divide (dm_tiller_independence
      :                              , g%plants, 0.0)
             N_tiller_plant = divide (N_tiller_independence
@@ -2392,59 +2392,59 @@ cgol bounds added to tiller number determination
 
 !cjh      print *, dm_tiller_plant, N_tiller_independence
 !cjh      print *, N_tiller_plant, N_tiller_independence
- 
+
 !cjh            write(*, '(4(a, g16.7e3, a), 2a)' )
 !cjh     :           'plants = '       , g%plants        , '(plants/m2)'
 !cjh     :         , ',tiller_wt = '   , dm_tiller_plant , '(g/plant)'
 !cjh     :         , ',tiller_N = '    , N_tiller_plant  , '(g/plant)'
 !cjh     :         , ', row_spacing = ', g%row_spacing   , '(m)'
 !cjh     :         , ', cultivar = '   , g%cultivar
- 
+
 !cjh            call message_pass_to_module (tiller_module
 !cjh     :                                  , ACTION_initiate_crop
 !cjh     :                                  , string)
- 
+
             call New_postbox ()
- 
+
             call post_real_var ('plants'
      :                         ,'(plants/m2)'
      :                         ,g%plants)
- 
+
             call post_real_var ('tiller_wt'
      :                        ,'(g/plant)'
      :                        ,dm_tiller_plant)
- 
+
             call post_real_var ('tiller_n'
      :                        ,'(g/plant)'
      :                        ,N_tiller_plant)
- 
+
             call post_real_var ('row_spacing'
      :                        ,'(m)'
      :                        ,g%row_spacing)
- 
+
             call post_char_var ('cultivar'
      :                        ,'()'
      :                        ,g%cultivar)
- 
+
             call Action_send (
      :                              tiller_module
      :                            , ACTION_initiate_crop
      :                            , Blank
      :                            )
- 
+
             call Delete_postbox ()
- 
+
          else
             call Fatal_Error (err_internal
      :        ,              ' Tiller module name too long - '
      :                       // Tiller_module)
- 
+
          endif
- 
+
       else
          ! no tiller ready for independence
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2486,8 +2486,8 @@ cgol bounds added to tiller number determination
       use MilletModule
       implicit none
       include   'convert.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        real g_leaf_no(*)
@@ -2532,12 +2532,12 @@ cgol bounds added to tiller number determination
                                        ! after the current one
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
            ! once leaf no is calculated leaf area of largest expanding leaf
            ! is determined
- 
+
 !glh This should also be from sowing, as above? (changed from emerg (scc))
       leaf_no_effective = sum_between (emerg, now, g_leaf_no)
      :                  + c_leaf_no_correction
@@ -2554,7 +2554,7 @@ cgol bounds added to tiller number determination
      :        , c_b_slope1
      :        , c_b_slope2
      :        , leaf_no_effective)
- 
+
       dlt_lai_pot = g_dlt_leaf_no * area * smm2sm * g_plants
       call pop_routine (my_name)
       return
@@ -2576,8 +2576,8 @@ cgol bounds added to tiller number determination
      :        , leaf_no)
 *     ===========================================================
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        real c_x0_const
@@ -2612,16 +2612,16 @@ cgol bounds added to tiller number determination
       real       skewness              ! skewness coef of leaf
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
            ! Once leaf no is calculated leaf area of largest expanding leaf
            ! is determined with quadratic relationship. Coefficients for this
            ! curve are functions of total leaf no.
- 
+
       largest_leaf = c_x0_const + (c_x0_slope * g_leaf_no_final)
       area_max     = c_y0_const + (c_y0_slope * g_leaf_no_final)
- 
+
       breadth  = c_a_const
      :         + divide (c_a_slope1
      :                , 1.0 + c_a_slope2 * g_leaf_no_final
@@ -2630,17 +2630,15 @@ cgol bounds added to tiller number determination
      :         + divide (c_b_slope1
      :                , 1.0 + c_b_slope2 * g_leaf_no_final
      :                , 0.0)
- 
+
       area = area_max * exp (breadth * (leaf_no - largest_leaf)**2
      :                      + skewness * (leaf_no - largest_leaf)**3)
- 
+
       Millet_leaf_size1 = area
- 
+
       call pop_routine (my_name)
       return
       end
-
-
 *     ===========================================================
       subroutine millet_dm_partition (
      :          g_current_stage
@@ -2662,9 +2660,9 @@ cgol bounds added to tiller number determination
       use MilletModule
       implicit none
       include   'convert.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        real g_current_stage
@@ -2712,143 +2710,372 @@ cgol bounds added to tiller number determination
                                        ! leaf (0-1)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! Root must be satisfied. The roots don't take any of the
          ! carbohydrate produced - that is for tops only.  Here we assume
          ! that enough extra was produced to meet demand. Thus the root
          ! growth is not removed from the carbo produced by the model.
- 
+
          ! first we zero all plant component deltas
- 
+
       call fill_real_array (dlt_dm_green, 0.0, max_part)
- 
+
          ! now we get the root delta for all stages - partition scheme
          ! specified in coeff file
- 
+
       current_phase = int (g_current_stage)
       dlt_dm_green(root) = c_ratio_root_shoot(current_phase)*g_dlt_dm
- 
+
       if (stage_is_between (emerg, floral_init, g_current_stage)) then
             ! we have leaf development only
          dlt_dm_green(leaf) = g_dlt_dm
- 
+
          if (c_tiller_no_pot.gt.0) then
- 
+
             dlt_dm_leaf_max = divide (g_dlt_lai_pot
      :                              , c_sla_min * smm2sm, 0.0)
             dlt_dm_green(leaf) = u_bound (dlt_dm_green(leaf)
      :                                  , dlt_dm_leaf_max)
             dlt_dm_green(tiller) = g_dlt_dm - dlt_dm_green(leaf)
- 
+
             dlt_dm_green(tiller) = l_bound (dlt_dm_green(tiller), 0.0)
- 
+
          else
                ! no tillering simulated
             dlt_dm_green(tiller) = 0.0
          endif
- 
+
       elseif (stage_is_between (floral_init, flag_leaf
      :                        , g_current_stage)) then
- 
+
             ! stem elongation and flower development start
             ! Each new leaf demands an increasing proportion of dry matter
             ! partitioned to stem and flower
- 
+
          internode_no = sum_between (floral_init, now, g_leaf_no)
          partition_coef_leaf = 1.0
      :            /(1.0 + c_partition_rate_leaf * internode_no**2)
- 
+
          dlt_dm_green(leaf) = partition_coef_leaf * g_dlt_dm
              ! limit the delta leaf area to maximum
          dlt_dm_leaf_max = divide (g_dlt_lai_pot
      :                           , c_sla_min * smm2sm, 0.0)
          dlt_dm_green(leaf) = u_bound (dlt_dm_green(leaf)
      :                               , dlt_dm_leaf_max)
- 
+
          if (c_tiller_no_pot.gt.0) then
- 
+
             dlt_dm_axis = divide (dlt_dm_green(leaf)
      :                          , partition_coef_leaf, g_dlt_dm)
- 
+
             dlt_dm_green(tiller) = g_dlt_dm - dlt_dm_axis
- 
+
             dlt_dm_green(tiller) = l_bound (dlt_dm_green(tiller), 0.0)
- 
+
          else
             dlt_dm_axis = g_dlt_dm
             dlt_dm_green(tiller) = 0.0
- 
+
          endif
- 
+
          dlt_dm_green(flower) = (dlt_dm_axis - dlt_dm_green(leaf))
      :                        * c_frac_stem2flower
- 
+
          dlt_dm_green(stem) = dlt_dm_axis
      :                      - (dlt_dm_green(flower)
      :                      + dlt_dm_green(leaf))
- 
+
          dlt_dm_green(flower) = l_bound (dlt_dm_green(flower), 0.0)
          dlt_dm_green(stem) = l_bound (dlt_dm_green(stem), 0.0)
- 
- 
+
+
       elseif (stage_is_between (flag_leaf, start_grain_fill
      :                        , g_current_stage)) then
- 
+
             ! we only have flower and stem growth here
          dlt_dm_green(flower) = g_dlt_dm*c_frac_stem2flower
          dlt_dm_green(stem) = g_dlt_dm - dlt_dm_green(flower)
          dlt_dm_green(stem) = l_bound (dlt_dm_green(stem), 0.0)
- 
+
       elseif (stage_is_between (start_grain_fill, maturity
      :                        , g_current_stage)) then
- 
+
             ! grain filling starts - stem continues when it can
- 
+
 !cpsc  bound HI to a maximum value
          dm_tops = sum_real_array (g_dm_green, max_part)
      :           - g_dm_green(root)
      :           + sum_real_array (g_dm_senesced, max_part)
      :           - g_dm_senesced(root)
- 
+
          dm_grain_max = (dm_tops + g_dlt_dm) * p_hi_max_pot
          dlt_dm_grain_max = bound (dm_grain_max - g_dm_green(grain)
      :                           , 0.0, g_dlt_dm)
- 
+
          dlt_dm_green(grain) = bound (g_dlt_dm_grain_demand
      :                              , 0.0, dlt_dm_grain_max)
- 
+
 !cpsc
 !         dlt_dm_green(grain) = bound (g_dlt_dm_grain_demand
 !     :                              , 0.0, g_dlt_dm)
- 
+
          dlt_dm_green(stem) = g_dlt_dm - dlt_dm_green(grain)
- 
+
          dlt_dm_green(stem) = l_bound (dlt_dm_green(stem), 0.0)
- 
- 
+
+
       elseif (stage_is_between (maturity, plant_end
      :                        , g_current_stage)) then
- 
+
             ! put into stem
          dlt_dm_green(stem) = g_dlt_dm
- 
+
       else
             ! no partitioning
       endif
- 
+
          ! do mass balance check - roots are not included
       dlt_dm_green_tot = sum_real_array (dlt_dm_green, max_part)
      :                 - dlt_dm_green(root)
       call bound_check_real_var (dlt_dm_green_tot, g_dlt_dm, g_dlt_dm
      :                        , 'dlt_dm_green_tot mass balance')
- 
+
          ! check that deltas are in legal range
- 
+
       call bound_check_real_array (dlt_dm_green, 0.0, g_dlt_dm
      :                          , 'dlt_dm_green', max_part)
- 
+
+      call pop_routine (my_name)
+      return
+      end
+
+*     ===========================================================
+      subroutine millet_dm_partition1 (
+     :          g_current_stage
+     :        , c_stage_code_list
+     :        , c_ratio_root_shoot
+     :        , g_dlt_dm
+     :        , g_leaf_no
+     :        , c_partition_rate_leaf
+     :        , c_frac_dm_to_leaf
+     :        , g_dlt_lai_stressed
+     :        , c_sla_min
+     :        , c_frac_stem2flower
+     :        , g_dlt_dm_grain_demand
+     :        , dlt_dm_green
+     :        , c_tiller_no_pot
+     :        , g_dlt_lai_pot
+     :        , p_hi_max_pot
+     :        , g_dm_green
+     :        , g_dm_senesced)
+*     ===========================================================
+      use MilletModule
+      implicit none
+      include   'convert.inc'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
+
+*+  Sub-Program Arguments
+       real g_current_stage
+       real c_stage_code_list(*)
+       real c_ratio_root_shoot(*)
+       real g_dlt_dm
+       real g_leaf_no(*)
+       real c_partition_rate_leaf
+       real c_frac_dm_to_leaf(*)
+       real g_dlt_lai_stressed
+       real c_sla_min
+       real c_frac_stem2flower
+       real g_dlt_dm_grain_demand
+       real       dlt_dm_green (*)      ! (OUTPUT) actual biomass partitioned
+                                       ! to plant parts (g/m^2)
+
+       integer  c_tiller_no_pot
+       real     g_dlt_lai_pot
+       real     p_hi_max_pot
+       real     g_dm_green(*)
+       real     g_dm_senesced(*)
+
+*+  Purpose
+*       Partitions new dm (assimilate) between plant components (g/m^2)
+
+*+  Changes
+*       010994 jngh specified and programmed
+*       250495 psc  modified dlt_dm_green(grain) to account for barren heads
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name  = 'millet_dm_partition')
+
+*+  Local Variables
+      integer    current_phase         ! current phase no.
+      real       dlt_dm_axis           ! dry weight partitioned to
+                                       ! axes (excluding tillers)(g/m^2)
+      real       dlt_dm_green_tot      ! total of partitioned dm (g/m^2)
+      real       dlt_dm_leaf_max       ! max increase in leaf dm (g/m^2)
+!cpsc
+      real       dlt_dm_grain_max      ! limit to dlt grain wt (g/m^2)
+      real       dm_grain_max          ! limit of grain wt based on max. HI (g/m^2)
+      real       dm_tops               ! drymatter of tops (g/m^2)
+      real       internode_no          ! internode no of stem (leaves emerged
+                                       ! since emergence)
+      real       partition_coef_leaf   ! partitioning coefficient of dm to
+                                       ! leaf (0-1)
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+         ! Root must be satisfied. The roots don't take any of the
+         ! carbohydrate produced - that is for tops only.  Here we assume
+         ! that enough extra was produced to meet demand. Thus the root
+         ! growth is not removed from the carbo produced by the model.
+
+         ! first we zero all plant component deltas
+
+      call fill_real_array (dlt_dm_green, 0.0, max_part)
+
+         ! now we get the root delta for all stages - partition scheme
+         ! specified in coeff file
+
+      current_phase = int (g_current_stage)
+      dlt_dm_green(root) = c_ratio_root_shoot(current_phase)*g_dlt_dm
+      partition_coef_leaf = 0.0
+
+      if (stage_is_between (emerg, floral_init, g_current_stage)) then
+            ! we have leaf development only
+!cjh         dlt_dm_green(leaf) = g_dlt_dm
+         partition_coef_leaf = linear_interp_real (g_current_stage
+     :                        , c_stage_code_list, c_frac_dm_to_leaf
+     :                        , max_stage)
+
+         dlt_dm_green(leaf) = partition_coef_leaf * g_dlt_dm
+
+             ! limit the delta leaf area to maximum
+         dlt_dm_leaf_max = divide (g_dlt_lai_pot
+     :                           , c_sla_min * smm2sm, 0.0)
+         dlt_dm_green(leaf) = u_bound (dlt_dm_green(leaf)
+     :                               , dlt_dm_leaf_max)
+         if (c_tiller_no_pot.gt.0) then
+
+            dlt_dm_axis = divide (dlt_dm_green(leaf)
+     :                          , partition_coef_leaf, g_dlt_dm)
+
+            dlt_dm_green(tiller) = g_dlt_dm - dlt_dm_axis
+
+            dlt_dm_green(tiller) = l_bound (dlt_dm_green(tiller), 0.0)
+
+         else
+            dlt_dm_axis = g_dlt_dm
+            dlt_dm_green(tiller) = 0.0
+
+         endif
+         dlt_dm_green(stem) = dlt_dm_axis - dlt_dm_green(leaf)
+
+
+      elseif (stage_is_between (floral_init, flag_leaf
+     :                        , g_current_stage)) then
+
+            ! stem elongation and flower development start
+            ! Each new leaf demands an increasing proportion of dry matter
+            ! partitioned to stem and flower
+
+         partition_coef_leaf = linear_interp_real (g_current_stage
+     :                        , c_stage_code_list, c_frac_dm_to_leaf
+     :                        , max_stage)
+
+         dlt_dm_green(leaf) = partition_coef_leaf * g_dlt_dm
+             ! limit the delta leaf area to maximum
+         dlt_dm_leaf_max = divide (g_dlt_lai_pot
+     :                           , c_sla_min * smm2sm, 0.0)
+         dlt_dm_green(leaf) = u_bound (dlt_dm_green(leaf)
+     :                               , dlt_dm_leaf_max)
+
+         if (c_tiller_no_pot.gt.0) then
+
+            dlt_dm_axis = divide (dlt_dm_green(leaf)
+     :                          , partition_coef_leaf, g_dlt_dm)
+
+            dlt_dm_green(tiller) = g_dlt_dm - dlt_dm_axis
+
+            dlt_dm_green(tiller) = l_bound (dlt_dm_green(tiller), 0.0)
+
+         else
+            dlt_dm_axis = g_dlt_dm
+            dlt_dm_green(tiller) = 0.0
+
+         endif
+
+         dlt_dm_green(flower) = (dlt_dm_axis - dlt_dm_green(leaf))
+     :                        * c_frac_stem2flower
+
+         dlt_dm_green(stem) = dlt_dm_axis
+     :                      - (dlt_dm_green(flower)
+     :                      + dlt_dm_green(leaf))
+
+         dlt_dm_green(flower) = l_bound (dlt_dm_green(flower), 0.0)
+         dlt_dm_green(stem) = l_bound (dlt_dm_green(stem), 0.0)
+
+
+      elseif (stage_is_between (flag_leaf, start_grain_fill
+     :                        , g_current_stage)) then
+
+            ! we only have flower and stem growth here
+         dlt_dm_green(flower) = g_dlt_dm*c_frac_stem2flower
+         dlt_dm_green(stem) = g_dlt_dm - dlt_dm_green(flower)
+         dlt_dm_green(stem) = l_bound (dlt_dm_green(stem), 0.0)
+
+      elseif (stage_is_between (start_grain_fill, maturity
+     :                        , g_current_stage)) then
+
+            ! grain filling starts - stem continues when it can
+
+!cpsc  bound HI to a maximum value
+         dm_tops = sum_real_array (g_dm_green, max_part)
+     :           - g_dm_green(root)
+     :           + sum_real_array (g_dm_senesced, max_part)
+     :           - g_dm_senesced(root)
+
+         dm_grain_max = (dm_tops + g_dlt_dm) * p_hi_max_pot
+         dlt_dm_grain_max = bound (dm_grain_max - g_dm_green(grain)
+     :                           , 0.0, g_dlt_dm)
+
+         dlt_dm_green(grain) = bound (g_dlt_dm_grain_demand
+     :                              , 0.0, dlt_dm_grain_max)
+
+!cpsc
+!         dlt_dm_green(grain) = bound (g_dlt_dm_grain_demand
+!     :                              , 0.0, g_dlt_dm)
+
+         dlt_dm_green(stem) = g_dlt_dm - dlt_dm_green(grain)
+
+         dlt_dm_green(stem) = l_bound (dlt_dm_green(stem), 0.0)
+
+
+      elseif (stage_is_between (maturity, plant_end
+     :                        , g_current_stage)) then
+
+            ! put into stem
+         dlt_dm_green(stem) = g_dlt_dm
+
+      else
+            ! no partitioning
+      endif
+
+         ! do mass balance check - roots are not included
+      dlt_dm_green_tot = sum_real_array (dlt_dm_green, max_part)
+     :                 - dlt_dm_green(root)
+      call bound_check_real_var (dlt_dm_green_tot, g_dlt_dm, g_dlt_dm
+     :                        , 'dlt_dm_green_tot mass balance')
+
+         ! check that deltas are in legal range
+
+      call bound_check_real_array (dlt_dm_green, 0.0, g_dlt_dm
+     :                          , 'dlt_dm_green', max_part)
+
       call pop_routine (my_name)
       return
       end
@@ -2881,17 +3108,17 @@ cgol bounds added to tiller number determination
       parameter (my_name = 'millet_heat_stress')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
             ! high temperature stress reduces grain no via 'htsf'
- 
+
       if (g_maxt.gt.c_temp_grain_crit_stress) then
          dlt_tt_heat_stress = g_maxt - c_temp_grain_crit_stress
       else
          dlt_tt_heat_stress = 0.0
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2916,10 +3143,10 @@ cgol bounds added to tiller number determination
 *     ===========================================================
       use MilletModule
       implicit none
-      include 'science.pub'                       
-      include 'crp_nitn.pub'                      
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'crp_nitn.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        real g_current_stage
@@ -2971,30 +3198,30 @@ cgol bounds added to tiller number determination
                                        ! (g/plant).
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! ------------- find actual grain uptake ---------------
- 
+
       if (on_day_of (start_grain_fill
      :             , g_current_stage, g_days_tot)) then
- 
+
             ! calculate number of grains/plant
             ! Grains/plant is calculated from a genotype-specific
             ! coefficient for potential kernel number and the average
             ! rate of photosynthesis during this stage.  The function
             ! used to predict grains/plant is derived from Edmeades and
             ! Daynard (1979).
- 
+
          dm_plant = sum_between (flag_leaf, now, g_dm_plant_top_tot)
          growth_rate = divide (
      :                   dm_plant
      :                 , sum_between (flag_leaf, now, g_days_tot)
      :                 , 0.0)
- 
+
             ! note - this function will never reach 1. Thus head_grain_no_max
             ! will never be achieved.
- 
+
 !cjh added next lines to prevent negative values
          effective_growth_rate = growth_rate - c_growth_rate_min
          effective_growth_rate = l_bound (effective_growth_rate, 0.0)
@@ -3002,29 +3229,29 @@ cgol bounds added to tiller number determination
      :                          , (c_growth_rate_crit
      :                             + effective_growth_rate)
      :                          , 0.0)
- 
+
          head_grain_no_optimum = p_head_grain_no_max * grain_no_fract
- 
+
          call bound_check_real_var (grain_no_fract, 0.0, 1.0
      :                           , 'grain_no_fract')
- 
+
             ! grain numbers are reduced by heat stress during flowering.
- 
+
          temp_fac = 1.0
      :            - sum_between (flag_leaf, now, g_heat_stress_tt)
      :            * c_htstress_coeff
- 
+
          temp_fac = bound (temp_fac, 0.0, 1.0)
- 
+
             ! Grain numbers are sensitive to N deficiency occurring
             ! after flowering.  These may be reduced by post-flowering N
             ! deficiency. Calculate the maximum number of grains that can
             ! be produced from the plant's currently available nitrogen
             ! pool - assuming minimum grain weights and grain nitrogen
             ! concentrations to be achieved.
- 
+
             ! In millet_N_conc_limits_o, the min grain N conc is 0.007
- 
+
          call crop_N_retrans_avail (max_part, root, grain
      :        , g_N_conc_min
      :        , g_dm_green
@@ -3033,18 +3260,18 @@ cgol bounds added to tiller number determination
      :                              , g_plants, 0.0)
          head_grain_no_max = divide (N_avail_plant_sum
      :                      , (c_seed_wt_min * c_grain_N_conc_min), 0.0)
- 
+
          head_grain_no = head_grain_no_optimum * temp_fac
- 
+
          grain_num  =  u_bound (head_grain_no
      :                       , head_grain_no_max)
      :             * g_plants
- 
+
       else
             ! do nothing
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3070,10 +3297,10 @@ cgol bounds added to tiller number determination
 *     ===========================================================
       use MilletModule
       implicit none
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'crp_nitn.pub'                      
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'crp_nitn.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        real g_current_stage
@@ -3126,58 +3353,58 @@ cgol bounds added to tiller number determination
                                        ! (g/plant).
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! ------------- find actual grain uptake ---------------
- 
+
       if (on_day_of (start_grain_fill
      :             , g_current_stage, g_days_tot)) then
- 
+
             ! calculate number of grains/plant
             ! Grains/plant is calculated from a genotype-specific
             ! coefficient for potential kernel number and the average
             ! rate of photosynthesis during this stage.  The function
             ! used to predict grains/plant is derived from Edmeades and
             ! Daynard (1979).
- 
+
          dm_plant = sum_between (flag_leaf, now, g_dm_plant_top_tot)
          growth_rate = divide (
      :                   dm_plant
      :                 , sum_between (flag_leaf, now, g_days_tot)
      :                 , 0.0)
- 
+
             ! note - this function will never reach 1. Thus head_grain_no_max
             ! will never be achieved.
- 
+
          grain_no_fract = divide ((growth_rate - c_growth_rate_min)
      :                          , (c_growth_rate_crit
      :                             + (growth_rate - c_growth_rate_min))
      :                          , 0.0)
          grain_no_fract = bound (grain_no_fract, 0.0, 1.0)
- 
+
          head_grain_no_optimum = p_head_grain_no_max * grain_no_fract
- 
+
 c         call bound_check_real_var (grain_no_fract, 0.0, 1.0
 c     :                           , 'grain_no_fract')
- 
+
             ! grain numbers are reduced by heat stress during flowering.
- 
+
          temp_fac = 1.0
      :            - sum_between (flag_leaf, now, g_heat_stress_tt)
      :            * c_htstress_coeff
- 
+
          temp_fac = bound (temp_fac, 0.0, 1.0)
- 
+
             ! Grain numbers are sensitive to N deficiency occurring
             ! after flowering.  These may be reduced by post-flowering N
             ! deficiency. Calculate the maximum number of grains that can
             ! be produced from the plant's currently available nitrogen
             ! pool - assuming minimum grain weights and grain nitrogen
             ! concentrations to be achieved.
- 
+
             ! In millet_N_conc_limits_o, the min grain N conc is 0.007
- 
+
          call crop_N_retrans_avail (max_part, root, grain
      :        , g_N_conc_min
      :        , g_dm_green
@@ -3186,18 +3413,18 @@ c     :                           , 'grain_no_fract')
      :                              , g_plants, 0.0)
          head_grain_no_max = divide (N_avail_plant_sum
      :                      , (c_seed_wt_min * c_grain_N_conc_min), 0.0)
- 
+
          head_grain_no = head_grain_no_optimum * temp_fac
- 
+
          grain_num  =  u_bound (head_grain_no
      :                       , head_grain_no_max)
      :             * g_plants
- 
+
       else
             ! do nothing
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3231,9 +3458,9 @@ c     :                           , 'grain_no_fract')
       use MilletModule
       implicit none
       include   'convert.inc'          ! mg2gm
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        real g_current_stage
@@ -3284,39 +3511,39 @@ c     :                           , 'grain_no_fract')
       real       sw_def_fac            ! water stress factor (0-1)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (stage_is_between (start_grain_fill, end_grain_fill
      :                    , g_current_stage)) then
- 
+
             ! effective grain filling period
- 
+
             ! calculate the relative rate of grain fill (0-1) eight times
             ! for the day, using interpolated 3 hourly mean temperatures.
             ! this is a temperature stress factor.
- 
- 
+
+
             ! The old cm function had the optimum temperature at 26
             ! with the range being 6-46 and was a quadratic.
             ! This was changed with the optimum at 30 with the range
             ! being 17.57-42.43, still a quadratic.
             ! It now has a range 3.68 - 56.32 and is stepwise linear
- 
+
          rgfill = linint_3hrly_temp (g_maxt, g_mint
      :                             , c_x_temp_grain, c_y_grain_rate
      :                             , c_num_temp_grain)
- 
- 
+
+
             ! get water stress factor
- 
+
          sw_def_fac = (c_swdf_grain_min
      :              + (1.0 - c_swdf_grain_min) * g_swdef_photo)
- 
+
          fract_of_optimum = rgfill * sw_def_fac * g_pfact_grain
- 
+
             ! now calculate the grain growth demand for the day in g/m^2
- 
+
          dlt_dm_grain_optm = g_grain_no * (p_grain_gth_rate * mg2gm)
          dlt_dm_grain = bound (dlt_dm_grain_optm * fract_of_optimum
      :                       , 0.0
@@ -3333,16 +3560,16 @@ c     :                           , 'grain_no_fract')
      :        , g_N_conc_crit
      :        , g_swdef_expansion
      :        , g_nfact_grain_conc))
- 
- 
+
+
       else
             ! we are out of grain fill period
- 
+
          dlt_dm_grain = 0.0
       endif
- 
+
       dlt_dm_grain_demand = dlt_dm_grain
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3364,9 +3591,9 @@ c     :                           , 'grain_no_fract')
 *     ===========================================================
       use MilletModule
       implicit none
-      include 'data.pub'                          
-      include 'crp_nitn.pub'                      
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'crp_nitn.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        real g_N_conc_min(*)
@@ -3403,15 +3630,15 @@ c     :                           , 'grain_no_fract')
                                        ! uptake (g/m^2)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       call crop_N_retrans_avail (max_part, root, grain
      :        , g_N_conc_min
      :        , g_dm_green
      :        , g_N_green, N_avail)
       N_avail_sum = sum_real_array (N_avail, max_part)
- 
+
       millet_dm_grain_max = divide (N_avail_sum
      :                     , crop_N_dlt_grain_conc(grain
      :        , c_sfac_slope
@@ -3425,7 +3652,7 @@ c     :                           , 'grain_no_fract')
      :        , g_N_conc_min
      :        , g_swdef_expansion)
      :                     , 0.0)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3455,9 +3682,9 @@ c     :                           , 'grain_no_fract')
 *     ===========================================================
       use milletModule
       implicit none
-      include 'data.pub'                          
-      include 'crp_nitn.pub'                      
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'crp_nitn.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        real g_dlt_dm_green(*)
@@ -3500,9 +3727,9 @@ c     :                           , 'grain_no_fract')
       integer    part                  ! plant part number
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       grain_N_demand = g_dlt_dm_green(grain) * crop_N_dlt_grain_conc(
      :          grain
      :        , c_sfac_slope
@@ -3515,62 +3742,62 @@ c     :                           , 'grain_no_fract')
      :        , g_N_conc_crit
      :        , g_N_conc_min
      :        , g_swdef_expansion)
- 
+
       N_potential  = (g_dm_green(grain) + g_dlt_dm_green(grain))
      :             * g_N_conc_max(grain)
- 
+
       grain_N_demand = u_bound (grain_N_demand
      :                        , N_potential - g_N_green(grain))
- 
+
       call crop_N_retrans_avail (max_part, root, grain
      :        , g_N_conc_min
      :        , g_dm_green
      :        , g_N_green,N_avail)  ! grain N potential (supply)
- 
+
             ! available N does not include roots or grain
 cjh  this should not presume roots and grain are 0.
 csc  true....
- 
+
       N_avail_stover  =  sum_real_array (N_avail, max_part)
- 
+
           ! get actual grain N uptake
- 
+
           ! limit retranslocation to total available N
- 
+
       call fill_real_array (dlt_N_retrans, 0.0, max_part)
- 
+
       if (grain_N_demand.ge.N_avail_stover) then
- 
+
              ! demand greater than or equal to supply
              ! retranslocate all available N
- 
+
          dlt_N_retrans(leaf) = - N_avail(leaf)
          dlt_N_retrans(stem) = - N_avail(stem)
          dlt_N_retrans(flower) = - N_avail(flower)
          dlt_N_retrans(grain) = N_avail_stover
- 
+
       else
- 
+
              ! supply greater than demand.
              ! Retranslocate what is needed
- 
+
          dlt_N_retrans(leaf) = - grain_N_demand
      :                         * divide (N_avail(leaf)
      :                                 , N_avail_stover, 0.0)
- 
+
          dlt_N_retrans(flower) = - grain_N_demand
      :                         * divide (N_avail(flower)
      :                                 , N_avail_stover, 0.0)
- 
+
         dlt_N_retrans(stem) = - grain_N_demand
      :                         - dlt_N_retrans(leaf)   ! note - these are
      :                         - dlt_N_retrans(flower) ! -ve values.
          dlt_N_retrans(stem) = bound(dlt_N_retrans(stem)
      :                               , - N_avail(stem), 0.0)  ! to remove rounding errors from the divisions.
- 
+
          dlt_N_retrans(grain) = grain_N_demand
       endif
- 
+
              ! just check that we got the maths right.
       do 1000 part = root, flower
          call bound_check_real_var (abs (dlt_N_retrans(part))
@@ -3580,7 +3807,7 @@ csc  true....
       if (N_avail(stem).eq.0.0 .and.  dlt_N_retrans(stem).ne.0) then
          read*,part
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3599,9 +3826,9 @@ csc  true....
 *     ===========================================================
       use milletModule
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
-      include 'science.pub'                         
+      include 'data.pub'
+      include 'error.pub'
+      include 'science.pub'
 
 *+  Sub-Program Arguments
        real g_root_depth
@@ -3639,17 +3866,17 @@ csc  true....
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
                ! find proportion of uptake to be
                ! distributed to to each plant part and distribute it.
- 
+
       deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
       N_uptake_sum = - sum_real_array (dlt_NO3gsm, deepest_layer)
       N_demand = sum_real_array (g_N_demand, max_part)
- 
+
       N_excess = N_uptake_sum - N_demand
       N_excess = l_bound (N_excess, 0.0)
- 
+
       if (N_excess.gt.0.0) then
          do 1200 part = 1, max_part
             N_capacity(part) = g_N_max(part) - g_N_demand(part)
@@ -3658,12 +3885,12 @@ csc  true....
       else
          call fill_real_array (N_capacity, 0.0, max_part)
       endif
- 
+
       N_capacity_sum = sum_real_array (N_capacity, max_part)
- 
+
 !scc RCM found that this partitioning was biased toward leaf...
 !60:40 vs stem. Can achieve same effect via concentration I guess.
- 
+
       do 1300 part = 1, max_part
          if (N_excess.gt.0.0) then
             plant_part_fract = divide (N_capacity(part)
@@ -3676,14 +3903,14 @@ csc  true....
             dlt_N_green(part) = N_uptake_sum * plant_part_fract
           endif
 1300  continue
- 
+
       dlt_N_green(grain) = 0.0
- 
+
       call bound_check_real_var (
      :             sum_real_array (dlt_N_green, max_part)
      :           , N_uptake_sum, N_uptake_sum
      :           , 'dlt_N_green mass balance')
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3718,10 +3945,10 @@ csc  true....
 *     ===========================================================
       use milletModule
       implicit none
-      include 'crp_phen.pub'                      
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'crp_phen.pub'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        real g_current_stage
@@ -3772,25 +3999,25 @@ csc  true....
       real       current_stage_code            ! interpolated current stage code
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       call fill_real_array (N_conc_crit, 0.0, max_part)
       call fill_real_array (N_conc_min, 0.0, max_part)
- 
+
       if (stage_is_between (emerg, maturity, g_current_stage)) then
          N_conc_crit(grain) = c_N_conc_crit_grain
          N_conc_max(grain) = c_N_conc_max_grain
          N_conc_min(grain) = c_N_conc_min_grain
- 
+
          N_conc_crit(root) = c_N_conc_crit_root
          N_conc_max(root) = c_N_conc_max_root
          N_conc_min(root) = c_N_conc_min_root
- 
+
              ! the tops critical N percentage concentration is the stover
              ! (non-grain shoot) concentration below which N concentration
              ! begins to affect plant growth.
- 
+
          numvals = count_of_real_vals (c_x_stage_code, max_stage)
          current_stage_code = Crop_stage_code (
      :          c_stage_code_list
@@ -3812,46 +4039,46 @@ csc  true....
      :                             , c_x_stage_code
      :                             , c_y_N_conc_crit_flower
      :                             , numvals)
- 
+
              ! the  minimum N concentration is the N concentration
              ! below which N does not fall.
- 
+
          N_conc_min(stem) = linear_interp_real (current_stage_code
      :                             , c_x_stage_code
      :                             , c_y_N_conc_min_stem
      :                             , numvals)
- 
+
          N_conc_min(leaf) = linear_interp_real (current_stage_code
      :                             , c_x_stage_code
      :                             , c_y_N_conc_min_leaf
      :                             , numvals)
- 
+
          N_conc_min(flower) = linear_interp_real (current_stage_code
      :                             , c_x_stage_code
      :                             , c_y_N_conc_min_flower
      :                             , numvals)
- 
+
              ! the  maximum N concentration is the N concentration
              ! above which N does not rise.
- 
+
          N_conc_max(stem) = linear_interp_real (current_stage_code
      :                             , c_x_stage_code
      :                             , c_y_N_conc_max_stem
      :                             , numvals)
- 
+
          N_conc_max(leaf) = linear_interp_real (current_stage_code
      :                             , c_x_stage_code
      :                             , c_y_N_conc_max_leaf
      :                             , numvals)
- 
+
          N_conc_max(flower) = linear_interp_real (current_stage_code
      :                             , c_x_stage_code
      :                             , c_y_N_conc_max_flower
      :                             , numvals)
- 
+
       else
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3867,8 +4094,8 @@ csc  true....
      :                                )
 * ====================================================================
       implicit none
-      include 'science.pub'                       
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real g_row_spacing
@@ -3894,12 +4121,12 @@ csc  true....
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       extinct_coef = linear_interp_real (g_row_spacing
      :                                  ,c_x_row_spacing
      :                                  ,c_y_extinct_coef
      :                                  ,c_num_row_spacing)
- 
+
       g_cover_green = 1.0 - exp(-extinct_coef*g_lai)
 
       call pop_routine (myname)
@@ -3920,10 +4147,10 @@ csc  true....
 *     ===========================================================
       use milletModule
       implicit none
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
-      include 'crp_phen.pub'                      
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
+      include 'crp_phen.pub'
 
 *+  Sub-Program Arguments
        real g_current_stage
@@ -3937,15 +4164,15 @@ csc  true....
                               ! (g N/g part)
       real       P_conc_min   ! (OUTPUT) minimum P conc
                               ! (g N/g part)
- 
+
 *+  Purpose
 *       Calculate the critical N concentration below which plant growth
 *       is affected.  Also minimum and maximum N concentrations below
 *       and above which it is not allowed to fall or rise.
- 
+
 *+  Changes
 *     080994 jngh specified and programmed
- 
+
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'millet_P_conc_limits')
@@ -3953,15 +4180,15 @@ csc  true....
 *+  Local Variables
       integer    numvals               ! number of values in stage code table
 !      real       current_stage_code            ! interpolated current stage code
- 
+
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (stage_is_between (emerg, maturity, g_current_stage)) then
- 
+
          numvals = count_of_real_vals (c_P_stage_code, max_stage)
- 
+
 !         current_stage_code = Crop_stage_code (
 !     :          c_stage_code_list,
 !     :          g_tt_tot,
@@ -3970,27 +4197,27 @@ csc  true....
 !     :          c_P_stage_code,
 !     :          numvals,
 !     :          max_stage)
- 
+
 cnh         P_conc_max = linear_interp_real (current_stage_code
          P_conc_max = linear_interp_real (g_current_stage
      :                                   ,c_P_stage_code
      :                                   ,c_P_conc_max
      :                                   ,numvals)
- 
+
 cnh         P_conc_min = linear_interp_real (current_stage_code
          P_conc_min = linear_interp_real (g_current_stage
      :                                   ,c_P_stage_code
      :                                   ,c_P_conc_min
      :                                   ,numvals)
- 
- 
+
+
       else
- 
+
          P_conc_max = 0.0
          P_conc_min = 0.0
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4010,8 +4237,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *     ===========================================================
       implicit none
       include   'const.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_dm_green(*)    ! (INPUT)  live plant biomass (g/m2)
@@ -4023,50 +4250,50 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       REAL       G_plant_p        ! (INPUT)  plant P content (g N/m^2)
       REAL       k_pfact          ! (INPUT)  k value for stress factor
       real      pfact             ! (OUTPUT) P stress factor
- 
+
 *+  Purpose
 *     The concentration of P in the entire plant is used to derive a
 *     series of Phosphorus stress indices.  The stress indices for
 *     today's growth are calculated from yesterday's
 *     relative nutritional status between a critical and minimum
 *     total plant Phosphorus concentration.
- 
- 
+
+
 *+   Changes
 *     270697 nih
- 
+
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'millet_pfact')
- 
+
 *+  Local Variables
       real       biomass               ! total crop biomass
       real       P_conc                ! actual P concentration (g/g)
- 
+
       real       P_def                 ! P factor (0-1)
       real       P_conc_ratio          ! available P as fraction of P capacity
                                        ! (0-1)
- 
+
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! calculate actual P conc
       biomass    =  sum_real_array (g_dm_green, max_part)
      :           +  sum_real_array (g_dm_senesced, max_part)
      :           +  sum_real_array (g_dm_dead, max_part)
- 
+
       P_conc = divide (g_plant_p, biomass, 0.0)
- 
+
       P_conc_ratio = divide ((P_conc - g_P_conc_min)
      :                      ,(g_P_conc_max - g_P_conc_min)
      :                      , 0.0)
- 
+
          ! calculate 0-1 P deficiency factors
- 
+
       P_def = k_pfact * P_conc_ratio
       pfact = bound (P_def, 0.0, 1.0)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4085,14 +4312,14 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :        , g_plant_P
      :        , c_p_uptake_factor
      :        , g_P_demand)
- 
+
 *     ===========================================================
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
-  
+      include 'data.pub'
+      include 'error.pub'
+
 *+  Sub-Program Arguments
- 
+
       REAL       g_current_stage
       REAL       g_radn_int
       REAL       c_rue(*)
@@ -4109,7 +4336,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'millet_p_demand')
- 
+
 *+  Local Variables
       real       biomass               ! total plant biomass (g/m2)
       integer    current_phase         ! current growth phase
@@ -4120,31 +4347,31 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
                                        ! (g/m^2)
       real       deficit               ! deficit of total plant p (g/m2)
       real       p_demand_max          ! maximum P demand (g/m2)
- 
+
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
          ! calculate potential new shoot and root growth
- 
+
       current_phase = int (g_current_stage)
       dlt_dm_pot = c_rue(current_phase) * g_radn_int
      :           * (1.0 + c_ratio_root_shoot(current_phase))
- 
+
       biomass    =  sum_real_array (g_dm_green, max_part)
      :           +  sum_real_array (g_dm_senesced, max_part)
      :           +  sum_real_array (g_dm_dead, max_part)
- 
+
       P_demand_new = dlt_dm_pot * g_P_conc_max
       P_demand_old = (biomass * g_P_conc_max) - g_plant_p
- 
+
       deficit = P_demand_old + P_demand_new
       deficit = l_bound (deficit, 0.0)
- 
+
       p_demand_max = p_demand_new * c_p_uptake_factor
- 
+
       g_P_demand = u_bound (deficit, p_demand_max)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4159,9 +4386,9 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :        , g_plant_p)
 *     ===========================================================
       implicit none
-      include 'data.pub'                          
-      include 'science.pub'                       
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer init_stage
@@ -4171,30 +4398,30 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       integer max_part
       real       g_p_conc_max
       real       g_plant_p
- 
+
 *+  Purpose
 *     Set initial plant p
- 
+
 *+  Changes:
 *     270697 nih specified and programmed
- 
+
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'millet_P_init')
 
 *+  Local Variables
       real biomass
- 
+
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (on_day_of (init_stage, g_current_stage, g_days_tot)) then
          biomass = sum_real_array (g_dm_green, max_part)
          g_plant_p = g_p_conc_max * biomass
       else
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4211,9 +4438,9 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       use milletModule
       implicit none
       include   'const.inc'
-      include 'data.pub'                          
-      include 'science.pub'                       
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        real g_lai
@@ -4236,19 +4463,19 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       character  string*200            ! output string
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (reals_are_equal (g_lai, 0.0)
      :       .and. stage_is_between (floral_init, plant_end
      :                             , g_current_stage)) then
- 
+
          dlt_plants_all = - g_plants
- 
+
          write (string, '(3a)')
      :                ' crop failure because of total leaf senescence.'
          call write_string (string)
- 
+
       endif
       call pop_routine (my_name)
       return
@@ -4267,9 +4494,9 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       use milletModule
       implicit none
       include   'const.inc'
-      include 'data.pub'                          
-      include 'science.pub'                       
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        real g_cswd_pheno(*)
@@ -4294,24 +4521,24 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       character  string*200            ! output string
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       cswd_pheno = sum_between (emerg, flag_leaf, g_cswd_pheno)
- 
+
       if (stage_is_between (emerg, flag_leaf, g_current_stage)
      :       .and. cswd_pheno.ge.c_swdf_pheno_limit) then
- 
+
          dlt_plants_all = - g_plants
- 
+
          write (string, '(3a)')
      :                 '         crop failure because of prolonged'
      :                ,new_line
      :                ,'         phenology delay through water stress.'
          call write_string (string)
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4333,8 +4560,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       use milletModule
       implicit none
       include   'const.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        real g_days_tot(*)
@@ -4364,14 +4591,14 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       character  string*200            ! output string
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
 !cpsc  add code to kill plants for high soil surface temperatures
- 
+
       days_after_emerg = int (sum_between (emerg, now, g_days_tot)) - 1
       if (days_after_emerg .eq. 1) then
- 
+
          call plants_temp (
      :          g_year
      :        , g_day_of_year
@@ -4381,24 +4608,24 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :        , c_num_weighted_temp
      :        , killfr)
          dlt_plants_temp = - g_plants*killfr
- 
+
          if (killfr .gt. 0.0) then
          write (string, '(a, i4, a)')
      :        'plant_kill.'
      :        , nint (killfr*100.0)
      :        , '% failure because of high soil surface temperatures.'
- 
+
          call Write_string (string)
- 
+
          else
                   ! do nothing
          endif
- 
+
       else
          dlt_plants_temp = 0.0
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4419,8 +4646,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       use milletModule
       implicit none
       include   'const.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        real g_cswd_photo(*)
@@ -4450,32 +4677,32 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       character  string*200            ! output string
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       cswd_photo = sum_between (emerg, flag_leaf, g_cswd_photo)
       leaf_no = sum_between (emerg, now, g_leaf_no)
- 
+
       if (leaf_no.lt.c_leaf_no_crit
      :       .and. cswd_photo.gt.c_swdf_photo_limit
      :       .and. g_swdef_photo .lt.1.0) then
- 
+
          killfr = c_swdf_photo_rate* (cswd_photo - c_swdf_photo_limit)
          killfr = bound (killfr, 0.0, 1.0)
          dlt_plants_water = - g_plants*killfr
- 
+
          write (string, '(a, i4, a)')
      :          'plant_kill.'
      :         , nint (killfr*100.0)
      :         , '% failure because of water stress.'
- 
+
          call Write_string (string)
- 
+
       else
          dlt_plants_water = 0.0
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4496,8 +4723,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       use milletModule
       implicit none
       include   'const.inc'
-      include 'science.pub'                       
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        real g_current_stage
@@ -4525,9 +4752,9 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       character  string*200            ! output string
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (on_day_of (start_grain_fill
      :             , g_current_stage, g_days_tot)) then
          call plants_barren (
@@ -4538,24 +4765,24 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :        , g_plants
      :        , killfr)
          dlt_plants_barren = - g_plants*killfr
- 
+
          if (killfr .gt. 0.0) then
             write (string, '(a, i4, a)')
      :             'plant_kill.'
      :            , nint (killfr*100.0)
      :            , '% failure because of barreness.'
- 
+
          call Write_string (string)
- 
+
          else
                   ! do nothing
          endif
- 
+
       else
          dlt_plants_barren = 0.0
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4574,7 +4801,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       use milletModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real g_dlt_plants_all
@@ -4594,14 +4821,14 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       parameter (my_name = 'millet_death_actual')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       dlt_plants = min (g_dlt_plants_all
      :                , g_dlt_plants_temp
      :                , g_dlt_plants_water
      :                , g_dlt_plants_barren)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4620,8 +4847,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *     ===========================================================
       use milletModule
       implicit none
-      include 'science.pub'                       
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        integer g_year
@@ -4652,19 +4879,19 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       yesterday = offset_day_of_year (g_year, g_day_of_year, - 1)
       day_before = offset_day_of_year (g_year, g_day_of_year, - 2)
- 
+
       weighted_temp = 0.25 * g_soil_temp(day_before)
      :              + 0.50 * g_soil_temp(yesterday)
      :              + 0.25 * g_soil_temp(g_day_of_year)
- 
+
       killfr = linear_interp_real (weighted_temp
      :                           , c_x_weighted_temp
      :                           , c_y_plant_death
      :                           , c_num_weighted_temp)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4681,8 +4908,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :        , killfr)
 *     ===========================================================
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        real c_head_grain_no_crit
@@ -4712,21 +4939,21 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       call check_grain_no (
      :          c_head_grain_no_crit
      :        , p_head_grain_no_max
      :        , c_barren_crit)
- 
+
          ! determine barrenness
- 
+
       head_grain_no = divide (g_grain_no, g_plants, 0.0)
- 
+
 !cjh      if (head_grain_no.lt.c_head_grain_no_crit) then
       if (head_grain_no.le.c_head_grain_no_crit) then
             ! all heads barren
          fract_of_optimum = 0.0
- 
+
       elseif (head_grain_no.lt.p_head_grain_no_max * c_barren_crit) then
             ! we have some barren heads
          fract_of_optimum =
@@ -4734,15 +4961,15 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :                     , p_head_grain_no_max - c_head_grain_no_crit
      :                     , 0.0))
      :              **0.33
- 
+
       else
             ! we have no barren heads
          fract_of_optimum = 1.0
       endif
- 
+
       fract_of_optimum = bound (fract_of_optimum, 0.0, 1.0)
       killfr = 1.0 - fract_of_optimum
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4757,7 +4984,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *     ===========================================================
       implicit none
       include   'const.inc'            ! err_user
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        real c_head_grain_no_crit
@@ -4779,7 +5006,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (c_head_grain_no_crit.gt.p_head_grain_no_max*c_barren_crit
      :   .and. p_head_grain_no_max.gt.0.0) then
          write (err_messg,'(a, g16.7e2, a, g16.7e2, 3a, g16.7e2, a)')
@@ -4793,10 +5020,10 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :              , c_barren_crit
      :              ,' of potential.'
          call warning_error (err_user, err_messg)
- 
+
       else
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4813,8 +5040,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       use milletModule
       implicit none
       include   'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        character g_plant_status*(*)
@@ -4837,33 +5064,33 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       character  string*200            ! output string
 
 *- Implementation Section ----------------------------------
- 
+
 c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       call push_routine (my_name)
- 
+
       if (g_plant_status.eq.status_alive) then
          g_plant_status = status_dead
- 
+
          biomass = (sum_real_array (g_dm_green, max_part)
      :           - g_dm_green(root)) * gm2kg /sm2ha
- 
+
      :           + (sum_real_array (g_dm_senesced, max_part)
      :           - g_dm_senesced(root)) * gm2kg /sm2ha
- 
+
      :           + (sum_real_array (g_dm_dead, max_part)
      :           - g_dm_dead(root)) * gm2kg /sm2ha
- 
- 
+
+
                 ! report
- 
+
          write (string, '(3x, a, f7.1, a)')
      :                  ' kill. Standing above-ground dm = '
      :                  , biomass, ' (kg/ha)'
          call Write_string (string)
- 
+
       else
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4883,8 +5110,8 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       use milletModule
       implicit none
       include   'const.inc'
-      include 'science.pub'                       
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        real g_current_stage
@@ -4912,9 +5139,9 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       character  string*200            ! output string
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (on_day_of (start_grain_fill
      :             , g_current_stage, g_days_tot)) then
          call millet_plants_barren0 (
@@ -4925,24 +5152,24 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
      :        , g_plants
      :        , killfr)
          dlt_plants_barren = - g_plants*killfr
- 
+
          if (killfr .gt. 0.0) then
             write (string, '(a, i4, a)')
      :             'plant_kill.'
      :            , nint (killfr*100.0)
      :            , '% failure because of barreness.'
- 
+
          call Write_string (string)
- 
+
          else
                   ! do nothing
          endif
- 
+
       else
          dlt_plants_barren = 0.0
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4957,8 +5184,8 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
      :        , killfr)
 *     ===========================================================
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        real c_head_grain_no_crit
@@ -4988,20 +5215,20 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       call check_grain_no (
      :          c_head_grain_no_crit
      :        , p_head_grain_no_max
      :        , c_barren_crit)
- 
+
          ! determine barrenness
- 
+
       head_grain_no = divide (g_grain_no, g_plants, 0.0)
- 
+
       if (head_grain_no.lt.c_head_grain_no_crit) then
             ! all heads barren
          fract_of_optimum = 0.0
- 
+
       elseif (head_grain_no.lt.p_head_grain_no_max * c_barren_crit) then
             ! we have some barren heads
          fract_of_optimum =
@@ -5009,15 +5236,15 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
      :                     , p_head_grain_no_max * c_barren_crit
      :                       - c_head_grain_no_crit
      :                     , 0.0))
- 
+
       else
             ! we have no barren heads
          fract_of_optimum = 1.0
       endif
- 
+
       fract_of_optimum = bound (fract_of_optimum, 0.0, 1.0)
       killfr = 1.0 - fract_of_optimum
- 
+
       call pop_routine (my_name)
       return
       end
@@ -5028,13 +5255,13 @@ cjh special for erik - start
 *     ===========================================================
       use MilletModule
       implicit none
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       logical  switch
 
 *+  Purpose
-*       Set growth flag for this module. 
+*       Set growth flag for this module.
 
 *+  Changes
 *     150199 jngh specified and programmed
@@ -5044,9 +5271,9 @@ cjh special for erik - start
       parameter (my_name = 'millet_stop_growth')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       g%stop_growth = switch
 
       call pop_routine (my_name)
@@ -5061,7 +5288,7 @@ cjh special for erik - end
 *     ===========================================================
       use milletModule
       implicit none
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Purpose
 *       clean
@@ -5075,14 +5302,14 @@ cjh special for erik - end
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       call millet_update ()
       call millet_check_bounds ()
       call millet_totals ()
       call millet_event ()
 
       call pop_routine (my_name)
- 
+
       return
       end
 
