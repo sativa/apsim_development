@@ -107,32 +107,27 @@ namespace YieldProphet
 			string szReportType, bool bEmailConParFiles, DataTable dtOtherValues)
 			{
 			bool bReportSent = false;
-			try
+			System.Collections.Specialized.NameValueCollection settings = 
+				(System.Collections.Specialized.NameValueCollection)System.
+				Configuration.ConfigurationSettings.GetConfig("CSIRO/YieldProphet");
+			string szSendEmailTo = Convert.ToString(settings["ReportEmailAddressTo"]);
+			string szRecieveEmailFrom = Convert.ToString(settings["ReportEmailAddressFrom"]);
+			string szSubject = Convert.ToString(settings["ReportEmailSubject"]);
+			string szBody = PrepareReportEmailBody(szReportName);
+			StringCollection scAttachments = new StringCollection();
+
+			scAttachments = ReportClass.PrepareReportFiles(szReportType, szReportName, dtOtherValues);
+
+			//Makes sure that all the files have been generated for the report
+			int iNumberOfFilesNeededForReport = 5;
+			if(scAttachments.Count == iNumberOfFilesNeededForReport)
 				{
-				System.Collections.Specialized.NameValueCollection settings = 
-					(System.Collections.Specialized.NameValueCollection)System.
-					Configuration.ConfigurationSettings.GetConfig("CSIRO/YieldProphet");
-				string szSendEmailTo = Convert.ToString(settings["ReportEmailAddressTo"]);
-				string szRecieveEmailFrom = Convert.ToString(settings["ReportEmailAddressFrom"]);
-				string szSubject = Convert.ToString(settings["ReportEmailSubject"]);
-				string szBody = PrepareReportEmailBody(szReportName);
-				StringCollection scAttachments = new StringCollection();
-
-				scAttachments = ReportClass.PrepareReportFiles(szReportType, szReportName, dtOtherValues);
-
-				//Makes sure that all the files have been generated for the report
-				int iNumberOfFilesNeededForReport = 5;
-				if(scAttachments.Count == iNumberOfFilesNeededForReport)
+				if(SendEmail(szSendEmailTo, szRecieveEmailFrom, szSubject, szBody, 
+					scAttachments, MailPriority.High))
 					{
-					if(SendEmail(szSendEmailTo, szRecieveEmailFrom, szSubject, szBody, 
-						scAttachments, MailPriority.High))
-						{
-						bReportSent = true;
-						}
+					bReportSent = true;
 					}
 				}
-			catch(Exception)
-				{}
 			return bReportSent;
 			}
 		//-------------------------------------------------------------------------

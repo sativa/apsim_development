@@ -54,7 +54,7 @@ namespace YieldProphet
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
 		{
-		System.Globalization.DateTimeFormatInfo.CurrentInfo.ShortDatePattern = "dd/MM/yyyy";
+			System.Globalization.DateTimeFormatInfo.CurrentInfo.ShortDatePattern = "dd/MM/yyyy";
 			InitializeComponent();
 			base.OnInit(e);
 		}
@@ -440,6 +440,10 @@ namespace YieldProphet
 										{
 										FunctionsClass.DisplayMessage(Page, "This report requires a sowing date");
 										}
+									}
+								else if(cboReport.SelectedItem.Text == ReportClass.szSowingXVarietyReport)
+									{
+									Server.Transfer("wfGenerateSowingXVarietyReport.aspx");
 									}
 								else
 									{

@@ -148,5 +148,14 @@ namespace CSGeneral
 				}
 			}
 
+
+		// -------------------------------------------------------
+		// Indent the specified string a certain number of spaces.
+		// -------------------------------------------------------
+		public static string IndentText(string St, int indentLevel)
+			{
+			string space = new string(' ', indentLevel);
+			return space + St.Replace("\r\n", "\r\n" + space);
+			}
 	}
 }
