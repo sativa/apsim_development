@@ -37,7 +37,7 @@
 
 ! ====================================================================
       type FertilizGlobals
-
+        sequence
         integer    year                  ! year
         integer    day                   ! day of year
 
@@ -48,7 +48,7 @@
 
 
       type FertilizParameters
-
+       sequence
        integer    fert_year(max_fert)
        integer    fert_day(max_fert)      ! day of year of fertilizer application
        character  fert_type(max_fert)*32  ! code number for type of fertilizer
@@ -59,183 +59,15 @@
 
 
 ! ====================================================================
-    ! instance variables.
-      type (FertilizGlobals),    pointer :: g
-      type (FertilizParameters), pointer :: p
-!     type (FertilizConstants),  pointer :: c
 
-      integer    MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)
-
-      integer    MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-
-      type FertilizDataPtr
-         type (FertilizGlobals),    pointer ::  gptr
-         type (FertilizParameters), pointer ::  pptr
-!        type (FertilizConstants),  pointer ::  cptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type FertilizDataPtr
-
-      type (FertilizDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
-
+      ! instance variables.
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (FertilizGlobals),pointer :: g
+      type (FertilizParameters),pointer :: p
 
 
       contains
-
-
-!     ===========================================================
-      subroutine AllocInstance (InstanceName, InstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module instantiation routine.
-
-*+  Mission Statement
-*     Instantiate routine
-
-!- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%gptr)
-      allocate (Instances(InstanceNo)%pptr)
-c     allocate (Instances(InstanceNo)%cptr)
-      Instances(InstanceNo)%Name = InstanceName
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine FreeInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module de-instantiation routine.
-
-*+  Mission Statement
-*     De-Instantiate routine
-
-!- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%gptr)
-      deallocate (Instances(anInstanceNo)%pptr)
-c     deallocate (Instances(anInstanceNo)%cptr)
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine SwapInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Swap an instance into the global 'g' pointer
-
-*+  Mission Statement
-*     Swap an instance into global pointer
-
-!- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%gptr
-      p => Instances(anInstanceNo)%pptr
-c     c => Instances(anInstanceNo)%cptr
-
-      return
-      end subroutine
-
-
-*     ===========================================================
-      subroutine Main (Action, Data_string)
-*     ===========================================================
-      Use infrastructure
-      implicit none
-
-
-c     include   'fertiliz.inc'         ! fertiliz common block
-
-*+  Sub-Program Arguments
-      character  Action*(*)            ! Message action to perform
-      character  Data_string*(*)       ! Message data
-
-*+  Purpose
-*      This routine is the interface between the main system and the
-*      fertiliz module.
-
-*+  Mission Statement
-*     The fertiliz main routine
-
-*+  Changes
-*      011195 jngh  added call to message_unused
-*      060696 nih   removed data_string from call to fertiliz_fertiliz
-*      150696 nih   changed routine call from fertiliz_prepare to
-*                   fertiliz_inter_timestep.
-*     dph 18/10/99  added call to get_other_variables before set_my_variable
-
-*+  Constant Values
-      character  my_name*(*)
-      parameter (my_name = 'fertiliz')
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
-
-         ! initialise error flags
-C      call set_warning_off ()
-
-      if (Action.eq.ACTION_Get_variable) then
-         call fertiliz_Send_my_variable (Data_string)
-
-      else if (Action.eq.ACTION_Create) then
-
-         call fertiliz_zero_variables ()
-
-      else if (Action.eq.ACTION_Init) then
-
-         call fertiliz_Init ()
-
-      else if (Action.eq.EVENT_tick) then
-         call fertiliz_ONtick()
-
-      else if (Action.eq.ACTION_Process) then
-
-         call fertiliz_get_other_variables ()
-         call fertiliz_schedule ()
-
-      else if (Action.eq.'apply' .or. Action.eq.'fertilize') then
-         call fertiliz_get_other_variables ()
-         call fertiliz_fertilize ()
-
-      else if (Action .eq. ACTION_Set_variable) then
-         call fertiliz_get_other_variables ()
-         call fertiliz_set_my_variable (Data_string)
-
-      else if (Action .eq. EVENT_new_profile) then
-         call fertiliz_OnNew_Profile()
-
-      else
-            ! Don't use message
-         call Message_unused ()
-
-      endif
-
-      call pop_routine (my_name)
-      return
-      end subroutine
-
 
 
 *     ===========================================================
@@ -970,3 +802,110 @@ c     include   'fertiliz.inc'
       end subroutine
 
       end module FertilizModule
+
+
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use FertilizModule
+      implicit none  
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+         allocate(p)
+      else
+         deallocate(g)
+         deallocate(p)
+      end if
+      return
+      end subroutine
+
+
+
+
+*     ===========================================================
+      subroutine Main (Action, Data_string)
+*     ===========================================================
+      Use infrastructure
+      implicit none
+      ml_external Main
+
+
+*+  Sub-Program Arguments
+      character  Action*(*)            ! Message action to perform
+      character  Data_string*(*)       ! Message data
+
+*+  Purpose
+*      This routine is the interface between the main system and the
+*      fertiliz module.
+
+*+  Mission Statement
+*     The fertiliz main routine
+
+*+  Changes
+*      011195 jngh  added call to message_unused
+*      060696 nih   removed data_string from call to fertiliz_fertiliz
+*      150696 nih   changed routine call from fertiliz_prepare to
+*                   fertiliz_inter_timestep.
+*     dph 18/10/99  added call to get_other_variables before set_my_variable
+
+*+  Constant Values
+      character  my_name*(*)
+      parameter (my_name = 'fertiliz')
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+         ! initialise error flags
+C      call set_warning_off ()
+
+      if (Action.eq.ACTION_Get_variable) then
+         call fertiliz_Send_my_variable (Data_string)
+
+      else if (Action.eq.ACTION_Create) then
+
+         call fertiliz_zero_variables ()
+
+      else if (Action.eq.ACTION_Init) then
+
+         call fertiliz_Init ()
+
+      else if (Action.eq.EVENT_tick) then
+         call fertiliz_ONtick()
+
+      else if (Action.eq.ACTION_Process) then
+
+         call fertiliz_get_other_variables ()
+         call fertiliz_schedule ()
+
+      else if (Action.eq.'apply' .or. Action.eq.'fertilize') then
+         call fertiliz_get_other_variables ()
+         call fertiliz_fertilize ()
+
+      else if (Action .eq. ACTION_Set_variable) then
+         call fertiliz_get_other_variables ()
+         call fertiliz_set_my_variable (Data_string)
+
+      else if (Action .eq. EVENT_new_profile) then
+         call fertiliz_OnNew_Profile()
+
+      else
+            ! Don't use message
+         call Message_unused ()
+
+      endif
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+
