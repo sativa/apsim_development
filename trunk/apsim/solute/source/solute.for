@@ -13,6 +13,11 @@
          real    solute(max_solutes,max_layer)
          integer num_solutes
          real    dlayer (max_layer)
+         real    bd (max_layer)
+         real    maxlayeramount(max_solutes)
+         real    maxlayeramount_ppm(max_solutes) 
+         integer maxlayer(max_solutes)
+         
       end type SoluteGlobals
 !     ========================================
       Type SoluteParameters
@@ -167,6 +172,15 @@
      :      0.,              ! Lower Limit for bound checking
      :      1000.)          ! Upper Limit for bound checking
 
+      call Get_real_array (
+     :      unknown_module, ! Module that responds (Not Used)
+     :      'bd',       ! Variable Name
+     :      max_layer,      ! Array Size
+     :      '(g/cc)',         ! Units                (Not Used)
+     :      g%bd,       ! Variable
+     :      numvals,        ! Number of values returned
+     :      0.,              ! Lower Limit for bound checking
+     :      1000.)          ! Upper Limit for bound checking
 
       call pop_routine (myname)
       return
@@ -204,6 +218,7 @@
        integer layer
        integer num_layers
        integer solnum
+       integer counter
        real sol(max_layer)
        logical found
 
@@ -237,10 +252,56 @@
 
             found = .true.
 
-         else
+        else
 
          endif
   200 continue
+
+!**************************************************************************
+      if (index(Variable_name,'max_').eq.1) then
+
+          solnum = 0
+          do 300 counter = 1, g%num_solutes
+            if (p%solute_names(counter).eq.variable_name(5:)) then
+            solnum = counter
+            else
+            endif
+  300     continue 
+          call respond2Get_real_var (Variable_name
+     &                            ,'(kg/ha)',g%maxlayeramount(solnum))
+
+            found = .true.
+!***********************************************************************
+      elseif (index(Variable_name,'maxppm_').eq.1) then
+
+          solnum = 0
+          do 350 counter = 1, g%num_solutes
+            if (p%solute_names(counter).eq.variable_name(8:)) then
+            solnum = counter
+            else
+            endif
+  350     continue 
+          call respond2Get_real_var (Variable_name
+     &                        ,'(ppm)',g%maxlayeramount_ppm(solnum))
+
+            found = .true.
+!***********************************************************************
+      elseif (index(Variable_name,'maxlayer_').eq.1) then
+          solnum = 0
+          do 400 counter = 1, g%num_solutes
+            if (p%solute_names(counter).eq.variable_name(10:)) then
+            solnum = counter
+            else
+            endif
+  400     continue 
+          call respond2Get_integer_var (Variable_name
+     &                            ,'(kg/ha)',g%maxlayer(solnum))
+
+            found = .true.
+!************************************************************************
+
+      endif
+
 
       if (.not. found) then
          ! We have checked all solutes and we did not respond to anything
@@ -527,6 +588,70 @@
       return
       end subroutine
 
+* ====================================================================
+       subroutine solute_check_maximumloads ()
+* ====================================================================
+      Use Infrastructure
+      implicit none
+
+*+  Purpose
+*      To check maximum loads of solutes both in whole profile, each layer and 
+*      defining which layer has the highest solute concentration
+
+*+  Mission Statement
+*      To check maximum loads of solutes both in whole profile, each layer and 
+*      defining which layer has the highest solute concentration
+
+*+  Changes
+*     <insert here>
+
+*+  Constant Values
+      character  myname*(*)            ! name of this procedure
+      parameter (myname = 'solute_check_maximumloads')
+
+*+  Local Variables
+       integer num_layers              ! number of soil layers
+       integer layer
+       integer solnum
+       real    fac                     ! conversion factor for kg/ha to ppm
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (myname)
+      g%maxlayeramount(:) = 0.0
+      g%maxlayer(:) = 0
+      num_layers = count_of_real_vals(g%dlayer,max_layer)
+
+      
+      ! dsg 061204  This subroutine has been included in order to provide daily outputs for the
+      !             maximum amount (in any layer) of each solute, that corresponding layer number and
+      !             the total amount of that solute in the whole profile (kg/ha)
+      do 200 solnum = 1,g%num_solutes
+
+        do 100 layer = 1,num_layers
+  
+          if (g%solute(solnum,layer).gt.g%maxlayeramount(solnum))then
+               g%maxlayeramount(solnum) = g%solute(solnum,layer)
+               g%maxlayer(solnum) = layer
+          endif               
+            
+  100   continue
+
+      fac = divide (100.0, g%bd(g%maxlayer(solnum))
+     &           *g%dlayer(g%maxlayer(solnum)), 0.0)    
+      g%maxlayeramount_ppm(solnum) = g%maxlayeramount(solnum) * fac
+
+         
+  200 continue
+
+
+
+      call pop_routine (myname)
+      return
+      end subroutine
+
+
+
 
       end module SoluteModule
 
@@ -595,6 +720,7 @@
 
       else if (Action.eq.ACTION_Process) then
          call solute_get_other_variables ()
+         call solute_check_maximumloads ()
 
       else if (Action.eq.ACTION_Create) then
          call doRegistrations(id)
