@@ -344,17 +344,17 @@ c RDC
       else if (Variable_name .eq. 'surf_cover') then
          call respond2get_double_var (
      :                              variable_name
-     :                            , '(cm)'
+     :                            , '()'
      :                            , g%cover)
       else if (Variable_name .eq. 'g1') then
          call respond2get_double_var (
      :                              variable_name
-     :                            , '(cm)'
+     :                            , '(/hour)'
      :                            , g%scon_max)
       else if (Variable_name .eq. 'g0') then
          call respond2get_double_var (
      :                              variable_name
-     :                            , '(cm)'
+     :                            , '(/hour)'
      :                            , g%scon_min)
       else if (Variable_name .eq. 'grc') then
          call respond2get_double_var (
