@@ -1,4 +1,4 @@
-C     Last change:  E    13 Feb 2001    4:12 pm
+C     Last change:  E    13 Feb 2001    9:28 pm
 
       INCLUDE 'CropMod.inc'
 
@@ -1182,12 +1182,6 @@ cjh      endif
       !===============================================================
       !plant biomass
 
-      elseif (variable_name .eq. 'transp_eff') then
-         call respond2get_real_var (variable_name
-     :                             , '(g/m^2)'
-     :                             , g%transp_eff)
-
-
       !----------------------------------------------------------------
       !Biomass in g/m2
 
@@ -1479,14 +1473,7 @@ cjh      endif
      :                             , '(mm)'
      :                             ,  g%transpiration_tot)
  
-      elseif (variable_name .eq. 'sw_supply') then
-         deepest_layer = find_layer_no (g%root_depth, g%dlayer
-     :                                , max_layer)
-         sw_supply_sum = sum_real_array (g%sw_supply, deepest_layer)
-         call respond2get_real_var (variable_name
-     :                             , '(mm)'
-     :                             , sw_supply_sum)
- 
+
       elseif (variable_name .eq. 'esw_layer') then
  
          num_layers = count_of_real_vals (g%dlayer, max_layer)
@@ -1529,12 +1516,30 @@ cjh      endif
      :                               , '(mm)'
      :                               , sw_deficit
      :                               , num_layers)
+
+      elseif (variable_name .eq. 'vpd') then
+         call respond2get_real_var (variable_name
+     :                             , '(kpa)'
+     :                             , g%vpd)
  
+      elseif (variable_name .eq. 'transp_eff') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
+     :                             , g%transp_eff)
+
       elseif (variable_name .eq. 'sw_demand') then
          call respond2get_real_var (variable_name
      :                             , '(mm)'
      :                             , g%sw_demand)
  
+      elseif (variable_name .eq. 'sw_supply') then
+         deepest_layer = find_layer_no (g%root_depth, g%dlayer
+     :                                , max_layer)
+         sw_supply_sum = sum_real_array (g%sw_supply, deepest_layer)
+         call respond2get_real_var (variable_name
+     :                             , '(mm)'
+     :                             , sw_supply_sum)
+
       elseif (variable_name .eq. 'sw_supply_sum') then
          call respond2get_real_var (variable_name
      :                             , '(mm)'
@@ -1544,13 +1549,9 @@ cjh      endif
          call respond2get_real_var (variable_name
      :                             , '()'
      :                             , divide(g%sw_supply_sum,
-     :           g%sw_demand,0.0))
+     :                                      g%sw_demand,0.0))
  
-      elseif (variable_name .eq. 'vpd') then
-         call respond2get_real_var (variable_name
-     :                             , '(kpa)'
-     :                             , g%vpd)
- 
+
       !=============================================================
       ! plant nitrogen
 
@@ -1586,6 +1587,13 @@ cjh      endif
          call respond2get_real_var (variable_name
      :                             , '(g/m^2)'
      :                             , N_demand)
+      !THIS IS SWIM STUFF
+      elseif (variable_name .eq. 'no3_demand') then
+         N_demand = sum_real_array (g%N_demand, max_part)
+     :            * gm2kg/sm2ha
+         call respond2get_real_var (variable_name
+     :                             , '(kg/ha)'
+     :                             , N_demand)
  
       elseif (variable_name .eq. 'n_supply_soil') then
          deepest_layer = find_layer_no (g%root_depth,g%dlayer,max_layer)
@@ -1595,12 +1603,7 @@ cjh      endif
      :                             , '(g/m^2)'
      :                             , N_uptake_sum)
 
-
-
-
-
-
-
+      !nitrogen uptake
 
       elseif (variable_name .eq. 'n_massflow_uptake') then
          deepest_layer = find_layer_no (g%root_depth,g%dlayer,max_layer)
@@ -1619,32 +1622,79 @@ cjh      endif
      :                             , '(g/m^2)'
      :                             , N_uptake_sum)
 
+      elseif (variable_name .eq. 'n_total_uptake') then
+         deepest_layer = find_layer_no (g%root_depth,g%dlayer,max_layer)
+         apt_N_up      = - sum_real_array (g%dlt_NO3gsm_massflow,
+     :                                   deepest_layer)
+         N_uptake_sum  = - sum_real_array (g%dlt_NO3gsm_diffusion,
+     :                                   deepest_layer)
+         N_uptake_sum  = N_uptake_sum + apt_N_up
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      !THIS IS SWIM STUFF
-      elseif (variable_name .eq. 'no3_demand') then
-         N_demand = sum_real_array (g%N_demand, max_part)
-     :            * gm2kg/sm2ha
          call respond2get_real_var (variable_name
-     :                             , '(kg/ha)'
-     :                             , N_demand)
+     :                             , '(g/m^2)'
+     :                             , N_uptake_sum)
+
+      elseif (variable_name .eq. 'no3_tot') then
+         deepest_layer = find_layer_no (g%root_depth, g%dlayer
+     :                                , max_layer)
+         NO3gsm_tot = sum_real_array (g%NO3gsm, deepest_layer)
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
+     :                             , NO3gsm_tot)
+
+
+      elseif (variable_name .eq. 'nh4_tot') then
+         deepest_layer = find_layer_no (g%root_depth, g%dlayer
+     :                                , max_layer)
+         apt_N_up = sum_real_array (g%NH4gsm, deepest_layer)
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
+     :                             , apt_N_up)
+
+      elseif (variable_name .eq. 'n_cum_uptake') then
+
+         biomass_n = (sum_real_array (g%n_green,    max_part)
+     :             +  sum_real_array (g%n_senesced, max_part)
+     :             +  sum_real_array (g%n_dead,     max_part))
+
+         call respond2get_real_var (variable_name
+     :                             , '(g/m2)'
+     :                             , biomass_n)
+
 
       !----------------------------------------------------------
       !Nitrogen content
+
+      elseif (variable_name .eq. 'biomass_n') then
+
+         biomass_n = (sum_real_array (g%n_green, max_part)
+     :             - g%n_green(root) - g%n_green(energy)
+     :             + sum_real_array (g%n_senesced, max_part)
+     :             - g%n_senesced(root) - g%n_senesced(energy)
+     :             + sum_real_array (g%n_dead, max_part)
+     :             - g%n_dead(root) - g%n_dead(energy))
+ 
+         call respond2get_real_var (variable_name
+     :                             , '(g/m2)'
+     :                             , biomass_n)
+ 
+      elseif (variable_name .eq. 'green_biomass_n') then
+         biomass_n = (sum_real_array (g%n_green, max_part)
+     :                - g%n_green(root) - g%n_green(energy))
+ 
+         call respond2get_real_var (variable_name
+     :                             , '(g/m2)'
+     :                             , biomass_n)
+
+      elseif (variable_name .eq. 'stover_n') then
+
+         apt_N_up = g%N_green(leaf)+g%n_green(stem)+g%n_green(flower)
+     :       +g%N_senesced(leaf)+g%n_senesced(stem)+g%n_senesced(flower)
+     :       +g%N_dead(leaf)+g%n_dead(stem)+g%n_dead(flower)
+
+         call respond2get_real_var (variable_name
+     :                             , '(g/m2)'
+     :                             , apt_N_up)
 
       elseif (variable_name .eq. 'grain_n') then
          call respond2get_real_var (variable_name
@@ -1674,6 +1724,10 @@ cjh      endif
      :                             , '(g/m^2)'
      :                             , g%n_green(stem))
 
+       elseif (variable_name .eq. 'flower_n') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
+     :                             , g%n_green(flower))
 
       elseif (variable_name .eq. 'groot_n') then
          call respond2get_real_var (variable_name
@@ -1693,63 +1747,7 @@ cjh      endif
      :                             + g%n_dead(root)
      :                             + g%n_green(root))
 
-      elseif ((variable_name .eq. 'biomass_n')
-     :                       .or.
-     :       (variable_name .eq. 'n_uptake')) then
 
-         biomass_n = (sum_real_array (g%n_green, max_part)
-     :             - g%n_green(root) - g%n_green(energy)
-     :             + sum_real_array (g%n_senesced, max_part)
-     :             - g%n_senesced(root) - g%n_senesced(energy)
-     :             + sum_real_array (g%n_dead, max_part)
-     :             - g%n_dead(root) - g%n_dead(energy))
- 
-         call respond2get_real_var (variable_name
-     :                             , '(g/m2)'
-     :                             , biomass_n)
- 
-
-      elseif (variable_name .eq. 'green_biomass_n') then
-         biomass_n = (sum_real_array (g%n_green, max_part)
-     :                - g%n_green(root) - g%n_green(energy))
- 
-         call respond2get_real_var (variable_name
-     :                             , '(g/m2)'
-     :                             , biomass_n)
-
-      elseif (variable_name .eq. 'grain_n_uptake') then
-         call respond2get_real_var (variable_name
-     :                             , '(g/m2)'
-     :                             , g%N_green(grain))
- 
-      elseif (variable_name .eq. 'stover_n_uptake') then
-
-         apt_N_up = g%N_green(leaf)+g%n_green(stem)+g%n_green(flower)
-     :       +g%N_senesced(leaf)+g%n_senesced(stem)+g%n_senesced(flower)
-     :       +g%N_dead(leaf)+g%n_dead(stem)+g%n_dead(flower)
-
-         call respond2get_real_var (variable_name
-     :                             , '(g/m2)'
-     :                             , apt_N_up)
-
-      elseif (variable_name .eq. 'root_n_uptake') then
-         apt_N_up =  g%N_green(root)
-     :             + g%n_senesced(root)
-     :             + g%n_dead(root)
-
-         call respond2get_real_var (variable_name
-     :                             , '(g/m2)'
-     :                             , apt_N_up)
-
- 
-      elseif (variable_name .eq. 'no3_tot') then
-         deepest_layer = find_layer_no (g%root_depth, g%dlayer
-     :                                , max_layer)
-         NO3gsm_tot = sum_real_array (g%NO3gsm, deepest_layer)
-         call respond2get_real_var (variable_name
-     :                             , '(g/m^2)'
-     :                             , NO3gsm_tot)
- 
       !---------------------------------------------------------------
       !Nitrogen content arrays
 
@@ -1840,36 +1838,6 @@ cjh      endif
      :                             , '(%)'
      :                             , N_conc)
 
-
-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-
-
-      elseif (variable_name .eq. 'n_conc_leaf_crit') then
-         N_conc = g%N_conc_crit(leaf) * 100.
- 
-         call respond2get_real_var (variable_name
-     :                             , '(%)'
-     :                             , N_conc)
-
-      elseif (variable_name .eq. 'n_conc_stem_crit') then
-         N_conc = g%N_conc_crit(stem) * 100.
- 
-         call respond2get_real_var (variable_name
-     :                             , '(%)'
-     :                             , N_conc)
-
-
-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-
-
-
-
-
-
       elseif (variable_name .eq. 'n_conc_root') then
          N_conc = divide (g%N_green(root)
      :                  , g%dm_green(root)
@@ -1887,8 +1855,37 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
          call respond2get_real_var (variable_name
      :                             , '(%)'
      :                             , N_conc)
+
+
+      elseif (variable_name .eq. 'n_conc_leaf_crit') then
+         N_conc = g%N_conc_crit(leaf) * 100.
  
-      elseif (variable_name .eq. 'n_conc_crit') then
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
+     :                             , N_conc)
+
+      elseif (variable_name .eq. 'n_conc_stem_crit') then
+         N_conc = g%N_conc_crit(stem) * 100.
+ 
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
+     :                             , N_conc)
+
+      elseif (variable_name .eq. 'n_conc_flower_crit') then
+         N_conc = g%N_conc_crit(flower) * 100.
+ 
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
+     :                             , N_conc)
+
+      elseif (variable_name .eq. 'n_conc_root_crit') then
+         N_conc = g%N_conc_crit(root) * 100.
+ 
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
+     :                             , N_conc)
+
+      elseif (variable_name .eq. 'n_conc_stover_crit') then
          N_conc = divide ((g%N_conc_crit(leaf)*g%dm_green(leaf)
      :                    + g%N_conc_crit(stem)*g%dm_green(stem))
      :                  , (g%dm_green(leaf)
@@ -1898,8 +1895,76 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
          call respond2get_real_var (variable_name
      :                             , '(%)'
      :                             , N_conc)
+
+
+      elseif (variable_name .eq. 'n_conc_leaf_max') then
+         N_conc = g%N_conc_max(leaf) * 100.
  
-      elseif (variable_name .eq. 'n_conc_min') then
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
+     :                             , N_conc)
+
+      elseif (variable_name .eq. 'n_conc_stem_max') then
+         N_conc = g%N_conc_max(stem) * 100.
+ 
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
+     :                             , N_conc)
+
+      elseif (variable_name .eq. 'n_conc_flower_max') then
+         N_conc = g%N_conc_max(flower) * 100.
+ 
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
+     :                             , N_conc)
+
+      elseif (variable_name .eq. 'n_conc_root_max') then
+         N_conc = g%N_conc_max(root) * 100.
+ 
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
+     :                             , N_conc)
+
+      elseif (variable_name .eq. 'n_conc_stover_max') then
+         N_conc = divide ((g%N_conc_max(leaf)*g%dm_green(leaf)
+     :                   + g%N_conc_max(stem)*g%dm_green(stem))
+     :                  , (g%dm_green(leaf)
+     :                   + g%dm_green(stem))
+     :                  , 0.0) * 100.
+ 
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
+     :                             , N_conc)
+ 
+      elseif (variable_name .eq. 'n_conc_leaf_min') then
+         N_conc = g%N_conc_min(leaf) * 100.
+ 
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
+     :                             , N_conc)
+
+      elseif (variable_name .eq. 'n_conc_stem_min') then
+         N_conc = g%N_conc_min(stem) * 100.
+ 
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
+     :                             , N_conc)
+
+      elseif (variable_name .eq. 'n_conc_flower_min') then
+         N_conc = g%N_conc_min(flower) * 100.
+ 
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
+     :                             , N_conc)
+
+      elseif (variable_name .eq. 'n_conc_root_min') then
+         N_conc = g%N_conc_min(root) * 100.
+ 
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
+     :                             , N_conc)
+
+      elseif (variable_name .eq. 'n_conc_stover_min') then
          N_conc = divide ((g%N_conc_min(leaf)*g%dm_green(leaf)
      :                    + g%N_conc_min(stem)*g%dm_green(stem))
      :                  , (g%dm_green(leaf)
