@@ -613,7 +613,7 @@ void ReportComponent::init(void)
       if (variable != NULL)
          Fields.push_back(Field(eventInterface,
                                 variable->getOwnerModule(),
-                                variable->getName(),
+                                variable->getVariableName(),
                                 variable->getAlias(),
                                 CSVFormat));
       }
