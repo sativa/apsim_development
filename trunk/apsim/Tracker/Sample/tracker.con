@@ -2,13 +2,13 @@
 
 
 
-version=apsim3
+version=2.2
+title=tracker Sample Simulation
+summaryfile=tracker.sum
+screen_output=on
+debug_output=on
 module = clock    tracker.par [sample] %apsuite\apsim\clock\clock2.ini [standard]
 module = report   tracker.par [sample]
 module = Input(Met)      %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = tracker tracker.par [sample]
 module = manager  tracker.par [sample]
-title=tracker Sample Simulation
-summaryfile=tracker.sum
-screen_output=on
-debug_output=on
