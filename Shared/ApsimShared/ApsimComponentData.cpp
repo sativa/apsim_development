@@ -102,6 +102,33 @@ std::string ApsimComponentData::getProperty(const std::string& propertyType,
    return "";
    }
 // ------------------------------------------------------------------
+// Return the value of a specific property to caller.
+// ------------------------------------------------------------------
+void ApsimComponentData::getProperties(const std::string& propertyType,
+                                       vector<string>& names,
+                                       vector<string>& values) const
+   {
+   XMLNode initData = getInitData();
+   for (XMLNode::iterator groupI = initData.begin();
+                          groupI != initData.end();
+                          groupI++)
+      {
+      if (Str_i_Eq(groupI->getName(), propertyType))
+         {
+         for (XMLNode::iterator propertyI = groupI->begin();
+                                propertyI != groupI->end();
+                                propertyI++)
+            {
+            if (Str_i_Eq(propertyI->getName(), "property"))
+               {
+               names.push_back(propertyI->getAttribute("name"));
+               values.push_back(propertyI->getValue());
+               }
+            }
+         }
+      }
+   }
+// ------------------------------------------------------------------
 // Try and replace the value of the specified property.  Return true
 // if property was found.  False otherwise.
 // ------------------------------------------------------------------
