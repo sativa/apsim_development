@@ -1,7 +1,0 @@
-[APSIM.sample_irrigate]
-module=report     irrigate.par[sample]
-module=input      ..\..\input\sample\dalby.met[weather]  irrigate.par[sample]
-module=manager    irrigate.par[sample]
-module=irrigate   irrigate.par[sample]
-module=soilwat2   ..\..\soilwat2\sample\soilwat2.par[black_earth]  ..\..\soilwat2\soilwat2.ini[standard]
-
