@@ -18,6 +18,8 @@ using namespace std;
 // ------------------------------------------------------------------
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR,  int)
    {
+   AllocConsole();
+
    try
       {
       string fileName;
@@ -60,15 +62,14 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR,  int)
                }
             else
                {
-               for (vector<string>::iterator sim = sections.begin();
-                                             sim != sections.end();
-                                             sim++)
+               bool quiet = true;
+               for (unsigned sim = 0; sim != sections.size(); sim++)
                   {
-                  ApsimControlFile simulation(fileName, *sim);
-                  simulation.run(configurationFile, true);
+                  ApsimControlFile simulation(fileName, sections[sim]);
+                  if (sim == sections.size()-1)
+                     quiet = false;
+                  simulation.run(configurationFile, quiet);
                   }
-               if (!quietRun)
-                  MessageBox(NULL, "APSIM has finished", "For your information", MB_ICONINFORMATION | MB_OK);
                }
             }
          }
@@ -90,6 +91,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR,  int)
       MessageBox(NULL, error.what(), "Error", MB_ICONSTOP | MB_OK);
       return 1;
       }
+   FreeConsole();
    return 0;
    }
 //---------------------------------------------------------------------------
