@@ -1,5 +1,5 @@
       module AccumModule
-      
+
       integer Max_variables            ! Maximum number of variables.
       parameter (Max_variables=50)
 
@@ -26,7 +26,7 @@
       save InstancePointers
       type (AccumGlobals),pointer :: g
 
-    
+
       contains
 
 
@@ -56,16 +56,16 @@
        character Event_string*40       ! String to output
 
 *- Implementation Section ----------------------------------
- 
+
       ! Notify system that we have initialised
- 
+
       Event_string = ID_Init
       call Write_string (Event_string)
- 
+
       ! Get all parameters from parameter file
- 
+
       call Accum_read_param ()
- 
+
       return
       end subroutine
 
@@ -111,44 +111,44 @@
        character Size_string*50        ! string version of size
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine(This_routine)
- 
+
       call read_char_array(section_name, 'accum_variables',
      .   Max_variables, ' ', g%variable_names, g%num_variables)
- 
+
       ! loop through each variable and pull off size component.
- 
+
       do 10 indx = 1, g%num_variables
          Pos = index(g%variable_names(indx), '[')
          if (Pos .eq. 0) then
             call Fatal_error(Err_internal, Err2)
- 
+
          else
             ! Extract size component.
- 
+
             Size_string = g%variable_names(indx)(Pos + 1:)
             g%variable_names(indx)(Pos:) = Blank
             Pos = index(Size_string, ']')
             if (Pos .eq. 0) then
                call Fatal_error(Err_internal, Err2)
- 
+
             else
                Size_string(Pos:) = Blank
                call String_to_integer_var(Size_string,
      .              g%variable_sizes(indx), Numvals)
- 
+
                if (g%variable_sizes(indx) .gt. 0 .and.
      .             g%variable_sizes(g%num_variables) .le. Max_days) then
                   goto 10
- 
+
                else
                   call Fatal_error(Err_internal, Err3)
                endif
             endif
          endif
 10    continue
- 
+
       call pop_routine(This_routine)
       return
       end subroutine
@@ -172,13 +172,13 @@
       integer Day_index                ! day index
 
 *- Implementation Section ----------------------------------
- 
+
       g%num_variables = 0
       do 10 Var_index = 1, Max_variables
          do 10 Day_index = 1, Max_days
             g%variable_values(Var_index, Day_index) = 0.0
 10    continue
- 
+
       return
       end subroutine
 
@@ -202,23 +202,23 @@
       integer Numvals                  ! Number of values returned
 
 *- Implementation Section ----------------------------------
- 
+
       ! Move all other variables down one position in the array.
- 
+
       do 10 Var_index = 1, g%num_variables
          do 10 Day_index =  g%variable_sizes(Var_index), 2, -1
             g%variable_values(Var_index, Day_index) =
      .         g%variable_values(Var_index, Day_index - 1)
 10    continue
- 
+
       ! Get all required variables for today
- 
+
       do 20 Var_index = 1, g%num_variables
          call Get_real_var(Unknown_module, g%variable_names(Var_index),
      .        ' ', g%variable_values(Var_index, 1), Numvals, -10000.0,
      .        10000.0)
 20    continue
- 
+
       return
       end subroutine
 
@@ -257,18 +257,30 @@
       character Var_name*50            ! Variable name requested.
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine(Routine_name)
- 
+
       Pos = index(Variable_name, '[')
- 
+
       if (Pos .eq. 0) then
          ! None found
- 
+
          Found = .false.
- 
+
       else
          Var_name = Variable_name(1:Pos-1)
+
+         ! Determine weather the requested variable is one of ours.
+
+         Var_index = Find_string_in_array
+     .      (Var_name, g%variable_names, g%num_variables)
+         Found = (Var_index .gt. 0)
+      endif
+
+      ! If variable is ours then accumulate the variable for the
+      ! specified number of days and return the value to the caller.
+
+      if (Found) then
          Size_string = Variable_name(Pos + 1:)
          Pos = index(Size_string, ']')
          if (Pos .gt. 0) then
@@ -277,39 +289,27 @@
          else
             Numvals = 0
          endif
- 
-         ! Determine weather the requested variable is one of ours.
- 
-         Var_index = Find_string_in_array
-     .      (Var_name, g%variable_names, g%num_variables)
-         Found = (Var_index .gt. 0)
-      endif
- 
-      ! If variable is ours then accumulate the variable for the
-      ! specified number of days and return the value to the caller.
- 
-      if (Found) then
- 
+
          if (Num_days .eq. -1) then
             Num_days = g%variable_sizes(Var_index)
- 
+
          else
             ! Caller has specified the number of days.
          endif
- 
+
          Sum = 0.0
          do 20 Day_index = 1, Num_days
             Sum = Sum + g%variable_values(Var_index, Day_index)
 20       continue
- 
+
          call respond2get_real_var(Variable_name, '()', Sum)
- 
+
       else
          ! Not our variable
- 
+
          call Message_unused ()
       endif
- 
+
       call pop_routine(Routine_name)
       return
       end subroutine
@@ -321,7 +321,7 @@
       subroutine alloc_dealloc_instance(doAllocate)
 !     ===========================================================
       use AccumModule
-      implicit none  
+      implicit none
       ml_external alloc_dealloc_instance
 
 !+  Sub-Program Arguments
@@ -364,24 +364,24 @@
 *     dph 7/5/99 removed presence if test. c186
 
 *- Implementation Section ----------------------------------
- 
+
       if (Action.eq.ACTION_Init) then
          call Accum_zero_variables ()
          call Accum_Init ()
- 
+
       else if (Action .eq. ACTION_Post) then
          call Accum_get_other_variables()
- 
+
       else if (Action.eq.ACTION_Get_variable) then
          ! respond to request for one of our variable values
- 
+
          call Accum_send_my_variable (Data)
- 
+
       else
          ! Don't use message
- 
+
          call Message_unused ()
       endif
- 
+
       return
       end subroutine
