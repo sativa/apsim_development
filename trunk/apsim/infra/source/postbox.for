@@ -1254,6 +1254,7 @@
       else if (Module_name .eq. All_active_modules) then
         call Loader_SendActionToAllComps (ACTION_Set_variable, 
      .                                    Variable_name)
+        ok = .true.
       else
          ok = Loader_SendAction (Module_name, 
      .                           ACTION_Set_variable, 
