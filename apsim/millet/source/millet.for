@@ -508,8 +508,6 @@
          real       y_tiller_tt(max_table)      ! thermal time for theoretical  tiller appearance rate (oCd) at plant density = 0
          real       y_tt(max_table)        ! degree days
          real       y_tt_other(max_table)   !
-         integer year_lb                ! lower limit of year ()
-         integer year_ub                ! upper limit of year ()
       end type constant_t
  
  
@@ -798,7 +796,7 @@
       
       if (action.eq.mes_presence) then      ! report presence
          write(*, *) 'module_name = '
-     :              , module_name(:lastnb(module_name))
+     :              , trim(module_name)
      :              // blank
      :              // millet_version ()
  
@@ -1515,7 +1513,7 @@ cjh
       call push_routine (my_name)
 !gd
 !         call get_current_module (module_name)
-!         write(*,*) 'lastnb', lastnb(module_name)
+!         write(*,*) 'len_trim', len_trim(module_name)
  
       call report_event ( 'Sow')
  
@@ -2212,6 +2210,7 @@ cgd   Eriks modifications for Leaf Area
 *     010994 jngh specified and programmed
 *     220696 jngh optimised order of gets
 *     140896 jngh modified fr_intc_radn name to inclued a suffix of module name
+*     140896 sb used min_year and max_year instead of c%year_lb and c%year_ub.
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -2238,7 +2237,7 @@ cgd   Eriks modifications for Leaf Area
  
       call get_integer_var (unknown_module, 'year', '()'
      :                                    , g%year, numvals
-     :                                    , c%year_lb, c%year_ub)
+     :                                    , min_year, max_year)
  
                                ! canopy
       call get_current_module (module_name)
@@ -3124,6 +3123,7 @@ cejvo
 *     070495 psc added extra constants (leaf_app etc.)
 *     110695 psc added soil temp effects on plant establishment
 *     261097 gol added constant 'c%photo_tiller_crit'
+*     020998 sb removed c%year_lb and c%year_ub.
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -3632,16 +3632,6 @@ cejvo
          !    millet_get_other_variables
  
          ! checking the bounds of the bounds..
-      call read_integer_var (section_name
-     :                    , 'year_ub', '()'
-     :                    , c%year_ub, numvals
-     :                    , 1, 5000)
- 
-      call read_integer_var (section_name
-     :                    , 'year_lb', '()'
-     :                    , c%year_lb, numvals
-     :                    , 1, 5000)
- 
       call read_real_var (section_name
      :                    , 'latitude_ub', '(oL)'
      :                    , c%latitude_ub, numvals
@@ -10421,12 +10411,12 @@ cjh      character  string*(mes_data_size) ! output string
  
 cjh         string = 'dlt_fom_type='// c%crop_type
  
-cjh         write (string(lastnb(string)+1:), '(a, 20g16.7e3)' )
+cjh         write (string(len_trim(string)+1:), '(a, 20g16.7e3)' )
 cjh     :              ', dlt_fom_wt = '
 cjh     :               , (dlt_dm_incorp(layer), layer = 1, deepest_layer)
 cjh         string =  string_concat (string, '(kg/ha)')
  
-cjh         write (string(lastnb(string)+1:), '(a, 20g16.7e3)')
+cjh         write (string(len_trim(string)+1:), '(a, 20g16.7e3)')
 cjh     :              ', dlt_fom_n = '
 cjh     :               , (dlt_N_incorp(layer), layer = 1, deepest_layer)
 cjh         string = string_concat (string, '(kg/ha)')
@@ -10901,7 +10891,7 @@ cjh      character  string*200            ! output string
  
 !         write (*,*) 'no_spaces(tiller_module)', tiller_module
  
-         if (lastnb (tiller_module).le.8) then
+         if (len_trim(tiller_module).le.8) then
  
             dm_tiller_plant = divide (dm_tiller_independence
      :                              , g%plants, 0.0)
