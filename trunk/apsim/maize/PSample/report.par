@@ -1,61 +1,69 @@
-[maizeF.report.parameters]
-outputfile = maize.out
+[mungbeanF.report.parameters]
+outputfile = mungbean.out
 
-[maize.report.parameters]
+[mungbean.report.parameters]
 variable = clock.dd/mm/yyyy as date
-variable = maize.das
-variable = maize.stage
-variable = maize.dc_stage as zadok
-variable = maize.lai
-variable = maize.biomass_wt as biomass
-variable = maize.grain_wt as grain
-variable = maize.biomass_n
-variable = maize.grain_n
-variable = maize.tiller_no_fertile as tillers
-variable = maize.root_depth as rootdepth
+variable = mungbean.das
+variable = mungbean.stage
+variable = mungbean.lai
+variable = mungbean.biomass_wt as biomass
+variable = mungbean.grain_wt as grain
+variable = mungbean.biomass_n
+variable = mungbean.grain_n
+variable = mungbean.root_depth as rootdepth
 
 
-variable = maize.cep
-variable = maize.swdef_pheno as ws_pheno
-variable = maize.swdef_photo as ws_photo
-variable = maize.swdef_expan as ws_expan
-variable = maize.swdef_tiller as ws_tiller
-variable = maize.nfact_pheno as Ns_pheno
-variable = maize.nfact_photo as Ns_photo
-variable = maize.nfact_expan as Ns_expan
-variable = maize.nfact_tiller as Ns_tiller
+variable = mungbean.cep
+variable = mungbean.swdef_pheno as ws_pheno
+variable = mungbean.swdef_photo as ws_photo
+variable = mungbean.swdef_expan as ws_expan
+variable = mungbean.nfact_pheno as Ns_pheno
+variable = mungbean.nfact_photo as Ns_photo
+variable = mungbean.nfact_expan as Ns_expan
 
-variable = maize.pfact_photo
-variable = maize.p_green()
-variable = maize.p_sen()
-variable = maize.p_demand
-variable = maize.pfact_pheno
-variable = maize.pfact_expansion
-variable = maize.pfact_grain
-variable = maize.biomass_p
-variable = maize.green_biomass_p
-variable = maize.grain_p
-variable = maize.leaf_p
-variable = maize.stem_p
-variable = maize.root_p
-variable = maize.deadleaf_p
-variable = maize.flower_p
-variable = maize.head_p
-variable = maize.p_senesced()
-variable = maize.p_dead()
-variable = maize.dlt_p_green()
-variable = maize.dlt_p_retrans()
-variable = maize.dlt_p_detached()
-variable = maize.dlt_p_dead()
-variable = maize.dlt_p_sen()
-variable = maize.p_conc_stover
-variable = maize.p_conc_leaf
-variable = maize.p_conc_stem
-variable = maize.p_conc_grain
-variable = maize.p_uptake_stover
-variable = maize.grain_p_demand
+variable = mungbean.n_conc_root
+variable = mungbean.n_conc_leaf
+variable = mungbean.n_conc_stem
+variable = mungbean.n_conc_meal
+variable = mungbean.dm_green()
+variable = mungbean.dm_green
+variable = mungbean.dm_senesced()
+variable = mungbean.dm_senesced
+variable = mungbean.dlt_dm_detached
+variable = mungbean.p_green()
+variable = mungbean.p_green
+variable = mungbean.p_sen()
+variable = mungbean.p_sen
+variable = mungbean.p_demand
+variable = mungbean.pfact_photo
+variable = mungbean.pfact_pheno
+variable = mungbean.pfact_expansion
+variable = mungbean.pfact_grain
+variable = mungbean.biomass_p
+variable = mungbean.green_biomass_p
+variable = mungbean.grain_p
+variable = mungbean.leaf_p
+variable = mungbean.stem_p
+variable = mungbean.root_p
+variable = mungbean.deadleaf_p
+variable = mungbean.pod_p
+variable = mungbean.head_p
+variable = mungbean.p_senesced()
+variable = mungbean.p_dead()
+variable = mungbean.dlt_p_green()
+variable = mungbean.dlt_p_retrans()
+variable = mungbean.dlt_p_detached()
+variable = mungbean.dlt_p_dead()
+variable = mungbean.dlt_p_sen()
+variable = mungbean.p_conc_stover
+variable = mungbean.p_conc_leaf
+variable = mungbean.p_conc_stem
+variable = mungbean.p_conc_grain
+variable = mungbean.p_uptake_stover
+variable = mungbean.grain_p_demand
 
 variable = residue2.residue_p
+
 
 
 [all.report.parameters]
@@ -68,7 +76,7 @@ variable = soilwat2.drain
 variable = soiln2.no3()
 variable = soiln2.nh4()
 
-variable = soilp.uptake_p_maize()
+variable = soilp.uptake_p_mungbean()
 variable = soilp.fom_cp()
 variable = soilp.fom_p_pool3()
 variable = soilp.fom_p_pool2()
@@ -81,5 +89,14 @@ variable = soilp.rock_p()
 variable = soilp.unavail_p()
 variable = soilp.labile_p()
 
+variable = manager.P_below_ground
+variable = manager.P_above_ground
+variable = manager.systemP
+variable = manager.cum_error_systemP
+variable = manager.dlt_systemP
+variable = manager.P_plant
+variable = manager.P_pl_up_diff
+variable = manager.dlt_residue_P
+variable = manager.below_gnd_diff
 
 
