@@ -133,4 +133,19 @@ std::string ApsimSystemData::getXML(void) const
    node.writeXML(xml);
    return xml;
    }
+// ------------------------------------------------------------------
+// Delete a component from the system.  Return true if successful.
+// ------------------------------------------------------------------
+bool ApsimSystemData::deleteComponent(const std::string& name)
+   {
+   XMLNode::iterator i = find_if(node.begin(),
+                                 node.end(),
+                                 NodeEquals<XMLNode>("component", name));
+   if (i != node.end())
+      {
+      node.erase(i);
+      return true;
+      }
+   return false;
+   }
 

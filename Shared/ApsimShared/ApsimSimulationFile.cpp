@@ -210,4 +210,11 @@ ApsimSystemData ApsimSimulationFile::addSystem(const std::string& name)
    {
    return ApsimSystemData(xmlDoc->documentElement()).addSystem(name);
    }
+// ------------------------------------------------------------------
+// Delete a component from the simulation
+// ------------------------------------------------------------------
+bool ApsimSimulationFile::deleteComponent(const std::string& name)
+   {
+   return ApsimSystemData(xmlDoc->documentElement()).deleteComponent(name);
+   }
 
