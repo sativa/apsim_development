@@ -1,5 +1,6 @@
 [general]
-name = CLOCK module
+name = CLOCK
+order = 2
 
 [Binaries]
 binary=clock
@@ -8,6 +9,6 @@ binary=clock
 compiler_switches = %apsuite\apsim\infra\lf90.fig
 source  = source\clock.for
 target  = lib\clock.dll
-include = %apswork\DLLs\infra\
+include = %apsuite\apsim\infra\
 
-import  = %apswork\DLLs\infra\lib\APSinfra.imp
+import  = %apsuite\apsim\infra\lib\APSinfra.imp
