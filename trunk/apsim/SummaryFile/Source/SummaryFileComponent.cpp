@@ -136,7 +136,7 @@ void SummaryFileComponent::respondToEvent(unsigned int& fromID, unsigned int& ev
       {
       protocol::ApsimVariant apsimVariant(this, variant);
       double jday;
-      apsimVariant.get("jday", protocol::DTdouble, jday);
+      apsimVariant.get("jday", protocol::DTdouble, false, jday);
 //      unsigned jday;
 //      variant.unpack(jday);
       currentDate = jday;

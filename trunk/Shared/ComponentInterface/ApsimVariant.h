@@ -34,9 +34,9 @@ class ApsimVariant
          }
 
       template <class T>
-      void store(const FString& variableName, DataTypeCode typeCode, const T& value)
+      void store(const FString& variableName, DataTypeCode typeCode, bool isArray, const T& value)
          {
-         messageData << variableName << protocol::memorySize(value)+4 << typeCode << value;
+         messageData << variableName << protocol::memorySize(value)+5 << typeCode << isArray << value;
          if (!messageData.isValid())
             {
 //            char m[100];
@@ -52,17 +52,18 @@ class ApsimVariant
          }
 
       template <class T>
-      bool get(const FString& variableName, DataTypeCode typeCode, T& value)
+      bool get(const FString& variableName, DataTypeCode typeCode, bool array, T& value)
          {
          if (findVariable(variableName))
             {
             int code;
-            messageData >> code;
+            bool isArray;
+            messageData >> code >> isArray;
             TypeConverter* converter;
             if (getTypeConverter(parent,
                                  variableName,
                                  (DataTypeCode)code, typeCode,
-                                 false, false,
+                                 isArray, array,
                                  converter))
                {
                if (converter == NULL)

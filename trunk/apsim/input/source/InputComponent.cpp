@@ -395,7 +395,7 @@ void InputComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID,
       {
       protocol::ApsimVariant apsimVariant(this, variant);
       double jday;
-      apsimVariant.get("jday", protocol::DTdouble, jday);
+      apsimVariant.get("jday", protocol::DTdouble, false, jday);
 
       todaysDate = jday;
       if (!advanceToTodaysData() && !allowSparseData)
@@ -489,11 +489,11 @@ void InputComponent::publishNewMetEvent(void)
    if (!getVariableValue("vp", vp))
       vp = calcVP(mint);
 
-   variant.store("maxt", protocol::DTsingle, maxt);
-   variant.store("mint", protocol::DTsingle, mint);
-   variant.store("radn", protocol::DTsingle, radn);
-   variant.store("rain", protocol::DTsingle, rain);
-   variant.store("vp", protocol::DTsingle, vp);
+   variant.store("maxt", protocol::DTsingle, false, maxt);
+   variant.store("mint", protocol::DTsingle, false, mint);
+   variant.store("radn", protocol::DTsingle, false, radn);
+   variant.store("rain", protocol::DTsingle, false, rain);
+   variant.store("vp", protocol::DTsingle, false, vp);
    publish(newmetID, variant);
    }
 
