@@ -6,6 +6,16 @@ module ComponentInterfaceModule
    integer ,parameter :: MAX_NUM_INSTANCE_NOS = 50
    integer ,parameter :: MAX_LEVELS_RECURSION = 20
 
+   ! get_simulation_information kind parameters.
+   integer, parameter :: respondToGetInfo = 2
+   integer, parameter :: respondToSetInfo = 3
+   integer, parameter :: respondToGetSetInfo = 4
+   integer, parameter :: eventInfo = 5
+   integer, parameter :: respondToEventInfo = 6
+   integer, parameter :: respondToMethodInfo = 7
+   integer, parameter :: componentInfo = 8
+   integer, parameter :: methodCallInfo = 9
+
    interface
       function add_registration(kind, name, typeString, alias, componentNameOrID)
       ml_external add_registration
@@ -101,14 +111,14 @@ module ComponentInterfaceModule
 !      type(Message), intent(in) :: amessage
 !      end subroutine send_message
 !
-!      function get_simulation_information(name, kind, componentID, regID)
-!      ml_external get_simulation_information
-!      character(len=*), intent(in)  :: name
-!      integer         , intent(in)  :: kind
-!      integer         , intent(out) :: componentID
-!      integer         , intent(out) :: regID
-!      logical             :: get_simulation_information
-!      end function get_simulation_information
+      function get_simulation_information(name, kind, componentID, regID)
+      ml_external get_simulation_information
+      character(len=*), intent(in)  :: name
+      integer         , intent(in)  :: kind
+      integer         , intent(out) :: componentID
+      integer         , intent(out) :: regID
+      logical             :: get_simulation_information
+      end function get_simulation_information
 !
 !      subroutine get_registration_type_string(registrationID, typeString)
 !      ml_external get_registration_type_string

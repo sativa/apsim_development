@@ -31,6 +31,7 @@ class ApsimVariant
       template <class T>
       bool get(const FString& variableName, DataTypeCode typeCode, T& value)
          {
+         char* savedPtr = messageData.ptr();
          FString varName;
          unsigned numBytes;
          messageData >> varName >> numBytes;
@@ -45,11 +46,14 @@ class ApsimVariant
             {
             int code;
             messageData >> code;
-            if (code != typeCode)
-               return false;
-            messageData >> value;
-            return true;
+            if (code == typeCode)
+               {
+               messageData >> value;
+               messageData.seek(savedPtr);
+               return true;
+               }
             }
+         messageData.seek(savedPtr);
          return false;
          }
 

@@ -929,6 +929,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
       double precision d_var_val       ! double precision of variable_value
       double precision today           ! todays date.            
       character todayStr*(50)
+      integer modNameID                ! ID for module.
+      integer regID
+      logical ok
 
 !- Implementation Section ----------------------------------
 
@@ -974,8 +977,10 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
          if (Is_apsim_variable) then
             call Split_line(variable_name, Mod_name, Var_name, '.')
+            ok = get_simulation_information(Mod_name, componentInfo, 
+     .                                      modNameID, regID)
             call Get_char_var
-     .           (Mod_name, Var_name, '()',
+     .           (modNameID, Var_name, '()',
      .            Variable_value, Numvals)
 
          else
@@ -1055,6 +1060,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
       integer Variable_index           ! Index into local variable array
       character Mod_name*100           ! name of module owning variable
       character Var_name*100           ! name of variable
+      integer modNameID                ! ID for module.
+      integer regID
+      logical ok
 
 !- Implementation Section ----------------------------------
       variable_name = lower_case(variable_name)
@@ -1062,7 +1070,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
       Is_apsim_variable = (index(variable_name, '.') .gt. 0)
       if (Is_apsim_variable) then
          call Split_line(variable_name, Mod_name, Var_name, '.')
-         call set_char_var(Mod_name,
+         ok = get_simulation_information(Mod_name, componentInfo, 
+     .                                   modNameID, regID)
+         call set_char_var(modNameID,
      .         trim(var_name), ' ',
      .         trim(Variable_value) )
 
@@ -1162,6 +1172,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
       integer Numvals                  ! Number of values returned
       character msg*500                ! Error message
       logical Data_was_stored          ! Was data stored in postbox?
+      integer modNameID                ! ID for module.
+      integer regID
+      logical ok
 
 !- Implementation Section ----------------------------------
        
@@ -1208,7 +1221,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
          call Get_next_variable (Data_string,
      .                           Variable_name,
      .                           Data_string)
-         call set_char_var(Module_name, Variable_name, 
+         ok = get_simulation_information(Module_name, componentInfo, 
+     .                                   modNameID, regID)
+         call set_char_var(modNameID, Variable_name, 
      .                     ' ', Data_string)
 
       else if (Data_was_stored) then

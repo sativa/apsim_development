@@ -74,7 +74,8 @@ class MessageData
       void reset(void) {currentPtr = (char*)startBuffer;}
       bool isValid(void) const {return (startBuffer != NULL && currentPtr != NULL
                                         && (unsigned)(currentPtr-startBuffer) < numBytesData);}
-      const char* ptr(void) const {return currentPtr;}
+      char* ptr(void) const {return currentPtr;}
+      void seek(char* ptr) {currentPtr = ptr;}
       unsigned int dataSize(void) const {return numBytesData;}
       void movePtrBy(unsigned int numBytes)
          {
