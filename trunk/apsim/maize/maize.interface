@@ -131,10 +131,9 @@ class APSIMMaizePublic
   rue                     : APSIMRealArray      = Radiation use efficiency, (gdm/mj), READ, 0.0, 1000.0
   root_depth_rate         : APSIMRealArray      = Root growth rate potential, (mm/day), READ, 0.0, 1000.0
   ratio_root_shoot        : APSIMRealArray      = Root to shoot ratio of new dm, (), READ, 0.0, 1000.0
-  extinction_coef         : APSIMReal           = Radiation extinction coefficient, (), READ, 0.0, 10.0
-  extinction_coef_dead    : APSIMReal           = Radiation extinction coefficient of dead leaves, (), READ, 0.0, 10.0
-  kvalue_rowspace         : APSIMRealArray      = Row-spacing for extinction coefficient, (mm), READ, 0.0, 2000.0
-  kvalue_adjustment       : APSIMRealArray      = Adjustment factor for extinction coefficient as a function of row-spacing, (), READ, 0.0, 1.0
+  x_row_spacing           : APSIMRealArray      = Crop row spacing in radiation extinction coefficient look-up table, (m), READ, 0.0, 10.0
+  y_extinct_coef          : APSIMRealArray      = Radiation extinction coefficient as a function of row-spacing, (), READ, 0.0, 10.0
+  y_extinct_coef_dead     : APSIMReal           = Radiation extinction coefficient of dead leaves as a function of row-spacing, (), READ, 0.0, 10.0
   leaf_no_crit            : APSIMReal           = Critical number of leaves below which portion of the crop may die due to water stress, (), READ, 0.0, 100.0
   tt_emerg_limit          : APSIMReal           = Maximum degree days allowed for emergence to take place, (oC-days), READ, 0.0, 365.0
   days_germ_limit         : APSIMReal           = Maximum days allowed after sowing for germination to take place, (days), READ, 0.0, 365.0
