@@ -9,20 +9,20 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.4
+     Version                = 3.5
      Title                  = Tracker Sample Single Crop Simulation
-     Component DLL          = c:\progra~1\apsim34\apsim\summaryfile\lib\summaryfile.dll
-     Component DLL          = c:\progra~1\apsim34\apsim\screen\lib\screen.dll
-     Component DLL          = c:\progra~1\apsim34\apsim\clock\lib\clock.dll
-     Component DLL          = c:\progra~1\apsim34\apsim\report\lib\report.dll
-     Component DLL          = c:\progra~1\apsim34\apsim\Input\lib\Input.dll
-     Component DLL          = c:\progra~1\apsim34\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\progra~1\apsim34\apsim\manager\lib\manager.dll
-     Component DLL          = c:\progra~1\apsim34\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\progra~1\apsim34\apsim\residue2\lib\residue2.dll
-     Component DLL          = c:\progra~1\apsim34\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\progra~1\apsim34\apsim\plant\lib\plant.dll
-     Component DLL          = c:\progra~1\apsim34\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\development\apsim\screen\lib\screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\Input\lib\Input.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\plant\lib\plant.dll
+     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -53,7 +53,7 @@
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\progra~1\apsim34\apsim\met\SAMPLE\Goond.MET
+     INPUT File name: c:\development\apsim\met\SAMPLE\Goond.MET
 
 ------- fertiliz Initialisation -----------------------------------------------
       Initialising
@@ -172,6 +172,15 @@
          ------------------------------------------------
               2000.0    26.7     0.0  mungbean
          ------------------------------------------------
+     
+     
+                      Residue Initial Parameters
+         ------------------------------------------------
+           Pot Decomp Rate  C:N     C:P  Phosphorous  Report
+           (fraction/day) (ratio) (ratio)  aware      additions
+         ------------------------------------------------
+                  0.100    30.0     0.0       F       no
+         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -271,13 +280,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          150.0     0.070          0.230       1.000
          150.0     0.070          0.240       1.000
          300.0     0.070          0.240       1.000
@@ -285,11 +294,9 @@
          300.0     0.050          0.260       1.000
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
-     ---------------------------------------------------
-        1800.0                    460.5(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -328,11 +335,11 @@
 28 October 1989(Day of year=301), wheat: 
       stage 9.0 maturity
                      biomass =        1766.15 (g/m^2)   lai          =   0.547 (m^2/m^2)
-                     stover N conc =     0.90 (%)     extractable sw =   40.71 (mm)
+                     stover N conc =     0.91 (%)     extractable sw =   40.71 (mm)
 29 October 1989(Day of year=302), wheat: 
       stage 10.0 harvest_ripe
                      biomass =        1766.15 (g/m^2)   lai          =   0.001 (m^2/m^2)
-                     stover N conc =     0.91 (%)     extractable sw =   39.44 (mm)
+                     stover N conc =     0.92 (%)     extractable sw =   39.44 (mm)
 30 October 1989(Day of year=303), manager: 
      Manager sending message :- wheat harvest
 30 October 1989(Day of year=303), wheat: 
@@ -348,9 +355,9 @@
       senesced above ground biomass (kg/ha) =     3748.8
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   60.5
-      grain N percent        =       2.51                     total N content (kg/ha)=     231.76
+      grain N percent        =       2.51                     total N content (kg/ha)=     232.29
       grain N uptake (kg/ha) =     135.41                     senesced N content (kg/ha)=   18.74
-      green N content (kg/ha)=      77.61                     dead N content (kg/ha) =       0.00
+      green N content (kg/ha)=      78.14                     dead N content (kg/ha) =       0.00
      
       stress indices for emergence
          water stress 1 =  0.000     nitrogen stress 1 =  0.026
@@ -374,7 +381,7 @@
      
      Crop harvested.
          tops residue =  12273.74 kg/ha
-         tops N       =  96.34 kg/ha
+         tops N       =  96.87 kg/ha
          root residue =  0.00 kg/ha
          root N       =  0.00 kg/ha
      
@@ -394,5 +401,6 @@
          straw N =           0.0 kg/ha
          root residue =   2965.8 kg/ha
          root N =           67.5 kg/ha
+         root P =            0.0 kg/ha
 31 December 1989(Day of year=365), clock: 
      Simulation is terminating due to end criteria being met.
