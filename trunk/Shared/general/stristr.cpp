@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include "stristr.h"
 #include <stdio.h>
-#include <cstring.h>
+#include <string.h>
 #include <ctype.h>
 
 char * stristr(const char *text_str, const char *srch_str)
