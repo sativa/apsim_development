@@ -6,6 +6,8 @@
 //---------------------------------------------------------------------------
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
    {
+   CoInitialize(NULL);
+
    try
       {
       if (_argc != 4)
@@ -32,6 +34,8 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
          Application->ShowException(&exception);
          }
       }
+
+   CoUninitialize();
    return 0;
    }
 //---------------------------------------------------------------------------

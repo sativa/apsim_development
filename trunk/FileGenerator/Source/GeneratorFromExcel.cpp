@@ -8,6 +8,7 @@
 #include <general\excel.h>
 #include <general\string_functions.h>
 #include <general\xml.h>
+#include <fstream>
 
 #pragma package(smart_init)
 #pragma link "Excel_2K_SRVR"
@@ -36,7 +37,6 @@ bool parseSpreadsheetTable(XMLNode& node,
    if (macroNames.size() > 0 && macroNames[0] != "")
       {
       string macroName = macroNames[0];
-      XMLNode macroNode = node.appendChild(macroName);
       row++;
       vector<string> fieldNames;
       getXLSRow(worksheet, row, fieldNames);
@@ -47,6 +47,7 @@ bool parseSpreadsheetTable(XMLNode& node,
              && fieldValues.size() > 0
              && fieldValues[0] != "")
          {
+         XMLNode macroNode = node.appendChild(macroName, true);
          for (unsigned col = 0; col != fieldValues.size(); col++)
             {
             if (fieldNames[col] != "")
@@ -68,8 +69,6 @@ void GeneratorFromExcel::go(const std::string& xlsFileName,
    {
    // change the working directory to the dir of the xls file.
    SetCurrentDir(ExtractFileDir(xlsFileName.c_str()));
-
-   CoInitialize(NULL);
 
    TExcelApplication* excelApp;
    ExcelWorksheetPtr worksheet;
@@ -130,15 +129,14 @@ void GeneratorFromExcel::go(const std::string& xlsFileName,
    // generate all files.
    vector<string> filesGenerated;
    Macro macro;
-   macro.go(xml.documentElement(), contents.str(), filesGenerated);
+   XMLNode root = xml.documentElement();
+   macro.go(root, contents.str(), filesGenerated);
 
    // display a message box showing which files have been generated.
    string msg;
    Build_string(filesGenerated, ", ", msg);
    msg = "Files generated: " + msg;
    ::MessageBox(NULL, msg.c_str(), "Information", MB_ICONINFORMATION | MB_OK);
-
-   CoUninitialize();
    }
 
 
