@@ -152,7 +152,7 @@
 !      dll_export crop_top_residue
       use ConstantsModule            ! all_active_modules
       use convertmodule
-      use errorModule                  
+      use errorModule
       use ComponentInterfaceModule
       implicit none
 
@@ -208,6 +208,90 @@
       endif
 
       call pop_routine (my_name)
+      return
+      end subroutine
+
+* ====================================================================
+      subroutine Send_Crop_Chopped_Event (crop_type                    &
+                                                , dm_type              &
+                                                , dlt_crop_dm          &
+                                                , dlt_dm_n             &
+                                                , fraction_to_Residue  &
+                                                , max_part)
+* ====================================================================
+      use ConstantsModule            ! all_active_modules
+      use convertmodule
+      use errorModule
+      use ComponentInterfaceModule
+      implicit none
+
+*+  Sub-Program Arguments
+      character  crop_type*(*)              ! (INPUT) crop type
+      character  dm_type(*)*(*)             ! (INPUT) residue type
+      real  dlt_crop_dm(*)                  ! (INPUT) residue weight (kg/ha)
+      real  dlt_dm_n(*)                     ! (INPUT) residue N weight (kg/ha)
+      real  fraction_to_Residue(*)          ! (INPUT) residue fraction to residue (0-1)
+      integer max_part                      ! (INPUT) number of residue types
+*+  Purpose
+*     Notify other modules of crop chopped.
+
+*+  Mission Statement
+*     Notify other modules of crop chopped.
+
+*+  Changes
+*   070999 jngh - Programmed and Specified
+*   190901 jngh - corrected dm_type to array
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'Send_Crop_Chopped_Event')
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      call new_postbox ()
+
+         ! send message regardless of fatal error - will stop anyway
+
+
+!cjh      write(*,*) 'plant: '//EVENT_Crop_Chopped
+!cjh      write(*,*) 'plant: '//DATA_crop_type
+!cjh     :               , ' '//crop_type
+!cjh      write(*,*) 'plant: '//DATA_dm_type
+!cjh     :               , ' '//dm_type
+!cjh      write(*,*) 'plant: '//DATA_dlt_crop_dm
+!cjh     :               , dlt_crop_dm
+!cjh      write(*,*) 'plant: '//DATA_dlt_dm_n
+!cjh     :               , dlt_dm_n
+!cjh      write(*,*) 'plant: '//DATA_fraction_to_Residue
+!cjh     :               , fraction_to_Residue
+
+      call post_char_var   (DATA_crop_type  &
+                             ,'()'         &
+                             , crop_type)
+      call post_char_array (DATA_dm_type    &
+                             ,'()'         &
+                             , dm_type     &
+                             , max_part)
+      call post_real_array (DATA_dlt_crop_dm  &
+                             ,'(kg/ha)'      &
+                             , dlt_crop_dm   &
+                             , max_part)
+      call post_real_array (DATA_dlt_dm_n     &
+                             ,'(kg/ha)'      &
+                             , dlt_dm_n      &
+                             , max_part)
+      call post_real_array (DATA_fraction_to_Residue   &
+                             ,'()'                    &
+                             , fraction_to_Residue    &
+                             , max_part)
+
+      call event_send (EVENT_Crop_Chopped)
+
+      call delete_postbox ()
+
+
+      call pop_routine (myname)
       return
       end subroutine
 
