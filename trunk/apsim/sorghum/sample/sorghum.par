@@ -1,30 +1,30 @@
 [sample.report.parameters]  
-title =  sorghum Sample Simulation   
-screen_output =  on   
-outputfile =  sorghum.out /overwrite   
-summaryfile =  sorghum.sum /overwrite   
-
-module_names =   clock  clock
-variable_names = year    today.dd/mm/yyyy
-variable_alias = -       -    
-
-module_names =    sorghum sorghum sorghum sorghum  sorghum sorghum     sorghum       sorghum      sorghum       sorghum
-variable_names =  das     stage   lai     biomass  yield   biomass_n   swdef_expan   nfact_expan  swdef_pheno   nfact_pheno
-variable_alias =  -       -       -       -        -       -           -             -            -             -
-units =           -       -       -       -        -       -           -             -            -             -            
-
-module_names =    sorghum      sorghum      sorghum  sorghum
-variable_names =  dlt_dm_light dlt_dm_water dlt_dm   extinct_coeff
-variable_alias =  -            -            -        -
-units =           -            -            -        -
+outputfile =sorghum.out   
 
 
+
+
+
+variable = clock.year
+variable = clock.today.dd/mm/yyyy
+variable = sorghum.das
+variable = sorghum.stage
+variable = sorghum.lai
+variable = sorghum.biomass
+variable = sorghum.yield
+variable = sorghum.biomass_n
+variable = sorghum.swdef_expan
+variable = sorghum.nfact_expan
+variable = sorghum.swdef_pheno
+variable = sorghum.nfact_pheno
+variable = sorghum.dlt_dm_light
+variable = sorghum.dlt_dm_water
+variable = sorghum.dlt_dm
+variable = sorghum.extinct_coeff
 [sample.clock.parameters]  
 ! Start and end date of run (day number of year and year)
-simulation_start_day  =  300   
-simulation_start_year = 1989   
-simulation_end_day    =   50   
-simulation_end_year   = 1990   
+start_date=27/10/1989     ! dd/mm/yyyy
+end_date=19/2/1990     ! dd/mm/yyyy
 
 [sample.manager.start_of_day]  
 
