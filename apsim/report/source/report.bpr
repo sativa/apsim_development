@@ -4,19 +4,17 @@
   <MACROS>
     <VERSION value="BCB.05.03"/>
     <PROJECT value="report.dll"/>
-    <OBJFILES value="report.obj ReportComponent.obj k:\general\string_functions.obj 
-      ..\..\infra\protocol\EventInterface.obj 
-      ..\..\infra\engine\APSIMComponent.obj"/>
+    <OBJFILES value="report.obj ReportComponent.obj ..\..\infra\engine\APSIMComponent.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
-    <LIBFILES value="..\..\infra\engine\APSIMEngine.lib aps32.lib general.lib"/>
+    <LIBFILES value="..\..\infra\engine\APSIMEngine.lib aps32.lib general.lib protocol.lib"/>
     <LIBRARIES value=""/>
     <SPARELIBS value="vcl50.lib"/>
     <PACKAGES value="vcl50.bpi vclx50.bpi vcljpg50.bpi ibsmp50.bpi vcldb50.bpi vclbde50.bpi 
       bcbsmp50.bpi vcldbx50.bpi dclocx50.bpi qrpt50.bpi nmfast50.bpi"/>
-    <PATHCPP value=".;k:\general\;..\..\infra\protocol;..\..\infra\engine"/>
+    <PATHCPP value=".;..\..\infra\engine"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>

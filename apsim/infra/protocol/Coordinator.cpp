@@ -507,12 +507,12 @@ void PROTOCOLCoordinator::broadcastMessage(PROTOCOLMessage& event) const
 // ------------------------------------------------------------------
 bool PROTOCOLCoordinator::sendMessageToFirst(PROTOCOLMessage& event)
    {
-   componentResponded = false;
+   setComponentResponded(false);
    ComponentList::iterator initialComponent = previousComponent;
    do
       {
       IL->sendMessage(PROTOCOLTransportAddress(*previousComponent), event);
-      if (!componentResponded)
+      if (!getComponentResponded())
          {
          previousComponent++;
          if (previousComponent == components.end())
@@ -520,8 +520,8 @@ bool PROTOCOLCoordinator::sendMessageToFirst(PROTOCOLMessage& event)
          }
       }
    while (previousComponent != initialComponent &&
-          !componentResponded);
-   return componentResponded;
+          !getComponentResponded());
+   return getComponentResponded();
    }
 
 // ------------------------------------------------------------------
@@ -919,7 +919,7 @@ bool PROTOCOLCoordinator::getVariable(const FString& componentName,
    {
    try
       {
-      componentResponded = false;
+      setComponentResponded(false);
       unsigned posArray = variableName.find('(');
       bool ok;
       if (posArray != std::string::npos)
@@ -928,7 +928,7 @@ bool PROTOCOLCoordinator::getVariable(const FString& componentName,
       else
          ok = sendMessage
             (componentName, PROTOCOLMessage("get", variableName));
-      return (ok && componentResponded);
+      return (ok && getComponentResponded());
       }
    catch (std::string& msg)
       {

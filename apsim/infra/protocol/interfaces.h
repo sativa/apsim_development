@@ -88,7 +88,7 @@ class IComponent /* : public ICompABS */
 //    dph 22/2/2000
 
 // ------------------------------------------------------------------
-class ICoordinator : virtual public IComponent
+class PROTOCOL_EXPORT ICoordinator : virtual public IComponent
    {
    public:
       virtual ~ICoordinator(void) { };
@@ -116,12 +116,12 @@ class ICoordinator : virtual public IComponent
                                            FString& componentName) = 0;
 
       // APSIM kludge - used for getvariable and setvariable - remove!
-      static bool componentResponded;
+      void setComponentResponded(bool responded);
+      bool getComponentResponded(void);
 
       // reorder the component's - used for competition.
       // will eventually be removed.
       virtual void changeComponentOrder(std::vector<std::string>& componentsToChange) = 0;
-
 
    };
 
