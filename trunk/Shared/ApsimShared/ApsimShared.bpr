@@ -10,11 +10,13 @@
       ApsimSystemData.obj ApsimVersion.obj TAboutForm.obj TSplashForm.obj 
       ApsimForms.obj ApsimDataFile.obj ApsimDataTypesFile.obj 
       ApsimDataTypeData.obj ApsimRegistrationData.obj ControlFileConverter.obj 
-      TMoveParametersForm.obj SimCreator.obj StarUtils.obj"/>
+      TMoveParametersForm.obj SimCreator.obj StarUtils.obj ApsimMacroFile.obj"/>
     <RESFILES value="ApsimShared.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TAboutForm.dfm TSplashForm.dfm TMoveParametersForm.dfm"/>
-    <LIBFILES value="..\general\general.lib &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib&quot;"/>
+    <LIBFILES value="..\general\general.lib 
+      &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib&quot; 
+      &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib&quot;"/>
     <LIBRARIES value="xmlrtl.lib TMSC6.lib"/>
     <SPARELIBS value="vcl.lib rtl.lib TMSC6.lib vclx.lib dbrtl.lib vcldb.lib xmlrtl.lib"/>
     <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi adortl.bpi vcldb.bpi 
@@ -32,8 +34,8 @@
     <USERDEFINES value=""/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="ApsimShared.bpf"/>
-    <INCLUDEPATH value="..\..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)"/>
-    <LIBPATH value="&quot;C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Lib&quot;;..\..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms"/>
+    <INCLUDEPATH value="&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;..\..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)"/>
+    <LIBPATH value="&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;&quot;C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Lib&quot;;..\..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -79,6 +81,8 @@
       <FILE FILENAME="SimCreator.cpp" FORMNAME="" UNITNAME="SimCreator" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib" FORMNAME="" UNITNAME="filesystem.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="StarUtils.cpp" FORMNAME="" UNITNAME="StarUtils" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ApsimMacroFile.cpp" FORMNAME="" UNITNAME="ApsimMacroFile" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib" FORMNAME="" UNITNAME="date_time.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
