@@ -590,14 +590,13 @@ void Plant::doRegistrations(void)
 
    setupGetFunction("n_conc_grain", protocol::DTsingle, 1,
                     &Plant::get_n_conc_grain, "%", "N concentration in grain");
-///????XXXX
-//   setupGetFunction("n_grain_pcnt", protocol::DTsingle, 1,
-//                    &Plant::get_n_grain_pcnt,
-//                          "%", "N concentration in grain");
+   setupGetFunction("n_grain_pcnt", protocol::DTsingle, 1,
+                    &Plant::get_n_conc_grain,
+                          "%", "N concentration in grain");
 
-//   setupGetFunction("grain_protein", protocol::DTsingle, 1,
-//                          &Plant::get_n_conc_grain,
-//                          "%", "grain protein content");
+   setupGetFunction("grain_protein", protocol::DTsingle, 1,
+                          &Plant::get_grain_protein,
+                          "%", "grain protein content");
 
    setupGetFunction("n_conc_meal", protocol::DTsingle, 1,
                     &Plant::get_n_conc_meal, "%", "meal N content");
@@ -3031,7 +3030,7 @@ void Plant::plant_nit_uptake (int option/* (INPUT) option number*/)
                         , g.no3gsm_uptake_pot
                         , g.n_fix_pot
                         , c.n_supply_preference.c_str()
-                        , g.n_demand
+                        , g.soil_n_demand
                         , g.n_max
                         , max_part
                         , g.root_depth
@@ -3711,6 +3710,15 @@ void Plant::plant_phenology (int   option/*(INPUT) option number*/)
         {
         fatal_error (&err_internal, "invalid template option");
         }
+
+    if (sum_real_array(g.days_tot, max_stage) > 0)
+    {
+       g.das += 1;
+    }
+    else
+    {
+       g.das = 0;
+    }
 
     pop_routine (my_name);
     return;
@@ -9633,6 +9641,7 @@ void Plant::plant_zero_all_globals (void)
       g.current_stage=0;
       g.previous_stage=0;
       fill_real_array (g.days_tot , 0, max_stage);
+      g.das=0;
       g.dlt_canopy_height=0;
       g.canopy_height=0;
       g.dlt_canopy_width=0;
@@ -10230,6 +10239,7 @@ void Plant::plant_zero_variables (void)
     g.flowering_das         = 0;
     g.maturity_date         = 0;
     g.maturity_das          = 0;
+    g.das                   = 0;
     g.lai_max               = 0.0;
 
     g.previous_stage        = 0.0;
@@ -13769,8 +13779,7 @@ void Plant::get_crop_type(protocol::Component *system, protocol::QueryValueData 
 
 void Plant::get_das(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    int das = floor(sum_real_array(g.days_tot, max_stage)+0.5);  // Nearest int
-    system->sendVariable(qd, das);
+    system->sendVariable(qd, g.das);
 }
 
 
