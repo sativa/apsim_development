@@ -1,0 +1,13 @@
+[general]
+name = input module
+
+[Binaries]
+binary=input
+
+[input]
+compiler_switches = %apsuite\apsim\infra\lf90.fig
+source  = source\input.for
+target  = lib\input.dll
+include = %apsuite\apsim\infra\
+
+import  = %apsuite\apsim\infra\lib\APSinfra.imp
