@@ -1331,7 +1331,7 @@
 !   "leafy" etc, components of itself.
    <type name="SurfaceOrganicMatter" array="T">
       <element>
-      <field name="name" kind="string"/>
+      <field name="Name" kind="string"/>
       <field name="OrganicMatterType" kind="string"/>
       <field name="PotDecompRate" kind="single" units="day^-1"/>
       <field name="StandingFraction" array="T">
@@ -1342,6 +1342,7 @@
          <field name="P"       kind="single" units="kg/ha"/>
          <field name="AshAlk"  kind="single" units="kg/ha"/>
          </element>
+      </field>
       <field name="LyingFraction" array="T">
          <element>
          <field name="amount"  kind="single" units="kg/ha"/>
