@@ -20,7 +20,7 @@
      Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\ozcot\lib\ozcot.dll
 
@@ -86,7 +86,7 @@
        endif
        if (today = date('20-jul')) then
         soilwat2 reset
-        residue2 reset
+        surfaceom reset
         soilwat2 set sw =  0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
        endif
      
@@ -159,9 +159,9 @@
            endif
            if (crop_in = 0 and ready_to_till_pre_sow = 1) then
               if ('disc' = 'user_defined') then
-                  residue2 tillage type = disc, f_incorp = 0 (), tillage_depth = 0
+                  surfaceom tillage type = disc, f_incorp = 0 (), tillage_depth = 0
               else
-                  residue2 tillage type = disc ()
+                  surfaceom tillage type = disc ()
               endif
               ready_to_till_pre_sow = 0
               till_day_pre_sow = 0
@@ -281,30 +281,29 @@
             CONA:                     3.50 ()
            Eo from priestly-taylor
 
-------- residue2 Initialisation -----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-               500.0     2.6     0.0  sorghum
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100    76.0     0.0       F       no
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -407,12 +406,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1960(Day of year=202), manager: 
-     Manager sending message :- residue2 reset
-20 July 1960(Day of year=202), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1960(Day of year=202), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1960(Day of year=202), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 1 September 1960(Day of year=245), manager: 
@@ -528,12 +545,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1961(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1961(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1961(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1961(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 12 November 1961(Day of year=316), manager: 
@@ -648,12 +683,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1962(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1962(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1962(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1962(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 29 May 1963(Day of year=149), manager: 
@@ -679,12 +732,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1963(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1963(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1963(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1963(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 29 May 1964(Day of year=150), manager: 
@@ -710,12 +781,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1964(Day of year=202), manager: 
-     Manager sending message :- residue2 reset
-20 July 1964(Day of year=202), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1964(Day of year=202), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1964(Day of year=202), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 28 September 1964(Day of year=272), manager: 
@@ -829,12 +918,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1965(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1965(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1965(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1965(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 29 May 1966(Day of year=149), manager: 
@@ -860,12 +967,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1966(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1966(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1966(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1966(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 29 May 1967(Day of year=149), manager: 
@@ -891,12 +1016,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1967(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1967(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1967(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1967(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 29 May 1968(Day of year=150), manager: 
@@ -922,12 +1065,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1968(Day of year=202), manager: 
-     Manager sending message :- residue2 reset
-20 July 1968(Day of year=202), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1968(Day of year=202), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1968(Day of year=202), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 29 May 1969(Day of year=149), manager: 
@@ -953,12 +1114,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1969(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1969(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1969(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1969(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 8 September 1969(Day of year=251), manager: 
@@ -1072,12 +1251,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1970(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1970(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1970(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1970(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 22 October 1970(Day of year=295), manager: 
@@ -1193,12 +1390,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1971(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1971(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1971(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1971(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 15 October 1971(Day of year=288), manager: 
@@ -1262,10 +1477,10 @@
      
       Days after sowing      =    206
       bolls/m2               =  42.01        Lint (kg/ha)           =      677.5
-      N uptake (kg/ha)       =  97.26        bolls sc (g/boll)      =        3.8
+      N uptake (kg/ha)       =  97.27        bolls sc (g/boll)      =        3.8
       max squares das (days) =    105        max lai das (days)     =    151
       maximum squares/m2     =  65.55        maximum lai (m2/m2)    =  0.846
-      total above ground biomass (kg/ha) =     4220.0
+      total above ground biomass (kg/ha) =     4220.6
 9 May 1972(Day of year=130), ozcot: 
      Initialising
      
@@ -1315,12 +1530,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1972(Day of year=202), manager: 
-     Manager sending message :- residue2 reset
-20 July 1972(Day of year=202), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1972(Day of year=202), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1972(Day of year=202), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 29 October 1972(Day of year=303), manager: 
@@ -1437,12 +1670,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1973(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1973(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1973(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1973(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 6 November 1973(Day of year=310), manager: 
@@ -1559,12 +1810,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1974(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1974(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1974(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1974(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 15 October 1974(Day of year=288), manager: 
@@ -1681,12 +1950,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1975(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1975(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1975(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1975(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 2 September 1975(Day of year=245), manager: 
@@ -1805,12 +2092,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1976(Day of year=202), manager: 
-     Manager sending message :- residue2 reset
-20 July 1976(Day of year=202), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1976(Day of year=202), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1976(Day of year=202), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 20 September 1976(Day of year=264), manager: 
@@ -1871,10 +2176,10 @@
      
       Days after sowing      =    181
       bolls/m2               =  18.63        Lint (kg/ha)           =      349.1
-      N uptake (kg/ha)       =  53.29        bolls sc (g/boll)      =        4.5
+      N uptake (kg/ha)       =  53.32        bolls sc (g/boll)      =        4.5
       max squares das (days) =    101        max lai das (days)     =    118
       maximum squares/m2     =  48.66        maximum lai (m2/m2)    =  0.281
-      total above ground biomass (kg/ha) =     2537.6
+      total above ground biomass (kg/ha) =     2538.7
 21 March 1977(Day of year=80), ozcot: 
      Initialising
      
@@ -1924,12 +2229,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1977(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1977(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1977(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1977(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 27 October 1977(Day of year=300), manager: 
@@ -2043,12 +2366,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1978(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1978(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1978(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1978(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 6 September 1978(Day of year=249), manager: 
@@ -2112,7 +2453,7 @@
       N uptake (kg/ha)       =  67.41        bolls sc (g/boll)      =        4.6
       max squares das (days) =    129        max lai das (days)     =    148
       maximum squares/m2     =  59.19        maximum lai (m2/m2)    =  0.465
-      total above ground biomass (kg/ha) =     3012.7
+      total above ground biomass (kg/ha) =     3012.8
 3 May 1979(Day of year=123), ozcot: 
      Initialising
      
@@ -2162,12 +2503,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1979(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1979(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1979(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1979(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 14 November 1979(Day of year=318), manager: 
@@ -2281,12 +2640,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1980(Day of year=202), manager: 
-     Manager sending message :- residue2 reset
-20 July 1980(Day of year=202), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1980(Day of year=202), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1980(Day of year=202), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 16 October 1980(Day of year=290), manager: 
@@ -2400,12 +2777,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1981(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1981(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1981(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1981(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 4 November 1981(Day of year=308), manager: 
@@ -2522,12 +2917,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1982(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1982(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1982(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1982(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 29 May 1983(Day of year=149), manager: 
@@ -2553,12 +2966,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1983(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1983(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1983(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1983(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 15 October 1983(Day of year=288), manager: 
@@ -2674,12 +3105,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1984(Day of year=202), manager: 
-     Manager sending message :- residue2 reset
-20 July 1984(Day of year=202), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1984(Day of year=202), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1984(Day of year=202), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 2 November 1984(Day of year=307), manager: 
@@ -2743,10 +3192,10 @@
      
       Days after sowing      =    163
       bolls/m2               =  41.97        Lint (kg/ha)           =      850.2
-      N uptake (kg/ha)       =  96.60        bolls sc (g/boll)      =        4.8
+      N uptake (kg/ha)       =  96.72        bolls sc (g/boll)      =        4.8
       max squares das (days) =     82        max lai das (days)     =    112
       maximum squares/m2     =  65.17        maximum lai (m2/m2)    =  0.662
-      total above ground biomass (kg/ha) =     4279.5
+      total above ground biomass (kg/ha) =     4285.8
 15 April 1985(Day of year=105), ozcot: 
      Initialising
      
@@ -2796,12 +3245,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1985(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1985(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1985(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1985(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 2 September 1985(Day of year=245), manager: 
@@ -2915,12 +3382,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1986(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1986(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1986(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1986(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 24 October 1986(Day of year=297), manager: 
@@ -3034,12 +3519,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1987(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1987(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1987(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1987(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 18 October 1987(Day of year=291), manager: 
@@ -3158,12 +3661,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1988(Day of year=202), manager: 
-     Manager sending message :- residue2 reset
-20 July 1988(Day of year=202), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1988(Day of year=202), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1988(Day of year=202), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 29 May 1989(Day of year=149), manager: 
@@ -3189,12 +3710,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1989(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1989(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1989(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1989(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 27 October 1989(Day of year=300), manager: 
@@ -3313,12 +3852,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1990(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1990(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1990(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1990(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 11 October 1990(Day of year=284), manager: 
@@ -3432,12 +3989,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1991(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1991(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1991(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1991(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 29 May 1992(Day of year=150), manager: 
@@ -3463,12 +4038,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1992(Day of year=202), manager: 
-     Manager sending message :- residue2 reset
-20 July 1992(Day of year=202), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1992(Day of year=202), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1992(Day of year=202), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 7 November 1992(Day of year=312), manager: 
@@ -3582,12 +4175,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1993(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1993(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1993(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1993(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 29 May 1994(Day of year=149), manager: 
@@ -3613,12 +4224,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1994(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1994(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1994(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1994(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 29 May 1995(Day of year=149), manager: 
@@ -3644,12 +4273,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1995(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1995(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1995(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1995(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 28 October 1995(Day of year=301), manager: 
@@ -3763,12 +4410,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1996(Day of year=202), manager: 
-     Manager sending message :- residue2 reset
-20 July 1996(Day of year=202), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1996(Day of year=202), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1996(Day of year=202), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 29 May 1997(Day of year=149), manager: 
@@ -3794,12 +4459,30 @@
      the insoil parameter which is between 0 and 1
      Initial soilwater distributed evenly using "insoil" parameter.
 20 July 1997(Day of year=201), manager: 
-     Manager sending message :- residue2 reset
-20 July 1997(Day of year=201), residue2: 
+     Manager sending message :- surfaceom reset
+20 July 1997(Day of year=201), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
+     
+     
 20 July 1997(Day of year=201), manager: 
      Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
 9 October 1997(Day of year=282), manager: 

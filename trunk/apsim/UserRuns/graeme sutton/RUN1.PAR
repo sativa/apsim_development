@@ -127,12 +127,11 @@ variable = ozcot.yield as oz_yield
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  residue  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-[run1.residue2.parameters]
+[run1.SurfaceOM.parameters]
 
-   pot_decomp_rate   =    0.10  ()
-   residue_wt        =  500.0   ()  ! surface residues as biomass (kg/ha)
-   residue_cnr       =  76.0   ()  ! cn ratio of surface residues
-   residue_type      =  sorghum
+mass = 500.0   ()  ! surface residues as biomass (kg/ha)
+cnr = 76.0   ()  ! cn ratio of surface residues
+type = sorghum
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  ozcot  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -140,6 +139,7 @@ variable = ozcot.yield as oz_yield
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  accum  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+name = sorghum
 [run1.accum.parameters]
 
 Accum_variables = rain[10]

@@ -71,7 +71,7 @@ cotton = 'cotton'
 
   if (today = date('20-Jul')) then
    soilwat2 reset
-   residue2 reset
+   surfaceom reset
    soilwat2 set sw =  0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
   endif
 
@@ -176,9 +176,9 @@ if (next_crop = cotton OR next_crop = blank) then
       if (crop_in = 0 and ready_to_till_pre_sow = 1) then
          ! tillage
          if ('disc' = 'user_defined') then
-             residue2 tillage type = disc, f_incorp = 0 (), tillage_depth = 0
+             surfaceom tillage type = disc, f_incorp = 0 (), tillage_depth = 0
          else
-             residue2 tillage type = disc ()
+             surfaceom tillage type = disc ()
          endif
          ready_to_till_pre_sow = 0
          till_day_pre_sow = 0
