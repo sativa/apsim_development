@@ -592,43 +592,96 @@ c     endif
       include   'error.pub'
 
 *+  Local Variables
-      REAL RB,RD,RL,PSI,TR,ttav,HV,tt
-      REAL RB0
-      REAL P0,PPSI,SF2,SB2,SB1,ALPHA1,BETA2
-      REAL IPSI,PAV,IAV,RHO1,RHO2,TAU2
-      REAL B1,ED1,EU1,EU2,ES1,ES2,EL1,EL2
-      REAL HS1,HS2,RC1,RC2,TC1,TC2,Gg,PHI
-      REAL H1,H2,J11,J12,J21,J22,DJ,DTC1,DTC2
-      REAL YEFF,F1,F2,F
-      real x1, x2, x3, x4
-      real wattm2
-      real tempm
+      real A1        ! area of soil surface elements (m2/m2)
+      real A1        ! area of mulch elements (both sides) (m2/m2)
+      REAL RB        ! incoming solar beam shortwave radiation flux (W/m2)
+      real RD        ! incoming diffuse shortwave radiation flux (W/m2)
+      real RL        ! incoming longwave radiation flux (W/m2)
+      real PSI       ! the angle between the solar beam and the vertical (rad)
+      real TR        ! air temperature at reference height (K, oC)
+      real ttav      ! average of idealised sinusoidal soil surface temperature (K, oC)
+      real HV        ! latent heat flux up from soil surface due to water vapour (W/m2)
+      real tt        ! time after midday (s)
+      REAL RB0       ! RB at t=0
+      REAL P0        ! P(0)
+      real PPSI      ! proportion of radiation from direction PSI which penetrates mulch without interception (-)
+      real SF2       ! proportion of intercepted shortwave radiation scattered forward by the mulch (-)
+      real SB2       ! proportion of intercepted shortwave radiation scattered backward by the mulch (-)
+      real SB1       ! proportion of intercepted shortwave radiation scattered backward by the soil surface (-)
+      real ALPHA1    ! coefficient in the equations for thermal resistance RC1 to heat transfer by free convection from soil surface and mulch (W/m2/K(4/3)
+      real BETA2     ! coefficient in the equations for thermal resistance RC2 to heat transfer by free convection from soil surface and mulch (W/m2/K(5/4)
+      REAL IPSI      ! proportion of radiation from direction PSI intercepted by mulch (-) 
+      real PAV       ! proportion of diffuse radiation which penetrates the mulch without interception (-)
+      real IAV       ! proportion of diffuse radiation intercepted by mulch (-)
+      real RHO1      ! reflection coefficient of soil surface and mulch for diffuse shortwave radiation (-)
+      real RHO2      ! reflection coefficient of soil surface and mulch for diffuse shortwave radiation (-)
+      real TAU2      ! transmission coefficient of mulch for diffuse shortwave radiation (-)
+      REAL B1        ! unintercepted solar beam shortwave radiation flux just above soil surface (W/m2)
+      real ED1       ! downward diffuse shortwave radiation flux just above soil surface (W/m2)
+      real EU1       ! upward diffuse shortwave radiation fluxes just above soil durface and mulch (W/m2)
+      real EU2       ! upward diffuse shortwave radiation fluxes just above soil durface and mulch (W/m2)
+      real ES1       ! net shortwave radiation fluxes absorbed by soil surface and mulch (W/m2)
+      real ES2       ! net shortwave radiation fluxes absorbed by soil surface and mulch (W/m2)
+      real EL1       ! net longwave radiation fluxes absorbed by soil surface and mulch (W/m2)
+      real EL2       ! net longwave radiation fluxes absorbed by soil surface and mulch (W/m2)
+      REAL HS1       ! sensible heat fluxes from soil surface and mulch to air due to convection (W/m2)
+      real HS2       ! sensible heat fluxes from soil surface and mulch to air due to convection (W/m2)
+      real RC1       ! soil surface and mulch canopy average boundary layer resistances to sensible heat transfer (K m2/W)
+      real RC2       ! soil surface and mulch canopy average boundary layer resistances to sensible heat transfer (K m2/W)
+      real TC1       ! soil surface temperature (K, oC)
+      real TC2       ! mulch temperature (K, oC)
+      real Gg        ! heat flux into the soil (W/m2)
+      real PHI       ! phase angle of idealized sinusoidal soil surface temperature (rad)
+      REAL H1        ! net heat fluxes at soil surface and mulch (W/m2)
+      real H2        ! net heat fluxes at soil surface and mulch (W/m2)
+      real J11       ! partial derivative (W/m2/K)
+      real J12       ! partial derivative (W/m2/K)
+      real J21       ! partial derivative (W/m2/K)
+      real J22       ! partial derivative (W/m2/K)
+      real DJ        ! determinant of matrix (W2/m4/K2)
+      real DTC1      ! 
+      real DTC2
+      REAL YEFF      ! 
+      real F1        ! auxiliary variables ()
+      real F2        ! auxiliary variables ()
+      real F         ! auxiliary variables ()
+      real x1
+      real  x2
+      real  x3
+      real  x4
+      real wattm2    ! incoming shortwave radiation (W/m2)
+      real tempm     ! average temperature (oC)
 
 *+  Constant Values
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'TC1MAX')
 
-      REAL SIGMA,PI,OMEGA,TZ
-
-      SIGMA = 5.67E-8
-      PI = 3.1415927
-      TZ = 273.16
-      OMEGA = 2.0*PI / 86400.0
+      REAL       SIGMA     ! Stefan-Boltzmann constant (W/m2/K4)
+      parameter (SIGMA = 5.67E-8)
+      real       PI        ! ratio of circumference to diameter of circle
+      parameter (PI = 3.1415927 )
+      real       OMEGA     ! daily angular frequency (rad/s)
+      parameter (OMEGA = 2.0*PI / 86400.0)
+      real       TZ        ! temperature freezing point (K)
+      parameter (TZ = 273.16)
+      real       w2        ! average width of mulch elements (m)
+      parameter (w2 = 0.02)
 
 *- Implementation Section ----------------------------------
 
       call push_routine(myname)
 
- 10   CONTINUE
-c
+      A1 = 1.0
+      A2 = 2.*g%estimated_lai
+
       wattm2 = 0.30*g%radn / 180.*698.
       rb0 = 0.85*wattm2
       rd = 0.15*wattm2
 c               rl calculated from Monteith 1973
       rl = 208. + 6.*g%maxt
-      p0 = exp(-g%estimated_lai*2. / 4.)
+      p0 = exp(-A2 / 4.)
       if (p0.eq.1.) p0 = 0.999
-      pav = exp(-g%estimated_lai*2. / 2.6)
+      pav = exp(-A2 / 2.6)
       if (pav.eq.1.) pav = 0.999
 c
       TR = g%maxt + TZ
@@ -639,8 +692,8 @@ c
       sf2 = 0.22
       sb2 = 0.20
       sb1 = 0.20
-      alpha1 = 1.70
-      beta2 = 1.4*2.*g%estimated_lai / 0.02**0.25
+      alpha1 = 1.70 * A1
+      beta2 = 1.4*A2 / w2**0.25
       if (beta2.le.22.) beta2 = 22.
 c
       call soilt ()
@@ -694,6 +747,7 @@ c
       DTC1 = (-J22*H1 + J12*H2) / DJ
       DTC2 = (J21*H1 - J11*H2) / DJ
       IF(ABS(H1) + ABS(H2).GT.0.01)GO TO 30
+
       X3 = PPSI*ALOG(PPSI)
       F1 = (1. - SB1)*(PPSI + SF2*IPSI - X3*(1. - SF2))
       F2 = (1. - SB2 - SF2)*(IPSI + IAV*SB1*PPSI + X3*(1. - IAV*SB1))
@@ -723,8 +777,20 @@ c
       include   'error.pub'
 
 *+  Local Variables
-      REAL Z,VWC,Cc,K,fun_A,fun_M,ll
-      COMPLEX YS1,Y,RG,RT,SRG(100),SRT(100),CN
+      REAL Z
+      real VWC
+      real Cc
+      real K
+      real fun_A
+      real fun_M
+      real ll
+      COMPLEX YS1
+      COMPLEX Y
+      COMPLEX RG
+      COMPLEX RT
+      COMPLEX SRG(100)
+      COMPLEX SRT(100)
+      COMPLEX CN
       integer nj
       integer i
       integer j
@@ -797,7 +863,9 @@ c
       include   'error.pub'
       
 *+  Sub-Program Arguments
-      REAL VWC,C,K
+      REAL VWC
+      real C
+      real K
 
 *+  Local Variables
       real x
@@ -806,7 +874,10 @@ c
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'GETCK')
 
-      REAL C0,C1,K0,K1
+      REAL C0
+      real C1
+      real K0
+      real K1
       DATA C0,C1,K0,K1 / 1.4E6,4.18E6,.32,1.18 / 
 *- Implementation Section ----------------------------------
 
@@ -830,12 +901,23 @@ c
       include   'error.pub'
 
 *+  Sub-Program Arguments
-      REAL P,Z,C,K
-      COMPLEX YS1,Y,RG,RT
+      REAL P
+      real Z
+      real C
+      real K
+      COMPLEX YS1
+      COMPLEX Y
+      COMPLEX RG
+      COMPLEX RT
 
 *+  Local Variables
-      REAL W,D
-      COMPLEX YINF,R,SINH,COSH,TANH
+      REAL W
+      real D
+      COMPLEX YINF
+      COMPLEX R
+      COMPLEX SINH
+      COMPLEX COSH
+      COMPLEX TANH
 
 *+  Constant Values
       character  myname*(*)            ! name of subroutine
