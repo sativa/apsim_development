@@ -29,11 +29,6 @@
       !Read the crop type and sub-module switches
       call Read_Module_Switches()
 
-      if (c%crop_type .eq. 'sorghum' .OR.
-     :    c%crop_type .eq. 'maize') then
-         call Fatal_error (ERR_user,
-     :            'Please use standalone crop module')
-      endif
 !      PRINT *,"crop type is ", c%crop_type
 !      PRINT *
 
@@ -85,51 +80,50 @@
       !-----------------------------------------------------------
       call Write_string ( 'Sowing initiate')
 
-cjh      if (data_record.ne.blank) then
-
-         call collect_char_var ('cultivar', '()'
+      call collect_char_var ('cultivar', '()'
      :                        , cultivar, numvals)
 
-         call collect_real_var ('plants', '()'
+      call collect_real_var ('plants', '()'
      :                        , g%plants, numvals, 0.0, 400.0)
 
-         call collect_real_var (
+      call collect_real_var (
      :                          'sowing_depth', '(mm)'
      :                        , g%sowing_depth, numvals
      :                        , 0.0, 100.0)
 
-         call collect_real_var_optional (
+      call collect_real_var_optional (
      :                          'row_spacing', '(m)'
      :                        , g%row_spacing, numvals
      :                        , 0.0, 2.0)
 
-         if (numvals.eq.0) then
-            g%row_spacing = c%row_spacing_default
-         endif
+      if (numvals.eq.0) then
+          g%row_spacing = c%row_spacing_default
+      endif
 
+      g%skip_row = c%skip_row_default
       call collect_real_var_optional (
      :                         'skiprow', '()'
      :                        , g%skip_row, numvals
      :                        , 0.0, 2.0)
       if (numvals.eq.0) then
-         g%skip_row = c%skip_row_default
-      else
-      endif
-
-
- ! skiprow           gmcChange
-      call collect_char_var_optional ('skip', '()', skip, numvals)
-
-      if (numvals.eq.0) then
-         g%skip_row = c%skip_row_default
-      else
-         if (skip .eq. 'single') then
-            g%skip_row = 1.0
-         elseif (skip .eq. 'double') then
-            g%skip_row = 2.0
+         call collect_char_var_optional ('skip', '()', skip, numvals)
+         if (numvals.ne.0) then
+            if (skip .eq. 'single') then
+               g%skip_row = 1.0
+            elseif (skip .eq. 'double') then
+               g%skip_row = 2.0
+            elseif (skip .eq. 'solid') then
+               g%skip_row = 0.0
+            else
+               call warning_error (err_user, 'Dont know what skip='//
+     :         skip //'means.')
+               g%skip_row = 0.0
+            endif
          else
-            g%skip_row = 0.0
+            ! uses default value
          endif
+      else
+         ! uses collected value
       endif
 
       g%skip_row_fac = (2.0 + g%skip_row)/2.0

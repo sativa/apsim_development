@@ -2,7 +2,7 @@
       subroutine alloc_dealloc_instance(doAllocate)
 !     ===========================================================
       use CropModModule
-      implicit none  
+      implicit none
       ml_external alloc_dealloc_instance
 
 !+  Sub-Program Arguments
@@ -30,7 +30,7 @@
       subroutine Main (action, data_string)
 *=====================================================================
       use CropLibrary
-      Use infrastructure          
+      Use infrastructure
       Use CropModModule
       implicit none
       ml_external Main
@@ -63,6 +63,7 @@
       REAL    rue_max
       REAL    diff_radn_frac
       REAL    rue_diff_radn_modifier
+      character  module_name*(max_module_name_size)
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -78,6 +79,13 @@
          !Request and receive variables from owner-modules
          call Get_Other_Variables ()
 
+         call get_name (module_name)
+
+         if (module_name .eq. 'sorghum' .OR.
+     :       module_name .eq. 'maize') then
+             call Fatal_error (ERR_user,
+     :            'Please use standalone crop module')
+         endif
 
          !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 c         if (c%crop_type .eq. 'wheat') then

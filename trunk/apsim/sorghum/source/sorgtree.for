@@ -38,6 +38,25 @@ C     Last change:  E     6 Aug 2001   12:28 pm
      :                             ,g%root_depth
      :                             )
 
+      elseif (Option .eq. 3) then    ! skip
+         call cproc_root_depth3 (
+     :                              g%dlayer
+     :                             ,c%num_sw_ratio
+     :                             ,c%x_sw_ratio
+     :                             ,c%y_sw_fac_root
+     :                             ,g%dul_dep
+     :                             ,g%sw_dep
+     :                             ,p%ll_dep
+     :                             ,c%root_depth_rate
+     :                             ,g%current_stage
+     :                             ,p%xf
+     :                             ,g%row_spacing
+     :                             ,g%skip_row_fac
+     :                             ,g%dlt_root_front
+     :                             ,g%dlt_root_depth
+     :                             ,g%root_front
+     :                             ,g%root_depth
+     :                             )
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
@@ -138,6 +157,24 @@ C     Last change:  E     6 Aug 2001   12:28 pm
      :                ,g%num_layers
      :                ,g%root_depth
      :                ,p%kl
+     :                ,g%sw_avail
+     :                ,g%sw_avail_pot
+     :                ,g%sw_supply
+     :                )
+      elseif (Option .eq. 2) then      ! skip
+
+         call cproc_sw_supply2 (
+     :                 c%minsw
+     :                ,g%dlayer
+     :                ,p%ll_dep
+     :                ,g%dul_dep
+     :                ,g%sw_dep
+     :                ,g%num_layers
+     :                ,g%root_depth
+     :                ,g%root_front
+     :                ,p%kl
+     :                ,g%skip_row_fac
+     :                ,g%row_spacing
      :                ,g%sw_avail
      :                ,g%sw_avail_pot
      :                ,g%sw_supply
@@ -383,17 +420,24 @@ C     Last change:  E     6 Aug 2001   12:28 pm
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
-      if (Option .eq. 400) then
        extinct_coef = linear_interp_real (g%row_spacing
      :                                  ,c%x_row_spacing
      :                                  ,c%y_extinct_coef
      :                                  ,c%num_row_spacing)
 
-       g%cover_green = 1.0 - exp (-extinct_coef*g%lai)
+      if (Option .eq. 400) then
 
-       call crop_radn_int0(g%cover_green,
+         g%cover_green = 1.0 - exp (-extinct_coef*g%lai)
+
+         call crop_radn_int0(g%cover_green,
      :                     g%fr_intc_radn, g%radn, g%radn_int)
 
+      elseif (Option .eq. 2) then       !  Skip row gmc
+         g%cover_green =
+     :    divide(1.0 - exp(-extinct_coef*g%lai*g%skip_row_fac),
+     :                           g%skip_row_fac,0.0)
+         call crop_radn_int0(g%cover_green,
+     :                     g%fr_intc_radn, g%radn, g%radn_int)
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
@@ -2496,6 +2540,3 @@ c in maize
       call pop_routine (my_name)
       return
       end subroutine
-
-
-

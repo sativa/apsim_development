@@ -4577,3 +4577,561 @@ c################################################################
       return
       end subroutine
 * ====================================================================
+
+*     ===========================================================
+      real function getrootarea(Top,Bottom, RootLength, Dist)
+      Use infrastructure
+      implicit none
+
+      real Top,Bottom,RootLength,Dist
+
+      real SDepth
+      real TopArea,BottomArea,Theta,RootArea
+      TopArea=0
+      BottomArea=0
+c   // intersection of roots and Section
+
+      if(RootLength .le. Dist)then
+         SDepth = 0
+      else
+         SDepth = sqrt(RootLength*RootLength - Dist*Dist)
+      endif
+
+
+c   // Rectangle - SDepth past bottom of this area
+      if(SDepth .ge. Bottom) then
+         RootArea = (Bottom - Top) * Dist
+      else  !    // roots Past top
+         Theta = 2 * acos(max(Top,SDepth)/RootLength)
+         TopArea = ((RootLength*RootLength) / 2.0 *
+     :        (Theta - sin(Theta)))/2.0
+
+!      // bottom down
+         if(RootLength .gt. Bottom) then
+            Theta = 2 * acos(Bottom/RootLength);
+            BottomArea = (RootLength*RootLength) /2.0 *
+     :         (Theta - sin(Theta))/2.0
+
+         endif
+!      // rectangle
+         if(SDepth > Top)then
+            TopArea = TopArea + (SDepth - Top) * Dist
+         endif
+         RootArea = TopArea - BottomArea
+      endif
+      GetRootArea = RootArea
+      return
+      end function
+
+*     ===========================================================
+      real function rootproportioninlayer(Top,Bottom,RootLength,
+     :   LDist,RDist)
+      Use infrastructure
+      implicit none
+
+
+      real Top,Bottom,RootLength,LDist,RDist
+
+c   // LDist and RDist are the distances to the left and right sections
+c   // LDepth and RDepth are the intersections of the roots and the sections
+
+
+      real RootArea,SoilArea
+
+
+c   // roots not into this area yet
+      if(RootLength .le. Top)then
+         RootProportionInLayer = 0
+         return
+      endif
+
+      RootArea = GetRootArea(Top,Bottom,RootLength, RDist)   ! // Right side
+      RootArea = RootArea + GetRootArea(Top,Bottom,RootLength, LDist)  !  // Left Side
+      SoilArea = (RDist + LDist) * (Bottom - Top)
+      RootProportionInLayer =  RootArea / SoilArea
+      return
+      end function
+
+*     ===========================================================
+
+
+* ====================================================================
+       subroutine cproc_sw_supply2 (
+     :                            C_sw_lb
+     :                           ,G_dlayer
+     :                           ,P_ll_dep
+     :                           ,G_dul_dep
+     :                           ,G_sw_dep
+     :                           ,max_layer
+     :                           ,g_root_depth
+     :                           ,g_root_front
+     :                           ,p_kl
+     :                           ,g_skip
+     :                           ,g_row_spacing
+     :                           ,g_sw_avail
+     :                           ,g_sw_avail_pot
+     :                           ,g_sw_supply
+     :                           )
+* ====================================================================
+      Use Infrastructure
+      implicit none
+
+*+  Sub-Program Arguments
+      real    C_sw_lb            ! (INPUT)
+      real    G_dlayer (*)       ! (INPUT)
+      real    P_ll_dep (*)       ! (INPUT)
+      real    G_dul_dep (*)      ! (INPUT)
+      real    G_sw_dep (*)       ! (INPUT)
+      integer max_layer          ! (INPUT)
+      real    g_root_depth       ! (INPUT)
+      real    g_root_front
+      real    p_kl (*)           ! (INPUT)
+      real    g_sw_avail (*)     ! (OUTPUT)
+      real    g_sw_avail_pot (*) ! (OUTPUT)
+      real    g_sw_supply (*)    ! (OUTPUT)
+
+      real    g_row_spacing      !Skip Row GMC
+      real    g_skip
+
+*+  Purpose
+*     Calculate the crop water supply based on the KL approach.
+
+*+  Mission Statement
+*   Calculate today's soil water supply
+
+*+  Changes
+*     17-04-1998 - neilh - Programmed and Specified
+
+*+  Calls
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'cproc_sw_supply1')
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+         call crop_check_sw(C_sw_lb, G_dlayer, G_dul_dep, max_layer,
+     :        G_sw_dep, P_ll_dep)
+         call crop_sw_avail_pot(max_layer, G_dlayer, G_dul_dep,
+     :        G_root_depth, P_ll_dep, g_sw_avail_pot) ! potential extractable sw
+         call crop_sw_avail(max_layer, G_dlayer, G_root_depth, G_sw_dep,
+     :        P_ll_dep, g_sw_avail)       ! actual extractable sw (sw-ll)
+         call sorg_sw_supply(max_layer,G_dlayer,g_root_front,
+     :       G_root_depth,G_sw_dep,
+     :        P_kl, P_ll_dep,g_skip, g_row_spacing,g_sw_supply)
+
+      call pop_routine (myname)
+      return
+      end subroutine
+
+
+
+*     ===========================================================
+      subroutine sorg_sw_supply(num_layer, dlayer, root_front,
+     :              root_depth,sw_dep,
+     :                kl, ll_dep, skip, row_spacing,sw_supply)
+*     ===========================================================
+      Use Infrastructure
+      implicit none
+
+*+  Sub-Program Arguments
+      INTEGER    num_layer       ! (INPUT)  number of layers in profile
+      REAL       dlayer(*)       ! (INPUT)  thickness of soil layer I (mm)
+      REAL       root_front      ! (INPUT)  depth of roots (mm)
+      real       root_depth
+      REAL       sw_dep(*)       ! (INPUT)  soil water content of layer L (mm)
+      REAL       kl(*)           ! (INPUT)  root length density factor for water
+      REAL       ll_dep(*)       ! (INPUT)  lower limit of plant-extractable soi
+      real       sw_supply(*)    ! (OUTPUT) potential crop water uptake
+                                 ! from each layer (mm) (supply to roots)
+      real       row_spacing      !Skip Row GMC
+      real       skip
+*+  Purpose
+*       Return potential water uptake from each layer of the soil profile
+*       by the crop (mm water). Row Spacing and configuration (skip) are used
+*        to calculate semicircular root front to give proportion of the
+*        layer occupied by the roots. This fraction is applied to the supply
+
+*+  Mission Statement
+*   Calculate today's soil water supply
+
+*+  Notes
+*      This code still allows water above dul to be taken - cnh
+
+*+  Changes
+*       010994 jngh specified and programmed - adapted from barley
+*       970216 slw generalised to avoid common blocks, added num_layer
+
+*+  Constant Values
+      character  my_name*(*)     ! name of procedure
+      parameter (my_name = 'sorg_sw_supply')
+
+*+  Local Variables
+      integer    deepest_layer   ! deepest layer in which the roots are growing
+      integer    layer           ! soil profile layer number
+      real       sw_avail        ! water available (mm)
+      real       LDist,RDist
+      real       Top,Bottom,prop
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+            ! get potential uptake
+
+      call fill_real_array (sw_supply, 0.0, num_layer)
+
+      deepest_layer = find_layer_no (root_depth, dlayer, num_layer)
+
+      Top = 0
+      LDist = row_spacing * 1000 * (skip - 0.5)
+      RDist = row_spacing * 1000 * 0.5
+      do 1000 layer = 1, deepest_layer
+         Bottom = Top + dlayer(layer)
+         sw_avail = (sw_dep(layer) - ll_dep(layer))
+         prop= RootProportionInLayer(Top,Bottom,root_front,LDist,RDist)
+         sw_supply(layer) = sw_avail * kl(layer) *  prop
+
+         sw_supply(layer) = l_bound (sw_supply(layer), 0.0)
+         Top = Bottom
+
+
+1000  continue
+
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+
+*     ===========================================================
+      subroutine cproc_root_depth3 (
+     :                              g_dlayer
+     :                             ,C_num_sw_ratio
+     :                             ,C_x_sw_ratio
+     :                             ,C_y_sw_fac_root
+     :                             ,G_dul_dep
+     :                             ,G_sw_dep
+     :                             ,P_ll_dep
+     :                             ,C_root_depth_rate
+     :                             ,G_current_stage
+     :                             ,p_xf
+     :                             , g_row_spacing
+     :                             , g_skip
+     :                             ,g_dlt_root_front
+     :                             ,g_dlt_root_depth
+     :                             ,g_root_front
+     :                             ,g_root_depth
+     :                             )
+*     ===========================================================
+      Use Infrastructure
+      implicit none
+
+*+  Sub-Program Arguments
+      real    g_dlayer(*)             ! (INPUT)  layer thicknesses (mm)
+      integer C_num_sw_ratio          ! (INPUT) number of sw lookup pairs
+      real    C_x_sw_ratio(*)         ! (INPUT) sw factor lookup x
+      real    C_y_sw_fac_root(*)      ! (INPUT) sw factor lookup y
+      real    G_dul_dep(*)            ! (INPUT) DUL (mm)
+      real    G_sw_dep(*)             ! (INPUT) SW (mm)
+      real    P_ll_dep(*)             ! (INPUT) LL (mm)
+      real    C_root_depth_rate(*)    ! (INPUT) root front velocity (mm)
+      real    G_current_stage         ! (INPUT) current growth stage
+      real    p_xf(*)                 ! (INPUT) exploration factor
+      real    g_row_spacing
+      real    g_skip
+      real    g_dlt_root_front        ! (OUTPUT) increase in rooting front (mm)
+      real    g_dlt_root_depth        ! (OUTPUT) increase in rooting depth (mm)
+      real    g_root_front            ! (OUTPUT) root front (mm)
+      real    g_root_Depth            ! (OUTPUT) root depth (mm)
+
+*+  Purpose
+*       Calculate plant rooting depth through time limited by soil water content
+*       in layer through which roots are penetrating.
+
+*+  Mission Statement
+*   Calculate today's rooting depth
+
+*+  Changes
+*     170498 nih specified and programmed
+
+*+  Calls
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'cproc_root_depth2')
+
+*+  Local Variables
+      integer    deepest_layer         ! deepest layer in which the roots are
+                                       ! growing
+      real sw_avail_fac_deepest_layer  !
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+      deepest_layer = find_layer_no (g_root_depth, g_dlayer
+     :                              , crop_max_layer)
+
+      sw_avail_fac_deepest_layer = crop_sw_avail_fac               ! slw
+     :              (
+     :                C_num_sw_ratio
+     :              , C_x_sw_ratio
+     :              , C_y_sw_fac_root
+     :              , G_dul_dep
+     :              , G_sw_dep
+     :              , P_ll_dep
+     :              , deepest_layer
+     :               )
+         call sorg_root_depth_increase
+     :               (
+     :                C_root_depth_rate
+     :              , G_current_stage
+     :              , G_dlayer
+     :              , G_root_depth
+     :              , sw_avail_fac_deepest_layer             !slw
+     :              , p_xf
+     :              , g_dlt_root_depth
+     :               )
+
+         call sorg_root_front_increase
+     :               (
+     :                C_root_depth_rate
+     :              , G_current_stage
+     :              , G_dlayer
+     :              , G_root_front
+     :              , G_root_depth
+     :              , sw_avail_fac_deepest_layer             !slw
+     :              , p_xf
+     :              , g_row_spacing
+     :              , g_skip
+     :              , g_dlt_root_front
+     :               )
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+
+
+*     ===========================================================
+      subroutine sorg_root_depth_increase
+     :               (
+     :                C_root_depth_rate
+     :              , G_current_stage
+     :              , G_dlayer
+     :              , G_root_depth
+     :              , G_sw_avail_fac_deepest_layer
+     :              , p_xf
+     :              , dlt_root_depth
+     :               )
+*     ===========================================================
+      Use Infrastructure
+      implicit none
+
+*+  Sub-Program Arguments
+      REAL       C_root_depth_rate(*)  ! (INPUT)  root growth rate potential (mm
+      REAL       G_current_stage       ! (INPUT)  current phenological stage
+      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
+      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
+      REAL       G_sw_avail_fac_deepest_layer ! (INPUT)
+      REAL       P_XF (*)              ! (INPUT) eXploration Factor (0-1)
+      real       dlt_root_depth        ! (OUTPUT) increase in root depth (mm)
+
+*+  Purpose
+*       Return the increase in root depth (mm)
+
+*+  Mission Statement
+*   Calculate the increase in rooting depth.
+
+*+  Notes
+*         there is a discrepency when the root crosses into another
+*         layer. - cr380
+
+*+  Changes
+*      031097 nih specified and programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'sorg_root_depth_increase')
+
+*+  Local Variables
+      integer    current_phase         ! current phase number
+      real       root_depth_max        ! maximum depth to which roots can
+                                       ! go (mm)
+      integer    current_layer         ! layer of root front
+      integer    deepest_layer         ! deepest layer for rooting
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+      current_layer = find_layer_no(g_root_depth
+     :                             ,g_dlayer
+     :                             ,crop_max_layer)
+      current_phase = int (g_current_stage)
+
+         ! this equation allows soil water in the deepest
+         ! layer in which roots are growing
+         ! to affect the daily increase in rooting depth.
+
+      dlt_root_depth  = c_root_depth_rate(current_phase)
+     :                * g_sw_avail_fac_deepest_layer
+     :                * p_xf(current_layer)
+
+         ! constrain it by the maximum
+         ! depth that roots are allowed to grow.
+
+      deepest_layer = count_of_real_vals (p_xf, crop_max_layer)
+      root_depth_max = sum_real_array (g_dlayer, deepest_layer)
+      dlt_root_depth = u_bound (dlt_root_depth
+     :                        , root_depth_max - g_root_depth)
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+
+*     ===========================================================
+      subroutine sorg_root_front_increase
+     :               (
+     :                C_root_depth_rate
+     :              , G_current_stage
+     :              , G_dlayer
+     :              , G_root_front
+     :              , G_root_depth
+     :              , G_sw_avail_fac_deepest_layer
+     :              , p_xf
+     :              , g_row_spacing
+     :              , g_skip
+     :              , dlt_root_front
+     :               )
+*     ===========================================================
+      Use Infrastructure
+      implicit none
+
+*+  Sub-Program Arguments
+      REAL       C_root_depth_rate(*)  ! (INPUT)  root growth rate potential (mm
+      REAL       G_current_stage       ! (INPUT)  current phenological stage
+      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
+      REAL       G_root_front          ! (INPUT)  front of roots (mm)
+      REAL       G_root_depth          ! (INPUT)  front of roots (mm)
+      REAL       G_sw_avail_fac_deepest_layer ! (INPUT)
+      REAL       P_XF (*)              ! (INPUT) eXploration Factor (0-1)
+      real       g_row_spacing          !
+      real       g_skip                 !
+      real       dlt_root_front        ! (OUTPUT) increase in root front (mm)
+
+*+  Purpose
+*       Return the increase in root front (mm)
+
+*+  Mission Statement
+*   Calculate the increase in rooting front.
+
+*+  Notes
+*         there is a discrepency when the root crosses into another
+*         layer. - cr380
+
+*+  Changes
+*      031097 nih specified and programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'sorg_root_front_increase')
+
+*+  Local Variables
+      integer    current_phase         ! current phase number
+      real       root_front_max        ! maximum front to which roots can
+                                       ! go (mm)
+      integer    current_layer         ! layer of root front
+      integer    deepest_layer         ! deepest layer for rooting
+      real LDist ! left distance of plant section
+      real rootdepth
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+      current_layer = find_layer_no(g_root_depth
+     :                             ,g_dlayer
+     :                             ,crop_max_layer)
+      current_phase = int (g_current_stage)
+
+         ! this equation allows soil water in the deepest
+         ! layer in which roots are growing
+         ! to affect the daily increase in rooting depth.
+
+      dlt_root_front  = c_root_depth_rate(current_phase)
+     :                * g_sw_avail_fac_deepest_layer
+     :                * p_xf(current_layer)
+
+         ! constrain it by the maximum
+         ! root front.
+
+      deepest_layer = count_of_real_vals (p_xf, crop_max_layer)
+      LDist = g_row_spacing * 1000 * (g_skip - 0.5)
+      rootdepth = sum_real_array (g_dlayer, deepest_layer)
+      root_front_max = sqrt(rootdepth**2 + LDist**2)
+      dlt_root_front = u_bound (dlt_root_front
+     :                        , root_front_max - g_root_front)
+
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+
+
+*     ===========================================================
+      subroutine cproc_root_front_init1
+     :               (
+     :                initial_root_depth
+     :              , current_stage
+     :              , initialisation_stage
+     :              , days_tot
+     :              , root_front
+     :               )
+*     ===========================================================
+      Use Infrastructure
+      implicit none
+
+*+  Sub-Program Arguments
+      REAL       initial_root_depth  ! (INPUT)  initial depth of roots (mm)
+      REAL       current_stage       ! (INPUT)  current phenological stage
+      INTEGER    initialisation_stage! (INPUT)  stage at which to initialise
+      REAL       days_tot(*)         ! (INPUT)  duration of each phase (days)
+      real       root_front          ! (OUTPUT) initial root depth (mm)
+
+*+  Purpose
+*       Return the initial root depth (mm)
+
+*+  Mission Statement
+*   Initialise rooting depth (on the first day of %3)
+
+*+  Changes
+*      160498 nih specified and programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'cproc_root_depth_init1')
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+      if (on_day_of (initialisation_stage
+     :              ,current_stage, days_tot)) then
+
+             ! initialise root depth
+
+         root_front = initial_root_depth
+
+      else
+              ! we have no initial root depth today
+
+      endif
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+
