@@ -68,7 +68,7 @@ void ApsimSystemData::getComponentNames(std::vector<std::string>& componentNames
 // ------------------------------------------------------------------
 // Return the component with the specified name.
 // ------------------------------------------------------------------
-ApsimComponentData ApsimSystemData::getComponent(const std::string& name) const throw(runtime_error)
+ApsimComponentData ApsimSystemData::getComponent(const std::string& name) const
    {
    XMLNode::iterator i = find_if(node.begin(), node.end(),
                                  NodeEquals<XMLNode>("component", name));
@@ -81,7 +81,7 @@ ApsimComponentData ApsimSystemData::getComponent(const std::string& name) const 
 // ------------------------------------------------------------------
 // Return the system with the specified name.
 // ------------------------------------------------------------------
-ApsimSystemData ApsimSystemData::getSystem(const std::string& name) const throw(runtime_error)
+ApsimSystemData ApsimSystemData::getSystem(const std::string& name) const
    {
    XMLNode::iterator i = find_if(node.begin(), node.end(),
                                  NodeEquals<XMLNode>("system", name));
@@ -145,9 +145,7 @@ ApsimSystemData ApsimSystemData::addSystem(const std::string& name)
 // ------------------------------------------------------------------
 std::string ApsimSystemData::getXML(void) const
    {
-   string xml;
-   node.writeXML(xml);
-   return xml;
+   return node.write();
    }
 // ------------------------------------------------------------------
 // Delete a component from the system.  Return true if successful.

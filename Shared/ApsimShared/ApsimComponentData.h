@@ -66,7 +66,7 @@ class __declspec(dllexport) ApsimComponentData
       typedef TreeNodeAliasIterator< TreeNodeIterator<XMLNode>, ApsimRegistrationData> RegIterator;
       RegIterator regBegin(void) const;
       RegIterator regEnd(void) const;
-      ApsimDataTypeData getDataType(const std::string& name) const throw(std::runtime_error);
+      ApsimDataTypeData getDataType(const std::string& name) const;
 
       // return the name of the interface file for this component
       std::string getInterfaceFileName(void) const;

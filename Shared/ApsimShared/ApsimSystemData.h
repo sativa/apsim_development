@@ -19,12 +19,12 @@ class __declspec(dllexport) ApsimSystemData
 
       // system methods
       void getSystemNames(std::vector<std::string>& systemNames) const;
-      ApsimSystemData getSystem(const std::string& name) const throw(std::runtime_error);
+      ApsimSystemData getSystem(const std::string& name) const;
       ApsimSystemData addSystem(const std::string& name);
 
       // component methods
       void getComponentNames(std::vector<std::string>& componentNames) const;
-      ApsimComponentData getComponent(const std::string& name) const throw(std::runtime_error);
+      ApsimComponentData getComponent(const std::string& name) const;
       ApsimComponentData addComponent(const std::string& name);
       ApsimComponentData addComponent(ApsimComponentData& component);
       bool deleteComponent(const std::string& name);

@@ -13,12 +13,12 @@
 class __declspec(dllexport) ApsimDataTypesFile
    {
    public:
-      ApsimDataTypesFile(void) throw(std::runtime_error);
-      ApsimDataTypesFile(const std::string& ddml) throw(std::runtime_error);
+      ApsimDataTypesFile(void);
+      ApsimDataTypesFile(const std::string& ddml);
 
       // Return a specific data type to caller.  Will throw if that type doesn't
       // exist.
-      ApsimDataTypeData getDataType(const std::string& name) throw(std::runtime_error);
+      ApsimDataTypeData getDataType(const std::string& name);
 
       typedef TreeNodeAliasIterator< TreeNodeIterator<XMLNode>, ApsimDataTypeData> iterator;
       iterator begin() const;

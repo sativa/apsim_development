@@ -28,6 +28,10 @@ HINSTANCE hInstance;
 int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void* lpReserved)
    {
    hInstance = hinst;
+   const unsigned _MCW_EW = 0x037f;
+   const unsigned _EM_INVALID = 0xffff;
+   _controlfp(_MCW_EW, _EM_INVALID);
+
    return 1;
    }
 //---------------------------------------------------------------------------

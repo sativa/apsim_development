@@ -18,8 +18,7 @@
 ApsimComponentData::ApsimComponentData(void)
    : node(NULL, NULL), dataTypesFile(NULL)
    {
-   xmlDoc = new XMLDocument();
-   xmlDoc->setRootNode("component");
+   xmlDoc = new XMLDocument("component", XMLDocument::rootName);
    node = xmlDoc->documentElement();
    node.appendChild("initdata");
    }
@@ -29,7 +28,7 @@ ApsimComponentData::ApsimComponentData(void)
 ApsimComponentData::ApsimComponentData(const std::string& xml)
    : node(NULL, NULL), dataTypesFile(NULL)
    {
-   xmlDoc = new XMLDocument(xml, true);
+   xmlDoc = new XMLDocument(xml, XMLDocument::xmlContents);
    node = xmlDoc->documentElement();
    }
 // ------------------------------------------------------------------
@@ -220,7 +219,7 @@ void ApsimComponentData::getGroupNames(const std::string& propertyType,
    {
    XMLNode initData = getInitData();
    for_each_if(initData.begin(), initData.end(),
-               GetNameAttributeFunction<vector<string>, XMLNode>(groupNames),
+               GetNameAttributeFunction<XMLNode>(groupNames),
                EqualToName<XMLNode>(propertyType));
    }
 // ------------------------------------------------------------------
@@ -273,7 +272,7 @@ void ApsimComponentData::getRuleNames(vector<string>& names) const
                                      EqualToName<XMLNode>("rules"));
    if (rules != initData.end())
       for_each(rules->begin(), rules->end(),
-               GetNameAttributeFunction<vector<string>, XMLNode>(names));
+               GetNameAttributeFunction<XMLNode>(names));
    }
 // ------------------------------------------------------------------
 // return a rule to caller or blank if not found.
@@ -331,9 +330,7 @@ void ApsimComponentData::addRule(const string& name,
 // ------------------------------------------------------------------
 std::string ApsimComponentData::getXML(void) const
    {
-   string xml;
-   node.writeXML(xml);
-   return xml;
+   return node.write();
    }
 // ------------------------------------------------------------------
 // Return an iterator to the first registration
@@ -361,7 +358,7 @@ ApsimComponentData::RegIterator ApsimComponentData::regEnd(void) const
 // exist.
 //---------------------------------------------------------------------------
 ApsimDataTypeData ApsimComponentData::getDataType
-   (const string& name) const throw(runtime_error)
+   (const string& name) const
    {
    XMLNode::iterator types = find_if(node.begin(),
                                      node.end(),

@@ -97,8 +97,6 @@ std::string ApsimDataTypeData::getUpperBound(void) const
 // ------------------------------------------------------------------
 std::string ApsimDataTypeData::getTypeString(void) const
    {
-   string st;
-   node.writeXML(st);
-   return st;
+   return node.write();
    }
 

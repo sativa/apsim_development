@@ -14,8 +14,8 @@ class __declspec(dllexport) ApsimSimulationFile
    {
    public:
       ApsimSimulationFile(void);
-      ApsimSimulationFile(const std::string& filename) throw (std::runtime_error);
-      ApsimSimulationFile(const std::string& xml, bool dummy) throw (std::runtime_error);
+      ApsimSimulationFile(const std::string& filename);
+      ApsimSimulationFile(const std::string& xml, bool dummy);
       ~ApsimSimulationFile(void);
 
       void write(void) const;
@@ -32,19 +32,19 @@ class __declspec(dllexport) ApsimSimulationFile
 
       // system methods.
       void getSystemNames(std::vector<std::string>& systemNames) const;
-      ApsimSystemData getSystem(const std::string& name) const throw(std::runtime_error);
+      ApsimSystemData getSystem(const std::string& name) const;
       ApsimSystemData addSystem(const std::string& name);
 
       // component methods.
       void getComponentNames(std::vector<std::string>& componentNames) const;
-      ApsimComponentData getComponent(const std::string& name) const throw(std::runtime_error);
+      ApsimComponentData getComponent(const std::string& name) const;
       ApsimComponentData addComponent(const std::string& name);
       ApsimComponentData addComponent(ApsimComponentData& component);
       bool deleteComponent(const std::string& name);
 
       // service methods.
       void getServiceNames(std::vector<std::string>& serviceNames) const;
-      ApsimServiceData getService(const std::string& name) const throw(std::runtime_error);
+      ApsimServiceData getService(const std::string& name) const;
       ApsimServiceData addService(const std::string& name);
 
       // return this simulation as a system or a component
