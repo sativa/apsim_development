@@ -5,6 +5,7 @@
       dll_export apsim_soilwat2
       include   'const.inc'            ! mes_presence, mes_init, mes_process
       include   'event.inc'
+      include 'action.inc'
       include 'engine.pub'
       include 'error.pub'
  
@@ -83,13 +84,14 @@
   
       else if (action.eq.mes_init) then
          call soilwat2_zero_variables ()
+         call soilwat2_zero_data_links ()
          call soilwat2_init ()
          call soilwat2_sum_report ()
  
-      else if (action.eq.mes_reset) then
+      else if ((action.eq.ACTION_reset)
+     :        .or.(action.eq.ACTION_init)) then
          call soilwat2_zero_variables ()
          call soilwat2_get_other_variables ()
- 
          call soilwat2_init ()
  
       else if (action.eq.mes_sum_report) then
@@ -4113,11 +4115,6 @@ c     he should have. Any ideas? Perhaps
       call fill_real_array (c_canopy_fact , 0.0, max_coeffs)
       call fill_real_array (c_canopy_fact_height , 0.0, max_coeffs)
  
-      call fill_char_array (g_solute_names, ' ', max_solute)
-      call fill_char_array (g_solute_owners, ' ', max_solute)
-      call fill_logical_array (g_solute_mobility, .false., max_solute)
-      g_num_solutes = 0
-
       c_canopy_fact_default = 0.0
       g_num_canopy_fact    = 0
       g_sumes1             = 0.0
@@ -4138,7 +4135,41 @@ c     he should have. Any ideas? Perhaps
       call pop_routine (my_name)
       return
       end
+
+*     ===========================================================
+      subroutine soilwat2_zero_data_links ()
+*     ===========================================================
+      implicit none
+      include   'const.inc'            ! blank
+      include   'soilwat2.inc'
+      include 'data.pub'
+      include 'error.pub'
  
+*+  Purpose
+*     Zero information describing data links with other modules
+ 
+*+  Mission Statement
+*     Zero information describing data links with other modules
+ 
+*+  Changes
+*       090999 nih specified and programmed
+ 
+*+  Constant Values
+      character  my_name*(*)           ! module name
+      parameter (my_name  = 'soilwat2_zero_data_links')
+ 
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+      call fill_char_array (g_solute_names, ' ', max_solute)
+      call fill_char_array (g_solute_owners, ' ', max_solute)
+      call fill_logical_array (g_solute_mobility, .false., max_solute)
+      g_num_solutes = 0
+
+      call pop_routine (my_name)
+      return
+      end 
  
  
 *     ===========================================================
