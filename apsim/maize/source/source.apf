@@ -1,0 +1,8 @@
+[general]
+name = source
+uses = %this\*.*
+
+[source]
+source  = maize.for; %this\maize.for
+source  = maizmain.for; %this\maizmain.for
+

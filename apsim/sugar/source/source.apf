@@ -1,0 +1,8 @@
+[general]
+name = source
+uses = %this\*.*
+
+[source]
+source  = sugar.for; %this\sugar.for
+source  = sgr_main.for; %this\sgr_main.for
+
