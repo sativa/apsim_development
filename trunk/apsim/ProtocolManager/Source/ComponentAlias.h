@@ -18,6 +18,8 @@ class ComponentAlias
    {
    public:
       ComponentAlias(const std::string& name,
+                     unsigned int ComponentAliasId);
+      ComponentAlias(const std::string& name,
                      const std::string& dllFileName,
                      unsigned int ComponentAliasId,
                      unsigned int parentId);
