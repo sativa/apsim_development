@@ -407,7 +407,8 @@ void Component::error(const FString& msg, bool isFatal)
 
    if (beforeInit2)
       {
-      strncpy(cMessage, msg.f_str(), min((int)msg.length(), 999));
+      strcpy(cMessage, "");
+      strncat(cMessage, msg.f_str(), min((int)msg.length(), 999));
       ::MessageBox(NULL, cMessage, "Init1 error", MB_ICONSTOP | MB_OK);
       }
    else

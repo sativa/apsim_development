@@ -54,14 +54,21 @@ void ApsimRunFile::run(bool console) const
                                        sim != simulations.end();
                                        sim++)
             {
-            ApsimControlFile simulation(simulationFileName, *sim);
-            HANDLE childProcess = simulation.run(configFileName, console);
-            DWORD exitCode;
-            GetExitCodeProcess(childProcess, &exitCode);
-            while (exitCode == STILL_ACTIVE)
+            try
                {
-               Application->ProcessMessages();
+               ApsimControlFile simulation(simulationFileName, *sim);
+               HANDLE childProcess = simulation.run(configFileName, console);
+               DWORD exitCode;
                GetExitCodeProcess(childProcess, &exitCode);
+               while (exitCode == STILL_ACTIVE)
+                  {
+                  Application->ProcessMessages();
+                  GetExitCodeProcess(childProcess, &exitCode);
+                  }
+               }
+            catch (const runtime_error& err)
+               {
+               ::MessageBox(NULL, err.what(), "Error", MB_OK);
                }
             }
          }

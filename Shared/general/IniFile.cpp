@@ -227,20 +227,29 @@ void IniFile::write(const string& section, const string& key,
    if (!found)
       out << "[" << section << "]" << endl;
 
-   // Copy all lines to temp file except for ones matching our section.
+   // Go find the first line matching our key.  Once found, output
+   // our new lines at that point.  Then remove all existing matches.
+   bool linesBeenWritten = false;
    found = false;
    while (!found && getline(in, line, '\n'))
       {
       found = (getSectionName(line) != "");
-      if (getKeyValue(line, key) == "" && !found)
+      if (!found && getKeyValue(line, key) == "")
          out << line << endl;
+      else if (!linesBeenWritten)
+         {
+         linesBeenWritten = true;
+         for (unsigned i = 0; i != values.size(); i++)
+            out << key << " = " << values[i] << endl;
+         }
       }
 
    // put our values into file.
-   for (vector<string>::const_iterator valueI = values.begin();
-                                 valueI != values.end();
-                                 valueI++)
-      out << key << " = " << *valueI << endl;
+   if (!linesBeenWritten)
+      {
+      for (unsigned i = 0; i != values.size(); i++)
+         out << key << " = " << values[i] << endl;
+      }
 
    // Simply copy all remaining lines to output stream.
    while (in)
