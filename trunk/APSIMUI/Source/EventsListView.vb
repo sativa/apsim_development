@@ -84,11 +84,12 @@ Public Class EventsListView
     Overrides Sub fill()
         CaptionLabel.Text = "Events (output frequency)"
         ListView.Items.Clear()
-        For Each child As String In MyData.ChildList("event")
+        Dim EventsNode As APSIMData = MyData.Child("events")
+        For Each child As String In EventsNode.ChildList("event")
             Dim item As New ListViewItem
             item.Text = child
-            item.SubItems.Add(MyData.Child(child).Attribute("module"))
-            item.SubItems.Add(MyData.Child(child).Attribute("description"))
+            item.SubItems.Add(EventsNode.Child(child).Attribute("module"))
+            item.SubItems.Add(EventsNode.Child(child).Attribute("description"))
             ListView.Items.Add(item)
         Next
     End Sub
@@ -106,7 +107,8 @@ Public Class EventsListView
         Dim NewDataString As String = e.Data.GetData(DataFormats.Text)
         Dim NewData As New APSIMData(NewDataString)
         If NewData.Type = "event" Then
-            MyData.Add(NewData)
+            Dim EventsNode As APSIMData = MyData.Child("events")
+            EventsNode.Add(NewData)
             fill()
         Else
             MsgBox("You can only add variables to the output variables list.", MsgBoxStyle.Critical, "Error")
@@ -117,7 +119,8 @@ Public Class EventsListView
     Private Sub ListView_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles ListView.KeyDown
         If e.KeyValue = 46 Then
             For Each item As ListViewItem In ListView.SelectedItems
-                MyData.Delete(item.Text)
+                Dim EventsNode As APSIMData = MyData.Child("events")
+                EventsNode.Delete(item.Text)
                 ListView.Items.Remove(item)
             Next
 
