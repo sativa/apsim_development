@@ -208,6 +208,24 @@ class SingleFromString : public TypeConverter
          return new SingleFromString;
          }
    } singleFromString;
+class DoubleFromString : public TypeConverter
+   {
+   public:
+      void doConvert(MessageData& messageData)
+         {
+         FString value;
+         messageData >> value;
+         char buffer[50];
+         strncpy(buffer, value.f_str(), value.length());
+         buffer[value.length()] = 0;
+         double f = atof(buffer);
+         bufferMessageData << f;
+         }
+      virtual TypeConverter* clone(void)
+         {
+         return new DoubleFromString;
+         }
+   } doubleFromString;
 class BooleanFromString : public TypeConverter
    {
    public:
@@ -345,7 +363,7 @@ static TypeConverter* scalarConversionMatrix[9][9] =  {
 /*S   int4*/    {  NULL,    NULL,  &int4FromInt4,     NULL, &int4FromSingle,        NULL,              NULL,               NULL,        &int4FromString},
 /*T   int8*/    {  NULL,    NULL,    NULL,            NULL,   NULL,                 NULL,              NULL,               NULL,            NULL},
 /*    single*/  {  NULL,    NULL,  &singleFromInt4,   NULL, &singleFromSingle,   &singleFromDouble,    NULL,               NULL,        &singleFromString},
-/*    double*/  {  NULL,    NULL,    NULL,            NULL, &doubleFromSingle,   &doubleFromDouble,    NULL,               NULL,            NULL},
+/*    double*/  {  NULL,    NULL,    NULL,            NULL, &doubleFromSingle,   &doubleFromDouble,    NULL,               NULL,        &doubleFromString},
 /*    boolean*/ {  NULL,    NULL,    NULL,            NULL,   NULL,                 NULL,              NULL,               NULL,        &booleanFromString},
 /*    char*/    {  NULL,    NULL,    NULL,            NULL,   NULL,                 NULL,              NULL,               NULL,            NULL},
 /*    string*/  {  NULL,    NULL,  &stringFromInt4,   NULL, &stringFromSingle,   &stringFromDouble, &stringFromBoolean, &stringFromChar,&stringFromString},
