@@ -474,9 +474,10 @@ cnh now uses constant potential from input file
             g%p(p%n)=apswim_pf(g%psi(p%n))
          end if
 cnh added to allow seepage to user potential at bbc
-         if(p%ibbc.eq.3)then
-            g%psi(p%n) = p%constant_potential
-         endif
+ccnh - now deleted as it is pickup up below
+c         if(p%ibbc.eq.3)then
+c            g%psi(p%n) = p%constant_potential
+c         endif
 
       end if
 ***   get soil water variables and their derivatives
@@ -861,8 +862,7 @@ cnh         if(g%psi(p%n).ge.0.)then
       double precision dabs
       double precision dfac
       double precision dmax
-      double precision dum1
-      double precision dum2(0:M)
+      double precision dum
       double precision exco1
       double precision exco2
       double precision exco3
@@ -886,10 +886,28 @@ cnh         if(g%psi(p%n).ge.0.)then
       double precision wt
       double precision wtime
       double precision wtime1
+      integer          solute_bbc
 
 *     Constant Values
       integer    itmax
       parameter (itmax=20)
+
+      integer    constant_conc
+      parameter (constant_conc = 1)
+
+      integer    convection_only
+      parameter (convection_only = 2)
+
+*     Determine type of solute BBC to use
+      if (p%ibbc.eq.1) then
+         ! water table boundary condition
+         solute_bbc = constant_conc
+      else if ((p%ibbc.eq.0).and.(g%q(p%n+1).lt.0)) then
+         ! you have a gradient with flow upward
+         solute_bbc = constant_conc
+      else
+         solute_bbc = convection_only
+      endif
 
 *
 *     surface solute balance - assume evap. (g%res) comes from x0 store
@@ -962,7 +980,6 @@ cnh         j=indxsl(solnum,i)
             c2(i)=1.
             exco1=p%ex(solnum,j)
             exco2=p%betaex(solnum,j)
-            exco3 = 0d0
          else
 *           nonlinear Freundlich exchange isotherm
             nonlin=.TRUE.
@@ -1057,7 +1074,7 @@ cnh     :            +p%dis(solnum,indxsl(solnum,i)))*(aq/thav)**p%disp(solnum)
             rhs(0)=rhs(0)-.5*rinf*g%csl(solnum,0)
          end if
       end if
-      if(p%ibbc.eq.1)then
+      if(solute_bbc.eq.constant_conc)then
 *        constant concentration
 cnh
          g%csl(solnum,p%n) = p%cslgw(solnum)
@@ -1098,7 +1115,7 @@ cnh     :            dum,fail)
         csltemp(i) = g%csl(solnum,i)
    63 continue
       call apswim_thomas
-     :   (neq,0,a(k),b(k),c_(k),rhs(k),dum1,d(k),csltemp(k),dum2,fail)
+     :      (neq,0,a(k),b(k),c_(k),rhs(k),dum,d(k),csltemp(k),dum,fail)
       do 64 i=0,p%n
         g%csl(solnum,i) = csltemp(i)
    64 continue
@@ -1108,7 +1125,7 @@ cnh end
       g%slwork=g%slwork+neq
       if(fail)go to 90
       j=k+neq-1
-      if(p%ibbc.ne.1)then
+      if(solute_bbc.eq.convection_only)then
          g%csl(solnum,p%n)=g%csl(solnum,j)
          j=j-1
       end if
@@ -1254,7 +1271,7 @@ cnh         g%rslex(solnum)=g%rslex(solnum)+g%qex(i)*g%csl(solnum,i)*p%slupf(sol
      :           (g%csl(solnum,i)*(g%thold(i)+p%ex(solnum,j)*cp)/g%dt)*
      :           p%dx(i)
 80    continue
-      if(p%ibbc.eq.1)then
+      if(solute_bbc.eq.constant_conc)then
 *        constant concentration
 cnh         j=indxsl(solnum,p%n)
          j = p%n
