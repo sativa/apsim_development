@@ -98,6 +98,9 @@ module DateModule
    !                  by PG.
    !      JNGH 27/2/95 corrected description of week29.
    !                   changed 1 to 1.0
+   !      JNGH - 7/4/03 rewrote to remove rounding errors in real number arithmetic
+
+    integer day
 
    !+ Constant Values
        integer Feb29                   ! Day number of february 29
@@ -106,23 +109,92 @@ module DateModule
        integer Week29                  ! 8 Day Week at end of July
        parameter (Week29=210)
 
+       real days_in_week
+       parameter (days_in_week = 7.0)
+
+       integer one_day
+       parameter (one_day = 1)
+
    !- Implementation Section ----------------------------------
 
       ! Firstly assume that all weeks are 7 days in duration
       ! Week number 1 will be calculated as week 0 so add adjustment
 
-      Get_week = 1.0 + (real(Day_of_year) / 7.0)
+      day = day_of_year
 
       if (Leap_year(Year) .and. Day_of_year .ge. Feb29) then
-          Get_week = Get_week - (1.0 / 7.0)
+          day = day - one_day
       endif
 
-      if (Day_of_year .ge. Week29) then
-          Get_week = Get_week - (1.0 / 7.0)
+      if (day .ge. Week29) then
+          day = day - one_day
       endif
+
+      Get_week = real(one_day) + (real(day) / days_in_week)
 
       return
       end function
+
+
+   ! ====================================================================
+      subroutine Get_day_and_week (Day_of_year, Year, day_of_week, week)
+   ! ====================================================================
+      implicit none
+
+   !+ Sub-Program Arguments
+       integer Day_of_year             ! (INPUT) Day number of year
+       integer Year                    ! (INPUT) Year
+       integer day_of_week
+       integer week
+
+   !+ Purpose
+   !      Return the current day of week and week.
+
+   !+ Assumptions
+   !      Due to an uneven number of weeks in a year week 30 (end of July) is
+   !      an 8 day week and week 9 (end of Feb) is an 8 day week in leap years.
+
+   !+  Mission Statement
+   !
+
+   !+ Changes
+   !      JNGH - 7/4/03 rewrite of Get_week to remove rounding errors in real numbers
+
+    integer day
+
+   !+ Constant Values
+       integer Feb29                   ! Day number of february 29
+       parameter (Feb29=60)
+   !
+       integer Week29                  ! 8 Day Week at end of July
+       parameter (Week29=210)
+
+       integer days_in_week
+       parameter (days_in_week = 7)
+
+       integer, dimension(0:6), parameter ::           &
+              day_no = (/7, 1, 2, 3, 4, 5, 6/)
+
+   !- Implementation Section ----------------------------------
+
+      ! Firstly assume that all weeks are 7 days in duration
+      ! Week number 1 will be calculated as week 0 so add adjustment
+
+      day = day_of_year
+
+      if (Leap_year(Year) .and. Day_of_year .ge. Feb29) then
+          day = day - 1
+      endif
+
+      if (day .ge. Week29) then
+          day = day - 1
+      endif
+
+      day_of_week = day_no(mod (day, days_in_week))
+      week = (day-1) / days_in_week + 1
+
+      return
+      end subroutine
 
 
 
@@ -149,20 +221,16 @@ module DateModule
    !      DPH - 8/07/92
    !      DPH - 11/08/93 Used aint instead of int so that a comparison
    !                     between reals and ints is not made.
+   !      JNGH - 7/4/03 rewrote to remove rounding errors in real numbers
 
    !+ Local Variables
-       real Proportion                 ! Proportion of way through week
-       real This_week                  ! This week
+       integer This_day                  ! This day of week
+       integer This_week
 
    !- Implementation Section ----------------------------------
 
-      This_week = Get_week (Day_of_year, Year)
-      Proportion = This_week - aint (This_week)
-
-      ! If the fractional part of This_week is > 0.1 and < 0.15 then
-      ! we are at start of week.
-
-      Start_week = (Proportion .gt. 0.1 .and. Proportion .lt. 0.15)
+      call Get_day_and_week (Day_of_year, Year, This_day, This_week)
+      Start_week = This_day .eq. 1
 
       return
       end function
@@ -193,18 +261,17 @@ module DateModule
    !      DPH - 11/08/93 Used aint instead of int so that a comparison
    !                     between reals and ints is not made.
    !      JNGH - 27/2/95 put in function to test for equal reals.
+   !      JNGH - 7/4/03 rewrote to remove rounding errors in real numbers
 
    !+ Local Variables
-       real This_week                  ! This week
+       integer This_day                  ! This day of week
+       integer This_week
 
    !- Implementation Section ----------------------------------
 
-      This_week = Get_week (Day_of_year, Year)
+      call Get_day_and_week (Day_of_year, Year, This_day, This_week)
 
-      ! If the fractional part of This_week is equal to 0.0 then
-      ! we are at end of week.
-
-      End_week = reals_are_equal (This_week, aint (This_week))
+      End_week = this_day .eq. 7
 
       return
       end function
