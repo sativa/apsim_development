@@ -1,0 +1,99 @@
+[mungbeanF.report.parameters]
+outputfile = mungbean.out
+
+[mungbean.report.parameters]
+variable = clock.dd/mm/yyyy as date
+variable = mungbean.das
+variable = mungbean.stage
+variable = mungbean.lai
+variable = mungbean.biomass_wt as biomass
+variable = mungbean.grain_wt as grain
+variable = mungbean.biomass_n
+variable = mungbean.grain_n
+variable = mungbean.root_depth as rootdepth
+
+
+variable = mungbean.cep
+variable = mungbean.swdef_pheno as ws_pheno
+variable = mungbean.swdef_photo as ws_photo
+variable = mungbean.swdef_expan as ws_expan
+variable = mungbean.nfact_pheno as Ns_pheno
+variable = mungbean.nfact_photo as Ns_photo
+variable = mungbean.nfact_expan as Ns_expan
+
+variable = mungbean.n_conc_root
+variable = mungbean.n_conc_leaf
+variable = mungbean.n_conc_stem
+variable = mungbean.n_conc_meal
+variable = mungbean.dm_green()
+variable = mungbean.dm_green
+variable = mungbean.p_green()
+variable = mungbean.p_green
+variable = mungbean.p_sen()
+variable = mungbean.p_sen
+variable = mungbean.p_demand
+variable = mungbean.pfact_photo
+variable = mungbean.pfact_pheno
+variable = mungbean.pfact_expansion
+variable = mungbean.pfact_grain
+variable = mungbean.biomass_p
+variable = mungbean.green_biomass_p
+variable = mungbean.grain_p
+variable = mungbean.leaf_p
+variable = mungbean.stem_p
+variable = mungbean.root_p
+variable = mungbean.deadleaf_p
+variable = mungbean.pod_p
+variable = mungbean.head_p
+variable = mungbean.p_senesced()
+variable = mungbean.p_dead()
+variable = mungbean.dlt_p_green()
+variable = mungbean.dlt_p_retrans()
+variable = mungbean.dlt_p_detached()
+variable = mungbean.dlt_p_dead()
+variable = mungbean.dlt_p_sen()
+variable = mungbean.p_conc_stover
+variable = mungbean.p_conc_leaf
+variable = mungbean.p_conc_stem
+variable = mungbean.p_conc_grain
+variable = mungbean.p_uptake_stover
+variable = mungbean.grain_p_demand
+
+variable = residue2.residue_p
+
+
+
+[all.report.parameters]
+
+variable = soilwat2.esw as esw
+variable = soilwat2.sw()
+variable = soilwat2.es
+variable = soilwat2.runoff
+variable = soilwat2.drain
+variable = soiln2.no3()
+variable = soiln2.nh4()
+
+variable = soilp.uptake_p_mungbean()
+variable = soilp.fom_cp()
+variable = soilp.fom_p_pool3()
+variable = soilp.fom_p_pool2()
+variable = soilp.fom_p_pool1()
+variable = soilp.fom_p()
+variable = soilp.hum_p()
+variable = soilp.biom_p()
+variable = soilp.soil_test_p()
+variable = soilp.rock_p()
+variable = soilp.unavail_p()
+variable = soilp.labile_p()
+
+variable = manager.P_below_ground
+variable = manager.P_above_ground
+variable = manager.systemP
+variable = manager.cum_error_systemP
+variable = manager.dlt_systemP
+variable = manager.P_plant
+variable = manager.P_pl_up_diff
+variable = manager.dlt_residue_P
+variable = manager.below_gnd_diff
+
+
