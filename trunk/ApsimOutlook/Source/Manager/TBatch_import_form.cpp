@@ -5,8 +5,6 @@
 #include "TBatch_import_form.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "HgGrid"
-#pragma link "HgHGrid"
 #pragma link "ToolEdit"
 #pragma resource "*.dfm"
 TBatch_import_form *Batch_import_form;
@@ -29,6 +27,12 @@ void __fastcall TBatch_import_form::GridButtonClick(TObject *Sender,
       DirectoryEdit->DoClick();
       Grid->Cells[ACol][ARow] = DirectoryEdit->Text;
       }
+   }
+//---------------------------------------------------------------------------
+void __fastcall TBatch_import_form::FormShow(TObject *Sender)
+   {
+   Grid->Cells[0][0] = "Database to import files into";
+   Grid->Cells[1][0] = "Directory containing simulation outputs";
    }
 //---------------------------------------------------------------------------
 
