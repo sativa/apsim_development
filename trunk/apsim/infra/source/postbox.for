@@ -1770,6 +1770,7 @@
 *     dph 3/11/99 - removed call to lower_case
  
 *+ Calls
+      dll_import assign_string
       dll_import push_routine
       dll_import lower_case
       dll_import check_for_array
@@ -2008,6 +2009,7 @@
 *     dph 3/11/99 - removed call to lower_case
  
 *+ Calls
+      dll_import assign_string
       dll_import push_routine
       dll_import lower_case
       dll_import check_for_array
