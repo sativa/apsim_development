@@ -2443,6 +2443,7 @@ cgd   Eriks modifications for Leaf Area
 *     220696 jngh optimised order of gets
 *     140896 jngh modified fr_intc_radn name to inclued a suffix of module name
 *     140896 sb used min_year and max_year instead of c%year_lb and c%year_ub.
+*     030101 jngh corrected syntax error to maxt_soil_surface
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -2486,7 +2487,8 @@ cgd leaf_no_ref is the final leaf no for the main shoot needed by tillers
       endif
                                 ! climate
 !cpsc
-      call get_real_var_optional (unknown_module, 'maxt_soil_surface', '(oC)'
+      call get_real_var_optional (unknown_module, 'maxt_soil_surface'
+     :                                  , '(oC)'
      :                                  , soil_temp, numvals
      :                                  , 0.0, 80.0)
 
