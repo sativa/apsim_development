@@ -3,7 +3,7 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.05.03"/>
-    <PROJECT value="L:\FilterAddin\FilterAddIn.dll"/>
+    <PROJECT value="L:\OutlookDevelopment\FilterAddin\FilterAddIn.dll"/>
     <OBJFILES value="FilterAddIn.obj FiltAddIn.obj ..\Scenario.obj FieldValues.obj 
       TFilterForm.obj"/>
     <RESFILES value=""/>
@@ -127,10 +127,11 @@ Count=1
 Item0=_DEBUG
 
 [HistoryLists\hlFinalOutputDir]
-Count=3
-Item0=L:\FilterAddin\
-Item1=..\..\..\FilterAddin\
-Item2=..\..\..\FilterAddin
+Count=4
+Item0=L:\OutlookDevelopment\FilterAddin\
+Item1=L:\FilterAddin\
+Item2=..\..\..\FilterAddin\
+Item3=..\..\..\FilterAddin
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl

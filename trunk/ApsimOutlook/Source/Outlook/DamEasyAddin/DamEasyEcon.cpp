@@ -93,7 +93,8 @@ DamEasyEcon::~DamEasyEcon(void) {
 }
 
 
-void DamEasyEcon::makeScenarioValid(Scenario& scenario) const {}
+void DamEasyEcon::makeScenarioValid(Scenario& scenario,
+                                        const std::string factor_name) const {}
 
 Scenario DamEasyEcon::getDefaultScenario(void) const {
    // check the following to see if "" is the right thing to pass in.
@@ -101,7 +102,8 @@ Scenario DamEasyEcon::getDefaultScenario(void) const {
 }
 
 
-void DamEasyEcon::getFactorValues(const std::string& factorName,
+void DamEasyEcon::getFactorValues(const Scenario& scenario,
+                                   const std::string& factorName,
                                    std::vector<std::string>& factorValues) const
 {
    if ( DEValueSelectionForm != NULL)

@@ -3,7 +3,7 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.05.03"/>
-    <PROJECT value="L:\SOIAddin\SOIAddin.dll"/>
+    <PROJECT value="L:\OutlookDevelopment\SOIAddin\SOIAddin.dll"/>
     <OBJFILES value="SOIAddin.obj TSOI_form.obj SOIToolBar.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
@@ -15,8 +15,8 @@
     <PACKAGES value="Vcl50.bpi Vclx50.bpi bcbsmp50.bpi Qrpt50.bpi Vcldb50.bpi Vclbde50.bpi 
       ibsmp50.bpi vcldbx50.bpi VCLIB50.bpi bcbie50.bpi vclie50.bpi Inetdb50.bpi 
       Inet50.bpi NMFast50.bpi dclocx50.bpi bcb97axserver50.bpi TEEDB4C5.bpi 
-      TEE4C5.bpi TEEUI4C5.bpi TeeQR4C5.bpi TEEGL4C5.bpi TEEPRO4C5.bpi asgc5.bpi 
-      DB.bpi VCLADO50.bpi slstc5.bpi dclusr50.bpi APSGENERAL.bpi APSData.bpi"/>
+      TEE4C5.bpi TEEUI4C5.bpi TeeQR4C5.bpi TEEGL4C5.bpi TEEPRO4C5.bpi DB.bpi 
+      VCLADO50.bpi dclusr50.bpi APSGENERAL.bpi APSData.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -103,10 +103,11 @@ Count=1
 Item0=_DEBUG
 
 [HistoryLists\hlFinalOutputDir]
-Count=3
-Item0=L:\SOIAddin\
-Item1=..\..\..\SOIAddin\
-Item2=..\..\..\SOIAddin
+Count=4
+Item0=L:\OutlookDevelopment\SOIAddin\
+Item1=L:\SOIAddin\
+Item2=..\..\..\SOIAddin\
+Item3=..\..\..\SOIAddin
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
