@@ -7,7 +7,6 @@
 #include <general\StringTokenizer.h>
 #include "ApsimParameterFile.h"
 #include <ApsimShared\ApsimConfigurationFile.h>
-#include "TControlFileConversionForm.h"
 // ------------------------------------------------------------------
 // This class encapsulates an apsim control file.  It provides several
 // methods to extract information from the control file and associated
@@ -16,10 +15,12 @@
 class __declspec(dllexport) ApsimControlFile
    {
    public:
+      ApsimControlFile(void) { }
       ApsimControlFile (const std::string& controlFilename,
                         const std::string& section) throw(std::runtime_error);
 
       string getFileName(void) const {return fileName;}
+      string getSection(void) const {return section;}
 
       // return a list of all section names in the control file.
       static void getAllSectionNames(const std::string& fileName,
@@ -44,13 +45,9 @@ class __declspec(dllexport) ApsimControlFile
                bool console = false) const throw(std::runtime_error);
 
       // Create a SIM file for the specified section and return its filename.
-      // Return true if SIM was created.
-      bool createSIM(const std::string& configurationFile,
+      // Throws an exception on error.
+      void createSIM(const std::string& configurationFile,
                      std::string& simFile) const throw(std::runtime_error);
-
-   private:
-      string fileName;
-      string section;
 
       // Return all the parameter files for the specified section and instance.
       void getParameterFiles(const std::string& moduleName,
@@ -58,54 +55,61 @@ class __declspec(dllexport) ApsimControlFile
                              bool oneFilePerInstance = false,
                              bool constants = false) const;
 
+      // Return a single parameter value for the specified module
+      // and parameter name.
+      std::string getParameterValue(const std::string& moduleName,
+                                    const std::string& parameterName) const throw(std::runtime_error);
+
+      // ------------------------------------------------------------------
+      // Set the value of a parameter for a module.
+      // If moduleName is blank then parameter will be written to control file
+      // ------------------------------------------------------------------
+      void setParameterValue(const string& moduleName,
+                             const string& parameterName,
+                             const string& parameterValue) const throw(std::runtime_error);
+
       // Return a list of all parameter values for the specified module
       // and parameter name.
       void getParameterValues(const std::string& moduleName,
                               const std::string& parameterName,
                               std::vector<std::string>& values) const;
 
-      // Return a single parameter value for the specified module
-      // and parameter name.
-      std::string getParameterValue(const std::string& moduleName,
-                                    const std::string& parameterName) const throw(std::runtime_error);
+      // change the name of a module in the control file.
+      bool changeModuleName(const std::string& oldModuleName,
+                            const std::string& newModuleName) const;
 
-      // convert a module name to an instance name.
-      std::string moduleToInstance(const std::string& moduleName) const;
+      std::string getTitle(void) const;
+
+      // remove all references to this control file from the list of
+      // parameter files for all modules.
+      void removeSelfReferences(const std::string& parFileForConParams);
+
+      // return a version number for this control file.
+      static int getVersionNumber(const std::string& fileName);
+
+      // ------------------------------------------------------------------
+      // Set the version number in the control file to the current
+      // apsim version number
+      // ------------------------------------------------------------------
+      static void setVersionNumber(const std::string& fileName, int versionNumber);
+
+      // ------------------------------------------------------------------
+      // Get a parameter file from the control file - any module will do.
+      // Also return a section name.
+      // ------------------------------------------------------------------
+      void getDefaultParFileAndSection(std::string& defaultFile,
+                                       std::string& defaultSection) const;
 
       // Return a list of instance names for the specified module name.
       void getInstances(const std::string& moduleName,
                         std::vector<std::string>& instanceNames) const;
 
-      // change the name of a module in the control file.
-      void changeModuleName(const std::string& oldModuleName,
-                            const std::string& newModuleName) const;
+   private:
+      string fileName;
+      string section;
 
-      // Create default services in specified simulation
-      void createServices(ApsimSimulationFile& simulation,
-                          ApsimConfigurationFile& configuration) const;
-
-      // Convert the control / parameter file.
-      bool convertControlFile(void) const throw(std::runtime_error);
-
-      void putDescriptionsInForm(const std::string& scriptFileName,
-                                 TControlFileConversionForm* form) const;
-      void parseName(StringTokenizer& tokenizer,
-                     std::string& moduleName, std::string& parameterName) const;
-      std::string parseValue(const ApsimParameterFile& paramFile,
-                             StringTokenizer& tokenizer) const;
-      std::string parseDate(const ApsimParameterFile& paramFile,
-                            StringTokenizer& tokenizer) const;
-      void parseCreateParameter(const ApsimParameterFile& paramFile,
-                                const std::string& line) const throw(std::runtime_error);
-      void parseDeleteParameter(const ApsimParameterFile& paramFile,
-                                const std::string& line) const throw(std::runtime_error);
-      void parseMoveParameter(const ApsimParameterFile& paramFile,
-                              const std::string& line) const throw(std::runtime_error);
-      void parseNewFormatReportVariables(const ApsimParameterFile& paramFile,
-                                         const std::string& line) const throw(std::runtime_error);
-      void parseRemoveReportOutputSwitch(const ApsimParameterFile& paramFile,
-                                         const std::string& line) const throw(std::runtime_error);
-      void parseChangeModuleName(const std::string& line) const throw(std::runtime_error);
+      // convert a module name to an instance name.
+      std::string moduleToInstance(const std::string& moduleName) const;
 
    };
 #endif
