@@ -53,6 +53,10 @@
 *                  (residue at harvest is passed from CM_SAT.for)
 *     160994 jpd   add basal_cover request
 *     180895 nih   added multi-solute movement capability
+*     021296 pdev  incorporate different evaporation models
+*     270897 pdev  better handling of observed runoff
+*     270897 pdev  Eo from system if required
+*     270897 pdev  cn_red, cn_cov changeable from manager
 
 *   Calls:
 *       none
@@ -77,7 +81,7 @@
 * jpd V1.1 includes selected changes from PhilV1.0 30/9/94
 
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V2.11 160996')
+      parameter (version_number = 'V2.12 270897')
 
 *   Initial data values
 *       none
@@ -258,6 +262,7 @@ cnh     :  'Revision:   1.6  Date:   7 Jun 1996 17:08:26  '
 *                    argument of call to evaporation
 *       170895 nih  changed to handle user defined list of solutes
 *                   and addition of solutes in irrigation water.
+*       270897 pdev Cleaned up. Runoff, solute handing in separate subroutines.
 
 *   Calls:
 *      count_of_real_vals
@@ -285,23 +290,10 @@ cnh     :  'Revision:   1.6  Date:   7 Jun 1996 17:08:26  '
       include   'soilwat2.inc'
 
       integer    count_of_real_vals    ! function
-      integer    position_in_char_array! function
 
 *   Internal variables
-      integer    i                     ! counter
-      integer    irr_solnum            ! irrigation solute counter variable
       integer    layer                 ! layer number counter variable
-      real       leach (max_layer)     ! amount of a solute leached from
-                                       ! each soil layer (kg/ha)
-      integer    mobile_no             ! index of a solute name in the
-                                       ! mobile solute name list
       integer    num_layers            ! number of layers
-      integer    solnum                ! solute number counter variable
-      real       temp_solute(max_layer)! temp array for solute content(kg/ha)
-      real       temp_solute_min (max_layer)! temp array for minimum solute
-                                       ! content (kg/ha)
-      real       temp_dlt_solute(max_layer) ! temp array of changes in
-                                       ! solute concentration (kg/ha)
 
 *   Constant values
       character  my_name*(*)           ! this subroutine name
@@ -320,62 +312,17 @@ cnh     :  'Revision:   1.6  Date:   7 Jun 1996 17:08:26  '
 
          ! runoff
 
-! for phillipine job removed rain condition. sometimes measured runoff on
-!                                           days of no rain - exfiltration ??
+      call soilwat2_runoff (g_rain, g_runoff)
 
-cjh           need to be able run irrigation off at a different curve no.
-
-      if (g_rain.gt.0.) then
-
-         if (g_runoff_filename.eq.'blank') then
-            call soilwat2_runoff (g_rain, g_runoff)
-
-         else
-
-               ! reset runoff to zero in case consecutive days of rain
-            g_runoff = 0.0
-            do 1000 i = 1, g_num_runoff
-
-               if (g_year.eq.g_run_year(i)
-     :         .and. g_day.eq.g_run_day(i)) then
-
-                  g_runoff = g_obs_runoff(i)
-                  write (*,*)  g_run_year(i), g_run_day(i)
-     :                       , g_obs_runoff(i)
-               endif
-1000        continue
-         endif
-      else
-         g_runoff = 0.0
-      endif
-
-
-            ! infiltration (mm) = (g_rain+irrigation) - g_runoff
-            ! Note: no irrigation runs off.
-
-      g_infiltration =  g_irrigation + g_rain - g_runoff
+      call soilwat2_infiltration (g_infiltration) 
 
             ! all infiltration and solutes(from irrigation)
             ! go into the top layer.
 
       g_sw_dep(1) = g_sw_dep(1) + g_infiltration
 
-      do 1050 irr_solnum = 1, g_num_irrigation_solutes
-         solnum = position_in_char_array(
-     :                      g_irrigation_solute_names(irr_solnum)
-     :                     ,g_solute_names
-     :                     ,max_solute)
-         if (solnum.ne.0) then
-            g_solute(solnum,1)     = g_solute(solnum,1)
-     :                             + g_irrigation_solute(irr_solnum)
-            g_dlt_solute(solnum,1) = g_dlt_solute(solnum,1)
-     :                             + g_irrigation_solute(irr_solnum)
-         else
-            ! This irrigation solute is not being traced
-         endif
-
- 1050 continue
-
+            ! save solutes from irrigation
+      call soilwat2_irrig_solute ()
 
       ! NIH 180895
       ! in order to continue capturing irrigation information we zero
@@ -387,127 +334,136 @@ cjh           need to be able run irrigation off at a different curve no.
       g_irrigation = 0.0
       call fill_real_array (g_irrigation_solute, 0.0, max_solute)
 
-
             ! drainage
             ! get flux
-
       call soilwat2_drainage (g_flux)
 
             ! move water down
-
       call move_down_real (g_flux, g_sw_dep, num_layers)
 
             ! drainage out of bottom layer
-
       g_drain = g_flux(num_layers)
 
             ! now move the solutes with g_flux
-
             ! flux -  flow > dul
+      call soilwat2_move_solute_down ()
 
-      ! Now for each mobile solute put the global solute info into a
-      ! temp solute array, pass this solute information to the solute
-      ! flux routine then insert moved solute back into the global
-      ! record.
-
-      do 1300 solnum = 1, g_num_solutes
-         mobile_no = position_in_char_array(g_solute_names(solnum)
-     :                                    ,c_mobile_solutes
-     :                                    ,max_solute)
-         if (mobile_no.ne.0) then
-
-            do 1100 layer = 1, max_layer
-               temp_solute(layer) = g_solute(solnum, layer)
-               leach(layer) = 0.0
-               temp_solute_min(layer) = g_solute_min(solnum,layer)
-               temp_dlt_solute(layer) = g_dlt_solute(solnum,layer)
- 1100       continue
-
-            call soilwat2_solute_flux (leach
-     :                                 , temp_solute
-     :                                 , temp_solute_min)
-            call move_down_real (leach, temp_solute, num_layers)
-            call move_down_real (leach, temp_dlt_solute, num_layers)
-
-            do 1200 layer = 1, max_layer
-               g_solute (solnum, layer) = temp_solute (layer)
-               g_solute_leach (solnum, layer) = leach (layer)
-               g_dlt_solute (solnum, layer) = temp_dlt_solute (layer)
- 1200       continue
-
-         else
-            ! solute was not in the mobile list - do not move it
-         endif
-
- 1300 continue
-
+                          ! potential: sevap + transpiration:
       call soilwat2_pot_evapotranspiration (g_eo)
-      call soilwat2_evaporation (g_es, g_eos)
 
-            ! ** take evap from top layer,
+                          ! actual soil evaporation:
+      call soilwat2_evaporation (g_es_layers, g_eos)
 
-      g_sw_dep(1) = g_sw_dep(1) - g_es
+            ! ** take away evaporation
+      do 1500 layer = 1, num_layers
+         g_sw_dep(layer) = g_sw_dep(layer) - g_es_layers(layer)
+
+ 1500 continue
 
             ! flow
             ! get unsaturated flow
-
       call soilwat2_unsat_flow (g_flow)
 
             ! move water up
-
       call move_up_real (g_flow, g_sw_dep, num_layers)
 
             ! now check that the soil water is not silly
-
       do 2000 layer = 1,num_layers
          call soilwat2_check_profile (layer)
 2000  continue
 
             ! now move the solutes with flow
-
-      ! Now for each mobile solute put the global solute info into a
-      ! temp solute array, pass this solute information to the solute
-      ! flux routine then insert moved solute back into the global
-      ! record.
-
-      do 2300 solnum = 1, g_num_solutes
-
-         mobile_no = position_in_char_array(g_solute_names(solnum)
-     :                                    ,c_mobile_solutes
-     :                                    ,max_solute)
-         if (mobile_no.ne.0) then
-
-            do 2100 layer = 1, max_layer
-               temp_solute(layer) = g_solute(solnum, layer)
-               leach(layer) = 0.0
-               temp_solute_min(layer) = g_solute_min(solnum,layer)
-               temp_dlt_solute(layer) = g_dlt_solute(solnum,layer)
- 2100       continue
-
-            call soilwat2_solute_flow (leach
-     :                                , temp_solute
-     :                                , temp_solute_min)
-            call move_up_real (leach, temp_solute, num_layers)
-            call move_up_real (leach, temp_dlt_solute, num_layers)
-
-            do 2200 layer = 1, max_layer
-               g_solute (solnum, layer) = temp_solute (layer)
-               g_solute_up (solnum, layer) = leach (layer)
-               g_dlt_solute (solnum, layer) = temp_dlt_solute (layer)
- 2200       continue
-         else
-            ! solute was not in the mobile list - do not move it
-         endif
-
- 2300 continue
+      call soilwat2_move_solute_up ()
 
             ! end
-
       call pop_routine (my_name)
       return
       end
 *     ===========================================================
-      subroutine soilwat2_runoff (rain, runoff)
+      subroutine soilwat2_runoff ( rain, runoff )
+*     ===========================================================
+
+*   Short Description:
+*       Runoff. Either predicted or observed.
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*    for phillipine job removed rain condition. sometimes measured runoff on
+*    days of no rain - exfiltration ??
+*
+*    (jh)need to be able run irrigation off at a different curve no.
+
+*   Procedure Attributes:
+*      version:         any hardware/fortran77
+*      extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*       221090 specified (jngh)
+
+*   Calls:
+*      soilwat2_runoff
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      real       rain            ! (INPUT) rainfall (mm)
+      real       runoff          ! (OUTPUT) runoff (mm)
+
+*   Global variables
+      include   'const.inc'
+      include   'soilwat2.inc'
+
+*   Internal variables
+      character  string*200            ! message string
+
+*   Constant values
+      character  my_name*(*)           ! this subroutine name
+      parameter (my_name = 'soilwat2_runoff')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+
+      call push_routine (my_name)
+
+      runoff = 0.0
+
+      if (rain .gt. 0.0) then
+         if (g_obsrunoff_name .eq. blank ) then
+            call soilwat2_scs_runoff (rain, runoff)
+         else
+           if ( g_obsrunoff_found ) then
+               runoff = g_obsrunoff
+           else
+               write (string, '(a,i4,a,i3,a)')
+     :      'Year = ', g_year,
+     :      ', day = ', g_day,
+     :      ', Using predicted runoff for missing observation'
+
+               call warning_error (err_user, string)
+               call soilwat2_scs_runoff (rain, runoff)
+           endif
+         endif
+      else
+               ! nothing
+      endif
+
+      call pop_routine(my_name)
+      return
+      end
+
+*     ===========================================================
+      subroutine soilwat2_scs_runoff (rain, runoff)
 *     ===========================================================
 
 *   Short Description:
@@ -598,7 +554,7 @@ cjh           need to be able run irrigation off at a different curve no.
 
 *   Constant values
       character  my_name*(*)           ! name of subroutine
-      parameter (my_name = 'soilwat2_runoff')
+      parameter (my_name = 'soilwat2_scs_runoff')
 
 *   Initial data values
 *       none
@@ -752,12 +708,76 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
       call pop_routine (my_name)
       return
       end
+
 *     ===========================================================
       subroutine soilwat2_pot_evapotranspiration (eo)
 *     ===========================================================
 
 *   Short Description:
 *       calculate potential evapotranspiration
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*       Eventually eo will be in a separate module entirely, and
+*       will appear to soilwat when get_other_varaibles() runs.
+*       But, for now we use either priestly-taylor, or whatever
+*       the user specified.
+
+*   Procedure Attributes:
+*      version:         any hardware/fortran77
+*      extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*        210191   specified and programmed jngh (j hargreaves
+
+*   Calls:
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      real       eo                    ! (output) potential evapotranspiration
+
+*   Global variables
+      include   'const.inc'
+      include   'soilwat2.inc'
+
+*   Internal variables
+
+*   Constant values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'soilwat2_pot_evapotranspiration')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+
+      call push_routine (my_name)
+
+      if (g_eo_source .eq. blank) then
+          call soilwat2_priestly_taylor (eo) ! eo from priestly taylor
+      else
+          eo = g_eo_system                   ! eo is provided by system
+      endif
+
+      call pop_routine (my_name)
+      end
+
+*     ===========================================================
+      subroutine soilwat2_priestly_taylor (eo)
+*     ===========================================================
+
+*   Short Description:
+*       calculate potential evapotranspiration via priestly-taylor
 
 *   Assumptions:
 *       none
@@ -948,6 +968,81 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *                       implicit none
 
 *   Changes:
+*       031296 pdev removed g_es, replaced with g_es_layers.
+*   Calls:
+*            bound
+*            exp
+*            pop_routine
+*            push_routine
+*            soilwat2_soil_evaporation
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      real       eos                   ! (output) potential soil evap after
+                                       ! modification for crop cover & residue_wt
+      real       esoil(*)              ! (output) actual soil evaporation (mm)
+
+*   Global variables
+      include   'soilwat2.inc'
+      real       bound                 ! function
+
+*   Internal variables
+      real       asw1                  ! available soil water in top layer for
+                                       ! actual soil evaporation (mm)
+
+*   Constant values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'soilwat2_evaporation')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+
+      call push_routine (my_name)
+
+      ! 1. get potential soil water evaporation
+      call soilwat2_pot_soil_evaporation (eos)
+
+      ! 2. get available soil water for evaporation
+         ! NB. ritchie + b&s evaporate from layer 1, but rickert 
+         !     can evaporate from L1 + L2. 
+      asw1 = g_sw_dep(1) - g_air_dry_dep(1)
+      asw1 = bound (asw1, 0.0, g_eo)
+
+      ! 3. get actual soil water evaporation
+      call soilwat2_soil_evaporation (esoil, eos, asw1)
+      
+      call pop_routine (my_name)
+      return
+      end
+
+*     ===========================================================
+      subroutine soilwat2_pot_soil_evaporation (eos)
+*     ===========================================================
+
+*   Short Description:
+*       calculate potential soil evaporation
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*       none
+
+*   Procedure Attributes:
+*      version:         any hardware/fortran77
+*      extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
 *       290591 jngh removed l_bound from external calls and declaration
 *                     - cr68
 *       100392 jngh rewrote expressions for eos for clarity.
@@ -975,6 +1070,7 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *       300695 jngh changed pot_eo to global g_eo
 *       130896 jngh removed g_cover_tot_sum
 *       260897 nih  added test to avoid log of zero error
+*       031296 pdev removed g_es, replaced with g_es_layers.
 *   Calls:
 *            bound
 *            exp
@@ -989,33 +1085,27 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *   Subroutine arguments
       real       eos                   ! (output) potential soil evap after
                                        ! modification for crop cover & residue_w
-      real       esoil                 ! (output) actual soil evaporation (mm)
 
 *   Global variables
       include   'soilwat2.inc'
 
-      real       bound                 ! function
       real       divide                ! function
-      real       soilwat2_soil_evaporation ! function
       real       sum_cover_array       ! function
 
 *   Internal variables
-      real       asw1                  ! available soil water in top layer for
-                                       ! actual soil evaporation (mm)
       real       cover_tot_sum         !
-      real       es                    ! soil evaporation (mm)
       real       eos_canopy_fract      ! fraction of potential soil evaporation
                                        ! limited by crop canopy (mm)
       real       eos_residue_fract     ! fraction of potential soil evaporation
                                        ! limited by crop residue (mm)
-      real       resid_specific_area   ! specific area "A" of residue (ha/kg)
+      real       resid_area            ! area "A" of residue (ha/kg)
                                        ! same as in residue.for but re-calc here
       real       eos_resid_coef        ! coefficient in Adam's type residue
                                        ! effect on Eos
 
 *   Constant values
       character  my_name*(*)           ! name of subroutine
-      parameter (my_name = 'soilwat2_evaporation')
+      parameter (my_name = 'soilwat2_pot_soil_evaporation')
 
 *   Initial data values
 *       none
@@ -1052,7 +1142,7 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
          ! BUT taking into account that residue can be a mix of
          ! residues from various crop types <dms june 95>
 
-      if (g_residue_cover.eq.1.0) then
+      if (g_residue_cover.ge.1.0) then
          ! We test for 100% to avoid log function failure.
          ! The algorithm applied here approaches 0 as cover approaches
          ! 100% and so we use zero in this case.
@@ -1062,19 +1152,19 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
          ! Calculate coefficient of residue_wt effect on reducing first
          ! stage soil evaporation rate from residue specific area "A"
 
-         ! a) back-calculate specific_area from residue_cover & residue_wt
+         ! a) back-calculate area from residue_cover & residue_wt
 
-         resid_specific_area = -divide (log (1.0 - g_residue_cover)
+         resid_area = -divide (log (1.0 - g_residue_cover)
      :                                 , g_residue_wt, 0.0)
 
 
          ! b) estimate 1st stage soil evap reduction power of
-         !    mixed residues from the specific_area of mixed residues.
+         !    mixed residues from the area of mixed residues.
          !    [DM. Silburn unpublished data, June 95 ]
          !    <temporary value - will reproduce Adams et al 75 effect>
          !     c_A_to_evap_fact = 0.00022 / 0.0005 = 0.44
 
-         eos_resid_coef = resid_specific_area * c_A_to_evap_fact
+         eos_resid_coef = resid_area * c_A_to_evap_fact
          eos_residue_fract = exp(-eos_resid_coef * g_residue_wt)
       endif
 
@@ -1082,21 +1172,99 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 
       eos  = g_eo * eos_canopy_fract * eos_residue_fract
 
-          ! 2. get available soil water for evaporation
+      call pop_routine (my_name)
+      return
+      end
 
-      asw1 = g_sw_dep(1) - g_air_dry_dep(1)
-      asw1 = bound (asw1, 0.0, g_eo)
+*     ===========================================================
+      subroutine soilwat2_soil_evaporation (es, eos, eos_max)
+*     ===========================================================
 
-          ! 3. get actual soil water evaporation
+*   Short Description:
+*     Wrapper for various evaporation models. Returns actual 
+*     evaporation from soil surface (es).
 
-      es = soilwat2_soil_evaporation (eos, asw1)
-      esoil = es
+*   Assumptions:
+*       none
+
+*   Notes:
+
+*   Procedure Attributes:
+*      version:         any hardware/fortran77
+*      extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*  Changes:
+*       210191 specified and programmed jngh (j hargreaves
+*       270897 PdeV 
+
+*   Calls:
+*       pop_routine
+*       push_routine
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      real       es(*)          ! (output) actual evaporation 
+                                ! (mm) over profile
+
+      real       eos            ! (input) potential rate of
+                                !    evaporation (mm/day)
+
+      real       eos_max        ! (input) upper limit of soil
+                                !        evaporation (mm/day)
+
+*   Global variables
+      include   'const.inc'
+      include   'soilwat2.inc'     
+
+*   Internal variables
+
+*   Constant values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'soilwat2_soil_evaporation')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (my_name)
+
+      call fill_real_array(es, 0.0, max_layer)
+
+      if (c_evap_method .eq. c_ritchie_method) then
+         call soilwat2_ritchie_evaporation (es(1), eos, eos_max)
+
+      else if (c_evap_method .eq. c_bs_a_method) then
+         call soilwat2_bs_a_evaporation (es(1), eos, eos_max)
+
+      else if (c_evap_method .eq. c_bs_b_method) then
+         call soilwat2_bs_b_evaporation (es(1), eos, eos_max)
+
+      else if (c_evap_method .eq. c_bs_acs_method) then
+         call soilwat2_bs_acs_evaporation (es(1), eos, eos_max)
+        
+      else if (c_evap_method .eq. c_rickert_method) then
+         call soilwat2_rickert_evaporation (es, eos)
+        
+      else 
+         
+         call fatal_error(err_user,
+     :      'Undefined evaporation method')
+
+      endif
 
       call pop_routine (my_name)
       return
       end
+
 *     ===========================================================
-      real function soilwat2_soil_evaporation (eos, eos_max)
+      subroutine soilwat2_ritchie_evaporation (es, eos, eos_max)
 *     ===========================================================
 
 *   Short Description:
@@ -1146,6 +1314,8 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
       implicit none
 
 *   Subroutine arguments
+      real       es                    ! (output) actual evaporation (mm)
+
       real       eos                   ! (input) potential rate of
                                        !    evaporation (mm/day)
 
@@ -1163,13 +1333,12 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
       real       esoil1                ! actual soil evap in stage 1
       real       esoil2                ! actual soil evap in stage 2
 
-      real       esoil                 ! actual soil evap (mm)
       real       sumes1_max            ! upper limit of sumes1
       real       w_inf                 ! infiltration into top layer (mm)
 
 *   Constant values
       character  my_name*(*)           ! name of subroutine
-      parameter (my_name = 'soilwat2_soil_evaporation')
+      parameter (my_name = 'soilwat2_ritchie_evaporation')
 
 *   Initial data values
 *       none
@@ -1254,16 +1423,637 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 
       endif
 
-      esoil = esoil1 + esoil2
+      es = esoil1 + esoil2
 
          ! make sure we are within bounds
-      esoil = bound (esoil,  0.0, eos)
-      esoil = bound (esoil, 0.0, eos_max)
-      soilwat2_soil_evaporation = esoil
+      es = bound (es,  0.0, eos)
+      es = bound (es, 0.0, eos_max)
 
       call pop_routine (my_name)
       return
       end
+*     ===========================================================
+      subroutine soilwat2_bs_a_evaporation (es, eos, eos_max)
+*     ===========================================================
+
+*   Short Description:
+*     B&S (in their paper this is Option A. Fig 2) 
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*       This changes globals - sumes1,2.
+
+*   Procedure Attributes:
+*      version:         any hardware/fortran77
+*      extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*  Changes:
+*       210191 specified and programmed jngh (j hargreaves
+
+*   Calls:
+*       pop_routine
+*       push_routine
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      real       es             ! (output) actual evaporation 
+                                ! from top layer(mm)
+
+      real       eos            ! (input) potential rate of
+                                !    evaporation (mm/day)
+
+      real       eos_max        ! (input) upper limit of soil
+                                !        evaporation (mm/day)
+
+*   Global variables
+      include   'soilwat2.inc'
+      real       bound                 ! function
+      real       divide                ! function
+
+*   Internal variables
+      real       sumes1_max            ! upper limit of sumes1
+      real       w_inf                 ! infiltration into top layer (mm)
+      real       espot                 ! temporary
+
+*   Constant values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'soilwat2_bs_a_evaporation')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (my_name)
+
+      sumes1_max = p_beta**2
+      w_inf = g_infiltration
+
+*     if infiltration is greater than eos, es is = eos.
+
+*     &&&&&&&&&& Below here - as coded by B&S in Fig 2 &&&&&&&&&&&&&&&&&&&&&&
+      if (w_inf .ge. eos) then
+         
+         g_sumes = max(0.0, g_sumes - (w_inf - eos))
+         es = eos
+         espot = divide (g_sumes**2, p_beta**2, 0.0)
+         g_sumeos = max(g_sumes, espot)
+      else
+                                ! Infiltration is less than eos
+         g_sumeos = g_sumeos + (eos - w_inf)
+         es = w_inf + (min(g_sumeos, p_beta*g_sumeos**0.5)
+     :        - g_sumes)
+         g_sumes = min(g_sumeos, p_beta*g_sumeos**0.5)
+      endif
+*     &&&&&&&&&& Above here - as coded by B&S in Fig 2 &&&&&&&&&&&&&&&&&&&&&&
+
+*     next 2 conditions added because g_sumes was zero 
+*     after larger rain and at the same time es was = eos. 
+
+      if(es .gt. g_sumes) then
+         g_sumes = es
+      endif
+
+      if(g_sumes.le.sumes1_max) then
+         g_sumeos = g_sumes
+      else
+         g_sumeos = (divide (g_sumes, p_beta, 0.0))**2
+      endif
+
+
+      if (g_sumes.ge. sumes1_max) then
+         g_sumes1 = sumes1_max
+         g_sumes2 = g_sumes - g_sumes1
+      else
+         g_sumes1 = g_sumes
+         g_sumes2 = 0.0
+      endif
+      
+                                ! make sure we are within bounds
+      es = bound (es, 0.0, eos)
+      es = bound (es, 0.0, eos_max)
+
+      call pop_routine (my_name)
+      return
+      end
+*     ===========================================================
+      subroutine soilwat2_bs_b_evaporation (es, eos, eos_max)
+*     ===========================================================
+
+*   Short Description:
+*     B&S. This code tries to achieve the result stated for their Option B.
+*     Evaporate small rainfall events & then step back to the 
+*     original state
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*       This changes globals - sumes1/2 and t.
+
+*   Procedure Attributes:
+*      version:         any hardware/fortran77
+*      extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*  Changes:
+*       210191 specified and programmed jngh (j hargreaves
+
+*   Calls:
+*       pop_routine
+*       push_routine
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      real       es                    ! (output) actual evaporation (mm)
+
+      real       eos                   ! (input) potential rate of
+                                       !    evaporation (mm/day)
+
+      real       eos_max               ! (input) upper limit of soil
+                                       !        evaporation (mm/day)
+
+*   Global variables
+      include   'soilwat2.inc'
+      real       bound                 ! function
+      real       divide                ! function
+
+*   Internal variables
+      real       sumes1_max            ! upper limit of sumes1
+      real       w_inf                 ! infiltration into top layer (mm)
+      real       esoil1                ! actual soil evap in stage 1
+      real       esoil2                ! actual soil evap in stage 2
+      real       todays_es             ! today's actual evap as
+                                       ! f(beta,sumeos+eos)
+
+
+*   Constant values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'soilwat2_bs_b_evaporation')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (my_name)
+
+      sumes1_max = p_beta**2
+
+      w_inf = g_infiltration
+
+                                ! if infiltration, reset sumes1
+                                ! reset sumes2 if infil exceeds sumes1
+      if (w_inf .gt. 0.0) then
+
+         g_sumes2 = max (0.0, g_sumes2 - max (0.0, w_inf
+     :        - g_sumes1))
+         g_sumes1 = max (0.0, g_sumes1 - w_inf)
+
+                                ! update sumes & sumeos 
+         g_sumes = g_sumes1 + g_sumes2
+         if(g_sumes.le.sumes1_max) then
+            g_sumeos = g_sumes
+         else
+            g_sumeos = (divide (g_sumes, p_beta, 0.0))**2
+         endif
+
+      else
+                                ! no infiltration, no re-set.
+      endif
+
+
+*     Today's actual evap calculated for today's eos
+*     If todays_es is limited by soil water then g_sumeos will
+*     be adjusted later
+      
+      g_sumeos = g_sumeos + eos
+      if(g_sumeos .le. sumes1_max) then
+
+         todays_es = eos
+         g_sumes = g_sumes + todays_es
+      else
+
+         todays_es = p_beta * g_sumeos**0.5 - g_sumes
+         todays_es = bound (todays_es,  0.0, eos)
+         g_sumes  = g_sumes + todays_es
+         g_sumeos = (divide (g_sumes, p_beta, 0.0))**2
+      endif
+
+                                ! are we in stage1 ?
+      if (g_sumes1 .lt. sumes1_max) then
+*     We are in stage1.
+*     set esoil1 = eos, or limited by sumes1_max (beta**2).
+*     todays_es is overriden by 1st stage evap.
+
+         esoil1 = min (eos, sumes1_max - g_sumes1)
+
+         if (eos .gt. esoil1 .and. esoil1 .lt. eos_max) then
+
+*     eos not satisfied by 1st stage drying,
+*     & there is evaporative sw excess to air_dry, allowing for esoil1.
+*     need to calc. some stage 2 drying(esoil2).
+*     For comparing versions, include Ritchie's transition constant 0.6
+            esoil2 = (eos - esoil1) * 0.6
+
+         else
+*     no deficit (or esoil1 .eq. eos_max,) no esoil2 on this day
+            esoil2 = 0.0
+
+         endif
+
+*     check any esoil2 with upper limit of evaporative sw.
+         esoil2 = min (esoil2, eos_max - esoil1)
+         
+                                !  update 1st and 2nd stage soil evaporation.
+         g_sumes1 = g_sumes1 + esoil1
+         g_sumes2 = g_sumes2 + esoil2
+         
+      else
+
+                                ! no 1st stage drying. todays_es is all 
+                                ! 2nd stage
+         esoil1 = 0.0
+
+         esoil2 = todays_es
+         
+                                ! check with upper limit of evaporative sw.
+         esoil2 = min (esoil2, eos_max)
+
+                                !   update 2nd stage soil evaporation.
+         g_sumes2 = g_sumes2 + esoil2
+      endif
+
+*     update sumes & sumeos incase esoil1&2 limited by eos_max
+*     or ritchie transition constant
+
+      g_sumes = g_sumes1 + g_sumes2
+      g_sumeos = (divide (g_sumes, p_beta, 0.0))**2
+                
+      es = esoil1 + esoil2
+
+                                ! make sure we are within bounds
+      es = bound (es, 0.0, todays_es)
+      es = bound (es, 0.0, eos_max)
+      
+      call pop_routine (my_name)
+      return
+      end
+*     ===========================================================
+      subroutine soilwat2_bs_acs_evaporation (es, eos, eos_max)
+*     ===========================================================
+
+*   Short Description:
+*     acs attempt at B&S Option B
+*     infiltration > evap at stage 1, then return to original
+*     (pdev - I think this is work in progress, incomplete)  
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*       This changes globals - inf_pool, sumes_yest, sumes_last
+
+*   Procedure Attributes:
+*      version:         any hardware/fortran77
+*      extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*  Changes:
+*       210191 specified and programmed jngh (j hargreaves
+
+*   Calls:
+*       pop_routine
+*       push_routine
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      real       es                    ! (output) actual evaporation (mm)
+
+      real       eos                   ! (input) potential rate of
+                                       !    evaporation (mm/day)
+
+      real       eos_max               ! (input) upper limit of soil
+                                       !        evaporation (mm/day)
+
+*   Global variables
+      include   'soilwat2.inc'
+      real      bound
+
+*   Internal variables
+      real      sumes1_max
+      real      w_inf
+      real      surplus_es
+
+*   Constant values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'soilwat2_bs_acs_evaporation')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (my_name)
+
+      sumes1_max = p_beta**2
+
+      w_inf = g_infiltration
+
+      g_sumes_yest = g_sumes
+
+                                ! reset for infiltration
+      if ((g_inf_pool .EQ. 0.0) .AND. (w_inf .GT. 0.0)) then
+         g_sumes_yest = 0.0
+         g_sumes_last = g_sumes
+         g_sumeos_last = g_sumeos
+      else 
+                                ! no need to store last values
+      endif
+
+      g_inf_pool = g_inf_pool + w_inf   
+      
+      if (g_inf_pool .GT. 0.0) then
+         g_sumes = 0.0
+         g_sumeos = 0.0
+      else
+                                ! Nothing in inf pool to be 
+                                ! evap at stage 1, no reset
+      endif
+
+                                ! dodgy logic for a massive reset
+                                ! on 90% AWR (1)   ho ho ho !!
+      if ( g_sw_dep(1) .GT. (0.9*(g_dul_dep(1)-g_air_dry_dep(1))) )
+     +     then
+         g_sumes_last = 0.0
+         g_sumeos_last = 0.0
+      else
+                                ! no need for massive reset
+      endif
+
+
+                                ! Do the B&S ...
+      g_sumeos = g_sumeos + eos
+      
+      if (g_sumes .LT. sumes1_max) then !first stage
+         g_sumes = g_sumeos
+         
+      else                      ! second stage
+         g_sumes = p_beta * g_sumeos**0.5
+
+      endif
+
+                                ! calc esoil and update inf_pool, sumes/eos
+      es = g_sumes - g_sumes_yest
+      g_inf_pool = max (0.0, g_inf_pool - es)
+
+*     Put things back how they were before infil and adjust for over evaping
+      if (g_inf_pool .LE. 0.0) then !evaped all away
+         if (g_sumes_last .GT. 0.0) then
+            surplus_es = 0.0 - g_inf_pool
+            g_inf_pool = 0.0
+            
+                                ! carry surplus evap over to last posi
+            g_sumes = g_sumes_last + surplus_es
+            if (surplus_es .LT. sumes1_max) then
+               g_sumeos = g_sumeos_last + surplus_es
+            else
+               g_sumeos = g_sumeos_last + (surplus_es/p_beta)**2
+            endif
+         else                   ! g_sumes_last = 0.0 ie had massive reset
+                                ! and no need to change g_sumes and g_sumeos
+         endif
+
+      else  
+                                ! keep evaping infil pool tommorrow
+      endif
+
+      es = bound (es, 0.0, eos_max)
+
+      call pop_routine (my_name)
+      return
+      end
+*     ===========================================================
+      subroutine soilwat2_rickert_evaporation (es, eos)
+*     ===========================================================
+
+*   Short Description:
+*     Ex Grasp                <<< need better description here - dms!!!>>> 
+*     Evaporate moisture from the soil surface. The moisture can come 
+*     from layers 1 & 2, if the supply is sufficient. Total evap is limited
+*     by an upper bound, max_evap, from soil parameters.
+*
+
+*   Assumptions:
+*       none
+
+*   Notes:
+
+*   Procedure Attributes:
+*      version:         any hardware/fortran77
+*      extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*  Changes:
+*       210191 specified and programmed jngh (j hargreaves
+
+*   Calls:
+*       pop_routine
+*       push_routine
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      real       es(*)                 ! (output) actual evaporation (mm)
+
+      real       eos                   ! (input) potential rate of
+                                       !    evaporation (mm/day)
+
+*   Global variables
+      include    'const.inc'
+      include    'soilwat2.inc'
+      real       soilwat2_comp_curve
+      real       divide
+      real       bound
+
+*   Internal variables
+      real       supply_ratio_L1
+      real       supply_ratio_L1_L2
+      real       supply_ratio_L2
+      real       avail_water_L1
+      real       avail_water_L1_L2
+      real       avail_capacity_L1
+      real       avail_capacity_L1_L2
+      real       evap_L1
+      real       evap_L2
+      real       eos_max               ! upper limit of soil
+                                       ! evaporation (mm/day)
+
+*   Constant values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'soilwat2_rickert_evaporation')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (my_name)
+
+      call fill_real_array(es, 0.0, max_layer)
+
+      avail_water_L1 = g_sw_dep(1) - g_air_dry_dep(1)
+
+      avail_capacity_L1 = g_dul_dep(1) - g_air_dry_dep(1)
+
+      supply_ratio_L1 = divide (avail_water_L1, 
+     :     avail_capacity_L1, 0.0)
+
+c     PdeV - Should send this magic number to constants file:
+      supply_ratio_L1 = soilwat2_comp_curve (supply_ratio_L1, 0.285)
+
+      supply_ratio_L1 = bound (supply_ratio_L1, 0.0, 1.0)
+
+      avail_water_L1_L2 = g_sw_dep(1) + g_sw_dep(2) - 
+     :     g_air_dry_dep(1) - g_ll15_dep(2)
+
+      avail_capacity_L1_L2 = g_dul_dep(1) + g_dul_dep(2) - 
+     :     g_air_dry_dep(1) - g_ll15_dep(2)
+
+      supply_ratio_L1_L2 = divide (avail_water_L1_L2, 
+     :     avail_capacity_L1_L2, 0.0)
+      supply_ratio_L1_L2 = soilwat2_comp_curve(supply_ratio_L1_L2,
+     :     0.117)
+
+      supply_ratio_L1_L2 = bound (supply_ratio_L1_L2, 0.0, 1.0)
+
+
+      evap_L1 = supply_ratio_L1 * eos
+      eos_max = min(p_max_evap, g_sw_dep(1) - g_air_dry_dep(1))
+      evap_L1 = bound(evap_L1, 0.0, eos_max)
+
+CPdeV - should resolve whether we can evaporate L2 down to airdry.
+      if (supply_ratio_L1_L2 .gt. supply_ratio_L1 .and.
+     :    g_sw_dep(2) .gt. g_ll15_dep(2)) then
+         supply_ratio_L2 = supply_ratio_L1_L2 - supply_ratio_L1
+
+         evap_L2 = supply_ratio_L2 * eos
+         eos_max = min(p_max_evap - evap_L1, 
+     :                  g_sw_dep(2) - g_ll15_dep(2))
+cdms         eos_max = min(p_max_evap - evap_L1,
+cdms     :                     g_sw_dep(2) - g_air_dry_dep(2))  ! more realistic
+         evap_L2 = bound(evap_L2, 0.0, eos_max)
+
+      else
+         evap_L2 = 0.0
+      endif
+cdms  pete - this looks to be limited to available sw above
+cdms         is a further check needed ?????
+c     Can't use g_eo as upper bound to evaporation (like all the
+c     other routines) as g_eo is specific to the top layer. This check
+c     should suffice.
+      eos_max = g_sw_dep(1) - g_air_dry_dep(1) +
+     :    g_sw_dep(2) - g_ll15_dep(2)
+
+      if (evap_L1 + evap_L2 .gt. eos_max) then
+         call warning_error (err_internal, 
+     :        'Evaporation exceeds asw - help!')
+      else
+                                ! Nothing
+      endif
+      
+      es(1) = evap_L1
+      es(2) = evap_L2
+
+      call pop_routine (my_name)
+      return
+      end
+*     ===========================================================
+      real function soilwat2_comp_curve (ndx, a)
+*     ===========================================================
+
+* Short Description: 
+*     .... from GRASP (Surfair)
+*     Standard competition curve (or at least so McKeon
+*     calls it) This function is used by McKeon in several places to
+*     transform an index in the range [0-1] to another index in the
+*     same range, but weighted in a different way. The weighting is
+*     controlled by the a parameter. An "a" value  of 1 leaves the
+*     index untransformed.
+
+*   Assumptions:
+*       none
+
+*   Notes:
+
+*   Procedure Attributes:
+*      version:         any hardware/fortran77
+*      extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*  Changes:
+*       210191 specified and programmed jngh (j hargreaves
+
+*   Calls:
+*       pop_routine
+*       push_routine
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      real ndx                  ! input index (0-1)
+      real a                    ! weighting
+
+*   Global variables
+      real       divide
+
+*   Internal variables
+*     none
+
+*   Constant values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'soilwat2_comp_curve')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (my_name)
+
+      soilwat2_comp_curve = divide (a * ndx, 
+     :     ndx * (a - 1.0) + 1.0, 0.0)
+
+      call pop_routine (my_name)
+      return
+      end
+
 *     ===========================================================
       subroutine soilwat2_drainage (flux)
 *     ===========================================================
@@ -1934,6 +2724,7 @@ cjh
 
 *   Internal variables
        integer numvals                 ! number of values read from file
+       character  evap_method*300
 
 *   Constant values
        character  my_name*(*)          ! name of this procedure
@@ -2052,6 +2843,31 @@ cjh
      :                   , c_canopy_fact_default, numvals
      :                   , 0.0, 1.0)
 
+      evap_method = 'unknown'
+      call read_char_var(section_name
+     :                   , 'act_evap_method', '()'
+     :                   , evap_method, numvals)
+
+      if (evap_method .eq. 'ritchie') then
+         c_evap_method = c_ritchie_method
+
+      else if (evap_method .eq. 'bs_a') then
+         c_evap_method = c_bs_a_method
+
+      else if (evap_method .eq. 'bs_b') then
+         c_evap_method = c_bs_b_method
+
+      else if (evap_method .eq. 'bs_acs_jd') then
+         c_evap_method = c_bs_acs_method
+
+      else if (evap_method .eq. 'rickert') then
+         c_evap_method = c_rickert_method
+
+      else
+         c_evap_method = -1  ! Force error somewhere later..
+
+      endif
+
       call pop_routine (my_name)
       return
       end
@@ -2126,16 +2942,8 @@ cjh
       include   'const.inc'
       include   'soilwat2.inc'
 
-      integer    open_file             ! function
-
 *   Internal variables
-      integer    lun
       integer    numvals               ! number of values returned
-      integer    run_year
-      integer    run_day
-      real       rain
-      real       obs_runoff
-      integer    i
 
 *   Constant values
       character  my_name*(*)            ! name of this module
@@ -2154,48 +2962,17 @@ cjh
       call write_string (lu_scr_sum
      :          ,new_line//'   - Reading Soil Property Parameters')
 
-          ! get runoff filename
-
+          ! get runoff source
       call read_char_var_optional (section_name
-     :                   ,'runoff_filename', '()'
-     :                   , g_runoff_filename
+     :                   ,'observed_runoff', '()'
+     :                   , g_obsrunoff_name
      :                   , numvals)
      
-      if (numvals.eq.0) then
-            ! nothing read
-         g_runoff_filename = 'blank' 
+      if ( numvals .eq. 0 .or.
+     :     g_obsrunoff_name .eq. 'blank') then
+         g_obsrunoff_name = blank              ! blank != 'blank' !!!
       else
-         ! read something
-      endif
-
-      if (g_runoff_filename.ne.'blank') then
-
-            ! store observed data for when runoff occurs
-
-         call write_string (lu_scr_sum
-     :          ,'    observed runoff data is used for water balance')
-
-         g_num_runoff = 0
-
-         lun = open_file (g_runoff_filename)
-
-         do 1111 i=1,1000
-            read (lun, *,end=1112) run_year, run_day, rain, obs_runoff
-            if (obs_runoff.gt.0.0) then
-               g_num_runoff = g_num_runoff + 1
-               g_run_year(g_num_runoff) = run_year
-               g_run_day(g_num_runoff) = run_day
-               g_obs_runoff(g_num_runoff) = obs_runoff
-*               print *, run_year,run_day,rain,obs_runoff,g_num_runoff,i
-            endif
-1111     continue
-1112     continue
-         call close_file (g_runoff_filename)
-
-      else
-            ! no observed data, & runoff_filename = 'blank'
-         call write_string (lu_scr_sum
-     :                  , '    runoff is predicted using curve number')
+         ! nothing - there's a valid string in g_obsrunoff_name
       endif
 
           ! get sw parameters
@@ -2206,11 +2983,6 @@ cjh
      :                   , 0.0, 10.0)
 
       call read_real_var (section_name
-     :                   , 'cona', '()'
-     :                   , p_cona, numvals
-     :                   , 0.0001, 10.0)
-
-      call read_real_var (section_name
      :                   , 'diffus_const', '()'
      :                   , p_diffus_const, numvals
      :                   , 0.0, 1000.0)
@@ -2219,11 +2991,6 @@ cjh
      :                   , 'diffus_slope', '()'
      :                   , p_diffus_slope, numvals
      :                   , 0.0, 100.0)
-
-      call read_real_var (section_name
-     :                   , 'u', '()'
-     :                   , p_u, numvals
-     :                   , 0.0001, 40.0)
 
       call read_real_var (section_name
      :                   , 'cn2_bare', '()'
@@ -2245,6 +3012,61 @@ cjh
      :                   , p_salb, numvals
      :                   , 0.0001, 1.0)
 
+*     Extra parameters for evaporation models:
+      if (c_evap_method .eq. c_ritchie_method .or.
+     :     c_evap_method .eq. c_bs_acs_method) then
+         call read_real_var (section_name
+     :        , 'cona', '()'
+     :        , p_cona, numvals
+     :        , 0.0001, 10.0)
+
+      else
+
+         p_cona = 0.0001
+      endif
+
+      if (c_evap_method .eq. c_ritchie_method .or.
+     :     c_evap_method .eq. c_bs_acs_method) then
+         call read_real_var (section_name
+     :        , 'u', '()'
+     :        , p_u, numvals
+     :        , 0.0001, 40.0)
+      else
+         p_u = 0.0001
+      endif
+
+      if (c_evap_method .eq. c_bs_a_method .or.
+     :     c_evap_method .eq. c_bs_b_method .or.
+     :     c_evap_method .eq. c_bs_acs_method) then
+         call read_real_var (section_name
+     :        , 'beta', '()'
+     :        , p_beta, numvals
+     :        , 0.0, 3.5)
+
+      else
+
+         p_beta = 0.0
+      endif
+
+      if (c_evap_method .eq. c_rickert_method) then
+         call read_real_var (section_name
+     :        , 'max_evap', '()'
+     :        , p_max_evap, numvals
+     :        , 0.9, 20.0)
+
+      else
+
+         p_max_evap = 0.0
+      endif
+
+      call read_char_var_optional (section_name
+     :                   ,'eo_source', '()'
+     :                   , g_eo_source
+     :                   , numvals)
+      if (numvals .le. 0) then
+          g_eo_source = blank
+      else
+      endif
 
       call pop_routine (my_name)
       return
@@ -2500,7 +3322,85 @@ cjh
 *     ===========================================================
 
 *   Short Description:
-*       initialize soil outputs - evaporation and drainage
+*     Wrapper for evaporation methods
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*       none
+
+*   Procedure Attributes:
+*      version:         any hardware/fortran77
+*      extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*       210191 specified and programmed jngh (j hargreaves
+
+
+*   Calls:
+*       pop_routine
+*       push_routine
+*       fatal_error
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+*     none
+
+*   Global variables
+      include   'const.inc'
+      include   'soilwat2.inc'      
+
+*   Internal variables
+
+*   Constant values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'soilwat2_evap_init')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+
+      call push_routine (my_name)
+      if (c_evap_method .eq. c_ritchie_method) then
+         call soilwat2_ritchie_init ()
+
+      else if (c_evap_method .eq. c_bs_a_method) then
+         call soilwat2_bs_a_init ()
+
+      else if (c_evap_method .eq. c_bs_b_method) then
+         call soilwat2_bs_b_init ()
+
+      else if (c_evap_method .eq. c_bs_acs_method) then
+         call soilwat2_bs_acs_init ()
+        
+      else if (c_evap_method .eq. c_rickert_method) then
+         call soilwat2_rickert_init ()
+        
+      else 
+         call fatal_error(err_user, 
+     :        'Tried to initialise unknown evaporation method')
+
+      endif
+
+      call pop_routine (my_name)
+      return
+      end
+*     ===========================================================
+      subroutine soilwat2_ritchie_init
+*     ===========================================================
+
+*   Short Description:
+*       initialize ritchie evaporation model
 
 *   Assumptions:
 *       none
@@ -2555,7 +3455,7 @@ cjh
 
 *   Constant values
       character  my_name*(*)           ! name of subroutine
-      parameter (my_name = 'soilwat2_evap_init')
+      parameter (my_name = 'soilwat2_ritchie_init')
 
 *   Initial data values
 *       none
@@ -2589,6 +3489,341 @@ cjh
       call pop_routine (my_name)
       return
       end
+*     ===========================================================
+      subroutine soilwat2_bs_a_init
+*     ===========================================================
+
+*   Short Description:
+*       B&S option A initialisation
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*       none
+
+*   Procedure Attributes:
+*      version:         any hardware/fortran77
+*      extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*       210191 specified and programmed jngh (j hargreaves
+
+*   Calls:
+*       pop_routine
+*       push_routine
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+*     none
+
+*   Global variables
+      include   'soilwat2.inc'
+
+!      real       bound                 ! function to contain within bounds
+      real       divide                ! function
+
+*   Internal variables
+*      character err_mesg*300    ! message string
+      real       sumes_max
+
+*   Constant values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'soilwat2_bs_a_init')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+
+      call push_routine (my_name)
+
+*     B&S evaporation: 
+*      cumulative actual evap = beta * sqrt(cumulative eos)
+
+      sumes_max = g_dul_dep(1) - g_air_dry_dep(1)
+      g_sumes = g_dul_dep(1) - g_sw_dep(1)
+
+      if (g_sumes .le. 0.0) then
+
+*     ! initial sw is at, or above, DUL.
+         
+         g_sumes = 0.0
+         g_sumes1 = 0.0
+         g_sumes2 = 0.0
+         g_sumeos = 0.0
+
+      else if (g_sumes .gt. sumes_max) then
+
+*     Initial sw is less than air_dry(1):
+*     Write a warning message to summary file. 
+*PdeV. This check is in soilwat2_check_profile. Is it necessary here?
+*         write (err_messg, '(a, g17.6e3, a, 2a, g17.6e3)')
+*     :        ' soil water of ', g_sw_dep(1)
+*     :        ,' in top layer '
+*     :        , new_line
+*     :        ,' is below air_dry value of ', g_air_dry_dep(1)
+*         call warning_error (err_internal, err_messg)
+
+         g_sumes = sumes_max
+         g_sumes1 = p_beta**2
+         g_sumes2 = g_sumes - g_sumes1
+         g_sumeos = divide (g_sumes**2, p_beta**2, 0.0)
+
+         
+      elseif (g_sumes .ge. (p_beta**2)) then
+
+*     Initial sw is not close to DUL.
+*      1st stage evaporation is finished, start in 2nd stage
+         
+         g_sumes1 = p_beta**2
+         g_sumes2 = g_sumes - g_sumes1
+         g_sumeos = divide (g_sumes**2, p_beta**2, 0.0)
+         
+      else
+
+*     Initial sw is close to DUL.
+*      We're in 1st stage evaporation.
+        
+         g_sumes1 = g_sumes
+         g_sumes2 = 0.0
+         g_sumeos = g_sumes
+
+      endif
+
+      call pop_routine (my_name)
+      return
+      end
+*     ===========================================================
+      subroutine soilwat2_bs_b_init
+*     ===========================================================
+
+*   Short Description:
+*     B&S option B initialisation
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*       none
+
+*   Procedure Attributes:
+*      version:         any hardware/fortran77
+*      extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*       210191 specified and programmed jngh (j hargreaves
+
+*   Calls:
+*       pop_routine
+*       push_routine
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+*     none
+
+*   Global variables
+      include   'soilwat2.inc'
+
+*   Internal variables
+
+*   Constant values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'soilwat2_bs_b_init')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+
+      call push_routine (my_name)
+
+cpdev Andy didn't write anything for option B initialisation. But I think
+c     he should have. Any ideas? Perhaps
+      call soilwat2_bs_a_init() 
+
+                                ! Nothing
+      call pop_routine (my_name)
+      return
+      end
+
+*     ===========================================================
+      subroutine soilwat2_bs_acs_init
+*     ===========================================================
+
+*   Short Description:
+*     B&S option B initialisation. (Andy smith + John dimes' version)
+*
+*     PdeV - I hope andy wasn't recycling variable names here, as this is
+*     the only time cona and u are used with this model. 
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*       none
+
+*   Procedure Attributes:
+*      version:         any hardware/fortran77
+*      extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*       210191 specified and programmed jngh (j hargreaves
+
+*   Calls:
+*       pop_routine
+*       push_routine
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+*     none
+
+*   Global variables
+      include   'soilwat2.inc'
+      real      divide
+
+*   Internal variables
+
+*     acs/jpd
+*     NOTE: sumes2_max & sumes_max only apply for initialization.
+*     For model run, evaporation can continue from layr(1)indefinitly
+*     because water is moving up from layer below (by unsaturated flow).
+      real       sumes2_max     ! upper limit of sumes2. Related to
+                                ! evaporative water capacity of layr(1)
+!      real       sumes_max      ! upper limit of cumulative soil evap
+!                                ! for B&S. Also f(evap.wat.cap layr(1))
+*   Constant values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'soilwat2_bs_acs_init')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+
+      call push_routine (my_name)
+
+      sumes2_max = g_dul_dep(1) - g_air_dry_dep(1) - p_u
+
+      if ((g_dul_dep(1) - g_sw_dep(1)) .LT. p_u) then
+                                ! In first stage
+         g_sumes1 = g_dul_dep(1) - g_sw_dep(1)
+         
+         if(g_sumes1 .lt. 0.0) then
+            g_sumes1 = 0.0      ! initial sw greater than DUL
+         else
+                                ! 
+         endif
+         g_sumes2 = 0.0
+         g_t = 0.0
+
+      else
+                                ! In second stage
+         g_sumes1 = p_u
+         g_sumes2 = g_dul_dep(1) - g_sw_dep(1) - p_u
+         
+         if (g_sumes2 .GT. sumes2_max) then 
+            
+*     init sw must be .lt. air_dry
+            g_sumes2 = sumes2_max
+            
+         endif
+
+         g_t = divide(g_sumes2, p_cona, 0.0) **2
+         
+      endif
+      
+      call pop_routine (my_name)
+      return
+      end
+*     ===========================================================
+      subroutine soilwat2_rickert_init
+*     ===========================================================
+
+*   Short Description:
+*     Rickert initialisation
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*       none
+
+*   Procedure Attributes:
+*      version:         any hardware/fortran77
+*      extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*       210191 specified and programmed jngh (j hargreaves
+
+*   Calls:
+*       pop_routine
+*       push_routine
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+*     none
+
+*   Global variables
+      include   'const.inc'
+      include   'soilwat2.inc'
+
+*   Internal variables
+
+*   Constant values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'soilwat2_rickert_init')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+
+      call push_routine (my_name)
+
+      if (p_diffus_const .gt. 0.0 .or.
+     :     p_diffus_slope .gt. 0.0) then
+         call warning_error (err_user, 
+     :     'diffus_const and diffus_slope should be off for rickert')
+      else
+                                ! Nothing
+      endif
+      call pop_routine (my_name)
+      return
+      end
+
 * ====================================================================
       subroutine soilwat2_get_other_variables ()
 * ====================================================================
@@ -2887,6 +4122,30 @@ cjh         endif
  3300       continue
 
  3400    continue
+
+      if (g_eo_source .ne. blank) then
+         g_eo_system = 0.0
+         call get_real_var (unknown_module, g_eo_source, '()'
+     :                                , g_eo_system, numvals
+     :                                , 0.0, 100.0)
+      else
+      endif
+
+      if (g_rain .gt. 0.0 .and.
+     :    g_obsrunoff_name .ne. blank) then
+
+         call get_real_var_optional (unknown_module, 
+     :                               g_obsrunoff_name, '()',
+     :                               g_obsrunoff, numvals,
+     :                               0.0, 1000.0)
+
+         if (numvals .gt. 0) then
+            g_obsrunoff_found = .true.
+         else
+            g_obsrunoff = 0.0
+            g_obsrunoff_found = .false.
+         endif
+      endif
      
       call pop_routine (my_name)
       return
@@ -3149,6 +4408,16 @@ cjh         endif
          call collect_real_var (variable_name, '()'
      :                             , p_cn2_bare, numvals
      :                             , 0.0, 100.0)
+
+      elseif (variable_name .eq. 'cn_cov') then
+         call collect_real_var (variable_name, '()'
+     :                             , p_cn_cov, numvals
+     :                             , 0.0, 1.0)
+
+      elseif (variable_name .eq. 'cn_red') then
+         call collect_real_var (variable_name, '()'
+     :                             , p_cn_red, numvals
+     :                             , 0.0, p_cn2_bare - 0.00009)
 
       else
          call Message_unused ()
@@ -3627,9 +4896,6 @@ cjh         endif
       call fill_real_array (g_sat_dep     , 0.0, max_layer)
       call fill_real_array (g_sw_dep      , 0.0, max_layer)
       call fill_real_array (g_bd          , 0.0, max_layer)
-      call fill_integer_array (g_run_year , 0  , 200)
-      call fill_integer_array (g_run_day  , 0  , 200)
-      call fill_real_array (g_obs_runoff  , 0.0, 200)
       call fill_real_array (c_canopy_fact , 0.0, max_coeffs)
       call fill_real_array (c_canopy_fact_height , 0.0, max_coeffs)
 
@@ -3638,8 +4904,15 @@ cjh         endif
       g_sumes1             = 0.0
       g_sumes2             = 0.0
       g_t                  = 0.0
-      g_runoff_filename    = blank
-      g_num_runoff         = 0
+      g_obsrunoff_name     = blank
+      g_obsrunoff          = 0.0
+
+      g_inf_pool           = 0.0
+      g_sumes              = 0.0
+      g_sumes_last         = 0.0
+      g_sumes_yest         = 0.0
+      g_sumeos_last        = 0.0
+      g_eo_source          = blank
 
       call pop_routine (my_name)
       return
@@ -3709,6 +4982,7 @@ cjh         endif
 
       call fill_real_array (g_flow, 0.0, max_layer)
       call fill_real_array (g_flux, 0.0, max_layer)
+      call fill_real_array (g_es_layers, 0.0, max_layer)
       call fill_real_array (g_cover_tot, 0.0, max_crops)
       call fill_real_array (g_cover_green, 0.0, max_crops)
       call fill_char_array (g_crop_module, ' ', max_crops)
@@ -3722,10 +4996,10 @@ cjh         endif
       g_day                = 0
       g_residue_wt         = 0.0
       g_residue_cover      = 0.0
+      g_eo                 = 0.0
       g_eos                = 0.0
       g_cn2_new            = 0.0
       g_drain              = 0.0
-      g_es                 = 0.0
       g_infiltration       = 0.0
       g_runoff             = 0.0
       g_num_crops          = 0
@@ -4309,6 +5583,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       real       divide                ! function
       real       sum_real_array        ! function
       real       l_bound               ! function
+      integer    lastNB                ! function
       
 *   Internal variables
       real       depth_layer_top       ! depth to top of layer (mm)
@@ -4461,21 +5736,15 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       call write_string (lu_scr_sum, line)
 
       line =
-     : '      Insoil    Cona       U      Salb Dif_Con Dif_Slope'
-      call write_string (lu_scr_sum, line)
-
-      line =
-     : '                          mm                            '
+     : '            Insoil        Salb     Dif_Con   Dif_Slope'
       call write_string (lu_scr_sum, line)
 
       line =
      :  '     ---------------------------------------------------------'
       call write_string (lu_scr_sum, line)
 
-      write (line, '(6x, 6f8.2)')
+      write (line, '(6x, 4f12.2)')
      :               p_insoil
-     :             , p_cona
-     :             , p_u
      :             , p_salb
      :             , p_diffus_const
      :             , p_diffus_slope
@@ -4484,28 +5753,110 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       line =
      :  '     ---------------------------------------------------------'
       call write_string (lu_scr_sum, line)
+      call write_string (lu_scr_sum, new_line//new_line)
 
-      line =
-     : '         Cn2  Cn_Red  Cn_Cov   H_Eff_Depth '
-      call write_string (lu_scr_sum, line)
+      if (g_obsrunoff_name .ne. blank) then
+         write (line, '(6x,a,a,a)')
+     :          '             Observed runoff data ( ',
+     :          g_obsrunoff_name(1:lastNB(g_obsrunoff_name)),
+     :          ' ) is used in water balance'
 
-      line =
-     : '                                    mm     '
-      call write_string (lu_scr_sum, line)
+         call write_string (lu_scr_sum, line)
 
-      line =
+      else
+            ! no observed data
+         call write_string (lu_scr_sum
+     :  ,'             Runoff is predicted using scs curve number:')
+         line =
+     : '           Cn2  Cn_Red  Cn_Cov   H_Eff_Depth '
+         call write_string (lu_scr_sum, line)
+
+         line =
+     : '                                      mm     '
+         call write_string (lu_scr_sum, line)
+
+         line =
      :  '     ---------------------------------------------------------'
-      call write_string (lu_scr_sum, line)
+         call write_string (lu_scr_sum, line)
 
-      write (line, '(6x, 4f8.2)')
+         write (line, '(6x, 4f8.2)')
      :       p_cn2_bare, p_cn_red, p_cn_cov,
      :       c_hydrol_effective_depth
-      call write_string (lu_scr_sum, line)
+         call write_string (lu_scr_sum, line)
 
-      line =
+         line =
      :  '     ---------------------------------------------------------'
-      call write_string (lu_scr_sum, line)
+         call write_string (lu_scr_sum, line)
+      endif
 
+      call write_string (lu_scr_sum, new_line//new_line)
+
+      if (c_evap_method .eq. c_ritchie_method) then
+         line = '      Using Ritchie evaporation model'
+         call write_string (lu_scr_sum, line)
+         
+         write (line, '(7x, a, f8.2, a)') 'Cuml evap (U):        ', 
+     :        p_u, ' (mm^0.5)'
+         call write_string (lu_scr_sum, line)
+
+         write (line, '(7x, a, f8.2, a)') 'CONA:                 ', 
+     :        p_cona, ' ()'
+         call write_string (lu_scr_sum, line)
+         
+      else if (c_evap_method .eq. c_bs_a_method) then
+         line = '      Using B&S option A evaporation method'
+         call write_string (lu_scr_sum, line)
+
+         write (line, '(7x, a, f8.2, a)') 'Beta:                 ', 
+     :        p_beta, ' (mm^0.5)'
+         call write_string (lu_scr_sum, line)
+
+      else if (c_evap_method .eq. c_bs_b_method) then
+         line = '      Using B&S option B evaporation method'
+         call write_string (lu_scr_sum, line)
+
+         write (line, '(7x, a, f8.2, a)') 'Beta:                 ', 
+     :        p_beta, ' (mm^0.5)'
+         call write_string (lu_scr_sum, line)
+
+      else if (c_evap_method .eq. c_bs_acs_method) then
+         line = '      Using B&S option B method with acs/jd mods'
+         call write_string (lu_scr_sum, line)
+
+         write (line, '(7x, a, f8.2, a)') 'Cuml evap (U):        ', 
+     :        p_u, ' (mm)'
+         call write_string (lu_scr_sum, line)
+
+         write (line, '(7x, a, f8.2, a)') 'CONA:                 ', 
+     :        p_cona, ' ()'
+         call write_string (lu_scr_sum, line)
+         
+         write (line, '(7x, a, f8.2, a)') 'Beta:                 ', 
+     :        p_beta, ' (mm^0.5)'
+         call write_string (lu_scr_sum, line)
+        
+      else if (c_evap_method .eq. c_rickert_method) then
+         line = '      Using Rickert evaporation method'
+         call write_string (lu_scr_sum, line)
+
+         write (line, '(7x, a, f8.2, a)') 'Max daily evaporation:', 
+     :        p_max_evap, ' (mm)'
+         call write_string (lu_scr_sum, line)
+         
+      else 
+         line = '     Using unknown evaporation method!'
+         call write_string (lu_scr_sum, line)
+
+      endif
+
+      if (g_eo_source .ne. blank) then
+         write (line, '(6x, a, a)') 'Eo source:             ', 
+     :        g_eo_source
+         call write_string (lu_scr_sum, line)
+      else
+         write (line, '(6x, a)') 'Eo from priestly-taylor'
+         call write_string (lu_scr_sum, line)
+      endif      
 
       call pop_routine (my_name)
       return
@@ -4717,5 +6068,349 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       call bound_check_real_var (wf_tot, 0.9999, 1.0001, 'wf_tot')
 
       call pop_routine (myname)
+      return
+      end
+
+* ====================================================================
+       subroutine soilwat2_irrig_solute ()
+* ====================================================================
+
+*   Short description:
+
+*   Assumptions:
+*      None
+
+*   Notes:
+
+*   Procedure attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <= 20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       Include
+*                       implicit none
+
+*   Changes:
+*   neilh - 04-09-1995 - Programmed and Specified
+
+*   Calls:
+*   Pop_routine
+*   Push_routine
+
+* ----------------------- Declaration section ------------------------
+
+       implicit none
+
+*   Subroutine arguments
+*      none
+
+*   Global variables
+      include 'const.inc'
+      include 'soilwat2.inc'
+      integer    position_in_char_array! function
+
+*   Internal variables
+      integer    irr_solnum            ! irrigation solute counter variable
+      integer    solnum                ! solute number counter variable
+
+*   Constant values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'soilwat2_irrig_solute')
+
+*   Initial data values
+*      none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (myname)
+
+      do 1000 irr_solnum = 1, g_num_irrigation_solutes
+         solnum = position_in_char_array(
+     :                      g_irrigation_solute_names(irr_solnum)
+     :                     ,g_solute_names
+     :                     ,max_solute)
+         if (solnum.ne.0) then
+            g_solute(solnum,1)     = g_solute(solnum,1)
+     :                             + g_irrigation_solute(irr_solnum)
+            g_dlt_solute(solnum,1) = g_dlt_solute(solnum,1)
+     :                             + g_irrigation_solute(irr_solnum)
+         else
+            ! This irrigation solute is not being traced
+         endif
+
+ 1000 continue
+
+      call pop_routine (myname)
+      return
+      end
+* ====================================================================
+       subroutine soilwat2_move_solute_down ()
+* ====================================================================
+
+*   Short description:
+
+*   Assumptions:
+*      None
+
+*   Notes:
+
+*   Procedure attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <= 20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       Include
+*                       implicit none
+
+*   Changes:
+*   neilh - 04-09-1995 - Programmed and Specified
+
+*   Calls:
+*   Pop_routine
+*   Push_routine
+
+* ----------------------- Declaration section ------------------------
+
+       implicit none
+
+*   Subroutine arguments
+*      none
+
+*   Global variables
+      include 'const.inc'
+      include 'soilwat2.inc'
+      integer    position_in_char_array! function
+      integer    count_of_real_vals
+
+*   Internal variables
+      integer    num_layers
+      integer    layer                 ! layer number counter variable
+      integer    mobile_no             ! index of a solute name in the
+                                       ! mobile solute name list
+      integer    solnum                ! solute number counter variable
+      real       leach (max_layer)     ! amount of a solute leached from
+                                       ! each soil layer (kg/ha)
+      real       temp_solute(max_layer)! temp array for solute content(kg/ha)
+      real       temp_solute_min (max_layer)! temp array for minimum solute
+                                       ! content (kg/ha)
+      real       temp_dlt_solute(max_layer) ! temp array of changes in
+                                       ! solute concentration (kg/ha)
+
+
+*   Constant values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'soilwat2_move_solute_down')
+
+*   Initial data values
+*      none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (myname)
+
+      ! Now for each mobile solute put the global solute info into a
+      ! temp solute array, pass this solute information to the solute
+      ! flux routine then insert moved solute back into the global
+      ! record.
+
+      num_layers = count_of_real_vals (p_dlayer, max_layer)
+
+      do 1300 solnum = 1, g_num_solutes
+         mobile_no = position_in_char_array(g_solute_names(solnum)
+     :                                    ,c_mobile_solutes
+     :                                    ,max_solute)
+         if (mobile_no.ne.0) then
+
+            do 1100 layer = 1, max_layer
+               temp_solute(layer) = g_solute(solnum, layer)
+               leach(layer) = 0.0
+               temp_solute_min(layer) = g_solute_min(solnum,layer)
+               temp_dlt_solute(layer) = g_dlt_solute(solnum,layer)
+ 1100       continue
+
+            call soilwat2_solute_flux (leach
+     :                                 , temp_solute
+     :                                 , temp_solute_min)
+            call move_down_real (leach, temp_solute, num_layers)
+            call move_down_real (leach, temp_dlt_solute, num_layers)
+
+            do 1200 layer = 1, max_layer
+               g_solute (solnum, layer) = temp_solute (layer)
+               g_solute_leach (solnum, layer) = leach (layer)
+               g_dlt_solute (solnum, layer) = temp_dlt_solute (layer)
+ 1200       continue
+
+         else
+            ! solute was not in the mobile list - do not move it
+         endif
+
+ 1300 continue
+
+      call pop_routine (myname)
+      return
+      end
+
+* ====================================================================
+       subroutine soilwat2_move_solute_up ()
+* ====================================================================
+
+*   Short description:
+
+*   Assumptions:
+*      None
+
+*   Notes:
+
+*   Procedure attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <= 20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       Include
+*                       implicit none
+
+*   Changes:
+*   neilh - 04-09-1995 - Programmed and Specified
+
+*   Calls:
+*   Pop_routine
+*   Push_routine
+
+* ----------------------- Declaration section ------------------------
+
+       implicit none
+
+*   Subroutine arguments
+*      none
+
+*   Global variables
+      include 'const.inc'
+      include 'soilwat2.inc'
+      integer    position_in_char_array! function
+      integer    count_of_real_vals
+
+*   Internal variables
+      integer    layer                 ! layer number counter variable
+      real       leach (max_layer)     ! amount of a solute leached from
+                                       ! each soil layer (kg/ha)
+      integer    mobile_no             ! index of a solute name in the
+                                       ! mobile solute name list
+      integer    num_layers            ! number of layers
+      integer    solnum                ! solute number counter variable
+      real       temp_solute(max_layer)! temp array for solute content(kg/ha)
+      real       temp_solute_min (max_layer)! temp array for minimum solute
+                                       ! content (kg/ha)
+      real       temp_dlt_solute(max_layer) ! temp array of changes in
+                                       ! solute concentration (kg/ha)
+
+*   Constant values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'soilwat2_move_solute_up')
+
+*   Initial data values
+*      none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (myname)
+
+      ! Now for each mobile solute put the global solute info into a
+      ! temp solute array, pass this solute information to the solute
+      ! flux routine then insert moved solute back into the global
+      ! record.
+
+      num_layers = count_of_real_vals (p_dlayer, max_layer)
+
+      do 2300 solnum = 1, g_num_solutes
+
+         mobile_no = position_in_char_array(g_solute_names(solnum)
+     :                                    ,c_mobile_solutes
+     :                                    ,max_solute)
+         if (mobile_no.ne.0) then
+
+            do 2100 layer = 1, max_layer
+               temp_solute(layer) = g_solute(solnum, layer)
+               leach(layer) = 0.0
+               temp_solute_min(layer) = g_solute_min(solnum,layer)
+               temp_dlt_solute(layer) = g_dlt_solute(solnum,layer)
+ 2100       continue
+
+            call soilwat2_solute_flow (leach
+     :                                , temp_solute
+     :                                , temp_solute_min)
+            call move_up_real (leach, temp_solute, num_layers)
+            call move_up_real (leach, temp_dlt_solute, num_layers)
+
+            do 2200 layer = 1, max_layer
+               g_solute (solnum, layer) = temp_solute (layer)
+               g_solute_up (solnum, layer) = leach (layer)
+               g_dlt_solute (solnum, layer) = temp_dlt_solute (layer)
+ 2200       continue
+         else
+            ! solute was not in the mobile list - do not move it
+         endif
+
+ 2300 continue
+
+      call pop_routine (myname)
+      return
+      end
+
+*     ===========================================================
+      subroutine soilwat2_infiltration ( infiltration )
+*     ===========================================================
+
+*   Short Description:
+*     infiltration into top layer after runoff.
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*       none
+
+*   Procedure Attributes:
+*      version:         any hardware/fortran77
+*      extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*       221090 specified (jngh)
+
+*   Calls:
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      real       infiltration          ! (OUTPUT) infiltration into top layer (mm)
+
+*   Global variables
+      include   'soilwat2.inc'
+     
+*   Internal variables
+
+*   Constant values
+      character  my_name*(*)           ! this subroutine name
+      parameter (my_name = 'soilwat2_infiltration')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+
+      call push_routine (my_name)
+
+            ! infiltration (mm) = (g_rain+irrigation) - g_runoff
+            ! Note: no irrigation runs off.
+
+      infiltration =  g_irrigation + g_rain - g_runoff
+
+      call pop_routine (my_name)
       return
       end
