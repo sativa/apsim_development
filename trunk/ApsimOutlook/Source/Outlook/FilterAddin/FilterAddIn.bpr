@@ -3,7 +3,7 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.05.03"/>
-    <PROJECT value="..\..\..\FilterAddin\FilterAddIn.dll"/>
+    <PROJECT value="L:\FilterAddin\FilterAddIn.dll"/>
     <OBJFILES value="FilterAddIn.obj FiltAddIn.obj ..\Scenario.obj FieldValues.obj 
       TFilterForm.obj"/>
     <RESFILES value=""/>
@@ -17,7 +17,7 @@
       ibsmp50.bpi vcldbx50.bpi VCLIB50.bpi bcbie50.bpi vclie50.bpi Inetdb50.bpi 
       Inet50.bpi NMFast50.bpi dclocx50.bpi bcb97axserver50.bpi TeeGL4C5.bpi 
       TEE4C5.bpi TeeQR4C5.bpi TEEDB4C5.bpi TEEUI4C5.bpi TEEPRO4C5.bpi 
-      OpenXML.bpi VCLADO50.bpi dclusr50.bpi APSGENERAL.bpi APSData.bpi"/>
+      OpenXML.bpi DB.bpi VCLADO50.bpi dclusr50.bpi APSGENERAL.bpi APSData.bpi"/>
     <PATHCPP value=".;.."/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -73,11 +73,6 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
-[Excluded Packages]
-$(BCB)\Projects\Bpl\APSUI.bpl=APSuite user interface components
-$(BCB)\Projects\Bpl\DB.bpl=c:\program files\borland\cbuilder5\Projects\Bpl\DB
-$(BCB)\Projects\Bpl\TAChartPackage.bpl=TAChart
-
 [HistoryLists\hlIncludePath]
 Count=23
 Item0=..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;J:\AdvGrid\;j:\DREAM\Filterbox\units\;J:\ThirdParty\
@@ -132,9 +127,10 @@ Count=1
 Item0=_DEBUG
 
 [HistoryLists\hlFinalOutputDir]
-Count=2
-Item0=..\..\..\FilterAddin\
-Item1=..\..\..\FilterAddin
+Count=3
+Item0=L:\FilterAddin\
+Item1=..\..\..\FilterAddin\
+Item2=..\..\..\FilterAddin
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
