@@ -570,6 +570,9 @@ void Plant::doRegistrations(void)
    setupGetFunction("n_conc_stover", protocol::DTsingle, 1,
                     &Plant::get_n_conc_stover, "%", "N concentration in stover");
 
+   setupGetFunction("n_conc_root", protocol::DTsingle, 1,
+                    &Plant::get_n_conc_root, "%", "N concentration in root");
+
    setupGetFunction("n_conc_leaf", protocol::DTsingle, 1,
                     &Plant::get_n_conc_leaf, "%", "N concentration in leaf");
 
@@ -11147,7 +11150,7 @@ void Plant::plant_read_root_params ()
 
     push_routine (my_name);
 
-    parent->writeString (" - reading root profile parameters");
+    parent->writeString ("   - reading root profile parameters");
 
 //       cproc_sw_demand_bound
 
@@ -11232,8 +11235,8 @@ void Plant::plant_read_root_params ()
     parent->writeString (msg);
 
     sprintf (msg, "%s%5.1f%s"
-          , "    Crop factor for bounding water use is set to "
-          , p.eo_crop_factor
+        ,"Crop factor for bounding water use is set to "
+        , p.eo_crop_factor
           , " times eo.");
     parent->writeString (msg);
 
@@ -13961,6 +13964,14 @@ void Plant::get_n_conc_stover(protocol::Component *system, protocol::QueryValueD
 }
 
 
+void Plant::get_n_conc_root(protocol::Component *system, protocol::QueryValueData &qd)
+{
+    float n_conc = divide (g.n_green[root]
+        , g.dm_green[root]
+        , 0.0) * 100.0;
+
+    system->sendVariable(qd, n_conc);
+}
 void Plant::get_n_conc_leaf(protocol::Component *system, protocol::QueryValueData &qd)
 {
     float n_conc = divide (g.n_green[leaf]

@@ -39,6 +39,7 @@
 #include "Plant.h"
 #include "PlantP.h"
 
+
 static const char* floatType =        "<type kind=\"single\"/>";
 static const char* floatArrayType =   "<type kind=\"single\" array=\"T\"/>";
 
@@ -109,8 +110,8 @@ void PlantP::doRegistrations(PlantComponent *systemInterface)
 
    myFn = boost::bind(&PlantP::get_p_demand, this, _1, _2);
    systemInterface->addGettableVar("p_demand", protocol::DTsingle, 1,
-                                   &myFn,
-                                   "kg/ha","");
+                                   myFn,
+                                   "g/m^2","");
 
    systemInterface->addGettableVar("pfact_photo", protocol::DTsingle, 1,
                                    &g.pfact_photo,
@@ -169,6 +170,11 @@ void PlantP::doRegistrations(PlantComponent *systemInterface)
                                    myFn,
                                    "g/m^2","P in head");
 
+   myFn = boost::bind(&PlantP::get_pod_p, this, _1, _2);
+   systemInterface->addGettableVar("pod_p", protocol::DTsingle, 1,
+                                   myFn,
+                                   "g/m^2","P in pod shell");
+
    systemInterface->addGettableVar("p_senesced", protocol::DTsingle, max_part,
                                    &g.part_p_sen,
                                    "g/m^2","P in senesced parts");
@@ -185,9 +191,13 @@ void PlantP::doRegistrations(PlantComponent *systemInterface)
                                    &g.dlt_part_p_retrans,
                                    "g/m^2","dlt P parts");
 // john: this was missing?
-//   systemInterface->addGettableVar("dlt_p_detached", protocol::DTsingle, max_part,
-//                                   &g.dlt_part_p_detached,
-//                                   "g/m^2","dlt P detached");
+   systemInterface->addGettableVar("dlt_p_det", protocol::DTsingle, max_part,
+                                   &g.dlt_part_p_det,
+                                   "g/m^2","dlt P detached");
+
+   systemInterface->addGettableVar("dlt_p_detached", protocol::DTsingle, max_part,
+                                   &g.dlt_part_p_det,
+                                   "g/m^2","dlt P detached");
 
    systemInterface->addGettableVar("dlt_p_dead", protocol::DTsingle, max_part,
                                    &g.dlt_part_p_dead,
@@ -227,9 +237,9 @@ void PlantP::doRegistrations(PlantComponent *systemInterface)
                                    myFn,
                                    "%","P in stover");
 // john: this was missing?
-//   systemInterface->addGettableVar("grain_p_demand", protocol::DTsingle, 1,
-//                                   &g.part_demand[grain],
-//                                   "g/m^2","P demand of grain");
+   systemInterface->addGettableVar("grain_p_demand", protocol::DTsingle, 1,
+                                   &g.part_demand[meal],
+                                   "g/m^2","P demand of grain");
    }
 
 // =======================================
@@ -302,8 +312,8 @@ void PlantP::zero_variables ()
 //      Called by function pointer registered through addGettableVar()
 void PlantP::get_p_demand(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
-    float p_demand = sum_real_array(g.part_demand, max_part) * gm2kg / sm2ha;
-    systemInterface->sendVariable(qd, p_demand);   //(kg/ha)
+    float p_demand = sum_real_array(g.part_demand, max_part);
+    systemInterface->sendVariable(qd, p_demand);   //(g/m^2
 }
 
 void PlantP::get_pfact_grain(protocol::Component *systemInterface, protocol::QueryValueData &qd)
@@ -593,7 +603,7 @@ void PlantP::PlantP_partition ()
 
       total_demand = sum_real_array (g.part_demand, g.num_parts);
 
-      for (part = 0; part < g.num_parts; part++);
+      for (part = 0; part < g.num_parts; part++)
       {
          g.dlt_part_p_green[part] = p_uptake
                                   * divide(g.part_demand[part]
@@ -852,7 +862,6 @@ void PlantP::PlantP_demand (float growth_stage
             g.part_demand[part] = l_bound(deficit, 0.0);
             }
          }
-
       pop_routine (my_name);
 }
 
