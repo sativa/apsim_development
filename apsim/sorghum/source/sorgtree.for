@@ -1,5 +1,5 @@
 C     Last change:  E    18 Nov 1999    2:28 pm
-      include 'sorghum.inc'
+!      include 'sorghum.inc'
 *     ===========================================================
       subroutine Sorg_root_depth (Option)
 *     ===========================================================
@@ -254,6 +254,8 @@ C     Last change:  E    18 Nov 1999    2:28 pm
 *     010994 jngh specified and programmed
 *     970225 slw modified to split stress factors
 
+      dll_import sorg_nfact_photo
+      
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Sorg_nit_stress')
@@ -983,6 +985,8 @@ c     :          g%days_tot)
 *+  Changes
 *     250894 jngh specified and programmed
 
+      dll_import sorg_n_init1
+      
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Sorg_nit_init')
@@ -2269,6 +2273,7 @@ c     :          g%days_tot)
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
+      dll_import sorg_n_partition1
 
 *+  Purpose
 *     <insert here>
