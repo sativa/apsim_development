@@ -4149,6 +4149,7 @@ c     he should have. Any ideas? Perhaps
 *+  Changes
 *       191094 jngh specified and programmed
 *       190595 jngh added bulk density
+*       201099 dph  zeroed g%irrigation
  
 *+  Constant Values
       character  my_name*(*)           ! module name
@@ -4187,6 +4188,7 @@ c     he should have. Any ideas? Perhaps
       g%tillage_rain_sum   = 0.0
       g%tillage_cn_rain    = 0.0
       g%tillage_cn_red     = 0.0
+      g%irrigation         = 0.0
  
       call pop_routine (my_name)
       return
