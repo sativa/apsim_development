@@ -178,6 +178,7 @@
 
 
       type CropModGlobals
+      Sequence
 
 
         real     NO3(max_layer)
@@ -710,6 +711,7 @@
 !    *************************************************************************
 
       type CropModConstants
+      Sequence
 
         real     RUE_Max
         logical  RUE_max_exist
@@ -1461,6 +1463,7 @@
 
 
       type CropModParameters
+      Sequence
 
         !phenology_parameters
 
@@ -1594,22 +1597,10 @@
 
 !=================== instance variables ========================================
 
-      type (CropModGlobals),    pointer :: g
-      type (CropModParameters), pointer :: p
-      type (CropModConstants),  pointer :: c
-
-      integer    MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)
-      integer    MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-
-      type CropModDataPtr
-         type (CropModGlobals),    pointer :: gptr
-         type (CropModParameters), pointer :: pptr
-         type (CropModConstants),  pointer :: cptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type CropModDataPtr
-
-      type (CropModDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (CropModGlobals),pointer :: g
+      type (CropModParameters),pointer :: p
+      type (CropModConstants),pointer :: c
 
       end module
