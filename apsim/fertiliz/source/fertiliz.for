@@ -1,37 +1,4 @@
 *     ===========================================================
-      character*(*) function fertiliz_version ()
-*     ===========================================================
-      implicit none
-      include 'error.pub'
- 
-*+  Purpose
-*       return version number of fertiliz module
- 
-*+  Mission Statement
-*     version number
- 
-*+  Changes
-*     <insert here>
- 
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'fertiliz_version')
-*
-      character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V1.3 011196')
- 
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
- 
-      fertiliz_version = version_number
- 
-      call pop_routine (my_name)
-      return
-      end
- 
- 
- 
-*     ===========================================================
       subroutine APSIM_fertiliz (Action, Data_string)
 *     ===========================================================
       implicit none
@@ -59,29 +26,19 @@
 *      150696 nih   changed routine call from fertiliz_prepare to
 *                   fertiliz_inter_timestep.
  
-*+  Calls
-      character*20 fertiliz_version    ! function
- 
 *+  Constant Values
       character  my_name*(*)
       parameter (my_name = 'fertiliz')
- 
-*+  Local Variables
-      character  Module_name*10        ! name of this module
  
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
          ! initialise error flags
       call set_warning_off ()
- 
-      if (Action.eq.MES_Presence) then
-         call get_current_module (Module_name)
-         write(*, *) 'module_name = '
-     :              , trim(module_name)
-     :              // blank
-     :              // fertiliz_version ()
- 
+
+      if (Action.eq.MES_Get_variable) then
+         call fertiliz_Send_my_variable (Data_string)
+  
       else if (Action.eq.MES_Init) then
  
          call fertiliz_zero_variables ()
@@ -98,9 +55,6 @@
       else if (Action.eq.'apply' .or. Action.eq.'fertilize') then
          call fertiliz_get_other_variables ()
          call fertiliz_fertilize ()
- 
-      else if (Action.eq.MES_Get_variable) then
-         call fertiliz_Send_my_variable (Data_string)
  
       else if (Action .eq. MES_Set_variable) then
          call fertiliz_set_my_variable (Data_string)
@@ -213,9 +167,6 @@
 *+  Changes
 *     <insert here>
  
-*+  Calls
-      character  fertiliz_version*15   ! function
- 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'fertiliz_init')
@@ -230,7 +181,7 @@
  
          ! Notify system that we have initialised
  
-      Event_string = ' Initialising, Version : ' // fertiliz_version()
+      Event_string = ' Initialising '
       call report_event (Event_string)
  
          ! Get all parameters from parameter file
