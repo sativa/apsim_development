@@ -218,11 +218,9 @@
          call frmrpt_assert(g%out_file_unt(i_frm).ge.1,
      :                        'out_file_unt.ge.1')
          open(iostat=err_ret, file=p%out_file_name(i_frm),
-     :            status='unknown', unit=g%out_file_unt(i_frm),
-     :            carriagecontrol='fortran')
+     :            status='unknown', unit=g%out_file_unt(i_frm))
          call frmrpt_assert(err_ret.eq.0, 
      :            'Error opening file ' // p%out_file_name(i_frm))
-         write(g%out_file_unt(i_frm), '(1H $)') 
  
       ! Open form file.
          frm_file_unt = LU_FORM_FILE
@@ -440,7 +438,6 @@
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      print *, 'handle=',handle
       hndl_ndx = find_string_in_array(handle, p%handle, p%nforms)
  
       if (hndl_ndx .gt. 0) then
@@ -579,6 +576,8 @@
       read(frm_file_unt, '(A)', iostat=err_ret) in_line
       if (err_ret .ne. 0) goto 140
  
+         g%out_line_pos = 1
+         g%out_line = ' '
          ch_end = len_trim(in_line)
          ch_pos = 1
  
@@ -611,7 +610,8 @@
  
             else
                if (is_show)  then
-                  write(out_file_unt, '(1H+,A1,$)') ch
+                  g%out_line(g%out_line_pos:) = ch
+                  g%out_line_pos = g%out_line_pos + 1
                end if
                ch_pos = ch_pos + 1
             end if
@@ -620,8 +620,7 @@
 130      continue   ! END WHILE
             
          if (is_show)  then
-            write(out_file_unt, '(1H+)') 
-            write(out_file_unt, '(1H $)') 
+            write(out_file_unt, *) trim(g%out_line)
          end if
          goto 110
 140   continue  ! END WHILE
@@ -846,7 +845,8 @@
       if (num_vals .gt. 1)  then
          call frmrpt_prtrv(out_file_unt, vals, num_vals)
       else if (num_vals .eq. 1)  then
-         write(out_file_unt, '(1H+,G13.5,$)') vals(1)
+         write(g%out_line(g%out_line_pos:), '(G13.5)') vals(1)
+         g%out_line_pos = g%out_line_pos + 13
       end if
          
       call pop_routine (my_name)
@@ -1231,16 +1231,19 @@
       nlines = nvars/llen
       lcnt = 0
       do 10 i=1, nlines
-         write(unt, '(1h+,5(1X,G13.5),$)')
+         write(g%out_line(g%out_line_pos:), '(5(1X,G13.5))')
      :                     (vec(j), j=lcnt+1, lcnt+llen)
+         g%out_line_pos = g%out_line_pos + (llen*14)
          lcnt = lcnt + llen
          if (nvars .gt. lcnt) then
-            write(unt, '(1H+)') 
-            write(unt, '(1H $)') 
+            write(unt, *) trim(g%out_line)
+            g%out_line = ' '
+            g%out_line_pos = 1
          end if
 10    continue
       do 20, j=lcnt+1, nvars
-         write(unt, '(1h+,1X,G13.5,$)')  vec(j)
+         write(g%out_line(g%out_line_pos:), '(1X,G13.5)')  vec(j)
+         g%out_line_pos = g%out_line_pos + 14
 20    continue
  
       call pop_routine(my_name)
