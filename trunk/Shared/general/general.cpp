@@ -25,6 +25,7 @@ USEUNIT("stream_functions.cpp");
 USEUNIT("string_functions.cpp");
 USEUNIT("date_class.cpp");
 USEUNIT("stream_processor.cpp");
+USEUNIT("stristr.cpp");
 //---------------------------------------------------------------------------
 int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void*)
 {
