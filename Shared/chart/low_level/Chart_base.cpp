@@ -44,10 +44,10 @@ Chart_base::Chart_base (TForm* parent)
 Chart_base::~Chart_base (void)
    {
    // delete all plots.
-   Destroy_pointers (Plot_list, Plot());
+   Destroy_pointers (Plot_list, &Plot());
 
    // delete all annotations.
-   Destroy_pointers (Annotation_list, Drawable());
+   Destroy_pointers (Annotation_list, &Drawable());
    }
 
 // ------------------------------------------------------------------
