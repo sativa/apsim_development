@@ -132,7 +132,7 @@ object data: TForm
     Left = 25
     Top = 271
   end
-  object Roma600File: TApsimFileReader
+  object roma400File: TApsimFileReader
     Active = True
     DesignActivation = True
     AttachedAutoRefresh = True
@@ -192,13 +192,13 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Roma600Prob.onSourceDataChanged')
+      'roma400Prob.onSourceDataChanged')
     filenames.Strings = (
-      'Roma600.out')
+      'roma400.out')
     Left = 336
     Top = 192
   end
-  object Roma600Prob: TProbability
+  object roma400Prob: TProbability
     Active = True
     DesignActivation = True
     AttachedAutoRefresh = True
@@ -240,12 +240,12 @@ object data: TForm
     SortID = 0
     SubLanguageID = 1
     LocaleID = 1024
-    source = Roma600File
+    source = roma400File
     fieldName = 'yield'
     Left = 448
     Top = 216
   end
-  object Roma1500File: TApsimFileReader
+  object roma800File: TApsimFileReader
     Active = True
     DesignActivation = True
     AttachedAutoRefresh = True
@@ -305,13 +305,13 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Roma1500Prob.onSourceDataChanged')
+      'roma800Prob.onSourceDataChanged')
     filenames.Strings = (
-      'Roma1500.out')
+      'roma800.out')
     Left = 248
     Top = 88
   end
-  object Roma1500Prob: TProbability
+  object roma800Prob: TProbability
     Active = True
     DesignActivation = True
     AttachedAutoRefresh = True
@@ -353,7 +353,7 @@ object data: TForm
     SortID = 0
     SubLanguageID = 1
     LocaleID = 1024
-    source = Roma1500File
+    source = roma800File
     fieldName = 'yield'
     Left = 112
     Top = 112
@@ -641,9 +641,9 @@ object QuickRepPage1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.Roma600Prob
+          DataSource = data.roma400Prob
           SeriesColor = clYellow
-          Title = 'Roma600'
+          Title = 'roma400'
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
           Pointer.Visible = False
@@ -658,9 +658,9 @@ object QuickRepPage1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.Roma1500Prob
+          DataSource = data.roma800Prob
           SeriesColor = clBlue
-          Title = 'Roma1500'
+          Title = 'roma800'
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
           Pointer.Visible = False
@@ -779,9 +779,9 @@ object QuickRepPage1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.Roma600File
+          DataSource = data.roma400File
           SeriesColor = clYellow
-          Title = 'Roma600'
+          Title = 'roma400'
           ClickableLine = False
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -797,9 +797,9 @@ object QuickRepPage1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.Roma1500File
+          DataSource = data.roma800File
           SeriesColor = clBlue
-          Title = 'Roma1500'
+          Title = 'roma800'
           ClickableLine = False
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
