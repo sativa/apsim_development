@@ -234,6 +234,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "Sheep.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Sheep.resx"
+                    DependentUpon = "Sheep.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "SimulationUI.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
@@ -251,6 +261,16 @@
                 <File
                     RelPath = "SoilUI.resx"
                     DependentUpon = "SoilUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Stock.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Stock.resx"
+                    DependentUpon = "Stock.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File

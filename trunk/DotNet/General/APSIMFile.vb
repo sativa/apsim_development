@@ -87,7 +87,7 @@ Public Class APSIMFile
     Public Sub SaveAs()
         Dim dialog As New SaveFileDialog
         With dialog
-            .Filter = .Filter = "APSIM Data files (*.apsim)|*.apsim|All files (*.*)|*.*"
+            .Filter = "APSIM Data files (*.apsim)|*.apsim|All files (*.*)|*.*"
             .AddExtension = True
             .OverwritePrompt = True
         End With

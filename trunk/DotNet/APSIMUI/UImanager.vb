@@ -62,6 +62,10 @@ Public Class UIManager
                     _UI = New LogicUI
                 Case "crop"
                     _UI = New CropUI
+                Case "sheep"
+                    _UI = New SheepUI
+                Case "stock"
+                    _UI = New StockUI
                 Case Else
                     _UI = New ParameterUI
             End Select
