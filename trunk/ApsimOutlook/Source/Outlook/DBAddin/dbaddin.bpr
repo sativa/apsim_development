@@ -15,10 +15,9 @@
       TEEUI4C5.lib TEEDB4C5.lib APSGENERAL.lib TEEPRO4C5.lib VCLX50.lib"/>
     <PACKAGES value="Vcl50.bpi Vclx50.bpi bcbsmp50.bpi Qrpt50.bpi Vcldb50.bpi Vclbde50.bpi 
       ibsmp50.bpi vcldbx50.bpi VCLIB50.bpi bcbie50.bpi vclie50.bpi Inetdb50.bpi 
-      Inet50.bpi NMFast50.bpi dclocx50.bpi bcb97axserver50.bpi slstc5.bpi 
-      asgc5.bpi TeeGL4C5.bpi TEE4C5.bpi TeeQR4C5.bpi TEEDB4C5.bpi TEEUI4C5.bpi 
-      TEEPRO4C5.bpi OpenXML.bpi DB.bpi VCLADO50.bpi dclusr50.bpi APSGENERAL.bpi 
-      APSData.bpi"/>
+      Inet50.bpi NMFast50.bpi dclocx50.bpi bcb97axserver50.bpi TeeGL4C5.bpi 
+      TEE4C5.bpi TeeQR4C5.bpi TEEDB4C5.bpi TEEUI4C5.bpi TEEPRO4C5.bpi 
+      OpenXML.bpi DB.bpi VCLADO50.bpi dclusr50.bpi APSGENERAL.bpi APSData.bpi"/>
     <PATHCPP value=".;.."/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -74,11 +73,16 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
+[Excluded Packages]
+$(BCB)\Projects\Bpl\APSUI.bpl=APSuite user interface components
+$(BCB)\Projects\Bpl\DB.bpl=c:\program files\borland\cbuilder5\Projects\Bpl\DB
+$(BCB)\Projects\Bpl\TAChartPackage.bpl=TAChart
+
 [HistoryLists\hlIncludePath]
 Count=11
-Item0=..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;J:\RX\Units
-Item1=..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
-Item2=..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\
+Item0=..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;J:\RX\Units\
+Item1=..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;J:\RX\Units
+Item2=..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
 Item3=..\;$(BCB)\include;$(BCB)\include\vcl;k:\;..;k:\components\data\;k:\components\general\
 Item4=$(BCB)\include;$(BCB)\include\vcl;k:\;..;k:\components\data\;k:\components\general\
 Item5=$(BCB)\include;$(BCB)\include\vcl;k:\;..;k:\components\data\;k:\components\general
