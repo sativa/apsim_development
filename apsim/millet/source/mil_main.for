@@ -10,8 +10,8 @@
 
 *   Notes:
 *   $Log$
-*   Revision 1.3  1997/01/06 04:28:34  SidWright
-*   Patch 5
+*   Revision 1.4  1997/01/07 03:05:15  SidWright
+*   Patch 6
 *r  $
 *      
 *         Rev 1.7   19 Jul 1995 18:21:16   PVCSUSER
