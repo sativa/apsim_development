@@ -511,69 +511,44 @@
      
      
      
-     flowering (DAS) =  79                  maturity (DAS)  = 113
-      flowering day  =   88                  stover (kg/ha) =    5350.6
-      maturity day        =  122             grain yield (kg/ha) =    1833.3
-      grain % water content   =    9.0       grain yield wet (kg/ha) =    2014.7
-      grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 2.073
+     flowering (DAS) =   79                                maturity (DAS)  =     113
+      flowering day  =   88                                 stover (kg/ha) =    5350.6
+      maturity day        =  122                            grain yield (kg/ha) =    1833.3
+      grain % water content   =    9.0                      grain yield wet (kg/ha) =    2014.7
+      grain wt (g) =     0.000                              grains/m^2   =     0.000
+      grains/head =   0.0                                   maximum lai = 2.073
       total above ground biomass (kg/ha) =    7183.9
       live above ground biomass (kg/ha) =    7183.9
       green above ground biomass (kg/ha) =    5202.0
       senesced above ground biomass (kg/ha) =    1982.0
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  32.0
-      grain N percent =      1.91            total N content (kg/ha) =     82.52
-      grain N uptake (kg/ha) =     35.06     senesced N content (kg/ha) =     13.87
-      green N content (kg/ha) =     33.59    dead N content (kg/ha) =      0.00
-      grain P percent =      0.00            total P content (kg/ha) =      0.00
-      grain P uptake (kg/ha) =      0.00     senesced P content (kg/ha) =      0.00
-      green P content (kg/ha) =      0.00    dead P content (kg/ha) =      0.00
+      grain N percent =      1.91                           total N content (kg/ha) =     82.52
+      grain N uptake (kg/ha) =     35.06                    senesced N content (kg/ha) =     13.87
+      green N content (kg/ha) =     33.59                   dead N content (kg/ha) =      0.00
      
      
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
+         emergence           to end_of_juvenile         0.000        0.000        0.007        0.185
+         end_of_juvenile     to floral_initiation       0.000        0.067        0.037        0.228
+         floral_initiation   to flag_leaf               0.000        0.035        0.492        0.594
+         flag_leaf           to flowering               0.000        0.339        0.376        0.501
+         flowering           to start_grain_fill        0.000        0.355        0.369        0.495
+         start_grain_fill    to end_grain_fill          0.000        0.000        0.247        0.398
      
-      stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0065704
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1854415
+     Crop harvested.
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               1833.33                    0.00
+                          N  (kg/ha) =                 35.06                    0.00
      
-     
-     
-      stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0371371
-      water stress 2 =       0.0669999   nitrogen stress 2 =       0.2284913
-     
-     
-     
-      stress indices for floral_initiation
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.4924441
-      water stress 2 =       0.0354077   nitrogen stress 2 =       0.5939552
-     
-     
-     
-      stress indices for flag_leaf
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.3759069
-      water stress 2 =       0.3388372   nitrogen stress 2 =       0.5007256
-     
-     
-     
-      stress indices for flowering
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.3687562
-      water stress 2 =       0.3547644   nitrogen stress 2 =       0.4950050
-     
-     
-     
-      stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.2469399
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.3975519
 3 May 1988(Day of year=124), manager: 
      Manager sending message :- sunflower end_crop
 3 May 1988(Day of year=124), sunflower: 
-         ended. Yield (dw) =     0.0
-                                               straw residue = 5739.4 kg/ha
-                                               straw N =   47.5 kg/ha
-                                               straw P =    0.0 kg/ha
-                                               root residue = 2145.2 kg/ha
-                                               root N =   16.9 kg/ha
-                                               root P =    0.0 kg/ha
+         Crop ended. Yield (dw) =     0.0
+         Organic matter from crop:-      Tops to surface residue     Roots to soil FOM
+                          DM (kg/ha) =               5739.42                 2145.17
+                          N  (kg/ha) =                 47.46                   16.93
+                          P  (kg/ha) =                  0.00                    0.00
+     
 1 January 1990(Day of year=1), clock: 
      Simulation is terminating due to end criteria being met.
