@@ -34,7 +34,7 @@ object MainForm: TMainForm
     object Standard: TToolBar
       Left = 11
       Top = 2
-      Width = 223
+      Width = 248
       Height = 24
       Align = alNone
       AutoSize = True
@@ -71,19 +71,24 @@ object MainForm: TMainForm
         ImageIndex = 2
         OnClick = SaveExecute
       end
-      object ToolButton7: TToolButton
+      object ToolButton8: TToolButton
         Left = 75
+        Top = 0
+        Action = CopyToClipboard
+      end
+      object ToolButton7: TToolButton
+        Left = 100
         Top = 0
         Action = Print
       end
       object ToolButton4: TToolButton
-        Left = 100
+        Left = 125
         Top = 0
         Hint = 'Refresh the report'
         Action = RefreshAction
       end
       object ZoomEdit: TEdit
-        Left = 125
+        Left = 150
         Top = 0
         Width = 41
         Height = 24
@@ -94,7 +99,7 @@ object MainForm: TMainForm
         OnKeyDown = ZoomEditKeyDown
       end
       object ZoomUpDown: TUpDown
-        Left = 166
+        Left = 191
         Top = 0
         Width = 16
         Height = 24
@@ -107,7 +112,7 @@ object MainForm: TMainForm
         Wrap = False
       end
       object ToolButton5: TToolButton
-        Left = 182
+        Left = 207
         Top = 0
         Width = 16
         Caption = 'ToolButton5'
@@ -115,7 +120,7 @@ object MainForm: TMainForm
         Style = tbsSeparator
       end
       object ToolButton6: TToolButton
-        Left = 198
+        Left = 223
         Top = 0
         Action = AdvancedEditMode
       end
@@ -138,7 +143,10 @@ object MainForm: TMainForm
   end
   object SaveDialog1: TSaveDialog
     DefaultExt = 'report'
-    Filter = 'Report files|*.report'
+    Filter = 
+      'Report files (*.report)|*.report|Bitmap files (*.bmp)|*.bmp|JPEG' +
+      ' files (*.jpg)|*.jpg|HTML files (*.html)|*.html|PDF files (*.pdf' +
+      ')|*.pdf'
     Left = 272
     Top = 40
   end
@@ -188,6 +196,12 @@ object MainForm: TMainForm
     end
     object Edit1: TMenuItem
       Caption = '&Edit'
+      object Copy2: TMenuItem
+        Action = CopyToClipboard
+      end
+      object N3: TMenuItem
+        Caption = '-'
+      end
       object Edit2: TMenuItem
         Action = AdvancedEditMode
       end
@@ -214,7 +228,7 @@ object MainForm: TMainForm
     Left = 400
     Top = 40
     Bitmap = {
-      494C01010F001300040012001200FFFFFFFFFF00FFFFFFFFFFFFFFFF424D3600
+      494C01010F001300040012001200FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000480000005A00000001002000000000004065
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1062,7 +1076,7 @@ object MainForm: TMainForm
       F8001E000F000000E001E003F8001E000F000000E001E003F8001E000F000000
       E003F1FE38001E000F000000E007FFFF38001E000F000000E00FFFEEB8001E00
       0F000000E01FFFF1F8001E001F000000FFFFFFFFFFFFFFFFFF000000FFFFFFFF
-      FFFFFFFFFF000000}
+      FFFFFFFFFF00000000000000000000000000000000000000000000000000}
   end
   object ActionList1: TActionList
     Images = ImageList1
@@ -1117,10 +1131,10 @@ object MainForm: TMainForm
       ImageIndex = 5
       OnExecute = DeleteFileExecute
     end
-    object CopyFile: TAction
+    object CopyToClipboard: TAction
       Caption = 'Copy'
       ImageIndex = 6
-      OnExecute = CopyFileExecute
+      OnExecute = CopyToClipboardExecute
     end
     object PasteFile: TAction
       Caption = 'Paste'
@@ -1178,7 +1192,7 @@ object MainForm: TMainForm
       Action = DeleteFile
     end
     object Copy1: TMenuItem
-      Action = CopyFile
+      Action = CopyToClipboard
     end
     object Paste1: TMenuItem
       Action = PasteFile
@@ -1192,6 +1206,20 @@ object MainForm: TMainForm
   end
   object SEGLibrary1: TSEGLibrary
     Left = 288
+    Top = 104
+  end
+  object MRUFileList: TdfsMRUFileList
+    UseRegistry = True
+    SubmenuName = 'Reopen'
+    ClearItemName = '&Clear MRU List'
+    ShowClearItem = False
+    ShowRemoveObsolete = False
+    RemoveObsoleteName = '&Remove Obsolete'
+    OnMRUItemClick = MRUFileListMRUItemClick
+    FileMenu = File1
+    AutoSaveName = '\Software\ApsimReport'
+    AutoSaveKey = 'MRU Items'
+    Left = 208
     Top = 104
   end
 end
