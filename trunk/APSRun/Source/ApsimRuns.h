@@ -1,0 +1,62 @@
+//---------------------------------------------------------------------------
+#ifndef ApsimRunsH
+#define ApsimRunsH
+#include <string>
+#include <vector>
+class ApsimRun;
+//---------------------------------------------------------------------------
+// This class keeps track of a series of APSIM runs and runs one at a time.
+//---------------------------------------------------------------------------
+class ApsimRuns
+   {
+   public:
+      ApsimRuns(void) { };
+      ~ApsimRuns(void);
+      //---------------------------------------------------------------------------
+      // Add a .run file to the list of runs to run.
+      //---------------------------------------------------------------------------
+      void addFile(const std::string& fileName, bool allSimulations);
+
+      //---------------------------------------------------------------------------
+      // Perform all APSIM runs.
+      //---------------------------------------------------------------------------
+      void runAll(bool withConsole, bool quiet);
+
+      //---------------------------------------------------------------------------
+      // Create SIM files for all runs.
+      //---------------------------------------------------------------------------
+      void createSIMs(void);
+
+      //---------------------------------------------------------------------------
+      // Get a list of control files that need converting.
+      //---------------------------------------------------------------------------
+      void getFilesNeedingConversion(std::vector<std::string>& fileNames);
+
+      //---------------------------------------------------------------------------
+      // Get a list of control files that are to be run.
+      //---------------------------------------------------------------------------
+      void getFilesToRun(std::vector<std::string>& fileNames);
+
+      //---------------------------------------------------------------------------
+      // Set the list of simulations to run for the specified control file.
+      //---------------------------------------------------------------------------
+      void setSimulationsToRun(const std::string& fileName,
+                               const std::vector<std::string>& simulations);
+
+      //---------------------------------------------------------------------------
+      // Perform all Apsim runs.
+      //---------------------------------------------------------------------------
+      void runApsim(void);
+                               
+   private:
+      std::vector<ApsimRun*> runs;
+      bool console;
+
+      //---------------------------------------------------------------------------
+      // Create all sim files.
+      //---------------------------------------------------------------------------
+      void createApsimSims(void);
+
+   };
+#endif
+
