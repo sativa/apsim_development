@@ -5,7 +5,7 @@
   Module = report   [sample]      
   Module = met      COOPR96.MET [CPRL96_shifted]      
   Module = manager  sample.man [sample]      
-  Module = eo       eo.par [sample]     ..\eo.ini [standard]      
+  Module = eo       eo.par [sample]     %apsuite\apsim\eo\eo.ini [standard]      
 
 ! Generic report parameters
 [sample.report.parameters]  
