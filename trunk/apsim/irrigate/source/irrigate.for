@@ -177,8 +177,8 @@
 *     ===========================================================
 
 *   Short description:
-*      This routine is determines the irigation parameters and
-*      irrigates.
+*      This routine responds to an irrigate message from another
+*      module.  Gets any parameters and irrigates.
 
 *   Assumptions:
 *       none
@@ -264,7 +264,7 @@
 
       if (numvals .eq. 0) then
             !set default
-         duration = g_irr_duration_def
+         duration = p_default_duration
       else
           ! got a value
       endif
@@ -277,7 +277,7 @@
 
       if (numvals .eq. 0) then
             !set default
-         time = g_irr_time_def
+         time = p_default_time
       else
           ! got a value
       endif
@@ -287,7 +287,7 @@
       ! ----------------------------------------------
       do 100 solnum = 1, g_num_solutes
          Call collect_real_var_optional (
-     :                       g_solute_names(solnum)
+     :                       p_solutes(solnum)
      :                     , '(kg/ha)'
      :                     , solute(solnum)
      :                     , numvals_solute(solnum)
@@ -295,6 +295,8 @@
      :                     , 1000.0)
 
   100 continue
+
+
 
       call new_postbox ()
 
@@ -314,7 +316,7 @@
 
       do 200 solnum = 1, g_num_solutes
          if (numvals_solute(solnum) .ne.0) then
-            call post_real_var   (g_solute_names(solnum)
+            call post_real_var   (p_solutes(solnum)
      :                           ,'(kg/ha)'
      :                           , solute(solnum))
          else
@@ -325,7 +327,7 @@
 
       call delete_postbox ()
 
-      g_irr_applied = g_irr_applied + amount
+      g_irrigation_applied = g_irrigation_applied + amount
 
       call pop_routine (my_name)
       return
@@ -390,8 +392,6 @@
 * --------------------- Executable code section ----------------------
       call push_routine (my_name)
 
-      call irrigate_get_other_variables ()
-
          ! Notify system that we have initialised
 
       Event_string = ' Initialising, Version : ' // irrigate_version ()
@@ -401,7 +401,7 @@
 
       call irrigate_read_param ()
 
-      num_irrigs = count_of_integer_vals (g_irr_day, max_irrigs)
+      num_irrigs = count_of_integer_vals (p_day, max_irrigs)
       If (num_irrigs .gt. 0) then
          call write_string (lu_scr_sum, new_line//new_line)
 
@@ -418,9 +418,9 @@
 
          do 100 counter = 1, num_irrigs
             write (string,'(14x, i5, i6, f8.2)')
-     :                                  g_irr_day(counter)
-     :                                , g_irr_year(counter)
-     :                                , g_irr_amount(counter)
+     :                                  p_day(counter)
+     :                                , p_year(counter)
+     :                                , p_amount(counter)
             call write_string (LU_Scr_sum, String)
   100    continue
          string = '     -----------------------------------------------'
@@ -436,7 +436,7 @@
       string = '     -----------------------------------------------'
       call write_string (lu_scr_sum, string)
 
-      if (g_manual_irrig .eq. 'on') then
+      if (p_manual_irrigation .eq. 'on') then
          call write_String (LU_Summary_file,
      :                     '      Irrigation Schedule (Enabled)')
       else
@@ -444,32 +444,32 @@
      :                     '      Irrigation Schedule (Disabled)')
       endif
 
-      if (g_auto_irrig .eq. 'on') then
+      if (p_automatic_irrigation .eq. 'on') then
          call write_String (LU_Summary_file,
      :        '      Automatic Irrigation Application (Enabled)')
       else
          call write_String (LU_Summary_file,
      :        '      Automatic Irrigation Application (Disabled)')
       endif
-      If (reals_are_equal (g_crit_fr_asw, -1.0)) then
+      If (reals_are_equal (p_crit_fr_asw, -1.0)) then
          write (string, '(a)')
      :        '      critical fraction of available soil water = '
      :     // ' not intialised'
       else
          write (string, '(a, f5.2)')
      ;        '      critical fraction of available soil water = '
-     :       , g_crit_fr_asw
+     :       , p_crit_fr_asw
       endif
       call write_String (LU_Summary_file, string)
 
-      if (reals_are_equal (g_asw_depth, -1.0)) then
+      if (reals_are_equal (p_asw_depth, -1.0)) then
          write (string, '(a)')
      :        '      depth for calculating available soil water = '
      :     // ' not initialised'
       else
          write (string, '(a, f10.2)')
      ;        '      depth for calculating available soil water = '
-     :       , g_asw_depth
+     :       , p_asw_depth
       endif
       call write_String (LU_Summary_file, string)
 
@@ -479,9 +479,9 @@
       call write_string(LU_Scr_Sum,
      : 'The following solutes can be added with irrigation water')
       do 200 counter=1,max_solutes
-         if(g_solute_names(counter).ne.' ') then
+         if(p_solutes(counter).ne.' ') then
             call write_string(LU_Scr_Sum,
-     :                  '     '//g_solute_names(counter))
+     :                  '     '//p_solutes(counter))
          else
          endif
   200 continue
@@ -512,6 +512,7 @@
 *                       implicit none
 
 *   Changes:
+*      201097 IGH - added profile depth to bound checking
 
 *   Calls:
 *      Get_param
@@ -529,6 +530,7 @@
       include   'irrigate.inc'         ! irrigate model common block
 
       logical    reals_are_equal       ! function
+      real       sum_real_array        ! function
 
 *   Internal variables
       integer    counter
@@ -560,7 +562,7 @@
      :         , 'solutes'            ! Keyword
      :         , max_solutes          ! array size
      :         , '(nnnn)'             ! Units
-     :         , g_solute_names       ! Array
+     :         , p_solutes            ! Array
      :         , g_num_solutes)       ! Number of values returned
 
 
@@ -571,7 +573,7 @@
      :         , 'day'                ! Keyword
      :         , max_irrigs           ! array size
      :         , '()'                 ! Units
-     :         , g_irr_day            ! Array
+     :         , p_day                ! Array
      :         , numvals              ! Number of values returned
      :         , 1                    ! Lower Limit for bound checking
      :         , 366)                 ! Upper Limit for bound checking
@@ -582,7 +584,7 @@
      :         , 'year'               ! Keyword
      :         , max_irrigs           ! array size
      :         , '()'                 ! Units
-     :         , g_irr_year           ! Array
+     :         , p_year               ! Array
      :         , numvals              ! Number of values returned
      :         , 1800                 ! Lower Limit for bound checking
      :         , 2000)                ! Upper Limit for bound checking
@@ -593,7 +595,7 @@
      :         , 'amount'             ! Keyword
      :         , max_irrigs           ! array size
      :         , '(mm)'               ! Units
-     :         , g_irr_amount         ! Array
+     :         , p_amount             ! Array
      :         , numvals              ! Number of values returned
      :         , 0.0                  ! Lower Limit for bound checking
      :         , 1000.0)              ! Upper Limit for bound checking
@@ -603,7 +605,7 @@
      :         , 'time'               ! Keyword
      :         , max_irrigs           ! array size
      :         , '(hh:mm)'            ! Units
-     :         , g_irr_time           ! Array
+     :         , p_time               ! Array
      :         , numvals)             ! Number of values returned
 
       call read_real_array_optional (
@@ -611,7 +613,7 @@
      :         , 'duration'           ! Keyword
      :         , max_irrigs           ! array size
      :         , '(mm)'               ! Units
-     :         , g_irr_duration       ! Array
+     :         , p_duration           ! Array
      :         , numvals              ! Number of values returned
      :         , 0.0                  ! Lower Limit for bound checking
      :         , 1000.0)              ! Upper Limit for bound checking
@@ -620,10 +622,10 @@
      :           section_name         ! Section header
      :         , 'default_time'       ! Keyword
      :         , '(hh:mm)'            ! Units
-     :         , g_irr_time_def       ! Variable
+     :         , p_default_time       ! Variable
      :         , numvals)             ! Number of values returned
       If (numvals.lt.1) then
-         g_irr_time_def = '00:00'
+         p_default_time = '00:00'
       else
       endif
 
@@ -631,19 +633,19 @@
      :           section_name         ! Section header
      :         , 'default_duration'   ! Keyword
      :         , '(min)'              ! Units
-     :         , g_irr_duration_def   ! Variable
+     :         , p_default_duration   ! Variable
      :         , numvals              ! Number of values returned
      :         , 0.0                  ! Lower Limit for bound checking
      :         , 1000.)               ! Upper Limit for bound checking
       If (numvals.lt.1) then
-         g_irr_duration_def = 60.*24. !i.e. 24 hours
+         p_default_duration = 60.*24. !i.e. 24 hours
       else
       endif
 
       do 100 solnum = 1, g_num_solutes
          call read_real_array_optional (
      :           section_name         ! Section header
-     :         , g_solute_names(solnum) ! Keyword
+     :         , p_solutes(solnum)    ! Keyword
      :         , max_irrigs           ! array size
      :         , '(kg/ha)'            ! Units
      :         , temp_solute          ! Variable
@@ -651,7 +653,8 @@
      :         , 0.0                  ! Lower Limit for bound checking
      :         , 1000.)               ! Upper Limit for bound checking
             do 50 counter=1, numvals
-               g_irr_solutes(solnum,counter) = temp_solute(counter)
+               g_irrigation_solutes(solnum,counter) =
+     :                                   temp_solute(counter)
    50       continue
 
   100 continue
@@ -663,20 +666,19 @@
      :           section_name         ! Section header
      :         , 'crit_fr_asw'        ! Keyword
      :         , '(0-1)'              ! Units
-     :         , g_crit_fr_asw        ! Variable
+     :         , p_crit_fr_asw        ! Variable
      :         , numvals              ! Number of values returned
      :         , 0.0                  ! Lower Limit for bound checking
      :         , 1.0)                 ! Upper Limit for bound checking
-
 
       call read_real_var_optional (
      :           section_name         ! Section header
      :         , 'asw_depth'          ! Keyword
      :         , '(mm)'               ! Units
-     :         , g_asw_depth          ! Variable
+     :         , p_asw_depth          ! Variable
      :         , numvals              ! Number of values returned
      :         , 0.0                  ! Lower Limit for bound checking
-     :         , 10000.0)             ! Upper Limit for bound checking
+     :         , 10000.)              ! Upper Limit for bound checking
 
          ! Read in irrigation flags from parameter file
          !         ----------------
@@ -685,7 +687,7 @@
      :           section_name         ! Section header
      :         , 'manual_irrigation'  ! Keyword
      :         , '()'                 ! Units
-     :         , g_Manual_irrig       ! Variable
+     :         , p_Manual_irrigation  ! Variable
      :         , numvals)             ! Number of values returned
 
 
@@ -693,12 +695,12 @@
      :           section_name         ! Section header
      :         , 'automatic_irrigation'  ! Keyword
      :         , '()'                 ! Units
-     :         , g_auto_irrig         ! Variable
+     :         , p_automatic_irrigation  ! Variable
      :         , numvals)             ! Number of values returned
 
-      if (g_auto_irrig .eq. 'on') then
-         if (reals_are_equal (g_crit_fr_asw, -1.0)
-     :      .or. reals_are_equal (g_asw_depth, -1.0)) then
+      if (p_automatic_irrigation .eq. 'on') then
+         if (reals_are_equal (p_crit_fr_asw, -1.0)
+     :      .or. reals_are_equal (p_asw_depth, -1.0)) then
             call fatal_error (Err_user,
      :         'Cannot initiate auto irrigation until its configuration'
      :         //' parameters are set.')
@@ -707,10 +709,10 @@
       else
       endif
 
-      if (g_manual_irrig .eq. 'on') then
-         if (g_irr_day(1) .eq. 0 .or.
-     :       g_irr_year(1) .eq. 0 .or.
-     :       reals_are_equal (g_irr_amount(1), 0.0)) then
+      if (p_manual_irrigation .eq. 'on') then
+         if (p_day(1) .eq. 0 .or.
+     :       p_year(1) .eq. 0 .or.
+     :       reals_are_equal (p_amount(1), 0.0)) then
 
             call fatal_error (Err_user,
      :         'Cannot initiate manual irrigation until its'//
@@ -777,27 +779,27 @@
 
       g_year = 0
       g_day = 0
-      g_irr_applied = 0.0
+      g_irrigation_applied = 0.0
 
-      call fill_integer_array (g_irr_day, 0, max_irrigs)
-      call fill_integer_array (g_irr_year, 0, max_irrigs)
-      call fill_real_array  (g_irr_amount, 0.0, max_irrigs)
-      call fill_real_array  (g_irr_duration, 0.0, max_irrigs)
-      call fill_char_array (g_irr_time, ' ', max_irrigs)
-      call fill_char_array (g_solute_names, ' ', max_solutes)
+      call fill_integer_array (p_day, 0, max_irrigs)
+      call fill_integer_array (p_year, 0, max_irrigs)
+      call fill_real_array  (p_amount, 0.0, max_irrigs)
+      call fill_real_array  (p_duration, 0.0, max_irrigs)
+      call fill_char_array (p_time, ' ', max_irrigs)
+      call fill_char_array (p_solutes, ' ', max_solutes)
 
       do 200 solnum=1,max_solutes
          do 100 counter=1, max_irrigs
-            g_irr_solutes(solnum,counter) = 0.0
+            g_irrigation_solutes(solnum,counter) = 0.0
   100    continue
   200 continue
 
-      g_auto_irrig = 'off'
-      g_manual_irrig = 'off'
-      g_asw_depth = -1.0
-      g_crit_fr_asw = -1.0
-      g_irr_time_def = ' '
-      g_irr_duration_def = 0.0
+      p_automatic_irrigation = 'off'
+      p_manual_irrigation = 'off'
+      p_asw_depth = -1.0
+      p_crit_fr_asw = -1.0
+      p_default_time = ' '
+      p_default_duration = 0.0
       g_irr_pointer = 1
       g_num_solutes = 0
 
@@ -972,7 +974,31 @@
          call respond2get_real_var (
      :                              variable_name
      :                            , '(mm)'
-     :                            , g_irr_applied)
+     :                            , g_irrigation_applied)
+
+      elseif (Variable_name .eq. 'automatic_irrigation') then
+         call respond2get_char_var (
+     :                variable_name           ! variable name
+     :              , '()'                    ! units
+     :              , p_automatic_irrigation) ! array
+
+      elseif (Variable_name .eq. 'manual_irrigation') then
+         call respond2get_char_var (
+     :                variable_name           ! variable name
+     :              , '()'                    ! units
+     :              , p_manual_irrigation)    ! array
+
+      elseif (Variable_name .eq. 'crit_fr_asw') then
+         call respond2get_real_var (
+     :                variable_name           ! variable name
+     :              , '()'                    ! units
+     :              , p_crit_fr_asw)          ! array
+
+      elseif (Variable_name .eq. 'asw_depth') then
+         call respond2get_real_var (
+     :                variable_name           ! variable name
+     :              , '(mm)'                  ! units
+     :              , p_asw_depth)            ! array
 
       else
          call Message_unused ()
@@ -1006,6 +1032,7 @@
 *   Changes:
 *      011195 jngh  added call to message_unused
 *      060695 jngh changed respond2set to collect routines
+*      201097 IGH - added profile depth to bound checking
 
 *   Calls:
 *     message_unused
@@ -1022,6 +1049,7 @@
       include   'irrigate.inc'         ! irrigate common block
 
       logical    reals_are_equal       ! function
+      real       sum_real_array        ! function
 
 *   Internal variables
       integer    numvals               ! number of values returned
@@ -1040,13 +1068,13 @@
          call collect_char_var (
      :                variable_name        ! variable name
      :              , '()'                 ! units
-     :              , g_manual_irrig       ! array
+     :              , p_manual_irrigation  ! array
      :              , numvals)             ! number of elements returned
 
-         if (g_manual_irrig .eq. 'on') then
-            if (g_irr_day(1) .eq. 0 .or.
-     :          g_irr_year(1) .eq. 0 .or.
-     :          reals_are_equal (g_irr_amount(1), 0.0)) then
+         if (p_manual_irrigation .eq. 'on') then
+            if (p_day(1) .eq. 0 .or.
+     :          p_year(1) .eq. 0 .or.
+     :          reals_are_equal (p_amount(1), 0.0)) then
 
                call fatal_error (Err_user,
      :         'Cannot initiate manual irrigation because its'//
@@ -1061,12 +1089,12 @@
          call collect_char_var (
      :                variable_name           ! variable name
      :              , '()'                    ! units
-     :              , g_auto_irrig            ! array
+     :              , p_automatic_irrigation  ! array
      :              , numvals)                ! number of elements returned
 
-         if (g_auto_irrig .eq. 'on') then
-            if (reals_are_equal (g_crit_fr_asw, -1.0)
-     :         .or. reals_are_equal (g_asw_depth, -1.0)) then
+         if (p_automatic_irrigation .eq. 'on') then
+            if (reals_are_equal (p_crit_fr_asw, -1.0)
+     :         .or. reals_are_equal (p_asw_depth, -1.0)) then
                call fatal_error (Err_user,
      :         'Cannot initiate auto irrigation until its configuration'
      :         //' parameters are set.')
@@ -1079,20 +1107,21 @@
          call collect_real_var (
      :                variable_name     ! array name
      :              , '()'              ! units
-     :              , g_crit_fr_asw     ! array
+     :              , p_crit_fr_asw     ! array
      :              , numvals           ! number of elements returned
      :              , 0.0               ! lower limit for bounds checking
      :              , 1.0)              ! upper limit for bounds checking
 
 
       elseif (Variable_name .eq. 'asw_depth') then
+
          call collect_real_var (
      :                variable_name     ! array name
      :              , '(mm)'            ! units
-     :              , g_asw_depth       ! array
+     :              , p_asw_depth       ! array
      :              , numvals           ! number of elements returned
      :              , 0.0               ! lower limit for bounds checking
-     :              , 1000.0)           ! upper limit for bounds checking
+     :              , 10000.)           ! upper limit for bounds checking
 
       else
             ! Don't know this variable name
@@ -1152,13 +1181,16 @@
 * --------------------- Executable code section ----------------------
       call push_routine (my_name)
 
-      if (g_manual_irrig .eq. 'on') then
+      call irrigate_get_other_variables ()
+      call irrigate_check_variables ()
+      
+      if (p_manual_irrigation .eq. 'on') then
          call irrigate_schedule ()
 
       else
       endif
 
-      if (g_auto_irrig .eq. 'on') then
+      if (p_automatic_irrigation .eq. 'on') then
          call irrigate_automatic ()
 
       else
@@ -1220,7 +1252,7 @@
       integer    irigno                ! loop counter for input
       real       MyDuration
       character  MyTime*10
-      integer    num_irrigs            ! number of irrigation applications
+      integer    num_irrigations       ! number of irrigation applications
       integer    solnum
       integer    start_irrig_no        ! index in schedule to start at
 
@@ -1234,31 +1266,31 @@
 * --------------------- Executable code section ----------------------
       call push_routine (my_name)
 
-      num_irrigs = count_of_integer_vals (g_irr_day, max_irrigs)
+      num_irrigations = count_of_integer_vals (p_day, max_irrigs)
 
-      if (num_irrigs.gt.0) then
+      if (num_irrigations.gt.0) then
 
              ! we have a schedule.  see if we have an irrigation today.
 
          start_irrig_no = g_irr_pointer
 
-         do 1000 irigno = start_irrig_no, num_irrigs
-            if (g_day.eq.g_irr_day(irigno)
+         do 1000 irigno = start_irrig_no, num_irrigations
+            if (g_day.eq.p_day(irigno)
      :                     .and.
-     :         g_year.eq.g_irr_year(irigno))
+     :         g_year.eq.p_year(irigno))
      :      then
-               amount = g_irr_amount(irigno) * effirr
+               amount = p_amount(irigno) * effirr
 
-               if (g_irr_time(irigno).eq.blank) then
-                  MyTime = g_irr_time_def
+               if (p_time(irigno).eq.blank) then
+                  MyTime = p_default_time
                else
-                  MyTime = g_irr_Time(irigno)
+                  MyTime = p_time(irigno)
                endif
 
-               if (g_irr_Duration(irigno).eq.0.0) then
-                  MyDuration = g_irr_duration_def
+               if (p_Duration(irigno).eq.0.0) then
+                  MyDuration = p_default_duration
                else
-                  MyDuration = g_irr_Duration(irigno)
+                  MyDuration = p_Duration(irigno)
                endif
 
 
@@ -1277,9 +1309,9 @@
      :                              , mytime)
 
                do 200 solnum = 1, g_num_solutes
-                     call post_real_var (g_solute_names(solnum)
-     :                                  ,'(kg/ha)'
-     :                                  , g_irr_solutes(solnum, irigno))
+                     call post_real_var (p_solutes(solnum)
+     :                    ,'(kg/ha)'
+     :                    , g_irrigation_solutes(solnum, irigno))
 200            continue
 
                call message_send_immediate (unknown_module
@@ -1288,7 +1320,7 @@
 
                call delete_postbox ()
 
-               g_irr_applied = g_irr_applied + amount
+               g_irrigation_applied = g_irrigation_applied + amount
                g_irr_pointer = irigno + 1
 
             else
@@ -1381,18 +1413,18 @@
 
                ! get water deficit on the spot
 
-      nlayr = get_cumulative_index_real (g_asw_depth, g_dlayer
+      nlayr = get_cumulative_index_real (p_asw_depth, g_dlayer
      :                                 , max_layer)
       cumdep = sum_real_array (g_dlayer, nlayr)
 
-      excess_fr = divide ((cumdep - g_asw_depth) ,g_dlayer(nlayr), 0.0)
+      excess_fr = divide ((cumdep - p_asw_depth) ,g_dlayer(nlayr), 0.0)
 
 cnh note that results may be strange if swdep < ll15
       avail_sw  = (sum_real_array (g_sw_dep, nlayr)
      :          - excess_fr * g_sw_dep(nlayr))
      :          - (sum_real_array (g_ll15_dep, nlayr)
      :          - excess_fr * g_ll15_dep(nlayr))
-     :          + g_irr_applied
+     :          + g_irrigation_applied
 
       pot_avail_sw = (sum_real_array (g_dul_dep, nlayr)
      :             - excess_fr * g_dul_dep(nlayr))
@@ -1404,7 +1436,7 @@ cnh note that results may be strange if swdep < ll15
 
           ! now get automatic irrigation amount
 
-      if (avail_fr.lt.g_crit_fr_asw) then
+      if (avail_fr.lt.p_crit_fr_asw) then
          amount = divide (swdef, effirr, 0.0)
 
          call new_postbox ()
@@ -1417,17 +1449,17 @@ cnh note that results may be strange if swdep < ll15
 
          call post_real_var   ('duration'
      :                        ,'(min)'
-     :                        , g_irr_duration_def)
+     :                        , p_default_duration)
 
          call post_char_var   ('time'
      :                        ,'(hh:mm)'
-     :                        , g_irr_time_Def)
+     :                        , p_default_time)
 
 !         No solutes in automatic irrigation just yet - later on
 
 !         do 200 solnum = 1, g_num_solutes
 !            if (numvals_solute(solnum) .ne.0) then
-!               call post_real_var   (g_solute_names(solnum)
+!               call post_real_var   (p_solutes(solnum)
 !     :                              ,'(kg/ha)'
 !     :                              , solute(solnum))
 !            else
@@ -1440,7 +1472,7 @@ cnh note that results may be strange if swdep < ll15
 
          call delete_postbox ()
 
-         g_irr_applied = g_irr_applied + amount
+         g_irrigation_applied = g_irrigation_applied + amount
 
       else
           ! soil not dry enough to require irrigation
@@ -1498,9 +1530,90 @@ cnh note that results may be strange if swdep < ll15
 * --------------------- Executable code section ----------------------
       call push_routine (my_name)
 
-      g_irr_applied = 0.0
+      g_irrigation_applied = 0.0
 
       call pop_routine (my_name)
       return
       end
+* ====================================================================
+       subroutine irrigate_check_variables ()
+* ====================================================================
 
+*   Short description:
+*      Check the value of parameters or state variables
+*      for validity.
+
+*   Assumptions:
+*      None
+
+*   Notes:
+*      None
+
+*   Procedure attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <= 20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       Include
+*                       implicit none
+
+*   Changes:
+*     10-11-1997 - neil huth - Programmed and Specified
+
+*   Calls:
+*     Pop_routine
+*     Push_routine
+
+* ----------------------- Declaration section ------------------------
+
+       implicit none
+
+*   Subroutine arguments
+*      none
+
+*   Global variables
+      include 'const.inc'
+      include 'irrigate.inc'
+      real       sum_real_array          ! function
+      
+*   Internal variables
+      real       profile_depth           ! total soil profile depth
+
+*   Constant values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'irrigate_check_variables')
+
+*   Initial data values
+*      none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (myname)
+
+      if (p_automatic_irrigation .eq. 'on') then
+
+         profile_depth = sum_real_array (g_dlayer, max_layer)
+
+         if (p_asw_depth .gt. profile_depth) then
+            call fatal_error (Err_User,
+     :      'ASW_depth for automatic irrigation must not '//
+     :      'exceed profile depth.')
+         else
+            ! No problems here
+         endif
+
+         if (p_asw_depth .le. 0.0) then
+            call fatal_error (Err_User,
+     :      'ASW_depth for automatic irrigation must not '//
+     :      'be zero or negetive.')
+         else
+            ! No problems here
+         endif
+      else
+         ! Do not worry about these parameters as they may not be
+         ! set by the user.
+      endif
+
+      call pop_routine (myname)
+      return
+      end
