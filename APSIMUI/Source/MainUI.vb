@@ -724,6 +724,7 @@ Public Class MainUI
     End Sub
     Private Sub UpdateMainForm()
         Me.Text = SimulationFile.Filename
+        SimulationExplorer.UIManager.MainForm = Me
         SimulationExplorer.UIManager.ApsimFileName = SimulationFile.Filename
     End Sub
     Private Sub FileMenuExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileMenuExit.Click
@@ -911,7 +912,8 @@ Public Class MainUI
         End If
     End Sub
 
-    Private Sub ShowHelpBrowser()
+    Public Sub ShowHelpBrowser()
+        ViewMenuHelp.Checked = True
         HelpBrowser.Visible = True
         HelpBrowsertoolBar.Visible = True
         Dim inifile As New APSIMSettings
@@ -985,7 +987,7 @@ Public Class MainUI
                     MsgBox("Cannot find the simulation creation macro file", MsgBoxStyle.Critical, "Error")
                 End If
             Else
-                MsgBox("Cannot make simulation until apsim file has been saved to a target location.", MsgBoxStyle.Critical, "Error")
+                ' MsgBox("Cannot make simulation until apsim file has been saved to a target location.", MsgBoxStyle.Critical, "Error")
             End If
             Return SimFiles
         Catch ex As System.Exception
