@@ -20,7 +20,7 @@
      Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\soilp\lib\soilp.dll
      Component DLL          = c:\development\apsim\maize\lib\maize.dll
@@ -96,7 +96,35 @@
         maize.p_conc_grain
         maize.p_uptake_stover
         maize.grain_p_demand
-        residue2.residue_p
+        surfaceom.surfaceom_p
+        soilwat2.esw as esw
+        soilwat2.sw()
+        soilwat2.es
+        soilwat2.runoff
+        soilwat2.drain
+        soiln2.no3()
+        soiln2.nh4()
+        soilp.uptake_p_maize()
+        soilp.fom_cp()
+        soilp.fom_p_pool3()
+        soilp.fom_p_pool2()
+        soilp.fom_p_pool1()
+        soilp.fom_p()
+        soilp.hum_p()
+        soilp.biom_p()
+        soilp.soil_test_p()
+        soilp.rock_p()
+        soilp.unavail_p()
+        soilp.labile_p()
+        manager.P_below_ground
+        manager.P_above_ground
+        manager.systemP
+        manager.cum_error_systemP
+        manager.dlt_systemP
+        manager.P_plant
+        manager.P_pl_up_diff
+        manager.dlt_residue_P
+        manager.below_gnd_diff
         soilwat2.esw as esw
         soilwat2.sw()
         soilwat2.es
@@ -189,19 +217,19 @@
            maize end_crop
         endif
       if (clock.day=151 and clock.year=1993) then
-         residue2 tillage type = burn_95
+         surfaceom tillage type = burn_95
       elseif (clock.day=121 and clock.year=1993) then
-        residue2 tillage type = chisel ()
+        surfaceom tillage type = chisel ()
       endif
      
      SECTION:- end_of_day
      p_below_ground = soilp.fom_p() + soilp.hum_p() + soilp.biom_p() + soilp.rock_p() + soilp.unavail_p() + soilp.labile_p()
-     p_above_ground = (maize.p_green() + maize.p_senesced() + maize.p_dead())*10.0 + residue2.residue_p
+     p_above_ground = (maize.p_green() + maize.p_senesced() + maize.p_dead())*10.0 + surfaceom.surfaceom_p
      systemp = p_below_ground + p_above_ground
      dlt_systemp = systemp - systemp_yday
      if (systemp_yday >= 0.00001) then
          cum_error_systemp = dlt_systemp + cum_error_systemp
-         dlt_residue_p = residue2.residue_p - residue_p_yest
+         dlt_residue_p = surfaceom.surfaceom_p - residue_p_yest
      else
          cum_error_systemp = 0.0
          dlt_residue_p = 0.0
@@ -210,7 +238,7 @@
      p_uptake_cum = p_uptake_cum + uptake_p_maize()
      p_pl_up_diff = p_plant - p_uptake_cum
      below_gnd_diff = p_below_ground - p_below_ground_yest
-     residue_p_yest =  residue2.residue_p
+     residue_p_yest =  surfaceom.surfaceom_p
      p_below_ground_yest = p_below_ground
        if (maize.stage >=1 and maize.stage <= 11) then
            report do_output
@@ -308,32 +336,29 @@
             CONA:                     3.50 ()
            Eo from priestly-taylor
 
-------- residue2 Initialisation -----------------------------------------------
-     
-         - Module is set Phosphorus aware
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sorghum
+      Residue type = sorghum
+      Overall mass =  500.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  100.000000
+                            C:N =  76.0000000
+      Lying cellulose mass =  350.000000
+                            C:N =  76.0000000
+      Lying lignin mass =  50.0000000
+                            C:N =  76.0000000
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-               500.0     2.6     1.0  sorghum
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.050    76.0   200.0       T       no
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -483,39 +508,39 @@
 3 November 1992(Day of year=308), maize: 
       stage    3.0 emergence
                           biomass =          0.2000000       lai =    0.3800000E-02
-                          stover N conc =    4.399999       extractable sw =    23.83831
+                          stover N conc =    4.399999       extractable sw =    23.83536
 18 November 1992(Day of year=323), maize: 
       stage    4.0 end_of_juvenile
-                          biomass =           3.090467       lai =    0.3963776E-01
-                          stover N conc =    3.119266       extractable sw =    57.54348
+                          biomass =           3.093000       lai =    0.3967632E-01
+                          stover N conc =    3.120926       extractable sw =    57.48153
 23 November 1992(Day of year=328), maize: 
       stage    5.0 floral_initiation
-                          biomass =           7.891352       lai =    0.1016906
-                          stover N conc =    2.583268       extractable sw =    114.4065
+                          biomass =           7.898195       lai =    0.1017810
+                          stover N conc =    2.585839       extractable sw =    114.4031
 4 January 1993(Day of year=4), maize: 
       stage    6.0 flag_leaf
-                          biomass =           675.7524       lai =     4.266806
-                          stover N conc =    1.837360       extractable sw =    173.1056
+                          biomass =           677.2436       lai =     4.272393
+                          stover N conc =    1.845434       extractable sw =    172.6630
 9 January 1993(Day of year=9), maize: 
       stage    7.0 flowering
-                          biomass =           794.3865       lai =     4.153084
-                          stover N conc =    1.640853       extractable sw =    204.3188
+                          biomass =           796.2565       lai =     4.158604
+                          stover N conc =    1.648434       extractable sw =    203.8054
 19 January 1993(Day of year=19), maize: 
       stage    8.0 start_grain_fill
-                          biomass =           994.3979       lai =     3.825480
-                          stover N conc =    1.381046       extractable sw =    161.4849
+                          biomass =           997.5661       lai =     3.830858
+                          stover N conc =    1.386484       extractable sw =    160.6746
 6 March 1993(Day of year=65), maize: 
       stage    9.0 end_grain_fill
-                          biomass =           1279.359       lai =     1.550326
-                          stover N conc =    1.208940       extractable sw =    79.73220
+                          biomass =           1282.720       lai =     1.555317
+                          stover N conc =    1.213004       extractable sw =    78.94860
 7 March 1993(Day of year=66), maize: 
       stage   10.0 maturity
-                          biomass =           1280.438       lai =     1.497355
-                          stover N conc =    1.209789       extractable sw =    79.42943
+                          biomass =           1283.797       lai =     1.502347
+                          stover N conc =    1.213847       extractable sw =    78.64664
 8 March 1993(Day of year=67), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           1280.438       lai =    0.9967327E-02
-                          stover N conc =    1.242574       extractable sw =    79.14228
+                          biomass =           1283.797       lai =    0.9980440E-02
+                          stover N conc =    1.246850       extractable sw =    78.36019
 9 March 1993(Day of year=68), manager: 
      Manager sending message :- maize harvest
 9 March 1993(Day of year=68), maize: 
@@ -523,80 +548,80 @@
      
      
      flowering (DAS) =  71                  maturity (DAS)  = 128
-      flowering day  =    9                  stover (kg/ha) =    8428.3
-      maturity day        =   66             grain yield (kg/ha) =    4376.1
-      grain % water content   =   15.5       grain yield wet (kg/ha) =    5178.8
-      grain wt (g) =     0.193               grains/m^2   =  2273.108
-      grains/head = 227.3                    maximum lai = 4.300
-      total above ground biomass (kg/ha) =   12804.4
-      live above ground biomass (kg/ha) =   12804.4
-      green above ground biomass (kg/ha) =   11205.5
-      senesced above ground biomass (kg/ha) =    1598.8
+      flowering day  =    9                  stover (kg/ha) =    8454.1
+      maturity day        =   66             grain yield (kg/ha) =    4383.8
+      grain % water content   =   15.5       grain yield wet (kg/ha) =    5188.0
+      grain wt (g) =     0.192               grains/m^2   =  2287.925
+      grains/head = 228.8                    maximum lai = 4.306
+      total above ground biomass (kg/ha) =   12838.0
+      live above ground biomass (kg/ha) =   12838.0
+      green above ground biomass (kg/ha) =   11236.5
+      senesced above ground biomass (kg/ha) =    1601.4
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  19.4
-      grain N percent =      1.08            total N content (kg/ha) =    147.23
-      grain N uptake (kg/ha) =     47.32     senesced N content (kg/ha) =      7.99
-      green N content (kg/ha) =     91.92    dead N content (kg/ha) =      0.00
-      grain P percent =      0.16            total P content (kg/ha) =      9.19
-      grain P uptake (kg/ha) =      6.96     senesced P content (kg/ha) =      0.80
-      green P content (kg/ha) =      1.43    dead P content (kg/ha) =      0.00
+      grain N percent =      1.08            total N content (kg/ha) =    148.11
+      grain N uptake (kg/ha) =     47.43     senesced N content (kg/ha) =      8.01
+      green N content (kg/ha) =     92.68    dead N content (kg/ha) =      0.00
+      grain P percent =      0.16            total P content (kg/ha) =      9.21
+      grain P uptake (kg/ha) =      6.98     senesced P content (kg/ha) =      0.80
+      green P content (kg/ha) =      1.44    dead P content (kg/ha) =      0.00
      
      
      
       stress indices for emergence
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0369017
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1050097
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1042423
      
      
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0589317
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0580477
      
      
      
       stress indices for floral_initiation
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0017545
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1026179
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0015009
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1014874
      
      
      
       stress indices for flag_leaf
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.1493227
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.3194582
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.1442579
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.3154063
      
      
      
       stress indices for flowering
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.2755410
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.4204328
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.2712184
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.4169748
      
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.3027656
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.4422125
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.2978756
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.4383005
 9 March 1993(Day of year=68), manager: 
      Manager sending message :- maize end_crop
 9 March 1993(Day of year=68), maize: 
          ended. Yield (dw) =     0.0
-                                               straw residue = 8428.3 kg/ha
-                                               straw N =   99.9 kg/ha
-                                               straw P =   22.3 kg/ha
-                                               root residue = 2381.6 kg/ha
-                                               root N =   18.1 kg/ha
-                                               root P =   17.9 kg/ha
+                                               straw residue = 8454.1 kg/ha
+                                               straw N =  100.7 kg/ha
+                                               straw P =   22.4 kg/ha
+                                               root residue = 2387.5 kg/ha
+                                               root N =   18.2 kg/ha
+                                               root P =   18.0 kg/ha
 1 May 1993(Day of year=121), manager: 
-     Manager sending message :- residue2 tillage  type = chisel
-1 May 1993(Day of year=121), residue2: 
+     Manager sending message :- surfaceom tillage  type = chisel
+1 May 1993(Day of year=121), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using chisel
                                              Fraction Incorporated =     0.50
                                              Incorporated Depth    =   100.00
 31 May 1993(Day of year=151), manager: 
-     Manager sending message :- residue2 tillage  type = burn_95
-31 May 1993(Day of year=151), residue2: 
+     Manager sending message :- surfaceom tillage  type = burn_95
+31 May 1993(Day of year=151), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using burn_95
