@@ -4,28 +4,28 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\..\..\Bin\ApsimOutlook.exe"/>
-    <OBJFILES value="ApsimOutlook.obj about.obj childwin.obj main.obj TChartSettingsForm.obj 
-      TDrill_down_form.obj TPreferences_form.obj tskin.obj Scenarios.obj 
-      factor.obj scenario.obj addin.obj ToolBarAddIn.obj POPUPFORMUNIT.obj 
+    <OBJFILES value="ApsimOutlook.obj about.obj childwin.obj main.obj TChartSettingsForm.obj
+      TDrill_down_form.obj TPreferences_form.obj tskin.obj Scenarios.obj
+      factor.obj scenario.obj addin.obj ToolBarAddIn.obj POPUPFORMUNIT.obj
       TValueSelectPopup.obj TOutlookSplashForm.obj TScenarioSelectForm.obj"/>
     <RESFILES value="ApsimOutlook.res"/>
     <DEFFILE value=""/>
-    <RESDEPEN value="$(RESFILES) about.dfm childwin.dfm main.dfm TChartSettingsForm.dfm 
-      TDrill_down_form.dfm TPreferences_form.dfm POPUPFORMUNIT.dfm 
+    <RESDEPEN value="$(RESFILES) about.dfm childwin.dfm main.dfm TChartSettingsForm.dfm
+      TDrill_down_form.dfm TPreferences_form.dfm POPUPFORMUNIT.dfm
       TValueSelectPopup.dfm TOutlookSplashForm.dfm TScenarioSelectForm.dfm"/>
-    <LIBFILES value="..\..\..\Shared\general\general.lib 
-      ..\..\..\Shared\ApsimShared\ApsimShared.lib 
+    <LIBFILES value="..\..\..\Shared\general\general.lib
+      ..\..\..\Shared\ApsimShared\ApsimShared.lib
       ..\..\..\Shared\general\general_vcl.lib"/>
-    <LIBRARIES value="VclSmp.lib APSGeneral.lib kbmMemC6Run.lib TMSC6.lib thirdparty.lib 
+    <LIBRARIES value="VclSmp.lib APSGeneral.lib kbmMemC6Run.lib TMSC6.lib thirdparty.lib
       APSData.lib"/>
-    <SPARELIBS value="rtl.lib vcl.lib vclx.lib bdertl.lib dbrtl.lib vcldb.lib APSData.lib 
-      thirdparty.lib adortl.lib TMSC6.lib kbmMemC6Run.lib bcbsmp.lib 
-      APSGeneral.lib Tee6C6.lib VclSmp.lib TeeUI6C6.lib"/>
-    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi qrpt.bpi dbrtl.bpi vcldb.bpi 
-      bdertl.bpi ibsmp.bpi vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi 
-      inet.bpi nmfast.bpi dclocx.bpi bcb97axserver.bpi adortl.bpi TeeDB6C6.bpi 
-      Tee6C6.bpi TeeUI6C6.bpi TeeGL6C6.bpi TeeQR6C6.bpi qrpt60.bpi 
-      TeeLanguage6C6.bpi TeePro6C6.bpi TeeImage6C6.bpi"/>
+    <SPARELIBS value="rtl.lib vcl.lib vclx.lib bdertl.lib dbrtl.lib vcldb.lib APSData.lib
+      thirdparty.lib adortl.lib TMSC6.lib kbmMemC6Run.lib bcbsmp.lib
+      APSGeneral.lib Tee7C6.lib VclSmp.lib TeeUI7C6.lib"/>
+    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi qrpt.bpi dbrtl.bpi vcldb.bpi
+      bdertl.bpi ibsmp.bpi vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi
+      inet.bpi nmfast.bpi dclocx.bpi bcb97axserver.bpi adortl.bpi TeeDB7C6.bpi
+      Tee7C6.bpi TeeUI7C6.bpi TeeGL7C6.bpi TeeQR7C6.bpi qrpt60.bpi
+      TeeLanguage7C6.bpi TeePro7C6.bpi TeeImage7C6.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
