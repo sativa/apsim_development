@@ -9,7 +9,7 @@ include base.interface
  class APSIMMilletSowMethod : APSIMMethod
     type                : APSIMString    = Type of Crop, (), GET
     plants              : APSIMReal      = Plant density, (), GET, 0.0, 100.0 
-    row_spacing         : APSIMReal      = row spacing, (m), GET, 0.0, 2.0, optional
+    row_spacing         : APSIMReal      = row spacing, (m), GET_OPT, 0.0, 2.0
     sowing_depth        : APSIMReal      = sowing depth, (mm), GET, 0.0, 100.0
     cultivar            : APSIMString    = name of cultivar, (), GET
  end
@@ -17,10 +17,10 @@ include base.interface
  class APSIMMilletInitiateCropMethod : APSIMMethod
     type                : APSIMString    = Type of Crop, (), GET
     plants              : APSIMReal      = Plant density, (plants/m2), GET|SET, 0.0, 100.0 
-    tiller_wt           : APSIMReal      = dry matter of tiller, (g/plant), GET|SET, 0.0, 100.0, optional
-    tiller_n            : APSIMReal      = N content of tiller, (g/plant), GET|SET, 0.0, 10.0, optional
-    row_spacing         : APSIMReal      = row spacing, (m), GET|SET, 0.0, 2.0, optional
-    cultivar            : APSIMString      = name of cultivar, (), GET|SET
+    tiller_wt           : APSIMReal      = dry matter of tiller, (g/plant), GET_OPT|SET, 0.0, 100.0
+    tiller_n            : APSIMReal      = N content of tiller, (g/plant), GET_OPT|SET, 0.0, 10.0
+    row_spacing         : APSIMReal      = row spacing, (m), GET_OPT|SET, 0.0, 2.0
+    cultivar            : APSIMString      = name of cultivar, (), GET_OPT|SET
  end
  
  class APSIMMilletEndCropMethod : APSIMMethod
@@ -28,7 +28,7 @@ include base.interface
     dlt_fom_type        : APSIMString           = Type of fresh organic matter (FOM) incorporated, (), SET
     dlt_fom_wt          : APSIMRealArray        = Weight of FOM incorporated, (kg/ha), SET
     dlt_fom_n           : APSIMRealArray        = amount of FOM N incorporated, (kg/ha), SET
-    incorp_fom          : APSIMIncorpFOMMethod  = Incorporate FOM action
+    incorp_fom          : APSIMIncorporateFOMMethod  = Incorporate FOM action
     
     dlt_residue_type    : APSIMString           = Type of Residue added, (), SET
     dlt_residue_wt      : APSIMReal             = Weight of residue added, (kg/ha), SET
@@ -50,21 +50,21 @@ include base.interface
 class APSIMMilletPublic
 ; variables read from ini file by  millet_read_cultivar_params
     hi_max_pot             : APSIMReal           = maximum harvest index, (g grain/ g biomass), READ, 0.0, 1.0
-    head_grain_no_max      : APSIMReal           = maximum kernel number, (grains/plant), READ, 0.0, c%head_grain_no_max_ub 
-    grain_gth_rate         : APSIMReal           = potential grain growth rate, (mg/grain/day), READ, 0.0, c%grain_gth_rate_ub
-    tt_emerg_to_endjuv     : APSIMReal           = Growing degree days to complete emerg_to_endjuv stage (emergence to end of emerg_to_endjuv), (deg day), READ, 0.0, c%tt_emerg_to_endjuv_ub
+    head_grain_no_max      : APSIMReal           = maximum kernel number, (grains/plant), READ  !, 0.0, c%head_grain_no_max_ub 
+    grain_gth_rate         : APSIMReal           = potential grain growth rate, (mg/grain/day), READ !, 0.0, c%grain_gth_rate_ub
+    tt_emerg_to_endjuv     : APSIMReal           = Growing degree days to complete emerg_to_endjuv stage (emergence to end of emerg_to_endjuv), (deg day), READ  ! , 0.0, c%tt_emerg_to_endjuv_ub
     est_days_emerg_to_init : APSIMInteger        = estimated days from emergence to floral initiation, (day), READ, 0, 100
-    pp_endjuv_to_init      : APSIMReal           = Photoperiod sensitivity coefficient, (dtt/hr), READ, 0.0, c%pp_endjuv_to_init_ub
-    tt_flower_to_maturity  : APSIMReal           = Growing degree days to complete grainfill (silking to maturity), (deg day), READ, 0.0, c%tt_flower_to_maturity_ub
-    tt_flag_to_flower      : APSIMReal           = growing deg days for head emergence phase, (deg day), READ, 0.0, c%tt_flag_to_flower_ub
-    tt_flower_to_start_grain : APSIMReal         = growing degree-days for flower_to_start_grain, (deg day), READ, 0.0, c%tt_flower_to_start_grain_ub
-    tt_maturity_to_ripe    : APSIMReal           = growing deg day required to for grain dry down, (deg day), READ, 0.0, c%tt_maturity_to_ripe_ub
+    pp_endjuv_to_init      : APSIMReal           = Photoperiod sensitivity coefficient, (dtt/hr), READ !, 0.0, c%pp_endjuv_to_init_ub
+    tt_flower_to_maturity  : APSIMReal           = Growing degree days to complete grainfill (silking to maturity), (deg day), READ !, 0.0, c%tt_flower_to_maturity_ub
+    tt_flag_to_flower      : APSIMReal           = growing deg days for head emergence phase, (deg day), READ !, 0.0, c%tt_flag_to_flower_ub
+    tt_flower_to_start_grain : APSIMReal         = growing degree-days for flower_to_start_grain, (deg day), READ !, 0.0, c%tt_flower_to_start_grain_ub
+    tt_maturity_to_ripe    : APSIMReal           = growing deg day required to for grain dry down, (deg day), READ !, 0.0, c%tt_maturity_to_ripe_ub
     y0_const               : APSIMReal           = largest leaf area intercept, (), READ, -40000.0, 100000.0
     y0_slope               : APSIMReal           = largest leaf area slope, (), READ, 0.0, 10000.0
 
 ; variables read from parameters section in parameter file by  millet_read_root_params
-    ll                     : APSIMRealArray      = lower limit of plant-extractable soil water for soil layer L, (mm), READ, 0.0, c%ll_ub
-    kl                     : APSIMRealArray      = root length density factor for water, (), READ, 0.0, c%kl_ub
+    ll                     : APSIMRealArray      = lower limit of plant-extractable soil water for soil layer L, (mm), READ !, 0.0, c%ll_ub
+    kl                     : APSIMRealArray      = root length density factor for water, (), READ !, 0.0, c%kl_ub
 
 ; variables read from constants section in ini file by  millet_read_constants
     stage_names            : APSIMStringArray    = full names of stages for reporting, (), READ
@@ -339,20 +339,20 @@ end
 ; -----------------------------------------------------------
 class APSIMMilletExternal
     day                     : APSIMInteger          = Day of year, (), GET, 1, 366
-    year                    : APSIMInteger          = Year, (), GET, min_year, max_year
-    fr_intc_radn_[module_name] : APSIMReal          = Maximum, (), GET, 0.0, 1.0, optional
+    year                    : APSIMInteger          = Year, (), GET, 1700, 2100
+    fr_intc_radn_[module_name] : APSIMReal          = Maximum, (), GET_OPT, 0.0, 1.0
     leaf_no_ref             : APSIMReal             = Maximum, (), GET, 0.0, 100.0
-    latitude                : APSIMReal             = Maximum, (oL), GET, c%latitude_lb, c%latitude_ub
-    maxt                    : APSIMReal             = Maximum ambient temperature, (oC), GET, c%maxt_lb, c%maxt_ub
-    mint                    : APSIMReal             = Minimum ambient temperature, (oC), GET, c%mint_lb, c%mint_ub
-    radn                    : APSIMReal             = Incident radiation, (Mj/m^2), GET, c%radn_lb, c%radn_ub
-    soil_temp               : APSIMReal             = Rainfall, (oC), GET, 0.0, 80.0, optional
-    dlayer                  : APSIMRealArray        = Thickness of each layer of soil profile, (mm), GET, c%dlayer_lb, c%dlayer_ub
-    cover_green_sum         : APSIMRealArray        = moist, (g/cm^3), GET, 0.0, 1.0, optional
-    dul_dep                 : APSIMRealArray        = drained upper limit soil water content for each soil layer, (mm), GET, c%dul_dep_lb, c%dul_dep_ub
-    sw_dep                  : APSIMRealArray        = Soil water content of each layer, (mm), GET, c%sw_dep_lb, c%sw_dep_ub
-    no3_min                 : APSIMRealArray        = Minimum allowable NO3 in soil in each layer, (kg/ha), GET, c%NO3_min_lb, c%NO3_min_ub, optional
-    no3                     : APSIMRealArray        = Nitrate nitrogen in each layer, (kg/ha), GET, c%NO3_lb, c%NO3_ub, optional
+    latitude                : APSIMReal             = Maximum, (oL), GET !, c%latitude_lb, c%latitude_ub
+    maxt                    : APSIMReal             = Maximum ambient temperature, (oC), GET !, c%maxt_lb, c%maxt_ub
+    mint                    : APSIMReal             = Minimum ambient temperature, (oC), GET !, c%mint_lb, c%mint_ub
+    radn                    : APSIMReal             = Incident radiation, (Mj/m^2), GET !, c%radn_lb, c%radn_ub
+    soil_temp               : APSIMReal             = Rainfall, (oC), GET_OPT, 0.0, 80.0
+    dlayer                  : APSIMRealArray        = Thickness of each layer of soil profile, (mm), GET !, c%dlayer_lb, c%dlayer_ub
+    cover_green_sum         : APSIMRealArray        = moist, (g/cm^3), GET_OPT, 0.0, 1.0
+    dul_dep                 : APSIMRealArray        = drained upper limit soil water content for each soil layer, (mm), GET !, c%dul_dep_lb, c%dul_dep_ub
+    sw_dep                  : APSIMRealArray        = Soil water content of each layer, (mm), GET !, c%sw_dep_lb, c%sw_dep_ub
+    no3_min                 : APSIMRealArray        = Minimum allowable NO3 in soil in each layer, (kg/ha), GET_OPT !, c%NO3_min_lb, c%NO3_min_ub
+    no3                     : APSIMRealArray        = Nitrate nitrogen in each layer, (kg/ha), GET_OPT !, c%NO3_lb, c%NO3_ub
     dlt_sw_dep              : APSIMRealArray        = Soil water content of each layer, (mm), SET
     dlt_no3                 : APSIMRealArray        = Nitrate nitrogen in each layer, (kg/ha), SET
 ; Other actions
