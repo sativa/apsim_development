@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.2
+     Version                = 3.3
      Title                  = BILOELA 1974/5 SOW C DRY SUNFOLA
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -25,6 +25,11 @@
      Component DLL          = c:\development\apsim\cropmod\lib\cropmod.dll
 
 ------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+        report
      Simulation start date =  1/08/1974
      Simulation end date   = 30/06/1975
      Time step =           = 1440 (mins)
