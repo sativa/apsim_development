@@ -1,4 +1,4 @@
-C     Last change:  E    23 Jan 2001    9:31 am
+C     Last change:  E    13 Feb 2001    4:12 pm
 
       INCLUDE 'CropMod.inc'
 
@@ -877,43 +877,12 @@ cjh      endif
      :                             , das_int)
 
       !================================================================
-      !crop status and development stages
+      !crop status, thermal time and development stages
 
       elseif (variable_name .eq. 'plant_status') then
          call respond2get_char_var (variable_name
      :                             , '()'
      :                             , g%plant_status)
- 
-      elseif (variable_name .eq. 'dlt_stage') then
-         call respond2get_real_var (variable_name
-     :                             , '()'
-     :                             , g%dlt_stage)
- 
-      elseif (variable_name .eq. 'stage') then
-         call respond2get_real_var (variable_name
-     :                             , '()'
-     :                             , g%current_stage)
-
-
-      elseif ((variable_name .eq. 'zadok_stage') .or.
-     :        (variable_name .eq. 'dc_stage'))    then
-         stage_no = INT(g%zadok_stage + 0.5)
-         call respond2get_integer_var (variable_name
-     :                             , '()'
-     :                             , stage_no)
-
- 
-      elseif (variable_name .eq. 'stage_code') then
-         if (g%plant_status.ne.status_out) then
-            stage_no = int (g%current_stage)
-            call respond2get_real_var (variable_name
-     :                             , '()'
-     :                             , c%stage_code_list(stage_no))
-         else
-            call respond2get_real_var (variable_name
-     :                             , '()'
-     :                             , 0.0)
-         endif
 
       elseif (variable_name .eq. 'stage_name') then
 
@@ -928,33 +897,47 @@ cjh      endif
      :                             , status_out)
          endif
 
+      elseif (variable_name .eq. 'stage_code') then
+         if (g%plant_status.ne.status_out) then
+            stage_no = int (g%current_stage)
+            call respond2get_real_var (variable_name
+     :                             , '()'
+     :                             , c%stage_code_list(stage_no))
+         else
+            call respond2get_real_var (variable_name
+     :                             , '()'
+     :                             , 0.0)
+         endif
+
+      elseif (variable_name .eq. 'stage') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
+     :                             , g%current_stage)
+
+
+      elseif ((variable_name .eq. 'zadok_stage') .or.
+     :        (variable_name .eq. 'dc_stage'))    then
+         stage_no = INT(g%zadok_stage + 0.5)
+         call respond2get_integer_var (variable_name
+     :                             , '()'
+     :                             , stage_no)
+
+
+      elseif (variable_name .eq. 'dlt_stage') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
+     :                             , g%dlt_stage)
+
 
       elseif (variable_name .eq. 'dlt_tt') then
          call respond2get_real_var (variable_name
      :                             , '(oCd)'
      :                             , g%dlt_tt)
  
-      elseif (variable_name .eq. 'dlt_tt_fm') then
-         call respond2get_real_var (variable_name
-     :                             , '(oCd)'
-     :                             , g%dlt_tt_fm)
- 
-      elseif (variable_name .eq. 'phase_tt') then
-         call respond2get_real_array (variable_name
-     :                             , '(oC)'
-     :                             , g%phase_tt
-     :                             , max_stage)
- 
       elseif (variable_name .eq. 'tt_tot') then
          call respond2get_real_array (variable_name
      :                             , '(oC)'
      :                             , g%tt_tot
-     :                             , max_stage)
- 
-      elseif (variable_name .eq. 'tt_tot_fm') then
-         call respond2get_real_array (variable_name
-     :                             , '(oC)'
-     :                             , g%tt_tot_fm
      :                             , max_stage)
 
       elseif (variable_name .eq. 'tt_sum') then
@@ -967,7 +950,28 @@ cjh      endif
      :                             , '()'
      :                             , g%days_tot
      :                             , max_stage)
+
+      elseif (variable_name .eq. 'phase_tt') then
+         call respond2get_real_array (variable_name
+     :                             , '(oC)'
+     :                             , g%phase_tt
+     :                             , max_stage)
+
+      !the following two not generalised
+      elseif (variable_name .eq. 'dlt_tt_fm') then
+         call respond2get_real_var (variable_name
+     :                             , '(oCd)'
+     :                             , g%dlt_tt_fm)
  
+      elseif (variable_name .eq. 'tt_tot_fm') then
+         call respond2get_real_array (variable_name
+     :                             , '(oC)'
+     :                             , g%tt_tot_fm
+     :                             , max_stage)
+
+      !================================================================
+      !flowering and maturity dates
+
       elseif (variable_name .eq. 'flowering_date') then
          call respond2get_integer_var (variable_name
      :                             , '(doy)'
@@ -990,14 +994,14 @@ cjh      endif
 
 
       !================================================================
-      ! crop canopy
+      ! crop canopy - leaf no, tiller no, LAI and crop height
 
-      elseif (variable_name .eq. 'lf_primodia') then
+      elseif (variable_name .eq. 'leaf_primodia') then
          call respond2get_real_var (variable_name
      :                             , 'lvs'
      :                             , g%leaf_primodia)
 
-      elseif (variable_name .eq. 'lf_no_final') then
+      elseif (variable_name .eq. 'leaf_no_final') then
          call respond2get_real_var (variable_name
      :                             , 'lvs'
      :                             , g%leaf_no_final)
@@ -1027,29 +1031,7 @@ cjh      endif
      :                              , g%leaf_area
      :                              , max_leaf)
  
-      elseif (variable_name .eq. 'height') then
-         call respond2get_real_var (variable_name
-     :                             , '(mm)'
-     :                             , g%canopy_height)
- 
 
-      elseif (variable_name .eq. 'plants') then
-         call respond2get_real_var (variable_name
-     :                             , '()'
-     :                             , g%plants)
- 
-      elseif (variable_name .eq. 'grain_no') then
-         call respond2get_real_var (variable_name
-     :                             , '()'
-     :                             , g%grain_no)
- 
-      elseif (variable_name .eq. 'grain_size') then
-         grain_size = divide (g%dm_green(grain) + g%dm_dead(grain)
-     :                 , g%grain_no, 0.0)
-         call respond2get_real_var (variable_name
-     :                             , '(g)'
-     :                             , grain_size)
- 
       elseif (variable_name .eq. 'cover_green') then
          call respond2get_real_var (variable_name
      :                             , '()'
@@ -1065,6 +1047,16 @@ cjh      endif
          call respond2get_real_var (variable_name
      :                             , '()'
      :                             , cover_tot)
+
+      elseif (variable_name .eq. 'lai') then
+         call respond2get_real_var (variable_name
+     :                             , '(m^2/m^2)'
+     :                             , g%lai)
+
+      elseif (variable_name .eq. 'lai_max') then
+         call respond2get_real_var (variable_name
+     :                             , '(m^2/m^2)'
+     :                             , g%lai_max)
 
       elseif (variable_name .eq. 'lai_sum') then
          lai_sum = g%lai + g%slai + g%tlai_dead
@@ -1082,28 +1074,16 @@ cjh      endif
      :                             , '()'
      :                             , g%slai)
  
-      elseif (variable_name .eq. 'lai') then
-         call respond2get_real_var (variable_name
-     :                             , '(m^2/m^2)'
-     :                             , g%lai)
- 
       elseif (variable_name .eq. 'tlai_dead') then
          call respond2get_real_var (variable_name
      :                             , '(m^2/m^2)'
      :                             , g%tlai_dead)
- 
 
       elseif (variable_name .eq. 'sla') then
          call respond2get_real_var (variable_name
      :                             , '(mm2/g)'
      :                             , divide(g%lai*sm2smm
      :                             , g%dm_green(leaf), 0.0))
- 
-      elseif (variable_name .eq. 'lai_max') then
-         call respond2get_real_var (variable_name
-     :                             , '(m^2/m^2)'
-     :                             , g%lai_max)
-
 
       elseif (variable_name .eq. 'dlt_lai') then
          call respond2get_real_var (variable_name
@@ -1114,6 +1094,9 @@ cjh      endif
          call respond2get_real_var (variable_name
      :                             , '(m^2/m^2)'
      :                             , g%dlt_slai)
+
+      !...................................................
+      ! These dlts are not made available yet
 
       elseif (variable_name .eq. 'dlt_slai_age') then
          call respond2get_real_var (variable_name
@@ -1134,17 +1117,39 @@ cjh      endif
          call respond2get_real_var (variable_name
      :                             , '(m^2/m^2)'
      :                             , g%dlt_slai_nitrogen)
+      !...................................................
 
-            ! lai
+      elseif (variable_name .eq. 'plants') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
+     :                             , g%plants)
+
+      elseif (variable_name .eq. 'height') then
+         call respond2get_real_var (variable_name
+     :                             , '(mm)'
+     :                             , g%canopy_height)
+ 
+      elseif (variable_name .eq. 'tiller_no') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
+     :                             , g%tiller_no_fertile)
+
       elseif (variable_name .eq. 'tiller_no_fertile') then
          call respond2get_real_var (variable_name
      :                             , '()'
      :                             , g%tiller_no_fertile)
 
-      elseif (variable_name .eq. 'tiller_no') then
+      elseif (variable_name .eq. 'grain_no') then
          call respond2get_real_var (variable_name
      :                             , '()'
-     :                             , g%tiller_no_fertile)
+     :                             , g%grain_no)
+ 
+      elseif (variable_name .eq. 'grain_size') then
+         grain_size = divide (g%dm_green(grain) + g%dm_dead(grain)
+     :                 , g%grain_no, 0.0)
+         call respond2get_real_var (variable_name
+     :                             , '(g)'
+     :                             , grain_size)
 
       !================================================================
       ! Root depth and length
@@ -1452,14 +1457,24 @@ cjh      endif
      :                             , g%swdef_tiller)
 
 
-      elseif (variable_name .eq. 'ep') then
+      elseif ((variable_name .eq. 'sw_uptake').or.
+     :        (variable_name .eq. 'ep'))        then
          num_layers = count_of_real_vals (g%dlayer, max_layer)
          call respond2get_real_array (variable_name
      :                               , '(mm)'
      :                               , g%dlt_sw_dep
      :                               , num_layers)
+
+      elseif (variable_name .eq. 'transpiration') then
+         deepest_layer = find_layer_no (g%root_depth, g%dlayer
+     :                                , max_layer)
+         sw_supply_sum = sum_real_array (g%dlt_sw_dep, deepest_layer)
+         call respond2get_real_var (variable_name
+     :                             , '(mm)'
+     :                             , -sw_supply_sum)
  
-      elseif (variable_name .eq. 'cep') then
+      elseif ((variable_name .eq. 'transpiration_tot').or.
+     :        (variable_name .eq. 'cep'))      then
          call respond2get_real_var (variable_name
      :                             , '(mm)'
      :                             ,  g%transpiration_tot)
