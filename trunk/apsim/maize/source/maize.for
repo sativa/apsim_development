@@ -4438,29 +4438,38 @@ csc  true....
 
       if (Option .eq. 1) then
 
-         call crop_nfact_pheno(leaf, stem, g%dm_green
-     :                       , g%N_conc_crit
-     :                       , g%N_conc_min
-     :                       , g%N_green
-     :                       , c%N_fact_pheno, g%nfact_pheno)
-         call crop_nfact_photo(leaf, stem
-     :                   , g%dm_green
-     :                   , g%N_conc_crit
-     :                   , g%N_conc_min
-     :                   , g%N_green
-     :                   , c%N_fact_photo, g%nfact_photo)
-         call crop_nfact_grain_conc(leaf, stem
-     :                   , g%dm_green
-     :                   , g%N_conc_crit
-     :                   , g%N_conc_min
-     :                   , g%N_green, g%nfact_grain_conc)
-         call crop_nfact_expansion(leaf
-     :                   , g%dm_green
-     :                   , g%N_conc_crit
-     :                   , g%N_conc_min
-     :                   , g%N_green
-     :                   , c%N_fact_expansion
-     :                   , g%nfact_expansion)
+         if (stage_is_between (sowing, emerg
+     :                        , g%current_stage)) then
+            g%nfact_pheno       = 1.0
+            g%nfact_expansion   = 1.0
+            g%nfact_photo       = 1.0
+            g%nfact_grain_conc  = 1.0
+         else
+
+            call crop_nfact_pheno(leaf, stem, g%dm_green
+     :                          , g%N_conc_crit
+     :                          , g%N_conc_min
+     :                          , g%N_green
+     :                          , c%N_fact_pheno, g%nfact_pheno)
+            call crop_nfact_photo(leaf, stem
+     :                      , g%dm_green
+     :                      , g%N_conc_crit
+     :                      , g%N_conc_min
+     :                      , g%N_green
+     :                      , c%N_fact_photo, g%nfact_photo)
+            call crop_nfact_grain_conc(leaf, stem
+     :                      , g%dm_green
+     :                      , g%N_conc_crit
+     :                      , g%N_conc_min
+     :                      , g%N_green, g%nfact_grain_conc)
+            call crop_nfact_expansion(leaf
+     :                      , g%dm_green
+     :                      , g%N_conc_crit
+     :                      , g%N_conc_min
+     :                      , g%N_green
+     :                      , c%N_fact_expansion
+     :                      , g%nfact_expansion)
+         endif
 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
