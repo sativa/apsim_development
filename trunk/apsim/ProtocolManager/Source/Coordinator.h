@@ -30,7 +30,6 @@ class Coordinator : public protocol::Component
       unsigned int sequencerID;
       unsigned int runningMessageID;
       unsigned int childComponentID;
-      std::vector<PMRegistrationItem> registrations;
       bool afterInit2;
       string title;
       unsigned titleID;
@@ -54,18 +53,13 @@ class Coordinator : public protocol::Component
                         const std::string& sdml);
       unsigned int getComponentID(const std::string& name);
 
+
       PMRegistrationItem* findRegistration(const std::string& name,
                                            protocol::RegistrationType type);
-      PMRegistrationItem* findRegistration(unsigned int componentID,
-                                           const std::string& name,
-                                           protocol::RegistrationType kind);
-      void findRegistrations(const std::string& name,
-                             unsigned int destID,
-                             protocol::RegistrationType type,
-                             std::vector<PMRegistrationItem*>& regs);
       unsigned componentNameToID(const std::string& name);
       void resolveRegistrations(void);
       void resolveRegistrations(ComponentAlias::Registrations* registrations);
-      void resolveRegistration(PMRegistrationItem* regI, bool afterInit2);
+      void resolveRegistration(PMRegistrationItem* reg);
+      void fixupRegistrationIDs(protocol::RegistrationType& type);
    };
 #endif
