@@ -534,6 +534,17 @@ class Plant : public plantInterface {
     ,float  *g_n_green                  // (INPUT)  plant nitrogen content (g N/m^
     ,float   g_grain_n_demand           // INPUT
     ,float  *dlt_n_retrans);            // (OUTPUT) plant N taken out from plant parts (g N/m^2)
+
+void legnew_n_retranslocate_test( int    *supply_pools
+                                , int    num_supply_pools
+                                , float  *g_n_conc_min               // (INPUT)  minimum N concentration (g N/g
+                                , float  *g_dm_green                 // (INPUT)  live plant dry weight (biomass
+                                , float  *g_n_green                  // (INPUT)  plant nitrogen content (g N/m^
+                                , float  g_grain_n_demand            //  INPUT
+                                , float  dlt_n_retrans_supply        // (OUTPUT) plant N supply to fruit (g N/m^2)
+                                , float  *dlt_n_retrans              // (OUTPUT) plant N taken out from plant parts (g N/m^2)
+                                );
+
   void plant_n_retranslocate(float *g_n_conc_crit //! (INPUT)  critical N concentration (g N/
                            , float *g_n_conc_min                     //(INPUT)  minimum N concentration (g N/
                            , float c_n_retrans_fraction
@@ -1360,6 +1371,7 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
       float n_demand [max_part];                        // critical plant nitrogen demand (g/m^2)
       float soil_n_demand[max_part];
       float grain_n_demand;                             // grain n demand from soil OR retrans
+      float grain_n_supply;                             // grain n supply from soil OR retrans
       float n_max [max_part];                           // maximum plant nitrogen demand (g/m^2)
       float dlt_n_green[max_part];                      // actual N uptake into plant (g/m^2)
       float dlt_n_senesced[max_part];                   // actual N loss with senesced plant (g/m^2)
