@@ -13,6 +13,7 @@
 #include <map>
 #include <string>
 #include <stdexcept>
+#include <strstream>
 
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
@@ -224,6 +225,7 @@ void Plant::doRegistrations(void)
    setupEvent("kill_crop",   RegistrationType::respondToEvent, &Plant::doKillCrop);
    setupEvent("end_run",     RegistrationType::respondToEvent, &Plant::doEndRun);
    setupEvent("kill_stem",   RegistrationType::respondToEvent, &Plant::doKillStem);
+   setupEvent("remove_crop_biomass",   RegistrationType::respondToEvent, &Plant::doRemoveCropBiomass);
 #undef setupEvent
 
    // Send My Variable
@@ -922,6 +924,12 @@ void Plant::doKillCrop(unsigned &, unsigned &, protocol::Variant &v)
 void Plant::doKillStem(unsigned &, unsigned &, protocol::Variant &v)
    {
    plant_kill_stem (v);            //die
+   }
+
+// Field a Remove Crop Biomass event
+void Plant::doRemoveCropBiomass(unsigned &, unsigned &, protocol::Variant &v)
+   {
+   plant_remove_crop_biomass (v);
    }
 
 // Field a end run event
@@ -4226,7 +4234,10 @@ void Plant::plant_check_leaf_record ()
 //      endif
     if (! reals_are_equal (leaf_area_tot, g.lai + g.slai, tolerance_lai))
       {
-      throw std::runtime_error ("bad record for total leaf area");
+      ostrstream msg;
+      msg << "Bad record for total leaf area. Leaf area total = ";
+      msg <<  leaf_area_tot << ". Lai total = " <<  g.lai + g.slai << ends;
+      throw std::runtime_error (msg.str());
       }
 
     leaf_area_tot = 0.0;
@@ -8694,6 +8705,33 @@ void Plant::plant_kill_stem (protocol::Variant &v/*(INPUT) incoming message vari
 
 
 //+  Purpose
+//       Remove crop biomass.
+
+//+  Mission Statement
+//     Remove crop biomass
+
+//+  Changes
+//     200904 jngh specified and programmed
+void Plant::plant_remove_crop_biomass (protocol::Variant &v/*(INPUT) incoming message variant*/)
+    {
+//+  Constant Values
+    const char*  my_name = "plant_remove_crop_biomass" ;
+
+//+  Local Variables
+
+//- Implementation Section ----------------------------------
+    push_routine (my_name);
+
+    //plant_auto_class_change("remove_biomass");
+
+    plant_remove_biomass_update(v);
+
+    pop_routine (my_name);
+    return;
+    }
+
+
+//+  Purpose
 //       Report occurence of harvest and the current status of specific
 //       variables.
 
@@ -9576,6 +9614,635 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
         {
         }
 
+
+    pop_routine (my_name);
+    return;
+    }
+
+
+//+  Purpose
+//       Update states after a harvest
+
+//+  Mission Statement
+//     Update the states of variables after a harvest
+
+//+  Changes
+//      171297 nih specified and programmed
+//      160798 nih fixed bug in n_init calculation
+//      191099 jngh changed to plant_Send_Crop_Chopped_Event
+//      261099 jngh removed energy from residue components
+//      131100 jngh removed energy
+//      210201 dsg replaced unprotected divides with 'divide' function
+void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message arguments*/)
+    {
+
+//+  Constant Values
+    const char*  my_name = "plant_remove_biomass_update" ;
+
+//+  Local Variables
+    //c      real       dlt_leaf_area         ;     // leaf area increase (mm^2/plant)
+    float dm_residue;                             // dry matter added to residue (kg/ha)
+    float n_residue;                              // nitrogen added to residue (kg/ha)
+    float dm_root_residue;                             // dry matter added to residue (kg/ha)
+    float n_root_residue;                              // nitrogen added to residue (kg/ha)
+    float dm_tops_residue;                             // dry matter added to residue (kg/ha)
+    float n_tops_residue;                              // nitrogen added to residue (kg/ha)
+    float P_residue;                              // phosphorus added to residue (g/m^2)
+    float dm_removed;                             // dry matter removed from system (kg/ha)
+    float n_removed;                              // nitrogen removed from system (kg/ha)
+    float dm_root;
+    float n_root;
+//integer    leaf_no               ! currently expanding leaf no.
+    float fract;
+    int   numvals;
+    int   part;
+    float part_current;
+    float part_previous;
+    float remove_fr;
+    int   stage_no;
+    int   stage_no_current;
+    int   stage_no_previous;
+    float dm_init;
+    float n_init;
+    float height;                                 // cutting height
+    float fr_height;                              // fractional cutting height
+    float retain_fr_green;
+    float retain_fr_sen;
+    float retain_fr_dead;
+    float canopy_fac;
+    float temp;
+    float chop_fr_green[max_part];                      // fraction chopped (0-1)
+    float chop_fr_sen[max_part];                      // fraction chopped (0-1)
+    float chop_fr_dead[max_part];                      // fraction chopped (0-1)
+    float chop_fr;                                 // fraction chopped (0-1)
+    float fraction_to_residue[max_part];          // fraction sent to residue (0-1)
+    float dlt_dm_crop[max_part];                  // change in dry matter of crop (kg/ha)
+    float dlt_dm_n[max_part];                     // change in N content of dry matter (kg/ha)
+    float dlt_dm_p[max_part];                     // change in P content of dry matter (kg/ha)
+    float dlt_dm_removed;                         // dry matter harvested (g/m^2)
+    float dlt_n_removed;                          // N content of dm harvested (g/m^2)
+    float dlt_dm_die;                             // dry matter in dieback of roots (g/m^2)
+    float dlt_n_die;                              // N content of drymatter in dieback (g/m^2)
+    float avg_leaf_area;
+    float P_tops;
+
+    float error_margin = 1.0e-6 ;
+
+//- Implementation Section ----------------------------------
+    push_routine (my_name);
+
+     protocol::removeCropDmType dmRemoved;
+     v.unpack(dmRemoved);
+
+
+         ostrstream msg;
+         msg << "Remove Crop Biomass:-" << endl;
+         float dmTotal = 0.0;
+
+         for (unsigned int pool=0; pool < dmRemoved.dm.size(); pool++)
+         {
+            for (unsigned int part = 0; part < dmRemoved.dm[pool].part.size(); part++)
+            {
+               msg << "   dm " << dmRemoved.dm[pool].pool << " " << dmRemoved.dm[pool].part[part] << " = " << dmRemoved.dm[pool].dlt[part] << " (g/m2)" << endl;
+               dmTotal +=  dmRemoved.dm[pool].dlt[part];
+            }
+         }
+
+         msg << endl << "   dm total = " << dmTotal << " (kg/ha)" << endl << ends;
+
+         parent->writeString (msg.str());
+
+      float dltDmGreen[max_part];
+      float dltDmSenesced[max_part];
+      float dltDmDead[max_part];
+
+      for (int part = 0; part < max_part; part++)
+      {
+         dltDmGreen[part] = 0.0;
+         dltDmSenesced[part] = 0.0;
+         dltDmDead[part] = 0.0;
+      }
+
+      for (unsigned int pool = 0; pool < dmRemoved.dm.size(); pool++)
+      {
+         for (unsigned int part = 0; part < dmRemoved.dm[pool].part.size(); part++)
+         {
+            if (dmRemoved.dm[pool].pool == "green")
+            {
+               if (dmRemoved.dm[pool].part[part] == "stem")       {dltDmGreen[stem] = dmRemoved.dm[pool].dlt[part]; }
+               else if (dmRemoved.dm[pool].part[part] ==  "leaf") {dltDmGreen[leaf] = dmRemoved.dm[pool].dlt[part]; }
+               else {  /* unknown part */ }
+            }
+
+            else if (dmRemoved.dm[pool].pool == "senesced")
+            {
+               if (dmRemoved.dm[pool].part[part] == "stem")       {dltDmSenesced[stem] = dmRemoved.dm[pool].dlt[part]; }
+               else if (dmRemoved.dm[pool].part[part] ==  "leaf") {dltDmSenesced[leaf] = dmRemoved.dm[pool].dlt[part]; }
+               else { /* unknown part */ }
+            }
+
+            else if (dmRemoved.dm[pool].pool == "dead")
+            {
+               if (dmRemoved.dm[pool].part[part] == "stem")       {dltDmDead[stem] = dmRemoved.dm[pool].dlt[part]; }
+               else if (dmRemoved.dm[pool].part[part] ==  "leaf") {dltDmDead[leaf] = dmRemoved.dm[pool].dlt[part]; }
+               else { /* unknown part */ }
+            }
+         }
+      }
+         ostrstream msg1;
+         msg1 << "Remove Crop Biomass 2:-" << endl;
+         float dmTotal1 = 0.0;
+
+         msg1 << "   dm green leaf = " << dltDmGreen[leaf] << " (g/m2)" << endl;
+        msg1 << "   dm green stem = " << dltDmGreen[stem] << " (g/m2)" << endl;
+         dmTotal1 +=  dltDmGreen[leaf] + dltDmGreen[stem];
+
+         msg1 << "   dm senesced leaf = " << dltDmSenesced[leaf] << " (g/m2)" << endl;
+         msg1 << "   dm senesced stem = " << dltDmSenesced[stem] << " (g/m2)" << endl;
+         dmTotal1 +=  dltDmSenesced[leaf] + dltDmSenesced[stem];
+
+         msg1 << "   dm dead leaf = " << dltDmDead[leaf] << " (g/m2)" << endl;
+         msg1 << "   dm dead stem = " << dltDmDead[stem] << " (g/m2)" << endl;
+         dmTotal1 +=  dltDmDead[leaf] + dltDmDead[stem];
+
+         msg1 << endl << "   dm total = " << dmTotal1 << " (g/m2)" << endl << ends;
+
+         parent->writeString (msg1.str());
+
+         ostrstream msg2;
+         msg2 << "Crop Biomass Available:-" << endl;
+         float dmTotal2 = 0.0;
+
+         msg2 << "   dm green leaf = " << g.dm_green[leaf] << " (g/m2)" << endl;
+         msg2 << "   dm green stem = " << g.dm_green[stem] << " (g/m2)" << endl;
+         dmTotal2 +=  g.dm_green[leaf] + g.dm_green[stem];
+
+         msg2 << "   dm senesced leaf = " << g.dm_senesced[leaf] << " (g/m2)" << endl;
+         msg2 << "   dm senesced stem = " << g.dm_senesced[stem] << " (g/m2)" << endl;
+         dmTotal2 +=  g.dm_senesced[leaf] + g.dm_senesced[stem];
+
+         msg2 << "   dm dead leaf = " << g.dm_dead[leaf] << " (g/m2)" << endl;
+         msg2 << "   dm dead stem = " << g.dm_dead[stem] << " (g/m2)" << endl;
+         dmTotal2 +=  g.dm_dead[leaf] + g.dm_dead[stem];
+
+         msg2 << endl << "   dm total = " << dmTotal2 << " (g/m2)" << endl << ends;
+
+         parent->writeString (msg2.str());
+
+    g.previous_stage = g.current_stage;
+
+    stage_no_current = int (g.current_stage);
+//    g.current_stage = c.stage_stem_reduction_harvest[stage_no_current-1];
+
+//    // determine the new stem density
+//    // ==============================
+//    if (incomingApsimVariant.get("plants", protocol::DTsingle, false, temp) == true)
+//        {
+//        bound_check_real_var(parent,temp, 0.0, 10000.0, "plants");
+//        g.plants = temp;
+//        }
+//
+//    if (incomingApsimVariant.get("remove", protocol::DTsingle, false, remove_fr) == false)
+//        {
+//        remove_fr = 0.0;
+//        }
+//    bound_check_real_var(parent,remove_fr, 0.0, 1.0, "remove");
+
+    for (part=0; part < max_part; part++)
+        {
+        dlt_dm_crop[part] = 0.0;
+        dlt_dm_n[part] = 0.0;
+        }
+
+    // Update biomass and N pools.  Different types of plant pools are
+    // ===============================================================
+    // affected differently.
+    // =====================
+    for (part=0; part<max_part;part++)
+        {
+        if (part==root)
+            {
+            // Calculate Root Die Back
+
+            float chop_fr_green_leaf = divide(dltDmGreen[part], g.dm_green[part], 0.0);
+            dlt_dm_die = g.dm_green[part] * c.root_die_back_fr * chop_fr_green_leaf;
+            g.dm_senesced[part] = g.dm_senesced[part] + dlt_dm_die;
+            g.dm_green[part] = g.dm_green[part] - dlt_dm_die;
+
+            dlt_n_die =  dlt_dm_die * c.n_sen_conc[part];
+            g.n_senesced[part] = g.n_senesced[part] + dlt_n_die;
+            g.n_green[part]= g.n_green[part] - dlt_n_die;
+
+//             g.dm_fruit_dead[0][part] = retain_fr_dead * g.dm_dead[part];
+//             g.dm_fruit_senesced[0][part] = retain_fr_sen * g.dm_senesced[part];
+//             g.dm_fruit_green[0][part] = retain_fr_green * g.dm_green[part];
+
+            }
+        else
+            {
+           // we are accounting for tops
+//           // Calculate return of biomass to surface residues
+            if (part==meal || part==oil)
+                {
+//                // biomass is removed
+//                retain_fr_green = 0.0;
+//                retain_fr_sen = 0.0;
+//                retain_fr_dead = 0.0;
+//                chop_fr_green[part] = 1.0 - retain_fr_green;
+//                chop_fr_dead[part]  = 1.0 - retain_fr_dead;
+//                chop_fr_sen[part]   = 1.0 - retain_fr_sen;
+//                fraction_to_residue[part] = 0.0;
+//
+//                dlt_n_removed = g.n_dead[part]*chop_fr_dead[part] + g.n_green[part]*chop_fr_green[part] + g.n_senesced[part]*chop_fr_sen[part];
+//                dlt_dm_removed = g.dm_dead[part]*chop_fr_dead[part] + g.dm_green[part]*chop_fr_green[part] + g.dm_senesced[part]*chop_fr_sen[part];
+//
+//                dlt_dm_crop[part] = dlt_dm_removed * gm2kg/sm2ha;
+//                dlt_dm_n[part] = dlt_n_removed * gm2kg/sm2ha;
+//
+//                g.dm_dead[part] = retain_fr_dead * g.dm_dead[part];
+//                g.dm_senesced[part] = retain_fr_sen * g.dm_senesced[part];
+//                g.dm_green[part] = retain_fr_green * g.dm_green[part];
+//
+//                for (int cohort = 0; cohort < max_fruit_cohorts; cohort++)
+//                   {
+//                   g.dm_fruit_dead[cohort][part]     = g.dm_fruit_dead[cohort][part] * retain_fr_dead;
+//                   g.dm_fruit_senesced[cohort][part] = g.dm_fruit_senesced[cohort][part] * retain_fr_sen;
+//                   g.dm_fruit_green[cohort][part]    = g.dm_fruit_green[cohort][part] * retain_fr_green;
+//                   }
+//
+//                g.n_dead[part] = retain_fr_dead * g.n_dead[part];
+//                g.n_senesced[part] = retain_fr_sen * g.n_senesced[part];
+//                g.n_green[part] = retain_fr_green * g.n_green[part];
+//
+            }
+            else if (part==stem)
+            {
+                if (dltDmGreen[part] > g.dm_green[part] + error_margin)
+                {
+                     ostrstream msg;
+                     msg << "Attempting to remove more green stem biomass than available:-" << endl;
+                     msg << "Removing " << dltDmGreen[part] << " (g/m2) from " << g.dm_green[part] << " (g/m2) available." << ends;
+                     throw std::runtime_error (msg.str());
+                }
+                else if (dltDmSenesced[part] > g.dm_senesced[part] + error_margin)
+                {
+                     ostrstream msg;
+                     msg << "Attempting to remove more senesced stem biomass than available:-" << endl;
+                     msg << "Removing " << dltDmSenesced[part] << " (g/m2) from " << g.dm_senesced[part] << " (g/m2) available." << ends;
+                     throw std::runtime_error (msg.str());
+                }
+                else if (dltDmDead[part] > g.dm_dead[part] + error_margin)
+                {
+                     ostrstream msg;
+                     msg << "Attempting to remove more dead stem biomass than available:-" << endl;
+                     msg << "Removing " << dltDmDead[part] << " (g/m2) from " << g.dm_dead[part] << " (g/m2) available." << ends;
+                     throw std::runtime_error (msg.str());
+                }
+                else
+                { // no more pools
+                }
+
+//                // Some biomass is removed according to harvest height
+//
+//                fr_height = divide (height,g.canopy_height, 0.0);
+//                retain_fr_green = linear_interp_real (fr_height
+//                                                     ,c.fr_height_cut
+//                                                     ,c.fr_stem_remain
+//                                                     ,c.num_fr_height_cut);
+//
+                chop_fr_green[part] = divide(dltDmGreen[part], g.dm_green[part], 0.0);
+                chop_fr_sen[part]   = divide(dltDmSenesced[part], g.dm_senesced[part], 0.0);
+                chop_fr_dead[part]  = divide(dltDmDead[part], g.dm_dead[part], 0.0);
+
+//                chop_fr_green[part] = 1.0 -retain_fr_green;
+//                chop_fr_dead[part]  = 1.0 -retain_fr_dead;
+//                chop_fr_sen[part]   = 1.0 -retain_fr_sen;
+//                fraction_to_residue[part] = (1.0 - remove_fr);
+//
+                dlt_n_removed = g.n_dead[part]*chop_fr_dead[part] + g.n_green[part]*chop_fr_green[part] + g.n_senesced[part]*chop_fr_sen[part];
+                dlt_dm_removed = dltDmDead[part] + dltDmGreen[part] + dltDmSenesced[part];
+
+                dlt_dm_crop[part] = dlt_dm_removed * gm2kg/sm2ha;
+                dlt_dm_n[part] = dlt_n_removed * gm2kg/sm2ha;
+
+
+                g.dm_dead[part] = g.dm_dead[part] - dltDmDead[part];
+                g.dm_senesced[part] =  g.dm_senesced[part] - dltDmSenesced[part];
+                g.dm_green[part] = g.dm_green[part] - dltDmGreen[part];
+
+//                g.dm_fruit_dead[0][part] = retain_fr_dead * g.dm_dead[part];
+//                g.dm_fruit_senesced[0][part] = retain_fr_sen * g.dm_senesced[part];
+//                g.dm_fruit_green[0][part] = retain_fr_green * g.dm_green[part];
+//
+                g.n_dead[part] = g.n_dead[part] - g.n_dead[part]*chop_fr_dead[part];
+                g.n_senesced[part] = g.n_senesced[part] - g.n_senesced[part]*chop_fr_sen[part];
+                g.n_green[part] = g.n_green[part] - g.n_green[part]*chop_fr_green[part];
+            }
+            else
+            {
+//                // this includes leaf, pod
+                if (dltDmGreen[part] > g.dm_green[part] + error_margin)
+                {
+                     ostrstream msg;
+                     msg << "Attempting to remove more green leaf biomass than available:-" << endl;
+                     msg << "Removing " << dltDmGreen[part] << " (g/m2) from " << g.dm_green[part] << " (g/m2) available." << ends;
+                     throw std::runtime_error (msg.str());
+                }
+                else if (dltDmSenesced[part] > g.dm_senesced[part] + error_margin)
+                {
+                     ostrstream msg;
+                     msg << "Attempting to remove more senesced leaf biomass than available:-" << endl;
+                     msg << "Removing " << dltDmSenesced[part] << " (g/m2) from " << g.dm_senesced[part] << " (g/m2) available." << ends;
+                     throw std::runtime_error (msg.str());
+                }
+                else if (dltDmDead[part] > g.dm_dead[part] + error_margin)
+                {
+                     ostrstream msg;
+                     msg << "Attempting to remove more dead leaf biomass than available:-" << endl;
+                     msg << "Removing " << dltDmDead[part] << " (g/m2) from " << g.dm_dead[part] << " (g/m2) available." << ends;
+                     throw std::runtime_error (msg.str());
+                }
+                else
+                { // no more pools
+                }
+
+//                dm_init = u_bound(c.dm_init [part] * g.plants, g.dm_green[part]);
+//                n_init = u_bound(dm_init * c.n_init_conc[part],g.n_green[part]);
+
+
+                chop_fr_green[part] = divide(dltDmGreen[part], g.dm_green[part], 0.0);
+                chop_fr_sen[part]   = divide(dltDmSenesced[part], g.dm_senesced[part], 0.0);
+                chop_fr_dead[part]  = divide(dltDmDead[part], g.dm_dead[part], 0.0);
+
+                dlt_n_removed = g.n_dead[part]*chop_fr_dead[part] + g.n_green[part]*chop_fr_green[part] + g.n_senesced[part]*chop_fr_sen[part];
+                dlt_dm_removed = dltDmDead[part] + dltDmGreen[part] + dltDmSenesced[part];
+
+                dlt_dm_crop[part] = dlt_dm_removed * gm2kg/sm2ha;
+                dlt_dm_n[part] = dlt_n_removed * gm2kg/sm2ha;
+
+
+                g.dm_dead[part] = g.dm_dead[part] - dltDmDead[part];
+                g.dm_senesced[part] =  g.dm_senesced[part] - dltDmSenesced[part];
+                g.dm_green[part] = g.dm_green[part] - dltDmGreen[part];
+//
+//                for (int cohort = 0; cohort < max_fruit_cohorts; cohort++)
+//                   {
+//                   g.dm_fruit_dead[cohort][part]     = g.dm_fruit_dead[cohort][part] * retain_fr_dead;
+//                   g.dm_fruit_senesced[cohort][part] = g.dm_fruit_senesced[cohort][part] * retain_fr_sen;
+//                   g.dm_fruit_green[cohort][part]    = g.dm_fruit_green[cohort][part] * retain_fr_green;
+//                   }
+//
+                g.n_dead[part] = g.n_dead[part] - g.n_dead[part]*chop_fr_dead[part];
+                g.n_senesced[part] = g.n_senesced[part] - g.n_senesced[part]*chop_fr_sen[part];
+                g.n_green[part] = g.n_green[part] - g.n_green[part]*chop_fr_green[part];
+//
+                }
+            }
+        }
+
+
+//    if (sum_real_array(dlt_dm_crop, max_part) > 0.0)
+//        {
+//       vector<string> part_name;
+//       part_name.push_back("root");
+//       part_name.push_back("leaf");
+//       part_name.push_back("stem");
+//       part_name.push_back("pod");
+//       part_name.push_back("meal");
+//       part_name.push_back("oil");
+//
+//         // Call plant P module so that it can add
+//         // its P to the message - green,senesced and dead
+//         // all removed using same fractions
+//       phosphorus->crop_chopped(chop_fr_green  // green
+//                                  , chop_fr_sen    // senesced
+//                                  , chop_fr_dead   // dead
+//                                  , &P_tops
+//                                  , dlt_dm_p); // dlt_dm_p should be P harvested from green, sen and dead
+//
+//        plant_send_crop_chopped_event (c.crop_type
+//                                     , part_name
+//                                     , dlt_dm_crop
+//                                     , dlt_dm_n
+//                                     , dlt_dm_p
+//                                     , fraction_to_residue
+//                                     , max_part);
+//        }
+//    else
+//        {
+//        // no surface residue
+//        }
+//
+//
+//
+//    dm_residue = 0.0;
+//    for (part=0; part < max_part; part++)
+//     dm_residue = dm_residue + (dlt_dm_crop[part] * fraction_to_residue[part]);
+//
+//    n_residue = 0.0;
+//    for (part=0; part < max_part; part++)
+//      n_residue = n_residue + (dlt_dm_n[part] * fraction_to_residue[part]);
+//
+//    dm_root_residue = dlt_dm_crop[root] * fraction_to_residue[root];
+//    n_root_residue = dlt_dm_n[root] * fraction_to_residue[root];
+//
+//    dm_tops_residue = dm_residue - dm_root_residue;
+//    n_tops_residue = n_residue - n_root_residue;
+//
+    parent->writeString ("\nCrop biomass removed.");
+
+    char  msgrmv[400];
+
+
+    float dm_removed_tops = sum_real_array(dlt_dm_crop, max_part) - dlt_dm_crop[root];
+    float dm_removed_root = dlt_dm_crop[root];
+
+    float n_removed_tops = sum_real_array(dlt_dm_n, max_part) - dlt_dm_n[root];
+    float n_removed_root = dlt_dm_n[root];
+
+        parent->writeString ("    Organic matter removed from system:-      From Tops               From Roots");
+
+        sprintf (msgrmv, "%48s%7.2f%24.2f", "DM (kg/ha) =               ", dm_removed_tops, dm_removed_root);
+        parent->writeString (msgrmv);
+
+        sprintf (msgrmv, "%48s%7.2f%24.2f", "N  (kg/ha) =               ", n_removed_tops, n_removed_root);
+        parent->writeString (msgrmv);
+
+        parent->writeString (" ");
+//
+//    // put roots into root residue
+//
+//    // call plant_root_incorp (dm_root, n_root)
+
+    // Initialise plant leaf area
+
+//    g.lai = c.initial_tpla * smm2sm * g.plants;
+//    g.slai = 0.0;
+//    g.tlai_dead = 0.0;
+
+    float dlt_lai = g.lai * chop_fr_green[leaf];
+    float dlt_slai = g.slai * chop_fr_sen[leaf];
+    float dlt_tlai_dead = g.tlai_dead * chop_fr_dead[leaf];
+
+    g.lai = g.lai - dlt_lai;
+    g.slai = g.slai - dlt_slai;
+    g.tlai_dead = g.tlai_dead - dlt_tlai_dead;
+
+    float dlt_lai_tot = dlt_lai + dlt_slai;
+
+     plant_leaf_detachment (g.leaf_area
+                            , dlt_lai_tot
+                            , g.plants, max_node);
+
+
+    g.canopy_width = g.canopy_width * (1.0 - chop_fr_green[stem]);
+
+    if (p.num_canopy_widths > 0)
+        {
+        legnew_canopy_fac (g.row_spacing
+                           , g.plants
+                           , g.skip_row_fac
+                           , g.skip_plant_fac
+                           , g.canopy_width
+                           , &canopy_fac);
+        }
+    else
+        {
+        canopy_fac = g.skip_row_fac;
+        }
+
+// now update new canopy covers
+
+    legnew_cover_leaf_pod(g.row_spacing
+                          ,c.x_row_spacing
+                          ,c.y_extinct_coef
+                          ,c.num_row_spacing
+                          ,c.extinct_coef_pod
+                          , canopy_fac
+                          ,g.lai
+                          ,g.pai
+                          ,&g.lai_canopy_green
+                          ,&g.cover_green
+                          ,&g.cover_pod);
+
+    legnew_cover (g.row_spacing
+                  ,c.x_row_spacing
+                  ,c.y_extinct_coef_dead
+                  ,c.num_row_spacing
+                  , canopy_fac
+                  ,g.slai
+                  ,&g.cover_sen);
+    legnew_cover (g.row_spacing
+                  ,c.x_row_spacing
+                  ,c.y_extinct_coef_dead
+                  ,c.num_row_spacing
+                  , canopy_fac
+                  ,g.tlai_dead
+                  ,&g.cover_dead);
+
+//    fill_real_array (g.leaf_no, 0.0, max_node);
+//    fill_real_array (g.leaf_no_dead, 0.0, max_node);
+//    fill_real_array (g.node_no, 0.0, max_stage);
+//    fill_real_array (g.leaf_area, 0.0, max_node);
+//
+//    stage_no_current = (int) g.current_stage;
+//
+//    g.node_no[stage_no_current-1] = c.leaf_no_at_emerg;
+//
+//    fill_real_array (g.leaf_no, 1.0, (int)c.leaf_no_at_emerg);
+//    g.leaf_no[(int)c.leaf_no_at_emerg] = fmod(c.leaf_no_at_emerg,1.0);
+//
+//    avg_leaf_area = divide(c.initial_tpla,c.leaf_no_at_emerg,0.0);
+//
+//    fill_real_array (g.leaf_area,avg_leaf_area,(int)c.leaf_no_at_emerg);
+//    g.leaf_area[(int)c.leaf_no_at_emerg] = fmod(c.leaf_no_at_emerg,1.0) * avg_leaf_area;
+//
+    //cnh the following has not been changed though may not be necessary;
+    //cnh start;
+    stage_no_current = (int) g.current_stage;
+    stage_no_previous = (int) g.previous_stage;
+    part_current = fmod(g.current_stage, 1.0);
+    part_previous = fmod(g.previous_stage, 1.0);
+
+    if (stage_no_current==stage_no_previous)
+        {
+        fract = divide (part_current, part_previous, 0.0);
+        }
+    else
+        {
+        fract = part_current;
+        for (stage_no = stage_no_current+1; stage_no<=stage_no_previous;stage_no++)
+            {
+            g.days_tot[stage_no-1]       = 0.0;
+            g.tt_tot[stage_no-1]         = 0.0;
+            g.heat_stress_tt[stage_no-1] = 0.0;
+            g.dm_stress_max[stage_no-1]  = 0.0;
+            g.cswd_photo[stage_no-1]     = 0.0;
+            g.cswd_expansion[stage_no-1] = 0.0;
+            g.cnd_photo[stage_no-1]      = 0.0;
+            g.cnd_grain_conc[stage_no-1] = 0.0;
+            }
+        }
+    g.days_tot[stage_no_current-1]       = fract * g.days_tot[stage_no_current-1];
+    g.tt_tot[stage_no_current-1]         = fract * g.tt_tot[stage_no_current-1];
+    g.heat_stress_tt[stage_no_current-1] = 0.0;
+    g.dm_stress_max[stage_no_current-1]  = 0.0;
+    g.cswd_photo[stage_no_current-1]     = 0.0;
+    g.cswd_expansion[stage_no_current-1] = 0.0;
+    g.cnd_photo[stage_no_current-1]      = 0.0;
+    g.cnd_grain_conc[stage_no_current-1] = 0.0;
+
+// other plant states
+
+    g.canopy_height = g.canopy_height * (1.0 - chop_fr_green[stem]);
+
+    plant_n_conc_limits (c.stage_code_list
+    , g.phase_tt
+    , g.tt_tot
+    , c.n_conc_crit_grain
+    , c.n_conc_crit_root
+    , c.n_conc_max_grain
+    , c.n_conc_max_root
+    , c.n_conc_min_grain
+    , c.n_conc_min_root
+    , c.x_stage_code
+    , c.y_n_conc_crit_leaf
+    , c.y_n_conc_crit_pod
+    , c.y_n_conc_crit_stem
+    , c.y_n_conc_max_leaf
+    , c.y_n_conc_max_pod
+    , c.y_n_conc_max_stem
+    , c.y_n_conc_min_leaf
+    , c.y_n_conc_min_pod
+    , c.y_n_conc_min_stem
+    , c.x_co2_nconc_modifier
+    , c.y_co2_nconc_modifier
+    , c.num_co2_nconc_modifier
+    , g.co2
+    , g.current_stage
+    , g.n_conc_crit
+    , g.n_conc_max
+    , g.n_conc_min
+    )  ;                                          // plant N concentr
+
+    if (g.plant_status == alive &&
+        g.current_stage < g.previous_stage)
+        {
+        plant_event (
+          g.current_stage
+        , g.dlayer
+        , g.dm_dead
+        , g.dm_green
+        , g.dm_senesced
+        , g.lai
+        , g.n_green
+        , g.root_depth
+        , g.sw_dep
+        , p.ll_dep);
+        }
+    else
+        {
+        }
 
     pop_routine (my_name);
     return;
