@@ -33,10 +33,10 @@
 ------- REPORT Initialisation ------------------------------------------------
      Output file = soiltemp.out
      Format = normal
-     Module_names = clock soiltemp soiltemp soiltemp 
-     Variable_names = today.dd/mm/yyyy soil_temp maxt_soil(1) mint_soil(1) 
-     Variable_alias = Date - - - 
-     Units =     
+     Module_names = clock soiltemp soiltemp soiltemp soiltemp met met 
+     Variable_names = today.dd/mm/yyyy ave_soil_temp ave_soil_temp_surface maxt_soil_surface mint_soil_surface maxt mint 
+     Variable_alias = Date - - - - - - 
+     Units =        
      
 
 ------- MET Initialisation ---------------------------------------------------
