@@ -1,3 +1,5 @@
+Imports System.Windows.Forms
+Imports System.IO
 Public Class APSIMSettings
     Declare Ansi Sub GetAPSIMSetting Lib "APSIMShared.dll" Alias "SettingsRead" (ByVal key As String, ByVal returnstring As String, ByVal replacemacros As Integer)
     Declare Ansi Sub SetAPSIMSetting Lib "APSIMShared.dll" Alias "SettingsWrite" (ByVal key As String, ByVal returnstring As String)
@@ -21,4 +23,7 @@ Public Class APSIMSettings
         End Try
     End Sub
 
+    Public Shared Function ApsimDirectory() As String
+        Return Directory.GetParent(Path.GetDirectoryName(Application.ExecutablePath)).ToString
+    End Function
 End Class
