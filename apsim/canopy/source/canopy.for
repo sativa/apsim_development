@@ -551,7 +551,7 @@ c      g%ComponentFrgr(:) = 0.0
 
       found = read_parameter(
      :           section_name         ! Section header
-     :         , 'min_crit_temp'      ! Keyword
+     :         , 'max_crit_temp'      ! Keyword
      :         , c%max_crit_temp      ! Variable
      :         , 0.0                  ! Lower Limit for bound checking
      :         , 50.)                 ! Upper Limit for bound checking
