@@ -483,7 +483,7 @@ void GMCalculator::setPrice(const std::string& scenarioName,
       cropTable->FieldValues["HarvestLoss"] = price.harvestLoss;
       cropTable->FieldValues["Downgrade%"] = price.downgradePercent;
       cropTable->FieldValues["DowngradeReturn"] = price.downgradeReturn;
-      cropTable->FieldValues["MoistureContent"] = price.downgradeReturn;
+      cropTable->FieldValues["MoistureContent"] = price.moistureContent;
       cropTable->Post();
       }
    }
@@ -496,7 +496,7 @@ void GMCalculator::adjustYieldForHarvestLoss(const std::string& scenarioName,
    {
    Price price;
    getPrice(scenarioName, cropName, price);
-   dryYield = dryYield - price.harvestLoss * dryYield;
+   dryYield = dryYield - (price.harvestLoss / 100.0) * dryYield;
    }
 //---------------------------------------------------------------------------
 // convert a DRY yield into a WET yield.
