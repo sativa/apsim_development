@@ -36,7 +36,7 @@ void GENERAL_EXPORT addDBField(TDataSet* dataset,
                                const string& fieldName,
                                const string& fieldValue)
    {
-   if (dataset->FindField(fieldName.c_str()) == NULL)
+   if (dataset->FieldDefs->IndexOf(fieldName.c_str()) == -1)
       {
       TFieldDef *fieldDef = dataset->FieldDefs->AddFieldDef();
       fieldDef->Name = fieldName.c_str();
