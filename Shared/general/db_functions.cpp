@@ -154,7 +154,10 @@ void appendDBRecord(TDataSet* dataset,
    try
       {
       for (fieldI = 0; fieldI < fieldNames.size(); fieldI++)
-         dataset->FieldValues[fieldNames[fieldI].c_str()] = fieldValues[fieldI].c_str();
+         {
+         if (fieldValues[fieldI] != "")
+            dataset->FieldValues[fieldNames[fieldI].c_str()] = fieldValues[fieldI].c_str();
+         }
       }
    catch (...)
       {
