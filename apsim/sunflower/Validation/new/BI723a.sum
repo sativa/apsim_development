@@ -75,9 +75,15 @@
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
+     
+     SECTION:- init
         crop_growing = 0
+     
+     SECTION:- init
         sow_day = 249
         geno = 1
+     
+     SECTION:- start_of_day
      if (day = sow_day) then
         crop_growing = 1
         fertiliz apply amount = 250 (kg/ha), depth = 20 (mm), type = no3_n
@@ -114,6 +120,8 @@
      n_biomass = n_green() - n_green(1)
         report do_end_day_output
      endif
+     END of rules
+     
      Manager creating a new local real variable : crop_growing =     0.00000000000000
      Manager creating a new local real variable : sow_day =     249.000000000000
      Manager creating a new local real variable : geno =     1.00000000000000

@@ -85,6 +85,8 @@
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
+     
+     SECTION:- start_of_day
      if day = 10 and year = 1988 then
         sunflower sow cultivar = sunfola68-2, plants = 5, sowing_depth = 50 (mm)
      endif
@@ -103,6 +105,8 @@
          (cowpea.stage >= 1 and cowpea.stage <= 11 )) then
          report do_output
      endif
+     END of rules
+     
 
 ------- soilwat2 Initialisation -----------------------------------------------
      

@@ -52,8 +52,12 @@
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
+     
+     SECTION:- init
      fixed_rain = 'no'
      rain_amount = 0
+     
+     SECTION:- end_of_day
      avtemp = (mint + maxt) / 2
      avtempi=nearest_int(avtemp)
      feb_or_not=date_within('1-feb,28-feb')
@@ -61,6 +65,8 @@
         met set rain = rain_amount
      endif
      report do_output
+     END of rules
+     
      Manager creating a new local string variable : fixed_rain = no
      Manager creating a new local real variable : rain_amount =     0.00000000000000
 ------- Start of simulation  --------------------------------------------------

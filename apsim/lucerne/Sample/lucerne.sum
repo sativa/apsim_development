@@ -44,6 +44,8 @@
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
+     
+     SECTION:- start_of_day
      if day = 150 and year = 1988 then
         lucerne sow cultivar = trifecta, plants = 200 (/m2), sowing_depth = 40 (mm)
      elseif lucerne.stage_name = 'flowering' then
@@ -52,7 +54,11 @@
         lucerne harvest
         lucerne end_crop
      endif
+     
+     SECTION:- end_of_day
      report do_output
+     END of rules
+     
 
 ------- soilwat2 Initialisation -----------------------------------------------
      

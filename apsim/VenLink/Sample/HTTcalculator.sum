@@ -58,9 +58,13 @@
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
+     
+     SECTION:- start_of_day
      venlink.st1 = st(1)
      venlink.sw1 = sw(1)
      report do_end_day_output
+     END of rules
+     
 
 ------- soilwat2 Initialisation -----------------------------------------------
      

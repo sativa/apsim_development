@@ -44,6 +44,8 @@
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
+     
+     SECTION:- start_of_day
      if day = 330 and year  = 1988 then
         peanut sow cultivar = early_bunch, plants = 10 (/m2), sowing_depth = 40 (mm)
      endif
@@ -51,7 +53,11 @@
         peanut harvest
         peanut end_crop
      endif
+     
+     SECTION:- end_of_day
      report do_output
+     END of rules
+     
 
 ------- soilwat2 Initialisation -----------------------------------------------
      

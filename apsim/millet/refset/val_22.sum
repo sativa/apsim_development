@@ -143,6 +143,8 @@
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
+     
+     SECTION:- init
         crop_in = 0
         tiller0_finished = 0
         tiller1_finished = 0
@@ -150,9 +152,13 @@
         tiller3_finished = 0
         tiller4_finished = 0
         tiller5_finished = 0
+     
+     SECTION:- start_of_day
        if (day = 183 and year = 1996) then
           crop_in = 1
         endif
+     
+     SECTION:- end_of_day
         report do_output
      if (millet.stage_name = 'initiate' or millet.stage_name = 'emergence') then
          tiller0_finished = 1
@@ -236,6 +242,8 @@
         tiller4_finished = 0
         tiller5_finished = 0
      endif
+     END of rules
+     
      Manager creating a new local real variable : crop_in =     0.00000000000000
      Manager creating a new local real variable : tiller0_finished =     0.00000000000000
      Manager creating a new local real variable : tiller1_finished =     0.00000000000000

@@ -76,8 +76,12 @@
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
+     
+     SECTION:- init
         crop_in = 0
         first_day = 1
+     
+     SECTION:- start_of_day
         if (date_within('1-may, 1-aug') = 1 and
                   rain[5] >= 20 and
                   crop_in = 0 and
@@ -92,11 +96,15 @@
            report do_end_day_output
            report1 do_end_day_output
         endif
+     
+     SECTION:- end_of_day
         if (first_day = 1) then
            report do_output
            report1 do_output
            first_day = 0
         endif
+     END of rules
+     
      Manager creating a new local real variable : crop_in =     0.00000000000000
      Manager creating a new local real variable : first_day =     1.00000000000000
 

@@ -40,9 +40,13 @@
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
+     
+     SECTION:- end_of_day
      if runoff > 0 then
        report do_output
      endif
+     END of rules
+     
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
