@@ -24,9 +24,9 @@ class CHART_EXPORT Pen
 	   Colour_struct Colour;
    	Line_style_enum Style;
 
-      TChartPen* Get_TChartpen (void);
+      void Set_TChartpen (TChartPen* Pen);
    private:
-      TChartPen *pen;
+      TPen *pen;
    };
 
 #endif

@@ -22,9 +22,9 @@ class CHART_EXPORT Brush
    	Colour_struct Colour;
    	Brush_style_enum Style;
 
-      TChartBrush* Get_TChartBrush (void);
+      void Set_TChartBrush (TChartBrush* Brush);
    private:
-      TChartBrush *brush;
+      TBrush *brush;
 
    };
 #endif
