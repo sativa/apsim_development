@@ -2,15 +2,84 @@
 #ifndef PlantComponentH
 #define PlantComponentH
 
-class Plant;
-struct ApsimGetQueryData;
 
+#include <boost/function.hpp>
+
+class Plant;
+
+// Pure virtual class to send variables to the rest of the system
+// via sendVariable()
+class baseInfo {
+  protected:
+   int                    myLength;
+   protocol::DataTypeCode myType;
+   string                 myName;
+   string                 myUnits;
+   string                 myDescription;
+  public:
+   baseInfo();
+   ~baseInfo() {};
+   virtual void sendVariable(protocol::Component *, protocol::QueryValueData&) = 0;
+};
+
+////////////////////////////////////////////////////////////////////////////
+// A class to wrap a variable for reporting/manager/etc. Keeps a pointer 
+// to memory region of scalar or array object, and knows how to send this
+// to the system via sendVariable when asked.  
+class varInfo : public baseInfo {
+  private:
+   void                  *myPtr;
+  public:
+   varInfo(const char *name, protocol::DataTypeCode type, int length, void *ptr, const char *units, const char *desc) {
+      myName = name;
+      myType = type;
+      myLength = length;
+      myPtr = ptr;
+      myUnits = units;
+      myDescription = desc;
+   };
+   ~varInfo() {};
+   void sendVariable(protocol::Component *, protocol::QueryValueData&);
+};
+
+// Same as above, but stores pointers to function calls 
+//typedef void (*ptr2getFn) (protocol::Component *, protocol::QueryValueData &);
+class fnInfo : public baseInfo {
+  private:
+    boost::function2<void, protocol::Component *, protocol::QueryValueData &> myFn;
+  public:
+    fnInfo(const char *name, 
+           protocol::DataTypeCode type, int length, 
+           boost::function2<void, protocol::Component *, protocol::QueryValueData &> fn, 
+           const char *units, const char *desc) {
+      myFn = fn;
+      myName = name;
+      myType = type;
+      myLength = length;
+      myUnits = units;
+      myDescription = desc;
+   };
+   ~fnInfo() {};
+   void sendVariable(protocol::Component *s, protocol::QueryValueData &qd) {
+      myFn(s, qd);
+   };
+};
+
+typedef std::map<unsigned, baseInfo*>   UInt2InfoMap;
 // ------------------------------------------------------------------
 // This component acts as the interface between an instance of a
 // Plant model and an APSIM simulation.
 // ------------------------------------------------------------------
 class PlantComponent : public protocol::Component
    {
+   private:
+      Plant     *plant;    // The plant module
+      UInt2InfoMap vMap;   // List of variables we can send to system
+
+      unsigned int getReg(const char *systemName,
+                          protocol::DataTypeCode type, 
+                          bool isArray, 
+                          const char *units);
    public:
       PlantComponent(void);
       ~PlantComponent(void);
@@ -20,8 +89,21 @@ class PlantComponent : public protocol::Component
       virtual void respondToMethod(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
       virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
       virtual bool respondToSet(unsigned int& fromID, protocol::QuerySetValueData& setValueData);
-      virtual void onApsimGetQuery(protocol::ApsimGetQueryData& apsimGetQueryData);
-      unsigned int addGettableVar(const char *systemName, protocol::DataTypeCode myType, bool isArray, const char *units);
+      virtual void onApsimGetQuery(struct protocol::ApsimGetQueryData& apsimGetQueryData);
+
+      void   PlantComponent::addGettableVar(const char *systemName,
+                                            protocol::DataTypeCode type,
+                                            int length,
+                                            void *ptr,
+                                            const char *units,
+                                            const char *desc);
+
+      void   PlantComponent::addGettableVar(const char *systemName,
+                                            protocol::DataTypeCode type,
+                                            int length,
+                                            boost::function2<void, protocol::Component *, protocol::QueryValueData &> ptr,
+                                            const char *units,
+                                            const char *desc);
 
       std::string readParameter(const string& sectionName,
                                 const string& variableName)
@@ -41,11 +123,5 @@ class PlantComponent : public protocol::Component
          {
          return componentData->getProperty(a,b);
          }
-//      FString  getRegistrationName(unsigned int a)
-//         {
-//         return protocol::Component::getRegistrationName(a);
-//         }
-   private:
-      Plant     *plant;    // The plant module
    };
 #endif

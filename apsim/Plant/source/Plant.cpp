@@ -11133,7 +11133,7 @@ void Plant::plant_read_root_params ()
     float ll [max_layer];                         // lower limit of plant-extractable
                                                   // soil water for soil layer l
                                                   // (mm water/mm soil)
-    float dep_tot, ll_tot;                         // total depth of soil & ll
+    float dep_tot, esw_tot;                         // total depth of soil & ll
     int   num_layers=0;                             // number of layers in profile
     char  msg[200];
 
@@ -11141,7 +11141,7 @@ void Plant::plant_read_root_params ()
 
     push_routine (my_name);
 
-    parent->writeString ("   - reading root profile parameters");
+    parent->writeString (" - reading root profile parameters");
 
 //       cproc_sw_demand_bound
 
@@ -11199,13 +11199,13 @@ void Plant::plant_read_root_params ()
 
     // report
     parent->writeString ("                   Root Profile");
-    parent->writeString ("---------------------------------------------------");
+    parent->writeString ("    -----------------------------------------------");
     parent->writeString ("     Layer       Kl           Lower    Exploration");
     parent->writeString ("     Depth     Factor         Limit      Factor  ");
     parent->writeString ("     (mm)         ()        (mm/mm)       (0-1)");
-    parent->writeString ("---------------------------------------------------");
+    parent->writeString ("    -----------------------------------------------");
 
-    dep_tot = ll_tot = 0.0;
+    dep_tot = esw_tot = 0.0;
     for (layer = 0; layer < num_layers; layer++)
        {
        sprintf (msg, "%9.1f%10.3f%15.3f%12.3f"
@@ -11215,20 +11215,19 @@ void Plant::plant_read_root_params ()
           , p.xf[layer]);
        parent->writeString (msg);
        dep_tot += g.dlayer[layer];
-       ll_tot += p.ll_dep[layer];
+       esw_tot += g.dul_dep[layer] - p.ll_dep[layer];
        }
-    parent->writeString ("---------------------------------------------------");
-    sprintf (msg, "%9.1f%10s%15.1f(mm)"
+    parent->writeString ("    -----------------------------------------------");
+    sprintf (msg, "    Extractable SW: %7.1f mm in %7.1f mm total depth (%3.0f %%)."
+          , esw_tot
           , dep_tot
-          , " "
-          , ll_tot);
+          , 100.0 * divide(esw_tot, dep_tot, 0.0));
     parent->writeString (msg);
-    parent->writeString ("---------------------------------------------------\n");
 
-    sprintf (msg, "(%s%5.1f%s)"
-        ,"Crop factor for bounding water use is set to "
+    sprintf (msg, "%s%5.1f%s"
+        ,"    Crop factor for bounding water use is set to "
         , p.eo_crop_factor
-        , " times eo");
+        , " times eo.");
     parent->writeString (msg);
 
     if (c.root_growth_option == 2)
