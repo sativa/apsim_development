@@ -38,7 +38,7 @@ class __declspec(dllexport) ControlFileConverter
       // If callback is not null, then it will be called for every section
       // in con file being converter.
       //---------------------------------------------------------------------------
-      void convert(const string& fileName,
+      bool convert(const string& fileName,
                    const string& scriptFileName,
                    TControlFileConverterEvent callback) throw(runtime_error);
 
@@ -173,6 +173,16 @@ class __declspec(dllexport) ControlFileConverter
       // Delete a manager action parameter.
       //---------------------------------------------------------------------------
       bool executeDeleteManagerActionParameter(const string& arguments) throw(runtime_error);
+
+      //---------------------------------------------------------------------------
+      // Find a module.ini file. Return true if found.
+      //---------------------------------------------------------------------------
+      bool executeFindModuleLocalIniFile(const string& arguments);
+
+      //---------------------------------------------------------------------------
+      // Remove report variable. Return true if found.
+      //---------------------------------------------------------------------------
+      bool executeRemoveReportVariable(const string& arguments);
 
       //---------------------------------------------------------------------------
       // Callback for DeleteManagerActionParameter.

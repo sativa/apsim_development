@@ -166,7 +166,7 @@ void testSetParameterValue(void)
    out << "[TestSetParameterValue]\n";
    out << "command=SetParameterValue(clock.simulation_start_day, xxxx)\n";
    out << "command=SetParameterValue(clock.simulation_start_year, clock.simulation_start_day)\n";
-   out << "command=SetParameterValue(clock.simulation_end_day, date(clock.simulation_end_day, clock.simulation_end_year))\n";
+   out << "command=SetParameterValue(Clock.simulation_end_day, \"date(clock.simulation_end_day, clock.simulation_end_year)\")\n";
    out << "command=SetParameterValue(log.logfile, %controlfilenamebase%.log)\n";
    out.close();
 
@@ -177,6 +177,24 @@ void testSetParameterValue(void)
    BOOST_CHECK(con.getParameterValue("apsim.sample_accum", "clock", "simulation_start_year") == "xxxx");
    BOOST_CHECK(con.getParameterValue("apsim.sample_accum", "clock", "simulation_end_day") == "9/4/1988");
    BOOST_CHECK(con.getParameterValue("apsim.sample_accum", "log", "logfile") == "accum.log");
+   tearDownControlFileConverter();
+   }
+//---------------------------------------------------------------------------
+// test that set parameter value doesn't create a parameter when the module
+// doesn't exist in .con file.
+//---------------------------------------------------------------------------
+void testSetParameterValue2(void)
+   {
+   setUpControlFileConverter1();
+   ofstream out("conversion.script");
+   out << "[TestSetParameterValue]\n";
+   out << "command=SetParameterValue(invalid.simulation_start_day, xxxx, OnlyWhenNecessary)\n";
+   out.close();
+
+   ControlFileConverter converter;
+   converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL);
+   ApsimControlFile con("accum.con");
+   BOOST_CHECK(con.getParameterValue("apsim.sample_accum", "invalid", "simulation_start_day") == "");
    tearDownControlFileConverter();
    }
 
@@ -461,7 +479,7 @@ void testRenameModule(void)
    BOOST_CHECK(conContents.str() ==
           "[apsim.sample_accum]\n"
           "module = tracker    accum.par[sample]\n"
-          "module = surfaceOM   accum.par [sample] surfaceOM.ini [sample]\n");
+          "module = surfaceOM   accum.par [sample] %apsuite\\apsim\\surfaceOM\\surfaceOM.ini [sample]\n");
 
    DeleteFile("accum.con");
    DeleteFile("accum.par");
@@ -615,6 +633,41 @@ void testSetManagerActionParameter(void)
    tearDownControlFileConverter();
    }
 //---------------------------------------------------------------------------
+// make sure the SetManagerActionParameter only happens when the action is valid.
+//---------------------------------------------------------------------------
+void testSetManagerActionParameter2(void)
+   {
+   setUpControlFileConverter3();
+
+   ofstream out("conversion.script");
+   out << "[TestSetManagerActionParameter]\n";
+   out << "command=SetManagerActionParameter(manure invalid, cnr, pcnt_c / pcnt_n)";
+   out.close();
+
+   ControlFileConverter converter;
+   converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL);
+
+   ifstream parIn("accum.par");
+   ostringstream parContents;
+   parContents << parIn.rdbuf();
+
+   BOOST_CHECK(parContents.str() ==
+                            "[sample.report.parameters]\n"
+                            "title = Accum Sample Simulation\n"
+                            "[sample.manager.start_of_day]\n"
+                            "if (rain[3] >= 20) then\n"
+                            "   manure add_manure   type=manure, pcnt_c=21.0(), pcnt_n=0.76(), no3ppm=10.0()\n"
+                            "   manure add_manure   type=manure, pcnt_c=21.0(), pcnt_n=0.76(), no3ppm=10.0()\n"
+                            "endif\n"
+                            "[sample2.manager.start_of_day]\n"
+                            "if (rain[3] >= 20) then\n"
+                            "   manure add_manure   type=manure, pcnt_c=21.0(), pcnt_n=0.76(), no3ppm=10.0()\n"
+                            "endif\n");
+
+   tearDownControlFileConverter();
+   }
+
+//---------------------------------------------------------------------------
 // test the DeleteManagerActionParameter functionality
 //---------------------------------------------------------------------------
 void testDeleteManagerActionParameter(void)
@@ -650,12 +703,95 @@ void testDeleteManagerActionParameter(void)
    tearDownControlFileConverter();
    }
 //---------------------------------------------------------------------------
+// Setup the test environment 4
+//---------------------------------------------------------------------------
+void setUpControlFileConverter4(void)
+   {
+   // write a control file.
+   static const char* con = "[apsim.sample_accum]\n"
+                            "Module = test     accum.par [test]\n"
+                            "Module = clock    [sample1] c:\clock.ini[standard]\n";
+
+   ofstream out("accum.con");
+   out << con;
+   out.close();
+
+   // write a par file.
+   static const char* par = "";
+   out.open("accum.par");
+   out << par;
+   out.close();
+   }
+//---------------------------------------------------------------------------
+// test the FindModuleLocalIniFile functionality
+//---------------------------------------------------------------------------
+void testFindModuleLocalIniFile(void)
+   {
+   setUpControlFileConverter4();
+
+   ofstream out("conversion.script");
+   out << "[You have specified a local clock.ini]\n";
+   out << "command=FindModuleLocalIniFile(clock)\n";
+   out.close();
+
+   ControlFileConverter converter;
+   BOOST_CHECK(converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL));
+   tearDownControlFileConverter();
+   }
+//---------------------------------------------------------------------------
+// test the FindModuleLocalIniFile functionality
+//---------------------------------------------------------------------------
+void testRemoveReportVariable(void)
+   {
+   // write a control file.
+   static const char* con = "[apsim.sample_accum]\n"
+                            "Module = test     accum.par [test]\n"
+                            "Module = report   accum.par [sample]\n"
+                            "Module = report (report2)   accum.par [sample]\n";
+   ofstream out("accum.con");
+   out << con;
+   out.close();
+
+   // write a par file.
+   static const char* par = "[sample.report.parameters]\n"
+                            "title = Accum Sample Simulation\n"
+                            "variable = residue2.xxxx\n"
+                            "variable = clock.day\n"
+                            "[sample.report2.parameters]\n"
+                            "variable = residue2.xxxx\n";
+   out.open("accum.par");
+   out << par;
+   out.close();
+
+   out.open("conversion.script");
+   out << "[RemoveReportVariable]\n";
+   out << "command=RemoveReportVariable(residue2.xxxx)\n";
+   out.close();
+
+   ControlFileConverter converter;
+   BOOST_CHECK(converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL));
+
+   ifstream parIn("accum.par");
+   ostringstream parContents;
+   parContents << parIn.rdbuf();
+
+   BOOST_CHECK(parContents.str() ==
+                            "[sample.report.parameters]\n"
+                            "title = Accum Sample Simulation\n"
+                            "variable = clock.day\n"
+                            "[sample.report2.parameters]\n");
+
+   tearDownControlFileConverter();
+   }
+
+//---------------------------------------------------------------------------
 // Perform all tests.
 //---------------------------------------------------------------------------
 test_suite* testControlFileConverter(void)
    {
    test_suite* test= BOOST_TEST_SUITE("TestControlFileConverter");
    test->add(BOOST_TEST_CASE(&testSetParameterValue));
+   test->add(BOOST_TEST_CASE(&testSetParameterValue2));
    test->add(BOOST_TEST_CASE(&testRenameParameter));
    test->add(BOOST_TEST_CASE(&testDeleteParameter));
    test->add(BOOST_TEST_CASE(&testChangeInstantiation));
@@ -669,7 +805,12 @@ test_suite* testControlFileConverter(void)
    test->add(BOOST_TEST_CASE(&testSearchReplace));
    test->add(BOOST_TEST_CASE(&testCreateDerivedParameter));
    test->add(BOOST_TEST_CASE(&testSetManagerActionParameter));
+   test->add(BOOST_TEST_CASE(&testSetManagerActionParameter2));
    test->add(BOOST_TEST_CASE(&testDeleteManagerActionParameter));
+   test->add(BOOST_TEST_CASE(&testFindModuleLocalIniFile));
+   test->add(BOOST_TEST_CASE(&testRemoveReportVariable));
+
+
    return test;
    }
 

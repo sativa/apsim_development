@@ -12,7 +12,10 @@
 #include <general\path.h>
 #include <general\date_class.h>
 #include <general\inifile.h>
+#include <general\stristr.h>
 #include <boost\lexical_cast.hpp>
+#include <ApsimShared\ApsimDirectories.h>
+
 using namespace std;
 using namespace boost;
 
@@ -44,6 +47,8 @@ string evaluateExpression(const string& value1, const string& value2, const stri
    {
    if (value2 == "" || oper == "")
       return value1;
+   else if (!Is_numerical(value1.c_str()) || !Is_numerical(value2.c_str()))
+      return "";
    else
       {
       double value;
@@ -100,12 +105,13 @@ void ControlFileConverter::convert(const string& fileName,
 // convert the specified control file using the commands in the specified
 // script file name.  Throws an exception if a problem was encountered.
 // If callback is not null, then it will be called for every section
-// in con file being converter.
+// in con file being converter. Return true if something was converted.
 //---------------------------------------------------------------------------
-void ControlFileConverter::convert(const string& fileName,
+bool ControlFileConverter::convert(const string& fileName,
                                    const string& scriptFileName,
                                    TControlFileConverterEvent callback) throw(runtime_error)
    {
+   bool somethingWasConverted = false;
    con = new ApsimControlFile(fileName);
 
    // Make the working directory the same directory as the where the
@@ -142,12 +148,16 @@ void ControlFileConverter::convert(const string& fileName,
             {
             bool ok = convertSection(conversions[i]);
             if (ok)
+               {
+               somethingWasConverted = true;
                log << conversions[i] << endl;
+               }
             }
          delete script;
          }
       }
    delete con;
+   return somethingWasConverted;
    }
 //---------------------------------------------------------------------------
 // convert the control file using the commands in the specified section
@@ -157,66 +167,77 @@ void ControlFileConverter::convert(const string& fileName,
 bool ControlFileConverter::convertSection(const string& sectionName) throw(runtime_error)
    {
    bool ok = false;
-   vector<string> commands;
-   script->read(sectionName, "command", commands);
-   for (unsigned c = 0; c != commands.size(); ++c)
+   try
       {
-      // yield control to windows.
-      Application->ProcessMessages();
+      vector<string> commands;
+      script->read(sectionName, "command", commands);
+      for (unsigned c = 0; c != commands.size(); ++c)
+         {
+         // yield control to windows.
+         Application->ProcessMessages();
 
-      // extract the routine name
-      unsigned posOpenBracket = commands[c].find('(');
-      if (posOpenBracket == string::npos)
-         throw runtime_error("Bad control file converter command: " + commands[c]);
-      string routineName = commands[c].substr(0, posOpenBracket);
+         // extract the routine name
+         unsigned posOpenBracket = commands[c].find('(');
+         if (posOpenBracket == string::npos)
+            throw runtime_error("Bad control file converter command: " + commands[c]);
+         string routineName = commands[c].substr(0, posOpenBracket);
 
-      // extract the arguments inside the brackets.
-      unsigned posCloseBracket = commands[c].rfind(')');
-      if (posCloseBracket == string::npos)
-         throw runtime_error("Bad control file converter command: " + commands[c]);
-      string arguments = commands[c].substr(posOpenBracket+1, posCloseBracket-posOpenBracket-1);
-      stripLeadingTrailing(arguments, " ");
+         // extract the arguments inside the brackets.
+         unsigned posCloseBracket = commands[c].rfind(')');
+         if (posCloseBracket == string::npos)
+            throw runtime_error("Bad control file converter command: " + commands[c]);
+         string arguments = commands[c].substr(posOpenBracket+1, posCloseBracket-posOpenBracket-1);
+         stripLeadingTrailing(arguments, " ");
 
-      // call the appropriate routine to do the conversion.
-      if (routineName == "SetParameterValue")
-         ok = executeSetParameterValue(arguments) || ok;
-      else if (routineName == "RenameParameter")
-         ok = executeRenameParameter(arguments) || ok;
-      else if (routineName == "DeleteParameter")
-         ok = executeDeleteParameter(arguments) || ok;
-      else if (routineName == "ChangeInstantiation")
-         ok = executeChangeInstantiation(arguments) || ok;
-      else if (routineName == "RemoveReportOutputSwitch")
-         ok = executeRemoveReportOutputSwitch(arguments) || ok;
-      else if (routineName == "MoveParameter")
-         ok = executeMoveParameter(arguments) || ok;
-      else if (routineName == "NewFormatReportVariables")
-         ok = executeNewFormatReportVariables(arguments) || ok;
-      else if (routineName == "MoveParametersOutOfCon")
-         ok = executeMoveParametersOutOfCon(arguments) || ok;
-      else if (routineName == "RemoveSumAvgToTracker")
-         ok = executeRemoveSumAvgToTracker(arguments) || ok;
-      else if (routineName == "RemoveTrackerDefault")
-         ok = executeRemoveTrackerDefault(arguments) || ok;
-      else if (routineName == "SearchReplaceReportVariables")
-         ok = executeSearchReplaceReportVariables(arguments) || ok;
-      else if (routineName == "AddParamFileToModule")
-         ok = executeAddParamFileToModule(arguments) || ok;
-      else if (routineName == "RemovePeriodsInReportAndTracker")
-         ok = removePeriodsInReportAndTracker(arguments) || ok;
-      else if (routineName == "ReworkTrackerVariables")
-         ok = ReworkTrackerVariables(arguments) || ok;
-      else if (routineName == "RenameModule")
-         ok = executeRenameModule(arguments) || ok;
-      else if (routineName == "SearchReplace")
-         ok = executeSearchReplace(arguments) || ok;
-      else if (routineName == "SetManagerActionParameter")
-         ok = executeSetManagerActionParameter(arguments) || ok;
-      else if (routineName == "DeleteManagerActionParameter")
-         ok = executeDeleteManagerActionParameter(arguments) || ok;
+         // call the appropriate routine to do the conversion.
+         if (routineName == "SetParameterValue")
+            ok = executeSetParameterValue(arguments) || ok;
+         else if (routineName == "RenameParameter")
+            ok = executeRenameParameter(arguments) || ok;
+         else if (routineName == "DeleteParameter")
+            ok = executeDeleteParameter(arguments) || ok;
+         else if (routineName == "ChangeInstantiation")
+            ok = executeChangeInstantiation(arguments) || ok;
+         else if (routineName == "RemoveReportOutputSwitch")
+            ok = executeRemoveReportOutputSwitch(arguments) || ok;
+         else if (routineName == "MoveParameter")
+            ok = executeMoveParameter(arguments) || ok;
+         else if (routineName == "NewFormatReportVariables")
+            ok = executeNewFormatReportVariables(arguments) || ok;
+         else if (routineName == "MoveParametersOutOfCon")
+            ok = executeMoveParametersOutOfCon(arguments) || ok;
+         else if (routineName == "RemoveSumAvgToTracker")
+            ok = executeRemoveSumAvgToTracker(arguments) || ok;
+         else if (routineName == "RemoveTrackerDefault")
+            ok = executeRemoveTrackerDefault(arguments) || ok;
+         else if (routineName == "SearchReplaceReportVariables")
+            ok = executeSearchReplaceReportVariables(arguments) || ok;
+         else if (routineName == "AddParamFileToModule")
+            ok = executeAddParamFileToModule(arguments) || ok;
+         else if (routineName == "RemovePeriodsInReportAndTracker")
+            ok = removePeriodsInReportAndTracker(arguments) || ok;
+         else if (routineName == "ReworkTrackerVariables")
+            ok = ReworkTrackerVariables(arguments) || ok;
+         else if (routineName == "RenameModule")
+            ok = executeRenameModule(arguments) || ok;
+         else if (routineName == "SearchReplace")
+            ok = executeSearchReplace(arguments) || ok;
+         else if (routineName == "SetManagerActionParameter")
+            ok = executeSetManagerActionParameter(arguments) || ok;
+         else if (routineName == "DeleteManagerActionParameter")
+            ok = executeDeleteManagerActionParameter(arguments) || ok;
+         else if (routineName == "FindModuleLocalIniFile")
+            ok = executeFindModuleLocalIniFile(arguments) || ok;
+         else if (routineName == "RemoveReportVariable")
+            ok = executeRemoveReportVariable(arguments) || ok;
 
-      if (!ok)
-         return false;
+         if (!ok)
+            return false;
+         }
+      }
+   catch (const exception& err)
+      {
+      ShowMessage(err.what());
       }
    return ok;
    }
@@ -255,6 +276,7 @@ bool ControlFileConverter::evaluate(const string& expression, string& value) con
       string oper = tokenizer.nextToken();
       string value2 = tokenizer.nextToken();
       resolveVariableRef(value1);
+      resolveVariableRef(value2);
       value = evaluateExpression(value1, value2, oper);
       }
    return true;
@@ -278,6 +300,8 @@ void ControlFileConverter::resolveVariableRef(string& value) const
          if (st != "")
             {
             value = st;
+            splitOffBracketedValue(value, '(', ')');
+            stripLeadingTrailing(value, " ");
             return;
             }
          }
@@ -317,23 +341,39 @@ bool ControlFileConverter::evaluateDate(const string& arguments, string& value) 
 //---------------------------------------------------------------------------
 bool ControlFileConverter::executeSetParameterValue(const string& arguments) throw(runtime_error)
    {
-   unsigned posComma = arguments.find(',');
-   if (posComma == string::npos)
+   vector<string> args;
+   SplitStringHonouringQuotes(arguments, ",", args);
+   if (args.size() != 2 && args.size() != 3)
       throw runtime_error("Bad arguments in call to setParameterValue: " + arguments);
 
-   string arg1 = arguments.substr(0, posComma);
-   string arg2 = arguments.substr(posComma+1, arguments.length()-posComma-1);
-   stripLeadingTrailing(arg1, " ");
-   stripLeadingTrailing(arg2, " ");
+   stripLeadingTrailing(args[0], "\" ");
+   stripLeadingTrailing(args[1], "\" ");
+   bool alwaysCreate = true;
+   if (args.size() == 3)
+      {
+      stripLeadingTrailing(args[2], "\" ");
+      if (Str_i_Eq(args[2], "OnlyWhenNecessary"))
+         alwaysCreate = false;
+      else
+         throw runtime_error("Invalid 3rd argument to SetParameterValue : " + args[2]);
+      }
+
+   unsigned posPeriod = args[0].find('.');
+   if (posPeriod == string::npos)
+      throw runtime_error("Bad 1st argument to SetParameterValue - " + args[0]);
+   string moduleName = args[0].substr(0, posPeriod);
+   string parameterName = args[0].substr(posPeriod+1);
 
    string value;
-   if (evaluate(arg2, value))
+   if (evaluate(args[1], value))
       {
-      unsigned posPeriod = arg1.find('.');
-      string moduleName = arg1.substr(0, posPeriod);
-      string parameterName = arg1.substr(posPeriod+1);
-      con->setParameterValue(conSection, moduleName, parameterName, value);
-      return true;
+      vector<string> instanceNames;
+      con->getInstances(conSection, moduleName, instanceNames);
+      if (alwaysCreate || instanceNames.size() > 0)
+         {
+         con->setParameterValue(conSection, moduleName, parameterName, value);
+         return true;
+         }
       }
    return false;
    }
@@ -937,5 +977,68 @@ void ControlFileConverter::DeleteManagerActionCallback(std::vector<ApsimControlF
          }
       }
    modified = false;
+   }
+//---------------------------------------------------------------------------
+// Find a module.ini file. Return true if found.
+//---------------------------------------------------------------------------
+bool ControlFileConverter::executeFindModuleLocalIniFile(const string& arguments)
+   {
+   vector<string> args;
+   SplitStringHonouringQuotes(arguments, ",", args);
+   if (args.size() != 1)
+      throw runtime_error("Invalid arguments to FindModuleLocalIniFile: " + arguments);
+
+   stripLeadingTrailing(args[0], "\" ");
+
+   string apsimDirectory = getApsimDirectory();
+
+   vector<string> instanceNames;
+   con->getInstances(conSection, args[0], instanceNames);
+   for (unsigned i = 0; i != instanceNames.size(); i++)
+      {
+      string iniFile = con->getIniFileForInstance(conSection, instanceNames[i]);
+      if (stristr(ExtractFileDir(iniFile.c_str()).c_str(), apsimDirectory.c_str()) == NULL)
+         return true;
+      }
+   return false;
+   }
+
+//---------------------------------------------------------------------------
+// Remove report variable. Return true if found.
+//---------------------------------------------------------------------------
+bool ControlFileConverter::executeRemoveReportVariable(const string& arguments)
+   {
+   vector<string> args;
+   SplitStringHonouringQuotes(arguments, ",", args);
+   if (args.size() != 1)
+      throw runtime_error("Invalid arguments to RemoveReportVariable: " + arguments);
+
+   stripLeadingTrailing(args[0], "\" ");
+
+   vector<string> instanceNames;
+   con->getInstances(conSection, "report", instanceNames);
+   bool someHaveChanged = false;
+   for (unsigned i = 0; i != instanceNames.size(); i++)
+      {
+      vector<string> newVariables;
+      vector<string> variables;
+      con->getParameterValues(conSection, instanceNames[i], "variable", variables);
+      bool found = false;
+      for (unsigned v = 0; v != variables.size(); v++)
+         {
+         if (Str_i_Eq(args[0], variables[v]))
+            found = true;
+         else
+            newVariables.push_back(variables[v]);
+         }
+
+      if (found)
+         con->setParameterValues(conSection, instanceNames[i], "variable",
+                                 "", newVariables);
+
+      someHaveChanged = (someHaveChanged || found);
+      }
+   return someHaveChanged;
+
    }
 
