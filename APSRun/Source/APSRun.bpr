@@ -19,12 +19,12 @@ RESFILES = APSRun.res
 DEFFILE =
 RESDEPEN = $(RESFILES)
 LIBFILES = ..\..\shared\aps\aps32.lib
-LIBRARIES = THIRDPARTY.lib APSUI.lib APSGeneral.lib
+LIBRARIES = 
 SPARELIBS = VCL35.lib Rxctl.lib VCLX35.lib APSGeneral.lib VCLDB35.lib APSUI.lib TEE4C.lib \
   TREE1C3.lib THIRDPARTY.lib
 PACKAGES = vclx35.bpi VCL35.bpi vcldb35.bpi vcldbx35.bpi bcbsmp35.bpi dclocx35.bpi \
   Qrpt35.bpi tee4c.bpi teedb4c.bpi teeUI4c.bpi ibsmp35.bpi NMFast35.bpi \
-  inetdb35.bpi inet35.bpi TeePro4c.bpi Rxctl.bpi Rxdb.bpi HyperGrid.bpi Tree1C3.bpi
+  inetdb35.bpi inet35.bpi
 # ---------------------------------------------------------------------------
 PATHCPP = .;
 PATHASM = .;
@@ -34,20 +34,15 @@ DEBUGLIBPATH = $(BCB)\lib\debug
 RELEASELIBPATH = $(BCB)\lib\release
 # ---------------------------------------------------------------------------
 CFLAG1 = -Od -Hc -w -Ve -r- -k -y -v -vi- -c -b- -w-par -w-inl -Vx -tW
-CFLAG2 = -D_RTLDLL;USEPACKAGES \
-  -I"c:\program files\borland\cbuilder3\projects";$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared \
+CFLAG2 = -D_RTLDLL;USEPACKAGES -I$(BCB)\include;$(BCB)\include\vcl;..\..\shared \
   -H=$(BCB)\lib\vcl35.csm
 CFLAG3 = -Tkh30000
-PFLAGS = -D_RTLDLL;USEPACKAGES \
-  -U..\..\shared\components\thirdparty;"c:\program files\borland\cbuilder3\lib";c:\thypergrid;c:\rx-30\units;"c:\program files\borland\cbuilder3\projects";..\..\shared\components\ui;..\..\shared\components\3rdparty;..\..\shared\components\data;..\..\shared\components\general;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
-  -I"c:\program files\borland\cbuilder3\projects";$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared \
-  -$Y -$W -$O- -v -JPHN -M
-RFLAGS = -D_RTLDLL;USEPACKAGES \
-  -i"c:\program files\borland\cbuilder3\projects";$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
-AFLAGS = /i"c:\program files\borland\cbuilder3\projects" /i$(BCB)\include \
-  /i$(BCB)\include\vcl /id:\apsuite\shared /d_RTLDLL /dUSEPACKAGES /mx /w2 /zd
-LFLAGS = -L..\..\shared\components\thirdparty;"c:\program files\borland\cbuilder3\lib";c:\thypergrid;c:\rx-30\units;"c:\program files\borland\cbuilder3\projects";..\..\shared\components\ui;..\..\shared\components\3rdparty;..\..\shared\components\data;..\..\shared\components\general;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
-  -aa -Tpe -x -Gn -v
+PFLAGS = -D_RTLDLL;USEPACKAGES -U$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
+  -I$(BCB)\include;$(BCB)\include\vcl;..\..\shared -$Y -$W -$O- -v -JPHN -M
+RFLAGS = -D_RTLDLL;USEPACKAGES -i$(BCB)\include;$(BCB)\include\vcl;..\..\shared
+AFLAGS = /i$(BCB)\include /i$(BCB)\include\vcl /i..\..\shared /d_RTLDLL /dUSEPACKAGES \
+  /mx /w2 /zd
+LFLAGS = -L$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) -aa -Tpe -x -Gn -v
 IFLAGS =
 # ---------------------------------------------------------------------------
 ALLOBJ = c0w32.obj $(PACKAGES) sysinit.obj $(OBJFILES)
@@ -84,15 +79,17 @@ ProductVersion=1.0.0.0
 Comments=
 
 [HistoryLists\hlIncludePath]
-Count=2
-Item0=c:\program files\borland\cbuilder3\projects;$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
-Item1=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
+Count=3
+Item0=$(BCB)\include;$(BCB)\include\vcl;..\..\shared
+Item1=c:\program files\borland\cbuilder3\projects;$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
+Item2=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
 
 [HistoryLists\hlLibraryPath]
-Count=3
-Item0=..\..\shared\components\thirdparty;c:\program files\borland\cbuilder3\lib;c:\thypergrid;c:\rx-30\units;c:\program files\borland\cbuilder3\projects;..\..\shared\components\ui;..\..\shared\components\3rdparty;..\..\shared\components\data;..\..\shared\components\general;$(BCB)\lib\obj;$(BCB)\lib
-Item1=c:\program files\borland\cbuilder3\lib;c:\thypergrid;c:\rx-30\units;c:\program files\borland\cbuilder3\projects;..\..\shared\components\ui;..\..\shared\components\3rdparty;..\..\shared\components\data;..\..\shared\components\general;$(BCB)\lib\obj;$(BCB)\lib
-Item2=c:\thypergrid;c:\rx-30\units;c:\program files\borland\cbuilder3\projects;..\..\shared\components\ui;..\..\shared\components\3rdparty;..\..\shared\components\data;..\..\shared\components\general;$(BCB)\lib\obj;$(BCB)\lib
+Count=4
+Item0=$(BCB)\lib\obj;$(BCB)\lib
+Item1=..\..\shared\components\thirdparty;c:\program files\borland\cbuilder3\lib;c:\thypergrid;c:\rx-30\units;c:\program files\borland\cbuilder3\projects;..\..\shared\components\ui;..\..\shared\components\3rdparty;..\..\shared\components\data;..\..\shared\components\general;$(BCB)\lib\obj;$(BCB)\lib
+Item2=c:\program files\borland\cbuilder3\lib;c:\thypergrid;c:\rx-30\units;c:\program files\borland\cbuilder3\projects;..\..\shared\components\ui;..\..\shared\components\3rdparty;..\..\shared\components\data;..\..\shared\components\general;$(BCB)\lib\obj;$(BCB)\lib
+Item3=c:\thypergrid;c:\rx-30\units;c:\program files\borland\cbuilder3\projects;..\..\shared\components\ui;..\..\shared\components\3rdparty;..\..\shared\components\data;..\..\shared\components\general;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
