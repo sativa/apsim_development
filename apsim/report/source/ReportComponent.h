@@ -55,11 +55,15 @@ class ReportComponent : public APSIMComponent
    {
    public:
       ReportComponent(const string& Name)
-         : APSIMComponent(Name) { }
+         : APSIMComponent(Name)
+         {
+         OutputOnThisDay = false;
+         HaveAccumulatedVarsToday = false;
+         }
 
       virtual void Init (void);
       virtual bool GetVariable (const char* VariableName);
-      virtual void DoAction(const char* Action);
+      virtual bool DoAction(const char* Action);
 
    private:
       APSIMReportVariables Variables;

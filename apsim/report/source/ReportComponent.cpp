@@ -10,7 +10,7 @@
 using std::ostrstream;
 #pragma package(smart_init)
 
-static const char* MES_Prepare = "prepare";
+static const char* MES_Prepare = "prepare";               
 static const char* MES_Report = "rep";
 
 // ------------------------------------------------------------------
@@ -75,6 +75,7 @@ Field::Field (const string& modulename,
       }
    else
       {
+      VariableType = APSIMVariant::unknownType;
       VariableUnits = "(?)";
       NumElements = 0;
       VariableFound = false;
@@ -101,6 +102,7 @@ unsigned int Field::getWidth(void)
       case APSIMVariant::integerType : return 7;
       case APSIMVariant::booleanType : return 7;
       case APSIMVariant::stringType : return 15;
+      case APSIMVariant::unknownType : return 10;
       }
    return 15;
    }
@@ -242,7 +244,7 @@ void Field::accumulateValue(void)
             {
             vector<double> DoubleValues = Variable.asRealArray();
             if (DoubleValues.size() == FunctionValues.size())
-               add (FunctionValues, DoubleValues);
+               FunctionValues = add (FunctionValues, DoubleValues);
             else
                ApsimSystem().Error.Fatal("The number of array elements for variable: " + VariableName + "\n"
                                          "has changed.  A REPORT function (eg avg) cannot be applied to this variable");
@@ -306,6 +308,7 @@ void Field::retrieveValue(void)
       {
       if (Str_i_Eq(FunctionName, "avg"))
          devide_value(FunctionValues, NumTimesAccumulated);
+
       if (VariableType == APSIMVariant::realType)
          Double2string (FunctionValues, Values, 3);
       else
@@ -456,12 +459,12 @@ APSIMComponent* CreateComponent(const string& Name)
 // ------------------------------------------------------------------
 void ReportComponent::Init (void)
    {
-   if (!ApsimSystem().Data.Get (Name + ".ReportVariables", Variables))
+   if (!ApsimSystem().Data.Get (Name + ".Parameters.ReportVariables", Variables))
       ApsimSystem().Error.Fatal ("Cannot find REPORT variable names in parameter file.\n"
                                  "Cannot create output file.");
 
    APSIMFilename File;
-   if (ApsimSystem().Data.Get (Name + ".OutputFile", File))
+   if (ApsimSystem().Data.Get (Name + ".Parameters.OutputFile", File))
       Out.Open(File);
 
    else
@@ -469,19 +472,19 @@ void ReportComponent::Init (void)
                                  "Cannot create output file.");
 
    APSIMProperty FormatProperty;
-   ApsimSystem().Data.Get (Name + ".Format", FormatProperty);
+   ApsimSystem().Data.Get (Name + ".Parameters.Format", FormatProperty);
    CSVFormat = Str_i_Eq(FormatProperty.GetValue(), "csv");
    DaysSinceLastReport = 0;
 
    // write out all initial conditions.
    string msg = "Output file = " + Out.getFilename();
-   ApsimSystem().Summary.WriteLine(msg);
+   ApsimSystem().Summary.WriteLine(msg.c_str());
    msg = "Format = ";
    if (CSVFormat)
       msg += "csv";
    else
       msg += "normal";
-   ApsimSystem().Summary.WriteLine(msg);
+   ApsimSystem().Summary.WriteLine(msg.c_str());
    ApsimSystem().Summary.Write(Variables);
    }
 
@@ -495,13 +498,18 @@ void ReportComponent::Init (void)
 //    DPH 29/7/99
 
 // ------------------------------------------------------------------
-void ReportComponent::DoAction(const char* Action)
+bool ReportComponent::DoAction(const char* Action)
    {
+   ApsimSystem().CallStack.Push ("Report_DoAction");
+
+   bool Used = true;
    if (strcmpi(Action, MES_Prepare) == 0)
       HaveAccumulatedVarsToday = false;
 
    else if (strcmpi(Action, "do_output") == 0)
+      {
       WriteLineOfOutput();
+      }
 
    else if (stricmp(Action, "do_end_day_output") == 0)
       OutputOnThisDay = true;
@@ -512,8 +520,15 @@ void ReportComponent::DoAction(const char* Action)
 
       if (OutputOnThisDay)
          WriteLineOfOutput();
+      else if (!HaveAccumulatedVarsToday)
+         AccumulateVariables();
       OutputOnThisDay = false;
       }
+   else
+      Used = false;
+
+   ApsimSystem().CallStack.Pop ("Report_DoAction");
+   return Used;
    }
 
 // ------------------------------------------------------------------
@@ -550,7 +565,6 @@ bool ReportComponent::GetVariable (const char* VariableName)
 // ------------------------------------------------------------------
 void ReportComponent::WriteLineOfOutput(void)
    {
-   Setup();
    if (!HaveAccumulatedVarsToday)
       AccumulateVariables();
 
@@ -585,9 +599,9 @@ void ReportComponent::Setup(void)
 
       // write output file header.
       string Line = "Summary_file = " + ApsimSystem().Summary.getFilename();
-      Out.WriteLine (Line);
+      Out.WriteLine (Line.c_str());
       Line = "Title = " + ApsimSystem().getTitle();
-      Out.WriteLine (Line);
+      Out.WriteLine (Line.c_str());
 
       ostrstream Headings, Units;
       FieldHeadingUnitFunction HeadingsUnits(Headings, Units);
@@ -614,6 +628,7 @@ void ReportComponent::Setup(void)
 // ------------------------------------------------------------------
 void ReportComponent::AccumulateVariables(void)
    {
+   Setup();
    HaveAccumulatedVarsToday = true;
    if (SomeFieldsAreFuntions)
       {

@@ -139,7 +139,7 @@
  
       ! Need to remove the variables 1 by 1 and change g_empty_double_slot
       ! and g_empty_char_slot to point to new empty positions.
- 
+
       do 10 Indx = g_Variable_start(g_Current_message + 1) - 1,
      .             g_Variable_start(g_Current_message), -1
          if (g_postbox_type(Indx) .eq. DOUBLE_TYPE) then
@@ -382,7 +382,7 @@
 *- Implementation Section ----------------------------------
  
       call Push_routine(This_routine)
- 
+
       ! Make sure there is enough space in postbox array
  
       if (g_Empty_double_slot + Num_elements .gt. POSTBOX_SIZE) then
@@ -402,7 +402,7 @@
             g_Postbox_double(g_Empty_double_slot) = Array(Indx)
             g_Empty_double_slot = g_Empty_double_slot + 1
 10       continue
- 
+
          ! Add variable details to postbox variable arrays.
  
          Error = Postbox_add_variable (Variable_name, Units,
@@ -565,7 +565,7 @@
 *- Implementation Section ----------------------------------
  
       call Push_routine(This_routine)
- 
+
       Arr(1) = dble(Variable)
       call Post_double_array(Variable_name, Units, Arr, 1)
  
@@ -1535,6 +1535,7 @@
       dll_export postbox_add_variable
       include 'const.inc'              ! constant definitions
       include 'postbox.inc'
+      include 'string.pub'
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name
@@ -1551,13 +1552,15 @@
 *+ Changes
 *     DPH 19/10/95
 *     DPH 17/5/96  Added code to fill g_variable_owner
+*     dph 5/10/99  Added 2 calls to lower_case so that the postbox
+*                  system is NOT case sensitive.
  
 *+ Calls
       dll_import push_routine
-      dll_import assign_string
       dll_import Loader_GetCurrentComponent
       dll_import fatal_error
       dll_import pop_routine
+      character Lower_case*(MAX_VARIABLE_NAME_SIZE)
  
 *+ Constant Values
       character This_routine*(*)
@@ -1573,10 +1576,8 @@
  
       ! Ok we have enough space in postbox - store variable
  
-      call Assign_string(g_Variable_name(g_Empty_variable_slot),
-     .                   Variable_name)
-      call Assign_string(g_Variable_unit(g_Empty_variable_slot),
-     .                   Units)
+      g_Variable_name(g_Empty_variable_slot) = Lower_case(Variable_name)
+      g_Variable_unit(g_Empty_variable_slot) = Lower_case(Units)
  
       ! By the time we get to this line we can assume that the data has
       ! already been stored in the postbox.  We know how many variables
@@ -2048,7 +2049,7 @@
  
          g_Last_respond_units = g_Variable_unit(Variable_ptr)
          g_Last_respond_module = g_variable_owners(Variable_ptr)
- 
+         
       else if (.not. Allow_zero_numvals) then
          ! Variable not found and calling routine won't allow a zero numvals.
          ! Issue fatal error.

@@ -1,10 +1,76 @@
-* ====================================================================
-       subroutine APSIM_solute (Action, Data_string)
-* ====================================================================
+      include 'Solute.inc'
+!     ===========================================================
+      subroutine AllocInstance (InstanceName, InstanceNo)
+!     ===========================================================
+      use SoluteModule
       implicit none
-      dll_export apsim_solute
-       include 'const.inc'             ! Global constant definitions
-      include 'engine.pub'
+ 
+!+  Sub-Program Arguments
+      character InstanceName*(*)       ! (INPUT) name of instance
+      integer   InstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Module instantiation routine.
+ 
+!- Implementation Section ----------------------------------
+               
+      allocate (Instances(InstanceNo)%gptr)
+      allocate (Instances(InstanceNo)%pptr)
+      allocate (Instances(InstanceNo)%cptr)
+      Instances(InstanceNo)%Name = InstanceName
+ 
+      return
+      end
+
+!     ===========================================================
+      subroutine FreeInstance (anInstanceNo)
+!     ===========================================================
+      use SoluteModule
+      implicit none
+ 
+!+  Sub-Program Arguments
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Module de-instantiation routine.
+ 
+!- Implementation Section ----------------------------------
+               
+      deallocate (Instances(anInstanceNo)%gptr)
+      deallocate (Instances(anInstanceNo)%pptr)
+      deallocate (Instances(anInstanceNo)%cptr)
+ 
+      return
+      end
+     
+!     ===========================================================
+      subroutine SwapInstance (anInstanceNo)
+!     ===========================================================
+      use SoluteModule
+      implicit none
+ 
+!+  Sub-Program Arguments
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Swap an instance into the global 'g' pointer
+ 
+!- Implementation Section ----------------------------------
+               
+      g => Instances(anInstanceNo)%gptr
+      p => Instances(anInstanceNo)%pptr
+      c => Instances(anInstanceNo)%cptr
+ 
+      return
+      end
+
+* ====================================================================
+       subroutine Main (Action, Data_string)
+* ====================================================================
+      use SoluteModule
+      implicit none
+      include 'const.inc'             ! Global constant definitions
+      include 'action.inc'
       include 'error.pub'
  
 *+  Sub-Program Arguments
@@ -23,22 +89,22 @@
  
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
-      parameter (myname = 'apsim_solute')
+      parameter (myname = 'Solute Main')
  
 *- Implementation Section ----------------------------------
  
       call push_routine (myname)
  
-      if (Action.eq.MES_Init) then
+      if (Action.eq.ACTION_Init) then
          call solute_Init ()
  
-      else if (Action.eq.MES_Process) then
+      else if (Action.eq.ACTION_Process) then
          call solute_get_other_variables ()
  
-      else if (Action.eq.MES_Get_variable) then
+      else if (Action.eq.ACTION_Get_variable) then
          call solute_Send_my_variable (Data_string)
  
-      else if (Action.eq.MES_Set_variable) then
+      else if (Action.eq.ACTION_Set_variable) then
          call Solute_Set_my_variable (data_string)
  
       else
@@ -55,9 +121,9 @@
 * ====================================================================
        subroutine solute_Init ()
 * ====================================================================
+      use SoluteModule
       implicit none
        include 'const.inc'             ! Constant definitions
-      include 'write.pub'
       include 'error.pub'
  
 *+  Purpose
@@ -87,7 +153,7 @@
       ! Notify system that we have initialised
  
       Event_string = 'Initialising'
-      call report_event (Event_string)
+      call Write_string (Event_string)
  
       ! Get all parameters from parameter file
  
@@ -106,8 +172,8 @@
 * ====================================================================
        subroutine solute_zero_variables ()
 * ====================================================================
+      use SoluteModule
       implicit none
-       include 'solute.inc'          ! solute common block
       include 'error.pub'
  
 *+  Purpose
@@ -133,9 +199,9 @@
  
       do 200 solnum = 1, max_solutes
          do 100 layer = 1, max_layer
-            g_solute(solnum,layer) = 0.0
+            g%solute(solnum,layer) = 0.0
   100    continue
-         p_solute_names(solnum) = ' '
+         p%solute_names(solnum) = ' '
   200 continue
  
       call pop_routine (myname)
@@ -147,9 +213,9 @@
 * ====================================================================
        subroutine solute_get_other_variables ()
 * ====================================================================
+      use SoluteModule
       implicit none
        include 'const.inc'             ! Constant definitions
-       include 'solute.inc'            ! solute common block
       include 'intrface.pub'
       include 'error.pub'
  
@@ -178,7 +244,7 @@
      :      'dlayer',       ! Variable Name
      :      max_layer,      ! Array Size
      :      '(mm)',         ! Units                (Not Used)
-     :      g_dlayer,       ! Variable
+     :      g%dlayer,       ! Variable
      :      numvals,        ! Number of values returned
      :      0,              ! Lower Limit for bound checking
      :      1000.)          ! Upper Limit for bound checking
@@ -193,11 +259,10 @@
 * ====================================================================
        subroutine solute_Send_my_variable (Variable_name)
 * ====================================================================
+      use SoluteModule
       implicit none
        include 'const.inc'             ! constant definitions
-       include 'solute.inc'            ! solute Common block
       include 'data.pub'
-      include 'engine.pub'
       include 'intrface.pub'
       include 'error.pub'
  
@@ -234,11 +299,11 @@
  
       found = .false.
  
-      do 200 solnum = 1,g_num_solutes
+      do 200 solnum = 1,g%num_solutes
  
-         if (Variable_name .eq. p_solute_names(solnum)) then
+         if (Variable_name .eq. p%solute_names(solnum)) then
  
-            num_layers = count_of_real_vals(g_dlayer,max_layer)
+            num_layers = count_of_real_vals(g%dlayer,max_layer)
  
             if (num_layers.eq.0) then
                ! water balance is not initialised yet
@@ -247,11 +312,11 @@
             endif
  
             do 100 layer = 1,max_layer
-               sol(layer) = g_solute(solnum,layer)
+               sol(layer) = g%solute(solnum,layer)
   100       continue
  
             call respond2get_real_array (
-     :               p_solute_names(solnum),
+     :               p%solute_names(solnum),
      :               '(kg/ha)',
      :               sol,
      :               num_layers)
@@ -279,9 +344,9 @@
 *     ===========================================================
       subroutine solute_read_param ()
 *     ===========================================================
+      use SoluteModule
       implicit none
       include 'const.inc'              ! new_line, lu_scr_sum, blank
-      include 'solute.inc'
       include 'read.pub'
       include 'error.pub'
  
@@ -324,29 +389,29 @@
      :           'solute_names',      ! Keyword
      :           max_solutes,         ! array size
      :           '()',                ! Units
-     :           p_solute_names,      ! Array
-     :           g_num_solutes)       ! Number of values returned
+     :           p%solute_names,      ! Array
+     :           g%num_solutes)       ! Number of values returned
  
  
-      do 200 solnum = 1, g_num_solutes
+      do 200 solnum = 1, g%num_solutes
  
  
-         if (p_solute_names(solnum).ne.blank) then
+         if (p%solute_names(solnum).ne.blank) then
  
       !     Read in solute in profile from parameter file
       !             -----------------
             call read_real_array (
      :           section_name,          ! Section header
-     :           p_solute_names(solnum),! Keyword
+     :           p%solute_names(solnum),! Keyword
      :           max_layer,             ! array size
      :           '()',                  ! Units
      :           sol,                   ! Array
      :           numvals,               ! Number of values returned
-     :           c_lb_solute,           ! Lower Limit for bound checking
-     :           c_ub_solute)           ! Upper Limit for bound checking
+     :           c%lb_solute,           ! Lower Limit for bound checking
+     :           c%ub_solute)           ! Upper Limit for bound checking
  
             do 100 layer = 1, numvals
-               g_solute(solnum,layer) = sol(layer)
+               g%solute(solnum,layer) = sol(layer)
   100       continue
          else
             ! solute is blank so ignore it.
@@ -362,11 +427,10 @@
 * ====================================================================
        subroutine solute_set_my_variable (Variable_name)
 * ====================================================================
+      use SoluteModule
       implicit none
       include 'const.inc'
-      include 'solute.inc'             ! solute common block
       include 'intrface.pub'
-      include 'engine.pub'
       include 'error.pub'
  
 *+  Sub-Program Arguments
@@ -400,14 +464,14 @@
 *- Implementation Section ----------------------------------
  
       call push_routine (myname)
-      if (g_num_solutes .eq. 0) then
+      if (g%num_solutes .eq. 0) then
          call Message_Unused ()
       else
          found = .false.
  
-         do 200 solnum = 1, g_num_solutes
+         do 200 solnum = 1, g%num_solutes
  
-            if (Variable_name .eq. p_solute_names(solnum)) then
+            if (Variable_name .eq. p%solute_names(solnum)) then
  
                call collect_real_array (
      :                Variable_name,       ! variable name
@@ -415,16 +479,16 @@
      :                '(kg/ha)',           ! units
      :                sol,                 ! array
      :                numvals,             ! number of elements returned
-     :                c_lb_solute,         ! lower bound
-     :                c_ub_solute)         ! upper bound
+     :                c%lb_solute,         ! lower bound
+     :                c%ub_solute)         ! upper bound
  
                do 100 layer = 1, numvals
-                  g_solute (solnum,layer) = sol(layer)
+                  g%solute (solnum,layer) = sol(layer)
   100          continue
                found = .true.
  
             elseif (Variable_name .eq. 'dlt_'//
-     :                p_solute_names(solnum)) then
+     :                p%solute_names(solnum)) then
  
                call collect_real_array (
      :                Variable_name,        ! variable name
@@ -432,11 +496,11 @@
      :                '(kg/ha)',           ! units
      :                dlt_sol,             ! array
      :                numvals,             ! number of elements returned
-     :                -c_ub_solute,
-     :                c_ub_solute)
+     :                -c%ub_solute,
+     :                c%ub_solute)
  
                do 150 layer = 1, numvals
-                  g_solute (solnum,layer) = g_solute(solnum,layer)
+                  g%solute (solnum,layer) = g%solute(solnum,layer)
      :                               + dlt_sol(layer)
   150          continue
                found = .true.
@@ -463,11 +527,10 @@
 * ====================================================================
        subroutine solute_read_constants ()
 * ====================================================================
+      use SoluteModule
       implicit none
       include 'const.inc'
-      include 'solute.inc'             ! solute common block
       include 'read.pub'
-      include 'write.pub'
       include 'error.pub'
  
 *+  Purpose
@@ -492,15 +555,13 @@
 *- Implementation Section ----------------------------------
       call push_routine (myname)
  
-      call write_string (lu_scr_sum
-     :                 ,new_line//'   - Reading Constants')
- 
- 
+      call write_string (new_line//'   - Reading Constants')
+  
       call read_real_var (
      :           section_name         ! Section header
      :         , 'ub_solute'          ! Keyword
      :         , '()'                 ! Units
-     :         , c_ub_solute          ! Variable
+     :         , c%ub_solute          ! Variable
      :         , numvals              ! Number of values returned
      :         , 0.0                  ! Lower Limit for bound checking
      :         , 1E10)                ! Upper Limit for bound checking
@@ -509,7 +570,7 @@
      :           section_name         ! Section header
      :         , 'lb_solute'          ! Keyword
      :         , '()'                 ! Units
-     :         , c_lb_solute          ! Variable
+     :         , c%lb_solute          ! Variable
      :         , numvals              ! Number of values returned
      :         , 0.0                  ! Lower Limit for bound checking
      :         , 1E10)                ! Upper Limit for bound checking
@@ -522,11 +583,11 @@
 * ====================================================================
        subroutine solute_notification ()
 * ====================================================================
+      use SoluteModule
       implicit none
       include 'event.inc'
-      include 'solute.inc'             ! solute common block
       include 'error.pub'
-      include 'engine.pub'
+      include 'postbox.pub'
       include 'intrface.pub'
  
 *+  Purpose
@@ -554,8 +615,8 @@
 
       call post_char_array (DATA_new_solute_names
      :                     , '()'
-     :                     , p_solute_names
-     :                     , g_num_solutes)
+     :                     , p%solute_names
+     :                     , g%num_solutes)
 
       call event_send (EVENT_new_solute)
 

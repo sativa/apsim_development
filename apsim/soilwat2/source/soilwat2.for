@@ -2280,8 +2280,8 @@ cjh
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      call write_string (lu_scr_sum
-     :                  ,new_line//'    - Reading constants')
+      call write_string (
+     :                   new_line//'    - Reading constants')
  
       call read_real_var (section_name
      :                   , 'min_crit_temp', '(oC)'
@@ -2476,8 +2476,8 @@ cjh
  
       call push_routine (my_name)
  
-      call write_string (lu_scr_sum
-     :          ,new_line//'   - Reading Soil Property Parameters')
+      call write_string (
+     :          new_line//'   - Reading Soil Property Parameters')
  
           ! get runoff source
       call read_char_var_optional (section_name
@@ -2647,8 +2647,8 @@ cjh
  
       call push_routine (my_name)
  
-      call write_string (lu_scr_sum
-     :          ,new_line//'   - Reading Soil Profile Parameters')
+      call write_string (
+     :          new_line//'   - Reading Soil Profile Parameters')
  
                  ! get sw properties
  
@@ -2711,8 +2711,7 @@ cjh
          msg = 'Soil water in parameter file is being overridden by' //
      .         new_line //
      .         'the insoil parameter which is between 0 and 1'
-         call write_string (lu_scr_sum
-     :                     ,new_line // msg)
+         call write_string (new_line // msg)
          call soilwat2_set_default ()
       else
       endif
@@ -3294,7 +3293,6 @@ c     he should have. Any ideas? Perhaps
          call get_real_vars (crop+1, 'cover_green', '()'
      :                              , cover, numvals
      :                              , 0.0, 1.0)
- 
          if (numvals.ne.0) then
             if (crop+1.le.max_crops) then
                crop = crop + 1
@@ -3967,7 +3965,6 @@ c     he should have. Any ideas? Perhaps
      :                               , temp_array, num_layers)
  
       else if (variable_name .eq. 'dlayer') then
- 
          num_layers =  count_of_real_vals (p%dlayer, max_layer)
          call respond2get_real_array (variable_name, '(mm)'
      :                               , p%dlayer, num_layers)
@@ -4704,29 +4701,29 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      call write_string (lu_scr_sum, new_line//new_line)
+      call write_string (new_line//new_line)
  
       line = '                 Soil Profile Properties'
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
  
       line =
      :'   -----------------------------------------------------------'
      ://'----------'
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
  
       line =
      :'         Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   '
      ://'Runoff  SWCON'
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
  
       line =
      :'           mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf'
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
  
       line =
      :'   -----------------------------------------------------------'
      ://'----------'
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
  
       num_layers = count_of_real_vals (p%dlayer, max_layer)
       depth_layer_top = 0.0
@@ -4748,39 +4745,39 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
      :          , runoff_wf(layer)
      :          , p%swcon(layer)
  
-         call write_string (lu_scr_sum, line)
+         call write_string (line)
          depth_layer_top = depth_layer_bottom
 1000  continue
  
       line =
      :'   -----------------------------------------------------------'
      ://'----------'
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
  
-      call write_string (lu_scr_sum, new_line//new_line)
+      call write_string (new_line//new_line)
  
       line = '             Soil Water Holding Capacity'
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
  
       line =
      :'     ---------------------------------------------------------'
  
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
  
       line =
      :'         Depth    Unavailable Available  Max Avail.  Drainable'
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
       line =
      :'                      (LL)     (SW-LL)    (DUL-LL)   (SAT-DUL)'
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
  
       line =
      :'                       mm        mm          mm         mm'
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
  
       line =
      :'     ---------------------------------------------------------'
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
  
       num_layers = count_of_real_vals (p%dlayer, max_layer)
       depth_layer_top = 0.0
@@ -4799,13 +4796,13 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
      :           ,masw(layer)
      :           ,dsw(layer)
  
-         call write_string (lu_scr_sum, line)
+         call write_string (line)
          depth_layer_top = depth_layer_bottom
 2000  continue
  
       line =
      :'     ---------------------------------------------------------'
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
  
       write (line,'(10x,''Totals'', 4f11.2)')
      :               sum_real_array (usw,  num_layers)
@@ -4814,43 +4811,43 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
      :             , sum_real_array (dsw,  num_layers)
  
  
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
  
       line =
      :'     ---------------------------------------------------------'
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
  
              ! echo sw parameters
  
-      call write_string (lu_scr_sum, new_line//new_line)
-      call write_string (lu_scr_sum, new_line//new_line)
+      call write_string (new_line//new_line)
+      call write_string (new_line//new_line)
  
       line = '             Initial Soil Parameters'
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
  
       line =
      :  '     ---------------------------------------------------------'
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
  
       line =
      : '            Insoil        Salb     Dif_Con   Dif_Slope'
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
  
       line =
      :  '     ---------------------------------------------------------'
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
  
       write (line, '(6x, 4f12.2)')
      :               p%insoil
      :             , p%salb
      :             , p%diffus_const
      :             , p%diffus_slope
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
  
       line =
      :  '     ---------------------------------------------------------'
-      call write_string (lu_scr_sum, line)
-      call write_string (lu_scr_sum, new_line//new_line)
+      call write_string (line)
+      call write_string (new_line//new_line)
  
       if (g%obsrunoff_name .ne. blank) then
          write (line, '(6x,a,a,a)')
@@ -4858,101 +4855,101 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
      :          g%obsrunoff_name(1:lastNB(g%obsrunoff_name)),
      :          ' ) is used in water balance'
  
-         call write_string (lu_scr_sum, line)
+         call write_string (line)
  
       else
             ! no observed data
-         call write_string (lu_scr_sum
-     :  ,'             Runoff is predicted using scs curve number:')
+         call write_string (
+     :  '             Runoff is predicted using scs curve number:')
          line =
      : '           Cn2  Cn_Red  Cn_Cov   H_Eff_Depth '
-         call write_string (lu_scr_sum, line)
+         call write_string (line)
  
          line =
      : '                                      mm     '
-         call write_string (lu_scr_sum, line)
+         call write_string (line)
  
          line =
      :  '     ---------------------------------------------------------'
-         call write_string (lu_scr_sum, line)
+         call write_string (line)
  
          write (line, '(6x, 4f8.2)')
      :       p%cn2_bare, p%cn_red, p%cn_cov,
      :       c%hydrol_effective_depth
-         call write_string (lu_scr_sum, line)
+         call write_string (line)
  
          line =
      :  '     ---------------------------------------------------------'
-         call write_string (lu_scr_sum, line)
+         call write_string (line)
       endif
  
-      call write_string (lu_scr_sum, new_line//new_line)
+      call write_string (new_line//new_line)
  
       if (c%evap_method .eq. ritchie_method) then
          line = '      Using Ritchie evaporation model'
-         call write_string (lu_scr_sum, line)
+         call write_string (line)
  
          write (line, '(7x, a, f8.2, a)') 'Cuml evap (U):        ',
      :        p%u, ' (mm^0.5)'
-         call write_string (lu_scr_sum, line)
+         call write_string (line)
  
          write (line, '(7x, a, f8.2, a)') 'CONA:                 ',
      :        p%cona, ' ()'
-         call write_string (lu_scr_sum, line)
+         call write_string (line)
  
       else if (c%evap_method .eq. bs_a_method) then
          line = '      Using B&S option A evaporation method'
-         call write_string (lu_scr_sum, line)
+         call write_string (line)
  
          write (line, '(7x, a, f8.2, a)') 'Beta:                 ',
      :        p%beta, ' (mm^0.5)'
-         call write_string (lu_scr_sum, line)
+         call write_string (line)
  
       else if (c%evap_method .eq. bs_b_method) then
          line = '      Using B&S option B evaporation method'
-         call write_string (lu_scr_sum, line)
+         call write_string (line)
  
          write (line, '(7x, a, f8.2, a)') 'Beta:                 ',
      :        p%beta, ' (mm^0.5)'
-         call write_string (lu_scr_sum, line)
+         call write_string (line)
  
       else if (c%evap_method .eq. bs_acs_method) then
          line = '      Using B&S option B method with acs/jd mods'
-         call write_string (lu_scr_sum, line)
+         call write_string (line)
  
          write (line, '(7x, a, f8.2, a)') 'Cuml evap (U):        ',
      :        p%u, ' (mm)'
-         call write_string (lu_scr_sum, line)
+         call write_string (line)
  
          write (line, '(7x, a, f8.2, a)') 'CONA:                 ',
      :        p%cona, ' ()'
-         call write_string (lu_scr_sum, line)
+         call write_string (line)
  
          write (line, '(7x, a, f8.2, a)') 'Beta:                 ',
      :        p%beta, ' (mm^0.5)'
-         call write_string (lu_scr_sum, line)
+         call write_string (line)
  
       else if (c%evap_method .eq. rickert_method) then
          line = '      Using Rickert evaporation method'
-         call write_string (lu_scr_sum, line)
+         call write_string (line)
  
          write (line, '(7x, a, f8.2, a)') 'Max daily evaporation:',
      :        p%max_evap, ' (mm)'
-         call write_string (lu_scr_sum, line)
+         call write_string (line)
  
       else
          line = '     Using unknown evaporation method!'
-         call write_string (lu_scr_sum, line)
+         call write_string (line)
  
       endif
  
       if (g%eo_source .ne. blank) then
          write (line, '(6x, a, a)') 'Eo source:             ',
      :        g%eo_source
-         call write_string (lu_scr_sum, line)
+         call write_string (line)
       else
          write (line, '(6x, a)') 'Eo from priestly-taylor'
-         call write_string (lu_scr_sum, line)
+         call write_string (line)
       endif
  
       call pop_routine (my_name)
@@ -5404,8 +5401,8 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
  
       if (numvals_cnred .le. 0 .or. numvals_cnrain .le. 0) then
  
-        call write_string (lu_scr_sum
-     :               ,new_line//'    - Reading tillage CN info')
+        call write_string (
+     :               new_line//'    - Reading tillage CN info')
  
         call read_real_array_optional (
      :           tillage_section      ! Section header
@@ -5446,7 +5443,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
      :     ,'CN reduction = ', g%tillage_cn_red, New_Line
      :     ,'Acc rain     = ', g%tillage_cn_rain
  
-      call write_string (LU_scr_sum, string)
+      call write_string (string)
  
                                      ! 3. Reset the accumulator
       g%tillage_rain_sum = 0.0
@@ -5469,7 +5466,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       real      rain                   ! (INPUT) today's rainfall (mm)
  
 *+  Purpose
-*     accumulate rainfall for tillage cn reduction
+*     accumulate rainfall fo  r tillage cn reduction
  
 *+  Mission Statement
 *      Accumulate rainfall for tillage cn reduction
@@ -5499,7 +5496,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
          g%tillage_cn_red = 0.0
  
          write (string, '(a)') 'Tillage CN reduction finished'
-         call write_string (LU_scr_sum, string)
+         call write_string (string)
  
       else
       endif

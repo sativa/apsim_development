@@ -2,6 +2,7 @@
 #include <tchar.h>
 #include <strstream>
 #include <iomanip>
+#include <sysutils.hpp>
 using std::ostrstream;
 // ------------------------------------------------------------------
 //  Short description:
@@ -239,10 +240,11 @@ void GENERAL_EXPORT Replace_all (string& St, const char* Sub_string, const char*
 // ------------------------------------------------------------------
 string GENERAL_EXPORT ftoa(double Float, int Num_decplaces)
    {
-   ostrstream buf;
-   buf.setf(std::ios::fixed, std::ios::floatfield);
-   buf << std::setprecision(Num_decplaces) << Float << std::ends;
-   return buf.str();
+//   ostrstream buf;
+//   buf.setf(std::ios::fixed, std::ios::floatfield);
+//   buf << std::setprecision(Num_decplaces) << Float << std::ends;
+//   return buf.str();
+   return FloatToStrF(Float, ffFixed, 12, Num_decplaces).c_str();
    }
 
 // ------------------------------------------------------------------

@@ -24,7 +24,7 @@ LIBFILES =
 LIBRARIES =
 SPARELIBS = vcl40.lib
 PACKAGES = Vcl40.bpi Vcldb40.bpi ibsmp40.bpi Vclx40.bpi bcbsmp40.bpi vcldbx40.bpi \
-  dclocx40.bpi Qrpt40.bpi TeeUI40.bpi teedb40.bpi tee40.bpi nmfast40.bpi
+  dclocx40.bpi Qrpt40.bpi nmfast40.bpi
 # ---------------------------------------------------------------------------
 PATHCPP = .;
 PATHASM = .;
@@ -40,13 +40,14 @@ CFLAG1 = -I$(BCB)\include;$(BCB)\include\vcl;.. -WD -Od -Hc -H=$(BCB)\lib\vcl40.
   -w-par -w-inl -Vx -tWM
 CFLAG2 =
 CFLAG3 =
-PFLAGS = -U$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
+PFLAGS = -U$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
   -I$(BCB)\include;$(BCB)\include\vcl;.. -DBUILDING_GENERAL -$YD -$W -$O- -v -M \
   -JPHNE
 RFLAGS = -i$(BCB)\include;$(BCB)\include\vcl;.. -DBUILDING_GENERAL = /i$(BCB)\include \
   /i$(BCB)\include\vcl /i..\ /d_RTLDLL /dBUILDING_GENERAL /dUSEPACKAGES /mx /w2 /zd
 AFLAGS = /i$(BCB)\include /i$(BCB)\include\vcl /i.. /dBUILDING_GENERAL /mx /w2 /zd
-LFLAGS = -L$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) -aa -Tpd -x -Gn -Gi -v
+LFLAGS = -L$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) -aa -Tpd -x -Gn \
+  -Gi -v
 IFLAGS =
 # ---------------------------------------------------------------------------
 ALLOBJ = c0d32.obj Memmgr.Lib $(PACKAGES) sysinit.obj $(OBJFILES)

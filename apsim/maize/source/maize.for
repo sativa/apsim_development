@@ -1,9 +1,11 @@
+      include 'Maize.inc'
+
 *     ===========================================================
       subroutine Maize_water_stress(Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include 'Maize.inc'
       include 'crp_watr.pub'                      
       include 'crp_comm.pub'                      
       include 'error.pub'                         
@@ -30,7 +32,7 @@
       call push_routine (my_name)
  
       if (Option .eq. 1) then
-         if (p_uptake_source .eq. 'apsim') then
+         if (p%uptake_source .eq. 'apsim') then
             ! this would have been avoided if we have
             ! each stress factor in its own routine! - NIH
             ! photo requires (really) actually water uptake
@@ -38,8 +40,8 @@
             ! we only have one supply variable.
  
             call crop_get_ext_uptakes(
-     :                 p_uptake_source   ! uptake flag
-     :                ,c_crop_type       ! crop type
+     :                 p%uptake_source   ! uptake flag
+     :                ,c%crop_type       ! crop type
      :                ,'water'           ! uptake name
      :                ,1.0               ! unit conversion factor
      :                ,0.0               ! uptake lbound
@@ -47,19 +49,19 @@
      :                ,ext_sw_supply     ! uptake array
      :                ,max_layer         ! array dim
      :                )
-            call crop_swdef_photo(max_layer, G_dlayer, G_root_depth,
-     :           G_sw_demand, ext_sw_supply, g_swdef_photo)
+            call crop_swdef_photo(max_layer, g%dlayer, g%root_depth,
+     :           g%sw_demand, ext_sw_supply, g%swdef_photo)
          else
-            call crop_swdef_photo(max_layer, G_dlayer, G_root_depth,
-     :           G_sw_demand, G_sw_supply, g_swdef_photo)
+            call crop_swdef_photo(max_layer, g%dlayer, g%root_depth,
+     :           g%sw_demand, g%sw_supply, g%swdef_photo)
          endif
  
-         call crop_swdef_expansion(C_num_sw_demand_ratio,
-     :        C_x_sw_demand_ratio, C_y_swdef_leaf, max_layer, G_dlayer,
-     :        G_root_depth,G_sw_demand, G_sw_supply, g_swdef_expansion)
-         call crop_swdef_pheno(C_num_sw_avail_ratio,
-     :        C_x_sw_avail_ratio, C_y_swdef_pheno, max_layer, G_dlayer,
-     :        G_root_depth, G_sw_avail, G_sw_avail_pot, g_swdef_pheno)
+         call crop_swdef_expansion(c%num_sw_demand_ratio,
+     :        c%x_sw_demand_ratio, c%y_swdef_leaf, max_layer, g%dlayer,
+     :        g%root_depth,g%sw_demand, g%sw_supply, g%swdef_expansion)
+         call crop_swdef_pheno(c%num_sw_avail_ratio,
+     :        c%x_sw_avail_ratio, c%y_swdef_pheno, max_layer, g%dlayer,
+     :        g%root_depth, g%sw_avail, g%sw_avail_pot, g%swdef_pheno)
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
@@ -73,9 +75,9 @@
 *     ===========================================================
       subroutine Maize_bio_actual (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -100,16 +102,16 @@
  
          !scc need to feed this back to N/leaf area interaction
          !Note that dlt_dm_pot is w. RUE as limited by temperature and Nfac
-         call Maize_dm_init (g_current_stage,
-     .          g_days_tot,
-     .          c_dm_root_init,
-     .          g_plants,
-     .          c_dm_stem_init,
-     .          c_dm_leaf_init,
-     .          c_stem_trans_frac,
-     .          c_leaf_trans_frac,
-     .          g_dm_green, g_dm_plant_min)
-         g_dlt_dm = min (g_dlt_dm_light, g_dlt_dm_water)
+         call Maize_dm_init (g%current_stage,
+     .          g%days_tot,
+     .          c%dm_root_init,
+     .          g%plants,
+     .          c%dm_stem_init,
+     .          c%dm_leaf_init,
+     .          c%stem_trans_frac,
+     .          c%leaf_trans_frac,
+     .          g%dm_green, g%dm_plant_min)
+         g%dlt_dm = min (g%dlt_dm_light, g%dlt_dm_water)
  
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -212,9 +214,9 @@
 *     ===========================================================
       subroutine Maize_bio_grain_demand (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -241,153 +243,153 @@
  
       if (Option .eq. 1) then
          ! Standard routines (4) simulate grain no approach (Ceres)
-           call Maize_heat_stress (g_maxt,
-     .                        c_temp_grain_crit_stress,
-     .                        g_dlt_heat_stress_tt)     ! high temperature stres
-           call Maize_grain_no(g_current_stage,
-     .          g_days_tot,
-     .          g_dm_plant_top_tot,
-     .          c_growth_rate_min,
-     .          c_growth_rate_crit,
-     .          p_head_grain_no_max,
-     .          g_heat_stress_tt,
-     .          c_htstress_coeff,
-     .          g_N_conc_min,
-     .          g_dm_green,
-     .          g_N_green,
-     .          g_plants,
-     .          c_seed_wt_min,
-     .          c_grain_N_conc_min,
-     .          g_grain_no)              ! set grain number
+           call Maize_heat_stress (g%maxt,
+     .                        c%temp_grain_crit_stress,
+     .                        g%dlt_heat_stress_tt)     ! high temperature stres
+           call Maize_grain_no(g%current_stage,
+     .          g%days_tot,
+     .          g%dm_plant_top_tot,
+     .          c%growth_rate_min,
+     .          c%growth_rate_crit,
+     .          p%head_grain_no_max,
+     .          g%heat_stress_tt,
+     .          c%htstress_coeff,
+     .          g%N_conc_min,
+     .          g%dm_green,
+     .          g%N_green,
+     .          g%plants,
+     .          c%seed_wt_min,
+     .          c%grain_N_conc_min,
+     .          g%grain_no)              ! set grain number
            call Maize_dm_grain (
-     .          g_current_stage,
-     .          g_maxt,
-     .          g_mint,
-     .          c_x_temp_grain,
-     .          c_y_grain_rate,
-     .          c_num_temp_grain,
-     .          c_swdf_grain_min,
-     .          g_grain_no,
-     .          p_grain_gth_rate,
-     .          g_N_conc_min,
-     .          g_dm_green,
-     .          g_N_green,
-     .          c_temp_fac_min,
-     .          c_tfac_slope,
-     .          c_sw_fac_max,
-     .          c_sfac_slope,
-     .          g_N_conc_crit,
-     .          g_swdef_photo,
-     .          g_pfact_grain,
-     .          g_swdef_expansion,
-     .          g_nfact_grain_conc,
-     .      g_dlt_dm_grain_demand)
+     .          g%current_stage,
+     .          g%maxt,
+     .          g%mint,
+     .          c%x_temp_grain,
+     .          c%y_grain_rate,
+     .          c%num_temp_grain,
+     .          c%swdf_grain_min,
+     .          g%grain_no,
+     .          p%grain_gth_rate,
+     .          g%N_conc_min,
+     .          g%dm_green,
+     .          g%N_green,
+     .          c%temp_fac_min,
+     .          c%tfac_slope,
+     .          c%sw_fac_max,
+     .          c%sfac_slope,
+     .          g%N_conc_crit,
+     .          g%swdef_photo,
+     .          g%pfact_grain,
+     .          g%swdef_expansion,
+     .          g%nfact_grain_conc,
+     .      g%dlt_dm_grain_demand)
  
       else if (Option .eq. 2) then
          ! Alternative routines (3) simulate harvest index approach (GLH)
            call Maize_dm_stress_max (
-     .          g_swdef_photo,
-     .          g_nfact_photo,
-     .          g_temp_stress_photo,
-     .          g_dlt_dm_stress_max)
+     .          g%swdef_photo,
+     .          g%nfact_photo,
+     .          g%temp_stress_photo,
+     .          g%dlt_dm_stress_max)
            call Maize_dm_grain_hi (
-     .          g_current_stage,
-     .          g_dm_stress_max,
-     .          g_days_tot,
-     .          p_hi_max_pot,
-     .          c_hi_min,
-     .          g_dm_green,
-     .          g_dm_senesced,
-     .          g_dlt_dm,
-     .          p_hi_incr,
-     .          g_dlt_dm_grain_demand)
+     .          g%current_stage,
+     .          g%dm_stress_max,
+     .          g%days_tot,
+     .          p%hi_max_pot,
+     .          c%hi_min,
+     .          g%dm_green,
+     .          g%dm_senesced,
+     .          g%dlt_dm,
+     .          p%hi_incr,
+     .          g%dlt_dm_grain_demand)
       elseif (Option .eq. 3) then
          ! same as option 1 but with grain no routine fix
-           call Maize_heat_stress (g_maxt,
-     .                        c_temp_grain_crit_stress,
-     .                        g_dlt_heat_stress_tt)     ! high temperature stres
-           call Maize_grain_no1(g_current_stage,
-     .          g_days_tot,
-     .          g_dm_plant_top_tot,
-     .          c_growth_rate_min,
-     .          c_growth_rate_crit,
-     .          p_head_grain_no_max,
-     .          g_heat_stress_tt,
-     .          c_htstress_coeff,
-     .          g_N_conc_min,
-     .          g_dm_green,
-     .          g_N_green,
-     .          g_plants,
-     .          c_seed_wt_min,
-     .          c_grain_N_conc_min,
-     .          g_grain_no)              ! set grain number
+           call Maize_heat_stress (g%maxt,
+     .                        c%temp_grain_crit_stress,
+     .                        g%dlt_heat_stress_tt)     ! high temperature stres
+           call Maize_grain_no1(g%current_stage,
+     .          g%days_tot,
+     .          g%dm_plant_top_tot,
+     .          c%growth_rate_min,
+     .          c%growth_rate_crit,
+     .          p%head_grain_no_max,
+     .          g%heat_stress_tt,
+     .          c%htstress_coeff,
+     .          g%N_conc_min,
+     .          g%dm_green,
+     .          g%N_green,
+     .          g%plants,
+     .          c%seed_wt_min,
+     .          c%grain_N_conc_min,
+     .          g%grain_no)              ! set grain number
            call Maize_dm_grain (
-     .          g_current_stage,
-     .          g_maxt,
-     .          g_mint,
-     .          c_x_temp_grain,
-     .          c_y_grain_rate,
-     .          c_num_temp_grain,
-     .          c_swdf_grain_min,
-     .          g_grain_no,
-     .          p_grain_gth_rate,
-     .          g_N_conc_min,
-     .          g_dm_green,
-     .          g_N_green,
-     .          c_temp_fac_min,
-     .          c_tfac_slope,
-     .          c_sw_fac_max,
-     .          c_sfac_slope,
-     .          g_N_conc_crit,
-     .          g_swdef_photo,
-     .          g_pfact_grain,
-     .          g_swdef_expansion,
-     .          g_nfact_grain_conc,
-     .      g_dlt_dm_grain_demand)
+     .          g%current_stage,
+     .          g%maxt,
+     .          g%mint,
+     .          c%x_temp_grain,
+     .          c%y_grain_rate,
+     .          c%num_temp_grain,
+     .          c%swdf_grain_min,
+     .          g%grain_no,
+     .          p%grain_gth_rate,
+     .          g%N_conc_min,
+     .          g%dm_green,
+     .          g%N_green,
+     .          c%temp_fac_min,
+     .          c%tfac_slope,
+     .          c%sw_fac_max,
+     .          c%sfac_slope,
+     .          g%N_conc_crit,
+     .          g%swdef_photo,
+     .          g%pfact_grain,
+     .          g%swdef_expansion,
+     .          g%nfact_grain_conc,
+     .      g%dlt_dm_grain_demand)
       elseif (Option .eq. 4) then
          ! same as option 3 but with different grain no option
-           call Maize_heat_stress (g_maxt,
-     .                        c_temp_grain_crit_stress,
-     .                        g_dlt_heat_stress_tt)     ! high temperature stres
-           call Maize_grain_no2(g_current_stage,
-     .          g_days_tot,
-     .          g_dm_plant_top_tot,
-     .          c_grno_grate,
-     .          c_grno_fract,
-     .          c_num_grno_grate,
-     .          p_head_grain_no_max,
-     .          g_heat_stress_tt,
-     .          c_htstress_coeff,
-     .          g_N_conc_min,
-     .          g_dm_green,
-     .          g_N_green,
-     .          g_plants,
-     .          c_seed_wt_min,
-     .          c_grain_N_conc_min,
-     .          g_grain_no)              ! set grain number
+           call Maize_heat_stress (g%maxt,
+     .                        c%temp_grain_crit_stress,
+     .                        g%dlt_heat_stress_tt)     ! high temperature stres
+           call Maize_grain_no2(g%current_stage,
+     .          g%days_tot,
+     .          g%dm_plant_top_tot,
+     .          c%grno_grate,
+     .          c%grno_fract,
+     .          c%num_grno_grate,
+     .          p%head_grain_no_max,
+     .          g%heat_stress_tt,
+     .          c%htstress_coeff,
+     .          g%N_conc_min,
+     .          g%dm_green,
+     .          g%N_green,
+     .          g%plants,
+     .          c%seed_wt_min,
+     .          c%grain_N_conc_min,
+     .          g%grain_no)              ! set grain number
            call Maize_dm_grain (
-     .          g_current_stage,
-     .          g_maxt,
-     .          g_mint,
-     .          c_x_temp_grain,
-     .          c_y_grain_rate,
-     .          c_num_temp_grain,
-     .          c_swdf_grain_min,
-     .          g_grain_no,
-     .          p_grain_gth_rate,
-     .          g_N_conc_min,
-     .          g_dm_green,
-     .          g_N_green,
-     .          c_temp_fac_min,
-     .          c_tfac_slope,
-     .          c_sw_fac_max,
-     .          c_sfac_slope,
-     .          g_N_conc_crit,
-     .          g_swdef_photo,
-     .          g_pfact_grain,
-     .          g_swdef_expansion,
-     .          g_nfact_grain_conc,
-     .      g_dlt_dm_grain_demand)
+     .          g%current_stage,
+     .          g%maxt,
+     .          g%mint,
+     .          c%x_temp_grain,
+     .          c%y_grain_rate,
+     .          c%num_temp_grain,
+     .          c%swdf_grain_min,
+     .          g%grain_no,
+     .          p%grain_gth_rate,
+     .          g%N_conc_min,
+     .          g%dm_green,
+     .          g%N_green,
+     .          c%temp_fac_min,
+     .          c%tfac_slope,
+     .          c%sw_fac_max,
+     .          c%sfac_slope,
+     .          g%N_conc_crit,
+     .          g%swdef_photo,
+     .          g%pfact_grain,
+     .          g%swdef_expansion,
+     .          g%nfact_grain_conc,
+     .      g%dlt_dm_grain_demand)
  
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -594,9 +596,9 @@
 *     ===========================================================
       subroutine Maize_bio_TE (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'crp_watr.pub'                      
       include 'error.pub'                         
 
@@ -622,11 +624,11 @@
  
          call cproc_bio_water1(
      .           max_layer
-     .         , g_dlayer
-     .         , g_root_depth
-     .         , g_sw_supply
-     .         , g_transp_eff
-     .         , g_dlt_dm_water
+     .         , g%dlayer
+     .         , g%root_depth
+     .         , g%sw_supply
+     .         , g%transp_eff
+     .         , g%dlt_dm_water
      .         )
  
       else
@@ -642,9 +644,9 @@
 *     ===========================================================
       subroutine Maize_bio_partition (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'data.pub'                          
       include 'science.pub'                       
       include 'error.pub'                         
@@ -674,50 +676,50 @@
  
       if (Option .eq. 1) then
          call Maize_dm_partition (
-     .          g_current_stage,
-     .          c_ratio_root_shoot,
-     .          g_dlt_dm,
-     .          g_leaf_no,
-     .          c_partition_rate_leaf,
-     .          g_dlt_lai_stressed,
-     .          c_sla_min,
-     .          c_frac_stem2flower,
-     .          g_dlt_dm_grain_demand,
-     .          g_dlt_dm_green)
+     .          g%current_stage,
+     .          c%ratio_root_shoot,
+     .          g%dlt_dm,
+     .          g%leaf_no,
+     .          c%partition_rate_leaf,
+     .          g%dlt_lai_stressed,
+     .          c%sla_min,
+     .          c%frac_stem2flower,
+     .          g%dlt_dm_grain_demand,
+     .          g%dlt_dm_green)
       elseif (Option .eq. 2) then
-         leaf_no_now = sum_between(sowing, now, g_leaf_no)
+         leaf_no_now = sum_between(sowing, now, g%leaf_no)
          interp_sla_min = linear_interp_real(leaf_no_now
-     .                                      ,c_x_leaf_no
-     .                                      ,c_leaf_no_sla_min
-     .                                      ,c_num_x_leaf_no)
+     .                                      ,c%x_leaf_no
+     .                                      ,c%leaf_no_sla_min
+     .                                      ,c%num_x_leaf_no)
          call Maize_dm_partition (
-     .          g_current_stage,
-     .          c_ratio_root_shoot,
-     .          g_dlt_dm,
-     .          g_leaf_no,
-     .          c_partition_rate_leaf,
-     .          g_dlt_lai_stressed,
+     .          g%current_stage,
+     .          c%ratio_root_shoot,
+     .          g%dlt_dm,
+     .          g%leaf_no,
+     .          c%partition_rate_leaf,
+     .          g%dlt_lai_stressed,
      .          interp_sla_min,
-     .          c_frac_stem2flower,
-     .          g_dlt_dm_grain_demand,
-     .          g_dlt_dm_green)
+     .          c%frac_stem2flower,
+     .          g%dlt_dm_grain_demand,
+     .          g%dlt_dm_green)
  
       elseif (Option .eq. 3) then
-         interp_sla_min = linear_interp_real(g_lai
-     .                                      ,c_x_lai
-     .                                      ,c_lai_sla_min
-     .                                      ,c_num_x_lai)
+         interp_sla_min = linear_interp_real(g%lai
+     .                                      ,c%x_lai
+     .                                      ,c%lai_sla_min
+     .                                      ,c%num_x_lai)
          call Maize_dm_partition (
-     .          g_current_stage,
-     .          c_ratio_root_shoot,
-     .          g_dlt_dm,
-     .          g_leaf_no,
-     .          c_partition_rate_leaf,
-     .          g_dlt_lai_stressed,
+     .          g%current_stage,
+     .          c%ratio_root_shoot,
+     .          g%dlt_dm,
+     .          g%leaf_no,
+     .          c%partition_rate_leaf,
+     .          g%dlt_lai_stressed,
      .          interp_sla_min,
-     .          c_frac_stem2flower,
-     .          g_dlt_dm_grain_demand,
-     .          g_dlt_dm_green)
+     .          c%frac_stem2flower,
+     .          g%dlt_dm_grain_demand,
+     .          g%dlt_dm_green)
  
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -1282,9 +1284,9 @@ cscc No stress effects on hi_incr, only on hi_max
 *     ===========================================================
       subroutine Maize_bio_retrans (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'crp_biom.pub'                      
       include 'error.pub'                         
 
@@ -1317,19 +1319,19 @@ cscc No stress effects on hi_incr, only on hi_max
  
          call cproc_dm_retranslocate1
      :               (
-     :                G_current_stage
+     :                g%current_stage
      :              , start_grain_fill
      :              , maturity
      :              , grain
      :              , max_part
      :              , supply_pools
      :              , num_supply_pools
-     :              , G_dlt_dm_grain_demand
-     :              , G_dlt_dm_green
-     :              , G_dm_green
-     :              , G_dm_plant_min
-     :              , G_plants
-     :              , g_dlt_dm_green_retrans
+     :              , g%dlt_dm_grain_demand
+     :              , g%dlt_dm_green
+     :              , g%dm_green
+     :              , g%dm_plant_min
+     :              , g%plants
+     :              , g%dlt_dm_green_retrans
      :               )
  
       else
@@ -1345,9 +1347,9 @@ cscc No stress effects on hi_incr, only on hi_max
 *     ===========================================================
       subroutine Maize_detachment(option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include 'Maize.inc'
       include 'crp_cnpy.pub'                      
       include 'crp_nitn.pub'                      
       include 'crp_biom.pub'                      
@@ -1375,28 +1377,28 @@ c in maize
       if (Option .eq. 1) then
  
          call cproc_dm_detachment1( max_part
-     :                              , c_sen_detach_frac
-     :                              , g_dm_senesced
-     :                              , g_dlt_dm_detached
-     :                              , c_dead_detach_frac
-     :                              , g_dm_dead
-     :                              , g_dlt_dm_dead_detached)
+     :                              , c%sen_detach_frac
+     :                              , g%dm_senesced
+     :                              , g%dlt_dm_detached
+     :                              , c%dead_detach_frac
+     :                              , g%dm_dead
+     :                              , g%dlt_dm_dead_detached)
  
          call cproc_n_detachment1( max_part
-     :                              , c_sen_detach_frac
-     :                              , g_n_senesced
-     :                              , g_dlt_n_detached
-     :                              , c_dead_detach_frac
-     :                              , g_n_dead
-     :                              , g_dlt_n_dead_detached)
+     :                              , c%sen_detach_frac
+     :                              , g%n_senesced
+     :                              , g%dlt_n_detached
+     :                              , c%dead_detach_frac
+     :                              , g%n_dead
+     :                              , g%dlt_n_dead_detached)
  
          call cproc_lai_detachment1 (leaf
-     :                             , c_sen_detach_frac
-     :                             , g_slai
-     :                             , g_dlt_slai_detached
-     :                             , c_dead_detach_frac
-     :                             , g_tlai_dead
-     :                             , g_dlt_tlai_dead_detached)
+     :                             , c%sen_detach_frac
+     :                             , g%slai
+     :                             , g%dlt_slai_detached
+     :                             , c%dead_detach_frac
+     :                             , g%tlai_dead
+     :                             , g%dlt_tlai_dead_detached)
  
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -1411,9 +1413,9 @@ c in maize
 *     ===========================================================
       subroutine Maize_plant_death (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'crp_fail.pub'                      
       include 'error.pub'                         
       include 'data.pub'                         
@@ -1439,144 +1441,144 @@ cnh      real dlt_plants
  
       if (Option .eq. 1) then
  
-         g_dlt_plants_all = 0.0
+         g%dlt_plants_all = 0.0
          call crop_failure_germination (sowing, germ, now,
-     .          c_days_germ_limit,
-     .          g_current_stage,
-     .          g_days_tot,
-     .          g_plants,
-     .          g_dlt_plants_all)
+     .          c%days_germ_limit,
+     .          g%current_stage,
+     .          g%days_tot,
+     .          g%plants,
+     .          g%dlt_plants_all)
          call crop_failure_emergence (germ, emerg, now,
-     .          c_tt_emerg_limit,
-     .          g_current_stage,
-     .          g_plants,
-     .          g_tt_tot,
-     .          g_dlt_plants_all)
+     .          c%tt_emerg_limit,
+     .          g%current_stage,
+     .          g%plants,
+     .          g%tt_tot,
+     .          g%dlt_plants_all)
          call failure_leaf_sen (
-     .          g_lai,
-     .          g_current_stage,
-     .          g_plants,
-     .          g_dlt_plants_all)
+     .          g%lai,
+     .          g%current_stage,
+     .          g%plants,
+     .          g%dlt_plants_all)
          call failure_phen_delay (
-     .          g_cswd_pheno,
-     .          g_current_stage,
-     .          c_swdf_pheno_limit,
-     .          g_plants,
-     .          g_dlt_plants_all)
+     .          g%cswd_pheno,
+     .          g%current_stage,
+     .          c%swdf_pheno_limit,
+     .          g%plants,
+     .          g%dlt_plants_all)
          call death_barrenness (
-     .          g_current_stage,
-     .          g_days_tot,
-     .          c_head_grain_no_crit,
-     .          p_head_grain_no_max,
-     .          c_barren_crit,
-     .          g_grain_no,
-     .          g_plants,
-     .          g_dlt_plants_barren)
+     .          g%current_stage,
+     .          g%days_tot,
+     .          c%head_grain_no_crit,
+     .          p%head_grain_no_max,
+     .          c%barren_crit,
+     .          g%grain_no,
+     .          g%plants,
+     .          g%dlt_plants_barren)
          call death_seedling (
-     .          g_days_tot,
-     .          g_year,
-     .          g_day_of_year,
-     .          g_soil_temp,
-     .          c_x_weighted_temp,
-     .          c_y_plant_death,
-     .          c_num_weighted_temp,
-     .          g_plants,
-     .          g_dlt_plants_temp)
+     .          g%days_tot,
+     .          g%year,
+     .          g%day_of_year,
+     .          g%soil_temp,
+     .          c%x_weighted_temp,
+     .          c%y_plant_death,
+     .          c%num_weighted_temp,
+     .          g%plants,
+     .          g%dlt_plants_temp)
          call death_drought (
-     .          g_cswd_photo,
-     .          g_leaf_no,
-     .          c_leaf_no_crit,
-     .          c_swdf_photo_limit,
-     .          g_swdef_photo,
-     .          c_swdf_photo_rate,
-     .          g_plants,
-     .          g_dlt_plants_water)
+     .          g%cswd_photo,
+     .          g%leaf_no,
+     .          c%leaf_no_crit,
+     .          c%swdf_photo_limit,
+     .          g%swdef_photo,
+     .          c%swdf_photo_rate,
+     .          g%plants,
+     .          g%dlt_plants_water)
          call Maize_death_actual (
-     .          g_dlt_plants_all,
-     .          g_dlt_plants_temp,
-     .          g_dlt_plants_water,
-     .          g_dlt_plants_barren,
+     .          g%dlt_plants_all,
+     .          g%dlt_plants_temp,
+     .          g%dlt_plants_water,
+     .          g%dlt_plants_barren,
 cnh     .          dlt_plants
-     .          g_dlt_plants
+     .          g%dlt_plants
      .            )
  
-         if (reals_are_equal (g_dlt_plants + g_plants, 0.0)) then
+         if (reals_are_equal (g%dlt_plants + g%plants, 0.0)) then
             call Maize_kill_crop (
-     .          g_plant_status,
-     .          g_dm_green,
-     .          g_dm_senesced,
-     .          g_dm_dead)
+     .          g%plant_status,
+     .          g%dm_green,
+     .          g%dm_senesced,
+     .          g%dm_dead)
          endif
  
       elseif (Option .eq. 2) then
  
-         g_dlt_plants_all = 0.0
+         g%dlt_plants_all = 0.0
          call crop_failure_germination (sowing, germ, now,
-     .          c_days_germ_limit,
-     .          g_current_stage,
-     .          g_days_tot,
-     .          g_plants,
-     .          g_dlt_plants_all)
+     .          c%days_germ_limit,
+     .          g%current_stage,
+     .          g%days_tot,
+     .          g%plants,
+     .          g%dlt_plants_all)
          call crop_failure_emergence (germ, emerg, now,
-     .          c_tt_emerg_limit,
-     .          g_current_stage,
-     .          g_plants,
-     .          g_tt_tot,
-     .          g_dlt_plants_all)
+     .          c%tt_emerg_limit,
+     .          g%current_stage,
+     .          g%plants,
+     .          g%tt_tot,
+     .          g%dlt_plants_all)
          call failure_leaf_sen (
-     .          g_lai,
-     .          g_current_stage,
-     .          g_plants,
-     .          g_dlt_plants_all)
+     .          g%lai,
+     .          g%current_stage,
+     .          g%plants,
+     .          g%dlt_plants_all)
          call failure_phen_delay (
-     .          g_cswd_pheno,
-     .          g_current_stage,
-     .          c_swdf_pheno_limit,
-     .          g_plants,
-     .          g_dlt_plants_all)
+     .          g%cswd_pheno,
+     .          g%current_stage,
+     .          c%swdf_pheno_limit,
+     .          g%plants,
+     .          g%dlt_plants_all)
          call maize_death_barrenness0 (
-     .          g_current_stage,
-     .          g_days_tot,
-     .          c_head_grain_no_crit,
-     .          p_head_grain_no_max,
-     .          c_barren_crit,
-     .          g_grain_no,
-     .          g_plants,
-     .          g_dlt_plants_barren)
+     .          g%current_stage,
+     .          g%days_tot,
+     .          c%head_grain_no_crit,
+     .          p%head_grain_no_max,
+     .          c%barren_crit,
+     .          g%grain_no,
+     .          g%plants,
+     .          g%dlt_plants_barren)
          call death_seedling (
-     .          g_days_tot,
-     .          g_year,
-     .          g_day_of_year,
-     .          g_soil_temp,
-     .          c_x_weighted_temp,
-     .          c_y_plant_death,
-     .          c_num_weighted_temp,
-     .          g_plants,
-     .          g_dlt_plants_temp)
+     .          g%days_tot,
+     .          g%year,
+     .          g%day_of_year,
+     .          g%soil_temp,
+     .          c%x_weighted_temp,
+     .          c%y_plant_death,
+     .          c%num_weighted_temp,
+     .          g%plants,
+     .          g%dlt_plants_temp)
          call death_drought (
-     .          g_cswd_photo,
-     .          g_leaf_no,
-     .          c_leaf_no_crit,
-     .          c_swdf_photo_limit,
-     .          g_swdef_photo,
-     .          c_swdf_photo_rate,
-     .          g_plants,
-     .          g_dlt_plants_water)
+     .          g%cswd_photo,
+     .          g%leaf_no,
+     .          c%leaf_no_crit,
+     .          c%swdf_photo_limit,
+     .          g%swdef_photo,
+     .          c%swdf_photo_rate,
+     .          g%plants,
+     .          g%dlt_plants_water)
          call Maize_death_actual (
-     .          g_dlt_plants_all,
-     .          g_dlt_plants_temp,
-     .          g_dlt_plants_water,
-     .          g_dlt_plants_barren,
+     .          g%dlt_plants_all,
+     .          g%dlt_plants_temp,
+     .          g%dlt_plants_water,
+     .          g%dlt_plants_barren,
 cnh     .          dlt_plants
-     .          g_dlt_plants
+     .          g%dlt_plants
      .            )
  
-         if (reals_are_equal (g_dlt_plants + g_plants, 0.0)) then
+         if (reals_are_equal (g%dlt_plants + g%plants, 0.0)) then
             call Maize_kill_crop (
-     .          g_plant_status,
-     .          g_dm_green,
-     .          g_dm_senesced,
-     .          g_dm_dead)
+     .          g%plant_status,
+     .          g%dm_green,
+     .          g%dm_senesced,
+     .          g%dm_dead)
          endif
  
       else
@@ -1601,7 +1603,6 @@ cnh     .          dlt_plants
       include   'maizcons.inc'
       include 'data.pub'                          
       include 'science.pub'                       
-      include 'write.pub'                         
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -1636,7 +1637,7 @@ cnh     .          dlt_plants
  
          write (string, '(3a)')
      :                ' crop failure because of total leaf senescence.'
-         call write_string (lu_scr_sum, string)
+         call write_string (string)
  
       endif
       call pop_routine (my_name)
@@ -1658,7 +1659,6 @@ cnh     .          dlt_plants
       include   'maizcons.inc'
       include 'data.pub'                          
       include 'science.pub'                       
-      include 'write.pub'                         
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -1698,7 +1698,7 @@ cnh     .          dlt_plants
      :                 '         crop failure because of prolonged'
      :                ,new_line
      :                ,'         phenology delay through water stress.'
-         call write_string (lu_scr_sum, string)
+         call write_string (string)
  
       endif
  
@@ -1724,7 +1724,6 @@ cnh     .          dlt_plants
       include   'const.inc'
       include   'maizcons.inc'
       include 'data.pub'                          
-      include 'write.pub'                         
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -1779,7 +1778,7 @@ cnh     .          dlt_plants
      :        , nint (killfr*100.0)
      :        , '% failure because of high soil surface temperatures.'
  
-         call report_event (string)
+         call Write_string (string)
  
          else
                   ! do nothing
@@ -1811,7 +1810,6 @@ cnh     .          dlt_plants
       include   'const.inc'
       include   'maizcons.inc'
       include 'data.pub'                          
-      include 'write.pub'                         
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -1861,7 +1859,7 @@ cnh     .          dlt_plants
      :         , nint (killfr*100.0)
      :         , '% failure because of water stress.'
  
-         call report_event (string)
+         call Write_string (string)
  
       else
          dlt_plants_water = 0.0
@@ -1889,7 +1887,6 @@ cnh     .          dlt_plants
       include   'const.inc'
       include   'maizcons.inc'
       include 'science.pub'                       
-      include 'write.pub'                         
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -1938,7 +1935,7 @@ cnh     .          dlt_plants
      :            , nint (killfr*100.0)
      :            , '% failure because of barreness.'
  
-         call report_event (string)
+         call Write_string (string)
  
          else
                   ! do nothing
@@ -2207,7 +2204,6 @@ cSCC/JNGH changed le to lt
       include   'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc
       include   'maizcons.inc'
       include 'data.pub'                          
-      include 'write.pub'                         
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -2253,7 +2249,7 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
          write (string, '(3x, a, f7.1, a)')
      :                  ' kill. Standing above-ground dm = '
      :                  , biomass, ' (kg/ha)'
-         call report_event (string)
+         call Write_string (string)
  
       else
       endif
@@ -2887,9 +2883,9 @@ c     :                           , 'grain_no_fract')
 * ====================================================================
        subroutine maize_nit_demand_est (Option)
 * ====================================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include 'maize.inc'
       include 'data.pub'                          
       include 'crp_nitn.pub'                      
       include 'error.pub'                         
@@ -2931,14 +2927,14 @@ c     :                           , 'grain_no_fract')
             ! required to raise all plant parts to critical N conc.
  
          ! calculate potential new shoot and root growth
-      current_phase = int (g_current_stage)
+      current_phase = int (g%current_stage)
          ! need to calculate dm using potential rue not affected by
          ! N and temperature
-      dlt_dm_pot_radn = c_rue(current_phase)*g_radn_int
-      dm_green_tot = sum_real_array (g_dm_green, max_part)
+      dlt_dm_pot_radn = c%rue(current_phase)*g%radn_int
+      dm_green_tot = sum_real_array (g%dm_green, max_part)
       do 100 part = 1, max_part
          dlt_dm_green_pot(part) = dlt_dm_pot_radn
-     :                          * divide (g_dm_green(part)
+     :                          * divide (g%dm_green(part)
      :                                   ,dm_green_tot
      :                                   ,0.0)
          dlt_N_retrans(part) = 0.0
@@ -2951,13 +2947,13 @@ c     :                           , 'grain_no_fract')
      :              , num_demand_parts
      :              , dlt_dm_pot_radn
      :              , dlt_dm_green_pot
-     :              , g_dlt_dm_light
+     :              , g%dlt_dm_light
      :              , dlt_n_retrans
-     :              , G_dm_green
-     :              , G_n_conc_crit
-     :              , G_n_conc_max
-     :              , G_n_green
-     :              , g_N_demand, g_N_max
+     :              , g%dm_green
+     :              , g%n_conc_crit
+     :              , g%n_conc_max
+     :              , g%n_green
+     :              , g%N_demand, g%N_max
      :               )
  
       else
@@ -3062,7 +3058,6 @@ c     :                           , 'grain_no_fract')
       include   'const.inc'
       include   'maizcons.inc'
       include 'science.pub'                       
-      include 'write.pub'                         
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -3111,7 +3106,7 @@ c     :                           , 'grain_no_fract')
      :            , nint (killfr*100.0)
      :            , '% failure because of barreness.'
  
-         call report_event (string)
+         call Write_string (string)
  
          else
                   ! do nothing
@@ -3131,9 +3126,9 @@ c     :                           , 'grain_no_fract')
 *     ===========================================================
       subroutine Maize_leaf_actual(Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'data.pub'                          
       include 'science.pub'                       
       include 'crp_cnpy.pub'                      
@@ -3163,61 +3158,61 @@ c     :                           , 'grain_no_fract')
          ! potential by photosynthesis
  
          call maize_leaf_area0 (
-     .          g_current_stage,
-     .          g_dlt_lai,
-     .          g_dlt_lai_stressed,
-     .          g_dlt_dm_green,
-     .          c_sla_max,
-     .          g_lai,
-     .          g_dm_green,
-     .          g_dlt_dm_green_retrans,
-     .          g_leaf_no)
+     .          g%current_stage,
+     .          g%dlt_lai,
+     .          g%dlt_lai_stressed,
+     .          g%dlt_dm_green,
+     .          c%sla_max,
+     .          g%lai,
+     .          g%dm_green,
+     .          g%dlt_dm_green_retrans,
+     .          g%leaf_no)
  
       elseif (Option .eq. 2) then
  
          call maize_leaf_area1 (
-     .          g_current_stage,
-     .          g_dlt_lai,
-     .          g_dlt_lai_stressed,
-     .          g_dlt_dm_green,
-     .          c_sla_max)
+     .          g%current_stage,
+     .          g%dlt_lai,
+     .          g%dlt_lai_stressed,
+     .          g%dlt_dm_green,
+     .          c%sla_max)
  
       elseif (Option .eq. 3) then
-         leaf_no_now = sum_between(sowing, now, g_leaf_no)
+         leaf_no_now = sum_between(sowing, now, g%leaf_no)
          interp_sla_max = linear_interp_real(leaf_no_now
-     .                                      ,c_x_leaf_no
-     .                                      ,c_leaf_no_sla_max
-     .                                      ,c_num_x_leaf_no)
+     .                                      ,c%x_leaf_no
+     .                                      ,c%leaf_no_sla_max
+     .                                      ,c%num_x_leaf_no)
  
          call maize_leaf_area1 (
-     .          g_current_stage,
-     .          g_dlt_lai,
-     .          g_dlt_lai_stressed,
-     .          g_dlt_dm_green,
+     .          g%current_stage,
+     .          g%dlt_lai,
+     .          g%dlt_lai_stressed,
+     .          g%dlt_dm_green,
      .          interp_sla_max)
  
       elseif (Option .eq. 4) then
  
          call cproc_leaf_area_actual1 (
-     :                C_x_lai
-     :              , C_y_lai_sla_max
-     :              , C_num_x_lai
-     :              , g_dlt_dm_green(leaf)
-     :              , G_dlt_lai
-     :              , g_dlt_lai_stressed
-     :              , G_lai
+     :                c%x_lai
+     :              , c%y_lai_sla_max
+     :              , c%num_x_lai
+     :              , g%dlt_dm_green(leaf)
+     :              , g%dlt_lai
+     :              , g%dlt_lai_stressed
+     :              , g%lai
      :               )
  
-c         interp_sla_max = linear_interp_real(g_lai
-c     .                                      ,c_x_lai
-c     .                                      ,c_lai_sla_max
-c     .                                      ,c_num_x_lai)
+c         interp_sla_max = linear_interp_real(g%lai
+c     .                                      ,c%x_lai
+c     .                                      ,c%lai_sla_max
+c     .                                      ,c%num_x_lai)
  
 c         call maize_leaf_area1 (
-c     .          g_current_stage,
-c     .          g_dlt_lai,
-c     .          g_dlt_lai_stressed,
-c     .          g_dlt_dm_green,
+c     .          g%current_stage,
+c     .          g%dlt_lai,
+c     .          g%dlt_lai_stressed,
+c     .          g%dlt_dm_green,
 c     .          interp_sla_max)
  
       else
@@ -3233,9 +3228,9 @@ c     .          interp_sla_max)
 *     ===========================================================
       subroutine Maize_leaf_area_potential (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -3265,68 +3260,68 @@ c     .          interp_sla_max)
       if (Option .eq. 1) then
  
          call maize_leaf_area_devel0 (
-     .          g_leaf_no,
-     .          c_leaf_no_correction,
-     .          c_x0_const,
-     .          c_x0_slope,
-     .          g_leaf_no_final,
-     .          c_y0_const,
-     .          c_y0_slope,
-     .          c_a_const,
-     .          c_a_slope1,
-     .          c_b_const,
-     .          c_b_slope1,
-     .          g_dlt_leaf_no,
-     .          g_plants,
-     .          g_swdef_expansion,
-     .          g_dlt_lai_pot) ! individual leaf approach
+     .          g%leaf_no,
+     .          c%leaf_no_correction,
+     .          c%x0_const,
+     .          c%x0_slope,
+     .          g%leaf_no_final,
+     .          c%y0_const,
+     .          c%y0_slope,
+     .          c%a_const,
+     .          c%a_slope1,
+     .          c%b_const,
+     .          c%b_slope1,
+     .          g%dlt_leaf_no,
+     .          g%plants,
+     .          g%swdef_expansion,
+     .          g%dlt_lai_pot) ! individual leaf approach
  
       elseif (Option .eq .2) then
  
          call maize_leaf_area_devel_plant0 (
-     .          g_current_stage,
-     .          g_leaf_no_final,
-     .          c_leaf_no_rate_change,
-     .          c_leaf_no_at_emerg,
-     .          c_leaf_app_rate1,
-     .          c_leaf_app_rate2,
-     .          p_tt_flag_to_flower,
-     .          g_tiller_no_fertile,
-     .          c_tiller_coef,
-     .          p_main_stem_coef,
-     .          g_tt_tot,
-     .          c_tpla_inflection_ratio,
-     .          g_tpla_today,
-     .          p_tpla_prod_coef,
-     .          g_plants,
-     .          g_lai,
-     .          g_slai,
-     .          g_swdef_lai_loss,
-     .          g_lai_max_possible,
-     .          g_swdef_expansion,
-     .          min(g_nfact_expansion,g_pfact_expansion),
-     .          g_dlt_lai_pot) ! whole plant approa
+     .          g%current_stage,
+     .          g%leaf_no_final,
+     .          c%leaf_no_rate_change,
+     .          c%leaf_no_at_emerg,
+     .          c%leaf_app_rate1,
+     .          c%leaf_app_rate2,
+     .          p%tt_flag_to_flower,
+     .          g%tiller_no_fertile,
+     .          c%tiller_coef,
+     .          p%main_stem_coef,
+     .          g%tt_tot,
+     .          c%tpla_inflection_ratio,
+     .          g%tpla_today,
+     .          p%tpla_prod_coef,
+     .          g%plants,
+     .          g%lai,
+     .          g%slai,
+     .          g%swdef_lai_loss,
+     .          g%lai_max_possible,
+     .          g%swdef_expansion,
+     .          min(g%nfact_expansion,g%pfact_expansion),
+     .          g%dlt_lai_pot) ! whole plant approa
  
       elseif (Option .eq. 3) then
  
          call leaf_area_devel1 (
-     .          g_leaf_no,
-     .          c_leaf_no_correction,
-     .          c_x0_const,
-     .          c_x0_slope,
-     .          g_leaf_no_final,
-     .          c_y0_const,
-     .          c_y0_slope,
-     .          c_a_const,
-     .          c_a_slope1,
-     .          c_a_slope2,
-     .          c_b_const,
-     .          c_b_slope1,
-     .          c_b_slope2,
-     .          g_dlt_leaf_no,
-     .          g_plants,
-     .          g_swdef_expansion,
-     .          g_dlt_lai_pot) ! individual leaf approach
+     .          g%leaf_no,
+     .          c%leaf_no_correction,
+     .          c%x0_const,
+     .          c%x0_slope,
+     .          g%leaf_no_final,
+     .          c%y0_const,
+     .          c%y0_slope,
+     .          c%a_const,
+     .          c%a_slope1,
+     .          c%a_slope2,
+     .          c%b_const,
+     .          c%b_slope1,
+     .          c%b_slope2,
+     .          g%dlt_leaf_no,
+     .          g%plants,
+     .          g%swdef_expansion,
+     .          g%dlt_lai_pot) ! individual leaf approach
  
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -3341,9 +3336,9 @@ c     .          interp_sla_max)
 *     ===========================================================
       subroutine Maize_leaf_area_stressed (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'crp_cnpy.pub'                      
       include 'error.pub'                         
 
@@ -3366,11 +3361,11 @@ c     .          interp_sla_max)
       if (Option .eq. 1) then
  
          call cproc_leaf_area_stressed1 (
-     :                       g_dlt_lai_pot
-     :                      ,g_swdef_expansion
-     :                      ,min(g_nfact_expansion
-     :                          ,g_pfact_expansion)
-     :                      ,g_dlt_lai_stressed
+     :                       g%dlt_lai_pot
+     :                      ,g%swdef_expansion
+     :                      ,min(g%nfact_expansion
+     :                          ,g%pfact_expansion)
+     :                      ,g%dlt_lai_stressed
      :                      )
 
       else
@@ -3490,9 +3485,9 @@ c     .          interp_sla_max)
 *     ===========================================================
       subroutine Maize_leaf_no_init (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'crp_cnpy.pub'                      
       include 'error.pub'                         
 
@@ -3516,12 +3511,12 @@ c     .          interp_sla_max)
  
          call cproc_leaf_no_init1
      :               (
-     :                C_leaf_no_at_emerg
-     :              , G_current_stage
+     :                c%leaf_no_at_emerg
+     :              , g%current_stage
      :              , emerg
-     :              , G_days_tot
-     :              , g_leaf_no
-     :              , g_node_no
+     :              , g%days_tot
+     :              , g%leaf_no
+     :              , g%node_no
      :               )
  
       else
@@ -3537,9 +3532,9 @@ c     .          interp_sla_max)
 *     ===========================================================
       subroutine Maize_leaf_area_init (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'crp_cnpy.pub'                      
       include 'error.pub'                         
 
@@ -3562,12 +3557,12 @@ c     .          interp_sla_max)
       if (Option .eq. 1) then
  
          call cproc_leaf_area_init1 (
-     :                C_initial_tpla
+     :                c%initial_tpla
      :              , emerg
-     :              , G_current_stage
-     :              , G_days_tot
-     :              , G_plants
-     :              , g_lai
+     :              , g%current_stage
+     :              , g%days_tot
+     :              , g%plants
+     :              , g%lai
      :              )
  
       else
@@ -3583,9 +3578,9 @@ c     .          interp_sla_max)
 *     ===========================================================
       subroutine Maize_leaf_no_pot (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -3607,87 +3602,87 @@ c     .          interp_sla_max)
       if (Option .eq. 1) then
  
          call maize_leaf_number_final (
-     .          g_current_stage,
-     .          g_days_tot,
-     .          g_phase_tt,
+     .          g%current_stage,
+     .          g%days_tot,
+     .          g%phase_tt,
      .          germ,
-     .          c_leaf_init_rate,
-     .          c_leaf_no_seed,
-     .          c_leaf_no_min,
-     .          c_leaf_no_max,
-     .          g_tt_tot,
-     .          g_leaf_no_final)
+     .          c%leaf_init_rate,
+     .          c%leaf_no_seed,
+     .          c%leaf_no_min,
+     .          c%leaf_no_max,
+     .          g%tt_tot,
+     .          g%leaf_no_final)
  
 c         call cproc_leaf_no_pot1
 c     :               (
-c     :                C_x_node_no_app
-c     :              , C_y_node_app_rate
-c     :              , C_y_leaves_per_node
-c     :              , c_num_node_no_app
-c     :              , G_current_stage
+c     :                c%x_node_no_app
+c     :              , c%y_node_app_rate
+c     :              , c%y_leaves_per_node
+c     :              , c%num_node_no_app
+c     :              , g%current_stage
 c     :              , emerg
 c     :              , flag_leaf
 c     :              , emerg
-c     :              , G_days_tot
-c     :              , G_dlt_tt
-c     :              , g_leaf_no       !G_node_no ! needs to be changed when nod
-c     :              , g_dlt_leaf_no   !_pot   !this will need to changed when
-c     :              , g_dlt_node_no_pot       !actual leaf no routine is used
+c     :              , g%days_tot
+c     :              , g%dlt_tt
+c     :              , g%leaf_no       !g%node_no ! needs to be changed when nod
+c     :              , g%dlt_leaf_no   !_pot   !this will need to changed when
+c     :              , g%dlt_node_no_pot       !actual leaf no routine is used
 c     :               )
  
          call maize_leaf_appearance0 (
-     .          g_leaf_no,
-     .          g_leaf_no_final,
-     .          c_leaf_no_rate_change,
-     .          c_leaf_app_rate2,
-     .          c_leaf_app_rate1,
-     .          g_current_stage,
-     .          g_days_tot,
-     .          g_dlt_tt,
-     .          g_dlt_leaf_no) ! fraction of leaf emerged
+     .          g%leaf_no,
+     .          g%leaf_no_final,
+     .          c%leaf_no_rate_change,
+     .          c%leaf_app_rate2,
+     .          c%leaf_app_rate1,
+     .          g%current_stage,
+     .          g%days_tot,
+     .          g%dlt_tt,
+     .          g%dlt_leaf_no) ! fraction of leaf emerged
  
  
       elseif (Option .eq. 2) then
  
          call maize_leaf_number_final (
-     .          g_current_stage,
-     .          g_days_tot,
-     .          g_phase_tt,
+     .          g%current_stage,
+     .          g%days_tot,
+     .          g%phase_tt,
      .          emerg,
-     .          c_leaf_init_rate,
-     .          c_leaf_no_seed,
-     .          c_leaf_no_min,
-     .          c_leaf_no_max,
-     .          g_tt_tot,
-     .          g_leaf_no_final)
+     .          c%leaf_init_rate,
+     .          c%leaf_no_seed,
+     .          c%leaf_no_min,
+     .          c%leaf_no_max,
+     .          g%tt_tot,
+     .          g%leaf_no_final)
  
 c         call cproc_leaf_no_pot1
 c     :               (
-c     :                C_x_node_no_app
-c     :              , C_y_node_app_rate
-c     :              , C_y_leaves_per_node
-c     :              , c_num_node_no_app
-c     :              , G_current_stage
+c     :                c%x_node_no_app
+c     :              , c%y_node_app_rate
+c     :              , c%y_leaves_per_node
+c     :              , c%num_node_no_app
+c     :              , g%current_stage
 c     :              , emerg
 c     :              , flag_leaf
 c     :              , emerg
-c     :              , G_days_tot
-c     :              , G_dlt_tt
-c     :              , G_node_no
-c     :              , g_dlt_leaf_no_pot
-c     :              , g_dlt_node_no_pot
+c     :              , g%days_tot
+c     :              , g%dlt_tt
+c     :              , g%node_no
+c     :              , g%dlt_leaf_no_pot
+c     :              , g%dlt_node_no_pot
 c     :               )
  
          call maize_leaf_appearance0 (
-     .          g_leaf_no,
-     .          g_leaf_no_final,
-     .          c_leaf_no_rate_change,
-     .          c_leaf_app_rate2,
-     .          c_leaf_app_rate1,
-     .          g_current_stage,
-     .          g_days_tot,
-     .          g_dlt_tt,
-     .          g_dlt_leaf_no) ! fraction of leaf emerged
+     .          g%leaf_no,
+     .          g%leaf_no_final,
+     .          c%leaf_no_rate_change,
+     .          c%leaf_app_rate2,
+     .          c%leaf_app_rate1,
+     .          g%current_stage,
+     .          g%days_tot,
+     .          g%dlt_tt,
+     .          g%dlt_leaf_no) ! fraction of leaf emerged
  
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -4288,9 +4283,9 @@ cSCC normal leaf app rate
 *     ===========================================================
       subroutine Maize_nit_retrans (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -4312,21 +4307,21 @@ cSCC normal leaf app rate
       if (Option .eq. 1) then
  
            call Maize_N_retranslocate (
-     .          g_dlt_dm_green,
-     .          g_maxt,
-     .          g_mint,
-     .          c_temp_fac_min,
-     .          c_tfac_slope,
-     .          c_sw_fac_max,
-     .          c_sfac_slope,
-     .          g_N_conc_min,
-     .          g_N_conc_crit,
-     .          g_dm_green,
-     .          g_N_green,
-     .          g_N_conc_max,
-     .          g_swdef_expansion,
-     .          g_nfact_grain_conc,
-     .          g_dlt_N_retrans
+     .          g%dlt_dm_green,
+     .          g%maxt,
+     .          g%mint,
+     .          c%temp_fac_min,
+     .          c%tfac_slope,
+     .          c%sw_fac_max,
+     .          c%sfac_slope,
+     .          g%N_conc_min,
+     .          g%N_conc_crit,
+     .          g%dm_green,
+     .          g%N_green,
+     .          g%N_conc_max,
+     .          g%swdef_expansion,
+     .          g%nfact_grain_conc,
+     .          g%dlt_N_retrans
      .                    )
  
       else
@@ -4491,9 +4486,9 @@ csc  true....
 *     ===========================================================
       subroutine Maize_nit_demand (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'crp_nitn.pub'                      
       include 'error.pub'                         
 
@@ -4525,25 +4520,25 @@ csc  true....
  
       if (Option .eq. 1) then
          ! calculate potential new shoot and root growth
-         current_phase = int (g_current_stage)
+         current_phase = int (g%current_stage)
          ! need to calculate dm using potential rue not affected by
          ! N and temperature
-         dlt_dm_pot_radn = c_rue(current_phase)*g_radn_int
+         dlt_dm_pot_radn = c%rue(current_phase)*g%radn_int
  
          call cproc_N_demand1
      :               (
      :                max_part
      :              , demand_parts
      :              , num_demand_parts
-     :              , G_dlt_dm
-     :              , G_dlt_dm_green
+     :              , g%dlt_dm
+     :              , g%dlt_dm_green
      :              , dlt_dm_pot_radn
-     :              , G_dlt_n_retrans
-     :              , G_dm_green
-     :              , G_n_conc_crit
-     :              , G_n_conc_max
-     :              , G_n_green
-     :              , g_N_demand, g_N_max
+     :              , g%dlt_n_retrans
+     :              , g%dm_green
+     :              , g%n_conc_crit
+     :              , g%n_conc_max
+     :              , g%n_green
+     :              , g%N_demand, g%N_max
      :               )
  
       else
@@ -4559,10 +4554,10 @@ csc  true....
 *     ===========================================================
       subroutine Maize_nit_uptake (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
       include 'convert.inc'
-      include   'Maize.inc'
       include 'crp_nitn.pub'                      
       include 'crp_comm.pub'                      
       include 'error.pub'                         
@@ -4583,17 +4578,17 @@ csc  true....
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      if (p_uptake_source .eq. 'apsim') then
+      if (p%uptake_source .eq. 'apsim') then
          ! NIH - note that I use a -ve conversion
          ! factor FOR NOW to make it a delta.
          call crop_get_ext_uptakes(
-     :                 p_uptake_source   ! uptake flag
-     :                ,c_crop_type       ! crop type
+     :                 p%uptake_source   ! uptake flag
+     :                ,c%crop_type       ! crop type
      :                ,'no3'             ! uptake name
      :                ,-kg2gm/ha2sm      ! unit conversion factor
      :                ,0.0               ! uptake lbound
      :                ,100.0             ! uptake ubound
-     :                ,g_dlt_no3gsm      ! uptake array
+     :                ,g%dlt_no3gsm      ! uptake array
      :                ,max_layer         ! array dim
      :                )
  
@@ -4601,18 +4596,18 @@ csc  true....
  
          call cproc_N_uptake1
      :               (
-     :                C_no3_diffn_const
-     :              , G_dlayer
+     :                c%no3_diffn_const
+     :              , g%dlayer
      :              , max_layer
-     :              , G_no3gsm_diffn_pot
-     :              , G_no3gsm_mflow_avail
-     :              , G_N_fix_pot
-     :              , c_n_supply_preference
-     :              , G_n_demand
-     :              , G_n_max
+     :              , g%no3gsm_diffn_pot
+     :              , g%no3gsm_mflow_avail
+     :              , g%N_fix_pot
+     :              , c%n_supply_preference
+     :              , g%n_demand
+     :              , g%n_max
      :              , max_part
-     :              , G_root_depth
-     :              , g_dlt_NO3gsm
+     :              , g%root_depth
+     :              , g%dlt_NO3gsm
      :               )
  
       else
@@ -4796,9 +4791,9 @@ csc  true....
 *     ===========================================================
       subroutine Maize_nit_stress(Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include   'const.inc'
-      include   'Maize.inc'
       include 'crp_nitn.pub'                      
       include 'error.pub'                         
 
@@ -4822,29 +4817,29 @@ csc  true....
  
       if (Option .eq. 1) then
  
-         call crop_nfact_pheno(leaf, stem, g_dm_green,
-     .                         g_N_conc_crit,
-     .                         g_N_conc_min,
-     .                         g_N_green,
-     .                         c_N_fact_pheno, g_nfact_pheno)
+         call crop_nfact_pheno(leaf, stem, g%dm_green,
+     .                         g%N_conc_crit,
+     .                         g%N_conc_min,
+     .                         g%N_green,
+     .                         c%N_fact_pheno, g%nfact_pheno)
          call crop_nfact_photo(leaf, stem,
-     .                     g_dm_green,
-     .                     g_N_conc_crit,
-     .                     g_N_conc_min,
-     .                     g_N_green,
-     .                     c_N_fact_photo, g_nfact_photo)
+     .                     g%dm_green,
+     .                     g%N_conc_crit,
+     .                     g%N_conc_min,
+     .                     g%N_green,
+     .                     c%N_fact_photo, g%nfact_photo)
          call crop_nfact_grain_conc(leaf, stem,
-     .                     g_dm_green,
-     .                     g_N_conc_crit,
-     .                     g_N_conc_min,
-     .                     g_N_green, g_nfact_grain_conc)
+     .                     g%dm_green,
+     .                     g%N_conc_crit,
+     .                     g%N_conc_min,
+     .                     g%N_green, g%nfact_grain_conc)
          call crop_nfact_expansion(leaf,
-     .                     g_dm_green,
-     .                     g_N_conc_crit,
-     .                     g_N_conc_min,
-     .                     g_N_green,
-     .                     c_N_fact_expansion,
-     .                     g_nfact_expansion)
+     .                     g%dm_green,
+     .                     g%N_conc_crit,
+     .                     g%N_conc_min,
+     .                     g%N_green,
+     .                     c%N_fact_expansion,
+     .                     g%nfact_expansion)
  
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -4859,9 +4854,9 @@ csc  true....
 *     ===========================================================
       subroutine Maize_nit_init (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include   'const.inc'
-      include   'Maize.inc'
       include 'crp_nitn.pub'                      
       include 'error.pub'                         
 
@@ -4885,13 +4880,13 @@ csc  true....
  
          call cproc_N_init1
      :               (
-     :                C_n_init_conc
+     :                c%n_init_conc
      :              , max_part
      :              , emerg
-     :              , G_current_stage
-     :              , G_days_tot
-     :              , G_dm_green
-     :              , g_N_green
+     :              , g%current_stage
+     :              , g%days_tot
+     :              , g%dm_green
+     :              , g%N_green
      :               )
  
       else
@@ -4907,10 +4902,10 @@ csc  true....
 *     ===========================================================
       subroutine Maize_nit_supply (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
       include 'convert.inc'
-      include   'Maize.inc'
       include 'data.pub'                          
       include 'crp_nitn.pub'                      
       include 'error.pub'                         
@@ -4934,7 +4929,7 @@ csc  true....
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      if (p_uptake_source .eq. 'apsim') then
+      if (p%uptake_source .eq. 'apsim') then
          ! do nothing here for now
          ! I assume that the retrans routine does not need the
          ! call below as it is called on its own from process routine.
@@ -4942,25 +4937,25 @@ csc  true....
  
       elseif (Option .eq. 1) then
  
-         fixation_determinant = sum_real_array(g_dm_green, max_part)
-     :                        - g_dm_green(root)
+         fixation_determinant = sum_real_array(g%dm_green, max_part)
+     :                        - g%dm_green(root)
  
          call cproc_n_supply1 (
-     :            g_dlayer
+     :            g%dlayer
      :          , max_layer
-     :          , g_dlt_sw_dep
-     :          , g_NO3gsm
-     :          , g_NO3gsm_min
-     :          , g_root_depth
-     :          , g_sw_dep
-     :          , g_NO3gsm_mflow_avail
-     :          , g_sw_avail
-     :          , g_NO3gsm_diffn_pot
-     :          , G_current_stage
-     :          , C_n_fix_rate
+     :          , g%dlt_sw_dep
+     :          , g%NO3gsm
+     :          , g%NO3gsm_min
+     :          , g%root_depth
+     :          , g%sw_dep
+     :          , g%NO3gsm_mflow_avail
+     :          , g%sw_avail
+     :          , g%NO3gsm_diffn_pot
+     :          , g%current_stage
+     :          , c%n_fix_rate
      :          , fixation_determinant
-     :          , G_swdef_fixation
-     :          , g_N_fix_pot
+     :          , g%swdef_fixation
+     :          , g%N_fix_pot
      :          )
  
       else
@@ -4976,9 +4971,9 @@ csc  true....
 *     ===========================================================
       subroutine Maize_nit_partition (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -5000,12 +4995,12 @@ csc  true....
       if (Option .eq. 1) then
  
          call Maize_N_partition (
-     .          g_root_depth,
-     .          g_dlayer,
-     .          g_N_demand,
-     .          g_N_max,
-     .          g_dlt_NO3gsm,
-     .          g_dlt_N_green
+     .          g%root_depth,
+     .          g%dlayer,
+     .          g%N_demand,
+     .          g%N_max,
+     .          g%dlt_NO3gsm,
+     .          g%dlt_N_green
      .                  )
  
       else
@@ -5124,9 +5119,9 @@ csc  true....
 *     ===========================================================
       subroutine Maize_phenology (option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include 'Maize.inc'
       include 'crp_phen.pub'                      
       include 'error.pub'                         
 
@@ -5162,38 +5157,38 @@ c (how do we do this w. TPLA approach?)
       if (option .eq. 1)  then
  
          call cproc_phenology1 (
-     :                             g_previous_stage
-     :                            ,g_current_stage
+     :                             g%previous_stage
+     :                            ,g%current_stage
      :                            ,sowing
      :                            ,germ
      :                            ,harvest_ripe
      :                            ,emerg
      :                            ,flag_leaf
      :                            ,max_stage
-     :                            ,C_num_temp
-     :                            ,C_x_temp
-     :                            ,C_y_tt
-     :                            ,G_maxt
-     :                            ,G_mint
-     :                            ,min(g_nfact_pheno
-     :                                ,g_pfact_pheno)
-     :                            ,G_swdef_pheno
-     :                            ,C_pesw_germ
-     :                            ,C_fasw_emerg     !
-     :                            ,c_rel_emerg_rate !
-     :                            ,c_num_fasw_emerg !
-     :                            ,G_dlayer
+     :                            ,c%num_temp
+     :                            ,c%x_temp
+     :                            ,c%y_tt
+     :                            ,g%maxt
+     :                            ,g%mint
+     :                            ,min(g%nfact_pheno
+     :                                ,g%pfact_pheno)
+     :                            ,g%swdef_pheno
+     :                            ,c%pesw_germ
+     :                            ,c%fasw_emerg     !
+     :                            ,c%rel_emerg_rate !
+     :                            ,c%num_fasw_emerg !
+     :                            ,g%dlayer
      :                            ,max_layer
-     :                            ,G_sowing_depth
-     :                            ,G_sw_dep
-     :                            ,g_dul_dep
-     :                            ,P_ll_dep
-     :                            ,g_dlt_tt
-     :                            ,G_phase_tt
+     :                            ,g%sowing_depth
+     :                            ,g%sw_dep
+     :                            ,g%dul_dep
+     :                            ,p%ll_dep
+     :                            ,g%dlt_tt
+     :                            ,g%phase_tt
      :                            ,phase_dvl
-     :                            ,g_dlt_stage
-     :                            ,g_tt_tot
-     :                            ,g_days_tot
+     :                            ,g%dlt_stage
+     :                            ,g%tt_tot
+     :                            ,g%days_tot
      :                            )
  
       else
@@ -5209,9 +5204,9 @@ c (how do we do this w. TPLA approach?)
 *     ===========================================================
       subroutine Maize_height (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'crp_cnpy.pub'                      
       include 'error.pub'                         
 
@@ -5235,14 +5230,14 @@ c (how do we do this w. TPLA approach?)
  
          call cproc_canopy_height
      :               (
-     :                G_canopy_height
-     :              , p_x_stem_wt
-     :              , p_y_height
-     :              , p_num_stem_wt
-     :              , G_dm_green
-     :              , G_plants
+     :                g%canopy_height
+     :              , p%x_stem_wt
+     :              , p%y_height
+     :              , p%num_stem_wt
+     :              , g%dm_green
+     :              , g%plants
      :              , stem
-     :              , g_dlt_canopy_height
+     :              , g%dlt_canopy_height
      :               )
  
       else
@@ -5258,9 +5253,9 @@ c (how do we do this w. TPLA approach?)
 *     ===========================================================
       subroutine Maize_phenology_init (option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include 'Maize.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -5282,30 +5277,30 @@ c (how do we do this w. TPLA approach?)
       if (option .eq. 1)  then
  
          call maize_phen_init (
-     .          g_current_stage,
-     .          g_days_tot,
-     .          c_shoot_lag,
-     .          g_sowing_depth,
-     .          c_shoot_rate,
-     .          p_tt_emerg_to_endjuv,
-     .          p_tt_endjuv_to_init,
-     .          g_day_of_year,
-     .          g_latitude,
-     .          c_twilight,
-     .          p_photoperiod_crit1,
-     .          p_photoperiod_crit2,
-     .          p_photoperiod_slope,
-     .          g_leaf_no_final,
-     .          c_leaf_no_rate_change,
-     .          c_leaf_no_at_emerg,
-     .          c_leaf_app_rate1,
-     .          c_leaf_app_rate2,
-     .          g_tt_tot,
-     .          p_tt_flag_to_flower,
-     .          p_tt_flower_to_start_grain,
-     .          p_tt_flower_to_maturity,
-     .          p_tt_maturity_to_ripe,
-     .          g_phase_tt)
+     .          g%current_stage,
+     .          g%days_tot,
+     .          c%shoot_lag,
+     .          g%sowing_depth,
+     .          c%shoot_rate,
+     .          p%tt_emerg_to_endjuv,
+     .          p%tt_endjuv_to_init,
+     .          g%day_of_year,
+     .          g%latitude,
+     .          c%twilight,
+     .          p%photoperiod_crit1,
+     .          p%photoperiod_crit2,
+     .          p%photoperiod_slope,
+     .          g%leaf_no_final,
+     .          c%leaf_no_rate_change,
+     .          c%leaf_no_at_emerg,
+     .          c%leaf_app_rate1,
+     .          c%leaf_app_rate2,
+     .          g%tt_tot,
+     .          p%tt_flag_to_flower,
+     .          p%tt_flower_to_start_grain,
+     .          p%tt_flower_to_maturity,
+     .          p%tt_maturity_to_ripe,
+     .          g%phase_tt)
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
@@ -5497,9 +5492,9 @@ cjh
 *     ===========================================================
       subroutine Maize_leaf_area_sen_actual (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include 'Maize.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -5523,10 +5518,10 @@ cjh
       if (Option .eq. 1) then
  
          ! now take largest of deltas
-         g_dlt_slai = max (g_dlt_slai_age
-     :                 , g_dlt_slai_light
-     :                 , g_dlt_slai_water
-     :                 , g_dlt_slai_frost)
+         g%dlt_slai = max (g%dlt_slai_age
+     :                 , g%dlt_slai_light
+     :                 , g%dlt_slai_water
+     :                 , g%dlt_slai_frost)
  
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -5541,9 +5536,9 @@ cjh
 *     ===========================================================
       subroutine Maize_leaf_death (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -5566,14 +5561,14 @@ cjh
  
       if (Option .eq. 1) then
          call Maize_leaf_death0 (
-     .          g_leaf_no_dead,
-     .          g_current_stage,
-     .          c_leaf_no_dead_const,
-     .          c_leaf_no_dead_slope,
-     .          g_tt_tot,
-     .          g_leaf_no_final,
-     .          g_days_tot,
-     .          g_dlt_leaf_no_dead)
+     .          g%leaf_no_dead,
+     .          g%current_stage,
+     .          c%leaf_no_dead_const,
+     .          c%leaf_no_dead_slope,
+     .          g%tt_tot,
+     .          g%leaf_no_final,
+     .          g%days_tot,
+     .          g%dlt_leaf_no_dead)
  
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -5665,9 +5660,9 @@ cpsc need to develop leaf senescence functions for crop
 *     ===========================================================
       subroutine Maize_sen_bio (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'crp_biom.pub'                      
       include 'error.pub'                         
 
@@ -5691,15 +5686,15 @@ cpsc need to develop leaf senescence functions for crop
  
       if (Option .eq. 1) then
          call crop_dm_senescence0(max_part, root, leaf, stem,
-     .          c_dm_leaf_sen_frac,
-     .          c_dm_root_sen_frac,
-     .          g_dlt_dm_green,
-     .          g_dlt_dm_green_retrans,
-     .          g_dlt_lai,
-     .          g_dlt_slai,
-     .          g_dm_green,
-     .          g_lai,
-     .          g_dlt_dm_senesced)
+     .          c%dm_leaf_sen_frac,
+     .          c%dm_root_sen_frac,
+     .          g%dlt_dm_green,
+     .          g%dlt_dm_green_retrans,
+     .          g%dlt_lai,
+     .          g%dlt_slai,
+     .          g%dm_green,
+     .          g%lai,
+     .          g%dlt_dm_senesced)
  
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -5714,9 +5709,9 @@ cpsc need to develop leaf senescence functions for crop
 *     ===========================================================
       subroutine Maize_sen_nit (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'crp_nitn.pub'                      
       include 'error.pub'                         
 
@@ -5741,11 +5736,11 @@ cpsc need to develop leaf senescence functions for crop
       if (Option .eq. 1) then
  
          call cproc_N_senescence1 (max_part
-     :                              , c_n_sen_conc
-     :                              , g_dlt_dm_senesced
-     :                              , g_n_green
-     :                              , g_dm_green
-     :                              , g_dlt_N_senesced)
+     :                              , c%n_sen_conc
+     :                              , g%dlt_dm_senesced
+     :                              , g%n_green
+     :                              , g%dm_green
+     :                              , g%dlt_N_senesced)
  
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -5760,9 +5755,9 @@ cpsc need to develop leaf senescence functions for crop
 *     ===========================================================
       subroutine Maize_leaf_area_sen (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'crp_cnpy.pub'                      
       include 'error.pub'                         
 
@@ -5793,28 +5788,28 @@ cpsc need to develop leaf senescence functions for crop
      :               (
      :                emerg
      :              , now
-     :              , g_dlt_lai_stressed
-     :              , G_dlt_leaf_no
-     :              , G_dlt_leaf_no_dead
-     :              , G_lai
-     :              , G_leaf_area
-     :              , G_leaf_no_dead
-     :              , G_plants
-     :              , G_slai
-     :              , c_tpla_min
-     :              , g_dlt_slai_age
-     :              , C_lai_sen_light
-     :              , C_sen_light_slope
-     :              , g_dlt_slai_light
-     :              , c_sen_rate_water
-     :              , g_swdef_photo
-     :              , g_dlt_slai_water
-     :              , c_x_temp_senescence
-     :              , c_y_senescence_fac
-     :              , c_num_temp_senescence
-     :              , g_mint
-     :              , g_dlt_slai_frost
-     :              , g_dlt_slai
+     :              , g%dlt_lai_stressed
+     :              , g%dlt_leaf_no
+     :              , g%dlt_leaf_no_dead
+     :              , g%lai
+     :              , g%leaf_area
+     :              , g%leaf_no_dead
+     :              , g%plants
+     :              , g%slai
+     :              , c%tpla_min
+     :              , g%dlt_slai_age
+     :              , c%lai_sen_light
+     :              , c%sen_light_slope
+     :              , g%dlt_slai_light
+     :              , c%sen_rate_water
+     :              , g%swdef_photo
+     :              , g%dlt_slai_water
+     :              , c%x_temp_senescence
+     :              , c%y_senescence_fac
+     :              , c%num_temp_senescence
+     :              , g%mint
+     :              , g%dlt_slai_frost
+     :              , g%dlt_slai
      :               )
  
       else
@@ -6738,12 +6733,11 @@ cpsc  add above
  
 *     ===========================================================
       implicit none
-      include   'const.inc'            ! new_line, lu_scr_sum, blank,
+      include   'const.inc'            ! new_line, blank,
       include   'convert.inc'
       include   'maizcons.inc'
       include 'science.pub'                       
       include 'data.pub'                          
-      include 'write.pub'                         
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -6767,9 +6761,6 @@ cpsc  add above
 
 *+  Changes
 *     010994 jngh specified and programmed
-
-*+  Calls
-                                       ! lu_scr_sum
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -6801,7 +6792,7 @@ cpsc  add above
      :                   ' stage '
      :                  , c_stage_code_list(stage_no)
      :                  , c_stage_names(stage_no)
-         call report_event (string)
+         call Write_string (string)
  
          biomass = sum_real_array (g_dm_green, max_part)
      :           - g_dm_green(root)
@@ -6839,7 +6830,7 @@ cpsc  add above
      :            , N_green_conc_percent
      :            , '   extractable sw ='
      :            , pesw_tot
-            call write_string (lu_scr_sum, string)
+            call write_string (string)
          else
          endif
  
@@ -6989,8 +6980,8 @@ cpsc  add above
       include   'convert.inc'
       include   'maizcons.inc'
       include 'science.pub'                       
-      include 'engine.pub'                        
       include 'intrface.pub'                      
+      include 'postbox.pub'                   
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -7054,7 +7045,7 @@ cpsc  add above
      :                        ,dlt_n_incorp
      :                        ,deepest_layer)
  
-         call message_send_immediate (
+         call Action_send (
      :                              All_active_modules
      :                            , 'incorp_fom'
      :                            , Blank
@@ -7075,9 +7066,9 @@ cpsc  add above
 *     ===========================================================
       subroutine Maize_root_depth (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'crp_root.pub'                      
       include 'error.pub'                         
 
@@ -7100,18 +7091,18 @@ cpsc  add above
  
       if (Option .eq. 1) then
          call cproc_root_depth1 (
-     :                              g_dlayer
-     :                             ,C_num_sw_ratio
-     :                             ,C_x_sw_ratio
-     :                             ,C_y_sw_fac_root
-     :                             ,G_dul_dep
-     :                             ,G_sw_dep
-     :                             ,P_ll_dep
-     :                             ,C_root_depth_rate
-     :                             ,G_current_stage
-     :                             ,p_xf
-     :                             ,g_dlt_root_depth
-     :                             ,g_root_depth
+     :                              g%dlayer
+     :                             ,c%num_sw_ratio
+     :                             ,c%x_sw_ratio
+     :                             ,c%y_sw_fac_root
+     :                             ,g%dul_dep
+     :                             ,g%sw_dep
+     :                             ,p%ll_dep
+     :                             ,c%root_depth_rate
+     :                             ,g%current_stage
+     :                             ,p%xf
+     :                             ,g%dlt_root_depth
+     :                             ,g%root_depth
      :                             )
  
       else
@@ -7127,9 +7118,9 @@ cpsc  add above
 *     ===========================================================
       subroutine Maize_water_supply (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include 'Maize.inc'
       include 'crp_watr.pub'                      
       include 'error.pub'                         
 
@@ -7154,17 +7145,17 @@ cpsc  add above
       if (Option .eq. 1) then
  
          call cproc_sw_supply1 (
-     :                 C_minsw
-     :                ,G_dlayer
-     :                ,P_ll_dep
-     :                ,G_dul_dep
-     :                ,G_sw_dep
-     :                ,g_num_layers
-     :                ,g_root_depth
-     :                ,p_kl
-     :                ,g_sw_avail
-     :                ,g_sw_avail_pot
-     :                ,g_sw_supply
+     :                 c%minsw
+     :                ,g%dlayer
+     :                ,p%ll_dep
+     :                ,g%dul_dep
+     :                ,g%sw_dep
+     :                ,g%num_layers
+     :                ,g%root_depth
+     :                ,p%kl
+     :                ,g%sw_avail
+     :                ,g%sw_avail_pot
+     :                ,g%sw_supply
      :                )
  
       else
@@ -7180,9 +7171,9 @@ cpsc  add above
 *     ===========================================================
       subroutine Maize_water_demand (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'crp_watr.pub'                      
       include 'error.pub'                         
 
@@ -7206,9 +7197,9 @@ cpsc  add above
       if (Option .eq. 1) then
  
          call cproc_sw_demand1(
-     :           g_dlt_dm_light
-     :         , g_transp_eff
-     :         , g_sw_demand
+     :           g%dlt_dm_light
+     :         , g%transp_eff
+     :         , g%sw_demand
      :         )
  
       else
@@ -7224,9 +7215,9 @@ cpsc  add above
 *     ===========================================================
       subroutine Maize_water_uptake (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'crp_watr.pub'                      
@@ -7255,10 +7246,10 @@ cpsc  add above
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      if (p_uptake_source .eq. 'apsim') then
+      if (p%uptake_source .eq. 'apsim') then
          call crop_get_ext_uptakes(
-     :                 p_uptake_source   ! uptake flag
-     :                ,c_crop_type       ! crop type
+     :                 p%uptake_source   ! uptake flag
+     :                ,c%crop_type       ! crop type
      :                ,'water'           ! uptake name
      :                ,1.0               ! unit conversion factor
      :                ,0.0               ! uptake lbound
@@ -7267,30 +7258,30 @@ cpsc  add above
      :                ,max_layer         ! array dim
      :                )
  
-         do 100 layer = 1, g_num_layers
-            g_dlt_sw_dep(layer) = -ext_sw_supply(layer)
+         do 100 layer = 1, g%num_layers
+            g%dlt_sw_dep(layer) = -ext_sw_supply(layer)
   100    continue
  
  
       elseif (Option .eq. 1) then
-         call crop_sw_uptake0(max_layer, g_dlayer, g_root_depth,
-     :              g_sw_demand, g_sw_supply, g_dlt_sw_dep)
+         call crop_sw_uptake0(max_layer, g%dlayer, g%root_depth,
+     :              g%sw_demand, g%sw_supply, g%dlt_sw_dep)
       elseif (Option .eq. 2) then
  
          deepest_layer = find_layer_no
-     :                   (g_root_depth, g_dlayer, max_layer)
-         g_sw_supply_sum = sum_real_array (g_sw_supply, deepest_layer)
-         g_sw_supply_demand_ratio = divide(g_sw_supply_sum
-     :                                           , g_sw_demand,0.0)
+     :                   (g%root_depth, g%dlayer, max_layer)
+         g%sw_supply_sum = sum_real_array (g%sw_supply, deepest_layer)
+         g%sw_supply_demand_ratio = divide(g%sw_supply_sum
+     :                                           , g%sw_demand,0.0)
  
  
          call cproc_sw_uptake1(
      :            max_layer,
-     :            g_dlayer,
-     :            g_root_depth,
-     :            g_sw_demand,
-     :            g_sw_supply,
-     :            g_dlt_sw_dep)
+     :            g%dlayer,
+     :            g%root_depth,
+     :            g%sw_demand,
+     :            g%sw_supply,
+     :            g%dlt_sw_dep)
  
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -7305,9 +7296,9 @@ cpsc  add above
 *     ===========================================================
       subroutine Maize_light_supply (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'crp_util.pub'                      
       include 'error.pub'                         
 
@@ -7329,8 +7320,8 @@ cpsc  add above
       call push_routine (my_name)
  
       if (Option .eq. 1) then
-       call crop_radn_int0(g_cover_green,
-     :                     g_fr_intc_radn, g_radn, g_radn_int)
+       call crop_radn_int0(g%cover_green,
+     :                     g%fr_intc_radn, g%radn, g%radn_int)
  
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -7345,9 +7336,9 @@ cpsc  add above
 *     ===========================================================
       subroutine Maize_transpiration_eff (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include     'const.inc'
-      include     'Maize.inc'
       include 'crp_watr.pub'                      
       include 'error.pub'                         
 
@@ -7373,12 +7364,12 @@ cpsc  add above
       if (Option .eq. 1) then
  
          call cproc_transp_eff1(
-     :               C_svp_fract
-     :             , C_transp_eff_cf
-     :             , g_current_stage
-     :             , G_maxt
-     :             , G_mint
-     :             , g_transp_eff
+     :               c%svp_fract
+     :             , c%transp_eff_cf
+     :             , g%current_stage
+     :             , g%maxt
+     :             , g%mint
+     :             , g%transp_eff
      :             )
  
       else
@@ -7394,9 +7385,9 @@ cpsc  add above
 *     ===========================================================
       subroutine Maize_bio_RUE (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'crp_biom.pub'                      
       include 'error.pub'                         
 
@@ -7421,12 +7412,12 @@ cpsc  add above
          ! potential by photosynthesis
  
          call crop_dm_pot_rue(
-     .          g_current_stage,
-     .          c_rue,
-     .          g_radn_int,
-     .          g_temp_stress_photo,
-     .          min(g_nfact_photo,g_pfact_photo),
-     .          g_dlt_dm_light)
+     .          g%current_stage,
+     .          c%rue,
+     .          g%radn_int,
+     .          g%temp_stress_photo,
+     .          min(g%nfact_photo,g%pfact_photo),
+     .          g%dlt_dm_light)
  
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -7441,9 +7432,9 @@ cpsc  add above
 *     ===========================================================
       subroutine Maize_temp_stress(Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include 'Maize.inc'
       include 'crp_temp.pub'                      
       include 'error.pub'                         
 
@@ -7467,8 +7458,8 @@ cpsc  add above
  
       if (Option .eq. 1) then
           call crop_temperature_stress_photo
-     :               (C_num_ave_temp, C_x_ave_temp, C_y_stress_photo,
-     :                G_maxt, G_mint, g_temp_stress_photo)
+     :               (c%num_ave_temp, c%x_ave_temp, c%y_stress_photo,
+     :                g%maxt, g%mint, g%temp_stress_photo)
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
@@ -7482,9 +7473,9 @@ cpsc  add above
 *     ===========================================================
       subroutine maize_sen_root_length (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include   'const.inc'
-      include   'maize.inc'
       include 'crp_root.pub'                      
       include 'error.pub'                         
 
@@ -7508,12 +7499,12 @@ cpsc  add above
  
          call cproc_root_length_senescence1
      :               (
-     :               C_specific_root_length
-     :              , G_dlayer
-     :              , G_dlt_dm_senesced (root)
-     :              , G_root_length
-     :              , G_root_depth
-     :              , G_dlt_root_length_senesced
+     :               c%specific_root_length
+     :              , g%dlayer
+     :              , g%dlt_dm_senesced (root)
+     :              , g%root_length
+     :              , g%root_depth
+     :              , g%dlt_root_length_senesced
      :              , max_layer
      :               )
  
@@ -7530,9 +7521,9 @@ cpsc  add above
 *     ===========================================================
       subroutine maize_root_dist (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include   'const.inc'
-      include   'maize.inc'
       include 'crp_root.pub'                      
       include 'error.pub'                         
 
@@ -7557,24 +7548,24 @@ cpsc  add above
  
          call cproc_root_length_growth1
      :               (
-     :                C_specific_root_length
-     :              , G_dlayer
-     :              , G_dlt_dm_green(root)
-     :              , G_dlt_root_length
-     :              , G_dlt_root_depth
-     :              , G_root_depth
-     :              , G_root_length
-     :              , g_plants
-     :              , P_xf
-     :              , C_num_sw_ratio
-     :              , C_x_sw_ratio
-     :              , C_y_sw_fac_root
-     :              , c_x_plant_rld
-     :              , c_y_rel_root_rate
-     :              , c_num_plant_rld
-     :              , G_dul_dep
-     :              , G_sw_dep
-     :              , P_ll_dep
+     :                c%specific_root_length
+     :              , g%dlayer
+     :              , g%dlt_dm_green(root)
+     :              , g%dlt_root_length
+     :              , g%dlt_root_depth
+     :              , g%root_depth
+     :              , g%root_length
+     :              , g%plants
+     :              , p%xf
+     :              , c%num_sw_ratio
+     :              , c%x_sw_ratio
+     :              , c%y_sw_fac_root
+     :              , c%x_plant_rld
+     :              , c%y_rel_root_rate
+     :              , c%num_plant_rld
+     :              , g%dul_dep
+     :              , g%sw_dep
+     :              , p%ll_dep
      :              , max_layer
      :               )
  
@@ -7591,9 +7582,9 @@ cpsc  add above
 *     ===========================================================
       subroutine Maize_root_depth_init (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'crp_root.pub'                      
       include 'error.pub'                         
 
@@ -7618,22 +7609,22 @@ cpsc  add above
  
          call cproc_root_depth_init1
      :               (
-     :                c_initial_root_depth
-     :              , g_current_stage
+     :                c%initial_root_depth
+     :              , g%current_stage
      :              , germ
-     :              , g_days_tot
-     :              , g_dlt_root_depth
+     :              , g%days_tot
+     :              , g%dlt_root_depth
      :               )
  
       elseif (Option .eq. 2) then
  
          call cproc_root_depth_init1
      :               (
-     :                g_sowing_depth
-     :              , g_current_stage
+     :                g%sowing_depth
+     :              , g%current_stage
      :              , germ
-     :              , g_days_tot
-     :              , g_dlt_root_depth
+     :              , g%days_tot
+     :              , g%dlt_root_depth
      :               )
  
       else
@@ -7649,9 +7640,9 @@ cpsc  add above
 *     ===========================================================
       subroutine Maize_root_length_init (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include   'Maize.inc'
       include 'crp_root.pub'                      
       include 'error.pub'                         
 
@@ -7676,13 +7667,13 @@ cpsc  add above
  
          call cproc_root_length_init1 (
      :                emerg
-     :               ,g_current_stage
-     :               ,g_days_tot
-     :               ,g_dm_green(root)
-     :               ,c_specific_root_length
-     :               ,g_root_depth
-     :               ,g_dlayer
-     :               ,g_root_length
+     :               ,g%current_stage
+     :               ,g%days_tot
+     :               ,g%dm_green(root)
+     :               ,c%specific_root_length
+     :               ,g%root_depth
+     :               ,g%dlayer
+     :               ,g%root_length
      :               ,max_layer)
  
       else
@@ -7698,10 +7689,10 @@ cpsc  add above
 * ====================================================================
       subroutine Maize_P_uptake (Option)
 * ====================================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
       include 'convert.inc'
-      include 'maize.inc'
       include 'data.pub'                          
       include 'error.pub'                         
       include 'intrface.pub'                      
@@ -7740,12 +7731,12 @@ cpsc  add above
      :                       ,0.0
      :                       ,100.)
          if (numvals.gt.0) then
-            g_dlt_plant_p = sum_real_array (layered_p_uptake
+            g%dlt_plant_p = sum_real_array (layered_p_uptake
      :                                     ,numvals)
      :                    * kg2gm/ha2sm
 
          else
-            g_dlt_plant_p = g_p_demand
+            g%dlt_plant_p = g%p_demand
 
          endif
  
@@ -7924,9 +7915,9 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *     ===========================================================
       subroutine maize_p_stress_photo (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include   'const.inc'
-      include   'maize.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -7947,15 +7938,15 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
  
          call maize_pfact
      :               (
-     :                G_dm_green
-     :              , G_dm_dead
-     :              , G_dm_senesced
+     :                g%dm_green
+     :              , g%dm_dead
+     :              , g%dm_senesced
      :              , max_part
-     :              , G_P_conc_max
-     :              , G_P_conc_min
-     :              , G_plant_p
-     :              , c_k_pfact_photo
-     :              , g_pfact_photo
+     :              , g%P_conc_max
+     :              , g%P_conc_min
+     :              , g%plant_p
+     :              , c%k_pfact_photo
+     :              , g%pfact_photo
      :               )
  
       else
@@ -7968,9 +7959,9 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *     ===========================================================
       subroutine maize_p_stress_pheno (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include   'const.inc'
-      include   'maize.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -7991,15 +7982,15 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
  
          call maize_pfact
      :               (
-     :                G_dm_green
-     :              , G_dm_dead
-     :              , G_dm_senesced
+     :                g%dm_green
+     :              , g%dm_dead
+     :              , g%dm_senesced
      :              , max_part
-     :              , G_P_conc_max
-     :              , G_P_conc_min
-     :              , G_plant_p
-     :              , c_k_pfact_pheno
-     :              , g_pfact_pheno
+     :              , g%P_conc_max
+     :              , g%P_conc_min
+     :              , g%plant_p
+     :              , c%k_pfact_pheno
+     :              , g%pfact_pheno
      :               )
  
       else
@@ -8012,9 +8003,9 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *     ===========================================================
       subroutine maize_p_stress_expansion (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include   'const.inc'
-      include   'maize.inc'
       include 'error.pub'                         
  
 *+  Purpose
@@ -8035,15 +8026,15 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
  
          call maize_pfact
      :               (
-     :                G_dm_green
-     :              , G_dm_dead
-     :              , G_dm_senesced
+     :                g%dm_green
+     :              , g%dm_dead
+     :              , g%dm_senesced
      :              , max_part
-     :              , G_P_conc_max
-     :              , G_P_conc_min
-     :              , G_plant_p
-     :              , c_k_pfact_expansion
-     :              , g_pfact_expansion
+     :              , g%P_conc_max
+     :              , g%P_conc_min
+     :              , g%plant_p
+     :              , c%k_pfact_expansion
+     :              , g%pfact_expansion
      :               )
  
       else
@@ -8060,6 +8051,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *   Short description:
 *         Get current P stress factors (0-1)
  
+      use MaizeModule
       implicit none
  
 *+  Sub-Program Arguments
@@ -8067,8 +8059,6 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
  
 *   Global variables
       include   'const.inc'
-      include   'maize.inc'
- 
       include 'error.pub'                         
  
 *+  Constant Values
@@ -8086,15 +8076,15 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
  
          call maize_pfact
      :               (
-     :                G_dm_green
-     :              , G_dm_dead
-     :              , G_dm_senesced
+     :                g%dm_green
+     :              , g%dm_dead
+     :              , g%dm_senesced
      :              , max_part
-     :              , G_P_conc_max
-     :              , G_P_conc_min
-     :              , G_plant_p
-     :              , c_k_pfact_grain
-     :              , g_pfact_grain
+     :              , g%P_conc_max
+     :              , g%P_conc_min
+     :              , g%plant_p
+     :              , c%k_pfact_grain
+     :              , g%pfact_grain
      :               )
  
       else
@@ -8108,9 +8098,9 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 * ====================================================================
        subroutine maize_P_demand_est (Option)
 * ====================================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include 'maize.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -8128,18 +8118,18 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
  
        if (Option.eq.1) then
           call Maize_P_demand (
-     .          g_current_stage,
-     .          g_radn_int,
-     .          c_rue,
-     .          c_ratio_root_shoot,
-     .          g_dm_green,
-     .          g_dm_senesced,
-     .          g_dm_dead,
+     .          g%current_stage,
+     .          g%radn_int,
+     .          c%rue,
+     .          c%ratio_root_shoot,
+     .          g%dm_green,
+     .          g%dm_senesced,
+     .          g%dm_dead,
      .          max_part,
-     .          g_P_conc_max,
-     .          g_plant_P,
-     .          c_P_uptake_factor,
-     .          g_P_demand)
+     .          g%P_conc_max,
+     .          g%plant_P,
+     .          c%P_uptake_factor,
+     .          g%P_demand)
  
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -8229,9 +8219,9 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 * ====================================================================
        subroutine maize_P_conc (Option)
 * ====================================================================
+      use MaizeModule
       implicit none
       include 'const.inc'
-      include 'maize.inc'
       include 'error.pub'                         
  
 *+  Sub-Program Arguments
@@ -8249,15 +8239,15 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
  
       if (Option.eq.1) then
          call Maize_P_conc_limits (
-     .          g_current_stage,
-     .          c_p_stage_code,
-     .          c_stage_code_list,
-     .          g_tt_tot,
-     .          g_phase_tt,
-     .          c_P_conc_max,
-     .          c_P_conc_min,
-     .          g_P_conc_max,
-     .          g_P_conc_min)
+     .          g%current_stage,
+     .          c%p_stage_code,
+     .          c%stage_code_list,
+     .          g%tt_tot,
+     .          g%phase_tt,
+     .          c%P_conc_max,
+     .          c%P_conc_min,
+     .          g%P_conc_max,
+     .          g%P_conc_min)
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
@@ -8269,9 +8259,9 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *     ===========================================================
       subroutine Maize_Phos_init (Option)
 *     ===========================================================
+      use MaizeModule
       implicit none
       include   'const.inc'
-      include   'Maize.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -8294,12 +8284,12 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
  
          call Maize_P_init (
      .          emerg,
-     .          g_current_stage,
-     .          g_days_tot,
-     .          g_dm_green,
+     .          g%current_stage,
+     .          g%days_tot,
+     .          g%dm_green,
      .          max_part,
-     .          g_p_conc_max,
-     .          g_plant_p
+     .          g%p_conc_max,
+     .          g%plant_p
      .               )
  
       else
