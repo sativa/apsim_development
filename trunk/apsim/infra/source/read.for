@@ -1,5 +1,5 @@
 
-
+                                        
 * ====================================================================
        subroutine read_real_var
      .   (section_name, variable_name,
@@ -1603,6 +1603,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *        dph 1/12/98 changed from function_string_len to max_line_size C158
  
 *+ Calls
+      dll_import fatal_error
       dll_import lower_case
        character lower_case*(max_line_size)
  
@@ -1612,6 +1613,9 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *
        integer tab_char                ! TAB character
        parameter (tab_char=9)
+*
+       integer bad_file_status         ! End of file status
+       parameter (bad_file_status=3)
 *
        integer end_file_status         ! End of file status
        parameter (end_file_status=2)
@@ -1629,10 +1633,13 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
        integer comment_pos             ! Position of comment in line
        integer read_status             ! Status of read.
        integer tab_pos                 ! position of tab character
+       character err_msg*1000
+       character status_msg*100
  
 *- Implementation Section ----------------------------------
  
-10    read (logical_unit, '(a)', iostat=read_status ) line
+10    continue
+      read (logical_unit, '(a)', iostat=read_status ) line
       record_num = record_num + 1
  
       ! Remove comment from line if necessary
@@ -1667,8 +1674,16 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
          endif
  
-      else
+      elseif (read_status .lt. 0) then
          iostatus = end_file_status
+
+      else
+         iostatus = bad_file_status
+         call iostat_msg (read_status, status_msg)
+      
+         write (err_msg, '(3a)') 'Error condition "'
+     :            , trim(status_msg), '", when reading from file.'
+         call fatal_error (ERR_internal, err_msg)
  
       endif
  
