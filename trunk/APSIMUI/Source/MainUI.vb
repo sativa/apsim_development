@@ -43,6 +43,11 @@ Public Class MainUI
         Dim settings As New APSIMSettings
         Dim documentationFile As String = settings.GetSetting("apsimui", "docfile")
         HelpBrowser.Navigate(documentationFile)
+
+        'Tell the ui components where to send there help info
+        Me.SimulationExplorer.HelpBrowser = HelpBrowser
+        Me.ToolboxExplorer.HelpBrowser = HelpBrowser
+
     End Sub
 
     'Form overrides dispose to clean up the component list.
@@ -811,7 +816,7 @@ Public Class MainUI
     Private Sub UpdateHelpBrowser()
         'Dim type As String = MainUImanager.SimulationFile.GetDataType(SimulationExplorer.SelectedNode.FullPath)
         'MsgBox(type)
-
+        HelpBrowser.Navigate("www.apsim.info")
     End Sub
 
 
