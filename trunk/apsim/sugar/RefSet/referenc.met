@@ -1,9 +1,14 @@
-[reference.met.weather]  
+[reference.met.weather]
 
 latitude =  -28.0   !just a number - IGH
 
 ! water supply is controlled by using the irrigate module - IGH
-rain =  0 (mm)   
+rain =  0 (mm)
+
+
+   ! TAV and AMP inserted by "tav_amp" on 28/10/1999 at 17:00 for period from   1/1984 to 366/1988 (ddd/yyyy)
+ tav =  25.14 (oC)     ! annual average ambient temperature
+ amp =   7.10 (oC)     ! annual amplitude in mean monthly temperature
 
 year  day   radn    maxt    mint
  ()   ()   (MJ/m2)  (oC)    (oC)
