@@ -82,6 +82,10 @@ void Depth_chart::Format_plot (Plot* Plot_ptr,
    Plot_ptr->Y_axis.Inverted = true;
    Plot_ptr->Y_axis.Minimum_fixed = true;
    Plot_ptr->Y_axis.Minimum = 0.0;
+
+   Plot_ptr->X_axis.Minimum_fixed = true;
+   Plot_ptr->X_axis.Minimum = 0.0;
+
    }
 
 // ------------------------------------------------------------------

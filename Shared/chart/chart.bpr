@@ -4,29 +4,29 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\..\Bin\chart.dll"/>
-    <OBJFILES value="chart.obj low_level\XY_series.obj low_level\axis.obj
-      low_level\Bar_series.obj low_level\brush.obj low_level\Chart_base.obj
-      low_level\drawable.obj low_level\font.obj low_level\Legend_class.obj
-      low_level\line.obj low_level\pen.obj low_level\plot.obj
-      low_level\position.obj low_level\Rectangle.obj low_level\screen.obj
-      low_level\Series_base.obj low_level\text.obj high_level\Scatter_format.obj
-      high_level\Apsim_depth_chart.obj high_level\Bar_format.obj
-      high_level\Depth_chart.obj high_level\Format_base.obj
-      high_level\Frequency_chart.obj high_level\High_level_chart_base.obj
-      high_level\High_level_screen.obj high_level\Pred_obs_chart.obj
+    <OBJFILES value="chart.obj low_level\XY_series.obj low_level\axis.obj 
+      low_level\Bar_series.obj low_level\brush.obj low_level\Chart_base.obj 
+      low_level\drawable.obj low_level\font.obj low_level\Legend_class.obj 
+      low_level\line.obj low_level\pen.obj low_level\plot.obj 
+      low_level\position.obj low_level\Rectangle.obj low_level\screen.obj 
+      low_level\Series_base.obj low_level\text.obj high_level\Scatter_format.obj 
+      high_level\Apsim_depth_chart.obj high_level\Bar_format.obj 
+      high_level\Depth_chart.obj high_level\Format_base.obj 
+      high_level\Frequency_chart.obj high_level\High_level_chart_base.obj 
+      high_level\High_level_screen.obj high_level\Pred_obs_chart.obj 
       high_level\Prob_chart.obj high_level\Scatter_chart.obj"/>
     <RESFILES value="chart.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
     <LIBFILES value="..\general\general.lib ..\data\data.lib"/>
-    <LIBRARIES value=""/>
-    <SPARELIBS value="rtl.lib"/>
-    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi vcldb.bpi dbrtl.bpi vcldbx.bpi
-      dsnap.bpi cds.bpi bdecds.bpi visualclx.bpi visualdbclx.bpi vclie.bpi
-      inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi bcbie.bpi soaprtl.bpi
-      dclocx.bpi dbexpress.bpi dbxcds.bpi bcb2kaxserver.bpi ibxpress.bpi
-      indy.bpi bdertl.bpi Tee7C6.bpi TeeDB7C6.bpi TeeUI7C6.bpi TeeGL7C6.bpi
-      TeeQR7C6.bpi TeeLanguage7C6.bpi TeePro7C6.bpi TeeImage7C6.bpi"/>
+    <LIBRARIES value="TMSC6.lib"/>
+    <SPARELIBS value="rtl.lib vcl.lib vclx.lib dbrtl.lib vcldb.lib adortl.lib TMSC6.lib 
+      TeeUI7C6.lib Tee7C6.lib"/>
+    <PACKAGES value="rtl.bpi vcl.bpi dbrtl.bpi bdertl.bpi vcldb.bpi vclx.bpi nmfast.bpi 
+      bcbie.bpi inet.bpi adortl.bpi bcbsmp.bpi dsnap.bpi cds.bpi dbexpress.bpi 
+      dbxcds.bpi ibxpress.bpi vclie.bpi inetdbbde.bpi inetdbxpress.bpi 
+      dclocx.bpi soaprtl.bpi Tee7C6.bpi TeeUI7C6.bpi TeeDB7C6.bpi TeeGL7C6.bpi 
+      qrpt60.bpi TeeQR7C6.bpi TeeLanguage7C6.bpi TeePro7C6.bpi"/>
     <PATHCPP value=".;low_level;high_level"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -37,13 +37,13 @@
     <USERDEFINES value="_DEBUG;BUILDING_CHART"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="chart.bpf"/>
-    <INCLUDEPATH value="high_level;low_level;..\chart;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\teechart\cbuilder6\include;$(SHARED)"/>
-    <LIBPATH value="$(BCB)\Components\TeeChart\CBuilder6\Lib;high_level;low_level;..\chart;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <INCLUDEPATH value="high_level;low_level;..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED);$(BCB)\components\teechart\cbuilder6\include"/>
+    <LIBPATH value="high_level;low_level;..\..\APSoil\Source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi-
+    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- 
       -tWD -tWM -c"/>
     <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
@@ -123,20 +123,25 @@ ProductVersion=1.0.0.0
 Comments=
 
 [Excluded Packages]
-C:\Program Files\Borland\CBuilder6\Bin\dclnmf60.bpl=NetMasters Fastnet Tools
+C:\Program Files\Borland\CBuilder6\Components\TeeChart\Sources\Compiled\BuilderC6\System\TeeImage7C6.bpl=TeeChart Pro Graphic Exporting formats
 
 [HistoryLists\hlIncludePath]
-Count=4
-Item0=high_level;low_level;..\chart;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\teechart\cbuilder6\include;$(SHARED)
-Item1=high_level;low_level;..\chart;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item2=..\chart;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item3=..\chart;$(BCB)\include;$(BCB)\include\vcl
+Count=7
+Item0=high_level;low_level;..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED);$(BCB)\components\teechart\cbuilder6\include
+Item1=high_level;low_level;..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
+Item2=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
+Item3=..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED)
+Item4=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED)
+Item5=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item6=C:\MyData\development\Shared\Soil;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=3
-Item0=$(BCB)\Components\TeeChart\CBuilder6\Lib;high_level;low_level;..\chart;$(BCB)\lib\obj;$(BCB)\lib
-Item1=high_level;low_level;..\chart;$(BCB)\lib\obj;$(BCB)\lib
-Item2=..\chart;$(BCB)\lib\obj;$(BCB)\lib
+Count=5
+Item0=high_level;low_level;..\..\APSoil\Source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item1=$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item2=..\..\APSoil\Source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item3=$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item4=$(BCB)\Components\TeeChart\CBuilder6\Lib;C:\MyData\development\Shared\Soil;..\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
@@ -164,7 +169,7 @@ RunParams=
 Launcher=
 UseLauncher=0
 DebugCWD=
-HostApplication=
+HostApplication=C:\MyData\development\Bin\apsvis.exe
 RemoteHost=
 RemotePath=
 RemoteLauncher=
@@ -174,6 +179,7 @@ RemoteDebug=0
 [Compiler]
 ShowInfoMsgs=0
 LinkDebugVcl=0
+LinkCGLIB=0
 
 [Language]
 ActiveLang=
