@@ -247,16 +247,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "CropUI.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "CropUI.resx"
-                    DependentUpon = "CropUI.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "DataTree.vb"
                     SubType = "UserControl"
                     BuildAction = "Compile"
@@ -274,6 +264,16 @@
                 <File
                     RelPath = "DocumentationUI.resx"
                     DependentUpon = "DocumentationUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "EmptyUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "EmptyUI.resx"
+                    DependentUpon = "EmptyUI.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
