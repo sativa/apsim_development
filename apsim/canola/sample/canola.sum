@@ -98,7 +98,7 @@
                   Soil Water Holding Capacity
           ---------------------------------------------------------
               Depth    Unavailable Available  Max Avail.  Drainable
-                           (LL)     (SW-LL)    (DUL-LL)   (SAT-DUL)
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
                             mm        mm          mm         mm
           ---------------------------------------------------------
             0.-  150.      34.50       7.50      33.00       7.50
@@ -207,8 +207,6 @@
 
 ------- CANOLA Initialisation ------------------------------------------------
       Initialising
-     
-         - Reading constants
 ------- Start of simulation  --------------------------------------------------
 9 May 1988 (Day of year=130):
    MANAGER:
@@ -231,11 +229,14 @@
           est_days_emerg_to_init  =      83
           cum_vernal_days  =    0.00  25.00
           tt_emerg_to_endjuv  =  200.00  70.00
-          photoperiod      =   10.50  14.00
-          phase_tt_init      =  520.00 110.00
-          tt_flower_to_maturity    =  1100.0
-          tt_init_to_flower        =   260.0
-          tt_flower_to_start_grain =   200.0
+          x_pp_endjuv_to_init      =   10.50  14.00
+          y_tt_endjuv_to_init      =  520.00 110.00
+          x_pp_init_to_flower      =    1.00  24.00
+          y_tt_init_to_flower      =  260.00 260.00
+          x_pp_flower_to_start_grain      =    1.00  24.00
+          y_tt_flower_to_start_grain      =  200.00 200.00
+          tt_start_to_end_grain      =   845.0
+          tt_end_grain_to_maturity      =    55.0
           tt_maturity_to_ripe      =    50.0
           hi_incr                  =     0.0
           x_hi_max_pot_stress =    0.00   1.00
