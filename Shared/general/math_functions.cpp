@@ -150,7 +150,7 @@ void Calc_regression_stats (double X[], double Y[], int Num_points,
 //    DPH 16/1/95
 
 // ------------------------------------------------------------------
-double linear_interp_real (double x,
+double linear_interp_real (double x,     
                            vector<double>& x_cord,
                            vector<double>& y_cord,
                            bool& Did_interpolate)
@@ -161,8 +161,17 @@ double linear_interp_real (double x,
       {
       if (x <= x_cord[indx])
          {
-         // found position
+         // check to see if x is exactly equal to x_cord(indx).
+         // if so then dont calculate y.  This was added to
+         // remove roundoff error.  (DPH)
 
+         if (x == x_cord[indx])
+            {
+            Did_interpolate = false;
+            return y_cord[indx];
+            }
+
+         // found position
          if (indx == 0)
             {
             Did_interpolate = true;
@@ -171,34 +180,20 @@ double linear_interp_real (double x,
 
          else
             {
-            // check to see if x is exactly equal to x_cord(indx).
-            // if so then dont calculate y.  This was added to
-            // remove roundoff error.  (DPH)
-
-            if (x == x_cord[indx])
+            // interpolate - y = mx+c
+            if (x_cord[indx] - x_cord[indx-1] == 0)
                {
-               Did_interpolate = false;
-               return y_cord[indx];
+               Did_interpolate = true;
+               return y_cord[indx-1];
                }
 
             else
                {
-               // interpolate - y = mx+c
-
-               if (x_cord[indx] - x_cord[indx-1] == 0)
-                  {
-                  Did_interpolate = true;
-                  return y_cord[indx-1];
-                  }
-
-               else
-                  {
-                  Did_interpolate = true;
-                  return ( (y_cord[indx] - y_cord[indx-1]) /
-                           (x_cord[indx] - x_cord[indx-1])
-                          * (x - x_cord[indx-1])
-                          + y_cord[indx-1]);
-                  }
+               Did_interpolate = true;
+               return ( (y_cord[indx] - y_cord[indx-1]) /
+                        (x_cord[indx] - x_cord[indx-1])
+                       * (x - x_cord[indx-1])
+                       + y_cord[indx-1]);
                }
             }
          }
