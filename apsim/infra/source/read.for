@@ -1,3 +1,4 @@
+C     Last change:  P     8 Nov 2000   12:19 pm
 * ====================================================================
        subroutine read_real_var
      .   (section_name, variable_name,
@@ -1228,12 +1229,15 @@
       end
  
 * ====================================================================
-       logical function read_parameter_optional 
+       logical function Read_parameter_optional 
      .  (Parameter_name, Section_name, Parameter_value, Parameter_units)
 * ====================================================================
       implicit none
       dll_export read_parameter_optional
       include 'const.inc'
+      include 'apsimengine.pub'
+      include 'componentinterface.inc'
+      include 'string.pub'
  
 *+ Sub-Program Arguments
       character Parameter_name*(*)     ! (INPUT) name of parameter to retrieve
@@ -1250,55 +1254,60 @@
  
 *+ Changes
 *     dph 13/7/99 Created as part of the new infrastructure re-design.
+*     dph 20/10/00 Updated to use new property, constant or generic types.
  
 *+ Calls
       dll_import push_routine
       dll_import pop_routine
-      dll_import lower_case
-      dll_import loader_getcurrentcomponent
-      dll_import property_create
-      dll_import property_free
-      dll_import property_getvalue
-      dll_import property_getunits
-      dll_import apsimsystem_data_get
-      
-      logical APSIMSYSTEM_DATA_GET     ! function
-      character Lower_case*(Function_string_len)
-                                       ! function
  
+      character*(function_string_len) lower_case
+      
 *+ Constant Values
       character myname*(*)             ! Name of this routine
       parameter (myname='Read_parameter_optional')
  
 *+ Local Variables
-      character current_module*(100)
-                                       ! Name of current module
-      character property_name*(500)    ! Name of property to retrieve.
       integer*4 property               ! Property handle from infrastructure
  
 *- Implementation Section ----------------------------------
  
       call push_routine(myname)
 
-      ! Get the name of the current module
-      call Loader_GetCurrentComponent (Current_module)
-      
-      ! Work out the name of the property we want to retrieve.
-      property_name = Trim(Current_module) // "." // Trim(Section_name)
-     .                                     // "." // Parameter_name
+      ! If the section name is 'parameters' or 'weather' then go get a
+      ! property.  If the section name is 'constants' then go get a
+      ! constant.  If the section name is anything else then we have
+      ! a user defined type so go get a generic.
 
-      ! go get property if possible.
-      call Property_Create (property)
-      if (ApsimSystem_Data_Get (property_name, property)) then
-         ! Found property - Get it's value.
+      if (section_name .eq. 'parameters' .or.
+     .    section_name .eq. 'weather' .or.
+     .    section_name .eq. 'data') then
+         property = component_getproperty(ComponentData,Parameter_name)
+         if (property .ne. 0) then
+            call property_getvalue(property, parameter_value)
+         end if
 
-         call Property_GetValue (property, Parameter_value)
-         call Property_GetUnits (property, Parameter_units)
+      elseif (section_name .eq. 'constants') then
+         property = component_getconstant(ComponentData,Parameter_name)
+         if (property .ne. 0) then
+            call constant_getvalue(property, parameter_value)
+         end if
+      else
+         property = component_getgeneric(ComponentData, section_name)
+         if (property .ne. 0) then
+            call generic_getfieldvalue(property, Parameter_name,
+     .                                 Parameter_value)
+            if (Parameter_value .eq. ' ') then
+               property = 0
+            end if
+         end if
 
-         ! make value lowercase
+      end if
+
+      ! If we got a property, convert value to lower_case.
+      ! If we didn't get a property, then return .false.
+      if (property .ne. 0) then
          Parameter_value = Lower_case(Parameter_value)
-
-         ! signal that all went ok.
+         Parameter_units = ' '
          Read_parameter_optional = .true.
 
       else
@@ -1307,13 +1316,6 @@
          Read_parameter_optional = .false.
       endif
 
-      call Property_free (property)
-      
-!      print *, 'parameter_name=', Property_name
-!      print *, 'parameter_value=', Parameter_value
-!      print *, 'about to exit read_parameter_optional'
-!      pause
-      
       call pop_routine(myname)
       
       return
@@ -1388,4 +1390,475 @@
       call pop_routine(myname)
       return
       end
+
+
+* ====================================================================
+      subroutine search_read_real_var (section_names
+     :                                ,number_of_sections
+     :                                ,variable_name
+     :                                ,units
+     :                                ,variable
+     :                                ,numvals
+     :                                ,lower
+     :                                ,upper)
+* ====================================================================
+      implicit none
+      include 'const.inc'
+      include 'error.pub'          
+
+*+  Sub-Program Arguments
+      character section_names(*)*(*)   ! list of sections to search
+      integer   number_of_sections     ! number of sections to search
+      character variable_name*(*)      ! variable to search for
+      character units*(*)              ! required units of variable
+      real      variable               ! variable value to return
+      integer   numvals                ! number of values returned
+      real      lower                  ! lower bound of variable value
+      real      upper                  ! upper bound of variable value
+
+*+  Purpose
+*      Read a real value from input files using a list of possible sections
+*      for the search.
+
+*+  Mission Statement
+*   Search for %5 in files (Lower Bound = %7, Upper Bound = %8)
+
+*+  Changes
+*     25-11-1997 - neilh - Programmed and Specified
+
+*+  Calls
+      dll_import read_real_var_optional
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'search_read_real_var')
+
+*+  Local Variables
+      integer counter                  ! simple counter variable
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+ 
+      do 100 counter = 1, number_of_sections
+ 
+        call read_real_var_optional
+     :                    (section_names(counter)
+     :                    , variable_name
+     :                    , units
+     :                    , variable
+     :                    , numvals
+     :                    , lower
+     :                    , upper)
+ 
+         if (numvals.gt.0) then
+            ! we have found what we want - exit.
+            goto 200
+         else
+            ! try next section name
+         endif
+ 
+  100 continue
+      ! If we reach this point of execution the search must have failed
+      call Fatal_Error (ERR_User,
+     :    'Parameter Search Failure. Unable to read variable '
+     :    //variable_name)
+ 
+  200 continue
+ 
+      call pop_routine (myname)
+      return
+      end
+
+
+
+* ====================================================================
+      subroutine search_read_real_array (section_names
+     :                                ,number_of_sections
+     :                                ,array_name
+     :                                ,array_size
+     :                                ,units
+     :                                ,array
+     :                                ,numvals
+     :                                ,lower
+     :                                ,upper)
+* ====================================================================
+      implicit none
+      include 'const.inc'
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      character section_names(*)*(*)   ! list of sections to search
+      integer   number_of_sections     ! number of sections to search
+      character array_name*(*)         ! variable to search for
+      integer   array_size             ! max. size of array
+      character units*(*)              ! required units of variable
+      real      array(*)               ! variable value to return
+      integer   numvals                ! number of values returned
+      real      lower                  ! lower bound of variable value
+      real      upper                  ! upper bound of variable value
+
+*+  Purpose
+*      Read an array from input files using a list of possible sections
+*      for the search.
+
+*+  Mission Statement
+*   Search for %5 in files (Lower Bound = %7, Upper Bound = %8)
+
+*+  Changes
+*     25-11-1997 - neilh - Programmed and Specified
+
+*+  Calls
+      dll_import read_real_array_optional
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'search_read_real_array')
+
+*+  Local Variables
+      integer counter                  ! simple counter variable
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+ 
+      do 100 counter = 1, number_of_sections
+ 
+        call read_real_array_optional
+     :                    (section_names(counter)
+     :                    , array_name
+     :                    , array_size
+     :                    , units
+     :                    , array
+     :                    , numvals
+     :                    , lower
+     :                    , upper)
+ 
+         if (numvals.gt.0) then
+            ! we have found what we want - exit.
+            goto 200
+         else
+            ! try next section name
+         endif
+ 
+  100 continue
+      ! If we reach this point of execution the search must have failed
+      call Fatal_Error (ERR_User,
+     :    'Parameter Search Failure. Unable to read variable '
+     :    //array_name)
+ 
+  200 continue
+ 
+      call pop_routine (myname)
+      return
+      end
+
+
+
+* ====================================================================
+      subroutine search_read_char_array (section_names
+     :                                ,number_of_sections
+     :                                ,array_name
+     :                                ,array_size
+     :                                ,units
+     :                                ,array
+     :                                ,numvals)
+* ====================================================================
+      implicit none
+      include 'const.inc'
+      include 'error.pub'
+
+*+  Sub-Program Arguments
+      character section_names(*)*(*)   ! list of sections to search
+      integer   number_of_sections     ! number of sections to search
+      character array_name*(*)         ! variable to search for
+      integer   array_size             ! max. size of array
+      character units*(*)              ! required units of variable
+      character array(*)*(*)           ! variable value to return
+      integer   numvals                ! number of values returned
+
+*+  Purpose
+*      Read an array from input files using a list of possible sections
+*      for the search.
+
+*+  Mission Statement
+*   Search for %5 in files
+
+*+  Changes
+*     25-11-1997 - neilh - Programmed and Specified
+
+*+  Calls
+      dll_import read_char_array_optional
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'search_read_char_array')
+
+*+  Local Variables
+      integer counter                  ! simple counter variable
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+ 
+      do 100 counter = 1, number_of_sections
+ 
+        call read_char_array_optional
+     :                    (section_names(counter)
+     :                    , array_name
+     :                    , array_size
+     :                    , units
+     :                    , array
+     :                    , numvals)
+ 
+         if (numvals.gt.0) then
+            ! we have found what we want - exit.
+            goto 200
+         else
+            ! try next section name
+         endif
+ 
+  100 continue
+      ! If we reach this point of execution the search must have failed
+      call Fatal_Error (ERR_User,
+     :    'Parameter Search Failure. Unable to read variable '
+     :    //array_name)
+ 
+  200 continue
+ 
+      call pop_routine (myname)
+      return
+      end
+
+
+
+* ====================================================================
+      subroutine search_read_char_var (section_names
+     :                                ,number_of_sections
+     :                                ,variable_name
+     :                                ,units
+     :                                ,variable
+     :                                ,numvals)
+* ====================================================================
+      implicit none
+      include 'const.inc'
+      include 'error.pub'
+
+*+  Sub-Program Arguments
+      character section_names(*)*(*)   ! list of sections to search
+      integer   number_of_sections     ! number of sections to search
+      character variable_name*(*)      ! variable to search for
+      character units*(*)              ! required units of variable
+      character variable*(*)           ! variable value to return
+      integer   numvals                ! number of values returned
+
+*+  Purpose
+*      Read a char value from input files using a list of possible sections
+*      for the search.
+
+*+  Mission Statement
+*   Search for %5 in files (Lower Bound = %7, Upper Bound = %8)
+
+*+  Calls
+      dll_import read_char_var_optional
+
+*+  Changes
+*     25-11-1997 - neilh - Programmed and Specified
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'search_read_char_var')
+
+*+  Local Variables
+      integer counter                  ! simple counter variable
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+ 
+      do 100 counter = 1, number_of_sections
+ 
+        call read_char_var_optional
+     :                    (section_names(counter)
+     :                    , variable_name
+     :                    , units
+     :                    , variable
+     :                    , numvals)
+ 
+         if (numvals.gt.0) then
+            ! we have found what we want - exit.
+            goto 200
+         else
+            ! try next section name
+         endif
+ 
+  100 continue
+      ! If we reach this point of execution the search must have failed
+      call Fatal_Error (ERR_User,
+     :    'Parameter Search Failure. Unable to read variable '
+     :    //variable_name)
+ 
+  200 continue
+ 
+      call pop_routine (myname)
+      return
+      end
+
+
+
+* ====================================================================
+      subroutine search_read_integer_var (section_names
+     :                                ,number_of_sections
+     :                                ,variable_name
+     :                                ,units
+     :                                ,variable
+     :                                ,numvals
+     :                                ,lower
+     :                                ,upper)
+* ====================================================================
+      implicit none
+      include 'const.inc'
+      include 'error.pub'
+
+*+  Sub-Program Arguments
+      character section_names(*)*(*)   ! list of sections to search
+      integer   number_of_sections     ! number of sections to search
+      character variable_name*(*)      ! variable to search for
+      character units*(*)              ! required units of variable
+      integer   variable               ! variable value to return
+      integer   numvals                ! number of values returned
+      real      lower                  ! lower bound of variable value
+      real      upper                  ! upper bound of variable value
+
+*+  Purpose
+*      Read a real value from input files using a list of possible sections
+*      for the search.
+
+*+  Mission Statement
+*   Search for %5 in files (Lower Bound = %7, Upper Bound = %8)
+
+*+  Calls
+      dll_import read_integer_var_optional
+
+*+  Changes
+*     25-11-1997 - neilh - Programmed and Specified
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'search_read_integer_var')
+
+*+  Local Variables
+      integer counter                  ! simple counter variable
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+ 
+      do 100 counter = 1, number_of_sections
+ 
+        call read_integer_var_optional
+     :                    (section_names(counter)
+     :                    , variable_name
+     :                    , units
+     :                    , variable
+     :                    , numvals
+     :                    , lower
+     :                    , upper)
+ 
+         if (numvals.gt.0) then
+            ! we have found what we want - exit.
+            goto 200
+         else
+            ! try next section name
+         endif
+ 
+  100 continue
+      ! If we reach this point of execution the search must have failed
+      call Fatal_Error (ERR_User,
+     :    'Parameter Search Failure. Unable to read variable '
+     :    //variable_name)
+ 
+  200 continue
+ 
+      call pop_routine (myname)
+      return
+      end
+
+
+
+* ====================================================================
+      subroutine search_read_integer_array (section_names
+     :                                ,number_of_sections
+     :                                ,array_name
+     :                                ,array_size
+     :                                ,units
+     :                                ,array
+     :                                ,numvals
+     :                                ,lower
+     :                                ,upper)
+* ====================================================================
+      implicit none
+      include 'const.inc'
+      include 'error.pub'
+
+*+  Sub-Program Arguments
+      character section_names(*)*(*)   ! list of sections to search
+      integer   number_of_sections     ! number of sections to search
+      character array_name*(*)         ! variable to search for
+      integer   array_size             ! max. size of array
+      character units*(*)              ! required units of variable
+      integer   array(*)               ! variable value to return
+      integer   numvals                ! number of values returned
+      real      lower                  ! lower bound of variable value
+      real      upper                  ! upper bound of variable value
+
+*+  Purpose
+*      Read an array from input files using a list of possible sections
+*      for the search.
+
+*+  Mission Statement
+*   Search for %5 in files (Lower Bound = %7, Upper Bound = %8)
+
+*+  Changes
+*     25-11-1997 - neilh - Programmed and Specified
+
+*+  Calls
+      dll_import read_integer_array_optional
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'search_read_integer_array')
+
+*+  Local Variables
+      integer counter                  ! simple counter variable
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+ 
+      do 100 counter = 1, number_of_sections
+ 
+        call read_integer_array_optional
+     :                    (section_names(counter)
+     :                    , array_name
+     :                    , array_size
+     :                    , units
+     :                    , array
+     :                    , numvals
+     :                    , lower
+     :                    , upper)
+ 
+         if (numvals.gt.0) then
+            ! we have found what we want - exit.
+            goto 200
+         else
+            ! try next section name
+         endif
+ 
+  100 continue
+      ! If we reach this point of execution the search must have failed
+      call Fatal_Error (ERR_User,
+     :    'Parameter Search Failure. Unable to read variable '
+     :    //array_name)
+ 
+  200 continue
+ 
+      call pop_routine (myname)
+      return
+      end
+
 
