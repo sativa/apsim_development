@@ -34,9 +34,9 @@
   <OPTIONS>
     <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl50.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- 
       -tWD -tWM -c"/>
-    <PFLAGS value="-$YD -$W -$O- -v -JPHNE -M"/>
+    <PFLAGS value="-$Y+ -$W -$O- -v -JPHNE -M"/>
     <RFLAGS value=""/>
-    <AFLAGS value="/mx /w2 /zd"/>
+    <AFLAGS value="/mx /w2 /zi"/>
     <LFLAGS value="-D&quot;&quot; -aa -Tpd -x -Gn -Gi -v"/>
   </OPTIONS>
   <LINKER>
@@ -124,5 +124,10 @@ RemoteDebug=0
 ShowInfoMsgs=0
 LinkDebugVcl=0
 LinkCGLIB=0
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
   </IDEOPTIONS>
 </PROJECT>
