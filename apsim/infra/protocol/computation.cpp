@@ -33,7 +33,6 @@ PROTOCOLComputation::PROTOCOLComputation(IComponent* comp,
    // load the dll into memory
    PROTOCOLLoader loader;
    loader.loadComponent(dllFileName, dllInfo);
-   create();
    }
 
 // ------------------------------------------------------------------
