@@ -2,9 +2,9 @@
 Dependency = %licensed_source(irrigate)
 
 [Contents]
-ComponentInterface.for = ComponentInterface.for
+ComponentInterface.f90 = ComponentInterface.f90
 irrigate.for = irrigate.for
 
 [APSBuild]
 binary = ..\lib\irrigate.dll
-moduletype=module
+compilerfile=release.compile
