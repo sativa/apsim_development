@@ -14,6 +14,11 @@
 #include <map>
 #include <values.h>
 #pragma resource "Rotation.res"
+#pragma link "TAPSTable"
+#pragma link "TAPSTable_Form"
+#pragma link "TAPSRecord"
+#pragma link "TMultiSTringListForm"
+
 
 using namespace std;
 // ------------------------------------------------------------------
