@@ -279,16 +279,30 @@ cjh      endif
       endif
 
 
-      call read_real_array (section_name
+      call fill_real_array (p%ll_dep, 0.0, max_layer)
+      call read_real_array_optional (section_name
      :                     , 'll', max_layer, '()'
      :                     , ll, num_layers
      :                     , 0.0, c%ll_ub)
-
-      call fill_real_array (p%ll_dep, 0.0, max_layer)
-      do layer = 1, num_layers
-         p%ll_dep(layer) = ll(layer)*g%dlayer(layer)
-      enddo
-
+      if (num_layers .gt. 0) then
+          do layer = 1, num_layers
+             p%ll_dep(layer) = ll(layer)*g%dlayer(layer)
+          enddo
+      else
+          call get_real_array_optional (unknown_module 
+     :                                  , 'll15_dep' 
+     :                                  , max_layer, '()'
+     :                                  , p%ll_dep, num_layers
+     :                                  , 0.0, c%ll_ub)
+          if (num_layers .gt. 0) then
+             call Write_String(
+     :            'Using externally supplied Lower Limit (ll15_dep)')
+          else
+             call Fatal_error (ERR_internal, 
+     :                         'No Crop Lower Limit found')
+          endif
+      endif
+      
       call read_real_array (section_name
      :                     , 'kl', max_layer, '()'
      :                     , p%kl, num_layers
