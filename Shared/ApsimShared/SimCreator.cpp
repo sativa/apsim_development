@@ -351,4 +351,14 @@ std::string SimCreator::convertIniToSim(const std::string& filename)
       }
    return "";
    }
+//---------------------------------------------------------------------------
+// Treat the file passed in as an .ini file and convert it
+// to a sim file format. Return the converted contents as a string.
+//---------------------------------------------------------------------------
+extern "C" void _export __stdcall convertIniToSim(const char* fileName, char* contents)
+   {
+   SimCreator simCreator;
+   string xml = simCreator.convertIniToSim(fileName);
+   strcpy(contents, xml.c_str());
+   }
 
