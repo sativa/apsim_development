@@ -620,6 +620,21 @@ struct MapSecondIterator
 
    };
 
+template < class container_type, class T>
+void StringToContainer (const string& Numbers,
+                        container_type& container)
+   {
+   container.erase (container.begin(), container.end());
+   std::vector<std::string> string_container;
+   splitIntoValues(Numbers, " ", string_container);
+   for (std::vector<std::string>::iterator st = string_container.begin();
+                               st != string_container.end();
+                               st++)
+      {
+      container.push_back(boost::lexical_cast<T>(st));
+      }
+   }
+
 
 // restore the warnings about "Functions containing for are not expanded inline.
 #pragma warn .inl
