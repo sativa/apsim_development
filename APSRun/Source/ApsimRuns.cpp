@@ -178,26 +178,40 @@ void ApsimRuns::runApsim(bool quiet)
    for (unsigned f = 0; f != runs.size() && continueWithRuns; f++)
       {
       Path filePath(runs[f]->getFileName());
-      if (filePath.Get_extension() == ".con")
+      try
          {
-         Path simFilePath(filePath);
-         simFilePath.Set_extension(".sim");
-
-         SimCreator simCreator(filePath.Get_path());
-         vector<string> simulations;
-         runs[f]->getSimulationsToRun(simulations);
-         for (unsigned s = 0; s != simulations.size() && continueWithRuns; s++)
+         if (filePath.Get_extension() == ".con")
             {
-            simCreator.createSim(simulations[s], "");
-            bool moreToGo = ((f != runs.size()-1
-                              || s != simulations.size()-1));
-            continueWithRuns = performRun(simFilePath.Get_path(), moreToGo);
+            Path simFilePath(filePath);
+            simFilePath.Set_extension(".sim");
+
+            SimCreator simCreator(filePath.Get_path());
+            vector<string> simulations;
+            runs[f]->getSimulationsToRun(simulations);
+            for (unsigned s = 0; s != simulations.size() && continueWithRuns; s++)
+               {
+               simCreator.createSim(simulations[s], "");
+               bool moreToGo = ((f != runs.size()-1
+                                 || s != simulations.size()-1));
+               continueWithRuns = performRun(simFilePath.Get_path(), moreToGo);
+               }
+            }
+         else
+            {
+            bool moreToGo = (f != runs.size()-1);
+            continueWithRuns = performRun(filePath.Get_path(), moreToGo);
             }
          }
-      else
+      catch (const runtime_error& err)
          {
-         bool moreToGo = (f != runs.size()-1);
-         continueWithRuns = performRun(filePath.Get_path(), moreToGo);
+         if (quiet)
+            {
+            filePath.Set_extension(".log");
+            ofstream log(filePath.Get_path().c_str());
+            log << err.what();
+            }
+         else
+            ::MessageBox(NULL, err.what(), "Error", MB_ICONSTOP | MB_OK);
          }
       }
    settings.refresh();
