@@ -1,6 +1,6 @@
 C     Last change:  E     5 Dec 2000    8:52 am
       module ClockModule
-      
+
       type ClockData
          sequence
          ! Global variables
@@ -28,7 +28,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
       ! instance variables.
       type (ClockData), pointer :: g
       integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)  
+      parameter (MAX_NUM_INSTANCES=10)
       integer MAX_INSTANCE_NAME_SIZE
       parameter (MAX_INSTANCE_NAME_SIZE=50)
       type ClockDataPtr
@@ -43,20 +43,21 @@ C     Last change:  E     5 Dec 2000    8:52 am
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
       use ClockModule
+      Use infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       character InstanceName*(*)       ! (INPUT) name of instance
       integer   InstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Module instantiation routine.
- 
+
 !- Implementation Section ----------------------------------
-               
+
       allocate (Instances(InstanceNo)%ptr)
       Instances(InstanceNo)%Name = InstanceName
- 
+
       return
       end
 
@@ -64,48 +65,49 @@ C     Last change:  E     5 Dec 2000    8:52 am
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
       use ClockModule
+      Use infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       integer anInstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Module de-instantiation routine.
- 
+
 !- Implementation Section ----------------------------------
-               
+
       deallocate (Instances(anInstanceNo)%ptr)
- 
+
       return
       end
-     
+
 !     ===========================================================
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
       use ClockModule
+      Use infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       integer anInstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Swap an instance into the global 'g' pointer
- 
+
 !- Implementation Section ----------------------------------
-               
+
       g => Instances(anInstanceNo)%ptr
- 
+
       return
       end
-     
-            
+
+
 * ====================================================================
       subroutine Main (Action, Data)
 * ====================================================================
        use ClockModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Global common block
-      include 'action.inc' 
 
 *+  Sub-Program Arguments
        character Action*(*)            ! Message action to perform
@@ -122,28 +124,28 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
       if (Action.eq.ACTION_Get_variable) then
          call clock_send_my_variable (Data)
- 
+
       else if (Action .eq. ACTION_Init) then
          call clock_init ()
- 
+
       else if (Action.eq.ACTION_Start) then
          call clock_start ()
- 
+
       else if (Action.eq.ACTION_Pause) then
          g%pause_current_run = .true.
- 
+
       else if (Action.eq.ACTION_Continue) then
          g%pause_current_run = .false.
- 
+
       else if (Action.eq.ACTION_Finish) then
          ! must have been a fatal error better tell crops
          ! that we're about to end.
- 
+
          call Action_send_to_all_comps (ACTION_End_run)
- 
+
       else
          ! Not our variable
- 
+
          call Message_unused ()
       endif
 
@@ -156,10 +158,8 @@ C     Last change:  E     5 Dec 2000    8:52 am
       subroutine clock_init ()
 * ====================================================================
       use ClockModule
+      Use infrastructure
       implicit none
-      include 'const.inc'              ! Constant definitions
-      include 'error.pub'                         
-      include 'date.pub'
 
 *+  Purpose
 *     Initialise the clock module
@@ -236,11 +236,8 @@ C     Last change:  E     5 Dec 2000    8:52 am
       subroutine clock_read_params ()
 * ====================================================================
       use ClockModule
+      Use infrastructure
       implicit none
-      include 'const.inc'              ! Constant definitions
-      include 'date.pub'                          
-      include 'read.pub'                          
-      include 'error.pub'                         
 
 *+  Purpose
 *     read in all parameters
@@ -257,10 +254,10 @@ C     Last change:  E     5 Dec 2000    8:52 am
       parameter (This_routine='clock_read_params')
 
 *+  Local Variables
-      
+
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (this_routine)
 
       call read_params ()
@@ -274,10 +271,8 @@ C     Last change:  E     5 Dec 2000    8:52 am
       subroutine clock_advance_clock ()
 * ====================================================================
       use ClockModule
+      Use infrastructure
       implicit none
-      include 'const.inc'              ! Constant definitions
-      include 'date.pub'                          
-      include 'error.pub'                         
 
 *+  Purpose
 *     advance the simulation to the next timestep.
@@ -293,7 +288,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
       parameter (This_routine='clock_next_timestep')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (This_routine)
       g%current_time = g%current_time + g%timestep
 
@@ -309,19 +304,19 @@ C     Last change:  E     5 Dec 2000    8:52 am
          g%end_current_run = .true.
       else
          ! convert julian day to day and year for speed reasons later.
- 
+
          call jday_to_day_of_year (g%current_date,
      .                             g%day,
      .                             g%year)
- 
+
          g%end_current_run = .false.
-         
+
          call Clock_DoTick()
 
       endif
 
       call clock_print_percent_complete ()
- 
+
       call pop_routine (This_routine)
       return
       end subroutine
@@ -330,6 +325,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
        subroutine clock_print_percent_complete ()
 * ====================================================================
       use ClockModule
+      Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -353,7 +349,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 *- Implementation Section ----------------------------------
 
       ! print out percent complete to screen if necessary
-      New_percent_complete = (g%current_date - g%start_date) 
+      New_percent_complete = (g%current_date - g%start_date)
      .                   / (g%end_date - g%start_date) * 100.0
       if (New_percent_complete - g%Percent_complete .ge. 5 .or.
      .    g%Percent_complete .eq. -1) then
@@ -367,11 +363,8 @@ C     Last change:  E     5 Dec 2000    8:52 am
        subroutine clock_send_my_variable (Variable_name)
 * ====================================================================
       use ClockModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! constant definitions
-      include 'date.pub'                          
-      include 'intrface.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
        character Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -399,7 +392,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
       integer   year                   ! year
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine(This_routine)
       if (variable_name .eq. 'day') then
          call respond2get_integer_var (Variable_name,
@@ -425,32 +418,32 @@ C     Last change:  E     5 Dec 2000    8:52 am
          call respond2get_integer_var (Variable_name,
      .                                 '(month)',
      .                                 thisdate(2))
- 
+
       else if (Variable_name .eq. 'start_week') then
          Logical_to_return = Start_week (g%day, g%year)
          call Respond2get_logical_var
      .       (variable_name, '(0-1)', Logical_to_return)
- 
+
       else if (Variable_name .eq. 'end_week') then
          Logical_to_return = End_week (g%day, g%year)
          call Respond2get_logical_var
      .       (variable_name, '(0-1)', Logical_to_return)
-  
+
       else if (Variable_name .eq. 'start_month') then
          Logical_to_return = Start_month (g%day, g%year)
          call Respond2get_logical_var
      .       (variable_name, '(0-1)', Logical_to_return)
- 
+
       else if (Variable_name .eq. 'end_month') then
          Logical_to_return = End_month (g%day, g%year)
          call Respond2get_logical_var
      .       (variable_name, '(0-1)', Logical_to_return)
- 
+
       else if (Variable_name .eq. 'end_year') then
          Logical_to_return = End_year (g%day, g%year)
          call Respond2get_logical_var
      .       (variable_name, '(0-1)', Logical_to_return)
- 
+
       else if (index(variable_name, 'today') .eq. 1) then
          call clock_today_object(variable_name(6:))
 
@@ -494,13 +487,13 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
       else
          ! Not our variable
- 
+
          call Message_unused ()
       endif
- 
+
       call pop_routine(This_routine)
       return
-      end subroutine 
+      end subroutine
 
 
 
@@ -508,11 +501,8 @@ C     Last change:  E     5 Dec 2000    8:52 am
        subroutine clock_today_object (Variable_name)
 * ====================================================================
       use ClockModule
+      Use infrastructure
       implicit none
-      include 'const.inc'              ! constant definitions
-      include 'intrface.pub'                      
-      include 'date.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) name of variable
@@ -525,8 +515,6 @@ C     Last change:  E     5 Dec 2000    8:52 am
 *        EW  - 05/12/00 - modified to change the date output from eg "1/04/1990" to "01/04/1990"
 
 *+  Calls
-      character get_month_string*(3)
-                                       ! function
 
 *+  Constant Values
       character This_routine*(*)       ! name of this routine
@@ -537,36 +525,36 @@ C     Last change:  E     5 Dec 2000    8:52 am
       character str*100                ! string for date formatting
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (This_routine)
- 
+
       call day_of_year_to_date (g%day, g%year, thisdate)
- 
+
       if (variable_name .eq. Blank) then
          call Respond2get_double_var
      .        ('today', '()',
      .         Date_to_jday(thisdate(1), thisdate(2), thisdate(3)))
- 
+
       else if (variable_name .eq. '.day') then
          call Respond2get_integer_var
      .        ('today.day', '()', thisdate(1))
- 
+
       else if (variable_name .eq. '.month') then
          call Respond2get_integer_var
      .        ('today.month', '()', thisdate(2))
- 
+
       else if (variable_name .eq. '.year') then
          call Respond2get_integer_var
      .        ('today.year', '()', thisdate(3))
- 
+
       else if (variable_name .eq. '.day_of_year') then
          call Respond2get_integer_var
      .        ('today.day_of_year', '()', g%day)
- 
+
       else if (variable_name .eq. '.month_str') then
          call Respond2get_char_var
      .        ('today.month_str', '()', Get_month_string(thisdate(2)))
- 
+
       else if (variable_name .eq. '.dd/mm') then
          write (str, '(i2,a,i2)')
      .        thisdate(1), '/', thisdate(2)
@@ -580,7 +568,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
          endif
          call Respond2get_char_var
      .        ('today.dd/mm', '()', str)
- 
+
       else if (variable_name .eq. '.dd/mm/yyyy') then
          write (str, '(i2,a,i2,a,i4)')
      .        thisdate(1), '/', thisdate(2), '/', thisdate(3)
@@ -618,7 +606,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
          call Respond2get_char_var
      .        ('today.dd/mmm/yyyy', '()', str)
- 
+
       else if (variable_name .eq. '.dd_mmm') then
          write (str, '(i2,a,a)')
      .        thisdate(1), '_', Get_month_string(thisdate(2))
@@ -629,15 +617,15 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
          call Respond2get_char_var
      .        ('today.dd_mmm', '()', str)
- 
+
       else
          write (str, '(2a)' )
      .      'The TODAY object doesnt have a method called :- ',
      .      variable_name
          call Fatal_error (ERR_user, str)
- 
+
       endif
- 
+
       call pop_routine (This_routine)
       return
       end subroutine
@@ -648,11 +636,8 @@ C     Last change:  E     5 Dec 2000    8:52 am
        subroutine clock_start ()
 * ====================================================================
       use ClockModule
+      Use infrastructure
       implicit none
-      include 'const.inc'              ! constant definitions
-      include 'error.pub'                         
-      include 'action.inc' 
-      include 'apsimengine.pub'
 
 *+  Purpose
 *     start the clock going. ie. start the simulation
@@ -674,11 +659,11 @@ C     Last change:  E     5 Dec 2000    8:52 am
       ! tell summary service to enter the diary state ie. not the
       ! initialisation state.
       call Summary_enter_diary_state ()
-      
+
       ! do all timesteps for simulation
 
 !      g%current_date = g%current_date - 1
- 
+
       call Clock_timestep_loop ()
 
       call pop_routine (This_routine)
@@ -691,11 +676,8 @@ C     Last change:  E     5 Dec 2000    8:52 am
        subroutine Clock_timestep_loop ()
 * ====================================================================
       use ClockModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Constant definitions
-      include 'error.pub'                         
-      include 'action.inc'
-      include 'postbox.pub'
 
 *+  Purpose
 *     Cycle through all phases for an entire simulation.  Exit routine
@@ -737,33 +719,33 @@ C     Last change:  E     5 Dec 2000    8:52 am
          call new_postbox()
          call event_send (Instructions(Instruction_Index))
          call delete_postbox()
-          
+
          ! Check the end of simulation flag and exit if necessary
- 
+
          if (g%End_current_run) then
             goto 100
          endif
- 
+
          ! Check the pause flag and enter a idle loop if necessary.
- 
+
          if (g%Pause_current_run) then
             call clock_idle_loop ()
          endif
- 
+
 20    continue
- 
+
       ! loop back to next timestep if necessary.
- 
+
       call clock_advance_clock()
       if (.not. g%End_current_run) then
          goto 10
       endif
- 
+
       ! thats it - exit routine and simulation.
 100   continue
 
       call pop_routine (This_routine)
- 
+
       return
       end subroutine
 
@@ -773,9 +755,8 @@ C     Last change:  E     5 Dec 2000    8:52 am
        subroutine Clock_idle_loop ()
 * ====================================================================
       use ClockModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Constant definitions
-      include 'action.inc' 
 
 *+  Purpose
 *     Enter a idle loop where only idle messages are sent to all modules.
@@ -786,13 +767,13 @@ C     Last change:  E     5 Dec 2000    8:52 am
 *      DPH 26/11/96
 
 *- Implementation Section ----------------------------------
- 
+
 10    continue
       if (g%Pause_current_run) then
          call Action_send_to_all_comps (ACTION_Idle)
          goto 10
       endif
- 
+
       return
       end subroutine
 
@@ -801,10 +782,8 @@ C     Last change:  E     5 Dec 2000    8:52 am
        character*(*) function Clock_time_string ()
 * ====================================================================
       use ClockModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Constant definitions
-      include 'string.pub'                       
-      include 'error.pub'
 
 *+  Purpose
 *     Create a string giving the daily time in 24 hour format
@@ -829,7 +808,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
       hour = int(time_mins/60)
       mins = mod(time_mins, 60)
- 
+
       if (len(clock_time_String).ge.5) then
 
          if (hour.lt.10) then
@@ -845,7 +824,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
                write (temp,'(i2,'':'',i2)') hour,mins
             endif
          endif
-     
+
          call assign_string (clock_time_String, temp)
       else
          call fatal_error (Err_internal
@@ -859,12 +838,8 @@ C     Last change:  E     5 Dec 2000    8:52 am
        subroutine Clock_DoTick ()
 ! ====================================================================
       use ClockModule
+      Use infrastructure
       implicit none
-      include 'const.inc'             ! Constant definitions
-      include 'event.inc'
-      include 'postbox.pub'
-      include 'intrface.pub'
-      include 'error.pub'
 
 !+  Calls
       character Clock_time_string*(5)      ! function
@@ -885,7 +860,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 !- Implementation Section ----------------------------------
 
       call push_routine (This_routine)
- 
+
       call new_postbox()
 
       call post_integer_var (DATA_day
@@ -906,11 +881,11 @@ C     Last change:  E     5 Dec 2000    8:52 am
      :                     , g%timestep)
 
       call event_send (EVENT_tick)
-      
-      call delete_postbox() 
+
+      call delete_postbox()
 
       call pop_routine (This_routine)
- 
+
       return
       end
       
