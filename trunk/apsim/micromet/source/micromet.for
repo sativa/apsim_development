@@ -615,7 +615,10 @@ c      g%ComponentFrgr(:) = 0.0
       call Micromet_Met_Variables ()
       call Micromet_Canopy_Compartments ()
       call Micromet_Canopy_Energy_Balance ()
-
+      
+      call Micromet_Energy_Balance_Event()
+      call Micromet_Water_Balance_Event()
+      
       call pop_routine (myname)
       return
       end
@@ -2106,27 +2109,26 @@ c      g%ComponentFrgr(:) = 0.0
 
 *+  Local Variables
       integer j
+      integer i
+      type (CanopyWaterBalanceType)::CanopyWaterBalance
+      integer layer
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-c      call new_postbox()
-
       do 100 j=1,g%NumComponents
 
-c         call post_real_var ('pet_'//Trim(g%ComponentName(j))
-c     :                      , '(mm)'
-c     :                      , sum(g%PET(1:g%NumLayers,j)))
-
+         CanopyWaterBalance%canopy(j)%name = g%canopies(j)%name
+         CanopyWaterBalance%canopy(j)%CropType = g%canopies(j)%CropType
+         CanopyWaterBalance%canopy(j)%potentialEp 
+     :                 =  sum(g%PET(1:g%NumLayers,j))
   100 continue
-
-c      call post_real_var ('interception'
-c     :                   , '(mm)'
-c     :                   , sum(g%Interception(:,:)))
-
-c      call event_send ('canopy_water_balance')
-
-c      call delete_postbox()
+  
+      CanopyWaterBalance%interception = sum(g%Interception(:,:))
+      CanopyWaterBalance%Eo = 0.0
+   
+      call publish_CanopyWaterBalance(CanopyWaterBalanceCalculatedID
+     :            ,CanopyWaterBalance,.false.)
 
       call pop_routine (myname)
       return
