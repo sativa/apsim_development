@@ -27,10 +27,12 @@ class PACKAGE TGraph : public TgtQRChart
       AnsiString rightAxisTitle;
       AnsiString bottomAxisTitle;
       AnsiString footTitle;
+      AnsiString seriesTitle;
       AnsiString* stRef;
       bool ourScaling;
       ReportMacros macros;
-      int dataSeriesNumber;
+      AnsiString dataSeriesNumbers;
+      vector<string> seriesNames;
 
       vector<std::string> sourceNames;
 
@@ -38,16 +40,34 @@ class PACKAGE TGraph : public TgtQRChart
       void __fastcall LoadStringProperty(TReader *Reader);
       void __fastcall StoreStringProperty(TWriter *Writer);
       void __fastcall setScientificScaling(bool scaling);
-      void __fastcall setSeriesNumber(int seriesNumber);
+      void __fastcall setSeriesNumbers(AnsiString seriesNumbers);
 
       void refresh(void);
       bool __fastcall onBeforeAdd(TChartSeries* series);
-      void __fastcall afterDataRefresh(TDataSet* dataset);
       virtual void __fastcall Loaded(void);
       void replaceChartMacros(void);
-      void removeNonTemplateChartSeries(void);
       void scaleAxis(void);
 
+      //---------------------------------------------------------------------------
+      // using the 1st chart series as a template, create a new chart series for
+      // each data series.
+      //---------------------------------------------------------------------------
+      void createTemplatedChartSeries(void);
+
+      //---------------------------------------------------------------------------
+      // remove all templated chart series
+      //---------------------------------------------------------------------------
+      void removeTemplatedChartSeries(void);
+
+      //---------------------------------------------------------------------------
+      // Add all data subscriptions.
+      //---------------------------------------------------------------------------
+      void addDataChangeSubscriptions(void);
+
+      //---------------------------------------------------------------------------
+      // Remove all data subscriptions.
+      //---------------------------------------------------------------------------
+      void removeDataChangeSubscriptions(void);
    protected:
    public:
       __fastcall TGraph(TComponent* Owner);
@@ -56,7 +76,9 @@ class PACKAGE TGraph : public TgtQRChart
       void userEdit(void);
 
    __published:
-      __property int seriesNumber = {read=dataSeriesNumber, write=setSeriesNumber};
+      void __fastcall afterDataRefresh(TDataSet* dataset);
+
+      __property AnsiString seriesNumbers = {read=dataSeriesNumbers, write=setSeriesNumbers};
       __property bool scientificScaling = {read=ourScaling, write=setScientificScaling};
    };
 //---------------------------------------------------------------------------
