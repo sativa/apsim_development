@@ -1,0 +1,111 @@
+<toolbox name="Standard">
+  <clock name="clock">
+    <start_date name="start_date">1/01/1988</start_date>
+    <end_date name="end_date">31/12/1988</end_date>
+  </clock>
+  <outputfile name="outputfile">
+    <filename name="filename">sample.out</filename>
+    <frequency name="frequency">End_of_day</frequency>
+    <variable alias="year" name="year" module="clock" description="Year" />
+    <variable alias="day" name="day" module="clock" description="Day" />
+    <event name="start_of_day" module="clock" description="Start of daily simulation time step" />
+    <outputfiledescription name="My Variables">
+      <variables>
+        <variable alias="year" name="year" module="clock" description="Year" />
+      </variables>
+      <events>
+        <event name="start_of_day" module="clock" description="Start of daily simulation time step" />
+      </events>
+    </outputfiledescription>
+  </outputfile>
+  <summaryfile name="summaryfile">
+    <filename name="filename">sample.sum</filename>
+  </summaryfile>
+  <metfile name="metfile">
+    <filename name="filename">C:\program files\apsim36\apsim\met\sample\dalby.met</filename>
+    <dummy name="dummy">hello there</dummy>
+  </metfile>
+  <logic name="logic">
+    <rule name="init">dummy=10</rule>
+    <rule name="startofday"> !hello[cr]if day = 120 then[cr]irrigate apply amount = 10 [cr] wheat sow cultivar = hartog, plants = 120, sowing_depth = 30 (mm)[cr] fertiliz apply amount = 100, type = no3_n, depth = 10 [cr]endif [cr]</rule>
+    <rule name="endofday">report do_output</rule>
+  </logic>
+  <irrigation name="irrigation">
+    <automaticirrigation name="automaticirrigation">
+      <switch name="switch">on</switch>
+      <depth name="depth">1000.</depth>
+      <fasw name="fasw">0.5</fasw>
+    </automaticirrigation>
+    <irrigationefficiency name="irrigationefficiency">1.0</irrigationefficiency>
+    <allocation name="allocation">
+      <switch name="switch">on</switch>
+      <amount name="amount">1000.</amount>
+    </allocation>
+  </irrigation>
+  <log name="log">
+    <debugoutput name="debugoutput">on</debugoutput>
+    <filename name="filename">log.txt</filename>
+  </log>
+  <micromet name="micromet">
+    <soilalbedo name="soilalbedo">0.23</soilalbedo>
+    <a_interception name="a_interception">0.0</a_interception>
+    <b_interception name="b_interception">0.0</b_interception>
+    <c_interception name="c_interception">0.0</c_interception>
+    <d_interception name="d_interception">0.0</d_interception>
+  </micromet>
+  <slurp name="slurp">
+    <type name="type">wheat</type>
+    <lai name="LAI">6.0</lai>
+    <laid name="LAId">0.5</laid>
+    <Kg name="Kg">0.5</Kg>
+    <Kd name="Kd">0.4</Kd>
+    <height name="height">1000.</height>
+    <Frgr name="Frgr">1.0</Frgr>
+  </slurp>
+  <crop name="plant">
+    <type name="type">wheat</type>
+  </crop>
+  <outputfiledescription name="My Variables">
+    <variables>
+      <variable alias="year" name="year" module="clock" description="Year" />
+      <variable alias="myday" name="day" module="clock" description="Day" />
+    </variables>
+    <events>
+      <event name="start_of_day" module="clock" description="Start of daily simulation time step" />
+    </events>
+  </outputfiledescription>
+  <StockScienceConverter name="StockScienceConverter" />
+  <sheep name="sheep">
+    <number>120</number>
+    <sex>wether</sex>
+    <age>730.0</age>
+    <weight>50.0</weight>
+    <max_prev_wt>50.0</max_prev_wt>
+    <fleece_wt>6.0</fleece_wt>
+    <fibre_diam>20.0</fibre_diam>
+    <pregnant>0</pregnant>
+    <lactating>0</lactating>
+    <no_young>0</no_young>
+    <birth_cs>0.0</birth_cs>
+    <lamb_wt>0.0</lamb_wt>
+    <lamb_fleece_wt>0.0</lamb_fleece_wt>
+    <paddock>paddock_1</paddock>
+    <tag>0</tag>
+    <priority>0</priority>
+  </sheep>
+  <stock name="stock">
+    <type name="type">sheep</type>
+    <breed name="breed">Medium Merino</breed>
+    <srw name="srw">50.0</srw>
+    <male_breed name="male_breed">Medium Merino</male_breed>
+    <male_srw name="male_srw">50.0</male_srw>
+    <conception1 name="conception1">0.8</conception1>
+    <conception2 name="conception2">0.15</conception2>
+    <conception3 name="conception3">0</conception3>
+    <death_rate name="death_rate">0.02</death_rate>
+    <ref_fleece_wt name="ref_fleece_wt">4.5</ref_fleece_wt>
+    <max_fibre_diam name="max_fibre_diam">20.0</max_fibre_diam>
+    <fleece_yield name="fleece_yield">0.7</fleece_yield>
+    <peak_milk name="peak_milk">25.0</peak_milk>
+  </stock>
+</toolbox>
