@@ -719,6 +719,7 @@ string ApsimControlFile::parseDate(const ApsimParameterFile& paramFile, StringTo
    date.Set(day, year);
    ostringstream buffer;
    date.Write(buffer);
+   buffer << "     ! dd/mm/yyyy
    return buffer.str();
    }
 // ------------------------------------------------------------------
