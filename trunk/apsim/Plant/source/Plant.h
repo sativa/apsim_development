@@ -116,8 +116,6 @@ const int  fallow = plant_end ;
 
 const int initial_fruit_stage = flowering; //initial fruiting stage
 
-extern vector<string> part_name;
-
 //   This class performs crop crop growth
 //     simulates root, leaf, head, stem and grain development. Water and
 //     nitrogen uptake, photosynhesis, and leaf and root senescense.
