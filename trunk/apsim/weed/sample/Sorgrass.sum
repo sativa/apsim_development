@@ -241,7 +241,7 @@
           ---------------------------------------------------------
 
 ------- weed Initialisation ---------------------------------------------------
-      Initialising
+      initialising
 
 ------- sorghum Initialisation ------------------------------------------------
       Initialising, V1.0 2000.01.21
@@ -317,72 +317,63 @@
 31 October 1988(Day of year=305), manager: 
      Manager sending message :- weed sow  cultivar = late, plants = 15 (/m2), crop_class = summer_grass, sowing_depth = 40 (mm)
 31 October 1988(Day of year=305), weed: 
-     Sow
-     
-      - Reading constants for summer_grass
-     
-        - Reading Cultivar Parameters
+     Crop Sow
+      - reading constants for summer_grass(weed)
+      - reading cultivar parameters
          ------------------------------------------------
-         Cultivar                   = late
-         est_days_emerg_to_init     =       83
-         cum_vernal_days            =     0.00  100.00
-         tt_emerg_to_endjuv         =   700.00  700.00
-         x_pp_endjuv_to_init        =     1.00   24.00
-         y_tt_endjuv_to_init        =   500.00  500.00
-         x_pp_init_to_flower        =     1.00   24.00
-         y_tt_init_to_flower        =    50.00   50.00
-         x_pp_flower_to_start_grain =     1.00   24.00
-         y_tt_flower_to_start_grain =   120.00  120.00
-         x_pp_start_to_end_grain    =     1.00   24.00
-         y_tt_start_to_end_grain    =   580.00  580.00
-         tt_end_grain_to_maturity   =     60.0
-         tt_maturity_to_ripe        =      1.0
-         x_pp_hi_incr               =     1.00   24.00
-         y_hi_incr                  =  0.01000 0.01000
-         x_hi_max_pot_stress        =     0.00    1.00
-         y_hi_max_pot               =     0.15    0.15
-         x_stem_wt                  =     0.00    3.00
-         y_height                   =     0.00  800.00
+        cultivar                   = late
+        est_days_emerg_to_init     =       83
+        cum_vernal_days            =       0.00     100.00
+        tt_emerg_to_endjuv         =     700.00     700.00
+        x_pp_endjuv_to_init        =       1.00      24.00
+        y_tt_endjuv_to_init        =     500.00     500.00
+        x_pp_init_to_flower        =       1.00      24.00
+        y_tt_init_to_flower        =      50.00      50.00
+        x_pp_flower_to_start_grain =       1.00      24.00
+        y_tt_flower_to_start_grain =     120.00     120.00
+        x_pp_start_to_end_grain    =       1.00      24.00
+        y_tt_start_to_end_grain    =     580.00     580.00
+        tt_end_grain_to_maturity   =      60.00
+        tt_maturity_to_ripe        =       1.00
+        x_pp_hi_incr               =       1.00      24.00
+        y_hi_incr                  =     0.0100     0.0100
+        x_hi_max_pot_stress        =       0.00       1.00
+        y_hi_max_pot               =       0.15       0.15
+        x_stem_wt                  =       0.00       3.00
+        y_height                   =       0.00     800.00
          ------------------------------------------------
      
      
-     
-     
-        - Reading root profile parameters
-     
-     
-                         Root Profile
+        - reading root profile parameters
+                        Root Profile
      ---------------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
      ---------------------------------------------------
-          150.0     0.080          0.230       1.000
-          150.0     0.080          0.240       1.000
-          300.0     0.080          0.240       1.000
-          300.0     0.080          0.250       1.000
-          300.0     0.050          0.260       1.000
-          300.0     0.030          0.270       1.000
-          300.0     0.010          0.280       1.000
+         150.0     0.080          0.230       1.000
+         150.0     0.080          0.240       1.000
+         300.0     0.080          0.240       1.000
+         300.0     0.080          0.250       1.000
+         300.0     0.050          0.260       1.000
+         300.0     0.030          0.270       1.000
+         300.0     0.010          0.280       1.000
      ---------------------------------------------------
      
-     
-       Crop factor for bounding water use is set to 100.0 times Eo
-     
+     (Crop factor for bounding water use is set to 100.0 times eo)
      
                       Crop Sowing Data
          ------------------------------------------------
          Sowing  Depth Plants Spacing Skip  Skip  Cultivar
-         Day no   mm     m^2     mm   Row   Plant Name
+         Day no   mm     m^2     mm   row   plant name
          ------------------------------------------------
-            305   40.0   15.0  350.0   0.0   0.0  late
+            305   40.0   15.0  350.0   0.0   0.0 late
          ------------------------------------------------
-     
      
 1 November 1988(Day of year=306), sorghum: 
       stage    2.0 germination
 1 November 1988(Day of year=306), weed: 
-      stage    2.0 germination
+      stage 2.0 germination
 2 November 1988(Day of year=307), sorghum: 
       stage    2.0 germination
 5 November 1988(Day of year=310), sorghum: 
@@ -390,12 +381,12 @@
                           biomass =           2.000000       lai =    0.2000000E-02
                           stover N conc =    2.525000       extractable sw =    49.14497
 7 November 1988(Day of year=312), weed: 
-      stage    3.0 emergence
-                          biomass =          0.8999999       lai =    0.3750000E-02
-                          stover N conc =    6.000000       extractable sw =    29.49802
+      stage 3.0 emergence
+                     biomass =           0.90 (kg/ha)   lai          =   0.004 (m^2/m^2)
+                     stover N conc =     6.00 (%)     extractable sw =   29.50 (mm)
 15 November 1988(Day of year=320), sorghum: 
       stage    4.0 end_of_juvenile
-                          biomass =           7.595637       lai =    0.9139051E-01
+                          biomass =           7.595638       lai =    0.9139051E-01
                           stover N conc =    3.398683       extractable sw =    196.9368
 20 November 1988(Day of year=325), manager: 
      Manager sending message :- weed kill_crop
@@ -404,11 +395,11 @@
 20 November 1988(Day of year=325), manager: 
      Manager sending message :- weed end_crop
 20 November 1988(Day of year=325), weed: 
-         Crop ended. Yield (dw) =     0.0
-                                               straw residue =   67.2 kg/ha
-                                               straw N =    2.3 kg/ha
-                                               root residue =   37.1 kg/ha
-                                               root N =    0.3 kg/ha
+     Crop ended. Yield (dw) =     0.0  (kg/ha)
+         straw residue =    67.2 kg/ha
+         straw N =           2.3 kg/ha
+         root residue =     37.1 kg/ha
+         root N =            0.3 kg/ha
 29 November 1988(Day of year=334), sorghum: 
       stage    5.0 floral_initiation
                           biomass =           52.85678       lai =    0.6709458

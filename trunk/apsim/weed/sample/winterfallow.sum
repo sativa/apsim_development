@@ -207,98 +207,89 @@
           ---------------------------------------------------------
 
 ------- weed Initialisation ---------------------------------------------------
-      Initialising
+      initialising
 ------- Start of simulation  --------------------------------------------------
 29 April 1988(Day of year=120), manager: 
      Manager sending message :- weed sow  cultivar = late, plants = 15 (/m2), crop_class = winter_dicot, sowing_depth = 40 (mm)
 29 April 1988(Day of year=120), weed: 
-     Sow
-     
-      - Reading constants for winter_dicot
-     
-        - Reading Cultivar Parameters
+     Crop Sow
+      - reading constants for winter_dicot(weed)
+      - reading cultivar parameters
          ------------------------------------------------
-         Cultivar                   = late
-         est_days_emerg_to_init     =       83
-         cum_vernal_days            =     0.00  100.00
-         tt_emerg_to_endjuv         =   700.00  700.00
-         x_pp_endjuv_to_init        =     1.00   24.00
-         y_tt_endjuv_to_init        =   500.00  500.00
-         x_pp_init_to_flower        =     1.00   24.00
-         y_tt_init_to_flower        =    50.00   50.00
-         x_pp_flower_to_start_grain =     1.00   24.00
-         y_tt_flower_to_start_grain =   120.00  120.00
-         x_pp_start_to_end_grain    =     1.00   24.00
-         y_tt_start_to_end_grain    =   580.00  580.00
-         tt_end_grain_to_maturity   =     60.0
-         tt_maturity_to_ripe        =      1.0
-         x_pp_hi_incr               =     1.00   24.00
-         y_hi_incr                  =  0.01000 0.01000
-         x_hi_max_pot_stress        =     0.00    1.00
-         y_hi_max_pot               =     0.15    0.15
-         x_stem_wt                  =     0.00    3.00
-         y_height                   =     0.00  800.00
+        cultivar                   = late
+        est_days_emerg_to_init     =       83
+        cum_vernal_days            =       0.00     100.00
+        tt_emerg_to_endjuv         =     700.00     700.00
+        x_pp_endjuv_to_init        =       1.00      24.00
+        y_tt_endjuv_to_init        =     500.00     500.00
+        x_pp_init_to_flower        =       1.00      24.00
+        y_tt_init_to_flower        =      50.00      50.00
+        x_pp_flower_to_start_grain =       1.00      24.00
+        y_tt_flower_to_start_grain =     120.00     120.00
+        x_pp_start_to_end_grain    =       1.00      24.00
+        y_tt_start_to_end_grain    =     580.00     580.00
+        tt_end_grain_to_maturity   =      60.00
+        tt_maturity_to_ripe        =       1.00
+        x_pp_hi_incr               =       1.00      24.00
+        y_hi_incr                  =     0.0100     0.0100
+        x_hi_max_pot_stress        =       0.00       1.00
+        y_hi_max_pot               =       0.15       0.15
+        x_stem_wt                  =       0.00       3.00
+        y_height                   =       0.00     800.00
          ------------------------------------------------
      
      
-     
-     
-        - Reading root profile parameters
-     
-     
-                         Root Profile
+        - reading root profile parameters
+                        Root Profile
      ---------------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
      ---------------------------------------------------
-          150.0     0.080          0.230       1.000
-          150.0     0.080          0.240       1.000
-          300.0     0.080          0.240       1.000
-          300.0     0.080          0.250       1.000
-          300.0     0.050          0.260       1.000
-          300.0     0.030          0.270       1.000
-          300.0     0.010          0.280       1.000
+         150.0     0.080          0.230       1.000
+         150.0     0.080          0.240       1.000
+         300.0     0.080          0.240       1.000
+         300.0     0.080          0.250       1.000
+         300.0     0.050          0.260       1.000
+         300.0     0.030          0.270       1.000
+         300.0     0.010          0.280       1.000
      ---------------------------------------------------
      
-     
-       Crop factor for bounding water use is set to 100.0 times Eo
-     
+     (Crop factor for bounding water use is set to 100.0 times eo)
      
                       Crop Sowing Data
          ------------------------------------------------
          Sowing  Depth Plants Spacing Skip  Skip  Cultivar
-         Day no   mm     m^2     mm   Row   Plant Name
+         Day no   mm     m^2     mm   row   plant name
          ------------------------------------------------
-            120   40.0   15.0  350.0   0.0   0.0  late
+            120   40.0   15.0  350.0   0.0   0.0 late
          ------------------------------------------------
-     
      
 30 April 1988(Day of year=121), weed: 
-      stage    2.0 germination
+      stage 2.0 germination
 4 May 1988(Day of year=125), weed: 
-      stage    3.0 emergence
-                          biomass =          0.8999999       lai =    0.3750000E-02
-                          stover N conc =    6.000000       extractable sw =    29.03172
+      stage 3.0 emergence
+                     biomass =           0.90 (kg/ha)   lai          =   0.004 (m^2/m^2)
+                     stover N conc =     6.00 (%)     extractable sw =   29.03 (mm)
 20 June 1988(Day of year=172), weed: 
-      stage    4.0 end_of_juvenile
-                          biomass =           179.6134       lai =     2.755464
-                          stover N conc =    3.120907       extractable sw =    201.1388
+      stage 4.0 end_of_juvenile
+                     biomass =         179.61 (kg/ha)   lai          =   2.755 (m^2/m^2)
+                     stover N conc =     3.12 (%)     extractable sw =  201.14 (mm)
 28 July 1988(Day of year=210), weed: 
-      stage    5.0 floral_initiation
-                          biomass =           633.0846       lai =     5.378384
-                          stover N conc =    1.628720       extractable sw =    260.1573
+      stage 5.0 floral_initiation
+                     biomass =         633.08 (kg/ha)   lai          =   5.378 (m^2/m^2)
+                     stover N conc =     1.63 (%)     extractable sw =  260.16 (mm)
 1 August 1988(Day of year=214), weed: 
-      stage    6.0 flowering
-                          biomass =           687.3087       lai =     5.390522
-                          stover N conc =    1.551706       extractable sw =    246.2626
+      stage 6.0 flowering
+                     biomass =         687.31 (kg/ha)   lai          =   5.391 (m^2/m^2)
+                     stover N conc =     1.55 (%)     extractable sw =  246.26 (mm)
 10 August 1988(Day of year=223), weed: 
-      stage    7.0 start_grain_fill
-                          biomass =           797.8123       lai =     5.295944
-                          stover N conc =    1.413001       extractable sw =    218.3560
+      stage 7.0 start_grain_fill
+                     biomass =         797.81 (kg/ha)   lai          =   5.296 (m^2/m^2)
+                     stover N conc =     1.41 (%)     extractable sw =  218.36 (mm)
 14 September 1988(Day of year=258), weed: 
       crop failure because of total leaf senescence.
-         Plant Death. Standing above-ground dm = 11420.8 (kg/ha)
+      plant death. standing above-ground dm = 11420.809570 (kg/ha)
 15 September 1988(Day of year=259), manager: 
      Manager sending message :- weed kill_crop
 15 September 1988(Day of year=259), weed: 
@@ -306,10 +297,10 @@
 15 September 1988(Day of year=259), manager: 
      Manager sending message :- weed end_crop
 15 September 1988(Day of year=259), weed: 
-         Crop ended. Yield (dw) =  1714.5
-                                               straw residue =11429.9 kg/ha
-                                               straw N =  107.9 kg/ha
-                                               root residue = 3091.1 kg/ha
-                                               root N =   11.4 kg/ha
+     Crop ended. Yield (dw) =  1714.5  (kg/ha)
+         straw residue = 11429.9 kg/ha
+         straw N =         107.9 kg/ha
+         root residue =   3091.1 kg/ha
+         root N =           11.4 kg/ha
 30 May 1989(Day of year=150), clock: 
      Simulation is terminating due to end criteria being met.
