@@ -300,10 +300,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "licenses.licx"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "LogicUI.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
@@ -502,6 +498,16 @@
                     RelPath = "UImanager.vb"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "VineLogicUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "VineLogicUI.resx"
+                    DependentUpon = "VineLogicUI.vb"
+                    BuildAction = "EmbeddedResource"
                 />
             </Include>
         </Files>
