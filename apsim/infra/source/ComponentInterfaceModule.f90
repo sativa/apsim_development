@@ -12,9 +12,7 @@ module ComponentInterfaceModule
    integer, parameter :: respondToGetSetInfo = 4
    integer, parameter :: eventInfo = 5
    integer, parameter :: respondToEventInfo = 6
-   integer, parameter :: respondToMethodInfo = 7
    integer, parameter :: componentInfo = 8
-   integer, parameter :: methodCallInfo = 9
 
    integer, parameter :: getVariableReg = 1
    integer, parameter :: respondToGetReg = 2
@@ -23,8 +21,6 @@ module ComponentInterfaceModule
    integer, parameter :: respondToGetSetReg = 4
    integer, parameter :: eventReg = 5
    integer, parameter :: respondToEventReg=6
-   integer, parameter :: methodCallReg = 9
-   integer, parameter :: respondToMethodCallReg=7
 
    interface
       function add_registration(kind, name, typeString, alias, componentNameOrID)
@@ -208,16 +204,11 @@ module ComponentInterfaceModule
        character(len=*), intent(in) :: eventName
        end subroutine event_send
 
-!       subroutine action_send_to_all_comps(actionName)
-!       ml_external action_send_to_all_comps
-!       character(len=*), intent(in) :: actionName
-!       end subroutine action_send_to_all_comps
-
-       subroutine action_send(moduleName, actionName)
-       ml_external action_send
+       subroutine event_send_directed(moduleName, actionName)
+       ml_external event_send_directed
        character(len=*), intent(in) :: moduleName
        character(len=*), intent(in) :: actionName
-       end subroutine action_send
+       end subroutine event_send_directed
 
        subroutine get_integer_var(componentID, variableName, units, value, numvals, lower, upper)
        ml_external get_integer_var
@@ -499,6 +490,14 @@ module ComponentInterfaceModule
        character(len=*), intent(in) :: value(*)
        integer, intent(in) :: numvals
        end subroutine respond2get_char_array
+
+       subroutine respond2get_time_var(variableName, units, value)
+       use dataTypes
+       ml_external respond2get_time_var
+       character(len=*), intent(in) :: variableName
+       character(len=*), intent(in) :: units
+       type(timeType), intent(in) :: value
+       end subroutine respond2get_time_var
 
        subroutine post_integer_var(variableName, units, value)
        ml_external post_integer_var

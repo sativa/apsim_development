@@ -16,8 +16,8 @@
       <respondToGetReg name="sw_demand" type="sw_demand"/>
       <respondToGetReg name="rlv" type="rlv"/>
       <respondToGetReg name="crop_" type="crop_type"/>
-      <respondToMethodCallReg name="sysinit" type="sysinit"/>
-      <respondToMethodCallReg name="end_run" type="end_run"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="end_run" type="end_run"/>
       <getVariableReg name="pan" type="pan"/>
       <getVariableReg name="eo" type="eo"/>
       <getVariableReg name="dlayer" type="dlayer"/>

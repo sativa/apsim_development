@@ -44,18 +44,18 @@
       <respondToGetReg name="host_tt_sum" type="host_tt_sum" readable="T"/>
       <respondToGetReg name="soil_temp" type="soil_temp" readable="T"/>
 
-      <respondToMethodCallReg name="kill_parasite" type="kill_parasite"/>
-      <respondToMethodCallReg name="create" type="create"/>
-      <respondToMethodCallReg name="sysinit" type="sysinit"/>
-      <respondToMethodCallReg name="sow" type="sow"/>
-      <respondToMethodCallReg name="harvest" type="harvest"/>
-      <respondToMethodCallReg name="end_run" type="end_run"/>
-      <respondToMethodCallReg name="start" type="start"/>
-      <respondToMethodCallReg name="end" type="end"/>
-      <respondToMethodCallReg name="finish" type="finish"/>
-      <respondToMethodCallReg name="herbicide" type="herbicide"/>
-      <respondToMethodCallReg name="weeding" type="weeding"/>
-      <respondToMethodCallReg name="kill" type="kill"/>
+      <respondToEventReg name="kill_parasite" type="kill_parasite"/>
+      <respondToEventReg name="create" type="create"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="sow" type="sow"/>
+      <respondToEventReg name="harvest" type="harvest"/>
+      <respondToEventReg name="end_run" type="end_run"/>
+      <respondToEventReg name="start" type="start"/>
+      <respondToEventReg name="end" type="end"/>
+      <respondToEventReg name="finish" type="finish"/>
+      <respondToEventReg name="herbicide" type="herbicide"/>
+      <respondToEventReg name="weeding" type="weeding"/>
+      <respondToEventReg name="kill" type="kill"/>
 
       <respondToEventReg name="prepare" type="prepare"/>
       <respondToEventReg name="process" type="process"/>

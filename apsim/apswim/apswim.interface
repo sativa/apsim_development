@@ -161,12 +161,12 @@
       <respondToGetReg name="solute_n_conc_water" type="solute_n_conc_water" autoregister="F"/>
       <respondToGetReg name="solute_n_conc_absorb" type="solute_n_conc_absorb" autoregister="F"/>
 
-      <respondToMethodCallReg name="create" type="createType"/>
-      <respondToMethodCallReg name="sysinit" type="sysinitType"/>
-      <respondToMethodCallReg name="reset" type="resetType"/>
-      <respondToMethodCallReg name="sum_report" type="sum_reportType"/>
-      <respondToMethodCallReg name="tillage" type="tillageType"/>
-      <respondToMethodCallReg name="end_run" type="end_runType"/>
+      <respondToEventReg name="create" type="createType"/>
+      <respondToEventReg name="sysinit" type="sysinitType"/>
+      <respondToEventReg name="reset" type="resetType"/>
+      <respondToEventReg name="sum_report" type="sum_reportType"/>
+      <respondToEventReg name="tillage" type="tillageType"/>
+      <respondToEventReg name="end_run" type="end_runType"/>
 
       <respondToEventReg name="tick" type="time"/>
       <EventReg name="swim_timestep_preparation" type="swim_timestep_preparationType"/>
@@ -176,7 +176,7 @@
 
       <respondToEventReg name="new_solute" type="new_soluteType"/>
       <respondToEventReg name="irrigated" type="irrigatedType"/>
-      <respondToMethodCallReg name="subsurfaceflow" type="SubSurfaceFlowType"/>
+      <respondToEventReg name="subsurfaceflow" type="SubSurfaceFlowType"/>
       <respondToEventReg name="prepare" type="prepareType"/>
       <respondToEventReg name="process" type="processType"/>
       <respondToEventReg name="post" type="postType"/>

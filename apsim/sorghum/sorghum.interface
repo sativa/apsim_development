@@ -284,12 +284,12 @@
       <respondToGetReg name="ll_dep" type="ll_dep"/>
       <respondToGetReg name="kl" type="kl"/>
       <respondToGetReg name="xf" type="xf"/>
-      <respondToMethodCallReg name="sysinit" type="sysinit"/>
-      <respondToMethodCallReg name="create" type="create"/>
-      <respondToMethodCallReg name="sow" type="sow"/>
-      <respondToMethodCallReg name="harvest" type="harvest"/>
-      <respondToMethodCallReg name="end_crop" type="end_crop"/>
-      <respondToMethodCallReg name="kill_crop" type="kill_crop"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="create" type="create"/>
+      <respondToEventReg name="sow" type="sow"/>
+      <respondToEventReg name="harvest" type="harvest"/>
+      <respondToEventReg name="end_crop" type="end_crop"/>
+      <respondToEventReg name="kill_crop" type="kill_crop"/>
       <getVariableReg name="Day" type="Day"/>
       <getVariableReg name="Year" type="Year"/>
       <getVariableReg name="Latitude" type="Latitude"/>

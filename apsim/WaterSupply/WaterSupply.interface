@@ -13,9 +13,9 @@
       <read name="renewal_day" type="renewal_day" readable="T"/>
       <read name="b" type="b" readable="T"/>
 
-      <respondToMethodCallReg name="gimme_water" type="gimme_water"/>
-      <respondToMethodCallReg name="top_up" type="top_up"/>
-      <respondToMethodCallReg name="water_supplied" type="water_supplied"/>
+      <respondToEventReg name="gimme_water" type="gimme_water"/>
+      <respondToEventReg name="top_up" type="top_up"/>
+      <respondToEventReg name="water_supplied" type="water_supplied"/>
 
       <respondToEventReg name="tick" type="time"/>
       <respondToEventReg name="newmet" type="newmet"/>

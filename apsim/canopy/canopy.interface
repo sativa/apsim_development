@@ -10,7 +10,7 @@
       <respondToGetReg name="cover_green_sum" type="cover_green_sum"/>
       <respondToGetReg name="cover_green_all" type="cover_green_all"/>
       <respondToGetReg name="cover_crops_all" type="cover_crops_all"/>
-      <respondToMethodCallReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
       <getVariableReg name="crop_" type="crop_type"/>
       <getVariableReg name="cover_green" type="cover_green"/>
       <getVariableReg name="cover_tot" type="cover_tot"/>

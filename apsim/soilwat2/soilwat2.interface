@@ -83,10 +83,10 @@
       <read name="canopy_fact_height" type="canopy_fact_height" readable="T"/>
       <read name="canopy_fact_default" type="canopy_fact_default" readable="T"/>
       <read name="act_evap_method" type="act_evap_method" readable="T"/>
-      <respondToMethodCallReg name="tillage" type="tillage"/>
-      <respondToMethodCallReg name="reset" type="reset"/>
-      <respondToMethodCallReg name="sum_report" type="sum_report"/>
-      <respondToMethodCallReg name="evap_init" type="evap_init"/>
+      <respondToEventReg name="tillage" type="tillage"/>
+      <respondToEventReg name="reset" type="reset"/>
+      <respondToEventReg name="sum_report" type="sum_report"/>
+      <respondToEventReg name="evap_init" type="evap_init"/>
       <eventReg name="new_profile" type="new_profile"/>
       <getVariableReg name="residue_cover" type="residue_cover"/>
       <getVariableReg name="cover_surface_extra" type="cover_surface_extra"/>

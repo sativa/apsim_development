@@ -14,8 +14,8 @@
       <read name="names" type="names" readable="T"/>
       <read name="check" type="check" readable="T"/>
       <read name="check(i)" type="check(i)" readable="T"/>
-      <respondToMethodCallReg name="sysinit" type="sysinit"/>
-      <respondToMethodCallReg name="end_run" type="end_run"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="end_run" type="end_run"/>
       <getVariableReg name="p%names(i)" type="p%names(i)"/>
       <getVariableReg name="g%name_found(i)" type="g%name_found(i)"/>
       <respondToEventReg name="prepare" type="prepare"/>

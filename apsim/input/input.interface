@@ -4,7 +4,7 @@
 <component name="input">
    <registrations>
       <read name="inputfile" type="inputfile" readable="T"/>
-      <respondToMethodCallReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
       <eventReg name="newmet" type="newmet"/>
       <respondToEventReg name="prepare" type="prepare"/>
    </registrations>

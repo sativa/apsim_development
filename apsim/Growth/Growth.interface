@@ -3,13 +3,13 @@
 
 <component name="forest">
    <registrations>
-      <respondToMethodCallReg name="create" type="create"/>
-      <respondToMethodCallReg name="sysinit" type="sysinit"/>
-      <respondToMethodCallReg name="cut" type="cut"/>
-      <respondToMethodCallReg name="thin" type="thin"/>
-      <respondToMethodCallReg name="establish" type="establish"/>
-      <respondToMethodCallReg name="kill" type="kill"/>
-      <respondToMethodCallReg name="change_class" type="change_class"/>
+      <respondToEventReg name="create" type="create"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="cut" type="cut"/>
+      <respondToEventReg name="thin" type="thin"/>
+      <respondToEventReg name="establish" type="establish"/>
+      <respondToEventReg name="kill" type="kill"/>
+      <respondToEventReg name="change_class" type="change_class"/>
       <eventReg name="new_pot_growth" type="new_pot_growth"/>
       <eventReg name="new_canopy" type="new_canopy"/>
       <eventReg name="new_crop" type="new_crop"/>

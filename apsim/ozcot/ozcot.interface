@@ -144,13 +144,13 @@
       <read name="fwstrs_high" type="fwstrs_high" readable="T"/>
       <read name="fwstrs_a" type="fwstrs_a" readable="T"/>
       <read name="ll" type="ll" readable="T"/>
-      <respondToMethodCallReg name="create" type="create"/>
-      <respondToMethodCallReg name="sysinit" type="sysinit"/>
-      <respondToMethodCallReg name="end_run" type="end_run"/>
-      <respondToMethodCallReg name="sow" type="sow"/>
-      <respondToMethodCallReg name="harvest" type="harvest"/>
-      <respondToMethodCallReg name="end_crop" type="end_crop"/>
-      <respondToMethodCallReg name="kill_crop" type="kill_crop"/>
+      <respondToEventReg name="create" type="create"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="end_run" type="end_run"/>
+      <respondToEventReg name="sow" type="sow"/>
+      <respondToEventReg name="harvest" type="harvest"/>
+      <respondToEventReg name="end_crop" type="end_crop"/>
+      <respondToEventReg name="kill_crop" type="kill_crop"/>
       <getVariableReg name="day" type="day"/>
       <getVariableReg name="year" type="year"/>
       <getVariableReg name="maxt" type="maxt"/>

@@ -3,8 +3,8 @@
 
 <component name="tamet2">
    <registrations>
-      <respondToMethodCallReg name="sysinit" type="sysinit"/>
-      <respondToMethodCallReg name="end_run" type="end_run"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="end_run" type="end_run"/>
       <respondToEventReg name="prepare" type="prepare"/>
       <respondToEventReg name="process" type="process"/>
    </registrations>

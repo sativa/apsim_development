@@ -109,11 +109,11 @@
       <respondToGetSetReg name="n_reduction" type="n_reduction"/>
       <respondToGetSetReg name="dlt_org_n" type="dlt_org_n"/>
       <respondToGetSetReg name="dlt_org_c_pool" type="dlt_org_c_pool"/>
-      <respondToMethodCallReg name="sysinit" type="sysinit"/>
-      <respondToMethodCallReg name="reset" type="reset"/>
-      <respondToMethodCallReg name="sum_report" type="sum_report"/>
-      <respondToMethodCallReg name="create" type="create"/>
-      <respondToMethodCallReg name="add_roots" type="incorp_fom"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="reset" type="reset"/>
+      <respondToEventReg name="sum_report" type="sum_report"/>
+      <respondToEventReg name="create" type="create"/>
+      <respondToEventReg name="add_roots" type="incorp_fom"/>
       <respondToEventReg name="incorp_fom" type="incorp_fom"/>
 
       <eventReg name="new_solute" type="new_solute"/>

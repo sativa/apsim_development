@@ -3,7 +3,7 @@
 
 <component name="operatns">
    <registrations>
-      <respondToMethodCallReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
       <getVariableReg name="year" type="year"/>
       <getVariableReg name="day" type="day"/>
       <respondToEventReg name="prepare" type="prepare"/>

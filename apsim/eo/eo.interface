@@ -60,7 +60,7 @@
       <read name="soil_heat_flux" type="soil_heat_flux" readable="T"/>
       <read name="penman_fU2_coef_a" type="penman_fU2_coef_a" readable="T"/>
       <read name="penman_fU2_coef_b" type="penman_fU2_coef_b" readable="T"/>
-      <respondToMethodCallReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
       <getVariableReg name="latitude" type="latitude"/>
       <getVariableReg name="instrum_height" type="instrum_height"/>
       <getVariableReg name="vpd" type="vpd"/>

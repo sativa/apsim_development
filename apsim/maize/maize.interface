@@ -281,12 +281,12 @@
       <read name="y_swdef_pheno" type="y_swdef_pheno" readable="T"/>
       <read name="x_sw_ratio" type="x_sw_ratio" readable="T"/>
       <read name="y_sw_fac_root" type="y_sw_fac_root" readable="T"/>
-      <respondToMethodCallReg name="create" type="create"/>
-      <respondToMethodCallReg name="sysinit" type="sysinit"/>
-      <respondToMethodCallReg name="sow" type="sow"/>
-      <respondToMethodCallReg name="harvest" type="harvest"/>
-      <respondToMethodCallReg name="end_crop" type="end_crop"/>
-      <respondToMethodCallReg name="kill_crop" type="kill_crop"/>
+      <respondToEventReg name="create" type="create"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="sow" type="sow"/>
+      <respondToEventReg name="harvest" type="harvest"/>
+      <respondToEventReg name="end_crop" type="end_crop"/>
+      <respondToEventReg name="kill_crop" type="kill_crop"/>
       <getVariableReg name="day" type="day"/>
       <getVariableReg name="year" type="year"/>
       <getVariableReg name="latitude" type="latitude"/>

@@ -24,7 +24,7 @@
       <respondToEventReg name="swim_timestep_preparation" type="swim_timestep_preparation"/>
       <respondToEventReg name="pre_swim_timestep" type="pre_swim_timestep"/>
       <respondToEventReg name="post_swim_timestep" type="post_swim_timestep"/>
-      <respondToMethodCallReg name="tillage" type="tillage"/>
+      <respondToEventReg name="tillage" type="tillage"/>
       <getVariableReg name="year" type="year"/>
       <getVariableReg name="day" type="day"/>
       <getVariableReg name="dr" type="dr"/>

@@ -4,12 +4,12 @@
 <component name="oryza">
    <registrations>
 
-      <respondToMethodCallReg name="create" type="create"/>
-      <respondToMethodCallReg name="sysinit" type="sysinit"/>
-      <respondToMethodCallReg name="sow" type="sow"/>
-      <respondToMethodCallReg name="end_crop" type="end_crop"/>
-      <respondToMethodCallReg name="kill_crop" type="kill_crop"/>
-      <respondToMethodCallReg name="end_run" type="end_run"/>
+      <respondToEventReg name="create" type="create"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="sow" type="sow"/>
+      <respondToEventReg name="end_crop" type="end_crop"/>
+      <respondToEventReg name="kill_crop" type="kill_crop"/>
+      <respondToEventReg name="end_run" type="end_run"/>
 
       <eventReg name="crop_chopped" type="crop_chopped"/>
       <eventReg name="incorp_fom" type="incorp_fom"/>

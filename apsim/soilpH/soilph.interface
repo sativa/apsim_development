@@ -3,12 +3,12 @@
 
 <component name="soilph">
    <registrations>
-      <respondToMethodCallReg name="sysinit" type="sysinit"/>
-      <respondToMethodCallReg name="reset" type="reset"/>
-      <respondToMethodCallReg name="create" type="create"/>
-      <respondToMethodCallReg name="end_run" type="end_run"/>
-      <respondToMethodCallReg name="sum_report" type="sum_report"/>
-      <respondToMethodCallReg name="tillage" type="tillage"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="reset" type="reset"/>
+      <respondToEventReg name="create" type="create"/>
+      <respondToEventReg name="end_run" type="end_run"/>
+      <respondToEventReg name="sum_report" type="sum_report"/>
+      <respondToEventReg name="tillage" type="tillage"/>
       <respondToEventReg name="n_balance" type="n_balance"/>
       <respondToEventReg name="c_balance" type="c_balance"/>
       <respondToEventReg name="residue_added" type="residue_added"/>

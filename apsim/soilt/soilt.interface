@@ -4,8 +4,8 @@
 <component name="soilt">
    <registrations>
       <respondToGetReg name="soil_temp" type="soil_temp"/>
-      <respondToMethodCallReg name="sysinit" type="sysinit"/>
-      <respondToMethodCallReg name="end_run" type="end_run"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="end_run" type="end_run"/>
       <getVariableReg name="tav" type="tav"/>
       <getVariableReg name="bd" type="bd"/>
       <getVariableReg name="sw" type="sw"/>
