@@ -1,0 +1,9 @@
+[Dependencies]
+Dependency = %licensed_source(canopy)
+
+[Contents]
+canopy.for = canopy.for
+
+[APSBuild]
+binary = ..\lib\canopy.dll
+moduletype=module

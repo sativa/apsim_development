@@ -1,0 +1,9 @@
+[Dependencies]
+Dependency = %licensed_source(solute)
+
+[Contents]
+solute.for = solute.for
+
+[APSBuild]
+binary = ..\lib\solute.dll
+moduletype=module

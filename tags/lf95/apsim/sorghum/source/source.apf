@@ -1,0 +1,11 @@
+[Dependencies]
+Dependency = %licensed_source(sorghum)
+
+[Contents]
+sorgmain.for = sorgmain.for
+sorgopt.for = sorgopt.for
+sorgtree.for = sorgtree.for
+sorgn.for = sorgn.for
+[APSBuild]
+binary = ..\lib\sorghum.dll
+moduletype=croptemplate

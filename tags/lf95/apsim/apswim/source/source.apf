@@ -1,0 +1,10 @@
+[Dependencies]
+Dependency = %licensed_source(apswim)
+
+[Contents]
+apswim.for = apswim.for
+swim.for = swim.for
+
+[APSBuild]
+binary = ..\lib\apswim.dll
+moduletype=module

@@ -1,0 +1,9 @@
+[Dependencies]
+Dependency = %licensed_source(clock)
+
+[Contents]
+clock.for = clock.for
+
+[APSBuild]
+binary = ..\lib\clock.dll
+moduletype = module
