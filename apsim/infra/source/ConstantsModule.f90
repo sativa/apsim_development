@@ -550,6 +550,35 @@ module ConstantsModule
       parameter (DATA_bd = 'bd')
 
 
+! ====================================================================
+!      Water Given EVENT
+! ====================================================================
+
+!   Short description:
+!      To notify all interested modules of the transfer of water between sources
+
+!   Notes:
+
+!   Changes:
+!      100603  dsg
+
+! ----------------------- Declaration section ------------------------
+
+!   Global variables
+!      none
+
+!   Event Name
+
+      character EVENT_Water_given*(*)
+      parameter (EVENT_Water_given='water_given')
+
+!   Event Data
+
+      character DATA_water_supplied *(*)
+      parameter (DATA_water_supplied = 'water_supplied')
+
+!     Solute information will also be included in this event at a future point
+
 
 
 end module ConstantsModule
