@@ -126,7 +126,7 @@ string Computation::getWrapperFilename(const string& filename) throw (runtime_er
       // Go get the wrapperDll filename.
       char wrapperFilename[500];
       (*wrapperDll)(&wrapperFilename[0]);
-      return &wrapperFilename[0];
+      return Path(&wrapperFilename[0]).Get_name();
       }
    }
 
