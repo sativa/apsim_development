@@ -25,6 +25,7 @@ class CompileThread : public TThread
       bool Stdout;
       bool Quiet;
       string Compiler_output_filename;
+      string CompilerFile;
 
       virtual void __fastcall Execute (void);
 

@@ -125,6 +125,7 @@ void __fastcall TMainForm::ThreadTerminated (TObject* Object)
          Thread->DisplayMessage2 = DisplayMessage2;
          Thread->OnTerminate = ThreadTerminated;
          Thread->Stdout = Stdout;
+         Thread->CompilerFile = CompilerFile;
          if (OutFile != "")
             Thread->Compiler_output_filename = OutFile;
          Thread->Resume();

@@ -416,7 +416,10 @@ void CompileThread::getCompilerSettings(ApsimProject& apf,
    {
    // If the caller supplied a compilerFile then use that to do the lookup.
    // Otherwise go find and use the default one for the specified project.
-   string compilerFileToUse = compilerFile;
+   string compilerFileToUse = CompilerFile;
+
+   if (compilerFileToUse == "")
+      compilerFileToUse = compilerFile;
    if (compilerFileToUse == "")
       {
       apf.get("compilerFile", compilerFileToUse, APSBUILD_SECTION, false);
