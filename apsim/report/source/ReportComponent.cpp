@@ -213,6 +213,8 @@ void Field::writeTo(ostream& out, const string& value)
    {
    if (!CSVFormat)
       out.width(fieldWidth);
+   if (value.length() >= fieldWidth)
+      value.erase(fieldWidth-1);
    out << value;
    }
 // ------------------------------------------------------------------
