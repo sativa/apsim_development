@@ -355,6 +355,9 @@ namespace CSGeneral
 				}
 
 			string Value;
+			if (Macro == "name")
+				return Child.Name;
+
 			// try getting an attribute first.
 			if (Child.AttributeExists(Macro))
 				return Child.Attribute(Macro);
