@@ -2,6 +2,7 @@
 #include "EventInterface.h"
 #include "computation.h"
 using namespace std;
+bool ICoordinator::componentResponded = false;
 // ------------------------------------------------------------------
 //  Short description:
 //     create an event interface
