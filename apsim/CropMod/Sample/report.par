@@ -4,6 +4,7 @@
 !-------------Each treatment unique ----------------------------------------------
 
 [wheat.report.parameters]
+!profile_output=on
 title         =  WHEAT SAMPLE Simulation - N120
 outputfile    =  WHEAT.out  /overwrite
 summaryfile   =  WHEAT.sum  /overwrite
@@ -46,5 +47,18 @@ module_names   =   soilwat2 soilwat2  soilwat2 soilwat2  soilwat2 soiln2   soiln
 variable_names =   esw        sw()    es       runoff    drain    no3()    nh4()
 variable_alias =   esw        -       -        -         -        -        -
 units          =   -          -       -        -         -        -        -     
+
+
+
+
+[mettest.report.parameters]
+title         =  mettest SAMPLE SIMULATION
+outputfile    =  mettest.out  /overwrite
+summaryfile   =  mettest.sum  /overwrite
+
+module_names   =    clock clock met
+variable_names =    year  day   maxt
+variable_alias =    -     -     -
+units          =    -     -     -
 
 

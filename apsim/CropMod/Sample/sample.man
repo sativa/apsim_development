@@ -7,6 +7,9 @@ start_year = 1992
 end_day    = 322
 end_year   = 1992
 
+[mettest.manager.end_of_day]
+
+   report do_output
 
 !********************************************************************************
 ! The manager
