@@ -297,27 +297,39 @@
 <p class="Title2">Manager Functions</p>
 <p class="Normal">Manager functions may not have any spaces. This applies from the first character of the function name to the terminating bracket. The manager has the following functions:-</p>
 <p class="Normal">&nbsp;</p>
-<table cellspacing="0" cellpadding="0">
+<table cellspacing="0" cellpadding="0" width="560">
   <tr>
     <td width="121" valign="top"><p align="center" class="Normal">Function name </p></td>
-    <td width="302" valign="top"><p class="Normal">Description </p></td>
+    <td width="439" valign="top"><p class="Normal">Description </p></td>
   </tr>
   <tr>
     <td width="121" valign="top"><p align="center" class="Normal">date </p></td>
-    <td width="302" valign="top"><p class="Normal">returns the julian day number of specified date. eg. date(‘1-oct'). </p>
+    <td width="439" valign="top"><p class="Normal">returns the julian day number of specified date. eg. date(‘1-oct'). </p>
         <p class="Normal">The date must be a literal enclosed in single quotes. </p></td>
   </tr>
   <tr>
     <td width="121" valign="top"><p align="center" class="Normal">date_within </p></td>
-    <td width="302" valign="top"><p class="Normal">returns 1 if “today's” date is within the range specified, otherwise returns 0. </p>
+    <td width="439" valign="top"><p class="Normal">returns 1 if “today's” date is within the range specified, otherwise returns 0. </p>
         <p class="Normal">eg. date_within('1-oct,31-oct') </p>
         <p class="Normal">The pair of dates must be two date literals separated by a comma, and the whole argument must be enclosed in quotes. Note the lack of quotes near the comma. </p></td>
   </tr>
   <tr>
     <td width="121" valign="top"><p align="center" class="Normal">nearest_int </p></td>
-    <td width="302" valign="top"><p class="Normal">Returns the nearest integer to the value specified. </p>
+    <td width="439" valign="top"><p class="Normal">Returns the nearest integer to the value specified. </p>
         <p class="Normal">eg. nearest_int(var1) </p>
         <p class="Normal">Here ‘var1' must be a numeric variable. It cannot be a literal or an expression. </p></td>
+  </tr>
+  <tr>
+    <td width="121" valign="top"><p align="center" class="Normal">
+    paddock_is_fallow </p></td>
+    <td width="439" valign="top"><p class="Normal">Returns 1 if there are no 
+    crops in the ground.</p>
+        <p class="Normal">e.g. </p>
+        <p class="Normal">&nbsp;&nbsp; if (paddock_is_fallow() = 1 and today = 
+        date('1-jun')) then</p>
+        <p class="Normal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; wheat sow ...</p>
+        <p class="Normal">&nbsp;&nbsp; endif</p>
+        </td>
   </tr>
 </table>
 <p class="Normal">&nbsp;</p>

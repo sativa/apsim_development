@@ -933,6 +933,10 @@ C     Last change:  P    25 Oct 2000    9:26 am
       logical ok
       real  value
       integer io_result
+      logical crop_in_ground
+      integer crop
+      character plant_status*100
+      logical more_crops_to_check
 
 !- Implementation Section ----------------------------------
       Is_apsim_variable = (index(variable_name, '.') .gt. 0)
@@ -975,6 +979,29 @@ C     Last change:  P    25 Oct 2000    9:26 am
             d_var_val = dnint(d_var_val)
             call double_var_to_string (d_var_val, variable_value)
          end if
+         valueIsReal = .true.
+
+      else if (variable_name(1:19) .eq. 'paddock_is_fallow()') then
+         crop_in_ground = .false.
+         crop = 0
+         more_crops_to_check = .true.
+
+         do while (.not. crop_in_ground .and. more_crops_to_check)
+            crop = crop + 1
+            call get_char_vars(crop, 'plant_status', '()'
+     :                             , plant_status, numvals)
+
+            if (numvals.ne.0) then
+               crop_in_ground = (plant_status .ne. 'out')
+            else
+               more_crops_to_check = .false.
+            endif
+         enddo
+         if (crop_in_ground) then
+            Variable_value = '0'
+         else
+            Variable_value = '1'
+         endif
          valueIsReal = .true.
 
       elseif (Is_apsim_variable) then
@@ -1226,9 +1253,11 @@ C     Last change:  P    25 Oct 2000    9:26 am
       integer regID
 
 !- Implementation Section ----------------------------------
-      call split_line (Action_string, Module_name, Data_string, Blank)
+      call split_line_with_quotes (Action_string, Module_name,
+     .                             Data_string, Blank)
       Data_string = adjustl(Data_string)
-      call split_line (Data_string, Action, Data_string, Blank)
+      call split_line_with_quotes (Data_string, Action,
+     .                             Data_string, Blank)
       Action = adjustl(Action)
 
       ! Test for case where user has forgotten to put in equals sign in set command.
@@ -3092,8 +3121,11 @@ c      end subroutine
 !          g%buffer_last = g%buffer
         endif
 
-          if   (ind .ge. 1 .and. g%token .eq. C_WORD .and.
-     :          Token_array2(ind) .eq. C_WORD) then
+
+          if   (ind .ge. 1 .and.
+     :          (g%token .eq. C_WORD .or. g%Token .eq. C_LITERAL) .and.
+     :             (Token_array2(ind) .eq. C_WORD .or.
+     :              Token_array2(ind) .eq. C_LITERAL) ) then
 
                 g%buffer = string_concat (Token_Array(ind),
      :                                          ' '//g%buffer)
