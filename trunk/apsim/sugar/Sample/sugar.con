@@ -1,0 +1,11 @@
+[APSIM.sample_sugar]
+module=report     sugar.par[sample]                                 
+module=input      ..\..\input\sample\ingham.met[weather]  sugar.par[sample]
+module=met
+module=manager    sugar.par[sample]
+module=irrigate   sugar.par[sample]
+module=fertiliz   ..\..\fertiliz\fertiliz.ini[standard]
+module=soilwat2   ..\..\soilwat2\sample\soilwat2.par[black_earth]  ..\..\soilwat2\soilwat2.ini[standard]
+module=residue2   ..\..\residue2\sample\residue2.par[sugar_residue]  ..\..\residue2\residue2.ini[standard]
+module=soiln2     ..\..\soiln2\sample\soiln2.par[black_earth]      ..\..\soiln2\soiln2.ini[standard]
+module=sugar     sugar.par[sample]  ..\sugar.ini[standard]
