@@ -32,7 +32,7 @@
       if (doAllocate) then
          allocate(g)
          allocate(p)
-         allocate(c)   
+         allocate(c)
          allocate(id)
       else
          deallocate(g)
@@ -115,7 +115,7 @@
 
          else
             ! Crop not in the field, do nothing
-            !call Zero_Variables (.false.)
+            call Zero_Variables (.false.)
          endif
 
       elseif (action.eq.ACTION_process) then
@@ -192,7 +192,7 @@
             call End_Crop ()
 
             !Zero all the globals, but not the contants and parameters
-            call Zero_Variables (.false.)
+            !call Zero_Variables (.false.)
 
             !Set plant status to status_out and stage to plant_end subroutine
             if (g%plant_status.ne.status_out) then
@@ -235,11 +235,10 @@
       Use infrastructure
       implicit none
       ml_external respondToEvent
-      
+
       integer, intent(in) :: fromID
       integer, intent(in) :: eventID
       integer, intent(in) :: variant
-      
+
       return
       end subroutine respondToEvent
-      
