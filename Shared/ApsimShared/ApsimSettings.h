@@ -53,4 +53,15 @@ class __declspec(dllexport) ApsimSettings
       std::string getKey(const std::string& key) const;
    };
 
+// ------------------------------------------------------------------
+// Save the specified form position to the apsim settings .ini file.
+// ------------------------------------------------------------------
+void _export saveFormPosition(TForm* form);
+
+// ------------------------------------------------------------------
+// Restore the specified form position from the apsim settings .ini file.
+// ------------------------------------------------------------------
+void _export loadFormPosition(TForm* form);
+   
+
 #endif
