@@ -1767,9 +1767,6 @@ module DataStrModule
       
       call get_next_variable (temp_line,next_key,next_value)
       do while (next_key.ne.' ')
-        print *, 'next_key, key'
-        print *, next_key, key
-        pause
         if (next_key .eq. key) then
            value = next_value
            call split_off_units(value,units)
@@ -1782,7 +1779,7 @@ module DataStrModule
       enddo
       
       if (isoptional) then
-         !  carry on the value is optional
+         !  carry on because the value is optional
       else
          call error (trim(key) // ' : variable not found',.true.)
       endif  
@@ -1791,9 +1788,6 @@ module DataStrModule
   999 continue
   
       get_char_variable = ok
-      print *,'key,temp_optval'
-      print *,key,isoptional
-      pause
       return
       end function
 
