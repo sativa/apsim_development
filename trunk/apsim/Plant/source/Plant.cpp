@@ -522,6 +522,12 @@ void Plant::doRegistrations(void)
    setupGetVar("dlt_n_retrans", protocol::DTsingle, max_part,
                &g.dlt_n_retrans, "g/m^2", "N in retranslocate");
 
+   setupGetVar("dlt_n_senesced_trans", protocol::DTsingle, max_part,
+               &g.dlt_n_senesced_trans, "g/m^2", "N in translocate");
+
+   setupGetVar("dlt_n_senesced_retrans", protocol::DTsingle, max_part,
+               &g.dlt_n_senesced_retrans, "g/m^2", "N in retranslocate");
+
    setupGetVar("dlt_n_senesced", protocol::DTsingle, max_part,
                &g.dlt_n_senesced, "g/m^2", "N in delta senesced");
 
@@ -8610,7 +8616,7 @@ void Plant::plant_process ( void )
 
     //plant_fruit_cohort_number(c.fruit_no_option);
 
-    plant_water_stress (1);
+    plant_water_stress (2);
     plant_nit_stress (c.n_stress_option);
 
     pop_routine (my_name);
@@ -9632,17 +9638,17 @@ void Plant::plant_zero_all_globals (void)
       g.plant_status=out;
       g.cultivar="";
       g.pre_dormancy_crop_class="";
-      g.swdef_expansion=0;
-      g.swdef_photo=0;
-      g.swdef_pheno=0;
-      g.swdef_fixation=0;
+      g.swdef_expansion=1.0;
+      g.swdef_photo=1.0;
+      g.swdef_pheno=1.0;
+      g.swdef_fixation=1.0;
       g.sw_avail_fac_deepest_layer=0;
-      g.nfact_expansion=0;
-      g.nfact_photo=0;
-      g.nfact_grain_conc=0;
-      g.nfact_pheno=0;
-      g.temp_stress_photo=0;
-      g.oxdef_photo=0;
+      g.nfact_expansion=1.0;
+      g.nfact_photo=1.0;
+      g.nfact_grain_conc=1.0;
+      g.nfact_pheno=1.0;
+      g.temp_stress_photo=1.0;
+      g.oxdef_photo=1.0;
       g.row_spacing=0;
       g.skip_row=0;
       g.skip_plant=0;
@@ -10311,13 +10317,13 @@ void Plant::plant_zero_variables (void)
     g.tlai_dead             = 0.0;
     g.pai                   = 0.0;
 
-    g.swdef_pheno = 0.0;
-    g.swdef_photo = 0.0;
-    g.swdef_expansion = 0.0;
-    g.swdef_fixation = 0.0;
-    g.nfact_pheno = 0.0;
-    g.nfact_photo = 0.0;
-    g.nfact_grain_conc = 0.0;
+    g.swdef_pheno = 1.0;
+    g.swdef_photo = 1.0;
+    g.swdef_expansion = 1.0;
+    g.swdef_fixation = 1.0;
+    g.nfact_pheno = 1.0;
+    g.nfact_photo = 1.0;
+    g.nfact_grain_conc = 1.0;
 
     g.n_fix_pot = 0.0;
     g.n_fix_uptake = 0.0;
@@ -16656,18 +16662,18 @@ bool Plant::read_array(const vector<std::string>& search_order,
    return false;
 }
 
-// NB. "5.2" is half way between FI and flag leaf in wheat 
+// NB. "5.2" is half way between FI and flag leaf in wheat
 void Plant::get_zadok_stage(protocol::Component *system, protocol::QueryValueData &qd)
 {
     float zadok_stage = 0.0;
- 
+
     if (g.current_stage >= sowing &&
         g.current_stage <= emerg)
        {
        zadok_stage = 5.0 * (g.current_stage - sowing);
        }
     else if (g.current_stage > emerg &&
-             g.current_stage <= 4.9)  
+             g.current_stage <= 4.9)
        {
        float leaf_no_now = sum_between (emerg-1, now-1, g.leaf_no);
 
@@ -16679,7 +16685,7 @@ void Plant::get_zadok_stage(protocol::Component *system, protocol::QueryValueDat
                                                , tillerno_x
                                                , tillerno_y
                                                , sizeof(tillerno_x)/sizeof(float));
-       if (tiller_no_now <= 0.0) 
+       if (tiller_no_now <= 0.0)
            {
            zadok_stage = 10.0 + leaf_no_now;
            }
