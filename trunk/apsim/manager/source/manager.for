@@ -883,6 +883,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       real realValue
 
       integer, parameter :: Ok_status=0
+      integer, parameter :: Not_ok=1
 
 !- Implementation Section ----------------------------------
 
@@ -896,8 +897,12 @@ C     Last change:  P    25 Oct 2000    9:26 am
          call Fatal_error(ERR_user, str)
 
       else
-         read (Variable_value, '(g25.0)',
-     .      iostat=read_status) realValue
+         if (Variable_value .eq. ' ') then
+            read_status = Not_ok
+         else
+            read (Variable_value, '(g25.0)',
+     .         iostat=read_status) realValue
+         endif
 
          g%local_variable_is_real(g%num_local_variables)
      .       = (read_status.eq.OK_status)
