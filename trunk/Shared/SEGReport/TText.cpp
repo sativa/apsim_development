@@ -10,7 +10,7 @@
 using namespace std;
 //---------------------------------------------------------------------------
 __fastcall TText::TText(TComponent* Owner)
-   : TQRMemo(Owner)
+   : TgtQRMemo(Owner)
    {
    }
 //---------------------------------------------------------------------------
@@ -18,7 +18,7 @@ __fastcall TText::TText(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TText::Loaded(void)
    {
-   TQRMemo::Loaded();
+   TgtQRMemo::Loaded();
    refresh();
    }
 //---------------------------------------------------------------------------

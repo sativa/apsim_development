@@ -8,19 +8,22 @@
 #pragma package(smart_init)
 #pragma link "AdvEdBtn"
 #pragma link "AdvEdit"
+#pragma link "TPropertyForm"
 #pragma resource "*.dfm"
 TImageForm *ImageForm;
 //---------------------------------------------------------------------------
 __fastcall TImageForm::TImageForm(TComponent* Owner)
-   : TForm(Owner)
+   : TPropertyForm(Owner)
 {
 }
 //---------------------------------------------------------------------------
 // The component passed in is what we're allowing the user to edit.
 //---------------------------------------------------------------------------
-void TImageForm::setComponent(TQRImage* i)
+void TImageForm::setComponent(TComponent* component)
    {
-   image = i;
+   TPropertyForm::setComponent(component);
+   image = dynamic_cast< ::TImage*>(component);
+
    AutoSizeCheckBox->Checked = image->AutoSize;
    CentreCheckBox->Checked = image->Center;
    StretchCheckBox->Checked = image->Stretch;
@@ -43,12 +46,7 @@ void __fastcall TImageForm::StretchCheckBoxClick(TObject *Sender)
    image->Stretch = StretchCheckBox->Checked;
    }
 //---------------------------------------------------------------------------
-void __fastcall TImageForm::NameEditExit(TObject *Sender)
-   {
-   image->Name = NameEdit->Text;
-   }
-//---------------------------------------------------------------------------
-void __fastcall TImageForm::AdvEditBtn1Click(TObject *Sender)
+void __fastcall TImageForm::ImageFileEditClickBtn(TObject *Sender)
    {
    if (OpenPictureDialog->Execute())
       {
@@ -57,3 +55,4 @@ void __fastcall TImageForm::AdvEditBtn1Click(TObject *Sender)
       }
    }
 //---------------------------------------------------------------------------
+

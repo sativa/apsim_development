@@ -4,37 +4,25 @@
 #pragma hdrstop
 
 #include "TChartForm.h"
-#include <general\vcl_functions.h>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
+#pragma link "TPropertyForm"
 #pragma resource "*.dfm"
 TChartForm *ChartForm;
 //---------------------------------------------------------------------------
 __fastcall TChartForm::TChartForm(TComponent* Owner)
-   : TForm(Owner)
+   : TPropertyForm(Owner)
 {
 }
 //---------------------------------------------------------------------------
-void TChartForm::setComponent(TSEGChart* c)
+void TChartForm::setComponent(TComponent* component)
    {
-   chart = c;
-   NameEdit->Text = chart->Name;
-   DuplicateCheckBox->Checked = chart->duplicateChartSeries;
-   }
-//---------------------------------------------------------------------------
-void __fastcall TChartForm::NameEditExit(TObject *Sender)
-   {
-   chart->Name = NameEdit->Text;
+   TPropertyForm::setComponent(component);
+   graph = dynamic_cast<TGraph*>(component);
    }
 //---------------------------------------------------------------------------
 void __fastcall TChartForm::ChartPropertiesButtonClick(TObject *Sender)
    {
-   chart->userEdit();
+   graph->userEdit();
    }
 //---------------------------------------------------------------------------
-void __fastcall TChartForm::DuplicateCheckBoxClick(TObject *Sender)
-   {
-   chart->duplicateChartSeries = DuplicateCheckBox->Checked;
-   }
-//---------------------------------------------------------------------------
-

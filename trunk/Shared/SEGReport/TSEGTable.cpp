@@ -14,6 +14,7 @@ using namespace std;
 #pragma link "kbmMemTable"
 
 static const char* SERIES_FIELD_NAME = "Series";
+AnsiString TSEGTable::errorMessage;
 
 // ------------------------------------------------------------------
 // constructor
@@ -22,9 +23,8 @@ __fastcall TSEGTable::TSEGTable(TComponent* Owner)
    : TkbmMemTable(Owner)
    {
    source = NULL;
-   BeforeOpen = beforeOpen;
-   AfterOpen = afterOpen;
    subscriptionComponents = new TStringList;
+   addToToolbar = true;
    }
 // ------------------------------------------------------------------
 // destructor
@@ -38,16 +38,8 @@ __fastcall TSEGTable::~TSEGTable()
 //---------------------------------------------------------------------------
 void __fastcall TSEGTable::Loaded(void)
    {
-   try
-      {
-      TkbmMemTable::Loaded();
-      fixupSubReferences();
-      refresh();
-      }
-   catch (const Exception& error)
-      {
-      Application->MessageBox(error.Message.c_str(), "Error", MB_ICONSTOP | MB_OK);
-      }
+   TkbmMemTable::Loaded();
+   fixupSubReferences();
    }
 // ------------------------------------------------------------------
 // Set the subscription component names.
@@ -57,21 +49,30 @@ void __fastcall TSEGTable::setSubComponentNames(TStringList* compNames)
    subscriptionComponents->Assign(compNames);
    }
 // ------------------------------------------------------------------
-// User has just done a Active=true - go add fields before the
-// table is actually opened.
+// refresh the control only if it is active.
 // ------------------------------------------------------------------
-void __fastcall TSEGTable::beforeOpen(TDataSet* dataset)
+void TSEGTable::refresh (void)
+   {
+   if (!ComponentState.Contains(csLoading) && source == NULL)
+      forceRefresh(false);
+   }
+// ------------------------------------------------------------------
+// force refresh regardless of source.
+// ------------------------------------------------------------------
+void TSEGTable::forceRefresh(bool displayError)
    {
    if (!ComponentState.Contains(csLoading))
       {
+      DisableControls();
       TCursor savedCursor = Screen->Cursor;
       Screen->Cursor = crHourGlass;
 
-      if (IndexDefs->Count > 0)
-         DeleteIndex("mainIndex");
-
       try
          {
+         Active = false;
+         if (IndexDefs->Count > 0)
+            DeleteIndex("mainIndex");
+
          Active = false;
          FieldDefs->Clear();
          TFieldDef *fieldDef = FieldDefs->AddFieldDef();
@@ -80,33 +81,8 @@ void __fastcall TSEGTable::beforeOpen(TDataSet* dataset)
          fieldDef->Size = 200;
          SortFields = "";
          createFields();
-         }
-      catch (const exception& error)  // one of our error messages.
-         {
-         errors().insert(error.what());
-         Active = false;
-         }
-      catch (const Exception& error)  // VCL error
-         {
-         errors().insert(error.Message.c_str());
-         Active = false;
-         }
-      Screen->Cursor = savedCursor;
-      }
-   }
-// ------------------------------------------------------------------
-// User has just done a Active=true - go add records now that the
-// table is open
-// ------------------------------------------------------------------
-void __fastcall TSEGTable::afterOpen(TDataSet* dataset)
-   {
-   if (!ComponentState.Contains(csLoading))
-      {
-      DisableControls();
-      TCursor savedCursor = Screen->Cursor;
-      Screen->Cursor = crHourGlass;
-      try
-         {
+         Active = true;
+
          // Go load all records.
          storeRecords();
 
@@ -124,36 +100,32 @@ void __fastcall TSEGTable::afterOpen(TDataSet* dataset)
             if (subscriptionEvents[i] != NULL)
                subscriptionEvents[i](this);
             }
-         EnableControls();
-
-         // force children to update themselves.
-         First();
-         Edit();
-         Post();
          }
       catch (const exception& error)  // one of our error messages.
          {
-         errors().insert(error.what());
+         if (errorMessage == "")
+            errorMessage = error.what();
          Active = false;
          }
       catch (const Exception& error)  // VCL error
          {
-         errors().insert(error.Message.c_str());
+         if (errorMessage == "")
+            errorMessage = error.Message.c_str();
          Active = false;
          }
       EnableControls();
+
+   /*   // force children to update themselves.
+        First();
+        Edit();
+        Post();
+   */
       Screen->Cursor = savedCursor;
-      }
-   }
-// ------------------------------------------------------------------
-// refresh the control only if it is active.
-// ------------------------------------------------------------------
-void TSEGTable::refresh (void)
-   {
-   if (!ComponentState.Contains(csLoading) && source == NULL)
-      {
-      Active = false;
-      Active = true;
+      if (displayError && errorMessage != "")
+         {
+         ::MessageBox(NULL, errorMessage.c_str(), "Errors were encountered", MB_ICONSTOP | MB_OK);
+         errorMessage = "";
+         }
       }
    }
 // ------------------------------------------------------------------
@@ -168,11 +140,7 @@ void __fastcall TSEGTable::setSourceDataset(TSEGTable* source)
          sourceDataset->removeDataChangeSubscription(Name.c_str());
       sourceDataset = source;
       sourceDataset->addDataChangeSubscription(Name + ".onSourceDataChanged");
-      if (!ComponentState.Contains(csLoading))
-         {
-         Active = false;
-         Active = true;
-         }
+      refresh();
       }
    }
 // ------------------------------------------------------------------
@@ -326,8 +294,7 @@ void TSEGTable::removeDataChangeSubscription(AnsiString eventName)
 // ------------------------------------------------------------------
 void __fastcall TSEGTable::onSourceDataChanged(TDataSet* dataset)
    {
-   Active = false;
-   Active = true;
+   refresh();
    }
 // ------------------------------------------------------------------
 // Fixup all subscription references.

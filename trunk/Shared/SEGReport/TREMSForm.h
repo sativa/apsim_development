@@ -10,7 +10,7 @@
 #include "AdvGrid.hpp"
 #include "BaseGrid.hpp"
 #include "dbadvgrd.hpp"
-#include "TSEGTableForm.h"
+#include "TPropertyForm.h"
 #include <ComCtrls.hpp>
 #include <Db.hpp>
 #include <Grids.hpp>
@@ -20,7 +20,7 @@
 #include "AdvFileNameEdit.hpp"
 #include <DB.hpp>
 //---------------------------------------------------------------------------
-class TREMSForm : public TSEGTableForm
+class TREMSForm : public TPropertyForm
 {
 __published:	// IDE-managed Components
    TLabel *Label3;
@@ -39,7 +39,7 @@ private:	// User declarations
    TREMS* rems;
 public:		// User declarations
    __fastcall TREMSForm(TComponent* Owner);
-   void setComponent(TREMS* rems);
+   virtual void setComponent(TComponent* rems);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TREMSForm *REMSForm;

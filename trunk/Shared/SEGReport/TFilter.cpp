@@ -39,8 +39,7 @@ void __fastcall TFilter::setFilter(AnsiString filter)
    if (Filter != filter)
       {
       filterString = filter;
-      Active = false;
-      Active = true;
+      forceRefresh();
       }
    }
 //---------------------------------------------------------------------------
@@ -49,8 +48,15 @@ void __fastcall TFilter::setFilter(AnsiString filter)
 //---------------------------------------------------------------------------
 void TFilter::createFields(void) throw(runtime_error)
    {
-   if (source != NULL)
-      FieldDefs->Assign(source->FieldDefs);
+   try
+      {
+      if (source != NULL)
+         FieldDefs->Assign(source->FieldDefs);
+      }
+   catch (const Exception& err)
+      {
+
+      }
    }
 //---------------------------------------------------------------------------
 // Called by our base class to allow us to add records to the table.
@@ -58,19 +64,25 @@ void TFilter::createFields(void) throw(runtime_error)
 //---------------------------------------------------------------------------
 void TFilter::storeRecords(void) throw(runtime_error)
    {
-   if (source != NULL)
+   try
       {
-      source->Filter = filterString;
-      source->Filtered = true;
-      // loop through all records.
-      source->First();
-      while (!source->Eof)
+      if (source != NULL)
          {
-         copyDBRecord(source, this);
-         source->Next();
+         source->Filter = filterString;
+         source->Filtered = true;
+         // loop through all records.
+         source->First();
+         while (!source->Eof)
+            {
+            copyDBRecord(source, this);
+            source->Next();
+            }
+         source->Filtered = false;
+         source->Filter = "";
          }
-      source->Filtered = false;
-      source->Filter = "";
+      }
+   catch (const Exception& err)
+      {
       }
    }
 // ------------------------------------------------------------------

@@ -10,25 +10,23 @@
 #pragma link "AdvGrid"
 #pragma link "BaseGrid"
 #pragma link "dbadvgrd"
-#pragma link "TSEGTableForm"
+#pragma link "TPropertyForm"
 #pragma resource "*.dfm"
 TStatsForm *StatsForm;
 //---------------------------------------------------------------------------
 __fastcall TStatsForm::TStatsForm(TComponent* Owner)
-   : TSEGTableForm(Owner)
+   : TPropertyForm(Owner)
 {
 }
 //---------------------------------------------------------------------------
 // This is the component we're to modify.
 //---------------------------------------------------------------------------
-void TStatsForm::setComponent(TStats* s)
+void TStatsForm::setComponent(TComponent* component)
    {
-   stats = s;
-   TSEGTableForm::setComponent(stats);
-   }
-//---------------------------------------------------------------------------
-void __fastcall TStatsForm::PropertiesSheetShow(TObject *Sender)
-   {
+   TPropertyForm::setComponent(component);
+
+   stats = dynamic_cast<TStats*>(component);
+
    if (stats->source != NULL)
       {
       FieldNameCombo->Items->Assign(stats->source->FieldList);
@@ -100,4 +98,13 @@ void __fastcall TStatsForm::CheckBoxClick(TObject *Sender)
    stats->stats = allStats;
    }
 //---------------------------------------------------------------------------
-
+// User has changed the source property - update field list.
+//---------------------------------------------------------------------------
+void TStatsForm::sourceHasChanged(TSEGTable* segTable)
+   {
+   if (stats->source != NULL)
+      {
+      FieldNameCombo->Items->Assign(stats->source->FieldList);
+      FieldNameCombo->Text = stats->fieldName;
+      }
+   }

@@ -7,38 +7,29 @@
 #include <Controls.hpp>
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
-#include <QRCTRLS.hpp>
-#include <Buttons.hpp>
-#include <ComCtrls.hpp>
-#include <Dialogs.hpp>
 #include "TShape.h"
-#include "asgcombo.hpp"
-#include <QRCtrls.hpp>
-#include <QuickRpt.hpp>
+#include "TPropertyForm.h"
 #include <ExtCtrls.hpp>
 //---------------------------------------------------------------------------
-class TShapeForm : public TForm
+class TShapeForm : public TPropertyForm
 {
 __published:	// IDE-managed Components
-   TPageControl *PageControl1;
-   TTabSheet *Properties;
-   TLabel *Label1;
-   TTabSheet *TabSheet1;
    TLabel *Label3;
-   TEdit *NameEdit;
-   TLabel *Label2;
    TLabel *Label4;
-   TComboBox *ShapeCombo;
-   TColorBox *PenColourCombo;
    TColorBox *BrushColourCombo;
+   TColorBox *PenColourCombo;
+   TComboBox *ShapeCombo;
+   TLabel *Label5;
    void __fastcall ShapeComboChange(TObject *Sender);
    void __fastcall PenColourComboChange(TObject *Sender);
    void __fastcall BrushColourComboChange(TObject *Sender);
 private:	// User declarations
-      ::TShape* shape;
+   ::TShape* shape;
+
 public:		// User declarations
    __fastcall TShapeForm(TComponent* Owner);
-      void setComponent(::TShape* shape);
+   virtual void setComponent(TComponent* component);
+
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TShapeForm *ShapeForm;

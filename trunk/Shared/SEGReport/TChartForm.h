@@ -7,29 +7,22 @@
 #include <Controls.hpp>
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
+#include "TGraph.h"
+#include "TPropertyForm.h"
 #include <Buttons.hpp>
-#include <ComCtrls.hpp>
-#include "TSEGChart.h"
 //---------------------------------------------------------------------------
-class TChartForm : public TForm
+class TChartForm : public TPropertyForm
 {
 __published:	// IDE-managed Components
-   TPageControl *PageControl1;
-   TTabSheet *PropertiesSheet;
    TSpeedButton *ChartPropertiesButton;
-   TTabSheet *AdvancedSheet;
-   TLabel *Label2;
-   TEdit *NameEdit;
-   TCheckBox *DuplicateCheckBox;
-   TLabel *Label1;
-   void __fastcall NameEditExit(TObject *Sender);
    void __fastcall ChartPropertiesButtonClick(TObject *Sender);
-   void __fastcall DuplicateCheckBoxClick(TObject *Sender);
 private:	// User declarations
-   TSEGChart* chart;
+   TGraph* graph;
 public:		// User declarations
    __fastcall TChartForm(TComponent* Owner);
-   void setComponent(TSEGChart* chart);
+
+   virtual void setComponent(TComponent* component);
+
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TChartForm *ChartForm;

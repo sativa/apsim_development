@@ -10,7 +10,7 @@
 #include "AdvGrid.hpp"
 #include "BaseGrid.hpp"
 #include "dbadvgrd.hpp"
-#include "TSEGTableForm.h"
+#include "TPropertyForm.h"
 #include <ComCtrls.hpp>
 #include <Db.hpp>
 #include <Grids.hpp>
@@ -21,7 +21,7 @@
 #include <DB.hpp>
 #include "DBAdvGrd.hpp"
 //---------------------------------------------------------------------------
-class TExcelForm : public TSEGTableForm
+class TExcelForm : public TPropertyForm
 {
 __published:	// IDE-managed Components
    TLabel *Label3;
@@ -34,7 +34,7 @@ private:	// User declarations
    TExcel* excel;
 public:		// User declarations
    __fastcall TExcelForm(TComponent* Owner);
-   void setComponent(TExcel* excel);
+   void setComponent(TComponent* comp);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TExcelForm *ExcelForm;

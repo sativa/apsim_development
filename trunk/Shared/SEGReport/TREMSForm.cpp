@@ -9,7 +9,7 @@
 #pragma link "AdvGrid"
 #pragma link "BaseGrid"
 #pragma link "dbadvgrd"
-#pragma link "TSEGTableForm"
+#pragma link "TPropertyForm"
 #pragma link "AdvEdBtn"
 #pragma link "AdvEdit"
 #pragma link "AdvFileNameEdit"
@@ -17,22 +17,24 @@
 TREMSForm *REMSForm;
 //---------------------------------------------------------------------------
 __fastcall TREMSForm::TREMSForm(TComponent* Owner)
-   : TSEGTableForm(Owner)
+   : TPropertyForm(Owner)
 {
 }
 //---------------------------------------------------------------------------
 // This is the component we're going to modify.
 //---------------------------------------------------------------------------
-void TREMSForm::setComponent(TREMS* r)
+void TREMSForm::setComponent(TComponent* component)
    {
-   rems = r;
-   TSEGTableForm::setComponent(rems);
+   TPropertyForm::setComponent(component);
+   rems = dynamic_cast<TREMS*>(component);
+
    FilenameEdit->Text = rems->filename;
    ExperimentCombo->Text = rems->experiment;
    TreatmentCombo->Text = rems->treatment;
    DataSourceCombo->Text = rems->datasource;
    ExperimentCombo->Items->Assign(rems->experiments);
    TreatmentCombo->Items->Assign(rems->treatments);
+   DataSourceCombo->Text = rems->datasource;
    }
 //---------------------------------------------------------------------------
 void __fastcall TREMSForm::FilenameEditChange(TObject *Sender)

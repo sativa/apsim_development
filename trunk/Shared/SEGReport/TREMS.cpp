@@ -17,6 +17,7 @@ __fastcall TREMS::TREMS(TComponent* owner)
    {
    experimentNames = new TStringList;
    treatmentNames = new TStringList;
+   datasource = "Crop";
    }
 
 //---------------------------------------------------------------------------
@@ -35,9 +36,6 @@ void __fastcall TREMS::Loaded(void)
    reportDirectory = GetCurrentDir();
    getExperimentNames();
    getTreatmentNames();
-   if (!Active)
-      Active = true;
-
    TSEGTable::Loaded();
    }
 //---------------------------------------------------------------------------
@@ -52,12 +50,7 @@ void __fastcall TREMS::setFilename(AnsiString file)
       else
          mdbFilename = ExtractRelativePath(reportDirectory + "\\", file);
       getExperimentNames();
-
-      if (Active)
-         {
-         Active = false;
-         Active = true;
-         }
+      refresh();
       }
    }
 //---------------------------------------------------------------------------
@@ -69,11 +62,7 @@ void __fastcall TREMS::setExperimentName(AnsiString ExperimentName)
       {
       experimentName = ExperimentName;
       getTreatmentNames();
-      if (Active)
-         {
-         Active = false;
-         Active = true;
-         }
+      refresh();
       }
    }
 //---------------------------------------------------------------------------
@@ -84,11 +73,7 @@ void __fastcall TREMS::setTreatmentName(AnsiString TreatmentName)
    if (treatmentName != TreatmentName)
       {
       treatmentName = TreatmentName;
-      if (Active)
-         {
-         Active = false;
-         Active = true;
-         }
+      refresh();
       }
    }
 //---------------------------------------------------------------------------
@@ -99,11 +84,7 @@ void __fastcall TREMS::setDatasource(AnsiString dataSource)
    if (datasourceName != dataSource)
       {
       datasourceName = dataSource;
-      if (Active)
-         {
-         Active = false;
-         Active = true;
-         }
+      refresh();
       }
    }
 //---------------------------------------------------------------------------
@@ -147,7 +128,7 @@ void TREMS::createFields(void) throw(runtime_error)
          WHERE (((Stats.TreatmentID)=" + String(treatmentID) + ")) \
          GROUP BY Stats.TreatmentID, Stats.Date PIVOT Traits.Trait;";
          }
-      else
+      else if (datasourceName == "Crop")
          {
          SQL = "TRANSFORM Avg(PlotData.Value) AS AvgOfValue \
          SELECT Plots.TreatmentID, PlotData.Date \
@@ -156,6 +137,19 @@ void TREMS::createFields(void) throw(runtime_error)
          WHERE (((Plots.TreatmentID)=" + String(treatmentID) + ")) \
          GROUP BY Plots.TreatmentID, PlotData.Date \
          ORDER BY PlotData.Date PIVOT Traits.Trait;";
+         }
+      else if (datasourceName == "Soil Layered")
+         {
+         SQL = "TRANSFORM Avg(SoilLayerData.Value) AS AvgOfValue \
+         SELECT Treatments.TreatmentID, SoilLayerData.Date, SoilLayerData.DepthFrom, \
+         SoilLayerData.DepthTo FROM Treatments INNER JOIN (Traits INNER JOIN (Plots INNER \
+         JOIN SoilLayerData ON Plots.PlotID = SoilLayerData.PlotID) ON \
+         Traits.TraitID = SoilLayerData.TraitID) ON Treatments.TreatmentID = Plots.TreatmentID \
+         WHERE (((Plots.TreatmentID)=" + String(treatmentID) + ")) \
+         GROUP BY Treatments.TreatmentID, SoilLayerData.Date, \
+         SoilLayerData.DepthFrom, SoilLayerData.DepthTo \
+         ORDER BY SoilLayerData.Date, SoilLayerData.DepthFrom \
+         PIVOT Traits.Trait;";
          }
 
       query->SQL->Add(SQL);
@@ -202,7 +196,7 @@ void TREMS::storeRecords(void) throw(runtime_error)
 //---------------------------------------------------------------------------
 TStrings* __fastcall TREMS::getExperimentNames(void)
    {
-   if (mdbFilename != "" && reportDirectory != "")
+   if (mdbFilename != "")
       {
       TADOQuery *query = new TADOQuery(NULL);
       String Provider = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" +
@@ -232,7 +226,7 @@ TStrings* __fastcall TREMS::getExperimentNames(void)
 //---------------------------------------------------------------------------
 TStrings* __fastcall TREMS::getTreatmentNames(void)
    {
-   if (mdbFilename != "" && reportDirectory != "")
+   if (mdbFilename != "")
       {
       int experimentID = experimentIDs[experimentNames->IndexOf(experimentName)];
 

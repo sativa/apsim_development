@@ -9,7 +9,7 @@
 #pragma link "AdvGrid"
 #pragma link "BaseGrid"
 #pragma link "dbadvgrd"
-#pragma link "TSEGTableForm"
+#pragma link "TPropertyForm"
 #pragma link "AdvEdBtn"
 #pragma link "AdvEdit"
 #pragma link "AdvFileNameEdit"
@@ -18,16 +18,17 @@
 TExcelForm *ExcelForm;
 //---------------------------------------------------------------------------
 __fastcall TExcelForm::TExcelForm(TComponent* Owner)
-   : TSEGTableForm(Owner)
+   : TPropertyForm(Owner)
 {
 }
 //---------------------------------------------------------------------------
 // This is the component we're going to modify.
 //---------------------------------------------------------------------------
-void TExcelForm::setComponent(TExcel* e)
+void TExcelForm::setComponent(TComponent* component)
    {
-   excel = e;
-   TSEGTableForm::setComponent(excel);
+   TPropertyForm::setComponent(component);
+
+   excel = dynamic_cast<TExcel*>(component);
    FilenameEdit->Text = excel->fileName;
    PageCombo->Text = excel->pageName;
    }

@@ -15,7 +15,6 @@
 #include <ToolWin.hpp>
 #include <ExtCtrls.hpp>
 #include <FileCtrl.hpp>
-#include "TSEGReport.h"
 #include <QuickRpt.hpp>
 #include <Chart.hpp>
 #include <DBChart.hpp>
@@ -52,17 +51,12 @@ __published:	// IDE-managed Components
    TMenuItem *Edit2;
    TImageList *ImageList1;
    TActionList *ActionList1;
-   TAction *New;
-   TAction *Open;
-   TAction *Save;
-   TAction *SaveAs;
-   TAction *Exit;
-   TAction *AdvancedEditMode;
-   TAction *ViewExplorer;
-   TAction *DeleteFile;
-   TAction *CopyToClipboard;
-   TAction *PasteFile;
-   TAction *RenameFile;
+   TAction *NewAction;
+   TAction *OpenAction;
+   TAction *SaveAction;
+   TAction *SaveAsAction;
+   TAction *ExitAction;
+   TAction *CopyToClipboardAction;
    TPopupMenu *FilePopupMenu;
    TMenuItem *Rename1;
    TMenuItem *Delete1;
@@ -75,19 +69,14 @@ __published:	// IDE-managed Components
    TToolButton *ToolButton3;
    TToolButton *ToolButton7;
    TEdit *ZoomEdit;
-   TAction *SaveEnvironment;
-   TMenuItem *SaveEnvironment1;
-   TAction *LayoutMode;
-   TToolButton *ToolButton5;
-   TAction *PageSetup;
+   TAction *PageSetupAction;
    TMenuItem *PageSetup1;
    TMenuItem *N4;
-   TAction *Print;
+   TAction *PrintAction;
    TMenuItem *Print1;
-   TToolButton *ToolButton6;
    TUpDown *ZoomUpDown;
-   TAction *SendToLibrary;
-   TAction *Library;
+   TAction *SendToLibraryAction;
+   TAction *LibraryAction;
    TMenuItem *Library1;
    TMenuItem *SendToLibrary1;
    TMenuItem *Library2;
@@ -99,44 +88,106 @@ __published:	// IDE-managed Components
    TMenuItem *N3;
    TToolButton *ToolButton8;
    TdfsMRUFileList *MRUFileList;
-   TSEGReport *SEGReport1;
-   TSEGLibrary *SEGLibrary1;
    TMenuItem *Print2;
-   TAction *PrintCurrent;
-   void __fastcall AdvancedEditModeExecute(TObject *Sender);
+   TAction *PrintCurrentPageAction;
+   TAction *EditDataAction;
+   TToolButton *ToolButton9;
+   TPanel *LeftDockPanel;
+   TSplitter *LeftSplitter;
+   TPanel *BottomDockPanel;
+   TSplitter *BottomSplitter;
+   TToolButton *ToolButton11;
+   TAction *EditReportAction;
+   TToolButton *ToolButton12;
+   TMenuItem *Editdatapage1;
+   TMenuItem *N6;
+   TPanel *RightDockPanel;
+   TSplitter *RightSplitter;
+   TToolBar *ReportToolBar;
+   TSEGLibrary *SEGLibrary1;
    void __fastcall FormShow(TObject *Sender);
-   void __fastcall ExitExecute(TObject *Sender);
-   void __fastcall OpenExecute(TObject *Sender);
-   void __fastcall SaveExecute(TObject *Sender);
-   void __fastcall SaveAsExecute(TObject *Sender);
+   void __fastcall ExitActionExecute(TObject *Sender);
+   void __fastcall OpenActionExecute(TObject *Sender);
+   void __fastcall SaveActionExecute(TObject *Sender);
+   void __fastcall SaveAsActionExecute(TObject *Sender);
    void __fastcall ZoomEditKeyDown(TObject *Sender, WORD &Key,
           TShiftState Shift);
-   void __fastcall NewExecute(TObject *Sender);
-   void __fastcall DeleteFileExecute(TObject *Sender);
-   void __fastcall CopyToClipboardExecute(TObject *Sender);
-   void __fastcall PasteFileExecute(TObject *Sender);
-   void __fastcall RenameFileExecute(TObject *Sender);
-   void __fastcall SaveEnvironmentExecute(TObject *Sender);
-   void __fastcall LayoutModeExecute(TObject *Sender);
-   void __fastcall PageSetupExecute(TObject *Sender);
-   void __fastcall PrintExecute(TObject *Sender);
+   void __fastcall NewActionExecute(TObject *Sender);
+   void __fastcall CopyToClipboardActionExecute(TObject *Sender);
+   void __fastcall PageSetupActionExecute(TObject *Sender);
+   void __fastcall PrintActionExecute(TObject *Sender);
    void __fastcall ZoomEditChange(TObject *Sender);
-   void __fastcall SendToLibraryExecute(TObject *Sender);
-   void __fastcall LibraryExecute(TObject *Sender);
+   void __fastcall SendToLibraryActionExecute(TObject *Sender);
+   void __fastcall LibraryActionExecute(TObject *Sender);
    void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
    void __fastcall RefreshActionExecute(TObject *Sender);
    void __fastcall MRUFileListMRUItemClick(TObject *Sender,
           AnsiString AFilename);
-   void __fastcall PrintCurrentExecute(TObject *Sender);
+   void __fastcall PrintCurrentPageActionExecute(TObject *Sender);
+   void __fastcall FormDockOver(TObject *Sender,
+          TDragDockObject *Source, int X, int Y, TDragState State,
+          bool &Accept);
+   void __fastcall LeftDockPanelGetSiteInfo(TObject *Sender,
+          TControl *DockClient, TRect &InfluenceRect, TPoint &MousePos,
+          bool &CanDock);
+   void __fastcall FormUnDock(TObject *Sender, TControl *Client,
+          TWinControl *NewTarget, bool &Allow);
+   void __fastcall FormDockDrop(TObject *Sender,
+          TDragDockObject *Source, int X, int Y);
+   void __fastcall EditReportActionExecute(TObject *Sender);
+   void __fastcall EditDataActionExecute(TObject *Sender);
 private:	// User declarations
    AnsiString filename;
    AnsiString fileThatWasCopied;
+
+   //---------------------------------------------------------------------------
+   // Tell report to go into edit mode.
+   //---------------------------------------------------------------------------
+   void edit(bool turnOn);
+
+   //---------------------------------------------------------------------------
+   // User has changed selections - update our data window and pass event along
+   // object inspector.
+   //---------------------------------------------------------------------------
+   void __fastcall selectionChanged(TObject* sender);
+
+   //---------------------------------------------------------------------------
+   // User has changed pages in tab control - update main form.
+   //---------------------------------------------------------------------------
+   void __fastcall pageChanged(TObject* sender);
+
+   //---------------------------------------------------------------------------
+   // Populate the toolbar.
+   //---------------------------------------------------------------------------
+   void populateToolBar(void);
+
    void open(AnsiString file);
    void save(AnsiString file);
    void saveIfNecessary(void);
    void setCaption(void);
    int textToZoom(AnsiString zoomText);
    void processCommandLine(AnsiString commandLine);
+
+   //---------------------------------------------------------------------------
+   // Show dock panel.
+   //---------------------------------------------------------------------------
+   void ShowDockPanel(TWinControl* APanel, TControl* Client, TRect& dockRect);
+
+   //---------------------------------------------------------------------------
+   // Show dock panel.
+   //---------------------------------------------------------------------------
+   void HideDockPanel(TPanel* APanel);
+
+   //---------------------------------------------------------------------------
+   // load and save the position a form from settings file.
+   //---------------------------------------------------------------------------
+   void loadFormPosition(TForm* form);
+   void saveFormPosition(TForm* form);
+
+   //---------------------------------------------------------------------------
+   // user has clicked a report toolbar button.
+   //---------------------------------------------------------------------------
+   void __fastcall ReportButtonClick(TObject* sender);
 
 public:		// User declarations
    __fastcall TMainForm(TComponent* Owner);

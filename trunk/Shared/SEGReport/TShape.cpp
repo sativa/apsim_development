@@ -10,7 +10,7 @@ using namespace std;
 // constructor
 //---------------------------------------------------------------------------
 __fastcall ::TShape::TShape(TComponent* Owner)
-   : TQRShape(Owner)
+   : TgtQRShape(Owner)
    {
    }
 
