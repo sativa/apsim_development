@@ -116,6 +116,9 @@ __published:	// IDE-managed Components
    void __fastcall EditReportActionExecute(TObject *Sender);
    void __fastcall EditDataActionExecute(TObject *Sender);
    void __fastcall pageChanged(TObject* sender);
+
+   void __fastcall OnObjectInspectorShow(TObject* sender);
+
 private:	// User declarations
    AnsiString filename;
    AnsiString fileThatWasCopied;
