@@ -207,6 +207,9 @@ void CompileThread::compileProject (ApsimProject& apf)
       if (!Terminated)
          createLinkerResponseFile (apf);
 
+      // copy module files into source directory.
+         copyModuleFiles(apf);
+
       // run AUTOMAKE
       if (!Terminated)
          runAutoMake (apf, BinaryFile);
@@ -272,7 +275,7 @@ void CompileThread::createAutoMakeFile (ApsimProject& apf, Path& BinaryFile)
    out << "LINK=" << getCompilerSetting(apf, "link", ' ') << endl;
    out << "TARGET=" << BinaryFile.Get_path() << endl;
    out << "INCLUDE=" << getCompilerSetting(apf, "include") << endl;
-   out << "MODULE=" << getCompilerSetting(apf, "module") << endl;
+   out << "MODULE=." << endl;
 
    // get a list of all source files.
    vector<string> SourceFiles;
@@ -301,7 +304,7 @@ void CompileThread::createCompilerResponseFile  (ApsimProject& apf)
 
    // write include and module directories
    out << "-i " << getCompilerSetting(apf, "include");
-   out << " -mod " << getCompilerSetting(apf, "module") << endl;
+   out << " -mod ." << endl;
    }
 
 // ------------------------------------------------------------------
@@ -367,6 +370,9 @@ void CompileThread::cleanup (ApsimProject& apf)
    DeleteFile ("amtemp.bat");
    deleteFiles (apf, "automake.*");
    deleteFiles (apf, "*.rsp");
+
+   for (unsigned file = 0; file != filesToCleanup.size(); file++)
+      DeleteFile(filesToCleanup[file].c_str());
    }
 
 // ------------------------------------------------------------------
@@ -567,6 +573,26 @@ void CompileThread::runExternalProgram(ApsimProject& apf)
       Replace_all(program, "%apsuite", getApsimDirectory().c_str());
       program += " " + apf.getFileName() + " " + Compiler_output_filename;
       Exec(program.c_str(), SW_SHOW, true);
+      }
+   }
+// ------------------------------------------------------------------
+// copy module files into source directory.
+// ------------------------------------------------------------------
+void CompileThread::copyModuleFiles(ApsimProject& apf)
+   {
+   string directoriesString = getCompilerSetting(apf, "module");
+   vector<string> directories;
+   Split_string(directoriesString, ";", directories);
+   for (unsigned dir = 0; dir != directories.size(); dir++)
+      {
+      vector<string> files;
+      getDirectoryListing(directories[dir], "*.mod", files, FA_NORMAL, true);
+      for (unsigned file = 0; file != files.size(); file++)
+         {
+         string filename = Path(files[file]).Get_name();
+         CopyFile(files[file].c_str(), filename.c_str(), false);
+         filesToCleanup.push_back(filename);
+         }
       }
    }
 

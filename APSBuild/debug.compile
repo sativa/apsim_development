@@ -1,9 +1,9 @@
 [Instructions]
 import   = %apsuite\apsim\infra\lib\ApsimEngine.imp
-include  = %apsuite\apsim\infra
-module   = .
+include  = %apsuite\apsim\cropmod\source
 module   = %apsuite\apsim\infra\source
 module   = %apsuite\apsim\croptemp\source
+module   = %apsuite\apsim\cropmod\source
 program  = %apsuite\bin\createComponentInterfaceSource.exe
 
 library  = %apsuite\apsim\infra\lib\apsinfra.lib
