@@ -18,6 +18,7 @@ class CompileThread : public TThread
    {
    public:
       CompileThread (const char* Filename);
+      __fastcall ~CompileThread (void);
 
       bool Build;
       bool Debug;

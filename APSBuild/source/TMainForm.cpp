@@ -16,6 +16,26 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
    : TForm(Owner)
    {
    }
+
+//---------------------------------------------------------------------------
+__fastcall TMainForm::~TMainForm()
+   {
+   if (!Quiet)
+      {
+      if (CompilerReportFile.Exists())
+         {
+         string command (APSDirectories().Get_home());
+         command += "\\viewcmplmsg\\viewcmplmsg ";
+         command += APSDirectories().Get_working() + "\\compiler.rpt";
+         WinExec (command.c_str(), SW_SHOW);
+         }
+      else
+         MessageBox(NULL, "Compiler not invoked.  Probable cause: nothing to compile.", "Information", MB_ICONINFORMATION | MB_OK);
+      }
+   delete Thread;
+   Thread = NULL;
+   }
+
 //---------------------------------------------------------------------------
 //  Short description:
 //    Compile everything.
@@ -68,9 +88,6 @@ void __fastcall TMainForm::DisplayMessage (TObject* Object, const char* Message)
 // ------------------------------------------------------------------
 void __fastcall TMainForm::ThreadTerminated (TObject* Object)
    {
-   delete Thread;
-   Thread = NULL;
-
    if (ProjectFiles.size() > 0)
       {
       string ProjectFilename = *ProjectFiles.begin();
@@ -96,21 +113,8 @@ void __fastcall TMainForm::ThreadTerminated (TObject* Object)
          Thread->Resume();
          }
       }
-   else if (!Quiet)
-      {
-      if (CompilerReportFile.Exists())
-         {
-         string command (APSDirectories().Get_home());
-         command += "\\viewcmplmsg\\viewcmplmsg ";
-         command += APSDirectories().Get_working() + "\\compiler.rpt";
-         WinExec (command.c_str(), SW_SHOW);
-         }
-      else
-         MessageBox(NULL, "Compiler not invoked.  Probable cause: nothing to compile.", "Information", MB_ICONINFORMATION | MB_OK);
-      Close();
-      }
-   else
-      Close();
+//   else
+//      Close();
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FormShow(TObject *Sender)
