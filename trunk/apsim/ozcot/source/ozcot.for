@@ -1,5 +1,6 @@
       module OzcotModule
       use Registrations
+      Use CropLibrary
 
 ! ====================================================================
 !      ozcot parameters
@@ -98,6 +99,34 @@
 
       real       c_uptakn_max
       parameter (c_uptakn_max = 240.0)
+
+*   Constant values
+      integer    root                  ! root
+      parameter (root = 1)
+
+      integer    leaf                  ! leaf
+      parameter (leaf = 2)
+
+      integer    stem                  ! stem
+      parameter (stem = 3)
+
+      integer    pod                ! pod
+      parameter (pod = 4)
+
+      integer    meal                ! meal - excludes oil component
+      parameter (meal = 5)
+
+      integer    oil                 ! seed oil
+      parameter (oil = 6)
+
+      integer    max_part              ! number of plant parts
+      parameter (max_part = 6)
+
+
+      character(len=*),dimension(max_part), parameter ::
+     : part_name = (/'root', 'leaf', 'stem', 'pod ', 'meal', 'oil '/)
+
+
 
 ! ====================================================================
       type OzcotGlobals
@@ -6787,33 +6816,82 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       parameter (my_name = 'ozcot_harvest_update')
 
 *+  Local Variables
-       real    res_dm                  ! Residue dry weight (kg/ha)
-       real    res_N                   ! Amount of N in residue (kg/ha)
+!       real    res_dm                  ! Residue dry weight (kg/ha)
+!       real    res_N                   ! Amount of N in residue (kg/ha)
+
+      real       fraction_to_Residue(max_part)   ! fraction sent to residue (0-1)
+      real       dlt_dm_crop(max_part)           ! change in dry matter of crop (kg/ha)
+      real       dlt_dm_N(max_part)              ! change in N content of dry matter (kg/ha)
+
 
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
-      res_dm = (g%dw_total - g%openwt / g%rs ) * 10.
-      res_dm = (g%dw_total - g%openwt) * 10.
-      if (res_dm.le.0.) res_dm = 0.
-      res_N = res_dm * 0.4 / 100.0
+!      res_dm = (g%dw_total - g%openwt / g%rs ) * 10.
+!      res_dm = (g%dw_total - g%openwt) * 10.
+!      if (res_dm.le.0.) res_dm = 0.
+!      res_N = res_dm * 0.4 / 100.0
 
-      call New_postbox ()
+      fraction_to_residue(:) = 0.0
+      dlt_dm_crop(:) = 0.0
+      dlt_dm_N(:) = 0.0
 
-      call post_char_var('dlt_residue_type','()','cotton')
+      ! Update biomass and N pools.  Different types of plant pools are
+      ! ===============================================================
+      ! affected differently.
+      ! =====================
 
-      call post_real_var ('dlt_residue_wt'
-     :                   ,'(kg/ha)'
-     :                   ,res_dm)
+      dlt_dm_crop(root) = g%dw_root * gm2kg/sm2ha
+      dlt_dm_N(root) =  dlt_dm_crop(root) * 0.4 / 100.0
+      fraction_to_Residue(root) = 1.0
 
-      call post_real_var ('dlt_residue_n'
-     :                   ,'(kg/ha)'
-     :                   ,res_N)
+      dlt_dm_crop(meal) = g%openwt * gm2kg/sm2ha
+      dlt_dm_N(meal) =  dlt_dm_crop(meal) * 0.4 / 100.0
+      fraction_to_Residue(meal) = 0.0
 
-      call event_send ('add_residue')
+      dlt_dm_crop(stem) = g%dw_stem * gm2kg/sm2ha
+      dlt_dm_N(stem) = dlt_dm_crop(stem) * 0.4 / 100.0
+      fraction_to_Residue(stem) = 1.0
 
-      call Delete_postbox ()
+      dlt_dm_crop(leaf) = g%dw_leaf * gm2kg/sm2ha
+      dlt_dm_N(leaf) = dlt_dm_crop(leaf) * 0.4 / 100.0
+      fraction_to_Residue(leaf) = 1.0
+
+      dlt_dm_crop(pod) = (g%dw_boll - g%openwt) * gm2kg/sm2ha
+      dlt_dm_N(pod) = dlt_dm_crop(pod) * 0.4 / 100.0
+      fraction_to_Residue(pod) = 1.0
+      print*, 'g%dw_root, g%openwt,g%dw_stem, g%dw_leaf,g%dw_boll'
+      print*, g%dw_root, g%openwt,g%dw_stem, g%dw_leaf,g%dw_boll
+!     call crop_top_residue (c%crop_type, dm_residue, N_residue)
+
+      if (sum(dlt_dm_crop) .gt. 0.0) then
+         call Send_Crop_Chopped_Event
+     :             (c%crop_type
+     :            , part_name
+     :            , dlt_dm_crop
+     :            , dlt_dm_N
+     :            , fraction_to_Residue
+     :            , max_part)
+      else
+         ! no surface residue
+      endif
+
+!      call New_postbox ()
+!
+!      call post_char_var('dlt_residue_type','()','cotton')
+!
+!      call post_real_var ('dlt_residue_wt'
+!     :                   ,'(kg/ha)'
+!     :                   ,res_dm)
+!
+!      call post_real_var ('dlt_residue_n'
+!     :                   ,'(kg/ha)'
+!     :                   ,res_N)
+!
+!      call event_send ('add_residue')
+!
+!      call Delete_postbox ()
 
       g%crop_in = .false.
       g%plant_status = status_out
@@ -6904,9 +6982,9 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 *     ===========================================================
       Use Infrastructure
       implicit none
-                                         
+
       integer, intent(in) :: variant
-                                               
+
 *+  Purpose
 *     Update met data record
 
@@ -6945,8 +7023,8 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       subroutine ozcot_ONtick (variant)
 *     ===========================================================
       Use Infrastructure
-      implicit none                   
-      
+      implicit none
+
       integer, intent(in) :: variant
 
 *+  Purpose
@@ -6968,7 +7046,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      call unpack_time(variant, tick)                                                 
+      call unpack_time(variant, tick)
       call jday_to_day_of_year(dble(tick%startday), g%jdate, g%imyr)
 
       call pop_routine (myname)
@@ -7196,7 +7274,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       Use infrastructure
       implicit none
       ml_external respondToEvent
-      
+
       integer, intent(in) :: fromID
       integer, intent(in) :: eventID
       integer, intent(in) :: variant
@@ -7208,5 +7286,4 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       endif
       return
       end subroutine respondToEvent
-                                   
-      
+
