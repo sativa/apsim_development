@@ -25,6 +25,7 @@ TSkin* Skin;
 TSkin::TSkin(void)
    {
    Icon = NULL;
+   showBackdrop = false;
    }
 
 // ------------------------------------------------------------------
@@ -50,6 +51,7 @@ TSkin::~TSkin(void)
 
 //  Changes:
 //    DPH 9/12/99
+//    DAH 31/5/01:   added ability to show splash as an MDI backdrop
 
 // ------------------------------------------------------------------
 void TSkin::DisplaySplashScreen(void)
@@ -59,16 +61,24 @@ void TSkin::DisplaySplashScreen(void)
    p.Set_extension(".ini");
    Ini_file Skin;
    Skin.Set_file_name (p.Get_path().c_str());
-   string BitmapName;
 
    // read splash screen
    Skin.Read("skin", "splashscreen", BitmapName);
    if (BitmapName != "" && FileExists(BitmapName.c_str()))
       {
-      SplashForm = new TSplashForm(NULL);
-      SplashForm->Image1->Picture->LoadFromFile(BitmapName.c_str());
-      SplashForm->Show();
-      Application->ProcessMessages();
+      string backdrop;
+      Skin.Read("skin", "Backdrop", backdrop);
+      if (backdrop == "on")
+         {
+         showBackdrop = true;
+         }
+      else
+         {
+         SplashForm = new TSplashForm(NULL);
+         SplashForm->Image1->Picture->LoadFromFile(BitmapName.c_str());
+         Application->ProcessMessages();
+         SplashForm->Show();
+         }
       }
    }
 // ------------------------------------------------------------------
@@ -89,6 +99,10 @@ void TSkin::InitApplication(void)
    Ini_file Skin;
    Skin.Set_file_name (p.Get_path().c_str());
    string St;
+
+   // show backdrop if required
+   if (showBackdrop)
+      MainForm->MDIWallpaper1->Picture->LoadFromFile(BitmapName.c_str());
 
    // read title
    Skin.Read("skin", "title", St);
@@ -133,8 +147,8 @@ void TSkin::InitApplication(void)
       AboutBox->VersionLabel->Caption = St.c_str();
 
    // read SOI
-   Skin.Read("skin", "soi", St);
-   if (St != "")
-      MainForm->SOI_button->Visible = Str_i_Eq(St, "on");
+//   Skin.Read("skin", "soi", St);
+//   if (St != "")
+//      MainForm->SOI_button->Visible = Str_i_Eq(St, "on");
    }
    
