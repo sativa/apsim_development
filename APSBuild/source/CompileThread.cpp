@@ -8,7 +8,6 @@
 #include <fstream>
 #include <general\io_functions.h>
 #include <general\stristr.h>
-#include "ComponentInterfaceGenerator.h"
 #pragma package(smart_init)
 using namespace std;
 
