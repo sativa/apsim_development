@@ -1055,7 +1055,7 @@ void Plant::plant_bio_grain_demand (int option /* (INPUT) option number */)
         }
     else if (option == 2)
         {
-        if (phenology->inPhase("grainfill")) 
+        if (phenology->inPhase("grainfill"))
            legnew_bio_yieldpart_demand2(g.grain_no,
                                         p.potential_grain_filling_rate,
                                         g.maxt,
@@ -1169,9 +1169,9 @@ void Plant::plant_bio_partition (int option /* (INPUT) option number */)
                               , g.dlt_lai_stressed
                               , &g.dlt_dm_oil_conv
                               , g.dlt_dm_green);
-//fprintf(stdout, "%d,%f,%f,%f\n", g.day_of_year, 
-//        g.dlt_dm, 
-//        c.frac_leaf[(int)phenology->stageNumber()-1], 
+//fprintf(stdout, "%d,%f,%f,%f\n", g.day_of_year,
+//        g.dlt_dm,
+//        c.frac_leaf[(int)phenology->stageNumber()-1],
 //        c.frac_pod[(int)phenology->stageNumber()-1]);
         }
     else if (option == 2)
@@ -1368,7 +1368,6 @@ void Plant::plant_water_stress (int option /* (INPUT) option number */)
     const char*  my_name = "plant_water_stress" ;
 
 //+  Local Variables
-    float ext_sw_supply [max_layer];              // external sw supply (mm)
 
 //- Implementation Section ----------------------------------
 
@@ -1377,30 +1376,8 @@ void Plant::plant_water_stress (int option /* (INPUT) option number */)
     if (option == 1)
         {
 
-        if (Str_i_Eq(p.uptake_source,"apsim"))
-            {
-            // this would have been avoided if we have
-            // each stress factor in its own routine! - NIH
-            // photo requires (really) actually water uptake
-            // but expansion requires pot water uptake.
-            // we only have one supply variable.
-            plant_get_ext_uptakes(p.uptake_source.c_str()
-                                 ,c.crop_type.c_str()
-                                 ,"water"
-                                 ,1.0
-                                 ,0.0
-                                 ,100.0
-                                 ,ext_sw_supply
-                                 ,max_layer);
-            crop_swdef_photo(max_layer, g.dlayer, g.root_depth,
-                             g.sw_demand, ext_sw_supply, &g.swdef_photo);
-            }
-        else
-            {
-            crop_swdef_photo(max_layer, g.dlayer, g.root_depth,
-                             g.sw_demand, g.sw_supply, &g.swdef_photo);
-            }
-
+        crop_swdef_photo(max_layer, g.dlayer, g.root_depth,
+                             g.sw_demand, g.dlt_sw_dep, &g.swdef_photo);
         crop_swdef_pheno(c.num_sw_avail_ratio,
                          c.x_sw_avail_ratio, c.y_swdef_pheno, max_layer, g.dlayer,
                          g.root_depth, g.sw_avail, g.sw_avail_pot, &g.swdef_pheno);
@@ -1415,24 +1392,8 @@ void Plant::plant_water_stress (int option /* (INPUT) option number */)
         }
     else if (option == 2)
         {
-        if (Str_i_Eq(p.uptake_source,"apsim"))
-            {
-            plant_get_ext_uptakes(p.uptake_source.c_str()
-                                 ,c.crop_type.c_str()
-                                 ,"water"
-                                 ,1.0
-                                 ,0.0
-                                 ,100.0
-                                 ,ext_sw_supply
-                                 ,max_layer);
-            crop_swdef_photo(max_layer, g.dlayer, g.root_depth,
-                             g.sw_demand, ext_sw_supply, &g.swdef_photo);
-            }
-        else
-            {
-            crop_swdef_photo(max_layer, g.dlayer, g.root_depth,
-                             g.sw_demand, g.sw_supply, &g.swdef_photo);
-            }
+        crop_swdef_photo(max_layer, g.dlayer, g.root_depth,
+                             g.sw_demand, g.dlt_sw_dep, &g.swdef_photo);
 
         crop_swdef_pheno(c.num_sw_avail_ratio,
                          c.x_sw_avail_ratio, c.y_swdef_pheno, max_layer, g.dlayer,
@@ -1557,7 +1518,7 @@ void Plant::plant_bio_water (int option /* (INPUT) option number */)
     if (option == 1)
         {
         cproc_bio_water1 (max_layer, g.dlayer, g.root_depth,
-                          g.sw_supply, g.transp_eff, &g.dlt_dm_pot_te);
+                          g.dlt_sw_dep, g.transp_eff, &g.dlt_dm_pot_te);
         }
     else
         {
@@ -1771,29 +1732,29 @@ void Plant::plant_plant_death (int option /* (INPUT) option number*/)
 
     if (option == 1)
         {
-        if (phenology->inPhase("sowing")) 
-           g.dlt_plants_failure_germ = 
-                  crop_failure_germination (parent, 
+        if (phenology->inPhase("sowing"))
+           g.dlt_plants_failure_germ =
+                  crop_failure_germination (parent,
                                             c.days_germ_limit,
                                             phenology->daysInCurrentStage(),
                                             g.plants);
         else
            g.dlt_plants_failure_germ = 0.0;
 
-        if (phenology->inPhase("germination")) 
-           g.dlt_plants_failure_emergence = 
-                  crop_failure_emergence (parent, 
+        if (phenology->inPhase("germination"))
+           g.dlt_plants_failure_emergence =
+                  crop_failure_emergence (parent,
                                           c.tt_emerg_limit,
                                           phenology->ttInCurrentStage(),
                                           g.plants);
-        else 
+        else
            g.dlt_plants_failure_emergence = 0.0;
 
         g.dlt_plants_death_seedling = 0.0;
         if (phenology->inPhase("emergence"))
            {
            int days_after_emerg = phenology->daysInCurrentStage();
-           if (days_after_emerg == 1) 
+           if (days_after_emerg == 1)
               {
               g.dlt_plants_death_seedling =
                   plant_death_seedling(c.num_weighted_temp
@@ -1807,11 +1768,11 @@ void Plant::plant_plant_death (int option /* (INPUT) option number*/)
            }
         /*XXXX this needs tou be coupled with dlt_leaf_area_sen, c_sen_start_stage  FIXME*/
         if (phenology->inPhase("leaf_senescence"))
-           g.dlt_plants_failure_leaf_sen = 
+           g.dlt_plants_failure_leaf_sen =
                   crop_failure_leaf_sen(parent, g.lai, g.plants);
         else
            g.dlt_plants_failure_leaf_sen = 0.0;
-        
+
         if (phenology->inPhase("preflowering"))
            g.dlt_plants_failure_phen_delay =
                   crop_failure_phen_delay(parent
@@ -1830,7 +1791,7 @@ void Plant::plant_plant_death (int option /* (INPUT) option number*/)
                                  , g.leaf_no
                                  , g.plants
                                  , g.swdef_photo);
-        else 
+        else
            g.dlt_plants_death_drought = 0.0;
 
         plant_death_actual(g.dlt_plants_death_drought
@@ -4604,10 +4565,15 @@ void Plant::plant_water_demand (int option /* (INPUT) option number*/)
         //g.sw_demand_te = g.sw_demand_te + g.dlt_dm_parasite_demand
 
         cproc_sw_demand_bound(g.sw_demand_te
-                              ,p.eo_crop_factor
+                             ,p.eo_crop_factor
                               ,g.eo
                               ,g.cover_green
                               ,&g.sw_demand);
+
+       // Capping of sw demand will create an effective TE- recalculate it here
+       // In an ideal world this should NOT be changed here - NIH
+       g.transp_eff = g.transp_eff * divide(g.sw_demand_te,g.sw_demand, 1.0);
+
         }
     else
         {
@@ -5024,7 +4990,7 @@ void Plant::plant_root_length_init (int option /*(INPUT) option number*/)
 
     if (option == 1)
         {
-        if (phenology->on_day_of("emergence")) 
+        if (phenology->on_day_of("emergence"))
         	  {
            cproc_root_length_init1(g.dm_green[root]
                                 ,c.specific_root_length
@@ -5534,7 +5500,7 @@ void Plant::legnew_bio_yieldpart_demand1
         {
 
         ave_stress = divide (g.dm_stress_max.getSum(),
-                             g.dm_stress_max.getN(), 
+                             g.dm_stress_max.getN(),
                              1.0);
         hi_max_pot = linear_interp_real(ave_stress
                                         ,p_x_hi_max_pot_stress
@@ -7193,7 +7159,7 @@ void Plant::legnew_retrans_init
     // initialisations - set up dry matter for leaf, stem, pod, grain
     // and root
 
-    if (phenology->on_day_of ("flowering")) 
+    if (phenology->on_day_of ("flowering"))
         {
         // we are at first day of grainfill.
         // set the minimum weight of stem; used for retranslocation to grain
@@ -7566,6 +7532,7 @@ void Plant::plant_process ( void )
 
     if (g.plant_status == alive)
         {
+        plant_water_uptake (1);
         plant_water_stress (2);
         plant_oxdef_stress (1);
 
@@ -7591,7 +7558,6 @@ void Plant::plant_process ( void )
 
         plant_grain_number(c.grain_no_option);
 
-        plant_water_uptake (1);
         plant_height (1);                         // variety specific stem wt/plant approach
         plant_width (1);                          // variety specific stem wt/plant approach
         plant_leaf_no_init(1);
@@ -10553,12 +10519,12 @@ void Plant::plant_read_root_params ()
 
     if (parent->readParameter (section_name
                               , "ll"//, "()"
-                              , ll, 0.0, c.sw_ub, true)) 
+                              , ll, 0.0, c.sw_ub, true))
        {
        for (unsigned int layer = 0; layer != ll.size(); layer++)
           p.ll_dep[layer] = ll[layer]*g.dlayer[layer];
 
-       if ((int)ll.size() != g.num_layers) 
+       if ((int)ll.size() != g.num_layers)
           parent->warningError ("LL parameter doesn't match soil profile?");
        }
     else
@@ -10567,27 +10533,27 @@ void Plant::plant_read_root_params ()
                                                  "ll15", floatArrayType,
                                                  "", "");
        parent->getVariable(id, ll, 0.0, c.sw_ub, true);
-       if (ll.size() == 0) 
+       if (ll.size() == 0)
           throw std::runtime_error("No Crop Lower Limit found");
-       
+
        for (unsigned int i=0; i< ll.size(); i++) p.ll_dep[i] = ll[i]*g.dlayer[i];
        parent->writeString ("   Using externally supplied Lower Limit (ll15)");
        }
 
-    int num_kls = 0;   
+    int num_kls = 0;
     parent->readParameter (section_name
                , "kl"//, "()"
                , p.kl, num_kls
                , 0.0, c.kl_ub);
-    if (num_kls != g.num_layers) 
+    if (num_kls != g.num_layers)
        parent->warningError ("KL parameter doesn't match soil profile?");
-    
+
     int num_xfs = 0;
     parent->readParameter (section_name
               , "xf"//, "()"
               , p.xf, num_xfs
               , 0.0, 1.0);
-    if (num_xfs != g.num_layers) 
+    if (num_xfs != g.num_layers)
        parent->warningError ("XF parameter doesn't match soil profile?");
 
     if (c.root_growth_option == 2)
@@ -10970,7 +10936,7 @@ void Plant::plant_get_other_variables ()
                            , g.year
                            , g.soil_temp
                            , soil_temp);
-          }                 
+          }
        }
 
     // Canopy XX this is wrong if our 'module name' changes during a simulation
@@ -11586,7 +11552,7 @@ void Plant::plant_read_species_const ()
                       , c.root_growth_option
                       , 1, 2);
 
-    phenology->readSpeciesParameters(parent, search_order); 
+    phenology->readSpeciesParameters(parent, search_order);
 //      call search_parent->searchParameter (search_order, num_sections
 //     :                     , 'rue', max_stage, '(g dm/mj)'
 //     :                     , c%rue, numvals
