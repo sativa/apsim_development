@@ -23,19 +23,19 @@ module DataStrModule
    !     Within the string "record", there should be at least one
    !     units specifier enclosed in parentheses.  This function
    !     returns the substring enclosed within the first set of
-   !     parentheses.  
-   !     
+   !     parentheses.
+   !
    !     If there are no units found, blank is returned.  If
    !     truncation occurs during this process a warning error is
-   !     flagged.  
+   !     flagged.
 
    !+  Mission Statement
-   !      
- 
+   !
+
    !+ Changes
    !       110393 JNGH Specified and programmed
    !     jngh 5/8/94 used assign_string to trap truncations
- 
+
    !+ Calls
 
    !+ Constant Values
@@ -47,17 +47,17 @@ module DataStrModule
    !
       character  unit_end*(*)          ! delimiter to end units
       parameter (unit_end = ')')
- 
+
    !+ Local Variables
       character  remainder*100          ! rest of string
       character  unit_plus*100          ! unit + rest string
       character  units*100              ! units string
       character  values*1000            ! values string
- 
+
    !- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
- 
+
       call split_line (record, values, unit_plus, unit_start)
       call split_line (unit_plus, units, remainder, unit_end)
 
@@ -66,9 +66,9 @@ module DataStrModule
       call pop_routine (myname)
       return
       end function
- 
 
- 
+
+
    ! ====================================================================
       function get_units (record)
    ! ====================================================================
@@ -83,20 +83,20 @@ module DataStrModule
 
    !+ Purpose
    !     Get units from string
- 
+
    !+  Definition
    !     Within the string "record", there should be at least one
    !     units specifier enclosed in parentheses.  This function
    !     returns the substring enclosed within the first set of
-   !     parentheses.  
-   !     
+   !     parentheses.
+   !
    !     If there are no units found, a warning error is flagged
    !     and blank is returned.  If truncation occurs during this
    !     process a warning error is flagged.
 
    !+  Mission Statement
-   !      
- 
+   !
+
    !+ Changes
    !       080994 JNGH Specified and programmed
    !   DPH 19/10/94 Removed routine name argument from call to warning_error
@@ -113,7 +113,7 @@ module DataStrModule
    !
       character  unit_end*(*)          ! delimiter to end units
       parameter (unit_end = ')')
- 
+
    !+ Local Variables
       character  remainder*100         ! rest of string
       character  unit_plus*100         ! unit + rest string
@@ -326,11 +326,11 @@ module DataStrModule
    !     This subroutine reads a numeric value from the string
    !     "value_string" into "value".  On  success, "numvals" will be
    !     set to 1.  Otherwise, a fatal error will be flagged and
-   !     "numvals" will be set to zero.  
+   !     "numvals" will be set to zero.
 
    !+  Mission Statement
-   !      
- 
+   !
+
    !+ Changes
    !      011292 jngh specified and programmed
    !      19/10/94 DPH Changed name of routine from get_value
@@ -341,7 +341,7 @@ module DataStrModule
    !       DPH 25/10/95 Changed error_message size to function_string_len
    !      021195 jngh changed length of string written to error message.
    !      18/11/96 dph added special test for blank string.
- 
+
    !+ Calls
 
    !+ Constant Values
@@ -356,11 +356,11 @@ module DataStrModule
       character  values*(Function_string_len)
                                        ! values string
       character  word*100              ! word from values string
- 
+
    !- Implementation Section ----------------------------------
- 
+
       call push_routine(myname)
- 
+
       Values = Value_string
       call Get_next_word(Values, word)
       if (word .eq. Blank) then
@@ -382,11 +382,11 @@ module DataStrModule
       if (read_status.ne.OK_status) then
          numvals = 0
          value = 0.0
- 
+
          call error (e_message, .true.)
       else
          ! Read was successful.
- 
+
          Numvals = 1
       endif
 
@@ -412,10 +412,10 @@ module DataStrModule
 
    !+ Purpose
    !     Get an array of values from string
- 
+
    !+  Mission Statement
    !
- 
+
    !+ Changes
    !       080994 JNGH Specified and programmed
    !        DPH 19/10/94 Removed routine name argument from call to fatal_error
@@ -430,7 +430,7 @@ module DataStrModule
    !
       character  unit_start*(*)        ! delimiter to start units
       parameter (unit_start = '(')
- 
+
    !+ Local Variables
       integer    indx                  ! array index
       integer    one_value             ! ok if = 1
@@ -438,18 +438,18 @@ module DataStrModule
       character  values*(Function_string_len)
                                        ! values string
       character  word*100              ! word from values string
- 
+
    !- Implementation Section ----------------------------------
 
       call push_routine (myname)
- 
+
       call split_line (value_string, values, unit_plus, unit_start)
       numvals = word_count (values)
 
       if ( numvals.gt.limit) then
 
                ! We have more entities than expected
- 
+
          write (e_message, '(a, a, i5, a, a, a, i5, a)') &
                   value_string(1:100)                    &
                 , new_line                               &
@@ -485,33 +485,33 @@ module DataStrModule
 
 10       continue
 20       continue
- 
+
       endif
- 
+
       call pop_routine (myname)
       return
       end subroutine
 
 
- 
+
    ! ====================================================================
       subroutine string_to_integer_var (value_string, value, numvals)
    ! ====================================================================
       implicit none
- 
+
    !+ Sub-Program Arguments
       character  value_string*(*)      ! (INPUT) string of number
       integer    value                 ! (OUTPUT) variable to be read
       integer    numvals               ! (OUTPUT) number of values
- 
+
    !+ Purpose
    !     Get a single value from value_string
- 
+
    !+  Definition
    !     This subroutine reads an integer numeric value from the
    !     string "value_string" into "value".  On  success, "numvals"
    !     will be set to 1.  Otherwise, a fatal error will be
-   !     flagged and "numvals" will be set to zero.  
+   !     flagged and "numvals" will be set to zero.
 
    !+  Definition
    !     Stores the numeric values of words from "value_string"
@@ -530,18 +530,18 @@ module DataStrModule
    !     "numvals" will be assigned a negative value.
 
    !+  Mission Statement
-   !      
- 
+   !
+
    !+ Changes
    !      19/10/94 DPH
- 
+
    !+ Calls
- 
+
    !+ Local Variables
       real Real_value                  ! dummy real value
- 
+
    !- Implementation Section ----------------------------------
- 
+
       call string_to_real_var(value_string, Real_value, numvals)
       Value = nint(Real_value)
 
@@ -617,24 +617,24 @@ module DataStrModule
       character  value_string*(*)      ! (INPUT) string of number
       double precision value           ! (OUTPUT) variable to be read
       integer numvals                  ! (OUTPUT) number of values
- 
+
    !+ Purpose
    !     Get a single value from value_string
- 
+
    !+  Definition
    !     This subroutine reads a numeric value from the string
    !     "value_string" into "value".  On  success, "numvals" will be
    !     set to 1.  Otherwise, a fatal error will be flagged and
-   !     "numvals" will be set to zero.  
+   !     "numvals" will be set to zero.
 
    !+  Mission Statement
-   !      
- 
+   !
+
    !+ Changes
    !      19/10/94 DPH
    !      5/7/95 DPH Put in (1:100) on value_string when creating e_message
    !        DPH 25/10/95 Changed string size to function_string_len
- 
+
    !+ Calls
 
    !+ Constant Values
@@ -643,21 +643,21 @@ module DataStrModule
    !
       integer    Ok_status             ! Line was read from file ok.
       parameter (Ok_status = 0)
- 
+
    !+ Local Variables
       integer    Read_status           ! Status of read stmt
       character  values*(Function_string_len)
                                        ! values string
       character  word*100              ! word from values string
- 
+
    !- Implementation Section ----------------------------------
- 
+
       call push_routine(myname)
- 
+
       Values = Value_string
       call Get_next_word(Values, word)
       read (word, '(g25.0)', iostat = read_status) value
- 
+
       if (read_status.ne.OK_status) then
          numvals = 0
          value = 0.0d0
@@ -706,8 +706,8 @@ module DataStrModule
    !     order they occur in "value_string" so that word j from
    !     "value_string" is assigned to "array"(j).  zero is
    !     assigned to the remaining elements.  The number of words
-   !     stored is assigned to "numvals".  
-   !     
+   !     stored is assigned to "numvals".
+   !
    !     If there are more words than "limit" in "value_string",
    !     storage stops with the last array element and a warning
    !     error is issued.  If errors occur while converting each
@@ -715,8 +715,8 @@ module DataStrModule
    !     "numvals" will be assigned a negative value.
 
    !+  Mission Statement
-   !      
- 
+   !
+
    !+ Changes
    !        DPH 19/10/94
    !      5/7/95 DPH Put in (1:100) on value_string when creating e_message
@@ -728,7 +728,7 @@ module DataStrModule
    !
       character  unit_start*(*)        ! delimiter to start units
       parameter (unit_start = '(')
- 
+
    !+ Local Variables
       integer    indx                  ! array index
       integer    one_value             ! ok if = 1
@@ -736,18 +736,18 @@ module DataStrModule
       character  values*(Function_string_len)
                                        ! values string
       character Word*100               ! Next word on string
- 
+
    !- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
- 
+
       call split_line (value_string, values, unit_plus, unit_start)
       numvals = word_count (values)
- 
+
       if ( numvals.gt.limit) then
- 
+
                ! We have more entities than expected
- 
+
          write (e_message, '(a, a, i5, a, a, a, i5, a)')  &
                   value_string(1:100)                     &
                 , new_line                                &
@@ -819,11 +819,11 @@ module DataStrModule
    !     if str compares equal to 'false', then "value" will be set
    !     to .FALSE. and "numvals" will be set to 1.  Else "value" will
    !     be set to .FALSE., an error will be flagged and "numvals"
-   !     will be set to 0.  
+   !     will be set to 0.
 
    !+  Mission Statement
-   !      
- 
+   !
+
    !+ Changes
    !      19/10/94 DPH
    !     jngh 21/2/95 changed write to string to replacement statement.
@@ -834,16 +834,16 @@ module DataStrModule
       character  values*(Function_string_len)
                                        ! values string
       character  word*100              ! word from values string
- 
+
    !- Implementation Section ----------------------------------
- 
+
       Values = Value_string
       call Get_next_word(Values, word)
       Word = Lower_case(Word)
       if (Word .eq. 'true' .or. Word .eq. 'false') then
          Value = (Word .eq. 'true')
          Numvals = 1
- 
+
       else
          e_message =                               &
              'Invalid logical variable found :- '  &
@@ -881,18 +881,18 @@ module DataStrModule
    !     separated from any previous word by one or more blanks or
    !     equals signs.  "array" has "limit" elements.  The words
    !     are stored in order they occur in "value_string" so that
-   !     word j from "value_string" is assigned to "array"(j). 
+   !     word j from "value_string" is assigned to "array"(j).
    !     .FALSE. is assigned to the remaining elements.  The number
-   !     of words stored is assigned to "numvals".  
-   !     
+   !     of words stored is assigned to "numvals".
+   !
    !     If there are more words than "limit" in "value_string",
    !     storage stops with the last array element and a warning
    !     error is issued.  If any word converted to lower case is not
    !     equal to 'true' or to 'false', a fatal error will be issued.
 
    !+  Mission Statement
-   !      
- 
+   !
+
    !+ Changes
    !        DPH 19/10/94
    !      5/7/95 DPH Put in (1:100) on value_string when creating e_message
@@ -903,7 +903,7 @@ module DataStrModule
    !
       character  unit_start*(*)        ! delimiter to start units
       parameter (unit_start = '(')
- 
+
    !+ Local Variables
       integer indx                     ! index into array
       integer    one_value             ! ok if = 1
@@ -913,9 +913,9 @@ module DataStrModule
       character Word*100               ! Next word on string
 
    !- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
- 
+
       call split_line(value_string, Temp_string, unit_plus, unit_start)
       numvals = word_count (Temp_string)
 
@@ -992,23 +992,23 @@ module DataStrModule
    !     blanks or equals signs.  "array" has "limit" elements.
    !     The words are stored in order they occur in "value_string"
    !     so that word j from "value_string" is assigned to
-   !     "array"(j).  blank is assigned to the remaining elements. 
-   !     The number of words stored is assigned to "numvals".  
-   !     
+   !     "array"(j).  blank is assigned to the remaining elements.
+   !     The number of words stored is assigned to "numvals".
+   !
    !     If there are more words than "limit" in "value_string",
    !     storage stops with the last array element and a warning
    !     error is issued.  If any non blank trailing characters are
    !     truncated in these assignments, warning messages will be
-   !     flagged.  
+   !     flagged.
 
    !+  Mission Statement
-   !      
- 
+   !
+
    !+ Changes
    !        DPH 19/10/94
    !        dph 1/12/98 changed from function_string_len to max_line_size C158
    !        jngh 22/05/00 added trim to writing of value_string
- 
+
    !+ Constant Values
       character myname*(*)
       parameter (myname='string_to_logical_array')
@@ -1020,13 +1020,13 @@ module DataStrModule
       character Word*400               ! Next word on string
 
    !- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
       numvals = word_count (Value_string)
- 
+
       if ( numvals.gt.limit) then
- 
+
                ! We have more entities than expected
 
          write (e_message, '(a, a, i5, a, a, a, i5, a)')  &
@@ -1035,7 +1035,7 @@ module DataStrModule
                 , limit, ' values read. '                 &
                 , new_line                                &
                 , 'Remaining', numvals - limit, ' values ignored.'
- 
+
          call error (e_message, .false.)
          numvals = limit
 
@@ -1050,52 +1050,52 @@ module DataStrModule
       if (numvals.eq.0) then
 
                ! We have no entities
- 
+
       else
- 
+
          Temp_string = Value_string
          do 20 Indx = 1, Numvals
             call Get_next_word(Temp_string, word)
             array(indx) = word
 20       continue
- 
+
       endif
 
       call pop_routine (myname)
 
       return
       end subroutine
- 
- 
- 
+
+
+
    ! ====================================================================
       subroutine Real_var_to_string (value, value_string)
    ! ====================================================================
       implicit none
- 
+
    !+ Sub-Program Arguments
       real       value                 ! (INPUT) variable to be written to
                                        ! string
       character  value_string*(*)      ! (OUTPUT) return string
- 
+
    !+ Purpose
    !     Write a single value to a string
- 
+
    !+  Definition
    !     Writes a string representation of "value" to "value_string".
 
    !+  Mission Statement
-   !      
- 
+   !
+
    !+ Changes
    !      19/10/94 DPH
 
    !+ Calls
- 
+
    !- Implementation Section ----------------------------------
- 
+
       write(value_string, '(g25.15e3)' ) Value
- 
+
       return
       end subroutine
 
@@ -1116,7 +1116,7 @@ module DataStrModule
 
    !+ Purpose
    !     Write an array of values to string
- 
+
    !+  Definition
    !     Appends string representations of each of the "numvals"
    !     elements of "array" (preceded by a blank space) in order
@@ -1132,7 +1132,7 @@ module DataStrModule
    !     "value_string".
 
    !+  Mission Statement
-   !      
+   !
 
    !+ Changes
    !        DPH 19/10/94
@@ -1141,16 +1141,16 @@ module DataStrModule
    !     JNGH 22/06/96 changed function string_concat to call append_string
 
    !+ Calls
- 
+
    !+ Local Variables
       integer    indx                  ! array index
       character  Word*100              ! next word to put into string
- 
+
    !- Implementation Section ----------------------------------
- 
+
       do 10 Indx = 1, Numvals
          call Real_var_to_string(array(indx), word)
- 
+
          e_message = Blank // Word
          Word = e_message
 
@@ -1159,28 +1159,28 @@ module DataStrModule
 
       return
       end subroutine
- 
- 
- 
+
+
+
    ! ====================================================================
       subroutine Integer_var_to_string (value, value_string)
    ! ====================================================================
       implicit none
- 
+
    !+ Sub-Program Arguments
       integer       value              ! (INPUT) variable to be written to
                                        ! string
       character  value_string*(*)      ! (OUTPUT) return string
- 
+
    !+ Purpose
    !     Write a single value to a string
- 
+
    !+  Definition
    !     Writes a string representation of "value" to "value_string".
- 
+
    !+  Mission Statement
-   !      
- 
+   !
+
    !+ Changes
    !      19/10/94 DPH
 
@@ -1192,9 +1192,9 @@ module DataStrModule
 
       return
       end subroutine
- 
- 
- 
+
+
+
    ! ====================================================================
       subroutine Integer_array_to_string(array, numvals, value_string)
    ! ====================================================================
@@ -1219,7 +1219,7 @@ module DataStrModule
    !     DPH 21/04/95 Replaced "Word = Blank // Word" with
    !                  "e_message = Blank // Word"
    !     JNGH 22/06/96 changed function string_concat to call append_string
- 
+
    !+ Calls
 
    !+ Local Variables
@@ -1254,22 +1254,22 @@ module DataStrModule
 
    !+ Purpose
    !     Write a single value to a string
- 
+
    !+  Definition
    !     Writes a string representation of "value" to "value_string".
 
    !+  Mission Statement
-   !      
- 
+   !
+
    !+ Changes
    !      19/10/94 DPH
- 
+
    !+ Calls
- 
+
    !- Implementation Section ----------------------------------
- 
+
       write(value_string, '(g25.15e3)' ) Value
- 
+
       return
       end subroutine
 
@@ -1307,24 +1307,24 @@ module DataStrModule
 
    !+  Mission Statement
    !
- 
+
    !+ Changes
    !        DPH 19/10/94
    !     DPH 21/04/95 Replaced "Word = Blank // Word" with
    !                  "e_message = Blank // Word"
    !     JNGH 22/06/96 changed function string_concat to call append_string
- 
+
    !+ Calls
 
    !+ Local Variables
       integer    indx                  ! array index
       character  Word*100              ! next word to put into string
- 
+
    !- Implementation Section ----------------------------------
- 
+
       do 10 Indx = 1, Numvals
          call Double_var_to_string(array(indx), word)
- 
+
          e_message = Blank // Word
          Word = e_message
 
@@ -1345,32 +1345,32 @@ module DataStrModule
       logical       value              ! (INPUT) variable to be written to
                                        ! string
       character  value_string*(*)      ! (OUTPUT) return string
- 
+
    !+ Purpose
    !     Write a single value to a string
- 
+
    !+  Definition
    !     If "value", this subroutine will assign 'True' to
    !     "value_string", otherwise it will assign 'False' to
-   !     "value_string".  
+   !     "value_string".
 
    !+  Mission Statement
-   !      
- 
+   !
+
    !+ Changes
    !      19/10/94 DPH
- 
+
    !+ Calls
- 
+
    !- Implementation Section ----------------------------------
- 
+
       if (Value) then
          Value_string = 'True'
- 
+
       else
          Value_string = 'False'
       endif
- 
+
       return
       end subroutine
 
@@ -1391,15 +1391,15 @@ module DataStrModule
 
    !+ Purpose
    !     Write an array of values to string
- 
+
    !+  Definition
    !     Appends string representations of each of the "numvals"
    !     elements of "array" (preceded by a blank space) in order
    !     onto the end of "value_string".  (for the purpose of this
    !     routine the end menas the last non blank character).  Note
    !     that the above implies that the original non blank
-   !     characters of "value_string" will not be overwritten.   
-   !     
+   !     characters of "value_string" will not be overwritten.
+   !
    !     A warning error is flagged if part of the last element of
    !     "array" will not fit onto the end of "value_string".  A
    !     fatal error is flagged if there isn't room for any part of
@@ -1408,24 +1408,24 @@ module DataStrModule
 
    !+  Mission Statement
    !
- 
+
    !+ Changes
    !        DPH 19/10/94
    !     DPH 21/04/95 Replaced "Word = Blank // Word" with
    !                  "e_message = Blank // Word"
    !     JNGH 22/06/96 changed function string_concat to call append_string
- 
+
    !+ Calls
 
    !+ Local Variables
       integer    indx                  ! array index
       character  Word*100              ! next word to put into string
- 
+
    !- Implementation Section ----------------------------------
- 
+
       do 10 Indx = 1, Numvals
          call Logical_var_to_string(array(indx), word)
- 
+
          e_message = Blank // Word
          Word = e_message
 
@@ -1449,10 +1449,10 @@ module DataStrModule
       character   array(*)*(*)         ! (INPUT) array to be written to string
       integer     numvals              ! (INPUT) number of values
       character   value_string*(*)     ! (OUTPUT) return string
- 
+
    !+ Purpose
    !     Write an array of values to string
- 
+
    !+  Definition
    !     Appends each of the "numvals" elements of "array"
    !     (preceded by a blank space) in order onto the end of
@@ -1463,28 +1463,28 @@ module DataStrModule
    !     A warning error is flagged if part of the last element of
    !     "array" will not fit onto the end of "value_string".  A
    !     fatal error is flagged if there isn't room for any of the
-   !     last element of "array" to fit onto the end of "value_string".  
+   !     last element of "array" to fit onto the end of "value_string".
 
    !+  Mission Statement
-   !      
+   !
 
    !+ Changes
    !        DPH 19/10/94
    !     JNGH 22/06/96 changed function string_concat to call append_string
- 
+
    !+ Calls
 
    !+ Local Variables
       integer    indx                  ! array index
       character  Word*100              ! next word to put into string
- 
+
    !- Implementation Section ----------------------------------
- 
+
       do 10 Indx = 1, Numvals
          Word = Blank // array(indx)
          call append_string (value_string, Word)
 10    continue
- 
+
       return
       end subroutine
 
@@ -1499,52 +1499,52 @@ module DataStrModule
       character String*(*)             ! (INPUT) String to find
       character Array(*)*(*)           ! (INPUT) Array of strings to search
       integer Numvals                  ! (INPUT) Number values in array
- 
+
    !+ Purpose
    !     Find the string in the specified array.  Return index into
    !     array if found or -1 otherwise.
- 
+
    !+  Mission Statement
-   !      
- 
+   !
+
    !+ Changes
    !     DPH - 8/11/94
- 
+
    !+ Calls
- 
+
    !+ Local Variables
       logical Found                    ! Found string ?
       integer Indx                     ! Index into array.
- 
+
    !- Implementation Section ----------------------------------
 
       ! Go find the module if possible.
- 
+
       Indx = 1
 10    continue
       if (Indx .gt. numvals) then
          Found = .false.
- 
+
       else if (Array(Indx) .eq. String) then
          Found = .true.
- 
+
       else
          Indx = Indx + 1
          goto 10
       endif
- 
+
       if (Found) then
          Find_string_in_array = Indx
- 
+
       else
          Find_string_in_array = -1
       endif
- 
+
       return
       end function
 
 
- 
+
    ! ====================================================================
        integer function Find_integer_in_array(Integ, Array, numvals)
    ! ====================================================================
@@ -1554,52 +1554,52 @@ module DataStrModule
       integer Integ                    ! (INPUT) integer to find
       integer Array(*)                 ! (INPUT) Array of integers to search
       integer Numvals                  ! (INPUT) Number values in array
- 
+
    !+ Purpose
    !     Find the integer in the specified array.  Return index into
    !     array if found or -1 otherwise.
- 
+
    !+  Mission Statement
-   !      
- 
+   !
+
    !+ Changes
    !     DPH - 17/5/96
- 
+
    !+ Calls
 
    !+ Local Variables
       logical Found                    ! Found string ?
       integer Indx                     ! Index into array.
- 
+
    !- Implementation Section ----------------------------------
- 
+
       ! Go find the integer if possible.
- 
+
       Indx = 1
 10    continue
       if (Indx .gt. numvals) then
          Found = .false.
- 
+
       else if (Array(Indx) .eq. Integ) then
          Found = .true.
- 
+
       else
          Indx = Indx + 1
          goto 10
       endif
- 
+
       if (Found) then
          Find_integer_in_array = Indx
- 
+
       else
          Find_integer_in_array = -1
       endif
 
       return
       end function
- 
- 
- 
+
+
+
    ! ====================================================================
        logical function datastr_init()
    ! ====================================================================
@@ -1607,24 +1607,24 @@ module DataStrModule
 
    !+ Purpose
    !      Initialise the datastr routines.
- 
+
    !+  Mission Statement
-   !      
- 
+   !
+
    !+ Changes
    !     SB 24/4/98  Created.
- 
+
    !+ Calls
- 
+
    !- Implementation Section ----------------------------------
- 
+
       datastr_init = .true.
 
       return
       end function
- 
- 
- 
+
+
+
    ! ====================================================================
        subroutine datastr_term()
    ! ====================================================================
@@ -1632,17 +1632,17 @@ module DataStrModule
 
    !+ Purpose
    !      Clean up the datastr routines.
- 
+
    !+  Mission Statement
-   !      
- 
+   !
+
    !+ Changes
    !     SB 24/4/98  Created.
- 
+
    !+ Calls
- 
+
    !- Implementation Section ----------------------------------
- 
+
       return
       end subroutine
 
@@ -1677,20 +1677,20 @@ module DataStrModule
    !     identifier with all spaces removed to var_name.  If there
    !     is not enough space in var_name for it, a warning error is
    !     flagged and truncation occurs.  This subroutine will
-   !     assign value with leading spaces removed to values_str.  
+   !     assign value with leading spaces removed to values_str.
    !     If there is not enough space in values_str for it, a
    !     warning error is flagged and truncation occurs.
- 
+
    !+ Notes
    !      Example of a typical variables_str is :-
    !         sw=30 25 15 15, yield=1.6
    !      In this example, this routine would return sw as the var_name
    !      and "30 25 15 15" as the values_str.
    !      Variables_str would be updated to "yield=1.6"
- 
+
    !+  Mission Statement
    !
- 
+
    !+ Changes
    !      DPH - 16/11/92
    !      DPH - 9/06/93 Modified to accept situations when Variables_str
@@ -1715,27 +1715,105 @@ module DataStrModule
                                        ! String to right of equals sign
 
    !- Implementation Section ----------------------------------
- 
+
       call split_line (variables_str, var_name, string_right, equals)
       call assign_string (variables_str, string_right)
- 
+
       pos = index (variables_str, delimiter)
- 
+
       ! Handle the situation when no MES_delimiter is in Variables_str.
- 
+
       if (pos .eq. 0) then
          call assign_string (values_str, variables_str)
          variables_str = blank
- 
+
       else
          call assign_string (values_str, variables_str (1:pos-1))
          variables_str = variables_str (pos+1:)
       endif
-                                
+
       values_str = adjustl(values_str)
       var_name = no_spaces(var_name)
- 
+
       return
       end subroutine
 
+! ====================================================================
+      subroutine get_char_variable(line, key, value)
+! ====================================================================
+      use ComponentcInterfaceModule
+      implicit none
+
+      character key*(*)
+      character value*(*)
+!      character , intent(in)::line*(*)
+      character line*(*)
+
+      character next_key*32
+      character next_value*100
+      character units*32
+      character temp_line*200
+
+      temp_line = line
+
+  100 continue
+        call get_next_variable (temp_line,next_key,next_value)
+
+        if (next_key .eq. key) then
+            value = next_value
+            call split_off_units(value,units)
+            goto 999
+        elseif (next_key.eq.' ') then
+            call error ('variable not found',.true.)
+            goto 999
+        endif
+
+      goto 100
+
+
+  999 continue
+
+      return
+      end subroutine
+
+!*******************************************************************************************
+      subroutine get_real_variable(line,key,value)
+! ====================================================================
+      use ComponentcInterfaceModule
+      implicit none
+
+      character key*(*)
+      real value
+      character line*(*)
+
+      character char_value*32
+      integer   numvals
+
+      call get_char_variable(line,key,char_value)
+      call string_to_real_Var(char_value,value,numvals)
+
+      return
+      end subroutine
+
+! ====================================================================
+      subroutine get_integer_variable(line,key,value)
+! ====================================================================
+      use ComponentcInterfaceModule
+      implicit none
+
+      character key*(*)
+      integer value
+      character line*(*)
+
+      character char_value*32
+      integer   numvals
+
+      call get_char_variable(line,key,char_value)
+      call string_to_integer_Var(char_value,value,numvals)
+
+      return
+      end subroutine
+
+
 end module DataStrModule
+  
