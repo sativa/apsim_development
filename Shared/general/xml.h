@@ -50,12 +50,16 @@ class XMLNode
       iterator begin() const;
       iterator end() const;
 
+      XMLNode(void) : parent(NULL), node(NULL) { }
       XMLNode(::XMLDocument* doc, Msxml2_tlb::IXMLDOMNode* n);
        ~XMLNode(void);
       XMLNode(const XMLNode& rhs);
       XMLNode& operator= (const XMLNode& rhs);
 
+      bool isValid(void) const {return (node != NULL);}
+
       std::string getName(void) const;
+      void getAttributes(std::vector<std::string>& attributes) const;
       std::string getAttribute(const std::string& attributeName) const;
       std::string getValue(void) const;
       void setAttribute(const std::string& attributeName,
@@ -201,9 +205,9 @@ class GetValueFunction
 // ------------------------------------------------------------------
 // Handy function that will delete all nodes with the specified name.
 // ------------------------------------------------------------------
-void eraseNodes(XMLNode& node, const std::string& name)
+void eraseNodes(XMLNode node, const std::string& name)
    {
-/*   XMLNode::iterator i = find_if(node.begin(),
+   XMLNode::iterator i = find_if(node.begin(),
                                  node.end(),
                                  EqualToName<XMLNode>(name));
    while (i != node.end())
@@ -213,7 +217,7 @@ void eraseNodes(XMLNode& node, const std::string& name)
                   node.end(),
                   EqualToName<XMLNode>(name));
       }
-*/   }
+   }
 
 
 #endif

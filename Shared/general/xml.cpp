@@ -222,6 +222,21 @@ string XMLNode::getName(void) const
       return "";
    }
 // ------------------------------------------------------------------
+// Return a list of attributes for node.
+// ------------------------------------------------------------------
+void XMLNode::getAttributes(std::vector<std::string>& names) const
+   {
+   if (node != NULL)
+      {
+      Msxml2_tlb::IXMLDOMNamedNodeMap* attributes = node->get_attributes();
+      for (int i = 0; i != attributes->get_length(); i++)
+         {
+         Msxml2_tlb::IXMLDOMNode* attribute = attributes->get_item(i);
+         names.push_back(asString(attribute->nodeName));
+         }
+      }
+   }
+// ------------------------------------------------------------------
 // Return an attribute of the node.
 // ------------------------------------------------------------------
 string XMLNode::getAttribute(const std::string& attributeName) const
