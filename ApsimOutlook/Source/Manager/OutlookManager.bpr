@@ -9,13 +9,13 @@
     <IDLFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TMain_form.dfm TFilespec_form.dfm TBatch_import_form.dfm"/>
-    <LIBFILES value="..\..\..\Shared\general\general.lib 
+    <LIBFILES value="..\..\..\Shared\general\general.lib
       ..\..\..\Shared\ApsimShared\ApsimShared.lib"/>
     <LIBRARIES value="kbmMemC6Run.lib TMSC6.lib APSGENERAL.lib APSData.lib bdertl.lib"/>
-    <SPARELIBS value="rtl.lib vcl.lib dbrtl.lib vcldb.lib bdertl.lib APSData.lib APSGENERAL.lib 
+    <SPARELIBS value="rtl.lib vcl.lib dbrtl.lib vcldb.lib bdertl.lib APSData.lib APSGENERAL.lib
       vclx.lib bcbsmp.lib adortl.lib TMSC6.lib kbmMemC6Run.lib"/>
-    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi qrpt.bpi dbrtl.bpi vcldb.bpi ibsmp.bpi 
-      vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi inet.bpi nmfast.bpi 
+    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi qrpt.bpi dbrtl.bpi vcldb.bpi ibsmp.bpi
+      vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi inet.bpi nmfast.bpi
       dclocx.bpi bcb97axserver.bpi adortl.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
@@ -27,14 +27,14 @@
     <USERDEFINES value=""/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="OutlookManager.cpp"/>
-    <INCLUDEPATH value="..;$(BCB)\components\tms;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\components\data"/>
+    <INCLUDEPATH value="..;$(BCB)\components\tms;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED);$(SHARED)\components\data"/>
     <LIBPATH value="..\..\..\shared\components\data;..;$(BCB)\components\tms;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(SHARED)\components\general;$(BCB)\components\TeeChart\CBuilder6\Lib"/>
     <WARNINGS value="-w-par -w-8027 -w-8026"/>
     <WARNOPTSTR value=""/>
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -Tkh30000 -X- -r- -a8 -b- -k -y -v 
+    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -Tkh30000 -X- -r- -a8 -b- -k -y -v
       -vi- -c -tW -tWM"/>
     <PFLAGS value="-$YD -$W -$O- -$A8 -v -M -JPHNE"/>
     <RFLAGS value=""/>
