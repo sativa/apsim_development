@@ -20,7 +20,7 @@ using std::list;
 
 // ------------------------------------------------------------------
 template <class container>
-void Split_string (string& text, const char* separators, container& words)
+void Split_string (const string& text, const char* separators, container& words)
    {
    words.erase(words.begin(), words.end());
 
