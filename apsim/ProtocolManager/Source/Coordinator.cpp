@@ -416,6 +416,15 @@ void Coordinator::onPublishEventMessage(unsigned int fromID, PublishEventData& p
                                      fromID,
                                      publishEventData.variant));
          }
+      // display an error message when a event/method is directed to a module
+      // but that module has registered an interest in it.
+      if (registrationItem->destID != 0 && registrationItem->interestedItems.size() == 0)
+         {
+         string msg = "Cannot deliver method: " + registrationItem->name +
+                      " to module: " + registrationItem->componentName +
+                      "\nThe module has not registered an interest in that event/method.";
+         error(msg.c_str(), true);
+         }
       }
    }
 // ------------------------------------------------------------------
@@ -779,6 +788,8 @@ void Coordinator::fixupRegistrationID(PMRegistrationItem& registrationItem)
          registrationItem.destID = id;
       else
          {
+         string msg = "Cannot find a component called: " + registrationItem.componentName;
+         error(msg.c_str(), true);
          registrationItem.name = registrationItem.componentName + "." + registrationItem.name;
          registrationItem.destID = 0;
          }
