@@ -1,0 +1,8 @@
+[APSIM.sample_apswim]
+module=report     apswim.par[sample]
+module=input      sample.met[sample]  apswim.par[sample]
+module=manager    apswim.par[sample]
+module=apswim     apswim.par[sample]  ..\apswim.ini[standard]
+module=solute     apswim.par[sample]  ..\..\solute\solute.ini[standard]
+
+

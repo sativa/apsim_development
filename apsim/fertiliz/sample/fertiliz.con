@@ -1,0 +1,7 @@
+[APSIM.sample_fertiliz]
+module=report     fertiliz.par[sample]                                 
+module=input      ..\..\input\sample\dalby.met[weather]  fertiliz.par[sample]
+module=manager    fertiliz.par[sample]
+module=fertiliz   fertiliz.par[sample]  ..\fertiliz.ini[standard]
+module=soilwat2   ..\..\soilwat2\sample\soilwat2.par[black_earth]  ..\..\soilwat2\soilwat2.ini[standard]
+module=soiln2     ..\..\soiln2\sample\soiln2.par[black_earth]    ..\..\soiln2\soiln2.ini[standard]

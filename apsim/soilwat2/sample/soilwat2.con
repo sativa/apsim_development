@@ -1,0 +1,6 @@
+[APSIM.sample_soilwat2]
+module=report     soilwat2.par[sample]
+module=input      ..\..\input\sample\dalby.met[weather]  soilwat2.par[sample]
+module=manager    soilwat2.par[sample]
+module=soilwat2   soilwat2.par[black_earth]  ..\soilwat2.ini[standard]
+
