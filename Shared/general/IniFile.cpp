@@ -6,7 +6,7 @@
 #include <general\string_functions.h>
 #include <fstream.h>
 
-#define INI_STRING_SIZE 2000
+static char st[6000];
 // ------------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------------
@@ -51,7 +51,6 @@ void IniFile::flush(void) const
 // ------------------------------------------------------------------
 void IniFile::read(const string& section, const string& key, string& value) const
    {
-   char st[INI_STRING_SIZE];
    GetPrivateProfileString(section.c_str(), key.c_str(), "",
                            st, sizeof(st), fileName.c_str());
    value = st;
@@ -95,8 +94,7 @@ void IniFile::readSectionNames(vector<string>& sections) const
    sections.erase(sections.begin(), sections.end());
 
    flush();
-   char st[INI_STRING_SIZE];
-   GetPrivateProfileString(NULL, "", "", st, INI_STRING_SIZE, fileName.c_str());
+   GetPrivateProfileString(NULL, "", "", st, sizeof(st), fileName.c_str());
    getWordsFromDoubleNullSt(st, sections);
    }
 // ------------------------------------------------------------------
