@@ -57,9 +57,43 @@ outputfile  =wagga1500.out
 [walpeup200.report.parameters]
 outputfile  =walpeup200.out
 
+[RoseworthyEarly.report.parameters]
+outputfile  =RoseworthyEarly.out
+[RoseworthyMid.report.parameters]
+outputfile  =RoseworthyMid.out
+[RoseworthyLate.report.parameters]
+outputfile  =RoseworthyLate.out
+[RoseworthyMidTopDress.report.parameters]
+outputfile  =RoseworthyMidTopDress.out
+[RoseworthyMidLowN.report.parameters]
+outputfile  =RoseworthyMidLowN.out
+[RoseworthyMidLowNTopDress.report.parameters]
+outputfile  =RoseworthyMidLowNTopDress.out
+
+[MinnipaEarly.report.parameters]
+outputfile  =MinnipaEarly.out
+[MinnipaMid.report.parameters]
+outputfile  =MinnipaMid.out
+[MinnipaLate.report.parameters]
+outputfile  =MinnipaLate.out
+
+
+[WaikerieEarly.report.parameters]
+outputfile  =WaikerieEarly.out
+[WaikerieMid.report.parameters]
+outputfile  =WaikerieMid.out
+[WaikerieLate.report.parameters]
+outputfile  =WaikerieLate.out
+
+
+[ClareEarly.report.parameters]
+outputfile  =ClareEarly.out
+[ClareMid.report.parameters]
+outputfile  =ClareMid.out
+[ClareLate.report.parameters]
+outputfile  =ClareLate.out
 
 [sensibility.report.parameters]
-
 variable = clock.dd/mm/yyyy as date
 variable = clock.day
 variable = clock.year
@@ -75,6 +109,8 @@ variable = wheat.n_conc_grain
 variable = wheat.grain_n
 variable = soiln2.no3()
 variable = soilwat2.esw
+variable = wheat.flowering_date
+
 !variable = wheat.grain_n_demand
 !variable = wheat.dlt_n_green(5)
 !variable = wheat.dlt_n_retrans(5)
@@ -116,6 +152,8 @@ sow_day = 135
 sow_day = 150
 [mid_june.manager.init]
 sow_day = 165
+[end_june.manager.init]
+sow_day = 180
 
 [hartog.manager.init]
 cultivar = 'hartog'
@@ -125,6 +163,8 @@ cultivar = 'sunco'
 cultivar = 'spear'
 [kulin.manager.init]
 cultivar = 'kulin'
+[yitpi.manager.init]
+cultivar = 'yitpi'
 
 [SplitN000.manager.init]
 split_nrate = 0
@@ -225,6 +265,39 @@ summaryfile=wagga1500.sum
 [walpeup200.SummaryFile.parameters]
 summaryfile=walpeup200.sum
 
+[RoseworthyEarly.SummaryFile.parameters]
+summaryfile=RoseworthyEarly.sum
+[RoseworthyMid.SummaryFile.parameters]
+summaryfile=RoseworthyMid.sum
+[RoseworthyLate.SummaryFile.parameters]
+summaryfile=RoseworthyLate.sum
+[RoseworthyMidTopDress.SummaryFile.parameters]
+summaryfile=RoseworthyMidTopDress.sum
+[RoseworthyMidLowN.SummaryFile.parameters]
+summaryfile=RoseworthyMidLowN.sum
+[RoseworthyMidLowNTopDress.SummaryFile.parameters]
+summaryfile=RoseworthyMidLowNTopDress.sum
+
+[MinnipaEarly.SummaryFile.parameters]
+summaryfile=MinnipaEarly.sum
+[MinnipaMid.SummaryFile.parameters]
+summaryfile=MinnipaMid.sum
+[MinnipaLate.SummaryFile.parameters]
+summaryfile=MinnipaLate.sum
+
+[WaikerieEarly.SummaryFile.parameters]
+summaryfile=WaikerieEarly.sum
+[WaikerieMid.SummaryFile.parameters]
+summaryfile=WaikerieMid.sum
+[WaikerieLate.SummaryFile.parameters]
+summaryfile=WaikerieLate.sum
+
+[ClareEarly.SummaryFile.parameters]
+summaryfile=ClareEarly.sum
+[ClareMid.SummaryFile.parameters]
+summaryfile=ClareMid.sum
+[ClareLate.SummaryFile.parameters]
+summaryfile=ClareLate.sum
 
 [sensibility.Screen.parameters]
 screen_output=on
