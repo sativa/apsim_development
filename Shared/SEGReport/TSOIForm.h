@@ -17,21 +17,18 @@
 #include "TSOI.h"
 #include <DB.hpp>
 #include "DBAdvGrd.hpp"
+#include "AdvPanel.hpp"
+#include <ExtCtrls.hpp>
 //---------------------------------------------------------------------------
 class TSOIForm : public TPropertyForm
 {
 __published:	// IDE-managed Components
-   TComboBox *MonthCombo;
-   TLabel *Label3;
-   TLabel *Label4;
-   TLabel *Label5;
-   TLabel *Label6;
-   TLabel *Label7;
-   TCheckBox *NegativeCheckBox;
-   TCheckBox *PositiveCheckBox;
-   TCheckBox *FallingCheckBox;
-   TCheckBox *RisingCheckBox;
    TCheckBox *ZeroCheckBox;
+   TCheckBox *RisingCheckBox;
+   TCheckBox *FallingCheckBox;
+   TCheckBox *PositiveCheckBox;
+   TCheckBox *NegativeCheckBox;
+   TComboBox *MonthCombo;
    TLabel *Label8;
    void __fastcall NegativeCheckBoxClick(TObject *Sender);
    void __fastcall PositiveCheckBoxClick(TObject *Sender);

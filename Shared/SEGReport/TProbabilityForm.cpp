@@ -10,6 +10,7 @@
 #pragma link "BaseGrid"
 #pragma link "dbadvgrd"
 #pragma link "TPropertyForm"
+#pragma link "AdvPanel"
 #pragma resource "*.dfm"
 TProbabilityForm *ProbabilityForm;
 //---------------------------------------------------------------------------

@@ -5,153 +5,111 @@ inherited TextForm: TTextForm
   OldCreateOrder = True
   PixelsPerInch = 120
   TextHeight = 16
-  object Label5: TLabel [3]
-    Left = 10
-    Top = 415
-    Width = 71
-    Height = 16
-    Anchors = [akLeft, akBottom]
-    Caption = 'E.g macros:'
-  end
-  object Label3: TLabel [4]
-    Left = 30
-    Top = 430
-    Width = 185
-    Height = 16
-    Anchors = [akLeft, akBottom]
-    Caption = '$property(component.property)'
-  end
-  object Label4: TLabel [5]
-    Left = 30
-    Top = 448
-    Width = 189
-    Height = 32
-    Anchors = [akLeft, akBottom]
-    Caption = '$precision(component.property,                    decplaces)'
-    WordWrap = True
-  end
-  object FontButton: TSpeedButton [6]
-    Left = 89
-    Top = 184
-    Width = 87
-    Height = 24
-    Caption = '&Font'
-    Flat = True
-    Glyph.Data = {
-      B6040000424DB604000000000000360000002800000012000000100000000100
-      2000000000008004000000000000000000000000000000000000C0C0C000C0C0
-      C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
-      C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
-      C000C0C0C000C0C0C0008000000080000000C0C0C000C0C0C000C0C0C000C0C0
-      C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
-      C000C0C0C000C0C0C000C0C0C000C0C0C0008000000080000000C0C0C000C0C0
-      C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
-      C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000800000008000
-      0000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
-      C000C0C0C000C0C0C00000008000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
-      C000800000008000000080000000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
-      C000C0C0C000C0C0C000C0C0C000C0C0C00000008000C0C0C000C0C0C000C0C0
-      C000C0C0C000C0C0C0008000000080000000C0C0C000C0C0C000C0C0C000C0C0
-      C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C00000008000C0C0
-      C000C0C0C000C0C0C000C0C0C000C0C0C0008000000080000000C0C0C000C0C0
-      C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
-      C000000080000000800000008000C0C0C000C0C0C000C0C0C000800000008000
-      00008000000080000000C0C0C000C0C0C0008000800080008000C0C0C000C0C0
-      C000C0C0C000C0C0C00000008000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
-      C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
-      C00080008000C0C0C000C0C0C000C0C0C00000008000C0C0C000C0C0C000C0C0
-      C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
-      C000C0C0C000C0C0C00080008000C0C0C000C0C0C000C0C0C000000080000000
-      80000000800000008000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
-      C000C0C0C000C0C0C000C0C0C000C0C0C00080008000C0C0C000C0C0C000C0C0
-      C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
-      C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C00080008000800080008000
-      8000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
-      C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
-      C00080008000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
-      C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
-      C000C0C0C000C0C0C00080008000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
-      C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
-      C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C0008000800080008000C0C0
-      C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
-      C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
-      C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000}
-    Transparent = False
-    OnClick = FontButtonClick
-  end
-  object Label6: TLabel [7]
-    Left = 9
-    Top = 188
-    Width = 29
-    Height = 16
-    Caption = 'Text:'
-  end
-  object Label7: TLabel [9]
-    Left = 15
-    Top = 130
-    Width = 62
-    Height = 16
-    Caption = 'Alignment:'
-  end
-  object Label1: TLabel [10]
-    Left = 18
-    Top = 157
-    Width = 58
-    Height = 16
-    Caption = 'Autosize?'
-  end
-  inherited SourceCombo: TComboBox
-    Width = 176
-  end
-  inherited NameEdit: TEdit
-    Width = 176
-  end
-  inherited SortFieldsEdit: TEdit
-    Width = 176
-  end
-  inherited GroupByEdit: TEdit
-    Width = 177
-    TabOrder = 7
-  end
-  object TextEdit: TRichEdit
-    Left = 8
-    Top = 216
-    Width = 256
-    Height = 198
-    Anchors = [akLeft, akTop, akRight, akBottom]
-    BevelInner = bvNone
-    BevelOuter = bvRaised
-    BevelKind = bkFlat
-    BorderStyle = bsNone
-    ScrollBars = ssBoth
-    TabOrder = 5
-    WordWrap = False
-    OnExit = TextEditExit
-  end
-  object AlignmentCombo: TComboBox
-    Left = 88
-    Top = 127
-    Width = 176
-    Height = 24
-    BevelKind = bkSoft
-    Anchors = [akLeft, akTop, akRight]
-    ItemHeight = 16
-    TabOrder = 4
-    OnChange = AlignmentComboChange
-    Items.Strings = (
-      'Left'
-      'Centre'
-      'Right')
-  end
-  object AutosizeCheckBox: TCheckBox
-    Left = 89
-    Top = 157
-    Width = 119
-    Height = 21
-    Ctl3D = True
-    ParentCtl3D = False
-    TabOrder = 6
-    OnClick = ToolbarCheckBoxClick
+  inherited AdvPanelGroup1: TAdvPanelGroup
+    Width = 270
+    Height = 494
+    FullHeight = 18
+    inherited AdvancedPanel: TAdvPanel
+      Width = 254
+      FullHeight = 293
+      inherited NameEdit: TEdit
+        Width = 166
+      end
+      inherited SourceCombo: TComboBox
+        Width = 166
+      end
+      inherited SortFieldsEdit: TEdit
+        Width = 166
+      end
+      inherited GroupByEdit: TEdit
+        Width = 167
+      end
+    end
+    inherited PropertyPanel: TAdvPanel
+      Width = 254
+      FullHeight = 297
+      object Label6: TLabel
+        Left = 8
+        Top = 120
+        Width = 36
+        Height = 16
+        Caption = 'Text:'
+      end
+      object Label7: TLabel
+        Left = 8
+        Top = 24
+        Width = 70
+        Height = 16
+        Caption = 'Alignment:'
+      end
+      object Label5: TLabel
+        Left = 8
+        Top = 328
+        Width = 231
+        Height = 64
+        Anchors = [akLeft, akBottom]
+        Caption = 
+          'E.g macros:    $precision(component.property,                   ' +
+          'decplaces)  $property(component.property)'
+        WordWrap = True
+      end
+      object FontLabel: TLabel
+        Left = 8
+        Top = 96
+        Width = 60
+        Height = 16
+        Cursor = crHandPoint
+        Caption = 'Edit Font'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlue
+        Font.Height = -13
+        Font.Name = 'Verdana'
+        Font.Style = [fsUnderline]
+        ParentFont = False
+        OnClick = FontLabelClick
+      end
+      object TextEdit: TRichEdit
+        Left = 8
+        Top = 136
+        Width = 233
+        Height = 193
+        Anchors = [akLeft, akTop, akRight, akBottom]
+        BevelInner = bvNone
+        BevelOuter = bvRaised
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        ScrollBars = ssBoth
+        TabOrder = 0
+        WordWrap = False
+        OnExit = TextEditExit
+      end
+      object AlignmentCombo: TComboBox
+        Left = 8
+        Top = 40
+        Width = 176
+        Height = 24
+        BevelKind = bkSoft
+        ItemHeight = 16
+        TabOrder = 2
+        OnChange = AlignmentComboChange
+        Items.Strings = (
+          'Left'
+          'Centre'
+          'Right')
+      end
+      object AutosizeCheckBox: TCheckBox
+        Left = 8
+        Top = 72
+        Width = 119
+        Height = 21
+        Alignment = taLeftJustify
+        Caption = 'Autosize?'
+        Ctl3D = True
+        ParentCtl3D = False
+        TabOrder = 1
+        OnClick = ToolbarCheckBoxClick
+      end
+    end
   end
   object FontDialog: TFontDialog
     Font.Charset = DEFAULT_CHARSET

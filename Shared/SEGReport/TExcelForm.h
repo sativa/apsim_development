@@ -20,14 +20,16 @@
 #include "AdvFileNameEdit.hpp"
 #include <DB.hpp>
 #include "DBAdvGrd.hpp"
+#include "AdvPanel.hpp"
+#include <ExtCtrls.hpp>
 //---------------------------------------------------------------------------
 class TExcelForm : public TPropertyForm
 {
 __published:	// IDE-managed Components
-   TLabel *Label3;
-   TAdvFileNameEdit *FilenameEdit;
-   TLabel *Label4;
    TComboBox *PageCombo;
+   TLabel *Label4;
+   TAdvFileNameEdit *FilenameEdit;
+   TLabel *Label3;
    void __fastcall FilenameEditChange(TObject *Sender);
    void __fastcall PageComboChange(TObject *Sender);
 private:	// User declarations

@@ -37,6 +37,7 @@ object WizardForm: TWizardForm
     Width = 75
     Height = 25
     Caption = '< Back'
+    Enabled = False
     TabOrder = 2
     OnClick = BackButtonClick
   end

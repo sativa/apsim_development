@@ -17,12 +17,14 @@
 #include "TFilter.h"
 #include <DB.hpp>
 #include "DBAdvGrd.hpp"
+#include "AdvPanel.hpp"
+#include <ExtCtrls.hpp>
 //---------------------------------------------------------------------------
 class TFilterForm : public TPropertyForm
    {
    __published:	// IDE-managed Components
-   TLabel *FilterLabel;
    TEdit *FilterEdit;
+   TLabel *FilterLabel;
    void __fastcall FilterEditExit(TObject *Sender);
    private:	// User declarations
       ::TFilter* filter;

@@ -11,6 +11,7 @@
 #pragma link "dbadvgrd"
 #pragma link "TPropertyForm"
 #pragma link "DBAdvGrd"
+#pragma link "AdvPanel"
 #pragma resource "*.dfm"
 TSOIForm *SOIForm;
 //---------------------------------------------------------------------------

@@ -11,6 +11,7 @@
 #pragma link "BaseGrid"
 #pragma link "dbadvgrd"
 #pragma link "DBAdvGrd"
+#pragma link "AdvPanel"
 #pragma resource "*.dfm"
 TPropertyForm *PropertyForm;
 //---------------------------------------------------------------------------
@@ -41,7 +42,6 @@ void TPropertyForm::setComponent(TComponent* comp)
       }
    else
       {
-      ToolbarLabel->Visible = false;
       ToolbarCheckBox->Visible = false;
       SourceLabel->Visible = false;
       SourceCombo->Visible = false;

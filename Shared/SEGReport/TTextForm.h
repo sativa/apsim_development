@@ -12,25 +12,24 @@
 #include <ComCtrls.hpp>
 #include <Dialogs.hpp>
 #include "TText.h"
+#include "AdvPanel.hpp"
+#include <ExtCtrls.hpp>
 //---------------------------------------------------------------------------
 class TTextForm : public TPropertyForm
 {
 __published:	// IDE-managed Components
    TRichEdit *TextEdit;
-   TLabel *Label5;
-   TLabel *Label3;
-   TLabel *Label4;
    TFontDialog *FontDialog;
-   TSpeedButton *FontButton;
    TLabel *Label6;
    TComboBox *AlignmentCombo;
    TLabel *Label7;
    TCheckBox *AutosizeCheckBox;
-   TLabel *Label1;
+   TLabel *Label5;
+   TLabel *FontLabel;
    void __fastcall TextEditExit(TObject *Sender);
-   void __fastcall FontButtonClick(TObject *Sender);
    void __fastcall AlignmentComboChange(TObject *Sender);
    void __fastcall ToolbarCheckBoxClick(TObject *Sender);
+   void __fastcall FontLabelClick(TObject *Sender);
 private:	// User declarations
       TText* text;
 public:		// User declarations

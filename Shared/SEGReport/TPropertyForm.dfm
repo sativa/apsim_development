@@ -1,8 +1,8 @@
 object PropertyForm: TPropertyForm
   Left = 606
   Top = 152
-  Width = 279
-  Height = 442
+  Width = 288
+  Height = 546
   Caption = 'PropertyForm'
   Color = clWindow
   Font.Charset = DEFAULT_CHARSET
@@ -11,98 +11,375 @@ object PropertyForm: TPropertyForm
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
-  DesignSize = (
-    271
-    409)
   PixelsPerInch = 120
   TextHeight = 16
-  object SourceLabel: TLabel
-    Left = 33
-    Top = 39
-    Width = 46
-    Height = 16
-    Caption = 'Source:'
-  end
-  object Label2: TLabel
-    Left = 39
-    Top = 10
-    Width = 40
-    Height = 16
-    Caption = 'Name:'
-  end
-  object ToolbarLabel: TLabel
-    Left = 10
-    Top = 69
-    Width = 69
-    Height = 16
-    Caption = 'On toolbar?'
-  end
-  object SortFieldsLabel: TLabel
-    Left = 34
-    Top = 98
-    Width = 45
-    Height = 16
-    Caption = 'Sort by:'
-  end
-  object PivotLabel: TLabel
-    Left = 21
-    Top = 130
-    Width = 58
-    Height = 16
-    Caption = 'Group by:'
-  end
-  object SourceCombo: TComboBox
-    Left = 89
-    Top = 39
-    Width = 177
-    Height = 24
-    BevelKind = bkSoft
-    Anchors = [akLeft, akTop, akRight]
-    ItemHeight = 16
-    TabOrder = 1
-    OnChange = SourceComboChange
-  end
-  object NameEdit: TEdit
-    Left = 89
-    Top = 10
-    Width = 177
-    Height = 26
-    Anchors = [akLeft, akTop, akRight]
-    BevelKind = bkSoft
-    BorderStyle = bsNone
+  object AdvPanelGroup1: TAdvPanelGroup
+    Left = 0
+    Top = 0
+    Width = 280
+    Height = 513
+    Align = alClient
+    BevelOuter = bvNone
+    Color = clWhite
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Verdana'
+    Font.Style = []
+    ParentFont = False
     TabOrder = 0
-    OnExit = NameEditExit
-  end
-  object ToolbarCheckBox: TCheckBox
-    Left = 89
-    Top = 69
-    Width = 119
-    Height = 21
-    Ctl3D = True
-    ParentCtl3D = False
-    TabOrder = 2
-    OnClick = ToolbarCheckBoxClick
-  end
-  object SortFieldsEdit: TEdit
-    Left = 89
-    Top = 98
-    Width = 177
-    Height = 26
-    Anchors = [akLeft, akTop, akRight]
-    BevelKind = bkSoft
-    BorderStyle = bsNone
-    TabOrder = 3
-    OnExit = SortFieldsEditChange
-  end
-  object GroupByEdit: TEdit
-    Left = 89
-    Top = 130
-    Width = 178
-    Height = 26
-    Anchors = [akLeft, akTop, akRight]
-    BevelKind = bkSoft
-    BorderStyle = bsNone
-    TabOrder = 4
-    OnExit = GroupByEditExit
+    UseDockManager = True
+    AnchorHint = False
+    AutoSize.Enabled = False
+    AutoSize.Height = True
+    AutoSize.Width = True
+    AutoHideChildren = False
+    BackgroundPosition = bpTopLeft
+    BorderColor = clGray
+    BorderShadow = True
+    Buffered = True
+    CanMove = False
+    CanSize = False
+    Caption.ButtonPosition = cbpRight
+    Caption.Color = clHighlight
+    Caption.ColorTo = clBlue
+    Caption.CloseColor = clBtnFace
+    Caption.CloseButton = False
+    Caption.CloseButtonColor = clWhite
+    Caption.Flat = False
+    Caption.Font.Charset = DEFAULT_CHARSET
+    Caption.Font.Color = clHighlightText
+    Caption.Font.Height = -13
+    Caption.Font.Name = 'Verdana'
+    Caption.Font.Style = []
+    Caption.Height = 20
+    Caption.Indent = 2
+    Caption.MinMaxButton = False
+    Caption.MinMaxButtonColor = clWhite
+    Caption.ShadeLight = 255
+    Caption.ShadeGrain = 32
+    Caption.ShadeType = stNormal
+    Caption.Shape = csRectangle
+    Caption.TopIndent = 0
+    Caption.Visible = False
+    Collaps = False
+    CollapsColor = clBtnFace
+    CollapsDelay = 0
+    CollapsSteps = 0
+    ColorTo = 14938354
+    FixedTop = False
+    FixedLeft = False
+    FixedHeight = False
+    FixedWidth = False
+    FreeOnClose = False
+    Hover = False
+    HoverColor = clBlack
+    HoverFontColor = clBlack
+    Indent = 0
+    Position.Save = False
+    Position.Location = clRegistry
+    ShadowColor = clBlack
+    ShadowOffset = 0
+    ShowMoveCursor = False
+    TextVAlign = tvaTop
+    TopIndent = 0
+    URLColor = clBlue
+    Columns = 1
+    DefaultPanel.AnchorHint = False
+    DefaultPanel.AutoHideChildren = False
+    DefaultPanel.BevelInner = bvNone
+    DefaultPanel.BevelOuter = bvNone
+    DefaultPanel.BevelWidth = 1
+    DefaultPanel.BorderColor = clBlack
+    DefaultPanel.BorderShadow = False
+    DefaultPanel.BorderStyle = bsSingle
+    DefaultPanel.BorderWidth = 0
+    DefaultPanel.CanMove = False
+    DefaultPanel.CanSize = False
+    DefaultPanel.Caption.ButtonPosition = cbpRight
+    DefaultPanel.Caption.Color = clHighlight
+    DefaultPanel.Caption.ColorTo = clNone
+    DefaultPanel.Caption.CloseColor = clBtnFace
+    DefaultPanel.Caption.CloseButton = False
+    DefaultPanel.Caption.CloseButtonColor = clWhite
+    DefaultPanel.Caption.Flat = False
+    DefaultPanel.Caption.Font.Charset = DEFAULT_CHARSET
+    DefaultPanel.Caption.Font.Color = clHighlightText
+    DefaultPanel.Caption.Font.Height = -13
+    DefaultPanel.Caption.Font.Name = 'MS Sans Serif'
+    DefaultPanel.Caption.Font.Style = []
+    DefaultPanel.Caption.Height = 20
+    DefaultPanel.Caption.Indent = 0
+    DefaultPanel.Caption.MinMaxButton = False
+    DefaultPanel.Caption.MinMaxButtonColor = clWhite
+    DefaultPanel.Caption.ShadeLight = 200
+    DefaultPanel.Caption.ShadeGrain = 32
+    DefaultPanel.Caption.ShadeType = stNormal
+    DefaultPanel.Caption.Shape = csRectangle
+    DefaultPanel.Caption.TopIndent = 0
+    DefaultPanel.Caption.Visible = False
+    DefaultPanel.Collaps = False
+    DefaultPanel.CollapsColor = clBtnFace
+    DefaultPanel.CollapsDelay = 0
+    DefaultPanel.CollapsSteps = 0
+    DefaultPanel.Color = clBtnFace
+    DefaultPanel.ColorTo = clNone
+    DefaultPanel.Cursor = crDefault
+    DefaultPanel.Font.Charset = DEFAULT_CHARSET
+    DefaultPanel.Font.Color = clWindowText
+    DefaultPanel.Font.Height = -13
+    DefaultPanel.Font.Name = 'MS Sans Serif'
+    DefaultPanel.Font.Style = []
+    DefaultPanel.FixedTop = False
+    DefaultPanel.FixedLeft = False
+    DefaultPanel.FixedHeight = False
+    DefaultPanel.FixedWidth = False
+    DefaultPanel.Height = 120
+    DefaultPanel.Hover = False
+    DefaultPanel.HoverColor = clBlack
+    DefaultPanel.HoverFontColor = clBlack
+    DefaultPanel.Indent = 0
+    DefaultPanel.ShadowColor = clBlack
+    DefaultPanel.ShadowOffset = 0
+    DefaultPanel.ShowHint = False
+    DefaultPanel.ShowMoveCursor = False
+    DefaultPanel.TextVAlign = tvaTop
+    DefaultPanel.TopIndent = 0
+    DefaultPanel.URLColor = clBlue
+    DefaultPanel.Width = 0
+    GroupStyle = gsVertical
+    HorzPadding = 8
+    VertPadding = 8
+    FullHeight = 18
+    object AdvancedPanel: TAdvPanel
+      Left = 8
+      Top = 417
+      Width = 264
+      Height = 20
+      BevelOuter = bvNone
+      BorderStyle = bsSingle
+      Color = clInfoBk
+      TabOrder = 1
+      UseDockManager = True
+      AnchorHint = False
+      AutoSize.Enabled = False
+      AutoSize.Height = True
+      AutoSize.Width = True
+      AutoHideChildren = True
+      BackgroundPosition = bpTopLeft
+      BorderColor = clBlack
+      BorderShadow = False
+      Buffered = True
+      CanMove = False
+      CanSize = False
+      Caption.ButtonPosition = cbpLeft
+      Caption.Color = clHighlight
+      Caption.ColorTo = clNone
+      Caption.CloseColor = clBtnFace
+      Caption.CloseButton = False
+      Caption.CloseButtonColor = clWhite
+      Caption.Flat = False
+      Caption.Font.Charset = DEFAULT_CHARSET
+      Caption.Font.Color = clHighlightText
+      Caption.Font.Height = -13
+      Caption.Font.Name = 'MS Sans Serif'
+      Caption.Font.Style = []
+      Caption.Height = 20
+      Caption.Indent = 0
+      Caption.MinMaxButton = True
+      Caption.MinMaxButtonColor = clWhite
+      Caption.ShadeLight = 200
+      Caption.ShadeGrain = 32
+      Caption.ShadeType = stXPCaption
+      Caption.Shape = csRectangle
+      Caption.Text = 'Advanced'
+      Caption.TopIndent = 0
+      Caption.Visible = True
+      Collaps = True
+      CollapsColor = clHighlight
+      CollapsDelay = 0
+      CollapsSteps = 0
+      ColorTo = clNone
+      FixedTop = False
+      FixedLeft = False
+      FixedHeight = False
+      FixedWidth = False
+      FreeOnClose = False
+      Hover = False
+      HoverColor = clNone
+      HoverFontColor = clNone
+      Indent = 0
+      Position.Save = False
+      Position.Location = clRegistry
+      ShadowColor = clGray
+      ShadowOffset = 2
+      ShowMoveCursor = False
+      TextVAlign = tvaTop
+      TopIndent = 0
+      URLColor = clBlue
+      DesignSize = (
+        260
+        16)
+      FullHeight = 293
+      object Label2: TLabel
+        Left = 8
+        Top = 24
+        Width = 42
+        Height = 16
+        Caption = 'Name:'
+        Visible = False
+      end
+      object SourceLabel: TLabel
+        Left = 8
+        Top = 80
+        Width = 52
+        Height = 16
+        Caption = 'Source:'
+        Visible = False
+      end
+      object SortFieldsLabel: TLabel
+        Left = 8
+        Top = 136
+        Width = 55
+        Height = 16
+        Caption = 'Sort by:'
+        Visible = False
+      end
+      object PivotLabel: TLabel
+        Left = 8
+        Top = 200
+        Width = 65
+        Height = 16
+        Caption = 'Group by:'
+        Visible = False
+      end
+      object NameEdit: TEdit
+        Left = 8
+        Top = 42
+        Width = 210
+        Height = 24
+        Anchors = [akLeft, akTop, akRight]
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        TabOrder = 0
+        Visible = False
+        OnExit = NameEditExit
+      end
+      object SourceCombo: TComboBox
+        Left = 8
+        Top = 95
+        Width = 210
+        Height = 24
+        BevelKind = bkSoft
+        Anchors = [akLeft, akTop, akRight]
+        ItemHeight = 16
+        TabOrder = 1
+        Visible = False
+        OnChange = SourceComboChange
+      end
+      object ToolbarCheckBox: TCheckBox
+        Left = 9
+        Top = 261
+        Width = 119
+        Height = 21
+        Alignment = taLeftJustify
+        Caption = 'On toolbar?'
+        Ctl3D = True
+        ParentCtl3D = False
+        TabOrder = 2
+        Visible = False
+        OnClick = ToolbarCheckBoxClick
+      end
+      object SortFieldsEdit: TEdit
+        Left = 8
+        Top = 154
+        Width = 210
+        Height = 26
+        Anchors = [akLeft, akTop, akRight]
+        BevelKind = bkSoft
+        BorderStyle = bsNone
+        TabOrder = 3
+        Visible = False
+        OnExit = SortFieldsEditChange
+      end
+      object GroupByEdit: TEdit
+        Left = 7
+        Top = 218
+        Width = 211
+        Height = 26
+        Anchors = [akLeft, akTop, akRight]
+        BevelKind = bkSoft
+        BorderStyle = bsNone
+        TabOrder = 4
+        Visible = False
+        OnExit = GroupByEditExit
+      end
+    end
+    object PropertyPanel: TAdvPanel
+      Left = 8
+      Top = 8
+      Width = 264
+      Height = 401
+      Color = clInfoBk
+      TabOrder = 2
+      UseDockManager = True
+      AnchorHint = False
+      AutoSize.Enabled = False
+      AutoSize.Height = True
+      AutoSize.Width = True
+      AutoHideChildren = True
+      BackgroundPosition = bpTopLeft
+      BorderColor = clBlack
+      BorderShadow = False
+      Buffered = True
+      CanMove = False
+      CanSize = False
+      Caption.ButtonPosition = cbpLeft
+      Caption.Color = clHighlight
+      Caption.ColorTo = clNone
+      Caption.CloseColor = clBtnFace
+      Caption.CloseButton = False
+      Caption.CloseButtonColor = clWhite
+      Caption.Flat = False
+      Caption.Font.Charset = DEFAULT_CHARSET
+      Caption.Font.Color = clHighlightText
+      Caption.Font.Height = -13
+      Caption.Font.Name = 'MS Sans Serif'
+      Caption.Font.Style = []
+      Caption.Height = 20
+      Caption.Indent = 0
+      Caption.MinMaxButton = True
+      Caption.MinMaxButtonColor = clWhite
+      Caption.ShadeLight = 200
+      Caption.ShadeGrain = 32
+      Caption.ShadeType = stXPCaption
+      Caption.Shape = csRectangle
+      Caption.Text = 'Properties'
+      Caption.TopIndent = 0
+      Caption.Visible = True
+      Collaps = False
+      CollapsColor = clSkyBlue
+      CollapsDelay = 0
+      CollapsSteps = 0
+      ColorTo = clNone
+      FixedTop = False
+      FixedLeft = False
+      FixedHeight = False
+      FixedWidth = False
+      FreeOnClose = False
+      Hover = False
+      HoverColor = clNone
+      HoverFontColor = clNone
+      Indent = 0
+      Position.Save = False
+      Position.Location = clRegistry
+      ShadowColor = clGray
+      ShadowOffset = 2
+      ShowMoveCursor = False
+      TextVAlign = tvaTop
+      TopIndent = 0
+      URLColor = clBlue
+      FullHeight = 297
+    end
   end
 end

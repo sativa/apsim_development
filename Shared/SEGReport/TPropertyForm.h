@@ -16,20 +16,24 @@
 #include "TSEGTable.h"
 #include <DB.hpp>
 #include "DBAdvGrd.hpp"
+#include "AdvPanel.hpp"
+#include <ExtCtrls.hpp>
 //---------------------------------------------------------------------------
 class TPropertyForm : public TForm
 {
 __published:	// IDE-managed Components
-   TComboBox *SourceCombo;
+   TAdvPanelGroup *AdvPanelGroup1;
+   TAdvPanel *AdvancedPanel;
+   TLabel *Label2;
    TEdit *NameEdit;
    TLabel *SourceLabel;
-   TLabel *Label2;
-   TLabel *ToolbarLabel;
+   TComboBox *SourceCombo;
    TCheckBox *ToolbarCheckBox;
-   TEdit *SortFieldsEdit;
    TLabel *SortFieldsLabel;
-   TEdit *GroupByEdit;
+   TEdit *SortFieldsEdit;
    TLabel *PivotLabel;
+   TEdit *GroupByEdit;
+   TAdvPanel *PropertyPanel;
    void __fastcall NameEditExit(TObject *Sender);
    void __fastcall SourceComboChange(TObject *Sender);
    void __fastcall ToolbarCheckBoxClick(TObject *Sender);

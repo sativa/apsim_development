@@ -13,6 +13,7 @@
 #pragma link "AdvEdBtn"
 #pragma link "AdvEdit"
 #pragma link "AdvFileNameEdit"
+#pragma link "AdvPanel"
 #pragma resource "*.dfm"
 TREMSForm *REMSForm;
 //---------------------------------------------------------------------------

@@ -108,13 +108,13 @@ void TSEGTable::forceRefresh(bool displayError)
          {
          if (errorMessage == "")
             errorMessage = error.what();
-         Active = false;
+//         Active = false;
          }
       catch (const Exception& error)  // VCL error
          {
          if (errorMessage == "")
             errorMessage = error.Message.c_str();
-         Active = false;
+//         Active = false;
          }
       catch (...)
          {
