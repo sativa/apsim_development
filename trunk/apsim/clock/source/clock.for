@@ -9,6 +9,8 @@ C     Last change:  E     5 Dec 2000    8:52 am
          integer timestep              ! length of timestep (min)
          double precision start_date   ! start date of simulation
          double precision end_date     ! end date of simulation
+         double precision demo_start   ! DEMO start date of simulation
+         double precision demo_end     ! DEMO end date of simulation
          double precision current_date ! current date of simulation
          double precision current_time ! current time of simulation (mins)
          logical pause_current_run     ! pause the current run.
