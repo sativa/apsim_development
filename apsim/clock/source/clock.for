@@ -467,6 +467,8 @@ C     Last change:  E     5 Dec 2000    8:52 am
       logical logical_to_return        ! logical value to return to calling module
       character time_string*(5)        ! time string
       integer   doy                    ! day of year
+      integer   day
+      integer   month
       integer   year                   ! year
       character str*100                ! string for date formatting
       type(TimeType) :: time          ! time to send back
@@ -625,6 +627,13 @@ C     Last change:  E     5 Dec 2000    8:52 am
      .                            ,doy
      .                            ,year)
          call return_simulation_end_year(variable_info, year)
+
+      else if (variable_info%id .eq. simulation_Start_DateId) then
+         call return_simulation_start_date(variable_info, g%start_date)
+
+      else if (variable_info%id .eq. simulation_End_DateId) then
+         call return_simulation_end_date(variable_info, g%end_date)
+
       endif
 
       call pop_routine(This_routine)
