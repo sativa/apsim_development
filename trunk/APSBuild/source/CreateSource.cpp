@@ -215,9 +215,9 @@ void processStructure(const ApsimDataTypeData& dataType, XMLNode& node)
       else
          child.setAttribute("array", "F");
       XMLNode cddmlNode = child.appendChild("cddml");
-      cddmlNode.setValue(ddmlToCPP(dataType), true);
+      cddmlNode.setValue(ddmlToCPP(dataType));
       XMLNode forddmlNode = child.appendChild("forddml");
-      forddmlNode.setValue(ddmlToFOR(dataType), true);
+      forddmlNode.setValue(ddmlToFOR(dataType));
 
       for_each(fields.begin(), fields.end(),
                bind2nd(mem_fun_ref(&Field::addFieldToMacro), child));
@@ -244,9 +244,9 @@ void processField(const ApsimDataTypeData& dataType, XMLNode& node)
       else
          child.setAttribute("array", "F");
       XMLNode cddmlNode = child.appendChild("cddml");
-      cddmlNode.setValue(ddmlToCPP(dataType), true);
+      cddmlNode.setValue(ddmlToCPP(dataType));
       XMLNode forddmlNode = child.appendChild("forddml");
-      forddmlNode.setValue(ddmlToFOR(dataType), true);
+      forddmlNode.setValue(ddmlToFOR(dataType));
       }
    }
 //---------------------------------------------------------------------------
