@@ -12,8 +12,7 @@ Variables =day,year
 Module = peanut
 Variables =lai,biomass,green_biomass
 ---------------------------------------------------------
-latitude =  -27.11
- MET Initialised, Version: V1.4 25/11/96
+ INPUT (met) Initialised, Version: V3.0 26/11/98
 ---------------------------------------------------------
  day= 320 date= 15 11 1988 manager  - Initialising, Version : V1.40  23/04/98
  
@@ -104,6 +103,7 @@ report do_output
    - Reading Constants
  
    - Reading Parameters
+ 
  
                  Soil Profile Properties
      ------------------------------------------------

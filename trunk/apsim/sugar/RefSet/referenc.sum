@@ -24,9 +24,7 @@ Variables =residue_wt,residue_n
 Module = soiln2
 Variables =fom_c(),fom_n()
 ---------------------------------------------------------
-latitude =  -28.0
-rain =  0 (mm)
- MET Initialised, Version: V1.4 25/11/96
+ INPUT (met) Initialised, Version: V3.0 26/11/98
 ---------------------------------------------------------
  day=  90 date= 30  3 1984 manager  - Initialising, Version : V1.40  23/04/98
  
@@ -120,6 +118,7 @@ the insoil parameter which is between 0 and 1
    - Reading Constants
  
    - Reading Parameters
+ 
  
                  Soil Profile Properties
      ------------------------------------------------
@@ -217,8 +216,8 @@ Sugar module is calculating its own soil uptakes
                      biomass =           3.529999       lai =    0.1000000e-01
                      stover N conc =    2.529746       extractable sw =    45.48062
  day= 267 date= 23  9 1984 sugar    -  stage    4.0 begin_cane
-                     biomass =           1134.162       lai =     4.131399
-                     stover N conc =   0.4509096       extractable sw =    85.08986
+                     biomass =           1134.162       lai =     4.131400
+                     stover N conc =   0.4509096       extractable sw =    85.08987
  Day=  92 Year =  1985     Manager sending message :- sugar harvest
  
  flowering day  =    0
@@ -233,12 +232,12 @@ Sugar module is calculating its own soil uptakes
  green N content (kg/ha) =     63.88    dead N content (kg/ha) =      0.00
  
  stress indices for emergence
- water stress 1 =   0.3507467e-02   nitrogen stress 1 =   0.7286732e-01
+ water stress 1 =   0.3507470e-02   nitrogen stress 1 =   0.7286730e-01
  water stress 2 =   0.0000000
  
  stress indices for begin_cane
- water stress 1 =   0.3424509e-01   nitrogen stress 1 =   0.3882489
- water stress 2 =   0.4110693e-02
+ water stress 1 =   0.3424513e-01   nitrogen stress 1 =   0.3882489
+ water stress 2 =   0.4110695e-02
  
  stress indices for flowering
  water stress 1 =   0.0000000       nitrogen stress 1 =   0.0000000
@@ -265,10 +264,10 @@ Sugar module is calculating its own soil uptakes
                                         Tillage Depth         =     0.00
  day=  99 date=  9  4 1985 sugar    -  stage    3.0 emergence
                      biomass =           3.529999       lai =    0.1000000e-01
-                     stover N conc =    2.529745       extractable sw =    75.87278
+                     stover N conc =    2.529745       extractable sw =    75.87277
  day= 240 date= 28  8 1985 sugar    -  stage    4.0 begin_cane
-                     biomass =           230.4891       lai =     1.346647
-                     stover N conc =   0.4534840       extractable sw =    37.29688
+                     biomass =           230.4892       lai =     1.346648
+                     stover N conc =   0.4534840       extractable sw =    37.29686
  Day=  92 Year =  1986     Manager sending message :- sugar harvest
  
  flowering day  =    0
@@ -279,7 +278,7 @@ Sugar module is calculating its own soil uptakes
  senesced above ground biomass (kg/ha) =    1691.8
  dead above ground biomass (kg/ha) =       0.0
  number of leaves =  49.1
- total N content (kg/ha) =    108.27    senesced N content (kg/ha) =      6.20
+ total N content (kg/ha) =    108.28    senesced N content (kg/ha) =      6.20
  green N content (kg/ha) =    102.08    dead N content (kg/ha) =      0.00
  
  stress indices for emergence
@@ -361,12 +360,12 @@ Sugar module is calculating its own soil uptakes
  green N content (kg/ha) =    169.83    dead N content (kg/ha) =      0.00
  
  stress indices for emergence
- water stress 1 =   0.9873194e-01   nitrogen stress 1 =   0.4815106e-02
- water stress 2 =   0.1630120e-01
+ water stress 1 =   0.9873196e-01   nitrogen stress 1 =   0.4815106e-02
+ water stress 2 =   0.1630121e-01
  
  stress indices for begin_cane
  water stress 1 =   0.7510558e-01   nitrogen stress 1 =   0.0000000
- water stress 2 =   0.9445486e-02
+ water stress 2 =   0.9445485e-02
  
  stress indices for flowering
  water stress 1 =   0.0000000       nitrogen stress 1 =   0.0000000
@@ -384,10 +383,10 @@ Sugar module is calculating its own soil uptakes
  Day= 245 Year =  1987     Manager sending message :- sugar set plants = 8
  day= 252 date=  9  9 1987 sugar    -  stage    3.0 emergence
                      biomass =           2.823975       lai =    0.8000000e-02
-                     stover N conc =    2.529767       extractable sw =    80.29215
+                     stover N conc =    2.529767       extractable sw =    80.29214
  day= 363 date= 29 12 1987 sugar    -  stage    4.0 begin_cane
-                     biomass =           325.8047       lai =     1.666171
-                     stover N conc =   0.4960192       extractable sw =    85.82915
+                     biomass =           325.8049       lai =     1.666171
+                     stover N conc =   0.4960191       extractable sw =    85.82915
  Day=   1 Year =  1988     Manager sending message :- sugar graze fraction = 0.05, c_eff = 0.5, n_eff = 0.5, report = yes
  day=   1 date=  1  1 1988 sugar    -  Grazing  5.0% of green material (N_eff = 0.50, C_eff = 0.50)
  Day=   2 Year =  1988     Manager sending message :- sugar graze fraction = 0.05, c_eff = 0.5, n_eff = 0.5, report = yes
