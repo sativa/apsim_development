@@ -30,9 +30,14 @@ IniFile::~IniFile(void)
 // ------------------------------------------------------------------
 // Set the file name of the ini file.
 // ------------------------------------------------------------------
-void IniFile::setFileName(const string& filename)
+void IniFile::setFileName(const string& file)
    {
-   fileName = filename;
+   fileName = file;
+   if (ExtractFileDir(fileName.c_str()) == "")
+      {
+      string fullPath = string(GetCurrentDir().c_str()) + "\\" + fileName;
+      fileName = fullPath;
+      }
    }
 // ------------------------------------------------------------------
 // Tell windows (95 especially) to flush the ini cache to disk.
