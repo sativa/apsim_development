@@ -51,7 +51,7 @@
         <property name="surface_up" value="2" type="text" description="Enter upper limit of sw in top layer (0-2) (mm esw/mm soil) : " />
       </category>
       <category name="Sowing parameters">
-        <property name="crop" value="wheat" type="modulename" moduletype="Crop" description="Enter name of crop to sow : " />
+        <property name="crop" value="wheat" type="modulename" description="Enter name of crop to sow : " />
         <property name="density" value="10" type="text" description="Enter sowing density  (plants/m2) : " />
         <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
         <property name="cultivar" value="" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
@@ -75,9 +75,12 @@
     </rule>
   </manager>
   <logic name="logic">
-    <script name="init"></script>
-    <script name="startofday"></script>
-    <script name="endofday"></script>
+    <script name="init">
+    </script>
+    <script name="startofday">
+    </script>
+    <script name="endofday">
+    </script>
   </logic>
   <fertiliser name="fertiliser" />
   <irrigation name="irrigation">

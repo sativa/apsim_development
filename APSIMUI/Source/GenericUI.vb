@@ -244,14 +244,16 @@ Public Class GenericUI
     ' ------------------------------------------------------------------
     Shared Function GetMatchingModuleNames(ByVal Prop As APSIMData) As StringCollection
         Dim Values As New StringCollection
-        Dim System As APSIMData = Prop.Parent.Parent
-        If Not IsNothing(System) Then
-            For Each ApsimModule As APSIMData In System.Children
-                If Prop.Attribute("moduletype") = "" Or ApsimModule.Type = Prop.Attribute("moduletype") Then
-                    Values.Add(ApsimModule.Name())
-                End If
-            Next
-        End If
+        Dim System As APSIMData = Prop.Parent
+        While System.Type <> "simulation" And Not IsNothing(System.Parent)
+            System = System.Parent
+        End While
+
+        For Each ApsimModule As APSIMData In System.Children
+            If Prop.Attribute("moduletype") = "" Or ApsimModule.Type = Prop.Attribute("moduletype") Then
+                Values.Add(ApsimModule.Name())
+            End If
+        Next
         Return Values
     End Function
 
@@ -281,4 +283,12 @@ Public Class GenericUI
         End If
     End Sub
 
+    ' -----------------------------------------------------------------------------
+    ' User is doing a run - make sure grid isn't in edit mode.
+    ' -----------------------------------------------------------------------------
+    Overrides Sub SaveToAPSIMFile()
+        If Grid.CurrentCell.IsBeingEdited Then
+            Grid.CurrentCell.LeaveEdit(True)
+        End If
+    End Sub
 End Class
