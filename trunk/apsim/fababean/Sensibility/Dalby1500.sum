@@ -1778,7 +1778,7 @@
                           N  (kg/ha) =                120.40                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               5243.65                    0.00
+                          DM (kg/ha) =               5243.64                    0.00
                           N  (kg/ha) =                235.96                    0.00
      
       stage 11.0 end_crop
@@ -5056,6 +5056,15 @@
       stage 7.0 start_grain_fill
                      biomass =         842.37 (g/m^2)   lai          =   6.176 (m^2/m^2)
                      stover N conc =     2.31 (%)    extractable sw =   83.39 (mm)
+7 October 1984(Day of year=281), Fababean: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     dm_retranslocate mass balance is off: -0.000002 vs 0.000000
+     Component name: Fababean
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
 10 October 1984(Day of year=284), Fababean: 
       stage 8.0 end_grain_fill
                      biomass =        1210.26 (g/m^2)   lai          =   2.163 (m^2/m^2)
@@ -5103,7 +5112,7 @@
                           N  (kg/ha) =                129.95                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               5614.20                    0.00
+                          DM (kg/ha) =               5614.19                    0.00
                           N  (kg/ha) =                252.64                    0.00
      
       stage 11.0 end_crop
@@ -5756,6 +5765,15 @@
       stage 7.0 start_grain_fill
                      biomass =         786.14 (g/m^2)   lai          =   5.535 (m^2/m^2)
                      stover N conc =     2.41 (%)    extractable sw =   62.04 (mm)
+4 October 1988(Day of year=278), Fababean: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     dm_retranslocate mass balance is off: 0.000002 vs 0.000000
+     Component name: Fababean
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
 6 October 1988(Day of year=280), Fababean: 
       stage 8.0 end_grain_fill
                      biomass =        1192.21 (g/m^2)   lai          =   2.147 (m^2/m^2)
