@@ -9,6 +9,7 @@
 *   Global variables
 *     ================================================================
       type TreeGlobals
+      Sequence
 
       ! tree_climate
       real       pan          ! pan evaporation (mm)
@@ -53,6 +54,7 @@
 
 *     ================================================================
       type TreeParameters
+      Sequence
 
       ! tree_root_profile
 
@@ -73,6 +75,7 @@
 
 *     ================================================================
       type TreeConstants
+      Sequence
 
       ! tree_coeff_2
 
@@ -102,187 +105,15 @@
       end type TreeConstants
 *     ================================================================
 
-      type (TreeGlobals), pointer :: g
-      type (TreeParameters), pointer :: p
-      type (TreeConstants), pointer :: c
-
-      save g
-      save p
-      save c
-
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)
-
-      integer MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-
-      type TreeDataPtr
-         type (TreeGlobals), pointer ::    gptr
-         type (TreeParameters), pointer :: pptr
-         type (TreeConstants), pointer ::  cptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type TreeDataPtr
-
-      type (TreeDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
-      save Instances
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (TreeGlobals),pointer :: g
+      type (TreeParameters),pointer :: p
+      type (TreeConstants),pointer :: c
 
       contains
 
 
-
- !     ===========================================================
-      Recursive
-     :Subroutine AllocInstance (InstanceName, InstanceNo)
- !     ===========================================================
-            implicit none
-
- !+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
- !+  Purpose
- !      Module instantiation routine.
-
- !- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%gptr)
-      allocate (Instances(InstanceNo)%pptr)
-      allocate (Instances(InstanceNo)%cptr)
-      Instances(InstanceNo)%Name = InstanceName
-
-      return
-      end subroutine
-
- !     ===========================================================
-      Recursive
-     :Subroutine FreeInstance (anInstanceNo)
- !     ===========================================================
-            implicit none
-
- !+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
- !+  Purpose
- !      Module de-instantiation routine.
-
- !- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%gptr)
-      deallocate (Instances(anInstanceNo)%pptr)
-      deallocate (Instances(anInstanceNo)%cptr)
-
-      return
-      end subroutine
-
- !     ===========================================================
-      Recursive
-     :Subroutine SwapInstance (anInstanceNo)
- !     ===========================================================
-            implicit none
-
- !+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
- !+  Purpose
- !      Swap an instance into the global 'g' pointer
-
- !- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%gptr
-      p => Instances(anInstanceNo)%pptr
-      c => Instances(anInstanceNo)%cptr
-
-      return
-      end subroutine
-
-*     ================================================================
-      subroutine main (action, data_string)
-*     ================================================================
-      implicit none
-
-
-*+  Sub-Program Arguments
-      character  action*(*)     ! (INPUT) Message action to perform
-      character  data_string*(*) ! (INPUT) Message data
-
-*+  Purpose
-*      this module models trees.
-*
-*      requirements :-
-*        input - daily timestep
-*             from other modules:-
-*                day of year
-*                year
-*
-*                layer depth (mm soil)
-*                drained upper limit (mm water)
-*
-*                water content mm water
-*
-*             from parameter file, tree section:-
-*                ll
-*                kl
-*
-*             from manager:-
-*
-*
-*        output -
-*             to other modules:-
-
-*+  Changes
-*      250894 jngh specified and programmed
-*      171297 pdev added swim uptake stuff
-*
-
-*+  Constant Values
-      character  my_name*(*)    ! name of this procedure
-      parameter (my_name='Apsim_tree')
-
-*+  Local Variables
-      character  module_name*(max_module_name_size)
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
-
-
-      if (action.eq.ACTION_init) then
-            ! zero pools
-         call tree_zero_variables ()
-            ! Get constants
-         call tree_init ()
-
-      elseif (action.eq.ACTION_Set_variable) then
-                                ! respond to request to reset
-                                ! variable values - from modules
-         call tree_set_my_variable (data_string)
-
-      elseif (action.eq.ACTION_Get_variable) then
-                                ! respond to request for
-                                ! variable values - from modules
-         call tree_send_my_variable (Data_string)
-
-      elseif (action.eq.ACTION_Prepare) then
-
-         call tree_prepare ()  ! Calculate potentials for swim
-
-      elseif (action.eq.ACTION_Process) then
-         call tree_zero_daily_variables ()
-                                ! request and receive variables
-                                ! from owner-modules
-         call tree_get_other_variables ()
-                                ! do crop processes
-         call tree_process ()
-                                ! send changes to owner-modules
-         call tree_set_other_variables ()
-
-      else
-         call message_unused ()
-
-      endif
-
-      call pop_routine (my_name)
-      return
-      end subroutine
 
 
 
@@ -1574,3 +1405,125 @@ c      not have the same meaning.....
 
 
       end module TreeModule
+
+
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use TreeModule
+      implicit none
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+         allocate(p)
+         allocate(c)
+      else
+         deallocate(g)
+         deallocate(p)
+         deallocate(c)
+      end if
+      return
+      end subroutine
+
+
+
+*     ================================================================
+      subroutine main (action, data_string)
+*     ================================================================
+      implicit none
+      ml_external Main
+
+
+*+  Sub-Program Arguments
+      character  action*(*)     ! (INPUT) Message action to perform
+      character  data_string*(*) ! (INPUT) Message data
+
+*+  Purpose
+*      this module models trees.
+*
+*      requirements :-
+*        input - daily timestep
+*             from other modules:-
+*                day of year
+*                year
+*
+*                layer depth (mm soil)
+*                drained upper limit (mm water)
+*
+*                water content mm water
+*
+*             from parameter file, tree section:-
+*                ll
+*                kl
+*
+*             from manager:-
+*
+*
+*        output -
+*             to other modules:-
+
+*+  Changes
+*      250894 jngh specified and programmed
+*      171297 pdev added swim uptake stuff
+*
+
+*+  Constant Values
+      character  my_name*(*)    ! name of this procedure
+      parameter (my_name='Apsim_tree')
+
+*+  Local Variables
+      character  module_name*(max_module_name_size)
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+
+      if (action.eq.ACTION_init) then
+            ! zero pools
+         call tree_zero_variables ()
+            ! Get constants
+         call tree_init ()
+
+      elseif (action.eq.ACTION_Set_variable) then
+                                ! respond to request to reset
+                                ! variable values - from modules
+         call tree_set_my_variable (data_string)
+
+      elseif (action.eq.ACTION_Get_variable) then
+                                ! respond to request for
+                                ! variable values - from modules
+         call tree_send_my_variable (Data_string)
+
+      elseif (action.eq.ACTION_Prepare) then
+
+         call tree_prepare ()  ! Calculate potentials for swim
+
+      elseif (action.eq.ACTION_Process) then
+         call tree_zero_daily_variables ()
+                                ! request and receive variables
+                                ! from owner-modules
+         call tree_get_other_variables ()
+                                ! do crop processes
+         call tree_process ()
+                                ! send changes to owner-modules
+         call tree_set_other_variables ()
+
+      else
+         call message_unused ()
+
+      endif
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+      
