@@ -36,10 +36,16 @@ string getInterfaceFileName(const string& apfFileName)
    return "";
    }
 //---------------------------------------------------------------------------
-WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR fileName, int)
+WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR commandLine, int)
    {
    if (_argc == 3)
       GenerateComponentInterface(getInterfaceFileName(_argv[1]));
+   else
+      {
+      AnsiString msg = "Invalid command line in CreateComponentInterfaceSource: ";
+      msg += commandLine;
+      ShowMessage(msg.c_str());
+      }
 
    return 0;
    }
