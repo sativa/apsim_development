@@ -192,13 +192,13 @@ void Coordinator::addComponent(SOMComponent componentData)
    if (Str_i_Eq(componentData.getName(), "clock"))
       sequencerID = childID;
 
-   auto_ptr<ComponentAlias> componentAlias(new ComponentAlias
-      (componentData.getName(),
-       componentData.getExecutableFilename(),
-       childID,
-       parentID));
 
-   components.insert(Components::value_type(childID, componentAlias.get()));
+   ComponentAlias* componentAlias = new ComponentAlias
+         (componentData.getName(),
+          componentData.getExecutableFilename(),
+          childID,
+          parentID);
+   components.insert(Components::value_type(childID, componentAlias));
 
    string fqn = name;
    fqn += ".";
@@ -207,11 +207,19 @@ void Coordinator::addComponent(SOMComponent componentData)
    // send component an init1 message.
    ostringstream componentSDML;
    componentData.write(componentSDML);
-   sendMessage(newInit1Message(componentID,
-                               childID,
-                               componentSDML.str().c_str(),
-                               fqn.c_str(),
-                               true));
+   try
+      {
+      sendMessage(newInit1Message(componentID,
+                                  childID,
+                                  componentSDML.str().c_str(),
+                                  fqn.c_str(),
+                                  true));
+      }
+   catch (const runtime_error& error)
+      {
+      delete componentAlias;
+      throw;
+      }
    }
 
 // ------------------------------------------------------------------
