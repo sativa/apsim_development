@@ -94,30 +94,32 @@ Accum_variables =  rain[10]
 report_additions = yes
 
 ! pHCa of rain water.
-ph_rain =     5.67  () 
+ph_rain =     5.67  ()
+ionic_strength_rain = 0.001 ()  ! ionic strength of rain
  
 !phbc_method = parameters
 phbc_method = hochman
 
-!Layers              150     300     600   900   1200   1500   1800 
-!layer                1       2       3      4      5      6      7       
-lime_pool_init    =   0       0       0      0      0      0      0    (Kg/Ha) ! Initial lime pool (Kg/Ha) equivalent. 
-phca_initial      =  5.0     5.0     5.2    5.3    5.5    5.8    5.8   ()      ! Initial pHCa of layer.
-phbc              = 20.42   22.5    16.5   14.38  12.69  10.3   10.3   (Kmol/ha/100mm/ph_unit)
-co2_pressure_soil = 0.0015  0.0015  0.0015 0.0015 0.0015 0.0015 0.0015 (atm)   ! Soil air CO2 partial pressure in the layer. 
-al_conc_init      =   .07     .07     .03    .01   0.0    0.0    0.0   (cMol/Kg) ! Initial aluminium concentration. (cMol/Kg).
-pal_phca_slope    =  1.711   1.711   1.711  1.711  1.711  1.711  1.711 ()      ! User supplied slope of -log(labile Al) vs pHCa. 
-pal_phca_intercept= -0.2758 -0.2758 -3.272 -2.416 -2.416 -2.416 -2.416 ()      ! User supplied intercept of -log(labile Al) vs pHCa.  
-sals_supplied_use_flag =  true  true  true  true  true  true   true            ! User supplied Slope of extractable Al verses H. (). 
-sals_supplied     = 23      23      23      23    23     23     23     ()
-ecec_init         =  6.7     4.7     4.7    5.9    5.9    7.2    7.2   ()      ! Initial Effective Cation Exchange Capacity. (cMol/Kg)
-ca_avail          =  1.0     1.0     1.0    1.0    1.0    1.0    1.0           ! Availability of elements in each layer.
-mg_avail          =  1.0     1.0     1.0    1.0    1.0    1.0    1.0   
-k_avail           =  1.0     1.0     1.0    1.0    1.0    1.0    1.0   
-na_avail          =  1.0     1.0     1.0    1.0    1.0    1.0    1.0   
-p_avail           =  1.0     1.0     0.0    0.0    0.0    0.0    0.0       
-s_avail           =  1.0     1.0     1.0    0.0    0.0    0.0    0.0       
-cl_avail          =  1.0     1.0     1.0    1.0    1.0    1.0    1.0   
+!Layers                    150     300     600   900   1200   1500   1800 
+!layer                      1       2       3      4      5      6      7       
+lime_pool_init          =   0       0       0      0      0      0      0    (Kg/Ha) ! Initial lime pool (Kg/Ha) equivalent. 
+ionic_strength_initial  = 0.007   0.007   0.007  0.007  0.007  0.007  0.007  ()      ! Initial ionic strength of layer.
+phca_initial            =  5.0     5.0     5.2    5.3    5.5    5.8    5.8   ()      ! Initial pHCa of layer.
+phbc                    = 20.42   22.5    16.5   14.38  12.69  10.3   10.3   (Kmol/ha/100mm/ph_unit)
+co2_pressure_soil       = 0.0015  0.0015  0.0015 0.0015 0.0015 0.0015 0.0015 (atm)   ! Soil air CO2 partial pressure in the layer. 
+al_conc_init            =   .07   .07     .03    .01   0.0    0.0    0.0   (cMol/Kg) ! Initial aluminium concentration. (cMol/Kg).
+pal_phca_slope          =  1.711   1.711   1.711  1.711  1.711  1.711  1.711 ()      ! User supplied slope of -log(labile Al) vs pHCa. 
+pal_phca_intercept      = -0.2758 -0.2758 -3.272 -2.416 -2.416 -2.416 -2.416 ()      ! User supplied intercept of -log(labile Al) vs pHCa.  
+sals_supplied_use_flag  =  true    true    true   true   true   true   true            ! User supplied Slope of extractable Al verses H. (). 
+sals_supplied           = 23      23      23      23    23     23     23     ()
+ecec_init               =  6.7     4.7     4.7    5.9    5.9    7.2    7.2   ()      ! Initial Effective Cation Exchange Capacity. (cMol/Kg)
+ca_avail                =  1.0     1.0     1.0    1.0    1.0    1.0    1.0           ! Availability of elements in each layer.
+mg_avail                =  1.0     1.0     1.0    1.0    1.0    1.0    1.0   
+k_avail                 =  1.0     1.0     1.0    1.0    1.0    1.0    1.0   
+na_avail                =  1.0     1.0     1.0    1.0    1.0    1.0    1.0   
+p_avail                 =  1.0     1.0     0.0    0.0    0.0    0.0    0.0       
+s_avail                 =  1.0     1.0     1.0    0.0    0.0    0.0    0.0       
+cl_avail                =  1.0     1.0     1.0    1.0    1.0    1.0    1.0   
 
 ! Uptakes of each element in % dry matter of crop growth.
 ca_dm_percent =   0.18   (%)

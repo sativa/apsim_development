@@ -162,6 +162,7 @@ report_additions =yes
 
 ! pHCa of rain water.
 ph_rain =     5.67  () 
+ionic_strength_rain = 0.001 ()  ! ionic strength of rain
  
 !phbc_method = parameters
 phbc_method = hochman
@@ -170,6 +171,7 @@ phbc_method = hochman
 !Layers              0-10   10-20   20-30  30-50  50-70  70-90  90-120 120-150 150-200
 !layer                1       2       3      4      5      6      7       8       9     
 lime_pool_init    =   0       0       0      0      0      0      0       0       0 (Kg/Ha)  ! Initial lime pool (Kg/Ha) equivalent. 
+ionic_strength_initial= 0.007 0.007   0.007  0.007  0.007  0.007  0.007   0.007   0.007  ()      ! Initial ionic strength of layer.
 phca_initial      =  5.0     5.0     5.2    5.3    5.5    5.8    5.8     5.8     5.8   ()    ! Initial pHCa of layer.
 phbc              = 20.42   22.5    16.5   14.38  12.69  10.3   10.3    10.3    10.3   (Kmol/ha/100mm/ph_unit)
 co2_pressure_soil = 0.0015  0.0015  0.0015 0.0015 0.0015 0.0015 0.0015 0.0015 0.0015 (atm)   ! Soil air CO2 partial pressure in the layer. 
