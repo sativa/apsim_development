@@ -10,6 +10,8 @@
 #include <general\ini_file.h>
 #include <general\math_functions.h>
 #include "AddCostsBenefits.h"
+#include "TDamEasy_form.h"
+#include "DamEasyEcon.h"
 #include <Math.hpp>
 
 //---------------------------------------------------------------------------
@@ -19,14 +21,19 @@
 #define DAMEASY_SECTION     "DamEa$y Economics"
 #define DE_ECON_FACTOR_NAME "Econ Config"
 #define ECON_CONFIGS_KEY    "econconfigs"
+#define BITMAP_NAME_KEY     "bitmap"
+#define SIMULATION_FACTOR_NAME "Simulation"
 
 using namespace std;
 
 // static member variable declarations:
 int DEToolBar::numObjects;
 TToolButton* DEToolBar::Costs_benefits_button;
-Graphics::TBitmap* DEToolBar::glyph;
-int DEToolBar::glyph_position;
+TToolButton* DEToolBar::Edit_configs_button;
+Graphics::TBitmap* DEToolBar::Edit_glyph;
+Graphics::TBitmap* DEToolBar::Costs_glyph;
+int DEToolBar::Costs_glyph_position;
+int DEToolBar::Edit_glyph_position;
 TToolBar* DEToolBar::Toolbar;
 
 
@@ -46,31 +53,44 @@ extern "C" ToolBarAddInBase* _export __stdcall createToolBarAddIn(const string& 
 DEToolBar::DEToolBar(const string& parameters)
 {
    if (numObjects == 0)
+   {
       AddCostsBenefitsForm = new TAddCostsBenefitsForm(Application->MainForm);
+      DamEasy_form = new TDamEasy_form(Application->MainForm);
+   }
 
    vector<string> begin_and_end_years;
    Split_string(parameters, " ", begin_and_end_years);
    Begin_year = atoi(begin_and_end_years[0].c_str());
    End_year = atoi(begin_and_end_years[1].c_str());
+   DamEasy_form->end_year = End_year;
+   DamEasy_form->begin_year = Begin_year;
+
 
    Path p(Application->ExeName.c_str());
    p.Set_extension(".ini");
    Ini_file ini;
    ini.Set_file_name (p.Get_path().c_str());
 
-   string bitmap_name;
-   ini.Read (DAMEASY_SECTION, "toolbitmap", bitmap_name);
+   string edit_bmp_name, costs_bmp_name;
+   ini.Read (DAMEASY_SECTION, "toolbitmap_edit", edit_bmp_name);
+   ini.Read (DAMEASY_SECTION, "toolbitmap_costs", costs_bmp_name);
 
    // get stuff from ini file like image name
    if (numObjects == 0)
    {
       Path bitmap_path(Application->ExeName.c_str());
-      bitmap_path.Set_name (bitmap_name.c_str());
-      glyph = new Graphics::TBitmap;
-      glyph->LoadFromFile(bitmap_path.Get_path().c_str());
+
+      bitmap_path.Set_name (costs_bmp_name.c_str());
+      Costs_glyph = new Graphics::TBitmap;
+      Costs_glyph->LoadFromFile(bitmap_path.Get_path().c_str());
+
+      bitmap_path.Set_name (edit_bmp_name.c_str());
+      Edit_glyph = new Graphics::TBitmap;
+      Edit_glyph->LoadFromFile(bitmap_path.Get_path().c_str());
+
    }
    NPV_flag = NO_NPV_CALCS;
-   needs_update = true;
+   edit_needs_update = npv_needs_update = true;
 
    // read tax table
    string st;
@@ -82,36 +102,112 @@ DEToolBar::DEToolBar(const string& parameters)
    Split_string(st, ",", words);
    String2double< vector<string>, vector<double> > (words, Tax_rates);
 
+   getConfigs();
+
    numObjects++;
 }
 
 DEToolBar::~DEToolBar()
 {
-//   delete glyph;
-//   delete Costs_benefits_button;
    delete AddCostsBenefitsForm;
+
    Toolbar->RemoveControl(Costs_benefits_button);
    delete Costs_benefits_button;
-   Toolbar->Images->Delete(glyph_position);
-   delete glyph;
-   
+   Toolbar->Images->Delete(Costs_glyph_position);
+   delete Costs_glyph;
+
+   Toolbar->RemoveControl(Edit_configs_button);
+   delete Edit_configs_button;
+   Toolbar->Images->Delete(Edit_glyph_position);
+   delete Edit_glyph;
+
    numObjects--;
 }
 
 void DEToolBar::decorateToolBar(TToolBar* toolbar)
 {
    Toolbar = toolbar;
+
+   Edit_configs_button = new TToolButton(toolbar);
+   Edit_configs_button->Left = toolbar->Width; // ensures button goes at right end of row
+   Edit_configs_button->Parent = toolbar;
+   int pos = toolbar->Images->Add(Edit_glyph, NULL);
+   Edit_configs_button->ImageIndex = pos;
+   Edit_configs_button->Hint = "Edit Economic Configurations";
+   Edit_configs_button->OnClick = editButtonClick;
+   Edit_glyph_position = pos;
+
    Costs_benefits_button = new TToolButton(toolbar);
    Costs_benefits_button->Left = toolbar->Width; // ensures button goes at right end of row
    Costs_benefits_button->Parent = toolbar;
-   int pos = toolbar->Images->Add(glyph, NULL);
+   pos = toolbar->Images->Add(Costs_glyph, NULL);
    Costs_benefits_button->ImageIndex = pos;
    Costs_benefits_button->Hint = "Additional Costs/Benefits Analysis";
-   Costs_benefits_button->OnClick = buttonClick;
-   glyph_position = pos;
+   Costs_benefits_button->OnClick = costsButtonClick;
+   Costs_glyph_position = pos;
+
 }
 
-void __fastcall DEToolBar::buttonClick(TObject* Sender)
+void __fastcall DEToolBar::editButtonClick(TObject* Sender)
+{
+   DamEasy_form->setMyConfigs(Econ_configs);
+   if (DamEasy_form->ShowModal() == mrOk)
+   {
+      saveConfigs();
+      edit_needs_update = true;
+   }
+   else
+   {
+      getConfigs();
+      edit_needs_update = false;
+   }
+}
+
+
+void DEToolBar::saveConfigs()
+{
+   // update the ini file
+   Path p(Application->ExeName.c_str());
+   p.Set_extension(".ini");
+   Ini_file ini;
+   ini.Set_file_name (p.Get_path().c_str());
+   vector<string> config_names;
+   getAllFactorValues("", config_names);
+   string config_names_comma_list;
+   Build_string(config_names, ",", config_names_comma_list);
+   ini.Write(DAMEASY_SECTION, ECON_CONFIGS_KEY, config_names_comma_list.c_str());
+
+   // remove old Econconfig sections, and put in only the ones remaining in Econ_configs
+   list<string> Section_names;
+   ini.Read_section_names(Section_names);
+   // find those section names that are EconConfig entries
+   list<string>::iterator sect_name = Section_names.begin();
+   while (sect_name != Section_names.end()) {
+      string prefix = SECTION_PREFIX;
+      string::iterator where =
+           search((*sect_name).begin(),(*sect_name).end(),prefix.begin(),prefix.end());
+      if (where == (*sect_name).begin())  // then this section needs deleting
+         ini.Delete_section((*sect_name).c_str());
+      sect_name++;
+   }
+
+   // now write to file the current list of EconConfigs
+   vector<DEEconConfig>::iterator config;
+   for (config = Econ_configs.begin(); config!= Econ_configs.end(); config++)
+      (*config).writeToFile();
+}
+
+
+void DEToolBar::getAllFactorValues(const std::string& factorName,
+                                   std::vector<std::string>& factorValues) const
+{
+   for_each(Econ_configs.begin(), Econ_configs.end(),
+         GetNameFunction< vector<string>, DEEconConfig>(factorValues));
+}
+
+
+
+void __fastcall DEToolBar::costsButtonClick(TObject* Sender)
 {
    vector<string> names;
    scenarios->getScenarioNames(names);
@@ -122,11 +218,11 @@ void __fastcall DEToolBar::buttonClick(TObject* Sender)
       Salvage_rate = AddCostsBenefitsForm->getSalvageRate();
       Base_case = AddCostsBenefitsForm->getBaseCase();
       Investment_period = AddCostsBenefitsForm->getInvestmentPeriod();
-      needs_update = true;
+      npv_needs_update = true;
    }
    else
    {
-      needs_update = false;
+      npv_needs_update = false;
    }
 }
 
@@ -134,13 +230,13 @@ void __fastcall DEToolBar::buttonClick(TObject* Sender)
 
 bool DEToolBar::needsUpdate()
 {
-   return needs_update;
+   return edit_needs_update || npv_needs_update;
 }
 
 
 void DEToolBar::youNeedUpdating()
 {
-   needs_update = true;
+   edit_needs_update = npv_needs_update = true;
 }
 
 
@@ -169,30 +265,239 @@ void DEToolBar::getConfigs()
 
 void DEToolBar::doCalculations(TAPSTable& data)
 {
-   //if base case is not found, invalidate the NPV calcs and reset the Base_Case
-   bool found = false;
-   bool ok = data.first();
-   while (!found && ok)
-   {
-      string name = data.getDataBlockName();
-      found = (Base_case == name);
-      if (!found)
-         ok = data.next();
-   }
-   if (!found)
-   {
-      return;
-   }
-
    TCursor savedCursor = Screen->Cursor;
    Screen->Cursor = crHourGlass;
+
+   vector<string> origPivots;
+   data.getPivotNames(origPivots);
+   data.clearPivots();
+   data.markFieldAsAPivot(SIMULATION_FACTOR_NAME);
+   data.endStoringData();
+
+   vector<string> econ_config_names;
+   // for each record in data, find the corresponding Scenario to find which
+   // econConfig is being used
+   bool ok = data.first();
+   while (ok)
+   {
+      vector<TAPSRecord>::const_iterator record = data.begin();
+      string rec_name = record->getFieldValue(SIMULATION_FACTOR_NAME);
+      scenarios->setCurrentScenario(rec_name);
+      Graphics::TBitmap* temp;
+      string econ_config_name;
+      scenarios->getFactorAttributes(DE_ECON_FACTOR_NAME, econ_config_name, temp);
+      for (record = data.begin(); record != data.end(); record++)
+      {
+         econ_config_names.push_back(econ_config_name);
+      }
+
+      ok = data.next();
+   }
+
+   // add the config names to the data table.
+   data.first();
+   data.storeStringArray(DE_ECON_FACTOR_NAME, econ_config_names);
+
+   data.clearPivots();
+   for (vector<string>::iterator piv = origPivots.begin(); piv != origPivots.end(); piv++)
+   {
+      data.markFieldAsAPivot(*piv);
+   }
+   data.markFieldAsAPivot(DE_ECON_FACTOR_NAME);
+
+   data.endStoringData();   // this sorts the data so we can sensibly access it
+                            // for the next section of code.
+
+
+   // result vectors:
+   vector<double> vNet_Cash_Flow, vNet_Cash_Flow_BIT, vCumulative_Cash_Flow,
+                  vCumulative_Cash_Flow_BIT, vCane_Income, vCosts, vInterest, vTax;
+
+   // process data block by block:
+   ok = data.first();
+   while (ok)
+   {
+      // do calculations/operations that are common to the whole block:
+      vector<TAPSRecord>::const_iterator record = data.begin();
+      string config_name = record->getFieldValue(DE_ECON_FACTOR_NAME);
+      vector<DEEconConfig>::const_iterator find_pos =
+         find_if(Econ_configs.begin(),Econ_configs.end(),
+                          EqualToName<DEEconConfig>(config_name));
+      if (find_pos == Econ_configs.end())
+          return; // should throw an error here
+
+      const DEEconConfig* config = find_pos;
+
+      double Irrig_area =
+               StrToFloat(record->getFieldValue("Irrig Area (ha)").c_str());
+
+      double Upfront_installation_costs = config->OFWS_construction_cost +
+                           config->OFWS_pump_cost + config->Reticulation_cost;
+
+      double Debt_repayment;
+      if (config->Interest_rate == 0)
+         Debt_repayment = Upfront_installation_costs / config->Repayment_time;
+      else
+         Debt_repayment =
+               Upfront_installation_costs /
+               ( 1/(config->Interest_rate/100) - 1/(config->Interest_rate/100)
+               * pow(1 + (config->Interest_rate/100), - config->Repayment_time) );
+
+      double Cum_net_cash_flow = 0.0;
+      double Cum_net_cash_flow_BIT = 0.0;
+
+      int first_yr = StrToInt( record->getFieldValue("Year").c_str() );
+
+
+      int start_yr = config->Starting_year - first_yr;
+      // finished doing calculations/operations that are common to the whole block
+
+
+
+      // loop through the rows before the repayment starts, giving zero
+      // for all econ variables.
+      for (int time = 0; time < start_yr; time++) {
+         // appending values to result vectors:
+         vNet_Cash_Flow.push_back(0);
+         vNet_Cash_Flow_BIT.push_back(0);
+         vCumulative_Cash_Flow.push_back(0);
+         vCumulative_Cash_Flow_BIT.push_back(0);
+         vCane_Income.push_back(0);
+         vCosts.push_back(0);
+         vInterest.push_back(0);
+         vTax.push_back(0);
+      }
+
+      // do the calculations that need doing for every TAPSRecord in the block
+      int time = 0;
+      for (vector<TAPSRecord>::const_iterator record = data.begin() + start_yr;
+                     record != data.end(); record++)
+      {
+      // reading database variables:
+         double Cane_fresh_weight = StrToFloat(record->getFieldValue("Cane fresh wt (t per ha)").c_str());
+         double Irrigation_from_allocation = StrToFloat(record->getFieldValue("Irrig from allocation (ML)").c_str());
+         double Allocation_into_OFWS = StrToFloat(record->getFieldValue("Allocation into OFWS (ML)").c_str());
+         double Irrigation_from_OOA = StrToFloat(record->getFieldValue("Irrig from OOA (ML)").c_str());
+         double OOA_into_OFWS = StrToFloat(record->getFieldValue("OOA into OFWS (ML)").c_str());
+         double Applied_irrigation  = StrToFloat(record->getFieldValue("Applied irrigation (ML)").c_str());
+
+      // Cane Income section:
+/*         double Salvage = Upfront_installation_costs * config->Salvage_rate/100;
+         // only count salvage in the last year of invest.
+         if (time == config->Repayment_time - 1)
+            Salvage = Salvage;
+         else
+            Salvage = 0;
+*/
+         double Cane_income = ((Cane_fresh_weight * ((config->Sugar_price*0.009*(config->CCS-4)+config->Payment_constant))
+                              * Irrig_area) /* + Salvage */)
+                              * pow((1.0 + config->Inflation_cane_rate / 100.0), time);
+
+
+      // Costs section:
+         double Costs = 0.0;
+         double Yearly_cost = (Irrigation_from_allocation + Allocation_into_OFWS) * config->Allocation_price
+                              + (Irrigation_from_OOA + OOA_into_OFWS) * config->OOA_price
+                              + (Allocation_into_OFWS + OOA_into_OFWS) * config->Storage_pumping_cost
+                              + Applied_irrigation * config->Irrigation_operating_cost
+                              + config->Cash_cost * Irrig_area + config->Overhead_cost
+                              + config->Harvesting_and_levies * Irrig_area;
+
+         if (config->Upfront) {  // upfront section
+            double Upfront_costs;
+            // only count upfront costs in first year
+            if (time != 0)    Upfront_costs = 0.0;
+            else            Upfront_costs = Upfront_installation_costs;
+
+            Costs    = ( Upfront_costs + Yearly_cost )
+                              * pow(1 + config->Inflation_input_rate/100, time);
+         }
+         else {                 // debt repayment option selected
+            double Repayment;
+            // only count debt repay from time 0 to Repayment_time
+            if (time < config->Repayment_time)
+                      Repayment = Debt_repayment;
+            else      Repayment = 0;
+
+            Costs    = ( Repayment + Yearly_cost )
+                              * pow(1 + config->Inflation_input_rate/100, time);
+         }
+
+
+      // Interest Section:
+         double Interest = Cum_net_cash_flow * config->Investment_rate / 100;
+
+      // Tax Section:
+         double Tax = 0.0;
+         double Deduction = 0.0;
+         if (time < 3) {   // ie. if we are in the first 3 years
+            Deduction = Upfront_installation_costs / 3;
+         }
+
+         for (int p = 0; p < config->Num_partners; p++)
+         {
+            double Partners_income =
+                (Cane_income + Interest - Costs - Deduction)/(config->Num_partners);
+            double Marginal_tax_rate;
+            vector<double>::iterator rate_pos =
+                      find_if(Tax_brackets.begin(), Tax_brackets.end(),
+                              bind1st(less_equal<double>(),Partners_income));
+            // if rate_pos == Tax_brackets.end(), everything is fine since Tax_rates
+            // should have one extra element ->  the last tax rate repeated.
+            Marginal_tax_rate = Tax_rates[rate_pos - Tax_brackets.begin()];
+
+            Tax += Partners_income * Marginal_tax_rate/100;
+         }
+
+         // if tax -ve, remove altogether:
+         if (Tax < 0) Tax = 0;
+
+         if (config->Calc_tax == false)
+            Tax = 0;
+
+      // Calculating summary variables:
+         double Net_cash_flow = Cane_income - Costs + Interest - Tax;
+         double Net_cash_flow_BIT = Cane_income - Costs;
+
+         Cum_net_cash_flow += Net_cash_flow;
+         Cum_net_cash_flow_BIT += Net_cash_flow_BIT;
+
+      // Writing data to table:
+         vNet_Cash_Flow.push_back(Net_cash_flow);
+         vNet_Cash_Flow_BIT.push_back(Net_cash_flow_BIT);
+         vCumulative_Cash_Flow.push_back(Cum_net_cash_flow);
+         vCumulative_Cash_Flow_BIT.push_back(Cum_net_cash_flow_BIT);
+         vCane_Income.push_back(Cane_income);
+         vCosts.push_back(Costs);
+         vInterest.push_back(Interest);
+         vTax.push_back(Tax);
+
+         time++;
+      }
+
+      ok = data.next();
+   }
+   // Append the result vectors to 'data':
+   data.first();
+   data.storeNumericArray("Net Cash Flow ($)", vNet_Cash_Flow);
+   data.storeNumericArray("Net Cash Flow BIT($)", vNet_Cash_Flow_BIT);
+   data.storeNumericArray("Cumulative Cash Flow ($)", vCumulative_Cash_Flow);
+   data.storeNumericArray("Cumulative Cash Flow BIT($)", vCumulative_Cash_Flow_BIT);
+   data.storeNumericArray("Cane Income ($)", vCane_Income);
+   data.storeNumericArray("Costs ($)", vCosts);
+   data.storeNumericArray("Interest ($)", vInterest);
+   data.storeNumericArray("Tax ($)", vTax);
+
+   data.endStoringData();
+
 
    // do a switch on NPV_flag:
    switch (NPV_flag)
    {
       case NO_NPV_CALCS:
-         // do nothing
+
          break;
+
       case ADDITIONAL_CALCS:
       {
          // calculate the additional costs and benefits, adding them to the current
@@ -247,9 +552,28 @@ void DEToolBar::doCalculations(TAPSTable& data)
          }
          break;
       }
+
+
+
       case NPV_CALCS:
       {
-         getConfigs();  //obtains latest econconfigs from the ini file
+
+         //if base case is not found, invalidate the NPV calcs and reset the Base_Case
+         bool found = false;
+         bool ok = data.first();
+         while (!found && ok)
+         {
+            string name = data.getDataBlockName();
+            found = (Base_case == name);
+            if (!found)
+               ok = data.next();
+         }
+         if (!found)
+         {
+            return;
+         }
+
+//         getConfigs();  //obtains latest econconfigs from the ini file
 
          TAPSTable* scribble = new TAPSTable(NULL);
 
@@ -264,7 +588,7 @@ void DEToolBar::doCalculations(TAPSTable& data)
 
          // copy data into scribble placing each investment period length subsequence
          // in scribble as a block (ie add new factor "Investment Start Year")
-         bool ok = data.first();
+         ok = data.first();
          while (ok)
          {
             for (int i = 0; i < numblocks; i++)
@@ -305,7 +629,8 @@ void DEToolBar::doCalculations(TAPSTable& data)
             vector<DEEconConfig>::const_iterator find_pos =
                find_if(Econ_configs.begin(),Econ_configs.end(),
                                 EqualToName<DEEconConfig>(config_name));
-            if (find_pos == Econ_configs.end()) return; // should throw an error here
+            if (find_pos == Econ_configs.end())
+               return; // should throw an error here
 
             const DEEconConfig* config = find_pos;
 
@@ -552,7 +877,8 @@ void DEToolBar::doCalculations(TAPSTable& data)
             vector<DEEconConfig>::const_iterator find_pos =
                find_if(Econ_configs.begin(),Econ_configs.end(),
                                 EqualToName<DEEconConfig>(config_name));
-            if (find_pos == Econ_configs.end()) return; // should throw an error here
+            if (find_pos == Econ_configs.end())
+               return; // should throw an error here
 
             const DEEconConfig* config = find_pos;
 
@@ -660,7 +986,10 @@ void DEToolBar::doCalculations(TAPSTable& data)
       }
    }
    // indicate that no updates are necessary unless the base table changes:
-   needs_update = false;
+   npv_needs_update = false;
 
    Screen->Cursor = savedCursor;
 }
+
+
+

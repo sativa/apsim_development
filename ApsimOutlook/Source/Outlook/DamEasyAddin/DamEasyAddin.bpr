@@ -4,13 +4,12 @@
   <MACROS>
     <VERSION value="BCB.05.03"/>
     <PROJECT value="L:\APSIMOutlook\DamEasyAddin\DamEasyAddin.dll"/>
-    <OBJFILES value="DamEasyAddin.obj TDamEasy_form.obj DamEasyEcon.obj 
-      ..\TVALUESELECTIONFORM.obj TDEValueSelectionForm.obj ..\scenario.obj 
-      DEEconConfig.obj DEToolBar.obj AddCostsBenefits.obj ..\Scenarios.obj"/>
+    <OBJFILES value="DamEasyAddin.obj TDamEasy_form.obj DamEasyEcon.obj ..\scenario.obj 
+      DEEconConfig.obj DEToolBar.obj AddCostsBenefits.obj ..\Scenarios.obj 
+      ..\TTabRenameForm.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
-    <RESDEPEN value="$(RESFILES) TDamEasy_form.dfm ..\TVALUESELECTIONFORM.dfm 
-      TDEValueSelectionForm.dfm AddCostsBenefits.dfm"/>
+    <RESDEPEN value="$(RESFILES) TDamEasy_form.dfm AddCostsBenefits.dfm ..\TTabRenameForm.dfm"/>
     <LIBFILES value="&quot;C:\Program Files\Borland\CBuilder5\Projects\Lib\general.lib&quot; &quot;C:\Program Files\Borland\CBuilder5\Lib\memmgr.lib&quot;"/>
     <LIBRARIES value="TMSC5.lib"/>
     <SPARELIBS value="Vcl50.lib APSData.lib VCLDB50.lib TEE4C5.lib TEEUI4C5.lib TEEDB4C5.lib 
@@ -37,9 +36,9 @@
   <OPTIONS>
     <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl50.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- 
       -tWD -tWM -c"/>
-    <PFLAGS value="-$YD -$W -$O- -v -JPHNE -M"/>
+    <PFLAGS value="-$Y+ -$W -$O- -v -JPHNE -M"/>
     <RFLAGS value=""/>
-    <AFLAGS value="/mx /w2 /zd"/>
+    <AFLAGS value="/mx /w2 /zi"/>
     <LFLAGS value="-D&quot;&quot; -aa -Tpd -x -Gn -Gi -v"/>
   </OPTIONS>
   <LINKER>
@@ -74,6 +73,9 @@ OriginalFilename=
 ProductName=
 ProductVersion=1.0.0.0
 Comments=
+
+[Excluded Packages]
+$(BCB)\Bin\dclite50.bpl=Borland Integrated Translation Environment
 
 [HistoryLists\hlIncludePath]
 Count=17

@@ -76,8 +76,6 @@ __published:	// IDE-managed Components
    TLabel *Label32;
    TEdit *Reticulation_box;
    TLabel *Label23;
-   TBitBtn *RestoreButton;
-   TEdit *ConfigNameBox;
    TLabel *Label24;
    TPanel *Panel2;
    TLabel *Label33;
@@ -86,21 +84,27 @@ __published:	// IDE-managed Components
    TCheckBox *Tax_yes_no;
    TLabel *Label15;
    TEdit *Payment_constant_box;
+   TComboBox *ConfigNameCombo;
    void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
    void __fastcall FormShow(TObject *Sender);
    void __fastcall Repayment_time_boxExit(TObject *Sender);
    void __fastcall OFWS_payment_methodClick(TObject *Sender);
-   void __fastcall RestoreButtonClick(TObject *Sender);
    void __fastcall Number_partners_boxExit(TObject *Sender);
+   void __fastcall ConfigNameComboChange(TObject *Sender);
+   void __fastcall ConfigNameComboKeyPress(TObject *Sender, char &Key);
+   void __fastcall ConfigNameComboExit(TObject *Sender);
 private:	// User declarations
-   DEEconConfig Config;
-   std::vector<std::string> Illegal_names;
+   std::vector<DEEconConfig>* Configs;
+   DEEconConfig* currentConfig;
+   bool editing;
+   void PopulateForm(const DEEconConfig* Config);
+   void StoreConfig();
+   void createNewConfig(AnsiString name, DEEconConfig* config);
+
 public:		// User declarations
    __fastcall TDamEasy_form(TComponent* Owner);
    __fastcall ~TDamEasy_form(void);
-   void setMyConfig(const DEEconConfig&);
-   const DEEconConfig getMyConfig();
-   void setIllegalNames(const std::vector<std::string>& names);
+   void setMyConfigs(std::vector<DEEconConfig>& new_configs);
    int begin_year;
    int end_year;
 };

@@ -13,7 +13,6 @@
 #include <vector>
 #include "..\Addin.h"
 #include "TDEValueSelectionForm.h"
-#include "TDamEasy_form.h"
 #include "AddCostsBenefits.h"
 #include "..\Scenario.h"
 #include "DEEconConfig.h"
@@ -52,11 +51,6 @@ class DamEasyEcon : public AddInBase
                                    const std::string& factorName,
                                    std::vector<std::string>& factorValues) const;
 
-      virtual TValueSelectionForm*  getUIForm(const std::string& factorName,
-                                                             TComponent* Owner)const;
-
-      void __fastcall updateConfigs(TObject *Sender);
-
       // given the data object, and the list of user selected
       // scenarios, perform all calculations and store all new data
       // in the returned TAPSTable.
@@ -64,13 +58,10 @@ class DamEasyEcon : public AddInBase
                                   const std::vector<Scenario*>& selectedScenarios);
 
    private:
-      static int numObjects;
       void Read_inifile_settings (void);
       string Get_descriptor_value(string Descriptor, string Item);
 		void getAllFactorValues(const std::string& factorName,
                                      std::vector<std::string>& factorValues) const;
-      void saveConfigs();
-
       vector<Factor> factors;
       std::string Econ_bitmap_name;
 
