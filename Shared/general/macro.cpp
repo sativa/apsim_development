@@ -1,4 +1,3 @@
-
 //---------------------------------------------------------------------------
 #include <general\pch.h>
 #include <vcl.h>
@@ -160,16 +159,24 @@ string Macro::parseForEach(const string& originalContents,
 
       // recurse back and parse the forEachBody for other for_each macros.
       string body;
-      for (XMLNode::iterator i = valuesNode.begin(); i != valuesNode.end(); i++)
+
+      unsigned posChild = macroName.rfind(".");
+      if (posChild != string::npos)
          {
-         string childToMatch;
-         unsigned posChild = macroName.rfind(".");
-         if (posChild != string::npos)
-            childToMatch = macroName.substr(posChild+1);
-         else
-            childToMatch = macroName;
-         if (Str_i_Eq(i->getName(), childToMatch))
-            body += replaceMacros(parseForEach(forEachBody, macroName, *i), macroName, *i);
+         string childToMatch = macroName.substr(posChild+1);
+         for (XMLNode::iterator i = valuesNode.begin(); i != valuesNode.end(); i++)
+            {
+            if (Str_i_Eq(i->getName(), childToMatch))
+               body += replaceMacros(parseForEach(forEachBody, childToMatch, *i), childToMatch, *i);
+            }
+         }
+      else
+         {
+         for (XMLNode::iterator i = macroValues->begin(); i != macroValues->end(); i++)
+            {
+            if (Str_i_Eq(i->getName(), macroName))
+               body += replaceMacros(parseForEach(forEachBody, macroName, *i), macroName, *i);
+            }
          }
       forEachBody = body;
 
@@ -188,7 +195,7 @@ string Macro::parseForEach(const string& originalContents,
 // file name listed after the #file macro.
 // ------------------------------------------------------------------
 void Macro::writeStringToFiles(string contents,
-                                        vector<string>& fileNamesCreated) const
+                               vector<string>& fileNamesCreated) const
    {
    unsigned posFile = contents.find("#file");
    while (posFile != string::npos)
