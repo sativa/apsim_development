@@ -14,7 +14,7 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 2.0
+     Version                = 2.1
      Simulation filename    = c:\regr\apsim\millet\refset\valid_1.sim
      Title                  = pat97_bj104
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
@@ -227,24 +227,10 @@
         - Reading Soil Property Parameters
      
         - Reading Soil Profile Parameters
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_soil_profile_param
-                   soilwat2_init
-                   soilwat2
-     
-     Internal error:
-     
-      soil water of     0.370000E-001 in layer   6
-              is below air-dry value of     0.137000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      Soil water in parameter file is being overridden by
      the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
      
      
      
@@ -487,6 +473,7 @@
        Sending set message to soiln2
        Sending set message to soilwat2
    SOILWAT2:
+      Initial soilwater distributed using "sw" parameter.
       !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                        APSIM Warning Error               
                        -------------------              

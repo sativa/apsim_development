@@ -14,7 +14,7 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 2.0
+     Version                = 2.1
      Simulation filename    = c:\regr\apsim\millet\refset\valid_1.sim
      Title                  = pat82_d1
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
@@ -221,6 +221,7 @@
      
      Soil water in parameter file is being overridden by
      the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
      
      
      
