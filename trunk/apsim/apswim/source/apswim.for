@@ -362,6 +362,9 @@
          double precision drain_radius
          double precision imperm_depth
 
+         double precision water_table_depth
+         double precision water_table_conductance
+
       End Type APSwimParameters
 ! =====================================================================
 !     APSWIM Constants
@@ -778,7 +781,7 @@ c     :              1.0d0)
      :              p%ibbc,
      :              numvals,
      :              0,
-     :              3)
+     :              4)
 
          ! Read in vapour conductivity flag from parameter file
          ! ----------------------------------------------------
@@ -1267,6 +1270,25 @@ c     :              1.0d0)
      :             -1d7,
      :              1d7)
 
+      elseif (p%ibbc.eq.4) then
+         call Read_double_var (
+     :              bottom_boundary_section,
+     :              'water_table_depth',
+     :              '(mm)',
+     :              p%water_table_depth,
+     :              numvals,
+     :             0d0,
+     :              p%x(p%n))
+
+         call Read_double_var (
+     :              bottom_boundary_section,
+     :              'water_table_conductance',
+     :              '(/h)',
+     :              p%water_table_conductance,
+     :              numvals,
+     :             0d0,
+     :              1d0)
+
       else
       endif
 
@@ -1454,6 +1476,7 @@ c      read(ret_string, *, iostat = err_code) g%rain
        character        flow_units*(strsize) !
        logical          flow_found
        double precision infiltration
+       double precision water_table
 
 *- Implementation Section ----------------------------------
 
@@ -1808,6 +1831,13 @@ cnh added as per request by Dr Val Snow
      :            g%TD_slssof(solnum))
 
          endif
+
+      else if (Variable_name .eq. 'water_table') then
+         water_table = apswim_water_table()
+         call respond2Get_double_var (
+     :            Variable_name,
+     :            '(mm)',
+     :            water_table)
 
       else
          call Message_Unused ()
@@ -3696,12 +3726,12 @@ cnh     :       p%x(layer), p%soil_type(layer), g%th(layer),g%psi(layer)*1000.,
 
       if (p%ibbc.eq.0) then
          write(string,'(a,f10.3,a)')
-     :        '     bottom boundary condition = constant gradient (',
+     :        '     bottom boundary condition = specified gradient (',
      :         p%constant_gradient,')'
          call write_string (string)
 
       else if(p%ibbc.eq.1) then
-         string = '     bottom boundary condition = water table'
+         string = '     bottom boundary condition = specified potential'
          call write_string (string)
 
       else if(p%ibbc.eq.2) then
@@ -3711,6 +3741,10 @@ cnh     :       p%x(layer), p%soil_type(layer), g%th(layer),g%psi(layer)*1000.,
       else if(p%ibbc.eq.3) then
          call write_string (
      :        '     bottom boundary condition = free drainage')
+
+      else if(p%ibbc.eq.4) then
+         call write_string (
+     :        '     bottom boundary condition = water table')
 
       else
          call fatal_error(err_user,
@@ -9004,6 +9038,37 @@ c      pause
 
       return
       end subroutine
+
+* ====================================================================
+       double precision function apswim_water_table ()
+* ====================================================================
+      use Infrastructure
+      Use infrastructure
+      implicit none
+
+*+   Purpose
+*      Calculate depth of water table from soil surface
+
+*+  Local Variables
+      integer i                    ! simple counter
+      double precision water_table ! water table depth (mm)
+
+*- Implementation Section ----------------------------------
+
+      ! set default value to bottom of soil profile.
+      water_table = p%x(p%n)*10d0
+
+      loop: do i=0,p%n
+         if (g%psi(i).gt.0) then
+            water_table = (p%x(i)-g%psi(i))*10d0
+            exit loop
+         endif
+      end do loop
+
+      apswim_water_table = water_table
+
+      return
+      end function
 
 *     ===========================================================
       subroutine apswim_New_Profile_Event ()
