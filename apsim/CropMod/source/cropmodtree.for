@@ -1,6 +1,6 @@
-C     Last change:  E     7 Sep 2000    4:00 pm
+C     Last change:  E    18 Oct 2000    1:25 pm
 
-      INCLUDE 'CropMod.inc'
+C      INCLUDE 'CropMod.inc'
 
 *================================================================
       subroutine Crop_Process ()
@@ -1589,6 +1589,7 @@ c        PRINT *,'biomass CF  =', co2_modifier
       include 'const.inc'
       include 'convert.inc'
       include 'error.pub'                         
+      include 'crp_cnpy.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4028,7 +4029,7 @@ c       DATA b/0.,0.,0./
      
         sw_avail       = sum_real_array(g%sw_avail,     deepest_layer)
         sw_avail_pot   = sum_real_array(g%sw_avail_pot, deepest_layer)
-        sw_avail_ratio = sw_avail / sw_avail_pot
+        sw_avail_ratio = divide(sw_avail, sw_avail_pot, 1.0)
 
 
 
