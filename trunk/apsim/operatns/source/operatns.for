@@ -366,7 +366,8 @@
       ! loop through all rules looking for ones that match our section
       do Rule_Index = 1, Num_rules
          rule_object = component_getrule(ComponentData,
-     .                            Rule_names(Rule_index))
+     .                                   Rule_names(Rule_index),
+     .                                   ' ')
          if (rule_object .ne. 0) then
             call rule_getcondition(rule_object, condition)
             condition = lower_case(condition)

@@ -574,7 +574,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
          ! Go tokenize each rule.
          do Rule_Index = 1, Num_rules
             g%rule = component_getrule(ComponentData,
-     .                                 Rule_names(Rule_index))
+     .                                 Rule_names(Rule_index),
+     .                                 ' ')
             if (g%rule .ne. 0) then
                call rule_getcondition(g%rule, condition)
                if (condition .eq. rule_types(rule_type)) then
@@ -589,9 +590,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
                   call Tokenize (g%token_array
      .                          , g%token_array2
      .                          , max_tokens)
-               end if 
+               end if
            end if
-         end do 
+         end do
 
       end do
 
