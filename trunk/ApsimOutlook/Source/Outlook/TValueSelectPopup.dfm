@@ -44,12 +44,12 @@ inherited ValueSelectPopup: TValueSelectPopup
     TabOrder = 1
     OnMouseDown = FormMouseDown
     object applyLabel: TLabel
-      Left = 40
+      Left = 8
       Top = 8
-      Width = 35
+      Width = 126
       Height = 13
       Cursor = crHandPoint
-      Caption = 'Apply...'
+      Caption = 'Apply to current scenario...'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clGreen
       Font.Height = -11
@@ -59,12 +59,12 @@ inherited ValueSelectPopup: TValueSelectPopup
       OnClick = applyLabelClick
     end
     object applyToAllLabel: TLabel
-      Left = 40
+      Left = 8
       Top = 24
-      Width = 61
+      Width = 108
       Height = 13
       Cursor = crHandPoint
-      Caption = 'Apply to All...'
+      Caption = 'Apply to all scenarios...'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clGreen
       Font.Height = -11
