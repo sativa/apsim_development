@@ -15,7 +15,8 @@ USEUNIT("TSkin.cpp");
 USEFORM("TSplashForm.cpp", SplashForm);
 USEFORM("TTabRenameForm.cpp", TabRenameForm);
 USEFORM("TValueSelectionForm.cpp", ValueSelectionForm);
-USELIB("K:\general\general.lib");
+USELIB("general.lib");
+USELIB("aps32.lib");
 //---------------------------------------------------------------------------
 AnsiString CommandLine;
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdline, int)

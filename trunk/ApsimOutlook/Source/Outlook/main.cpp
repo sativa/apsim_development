@@ -12,6 +12,12 @@
 #include <dos.h>
 #include <shellapi.h>
 #include "TSkin.h"
+#include "TSimulation_database.h"
+#include <aps\apsuite.h>
+#include <general\stream_functions.h>
+#include <sstream>
+#include <ole2.h>
+using namespace std;
 //---------------------------------------------------------------------
 #pragma link "TSimulations"
 #pragma link "TSimulations_from_mdbs"
@@ -23,6 +29,12 @@ extern AnsiString CommandLine;
 __fastcall TMainForm::TMainForm(TComponent *Owner)
 	: TForm(Owner)
    {
+   CoInitialize(NULL);
+   }
+//---------------------------------------------------------------------
+__fastcall TMainForm::~TMainForm()
+   {
+   CoUninitialize();
    }
 //---------------------------------------------------------------------
 void __fastcall TMainForm::FormCreate(TObject *Sender)
@@ -238,8 +250,106 @@ void __fastcall TMainForm::Evaluate(TObject *Sender)
    ShellExecute (this->Handle, "open",
                  StrHolder1->Strings->Strings[0].c_str(), NULL, "", SW_SHOW);
    }
+//---------------------------------------------------------------------
+void AddToOpenDialog (TOpenDialog* OpenDialog, TStringList* files)
+   {
+   AnsiString fileListSt = OpenDialog->FileName;
+
+   // loop through all files
+   for (int i = 0; i < files->Count; i++)
+      {
+      Path p;
+      p.Set_path (files->Strings[i].c_str());
+
+      fileListSt += "\"";
+      fileListSt += p.Get_name().c_str();
+      fileListSt += "\" ";
+      OpenDialog->InitialDir = p.Get_directory().c_str();
+      }
+
+   OpenDialog->FileName = fileListSt;
+   OpenDialog->Files->AddStrings(files);
+   }
 //---------------------------------------------------------------------------
+void __fastcall TMainForm::ApsimOutlookExecuteMacro(TObject *Sender,
+      TStrings *Msg)
+   {
+   // create a string stream to parse macro.
+   istringstream Macro_stream (Msg->Strings[0].c_str());
 
+   // loop through all macros in message
+   string Macro_name;
+   bool ok = true;
+   while (!Macro_stream.eof() && ok)
+      {
+      ok = (Read_token (Macro_stream, " ", "(", Macro_name) == '(');
+      To_lower (Macro_name);
 
+      // read in all macro parameters.
+      string Macro_parameters;
+      if (ok)
+         ok = (Read_token (Macro_stream, " ", ")", Macro_parameters) == ')');
 
+      if (ok)
+         {
+         // interpret command.
+
+         if (Macro_name == "open_predicted_files")
+            {
+            // Every time a user right clicks on an output file in explorer,
+            // control will pass through here once for each output file.
+            // We need to add files to the predicted file list.
+            // We then need to wait a short while to make sure we got all the
+            // files.
+            TStringList* files = new TStringList;
+            files->CommaText = Macro_parameters.c_str();
+            AddToOpenDialog(OpenDialog, files);
+            Timer1->Enabled = false;
+            Timer1->Enabled = true;
+            delete files;
+            }
+         else
+            {
+            string message;
+            message = "Unknown DDE command : ";
+            message += Msg->Strings[0].c_str();
+            Application->MessageBox ((char*) message.c_str(), "Error", MB_ICONSTOP | MB_OK);
+            }
+         }
+      }
+   }
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::CreateDefaultDatabase(TStrings* files)
+   {
+   // create a new temporary mdb file in the apswork directory to contain
+   // our files.
+   string sourceMDB = APSDirectories().Get_home() + "\\ApsimOutlook\\new.mdb";
+   string destinationMDB = APSDirectories().Get_working() + "\\temp.mdb";
+   CopyFile(sourceMDB.c_str(), destinationMDB.c_str(), false);
+   SetFileAttributes(destinationMDB.c_str(), FILE_ATTRIBUTE_NORMAL);
+
+   // create a simulation database object and get it to import our
+   // APSIM output files.
+   TSimulation_database* newDatabase = new TSimulation_database(this);
+   newDatabase->LoginPrompt = false;
+   newDatabase->File_name = destinationMDB.c_str();
+   newDatabase->Import_APSIM_files (files);
+   delete newDatabase;
+
+   // need to clear the OpenDialog, otherwise in becomes inactive for the user.
+   OpenDialog->FileName = destinationMDB.c_str();
+
+   // go create a child MDI window with our destination database.
+   Directory_select_form->SelectedMDBs->Clear();
+   Directory_select_form->SelectedMDBs->Add(destinationMDB.c_str());
+   if (Directory_select_form->SelectedMDBs->Count > 0)
+      CreateMDIChild("Chart" + IntToStr(MDIChildCount + 1));
+   }
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::Timer1Timer(TObject *Sender)
+   {
+   Timer1->Enabled = false;
+   CreateDefaultDatabase(OpenDialog->Files);
+   }
+//---------------------------------------------------------------------------
 
