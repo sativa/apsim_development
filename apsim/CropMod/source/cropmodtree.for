@@ -1,4 +1,4 @@
-C     Last change:  E    22 Jan 2001    5:04 pm
+C     Last change:  E     7 Feb 2001    1:11 pm
 
 C      INCLUDE 'CropMod.inc'
 
@@ -2537,7 +2537,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       implicit none
       include 'const.inc'
       include 'convert.inc'
-      include 'error.pub'                         
+      include 'error.pub'
+      include 'crp_cnpy.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2547,6 +2548,10 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
 *+  Changes
 *     <insert here>
+
+*+  Local variables
+      REAL tpla_max
+
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -2603,19 +2608,21 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       else if (Option.eq.4) then
 
-           call sunf_leaf_area_pot(
+      call sunf_tpla_max (
+     .          g%leaf_no_final,
+     .          g%plants,
+     .          tpla_max)
+
+      call cproc_leaf_area_pot_tpla (
      .          emerg,
-     .          flowering,
+     .          flowering, !flag_leaf,
      .          now,
      .          g%phase_tt,
+     .          g%tt_tot,
      .          g%days_tot,
      .          g%current_stage,
-     .          g%leaf_no_final,
      .          c%initial_tpla,
-     .          g%tiller_no_fertile,
-     .          c%tiller_coef,
-     .          p%main_stem_coef,
-     .          g%tt_tot,
+     .          tpla_max,
      .          c%tpla_inflection_ratio,
      .          g%tpla_today,
      .          g%tpla_yesterday,
@@ -2623,7 +2630,6 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      .          g%plants,
      .          g%lai,
      .          g%dlt_lai_pot)
- 
 
 
        elseif (Option.eq.8) then
