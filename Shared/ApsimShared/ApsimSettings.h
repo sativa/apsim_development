@@ -26,7 +26,7 @@ class __declspec(dllexport) ApsimSettings
       void read(const std::string& key, std::string& value, bool replaceMacros = false) const;
       void read(const std::string& key, int& value) const throw(boost::bad_lexical_cast);
       void read(const std::string& key, double& value) const throw(boost::bad_lexical_cast);
-      void read(const std::string& key, std::vector<std::string>& values) const;
+      void read(const std::string& key, std::vector<std::string>& values, bool replaceMacros = false) const;
 
       // Write a setting for the specified key.
       void write(const std::string& key, const std::string& value);
