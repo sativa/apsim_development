@@ -42,7 +42,7 @@
 *      apswim module.
 
 *+  Changes
-*     <insert here>
+*        18081998   igh   Changed to use MES_Till
 
 *+  Constant Values
       character myname*(*)
@@ -80,7 +80,7 @@
       else if (Action .eq. 'add_water') then
          call apswim_add_water ()
  
-      else if (Action .eq. 'tillage') then
+      else if (Action .eq. MES_Till) then
          call apswim_tillage ()
  
       else if (Action .eq. MES_End_run) then
