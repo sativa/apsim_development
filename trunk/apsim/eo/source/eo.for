@@ -64,7 +64,7 @@
 
 !     ================================================================
       type EoGlobals
-
+         sequence
          character vpd_source*10    ! name of variable used to calculate vpd
          integer day_of_year        ! day of year ()
          integer year               ! year ()
@@ -129,7 +129,7 @@
 
 !     ================================================================
       type EoParameters
-
+         sequence
 !         character p_e_method*20       ! method used for evaportranspiration
          character eo_plant_method*20   ! method used for transpiration
 
@@ -152,6 +152,7 @@
 
 !     ================================================================
       type EoConstants
+         sequence
          character reference_height_base*10   ! reference height base (canopy or soil)
          character rc_method*10     ! method to calculate rc
                                     ! (simulat, simple, kelliher, fixed)
@@ -183,147 +184,14 @@
 
 !     ================================================================
       ! instance variables.
-      type (EoGlobals), pointer :: g
-      type (EoParameters), pointer :: p
-      type (EoConstants), pointer :: c
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)
-      integer MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-      type EoDataPtr
-         type (EoGlobals), pointer ::    gptr
-         type (EoParameters), pointer :: pptr
-         type (EoConstants), pointer ::  cptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type EoDataPtr
-      type (EoDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
-
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (EoGlobals),pointer :: g
+      type (EoParameters),pointer :: p
+      type (EoConstants),pointer :: c
 
 
       contains
-
-!     ===========================================================
-      subroutine AllocInstance (InstanceName, InstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%gptr)
-      allocate (Instances(InstanceNo)%pptr)
-      allocate (Instances(InstanceNo)%cptr)
-      Instances(InstanceNo)%Name = InstanceName
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine FreeInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module de-instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%gptr)
-      deallocate (Instances(anInstanceNo)%pptr)
-      deallocate (Instances(anInstanceNo)%cptr)
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine SwapInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Swap an instance into the global 'g' pointer
-
-!- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%gptr
-      p => Instances(anInstanceNo)%pptr
-      c => Instances(anInstanceNo)%cptr
-
-      return
-      end subroutine
-
-*====================================================================
-      subroutine Main (Action, Data_string)
-*====================================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      character  Action*(*)            ! Message action to perform
-      character  Data_string*(*)       ! Message data
-
-*+  Purpose
-*      This routine is the interface between the main system and the
-*      Eo module.
-
-*+  Changes
-*       210995 jngh programmed
-*       090696 jngh changed presence report to standard
-
-*+  Constant Values
-      character  myname*(*)            ! Name of this procedure
-      parameter (myname = 'Eo_main')
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
-
-      !print*, ' action/data is: ', trim(action), ' : ',trim(data_string)
-
-
-      if (Action.eq.ACTION_Init) then
-         !open (200,'debug.out')
-         call Eo_zero_variables ()
-         call Eo_init ()
-
-      elseif (Action.eq.ACTION_Prepare) then
-         call Eo_zero_daily_variables ()
-         call Eo_get_other_variables ()
-         call Eo_prepare ()
-
-      elseif (Action.eq.ACTION_Get_variable) then
-         call Eo_send_my_variable (Data_string)
-
-      elseif (Action.eq.ACTION_Process) then
-         call Eo_process ()
-
-      else if (Action .eq. ACTION_Set_variable) then
-         call Eo_set_my_variable (Data_String)
-
-      else
-            ! don't use message
-         call Message_unused ()
-
-      endif
-
-      call pop_routine (myname)
-      return
-      end subroutine
-
 
 
 *====================================================================
@@ -3451,3 +3319,91 @@ cjh      print*, 'g%da, fe = ', g%da, fe
 
 
       end module EoModule
+
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use EoModule
+      implicit none  
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+         allocate(p)
+         allocate(c)
+      else
+         deallocate(g)
+         deallocate(p)
+         deallocate(c)
+      end if
+      return
+      end subroutine
+
+
+*====================================================================
+      subroutine Main (Action, Data_string)
+*====================================================================
+      Use infrastructure
+      implicit none
+      ml_external Main
+
+*+  Sub-Program Arguments
+      character  Action*(*)            ! Message action to perform
+      character  Data_string*(*)       ! Message data
+
+*+  Purpose
+*      This routine is the interface between the main system and the
+*      Eo module.
+
+*+  Changes
+*       210995 jngh programmed
+*       090696 jngh changed presence report to standard
+
+*+  Constant Values
+      character  myname*(*)            ! Name of this procedure
+      parameter (myname = 'Eo_main')
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      !print*, ' action/data is: ', trim(action), ' : ',trim(data_string)
+
+
+      if (Action.eq.ACTION_Init) then
+         !open (200,'debug.out')
+         call Eo_zero_variables ()
+         call Eo_init ()
+
+      elseif (Action.eq.ACTION_Prepare) then
+         call Eo_zero_daily_variables ()
+         call Eo_get_other_variables ()
+         call Eo_prepare ()
+
+      elseif (Action.eq.ACTION_Get_variable) then
+         call Eo_send_my_variable (Data_string)
+
+      elseif (Action.eq.ACTION_Process) then
+         call Eo_process ()
+
+      else if (Action .eq. ACTION_Set_variable) then
+         call Eo_set_my_variable (Data_String)
+
+      else
+            ! don't use message
+         call Message_unused ()
+
+      endif
+
+      call pop_routine (myname)
+      return
+      end subroutine
+
+
