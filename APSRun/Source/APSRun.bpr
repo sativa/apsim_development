@@ -4,14 +4,14 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\..\Bin\apsrun.exe"/>
-    <OBJFILES value="APSRun.obj TAPSIMRunForm.obj PreviousRuns.obj"/>
+    <OBJFILES value="APSRun.obj PreviousRuns.obj TRunForm.obj"/>
     <RESFILES value="APSRun.res"/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
-    <RESDEPEN value="$(RESFILES) TAPSIMRunForm.dfm"/>
+    <RESDEPEN value="$(RESFILES) TRunForm.dfm"/>
     <LIBFILES value="..\..\Shared\ApsimShared\ApsimShared.lib ..\..\Shared\general\general.lib"/>
     <LIBRARIES value=""/>
-    <SPARELIBS value="rtl.lib vcl.lib vclx.lib dbrtl.lib vcldb.lib bdertl.lib"/>
+    <SPARELIBS value="rtl.lib vcl.lib vclx.lib dbrtl.lib vcldb.lib bdertl.lib TMSC6.lib Tee.lib"/>
     <PACKAGES value="vclx.bpi rtl.bpi vcl.bpi dbrtl.bpi vcldb.bpi bdertl.bpi vcldbx.bpi 
       bcbsmp.bpi dclocx.bpi qrpt.bpi ibsmp.bpi nmfast.bpi Tee.bpi TMSC6.bpi"/>
     <PATHCPP value=".;"/>
@@ -48,10 +48,10 @@
   <FILELIST>
       <FILE FILENAME="APSRun.cpp" FORMNAME="" UNITNAME="APSRun" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="APSRun.res" FORMNAME="" UNITNAME="APSRun" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="TAPSIMRunForm.cpp" FORMNAME="APSIMRunForm" UNITNAME="TAPSIMRunForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="PreviousRuns.cpp" FORMNAME="" UNITNAME="PreviousRuns" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TRunForm.cpp" FORMNAME="RunForm" UNITNAME="TRunForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -85,44 +85,47 @@ ProductVersion=1.0.0.0
 Comments=
 
 [Excluded Packages]
+C:\WINDOWS\System32\PsQRC60.bpl=Pragnaan QuickReport Export Filters
 c:\program files\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
-C:\MyData\development\Bin\APSData.bpl=APSuite data components
-c:\program files\borland\cbuilder6\Projects\Bpl\FilterBarPackage.bpl=FilterBarPackage
+C:\Program Files\Borland\CBuilder6\Projects\Bpl\FilterBarPackage.bpl=FilterBarPackage
 
 [HistoryLists\hlIncludePath]
-Count=10
+Count=11
 Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED);$(BCB)\components\tms
-Item1=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED);$(BCB)\components\tms
-Item2=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED)
-Item3=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item4=$(BCB)\include;$(BCB)\include\vcl;k:\
-Item5=$(BCB)\include;$(BCB)\include\vcl;k:Item1=$(BCB)\include;$(BCB)\include\vcl;k:Item1=$(BCB)\include;$(BCB)\include\vcl;..\..\shared
-Item6=
+Item1=C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED);$(BCB)\components\tms
+Item2=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED);$(BCB)\components\tms
+Item3=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED)
+Item4=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item5=$(BCB)\include;$(BCB)\include\vcl;k:\
+Item6=$(BCB)\include;$(BCB)\include\vcl;k:Item1=$(BCB)\include;$(BCB)\include\vcl;k:Item1=$(BCB)\include;$(BCB)\include\vcl;..\..\shared
 Item7=
-Item8=c:\program files\borland\cbuilder3\projects;$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
-Item9=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
+Item8=
+Item9=c:\program files\borland\cbuilder3\projects;$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
+Item10=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
 
 [HistoryLists\hlLibraryPath]
-Count=11
+Count=12
 Item0=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Projects\Lib;$(SHARED)\ApsimShared
-Item1=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Projects\Lib
-Item2=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\aps\
-Item3=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general;k:\aps
-Item4=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
-Item5=$(BCB)\lib\debug;..\..\shared\components\ui;$(BCB)\lib\obj;$(BCB)\lib
-Item6=..\..\shared\components\ui;$(BCB)\lib\obj;$(BCB)\lib
-Item7=$(BCB)\lib\obj;$(BCB)\lib
-Item8=..\..\shared\components\thirdparty;c:\program files\borland\cbuilder3\lib;c:\thypergrid;c:\rx-30\units;c:\program files\borland\cbuilder3\projects;..\..\shared\components\ui;..\..\shared\components\3rdparty;..\..\shared\components\data;..\..\shared\components\general;$(BCB)\lib\obj;$(BCB)\lib
-Item9=c:\program files\borland\cbuilder3\lib;c:\thypergrid;c:\rx-30\units;c:\program files\borland\cbuilder3\projects;..\..\shared\components\ui;..\..\shared\components\3rdparty;..\..\shared\components\data;..\..\shared\components\general;$(BCB)\lib\obj;$(BCB)\lib
-Item10=c:\thypergrid;c:\rx-30\units;c:\program files\borland\cbuilder3\projects;..\..\shared\components\ui;..\..\shared\components\3rdparty;..\..\shared\components\data;..\..\shared\components\general;$(BCB)\lib\obj;$(BCB)\lib
+Item1=C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Projects\Lib;$(SHARED)\ApsimShared
+Item2=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Projects\Lib
+Item3=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\aps\
+Item4=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general;k:\aps
+Item5=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
+Item6=$(BCB)\lib\debug;..\..\shared\components\ui;$(BCB)\lib\obj;$(BCB)\lib
+Item7=..\..\shared\components\ui;$(BCB)\lib\obj;$(BCB)\lib
+Item8=$(BCB)\lib\obj;$(BCB)\lib
+Item9=..\..\shared\components\thirdparty;c:\program files\borland\cbuilder3\lib;c:\thypergrid;c:\rx-30\units;c:\program files\borland\cbuilder3\projects;..\..\shared\components\ui;..\..\shared\components\3rdparty;..\..\shared\components\data;..\..\shared\components\general;$(BCB)\lib\obj;$(BCB)\lib
+Item10=c:\program files\borland\cbuilder3\lib;c:\thypergrid;c:\rx-30\units;c:\program files\borland\cbuilder3\projects;..\..\shared\components\ui;..\..\shared\components\3rdparty;..\..\shared\components\data;..\..\shared\components\general;$(BCB)\lib\obj;$(BCB)\lib
+Item11=c:\thypergrid;c:\rx-30\units;c:\program files\borland\cbuilder3\projects;..\..\shared\components\ui;..\..\shared\components\3rdparty;..\..\shared\components\data;..\..\shared\components\general;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
 Item0=$(BCB)\source\vcl
 
 [HistoryLists\hlConditionals]
-Count=1
-Item0=_RTLDLL;USEPACKAGES
+Count=2
+Item0=_DEBUG
+Item1=_RTLDLL;USEPACKAGES
 
 [HistoryLists\hlRunParameters]
 Count=3
@@ -140,7 +143,7 @@ Item2=..\
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=/CreateSIM d:\development\apsim\clock\sample\test.con
+RunParams=c:\mydata\development\apsim\clock\sample\test.con
 Launcher=
 UseLauncher=0
 DebugCWD=

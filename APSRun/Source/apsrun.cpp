@@ -6,8 +6,8 @@
 #include <ApsimShared\ApsimControlFile.h>
 #include <ApsimShared\ApsimRunFile.h>
 #include <ApsimShared\ApsimSimulationFile.h>
-#include "TAPSIMRunForm.h"
-USEFORM("TAPSIMRunForm.cpp", APSIMRunForm);
+#include "TRunForm.h"
+USEFORM("TRunForm.cpp", RunForm);
 //---------------------------------------------------------------------------
 using namespace std;
 
@@ -42,8 +42,8 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR,  int)
       if (ExtractFileExt(fileName.c_str()).AnsiCompareIC(".con") == 0)
          {
          // yes - better ask user for a configuration.
-         TAPSIMRunForm* runForm = new TAPSIMRunForm(Application);
-         runForm->controlFilename = fileName;
+         TRunForm* runForm = new TRunForm(Application);
+         runForm->controlFileName = fileName;
          if (runForm->ShowModal() == mrOk)
             {
             vector<string> sections;
