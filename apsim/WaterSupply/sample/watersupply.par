@@ -121,6 +121,8 @@ min_volume = 5.0          ! minimum volume in storage below which pump cannot ac
 permeability = 0.00007     ! permeability of sealing layer (m/day)
 seal_thickness = 0.5       ! thickness of low permeability seal (m)
 init_br_conc = 100.0          ! initial bromide concentration (ppm)
+receive_catchment_runoff = no
+receive_crop_runoff = no
 
 
 [sample.bore.parameters]
@@ -137,7 +139,6 @@ init_br_conc = 100.0          ! initial bromide concentration (ppm)
 
 [sample.sump.parameters]
 source_type = sump    ! type of water supply
-receive_catchment_runoff = yes
 max_available_water   = 20.0        ! capacity (ML)
 max_area = 6                   ! storage water surface area at capacity (ha)
 init_available_water  = 18.0  ! supply volume available at start of simulation (ML)
@@ -146,6 +147,10 @@ min_volume = 1.0           ! minimum volume in storage below which pump cannot a
 permeability = 0.00007     ! permeability of sealing layer (m/day)
 seal_thickness = 0.5       ! thickness of low permeability seal (m)
 init_cl_conc = 50.0
+receive_catchment_runoff = yes
+catchment_area = 30
+catchment_runoff_factor = 0.5
+receive_crop_runoff = no
 
 [sample.solute.parameters]  
 solute_names =  br cl   
