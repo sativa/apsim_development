@@ -1,0 +1,567 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+
+
+-------  Initialisation ----------------------------------------------------
+     Licensed name          = User SEG
+     Licensed organisation  = CSIRO
+     Version                = 1.60
+     Control filename       = c:\regr\apsim\soilph\refset\csu-cw.con
+     Configuration filename = c:\build\regression.config
+     Title                  = Continuous wheat Wagga
+     Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\met\lib\met.dll(met) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\accum\lib\accum.dll(accum) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\fertiliz\lib\fertiliz.dll(fertiliz) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\soilwat2\lib\soilwat2.dll(soilwat2) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\residue2\lib\residue2.dll(residue2) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\soiln2\lib\soiln2.dll(soiln2) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\soilph\lib\soilph.dll(soilph) - Unknown
+     Instantiated DLL       = c:\build\apsuite\apsim\nwheat\lib\nwheat.dll(nwheat) - Licensed
+
+------- CLOCK Initialisation -------------------------------------------------
+     Simulation start date =  1/01/1957
+     Simulation end date   =  1/05/1998
+     Time step =           = 1440 (mins)
+
+------- REPORT Initialisation ------------------------------------------------
+     Output file = wagcw.out
+     Format = normal
+     Module_names = clock clock clock clock met met met manager nwheat nwheat nwheat nwheat nwheat nwheat nwheat nwheat met nwheat soilwat2 soilwat2 soilwat2 soilwat2 soilwat2 soilwat2 soiln2 soiln2 soiln2 soilwat2 soilwat2 soilph soilph soiln2 soiln2 residue2 residue2 residue2 soilph soilph soilph soilph soilph soilph soilph 
+     Variable_names = day month year today.dd/mm/yyyy avg@maxt avg@mint avg@radn crop_in emer_date anth_date mat_date lai yield tops_biom plantn root_wt sum@rain sum@ep() sw_dep() sum@es sum@runoff sum@drain sum@eo sw urea nh4 no3 sum@no3_leach sum@nh4_leach sum@no3_uptake_equiv sum@nh4_uptake_equiv sum@dnit sum@dlt_n_min residue_n residue_wt residue_cover phca sum@dlt_acid_n_cycle sum@acid_excretion_root sum@ash_alk_wt_incorp sum@dlt_acid_org_c_cycle sum@h_equiv_flow_net phbc 
+     Variable_alias = - - - date - - - - - - - lai yield tops_biom plantn root_wt rain ep sw_dep es runoff drain eo - - - - no3_leach nh4_leach no3_uptake nh4_uptake dnit dlt_n_min - - - ph acid_add_N rt_excr ash_alk - - - 
+     Units =                                            
+     
+
+------- MET Initialisation ---------------------------------------------------
+     File name = c:\regr\apsim\soilph\refset\072150.met
+
+------- ACCUM Initialisation -------------------------------------------------
+     Initialising
+
+------- FERTILIZ Initialisation ----------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- MANAGER Initialisation -----------------------------------------------
+     Manager rules:
+     fert_flag = 100
+     mature_flag = 13
+     crop_in = 0
+     cum_drain_1 = 0
+     if (start_month = 1) then
+        cum_drain_1 = 0
+     endif
+     if (today = date('1-may')) then
+        phase = phase + 1
+        if (phase = 7) then
+           phase = 1
+        endif
+     endif
+     if (today = date('15-apr')) then
+        residue2 tillage type = tine ()
+     endif
+     smi = (sw(1) - ll15(1))/(dul(1) - ll15(1))
+     if (crop_in = 0) then
+        if (date_within('1-may, 31-jul') = 1) and (rain[10] >= 25) and (rain = 0) and (esw >= 0) and (smi >= 0.5) then
+           nwheat sow plants = 100, depth = 40, cultivar = janz
+           residue2 tillage type = planter ()
+           fertiliz apply amount = 17 (kg/ha), type = nh4_n, depth = 40 (mm)
+           fert_flag = 62
+           crop_in = 1
+           mature_flag = 13
+        elseif ( today = date('1-aug')) then
+        endif
+     endif
+     if (nwheat_status = 10) then
+        mature_flag = mature_flag - 1
+        if (mature_flag = 0) then
+           nwheat harvest
+           crop_in = 0
+        endif
+     endif
+     if (fert_flag <= 80) then
+        fert_flag = fert_flag -1
+        if (fert_flag = 0) then
+           fertiliz apply amount = 43 (kg/ha), type = urea_n, depth = 10 (mm)
+           fert_flag = 100
+        endif
+     endif
+     if (end_month = 1) then
+        report do_end_day_output
+     endif
+     Manager creating a new local variable : fert_flag =     100.000000000000
+     Manager creating a new local variable : mature_flag =     13.0000000000000
+     Manager creating a new local variable : crop_in =    0.000000000000000
+     Manager creating a new local variable : cum_drain_1 =    0.000000000000000
+
+------- SOILWAT2 Initialisation ----------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  100.  0.050  0.150  0.270  0.400  0.081  1.380  0.613  0.800
+          100.-  200.  0.070  0.150  0.270  0.400  0.158  1.550  0.243  0.800
+          200.-  300.  0.140  0.150  0.300  0.400  0.220  1.550  0.096  0.800
+          300.-  500.  0.170  0.170  0.330  0.400  0.255  1.370  0.048  0.700
+          500.-  700.  0.220  0.220  0.380  0.420  0.281  1.410  0.000  0.500
+          700.-  900.  0.240  0.240  0.380  0.380  0.290  1.640  0.000  0.300
+          900.- 1200.  0.240  0.240  0.360  0.380  0.290  1.640  0.000  0.300
+         1200.- 1500.  0.240  0.240  0.350  0.400  0.290  1.490  0.000  0.500
+         1500.- 2000.  0.240  0.240  0.350  0.400  0.290  1.490  0.000  0.500
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                           (LL)     (SW-LL)    (DUL-LL)   (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  100.      15.00       0.00      12.00      13.00
+          100.-  200.      15.00       0.80      12.00      13.00
+          200.-  300.      15.00       7.00      15.00      10.00
+          300.-  500.      34.00      17.00      32.00      14.00
+          500.-  700.      44.00      12.20      32.00       8.00
+          700.-  900.      48.00      10.00      28.00       0.00
+          900.- 1200.      72.00      15.00      36.00       6.00
+         1200.- 1500.      72.00      15.00      33.00      15.00
+         1500.- 2000.     120.00      25.00      55.00      25.00
+          ---------------------------------------------------------
+               Totals     435.00     102.00     255.00     104.00
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   1.50        0.13       88.00       35.00
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              75.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            5.00 (mm^0.5)
+            CONA:                     3.50 ()
+           Eo from priestly-taylor
+
+------- RESIDUE2 Initialisation ----------------------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                      Residue Initial Data
+         ------------------------------------------------
+            Dry matter   N       P    Type
+             (kg/ha)  (kg/ha) (kg/ha)
+         ------------------------------------------------
+               970.0     4.3     0.0  wheat
+         ------------------------------------------------
+
+------- SOILN2 Initialisation ------------------------------------------------
+     
+        - Reading Constants
+     
+        - Reading Parameters
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     5.00  1.10   11.04    2.76    0.00
+             2     5.00  0.50    1.94    1.09    0.00
+             3     5.20  0.40    1.39    1.39    0.00
+             4     5.30  0.35    2.47    2.47    0.00
+             5     5.50  0.26    1.55    1.27    0.00
+             6     5.80  0.15    1.80    0.98    0.00
+             7     5.80  0.08    2.71    1.48    0.00
+             8     5.80  0.06    3.35    1.34    0.00
+             9     5.80  0.06    5.59    2.24    0.00
+          ------------------------------------------------
+           Totals               31.84   15.01    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      14625.3  1625.0   554.7    69.3    47.3     1.2
+             2       7581.8   842.4   168.2    21.0    40.7     1.0
+             3       6095.5   677.3   104.5    13.1    35.0     0.9
+             4       9471.0  1052.3   119.0    14.9    25.9     0.6
+             5       7275.4   808.4    56.6     7.1    19.2     0.5
+             6       4889.8   543.3    30.2     3.8    14.2     0.4
+             7       3924.3   436.0    11.7     1.5     9.1     0.2
+             8       2680.7   297.9     1.3     0.2     5.8     0.1
+             9       4467.8   496.4     2.2     0.3     2.7     0.1
+          ---------------------------------------------------------
+           Totals   61011.5  6779.1  1048.5   131.1   200.0     5.0
+          ---------------------------------------------------------
+
+------- SOILPH Initialisation ------------------------------------------------
+      Initialising:
+     
+        - Reading Constants
+     
+        - Reading Parameters
+           Using pHBC Method: hochman
+     
+         - Reading crop ash alkalinity
+
+------- NWHEAT Initialisation ------------------------------------------------
+     nwheat - Initialising
+------- Start of simulation  --------------------------------------------------
+1 January 1957 (Day of year=1):
+   MANAGER:
+      Manager creating a new local variable : smi =   -0.575000023541666
+   SOILPH:
+      
+          - Reading action ash alkalinity loss
+        Removed Residue
+                                              Removed action  = decomposed
+                                              Fraction Removed  =    0.03479
+                                              Ash Alkalinity wt (Mole/ha) =      14.85
+      
+2 January 1957 (Day of year=2):
+   SOILPH:
+        Removed Residue
+                                              Removed action  = decomposed
+                                              Fraction Removed  =    0.02341
+                                              Ash Alkalinity wt (Mole/ha) =       9.64
+      
+3 January 1957 (Day of year=3):
+   SOILPH:
+        Removed Residue
+                                              Removed action  = decomposed
+                                              Fraction Removed  =    0.00474
+                                              Ash Alkalinity wt (Mole/ha) =       1.91
+      
+6 February 1957 (Day of year=37):
+   SOILPH:
+        Removed Residue
+                                              Removed action  = decomposed
+                                              Fraction Removed  =    0.05115
+                                              Ash Alkalinity wt (Mole/ha) =      20.48
+      
+7 February 1957 (Day of year=38):
+   SOILPH:
+        Removed Residue
+                                              Removed action  = decomposed
+                                              Fraction Removed  =    0.04519
+                                              Ash Alkalinity wt (Mole/ha) =      17.17
+      
+8 February 1957 (Day of year=39):
+   SOILPH:
+        Removed Residue
+                                              Removed action  = decomposed
+                                              Fraction Removed  =    0.05115
+                                              Ash Alkalinity wt (Mole/ha) =      18.56
+      
+9 February 1957 (Day of year=40):
+   SOILPH:
+        Removed Residue
+                                              Removed action  = decomposed
+                                              Fraction Removed  =    0.03685
+                                              Ash Alkalinity wt (Mole/ha) =      12.68
+      
+10 February 1957 (Day of year=41):
+   SOILPH:
+        Removed Residue
+                                              Removed action  = decomposed
+                                              Fraction Removed  =    0.02699
+                                              Ash Alkalinity wt (Mole/ha) =       8.95
+      
+11 February 1957 (Day of year=42):
+   SOILPH:
+        Removed Residue
+                                              Removed action  = decomposed
+                                              Fraction Removed  =    0.01221
+                                              Ash Alkalinity wt (Mole/ha) =       3.94
+      
+10 March 1957 (Day of year=69):
+   SOILPH:
+        Removed Residue
+                                              Removed action  = decomposed
+                                              Fraction Removed  =    0.04247
+                                              Ash Alkalinity wt (Mole/ha) =      13.53
+      
+11 March 1957 (Day of year=70):
+   SOILPH:
+        Removed Residue
+                                              Removed action  = decomposed
+                                              Fraction Removed  =    0.02468
+                                              Ash Alkalinity wt (Mole/ha) =       7.53
+      
+12 March 1957 (Day of year=71):
+   SOILPH:
+        Removed Residue
+                                              Removed action  = decomposed
+                                              Fraction Removed  =    0.02412
+                                              Ash Alkalinity wt (Mole/ha) =       7.18
+      
+13 March 1957 (Day of year=72):
+   SOILPH:
+        Removed Residue
+                                              Removed action  = decomposed
+                                              Fraction Removed  =    0.02360
+                                              Ash Alkalinity wt (Mole/ha) =       6.85
+      
+14 March 1957 (Day of year=73):
+   SOILPH:
+        Removed Residue
+                                              Removed action  = decomposed
+                                              Fraction Removed  =    0.02268
+                                              Ash Alkalinity wt (Mole/ha) =       6.43
+      
+15 March 1957 (Day of year=74):
+   SOILPH:
+        Removed Residue
+                                              Removed action  = decomposed
+                                              Fraction Removed  =    0.01631
+                                              Ash Alkalinity wt (Mole/ha) =       4.52
+      
+16 March 1957 (Day of year=75):
+   SOILPH:
+        Removed Residue
+                                              Removed action  = decomposed
+                                              Fraction Removed  =    0.01835
+                                              Ash Alkalinity wt (Mole/ha) =       5.00
+      
+17 March 1957 (Day of year=76):
+   SOILPH:
+        Removed Residue
+                                              Removed action  = decomposed
+                                              Fraction Removed  =    0.01337
+                                              Ash Alkalinity wt (Mole/ha) =       3.58
+      
+18 March 1957 (Day of year=77):
+   SOILPH:
+        Removed Residue
+                                              Removed action  = decomposed
+                                              Fraction Removed  =    0.01073
+                                              Ash Alkalinity wt (Mole/ha) =       2.83
+      
+19 March 1957 (Day of year=78):
+   SOILPH:
+        Removed Residue
+                                              Removed action  = decomposed
+                                              Fraction Removed  =    0.00748
+                                              Ash Alkalinity wt (Mole/ha) =       1.95
+      
+15 April 1957 (Day of year=105):
+   MANAGER:
+           Manager sending message :- residue2 tillage type = tine ()
+   RESIDUE2:
+      
+          - Reading residue tillage info
+   SOILPH:
+      
+          - Reading action ash alkalinity loss
+        Removed Residue
+                                              Removed action  = tine
+                                              Fraction Removed  =    1.00000
+                                              Ash Alkalinity wt (Mole/ha) =     259.22
+      
+   RESIDUE2:
+      Residue removed using tine                          
+                                              Fraction Incorporated =     1.00
+                                              Incorporated Depth    =   100.00
+1 May 1957 (Day of year=121):
+   MANAGER:
+      Manager creating a new local variable : phase = 0
+23 June 1957 (Day of year=174):
+   MANAGER:
+           Manager sending message :- nwheat sow plants = 100, depth = 40, cultivar = janz
+   NWHEAT:
+      nwheat - initiate
+       sowing  depth g%plants  cultivar
+                mm     m^2     name
+                40.0  100.0 janz
+      
+      
+       cultivar parameters
+       cultivar      p1v        p1d       grnmx     grnrat     stmmx
+      janz           0.008     0.007    25.000     2.300     1.220
+   MANAGER:
+           Manager sending message :- residue2 tillage type = planter ()
+   RESIDUE2:
+      
+          - Reading residue tillage info
+      Residue removed using planter                       
+                                              Fraction Incorporated =     0.10
+                                              Incorporated Depth    =    50.00
+   MANAGER:
+           Manager sending message :- fertiliz apply amount = 17 (kg/ha), type = nh4_n, depth = 40 (mm)
+   FERTILIZ:
+      
+         - Reading Fertiliser Type Parameters
+         17.00 of n as ammonium (nh4_n)
+                                               added at depth   40.00 (layer   1)
+   NWHEAT:
+      nwheat starting sowing
+24 June 1957 (Day of year=175):
+   NWHEAT:
+      nwheat starting germination
+2 July 1957 (Day of year=183):
+   NWHEAT:
+      nwheat starting emergence
+                           biomas=          0.000000       lai=    0.000000    
+                           stover N conc=   0.000000       pesw=   0.000000
+23 August 1957 (Day of year=235):
+   MANAGER:
+           Manager sending message :- fertiliz apply amount = 43 (kg/ha), type = urea_n, depth = 10 (mm)
+   FERTILIZ:
+      
+         - Reading Fertiliser Type Parameters
+         43.00 of n as urea (urea_n)
+                                               added at depth   10.00 (layer   1)
+23 September 1957 (Day of year=266):
+   NWHEAT:
+      nwheat starting end juvenile
+                           biomas=           333.704       lai=     4.16800    
+                           stover N conc=    3.26344       pesw=    25.1521
+18 October 1957 (Day of year=291):
+   NWHEAT:
+      nwheat starting end vegetative
+                           biomas=           362.604       lai=     2.82116    
+                           stover N conc=    3.04628       pesw=    32.3656
+29 October 1957 (Day of year=302):
+   NWHEAT:
+      nwheat starting end ear
+                           biomas=           385.021       lai=     2.61560    
+                           stover N conc=    2.87221       pesw=    27.6672
+9 November 1957 (Day of year=313):
+   NWHEAT:
+      nwheat starting grain filling
+                           biomas=           421.810       lai=     2.06740    
+                           stover N conc=    2.62408       pesw=    39.0699
+11 December 1957 (Day of year=345):
+   NWHEAT:
+      nwheat starting maturity
+                           biomas=           552.839       lai=    0.000000    
+                           stover N conc=    2.00504       pesw=    6.13713
+      nwheat ready for harvest
+24 December 1957 (Day of year=358):
+   MANAGER:
+           Manager sending message :- nwheat harvest
+   NWHEAT:
+      nwheat harvested. yield (kg/ha) =   775.9
+                                   straw residue = 4752.5 kg/ha  straw C:N =  19.8
+                                   root residue =  8830.7 kg/ha  root C:N =  110.0
+   RESIDUE2:
+      
+          - Reading residue specific area
+        Added Residue
+                                              Residue Type         = wheat
+                                              Dry matter Type      = leaf
+                                              Amount Added (kg/ha) =  1690.41
+                                              Specific Area        =  0.00050
+      
+   SOILPH:
+        Residue Added
+                                              Residue Type          = wheat
+                                              Dry matter Type       = leaf
+                                              Amount Added (kg/ha)  =    1690.41
+                                              Ash Alkalinity wt (Mole/ha)=    1572.08
+      
+   RESIDUE2:
+        Added Residue
+                                              Residue Type         = wheat
+                                              Dry matter Type      = lfsheath
+                                              Amount Added (kg/ha) =  1785.25
+                                              Specific Area        =  0.00050
+      
+   SOILPH:
+        Residue Added
+                                              Residue Type          = wheat
+                                              Dry matter Type       = lfsheath
+                                              Amount Added (kg/ha)  =    1785.25
+                                              Ash Alkalinity wt (Mole/ha)=     785.51
+      
+   RESIDUE2:
+        Added Residue
+                                              Residue Type         = wheat
+                                              Dry matter Type      = stem
+                                              Amount Added (kg/ha) =  1276.84
+                                              Specific Area        =  0.00050
+      
+   SOILPH:
+        Residue Added
+                                              Residue Type          = wheat
+                                              Dry matter Type       = stem
+                                              Amount Added (kg/ha)  =    1276.84
+                                              Ash Alkalinity wt (Mole/ha)=     561.81
+      
+        Crop Chopped
+                                              Crop Type           = wheat
+                                              Dry Matter Type     = root
+                                              Dry matter Removed (kg/ha)  =    8830.74
+                                              Ash Alkalinity wt (Mole/ha) =       0.00
+      
+        Crop Chopped
+                                              Crop Type           = wheat
+                                              Dry Matter Type     = leaf
+                                              Dry matter Removed (kg/ha)  =    1690.41
+                                              Ash Alkalinity wt (Mole/ha) =    1572.08
+      
+      Simulation terminated due to an unknown run-time error
