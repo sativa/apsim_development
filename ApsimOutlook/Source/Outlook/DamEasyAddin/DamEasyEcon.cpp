@@ -10,6 +10,7 @@
 #include <general\math_functions.h>
 #include <general\path.h>
 #include <functional>
+#include <ApsimShared\ApsimDirectories.h>
 
 #define DE_ECON_FACTOR_NAME "Econ Config"
 #define ECON_CONFIGS_KEY    "DamEa$y Economics|econconfigs"
@@ -54,10 +55,11 @@ void DamEasyEcon::setStartupParameters(const std::string& parameters)
    End_year = atoi(begin_and_end_years[1].c_str());
    Read_inifile_settings();
 
-   Path bitmap_path(Application->ExeName.c_str());
-   bitmap_path.Set_name (Econ_bitmap_name.c_str());
+   string app_dir = getAppHomeDirectory();
+   string econ_bmp_name = app_dir + string("\\") + Econ_bitmap_name;
+
    Graphics::TBitmap* bitmap = new Graphics::TBitmap;
-   bitmap->LoadFromFile(bitmap_path.Get_path().c_str());
+   bitmap->LoadFromFile(econ_bmp_name.c_str());
 
    string default_config_name = Econ_configs[0].getName();
    Factor econ(DE_ECON_FACTOR_NAME,default_config_name.c_str());
