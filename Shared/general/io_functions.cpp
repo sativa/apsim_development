@@ -3,6 +3,7 @@
 #include "io_functions.h"
 #include <general\path.h>
 #include <dos.h>
+#include <dir.h>
 #include <shellapi.h>
 // ------------------------------------------------------------------
 //  Short description:
@@ -22,8 +23,8 @@ void GENERAL_EXPORT Get_directory_listing (const char* Directory_name,
                                            bool Full_path)
    {
    if (Attribute == 0)
-      Attribute = ~faDirectory;
-      
+      Attribute = faAnyFile;
+
    Path p;
 
    TSearchRec SearchRec;
@@ -33,11 +34,16 @@ void GENERAL_EXPORT Get_directory_listing (const char* Directory_name,
    done = FindFirst(p.Get_path().c_str(), Attribute, SearchRec);
    while (!done)
       {
-      bool NormalFile = ((SearchRec.Attr & faAnyFile) == 0);
-      if (SearchRec.Name != "." &&
-          SearchRec.Name != ".." &&
-          ((Attribute == faAnyFile && NormalFile) ||
-            SearchRec.Attr & Attribute) > 0)
+      bool NormalFile = ((SearchRec.Attr & faDirectory) == 0);
+      bool Keep = (SearchRec.Name != "." && SearchRec.Name != "..");
+
+      if (Attribute == faAnyFile)
+         Keep = Keep && NormalFile;
+
+      else
+         Keep = Keep && ((SearchRec.Attr & Attribute) > 0);
+
+      if (Keep)
          {
          Path p;
          if (Full_path)
