@@ -3573,6 +3573,7 @@
 *      TM - 23/07/95 put in work around for elseifs
 *     TM - 29/09/95 put in fix to check for negative numbers
 *                    and get Action Strings as one Token
+*     sb - 19/11/97 put in fix to ensure there is a c_eol before c_eof
  
 *   Calls:
 *      assign_string*      Get_char
@@ -3592,12 +3593,14 @@
 *   Global variables
        include 'parse.inc'                  ! Manager common block
        include 'const.inc'
+       character     string_concat*(500) ! function
+       integer lastnb ! function
+
 *   Internal variables
        integer       ind                  ! loop index
        integer       count                ! loop index
        integer       elseif_count         !
        integer       if_count             !
-       character     string_concat*(500)  ! function
        
 *   Constant values
 *      none
@@ -3622,7 +3625,7 @@
  
 10     continue
  
-       if (ind.eq.max_tokens) then
+       if (ind .ge. max_tokens-1) then
           call fatal_error (err_internal, 'Token array limit exceeded')
  
        else
@@ -3647,7 +3650,6 @@
                endif
           endif
  
- 
           if   (g_token .eq. C_ELSEIF) then
                elseif_count  = elseif_count + 1
                g_token = C_ELSE
@@ -3658,7 +3660,6 @@
                g_token = C_IF
                g_buffer = 'if'
           endif
- 
          
           if   (g_token .eq. C_NUMBER .and. ind .ge. 2 .and.
      :           Token_array2(ind) .eq. C_MINUS .and.
@@ -3668,7 +3669,6 @@
                  call assign_string (g_buffer, '-'//g_buffer)
                  ind = ind -1
         endif
- 
  
           if   (ind .ge. 1 .and. g_token .eq. C_WORD .and.
      :          Token_array2(ind) .eq. C_WORD) then
@@ -3680,7 +3680,6 @@
                ind = ind - 1
           endif
  
- 
           ind = ind + 1
           call assign_string (Token_array(ind), g_buffer)
           Token_array2(ind) = g_token
@@ -3690,6 +3689,10 @@
           endif
        endif
  
+       if (token_array2(ind) .ne. c_eol) then
+          ind = ind+1
+          token_array2(ind) = c_eol
+       end if
        Token_array2(ind+1) = C_EOF
  
        g_last_token = ind
