@@ -45,14 +45,23 @@ void ApsimRunFile::run(bool quiet) const
       if (ExtractFileExt(simulationFileName.c_str()).AnsiCompareIC(".sim") == 0)
          {
          ApsimSimulationFile simulation(simulationFileName);
-         simulation.run(quiet);
+         simulation.run(true);
          }
       else
          {
-         ApsimControlFile simulation(simulationFileName);
-         simulation.run(simulations, configFileName, quiet);
+         if(simulations.size() == 0)
+            ApsimControlFile::getAllSectionNames(simulationFileName, simulations);
+         for (vector<string>::iterator sim = simulations.begin();
+                                       sim != simulations.end();
+                                       sim++)
+            {
+            ApsimControlFile simulation(simulationFileName, *sim);
+            simulation.run(configFileName, true);
+            }
          }
       }
+   if (!quiet)
+      MessageBox(NULL, "APSIM has finished", "For your information", MB_ICONINFORMATION | MB_OK);
    }
 
 
