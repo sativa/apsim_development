@@ -349,11 +349,12 @@ C     Last change:  E     5 Dec 2000    8:52 am
 *+  Local Variables
       integer thisdate(3)              ! day, month, year
       logical logical_to_return        ! logical value to return to calling module
-      character time*(5)               ! time in 24 hour format
       integer   doy                    ! day of year
       integer   year                   ! year
       character str*100                ! string for date formatting
       character tempstring*100         ! another string for date formatting
+      type (timeType) :: time
+
 *- Implementation Section ----------------------------------
 
       call push_routine(This_routine)
@@ -411,9 +412,9 @@ C     Last change:  E     5 Dec 2000    8:52 am
      .       (variable_name, '(0-1)', Logical_to_return)
 
       else if (variable_name .eq. 'time') then
-         time = clock_time_string()
-         call respond2get_char_var (Variable_name,
-     .                                 '()',
+         time = clock_get_time()
+         call respond2get_time_var (Variable_name,
+     .                                 '',
      .                                 time)
 
       else if (variable_name .eq. 'simulation_start_day') then
