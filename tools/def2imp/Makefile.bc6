@@ -31,9 +31,9 @@ CC=$(BCB)\Bin\bcc32.exe
 LD=$(BCB)\Bin\ilink32
 # ---------------------------------------------------------------------------
 
-all: $(APSROOT)\Bin\def2imp.exe 
+all: def2imp.exe 
 
-$(APSROOT)\Bin\def2imp.exe: $(OBJECTS)
+def2imp.exe: $(OBJECTS)
 	$(LD) @&&!
 	$(LFLAGS) -L$(LIBPATH) +
 	$(ALLOBJ), $(APSROOT)\Bin\def2imp.exe, , $(ALLLIB), $(DEFFILE), $(ALLRES)
@@ -46,4 +46,4 @@ $(APSROOT)\Bin\def2imp.exe: $(OBJECTS)
 def2imp.obj: def2imp.cpp
 
 clean:
-	$(RM) $(OBJECTS) $(APSROOT)\Bin\def2imp.exe 
+	$(RM) $(OBJECTS) def2imp.exe 
