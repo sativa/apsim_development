@@ -6,6 +6,10 @@
 #include <general\string_functions.h>
 #include <general\stristr.h>
 using namespace std;
+
+// turn of the warnings about "Functions containing for are not expanded inline.
+#pragma warn -inl
+
 // ------------------------------------------------------------------
 //  Short description:
 //    locates an object in a container and returns the numerical
@@ -551,5 +555,7 @@ class RemoveSuffix : public std::unary_function<std::string, void>
          }
    };
 
+// restore the warnings about "Functions containing for are not expanded inline.
+#pragma warn .inl
 
 #endif
