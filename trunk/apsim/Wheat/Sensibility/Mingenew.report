@@ -116,7 +116,8 @@ object data: TForm
       'Dalby600Prob.onSourceDataChanged'
       'Warra600HighNProb.onSourceDataChanged'
       'Gunnedah600Prob.onSourceDataChanged'
-      'Graph2.afterDataRefresh')
+      'Graph2.afterDataRefresh'
+      'RedSCLProb.onSourceDataChanged')
     sortFields = 'year'
     filenames.Strings = (
       'Mingenew300RedSCL.out')
@@ -272,7 +273,8 @@ object data: TForm
     subscriptionComponentNames.Strings = (
       'Warra1500HighNProb.onSourceDataChanged'
       'Gunnedah1500Prob.onSourceDataChanged'
-      'Graph2.afterDataRefresh')
+      'Graph2.afterDataRefresh'
+      'SandProb.onSourceDataChanged')
     sortFields = 'year'
     filenames.Strings = (
       'Mingenew300Sand.out')
@@ -333,7 +335,7 @@ object data: TForm
 end
 object Page1: TQuickRep
   Left = 173
-  Top = 43
+  Top = 35
   Width = 556
   Height = 786
   Frame.Color = clBlack
@@ -472,7 +474,7 @@ object Page1: TQuickRep
           Marks.Visible = False
           DataSource = data.RedSCLProb
           SeriesColor = clRed
-          Title = 'Gunnedah 600mm'
+          Title = 'Red Sandy Clay Loam'
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
           Pointer.Visible = False
@@ -489,7 +491,7 @@ object Page1: TQuickRep
           Marks.Visible = False
           DataSource = data.SandProb
           SeriesColor = clGreen
-          Title = 'Gunnedah 1500mm'
+          Title = 'Deep Sand'
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
           Pointer.Visible = False
