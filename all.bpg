@@ -9,8 +9,8 @@ MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
 DCC = $(ROOT)\bin\dcc32.exe $**
 BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
-PROJECTS = general.lib ApsimShared.dll SEGReport.bpl StandardControls.dll \
-  DataControls.dll ApsimReport.exe ApsimContextMenu.dll ApsimExplorer.exe \
+PROJECTS = general.lib ApsimShared.dll SEGReport.bpl \
+  ApsimReport.exe ApsimContextMenu.dll ApsimExplorer.exe \
   APSBuild.exe CreateComponentInterfaceSource.exe CreateDataTypesSource.exe \
   APSRun.exe ComponentInterface.lib Protocol.dll apsim.exe ProtocolManager.dll \
   Log.dll SummaryFile.dll Input.dll report.dll Screen.dll Tracker.dll \
@@ -28,10 +28,6 @@ general.lib: Shared\general\general.bpr
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
 SEGReport.bpl: Shared\SEGReport\SEGReport.bpk
-  $(ROOT)\bin\bpr2mak $**
-  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
-
-DataControls.dll: Shared\SEGReport\DataControls\DataControls.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
@@ -152,10 +148,6 @@ apsoil.exe: APSoil\Source\apsoil.bpr
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
 Test.dll: Shared\Test\Test.bpr
-  $(ROOT)\bin\bpr2mak $**
-  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
-
-StandardControls.dll: Shared\SEGReport\StandardControls\StandardControls.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
