@@ -229,5 +229,15 @@ std::string getShortMonthString(unsigned month)
        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
    return months[month-1];
    }
-
+std::string getLongMonthString(unsigned month)
+   {
+   static const char* months[13] =
+      {"January", "February", "March", "April", "May", "June",
+       "July", "August", "September", "October", "November", "December"};
+   return months[month-1];
+   }
+unsigned day_of_year(boost::gregorian::date d)
+   {
+   return boost::gregorian::date_duration(d - boost::gregorian::date(d.year(), 1, 1)).days() + 1;
+   }
 #endif
