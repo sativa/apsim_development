@@ -11150,7 +11150,7 @@ void Plant::plant_read_root_params ()
 
     push_routine (my_name);
 
-    parent->writeString ("   - reading root profile parameters");
+    parent->writeString (" - reading root profile parameters");
 
 //       cproc_sw_demand_bound
 
@@ -11235,7 +11235,7 @@ void Plant::plant_read_root_params ()
     parent->writeString (msg);
 
     sprintf (msg, "%s%5.1f%s"
-        ,"Crop factor for bounding water use is set to "
+        ,"    Crop factor for bounding water use is set to "
         , p.eo_crop_factor
           , " times eo.");
     parent->writeString (msg);
