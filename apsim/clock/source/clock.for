@@ -331,7 +331,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 *+  Sub-Program Arguments
 
 *+  Calls
-      dll_import screen_writepercentcomplete
+
 
 *+  Purpose
 *      print a percentage complete if necessary.
