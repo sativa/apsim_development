@@ -297,7 +297,7 @@ extern "C" unsigned _export __stdcall ApsimDataFile_getFieldValue
    try
       {
       string valueString = (*dataFile)->getFieldValue(*fieldIndex);
-      FString(value, valueLength) = valueString.c_str();
+      FString(value, valueLength, FORString) = valueString.c_str();
       return true;
       }
    catch (...)

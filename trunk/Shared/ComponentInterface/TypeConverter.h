@@ -22,6 +22,7 @@ class TypeConverter
 
    public:
       virtual ~TypeConverter(void) { }
+
       template <class T>
       void getValue(MessageData& messageData, T& obj)
          {

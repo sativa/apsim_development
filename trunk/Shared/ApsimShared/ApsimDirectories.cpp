@@ -60,7 +60,7 @@ extern "C" void _export __stdcall getApsuiteDirectory
    try
       {
       string dir = getApsimDirectory();
-      FString(directory, directoryLength) = dir.c_str();
+      FString(directory, directoryLength, FORString) = dir.c_str();
       }
    catch (const runtime_error& err)
       {

@@ -3,6 +3,7 @@
 #include "MessageData.h"
 #include "TypeConverter.h"
 #include "Type.h"
+#include "ArraySpecifier.h"
 namespace protocol {
 // ------------------------------------------------------------------
 //  Short description:
@@ -20,12 +21,13 @@ namespace protocol {
 class Variant
    {
    public:
-      Variant(void) : newDataPtr(NULL), typeConverter(NULL) { }
+      Variant(void)
+         : newDataPtr(NULL), typeConverter(NULL), arraySpecifier(NULL) { }
 
       // this constructor is needed for storing a copy of a variant in a
       // variants class.
       Variant(const Variant& from)
-         : typeConverter(NULL), fromId(from.fromId)
+         : typeConverter(NULL), fromId(from.fromId), arraySpecifier(NULL)
          {
          copyFrom(from);
          }
@@ -51,12 +53,18 @@ class Variant
 
          else
             messageData >> obj;
+
+         if (arraySpecifier != NULL)
+            arraySpecifier->calcStats(obj);
          }
       void setTypeConverter(TypeConverter* typeconv)
          {
          typeConverter = typeconv;
          }
-
+      void setArraySpecifier(ArraySpecifier* arraySpec)
+         {
+         arraySpecifier = arraySpec;
+         }
       void aliasTo(Variant& variant)
          {
          type = variant.getType();
@@ -84,6 +92,7 @@ class Variant
       MessageData messageData;
       TypeConverter* typeConverter;
       unsigned fromId;
+      ArraySpecifier* arraySpecifier;
 
       void copyFrom(const Variant& from)
          {
@@ -93,6 +102,7 @@ class Variant
          messageData.reset();
          type = from.type;
          typeConverter = NULL;
+         arraySpecifier = from.arraySpecifier;
          }
 
    };

@@ -4,6 +4,7 @@
 
 #include "Component.h"
 #include "RegistrationItem.h"
+#include "Registrations.h"
 #include <ApsimShared\FApsimComponentData.h>
 #include <limits.h>
 #define FARPROC void*
@@ -11,7 +12,6 @@ using namespace protocol;
 
 #define min(a, b)  (((a) < (b)) ? (a) : (b))
 
-static const unsigned int MAX_NUM_REGISTRATIONS = 1000;
 static const unsigned int MAX_NESTED_COMPLETES = 10;
 static const char* ERROR_TYPE = "<type name=\"error\">"
                                    "<field name=\"isFatal\" kind=\"boolean\"/>"
@@ -38,7 +38,7 @@ enum ProtocolRegistrationType {drivingProperty=1, readableProperty=2,
 
 // ------------------------------------------------------------------
 Component::Component(void)
-   : registrations(MAX_NUM_REGISTRATIONS), completeIDs(MAX_NESTED_COMPLETES)
+   : completeIDs(MAX_NESTED_COMPLETES),registrations(new Registrations(this))
    {
    componentData = NULL;
    name = NULL;
@@ -64,16 +64,13 @@ Component::~Component(void)
    if (componentData != NULL)
       deleteApsimComponentData(componentData);
 
-   for (unsigned int i = 0; i < registrations.size(); i++)
-      delete registrations[i];
-
    delete [] name;
    clearReturnInfos();
    }
 
 // -----------------------------------------------------------------
 //  Short description:
-//     clear all registrations.
+//     clear all return infos
 
 //  Notes:
 
@@ -289,15 +286,15 @@ void Component::storeName(const FString& fqn, const FString& sdml)
    {
    // get instance name by locating the last period and assuming the
    // name of this component follows the period.
-   unsigned posLastPeriod = INT_MAX;
+   unsigned posLastPeriod = FString::npos;
    unsigned posPeriod = fqn.find(".");
-   while (posPeriod != INT_MAX)
+   while (posPeriod != FString::npos)
       {
       posLastPeriod = posPeriod;
       posPeriod = fqn.find(".", posLastPeriod+1);
       }
    FString componentName = fqn;
-   if (posLastPeriod != INT_MAX)
+   if (posLastPeriod != FString::npos)
       componentName = fqn.substr(posLastPeriod+1);
 
    // now create memory block for this name and fill it.
@@ -308,16 +305,8 @@ void Component::storeName(const FString& fqn, const FString& sdml)
 
    componentData = newApsimComponentData(sdml.f_str(), sdml.length());
    }
-
 // ------------------------------------------------------------------
-//  Short description:
-//     add a registration
-
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
+// add a registration
 // ------------------------------------------------------------------
 unsigned Component::addRegistration(RegistrationType kind,
                                     const FString& name,
@@ -325,71 +314,31 @@ unsigned Component::addRegistration(RegistrationType kind,
                                     const FString& alias,
                                     const FString& componentNameOrID)
    {
-   // Not already registered - register now.
-   static char regName[200];
-   strncpy(regName, name.f_str(), name.length());
-   regName[name.length()] = 0;
-
-   unsigned destID = 0;
-   if (componentNameOrID.length() != 0)
+   RegistrationItem* reg = registrations->find(kind, name, componentNameOrID);
+   if (reg == NULL)
       {
-      strncpy(regName, componentNameOrID.f_str(), componentNameOrID.length());
-      regName[componentNameOrID.length()] = 0;
-      char* endPtr;
-      destID = strtol(regName, &endPtr, 10);
-      if (endPtr == NULL)
-         {
-         strncpy(regName, name.f_str(), name.length());
-         regName[name.length()] = 0;
-         }
+      reg = registrations->add(kind, name, type, componentNameOrID);
 
-      else
-         {
-         strcat(regName, ".");
-         strncat(regName, name.f_str(), name.length());
-         regName[componentNameOrID.length() + name.length() + 1] = 0;
-         }
-      }
-   // If this is a getVariableReg then see if we have already registered this name.
-   // If so then return the registration id.
-   if (kind == getVariableReg || kind == setVariableReg)
-      {
-      unsigned id = getRegistrationID(kind, regName);
-      if (id != 0)
-         return id;
-      }
+      unsigned id = (unsigned) reg;
+      int destID = reg->getComponentID();
+      if (destID == -1) destID = 0;
+      char fqn[100];
+      strcpy(fqn, "");
+      reg->getFQN(fqn);
 
-   RegistrationItem* newRegistration = new RegistrationItem
-         (this, kind, regName, type);
-   unsigned id = (unsigned) newRegistration;
-   registrations.push_back(newRegistration);
-
-   if (alias.length() == 0)
       sendMessage(newRegisterMessage(componentID,
                                      parentID,
                                      kind,
                                      id,
                                      destID,
-                                     regName,
-                                     type));
-   else
-      sendMessage(newRegisterMessage(componentID,
-                                     parentID,
-                                     kind,
-                                     id,
-                                     destID,
-                                     alias,
-                                     type));
+                                     fqn,
+                                     reg->getType()));
+      }
 
-   return id;
+   return (unsigned) reg;
    }
-
 // ------------------------------------------------------------------
-//  Short description:
-//     delete the specified registration.
-
-//  Changes:
-//    DPH 7/6/2001
+// delete the specified registration.
 // ------------------------------------------------------------------
 void Component::deleteRegistration(RegistrationType kind,
                                    unsigned int regID)
@@ -629,7 +578,7 @@ bool Component::componentIDToName(unsigned int compID, FString& name)
       {
       ReturnInfoData* returnInfo = returnInfos[0];
       unsigned posPeriod = returnInfo->name.find(".");
-      if (posPeriod != INT_MAX)
+      if (posPeriod != FString::npos)
          name = returnInfo->name.substr(posPeriod+1,
                                         returnInfo->name.length()-posPeriod-1);
       else
@@ -691,22 +640,16 @@ void Component::writeString(const FString& st)
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-Type& Component::getRegistrationType(unsigned int regID)
+Type Component::getRegistrationType(unsigned int regID)
    {
    return ((RegistrationItem*) regID)->getType();
    }
 // ------------------------------------------------------------------
-// Return a registration id to caller.
+// Return a registration id to caller.  Returns 0 if not found
 // ------------------------------------------------------------------
-unsigned Component::getRegistrationID(const RegistrationType& type, const FString& eventName)
+unsigned Component::getRegistrationID(const RegistrationType& kind, const FString& name)
    {
-   for (unsigned reg = 0; reg != registrations.size(); reg++)
-      {
-      if (registrations[reg]->getName() == eventName
-          && type == registrations[reg]->getKind())
-         return (unsigned) registrations[reg];
-      }
-   return 0;
+   return (unsigned) registrations->find(kind, name);
    }
 // ------------------------------------------------------------------
 //  Short description:

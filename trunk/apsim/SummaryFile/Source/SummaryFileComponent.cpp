@@ -231,7 +231,7 @@ void SummaryFileComponent::writeLine(const FString& componentName, const FString
    do
       {
       posCR = lines.find("\n", posStart);
-      if (posCR == MAXINT)
+      if (posCR == FString::npos)
          posCR = lines.length();
       out << setw(indentation) << ' ';
       out << asString(lines.substr(posStart, posCR-posStart)) << endl;

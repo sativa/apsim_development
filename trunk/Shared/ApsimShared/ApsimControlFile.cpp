@@ -814,7 +814,7 @@ void ApsimControlFile::parseNewFormatReportVariables(const ApsimParameterFile& p
          {
          string variableName = modules[variable] + "." + variables[variable];
          if (aliases[variable] != "-")
-            variableName += "(" + aliases[variable] + ")";
+            variableName += " as " + aliases[variable];
          newVariables.push_back(variableName);
          }
       }

@@ -1,8 +1,8 @@
 #include "MessageData.h"
 #include "message.h"
-#include "vector.h"
+#include "ProtocolVector.h"
 using namespace protocol;
-// ------------------------------------------------------------------
+/*// ------------------------------------------------------------------
 //  Short description:
 //     FORTRAN: Create a messageData object
 
@@ -182,4 +182,4 @@ extern "C" void __stdcall pack_boolean
    MessageData& messageData = **mesData;
    messageData << (bool)*value;
    }
-
+*/

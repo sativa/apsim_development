@@ -224,7 +224,7 @@ void ScreenComponent::writeLine(const FString& componentName, const FString& lin
    do
       {
       posCR = lines.find("\n", posStart);
-      if (posCR == MAXINT)
+      if (posCR == FString::npos)
          posCR = lines.length();
       line = string(indentation, ' ');
       line += asString(lines.substr(posStart, posCR-posStart));

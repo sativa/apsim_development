@@ -414,7 +414,7 @@ extern "C" void _export __stdcall ApsimComponentData_loadRule
     unsigned nameLength)
    {
    string contents;
-   (*componentData)->getRule(asString(FString(name, nameLength)),
+   (*componentData)->getRule(asString(FString(name, nameLength, FORString)),
                              ruleCondition,
                              contents);
    Split_string(contents, "\n", ruleLines);
@@ -426,15 +426,17 @@ extern "C" unsigned _export __stdcall ApsimComponentData_getNumRuleLines
    }
 extern "C" void _export __stdcall ApsimComponentData_getRuleLine
    (unsigned* lineNumber,
-    const char* line,
+    char* line,
     unsigned lineLength)
    {
-   FString(line, lineLength) = ruleLines[*lineNumber].c_str();
+   FString l(line, lineLength, FORString);
+   l = ruleLines[*lineNumber].c_str();
    }
 extern "C" void _export __stdcall ApsimComponentData_getRuleCondition
-   (const char* condition,
+   (char* condition,
     unsigned conditionLength)
    {
-   FString(condition, conditionLength) = ruleCondition.c_str();
+   FString cond(condition, conditionLength, FORString);
+   cond = ruleCondition.c_str();
    }
 

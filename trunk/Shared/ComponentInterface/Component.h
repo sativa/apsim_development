@@ -2,13 +2,13 @@
 #ifndef ComponentH
 #define ComponentH
 #include "Messages.h"
-#include "Vector.h"
-#include <values.h>
+#include "ProtocolVector.h"
 class ApsimComponentData;
 namespace protocol {
 
 // forward declarations of our friends.
 class RegistrationItem;
+class Registrations;
 class Variants;
 extern "C" _export void __stdcall messageToLogic (unsigned* instanceNumber,
                                                   Message* message,
@@ -160,7 +160,7 @@ class Component
             waitForComplete();
          deleteMessage(message);
          }
-      Type& getRegistrationType(unsigned int regID);
+      Type getRegistrationType(unsigned int regID);
       FString getRegistrationName(unsigned int regID);
       unsigned getRegistrationID(const RegistrationType& type, const FString& eventName);
       bool getSetVariableSuccess(void)
@@ -170,7 +170,7 @@ class Component
       virtual void messageToLogic(Message* message);
 
    private:
-      vector<RegistrationItem*> registrations;
+      Registrations* registrations;
       vector<ReturnInfoData*> returnInfos;
       unsigned int nameID;
       unsigned int typeID;

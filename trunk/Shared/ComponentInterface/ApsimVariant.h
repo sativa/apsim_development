@@ -4,6 +4,10 @@
 #include "MessageData.h"
 #include "Type.h"
 #include "Variant.h"
+
+// turn of the warnings about "Functions containing for are not expanded inline.
+#pragma warn -inl
+
 namespace protocol {
 
 //---------------------------------------------------------------------------
@@ -128,5 +132,8 @@ inline unsigned int memorySize(const ApsimVariant& variant)
    }
 
 } // namespace protocol
+
+// restore the warnings about "Functions containing for are not expanded inline.
+#pragma warn .inl
 
 #endif

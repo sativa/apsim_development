@@ -5,14 +5,7 @@
 using namespace protocol;
 
 // ------------------------------------------------------------------
-//  Short description:
-//     Return an attribute of the type.
-
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
+// Return the value of the specified attribute
 // ------------------------------------------------------------------
 FString Type::getAttribute(const char* attributeName) const
    {
@@ -20,7 +13,7 @@ FString Type::getAttribute(const char* attributeName) const
    strcpy(stringToLocate, attributeName);
    strcat(stringToLocate, "=\"");
    unsigned posAttr = type.find(stringToLocate);
-   if (posAttr == MAXINT)
+   if (posAttr == FString::npos)
       return "";
    else
       {
@@ -30,7 +23,47 @@ FString Type::getAttribute(const char* attributeName) const
       return attrPlusRemainder.substr(0, posEndQuote);
       }
    }
-
+// ------------------------------------------------------------------
+// Set the value of the specified attribute in this type.
+// ------------------------------------------------------------------
+void Type::setAttribute(const char* attributeName, const char* value)
+   {
+   char stringToLocate[100];
+   strcpy(stringToLocate, attributeName);
+   strcat(stringToLocate, "=\"");
+   unsigned posInsertion = type.find(stringToLocate);
+   if (posInsertion == FString::npos)
+      {
+      posInsertion = type.find("/>");
+      if (posInsertion == FString::npos)
+         {
+         char buffer[200];
+         strcpy(buffer, "Invalid type string : ");
+         strncat(buffer, type.f_str(), type.length());
+         ::MessageBox(NULL, buffer, "Error", MB_ICONSTOP | MB_OK);
+         }
+      else
+         {
+         char st[100];
+         strcpy(st, " ");
+         strcat(st, attributeName);
+         strcat(st, "=\"");
+         strcat(st, value);
+         strcat(st, "\"");
+         type.insert(posInsertion, st);
+         }
+      }
+   else
+      {
+      posInsertion += strlen(stringToLocate);
+      unsigned posEndQuote = type.find("\"", posInsertion);
+      if (posEndQuote != FString::npos)
+         {
+         type.erase(posInsertion, posEndQuote-posInsertion);
+         type.insert(posInsertion, value);
+         }
+      }
+   }
 // ------------------------------------------------------------------
 //  Short description:
 //     determine the data type from the string passed in.
@@ -41,7 +74,7 @@ FString Type::getAttribute(const char* attributeName) const
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-void Type::determineType(void)
+void Type::determineType(void) const
    {
    FString kind = getAttribute("kind");
    if (kind == "integer1")
@@ -90,5 +123,16 @@ FString Type::codeToString(DataTypeCode code)
       return "string";
    else
       return "unknown";
+   }
+// ------------------------------------------------------------------
+// if isArray = true then makes this type an array type.
+// ------------------------------------------------------------------
+void Type::setArray(bool isArray)
+   {
+   if (isArray)
+      setAttribute("array", "T");
+   else
+      setAttribute("array", "F");
+
    }
 
