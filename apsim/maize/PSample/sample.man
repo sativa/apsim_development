@@ -54,28 +54,19 @@ end_date = 30/12/1993     ! dd/mm/yyyy
 
 
 [maize.manager.end_of_day]
-P_below_ground = soilp.fom_p() + soilp.hum_p() + soilp.biom_p() + soilp.rock_p() + soilp.unavail_p() + soilp.labile_p()
-P_above_ground = (maize.p_green() + maize.p_senesced() + maize.p_dead())*10.0 + surfaceom.surfaceom_p
-systemP = P_below_ground + P_above_ground
-dlt_systemP = systemP - systemP_yday
-if (systemP_yday >= 0.00001) then
-    cum_error_systemP = dlt_systemP + cum_error_systemP
-    dlt_residue_P = surfaceom.surfaceom_P - residue_P_yest
-else
-    cum_error_systemP = 0.0
-    dlt_residue_P = 0.0
-endif
+P_below_ground = sysbal.p_state_soil
+P_above_ground = sysbal.p_state_crop + sysbal.p_state_surface
+systemP = sysbal.p_state_system
+dlt_systemP = sysbal.p_dlt_system
 
-P_plant = (maize.P_green() + maize.P_sen() + maize.P_dead())*10.0
+P_plant = sysbal.p_state_crop
 P_uptake_cum = P_uptake_cum + uptake_P_maize()
 P_pl_up_diff = P_plant - P_uptake_cum
 below_gnd_diff = P_below_ground - P_below_ground_yest
-residue_P_yest =  surfaceom.surfaceom_P
+residue_P_yest =  sysbal.p_state_surface
 P_below_ground_yest = P_below_ground
 
-  if (maize.stage >=1 and maize.stage <= 11) then
       report do_output
-  endif
 
 systemP_yday = systemP
 

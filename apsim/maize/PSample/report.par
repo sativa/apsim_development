@@ -82,14 +82,14 @@ variable = soilp.soil_test_p()
 variable = soilp.rock_p()
 variable = soilp.unavail_p()
 variable = soilp.labile_p()
-variable = manager.P_below_ground
+variable = sysbal.p_state_soil
 variable = manager.P_above_ground
-variable = manager.systemP
-variable = manager.cum_error_systemP
-variable = manager.dlt_systemP
-variable = manager.P_plant
+variable = sysbal.p_state_system
+variable = sysbal.p_cum_error_system
+variable = sysbal.p_dlt_system
+variable = sysbal.p_state_crop
 variable = manager.P_pl_up_diff
-variable = manager.dlt_residue_P
+variable = sysbal.p_dlt_surface
 variable = manager.below_gnd_diff
 
 
@@ -120,14 +120,14 @@ variable = soilp.rock_p()
 variable = soilp.unavail_p()
 variable = soilp.labile_p()
 
-variable = manager.P_below_ground
+variable = sysbal.p_state_soil
 variable = manager.P_above_ground
-variable = manager.systemP
-variable = manager.cum_error_systemP
-variable = manager.dlt_systemP
-variable = manager.P_plant
+variable = sysbal.p_state_system
+variable = sysbal.p_cum_error_system
+variable = sysbal.p_dlt_system
+variable = sysbal.p_state_crop
 variable = manager.P_pl_up_diff
-variable = manager.dlt_residue_P
+variable = sysbal.p_dlt_surface
 variable = manager.below_gnd_diff
 
 
