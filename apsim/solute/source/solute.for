@@ -95,7 +95,10 @@
       Event_string = 'Initialising'
       call Write_string (Event_string)
 
-
+cnh Cannot do it here as we may not have soil layer specs yet
+c      call publish_SoluteProfile(SolutesChangedId,
+c     :     g%solute_profiles, g%num_solutes, .false.)
+     
       call pop_routine (myname)
       return
       end
@@ -424,10 +427,10 @@
          
   200 continue
 
-      if(.not.found) then
+      if(found) then
 !    send an event
           call publish_SoluteProfile(SolutesChangedId,
-     :     g%solute_profiles, num_profiles, .false.)
+     :     g%solute_profiles, g%num_solutes, .false.)
       endif          
 
       call pop_routine (myname)
@@ -477,7 +480,7 @@ c   dsg 180202    when we want to remap solutes for varying layers, insert here
 		 g%soil_water_profile_layers = soil_water_profile_layers
 		           
        do 100 solnum = 1,g%num_solutes
-      
+       g%solute_profiles(solnum)%NumLayers = g%num_layers
        do 50 layer = 1,g%num_layers
       g%solute_profiles(solnum)%layer(layer)%thickness  = 
      :                        soil_water_profile_layers(layer)%thickness 
