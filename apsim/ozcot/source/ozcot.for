@@ -470,7 +470,7 @@ cpsc         call cm_cultv (cv_name)
  
       call get_integer_var (unknown_module, 'year', '()'
      :                      , imyr, numvals
-     :                      , 1800, 2000)
+     :                      , min_year, max_year)
  
       call get_real_var (unknown_module, 'maxt', '(oC)'
      :                                  , tempmx, numvals

@@ -69,7 +69,7 @@
       if (Action.eq.MES_Presence) then
          call get_current_module (module_name)
          write(*, *) 'module_name = '
-     :              , module_name(:lastnb (module_name))
+     :              , trim(module_name)
      :              // blank
      :              // operatns_version ()
  
@@ -229,8 +229,8 @@
      :    , '()'            ! Units                (Not Used)
      :    , g_thisyear      ! Variable
      :    , numvals         ! Number of values returned
-     :    , 1800            ! Lower Limit for bound checking
-     :    , 2000)           ! Upper Limit for bound checking
+     :    , min_year            ! Lower Limit for bound checking
+     :    , max_year)           ! Upper Limit for bound checking
  
       call Get_integer_var (
      :      unknown_module  ! Module that responds (Not Used)
@@ -561,7 +561,6 @@
 *     14/2/96 DPH added calls to new_postbox, delete_postbox
 
 *+  Calls
-      character  no_leading_spaces*(record_length) ! function
 
 *+  Constant Values
       character*(*) my_name            ! name of current procedure
@@ -599,13 +598,13 @@
                ! extract components from string
             call get_next_word (Line, Destination)
             call get_next_word (Line, Action)
-            Line = no_leading_spaces (Line)
+            Line = adjustl(line)
  
             call report_event (
      :          ' Sending '
-     :       // Action(:LastNB(Action))
+     :       // trim(Action)
      :       // ' message to '
-     :       // Destination(:LastNB(Destination)))
+     :       // trim(Destination))
  
             call New_postbox ()
             Data_stored = Store_in_postbox (Line)

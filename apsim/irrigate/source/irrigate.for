@@ -78,7 +78,7 @@
       if (Action.eq.MES_Presence) then
          Call Get_Current_Module (Module_Name)
          write (*, *) 'module_name = '
-     :              , module_name(:lastnb (module_name))
+     :              , trim(module_name)
      :              // blank
      :              // irrigate_version ()
  
@@ -460,8 +460,8 @@
      :         , '()'                 ! Units
      :         , p_year               ! Array
      :         , numvals              ! Number of values returned
-     :         , 1800                 ! Lower Limit for bound checking
-     :         , 2000)                ! Upper Limit for bound checking
+     :         , min_year                 ! Lower Limit for bound checking
+     :         , max_year)                ! Upper Limit for bound checking
  
  
       call read_real_array_optional (
@@ -697,8 +697,8 @@
      :    , '()'            ! Units                (Not Used)
      :    , g_year          ! Variable
      :    , numvals         ! Number of values returned
-     :    , 1800            ! Lower Limit for bound checking
-     :    , 2000)           ! Upper Limit for bound checking
+     :    , min_year            ! Lower Limit for bound checking
+     :    , max_year)           ! Upper Limit for bound checking
  
       call Get_integer_var (
      :      unknown_module  ! Module that responds (Not Used)

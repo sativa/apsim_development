@@ -857,7 +857,7 @@
                   Variable_value = '0'
                   write (str, '(4a)' )
      .              'Manager creating a new local variable : ',
-     .               variable_name(1:Lastnb(variable_name)),
+     .               trim(variable_name),
      .               ' = 0'
                   call Write_event (str)
  
@@ -927,8 +927,8 @@
       if (Is_apsim_variable) then
          call Split_line(variable_name, Mod_name, Var_name, '.')
          call set_char_var(Mod_name,
-     .         var_name(1:lastnb(var_name)), ' ',
-     .         Variable_value(1:lastnb(Variable_value)) )
+     .         trim(var_name), ' ',
+     .         trim(Variable_value) )
  
       else
          ! Try to find variable in local variable list.
@@ -952,15 +952,15 @@
  
                write (str, '(4a)' )
      .           'Manager creating a new local variable : ',
-     .            variable_name(1:Lastnb(variable_name)),
+     .            trim(variable_name),
      .            ' = ',
-     .            Variable_value(1:lastnb(Variable_value))
+     .            trim(Variable_value)
                call Write_event (str)
  
             else
                call set_char_var(Unknown_module,
-     .            variable_name(1:lastnb(variable_name)), ' ',
-     .            Variable_value(1:lastnb(Variable_value)))
+     .            trim(variable_name), ' ',
+     .            trim(Variable_value))
                Is_apsim_variable = .true.
             endif
          else
@@ -974,9 +974,9 @@
       if (Is_apsim_variable) then
          write (str, '(4a)' )
      .      'Manager setting apsim variable : ',
-     .      variable_name(1:Lastnb(variable_name)),
+     .      trim(variable_name),
      .      ' = ',
-     .      Variable_value(1:lastnb(Variable_value))
+     .      trim(Variable_value)
  
          call Report_event (str)
       endif
@@ -1017,8 +1017,6 @@
 *                  no_leading_spaces*(function_string_len)
 
 *+  Calls
-      character No_leading_spaces*(Function_string_len)
-                                       ! function
 
 *+  Local Variables
       integer Day                      ! Day number of year
@@ -1051,9 +1049,9 @@
       endif
  
       call split_line (Action_string, Module_name, Data_string, Blank)
-      Data_string = No_leading_spaces(Data_string)
+      Data_string = adjustl(Data_string)
       call split_line (Data_string, Action, Data_string, Blank)
-      Action = No_leading_spaces(Action)
+      Action = adjustl(Action)
  
       ! Test for case where user has forgotten to put in equals sign in set command.
  
@@ -2659,7 +2657,6 @@
 *      TM - 21/11/94
 
 *+  Calls
-       character no_leading_spaces*(Buffer_size) ! function
 
 *- Implementation Section ----------------------------------
  
@@ -2667,9 +2664,9 @@
        if     (g_first .gt. g_last) then
            call    assign_string (g_last_line, g_line)
               call   Parse_read_line (g_line, g_end_of_file)
-              g_line = no_leading_spaces (g_line)
+              g_line = adjustl(g_line)
               g_first = 0
-              g_last = LastNB(g_line)
+              g_last = len_trim(g_line)
               g_ch = ';'
        else
               g_ch = g_line(g_first:g_first)
@@ -2942,7 +2939,7 @@
      :      g_ch,
      :      '" where it is indicated in line',
      :      new_line,
-     :      g_line(:lastNB(g_line)),
+     :      trim(g_line),
      :      new_line,
      :      (blank, i=1,g_first-1), '^'
  

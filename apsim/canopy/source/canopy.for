@@ -72,7 +72,7 @@
       if (Action.eq.MES_Presence) then
          call get_current_module (module_name)
          write(*, *) 'module_name = '
-     :              , module_name(:lastnb (module_name))
+     :              , trim(module_name)
      :              // blank
      :              // canopy_version ()
  
