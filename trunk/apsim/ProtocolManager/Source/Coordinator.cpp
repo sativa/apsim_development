@@ -484,10 +484,15 @@ void Coordinator::onQueryInfoMessage(unsigned int fromID,
       reg = findRegistration(asString(queryInfo.name), respondToMethodCallReg);
    else if (queryInfo.kind == componentInfo)
       {
-      unsigned int componentID = componentNameToID(asString(queryInfo.name));
+      string name = asString(queryInfo.name);
+      unsigned int componentID;
+      if (Is_numerical(name.c_str()))
+         componentID = atoi(name.c_str());
+      else
+         componentID = componentNameToID(name);
       string fqn = name;
       fqn += ".";
-      fqn += asString(queryInfo.name);
+      fqn += components[componentID]->getName();
       sendMessage(newReturnInfoMessage(componentID,
                                        fromID,
                                        messageID,

@@ -1461,6 +1461,7 @@ c     What happens when layer completely eroded?
       subroutine Main (Action, Data_string)
 * ====================================================================
       Use infrastructure
+      Use ErosionModule
       implicit none
       ml_external Main
 

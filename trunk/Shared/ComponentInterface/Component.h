@@ -110,12 +110,9 @@ class Component
                                            value));
          }
 
-      // Get and return information about some entitiy in the simulation
-      bool getSimulationInformation(const FString& name,
-                                    SimulationInformationKind kind,
-                                    unsigned int& componentID,
-                                    unsigned int& registrationID);
-
+      // convert to and from a compname to an ID.
+      bool componentNameToID(const FString& name, unsigned int& compID);
+      bool componentIDToName(unsigned int compID, FString& name);
 
    protected:
       unsigned int componentID;

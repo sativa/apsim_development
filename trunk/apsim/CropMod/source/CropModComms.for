@@ -2405,7 +2405,7 @@ c    :                                    , c%year_lb, c%year_ub)
 
       !-------------------------------------------------------------------
       ! canopy
-      call get_current_module (module_name)
+      call get_name (module_name)
       call get_real_var_optional (unknown_module
      :                           , 'fr_intc_radn_'//module_name
      :                           , '()'
@@ -2773,8 +2773,7 @@ c        end if
      :         ,g%root_length
      :         ,g%root_depth
      :         ,c%crop_type
-     :         ,max_layer
-     :         ,EventInterface)
+     :         ,max_layer)
 
       end if
 
@@ -2787,8 +2786,7 @@ c        end if
      :         ,g%root_length
      :         ,g%root_depth
      :         ,c%crop_type
-     :         ,max_layer
-     :         ,EventInterface)
+     :         ,max_layer)
 
       end if
 
@@ -3125,8 +3123,7 @@ c        end if
      :         ,g%root_length
      :         ,g%root_depth
      :         ,c%crop_type
-     :         ,max_layer
-     :         ,EventInterface)
+     :         ,max_layer)
 
       endif
 

@@ -547,7 +547,7 @@
       if (ndx_at .gt. 1) then   ! We have a module name.
          call split_line(varname, mdl, var, '.')
       else
-         mdl = unknown_module
+         mdl = '?'
          var = varname
       end if
 
@@ -632,11 +632,21 @@
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'frmrpt_show_var')
+      
+      integer componentID
+      logical ok 
+      integer regID
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
-
-      call get_real_array(mdl, var, max_vals,
+                          
+      if (mdl .eq. '?') then
+         componentID = Unknown_module
+      else
+         ok = get_simulation_information(mdl, componentInfo, 
+     .                                   componentID, regID)
+      endif
+      call get_real_array(componentID, var, max_vals,
      :                     '()', vals, num_vals, -1e9, 1e9)
 
       call pop_routine (my_name)
@@ -958,7 +968,7 @@
          call split_line(rhs, module, varname, '.')
          if (varname .eq. BLANK)  then
             varname = module
-            module = UNKNOWN_MODULE
+            module = '?'
          else
             ! We have handle, module and varname assigned correctly.
          end if
@@ -1166,6 +1176,7 @@
        subroutine Main(Action, Data)
 * ====================================================================
       Use infrastructure
+      Use FrmrptModule
       implicit none
       ml_external Main
 

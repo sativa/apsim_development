@@ -598,29 +598,42 @@ void Component::onQueryValueMessage(unsigned int fromID,
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//    Get and return information about the simulation
-
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
+// component name to ID
 // ------------------------------------------------------------------
-bool Component::getSimulationInformation(const FString& name,
-                                         SimulationInformationKind kind,
-                                         unsigned int& compID,
-                                         unsigned int& registrationID)
+bool Component::componentNameToID(const FString& name, unsigned int& compID)
    {
    clearReturnInfos();
 
-   sendMessage(newQueryInfoMessage(componentID, parentID, name, kind));
+   sendMessage(newQueryInfoMessage(componentID, parentID, name, componentInfo));
    if (returnInfos.size() == 1)
       {
       ReturnInfoData* returnInfo = returnInfos[0];
       compID = returnInfo->componentID;
-      registrationID = returnInfo->ID;
+      return true;
+      }
+   else
+      return false;
+   }
+// ------------------------------------------------------------------
+// component ID to name
+// ------------------------------------------------------------------
+bool Component::componentIDToName(unsigned int compID, FString& name)
+   {
+   clearReturnInfos();
 
+   char idString[100];
+   itoa(compID, idString, 10);
+
+   sendMessage(newQueryInfoMessage(componentID, parentID, idString, componentInfo));
+   if (returnInfos.size() == 1)
+      {
+      ReturnInfoData* returnInfo = returnInfos[0];
+      unsigned posPeriod = returnInfo->name.find(".");
+      if (posPeriod != INT_MAX)
+         name = returnInfo->name.substr(posPeriod+1,
+                                        returnInfo->name.length()-posPeriod-1);
+      else
+         name = returnInfo->name;
       return true;
       }
    else

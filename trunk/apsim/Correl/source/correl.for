@@ -642,6 +642,7 @@ c      character  line*80               ! output string
       subroutine Main (Action, Data_string)
 *====================================================================
       Use infrastructure
+      Use CorrelModule
       implicit none
       ml_external Main
 

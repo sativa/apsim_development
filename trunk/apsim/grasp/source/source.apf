@@ -2,9 +2,9 @@
 Dependency = %licensed_source(grasp)
 
 [Contents]
-ComponentInterface.for = ComponentInterface.for
+ComponentInterface.f90 = ComponentInterface.f90
 grasp.for = grasp.for
 
 [APSBuild]
 binary = ..\lib\grasp.dll
-moduletype=module
+compilerfile=release.compile

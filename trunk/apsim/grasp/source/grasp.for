@@ -2869,7 +2869,7 @@ c         write (*,*) ' n = ', dlt_residue_N
      :        '(kg/ha)', dlt_residue_n)
 
          call Action_send (All_active_modules,
-     :        'add_residue', blank)
+     :        'add_residue')
 
          call delete_postbox ()
 
@@ -3206,6 +3206,8 @@ cpdev  bound required?..
       real       temp(max_layer) ! temporaries
       real       value
       character  module_name*(max_module_name_size)
+      integer treeID
+      integer regID
 
 *- Implementation Section ----------------------------------
 
@@ -3219,7 +3221,7 @@ cpdev  bound required?..
      :     , g%year, numvals, min_year, max_year)
 
                                 ! canopy
-      call get_current_module (module_name)
+      call get_name (module_name)
       call get_real_var_optional (unknown_module,
      :     'fr_intc_radn_'//module_name,
      :     '()'
@@ -3331,9 +3333,9 @@ cpdev  bound required?..
       call get_real_var_optional (unknown_module
      :     ,'soil_loss', '(t/ha)'
      :     ,g%soil_loss, numvals, 0.0, 50000.0)
-
-      if (ei_existscomponent(eventinterface, 'tree')) then
-         call get_real_var_optional ('tree', 'sw_demand', '(mm)'
+                              
+      if (component_name_to_id('tree', treeID)) then
+         call get_real_var_optional (treeID, 'sw_demand', '(mm)'
      :     , g%tree_sw_demand, numvals, c%tree_sw_lb, c%tree_sw_ub)
       end if
 
@@ -4580,6 +4582,8 @@ c     :                    , 0.0, 10000.0)
       integer   layer
       integer   numvals
       real      value
+      integer   owner_module_id
+      logical   ok
 
 *- Implementation Section ----------------------------------
 
@@ -4691,7 +4695,8 @@ c     :                    , 0.0, 10000.0)
       if (numvals .le. 0) then
          string = '  Using vpd approximated from maxt, mint.'
       else
-         call get_posting_module (owner_module)
+         owner_module_id = get_posting_module ()
+         ok = component_id_to_name(owner_module_id, owner_module)
          write (string, '(a, a, a)')
      :        '  Using vpd from ',
      :        trim(owner_module), ' module.'
@@ -4704,13 +4709,15 @@ c     :                    , 0.0, 10000.0)
       if (numvals .le. 0) then
          call get_real_var_optional (unknown_module, 'eo', '(mm)'
      :     , value, numvals, c%pan_lb, c%pan_ub)
-         call get_posting_module (owner_module)
+         owner_module_id = get_posting_module ()
+         ok = component_id_to_name(owner_module_id, owner_module)
          write (string, '(a,a,a)')
      :        '  NB. Pan evap approximated by ',
      :        trim(owner_module),
      :        '.eo'
       else
-         call get_posting_module (owner_module)
+         owner_module_id = get_posting_module ()
+         ok = component_id_to_name(owner_module_id, owner_module)
          write (string, '(a, a, a)')
      :        '  Using Pan evap from ',
      :        trim(owner_module), ' module.'
@@ -4836,6 +4843,7 @@ c     :                    , 0.0, 10000.0)
       subroutine Main (action, data_string)
 *     ================================================================
       Use infrastructure
+      Use GraspModule
       implicit none
       ml_external Main
 
