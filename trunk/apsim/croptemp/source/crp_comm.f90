@@ -531,5 +531,89 @@ then
 
 
 
+! ====================================================================
+      subroutine crop_get_ext_supply (uptake_source          &
+                                ,crop_type          &
+                                ,uptake_type          &
+                                ,unit_conversion_factor          &
+                                ,uptake_lbound          &
+                                ,uptake_ubound          &
+                                ,uptake_array          &
+                                ,max_layer          &
+                                )
+! ====================================================================
+
+!      dll_export crop_get_ext_uptakes
+      use ConstantsModule
+      use stringModule
+      use errorModule
+      use ComponentInterfaceModule
+      implicit none
+
+!+  Sub-Program Arguments
+      character uptake_source*(*)   !(INPUT) uptake flag
+      character crop_type*(*)       !(INPUT) crop type name
+      character uptake_type*(*)     !(INPUT) uptake name
+      real      unit_conversion_factor!(INPUT) unit conversion factor
+      real      uptake_lbound       !(INPUT) uptake lower limit
+      real      uptake_ubound       !(INPUT) uptake upper limit
+      real      uptake_array(*)     !(OUTPUT) crop uptake array
+      integer   max_layer           !(INPUT) max layer number
+
+!+  Purpose
+!      Ask swim for potential supply of water or solute
+
+!+  Mission Statement
+!   Get the soil potential supply for %3 from another module
+
+!+  Notes
+!      Bounds should probably be passed in when crops decide what
+!      these should be (ie when ini files have limits for uptake
+!      in them)
+
+
+!+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'crop_get_ext_supply')
+
+!+  Local Variables
+      integer   layer                        ! layer counter
+      integer   num_uptakes                  ! num uptake vals
+      character uptake_name*(MES_DATA_SIZE)  ! Uptake variable name
+
+!- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      if ((uptake_source.eq.'apsim')          &
+          .and.          &
+    (crop_type.ne.' '))          &
+then
+         ! NB - if crop type is blank then swim will know nothing
+         ! about this crop (eg if not initialised yet)
+
+         uptake_name = string_concat('supply_',uptake_type)
+         uptake_name = string_concat(uptake_name,'_')
+         uptake_name = string_concat(uptake_name,crop_type)
+
+         call get_real_array (unknown_module          &
+                       ,uptake_name          &
+                       ,max_layer          &
+                       ,'()'          &
+                       ,uptake_array          &
+                       ,num_uptakes          &
+                       ,uptake_lbound          &
+                       ,uptake_ubound)
+
+         do 100 layer = 1, num_uptakes
+            uptake_array(layer) = uptake_array(layer)          &
+                          * unit_conversion_factor
+  100    continue
+      else
+      endif
+
+      call pop_routine (myname)
+      return
+      end subroutine
+
 
       end module crp_commModule
