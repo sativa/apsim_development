@@ -6,6 +6,12 @@
 #include "ProtocolVector.h"
 namespace protocol {
 
+//-------------------- Built in types
+#for_each type
+#define type.nameTypeDDML \
+type.cddml
+#endfor
+
 #for_each structure
 //-------------------- structure.nameType
 #define structure.nameTypeDDML \
@@ -165,6 +171,14 @@ extern "C" __declspec(dllexport) void __stdcall unpack_structure.name(protocol::
 module dataTypes
    character(len=*), parameter :: nullTypeDDML = '<type/>'
    integer, parameter :: max_array_size = 100
+
+   !-------------------- Built in types
+#for_each type
+   character(len=*), parameter :: type.nameTypeDDML = &
+type.forddml
+#endfor
+
+
 #for_each structure
 !-------------------- structure.nameType
    character(len=*), parameter :: structure.nameTypeDDML = &
