@@ -261,4 +261,14 @@ void GENERAL_EXPORT Olevariant_to_doubles (VARIANT& OleVariant, std::vector<doub
 // ------------------------------------------------------------------
 void GENERAL_EXPORT Strings_to_olevariant (std::vector<std::string>& StlArray, VARIANT& OleVariant);
 
+// ------------------------------------------------------------------
+// Load a component from a stream.
+// ------------------------------------------------------------------
+void GENERAL_EXPORT loadComponent(AnsiString filename, TComponent*& component);
+
+// ------------------------------------------------------------------
+// Save a component to a stream.  Works best saving an entire form. 
+// ------------------------------------------------------------------
+void GENERAL_EXPORT saveComponent(AnsiString filename, TComponent* component);
+
 #endif

@@ -372,4 +372,50 @@ void Strings_to_olevariant (vector<string>& StlArray, VARIANT& OleVariant)
    SafeArrayUnaccessData (OleVariant.parray);
    }
 
+// ------------------------------------------------------------------
+// Load a component from a stream.
+// ------------------------------------------------------------------
+void loadComponent(AnsiString filename, TComponent*& component)
+   {
+   if (component != NULL && component->Owner != NULL && FileExists(filename))
+      {
+      TFileStream* file = new TFileStream(filename, fmOpenRead);
+      TMemoryStream* memory = new TMemoryStream();
+      try
+         {
+         ObjectTextToBinary(file, memory);
+         memory->Position = 0;
+         memory->ReadComponent(component);
+         }
+      __finally
+         {
+         delete file;
+         delete memory;
+         }
+      }
+   }
+// ------------------------------------------------------------------
+// Save a component to a stream.  Works best saving an entire form.
+// ------------------------------------------------------------------
+void saveComponent(AnsiString filename, TComponent* component)
+   {
+   if (component != NULL && component->Owner != NULL)
+      {
+      TMemoryStream* memory = new TMemoryStream();
+      TFileStream* file = new TFileStream(filename, fmCreate);
+      try
+         {
+         memory->WriteComponent(component);
+         memory->Position = 0;
+         ObjectBinaryToText(memory, file);
+         }
+      __finally
+        {
+        delete memory;
+        delete file;
+        }
+      }
+
+   }
+
 
