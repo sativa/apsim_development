@@ -6,6 +6,7 @@
 #include <dos.h>
 #include <dir.h>
 #include <shellapi.h>
+#include <FileCtrl.hpp>
 using namespace std;
 // ------------------------------------------------------------------
 //  Short description:
@@ -423,5 +424,19 @@ string GENERAL_EXPORT Get_youngest_file (const char* Directory,
       done = findnext(&ffblk);
       }
    return Youngest_file.Get_path();
+   }
+// ------------------------------------------------------------------
+// Rename the specified file or folder if there is a name collision.
+// ------------------------------------------------------------------
+void GENERAL_EXPORT renameOnCollision(AnsiString& name, bool isFile)
+   {
+   int collisionIndex = 2;
+   AnsiString newName = name;
+   while ((isFile && FileExists(newName)) || (!isFile && DirectoryExists(newName)))
+      {
+      newName = name + " (" + IntToStr(collisionIndex) + ")";
+      collisionIndex++;
+      }
+   name = newName;
    }
 
